@@ -250,11 +250,52 @@ static void do_capture_units(struct player *pplayer,
 {
   char capturer_link[MAX_LEN_LINK];
   const char *capturer_nation = nation_plural_for_player(pplayer);
+  bv_unit_types unique_on_tile;
 
   /* Sanity check: The actor is still alive. */
   if (!unit_alive(punit->id)) {
     return;
   }
+
+  /* Sanity check: make sure that the capture won't result in the actor
+   * ending up with more than one unit of each unique unit type. */
+  BV_CLR_ALL(unique_on_tile);
+  unit_list_iterate(pdesttile->units, to_capture) {
+    bool unique_conflict = FALSE;
+
+    /* Check what the player already has. */
+    if (utype_player_already_has_this_unique(pplayer,
+                                             unit_type(to_capture))) {
+      /* The player already has a unit of this kind. */
+      unique_conflict = TRUE;
+    }
+
+    if (utype_has_flag(unit_type(to_capture), UTYF_UNIQUE)) {
+      /* The type of the units at the tile must also be checked. Two allied
+       * players can both have their unique unit at the same tile.
+       * Capturing them both would give the actor two units of a kind that
+       * is supposed to be unique. */
+
+      if (BV_ISSET(unique_on_tile, utype_index(unit_type(to_capture)))) {
+        /* There is another unit of the same kind at this tile. */
+        unique_conflict = TRUE;
+      } else {
+        /* Remember the unit type in case another unit of the same kind is
+         * encountered later. */
+        BV_SET(unique_on_tile, utype_index(unit_type(to_capture)));
+      }
+    }
+
+    if (unique_conflict) {
+      log_debug("capture units: already got unique unit");
+      notify_player(pplayer, pdesttile, E_UNIT_ILLEGAL_ACTION, ftc_server,
+                    /* TRANS: You can only have one Leader. */
+                    _("You can only have one %s."),
+                    unit_link(to_capture));
+
+      return;
+    }
+  } unit_list_iterate_end;
 
   /* N.B: unit_link() always returns the same pointer. */
   sz_strlcpy(capturer_link, unit_link(punit));
@@ -1241,6 +1282,9 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
 
   if (old_owner != new_owner) {
     struct city *pcity = tile_city(punit->tile);
+
+    fc_assert(!utype_player_already_has_this_unique(new_owner,
+                                                    unit_type(punit)));
 
     vision_clear_sight(punit->server.vision);
     vision_free(punit->server.vision);

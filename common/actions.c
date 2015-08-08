@@ -458,6 +458,15 @@ static bool is_action_possible(const enum gen_action wanted_action,
     }
   }
 
+  if (wanted_action == ACTION_SPY_BRIBE_UNIT) {
+    /* Why this is a hard requirement: Can't transfer a unique unit if the
+     * actor player already has one. */
+    if (utype_player_already_has_this_unique(actor_player,
+                                             target_unittype)) {
+      return FALSE;
+    }
+  }
+
   if (wanted_action == ACTION_ESTABLISH_EMBASSY) {
     /* Why this is a hard requirement: There is currently no point in
      * establishing an embassy when a real embassy already exists.

@@ -1930,6 +1930,9 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
 {
   struct unit *gained_unit;
 
+  fc_assert(!utype_player_already_has_this_unique(pplayer,
+                                                  unit_type(punit)));
+
   /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
   gained_unit = create_unit_full(pplayer, unit_tile(punit),
                                  unit_type(punit), punit->veteran,
