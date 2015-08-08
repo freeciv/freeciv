@@ -519,6 +519,8 @@ static bool is_action_possible(const enum gen_action wanted_action,
                                const struct specialist *target_specialist,
                                const bool omniscient)
 {
+  bool can_see_tgt_unit;
+
   fc_assert_msg((action_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
                 || (action_get_target_kind(wanted_action) == ATK_TILE
@@ -529,6 +531,13 @@ static bool is_action_possible(const enum gen_action wanted_action,
                     /* At this level each individual unit is tested. */
                     && target_unit != NULL),
                 "Missing target!");
+
+  /* Only check requirement against the target unit if the actor can see it
+   * or if the evaluator is omniscient. The game checking the rules is
+   * omniscient. The player asking about his odds isn't. */
+  can_see_tgt_unit = (target_unit
+                      && (omniscient || can_player_see_unit(actor_player,
+                                                            target_unit)));
 
   if (!action_actor_utype_hard_reqs_ok(wanted_action, actor_unittype)) {
     /* Info leak: The actor player knows the type of his unit. */
@@ -576,12 +585,14 @@ static bool is_action_possible(const enum gen_action wanted_action,
     }
   }
 
-  if (wanted_action == ACTION_CAPTURE_UNITS
-      || wanted_action == ACTION_SPY_BRIBE_UNIT) {
+  if ((wanted_action == ACTION_CAPTURE_UNITS
+       || wanted_action == ACTION_SPY_BRIBE_UNIT)
+      && can_see_tgt_unit) {
     /* Why this is a hard requirement: Can't transfer a unique unit if the
      * actor player already has one. */
-    /* Info leak: The actor player may not see all targets of Capture
-     * Units. */
+    /* Info leak: This is only checked for when the actor player can see
+     * the target unit. Since the target unit is seen its type is known. */
+
     if (utype_player_already_has_this_unique(actor_player,
                                              target_unittype)) {
       return FALSE;
