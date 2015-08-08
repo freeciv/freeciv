@@ -181,19 +181,6 @@ if test x$ipv6 != xno ; then
   fi
 fi
 
-AC_ARG_WITH([glgtk],
-  AS_HELP_STRING([--with-glgtk], [use gtk3 with GL support (WIP)]),
-[glgtk=$withval], [glgtk="maybe"])
-
-if test "x$glgtk" = "xyes" ; then
-  gtk3_minver=3.16.0
-  gtk3_cflags="-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_16 -DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_42"
-else
-  gtk3_minver=3.8.0
-  gtk3_cflags="-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_8 -DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_36"
-fi
-gtk3_cflags="$gtk3_cflags -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_8 -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_36"
-
 AC_ARG_WITH([project-definition],
   AS_HELP_STRING([--with-project-definition=file], [use given project definition file]),
 [project_definition="${withval}"],
@@ -896,7 +883,7 @@ done
 
 if test "x$req_fcmp_gtk3" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
-  AM_PATH_GTK_3_0([$gtk3_minver],
+  AM_PATH_GTK_3_0([3.8.0],
 [
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
