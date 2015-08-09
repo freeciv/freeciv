@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-06 19:14+0300\n"
-"PO-Revision-Date: 2015-08-06 21:08+0300\n"
+"POT-Creation-Date: 2015-08-09 22:39+0300\n"
+"PO-Revision-Date: 2015-08-09 22:49+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -367,12 +367,12 @@ msgstr ""
 "*%s (AI)* %s on hyökännyt julmasti kimppuumme ja tarvitsemme apuanne! "
 "Kunnioittakaa mahtavaa liittoamme ja nimeänne kunnioitetaan iäti!"
 
-#: ai/default/aicity.c:317 server/citytools.c:2741
+#: ai/default/aicity.c:317 server/citytools.c:2749
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "Peli: %s ovat keskeyttäneet hankkeensa %s kaupungissa %s."
 
-#: ai/default/aicity.c:328 server/citytools.c:2779
+#: ai/default/aicity.c:328 server/citytools.c:2787
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "Peli: %s tavoittelevat taivaita: %s rakenteilla kaupungissa %s."
@@ -3203,12 +3203,12 @@ msgid "?play:Game"
 msgstr "Peli"
 
 #: client/gui-gtk-2.0/editprop.c:859 client/gui-gtk-3.0/editprop.c:859
-#: utility/shared.c:2217
+#: utility/shared.c:2229
 msgid "TRUE"
 msgstr "TOSI"
 
 #: client/gui-gtk-2.0/editprop.c:859 client/gui-gtk-3.0/editprop.c:859
-#: utility/shared.c:2217
+#: utility/shared.c:2229
 msgid "FALSE"
 msgstr "EPÄTOSI"
 
@@ -7929,7 +7929,7 @@ msgid "Barracks"
 msgstr "Kasarmi"
 
 #: client/gui-sdl/mapview.c:628 client/gui-sdl/mapview.c:634
-#: client/gui-sdl/mapview.c:640 client/helpdata.c:4294 client/helpdata.c:4302
+#: client/gui-sdl/mapview.c:640 client/helpdata.c:4292 client/helpdata.c:4300
 msgid "?blistmore:, "
 msgstr ", "
 
@@ -10727,24 +10727,18 @@ msgstr[1] ""
 msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 msgstr "· Jos menetät pääkaupunkisi, sisällissodan todennäköisyys on %d %%.\n"
 
-#. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:3937
+#: client/helpdata.c:3936
 #, c-format
 msgid ""
-"* When you have %d city, the first unhappy citizen will appear in each city "
-"due to civilization size.\n"
-msgid_plural ""
-"* When you have %d cities, the first unhappy citizen will appear in each "
+"* You can have %d city before an additional unhappy citizen appears in each "
 "city due to civilization size.\n"
-msgstr[0] ""
-"· Ensimmäinen kansakunnan koon takia tyytymätön asukas ilmestyy kuhunkin "
-"kaupunkiin kun sinulla on niitä %d.\n"
-msgstr[1] ""
-"· Ensimmäinen kansakunnan koon takia tyytymätön asukas ilmestyy kuhunkin "
-"kaupunkiin kun sinulla on niitä %d.\n"
+msgid_plural ""
+"* You can have up to %d cities before an additional unhappy citizen appears "
+"in each city due to civilization size.\n"
+msgstr[0] "· Ensimmäinen kansakunnan koon takia tyytymätön asukas ilmestyy jokaiseen kaupunkiin kun sinulla on %d kaupunki.\n"
+msgstr[1] "· Ensimmäinen kansakunnan koon takia tyytymätön asukas ilmestyy jokaiseen kaupunkiin kun sinulla on %d kaupunkia.\n"
 
-#. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:3950
+#: client/helpdata.c:3948
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
@@ -10759,17 +10753,17 @@ msgstr[1] ""
 "· Ensimmäisen kansakunnan koon takia tyytymättömän asukkaan jälkeen %d "
 "lisäkaupunkia aiheuttaa aina uuden tyytymättömän asukkaan.\n"
 
-#: client/helpdata.c:3964
+#: client/helpdata.c:3962
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr "· Tieteen, veron tai luksuksen maksimiosuus on %d%%.\n"
 
-#: client/helpdata.c:3969
+#: client/helpdata.c:3967
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "· Tieteen/veron/luksuksen osuuksia ei ole rajoitettu.\n"
 
-#: client/helpdata.c:3976
+#: client/helpdata.c:3974
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -10784,7 +10778,7 @@ msgstr[1] ""
 "· Yksikkösi voivat osallistua sotatilan valvomiseen. Kukin kaupunkiin "
 "sijoitettu sotilasyksikkö pakottaa %d tyytymätöntä asukkasta tyytyväiseksi.\n"
 
-#: client/helpdata.c:3989
+#: client/helpdata.c:3987
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
@@ -10795,26 +10789,26 @@ msgstr[1] ""
 "· Korkeintaan %d yksikköä voi osallistua sotatilan valvomiseen kussakin "
 "kaupungissa.\n"
 
-#: client/helpdata.c:4000
+#: client/helpdata.c:3998
 msgid "* You may grow your cities by means of celebrations."
 msgstr "· Juhliminen kasvattaa kaupunkejasi."
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:4006
+#: client/helpdata.c:4004
 #, c-format
 msgid " (Cities below size %d cannot grow in this way.)"
 msgstr " (Kokoa %d pienemmät kaupungit eivät voi kasvaa juhlimalla.)"
 
-#: client/helpdata.c:4014
+#: client/helpdata.c:4012
 msgid "* Your units cannot be bribed.\n"
 msgstr "· Yksikköjäsi ei voi lahjoa.\n"
 
-#: client/helpdata.c:4019
+#: client/helpdata.c:4017
 msgid "* Your cities cannot be incited to revolt.\n"
 msgstr "· Kaupungeissasi ei voi lietsoa kapinaa.\n"
 
-#: client/helpdata.c:4026
+#: client/helpdata.c:4024
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
@@ -10822,15 +10816,15 @@ msgstr ""
 "· Hallintosi vajoaa anarkiaan jos yksikin kaupunki on rauhaton pidempään "
 "kuin kaksi vuoroa peräkkäin.\n"
 
-#: client/helpdata.c:4033
+#: client/helpdata.c:4031
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "· Valtiomuotoon kuuluva edustajisto voi estää sodanjulistuksen.\n"
 
-#: client/helpdata.c:4039
+#: client/helpdata.c:4037
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr "· Mahdollistaa sissisodan kun vihollinen valtaa kaupungin.\n"
 
-#: client/helpdata.c:4046
+#: client/helpdata.c:4044
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
@@ -10839,42 +10833,42 @@ msgstr ""
 "sijaan rahaa.\n"
 
 #. TRANS: %s is list of unit types separated by 'or'
-#: client/helpdata.c:4062
+#: client/helpdata.c:4060
 #, c-format
 msgid "* Pays no upkeep for %s.\n"
 msgstr "· %s eivät aiheuta ylläpitokustannuksia.\n"
 
-#: client/helpdata.c:4070
+#: client/helpdata.c:4068
 msgid "* Has no unhappy citizens.\n"
 msgstr "· Tyytymättömiä asukkaita ei ole.\n"
 
 #. TRANS: %s is a unit class
-#: client/helpdata.c:4095
+#: client/helpdata.c:4093
 #, c-format
 msgid "?unitclass:* New %s units will be veteran.\n"
 msgstr "· Uudet %s-yksiköt aloittavat konkareina.\n"
 
 #. TRANS: %s is a (translateable) unit type flag
-#: client/helpdata.c:4101
+#: client/helpdata.c:4099
 #, c-format
 msgid "?unitflag:* New %s units will be veteran.\n"
 msgstr "· Uudet %s-yksiköt aloittavat konkareina.\n"
 
 #. TRANS: "* New Partisan units will have the rank
 #. * of elite."
-#: client/helpdata.c:4113
+#: client/helpdata.c:4111
 #, c-format
 msgid "?unittype:* New %s units will have the rank of %s.\n"
 msgstr "· Uudet %s-yksiköt aloittavat kokemustasolla %s.\n"
 
-#: client/helpdata.c:4122
+#: client/helpdata.c:4120
 msgid "* New units will be veteran.\n"
 msgstr "· Uudet yksiköt aloittavat konkareina.\n"
 
 #. TRANS: %s is list of output types, with 'or';
 #. * pluralised in %d but of course the output types
 #. * can't be pluralised; sorry
-#: client/helpdata.c:4132
+#: client/helpdata.c:4130
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
@@ -10891,13 +10885,13 @@ msgstr[1] ""
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:4143 client/helpdata.c:4163
+#: client/helpdata.c:4141 client/helpdata.c:4161
 #, c-format
 msgid " (Cities below size %d will not celebrate.)"
 msgstr " (Kokoa %d pienemmät kaupungit eivät juhli.)"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:4152
+#: client/helpdata.c:4150
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
@@ -10913,7 +10907,7 @@ msgstr[1] ""
 "lisää kaupungin juhliessa."
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:4171
+#: client/helpdata.c:4169
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgid_plural ""
@@ -10926,94 +10920,94 @@ msgstr[1] ""
 "pistettä lisää.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4182
+#: client/helpdata.c:4180
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "· %spisteiden tuotto lisääntyy %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4190
+#: client/helpdata.c:4188
 #, c-format
 msgid "* %s production will suffer massive losses.\n"
 msgstr "· %spisteiden tuotto menee enimmäkseen hukkaan.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4195
+#: client/helpdata.c:4193
 #, c-format
 msgid "* %s production will suffer some losses.\n"
 msgstr "· %spisteiden tuotto menee osittain hukkaan.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4200
+#: client/helpdata.c:4198
 #, c-format
 msgid "* %s production will suffer a small amount of losses.\n"
 msgstr "· %spisteiden tuotto menee vähäisessä määrin hukkaan.\n"
 
-#: client/helpdata.c:4209
+#: client/helpdata.c:4207
 msgid "* Increases the chance of plague within your cities.\n"
 msgstr "· Lisää ruton vaaraa kaupungeissasi.\n"
 
-#: client/helpdata.c:4212
+#: client/helpdata.c:4210
 msgid "* Decreases the chance of plague within your cities.\n"
 msgstr "· Vähentää ruton vaaraa kaupungeissasi.\n"
 
 # gna bug #17706
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4222
+#: client/helpdata.c:4220
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
 msgstr ""
 "· Etäisyyden pääkaupungista kasvaessa %spisteiden hukka kasvaa nopeasti.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4228
+#: client/helpdata.c:4226
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
 msgstr "· Etäisyyden pääkaupungista kasvaessa %spisteiden hukka kasvaa.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4234
+#: client/helpdata.c:4232
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr ""
 "· Etäisyyden pääkaupungista kasvaessa %spisteiden hukka kasvaa hitaasti.\n"
 
-#: client/helpdata.c:4243
+#: client/helpdata.c:4241
 msgid "* Increases the chance of migration into your cities.\n"
 msgstr ""
 "· Lisää todennäköisyyttä ihmisten muuttaa kaupunkeihisi toisista "
 "kaupungeista.\n"
 
-#: client/helpdata.c:4246
+#: client/helpdata.c:4244
 msgid "* Decreases the chance of migration into your cities.\n"
 msgstr ""
 "· Vähentää todennäköisyyttä ihmisten muuttaa kaupunkeihisi toisista "
 "kaupungeista.\n"
 
-#: client/helpdata.c:4265
+#: client/helpdata.c:4263
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "· Mahdollistaa %s-yksikköjen rakentamisen.\n"
 
 #. TRANS: "2 Food" or ", 1 Shield"
-#: client/helpdata.c:4293
+#: client/helpdata.c:4291
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
-#: client/helpdata.c:4301
+#: client/helpdata.c:4299
 #, c-format
 msgid "%s%d Unhappy"
 msgstr "%s%d tyytymätöntä"
 
-#: client/helpdata.c:4333
+#: client/helpdata.c:4331
 #, c-format
 msgid "Initial government is %s.\n"
 msgstr "Aloitusvaltiomuotona on %s.\n"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:4350
+#: client/helpdata.c:4348
 #, c-format
 msgid ""
 "Starts with knowledge of %s in addition to the standard starting "
@@ -11023,7 +11017,7 @@ msgstr ""
 "lisäksi.\n"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:4355
+#: client/helpdata.c:4353
 #, c-format
 msgid "Starts with knowledge of %s.\n"
 msgstr "Aloittaa osaten valmiiksi teknologian %s.\n"
@@ -11031,7 +11025,7 @@ msgstr "Aloittaa osaten valmiiksi teknologian %s.\n"
 #. TRANS: a unit type followed by a count. For instance,
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
-#: client/helpdata.c:4392
+#: client/helpdata.c:4390
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
@@ -11039,7 +11033,7 @@ msgstr "%s (%d)"
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
 #. * units represented.
-#: client/helpdata.c:4412
+#: client/helpdata.c:4410
 #, c-format
 msgid "Starts with the following additional unit: %s.\n"
 msgid_plural "Starts with the following additional units: %s.\n"
@@ -11047,7 +11041,7 @@ msgstr[0] "Aloittaa seuraavalla ylimääräisellä yksiköllä: %s.\n"
 msgstr[1] "Aloittaa seuraavilla ylimääräisillä yksiköillä: %s.\n"
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:4434
+#: client/helpdata.c:4432
 #, c-format
 msgid ""
 "First city will get %s for free in addition to the standard improvements.\n"
@@ -11056,7 +11050,7 @@ msgstr ""
 "%s.\n"
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:4439
+#: client/helpdata.c:4437
 #, c-format
 msgid "First city will get %s for free.\n"
 msgstr "Ensimmäinen nkaupunki saa ilmaiseksi hankkeen %s.\n"
@@ -13349,41 +13343,96 @@ msgstr "Ihmeet: Ei yhtään."
 #: client/text.c:1831
 #, c-format
 msgid "Cities: %d total, but no penalty for empire size."
-msgstr "Kaupungit: %d kaikkiaan, ei haittaa valtakunnan koosta."
+msgid_plural "Cities: %d total, but no penalty for empire size."
+msgstr[0] "Kaupungit: %d kaikkiaan, ei haittaa valtakunnan koosta."
+msgstr[1] "Kaupungit: %d kaikkiaan, ei haittaa valtakunnan koosta."
 
-#: client/text.c:1848
+#. TRANS: %d is number of citizens
+#: client/text.c:1837 client/text.c:1911
 #, c-format
-msgid "Cities: %d total, %d over threshold of %d cities."
-msgstr "Kaupungit: %d kaikkiaan, %d yli %d kaupunkimäärän kynnyksen."
+msgid "%d content per city."
+msgid_plural "%d content per city."
+msgstr[0] "%d rauhallinen joka kaupungissa."
+msgstr[1] "%d rauhallista joka kaupungissa."
 
-#. TRANS: 0-21 content [citizen(s)] ...
-#: client/text.c:1852
+#. TRANS: sentence fragment, will have text appended
+#: client/text.c:1877
+#, c-format
+msgid "Cities: %d total:"
+msgid_plural "Cities: %d total:"
+msgstr[0] "Kaupunkeja: %d"
+msgstr[1] "Kaupunkeja: %d"
+
+#. TRANS: appended to "Cities: %d total:"; preserve leading
+#. * space. Pluralized in "nearest threshold of %d cities".
+#: client/text.c:1884
+#, c-format
+msgid " %d over nearest threshold of %d city."
+msgid_plural " %d over nearest threshold of %d cities."
+msgstr[0] " %d yli %d kaupunkimäärän kynnyksen."
+msgstr[1] " %d yli %d kaupunkimäärän kynnyksen."
+
+#. TRANS: Number of content [citizen(s)] ...
+#: client/text.c:1889
 #, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
 msgstr[0] "%d rauhallinen ennen vähennyksiä."
 msgstr[1] "%d rauhallista ennen vähennyksiä."
 
-#. TRANS: 0-21 unhappy citizen(s).
-#: client/text.c:1858
+#: client/text.c:1893
 #, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] "%d tyytymätön lisää."
 msgstr[1] "%d tyytymätöntä lisää."
 
-#: client/text.c:1881
+#: client/text.c:1898
+#, c-format
+msgid "%d angry citizen."
+msgid_plural "%d angry citizens."
+msgstr[0] "%d vihainen asukas."
+msgstr[1] "%d vihaista asukasta."
+
+#. TRANS: appended to "Cities: %d total:"; preserve leading
+#. * space.
+#: client/text.c:1906
+#, c-format
+msgid " not more than %d, so no empire size penalty."
+msgid_plural " not more than %d, so no empire size penalty."
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/text.c:1917
+#, c-format
+msgid "With %d more city, another citizen will become unhappy."
+msgid_plural "With %d more cities, another citizen will become unhappy."
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/text.c:1928
+#, c-format
+msgid "With %d more city, another citizen will become angry."
+msgid_plural "With %d more cities, another citizen will become angry."
+msgstr[0] ""
+msgstr[1] ""
+
+#: client/text.c:1938
+msgid "More cities will not cause more unhappy citizens."
+msgstr "Kaupunkimäärän kasvu ei lisää tyytymättömien asukkaiden määrää."
+
+#: client/text.c:1959
 msgid "Unlimited martial law in effect."
 msgstr "Rajoittamaton sotatila on voimassa."
 
-#: client/text.c:1883
+#: client/text.c:1961
 #, c-format
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
 msgstr[0] "%d sotilasyksikkö voi pitää kuria."
 msgstr[1] "Korkeintaan %d sotilasyksikköä voi pitää kuria."
 
-#: client/text.c:1887
+#: client/text.c:1965
 #, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
@@ -13392,15 +13441,15 @@ msgstr[0] ""
 msgstr[1] ""
 "Jokainen sotilasyksikkö tekee %d tyytymättömästä asukkaasta rauhallisia."
 
-#: client/text.c:1894
+#: client/text.c:1972
 msgid "Military units in the field may cause unhappiness. "
 msgstr "Sotilasyksiköt poissa kotoa voivat aiheuttaa tyytymättömyyttä. "
 
-#: client/text.c:1897
+#: client/text.c:1975
 msgid "Military units have no happiness effect. "
 msgstr "Sotilasyksiköillä ei ole vaikutusta onnellisuuteen. "
 
-#: client/text.c:1912
+#: client/text.c:1990
 #, c-format
 msgid "Luxury: %d total."
 msgstr "Luksus: %d kaikkiaan."
@@ -31222,162 +31271,162 @@ msgstr "Kun menetit kaupungin %2$s hallinnan, menetit yksikön %1$s."
 msgid "A replacement %s was built in %s."
 msgstr "Korvaava %s rakennettiin kaupunkiin %s."
 
-#: server/citytools.c:1093
+#: server/citytools.c:1095
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr ""
 "Sinulla on jo kaupunki nimeltään %s. Kaupungin uudeksi nimeksi tuli %s."
 
-#: server/citytools.c:1197
+#: server/citytools.c:1199
 #, c-format
 msgid "The people in %s are stunned by your technological insight!"
 msgstr "Koko %s ihastelee millaista teknologiaa hallitset!"
 
-#: server/citytools.c:1203 server/citytools.c:1216
+#: server/citytools.c:1205 server/citytools.c:1218
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s with %s."
 msgstr ""
 "Työläiset päättävät kehittää kaupunkia %s. Talkoovoimin rakennetaan %s."
 
-#: server/citytools.c:1208
+#: server/citytools.c:1210
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s roads."
 msgstr ""
 "Työläiset päättävät kehittää kaupunkia %s. Talkoovoimin rakennetaan parhaat "
 "mahdolliset tiet."
 
-#: server/citytools.c:1221
+#: server/citytools.c:1223
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s bases."
 msgstr ""
 "Työläiset päättävät kehittää kaupunkia %s. Talkoovoimin rakennetaan parhaat "
 "mahdolliset tukikohdat."
 
-#: server/citytools.c:1530
+#: server/citytools.c:1536
 #, c-format
 msgid "You have founded %s."
 msgstr "Olet perustanut kaupungin %s."
 
-#: server/citytools.c:1615
+#: server/citytools.c:1622
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "Yksikkö %s poistui hylätystä kaupungista %s koska %s ei sovi sille."
 
-#: server/citytools.c:1628
+#: server/citytools.c:1635
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "Kun %s hylättiin, yksikkösi %s ei voinut poistua ja se menetettiin."
 
 # TODO: Need to play the game and see if the translation suits the situation
-#: server/citytools.c:1661
+#: server/citytools.c:1668
 #, c-format
 msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
 msgstr ""
 "Kun %s hylättiin, yksikkösi %s kaupungissa %s jäi ansaan ja se menetettiin."
 
-#: server/citytools.c:1844
+#: server/citytools.c:1852
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Tuhoat kaupungin %s kokonaan."
 
-#: server/citytools.c:1847
+#: server/citytools.c:1855
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "Kaupunki %s on tuhottu, asialla oli %s."
 
-#: server/citytools.c:1875
+#: server/citytools.c:1883
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Valloitat kaupungin %s, saaliisi on %d kulta!"
 msgstr[1] "Valloitat kaupungin %s, saaliisi on %d kultaa!"
 
-#: server/citytools.c:1882
+#: server/citytools.c:1890
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s valloitti kaupungin %s ja sai saaliikseen %d kultaa."
 msgstr[1] "%s valloitti kaupungin %s ja sai saaliikseen %d kultaa."
 
-#: server/citytools.c:1891
+#: server/citytools.c:1899
 #, c-format
 msgid "You conquer %s."
 msgstr "Valloitat kaupungin %s"
 
-#: server/citytools.c:1894
+#: server/citytools.c:1902
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s valloitti kaupungin %s."
 
-#: server/citytools.c:1901
+#: server/citytools.c:1909
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "Olet vapauttanut kaupungin %s! Saaliisi on %d kulta."
 msgstr[1] "Olet vapauttanut kaupungin %s! Saaliisi on %d kultaa."
 
-#: server/citytools.c:1908
+#: server/citytools.c:1916
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s vapautti kaupungin %s ja sai saaliikseen %d kullan."
 msgstr[1] "%s vapautti kaupungin %s ja sai saaliikseen %d kultaa."
 
-#: server/citytools.c:1917
+#: server/citytools.c:1925
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Olet vapauttanut kaupungin %s!"
 
-#: server/citytools.c:1920
+#: server/citytools.c:1928
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s vapautti kaupungin %s."
 
-#: server/citytools.c:2490
+#: server/citytools.c:2498
 #, c-format
 msgid "Trade between %s and %s lost along with city."
 msgstr ""
 "Kauppareitti kaupunkien %s ja %s välillä on peruttu kaupungin menettämisen "
 "myötä."
 
-#: server/citytools.c:2495
+#: server/citytools.c:2503
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "Kauppareitti kaupunkien %s ja %s välillä on peruttu."
 
 #. TRANS: "...between Spanish city Madrid and Paris..."
-#: server/citytools.c:2503
+#: server/citytools.c:2511
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
 msgstr ""
 "Kauppareitti %s kaupungin %s ja kaupungin %s välillä menetetty kaupungin "
 "myötä."
 
-#: server/citytools.c:2511
+#: server/citytools.c:2519
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "%s on perunut kauppareitin kaupungista %s kaupunkiisi %s."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
-#: server/citytools.c:2517
+#: server/citytools.c:2525
 #, c-format
 msgid "We canceled the trade route from %s to %s city %s."
 msgstr "Peruimme kauppareitin kaupungista %s %s kaupunkiin %s."
 
-#: server/citytools.c:2758
+#: server/citytools.c:2766
 msgid " from the worklist"
 msgstr " työlistalta"
 
 # Last %s is the source: worklist or AI advisor. Or empty.
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2770
+#: server/citytools.c:2778
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s aloitti hankkeen %s%s."
 
-#: server/citytools.c:2939
+#: server/citytools.c:2947
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -31386,16 +31435,16 @@ msgstr[0] ""
 msgstr[1] ""
 "Myyt vesiyhteyttä vaativan parannuksen %s kaupungissa %s %d kullasta."
 
-#: server/citytools.c:3073
+#: server/citytools.c:3081
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Kaupungin %s alueen koko %s."
 
-#: server/citytools.c:3075
+#: server/citytools.c:3083
 msgid "increased"
 msgstr "laajeni"
 
-#: server/citytools.c:3076
+#: server/citytools.c:3084
 msgid "reduced"
 msgstr "supistui"
 
@@ -40726,104 +40775,104 @@ msgstr "Virhe noudettaessa tiedostoa osoitteesta %s"
 msgid "Could not open %s for writing"
 msgstr "Tiedostoa %s ei voitu avata kirjoitusta varten."
 
-#: utility/shared.c:220
+#: utility/shared.c:222
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Valitsimen \"%s\" argumentti on tyhjä.\n"
 
-#: utility/shared.c:224
+#: utility/shared.c:226
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Valitsimella \"%s\" ei ole argumenttia.\n"
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
-#: utility/shared.c:992 utility/shared.c:1036 utility/shared.c:1095
+#: utility/shared.c:994 utility/shared.c:1038 utility/shared.c:1097
 #, c-format
 msgid "\"%s\" is set but empty; trying \"%s\" instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:998
+#: utility/shared.c:1000
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1043
+#: utility/shared.c:1045
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1102
+#: utility/shared.c:1104
 #, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1171
+#: utility/shared.c:1173
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Datahakemiston %s lukeminen epäonnistui: %s."
 
-#: utility/shared.c:1580
+#: utility/shared.c:1592
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Vakava virhe: root-käyttäjän ei sovi ajaa minua!\n"
 
-#: utility/shared.c:1582
+#: utility/shared.c:1594
 msgid "Use a non-privileged account instead.\n"
 msgstr "Käytä mieluummin tavallista käyttäjätiliä.\n"
 
 # Used in the server/stdinhand.c to describe errors if given player name or
 # command is not known or matches multiple players/commands --PP
-#: utility/shared.c:1598
+#: utility/shared.c:1610
 msgid "exact match"
 msgstr "täysosuma"
 
-#: utility/shared.c:1599
+#: utility/shared.c:1611
 msgid "only match"
 msgstr "ainoa osuma"
 
 # *** 'non-clear' ***
-#: utility/shared.c:1600
+#: utility/shared.c:1612
 msgid "ambiguous"
 msgstr "vastaa useaa"
 
-#: utility/shared.c:1601
+#: utility/shared.c:1613
 msgid "empty"
 msgstr "tyhjä"
 
-#: utility/shared.c:1602
+#: utility/shared.c:1614
 msgid "too long"
 msgstr "liian pitkä"
 
 # *** Urmh. ***
-#: utility/shared.c:1603
+#: utility/shared.c:1615
 msgid "non-match"
 msgstr "huti"
 
-#: utility/shared.c:1934
+#: utility/shared.c:1946
 msgid "day"
 msgid_plural "days"
 msgstr[0] "päivä"
 msgstr[1] "päivää"
 
-#: utility/shared.c:1939
+#: utility/shared.c:1951
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "tunti"
 msgstr[1] "tuntia"
 
-#: utility/shared.c:1945
+#: utility/shared.c:1957
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuutti"
 msgstr[1] "minuuttia"
 
-#: utility/shared.c:1951
+#: utility/shared.c:1963
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunti"
