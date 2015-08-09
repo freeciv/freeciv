@@ -291,9 +291,10 @@ static void unit_can_act_cache_set(struct unit_type *putype)
   /* See if the unit type can do an action controlled by generalized action
    * enablers */
   action_enablers_iterate(enabler) {
-    if (requirement_fulfilled_by_unit_type(putype,
-                                           &(enabler->actor_reqs))
-        && action_get_actor_kind(enabler->action) == AAK_UNIT) {
+    if (action_get_actor_kind(enabler->action) == AAK_UNIT
+        && action_actor_utype_hard_reqs_ok(enabler->action, putype)
+        && requirement_fulfilled_by_unit_type(putype,
+                                              &(enabler->actor_reqs))) {
       log_debug("act_cache: %s can %s",
                 utype_rule_name(putype), gen_action_name(enabler->action));
       BV_SET(unit_can_act_cache[enabler->action], utype_index(putype));
@@ -621,6 +622,11 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
                               const int move_fragments)
 {
   struct range *ml_range;
+
+  if (!is_actor_unit_type(punit_type)) {
+    /* Not an actor unit. */
+    return FALSE;
+  }
 
   if (action_get_actor_kind(action_id) != AAK_UNIT) {
     /* This action isn't performed by any unit at all so this unit type
