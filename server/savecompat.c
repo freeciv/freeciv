@@ -1048,7 +1048,7 @@ int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
     } else {
       return ACTION_FOUND_CITY;
     }
-  case ORDER_BUILD_WONDER:
+  case ORDER_OLD_BUILD_WONDER:
     /* Maps one to one with each other. */
     return ACTION_HELP_WONDER;
   case ORDER_TRADE_ROUTE:

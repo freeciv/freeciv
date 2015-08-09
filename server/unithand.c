@@ -3686,10 +3686,19 @@ void handle_unit_orders(struct player *pplayer,
     case ORDER_FULL_MP:
     case ORDER_BUILD_CITY:
     case ORDER_DISBAND:
-    case ORDER_BUILD_WONDER:
     case ORDER_TRADE_ROUTE:
     case ORDER_HOMECITY:
       break;
+    case ORDER_OLD_BUILD_WONDER:
+      /* This order has been replaced with ORDER_PERFORM_ACTION and the
+       * action it performs. */
+      log_error("handle_unit_orders(): outdated client. "
+                "The order %d has been replaced. "
+                "Sent in order number %d from %s to unit number %d.",
+                packet->orders[i], i,
+                player_name(pplayer), packet->unit_id);
+
+      return;
     case ORDER_LAST:
       /* An invalid order.  This is handled in execute_orders. */
       break;
