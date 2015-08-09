@@ -1049,8 +1049,8 @@ int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
       return ACTION_FOUND_CITY;
     }
   case ORDER_BUILD_WONDER:
-    /* TODO: Support ACTION_HELP_WONDER orders. */
-    return ACTION_COUNT;
+    /* Maps one to one with each other. */
+    return ACTION_HELP_WONDER;
   case ORDER_TRADE_ROUTE:
     /* TODO: Support ACTION_TRADE_ROUTE orders. */
     return ACTION_COUNT;
