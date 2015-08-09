@@ -967,7 +967,10 @@ static void begin_phase(bool is_new_phase)
   conn_list_do_buffer(game.est_connections);
 
   phase_players_iterate(pplayer) {
-    pplayer->phase_done = FALSE;
+    if (is_new_phase || !game.server.turnblock) {
+      /* Otherwise respect what was loaded from the savegame. */
+      pplayer->phase_done = FALSE;
+    }
     pplayer->ai_phase_done = FALSE;
   } phase_players_iterate_end;
   send_player_all_c(NULL, NULL);

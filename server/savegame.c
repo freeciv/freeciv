@@ -1788,6 +1788,7 @@ static void player_load_main(struct player *plr, int plrno,
   fc_assert_exit_msg(secfile_lookup_bool(file, &plr->ai_controlled,
                                          "player%d.ai.control", plrno),
                      "%s", secfile_error());
+  plr->phase_done = FALSE;
 
   /* Backwards-compatibility: the tech goal value is still stored in the
    * "ai" section even though it was moved into the research struct. */
