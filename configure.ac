@@ -718,10 +718,6 @@ AC_ARG_WITH([tinycthread],
   [fctinycthr=${withval}], [fctinycthr=no])
 AM_CONDITIONAL([TINYCTHREAD], [test "x$fctinycthr" = "xyes"])
 
-AC_ARG_WITH([freeciv-manual],
-  AS_HELP_STRING([--without-freeciv-manual], [do not build freeciv-manual]),
-  [fcmanual=${withval}], [fcmanual=yes])
-
 dnl Check thread implementation
 AC_MSG_CHECKING([for threads implementation])
 thread_impl=none
