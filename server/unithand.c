@@ -3643,6 +3643,16 @@ void handle_unit_orders(struct player *pplayer,
           return;
         }
         break;
+      case ACTION_ESTABLISH_EMBASSY:
+        /* Don't validate that the target tile really contains a city or
+         * that the actor player's map think the target tile has one.
+         * The player may target a city from its player map that isn't
+         * there any more and a city that he think is there even if his
+         * player map doesn't have it.
+         *
+         * With that said: The client should probably at least have an
+         * option to only aim city targeted actions at cities. */
+        break;
       case ACTION_NUKE:
       case ACTION_CAPTURE_UNITS:
       case ACTION_BOMBARD:

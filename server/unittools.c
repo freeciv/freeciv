@@ -3793,7 +3793,9 @@ static inline bool player_is_watching(struct unit *punit, const bool fresh)
 bool execute_orders(struct unit *punit, const bool fresh)
 {
   struct tile *dst_tile;
+  struct city *tgt_city;
   action_probability prob;
+  int tgt_id;
   bool performed;
   const char *name;
   bool res, last_order;
@@ -4141,6 +4143,25 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       fc_assert_ret_val_msg(dst_tile, FALSE, "No target tile for action");
 
+      /* Get the target city from the target tile. */
+      tgt_city = tile_city(dst_tile);
+
+      if (tgt_city == NULL
+          && action_get_target_kind(order.action) == ATK_CITY) {
+        /* This action targets a city but no city target was found. */
+
+        cancel_orders(punit, "  perform action vs city with no city");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
+                      _("%s could not do %s. No target city."),
+                      unit_link(punit),
+                      action_get_ui_name(order.action));
+
+        return TRUE;
+      }
+
+      /* No target selected. */
+      tgt_id = -1;
+
       /* Assume impossible until told otherwise. */
       prob = 0;
 
@@ -4148,12 +4169,18 @@ bool execute_orders(struct unit *punit, const bool fresh)
       case ATK_UNITS:
         prob = action_prob_vs_units(punit, order.action,
                                     dst_tile);
+        tgt_id = dst_tile->index;
         break;
       case ATK_TILE:
         prob = action_prob_vs_tile(punit, order.action,
                                    dst_tile);
+        tgt_id = dst_tile->index;
         break;
       case ATK_CITY:
+        prob = action_prob_vs_city(punit, order.action,
+                                   tgt_city);
+        tgt_id = tgt_city->id;
+        break;
       case ATK_UNIT:
         log_error("Unsupported action target kind");
 
@@ -4195,7 +4222,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       performed = unit_perform_action(pplayer,
                                       unitid,
-                                      dst_tile->index,
+                                      tgt_id,
                                       0, name,
                                       order.action);
 
