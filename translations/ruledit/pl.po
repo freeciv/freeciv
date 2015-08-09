@@ -5,10 +5,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-02 00:08+0200\n"
-"PO-Revision-Date: 2014-08-29 12:29+0100\n"
+"POT-Creation-Date: 2015-01-25 08:07+0200\n"
+"PO-Revision-Date: 2015-02-09 15:10+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: polski <hubkow@gmail.com>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,22 +26,20 @@ msgstr "Zamknij"
 msgid "Needed by %s"
 msgstr "Wymagane przez %s"
 
-#: tools/ruledit/ruledit.cpp:114
+#: tools/ruledit/ruledit.cpp:118
 msgid "Print a summary of the options"
 msgstr "Pokaż podsumowanie opcji"
 
-#: tools/ruledit/ruledit.cpp:116
+#: tools/ruledit/ruledit.cpp:120
 msgid "Print the version number"
 msgstr "Pokaż nazwę wersji"
 
-#: tools/ruledit/ruledit.cpp:130
+#: tools/ruledit/ruledit.cpp:134
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:60
-#, fuzzy
-#| msgid "Freeciv ruleset editor"
 msgid "Freeciv Ruleset Editor"
 msgstr "Edytor zestawu zasad Freeciv"
 
@@ -51,6 +49,8 @@ msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
+"%s%s\n"
+"łatka: %s"
 
 #: tools/ruledit/ruledit_qt.cpp:142
 msgid "Give ruleset to use as starting point."
@@ -70,11 +70,11 @@ msgstr "Technologia"
 
 #: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
 msgid "Buildings"
-msgstr ""
+msgstr "Budynki"
 
 #: tools/ruledit/ruledit_qt.cpp:164
 msgid "Units"
-msgstr ""
+msgstr "Jednostki"
 
 #: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
 msgid "Nations"
@@ -104,17 +104,15 @@ msgstr "Nazwa zasady"
 
 #: tools/ruledit/tab_building.cpp:78
 msgid "Add Building"
-msgstr ""
+msgstr "Dodaj budynek"
 
 #: tools/ruledit/tab_building.cpp:83
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Building"
-msgstr "Usuń tą technologię"
+msgstr "Usuń ten budynek"
 
 #: tools/ruledit/tab_building.cpp:148
 msgid "Building with that rule name already exist!"
-msgstr ""
+msgstr "Budynek o tej nazwie istnieje już w zestawie!"
 
 #: tools/ruledit/tab_misc.cpp:62
 msgid "Ruleset name"
@@ -134,61 +132,59 @@ msgstr "Zapisz teraz"
 
 #: tools/ruledit/tab_misc.cpp:86
 msgid "Terrains"
-msgstr ""
+msgstr "Tereny"
 
 #: tools/ruledit/tab_misc.cpp:90
 msgid "Resources"
-msgstr ""
+msgstr "Zasoby"
 
 #: tools/ruledit/tab_misc.cpp:94
-#, fuzzy
-#| msgid "Tech"
 msgid "Techs"
-msgstr "Technologia"
+msgstr "Technologie"
 
 #: tools/ruledit/tab_misc.cpp:98
 msgid "Unit Classes"
-msgstr ""
+msgstr "Klasy jednostek"
 
 #: tools/ruledit/tab_misc.cpp:102
 msgid "Unit Types"
-msgstr ""
+msgstr "Typy jednostek"
 
 #: tools/ruledit/tab_misc.cpp:114
 msgid "Styles"
-msgstr ""
+msgstr "Styke"
 
 #: tools/ruledit/tab_misc.cpp:118
 msgid "Specialists"
-msgstr ""
+msgstr "Specjaliści"
 
 #: tools/ruledit/tab_misc.cpp:122
 msgid "Governments"
-msgstr ""
+msgstr "Ustroje"
 
 #: tools/ruledit/tab_misc.cpp:126
 msgid "Disasters"
-msgstr ""
+msgstr "Klęski"
 
 #: tools/ruledit/tab_misc.cpp:130
 msgid "Achievements"
-msgstr ""
+msgstr "Osiągnięcia"
 
 #: tools/ruledit/tab_misc.cpp:134
 msgid "Extras"
-msgstr ""
+msgstr "Dodatki"
 
 #: tools/ruledit/tab_misc.cpp:138
 msgid "Bases"
-msgstr ""
+msgstr "Bazy"
 
 #: tools/ruledit/tab_misc.cpp:142
 msgid "Roads"
-msgstr ""
+msgstr "Drogi"
 
 #: tools/ruledit/tab_misc.cpp:150
 msgid "Refresh Stats"
-msgstr ""
+msgstr "Odśwież statystyki"
 
 #: tools/ruledit/tab_misc.cpp:206
 msgid "Ruleset saved"
@@ -204,11 +200,11 @@ msgstr "Lista narodów"
 
 #: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
-msgstr ""
+msgstr "Wym1"
 
 #: tools/ruledit/tab_tech.cpp:87
 msgid "Req2"
-msgstr ""
+msgstr "Wym2"
 
 #: tools/ruledit/tab_tech.cpp:95
 msgid "Root Req"
@@ -228,23 +224,19 @@ msgstr "Nigdy"
 
 #: tools/ruledit/tab_tech.cpp:311
 msgid "Tech with that rule name already exist!"
-msgstr ""
+msgstr "Technologia o tej nazwie istnieje już w zestawie!"
 
 #: tools/ruledit/tab_unit.cpp:78
-#, fuzzy
-#| msgid "Add tech"
 msgid "Add Unit"
-msgstr "Dodaj technologię"
+msgstr "Dodaj jednostkę"
 
 #: tools/ruledit/tab_unit.cpp:83
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Unit"
-msgstr "Usuń tą technologię"
+msgstr "Usuń tą jednostkę"
 
 #: tools/ruledit/tab_unit.cpp:148
 msgid "Unit type with that rule name already exist!"
-msgstr ""
+msgstr "Typ jednostki o tej nazwie istnieje już w zestawie!"
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
