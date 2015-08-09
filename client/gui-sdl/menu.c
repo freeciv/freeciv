@@ -1146,14 +1146,14 @@ void real_menus_update(void)
 	
         if (can_establish_trade_route(pHomecity, pCity)) {
           fc_snprintf(cBuf, sizeof(cBuf),
-                      _("Establish Trade Route With %s ( %d R&G + %d trade ) (R)"),
+                      _("Establish Trade Route With %s ( %d one time bonus + %d trade ) (R)"),
                       city_name(pHomecity),
                       revenue,
                       trade_between_cities(pHomecity, pCity));
         } else {
           revenue = (revenue + 2) / 3;
           fc_snprintf(cBuf, sizeof(cBuf),
-                      _("Trade With %s ( %d R&G bonus ) (R)"),
+                      _("Trade With %s ( %d one time bonus ) (R)"),
                       city_name(pHomecity),
                       revenue);
         }

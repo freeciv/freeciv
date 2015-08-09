@@ -967,7 +967,7 @@ static const char *action_custom_text(const int action_id,
       astr_set(&custom,
                /* TRANS: Estimated one time bonus and recurring revenue for
                 * the Establish Trade _Route action. */
-               _("%d R&G + %d trade"),
+               _("%d one time bonus + %d trade"),
                revenue,
                trade_between_cities(actor_homecity, target_city));
       break;
@@ -981,7 +981,7 @@ static const char *action_custom_text(const int action_id,
       astr_set(&custom,
                /* TRANS: Estimated one time bonus for the Enter Marketplace
                 * action. */
-               _("%d R&G bonus"), revenue);
+               _("%d one time bonus"), revenue);
       break;
     }
   default:
