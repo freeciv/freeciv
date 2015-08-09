@@ -3635,6 +3635,8 @@ static void sg_load_player_main(struct loaddata *loading,
                  "%s", secfile_error());
   plr->last_war_action = secfile_lookup_int_default(loading->file, -1,
                                                     "player%d.last_war", plrno);
+  plr->phase_done = secfile_lookup_bool_default(loading->file, FALSE,
+                                                "player%d.phase_done", plrno);
   sg_failure_ret(secfile_lookup_int(loading->file, &plr->economic.gold,
                                     "player%d.gold", plrno),
                  "%s", secfile_error());
@@ -3872,6 +3874,8 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.last_war", plrno);
   secfile_insert_bool(saving->file, plr->ai_controlled,
                       "player%d.ai.control", plrno);
+  secfile_insert_bool(saving->file, plr->phase_done,
+                      "player%d.phase_done", plrno);
 
   players_iterate(pplayer) {
     char buf[32];
