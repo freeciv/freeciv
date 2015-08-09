@@ -4141,7 +4141,18 @@ bool execute_orders(struct unit *punit, const bool fresh)
         dst_tile = mapstep(unit_tile(punit), order.dir);
       }
 
-      fc_assert_ret_val_msg(dst_tile, FALSE, "No target tile for action");
+      if (dst_tile == NULL) {
+        /* Could be at the edge of the map while trying to target a tile
+         * outside of it. */
+
+        cancel_orders(punit, "  target location doesn't exist");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
+                      _("%s could not do %s. No target tile."),
+                      unit_link(punit),
+                      action_get_ui_name(order.action));
+
+        return TRUE;
+      }
 
       /* Get the target city from the target tile. */
       tgt_city = tile_city(dst_tile);
