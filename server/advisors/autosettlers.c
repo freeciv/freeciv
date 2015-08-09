@@ -295,25 +295,30 @@ static void consider_settler_action(const struct player *pplayer,
                                     struct tile **best_tile,
                                     struct tile *ptile)
 {
-  bool consider;
+  bool improves;
   int total_value = 0, base_value = 0;
   int old_improvement_value;
 
-  if (extra >= 0) {
-    consider = TRUE;
-  } else {
-    consider = (new_tile_value > old_tile_value);
+  if (extra < 0) {
     extra = 0;
   }
 
+  if (new_tile_value > old_tile_value) {
+    improves = TRUE;
+  } else if (new_tile_value == old_tile_value && extra > 0) {
+    improves = TRUE;
+  } else {
+    improves = FALSE;
+  }
+
   /* find the present value of the future benefit of this action */
-  if (consider) {
+  if (improves || extra > 0) {
     if (!(*improve_worked) && !in_use) {
       /* Going to improve tile that is not yet in use.
        * Getting the best possible total for next citizen to work on is more
        * important than amount tile gets improved. */
-      if (new_tile_value > *best_value
-          || (new_tile_value == *best_value && old_tile_value < *best_old_tile_value)) {
+      if (improves && (new_tile_value > *best_value
+                       || (new_tile_value == *best_value && old_tile_value < *best_old_tile_value))) {
         *best_value = new_tile_value;
         *best_old_tile_value = old_tile_value;
         *best_act = act;
@@ -337,34 +342,32 @@ static void consider_settler_action(const struct player *pplayer,
 
     /* use factor to prevent rounding errors */
     total_value = amortize(total_value, delay);
-  } else {
-    total_value = 0;
-  }
 
-  if (*improve_worked) {
-    old_improvement_value = *best_value;
-  } else {
-    /* Convert old best_value to improvement value compatible with in_use
-     * tile value */
-    old_improvement_value = amortize((*best_value - *best_old_tile_value) * WORKER_FACTOR / 2,
-                                     *best_delay);
-  }
-
-  if (total_value > old_improvement_value
-      || (total_value == old_improvement_value
-	  && old_tile_value > *best_old_tile_value)) {
-    if (in_use) {
-      *best_value = total_value;
-      *improve_worked = TRUE;
+    if (*improve_worked) {
+      old_improvement_value = *best_value;
     } else {
-      *best_value = new_tile_value;
-      *improve_worked = FALSE;
+      /* Convert old best_value to improvement value compatible with in_use
+       * tile value */
+      old_improvement_value = amortize((*best_value - *best_old_tile_value) * WORKER_FACTOR / 2,
+                                       *best_delay);
     }
-    *best_old_tile_value = old_tile_value;
-    *best_act = act;
-    *best_target = target;
-    *best_tile = ptile;
-    *best_delay = delay;
+
+    if (total_value > old_improvement_value
+        || (total_value == old_improvement_value
+            && old_tile_value > *best_old_tile_value)) {
+      if (in_use) {
+        *best_value = total_value;
+        *improve_worked = TRUE;
+      } else {
+        *best_value = new_tile_value;
+        *improve_worked = FALSE;
+      }
+      *best_old_tile_value = old_tile_value;
+      *best_act = act;
+      *best_target = target;
+      *best_tile = ptile;
+      *best_delay = delay;
+    }
   }
 }
 
