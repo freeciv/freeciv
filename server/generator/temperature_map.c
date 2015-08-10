@@ -86,7 +86,7 @@ bool tmap_is(const struct tile *ptile, temperature_type tt)
 }
 
 /*****************************************************************
- return true if at last one tile has tt temperature type
+ return true if at least one tile has tt temperature type
 ****************************************************************/
 bool is_temperature_type_near(const struct tile *ptile, temperature_type tt) 
 {
@@ -109,8 +109,8 @@ void destroy_tmap(void)
 }
 
 /***************************************************************************
- * create_tmap initialize the temperature_map
- * if arg is FALSE, create a dumy tmap == map_colattitude
+ * Initialize the temperature_map
+ * if arg is FALSE, create a dummy tmap == map_colatitude
  * to be used if hmap or oceans are not placed gen 2-4
  ***************************************************************************/
 void create_tmap(bool real)
@@ -118,21 +118,22 @@ void create_tmap(bool real)
   int i;
 
   /* if map is defined this is not changed */
-  /* TO DO load if from scenario game with tmap */
+  /* TODO: load if from scenario game with tmap */
   /* to debug, never load a this time */
   fc_assert_ret(NULL == temperature_map);
 
   temperature_map = fc_malloc(sizeof(*temperature_map) * MAP_INDEX_SIZE);
   whole_map_iterate(ptile) {
-     /* the base temperature is equal to base map_colatitude */
+    /* the base temperature is equal to base map_colatitude */
     int t = map_colatitude(ptile);
+
     if (!real) {
       tmap(ptile) = t;
     } else {
-      /* height land can be 30% collest */
+      /* hight land can be 30% cooler */
       float height = - 0.3 * MAX(0, hmap(ptile) - hmap_shore_level) 
 	  / (hmap_max_level - hmap_shore_level); 
-      /* near ocean temperature can be 15 % more "temperate" */
+      /* near ocean temperature can be 15% more "temperate" */
       float temperate = (0.15 * (map.server.temperature / 100 - t
                                  / MAX_COLATITUDE)
                          * 2 * MIN(50, count_terrain_class_near_tile(ptile,
@@ -145,9 +146,9 @@ void create_tmap(bool real)
     }
   } whole_map_iterate_end;
   /* adjust to get well sizes frequencies */
-  /* Notice: if colatitude is load from a scenario never call adjust has
-             scenario maybe has a odd colatitude ditribution and adjust will
-	     brack it */
+  /* Notice: if colatitude is loaded from a scenario never call adjust.
+             Scenario may have an odd colatitude distribution and adjust will
+	     break it */
   if (!map.server.alltemperate) {
     adjust_int_map(temperature_map, MAX_COLATITUDE);
   }
