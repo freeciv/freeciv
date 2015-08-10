@@ -578,7 +578,8 @@ int universal_number(const struct universal *source)
 
 
 /****************************************************************************
-  Returns the given requirement as a formated string ready for printing.
+  Returns the given requirement as a formatted string ready for printing.
+  Does not care about the 'quiet' property.
 ****************************************************************************/
 const char *req_to_fstring(const struct requirement *req)
 {
@@ -602,7 +603,7 @@ const char *req_to_fstring(const struct requirement *req)
   Pass this some values like "Building", "Factory".
 ****************************************************************************/
 struct requirement req_from_str(const char *type, const char *range,
-				bool survives, bool present,
+				bool survives, bool present, bool quiet,
 				const char *value)
 {
   struct requirement req;
@@ -668,6 +669,7 @@ struct requirement req_from_str(const char *type, const char *range,
 
   req.survives = survives;
   req.present = present;
+  req.quiet = quiet;
 
   /* These checks match what combinations are supported inside
    * is_req_active(). However, it's only possible to do basic checks,
@@ -841,7 +843,7 @@ struct requirement req_from_str(const char *type, const char *range,
   of req_get_values.
 ****************************************************************************/
 struct requirement req_from_values(int type, int range,
-				   bool survives, bool present,
+				   bool survives, bool present, bool quiet,
 				   int value)
 {
   struct requirement req;
@@ -850,6 +852,8 @@ struct requirement req_from_values(int type, int range,
   req.range = range;
   req.survives = survives;
   req.present = present;
+  req.quiet = quiet;
+
   return req;
 }
 
@@ -859,17 +863,19 @@ struct requirement req_from_values(int type, int range,
 ****************************************************************************/
 void req_get_values(const struct requirement *req,
 		    int *type, int *range,
-		    bool *survives, bool *present,
+		    bool *survives, bool *present, bool *quiet,
 		    int *value)
 {
   universal_extraction(&req->source, type, value);
   *range = req->range;
   *survives = req->survives;
   *present = req->present;
+  *quiet = req->quiet;
 }
 
 /****************************************************************************
   Returns TRUE if req1 and req2 are equal.
+  Does not care if one is quiet and the other not.
 ****************************************************************************/
 bool are_requirements_equal(const struct requirement *req1,
 			    const struct requirement *req2)

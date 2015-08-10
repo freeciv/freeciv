@@ -379,6 +379,10 @@ static bool insert_requirement(char *buf, size_t bufsz,
                                struct player *pplayer,
                                const struct requirement *preq)
 {
+  if (preq->quiet) {
+    return FALSE;
+  }
+
   switch (preq->source.kind) {
   case VUT_NONE:
     return FALSE;
@@ -2641,12 +2645,12 @@ static void insert_allows_single(struct universal *psource,
   /* FIXME: show other data like range and survives. */
 
   requirement_vector_iterate(psubjreqs, req) {
-    if (are_universals_equal(psource, &req->source)) {
+    if (!req->quiet && are_universals_equal(psource, &req->source)) {
       if (req->present) {
         /* psource enables the subject, but other sources may
          * also be required (or required to be absent). */
         requirement_vector_iterate(psubjreqs, coreq) {
-          if (!are_universals_equal(psource, &coreq->source)) {
+          if (!coreq->quiet && !are_universals_equal(psource, &coreq->source)) {
             universal_name_translation(&coreq->source, buf2, sizeof(buf2));
             strvec_append(coreq->present ? coreqs : conoreqs, buf2);
           }

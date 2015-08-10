@@ -403,7 +403,7 @@ bool dio_get_requirement_json(json_t *json_packet, char *key,
                               struct requirement *preq)
 {
   int kind, range, value;
-  bool survives, present;
+  bool survives, present, quiet;
 
   struct plocation req_field;
 
@@ -450,8 +450,15 @@ bool dio_get_requirement_json(json_t *json_packet, char *key,
     return FALSE;
   }
 
+  req_field.name = "quiet";
+  if (!dio_get_bool8_json(requirement, "quiet", &req_field, &quiet)) {
+    log_error("ERROR: Unable to get part of requirement with key: %s",
+              key);
+    return FALSE;
+  }
+
   /* Create a requirement with the values sent over the network. */
-  *preq = req_from_values(kind, range, survives, present, value);
+  *preq = req_from_values(kind, range, survives, present, quiet, value);
 
   return TRUE;
 }
@@ -592,13 +599,13 @@ void dio_put_requirement_json(struct json_data_out *dout, char *key,
                               const struct requirement *preq)
 {
   int kind, range, value;
-  bool survives, present;
+  bool survives, present, quiet;
 
   /* Create the requirement object. */
   json_t *requirement = json_object();
 
   /* Read the requirment values. */
-  req_get_values(preq, &kind, &range, &survives, &present, &value);
+  req_get_values(preq, &kind, &range, &survives, &present, &quiet, &value);
 
   /* Write the requirement values to the fields of the requirment
    * object. */
@@ -609,6 +616,7 @@ void dio_put_requirement_json(struct json_data_out *dout, char *key,
 
   json_object_set(requirement, "survives", json_boolean(survives));
   json_object_set(requirement, "present", json_boolean(present));
+  json_object_set(requirement, "quiet", json_boolean(quiet));
 
   /* Put the requirement object in the packet. */
   plocation_write_data(dout->json, location, requirement);

@@ -215,9 +215,9 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
        * Freeciv 3.0. Old hard coded rules had no punishment for trying to
        * do those when it is illegal according to the rules. */
       effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                              FALSE, "Found City"));
+                                              FALSE, TRUE, "Found City"));
       effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                              FALSE, "Join City"));
+                                              FALSE, TRUE, "Join City"));
     }
   }
 
@@ -264,22 +264,22 @@ void rscompat_postprocess(struct rscompat_info *info)
      * have at least one move fragment left. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
-                                           TRUE, "Capturer"));
+                                           TRUE, TRUE, "Capturer"));
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("DiplRel", "Local", FALSE,
-                                           TRUE, "War"));
+                                           TRUE, TRUE, "War"));
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("MinMoveFrags", "Local", FALSE,
-                                           TRUE, "1"));
+                                           TRUE, TRUE, "1"));
 
     /* The target unit(s) must all have the Capturable unit type flag and
      * can't be inside a city. */
     requirement_vector_append(&enabler->target_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
-                                           TRUE, "Capturable"));
+                                           TRUE, TRUE, "Capturable"));
     requirement_vector_append(&enabler->target_reqs,
                               req_from_str("CityTile", "Local", FALSE,
-                                           FALSE, "Center"));
+                                           FALSE, TRUE, "Center"));
 
     action_enabler_add(enabler);
 
@@ -294,17 +294,17 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The actor unit must have the unit type flag Cities. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
-                                           TRUE, "Cities"));
+                                           TRUE, TRUE, "Cities"));
 
     /* The actor must be on native terrain. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitState", "Local", FALSE,
-                                           TRUE, "OnLivableTile"));
+                                           TRUE, TRUE, "OnLivableTile"));
 
     /* The actor unit must have moves left. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("MinMoveFrags", "Local", FALSE,
-                                           TRUE, "1"));
+                                           TRUE, TRUE, "1"));
 
     action_enabler_add(enabler);
 
@@ -319,17 +319,17 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The actor unit must have the unit type flag AddToCity. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
-                                           TRUE, "AddToCity"));
+                                           TRUE, TRUE, "AddToCity"));
 
     /* The actor unit must have moves left. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("MinMoveFrags", "Local", FALSE,
-                                           TRUE, "1"));
+                                           TRUE, TRUE, "1"));
 
     /* The target city must be domestic. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("DiplRel", "Local", FALSE,
-                                           FALSE, "Is foreign"));
+                                           FALSE, TRUE, "Is foreign"));
 
     action_enabler_add(enabler);
 
@@ -342,22 +342,22 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The actor unit must have the unit type flag Bombarder. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
-                                           TRUE, "Bombarder"));
+                                           TRUE, TRUE, "Bombarder"));
 
     /* The actor unit can't be transported. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitState", "Local", FALSE,
-                                           FALSE, "Transported"));
+                                           FALSE, TRUE, "Transported"));
 
     /* The actor unit must have a move fragment left. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("MinMoveFrags", "Local", FALSE,
-                                           TRUE, "1"));
+                                           TRUE, TRUE, "1"));
 
     /* The target can't be on an ocean tile. */
     requirement_vector_append(&enabler->target_reqs,
                               req_from_str("TerrainClass", "Local", FALSE,
-                                           FALSE, "Oceanic"));
+                                           FALSE, TRUE, "Oceanic"));
 
     action_enabler_add(enabler);
 
@@ -370,7 +370,7 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The actor unit must have the unit type flag Nuclear. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
-                                           TRUE, "Nuclear"));
+                                           TRUE, TRUE, "Nuclear"));
 
     action_enabler_add(enabler);
   }
@@ -382,7 +382,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     /* The reduction only applies to Enter Marketplace. */
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
-                                            "Enter Marketplace"));
+                                            TRUE, "Enter Marketplace"));
 
     /* The fudge factor to more closely approximate Civ2 behavior has
      * moved to the ruleset. */
@@ -396,11 +396,12 @@ void rscompat_postprocess(struct rscompat_info *info)
 
      /* Should only apply to the targeted steal tech action. */
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Targeted Steal Tech"));
+                                             TRUE, TRUE,
+                                             "Targeted Steal Tech"));
 
      /* No incident if stolen during war. */
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Getting caught trying to do the untargeted steal tech action would
       * also cause an incident. */
@@ -408,89 +409,92 @@ void rscompat_postprocess(struct rscompat_info *info)
 
      /* Should only apply to the untargeted steal tech action. */
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Steal Tech"));
+                                             TRUE, TRUE, "Steal Tech"));
 
      /* No incident if stolen during war. */
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Diplomatic incident from successfully performing an action. */
 
      /* Stealing a specified tech during peace causes an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Targeted Steal Tech"));
+                                             TRUE, TRUE,
+                                             "Targeted Steal Tech"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE,
+                                             "War"));
 
      /* Stealing a random tech during peace causes an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Steal Tech"));
+                                             TRUE, TRUE, "Steal Tech"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Bribe unit during peace causes an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Bribe Unit"));
+                                             TRUE, TRUE, "Bribe Unit"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Sabotage unit during peace causes an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Sabotage Unit"));
+                                             TRUE, TRUE, "Sabotage Unit"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Inciting a city during peace causes an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Incite City"));
+                                             TRUE, TRUE, "Incite City"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Poisoning a city during peace causes an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Poison City"));
+                                             TRUE, TRUE, "Poison City"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Sabotaging a random improvement in a city during peace causes an
       * incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Sabotage City"));
+                                             TRUE, TRUE, "Sabotage City"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Sabotaging a specific improvement in a city during peace causes
       * an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-         TRUE, "Targeted Sabotage City"));
+                                             TRUE, TRUE,
+                                             "Targeted Sabotage City"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Stealing gold during peace causes an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Steal Gold"));
+                                             TRUE, TRUE, "Steal Gold"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
-                                            FALSE, "War"));
+                                             FALSE, TRUE, "War"));
 
      /* Nuking someone causes an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, "Explode Nuclear"));
+                                             TRUE, TRUE, "Explode Nuclear"));
 
      /* City sabotage is twice as difficult if target is specified. */
      peffect = effect_new(EFT_ACTION_ODDS_PCT, -50, NULL);
      effect_req_append(peffect,
                        req_from_str("Action", "Local", FALSE,
-                                    TRUE, "Targeted Sabotage City"));
+                                    TRUE, TRUE, "Targeted Sabotage City"));
   }
 
   /* Upgrade existing effects. */

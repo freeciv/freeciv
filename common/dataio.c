@@ -993,13 +993,14 @@ bool dio_get_uint16_vec8_raw(struct data_in *din, int **values, int stop_value)
 bool dio_get_requirement_raw(struct data_in *din, struct requirement *preq)
 {
   int type, range, value;
-  bool survives, present;
+  bool survives, present, quiet;
 
   if (!dio_get_uint8_raw(din, &type)
       || !dio_get_sint32_raw(din, &value)
       || !dio_get_uint8_raw(din, &range)
       || !dio_get_bool8_raw(din, &survives)
-      || !dio_get_bool8_raw(din, &present)) {
+      || !dio_get_bool8_raw(din, &present)
+      || !dio_get_bool8_raw(din, &quiet)) {
     log_packet("Got a bad requirement");
     return FALSE;
   }
@@ -1007,7 +1008,7 @@ bool dio_get_requirement_raw(struct data_in *din, struct requirement *preq)
   /*
    * FIXME: the value returned by req_from_values() should be checked!
    */
-  *preq = req_from_values(type, range, survives, present, value);
+  *preq = req_from_values(type, range, survives, present, quiet, value);
 
   return TRUE;
 }
@@ -1019,15 +1020,16 @@ void dio_put_requirement_raw(struct raw_data_out *dout,
                              const struct requirement *preq)
 {
   int type, range, value;
-  bool survives, present;
+  bool survives, present, quiet;
 
-  req_get_values(preq, &type, &range, &survives, &present, &value);
+  req_get_values(preq, &type, &range, &survives, &present, &quiet, &value);
 
   dio_put_uint8_raw(dout, type);
   dio_put_sint32_raw(dout, value);
   dio_put_uint8_raw(dout, range);
   dio_put_bool8_raw(dout, survives);
   dio_put_bool8_raw(dout, present);
+  dio_put_bool8_raw(dout, quiet);
 }
 
 /**************************************************************************

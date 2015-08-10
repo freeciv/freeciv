@@ -340,7 +340,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
                                                  sec, sub, j)); j++) {
     char buf[MAX_LEN_NAME];
     const char *range;
-    bool survives, present;
+    bool survives, present, quiet;
     struct entry *pentry;
     struct requirement req;
 
@@ -406,8 +406,16 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
                     "\"%s\": invalid boolean value for present for "
                     "'%s.%s%d'.", filename, sec, sub, j);
     }
+    quiet = TRUE;
+    if ((pentry = secfile_entry_lookup(file, "%s.%s%d.quiet",
+                                        sec, sub, j))
+        && !entry_bool_get(pentry, &quiet)) {
+      ruleset_error(LOG_ERROR,
+                    "\"%s\": invalid boolean value for quiet for "
+                    "'%s.%s%d'.", filename, sec, sub, j);
+    }
 
-    req = req_from_str(type, range, survives, present, name);
+    req = req_from_str(type, range, survives, present, quiet, name);
     if (req.source.kind == universals_n_invalid()) {
       ruleset_error(LOG_ERROR, "\"%s\" [%s] has invalid or unknown req: "
                                "\"%s\" \"%s\".",

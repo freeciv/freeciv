@@ -136,6 +136,7 @@ static bool save_reqs_vector(struct section_file *sfile,
   int i;
   bool includes_negated = FALSE;
   bool includes_surviving = FALSE;
+  bool includes_quiet = FALSE;
 
   requirement_vector_iterate(reqs, preq) {
     if (!preq->present) {
@@ -143,6 +144,9 @@ static bool save_reqs_vector(struct section_file *sfile,
     }
     if (preq->survives) {
       includes_surviving = TRUE;
+    }
+    if (preq->quiet) {
+      includes_quiet = TRUE;
     }
   } requirement_vector_iterate_end;
 
@@ -168,6 +172,12 @@ static bool save_reqs_vector(struct section_file *sfile,
       secfile_insert_bool(sfile,
                           preq->present,
                           "%s.%s%d.present", path, entry, i);
+    }
+
+    if (includes_quiet) {
+      secfile_insert_bool(sfile,
+                          preq->quiet,
+                          "%s.%s%d.quiet", path, entry, i);
     }
 
     i++;
