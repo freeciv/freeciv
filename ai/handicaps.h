@@ -29,6 +29,7 @@ enum handicap_type {
   H_REVOLUTION,       /* Cannot skip anarchy */
   H_EXPANSION,        /* Don't like being much larger than human */
   H_DANGER,           /* Always thinks its city is in danger */
+  H_CEASEFIRE,        /* Has to offer cease-fire on first contact */
   H_LAST
 };
 
