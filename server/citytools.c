@@ -610,9 +610,14 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
                 unit_rule_name(punit),
                 nation_rule_name(nation_of_player(from_player)));
 
-      /* TODO: What should be done when the unit is a game loss unit? Maybe
-       * it should be bounced rather than killed? */
-      wipe_unit(punit, ULR_CITY_LOST, NULL);
+      if (utype_has_flag(unit_type(punit), UTYF_GAMELOSS)) {
+        /* Try to save game loss units. */
+        bounce_unit(punit, verbose);
+      } else {
+        /* Kill the unique unit. */
+
+        wipe_unit(punit, ULR_CITY_LOST, NULL);
+      }
 
       return;
     }
