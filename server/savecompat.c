@@ -1031,6 +1031,22 @@ enum barbarian_type barb_type_convert(int old_type)
 /**************************************************************************
   Returns the action id corresponding to the specified order id. If no
   corresponding action is found ACTION_COUNT is returned.
+
+  Relevant tile content information must be loaded before this function is
+  called. Tile content information is relevant if it determines what action
+  an old order result in. Example: a 2.6 ORDER_BUILD_CITY would result in
+  Join City inside a domestic city and in Found City on a tile without a
+  city. That makes domestic cities relevant tile content information.
+
+  Intended to be used while loading unit orders from pre Freeciv 3.0.0
+  save games (savegame and savegame2). Should be deleted with savegame2.
+
+  Temporarily used to provide development version internal save game
+  compatibility for what will become Freeciv 3.0. This use should cease
+  before Freeciv 3.0.0 is released.
+
+  Should never be called from savegame3 after the 3.0 development version
+  internal save game compatibility is removed.
 **************************************************************************/
 int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
                        struct tile *tgt_tile)
