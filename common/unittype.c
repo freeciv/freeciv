@@ -620,6 +620,31 @@ const char *unit_type_flag_helptxt(enum unit_type_flag_id id)
 }
 
 /**************************************************************************
+  Returns TRUE iff the unit type is unique and the player already has one.
+**************************************************************************/
+bool utype_player_already_has_this_unique(const struct player *pplayer,
+                                          const struct unit_type *putype)
+{
+  if (!utype_has_flag(putype, UTYF_UNIQUE)) {
+    /* This isn't a unique unit type. */
+    return FALSE;
+  }
+
+  unit_list_iterate(pplayer->units, existing_unit) {
+    if (putype == unit_type(existing_unit)) {
+      /* FIXME: This could be slow if we have lots of units. We could
+       * consider keeping an array of unittypes updated with this info
+       * instead. */
+
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  /* The player doesn't already have one. */
+  return FALSE;
+}
+
+/**************************************************************************
 Whether player can build given unit somewhere,
 ignoring whether unit is obsolete and assuming the
 player has a coastal city.
@@ -682,17 +707,11 @@ bool can_player_build_unit_direct(const struct player *p,
         return FALSE;
       }
     }
-    
   }
-  if (utype_has_flag(punittype, UTYF_UNIQUE)) {
-    /* FIXME: This could be slow if we have lots of units. We could
-     * consider keeping an array of unittypes updated with this info 
-     * instead. */
-    unit_list_iterate(p->units, punit) {
-      if (unit_type(punit) == punittype) { 
-        return FALSE;
-      }
-    } unit_list_iterate_end;
+
+  if (utype_player_already_has_this_unique(p, punittype)) {
+    /* A player can only have one unit of each unique unit type. */
+    return FALSE;
   }
 
   /* If the unit has a building requirement, we check to see if the player

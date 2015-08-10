@@ -435,6 +435,15 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
+  /* Sanity check: The victim isn't a unique unit the actor player already
+   * has. */
+  if (utype_player_already_has_this_unique(pplayer,
+                                           unit_type(pvictim))) {
+    log_debug("bribe-unit: already got unique unit");
+
+    return;
+  }
+
   log_debug("bribe-unit: unit: %d", pdiplomat->id);
 
   /* Check for unit from a bribable government. */

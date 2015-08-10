@@ -378,6 +378,8 @@ struct combat_bonus {
     TYPED_LIST_ITERATE(struct combat_bonus, bonuslist, pbonus)
 #define combat_bonus_list_iterate_end LIST_ITERATE_END
 
+BV_DEFINE(bv_unit_types, U_LAST);
+
 struct veteran_level {
   struct name_translation name; /* level/rank name */
   int power_fact; /* combat/work speed/diplomatic power factor (in %) */
@@ -583,6 +585,9 @@ struct unit_type *can_upgrade_unittype(const struct player *pplayer,
 int unit_upgrade_price(const struct player *pplayer,
 		       const struct unit_type *from,
 		       const struct unit_type *to);
+
+bool utype_player_already_has_this_unique(const struct player *pplayer,
+                                          const struct unit_type *putype);
 
 bool can_player_build_unit_direct(const struct player *p,
 				  const struct unit_type *punittype);

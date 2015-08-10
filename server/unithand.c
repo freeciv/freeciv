@@ -367,6 +367,9 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
   if (old_owner != new_owner) {
     struct city *pcity = tile_city(punit->tile);
 
+    fc_assert(!utype_player_already_has_this_unique(new_owner,
+                                                    unit_type(punit)));
+
     vision_clear_sight(punit->server.vision);
     vision_free(punit->server.vision);
 
@@ -1475,10 +1478,44 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
     if (unit_has_type_flag(punit, UTYF_CAPTURER) && pcity == NULL) {
       bool capture_possible = TRUE;
+      bv_unit_types unique_on_tile;
 
+      BV_CLR_ALL(unique_on_tile);
       unit_list_iterate(pdesttile->units, to_capture) {
         if (!unit_has_type_flag(to_capture, UTYF_CAPTURABLE)) {
           capture_possible = FALSE;
+          break;
+        }
+
+        /* Sanity check: make sure that the capture won't result in the actor
+         * ending up with more than one unit of each unique unit type. */
+
+        /* Check what the player already has. */
+        if (utype_player_already_has_this_unique(pplayer,
+                                                 unit_type(to_capture))) {
+          /* The player already has a unit of this kind. */
+          capture_possible = FALSE;
+        }
+
+        if (utype_has_flag(unit_type(to_capture), UTYF_UNIQUE)) {
+          /* The type of the units at the tile must also be checked. Two allied
+       * players can both have their unique unit at the same tile.
+       * Capturing them both would give the actor two units of a kind that
+       * is supposed to be unique. */
+
+          if (BV_ISSET(unique_on_tile, utype_index(unit_type(to_capture)))) {
+            /* There is another unit of the same kind at this tile. */
+            capture_possible = FALSE;
+          } else {
+            /* Remember the unit type in case another unit of the same kind is
+         * encountered later. */
+            BV_SET(unique_on_tile, utype_index(unit_type(to_capture)));
+          }
+        }
+
+        if (!capture_possible) {
+          log_debug("capture units: already got unique unit");
+
           break;
         }
       } unit_list_iterate_end;

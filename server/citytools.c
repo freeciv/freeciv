@@ -599,6 +599,24 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
     struct tile *utile = unit_tile(punit);
     struct city *in_city = tile_city(utile);
 
+    if (utype_player_already_has_this_unique(to_player,
+                                             unit_type(punit))) {
+      /* This is a unique unit that to_player already has. A transfer would
+       * break the rule that a player only may have one unit of each unique
+       * unit type. */
+
+      log_debug("%s already have a %s. Can't transfer from %s",
+                nation_rule_name(nation_of_player(to_player)),
+                unit_rule_name(punit),
+                nation_rule_name(nation_of_player(from_player)));
+
+      /* TODO: What should be done when the unit is a game loss unit? Maybe
+       * it should be bounced rather than killed? */
+      wipe_unit(punit, ULR_CITY_LOST, NULL);
+
+      return;
+    }
+
     if (in_city) {
       log_verbose("Transferred %s in %s from %s to %s",
                   unit_rule_name(punit), city_name(in_city),
