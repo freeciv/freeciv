@@ -63,7 +63,7 @@ int map_colatitude(const struct tile *ptile)
 
     /* Otherwise a wrapping map is assumed to be a global planetary map. */
 
-    /* we fold the map to get the base symetries
+    /* we fold the map to get the base symmetries
      *
      * ...... 
      * :c__c:
@@ -280,7 +280,7 @@ static void get_ratios(int *x_ratio, int *y_ratio)
 
 /***************************************************************************
   This function sets sizes in a topology-specific way then calls
-  map_init_topology. Set 'autosize' to TRUE if the xsize/ysize should be
+  map_init_topology(). Set 'autosize' to TRUE if the xsize/ysize should be
   calculated.
 ***************************************************************************/
 void generator_init_topology(bool autosize)
