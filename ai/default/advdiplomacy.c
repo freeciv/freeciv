@@ -917,15 +917,40 @@ static void dai_diplomacy_suggest(struct player *pplayer,
 void dai_diplomacy_first_contact(struct ai_type *ait, struct player *pplayer,
                                  struct player *aplayer)
 {
-  if (pplayer->ai_controlled && !has_handicap(pplayer, H_AWAY)
+  bool wants_ceasefire = FALSE;
+
+  if (pplayer->ai_controlled
       && player_diplstate_get(pplayer, aplayer)->type == DS_WAR
       && could_meet_with_player(pplayer, aplayer)) {
+    if (has_handicap(pplayer, H_CEASEFIRE)) {
+      fc_assert(!has_handicap(pplayer, H_AWAY));
+      wants_ceasefire = TRUE;
+    } else if (!has_handicap(pplayer, H_AWAY)) {
+      struct Clause clause;
+
+      clause.from = pplayer;
+      clause.value = 0;
+      clause.type = CLAUSE_CEASEFIRE;
+
+      if (dai_goldequiv_clause(ait, pplayer, aplayer, &clause,
+                               FALSE, DS_CEASEFIRE) > 0) {
+        wants_ceasefire = TRUE;
+      }
+    }
+  }
+
+  if (wants_ceasefire) {
     notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
-           "while we get to know each other better?"),
+                      "while we get to know each other better?"),
            player_name(pplayer),
            player_name(aplayer));
     clear_old_treaty(pplayer, aplayer);
     dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, FALSE, 0);
+  } else {
+    notify(aplayer, _("*%s (AI)* I found you %s! Now make it worth letting "
+                      "you live, or get crushed."),
+           player_name(pplayer),
+           player_name(aplayer));
   }
 }
 
