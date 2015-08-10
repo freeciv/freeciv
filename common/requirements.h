@@ -66,6 +66,7 @@ struct requirement {
   enum req_range range;			/* requirement range */
   bool survives; /* set if destroyed sources satisfy the req*/
   bool present;	 /* set if the requirement is to be present */
+  bool quiet;    /* do not list this in helptext */
 };
 
 #define SPECVEC_TAG requirement
@@ -77,15 +78,16 @@ struct requirement {
 
 /* General requirement functions. */
 struct requirement req_from_str(const char *type, const char *range,
-				bool survives, bool present,
+				bool survives, bool present, bool quiet,
 				const char *value);
 const char *req_to_fstring(const struct requirement *req);
 
 void req_get_values(const struct requirement *req, int *type,
-		    int *range, bool *survives, bool *present,
+		    int *range, bool *survives, bool *present, bool *quiet,
 		    int *value);
 struct requirement req_from_values(int type, int range,
-				   bool survives, bool present, int value);
+				   bool survives, bool present, bool quiet,
+                                   int value);
 
 bool are_requirements_equal(const struct requirement *req1,
 			    const struct requirement *req2);
