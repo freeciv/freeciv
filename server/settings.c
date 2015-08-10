@@ -2135,7 +2135,7 @@ static struct setting settings[] = {
 
   GEN_BITWISE("victories", game.info.victory_conditions,
               SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
-              N_("What kind of vicrories are possible"),
+              N_("What kind of victories are possible"),
               /* TRANS: The strings between double quotes are also translated
                * separately (they must match!). The strings between single
                * quotes are setting names and shouldn't be translated. The
