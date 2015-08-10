@@ -3998,110 +3998,98 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
   action_iterate(act) {
-    if (action_get_actor_kind(act) != AAK_UNIT) {
-      continue;
-    }
-
-    action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
-      if (action_actor_utype_hard_reqs_ok(act, utype)
-          && requirement_fulfilled_by_unit_type(utype,
-                                                &(enabler->actor_reqs))) {
-        switch (act) {
-        case ACTION_HELP_WONDER:
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: the first %s is the ruleset defined ui
-                        * name of the "Help Wonder" action, the next %s is
-                        * the name of its target kind ("individual cities")
-                        * and the %d is the number of shields the unit can
-                        * contribute. */
-                       _("* Can do the action \'%s\' to some %s"
-                         " (adds %d production).\n"),
-                       /* The action may have a ruleset defined ui name. */
-                       action_get_ui_name(act),
-                       /* Keep the style consistent with the help for the
-                        * other actions. */
-                       _(action_target_kind_name(
-                           action_get_target_kind(act))),
-                       /* The custom information. */
-                       utype_build_shield_cost(utype));
-          break;
-        case ACTION_FOUND_CITY:
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: the first %s is the ruleset defined ui
-                        * name of the "Found City" action, the next %s is
-                        * the name of its target kind ("tiles"), the %d
-                        * is initial population and the third %s is if city
-                        * founding is disabled in the current game. */
-                       PL_("* Can do the action \'%s\' to some %s (initial"
-                           " population %d).%s\n",
-                           "* Can do the action \'%s\' to some %s (initial"
-                           " population %d).%s\n",
-                           utype->city_size),
-                       /* The action may have a ruleset defined ui name. */
-                       action_get_ui_name(act),
-                       /* Keep the style consistent with the help for the
-                        * other actions. */
-                       _(action_target_kind_name(
-                           action_get_target_kind(act))),
-                       /* Custom information. */
-                       utype->city_size,
-                       game.scenario.prevent_new_cities ?
-                         _(" (Disabled in the current game)") :
-                         "");
-          break;
-        case ACTION_JOIN_CITY:
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: the first %s is the ruleset defined ui
-                        * name of the "Join City" action, the next %s is
-                        * the name of its target kind ("individual cities")
-                        * the first %d is population and the last %d, the
-                        * value the plural is about, is the population
-                        * added. */
-                       PL_("* Can do the action \'%s\' to some %s of no"
-                           " more than size %d (adds %d population).\n",
-                           "* Can do the action \'%s\' to some %s of no"
-                           " more than size %d (adds %d population).\n",
-                           utype_pop_value(utype)),
-                       /* The action may have a ruleset defined ui name. */
-                       action_get_ui_name(act),
-                       /* Keep the style consistent with the help for the
-                        * other actions. */
-                       _(action_target_kind_name(
-                           action_get_target_kind(act))),
-                       /* Custom information. */
-                       game.info.add_to_size_limit - utype_pop_value(utype),
-                       utype_pop_value(utype));
-          break;
-        case ACTION_BOMBARD:
-            cat_snprintf(buf, bufsz,
-                         _("* Can do the action \'%s\' (%d per turn)."
-                           " These attacks will only damage (never kill)"
-                           " defenders, but damage all"
-                           " defenders on a tile, and have no risk for the"
-                           " attacker.\n"),
-                         /* The action may have a ruleset defined UI
-                          * name. */
-                         action_get_ui_name(act),
-                         utype->bombard_rate);
-          break;
-        default:
-          /* Generic action information. */
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: the first %s is the action's ruleset
-                        * defined ui name and the next %s is the name of
-                        * its target kind. */
-                       _("* Can do the action \'%s\' to some %s.\n"),
-                       action_get_ui_name(act),
-                       _(action_target_kind_name(
-                           action_get_target_kind(act))));
-          break;
-        }
-
-        /* The unit's ability to perform this action was just documented.
-         * Move on to check if the unit can perform the next action too. */
+    if (utype_can_do_action(utype, act)) {
+      switch (act) {
+      case ACTION_HELP_WONDER:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: the first %s is the ruleset defined ui
+                      * name of the "Help Wonder" action, the next %s is
+                      * the name of its target kind ("individual cities")
+                      * and the %d is the number of shields the unit can
+                      * contribute. */
+                     _("* Can do the action \'%s\' to some %s"
+                       " (adds %d production).\n"),
+                     /* The action may have a ruleset defined ui name. */
+                     action_get_ui_name(act),
+                     /* Keep the style consistent with the help for the
+                      * other actions. */
+                     _(action_target_kind_name(
+                         action_get_target_kind(act))),
+                     /* The custom information. */
+                     utype_build_shield_cost(utype));
+        break;
+      case ACTION_FOUND_CITY:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: the first %s is the ruleset defined ui
+                      * name of the "Found City" action, the next %s is
+                      * the name of its target kind ("tiles"), the %d
+                      * is initial population and the third %s is if city
+                      * founding is disabled in the current game. */
+                     PL_("* Can do the action \'%s\' to some %s (initial"
+                         " population %d).%s\n",
+                         "* Can do the action \'%s\' to some %s (initial"
+                         " population %d).%s\n",
+                         utype->city_size),
+                     /* The action may have a ruleset defined ui name. */
+                     action_get_ui_name(act),
+                     /* Keep the style consistent with the help for the
+                      * other actions. */
+                     _(action_target_kind_name(
+                         action_get_target_kind(act))),
+                     /* Custom information. */
+                     utype->city_size,
+                     game.scenario.prevent_new_cities ?
+                       _(" (Disabled in the current game)") :
+                       "");
+        break;
+      case ACTION_JOIN_CITY:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: the first %s is the ruleset defined ui
+                      * name of the "Join City" action, the next %s is
+                      * the name of its target kind ("individual cities")
+                      * the first %d is population and the last %d, the
+                      * value the plural is about, is the population
+                      * added. */
+                     PL_("* Can do the action \'%s\' to some %s of no"
+                         " more than size %d (adds %d population).\n",
+                         "* Can do the action \'%s\' to some %s of no"
+                         " more than size %d (adds %d population).\n",
+                         utype_pop_value(utype)),
+                     /* The action may have a ruleset defined ui name. */
+                     action_get_ui_name(act),
+                     /* Keep the style consistent with the help for the
+                                     * other actions. */
+                     _(action_target_kind_name(
+                         action_get_target_kind(act))),
+                     /* Custom information. */
+                     game.info.add_to_size_limit - utype_pop_value(utype),
+                     utype_pop_value(utype));
+        break;
+      case ACTION_BOMBARD:
+        cat_snprintf(buf, bufsz,
+                     _("* Can do the action \'%s\' (%d per turn)."
+                       " These attacks will only damage (never kill)"
+                       " defenders, but damage all"
+                       " defenders on a tile, and have no risk for the"
+                       " attacker.\n"),
+                     /* The action may have a ruleset defined UI
+                                       * name. */
+                     action_get_ui_name(act),
+                     utype->bombard_rate);
+        break;
+      default:
+        /* Generic action information. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: the first %s is the action's ruleset
+                      * defined ui name and the next %s is the name of
+                      * its target kind. */
+                     _("* Can do the action \'%s\' to some %s.\n"),
+                     action_get_ui_name(act),
+                     _(action_target_kind_name(
+                         action_get_target_kind(act))));
         break;
       }
-    } action_enabler_list_iterate_end;
+    }
   } action_iterate_end;
   action_iterate(act) {
     bool vulnerable;
