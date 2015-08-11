@@ -238,13 +238,18 @@ Illegal_Action_Move_Cost
 that turns out to be illegal.
 
 Casus_Belli_Caught
-    When a player is caught trying to do an action to another player it
-causes an incident. This gives the victim a casus belli against the player
-that was caught.
+    Checked when a player is caught trying to do an action. Will cause an
+incident with the intended victim player if the value is 1 or higher. The
+incident gives the intended victim a casus belli against the actor player.
+If the value is 1000 or higher every other player gets a casus belli
+against the actor.
 
 Casus_Belli_Success
-    When does an action to another player it causes an incident. This gives
-the victim a casus belli against the player that was caught.
+    Checked when a player does an action to another player. Will cause an
+incident with the intended victim player if the value is 1 or higher. The
+incident gives the intended victim a casus belli against the actor player.
+If the value is 1000 or higher every other player gets a casus belli
+against the actor.
 
 Action_Odds_Pct
     Modifies the odds of an action being successful. Some actions have a
