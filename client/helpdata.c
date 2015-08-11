@@ -2505,6 +2505,21 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     return TRUE;
 
+  case VUT_TOPO:
+    if (preq->range != REQ_RANGE_WORLD) {
+      break;
+    }
+    if (preq->present) {
+      cat_snprintf(buf, bufsz,
+                   _("Requires %s map.\n"),
+                   _(topo_flag_name(preq->source.value.topo_property)));
+    } else {
+      cat_snprintf(buf, bufsz,
+                   _("Prevented on %s map.\n"),
+                   _(topo_flag_name(preq->source.value.topo_property)));
+    }
+    return TRUE;
+
   case VUT_AGE:
     if (preq->present) {
       cat_snprintf(buf, bufsz,
