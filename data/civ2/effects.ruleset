@@ -2304,6 +2304,24 @@ reqs	=
       "Action", "Join City", "Local", FALSE
     }
 
+; Allow everyone to declar war on the terrorist nation
+[effect_incident_plant_nuke_caught]
+type	= "Casus_Belli_Caught"
+value	= 1000
+reqs	=
+    { "type", "name", "range"
+      "Action", "Suitcase Nuke", "Local"
+    }
+
+; TODO: Find the exact probability
+[effect_suitcase_plant_nuke_unlikely]
+type   = "Action_Odds_Pct"
+value   = -75
+reqs   =
+    { "type", "name", "range"
+      "Action", "Suitcase Nuke", "Local"
+    }
+
 [effect_incident_caught_steal_tech]
 type	= "Casus_Belli_Caught"
 value	= 1

@@ -160,6 +160,9 @@ force_trade_route = TRUE
 ; /* TRANS: _Poison City (3% chance of success). */
 ui_name_poison_city = _("%sPoison City%s")
 
+; /* TRANS: Plant _Nuclear Device (3% chance of success). */
+ui_name_suitcase_nuke = _("Plant %sNuclear Device%s")
+
 ; /* TRANS: _Sabotage Enemy Unit (3% chance of success). */
 ui_name_sabotage_unit = _("%sSabotage Enemy Unit%s")
 
@@ -265,6 +268,18 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range"
       "MinSize", "2", "City"
+    }
+
+; TODO: Find the exact requirements
+[actionenabler_plant_nuke]
+action = "Suitcase Nuke"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Spy", "Local"
+      "Building", "Manhattan Project", "World"
+      "Tech", "Nuclear Fission", "Player"
+      "DiplRel", "War", "Local"
+      "MinMoveFrags", "1", "Local"
     }
 
 [actionenabler_steal_tech_random]
