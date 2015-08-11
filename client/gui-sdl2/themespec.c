@@ -254,9 +254,9 @@ static char *themespec_fullname(const char *theme_name)
   'which' should be "themespec" or "spec".
 ***********************************************************************/
 static bool check_themespec_capabilities(struct section_file *file,
-					const char *which,
-					const char *us_capstr,
-					const char *filename)
+                                         const char *which,
+                                         const char *us_capstr,
+                                         const char *filename)
 {
   const char *file_capstr = secfile_lookup_str(file, "%s.options", which);
 
@@ -270,6 +270,7 @@ static bool check_themespec_capabilities(struct section_file *file,
     log_debug("\"%s\": %s file appears incompatible:", filename, which);
     log_debug("  datafile options: %s", file_capstr);
     log_debug("  supported options: %s", us_capstr);
+
     return FALSE;
   }
 
@@ -278,6 +279,7 @@ static bool check_themespec_capabilities(struct section_file *file,
               " that client doesn't support:", filename, which);
     log_debug("  datafile options: %s", file_capstr);
     log_debug("  supported options: %s", us_capstr);
+
     return FALSE;
   }
 
@@ -1037,7 +1039,7 @@ static void unload_all_sprites(struct theme *t)
 }
 
 /**********************************************************************
-...
+  Free all sprites for the theme.
 ***********************************************************************/
 void theme_free_sprites(struct theme *t)
 {

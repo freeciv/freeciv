@@ -11,14 +11,6 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/***************************************************************************
-                          unistring.c  -  description
-                             -------------------
-    begin                : Mon Jul 08 2002
-    copyright            : (C) 2002 by Rafał Bursig
-    email                : Rafał Bursig <bursig@poczta.fm>
- ***************************************************************************/
-
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif

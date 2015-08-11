@@ -55,6 +55,9 @@ static char *background_names[] = {
   "wldlg",
 };
 
+/****************************************************************************
+  Read theme background system from a file.
+****************************************************************************/
 struct theme_background_system *theme_background_system_read(struct section_file *file)
 {
   int i;
