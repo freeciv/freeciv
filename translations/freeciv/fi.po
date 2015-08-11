@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-09 22:39+0300\n"
-"PO-Revision-Date: 2015-08-09 23:15+0300\n"
+"PO-Revision-Date: 2015-08-11 20:45+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -36,11 +36,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-# Ilmeisesti pelaaja menee away-moodissa ai-hallinnoitavaksi?
+# Away-moodissa pelaaja menee ai-hallinnoitavaksi.
 #: ai/default/advdiplomacy.c:350
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr "*%s (AI)* Toisaalla; AI ei voi allekirjoittaa tällaista sopimusta."
+msgstr "*%s (AI)* Toisaalla; AI ei voi allekirjoittaa tällaista sopimusta pelaajan puolesta."
 
 # AI teitittelee...
 #: ai/default/advdiplomacy.c:360
@@ -9510,16 +9510,11 @@ msgstr ""
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:728
-#, fuzzy, c-format
-#| msgid ""
-#| "Requires you to have built %s at some point, and for it not to have been "
-#| "rendered obsolete.\n"
+#, c-format
 msgid ""
 "Requires someone allied to you to own %s, and for it not to have been "
 "rendered obsolete.\n"
-msgstr ""
-"Edellyttää sinun rakentaneen %s taannoin, ja ettei se ole vielä "
-"vanhentunut.\n"
+msgstr "Edellyttää että jollakulla liittolaisellasi on %s, ja ettei se ole vielä vanhentunut.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:736
@@ -9541,23 +9536,17 @@ msgstr "Estyy jos liittolaisellasi on %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:768
-#, fuzzy, c-format
-#| msgid ""
-#| "Requires you to have built %s at some point, and for it not to have been "
-#| "rendered obsolete.\n"
+#, c-format
 msgid ""
 "Requires someone on your team to have built %s at some point, and for it not "
 "to have been rendered obsolete.\n"
-msgstr ""
-"Edellyttää sinun rakentaneen %s taannoin, ja ettei se ole vielä "
-"vanhentunut.\n"
+msgstr "Edellyttää että %s on jonkun joukkuetoverisi joskus rakentama, ja ettei se ole vielä vanhentunut.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:776
-#, fuzzy, c-format
-#| msgid "Requires you to have built %s at some point.\n"
+#, c-format
 msgid "Requires someone on your team to have built %s at some point.\n"
-msgstr "Edellyttää sinun rakentaneen ihmeen %s taannoin.\n"
+msgstr "Edellyttää että %s on jonkun joukkuetoverisi joskus rakentama.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:785
@@ -9606,10 +9595,9 @@ msgstr "Estyy jos sinulla on %s, paitsi jos se on vanhentunut.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:827
-#, fuzzy, c-format
-#| msgid "Prevented if you own %s.\n"
+#, c-format
 msgid "Prevented if someone on your team owns %s.\n"
-msgstr "Estyy jos sinulla on %s.\n"
+msgstr "Estyy jos jollakulla joukkueessasi on %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:844
@@ -9699,17 +9687,15 @@ msgstr "Estyy jos %s on jossakin kaupungissasi samalla mantereella.\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:955
-#, fuzzy, c-format
-#| msgid "Requires %s in the city (and not yet obsolete).\n"
+#, c-format
 msgid "Requires %s in the city or a trade partner (and not yet obsolete).\n"
-msgstr "Edellyttää että kaupungissa on %s (joka ei ole vanhentunut).\n"
+msgstr "Edellyttää että kaupungissa tai sen kauppakumppanilla on %s (joka ei ole vanhentunut).\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:962
-#, fuzzy, c-format
-#| msgid "Requires %s in the city.\n"
+#, c-format
 msgid "Requires %s in the city or a trade partner.\n"
-msgstr "Edellyttää että kaupungissa on %s.\n"
+msgstr "Edellyttää että kaupungissa tai sen kauppakumppanilla on %s.\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:971
@@ -10084,11 +10070,10 @@ msgstr "Edellyttää että kaupungissa on vähintään yksi %s kansalainen.\n"
 
 #. TRANS: "... no Pirate citizens ..."
 #: client/helpdata.c:1442
-#, fuzzy, c-format
-#| msgid "Requires that there are no %s citizens in the city.\n"
+#, c-format
 msgid ""
 "Requires that there are no %s citizens in the city or any trade partners.\n"
-msgstr "Edellyttää ettei kaupungissa ole yhtään %s kansalaista.\n"
+msgstr "Edellyttää ettei kaupungissa tai sen kauppakumppaneilla ole yhtään %s kansalaista.\n"
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
 #: client/helpdata.c:1451
@@ -10107,14 +10092,14 @@ msgstr "Edellyttää ettei kaupungissa ole yhtään %s kansalaista.\n"
 msgid ""
 "Requires that your diplomatic relationship to at least one other living "
 "player is %s.\n"
-msgstr ""
+msgstr "Edellyttää että diplomaattisuhteesi jonkun elävän pelaajan kanssa on %s.\n"
 
 #: client/helpdata.c:1485
 #, c-format
 msgid ""
 "Requires that no diplomatic relationship you have to any living player is "
 "%s.\n"
-msgstr ""
+msgstr "Edellyttää että yhdenkään elävän pelaajan kanssa diplomaattisuhteesi ei ole %s.\n"
 
 #: client/helpdata.c:1493
 #, c-format
@@ -14766,22 +14751,22 @@ msgstr[1] "%d vihaista asukasta."
 #, c-format
 msgid " not more than %d, so no empire size penalty."
 msgid_plural " not more than %d, so no empire size penalty."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " ei enempää kuin %d, joten valtakunnan koko ei aiheuta ongelmia."
+msgstr[1] " ei enempää kuin %d, joten valtakunnan koko ei aiheuta ongelmia."
 
 #: client/text.c:1812
 #, c-format
 msgid "With %d more city, another citizen will become unhappy."
 msgid_plural "With %d more cities, another citizen will become unhappy."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kun valtakuntasi kasvaa %d kaupungilla, tyytymättömyys lisääntyy taas yhdellä asukkaalla."
+msgstr[1] "Kun valtakuntasi kasvaa %d kaupungilla, tyytymättömyys lisääntyy taas yhdellä asukkaalla."
 
 #: client/text.c:1823
 #, c-format
 msgid "With %d more city, another citizen will become angry."
 msgid_plural "With %d more cities, another citizen will become angry."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kun valtakuntasi kasvaa %d kaupungilla, yksi asukas enemmän tulee vihaiseksi."
+msgstr[1] "Kun valtakuntasi kasvaa %d kaupungilla, yksi asukas enemmän tulee vihaiseksi."
 
 #: client/text.c:1833
 msgid "More cities will not cause more unhappy citizens."
@@ -14940,15 +14925,10 @@ msgstr ""
 "tunnisteella \"%s\" tai \"%s\"."
 
 #: client/tilespec.c:3133
-#, fuzzy, c-format
-#| msgid ""
-#| "Missing %s building activity sprite for tags \"%s\" and alternative \"%s"
-#| "\"."
+#, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
-msgstr ""
-"Ei löydy toimintoikonia näytettäväksi kun rakennetaan %s. Sen pitäisi löytyä "
-"tunnisteella \"%s\" tai \"%s\"."
+msgstr "Ei löydy toimintoikonia näytettäväksi kun poistetaan %s. Sen pitäisi löytyä tunnisteella \"%s\" tai \"%s\"."
 
 #: client/tilespec.c:3234
 #, c-format
@@ -16316,13 +16296,13 @@ msgstr "Sallitut ruudut"
 #: common/requirements.c:3186
 #, c-format
 msgid "%s MP"
-msgstr ""
+msgstr "%s liikepistettä"
 
 #. TRANS: HP = hit points
 #: common/requirements.c:3191
 #, c-format
 msgid "%d HP"
-msgstr ""
+msgstr "%d osumapistettä"
 
 #: common/requirements.c:3195
 #, c-format
@@ -16347,13 +16327,11 @@ msgstr "%s AI"
 
 #. TRANS: here <= means 'less than or equal'
 #: common/requirements.c:3221
-#, fuzzy, c-format
-#| msgid "%d unit"
-#| msgid_plural "%d units"
+#, c-format
 msgid "<=%d unit"
 msgid_plural "<=%d units"
-msgstr[0] "%d yksikkö"
-msgstr[1] "%d yksikköä"
+msgstr[0] "<= %d yksikkö"
+msgstr[1] "<= %d yksikköä"
 
 #. TRANS: Terrain class: "Land terrain"
 #: common/requirements.c:3227
@@ -16369,17 +16347,15 @@ msgstr "ominaisuuden \"%s\" maasto"
 
 #. TRANS: Base flag
 #: common/requirements.c:3240
-#, fuzzy, c-format
-#| msgid "?utflag:\"%s\" units"
+#, c-format
 msgid "?baseflag:\"%s\" base"
-msgstr "ominaisuuden \"%s\" yksiköt"
+msgstr "ominaisuuden \"%s\" tukikohdat"
 
 #. TRANS: Road flag
 #: common/requirements.c:3246
-#, fuzzy, c-format
-#| msgid "?terrflag:\"%s\" terrain"
+#, c-format
 msgid "?roadflag:\"%s\" road"
-msgstr "ominaisuuden \"%s\" maasto"
+msgstr "ominaisuuden \"%s\" polkutyyppi"
 
 #: common/requirements.c:3250
 #, c-format
@@ -32661,7 +32637,6 @@ msgid "?vertag:S2_5"
 msgstr "S2_5"
 
 #: translations/Strings.txt:15
-#, fuzzy
 msgid "?vertag:S2_6"
 msgstr "S2_6"
 
@@ -32940,10 +32915,9 @@ msgid "Cannot install to given directory hierarchy"
 msgstr "En onnistu asentamaan annettuun hakemistoon"
 
 #: tools/download.c:125
-#, fuzzy, c-format
-#| msgid "Downloading modpack control file."
+#, c-format
 msgid "Downloading \"%s\" control file."
-msgstr "Ladataan muunnospaketin kontrollitiedostoa."
+msgstr "Ladataan muunnospaketin kontrollitiedostoa osoitteesta \"%s\"."
 
 #: tools/download.c:132
 msgid "Failed to get and parse modpack control file"
@@ -33842,10 +33816,7 @@ msgid "Famine destroys %s entirely."
 msgstr "Nälänhätä tyhjentää kaupungin %s."
 
 #: server/cityturn.c:1038 server/cityturn.c:1209
-#, fuzzy, c-format
-#| msgid ""
-#| "%s can't build %s from the worklist; it needs %s government.  "
-#| "Postponing..."
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government. Postponing..."
 msgstr ""
@@ -33853,18 +33824,13 @@ msgstr ""
 "valtiomuoto %s."
 
 #: server/cityturn.c:1050 server/cityturn.c:1180
-#, fuzzy, c-format
-#| msgid ""
-#| "%s can't build %s from the worklist; need to have %s first.  Postponing..."
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first. Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska %s tarvitaan ensin."
 
 #: server/cityturn.c:1065 server/cityturn.c:1142
-#, fuzzy, c-format
-#| msgid ""
-#| "%s can't build %s from the worklist; tech %s not yet available.  "
-#| "Postponing..."
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available. Postponing..."
 msgstr ""
@@ -33872,14 +33838,12 @@ msgstr ""
 "ole saatavilla."
 
 #: server/cityturn.c:1077 server/cityturn.c:1771
-#, fuzzy, c-format
-#| msgid "%s can't build %s from the worklist; reason unknown!  Postponing..."
+#, c-format
 msgid "%s can't build %s from the worklist; reason unknown! Postponing..."
 msgstr "%s lykkää työlistan hanketta %s tuntemattomasta syystä."
 
 #: server/cityturn.c:1090 server/cityturn.c:1791
-#, fuzzy, c-format
-#| msgid "%s can't build %s from the worklist.  Purging..."
+#, c-format
 msgid "%s can't build %s from the worklist. Purging..."
 msgstr "%s poistaa hankkeen %s työlistalta koska sitä ei voi rakentaa."
 
@@ -33890,10 +33854,7 @@ msgid "Production of %s is upgraded to %s in %s."
 msgstr "Tuotantoa uudistetaan: %s korvattu tavoitteella %s kaupungissa %s."
 
 #: server/cityturn.c:1161
-#, fuzzy, c-format
-#| msgid ""
-#| "%s can't build %s from the worklist; no tech with flag \"%s\" yet "
-#| "available.  Postponing..."
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet available. "
 "Postponing..."
@@ -33902,9 +33863,7 @@ msgstr ""
 "ole saatavilla."
 
 #: server/cityturn.c:1193
-#, fuzzy, c-format
-#| msgid ""
-#| "%s can't build %s from the worklist; need to have %s first.  Postponing..."
+#, c-format
 msgid "%s can't build %s from the worklist; need to not have %s. Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska %s tarvitaan ensin."
 
@@ -34008,13 +33967,11 @@ msgstr "%s lykkää työlistan hanketta %s, koska se vaatii maastotyypin %s."
 
 #. TRANS: "%s nation" is adjective
 #: server/cityturn.c:1370
-#, fuzzy, c-format
-#| msgid ""
-#| "?road:%s can't build %s from the worklist; %s is required.  Postponing..."
+#, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is required. "
 "Postponing..."
-msgstr "%s lykkää työlistan hanketta %s, koska se vaatii tietyypin %s."
+msgstr "%s lykkää työlistan hanketta %s, koska se vaatii ryhmään %s kuuluvan kansan."
 
 #: server/cityturn.c:1382
 #, fuzzy, c-format
@@ -34117,16 +34074,11 @@ msgstr ""
 "olla vähintään %d."
 
 #: server/cityturn.c:1520
-#, fuzzy, c-format
-#| msgid ""
-#| "%s can't build %s from the worklist; city must be of size %d.  "
-#| "Postponing..."
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have culture of %d. "
 "Postponing..."
-msgstr ""
-"%s lykkää työlistan hanketta %s, koska sitä rakentavan kaupungin koon pitää "
-"olla vähintään %d."
+msgstr "%s lykkää työlistan hanketta %s, koska sitä rakentavalla kaupungilla pitää olla vähintään %d kulttuuria."
 
 #: server/cityturn.c:1538
 #, fuzzy, c-format
@@ -35261,7 +35213,6 @@ msgstr "AI hallitsee kansakuntaasi mutta tekee vain minimaalisia muutoksia."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:348
-#, fuzzy
 msgid ""
 "handicapped\n"
 "handicapped <player-name>"
@@ -36286,11 +36237,9 @@ msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "Huhutaan että %s myrkytti veden kaupungissa %s."
 
 #: server/diplomats.c:133
-#, fuzzy, c-format
-#| msgid "Your %s could not poison the water supply in %s."
+#, c-format
 msgid "Your %s destroyed %s by poisoning its water supply."
-msgstr ""
-"Lähettämäsi %s ei onnistunut myrkyttämään vesivarantoja kaupungissa %s."
+msgstr "Lähettämäsi %s tuhosi kaupungin %s myrkyttämällä väen."
 
 #: server/diplomats.c:137
 #, fuzzy, c-format
@@ -36465,10 +36414,9 @@ msgid "The %s destroyed the %s in %s."
 msgstr "%s tuhosivat kohteen %s kaupungissa %s."
 
 #: server/diplomats.c:1149
-#, fuzzy, c-format
-#| msgid "Your %s was caught in the attempt of sabotage!"
+#, c-format
 msgid "Your %s was caught in an attempt of stealing gold!"
-msgstr "Lähettämäsi %s jäi kiinni kesken sabotointiyrityksen!"
+msgstr "Lähettämäsi %s jäi kiinni kesken yrityksen varastaa kultaa!"
 
 #: server/diplomats.c:1154
 #, fuzzy, c-format
@@ -36478,10 +36426,8 @@ msgstr "%s %s jäi kiinni yrittäessään lietsoa kapinaa kaupungissa %s!"
 
 #: server/diplomats.c:1195
 #, fuzzy, c-format
-#| msgid "You get %d gold."
-#| msgid_plural "You get %d gold."
 msgid "Your %s got you %d gold from %s."
-msgstr "Saat %d kullan."
+msgstr "Lähettämäsi %s sai %d kultaa kaupungista %s."
 
 #: server/diplomats.c:1198
 #, fuzzy, c-format
@@ -37084,16 +37030,10 @@ msgstr ""
 "keksimisen myötä."
 
 #: server/maphand.c:301
-#, fuzzy
-#| msgid ""
-#| "The people are pleased to hear that your scientists finally know about "
-#| "new base building technology."
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "infrastructure building technology."
-msgstr ""
-"Kansa ilahtuu saadessaan tietää että tiedemiehesi ovat vihdoin keksineet "
-"uuden tukikohdanrakennustekniikan."
+msgstr "Kansa ilahtuu saadessaan tietää että tiedemiehesi ovat vihdoin keksineet uuden infrastruktuurin rakennustekniikan."
 
 #: server/maphand.c:309
 msgid ""
@@ -38049,10 +37989,8 @@ msgid "Vertical placement"
 msgstr "Pohjois-etelä"
 
 #: server/settings.c:303
-#, fuzzy
-#| msgid "client disconnected"
 msgid "As long as connected"
-msgstr "asiakasohjelma purki yhteyden"
+msgstr "Niin kauan kuin yhteys pysyy auki"
 
 #: server/settings.c:315
 msgid "Spacerace"
@@ -38115,7 +38053,6 @@ msgid "Borders are not helping"
 msgstr "Valtioiden rajat eivät vaikuta"
 
 #: server/settings.c:377
-#, fuzzy
 msgid "Happy within own borders"
 msgstr "Tyytyväinen omien rajojen sisällä"
 
@@ -40528,10 +40465,8 @@ msgstr ""
 "kuvaajien luomiseen pelin päätyttyä."
 
 #: server/settings.c:2626
-#, fuzzy
-#| msgid "Savegame compression level"
 msgid "Scorelog level"
-msgstr "Tallennetun pelin pakkaustaso"
+msgstr "Tulostiedoston sisältö"
 
 #: server/settings.c:2627
 msgid ""
@@ -42224,10 +42159,9 @@ msgid "Unknown option %s"
 msgstr "Tuntematon asetusparametri '%s'."
 
 #: server/stdinhand.c:4553
-#, fuzzy, c-format
-#| msgid "Reset all settings to default values."
+#, c-format
 msgid "Setting %s set to default value."
-msgstr "Palautan kaikki asetukset oletusarvoonsa."
+msgstr "Asetus %s palautettu oletusarvoonsa."
 
 #: server/stdinhand.c:4612
 #, c-format
@@ -42979,10 +42913,8 @@ msgstr ""
 "Kansakunnat-näkymää (F3)."
 
 #: server/unithand.c:688
-#, fuzzy
-#| msgid "This unit has no moves left."
 msgid "This unit has too few moves left to act."
-msgstr "Tällä yksiköllä ei ole liikepisteitä jäljellä."
+msgstr "Tällä yksiköllä ei ole riittävästi liikepisteitä jäljellä."
 
 #: server/unithand.c:692
 msgid "No action possible."
@@ -43233,10 +43165,8 @@ msgstr "jäljellä"
 #. TRANS: Your Caravan helps build the Pyramids in Bergen (4
 #. * surplus).
 #: server/unithand.c:2466
-#, fuzzy
-#| msgid "Surplus"
 msgid "surplus"
-msgstr "Ylijäämä"
+msgstr "ylijäämä"
 
 #. TRANS: Your Caravan helps build the Pyramids in Bergen
 #. * (4 surplus).
