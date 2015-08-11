@@ -204,6 +204,8 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
       }
       break;
 
+     case VUT_TOPO:
+       /* Can have multiple, since it's flag based (iso & wrapx & wrapy & hex) */
      case VUT_EXTRA:
        /* Note that there can be more than 1 extra / tile. */
      case VUT_MAXTILEUNITS:

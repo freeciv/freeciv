@@ -1723,6 +1723,22 @@ static bool worklist_change_build_target(struct player *pplayer,
                 success = FALSE;
               }
               break;
+            case VUT_TOPO:
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the workist; "
+                                "only available in worlds with %s map."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              _(topo_flag_name(preq->source.value.topo_property)));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_topo");
+              }
+              success = FALSE;
+              break;
             case VUT_AGE:
               if (preq->present) {
                 notify_player(pplayer, city_tile(pcity),

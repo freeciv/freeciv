@@ -267,6 +267,12 @@ struct universal universal_by_rule_name(const char *kind,
   case VUT_MINYEAR:
     source.value.minyear = atoi(value);
     return source;
+  case VUT_TOPO:
+    source.value.topo_property = topo_flag_by_name(value, fc_strcasecmp);
+    if (topo_flag_is_valid(source.value.topo_property)) {
+      return source;
+    }
+    break;
   case VUT_TERRAINALTER:
     source.value.terrainalter
       = terrain_alteration_by_name(value, fc_strcasecmp);
@@ -445,6 +451,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_MINYEAR:
     source.value.minyear = value;
     return source;
+  case VUT_TOPO:
+    source.value.topo_property = value;
+    return source;
   case VUT_TERRAINALTER:
     source.value.terrainalter = value;
     return source;
@@ -548,6 +557,8 @@ int universal_number(const struct universal *source)
     return source->value.roadflag;
   case VUT_MINYEAR:
     return source->value.minyear;
+  case VUT_TOPO:
+    return source->value.topo_property;
   case VUT_TERRAINALTER:
     return source->value.terrainalter;
   case VUT_CITYTILE:
@@ -647,6 +658,7 @@ struct requirement req_from_str(const char *type, const char *range,
       req.range = REQ_RANGE_PLAYER;
       break;
     case VUT_MINYEAR:
+    case VUT_TOPO:
       req.range = REQ_RANGE_WORLD;
       break;
     }
@@ -734,6 +746,7 @@ struct requirement req_from_str(const char *type, const char *range,
                && req.range != REQ_RANGE_ADJACENT);
     break;
   case VUT_MINYEAR:
+  case VUT_TOPO:
     invalid = (req.range != REQ_RANGE_WORLD);
     break;
   case VUT_AGE:
@@ -785,6 +798,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_AI_LEVEL:
     case VUT_TERRAINCLASS:
     case VUT_MINYEAR:
+    case VUT_TOPO:
     case VUT_TERRAINALTER:
     case VUT_CITYTILE:
     case VUT_RESOURCE:
@@ -2723,6 +2737,9 @@ bool is_req_active(const struct player *target_player,
   case VUT_MINYEAR:
     eval = BOOL_TO_TRISTATE(game.info.year >= req->source.value.minyear);
     break;
+  case VUT_TOPO:
+    eval = BOOL_TO_TRISTATE(current_topo_has_flag(req->source.value.topo_property));
+    break;
   case VUT_TERRAINALTER:
     if (target_tile == NULL) {
       eval = TRI_MAYBE;
@@ -2816,6 +2833,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_AI_LEVEL:
   case VUT_CITYTILE:
   case VUT_STYLE:
+  case VUT_TOPO:
     return TRUE;
   case VUT_NATION:
   case VUT_NATIONGROUP:
@@ -2958,6 +2976,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.roadflag == psource2->value.roadflag;
   case VUT_MINYEAR:
     return psource1->value.minyear == psource2->value.minyear;
+  case VUT_TOPO:
+    return psource1->value.topo_property == psource2->value.topo_property;
   case VUT_TERRAINALTER:
     return psource1->value.terrainalter == psource2->value.terrainalter;
   case VUT_CITYTILE:
@@ -2987,6 +3007,8 @@ const char *universal_rule_name(const struct universal *psource)
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minyear);
 
     return buffer;
+  case VUT_TOPO:
+    return topo_flag_name(psource->value.topo_property);
   case VUT_ADVANCE:
     return advance_rule_name(psource->value.advance);
   case VUT_TECHFLAG:
@@ -3255,6 +3277,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_MINYEAR:
     cat_snprintf(buf, bufsz, _("After %s"),
                  textyear(psource->value.minyear));
+    return buf;
+  case VUT_TOPO:
+    cat_snprintf(buf, bufsz, _("%s map"),
+                 _(topo_flag_name(psource->value.topo_property)));
     return buf;
   case VUT_TERRAINALTER:
     /* TRANS: "Irrigation possible" */

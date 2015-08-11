@@ -289,6 +289,19 @@ typedef int Unit_Class_id;
 #define SPECENUM_COUNT USP_COUNT
 #include "specenum_gen.h"
 
+/* Changing these values will break map_init_topology. */
+#define SPECENUM_NAME topo_flag
+#define SPECENUM_BITWISE
+#define SPECENUM_VALUE0 TF_WRAPX
+#define SPECENUM_VALUE0NAME N_("WrapX")
+#define SPECENUM_VALUE1 TF_WRAPY
+#define SPECENUM_VALUE1NAME N_("WrapY")
+#define SPECENUM_VALUE2 TF_ISO
+#define SPECENUM_VALUE2NAME N_("ISO")
+#define SPECENUM_VALUE3 TF_HEX
+#define SPECENUM_VALUE3NAME N_("Hex")
+#include "specenum_gen.h"
+
 /* Sometimes we don't know (or don't care) if some requirements for effect
  * are currently fulfilled or not. This enum tells lower level functions
  * how to handle uncertain requirements.
@@ -342,6 +355,8 @@ typedef union {
   int minveteran;
   int min_hit_points;
   int age;
+
+  enum topo_flag topo_property;
 } universals_u;
 
 /* The kind of universals_u (value_union_type was req_source_type).
@@ -424,6 +439,8 @@ typedef union {
 #define SPECENUM_VALUE34NAME "Age"
 #define SPECENUM_VALUE35 VUT_NATIONGROUP
 #define SPECENUM_VALUE35NAME "NationGroup"
+#define SPECENUM_VALUE36 VUT_TOPO
+#define SPECENUM_VALUE36NAME "Topology"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
