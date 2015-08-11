@@ -34,7 +34,7 @@
 #include "unistring.h"
 
 /**************************************************************************
-  ...
+  Return length of string in characters.
 **************************************************************************/
 size_t unistrlen(const Uint16 *pUniString)
 {
@@ -51,13 +51,14 @@ size_t unistrlen(const Uint16 *pUniString)
 }
 
 /**************************************************************************
-  ...
+  Copy unistring. If destination is NULL, allocates the destination buffer
+  Returns the copy.
 **************************************************************************/
 Uint16 *unistrcpy(Uint16 *pToUniString, const Uint16 *pFromUniString)
 {
   size_t size = (unistrlen(pFromUniString) + 1) << 1;
 
-  if (!pToUniString) {
+  if (pToUniString == NULL) {
     pToUniString = fc_calloc(1, size);
   }
 
@@ -65,7 +66,7 @@ Uint16 *unistrcpy(Uint16 *pToUniString, const Uint16 *pFromUniString)
 }
 
 /**************************************************************************
-  ...
+  Catenates unistrings. Destination must have enough space.
 **************************************************************************/
 Uint16 *unistrcat(Uint16 *pToUniString,
                   const Uint16 *pFromUniString)
@@ -80,7 +81,7 @@ Uint16 *unistrcat(Uint16 *pToUniString,
 }
 
 /**************************************************************************
-  ...
+  Creates copy of the unistring.
 **************************************************************************/
 Uint16 *unistrdup(const Uint16 *pUniString)
 {
@@ -93,7 +94,7 @@ Uint16 *unistrdup(const Uint16 *pUniString)
 /**************************************************************************
   Don't free return array, only arrays members
 **************************************************************************/
-Uint16 ** create_new_line_unistrings(const Uint16 *pUnistring)
+Uint16 **create_new_line_unistrings(const Uint16 *pUnistring)
 {
   static Uint16 *pBuf[64];
   Uint16 *pFromUnistring = (Uint16 *)pUnistring;

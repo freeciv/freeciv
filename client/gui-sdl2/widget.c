@@ -754,7 +754,7 @@ Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
 }
 
 /**************************************************************************
-  ...
+  Undraw all widgets in the group.
 **************************************************************************/
 void undraw_group(struct widget *pBeginGroupWidgetList,
                   struct widget *pEndGroupWidgetList)
@@ -774,7 +774,7 @@ void undraw_group(struct widget *pBeginGroupWidgetList,
 }
 
 /**************************************************************************
-  ...
+  Move all widgets in the group by the given amounts.
 **************************************************************************/
 void set_new_group_start_pos(const struct widget *pBeginGroupWidgetList,
                              const struct widget *pEndGroupWidgetList,
@@ -861,7 +861,8 @@ void move_group_to_front_of_gui_list(struct widget *pBeginGroupWidgetList,
 }
 
 /**************************************************************************
-  ...
+  Remove all widgets of the group from the list of displayed widgets.
+  Does not free widget memory.
 **************************************************************************/
 void del_group_of_widgets_from_gui_list(struct widget *pBeginGroupWidgetList,
                                         struct widget *pEndGroupWidgetList)
@@ -896,7 +897,7 @@ void del_group_of_widgets_from_gui_list(struct widget *pBeginGroupWidgetList,
 }
 
 /**************************************************************************
-  ...
+  Set state for all the widgets in the group.
 **************************************************************************/
 void set_group_state(struct widget *pBeginGroupWidgetList,
                      struct widget *pEndGroupWidgetList, enum widget_state state)
@@ -913,7 +914,7 @@ void set_group_state(struct widget *pBeginGroupWidgetList,
 }
 
 /**************************************************************************
-  ...
+  Hide all widgets in the group.
 **************************************************************************/
 void hide_group(struct widget *pBeginGroupWidgetList,
                 struct widget *pEndGroupWidgetList)
@@ -932,7 +933,7 @@ void hide_group(struct widget *pBeginGroupWidgetList,
 }
 
 /**************************************************************************
-  ...
+  Show all widgets in the group.
 **************************************************************************/
 void show_group(struct widget *pBeginGroupWidgetList,
                 struct widget *pEndGroupWidgetList)
@@ -951,7 +952,7 @@ void show_group(struct widget *pBeginGroupWidgetList,
 }
 
 /**************************************************************************
-  ...
+  Set area for all widgets in the group.
 **************************************************************************/
 void group_set_area(struct widget *pBeginGroupWidgetList,
                     struct widget *pEndGroupWidgetList,
@@ -1049,7 +1050,7 @@ void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow)
 }
 
 /**************************************************************************
-  ...
+  Setup widgets vertically.
 **************************************************************************/
 int setup_vertical_widgets_position(int step,
                                     Sint16 start_x, Sint16 start_y,
@@ -1149,7 +1150,7 @@ void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
 }
 
 /**************************************************************************
-  ...
+  Redraw background of the widget.
 **************************************************************************/
 void refresh_widget_background(struct widget *pWidget)
 {

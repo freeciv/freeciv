@@ -145,6 +145,9 @@ static char *color_names[] = {
   "wldlg_frame",
 };
 
+/****************************************************************************
+  Read theme color system from a file.
+****************************************************************************/
 struct theme_color_system *theme_color_system_read(struct section_file *file)
 {
   int i;
