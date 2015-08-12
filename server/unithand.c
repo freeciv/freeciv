@@ -3645,6 +3645,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_ESTABLISH_EMBASSY:
       case ACTION_TRADE_ROUTE:
       case ACTION_HELP_WONDER:
+      case ACTION_JOIN_CITY:
         /* Don't validate that the target tile really contains a city or
          * that the actor player's map think the target tile has one.
          * The player may target a city from its player map that isn't

@@ -1059,9 +1059,9 @@ int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
        * possible for rulesets to allow joining foreign cities before 3.0.
        * This means that a converted build city order only can be a Join
        * City order if it targets a domestic city. */
-      /* TODO: Support ACTION_JOIN_CITY orders. */
-      return ACTION_COUNT;
+      return ACTION_JOIN_CITY;
     } else {
+      /* Assume that the intention was to found a new city. */
       return ACTION_FOUND_CITY;
     }
   case ORDER_OLD_BUILD_WONDER:
