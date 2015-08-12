@@ -1576,7 +1576,7 @@ bool unit_perform_action(struct player *pplayer,
          *  - detailed explanation of why something is illegal. */
         /* TODO: improve explanation about why an action failed. */
         city_add_or_build_error(pplayer, actor_unit,
-                                unit_add_or_build_city_test(actor_unit));
+                                unit_join_city_test(actor_unit));
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL);
@@ -1622,7 +1622,7 @@ bool unit_perform_action(struct player *pplayer,
          *  - detailed explanation of why something is illegal. */
         /* TODO: improve explanation about why an action failed. */
         city_add_or_build_error(pplayer, actor_unit,
-                                unit_add_or_build_city_test(actor_unit));
+                                unit_build_city_test(actor_unit));
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        NULL, target_tile, NULL, NULL);

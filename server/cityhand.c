@@ -74,7 +74,7 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
     return;
   }
 
-  res = unit_add_or_build_city_test(punit);
+  res = unit_build_city_test(punit);
 
   switch (res) {
   case UAB_BUILD_OK:

@@ -309,7 +309,10 @@ bool unit_can_add_to_city(const struct unit *punit);
 bool unit_can_build_city(const struct unit *punit);
 bool unit_can_add_or_build_city(const struct unit *punit);
 enum unit_add_build_city_result
-unit_add_or_build_city_test(const struct unit *punit);
+unit_build_city_test(const struct unit *punit);
+enum unit_add_build_city_result
+unit_join_city_test(const struct unit *punit);
+
 bool kills_citizen_after_attack(const struct unit *punit);
 
 struct astring; /* Forward declaration. */

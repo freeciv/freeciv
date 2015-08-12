@@ -354,7 +354,7 @@ bool kills_citizen_after_attack(const struct unit *punit)
 bool unit_can_add_to_city(const struct unit *punit)
 {
   return (unit_can_do_action(punit, ACTION_JOIN_CITY)
-          && (UAB_ADD_OK == unit_add_or_build_city_test(punit)));
+          && unit_join_city_test(punit) == UAB_ADD_OK);
 }
 
 /****************************************************************************
@@ -364,7 +364,7 @@ bool unit_can_add_to_city(const struct unit *punit)
 bool unit_can_build_city(const struct unit *punit)
 {
   return (unit_can_do_action(punit, ACTION_FOUND_CITY)
-          && (UAB_BUILD_OK == unit_add_or_build_city_test(punit)));
+          && unit_build_city_test(punit) == UAB_BUILD_OK);
 }
 
 /****************************************************************************
@@ -373,32 +373,19 @@ bool unit_can_build_city(const struct unit *punit)
 ****************************************************************************/
 bool unit_can_add_or_build_city(const struct unit *punit)
 {
-  enum unit_add_build_city_result res;
-
-  if (!unit_can_do_action(punit, ACTION_FOUND_CITY)
-      && !unit_can_do_action(punit, ACTION_JOIN_CITY)) {
-    /* The unit can't ever do any of the actions. The current conditions
-     * don't matter. */
-    return FALSE;
-  }
-
-  res = unit_add_or_build_city_test(punit);
-
-  return (UAB_BUILD_OK == res || UAB_ADD_OK == res);
+  return unit_can_build_city(punit) || unit_can_add_to_city(punit);
 }
 
-/****************************************************************************
-  See if the unit can add to an existing city or build a new city at
-  its current location, and return a 'result' value telling what is
-  allowed.
-****************************************************************************/
+/**************************************************************************
+  See if the unit can build a new city at its current location, and return
+  a 'result' value telling what is allowed.
+**************************************************************************/
 enum unit_add_build_city_result
-unit_add_or_build_city_test(const struct unit *punit)
+unit_build_city_test(const struct unit *punit)
 {
   struct tile *ptile = unit_tile(punit);
   struct city *pcity = tile_city(ptile);
   bool is_build = unit_is_cityfounder(punit);
-  int new_pop;
 
   /* Test if we can build. */
   if (NULL == pcity) {
@@ -418,6 +405,27 @@ unit_add_or_build_city_test(const struct unit *punit)
       return UAB_NO_MIN_DIST;
     }
     log_error("%s(): Internal error.", __FUNCTION__);
+    return UAB_BAD_CITY_TERRAIN; /* Returns something prohibitive. */
+  } else {
+    /* There is already a city here... */
+    return UAB_BAD_CITY_TERRAIN; /* Returns something prohibitive. */
+  }
+}
+
+/**************************************************************************
+  See if the unit can add to an existing city at its current location, and
+  return a 'result' value telling what is allowed.
+**************************************************************************/
+enum unit_add_build_city_result
+unit_join_city_test(const struct unit *punit)
+{
+  struct tile *ptile = unit_tile(punit);
+  struct city *pcity = tile_city(ptile);
+  int new_pop;
+
+  /* Test if we can build. */
+  if (NULL == pcity) {
+    /* No city to join. */
     return UAB_BAD_CITY_TERRAIN; /* Returns something prohibitive. */
   }
 
