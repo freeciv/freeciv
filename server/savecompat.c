@@ -1067,7 +1067,7 @@ int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
   case ORDER_OLD_BUILD_WONDER:
     /* Maps one to one with each other. */
     return ACTION_HELP_WONDER;
-  case ORDER_TRADE_ROUTE:
+  case ORDER_OLD_TRADE_ROUTE:
     /* Maps one to one with each other. */
     return ACTION_TRADE_ROUTE;
   case ORDER_MOVE:

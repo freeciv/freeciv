@@ -3735,8 +3735,6 @@ static int order_to_action(struct unit *punit, enum unit_orders order)
     } else {
       return ACTION_FOUND_CITY;
     }
-  case ORDER_TRADE_ROUTE:
-    return ACTION_TRADE_ROUTE;
   case ORDER_MOVE:
   case ORDER_ACTION_MOVE:
   case ORDER_FULL_MP:
@@ -3745,6 +3743,7 @@ static int order_to_action(struct unit *punit, enum unit_orders order)
   case ORDER_HOMECITY:
   case ORDER_PERFORM_ACTION:
   case ORDER_OLD_BUILD_WONDER:
+  case ORDER_OLD_TRADE_ROUTE:
   case ORDER_LAST:
     /* Not action enabler controlled. */
     break;
@@ -3854,7 +3853,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       break;
     case ORDER_BUILD_CITY:
     case ORDER_OLD_BUILD_WONDER:
-    case ORDER_TRADE_ROUTE:
+    case ORDER_OLD_TRADE_ROUTE:
       if (should_wait_for_mp(punit, order_to_action(punit, order.order))) {
         log_debug("  stopping. Not enough move points this turn");
         return TRUE;
@@ -4074,33 +4073,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
       break;
-    case ORDER_TRADE_ROUTE:
-      log_debug("  orders: establishing trade route.");
-      dst_tile = unit_tile(punit);
-
-      fc_assert_ret_val_msg(dst_tile, FALSE, "No tile for ordered unit");
-
-      if (tile_city(dst_tile) == NULL) {
-        cancel_orders(punit, "  trade route order with no city");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("Orders for %s aborted since they "
-                        "give a location without a city."),
-                      unit_link(punit));
-        return TRUE;
-      }
-
-      handle_unit_do_action(pplayer,
-                            unitid, tile_city(dst_tile)->id,
-                            0, "", ACTION_TRADE_ROUTE);
-      if (player_unit_by_number(pplayer, unitid)) {
-        cancel_orders(punit, "  no trade route city");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("Attempt to establish trade route for %s failed."),
-                      unit_link(punit));
-        return TRUE;
-      } else {
-	return FALSE;
-      }
     case ORDER_PERFORM_ACTION:
       log_debug("  orders: doing action %d", order.action);
 
@@ -4229,6 +4201,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       break;
     case ORDER_OLD_BUILD_WONDER:
+    case ORDER_OLD_TRADE_ROUTE:
     case ORDER_LAST:
       cancel_orders(punit, "  client sent invalid order!");
       notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,

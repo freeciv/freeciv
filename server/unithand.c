@@ -3687,10 +3687,10 @@ void handle_unit_orders(struct player *pplayer,
     case ORDER_FULL_MP:
     case ORDER_BUILD_CITY:
     case ORDER_DISBAND:
-    case ORDER_TRADE_ROUTE:
     case ORDER_HOMECITY:
       break;
     case ORDER_OLD_BUILD_WONDER:
+    case ORDER_OLD_TRADE_ROUTE:
       /* This order has been replaced with ORDER_PERFORM_ACTION and the
        * action it performs. */
       log_error("handle_unit_orders(): outdated client. "
