@@ -115,7 +115,8 @@ static void illegal_action(struct player *pplayer,
                            const struct tile *target_tile,
                            const struct city *target_city,
                            const struct unit *target_unit);
-static bool city_add_unit(struct player *pplayer, struct unit *punit);
+static bool city_add_unit(struct player *pplayer, struct unit *punit,
+                          struct city *pcity);
 static bool city_build(struct player *pplayer, struct unit *punit,
                        const char *name);
 static bool do_unit_establish_trade(struct player *pplayer,
@@ -1569,14 +1570,14 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        return city_add_unit(pplayer, actor_unit);
+        return city_add_unit(pplayer, actor_unit, pcity);
       } else if (unit_can_do_action(actor_unit, ACTION_JOIN_CITY)
-                 && !unit_can_add_to_city(actor_unit)) {
+                 && !unit_can_add_to_city(actor_unit, pcity)) {
         /* Keep the rules like they was before action enabler control:
          *  - detailed explanation of why something is illegal. */
         /* TODO: improve explanation about why an action failed. */
         city_add_or_build_error(pplayer, actor_unit,
-                                unit_join_city_test(actor_unit));
+                                unit_join_city_test(actor_unit, pcity));
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL);
@@ -1904,17 +1905,15 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
 }
 
 /**************************************************************************
- This function assumes that there is a valid city at punit->(x,y) It
- should only be called after a call to a function like
- test_unit_add_or_build_city, which does the checking.
+  This function assumes that the target city is valid. It should only be
+  called after checking that the unit legally can join the target city.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
-static bool city_add_unit(struct player *pplayer, struct unit *punit)
+static bool city_add_unit(struct player *pplayer, struct unit *punit,
+                          struct city *pcity)
 {
-  struct city *pcity = tile_city(unit_tile(punit));
-
   /* Sanity check: The actor is still alive. */
   if (!unit_alive(punit->id)) {
     return FALSE;

@@ -351,10 +351,11 @@ bool kills_citizen_after_attack(const struct unit *punit)
   Return TRUE iff this unit may be disbanded to add its pop_cost to a
   city at its current location.
 ****************************************************************************/
-bool unit_can_add_to_city(const struct unit *punit)
+bool unit_can_add_to_city(const struct unit *punit,
+                          const struct city *tgt_city)
 {
   return (unit_can_do_action(punit, ACTION_JOIN_CITY)
-          && unit_join_city_test(punit) == UAB_ADD_OK);
+          && unit_join_city_test(punit, tgt_city) == UAB_ADD_OK);
 }
 
 /****************************************************************************
@@ -373,7 +374,11 @@ bool unit_can_build_city(const struct unit *punit)
 ****************************************************************************/
 bool unit_can_add_or_build_city(const struct unit *punit)
 {
-  return unit_can_build_city(punit) || unit_can_add_to_city(punit);
+  struct city *tgt_city;
+
+  return (unit_can_build_city(punit)
+          || ((tgt_city = tile_city(unit_tile(punit)))
+              && unit_can_add_to_city(punit, tgt_city)));
 }
 
 /**************************************************************************
@@ -417,10 +422,8 @@ unit_build_city_test(const struct unit *punit)
   return a 'result' value telling what is allowed.
 **************************************************************************/
 enum unit_add_build_city_result
-unit_join_city_test(const struct unit *punit)
+unit_join_city_test(const struct unit *punit, const struct city *pcity)
 {
-  struct tile *ptile = unit_tile(punit);
-  struct city *pcity = tile_city(ptile);
   int new_pop;
 
   /* Test if we can build. */

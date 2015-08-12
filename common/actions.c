@@ -709,15 +709,8 @@ static bool is_action_possible(const enum gen_action wanted_action,
   }
 
   if (wanted_action == ACTION_JOIN_CITY) {
-    /* Reason: The Freeciv code assumes that the migrant unit is located
-     * inside the city it is trying to join. */
-    /* Info leak: The actor player knows where his unit is. */
-    if (unit_tile(actor_unit) != target_tile) {
-      return FALSE;
-    }
-
     /* TODO: Move more individual requirements to the action enabler. */
-    if (!unit_can_add_to_city(actor_unit)) {
+    if (!unit_can_add_to_city(actor_unit, target_city)) {
       return FALSE;
     }
   }

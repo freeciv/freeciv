@@ -211,7 +211,7 @@ Actions done by a unit against a city
 "Join City" - Add the actor to the target city's population.
  * UI name can be set using ui_name_join_city
  * actor must have population to add (set in pop_cost)
- * actor must be on the same tile as the target.
+ * actor must be on the same tile as the target or on the tile next to it.
  * target city population must not become higher that the add_to_size_limit
    setting permits.
  * target must be able to grow to the size that adding the unit would
