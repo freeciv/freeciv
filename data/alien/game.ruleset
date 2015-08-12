@@ -53,7 +53,7 @@ min_city_center_shield	= 1
 min_city_center_trade	= 1
 
 ; Square of initial city radius
-init_city_radius_sq     = 4
+init_city_radius_sq     = 3
 
 ; Square of initially visible radius (true distance).
 init_vis_radius_sq	= 5

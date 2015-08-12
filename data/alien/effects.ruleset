@@ -969,6 +969,14 @@ reqs    =
     "Tech", "Personal Contact", "Player"
   }
 
+[effect_square_map_city_radius]
+type  = "City_Radius_Sq"
+value = 1
+reqs  =
+    { "type", "name", "range", "present"
+      "Topology", "Hex", "World", FALSE
+    }
+
 [effect_transportation]
 type   = "City_Radius_Sq"
 value  = 1
