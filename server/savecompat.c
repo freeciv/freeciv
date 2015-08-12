@@ -1052,7 +1052,7 @@ int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
                        struct tile *tgt_tile)
 {
   switch (order) {
-  case ORDER_BUILD_CITY:
+  case ORDER_OLD_BUILD_CITY:
     if (tile_city(tgt_tile)
         && city_owner(tile_city(tgt_tile)) == unit_owner(act_unit)) {
       /* The player's cities are loaded right before his units. It wasn't

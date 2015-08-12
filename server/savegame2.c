@@ -570,7 +570,7 @@ static enum unit_orders char2order(char order)
     return ORDER_FULL_MP;
   case 'b':
   case 'B':
-    return ORDER_BUILD_CITY;
+    return ORDER_OLD_BUILD_CITY;
   case 'a':
   case 'A':
     return ORDER_ACTIVITY;

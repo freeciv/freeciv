@@ -704,6 +704,10 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(SETTLER, act);
   act->setShortcut(QKeySequence(tr("shift+b")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_go_build_city()));
+  act = menu->addAction(_("Go And Join City"));
+  menu_list.insertMulti(MIGRANT, act);
+  act->setShortcut(QKeySequence(tr("shift+j")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_go_join_city()));
   act = menu->addAction(_("Auto Settler"));
   act->setShortcut(QKeySequence(tr("a")));
   menu_list.insertMulti(AUTOSETTLER, act);
@@ -1145,7 +1149,13 @@ void mr_menu::menus_sensitive()
         break;
 
       case SETTLER:
-        if (can_units_do(punits, unit_can_add_or_build_city)) {
+        if (units_contain_cityfounder(punits)) {
+          i.value()->setEnabled(true);
+        }
+        break;
+
+      case MIGRANT:
+        if (units_can_do_action(punits, ACTION_JOIN_CITY, true)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -1491,7 +1501,15 @@ void mr_menu::slot_conn_road()
 ***************************************************************************/
 void mr_menu::slot_go_build_city()
 {
-  request_unit_goto(ORDER_BUILD_CITY, ACTION_COUNT);
+  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_FOUND_CITY);
+}
+
+/***************************************************************************
+  Action "GO TO AND JOIN CITY"
+***************************************************************************/
+void mr_menu::slot_go_join_city()
+{
+  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_JOIN_CITY);
 }
 
 /***************************************************************************

@@ -108,6 +108,7 @@
     <menu action="MENU_WORK">
       <menuitem action="BUILD_CITY" />
       <menuitem action="GO_BUILD_CITY" />
+      <menuitem action="GO_JOIN_CITY" />
       <menuitem action="AUTO_SETTLER" />
       <separator />
       <menuitem action="BUILD_ROAD" />

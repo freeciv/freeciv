@@ -271,7 +271,7 @@ void unit_register_battlegroup(struct unit *punit)
   Enter the given hover state.
 
     activity => The connect activity (ACTIVITY_IRRIGATE, etc.)
-    order => The last order (ORDER_BUILD_CITY, ORDER_LAST, etc.)
+    order => The last order (ORDER_PERFORM_ACTION, ORDER_LAST, etc.)
 **************************************************************************/
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity activity,

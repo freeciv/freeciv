@@ -70,6 +70,7 @@ enum munit {
   NUKE,
   UPGRADE,
   SETTLER,
+  MIGRANT,
   SAVE
 };
 
@@ -168,6 +169,7 @@ private slots:
   /*used by work menu*/
   void slot_build_city();
   void slot_go_build_city();
+  void slot_go_join_city();
   void slot_auto_settler();
   void slot_build_road();
   void slot_build_irrigation();

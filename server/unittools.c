@@ -3724,36 +3724,6 @@ static bool should_wait_for_mp(struct unit *punit, int action_id)
 }
 
 /**************************************************************************
-  Returns the action id corresponding to the specified order id.
-**************************************************************************/
-static int order_to_action(struct unit *punit, enum unit_orders order)
-{
-  switch (order) {
-  case ORDER_BUILD_CITY:
-    if (tile_city(unit_tile(punit))) {
-      return ACTION_JOIN_CITY;
-    } else {
-      return ACTION_FOUND_CITY;
-    }
-  case ORDER_MOVE:
-  case ORDER_ACTION_MOVE:
-  case ORDER_FULL_MP:
-  case ORDER_ACTIVITY:
-  case ORDER_DISBAND:
-  case ORDER_HOMECITY:
-  case ORDER_PERFORM_ACTION:
-  case ORDER_OLD_BUILD_WONDER:
-  case ORDER_OLD_TRADE_ROUTE:
-  case ORDER_LAST:
-    /* Not action enabler controlled. */
-    break;
-  }
-
-  fc_assert_msg(FALSE, "No action to map order to.");
-  return ACTION_COUNT;
-}
-
-/**************************************************************************
   Returns TRUE iff it is reasonable to assume that the player is wathing
   the unit.
 
@@ -3851,14 +3821,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
       break;
-    case ORDER_BUILD_CITY:
-    case ORDER_OLD_BUILD_WONDER:
-    case ORDER_OLD_TRADE_ROUTE:
-      if (should_wait_for_mp(punit, order_to_action(punit, order.order))) {
-        log_debug("  stopping. Not enough move points this turn");
-        return TRUE;
-      }
-      break;
     case ORDER_PERFORM_ACTION:
       if (should_wait_for_mp(punit, order.action)) {
         log_debug("  stopping. Not enough move points this turn");
@@ -3868,6 +3830,9 @@ bool execute_orders(struct unit *punit, const bool fresh)
     case ORDER_ACTIVITY:
     case ORDER_DISBAND:
     case ORDER_HOMECITY:
+    case ORDER_OLD_BUILD_CITY:
+    case ORDER_OLD_BUILD_WONDER:
+    case ORDER_OLD_TRADE_ROUTE:
     case ORDER_LAST:
       /* Those actions don't require moves left. */
       break;
@@ -3901,33 +3866,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
 	send_unit_info(NULL, punit);
       }
       break;
-    case ORDER_BUILD_CITY:
-      if (tile_city(unit_tile(punit))) {
-        handle_unit_do_action(pplayer, unitid,
-                              tile_city(unit_tile(punit))->id,
-                              0, "",
-                              ACTION_JOIN_CITY);
-        log_debug("  joining city");
-      } else {
-        handle_unit_do_action(pplayer, unitid, unit_tile(punit)->index,
-                              0, city_name_suggestion(pplayer,
-                                                      unit_tile(punit)),
-                              ACTION_FOUND_CITY);
-        log_debug("  building city");
-      }
-
-      if (player_unit_by_number(pplayer, unitid)) {
-	/* Build failed. */
-	cancel_orders(punit, " orders canceled; failed to build city");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("Orders for %s aborted because building "
-                        "of city failed."),
-                      unit_link(punit));
-	return TRUE;
-      } else {
-	/* Build succeeded => unit "died" */
-	return FALSE;
-      }
     case ORDER_ACTIVITY:
       activity = order.activity;
       {
@@ -4200,6 +4138,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
 
       break;
+    case ORDER_OLD_BUILD_CITY:
     case ORDER_OLD_BUILD_WONDER:
     case ORDER_OLD_TRADE_ROUTE:
     case ORDER_LAST:

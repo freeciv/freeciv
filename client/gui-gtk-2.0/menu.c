@@ -1064,7 +1064,15 @@ static void build_city_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void go_build_city_callback(GtkAction *action, gpointer data)
 {
-  request_unit_goto(ORDER_BUILD_CITY, ACTION_COUNT);
+  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_FOUND_CITY);
+}
+
+/****************************************************************
+  Action "GO_JOIN_CITY" callback.
+*****************************************************************/
+static void go_join_city_callback(GtkAction *action, gpointer data)
+{
+  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_JOIN_CITY);
 }
 
 /****************************************************************
@@ -1682,6 +1690,8 @@ static GtkActionGroup *get_unit_group(void)
        "b", NULL, G_CALLBACK(build_city_callback)},
       {"GO_BUILD_CITY", NULL, _("Go _to and Build city"),
        "<Shift>b", NULL, G_CALLBACK(go_build_city_callback)},
+      {"GO_JOIN_CITY", NULL, _("Go to and Join city"),
+       "<Shift>j", NULL, G_CALLBACK(go_join_city_callback)},
       {"AUTO_SETTLER", NULL, _("_Auto Settler"),
        "a", NULL, G_CALLBACK(auto_settle_callback)},
 
@@ -2184,6 +2194,8 @@ void real_menus_update(void)
              || can_units_do(punits, unit_can_help_build_wonder_here)));
   menus_set_sensitive(unit_group, "GO_BUILD_CITY",
                       units_contain_cityfounder(punits));
+  menus_set_sensitive(unit_group, "GO_JOIN_CITY",
+                      units_can_do_action(punits, ACTION_JOIN_CITY, TRUE));
   menus_set_sensitive(unit_group, "BUILD_ROAD",
                       (can_units_do_any_road(punits)
                        || can_units_do(punits,

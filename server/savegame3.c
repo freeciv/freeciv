@@ -704,7 +704,15 @@ static enum unit_orders char2order(char order)
     return ORDER_FULL_MP;
   case 'b':
   case 'B':
-    return ORDER_BUILD_CITY;
+#ifdef FREECIV_DEV_SAVE_COMPAT
+    /* Will be upgraded with sg_order_to_action(). */
+    return ORDER_OLD_BUILD_CITY;
+#else /* FREECIV_DEV_SAVE_COMPAT */
+    /* This order isn't supposed to show up in version 3 save games. */
+    log_error("Corrupt save game: build city ordered the old way.");
+
+    return ORDER_LAST;
+#endif /* FREECIV_DEV_SAVE_COMPAT */
   case 'a':
   case 'A':
     return ORDER_ACTIVITY;
@@ -760,8 +768,6 @@ static char order2char(enum unit_orders order)
     return 'w';
   case ORDER_ACTIVITY:
     return 'a';
-  case ORDER_BUILD_CITY:
-    return 'b';
   case ORDER_DISBAND:
     return 'd';
   case ORDER_HOMECITY:
@@ -770,6 +776,7 @@ static char order2char(enum unit_orders order)
     return 'x';
   case ORDER_PERFORM_ACTION:
     return 'p';
+  case ORDER_OLD_BUILD_CITY:
   case ORDER_OLD_BUILD_WONDER:
   case ORDER_OLD_TRADE_ROUTE:
   case ORDER_LAST:
@@ -5374,10 +5381,10 @@ static void sg_save_player_units(struct savedata *saving,
           }
           break;
         case ORDER_FULL_MP:
-        case ORDER_BUILD_CITY:
         case ORDER_DISBAND:
         case ORDER_HOMECITY:
         case ORDER_ACTION_MOVE:
+        case ORDER_OLD_BUILD_CITY:
         case ORDER_OLD_BUILD_WONDER:
         case ORDER_OLD_TRADE_ROUTE:
         case ORDER_LAST:
