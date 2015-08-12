@@ -473,11 +473,10 @@ static void Mac_options(int argc)
 #define HARDCODED_OPT
   /*temporary hack since GetNewDialog() doesn't want to work*/
 #ifdef HARDCODED_OPT
-  srvarg.log_filename="log.out";
-  srvarg.loglevel=LOG_DEBUG;
+  srvarg.log_filename = "log.out";
+  srvarg.loglevel = LOG_DEBUG;
 #else  /* HARDCODED_OPT */
-  if (argc == 0)
-  {
+  if (argc == 0) {
     OSErr err;
     DialogPtr  optptr;
     Ptr storage;
@@ -489,51 +488,45 @@ static void Mac_options(int argc)
     short the_item, old_item=16;
     int done = false;
     Str255 the_string;
-    /*load/init the stuff for the dialog*/
-    storage =NewPtr(sizeof(DialogRecord));
-    if (storage == 0)
-    {
+
+    /* load/init the stuff for the dialog */
+    storage = NewPtr(sizeof(DialogRecord));
+    if (storage == 0) {
       exit(EXIT_FAILURE);
     }
-    ditl=Get1Resource('DITL',200);
-    if ((ditl == 0)||(ResError()))
-    {
+    ditl = Get1Resource('DITL',200);
+    if ((ditl == 0) || (ResError())) {
       exit(EXIT_FAILURE);
     }
-    dlog=Get1Resource('DLOG',200);
-    if ((dlog == 0)||(ResError()))
-    {
+    dlog = Get1Resource('DLOG',200);
+    if ((dlog == 0) || (ResError())) {
       exit(EXIT_FAILURE);
     }
-    /*make the dialog*/
-    optptr=GetNewDialog(200, storage, (WindowPtr)-1L);
-    /*setup the dialog*/
-    err=SetDialogDefaultItem(optptr, 1);
-    if (err != 0)
-    {
+    /* make the dialog */
+    optptr = GetNewDialog(200, storage, (WindowPtr)-1L);
+    /* setup the dialog */
+    err = SetDialogDefaultItem(optptr, 1);
+    if (err != 0) {
       exit(EXIT_FAILURE);
     }
-    /*insert default highlight draw code?*/
+    /* insert default highlight draw code? */
     err=SetDialogCancelItem(optptr, 2);
-    if (err != 0)
-    {
+    if (err != 0) {
       exit(EXIT_FAILURE);
     }
     err=SetDialogTracksCursor(optptr, true);
-    if (err != 0)
-    {
+    if (err != 0) {
       exit(EXIT_FAILURE);
     }
     GetDItem(optptr, 16/*normal radio button*/, &the_type, &the_handle, &the_rect);
     SetCtlValue((ControlHandle)the_handle, true);
 
-    while(!done)/*loop*/
+    while (!done) /* loop */
     {
       ModalDialog(0L, &the_item);/* don't feed 0 where a upp is expected? */
       	/* old book suggests using OL(NIL) as the first argument, but
            It doesn't include anything about UPPs either, so... */
-      switch (the_item)
-      {
+      switch (the_item) {
         case 1:
           done = true;
         break;
@@ -567,19 +560,16 @@ static void Mac_options(int argc)
     GetDItem( optptr, 10, &the_type, &the_handle, &the_rect);
     GetIText( the_handle, (unsigned char *)srvarg.script_filename);
     GetDItem(optptr, 15, &the_type, &the_handle, &the_rect);
-    if(GetControlValue((ControlHandle)the_handle))
-    {
-      srvarg.loglevel=LOG_FATAL;
+    if (GetControlValue((ControlHandle)the_handle)) {
+      srvarg.loglevel = LOG_FATAL;
     }
     GetDItem(optptr, 16, &the_type, &the_handle, &the_rect);
-    if(GetControlValue((ControlHandle)the_handle))
-    {
-      srvarg.loglevel=LOG_NORMAL;
+    if (GetControlValue((ControlHandle)the_handle)) {
+      srvarg.loglevel = LOG_NORMAL;
     }
     GetDItem(optptr, 17, &the_type, &the_handle, &the_rect);
-    if(GetControlValue((ControlHandle)the_handle))
-    {
-      srvarg.loglevel=LOG_VERBOSE;
+    if (GetControlValue((ControlHandle)the_handle)) {
+      srvarg.loglevel = LOG_VERBOSE;
     }
     DisposeDialog(optptr);/*get rid of the dialog after sorting out the options*/
     DisposePtr(storage);/*clean up the allocated memory*/
