@@ -89,7 +89,8 @@ struct client_options
 {
   char default_user_name[512];
   char default_server_host[512];
-  int default_server_port; 
+  int  default_server_port;
+  bool use_prev_server;
   char default_metaserver[512];
   char default_tileset_name[512];
   char default_sound_set_name[512];

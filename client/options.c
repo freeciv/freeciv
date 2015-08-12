@@ -80,6 +80,8 @@ struct client_options options = {
 
   .save_options_on_exit = TRUE,
 
+  .use_prev_server = FALSE,
+
 /** Migrations **/
   .gui_gtk3_migrated_from_gtk2 = FALSE,
   .gui_sdl2_migrated_from_sdl = FALSE,
@@ -1751,6 +1753,14 @@ static struct client_option client_options[] = {
                     "in the connection dialogs or with the -a command-line "
                     "parameter."),
                  COC_NETWORK, GUI_STUB, NULL, NULL),
+  GEN_BOOL_OPTION(use_prev_server, N_("Default to previously used server"),
+                  N_("Automatically update \"Server\" and \"Server port\" "
+                     "options to match your latest connection, so by "
+                     "default you connect to the same server you used "
+                     "on the previous run. You should enable "
+                     "saving options on exit too, so that the automatic "
+                     "updates to the options get saved too."),
+                  COC_NETWORK, GUI_STUB, NULL, NULL),
   GEN_STR_OPTION(default_server_host,
                  N_("Server"),
                  N_("This is the default server hostname that will be used "

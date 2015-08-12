@@ -615,7 +615,9 @@ int client_main(int argc, char *argv[])
     sz_strlcpy(sound_plugin_name, options.default_sound_plugin_name); 
   }
   if (server_host[0] == '\0') {
-    sz_strlcpy(server_host, options.default_server_host); 
+    sz_strlcpy(server_host, options.default_server_host);
+  } else if (options.use_prev_server) {
+    sz_strlcpy(options.default_server_host, server_host);
   }
   if (user_name[0] == '\0') {
     sz_strlcpy(user_name, options.default_user_name); 
@@ -639,6 +641,8 @@ int client_main(int argc, char *argv[])
   }
   if (server_port == -1) {
     server_port = options.default_server_port;
+  } else if (options.use_prev_server) {
+    options.default_server_port = server_port;
   }
 
   /* This seed is not saved anywhere; randoms in the client should
