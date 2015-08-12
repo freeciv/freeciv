@@ -252,6 +252,11 @@ int connect_to_server(const char *username, const char *hostname, int port,
     return -1;
   }
 
+  if (options.use_prev_server) {
+    sz_strlcpy(options.default_server_host, hostname);
+    options.default_server_port = port;
+  }
+
   return 0;
 }
 
