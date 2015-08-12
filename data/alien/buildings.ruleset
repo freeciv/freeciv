@@ -374,7 +374,8 @@ sound_alt	= "b_generic"
 helptext	= _("\
 City workers can travel further from city center to work and \
 goods can be transported from further away to city center. \
-Makes city area 8 tiles bigger.\
+On hex maps city radius grows to 2 tiles. \
+On square based maps increases city area by 8 tiles.\
 ")
 
 [building_radar_tower]

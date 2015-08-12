@@ -112,7 +112,8 @@ This list is incomplete
 
 - Water Engineer build_cost increased to 40, like other City Founding units
 
-- Hex topology is used by default
+- Hex topology is used by default. On hex maps Transportation building
+  increases city radius to 2 tiles.
 
 - Stealth Spies cannot establish embassies. They are already granted by
   "Communication" tech
