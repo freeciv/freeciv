@@ -303,6 +303,9 @@ void establish_new_connection(struct connection *pconn)
     reset_all_start_commands(TRUE);
     (void) send_server_info_to_metaserver(META_INFO);
   }
+
+  send_current_history_report(pconn->self);
+
   conn_compression_thaw(pconn);
 }
 
