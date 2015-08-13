@@ -590,7 +590,7 @@ void put_cross_overlay_tile(struct tile *ptile)
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(gtk_widget_get_window(map_canvas), map_zoom,
-			    canvas_x, canvas_y,
+			    canvas_x / map_zoom, canvas_y / map_zoom,
 			    get_attention_crosshair_sprite(tileset));
   }
 }
