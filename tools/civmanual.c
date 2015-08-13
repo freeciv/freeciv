@@ -80,7 +80,7 @@ enum manuals {
 };
 
 /* This formats the manual for an HTML wiki. */
-#ifdef USE_HTML
+#ifdef MANUAL_USE_HTML
 #define HEADER "<html><head><link rel=\"stylesheet\" type=\"text/css\" "\
                "href=\"manual.css\"/><meta http-equiv=\"Content-Type\" "\
                "content=\"text/html; charset=UTF-8\"/></head><body>\n\n"
@@ -90,7 +90,7 @@ enum manuals {
 #define IMAGE_END ".png\">"
 #define SEPARATOR " "
 #define TAIL "</body></html>"
-#else
+#else  /* MANUAL_USE_HTML */
 #define HEADER " "
 #define SECTION_BEGIN "==="
 #define SECTION_END "==="
@@ -98,7 +98,7 @@ enum manuals {
 #define IMAGE_END ".png]]"
 #define SEPARATOR "----\n\n"
 #define TAIL " "
-#endif
+#endif /* MANUAL_USE_HTML */
 
 void insert_client_build_info(char *outbuf, size_t outlen);
 

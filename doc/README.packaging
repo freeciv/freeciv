@@ -41,6 +41,11 @@ Updating from 2.5 to 2.6
   SDL1.2-mixer
 * Server now saves its readline history to file
   "~/.freeciv/freeciv-server_history" instead of "~/.freeciv-server_history"
+* Configure option --with-freeciv-manual / --without-freeciv-manual has
+  been replaced with --enable-freeciv-manual / --disable-freeciv-manual
+  that can take also value --enable-freeciv-manual=html to make
+  freeciv-manual that produces manuals with alternative formatting,
+  default still being wiki formatting.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
