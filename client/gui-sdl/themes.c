@@ -53,7 +53,7 @@ void gui_clear_theme(void)
   theme_free(theme);
   if (!load_theme(options.gui_sdl_default_theme_name)) {
     /* TRANS: No full stop after the URL, could cause confusion. */
-    log_fatal(_("No gui-sdl theme was found. For instructions on how to "
+    log_fatal(_("No Sdl-client theme was found. For instructions on how to "
                 "get one, please visit %s"), WIKI_URL);
     exit(EXIT_FAILURE);
   }
