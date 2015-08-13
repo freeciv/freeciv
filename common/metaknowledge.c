@@ -366,12 +366,6 @@ static bool is_req_knowable(const struct player *pow_player,
   }
 
   if (req->source.kind == VUT_IMPROVEMENT) {
-    /* Anyone that can see city internals (like the owner) */
-    if (can_player_see_city_internals(pow_player, target_city)) {
-      return TRUE;
-    }
-
-    /* Cities not owned by pow_player */
     switch (req->range) {
     case REQ_RANGE_WORLD:
     case REQ_RANGE_ALLIANCE:
@@ -390,6 +384,11 @@ static bool is_req_knowable(const struct player *pow_player,
       return FALSE;
     case REQ_RANGE_CITY:
     case REQ_RANGE_LOCAL:
+      if (can_player_see_city_internals(pow_player, target_city)) {
+        /* Anyone that can see city internals (like the owner) */
+        return TRUE;
+      }
+
       /* Can't see invisible improvements in foreign cities. */
       if (!is_improvement_visible(req->source.value.building)) {
         return FALSE;
