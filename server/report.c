@@ -60,6 +60,10 @@ struct logging_civ_score {
   struct plrdata_slot *plrdata;
 };
 
+/* Have to be initialized to value less than -1 so it doesn't seem like report was created at
+ * the end of previous turn in the beginning to turn 0. */
+struct history_report latest_history_report = { -2 };
+
 static struct logging_civ_score *score_log = NULL;
 
 static void plrdata_slot_init(struct plrdata_slot *plrdata,
@@ -227,15 +231,15 @@ static int secompare(const void *a, const void *b)
 }
 
 /**************************************************************************
-  Publish historian report.
+  Construct Historian Report
 **************************************************************************/
-static void historian_generic(enum historian_type which_news)
+static void historian_generic(struct history_report *report,
+                              enum historian_type which_news)
 {
   int i, j = 0, rank = 0;
-  char buffer[4096];
-  char title[1024];
   struct player_score_entry size[player_count()];
 
+  report->turn = game.info.turn;
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)) {
       switch(which_news) {
@@ -264,7 +268,7 @@ static void historian_generic(enum historian_type which_news)
   } players_iterate_end;
 
   qsort(size, j, sizeof(size[0]), secompare);
-  buffer[0] = '\0';
+  report->body[0] = '\0';
   for (i = 0; i < j; i++) {
     if (i > 0 && size[i].value < size[i - 1].value) {
       /* since i < j, only top entry reigns Supreme */
@@ -274,17 +278,28 @@ static void historian_generic(enum historian_type which_news)
       /* clamp to final entry */
       rank = ARRAY_SIZE(ranking) - 1;
     }
-    cat_snprintf(buffer, sizeof(buffer),
+    cat_snprintf(report->body, REPORT_BODYSIZE,
 		 _(ranking[rank]),
 		 i + 1,
 		 nation_plural_for_player(size[i].player));
-    fc_strlcat(buffer, "\n", sizeof(buffer));
+    fc_strlcat(report->body, "\n", REPORT_BODYSIZE);
   }
-  fc_snprintf(title, sizeof(title), _(historian_message[which_news]),
+  fc_snprintf(report->title, REPORT_TITLESIZE, _(historian_message[which_news]),
               calendar_text(),
               _(historian_name[fc_rand(ARRAY_SIZE(historian_name))]));
-  page_conn_etype(game.est_connections, _("Historian Publishes!"),
-		  title, buffer, E_BROADCAST_REPORT);
+}
+
+/**************************************************************************
+  Send history report of this turn.
+**************************************************************************/
+void send_current_history_report(struct conn_list *dest)
+{
+  /* History report is actually constructed at the end of previous turn. */
+  if (latest_history_report.turn >= game.info.turn - 1) {
+    page_conn_etype(dest, _("Historian Publishes!"),
+                    latest_history_report.title, latest_history_report.body,
+                    E_BROADCAST_REPORT);
+  }
 }
 
 /**************************************************************************
@@ -1283,6 +1298,8 @@ void log_civ_score_init(void)
                                    + player_slot_index(pslot);
     plrdata->name = NULL;
   } player_slots_iterate_end;
+
+  latest_history_report.turn = -2;
 }
 
 /**************************************************************************
@@ -1525,7 +1542,8 @@ void make_history_report(void)
   game.server.scoreturn = (game.info.turn + GAME_DEFAULT_SCORETURN
                            + fc_rand(GAME_DEFAULT_SCORETURN));
 
-  historian_generic(game.server.scoreturn % HISTORIAN_LAST);
+  historian_generic(&latest_history_report, game.server.scoreturn % HISTORIAN_LAST);
+  send_current_history_report(game.est_connections);
 }
 
 /**************************************************************************
