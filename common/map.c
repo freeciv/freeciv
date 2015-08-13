@@ -697,10 +697,11 @@ static int tile_move_cost_ptrs(const struct unit *punit,
 
   } else if (!is_native_tile_to_class(pclass, t1)) {
     if (game.info.slow_invasions
+        && !(punit && unit_has_type_flag(punit, UTYF_BEACH_LANDER))
         && tile_city(t1) == NULL) {
       /* If "slowinvasions" option is turned on, units moving from
        * non-native terrain (from transport) to native terrain lose all
-       * their movement.
+       * their movement unless they have the BeachLander unit type flag.
        * e.g. ground units moving from sea to land */
       if (punit != NULL) {
         return punit->moves_left;

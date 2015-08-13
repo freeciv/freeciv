@@ -3917,6 +3917,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* Can launch attack from non-native tiles.\n"));
   }
+  if (game.info.slow_invasions
+      && utype_has_flag(utype, UTYF_BEACH_LANDER)) {
+    /* BeachLander only matters when slow_invasions are enabled. */
+    CATLSTR(buf, bufsz,
+            _("* Won't lose all movement when moving from non-native "
+              "terrain to native terrain.\n"));
+  }
   if (utype_has_flag(utype, UTYF_PARATROOPERS)) {
     cat_snprintf(buf, bufsz,
 		 _("* Can be paradropped from a friendly city or suitable base"
