@@ -2309,8 +2309,9 @@ reqs	=
 type	= "Casus_Belli_Caught"
 value	= 1000
 reqs	=
-    { "type", "name", "range"
-      "Action", "Suitcase Nuke", "Local"
+    { "type", "name", "range", "present"
+      "Action", "Suitcase Nuke", "Local", TRUE
+      "Gov", "Fundamentalism", "Player", FALSE
     }
 
 ; TODO: Find the exact probability
