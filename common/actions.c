@@ -28,6 +28,8 @@
 #include "tile.h"
 
 static struct action *actions[ACTION_COUNT];
+static bool actions_initialized = FALSE;
+
 static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 
 static struct action *action_new(enum gen_action id,
@@ -104,6 +106,9 @@ void actions_init(void)
   action_iterate(act) {
     action_enablers_by_action[act] = action_enabler_list_new();
   } action_iterate_end;
+
+  /* The actions them self are now initialized. */
+  actions_initialized = TRUE;
 }
 
 /**************************************************************************
@@ -111,6 +116,9 @@ void actions_init(void)
 **************************************************************************/
 void actions_free(void)
 {
+  /* Don't consider the actions to be initialized any longer. */
+  actions_initialized = FALSE;
+
   action_iterate(act) {
     action_enabler_list_iterate(action_enablers_by_action[act], enabler) {
       requirement_vector_free(&enabler->actor_reqs);
@@ -122,6 +130,32 @@ void actions_free(void)
 
     free(actions[act]);
   } action_iterate_end;
+}
+
+/**************************************************************************
+  Returns TRUE iff the actions are initialized.
+
+  Doesn't care about action enablers.
+**************************************************************************/
+bool actions_are_ready(void)
+{
+  if (!actions_initialized) {
+    /* The actions them self aren't initialized yet. */
+    return FALSE;
+  }
+
+  action_iterate(act) {
+    if (actions[act]->ui_name[0] == '\0') {
+      /* An action without a UI name exists means that the ruleset haven't
+       * loaded yet. The ruleset loading will assign a default name to
+       * any actions not named by the ruleset. The client will get this
+       * name from the server. */
+      return FALSE;
+    }
+  } action_iterate_end;
+
+  /* The actions should be ready for use. */
+  return TRUE;
 }
 
 /**************************************************************************
@@ -142,6 +176,7 @@ static struct action *action_new(enum gen_action id,
 
   /* The ui_name is loaded from the ruleset. Until generalized actions
    * are ready it has to be defined seperatly from other action data. */
+  action->ui_name[0] = '\0';
 
   return action;
 }
@@ -221,7 +256,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
   /* Text representation of the probability. */
   const char* probtxt;
 
-  if (actions[action_id] == NULL) {
+  if (!actions_are_ready()) {
     /* Could be a client who haven't gotten the ruleset yet */
 
     /* so there shouldn't be any action probability to show */
