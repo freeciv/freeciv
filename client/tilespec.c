@@ -5973,7 +5973,6 @@ void tileset_use_prefered_theme(const struct tileset *t)
     default_theme_name_sz = sizeof(options.gui_sdl_default_theme_name);
     break;
   case GUI_STUB:
-  case GUI_XAW:
   case GUI_QT:
   case GUI_WEB:
     break;
