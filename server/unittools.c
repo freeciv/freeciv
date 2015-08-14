@@ -4101,6 +4101,10 @@ bool execute_orders(struct unit *punit, const bool fresh)
                       action_get_ui_name(order.action),
                       tile_link(dst_tile));
 
+        /* Try to explain what rule made it illegal. */
+        illegal_action_msg(unit_owner(punit), E_BAD_COMMAND, punit,
+                           order.action, dst_tile, tgt_city, NULL);
+
         return TRUE;
       }
 

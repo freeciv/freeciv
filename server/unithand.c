@@ -1021,13 +1021,13 @@ void handle_unit_get_actions(struct connection *pc,
   action is illegal or E_UNIT_ILLEGAL_ACTION if the player potentially new
   information is being revealed.
 **************************************************************************/
-static void illegal_action_msg(struct player *pplayer,
-                               const enum event_type event,
-                               struct unit *actor,
-                               const int stopped_action,
-                               const struct tile *target_tile,
-                               const struct city *target_city,
-                               const struct unit *target_unit)
+void illegal_action_msg(struct player *pplayer,
+                        const enum event_type event,
+                        struct unit *actor,
+                        const int stopped_action,
+                        const struct tile *target_tile,
+                        const struct city *target_city,
+                        const struct unit *target_unit)
 {
   struct ane_expl *expl;
 

@@ -37,4 +37,12 @@ bool unit_perform_action(struct player *pplayer,
                          const char *name,
                          const enum gen_action action_type);
 
+void illegal_action_msg(struct player *pplayer,
+                        const enum event_type event,
+                        struct unit *actor,
+                        const int stopped_action,
+                        const struct tile *target_tile,
+                        const struct city *target_city,
+                        const struct unit *target_unit);
+
 #endif  /* FC__UNITHAND_H */
