@@ -3643,6 +3643,7 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       case ACTION_ESTABLISH_EMBASSY:
+      case ACTION_SPY_INVESTIGATE_CITY:
       case ACTION_TRADE_ROUTE:
       case ACTION_MARKETPLACE:
       case ACTION_HELP_WONDER:
