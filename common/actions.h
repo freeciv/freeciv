@@ -189,6 +189,8 @@ struct action_enabler
 void actions_init(void);
 void actions_free(void);
 
+bool actions_are_ready(void);
+
 struct action *action_by_number(int action_id);
 struct action *action_by_rule_name(const char *name);
 
