@@ -173,6 +173,8 @@ void actions_free(void);
 
 bool actions_are_ready(void);
 
+bool action_id_is_valid(const int action_id);
+
 struct action *action_by_number(int action_id);
 
 enum action_actor_kind action_get_actor_kind(int action_id);

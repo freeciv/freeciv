@@ -182,6 +182,14 @@ static struct action *action_new(enum gen_action id,
 }
 
 /**************************************************************************
+  Returns TRUE iff the specified action ID refers to a valid action.
+**************************************************************************/
+bool action_id_is_valid(const int action_id)
+{
+  return gen_action_is_valid(action_id);
+}
+
+/**************************************************************************
   Return the action with the given id.
 **************************************************************************/
 struct action *action_by_number(int action_id)
@@ -263,7 +271,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
     fc_assert(prob == ACTPROB_NA);
 
     /* but the action should be valid */
-    fc_assert_ret_val_msg(gen_action_is_valid(action_id),
+    fc_assert_ret_val_msg(action_id_is_valid(action_id),
                           "Invalid action",
                           "Invalid action %d", action_id);
 

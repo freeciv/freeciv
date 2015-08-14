@@ -5289,7 +5289,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
           }
 
           action = gen_action_by_name(action_text, fc_strcasecmp);
-          if (!gen_action_is_valid(action)) {
+          if (!action_id_is_valid(action)) {
             ruleset_error(LOG_ERROR, "\"%s\" [%s] lists unknown action type \"%s\".",
                           filename, sec_name, action_text);
             ok = FALSE;
