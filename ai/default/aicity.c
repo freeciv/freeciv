@@ -1098,7 +1098,7 @@ static int action_target_neg_util(int action_id,
                   "Action not aimed at cities");
   }
 
-  fc_assert_msg(gen_action_is_valid(action_id),
+  fc_assert_msg(action_id_is_valid(action_id),
                 "Action %d don't exist.", action_id);
 
   /* Wrong action. Ignore it. */
