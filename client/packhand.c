@@ -2919,6 +2919,11 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   city_styles_alloc(game.control.styles_count);
   music_styles_alloc(game.control.num_music_styles);
 
+  if (game.control.desc_length > 0) {
+    game.ruleset_description = fc_malloc(game.control.desc_length + 1);
+    game.ruleset_description[0] = '\0';
+  }
+
   if (packet->prefered_tileset[0] != '\0') {
     /* There is tileset suggestion */
     if (strcmp(packet->prefered_tileset, tileset_get_name(tileset))) {
@@ -2956,6 +2961,16 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   }
 
   tileset_ruleset_reset(tileset);
+}
+
+/****************************************************************************
+  Next part of ruleset description.
+****************************************************************************/
+void handle_ruleset_description_part(
+                        const struct packet_ruleset_description_part *packet)
+{
+  fc_strlcat(game.ruleset_description, packet->text,
+             game.control.desc_length + 1);
 }
 
 /****************************************************************************

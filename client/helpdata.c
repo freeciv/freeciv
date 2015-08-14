@@ -3001,28 +3001,28 @@ void boot_help_texts(struct player *pplayer)
             fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                         Q_(HELP_RULESET_ITEM));
             pitem->topic = fc_strdup(name);
-            if (game.control.description[0] != '\0') {
+            if (game.ruleset_description != NULL) {
               if (game.control.version[0] != '\0') {
                 int len = strlen(_(game.control.name))
                   + strlen(" ")
                   + strlen(game.control.version)
                   + strlen("\n\n")
-                  + strlen(_(game.control.description))
+                  + strlen(_(game.ruleset_description))
                   + 1;
 
                 pitem->text = fc_malloc(len);
                 fc_snprintf(pitem->text, len, "%s %s\n\n%s",
                             _(game.control.name), game.control.version,
-                            _(game.control.description));
+                            _(game.ruleset_description));
               } else {
                 int len = strlen(_(game.control.name))
                   + strlen("\n\n")
-                  + strlen(_(game.control.description))
+                  + strlen(_(game.ruleset_description))
                   + 1;
 
                 pitem->text = fc_malloc(len);
                 fc_snprintf(pitem->text, len, "%s\n\n%s",
-                            _(game.control.name), _(game.control.description));
+                            _(game.control.name), _(game.ruleset_description));
               }
             } else {
               const char *nodesc = _("Current ruleset contains no description.");

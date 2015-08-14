@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 248
+Max id: 249
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -672,7 +672,7 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
   STRING name[MAX_LEN_NAME];
 end
 
-PACKET_TRADEROUTE_INFO = 248; sc, lsend, handle-via-packet
+PACKET_TRADEROUTE_INFO = 249; sc, lsend, handle-via-packet
   CITY city;
   UINT8 index;
   CITY partner;
@@ -1609,7 +1609,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   BV_ROAD_FLAGS flags;
 end
 
-PACKET_RULESET_GOODS = 247; sc, lsend
+PACKET_RULESET_GOODS = 248; sc, lsend
   UINT8 id;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
@@ -1710,7 +1710,11 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
 
   STRING name[MAX_LEN_NAME];
   STRING version[MAX_LEN_NAME];
-  STRING description[MAX_LEN_PACKET];
+  UINT16  desc_length;
+end
+
+PACKET_RULESET_DESCRIPTION_PART = 247; sc, lsend
+  STRING text[MAX_LEN_CONTENT];
 end
 
 /*********************************************************

@@ -56,6 +56,7 @@ struct timer_list;
 #define MAX_LEN_PACKET   4096
 #define MAX_LEN_CAPSTR    512
 #define MAX_LEN_PASSWORD  512 /* do not change this under any circumstances */
+#define MAX_LEN_CONTENT  (MAX_LEN_PACKET - 20)
 
 #define MAX_LEN_BUFFER   (MAX_LEN_PACKET * 128)
 
