@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 246
+Max id: 247
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1697,7 +1697,11 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
 
   STRING name[MAX_LEN_NAME];
   STRING version[MAX_LEN_NAME];
-  STRING description[MAX_LEN_PACKET];
+  UINT16  desc_length;
+end
+
+PACKET_RULESET_DESCRIPTION_PART = 247; sc, lsend
+  STRING text[MAX_LEN_CONTENT];
 end
 
 /*********************************************************

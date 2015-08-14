@@ -273,6 +273,8 @@ static void game_defaults(void)
   game.control.styles_count            = 0;
   game.control.terrain_count           = 0;
 
+  game.ruleset_description   = NULL;
+
   /* The info packet. */
   game.info.aifill           = GAME_DEFAULT_AIFILL;
   game.info.airlifting_style = GAME_DEFAULT_AIRLIFTINGSTYLE;
@@ -599,6 +601,11 @@ void game_ruleset_free(void)
 
   for (i = 0; i < MAX_CALENDAR_FRAGMENTS; i++) {
     game.info.calendar_fragment_name[i][0] = '\0';
+  }
+
+  if (game.ruleset_description != NULL) {
+    free(game.ruleset_description);
+    game.ruleset_description = NULL;
   }
 }
 

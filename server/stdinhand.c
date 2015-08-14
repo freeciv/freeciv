@@ -2007,8 +2007,8 @@ static void show_ruleset_info(struct connection *caller, enum command_id cmd,
 
   show_settings(caller, cmd, show_arg, check);
 
-  if (game.control.description[0] != '\0') {
-    char *translated = fc_strdup(_(game.control.description));
+  if (game.ruleset_description != NULL) {
+    char *translated = fc_strdup(_(game.ruleset_description));
     fc_break_lines(translated, LINE_BREAK);
     cmd_reply(cmd, caller, C_COMMENT, "%s", translated);
     cmd_reply(cmd, caller, C_COMMENT, horiz_line);

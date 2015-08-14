@@ -659,8 +659,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile, game.control.name, "about.name");
   secfile_insert_str(sfile, game.control.version, "about.version");
 
-  if (game.control.description[0] != '\0') {
-    secfile_insert_str(sfile, game.control.description,
+  if (game.ruleset_description != NULL) {
+    secfile_insert_str(sfile, game.ruleset_description,
                        "about.description");
   }
 

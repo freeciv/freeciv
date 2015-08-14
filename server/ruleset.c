@@ -3434,9 +3434,28 @@ static bool load_ruleset_governments(struct section_file *file)
 static void send_ruleset_control(struct conn_list *dest)
 {
   struct packet_ruleset_control packet;
+  int desc_left = game.control.desc_length;
+  int index = 0;
 
   packet = game.control;
   lsend_packet_ruleset_control(dest, &packet);
+
+  while (desc_left > 0) {
+    struct packet_ruleset_description_part part;
+    int this_len = desc_left;
+
+    if (this_len > MAX_LEN_CONTENT - 21) {
+      this_len = MAX_LEN_CONTENT - 1;
+    }
+
+    part.text[this_len] = '\0';
+
+    strncpy(part.text, &game.ruleset_description[index], this_len);
+    index += this_len;
+    desc_left -= this_len;
+
+    lsend_packet_ruleset_description_part(dest, &part);
+  }
 }
 
 /****************************************************************************
@@ -4882,11 +4901,20 @@ static bool load_ruleset_game(struct section_file *file, bool act)
 
   text = secfile_lookup_str_default(file, "", "about.description");
   if (text[0] != '\0') {
+    int len;
+
     /* Ruleset/modpack description found */
-    sz_strlcpy(game.control.description, text);
+    len = strlen(text);
+    game.ruleset_description = fc_malloc(len + 1);
+    fc_strlcpy(game.ruleset_description, text, len + 1);
+    game.control.desc_length = len;
   } else {
     /* No description */
-    game.control.description[0] = '\0';
+    if (game.ruleset_description != NULL) {
+      free(game.ruleset_description);
+      game.ruleset_description = NULL;
+    }
+    game.control.desc_length = 0;
   }
 
   /* section: options */
