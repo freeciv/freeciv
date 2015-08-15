@@ -961,16 +961,24 @@ static void refresh_production_label(int stock)
   widget_mark_dirty(pEditor->pProduction_Progres);
 }
 
-
-/* update and redraw worklist length counter in worklist editor */
+/**************************************************************************
+  Update and redraw worklist length counter in worklist editor
+**************************************************************************/
 static void refresh_worklist_count_label(void)
 {
   char cBuf[64];
   SDL_Rect area;
+  int external_entries;
+
+  if (pEditor->pCity != NULL) {
+    external_entries = 1; /* Current production */
+  } else {
+    external_entries = 0;
+  }
 
   /* TRANS: length of worklist */
   fc_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
-  				worklist_length(&pEditor->worklist_copy));
+              worklist_length(&pEditor->worklist_copy) + external_entries);
   copy_chars_to_string16(pEditor->pWorkList_Counter->string16, cBuf);
 
   widget_undraw(pEditor->pWorkList_Counter);
@@ -1020,7 +1028,8 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   bool advanced_tech;
   bool can_build, can_eventually_build;
   SDL_Rect area;
-  
+  int external_entries;
+
   if (pEditor) {
     return;
   }
@@ -1065,14 +1074,16 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   pEditor->pEndWidgetList = pWindow;
 
   area = pWindow->area;
-  
+
   /* ---------------- */
   if (pCity) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name(pCity));
+    external_entries = 1; /* Current production */
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), "%s", global_worklist_name(pGWL));
+    external_entries = 0;
   }
-    
+
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
@@ -1083,7 +1094,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 
   /* TRANS: length of worklist */
   fc_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
-              worklist_length(&pEditor->worklist_copy));
+              worklist_length(&pEditor->worklist_copy) + external_entries);
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
