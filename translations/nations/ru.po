@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-08 18:00+0100\n"
-"PO-Revision-Date: 2015-02-20 17:26+0500\n"
+"POT-Creation-Date: 2015-02-25 02:26+0500\n"
+"PO-Revision-Date: 2015-08-15 17:56+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -3644,7 +3644,9 @@ msgstr ""
 "средневековье ссылки на них встречаются у Блаженного Августина и Марко Поло, "
 "а теолог Ратрамн рассуждал о том, могут ли они считаться людьми. Различные "
 "мифы помещают их в Шотландию, в Ханаан (Ближний Восток), в Киренаику (часть "
-"Ливии) и на Андаманские острова."
+"Ливии) и на Андаманские острова. Название страны 'Ханаан' впервые употребил "
+"германский средневековый поэт и епископ Вальтер фон Шпейер, а Джон "
+"Мандевилль упоминал народ Накумериане."
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
 #, c-format
@@ -12139,11 +12141,11 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
-msgstr "Коммунисты"
+msgstr "СССР"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
-msgstr "Коммунисты"
+msgstr "СССР"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -13611,7 +13613,7 @@ msgstr ""
 
 #: data/nation/vistulan.ruleset:3
 msgid "Vistulan"
-msgstr "Вмсляне"
+msgstr "Висляне"
 
 #: data/nation/vistulan.ruleset:4
 msgid "?plural:Vistulans"
