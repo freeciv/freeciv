@@ -544,6 +544,20 @@ A DiplRel is considered fulfilled for the range
 Only the exact relationship required fulfills it. Example: An alliance or
 an armistice agreement won't fulfill a "Peace" requirement.
 
+It is possible to create a requirement that in some situations won't have a
+player to check. In those cases the requirement will always be considered
+unfulfilled. This applies to both present and not present requirements. The
+ranges Alliance, Team, Player and Local needs a player. The Local range also
+needs the player the first player's relationship is to.
+
+Example: The requirements below are about the relationship to the owner of a
+tile. The table shows in what situations a requirement is fulfilled.
+
+Requirement is                            fulfilled when the tile is
+                                        | domestic | unclaimed | foreign
+"DiplRel", "Is foreign", "Local", TRUE  | no       | no        | yes
+"DiplRel", "Is foreign", "Local", FALSE | yes      | no        | no
+
 The MaxUnitsOnTile requirement type
 ----------------------------
 Check the number of units present on a tile. Is true if no more than the
