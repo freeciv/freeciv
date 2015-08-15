@@ -1,10 +1,167 @@
 ========================
-Welcome to Freeciv 2.4.4
+Welcome to Freeciv 2.4.5
 ========================
 
 The changes in the 2.4.x series are summarised below.
 For changes prior to 2.4, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.4.4 to 2.4.5
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.4.5>)
+
+   2.4.5 is a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Fix a longstanding bug in border rules:
+          + Water tiles next to cities and other border sources could
+            sometimes remain unclaimed, semi-randomly. Now they are always
+            claimed. (This had not been working as intended since at least
+            2.1.) GNA#23503
+          + (The bug that city worked tiles could be stolen, fixed in the
+            later 2.5 series, has not been fixed in this 2.4 maintenance
+            release, as it was deemed too much of a rule change.
+            GNA#23501)
+     * In the civ2 ruleset, Fanatics are now free of upkeep under a
+       Fundamentalist government; the free shield upkeep under that
+       government has been reduced from 10 to 8. GNAPATCH#3505
+     * Fix trouble with unit visibility when a city is transferred,
+       particularly by diplomatic treaty. GNA#23154
+     * When autosettlers were considering improving terrain, their
+       thoughts could accidentally be sent to the client, so the client
+       would display tiles with the wrong terrain temporarily. GNA#23286
+     * Fix possible trouble when starting a scenario game which has start
+       positions assigned to particular nations. GNA#23093
+     * When an enemy pillages a vision-granting base such as a buoy, the
+       base is now removed from the victim's view of the map. GNA#22863
+     * Fix a corner case where a technology could be granted to a dead
+       player due to changing research costs. GNA#23437
+     * When the AI proposed a treaty, it could be sent in such a way as to
+       cause the client to pop it up in front of other tabs, obscuring
+       end-of-turn activities. GNA#23565
+     * Improve checking for creation of illegal pacts, such as between
+       team-mates. GNA#23408 GNA#23421
+     * An empty 'startunits' setting will now be rejected rather than
+       causing a crash. GNA#23346
+
+Changes affecting other rulesets / modders
+
+     * Fix a server crash in rulesets with variable city map radius. This
+       could manifest for instance if city radius depends on government.
+       GNA#23591
+     * script.lua is now evaluated before default.lua, so that rulesets
+       can pre-empt signal handlers set by by default.lua (currently
+       "hut_enter" and "city_lost"). GNA#23101
+     * Attempting to move a bombarder unit into an empty city now moves,
+       rather than bombarding. GNA#20956
+     * Nations without legend text no longer crash the server. GNA#20110
+     * More robustness against invalid rulesets. GNA#23107
+
+Changes affecting server operators
+
+     * The /mapimg delete all command did not always delete every
+       definition. GNA#23095
+     * Server tab completion for save file names did not allow .xz
+       compressed savegames. GNA#23105
+
+General
+
+     * Memory leak fixes. GNA#23171 GNA#23208 GNA#23209 GNAPATCH#5741
+       GNAPATCH#5740 GNA#23221 GNA#23234 GNA#23257
+     * Various internal changes which should only affect developers.
+       GNAPATCH#5491 GNAPATCH#5579 GNA#23167 GNAPATCH#5711 GNA#23173
+       GNAPATCH#5722 GNAPATCH#5775 GNAPATCH#5780 GNAPATCH#5779
+       GNAPATCH#5777 GNA#23268 GNAPATCH#6012
+
+AI
+
+     * Fix possible AI crashes in rulesets with ocean cities. GNA#23046
+       GNA#23227 GNA#23230 GNA#23250
+     * The AI no longer asks to sign a ceasefire if circumstances prevent
+       signing any treaty. GNA#23542
+
+Clients
+
+     * In terrain info popups, show the countdown to armistice expiry as
+       well as for ceasefire. GNA#23303
+     * The client could crash if the tileset was changed with the science
+       dialog open. GNA#22625
+     * Area selection mode for cities (right-click-and-drag) now works in
+       games with national borders disabled. GNA#23058
+     * (Gtk) Prevent the main map window layout jumping about when
+       switching between unit stacks of different sizes. (This was
+       particularly noticeable with hex tilesets.) GNA#23562
+     * (Gtk) Various minor cosmetic changes. GNA#20772 GNA#22676
+       GNAPATCH#5957 GNA#23563
+     * (Gtk3) The Turn Done button now blinks if you are the last player
+       to finish a turn in a multiplayer game. GNA#23269 (This
+       functionality has theoretically been present in all clients, but
+       has been more or less broken forever. It now takes into account
+       disconnected players. GNA#23277)
+     * (Gtk3) Clicking "Show All Cities" in the Goto/Airlift dialog could
+       cause all cities to be focused in turn. GNA#20624
+     * (Gtk3) Map in city dialog is now greyed out when under governor
+       control, as for other clients. GNA#22834
+     * (SDL) It was not possible to withdraw shared vision from someone
+       you were at war with. GNA#23210
+     * (SDL) When a spy sabotaged a specific building, the dialog for
+       choosing that building could remain. GNA#23296
+     * (SDL) Correct shortcut key label for transform (to 'O' instead of
+       'M'). GNA#23162
+     * (SDL) Fix a crash and other trouble when changing to a different
+       player mid-game. GNA#23540 GNA#23551
+     * (SDL) Observers are no longer invited to end their turn. GNA#17703
+     * (SDL) Fix a possible crash if font loading fails. GNA#23195
+
+Tools
+
+     * Fix error messages and possible crashes from modpack installers on
+       Windows. GNA#22966
+     * Fix possible bugs when closing the modpack installer. GNA#23055
+
+Tilesets / Art
+
+     * All supplied tilesets now have graphics for the Refugee unit, used
+       for instance by the add-on civ2civ3 modpack. GNAPATCH#5486
+     * Fix minor glitches in various supplied tilesets. GNA#23332
+       GNAPATCH#5282
+
+Help / Documentation
+
+     * Miscellaneous improvements to in-game text and user documentation.
+       GNAPATCH#5515 GNA#23039 GNA#23197 GNA#23204 GNAPATCH#5751 GNA#23239
+       GNA#23240 GNAPATCH#5782 GNA#23214 GNA#23263 GNAPATCH#6189
+     * Miscellaneous changes to developer/ruleset docs. GNAPATCH#5477
+       GNA#23163 GNA#23145 GNA#23200 GNAPATCH#5723 GNAPATCH#5744
+       GNAPATCH#5809 GNAPATCH#5948 GNAPATCH#6024
+     * Invisible changes to assist localization. GNAPATCH#5807 GNA#23333
+       GNA#23443
+
+Translations
+
+     * Updated translations:
+          + Complete translations: French, Spanish, Polish, British
+            English.
+          + Incomplete translations: Russian (99.9%), Finnish (97.3%),
+            Japanese (96.5%), Irish (95.4%).
+
+Build/portability
+
+     * Fix some warnings from GCC 5 and cppcheck. GNAPATCH#5994
+       GNAPATCH#6092
+     * Check for __VA_ARGS__ handling at configure time, giving a less
+       obscure error when attempting to use a compiler that does not
+       implement the behavior we rely on (such as tcc). GNAPATCH#6033
+     * Improve diagnostic if configure fails to find pkg-config
+       (previously it was erroneously warning about libcurl). GNA#23133
+     * The shipped Windows installer Makefile is now compatible with the
+       environment that is used to build the Windows installers. GNA#23246
+       GNAPATCH#5845 GNATASK#7887
 
 
 CHANGES FROM 2.4.3 to 2.4.4
