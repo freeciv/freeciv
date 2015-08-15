@@ -443,6 +443,31 @@ static bool rs_common_units(void)
   return TRUE;
 }
 
+/**************************************************************************
+  Sanity check buildings
+**************************************************************************/
+static bool rs_buildings(void)
+{
+  /* Special Genus */
+  improvement_iterate(pimprove) {
+    if (improvement_has_flag(pimprove, IF_GOLD)
+        && pimprove->genus != IG_SPECIAL) {
+      ruleset_error(LOG_ERROR,
+                    "Gold producing improvement with genus other than \"Special\"");
+
+      return FALSE;
+    }
+    if (improvement_has_flag(pimprove, IF_DISASTER_PROOF)
+        && pimprove->genus != IG_IMPROVEMENT) {
+      ruleset_error(LOG_ERROR,
+                    "Disasterproof improvement with genus other than \"Improvement\"");
+
+      return FALSE;
+    }
+  } improvement_iterate_end;
+
+  return TRUE;
+}
 
 /**************************************************************************
   Check that boolean effect types have sensible effects.
@@ -885,6 +910,9 @@ bool sanity_check_ruleset_data(void)
   }
   if (ok) {
     ok = rs_barbarian_units();
+  }
+  if (ok) {
+    ok = rs_buildings();
   }
 
   return ok;
