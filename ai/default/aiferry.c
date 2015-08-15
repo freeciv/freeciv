@@ -602,11 +602,17 @@ static int aiferry_find_boat_nearby(struct ai_type *ait, struct unit *punit,
 **************************************************************************/
 static void dai_activate_passengers(struct ai_type *ait, struct unit *ferry)
 {
+  struct player *ferry_owner = unit_owner(ferry);
+  
   unit_list_iterate_safe(unit_tile(ferry)->units, aunit) {
     if (unit_transport_get(aunit) == ferry) {
       unit_activity_handling(aunit, ACTIVITY_IDLE);
       def_ai_unit_data(aunit, ait)->done = FALSE;
-      dai_manage_unit(ait, unit_owner(aunit), aunit);
+
+      if (unit_owner(aunit) == ferry_owner) {
+        /* Move it only if it's our own. */
+        dai_manage_unit(ait, ferry_owner, aunit);
+      }
     }
   } unit_list_iterate_safe_end;
 }
