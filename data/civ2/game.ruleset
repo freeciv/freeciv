@@ -147,6 +147,27 @@ improvement_factor = 1
 unit_factor = 2
 total_factor = 100
 
+[global_unit_options]
+
+; Explanation: Civ 2 allowed fast units to use any remaining movement after
+; disembarking. Boarding a ship spent every movement point the land unit
+; had.
+;
+; Freeciv doesn't support removing all movement points when a unit boards a
+; ship. If slow_invasions is set to FALSE a fast unit will be allowed to
+; board a ship, be moved by it, disembark and keep moving in the same turn.
+; That would have been impossible in Civ 2. If it is set to TRUE
+; strategies that involves loading fast units on a ship, waiting a turn and
+; then unloading them so they can act (attack, spy, etc) the same turn will
+; be broken.
+;
+; Shore landing style
+;  FALSE - normal movement
+;  TRUE  - (default) slow invasions by removing all
+;          movement points from ground units moving
+;          from ocean tile to land
+slow_invasions = TRUE
+
 [combat_rules]
 ; If tired_attack is set to TRUE, units that attack with less than a single
 ; move point (per move_fragments in terrain.ruleset) will have their attack
