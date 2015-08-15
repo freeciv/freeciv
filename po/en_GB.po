@@ -65,7 +65,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-08 20:19+0100\n"
+"POT-Creation-Date: 2015-08-15 10:35+0100\n"
 "PO-Revision-Date: 2015-08-08 20:23+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
@@ -20445,7 +20445,8 @@ msgstr ""
 
 #: data/helpdata.txt:456
 msgid "Founding a city establishes a claim on an area of land around the city."
-msgstr "Founding a city establishes a claim on an area of land around the city."
+msgstr ""
+"Founding a city establishes a claim on an area of land around the city."
 
 #: data/helpdata.txt:459
 msgid ""
