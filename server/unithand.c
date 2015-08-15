@@ -1515,6 +1515,10 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
         if (!capture_possible) {
           log_debug("capture units: already got unique unit");
+          notify_player(pplayer, pdesttile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: You can only have one Leader. */
+                        _("You can only have one %s."),
+                        unit_link(to_capture));
 
           break;
         }

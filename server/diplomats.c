@@ -440,6 +440,11 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   if (utype_player_already_has_this_unique(pplayer,
                                            unit_type(pvictim))) {
     log_debug("bribe-unit: already got unique unit");
+    notify_player(pplayer, unit_tile(pdiplomat),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
+                  /* TRANS: You already have a Leader. */
+                  _("You already have a %s."),
+                  unit_link(pvictim));
 
     return;
   }

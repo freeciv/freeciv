@@ -616,6 +616,15 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
       } else {
         /* Kill the unique unit. */
 
+        if (verbose) {
+          notify_player(from_player, unit_tile(punit),
+                        E_UNIT_LOST_MISC, ftc_server,
+                        /* TRANS: Americans ... Leader */
+                        _("The %s already have a %s. Can't transfer yours."),
+                        nation_plural_for_player(to_player),
+                        unit_tile_link(punit));
+        }
+
         wipe_unit(punit, ULR_CITY_LOST, NULL);
       }
 
