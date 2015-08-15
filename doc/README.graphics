@@ -163,7 +163,7 @@ The top-level tilespec file also contains information on how to draw each
 terrain type.  For each terrain type include a section "tile_<terrain>"
 (e.g., "tile_plains"). This section contains information on how to draw
 this terrain type. (The terrain types are specified in the server ruleset
-file under the graphc and graphic_alt flags.)
+file under the graphic and graphic_alt flags.)
 
   [tile_XXX] options
   ----------------
