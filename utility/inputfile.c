@@ -73,6 +73,7 @@
 
 /* utility */
 #include "astring.h"
+#include "fcintl.h"
 #include "ioz.h"
 #include "log.h"
 #include "mem.h"
@@ -477,6 +478,9 @@ static bool read_a_line(struct inputfile *inf)
 
     if (!ret) {
       /* fgets failed */
+      if (pos > 0) {
+        inf_log(inf, LOG_ERROR, _("End-of-file not in line of its own"));
+      }
       inf->at_eof = TRUE;
       if (inf->in_string) {
         /* Note: Don't allow multi-line strings to cross "include"
