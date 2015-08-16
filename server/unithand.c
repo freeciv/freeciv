@@ -949,6 +949,15 @@ void handle_unit_action_query(struct connection *pc,
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
+  if (!action_id_is_valid(action_type)) {
+    /* Non existing action */
+    log_error("handle_unit_action_query() the action %d doesn't exist.",
+              action_type);
+
+    unit_query_impossible(pc, actor_id, target_id);
+    return;
+  }
+
   if (NULL == pactor) {
     /* Probably died or bribed. */
     log_verbose("handle_unit_action_query() invalid actor %d",
@@ -1030,6 +1039,15 @@ void handle_unit_do_action(struct player *pplayer,
   struct tile *target_tile = index_to_tile(target_id);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
+
+  if (!(action_type == ACTION_MOVE
+        || action_id_is_valid(action_type))) {
+    /* Non existing action */
+    log_error("unit_perform_action() the action %d doesn't exist.",
+              action_type);
+
+    return;
+  }
 
   if (NULL == actor_unit) {
     /* Probably died or bribed. */
