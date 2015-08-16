@@ -5511,7 +5511,7 @@ static void view_option_changed_callback(struct option *poption)
 }
 
 /****************************************************************************
-  Callback for when any voeinfo bar option is changed.
+  Callback for when any voteinfo bar option is changed.
 ****************************************************************************/
 static void voteinfo_bar_callback(struct option *poption)
 {
