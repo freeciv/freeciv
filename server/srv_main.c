@@ -2635,6 +2635,10 @@ static void srv_running(void)
     timer_destroy(game.server.save_timer);
     game.server.save_timer = NULL;
   }
+  if (between_turns != NULL) {
+    timer_destroy(between_turns);
+    between_turns = NULL;
+  }
   timer_destroy(eot_timer);
 }
 
