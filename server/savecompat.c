@@ -463,6 +463,29 @@ static const char *killcitizen_enum_str(secfile_data_t data, int bit)
 static void compat_load_020500(struct loaddata *loading)
 {
   const char *modname[] = { "Road", "Railroad" };
+  const char *old_activities_names[] = {
+    "Idle",
+    "Pollution",
+    "Unused Road",
+    "Mine",
+    "Irrigate",
+    "Mine",
+    "Irrigate",
+    "Fortified",
+    "Fortress",
+    "Sentry",
+    "Unused Railroad",
+    "Pillage",
+    "Goto",
+    "Explore",
+    "Transform",
+    "Unused",
+    "Unused Airbase",
+    "Fortifying",
+    "Fallout",
+    "Unused Patrol",
+    "Base"
+  };
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -474,6 +497,10 @@ static void compat_load_020500(struct loaddata *loading)
 
   secfile_insert_str_vec(loading->file, modname, 2,
                          "savefile.roads_vector");
+
+  secfile_insert_int(loading->file, 19, "savefile.activities_size");
+  secfile_insert_str_vec(loading->file, old_activities_names, 19,
+                         "savefile.activities_vector");
 
   /* Server setting migration. */
   {
