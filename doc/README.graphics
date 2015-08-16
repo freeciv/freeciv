@@ -168,13 +168,15 @@ Terrain options:
 ----------------
 
 The top-level tilespec file also contains information on how to draw each
-terrain type.  For each terrain type include a section "tile_<terrain>"
-(e.g., "tile_plains"). This section contains information on how to draw
-this terrain type. (The terrain types are specified in the server ruleset
-file under the graphc and graphic_alt flags.)
+terrain type.  For each terrain type include a section "[tile_xxx]".
+This section contains information on how to draw this terrain type.
+(The terrain types are specified in the server ruleset file.)
 
   [tile_XXX] options
   ----------------
+  tag                   : Tag of the terrain this drawing information refers
+                          to. That must match the "graphic" or "graphic_alt"
+                          field given in the ruleset file.x
   blend_layer           : If non-zero, given layer of this terrain will be
                           blended with adjacent terrains. Blending is done
                           civ2-style with a dither mask. Only iso-view

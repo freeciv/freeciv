@@ -124,6 +124,7 @@ match_types = "water", "ice"
 ; Water graphics referenced by terrain.ruleset
 ;
 [tile_lake]
+tag = "lake"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "shallow"
@@ -131,6 +132,7 @@ layer0_match_with = "land"
 layer0_sprite_type = "corner"
 
 [tile_coast]
+tag = "coast"
 blend_layer = 1
 num_layers = 2
 layer0_match_type = "shallow"
@@ -141,6 +143,7 @@ layer1_match_with = "ice"
 layer1_sprite_type = "corner"
 
 [tile_floor]
+tag = "floor"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "deep"
@@ -153,6 +156,7 @@ layer1_sprite_type = "corner"
 ; Land graphics referenced by terrain.ruleset
 ;
 [tile_arctic]
+tag = "arctic"
 ; treated as water for ice cliffs
 blend_layer = 0
 num_layers = 3
@@ -161,11 +165,13 @@ layer1_match_type = "ice"
 layer2_match_type = "ice"
 
 [tile_desert]
+tag = "desert"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_forest]
+tag = "forest"
 blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
@@ -173,11 +179,13 @@ layer1_match_type = "forest"
 layer1_match_with = "forest"
 
 [tile_grassland]
+tag = "grassland"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_hills]
+tag = "hills"
 blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
@@ -185,6 +193,7 @@ layer1_match_type = "hills"
 layer1_match_with = "hills"
 
 [tile_jungle]
+tag = "jungle"
 blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
@@ -192,6 +201,7 @@ layer1_match_type = "forest"
 layer1_match_with = "forest"
 
 [tile_mountains]
+tag = "mountains"
 blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
@@ -201,21 +211,25 @@ layer1_is_tall = TRUE
 layer1_offset_y = 6
 
 [tile_plains]
+tag = "plains"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_swamp]
+tag = "swamp"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_tundra]
+tag = "tundra"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_inaccessible]
+tag = "inaccessible"
 blend_layer = 0
 num_layers = 1
 layer0_match_type = "land"
