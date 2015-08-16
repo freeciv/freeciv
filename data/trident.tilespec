@@ -114,6 +114,7 @@ match_types = "water"
 ; Water graphics referenced by terrain.ruleset
 ;
 [tile_coast]
+tag = "coast"
 blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
@@ -125,6 +126,7 @@ layer2_match_with = "water"
 layer2_sprite_type = "corner"
 
 [tile_floor]
+tag = "floor"
 blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
@@ -136,6 +138,7 @@ layer2_match_with = "water"
 layer2_sprite_type = "corner"
 
 [tile_lake]
+tag = "lake"
 blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
@@ -147,6 +150,7 @@ layer2_match_with = "water"
 layer2_sprite_type = "corner"
 
 [tile_inaccessible]
+tag = "inaccessible"
 blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
@@ -160,6 +164,7 @@ layer2_sprite_type = "corner"
 ; Land graphics referenced by terrain.ruleset
 ;
 [tile_arctic]
+tag = "arctic"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "water"
@@ -167,6 +172,7 @@ layer0_match_with = "water"
 layer1_match_type = "arctic"
 
 [tile_desert]
+tag = "desert"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "desert"
@@ -174,6 +180,7 @@ layer0_match_with = "desert"
 layer1_match_type = "water"
 
 [tile_forest]
+tag = "forest"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "forest"
@@ -181,12 +188,14 @@ layer0_match_with = "forest"
 layer1_match_type = "water"
 
 [tile_grassland]
+tag = "grassland"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "grassland"
 layer1_match_type = "water"
 
 [tile_hills]
+tag = "hills"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "hills"
@@ -194,6 +203,7 @@ layer0_match_with = "hills"
 layer1_match_type = "water"
 
 [tile_jungle]
+tag = "jungle"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "jungle"
@@ -201,6 +211,7 @@ layer0_match_with = "jungle"
 layer1_match_type = "water"
 
 [tile_mountains]
+tag = "mountains"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "mountains"
@@ -208,6 +219,7 @@ layer0_match_with = "mountains"
 layer1_match_type = "water"
 
 [tile_plains]
+tag = "plains"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "plains"
@@ -215,6 +227,7 @@ layer0_match_with = "plains"
 layer1_match_type = "water"
 
 [tile_swamp]
+tag = "swamp"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "swamp"
@@ -222,6 +235,7 @@ layer0_match_with = "swamp"
 layer1_match_type = "water"
 
 [tile_tundra]
+tag = "tundra"
 blend_layer = 0
 num_layers = 2
 layer0_match_type = "tundra"

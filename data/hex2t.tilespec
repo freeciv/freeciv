@@ -120,6 +120,7 @@ match_types = "forest", "jungle", "steep"
 ; Water graphics referenced by terrain.ruleset
 ;
 [tile_coast]
+tag = "coast"
 blend_layer = 0
 num_layers = 1
 layer0_match_type = "water"
@@ -127,6 +128,7 @@ layer0_match_with = "water"
 layer0_sprite_type = "corner"
 
 [tile_floor]
+tag = "floor"
 blend_layer = 0
 num_layers = 1
 layer0_match_type = "water"
@@ -136,21 +138,25 @@ layer0_sprite_type = "corner"
 ; Land graphics referenced by terrain.ruleset
 ;
 [tile_inaccessible]
+tag = "inaccessible"
 blend_layer = 0
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_arctic]
+tag = "arctic"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_desert]
+tag = "desert"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_forest]
+tag = "forest"
 blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
@@ -158,11 +164,13 @@ layer1_match_type = "forest"
 layer1_match_with = "forest"
 
 [tile_grassland]
+tag = "grassland"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_hills]
+tag = "hills"
 blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
@@ -170,12 +178,14 @@ layer1_match_type = "steep"
 layer1_match_with = "steep"
 
 [tile_jungle]
+tag = "jungle"
 blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
 layer1_match_type = "jungle"
 
 [tile_mountains]
+tag = "mountains"
 blend_layer = 1
 num_layers = 2
 layer0_match_type = "land"
@@ -183,16 +193,19 @@ layer1_match_type = "steep"
 layer1_match_with = "steep"
 
 [tile_plains]
+tag = "plains"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_swamp]
+tag = "swamp"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
 [tile_tundra]
+tag = "tundra"
 blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"

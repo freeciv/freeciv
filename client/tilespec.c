@@ -579,11 +579,12 @@ void tileset_error(enum log_level level, const char *format, ...)
 /****************************************************************************
   Create a new drawing data.
 ****************************************************************************/
-static struct drawing_data *drawing_data_new(const char *name)
+static struct drawing_data *drawing_data_new(void)
 {
   struct drawing_data *draw = fc_calloc(1, sizeof(*draw));
 
-  draw->name = fc_strdup(name);
+  draw->name = NULL;
+
   return draw;
 }
 
@@ -596,7 +597,9 @@ static void drawing_data_destroy(struct drawing_data *draw)
 
   fc_assert_ret(NULL != draw);
 
-  free(draw->name);
+  if (draw->name != NULL) {
+    free(draw->name);
+  }
   for (i = 0; i < 4; i++) {
     if (draw->blend[i]) {
       free_sprite(draw->blend[i]);
@@ -1521,7 +1524,6 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   const char *file_capstr;
   bool duplicates_ok, is_hex;
   enum direction8 dir;
-  const int spl = strlen(TILE_SECTION_PREFIX);
   struct tileset *t = NULL;
   const char *extraname;
   const char *tstr;
@@ -1780,9 +1782,20 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
   section_list_iterate(sections, psection) {
     const char *sec_name = section_name(psection);
-    struct drawing_data *draw = drawing_data_new(sec_name + spl);
+    struct drawing_data *draw = drawing_data_new();
     const char *sprite_type;
     int l;
+    const char *terrain_name;
+
+    terrain_name = secfile_lookup_str(file, "%s.tag", sec_name);
+
+    if (terrain_name != NULL) {
+      draw->name = fc_strdup(terrain_name);
+    } else {
+      tileset_error(LOG_ERROR, _("No terrain tag given on \"%s\"."), sec_name);
+      drawing_data_destroy(draw);
+      goto ON_ERROR;
+    }
 
     draw->blending = secfile_lookup_int_default(file, 0, "%s.blend_layer",
                                                 sec_name);
@@ -1925,7 +1938,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     }
 
     if (!drawing_hash_insert(t->tile_hash, draw->name, draw)) {
-      log_error("warning: duplicate tilespec entry [%s].", sec_name);
+      log_error("warning: multiple tile sections containing terrain tag \"%s\".",
+                draw->name);
       goto ON_ERROR;
     }
   } section_list_iterate_end;
