@@ -191,9 +191,19 @@ bool action_id_is_valid(const int action_id)
 
 /**************************************************************************
   Return the action with the given id.
+
+  Returns NULL if no action with the given id exists.
 **************************************************************************/
 struct action *action_by_number(int action_id)
 {
+  if (!action_id_is_valid(action_id)) {
+    /* Nothing to return. */
+
+    log_verbose("Asked for non existing action numbered %d", action_id);
+
+    return NULL;
+  }
+
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
   return actions[action_id];
