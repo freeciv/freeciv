@@ -2736,10 +2736,20 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
   /*** Phase 3: Is it attack? ***/
 
-  if (is_non_allied_unit_tile(pdesttile, pplayer) 
+  if (is_non_allied_unit_tile(pdesttile, pplayer)
       || is_non_allied_city_tile(pdesttile, pplayer)) {
     struct unit *victim = NULL;
     enum unit_attack_result ua_result;
+
+    if (action_blocks_attack(punit, pdesttile)) {
+      /* Blocked by of the attacks that now are action enabler
+       * controlled. */
+      notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                    _("Regular attack not allowed since you could have done "
+                      "Capture Units, Bombard or Explode Nuclear in "
+                      "stead."));
+      return FALSE;
+    }
 
     /* We can attack ONLY in enemy cities */
     if ((pcity && !pplayers_at_war(city_owner(pcity), pplayer))

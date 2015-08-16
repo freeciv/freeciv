@@ -520,6 +520,71 @@ static bool trade_route_blocks(const struct unit *actor_unit,
 }
 
 /**************************************************************************
+  Returns TRUE iff capture units is forced and possible.
+**************************************************************************/
+static bool capture_units_blocks(const struct unit *actor_unit,
+                                 const struct tile *target_tile)
+{
+  return (game.info.force_capture_units
+          && is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
+                                             actor_unit, target_tile));
+}
+
+/**************************************************************************
+  Returns TRUE iff bombardment is forced and possible.
+**************************************************************************/
+static bool bombard_blocks(const struct unit *actor_unit,
+                           const struct tile *target_tile)
+{
+  return (game.info.force_bombard
+          && is_action_enabled_unit_on_units(ACTION_BOMBARD,
+                                             actor_unit, target_tile));
+}
+
+/**************************************************************************
+  Returns TRUE iff exploade nuclear is forced and possible.
+**************************************************************************/
+static bool explode_nuclear_blocks(const struct unit *actor_unit,
+                                   const struct tile *target_tile)
+{
+  return (game.info.force_explode_nuclear
+          && is_action_enabled_unit_on_tile(ACTION_NUKE,
+                                            actor_unit, target_tile));
+}
+
+/**************************************************************************
+  Returns TRUE iff an action that blocks regular attacks is forced and
+  possible.
+
+  TODO: Make regular attacks action enabler controlled and delete this
+  fuction.
+**************************************************************************/
+bool action_blocks_attack(const struct unit *actor_unit,
+                          const struct tile *target_tile)
+{
+  if (capture_units_blocks(actor_unit, target_tile)) {
+    /* Capture unit is possible.
+     * The ruleset forbids regular attacks when it is. */
+    return TRUE;
+  }
+
+  if (bombard_blocks(actor_unit, target_tile)) {
+    /* Bomard units is possible.
+     * The ruleset forbids explode nuclear when it is. */
+    return TRUE;
+  }
+
+  if (explode_nuclear_blocks(actor_unit, target_tile)) {
+    /* Explode nuclear is possible.
+     * The ruleset forbids explode nuclear when it is. */
+    return TRUE;
+  }
+
+  /* Nothing is blocking a regular attack. */
+  return FALSE;
+}
+
+/**************************************************************************
   Returns TRUE if the specified unit type can perform the wanted action
   given that an action enabler later will enable it.
 
@@ -793,6 +858,26 @@ static bool is_action_possible(const enum gen_action wanted_action,
     if (tile_city(target_tile)
         && !pplayers_at_war(city_owner(tile_city(target_tile)),
                             actor_player)) {
+      return FALSE;
+    }
+
+    if (capture_units_blocks(actor_unit, target_tile)) {
+      /* Capture unit is possible.
+       * The ruleset forbids bombarding when it is. */
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_NUKE) {
+    if (capture_units_blocks(actor_unit, target_tile)) {
+      /* Capture unit is possible.
+       * The ruleset forbids exploade nuclear when it is. */
+      return FALSE;
+    }
+
+    if (bombard_blocks(actor_unit, target_tile)) {
+      /* Bomard units is possible.
+       * The ruleset forbids explode nuclear when it is. */
       return FALSE;
     }
   }

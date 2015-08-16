@@ -801,6 +801,15 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.force_trade_route,
                     RS_DEFAULT_FORCE_TRADE_ROUTE,
                     "actions.force_trade_route", NULL);
+  save_default_bool(sfile, game.info.force_capture_units,
+                    RS_DEFAULT_FORCE_CAPTURE_UNITS,
+                    "actions.force_capture_units", NULL);
+  save_default_bool(sfile, game.info.force_bombard,
+                    RS_DEFAULT_FORCE_BOMBARD,
+                    "actions.force_bombard", NULL);
+  save_default_bool(sfile, game.info.force_explode_nuclear,
+                    RS_DEFAULT_FORCE_EXPLODE_NUCLEAR,
+                    "actions.force_explode_nuclear", NULL);
 
   secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_POISON)->ui_name,

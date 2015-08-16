@@ -222,6 +222,9 @@ action_enablers_for_action(enum gen_action action);
 struct action_enabler *action_enabler_new(void);
 void action_enabler_add(struct action_enabler *enabler);
 
+bool action_blocks_attack(const struct unit *actor_unit,
+                                 const struct tile *target_tile);
+
 bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city);

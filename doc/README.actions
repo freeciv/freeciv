@@ -239,6 +239,7 @@ Actions done by a unit against all units at a tile
 
 "Bombard" - bombard the units (and city) at the tile without killing them.
  * UI name can be set using ui_name_bombard
+ * if force_capture_units is true "Capture Units" must be impossible
  * actor must have a bombard_rate > 0
  * actor must be on the same tile as the target or on the tile next to it.
  * target can't be in a city the actor player isn't at war with.
@@ -258,6 +259,8 @@ Actions done by a unit against a tile
 
 "Explode Nuclear" - Detonate at the target tile. Cause a nuclear explosion.
  * UI name can be set using ui_name_explode_nuclear
+ * if force_capture_units is true "Capture Units" must be impossible
+ * if force_bombard is true "Bombard" must be impossible
  * actor must be on the same tile as the target or on the tile next to it.
  * if the actor unit isn't on the target tile
    - the actor must have movement left

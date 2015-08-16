@@ -5235,6 +5235,24 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_TRADE_ROUTE,
                                       "actions.force_trade_route");
 
+      /* Forbid bombarding, exploading nuclear or attacking when it is
+       * legal to capture units. */
+      game.info.force_capture_units
+        = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_CAPTURE_UNITS,
+                                      "actions.force_capture_units");
+
+      /* Forbid exploding nuclear or attacking when it is legal to
+       * bombard. */
+      game.info.force_bombard
+        = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_BOMBARD,
+                                      "actions.force_bombard");
+
+      /* Forbid attacking when it is legal to do explode nuclear. */
+      game.info.force_explode_nuclear
+        = secfile_lookup_bool_default(file,
+                                      RS_DEFAULT_FORCE_EXPLODE_NUCLEAR,
+                                      "actions.force_explode_nuclear");
+
       text = secfile_lookup_str_default(file,
           /* TRANS: _Poison City (3% chance of success). */
           N_("%sPoison City%s"),

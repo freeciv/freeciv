@@ -523,6 +523,9 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL tired_attack;
   UINT16 trademindist;
   BOOL force_trade_route;
+  BOOL force_capture_units;
+  BOOL force_bombard;
+  BOOL force_explode_nuclear;
   BOOL trading_city;
   BOOL trading_gold;
   BOOL trading_tech;
