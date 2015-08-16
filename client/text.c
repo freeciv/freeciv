@@ -1480,7 +1480,7 @@ const char *get_timeout_label_text(void)
 
   astr_clear(&str);
 
-  if (is_waiting_turn_change()) {
+  if (is_waiting_turn_change() && game.tinfo.last_turn_change_time >= 1.5) {
     double wt = get_seconds_to_new_turn();
 
     if (wt < 0.01) {
