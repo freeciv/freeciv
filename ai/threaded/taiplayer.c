@@ -24,6 +24,9 @@
 #include "game.h"
 #include "unit.h"
 
+/* server/advisors */
+#include "infracache.h"
+
 /* ai/default */
 #include "aiplayer.h"
 
@@ -108,6 +111,8 @@ static enum tai_abort_msg_class tai_check_messages(void)
     switch(msg->type) {
     case TAI_MSG_FIRST_ACTIVITIES:
       fc_allocate_mutex(&game.server.mutexes.city_list);
+
+      initialize_infrastructure_cache(msg->plr);
 
       /* Use _safe iterate in case the main thread
        * destroyes cities while we are iterating through these. */
