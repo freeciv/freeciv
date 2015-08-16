@@ -233,6 +233,10 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
       punit->orders.list[i].activity = packet->orders_activities[i];
       punit->orders.list[i].target = packet->orders_targets[i];
       punit->orders.list[i].action = packet->orders_actions[i];
+
+      /* Just an assert. The client doesn't use the action data. */
+      fc_assert(punit->orders.list[i].order != ORDER_PERFORM_ACTION
+                || action_id_is_valid(punit->orders.list[i].action));
     }
   }
 
@@ -3576,6 +3580,16 @@ void handle_ruleset_action(const struct packet_ruleset_action *p)
 {
   struct action *act;
 
+  /* Action id is currently hard coded in the gen_action enum. It is
+   * therefore OK to use action_id_is_valid() */
+  if (!action_id_is_valid(p->id)) {
+    /* Action id out of range */
+    log_error("handle_ruleset_action() the action id %d is out of range.",
+              p->id);
+
+    return;
+  }
+
   act = action_by_number(p->id);
 
   sz_strlcpy(act->ui_name, p->ui_name);
@@ -3589,6 +3603,15 @@ handle_ruleset_action_enabler(const struct packet_ruleset_action_enabler *p)
 {
   struct action_enabler *enabler;
   int i;
+
+  if (!action_id_is_valid(p->enabled_action)) {
+    /* Non existing action */
+    log_error("handle_ruleset_action_enabler() the action %d "
+              "doesn't exist.",
+              p->enabled_action);
+
+    return;
+  }
 
   enabler = action_enabler_new();
 
@@ -3959,6 +3982,9 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
 
 /**************************************************************************
   Handle the requested follow up question about an action
+
+  The action can be a valid action or the special value ACTION_COUNT.
+  ACTION_COUNT indicates that performing the action is impossible.
 **************************************************************************/
 void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
                                enum gen_action action_type)
@@ -3967,6 +3993,16 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
   struct unit *punit = game_unit_by_number(target_id);
   struct unit *pdiplomat = player_unit_by_number(client_player(),
                                                  diplomat_id);
+
+  if (ACTION_COUNT != action_type
+      && !action_id_is_valid(action_type)) {
+    /* Non existing action */
+    log_error("handle_unit_action_answer() the action %d doesn't exist.",
+              action_type);
+
+    choose_action_queue_next();
+    return;
+  }
 
   if (!pdiplomat) {
     log_debug("Bad actor %d.", diplomat_id);

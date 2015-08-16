@@ -1199,6 +1199,15 @@ void handle_unit_action_query(struct connection *pc,
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
+  if (!action_id_is_valid(action_type)) {
+    /* Non existing action */
+    log_error("handle_unit_action_query() the action %d doesn't exist.",
+              action_type);
+
+    unit_query_impossible(pc, actor_id, target_id);
+    return;
+  }
+
   if (NULL == pactor) {
     /* Probably died or bribed. */
     log_verbose("handle_unit_action_query() invalid actor %d",
@@ -1285,6 +1294,10 @@ void handle_unit_do_action(struct player *pplayer,
   Execute a request to perform an action and let the caller know if it was
   performed or not.
 
+  The action can be a valid action or the special value ACTION_MOVE.
+  ACTION_MOVE will move the unit even if it may be able to perform an
+  action against something at the target tile.
+
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
@@ -1299,6 +1312,15 @@ bool unit_perform_action(struct player *pplayer,
   struct tile *target_tile = index_to_tile(target_id);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
+
+  if (!(action_type == ACTION_MOVE
+        || action_id_is_valid(action_type))) {
+    /* Non existing action */
+    log_error("unit_perform_action() the action %d doesn't exist.",
+              action_type);
+
+    return FALSE;
+  }
 
   if (NULL == actor_unit) {
     /* Probably died or bribed. */
@@ -3630,6 +3652,16 @@ void handle_unit_orders(struct player *pplayer,
 
       break;
     case ORDER_PERFORM_ACTION:
+      if (!action_id_is_valid(packet->action[i])) {
+        /* Non existing action */
+        log_error("handle_unit_orders() the action %d doesn't exist. "
+                  "Sent in order number %d from %s to unit number %d.",
+                  packet->action[i], i,
+                  player_name(pplayer), packet->unit_id);
+
+        return;
+      }
+
       switch ((enum gen_action) packet->action[i]) {
       case ACTION_FOUND_CITY:
         if (is_valid_dir(packet->dir[i])) {
