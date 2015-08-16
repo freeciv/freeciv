@@ -217,9 +217,19 @@ bool action_id_is_valid(const int action_id)
 
 /**************************************************************************
   Return the action with the given id.
+
+  Returns NULL if no action with the given id exists.
 **************************************************************************/
 struct action *action_by_number(int action_id)
 {
+  if (!action_id_is_valid(action_id)) {
+    /* Nothing to return. */
+
+    log_verbose("Asked for non existing action numbered %d", action_id);
+
+    return NULL;
+  }
+
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
   return actions[action_id];
@@ -227,6 +237,8 @@ struct action *action_by_number(int action_id)
 
 /**************************************************************************
   Return the action with the given name.
+
+  Returns NULL if no action with the given name exists.
 **************************************************************************/
 struct action *action_by_rule_name(const char *name)
 {
@@ -234,6 +246,10 @@ struct action *action_by_rule_name(const char *name)
   int action_id = gen_action_by_name(name, fc_strcasecmp);
 
   if (!action_id_is_valid(action_id)) {
+    /* Nothing to return. */
+
+    log_verbose("Asked for non existing action named %s", name);
+
     return NULL;
   }
 
