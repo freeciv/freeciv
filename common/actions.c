@@ -509,6 +509,17 @@ action_enablers_for_action(enum gen_action action)
 }
 
 /**************************************************************************
+  Returns TRUE iff trade route establishing is forced and possible.
+**************************************************************************/
+static bool trade_route_blocks(const struct unit *actor_unit,
+                               const struct city *target_city)
+{
+  return (game.info.force_trade_route
+          && is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
+                                            actor_unit, target_city));
+}
+
+/**************************************************************************
   Returns TRUE if the specified unit type can perform the wanted action
   given that an action enabler later will enable it.
 
@@ -714,9 +725,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
     /* Allow a ruleset to forbid units from entering the marketplace if a
      * trade route can be established in stead. */
     if (wanted_action == ACTION_MARKETPLACE
-        && game.info.force_trade_route
-        && is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
-                                          actor_unit, target_city)) {
+        && trade_route_blocks(actor_unit, target_city)) {
       return FALSE;
     }
 
