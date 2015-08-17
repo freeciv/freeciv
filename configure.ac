@@ -868,8 +868,10 @@ done
 
 if test "x$req_fcmp_gtk3" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
-  AM_PATH_GTK_3_0([3.8.0],
+  PKG_CHECK_MODULES([GTK3], [gtk+-3.0 >= 3.8.0],
 [
+  GTK3_CFLAGS="$GTK3_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_8 -DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_8"
+  GTK3_CFLAGS="$GTK3_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_36 -DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_36"
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
   fcmp_gtk3=yes
