@@ -216,9 +216,9 @@ struct player *extra_owner(const struct tile *ptile);
 
 #define extra_type_iterate(_p)                                \
 {                                                             \
-  int _i_;                                                    \
-  for (_i_ = 0; _i_ < game.control.num_extra_types; _i_++) {  \
-    struct extra_type *_p = extra_by_number(_i_);
+  int _i_##_p;                                                \
+  for (_i_##_p = 0; _i_##_p < game.control.num_extra_types; _i_##_p++) {  \
+    struct extra_type *_p = extra_by_number(_i_##_p);
 
 #define extra_type_iterate_end                    \
   }                                               \
@@ -226,9 +226,9 @@ struct player *extra_owner(const struct tile *ptile);
 
 #define extra_type_by_cause_iterate(_cause, _extra)                 \
 {                                                                   \
-  struct extra_type_list *_etl_ = extra_type_list_by_cause(_cause); \
-  if (_etl_ != NULL) {                                              \
-    extra_type_list_iterate(_etl_, _extra) {
+  struct extra_type_list *_etl_##_extra = extra_type_list_by_cause(_cause); \
+  if (_etl_##_extra != NULL) {                                              \
+    extra_type_list_iterate(_etl_##_extra, _extra) {
 
 #define extra_type_by_cause_iterate_end                    \
     } extra_type_list_iterate_end                          \

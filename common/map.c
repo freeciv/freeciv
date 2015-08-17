@@ -1056,9 +1056,9 @@ struct tile *rand_map_pos_filtered(void *data,
 
     positions = fc_calloc(MAP_INDEX_SIZE, sizeof(*positions));
 
-    whole_map_iterate(ptile) {
-      if (filter(ptile, data)) {
-	positions[count] = tile_index(ptile);
+    whole_map_iterate(check_tile) {
+      if (filter(check_tile, data)) {
+	positions[count] = tile_index(check_tile);
 	count++;
       }
     } whole_map_iterate_end;

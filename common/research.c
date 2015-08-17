@@ -661,11 +661,12 @@ bool research_invention_reachable(const struct research *presearch,
   } else if (presearch != NULL) {
     return presearch->inventions[tech].reachable;
   } else {
-    researches_iterate(presearch) {
-      if (presearch->inventions[tech].reachable) {
+    researches_iterate(research_iter) {
+      if (research_iter->inventions[tech].reachable) {
         return TRUE;
       }
     } researches_iterate_end;
+
     return FALSE;
   }
 }
@@ -688,13 +689,14 @@ bool research_invention_gettable(const struct research *presearch,
             ? presearch->inventions[tech].root_reqs_known
             : presearch->inventions[tech].state == TECH_PREREQS_KNOWN);
   } else {
-    researches_iterate(presearch) {
+    researches_iterate(research_iter) {
       if (allow_holes
-          ? presearch->inventions[tech].root_reqs_known
-          : presearch->inventions[tech].state == TECH_PREREQS_KNOWN) {
+          ? research_iter->inventions[tech].root_reqs_known
+          : research_iter->inventions[tech].state == TECH_PREREQS_KNOWN) {
         return TRUE;
       }
     } researches_iterate_end;
+
     return FALSE;
   }
 }
@@ -1026,10 +1028,10 @@ int player_tech_upkeep(const struct player *pplayer)
 
   total_research_factor = 0.0;
   members = 0;
-  research_players_iterate(presearch, pplayer) {
-    total_research_factor += (get_player_bonus(pplayer, EFT_TECH_COST_FACTOR)
-                              + (pplayer->ai_controlled
-                                 ? pplayer->ai_common.science_cost / 100.0
+  research_players_iterate(presearch, contributor) {
+    total_research_factor += (get_player_bonus(contributor, EFT_TECH_COST_FACTOR)
+                              + (contributor->ai_controlled
+                                 ? contributor->ai_common.science_cost / 100.0
                                  : 1));
     members++;
   } research_players_iterate_end;

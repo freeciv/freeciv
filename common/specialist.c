@@ -195,7 +195,7 @@ const char *specialists_abbreviation_string(void)
 
   and you'll get "0/3/1".
 ****************************************************************************/
-const char *specialists_string(const citizens *specialists)
+const char *specialists_string(const citizens *specialist_list)
 {
   static char buf[5 * SP_MAX];
 
@@ -204,7 +204,7 @@ const char *specialists_string(const citizens *specialists)
   specialist_type_iterate(sp) {
     char *separator = (buf[0] == '\0') ? "" : "/";
 
-    cat_snprintf(buf, sizeof(buf), "%s%d", separator, specialists[sp]);
+    cat_snprintf(buf, sizeof(buf), "%s%d", separator, specialist_list[sp]);
   } specialist_type_iterate_end;
 
   return buf;

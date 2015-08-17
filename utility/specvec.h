@@ -132,10 +132,10 @@ static inline void SPECVEC_FOO(_vector_append) (SPECVEC_VECTOR *tthis,
 
 
 #define TYPED_VECTOR_ITERATE(atype, vector, var) {      \
-  unsigned int myiter;                                  \
+  unsigned int myiter##var;                             \
   atype *var;                                           \
-  for (myiter = 0; myiter < (vector)->size; myiter++) { \
-    var = &(vector)->p[myiter];			        \
+  for (myiter##var = 0; myiter##var < (vector)->size; myiter##var++) { \
+    var = &(vector)->p[myiter##var];			        \
  
 /* Balance for above: */
 #define VECTOR_ITERATE_END  }}

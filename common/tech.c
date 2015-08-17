@@ -419,8 +419,8 @@ void techs_free(void)
 {
   int i;
 
-  advance_index_iterate(A_FIRST, i) {
-    tech_free(i);
+  advance_index_iterate(A_FIRST, adv_idx) {
+    tech_free(adv_idx);
   } advance_index_iterate_end;
 
   for (i = 0; i < ARRAY_SIZE(advances); i++) {
