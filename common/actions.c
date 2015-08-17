@@ -557,7 +557,7 @@ static bool explode_nuclear_blocks(const struct unit *actor_unit,
   possible.
 
   TODO: Make regular attacks action enabler controlled and delete this
-  fuction.
+  function.
 **************************************************************************/
 bool action_blocks_attack(const struct unit *actor_unit,
                           const struct tile *target_tile)
@@ -570,13 +570,13 @@ bool action_blocks_attack(const struct unit *actor_unit,
 
   if (bombard_blocks(actor_unit, target_tile)) {
     /* Bomard units is possible.
-     * The ruleset forbids explode nuclear when it is. */
+     * The ruleset forbids regular attacks when it is. */
     return TRUE;
   }
 
   if (explode_nuclear_blocks(actor_unit, target_tile)) {
     /* Explode nuclear is possible.
-     * The ruleset forbids explode nuclear when it is. */
+     * The ruleset forbids regular attacks when it is. */
     return TRUE;
   }
 
