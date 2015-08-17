@@ -622,7 +622,7 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
                               enabler) {
     if (!requirement_fulfilled_by_unit_type(punit_type,
                                             &(enabler->actor_reqs))) {
-      /* This action can't be performed by this unit type at all. */
+      /* This action enabler isn't for this unit type at all. */
       continue;
     }
 
