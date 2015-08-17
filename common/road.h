@@ -143,10 +143,10 @@ void road_types_free(void);
 /* TODO: Change users to use extra_type_by_cause_iterate(EC_ROAD...)
  * directly instead. Especially if they need the 'extra' again and
  * get it back from the _p with road_extra_get() */
-#define road_type_iterate(_p)                    \
-{                                                \
-  extra_type_by_cause_iterate(EC_ROAD, _e_) {    \
-    struct road_type *_p = extra_road_get(_e_);
+#define road_type_iterate(_p)                        \
+{                                                    \
+  extra_type_by_cause_iterate(EC_ROAD, _e_##_p) {    \
+    struct road_type *_p = extra_road_get(_e_##_p);
 
 #define road_type_iterate_end                    \
   } extra_type_by_cause_iterate_end              \

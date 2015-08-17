@@ -119,8 +119,8 @@ bool remove_clause(struct Treaty *ptreaty, struct player *pfrom,
 		  enum clause_type type, int val)
 {
   clause_list_iterate(ptreaty->clauses, pclause) {
-    if(pclause->type==type && pclause->from==pfrom &&
-       pclause->value==val) {
+    if (pclause->type == type && pclause->from == pfrom
+        && pclause->value == val) {
       clause_list_remove(ptreaty->clauses, pclause);
       free(pclause);
 
@@ -188,31 +188,31 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     return FALSE;
   }
 
-  clause_list_iterate(ptreaty->clauses, pclause) {
-    if(pclause->type==type
-       && pclause->from==pfrom
-       && pclause->value==val) {
+  clause_list_iterate(ptreaty->clauses, old_clause) {
+    if (old_clause->type == type
+        && old_clause->from == pfrom
+        && old_clause->value == val) {
       /* same clause already there */
       return FALSE;
     }
-    if(is_pact_clause(type) &&
-       is_pact_clause(pclause->type)) {
+    if (is_pact_clause(type) &&
+        is_pact_clause(old_clause->type)) {
       /* pact clause already there */
       ptreaty->accept0 = FALSE;
       ptreaty->accept1 = FALSE;
-      pclause->type=type;
+      old_clause->type = type;
       return TRUE;
     }
-    if (type == CLAUSE_GOLD && pclause->type==CLAUSE_GOLD &&
-        pclause->from==pfrom) {
+    if (type == CLAUSE_GOLD && old_clause->type == CLAUSE_GOLD &&
+        old_clause->from == pfrom) {
       /* gold clause there, different value */
       ptreaty->accept0 = FALSE;
       ptreaty->accept1 = FALSE;
-      pclause->value=val;
+      old_clause->value = val;
       return TRUE;
     }
   } clause_list_iterate_end;
-   
+
   pclause = fc_malloc(sizeof(*pclause));
 
   pclause->type=type;

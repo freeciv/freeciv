@@ -486,9 +486,10 @@ struct player *player_new(struct player_slot *pslot)
 
   pplayer->diplstates = fc_calloc(player_slot_count(),
                                   sizeof(*pplayer->diplstates));
-  player_slots_iterate(pslot) {
+  player_slots_iterate(dslot) {
     const struct player_diplstate **diplstate_slot
-      = pplayer->diplstates + player_slot_index(pslot);
+      = pplayer->diplstates + player_slot_index(dslot);
+
     *diplstate_slot = NULL;
   } player_slots_iterate_end;
 

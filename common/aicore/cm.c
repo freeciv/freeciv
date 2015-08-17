@@ -667,7 +667,7 @@ static void apply_solution(struct cm_state *state,
                            const struct partial_solution *soln)
 {
   struct city *pcity = state->pcity;
-  int i, citizens = 0, city_radius_sq = city_map_radius_sq_get(pcity);
+  int i, citizen_count = 0, city_radius_sq = city_map_radius_sq_get(pcity);
 
 #ifdef GATHER_TIME_STATS
   performance.current->apply_count++;
@@ -698,7 +698,7 @@ static void apply_solution(struct cm_state *state,
       /* No citizens of this type. */
       continue;
     }
-    citizens += nworkers;
+    citizen_count += nworkers;
 
     type = tile_type_get(state, i);
 
@@ -719,7 +719,7 @@ static void apply_solution(struct cm_state *state,
 
   /* Finally we must refresh the city to reset all the precomputed fields. */
   city_refresh_from_main_map(pcity, state->workers_map);
-  fc_assert_ret(citizens == city_size_get(pcity));
+  fc_assert_ret(citizen_count == city_size_get(pcity));
 }
 
 /****************************************************************************
@@ -1512,17 +1512,17 @@ static void complete_solution(struct partial_solution *soln,
 static int specialists_in_solution(const struct cm_state *state,
                                    const struct partial_solution *soln)
 {
-  int specialists = 0;
+  int count = 0;
   int i;
 
   for (i = 0 ; i < num_types(state); i++) {
     if (soln->worker_counts[i] > 0 && tile_type_get(state, i)->is_specialist) {
-      specialists += soln->worker_counts[i];
+      count += soln->worker_counts[i];
     }
   }
-  return specialists;
-}
 
+  return count;
+}
 
 /****************************************************************************
   The heuristic:
