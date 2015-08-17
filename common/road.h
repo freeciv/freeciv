@@ -155,9 +155,9 @@ struct road_type *next_road_for_tile(struct tile *ptile, struct player *pplayer,
 
 #define road_type_iterate(_p)                    \
 {                                                \
-  int _i_;                                       \
-  for (_i_ = 0; _i_ < game.control.num_road_types ; _i_++) { \
-    struct road_type *_p = road_by_number(_i_);
+  int _i_##_p;                                   \
+  for (_i_##_p = 0; _i_##_p < game.control.num_road_types ; _i_##_p++) { \
+    struct road_type *_p = road_by_number(_i_##_p);
 
 #define road_type_iterate_end                    \
   }}

@@ -546,8 +546,8 @@ END:
     secfile->allow_duplicates = allow_duplicates;
     secfile->hash.entries = entry_hash_new_nentries(secfile->num_entries);
 
-    section_list_iterate(secfile->sections, psection) {
-      entry_list_iterate(section_entries(psection), pentry) {
+    section_list_iterate(secfile->sections, hashing_section) {
+      entry_list_iterate(section_entries(hashing_section), pentry) {
         if (!secfile_hash_insert(secfile, pentry)) {
           error = TRUE;
           break;

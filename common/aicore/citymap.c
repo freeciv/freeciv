@@ -66,8 +66,8 @@ void citymap_turn_init(struct player *pplayer)
   citymap = fc_realloc(citymap, MAP_INDEX_SIZE * sizeof(*citymap));
   memset(citymap, 0, MAP_INDEX_SIZE * sizeof(*citymap));
 
-  players_iterate(pplayer) {
-    city_list_iterate(pplayer->cities, pcity) {
+  players_iterate(pother) {
+    city_list_iterate(pother->cities, pcity) {
       struct tile *pcenter = city_tile(pcity);
 
       /* reserve at least the default (squared) city radius */

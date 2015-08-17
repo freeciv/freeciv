@@ -495,7 +495,7 @@ extern struct terrain_misc terrain_control;
  * center map position, with normalization.  Does not include the center
  * position.  The order of positions is unspecified. */
 #define cardinal_adjc_iterate(center_tile, itr_tile)			    \
-  adjc_dirlist_iterate(center_tile, itr_tile, _dir_itr,			    \
+  adjc_dirlist_iterate(center_tile, itr_tile, _dir_itr##center_tile,	    \
 		       map.cardinal_dirs, map.num_cardinal_dirs)
 
 #define cardinal_adjc_iterate_end adjc_dirlist_iterate_end
@@ -537,18 +537,18 @@ extern struct terrain_misc terrain_control;
 			     dirlist, dircount)				    \
 {									    \
   enum direction8 _dir;							    \
-  int _tile##_x, _tile##_y, _center##_x, _center##_y;                       \
+  int _tile##_x, _tile##_y, _tile##_cx, _tile##_cy;                         \
   struct tile *_tile;							    \
   const struct tile *_tile##_center = (center_tile);			    \
   int _tile##_index = 0;						    \
-  index_to_map_pos(&_center##_x, &_center##_y, tile_index(_tile##_center)); \
+  index_to_map_pos(&_tile##_cx, &_tile##_cy, tile_index(_tile##_center));   \
   for (;								    \
        _tile##_index < (dircount);					    \
        _tile##_index++) {						    \
     _dir = dirlist[_tile##_index];					    \
     DIRSTEP(_tile##_x, _tile##_y, _dir);				    \
-    _tile##_x += _center##_x;                                               \
-    _tile##_y += _center##_y;                                               \
+    _tile##_x += _tile##_cx;                                                \
+    _tile##_y += _tile##_cy;                                                \
     _tile = map_pos_to_tile(_tile##_x, _tile##_y);                          \
     if (NULL == _tile) {                                                    \
       continue;                                                             \

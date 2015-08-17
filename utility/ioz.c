@@ -677,8 +677,6 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
 #ifdef HAVE_LIBLZMA
   case FZ_XZ:
     {
-      int num;
-
       va_start(ap, format);
       num = fc_vsnprintf((char *)fp->u.xz.in_buf, PLAIN_FILE_BUF_SIZE, format, ap);
       va_end(ap);

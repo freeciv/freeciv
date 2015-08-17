@@ -253,13 +253,13 @@ void ruleset_cache_init(void)
 void ruleset_cache_free(void)
 {
   int i;
-  struct effect_list *plist = ruleset_cache.tracker;
+  struct effect_list *tracker_list = ruleset_cache.tracker;
 
-  if (plist) {
-    effect_list_iterate(plist, peffect) {
+  if (tracker_list) {
+    effect_list_iterate(tracker_list, peffect) {
       effect_free(peffect);
     } effect_list_iterate_end;
-    effect_list_destroy(plist);
+    effect_list_destroy(tracker_list);
     ruleset_cache.tracker = NULL;
   }
 
