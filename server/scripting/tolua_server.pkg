@@ -118,9 +118,14 @@ module edit {
                     const char *ai);
   void api_edit_change_gold
     @ change_gold (lua_State *L, Player *pplayer, int amount);
+  /* cost:
+   *     0 or above - The exact cost % to apply
+   *    -1          - Apply freecost
+   *    -2          - Apply conquercost
+   *    -3          - Apply diplbulbcost */
   Tech_Type *api_edit_give_technology
     @ give_technology (lua_State *L, Player *pplayer, Tech_Type *ptech,
-                       const char *reason);
+                       int cost, const char *reason);
   bool api_edit_trait_mod
     @ trait_mod (lua_State *L, Player *pplayer, const char *trait_name,
                  const int mod);
@@ -184,8 +189,8 @@ function change_gold(pplayer, amount)
   edit.change_gold(pplayer, amount)
 end
 
-function give_technology(player, tech, reason)
-  return edit.give_technology(player, tech, reason)
+function give_technology(player, tech, cost, reason)
+  return edit.give_technology(player, tech, cost, reason)
 end
 
 function trait_mod(player, trait, mod)
@@ -224,8 +229,8 @@ function Player:change_gold(amount)
   edit.change_gold(self, amount)
 end
 
-function Player:give_technology(tech, reason)
-  return edit.give_technology(self, tech, reason)
+function Player:give_technology(tech, cost, reason)
+  return edit.give_technology(self, tech, cost, reason)
 end
 
 function Player:trait_mod(trait, mod)

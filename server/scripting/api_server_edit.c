@@ -272,7 +272,7 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount)
   sends script signal "tech_researched" with the given reason
 *****************************************************************************/
 Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
-                                    Tech_Type *ptech, const char *reason)
+                                    Tech_Type *ptech, int cost, const char *reason)
 {
   struct research *presearch;
   Tech_type_id id;
@@ -280,6 +280,7 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
 
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, NULL);
+  LUASCRIPT_CHECK_ARG(L, cost >= -3, 4, "Unknown give_tech() cost value", NULL);
 
   presearch = research_get(pplayer);
   if (ptech) {
@@ -299,7 +300,19 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
 
   if (is_future_tech(id)
       || research_invention_state(presearch, id) != TECH_KNOWN) {
-    research_apply_penalty(presearch, id, game.server.freecost);
+    if (cost < 0) {
+      if (cost == -1) {
+        cost = game.server.freecost;
+      } else if (cost == -2) {
+        cost = game.server.conquercost;
+      } else if (cost == -3) {
+        cost = game.server.diplbulbcost;
+      } else {
+        
+        cost = 0;
+      }
+    }
+    research_apply_penalty(presearch, id, cost);
     found_new_tech(presearch, id, FALSE, TRUE);
     result = advance_by_number(id);
     script_tech_learned(presearch, pplayer, result, reason);

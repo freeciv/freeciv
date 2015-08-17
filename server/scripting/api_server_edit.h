@@ -48,7 +48,8 @@ Player *api_edit_create_player(lua_State *L, const char *username,
                                Nation_Type *pnation, const char *ai);
 void api_edit_change_gold(lua_State *L, Player *pplayer, int amount);
 Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
-                                    Tech_Type *ptech, const char *reason);
+                                    Tech_Type *ptech, int cost,
+                                    const char *reason);
 bool api_edit_trait_mod(lua_State *L, Player *pplayer, const char *trait_name,
                         const int mod);
 
