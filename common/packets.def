@@ -1575,7 +1575,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   UINT8 rmreqs_count;
   REQUIREMENT rmreqs[MAX_NUM_REQS:rmreqs_count];
   UINT8 spontaneous_reqs_count;
-  REQUIREMENT spontaneous_reqs[MAX_NUM_REQS:rmreqs_count];
+  REQUIREMENT spontaneous_reqs[MAX_NUM_REQS:spontaneous_reqs_count];
   BOOL buildable;
   UINT8 build_time;
   UINT8 build_time_factor;
