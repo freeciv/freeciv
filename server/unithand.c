@@ -3687,6 +3687,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_ESTABLISH_EMBASSY:
       case ACTION_SPY_INVESTIGATE_CITY:
       case ACTION_SPY_POISON:
+      case ACTION_SPY_STEAL_GOLD:
       case ACTION_TRADE_ROUTE:
       case ACTION_MARKETPLACE:
       case ACTION_HELP_WONDER:
