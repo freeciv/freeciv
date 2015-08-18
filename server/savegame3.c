@@ -6128,36 +6128,38 @@ static void sg_save_researches(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  researches_iterate(presearch) {
-    secfile_insert_int(saving->file, research_number(presearch),
-                       "research.r%d.number", i);
-    technology_save(saving->file, "research.r%d.goal",
-                    i, presearch->tech_goal);
-    secfile_insert_int(saving->file, presearch->techs_researched,
-                       "research.r%d.techs", i);
-    secfile_insert_int(saving->file, presearch->future_tech,
-                       "research.r%d.futuretech", i);
-    secfile_insert_int(saving->file, presearch->bulbs_researching_saved,
-                       "research.r%d.bulbs_before", i);
-    technology_save(saving->file, "research.r%d.saved",
-                    i, presearch->researching_saved);
-    secfile_insert_int(saving->file, presearch->bulbs_researched,
-                       "research.r%d.bulbs", i);
-    technology_save(saving->file, "research.r%d.now",
-                    i, presearch->researching);
-    secfile_insert_bool(saving->file, presearch->got_tech,
-                        "research.r%d.got_tech", i);
-    /* Save technology lists as bytevector. Note that technology order is
-     * saved in savefile.technology.order */
-    advance_index_iterate(A_NONE, tech_id) {
-      invs[tech_id] = (research_invention_state(presearch, tech_id)
-                       == TECH_KNOWN ? '1' : '0');
-    } advance_index_iterate_end;
-    invs[game.control.num_tech_types] = '\0';
-    secfile_insert_str(saving->file, invs, "research.r%d.done", i);
-    i++;
-  } researches_iterate_end;
-  secfile_insert_int(saving->file, i, "research.count");
+  if (saving->save_players) {
+    researches_iterate(presearch) {
+      secfile_insert_int(saving->file, research_number(presearch),
+                         "research.r%d.number", i);
+      technology_save(saving->file, "research.r%d.goal",
+                      i, presearch->tech_goal);
+      secfile_insert_int(saving->file, presearch->techs_researched,
+                         "research.r%d.techs", i);
+      secfile_insert_int(saving->file, presearch->future_tech,
+                         "research.r%d.futuretech", i);
+      secfile_insert_int(saving->file, presearch->bulbs_researching_saved,
+                         "research.r%d.bulbs_before", i);
+      technology_save(saving->file, "research.r%d.saved",
+                      i, presearch->researching_saved);
+      secfile_insert_int(saving->file, presearch->bulbs_researched,
+                         "research.r%d.bulbs", i);
+      technology_save(saving->file, "research.r%d.now",
+                      i, presearch->researching);
+      secfile_insert_bool(saving->file, presearch->got_tech,
+                          "research.r%d.got_tech", i);
+      /* Save technology lists as bytevector. Note that technology order is
+       * saved in savefile.technology.order */
+      advance_index_iterate(A_NONE, tech_id) {
+        invs[tech_id] = (research_invention_state(presearch, tech_id)
+                         == TECH_KNOWN ? '1' : '0');
+      } advance_index_iterate_end;
+      invs[game.control.num_tech_types] = '\0';
+      secfile_insert_str(saving->file, invs, "research.r%d.done", i);
+      i++;
+    } researches_iterate_end;
+    secfile_insert_int(saving->file, i, "research.count");
+  }
 }
 
 /* =======================================================================
