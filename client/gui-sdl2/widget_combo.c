@@ -100,7 +100,7 @@ static int combo_redraw(struct widget *combo)
 }
 
 /****************************************************************************
-  ...
+  User interacted with the combo menu window.
 ****************************************************************************/
 static int combo_menu_callback(struct widget *window)
 {
@@ -115,7 +115,7 @@ static int combo_menu_callback(struct widget *window)
 }
 
 /****************************************************************************
-  ...
+  User interacted with a single item of the combo menu.
 ****************************************************************************/
 static int combo_menu_item_callback(struct widget *label)
 {

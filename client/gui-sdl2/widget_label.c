@@ -33,7 +33,7 @@
 static int (*baseclass_redraw)(struct widget *pwidget);
   
 /**************************************************************************
-  ...
+  Blit themelabel2 gfx to surface its on.
 **************************************************************************/
 static inline int redraw_themelabel2(struct widget *pLabel)
 {    
@@ -52,7 +52,7 @@ static inline int redraw_themelabel2(struct widget *pLabel)
 }
 
 /**************************************************************************
-  ...
+  Blit label gfx to surface its on.
 **************************************************************************/
 static int redraw_label(struct widget *pLabel)
 {
@@ -109,7 +109,7 @@ static int redraw_label(struct widget *pLabel)
 }
 
 /**************************************************************************
-  ...
+  Calculate new size for a label.
 **************************************************************************/
 void remake_label_size(struct widget *pLabel)
 {
@@ -322,6 +322,9 @@ struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   return pLabel;
 }
 
+/**************************************************************************
+  Make themeiconlabel2 widget out of iconlabel widget.
+**************************************************************************/
 struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
 {
   SDL_Rect start, area;
@@ -401,7 +404,7 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
 
 #if 0
 /**************************************************************************
-  ...
+  Blit themelabel gfx to surface its on.
 **************************************************************************/
 static int redraw_themelabel(struct widget *pLabel)
 {
@@ -446,7 +449,7 @@ static int redraw_themelabel(struct widget *pLabel)
 #endif /* 0 */
 
 /**************************************************************************
-  ...
+  Blit iconlabel gfx to surface its on.
 **************************************************************************/
 int redraw_iconlabel(struct widget *pLabel)
 {
@@ -584,7 +587,7 @@ int redraw_iconlabel(struct widget *pLabel)
 }
 
 /**************************************************************************
-  ...
+  Draw the label widget.
 **************************************************************************/
 int draw_label(struct widget *pLabel, Sint16 start_x, Sint16 start_y)
 {

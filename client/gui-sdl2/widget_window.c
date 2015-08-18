@@ -117,7 +117,7 @@ static int redraw_window(struct widget *pWindow)
 **************************************************************************/
 
 /**************************************************************************
-  ...
+  Set position for the window.
 **************************************************************************/
 static void window_set_position(struct widget *pWindow, int x, int y)
 {
@@ -132,7 +132,7 @@ static void window_set_position(struct widget *pWindow, int x, int y)
 }
 
 /**************************************************************************
-  ...
+  Selected callback for the window widget.
 **************************************************************************/
 static void window_select(struct widget *pWindow)
 {
@@ -140,7 +140,7 @@ static void window_select(struct widget *pWindow)
 }
 
 /**************************************************************************
-  ...
+  Unselected callback for the window widget.
 **************************************************************************/
 static void window_unselect(struct widget *pWindow)
 {
@@ -148,7 +148,7 @@ static void window_unselect(struct widget *pWindow)
 }
 
 /**************************************************************************
-  ...
+  Set area for the window widget.
 **************************************************************************/
 static void set_client_area(struct widget *pWindow)
 {
@@ -298,7 +298,7 @@ int resize_window(struct widget *pWindow, SDL_Surface *pBcgd,
 }
 
 /**************************************************************************
-...
+  Move window as event instructs.
 **************************************************************************/
 static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent,
                                  void *pData)
@@ -328,9 +328,9 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent,
 }
 
 /**************************************************************************
-...
+  Button up event handler for the window moving event loop.
 **************************************************************************/
-static Uint16 move_window_button_up(SDL_MouseButtonEvent * pButtonEvent,
+static Uint16 move_window_button_up(SDL_MouseButtonEvent *pButtonEvent,
                                     void *pData)
 {
   struct MOVE *pMove = (struct MOVE *)pData;
@@ -343,7 +343,7 @@ static Uint16 move_window_button_up(SDL_MouseButtonEvent * pButtonEvent,
 }
 
 /**************************************************************************
-  ...
+  Move window in a event loop.
 **************************************************************************/
 bool move_window(struct widget *pWindow)
 {

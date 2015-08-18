@@ -28,7 +28,7 @@
 #include "widget_p.h"
 
 /**************************************************************************
-  ...
+  Set state of the widget.
 **************************************************************************/
 void set_wstate(struct widget *pWidget, enum widget_state state)
 {
@@ -37,7 +37,7 @@ void set_wstate(struct widget *pWidget, enum widget_state state)
 }
 
 /**************************************************************************
-  ...
+  Set type of the widget.
 **************************************************************************/
 void set_wtype(struct widget *pWidget, enum widget_type type)
 {
@@ -46,7 +46,7 @@ void set_wtype(struct widget *pWidget, enum widget_type type)
 }
 
 /**************************************************************************
-  ...
+  Set flags of the widget.
 **************************************************************************/
 void set_wflag(struct widget *pWidget, enum widget_flag flag)
 {
@@ -54,7 +54,7 @@ void set_wflag(struct widget *pWidget, enum widget_flag flag)
 }
 
 /**************************************************************************
-  ...
+  Clear flag from the widget.
 **************************************************************************/
 void clear_wflag(struct widget *pWidget, enum widget_flag flag)
 {
@@ -62,7 +62,7 @@ void clear_wflag(struct widget *pWidget, enum widget_flag flag)
 }
 
 /**************************************************************************
-  ...
+  Get state of the widget.
 **************************************************************************/
 enum widget_state get_wstate(const struct widget *pWidget)
 {
@@ -70,7 +70,7 @@ enum widget_state get_wstate(const struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Get type of the widget.
 **************************************************************************/
 enum widget_type get_wtype(const struct widget *pWidget)
 {
@@ -78,7 +78,7 @@ enum widget_type get_wtype(const struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Get all flags of the widget.
 **************************************************************************/
 enum widget_flag get_wflags(const struct widget *pWidget)
 {
@@ -126,7 +126,7 @@ void widget_free(struct widget **pWidget)
 }
 
 /**************************************************************************
-  ...
+  Set widget area.
 **************************************************************************/
 static void widget_core_set_area(struct widget *pwidget, SDL_Rect area)
 {
@@ -134,7 +134,7 @@ static void widget_core_set_area(struct widget *pwidget, SDL_Rect area)
 }
 
 /**************************************************************************
-  ...
+  Set widget position.
 **************************************************************************/
 static void widget_core_set_position(struct widget *pwidget, int x, int y)
 {
@@ -143,7 +143,7 @@ static void widget_core_set_position(struct widget *pwidget, int x, int y)
 }
 
 /**************************************************************************
-  ...
+  Set widget size.
 **************************************************************************/
 static void widget_core_resize(struct widget *pwidget, int w, int h)
 {
@@ -152,7 +152,7 @@ static void widget_core_resize(struct widget *pwidget, int w, int h)
 }
 
 /**************************************************************************
-  ...
+  Draw widget to the surface its on, if it's visible.
 **************************************************************************/
 static int widget_core_redraw(struct widget *pwidget)
 {
@@ -172,7 +172,7 @@ static int widget_core_redraw(struct widget *pwidget)
 }
 
 /**************************************************************************
-  ...
+  Draw frame of the widget.
 **************************************************************************/
 static void widget_core_draw_frame(struct widget *pwidget)
 {
@@ -180,7 +180,7 @@ static void widget_core_draw_frame(struct widget *pwidget)
 }
 
 /**************************************************************************
-  ...
+  Mark part of the display covered by the widget dirty.
 **************************************************************************/
 static void widget_core_mark_dirty(struct widget *pwidget)
 {
@@ -195,7 +195,7 @@ static void widget_core_mark_dirty(struct widget *pwidget)
 }
 
 /**************************************************************************
-  ...
+  Flush part of the display covered by the widget.
 **************************************************************************/
 static void widget_core_flush(struct widget *pwidget)
 {
@@ -210,7 +210,7 @@ static void widget_core_flush(struct widget *pwidget)
 }
 
 /**************************************************************************
-  ...
+  Clear widget from the display.
 **************************************************************************/
 static void widget_core_undraw(struct widget *pwidget)
 {
@@ -226,7 +226,7 @@ static void widget_core_undraw(struct widget *pwidget)
 }
 
 /**************************************************************************
-  ...
+  Callback for when widget gets selected.
 **************************************************************************/
 static void widget_core_select(struct widget *pwidget)
 {
@@ -235,7 +235,7 @@ static void widget_core_select(struct widget *pwidget)
 }
 
 /**************************************************************************
-  ...
+  Callback for when widget gets unselected.
 **************************************************************************/
 static void widget_core_unselect(struct widget *pwidget)
 {
@@ -244,7 +244,7 @@ static void widget_core_unselect(struct widget *pwidget)
 }
 
 /**************************************************************************
-  ...
+  Create a new widget.
 **************************************************************************/
 struct widget *widget_new(void)
 {

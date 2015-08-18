@@ -60,7 +60,7 @@ static char *chain2text(const struct Utf8Char *pInChain, size_t len, size_t *siz
 static int (*baseclass_redraw)(struct widget *pwidget);
 
 /**************************************************************************
-...
+  Draw the text being edited.
 **************************************************************************/
 static int redraw_edit_chain(struct EDIT *pEdt)
 {
@@ -652,7 +652,11 @@ static Uint16 edit_textinput(char *text, void *pData)
   return ID_ERROR;
 }
 
-static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *pData)
+/**************************************************************************
+  Handle mouse down events on edit widget.
+**************************************************************************/
+static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent,
+                                     void *pData)
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
 
@@ -669,6 +673,10 @@ static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *p
   return (Uint16)ID_ERROR;
 }
 
+/**************************************************************************
+  Handle active edit. Returns what should happen to the edit
+  next.
+**************************************************************************/
 enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
 {
   struct EDIT pEdt;

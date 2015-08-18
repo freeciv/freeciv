@@ -390,7 +390,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
         widget_mark_dirty(pWidget);
         flush_dirty();
         set_wstate(pWidget, FC_WS_SELECTED);
-        togle_checkbox(pWidget);
+        toggle_checkbox(pWidget);
         SDL_Delay(300);
       }
       ID = pWidget->ID;  

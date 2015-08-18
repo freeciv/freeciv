@@ -643,7 +643,7 @@ static void option_widget_update(struct option *poption)
   switch (option_type(poption)) {
   case OT_BOOLEAN:
     if (option_bool_get(poption) != get_checkbox_state(widget)) {
-      togle_checkbox(widget);
+      toggle_checkbox(widget);
     }
     break;
 
