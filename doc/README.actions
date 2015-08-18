@@ -183,6 +183,10 @@ Actions done by a unit against a city
  * UI name can be set using ui_name_suitcase_nuke
  * actor must be on the same tile as the target or on the tile next to it.
 
+"Destroy City" - Destroys the target city.
+ * UI name can be set using ui_name_destroy_city
+ * actor must be on the same tile as the target or on the tile next to it.
+
 "Establish Trade Route" - Establish a trade route to the target city.
  * UI name can be set using ui_name_establish_trade_route
  * actor must be on the same tile as the target or on the tile next to it.

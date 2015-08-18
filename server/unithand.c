@@ -129,6 +129,9 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 static bool unit_nuke(struct player *pplayer, struct unit *punit,
                       struct tile *def_tile);
+static bool unit_do_destroy_city(struct player *act_player,
+                                 struct unit *act_unit,
+                                 struct city *tgt_city);
 
 /**************************************************************************
   Handle airlift request.
@@ -1606,6 +1609,19 @@ bool unit_perform_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_DESTROY_CITY:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        return unit_do_destroy_city(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity), NULL, pcity, NULL);
+      }
+    }
+    break;
   case ACTION_CAPTURE_UNITS:
     if (target_tile) {
       if (is_action_enabled_unit_on_units(action_type,
@@ -2347,6 +2363,106 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
                              def_tile,
                              tile_link(def_tile));
 
+  return TRUE;
+}
+
+/**************************************************************************
+  Destroy the target city.
+
+  This function assumes the destruction is legal. The calling function
+  should have already made all necessary checks.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool unit_do_destroy_city(struct player *act_player,
+                                 struct unit *act_unit,
+                                 struct city *tgt_city)
+{
+  int tgt_city_id;
+  struct player *tgt_player;
+  bool try_civil_war = FALSE;
+
+  if (!act_player) {
+    /* Someone should be performing the action. */
+    fc_assert(act_player);
+
+    return FALSE;
+  }
+
+  if (!tgt_city) {
+    /* City was destroyed during pre action Lua. */
+    return FALSE;
+  }
+
+  tgt_player = city_owner(tgt_city);
+  if (!tgt_player) {
+    /* How can a city be ownerless? */
+    fc_assert(tgt_player);
+
+    return FALSE;
+  }
+
+  if (!act_unit || !unit_alive(act_unit->id)) {
+    /* Actor unit was destroyed during pre action Lua. */
+    return FALSE;
+  }
+
+  /* Save city ID. */
+  tgt_city_id = tgt_city->id;
+
+  if (is_capital(tgt_city)
+      && (tgt_player->spaceship.state == SSHIP_STARTED
+          || tgt_player->spaceship.state == SSHIP_LAUNCHED)) {
+    /* Destroying this city destroys the victim's space ship. */
+    spaceship_lost(tgt_player);
+  }
+
+  if (is_capital(tgt_city)
+      && civil_war_possible(tgt_player, TRUE, TRUE)
+      && normal_player_count() < MAX_NUM_PLAYERS
+      && civil_war_triggered(tgt_player)) {
+    /* Destroying this city can trigger a civil war. */
+    try_civil_war = TRUE;
+  }
+
+  /* Let the actor know. */
+  notify_player(act_player, city_tile(tgt_city),
+                E_UNIT_WIN, ftc_server,
+                _("You destroy %s completely."),
+                city_tile_link(tgt_city));
+
+  if (tgt_player != act_player) {
+    /* This was done to a foreign city. Inform the victim player. */
+    notify_player(tgt_player, city_tile(tgt_city),
+                  E_CITY_LOST, ftc_server,
+                  _("%s has been destroyed by %s."),
+                  city_tile_link(tgt_city),
+                  player_name(act_player));
+  }
+
+  /* May cause an incident */
+  action_consequence_success(ACTION_DESTROY_CITY, act_player,
+                             tgt_player, city_tile(tgt_city),
+                             city_link(tgt_city));
+
+  /* Run post city destruction Lua script. */
+  script_server_signal_emit("city_destroyed", 3,
+                            API_TYPE_CITY, tgt_city,
+                            API_TYPE_PLAYER, tgt_player,
+                            API_TYPE_PLAYER, act_player);
+
+  /* Can't be sure of city existence after running script. */
+  if (city_exist(tgt_city_id)) {
+    remove_city(tgt_city);
+  }
+
+  if (try_civil_war) {
+    /* Try to start the civil war. */
+    (void) civil_war(tgt_player);
+  }
+
+  /* The city is no more. */
   return TRUE;
 }
 

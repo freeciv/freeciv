@@ -1055,6 +1055,9 @@ static int action_target_neg_util(int action_id,
 
   /* Really bad for the city owner. */
   case ACTION_SPY_NUKE:
+  /* The ai will never destroy his own city to keep it out of enemy
+   * hands. If it starts supporting it this value should change. */
+  case ACTION_DESTROY_CITY:
     return 20;
 
   /* Bad for the city owner. */

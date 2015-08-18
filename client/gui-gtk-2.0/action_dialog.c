@@ -477,6 +477,23 @@ static void spy_nuke_city_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected destroy city from choice dialog
+*****************************************************************/
+static void destroy_city_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_DESTROY_CITY, args->actor_unit_id,
+                      args->target_city_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected stealing from choice dialog
 *****************************************************************/
 static void diplomat_steal_callback(GtkWidget *w, gpointer data)
@@ -1062,6 +1079,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_HELP_WONDER] = (GCallback)caravan_help_build_wonder_callback,
   [ACTION_JOIN_CITY] = (GCallback)join_city_callback,
   [ACTION_SPY_NUKE] = (GCallback)spy_nuke_city_callback,
+  [ACTION_DESTROY_CITY] = (GCallback)destroy_city_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,

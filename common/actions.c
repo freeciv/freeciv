@@ -127,6 +127,9 @@ void actions_init(void)
                  /* FIXME: Target is actually Tile + Units + City */
                  ATK_TILE,
                  TRUE);
+  actions[ACTION_DESTROY_CITY] =
+      action_new(ACTION_DESTROY_CITY, ATK_CITY,
+                 TRUE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -1555,6 +1558,10 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_NUKE:
     /* TODO */
+    break;
+  case ACTION_DESTROY_CITY:
+    /* No battle is fought first. */
+    chance = 200;
     break;
   case ACTION_COUNT:
     fc_assert(FALSE);
