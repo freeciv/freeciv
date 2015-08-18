@@ -34,9 +34,9 @@ static int (*checkbox_baseclass_redraw)(struct widget *pwidget);
 static int (*textcheckbox_baseclass_redraw)(struct widget *pwidget);
 
 /**************************************************************************
-  ...
+  Blit checkbox gfx to surface its on.
 **************************************************************************/
-static int redraw_icon(struct widget *pIcon)
+static int redraw_checkbox(struct widget *pIcon)
 {
   int ret;
   SDL_Rect src, area = pIcon->size;
@@ -126,8 +126,8 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags
   pCBox->private_data.cbox = pTmp;
 
   checkbox_baseclass_redraw = pCBox->redraw;
-  pCBox->redraw = redraw_icon;
-  
+  pCBox->redraw = redraw_checkbox;
+
   pCBox->size.w = pCBox->theme->w / 4;
   pCBox->size.h = pCBox->theme->h;
 

@@ -94,13 +94,17 @@ static void refresh_production_label(int stock);
 
 /* =========================================================== */
 
-/* Worklist Editor Window Callback */
+/**************************************************************************
+  Worklist Editor Window Callback
+**************************************************************************/
 static int window_worklist_editor_callback(struct widget *pWidget)
 {
   return -1;
 }
 
-/* Popdwon Worklist Editor */
+/**************************************************************************
+  Popdwon Worklist Editor
+**************************************************************************/
 static int popdown_worklist_editor_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -110,10 +114,10 @@ static int popdown_worklist_editor_callback(struct widget *pWidget)
   return -1;
 }
 
-/*
- * Commit changes to city/global worklist
- * In City Mode Remove Double entry of Imprv/Woder Targets from list.
- */
+/**************************************************************************
+  Commit changes to city/global worklist.
+  In City Mode Remove Double entry of Imprv/Woder Targets from list.
+**************************************************************************/
 static int ok_worklist_editor_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -170,9 +174,9 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
   return -1;
 }
 
-/*
- * Rename Global Worklist
- */
+/**************************************************************************
+  Rename Global Worklist
+**************************************************************************/
 static int rename_worklist_editor_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -193,9 +197,9 @@ static int rename_worklist_editor_callback(struct widget *pWidget)
 
 /* ====================================================================== */
 
-/*
- * Add target to worklist.
- */
+/**************************************************************************
+  Add target to worklist.
+**************************************************************************/
 static void add_target_to_worklist(struct widget *pTarget)
 {
   struct widget *pBuf = NULL, *pDock = NULL;
@@ -287,11 +291,11 @@ static void add_target_to_worklist(struct widget *pTarget)
   flush_dirty();
 }
 
-/*
- * Find if two targets are the same class (unit, imprv. , wonder).
- * This is needed by calculation of change production shields penalty.
- * [similar to are_universals_equal()]
- */
+/**************************************************************************
+  Find if two targets are the same class (unit, imprv. , wonder).
+  This is needed by calculation of change production shields penalty.
+  [similar to are_universals_equal()]
+**************************************************************************/
 static bool are_the_same_class(const struct universal one,
                                const struct universal two)
 {
@@ -312,10 +316,10 @@ static bool are_the_same_class(const struct universal one,
   return FALSE;
 }
 
-/*
- * Change production in editor shell, callculate production shields penalty and
- * refresh production progress label
- */
+/**************************************************************************
+  Change production in editor shell, callculate production shields penalty and
+  refresh production progress label
+**************************************************************************/
 static void change_production(struct universal prod)
 {
   if (!are_the_same_class(pEditor->currently_building, prod)) {
@@ -333,14 +337,14 @@ static void change_production(struct universal prod)
   refresh_production_label(pEditor->stock);
 }
 
-/*
- * Change production of city but only in Editor.
- * You must commit this changes by exit editor via OK button (commit function).
- *
- * This function don't remove double imprv./wonder target entry from worklist
- * and allow more entry of such target (In Production and worklist - this is
- * fixed by commit function).
- */
+/**************************************************************************
+  Change production of city but only in Editor.
+  You must commit this changes by exit editor via OK button (commit function).
+
+  This function don't remove double imprv./wonder target entry from worklist
+  and allow more entry of such target (In Production and worklist - this is
+  fixed by commit function).
+**************************************************************************/
 static void add_target_to_production(struct widget *pTarget)
 {
   int dummy;
@@ -376,7 +380,9 @@ static void add_target_to_production(struct widget *pTarget)
   flush_dirty();
 }
 
-/* Get Help Info about target */
+/**************************************************************************
+  Get Help Info about target
+**************************************************************************/
 static void get_target_help_data(struct widget *pTarget)
 {
   struct universal prod;
@@ -397,13 +403,13 @@ static void get_target_help_data(struct widget *pTarget)
   }
 }
 
-/*
- * Targets callback
- * left mouse button -> In city mode change production to target.
-			In global mode add target to worklist.
- * middle mouse button -> get target "help"
- * right mouse button -> add target to worklist.
- */
+/**************************************************************************
+  Targets callback
+  left mouse button -> In city mode change production to target.
+                       In global mode add target to worklist.
+  middle mouse button -> get target "help"
+  right mouse button -> add target to worklist.
+**************************************************************************/
 static int worklist_editor_targets_callback(struct widget *pWidget)
 {
   switch (Main.event.button.button) {
@@ -430,11 +436,11 @@ static int worklist_editor_targets_callback(struct widget *pWidget)
 
 /* ====================================================================== */
 
-/*
- * Remove element from worklist or
- * remove currently building imprv/unit and change production to first worklist
- * element (or Capitalizations if worklist is empty)
- */
+/**************************************************************************
+  Remove element from worklist or
+  remove currently building imprv/unit and change production to first worklist
+  element (or Capitalizations if worklist is empty)
+**************************************************************************/
 static void remove_item_from_worklist(struct widget *pItem)
 {
   /* only one item (production) is left */
@@ -500,17 +506,17 @@ static void remove_item_from_worklist(struct widget *pItem)
   flush_dirty();
 }
 
-/*
- * Swap worklist entries DOWN.
- * Fuction swap current element with next element of worklist.
- *
- * If pItem is last widget or there is only one widget on widgets list
- * fuction remove this widget from widget list and target from worklist
- *
- * In City mode, when pItem is first worklist element, function make
- * change production (currently building is moved to first element of worklist
- * and first element of worklist is build).
- */
+/**************************************************************************
+  Swap worklist entries DOWN.
+  Fuction swap current element with next element of worklist.
+
+  If pItem is last widget or there is only one widget on widgets list
+  fuction remove this widget from widget list and target from worklist
+
+  In City mode, when pItem is first worklist element, function make
+  change production (currently building is moved to first element of worklist
+  and first element of worklist is build).
+**************************************************************************/
 static void swap_item_down_from_worklist(struct widget *pItem)
 {
   char *text;
@@ -556,18 +562,18 @@ static void swap_item_down_from_worklist(struct widget *pItem)
   }
 }
 
-/*
- * Swap worklist entries UP.
- * Fuction swap current element with prev. element of worklist.
- *
- * If pItem is first widget on widgets list fuction remove this widget
- * from widget list and target from worklist (global mode)
- * or from production (city mode)
- *
- * In City mode, when pItem is first worklist element, function make
- * change production (currently building is moved to first element of worklist
- * and first element of worklist is build).
- */
+/**************************************************************************
+  Swap worklist entries UP.
+  Fuction swap current element with prev. element of worklist.
+
+  If pItem is first widget on widgets list fuction remove this widget
+  from widget list and target from worklist (global mode)
+  or from production (city mode)
+
+  In City mode, when pItem is first worklist element, function make
+  change production (currently building is moved to first element of worklist
+  and first element of worklist is build).
+**************************************************************************/
 static void swap_item_up_from_worklist(struct widget *pItem)
 {
   char *text = pItem->string_utf8->text;
@@ -613,12 +619,12 @@ static void swap_item_up_from_worklist(struct widget *pItem)
   }
 }
 
-/*
- * worklist callback
- * left mouse button -> swap entries up.
- * middle mouse button -> remove element from list
- * right mouse button -> swap entries down.
- */
+/**************************************************************************
+  worklist callback
+  left mouse button -> swap entries up.
+  middle mouse button -> remove element from list
+  right mouse button -> swap entries down.
+**************************************************************************/
 static int worklist_editor_item_callback(struct widget *pWidget)
 {
   switch (Main.event.button.button) {
@@ -640,12 +646,12 @@ static int worklist_editor_item_callback(struct widget *pWidget)
 }
 /* ======================================================= */
 
-/*
- * Add global worklist to city worklist starting from last free entry.
- * Add only avilable targets in current game state.
- * If global worklist have more targets that city worklist have free
- * entries then we adding only first part of global worklist.
- */
+/**************************************************************************
+  Add global worklist to city worklist starting from last free entry.
+  Add only avilable targets in current game state.
+  If global worklist have more targets that city worklist have free
+  entries then we adding only first part of global worklist.
+**************************************************************************/
 static void add_global_worklist(struct widget *pWidget)
 {
   struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pWidget->ID);
@@ -719,11 +725,11 @@ static void add_global_worklist(struct widget *pWidget)
   flush_dirty();
 }
 
-/*
- * Clear city worklist and copy here global worklist.
- * Copy only avilable targets in current game state.
- * If all targets are unavilable then leave city worklist untouched.
- */
+/**************************************************************************
+  Clear city worklist and copy here global worklist.
+  Copy only avilable targets in current game state.
+  If all targets are unavilable then leave city worklist untouched.
+**************************************************************************/
 static void set_global_worklist(struct widget *pWidget)
 {
   struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pWidget->ID);
@@ -815,17 +821,17 @@ static void set_global_worklist(struct widget *pWidget)
   }
 }
 
-/*
- * global worklist callback
- * left mouse button -> add global worklist to current city list
- * right mouse button -> clear city worklist and copy here global worklist.
- *
- * There are problems with impv./wonder tagets becouse those can't be doubled
- * on worklist and adding/seting can give you situation that global worklist
- * have imprv./wonder entry that exist on city worklist or in building state.
- * I don't make such check here and allow this "functionality" becouse doubled
- * impov./wonder entry are removed from city worklist during "commit" phase.
- */
+/**************************************************************************
+  Global worklist callback
+  left mouse button -> add global worklist to current city list
+  right mouse button -> clear city worklist and copy here global worklist.
+
+  There are problems with impv./wonder tagets becouse those can't be doubled
+  on worklist and adding/seting can give you situation that global worklist
+  have imprv./wonder entry that exist on city worklist or in building state.
+  I don't make such check here and allow this "functionality" becouse doubled
+  impov./wonder entry are removed from city worklist during "commit" phase.
+**************************************************************************/
 static int global_worklist_callback(struct widget *pWidget)
 {
   switch (Main.event.button.button) {
@@ -848,7 +854,9 @@ static int global_worklist_callback(struct widget *pWidget)
 
 /* ======================================================= */
 
-/* return full unit/imprv. name and build cost in "cost" pointer */
+/**************************************************************************
+  Return full unit/imprv. name and build cost in "cost" pointer.
+**************************************************************************/
 static const char *get_production_name(struct city *pCity,
                                        struct universal prod, int *cost)
 {
@@ -862,12 +870,12 @@ static const char *get_production_name(struct city *pCity,
   }
 }
 
-/*
- * return progress icon (bar) of current production state
- * stock - current shielsd stocks
- * cost - unit/imprv. cost
- * function return in "proggres" pointer (0 - 100 %) progress in numbers
-*/
+/**************************************************************************
+  Return progress icon (bar) of current production state
+  stock - current shielsd stocks
+  cost - unit/imprv. cost
+  function return in "proggres" pointer (0 - 100 %) progress in numbers
+**************************************************************************/
 static SDL_Surface *get_progress_icon(int stock, int cost, int *progress)
 {
   SDL_Surface *pIcon = NULL;
@@ -900,10 +908,10 @@ static SDL_Surface *get_progress_icon(int stock, int cost, int *progress)
   return pIcon;
 }
 
-/*
- * update and redraw production name label in worklist editor
- * stock - pCity->shields_stock or current stock after chnge production lost.
- */
+/**************************************************************************
+  Update and redraw production name label in worklist editor.
+  stock - pCity->shields_stock or current stock after change production lost.
+**************************************************************************/
 static void refresh_production_label(int stock)
 {
   int cost, turns;
@@ -1005,11 +1013,11 @@ static void refresh_worklist_count_label(void)
 
 /* ====================================================================== */
 
-/*
- * Global/City worklist editor.
- * if pCity == NULL then fucnction take pWorklist as global worklist.
- * pWorklist must be not NULL.
- */
+/**************************************************************************
+  Global/City worklist editor.
+  if pCity == NULL then fucnction take pWorklist as global worklist.
+  pWorklist must be not NULL.
+**************************************************************************/
 void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 {
   SDL_Color bg_color = {255,255,255,128};
@@ -1780,6 +1788,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   widget_flush(pWindow);
 }
 
+/**************************************************************************
+  Close worklist from view.
+**************************************************************************/
 void popdown_worklist_editor(void)
 {
   if (pEditor) {

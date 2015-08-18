@@ -36,7 +36,7 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 /* =================================================== */
 
 /**************************************************************************
-  ...
+  Blit icon gfx to surface its on.
 **************************************************************************/
 static int redraw_icon(struct widget *pIcon)
 {
@@ -69,7 +69,7 @@ static int redraw_icon(struct widget *pIcon)
 }
 
 /**************************************************************************
-  ...
+  Blit icon2 gfx to surface its on.
 **************************************************************************/
 static int redraw_icon2(struct widget *pIcon)
 {
@@ -227,7 +227,7 @@ struct widget *create_themeicon(SDL_Surface *pIcon_theme,
 }
 
 /**************************************************************************
-  ...
+  Draw the icon.
 **************************************************************************/
 int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
 {
@@ -307,7 +307,7 @@ SDL_Surface *create_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state)
 /* =================================================== */
 
 /**************************************************************************
-  set new theme and callculate new size.
+  set new theme and calculate new size.
 **************************************************************************/
 void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
                          bool free_old_theme)

@@ -975,7 +975,7 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
   /* cma check box */
   pWidget = pWidget->prev;
   if (cma_is_city_under_agent(pCity, NULL) != get_checkbox_state(pWidget)) {
-    togle_checkbox(pWidget);
+    toggle_checkbox(pWidget);
   }
 
   /* food consumptions */
