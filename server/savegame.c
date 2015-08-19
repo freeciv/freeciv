@@ -2575,12 +2575,6 @@ static void player_load_cities(struct player *plr, int plrno,
     pcity->turn_plague =
       secfile_lookup_int_default(file, 0, "player%d.c%d.turn_plague",
                                  plrno,i);
-    if (game.info.illness_on) {
-      /* recalculate city illness */
-      pcity->server.illness
-        = city_illness_calc(pcity, NULL, NULL, &(pcity->illness_trade), NULL);
-    }
-
     fc_assert_exit_msg(secfile_lookup_int(file, &pcity->anarchy,
                                           "player%d.c%d.anarchy", plrno, i),
                        "%s", secfile_error());
@@ -4254,6 +4248,16 @@ static void game_load_internal(struct section_file *file)
       } unit_list_iterate_end;
       /* Load transporter status. */
       player_load_units_transporter(pplayer, file);
+      /* Update cached city illness. This can depend on trade routes,
+       * so can't be calculated until all players have been loaded. */
+      if (game.info.illness_on) {
+        city_list_iterate(pplayer->cities, pcity) {
+          pcity->server.illness
+            = city_illness_calc(pcity, NULL, NULL,
+                                &(pcity->illness_trade), NULL);
+        } city_list_iterate_end;
+      }
+
     } players_iterate_end;
 
     /* Free worked tiles map */
