@@ -87,4 +87,6 @@ void popup_quit_dialog(void);
 void quit_gtk_main(void);
 void refresh_chat_buttons(void);
 
+bool is_gui_up(void);
+
 #endif  /* FC__GUI_MAIN_H */

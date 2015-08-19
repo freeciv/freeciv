@@ -1536,14 +1536,16 @@ void show_tech_gained_dialog(Tech_type_id tech)
 *****************************************************************/
 void show_tileset_error(const char *msg)
 {
-  GtkWidget *dialog;
+  if (is_gui_up()) {
+    GtkWidget *dialog;
 
-  dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-                                  GTK_BUTTONS_CLOSE,
-                                  _("Tileset problem, it's probably incompatible with the ruleset:\n%s"),
+    dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+                                    GTK_BUTTONS_CLOSE,
+                                    _("Tileset problem, it's probably incompatible with the ruleset:\n%s"),
                                     msg);
 
-  gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_dialog_run(GTK_DIALOG(dialog));
 
-  gtk_widget_destroy(dialog);
+    gtk_widget_destroy(dialog);
+  }
 }

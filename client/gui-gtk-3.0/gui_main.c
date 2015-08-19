@@ -184,6 +184,7 @@ static GIOChannel *ggz_channel;
 static guint srv_id, ggz_id;
 gint cur_x, cur_y;
 
+static bool gui_up = FALSE;
 
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
 static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data);
@@ -1736,7 +1737,9 @@ void ui_main(int argc, char **argv)
   /* assumes client_state is set */
   timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
+  gui_up = TRUE;
   gtk_main();
+  gui_up = FALSE;
 
   destroy_server_scans();
   free_mapcanvas_and_overview();
@@ -1748,6 +1751,14 @@ void ui_main(int argc, char **argv)
   diplomacy_dialog_done();
   cma_fe_done();
   tileset_free_tiles(tileset);
+}
+
+/**************************************************************************
+  Return whether gui is currently running.
+**************************************************************************/
+bool is_gui_up(void)
+{
+  return gui_up;
 }
 
 /**************************************************************************
