@@ -207,6 +207,7 @@ tiles = { "row", "column", "tag"
 
 ; Unit activity letters:  (note unit icons have just "u.")
 
+  0, 13, "unit.convert"
   0, 14, "unit.auto_attack",
          "unit.auto_settler"
   0, 15, "unit.stack"
@@ -228,7 +229,6 @@ tiles = { "row", "column", "tag"
   1, 17, "unit.pillage"
   1, 18, "unit.fortified"
   1, 19, "unit.fallout"
-  0, 17, "unit.convert"
 
 ; Unit hit-point bars: approx percent of hp remaining
 
