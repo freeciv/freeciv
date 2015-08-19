@@ -340,6 +340,7 @@ static void game_defaults(void)
   game.scenario.startpos_nations = FALSE;
   game.scenario.handmade = FALSE;
   game.scenario.prevent_new_cities = FALSE;
+  game.scenario.save_random = FALSE;
 
   /* Veteran system. */
   game.veteran = NULL;
@@ -410,7 +411,6 @@ static void game_defaults(void)
     game.server.save_nturns       = GAME_DEFAULT_SAVETURNS;
     game.server.save_options.save_known = TRUE;
     game.server.save_options.save_private_map = TRUE;
-    game.server.save_options.save_random = TRUE;
     game.server.save_options.save_starts = TRUE;
     game.server.savepalace        = GAME_DEFAULT_SAVEPALACE;
     game.server.scorelog          = GAME_DEFAULT_SCORELOG;
