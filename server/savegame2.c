@@ -1503,6 +1503,20 @@ static void sg_load_random(struct loaddata *loading)
     const char *string;
     int i;
 
+    /* Since random state was previously saved, save it also when resaving.
+     * This affects only pre-2.6 scenarios where scenario.save_random
+     * is not defined.
+     * - If this is 2.6 or later scenario -> it would have saved random.save = TRUE
+     *   only if scenario.save_random is already TRUE
+     *
+     * Do NOT touch this in case of regular savegame. They always have random.save
+     * set, but if one starts to make scenario based on a savegame, we want
+     * default scenario settings in the beginning (default save_random = FALSE).
+     */
+    if (game.scenario.is_scenario) {
+      game.scenario.save_random = TRUE;
+    }
+
     sg_failure_ret(secfile_lookup_int(loading->file, &loading->rstate.j,
                                       "random.index_J"), "%s", secfile_error());
     sg_failure_ret(secfile_lookup_int(loading->file, &loading->rstate.k,
@@ -1584,6 +1598,8 @@ static void sg_load_scenario(struct loaddata *loading)
     } else {
       game.scenario.description[0] = '\0';
     }
+    game.scenario.save_random
+      = secfile_lookup_bool_default(loading->file, FALSE, "scenario.save_random");
     game.scenario.players
       = secfile_lookup_bool_default(loading->file, TRUE, "scenario.players");
     game.scenario.startpos_nations

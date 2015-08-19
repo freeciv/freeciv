@@ -230,8 +230,6 @@ struct civ_game {
 
       /* used by the map editor to control game_save. */
       struct {
-        bool save_random;
-
         bool save_known; /* loading will just reveal the squares around
                           * cities and units */
         bool save_starts; /* start positions will be auto generated */

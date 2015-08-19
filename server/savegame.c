@@ -3821,6 +3821,17 @@ static void game_load_internal(struct section_file *file)
                        "%s", secfile_error());
     fc_assert_exit_msg(secfile_lookup_int(file, &rstate.x, "random.index_X"),
                        "%s", secfile_error());
+
+    /* Since random state was previously saved, save it also when resaving.
+     *
+     * Do NOT touch this in case of regular savegame. They always have random
+     * saved, but if one starts to make scenario based on a savegame, we want
+     * default scenario settings in the beginning (default save_random = FALSE).
+     */
+    if (game.scenario.is_scenario) {
+      game.scenario.save_random = TRUE;
+    }
+
     for (i = 0; i < 8; i++) {
       string = secfile_lookup_str(file, "random.table%d",i);
       fc_assert(NULL != string);

@@ -1561,6 +1561,11 @@ void handle_edit_game(struct connection *pc,
     changed = TRUE;
   }
 
+  if (packet->scenario_random != game.scenario.save_random) {
+    game.scenario.save_random = packet->scenario_random;
+    changed = TRUE;
+  }
+
   if (packet->scenario_players != game.scenario.players) {
     game.scenario.players = packet->scenario_players;
     changed = TRUE;

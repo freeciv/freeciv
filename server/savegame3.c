@@ -2084,7 +2084,7 @@ static void sg_save_random(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (fc_rand_is_init() && game.server.save_options.save_random) {
+  if (fc_rand_is_init() && (!saving->scenario || game.scenario.save_random)) {
     int i;
     RANDOM_STATE rstate = fc_rand_state();
 
@@ -2173,6 +2173,8 @@ static void sg_load_scenario(struct loaddata *loading)
     } else {
       game.scenario.description[0] = '\0';
     }
+    game.scenario.save_random
+      = secfile_lookup_bool_default(loading->file, FALSE, "scenario.save_random");
     game.scenario.players
       = secfile_lookup_bool_default(loading->file, TRUE, "scenario.players");
     game.scenario.startpos_nations
@@ -2224,6 +2226,7 @@ static void sg_save_scenario(struct savedata *saving)
   secfile_insert_str(saving->file, game.scenario.name, "scenario.name");
   secfile_insert_str(saving->file, game.scenario.description,
                      "scenario.description");
+  secfile_insert_bool(saving->file, game.scenario.save_random, "scenario.save_random");
   secfile_insert_bool(saving->file, game.scenario.players, "scenario.players");
   secfile_insert_bool(saving->file, game.scenario.startpos_nations,
                       "scenario.startpos_nations");

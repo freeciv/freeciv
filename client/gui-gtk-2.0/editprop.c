@@ -357,6 +357,7 @@ enum object_property_ids {
   OPID_GAME_SCENARIO,
   OPID_GAME_SCENARIO_NAME,
   OPID_GAME_SCENARIO_DESC,
+  OPID_GAME_SCENARIO_RANDSTATE,
   OPID_GAME_SCENARIO_PLAYERS,
   OPID_GAME_STARTPOS_NATIONS,
   OPID_GAME_PREVENT_CITIES
@@ -1793,6 +1794,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_GAME_SCENARIO_DESC:
         pv->data.v_const_string = pgame->scenario.description;
         break;
+      case OPID_GAME_SCENARIO_RANDSTATE:
+        pv->data.v_bool = pgame->scenario.save_random;
+        break;
       case OPID_GAME_SCENARIO_PLAYERS:
         pv->data.v_bool = pgame->scenario.players;
         break;
@@ -2535,6 +2539,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
       case OPID_GAME_SCENARIO_DESC:
         sz_strlcpy(packet->scenario_desc, pv->data.v_const_string);
         return;
+      case OPID_GAME_SCENARIO_RANDSTATE:
+        packet->scenario_random = pv->data.v_bool;
+        return;
       case OPID_GAME_SCENARIO_PLAYERS:
         packet->scenario_players = pv->data.v_bool;
         return;
@@ -2980,6 +2987,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_UNIT_MOVED:
   case OPID_UNIT_DONE_MOVING:
   case OPID_GAME_SCENARIO:
+  case OPID_GAME_SCENARIO_RANDSTATE:
   case OPID_GAME_SCENARIO_PLAYERS:
   case OPID_GAME_STARTPOS_NATIONS:
   case OPID_GAME_PREVENT_CITIES:
@@ -3189,6 +3197,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_UNIT_MOVED:
   case OPID_UNIT_DONE_MOVING:
   case OPID_GAME_SCENARIO:
+  case OPID_GAME_SCENARIO_RANDSTATE:
   case OPID_GAME_SCENARIO_PLAYERS:
   case OPID_GAME_STARTPOS_NATIONS:
   case OPID_GAME_PREVENT_CITIES:
@@ -4354,6 +4363,8 @@ static void property_page_setup_objprops(struct property_page *pp)
     ADDPROP(OPID_GAME_SCENARIO_DESC, _("Scenario Description"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
             VALTYPE_STRING);
+    ADDPROP(OPID_GAME_SCENARIO_RANDSTATE, _("Save Random Number State"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     ADDPROP(OPID_GAME_SCENARIO_PLAYERS, _("Save Players"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     ADDPROP(OPID_GAME_STARTPOS_NATIONS, _("Nation Start Positions"),
