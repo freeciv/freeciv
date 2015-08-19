@@ -78,4 +78,6 @@ void refresh_chat_buttons(void);
 int screen_width(void);
 int screen_height(void);
 
+bool is_gui_up(void);
+
 #endif  /* FC__GUI_MAIN_H */
