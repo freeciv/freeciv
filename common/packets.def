@@ -1397,6 +1397,8 @@ PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   UINT8 move_fragments;
   UINT8 igter_cost;
   BOOL pythagorean_diagonal;
+  STRING gui_type_base0[MAX_LEN_NAME];
+  STRING gui_type_base1[MAX_LEN_NAME];
 end
 
 PACKET_RULESETS_READY = 225; sc, lsend

@@ -2416,6 +2416,7 @@ static bool load_ruleset_terrain(struct section_file *file,
   bool compat_river = FALSE;
   const char **res;
   const char *filename = secfile_name(file);
+  const char *text;
   bool ok = TRUE;
 
   /* parameters */
@@ -2456,6 +2457,16 @@ static bool load_ruleset_terrain(struct section_file *file,
   map.server.ocean_resources
     = secfile_lookup_bool_default(file, FALSE,
                                   "parameters.ocean_resources");
+
+  text = secfile_lookup_str_default(file,
+                                    N_("?gui_type:Build Type A Base"),
+                                    "extraui.ui_name_base_fortress");
+  sz_strlcpy(terrain_control.gui_type_base0, text);
+
+  text = secfile_lookup_str_default(file,
+                                    N_("?gui_type:Build Type B Base"),
+                                    "extraui.ui_name_base_airbase");
+  sz_strlcpy(terrain_control.gui_type_base1, text);
 
   if (ok) {
     /* terrain details */
