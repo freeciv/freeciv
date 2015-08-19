@@ -4094,6 +4094,10 @@ static void game_load_internal(struct section_file *file)
     /* mark it */
     (void) secfile_entry_by_path(file, "game.save_random");
 
+    /* Since random state was not previously saved, do not save it when resaving
+     * scenario either. */
+    game.server.save_options.save_random = FALSE;
+
     /* We're loading a running game without a seed (which is okay, if it's
      * a scenario).  We need to generate the game seed now because it will
      * be needed later during the load. */

@@ -2246,6 +2246,10 @@ static void sg_load_random(struct loaddata *loading)
     /* No random values - mark the setting. */
     (void) secfile_entry_by_path(loading->file, "random.save");
 
+    /* Since random state was not previously saved, do not save it when resaving
+     * scenario either. */
+    game.server.save_options.save_random = FALSE;
+
     /* We're loading a game without a seed (which is okay, if it's a scenario).
      * We need to generate the game seed now because it will be needed later
      * during the load. */
@@ -2262,7 +2266,7 @@ static void sg_save_random(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (fc_rand_is_init() && game.server.save_options.save_random) {
+  if (fc_rand_is_init() && (!saving->scenario || game.server.save_options.save_random)) {
     int i;
     RANDOM_STATE rstate = fc_rand_state();
 
