@@ -579,26 +579,15 @@ static struct player *need_war_player(const struct unit *actor,
 **************************************************************************/
 static bool need_full_mp(const struct unit *actor, const int action_id)
 {
-  if (action_id == ACTION_ANY) {
-    /* Any action at all will do. */
-    action_iterate(act) {
-      if (need_full_mp(actor, act)) {
-        /* Full movement points may enable this action. */
-        return TRUE;
-      }
-    } action_iterate_end;
+  fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
 
-    /* No action at all may be enabled by full MP. */
-    return FALSE;
-  } else {
-    /* Check if full movement points may enable the specified action. */
-    return !utype_may_act_move_frags(unit_type(actor),
-                                     action_id,
-                                     actor->moves_left)
-        && utype_may_act_move_frags(unit_type(actor),
-                                    action_id,
-                                    unit_move_rate(actor));
-  }
+  /* Check if full movement points may enable the specified action. */
+  return !utype_may_act_move_frags(unit_type(actor),
+                                   action_id,
+                                   actor->moves_left)
+      && utype_may_act_move_frags(unit_type(actor),
+                                  action_id,
+                                  unit_move_rate(actor));
 }
 
 /**************************************************************************

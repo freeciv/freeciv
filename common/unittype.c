@@ -612,6 +612,27 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
 {
   struct range *ml_range;
 
+  fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
+
+  if (!is_actor_unit_type(punit_type)) {
+    /* Not an actor unit. */
+    return FALSE;
+  }
+
+  if (action_id == ACTION_ANY) {
+    /* Any action is OK. */
+    action_iterate(alt_act) {
+      if (utype_may_act_move_frags(punit_type, alt_act,
+                                   move_fragments)) {
+        /* It only has to be true for one action. */
+        return TRUE;
+      }
+    } action_iterate_end;
+
+    /* No action enabled. */
+    return FALSE;
+  }
+
   if (action_get_actor_kind(action_id) != AAK_UNIT) {
     /* This action isn't performed by any unit at all so this unit type
      * can't do it. */
