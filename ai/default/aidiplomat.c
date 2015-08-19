@@ -666,11 +666,15 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       /* Enemy cannot reach us or probably not kill us */
       threat = FALSE;
     }
-    /* Don't bribe settlers! */
-    if (unit_has_type_flag(pvictim, UTYF_SETTLERS)
-        || unit_can_do_action(pvictim, ACTION_FOUND_CITY)) {
-      continue;
+
+    if (has_handicap(pplayer, H_NOBRIBE_WF)) {
+      /* Don't bribe settlers! */
+      if (unit_has_type_flag(pvictim, UTYF_SETTLERS)
+          || unit_can_do_action(pvictim, ACTION_FOUND_CITY)) {
+        continue;
+      }
     }
+
     /* Should we make the expense? */
     cost = unit_bribe_cost(pvictim, pplayer);
     if (!threat) {

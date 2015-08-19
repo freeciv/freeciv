@@ -30,6 +30,7 @@ enum handicap_type {
   H_EXPANSION,        /* Don't like being much larger than human */
   H_DANGER,           /* Always thinks its city is in danger */
   H_CEASEFIRE,        /* Has to offer cease-fire on first contact */
+  H_NOBRIBE_WF,       /* Can't bribe worker and city founder units. */
   H_LAST
 };
 

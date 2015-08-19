@@ -77,6 +77,7 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
      BV_SET(handicap, H_EXPANSION);
      BV_SET(handicap, H_DANGER);
      BV_SET(handicap, H_CEASEFIRE);
+     BV_SET(handicap, H_NOBRIBE_WF);
      break;
    case AI_LEVEL_EASY:
      BV_SET(handicap, H_RATES);
@@ -90,6 +91,7 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
      BV_SET(handicap, H_REVOLUTION);
      BV_SET(handicap, H_EXPANSION);
      BV_SET(handicap, H_CEASEFIRE);
+     BV_SET(handicap, H_NOBRIBE_WF);
      break;
    case AI_LEVEL_NORMAL:
      BV_SET(handicap, H_RATES);
@@ -97,6 +99,7 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
      BV_SET(handicap, H_HUTS);
      BV_SET(handicap, H_DIPLOMAT);
      BV_SET(handicap, H_CEASEFIRE);
+     BV_SET(handicap, H_NOBRIBE_WF);
      break;
 
 #ifdef DEBUG
