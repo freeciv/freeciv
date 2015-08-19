@@ -95,14 +95,14 @@ tiles = { "row", "column","tag"
  9,   6, "ts.forest_game"
 
 ; Maglevs
- 12, 1, "road.maglev_n"
- 12, 2, "road.maglev_ne"
- 12, 3, "road.maglev_e"
- 12, 4, "road.maglev_se"
- 12, 5, "road.maglev_s"
- 12, 6, "road.maglev_sw"
- 12, 7, "road.maglev_w"
- 12, 8, "road.maglev_nw"
+ 10, 1, "road.maglev_n"
+ 10, 2, "road.maglev_ne"
+ 10, 3, "road.maglev_e"
+ 10, 4, "road.maglev_se"
+ 10, 5, "road.maglev_s"
+ 10, 6, "road.maglev_sw"
+ 10, 7, "road.maglev_w"
+ 10, 8, "road.maglev_nw"
 
 ; Roads
  11, 1, "road.road_n"
