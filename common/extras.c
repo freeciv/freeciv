@@ -794,12 +794,12 @@ struct player *extra_owner(const struct tile *ptile)
 }
 
 /**************************************************************************
-  Are all the requirements for extra to appear on tile fulfilled. Does not
-  check if extra is of appearing type (has EC_SPONTANEOUS cause).
+  Are all the requirements for extra to appear on tile fulfilled.
 **************************************************************************/
 bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile)
 {
   return !tile_has_extra(ptile, pextra)
+    && is_extra_caused_by(pextra, EC_SPONTANEOUS)
     && is_native_tile_to_extra(pextra, ptile)
     && !extra_conflicting_on_tile(pextra, ptile)
     && are_reqs_active(NULL, tile_owner(ptile), NULL, NULL, ptile,
