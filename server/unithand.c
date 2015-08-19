@@ -2036,6 +2036,7 @@ static bool city_build(struct player *pplayer, struct unit *punit,
   }
 
   ptile = unit_tile(punit);
+  towner = tile_owner(ptile);
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
@@ -2056,10 +2057,12 @@ static bool city_build(struct player *pplayer, struct unit *punit,
   }
   wipe_unit(punit, ULR_USED, NULL);
 
-  if ((towner = tile_owner(ptile))) {
-    action_consequence_success(ACTION_FOUND_CITY, pplayer, towner,
-                               ptile, tile_link(ptile));
-  }
+  /* May cause an incident even if the target tile is unclaimed. A ruleset
+   * could give everyone a casus belli against the city founder. A rule
+   * like that would make sense in a story where deep ecology is on the
+   * table. (See also Voluntary Human Extinction Movement) */
+  action_consequence_success(ACTION_FOUND_CITY, pplayer, towner,
+                             ptile, tile_link(ptile));
 
   return TRUE;
 }
@@ -2377,7 +2380,10 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
   wipe_unit(punit, ULR_DETONATED, NULL);
   do_nuclear_explosion(pplayer, def_tile);
 
-  /* May cause an incident */
+  /* May cause an incident even if the target tile is unclaimed. A ruleset
+   * could give everyone a casus belli against the tile nuker. A rule
+   * like that would make sense in a story where detonating any nuke at all
+   * could be forbidden. */
   action_consequence_success(ACTION_NUKE, pplayer,
                              tile_owner(def_tile),
                              def_tile,
