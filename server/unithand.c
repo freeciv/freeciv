@@ -90,6 +90,8 @@ enum ane_kind {
   ANEK_FOREIGN,
   /* Explanation: not enough MP left. */
   ANEK_LOW_MP,
+  /* Explanation: can't be done to city centers. */
+  ANEK_IS_CITY_CENTER,
   /* Explanation: the action is disabled in this scenario. */
   ANEK_SCENARIO_DISABLED,
   /* Explanation not detected. */
@@ -798,6 +800,13 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                  DRO_FOREIGN,
                                                  FALSE)) {
     expl->kind = ANEK_DOMESTIC;
+  } else if (tgt_player
+             && (target_tile && tile_city(target_tile))
+             && !utype_may_act_tgt_city_tile(unit_type(punit),
+                                             action_id,
+                                             CITYT_CENTER,
+                                             TRUE)) {
+    expl->kind = ANEK_IS_CITY_CENTER;
   } else if ((game.scenario.prevent_new_cities
               && utype_can_do_action(unit_type(punit), ACTION_FOUND_CITY))
              && (action_id == ACTION_FOUND_CITY
@@ -868,6 +877,10 @@ static void explain_why_no_action_enabled(struct unit *punit,
   case ANEK_LOW_MP:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit has too few moves left to act."));
+    break;
+  case ANEK_IS_CITY_CENTER:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit cannot act against city centers."));
     break;
   case ANEK_SCENARIO_DISABLED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1135,6 +1148,13 @@ void illegal_action_msg(struct player *pplayer,
     notify_player(pplayer, unit_tile(actor),
                   event, ftc_server,
                   _("Your %s has too few moves left to %s."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action));
+    break;
+  case ANEK_IS_CITY_CENTER:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s to city centers."),
                   unit_name_translation(actor),
                   gen_action_translated_name(stopped_action));
     break;

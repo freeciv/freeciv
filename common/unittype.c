@@ -659,6 +659,74 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
   return FALSE;
 }
 
+/**************************************************************************
+  Return TRUE iff the given (action enabler controlled) action may be
+  performed by a unit of the given type if the target tile has the given
+  property.
+
+  Note: Values aren't cached. If a performance critical user appears it
+  would be a good idea to cache the result.
+**************************************************************************/
+bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
+                                 const int action_id,
+                                 const enum citytile_type prop,
+                                 const bool is_there)
+{
+  struct requirement req;
+
+  if (!is_actor_unit_type(punit_type)) {
+    /* Not an actor unit. */
+    return FALSE;
+  }
+
+  if (action_id == ACTION_ANY) {
+    /* Any action is OK. */
+    action_iterate(alt_act) {
+      if (utype_may_act_tgt_city_tile(punit_type, alt_act,
+                                      prop, is_there)) {
+        /* It only has to be true for one action. */
+        return TRUE;
+      }
+    } action_iterate_end;
+
+    /* No action enabled. */
+    return FALSE;
+  }
+
+  if (action_get_actor_kind(action_id) != AAK_UNIT) {
+    /* This action isn't performed by any unit at all so this unit type
+     * can't do it. */
+    return FALSE;
+  }
+
+  /* Common for every situation */
+  req.range = REQ_RANGE_LOCAL;
+  req.survives = FALSE;
+  req.source.kind = VUT_CITYTILE;
+
+  /* Will only check for the specified is_there */
+  req.present = is_there;
+
+  /* Will only check the specified property */
+  req.source.value.citytile = prop;
+
+  action_enabler_list_iterate(action_enablers_for_action(action_id),
+                              enabler) {
+    if (!requirement_fulfilled_by_unit_type(punit_type,
+                                            &(enabler->actor_reqs))) {
+      /* This action enabler isn't for this unit type at all. */
+      continue;
+    }
+
+    if (!does_req_contradicts_reqs(&req, &(enabler->target_reqs))) {
+      /* This action isn't blocked by the given target tile property. */
+      return TRUE;
+    }
+  } action_enabler_list_iterate_end;
+
+  return FALSE;
+}
+
 /****************************************************************************
   Returns the number of shields it takes to build this unit type.
 ****************************************************************************/

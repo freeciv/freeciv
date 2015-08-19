@@ -543,6 +543,11 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
                               const int action_id,
                               const int move_fragments);
 
+bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
+                                 const int action_id,
+                                 const enum citytile_type prop,
+                                 const bool is_there);
+
 /* Functions to operate on various flag and roles. */
 typedef bool (*role_unit_callback)(struct unit_type *ptype, void *data);
 
