@@ -1710,9 +1710,9 @@ static GtkActionGroup *get_unit_group(void)
       /* Combat menu. */
       {"FORTIFY", NULL, _("Fortify"),
        "f", NULL, G_CALLBACK(fortify_callback)},
-      {"BUILD_FORTRESS", NULL, _("Build Type A Base"),
+      {"BUILD_FORTRESS", NULL, Q_(terrain_control.gui_type_base0),
        "<Shift>f", NULL, G_CALLBACK(build_fortress_callback)},
-      {"BUILD_AIRBASE", NULL, _("Build Type B Base"),
+      {"BUILD_AIRBASE", NULL, Q_(terrain_control.gui_type_base1),
        "<Shift>e", NULL, G_CALLBACK(build_airbase_callback)},
 
       {"DO_PILLAGE", NULL, _("_Pillage"),

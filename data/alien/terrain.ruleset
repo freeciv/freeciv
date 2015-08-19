@@ -558,6 +558,13 @@ shield      = 2
 trade       = 2
 identifier  = "g"
 
+
+[extraui]
+
+; Player visible names of the base gui types.
+ui_name_base_fortress = _("?gui_type:Build Land base")
+ui_name_base_airbase = _("?gui_type:Build Airforce base")
+
 ; /* <-- avoid gettext warnings
 ;
 ; Each extra, including bases and roads, must have a section here.
