@@ -2474,6 +2474,16 @@ static void sg_load_players(struct loaddata *loading)
     } players_iterate_alive_end;
   } players_iterate_alive_end;
 
+  /* Update cached city illness. This can depend on trade routes,
+   * so can't be calculated until all players have been loaded. */
+  if (game.info.illness_on) {
+    cities_iterate(pcity) {
+      pcity->server.illness
+        = city_illness_calc(pcity, NULL, NULL,
+                            &(pcity->illness_trade), NULL);
+    } cities_iterate_end;
+  }
+
   /* Update all city information.  This must come after all cities are
    * loaded (in player_load) but before player (dumb) cities are loaded
    * in player_load_vision(). */
@@ -3122,11 +3132,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
   pcity->turn_plague =
     secfile_lookup_int_default(loading->file, 0, "%s.turn_plague", citystr);
-  if (game.info.illness_on) {
-    /* recalculate city illness */
-    pcity->server.illness = city_illness_calc(pcity, NULL, NULL,
-                                              &(pcity->illness_trade), NULL);
-  }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->anarchy,
                                     "%s.anarchy", citystr),
