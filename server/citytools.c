@@ -1694,7 +1694,7 @@ void remove_city(struct city *pcity)
 
           if (!uclass_has_flag(pclass, UCF_BUILD_ANYWHERE)
               && !is_native_tile(punit->utype, piter)
-              && is_city_channel_tile(pclass, piter, pcenter)) {
+              && !is_city_channel_tile(pclass, piter, pcenter)) {
             notify_player(unit_owner(punit), unit_tile(punit),
                           E_UNIT_LOST_MISC, ftc_server,
                           _("When %s was disbanded your %s in %s was trapped, "
