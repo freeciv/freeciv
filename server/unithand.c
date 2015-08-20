@@ -2002,7 +2002,12 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
                           struct city *pcity)
 {
   /* Sanity check: The actor is still alive. */
-  if (!unit_alive(punit->id)) {
+  if (!punit || !unit_alive(punit->id)) {
+    return FALSE;
+  }
+
+  if (!pcity || !city_exist(pcity->id)) {
+    /* City was destroyed during pre action Lua. */
     return FALSE;
   }
 
@@ -2289,6 +2294,11 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
 
+  if (!punit || !unit_alive(punit->id)) {
+    /* Actor unit was destroyed during pre action Lua. */
+    return FALSE;
+  }
+
   log_debug("Start bombard: %s %s to %d, %d.",
             nation_rule_name(nation_of_player(pplayer)),
             unit_rule_name(punit), TILE_XY(ptile));
@@ -2379,6 +2389,11 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
 {
   struct city *pcity;
 
+  if (!punit || !unit_alive(punit->id)) {
+    /* Actor unit was destroyed during pre action Lua. */
+    return FALSE;
+  }
+
   log_debug("Start nuclear attack: %s %s against (%d, %d).",
             nation_rule_name(nation_of_player(pplayer)),
             unit_rule_name(punit),
@@ -2445,7 +2460,7 @@ static bool unit_do_destroy_city(struct player *act_player,
     return FALSE;
   }
 
-  if (!tgt_city) {
+  if (!tgt_city || !city_exist(tgt_city->id)) {
     /* City was destroyed during pre action Lua. */
     return FALSE;
   }
