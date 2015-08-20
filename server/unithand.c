@@ -3823,6 +3823,7 @@ void handle_unit_orders(struct player *pplayer,
         return;
       }
 
+      /* Validate individual actions. */
       switch ((enum gen_action) packet->action[i]) {
       case ACTION_FOUND_CITY:
         if (is_valid_dir(packet->dir[i])) {
@@ -3843,7 +3844,41 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_TRADE_ROUTE:
       case ACTION_MARKETPLACE:
       case ACTION_HELP_WONDER:
+      case ACTION_CAPTURE_UNITS:
       case ACTION_JOIN_CITY:
+      case ACTION_BOMBARD:
+      case ACTION_NUKE:
+        /* No validation required. */
+        break;
+      /* Must be tested first. */
+      case ACTION_SPY_STEAL_TECH:
+      case ACTION_SPY_INCITE_CITY:
+      case ACTION_STEAL_MAPS:
+      case ACTION_SPY_NUKE:
+      case ACTION_DESTROY_CITY:
+      /* Needs additional target information. */
+      case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+      case ACTION_SPY_TARGETED_STEAL_TECH:
+      /* Targets a single unit. */
+      case ACTION_SPY_BRIBE_UNIT:
+      case ACTION_SPY_SABOTAGE_UNIT:
+        log_error("handle_unit_orders() the action %s isn't allowed in "
+                  "orders. "
+                  "Sent in order number %d from %s to unit number %d.",
+                  action_get_rule_name(packet->action[i]), i,
+                  player_name(pplayer), packet->unit_id);
+
+        return;
+      /* Invalid action. Should have been caught above. */
+      case ACTION_COUNT:
+        fc_assert_ret_msg(packet->action[i] != ACTION_COUNT,
+                          "ACTION_COUNT in order number %d from %s to "
+                          "unit number %d.",
+                          i, player_name(pplayer), packet->unit_id);
+      }
+
+      switch (action_get_target_kind(packet->action[i])) {
+      case ATK_CITY:
         /* Don't validate that the target tile really contains a city or
          * that the actor player's map think the target tile has one.
          * The player may target a city from its player map that isn't
@@ -3852,23 +3887,6 @@ void handle_unit_orders(struct player *pplayer,
          *
          * With that said: The client should probably at least have an
          * option to only aim city targeted actions at cities. */
-        break;
-      case ACTION_NUKE:
-      case ACTION_CAPTURE_UNITS:
-      case ACTION_BOMBARD:
-        break;
-      default:
-        log_error("handle_unit_orders() the action %s isn't allowed in "
-                  "orders. "
-                  "Sent in order number %d from %s to unit number %d.",
-                  action_get_rule_name(packet->action[i]), i,
-                  player_name(pplayer), packet->unit_id);
-
-        return;
-      }
-
-      switch (action_get_target_kind(packet->action[i])) {
-      case ATK_CITY:
         break;
       case ATK_UNIT:
         break;
