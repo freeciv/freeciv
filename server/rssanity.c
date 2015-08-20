@@ -807,7 +807,8 @@ bool sanity_check_ruleset_data(void)
           || !sanity_check_req_vec(&(enabler->target_reqs), TRUE, -1,
                                    "Action Enabler Target Reqs")) {
         ruleset_error(LOG_ERROR,
-                      "Action Enablers have conflicting or invalid requirements!");
+                      "Action enabler for %s has conflicting or invalid "
+                      "requirements!", action_get_rule_name(act));
         ok = FALSE;
       }
     } action_enabler_list_iterate_end;
