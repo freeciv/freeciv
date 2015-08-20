@@ -132,7 +132,7 @@ static int redraw_edit_chain(struct EDIT *pEdt)
   on position 'pEdit_Widget->size.x , pEdit_Widget->size.y'
 
   Graphic is taken from 'pEdit_Widget->theme'
-  Text is taken from	'pEdit_Widget->sting16'
+  Text is taken from	'pEdit_Widget->string_utf8'
 
   if flag 'FW_DRAW_THEME_TRANSPARENT' is set theme will be blit
   transparent ( Alpha = 128 )
@@ -337,9 +337,9 @@ static char *chain2text(const struct Utf8Char *pInChain, size_t len,
   Create ( malloc ) Edit Widget structure.
 
   Edit Theme graphic is taken from pTheme->Edit surface;
-  Text is taken from 'pString16'.
+  Text is taken from 'pstr'.
 
-  'length' parametr determinate width of Edit rect.
+  'length' parameter determinate width of Edit rect.
 
   This function determinate future size of Edit ( width, high ) and
   save this in: pWidget->size rectangle ( SDL_Rect )
@@ -409,15 +409,15 @@ int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y)
   This code allow you to add, del unichar from unistring.
 
   Graphic is taken from 'pEdit_Widget->theme'
-  OldText is taken from	'pEdit_Widget->sting16'
+  OldText is taken from	'pEdit_Widget->string_utf8'
 
-  NewText is returned to 'pEdit_Widget->sting16' ( after free OldText )
+  NewText is returned to 'pEdit_Widget->string_utf8' ( after free OldText )
 
   if flag 'FW_DRAW_THEME_TRANSPARENT' is set theme will be blit
   transparent ( Alpha = 128 )
 
-  NOTE: This functions can return NULL in 'pEdit_Widget->sting16->text' but
-        never free 'pEdit_Widget->sting16' struct.
+  NOTE: This functions can return NULL in 'pEdit_Widget->string_utf8->text' but
+        never free 'pEdit_Widget->string_utf8' struct.
 **************************************************************************/
 static Uint16 edit_key_down(SDL_Keysym key, void *pData)
 {
