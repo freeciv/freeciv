@@ -72,6 +72,10 @@ static void compat_load_020500(struct loaddata *loading);
 static void compat_load_020600(struct loaddata *loading);
 static void compat_load_030000(struct loaddata *loading);
 
+#ifdef FREECIV_DEV_SAVE_COMPAT
+static void compat_load_dev(struct loaddata *loading);
+#endif /* FREECIV_DEV_SAVE_COMPAT */
+
 typedef void (*load_version_func_t) (struct loaddata *loading);
 
 struct compatibility {
@@ -153,6 +157,11 @@ void sg_load_compat(struct loaddata *loading)
       compat[i].load(loading);
     }
   }
+
+#ifdef FREECIV_DEV_SAVE_COMPAT
+  compat_load_dev(loading);
+#endif /* FREECIV_DEV_SAVE_COMPAT */
+
 }
 
 /****************************************************************************
@@ -1008,6 +1017,20 @@ static void compat_load_030000(struct loaddata *loading)
 
   log_debug("Upgrading data from savegame to version 3.0.0");
 }
+
+/****************************************************************************
+  Translate savegame secfile data from earlier development version format
+  to current one.
+****************************************************************************/
+#ifdef FREECIV_DEV_SAVE_COMPAT
+static void compat_load_dev(struct loaddata *loading)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  log_debug("Upgrading data between development revisions");
+}
+#endif /* FREECIV_DEV_SAVE_COMPAT */
 
 /****************************************************************************
   Convert old ai level value to ai_level
