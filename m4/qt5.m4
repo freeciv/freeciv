@@ -21,25 +21,22 @@ AC_DEFUN([FC_QT5_GENERIC],
 
   AC_ARG_WITH([qt5-includes],
     AS_HELP_STRING([--with-qt5-includes], [path to Qt5 includes]),
-              [FC_QT5_COMPILETEST([$withval])
-               qt5_hdr_check_finish=true],
+              [FC_QT5_COMPILETEST([$withval])],
 [POTENTIAL_PATHS="/usr/include /usr/include/qt5 /usr/include/qt"
 
-  if test "x$qt5_hdr_check_finish" != "xtrue" ; then
-    # search multiarch paths too (if the multiarch tuple can be found)
-    FC_MULTIARCH_TUPLE()
-    AS_IF(test "x$MULTIARCH_TUPLE" != "x",
-      POTENTIAL_PATHS="$POTENTIAL_PATHS /usr/include/$MULTIARCH_TUPLE/qt5")
+  # search multiarch paths too (if the multiarch tuple can be found)
+  FC_MULTIARCH_TUPLE()
+  AS_IF(test "x$MULTIARCH_TUPLE" != "x",
+    POTENTIAL_PATHS="$POTENTIAL_PATHS /usr/include/$MULTIARCH_TUPLE/qt5")
 
-    dnl First test without any additional include paths to see if it works already
-    FC_QT5_COMPILETEST
-    for TEST_PATH in $POTENTIAL_PATHS
-    do
-      if test "x$qt5_headers" != "xyes" ; then
-        FC_QT5_COMPILETEST($TEST_PATH)
-      fi
-    done])
-  fi
+  dnl First test without any additional include paths to see if it works already
+  FC_QT5_COMPILETEST
+  for TEST_PATH in $POTENTIAL_PATHS
+  do
+    if test "x$qt5_headers" != "xyes" ; then
+      FC_QT5_COMPILETEST($TEST_PATH)
+    fi
+  done])
 
   if test "x$qt5_headers" = "xyes" ; then
     AC_MSG_RESULT([found])
@@ -47,25 +44,22 @@ AC_DEFUN([FC_QT5_GENERIC],
     AC_MSG_CHECKING([Qt5 libraries])
     AC_ARG_WITH([qt5-libs],
       AS_HELP_STRING([--with-qt5-libs], [path to Qt5 libraries]),
-                [FC_QT5_LINKTEST([$withval])
-                 qt5_lib_check_finish=true],
+                [FC_QT5_LINKTEST([$withval])],
 [POTENTIAL_PATHS="/usr/lib/qt5 /usr/lib/qt"
 
-    if test "x$qt5_lib_check_finish" != "xtrue" ; then
-      # search multiarch paths too (if the multiarch tuple can be found)
-      FC_MULTIARCH_TUPLE()
-      AS_IF(test "x$MULTIARCH_TUPLE" != "x",
-        POTENTIAL_PATHS="$POTENTIAL_PATHS /usr/lib/$MULTIARCH_TUPLE/qt5")
+    # search multiarch paths too (if the multiarch tuple can be found)
+    FC_MULTIARCH_TUPLE()
+    AS_IF(test "x$MULTIARCH_TUPLE" != "x",
+      POTENTIAL_PATHS="$POTENTIAL_PATHS /usr/lib/$MULTIARCH_TUPLE/qt5")
 
-      dnl First test without any additional library paths to see if it works already
-      FC_QT5_LINKTEST
-      for TEST_PATH in $POTENTIAL_PATHS
-      do
-        if test "x$qt5_libs" != "xyes" ; then
-          FC_QT5_LINKTEST($TEST_PATH)
-        fi
-      done])
-    fi
+    dnl First test without any additional library paths to see if it works already
+    FC_QT5_LINKTEST
+    for TEST_PATH in $POTENTIAL_PATHS
+    do
+      if test "x$qt5_libs" != "xyes" ; then
+        FC_QT5_LINKTEST($TEST_PATH)
+      fi
+    done])
   fi
 
   AC_LANG_POP([C++])
