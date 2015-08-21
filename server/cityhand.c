@@ -83,7 +83,6 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
   case UAB_BAD_UNIT_TERRAIN:
   case UAB_BAD_BORDERS:
   case UAB_NO_MIN_DIST:
-  case UAB_NOT_BUILD_UNIT:
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
                 "cannot build there.", TILE_XY(unit_tile(punit)));
     city_add_or_build_error(pplayer, punit, res);       /* Message. */

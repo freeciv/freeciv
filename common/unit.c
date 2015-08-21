@@ -365,6 +365,7 @@ bool unit_can_add_to_city(const struct unit *punit,
 bool unit_can_build_city(const struct unit *punit)
 {
   return (unit_can_do_action(punit, ACTION_FOUND_CITY)
+          && !game.scenario.prevent_new_cities
           && unit_build_city_test(punit) == UAB_BUILD_OK);
 }
 
@@ -390,13 +391,9 @@ unit_build_city_test(const struct unit *punit)
 {
   struct tile *ptile = unit_tile(punit);
   struct city *pcity = tile_city(ptile);
-  bool is_build = unit_is_cityfounder(punit);
 
   /* Test if we can build. */
   if (NULL == pcity) {
-    if (!is_build) {
-      return UAB_NOT_BUILD_UNIT;
-    }
     switch (city_build_here_test(ptile, punit)) {
     case CB_OK:
       return UAB_BUILD_OK;

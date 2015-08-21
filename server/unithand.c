@@ -1942,25 +1942,6 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
                   _("Can't place a city there because another city is too "
                     "close."));
     break;
-  case UAB_NOT_BUILD_UNIT:
-    {
-      struct astring astr = ASTRING_INIT;
-
-      if (game.scenario.prevent_new_cities) {
-        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                      _("Cities cannot be built on this scenario."));
-      } else if (role_units_translations(&astr,
-            action_get_role(ACTION_FOUND_CITY), TRUE)) {
-        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                      /* TRANS: %s is list of units separated by "or". */
-                      _("Only %s can build a city."), astr_str(&astr));
-        astr_free(&astr);
-      } else {
-        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                      _("Can't build a city."));
-      }
-    }
-    break;
   case UAB_TOO_BIG:
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("%s is too big to add %s."),
