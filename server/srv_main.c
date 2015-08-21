@@ -209,7 +209,7 @@ void srv_init(void)
   /* NLS init */
   init_nls();
 #ifdef ENABLE_NLS
-  (void) bindtextdomain("freeciv-nations", LOCALEDIR);
+  (void) bindtextdomain("freeciv-nations", get_locale_dir());
 #endif
 
   /* This is before ai module initializations so that if ai module

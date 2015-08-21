@@ -345,7 +345,7 @@ int client_main(int argc, char *argv[])
 
   init_nls();
 #ifdef ENABLE_NLS
-  (void) bindtextdomain("freeciv-nations", LOCALEDIR);
+  (void) bindtextdomain("freeciv-nations", get_locale_dir());
 #endif
 
   registry_module_init();
