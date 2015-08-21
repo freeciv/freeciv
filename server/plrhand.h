@@ -109,7 +109,17 @@ do {\
 #define phase_players_iterate_end\
     }\
   } shuffled_players_iterate_end;\
-} while (0)
+} while (FALSE);
+
+#define alive_phase_players_iterate(pplayer) \
+do { \
+  phase_players_iterate(pplayer) { \
+    if (pplayer->is_alive) {
+
+#define alive_phase_players_iterate_end \
+    } \
+  } phase_players_iterate_end \
+} while (FALSE);
 
 bool civil_war_possible(struct player *pplayer, bool conquering_city,
                         bool honour_server_option);
