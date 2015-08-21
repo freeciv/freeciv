@@ -1506,7 +1506,7 @@ void init_nls(void)
 #endif /* WIN32_NATIVE */
 
   (void) setlocale(LC_ALL, "");
-  (void) bindtextdomain(PACKAGE, LOCALEDIR);
+  (void) bindtextdomain(PACKAGE, get_locale_dir());
   (void) textdomain(PACKAGE);
 
   /* Don't touch the defaults when LC_NUMERIC == "C".

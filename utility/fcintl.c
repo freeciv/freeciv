@@ -97,3 +97,11 @@ bool is_capitalization_enabled(void)
 {
   return autocap;
 }
+
+/**********************************************************************
+  Return directory containing locales.
+***********************************************************************/
+const char *get_locale_dir(void)
+{
+  return LOCALEDIR;
+}

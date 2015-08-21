@@ -78,6 +78,8 @@ void free_capitalized(char *str);
 void capitalization_opt_in(void);
 bool is_capitalization_enabled(void);
 
+const char *get_locale_dir(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

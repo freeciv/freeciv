@@ -62,7 +62,7 @@ int main(int argc, char **argv)
   init_nls();
 
 #ifdef ENABLE_NLS
-  (void) bindtextdomain("freeciv-ruledit", LOCALEDIR);
+  (void) bindtextdomain("freeciv-ruledit", get_locale_dir());
 #endif
 
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
