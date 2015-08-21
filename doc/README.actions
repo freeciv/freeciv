@@ -76,6 +76,27 @@ avoid this complexity a requirement that the acting player has an embassy to
 the target cities civilization (and therefore knowledge about its techs) can
 be added.
 
+Requirement vector rules
+========================
+An action enabler has two requirement vectors that must be true at the same
+time. This creates some corner cases you won't find with single requirement
+vectors. The rules below tries to deal with them.
+
+A "DiplRel" requirement with the range "Local" should always be put in the
+actor requirements.
+ * A local DiplRel requirement can always be expressed as an actor
+   requirement.
+ * Only having to care about local DiplRel requirements in the actor
+   requirements allows the Freeciv code responsible for reasoning about
+   action enablers to be simpler and faster.
+ * If player A having a diplomatic relationship to player B implies that
+   player B has the same relationship to player A the relationship is
+   symmetric. Examples: "Is foreign" and "War"
+ * Symmetric local DiplReal requirements can be moved directly from the
+   target requirement vector to the actor requirement vector.
+ * Asymmetric local DiplReal requirements must test for the same thing in
+   the opposite direction. Example: "Hosts embassy" -> "Has embassy"
+
 Actions and Lua
 ===============
 Right before an action is executed, but after it is known to be legal, a
