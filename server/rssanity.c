@@ -811,6 +811,23 @@ bool sanity_check_ruleset_data(void)
                       "requirements!", action_get_rule_name(act));
         ok = FALSE;
       }
+
+      requirement_vector_iterate(&(enabler->target_reqs), preq) {
+        if (preq->source.kind == VUT_DIPLREL
+            && preq->range == REQ_RANGE_LOCAL) {
+          /* A Local DiplRel requirement can be expressed as a requirement
+           * in actor_reqs. Demand that it is there. This avoids breaking
+           * code that reasons about actions. */
+          ruleset_error(LOG_ERROR,
+                        "Action enabler for %s has a local DiplRel "
+                        "requirement %s in target_reqs! Please read the "
+                        "section \"Requirement vector rules\" in "
+                        "doc/README.actions",
+                        action_get_rule_name(act),
+                        req_to_fstring(preq));
+          ok = FALSE;
+        }
+      } requirement_vector_iterate_end;
     } action_enabler_list_iterate_end;
   } action_iterate_end;
 
