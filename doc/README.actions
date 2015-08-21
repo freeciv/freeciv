@@ -279,7 +279,6 @@ Actions done by a unit against a tile
  * the scenario setting prevent_new_cities must be false.
  * actor must be on the same tile as the target.
  * target must not have the NoCities terrain flag.
- * target must not be owned by a foreign player.
  * target must not be closer than citymindist to nearest city.
 
 "Explode Nuclear" - Detonate at the target tile. Cause a nuclear explosion.

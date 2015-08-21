@@ -914,6 +914,10 @@ bool are_requirements_opposites(const struct requirement *req1,
 
 /**************************************************************************
   Returns TRUE if req1 and req2 contradicts each other.
+
+  TODO: If information about what entity each requirement type will be
+  evaluated against is passed it will become possible to detect stuff like
+  that an unclaimed tile contradicts all DiplRel requirements against it.
 **************************************************************************/
 bool are_requirements_contradictions(const struct requirement *req1,
                                      const struct requirement *req2)

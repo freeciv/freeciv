@@ -283,9 +283,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     action_enabler_add(enabler);
 
-    /* City founding is now action enabler controlled. Add the old rule
-     * that units with the Cities unit type flag can found a city.
-     * Other requirements are still hard coded. */
+    /* City founding is now action enabler controlled. Add the old rules.
+     * The rule that a city can't be founded on a tile claimed by another
+     * player has to be translated to "a city can be founded on an
+     * unclaimed tile OR on a tile owned by the actor player. That results
+     * in two action enablers. */
 
     enabler = action_enabler_new();
 
@@ -305,6 +307,37 @@ void rscompat_postprocess(struct rscompat_info *info)
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("MinMoveFrags", "Local", FALSE,
                                            TRUE, TRUE, "1"));
+
+    /* The target tile can't be claimed. */
+    requirement_vector_append(&enabler->target_reqs,
+                              req_from_str("CityTile", "Local", FALSE,
+                                           FALSE, TRUE, "Claimed"));
+
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_FOUND_CITY;
+
+    /* The actor unit must have the unit type flag Cities. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local", FALSE,
+                                           TRUE, TRUE, "Cities"));
+
+    /* The actor must be on native terrain. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitState", "Local", FALSE,
+                                           TRUE, TRUE, "OnLivableTile"));
+
+    /* The actor unit must have moves left. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("MinMoveFrags", "Local", FALSE,
+                                           TRUE, TRUE, "1"));
+
+    /* The target tile must be domestic. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           FALSE, TRUE, "Is foreign"));
 
     action_enabler_add(enabler);
 
