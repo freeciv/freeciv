@@ -1028,9 +1028,9 @@ static void begin_phase(bool is_new_phase)
   flush_packets();  /* to curb major city spam */
   conn_list_do_unbuffer(game.est_connections);
 
-  phase_players_iterate(pplayer) {
+  alive_phase_players_iterate(pplayer) {
     update_revolution(pplayer);
-  } phase_players_iterate_end;
+  } alive_phase_players_iterate_end;
 
   if (is_new_phase) {
     /* Try to avoid hiding events under a diplomacy dialog */
