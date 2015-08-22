@@ -407,22 +407,22 @@ void update_info_label(void)
 #else
   SDL_Rect area = {0, 3, 0, 0};
 #endif
-  SDL_String16 *pText;
+  struct utf8_str *ptext;
 
   if (get_current_client_page() != PAGE_GAME) {
     return;
   }
 
 #ifdef SMALL_SCREEN
-  pText = create_string16(NULL, 0, 8);
+  ptext = create_utf8_str(NULL, 0, 8);
 #else
-  pText = create_string16(NULL, 0, 10);
+  ptext = create_utf8_str(NULL, 0, 10);
 #endif
 
   /* set text settings */
-  pText->style |= TTF_STYLE_BOLD;
-  pText->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_INFO_TEXT);
-  pText->bgcol = (SDL_Color) {0, 0, 0, 0};
+  ptext->style |= TTF_STYLE_BOLD;
+  ptext->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_INFO_TEXT);
+  ptext->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   if (NULL != client.conn.playing) {
 #ifdef SMALL_SCREEN
@@ -446,8 +446,8 @@ void update_info_label(void)
                 client.conn.playing->economic.science);
 #endif /* SMALL_SCREEN */
     /* convert to unistr and create text surface */
-    copy_chars_to_string16(pText, buffer);
-    pTmp = create_text_surf_from_str16(pText);
+    copy_chars_to_utf8_str(ptext, buffer);
+    pTmp = create_text_surf_from_utf8(ptext);
 
     area.x = (main_window_width() - pTmp->w) / 2 - adj_size(5);
     area.w = pTmp->w + adj_size(8);
@@ -488,7 +488,7 @@ void update_info_label(void)
 
   update_timeout_label();
 
-  FREESTRING16(pText);
+  FREEUTF8STR(ptext);
 
   queue_flush();
 }
