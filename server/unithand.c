@@ -3875,6 +3875,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_SPY_STEAL_GOLD:
       case ACTION_SPY_SABOTAGE_CITY:
       case ACTION_SPY_STEAL_TECH:
+      case ACTION_SPY_INCITE_CITY:
       case ACTION_TRADE_ROUTE:
       case ACTION_MARKETPLACE:
       case ACTION_HELP_WONDER:
@@ -3886,7 +3887,6 @@ void handle_unit_orders(struct player *pplayer,
         /* No validation required. */
         break;
       /* Must be tested first. */
-      case ACTION_SPY_INCITE_CITY:
       case ACTION_STEAL_MAPS:
       case ACTION_SPY_NUKE:
       /* Needs additional target information. */
