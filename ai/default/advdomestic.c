@@ -428,7 +428,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
                                    struct city *pcity, struct adv_choice *choice)
 {
-  struct adv_data *ai = adv_data_get(pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
   /* Unit type with certain role */
   struct unit_type *settler_type;
   struct unit_type *founder_type;
@@ -447,12 +447,12 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
    * and is set when the difficulty level is changed (stdinhand.c). */
   settler_want = city_data->settler_want * pplayer->ai_common.expand / 100;
 
-  if (ai->wonder_city == pcity->id) {
+  if (adv->wonder_city == pcity->id) {
     settler_want /= 5;
   }
 
   if (settler_type
-      && (pcity->id != ai->wonder_city || settler_type->pop_cost == 0)
+      && (pcity->id != adv->wonder_city || settler_type->pop_cost == 0)
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(settler_type,
                                                     pplayer, O_FOOD)) {
     if (settler_want > 0) {
@@ -476,11 +476,11 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
     /* founder_want calculated in aisettlers.c */
     founder_want = city_data->founder_want;
 
-    if (ai->wonder_city == pcity->id) {
+    if (adv->wonder_city == pcity->id) {
       founder_want /= 5;
     }
     
-    if (ai->max_num_cities <= city_list_size(pplayer->cities)) {
+    if (adv->max_num_cities <= city_list_size(pplayer->cities)) {
       founder_want /= 100;
     }
 
@@ -489,7 +489,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
       / TRAIT_DEFAULT_VALUE;
 
     if (founder_type
-        && (pcity->id != ai->wonder_city
+        && (pcity->id != adv->wonder_city
             || founder_type->pop_cost == 0)
         && pcity->surplus[O_FOOD] >= utype_upkeep_cost(founder_type,
                                                        pplayer, O_FOOD)) {
@@ -534,7 +534,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
 
     init_choice(&cur);
     /* Consider building caravan-type units to aid wonder construction */  
-    dai_choose_help_wonder(ait, pcity, &cur, ai);
+    dai_choose_help_wonder(ait, pcity, &cur, adv);
     copy_if_better_choice(&cur, choice);
 
     init_choice(&cur);
@@ -544,7 +544,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
 
     init_choice(&cur);
     /* Consider building caravan-type units for trade route */
-    dai_choose_trade_route(ait, pcity, &cur, ai);
+    dai_choose_trade_route(ait, pcity, &cur, adv);
     copy_if_better_choice(&cur, choice);
   }
 

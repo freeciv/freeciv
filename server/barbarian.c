@@ -97,28 +97,29 @@ struct player *create_barbarian_player(enum barbarian_type type)
   struct nation_type *nation;
   struct research *presearch;
 
-  players_iterate(barbarians) {
-    if ((type == LAND_BARBARIAN && is_land_barbarian(barbarians))
-        || (type == SEA_BARBARIAN && is_sea_barbarian(barbarians))) {
-      if (!barbarians->is_alive) {
-        barbarians->economic.gold = 0;
-        barbarians->is_alive = TRUE;
-        player_status_reset(barbarians);
+  players_iterate(old_barbs) {
+    if ((type == LAND_BARBARIAN && is_land_barbarian(old_barbs))
+        || (type == SEA_BARBARIAN && is_sea_barbarian(old_barbs))) {
+      if (!old_barbs->is_alive) {
+        old_barbs->economic.gold = 0;
+        old_barbs->is_alive = TRUE;
+        player_status_reset(old_barbs);
 
         /* Free old name so pick_random_player_name() can select it again.
          * This is needed in case ruleset defines just one leader for
          * barbarian nation. */
-        barbarians->name[0] = '\0';
-        sz_strlcpy(barbarians->name,
-                   pick_random_player_name(nation_of_player(barbarians)));
-        sz_strlcpy(barbarians->username, ANON_USER_NAME);
+        old_barbs->name[0] = '\0';
+        sz_strlcpy(old_barbs->name,
+                   pick_random_player_name(nation_of_player(old_barbs)));
+        sz_strlcpy(old_barbs->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */
 	whole_map_iterate(ptile) {
-	  map_clear_known(ptile, barbarians);
+	  map_clear_known(ptile, old_barbs);
 	} whole_map_iterate_end;
       }
-      barbarians->economic.gold += 100;  /* New leader, new money */
-      return barbarians;
+      old_barbs->economic.gold += 100;  /* New leader, new money */
+
+      return old_barbs;
     }
   } players_iterate_end;
 

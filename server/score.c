@@ -250,7 +250,7 @@ static void get_player_landarea(struct claim_map *pcmap,
 void calc_civ_score(struct player *pplayer)
 {
   const struct research *presearch;
-  struct city *pcity;
+  struct city *wonder_city;
   int landarea = 0, settledarea = 0;
   static struct claim_map cmap;
 
@@ -324,8 +324,8 @@ void calc_civ_score(struct player *pplayer)
 
   improvement_iterate(i) {
     if (is_great_wonder(i)
-        && (pcity = city_from_great_wonder(i))
-        && player_owns_city(pplayer, pcity)) {
+        && (wonder_city = city_from_great_wonder(i))
+        && player_owns_city(pplayer, wonder_city)) {
       pplayer->score.wonders++;
     }
   } improvement_iterate_end;

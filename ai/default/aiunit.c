@@ -2449,7 +2449,7 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
 
   /* If we are still alive, either sentry or fortify. */
   if ((punit = game_unit_by_number(id))) {
-    struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
+    unit_data = def_ai_unit_data(punit, ait);
     struct city *pcity = tile_city(unit_tile(punit));
 
     if (unit_list_find(unit_tile(punit)->units,
@@ -2506,7 +2506,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
 
   /* Don't manage the unit if it is under human orders. */
   if (unit_has_orders(punit)) {
-    struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
+    unit_data = def_ai_unit_data(punit, ait);
 
     UNIT_LOG(LOG_VERBOSE, punit, "is under human orders, aborting AI control.");
     dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);

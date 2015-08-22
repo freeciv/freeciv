@@ -1323,9 +1323,10 @@ static bool load_unit_names(struct section_file *file)
     game.control.num_unit_classes = nval;
 
     unit_class_iterate(punitclass) {
-      const int i = uclass_index(punitclass);
+      const int pci = uclass_index(punitclass);
+
       if (!ruleset_load_names(&punitclass->name, NULL, file,
-                              section_name(section_list_get(sec, i)))) {
+                              section_name(section_list_get(sec, pci)))) {
         ok = FALSE;
         break;
       }
@@ -1354,9 +1355,9 @@ static bool load_unit_names(struct section_file *file)
     game.control.num_unit_types = nval;
 
     unit_type_iterate(punittype) {
-      const int i = utype_index(punittype);
+      const int utypei = utype_index(punittype);
       if (!ruleset_load_names(&punittype->name, NULL, file,
-                              section_name(section_list_get(sec, i)))) {
+                              section_name(section_list_get(sec, utypei)))) {
         ok = FALSE;
         break;
       }
@@ -1843,11 +1844,11 @@ static bool load_ruleset_units(struct section_file *file)
 
       /* Set also all classes that are never unreachable as targets,
        * embarks, and disembarks. */
-      unit_class_iterate(pclass) {
-        if (!uclass_has_flag(pclass, UCF_UNREACHABLE)) {
-          BV_SET(u->targets, uclass_index(pclass));
-          BV_SET(u->embarks, uclass_index(pclass));
-          BV_SET(u->disembarks, uclass_index(pclass));
+      unit_class_iterate(preachable) {
+        if (!uclass_has_flag(preachable, UCF_UNREACHABLE)) {
+          BV_SET(u->targets, uclass_index(preachable));
+          BV_SET(u->embarks, uclass_index(preachable));
+          BV_SET(u->disembarks, uclass_index(preachable));
         }
       } unit_class_iterate_end;
 
@@ -2197,8 +2198,8 @@ static bool load_terrain_names(struct section_file *file)
     terrain_sections = fc_calloc(nval, MAX_SECTION_LABEL);
 
     terrain_type_iterate(pterrain) {
-      const int i = terrain_index(pterrain);
-      const char *sec_name = section_name(section_list_get(sec, i));
+      const int terri = terrain_index(pterrain);
+      const char *sec_name = section_name(section_list_get(sec, terri));
 
       if (!ruleset_load_names(&pterrain->name, NULL, file, sec_name)) {
         ok = FALSE;
@@ -2209,7 +2210,7 @@ static bool load_terrain_names(struct section_file *file)
         name_set(&pterrain->name, NULL, "");
       }
 
-      section_strlcpy(&terrain_sections[i * MAX_SECTION_LABEL], sec_name);
+      section_strlcpy(&terrain_sections[terri * MAX_SECTION_LABEL], sec_name);
     } terrain_type_iterate_end;
   }
 
@@ -2237,8 +2238,8 @@ static bool load_terrain_names(struct section_file *file)
     resource_sections = fc_calloc(nval, MAX_SECTION_LABEL);
 
     resource_type_iterate(presource) {
-      const int i = resource_index(presource);
-      const char *sec_name = section_name(section_list_get(sec, i));
+      const int resi = resource_index(presource);
+      const char *sec_name = section_name(section_list_get(sec, resi));
 
       if (!ruleset_load_names(&presource->name, NULL, file, sec_name)) {
         ok = FALSE;
@@ -2249,7 +2250,7 @@ static bool load_terrain_names(struct section_file *file)
         name_set(&presource->name, NULL, "");
       }
 
-      section_strlcpy(&resource_sections[i * MAX_SECTION_LABEL], sec_name);
+      section_strlcpy(&resource_sections[resi * MAX_SECTION_LABEL], sec_name);
     } resource_type_iterate_end;
   }
 
@@ -2757,7 +2758,7 @@ static bool load_ruleset_terrain(struct section_file *file)
       const char **slist;
       struct requirement_vector *reqs;
       const char *catname;
-      int j;
+      int cj;
       enum extra_cause cause;
       enum extra_rmcause rmcause;
 
@@ -2780,8 +2781,8 @@ static bool load_ruleset_terrain(struct section_file *file)
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.causes", section);
       pextra->causes = 0;
-      for (j = 0; j < nval; j++) {
-        const char *sval = slist[j];
+      for (cj = 0; cj < nval; cj++) {
+        const char *sval = slist[cj];
         cause = extra_cause_by_name(sval, fc_strcasecmp);
 
         if (!extra_cause_is_valid(cause)) {
@@ -2987,7 +2988,7 @@ static bool load_ruleset_terrain(struct section_file *file)
     /* base details */
     base_type_iterate(pbase) {
       const char *section = &base_sections[base_index(pbase) * MAX_SECTION_LABEL];
-      int j;
+      int bj;
       const char **slist;
       const char *gui_str;
       struct extra_type *pextra = base_extra_get(pbase);
@@ -3014,8 +3015,8 @@ static bool load_ruleset_terrain(struct section_file *file)
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
       BV_CLR_ALL(pbase->flags);
-      for (j = 0; j < nval; j++) {
-        const char *sval = slist[j];
+      for (bj = 0; bj < nval; bj++) {
+        const char *sval = slist[bj];
         enum base_flag_id flag = base_flag_id_by_name(sval, fc_strcasecmp);
 
         if (!base_flag_id_is_valid(flag)) {
@@ -4537,15 +4538,15 @@ static bool load_ruleset_styles(struct section_file *file)
     sec = secfile_sections_by_name_prefix(file, MUSICSTYLE_SECTION_PREFIX);
 
     if (sec != NULL) {
-      int i;
+      int musi;
 
       game.control.num_music_styles = section_list_size(sec);
       music_styles_alloc(game.control.num_music_styles);
-      i = 0;
+      musi = 0;
 
       section_list_iterate(sec, psection) {
         struct requirement_vector *reqs;
-        struct music_style *pmus = music_style_by_number(i);
+        struct music_style *pmus = music_style_by_number(musi);
         const char *sec_name = section_name(psection);
 
         sz_strlcpy(pmus->music_peaceful,
@@ -4562,7 +4563,7 @@ static bool load_ruleset_styles(struct section_file *file)
         }
         requirement_vector_copy(&pmus->reqs, reqs);
 
-        i++;
+        musi++;
       } section_list_iterate_end;
     }
 
@@ -4844,7 +4845,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
   int *food_ini;
   int i;
   size_t teams;
-  const char *text;
+  const char *pref_text;
   size_t gni_tmp;
   struct section_list *sec;
   size_t nval;
@@ -4864,60 +4865,60 @@ static bool load_ruleset_game(struct section_file *file, bool act)
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
 
   /* section: tileset */
-  text = secfile_lookup_str_default(file, "", "tileset.prefered");
-  text = secfile_lookup_str_default(file, text, "tileset.preferred");
-  if (text[0] != '\0') {
+  pref_text = secfile_lookup_str_default(file, "", "tileset.prefered");
+  pref_text = secfile_lookup_str_default(file, pref_text, "tileset.preferred");
+  if (pref_text[0] != '\0') {
     /* There was tileset suggestion */
-    sz_strlcpy(game.control.prefered_tileset, text);
+    sz_strlcpy(game.control.prefered_tileset, pref_text);
   } else {
     /* No tileset suggestions */
     game.control.prefered_tileset[0] = '\0';
   }
 
   /* section: soundset */
-  text = secfile_lookup_str_default(file, "", "soundset.prefered");
-  text = secfile_lookup_str_default(file, text, "soundset.preferred");
-  if (text[0] != '\0') {
+  pref_text = secfile_lookup_str_default(file, "", "soundset.prefered");
+  pref_text = secfile_lookup_str_default(file, pref_text, "soundset.preferred");
+  if (pref_text[0] != '\0') {
     /* There was soundset suggestion */
-    sz_strlcpy(game.control.prefered_soundset, text);
+    sz_strlcpy(game.control.prefered_soundset, pref_text);
   } else {
     /* No soundset suggestions */
     game.control.prefered_soundset[0] = '\0';
   }
 
   /* section: musicset */
-  text = secfile_lookup_str_default(file, "", "musicset.prefered");
-  text = secfile_lookup_str_default(file, text, "musicset.preferred");
-  if (text[0] != '\0') {
+  pref_text = secfile_lookup_str_default(file, "", "musicset.prefered");
+  pref_text = secfile_lookup_str_default(file, pref_text, "musicset.preferred");
+  if (pref_text[0] != '\0') {
     /* There was musicset suggestion */
-    sz_strlcpy(game.control.prefered_musicset, text);
+    sz_strlcpy(game.control.prefered_musicset, pref_text);
   } else {
     /* No musicset suggestions */
     game.control.prefered_musicset[0] = '\0';
   }
 
   /* section: about */
-  text = secfile_lookup_str(file, "about.name");
+  pref_text = secfile_lookup_str(file, "about.name");
   /* Ruleset/modpack name found */
-  sz_strlcpy(game.control.name, text);
+  sz_strlcpy(game.control.name, pref_text);
 
-  text = secfile_lookup_str_default(file, "", "about.version");
-  if (text[0] != '\0') {
+  pref_text = secfile_lookup_str_default(file, "", "about.version");
+  if (pref_text[0] != '\0') {
     /* Ruleset/modpack version found */
-    sz_strlcpy(game.control.version, text);
+    sz_strlcpy(game.control.version, pref_text);
   } else {
     /* No version information */
     game.control.version[0] = '\0';
   }
 
-  text = secfile_lookup_str_default(file, "", "about.description");
-  if (text[0] != '\0') {
+  pref_text = secfile_lookup_str_default(file, "", "about.description");
+  if (pref_text[0] != '\0') {
     int len;
 
     /* Ruleset/modpack description found */
-    len = strlen(text);
+    len = strlen(pref_text);
     game.ruleset_description = fc_malloc(len + 1);
-    fc_strlcpy(game.ruleset_description, text, len + 1);
+    fc_strlcpy(game.ruleset_description, pref_text, len + 1);
     game.control.desc_length = len;
   } else {
     /* No description */
@@ -5068,20 +5069,20 @@ static bool load_ruleset_game(struct section_file *file, bool act)
       game.info.granary_num_inis = 1;
       game.info.granary_food_ini[0] = RS_DEFAULT_GRANARY_FOOD_INI;
     } else {
-      int i;
+      int gi;
 
       /* check for <= 0 entries */
-      for (i = 0; i < game.info.granary_num_inis; i++) {
-        if (food_ini[i] <= 0) {
-          if (i == 0) {
-            food_ini[i] = RS_DEFAULT_GRANARY_FOOD_INI;
+      for (gi = 0; gi < game.info.granary_num_inis; gi++) {
+        if (food_ini[gi] <= 0) {
+          if (gi == 0) {
+            food_ini[gi] = RS_DEFAULT_GRANARY_FOOD_INI;
           } else {
-            food_ini[i] = food_ini[i - 1];
+            food_ini[gi] = food_ini[gi - 1];
           }
           log_error("Bad value for granary_food_ini[%i]. Using %i.",
-                    i, food_ini[i]);
+                    gi, food_ini[gi]);
         }
-        game.info.granary_food_ini[i] = food_ini[i];
+        game.info.granary_food_ini[gi] = food_ini[gi];
       }
     }
     free(food_ini);
@@ -5460,7 +5461,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
   }
 
   if (ok) {
-    int i;
+    int cf;
 
     /* section: culture */
     game.info.culture_vic_points
@@ -5498,13 +5499,13 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                                           RS_DEFAULT_NEG_YEAR_LABEL,
                                           "calendar.negative_label"));
 
-    for (i = 0; i < game.info.calendar_fragments; i++) {
-      const char *name;
+    for (cf = 0; cf < game.info.calendar_fragments; cf++) {
+      const char *fname;
 
-      name = secfile_lookup_str_default(file, NULL, "calendar.fragment_name%d", i);
-      if (name != NULL) {
-        strncpy(game.info.calendar_fragment_name[i], name,
-                sizeof(game.info.calendar_fragment_name[i]));
+      fname = secfile_lookup_str_default(file, NULL, "calendar.fragment_name%d", cf);
+      if (fname != NULL) {
+        strncpy(game.info.calendar_fragment_name[cf], fname,
+                sizeof(game.info.calendar_fragment_name[cf]));
       }
     }
   }
@@ -5601,17 +5602,17 @@ static bool load_ruleset_game(struct section_file *file, bool act)
 
       BV_CLR_ALL(pdis->effects);
       for (j = 0; j < eff_count; j++) {
-        const char *sval = svec[j];
+        const char *dsval = svec[j];
         enum disaster_effect_id effect;
 
-        effect = disaster_effect_id_by_name(sval, fc_strcasecmp);
+        effect = disaster_effect_id_by_name(dsval, fc_strcasecmp);
 
         if (!disaster_effect_id_is_valid(effect)) {
           ruleset_error(LOG_ERROR,
                         "\"%s\" disaster \"%s\": unknown effect \"%s\".",
                         filename,
                         disaster_rule_name(pdis),
-                        sval);
+                        dsval);
           ok = FALSE;
           break;
         } else {

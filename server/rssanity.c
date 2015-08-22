@@ -569,12 +569,12 @@ bool sanity_check_ruleset_data(void)
 
   /* Check that all players can have their initial techs */
   nations_iterate(pnation) {
-    int i;
+    int techi;
 
     /* Check global initial techs */
-    for (i = 0; i < MAX_NUM_TECH_LIST
-         && game.rgame.global_init_techs[i] != A_LAST; i++) {
-      Tech_type_id tech = game.rgame.global_init_techs[i];
+    for (techi = 0; techi < MAX_NUM_TECH_LIST
+         && game.rgame.global_init_techs[techi] != A_LAST; techi++) {
+      Tech_type_id tech = game.rgame.global_init_techs[techi];
       struct advance *a = valid_advance_by_number(tech);
 
       if (a == NULL) {
@@ -596,10 +596,10 @@ bool sanity_check_ruleset_data(void)
     }
 
     /* Check national initial techs */
-    for (i = 0;
-         i < MAX_NUM_TECH_LIST && pnation->init_techs[i] != A_LAST;
-         i++) {
-      Tech_type_id tech = pnation->init_techs[i];
+    for (techi = 0;
+         techi < MAX_NUM_TECH_LIST && pnation->init_techs[techi] != A_LAST;
+         techi++) {
+      Tech_type_id tech = pnation->init_techs[techi];
       struct advance *a = valid_advance_by_number(tech);
 
       if (a == NULL) {
@@ -882,17 +882,17 @@ bool sanity_check_ruleset_data(void)
   } achievements_iterate_end;
 
   if (game.server.ruledit.embedded_nations != NULL) {
-    int i;
+    int nati;
 
-    for (i = 0; i < game.server.ruledit.embedded_nations_count; i++) {
+    for (nati = 0; nati < game.server.ruledit.embedded_nations_count; nati++) {
       struct nation_type *pnat
-        = nation_by_rule_name(game.server.ruledit.embedded_nations[i]);
+        = nation_by_rule_name(game.server.ruledit.embedded_nations[nati]);
 
       if (pnat == NULL) {
         ruleset_error(LOG_ERROR,
                       "There's nation %s listed in embedded nations, but there's "
                       "no such nation.",
-                      game.server.ruledit.embedded_nations[i]);
+                      game.server.ruledit.embedded_nations[nati]);
         ok = FALSE;
       }
     }

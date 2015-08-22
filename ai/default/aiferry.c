@@ -1243,13 +1243,14 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
   };
 
   if (punit->moves_left > 0) {
-    struct city *pcity = find_nearest_safe_city(punit);
-    if (pcity) {
-      punit->goto_tile = pcity->tile;
+    struct city *safe_city = find_nearest_safe_city(punit);
+
+    if (safe_city != NULL) {
+      punit->goto_tile = safe_city->tile;
       UNIT_LOG(LOGLEVEL_FERRY, punit, "No work, going home");
       unit_data->done = TRUE;
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
-      (void) dai_unit_goto(ait, punit, pcity->tile);
+      (void) dai_unit_goto(ait, punit, safe_city->tile);
     }
   }
  

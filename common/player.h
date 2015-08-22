@@ -466,9 +466,10 @@ int player_multiplier_target_value(const struct player *pplayer,
 
 /* iterate over all players, which are used at the moment */
 #define players_iterate(_pplayer)                                           \
-  player_slots_iterate(_pslot) {                                            \
-    struct player *_pplayer = player_slot_get_player(_pslot);               \
+  player_slots_iterate(_pslot##_pplayer) {                                  \
+    struct player *_pplayer = player_slot_get_player(_pslot##_pplayer);     \
     if (_pplayer != NULL) {
+
 #define players_iterate_end                                                 \
     }                                                                       \
   } player_slots_iterate_end;

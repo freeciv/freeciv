@@ -118,7 +118,7 @@ static int player_info_frozen_level = 0;
 **************************************************************************/
 void kill_player(struct player *pplayer)
 {
-  bool palace;
+  bool save_palace;
   struct player *barbarians = NULL;
 
   pplayer->is_alive = FALSE;
@@ -150,7 +150,7 @@ void kill_player(struct player *pplayer)
 
   /* Transfer back all cities not originally owned by player to their
      rightful owners, if they are still around */
-  palace = game.server.savepalace;
+  save_palace = game.server.savepalace;
   game.server.savepalace = FALSE; /* moving it around is dumb */
   city_list_iterate_safe(pplayer->cities, pcity) {
     if (pcity->original != pplayer && pcity->original->is_alive) {
@@ -161,7 +161,7 @@ void kill_player(struct player *pplayer)
                            TRUE);
     }
   } city_list_iterate_safe_end;
-  game.server.savepalace = palace;
+  game.server.savepalace = save_palace;
 
   /* let there be civil war */
   if (game.info.gameloss_style & GAMELOSS_STYLE_CWAR) {

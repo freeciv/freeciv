@@ -678,11 +678,11 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
 
     /* Found someone! */
     {
-      struct tile *ptile;
+      struct tile *bribee_tile;
       struct pf_path *path;
 
-      ptile = mapstep(pos.tile, DIR_REVERSE(pos.dir_to_here));
-      path = pf_map_path(pfm, ptile);
+      bribee_tile = mapstep(pos.tile, DIR_REVERSE(pos.dir_to_here));
+      path = pf_map_path(pfm, bribee_tile);
       if (!path || !adv_unit_execute_path(punit, path) 
           || punit->moves_left <= 0) {
         pf_path_destroy(path);

@@ -53,7 +53,7 @@ static int get_tile_value(struct tile *ptile)
   int irrig_bonus = 0;
   int mine_bonus = 0;
   struct tile *roaded;
-  struct extra_type *pextra;
+  struct extra_type *nextra;
 
   /* Give one point for each food / shield / trade produced. */
   value = 0;
@@ -79,13 +79,13 @@ static int get_tile_value(struct tile *ptile)
     } road_type_iterate_end;
   }
 
-  pextra = next_extra_for_tile(roaded, EC_IRRIGATION, NULL, NULL);
+  nextra = next_extra_for_tile(roaded, EC_IRRIGATION, NULL, NULL);
 
-  if (pextra != NULL) {
+  if (nextra != NULL) {
     struct tile *vtile;
 
     vtile = tile_virtual_new(roaded);
-    tile_apply_activity(vtile, ACTIVITY_IRRIGATE, pextra);
+    tile_apply_activity(vtile, ACTIVITY_IRRIGATE, nextra);
     irrig_bonus = -value;
     output_type_iterate(o) {
       irrig_bonus += city_tile_output(NULL, vtile, FALSE, o);
@@ -93,14 +93,14 @@ static int get_tile_value(struct tile *ptile)
     tile_virtual_destroy(vtile);
   }
 
-  pextra = next_extra_for_tile(roaded, EC_MINE, NULL, NULL);
+  nextra = next_extra_for_tile(roaded, EC_MINE, NULL, NULL);
 
   /* Same set of roads used with mine as with irrigation. */
-  if (pextra != NULL) {
+  if (nextra != NULL) {
     struct tile *vtile;
 
     vtile = tile_virtual_new(roaded);
-    tile_apply_activity(vtile, ACTIVITY_MINE, pextra);
+    tile_apply_activity(vtile, ACTIVITY_MINE, nextra);
     mine_bonus = -value;
     output_type_iterate(o) {
       mine_bonus += city_tile_output(NULL, vtile, FALSE, o);
@@ -334,17 +334,17 @@ bool create_start_positions(enum map_startpos mode,
   tile_value = fc_calloc(MAP_INDEX_SIZE, sizeof(*tile_value));
 
   /* get the tile value */
-  whole_map_iterate(ptile) {
-    tile_value_aux[tile_index(ptile)] = get_tile_value(ptile);
+  whole_map_iterate(value_tile) {
+    tile_value_aux[tile_index(value_tile)] = get_tile_value(value_tile);
   } whole_map_iterate_end;
 
   /* select the best tiles */
-  whole_map_iterate(ptile) {
-    int this_tile_value = tile_value_aux[tile_index(ptile)];
+  whole_map_iterate(value_tile) {
+    int this_tile_value = tile_value_aux[tile_index(value_tile)];
     int lcount = 0, bcount = 0;
 
     /* check all tiles within the default city radius */
-    city_tile_iterate(CITY_MAP_DEFAULT_RADIUS_SQ, ptile, ptile1) {
+    city_tile_iterate(CITY_MAP_DEFAULT_RADIUS_SQ, value_tile, ptile1) {
       if (this_tile_value > tile_value_aux[tile_index(ptile1)]) {
         lcount++;
       } else if (this_tile_value < tile_value_aux[tile_index(ptile1)]) {
@@ -355,7 +355,7 @@ bool create_start_positions(enum map_startpos mode,
     if (lcount <= bcount) {
       this_tile_value = 0;
     }
-    tile_value[tile_index(ptile)] = 100 * this_tile_value;
+    tile_value[tile_index(value_tile)] = 100 * this_tile_value;
   } whole_map_iterate_end;
   /* get an average value */
   smooth_int_map(tile_value, TRUE);
@@ -363,14 +363,14 @@ bool create_start_positions(enum map_startpos mode,
   initialize_isle_data();
 
   /* Only consider tiles marked as 'starter terrains' by ruleset */
-  whole_map_iterate(ptile) {
-    if (!filter_starters(ptile, NULL)) {
-      tile_value[tile_index(ptile)] = 0;
+  whole_map_iterate(starter_tile) {
+    if (!filter_starters(starter_tile, NULL)) {
+      tile_value[tile_index(starter_tile)] = 0;
     } else {
       /* Oceanic terrain cannot be starter terrain currently */
-      fc_assert_action(tile_continent(ptile) > 0, continue);
-      islands[tile_continent(ptile)].goodies += tile_value[tile_index(ptile)];
-      total_goodies += tile_value[tile_index(ptile)];
+      fc_assert_action(tile_continent(starter_tile) > 0, continue);
+      islands[tile_continent(starter_tile)].goodies += tile_value[tile_index(starter_tile)];
+      total_goodies += tile_value[tile_index(starter_tile)];
     }
   } whole_map_iterate_end;
 

@@ -433,11 +433,11 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
     /* Update all cities in case the tech changed some effects. This is
      * inefficient; it could be optimized if it's found to be a problem.
      * But techs aren't researched that often. */
-    city_list_iterate(aplayer->cities, pcity) {
+    city_list_iterate(aplayer->cities, apcity) {
       /* Refresh the city data; this also updates the squared city radius. */
-      city_refresh(pcity);
-      city_refresh_vision(pcity);
-      send_city_info(aplayer, pcity);
+      city_refresh(apcity);
+      city_refresh_vision(apcity);
+      send_city_info(aplayer, apcity);
     } city_list_iterate_end;
 
     /* Send all player an updated info of the owner of the Marco Polo

@@ -2042,9 +2042,9 @@ void handle_player_ready(struct player *requestor,
   if (is_ready) {
     int num_ready = 0, num_unready = 0;
 
-    players_iterate(pplayer) {
-      if (pplayer->is_connected) {
-	if (pplayer->is_ready) {
+    players_iterate(other_player) {
+      if (other_player->is_connected) {
+	if (other_player->is_ready) {
 	  num_ready++;
 	} else {
 	  num_unready++;
@@ -2317,18 +2317,18 @@ static void generate_players(void)
           continue;
         }
 
-        startpos_hash_iterate(hash, psp, c) {
+        startpos_hash_iterate(hash, psp, val) {
           if (!startpos_nation_allowed(psp, pnation)) {
             continue;
           }
 
-          if (c < min) {
+          if (val < min) {
             /* Pick this nation, as fewer nations already in the game
              * can use this start position. */
             picked = pnation;
-            min = c;
+            min = val;
             i = 1;
-          } else if (c == min && 0 == fc_rand(++i)) {
+          } else if (val == min && 0 == fc_rand(++i)) {
             /* More than one nation is equally desirable. Pick one at
              * random. */
             picked = pnation;
@@ -2341,9 +2341,9 @@ static void generate_players(void)
         nations_to_assign--;
         announce_player(pplayer);
         /* Update the counts for the newly assigned nation. */
-        startpos_hash_iterate(hash, psp, c) {
+        startpos_hash_iterate(hash, psp, val) {
           if (startpos_nation_allowed(psp, picked)) {
-            startpos_hash_replace(hash, psp, c + 1);
+            startpos_hash_replace(hash, psp, val + 1);
           }
         } startpos_hash_iterate_end;
       } else {

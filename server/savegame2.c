@@ -4374,7 +4374,7 @@ static void sg_save_player_main(struct savedata *saving,
   if (ship->state != SSHIP_NONE) {
     char buf[32];
     char st[NUM_SS_STRUCTURALS+1];
-    int i;
+    int ssi;
 
     fc_snprintf(buf, sizeof(buf), "player%d.spaceship", plrno);
 
@@ -4392,10 +4392,10 @@ static void sg_save_player_main(struct savedata *saving,
     secfile_insert_int(saving->file, ship->solar_panels,
                        "%s.solar_panels", buf);
 
-    for(i = 0; i < NUM_SS_STRUCTURALS; i++) {
-      st[i] = BV_ISSET(ship->structure, i) ? '1' : '0';
+    for(ssi = 0; ssi < NUM_SS_STRUCTURALS; ssi++) {
+      st[ssi] = BV_ISSET(ship->structure, ssi) ? '1' : '0';
     }
-    st[i] = '\0';
+    st[ssi] = '\0';
     secfile_insert_str(saving->file, st, "%s.structure", buf);
     if (ship->state >= SSHIP_LAUNCHED) {
       secfile_insert_int(saving->file, ship->launch_year,
@@ -4554,7 +4554,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 {
   struct player *past;
   const char *kind, *name, *string;
-  int id, i, repair, specialists = 0, workers = 0, value;
+  int id, i, repair, sp_count = 0, workers = 0, value;
   int nat_x, nat_y;
   citizens size;
   const char *stylename;
@@ -4597,7 +4597,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                     FALSE, "%s", secfile_error());
     pcity->specialists[specialist_index(loading->specialist.order[i])]
       = (citizens)value;
-    specialists += value;
+    sp_count += value;
   }
 
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
@@ -4770,12 +4770,12 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     city_repair_size(pcity, -1);
   }
 
-  repair = city_size_get(pcity) - specialists - (workers - FREE_WORKED_TILES);
+  repair = city_size_get(pcity) - sp_count - (workers - FREE_WORKED_TILES);
   if (0 != repair) {
     log_sg("[%s] size mismatch for '%s' (%d,%d): size [%d] != "
            "(workers [%d] - free worked tiles [%d]) + specialists [%d]",
            citystr, city_name(pcity), TILE_XY(city_tile(pcity)), city_size_get(pcity),
-           workers, FREE_WORKED_TILES, specialists);
+           workers, FREE_WORKED_TILES, sp_count);
 
     /* repair pcity */
     city_repair_size(pcity, repair);
@@ -5497,16 +5497,16 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   if (secfile_lookup_bool_default(loading->file, FALSE,
                                   "%s.go", unitstr)) {
-    int nat_x, nat_y;
+    int gnat_x, gnat_y;
 
-    sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x,
+    sg_warn_ret_val(secfile_lookup_int(loading->file, &gnat_x,
                                        "%s.goto_x", unitstr), FALSE,
                     "%s", secfile_error());
-    sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_y,
+    sg_warn_ret_val(secfile_lookup_int(loading->file, &gnat_y,
                                        "%s.goto_y", unitstr), FALSE,
                     "%s", secfile_error());
 
-    punit->goto_tile = native_pos_to_tile(nat_x, nat_y);
+    punit->goto_tile = native_pos_to_tile(gnat_x, gnat_y);
   } else {
     punit->goto_tile = NULL;
 
@@ -6536,8 +6536,8 @@ static void sg_load_researches(struct loaddata *loading)
   sg_check_ret();
 
   /* Initialize all researches. */
-  researches_iterate(presearch) {
-    init_tech(presearch, FALSE);
+  researches_iterate(pinitres) {
+    init_tech(pinitres, FALSE);
   } researches_iterate_end;
 
   /* May be unsaved (e.g. scenario case). */
@@ -6604,8 +6604,8 @@ static void sg_load_researches(struct loaddata *loading)
 
   /* In case of tech_leakage, we can update research only after all the
    * researches have been loaded */
-  researches_iterate(presearch) {
-    research_update(presearch);
+  researches_iterate(pupres) {
+    research_update(pupres);
   } researches_iterate_end;
 }
 

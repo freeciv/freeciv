@@ -551,12 +551,12 @@ enum server_events server_sniff_all_input(void)
      * but only if at least one player has previously connected. */
     if (srvarg.quitidle != 0) {
       static time_t last_noplayers;
-      static bool connections;
+      static bool conns;
 
       if (conn_list_size(game.est_connections) > 0) {
-	connections = TRUE;
+	conns = TRUE;
       }
-      if (connections && conn_list_size(game.est_connections) == 0) {
+      if (conns && conn_list_size(game.est_connections) == 0) {
 	if (last_noplayers != 0) {
 	  if (time(NULL) > last_noplayers + srvarg.quitidle) {
 	    save_game_auto("Lost all connections", AS_QUITIDLE);
@@ -579,7 +579,7 @@ enum server_events server_sniff_all_input(void)
 	    }
 
             /* Do not restart before someone has connected and left again */
-            connections = FALSE;
+            conns = FALSE;
 	  }
 	} else {
 	  last_noplayers = time(NULL);
@@ -675,6 +675,7 @@ enum server_events server_sniff_all_input(void)
 
     for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
       struct connection *pconn = connections + i;
+
       if (pconn->used && !pconn->server.is_closing) {
         FD_SET(pconn->sock, &readfs);
         if (0 < pconn->send_buffer->ndata) {

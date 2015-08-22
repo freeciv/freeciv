@@ -274,7 +274,7 @@ static void check_city_size(struct city *pcity, const char *file,
                             const char *function, int line)
 {
   int delta;
-  int citizens = 0;
+  int citizen_count = 0;
   struct tile *pcenter = city_tile(pcity);
 
   SANITY_CITY(pcity, city_size_get(pcity) >= 1);
@@ -282,16 +282,16 @@ static void check_city_size(struct city *pcity, const char *file,
   city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
                                   ptile, _index, _x, _y) {
     if (tile_worked(ptile) == pcity) {
-      citizens++;
+      citizen_count++;
     }
   } city_tile_iterate_skip_free_worked_end;
 
-  citizens += city_specialists(pcity);
-  delta = city_size_get(pcity) - citizens;
+  citizen_count += city_specialists(pcity);
+  delta = city_size_get(pcity) - citizen_count;
   if (0 != delta) {
     SANITY_FAIL("(%4d,%4d) %d citizens not equal [size], "
                 "repairing \"%s\"[%d]", TILE_XY(pcity->tile),
-                citizens, city_name(pcity), city_size_get(pcity));
+                citizen_count, city_name(pcity), city_size_get(pcity));
 
     citylog_map_workers(LOG_DEBUG, pcity);
     log_debug("[%s (%d)] specialists: %d", city_name(pcity), pcity->id,
