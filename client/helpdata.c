@@ -4605,9 +4605,9 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
             _("* Placed by mapgenerator.\n"));
   }
 
-  if (is_extra_caused_by(pextra, EC_SPONTANEOUS)) {
+  if (is_extra_caused_by(pextra, EC_APPEARANCE)) {
     CATLSTR(buf, bufsz,
-            _(" * May spread to neighbor tiles.\n"));
+            _(" * May appear spontaneously.\n"));
   }
 
   /* XXX Non-zero requirement vector is not a good test of whether

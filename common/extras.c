@@ -49,7 +49,7 @@ void extras_init(void)
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_init(&(extras[i].reqs));
     requirement_vector_init(&(extras[i].rmreqs));
-    requirement_vector_init(&(extras[i].spontaneous_reqs));
+    requirement_vector_init(&(extras[i].appearance_reqs));
     extras[i].id = i;
     extras[i].hiders = NULL;
     extras[i].data.special_idx = -1;
@@ -95,7 +95,7 @@ void extras_free(void)
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_free(&(extras[i].reqs));
     requirement_vector_free(&(extras[i].rmreqs));
-    requirement_vector_free(&(extras[i].spontaneous_reqs));
+    requirement_vector_free(&(extras[i].appearance_reqs));
 
     if (NULL != extras[i].helptext) {
       strvec_destroy(extras[i].helptext);
@@ -799,10 +799,10 @@ struct player *extra_owner(const struct tile *ptile)
 bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile)
 {
   return !tile_has_extra(ptile, pextra)
-    && is_extra_caused_by(pextra, EC_SPONTANEOUS)
+    && is_extra_caused_by(pextra, EC_APPEARANCE)
     && is_native_tile_to_extra(pextra, ptile)
     && !extra_conflicting_on_tile(pextra, ptile)
     && are_reqs_active(NULL, tile_owner(ptile), NULL, NULL, ptile,
                        NULL, NULL, NULL, NULL, NULL,
-                       &pextra->spontaneous_reqs, RPT_CERTAIN);
+                       &pextra->appearance_reqs, RPT_CERTAIN);
 }

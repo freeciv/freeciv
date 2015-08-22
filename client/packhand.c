@@ -3489,10 +3489,10 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   }
   fc_assert(pextra->rmreqs.size == p->rmreqs_count);
 
-  for (i = 0; i < p->spontaneous_reqs_count; i++) {
-    requirement_vector_append(&pextra->spontaneous_reqs, p->spontaneous_reqs[i]);
+  for (i = 0; i < p->appearance_reqs_count; i++) {
+    requirement_vector_append(&pextra->appearance_reqs, p->appearance_reqs[i]);
   }
-  fc_assert(pextra->spontaneous_reqs.size == p->spontaneous_reqs_count);
+  fc_assert(pextra->appearance_reqs.size == p->appearance_reqs_count);
 
   pextra->buildable = p->buildable;
   pextra->build_time = p->build_time;

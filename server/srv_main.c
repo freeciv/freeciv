@@ -1290,7 +1290,7 @@ static void end_turn(void)
                                &game.info.coolinglevel, nuclear_winter);
   }
 
-  extra_type_by_cause_iterate(EC_SPONTANEOUS, pextra) {
+  extra_type_by_cause_iterate(EC_APPEARANCE, pextra) {
     whole_map_iterate(ptile) {
       if (fc_rand(1000) < pextra->appearance_chance
           && can_extra_appear(pextra, ptile)) {
