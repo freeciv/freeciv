@@ -94,6 +94,8 @@ enum ane_kind {
   ANEK_IS_CITY_CENTER,
   /* Explanation: can't be done to non city centers. */
   ANEK_IS_NOT_CITY_CENTER,
+  /* Explanation: can't be done to claimed target tiles. */
+  ANEK_TGT_IS_CLAIMED,
   /* Explanation: the action is disabled in this scenario. */
   ANEK_SCENARIO_DISABLED,
   /* Explanation not detected. */
@@ -805,6 +807,12 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                              CITYT_CENTER,
                                              FALSE)) {
     expl->kind = ANEK_IS_NOT_CITY_CENTER;
+  } else if ((target_tile && tile_owner(target_tile) != NULL)
+             && !utype_may_act_tgt_city_tile(unit_type(punit),
+                                             action_id,
+                                             CITYT_CLAIMED,
+                                             TRUE)) {
+    expl->kind = ANEK_TGT_IS_CLAIMED;
   } else if ((game.scenario.prevent_new_cities
               && utype_can_do_action(unit_type(punit), ACTION_FOUND_CITY))
              && (action_id == ACTION_FOUND_CITY
@@ -883,6 +891,10 @@ static void explain_why_no_action_enabled(struct unit *punit,
   case ANEK_IS_NOT_CITY_CENTER:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit cannot act against non city centers."));
+    break;
+  case ANEK_TGT_IS_CLAIMED:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit cannot act against claimed tiles."));
     break;
   case ANEK_SCENARIO_DISABLED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1164,6 +1176,13 @@ void illegal_action_msg(struct player *pplayer,
     notify_player(pplayer, unit_tile(actor),
                   event, ftc_server,
                   _("Your %s can only do %s to city centers."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action));
+    break;
+  case ANEK_TGT_IS_CLAIMED:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s to claimed tiles."),
                   unit_name_translation(actor),
                   gen_action_translated_name(stopped_action));
     break;
