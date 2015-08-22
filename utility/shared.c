@@ -1083,7 +1083,7 @@ const struct strvec *get_scenario_dirs(void)
     bool from_freeciv_path = FALSE;
 
     if ((path = getenv(FREECIV_SCENARIO_PATH)) && '\0' == path[0]) {
-      /* TRANS: <FREECIV_SAVE_PATH> configuration error */
+      /* TRANS: <FREECIV_SCENARIO_PATH> configuration error */
       log_error(_("\"%s\" is set but empty; trying \"%s\" instead."),
                 FREECIV_SCENARIO_PATH, FREECIV_PATH);
       path = NULL;
