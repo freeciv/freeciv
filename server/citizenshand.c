@@ -205,9 +205,9 @@ void citizens_convert(struct city *pcity)
   }
 
   /* Create a list of foreign nationalities. */
-  citizens_foreign_iterate(pcity, pslot, nationality) {
+  citizens_foreign_iterate(pcity, foreign_slot, nationality) {
     if (nationality != 0) {
-      city_nations[count++] = pslot;
+      city_nations[count++] = foreign_slot;
     }
   } citizens_foreign_iterate_end;
 

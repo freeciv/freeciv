@@ -1139,13 +1139,13 @@ static void make_rivers(void)
       if (make_river(&rivermap, ptile, road_river)) {
         whole_map_iterate(ptile1) {
           if (dbv_isset(&rivermap.ok, tile_index(ptile1))) {
-            struct terrain *pterrain = tile_terrain(ptile1);
+            struct terrain *river_terrain = tile_terrain(ptile1);
 
-            if (!terrain_has_flag(pterrain, TER_CAN_HAVE_RIVER)) {
+            if (!terrain_has_flag(river_terrain, TER_CAN_HAVE_RIVER)) {
               /* We have to change the terrain to put a river here. */
-              pterrain = pick_terrain_by_flag(TER_CAN_HAVE_RIVER);
-              if (pterrain) {
-                tile_set_terrain(ptile1, pterrain);
+              river_terrain = pick_terrain_by_flag(TER_CAN_HAVE_RIVER);
+              if (river_terrain != NULL) {
+                tile_set_terrain(ptile1, river_terrain);
               }
             }
 

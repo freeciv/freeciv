@@ -1926,17 +1926,17 @@ static bool set_ai_level(struct connection *caller, const char *name,
 		player_name(pplayer));
       return FALSE;
     }
-  } else if(match_result == M_PRE_EMPTY) {
+  } else if (match_result == M_PRE_EMPTY) {
     if (check) {
       return TRUE;
     }
-    players_iterate(pplayer) {
-      if (pplayer->ai_controlled) {
-        set_ai_level_directer(pplayer, level);
-        send_player_info_c(pplayer, NULL);
+    players_iterate(cplayer) {
+      if (cplayer->ai_controlled) {
+        set_ai_level_directer(cplayer, level);
+        send_player_info_c(cplayer, NULL);
         cmd_reply(cmd_of_level(level), caller, C_OK,
                   _("Player '%s' now has AI skill level '%s'."),
-                  player_name(pplayer),
+                  player_name(cplayer),
                   ai_level_translated_name(level));
       }
     } players_iterate_end;
@@ -2657,20 +2657,21 @@ static bool debug_command(struct connection *caller, char *str,
       /* TODO: print some info about the player here */
     }
   } else if (ntokens > 0 && strcmp(arg[0], "info") == 0) {
-    int cities = 0, players = 0, units = 0, citizens = 0;
+    int cities = 0, players = 0, units = 0, citizen_count = 0;
+
     players_iterate(plr) {
       players++;
       city_list_iterate(plr->cities, pcity) {
         cities++;
-        citizens += city_size_get(pcity);
+        citizen_count += city_size_get(pcity);
       } city_list_iterate_end;
       units += unit_list_size(plr->units);
     } players_iterate_end;
     log_normal(_("players=%d cities=%d citizens=%d units=%d"),
-               players, cities, citizens, units);
+               players, cities, citizen_count, units);
     notify_conn(game.est_connections, NULL, E_AI_DEBUG, ftc_log,
                 _("players=%d cities=%d citizens=%d units=%d"),
-                players, cities, citizens, units);
+                players, cities, citizen_count, units);
   } else if (ntokens > 0 && strcmp(arg[0], "city") == 0) {
     int x, y;
     struct tile *ptile;

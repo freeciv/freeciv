@@ -947,7 +947,8 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 
   /* handle the results */
   if (game_unit_by_number(sanity) && same_pos(ptile, unit_tile(punit))) {
-    struct unit *bodyguard = aiguard_guard_of(ait, punit);
+    bodyguard = aiguard_guard_of(ait, punit);
+
     if (is_ai && bodyguard != NULL
         && def_ai_unit_data(bodyguard, ait)->charge == punit->id) {
       dai_unit_bodyguard_move(ait, bodyguard, ptile);

@@ -1994,7 +1994,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
   if ((game.info.gameloss_style & GAMELOSS_STYLE_LOOT) 
       && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
-    int ransom = fc_rand(1 + pvictim->economic.gold);
+    ransom = fc_rand(1 + pvictim->economic.gold);
     int n;
 
     /* give map */
@@ -2068,7 +2068,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       }
     }
   }
-  
+
   /* barbarian leader ransom hack */
   if( is_barbarian(pvictim) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
       && (unit_list_size(unit_tile(punit)->units) == 1)
@@ -3462,11 +3462,11 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
      * able to see on the matching unit layer. */
     enum vision_layer vlayer = is_hiding_unit(punit) ? V_INVIS : V_MAIN;
 
-    players_iterate(pplayer) {
-      if (map_is_known_and_seen(psrctile, pplayer, vlayer)
-          || map_is_known_and_seen(pdesttile, pplayer, vlayer)) {
-        BV_SET(pdata->can_see_unit, player_index(pplayer));
-        BV_SET(pdata->can_see_move, player_index(pplayer));
+    players_iterate(oplayer) {
+      if (map_is_known_and_seen(psrctile, oplayer, vlayer)
+          || map_is_known_and_seen(pdesttile, oplayer, vlayer)) {
+        BV_SET(pdata->can_see_unit, player_index(oplayer));
+        BV_SET(pdata->can_see_move, player_index(oplayer));
       }
     } players_iterate_end;
   }
@@ -3477,14 +3477,14 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
       continue;
     }
 
-    players_iterate(pplayer) {
+    players_iterate(oplayer) {
       if ((adj
-           && can_player_see_unit_at(pplayer, pmove_data->punit, psrctile,
+           && can_player_see_unit_at(oplayer, pmove_data->punit, psrctile,
                                      pmove_data != pdata))
-          || can_player_see_unit_at(pplayer, pmove_data->punit, pdesttile,
+          || can_player_see_unit_at(oplayer, pmove_data->punit, pdesttile,
                                     pmove_data != pdata)) {
-        BV_SET(pmove_data->can_see_unit, player_index(pplayer));
-        BV_SET(pmove_data->can_see_move, player_index(pplayer));
+        BV_SET(pmove_data->can_see_unit, player_index(oplayer));
+        BV_SET(pmove_data->can_see_move, player_index(oplayer));
       }
     } players_iterate_end;
   } unit_move_data_list_iterate_end;

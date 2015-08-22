@@ -1242,8 +1242,8 @@ adv_want dai_city_want(struct player *pplayer, struct city *acity,
     prod[o] = prod[o] * bonus[o] / 100 - waste[o];
   } output_type_iterate_end;
 
-  city_built_iterate(acity, pimprove) {
-    prod[O_GOLD] -= city_improvement_upkeep(acity, pimprove);
+  city_built_iterate(acity, upkept) {
+    prod[O_GOLD] -= city_improvement_upkeep(acity, upkept);
   } city_built_iterate_end;
   /* Unit upkeep isn't handled here.  Unless we do a full city_refresh it
    * won't be changed anyway. */

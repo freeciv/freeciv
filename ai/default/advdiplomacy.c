@@ -1040,12 +1040,12 @@ void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
     }
     if (pplayer->ai_common.love[player_index(aplayer)] > MAX_AI_LOVE * 8 / 10
         && !pplayers_allied(pplayer, aplayer)) {
-      int amount = ai->diplomacy.love_incr / 3;
+      int love_change = ai->diplomacy.love_incr / 3;
 
       /* Upper levels of AI trust and love is reserved for allies. */
-      pplayer->ai_common.love[player_index(aplayer)] -= amount;
+      pplayer->ai_common.love[player_index(aplayer)] -= love_change;
       DIPLO_LOG(ait, LOG_DEBUG, pplayer, aplayer, "%d love lost from excess",
-                amount);
+                love_change);
     }
     amount = 0;
 

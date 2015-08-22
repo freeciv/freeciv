@@ -194,7 +194,7 @@ static void cityresult_destroy(struct cityresult *result);
 
 static struct cityresult *cityresult_fill(struct ai_type *ait,
                                           struct player *pplayer,
-                                          struct tile *ptile);
+                                          struct tile *center);
 static bool food_starvation(const struct cityresult *result);
 static bool shield_starvation(const struct cityresult *result);
 static int defense_bonus(struct player *pplayer,
@@ -272,9 +272,9 @@ static void cityresult_destroy(struct cityresult *result)
 **************************************************************************/
 static struct cityresult *cityresult_fill(struct ai_type *ait,
                                           struct player *pplayer,
-                                          struct tile *ptile)
+                                          struct tile *center)
 {
-  struct city *pcity = tile_city(ptile);
+  struct city *pcity = tile_city(center);
   struct government *curr_govt = government_of_player(pplayer);
   struct player *saved_owner = NULL;
   struct tile *saved_claimer = NULL;
@@ -285,12 +285,12 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
   struct cityresult *result;
 
   fc_assert_ret_val(ai != NULL, NULL);
-  fc_assert_ret_val(ptile != NULL, NULL);
+  fc_assert_ret_val(center != NULL, NULL);
 
   pplayer->government = adv->goal.govt.gov;
 
   /* Create a city result and set default values. */
-  result = cityresult_new(ptile);
+  result = cityresult_new(center);
 
   if (!pcity) {
     pcity = create_city_virtual(pplayer, result->tile, "Virtuaville");

@@ -1403,16 +1403,16 @@ static void player_load_units(struct player *plr, int plrno,
      * "go" field, so we just load the goto destination by default. */
     if (secfile_lookup_bool_default(file, TRUE,
                                     "player%d.u%d.go", plrno, i)) {
-      int nat_x, nat_y;
+      int gnat_x, gnat_y;
 
-      fc_assert_exit_msg(secfile_lookup_int(file, &nat_x,
+      fc_assert_exit_msg(secfile_lookup_int(file, &gnat_x,
                                             "player%d.u%d.goto_x", plrno, i),
                          "%s", secfile_error());
-      fc_assert_exit_msg(secfile_lookup_int(file, &nat_y,
+      fc_assert_exit_msg(secfile_lookup_int(file, &gnat_y,
                                             "player%d.u%d.goto_y", plrno, i),
                          "%s", secfile_error());
 
-      punit->goto_tile = native_pos_to_tile(nat_x, nat_y);
+      punit->goto_tile = native_pos_to_tile(gnat_x, gnat_y);
     } else {
       punit->goto_tile = NULL;
     }
@@ -1484,7 +1484,7 @@ static void player_load_units(struct player *plr, int plrno,
 	punit->has_orders = TRUE;
 	for (j = 0; j < len; j++) {
 	  struct unit_order *order = &punit->orders.list[j];
-          struct base_type *pbase = NULL;
+          struct base_type *order_base = NULL;
 
 	  if (orders_buf[j] == '\0' || dir_buf[j] == '\0'
 	      || act_buf[j] == '\0') {
@@ -1517,21 +1517,21 @@ static void player_load_units(struct player *plr, int plrno,
 
           /* Pre 2.2 savegames had activities ACTIVITY_FORTRESS and ACTIVITY_AIRBASE */
           if (order->activity == ACTIVITY_FORTRESS) {
-            pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL);
+            order_base = get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL);
             order->activity = ACTIVITY_IDLE; /* In case no matching gui_type found */
           } else if (order->activity == ACTIVITY_AIRBASE) {
-            pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, NULL, NULL);
+            order_base = get_base_by_gui_type(BASE_GUI_AIRBASE, NULL, NULL);
             order->activity = ACTIVITY_IDLE; /* In case no matching gui_type found */
           }
-          if (pbase) {
+          if (order_base != NULL) {
             /* Either ACTIVITY_FORTRESS or ACTIVITY_AIRBASE */
             order->activity = ACTIVITY_BASE;
-            order->target = extra_number(base_extra_get(pbase));
+            order->target = extra_number(base_extra_get(order_base));
           } else if (base_buf && base_buf[j] != '?') {
             base = char2num(base_buf[j]);
 
             if (base >= 0 && base < num_base_types) {
-              pbase = base_order[base];
+              order_base = base_order[base];
             } else {
               log_error("Cannot find base %d for %s to build",
                         base, unit_rule_name(punit));
@@ -2074,7 +2074,7 @@ static void player_load_main(struct player *plr, int plrno,
 #define S_TILE_UNKNOWN		'?'
 static bool player_load_city_tile_S22(int plrno, int i, struct city *pcity,
                                       int x, int y, char tile_status,
-                                      int *citizens)
+                                      int *citizen_count)
 {
   int radius_sq = city_map_radius_sq_get(pcity);
   struct city *pwork = NULL;
@@ -2126,10 +2126,10 @@ static bool player_load_city_tile_S22(int plrno, int i, struct city *pcity,
 
       pcity->specialists[DEFAULT_SPECIALIST]++;
       auto_arrange_workers(pcity);
-      (*citizens)++;
+      (*citizen_count)++;
     } else {
       tile_set_worked(ptile, pcity);
-      (*citizens)++;
+      (*citizen_count)++;
     }
     break;
 
@@ -2241,7 +2241,7 @@ static void player_load_cities(struct player *plr, int plrno,
   }
 
   for (i = 0; i < ncities; i++) { /* read the cities */
-    int specialists = 0, workers = 0;
+    int sp_count = 0, workers = 0;
     int nat_x, nat_y;
     struct tile *pcenter;
 
@@ -2314,7 +2314,7 @@ static void player_load_cities(struct player *plr, int plrno,
         log_error("Invalid number of specialists: %d; set to %d.", value,
                   pcity->specialists[sp]);
       }
-      specialists += pcity->specialists[sp];
+      sp_count += pcity->specialists[sp];
     } specialist_type_iterate_end;
 
     for (j = 0; j < MAX_TRADE_ROUTES; j++) {
@@ -2549,14 +2549,14 @@ static void player_load_cities(struct player *plr, int plrno,
       city_repair_size(pcity, -1);
     }
 
-    k = city_size_get(pcity) - specialists - (workers - FREE_WORKED_TILES);
+    k = city_size_get(pcity) - sp_count - (workers - FREE_WORKED_TILES);
     if (0 != k) {
       log_error("[player%d.c%d] size mismatch for '%s' (%d,%d): "
                 "size [%d] != (workers [%d] - free worked tiles [%d]) + "
                 "specialists [%d]",
                 plrno, i, city_name(pcity), TILE_XY(pcenter),
                 city_size_get(pcity),
-                workers, FREE_WORKED_TILES, specialists);
+                workers, FREE_WORKED_TILES, sp_count);
 
       /* repair pcity */
       city_repair_size(pcity, k);
@@ -2733,69 +2733,69 @@ static void player_load_vision(struct player *plr, int plrno,
       && game.info.fogofwar
       && -1 != total_ncities
       && secfile_lookup_bool_default(file, TRUE, "game.save_private_map")) {
-    LOAD_MAP_DATA(ch, nat_y, ptile,
-		  secfile_lookup_str(file, "player%d.map_t%03d",
-				     plrno, nat_y),
-		  map_get_player_tile(ptile, plr)->terrain =
-		  char2terrain(ch));
+    LOAD_MAP_DATA(ch, vnat_y, ptile,
+                  secfile_lookup_str(file, "player%d.map_t%03d",
+                                     plrno, vnat_y),
+                  map_get_player_tile(ptile, plr)->terrain =
+                  char2terrain(ch));
 
     if (special_order) {
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-	secfile_lookup_str(file, "player%d.map_res%03d", plrno, nat_y),
+      LOAD_MAP_DATA(ch, vnat_y, ptile,
+	secfile_lookup_str(file, "player%d.map_res%03d", plrno, vnat_y),
 	map_get_player_tile(ptile, plr)->resource
 		    = identifier_to_resource(ch));
 
       special_halfbyte_iterate(j, num_special_types) {
 	char buf[32]; /* enough for sprintf() below */
 	sprintf (buf, "player%d.map_spe%02d_%%03d", plrno, j);
-	LOAD_MAP_DATA(ch, nat_y, ptile,
-	    secfile_lookup_str(file, buf, nat_y),
-	    set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
-				 ch, special_order + 4 * j));
+	LOAD_MAP_DATA(ch, vnat_y, ptile,
+                      secfile_lookup_str(file, buf, vnat_y),
+                      set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
+                                 ch, special_order + 4 * j));
       } special_halfbyte_iterate_end;
     } else {
       /* get 4-bit segments of 12-bit "special" field. */
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-	  secfile_lookup_str(file, "player%d.map_l%03d", plrno, nat_y),
-	  set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
-			       ch, default_specials + 0));
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-	  secfile_lookup_str(file, "player%d.map_u%03d", plrno, nat_y),
-	  set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
-			       ch, default_specials + 4));
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-	  secfile_lookup_str_default (file, NULL, "player%d.map_n%03d",
-				      plrno, nat_y),
-	  set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
-			       ch, default_specials + 8));
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-	secfile_lookup_str(file, "map.l%03d", nat_y),
-	set_savegame_old_resource(&map_get_player_tile(ptile, plr)->resource,
-				  ptile->terrain, ch, 0));
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-	secfile_lookup_str(file, "map.n%03d", nat_y),
-	set_savegame_old_resource(&map_get_player_tile(ptile, plr)->resource,
-				  ptile->terrain, ch, 1));
+      LOAD_MAP_DATA(ch, vnat_y, ptile,
+                    secfile_lookup_str(file, "player%d.map_l%03d", plrno, vnat_y),
+                    set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
+                                         ch, default_specials + 0));
+      LOAD_MAP_DATA(ch, vnat_y, ptile,
+                    secfile_lookup_str(file, "player%d.map_u%03d", plrno, vnat_y),
+                    set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
+                                         ch, default_specials + 4));
+      LOAD_MAP_DATA(ch, vnat_y, ptile,
+                    secfile_lookup_str_default (file, NULL, "player%d.map_n%03d",
+                                                plrno, vnat_y),
+                    set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
+                                         ch, default_specials + 8));
+      LOAD_MAP_DATA(ch, vnat_y, ptile,
+                    secfile_lookup_str(file, "map.l%03d", vnat_y),
+                    set_savegame_old_resource(&map_get_player_tile(ptile, plr)->resource,
+                                              ptile->terrain, ch, 0));
+      LOAD_MAP_DATA(ch, vnat_y, ptile,
+                    secfile_lookup_str(file, "map.n%03d", vnat_y),
+                    set_savegame_old_resource(&map_get_player_tile(ptile, plr)->resource,
+                                              ptile->terrain, ch, 1));
     }
 
     if (has_capability("bases", savefile_options)) {
       char zeroline[map.xsize+1];
-      int i;
+      int xi;
 
       /* This is needed when new bases has been added to ruleset, and
        * thus game.control.num_base_types is greater than, when game was saved. */
-      for(i = 0; i < map.xsize; i++) {
-        zeroline[i] = '0';
+      for(xi = 0; xi < map.xsize; xi++) {
+        zeroline[xi] = '0';
       }
-      zeroline[i]= '\0';
+      zeroline[xi]= '\0';
 
       bases_halfbyte_iterate(j, num_base_types) {
         char buf[32]; /* should be enough for snprintf() below */
 
         fc_snprintf(buf, sizeof(buf), "player%d.map_b%02d_%%03d", plrno, j);
 
-        LOAD_MAP_DATA(ch, nat_y, ptile,
-                      secfile_lookup_str_default(file, zeroline, buf, nat_y),
+        LOAD_MAP_DATA(ch, vnat_y, ptile,
+                      secfile_lookup_str_default(file, zeroline, buf, vnat_y),
                       set_savegame_bases(&map_get_player_tile(ptile, plr)->extras,
                                          ch, base_order + 4 * j));
       } bases_halfbyte_iterate_end;
@@ -2804,32 +2804,32 @@ static void player_load_vision(struct player *plr, int plrno,
     }
 
     if (game.server.foggedborders) {
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-          secfile_lookup_str(file, "player%d.map_owner%03d", plrno, nat_y),
-          map_get_player_tile(ptile, plr)->owner = identifier_to_player(ch));
+      LOAD_MAP_DATA(ch, vnat_y, ptile,
+                    secfile_lookup_str(file, "player%d.map_owner%03d", plrno, vnat_y),
+                    map_get_player_tile(ptile, plr)->owner = identifier_to_player(ch));
     }
 
     /* get 4-bit segments of 16-bit "updated" field */
-    LOAD_MAP_DATA(ch, nat_y, ptile,
-		  secfile_lookup_str
-		  (file, "player%d.map_ua%03d", plrno, nat_y),
+    LOAD_MAP_DATA(ch, vnat_y, ptile,
+                  secfile_lookup_str
+                  (file, "player%d.map_ua%03d", plrno, vnat_y),
 		  map_get_player_tile(ptile, plr)->last_updated =
-		  ascii_hex2bin(ch, 0));
-    LOAD_MAP_DATA(ch, nat_y, ptile,
-		  secfile_lookup_str
-		  (file, "player%d.map_ub%03d", plrno, nat_y),
-		  map_get_player_tile(ptile, plr)->last_updated |=
-		  ascii_hex2bin(ch, 1));
-    LOAD_MAP_DATA(ch, nat_y, ptile,
-		  secfile_lookup_str
-		  (file, "player%d.map_uc%03d", plrno, nat_y),
-		  map_get_player_tile(ptile, plr)->last_updated |=
-		  ascii_hex2bin(ch, 2));
-    LOAD_MAP_DATA(ch, nat_y, ptile,
-		  secfile_lookup_str
-		  (file, "player%d.map_ud%03d", plrno, nat_y),
-		  map_get_player_tile(ptile, plr)->last_updated |=
-		  ascii_hex2bin(ch, 3));
+                  ascii_hex2bin(ch, 0));
+    LOAD_MAP_DATA(ch, vnat_y, ptile,
+                  secfile_lookup_str
+                  (file, "player%d.map_ub%03d", plrno, vnat_y),
+                  map_get_player_tile(ptile, plr)->last_updated |=
+                  ascii_hex2bin(ch, 1));
+    LOAD_MAP_DATA(ch, vnat_y, ptile,
+                  secfile_lookup_str
+                  (file, "player%d.map_uc%03d", plrno, vnat_y),
+                  map_get_player_tile(ptile, plr)->last_updated |=
+                  ascii_hex2bin(ch, 2));
+    LOAD_MAP_DATA(ch, vnat_y, ptile,
+                  secfile_lookup_str
+                  (file, "player%d.map_ud%03d", plrno, vnat_y),
+                  map_get_player_tile(ptile, plr)->last_updated |=
+                  ascii_hex2bin(ch, 3));
 
     for (i = 0; i < total_ncities; i++) {
       /* similar to vision_site_new() */
@@ -3196,10 +3196,10 @@ static void game_load_internal(struct section_file *file)
     case ENTRY_STR:
       /* New in 2.2: server_state as string; see srv_main.h */
       {
-        const char *string;
+        const char *state_str;
 
-        if (entry_str_get(pentry, &string)) {
-          tmp_server_state = server_states_by_name(string, strcmp);
+        if (entry_str_get(pentry, &state_str)) {
+          tmp_server_state = server_states_by_name(state_str, strcmp);
         }
       }
       break;
@@ -3694,15 +3694,16 @@ static void game_load_internal(struct section_file *file)
 	if (!has_capability("startunits", savefile_options)) {
           int settlers = secfile_lookup_int_default(file, 0, "game.settlers");
           int explorer = secfile_lookup_int_default(file, 0, "game.explorer");
-	  int i;
-	  for (i = 0; settlers > 0 && i < (MAX_LEN_STARTUNIT - 1) ; i++, settlers--) {
-	    game.server.start_units[i] = 'c';
-	  }
-	  for (; explorer > 0 && i < (MAX_LEN_STARTUNIT - 1) ; i++, explorer--) {
-	    game.server.start_units[i] = 'x';
-	  }
-	  game.server.start_units[i] = '\0';
-	} else {
+          int su;
+
+          for (su = 0; settlers > 0 && su < (MAX_LEN_STARTUNIT - 1) ; su++, settlers--) {
+            game.server.start_units[su] = 'c';
+          }
+          for (; explorer > 0 && su < (MAX_LEN_STARTUNIT - 1) ; su++, explorer--) {
+            game.server.start_units[su] = 'x';
+          }
+          game.server.start_units[su] = '\0';
+        } else {
 	  sz_strlcpy(game.server.start_units,
 		     secfile_lookup_str_default(file,
 						GAME_DEFAULT_START_UNITS,

@@ -459,7 +459,7 @@ extern struct terrain_misc terrain_control;
 {									    \
   /* Written as a wrapper to adjc_dir_iterate since it's the cleanest and   \
    * most efficient. */							    \
-  adjc_dir_iterate(center_tile, itr_tile, ADJC_ITERATE_dir_itr) {
+  adjc_dir_iterate(center_tile, itr_tile, ADJC_ITERATE_dir_itr##itr_tile) {
 
 #define adjc_iterate_end                                                    \
   } adjc_dir_iterate_end;                                                   \

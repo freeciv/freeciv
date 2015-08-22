@@ -2606,8 +2606,9 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     city_refresh(pcity);
     send_city_info(NULL, pcity);
   }
-  if (unit_has_type_flag(punit, UTYF_ONEATTACK)) 
+  if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
     punit->moves_left = 0;
+  }
   pwinner = (punit->hp > 0) ? punit : pdefender;
   winner_id = pwinner->id;
   ploser = (pdefender->hp > 0) ? punit : pdefender;
@@ -2650,7 +2651,6 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     wipe_unit(ploser, ULR_KILLED, unit_owner(pwinner));
   } else {
     /* The defender lost, the attacker punit lives! */
-    int winner_id = pwinner->id;
 
     log_debug("Defender lost: %s %s against %s %s.",
               nation_rule_name(nation_of_player(pplayer)),
