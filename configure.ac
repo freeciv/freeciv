@@ -194,6 +194,11 @@ if test "x$MODPACK_LIST_URL" != "x" ; then
   AC_DEFINE_UNQUOTED([MODPACK_LIST_URL], ["${MODPACK_LIST_URL}"], [Default modpack list URL])
 fi
 
+dnl Do not change this as some parts of freeciv still would not adjust automatically ->
+dnl those parts would remain incompatible with the parts that do respect this.
+FREECIV_HOME_DIR="~/.freeciv"
+AC_DEFINE_UNQUOTED([FREECIV_HOME_DIR], ["$FREECIV_HOME_DIR"], [Location for freeciv to store its information])
+
 AC_ARG_WITH([readline],
   AS_HELP_STRING([--with-readline], [support fancy command line editing]),
 WITH_READLINE=$withval,	dnl yes/no - required to use / never use
@@ -1071,6 +1076,7 @@ AC_SUBST([SOUND_LIBS])
 AC_SUBST([VERSION_WITHOUT_LABEL])
 AC_SUBST([VERSION_LABEL])
 AC_SUBST([HOST_PATH_SEPARATOR])
+AC_SUBST([FREECIV_HOME_DIR])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" != "xno")
 AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
@@ -1202,21 +1208,21 @@ dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 
 if test x"$MINGW32" = xyes; then
-  DEFAULT_SAVE_PATH=".;~/.freeciv/saves"
+  DEFAULT_SAVE_PATH=".;$FREECIV_HOME_DIR/saves"
   if test x$crosser = xyes ; then
     FC_CONF_PATH="../etc/freeciv"
-    DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv;../share/freeciv"
-    DEFAULT_SCENARIO_PATH=".;data/scenarios;~/.freeciv/$DATASUBDIR/scenarios;~/.freeciv/scenarios;$datadir/freeciv/scenarios;../share/freeciv/scenarios"
+    DEFAULT_DATA_PATH=".;data;$FREECIV_HOME_DIR/$DATASUBDIR;$datadir/freeciv;../share/freeciv"
+    DEFAULT_SCENARIO_PATH=".;data/scenarios;$FREECIV_HOME_DIR/$DATASUBDIR/scenarios;~/$FREECIV_HOME_DIR/scenarios;$datadir/freeciv/scenarios;../share/freeciv/scenarios"
   else
     FC_CONF_PATH="etc/freeciv"
-    DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv"
-    DEFAULT_SCENARIO_PATH=".;data/scenarios;~/.freeciv/$DATASUBDIR/scenarios;~/.freeciv/scenarios;$datadir/freeciv/scenarios"
+    DEFAULT_DATA_PATH=".;data;$FREECIV_HOME_DIR/$DATASUBDIR;$datadir/freeciv"
+    DEFAULT_SCENARIO_PATH=".;data/scenarios;$FREECIV_HOME_DIR/$DATASUBDIR/scenarios;$FREECIV_HOME_DIR/scenarios;$datadir/freeciv/scenarios"
   fi
 else
   FC_CONF_PATH="$sysconfdir/freeciv"
-  DEFAULT_DATA_PATH=".:data:~/.freeciv/$DATASUBDIR:$datadir/freeciv"
-  DEFAULT_SAVE_PATH=".:~/.freeciv/saves"
-  DEFAULT_SCENARIO_PATH=".:data/scenarios:~/.freeciv/$DATASUBDIR/scenarios:~/.freeciv/scenarios:$datadir/freeciv/scenarios"
+  DEFAULT_DATA_PATH=".:data:$FREECIV_HOME_DIR/$DATASUBDIR:$datadir/freeciv"
+  DEFAULT_SAVE_PATH=".:$FREECIV_HOME_DIR/saves"
+  DEFAULT_SCENARIO_PATH=".:data/scenarios:$FREECIV_HOME_DIR/$DATASUBDIR/scenarios:$FREECIV_HOME_DIR/scenarios:$datadir/freeciv/scenarios"
 fi
 CPPFLAGS="$CPPFLAGS -DFC_CONF_PATH=\"\\\"$FC_CONF_PATH\\\"\""
 CPPFLAGS="$CPPFLAGS -DDEFAULT_DATA_PATH=\"\\\"$DEFAULT_DATA_PATH\\\"\""
