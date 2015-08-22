@@ -766,8 +766,11 @@ static struct cm_fitness evaluate_solution(struct cm_state *state,
        (Specialists may also be making angry citizens content, requiring
        additional luxuries, but we don't try to consider that here; this
        just means we might explore some solutions unnecessarily.) */
+    int specialists = city_specialists(pcity);
+    int max_content = player_content_citizens(city_owner(pcity));
+
     state->min_luxury = surplus[O_LUXURY] 
-       + game.info.happy_cost*MAX( city_specialists(pcity) - player_content_citizens(city_owner(pcity)), 0)
+       + game.info.happy_cost*MAX(specialists - max_content, 0)
        + 1;
   }
 
@@ -1638,16 +1641,22 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
      either.)
      FIXME: this heuristic will break in rulesets where specialists can
      influence happiness other than by direct production of luxury. */
-  int max_luxury = production[O_LUXURY]
-        + game.info.happy_cost*MAX( specialists_in_solution(state, &state->current) + state->current.idle - player_content_citizens(city_owner(state->pcity)), 0);
+  {
+    int specialists = specialists_in_solution(state, &state->current);
+    int max_content = player_content_citizens(city_owner(state->pcity));
+    int specialists_suppress_unhappy
+      = MAX(specialists + state->current.idle - max_content, 0);
+    int max_luxury = production[O_LUXURY]
+          + game.info.happy_cost*specialists_suppress_unhappy;
  
-  if (max_luxury < state->min_luxury ) {
-    log_base(LOG_PRUNE_BRANCH, "--- pruning: disorder (%d + %d*%d < %d)",
-             production[O_LUXURY], 
-	     game.info.happy_cost,
-	     MAX( specialists_in_solution(state, &state->current) + state->current.idle - player_content_citizens(city_owner(state->pcity)), 0),
-	     state->min_luxury);
-    return FALSE;
+    if (max_luxury < state->min_luxury ) {
+      log_base(LOG_PRUNE_BRANCH, "--- pruning: disorder (%d + %d*%d < %d)",
+               production[O_LUXURY], 
+               game.info.happy_cost,
+               specialists_suppress_unhappy,
+               state->min_luxury);
+      return FALSE;
+    }
   }
   if (!beats_best) {
     log_base(LOG_PRUNE_BRANCH, "--- pruning: best is better in all important ways");
