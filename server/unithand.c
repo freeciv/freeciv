@@ -793,15 +793,13 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                  DRO_FOREIGN,
                                                  FALSE)) {
     expl->kind = ANEK_DOMESTIC;
-  } else if (tgt_player
-             && (target_tile && tile_city(target_tile))
+  } else if ((target_tile && tile_city(target_tile))
              && !utype_may_act_tgt_city_tile(unit_type(punit),
                                              action_id,
                                              CITYT_CENTER,
                                              TRUE)) {
     expl->kind = ANEK_IS_CITY_CENTER;
-  } else if (tgt_player
-             && (target_tile && !tile_city(target_tile))
+  } else if ((target_tile && !tile_city(target_tile))
              && !utype_may_act_tgt_city_tile(unit_type(punit),
                                              action_id,
                                              CITYT_CENTER,
