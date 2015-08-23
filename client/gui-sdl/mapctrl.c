@@ -2728,6 +2728,7 @@ void set_turn_done_button_state(bool state)
     }
     widget_redraw(pNew_Turn_Button);
     widget_flush(pNew_Turn_Button);
+    redraw_unit_info_label(get_units_in_focus());
   }
 }
 
