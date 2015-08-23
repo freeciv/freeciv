@@ -656,6 +656,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
       for (ent_iter = entry_list_head(section_entries(psection));
            ent_iter && (pentry = entry_list_link_data(ent_iter));
            ent_iter = entry_list_link_next(ent_iter)) {
+        const char *comment;
 
         /* Tables: break out of this loop if this is a non-table
          * entry (pentry and ent_iter unchanged) or after table (pentry
@@ -807,8 +808,9 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           ent_iter = col_iter;
         }
 
-        if (entry_comment(pentry)) {
-          fz_fprintf(fs, "#%s\n", entry_comment(pentry));
+        comment = entry_comment(pentry);
+        if (comment) {
+          fz_fprintf(fs, "#%s\n", comment);
         } else {
           fz_fprintf(fs, "\n");
         }
@@ -2836,6 +2838,7 @@ struct entry {
     struct {
       char *value;              /* Malloced string. */
       bool escaped;             /* " or $. Usually TRUE */
+      bool gt_marking;          /* Save with gettext marking. */
     } string;
   };
 };
@@ -2930,6 +2933,7 @@ struct entry *section_entry_str_new(struct section *psection,
     pentry->type = ENTRY_STR;
     pentry->string.value = fc_strdup(NULL != value ? value : "");
     pentry->string.escaped = escaped;
+    pentry->string.gt_marking = FALSE;
   }
 
   return pentry;
@@ -3224,6 +3228,20 @@ bool entry_str_set_escaped(struct entry *pentry, bool escaped)
 }
 
 /**************************************************************************
+  Sets if the string should get gettext marking. Returns TRUE on success.
+**************************************************************************/
+bool entry_str_set_gt_marking(struct entry *pentry, bool gt_marking)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_STR == pentry->type, FALSE);
+
+  pentry->string.gt_marking = gt_marking;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Push an entry into a file stream.
 **************************************************************************/
 static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
@@ -3240,7 +3258,11 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
   case ENTRY_STR:
     if (pentry->string.escaped) {
       make_escapes(pentry->string.value, buf, sizeof(buf));
-      fz_fprintf(fs, "\"%s\"", buf);
+      if (pentry->string.gt_marking) {
+        fz_fprintf(fs, "_(\"%s\")", buf);
+      } else {
+        fz_fprintf(fs, "\"%s\"", buf);
+      }
     } else {
       fz_fprintf(fs, "$%s$", pentry->string.value);
     }

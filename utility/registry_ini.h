@@ -612,6 +612,7 @@ bool entry_str_get(const struct entry *pentry, const char **value);
 bool entry_str_set(struct entry *pentry, const char *value);
 bool entry_str_escaped(const struct entry *pentry);
 bool entry_str_set_escaped(struct entry *pentry, bool escaped);
+bool entry_str_set_gt_marking(struct entry *pentry, bool gt_marking);
 
 #ifdef __cplusplus
 }
