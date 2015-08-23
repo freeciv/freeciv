@@ -909,7 +909,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
       }
 
-      if (!client_is_observer()
+      if (!client_is_observer() && !client.conn.playing->phase_done
           && (!client.conn.playing->ai_controlled || options.ai_manual_turn_done)) {
         char buf[256];
         fc_snprintf(buf, sizeof(buf), "%s\n%s\n%s",
