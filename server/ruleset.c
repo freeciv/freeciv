@@ -1588,6 +1588,8 @@ static bool load_ruleset_units(struct section_file *file)
       }
       free(slist);
 
+      uc->helptext = lookup_strvec(file, sec_name, "helptext");
+
       if (!ok) {
         break;
       }
@@ -5748,6 +5750,8 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     packet.hp_loss_pct = c->hp_loss_pct;
     packet.hut_behavior = c->hut_behavior;
     packet.flags = c->flags;
+
+    PACKET_STRVEC_COMPUTE(packet.helptext, c->helptext);
 
     lsend_packet_ruleset_unit_class(dest, &packet);
   } unit_class_iterate_end;

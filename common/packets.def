@@ -1550,6 +1550,8 @@ PACKET_RULESET_UNIT_CLASS = 152; sc, lsend
   UINT8 hp_loss_pct;
   UINT8 hut_behavior;
   BV_UCLASS_FLAGS flags;
+
+  STRING helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_EXTRA = 232; sc, lsend

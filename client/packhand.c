@@ -2992,6 +2992,8 @@ void handle_ruleset_unit_class(const struct packet_ruleset_unit_class *p)
   c->hp_loss_pct = p->hp_loss_pct;
   c->hut_behavior = p->hut_behavior;
   c->flags       = p->flags;
+
+  PACKET_STRVEC_EXTRACT(c->helptext, p->helptext);
 }
 
 /****************************************************************************

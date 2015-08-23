@@ -3429,6 +3429,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 {
   bool has_vet_levels;
   int flagid;
+  struct unit_class *pclass;
 
   fc_assert_ret_val(NULL != buf && 0 < bufsz && NULL != user_text, NULL);
 
@@ -3442,31 +3443,39 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
   buf[0] = '\0';
 
+  pclass = utype_class(utype);
   cat_snprintf(buf, bufsz,
-               _("* Belongs to %s unit class.\n"),
-               uclass_name_translation(utype_class(utype)));
-  if (uclass_has_flag(utype_class(utype), UCF_CAN_OCCUPY_CITY)
+               _("* Belongs to %s unit class."),
+               uclass_name_translation(pclass));
+  if (NULL != pclass->helptext) {
+    strvec_iterate(pclass->helptext, text) {
+      cat_snprintf(buf, bufsz, "\n%s\n", _(text));
+    } strvec_iterate_end;
+  } else {
+    CATLSTR(buf, bufsz, "\n");
+  }
+  if (uclass_has_flag(pclass, UCF_CAN_OCCUPY_CITY)
       && !utype_has_flag(utype, UTYF_CIVILIAN)) {
     CATLSTR(buf, bufsz, _("  * Can occupy empty enemy cities.\n"));
   }
-  if (!uclass_has_flag(utype_class(utype), UCF_TERRAIN_SPEED)) {
+  if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
     CATLSTR(buf, bufsz, _("  * Speed is not affected by terrain.\n"));
   }
-  if (!uclass_has_flag(utype_class(utype), UCF_TERRAIN_DEFENSE)) {
+  if (!uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)) {
     CATLSTR(buf, bufsz, _("  * Does not get defense bonuses from terrain.\n"));
   }
-  if (!uclass_has_flag(utype_class(utype), UCF_ZOC)) {
+  if (!uclass_has_flag(pclass, UCF_ZOC)) {
     CATLSTR(buf, bufsz, _("  * Not subject to zones of control.\n"));
   } else if (!utype_has_flag(utype, UTYF_IGZOC)) {
     CATLSTR(buf, bufsz, _("  * Subject to zones of control.\n"));
   }
-  if (uclass_has_flag(utype_class(utype), UCF_DAMAGE_SLOWS)) {
+  if (uclass_has_flag(pclass, UCF_DAMAGE_SLOWS)) {
     CATLSTR(buf, bufsz, _("  * Slowed down while damaged.\n"));
   }
-  if (uclass_has_flag(utype_class(utype), UCF_MISSILE)) {
+  if (uclass_has_flag(pclass, UCF_MISSILE)) {
     CATLSTR(buf, bufsz, _("  * Gets used up in making an attack.\n"));
   }
-  if (uclass_has_flag(utype_class(utype), UCF_CAN_FORTIFY)
+  if (uclass_has_flag(pclass, UCF_CAN_FORTIFY)
       && !utype_has_flag(utype, UTYF_CANT_FORTIFY)) {
     if (utype->defense_strength > 0) {
       CATLSTR(buf, bufsz,
@@ -3481,15 +3490,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
               _("  * May fortify to stay put.\n"));
     }
   }
-  if (uclass_has_flag(utype_class(utype), UCF_UNREACHABLE)) {
+  if (uclass_has_flag(pclass, UCF_UNREACHABLE)) {
     CATLSTR(buf, bufsz,
 	    _("  * Is unreachable. Most units cannot attack this one.\n"));
   }
-  if (uclass_has_flag(utype_class(utype), UCF_CAN_PILLAGE)) {
+  if (uclass_has_flag(pclass, UCF_CAN_PILLAGE)) {
     CATLSTR(buf, bufsz,
 	    _("  * Can pillage tile improvements.\n"));
   }
-  if (uclass_has_flag(utype_class(utype), UCF_DOESNT_OCCUPY_TILE)
+  if (uclass_has_flag(pclass, UCF_DOESNT_OCCUPY_TILE)
       && !utype_has_flag(utype, UTYF_CIVILIAN)) {
     CATLSTR(buf, bufsz,
 	    _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
@@ -3500,11 +3509,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   /* Must use flag to distinguish from UTYF_MARINES text. */
   if (utype->attack_strength > 0
-      && uclass_has_flag(utype_class(utype), UCF_ATT_FROM_NON_NATIVE)) {
+      && uclass_has_flag(pclass, UCF_ATT_FROM_NON_NATIVE)) {
     CATLSTR(buf, bufsz,
             _("  * Can launch attack from non-native tiles.\n"));
   }
-  if (uclass_has_flag(utype_class(utype), UCF_AIRLIFTABLE)) {
+  if (uclass_has_flag(pclass, UCF_AIRLIFTABLE)) {
     CATLSTR(buf, bufsz,
             _("  * Can be airlifted from a suitable city.\n"));
   }
