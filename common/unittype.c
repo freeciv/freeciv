@@ -1639,6 +1639,7 @@ void unit_classes_init(void)
     unit_classes[i].cache.refuel_bases = NULL;
     unit_classes[i].cache.native_tile_extras = NULL;
     unit_classes[i].cache.subset_movers = NULL;
+    unit_classes[i].helptext = NULL;
   }
 }
 
@@ -1660,6 +1661,10 @@ void unit_classes_free(void)
     }
     if (unit_classes[i].cache.subset_movers != NULL) {
       unit_class_list_destroy(unit_classes[i].cache.subset_movers);
+    }
+    if (unit_classes[i].helptext != NULL) {
+      strvec_destroy(unit_classes[i].helptext);
+      unit_classes[i].helptext = NULL;
     }
   }
 }

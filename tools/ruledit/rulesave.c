@@ -2174,6 +2174,8 @@ static bool save_units_ruleset(const char *filename, const char *name)
                              "%s.flags", path);
     }
 
+    save_strvec(sfile, puc->helptext, path, "helptext");
+
   } unit_class_iterate_end;
 
   sect_idx = 0;

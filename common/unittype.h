@@ -115,6 +115,8 @@ struct unit_class {
   enum hut_behavior hut_behavior;
   bv_unit_class_flags flags;
 
+  struct strvec *helptext;
+
   struct {
     enum move_level land_move;
     enum move_level sea_move;
