@@ -47,7 +47,7 @@
 
 #include "gui_tilespec.h"
 
-struct Theme *pTheme;
+struct Theme *current_theme = NULL;
 struct City_Icon *pIcons;
 
 static SDL_Surface *pCity_Surf;
@@ -62,18 +62,18 @@ do {								  \
   fc_assert_action(pSpr != NULL, break);                          \
   pStruct->pSurf = adj_surf(GET_SURF_REAL(pSpr));                 \
   FREESURFACE(GET_SURF_REAL(pSpr));                               \
-} while(0)
+} while(FALSE)
 
 #define load_theme_surface(pSpr, pSurf, tag)		\
-	load_GUI_surface(pSpr, pTheme, pSurf, tag)
+	load_GUI_surface(pSpr, current_theme, pSurf, tag)
 
 #define load_city_icon_surface(pSpr, pSurf, tag)        \
         load_GUI_surface(pSpr, pIcons, pSurf, tag)
 
 #define load_order_theme_surface(pSpr, pSurf, tag)	\
 do {							\
-  load_GUI_surface(pSpr, pTheme, pSurf, tag);		\
-} while(0)
+  load_GUI_surface(pSpr, current_theme, pSurf, tag);	\
+} while(FALSE)
 
 /*******************************************************************************
  * reload small citizens "style" icons.
@@ -246,8 +246,8 @@ void tilespec_free_city_icons(void)
 void tilespec_setup_theme(void)
 {
   struct sprite *pBuf = NULL;
-  
-  pTheme = fc_calloc(1, sizeof(struct Theme));
+
+  current_theme = fc_calloc(1, sizeof(struct Theme));
 
   load_theme_surface(pBuf, FR_Left, "theme.left_frame");
   load_theme_surface(pBuf, FR_Right, "theme.right_frame");
@@ -355,11 +355,12 @@ void tilespec_setup_theme(void)
 ***********************************************************************/
 void tilespec_free_theme(void)
 {
-  if (!pTheme) {
+  if (!current_theme) {
     return;
   }
 
-  FC_FREE(pTheme);
+  FC_FREE(current_theme);
+  current_theme = NULL;
 }
 
 /**************************************************************************

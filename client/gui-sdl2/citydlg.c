@@ -1188,7 +1188,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   area.w = MAX(area.w , pText->w);
   area.h += pText->h + adj_size(5);
 
-  pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
+  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
                                             pWindow->dst, _("No"), adj_font(12), 0);
 
   pBuf->action = cancel_buy_prod_city_dlg_callback;
@@ -1199,7 +1199,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   add_to_gui_list(ID_BUTTON, pBuf);
 
   if (city_can_buy(pCity) && (value <= client.conn.playing->economic.gold)) {
-    pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
                                               _("Yes"), adj_font(12), 0);
 
     pBuf->action = ok_buy_prod_city_dlg_callback;
@@ -1401,7 +1401,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
 
     /* create cancel button */
     pCancel_Button =
-      create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
+      create_themeicon_button_from_chars(current_theme->Small_CANCEL_Icon,
                                          pWindow->dst, _("Cancel"), adj_font(10), 0);
     pCancel_Button->action = sell_imprvm_dlg_cancel_callback;
     pCancel_Button->key = SDLK_ESCAPE;
@@ -1409,8 +1409,9 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     add_to_gui_list(ID_BUTTON, pCancel_Button);
 
     /* create ok button */
-    pOK_Button = create_themeicon_button_from_chars(
-                  pTheme->Small_OK_Icon, pWindow->dst, _("Sell"), adj_font(10), 0);
+    pOK_Button = create_themeicon_button_from_chars(current_theme->Small_OK_Icon,
+                                                    pWindow->dst, _("Sell"),
+                                                    adj_font(10), 0);
     pOK_Button->data.ptr = (void *)pImpr;
     pOK_Button->size.w = pCancel_Button->size.w;
     pOK_Button->action = sell_imprvm_dlg_ok_callback;
@@ -1736,7 +1737,7 @@ static void redraw_misc_city_dialog(struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
-  dest.y = pCityWindow->area.y + adj_size(4) + pTheme->INFO_Icon->h;
+  dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
 
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
@@ -1781,7 +1782,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
-  dest.y = pCityWindow->area.y + + adj_size(4) + pTheme->INFO_Icon->h;
+  dest.y = pCityWindow->area.y + + adj_size(4) + current_theme->INFO_Icon->h;
 
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
@@ -1838,7 +1839,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
-  dest.y = pCityWindow->area.y + adj_size(4) + pTheme->INFO_Icon->h;
+  dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
 
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
@@ -1886,7 +1887,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
-  dest.y = pCityWindow->area.y + adj_size(4) + pTheme->INFO_Icon->h;
+  dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
 
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
@@ -2040,7 +2041,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
-  dest.y = pCityWindow->area.y + adj_size(4) + pTheme->INFO_Icon->h;
+  dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
   dest.x = pCityWindow->size.x + adj_size(10);
@@ -3607,7 +3608,7 @@ void real_city_dialog_popup(struct city *pCity)
   /* ============================================================= */
 
   /* close dialog button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
@@ -3620,7 +3621,7 @@ void real_city_dialog_popup(struct city *pCity)
 
   /* -------- */
 
-  pBuf = create_themeicon(pTheme->Army_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Army_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Present units"),
                                            adj_font(12));
@@ -3631,7 +3632,7 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_ARMY_BUTTON, pBuf);
   /* -------- */
 
-  pBuf = create_themeicon(pTheme->Support_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Support_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Supported units"),
                                            adj_font(12));
@@ -3644,7 +3645,7 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_SUPPORT_BUTTON, pBuf);
   /* -------- */
 
-  pBuf = create_themeicon(pTheme->Happy_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Happy_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Happiness"), adj_font(12));
   pBuf->action = happy_city_dlg_callback;
@@ -3655,7 +3656,7 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_HAPPY_BUTTON, pBuf);
   /* -------- */
 
-  pBuf = create_themeicon(pTheme->INFO_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->INFO_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("City info"), adj_font(12));
   pBuf->action = info_city_dlg_callback;
@@ -3687,7 +3688,7 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_RESOURCE_MAP, pBuf);
   /* -------- */
 
-  pBuf = create_themeicon(pTheme->Options_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Options_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("City options"), adj_font(12));
   pBuf->action = options_city_dlg_callback;
@@ -3700,7 +3701,7 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_OPTIONS_BUTTON, pBuf);
   /* -------- */
 
-  pBuf = create_themeicon(pTheme->PROD_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->PROD_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Change production"),
                                            adj_font(12));
@@ -3714,7 +3715,7 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_CHANGE_PROD_BUTTON, pBuf);
   /* -------- */
 
-  pBuf = create_themeicon(pTheme->Buy_PROD_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Buy_PROD_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Hurry production"),
                                            adj_font(12));
@@ -3729,7 +3730,7 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_PROD_BUY_BUTTON, pBuf);
   /* -------- */
 
-  pBuf = create_themeicon(pTheme->CMA_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->CMA_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Citizen Governor"),
                                            adj_font(12));
@@ -3744,7 +3745,7 @@ void real_city_dialog_popup(struct city *pCity)
 
 
   /* -------- */
-  pBuf = create_themeicon(pTheme->L_ARROW_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->L_ARROW_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Previous city"),
                                            adj_font(12));
@@ -3759,7 +3760,7 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_PREV_BUTTON, pBuf);
   /* -------- */
 
-  pBuf = create_themeicon(pTheme->R_ARROW_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->R_ARROW_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Next city"), adj_font(12));
   pBuf->action = next_prev_city_dlg_callback;

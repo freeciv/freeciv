@@ -264,7 +264,7 @@ static void popup_goto_airlift_dialog(void)
 
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -324,8 +324,9 @@ static void popup_goto_airlift_dialog(void)
   /* background */
   col = (col + 15) / 16; /* number of flag columns */
 
-  pFlag = ResizeSurface(pTheme->Block,
-    (col * pBuf->size.w + (col - 1) * adj_size(5) + adj_size(10)), area.h, 1);
+  pFlag = ResizeSurface(current_theme->Block,
+                        (col * pBuf->size.w + (col - 1) * adj_size(5) + adj_size(10)),
+                        area.h, 1);
 
   block_x = dst.x = area.x + area.w - pFlag->w;
   dst.y = area.y;

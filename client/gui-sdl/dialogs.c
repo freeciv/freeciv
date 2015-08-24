@@ -328,7 +328,7 @@ static struct notify_goto_dialog *notify_goto_dialog_new(void)
   add_to_gui_list(ID_WINDOW, pdialog->window);
 
   /* Close button. */
-  pdialog->close_button = create_themeicon(pTheme->Small_CANCEL_Icon,
+  pdialog->close_button = create_themeicon(current_theme->Small_CANCEL_Icon,
                                            pdialog->window->dst,
                                            WF_WIDGET_HAS_INFO_LABEL
                                            | WF_RESTORE_BACKGROUND);
@@ -531,7 +531,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -704,7 +704,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   area.h += (pText->h + adj_size(10));
   
   /* cancel button */
-  pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
+  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
 			    pWindow->dst, _("Cancel"), adj_font(12), 0);
 
   pBuf->action = cancel_upgrade_unit_callback;
@@ -715,9 +715,9 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   add_to_gui_list(ID_BUTTON, pBuf);
 
   if (UU_OK == unit_upgrade_result) {
-    pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
 					      _("Upgrade"), adj_font(12), 0);
-        
+
     pBuf->action = ok_upgrade_unit_window_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.unit = pUnit;    
@@ -898,8 +898,9 @@ void popup_unit_disband_dlg(struct unit *pUnit, bool city)
   area.h += (pText->h + adj_size(10));
   
   /* cancel button */
-  pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-			    pWindow->dst, _("Cancel"), adj_font(12), 0);
+  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
+                                            pWindow->dst, _("Cancel"),
+                                            adj_font(12), 0);
 
   pBuf->action = cancel_disband_unit_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -909,9 +910,9 @@ void popup_unit_disband_dlg(struct unit *pUnit, bool city)
   add_to_gui_list(ID_BUTTON, pBuf);
 
   if (unit_disband_result) {
-    pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-					      _("Disband"), adj_font(12), 0);
-        
+    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
+                                              _("Disband"), adj_font(12), 0);
+
     pBuf->action = ok_disband_unit_window_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.unit = pUnit;    
@@ -1090,7 +1091,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -1340,7 +1341,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   pBuf->size.y = area.y;
   
   /* exit icon */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -1670,7 +1671,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -2241,7 +2242,7 @@ void popup_pillage_dialog(struct unit *pUnit, bv_extras extras)
   
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -2573,8 +2574,8 @@ void popup_revolution_dialog(void)
   
   /* create cancel button */
   pCancel_Button =
-      create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
-  					pWindow->dst, _("Cancel"), adj_font(10), 0);
+      create_themeicon_button_from_chars(current_theme->Small_CANCEL_Icon,
+                                         pWindow->dst, _("Cancel"), adj_font(10), 0);
   pCancel_Button->action = revolution_dlg_cancel_callback;  
   pCancel_Button->size.w += adj_size(6);
   set_wstate(pCancel_Button, FC_WS_NORMAL);  
@@ -2582,8 +2583,9 @@ void popup_revolution_dialog(void)
 
   /* create ok button */
   pOK_Button =
-      create_themeicon_button_from_chars(pTheme->Small_OK_Icon,
-			  pWindow->dst, _("Revolution!"), adj_font(10), 0);
+      create_themeicon_button_from_chars(current_theme->Small_OK_Icon,
+                                         pWindow->dst, _("Revolution!"),
+                                         adj_font(10), 0);
   pOK_Button->action = revolution_dlg_ok_callback;
   pOK_Button->key = SDLK_RETURN;
   set_wstate(pOK_Button, FC_WS_NORMAL);  
@@ -3001,8 +3003,9 @@ static int nation_button_callback(struct widget *pNationButton)
       pHelpDlg->pEndWidgetList = pWindow;
       add_to_gui_list(ID_WINDOW, pWindow);
     
-      pOK_Button = create_themeicon_button_from_chars(pTheme->OK_Icon,
-                                pWindow->dst, _("OK"), adj_font(14), 0);
+      pOK_Button = create_themeicon_button_from_chars(current_theme->OK_Icon,
+                                                      pWindow->dst, _("OK"),
+                                                      adj_font(14), 0);
       pOK_Button->action = cancel_help_dlg_callback;
       set_wstate(pOK_Button, FC_WS_NORMAL);
       pOK_Button->key = SDLK_ESCAPE;
@@ -3332,7 +3335,7 @@ void popup_races_dialog(struct player *pplayer)
     pSetup->pset_name = pWidget;
 
     /* create next nationset button */
-    pWidget = create_themeicon_button(pTheme->R_ARROW_Icon,
+    pWidget = create_themeicon_button(current_theme->R_ARROW_Icon,
                                       pWindow->dst, NULL, 0);
     pWidget->action = next_set_callback;
     if (nation_set_index(pSetup->set) < nation_set_count() - 1) {
@@ -3343,7 +3346,7 @@ void popup_races_dialog(struct player *pplayer)
     pSetup->pset_next = pWidget;
 
     /* create prev nationset button */
-    pWidget = create_themeicon_button(pTheme->L_ARROW_Icon,
+    pWidget = create_themeicon_button(current_theme->L_ARROW_Icon,
                                       pWindow->dst, NULL, 0);
     pWidget->action = prev_set_callback;
     if (nation_set_index(pSetup->set) > 0) {
@@ -3387,16 +3390,16 @@ void popup_races_dialog(struct player *pplayer)
   pSetup->pName_Edit = pWidget;
   
   /* create next leader name button */
-  pWidget = create_themeicon_button(pTheme->R_ARROW_Icon,
-						  pWindow->dst, NULL, 0);
+  pWidget = create_themeicon_button(current_theme->R_ARROW_Icon,
+                                    pWindow->dst, NULL, 0);
   pWidget->action = next_name_callback;
   add_to_gui_list(ID_NATION_WIZARD_NEXT_LEADER_NAME_BUTTON, pWidget);
   pWidget->size.h = pWidget->next->size.h;
   pSetup->pName_Next = pWidget;
   
   /* create prev leader name button */
-  pWidget = create_themeicon_button(pTheme->L_ARROW_Icon,
-  						pWindow->dst, NULL, 0);
+  pWidget = create_themeicon_button(current_theme->L_ARROW_Icon,
+                                    pWindow->dst, NULL, 0);
   pWidget->action = prev_name_callback;
   add_to_gui_list(ID_NATION_WIZARD_PREV_LEADER_NAME_BUTTON, pWidget);
   pWidget->size.h = pWidget->next->size.h;
@@ -3442,8 +3445,9 @@ void popup_races_dialog(struct player *pplayer)
   /* ---------------------------------------------------------- */
   
   /* create Cancel button */
-  pWidget = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
-					 _("Cancel"), adj_font(12), 0);
+  pWidget = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
+                                               pWindow->dst, _("Cancel"),
+                                               adj_font(12), 0);
   pWidget->action = races_dialog_cancel_callback;
   set_wstate(pWidget, FC_WS_NORMAL);
   
@@ -3451,8 +3455,8 @@ void popup_races_dialog(struct player *pplayer)
 
   /* create OK button */
   pWidget =
-      create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-				_("OK"), adj_font(12), 0);
+      create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
+                                         _("OK"), adj_font(12), 0);
   pWidget->action = races_dialog_ok_callback;
 
   set_wstate(pWidget, FC_WS_NORMAL);

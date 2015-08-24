@@ -883,16 +883,18 @@ static SDL_Surface * get_progress_icon(int stock, int cost, int *progress)
     width = adj_size(116);
     *progress = 100;
   }
-    
-  pIcon = create_bcgnd_surf(pTheme->Edit, 0, adj_size(120), adj_size(30));
-    
-  if(width) {
+
+  pIcon = create_bcgnd_surf(current_theme->Edit, 0, adj_size(120), adj_size(30));
+
+  if (width) {
     SDL_Rect dst = {2,1,0,0};
-    SDL_Surface *pBuf = create_bcgnd_surf(pTheme->Button, 3, width, adj_size(28));
+    SDL_Surface *pBuf = create_bcgnd_surf(current_theme->Button, 3, width,
+                                          adj_size(28));
+
     alphablit(pBuf, NULL, pIcon, &dst);
     FREESURFACE(pBuf);
   }
-    
+
   return pIcon;  
 }
 
@@ -1009,7 +1011,7 @@ static void refresh_worklist_count_label(void)
  * if pCity == NULL then fucnction take pWorklist as global worklist.
  * pWorklist must be not NULL.
  */
-void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
+void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 {
   SDL_Color bg_color = {255,255,255,128};
   SDL_Color bg_color2 = {255,255,255,136};
@@ -1044,11 +1046,11 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     worklist_copy(&pEditor->worklist_copy, &pCity->worklist);
     fc_snprintf(pEditor->worklist_name, sizeof(pEditor->worklist_name),
                 "%s worklist", city_name(pCity));
-  } else if (pGWL) {
+  } else if (gwl != NULL) {
     pEditor->pCity = NULL;
-    pEditor->global_worklist_id = global_worklist_id(pGWL);
-    worklist_copy(&pEditor->worklist_copy, global_worklist_get(pGWL));
-    sz_strlcpy(pEditor->worklist_name, global_worklist_name(pGWL));
+    pEditor->global_worklist_id = global_worklist_id(gwl);
+    worklist_copy(&pEditor->worklist_copy, global_worklist_get(gwl));
+    sz_strlcpy(pEditor->worklist_name, global_worklist_name(gwl));
   } else {
     /* Not valid variant! */
     return;
@@ -1080,7 +1082,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     fc_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name(pCity));
     external_entries = 1; /* Current production */
   } else {
-    fc_snprintf(cBuf, sizeof(cBuf), "%s", global_worklist_name(pGWL));
+    fc_snprintf(cBuf, sizeof(cBuf), "%s", global_worklist_name(gwl));
     external_entries = 0;
   }
 
@@ -1152,28 +1154,28 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     add_to_gui_list(ID_LABEL, pBuf);
   } else {
     pBuf = create_edit_from_chars(NULL, pWindow->dst,
-                                  global_worklist_name(pGWL), adj_font(10),
+                                  global_worklist_name(gwl), adj_font(10),
                                   adj_size(120), WF_RESTORE_BACKGROUND);
     pBuf->action = rename_worklist_editor_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     
     add_to_gui_list(ID_EDIT, pBuf);
   }
-  
+
   /* --------------------------- */
   /* Commit Widget */
-  pBuf = create_themeicon(pTheme->OK_Icon, pWindow->dst, WF_RESTORE_BACKGROUND);
-  
+  pBuf = create_themeicon(current_theme->OK_Icon, pWindow->dst, WF_RESTORE_BACKGROUND);
+
   pBuf->action = ok_worklist_editor_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_RETURN;
-    
+
   add_to_gui_list(ID_BUTTON, pBuf);
   /* --------------------------- */
   /* Cancel Widget */
-  pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
-				  WF_RESTORE_BACKGROUND);
-  
+  pBuf = create_themeicon(current_theme->CANCEL_Icon, pWindow->dst,
+                          WF_RESTORE_BACKGROUND);
+
   pBuf->action = popdown_worklist_editor_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -1297,19 +1299,19 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   
   pEditor->pWork->pScroll->count += count;
   pLast = pEditor->pWork->pBeginWidgetList;
-  
+
   /* --------------------------- */
   /* global worklists */
-  if(pCity) {
+  if (pCity) {
     count = 0;
 
-    global_worklists_iterate(pGWL) {
+    global_worklists_iterate(iter_gwl) {
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
-                                         global_worklist_name(pGWL),
+                                         global_worklist_name(iter_gwl),
                                          adj_font(10),
                                          WF_RESTORE_BACKGROUND);
       set_wstate(pBuf, FC_WS_NORMAL);
-      add_to_gui_list(MAX_ID - global_worklist_id(pGWL), pBuf);
+      add_to_gui_list(MAX_ID - global_worklist_id(iter_gwl), pBuf);
       pBuf->string16->style |= SF_CENTER;
       pBuf->action = global_worklist_callback;
       pBuf->string16->fgcol = bg_color;

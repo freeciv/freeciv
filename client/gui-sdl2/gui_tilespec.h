@@ -186,7 +186,7 @@ struct City_Icon {
   SDL_Surface *specialists[SP_MAX];
 };
 
-extern struct Theme *pTheme;
+extern struct Theme *current_theme;
 extern struct City_Icon *pIcons;
 
 void tilespec_setup_theme(void);

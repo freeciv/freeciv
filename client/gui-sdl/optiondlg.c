@@ -778,7 +778,7 @@ static struct option_dialog *option_dialog_new(void)
   pdialog->end_widget_list = window;
 
   /* Create close button widget. */
-  close_button = create_themeicon(pTheme->Small_CANCEL_Icon, window->dst,
+  close_button = create_themeicon(current_theme->Small_CANCEL_Icon, window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
   close_button->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
@@ -987,7 +987,7 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
   window = pdialog->end_widget_list;
 
   /* Create the apply button. */
-  apply_button = create_themeicon(pTheme->Small_OK_Icon, window->dst,
+  apply_button = create_themeicon(current_theme->Small_OK_Icon, window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
   apply_button->info_label = create_str16_from_char(_("Apply changes"),
@@ -1317,8 +1317,8 @@ void disable_options_button(void)
 void init_options_button(void)
 {
   char buf[256];
-  
-  pOptions_Button = create_themeicon(pTheme->Options_Icon, Main.gui,
+
+  pOptions_Button = create_themeicon(current_theme->Options_Icon, Main.gui,
                                      WF_WIDGET_HAS_INFO_LABEL
                                      | WF_RESTORE_BACKGROUND);
   pOptions_Button->action = optiondlg_callback;

@@ -20,10 +20,10 @@
 
 struct widget *widget_new(void);
 
-void correct_size_bcgnd_surf(SDL_Surface *pTheme,
-				    Uint16 *pWidth, Uint16 *pHigh);
+void correct_size_bcgnd_surf(SDL_Surface *ptheme,
+                             Uint16 *width, Uint16 *height);
 SDL_Surface *get_buffer_layer(int width, int height);
 
 int redraw_iconlabel(struct widget *pLabel);
-  
+
 #endif /* FC__WIDGET_P_H */

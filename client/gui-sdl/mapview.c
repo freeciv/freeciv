@@ -774,8 +774,6 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	pDock = pInfo_Window;
 	n = 0;
         unit_list_iterate(pTile->units, aunit) {
-          const char *vetname;
-
           if (aunit == pUnit) {
             continue;
 	  }

@@ -426,7 +426,8 @@ static int spy_steal_popup(struct widget *pWidget)
   struct widget *pWindow;
   utf8_str *pstr;
   SDL_Surface *pSurf;
-  int max_col, max_row, col, i, count = 0;
+  int max_col, max_row, col, count = 0;
+  int tech, idx;
   SDL_Rect area;
 
   popdown_diplomat_dialog();
@@ -492,7 +493,7 @@ static int spy_steal_popup(struct widget *pWidget)
 
   /* ------------------ */
   /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
@@ -563,7 +564,7 @@ static int spy_steal_popup(struct widget *pWidget)
 
   /* Get Spy tech to use for "At Spy's Discretion" -- this will have the
    * side effect of displaying the unit's icon */
-  i = advance_number(unit_type(game_unit_by_number(id))->require_advance);
+  tech = advance_number(unit_type(game_unit_by_number(id))->require_advance);
 
   if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
     struct astring str = ASTRING_INIT;
@@ -574,7 +575,7 @@ static int spy_steal_popup(struct widget *pWidget)
     copy_chars_to_utf8_str(pstr, astr_str(&str));
     astr_free(&str);
 
-    pSurf = create_select_tech_icon(pstr, i, FULL_MODE);
+    pSurf = create_select_tech_icon(pstr, tech, FULL_MODE);
 
     pBuf = create_icon2(pSurf, pWindow->dst,
                         (WF_FREE_THEME | WF_RESTORE_BACKGROUND
@@ -595,19 +596,19 @@ static int spy_steal_popup(struct widget *pWidget)
 
   /* -------------------------------------------------------------- */
 
-  i = 0;
+  idx = 0;
   if (count > col) {
     count = (count + (col - 1)) / col;
     if (count > max_row) {
       pDiplomat_Dlg->pdialog->pActiveWidgetList = pDiplomat_Dlg->pdialog->pEndActiveWidgetList;
       count = max_row;
-      i = create_vertical_scrollbar(pDiplomat_Dlg->pdialog, col, count, TRUE, TRUE);  
+      idx = create_vertical_scrollbar(pDiplomat_Dlg->pdialog, col, count, TRUE, TRUE);  
     }
   } else {
     count = 1;
   }
 
-  area.w = MAX(area.w, (col * pBuf->size.w + adj_size(2) + i));
+  area.w = MAX(area.w, (col * pBuf->size.w + adj_size(2) + idx));
   area.h = count * pBuf->size.h + adj_size(2);
 
   /* alloca window theme and win background buffer */
@@ -1348,7 +1349,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
 
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
@@ -1647,7 +1648,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
     /* exit button */
-    pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
     pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
@@ -1717,7 +1718,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
 
   } else {
     /* exit button */
-    pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
     pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
@@ -1940,7 +1941,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
 
   } else {
     /* exit button */
-    pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
     pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),

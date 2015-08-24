@@ -243,10 +243,10 @@ void update_intel_dialog(struct player *p)
     pdialog->pdialog->pEndWidgetList = pWindow;
     
     area = pWindow->area;
-    
+
     /* ---------- */
     /* exit button */
-    pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
     pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),

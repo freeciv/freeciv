@@ -795,7 +795,6 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
         unit_list_iterate(pTile->units, aunit) {
           SDL_Surface *tmp_surf;
-          const char *vetname;
 
           if (aunit == pUnit) {
             continue;

@@ -238,7 +238,7 @@ struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
   SDL_Rect buf = {0, 0, 0, 0};
   struct widget *combo = widget_new();
 
-  combo->theme = pTheme->Edit;
+  combo->theme = current_theme->Edit;
   combo->theme2 = background;
   combo->string_utf8 = pstr;
   set_wflag(combo, WF_FREE_STRING | WF_FREE_GFX | flags);
@@ -257,7 +257,7 @@ struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
   }
 
   length = MAX(length, buf.w + adj_size(10));
-  correct_size_bcgnd_surf(pTheme->Edit, &length, &buf.h);
+  correct_size_bcgnd_surf(current_theme->Edit, &length, &buf.h);
   combo->size.w = buf.w + adj_size(10);
   combo->size.h = buf.h;
 

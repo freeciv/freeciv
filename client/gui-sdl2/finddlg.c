@@ -157,7 +157,7 @@ void popup_find_dialog(void)
 
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND
                           | WF_FREE_DATA);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),

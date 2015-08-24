@@ -517,11 +517,12 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
   
   pDlg->pScroll->active = active;
   pDlg->pScroll->step = step;
-  
-  if(create_buttons) {
+
+  if (create_buttons) {
     /* create up button */
-    pBuf = create_themeicon_button(pTheme->UP_Icon, pWindow->dst, NULL, WF_RESTORE_BACKGROUND);
-    
+    pBuf = create_themeicon_button(current_theme->UP_Icon, pWindow->dst,
+                                   NULL, WF_RESTORE_BACKGROUND);
+
     pBuf->ID = ID_BUTTON;
     pBuf->private_data.adv_dlg = pDlg;
     pBuf->action = std_up_advanced_dlg_callback;
@@ -532,10 +533,11 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     pDlg->pBeginWidgetList = pBuf;
     
     count = pBuf->size.w;
-    
+
     /* create down button */
-    pBuf = create_themeicon_button(pTheme->DOWN_Icon, pWindow->dst, NULL, WF_RESTORE_BACKGROUND);
-    
+    pBuf = create_themeicon_button(current_theme->DOWN_Icon, pWindow->dst,
+                                   NULL, WF_RESTORE_BACKGROUND);
+
     pBuf->ID = ID_BUTTON;
     pBuf->private_data.adv_dlg = pDlg;
     pBuf->action = std_down_advanced_dlg_callback;
@@ -546,12 +548,12 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     pDlg->pBeginWidgetList = pBuf;
     
   }
-  
-  if(create_scrollbar) {
+
+  if (create_scrollbar) {
     /* create vsrollbar */
-    pBuf = create_vertical(pTheme->Vertic, pWindow->dst,
-				adj_size(10), WF_RESTORE_BACKGROUND);
-    
+    pBuf = create_vertical(current_theme->Vertic, pWindow->dst,
+                           adj_size(10), WF_RESTORE_BACKGROUND);
+
     pBuf->ID = ID_SCROLLBAR;
     pBuf->private_data.adv_dlg = pDlg;
     pBuf->action = std_vscroll_advanced_dlg_callback;
@@ -1573,11 +1575,11 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
   
     pDlg->pScroll->count = count;
   }
-  
-  if(create_buttons) {
+
+  if (create_buttons) {
     /* create up button */
-    pBuf = create_themeicon_button(pTheme->LEFT_Icon, pWindow->dst, NULL, 0);
-    
+    pBuf = create_themeicon_button(current_theme->LEFT_Icon, pWindow->dst, NULL, 0);
+
     pBuf->ID = ID_BUTTON;
     pBuf->data.ptr = (void *)pDlg;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1596,10 +1598,10 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
     
     
     count = pBuf->size.h;
-    
+
     /* create down button */
-    pBuf = create_themeicon_button(pTheme->RIGHT_Icon, pWindow->dst, NULL, 0);
-    
+    pBuf = create_themeicon_button(current_theme->RIGHT_Icon, pWindow->dst, NULL, 0);
+
     pBuf->ID = ID_BUTTON;
     pBuf->data.ptr = (void *)pDlg;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1617,12 +1619,12 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
     pDlg->pBeginWidgetList = pBuf;
     
   }
-  
-  if(create_scrollbar) {
+
+  if (create_scrollbar) {
     /* create vsrollbar */
-    pBuf = create_horizontal(pTheme->Horiz, pWindow->dst,
-				width, WF_RESTORE_BACKGROUND);
-    
+    pBuf = create_horizontal(current_theme->Horiz, pWindow->dst,
+                             width, WF_RESTORE_BACKGROUND);
+
     pBuf->ID = ID_SCROLLBAR;
     pBuf->data.ptr = (void *)pDlg;
     set_wstate(pBuf, FC_WS_NORMAL);

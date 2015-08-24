@@ -172,7 +172,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
 
     /* ---------- */
     /* create exit button */
-    pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
     pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
@@ -185,7 +185,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
 
     add_to_gui_list(ID_BUTTON, pBuf);
 
-    pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
                                               _("Launch"), adj_font(12), 0);
 
     pBuf->action = launch_spaceship_callback;
