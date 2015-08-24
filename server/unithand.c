@@ -1433,25 +1433,49 @@ bool unit_perform_action(struct player *pplayer,
   script_server_signal_emit("action_started_unit_city", 3,                \
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
-                            API_TYPE_CITY, target);
+                            API_TYPE_CITY, target);                       \
+  if (!actor || !unit_alive(actor->id)) {                                 \
+    /* Actor unit was destroyed during pre action Lua. */                 \
+    return FALSE;                                                         \
+  }                                                                       \
+  if (!target || !city_exist(target->id)) {                               \
+    /* Target city was destroyed during pre action Lua. */                \
+    return FALSE;                                                         \
+  }
 
 #define ACTION_STARTED_UNIT_UNIT(action, actor, target)                   \
   script_server_signal_emit("action_started_unit_unit", 3,                \
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
-                            API_TYPE_UNIT, target);
+                            API_TYPE_UNIT, target);                       \
+  if (!actor || !unit_alive(actor->id)) {                                 \
+    /* Actor unit was destroyed during pre action Lua. */                 \
+    return FALSE;                                                         \
+  }                                                                       \
+  if (!target || !unit_alive(target->id)) {                               \
+    /* Target unit was destroyed during pre action Lua. */                \
+    return FALSE;                                                         \
+  }
 
 #define ACTION_STARTED_UNIT_UNITS(action, actor, target)                  \
   script_server_signal_emit("action_started_unit_units", 3,               \
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
-                            API_TYPE_TILE, target);
+                            API_TYPE_TILE, target);                       \
+  if (!actor || !unit_alive(actor->id)) {                                 \
+    /* Actor unit was destroyed during pre action Lua. */                 \
+    return FALSE;                                                         \
+  }
 
 #define ACTION_STARTED_UNIT_TILE(action, actor, target)                   \
   script_server_signal_emit("action_started_unit_tile", 3,                \
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
-                            API_TYPE_TILE, target);
+                            API_TYPE_TILE, target);                       \
+  if (!actor || !unit_alive(actor->id)) {                                 \
+    /* Actor unit was destroyed during pre action Lua. */                 \
+    return FALSE;                                                         \
+  }
 
   switch(action_type) {
   case ACTION_SPY_BRIBE_UNIT:
