@@ -58,18 +58,18 @@ static SDL_Surface *info_label = NULL;
   Correct backgroud size ( set min size ). Used in create widget
   functions.
 **************************************************************************/
-void correct_size_bcgnd_surf(SDL_Surface *pTheme,
-                             int *pWidth, int *pHeigh)
+void correct_size_bcgnd_surf(SDL_Surface *ptheme,
+                             int *width, int *height)
 {
-  *pWidth = MAX(*pWidth, 2 * (pTheme->w / adj_size(16)));
-  *pHeigh = MAX(*pHeigh, 2 * (pTheme->h / adj_size(16)));
+  *width = MAX(*width, 2 * (ptheme->w / adj_size(16)));
+  *height = MAX(*height, 2 * (ptheme->h / adj_size(16)));
 }
 
 /**************************************************************************
   Create background image for buttons, iconbuttons and edit fields
   then return  pointer to this image.
 
-  Graphic is taken from pTheme surface and blit to new created image.
+  Graphic is taken from ptheme surface and blit to new created image.
 
   Length and height depend of iText_with, iText_high parameters.
 
@@ -79,7 +79,7 @@ void correct_size_bcgnd_surf(SDL_Surface *pTheme,
     state = 2 - pressed
     state = 3 - disabled
 **************************************************************************/
-SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
+SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
                                Uint16 width, Uint16 height)
 {
   bool zoom;
@@ -88,10 +88,10 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
   int i, j;
   SDL_Rect src, des;
   SDL_Surface *pBackground = NULL;
-  int iStart_y = (pTheme->h / 4) * state;
+  int iStart_y = (ptheme->h / 4) * state;
 
-  iTile_width_len_end = pTheme->w / 16;
-  iTile_width_len_mid = pTheme->w - (iTile_width_len_end * 2);
+  iTile_width_len_end = ptheme->w / 16;
+  iTile_width_len_mid = ptheme->w - (iTile_width_len_end * 2);
 
   iTile_count_len_mid =
       (width - (iTile_width_len_end * 2)) / iTile_width_len_mid;
@@ -102,8 +102,8 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
     iTile_count_len_mid++;
   }
 
-  iTile_width_height_end = pTheme->h / 16;
-  iTile_width_height_mid = (pTheme->h / 4) - (iTile_width_height_end * 2);
+  iTile_width_height_end = ptheme->h / 16;
+  iTile_width_height_mid = (ptheme->h / 4) - (iTile_width_height_end * 2);
   iTile_count_height_mid =
       (height - (iTile_width_height_end * 2)) / iTile_width_height_mid;
 
@@ -130,22 +130,22 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
 
   des.x = 0;
   des.y = 0;
-  alphablit(pTheme, &src, pBackground, &des, 255);
+  alphablit(ptheme, &src, pBackground, &des, 255);
 
   /* left middle */
   src.y = iStart_y + iTile_width_height_end;
   src.h = iTile_width_height_mid;
   for (i = 0; i < iTile_count_height_mid; i++) {
     des.y = iTile_width_height_end + i * iTile_width_height_mid;
-    alphablit(pTheme, &src, pBackground, &des, 255);
+    alphablit(ptheme, &src, pBackground, &des, 255);
   }
 
   /* left bottom */
-  src.y = iStart_y + ((pTheme->h / 4) - iTile_width_height_end);
+  src.y = iStart_y + ((ptheme->h / 4) - iTile_width_height_end);
   src.h = iTile_width_height_end;
   des.y = pBackground->h - iTile_width_height_end;
   clear_surface(pBackground, &des);
-  alphablit(pTheme, &src, pBackground, &des, 255);
+  alphablit(ptheme, &src, pBackground, &des, 255);
 
   /* copy middle parts */
 
@@ -159,50 +159,50 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
     des.x = iTile_width_len_end + i * iTile_width_len_mid;
     des.y = 0;
     src.y = iStart_y;
-    alphablit(pTheme, &src, pBackground, &des, 255);
+    alphablit(ptheme, &src, pBackground, &des, 255);
 
     /* middle middle */
     src.y = iStart_y + iTile_width_height_end;
     src.h = iTile_width_height_mid;
     for (j = 0; j < iTile_count_height_mid; j++) {
       des.y = iTile_width_height_end + j * iTile_width_height_mid;
-      alphablit(pTheme, &src, pBackground, &des, 255);
+      alphablit(ptheme, &src, pBackground, &des, 255);
     }
 
     /* middle bottom */
-    src.y = iStart_y + ((pTheme->h / 4) - iTile_width_height_end);
+    src.y = iStart_y + ((ptheme->h / 4) - iTile_width_height_end);
     src.h = iTile_width_height_end;
     des.y = pBackground->h - iTile_width_height_end;
     clear_surface(pBackground, &des);
-    alphablit(pTheme, &src, pBackground, &des, 255);
+    alphablit(ptheme, &src, pBackground, &des, 255);
   }
 
   /* copy right end */
 
   /* right top */
-  src.x = pTheme->w - iTile_width_len_end;
+  src.x = ptheme->w - iTile_width_len_end;
   src.y = iStart_y;
   src.w = iTile_width_len_end;
 
   des.x = pBackground->w - iTile_width_len_end;
   des.y = 0;
 
-  alphablit(pTheme, &src, pBackground, &des, 255);
+  alphablit(ptheme, &src, pBackground, &des, 255);
 
   /* right middle */
   src.y = iStart_y + iTile_width_height_end;
   src.h = iTile_width_height_mid;
   for (i = 0; i < iTile_count_height_mid; i++) {
     des.y = iTile_width_height_end + i * iTile_width_height_mid;
-    alphablit(pTheme, &src, pBackground, &des, 255);
+    alphablit(ptheme, &src, pBackground, &des, 255);
   }
 
   /* right bottom */
-  src.y = iStart_y + ((pTheme->h / 4) - iTile_width_height_end);
+  src.y = iStart_y + ((ptheme->h / 4) - iTile_width_height_end);
   src.h = iTile_width_height_end;
   des.y = pBackground->h - iTile_width_height_end;
   clear_surface(pBackground, &des);
-  alphablit(pTheme, &src, pBackground, &des, 255);
+  alphablit(ptheme, &src, pBackground, &des, 255);
 
   if (zoom) {
     SDL_Surface *pZoom = ResizeSurface(pBackground, width, height, 1);
@@ -1119,13 +1119,13 @@ void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
                 Uint16 w, Uint16 h)
 {
   SDL_Surface *pTmpLeft =
-    ResizeSurface(pTheme->FR_Left, pTheme->FR_Left->w, h, 1);
+    ResizeSurface(current_theme->FR_Left, current_theme->FR_Left->w, h, 1);
   SDL_Surface *pTmpRight =
-    ResizeSurface(pTheme->FR_Right, pTheme->FR_Right->w, h, 1);
+    ResizeSurface(current_theme->FR_Right, current_theme->FR_Right->w, h, 1);
   SDL_Surface *pTmpTop =
-    ResizeSurface(pTheme->FR_Top, w, pTheme->FR_Top->h, 1);
+    ResizeSurface(current_theme->FR_Top, w, current_theme->FR_Top->h, 1);
   SDL_Surface *pTmpBottom =
-    ResizeSurface(pTheme->FR_Bottom, w, pTheme->FR_Bottom->h, 1);
+    ResizeSurface(current_theme->FR_Bottom, w, current_theme->FR_Bottom->h, 1);
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};
 
   tmp = dst;

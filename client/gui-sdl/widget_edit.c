@@ -312,31 +312,30 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
 /**************************************************************************
   Create ( malloc ) Edit Widget structure.
 
-  Edit Theme graphic is taken from pTheme->Edit surface;
+  Edit Theme graphic is taken from current_theme->Edit surface;
   Text is taken from 'pString16'.
 
-  'length' parametr determinate width of Edit rect.
+  'length' parameter determinate width of Edit rect.
 
-  This function determinate future size of Edit ( width, high ) and
+  This function determinate future size of Edit ( width, height ) and
   save this in: pWidget->size rectangle ( SDL_Rect )
 
   function return pointer to allocated Edit Widget.
 **************************************************************************/
-struct widget * create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
-		SDL_String16 *pString16, Uint16 length, Uint32 flags)
+struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
+                           SDL_String16 *pString16, Uint16 length, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
-
   struct widget *pEdit = widget_new();
 
-  pEdit->theme = pTheme->Edit;
+  pEdit->theme = current_theme->Edit;
   pEdit->theme2 = pBackground; /* FIXME: make somewhere use of it */
   pEdit->string16 = pString16;
   set_wflag(pEdit, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pEdit, FC_WS_DISABLED);
   set_wtype(pEdit, WT_EDIT);
   pEdit->mod = KMOD_NONE;
-  
+
   baseclass_redraw = pEdit->redraw;
   pEdit->redraw = redraw_edit;
   
@@ -348,7 +347,7 @@ struct widget * create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
 
   length = MAX(length, buf.w + adj_size(10));
 
-  correct_size_bcgnd_surf(pTheme->Edit, &length, &buf.h);
+  correct_size_bcgnd_surf(current_theme->Edit, &length, &buf.h);
 
   pEdit->size.w = length;
   pEdit->size.h = buf.h;

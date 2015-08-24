@@ -341,17 +341,17 @@ static int save_cma_callback(struct widget *pWidget)
     add_to_gui_list(ID_EDIT, pBuf);
     /* ============================================================= */
 
-    pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-                                                _("Yes"), adj_font(12), 0);
-  
+    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
+                                              _("Yes"), adj_font(12), 0);
+
     pBuf->action = ok_save_cma_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->key = SDLK_RETURN;
     add_to_gui_list(ID_BUTTON, pBuf);
     pBuf->data.ptr = (void *)pBuf->next;
-    
-    pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-                              pWindow->dst, _("No"), adj_font(12), 0);
+
+    pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
+                                              pWindow->dst, _("No"), adj_font(12), 0);
     pBuf->action = cancel_SLD_cma_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->key = SDLK_ESCAPE;
@@ -497,7 +497,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -912,7 +912,7 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -947,8 +947,8 @@ void popup_city_cma_dialog(struct city *pCity)
     add_to_gui_list(ID_LABEL, pBuf);
 
     /* minimal scrollbar */
-    pBuf = create_horizontal(pTheme->Horiz, pWindow->dst, adj_size(30),
-			(WF_RESTORE_BACKGROUND));
+    pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
+                             (WF_RESTORE_BACKGROUND));
 
     pBuf->action = min_horiz_cma_callback;
     pBuf->data.ptr = &pCma->edited_cm_parm.minimal_surplus[i];
@@ -965,8 +965,8 @@ void popup_city_cma_dialog(struct city *pCity)
     add_to_gui_list(ID_LABEL, pBuf);
     
     /* factor scrollbar */
-    pBuf = create_horizontal(pTheme->Horiz, pWindow->dst, adj_size(30),
-			(WF_RESTORE_BACKGROUND));
+    pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
+                             (WF_RESTORE_BACKGROUND));
 
     pBuf->action = factor_horiz_cma_callback;
     pBuf->data.ptr = &pCma->edited_cm_parm.factor[i];
@@ -988,8 +988,8 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_LABEL, pBuf);
   
   /* happy factor scrollbar */
-  pBuf = create_horizontal(pTheme->Horiz, pWindow->dst, adj_size(30),
-			(WF_RESTORE_BACKGROUND));
+  pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
+                           (WF_RESTORE_BACKGROUND));
 
   pBuf->action = factor_horiz_cma_callback;
   pBuf->data.ptr = &pCma->edited_cm_parm.happy_factor;
@@ -1007,7 +1007,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_CHECKBOX, pBuf);
     
   /* save as ... */
-  pBuf = create_themeicon(pTheme->SAVE_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->SAVE_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND |WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = save_cma_callback;
   pBuf->info_label = create_str16_from_char(_("Save settings as..."),
@@ -1016,7 +1016,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
   
   /* load settings */
-  pBuf = create_themeicon(pTheme->LOAD_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->LOAD_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = load_cma_callback;
   pBuf->info_label = create_str16_from_char(_("Load settings"),
@@ -1025,7 +1025,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
   
   /* del settings */
-  pBuf = create_themeicon(pTheme->DELETE_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->DELETE_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = del_cma_callback;
   pBuf->info_label = create_str16_from_char(_("Delete settings"),
@@ -1034,7 +1034,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
     
   /* run cma */
-  pBuf = create_themeicon(pTheme->QPROD_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->QPROD_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = run_cma_callback;
   pBuf->info_label = create_str16_from_char(_("Control city"), adj_font(10));
@@ -1042,7 +1042,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
   
   /* run cma onece */
-  pBuf = create_themeicon(pTheme->FindCity_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->FindCity_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = run_cma_once_callback;
   pBuf->info_label = create_str16_from_char(_("Apply once"), adj_font(10));
@@ -1050,7 +1050,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
   
   /* del settings */
-  pBuf = create_themeicon(pTheme->Support_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Support_Icon, pWindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = stop_cma_callback;
   pBuf->info_label = create_str16_from_char(_("Release city"), adj_font(10));

@@ -249,10 +249,10 @@ static int redraw_tibutton(struct widget *pTIButton)
   Create ( malloc ) Icon (theme)Button Widget structure.
 
   Icon graphic is taken from 'pIcon' surface (don't change with button
-  changes );  Button Theme graphic is taken from pTheme->Button surface;
+  changes );  Button Theme graphic is taken from current_theme->Button surface;
   Text is taken from 'pstr'.
 
-  This function determinate future size of Button ( width, high ) and
+  This function determinate future size of Button ( width, height ) and
   save this in: pWidget->size rectangle ( SDL_Rect )
 
   function return pointer to allocated Button Widget.
@@ -270,7 +270,7 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
 
   pButton = widget_new();
 
-  pButton->theme = pTheme->Button;
+  pButton->theme = current_theme->Button;
   pButton->theme2 = pIcon;
   pButton->string_utf8 = pstr;
   set_wflag(pButton, (WF_FREE_STRING | flags));
@@ -315,7 +315,7 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
     h += adj_size(2);
   }
 
-  correct_size_bcgnd_surf(pTheme->Button, &w, &h);
+  correct_size_bcgnd_surf(current_theme->Button, &w, &h);
 
   pButton->size.w = w;
   pButton->size.h = h;
@@ -327,10 +327,10 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
   Create ( malloc ) Theme Icon (theme)Button Widget structure.
 
   Icon Theme graphic is taken from 'pIcon_theme' surface ( change with
-  button changes ); Button Theme graphic is taken from pTheme->Button
-  surface; Text is taken from 'pString16'.
+  button changes ); Button Theme graphic is taken from current_theme->Button
+  surface; Text is taken from 'pstr'.
 
-  This function determinate future size of Button ( width, high ) and
+  This function determinate future size of Button ( width, height ) and
   save this in: pWidget->size rectangle ( SDL_Rect )
 
   function return pointer to allocated Button Widget.

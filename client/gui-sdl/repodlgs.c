@@ -226,22 +226,23 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     
     area.h += (pText->h + adj_size(10));
     area.w = MAX(area.w, pText->w + adj_size(20));
-    
+
     /* cancel button */
-    pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-                              pWindow->dst, _("No"), adj_font(12), 0);
-  
+    pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
+                                              pWindow->dst, _("No"),
+                                              adj_font(12), 0);
+
     pBuf->action = cancel_upgrade_unit_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
   
     area.h += (pBuf->size.h + adj_size(20));
     
     add_to_gui_list(ID_BUTTON, pBuf);
-    
+
     if (value <= client.conn.playing->economic.gold) {
-      pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+      pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
                                                 _("Yes"), adj_font(12), 0);
-          
+
       pBuf->action = ok_upgrade_unit_window_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
           
@@ -382,10 +383,10 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pUnitsDlg->pEndWidgetList = pWindow;
 
   area = pWindow->area;
-  
+
   /* ------------------------- */
   /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   pBuf->action = exit_units_dlg_callback;
@@ -1582,22 +1583,23 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     
     area.w = MAX(area.w, pText->w + adj_size(20));
     area.h += (pText->h + adj_size(10));
-    
+
     /* cancel button */
-    pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-                              pWindow->dst, _("No"), adj_font(12), 0);
-  
+    pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
+                                              pWindow->dst, _("No"),
+                                              adj_font(12), 0);
+
     pBuf->action = cancel_sell_impv_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
   
     area.h += (pBuf->size.h + adj_size(20));
     
     add_to_gui_list(ID_BUTTON, pBuf);
-    
+
     if (count > 0) {
-      pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+      pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
                                                 _("Sell"), adj_font(12), 0);
-          
+
       pBuf->action = ok_sell_impv_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->data.ptr = (void *)pWidget;
@@ -1912,7 +1914,7 @@ void economy_report_dialog_popup(bool make_modal)
   pBuf = create_checkbox(pWindow->dst,
                          SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
-  set_new_checkbox_theme(pBuf, pTheme->LOCK_Icon, pTheme->UNLOCK_Icon);
+  set_new_checkbox_theme(pBuf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);
   pBuf->info_label = pStr;
   pBuf->action = toggle_block_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1922,8 +1924,8 @@ void economy_report_dialog_popup(bool make_modal)
   w2 = adj_size(10) + pBuf->size.w;  
 
   /* lux rate slider */
-  pBuf = create_horizontal(pTheme->Horiz, pWindow->dst, adj_size(30),
-			(WF_FREE_DATA | WF_RESTORE_BACKGROUND));
+  pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
+                           (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
   pBuf->action = horiz_taxrate_callback;
   pBuf->data.ptr = fc_calloc(1, sizeof(int));
@@ -1959,17 +1961,17 @@ void economy_report_dialog_popup(bool make_modal)
                          SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
 
-  set_new_checkbox_theme(pBuf, pTheme->LOCK_Icon, pTheme->UNLOCK_Icon);
+  set_new_checkbox_theme(pBuf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);
 
   pBuf->info_label = pStr;
   pBuf->action = toggle_block_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX, pBuf);
-  
+
   /* science rate slider */
-  pBuf = create_horizontal(pTheme->Horiz, pWindow->dst, adj_size(30),
-				(WF_FREE_DATA | WF_RESTORE_BACKGROUND));
+  pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
+                           (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
   pBuf->action = horiz_taxrate_callback;
   pBuf->data.ptr = fc_calloc(1, sizeof(int));
@@ -1991,20 +1993,20 @@ void economy_report_dialog_popup(bool make_modal)
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_LABEL, pBuf);
   
   /* ---- */
-  
+
   fc_snprintf(cBuf, sizeof(cBuf), _("Update"));
   pStr = create_str16_from_char(cBuf, adj_font(12));
-  pBuf = create_themeicon_button(pTheme->Small_OK_Icon, pWindow->dst, pStr, 0);
+  pBuf = create_themeicon_button(current_theme->Small_OK_Icon, pWindow->dst, pStr, 0);
   pBuf->action = apply_taxrates_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_OK_BUTTON, pBuf);
   
   /* ---- */
-  
+
   fc_snprintf(cBuf, sizeof(cBuf), _("Close Dialog (Esc)"));
   pStr = create_str16_from_char(cBuf, adj_font(12));
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = pStr;
   pBuf->action = exit_economy_dialog_callback;
@@ -2245,12 +2247,12 @@ void economy_report_dialog_popup(bool make_modal)
   alphablit(pMaxRateText, NULL, pWindow->theme, &dst);
   dst.y += (pMaxRateText->h + 1);
   FREESURFACE(pMaxRateText);
-  
+
   /* Luxuries Horizontal Scrollbar Background */
   dst.x = area.x + adj_size(10) + w + (area.w - (w + adj_size(10)) - adj_size(184)) / 2;
   dst.w = adj_size(184);
-  dst.h = pTheme->Horiz->h - adj_size(2);
-  
+  dst.h = current_theme->Horiz->h - adj_size(2);
+
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color3);
   
   putframe(pWindow->theme,
@@ -2271,12 +2273,12 @@ void economy_report_dialog_popup(bool make_modal)
   pBuf = pBuf->prev;
   pBuf->size.x = dst.x + dst.w + adj_size(5);
   pBuf->size.y = dst.y + 1;
-  
-  
+
+
   /* Science Horizontal Scrollbar Background */
-  dst.y += pTheme->Horiz->h + 1;
+  dst.y += current_theme->Horiz->h + 1;
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color3);
-  
+
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
@@ -2854,9 +2856,9 @@ static void popup_change_research_dialog(void)
   if (is_future_tech(presearch->researching)) {
     return;
   }
-    
-  advance_index_iterate(A_FIRST, i) {
-    if (!research_invention_gettable(presearch, i, FALSE)) {
+
+  advance_index_iterate(A_FIRST, aidx) {
+    if (!research_invention_gettable(presearch, aidx, FALSE)) {
       continue;
     }
     count++;
@@ -2879,10 +2881,10 @@ static void popup_change_research_dialog(void)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_WINDOW, pWindow);
   
   area = pWindow->area;
-  
+
   /* ------------------------- */
-    /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  /* exit button */
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -2923,29 +2925,28 @@ static void popup_change_research_dialog(void)
   
   count = 0;
   h = col * max_row;
-  advance_index_iterate(A_FIRST, i) {
-    if (!research_invention_gettable(presearch, i, FALSE)) {
+  advance_index_iterate(A_FIRST, aidx) {
+    if (!research_invention_gettable(presearch, aidx, FALSE)) {
       continue;
     }
-    
+
     count++;
-    
-    copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
-    pSurf = create_sellect_tech_icon(pStr, i, MED_MODE);
+
+    copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(aidx)));
+    pSurf = create_sellect_tech_icon(pStr, aidx, MED_MODE);
     pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+                        WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = change_research_callback;
 
-    add_to_gui_list(MAX_ID - i, pBuf);
-    
+    add_to_gui_list(MAX_ID - aidx, pBuf);
+
     if (count > h) {
       set_wflag(pBuf, WF_HIDDEN);
     }
-    
   } advance_index_iterate_end;
-  
+
   FREESTRING16(pStr);
   
   pChangeTechDlg->pBeginWidgetList = pBuf;
@@ -3041,15 +3042,15 @@ static void popup_change_research_goal_dialog(void)
   /* collect all techs which are reachable in under 11 steps
    * hist will hold afterwards the techid of the current choice
    */
-  advance_index_iterate(A_FIRST, i) {
-    if (research_invention_reachable(presearch, i)
-        && TECH_KNOWN != research_invention_state(presearch, i)
-        && (11 > research_goal_unknown_techs(presearch, i)
-            || i == presearch->tech_goal)) {
+  advance_index_iterate(A_FIRST, aidx) {
+    if (research_invention_reachable(presearch, aidx)
+        && TECH_KNOWN != research_invention_state(presearch, aidx)
+        && (11 > research_goal_unknown_techs(presearch, aidx)
+            || aidx == presearch->tech_goal)) {
       count++;
     }
   } advance_index_iterate_end;
-  
+
   if (count < 1) {
     return;
   }
@@ -3067,10 +3068,10 @@ static void popup_change_research_goal_dialog(void)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_WINDOW, pWindow);
   
   area = pWindow->area;
-  
+
   /* ------------------------- */
-    /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  /* exit button */
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
@@ -3115,33 +3116,33 @@ static void popup_change_research_goal_dialog(void)
    */
   count = 0;
   h = col * max_row;
-  advance_index_iterate(A_FIRST, i) {
-    if (research_invention_reachable(presearch, i)
-        && TECH_KNOWN != research_invention_state(presearch, i)
-        && (11 > (num = research_goal_unknown_techs(presearch, i))
-            || i == presearch->tech_goal)) {
+  advance_index_iterate(A_FIRST, aidx) {
+    if (research_invention_reachable(presearch, aidx)
+        && TECH_KNOWN != research_invention_state(presearch, aidx)
+        && (11 > (num = research_goal_unknown_techs(presearch, aidx))
+            || aidx == presearch->tech_goal)) {
 
       count++;
       fc_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s",
-                  advance_name_translation(advance_by_number(i)),
+                  advance_name_translation(advance_by_number(aidx)),
                   num,
                   PL_("step", "steps", num));
       copy_chars_to_string16(pStr, cBuf);
-      pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
+      pSurf = create_sellect_tech_icon(pStr, aidx, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+                          WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_research_goal_callback;
 
-      add_to_gui_list(MAX_ID - i, pBuf);
-    
+      add_to_gui_list(MAX_ID - aidx, pBuf);
+
       if (count > h) {
         set_wflag(pBuf, WF_HIDDEN);
       }
     }
   } advance_index_iterate_end;
-  
+
   FREESTRING16(pStr);
   
   pChangeTechDlg->pBeginWidgetList = pBuf;
@@ -3339,7 +3340,7 @@ void science_report_dialog_popup(bool raise)
 
   /* ------ */
   /* exit button */
-  pExitButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pExitButton = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                                  WF_WIDGET_HAS_INFO_LABEL
                                  | WF_RESTORE_BACKGROUND);
   pExitButton->info_label = create_str16_from_char(_("Close Dialog (Esc)"),

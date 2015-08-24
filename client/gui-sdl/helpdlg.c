@@ -248,7 +248,7 @@ void popup_impr_info(Impr_type_id impr)
     /* ------------------ */
 
     /* close button */
-    pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+    pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
     pCloseButton->info_label =
@@ -319,7 +319,7 @@ void popup_impr_info(Impr_type_id impr)
     }
 
     /* toggle techs list button */
-    pListToggleButton = create_themeicon_button_from_chars(pTheme->UP_Icon,
+    pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
                                                            pWindow->dst,
                                                            _("Improvements"),
                                                            adj_font(10), 0);
@@ -460,11 +460,11 @@ void popup_impr_info(Impr_type_id impr)
 
   buffer[0] = '\0';
   helptext_building(buffer, sizeof(buffer), client.conn.playing, NULL, pImpr_type);
-  if (buffer[0] != '\0')
-  {
-    SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
-    convert_string_to_const_surface_width(pStr, adj_size(640) - start_x - adj_size(20));
-    pHelptextLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+  if (buffer[0] != '\0') {
+    SDL_String16 *bstr = create_str16_from_char(buffer, adj_font(12));
+
+    convert_string_to_const_surface_width(bstr, adj_size(640) - start_x - adj_size(20));
+    pHelptextLabel = create_iconlabel(NULL, pWindow->dst, bstr, 0);
     pHelptextLabel->ID = ID_LABEL;
     DownAdd(pHelptextLabel, pDock);
     pDock = pHelptextLabel;
@@ -662,7 +662,7 @@ void popup_unit_info(Unit_type_id type_id)
     /* ------------------ */
 
     /* close button */
-    pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+    pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
     pCloseButton->info_label =
@@ -735,7 +735,7 @@ void popup_unit_info(Unit_type_id type_id)
     }
 
     /* toggle techs list button */
-    pListToggleButton = create_themeicon_button_from_chars(pTheme->UP_Icon,
+    pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
                           pWindow->dst,  _("Units"), adj_font(10), 0);
 #if 0
     pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
@@ -892,10 +892,10 @@ void popup_unit_info(Unit_type_id type_id)
   buffer[0] = '\0';
   helptext_unit(buffer, sizeof(buffer), client.conn.playing, "", utype_by_number(type_id));
   if (buffer[0] != '\0') {
-    SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
+    SDL_String16 *ustr = create_str16_from_char(buffer, adj_font(12));
 
-    convert_string_to_const_surface_width(pStr, adj_size(640) - start_x - adj_size(20));
-    pHelptextLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+    convert_string_to_const_surface_width(ustr, adj_size(640) - start_x - adj_size(20));
+    pHelptextLabel = create_iconlabel(NULL, pWindow->dst, ustr, 0);
     pHelptextLabel->ID = ID_LABEL;
     DownAdd(pHelptextLabel, pDock);
     pDock = pHelptextLabel;
@@ -1006,7 +1006,7 @@ static int show_tech_tree_callback(struct widget *pWidget)
     pStore->show_tree = !pStore->show_tree;
     if (!pStore->show_tree) {
       pStore->show_full_tree = FALSE;
-      pStore->pDock->theme2 = pTheme->UP_Icon;
+      pStore->pDock->theme2 = current_theme->UP_Icon;
     }
     popup_tech_info(MAX_ID - pStore->pDock->prev->ID);
   }
@@ -1104,7 +1104,8 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   start_x = (pWindow->area.x + adj_size(1) + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
 
   /* tech tree icon */
-  pWidget = create_icon2(pTheme->Tech_Tree_Icon, pWindow->dst, WF_RESTORE_BACKGROUND);
+  pWidget = create_icon2(current_theme->Tech_Tree_Icon, pWindow->dst,
+                         WF_RESTORE_BACKGROUND);
 
   set_wstate(pWidget, FC_WS_NORMAL);
   pWidget->action = show_tech_tree_callback;
@@ -1125,19 +1126,19 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   /* target techs */
   targets_count = 0;
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate(A_FIRST, aidx) {
     if ((targets_count < 6)
-        && (advance_required(i, AR_ONE) == tech
-            || advance_required(i, AR_TWO) == tech)) {
+        && (advance_required(aidx, AR_ONE) == tech
+            || advance_required(aidx, AR_TWO) == tech)) {
       pWidget= create_iconlabel_from_chars(NULL, pWindow->dst,
-              advance_name_translation(advance_by_number(i)),
+              advance_name_translation(advance_by_number(aidx)),
               adj_font(12),
               WF_RESTORE_BACKGROUND);
-      pWidget->string16->fgcol = *get_tech_color(i);
+      pWidget->string16->fgcol = *get_tech_color(aidx);
       max_width = MAX(max_width, pWidget->size.w);
       set_wstate(pWidget, FC_WS_NORMAL);
       pWidget->action = change_tech_callback;
-      pWidget->ID = MAX_ID - i;
+      pWidget->ID = MAX_ID - aidx;
       DownAdd(pWidget, pDock);
       pDock = pWidget;
       pStore->pTargets[targets_count++] = pWidget;
@@ -1609,9 +1610,9 @@ static int toggle_full_tree_mode_in_help_dlg_callback(struct widget *pWidget)
     struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
 
     if (pStore->show_full_tree) {
-      pWidget->theme2 = pTheme->UP_Icon;
+      pWidget->theme2 = current_theme->UP_Icon;
     } else {
-      pWidget->theme2 = pTheme->DOWN_Icon;
+      pWidget->theme2 = current_theme->DOWN_Icon;
     }
     pStore->show_full_tree = !pStore->show_full_tree;
     popup_tech_info(MAX_ID - pStore->pDock->prev->ID);
@@ -1703,18 +1704,18 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   }
 
   targets_count = 0;
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate(A_FIRST, aidx) {
     if ((targets_count < 6)
-        && (advance_required(i, AR_ONE) == tech
-            || advance_required(i, AR_TWO) == tech)) {
-      copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
-      pSurf = create_sellect_tech_icon(pStr, i, SMALL_MODE);
+        && (advance_required(aidx, AR_ONE) == tech
+            || advance_required(aidx, AR_TWO) == tech)) {
+      copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(aidx)));
+      pSurf = create_sellect_tech_icon(pStr, aidx, SMALL_MODE);
       pWidget = create_icon2(pSurf, pWindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pWidget, FC_WS_NORMAL);
       pWidget->action = change_tech_callback;
-      pWidget->ID = MAX_ID - i;
+      pWidget->ID = MAX_ID - aidx;
       DownAdd(pWidget, pDock);
       pDock = pWidget;
       pStore->pTargets[targets_count++] = pWidget;
@@ -1918,7 +1919,7 @@ void popup_tech_info(Tech_type_id tech)
     /* ------------------ */
 
     /* close button */
-    pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+    pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
     pCloseButton->info_label =
@@ -1968,7 +1969,7 @@ void popup_tech_info(Tech_type_id tech)
     }
 
     /* toggle techs list button */
-    pListToggleButton = create_themeicon_button_from_chars(pTheme->UP_Icon,
+    pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
                                                            pWindow->dst,
                                                            _("Advances"),
                                                            adj_font(10), 0);

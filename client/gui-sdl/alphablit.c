@@ -311,31 +311,31 @@ do {                                                              \
   switch (bpp) {                                                  \
   case 2:                                                         \
   {                                                               \
-    Uint16 pixel;                                                 \
-    PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a);                      \
+    Uint16 pxl;                                                   \
+    PIXEL_FROM_RGBA(pxl, fmt, r, g, b, a);                        \
     if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                        \
-      buf[0] = (pixel & 0x00ff);                                  \
-      buf[1] = (pixel & 0xff00) >> 8;                             \
+      buf[0] = (pxl & 0x00ff);                                    \
+      buf[1] = (pxl & 0xff00) >> 8;                               \
     } else {                                                      \
-      buf[0] = (pixel & 0xff00) >> 8;                             \
-      buf[1] = (pixel & 0x00ff);                                  \
+      buf[0] = (pxl & 0xff00) >> 8;                               \
+      buf[1] = (pxl & 0x00ff);                                    \
     }                                                             \
   }                                                               \
   break;                                                          \
   case 4:                                                         \
   {                                                               \
-    Uint32 pixel;                                                 \
-    PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a);                      \
+    Uint32 pxl;                                                   \
+    PIXEL_FROM_RGBA(pxl, fmt, r, g, b, a);                        \
     if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                        \
-      buf[0] = (pixel & 0x000000ff);                              \
-      buf[1] = (pixel & 0x0000ff00) >> 8;                         \
-      buf[2] = (pixel & 0x00ff0000) >> 16;                        \
-      buf[3] = (pixel & 0xff000000) >> 24;                        \
+      buf[0] = (pxl & 0x000000ff);                                \
+      buf[1] = (pxl & 0x0000ff00) >> 8;                           \
+      buf[2] = (pxl & 0x00ff0000) >> 16;                          \
+      buf[3] = (pxl & 0xff000000) >> 24;                          \
     } else {                                                      \
-      buf[3] = (pixel & 0x000000ff);                              \
-      buf[2] = (pixel & 0x0000ff00) >> 8;                         \
-      buf[1] = (pixel & 0x00ff0000) >> 16;                        \
-      buf[0] = (pixel & 0xff000000) >> 24;                        \
+      buf[3] = (pxl & 0x000000ff);                                \
+      buf[2] = (pxl & 0x0000ff00) >> 8;                           \
+      buf[1] = (pxl & 0x00ff0000) >> 16;                          \
+      buf[0] = (pxl & 0xff000000) >> 24;                          \
     }                                                             \
   }                                                               \
   break;                                                          \
