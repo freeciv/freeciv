@@ -1290,9 +1290,43 @@ static void end_turn(void)
                                &game.info.coolinglevel, nuclear_winter);
   }
 
+  /* Handle disappearing extras before appearing extras ->
+   * Extra never appears only to disappear at the same turn,
+   * but it can disappear and reappear. */
+  extra_type_by_rmcause_iterate(ERM_DISAPPEARANCE, pextra) {
+    whole_map_iterate(ptile) {
+      if (tile_has_extra(ptile, pextra)
+          && fc_rand(1000) < pextra->disappearance_chance
+          && can_extra_disappear(pextra, ptile)) {
+        tile_remove_extra(ptile, pextra);
+
+        update_tile_knowledge(ptile);
+
+        if (tile_owner(ptile) != NULL) {
+          /* TODO: Should notify players nearby even when borders disabled,
+           *       like in case of barbarian uprising */
+          notify_player(tile_owner(ptile), ptile,
+                        E_SPONTANEOUS_EXTRA, ftc_server,
+                        /* TRANS: Small Fish disappears from (32, 72). */
+                        _("%s disappears from %s."),
+                        extra_name_translation(pextra),
+                        tile_link(ptile));
+        }
+
+        /* Unit activities at the target tile and its neighbors may now
+         * be illegal because of present reqs. */
+        unit_activities_cancel_all_illegal(ptile);
+        adjc_iterate(ptile, n_tile) {
+          unit_activities_cancel_all_illegal(n_tile);
+        } adjc_iterate_end;
+      }
+    } whole_map_iterate_end;
+  } extra_type_by_rmcause_iterate_end;
+
   extra_type_by_cause_iterate(EC_APPEARANCE, pextra) {
     whole_map_iterate(ptile) {
-      if (fc_rand(1000) < pextra->appearance_chance
+      if (!tile_has_extra(ptile, pextra)
+          && fc_rand(1000) < pextra->appearance_chance
           && can_extra_appear(pextra, ptile)) {
 
         tile_add_extra(ptile, pextra);
@@ -1303,7 +1337,7 @@ static void end_turn(void)
           /* TODO: Should notify players nearby even when borders disabled,
            *       like in case of barbarian uprising */
           notify_player(tile_owner(ptile), ptile,
-                        E_EXTRA_APPEARS, ftc_server,
+                        E_SPONTANEOUS_EXTRA, ftc_server,
                         /* TRANS: Small Fish appears to (32, 72). */
                         _("%s appears to %s."),
                         extra_name_translation(pextra),

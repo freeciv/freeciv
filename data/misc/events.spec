@@ -106,5 +106,5 @@ tiles = { "row", "column", "tag"
   4,  9, "e_revolt_start"
   4, 10, "e_spaceship"
 
-  1, 2,  "e_extra_appears"
+  1, 2,  "e_spontaneous_extra"
 }

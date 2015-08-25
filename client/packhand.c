@@ -3496,6 +3496,11 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   }
   fc_assert(pextra->appearance_reqs.size == p->appearance_reqs_count);
 
+  for (i = 0; i < p->disappearance_reqs_count; i++) {
+    requirement_vector_append(&pextra->disappearance_reqs, p->disappearance_reqs[i]);
+  }
+  fc_assert(pextra->disappearance_reqs.size == p->disappearance_reqs_count);
+
   pextra->buildable = p->buildable;
   pextra->build_time = p->build_time;
   pextra->build_time_factor = p->build_time_factor;

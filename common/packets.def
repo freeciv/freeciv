@@ -1580,6 +1580,8 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   REQUIREMENT rmreqs[MAX_NUM_REQS:rmreqs_count];
   UINT8 appearance_reqs_count;
   REQUIREMENT appearance_reqs[MAX_NUM_REQS:appearance_reqs_count];
+  UINT8 disappearance_reqs_count;
+  REQUIREMENT disappearance_reqs[MAX_NUM_REQS:disappearance_reqs_count];
   BOOL buildable;
   UINT8 build_time;
   UINT8 build_time_factor;

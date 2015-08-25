@@ -1869,6 +1869,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     save_reqs_vector(sfile, &(pextra->reqs), path, "reqs");
     save_reqs_vector(sfile, &(pextra->rmreqs), path, "rmreqs");
     save_reqs_vector(sfile, &(pextra->appearance_reqs), path, "appearance_reqs");
+    save_reqs_vector(sfile, &(pextra->disappearance_reqs), path, "disappearance_reqs");
 
     if (!pextra->buildable) {
       secfile_insert_bool(sfile, pextra->buildable, "%s.buildable", path);
@@ -1887,6 +1888,11 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     if (is_extra_caused_by(pextra, EC_APPEARANCE)
         && pextra->appearance_chance != RS_DEFAULT_EXTRA_APPEARANCE) {
       secfile_insert_int(sfile, pextra->appearance_chance, "%s.appearance_chance", path);
+    }
+    if (is_extra_removed_by(pextra, ERM_DISAPPEARANCE)
+        && pextra->disappearance_chance != RS_DEFAULT_EXTRA_DISAPPEARANCE) {
+      secfile_insert_int(sfile, pextra->disappearance_chance, "%s.disappearance_chance",
+                         path);
     }
 
     set_count = 0;

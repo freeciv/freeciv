@@ -622,6 +622,8 @@ enum diplomacy_mode {
 #define SPECENUM_VALUE1NAME "CleanPollution"
 #define SPECENUM_VALUE2 ERM_CLEANFALLOUT
 #define SPECENUM_VALUE2NAME "CleanFallout"
+#define SPECENUM_VALUE3 ERM_DISAPPEARANCE
+#define SPECENUM_VALUE3NAME "Disappear"
 #define SPECENUM_COUNT ERM_COUNT
 #include "specenum_gen.h"
 #define ERM_NONE ERM_COUNT

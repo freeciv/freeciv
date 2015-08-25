@@ -78,6 +78,7 @@ char *get_script_buffer(void);
 #define RS_DEFAULT_CULTURE_MIGRATION_PCT 50
 
 #define RS_DEFAULT_EXTRA_APPEARANCE      15
+#define RS_DEFAULT_EXTRA_DISAPPEARANCE   15
 
 #ifdef __cplusplus
 }

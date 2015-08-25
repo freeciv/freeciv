@@ -2889,6 +2889,13 @@ static bool load_ruleset_terrain(struct section_file *file,
       }
       requirement_vector_copy(&pextra->appearance_reqs, reqs);
 
+      reqs = lookup_req_list(file, section, "disappearance_reqs", extra_rule_name(pextra));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&pextra->disappearance_reqs, reqs);
+
       pextra->buildable = secfile_lookup_bool_default(file, TRUE,
                                                       "%s.buildable", section);
 
@@ -2913,6 +2920,10 @@ static bool load_ruleset_terrain(struct section_file *file,
       pextra->appearance_chance = secfile_lookup_int_default(file, RS_DEFAULT_EXTRA_APPEARANCE,
                                                              "%s.appearance_chance",
                                                              section);
+      pextra->disappearance_chance = secfile_lookup_int_default(file,
+                                                                RS_DEFAULT_EXTRA_DISAPPEARANCE,
+                                                                "%s.disappearance_chance",
+                                                                section);
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
       BV_CLR_ALL(pextra->native_to);
@@ -6327,6 +6338,12 @@ static void send_ruleset_extras(struct conn_list *dest)
       packet.appearance_reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.appearance_reqs_count = j;
+
+    j = 0;
+    requirement_vector_iterate(&e->disappearance_reqs, preq) {
+      packet.disappearance_reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.disappearance_reqs_count = j;
 
     packet.buildable = e->buildable;
     packet.build_time = e->build_time;

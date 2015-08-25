@@ -75,6 +75,7 @@ struct extra_type
   struct requirement_vector reqs;
   struct requirement_vector rmreqs;
   struct requirement_vector appearance_reqs;
+  struct requirement_vector disappearance_reqs;
 
   /* 'buildable' is unclean. Clean solution would be to rely solely on extra_cause:
    * if the extra cannot be built, it's not in the cause's list.
@@ -89,6 +90,7 @@ struct extra_type
 
   int defense_bonus;
   int appearance_chance;
+  int disappearance_chance;
 
   bv_unit_classes native_to;
 
@@ -201,6 +203,7 @@ bool can_extras_coexist(const struct extra_type *pextra1,
                         const struct extra_type *pextra2);
 
 bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile);
+bool can_extra_disappear(const struct extra_type *pextra, const struct tile *ptile);
 
 struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_cause cause,
                                        const struct player *pplayer,
