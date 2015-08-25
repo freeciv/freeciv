@@ -1390,6 +1390,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      nation_group_name_translation(preq->source.value.nationgroup));
       } else {
         cat_snprintf(buf, bufsz,
+                     /* TRANS: nation group: "Prevented by Medieval nation ..." */
                      _("Prevented by %s nation on your team.\n"),
                      nation_group_name_translation(preq->source.value.nationgroup));
       }
@@ -1402,6 +1403,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      nation_group_name_translation(preq->source.value.nationgroup));
       } else {
         cat_snprintf(buf, bufsz,
+                     /* TRANS: nation group: "Prevented by Modern nation ..." */
                      _("Prevented if %s nation is in alliance with you.\n"),
                      nation_group_name_translation(preq->source.value.nationgroup));
       }
@@ -1414,6 +1416,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      nation_group_name_translation(preq->source.value.nationgroup));
       } else {
         cat_snprintf(buf, bufsz,
+                     /* TRANS: nation group: "Prevented by Asian nation ..." */
                      _("Prevented by %s nation in the game.\n"),
                      nation_group_name_translation(preq->source.value.nationgroup));
       }
