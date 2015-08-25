@@ -287,10 +287,10 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
     /* if BOLD == true then longest wight */
     if (!(pstr->style & TTF_STYLE_BOLD)) {
       pstr->style |= TTF_STYLE_BOLD;
-      buf = utf8_str_size(pstr);
+      utf8_str_size(pstr, &buf);
       pstr->style &= ~TTF_STYLE_BOLD;
     } else {
-      buf = utf8_str_size(pstr);
+      utf8_str_size(pstr, &buf);
     }
 
     w = MAX(w, buf.w);

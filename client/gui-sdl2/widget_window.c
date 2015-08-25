@@ -201,7 +201,9 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
   }
 
   if (title != NULL) {
-    SDL_Rect size = utf8_str_size(title);
+    SDL_Rect size;
+
+    utf8_str_size(title, &size);
 
     w += size.w + adj_size(10);
     h += MAX(size.h, WINDOW_TITLE_HEIGHT + 1);

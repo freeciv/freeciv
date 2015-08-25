@@ -240,6 +240,7 @@ void meswin_dialog_popup(bool raise)
   struct widget *pWindow = NULL;
   SDL_Surface *pBackground;
   SDL_Rect area;
+  SDL_Rect size;
 
   if (pMsg_Dlg) {
     return;
@@ -269,7 +270,8 @@ void meswin_dialog_popup(bool raise)
 
   /* define content area */
   area.w = (adj_size(520) - (pWindow->size.w - pWindow->area.w));
-  area.h = (N_MSG_VIEW + 1) * utf8_str_height(pstr);
+  utf8_str_size(pstr, &size);
+  area.h = (N_MSG_VIEW + 1) * size.h;
 
   FREEUTF8STR(pstr);
 
