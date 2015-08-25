@@ -186,18 +186,24 @@ void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
 ****************************************************************************/
 void get_text_size(int *width, int *height,
                    enum client_font font, const char *text)
-{
-  SDL_String16 *pText = create_string16(NULL, 0, *fonts[font]);
-  copy_chars_to_string16(pText, text);
+{  
+  utf8_str *ptext = create_utf8_str(NULL, 0, *fonts[font]);
+  SDL_Rect size;
+
+  fc_assert(width != NULL ||  height != NULL);
+
+  copy_chars_to_utf8_str(ptext, text);
+  utf8_str_size(ptext, &size);
 
   if (width) {
-    *width = str16size(pText).w;
-  }
-  if (height) {
-    *height = str16size(pText).h;
+    *width = size.w;
   }
 
-  FREESTRING16(pText);
+  if (height) {
+    *height = size.h;
+  }
+
+  FREEUTF8STR(ptext);
 }
 
 /****************************************************************************
@@ -209,17 +215,18 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
                      enum client_font font, struct color *pcolor,
                      const char *text)
 {
-  SDL_Surface *pTmp;
-  SDL_String16 *pText = create_string16(NULL, 0, *fonts[font]);
-  copy_chars_to_string16(pText, text);
+  SDL_Surface *ptmp;
+  utf8_str *ptext = create_utf8_str(NULL, 0, *fonts[font]);
 
-  pText->fgcol = *pcolor->color;
-  pText->bgcol = (SDL_Color) {0, 0, 0, 0};
+  copy_chars_to_utf8_str(ptext, text);
 
-  pTmp = create_text_surf_from_str16(pText);
+  ptext->fgcol = *pcolor->color;
+  ptext->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-  blit_entire_src(pTmp, pcanvas->surf, canvas_x, canvas_y);
+  ptmp = create_text_surf_from_utf8(ptext);
 
-  FREESTRING16(pText);
-  FREESURFACE(pTmp);
+  blit_entire_src(ptmp, pcanvas->surf, canvas_x, canvas_y);
+
+  FREEUTF8STR(ptext);
+  FREESURFACE(ptmp);
 }

@@ -160,10 +160,8 @@ SDL_Rect str16size(SDL_String16 *pString16)
 /**************************************************************************
   Calculate display size of string.
 **************************************************************************/
-SDL_Rect utf8_str_size(utf8_str *pstr)
+void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
 {
-  SDL_Rect ret = {0, 0, 0, 0};
-
   if (pstr != NULL && pstr->text != NULL && pstr->text != '\0') {
     char *current = pstr->text;
     char c = *current;
@@ -213,13 +211,11 @@ SDL_Rect utf8_str_size(utf8_str *pstr)
       TTF_SetFontStyle(pstr->font, TTF_STYLE_NORMAL);
     }
 
-    ret.w = w;
-    ret.h = h;
+    fill->w = w;
+    fill->h = h;
   } else {
-    ret.h = (pstr ? TTF_FontHeight(pstr->font) : 0);
+    fill->h = (pstr ? TTF_FontHeight(pstr->font) : 0);
   }
-
-  return ret;
 }
 
 /**************************************************************************
@@ -845,14 +841,14 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
 **************************************************************************/
 bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
 {
-  int w;
+  SDL_Rect size;
   bool converted = FALSE;
 
   fc_assert_ret_val(pstr != NULL, FALSE);
   fc_assert_ret_val(pstr->text != NULL, FALSE);
 
-  w = utf8_str_size(pstr).w;
-  if (w > width) {
+  utf8_str_size(pstr, &size);
+  if (size.w > width) {
     /* cut string length to w length by replacing space " " with new line "\n" */
     bool resize = FALSE;
     int len = 0;
@@ -897,7 +893,7 @@ bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
           while (ptr_rev != pstr->text) {
             if (*ptr_rev == ' ') {
               *ptr_rev = '\n';
-              w = utf8_str_size(pstr).w;
+              utf8_str_size(pstr, &size);
               len = 0;
               break;
             }
@@ -916,14 +912,14 @@ bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
       } else {
         if (pstr->ptsize > 8) {
           change_ptsize_utf8(pstr, pstr->ptsize - 1);
-          w = utf8_str_size(pstr).w;
+          utf8_str_size(pstr, &size);
         } else {
           log_error("Can't convert string to const width");
           break;
         }
       }
 
-    } while (w > width);
+    } while (size.w > width);
   }
 
   return converted;

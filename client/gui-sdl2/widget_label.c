@@ -134,7 +134,7 @@ void remake_label_size(struct widget *pLabel)
       text->style |= TTF_STYLE_BOLD;
     }
 
-    buf = utf8_str_size(text);
+    utf8_str_size(text, &buf);
 
     if (without_box && !bold) {
       text->style &= ~TTF_STYLE_BOLD;

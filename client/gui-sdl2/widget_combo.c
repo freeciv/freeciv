@@ -252,7 +252,7 @@ struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
 
   if (NULL != pstr) {
     combo->string_utf8->style |= SF_CENTER;
-    buf = utf8_str_size(pstr);
+    utf8_str_size(pstr, &buf);
     buf.h += adj_size(4);
   }
 

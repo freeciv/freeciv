@@ -87,7 +87,7 @@ int write_utf8(SDL_Surface *dest, Sint16 x, Sint16 y,
                utf8_str *pstr);
 SDL_Surface *create_text_surf_from_utf8(utf8_str *pstr);
 SDL_Surface *create_text_surf_smaller_than_w(utf8_str *pstr, int w);
-SDL_Rect utf8_str_size(utf8_str *pstr);
+void utf8_str_size(utf8_str *pstr, SDL_Rect *fill);
 void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize);
 
 void unload_font(Uint16 ptsize);
@@ -102,8 +102,6 @@ void free_font_system(void);
 
 #define str16len(pString16) str16size(pString16).w
 #define str16height(pString16) str16size(pString16).h
-
-#define utf8_str_height(pstr) utf8_str_size(pstr).h
 
 /*
  *	here we use ordinary free( ... ) because check is made 

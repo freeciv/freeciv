@@ -365,7 +365,7 @@ struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
 
   if (pstr != NULL) {
     pEdit->string_utf8->style |= SF_CENTER;
-    buf = utf8_str_size(pstr);
+    utf8_str_size(pstr, &buf);
     buf.h += adj_size(4);
   }
 
