@@ -170,7 +170,7 @@ tired_attack = TRUE
 ; If force_trade_route is set to TRUE it is illegal for an actor unit to
 ; enter the marketplace of a city if it can establish a trade route to it
 ; in stead.
-force_trade_route = FALSE
+force_trade_route = TRUE
 
 ; What each action should be called when showing them to the player.
 ; The first %s should be before the mnemonic of the action.
