@@ -171,17 +171,17 @@ tired_attack = TRUE
 ; If force_trade_route is set to TRUE it is illegal for an actor unit to
 ; enter the marketplace of a city if it can establish a trade route to it
 ; in stead.
-force_trade_route = FALSE
+force_trade_route = TRUE
 
 ; If force_capture_units is set to TRUE it is illegal for an actor unit to
 ; bombard, explode nuclear or perform a regular attack against a tile if
 ; it can capture units on it in stead.
-force_capture_units = FALSE
+force_capture_units = TRUE
 
 ; If force_bombard is set to TRUE it is illegal for an actor unit to
 ; explode nuclear or perform a regular attack against a tile if it can
 ; bombard it in stead.
-force_bombard = FALSE
+force_bombard = TRUE
 
 ; If force_explode_nuclear is set to TRUE it is illegal for an actor unit
 ; to perform a regular attack against a tile if it can do explode nuclear
