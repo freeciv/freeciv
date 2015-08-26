@@ -1290,7 +1290,7 @@ static void help_update_extra(const struct help_item *pitem, char *title)
       }
       gtk_label_set_text(GTK_LABEL(help_elabel[5]), bonus);
     } else {
-      gtk_label_set_text(GTK_LABEL(help_elabel[5]), _("None"));
+      gtk_label_set_text(GTK_LABEL(help_elabel[5]), Q_("?bonus:None"));
     }
 
     helptext_extra(buf, sizeof(buf), client.conn.playing, pitem->text, pextra);
