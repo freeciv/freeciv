@@ -497,10 +497,15 @@ void redraw_unit_info_label(struct unit_list *punitlist)
   SDL_Surface *pBuf_Surf, *pTmpSurf;
   SDL_String16 *pStr;
   struct canvas *destcanvas;
-  struct unit *pUnit = unit_list_get(punitlist, 0);
+  struct unit *pUnit;
+
+  if (punitlist != NULL && unit_list_size(punitlist) > 0) {
+    pUnit = unit_list_get(punitlist, 0);
+  } else {
+    pUnit = NULL;
+  }
 
   if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
-    
     pInfo_Window = get_unit_info_window_widget();
 
     /* blit theme surface */
@@ -968,7 +973,7 @@ void real_focus_units_changed(void)
   the square under the current unit, for specified unit.  Note that in
   practice punit is always the focus unit.
 
-  Clears label if punit is NULL.
+  Clears label if punitlist is NULL or empty.
 
   Typically also updates the cursor for the map_canvas (this is related
   because the info label may includes  "select destination" prompt etc).
