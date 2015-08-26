@@ -89,9 +89,6 @@
 #endif /* DEFAULT_SCENARIO_PATH */
 
 /* environment */
-#ifndef FREECIV_PATH
-#define FREECIV_PATH "FREECIV_PATH"
-#endif
 #ifndef FREECIV_DATA_PATH
 #define FREECIV_DATA_PATH "FREECIV_DATA_PATH"
 #endif
@@ -964,7 +961,6 @@ void free_data_dir_names(void)
   be searched.  These paths are specified internally or may be set as the
   environment variable $FREECIV_DATA PATH (a separated list of directories,
   where the separator itself is specified internally, platform-dependent).
-  FREECIV_PATH may also be consulted for backward compatibility.
   '~' at the start of a component (provided followed by '/' or '\0') is
   expanded as $HOME.
 
@@ -981,15 +977,9 @@ const struct strvec *get_data_dirs(void)
 
     if ((path = getenv(FREECIV_DATA_PATH)) && '\0' == path[0]) {
       /* TRANS: <FREECIV_DATA_PATH> configuration error */
-      log_error(_("\"%s\" is set but empty; trying \"%s\" instead."),
-                FREECIV_DATA_PATH, FREECIV_PATH);
-      path = NULL;
-    }
-    if (NULL == path && (path = getenv(FREECIV_PATH)) && '\0' == path[0]) {
-      /* TRANS: <FREECIV_PATH> configuration error */
       log_error(_("\"%s\" is set but empty; using default \"%s\" "
                  "data directories instead."),
-                FREECIV_PATH, DEFAULT_DATA_PATH);
+                FREECIV_DATA_PATH, DEFAULT_DATA_PATH);
       path = NULL;
     }
     data_dir_names = base_get_dirs(NULL != path ? path : DEFAULT_DATA_PATH);
@@ -1007,7 +997,6 @@ const struct strvec *get_data_dirs(void)
   be searched.  These paths are specified internally or may be set as the
   environment variable $FREECIV_SAVE_PATH (a separated list of directories,
   where the separator itself is specified internally, platform-dependent).
-  FREECIV_PATH may also be consulted for backward compatibility.
   '~' at the start of a component (provided followed by '/' or '\0') is
   expanded as $HOME.
 
@@ -1021,37 +1010,15 @@ const struct strvec *get_save_dirs(void)
    * know the list and can just return it. */
   if (NULL == save_dir_names) {
     const char *path;
-    bool from_freeciv_path = FALSE;
 
     if ((path = getenv(FREECIV_SAVE_PATH)) && '\0' == path[0]) {
       /* TRANS: <FREECIV_SAVE_PATH> configuration error */
-      log_error(_("\"%s\" is set but empty; trying \"%s\" instead."),
-                FREECIV_SAVE_PATH, FREECIV_PATH);
+      log_error(_("\"%s\" is set but empty; using default \"%s\" "
+                  "save directories instead."),
+                FREECIV_SAVE_PATH, DEFAULT_SAVE_PATH);
       path = NULL;
     }
-    if (NULL == path && (path = getenv(FREECIV_PATH))) {
-      if ('\0' == path[0]) {
-        /* TRANS: <FREECIV_PATH> configuration error */
-        log_error(_("\"%s\" is set but empty; using default \"%s\" "
-                    "save directories instead."),
-                  FREECIV_PATH, DEFAULT_SAVE_PATH);
-        path = NULL;
-      } else {
-        from_freeciv_path = TRUE;
-      }
-    }
     save_dir_names = base_get_dirs(NULL != path ? path : DEFAULT_SAVE_PATH);
-    if (from_freeciv_path) {
-      /* Then also append a "/saves" suffix to every directory. */
-      char buf[512];
-      size_t i;
-
-      for (i = 0; i < strvec_size(save_dir_names); i++) {
-        path = strvec_get(save_dir_names, i);
-        fc_snprintf(buf, sizeof(buf), "%s/saves", path);
-        strvec_insert(save_dir_names, ++i, buf);
-      }
-    }
     strvec_remove_duplicate(save_dir_names, strcmp); /* Don't set a path both. */
     strvec_iterate(save_dir_names, dirname) {
       log_verbose("Save path component: %s", dirname);
@@ -1066,8 +1033,8 @@ const struct strvec *get_save_dirs(void)
   should be searched.  These paths are specified internally or may be set
   as the environment variable $FREECIV_SCENARIO_PATH (a separated list of
   directories, where the separator itself is specified internally,
-  platform-dependent).  FREECIV_PATH may also be consulted for backward
-  compatibility.  '~' at the start of a component (provided followed
+  platform-dependent).
+  '~' at the start of a component (provided followed
   by '/' or '\0') is expanded as $HOME.
 
   The returned pointer is static and shouldn't be modified, nor destroyed
@@ -1080,43 +1047,15 @@ const struct strvec *get_scenario_dirs(void)
    * know the list and can just return it. */
   if (NULL == scenario_dir_names) {
     const char *path;
-    bool from_freeciv_path = FALSE;
 
     if ((path = getenv(FREECIV_SCENARIO_PATH)) && '\0' == path[0]) {
       /* TRANS: <FREECIV_SCENARIO_PATH> configuration error */
-      log_error(_("\"%s\" is set but empty; trying \"%s\" instead."),
-                FREECIV_SCENARIO_PATH, FREECIV_PATH);
+      log_error( _("\"%s\" is set but empty; using default \"%s\" "
+                   "scenario directories instead."),
+                 FREECIV_SCENARIO_PATH, DEFAULT_SCENARIO_PATH);
       path = NULL;
     }
-    if (NULL == path && (path = getenv(FREECIV_PATH))) {
-      if ('\0' == path[0]) {
-        /* TRANS: <FREECIV_PATH> configuration error */
-        log_error( _("\"%s\" is set but empty; using default \"%s\" "
-                     "scenario directories instead."),
-                  FREECIV_PATH, DEFAULT_SCENARIO_PATH);
-        path = NULL;
-      } else {
-        from_freeciv_path = TRUE;
-      }
-    }
     scenario_dir_names = base_get_dirs(NULL != path ? path : DEFAULT_SCENARIO_PATH);
-    if (from_freeciv_path) {
-      /* Then also append subdirs every directory. */
-      const char *subdirs[] = {
-        "scenarios", "scenario", NULL
-      };
-      char buf[512];
-      const char **subdir;
-      size_t i;
-
-      for (i = 0; i < strvec_size(scenario_dir_names); i++) {
-        path = strvec_get(scenario_dir_names, i);
-        for (subdir = subdirs; NULL != *subdir; subdir++) {
-          fc_snprintf(buf, sizeof(buf), "%s/%s", path, *subdir);
-          strvec_insert(scenario_dir_names, ++i, buf);
-        }
-      }
-    }
     strvec_remove_duplicate(scenario_dir_names, strcmp);      /* Don't set a path both. */
     strvec_iterate(scenario_dir_names, dirname) {
       log_verbose("Scenario path component: %s", dirname);
