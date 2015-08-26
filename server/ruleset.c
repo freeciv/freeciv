@@ -406,7 +406,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
                     "\"%s\": invalid boolean value for present for "
                     "'%s.%s%d'.", filename, sec, sub, j);
     }
-    quiet = TRUE;
+    quiet = FALSE;
     if ((pentry = secfile_entry_lookup(file, "%s.%s%d.quiet",
                                         sec, sub, j))
         && !entry_bool_get(pentry, &quiet)) {
