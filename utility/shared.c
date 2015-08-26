@@ -119,6 +119,8 @@ static struct strvec *scenario_dir_names = NULL;
 static char *mc_group = NULL;
 static char *home_dir = NULL;
 
+static bool depr_freeciv_path_warned = FALSE;
+
 static struct astring realfile = ASTRING_INIT;
 
 static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
@@ -995,12 +997,18 @@ const struct strvec *get_data_dirs(void)
                 FREECIV_DATA_PATH, FREECIV_PATH);
       path = NULL;
     }
-    if (NULL == path && (path = getenv(FREECIV_PATH)) && '\0' == path[0]) {
-      /* TRANS: <FREECIV_PATH> configuration error */
-      log_error(_("\"%s\" is set but empty; using default \"%s\" "
-                 "data directories instead."),
-                FREECIV_PATH, DEFAULT_DATA_PATH);
-      path = NULL;
+    if (NULL == path && (path = getenv(FREECIV_PATH))) {
+      if (!depr_freeciv_path_warned) {
+        log_error(_("FREECIV_PATH is deprecated, and won't work in future versions."));
+        depr_freeciv_path_warned = TRUE;
+      }
+      if ('\0' == path[0]) {
+        /* TRANS: <FREECIV_PATH> configuration error */
+        log_error(_("\"%s\" is set but empty; using default \"%s\" "
+                    "data directories instead."),
+                  FREECIV_PATH, DEFAULT_DATA_PATH);
+        path = NULL;
+      }
     }
     data_dir_names = base_get_dirs(NULL != path ? path : DEFAULT_DATA_PATH);
     strvec_remove_duplicate(data_dir_names, strcmp); /* Don't set a path both. */
@@ -1040,6 +1048,10 @@ const struct strvec *get_save_dirs(void)
       path = NULL;
     }
     if (NULL == path && (path = getenv(FREECIV_PATH))) {
+      if (!depr_freeciv_path_warned) {
+        log_error(_("FREECIV_PATH is deprecated, and won't work in future versions."));
+        depr_freeciv_path_warned = TRUE;
+      }
       if ('\0' == path[0]) {
         /* TRANS: <FREECIV_PATH> configuration error */
         log_error(_("\"%s\" is set but empty; using default \"%s\" "
@@ -1099,6 +1111,10 @@ const struct strvec *get_scenario_dirs(void)
       path = NULL;
     }
     if (NULL == path && (path = getenv(FREECIV_PATH))) {
+      if (!depr_freeciv_path_warned) {
+        log_error(_("FREECIV_PATH is deprecated, and won't work in future versions."));
+        depr_freeciv_path_warned = TRUE;
+      }
       if ('\0' == path[0]) {
         /* TRANS: <FREECIV_PATH> configuration error */
         log_error( _("\"%s\" is set but empty; using default \"%s\" "
