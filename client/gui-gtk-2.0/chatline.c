@@ -158,11 +158,11 @@ static void inputline_return(GtkEntry *w, gpointer data)
     }
 
     if (genlist_size(history_list) >= MAX_CHATLINE_HISTORY) {
-      void *data;
+      void *history_data;
 
-      data = genlist_get(history_list, -1);
-      genlist_remove(history_list, data);
-      free(data);
+      history_data = genlist_get(history_list, -1);
+      genlist_remove(history_list, history_data);
+      free(history_data);
     }
 
     genlist_prepend(history_list, fc_strdup(theinput));

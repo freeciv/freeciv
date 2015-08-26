@@ -37,13 +37,13 @@
 
 /*************************************************************************/
 static struct gui_dialog *shell;
-static GtkListStore *model[NUM_LISTS];
+static GtkListStore *models[NUM_LISTS];
 
 static void create_messageopt_dialog(void);
 static void messageopt_response(struct gui_dialog *dlg, int response,
                                 gpointer data);
 static void item_toggled(GtkCellRendererToggle *cell,
-			 gchar *spath, gpointer data);
+                         gchar *spath, gpointer data);
 
 /**************************************************************************
   Open messageoptions dialog
@@ -85,9 +85,9 @@ static void create_messageopt_dialog(void)
   form = gtk_vbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(shell->vbox), form, TRUE, TRUE, 0);
 
-  for (n=0; n<NUM_LISTS; n++) {
-    model[n] = gtk_list_store_new(5,
-     G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_INT);
+  for (n = 0; n < NUM_LISTS; n++) {
+    models[n] = gtk_list_store_new(5, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
+                                   G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_INT);
   }
 
   sorted_event_iterate(ev) {
@@ -96,27 +96,27 @@ static void create_messageopt_dialog(void)
 
     n = (i++ % NUM_LISTS);
 
-    gtk_list_store_append(model[n], &it);
+    gtk_list_store_append(models[n], &it);
 
     g_value_init(&value, G_TYPE_STRING);
     g_value_set_static_string(&value, get_event_message_text(ev));
-    gtk_list_store_set_value(model[n], &it, 3, &value);
+    gtk_list_store_set_value(models[n], &it, 3, &value);
     g_value_unset(&value);
 
-    gtk_list_store_set(model[n], &it, 4, ev, -1);
+    gtk_list_store_set(models[n], &it, 4, ev, -1);
 
-    for (j=0; j<NUM_MW; j++) {
-      gtk_list_store_set(model[n], &it, j, messages_where[ev] & (1<<j), -1);
+    for (j = 0; j < NUM_MW; j++) {
+      gtk_list_store_set(models[n], &it, j, messages_where[ev] & (1<<j), -1);
     }
   } sorted_event_iterate_end;
 
-  for (n=0; n<NUM_LISTS; n++) {
+  for (n = 0; n < NUM_LISTS; n++) {
     GtkWidget *view, *sw;
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
 
-    view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(model[n]));
-    g_object_unref(model[n]);
+    view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(models[n]));
+    g_object_unref(models[n]);
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(_("Event"),
@@ -126,7 +126,7 @@ static void create_messageopt_dialog(void)
 
     renderer = gtk_cell_renderer_toggle_new();
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(0));
-    g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), model[n]);
+    g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), models[n]);
 
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
                                                 -1, _("Out"), renderer,
@@ -134,7 +134,7 @@ static void create_messageopt_dialog(void)
 
     renderer = gtk_cell_renderer_toggle_new();
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(1));
-    g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), model[n]);
+    g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), models[n]);
 
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
                                                 -1, _("Mes"), renderer,
@@ -142,7 +142,7 @@ static void create_messageopt_dialog(void)
 
     renderer = gtk_cell_renderer_toggle_new();
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(2));
-    g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), model[n]);
+    g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), models[n]);
 
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
                                                 -1, _("Pop"), renderer,
@@ -180,11 +180,11 @@ static void messageopt_response(struct gui_dialog *dlg, int response,
       messages_where[i] = 0;
     }
 
-    for (n=0; n<NUM_LISTS; n++) {
-      GtkTreeModel *pmodel = GTK_TREE_MODEL(model[n]);
+    for ( n= 0; n < NUM_LISTS; n++) {
+      GtkTreeModel *pmodel = GTK_TREE_MODEL(models[n]);
 
       for (itree_begin(pmodel, &it); !itree_end(&it); itree_next(&it)) {
-        for (j=0; j<NUM_MW; j++) {
+        for (j = 0; j < NUM_MW; j++) {
           itree_get(&it, j, &toggle, 4, &i, -1);
 
 	  if (toggle)
@@ -200,7 +200,7 @@ static void messageopt_response(struct gui_dialog *dlg, int response,
   User toggled item
 **************************************************************************/
 static void item_toggled(GtkCellRendererToggle *cell,
-			 gchar *spath, gpointer data)
+                         gchar *spath, gpointer data)
 {
   GtkTreeModel *model = GTK_TREE_MODEL(data);
   GtkTreePath *path;

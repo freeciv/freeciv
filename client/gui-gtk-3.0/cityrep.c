@@ -564,10 +564,10 @@ static void sell_impr_iterate(GtkTreeModel *model, GtkTreePath *path,
   Some build target, either improvement or unit, has been selected from
   some menu.
 ****************************************************************************/
-static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
+static void select_impr_or_unit_callback(GtkWidget *wdg, gpointer data)
 {
   struct universal target = cid_decode(GPOINTER_TO_INT(data));
-  GObject *parent = G_OBJECT(gtk_widget_get_parent(w));
+  GObject *parent = G_OBJECT(gtk_widget_get_parent(wdg));
   TestCityFunc test_func = g_object_get_data(parent, "freeciv_test_func");
   enum city_operation_type city_operation = 
     GPOINTER_TO_INT(g_object_get_data(parent, "freeciv_city_operation"));

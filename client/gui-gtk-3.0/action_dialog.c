@@ -82,7 +82,7 @@ struct action_data {
   Create a new action data structure that can be stored in the
   dialogs.
 *****************************************************************/
-static struct action_data *act_data(int actor_unit_id,
+static struct action_data *act_data(int actor_id,
                                     int target_city_id,
                                     int target_unit_id,
                                     int target_tile_id,
@@ -90,7 +90,7 @@ static struct action_data *act_data(int actor_unit_id,
 {
   struct action_data *data = fc_malloc(sizeof(*data));
 
-  data->actor_unit_id = actor_unit_id;
+  data->actor_unit_id = actor_id;
   data->target_city_id = target_city_id;
   data->target_unit_id = target_unit_id;
   data->target_tile_id = target_tile_id;

@@ -816,7 +816,7 @@ static void economy_report_update(struct economy_report *preport)
     struct improvement_entry *pentry = building_entries + i;
     struct impr_type *pimprove = pentry->type;
     struct sprite *sprite = get_building_sprite(tileset, pimprove);
-    cid cid = cid_encode_building(pimprove);
+    cid id = cid_encode_building(pimprove);
 
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
@@ -827,9 +827,9 @@ static void economy_report_update(struct economy_report *preport)
                        ERD_COL_COST, pentry->cost,
                        ERD_COL_TOTAL_COST, pentry->total_cost,
                        ERD_COL_IS_IMPROVEMENT, TRUE,
-                       ERD_COL_CID, cid,
+                       ERD_COL_CID, id,
                        -1);
-    if (selected == cid) {
+    if (selected == id) {
       /* Restore the selection. */
       gtk_tree_selection_select_iter(selection, &iter);
     }
@@ -842,7 +842,7 @@ static void economy_report_update(struct economy_report *preport)
     struct unit_type *putype = pentry->type;
     struct sprite *sprite = get_unittype_sprite(tileset, putype,
                                                 direction8_invalid(), TRUE);
-    cid cid = cid_encode_unit(putype);
+    cid id = cid_encode_unit(putype);
 
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
@@ -853,9 +853,9 @@ static void economy_report_update(struct economy_report *preport)
                        ERD_COL_COST, pentry->cost,
                        ERD_COL_TOTAL_COST, pentry->total_cost,
                        ERD_COL_IS_IMPROVEMENT, FALSE,
-                       ERD_COL_CID, cid,
+                       ERD_COL_CID, id,
                        -1);
-    if (selected == cid) {
+    if (selected == id) {
       /* Restore the selection. */
       gtk_tree_selection_select_iter(selection, &iter);
     }
@@ -880,7 +880,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
   GtkTreeIter iter;
   GtkWidget *shell;
   struct universal selected;
-  cid cid;
+  cid id;
   char buf[256] = "";
 
   switch (response) {
@@ -898,8 +898,8 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
     return;
   }
 
-  gtk_tree_model_get(model, &iter, ERD_COL_CID, &cid, -1);
-  selected = cid_decode(cid);
+  gtk_tree_model_get(model, &iter, ERD_COL_CID, &id, -1);
+  selected = cid_decode(id);
 
   switch (selected.kind) {
   case VUT_IMPROVEMENT:
@@ -995,10 +995,10 @@ static void economy_report_selection_callback(GtkTreeSelection *selection,
   if (can_client_issue_orders()
       && gtk_tree_selection_get_selected(selection, &model, &iter)) {
     struct universal selected;
-    cid cid;
+    cid id;
 
-    gtk_tree_model_get(model, &iter, ERD_COL_CID, &cid, -1);
-    selected = cid_decode(cid);
+    gtk_tree_model_get(model, &iter, ERD_COL_CID, &id, -1);
+    selected = cid_decode(id);
     switch (selected.kind) {
     case VUT_IMPROVEMENT:
       {

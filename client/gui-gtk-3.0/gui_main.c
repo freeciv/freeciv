@@ -197,7 +197,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev);
 
 static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
-static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
+static GtkWidget *detached_widget_fill(GtkWidget *tearbox);
 
 static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
                                             gpointer data);
@@ -791,20 +791,21 @@ static GtkWidget *detached_widget_new(void)
  creates the toggle button necessary to detach and reattach the widget
  and returns a vbox in which you fill your goodies.
 **************************************************************************/
-static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
+static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
 {
-  GtkWidget *b, *avbox;
+  GtkWidget *b, *fillbox;
 
   b = gtk_toggle_button_new();
-  gtk_container_add(GTK_CONTAINER(ahbox), b);
-  g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), ahbox);
+  gtk_container_add(GTK_CONTAINER(tearbox), b);
+  g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), tearbox);
 
-  avbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(avbox),
+  fillbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(fillbox),
                                  GTK_ORIENTATION_VERTICAL);
 
-  gtk_container_add(GTK_CONTAINER(ahbox), avbox);
-  return avbox;
+  gtk_container_add(GTK_CONTAINER(tearbox), fillbox);
+
+  return fillbox;
 }
 
 /**************************************************************************

@@ -204,7 +204,7 @@ static int last_page = OVERVIEW_PAGE;
 
 static void initialize_city_dialogs(void);
 static void city_dialog_map_create(struct city_dialog *pdialog,
-                                   struct city_map_canvas *map_canvas);
+                                   struct city_map_canvas *cmap_canvas);
 static void city_dialog_map_recenter(GtkWidget *map_canvas_sw);
 
 static struct city_dialog *get_city_dialog(struct city *pcity);
@@ -372,7 +372,7 @@ static struct city_dialog *get_city_dialog(struct city *pcity)
   Create a city map widget; used in the overview and in the happiness page.
 ****************************************************************************/
 static void city_dialog_map_create(struct city_dialog *pdialog,
-                                   struct city_map_canvas *map_canvas)
+                                   struct city_map_canvas *cmap_canvas)
 {
   GtkWidget *sw, *align, *ebox, *pixmap;
 
@@ -395,9 +395,9 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
   gtk_container_add(GTK_CONTAINER(ebox), pixmap);
 
   /* save all widgets for the city map */
-  map_canvas->sw = sw;
-  map_canvas->ebox = ebox;
-  map_canvas->pixmap = pixmap;
+  cmap_canvas->sw = sw;
+  cmap_canvas->ebox = ebox;
+  cmap_canvas->pixmap = pixmap;
 }
 
 /****************************************************************
@@ -977,9 +977,10 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
     GtkTreeIter it;
 
     if (gtk_tree_model_get_iter(model, &it, path)) {
-      cid cid;
-      gtk_tree_model_get(model, &it, 0, &cid, -1);
-      city_change_production(pdialog->pcity, cid_production(cid));
+      cid id;
+
+      gtk_tree_model_get(model, &it, 0, &id, -1);
+      city_change_production(pdialog->pcity, cid_production(id));
       gtk_drag_finish(context, TRUE, FALSE, time);
     }
     gtk_tree_path_free(path);
@@ -1489,10 +1490,10 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
-  enum citizen_category citizens[MAX_CITY_SIZE];
+  enum citizen_category categories[MAX_CITY_SIZE];
   int i, width, size;
   struct city *pcity = pdialog->pcity;
-  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
+  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
 
   /* If there is not enough space we stack the icons. We draw from left to */
   /* right. width is how far we go to the right for each drawn pixmap. The */
@@ -1518,7 +1519,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   for (i = 0; i < num_citizens; i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-                       get_citizen_sprite(tileset, citizens[i], i, pcity),
+                       get_citizen_sprite(tileset, categories[i], i, pcity),
                        i * width, 0);
   }
   gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->citizen_pixmap));
@@ -2673,12 +2674,12 @@ static void change_production_callback(GtkComboBox *combo,
                                        struct city_dialog *pdialog)
 {
   GtkTreeIter iter;
-  cid cid;
+  cid id;
 
   if (can_client_issue_orders()
       && gtk_combo_box_get_active_iter(combo, &iter)) {
-    gtk_tree_model_get(gtk_combo_box_get_model(combo), &iter, 2, &cid, -1);
-    city_change_production(pdialog->pcity, cid_production(cid));
+    gtk_tree_model_get(gtk_combo_box_get_model(combo), &iter, 2, &id, -1);
+    city_change_production(pdialog->pcity, cid_production(id));
   }
 }
 

@@ -176,7 +176,7 @@ static void usdlg_cmd_ready(GObject *object, gpointer data);
 static void usdlg_cmd_sentry(GObject *object, gpointer data);
 static void usdlg_cmd_select(GObject *object, gpointer data);
 static void usdlg_cmd_deselect(GObject *object, gpointer data);
-static void usdlg_cmd_exec(GObject *object, gpointer data,
+static void usdlg_cmd_exec(GObject *object, gpointer mode_data,
                            enum usdlg_cmd cmd);
 static void usdlg_cmd_exec_unit(struct unit *punit, enum usdlg_cmd cmd);
 static void usdlg_cmd_center(GObject *object, gpointer data);
@@ -901,10 +901,10 @@ static void usdlg_cmd_deselect(GObject *object, gpointer data)
 /*****************************************************************************
   Main function for the callbacks.
 *****************************************************************************/
-static void usdlg_cmd_exec(GObject *object, gpointer data,
+static void usdlg_cmd_exec(GObject *object, gpointer mode_data,
                            enum usdlg_cmd cmd)
 {
-  enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
+  enum unit_select_location_mode loc_mode = (enum unit_select_location_mode) mode_data;
   GtkTreeView *view;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
@@ -913,13 +913,13 @@ static void usdlg_cmd_exec(GObject *object, gpointer data,
   struct unit_select_dialog *pdialog = usdlg_get(FALSE);
 
   fc_assert_ret(pdialog != NULL);
-  fc_assert_ret(unit_select_location_mode_is_valid(loc));
+  fc_assert_ret(unit_select_location_mode_is_valid(loc_mode));
 
   if (!can_client_change_view() || !can_client_control()) {
     return;
   }
 
-  view = GTK_TREE_VIEW(pdialog->tabs[loc].view);
+  view = GTK_TREE_VIEW(pdialog->tabs[loc_mode].view);
   selection = gtk_tree_view_get_selection(view);
 
   if (!gtk_tree_selection_get_selected(selection, &model, &it)) {
