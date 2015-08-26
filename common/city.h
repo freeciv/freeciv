@@ -541,6 +541,7 @@ bool city_unhappy(const struct city *pcity);                /* anarchy??? */
 bool base_city_celebrating(const struct city *pcity);
 bool city_celebrating(const struct city *pcity);            /* love the king ??? */
 bool city_rapture_grow(const struct city *pcity);
+bool city_is_occupied(const struct city *pcity);
 
 /* city related improvement and unit functions */
 

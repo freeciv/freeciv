@@ -1583,6 +1583,20 @@ bool city_rapture_grow(const struct city *pcity)
 }
 
 /**************************************************************************
+  Returns TRUE iff the city is occupied.
+**************************************************************************/
+bool city_is_occupied(const struct city *pcity)
+{
+  if (is_server()) {
+    /* The server sees the units inside the city. */
+    return (unit_list_size(city_tile(pcity)->units) > 0);
+  } else {
+    /* The client gets the occupied property from the server. */
+    return pcity->client.occupied;
+  }
+}
+
+/**************************************************************************
   Find city with given id from list.
 **************************************************************************/
 struct city *city_list_find_number(struct city_list *This, int id)

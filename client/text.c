@@ -284,7 +284,7 @@ const char *popup_info_text(struct tile *ptile)
         astr_add(&str, _(" | Not occupied."));
       }
     } else {
-      if (pcity->client.occupied) {
+      if (city_is_occupied(pcity)) {
         astr_add(&str, _(" | Occupied."));
       } else {
         astr_add(&str, _(" | Not occupied."));
