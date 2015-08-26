@@ -357,18 +357,18 @@ void update_intel_dialog(struct player *p)
 
     mresearch = research_get(client_player());
     presearch = research_get(p);
-    advance_index_iterate(A_FIRST, i) {
-      if (research_invention_state(presearch, i) == TECH_KNOWN) {
-	GtkTreeIter it;
+    advance_index_iterate(A_FIRST, advi) {
+      if (research_invention_state(presearch, advi) == TECH_KNOWN) {
+        GtkTreeIter it;
 
-	gtk_list_store_append(pdialog->techs, &it);
+        gtk_list_store_append(pdialog->techs, &it);
 
-	gtk_list_store_set(pdialog->techs, &it,
-                           0, research_invention_state(mresearch, i)
+        gtk_list_store_set(pdialog->techs, &it,
+                           0, research_invention_state(mresearch, advi)
                            != TECH_KNOWN,
                            1, research_advance_name_translation(presearch,
-                                                                i),
-			   -1);
+                                                                advi),
+                           -1);
       }
     } advance_index_iterate_end;
 

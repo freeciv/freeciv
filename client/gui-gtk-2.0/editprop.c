@@ -3103,9 +3103,10 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_PLAYER_AGE:
     label = objprop_get_child_widget(op, "value-label");
     if (pv) {
-      char buf[16];
-      fc_snprintf(buf, sizeof(buf), "%d", pv->data.v_int);
-      gtk_label_set_text(GTK_LABEL(label), buf);
+      char agebuf[16];
+
+      fc_snprintf(agebuf, sizeof(agebuf), "%d", pv->data.v_int);
+      gtk_label_set_text(GTK_LABEL(label), agebuf);
     } else {
       gtk_label_set_text(GTK_LABEL(label), NULL);
     }
@@ -3224,10 +3225,11 @@ static void objprop_refresh_widget(struct objprop *op,
   if (label) {
     const char *name = objprop_get_name(op);
     if (modified) {
-      char buf[128];
-      fc_snprintf(buf, sizeof(buf),
+      char namebuf[128];
+
+      fc_snprintf(namebuf, sizeof(namebuf),
                   "<span foreground=\"red\">%s</span>", name);
-      gtk_label_set_markup(GTK_LABEL(label), buf);
+      gtk_label_set_markup(GTK_LABEL(label), namebuf);
     } else {
       gtk_label_set_text(GTK_LABEL(label), name);
     }
@@ -5131,7 +5133,7 @@ static bool property_page_set_store_value(struct property_page *pp,
 ****************************************************************************/
 static void property_page_fill_widgets(struct property_page *pp)
 {
-  struct objbind *ob;
+  struct objbind *focused;
 
   if (!pp || !pp->objbind_table) {
     return;
@@ -5168,9 +5170,9 @@ static void property_page_fill_widgets(struct property_page *pp)
     }
   }
 
-  ob = property_page_get_focused_objbind(pp);
+  focused = property_page_get_focused_objbind(pp);
   property_page_objprop_iterate(pp, op) {
-    objprop_refresh_widget(op, ob);
+    objprop_refresh_widget(op, focused);
   } property_page_objprop_iterate_end;
 }
 

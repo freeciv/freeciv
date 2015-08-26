@@ -263,11 +263,11 @@ static void luaconsole_input_return(GtkEntry *w, gpointer data)
     script_client_do_string(theinput);
 
     if (genlist_size(pdialog->history_list) >= MAX_LUACONSOLE_HISTORY) {
-      void *data;
+      void *history_data;
 
-      data = genlist_get(pdialog->history_list, -1);
-      genlist_remove(pdialog->history_list, data);
-      free(data);
+      history_data = genlist_get(pdialog->history_list, -1);
+      genlist_remove(pdialog->history_list, history_data);
+      free(history_data);
     }
 
     genlist_prepend(pdialog->history_list, fc_strdup(theinput));

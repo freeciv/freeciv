@@ -488,7 +488,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
                                      bool reorder_notebook)
 {
   const int category = option_category(poption);
-  GtkWidget *hbox, *label, *ebox, *w = NULL;
+  GtkWidget *main_hbox, *label, *ebox, *w = NULL;
 
   fc_assert(NULL == option_get_gui_data(poption));
 
@@ -526,11 +526,11 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
   g_signal_connect(ebox, "button_press_event",
                    G_CALLBACK(option_button_press_callback), poption);
 
-  hbox = gtk_grid_new();
+  main_hbox = gtk_grid_new();
   label = gtk_label_new(option_description(poption));
   g_object_set(label, "margin", 2, NULL);
-  gtk_container_add(GTK_CONTAINER(hbox), label);
-  gtk_container_add(GTK_CONTAINER(ebox), hbox);
+  gtk_container_add(GTK_CONTAINER(main_hbox), label);
+  gtk_container_add(GTK_CONTAINER(ebox), main_hbox);
 
   switch (option_type(poption)) {
   case OT_BOOLEAN:
@@ -656,7 +656,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     g_object_set_data(G_OBJECT(w), "main_widget", ebox);
     gtk_widget_set_hexpand(w, TRUE);
     gtk_widget_set_halign(w, GTK_ALIGN_END);
-    gtk_container_add(GTK_CONTAINER(hbox), w);
+    gtk_container_add(GTK_CONTAINER(main_hbox), w);
   }
 
   gtk_widget_show_all(ebox);

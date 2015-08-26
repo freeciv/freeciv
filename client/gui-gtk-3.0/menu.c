@@ -1827,9 +1827,9 @@ static const gchar *get_ui_filename(void)
 }
 
 /****************************************************************
-  Called when a main widget is added my the GtkUIManager.
+  Called when a main widget is added by the GtkUIManager.
 *****************************************************************/
-static void add_widget_callback(GtkUIManager *ui_manager, GtkWidget *widget,
+static void add_widget_callback(GtkUIManager *mgr, GtkWidget *widget,
                                 gpointer data)
 {
   gtk_container_add(GTK_CONTAINER(data), widget);
@@ -2093,7 +2093,6 @@ void real_menus_update(void)
 
   {
     char road_buf[500];
-    struct road_type *proad;
 
     proad = road_by_compat_special(ROCO_ROAD);
     if (proad != NULL) {
@@ -2369,13 +2368,13 @@ void real_menus_update(void)
   }
 
   if (units_all_same_tile) {
-    struct unit *punit = unit_list_get(punits, 0);
+    struct unit *first = unit_list_get(punits, 0);
 
-    pterrain = tile_terrain(unit_tile(punit));
+    pterrain = tile_terrain(unit_tile(first));
     if (pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_result != pterrain) {
       fc_snprintf(irrtext, sizeof(irrtext), _("Change to %s"),
-                  get_tile_change_menu_text(unit_tile(punit),
+                  get_tile_change_menu_text(unit_tile(first),
                                             ACTIVITY_IRRIGATE));
     } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
       struct extra_type *pextra = NULL;
@@ -2404,7 +2403,7 @@ void real_menus_update(void)
     if (pterrain->mining_result != T_NONE
         && pterrain->mining_result != pterrain) {
       fc_snprintf(mintext, sizeof(mintext), _("Change to %s"),
-                  get_tile_change_menu_text(unit_tile(punit), ACTIVITY_MINE));
+                  get_tile_change_menu_text(unit_tile(first), ACTIVITY_MINE));
     } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
       struct extra_type *pextra = NULL;
 
@@ -2432,7 +2431,7 @@ void real_menus_update(void)
     if (pterrain->transform_result != T_NONE
         && pterrain->transform_result != pterrain) {
       fc_snprintf(transtext, sizeof(transtext), _("Transf_orm to %s"),
-                  get_tile_change_menu_text(unit_tile(punit),
+                  get_tile_change_menu_text(unit_tile(first),
                                             ACTIVITY_TRANSFORM));
     } else {
       sz_strlcpy(transtext, _("Transf_orm Terrain"));

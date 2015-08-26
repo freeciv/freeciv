@@ -470,12 +470,12 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
 
   for (i = 0; i < worklist_length(pwl); i++) {
     GtkTreeIter it;
-    cid cid;
+    cid id;
 
-    cid = cid_encode(pwl->entries[i]);
+    id = cid_encode(pwl->entries[i]);
 
     gtk_list_store_append(ptr->dst, &it);
-    gtk_list_store_set(ptr->dst, &it, 0, (gint) cid, -1);
+    gtk_list_store_set(ptr->dst, &it, 0, (gint) id, -1);
   }
 
   commit_worklist(ptr);
@@ -529,11 +529,11 @@ static void help_callback(GtkWidget *w, gpointer data)
   selection = ptr->src_selection;
 
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
-    gint cid;
+    gint id;
     struct universal target;
 
-    gtk_tree_model_get(model, &it, 0, &cid, -1);
-    target = cid_decode(cid);
+    gtk_tree_model_get(model, &it, 0, &id, -1);
+    target = cid_decode(id);
 
     if (VUT_UTYPE == target.kind) {
       popup_help_dialog_typed(utype_name_translation(target.value.utype),
@@ -564,11 +564,11 @@ static void change_callback(GtkWidget *w, gpointer data)
   selection = ptr->src_selection;
 
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
-    gint cid;
+    gint id;
 
-    gtk_tree_model_get(model, &it, 0, &cid, -1);
+    gtk_tree_model_get(model, &it, 0, &id, -1);
 
-    city_change_production(ptr->pcity, cid_production(cid));
+    city_change_production(ptr->pcity, cid_production(id));
   }
 }
 
@@ -934,11 +934,11 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 			     GtkTreeModel *model, GtkTreeIter *it,
 			     gpointer data)
 {
-  gint cid;
+  gint id;
   struct universal target;
 
-  gtk_tree_model_get(model, it, 0, &cid, -1);
-  target = cid_production(cid);
+  gtk_tree_model_get(model, it, 0, &id, -1);
+  target = cid_production(id);
 
   if (GTK_IS_CELL_RENDERER_PIXBUF(rend)) {
     GdkPixbuf *pix;
@@ -1447,16 +1447,16 @@ static void commit_worklist(struct worklist_data *ptr)
   i = 0;
   if (gtk_tree_model_get_iter_first(model, &it)) {
     do {
-      gint cid;
+      gint id;
 
       /* oops, the player has a worklist longer than what we can store. */
       if (i >= MAX_LEN_WORKLIST) {
         break;
       }
 
-      gtk_tree_model_get(model, &it, 0, &cid, -1);
+      gtk_tree_model_get(model, &it, 0, &id, -1);
 
-      worklist_append(&queue, cid_production(cid));
+      worklist_append(&queue, cid_production(id));
 
       i++;
     } while (gtk_tree_model_iter_next(model, &it));

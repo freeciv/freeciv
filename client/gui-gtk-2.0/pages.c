@@ -2255,7 +2255,7 @@ void real_conn_list_dialog_update(void)
     struct connection *pselected_conn;
     bool is_ready;
     const char *nation, *plr_name, *team;
-    char user_name[MAX_LEN_NAME + 8];
+    char name[MAX_LEN_NAME + 8];
     enum cmdlevel access_level;
     int conn_id;
 
@@ -2279,12 +2279,12 @@ void real_conn_list_dialog_update(void)
       if (pplayer->ai_controlled && !pplayer->was_created
           && !pplayer->is_connected) {
         /* TRANS: "<Novice AI>" */
-        fc_snprintf(user_name, sizeof(user_name), _("<%s AI>"),
+        fc_snprintf(name, sizeof(name), _("<%s AI>"),
                     ai_level_translated_name(pplayer->ai_common.skill_level));
       } else {
-        sz_strlcpy(user_name, pplayer->username);
+        sz_strlcpy(name, pplayer->username);
         if (access_level > ALLOW_BASIC) {
-          sz_strlcat(user_name, "*");
+          sz_strlcat(name, "*");
         }
       }
 
@@ -2312,7 +2312,7 @@ void real_conn_list_dialog_update(void)
 
       gtk_tree_store_set(store, &parent,
                          CL_COL_PLAYER_NUMBER, player_number(pplayer),
-                         CL_COL_USER_NAME, user_name,
+                         CL_COL_USER_NAME, name,
                          CL_COL_READY_STATE, is_ready,
                          CL_COL_PLAYER_NAME, plr_name,
                          CL_COL_FLAG, pixbuf,
