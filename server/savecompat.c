@@ -1012,10 +1012,19 @@ static void compat_load_020600(struct loaddata *loading)
 ****************************************************************************/
 static void compat_load_030000(struct loaddata *loading)
 {
+  bool randsaved;
+  
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 3.0.0");
+
+  /* Rename "random.save" as "random.saved" */
+  if (secfile_lookup_bool(loading->file, &randsaved, "random.save")) {
+    secfile_insert_bool(loading->file, randsaved, "random.saved");
+  } else {
+    log_sg("random.save: %s", secfile_error());
+  }
 }
 
 /****************************************************************************
@@ -1025,10 +1034,17 @@ static void compat_load_030000(struct loaddata *loading)
 #ifdef FREECIV_DEV_SAVE_COMPAT
 static void compat_load_dev(struct loaddata *loading)
 {
+  bool randsaved;
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
   log_debug("Upgrading data between development revisions");
+
+    /* Rename "random.save" as "random.saved", if not already saved by later name */
+  if (secfile_lookup_bool(loading->file, &randsaved, "random.save")) {
+    secfile_insert_bool(loading->file, randsaved, "random.saved");
+  }
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 

@@ -2043,7 +2043,7 @@ static void sg_load_random(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (secfile_lookup_bool_default(loading->file, FALSE, "random.save")) {
+  if (secfile_lookup_bool_default(loading->file, FALSE, "random.saved")) {
     const char *string;
     int i;
 
@@ -2066,7 +2066,7 @@ static void sg_load_random(struct loaddata *loading)
     fc_rand_set_state(loading->rstate);
   } else {
     /* No random values - mark the setting. */
-    (void) secfile_entry_by_path(loading->file, "random.save");
+    (void) secfile_entry_by_path(loading->file, "random.saved");
 
     /* We're loading a game without a seed (which is okay, if it's a scenario).
      * We need to generate the game seed now because it will be needed later
@@ -2088,7 +2088,7 @@ static void sg_save_random(struct savedata *saving)
     int i;
     RANDOM_STATE rstate = fc_rand_state();
 
-    secfile_insert_bool(saving->file, TRUE, "random.save");
+    secfile_insert_bool(saving->file, TRUE, "random.saved");
     fc_assert(rstate.is_init);
 
     secfile_insert_int(saving->file, rstate.j, "random.index_J");
@@ -2106,7 +2106,7 @@ static void sg_save_random(struct savedata *saving)
       secfile_insert_str(saving->file, vec, "random.table%d", i);
     }
   } else {
-    secfile_insert_bool(saving->file, FALSE, "random.save");
+    secfile_insert_bool(saving->file, FALSE, "random.saved");
   }
 }
 
