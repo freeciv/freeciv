@@ -622,7 +622,7 @@ static int up_width_callback(struct widget *pWidget)
       char cBuf[4];
 
       fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
-      copy_chars_to_string16(pWidget->next->string16, cBuf);
+      copy_chars_to_utf8_str(pWidget->next->string_utf8, cBuf);
       widget_redraw(pWidget->next);
       widget_mark_dirty(pWidget->next);
 
@@ -647,7 +647,7 @@ static int down_width_callback(struct widget *pWidget)
       char cBuf[4];
 
       fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
-      copy_chars_to_string16(pWidget->prev->string16, cBuf);
+      copy_chars_to_utf8_str(pWidget->prev->string_utf8, cBuf);
       widget_redraw(pWidget->prev);
       widget_mark_dirty(pWidget->prev);
 
@@ -673,7 +673,7 @@ static int up_height_callback(struct widget *pWidget)
 
       OVERVIEW_TILE_HEIGHT++;
       fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
-      copy_chars_to_string16(pWidget->next->string16, cBuf);
+      copy_chars_to_utf8_str(pWidget->next->string_utf8, cBuf);
       widget_redraw(pWidget->next);
       widget_mark_dirty(pWidget->next);
       resize_minimap();
@@ -697,7 +697,7 @@ static int down_height_callback(struct widget *pWidget)
 
       OVERVIEW_TILE_HEIGHT--;
       fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
-      copy_chars_to_string16(pWidget->prev->string16, cBuf);
+      copy_chars_to_utf8_str(pWidget->prev->string_utf8, cBuf);
       widget_redraw(pWidget->prev);
       widget_mark_dirty(pWidget->prev);
 
@@ -715,7 +715,7 @@ static int down_height_callback(struct widget *pWidget)
 static void popup_minimap_scale_dialog(void)
 {
   SDL_Surface *pText1, *pText2;
-  SDL_String16 *pStr = NULL;
+  utf8_str *pstr = NULL;
   struct widget *pWindow = NULL;
   struct widget *pBuf = NULL;
   char cBuf[4];
@@ -729,9 +729,9 @@ static void popup_minimap_scale_dialog(void)
   pScale_MiniMap_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   /* create window */
-  pStr = create_str16_from_char(_("Scale Mini Map"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pstr = create_utf8_from_char(_("Scale Mini Map"), adj_font(12));
+  pstr->style |= TTF_STYLE_BOLD;
+  pWindow = create_window_skeleton(NULL, pstr, 0);
   pWindow->action = move_scale_minimap_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   add_to_gui_list(ID_WINDOW, pWindow);
@@ -740,14 +740,14 @@ static void popup_minimap_scale_dialog(void)
   area = pWindow->area;
 
   /* ----------------- */
-  pStr = create_str16_from_char(_("Single Tile Width"), adj_font(12));
-  pText1 = create_text_surf_from_str16(pStr);
+  pstr = create_utf8_from_char(_("Single Tile Width"), adj_font(12));
+  pText1 = create_text_surf_from_utf8(pstr);
   area.w = MAX(area.w, pText1->w + adj_size(30));
 
-  copy_chars_to_string16(pStr, _("Single Tile Height"));
-  pText2 = create_text_surf_from_str16(pStr);
+  copy_chars_to_utf8_str(pstr, _("Single Tile Height"));
+  pText2 = create_text_surf_from_utf8(pstr);
   area.w = MAX(area.w, pText2->w + adj_size(30));
-  FREESTRING16(pStr);
+  FREEUTF8_STR(pstr);
 
   pBuf = create_themeicon_button(current_theme->L_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = down_width_callback;
@@ -755,9 +755,9 @@ static void popup_minimap_scale_dialog(void)
   add_to_gui_list(ID_BUTTON, pBuf);
 
   fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_WIDTH);
-  pStr = create_str16_from_char(cBuf, adj_font(24));
-  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
+  pstr = create_utf8_from_char(cBuf, adj_font(24));
+  pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
   pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
   area.h += pBuf->size.h + adj_size(5);
   add_to_gui_list(ID_LABEL, pBuf);
@@ -774,9 +774,9 @@ static void popup_minimap_scale_dialog(void)
   add_to_gui_list(ID_BUTTON, pBuf);
 
   fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_HEIGHT);
-  pStr = create_str16_from_char(cBuf, adj_font(24));
-  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
+  pstr = create_utf8_from_char(cBuf, adj_font(24));
+  pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
   pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
   area.h += pBuf->size.h + adj_size(20);
   add_to_gui_list(ID_LABEL, pBuf);
@@ -788,8 +788,8 @@ static void popup_minimap_scale_dialog(void)
   area.w = MAX(area.w , pBuf->size.w * 2 + pBuf->next->size.w + adj_size(20));
 
   /* ------------ */
-  pStr = create_str16_from_char(_("Exit"), adj_font(12));
-  pBuf = create_themeicon_button(current_theme->CANCEL_Icon, pWindow->dst, pStr, 0);
+  pstr = create_utf8_from_char(_("Exit"), adj_font(12));
+  pBuf = create_themeicon_button(current_theme->CANCEL_Icon, pWindow->dst, pstr, 0);
   pBuf->action = popdown_scale_minimap_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pScale_MiniMap_Dlg->pBeginWidgetList = pBuf;
@@ -1102,7 +1102,7 @@ static void popup_unitinfo_scale_dialog(void)
 #endif  /* SCALE_UNITINFO */
 
   SDL_Surface *pText1, *pText2;
-  SDL_String16 *pStr = NULL;
+  utf8_str *pstr = NULL;
   struct widget *pWindow = NULL;
   struct widget *pBuf = NULL;
   int window_x = 0, window_y = 0;
@@ -1115,9 +1115,9 @@ static void popup_unitinfo_scale_dialog(void)
   pScale_UnitInfo_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   /* create window */
-  pStr = create_str16_from_char(_("Scale Unit Info"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pstr = create_utf8_from_char(_("Scale Unit Info"), adj_font(12));
+  pstr->style |= TTF_STYLE_BOLD;
+  pWindow = create_window_skeleton(NULL, pstr, 0);
   pWindow->action = move_scale_unitinfo_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   add_to_gui_list(ID_WINDOW, pWindow);
@@ -1125,15 +1125,15 @@ static void popup_unitinfo_scale_dialog(void)
 
   area = pWindow->area;
 
-  pStr = create_str16_from_char(_("Width"), adj_font(12));
-  pText1 = create_text_surf_from_str16(pStr);
+  pstr = create_utf8_from_char(_("Width"), adj_font(12));
+  pText1 = create_text_surf_from_utf8(pstr);
   area.w = MAX(area.w, pText1->w + adj_size(30));
   area.h += MAX(adj_size(20), pText1->h + adj_size(4));
-  copy_chars_to_string16(pStr, _("Height"));
-  pText2 = create_text_surf_from_str16(pStr);
+  copy_chars_to_utf8_str(pstr, _("Height"));
+  pText2 = create_text_surf_from_utf8(pstr);
   area.w = MAX(area.w, pText2->w + adj_size(30));
   area.h += MAX(adj_size(20), pText2->h + adj_size(4));
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 
   /* ----------------- */
   pBuf = create_themeicon_button(current_theme->L_ARROW_Icon, pWindow->dst, NULL, 0);
@@ -1161,9 +1161,9 @@ static void popup_unitinfo_scale_dialog(void)
   area.w = MAX(area.w , pBuf->size.w * 2 + adj_size(20));
 
   /* ------------ */
-  pStr = create_str16_from_char(_("Exit"), adj_font(12));
+  pstr = create_utf8_from_char(_("Exit"), adj_font(12));
   pBuf = create_themeicon_button(current_theme->CANCEL_Icon,
-                                 pWindow->dst, pStr, 0);
+                                 pWindow->dst, pstr, 0);
   pBuf->action = popdown_scale_unitinfo_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pScale_UnitInfo_Dlg->pBeginWidgetList = pBuf;
