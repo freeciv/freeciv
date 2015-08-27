@@ -2481,11 +2481,13 @@ static void do_unit_help_build_wonder(struct player *pplayer,
 
   if (build_points_left(pcity_dest) >= 0) {
     /* TRANS: Your Caravan helps build the Pyramids in Bergen (4
-     * remaining). */
+     * remaining). You can reorder '4' and 'remaining' in the actual
+     * format string. */
     work = _("remaining");
   } else {
     /* TRANS: Your Caravan helps build the Pyramids in Bergen (4
-     * surplus). */
+     * surplus). You can reorder '4' and 'surplus' in the actual
+     * format string. */
     work = _("surplus");
   }
 
