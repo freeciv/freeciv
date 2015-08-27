@@ -205,7 +205,7 @@ void popup_impr_info(Impr_type_id impr)
   struct widget *pHelptextLabel = NULL;
   struct widget *pDock;
   utf8_str *title;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Surface *pSurf;
   int h, start_x, start_y, impr_type_count;
   bool created, text = FALSE;
@@ -260,8 +260,8 @@ void popup_impr_info(Impr_type_id impr)
     /* ------------------ */
     pDock = pCloseButton;
 
-    pStr = create_string16(NULL, 0, adj_font(10));
-    pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
+    pstr = create_utf8_str(NULL, 0, adj_font(10));
+    pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     /* background template for entries in scroll list */
     pBackgroundTmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
@@ -282,8 +282,8 @@ void popup_impr_info(Impr_type_id impr)
 #endif
 
       /* blit improvement name */
-      copy_chars_to_string16(pStr, improvement_name_translation(pImprove));
-      pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
+      copy_chars_to_utf8_str(pstr, improvement_name_translation(pImprove));
+      pText = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
       dst.x = adj_size(40) + (pBackground->w - pText->w - adj_size(40)) / 2;
       dst.y = (pBackground->h - pText->h) / 2;
       alphablit(pText, NULL, pBackground, &dst, 255);
@@ -622,7 +622,7 @@ void popup_unit_info(Unit_type_id type_id)
   struct widget *pHelptextLabel = NULL;
   struct widget *pDock;
   utf8_str *title;
-  SDL_String16 *pstr;
+  utf8_str *pstr;
   SDL_Surface *pSurf;
   int h, start_x, start_y, utype_count;
   bool created, text = FALSE;
@@ -680,7 +680,7 @@ void popup_unit_info(Unit_type_id type_id)
 
     /* --- create scrollable unit list on the left side ---*/
 
-    pstr = create_string16(NULL, 0, adj_font(10));
+    pstr = create_utf8_str(NULL, 0, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     /* background template for entries in scroll list */
@@ -702,8 +702,8 @@ void popup_unit_info(Unit_type_id type_id)
 #endif
 
       /* blit unit name */
-      copy_chars_to_string16(pstr, utype_name_translation(ut));
-      pText = create_text_surf_smaller_that_w(pstr, adj_size(100 - 4));
+      copy_chars_to_utf8_str(pstr, utype_name_translation(ut));
+      pText = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
       dst.x = adj_size(35) + (pBackground->w - pText->w - adj_size(35)) / 2;
       dst.y = (pBackground->h - pText->h) / 2;
       alphablit(pText, NULL, pBackground, &dst, 255);
@@ -1031,7 +1031,7 @@ static void redraw_tech_info_dlg(void)
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
   SDL_Surface *pText0, *pText1 = NULL;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Rect dst;
 
   redraw_group(pWindow->prev, pWindow, FALSE);
@@ -1048,10 +1048,10 @@ static void redraw_tech_info_dlg(void)
                get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /* -------------------------- */
-  pStr = create_str16_from_char(_("Allows"), adj_font(14));
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(_("Allows"), adj_font(14));
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pText0 = create_text_surf_from_str16(pStr);
+  pText0 = create_text_surf_from_utf8(pstr);
   dst.x = pStore->pDock->prev->prev->size.x;
   if (pStore->pTargets[0]) {
     dst.y = pStore->pTargets[0]->size.y - pText0->h;
@@ -1066,13 +1066,13 @@ static void redraw_tech_info_dlg(void)
   if (pStore->pSub_Targets[0]) {
     int i;
 
-    change_ptsize16(pStr, adj_font(12));
+    change_ptsize_utf8(pstr, adj_font(12));
 
-    copy_chars_to_string16(pStr, _("( with "));
-    pText0 = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, _("( with "));
+    pText0 = create_text_surf_from_utf8(pstr);
 
-    copy_chars_to_string16(pStr, _(" )"));
-    pText1 = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, _(" )"));
+    pText1 = create_text_surf_from_utf8(pstr);
     i = 0;
     while (i < 6 && pStore->pSub_Targets[i]) {
       dst.x = pStore->pSub_Targets[i]->size.x - pText0->w;
@@ -1089,7 +1089,7 @@ static void redraw_tech_info_dlg(void)
     FREESURFACE(pText0);
     FREESURFACE(pText1);
   }
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
   widget_flush(pWindow);

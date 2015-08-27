@@ -1724,17 +1724,17 @@ static void redraw_misc_city_dialog(struct widget *pCityWindow,
                                     struct city *pCity)
 {
   char cBuf[60];
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Surface *pSurf;
   SDL_Rect dest;
 
   fc_snprintf(cBuf, sizeof(cBuf), _("City options"));
 
-  pStr = create_str16_from_char(cBuf, adj_font(10));
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_str16(pStr);
+  pSurf = create_text_surf_from_utf8(pstr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
   dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
@@ -1742,7 +1742,7 @@ static void redraw_misc_city_dialog(struct widget *pCityWindow,
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
   FREESURFACE(pSurf);
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 
   if (!pCityDlg->pPanel) {
     create_city_options_widget_list(pCity);
@@ -1759,7 +1759,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
                                                struct city *pCity)
 {
   char cBuf[60];
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Surface *pSurf;
   SDL_Rect dest;
   struct unit_list *pList;
@@ -1775,11 +1775,11 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Supported units: %d"), size);
 
-  pStr = create_str16_from_char(cBuf, adj_font(10));
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_str16(pStr);
+  pSurf = create_text_surf_from_utf8(pstr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
   dest.y = pCityWindow->area.y + + adj_size(4) + current_theme->INFO_Icon->h;
@@ -1787,7 +1787,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
   FREESURFACE(pSurf);
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 
   if (pCityDlg->pPanel) {
     if (size > 0) {
@@ -1816,7 +1816,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
                                     struct city *pCity)
 {
   char cBuf[60];
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Surface *pSurf;
   SDL_Rect dest;
   struct unit_list *pList;
@@ -1832,11 +1832,11 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Present units: %d"), size);
 
-  pStr = create_str16_from_char(cBuf, adj_font(10));
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_str16(pStr);
+  pSurf = create_text_surf_from_utf8(pstr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
   dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
@@ -1844,7 +1844,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
   FREESURFACE(pSurf);
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 
   if (pCityDlg->pPanel) {
     if (size) {
@@ -1875,16 +1875,16 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   char cBuf[30];
   struct city *pTradeCity = NULL;
   int step, i, xx;
-  SDL_String16 *pStr = NULL;
+  utf8_str *pstr = NULL;
   SDL_Surface *pSurf = NULL;
   SDL_Rect dest;
 
   fc_snprintf(cBuf, sizeof(cBuf), _("City info"));
-  pStr = create_str16_from_char(cBuf, adj_font(10));
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_str16(pStr);
+  pSurf = create_text_surf_from_utf8(pstr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
   dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
@@ -1896,16 +1896,16 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
   FREESURFACE(pSurf);
 
-  change_ptsize16(pStr, adj_font(11));
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_INFOPANEL);
+  change_ptsize_utf8(pstr, adj_font(11));
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_INFOPANEL);
 
   if (pCity->pollution) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Pollution: %d"),
 		pCity->pollution);
 
-    copy_chars_to_string16(pStr, cBuf);
+    copy_chars_to_utf8_str(pstr, cBuf);
 
-    pSurf = create_text_surf_from_str16(pStr);
+    pSurf = create_text_surf_from_utf8(pstr);
 
     alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
@@ -1930,9 +1930,9 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), _("Pollution: none"));
 
-    copy_chars_to_string16(pStr, cBuf);
+    copy_chars_to_utf8_str(pstr, cBuf);
 
-    pSurf = create_text_surf_from_str16(pStr);
+    pSurf = create_text_surf_from_utf8(pstr);
 
     alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
@@ -1943,9 +1943,9 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Trade routes: "));
 
-  copy_chars_to_string16(pStr, cBuf);
+  copy_chars_to_utf8_str(pstr, cBuf);
 
-  pSurf = create_text_surf_from_str16(pStr);
+  pSurf = create_text_surf_from_utf8(pstr);
 
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
@@ -1968,9 +1968,9 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
                   proute->value);
     }
 
-    copy_chars_to_string16(pStr, cBuf);
+    copy_chars_to_utf8_str(pstr, cBuf);
 
-    pSurf = create_text_surf_from_str16(pStr);
+    pSurf = create_text_surf_from_utf8(pstr);
 
     alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
@@ -1989,8 +1989,8 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   if (step) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Trade: +%d"), step);
 
-    copy_chars_to_string16(pStr, cBuf);
-    pSurf = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, cBuf);
+    pSurf = create_text_surf_from_utf8(pstr);
     alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
     dest.x += pSurf->w + adj_size(3);
@@ -2001,9 +2001,9 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), _("none"));
 
-    copy_chars_to_string16(pStr, cBuf);
+    copy_chars_to_utf8_str(pstr, cBuf);
 
-    pSurf = create_text_surf_from_str16(pStr);
+    pSurf = create_text_surf_from_utf8(pstr);
 
     dest.x = xx;
     dest.y -= pSurf->h + adj_size(3);
@@ -2012,8 +2012,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     FREESURFACE(pSurf);
   }
 
-
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 }
 
 /**************************************************************************
@@ -2027,18 +2026,18 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
   char cBuf[30];
   int step, i, j, count;
   SDL_Surface *pTmp;
-  SDL_String16 *pStr = NULL;
+  utf8_str *pstr = NULL;
   SDL_Surface *pSurf = NULL;
   SDL_Rect dest = {0, 0, 0, 0};
   struct effect_list *sources = effect_list_new();
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Happiness"));
 
-  pStr = create_str16_from_char(cBuf, adj_font(10));
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_str16(pStr);
+  pSurf = create_text_surf_from_utf8(pstr);
 
   dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
   dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
@@ -2048,7 +2047,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
   dest.y += pSurf->h + 1;
 
   FREESURFACE(pSurf);
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 
   count = (pCity->feel[CITIZEN_HAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_CONTENT][FEELING_FINAL]
            + pCity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_ANGRY][FEELING_FINAL]
@@ -2461,7 +2460,7 @@ static void redraw_city_dialog(struct city *pCity)
   SDL_Rect dest;
   struct widget *pWindow = pCityDlg->pEndCityWidgetList;
   SDL_Surface *pBuf = NULL, *pBuf2 = NULL;
-  SDL_String16 *pStr = NULL;
+  utf8_str *pstr = NULL;
   int spe, spe_max;
 
   refresh_city_names(pCity);
@@ -2494,11 +2493,11 @@ static void redraw_city_dialog(struct city *pCity)
   /* ================================================================= */
   fc_snprintf(cBuf, sizeof(cBuf), _("City map"));
 
-  pStr = create_str16_from_char(cBuf, adj_font(10));
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(196) + (adj_size(132) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(49) + (adj_size(13) - pBuf->h) / 2;
@@ -2509,10 +2508,10 @@ static void redraw_city_dialog(struct city *pCity)
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Citizens"));
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(344) + (adj_size(146) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(47) + (adj_size(13) - pBuf->h) / 2;
@@ -2523,10 +2522,10 @@ static void redraw_city_dialog(struct city *pCity)
 
   fc_snprintf(cBuf, sizeof(cBuf), _("City improvements"));
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(504) + (adj_size(132) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(49) + (adj_size(13) - pBuf->h) / 2;
@@ -2539,11 +2538,11 @@ static void redraw_city_dialog(struct city *pCity)
   fc_snprintf(cBuf, sizeof(cBuf), _("Food: %d per turn"),
               pCity->prod[O_FOOD]);
 
-  copy_chars_to_string16(pStr, cBuf);
+  copy_chars_to_utf8_str(pstr, cBuf);
 
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_FOODPERTURN);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_FOODPERTURN);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(228) + (adj_size(16) - pBuf->h) / 2;
@@ -2576,10 +2575,10 @@ static void redraw_city_dialog(struct city *pCity)
   fc_snprintf(cBuf, sizeof(cBuf), Q_("?food:Surplus: %d"),
               pCity->surplus[O_FOOD]);
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_FOOD_SURPLUS);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_FOOD_SURPLUS);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(228) + (adj_size(16) - pBuf->h) / 2;
@@ -2623,10 +2622,10 @@ static void redraw_city_dialog(struct city *pCity)
               pCity->surplus[O_SHIELD],
               pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD]);
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PROD);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PROD);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(263) + (adj_size(15) - pBuf->h) / 2;
@@ -2669,10 +2668,10 @@ static void redraw_city_dialog(struct city *pCity)
               pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD] -
               pCity->surplus[O_SHIELD]);
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SUPPORT);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SUPPORT);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(263) + (adj_size(15) - pBuf->h) / 2;
@@ -2707,10 +2706,10 @@ static void redraw_city_dialog(struct city *pCity)
   fc_snprintf(cBuf, sizeof(cBuf), _("Trade: %d per turn"),
               pCity->surplus[O_TRADE]);
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(298) + (adj_size(15) - pBuf->h) / 2;
@@ -2741,10 +2740,10 @@ static void redraw_city_dialog(struct city *pCity)
   fc_snprintf(cBuf, sizeof(cBuf), _("Corruption: %d"),
               pCity->waste[O_TRADE]);
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_CORRUPTION);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_CORRUPTION);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(298) + (adj_size(15) - pBuf->h) / 2;
@@ -2777,10 +2776,10 @@ static void redraw_city_dialog(struct city *pCity)
   fc_snprintf(cBuf, sizeof(cBuf), _("Gold: %d (%d) per turn"),
               pCity->surplus[O_GOLD], pCity->prod[O_GOLD]);
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(342) + (adj_size(15) - pBuf->h) / 2;
@@ -2824,10 +2823,10 @@ static void redraw_city_dialog(struct city *pCity)
   fc_snprintf(cBuf, sizeof(cBuf), _("Upkeep: %d"),
               pCity->prod[O_GOLD] - pCity->surplus[O_GOLD]);
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_UPKEEP);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_UPKEEP);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(342) + (adj_size(15) - pBuf->h) / 2;
@@ -2863,10 +2862,10 @@ static void redraw_city_dialog(struct city *pCity)
   fc_snprintf(cBuf, sizeof(cBuf), _("Science: %d per turn"),
               pCity->prod[O_SCIENCE]);
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SCIENCE);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SCIENCE);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(376) + (adj_size(15) - pBuf->h) / 2;
@@ -2903,10 +2902,10 @@ static void redraw_city_dialog(struct city *pCity)
   fc_snprintf(cBuf, sizeof(cBuf), _("Luxury: %d per turn"),
               pCity->prod[O_LUXURY]);
 
-  copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(412) + (adj_size(15) - pBuf->h) / 2;
@@ -2952,11 +2951,11 @@ static void redraw_city_dialog(struct city *pCity)
 		PL_("turn", "turns", count));
   }
 
-  copy_chars_to_string16(pStr, cBuf);
+  copy_chars_to_utf8_str(pstr, cBuf);
 
-  pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GROWTH);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GROWTH);
 
-  pBuf = create_text_surf_from_str16(pStr);
+  pBuf = create_text_surf_from_utf8(pstr);
 
   dest.x = pWindow->size.x + adj_size(445) + (adj_size(192) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(227);
@@ -2982,8 +2981,8 @@ static void redraw_city_dialog(struct city *pCity)
   if (get_city_bonus(pCity, EFT_GROWTH_FOOD) > 0) {
     /* with granary */
     /* stocks label */
-    copy_chars_to_string16(pStr, _("Stock"));
-    pBuf = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, _("Stock"));
+    pBuf = create_text_surf_from_utf8(pstr);
 
     dest.x = pWindow->size.x + adj_size(461) + (adj_size(76) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(258) - pBuf->h - 1;
@@ -2993,8 +2992,8 @@ static void redraw_city_dialog(struct city *pCity)
     FREESURFACE(pBuf);
 
     /* granary label */
-    copy_chars_to_string16(pStr, _("Granary"));
-    pBuf = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, _("Granary"));
+    pBuf = create_text_surf_from_utf8(pstr);
 
     dest.x = pWindow->size.x + adj_size(549) + (adj_size(76) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(258) - pBuf->h - 1;
@@ -3094,8 +3093,8 @@ static void redraw_city_dialog(struct city *pCity)
   } else {
     /* without granary */
     /* stocks label */
-    copy_chars_to_string16(pStr, _("Stock"));
-    pBuf = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, _("Stock"));
+    pBuf = create_text_surf_from_utf8(pstr);
 
     dest.x = pWindow->size.x + adj_size(461) + (adj_size(144) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(258) - pBuf->h - 1;
@@ -3169,8 +3168,8 @@ static void redraw_city_dialog(struct city *pCity)
     cost = utype_build_shield_cost(pUnitType);
     count = cost / 10;
 
-    copy_chars_to_string16(pStr, utype_name_translation(pUnitType));
-    pBuf = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, utype_name_translation(pUnitType));
+    pBuf = create_text_surf_from_utf8(pstr);
 
     pBuf2 = get_unittype_surface(pUnitType, DIR8_EAST);
     pBuf2 = zoomSurface(pBuf2, DEFAULT_ZOOM * ((float)32 / pBuf2->h),
@@ -3211,8 +3210,8 @@ static void redraw_city_dialog(struct city *pCity)
       count = cost / 10;
     }
 
-    copy_chars_to_string16(pStr, improvement_name_translation(pImprove));
-    pBuf = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, improvement_name_translation(pImprove));
+    pBuf = create_text_surf_from_utf8(pstr);
 
     pBuf2 = get_building_surface(pCity->production.value.building);
     pBuf2 = zoomSurface(pBuf2, DEFAULT_ZOOM * ((float)32 / pBuf2->h), DEFAULT_ZOOM * ((float)32 / pBuf2->h), 1);
@@ -3277,16 +3276,16 @@ static void redraw_city_dialog(struct city *pCity)
                   pCity->shield_stock, cost, _("finished"));
     }
 
-    copy_chars_to_string16(pStr, cBuf);
-    pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
+    copy_chars_to_utf8_str(pstr, cBuf);
+    pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
 
-    pBuf = create_text_surf_from_str16(pStr);
+    pBuf = create_text_surf_from_utf8(pstr);
 
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
 
     alphablit(pBuf, NULL, pWindow->dst->surface, &dest, 255);
 
-    FREESTRING16(pStr);
+    FREEUTF8STR(pstr);
     FREESURFACE(pBuf);
 
     /* draw shield stock */

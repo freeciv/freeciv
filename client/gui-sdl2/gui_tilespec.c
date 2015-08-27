@@ -376,9 +376,9 @@ void setup_auxiliary_tech_icons(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   SDL_Surface *pSurf;
-  SDL_String16 *pStr = create_str16_from_char(Q_("?tech:None"), adj_font(10));
+  utf8_str *pstr = create_utf8_from_char(Q_("?tech:None"), adj_font(10));
 
-  pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
+  pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   /* create icons */
   pSurf = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
@@ -392,21 +392,21 @@ void setup_auxiliary_tech_icons(void)
   pFuture_Tech_Icon = pSurf;
 
   /* None */
-  pSurf = create_text_surf_from_str16(pStr);
+  pSurf = create_text_surf_from_utf8(pstr);
   blit_entire_src(pSurf, pNone_Tech_Icon ,
                   (adj_size(50) - pSurf->w) / 2 , (adj_size(50) - pSurf->h) / 2);
 
   FREESURFACE(pSurf);
 
   /* TRANS: Future Technology */ 
-  copy_chars_to_string16(pStr, _("FT"));
-  pSurf = create_text_surf_from_str16(pStr);
+  copy_chars_to_utf8_str(pstr, _("FT"));
+  pSurf = create_text_surf_from_utf8(pstr);
   blit_entire_src(pSurf, pFuture_Tech_Icon,
                   (adj_size(50) - pSurf->w) / 2 , (adj_size(50) - pSurf->h) / 2);
 
   FREESURFACE(pSurf);
 
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 }
 
 /**************************************************************************

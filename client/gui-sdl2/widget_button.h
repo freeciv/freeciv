@@ -14,9 +14,6 @@
 #ifndef FC__WIDGET_BUTTON_H
 #define FC__WIDGET_BUTTON_H
 
-#define create_icon_button_from_unichar(pIcon, pDest, pUniChar, pUniCharSize, iPtsize, flags) \
-	create_icon_button(pIcon, pDest, create_string16(pUniChar, pUniCharSize, iPtsize), flags)
-
 #define create_icon_button_from_chars(pIcon, pDest, pCharString, iPtsize, flags) \
 	create_icon_button(pIcon, pDest,                                         \
 			   create_utf8_from_char(pCharString, iPtsize),          \

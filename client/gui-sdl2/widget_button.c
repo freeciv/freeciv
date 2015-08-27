@@ -37,7 +37,7 @@ static int (*baseclass_redraw)(struct widget *pwidget);
   on positon pIButton->size.x , pIButton->size.y.
   WARNING: pDest must exist.
 
-  Text with attributes is taken from pIButton->string16 parameter.
+  Text with attributes is taken from pIButton->string_utf8 parameter.
 
   Graphic for button is taken from pIButton->theme surface
   and blit to new created image.
@@ -63,7 +63,7 @@ static int redraw_ibutton(struct widget *pIButton)
   }
 
   if (pIButton->string_utf8 != NULL) {
-    /* make copy of string16 */
+    /* make copy of string_utf8 */
     TMPString = *pIButton->string_utf8;
 
     if (get_wstate(pIButton) == FC_WS_NORMAL) {
@@ -211,7 +211,7 @@ static int redraw_ibutton(struct widget *pIButton)
   on positon pTIButton->size.x , pTIButton->size.y. WARRING: pDest must
   exist.
 
-  Text with atributes is taken from pTIButton->string16 parameter.
+  Text with atributes is taken from pTIButton->string_utf8 parameter.
 
   Graphic for button is taken from pTIButton->theme surface
   and blit to new created image.
@@ -357,7 +357,7 @@ struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
   Create Button image with text and Icon. Then blit to Main.screen on
   position start_x, start_y.
 
-  Text with atributes is taken from pButton->string16 parameter.
+  Text with atributes is taken from pButton->string_utf8 parameter.
 
   Graphic for button is taken from pButton->theme surface and blit to new
   created image.
@@ -380,7 +380,7 @@ int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
   Create Button image with text and Icon.
   Then blit to Main.screen on positon start_x , start_y.
 
-  Text with atributes is taken from pButton->string16 parameter.
+  Text with atributes is taken from pButton->string_utf8 parameter.
 
   Graphic for button is taken from pButton->theme surface
   and blit to new created image.
