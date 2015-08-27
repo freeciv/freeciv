@@ -83,6 +83,7 @@ enum manuals {
 
 /* This formats the manual for an HTML wiki. */
 #ifdef MANUAL_USE_HTML
+#define FILE_EXT "html"
 #define HEADER "<html><head><link rel=\"stylesheet\" type=\"text/css\" "\
                "href=\"manual.css\"/><meta http-equiv=\"Content-Type\" "\
                "content=\"text/html; charset=UTF-8\"/></head><body>\n\n"
@@ -93,6 +94,7 @@ enum manuals {
 #define SEPARATOR " "
 #define TAIL "</body></html>"
 #else  /* MANUAL_USE_HTML */
+#define FILE_EXT "mediawiki"
 #define HEADER " "
 #define SECTION_BEGIN "==="
 #define SECTION_END "==="
@@ -149,7 +151,7 @@ bool client_nation_is_in_current_set(const struct nation_type *pnation)
 }
 
 /**************************************************************************
-  Write a server manual in html format, then quit.
+  Write a server manual in the format chosen at build time, then quit.
 **************************************************************************/
 static bool manual_command(void)
 {
@@ -174,7 +176,8 @@ static bool manual_command(void)
     int i;
     int ri;
 
-    fc_snprintf(filename, sizeof(filename), "%s%d.html", game.server.rulesetdir, manuals + 1);
+    fc_snprintf(filename, sizeof(filename), "%s%d.%s",
+                game.server.rulesetdir, manuals + 1, FILE_EXT);
 
     if (!is_reg_file_for_access(filename, TRUE)
         || !(doc = fc_fopen(filename, "w"))) {
