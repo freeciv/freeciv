@@ -443,7 +443,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Diplomat|Spy Actions */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Diplomat/Spy Actions"), "D");
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Do..."), "D");
   pBuf = create_themeicon(current_theme->OSpy_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
