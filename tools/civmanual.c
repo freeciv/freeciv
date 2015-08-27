@@ -516,7 +516,8 @@ static bool manual_command(void)
         fprintf(doc, _("Hitpoints: %d\n"),
                 putype->hp);
         helptext_unit(buf, sizeof(buf), NULL, "", putype);
-        fprintf(doc, "%s\n\n", buf);
+        fprintf(doc, "%s", buf);
+        fprintf(doc, SEPARATOR);
       } unit_type_iterate_end;
       break;
 
