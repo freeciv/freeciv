@@ -87,6 +87,8 @@ enum manuals {
 #define HEADER "<html><head><link rel=\"stylesheet\" type=\"text/css\" "\
                "href=\"manual.css\"/><meta http-equiv=\"Content-Type\" "\
                "content=\"text/html; charset=UTF-8\"/></head><body>\n\n"
+#define TITLE_BEGIN "<h1>"
+#define TITLE_END "</h1>"
 #define SECTION_BEGIN "<h3>"
 #define SECTION_END "</h3>"
 #define IMAGE_BEGIN "<img src=\""
@@ -96,6 +98,8 @@ enum manuals {
 #else  /* MANUAL_USE_HTML */
 #define FILE_EXT "mediawiki"
 #define HEADER " "
+#define TITLE_BEGIN "="
+#define TITLE_END "="
 #define SECTION_BEGIN "==="
 #define SECTION_END "==="
 #define IMAGE_BEGIN "[[Image:"
@@ -191,7 +195,8 @@ static bool manual_command(void)
 
     switch (manuals) {
     case MANUAL_SETTINGS:
-      fprintf(doc, _("<h1>Freeciv %s server options</h1>\n\n"), VERSION_STRING);
+      fprintf(doc, _("%sFreeciv %s server options%s\n\n"), TITLE_BEGIN,
+              VERSION_STRING, TITLE_END);
       settings_iterate(SSET_ALL, pset) {
         char buf[256];
         const char *sethelp;
@@ -272,8 +277,8 @@ static bool manual_command(void)
       break;
 
     case MANUAL_COMMANDS:
-      fprintf(doc, _("<h1>Freeciv %s server commands</h1>\n\n"),
-              VERSION_STRING);
+      fprintf(doc, _("%sFreeciv %s server commands%s\n\n"), TITLE_BEGIN,
+              VERSION_STRING, TITLE_END);
       for (i = 0; i < CMD_NUM; i++) {
         const struct command *cmd = command_by_number(i);
 
@@ -308,8 +313,8 @@ static bool manual_command(void)
       break;
 
     case MANUAL_TERRAIN:
-      fprintf(doc, _("<h1>Freeciv %s terrain help</h1>\n\n"),
-              VERSION_STRING);
+      fprintf(doc, _("%sFreeciv %s terrain help%s\n\n"), TITLE_BEGIN,
+              VERSION_STRING, TITLE_END);
       fprintf(doc, "<table><tr bgcolor=#9bc3d1><th colspan=2>%s</th>", _("Terrain"));
       fprintf(doc, "<th>F/P/T</th><th>%s</th>", _("Resources"));
       fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
@@ -421,9 +426,11 @@ static bool manual_command(void)
     case MANUAL_BUILDINGS:
     case MANUAL_WONDERS:
       if (manuals == MANUAL_BUILDINGS) {
-        fprintf(doc, _("<h1>Freeciv %s buildings help</h1>\n\n"), VERSION_STRING);
+        fprintf(doc, _("%sFreeciv %s buildings help%s\n\n"), TITLE_BEGIN,
+                VERSION_STRING, TITLE_END);
       } else {
-        fprintf(doc, _("<h1>Freeciv %s wonders help</h1>\n\n"), VERSION_STRING);
+        fprintf(doc, _("%sFreeciv %s wonders help%s\n\n"), TITLE_BEGIN,
+                VERSION_STRING, TITLE_END);
       }
 
       fprintf(doc, "<table>\n<tr bgcolor=#9bc3d1><th colspan=2>%s</th>"
@@ -478,7 +485,8 @@ static bool manual_command(void)
 
     case MANUAL_GOVS:
       /* FIXME: this doesn't resemble the wiki manual at all. */
-      fprintf(doc, _("<h1>Freeciv %s governments help</h1>\n\n"), VERSION_STRING);
+      fprintf(doc, _("%sFreeciv %s governments help%s\n\n"), TITLE_BEGIN,
+              VERSION_STRING, TITLE_END);
       governments_iterate(pgov) {
         char buf[64000];
         fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN,
@@ -490,8 +498,8 @@ static bool manual_command(void)
 
     case MANUAL_UNITS:
       /* FIXME: this doesn't resemble the wiki manual at all. */
-      fprintf(doc, _("<h1>Freeciv %s unit types help</h1>\n\n"),
-              VERSION_STRING);
+      fprintf(doc, _("%sFreeciv %s unit types help%s\n\n"),
+              TITLE_BEGIN, VERSION_STRING, TITLE_END);
       unit_type_iterate(putype) {
         char buf[64000];
         fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN,
