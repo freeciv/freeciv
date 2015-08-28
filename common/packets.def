@@ -200,6 +200,8 @@ type TECH_LIST          = tech_list(int)
 type UNIT_LIST          = unit_list(int)
 type BUILDING_LIST      = building_list(int)
 type WORKLIST           = worklist(struct worklist)
+# string that is URI encoded in the JSON protocol
+type ESTRING            = estring(char)
 
 # typedefs for enums
 type ACTIVITY           = uint8(enum unit_activity)
@@ -652,7 +654,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
 
   BV_IMPRS improvements;
   BV_CITY_OPTIONS city_options;
-  STRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_NAME];
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
@@ -672,7 +674,7 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
   SINT8 city_image;
 
   BV_IMPRS improvements;
-  STRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_NAME];
 end
 
 PACKET_TRADEROUTE_INFO = 249; sc, lsend, handle-via-packet
@@ -720,7 +722,7 @@ end
 
 PACKET_CITY_RENAME = 40; cs, dsend
   CITY city_id;
-  STRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_NAME];
 end
 
 PACKET_CITY_OPTIONS_REQ = 41; cs, dsend
@@ -744,7 +746,7 @@ end
 
 PACKET_CITY_NAME_SUGGESTION_INFO = 44; sc, dsend, lsend
   UNIT unit_id;
-  STRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_NAME];
 end
 
 PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
@@ -1017,7 +1019,7 @@ PACKET_UNIT_DO_ACTION = 84; cs, dsend
   UNIT actor_id;
   SINT32 target_id;   # city_id, unit_id or tile_id
   SINT16 value;
-  STRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_NAME];
   GEN_ACTION action_type;
 end
 
@@ -2021,7 +2023,7 @@ end
 
 PACKET_EDIT_CITY = 213; cs, handle-per-conn, handle-via-packet
   CITY id; key
-  STRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_NAME];
   PLAYER owner;
   PLAYER original;
   UINT8 size;
