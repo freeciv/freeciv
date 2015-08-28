@@ -26,6 +26,7 @@ Updating from 2.6 to 3.0
   themselves. This has obsoleted old --with-modlist configure option.
   See chapter "Project definition file" below.
 * Xaw-client has been dropped completely
+* Minimum libcurl version is now 7.15.4
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
