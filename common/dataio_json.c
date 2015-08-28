@@ -25,6 +25,8 @@
 
 #ifdef FREECIV_JSON_CONNECTION
 
+#include <curl/curl.h>
+
 #include <limits.h>
 #include <math.h>
 #include <stdint.h>
@@ -88,6 +90,23 @@ static DIO_GET_CONV_FUN get_conv_callback = get_conv;
     log_error(_format_, ## __VA_ARGS__);                  \
   }
 #endif
+
+/**************************************************************************
+  Returns a CURL easy handle for name encoding and decoding
+**************************************************************************/
+static CURL *get_curl(void)
+{
+  static CURL *curl_easy_handle = NULL;
+
+  if (curl_easy_handle == NULL) {
+    curl_easy_handle = curl_easy_init();
+  } else {
+    /* Reuse the existing CURL easy handle */
+    curl_easy_reset(curl_easy_handle);
+  }
+
+  return curl_easy_handle;
+}
 
 /**************************************************************************
  Returns FALSE if the destination isn't large enough or the source was
@@ -582,6 +601,25 @@ void dio_put_string_json(struct json_data_out *dout, char *key,
 }
 
 /**************************************************************************
+  Encode and write the specified string to the specified location.
+**************************************************************************/
+void dio_put_estring_json(struct json_data_out *dout, char *key,
+                          const struct plocation* location,
+                          const char *value)
+{
+  char *escaped_value;
+
+  /* Let CURL find the length it self by passing 0 */
+  escaped_value = curl_easy_escape(get_curl(), value, 0);
+
+  /* Handle as a regular string from now on. */
+  dio_put_string_json(dout, key, location, escaped_value);
+
+  /* CURL's memory management wants to free this it self. */
+  curl_free(escaped_value);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void dio_put_tech_list_json(struct json_data_out *dout, char *key,
@@ -794,6 +832,42 @@ bool dio_get_string_json(json_t *json_packet, char *key,
     log_error("ERROR: Unable to get string with key: %s", key);
     return FALSE;
   }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Read and decode the string in the specified location.
+
+  max_dest_size applies to both the encoded and to the decoded string.
+**************************************************************************/
+bool dio_get_estring_json(json_t *json_packet, char *key,
+                          const struct plocation* location,
+                          char *dest, size_t max_dest_size)
+{
+  char *escaped_value;
+  char *unescaped_value;
+
+  /* The encoded string has the same size limit as the decoded string. */
+  escaped_value = fc_malloc(max_dest_size);
+
+  if (!dio_get_string_json(json_packet, key, location,
+                           escaped_value, max_dest_size)) {
+    /* dio_get_string_json() has logged this already. */
+    return FALSE;
+  }
+
+  /* Let CURL find the length it self by passing 0 */
+  unescaped_value = curl_easy_unescape(get_curl(), escaped_value, 0, NULL);
+
+  /* Done with the escaped value. */
+  FC_FREE(escaped_value);
+
+  /* Copy the unescaped value so CURL can free its own copy. */
+  memcpy(dest, unescaped_value, max_dest_size);
+
+  /* CURL's memory management wants to free this it self. */
+  curl_free(unescaped_value);
 
   return TRUE;
 }

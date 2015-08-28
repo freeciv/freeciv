@@ -220,7 +220,7 @@ class Field:
         return result
 
     def get_handle_type(self):
-        if self.dataio_type=="string":
+        if self.dataio_type=="string" or self.dataio_type=="estring":
             return "const char *"
         if self.dataio_type=="worklist":
             return "const %s *"%self.struct_type
@@ -245,7 +245,7 @@ class Field:
             return "  worklist_copy(&real_packet->%(name)s, %(name)s);"%self.__dict__
         if self.is_array==0:
             return "  real_packet->%(name)s = %(name)s;"%self.__dict__
-        if self.dataio_type=="string":
+        if self.dataio_type=="string" or self.dataio_type=="estring":
             return "  sz_strlcpy(real_packet->%(name)s, %(name)s);"%self.__dict__
         if self.is_array==1:
             tmp="real_packet->%(name)s[i] = %(name)s[i]"%self.__dict__
@@ -266,14 +266,14 @@ class Field:
             return "  differ = (memcmp(old->%(name)s, real_packet->%(name)s, %(array_size_d)s) != 0);"%self.__dict__
         if self.dataio_type=="bitvector":
             return "  differ = !BV_ARE_EQUAL(old->%(name)s, real_packet->%(name)s);"%self.__dict__
-        if self.dataio_type in ["string"] and self.is_array==1:
+        if self.dataio_type in ["string", "estring"] and self.is_array==1:
             return "  differ = (strcmp(old->%(name)s, real_packet->%(name)s) != 0);"%self.__dict__
         if self.is_struct and self.is_array==0:
             return "  differ = !are_%(dataio_type)ss_equal(&old->%(name)s, &real_packet->%(name)s);"%self.__dict__
         if not self.is_array:
             return "  differ = (old->%(name)s != real_packet->%(name)s);"%self.__dict__
         
-        if self.dataio_type=="string":
+        if self.dataio_type=="string" or self.dataio_type=="estring":
             c="strcmp(old->%(name)s[i], real_packet->%(name)s[i]) != 0"%self.__dict__
             array_size_u=self.array_size1_u
             array_size_o=self.array_size1_o
@@ -367,7 +367,7 @@ class Field:
         if self.dataio_type in ["memory"]:
             return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", &field_addr, &real_packet->%(name)s, %(array_size_u)s);"%self.__dict__
 
-        arr_types=["string","city_map","tech_list",
+        arr_types=["string","estring","city_map","tech_list",
                    "unit_list","building_list"]
         if (self.dataio_type in arr_types and self.is_array==1) or \
            (self.dataio_type not in arr_types and self.is_array==0):
@@ -377,7 +377,7 @@ class Field:
                 c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, &real_packet->%(name)s[i][j]);"%self.__dict__
             else:
                 c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, &real_packet->%(name)s[i]);"%self.__dict__
-        elif self.dataio_type=="string":
+        elif self.dataio_type=="string" or self.dataio_type=="estring":
             c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, real_packet->%(name)s[i]);"%self.__dict__
             array_size_u=self.array_size1_u
 
@@ -393,7 +393,8 @@ class Field:
                 c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, real_packet->%(name)s[i]);"%self.__dict__
 
         if not self.diff:
-            if self.is_array==2 and self.dataio_type!="string":
+            if self.is_array==2 and self.dataio_type!="string" \
+               and self.dataio_type!="estring":
                 return '''
     {
       int i, j;
@@ -576,7 +577,7 @@ field_addr.name = \"%(name)s\";
             return '''if (!DIO_BV_GET(&din, \"%(name)s\", &field_addr, real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
-        if self.dataio_type in ["string","city_map"] and \
+        if self.dataio_type in ["string","estring","city_map"] and \
            self.is_array!=2:
             return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, real_packet->%(name)s, sizeof(real_packet->%(name)s))) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
@@ -613,7 +614,7 @@ field_addr.name = \"%(name)s\";
                 c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, &real_packet->%(name)s[i])) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
-        elif self.dataio_type=="string":
+        elif self.dataio_type=="string" or self.dataio_type=="estring":
             c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, real_packet->%(name)s[i], sizeof(real_packet->%(name)s[i]))) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
@@ -674,7 +675,8 @@ field_addr.name = \"%(name)s\";
   if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, real_packet->%(name)s, %(array_size_u)s)){
     RECEIVE_PACKET_FIELD_ERROR(%(name)s);
   }'''%self.get_dict(vars())
-            elif self.is_array==2 and self.dataio_type!="string":
+            elif self.is_array==2 and self.dataio_type!="string" \
+                 and self.dataio_type!="estring":
                 return '''
 {
   int i, j;

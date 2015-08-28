@@ -148,6 +148,10 @@ bool dio_get_uint8_vec8_raw(struct data_in *din, int **values, int stop_value)
 bool dio_get_uint16_vec8_raw(struct data_in *din, int **values, int stop_value)
     fc__attribute((nonnull (2)));
 
+/* There is currently no need to escape strings in the binary protocol. */
+#define dio_get_estring_raw dio_get_string_raw
+#define dio_put_estring_raw dio_put_string_raw
+
 #ifndef FREECIV_JSON_CONNECTION
 
 /* Should be a function but we need some macro magic. */

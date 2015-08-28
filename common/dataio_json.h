@@ -77,6 +77,9 @@ bool dio_get_memory_json(json_t *json_packet, char *key,
 bool dio_get_string_json(json_t *json_packet, char *key,
                          const struct plocation* location,
                          char *dest, size_t max_dest_size);
+bool dio_get_estring_json(json_t *json_packet, char *key,
+                          const struct plocation* location,
+                          char *dest, size_t max_dest_size);
 bool dio_get_tech_list_json(json_t *json_packet, char *key,
                             const struct plocation* location, int *dest);
 bool dio_get_unit_list_json(json_t *json_packet, char *key,
@@ -142,6 +145,9 @@ void dio_put_memory_json(struct json_data_out *dout, char *key,
 void dio_put_string_json(struct json_data_out *dout, char *key,
                          const struct plocation* location,
                          const char *value);
+void dio_put_estring_json(struct json_data_out *dout, char *key,
+                          const struct plocation* location,
+                          const char *value);
 void dio_put_city_map_json(struct json_data_out *dout, char *key,
                            const struct plocation* location,
                            const char *value);
