@@ -607,7 +607,7 @@ PKG_PROG_PKG_CONFIG
 if test "x$PKG_CONFIG" = "x" ; then
   AC_MSG_ERROR([pkg-config not found])
 fi
-PKG_CHECK_MODULES([CURL], [libcurl >= 7.9.7],,
+PKG_CHECK_MODULES([CURL], [libcurl >= 7.12.1],,
     [AC_MSG_ERROR([libcurl development files required])])
 UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_CFLAGS}"
 UTILITY_LIBS="${UTILITY_LIBS} ${CURL_LIBS}"

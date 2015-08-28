@@ -73,7 +73,7 @@ out whether your system is suitable.  If in doubt, just try it.
 
    The output should include "GNU Make" somewhere.
 
- - libcurl
+ - libcurl version 7.12.1 or better
 
    Libcurl takes care of http communication with the metaserver, and
    file transfers of modpack installers

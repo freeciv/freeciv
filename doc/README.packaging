@@ -47,6 +47,7 @@ Updating from 2.4 to 2.5
   of freeciv-manual tool that's mostly useless for normal users.
 * Qt-client is now supported client, no longer just "in-development"
 * Xaw-client is no longer considered maintained client
+* Minimum libcurl version is now 7.12.1
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
