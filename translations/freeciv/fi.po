@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-22 23:59+0300\n"
-"PO-Revision-Date: 2015-08-23 00:13+0300\n"
+"POT-Creation-Date: 2015-08-29 01:41+0300\n"
+"PO-Revision-Date: 2015-08-29 01:43+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -3205,12 +3205,12 @@ msgid "?play:Game"
 msgstr "Peli"
 
 #: client/gui-gtk-2.0/editprop.c:859 client/gui-gtk-3.0/editprop.c:859
-#: utility/shared.c:2229
+#: utility/shared.c:2228
 msgid "TRUE"
 msgstr "TOSI"
 
 #: client/gui-gtk-2.0/editprop.c:859 client/gui-gtk-3.0/editprop.c:859
-#: utility/shared.c:2229
+#: utility/shared.c:2228
 msgid "FALSE"
 msgstr "EPÄTOSI"
 
@@ -3740,7 +3740,7 @@ msgid "Turn Done"
 msgstr "Vuoro valmis"
 
 #: client/gui-gtk-2.0/gui_main.c:1261 client/gui-gtk-3.0/gui_main.c:1272
-#: client/gui-sdl/mapctrl.c:1576 client/gui-sdl/mapview.c:907
+#: client/gui-sdl/mapctrl.c:1576 client/gui-sdl/mapview.c:912
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
@@ -4975,7 +4975,7 @@ msgstr "Palvelimen nimi"
 #: client/gui-gtk-2.0/pages.c:1150 client/gui-gtk-2.0/pages.c:1193
 #: client/gui-gtk-3.0/pages.c:1211 client/gui-gtk-3.0/pages.c:1256
 #: client/gui-qt/pages.cpp:265 client/gui-qt/pages.cpp:316
-#: client/gui-sdl/mapview.c:632 data/Freeciv.in:89
+#: client/gui-sdl/mapview.c:637 data/Freeciv.in:89
 msgid "Port"
 msgstr "Portti"
 
@@ -7021,7 +7021,7 @@ msgstr "Aktivoi yksikkö, sulje ikkuna"
 msgid "Upgrade unit"
 msgstr "Ajanmukaista yksikkö"
 
-#: client/gui-sdl/citydlg.c:715 client/gui-sdl/mapview.c:786
+#: client/gui-sdl/citydlg.c:715 client/gui-sdl/mapview.c:791
 msgid "?homecity:None"
 msgstr "ei kotikaupunkia"
 
@@ -7819,23 +7819,23 @@ msgstr "%s Väkiluku: %s  Vuosi: %s  Kulta %d"
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%s Väkiluku: %s  Vuosi: %s  Kulta %d Vero: %d Luk: %d Tie: %d"
 
-#: client/gui-sdl/mapview.c:565 client/text.c:143
+#: client/gui-sdl/mapview.c:570 client/text.c:143
 msgid "?nation:Hostile"
 msgstr "vihamielinen"
 
-#: client/gui-sdl/mapview.c:567 client/text.c:145
+#: client/gui-sdl/mapview.c:572 client/text.c:145
 msgid "?nation:Peaceful"
 msgstr "rauhanomainen"
 
-#: client/gui-sdl/mapview.c:567 client/text.c:145
+#: client/gui-sdl/mapview.c:572 client/text.c:145
 msgid "?nation:Friendly"
 msgstr "ystävällinen"
 
-#: client/gui-sdl/mapview.c:568 client/text.c:146
+#: client/gui-sdl/mapview.c:573 client/text.c:146
 msgid "?nation:Mysterious"
 msgstr "mystinen"
 
-#: client/gui-sdl/mapview.c:570
+#: client/gui-sdl/mapview.c:575
 msgid ""
 "\n"
 "Our Territory"
@@ -7843,7 +7843,7 @@ msgstr ""
 "\n"
 "Meidän aluettamme"
 
-#: client/gui-sdl/mapview.c:579
+#: client/gui-sdl/mapview.c:584
 #, c-format
 msgid ""
 "\n"
@@ -7858,7 +7858,7 @@ msgstr[1] ""
 "\n"
 "%s aluetta (%d vuoroa tulitaukoa)"
 
-#: client/gui-sdl/mapview.c:585
+#: client/gui-sdl/mapview.c:590
 #, c-format
 msgid ""
 "\n"
@@ -7873,7 +7873,7 @@ msgstr[1] ""
 "\n"
 "%s aluetta (%d vuoroa aselepoa)"
 
-#: client/gui-sdl/mapview.c:589
+#: client/gui-sdl/mapview.c:594
 #, c-format
 msgid ""
 "\n"
@@ -7882,7 +7882,7 @@ msgstr ""
 "\n"
 "%s %s hallitsevat aluetta"
 
-#: client/gui-sdl/mapview.c:594
+#: client/gui-sdl/mapview.c:599
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -7890,27 +7890,27 @@ msgstr ""
 "\n"
 "Valtaamatonta aluetta"
 
-#: client/gui-sdl/mapview.c:605 client/gui-sdl/mapview.c:606
+#: client/gui-sdl/mapview.c:610 client/gui-sdl/mapview.c:611
 msgid "?city:Neutral"
 msgstr "neutraali"
 
-#: client/gui-sdl/mapview.c:605 client/text.c:148
+#: client/gui-sdl/mapview.c:610 client/text.c:148
 msgid "?city:Hostile"
 msgstr "vihollinen"
 
-#: client/gui-sdl/mapview.c:606 client/text.c:150
+#: client/gui-sdl/mapview.c:611 client/text.c:150
 msgid "?city:Peaceful"
 msgstr "rauhallinen"
 
-#: client/gui-sdl/mapview.c:607 client/text.c:150
+#: client/gui-sdl/mapview.c:612 client/text.c:150
 msgid "?city:Friendly"
 msgstr "Ystävällinen"
 
-#: client/gui-sdl/mapview.c:607 client/text.c:150
+#: client/gui-sdl/mapview.c:612 client/text.c:150
 msgid "?city:Mysterious"
 msgstr "Mystinen"
 
-#: client/gui-sdl/mapview.c:610
+#: client/gui-sdl/mapview.c:615
 #, c-format
 msgid ""
 "\n"
@@ -7919,41 +7919,41 @@ msgstr ""
 "\n"
 "Kaupunki (%s)"
 
-#: client/gui-sdl/mapview.c:624
+#: client/gui-sdl/mapview.c:629
 msgid "?blistbegin: with "
 msgstr " jossa "
 
-#: client/gui-sdl/mapview.c:626 data/civ1/buildings.ruleset:71
+#: client/gui-sdl/mapview.c:631 data/civ1/buildings.ruleset:71
 #: data/civ2/buildings.ruleset:96 data/classic/buildings.ruleset:131
 #: data/experimental/buildings.ruleset:136 data/civ2civ3/buildings.ruleset:214
 #: data/multiplayer/buildings.ruleset:155
 msgid "Barracks"
 msgstr "Kasarmi"
 
-#: client/gui-sdl/mapview.c:628 client/gui-sdl/mapview.c:634
-#: client/gui-sdl/mapview.c:640 client/helpdata.c:4292 client/helpdata.c:4300
+#: client/gui-sdl/mapview.c:633 client/gui-sdl/mapview.c:639
+#: client/gui-sdl/mapview.c:645 client/helpdata.c:4292 client/helpdata.c:4300
 msgid "?blistmore:, "
 msgstr ", "
 
-#: client/gui-sdl/mapview.c:638 data/civ2/buildings.ruleset:28
+#: client/gui-sdl/mapview.c:643 data/civ2/buildings.ruleset:28
 #: data/classic/buildings.ruleset:61 data/experimental/buildings.ruleset:63
 #: data/civ2civ3/buildings.ruleset:61 data/multiplayer/buildings.ruleset:60
 msgid "Airport"
 msgstr "Lentoasema"
 
-#: client/gui-sdl/mapview.c:644 data/civ1/buildings.ruleset:170
+#: client/gui-sdl/mapview.c:649 data/civ1/buildings.ruleset:170
 #: data/civ2/buildings.ruleset:193 data/classic/buildings.ruleset:231
 #: data/experimental/buildings.ruleset:236 data/civ2civ3/buildings.ruleset:312
 #: data/multiplayer/buildings.ruleset:255
 msgid "City Walls"
 msgstr "Kaupunginmuuri"
 
-#: client/gui-sdl/mapview.c:647
+#: client/gui-sdl/mapview.c:652
 msgid "?blistend:"
 msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:655
+#: client/gui-sdl/mapview.c:660
 #, c-format
 msgid ""
 "\n"
@@ -7962,7 +7962,7 @@ msgstr ""
 "\n"
 "(%s,%s)"
 
-#: client/gui-sdl/mapview.c:665
+#: client/gui-sdl/mapview.c:670
 #, c-format
 msgid ""
 "\n"
@@ -7971,11 +7971,11 @@ msgstr ""
 "\n"
 "Ruoka/tuotanto/kauppa: %s"
 
-#: client/gui-sdl/mapview.c:907
+#: client/gui-sdl/mapview.c:912
 msgid "End of Turn"
 msgstr "Lopeta vuoro"
 
-#: client/gui-sdl/mapview.c:907
+#: client/gui-sdl/mapview.c:912
 msgid "Press"
 msgstr "Paina"
 
@@ -31260,7 +31260,8 @@ msgstr "Yksikön %s kotikaupunki on nyt %s."
 #: server/citytools.c:623
 #, c-format
 msgid "The %s already have a %s. Can't transfer yours."
-msgstr "Yksikkösi %2$s omistusta ei voi siirtää, koska %1$s omistavat jo sellaisen."
+msgstr ""
+"Yksikkösi %2$s omistusta ei voi siirtää, koska %1$s omistavat jo sellaisen."
 
 #: server/citytools.c:642
 #, c-format
@@ -38306,7 +38307,7 @@ msgstr "Kansakunnat ovat kaikki käytössä, en voi lisätä enempää pelaajia.
 #: server/stdinhand.c:947 server/stdinhand.c:957
 #, c-format
 msgid "%s is replacing dead player %s as an AI-controlled player."
-msgstr "%s korvaa AI-pelaajana ihmispelaajan %s."
+msgstr "%s korvaa AI-pelaajana kuolleen pelaajan %s."
 
 #: server/stdinhand.c:981 server/stdinhand.c:1107
 #, c-format
@@ -38349,7 +38350,7 @@ msgstr "AI-tyyppiä %s ei ole."
 #: server/stdinhand.c:1096
 #, c-format
 msgid "%s replacing %s as an AI-controlled player."
-msgstr "%s korvaa AI-pelaajana ihmispelaajan %s."
+msgstr "%s korvaa AI-pelaajana pelaajan %s."
 
 # c-format
 #: server/stdinhand.c:1112
@@ -40822,92 +40823,92 @@ msgstr "Valitsimella \"%s\" ei ole argumenttia.\n"
 #. TRANS: <FREECIV_DATA_PATH> configuration error
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
 #. TRANS: <FREECIV_SCENARIO_PATH> configuration error
-#: utility/shared.c:994 utility/shared.c:1038 utility/shared.c:1097
+#: utility/shared.c:993 utility/shared.c:1037 utility/shared.c:1096
 #, c-format
 msgid "\"%s\" is set but empty; trying \"%s\" instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1000
+#: utility/shared.c:999
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1045
+#: utility/shared.c:1044
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1104
+#: utility/shared.c:1103
 #, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1173
+#: utility/shared.c:1172
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Datahakemiston %s lukeminen epäonnistui: %s."
 
-#: utility/shared.c:1592
+#: utility/shared.c:1591
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Vakava virhe: root-käyttäjän ei sovi ajaa minua!\n"
 
-#: utility/shared.c:1594
+#: utility/shared.c:1593
 msgid "Use a non-privileged account instead.\n"
 msgstr "Käytä mieluummin tavallista käyttäjätiliä.\n"
 
 # Used in the server/stdinhand.c to describe errors if given player name or
 # command is not known or matches multiple players/commands --PP
-#: utility/shared.c:1610
+#: utility/shared.c:1609
 msgid "exact match"
 msgstr "täysosuma"
 
-#: utility/shared.c:1611
+#: utility/shared.c:1610
 msgid "only match"
 msgstr "ainoa osuma"
 
 # *** 'non-clear' ***
-#: utility/shared.c:1612
+#: utility/shared.c:1611
 msgid "ambiguous"
 msgstr "vastaa useaa"
 
-#: utility/shared.c:1613
+#: utility/shared.c:1612
 msgid "empty"
 msgstr "tyhjä"
 
-#: utility/shared.c:1614
+#: utility/shared.c:1613
 msgid "too long"
 msgstr "liian pitkä"
 
 # *** Urmh. ***
-#: utility/shared.c:1615
+#: utility/shared.c:1614
 msgid "non-match"
 msgstr "huti"
 
-#: utility/shared.c:1946
+#: utility/shared.c:1945
 msgid "day"
 msgid_plural "days"
 msgstr[0] "päivä"
 msgstr[1] "päivää"
 
-#: utility/shared.c:1951
+#: utility/shared.c:1950
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "tunti"
 msgstr[1] "tuntia"
 
-#: utility/shared.c:1957
+#: utility/shared.c:1956
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuutti"
 msgstr[1] "minuuttia"
 
-#: utility/shared.c:1963
+#: utility/shared.c:1962
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunti"
