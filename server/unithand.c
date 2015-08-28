@@ -3926,13 +3926,13 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_HELP_WONDER:
       case ACTION_CAPTURE_UNITS:
       case ACTION_JOIN_CITY:
+      case ACTION_STEAL_MAPS:
       case ACTION_BOMBARD:
       case ACTION_NUKE:
       case ACTION_DESTROY_CITY:
         /* No validation required. */
         break;
       /* Must be tested first. */
-      case ACTION_STEAL_MAPS:
       case ACTION_SPY_NUKE:
       /* Needs additional target information. */
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
