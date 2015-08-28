@@ -745,10 +745,10 @@ char *user_home_dir(void)
 #ifdef AMIGA
   return "PROGDIR:";
 #else  /* AMIGA */
-  static bool init = FALSE;
 
-  if (!init) {
+  if (home_dir == NULL) {
     char *env = getenv("HOME");
+
     if (env) {
       home_dir = fc_strdup(env);
       log_verbose("HOME is %s", home_dir);
@@ -801,7 +801,6 @@ char *user_home_dir(void)
       home_dir = NULL;
 #endif /* WIN32_NATIVE */
     }
-    init = TRUE;
   }
 
   return home_dir;
