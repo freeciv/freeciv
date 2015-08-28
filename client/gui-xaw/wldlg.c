@@ -801,10 +801,10 @@ void worklist_avail_callback(Widget w, XtPointer client_data,
 
 *****************************************************************/
 void insert_into_worklist(struct worklist_dialog *pdialog,
-			  int before, cid cid)
+                          int before, cid id)
 {
   int i, first_free;
-  struct universal target = cid_decode(cid);
+  struct universal target = cid_decode(id);
 
   /* If this worklist is a city worklist, double check that the city
      really can (eventually) build the target.  We've made sure that
@@ -847,7 +847,7 @@ void insert_into_worklist(struct worklist_dialog *pdialog,
   pdialog->worklist_ids[first_free] = WORKLIST_END;
   pdialog->worklist_names_ptrs[first_free] = NULL;
 
-  pdialog->worklist_ids[before] = cid;
+  pdialog->worklist_ids[before] = id;
   
   worklist_id_to_name(pdialog->worklist_names[before],
 		      target, pdialog->pcity);
@@ -1136,9 +1136,10 @@ void worklist_worklist_help_callback(Widget w, XtPointer client_data,
   pdialog=(struct worklist_dialog *)client_data;
 
   ret = XawListShowCurrent(pdialog->worklist);
-  if(ret->list_index!=XAW_LIST_NONE) {
-    cid cid = pdialog->worklist_ids[ret->list_index];
-    production = cid_decode(cid);
+  if (ret->list_index != XAW_LIST_NONE) {
+    cid id = pdialog->worklist_ids[ret->list_index];
+
+    production = cid_decode(id);
   } else {
     production.kind = VUT_NONE;
     production.value.building = NULL;

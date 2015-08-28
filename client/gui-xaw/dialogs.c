@@ -331,7 +331,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
                               const struct text_tag_list *tags,
                               struct tile *ptile)
 {
-  Widget notify_dialog_shell, notify_form, notify_command, notify_goto_command;
+  Widget notify_gdialog_shell, notify_form, notify_command, notify_goto_command;
   Widget notify_headline, notify_label;
   Dimension width, width2, width_1, width_2;
   
@@ -339,13 +339,13 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
     popup_notify_dialog("Message:", headline, lines);
     return;
   }
-  notify_dialog_shell = XtCreatePopupShell("Message:",
-					   transientShellWidgetClass,
-					   toplevel, NULL, 0);
+  notify_gdialog_shell = XtCreatePopupShell("Message:",
+                                            transientShellWidgetClass,
+                                            toplevel, NULL, 0);
 
-  notify_form = XtVaCreateManagedWidget("notifyform", 
-					 formWidgetClass, 
-					 notify_dialog_shell, NULL);
+  notify_form = XtVaCreateManagedWidget("notifyform",
+                                        formWidgetClass, 
+                                        notify_gdialog_shell, NULL);
 
   notify_headline=XtVaCreateManagedWidget("notifyheadline", 
 			  labelWidgetClass, notify_form, 
@@ -381,8 +381,8 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   XtAddCallback(notify_command, XtNcallback, notify_no_goto_command_callback, NULL);
   XtAddCallback(notify_goto_command, XtNcallback, notify_goto_command_callback, NULL);
   notify_goto_add_widget_tile(notify_goto_command, ptile);
-  xaw_set_relative_position(toplevel, notify_dialog_shell, 25, 5);
-  XtPopup(notify_dialog_shell, XtGrabNone);
+  xaw_set_relative_position(toplevel, notify_gdialog_shell, 25, 5);
+  XtPopup(notify_gdialog_shell, XtGrabNone);
   /*  XtSetSensitive(toplevel, FALSE); */
 }
 

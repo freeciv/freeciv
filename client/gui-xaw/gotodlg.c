@@ -207,7 +207,7 @@ static struct city *get_selected_city(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_goto_dialog(Widget goto_list)
+void update_goto_dialog(Widget goto_cities)
 {
   int j = 0;
   Boolean all_cities;
@@ -220,7 +220,7 @@ void update_goto_dialog(Widget goto_list)
 
   cleanup_goto_list();
 
-  if(all_cities) {
+  if (all_cities) {
     ncities_total = 0;
     players_iterate(pplayer) {
       ncities_total += city_list_size(pplayer->cities);
@@ -229,7 +229,7 @@ void update_goto_dialog(Widget goto_list)
     ncities_total = city_list_size(client.conn.playing->cities);
   }
 
-  city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));
+  city_name_ptrs = fc_malloc(ncities_total*sizeof(char*));
   
   players_iterate(pplayer) {
     if (!all_cities && pplayer != client.conn.playing) {
@@ -246,9 +246,9 @@ void update_goto_dialog(Widget goto_list)
     } city_list_iterate_end;
   } players_iterate_end;
 
-  if(ncities_total) {
+  if (ncities_total) {
     qsort(city_name_ptrs, ncities_total, sizeof(char *), compare_strings_ptrs);
-    XawListChange(goto_list, city_name_ptrs, ncities_total, 0, True);
+    XawListChange(goto_cities, city_name_ptrs, ncities_total, 0, True);
   }
 }
 
@@ -269,12 +269,15 @@ static void popdown_goto_dialog(void)
 void goto_list_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   XawListReturnStruct *ret;
-  ret=XawListShowCurrent(goto_list);
-  
+
+  ret = XawListShowCurrent(goto_list);
+
   if (ret->list_index != XAW_LIST_NONE) {
     struct city *pdestcity;
+
     if ((pdestcity = get_selected_city())) {
       bool can_airlift = FALSE;
+
       unit_list_iterate(get_units_in_focus(), punit) {
         if (unit_can_airlift_to(punit, pdestcity)) {
 	  can_airlift = TRUE;

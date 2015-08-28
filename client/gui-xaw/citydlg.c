@@ -1591,14 +1591,14 @@ static void citizen_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
-  enum citizen_category citizens[MAX_CITY_SIZE];
+  enum citizen_category categories[MAX_CITY_SIZE];
   int i;
   struct city *pcity=pdialog->pcity;
-  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
+  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
 
   for (i = 0; i < num_citizens && i < pdialog->num_citizens_shown; i++) {
     xaw_set_bitmap(pdialog->citizen_labels[i],
-		   get_citizen_pixmap(citizens[i], i, pcity));
+		   get_citizen_pixmap(categories[i], i, pcity));
 
     /* HACK: set sensitivity/callbacks on the widget */
     XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
@@ -1834,7 +1834,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
 {
   char buf[512];
   String now;
-  
+
   fc_snprintf(buf, sizeof(buf), _("%s - %s citizens  Governor: %s"),
 	      city_name(pdialog->pcity),
 	      population_to_text(city_population(pdialog->pcity)),

@@ -690,22 +690,22 @@ void update_city_descriptions(void)
 Draw at x = left of string, y = top of string.
 **************************************************************************/
 static void draw_shadowed_string(struct canvas *pcanvas,
-				 XFontSet fontset, GC font_gc,
-				 struct color *foreground,
-				 struct color *shadow,
-				 int x, int y, const char *string)
+                                 XFontSet fontset, GC fgc,
+                                 struct color *foreground,
+                                 struct color *shadow,
+                                 int x, int y, const char *string)
 {
   size_t len = strlen(string);
 
   y -= XExtentsOfFontSet(fontset)->max_logical_extent.y;
 
-  XSetForeground(display, font_gc, shadow->color.pixel);
-  XmbDrawString(display, pcanvas->pixmap, fontset, font_gc,
-      x + 1, y + 1, string, len);
+  XSetForeground(display, fgc, shadow->color.pixel);
+  XmbDrawString(display, pcanvas->pixmap, fontset, fgc,
+                x + 1, y + 1, string, len);
 
-  XSetForeground(display, font_gc, foreground->color.pixel);
-  XmbDrawString(display, pcanvas->pixmap, fontset, font_gc,
-      x, y, string, len);
+  XSetForeground(display, fgc, foreground->color.pixel);
+  XmbDrawString(display, pcanvas->pixmap, fontset, fgc,
+                x, y, string, len);
 }
 
 static XFontSet *fonts[FONT_COUNT] = {&main_font_set, &prod_font_set};

@@ -150,7 +150,7 @@ void popup_find_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_find_dialog(Widget find_list)
+void update_find_dialog(Widget search_list)
 {
   int j = 0;
 
@@ -167,9 +167,9 @@ void update_find_dialog(Widget find_list)
     } city_list_iterate_end;
   } players_iterate_end;
   
-  if(ncities_total) {
+  if (ncities_total) {
     qsort(city_name_ptrs, ncities_total, sizeof(char *), compare_strings_ptrs);
-    XawListChange(find_list, city_name_ptrs, ncities_total, 0, True);
+    XawListChange(search_list, city_name_ptrs, ncities_total, 0, True);
   }
 }
 
@@ -197,8 +197,8 @@ void find_center_command_callback(Widget w, XtPointer client_data,
 {
   struct city *pcity;
   XawListReturnStruct *ret;
-  
-  ret=XawListShowCurrent(find_list);
+
+  ret = XawListShowCurrent(find_list);
 
   if (ret->list_index != XAW_LIST_NONE) {
     if ((pcity = game_city_by_name(ret->string))) {

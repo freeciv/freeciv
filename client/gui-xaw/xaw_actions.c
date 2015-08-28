@@ -1045,7 +1045,7 @@ static XtActionsRec Actions[] = {
 /*******************************************************************************
  Initialize our Actions!!
 *******************************************************************************/
-void InitializeActions (XtAppContext app_context)
+void InitializeActions(XtAppContext context)
 {
-  XtAppAddActions(app_context, Actions, XtNumber(Actions));
+  XtAppAddActions(context, Actions, XtNumber(Actions));
 }

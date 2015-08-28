@@ -188,14 +188,14 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
 
   /* Create scrollbars in the minimal surplus column. */
   prev = surplus_header;
-  output_type_iterate(i) {
-    surplus_slider[i] = 
+  output_type_iterate(o) {
+    surplus_slider[o] =
       XtVaCreateManagedWidget("cmapresetscroll",
-                                  scrollbarWidgetClass, form,
-                                  XtNfromHoriz, stat_surplus_label[i],
-                                  XtNfromVert, prev,
-                                  NULL);
-    prev = stat_surplus_label[i];
+                              scrollbarWidgetClass, form,
+                              XtNfromHoriz, stat_surplus_label[o],
+                              XtNfromVert, prev,
+                              NULL);
+    prev = stat_surplus_label[o];
   } output_type_iterate_end;
 
   celebrate_toggle = 
@@ -307,10 +307,10 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
   XtAddCallback(close_button, XtNcallback,
                 close_callback, NULL);
 
-  output_type_iterate(i) {
-    XtAddCallback(surplus_slider[i], XtNscrollProc,
+  output_type_iterate(o) {
+    XtAddCallback(surplus_slider[o], XtNscrollProc,
                   sliders_scroll_callback, NULL);
-    XtAddCallback(surplus_slider[i], XtNjumpProc,
+    XtAddCallback(surplus_slider[o], XtNjumpProc,
                   sliders_jump_callback, NULL);
   } output_type_iterate_end;
 
@@ -324,8 +324,8 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
   /* Update dialog with CMA parameters from city.  */
   cmafec_get_fe_parameter(current_city, &parameter);
 
-  output_type_iterate(i) {
-    minimal_surplus[i] = parameter.minimal_surplus[i];
+  output_type_iterate(o) {
+    minimal_surplus[o] = parameter.minimal_surplus[o];
   } output_type_iterate_end;
 
   XtVaSetValues(celebrate_toggle, 
@@ -338,8 +338,8 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
     factors[O_LAST] = 1;
   }
 
-  output_type_iterate(i) {
-    factors[i] = parameter.factor[i];
+  output_type_iterate(o) {
+    factors[o] = parameter.factor[o];
   } output_type_iterate_end;
 
   set_slider_values();
@@ -351,9 +351,9 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
   XtVaSetValues(result_label, XtNwidth, 360, NULL);
   XtVaSetValues(result_label, XtNheight, 110, NULL);
 
-  output_type_iterate(i) {
-    XtVaSetValues(stat_surplus_label[i], XtNwidth, 90, NULL);
-    XtVaSetValues(stat_factor_label[i], XtNwidth, 90, NULL);
+  output_type_iterate(o) {
+    XtVaSetValues(stat_surplus_label[o], XtNwidth, 90, NULL);
+    XtVaSetValues(stat_factor_label[o], XtNwidth, 90, NULL);
   } output_type_iterate_end;
   /* FIXME! Now we assume that output_type_iterate ends with O_LAST. */
   XtVaSetValues(stat_factor_label[O_LAST], XtNwidth, 90, NULL);
@@ -549,9 +549,9 @@ static void set_slider_values(void)
 {
   int i;
   
-  output_type_iterate(i) {
-    XawScrollbarSetThumb(surplus_slider[i],
-                     (((20 + minimal_surplus[i])))*1/41.0f, 1/41.0f);
+  output_type_iterate(o) {
+    XawScrollbarSetThumb(surplus_slider[o],
+                         (((20 + minimal_surplus[o])))*1/41.0f, 1/41.0f);
   } output_type_iterate_end;
 
   for (i = 0; i < (O_LAST + 1); i++) { 
@@ -576,17 +576,17 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
 
   result = cm_result_new(current_city);
 
-  output_type_iterate(i) {
-    if (w == surplus_slider[i]) {
+  output_type_iterate(o) {
+    if (w == surplus_slider[o]) {
       if (pos > 0 ) {
-        minimal_surplus[i]++;
-        if (minimal_surplus[i] == 21) {
-          minimal_surplus[i]--;
+        minimal_surplus[o]++;
+        if (minimal_surplus[o] == 21) {
+          minimal_surplus[o]--;
         }
       } else {
-        minimal_surplus[i]--;
-        if (minimal_surplus[i] == -21) {
-          minimal_surplus[i]++;
+        minimal_surplus[o]--;
+        if (minimal_surplus[o] == -21) {
+          minimal_surplus[o]++;
         }
       }
     }
@@ -610,9 +610,9 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
 
   cmafec_get_fe_parameter(current_city, &parameter);
 
-  output_type_iterate(i) {
-    parameter.minimal_surplus[i] = minimal_surplus[i];
-    parameter.factor[i] = factors[i];
+  output_type_iterate(o) {
+    parameter.minimal_surplus[o] = minimal_surplus[o];
+    parameter.factor[o] = factors[o];
   } output_type_iterate_end;
 
   XtVaGetValues(celebrate_toggle, XtNstate, &parameter.require_happy, NULL);
@@ -658,10 +658,10 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
 
   result = cm_result_new(current_city);
 
-  output_type_iterate(i) {
-    if (w == surplus_slider[i]) {
+  output_type_iterate(o) {
+    if (w == surplus_slider[o]) {
       /* convert from percent to [-20..20] */
-      minimal_surplus[i] = (int)(percent * 41) - 20;
+      minimal_surplus[o] = (int)(percent * 41) - 20;
     }
   } output_type_iterate_end;
 
@@ -674,9 +674,9 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
 
   cmafec_get_fe_parameter(current_city, &parameter);
 
-  output_type_iterate(i) {
-    parameter.minimal_surplus[i] = minimal_surplus[i];
-    parameter.factor[i] = factors[i];
+  output_type_iterate(o) {
+    parameter.minimal_surplus[o] = minimal_surplus[o];
+    parameter.factor[o] = factors[o];
   } output_type_iterate_end;
 
   XtVaGetValues(celebrate_toggle, XtNstate, &parameter.require_happy, NULL);

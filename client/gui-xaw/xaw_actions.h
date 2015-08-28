@@ -16,7 +16,7 @@
 #include <X11/Intrinsic.h>
 
 
-extern void InitializeActions (XtAppContext app_context);
+extern void InitializeActions(XtAppContext context);
 
 
 #endif  /* FC__XAW_ACTIONS_H */

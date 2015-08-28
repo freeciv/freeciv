@@ -813,12 +813,11 @@ static void chgall_update_widgets_state (struct chgall_data *state);
 /**************************************************************************
 ...
 **************************************************************************/
-
-static void popup_chgall_dialog (Widget parent)
+static void popup_chgall_dialog(Widget parent)
 {
   struct chgall_data *state;
   Widget shell;
-  Widget main_form;
+  Widget chgall_main;
   Widget fr_viewport;
   Widget to_viewport;
   Position x, y;
@@ -859,7 +858,7 @@ static void popup_chgall_dialog (Widget parent)
   XtAddCallback (state->w.shell, XtNdestroyCallback,
 		 chgall_shell_destroy, state);
 
-  main_form =
+  chgall_main =
     XtVaCreateManagedWidget
     (
      "chgallform",
@@ -873,7 +872,7 @@ static void popup_chgall_dialog (Widget parent)
     (
      "chgallfrviewport",
      viewportWidgetClass,
-     main_form,
+     chgall_main,
      NULL
     );
 
@@ -891,7 +890,7 @@ static void popup_chgall_dialog (Widget parent)
     (
      "chgalltoviewport",
      viewportWidgetClass,
-     main_form,
+     chgall_main,
      NULL
     );
 
@@ -909,7 +908,7 @@ static void popup_chgall_dialog (Widget parent)
     (
      "chgallchangecommand",
      commandWidgetClass,
-     main_form,
+     chgall_main,
      NULL
     ));
 
@@ -918,7 +917,7 @@ static void popup_chgall_dialog (Widget parent)
     (
      "chgallrefreshcommand",
      commandWidgetClass,
-     main_form,
+     chgall_main,
      NULL
     ));
 
@@ -927,7 +926,7 @@ static void popup_chgall_dialog (Widget parent)
     (
      "chgallcancelcommand",
      commandWidgetClass,
-     main_form,
+     chgall_main,
      NULL
     ));
 
