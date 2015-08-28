@@ -381,6 +381,8 @@ void real_set_client_page(enum client_pages page)
       break;
   }
 
+  old_page = page;
+
   switch (page) {
     case PAGE_MAIN:
       show_main_page();
@@ -407,8 +409,6 @@ void real_set_client_page(enum client_pages page)
     default:
       break;
   }  
-  
-  old_page = page;
 }
 
 /****************************************************************************
