@@ -400,6 +400,8 @@ static void script_server_signal_create(void)
 
   luascript_signal_create(fcl_main, "map_generated", 0);
 
+  luascript_signal_create(fcl_main, "pulse", 0);
+
   luascript_signal_create(fcl_main, "action_started_unit_unit", 3,
                           API_TYPE_ACTION,
                           API_TYPE_UNIT, API_TYPE_UNIT);
