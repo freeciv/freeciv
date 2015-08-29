@@ -727,7 +727,7 @@ void update_city_cma_dialog(void)
   int count, step, i;
   struct widget *pBuf = pCma->pDlg->pEndWidgetList; /* pWindow */
   SDL_Surface *pText;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Rect dst;
   bool cma_presets_exist = cmafec_preset_num() > 0;
   bool client_under_control = can_client_issue_orders();
@@ -784,12 +784,12 @@ void update_city_cma_dialog(void)
   }
 
   /* create result text surface */
-  pStr = create_str16_from_char(cmafec_get_result_descr(pCma->pCity, result,
-                                                        &pCma->edited_cm_parm),
-                                adj_font(12));
+  pstr = create_utf8_from_char(cmafec_get_result_descr(pCma->pCity, result,
+                                                       &pCma->edited_cm_parm),
+                               adj_font(12));
 
-  pText = create_text_surf_from_str16(pStr);
-  FREESTRING16(pStr);
+  pText = create_text_surf_from_utf8(pstr);
+  FREEUTF8STR(pstr);
 
   /* fill result text background */  
   dst.x = pBuf->area.x + adj_size(7);
