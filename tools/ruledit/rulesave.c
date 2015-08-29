@@ -1805,6 +1805,11 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     secfile_insert_str(sfile, identifier, "%s.identifier", path);
   } resource_type_iterate_end;
 
+  secfile_insert_str(sfile, terrain_control.gui_type_base0,
+                     "extraui.ui_name_base_fortress");
+  secfile_insert_str(sfile, terrain_control.gui_type_base1,
+                     "extraui.ui_name_base_airbase");
+
   sect_idx = 0;
   extra_type_iterate(pextra) {
     char path[512];
