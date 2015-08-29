@@ -101,6 +101,10 @@ void dai_data_close(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer, ait);
 
+  /* Finish the phase if it's open - free resources related to
+   * open/finish cycle */
+  dai_data_phase_finished(ait, pplayer);
+
   /* Free autosettler. */
   dai_auto_settler_free(ai);
 
