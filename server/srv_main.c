@@ -175,6 +175,9 @@ bv_identity_numbers identity_numbers_used;
 /* server initialized flag */
 static bool has_been_srv_init = FALSE;
 
+/* time server processing at end-of-turn */
+static struct timer *eot_timer = NULL;
+
 /**************************************************************************
   Initialize the game seed.  This may safely be called multiple times.
 **************************************************************************/
@@ -1396,6 +1399,9 @@ void start_game(void)
 **************************************************************************/
 void server_quit(void)
 {
+  if (eot_timer != NULL) {
+    timer_destroy(eot_timer);
+  }
   set_server_state(S_S_OVER);
   mapimg_free();
   server_game_free();
@@ -2268,7 +2274,6 @@ static void announce_player(struct player *pplayer)
 **************************************************************************/
 static void srv_running(void)
 {
-  struct timer *eot_timer;	/* time server processing at end-of-turn */
   int save_counter = 0, i;
   bool is_new_turn = game.info.is_new_game;
   bool skip_mapimg = !game.info.is_new_game; /* Do not overwrite start-of-turn image */
@@ -2280,7 +2285,6 @@ static void srv_running(void)
   log_verbose("srv_running() mostly redundant send_server_settings()");
   send_server_settings(NULL);
 
-  eot_timer = timer_new(TIMER_CPU, TIMER_ACTIVE);
   timer_start(eot_timer);
 
   /* 
@@ -2415,7 +2419,7 @@ static void srv_running(void)
   /* This will thaw the reports and agents at the client.  */
   lsend_packet_thaw_client(game.est_connections);
 
-  timer_destroy(eot_timer);
+  timer_clear(eot_timer);
 }
 
 /**************************************************************************
@@ -2502,6 +2506,8 @@ static void srv_prepare(void)
       exit(EXIT_FAILURE);
     }
   }
+
+  eot_timer = timer_new(TIMER_CPU, TIMER_ACTIVE);
 }
 
 /**************************************************************************
