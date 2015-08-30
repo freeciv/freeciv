@@ -298,6 +298,7 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_unit_built = ""
 ;e_unit_built_pop_cost = ""
 ;e_unit_buy = ""
+;e_unit_action_failed
 ;e_unit_lost_def = ""
 ;e_unit_lost_att = ""
 ;e_unit_lost_misc = ""
@@ -306,6 +307,8 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_unit_upgraded = ""
 ;e_unit_win = ""
 ;e_unit_win_att = ""
+;e_unit_did_expel = ""
+;e_unit_was_expelled = ""
 ;e_uprising = ""
 ;e_disaster = ""
 ;e_achievement = ""

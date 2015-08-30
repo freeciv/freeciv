@@ -377,6 +377,88 @@ static bool do_capture_units(struct player *pplayer,
 }
 
 /**************************************************************************
+  Expel the target unit to his owner's capital.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_expel_unit(struct player *pplayer,
+                          struct unit *actor,
+                          struct unit *target)
+{
+  char target_link[MAX_LEN_LINK];
+  struct player *uplayer;
+  struct tile *target_tile;
+  struct city *pcity;
+
+  /* Maybe it didn't survive the Lua call back. Why wasn't this caught by
+   * the caller? Check in the code that emits the signal. */
+  fc_assert_ret_val(target && unit_alive(target->id), FALSE);
+
+  uplayer = unit_owner(target);
+
+  /* A unit is supposed to have an owner. */
+  fc_assert_ret_val(uplayer, FALSE);
+
+  /* Maybe it didn't survive the Lua call back. Why wasn't this caught by
+   * the caller? Check in the code that emits the signal. */
+  fc_assert_ret_val(actor && unit_alive(actor->id), FALSE);
+
+  /* Where is the actor player? */
+  fc_assert_ret_val(pplayer, FALSE);
+
+  target_tile = unit_tile(target);
+
+  /* Expel the target unit to his owner's capital. */
+  pcity = player_capital(uplayer);
+
+  /* N.B: unit_link() always returns the same pointer. */
+  sz_strlcpy(target_link, unit_link(target));
+
+  if (pcity == NULL) {
+    /* No where to send the expelled unit. */
+
+    /* Notify the actor player. */
+    notify_player(pplayer, target_tile, E_UNIT_ACTION_FAILED, ftc_server,
+                  /* TRANS: <Poles> <Spy> */
+                  _("The %s don't have a capital to expel their %s to."),
+                  nation_plural_for_player(uplayer), target_link);
+
+    /* Nothing more could be done. */
+    return FALSE;
+  }
+
+  /* Please review the code below and above (including the strings sent to
+   * the players) before allowing expulsion to non capital cities. */
+  fc_assert(is_capital(pcity));
+
+  /* Notify everybody involved. */
+  notify_player(pplayer, target_tile, E_UNIT_DID_EXPEL, ftc_server,
+                /* TRANS: <Border Patrol> ... <Spy> */
+                _("Your %s succeeded in expelling the %s %s."),
+                unit_link(actor), nation_adjective_for_player(uplayer),
+                target_link);
+  notify_player(uplayer, target_tile, E_UNIT_WAS_EXPELLED, ftc_server,
+                /* TRANS: <unit> ... <Poles> */
+                _("Your %s was expelled by the %s."),
+                target_link, nation_plural_for_player(pplayer));
+
+  /* Being expelled destroys all remaining movement. */
+  if (!teleport_unit_to_city(target, pcity, -1, FALSE)) {
+    log_error("Bug in unit expulsion: unit can't teleport.");
+
+    return FALSE;
+  }
+
+  /* This may cause a diplomatic incident */
+  action_consequence_success(ACTION_EXPEL_UNIT, pplayer, uplayer,
+                             target_tile, target_link);
+
+  /* Mission accomplished. */
+  return TRUE;
+}
+
+/**************************************************************************
   Returns TRUE iff, from the point of view of the owner of the actor unit,
   it looks like the actor unit may be able to perform a non action
   enabler controlled action against a unit or city on the target_tile by
@@ -1498,6 +1580,19 @@ bool unit_perform_action(struct player *pplayer,
         ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
 
         return spy_sabotage_unit(pplayer, actor_unit, punit);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       unit_owner(punit), NULL, NULL, punit);
+      }
+    }
+    break;
+  case ACTION_EXPEL_UNIT:
+    if (punit) {
+      if (is_action_enabled_unit_on_unit(action_type,
+                                         actor_unit, punit)) {
+        ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
+
+        return do_expel_unit(pplayer, actor_unit, punit);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        unit_owner(punit), NULL, NULL, punit);
@@ -3939,6 +4034,7 @@ void handle_unit_orders(struct player *pplayer,
       /* Targets a single unit. */
       case ACTION_SPY_BRIBE_UNIT:
       case ACTION_SPY_SABOTAGE_UNIT:
+      case ACTION_EXPEL_UNIT:
         log_error("handle_unit_orders() the action %s isn't allowed in "
                   "orders. "
                   "Sent in order number %d from %s to unit number %d.",

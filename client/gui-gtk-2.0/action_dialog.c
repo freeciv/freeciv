@@ -378,6 +378,20 @@ static void capture_units_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected expel unit from choice dialog
+*****************************************************************/
+static void expel_unit_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  request_do_action(ACTION_EXPEL_UNIT, args->actor_unit_id,
+                    args->target_unit_id, 0, "");
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected bombard from choice dialog
 *****************************************************************/
 static void bombard_callback(GtkWidget *w, gpointer data)
@@ -1087,6 +1101,7 @@ static const GCallback af_map[ACTION_COUNT] = {
 
   /* Unit acting against all units at a tile. */
   [ACTION_CAPTURE_UNITS] = (GCallback)capture_units_callback,
+  [ACTION_EXPEL_UNIT] = (GCallback)expel_unit_callback,
   [ACTION_BOMBARD] = (GCallback)bombard_callback,
 
   /* Unit acting against a tile. */

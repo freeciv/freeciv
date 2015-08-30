@@ -176,6 +176,9 @@ static struct {
   GEN_EV(E_UNIT_RELOCATED,	E_S_UNIT,	N_("Relocated")),
   GEN_EV(E_UNIT_ORDERS,         E_S_UNIT,       N_("Orders / goto events")),
   GEN_EV(E_UNIT_BUILT_POP_COST, E_S_UNIT,       N_("Built unit with population cost")),
+  GEN_EV(E_UNIT_WAS_EXPELLED,	E_S_UNIT,	N_("Was Expelled")),
+  GEN_EV(E_UNIT_DID_EXPEL,	E_S_UNIT,	N_("Did Expel")),
+  GEN_EV(E_UNIT_ACTION_FAILED,	E_S_UNIT,	N_("Action failed")),
   /* TRANS: "vote" as a process */
   GEN_EV(E_VOTE_NEW,		E_S_VOTE,	N_("New vote")),
   /* TRANS: "Vote" as a process */

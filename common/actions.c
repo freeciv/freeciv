@@ -130,6 +130,9 @@ void actions_init(void)
   actions[ACTION_DESTROY_CITY] =
       action_new(ACTION_DESTROY_CITY, ATK_CITY,
                  TRUE);
+  actions[ACTION_EXPEL_UNIT] =
+      action_new(ACTION_EXPEL_UNIT, ATK_UNIT,
+                 TRUE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -1538,6 +1541,10 @@ action_prob(const enum gen_action wanted_action,
     chance = 200;
     break;
   case ACTION_CAPTURE_UNITS:
+    /* No battle is fought first. */
+    chance = 200;
+    break;
+  case ACTION_EXPEL_UNIT:
     /* No battle is fought first. */
     chance = 200;
     break;

@@ -82,6 +82,7 @@ static void caravan_marketplace(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
 static void capture_units(QVariant data1, QVariant data2);
+static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
@@ -138,6 +139,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
 
   /* Unit acting against all units at a tile. */
   action_function[ACTION_CAPTURE_UNITS] = capture_units;
+  action_function[ACTION_EXPEL_UNIT] = expel_unit;
   action_function[ACTION_BOMBARD] = bombard;
 
   /* Unit acting against a tile. */
@@ -1535,6 +1537,18 @@ static void capture_units(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_CAPTURE_UNITS, actor_id,
+                    target_id, 0, "");
+}
+
+/**************************************************************************
+  Action expel unit for choice dialog
+**************************************************************************/
+static void expel_unit(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_EXPEL_UNIT, actor_id,
                     target_id, 0, "");
 }
 

@@ -5392,6 +5392,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
+          /* TRANS: _Expel Unit (100% chance of success). */
+          N_("%sExpel Unit%s"),
+          "actions.ui_name_expel_unit");
+      sz_strlcpy(action_by_number(ACTION_EXPEL_UNIT)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
           /* TRANS: _Found City (100% chance of success). */
           N_("%sFound City%s"),
           "actions.ui_name_found_city");
