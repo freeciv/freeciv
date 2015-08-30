@@ -182,6 +182,11 @@ bv_identity_numbers identity_numbers_used;
 /* server initialized flag */
 static bool has_been_srv_init = FALSE;
 
+/* time server processing at end-of-turn */
+static struct timer *eot_timer = NULL;
+
+static struct timer *between_turns = NULL;
+
 /**************************************************************************
   Initialize the game seed.  This may safely be called multiple times.
 **************************************************************************/
@@ -1609,6 +1614,17 @@ void start_game(void)
 **************************************************************************/
 void server_quit(void)
 {
+  if (game.server.save_timer != NULL) {
+    timer_destroy(game.server.save_timer);
+    game.server.save_timer = NULL;
+  }
+  if (between_turns != NULL) {
+    timer_destroy(between_turns);
+    between_turns = NULL;
+  }
+  if (eot_timer != NULL) {
+    timer_destroy(eot_timer);
+  }
   set_server_state(S_S_OVER);
   mapimg_free();
   server_game_free();
@@ -2501,8 +2517,6 @@ static void announce_player(struct player *pplayer)
 **************************************************************************/
 static void srv_running(void)
 {
-  struct timer *eot_timer;	/* time server processing at end-of-turn */
-  struct timer *between_turns = NULL;
   int save_counter = 0, i;
   bool is_new_turn = game.info.is_new_game;
   bool skip_mapimg = !game.info.is_new_game; /* Do not overwrite start-of-turn image */
@@ -2514,7 +2528,6 @@ static void srv_running(void)
   log_verbose("srv_running() mostly redundant send_server_settings()");
   send_server_settings(NULL);
 
-  eot_timer = timer_new(TIMER_CPU, TIMER_ACTIVE);
   timer_start(eot_timer);
 
   if (game.server.autosaves & (1 << AS_TIMER)) {
@@ -2673,7 +2686,7 @@ static void srv_running(void)
     timer_destroy(between_turns);
     between_turns = NULL;
   }
-  timer_destroy(eot_timer);
+  timer_clear(eot_timer);
 }
 
 /**************************************************************************
@@ -2758,6 +2771,8 @@ static void srv_prepare(void)
       exit(EXIT_FAILURE);
     }
   }
+
+  eot_timer = timer_new(TIMER_CPU, TIMER_ACTIVE);
 }
 
 /**************************************************************************
