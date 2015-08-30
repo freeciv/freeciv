@@ -3494,6 +3494,12 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
         BV_SET(pmove_data->can_see_unit, player_index(oplayer));
         BV_SET(pmove_data->can_see_move, player_index(oplayer));
       }
+      if (can_player_see_unit_at(oplayer, pmove_data->punit, psrctile,
+                                 pmove_data != pdata)) {
+        /* The unit was seen with its source tile even if it was
+         * teleported. */
+        BV_SET(pmove_data->can_see_unit, player_index(oplayer));
+      }
     } players_iterate_end;
   } unit_move_data_list_iterate_end;
 
