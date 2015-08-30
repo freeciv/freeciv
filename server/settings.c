@@ -4126,19 +4126,26 @@ void settings_game_load(struct section_file *file, const char *section)
                                    i)) {
             log_verbose("Option '%s' not defined in the savegame: %s", name,
                         secfile_error());
-          } else if (val != *pset->boolean.pvalue) {
-            if (setting_is_changeable(pset, NULL, reject_msg,
-                                      sizeof(reject_msg))
-                && (NULL == pset->boolean.validate
-                    || pset->boolean.validate(val, NULL, reject_msg,
-                                              sizeof(reject_msg)))) {
-              *pset->boolean.pvalue = val;
-              log_normal(_("Savegame: '%s' has been set to %s."),
-                         setting_name(pset),
-                         setting_value_name(pset, TRUE, buf, sizeof(buf)));
+          } else {
+            pset->setdef = SETDEF_CHANGED;
+
+            if (val != *pset->boolean.pvalue) {
+              if (setting_is_changeable(pset, NULL, reject_msg,
+                                        sizeof(reject_msg))
+                  && (NULL == pset->boolean.validate
+                      || pset->boolean.validate(val, NULL, reject_msg,
+                                                sizeof(reject_msg)))) {
+                *pset->boolean.pvalue = val;
+                log_normal(_("Savegame: '%s' has been set to %s."),
+                           setting_name(pset),
+                           setting_value_name(pset, TRUE, buf, sizeof(buf)));
+              } else {
+                log_error("Savegame: error restoring '%s' . (%s)",
+                          setting_name(pset), reject_msg);
+              }
             } else {
-              log_error("Savegame: error restoring '%s' . (%s)",
-                        setting_name(pset), reject_msg);
+              log_normal(_("Savegame: '%s' explicitly set to value same as default."),
+                         setting_name(pset));
             }
           }
         }
@@ -4151,19 +4158,26 @@ void settings_game_load(struct section_file *file, const char *section)
           if (!secfile_lookup_int(file, &val, "%s.set%d.value", section, i)) {
             log_verbose("Option '%s' not defined in the savegame: %s", name,
                         secfile_error());
-          } else if (val != *pset->integer.pvalue) {
-            if (setting_is_changeable(pset, NULL, reject_msg,
-                                      sizeof(reject_msg))
-                && (NULL == pset->integer.validate
-                    || pset->integer.validate(val, NULL, reject_msg,
-                                              sizeof(reject_msg)))) {
-              *pset->integer.pvalue = val;
-              log_normal(_("Savegame: '%s' has been set to %s."),
-                         setting_name(pset),
-                         setting_value_name(pset, TRUE, buf, sizeof(buf)));
+          } else {
+            pset->setdef = SETDEF_CHANGED;
+
+            if (val != *pset->integer.pvalue) {
+              if (setting_is_changeable(pset, NULL, reject_msg,
+                                        sizeof(reject_msg))
+                  && (NULL == pset->integer.validate
+                      || pset->integer.validate(val, NULL, reject_msg,
+                                                sizeof(reject_msg)))) {
+                *pset->integer.pvalue = val;
+                log_normal(_("Savegame: '%s' has been set to %s."),
+                           setting_name(pset),
+                           setting_value_name(pset, TRUE, buf, sizeof(buf)));
+              } else {
+                log_error("Savegame: error restoring '%s' . (%s)",
+                          setting_name(pset), reject_msg);
+              }
             } else {
-              log_error("Savegame: error restoring '%s' . (%s)",
-                        setting_name(pset), reject_msg);
+              log_normal(_("Savegame: '%s' explicitly set to value same as default."),
+                         setting_name(pset));
             }
           }
         }
@@ -4177,15 +4191,22 @@ void settings_game_load(struct section_file *file, const char *section)
           if (NULL == val) {
             log_verbose("Option '%s' not defined in the savegame: %s", name,
                         secfile_error());
-          } else if (0 != strcmp(val, pset->string.value)) {
-            if (setting_str_set(pset, val, NULL, reject_msg,
-                                sizeof(reject_msg))) {
-              log_normal(_("Savegame: '%s' has been set to %s."),
-                         setting_name(pset),
-                         setting_value_name(pset, TRUE, buf, sizeof(buf)));
+          } else {
+            pset->setdef = SETDEF_CHANGED;
+
+            if (0 != strcmp(val, pset->string.value)) {
+              if (setting_str_set(pset, val, NULL, reject_msg,
+                                  sizeof(reject_msg))) {
+                log_normal(_("Savegame: '%s' has been set to %s."),
+                           setting_name(pset),
+                           setting_value_name(pset, TRUE, buf, sizeof(buf)));
+              } else {
+                log_error("Savegame: error restoring '%s' . (%s)",
+                          setting_name(pset), reject_msg);
+              }
             } else {
-              log_error("Savegame: error restoring '%s' . (%s)",
-                        setting_name(pset), reject_msg);
+              log_normal(_("Savegame: '%s' explicitly set to value same as default."),
+                         setting_name(pset));
             }
           }
         }
@@ -4200,19 +4221,26 @@ void settings_game_load(struct section_file *file, const char *section)
                                         "%s.set%d.value", section, i)) {
             log_verbose("Option '%s' not defined in the savegame: %s", name,
                         secfile_error());
-          } else if (val != read_enum_value(pset)) {
-            if (setting_is_changeable(pset, NULL, reject_msg,
-                                      sizeof(reject_msg))
-                && (NULL == pset->enumerator.validate
-                    || pset->enumerator.validate(val, NULL, reject_msg,
-                                                 sizeof(reject_msg)))) {
-              set_enum_value(pset, val);
-              log_normal(_("Savegame: '%s' has been set to %s."),
-                         setting_name(pset),
-                         setting_value_name(pset, TRUE, buf, sizeof(buf)));
+          } else {
+            pset->setdef = SETDEF_CHANGED;
+
+            if (val != read_enum_value(pset)) {
+              if (setting_is_changeable(pset, NULL, reject_msg,
+                                        sizeof(reject_msg))
+                  && (NULL == pset->enumerator.validate
+                      || pset->enumerator.validate(val, NULL, reject_msg,
+                                                   sizeof(reject_msg)))) {
+                set_enum_value(pset, val);
+                log_normal(_("Savegame: '%s' has been set to %s."),
+                           setting_name(pset),
+                           setting_value_name(pset, TRUE, buf, sizeof(buf)));
+              } else {
+                log_error("Savegame: error restoring '%s' . (%s)",
+                          setting_name(pset), reject_msg);
+              }
             } else {
-              log_error("Savegame: error restoring '%s' . (%s)",
-                        setting_name(pset), reject_msg);
+              log_normal(_("Savegame: '%s' explicitly set to value same as default."),
+                         setting_name(pset));
             }
           }
         }
@@ -4227,19 +4255,26 @@ void settings_game_load(struct section_file *file, const char *section)
                                         "%s.set%d.value", section, i)) {
             log_verbose("Option '%s' not defined in the savegame: %s", name,
                         secfile_error());
-          } else if (val != *pset->bitwise.pvalue) {
-            if (setting_is_changeable(pset, NULL, reject_msg,
-                                      sizeof(reject_msg))
-                && (NULL == pset->bitwise.validate
-                    || pset->bitwise.validate(val, NULL, reject_msg,
-                                              sizeof(reject_msg)))) {
-              *pset->bitwise.pvalue = val;
-              log_normal(_("Savegame: '%s' has been set to %s."),
-                         setting_name(pset),
-                         setting_value_name(pset, TRUE, buf, sizeof(buf)));
+          } else {
+            pset->setdef = SETDEF_CHANGED;
+
+            if (val != *pset->bitwise.pvalue) {
+              if (setting_is_changeable(pset, NULL, reject_msg,
+                                        sizeof(reject_msg))
+                  && (NULL == pset->bitwise.validate
+                      || pset->bitwise.validate(val, NULL, reject_msg,
+                                                sizeof(reject_msg)))) {
+                *pset->bitwise.pvalue = val;
+                log_normal(_("Savegame: '%s' has been set to %s."),
+                           setting_name(pset),
+                           setting_value_name(pset, TRUE, buf, sizeof(buf)));
+              } else {
+                log_error("Savegame: error restoring '%s' . (%s)",
+                          setting_name(pset), reject_msg);
+              }
             } else {
-              log_error("Savegame: error restoring '%s' . (%s)",
-                        setting_name(pset), reject_msg);
+              log_normal(_("Savegame: '%s' explicitly set to value same as default."),
+                         setting_name(pset));
             }
           }
         }
