@@ -2884,8 +2884,12 @@ static bool load_ruleset_terrain(struct section_file *file)
       pextra->defense_bonus  = secfile_lookup_int_default(file, 0,
                                                           "%s.defense_bonus",
                                                           section);
-      if (pextra->defense_bonus != 0) { 
-        extra_to_caused_by_list(pextra, EC_DEFENSIVE);
+      if (pextra->defense_bonus != 0) {
+        if (extra_has_flag(pextra, EF_NATURAL_DEFENSE)) {
+          extra_to_caused_by_list(pextra, EC_NATURAL_DEFENSIVE);
+        } else {
+          extra_to_caused_by_list(pextra, EC_DEFENSIVE);
+        }
       }
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);

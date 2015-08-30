@@ -51,6 +51,10 @@ extern "C" {
 /* Owner's flag will be shown on the tile */
 #define SPECENUM_VALUE8 EF_SHOW_FLAG
 #define SPECENUM_VALUE8NAME "ShowFlag"
+/* Extra's defense bonus will be counted to
+ * separate "Natural" defense layer. */
+#define SPECENUM_VALUE9 EF_NATURAL_DEFENSE
+#define SPECENUM_VALUE9NAME "NaturalDefense"
 #define SPECENUM_COUNT EF_COUNT
 #define SPECENUM_BITVECTOR bv_extra_flags
 #include "specenum_gen.h"
