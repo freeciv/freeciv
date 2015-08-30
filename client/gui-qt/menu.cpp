@@ -685,6 +685,7 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(PILLAGE, act);
   act->setShortcut(QKeySequence(tr("shift+p")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_pillage()));
+  /* TRANS: Menu item to bring up the action selection dialog. */
   act = menu->addAction(_("Do..."));
   menu_list.insertMulti(ORDER_DIPLOMAT_DLG, act);
   act->setShortcut(QKeySequence(tr("d")));

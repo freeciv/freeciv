@@ -443,7 +443,8 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_NUKE, pBuf);
   /* --------- */
 
-  /* Diplomat|Spy Actions */
+  /* Act against own tile. */
+  /* TRANS: Button to bring up the action selection dialog. */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Do..."), "D");
   pBuf = create_themeicon(current_theme->OSpy_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
