@@ -238,21 +238,32 @@ int tile_extras_defense_bonus(const struct tile *ptile,
 }
 
 /****************************************************************************
-  Calculate defense bonus given for unit class by bases and roads
+  Calculate defense bonus given for unit class by extras.
 ****************************************************************************/
 int tile_extras_class_defense_bonus(const struct tile *ptile,
                                     const struct unit_class *pclass)
 {
-  int bonus = 0;
+  int natural_bonus = 0;
+  int fortification_bonus = 0;
+  int total_bonus;
+
+  extra_type_by_cause_iterate(EC_NATURAL_DEFENSIVE, pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && is_native_extra_to_uclass(pextra, pclass)) {
+      natural_bonus += pextra->defense_bonus;
+    }
+  } extra_type_by_cause_iterate_end;
 
   extra_type_by_cause_iterate(EC_DEFENSIVE, pextra) {
     if (tile_has_extra(ptile, pextra)
         && is_native_extra_to_uclass(pextra, pclass)) {
-      bonus += pextra->defense_bonus;
+      fortification_bonus += pextra->defense_bonus;
     }
   } extra_type_by_cause_iterate_end;
 
-  return bonus;
+  total_bonus = (100 + natural_bonus) * (100 + fortification_bonus) / 100 - 100;
+
+  return total_bonus;
 }
 
 /****************************************************************************

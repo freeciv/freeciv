@@ -2914,7 +2914,11 @@ static bool load_ruleset_terrain(struct section_file *file,
                                                           "%s.defense_bonus",
                                                           section);
       if (pextra->defense_bonus != 0) {
-        extra_to_caused_by_list(pextra, EC_DEFENSIVE);
+        if (extra_has_flag(pextra, EF_NATURAL_DEFENSE)) {
+          extra_to_caused_by_list(pextra, EC_NATURAL_DEFENSIVE);
+        } else {
+          extra_to_caused_by_list(pextra, EC_DEFENSIVE);
+        }
       }
 
       pextra->appearance_chance = secfile_lookup_int_default(file, RS_DEFAULT_EXTRA_APPEARANCE,

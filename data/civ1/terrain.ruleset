@@ -807,6 +807,13 @@ ui_name_base_airbase = _("?gui_type:Build None")
 ;   - "NuclearWinter"     = Instances of this extra on map count towards
 ;                           Nuclear Winter
 ;   - "ShowFlag"          = Draw owner's flag
+;   - "NaturalDefense"    = Extra's defense bonus will be counted to "Natural"
+;                           defense layer. The defense bonus of all the extras
+;                           located at the tile, native to defending unit,
+;                           is calculated as a 1 + sum of bonuses from the extras
+;                           on the default "Fortification" defense layer multiplied
+;                           by the 1 + sum of bonuses from the extras on the
+;                           "Natural" layer.
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
@@ -993,6 +1000,7 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 buildable      = FALSE
 native_to      = "Land"
+flags          = "NaturalDefense"
 helptext       = _("\
 Any land terrain type may have a River on it.\
 "), _("\

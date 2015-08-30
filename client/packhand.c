@@ -3509,7 +3509,11 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->defense_bonus = p->defense_bonus;
 
   if (pextra->defense_bonus != 0) {
-    extra_to_caused_by_list(pextra, EC_DEFENSIVE);
+    if (extra_has_flag(pextra, EF_NATURAL_DEFENSE)) {
+      extra_to_caused_by_list(pextra, EC_NATURAL_DEFENSIVE);
+    } else {
+      extra_to_caused_by_list(pextra, EC_DEFENSIVE);
+    }
   }
 
   pextra->native_to = p->native_to;
