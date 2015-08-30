@@ -86,23 +86,72 @@ _("This looks like a good place to build a city.  The next time this\nunit gets 
 end
 signal.connect('unit_moved', 'unit_moved_callback')
 
+citypulses = 0
+
+function first_city_pulse()
+  if citypulses < 1 then
+    citypulses = citypulses + 1
+  else
+    notify.event(city_builder, city_tile, E.SCRIPT,
+_("Now you have built your first city.  The city window should have\nopened automatically; if not click on the city to open it.  Cities are\na fundamental concept in Freeciv, so you should familiarize yourself\nwith them by playing around in the window.  See the help menu for more.\n\nYou probably want to build some settlers first, so as to expand your\ncivilization further.  Click on the production tab, then click on the\nsettler unit from the list of possible productions, then click on the\nChange button to begin building it.  When you are done, close the city\ndialog.  If all goes well the city should display the settler\nproduction on the map view."))
+    signal.remove('pulse', 'first_city_pulse')
+  end
+end
+
+function second_city_pulse()
+  if citypulses < 2 then
+    citypulses = citypulses + 1
+  else
+    notify.event(city_builder, city_tile, E.SCRIPT,
+_("Congratulations, you have founded your second city.  This city will\nbehave almost exactly like the first one - it will be slightly different\nbecause of the terrain around it.  You probably want to build\nsettlers here too."))
+    signal.remove('pulse', 'second_city_pulse')
+  end
+end
+
+function third_city_pulse()
+  if citypulses < 3 then
+    citypulses = citypulses + 1
+  else
+    notify.event(city_builder, city_tile, E.SCRIPT,
+_("You have built your third city!  Your civilization seems to be\nthriving.  It might be time to think about a military.  Pick one of\nthe cities that has a high production, and convert it into a military\nbase. Build a Barracks there first, then start work on a military\nunit.  Pick the best unit you have available - at the beginning of\nthe game, Warriors will be the only choice, but soon you will have \nplenty of options.\n\nThis might also be a good time to use the worklist feature of the\ncity dialog production report.  Click on Barracks, then click Change\nto begin building them.  Then double-click on a military unit to\nappend it to the worklist.  As soon as the Barracks are complete the\ncity will automatically switch over to producing the unit."))
+    signal.remove('pulse', 'third_city_pulse')
+  end
+end
+
+function fourth_city_pulse()
+  if citypulses < 4 then
+    citypulses = citypulses + 1
+  else
+    notify.event(city_builder, city_tile, E.SCRIPT,
+_("Another city!  You are really getting the hang of this.  You\nprobably have a pretty good idea what to do with new cities by\nnow.  Take a moment to look at the bar below the city on the map\nview.  This display shows some useful information about the city.\nThe flag and background color indicate what civilization the city\nbelongs to (this will be useful when you meet other civilizations).\nThe top row of the bar also shows the name and size of the city, and\nwill show one or more stars to indicate if there are units in the\ncity.  The bottom row shows what the city is building, and how long it\nwill take; it also shows how long the city will take to grow to the\nnext largest size."))
+    signal.remove('pulse', 'fourth_city_pulse')
+  end
+end
+
+function fifth_city_pulse()
+  if citypulses < 5 then
+    citypulses = citypulses + 1
+  else
+    notify.event(city_builder, city_tile, E.SCRIPT,
+_("As the number of cities in your empire grows, it becomes harder to\nmanage individual cities.  This is where the Cities report becomes\nuseful.  Press F4 to bring it up.  This report shows a list of cities\nwith various statistics about each.  Play around with it a bit if you\nlike (return to the map view by pressing F1 or clicking on the View\ntab).  With a bit of practice it is possible to control almost every\naspect of the cities from this report.  The full power of the Cities\nreport is beyond the scope of this tutorial, however."))
+    signal.remove('pulse', 'fifth_city_pulse')
+  end
+end
+
 function city_built_callback(city)
   if city.owner:is_human() then
+    city_builder = city.owner
+    city_tile = city.tile
     if citiesbuilt == 0 then
-      notify.event(city.owner, city.tile, E.SCRIPT,
-_("Now you have built your first city.  The city window should have\nopened automatically; if not click on the city to open it.  Cities are\na fundamental concept in Freeciv, so you should familiarize yourself\nwith them by playing around in the window.  See the help menu for more.\n\nYou probably want to build some settlers first, so as to expand your\ncivilization further.  Click on the production tab, then click on the\nsettler unit from the list of possible productions, then click on the\nChange button to begin building it.  When you are done, close the city\ndialog.  If all goes well the city should display the settler\nproduction on the map view."))
+      signal.connect('pulse', 'first_city_pulse')
     elseif citiesbuilt == 1 then
-      notify.event(city.owner, city.tile, E.SCRIPT,
-_("Congratulations, you have founded your second city.  This city will\nbehave almost exactly like the first one - it will be slightly different\nbecause of the terrain around it.  You probably want to build\nsettlers here too."))
+      signal.connect('pulse', 'second_city_pulse')
     elseif citiesbuilt == 2 then
-      notify.event(city.owner, city.tile, E.SCRIPT,
-_("You have built your third city!  Your civilization seems to be\nthriving.  It might be time to think about a military.  Pick one of\nthe cities that has a high production, and convert it into a military\nbase. Build a Barracks there first, then start work on a military\nunit.  Pick the best unit you have available - at the beginning of\nthe game, Warriors will be the only choice, but soon you will have \nplenty of options.\n\nThis might also be a good time to use the worklist feature of the\ncity dialog production report.  Click on Barracks, then click Change\nto begin building them.  Then double-click on a military unit to\nappend it to the worklist.  As soon as the Barracks are complete the\ncity will automatically switch over to producing the unit."))
+      signal.connect('pulse', 'third_city_pulse')
     elseif citiesbuilt == 3 then
-      notify.event(city.owner, city.tile, E.SCRIPT,
-_("Another city!  You are really getting the hang of this.  You\nprobably have a pretty good idea what to do with new cities by\nnow.  Take a moment to look at the bar below the city on the map\nview.  This display shows some useful information about the city.\nThe flag and background color indicate what civilization the city\nbelongs to (this will be useful when you meet other civilizations).\nThe top row of the bar also shows the name and size of the city, and\nwill show one or more stars to indicate if there are units in the\ncity.  The bottom row shows what the city is building, and how long it\nwill take; it also shows how long the city will take to grow to the\nnext largest size."))
+      signal.connect('pulse', 'fourth_city_pulse')
     elseif citiesbuilt == 4 then
-      notify.event(city.owner, city.tile, E.SCRIPT,
-_("As the number of cities in your empire grows, it becomes harder to\nmanage individual cities.  This is where the Cities report becomes\nuseful.  Press F4 to bring it up.  This report shows a list of cities\nwith various statistics about each.  Play around with it a bit if you\nlike (return to the map view by pressing F1 or clicking on the View\ntab).  With a bit of practice it is possible to control almost every\naspect of the cities from this report.  The full power of the Cities\nreport is beyond the scope of this tutorial, however."))
+      signal.connect('pulse', 'fifth_city_pulse')
     end
     citiesbuilt = citiesbuilt + 1
   end
