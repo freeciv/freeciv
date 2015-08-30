@@ -957,7 +957,10 @@ void redraw_unit_info_label(struct unit_list *punitlist)
   }
 }
 
-static bool is_anim_enabled(void)
+/**************************************************************************
+  Is the focus animation enabled?
+**************************************************************************/
+static bool is_focus_anim_enabled(void)
 {
   return (SDL_Client_Flags & CF_FOCUS_ANIMATION) == CF_FOCUS_ANIMATION;
 }
@@ -1016,7 +1019,7 @@ void update_unit_info_label(struct unit_list *punitlist)
   redraw_unit_info_label(punitlist);
 
   if (punitlist) {
-    if (!is_anim_enabled()) {
+    if (!is_focus_anim_enabled()) {
       enable_focus_animation();
     }
   } else {
