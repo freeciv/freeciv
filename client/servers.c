@@ -184,7 +184,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
     }
 
     for (j = 0; j < pserver->nplayers ; j++) {
-      const char *name, *nation, *type, *host;
+      const char *name, *nation, *type, *plrhost;
 
       name = secfile_lookup_str_default(file, "", 
                                         "server%d.player%d.name", i, j);
@@ -194,9 +194,9 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                                         "server%d.player%d.type", i, j);
       pserver->players[j].type = fc_strdup(type);
 
-      host = secfile_lookup_str_default(file, "", 
-                                        "server%d.player%d.host", i, j);
-      pserver->players[j].host = fc_strdup(host);
+      plrhost = secfile_lookup_str_default(file, "", 
+                                           "server%d.player%d.host", i, j);
+      pserver->players[j].host = fc_strdup(plrhost);
 
       nation = secfile_lookup_str_default(file, "",
                                           "server%d.player%d.nation", i, j);

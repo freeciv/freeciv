@@ -970,16 +970,16 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
 
   /* Request a list of actions for the first element in the queue */
   while (genlist_size(diplomat_arrival_queue) > 0) {
-    int diplomat_id, target_tile_id;
+    int diplomat_id, tgt_tile_id;
     struct tile *ptile;
 
     p_ids = genlist_get(diplomat_arrival_queue, 0);
     diplomat_id = p_ids[0];
-    target_tile_id = p_ids[1];
+    tgt_tile_id = p_ids[1];
     genlist_remove(diplomat_arrival_queue, p_ids); /* Do free(p_ids). */
 
     pdiplomat = player_unit_by_number(client_player(), diplomat_id);
-    ptile = index_to_tile(target_tile_id);
+    ptile = index_to_tile(tgt_tile_id);
 
     if (ptile && pdiplomat && is_actor_unit(pdiplomat)) {
       have_asked_server_for_actions = TRUE;
@@ -987,7 +987,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
                                     diplomat_id,
                                     IDENTITY_NUMBER_ZERO,
                                     IDENTITY_NUMBER_ZERO,
-                                    target_tile_id,
+                                    tgt_tile_id,
                                     TRUE);
       return;
     }
@@ -1489,8 +1489,8 @@ void request_unit_select(struct unit_list *punits,
   } unit_list_iterate_end;
 
   if (selloc == SELLOC_TILE) {
-    tile_hash_iterate(tile_table, ptile) {
-      unit_list_iterate(ptile->units, punit) {
+    tile_hash_iterate(tile_table, hash_tile) {
+      unit_list_iterate(hash_tile->units, punit) {
         if (unit_owner(punit) != pplayer) {
           continue;
         }
@@ -1849,21 +1849,19 @@ void request_unit_fortify(struct unit *punit)
 **************************************************************************/
 void request_unit_pillage(struct unit *punit)
 {
-  struct extra_type *target = NULL;
-
   if (!game.info.pillage_select) {
     /* Leave choice up to the server */
-    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, target);
+    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, NULL);
   } else {
     struct tile *ptile = unit_tile(punit);
     bv_extras pspossible;
     int count = 0;
 
     BV_CLR_ALL(pspossible);
-    extra_type_iterate(target) {
+    extra_type_iterate(potential) {
       if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
-                                           target, ptile)) {
-        BV_SET(pspossible, extra_index(target));
+                                           potential, ptile)) {
+        BV_SET(pspossible, extra_index(potential));
         count++;
       }
     } extra_type_iterate_end;

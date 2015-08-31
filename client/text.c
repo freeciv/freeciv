@@ -338,7 +338,7 @@ const char *popup_info_text(struct tile *ptile)
     get_full_nation(nation, sizeof(nation), owner);
 
     if (!client_player() || owner == client_player()) {
-      struct city *pcity = player_city_by_number(owner, punit->homecity);
+      struct city *hcity = player_city_by_number(owner, punit->homecity);
 
       /* TRANS: "Unit: <unit type> | <username> (<nation + team>)" */
       astr_add_line(&str, _("Unit: %s | %s (%s)"),
@@ -346,10 +346,10 @@ const char *popup_info_text(struct tile *ptile)
 
       if (game.info.citizen_nationality
           && unit_nationality(punit) != unit_owner(punit)) {
-        if (pcity) {
+        if (hcity != NULL) {
           /* TRANS: on own line immediately following \n, "from <city> |
            * <nationality> people" */
-          astr_add_line(&str, _("from %s | %s people"), city_name(pcity),
+          astr_add_line(&str, _("from %s | %s people"), city_name(hcity),
                         nation_adjective_for_player(unit_nationality(punit)));
         } else {
           /* TRANS: Nationality of the people comprising a unit, if
@@ -357,9 +357,9 @@ const char *popup_info_text(struct tile *ptile)
           astr_add_line(&str, _("%s people"),
                         nation_adjective_for_player(unit_nationality(punit)));
         }
-      } else if (pcity) {
+      } else if (hcity != NULL) {
         /* TRANS: on own line immediately following \n, ... <city> */
-        astr_add_line(&str, _("from %s"), city_name(pcity));
+        astr_add_line(&str, _("from %s"), city_name(hcity));
       }
     } else if (NULL != owner) {
       struct player_diplstate *ds = player_diplstate_get(client_player(),

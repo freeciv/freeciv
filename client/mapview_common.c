@@ -1903,8 +1903,8 @@ static void show_tile_label(struct canvas *pcanvas,
 /**************************************************************************
   Show descriptions for all cities visible on the map canvas.
 **************************************************************************/
-void show_city_descriptions(int canvas_x, int canvas_y,
-			    int width, int height)
+void show_city_descriptions(int canvas_base_x, int canvas_base_y,
+			    int width_base, int height_base)
 {
   const int dx = max_desc_width - tileset_tile_width(tileset) * map_zoom;
   const int dy = max_desc_height;
@@ -1940,9 +1940,9 @@ void show_city_descriptions(int canvas_x, int canvas_y,
    * We must draw H2 extra pixels above and (W2 - W1) / 2 extra pixels
    * to each side of the mapview.
    */
-  gui_rect_iterate_coord(mapview.gui_x0 + canvas_x - dx / 2,
-			 mapview.gui_y0 + canvas_y - dy,
-			 width + dx, height + dy - offset_y,
+  gui_rect_iterate_coord(mapview.gui_x0 + canvas_base_x - dx / 2,
+			 mapview.gui_y0 + canvas_base_y - dy,
+			 width_base + dx, height_base + dy - offset_y,
 			 ptile, pedge, pcorner, gui_x, gui_y, map_zoom) {
     const int canvas_x = gui_x - mapview.gui_x0;
     const int canvas_y = gui_y - mapview.gui_y0;
@@ -1977,16 +1977,16 @@ void show_city_descriptions(int canvas_x, int canvas_y,
 /**************************************************************************
   Show labels for all tiles visible on the map canvas.
 **************************************************************************/
-void show_tile_labels(int canvas_x, int canvas_y,
-                      int width, int height)
+void show_tile_labels(int canvas_base_x, int canvas_base_y,
+                      int width_base, int height_base)
 {
   const int dx = max_label_width - tileset_tile_width(tileset) * map_zoom;
   const int dy = max_label_height;
   int new_max_width = max_label_width, new_max_height = max_label_height;
 
-  gui_rect_iterate_coord(mapview.gui_x0 + canvas_x - dx / 2,
-			 mapview.gui_y0 + canvas_y - dy,
-			 width + dx, height + dy,
+  gui_rect_iterate_coord(mapview.gui_x0 + canvas_base_x - dx / 2,
+			 mapview.gui_y0 + canvas_base_y - dy,
+			 width_base + dx, height_base + dy,
 			 ptile, pedge, pcorner, gui_x, gui_y, map_zoom) {
     const int canvas_x = gui_x - mapview.gui_x0;
     const int canvas_y = gui_y - mapview.gui_y0;
@@ -2622,7 +2622,6 @@ void unqueue_mapview_updates(bool write_to_screen)
     } else {
       int min_x = mapview.width, min_y = mapview.height;
       int max_x = 0, max_y = 0;
-      int i;
 
       for (i = 0; i < TILE_UPDATE_COUNT; i++) {
         if (my_tile_updates[i]) {
@@ -2658,6 +2657,7 @@ void unqueue_mapview_updates(bool write_to_screen)
       }
     }
   }
+
   for (i = 0; i < TILE_UPDATE_COUNT; i++) {
     if (my_tile_updates[i]) {
       tile_list_destroy(my_tile_updates[i]);
@@ -3206,20 +3206,19 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
   int i, x, y;  
   const struct player_spaceship *ship = &pplayer->spaceship;
   int w, h;
-  struct sprite *sprite;
+  struct sprite *spr;
   struct tileset *t = tileset;
 
-  sprite = get_spaceship_sprite(t, SPACESHIP_HABITATION);
-  get_sprite_dimensions(sprite, &w, &h);
+  spr = get_spaceship_sprite(t, SPACESHIP_HABITATION);
+  get_sprite_dimensions(spr, &w, &h);
 
   canvas_put_rectangle(pcanvas,
-		       get_color(tileset, COLOR_SPACESHIP_BACKGROUND),
-		       0, 0, w * 7, h * 7);
+                       get_color(tileset, COLOR_SPACESHIP_BACKGROUND),
+                       0, 0, w * 7, h * 7);
 
   for (i = 0; i < NUM_SS_MODULES; i++) {
     const int j = i / 3;
     const int k = i % 3;
-    struct sprite *sprite;
 
     if ((k == 0 && j >= ship->habitation)
 	|| (k == 1 && j >= ship->life_support)
@@ -3229,16 +3228,15 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
     x = modules_info[i].x * w / 4 - w / 2;
     y = modules_info[i].y * h / 4 - h / 2;
 
-    sprite = (k == 0 ? get_spaceship_sprite(t, SPACESHIP_HABITATION)
-	      : k == 1 ? get_spaceship_sprite(t, SPACESHIP_LIFE_SUPPORT)
-	      : get_spaceship_sprite(t, SPACESHIP_SOLAR_PANEL));
-    canvas_put_sprite_full(pcanvas, x, y, sprite);
+    spr = (k == 0 ? get_spaceship_sprite(t, SPACESHIP_HABITATION)
+           : k == 1 ? get_spaceship_sprite(t, SPACESHIP_LIFE_SUPPORT)
+           : get_spaceship_sprite(t, SPACESHIP_SOLAR_PANEL));
+    canvas_put_sprite_full(pcanvas, x, y, spr);
   }
 
-  for (i=0; i < NUM_SS_COMPONENTS; i++) {
+  for (i = 0; i < NUM_SS_COMPONENTS; i++) {
     const int j = i / 2;
     const int k = i % 2;
-    struct sprite *sprite;
 
     if ((k == 0 && j >= ship->fuel)
 	|| (k == 1 && j >= ship->propulsion)) {
@@ -3247,14 +3245,14 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
     x = components_info[i].x * w / 4 - w / 2;
     y = components_info[i].y * h / 4 - h / 2;
 
-    sprite = ((k == 0) ? get_spaceship_sprite(t, SPACESHIP_FUEL)
-	      : get_spaceship_sprite(t, SPACESHIP_PROPULSION));
+    spr = ((k == 0) ? get_spaceship_sprite(t, SPACESHIP_FUEL)
+           : get_spaceship_sprite(t, SPACESHIP_PROPULSION));
 
-    canvas_put_sprite_full(pcanvas, x, y, sprite);
+    canvas_put_sprite_full(pcanvas, x, y, spr);
 
     if (k && ship->state == SSHIP_LAUNCHED) {
-      sprite = get_spaceship_sprite(t, SPACESHIP_EXHAUST);
-      canvas_put_sprite_full(pcanvas, x + w, y, sprite);
+      spr = get_spaceship_sprite(t, SPACESHIP_EXHAUST);
+      canvas_put_sprite_full(pcanvas, x + w, y, spr);
     }
   }
 
@@ -3265,8 +3263,8 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
     x = structurals_info[i].x * w / 4 - w / 2;
     y = structurals_info[i].y * h / 4 - h / 2;
 
-    sprite = get_spaceship_sprite(t, SPACESHIP_STRUCTURAL);
-    canvas_put_sprite_full(pcanvas, x, y, sprite);
+    spr = get_spaceship_sprite(t, SPACESHIP_STRUCTURAL);
+    canvas_put_sprite_full(pcanvas, x, y, spr);
   }
 }
 

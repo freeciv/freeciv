@@ -326,20 +326,20 @@ const char *cmafec_get_result_descr(struct city *pcity,
 {
   int j;
   char buf[RESULT_COLUMNS][BUFFER_SIZE];
-  char citizens[BUFFER_SIZE];
+  char citizen_types[BUFFER_SIZE];
   static char buffer[600];
 
   /* TRANS: "W" is worker citizens, as opposed to specialists;
    * %s will represent the specialist types, for instance "E/S/T" */
-  fc_snprintf(citizens, BUFFER_SIZE, _("People (W/%s)"),
+  fc_snprintf(citizen_types, BUFFER_SIZE, _("People (W/%s)"),
               specialists_abbreviation_string());
 
   if (!result->found_a_valid) {
     for (j = 0; j < RESULT_COLUMNS; j++)
       fc_snprintf(buf[j], BUFFER_SIZE, "---");
   } else {
-    output_type_iterate(j) {
-      fc_snprintf(buf[j], BUFFER_SIZE, "%+3d", result->surplus[j]);
+    output_type_iterate(o) {
+      fc_snprintf(buf[o], BUFFER_SIZE, "%+3d", result->surplus[o]);
     } output_type_iterate_end;
 
     fc_snprintf(buf[6], BUFFER_SIZE, "%d/%s%s",
@@ -366,8 +366,8 @@ const char *cmafec_get_result_descr(struct city *pcity,
                 "Production completed: %s"),
               buf[9], buf[O_FOOD], buf[O_GOLD], buf[O_SHIELD], buf[O_LUXURY],
               buf[O_TRADE], buf[O_SCIENCE],
-              MAX(0, 20 - (int)get_internal_string_length(citizens)), "",
-              citizens,
+              MAX(0, 20 - (int)get_internal_string_length(citizen_types)), "",
+              citizen_types,
               buf[6], buf[7], buf[8]);
 
   log_debug("\n%s", buffer);

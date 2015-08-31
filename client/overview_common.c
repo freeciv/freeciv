@@ -199,15 +199,15 @@ static void redraw_overview(void)
 
   {
     struct canvas *src = options.overview.map, *dst = options.overview.window;
-    int x = options.overview.map_x0 * OVERVIEW_TILE_SIZE;
-    int y = options.overview.map_y0 * OVERVIEW_TILE_SIZE;
-    int ix = options.overview.width - x;
-    int iy = options.overview.height - y;
+    int x0 = options.overview.map_x0 * OVERVIEW_TILE_SIZE;
+    int y0 = options.overview.map_y0 * OVERVIEW_TILE_SIZE;
+    int ix = options.overview.width - x0;
+    int iy = options.overview.height - y0;
 
-    canvas_copy(dst, src, 0, 0, ix, iy, x, y);
-    canvas_copy(dst, src, 0, y, ix, 0, x, iy);
-    canvas_copy(dst, src, x, 0, 0, iy, ix, y);
-    canvas_copy(dst, src, x, y, 0, 0, ix, iy);
+    canvas_copy(dst, src, 0, 0, ix, iy, x0, y0);
+    canvas_copy(dst, src, 0, y0, ix, 0, x0, iy);
+    canvas_copy(dst, src, x0, 0, 0, iy, ix, y0);
+    canvas_copy(dst, src, x0, y0, 0, 0, ix, iy);
   }
 
   gui_to_overview_pos(tileset, &x[0], &y[0],
