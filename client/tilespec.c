@@ -2735,7 +2735,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     SET_SPRITE_OPT(grid.nonnative, "grid.nonnative");
 
     for (i = 0; i < EDGE_COUNT; i++) {
-      int j;
+      int be;
 
       if (i == EDGE_UD && t->hex_width == 0) {
 	continue;
@@ -2758,10 +2758,10 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
       fc_snprintf(buffer, sizeof(buffer), "grid.coastline.%s", edge_name[i]);
       SET_SPRITE(grid.coastline[i], buffer);
 
-      for (j = 0; j < 2; j++) {
+      for (be = 0; be < 2; be++) {
         fc_snprintf(buffer, sizeof(buffer), "grid.borders.%c",
-                    edge_name[i][j]);
-        SET_SPRITE(grid.borders[i][j], buffer);
+                    edge_name[i][be]);
+        SET_SPRITE(grid.borders[i][be], buffer);
       }
     }
   }
@@ -2774,16 +2774,16 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     {
       /* Isometric: take a single tx.darkness tile and split it into 4. */
       struct sprite *darkness = load_sprite(t, "tx.darkness");
-      const int W = t->normal_tile_width, H = t->normal_tile_height;
-      int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
+      const int ntw = t->normal_tile_width, nth = t->normal_tile_height;
+      int offsets[4][2] = {{ntw / 2, 0}, {0, nth / 2}, {ntw / 2, nth / 2}, {0, 0}};
 
       if (!darkness) {
         tileset_error(LOG_FATAL, _("Sprite tx.darkness missing."));
       }
       for (i = 0; i < 4; i++) {
 	t->sprites.tx.darkness[i] = crop_sprite(darkness, offsets[i][0],
-						offsets[i][1], W / 2, H / 2,
-						NULL, 0, 0);
+                                                offsets[i][1], ntw / 2, nth / 2,
+                                                NULL, 0, 0);
       }
     }
     break;
@@ -2810,13 +2810,13 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
       /* Unknown, fog, known. */
       char ids[] = {'u', 'f', 'k'};
       char buf[512] = "t.fog";
-      int values[4], j, k = i;
+      int values[4], vi, k = i;
 
-      for (j = 0; j < 4; j++) {
-	values[j] = k % 3;
+      for (vi = 0; vi < 4; vi++) {
+	values[vi] = k % 3;
 	k /= 3;
 
-	cat_snprintf(buf, sizeof(buf), "_%c", ids[values[j]]);
+	cat_snprintf(buf, sizeof(buf), "_%c", ids[values[vi]]);
       }
       fc_assert(k == 0);
 
@@ -3554,21 +3554,22 @@ void tileset_setup_tile_type(struct tileset *t,
 				terrain_rule_name(pterrain));
 
   if (draw->blending > 0) {
-    const int l = draw->blending - 1;
+    const int bl = draw->blending - 1;
 
     if (NULL == draw->blender) {
-      int i = 0;
+      int li = 0;
+
       /* try an already loaded base */
       while (NULL == draw->blender
-        &&  i < draw->blending
-        &&  0 < draw->layer[i].base.size) {
-        draw->blender = draw->layer[i++].base.p[0];
+        &&  li < draw->blending
+        &&  0 < draw->layer[li].base.size) {
+        draw->blender = draw->layer[li++].base.p[0];
       }
     }
 
     if (NULL == draw->blender) {
       /* try an unloaded base name */
-      fc_snprintf(buffer, sizeof(buffer), "t.l%d.%s1", l, draw->name);
+      fc_snprintf(buffer, sizeof(buffer), "t.l%d.%s1", bl, draw->name);
       draw->blender =
 	tiles_lookup_sprite_tag_alt(t, LOG_FATAL, buffer, "",
 				    "base (blend) terrain",
@@ -4110,11 +4111,11 @@ static int fill_road_sprite_array(const struct tileset *t,
       int road_tileno = 0, i;
 
       for (i = 0; i < t->num_valid_tileset_dirs; i++) {
-	enum direction8 dir = t->valid_tileset_dirs[i];
+        enum direction8 vdir = t->valid_tileset_dirs[i];
 
-	if (draw_road[dir]) {
-	  road_tileno |= 1 << i;
-	}
+        if (draw_road[vdir]) {
+          road_tileno |= 1 << i;
+        }
       }
 
       if (road_tileno != 0 || draw_single_road) {
@@ -4772,8 +4773,8 @@ static int fill_grid_sprite_array(const struct tileset *t,
       bool native = TRUE;
       struct unit_list *pfocus_units = get_units_in_focus();
 
-      unit_list_iterate(pfocus_units, punit) {
-        if (!is_native_tile(unit_type(punit), ptile)) {
+      unit_list_iterate(pfocus_units, pfocus) {
+        if (!is_native_tile(unit_type(pfocus), ptile)) {
           native = FALSE;
           break;
         }
@@ -5055,10 +5056,10 @@ int fill_sprite_array(struct tileset *t,
             /* Draw rivers on top of irrigation. */
             tileno = 0;
             for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
-              enum direction8 dir = t->cardinal_tileset_dirs[i];
+              enum direction8 cdir = t->cardinal_tileset_dirs[i];
 
-              if (terrain_type_terrain_class(tterrain_near[dir]) == TC_OCEAN
-                  || BV_ISSET(textras_near[dir], idx)) {
+              if (terrain_type_terrain_class(tterrain_near[cdir]) == TC_OCEAN
+                  || BV_ISSET(textras_near[cdir], idx)) {
                 tileno |= 1 << i;
               }
             }
@@ -5285,7 +5286,7 @@ int fill_sprite_array(struct tileset *t,
     if (NULL != pterrain) {
       if (ptile) {
         bool show_flag = FALSE;
-        struct player *owner = extra_owner(ptile);
+        struct player *eowner = extra_owner(ptile);
 
         extra_type_list_iterate(t->style_lists[ESTYLE_3LAYER], pextra) {
           if (is_extra_drawing_enabled(pextra)
@@ -5310,7 +5311,7 @@ int fill_sprite_array(struct tileset *t,
 
         /* Show base flag. Not part of previous iteration as
          * "extras of ESTYLE_3_LAYER" != "bases" */
-        if (owner != NULL) {
+        if (eowner != NULL) {
           extra_type_list_iterate(t->flagged_bases_list, pextra) {
             if (tile_has_extra(ptile, pextra)) {
               bool hidden = FALSE;
@@ -5329,7 +5330,7 @@ int fill_sprite_array(struct tileset *t,
           } extra_type_list_iterate_end;
 
           if (show_flag) {
-            ADD_SPRITE(get_nation_flag_sprite(t, nation_of_player(owner)), TRUE,
+            ADD_SPRITE(get_nation_flag_sprite(t, nation_of_player(eowner)), TRUE,
                        FULL_TILE_X_OFFSET + t->city_flag_offset_x,
                        FULL_TILE_Y_OFFSET + t->city_flag_offset_y);
           }
@@ -5564,17 +5565,20 @@ struct unit *get_drawable_unit(const struct tileset *t,
 {
   struct unit *punit = find_visible_unit(ptile);
 
-  if (!punit)
+  if (punit == NULL) {
     return NULL;
+  }
 
-  if (citymode && unit_owner(punit) == city_owner(citymode))
+  if (citymode && unit_owner(punit) == city_owner(citymode)) {
     return NULL;
+  }
 
   if (!unit_is_in_focus(punit)
-      || t->sprites.unit.select[0] || focus_unit_state == 0)
+      || t->sprites.unit.select[0] || focus_unit_state == 0) {
     return punit;
-  else
+  } else {
     return NULL;
+  }
 }
 
 /****************************************************************************
@@ -6043,13 +6047,13 @@ void tileset_use_prefered_theme(const struct tileset *t)
 ****************************************************************************/
 void tileset_init(struct tileset *t)
 {
-  int i;
+  int wi;
 
   /* We currently have no city sprites loaded. */
   t->sprites.city.tile     = NULL;
 
-  for (i = 0; i < NUM_WALL_TYPES; i++) {
-    t->sprites.city.wall[i] = NULL;
+  for (wi = 0; wi < NUM_WALL_TYPES; wi++) {
+    t->sprites.city.wall[wi] = NULL;
   }
   t->sprites.city.single_wall = NULL;
 
@@ -6059,11 +6063,11 @@ void tileset_init(struct tileset *t)
   t->sprites.background.graphic = NULL;
 
   player_slots_iterate(pslot) {
-    int i, j, id = player_slot_index(pslot);
+    int edge, j, id = player_slot_index(pslot);
 
-    for (i = 0; i < EDGE_COUNT; i++) {
+    for (edge = 0; edge < EDGE_COUNT; edge++) {
       for (j = 0; j < 2; j++) {
-        t->sprites.player[id].grid_borders[i][j] = NULL;
+        t->sprites.player[id].grid_borders[edge][j] = NULL;
       }
     }
 

@@ -437,8 +437,8 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   Return text describing the production output.
 **************************************************************************/
 void get_city_dialog_output_text(const struct city *pcity,
-				 Output_type_id otype,
-				 char *buf, size_t bufsz)
+                                 Output_type_id otype,
+                                 char *buf, size_t bufsz)
 {
   int total = 0;
   int priority;
@@ -744,27 +744,28 @@ void get_city_dialog_culture_text(const struct city *pcity,
   citizens (use MAX_CITY_SIZE to be on the safe side).
 **************************************************************************/
 int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
-			   enum citizen_category *citizens)
+                           enum citizen_category *categories)
 {
   int i = 0, n;
+
   fc_assert(index >= 0 && index < FEELING_LAST);
 
   for (n = 0; n < pcity->feel[CITIZEN_HAPPY][index]; n++, i++) {
-    citizens[i] = CITIZEN_HAPPY;
+    categories[i] = CITIZEN_HAPPY;
   }
   for (n = 0; n < pcity->feel[CITIZEN_CONTENT][index]; n++, i++) {
-    citizens[i] = CITIZEN_CONTENT;
+    categories[i] = CITIZEN_CONTENT;
   }
   for (n = 0; n < pcity->feel[CITIZEN_UNHAPPY][index]; n++, i++) {
-    citizens[i] = CITIZEN_UNHAPPY;
+    categories[i] = CITIZEN_UNHAPPY;
   }
   for (n = 0; n < pcity->feel[CITIZEN_ANGRY][index]; n++, i++) {
-    citizens[i] = CITIZEN_ANGRY;
+    categories[i] = CITIZEN_ANGRY;
   }
 
   specialist_type_iterate(sp) {
     for (n = 0; n < pcity->specialists[sp]; n++, i++) {
-      citizens[i] = CITIZEN_SPECIALIST + sp;
+      categories[i] = CITIZEN_SPECIALIST + sp;
     }
   } specialist_type_iterate_end;
 
@@ -781,15 +782,15 @@ int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
 **************************************************************************/
 void city_rotate_specialist(struct city *pcity, int citizen_index)
 {
-  enum citizen_category citizens[MAX_CITY_SIZE];
+  enum citizen_category categories[MAX_CITY_SIZE];
   Specialist_type_id from, to;
-  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
+  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
 
   if (citizen_index < 0 || citizen_index >= num_citizens
-   || citizens[citizen_index] < CITIZEN_SPECIALIST) {
+      || categories[citizen_index] < CITIZEN_SPECIALIST) {
     return;
   }
-  from = citizens[citizen_index] - CITIZEN_SPECIALIST;
+  from = categories[citizen_index] - CITIZEN_SPECIALIST;
 
   /* Loop through all specialists in order until we find a usable one
    * (or run out of choices). */

@@ -996,9 +996,10 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
       pcity->owner = powner;
       pcity->original = powner;
 
-      whole_map_iterate(ptile) {
-        if (ptile->worked == pcity) {
-          int dist_sq = sq_map_distance(pcenter, ptile);
+      whole_map_iterate(wtile) {
+        if (wtile->worked == pcity) {
+          int dist_sq = sq_map_distance(pcenter, wtile);
+
           if (dist_sq > city_map_radius_sq_get(pcity)) {
             city_map_radius_sq_set(pcity, dist_sq);
           }
@@ -1491,15 +1492,16 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (punit->homecity != packet_unit->homecity) {
       /* change homecity */
-      struct city *pcity;
-      if ((pcity = game_city_by_number(punit->homecity))) {
-	unit_list_remove(pcity->units_supported, punit);
-	refresh_city_dialog(pcity);
+      struct city *hcity;
+
+      if ((hcity = game_city_by_number(punit->homecity))) {
+	unit_list_remove(hcity->units_supported, punit);
+	refresh_city_dialog(hcity);
       }
-      
+
       punit->homecity = packet_unit->homecity;
-      if ((pcity = game_city_by_number(punit->homecity))) {
-	unit_list_prepend(pcity->units_supported, punit);
+      if ((hcity = game_city_by_number(punit->homecity))) {
+	unit_list_prepend(hcity->units_supported, punit);
 	repaint_city = TRUE;
       }
 
@@ -1515,13 +1517,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (punit->utype != unit_type(packet_unit)) {
       /* Unit type has changed (been upgraded) */
-      struct city *pcity = tile_city(unit_tile(punit));
-      
+      struct city *ccity = tile_city(unit_tile(punit));
+
       punit->utype = unit_type(packet_unit);
       repaint_unit = TRUE;
       repaint_city = TRUE;
-      if (pcity && (pcity->id != punit->homecity)) {
-	refresh_city_dialog(pcity);
+      if (ccity != NULL && (ccity->id != punit->homecity)) {
+	refresh_city_dialog(ccity);
       }
       if (unit_is_in_focus(punit)) {
         /* Update the orders menu -- the unit might have new abilities */
@@ -1538,7 +1540,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (!same_pos(unit_tile(punit), unit_tile(packet_unit))) {
       /*** Change position ***/
-      struct city *pcity = tile_city(unit_tile(punit));
+      struct city *ccity = tile_city(unit_tile(punit));
 
       old_tile = unit_tile(punit);
       moved = TRUE;
@@ -1546,44 +1548,44 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* Show where the unit is going. */
       do_move_unit(punit, packet_unit);
 
-      if(pcity)  {
-	if (can_player_see_units_in_city(client.conn.playing, pcity)) {
+      if (ccity != NULL)  {
+	if (can_player_see_units_in_city(client.conn.playing, ccity)) {
 	  /* Unit moved out of a city - update the occupied status. */
 	  bool new_occupied =
-	    (unit_list_size(pcity->tile->units) > 0);
+	    (unit_list_size(ccity->tile->units) > 0);
 
-          if (pcity->client.occupied != new_occupied) {
-            pcity->client.occupied = new_occupied;
-            refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
+          if (ccity->client.occupied != new_occupied) {
+            ccity->client.occupied = new_occupied;
+            refresh_city_mapcanvas(ccity, ccity->tile, FALSE, FALSE);
             if (options.draw_full_citybar) {
-              update_city_description(pcity);
+              update_city_description(ccity);
             }
           }
         }
 
-        if (pcity->id == punit->homecity) {
+        if (ccity->id == punit->homecity) {
           repaint_city = TRUE;
         } else {
-          refresh_city_dialog(pcity);
+          refresh_city_dialog(ccity);
         }
       }
-      
-      if ((pcity = tile_city(unit_tile(punit)))) {
-        if (can_player_see_units_in_city(client.conn.playing, pcity)) {
+
+      if ((ccity = tile_city(unit_tile(punit)))) {
+        if (can_player_see_units_in_city(client.conn.playing, ccity)) {
           /* Unit moved into a city - obviously it's occupied. */
-          if (!pcity->client.occupied) {
-            pcity->client.occupied = TRUE;
-            refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
+          if (!ccity->client.occupied) {
+            ccity->client.occupied = TRUE;
+            refresh_city_mapcanvas(ccity, ccity->tile, FALSE, FALSE);
             if (options.draw_full_citybar) {
-              update_city_description(pcity);
+              update_city_description(ccity);
             }
           }
         }
 
-        if (pcity->id == punit->homecity) {
+        if (ccity->id == punit->homecity) {
           repaint_city = TRUE;
         } else {
-          refresh_city_dialog(pcity);
+          refresh_city_dialog(ccity);
         }
 
         if (options.popup_actor_arrival
@@ -2238,15 +2240,15 @@ void handle_research_info(const struct packet_research_info *packet)
   presearch->tech_goal = packet->tech_goal;
   presearch->client.total_bulbs_prod = packet->total_bulbs_prod;
 
-  advance_index_iterate(A_NONE, i) {
-    newstate = packet->inventions[i] - '0';
-    oldstate = research_invention_set(presearch, i, newstate);
+  advance_index_iterate(A_NONE, advi) {
+    newstate = packet->inventions[advi] - '0';
+    oldstate = research_invention_set(presearch, advi, newstate);
 
     if (newstate != oldstate) {
       if (TECH_KNOWN == newstate) {
         tech_changed = TRUE;
-        if (A_NONE != i) {
-          gained_techs[gained_techs_num++] = i;
+        if (A_NONE != advi) {
+          gained_techs[gained_techs_num++] = advi;
         }
       } else if (TECH_KNOWN == oldstate) {
         tech_changed = TRUE;
@@ -3187,14 +3189,14 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
 
 #ifdef DEBUG
   if (p->id == improvement_count() - 1) {
-    improvement_iterate(b) {
-      log_debug("Improvement: %s...", improvement_rule_name(b));
-      log_debug("  build_cost %3d", b->build_cost);
-      log_debug("  upkeep      %2d", b->upkeep);
-      log_debug("  sabotage   %3d", b->sabotage);
-      if (NULL != b->helptext) {
-        strvec_iterate(b->helptext, text) {
-        log_debug("  helptext    %s", text);
+    improvement_iterate(bdbg) {
+      log_debug("Improvement: %s...", improvement_rule_name(bdbg));
+      log_debug("  build_cost %3d", bdbg->build_cost);
+      log_debug("  upkeep      %2d", bdbg->upkeep);
+      log_debug("  sabotage   %3d", bdbg->sabotage);
+      if (NULL != bdbg->helptext) {
+        strvec_iterate(bdbg->helptext, text) {
+          log_debug("  helptext    %s", text);
         } strvec_iterate_end;
       }
     } improvement_iterate_end;

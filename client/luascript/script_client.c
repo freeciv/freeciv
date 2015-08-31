@@ -51,7 +51,7 @@
 /*****************************************************************************
   Lua virtual machine state.
 *****************************************************************************/
-static struct fc_lua *fcl = NULL;
+static struct fc_lua *main_fcl = NULL;
 
 /*****************************************************************************
   Optional game script code (useful for scenarios).
@@ -78,7 +78,8 @@ static void script_client_signal_create(void);
 *****************************************************************************/
 bool script_client_do_string(const char *str)
 {
-  int status = luascript_do_string(fcl, str, "cmd");
+  int status = luascript_do_string(main_fcl, str, "cmd");
+
   return (status == 0);
 }
 
@@ -87,7 +88,8 @@ bool script_client_do_string(const char *str)
 *****************************************************************************/
 bool script_client_do_file(const char *filename)
 {
-  int status = luascript_do_file(fcl, filename);
+  int status = luascript_do_file(main_fcl, filename);
+
   return (status == 0);
 }
 
@@ -97,7 +99,7 @@ bool script_client_do_file(const char *filename)
 bool script_client_callback_invoke(const char *callback_name, int nargs,
                                    enum api_types *parg_types, va_list args)
 {
-  return luascript_callback_invoke(fcl, callback_name, nargs, parg_types,
+  return luascript_callback_invoke(main_fcl, callback_name, nargs, parg_types,
                                    args);
 }
 
@@ -108,7 +110,7 @@ bool script_client_callback_invoke(const char *callback_name, int nargs,
 *****************************************************************************/
 void script_client_remove_exported_object(void *object)
 {
-  luascript_remove_exported_object(fcl, object);
+  luascript_remove_exported_object(main_fcl, object);
 }
 
 /*****************************************************************************
@@ -132,7 +134,7 @@ static void script_client_vars_free(void)
 *****************************************************************************/
 static void script_client_vars_load(struct section_file *file)
 {
-  luascript_vars_load(fcl, file, "script.vars");
+  luascript_vars_load(main_fcl, file, "script.vars");
 }
 
 /*****************************************************************************
@@ -140,7 +142,7 @@ static void script_client_vars_load(struct section_file *file)
 *****************************************************************************/
 static void script_client_vars_save(struct section_file *file)
 {
-  luascript_vars_save(fcl, file, "script.vars");
+  luascript_vars_save(main_fcl, file, "script.vars");
 }
 
 /*****************************************************************************
@@ -173,7 +175,7 @@ static void script_client_code_load(struct section_file *file)
 
     code = secfile_lookup_str_default(file, "", "%s", section);
     script_client_code = fc_strdup(code);
-    luascript_do_string(fcl, script_client_code, section);
+    luascript_do_string(main_fcl, script_client_code, section);
   }
 }
 
@@ -192,31 +194,31 @@ static void script_client_code_save(struct section_file *file)
 *****************************************************************************/
 bool script_client_init(void)
 {
-  if (fcl != NULL) {
-    fc_assert_ret_val(fcl->state != NULL, FALSE);
+  if (main_fcl != NULL) {
+    fc_assert_ret_val(main_fcl->state != NULL, FALSE);
 
     return TRUE;
   }
 
-  fcl = luascript_new(script_client_output);
-  if (!fcl) {
-    luascript_destroy(fcl);
-    fcl = NULL;
+  main_fcl = luascript_new(script_client_output);
+  if (main_fcl == NULL) {
+    luascript_destroy(main_fcl); /* TODO: main_fcl is NULL here... */
+    main_fcl = NULL;
 
     return FALSE;
   }
 
-  tolua_common_a_open(fcl->state);
-  api_specenum_open(fcl->state);
-  tolua_game_open(fcl->state);
-  tolua_signal_open(fcl->state);
-  tolua_client_open(fcl->state);
-  tolua_common_z_open(fcl->state);
+  tolua_common_a_open(main_fcl->state);
+  api_specenum_open(main_fcl->state);
+  tolua_game_open(main_fcl->state);
+  tolua_signal_open(main_fcl->state);
+  tolua_client_open(main_fcl->state);
+  tolua_common_z_open(main_fcl->state);
 
   script_client_code_init();
   script_client_vars_init();
 
-  luascript_signal_init(fcl);
+  luascript_signal_init(main_fcl);
   script_client_signal_create();
 
   return TRUE;
@@ -268,14 +270,14 @@ static void script_client_output(struct fc_lua *fcl, enum log_level level,
 *****************************************************************************/
 void script_client_free(void)
 {
-  if (fcl) {
+  if (main_fcl != NULL) {
     script_client_code_free();
     script_client_vars_free();
 
-    luascript_signal_free(fcl);
+    luascript_signal_free(main_fcl);
 
-    luascript_destroy(fcl);
-    fcl = NULL;
+    luascript_destroy(main_fcl);
+    main_fcl = NULL;
   }
 }
 
@@ -308,7 +310,7 @@ void script_client_signal_emit(const char *signal_name, int nargs, ...)
   va_list args;
 
   va_start(args, nargs);
-  luascript_signal_emit_valist(fcl, signal_name, nargs, args);
+  luascript_signal_emit_valist(main_fcl, signal_name, nargs, args);
   va_end(args);
 }
 
@@ -317,5 +319,5 @@ void script_client_signal_emit(const char *signal_name, int nargs, ...)
 *****************************************************************************/
 static void script_client_signal_create(void)
 {
-  luascript_signal_create(fcl, "new_tech", 0);
+  luascript_signal_create(main_fcl, "new_tech", 0);
 }

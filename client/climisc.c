@@ -512,16 +512,16 @@ cid cid_encode_from_city(const struct city *pcity)
 /**************************************************************************
   Decode the CID into a city_production structure.
 **************************************************************************/
-struct universal cid_decode(cid cid)
+struct universal cid_decode(cid id)
 {
   struct universal target;
 
-  if (cid >= B_LAST) {
+  if (id >= B_LAST) {
     target.kind = VUT_UTYPE;
-    target.value.utype = utype_by_number(cid - B_LAST);
+    target.value.utype = utype_by_number(id - B_LAST);
   } else {
     target.kind = VUT_IMPROVEMENT;
-    target.value.building = improvement_by_number(cid);
+    target.value.building = improvement_by_number(id);
   }
 
   return target;
@@ -680,12 +680,12 @@ int collect_production_targets(struct universal *targets,
   cid last = (append_units
 	      ? utype_count() + B_LAST
 	      : improvement_count());
-  cid cid;
+  cid id;
   int items_used = 0;
 
-  for (cid = first; cid < last; cid++) {
+  for (id = first; id < last; id++) {
     bool append = FALSE;
-    struct universal target = cid_decode(cid);
+    struct universal target = cid_decode(id);
 
     if (!append_units && (append_wonders != is_wonder(target.value.building))) {
       continue;
@@ -694,18 +694,18 @@ int collect_production_targets(struct universal *targets,
     if (!change_prod) {
       if (client_has_player()) {
         city_list_iterate(client_player()->cities, pcity) {
-          append |= test_func(pcity, cid_decode(cid));
+          append |= test_func(pcity, cid_decode(id));
         } city_list_iterate_end;
       } else {
         cities_iterate(pcity) {
-          append |= test_func(pcity, cid_decode(cid));
+          append |= test_func(pcity, cid_decode(id));
         } cities_iterate_end;
       }
     } else {
       int i;
 
       for (i = 0; i < num_selected_cities; i++) {
-	append |= test_func(selected_cities[i], cid_decode(cid));
+	append |= test_func(selected_cities[i], cid_decode(id));
       }
     }
 
@@ -728,7 +728,7 @@ int collect_currently_building_targets(struct universal *targets)
 {
   bool mapping[MAX_NUM_PRODUCTION_TARGETS];
   int cids_used = 0;
-  cid cid;
+  cid id;
 
   if (NULL == client.conn.playing) {
     return 0;
@@ -740,12 +740,13 @@ int collect_currently_building_targets(struct universal *targets)
   }
   city_list_iterate_end;
 
-  for (cid = 0; cid < ARRAY_SIZE(mapping); cid++) {
-    if (mapping[cid]) {
-      targets[cids_used] = cid_decode(cid);
+  for (id = 0; id < ARRAY_SIZE(mapping); id++) {
+    if (mapping[id]) {
+      targets[cids_used] = cid_decode(id);
       cids_used++;
     }
   }
+
   return cids_used;
 }
 
@@ -1464,7 +1465,7 @@ void client_player_maps_reset(void)
 bool mapimg_client_define(void)
 {
   char str[MAX_LEN_MAPDEF];
-  char map[MAPIMG_LAYER_COUNT + 1];
+  char mi_map[MAPIMG_LAYER_COUNT + 1];
   enum mapimg_layer layer;
   int map_pos = 0;
 
@@ -1493,18 +1494,18 @@ bool mapimg_client_define(void)
   for (layer = mapimg_layer_begin(); layer != mapimg_layer_end();
        layer = mapimg_layer_next(layer)) {
     if (options.mapimg_layer[layer]) {
-      cat_snprintf(map, sizeof(map), "%s",
+      cat_snprintf(mi_map, sizeof(mi_map), "%s",
                    mapimg_layer_name(layer));
-      map[map_pos++] = mapimg_layer_name(layer)[0];
+      mi_map[map_pos++] = mapimg_layer_name(layer)[0];
     }
   }
-  map[map_pos] = '\0';
+  mi_map[map_pos] = '\0';
 
   if (map_pos == 0) {
     /* no value set - use dummy setting */
-    sz_strlcpy(map, "-");
+    sz_strlcpy(mi_map, "-");
   }
-  cat_snprintf(str, sizeof(str), ":map=%s", map);
+  cat_snprintf(str, sizeof(str), ":map=%s", mi_map);
 
   log_debug("client map image definition: %s", str);
 

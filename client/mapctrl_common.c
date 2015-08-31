@@ -433,9 +433,9 @@ void clipboard_paste_production(struct city *pcity)
   }
   else {
     connection_do_buffer(&client.conn);
-    city_list_iterate(client.conn.playing->cities, pcity) {
-      if (is_city_hilited(pcity)) {
-        clipboard_send_production_packet(pcity);
+    city_list_iterate(client.conn.playing->cities, hilicity) {
+      if (is_city_hilited(hilicity)) {
+        clipboard_send_production_packet(hilicity);
       }
     } city_list_iterate_end;
     connection_do_unbuffer(&client.conn);

@@ -765,19 +765,20 @@ void init_city_report_game_data(void)
 
   fc_snprintf(sp_explanations, sizeof(sp_explanations),
               "%s", _("Specialists: "));
-  specialist_type_iterate(i) {
-    struct specialist *s = specialist_by_number(i);
+  specialist_type_iterate(sp) {
+    struct specialist *s = specialist_by_number(sp);
+
     p->show = FALSE;
     p->width = 2;
     p->space = 1;
     p->title1 = Q_("?specialist:S");
     p->title2 = specialist_abbreviation_translation(s);
-    fc_snprintf(sp_explanation[i], sizeof(sp_explanation[i]),
+    fc_snprintf(sp_explanation[sp], sizeof(sp_explanation[sp]),
                 _("Specialists: %s"), specialist_plural_translation(s));
     cat_snprintf(sp_explanations, sizeof(sp_explanations),
-                 "%s%s", (i == 0) ? "" : ", ",
+                 "%s%s", (sp == 0) ? "" : ", ",
                  specialist_plural_translation(s));
-    p->explanation = sp_explanation[i];
+    p->explanation = sp_explanation[sp];
     p->data = s;
     p->func = cr_entry_specialist;
     p->tagname = specialist_rule_name(s);
@@ -787,6 +788,7 @@ void init_city_report_game_data(void)
   /* Summary column for all specialists. */
   {
     static char sp_summary[128];
+
     p->show = FALSE;
     p->width = MAX(7, specialist_count()*2-1);
     p->space = 1;

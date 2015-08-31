@@ -269,14 +269,15 @@ bool client_start_server(void)
     fc_assert(argc <= max_nargs);
 
     {
-      struct astring options = ASTRING_INIT;
+      struct astring srv_cmdline_opts = ASTRING_INIT;
       int i;
+
       for (i = 1; i < argc; i++) {
-        astr_add(&options, i == 1 ? "%s" : " %s", argv[i]);
+        astr_add(&srv_cmdline_opts, i == 1 ? "%s" : " %s", argv[i]);
       }
       log_verbose("Arguments to spawned server: %s",
-                  astr_str(&options));
-      astr_free(&options);
+                  astr_str(&srv_cmdline_opts));
+      astr_free(&srv_cmdline_opts);
     }
 
     server_pid = fork();
@@ -473,16 +474,16 @@ bool client_start_server(void)
    * Don't send it now, it will be sent to the server when receiving the
    * server setting infos. */
   {
-    char buf[16];
+    char topobuf[16];
 
-    fc_strlcpy(buf, "WRAPX", sizeof(buf));
+    fc_strlcpy(topobuf, "WRAPX", sizeof(topobuf));
     if (tileset_is_isometric(tileset) && 0 == tileset_hex_height(tileset)) {
-      fc_strlcat(buf, "|ISO", sizeof(buf));
+      fc_strlcat(topobuf, "|ISO", sizeof(topobuf));
     }
     if (0 < tileset_hex_width(tileset) || 0 < tileset_hex_height(tileset)) {
-      fc_strlcat(buf, "|HEX", sizeof(buf));
+      fc_strlcat(topobuf, "|HEX", sizeof(topobuf));
     }
-    desired_settable_option_update("topology", buf, FALSE);
+    desired_settable_option_update("topology", topobuf, FALSE);
   }
 
   return TRUE;

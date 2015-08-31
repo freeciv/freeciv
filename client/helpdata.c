@@ -323,12 +323,12 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         struct extra_type *pextra = road_extra_get(r);
 
         if (pextra->buildable && pextra->build_time > 0) {
-          const char *name = road_name_translation(r);
+          const char *rname = road_name_translation(r);
 
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
-                       name,
-                       MAX(0, 18 - (int)get_internal_string_length(name)), "",
+                       rname,
+                       MAX(0, 18 - (int)get_internal_string_length(rname)), "",
                        pextra->build_time);
         }
       } road_type_iterate_end;
@@ -336,12 +336,12 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         struct extra_type *pextra = base_extra_get(b);
 
         if (pextra->buildable && pextra->build_time > 0) {
-          const char *name = base_name_translation(b);
+          const char *bname = base_name_translation(b);
 
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
-                       name,
-                       MAX(0, 18 - (int)get_internal_string_length(name)), "",
+                       bname,
+                       MAX(0, 18 - (int)get_internal_string_length(bname)), "",
                        pextra->build_time);
         }
       } base_type_iterate_end;
@@ -2879,11 +2879,11 @@ void boot_help_texts(struct player *pplayer)
             } unit_type_iterate_end;
             break;
           case HELP_TECH:
-            advance_index_iterate(A_FIRST, i) {
-              if (valid_advance_by_number(i)) {
+            advance_index_iterate(A_FIRST, advi) {
+              if (valid_advance_by_number(advi)) {
                 pitem = new_help_item(current_type);
                 fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                            advance_name_translation(advance_by_number(i)));
+                            advance_name_translation(advance_by_number(advi)));
                 pitem->topic = fc_strdup(name);
                 pitem->text = fc_strdup("");
                 help_list_append(category_nodes, pitem);
@@ -2913,10 +2913,10 @@ void boot_help_texts(struct player *pplayer)
                 if (cats) {
                   bool include = FALSE;
                   const char *cat = extra_category_name(pextra->category);
-                  int i;
+                  int ci;
 
-                  for (i = 0; i < ncats; i++) {
-                    if (fc_strcasecmp(cats[i], cat) == 0) {
+                  for (ci = 0; ci < ncats; ci++) {
+                    if (fc_strcasecmp(cats[ci], cat) == 0) {
                       include = TRUE;
                       break;
                     }
@@ -4006,13 +4006,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
               "be converted to gold upkeep.\n"));
   }
 
-  unit_class_iterate(pclass) {
-    if (uclass_has_flag(pclass, UCF_UNREACHABLE)
-        && BV_ISSET(utype->targets, uclass_index(pclass))) {
+  unit_class_iterate(target) {
+    if (uclass_has_flag(target, UCF_UNREACHABLE)
+        && BV_ISSET(utype->targets, uclass_index(target))) {
       cat_snprintf(buf, bufsz,
                    _("* Can attack against %s units, which are usually not "
                      "reachable.\n"),
-                   uclass_name_translation(pclass));
+                   uclass_name_translation(target));
     }
   } unit_class_iterate_end;
   if (utype_fuel(utype)) {
