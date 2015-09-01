@@ -811,7 +811,7 @@ void adv_best_government(struct player *pplayer)
 
       if (!override) {
         int dist;
-        int bonus = 0; /* in percentage */
+        adv_want bonus = 0; /* in percentage */
         int revolution_turns;
 
         pplayer->government = gov;
@@ -829,12 +829,65 @@ void adv_best_government(struct player *pplayer)
          * a very small amount here to choose govt in cases where
          * we have no cities yet. */
         bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
-        if (action_immune_government(gov, ACTION_SPY_INCITE_CITY)) {
-          bonus += 4;
-        }
-        if (action_immune_government(gov, ACTION_SPY_BRIBE_UNIT)) {
-          bonus += 2;
-        }
+
+        /* TODO: Individual and well balanced value. */
+        action_iterate(act) {
+          if (!action_immune_government(gov, act)) {
+            /* This government doesn't provide immunity againt this
+             * action. */
+            continue;
+          }
+
+          switch((enum gen_action)act) {
+          case ACTION_SPY_INCITE_CITY:
+            bonus += 4;
+            break;
+          case ACTION_SPY_BRIBE_UNIT:
+            bonus += 2;
+            break;
+          case ACTION_SPY_INVESTIGATE_CITY:
+          case ACTION_SPY_POISON:
+          case ACTION_SPY_STEAL_GOLD:
+          case ACTION_SPY_SABOTAGE_CITY:
+          case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+          case ACTION_SPY_STEAL_TECH:
+          case ACTION_SPY_TARGETED_STEAL_TECH:
+          case ACTION_SPY_SABOTAGE_UNIT:
+          case ACTION_CAPTURE_UNITS:
+          case ACTION_STEAL_MAPS:
+          case ACTION_BOMBARD:
+          case ACTION_SPY_NUKE:
+          case ACTION_NUKE:
+          case ACTION_DESTROY_CITY:
+          case ACTION_EXPEL_UNIT:
+            /* Being a target of this is usually undesireable */
+            /* TODO: Individual and well balanced values. */
+            bonus += 0.1;
+            break;
+
+          case ACTION_MARKETPLACE:
+          case ACTION_FOUND_CITY:
+            /* Wants the ability to do this to it self. Don't want others
+             * to target it. Do nothing since action_immune_government()
+             * doesn't separate based on who the actor is. */
+            break;
+
+          case ACTION_ESTABLISH_EMBASSY:
+          case ACTION_TRADE_ROUTE:
+          case ACTION_JOIN_CITY:
+          case ACTION_HELP_WONDER:
+            /* Could be good. An embassy gives permanent contact. A trade
+             * route gives gold per turn. Join city gives population. Help
+             * wonder gives shields. */
+            /* TODO: Individual and well balanced values. */
+            break;
+
+          case ACTION_COUNT:
+            /* Invalid */
+            break;
+          }
+        } action_iterate_end;
+
         bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) > 0 ? 3 : 0;
         bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0 ? 2 : 0;
         bonus += get_player_bonus(pplayer, EFT_FANATICS) > 0 ? 3 : 0;
