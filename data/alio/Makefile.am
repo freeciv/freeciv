@@ -8,6 +8,8 @@ pkgdata_DATA =          \
 	riversbrown.spec \
 	riversgreen.png	\
 	riversgreen.spec \
+	terrain.png     \
+	terrain.spec    \
 	tunnels.png	\
 	tunnels.spec
 
