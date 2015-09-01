@@ -122,6 +122,7 @@ static const char *download_modpack_recursive(const char *URL,
   if (mcb != NULL) {
     char buf[2048];
 
+    /* TRANS: %s is a filename with suffix '.modpack' */
     fc_snprintf(buf, sizeof(buf), _("Downloading \"%s\" control file."), URL + start_idx);
     mcb(buf);
   }
