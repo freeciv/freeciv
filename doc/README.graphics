@@ -185,7 +185,6 @@ This section contains information on how to draw this terrain type.
                           will be blended.
                           The blending mask has sprite t.dither_tile.
   is_reversed           : Draw layers in reverse order.
-  mine_sprite           : Mine sprite for this terrain.
   num_layers            : The number of layers in the terrain. This value
                           must be 1, 2 or 3. Each layer is drawn
                           separately. The layerN options below control the
