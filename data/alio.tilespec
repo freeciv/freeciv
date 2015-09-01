@@ -123,6 +123,7 @@ files =
   "hexemplio/water3.spec",
   "alio/riversbrown.spec",
   "alio/riversgreen.spec",
+  "alio/terrain.spec",
   "alio/tunnels.spec"
 
 
@@ -252,6 +253,19 @@ tag = "tundra"
 blend_layer = 1
 num_layers = 2
 layer1_match_type = "land"
+
+[tile_radiating_rocks]
+tag = "radiating_rocks"
+blend_layer = 1
+num_layers = 2
+layer1_match_type = "land"
+
+[tile_alien_forest]
+tag = "alien_forest"
+blend_layer = 1
+num_layers = 3
+layer1_match_type = "land"
+layer2_match_type = "foliage"
 
 [extras]
 styles =
