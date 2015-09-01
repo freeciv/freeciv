@@ -725,43 +725,50 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     struct road_type *proad = extra_road_get(pextra);
 
-    if ((!ri || road_has_flag(proad, RF_UNRESTRICTED_INFRA))
-        && tile_has_extra(t1, pextra)
+    /* We check the destination tile first, as that's
+     * the end of move that determines the cost.
+     * If can avoid inner loop about integrating roads
+     * completely if the destination road has too high cost. */
+
+    if (road_provides_move_bonus(proad)
+        && cost > proad->move_cost
+        && (!ri || road_has_flag(proad, RF_UNRESTRICTED_INFRA))
+        && tile_has_extra(t2, pextra)
         && (!pclass
             || is_native_extra_to_uclass(pextra, pclass))) {
       road_type_list_iterate(proad->integrators, iroad) {
         struct extra_type *iextra = road_extra_get(iroad);
 
-        if (road_provides_move_bonus(iroad)
-            && cost > iroad->move_cost 
-            && tile_has_extra(t2, iextra)
+        /* We have no unrestricted infra related check here,
+         * destination road is the one that counts. */
+        if (tile_has_extra(t1, iextra)
             && (!pclass
                 || is_native_extra_to_uclass(iextra, pclass))) {
-          switch (iroad->move_mode) {
+          switch (proad->move_mode) {
           case RMM_CARDINAL:
             if (cardinal_move) {
-              cost = iroad->move_cost;
+              cost = proad->move_cost;
             }
             break;
           case RMM_RELAXED:
             if (cardinal_move) {
-              cost = iroad->move_cost;
+              cost = proad->move_cost;
             } else {
-              if (cost > iroad->move_cost * 2) {
+              if (cost > proad->move_cost * 2) {
                 cardinal_between_iterate(t1, t2, between) {
-                  if (tile_has_road(between, iroad)) {
-                  /* TODO: Should we restrict this more?
-                   * Should we check against enemy cities on between tile?
-                   * Should we check against non-native terrain on between tile?
-                   */
-                  cost = iroad->move_cost * 2;
+                  if (tile_has_road(between, proad)) {
+                    /* TODO: Should we restrict this more?
+                     * Should we check against enemy cities on between tile?
+                     * Should we check against non-native terrain on between tile?
+                     */
+                    cost = proad->move_cost * 2;
                   }
                 } cardinal_between_iterate_end;
               }
             }
             break;
           case RMM_FAST_ALWAYS:
-            cost = iroad->move_cost;
+            cost = proad->move_cost;
             break;
           }
         }
