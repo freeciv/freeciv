@@ -1120,12 +1120,7 @@ int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
   switch (order) {
   case ORDER_OLD_BUILD_CITY:
     if (tile_city(tgt_tile)
-#ifdef FREECIV_DEV_SAVE_COMPAT
-        /* Freeciv 3.0 allows joining foreign cities. */
-        ) {
-#else /* FREECIV_DEV_SAVE_COMPAT */
         && city_owner(tile_city(tgt_tile)) == unit_owner(act_unit)) {
-#endif /* FREECIV_DEV_SAVE_COMPAT */
       /* The player's cities are loaded right before his units. It wasn't
        * possible for rulesets to allow joining foreign cities before 3.0.
        * This means that a converted build city order only can be a Join

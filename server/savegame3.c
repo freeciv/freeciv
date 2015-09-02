@@ -3303,34 +3303,6 @@ static void sg_load_players(struct loaddata *loading)
     sg_load_player_units_transport(loading, pplayer);
   } players_iterate_end;
 
-#ifdef FREECIV_DEV_SAVE_COMPAT
-  /* Upgrade unit orders */
-  players_iterate(pplayer) {
-    unit_list_iterate(pplayer->units, punit) {
-      int i;
-
-      for (i = 0; i < punit->orders.length; i++) {
-        struct unit_order *order = &punit->orders.list[i];
-
-        if (order->order != ORDER_PERFORM_ACTION
-            && order->action == ACTION_COUNT) {
-          /* This order may have been replaced by the perform action
-           * order */
-
-          /* See if a corresponding action exists. */
-          order->action = sg_order_to_action(order->order, punit,
-                                             punit->goto_tile);
-
-          if (order->action != ACTION_COUNT) {
-            /* The order should be upgraded. */
-            order->order = ORDER_PERFORM_ACTION;
-          }
-        }
-      }
-    } unit_list_iterate_end;
-  } players_iterate_end;
-#endif /* FREECIV_DEV_SAVE_COMPAT */
-
   /* Savegame may contain nation assignments that are incompatible with the
    * current nationset -- for instance, if it predates the introduction of
    * nationsets. Ensure they are compatible, one way or another. */
@@ -5183,6 +5155,23 @@ static bool sg_load_player_unit(struct loaddata *loading,
                          action_unitstr[j] == '?'
                          ? ACTION_COUNT
                          : char2num(action_unitstr[j]));
+
+#ifdef FREECIV_DEV_SAVE_COMPAT
+        if (order->order != ORDER_PERFORM_ACTION
+            && order->action == ACTION_COUNT) {
+          /* This order may have been replaced by the perform action
+           * order */
+
+          /* See if a corresponding action exists. */
+          order->action = sg_order_to_action(order->order, punit,
+                                             punit->goto_tile);
+
+          if (order->action != ACTION_COUNT) {
+            /* The order should be upgraded. */
+            order->order = ORDER_PERFORM_ACTION;
+          }
+        }
+#endif /* FREECIV_DEV_SAVE_COMPAT */
 
         if (order->order == ORDER_LAST
             || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
