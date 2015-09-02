@@ -95,7 +95,7 @@ tiles = { "row", "column", "tag"
   1,  4, "e_unit_illegal_action"
   1,  5, "e_unit_was_expelled"
   1,  6, "e_unit_did_expel"
-  1,  6, "e_unit_action_failed"
+  1,  4, "e_unit_action_failed"
 
   4,  0, "e_achievement"
   4,  1, "e_uprising"
