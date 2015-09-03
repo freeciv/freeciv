@@ -369,19 +369,18 @@ struct tile *mapstep(const struct tile *ptile, enum direction8 dir)
 ****************************************************************************/
 static inline struct tile *base_native_pos_to_tile(int nat_x, int nat_y)
 {
+  /* Wrap in X and Y directions, as needed. */
   /* If the position is out of range in a non-wrapping direction, it is
    * unreal. */
-  if (!((current_topo_has_flag(TF_WRAPX) || (nat_x >= 0 && nat_x < map.xsize))
-	&& (current_topo_has_flag(TF_WRAPY) || (nat_y >= 0 && nat_y < map.ysize)))) {
-    return NULL;
-  }
-
-  /* Wrap in X and Y directions, as needed. */
   if (current_topo_has_flag(TF_WRAPX)) {
     nat_x = FC_WRAP(nat_x, map.xsize);
+  } else if (nat_x < 0 || nat_x >= map.xsize) {
+    return NULL;
   }
   if (current_topo_has_flag(TF_WRAPY)) {
     nat_y = FC_WRAP(nat_y, map.ysize);
+  } else if (nat_y < 0 || nat_y >= map.ysize) {
+    return NULL;
   }
 
   return map.tiles + native_pos_to_index(nat_x, nat_y);
