@@ -46,8 +46,8 @@ enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 #define MAX(x,y) (((x)>(y))?(x):(y))
 #define MIN(x,y) (((x)<(y))?(x):(y))
 #endif
-#define CLIP(lower,this,upper) \
-    ((this)<(lower)?(lower):(this)>(upper)?(upper):(this))
+#define CLIP(lower,current,upper) \
+    ((current)<(lower)?(lower):(current)>(upper)?(upper):(current))
 
 /* Note: Solaris already has a WRAP macro that is completely different. */
 #define FC_WRAP(value, range)                                               \
