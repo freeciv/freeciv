@@ -3928,7 +3928,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   int extra_idx = -1;
   bool cl = FALSE;
   enum extrastyle_id extrastyle;
-  const struct road_type *proad = extra_road_get_const(pextra);
+  const struct road_type *proad = extra_road_get(pextra);
 
   extra_idx = extra_index(pextra);
 

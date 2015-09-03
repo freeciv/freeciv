@@ -356,7 +356,7 @@ bool is_native_move(const struct unit_class *punitclass,
       return TRUE;
     }
 
-    proad = extra_road_get_const(pextra);
+    proad = extra_road_get(pextra);
     road_type_list_iterate(proad->integrators, iroad) {
       if (!tile_has_road(src_tile, iroad)) {
         continue;
