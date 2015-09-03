@@ -535,7 +535,7 @@ bool is_cardinal_only_road(const struct extra_type *pextra)
     return FALSE;
   }
 
-  proad = extra_road_get_const(pextra);
+  proad = extra_road_get(pextra);
 
   return proad->move_mode == RMM_CARDINAL || proad->move_mode == RMM_RELAXED;
 }

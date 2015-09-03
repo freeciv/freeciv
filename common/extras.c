@@ -236,22 +236,6 @@ struct road_type *extra_road_get(const struct extra_type *pextra)
 }
 
 /**************************************************************************
-  Returns base type of extra. Uses const parameter.
-**************************************************************************/
-const struct base_type *extra_base_get_const(const struct extra_type *pextra)
-{
-  return pextra->data.base;
-}
-
-/**************************************************************************
-  Returns road type of extra. Uses const parameter.
-**************************************************************************/
-const struct road_type *extra_road_get_const(const struct extra_type *pextra)
-{
-  return pextra->data.road;
-}
-
-/**************************************************************************
   Returns extra type for given cause.
 **************************************************************************/
 struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
@@ -385,12 +369,12 @@ static bool can_build_extra_base(const struct extra_type *pextra,
                                  const struct tile *ptile)
 {
   if (is_extra_caused_by(pextra, EC_BASE)
-      && !base_can_be_built(extra_base_get_const(pextra), ptile)) {
+      && !base_can_be_built(extra_base_get(pextra), ptile)) {
     return FALSE;
   }
 
   if (is_extra_caused_by(pextra, EC_ROAD)
-      && !can_build_road_base(extra_road_get_const(pextra), pplayer, ptile)) {
+      && !can_build_road_base(extra_road_get(pextra), pplayer, ptile)) {
     return FALSE;
   }
 
@@ -526,7 +510,7 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
     if (pterr->base_time == 0) {
       return FALSE;
     }
-    if (tile_city(ptile) != NULL && extra_base_get_const(pextra)->border_sq >= 0) {
+    if (tile_city(ptile) != NULL && extra_base_get(pextra)->border_sq >= 0) {
       return FALSE;
     }
   }

@@ -147,8 +147,6 @@ struct extra_type *extra_type_by_translated_name(const char *name);
 
 struct base_type *extra_base_get(const struct extra_type *pextra);
 struct road_type *extra_road_get(const struct extra_type *pextra);
-const struct base_type *extra_base_get_const(const struct extra_type *pextra);
-const struct road_type *extra_road_get_const(const struct extra_type *pextra);
 
 void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause);
 struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause);
