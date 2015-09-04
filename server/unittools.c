@@ -58,6 +58,7 @@
 #include "script_server.h"
 
 /* server */
+#include "actiontools.h"
 #include "aiiface.h"
 #include "barbarian.h"
 #include "citytools.h"
@@ -3768,6 +3769,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 {
   struct tile *dst_tile;
   struct city *tgt_city;
+  struct unit *tgt_unit;
   action_probability prob;
   int tgt_id;
   bool performed;
@@ -4057,6 +4059,22 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
 
+      /* Get a target unit at the target tile. */
+      tgt_unit = action_tgt_unit(punit, dst_tile);
+
+      if (tgt_unit == NULL
+          && action_get_target_kind(order.action) == ATK_UNIT) {
+        /* This action targets a unit but no target unit was found. */
+
+        cancel_orders(punit, "  perform action vs unit with no unit");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
+                      _("%s could not do %s. No target unit."),
+                      unit_link(punit),
+                      action_get_ui_name(order.action));
+
+        return TRUE;
+      }
+
       /* No target selected. */
       tgt_id = -1;
 
@@ -4080,11 +4098,10 @@ bool execute_orders(struct unit *punit, const bool fresh)
         tgt_id = tgt_city->id;
         break;
       case ATK_UNIT:
-        log_error("Unsupported action target kind");
+        prob = action_prob_vs_unit(punit, order.action,
+                                   tgt_unit);
 
-        /* Makes the check below abort and cancel the orders */
-        prob = 0;
-
+        tgt_id = tgt_unit->id;
         break;
       case ATK_COUNT:
         log_error("Invalid action target kind");
@@ -4109,7 +4126,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
         /* Try to explain what rule made it illegal. */
         illegal_action_msg(unit_owner(punit), E_BAD_COMMAND, punit,
-                           order.action, dst_tile, tgt_city, NULL);
+                           order.action, dst_tile, tgt_city, tgt_unit);
 
         return TRUE;
       }
