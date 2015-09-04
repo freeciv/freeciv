@@ -516,3 +516,101 @@ void action_consequence_success(const int action_id,
                             notify_global_success,
                             EFT_CASUS_BELLI_SUCCESS);
 }
+
+/**************************************************************************
+  Returns TRUE iff, from the point of view of the owner of the actor unit,
+  it looks like the actor unit may be able to do any action to the target
+  city.
+
+  If the owner of the actor unit don't have the knowledge needed to know
+  for sure if the unit can act TRUE will be returned.
+**************************************************************************/
+static bool may_unit_act_vs_city(struct unit *actor, struct city *target)
+{
+  if (actor == NULL || target == NULL) {
+    /* Can't do any actions if actor or target are missing. */
+    return FALSE;
+  }
+
+  action_iterate(act) {
+    if (!(action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_CITY)) {
+      /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_prob_possible(action_prob_vs_city(actor, act, target))) {
+      /* The actor unit may be able to do this action to the target
+       * city. */
+      return TRUE;
+    }
+  } action_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Find a city to target for an action on the specified tile.
+
+  Returns NULL if no proper target is found.
+**************************************************************************/
+struct city *action_tgt_city(struct unit *actor, struct tile *target_tile)
+{
+  struct city *target = tile_city(target_tile);
+
+  if (target && may_unit_act_vs_city(actor, target)) {
+    /* It may be possible to act against this city. */
+    return target;
+  }
+
+  return NULL;
+}
+
+/**************************************************************************
+  Returns TRUE iff, from the point of view of the owner of the actor unit,
+  it looks like the actor unit may be able to do any action to the target
+  unit.
+
+  If the owner of the actor unit don't have the knowledge needed to know
+  for sure if the unit can act TRUE will be returned.
+**************************************************************************/
+static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target)
+{
+  if (actor == NULL || target == NULL) {
+    /* Can't do any actions if actor or target are missing. */
+    return FALSE;
+  }
+
+  action_iterate(act) {
+    if (!(action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_UNIT)) {
+      /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_prob_possible(action_prob_vs_unit(actor, act, target))) {
+      /* The actor unit may be able to do this action to the target
+       * unit. */
+      return TRUE;
+    }
+  } action_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Find a unit to target for an action at the specified tile.
+
+  Returns the first unit found at the tile that the actor may act against
+  or NULL if no proper target is found.
+**************************************************************************/
+struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile)
+{
+  unit_list_iterate(target_tile->units, target) {
+    if (may_unit_act_vs_unit(actor, target)) {
+      return target;
+    }
+  } unit_list_iterate_end;
+
+  return NULL;
+}

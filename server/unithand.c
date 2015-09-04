@@ -517,38 +517,6 @@ static bool may_unit_act_vs_tile_units(struct unit *actor,
 /**************************************************************************
   Returns TRUE iff, from the point of view of the owner of the actor unit,
   it looks like the actor unit may be able to do any action to the target
-  city.
-
-  If the owner of the actor unit don't have the knowledge needed to know
-  for sure if the unit can act TRUE will be returned.
-**************************************************************************/
-static bool may_unit_act_vs_city(struct unit *actor, struct city *target)
-{
-  if (actor == NULL || target == NULL) {
-    /* Can't do any actions if actor or target are missing. */
-    return FALSE;
-  }
-
-  action_iterate(act) {
-    if (!(action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_CITY)) {
-      /* Not a relevant action. */
-      continue;
-    }
-
-    if (action_prob_possible(action_prob_vs_city(actor, act, target))) {
-      /* The actor unit may be able to do this action to the target
-       * city. */
-      return TRUE;
-    }
-  } action_iterate_end;
-
-  return FALSE;
-}
-
-/**************************************************************************
-  Returns TRUE iff, from the point of view of the owner of the actor unit,
-  it looks like the actor unit may be able to do any action to the target
   tile.
 
   If the owner of the actor unit don't have the knowledge needed to know
@@ -577,72 +545,6 @@ static bool may_unit_act_vs_tile(struct unit *actor,
   } action_iterate_end;
 
   return FALSE;
-}
-
-/**************************************************************************
-  Returns TRUE iff, from the point of view of the owner of the actor unit,
-  it looks like the actor unit may be able to do any action to the target
-  unit.
-
-  If the owner of the actor unit don't have the knowledge needed to know
-  for sure if the unit can act TRUE will be returned.
-**************************************************************************/
-static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target)
-{
-  if (actor == NULL || target == NULL) {
-    /* Can't do any actions if actor or target are missing. */
-    return FALSE;
-  }
-
-  action_iterate(act) {
-    if (!(action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_UNIT)) {
-      /* Not a relevant action. */
-      continue;
-    }
-
-    if (action_prob_possible(action_prob_vs_unit(actor, act, target))) {
-      /* The actor unit may be able to do this action to the target
-       * unit. */
-      return TRUE;
-    }
-  } action_iterate_end;
-
-  return FALSE;
-}
-
-/**************************************************************************
-  Find a city to target for an action on the specified tile.
-
-  Returns NULL if no proper target is found.
-**************************************************************************/
-static struct city *tgt_city(struct unit *actor, struct tile *target_tile)
-{
-  struct city *target = tile_city(target_tile);
-
-  if (target && may_unit_act_vs_city(actor, target)) {
-    /* It may be possible to act against this city. */
-    return target;
-  }
-
-  return NULL;
-}
-
-/**************************************************************************
-  Find a unit to target for an action at the specified tile.
-
-  Returns the first unit found at the tile that the actor may act against
-  or NULL if no proper target is found.
-**************************************************************************/
-static struct unit *tgt_unit(struct unit *actor, struct tile *target_tile)
-{
-  unit_list_iterate(target_tile->units, target) {
-    if (may_unit_act_vs_unit(actor, target)) {
-      return target;
-    }
-  } unit_list_iterate_end;
-
-  return NULL;
 }
 
 /**************************************************************************
@@ -1055,7 +957,7 @@ void handle_unit_get_actions(struct connection *pc,
 
   if (target_unit_id_client == IDENTITY_NUMBER_ZERO) {
     /* Find a new target unit. */
-    target_unit = tgt_unit(actor_unit, target_tile);
+    target_unit = action_tgt_unit(actor_unit, target_tile);
   } else {
     /* Prepare the client selected target unit. */
     target_unit = game_unit_by_number(target_unit_id_client);
@@ -1063,7 +965,7 @@ void handle_unit_get_actions(struct connection *pc,
 
   if (target_city_id_client == IDENTITY_NUMBER_ZERO) {
     /* Find a new target city. */
-    target_city = tgt_city(actor_unit, target_tile);
+    target_city = action_tgt_city(actor_unit, target_tile);
   } else {
     /* Prepare the client selected target city. */
     target_city = game_city_by_number(target_city_id_client);
@@ -3003,8 +2905,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * move_diplomat_city tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
   if (is_actor_unit(punit)) {
-    struct unit *tunit = tgt_unit(punit, pdesttile);
-    struct city *tcity = tgt_city(punit, pdesttile);
+    struct unit *tunit = action_tgt_unit(punit, pdesttile);
+    struct city *tcity = action_tgt_city(punit, pdesttile);
 
     /* Consider to pop up the action selection dialog if a potential city,
      * unit or units target exists at the destination tile. A tile target
@@ -3017,8 +2919,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
        * Assume that the intention is to do an action. */
 
       /* If a tcity or a tunit exists it must be possible to act against it
-       * since tgt_city() or tgt_unit() wouldn't have targeted it
-       * otherwise. */
+       * since action_tgt_city() or action_tgt_unit() wouldn't have
+       * targeted it otherwise. */
       if (tcity || tunit
           || may_unit_act_vs_tile_units(punit, pdesttile)
           /* Pop up the action selection dialog even if the tile target is
