@@ -34,7 +34,9 @@ tiles = { "row", "column","tag"
   3,    0,  "ts.alien_mine"
 
   0,    1,  "t.l0.radiating_rocks1"
+  5,    1,  "t.l1.radiating_rocks1"
 
   0,    1,  "t.l0.alien_forest1"
+  5,    1,  "t.l1.alien_forest1"
   1,    1,  "t.l2.alien_forest1"
 }
