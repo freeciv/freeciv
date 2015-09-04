@@ -1161,7 +1161,7 @@ action_prob(const enum gen_action wanted_action,
   };
 
   fc_assert_ret_val_msg(FALSE, ACTPROB_NOT_IMPLEMENTED,
-                        "Should be yes, mabe or no");
+                        "Should be yes, maybe or no");
 }
 
 /**************************************************************************
