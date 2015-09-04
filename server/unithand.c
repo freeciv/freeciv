@@ -2282,9 +2282,10 @@ static void handle_unit_change_activity_real(struct player *pplayer,
     return;
   }
 
-  if (activity == ACTIVITY_EXPLORE) {
-    unit_activity_handling_targeted(punit, activity, &activity_target);
+  /* The activity can now be set. */
+  unit_activity_handling_targeted(punit, activity, &activity_target);
 
+  if (activity == ACTIVITY_EXPLORE) {
     /* Exploring is handled here explicitly, since the player expects to
      * see an immediate response from setting a unit to auto-explore.
      * Handling it deeper in the code leads to some tricky recursive loops -
@@ -2292,8 +2293,6 @@ static void handle_unit_change_activity_real(struct player *pplayer,
     if (punit->moves_left > 0) {
       do_explore(punit);
     }
-  } else {
-    unit_activity_handling_targeted(punit, activity, &activity_target);
   }
 }
 
