@@ -1642,7 +1642,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
   terrain_type_iterate(pterr) {
     char path[512];
     char identifier[2];
-    int i;
+    int r;
     const char *flag_names[TER_USER_LAST];
     const char *puc_names[UCL_LAST];
     int flagi;
@@ -1672,18 +1672,18 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     } output_type_iterate_end;
 
     /* Check resource count */
-    for (i = 0; pterr->resources[i] != NULL; i++) {
-      /* Just increasing i as long as there is resources */
+    for (r = 0; pterr->resources[r] != NULL; r++) {
+      /* Just increasing r as long as there is resources */
     }
 
     {
-      const char *resource_names[i];
+      const char *resource_names[r];
 
-      for (i = 0; pterr->resources[i] != NULL; i++) {
-        resource_names[i] = resource_rule_name(pterr->resources[i]);
+      for (r = 0; pterr->resources[r] != NULL; r++) {
+        resource_names[r] = resource_rule_name(pterr->resources[r]);
       }
 
-      secfile_insert_str_vec(sfile, resource_names, i,
+      secfile_insert_str_vec(sfile, resource_names, r,
                              "%s.resources", path);
     }
 
