@@ -4022,18 +4022,15 @@ void settings_game_start(void)
 /********************************************************************
   Save game settings.
 *********************************************************************/
-void settings_game_save(struct section_file *file, const char *section,
-                        bool scenario)
+void settings_game_save(struct section_file *file, const char *section)
 {
   int set_count = 0;
 
   settings_iterate(SSET_ALL, pset) {
     char errbuf[200];
 
-    if ( /* Normal save always has all settings saved */
-        !scenario
-         /* It's explicitly set to some value to save */
-        || setting_get_setdef(pset) == SETDEF_CHANGED
+    if (/* It's explicitly set to some value to save */
+        setting_get_setdef(pset) == SETDEF_CHANGED
          /* It must be same at loading time as it was saving time, even if
           * freeciv's default has changed. */
         || !setting_is_changeable(pset, NULL, errbuf, sizeof(errbuf))) {
