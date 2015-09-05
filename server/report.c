@@ -20,6 +20,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "capability.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -227,7 +228,7 @@ static int secompare(const void *a, const void *b)
 static void historian_generic(enum historian_type which_news)
 {
   int i, j = 0, rank = 0;
-  char buffer[4096];
+  char buffer[128 * MAX_NUM_PLAYER_SLOTS];
   char title[1024];
   struct player_score_entry size[player_count()];
 
@@ -1555,12 +1556,49 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
                             const char *headline, const char *lines,
                             enum event_type event)
 {
-  struct packet_page_msg packet;
+  struct packet_page_msg_new packet;
+  struct packet_page_msg_old packet_old;
+  int i;
+  int len;
 
   sz_strlcpy(packet.caption, caption);
   sz_strlcpy(packet.headline, headline);
-  sz_strlcpy(packet.lines, lines);
   packet.event = event;
+  len = strlen(lines);
+  if ((len % (MAX_LEN_MSG / 2 - 1)) == 0) {
+    packet.parts = len / (MAX_LEN_MSG / 2 - 1);
+  } else {
+    packet.parts = len / (MAX_LEN_MSG / 2 - 1) + 1;
+  }
+  packet.len = len;
 
-  lsend_packet_page_msg(dest, &packet);
+  sz_strlcpy(packet_old.caption, caption);
+  sz_strlcpy(packet_old.headline, headline);
+  strncpy(packet_old.lines, lines, MIN(MAX_LEN_MSG, strlen(lines)));
+  packet_old.event = event;
+
+  conn_list_iterate(dest, pconn) {
+    if (has_capability("split_reports", pconn->capability)) {
+      send_packet_page_msg_new(pconn, &packet);
+    } else {
+      send_packet_page_msg_old(pconn, &packet_old);
+    }
+  } conn_list_iterate_end;
+
+  for (i = 0; i < packet.parts; i++) {
+    struct packet_page_msg_part part;
+    int plen;
+
+    plen = MIN(len, (MAX_LEN_MSG / 2 - 1));
+    strncpy(part.lines, &(lines[(MAX_LEN_MSG / 2 - 1) * i]), plen);
+    part.lines[plen] = '\0';
+
+    conn_list_iterate(dest, pconn) {
+      if (has_capability("split_reports", pconn->capability)) {
+        send_packet_page_msg_part(pconn, &part);
+      }
+    } conn_list_iterate_end;
+
+    len -= plen;
+  }
 }

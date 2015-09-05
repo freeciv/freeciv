@@ -111,6 +111,15 @@ static struct {
   .placeholder = NULL
 };
 
+static struct {
+  int len;
+  enum event_type event;
+  char *caption;
+  char *headline;
+  char *lines;
+  int parts;
+} page_msg_report = { .parts = 0 };
+
 /****************************************************************************
   Called below, and by client/client_main.c client_game_free()
 ****************************************************************************/
@@ -1254,16 +1263,62 @@ void handle_connect_msg(const char *message)
 }
 
 /****************************************************************************
-  Packet page_msg handler.
+  Compatibility page_msg header handler.
 ****************************************************************************/
-void handle_page_msg(const char *caption, const char *headline,
-                     const char *lines, enum event_type event)
+void handle_page_msg_old(const char *caption, const char *headline,
+                         const char *lines, enum event_type event)
 {
   if (!client_has_player()
       || !client_player()->ai_controlled
       || event != E_BROADCAST_REPORT) {
     popup_notify_dialog(caption, headline, lines);
     play_sound_for_event(event);
+  }
+}
+
+/****************************************************************************
+  Page_msg header handler.
+****************************************************************************/
+void handle_page_msg_new(const char *caption, const char *headline,
+                         enum event_type event, int len, int parts)
+{
+  if (!client_has_player()
+      || !client_player()->ai_controlled
+      || event != E_BROADCAST_REPORT) {
+    if (page_msg_report.parts > 0) {
+      /* Previous one was never finished */
+      free(page_msg_report.caption);
+      free(page_msg_report.headline);
+      free(page_msg_report.lines);
+    }
+    page_msg_report.len = len;
+    page_msg_report.event = event;
+    page_msg_report.caption = fc_strdup(caption);
+    page_msg_report.headline = fc_strdup(headline);
+    page_msg_report.parts = parts;
+    page_msg_report.lines = fc_malloc(len + 1);
+    page_msg_report.lines[0] = '\0';
+  }
+}
+
+/****************************************************************************
+  Page_msg part handler.
+****************************************************************************/
+void handle_page_msg_part(const char *lines)
+{
+  fc_strlcat(page_msg_report.lines, lines, page_msg_report.len + 1);
+  page_msg_report.parts--;
+
+  if (page_msg_report.parts == 0) {
+    /* This is the final part */
+    popup_notify_dialog(page_msg_report.caption,
+                        page_msg_report.headline,
+                        page_msg_report.lines);
+    play_sound_for_event(page_msg_report.event);
+
+    free(page_msg_report.caption);
+    free(page_msg_report.headline);
+    free(page_msg_report.lines);
   }
 }
 
