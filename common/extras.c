@@ -220,22 +220,6 @@ struct extra_type *extra_type_by_translated_name(const char *name)
 }
 
 /**************************************************************************
-  Returns base type of extra.
-**************************************************************************/
-struct base_type *extra_base_get(const struct extra_type *pextra)
-{
-  return pextra->data.base;
-}
-
-/**************************************************************************
-  Returns road type of extra.
-**************************************************************************/
-struct road_type *extra_road_get(const struct extra_type *pextra)
-{
-  return pextra->data.road;
-}
-
-/**************************************************************************
   Returns extra type for given cause.
 **************************************************************************/
 struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
