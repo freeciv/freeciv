@@ -19,7 +19,7 @@ struct connection;
 struct conn_list;
 
 #define REPORT_TITLESIZE 1024
-#define REPORT_BODYSIZE 4096
+#define REPORT_BODYSIZE (128 * MAX_NUM_PLAYER_SLOTS)
 
 struct history_report
 {

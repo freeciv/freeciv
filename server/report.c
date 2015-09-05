@@ -30,6 +30,7 @@
 /* common */
 #include "achievements.h"
 #include "calendar.h"
+#include "connection.h"
 #include "events.h"
 #include "game.h"
 #include "government.h"
@@ -1651,11 +1652,32 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
                             enum event_type event)
 {
   struct packet_page_msg packet;
+  int i;
+  int len;
 
   sz_strlcpy(packet.caption, caption);
   sz_strlcpy(packet.headline, headline);
-  sz_strlcpy(packet.lines, lines);
   packet.event = event;
+  len = strlen(lines);
+  if ((len % (MAX_LEN_CONTENT - 1)) == 0) {
+    packet.parts = len / (MAX_LEN_CONTENT - 1);
+  } else {
+    packet.parts = len / (MAX_LEN_CONTENT - 1) + 1;
+  }
+  packet.len = len;
 
   lsend_packet_page_msg(dest, &packet);
+
+  for (i = 0; i < packet.parts; i++) {
+    struct packet_page_msg_part part;
+    int plen;
+
+    plen = MIN(len, (MAX_LEN_CONTENT - 1));
+    strncpy(part.lines, &(lines[(MAX_LEN_CONTENT - 1) * i]), plen);
+    part.lines[plen] = '\0';
+
+    lsend_packet_page_msg_part(dest, &part);
+
+    len -= plen;
+  }
 }
