@@ -1387,21 +1387,8 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
         /* Units able to occupy really needed there! */
         want = bcost * SHIELD_WEIGHTING;
       } else {
-        int a_squared = acity_data->attack * acity_data->attack;
-
         want = kill_desire(benefit, attack, bcost + acity_data->bcost,
                            vulnerability, victim_count);
-        if (benefit * a_squared > acity_data->bcost * vulnerability) {
-          /* If there're enough units to do the job, we don't need this
-           * one. */
-          /* FIXME: The problem with ai.bcost is that bigger it is, less is
-           * our desire to go help other units.  Now suppose we need five
-           * cavalries to take over a city, we have four (which is not
-           * enough), then we will be severely discouraged to build the
-           * fifth one.  Where is logic in this??!?! --GB */
-          want -= kill_desire(benefit, a_squared, acity_data->bcost,
-                              vulnerability, victim_count);
-        }
       }
       want -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING 
                            : SHIELD_WEIGHTING);
