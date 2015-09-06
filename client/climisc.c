@@ -1245,7 +1245,7 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
   struct city *tgt_city;
   struct tile *tgt_tile;
 
-  if (!is_actor_unit(act_unit)) {
+  if (!utype_may_act_at_all(unit_type(act_unit))) {
     /* Not an actor unit. */
     return FALSE;
   }

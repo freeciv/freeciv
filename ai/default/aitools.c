@@ -573,7 +573,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   } else if (unit_is_cityfounder(punit)) {
     /* Short path */
     parameter->get_TB = no_fights;
-  } else if (is_actor_unit(punit)
+  } else if (utype_may_act_at_all(unit_type(punit))
              && !utype_acts_hostile(unit_type(punit))) {
     /* While the AI currently won't establish a trade route to a non ally
      * it will establish an embassy. */

@@ -523,7 +523,7 @@ bool utype_can_freely_load(const struct unit_type *pcargotype,
 bool utype_can_freely_unload(const struct unit_type *pcargotype,
                              const struct unit_type *ptranstype);
 
-bool is_actor_unit_type(const struct unit_type *putype);
+bool utype_may_act_at_all(const struct unit_type *putype);
 bool utype_can_do_action(const struct unit_type *putype,
                          const int action_id);
 bool utype_acts_hostile(const struct unit_type *putype);

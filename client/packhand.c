@@ -1672,7 +1672,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
             && !unit_has_orders(punit)
              /* the server handles non transported units */
             && NULL != unit_transport_get(punit)
-            && is_actor_unit(punit)) {
+            && utype_may_act_at_all(unit_type(punit))) {
           /* Open action dialog only if 'punit' and all its transporters
            * (recursively) don't have orders. */
           struct unit *ptrans;

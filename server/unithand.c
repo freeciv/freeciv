@@ -1288,7 +1288,7 @@ void handle_unit_action_query(struct connection *pc,
     return;
   }
 
-  if (!is_actor_unit(pactor)) {
+  if (!utype_may_act_at_all(unit_type(pactor))) {
     /* Shouldn't happen */
     log_error("handle_unit_action_query() %s (%d) is not an actor",
               unit_rule_name(pactor), actor_id);
@@ -1401,7 +1401,7 @@ bool unit_perform_action(struct player *pplayer,
     return FALSE;
   }
 
-  if (!is_actor_unit(actor_unit)) {
+  if (!utype_may_act_at_all(unit_type(actor_unit))) {
     /* Shouldn't happen */
     log_error("handle_unit_do_action() %s (%d) is not an actor unit",
               unit_rule_name(actor_unit), actor_id);
@@ -2904,7 +2904,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * For tiles occupied by allied cities or units, keep moving if
    * move_diplomat_city tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
-  if (is_actor_unit(punit)) {
+  if (utype_may_act_at_all(unit_type(punit))) {
     struct unit *tunit = action_tgt_unit(punit, pdesttile);
     struct city *tcity = action_tgt_city(punit, pdesttile);
 
