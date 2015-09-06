@@ -3921,6 +3921,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_MARKETPLACE:
       case ACTION_HELP_WONDER:
       case ACTION_SPY_BRIBE_UNIT:
+      case ACTION_SPY_SABOTAGE_UNIT:
       case ACTION_CAPTURE_UNITS:
       case ACTION_JOIN_CITY:
       case ACTION_STEAL_MAPS:
@@ -3934,7 +3935,6 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
       case ACTION_SPY_TARGETED_STEAL_TECH:
       /* Targets a single unit. */
-      case ACTION_SPY_SABOTAGE_UNIT:
       case ACTION_EXPEL_UNIT:
         log_error("handle_unit_orders() the action %s isn't allowed in "
                   "orders. "
