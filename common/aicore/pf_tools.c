@@ -682,7 +682,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
       parameter->actions |= PF_AA_CITY_ATTACK;
     }
   }
-  if (is_actor_unit_type(parameter->utype)) {
+  if (utype_may_act_at_all(parameter->utype)) {
     /* FIXME: it should consider action enablers. */
     if (utype_can_do_action(parameter->utype, ACTION_TRADE_ROUTE)
         || utype_can_do_action(parameter->utype, ACTION_MARKETPLACE)) {

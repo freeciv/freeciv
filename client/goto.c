@@ -891,7 +891,7 @@ static void goto_fill_parameter_base(struct pf_parameter *parameter,
   if (is_attack_unit(punit)
       || utype_acts_hostile(unit_type(punit))) {
     parameter->get_TB = get_TB_aggr;
-  } else if (is_actor_unit(punit)
+  } else if (utype_may_act_at_all(unit_type(punit))
              && !utype_acts_hostile(unit_type(punit))) {
     parameter->get_TB = get_TB_caravan;
   } else {

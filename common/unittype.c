@@ -309,7 +309,7 @@ static void unit_can_act_cache_set(struct unit_type *putype)
   Return TRUE iff units of this type can do actions controlled by
   generalized (ruleset defined) action enablers.
 **************************************************************************/
-bool is_actor_unit_type(const struct unit_type *putype)
+bool utype_may_act_at_all(const struct unit_type *putype)
 {
   return utype_can_do_action(putype, ACTION_ANY);
 }
@@ -373,7 +373,7 @@ static void unit_state_action_cache_set(struct unit_type *putype)
   BV_CLR_ALL(ustate_act_cache[uidx][ACTION_ANY]);
   BV_CLR_ALL(ustate_act_cache[uidx][ACTION_HOSTILE]);
 
-  if (!is_actor_unit_type(putype)) {
+  if (!utype_may_act_at_all(putype)) {
     /* Not an actor unit. */
     return;
   }
@@ -443,7 +443,7 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
   BV_CLR_ALL(dipl_rel_action_cache[putype_id][ACTION_ANY]);
   BV_CLR_ALL(dipl_rel_action_cache[putype_id][ACTION_HOSTILE]);
 
-  if (!is_actor_unit_type(putype)) {
+  if (!utype_may_act_at_all(putype)) {
     /* Not an actor unit. */
     return;
   }
@@ -614,7 +614,7 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
 
   fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
 
-  if (!is_actor_unit_type(punit_type)) {
+  if (!utype_may_act_at_all(punit_type)) {
     /* Not an actor unit. */
     return FALSE;
   }
