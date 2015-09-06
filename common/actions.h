@@ -245,17 +245,21 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile);
 
-action_probability action_prob_vs_city(struct unit* actor, int action_id,
-                                       struct city* victim);
+action_probability action_prob_vs_city(const struct unit* actor,
+                                       const int action_id,
+                                       const struct city* victim);
 
-action_probability action_prob_vs_unit(struct unit* actor, int action_id,
-                                       struct unit* victim);
+action_probability action_prob_vs_unit(const struct unit* actor,
+                                       const int action_id,
+                                       const struct unit* victim);
 
-action_probability action_prob_vs_units(struct unit* actor, int action_id,
-                                        struct tile* victims);
+action_probability action_prob_vs_units(const struct unit* actor,
+                                        const int action_id,
+                                        const struct tile* victims);
 
-action_probability action_prob_vs_tile(struct unit* actor, int action_id,
-                                       struct tile* victims);
+action_probability action_prob_vs_tile(const struct unit *actor,
+                                       const int action_id,
+                                       const struct tile *victims);
 
 bool action_prob_possible(action_probability probability);
 
