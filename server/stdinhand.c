@@ -200,7 +200,7 @@ static bool player_name_check(const char* name, char *buf, size_t buflen)
 /**************************************************************************
   Convert a named command into an id.
   If accept_ambiguity is true, return the first command in the
-  enum list which matches, else return CMD_AMBIGOUS on ambiguity.
+  enum list which matches, else return CMD_AMBIGUOUS on ambiguity.
   (This is a trick to allow ambiguity to be handled in a flexible way
   without importing notify_player() messages inside this routine - rp)
 **************************************************************************/
