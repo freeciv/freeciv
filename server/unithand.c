@@ -407,6 +407,11 @@ static bool do_expel_unit(struct player *pplayer,
   /* Where is the actor player? */
   fc_assert_ret_val(pplayer, FALSE);
 
+  /* The price of attempting an expulsion is a single move. Applies before
+   * the player is told if the target has a capital. */
+  actor->moves_left = MAX(0, actor->moves_left - SINGLE_MOVE);
+  send_unit_info(NULL, actor);
+
   target_tile = unit_tile(target);
 
   /* Expel the target unit to his owner's capital. */
