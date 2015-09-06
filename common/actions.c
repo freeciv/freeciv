@@ -1168,9 +1168,9 @@ action_prob(const enum gen_action wanted_action,
   Get the actor unit's probability of successfully performing the chosen
   action on the target city.
 **************************************************************************/
-action_probability action_prob_vs_city(struct unit* actor_unit,
-                                       int action_id,
-                                       struct city* target_city)
+action_probability action_prob_vs_city(const struct unit* actor_unit,
+                                       const int action_id,
+                                       const struct city* target_city)
 {
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -1203,9 +1203,9 @@ action_probability action_prob_vs_city(struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on the target unit.
 **************************************************************************/
-action_probability action_prob_vs_unit(struct unit* actor_unit,
-                                       int action_id,
-                                       struct unit* target_unit)
+action_probability action_prob_vs_unit(const struct unit* actor_unit,
+                                       const int action_id,
+                                       const struct unit* target_unit)
 {
   if (actor_unit == NULL || target_unit == NULL) {
     /* Can't do an action when actor or target are missing. */
