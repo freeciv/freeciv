@@ -734,9 +734,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
         && tile_has_extra(t2, pextra)
         && (!pclass
             || is_native_extra_to_uclass(pextra, pclass))) {
-      road_type_list_iterate(proad->integrators, iroad) {
-        struct extra_type *iextra = road_extra_get(iroad);
-
+      extra_type_list_iterate(proad->integrators, iextra) {
         /* We have no unrestricted infra related check here,
          * destination road is the one that counts. */
         if (tile_has_extra(t1, iextra)
@@ -770,7 +768,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
             break;
           }
         }
-      } road_type_list_iterate_end;
+      } extra_type_list_iterate_end;
     }
   } extra_type_by_cause_iterate_end;
 

@@ -3995,12 +3995,12 @@ static int fill_road_sprite_array(const struct tileset *t,
     if (!is_cardinal_only_road(pextra)
         || is_cardinal_tileset_dir(t, dir)) {
       road_near[dir] = FALSE;
-      road_type_list_iterate(proad->integrators, iroad) {
-        if (BV_ISSET(textras_near[dir], extra_index(road_extra_get(iroad)))) {
+      extra_type_list_iterate(proad->integrators, iextra) {
+        if (BV_ISSET(textras_near[dir], extra_index(iextra))) {
           road_near[dir] = TRUE;
           break;
         }
-      } road_type_list_iterate_end;
+      } extra_type_list_iterate_end;
       if (cl) {
         land_near[dir] = (tterrain_near[dir] != T_UNKNOWN
                           && terrain_type_terrain_class(tterrain_near[dir]) != TC_OCEAN);

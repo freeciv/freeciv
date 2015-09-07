@@ -357,11 +357,11 @@ bool is_native_move(const struct unit_class *punitclass,
     }
 
     proad = extra_road_get(pextra);
-    road_type_list_iterate(proad->integrators, iroad) {
-      if (!tile_has_road(src_tile, iroad)) {
+    extra_type_list_iterate(proad->integrators, iextra) {
+      if (!tile_has_extra(src_tile, iextra)) {
         continue;
       }
-      switch (iroad->move_mode) {
+      switch (extra_road_get(iextra)->move_mode) {
       case RMM_FAST_ALWAYS:
         /* Road connects source and destination, so we're fine. */
         return TRUE;
@@ -377,15 +377,15 @@ bool is_native_move(const struct unit_class *punitclass,
           return TRUE;
         }
         cardinal_between_iterate(src_tile, dst_tile, between) {
-          if (tile_has_road(between, iroad)
-              || tile_has_road(between, proad)) {
+          if (tile_has_extra(between, iextra)
+              || tile_has_extra(between, pextra)) {
             /* We have a link for the connection. */
             return TRUE;
           }
         } cardinal_between_iterate_end;
         break;
       }
-    } road_type_list_iterate_end;
+    } extra_type_list_iterate_end;
   } extra_type_list_iterate_end;
 
   return FALSE;
