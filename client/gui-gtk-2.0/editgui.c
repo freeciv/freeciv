@@ -809,11 +809,10 @@ static void editbar_reload_tileset(struct editbar *eb)
       continue;
     }
     pixbuf = sprite_get_pixbuf(sprite);
-    if (pixbuf == NULL) {
-      continue;
+    if (pixbuf != NULL) {
+      gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
+      g_object_unref(G_OBJECT(pixbuf));
     }
-
-    gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
   } resource_type_iterate_end;
 
 
@@ -899,11 +898,10 @@ static void editbar_reload_tileset(struct editbar *eb)
       continue;
     }
     pixbuf = sprite_get_pixbuf(sprite);
-    if (pixbuf == NULL) {
-      continue;
+    if (pixbuf != NULL) {
+      gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
+      g_object_unref(G_OBJECT(pixbuf));
     }
-
-    gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
   } unit_type_iterate_end;
 }
 
