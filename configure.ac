@@ -800,6 +800,9 @@ if test "x$client" != "xno"; then
   dnl SDL-specific overrides
   FC_SDL_CLIENT
 
+  dnl Gtk-3.x-specific overrides
+  FC_GTK3X_CLIENT
+
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
     gui_stub=yes
@@ -818,6 +821,7 @@ fi
 if test "x$client" = "xall" ; then
   if test "x$gui_gtk2" = "xyes" ||
      test "x$gui_gtk3" = "xyes" ||
+     test "x$gui_gtk3x" = "xyes" ||
      test "x$gui_sdl" = "xyes" ||
      test "x$gui_sdl2" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
@@ -1042,6 +1046,9 @@ AC_SUBST([gui_gtk2_ldflags])
 AC_SUBST([gui_gtk3_cflags])
 AC_SUBST([gui_gtk3_libs])
 AC_SUBST([gui_gtk3_ldflags])
+AC_SUBST([gui_gtk3x_cflags])
+AC_SUBST([gui_gtk3x_libs])
+AC_SUBST([gui_gtk3x_ldflags])
 AC_SUBST([gui_sdl_cflags])
 AC_SUBST([gui_sdl_libs])
 AC_SUBST([gui_sdl_ldflags])
@@ -1082,6 +1089,7 @@ AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_GTK_3_X, test "x$gui_gtk3x" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
 AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
