@@ -87,10 +87,11 @@ struct road_type *road_by_number(Road_type_id id)
   This function is passed to road_type_list_sort() to sort a list of roads
   in ascending move_cost (faster roads first).
 ****************************************************************************/
-int compare_road_move_cost(const struct road_type *const *p,
-                           const struct road_type *const *q)
+int compare_road_move_cost(const struct extra_type *const *p,
+                           const struct extra_type *const *q)
 {
-  const struct road_type *proad = *p, *qroad = *q;
+  const struct road_type *proad = extra_road_get(*p);
+  const struct road_type *qroad = extra_road_get(*q);
 
   if (proad->move_cost > qroad->move_cost) {
     return -1; /* q is faster */
@@ -126,16 +127,16 @@ void road_type_init(struct extra_type *pextra, int idx)
 void road_integrators_cache_init(void)
 {
   road_type_iterate(proad) {
-    proad->integrators = road_type_list_new();
+    proad->integrators = extra_type_list_new();
     /* Roads always integrate with themselves. */
-    road_type_list_append(proad->integrators, proad);
+    extra_type_list_append(proad->integrators, road_extra_get(proad));
     road_type_iterate(oroad) {
       if (BV_ISSET(proad->integrates, road_index(oroad))) {
-        road_type_list_append(proad->integrators, oroad);
+        extra_type_list_append(proad->integrators, road_extra_get(oroad));
       }
     } road_type_iterate_end;
-    road_type_list_unique(proad->integrators);
-    road_type_list_sort(proad->integrators, &compare_road_move_cost);
+    extra_type_list_unique(proad->integrators);
+    extra_type_list_sort(proad->integrators, &compare_road_move_cost);
   } road_type_iterate_end;
 }
 
@@ -148,7 +149,7 @@ void road_types_free(void)
     requirement_vector_free(&proad->first_reqs);
 
     if (proad->integrators != NULL) {
-      road_type_list_destroy(proad->integrators);
+      extra_type_list_destroy(proad->integrators);
       proad->integrators = NULL;
     }
   } road_type_iterate_end;
@@ -310,9 +311,9 @@ static bool are_road_reqs_fulfilled(const struct road_type *proad,
   if (requirement_vector_size(&proad->first_reqs) > 0) {
     bool beginning = TRUE;
 
-    road_type_list_iterate(proad->integrators, iroad) {
+    extra_type_list_iterate(proad->integrators, iroad) {
       adjc_iterate(ptile, adjc_tile) {
-        if (tile_has_road(adjc_tile, iroad)) {
+        if (tile_has_extra(adjc_tile, iroad)) {
           beginning = FALSE;
           break;
         }
@@ -321,7 +322,7 @@ static bool are_road_reqs_fulfilled(const struct road_type *proad,
       if (!beginning) {
         break;
       }
-    } road_type_list_iterate_end;
+    } extra_type_list_iterate_end;
 
     if (beginning) {
       if (!are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,

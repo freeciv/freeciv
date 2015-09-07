@@ -73,7 +73,7 @@ struct road_type {
 
   /* Same information as in integrates, but iterating through this list is much
    * faster than through all road types to check for compatible roads. */
-  struct road_type_list *integrators;
+  struct extra_type_list *integrators;
 
   struct extra_type *self;
 };
@@ -132,8 +132,8 @@ bool is_cardinal_only_road(const struct extra_type *pextra);
 bool road_provides_move_bonus(const struct road_type *proad);
 
 /* Sorting */
-int compare_road_move_cost(const struct road_type *const *p,
-                           const struct road_type *const *q);
+int compare_road_move_cost(const struct extra_type *const *p,
+                           const struct extra_type *const *q);
 
 /* Initialization and iteration */
 void road_type_init(struct extra_type *pextra, int idx);

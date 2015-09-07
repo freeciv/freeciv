@@ -778,7 +778,9 @@ bool sanity_check_ruleset_data(void)
 
   /* Roads */
   road_type_iterate(proad) {
-    road_type_list_iterate(proad->integrators, iroad) {
+    extra_type_list_iterate(proad->integrators, iextra) {
+      struct road_type *iroad = extra_road_get(iextra);
+
       if (road_index(proad) != road_index(iroad)
           && !BV_ISSET(iroad->integrates, road_index(proad))) {
         ruleset_error(LOG_ERROR,
@@ -786,7 +788,7 @@ bool sanity_check_ruleset_data(void)
                       road_name_translation(proad),
                       road_name_translation(iroad));
       }
-    } road_type_list_iterate_end;
+    } extra_type_list_iterate_end;
   } road_type_iterate_end;
 
   /* City styles */
