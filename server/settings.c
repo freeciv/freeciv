@@ -2754,30 +2754,13 @@ enum sset_category setting_category(const struct setting *pset)
 
 /****************************************************************************
   Returns whether the specified server setting (option) can currently
-  be changed by the caller. If it returns FALSE, the reason of the failure
-  is available by the function setting_error().
+  be changed without breaking data consistency (map dimension options
+  can't change when map has already been created with certain dimensions)
 ****************************************************************************/
-bool setting_is_changeable(const struct setting *pset,
-                           struct connection *caller, char *reject_msg,
-                           size_t reject_msg_len)
+static bool setting_is_free_to_change(const struct setting *pset,
+                                      char *reject_msg,
+                                      size_t reject_msg_len)
 {
-  if (caller
-      && (caller->access_level < ALLOW_BASIC
-          || (caller->access_level < ALLOW_HACK && !pset->to_client))) {
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("You are not allowed to change the setting '%s'."),
-                      setting_name(pset));
-    return FALSE;
-  }
-
-  if (setting_locked(pset)) {
-    /* setting is locked by the ruleset */
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("The setting '%s' is locked by the ruleset."),
-                      setting_name(pset));
-    return FALSE;
-  }
-
   switch (pset->sclass) {
   case SSET_MAP_SIZE:
   case SSET_MAP_GEN:
@@ -2819,6 +2802,35 @@ bool setting_is_changeable(const struct setting *pset,
   settings_snprintf(reject_msg, reject_msg_len, _("Internal error."));
 
   return FALSE;
+}
+
+/****************************************************************************
+  Returns whether the specified server setting (option) can currently
+  be changed by the caller. If it returns FALSE, the reason of the failure
+  is available by the function setting_error().
+****************************************************************************/
+bool setting_is_changeable(const struct setting *pset,
+                           struct connection *caller, char *reject_msg,
+                           size_t reject_msg_len)
+{
+  if (caller
+      && (caller->access_level < ALLOW_BASIC
+          || (caller->access_level < ALLOW_HACK && !pset->to_client))) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("You are not allowed to change the setting '%s'."),
+                      setting_name(pset));
+    return FALSE;
+  }
+
+  if (setting_locked(pset)) {
+    /* setting is locked by the ruleset */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("The setting '%s' is locked by the ruleset."),
+                      setting_name(pset));
+    return FALSE;
+  }
+
+  return setting_is_free_to_change(pset, reject_msg, reject_msg_len);
 }
 
 /****************************************************************************
@@ -4033,7 +4045,7 @@ void settings_game_save(struct section_file *file, const char *section)
         setting_get_setdef(pset) == SETDEF_CHANGED
          /* It must be same at loading time as it was saving time, even if
           * freeciv's default has changed. */
-        || !setting_is_changeable(pset, NULL, errbuf, sizeof(errbuf))) {
+        || !setting_is_free_to_change(pset, errbuf, sizeof(errbuf))) {
       secfile_insert_str(file, setting_name(pset),
                          "%s.set%d.name", section, set_count);
       switch (setting_type(pset)) {
