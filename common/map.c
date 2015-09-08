@@ -88,6 +88,12 @@ struct terrain_misc terrain_control;
 const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
+static bool dir_cardinality[8];
+static bool dir_validity[8];
+
+static bool is_valid_dir_calculate(enum direction8 dir);
+static bool is_cardinal_dir_calculate(enum direction8 dir);
+
 static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
                            const struct tile *t2);
 
@@ -308,13 +314,19 @@ void map_init_topology(void)
 
   map.num_valid_dirs = map.num_cardinal_dirs = 0;
   for (dir = 0; dir < 8; dir++) {
-    if (is_valid_dir(dir)) {
+    if (is_valid_dir_calculate(dir)) {
       map.valid_dirs[map.num_valid_dirs] = dir;
       map.num_valid_dirs++;
+      dir_validity[dir] = TRUE;
+    } else {
+      dir_validity[dir] = FALSE;
     }
-    if (is_cardinal_dir(dir)) {
+    if (is_cardinal_dir_calculate(dir)) {
       map.cardinal_dirs[map.num_cardinal_dirs] = dir;
       map.num_cardinal_dirs++;
+      dir_cardinality[dir] = TRUE;
+    } else {
+      dir_cardinality[dir] = FALSE;
     }
   }
   fc_assert(map.num_valid_dirs > 0 && map.num_valid_dirs <= 8);
@@ -1165,9 +1177,10 @@ enum direction8 dir_ccw(enum direction8 dir)
 }
 
 /**************************************************************************
-  Returns TRUE iff the given direction is a valid one.
+  Returns TRUE iff the given direction is a valid one. Does not use
+  value from the cache, but can be used to calculate the cache.
 **************************************************************************/
-bool is_valid_dir(enum direction8 dir)
+static bool is_valid_dir_calculate(enum direction8 dir)
 {
   switch (dir) {
   case DIR8_SOUTHEAST:
@@ -1189,12 +1202,23 @@ bool is_valid_dir(enum direction8 dir)
 }
 
 /**************************************************************************
-  Returns TRUE iff the given direction is a cardinal one.
+  Returns TRUE iff the given direction is a valid one.
+**************************************************************************/
+bool is_valid_dir(enum direction8 dir)
+{
+  fc_assert_ret_val(dir >= 0 && dir < 8, FALSE);
+
+  return dir_validity[dir];
+}
+
+/**************************************************************************
+  Returns TRUE iff the given direction is a cardinal one. Does not use
+  value from the cache, but can be used to calculate the cache.
 
   Cardinal directions are those in which adjacent tiles share an edge not
   just a vertex.
 **************************************************************************/
-bool is_cardinal_dir(enum direction8 dir)
+static bool is_cardinal_dir_calculate(enum direction8 dir)
 {
   switch (dir) {
   case DIR8_NORTH:
@@ -1212,6 +1236,19 @@ bool is_cardinal_dir(enum direction8 dir)
     return current_topo_has_flag(TF_HEX) && !current_topo_has_flag(TF_ISO);
   }
   return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE iff the given direction is a cardinal one.
+
+  Cardinal directions are those in which adjacent tiles share an edge not
+  just a vertex.
+**************************************************************************/
+bool is_cardinal_dir(enum direction8 dir)
+{
+  fc_assert_ret_val(dir >= 0 && dir < 8, FALSE);
+
+  return dir_cardinality[dir];
 }
 
 /**************************************************************************
