@@ -1418,6 +1418,13 @@ static struct setting settings[] = {
            N_("If this setting is disabled, the continents may attach to "
               "poles."), NULL, NULL, MAP_DEFAULT_SEPARATE_POLES)
 
+  GEN_BOOL("singlepole", map.server.single_pole,
+           SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Whether there's just one pole generated"),
+           N_("If this setting is enabled, only one side of the map will have "
+              "pole. This setting has no effect if the map wraps both "
+              "directions."), NULL, NULL, MAP_DEFAULT_SINGLE_POLE)
+
   GEN_BOOL("alltemperate", map.server.alltemperate, 
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("All the map is temperate"),

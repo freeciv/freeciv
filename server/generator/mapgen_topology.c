@@ -52,13 +52,15 @@ int map_colatitude(const struct tile *ptile)
 
   index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
   do_in_natural_pos(ntl_x, ntl_y, tile_x, tile_y) {
-    if (!current_topo_has_flag(TF_WRAPX) && !current_topo_has_flag(TF_WRAPY)) {
-      /* A FLAT (unwrapped) map 
-       *
-       * We assume this is a partial planetary map.  A polar zone is placed
-       * at the top and the equator is at the bottom.  The user can specify
-       * all-temperate to avoid this. */
-      return MAX_COLATITUDE * ntl_y / (NATURAL_HEIGHT - 1);
+    if (map.server.single_pole) {
+      if (!current_topo_has_flag(TF_WRAPY)) {
+        /* Partial planetary map.  A polar zone is placed
+         * at the top and the equator is at the bottom. */
+        return MAX_COLATITUDE * ntl_y / (NATURAL_HEIGHT - 1);
+      }
+      if (!current_topo_has_flag(TF_WRAPX)) {
+        return MAX_COLATITUDE * ntl_x / (NATURAL_WIDTH -1);
+      }
     }
 
     /* Otherwise a wrapping map is assumed to be a global planetary map. */
@@ -94,12 +96,12 @@ int map_colatitude(const struct tile *ptile)
 	 / (NATURAL_HEIGHT / 2 - 1));
   } do_in_natural_pos_end;
 
-  if (current_topo_has_flag(TF_WRAPX) && !current_topo_has_flag(TF_WRAPY)) {
+  if (!current_topo_has_flag(TF_WRAPY)) {
     /* In an Earth-like topology the polar zones are at north and south.
      * This is equivalent to a Mercator projection. */
     return MAX_COLATITUDE * y;
   }
-  
+
   if (!current_topo_has_flag(TF_WRAPX) && current_topo_has_flag(TF_WRAPY)) {
     /* In a Uranus-like topology the polar zones are at east and west.
      * This isn't really the way Uranus is; it's the way Earth would look
@@ -367,8 +369,10 @@ void generator_init_topology(bool autosize)
   }
 
   /* correction for single pole (Flat Earth) */
-  if (!current_topo_has_flag(TF_WRAPX) && !current_topo_has_flag(TF_WRAPY)) {
-    ice_base_colatitude /= 2;
+  if (map.server.single_pole) {
+    if (!current_topo_has_flag(TF_WRAPY) || !current_topo_has_flag(TF_WRAPX)) {
+      ice_base_colatitude /= 2;
+    }
   }
 
   map_init_topology();

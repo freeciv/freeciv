@@ -130,7 +130,7 @@ void create_tmap(bool real)
     if (!real) {
       tmap(ptile) = t;
     } else {
-      /* hight land can be 30% cooler */
+      /* high land can be 30% cooler */
       float height = - 0.3 * MAX(0, hmap(ptile) - hmap_shore_level) 
 	  / (hmap_max_level - hmap_shore_level); 
       /* near ocean temperature can be 15% more "temperate" */

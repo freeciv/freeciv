@@ -98,6 +98,7 @@ struct civ_map {
       enum map_startpos startpos;
       bool tinyisles;
       bool separatepoles;
+      bool single_pole;
       bool alltemperate;
       int temperature;
       int wetness;
@@ -672,6 +673,10 @@ FC_STATIC_ASSERT((long unsigned) MAP_MAX_SIZE * 1000
 #define MAP_DEFAULT_SEPARATE_POLES   TRUE
 #define MAP_MIN_SEPARATE_POLES       FALSE
 #define MAP_MAX_SEPARATE_POLES       TRUE
+
+#define MAP_DEFAULT_SINGLE_POLE    FALSE
+#define MAP_MIN_SINGLE_POLE        FALSE
+#define MAP_MAX_SINGLE_POLE        TRUE
 
 #define MAP_DEFAULT_ALLTEMPERATE   FALSE
 #define MAP_MIN_ALLTEMPERATE       FALSE
