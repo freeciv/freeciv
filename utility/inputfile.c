@@ -802,7 +802,7 @@ static const char *get_token_value(struct inputfile *inf)
       return NULL;
     }
     /* If its a comma, we don't want to obliterate it permanently,
-     * so rememeber it: */
+     * so remember it: */
     trailing = *c;
     *((char *) c) = '\0';       /* Tricky. */
 
