@@ -1750,6 +1750,7 @@ void ui_main(int argc, char **argv)
   happiness_dialog_done();
   diplomacy_dialog_done();
   cma_fe_done();
+  gtk_widget_destroy(toplevel_tabs);
   tileset_free_tiles(tileset);
 }
 

@@ -211,6 +211,16 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
   return TRUE;
 }
 
+/**************************************************************************
+  This is called when main page is getting destroyed.
+**************************************************************************/
+static void intro_free(GtkWidget *w, gpointer *data)
+{
+  struct sprite *intro = (struct sprite *)data;
+
+  free_sprite(intro);
+}
+
 #ifdef GGZ_GTK
 /****************************************************************************
   Callback to raise the login dialog when the gaming zone login button is
@@ -277,6 +287,8 @@ GtkWidget *create_main_page(void)
   gtk_widget_set_size_request(darea, width, height);
   g_signal_connect(darea, "draw",
                    G_CALLBACK(intro_expose), intro);
+  g_signal_connect(widget, "destroy",
+                   G_CALLBACK(intro_free), intro);
   gtk_container_add(GTK_CONTAINER(frame), darea);
 
 #if IS_BETA_VERSION
@@ -342,7 +354,6 @@ GtkWidget *create_main_page(void)
 
   return widget;
 }
-
 
 /****************************************************************************
                             GENERIC SAVE DIALOG
