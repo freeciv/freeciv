@@ -234,14 +234,16 @@ static void tai_tile_worker_task_select(struct player *pplayer,
          * removal activity it's the value after the removal. */
         old_move_cost = tile_terrain(ptile)->movement_cost * SINGLE_MOVE;
 
-        road_type_iterate(pold) {
-          if (tile_has_road(ptile, pold) && pold != proad) {
+        extra_type_by_cause_iterate(EC_ROAD, poe) {
+          struct road_type *pold = extra_road_get(poe);
+
+          if (tile_has_extra(ptile, poe) && poe != tgt) {
             if (road_provides_move_bonus(pold)
                 && pold->move_cost < old_move_cost) {
               old_move_cost = pold->move_cost;
             }
           }
-        } road_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
 
         if (proad->move_cost < old_move_cost) {
           if (proad->move_cost >= terrain_control.move_fragments) {
