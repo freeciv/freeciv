@@ -178,6 +178,7 @@ void map_init(void)
     map.server.startpos = MAP_DEFAULT_STARTPOS;
     map.server.tinyisles = MAP_DEFAULT_TINYISLES;
     map.server.separatepoles = MAP_DEFAULT_SEPARATE_POLES;
+    map.server.single_pole = MAP_DEFAULT_SINGLE_POLE;
     map.server.alltemperate = MAP_DEFAULT_ALLTEMPERATE;
     map.server.temperature = MAP_DEFAULT_TEMPERATURE;
     map.server.have_resources = FALSE;
