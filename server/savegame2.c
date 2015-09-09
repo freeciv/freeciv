@@ -1264,6 +1264,17 @@ static void sg_special_set(bv_special *specials, bv_roads *roads,
       continue;
     }
 
+    if (sp == S_HUT && !map.server.have_huts) {
+      /* It would be logical to have this in the saving side -
+       * really not saving the huts in the first place, BUT
+       * 1) They have been saved by older versions, so we
+       *    have to deal with such savegames.
+       * 2) This makes scenario author less likely to lose
+       *    one's work completely after carefully placing huts
+       *    and then saving with 'have_huts' disabled. */
+      continue;
+    }
+
     if (bin & (1 << i)) {
       if (sp == S_OLD_ROAD) {
         if (roads) {
@@ -2516,7 +2527,11 @@ static void sg_save_map(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  secfile_insert_bool(saving->file, map.server.have_huts, "map.have_huts");
+  if (saving->scenario) {
+    secfile_insert_bool(saving->file, map.server.have_huts, "map.have_huts");
+  } else {
+    secfile_insert_bool(saving->file, TRUE, "map.have_huts");
+  }
 
   if (map_is_empty()) {
     /* No map. */
