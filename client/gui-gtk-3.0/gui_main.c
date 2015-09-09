@@ -1606,6 +1606,7 @@ static void migrate_options_from_gtk2(void)
   MIGRATE_OPTION(chatline_autocompletion);
   MIGRATE_OPTION(citydlg_xsize);
   MIGRATE_OPTION(citydlg_ysize);
+  MIGRATE_OPTION(popup_tech_help);
 
   MIGRATE_STR_OPTION(font_city_label);
   MIGRATE_STR_OPTION(font_notify_label);
