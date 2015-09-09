@@ -1437,20 +1437,21 @@ void military_advisor_choose_build(struct ai_type *ait,
     int num_defenders = unit_list_size(ptile->units);
     int wall_id, danger;
     bool build_walls = TRUE;
+    int qdanger = city_data->danger * city_data->danger;
 
     /* First determine the danger.  It is measured in percents of our 
      * defensive strength, capped at 200 + urgency */
-    if (city_data->danger >= our_def) {
+    if (qdanger >= our_def) {
       if (urgency == 0) {
         /* don't waste money */
         danger = 100;
       } else if (our_def == 0) {
         danger = 200 + urgency;
       } else {
-        danger = MIN(200, 100 * city_data->danger / our_def) + urgency;
+        danger = MIN(200, 100 * qdanger / our_def) + urgency;
       }
     } else { 
-      danger = 100 * city_data->danger / our_def;
+      danger = 100 * qdanger / our_def;
     }
     if (pcity->surplus[O_SHIELD] <= 0 && our_def != 0) {
       /* Won't be able to support anything */
