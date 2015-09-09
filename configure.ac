@@ -1275,7 +1275,8 @@ fi
 if test "x$sys_lua" != "xtrue" ; then
   dnl Checks needed for included lua.
   gl_FUNC_MKSTEMP
-  if test x$gl_cv_func_working_mkstemp = xyes ; then
+  if test "x$gl_cv_func_working_mkstemp" = xyes ; then
+    dnl if only "guessing yes", do not try to use mkstemp, but fallback
     AC_DEFINE([HAVE_MKSTEMP], [1], [Have working mkstemp])
   fi
   AC_CHECK_FUNCS([popen pclose _longjmp _setjmp gmtime_r localtime_r])
