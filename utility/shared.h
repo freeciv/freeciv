@@ -60,7 +60,6 @@ enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 #define DIVIDE(n, d) \
     ( (n) / (d) - (( (n) < 0 && (n) % (d) < 0 ) ? 1 : 0) )
 
-/* This is duplicated in rand.h to avoid extra includes: */
 #define MAX_UINT32 0xFFFFFFFF
 #define MAX_UINT16 0xFFFF
 #define MAX_UINT8 0xFF
