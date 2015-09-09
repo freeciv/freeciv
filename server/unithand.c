@@ -3934,13 +3934,12 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_SPY_NUKE:
       case ACTION_NUKE:
       case ACTION_DESTROY_CITY:
+      case ACTION_EXPEL_UNIT:
         /* No validation required. */
         break;
       /* Needs additional target information. */
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
       case ACTION_SPY_TARGETED_STEAL_TECH:
-      /* Targets a single unit. */
-      case ACTION_EXPEL_UNIT:
         log_error("handle_unit_orders() the action %s isn't allowed in "
                   "orders. "
                   "Sent in order number %d from %s to unit number %d.",
