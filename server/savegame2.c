@@ -1218,6 +1218,17 @@ static void sg_special_set(bv_extras *extras, char ch,
       continue;
     }
 
+    if (sp == S_HUT && !map.server.have_huts) {
+      /* It would be logical to have this in the saving side -
+       * really not saving the huts in the first place, BUT
+       * 1) They have been saved by older versions, so we
+       *    have to deal with such savegames.
+       * 2) This makes scenario author less likely to lose
+       *    one's work completely after carefully placing huts
+       *    and then saving with 'have_huts' disabled. */
+      continue;
+    }
+
     if (bin & (1 << i)) {
       if (sp == S_OLD_ROAD) {
         struct road_type *proad;
