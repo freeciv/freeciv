@@ -682,9 +682,10 @@ void client_exit(void)
   if (options.save_options_on_exit) {
     options_save();
   }
-  
+
+  overview_free();
   tileset_free(tileset);
-  
+
   ui_exit();
 
   script_client_free();
