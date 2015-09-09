@@ -69,6 +69,8 @@ void map_vision_update(struct player *pplayer, struct tile *ptile,
                        const v_radius_t old_radius_sq,
                        const v_radius_t new_radius_sq,
                        bool can_reveal_tiles);
+void map_set_border_vision(struct player *pplayer,
+                           const bool is_enabled);
 void map_show_all(struct player *pplayer);
 
 bool map_is_known_and_seen(const struct tile *ptile,

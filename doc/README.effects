@@ -217,6 +217,12 @@ Reveal_Cities
 Reveal_Map
     Immediately make entire map known.
 
+Border_Vision
+    Give vision on all tiles within the player's borders. Happens during
+    turn change.
+    Does nothing unless the borders setting is set to "Enabled". You can
+    lock it if border vision rules are important to your ruleset.
+
 Incite_Cost_Pct
     Increases revolt cost by amount percent.
 

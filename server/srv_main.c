@@ -665,6 +665,33 @@ static void do_have_contacts_effect(void)
 }
 
 /**************************************************************************
+  Handle the vision granting effect EFT_BORDER_VISION
+**************************************************************************/
+static void do_border_vision_effect(void)
+{
+  if (game.info.borders != BORDERS_ENABLED) {
+    /* Border_Vision is useless. If borders are disabled there are no
+     * borders to see inside. If borders are seen they are seen already.
+     * The borders setting can't change after the game has started. */
+    return;
+  }
+
+  phase_players_iterate(plr) {
+    bool new_border_vision;
+
+    /* Check the Border_Vision effect for this player. */
+    new_border_vision = (0 < get_player_bonus(plr, EFT_BORDER_VISION));
+
+    if (new_border_vision != plr->server.border_vision) {
+      /* Border vision changed. */
+
+      /* Update the map */
+      map_set_border_vision(plr, new_border_vision);
+    }
+  } phase_players_iterate_end;
+}
+
+/**************************************************************************
   Handle environmental upsets, meaning currently pollution or fallout.
 **************************************************************************/
 static void update_environmental_upset(enum environment_upset_type type,
@@ -1170,6 +1197,7 @@ static void end_phase(void)
 
   do_reveal_effects();
   do_have_contacts_effect();
+  do_border_vision_effect();
 
   phase_players_iterate(pplayer) {
     CALL_PLR_AI_FUNC(phase_finished, pplayer, pplayer);

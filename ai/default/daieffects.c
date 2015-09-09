@@ -533,6 +533,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_CASUS_BELLI_CAUGHT:
   case EFT_CASUS_BELLI_SUCCESS:
   case EFT_ACTION_ODDS_PCT:
+  case EFT_BORDER_VISION:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:

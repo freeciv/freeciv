@@ -3941,6 +3941,12 @@ static void game_load_internal(struct section_file *file)
     /* Load map player data. */
     players_iterate(pplayer) {
       player_map_init(pplayer);
+
+      /* Just in case savecompat starts adding it in the future. */
+      pplayer->server.border_vision =
+          secfile_lookup_bool_default(file, FALSE,
+                                      "player%d.border_vision",
+                                      player_number(pplayer));
     } players_iterate_end;
     map_load_known(file, savefile_options);
     map_load_owner(file, savefile_options);

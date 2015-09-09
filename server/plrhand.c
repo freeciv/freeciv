@@ -1296,6 +1296,8 @@ void server_player_init(struct player *pplayer, bool initmap,
   BV_CLR_ALL(pplayer->server.really_gives_vision);
   BV_CLR_ALL(pplayer->server.debug);
 
+  pplayer->server.border_vision = FALSE;
+
   player_map_free(pplayer);
   pplayer->server.private_map = NULL;
 
@@ -2493,6 +2495,8 @@ static struct player *split_player(struct player *pplayer)
   /* copy the maps */
 
   give_map_from_player_to_player(pplayer, cplayer);
+
+  pplayer->server.border_vision = cplayer->server.border_vision;
 
   /* Not sure if this is necessary, but might be a good idea
    * to avoid doing some ai calculations with bogus data. */

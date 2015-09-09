@@ -669,6 +669,33 @@ void map_vision_update(struct player *pplayer, struct tile *ptile,
   unbuffer_shared_vision(pplayer);
 }
 
+/**************************************************************************
+  Turn a players ability to see inside his borders on or off.
+
+  It is safe to set the current value.
+**************************************************************************/
+void map_set_border_vision(struct player *pplayer,
+                           const bool is_enabled)
+{
+  const v_radius_t radius_sq = V_RADIUS(is_enabled ? 1 : -1, 0);
+
+  if (pplayer->server.border_vision == is_enabled) {
+    /* No change. Changing the seen count beyond what already exists would
+     * be a bug. */
+    return;
+  }
+
+  /* Set the new border seer value. */
+  pplayer->server.border_vision = is_enabled;
+
+  whole_map_iterate(ptile) {
+    if (pplayer == ptile->owner) {
+      /* The tile is within the player's borders. */
+      shared_vision_change_seen(pplayer, ptile, radius_sq, TRUE);
+    }
+  } whole_map_iterate_end;
+}
+
 /****************************************************************************
   Shows the area to the player.  Unless the tile is "seen", it will remain
   fogged and units will be hidden.
@@ -1884,7 +1911,8 @@ static void map_claim_border_ownership(struct tile *ptile,
   struct player *ploser = tile_owner(ptile);
 
   if (BORDERS_SEE_INSIDE == game.info.borders
-      || BORDERS_EXPAND == game.info.borders) {
+      || BORDERS_EXPAND == game.info.borders
+      || (powner && powner->server.border_vision)) {
     if (ploser != powner) {
       if (ploser) {
         const v_radius_t radius_sq = V_RADIUS(-1, 0);

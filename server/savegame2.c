@@ -2290,6 +2290,12 @@ static void sg_load_players_basic(struct loaddata *loading)
         pplayer->multipliers_target[index] = rval;
       } /* else silently discard multiplier not in current ruleset */
     }
+
+    /* Just in case savecompat starts adding it in the future. */
+    pplayer->server.border_vision =
+        secfile_lookup_bool_default(loading->file, FALSE,
+                                    "player%d.border_vision",
+                                    player_slot_index(pslot));
   } player_slots_iterate_end;
 
   /* check number of players */

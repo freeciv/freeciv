@@ -3158,6 +3158,12 @@ static void sg_load_players_basic(struct loaddata *loading)
         pplayer->multipliers_target[index] = rval;
       } /* else silently discard multiplier not in current ruleset */
     }
+
+    /* Must be loaded before tile owner is set. */
+    pplayer->server.border_vision =
+        secfile_lookup_bool_default(loading->file, FALSE,
+                                    "player%d.border_vision",
+                                    player_slot_index(pslot));
   } player_slots_iterate_end;
 
   /* check number of players */
@@ -4075,6 +4081,9 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.culture", plrno);
   secfile_insert_int(saving->file, plr->server.huts,
                      "player%d.hut_count", plrno);
+
+  secfile_insert_bool(saving->file, plr->server.border_vision,
+                      "player%d.border_vision", plrno);
 }
 
 /****************************************************************************

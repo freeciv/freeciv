@@ -5472,6 +5472,13 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           }
         }
         break;
+      case EFT_BORDER_VISION:
+        if (game.info.borders == BORDERS_ENABLED
+            && playerwide && net_value > 0) {
+          CATLSTR(buf, bufsz, _("* All tiles inside your borders are"
+                                " monitored.\n"));
+        }
+        break;
       default:
         break;
       };
