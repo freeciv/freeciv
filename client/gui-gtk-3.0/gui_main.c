@@ -1551,6 +1551,8 @@ static void migrate_options_from_gtk2(void)
   strncpy(options.gui_gtk3_##opt, options.gui_gtk2_##opt, sizeof(options.gui_gtk3_##opt));
 
   /* Default theme name is never migrated */
+  /* Fullscreen not migrated as gtk3-client differs from gtk2-client in a way that
+   * user is likely to want default even if gtk2-client setting differs. */
   MIGRATE_OPTION(map_scrollbars);
   MIGRATE_OPTION(dialogs_on_top);
   MIGRATE_OPTION(show_task_icons);
@@ -1567,6 +1569,7 @@ static void migrate_options_from_gtk2(void)
   MIGRATE_OPTION(chatline_autocompletion);
   MIGRATE_OPTION(citydlg_xsize);
   MIGRATE_OPTION(citydlg_ysize);
+  MIGRATE_OPTION(popup_tech_help);
 
   MIGRATE_STR_OPTION(font_city_label);
   MIGRATE_STR_OPTION(font_notify_label);
