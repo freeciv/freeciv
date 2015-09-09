@@ -69,6 +69,7 @@ void refresh_overview_canvas(void);
 void refresh_overview_from_canvas(void);
 void overview_update_tile(struct tile *ptile);
 void calculate_overview_dimensions(void);
+void overview_free(void);
 
 void center_tile_overviewcanvas(void);
 

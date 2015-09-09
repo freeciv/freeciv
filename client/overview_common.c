@@ -486,6 +486,19 @@ void calculate_overview_dimensions(void)
 }
 
 /****************************************************************************
+  Free overview resources.
+****************************************************************************/
+void overview_free(void)
+{
+  if (overview.map) {
+    canvas_free(overview.map);
+    canvas_free(overview.window);
+    overview.map = NULL;
+    overview.window = NULL;
+  }
+}
+
+/****************************************************************************
   Callback to be called when an overview option is changed.
 ****************************************************************************/
 void overview_redraw_callback(struct option *option)
