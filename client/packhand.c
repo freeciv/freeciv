@@ -162,8 +162,10 @@ static void packhand_init(void)
   memset(invisible.placeholder, 0, sizeof(*invisible.placeholder));
   /* Set some values to prevent bugs ... */
   sz_strlcpy(invisible.placeholder->name, ANON_PLAYER_NAME);
-  sz_strlcpy(invisible.placeholder->username, ANON_USER_NAME);
+  sz_strlcpy(invisible.placeholder->username, _(ANON_USER_NAME));
+  invisible.placeholder->unassigned_user = TRUE;
   sz_strlcpy(invisible.placeholder->ranked_username, ANON_USER_NAME);
+  invisible.placeholder->unassigned_ranked = TRUE;
 }
 
 /****************************************************************************
@@ -2135,7 +2137,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   /* Now update the player information. */
   sz_strlcpy(pplayer->name, pinfo->name);
   sz_strlcpy(pplayer->username, pinfo->username);
-
+  pplayer->unassigned_user = pinfo->unassigned_user;
 
   is_new_nation = player_set_nation(pplayer, pnation);
   pplayer->is_male = pinfo->is_male;

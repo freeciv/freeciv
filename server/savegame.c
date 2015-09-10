@@ -1664,9 +1664,11 @@ static void player_load_main(struct player *plr, int plrno,
                                                  plrno));
   sz_strlcpy(plr->username,
 	     secfile_lookup_str_default(file, "", "player%d.username", plrno));
+  plr->unassigned_user = (!strcmp(plr->username, ANON_USER_NAME));
   sz_strlcpy(plr->ranked_username,
 	     secfile_lookup_str_default(file, "", "player%d.ranked_username", 
              plrno));
+  plr->unassigned_ranked = (!strcmp(plr->ranked_username, ANON_USER_NAME));
 
   /* 1.15 and later versions store nations by name.  Try that first. */
   p = secfile_lookup_str(file, "player%d.nation", plrno);

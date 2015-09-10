@@ -113,7 +113,8 @@ void create_animals(void)
 
   server.nbarbarians++;
 
-  sz_strlcpy(plr->username, ANON_USER_NAME);
+  sz_strlcpy(plr->username, _(ANON_USER_NAME));
+  plr->unassigned_user = TRUE;
   plr->is_connected = FALSE;
   plr->government = anination->init_government;
   plr->economic.gold = 100;

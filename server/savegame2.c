@@ -2585,10 +2585,16 @@ static void sg_load_player_main(struct loaddata *loading,
   sz_strlcpy(plr->username,
              secfile_lookup_str_default(loading->file, "",
                                         "player%d.username", plrno));
+  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->unassigned_user,
+                                     "player%d.unassigned_user", plrno),
+                 "%s", secfile_error());
   sz_strlcpy(plr->ranked_username,
              secfile_lookup_str_default(loading->file, "",
                                         "player%d.ranked_username",
                                         plrno));
+  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->unassigned_ranked,
+                                     "player%d.unassigned_ranked", plrno),
+                 "%s", secfile_error());
   string = secfile_lookup_str_default(loading->file, "",
                                       "player%d.delegation_username",
                                       plrno);

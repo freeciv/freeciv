@@ -191,6 +191,8 @@ static bool player_name_check(const char* name, char *buf, size_t buflen)
              || fc_strcasecmp(name, "Observer") == 0) {
     fc_snprintf(buf, buflen, _("That name is not allowed."));
     /* "Observer" used to be illegal and we keep it that way for now. */
+    /* FIXME: This disallows anonymous player name as it appears in English,
+     * but not one in any other language that the user may see. */
     return FALSE;
   }
 
@@ -906,7 +908,8 @@ enum rfc_status create_command_newcomer(const char *name,
   give_initial_techs(presearch, 0);
 
   server_player_set_name(pplayer, name);
-  sz_strlcpy(pplayer->username, ANON_USER_NAME);
+  sz_strlcpy(pplayer->username, _(ANON_USER_NAME));
+  pplayer->unassigned_user = TRUE;
 
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
   pplayer->ai_controlled = TRUE;
@@ -1029,7 +1032,8 @@ enum rfc_status create_command_pregame(const char *name,
   server_player_init(pplayer, FALSE, TRUE);
 
   server_player_set_name(pplayer, name);
-  sz_strlcpy(pplayer->username, ANON_USER_NAME);
+  sz_strlcpy(pplayer->username, _(ANON_USER_NAME));
+  pplayer->unassigned_user = TRUE;
 
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
   pplayer->random_name = rand_name;
@@ -3518,7 +3522,8 @@ static bool detach_command(struct connection *caller, char *str, bool check)
    * reset its username. */
   players_iterate(aplayer) {
     if (0 == strncmp(aplayer->username, pconn->username, MAX_LEN_NAME)) {
-      sz_strlcpy(aplayer->username, ANON_USER_NAME);
+      sz_strlcpy(aplayer->username, _(ANON_USER_NAME));
+      aplayer->unassigned_user = TRUE;
       send_player_info_c(aplayer, NULL);
     }
   } players_iterate_end;
@@ -5690,7 +5695,8 @@ static bool cut_client_connection(struct connection *caller, char *name,
 
   if (conn_controls_player(ptarget)) {
     /* If we cut the connection, unassign the login name.*/
-    sz_strlcpy(ptarget->playing->username, ANON_USER_NAME);
+    sz_strlcpy(ptarget->playing->username, _(ANON_USER_NAME));
+    ptarget->playing->unassigned_user = TRUE;
   }
 
   cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
@@ -5827,7 +5833,8 @@ static bool kick_command(struct connection *caller, char *name, bool check)
 
     if (conn_controls_player(aconn)) {
       /* Unassign the username. */
-      sz_strlcpy(aconn->playing->username, ANON_USER_NAME);
+      sz_strlcpy(aconn->playing->username, _(ANON_USER_NAME));
+      aconn->playing->unassigned_user = TRUE;
     }
 
     kick_hash_replace(kick_table_by_user, aconn->username, now);

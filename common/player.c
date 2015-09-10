@@ -521,8 +521,10 @@ static void player_defaults(struct player *pplayer)
   int i;
 
   sz_strlcpy(pplayer->name, ANON_PLAYER_NAME);
-  sz_strlcpy(pplayer->username, ANON_USER_NAME);
-  sz_strlcpy(pplayer->ranked_username, ANON_USER_NAME);
+  sz_strlcpy(pplayer->username, _(ANON_USER_NAME));
+  pplayer->unassigned_user = TRUE;
+  sz_strlcpy(pplayer->ranked_username, _(ANON_USER_NAME));
+  pplayer->unassigned_ranked = TRUE;
   pplayer->user_turns = 0;
   pplayer->is_male = TRUE;
   pplayer->government = NULL;
@@ -858,7 +860,7 @@ struct player *player_by_name_prefix(const char *name,
 }
 
 /***************************************************************
-Find player by its user name (not player/leader name)
+ Find player by its user name (not player/leader name)
 ***************************************************************/
 struct player *player_by_user(const char *name)
 {

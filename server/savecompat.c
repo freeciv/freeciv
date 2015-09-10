@@ -803,6 +803,7 @@ static void compat_load_020600(struct loaddata *loading)
     int old_barb_type;
     enum barbarian_type new_barb_type;
     int i;
+    const char *name;
 
     /* Renamed 'capital' to 'got_first_city'. */
     if (secfile_lookup_bool(loading->file, &got_first_city, 
@@ -810,6 +811,15 @@ static void compat_load_020600(struct loaddata *loading)
       secfile_insert_bool(loading->file, got_first_city,
                           "player%d.got_first_city", plrno);
     }
+
+    /* Add 'anonymous' qualifiers for user names */
+    name = secfile_lookup_str_default(loading->file, "", "player%d.username", plrno);
+    secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
+                        "player%d.anon_user", plrno);
+
+    name = secfile_lookup_str_default(loading->file, "", "player%d.ranked_username", plrno);
+    secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
+                        "player%d.anon_ranked", plrno);
 
     /* Convert numeric barbarian type to textual */
     old_barb_type = secfile_lookup_int_default(loading->file, 0,
@@ -1035,6 +1045,8 @@ static void compat_load_030000(struct loaddata *loading)
 static void compat_load_dev(struct loaddata *loading)
 {
   bool randsaved;
+  int plrno;
+  int nplayers;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1044,6 +1056,27 @@ static void compat_load_dev(struct loaddata *loading)
     /* Rename "random.save" as "random.saved", if not already saved by later name */
   if (secfile_lookup_bool(loading->file, &randsaved, "random.save")) {
     secfile_insert_bool(loading->file, randsaved, "random.saved");
+  }
+
+  nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
+
+  for (plrno = 0; plrno < nplayers; plrno++) {
+    /* Add 'anonymous' qualifiers for user names */
+    if (secfile_entry_lookup(loading->file, "player%d.anon_user", plrno) == NULL) {
+      const char *name;
+
+      name = secfile_lookup_str_default(loading->file, "", "player%d.username", plrno);
+      secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
+                          "player%d.anon_user", plrno);
+    }
+
+    if (secfile_entry_lookup(loading->file, "player%d.anon_ranked", plrno) == NULL) {
+      const char *name;
+
+      name = secfile_lookup_str_default(loading->file, "", "player%d.ranked_username", plrno);
+      secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
+                          "player%d.anon_ranked", plrno);
+    }
   }
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */

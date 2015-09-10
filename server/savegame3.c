@@ -3503,10 +3503,16 @@ static void sg_load_player_main(struct loaddata *loading,
   sz_strlcpy(plr->username,
              secfile_lookup_str_default(loading->file, "",
                                         "player%d.username", plrno));
+  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->unassigned_user,
+                                     "player%d.unassigned_user", plrno),
+                 "%s", secfile_error());
   sz_strlcpy(plr->ranked_username,
              secfile_lookup_str_default(loading->file, "",
                                         "player%d.ranked_username",
                                         plrno));
+  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->unassigned_ranked,
+                                     "player%d.unassigned_ranked", plrno),
+                 "%s", secfile_error());
   string = secfile_lookup_str_default(loading->file, "",
                                       "player%d.delegation_username",
                                       plrno);
@@ -3870,6 +3876,8 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.name", plrno);
   secfile_insert_str(saving->file, plr->username,
                      "player%d.username", plrno);
+  secfile_insert_bool(saving->file, plr->unassigned_user,
+                      "player%d.unassigned_user", plrno);
   if (plr->rgb != NULL) {
     rgbcolor_save(saving->file, plr->rgb, "player%d.color", plrno);
   } else {
@@ -3880,6 +3888,8 @@ static void sg_save_player_main(struct savedata *saving,
   }
   secfile_insert_str(saving->file, plr->ranked_username,
                      "player%d.ranked_username", plrno);
+  secfile_insert_bool(saving->file, plr->unassigned_ranked,
+                      "player%d.unassigned_ranked", plrno);
   secfile_insert_str(saving->file,
                      player_delegation_get(plr) ? player_delegation_get(plr)
                                                 : "",
