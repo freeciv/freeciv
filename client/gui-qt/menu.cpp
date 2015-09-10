@@ -63,6 +63,9 @@ void real_menus_init(void)
 {
   /* PORTME */
   gov_menu::create_all();
+
+  /* A new ruleset may have been loaded. */
+  go_act_menu::reset_all();
 }
 
 /**************************************************************************
@@ -74,6 +77,7 @@ void real_menus_update(void)
   if (C_S_RUNNING == client_state()) {
     gui()->menu_bar->menus_sensitive();
     gov_menu::update_all();
+    go_act_menu::update_all();
   }
 }
 
@@ -277,6 +281,161 @@ void gov_menu::create_all()
 void gov_menu::update_all()
 {
   foreach (gov_menu *m, instances) {
+    m->update();
+  }
+}
+
+/**************************************************************************
+  Instantiate a new goto and act sub menu.
+**************************************************************************/
+go_act_menu::go_act_menu(QWidget* parent)
+  : QMenu(_("Go to and..."), parent)
+{
+  go_act_mapper = new QSignalMapper(this);
+
+  /* Will need auto updates etc. */
+  instances << this;
+}
+
+/**************************************************************************
+  Destructor.
+**************************************************************************/
+go_act_menu::~go_act_menu()
+{
+  /* Updates are no longer needed. */
+  instances.remove(this);
+}
+
+/**************************************************************************
+  Reset the goto and act menu so it will be recreated.
+**************************************************************************/
+void go_act_menu::reset()
+{
+  QAction *action;
+
+  /* Clear out each existing menu item. */
+  foreach(action, QWidget::actions()) {
+    removeAction(action);
+    action->deleteLater();
+  }
+
+  /* Clear menu item to action ID mapping. */
+  items.clear();
+
+  /* Reset the Qt signal mapper */
+  go_act_mapper->deleteLater();
+  go_act_mapper = new QSignalMapper(this);
+}
+
+/**************************************************************************
+  Fill the new goto and act sub menu with menu items.
+**************************************************************************/
+void go_act_menu::create()
+{
+  QAction *item;
+  int tgt_kind_group;
+
+  /* Group goto and perform action menu items by target kind. */
+  for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
+    action_iterate(action_id) {
+      if (action_get_actor_kind(action_id) != AAK_UNIT) {
+        /* This action isn't performed by a unit. */
+        continue;
+      }
+
+      if (action_get_target_kind(action_id) != tgt_kind_group) {
+        /* Wrong group. */
+        continue;
+      }
+
+      if (action_requires_details(action_id)) {
+        /* The order system doesn't support actions that requires the
+         * player to specify details. */
+        continue;
+      }
+
+      /* Create and add the menu item. It will be hidden or shown based on
+       * unit type.  */
+      item = addAction(action_get_ui_name(action_id));
+      items.insert(item, action_id);
+      connect(item, SIGNAL(triggered()),
+              go_act_mapper, SLOT(map()));
+      go_act_mapper->setMapping(item, action_id);
+    } action_iterate_end;
+  }
+
+  connect(go_act_mapper, SIGNAL(mapped(int)), this, SLOT(start_go_act(int)));
+}
+
+/**************************************************************************
+  Update the goto and act menu based on the selected unit(s)
+**************************************************************************/
+void go_act_menu::update()
+{
+  bool can_do_something = false;
+
+  if (!actions_are_ready()) {
+    /* Nothing to do. */
+    return;
+  }
+
+  if (items.isEmpty()) {
+    /* The goto and act menu needs menu items. */
+    create();
+  }
+
+  /* Enable a menu item if it is theoretically possible that one of the
+   * selected units can perform it. Checking if the action can be performed
+   * at the current tile is pointless since it should be performed at the
+   * target tile. */
+  foreach(QAction *item, items.keys()) {
+    if (units_can_do_action(get_units_in_focus(),
+                            items.value(item), TRUE)) {
+      item->setVisible(true);
+      can_do_something = true;
+    } else {
+      item->setVisible(false);
+    }
+  }
+
+  if (can_do_something) {
+    /* At least one menu item is enabled for one of the selected units. */
+    setEnabled(true);
+  } else {
+    /* No menu item is enabled any of the selected units. */
+    setEnabled(false);
+  }
+}
+
+/**************************************************************************
+  Activate the goto system
+**************************************************************************/
+void go_act_menu::start_go_act(int action_id)
+{
+  request_unit_goto(ORDER_PERFORM_ACTION, action_id);
+}
+
+/**************************************************************************
+  Store all goto and act menu items so they can be updated etc
+**************************************************************************/
+QSet<go_act_menu *> go_act_menu::instances;
+
+/**************************************************************************
+  Reset all goto and act menu instances.
+**************************************************************************/
+void go_act_menu::reset_all()
+{
+  foreach (go_act_menu *m, instances) {
+    m->reset();
+  }
+}
+
+/**************************************************************************
+  Update all goto and act menu instances
+**************************************************************************/
+void go_act_menu::update_all()
+{
+  foreach (go_act_menu *m, instances) {
     m->update();
   }
 }
@@ -608,6 +767,10 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("g")));
   menu_list.insertMulti(STANDARD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_goto()));
+
+  /* The goto and act sub menu is handled as a separate object. */
+  menu->addMenu(new go_act_menu());
+
   act = menu->addAction(_("Go to Nearest City"));
   act->setShortcut(QKeySequence(tr("shift+g")));
   menu_list.insertMulti(GOTO_CITY, act);

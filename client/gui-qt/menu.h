@@ -134,6 +134,32 @@ public slots:
   void update();
 };
 
+/****************************************************************************
+  Go to and... menu.
+****************************************************************************/
+class go_act_menu : public QMenu
+{
+  Q_OBJECT
+  static QSet<go_act_menu *> instances;
+
+  QSignalMapper *go_act_mapper;
+  QMap<QAction *, int> items;
+
+public:
+  go_act_menu(QWidget* parent = 0);
+  virtual ~go_act_menu();
+
+  static void reset_all();
+  static void update_all();
+
+public slots:
+  void start_go_act(int action_id);
+
+  void reset();
+  void create();
+  void update();
+};
+
 /**************************************************************************
   Class representing global menus in gameview
 **************************************************************************/
