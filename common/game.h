@@ -479,6 +479,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_SCORELOG        FALSE
 #define GAME_DEFAULT_SCORELOGLEVEL   SL_ALL
 #define GAME_DEFAULT_SCOREFILE       "freeciv-score.log"
+
+/* Turns between reports is random between SCORETURN and (2 x SCORETURN).
+ * First report is shown at SCORETURN. As report is generated in the end of the turn,
+ * first report is already generated at (SCORETURN - 1) */
 #define GAME_DEFAULT_SCORETURN       20
 
 #define GAME_DEFAULT_VICTORY_CONDITIONS (1 << VC_SPACERACE | 1 << VC_ALLIED)

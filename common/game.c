@@ -415,7 +415,7 @@ static void game_defaults(void)
     game.server.savepalace        = GAME_DEFAULT_SAVEPALACE;
     game.server.scorelog          = GAME_DEFAULT_SCORELOG;
     game.server.scoreloglevel     = GAME_DEFAULT_SCORELOGLEVEL;
-    game.server.scoreturn         = GAME_DEFAULT_SCORETURN;
+    game.server.scoreturn         = GAME_DEFAULT_SCORETURN - 1;
     game.server.seed              = GAME_DEFAULT_SEED;
     sz_strlcpy(game.server.start_units, GAME_DEFAULT_START_UNITS);
     game.server.start_year        = GAME_START_YEAR;
