@@ -5738,7 +5738,7 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
 
   fc_assert_ret_val(NULL != punittype, NULL);
 
-  if (!is_valid_dir(facing)) {
+  if (!direction8_is_valid(facing) || !is_valid_dir(facing)) {
     /* Fallback to using random orientation sprite. */
     facing = rand_direction();
   }
