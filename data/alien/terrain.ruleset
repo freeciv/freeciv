@@ -987,9 +987,10 @@ rmact_gfx_alt  = "-"
 buildable      = FALSE
 defense_bonus  = 50
 native_to      = "Native", "Amphibious"
+flags          = "NaturalDefense"
 ; /* xgettext:no-c-format */
 helptext       = _("\
-Any river increases a tile's defense factor by 50%. Native and Amphibious \
+Any river increases a tile's natural defense factor by 50%. Native and Amphibious \
 units may move along a River (but not diagonally) for fast travel.\
 "), _("\
 Green River increases also tile's food production by 1.\
@@ -1009,9 +1010,10 @@ rmact_gfx_alt  = "-"
 buildable      = FALSE
 defense_bonus  = 50
 native_to      = "Native", "Amphibious"
+flags          = "NaturalDefense"
 ; /* xgettext:no-c-format */
 helptext       = _("\
-Any river increases a tile's defense factor by 50%. Native and Amphibious \
+Any river increases a tile's natural defense factor by 50%. Native and Amphibious \
 units may move along a River (but not diagonally) for fast travel.\
 "), _("\
 Brown River increases also tile's shield production by 1.\
