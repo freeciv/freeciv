@@ -1465,7 +1465,7 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(help_tech_callback)},
       {"HELP_SPACE_RACE", NULL, _("Space Race"),
        NULL, NULL, G_CALLBACK(help_space_rate_callback)},
-      {"HELP_RULESET", NULL, _("About Ruleset"),
+      {"HELP_RULESET", NULL, _("About Current Ruleset"),
        NULL, NULL, G_CALLBACK(help_ruleset_callback)},
       {"HELP_NATIONS", NULL, _("About Nations"),
        NULL, NULL, G_CALLBACK(help_nations_callback)},
