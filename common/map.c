@@ -1206,7 +1206,7 @@ static bool is_valid_dir_calculate(enum direction8 dir)
 **************************************************************************/
 bool is_valid_dir(enum direction8 dir)
 {
-  fc_assert_ret_val(dir >= 0 && dir < 8, FALSE);
+  fc_assert_ret_val(direction8_is_valid(dir), FALSE);
 
   return dir_validity[dir];
 }
@@ -1246,7 +1246,7 @@ static bool is_cardinal_dir_calculate(enum direction8 dir)
 **************************************************************************/
 bool is_cardinal_dir(enum direction8 dir)
 {
-  fc_assert_ret_val(dir >= 0 && dir < 8, FALSE);
+  fc_assert_ret_val(direction8_is_valid(dir), FALSE);
 
   return dir_cardinality[dir];
 }
