@@ -149,7 +149,13 @@ struct action
   enum gen_action id;
   enum action_actor_kind actor_kind;
   enum action_target_kind target_kind;
+
   bool hostile; /* TODO: Should this be a scale in stead? */
+
+  /* Is the player required to specify details about this action? Only true
+   * IFF the action needs details AND the server won't fill them in when
+   * unspecified. */
+  bool requires_details;
 
   /* The name of the action shown in the UI */
   char ui_name[MAX_LEN_NAME];
@@ -209,6 +215,8 @@ const char *action_rule_name(const struct action *action);
 const char *action_name_translation(const struct action *action);
 
 bool action_is_hostile(int action_id);
+
+bool action_requires_details(int action_id);
 
 int action_get_role(int action_id);
 

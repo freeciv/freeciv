@@ -35,7 +35,7 @@ static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 
 static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
-                                 bool hostile);
+                                 bool hostile, bool requires_details);
 
 static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct player *actor_player,
@@ -62,77 +62,77 @@ void actions_init(void)
 {
   /* Hard code the actions */
   actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
-      TRUE);
+      TRUE, FALSE);
   actions[ACTION_SPY_SABOTAGE_UNIT] =
       action_new(ACTION_SPY_SABOTAGE_UNIT, ATK_UNIT,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_SPY_BRIBE_UNIT] =
       action_new(ACTION_SPY_BRIBE_UNIT, ATK_UNIT,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       action_new(ACTION_SPY_SABOTAGE_CITY, ATK_CITY,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
-                 TRUE);
+                 TRUE, TRUE);
   actions[ACTION_SPY_INCITE_CITY] =
       action_new(ACTION_SPY_INCITE_CITY, ATK_CITY,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_ESTABLISH_EMBASSY] =
       action_new(ACTION_ESTABLISH_EMBASSY, ATK_CITY,
-                 FALSE);
+                 FALSE, FALSE);
   actions[ACTION_SPY_STEAL_TECH] =
       action_new(ACTION_SPY_STEAL_TECH, ATK_CITY,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
-                 TRUE);
+                 TRUE, TRUE);
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_SPY_STEAL_GOLD] =
       action_new(ACTION_SPY_STEAL_GOLD, ATK_CITY,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_TRADE_ROUTE] =
       action_new(ACTION_TRADE_ROUTE, ATK_CITY,
-                 FALSE);
+                 FALSE, FALSE);
   actions[ACTION_MARKETPLACE] =
       action_new(ACTION_MARKETPLACE, ATK_CITY,
-                 FALSE);
+                 FALSE, FALSE);
   actions[ACTION_HELP_WONDER] =
       action_new(ACTION_HELP_WONDER, ATK_CITY,
-                 FALSE);
+                 FALSE, FALSE);
   actions[ACTION_CAPTURE_UNITS] =
       action_new(ACTION_CAPTURE_UNITS, ATK_UNITS,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_FOUND_CITY] =
       action_new(ACTION_FOUND_CITY, ATK_TILE,
-                 FALSE);
+                 FALSE, FALSE);
   actions[ACTION_JOIN_CITY] =
       action_new(ACTION_JOIN_CITY, ATK_CITY,
-                 FALSE);
+                 FALSE, FALSE);
   actions[ACTION_STEAL_MAPS] =
       action_new(ACTION_STEAL_MAPS, ATK_CITY,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_BOMBARD] =
       action_new(ACTION_BOMBARD,
                  /* FIXME: Target is actually Units + City */
                  ATK_UNITS,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_SPY_NUKE] =
       action_new(ACTION_SPY_NUKE, ATK_CITY,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_NUKE] =
       action_new(ACTION_NUKE,
                  /* FIXME: Target is actually Tile + Units + City */
                  ATK_TILE,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_DESTROY_CITY] =
       action_new(ACTION_DESTROY_CITY, ATK_CITY,
-                 TRUE);
+                 TRUE, FALSE);
   actions[ACTION_EXPEL_UNIT] =
       action_new(ACTION_EXPEL_UNIT, ATK_UNIT,
-                 TRUE);
+                 TRUE, FALSE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -195,7 +195,7 @@ bool actions_are_ready(void)
 **************************************************************************/
 static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
-                                 bool hostile)
+                                 bool hostile, bool requires_details)
 {
   struct action *action;
 
@@ -205,6 +205,7 @@ static struct action *action_new(enum gen_action id,
   action->actor_kind = AAK_UNIT;
   action->target_kind = target_kind;
   action->hostile = hostile;
+  action->requires_details = requires_details;
 
   /* The ui_name is loaded from the ruleset. Until generalized actions
    * are ready it has to be defined seperatly from other action data. */
@@ -290,6 +291,19 @@ bool action_is_hostile(int action_id)
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
   return actions[action_id]->hostile;
+}
+
+/**************************************************************************
+  Returns TRUE iff the specified action REQUIRES the player to provide
+  details in addition to actor and target. Returns FALSE if the action
+  doesn't support any additional details or if they can be set by Freeciv
+  it self.
+**************************************************************************/
+bool action_requires_details(int action_id)
+{
+  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+
+  return actions[action_id]->requires_details;
 }
 
 /**************************************************************************
