@@ -931,10 +931,11 @@ static void begin_turn(bool is_new_turn)
    * for long enough. The first user to do so becomes "associated" to that
    * player for ranking purposes. */
   players_iterate(pplayer) {
-    if (strcmp(pplayer->ranked_username, ANON_USER_NAME) == 0
+    if (pplayer->unassigned_ranked
         && pplayer->user_turns++ > TURNS_NEEDED_TO_RANK
 	&& pplayer->is_alive) {
       sz_strlcpy(pplayer->ranked_username, pplayer->username);
+      pplayer->unassigned_ranked = pplayer->unassigned_user;
     }
   } players_iterate_end;
 
@@ -2148,7 +2149,8 @@ const char *aifill(int amount)
     } while (player_by_name(leader_name));
     server_player_set_name(pplayer, leader_name);
     pplayer->random_name = TRUE;
-    sz_strlcpy(pplayer->username, ANON_USER_NAME);
+    sz_strlcpy(pplayer->username, _(ANON_USER_NAME));
+    pplayer->unassigned_user = TRUE;
 
     pplayer->ai_common.skill_level = game.info.skill_level;
     pplayer->ai_controlled = TRUE;

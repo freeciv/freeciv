@@ -600,6 +600,7 @@ static bool connection_attach_real(struct connection *pconn,
     }
 
     sz_strlcpy(pplayer->username, pconn->username);
+    pplayer->unassigned_user = FALSE;
     pplayer->user_turns = 0; /* reset for a new user */
     pplayer->is_connected = TRUE;
 
@@ -641,7 +642,8 @@ static bool connection_attach_real(struct connection *pconn,
   players_iterate(aplayer) {
     if (aplayer != pplayer
         && 0 == strncmp(aplayer->username, pconn->username, MAX_LEN_NAME)) {
-      sz_strlcpy(aplayer->username, ANON_USER_NAME);
+      sz_strlcpy(aplayer->username, _(ANON_USER_NAME));
+      aplayer->unassigned_user = TRUE;
       send_player_info_c(aplayer, NULL);
     }
   } players_iterate_end;
@@ -811,6 +813,7 @@ bool connection_delegate_take(struct connection *pconn,
     /* Setting orig_username in the player we're about to put aside is
      * a flag that no-one should be allowed to mess with it (e.g. /take). */
     struct player *oplayer = conn_get_player(pconn);
+
     fc_assert_ret_val(oplayer != dplayer, FALSE);
     fc_assert_ret_val(strlen(oplayer->server.orig_username) == 0, FALSE);
     sz_strlcpy(oplayer->server.orig_username, oplayer->username);

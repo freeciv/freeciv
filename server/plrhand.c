@@ -995,8 +995,9 @@ static void package_player_common(struct player *plr,
   packet->playerno = player_number(plr);
   sz_strlcpy(packet->name, player_name(plr));
   sz_strlcpy(packet->username, plr->username);
+  packet->unassigned_user = plr->unassigned_user;
   packet->nation = plr->nation ? nation_number(plr->nation) : NATION_NONE;
-  packet->is_male=plr->is_male;
+  packet->is_male = plr->is_male;
   packet->team = plr->team ? team_number(plr->team) : team_count();
   packet->is_ready = plr->is_ready;
   packet->was_created = plr->was_created;
@@ -2400,7 +2401,8 @@ static struct player *split_player(struct player *pplayer)
   /* Send information about the used player slot to all connections. */
   send_player_info_c(cplayer, NULL);
 
-  sz_strlcpy(cplayer->username, ANON_USER_NAME);
+  sz_strlcpy(cplayer->username, _(ANON_USER_NAME));
+  cplayer->unassigned_user = TRUE;
   cplayer->is_connected = FALSE;
   cplayer->government = nation_of_player(cplayer)->init_government;
   fc_assert(cplayer->revolution_finishes < 0);

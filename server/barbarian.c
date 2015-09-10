@@ -111,7 +111,8 @@ struct player *create_barbarian_player(enum barbarian_type type)
         old_barbs->name[0] = '\0';
         sz_strlcpy(old_barbs->name,
                    pick_random_player_name(nation_of_player(old_barbs)));
-        sz_strlcpy(old_barbs->username, ANON_USER_NAME);
+        sz_strlcpy(old_barbs->username, _(ANON_USER_NAME));
+        old_barbs->unassigned_user = TRUE;
         /* I need to make them to forget the map, I think */
 	whole_map_iterate(ptile) {
 	  map_clear_known(ptile, old_barbs);
@@ -144,7 +145,8 @@ struct player *create_barbarian_player(enum barbarian_type type)
 
   server.nbarbarians++;
 
-  sz_strlcpy(barbarians->username, ANON_USER_NAME);
+  sz_strlcpy(barbarians->username, _(ANON_USER_NAME));
+  barbarians->unassigned_user = TRUE;
   barbarians->is_connected = FALSE;
   barbarians->government = nation->init_government;
   fc_assert(barbarians->revolution_finishes < 0);

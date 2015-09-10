@@ -1105,7 +1105,8 @@ void handle_edit_player_create(struct connection *pc, int tag)
     /* Find a color for the new player. */
     assign_player_colors();
   }
-  sz_strlcpy(pplayer->username, ANON_USER_NAME);
+  sz_strlcpy(pplayer->username, _(ANON_USER_NAME));
+  pplayer->unassigned_user = TRUE;
   pplayer->is_connected = FALSE;
   pplayer->government = pnation->init_government;
   pplayer->server.got_first_city = FALSE;

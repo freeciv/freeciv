@@ -39,7 +39,11 @@ extern "C" {
 #define PLAYER_DEFAULT_LUXURY_RATE 0
 
 #define ANON_PLAYER_NAME "noname"
-#define ANON_USER_NAME "Unassigned"
+
+/* If changing this, be sure to adjust loading of pre-2.6 savegames
+ * which depend on saved username to tell if user (or ranked_user) is
+ * anonymous. */
+#define ANON_USER_NAME N_("Unassigned")
 
 enum plrcolor_mode {
   PLRCOL_PLR_ORDER,
@@ -214,7 +218,9 @@ struct player {
   struct player_slot *slot;
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
+  bool unassigned_user;
   char ranked_username[MAX_LEN_NAME]; /* the user who will be ranked */
+  bool unassigned_ranked;
   int user_turns;            /* number of turns this user has played */
   bool is_male;
   struct government *government; /* may be NULL in pregame */
