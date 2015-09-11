@@ -71,6 +71,9 @@
   Note that if you missplace the trailing doublequote you can
   easily end up with strange errors reading the file...
 
+  - Strings read from a file: A file can be read as a string value:
+    foo = *filename.txt*
+
   - Vector format: An entry can have multiple values separated
   by commas, eg:
       foo = 10, 11, "x"
