@@ -208,6 +208,8 @@ static gboolean quit_dialog_callback(void);
 static void allied_chat_button_toggled(GtkToggleButton *button,
                                        gpointer user_data);
 
+static void free_unit_table(void);
+
 /****************************************************************************
   Called by the tileset code to set the font size that should be used to
   draw the city names and productions.
@@ -911,22 +913,18 @@ static void populate_unit_pixmap_table(void)
 }
 
 /**************************************************************************
-  Called when the tileset is changed to reset the unit pixmap table.
+  Free unit pixmap table.
 **************************************************************************/
-void reset_unit_table(void)
+static void free_unit_table(void)
 {
-  int i;
-
   if (unit_pixmap_button) {
-    /* Unreference all of the widgets that we're about to reallocate, thus
-     * avoiding a memory leak. Remove them from the container first, just
-     * to be safe. Note, the widgets are ref'd in
-     * populatate_unit_pixmap_table. */
     gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
                          unit_pixmap_button);
     g_object_unref(unit_pixmap);
     g_object_unref(unit_pixmap_button);
     if (!options.gui_gtk3_small_display_layout) {
+      int i;
+
       for (i = 0; i < num_units_below; i++) {
         gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
                              unit_below_pixmap_button[i]);
@@ -940,6 +938,18 @@ void reset_unit_table(void)
     g_object_unref(more_arrow_pixmap_button);
     g_object_unref(more_arrow_pixmap_container);
   }
+}
+
+/**************************************************************************
+  Called when the tileset is changed to reset the unit pixmap table.
+**************************************************************************/
+void reset_unit_table(void)
+{
+  /* Unreference all of the widgets that we're about to reallocate, thus
+   * avoiding a memory leak. Remove them from the container first, just
+   * to be safe. Note, the widgets are ref'd in
+   * populatate_unit_pixmap_table. */
+  free_unit_table();
 
   populate_unit_pixmap_table();
 
@@ -1729,6 +1739,7 @@ void ui_main(int argc, char **argv)
   happiness_dialog_done();
   diplomacy_dialog_done();
   cma_fe_done();
+  free_unit_table();
   gtk_widget_destroy(toplevel_tabs);
   tileset_free_tiles(tileset);
 }
