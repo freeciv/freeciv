@@ -827,7 +827,68 @@ static const char *get_token_value(struct inputfile *inf)
 
   border_character = *c;
 
-  if (border_character != '\"'
+  if (border_character == '*') {
+    const char *rfname;
+    fz_FILE *fp;
+    bool eof;
+    int pos;
+
+    c++;
+
+    start = c;
+    while (*c != '*') {
+      if (*c == '\0' || *c == '\n') {
+        return NULL;
+      }
+      c++;
+    }
+    c++;
+    /* check that the trailing stuff is ok: */
+    if (!(*c == '\0' || *c == ',' || fc_isspace(*c) || is_comment(*c))) {
+      return NULL;
+    }
+    /* We don't want to obliterate ending '*' permanently,
+     * so remember it: */
+    trailing = *(c - 1);
+    *((char *) (c - 1)) = '\0';     /* Tricky. */
+
+    rfname = fileinfoname(get_data_dirs(), start);
+    if (rfname == NULL) {
+      inf_log(inf, LOG_ERROR, 
+              _("Cannot find stringfile \"%s\"."), start);
+      *((char *) c) = trailing; /* Revert. */
+      return NULL;
+    }
+    *((char *) c) = trailing; /* Revert. */
+    fp = fz_from_file(rfname, "r", -1, 0);
+    if (!fp) {
+      inf_log(inf, LOG_ERROR,
+              _("Cannot open stringfile \"%s\"."), rfname);
+      return NULL;
+    }
+    log_debug("Stringfile \"%s\" opened ok", start);
+    *((char *) (c - 1)) = trailing; /* Revert. */
+    astr_set(&inf->token, "*"); /* Mark as a string read from a file */
+
+    eof = FALSE;
+    pos = 1; /* Past 'filestring' marker */
+    while (!eof) {
+      char *ret;
+
+      ret = fz_fgets((char *) astr_str(&inf->token) + pos,
+                     astr_capacity(&inf->token) - pos, fp);
+      if (ret == NULL) {
+        eof = TRUE;
+      } else {
+        pos = astr_len(&inf->token);
+        astr_reserve(&inf->token, pos + 200);
+      }
+    }
+
+    inf->cur_line_pos = c + 1 - astr_str(&inf->cur_line);
+
+    return astr_str(&inf->token);
+  } else if (border_character != '\"'
       && border_character != '\''
       && border_character != '$') {
     /* A one-word string: maybe FALSE or TRUE. */
@@ -840,7 +901,7 @@ static const char *get_token_value(struct inputfile *inf)
       return NULL;
     }
     /* If its a comma, we don't want to obliterate it permanently,
-     * so rememeber it: */
+     * so remember it: */
     trailing = *c;
     *((char *) c) = '\0';       /* Tricky. */
 
