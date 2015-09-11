@@ -627,6 +627,25 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_IMPR_GENUS:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz, _("Applies to \"%s\" buildings.\n"),
+                     impr_genus_id_translated_name(
+                       preq->source.value.impr_genus));
+      } else {
+        cat_snprintf(buf, bufsz, _("Doesn't apply to \"%s\" buildings.\n"),
+                     impr_genus_id_translated_name(
+                       preq->source.value.impr_genus));
+      }
+      return TRUE;
+    default:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_IMPROVEMENT:
     switch (preq->range) {
     case REQ_RANGE_WORLD:

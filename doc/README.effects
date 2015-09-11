@@ -49,6 +49,7 @@ TechFlag:      World, Alliance, Team, Player
 Achievement:   World, Alliance, Team, Player
 Gov:           Player
 Building:      World, Alliance, Team, Player, Continent, Traderoute, City, Local
+BuildingGenus: Local
 Extra:         Local, Adjacent, CAdjacent, Traderoute, City
 BaseFlag:      Local, Adjacent, CAdjacent, Traderoute, City
 RoadFlag:      Local, Adjacent, CAdjacent, Traderoute, City

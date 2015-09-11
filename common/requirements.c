@@ -106,6 +106,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_IMPR_GENUS:
+    source.value.impr_genus = impr_genus_id_by_name(value, fc_strcasecmp);
+    if (impr_genus_id_is_valid(source.value.impr_genus)) {
+      return source;
+    }
+    break;
   case VUT_EXTRA:
     source.value.extra = extra_type_by_rule_name(value);
     if (source.value.extra != NULL) {
@@ -352,6 +358,9 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_IMPR_GENUS:
+    source.value.impr_genus = value;
+    return source;
   case VUT_EXTRA:
     source.value.extra = extra_by_number(value);
     return source;
@@ -515,6 +524,8 @@ int universal_number(const struct universal *source)
     return style_number(source->value.style);
   case VUT_IMPROVEMENT:
     return improvement_number(source->value.building);
+  case VUT_IMPR_GENUS:
+    return source->value.impr_genus;
   case VUT_EXTRA:
     return extra_number(source->value.extra);
   case VUT_TERRAIN:
@@ -632,6 +643,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_COUNT:
       break;
     case VUT_IMPROVEMENT:
+    case VUT_IMPR_GENUS:
     case VUT_EXTRA:
     case VUT_TERRAIN:
     case VUT_TERRFLAG:
@@ -771,6 +783,10 @@ struct requirement req_from_str(const char *type, const char *range,
                && req.range != REQ_RANGE_CITY
                && req.range != REQ_RANGE_PLAYER);
     break;
+  case VUT_IMPR_GENUS:
+    /* TODO: Support other ranges too. */
+    invalid = req.range != REQ_RANGE_LOCAL;
+    break;
   case VUT_IMPROVEMENT:
     /* Valid ranges depend on the building genus (wonder/improvement),
      * which might not have been loaded from the ruleset yet.
@@ -796,6 +812,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_ADVANCE:
       invalid = survives && req.range != REQ_RANGE_WORLD;
       break;
+    case VUT_IMPR_GENUS:
     case VUT_GOVERNMENT:
     case VUT_TERRAIN:
     case VUT_UTYPE:
@@ -2564,6 +2581,12 @@ bool is_req_active(const struct player *target_player,
                                 req->range, req->survives,
                                 req->source.value.building);
     break;
+  case VUT_IMPR_GENUS:
+    eval = (target_building ? BOOL_TO_TRISTATE(
+                                target_building->genus
+                                == req->source.value.impr_genus)
+                            : TRI_MAYBE);
+    break;
   case VUT_EXTRA:
     eval = is_extra_type_in_range(target_tile, target_city,
                                   req->range, req->survives,
@@ -2876,6 +2899,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_GOVERNMENT:
   case VUT_ACHIEVEMENT:
   case VUT_IMPROVEMENT:
+  case VUT_IMPR_GENUS:
   case VUT_MINSIZE:
   case VUT_MINCULTURE:
   case VUT_NATIONALITY:
@@ -2955,6 +2979,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.style == psource2->value.style;
   case VUT_IMPROVEMENT:
     return psource1->value.building == psource2->value.building;
+  case VUT_IMPR_GENUS:
+    return psource1->value.impr_genus == psource2->value.impr_genus;
   case VUT_EXTRA:
     return psource1->value.extra == psource2->value.extra;
   case VUT_TERRAIN:
@@ -3057,6 +3083,8 @@ const char *universal_rule_name(const struct universal *psource)
     return style_rule_name(psource->value.style);
   case VUT_IMPROVEMENT:
     return improvement_rule_name(psource->value.building);
+  case VUT_IMPR_GENUS:
+    return impr_genus_id_name(psource->value.impr_genus);
   case VUT_EXTRA:
     return extra_rule_name(psource->value.extra);
   case VUT_TERRAIN:
@@ -3173,6 +3201,11 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_IMPROVEMENT:
     fc_strlcat(buf, improvement_name_translation(psource->value.building),
+               bufsz);
+    return buf;
+  case VUT_IMPR_GENUS:
+    fc_strlcat(buf,
+               impr_genus_id_translated_name(psource->value.impr_genus),
                bufsz);
     return buf;
   case VUT_EXTRA:

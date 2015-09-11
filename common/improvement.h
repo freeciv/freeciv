@@ -62,18 +62,6 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
-#define SPECENUM_NAME impr_genus_id
-#define SPECENUM_VALUE0 IG_GREAT_WONDER
-#define SPECENUM_VALUE0NAME "GreatWonder"
-#define SPECENUM_VALUE1 IG_SMALL_WONDER
-#define SPECENUM_VALUE1NAME "SmallWonder"
-#define SPECENUM_VALUE2 IG_IMPROVEMENT
-#define SPECENUM_VALUE2NAME "Improvement"
-#define SPECENUM_VALUE3 IG_SPECIAL
-#define SPECENUM_VALUE3NAME "Special"
-#include "specenum_gen.h"
-
-/* Used in the network protocol. */
 BV_DEFINE(bv_imprs, B_LAST);
 
 /* Type of improvement. (Read from buildings.ruleset file.) */

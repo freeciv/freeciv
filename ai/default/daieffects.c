@@ -719,6 +719,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
 
   case VUT_OTYPE:
   case VUT_CITYTILE:
+  case VUT_IMPR_GENUS:
     /* Can always be achieved. */
     return TRUE;
 

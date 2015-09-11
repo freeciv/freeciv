@@ -309,6 +309,18 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE3NAME N_("Hex")
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME impr_genus_id
+#define SPECENUM_VALUE0 IG_GREAT_WONDER
+#define SPECENUM_VALUE0NAME "GreatWonder"
+#define SPECENUM_VALUE1 IG_SMALL_WONDER
+#define SPECENUM_VALUE1NAME "SmallWonder"
+#define SPECENUM_VALUE2 IG_IMPROVEMENT
+#define SPECENUM_VALUE2NAME "Improvement"
+#define SPECENUM_VALUE3 IG_SPECIAL
+#define SPECENUM_VALUE3NAME "Special"
+#include "specenum_gen.h"
+
 /* Sometimes we don't know (or don't care) if some requirements for effect
  * are currently fulfilled or not. This enum tells lower level functions
  * how to handle uncertain requirements.
@@ -358,6 +370,7 @@ typedef union {
   int diplrel;                          /* enum diplstate_type or
                                            enum diplrel_other */
   enum ustate_prop unit_state;
+  enum impr_genus_id impr_genus;
   int minmoves;
   int max_tile_units;
   int minveteran;
@@ -449,8 +462,10 @@ typedef union {
 #define SPECENUM_VALUE35NAME "NationGroup"
 #define SPECENUM_VALUE36 VUT_TOPO
 #define SPECENUM_VALUE36NAME "Topology"
-#define SPECENUM_VALUE37 VUT_ACTION
-#define SPECENUM_VALUE37NAME "Action"
+#define SPECENUM_VALUE37 VUT_IMPR_GENUS
+#define SPECENUM_VALUE37NAME "BuildingGenus"
+#define SPECENUM_VALUE38 VUT_ACTION
+#define SPECENUM_VALUE38NAME "Action"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
