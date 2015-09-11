@@ -84,22 +84,30 @@ reqs    =
 
 [effect_ai_cheat_happiness]
 type    = "Make_Content"
-value	= 1
-reqs	=
+value   = 1
+reqs    =
     { "type", "name", "range"
       "AI", "Cheating", "Player"
     }
 
 [effect_ai_cheat_pollution]
 type    = "Pollu_Prod_Pct"
-value	= -20
-reqs	=
+value   = -20
+reqs    =
     { "type", "name", "range"
       "AI", "Cheating", "Player"
     }
 
 [effect_ai_cheat_veteran]
 type    = "Veteran_Combat"
+value   = 20
+reqs    =
+    { "type", "name", "range"
+      "AI", "Cheating", "Player"
+    }
+
+[effect_ai_cheat_bribe_cost]
+type    = "Unit_Bribe_Cost_Pct"
 value   = 20
 reqs    =
     { "type", "name", "range"
@@ -141,7 +149,7 @@ reqs    =
       "AI", "Handicapped", "Player"
     }
 
-[effect_ai_handicapped_bribe]
+[effect_ai_handicapped_bribe_cost]
 type    = "Unit_Bribe_Cost_Pct"
 value   = -20
 reqs    =
