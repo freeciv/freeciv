@@ -83,6 +83,7 @@ struct client_options options = {
   .use_prev_server = FALSE,
 
 /** Migrations **/
+  .first_boot = FALSE,
   .gui_gtk3_migrated_from_gtk2 = FALSE,
   .gui_sdl2_migrated_from_sdl = FALSE,
   .gui_gtk2_migrated_from_2_5 = FALSE,
@@ -5319,6 +5320,7 @@ void options_load(void)
     client_option_adjust_defaults();
     options_fully_initialized = TRUE;
     create_default_cma_presets();
+    options.first_boot = TRUE;
     return;
   }
   if (!(sf = secfile_load(name, TRUE))) {

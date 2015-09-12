@@ -101,6 +101,8 @@ struct client_options
   bool save_options_on_exit;
 
 /** Migrations **/
+  bool first_boot; /* There was no ealier options saved.
+                    * This affects some migrations, but not all. */
   bool gui_gtk3_migrated_from_gtk2;
   bool gui_sdl2_migrated_from_sdl;
   bool gui_gtk2_migrated_from_2_5;
