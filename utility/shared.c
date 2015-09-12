@@ -114,13 +114,15 @@ static struct strvec *save_dir_names = NULL;
 static struct strvec *scenario_dir_names = NULL;
 
 static char *mc_group = NULL;
-static char *home_dir = NULL;
+static char *home_dir_user = NULL;
+static char *home_dir_freeciv = NULL;
 
 static struct astring realfile = ASTRING_INIT;
 
 static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
                                    const struct fileinfo *const *ppb);
 
+static char *expand_dir(char *tok_in);
 
 /***************************************************************
   Take a string containing multiple lines and create a copy where
@@ -733,12 +735,12 @@ char *user_home_dir(void)
   return "PROGDIR:";
 #else  /* AMIGA */
 
-  if (home_dir == NULL) {
+  if (home_dir_user == NULL) {
     char *env = getenv("HOME");
 
     if (env) {
-      home_dir = fc_strdup(env);
-      log_verbose("HOME is %s", home_dir);
+      home_dir_user = fc_strdup(env);
+      log_verbose("HOME is %s", home_dir_user);
     } else {
 
 #ifdef WIN32_NATIVE
@@ -755,22 +757,22 @@ char *user_home_dir(void)
         char *home_dir_in_local_encoding = fc_malloc(PATH_MAX);
 
         if (SUCCEEDED(SHGetPathFromIDList(pidl, home_dir_in_local_encoding))) {
-        	/* convert to internal encoding */
-        	home_dir = local_to_internal_string_malloc(home_dir_in_local_encoding);
-        	free(home_dir_in_local_encoding);
+          /* convert to internal encoding */
+          home_dir_user = local_to_internal_string_malloc(home_dir_in_local_encoding);
+          free(home_dir_in_local_encoding);
 
-        	/* replace backslashes with forward slashes */
-        	char *c;
-        	for (c = home_dir; *c != 0; c++) {
-        		if (*c == '\\') {
-        			*c = '/';
-        		}
-        	}
+          /* replace backslashes with forward slashes */
+          char *c;
+          for (c = home_dir_user; *c != 0; c++) {
+            if (*c == '\\') {
+              *c = '/';
+            }
+          }
         } else {
-            free(home_dir_in_local_encoding);
-            home_dir = NULL;
-            log_error("Could not find home directory "
-                      "(SHGetPathFromIDList() failed).");
+          free(home_dir_in_local_encoding);
+          home_dir_user = NULL;
+          log_error("Could not find home directory "
+                    "(SHGetPathFromIDList() failed).");
         }
 
         SHGetMalloc(&pMalloc);
@@ -785,12 +787,12 @@ char *user_home_dir(void)
       }
 #else  /* WIN32_NATIVE */
       log_error("Could not find home directory (HOME is not set).");
-      home_dir = NULL;
+      home_dir_user = NULL;
 #endif /* WIN32_NATIVE */
     }
   }
 
-  return home_dir;
+  return home_dir_user;
 #endif /* AMIGA */
 }
 
@@ -799,9 +801,38 @@ char *user_home_dir(void)
 ***************************************************************************/
 void free_user_home_dir(void)
 {
-  if (home_dir != NULL) {
-    free(home_dir);
-    home_dir = NULL;
+  if (home_dir_user != NULL) {
+    free(home_dir_user);
+    home_dir_user = NULL;
+  }
+}
+
+/***************************************************************************
+  Returns string which gives freeciv storage dir.
+  Gets value once, and then caches result.
+  Note the caller should not mess with the returned string.
+***************************************************************************/
+char *freeciv_home_dir(void)
+{
+  if (home_dir_freeciv == NULL) {
+    home_dir_freeciv = fc_malloc(strlen(FREECIV_HOME_DIR) + 1);
+
+    strcpy(home_dir_freeciv, FREECIV_HOME_DIR);
+
+    home_dir_freeciv = expand_dir(home_dir_freeciv);
+  }
+
+  return home_dir_freeciv;
+}
+
+/***************************************************************************
+  Free freeciv home directory information
+***************************************************************************/
+void free_freeciv_home_dir(void)
+{
+  if (home_dir_freeciv != NULL) {
+    free(home_dir_freeciv);
+    home_dir_freeciv = NULL;
   }
 }
 
@@ -876,6 +907,62 @@ char *user_username(char *buf, size_t bufsz)
 }
 
 /***************************************************************************
+  Return tok_in directory name with "~/" expanded as user home directory.
+  The function might return tok_in, or a new string. In either case caller
+  should free() the returned string eventually. Also, tok_in should be
+  something expand_dir() can free itself if it decides to return newly
+  created string (so caller can always free() just the returned string, not
+  to care if it's same as tok_in or not)
+***************************************************************************/
+static char *expand_dir(char *tok_in)
+{
+  int i; /* strlen(tok), or -1 as flag */
+  char *tok;
+  char **ret = &tok; /* Return tok by default */
+  char *allocated;
+
+  tok = skip_leading_spaces(tok_in);
+  remove_trailing_spaces(tok);
+  if (strcmp(tok, "/") != 0) {
+    remove_trailing_char(tok, '/');
+  }
+
+  i = strlen(tok);
+  if (tok[0] == '~') {
+    if (i > 1 && tok[1] != '/') {
+      log_error("For \"%s\" in path cannot expand '~'"
+                " except as '~/'; ignoring", tok);
+      i = 0;  /* skip this one */
+    } else {
+      char *home = user_home_dir();
+
+      if (!home) {
+        log_verbose("No HOME, skipping path component %s", tok);
+        i = 0;
+      } else {
+        int len = strlen(home) + i;   /* +1 -1 */
+        allocated = fc_malloc(len);
+        *ret = allocated;
+
+        fc_snprintf(allocated, len, "%s%s", home, tok + 1);
+        i = -1;       /* flag to free tok below */
+      }
+    }
+  }
+
+  if (i != 0) {
+    /* We could check whether the directory exists and
+     * is readable etc?  Don't currently. */
+    if (i == -1) {
+      free(tok);
+      tok = NULL;
+    }
+  }
+
+  return *ret;
+}
+
+/***************************************************************************
   Returns a list of directory paths, in the order in which they should
   be searched.  Base function for get_data_dirs(), get_save_dirs(),
   get_scenario_dirs()
@@ -888,45 +975,10 @@ static struct strvec *base_get_dirs(const char *dir_list)
   path = fc_strdup(dir_list);   /* something we can strtok */
   tok = strtok(path, PATH_SEPARATOR);
   do {
-    int i;                      /* strlen(tok), or -1 as flag */
+    char *dir = expand_dir(tok);
 
-    tok = skip_leading_spaces(tok);
-    remove_trailing_spaces(tok);
-    if (strcmp(tok, "/") != 0) {
-      remove_trailing_char(tok, '/');
-    }
-
-    i = strlen(tok);
-    if (tok[0] == '~') {
-      if (i > 1 && tok[1] != '/') {
-        log_error("For \"%s\" in path cannot expand '~'"
-                  " except as '~/'; ignoring", tok);
-        i = 0;  /* skip this one */
-      } else {
-        char *home = user_home_dir();
-
-        if (!home) {
-          log_verbose("No HOME, skipping path component %s", tok);
-          i = 0;
-        } else {
-          int len = strlen(home) + i;   /* +1 -1 */
-          char *tmp = fc_malloc(len);
-
-          fc_snprintf(tmp, len, "%s%s", home, tok + 1);
-          tok = tmp;
-          i = -1;       /* flag to free tok below */
-        }
-      }
-    }
-
-    if (i != 0) {
-      /* We could check whether the directory exists and
-       * is readable etc?  Don't currently. */
-      strvec_append(dirs, tok);
-      if (i == -1) {
-        free(tok);
-        tok = NULL;
-      }
+    if (dir != NULL) {
+      strvec_append(dirs, dir);
     }
 
     tok = strtok(NULL, PATH_SEPARATOR);
