@@ -20,8 +20,8 @@ name = _("Civ2Civ3 ruleset")
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
-; Description of the ruleset
-description = _("\
+; Summary of the ruleset
+summary = _("\
 You are playing Freeciv with civ2civ3 rules:\
 \n\n\
 Gameplay more similar to civ3, keeping the combat system from civ2.\
@@ -32,6 +32,9 @@ Adapted for single player, with AI less aggressive at start,\
 Detailed description of the differences from the classic ruleset can be\
  found in README.ruleset_civ2civ3.\
 ")
+
+; Detailed description
+; description = ""
 
 [options]
 global_init_techs=""

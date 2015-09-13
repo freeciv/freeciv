@@ -12,10 +12,14 @@ name = _("Stub")
 ; Versioning of the ruleset
 ;version = ""
 
-; Description of the ruleset
-description = _("This ruleset is meant to be used as starting point for \
+; Summary of the ruleset
+summary = _("\
+This ruleset is meant to be used as starting point for \
 real rulesets, not playable ruleset in itself.\
 ")
+
+; Detailed description
+; description = ""
 
 [options]
 global_init_techs=""

@@ -2981,62 +2981,76 @@ void boot_help_texts(struct player *pplayer)
             } improvement_iterate_end;
             break;
           case HELP_RULESET:
-            pitem = new_help_item(HELP_RULESET);
-            /*           pitem->topic = fc_strdup(_(game.control.name)); */
-            fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                        Q_(HELP_RULESET_ITEM));
-            pitem->topic = fc_strdup(name);
-            if (game.ruleset_description != NULL) {
-              if (game.control.version[0] != '\0') {
-                int len = strlen(_(game.control.name))
-                  + strlen(" ")
-                  + strlen(game.control.version)
-                  + strlen("\n\n")
-                  + strlen(_(game.ruleset_description))
-                  + 1;
+            {
+              int desc_len;
+              int len;
 
-                pitem->text = fc_malloc(len);
-                fc_snprintf(pitem->text, len, "%s %s\n\n%s",
-                            _(game.control.name), game.control.version,
-                            _(game.ruleset_description));
+              pitem = new_help_item(HELP_RULESET);
+              /*           pitem->topic = fc_strdup(_(game.control.name)); */
+              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                          Q_(HELP_RULESET_ITEM));
+              pitem->topic = fc_strdup(name);
+              if (game.ruleset_description != NULL) {
+                desc_len = strlen("\n\n") + strlen(game.ruleset_description);
               } else {
-                int len = strlen(_(game.control.name))
-                  + strlen("\n\n")
-                  + strlen(_(game.ruleset_description))
-                  + 1;
-
-                pitem->text = fc_malloc(len);
-                fc_snprintf(pitem->text, len, "%s\n\n%s",
-                            _(game.control.name), _(game.ruleset_description));
+                desc_len = 0;
               }
-            } else {
-              const char *nodesc = _("Current ruleset contains no description.");
+              if (game.ruleset_summary != NULL) {
+                if (game.control.version[0] != '\0') {
+                  len = strlen(_(game.control.name))
+                    + strlen(" ")
+                    + strlen(game.control.version)
+                    + strlen("\n\n")
+                    + strlen(_(game.ruleset_summary))
+                    + 1;
 
-              if (game.control.version[0] != '\0') {
-                int len = strlen(_(game.control.name))
-                  + strlen(" ")
-                  + strlen(game.control.version)
-                  + strlen("\n\n")
-                  + strlen(nodesc)
-                  + 1;
+                  pitem->text = fc_malloc(len + desc_len);
+                  fc_snprintf(pitem->text, len, "%s %s\n\n%s",
+                              _(game.control.name), game.control.version,
+                              _(game.ruleset_summary));
+                } else {
+                  len = strlen(_(game.control.name))
+                    + strlen("\n\n")
+                    + strlen(_(game.ruleset_summary))
+                    + 1;
 
-                pitem->text = fc_malloc(len);
-                fc_snprintf(pitem->text, len, "%s %s\n\n%s",
-                            _(game.control.name), game.control.version,
-                            nodesc);
+                  pitem->text = fc_malloc(len + desc_len);
+                  fc_snprintf(pitem->text, len, "%s\n\n%s",
+                              _(game.control.name), _(game.ruleset_summary));
+                }
               } else {
-                int len = strlen(_(game.control.name))
-                  + strlen("\n\n")
-                  + strlen(nodesc)
-                  + 1;
+                const char *nodesc = _("Current ruleset contains no summary.");
 
-                pitem->text = fc_malloc(len);
-                fc_snprintf(pitem->text, len, "%s\n\n%s",
-                            _(game.control.name),
-                            nodesc);
+                if (game.control.version[0] != '\0') {
+                  len = strlen(_(game.control.name))
+                    + strlen(" ")
+                    + strlen(game.control.version)
+                    + strlen("\n\n")
+                    + strlen(nodesc)
+                    + 1;
+
+                  pitem->text = fc_malloc(len + desc_len);
+                  fc_snprintf(pitem->text, len, "%s %s\n\n%s",
+                              _(game.control.name), game.control.version,
+                              nodesc);
+                } else {
+                  len = strlen(_(game.control.name))
+                    + strlen("\n\n")
+                    + strlen(nodesc)
+                    + 1;
+
+                  pitem->text = fc_malloc(len + desc_len);
+                  fc_snprintf(pitem->text, len, "%s\n\n%s",
+                              _(game.control.name),
+                              nodesc);
+                }
               }
+              if (game.ruleset_description != NULL) {
+                fc_strlcat(pitem->text, "\n\n", len + desc_len);
+                fc_strlcat(pitem->text, game.ruleset_description, len + desc_len);
+              }
+              help_list_append(help_nodes, pitem);
             }
-            help_list_append(help_nodes, pitem);
             break;
           case HELP_NATIONS:
             nations_iterate(pnation) {

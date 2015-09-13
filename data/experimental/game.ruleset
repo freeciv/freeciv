@@ -23,13 +23,16 @@ name = _("Experimental ruleset")
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
-; Description of the ruleset
-description = _("\
+; Summary of the ruleset
+summary = _("\
 You are playing with the experimental ruleset. This showcases new or \
 unusual features available in Freeciv without regard for strict game \
 balancing or playability. A description of the differences from the \
 classic ruleset can be found in README.ruleset_experimental.\
 ")
+
+; Detailed description
+; description = ""
 
 [options]
 global_init_techs=""

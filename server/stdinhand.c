@@ -1997,7 +1997,7 @@ static bool away_command(struct connection *caller, bool check)
 }
 
 /**************************************************************************
-  Show changed settings and ruleset description.
+  Show changed settings and ruleset summary.
 **************************************************************************/
 static void show_ruleset_info(struct connection *caller, enum command_id cmd,
                               bool check, int read_recursion)
@@ -2011,8 +2011,9 @@ static void show_ruleset_info(struct connection *caller, enum command_id cmd,
 
   show_settings(caller, cmd, show_arg, check);
 
-  if (game.ruleset_description != NULL) {
-    char *translated = fc_strdup(_(game.ruleset_description));
+  if (game.ruleset_summary != NULL) {
+    char *translated = fc_strdup(_(game.ruleset_summary));
+
     fc_break_lines(translated, LINE_BREAK);
     cmd_reply(cmd, caller, C_COMMENT, "%s", translated);
     cmd_reply(cmd, caller, C_COMMENT, horiz_line);
@@ -3791,7 +3792,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
        * connected clients. */
       send_rulesets(game.est_connections);
     }
-    /* show ruleset description and list changed values */
+    /* show ruleset summary and list changed values */
     show_ruleset_info(caller, CMD_RULESETDIR, check, read_recursion);
     player_info_thaw();
 
@@ -4525,7 +4526,7 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
   send_server_settings(game.est_connections);
   cmd_reply(CMD_RESET, caller, C_OK, _("Settings re-initialized."));
 
-  /* show ruleset description and list changed values */
+  /* show ruleset summary and list changed values */
   show_ruleset_info(caller, CMD_RESET, check, read_recursion);
 
   return TRUE;

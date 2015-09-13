@@ -20,10 +20,13 @@ name = _("Classic ruleset")
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
-; Description of the ruleset
-description = _("\
+; Summary of the ruleset
+summary = _("\
 You are playing with classic Freeciv rules for single player games.\
 ")
+
+; Detailed description
+; description = ""
 
 [options]
 global_init_techs=""

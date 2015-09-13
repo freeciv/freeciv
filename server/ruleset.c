@@ -3458,6 +3458,14 @@ static void send_ruleset_control(struct conn_list *dest)
   packet = game.control;
   lsend_packet_ruleset_control(dest, &packet);
 
+  if (game.ruleset_summary != NULL) {
+    struct packet_ruleset_summary summary;
+
+    strncpy(summary.text, game.ruleset_summary, MAX_LEN_CONTENT);
+
+    lsend_packet_ruleset_summary(dest, &summary);
+  }
+
   while (desc_left > 0) {
     struct packet_ruleset_description_part part;
     int this_len = desc_left;
@@ -4915,6 +4923,22 @@ static bool load_ruleset_game(struct section_file *file, bool act)
   } else {
     /* No version information */
     game.control.version[0] = '\0';
+  }
+
+  pref_text = secfile_lookup_str_default(file, "", "about.summary");
+  if (pref_text[0] != '\0') {
+    int len;
+
+    /* Ruleset/modpack summary found */
+    len = strlen(pref_text);
+    game.ruleset_summary = fc_malloc(len + 1);
+    fc_strlcpy(game.ruleset_summary, pref_text, len + 1);
+  } else {
+    /* No description */
+    if (game.ruleset_summary != NULL) {
+      free(game.ruleset_summary);
+      game.ruleset_summary = NULL;
+    }
   }
 
   pref_text = secfile_lookup_str_default(file, "", "about.description");

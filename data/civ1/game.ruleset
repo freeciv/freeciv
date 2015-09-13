@@ -20,8 +20,9 @@ name = _("Civ1 ruleset")
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
-; Description of the ruleset
-description = _("You are playing with civ1 style rules. \
+; Summary of the ruleset
+summary = _("\
+You are playing with civ1 style rules. \
 These rules are much simpler than the Freeciv default rules. \
 If you know only the default rules, spend some time checking the \
 differences.\
@@ -29,6 +30,9 @@ differences.\
  * There are fewer technologies, buildings and units.\n\
  * Units have no hitpoints. If they win a battle, they remain in full health.\n\
 ")
+
+; Detailed description
+; description = ""
 
 [options]
 global_init_techs=""

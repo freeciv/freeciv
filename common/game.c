@@ -273,6 +273,7 @@ static void game_defaults(void)
   game.control.styles_count            = 0;
   game.control.terrain_count           = 0;
 
+  game.ruleset_summary       = NULL;
   game.ruleset_description   = NULL;
 
   /* The info packet. */
@@ -601,6 +602,11 @@ void game_ruleset_free(void)
 
   for (i = 0; i < MAX_CALENDAR_FRAGMENTS; i++) {
     game.info.calendar_fragment_name[i][0] = '\0';
+  }
+
+  if (game.ruleset_summary != NULL) {
+    free(game.ruleset_summary);
+    game.ruleset_summary = NULL;
   }
 
   if (game.ruleset_description != NULL) {
