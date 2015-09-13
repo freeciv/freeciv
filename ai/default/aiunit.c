@@ -1362,7 +1362,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                            || 0 < acity_data->invasion.occupy)) {
         /* There are units able to occupy the city after all defenders
          * are killed! */
-        benefit += 60;
+        benefit += acity_data->worth * reserves / 5;
       }
 
       attack = attack_value + acity_data->attack;
