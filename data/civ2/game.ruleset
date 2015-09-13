@@ -21,9 +21,14 @@ name = _("Civ2 ruleset")
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
-; Description of the ruleset
-description = _("You are playing with civ2 style rules. These are\
- quite close to Freeciv default rules, but with some additions.")
+; Summary of the ruleset
+summary = _("\
+You are playing with civ2 style rules. These are\
+ quite close to Freeciv default rules, but with some additions.\
+")
+
+; Detailed description
+; description = ""
 
 [options]
 global_init_techs=""

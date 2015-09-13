@@ -21,14 +21,17 @@ name = _("Multiplayer ruleset")
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
-; Description of the ruleset
-description = _("\
+; Summary of the ruleset
+summary = _("\
 You are playing Freeciv with rules designed for multiplayer gaming. \
 The biggest differences from the classic ruleset are that trade routes \
 are disabled, and that most wonders can be built once by each player, \
 and affect only cities on the same continent. A full description of \
 the differences can be found in README.ruleset_multiplayer.\
 ")
+
+; Detailed description
+; description = ""
 
 [options]
 global_init_techs=""

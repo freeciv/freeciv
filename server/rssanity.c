@@ -32,6 +32,22 @@
 #include "rssanity.h"
 
 /**************************************************************************
+  Is non-rule data in ruleset sane?
+**************************************************************************/
+static bool sanity_check_metadata(void)
+{
+  if (game.ruleset_summary != NULL &&
+      strlen(game.ruleset_summary) > MAX_LEN_CONTENT) {
+    log_error("Too long ruleset summary. It can be only %d bytes long. "
+              "Put longer explanations to ruleset description.",
+              MAX_LEN_CONTENT);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Does nation have tech initially?
 **************************************************************************/
 static bool nation_has_initial_tech(struct nation_type *pnation,
@@ -536,6 +552,10 @@ bool sanity_check_ruleset_data(void)
   bool ok = TRUE; /* Store failures to variable instead of returning
                    * immediately so all errors get printed, not just first
                    * one. */
+
+  if (!sanity_check_metadata()) {
+    ok = FALSE;
+  }
 
   if (game.info.tech_cost_style == TECH_COST_CIV1CIV2
       && game.info.free_tech_method == FTM_CHEAPEST) {

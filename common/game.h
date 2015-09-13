@@ -79,6 +79,7 @@ struct user_flag
 
 struct civ_game {
   struct packet_ruleset_control control;
+  char *ruleset_summary;
   char *ruleset_description;
   struct packet_scenario_info scenario;
   struct packet_game_info info;
