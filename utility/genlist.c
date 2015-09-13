@@ -32,18 +32,6 @@ struct genlist_link {
   void *dataptr;
 };
 
-/* A genlist, storing the number of elements (for quick retrieval and
- * testing for empty lists), and pointers to the first and last elements
- * of the list. */
-struct genlist {
-  int nelements;
-  fc_mutex mutex;
-  struct genlist_link *head_link;
-  struct genlist_link *tail_link;
-  genlist_free_fn_t free_data_func;
-};
-
-
 /****************************************************************************
   Create a new empty genlist.
 ****************************************************************************/
@@ -223,14 +211,6 @@ struct genlist_link *genlist_link(const struct genlist *pgenlist, int idx)
 {
   fc_assert_ret_val(NULL != pgenlist, NULL);
   return genlist_link_at_pos(pgenlist, idx);
-}
-
-/****************************************************************************
-  Returns the head link of the genlist.
-****************************************************************************/
-struct genlist_link *genlist_head(const struct genlist *pgenlist)
-{
-  return (NULL != pgenlist ? pgenlist->head_link : NULL);
 }
 
 /****************************************************************************
