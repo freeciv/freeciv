@@ -580,7 +580,7 @@ PACKET_CHAT_MSG = 25; sc, lsend
 end
 
 PACKET_CHAT_MSG_REQ = 26; cs, handle-per-conn, dsend
-  STRING message[MAX_LEN_MSG];
+  ESTRING message[MAX_LEN_MSG];
 end
 
 # Used in initial protocol.
