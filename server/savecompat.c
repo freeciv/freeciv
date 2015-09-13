@@ -526,7 +526,6 @@ static void compat_load_020500(struct loaddata *loading)
         if (!name) {
           continue;
         }
-
         /* In 2.4.x and prior, "killcitizen" listed move types that
          * killed citizens after succesfull attack. Now killcitizen
          * is just boolean and classes affected are defined in ruleset. */
@@ -815,11 +814,11 @@ static void compat_load_020600(struct loaddata *loading)
     /* Add 'anonymous' qualifiers for user names */
     name = secfile_lookup_str_default(loading->file, "", "player%d.username", plrno);
     secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
-                        "player%d.anon_user", plrno);
+                        "player%d.unassigned_user", plrno);
 
     name = secfile_lookup_str_default(loading->file, "", "player%d.ranked_username", plrno);
     secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
-                        "player%d.anon_ranked", plrno);
+                        "player%d.unassigned_ranked", plrno);
 
     /* Convert numeric barbarian type to textual */
     old_barb_type = secfile_lookup_int_default(loading->file, 0,
@@ -1062,20 +1061,20 @@ static void compat_load_dev(struct loaddata *loading)
 
   for (plrno = 0; plrno < nplayers; plrno++) {
     /* Add 'anonymous' qualifiers for user names */
-    if (secfile_entry_lookup(loading->file, "player%d.anon_user", plrno) == NULL) {
+    if (secfile_entry_lookup(loading->file, "player%d.unassigned_user", plrno) == NULL) {
       const char *name;
 
       name = secfile_lookup_str_default(loading->file, "", "player%d.username", plrno);
       secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
-                          "player%d.anon_user", plrno);
+                          "player%d.unassigned_user", plrno);
     }
 
-    if (secfile_entry_lookup(loading->file, "player%d.anon_ranked", plrno) == NULL) {
+    if (secfile_entry_lookup(loading->file, "player%d.unassigned_ranked", plrno) == NULL) {
       const char *name;
 
       name = secfile_lookup_str_default(loading->file, "", "player%d.ranked_username", plrno);
       secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
-                          "player%d.anon_ranked", plrno);
+                          "player%d.unassigned_ranked", plrno);
     }
   }
 }
