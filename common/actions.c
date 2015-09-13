@@ -529,6 +529,51 @@ action_enablers_for_action(enum gen_action action)
 }
 
 /**************************************************************************
+  Returns the local building type of a city target.
+
+  target_city can't be NULL
+**************************************************************************/
+static struct impr_type *
+tgt_city_local_building(const struct city *target_city)
+{
+  /* Only used with city targets */
+  fc_assert_ret_val(target_city, NULL);
+
+  if (target_city->production.kind == VUT_IMPROVEMENT) {
+    /* The local building is what the target city currently is building. */
+    return target_city->production.value.building;
+  } else {
+    /* In the current semantic the local building is always the building
+     * being built. */
+    /* TODO: Consider making the local building the target building for
+     * actions that allows specifying a building target. */
+    return NULL;
+  }
+}
+
+/**************************************************************************
+  Returns the local unit type of a city target.
+
+  target_city can't be NULL
+**************************************************************************/
+static struct unit_type *
+tgt_city_local_utype(const struct city *target_city)
+{
+  /* Only used with city targets */
+  fc_assert_ret_val(target_city, NULL);
+
+  if (target_city->production.kind == VUT_UTYPE) {
+    /* The local unit type is what the target city currently is
+     * building. */
+    return target_city->production.value.utype;
+  } else {
+    /* In the current semantic the local utype is always the type of the
+     * unit being built. */
+    return NULL;
+  }
+}
+
+/**************************************************************************
   Returns TRUE iff trade route establishing is forced and possible.
 **************************************************************************/
 static bool trade_route_blocks(const struct unit *actor_unit,
@@ -1034,6 +1079,9 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city)
 {
+  struct impr_type *target_building;
+  struct unit_type *target_utype;
+
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -1053,13 +1101,17 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                           action_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_CITY));
 
+  target_building = tgt_city_local_building(target_city);
+  target_utype = tgt_city_local_utype(target_city);
+
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit),
                            actor_unit, unit_type(actor_unit),
                            NULL, NULL,
-                           city_owner(target_city), target_city, NULL,
-                           city_tile(target_city), NULL, NULL, NULL, NULL);
+                           city_owner(target_city), target_city,
+                           target_building, city_tile(target_city),
+                           NULL, target_utype, NULL, NULL);
 }
 
 /**************************************************************************
@@ -1440,6 +1492,7 @@ action_prob(const enum gen_action wanted_action,
             const struct impr_type *actor_building,
             const struct tile *actor_tile,
             const struct unit *actor_unit,
+            const struct unit_type *actor_unittype_p,
             const struct output_type *actor_output,
             const struct specialist *actor_specialist,
             const struct player *target_player,
@@ -1447,6 +1500,7 @@ action_prob(const enum gen_action wanted_action,
             const struct impr_type *target_building,
             const struct tile *target_tile,
             const struct unit *target_unit,
+            const struct unit_type *target_unittype_p,
             const struct output_type *target_output,
             const struct specialist *target_specialist)
 {
@@ -1456,16 +1510,16 @@ action_prob(const enum gen_action wanted_action,
   const struct unit_type *actor_unittype;
   const struct unit_type *target_unittype;
 
-  if (actor_unit == NULL) {
-    actor_unittype = NULL;
-  } else {
+  if (actor_unittype_p == NULL && actor_unit != NULL) {
     actor_unittype = unit_type(actor_unit);
+  } else {
+    actor_unittype = actor_unittype_p;
   }
 
-  if (target_unit == NULL) {
-    target_unittype = NULL;
-  } else {
+  if (target_unittype_p == NULL && target_unit != NULL) {
     target_unittype = unit_type(target_unit);
+  } else {
+    target_unittype = target_unittype_p;
   }
 
   if (!is_action_possible(wanted_action,
@@ -1613,6 +1667,9 @@ action_probability action_prob_vs_city(const struct unit* actor_unit,
                                        const int action_id,
                                        const struct city* target_city)
 {
+  struct impr_type *target_building;
+  struct unit_type *target_utype;
+
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
     return ACTPROB_IMPOSSIBLE;
@@ -1632,12 +1689,16 @@ action_probability action_prob_vs_city(const struct unit* actor_unit,
                           action_get_target_kind(action_id)),
                         action_target_kind_name(ATK_CITY));
 
+  target_building = tgt_city_local_building(target_city);
+  target_utype = tgt_city_local_utype(target_city);
+
   return action_prob(action_id,
                      unit_owner(actor_unit), NULL, NULL,
-                     unit_tile(actor_unit), actor_unit,
+                     unit_tile(actor_unit), actor_unit, NULL,
                      NULL, NULL,
-                     city_owner(target_city), target_city, NULL,
-                     city_tile(target_city), NULL, NULL, NULL);
+                     city_owner(target_city), target_city,
+                     target_building, city_tile(target_city),
+                     NULL, target_utype, NULL, NULL);
 }
 
 /**************************************************************************
@@ -1669,12 +1730,12 @@ action_probability action_prob_vs_unit(const struct unit* actor_unit,
 
   return action_prob(action_id,
                      unit_owner(actor_unit), NULL, NULL,
-                     unit_tile(actor_unit), actor_unit,
+                     unit_tile(actor_unit), actor_unit, NULL,
                      NULL, NULL,
                      unit_owner(target_unit),
                      tile_city(unit_tile(target_unit)), NULL,
                      unit_tile(target_unit),
-                     target_unit, NULL, NULL);
+                     target_unit, NULL, NULL, NULL);
 }
 
 /**************************************************************************
@@ -1712,12 +1773,12 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
     int prob_unit = action_prob(action_id,
                                 unit_owner(actor_unit), NULL, NULL,
                                 unit_tile(actor_unit),
-                                actor_unit,
+                                actor_unit, NULL,
                                 NULL, NULL,
                                 unit_owner(target_unit),
                                 tile_city(unit_tile(target_unit)), NULL,
                                 unit_tile(target_unit),
-                                target_unit,
+                                target_unit, NULL,
                                 NULL, NULL);
 
     switch (prob_unit) {
@@ -1784,10 +1845,10 @@ action_probability action_prob_vs_tile(const struct unit* actor_unit,
   return action_prob(action_id,
                      unit_owner(actor_unit), NULL, NULL,
                      unit_tile(actor_unit),
-                     actor_unit,
+                     actor_unit, NULL,
                      NULL, NULL,
                      tile_owner(target_tile), NULL, NULL,
-                     target_tile, NULL, NULL, NULL);
+                     target_tile, NULL, NULL, NULL, NULL);
 }
 
 /**************************************************************************
