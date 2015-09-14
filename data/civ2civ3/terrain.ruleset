@@ -1615,7 +1615,7 @@ flags          = "DiplomatDefense"
 extra          = "Fortress"
 gui_type       = "Fortress"
 border_sq      = -1
-flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
+flags          = "NoAggressive", "DiplomatDefense"
 
 [base_airstrip]
 extra          = "Airstrip"
@@ -1627,7 +1627,7 @@ flags          = "ParadropFrom"
 extra          = "Airbase"
 gui_type       = "Airbase"
 border_sq      = -1
-flags          = "NoAggressive", "NoStackDeath", "ParadropFrom"
+flags          = "NoAggressive", "ParadropFrom"
 
 [base_buoy]
 extra          = "Buoy"
