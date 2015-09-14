@@ -122,7 +122,7 @@ static struct astring realfile = ASTRING_INIT;
 static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
                                    const struct fileinfo *const *ppb);
 
-static char *expand_dir(char *tok_in);
+static char *expand_dir(char *tok_in, bool ok_to_free);
 
 /***************************************************************
   Take a string containing multiple lines and create a copy where
@@ -819,7 +819,7 @@ char *freeciv_home_dir(void)
 
     strcpy(home_dir_freeciv, FREECIV_HOME_DIR);
 
-    home_dir_freeciv = expand_dir(home_dir_freeciv);
+    home_dir_freeciv = expand_dir(home_dir_freeciv, TRUE);
   }
 
   return home_dir_freeciv;
@@ -912,9 +912,11 @@ char *user_username(char *buf, size_t bufsz)
   should free() the returned string eventually. Also, tok_in should be
   something expand_dir() can free itself if it decides to return newly
   created string (so caller can always free() just the returned string, not
-  to care if it's same as tok_in or not)
+  to care if it's same as tok_in or not). If ok_to_free is FALSE,
+  expand_dir() never frees original but can still return either it or a
+  newly allocated string.
 ***************************************************************************/
-static char *expand_dir(char *tok_in)
+static char *expand_dir(char *tok_in, bool ok_to_free)
 {
   int i; /* strlen(tok), or -1 as flag */
   char *tok;
@@ -941,8 +943,9 @@ static char *expand_dir(char *tok_in)
         i = 0;
       } else {
         int len = strlen(home) + i;   /* +1 -1 */
+
         allocated = fc_malloc(len);
-        *ret = allocated;
+        ret = &allocated;
 
         fc_snprintf(allocated, len, "%s%s", home, tok + 1);
         i = -1;       /* flag to free tok below */
@@ -953,7 +956,7 @@ static char *expand_dir(char *tok_in)
   if (i != 0) {
     /* We could check whether the directory exists and
      * is readable etc?  Don't currently. */
-    if (i == -1) {
+    if (i == -1 && ok_to_free) {
       free(tok);
       tok = NULL;
     }
@@ -975,10 +978,13 @@ static struct strvec *base_get_dirs(const char *dir_list)
   path = fc_strdup(dir_list);   /* something we can strtok */
   tok = strtok(path, PATH_SEPARATOR);
   do {
-    char *dir = expand_dir(tok);
+    char *dir = expand_dir(tok, FALSE);
 
     if (dir != NULL) {
       strvec_append(dirs, dir);
+      if (dir != tok) {
+        free(dir);
+      }
     }
 
     tok = strtok(NULL, PATH_SEPARATOR);
