@@ -366,6 +366,14 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
+  if (req->source.kind == VUT_IMPR_GENUS) {
+    /* The only legal range when this was written was local. */
+    fc_assert(req->range == REQ_RANGE_LOCAL);
+
+    /* Local BuildingGenus could be about city production. */
+    return can_player_see_city_internals(pow_player, target_city);
+  }
+
   if (req->source.kind == VUT_IMPROVEMENT) {
     switch (req->range) {
     case REQ_RANGE_WORLD:
