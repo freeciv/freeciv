@@ -87,7 +87,8 @@ CORE CHANGES:
 
 - Added Fort and Airstrip bases, required before you can build Fortress
   or Airbase, respectively. It prevents the construction of full bases
-  in one single turn.
+  in one single turn. The bases no longer protect full stacks from being
+  killed when one unit is defeated.
 
 - Specialists output reduced to 2 (same as civ2). There are wonders that
   increase it to 3 for all players.
@@ -878,10 +879,9 @@ Changes:
   Irrigation and Mine were present at same time (no longer possible).
 - Reduced by one the gold upkeep of Aqueduct, Bank, Stock Exchange, Port
   Facility and SDI Defense.
-- Added Fort and Airstrip bases, as pre-requisite for Fortress and
-  Airbase, in order to prevent the construction of full bases in one
-  single turn. Airbases and Fortresses can be built on river tiles
-  again.
+- Added Fort and Airstrip bases, required before you can build Fortress
+  or Airbase, respectively. The bases no longer protect full stacks from
+  being killed when one unit is defeated.
 - Introduced Maglev, available with Superconductors, that allows
   unlimited movement for Land units (except Big Land and Merchant
   classes).
