@@ -500,6 +500,8 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE5NAME "sdl2"
 #define SPECENUM_VALUE6 GUI_WEB
 #define SPECENUM_VALUE6NAME "web"
+#define SPECENUM_VALUE7 GUI_GTK3x
+#define SPECENUM_VALUE7NAME "gtk3x"
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */

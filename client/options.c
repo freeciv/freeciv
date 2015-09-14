@@ -245,6 +245,9 @@ struct client_options options = {
   .gui_gtk3_font_city_productions = "Serif 10",
   .gui_gtk3_font_reqtree_text = "Serif 10",
 
+/* gui-gtk-3.x client specific options. */
+  .gui_gtk3x_default_theme_name = FC_GTK3x_DEFAULT_THEME_NAME,
+
 /* gui-sdl client specific options. */
   .gui_sdl_default_theme_name = FC_SDL_DEFAULT_THEME_NAME,
   .gui_sdl_fullscreen = FALSE,
