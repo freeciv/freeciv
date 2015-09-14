@@ -93,10 +93,10 @@ files =
 match_types = "desert", "forest", "grassland", "hills", "jungle", "mountains", "water", "plains", "swamp", "tundra"
 
 [layer1]
-match_types = "water", "arctic"
+match_types = "water", "land"
 
 [layer2]
-match_types = "water"
+match_types = "water", "arctic"
 
 ; Water graphics referenced by terrain.ruleset
 ;
@@ -105,11 +105,11 @@ blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
 layer0_match_with = "water"
+layer0_sprite_type = "corner"
 layer1_match_type = "water"
 layer1_match_with = "water"
 layer2_match_type = "water"
 layer2_match_with = "water"
-layer2_sprite_type = "corner"
 mine_sprite = "tx.oil_mine"
 
 [tile_floor]
@@ -117,11 +117,11 @@ blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
 layer0_match_with = "water"
+layer0_sprite_type = "corner"
 layer1_match_type = "water"
 layer1_match_with = "water"
 layer2_match_type = "water"
 layer2_match_with = "water"
-layer2_sprite_type = "corner"
 mine_sprite = "tx.oil_mine"
 
 [tile_lake]
@@ -129,11 +129,11 @@ blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
 layer0_match_with = "water"
+layer0_sprite_type = "corner"
 layer1_match_type = "water"
 layer1_match_with = "water"
 layer2_match_type = "water"
 layer2_match_with = "water"
-layer2_sprite_type = "corner"
 mine_sprite = "tx.oil_mine"
 
 [tile_inaccessible]
@@ -141,92 +141,103 @@ blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
 layer0_match_with = "water"
+layer0_sprite_type = "corner"
 layer1_match_type = "water"
 layer1_match_with = "water"
 layer2_match_type = "water"
 layer2_match_with = "water"
-layer2_sprite_type = "corner"
 mine_sprite = "tx.oil_mine"
 
 ; Land graphics referenced by terrain.ruleset
 ;
 [tile_arctic]
 blend_layer = 0
-num_layers = 2
-layer0_match_type = "water"
-layer0_match_with = "water"
-layer1_match_type = "arctic"
+num_layers = 3
+layer0_match_type = "tundra"
+layer0_match_with = "tundra"
+layer1_match_type = "water"
+layer1_match_with = "water"
+layer2_match_type = "arctic"
 mine_sprite = "tx.oil_mine"
 
 [tile_desert]
 blend_layer = 0
-num_layers = 2
+num_layers = 3
 layer0_match_type = "desert"
 layer0_match_with = "desert"
-layer1_match_type = "water"
+layer1_match_type = "land"
+layer2_match_type = "water"
 mine_sprite = "tx.oil_mine"
 
 [tile_forest]
 blend_layer = 0
-num_layers = 2
+num_layers = 3
 layer0_match_type = "forest"
 layer0_match_with = "forest"
-layer1_match_type = "water"
+layer1_match_type = "land"
+layer2_match_type = "water"
 mine_sprite = "tx.mine"
 
 [tile_grassland]
 blend_layer = 0
-num_layers = 2
+num_layers = 3
 layer0_match_type = "grassland"
-layer1_match_type = "water"
+layer1_match_type = "land"
+layer2_match_type = "water"
 mine_sprite = "tx.mine"
 
 [tile_hills]
 blend_layer = 0
-num_layers = 2
+num_layers = 3
 layer0_match_type = "hills"
 layer0_match_with = "hills"
-layer1_match_type = "water"
+layer1_match_type = "land"
+layer2_match_type = "water"
 mine_sprite = "tx.mine"
 
 [tile_jungle]
 blend_layer = 0
-num_layers = 2
+num_layers = 3
 layer0_match_type = "jungle"
 layer0_match_with = "jungle"
-layer1_match_type = "water"
+layer1_match_type = "land"
+layer2_match_type = "water"
 mine_sprite = "tx.mine"
 
 [tile_mountains]
 blend_layer = 0
-num_layers = 2
+num_layers = 3
 layer0_match_type = "mountains"
 layer0_match_with = "mountains"
-layer1_match_type = "water"
+layer1_match_type = "land"
+layer2_match_type = "water"
 mine_sprite = "tx.mine"
 
 [tile_plains]
 blend_layer = 0
-num_layers = 2
+num_layers = 3
 layer0_match_type = "plains"
 layer0_match_with = "plains"
-layer1_match_type = "water"
+layer1_match_type = "land"
+layer2_match_type = "water"
 mine_sprite = "tx.mine"
 
 [tile_swamp]
 blend_layer = 0
-num_layers = 2
+num_layers = 3
 layer0_match_type = "swamp"
 layer0_match_with = "swamp"
-layer1_match_type = "water"
+layer1_match_type = "land"
+layer2_match_type = "water"
 mine_sprite = "tx.mine"
 
 [tile_tundra]
 blend_layer = 0
-num_layers = 2
+num_layers = 3
 layer0_match_type = "tundra"
 layer0_match_with = "tundra"
-layer1_match_type = "water"
+layer1_match_type = "land"
+layer2_match_type = "water"
 mine_sprite = "tx.oil_mine"
 
 [roads]
