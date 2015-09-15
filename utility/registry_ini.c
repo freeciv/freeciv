@@ -595,6 +595,14 @@ struct section_file *secfile_from_stream(fz_FILE *stream,
 }
 
 /**************************************************************************
+  Returns TRUE iff the character is legal in a table entry name.
+**************************************************************************/
+static bool is_legal_table_entry_name(char c, bool num)
+{
+  return (num ? fc_isalnum(c) : fc_isalpha(c)) || c == '_';
+}
+
+/**************************************************************************
   Save the previously filled in section_file to disk.
 
   There is now limited ability to save in the new tabular format
@@ -684,17 +692,17 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
 
           sz_strlcpy(pentry_name, entry_name(pentry));
           c = first = pentry_name;
-          if (*c == '\0' || !fc_isalpha(*c)) {
+          if (*c == '\0' || !is_legal_table_entry_name(*c, FALSE)) {
             break;
           }
-          for (; *c != '\0' && fc_isalpha(*c); c++) {
+          for (; *c != '\0' && is_legal_table_entry_name(*c, FALSE); c++) {
             /* nothing */
           }
           if (0 != strncmp(c, "0.", 2)) {
             break;
           }
           c += 2;
-          if (*c == '\0' || !fc_isalnum(*c)) {
+          if (*c == '\0' || !is_legal_table_entry_name(*c, TRUE)) {
             break;
           }
 
