@@ -116,6 +116,7 @@
 #include "meta.h"
 #include "notify.h"
 #include "plrhand.h"
+#include "report.h"
 #include "ruleset.h"
 #include "sanitycheck.h"
 #include "savecompat.h"
@@ -406,6 +407,9 @@ static void sg_save_event_cache(struct savedata *saving);
 static void sg_load_treaties(struct loaddata *loading);
 static void sg_save_treaties(struct savedata *saving);
 
+static void sg_load_history(struct loaddata *loading);
+static void sg_save_history(struct savedata *saving);
+
 static void sg_load_mapimg(struct loaddata *loading);
 static void sg_save_mapimg(struct savedata *saving);
 
@@ -524,6 +528,8 @@ static void savegame3_load_real(struct section_file *file)
   sg_load_event_cache(loading);
   /* [treaties] */
   sg_load_treaties(loading);
+  /* [history] */
+  sg_load_history(loading);
   /* [mapimg] */
   sg_load_mapimg(loading);
 
@@ -580,6 +586,8 @@ static void savegame3_save_real(struct section_file *file,
   sg_save_event_cache(saving);
   /* [treaty<i>] */
   sg_save_treaties(saving);
+  /* [history] */
+  sg_save_history(saving);
   /* [mapimg] */
   sg_save_mapimg(saving);
 
@@ -6323,6 +6331,48 @@ static void sg_save_treaties(struct savedata *saving)
       secfile_insert_int(saving->file, pclaus->value, "%s.value", cpath);
     } clause_list_iterate_end;
   } treaty_list_iterate_end;
+}
+
+/* =======================================================================
+ * Load / save the history report
+ * ======================================================================= */
+
+/****************************************************************************
+  Load '[history]'.
+****************************************************************************/
+static void sg_load_history(struct loaddata *loading)
+{
+  struct history_report *hist = history_report_get();
+  int turn;
+
+  turn = secfile_lookup_int_default(loading->file, -2, "history.turn");
+
+  if (turn + 1 >= game.info.turn) {
+    const char *str;
+
+    hist->turn = turn;
+    str = secfile_lookup_str(loading->file, "history.title");
+    sg_failure_ret(str != NULL, "%s", secfile_error());
+    strncpy(hist->title, str, REPORT_TITLESIZE);
+    str = secfile_lookup_str(loading->file, "history.body");
+    sg_failure_ret(str != NULL, "%s", secfile_error());
+    strncpy(hist->body, str, REPORT_BODYSIZE);
+  }
+}
+
+/****************************************************************************
+  Save '[history]'.
+****************************************************************************/
+static void sg_save_history(struct savedata *saving)
+{
+  struct history_report *hist = history_report_get();
+
+  secfile_insert_int(saving->file, hist->turn, "history.turn");
+
+  if (hist->turn + 1 >= game.info.turn) {
+    secfile_insert_str(saving->file, hist->title, "history.title");
+    secfile_insert_str(saving->file, hist->body, "history.body");
+  }
 }
 
 /* =======================================================================

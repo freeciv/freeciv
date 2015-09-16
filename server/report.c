@@ -1681,3 +1681,11 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
     len -= plen;
   }
 }
+
+/**************************************************************************
+  Return current history report
+**************************************************************************/
+struct history_report *history_report_get(void)
+{
+  return &latest_history_report;
+}

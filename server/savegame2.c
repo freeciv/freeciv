@@ -111,6 +111,7 @@
 #include "meta.h"
 #include "notify.h"
 #include "plrhand.h"
+#include "report.h"
 #include "ruleset.h"
 #include "sanitycheck.h"
 #include "savecompat.h"
@@ -370,6 +371,8 @@ static void sg_load_event_cache(struct loaddata *loading);
 
 static void sg_load_treaties(struct loaddata *loading);
 
+static void sg_load_history(struct loaddata *loading);
+
 static void sg_load_mapimg(struct loaddata *loading);
 
 static void sg_load_sanitycheck(struct loaddata *loading);
@@ -452,6 +455,8 @@ static void savegame2_load_real(struct section_file *file)
   sg_load_event_cache(loading);
   /* [treaties] */
   sg_load_treaties(loading);
+  /* [history] */
+  sg_load_history(loading);
   /* [mapimg] */
   sg_load_mapimg(loading);
 
@@ -4633,6 +4638,37 @@ static void sg_load_treaties(struct loaddata *loading)
                                                        "treaty%d.accept1", tidx);
       }
     }
+  }
+}
+
+/* =======================================================================
+ * Load the history report
+ * ======================================================================= */
+
+/****************************************************************************
+  Load '[history]'.
+****************************************************************************/
+
+/****************************************************************************
+  Load '[history]'.
+****************************************************************************/
+static void sg_load_history(struct loaddata *loading)
+{
+  struct history_report *hist = history_report_get();
+  int turn;
+
+  turn = secfile_lookup_int_default(loading->file, -2, "history.turn");
+
+  if (turn + 1 >= game.info.turn) {
+    const char *str;
+
+    hist->turn = turn;
+    str = secfile_lookup_str(loading->file, "history.title");
+    sg_failure_ret(str != NULL, "%s", secfile_error());
+    strncpy(hist->title, str, REPORT_TITLESIZE);
+    str = secfile_lookup_str(loading->file, "history.body");
+    sg_failure_ret(str != NULL, "%s", secfile_error());
+    strncpy(hist->body, str, REPORT_BODYSIZE);
   }
 }
 
