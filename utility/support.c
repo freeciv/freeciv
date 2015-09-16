@@ -111,6 +111,7 @@
 static int cmp_buffer_uchars = 0;
 static UChar *cmp_buffer0 = NULL;
 static UChar *cmp_buffer1 = NULL;
+fc_mutex cmp_buffer_mutex;
 
 /***************************************************************
   Initial allocation of string comparison buffers.
@@ -143,9 +144,20 @@ static void cmp_buffers_increase(void)
 }
 
 /***************************************************************
-  Free string comparison buffers.
+  Initialize string handling API
 ***************************************************************/
-void cmp_buffers_free(void)
+void fc_strAPI_init(void)
+{
+  if (cmp_buffer_uchars == 0) {
+    fc_init_mutex(&cmp_buffer_mutex);
+    cmp_buffers_initial();
+  }
+}
+
+/***************************************************************
+  Free string handling API resources
+***************************************************************/
+void fc_strAPI_free(void)
 {
   if (cmp_buffer0 != NULL) {
     free(cmp_buffer0);
@@ -154,6 +166,7 @@ void cmp_buffers_free(void)
     cmp_buffer1 = NULL;
     cmp_buffer_uchars = 0;
   }
+  fc_destroy_mutex(&cmp_buffer_mutex);
 }
 
 /***************************************************************
@@ -165,6 +178,7 @@ int fc_strcasecmp(const char *str0, const char *str1)
   int len0;
   int len1;
   bool enough_mem = FALSE;
+  int ret;
 
   if (str0 == NULL) {
     return -1;
@@ -173,7 +187,11 @@ int fc_strcasecmp(const char *str0, const char *str1)
     return 1;
   }
 
-  cmp_buffers_initial();
+  if (cmp_buffer_uchars == 0) {
+    fc_strAPI_init();
+  }
+
+  fc_allocate_mutex(&cmp_buffer_mutex);
 
   while (!enough_mem) {
     UErrorCode err_code0 = U_ZERO_ERROR;
@@ -191,8 +209,12 @@ int fc_strcasecmp(const char *str0, const char *str1)
     }
   }
 
-  return u_strCaseCompare(cmp_buffer0, -1, cmp_buffer1, -1,
-                          0, &err_code);
+  ret = u_strCaseCompare(cmp_buffer0, -1, cmp_buffer1, -1,
+                         0, &err_code);
+
+  fc_release_mutex(&cmp_buffer_mutex);
+
+  return ret;
 }
 
 /***************************************************************
@@ -205,6 +227,7 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
   int len0;
   int len1;
   bool enough_mem = FALSE;
+  int ret;
 
   if (str0 == NULL) {
     return -1;
@@ -213,7 +236,11 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
     return 1;
   }
 
-  cmp_buffers_initial();
+  if (cmp_buffer_uchars == 0) {
+    fc_strAPI_init();
+  }
+
+  fc_allocate_mutex(&cmp_buffer_mutex);
 
   while (!enough_mem) {
     UErrorCode err_code0 = U_ZERO_ERROR;
@@ -238,8 +265,12 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
     len1 = n;
   }
 
-  return u_strCaseCompare(cmp_buffer0, len0, cmp_buffer1, len1,
-                          0, &err_code);
+  ret = u_strCaseCompare(cmp_buffer0, len0, cmp_buffer1, len1,
+                         0, &err_code);
+
+  fc_release_mutex(&cmp_buffer_mutex);
+
+  return ret;
 }
 
 /***************************************************************
