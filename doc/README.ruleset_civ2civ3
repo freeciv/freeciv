@@ -536,8 +536,9 @@ BUILDINGS:
   without farmlands (the classic effect was overpowered under
   Democracy/Republic).
 
-- Space Components and Modules require Library, University, Research Lab
-  and Factory present in the city.
+- Doubled costs of all Spaceship parts. All them require Library,
+  University, Research Lab and Factory present in the city in order to
+  be built. 
 
 - Reduced by one the gold upkeep of Aqueduct, Colosseum (renamed to
   Amphitheatre), University, Bank, Stock Exchange, Port Facility,
@@ -897,6 +898,8 @@ Changes:
   and increases the effect of martial law to 2.
 - Construction requires Iron Working instead of Currency. This way,
   Iron Working is a prerequisite to build Frigates and Ironclads.
+- Doubled costs of all spaceship parts, so it is harder to achieve a
+  space victory.
 
 Terrain:
 - Readjusted terrain transformations. Designed so all useful alterations
