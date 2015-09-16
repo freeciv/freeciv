@@ -191,36 +191,18 @@ bool unit_has_orders(const struct unit *punit)
 }
 
 /**************************************************************************
-  Return TRUE iff this unit can be disbanded at the given city to get full
-  shields for building a wonder.
-**************************************************************************/
-bool unit_can_help_build_wonder(const struct unit *punit,
-				const struct city *pcity)
-{
-  if (!is_tiles_adjacent(unit_tile(punit), pcity->tile)
-      && !same_pos(unit_tile(punit), pcity->tile)) {
-    return FALSE;
-  }
-
-  return (utype_can_do_action(unit_type(punit), ACTION_HELP_WONDER)
-	  && VUT_IMPROVEMENT == pcity->production.kind
-	  && is_wonder(pcity->production.value.building)
-	  && (pcity->shield_stock
-	      < impr_build_shield_cost(pcity->production.value.building)));
-}
-
-
-/**************************************************************************
-  Return TRUE iff this unit can be disbanded at its current position to
-  get full shields for building a wonder.
+  Return TRUE unless it is known to be imposible to disband this unit at
+  its current position to get full shields for building a wonder.
 **************************************************************************/
 bool unit_can_help_build_wonder_here(const struct unit *punit)
 {
   struct city *pcity = tile_city(unit_tile(punit));
 
-  return pcity && unit_can_help_build_wonder(punit, pcity);
+  return (pcity
+          && action_prob_possible(action_prob_vs_city(punit,
+                                                      ACTION_HELP_WONDER,
+                                                      pcity)));
 }
-
 
 /**************************************************************************
   Return TRUE iff this unit can be disbanded at its current location to
