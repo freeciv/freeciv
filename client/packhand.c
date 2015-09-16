@@ -3028,7 +3028,7 @@ void handle_ruleset_summary(const struct packet_ruleset_summary *packet)
 
   game.ruleset_summary = fc_malloc(len + 1);
 
-  fc_strlcat(game.ruleset_summary, packet->text, len);
+  fc_strlcpy(game.ruleset_summary, packet->text, len);
 }
 
 /****************************************************************************
