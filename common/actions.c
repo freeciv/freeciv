@@ -685,39 +685,44 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
 }
 
 /**************************************************************************
-  Returns TRUE if the wanted action is possible given that an action
-  enabler later will enable it.
+  Returns if the wanted action is possible given that an action enabler
+  later will enable it.
 
-  This is done by checking the action's hard requirements. Hard requirements
-  must be TRUE before an action can be done. The reason why is usually that
-  code dealing with the action assumes that the requirements are true. A
-  requirement may also end up here if it can't be expressed in a requirment
-  vector or if its abstence makes the action pointless.
+  Can return maybe when not omniscient. Should always return yes or no when
+  omniscient.
+
+  This is done by checking the action's hard requirements. Hard
+  requirements must be fulfilled before an action can be done. The reason
+  why is usually that code dealing with the action assumes that the
+  requirements are true. A requirement may also end up here if it can't be
+  expressed in a requirement vector or if its absence makes the action
+  pointless.
 
   When adding a new hard requirement here:
    * explain why it is a hard requirment in a comment.
    * remember that this is called from action_prob(). Should information
      the player don't have access to be used in a test it must check if
-     this evaluation is omniscient.
+     the evaluation can see the thing being tested.
 **************************************************************************/
-static bool is_action_possible(const enum gen_action wanted_action,
-			       const struct player *actor_player,
-			       const struct city *actor_city,
-			       const struct impr_type *actor_building,
-			       const struct tile *actor_tile,
-			       const struct unit *actor_unit,
-			       const struct unit_type *actor_unittype,
-			       const struct output_type *actor_output,
-			       const struct specialist *actor_specialist,
-			       const struct player *target_player,
-			       const struct city *target_city,
-			       const struct impr_type *target_building,
-			       const struct tile *target_tile,
-			       const struct unit *target_unit,
-			       const struct unit_type *target_unittype,
-			       const struct output_type *target_output,
-                               const struct specialist *target_specialist,
-                               const bool omniscient)
+static enum fc_tristate
+is_action_possible(const enum gen_action wanted_action,
+                   const struct player *actor_player,
+                   const struct city *actor_city,
+                   const struct impr_type *actor_building,
+                   const struct tile *actor_tile,
+                   const struct unit *actor_unit,
+                   const struct unit_type *actor_unittype,
+                   const struct output_type *actor_output,
+                   const struct specialist *actor_specialist,
+                   const struct player *target_player,
+                   const struct city *target_city,
+                   const struct impr_type *target_building,
+                   const struct tile *target_tile,
+                   const struct unit *target_unit,
+                   const struct unit_type *target_unittype,
+                   const struct output_type *target_output,
+                   const struct specialist *target_specialist,
+                   const bool omniscient)
 {
   bool can_see_tgt_unit;
 
@@ -735,15 +740,15 @@ static bool is_action_possible(const enum gen_action wanted_action,
   /* Only check requirement against the target unit if the actor can see it
    * or if the evaluator is omniscient. The game checking the rules is
    * omniscient. The player asking about his odds isn't. */
-  can_see_tgt_unit = (target_unit
-                      && (omniscient || can_player_see_unit(actor_player,
+  can_see_tgt_unit = (omniscient || (target_unit
+                                     && can_player_see_unit(actor_player,
                                                             target_unit)));
 
   if (!action_actor_utype_hard_reqs_ok(wanted_action, actor_unittype)) {
     /* Info leak: The actor player knows the type of his unit. */
     /* The actor unit type can't perform the action because of hard
      * unit type requirements. */
-    return FALSE;
+    return TRI_NO;
   }
 
   if (action_get_actor_kind(wanted_action) == AAK_UNIT) {
@@ -751,7 +756,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * an acting unit is on the same tile as its target or on the tile next
      * to it. */
     if (real_map_distance(actor_tile, target_tile) > 1) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
@@ -760,7 +765,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * enablers and targets a unit assumes that the acting
      * player can see the target unit. */
     if (!can_player_see_unit(actor_player, target_unit)) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
@@ -781,21 +786,28 @@ static bool is_action_possible(const enum gen_action wanted_action,
     /* TODO: Move this restriction to the ruleset as a part of false flag
      * operation support. */
     if (actor_player == target_player) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
-  if ((wanted_action == ACTION_CAPTURE_UNITS
-       || wanted_action == ACTION_SPY_BRIBE_UNIT)
-      && can_see_tgt_unit) {
+  if (wanted_action == ACTION_CAPTURE_UNITS
+      || wanted_action == ACTION_SPY_BRIBE_UNIT) {
     /* Why this is a hard requirement: Can't transfer a unique unit if the
      * actor player already has one. */
     /* Info leak: This is only checked for when the actor player can see
-     * the target unit. Since the target unit is seen its type is known. */
+     * the target unit. Since the target unit is seen its type is known.
+     * The fact that a city hiding the unseen unit is occupied is known. */
+
+    if (!can_see_tgt_unit) {
+      /* An omniscient player can see the target unit. */
+      fc_assert(!omniscient);
+
+      return TRI_MAYBE;
+    }
 
     if (utype_player_already_has_this_unique(actor_player,
                                              target_unittype)) {
-      return FALSE;
+      return TRI_NO;
     }
 
     /* FIXME: Capture Unit may want to look for more than one unique unit
@@ -811,7 +823,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * else even if the UI still call the action Establish Embassy) */
     /* Info leak: The actor player known who he has a real embassy to. */
     if (player_has_real_embassy(actor_player, target_player)) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
@@ -820,7 +832,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * unless it is known that the victim player has it. */
     /* Info leak: The actor player knowns who's techs he can see. */
     if (!can_see_techs_of_target(actor_player, target_player)) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
@@ -829,7 +841,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * gold target_player have. Not requireing it is therefore pointless.
      */
     if (target_player->economic.gold <= 0) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
@@ -841,7 +853,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * city. The Freeciv code assumes this applies to Enter Marketplace
      * too. */
     if (!(actor_homecity = game_city_by_number(actor_unit->homecity))) {
-      return FALSE;
+      return TRI_NO;
     }
 
     /* Can't establish a trade route or enter the market place if the
@@ -849,21 +861,21 @@ static bool is_action_possible(const enum gen_action wanted_action,
     /* TODO: Should this restriction (and the above restriction that the
      * actor unit must have a home city) be kept for Enter Marketplace? */
     if (!can_cities_trade(actor_homecity, target_city)) {
-      return FALSE;
+      return TRI_NO;
     }
 
     /* Allow a ruleset to forbid units from entering the marketplace if a
      * trade route can be established in stead. */
     if (wanted_action == ACTION_MARKETPLACE
         && trade_route_blocks(actor_unit, target_city)) {
-      return FALSE;
+      return TRI_NO;
     }
 
     /* There are more restrictions on establishing a trade route than on
      * entering the market place. */
     if (wanted_action == ACTION_TRADE_ROUTE &&
         !can_establish_trade_route(actor_homecity, target_city)) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
@@ -874,7 +886,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
     /* TODO: Do this rule belong in the ruleset? */
     if (!(VUT_IMPROVEMENT == target_city->production.kind
         && is_wonder(target_city->production.value.building))) {
-      return FALSE;
+      return TRI_NO;
     }
 
     /* It is only possible to help the production if the production needs
@@ -888,7 +900,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
     if (!(target_city->shield_stock
           < impr_build_shield_cost(
             target_city->production.value.building))) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
@@ -897,39 +909,39 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * located the the tile were the new city is founded. */
     /* Info leak: The actor player knows where his unit is. */
     if (unit_tile(actor_unit) != target_tile) {
-      return FALSE;
+      return TRI_NO;
     }
 
     /* TODO: Move more individual requirements to the action enabler. */
     if (!unit_can_build_city(actor_unit)) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
   if (wanted_action == ACTION_JOIN_CITY) {
     /* TODO: Move more individual requirements to the action enabler. */
     if (!unit_can_add_to_city(actor_unit, target_city)) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
   if (wanted_action == ACTION_BOMBARD) {
     /* TODO: Move to the ruleset. */
     if (!pplayers_at_war(unit_owner(target_unit), actor_player)) {
-      return FALSE;
+      return TRI_NO;
     }
 
     /* FIXME: Target of Bombard should be city and units. */
     if (tile_city(target_tile)
         && !pplayers_at_war(city_owner(tile_city(target_tile)),
                             actor_player)) {
-      return FALSE;
+      return TRI_NO;
     }
 
     if (capture_units_blocks(actor_unit, target_tile)) {
       /* Capture unit is possible.
        * The ruleset forbids bombarding when it is. */
-      return FALSE;
+      return TRI_NO;
     }
   }
 
@@ -937,13 +949,13 @@ static bool is_action_possible(const enum gen_action wanted_action,
     if (capture_units_blocks(actor_unit, target_tile)) {
       /* Capture unit is possible.
        * The ruleset forbids exploade nuclear when it is. */
-      return FALSE;
+      return TRI_NO;
     }
 
     if (bombard_blocks(actor_unit, target_tile)) {
       /* Bomard units is possible.
        * The ruleset forbids explode nuclear when it is. */
-      return FALSE;
+      return TRI_NO;
     }
   }
 
@@ -954,30 +966,30 @@ static bool is_action_possible(const enum gen_action wanted_action,
     struct city *tcity;
 
     if (actor_unit->moves_left <= 0) {
-      return FALSE;
+      return TRI_NO;
     }
 
     if (!(tcity = tile_city(target_tile))
         && !unit_list_size(target_tile->units)) {
-      return FALSE;
+      return TRI_NO;
     }
 
     if (tcity && !pplayers_at_war(city_owner(tcity), actor_player)) {
-      return FALSE;
+      return TRI_NO;
     }
 
     if (is_non_attack_unit_tile(target_tile, actor_player)) {
-      return FALSE;
+      return TRI_NO;
     }
 
     if (!tcity
         && (unit_attack_units_at_tile_result(actor_unit, target_tile)
             != ATT_OK)) {
-      return FALSE;
+      return TRI_NO;
     }
   }
 
-  return TRUE;
+  return TRI_YES;
 }
 
 /**************************************************************************
@@ -1037,16 +1049,24 @@ static bool is_action_enabled(const enum gen_action wanted_action,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist)
 {
-  if (!is_action_possible(wanted_action,
-                          actor_player, actor_city,
-                          actor_building, actor_tile,
-                          actor_unit, actor_unittype,
-                          actor_output, actor_specialist,
-                          target_player, target_city,
-                          target_building, target_tile,
-                          target_unit, target_unittype,
-                          target_output, target_specialist,
-                          TRUE)) {
+  enum fc_tristate possible;
+
+  possible = is_action_possible(wanted_action,
+                                actor_player, actor_city,
+                                actor_building, actor_tile,
+                                actor_unit, actor_unittype,
+                                actor_output, actor_specialist,
+                                target_player, target_city,
+                                target_building, target_tile,
+                                target_unit, target_unittype,
+                                target_output, target_specialist,
+                                TRUE);
+
+  if (possible != TRI_YES) {
+    /* This context is omniscient. Should be yes or no. */
+    fc_assert_msg(possible != TRI_MAYBE,
+                  "Is omniscient, should get yes or no.");
+
     /* The action enablers are irrelevant since the action it self is
      * impossible. */
     return FALSE;
@@ -1522,16 +1542,18 @@ action_prob(const enum gen_action wanted_action,
     target_unittype = target_unittype_p;
   }
 
-  if (!is_action_possible(wanted_action,
-                          actor_player, actor_city,
-                          actor_building, actor_tile,
-                          actor_unit, actor_unittype,
-                          actor_output, actor_specialist,
-                          target_player, target_city,
-                          target_building, target_tile,
-                          target_unit, target_unittype,
-                          target_output, target_specialist,
-                          FALSE)) {
+  known = is_action_possible(wanted_action,
+                             actor_player, actor_city,
+                             actor_building, actor_tile,
+                             actor_unit, actor_unittype,
+                             actor_output, actor_specialist,
+                             target_player, target_city,
+                             target_building, target_tile,
+                             target_unit, target_unittype,
+                             target_output, target_specialist,
+                             FALSE);
+
+  if (known == TRI_NO) {
     /* The action enablers are irrelevant since the action it self is
      * impossible. */
     return ACTPROB_IMPOSSIBLE;
@@ -1539,13 +1561,16 @@ action_prob(const enum gen_action wanted_action,
 
   chance = ACTPROB_NOT_IMPLEMENTED;
 
-  known = action_enabled_local(wanted_action,
-                               actor_player, actor_city,
-                               actor_building, actor_tile, actor_unit,
-                               actor_output, actor_specialist,
-                               target_player, target_city,
-                               target_building, target_tile, target_unit,
-                               target_output, target_specialist);
+  known = tri_and(known,
+                  action_enabled_local(wanted_action,
+                                       actor_player, actor_city,
+                                       actor_building, actor_tile,
+                                       actor_unit,
+                                       actor_output, actor_specialist,
+                                       target_player, target_city,
+                                       target_building, target_tile,
+                                       target_unit,
+                                       target_output, target_specialist));
 
   switch (wanted_action) {
   case ACTION_SPY_POISON:
