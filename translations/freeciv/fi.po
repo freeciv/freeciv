@@ -1,6 +1,5 @@
 # Finnish translation for Freeciv
 # Copyright (C) 2002-2003 2005-2009 2011-2012, 2014-2015
-# Marko Lindqvist <marko.lindqvist@gmail.com>,
 # Sini Ruohomaa <sini.ruohomaa@iki.fi>,
 # Markus Linnakangas <markus.linnakangas@luukku.com>,
 # Pekka Pessi <nospam@pessi.fi>,
@@ -27,7 +26,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-29 02:34+0300\n"
-"PO-Revision-Date: 2015-08-29 02:25+0300\n"
+"PO-Revision-Date: 2015-09-17 00:34+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
