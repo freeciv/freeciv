@@ -1044,7 +1044,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-build_cost	= 160
+build_cost	= 300
 upkeep		= 0
 sabotage	= 100
 sound		= "b_space_component"
@@ -1074,7 +1074,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-build_cost	= 320
+build_cost	= 600
 upkeep		= 0
 sabotage	= 100
 sound		= "b_space_module"
@@ -1113,7 +1113,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-build_cost	= 80
+build_cost	= 150
 upkeep		= 0
 sabotage	= 100
 sound		= "b_space_structural"
