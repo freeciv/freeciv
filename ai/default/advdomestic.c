@@ -93,7 +93,11 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   if (pcity == wonder_city 
       || wonder_city == NULL
       || city_data->distance_to_wonder_city <= 0
+      || !city_production_gets_caravan_shields(wonder_city->production)
+      /* TODO: Should helping to build a unit be considered when legal? */
       || VUT_UTYPE == wonder_city->production.kind
+      /* TODO: Should helping to build an improvement be considered when
+       * legal? */
       || !is_wonder(wonder_city->production.value.building)) {
     /* A distance of zero indicates we are very far away, possibly
      * on another continent. */

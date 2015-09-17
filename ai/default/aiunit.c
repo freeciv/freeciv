@@ -2173,8 +2173,8 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
             && !(can_cities_trade(homecity, city_dest)
                  && can_establish_trade_route(homecity, city_dest)))
         || (unit_data->task == AIUNIT_WONDER
-            && city_dest->production.kind == VUT_IMPROVEMENT
-            && !is_wonder(city_dest->production.value.building))
+            /* Helping the (new) production is illegal. */
+            && !city_production_gets_caravan_shields(city_dest->production))
         || (unit_data->task == AIUNIT_TRADE
             && real_map_distance(city_dest->tile, unit_tile(punit)) <= 1
             && !(is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,

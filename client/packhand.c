@@ -3073,6 +3073,9 @@ void handle_rulesets_ready(void)
     unit_type_action_cache_set(u);
   } unit_type_iterate_end;
 
+  /* Cache what city production can receive help from caravans. */
+  city_production_caravan_shields_init();
+
   /* We are not going to crop any more sprites from big sprites, free them. */
   finish_loading_sprites(tileset);
 }

@@ -7187,6 +7187,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     unit_type_iterate(u) {
       u->unknown_move_cost = utype_unknown_move_cost(u);
     } unit_type_iterate_end;
+    city_production_caravan_shields_init();
 
     /* Build advisors unit class cache corresponding to loaded rulesets */
     adv_units_ruleset_init();

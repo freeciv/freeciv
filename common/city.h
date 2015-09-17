@@ -588,6 +588,8 @@ bool city_production_has_flag(const struct city *pcity,
 int city_production_turns_to_build(const struct city *pcity,
 				   bool include_shield_stock);
 
+bool city_production_gets_caravan_shields(const struct universal tgt);
+
 int city_change_production_penalty(const struct city *pcity,
 				   struct universal target);
 int city_turns_to_build(const struct city *pcity,
@@ -624,6 +626,7 @@ struct tile *city_map_to_tile(const struct tile *city_center,
 int compare_iter_index(const void *a, const void *b);
 void generate_city_map_indices(void);
 void free_city_map_index(void);
+void city_production_caravan_shields_init(void);
 
 /* output on spot */
 int city_tile_output(const struct city *pcity, const struct tile *ptile,

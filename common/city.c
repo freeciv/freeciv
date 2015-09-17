@@ -1691,6 +1691,76 @@ const char *city_style_rule_name(const int style)
    return rule_name(&city_styles[style].name);
 }
 
+/* Cache of what city production caravan shields are allowed to help. */
+static bv_imprs caravan_helped_impr;
+static bv_unit_types caravan_helped_utype;
+
+/**************************************************************************
+  Initialize the cache of what city production can use shields from
+  caravans.
+**************************************************************************/
+void city_production_caravan_shields_init(void)
+{
+  struct requirement prod_as_req;
+
+  /* Remove old data. */
+  BV_CLR_ALL(caravan_helped_impr);
+  BV_CLR_ALL(caravan_helped_utype);
+
+  /* Common for all production kinds. */
+  prod_as_req.range = REQ_RANGE_LOCAL;
+  prod_as_req.survives = FALSE;
+  prod_as_req.present = TRUE;
+
+  /* Check improvements */
+  prod_as_req.source.kind = VUT_IMPROVEMENT;
+
+  improvement_iterate(itype) {
+    if (!is_wonder(itype)) {
+      /* Only wonders can currently use caravan shields. Next! */
+      continue;
+    }
+
+    /* Check this improvement. */
+    prod_as_req.source.value.building = itype;
+
+    action_enabler_list_iterate(action_enablers_for_action(
+                                  ACTION_HELP_WONDER),
+                                enabler) {
+      if (!does_req_contradicts_reqs(&prod_as_req,
+                                     &(enabler->target_reqs))) {
+        /* This improvement kind can receive caravan shields. */
+
+        BV_SET(caravan_helped_impr, improvement_index(itype));
+
+        /* Move on to the next improvment */
+        break;
+      }
+    } action_enabler_list_iterate_end;
+  } improvement_iterate_end;
+
+  /* Units can't currently use caravan shields. */
+}
+
+/**************************************************************************
+  Returns TRUE iff the specified production should get shields from
+  units that has done ACTION_HELP_WONDER.
+**************************************************************************/
+bool city_production_gets_caravan_shields(const struct universal tgt)
+{
+  switch (tgt.kind) {
+  case VUT_IMPROVEMENT:
+    return BV_ISSET(caravan_helped_impr,
+                    improvement_index(tgt.value.building));
+  case VUT_UTYPE:
+    return BV_ISSET(caravan_helped_utype,
+                    utype_index(tgt.value.utype));
+  default:
+    fc_assert(FALSE);
+    return FALSE;
+  };
+}
+
 /**************************************************************************
  Compute and optionally apply the change-production penalty for the given
  production change (to target) in the given city (pcity).
@@ -1765,7 +1835,7 @@ int city_change_production_penalty(const struct city *pcity,
 
   /* Caravan shields are penalized (just as if you disbanded the caravan)
    * if you're not building a wonder. */
-  if (new_class == PCT_WONDER) {
+  if (city_production_gets_caravan_shields(target)) {
     unpenalized_shields += pcity->caravan_shields;
   } else {
     penalized_shields += pcity->caravan_shields;

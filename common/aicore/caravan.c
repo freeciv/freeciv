@@ -359,8 +359,13 @@ static double wonder_benefit(const struct unit *caravan, int arrival_time,
   int shields_at_arrival;
 
   if (!param->consider_wonders
+      /* TODO: Should helping an ally to build be considered when legal? */
       || unit_owner(caravan) != city_owner(dest)
+      || !city_production_gets_caravan_shields(dest->production)
+      /* TODO: Should helping to build a unit be considered when legal? */
       || VUT_UTYPE == dest->production.kind
+      /* TODO: Should helping to build an improvement be considered when
+       * legal? */
       || !is_wonder(dest->production.value.building)) {
     return 0;
   }
