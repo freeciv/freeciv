@@ -3660,7 +3660,8 @@ static bool load_nation_names(struct section_file *file)
 **************************************************************************/
 static bool is_on_allowed_list(const char *name, const char **list, size_t len)
 {
-  int i;
+  int i;  
+
   for (i = 0; i < len; i++) {
     if (!fc_strcasecmp(name, list[i])) {
       return TRUE;
@@ -3758,8 +3759,9 @@ static bool load_city_name_list(struct section_file *file,
         }
 
         if (0 == fc_strcasecmp(p, "river")) {
-          if (allowed_terrains
-              && !is_on_allowed_list(p, allowed_terrains, atcount)) {
+          if (game.server.ruledit.allowed_terrains != NULL
+              && !is_on_allowed_list(p,
+                                     game.server.ruledit.allowed_terrains, atcount)) {
             ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city \"%s\" "
                           "has terrain hint \"%s\" not in allowed_terrains.",
                           secfile_name(file), secfile_str1, secfile_str2,
@@ -3786,8 +3788,9 @@ static bool load_city_name_list(struct section_file *file,
            * (a) quietly ignore any hints mentioned that don't happen to be in
            * the current ruleset, (b) enforce that terrains mentioned by nations
            * must be on the list */
-          if (pterrain && allowed_terrains) {
-            if (!is_on_allowed_list(p, allowed_terrains, atcount)) {
+          if (pterrain != NULL && game.server.ruledit.allowed_terrains != NULL) {
+            if (!is_on_allowed_list(p,
+                                    game.server.ruledit.allowed_terrains, atcount)) {
               /* Terrain exists, but not intended for these nations */
               ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city \"%s\" "
                             "has terrain hint \"%s\" not in allowed_terrains.",
@@ -3798,8 +3801,9 @@ static bool load_city_name_list(struct section_file *file,
             }
           } else if (!pterrain) {
             /* Terrain doesn't exist; only complain if it's not on any list */
-            if (!allowed_terrains
-                || !is_on_allowed_list(p, allowed_terrains, atcount)) {
+            if (game.server.ruledit.allowed_terrains == NULL
+                || !is_on_allowed_list(p,
+                                       game.server.ruledit.allowed_terrains, atcount)) {
               ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city \"%s\" "
                             "has unknown terrain hint \"%s\".",
                             secfile_name(file), secfile_str1, secfile_str2,
@@ -3841,10 +3845,6 @@ static bool load_ruleset_nations(struct section_file *file)
   const char *filename = secfile_name(file);
   struct section_list *sec;
   enum trait tr;
-  const char **allowed_govs = NULL;
-  const char **allowed_terrains = NULL;
-  const char **allowed_styles = NULL;
-  size_t agcount, atcount, ascount;
   bool ok = TRUE;
 
   if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
@@ -3889,12 +3889,47 @@ static bool load_ruleset_nations(struct section_file *file)
   }
 
   if (ok) {
-    allowed_govs = secfile_lookup_str_vec(file, &agcount,
-                                          "compatibility.allowed_govs");
-    allowed_terrains = secfile_lookup_str_vec(file, &atcount,
-                                              "compatibility.allowed_terrains");
-    allowed_styles = secfile_lookup_str_vec(file, &ascount,
-                                            "compatibility.allowed_styles");
+    vec = secfile_lookup_str_vec(file, &game.server.ruledit.ag_count,
+                                 "compatibility.allowed_govs");
+    if (vec != NULL) {
+      /* Copy to persistent vector */
+      game.server.ruledit.allowed_govs
+        = fc_malloc(game.server.ruledit.ag_count * sizeof(char *));
+
+      for (j = 0; j < game.server.ruledit.ag_count; j++) {
+        game.server.ruledit.allowed_govs[j] = fc_strdup(vec[j]);
+      }
+
+      free(vec);
+    }
+
+    vec = secfile_lookup_str_vec(file, &game.server.ruledit.at_count,
+                                 "compatibility.allowed_terrains");
+    if (vec != NULL) {
+      /* Copy to persistent vector */
+      game.server.ruledit.allowed_terrains
+        = fc_malloc(game.server.ruledit.at_count * sizeof(char *));
+
+      for (j = 0; j < game.server.ruledit.at_count; j++) {
+        game.server.ruledit.allowed_terrains[j] = fc_strdup(vec[j]);
+      }
+
+      free(vec);
+    }
+
+    vec = secfile_lookup_str_vec(file, &game.server.ruledit.as_count,
+                                 "compatibility.allowed_styles");
+    if (vec != NULL) {
+      /* Copy to persistent vector */
+      game.server.ruledit.allowed_styles
+        = fc_malloc(game.server.ruledit.as_count * sizeof(char *));
+
+      for (j = 0; j < game.server.ruledit.as_count; j++) {
+        game.server.ruledit.allowed_styles[j] = fc_strdup(vec[j]);
+      }
+
+      free(vec);
+    }
 
     sval = secfile_lookup_str_default(file, NULL,
                                       "compatibility.default_government");
@@ -4226,8 +4261,10 @@ static bool load_ruleset_nations(struct section_file *file)
          * (a) quietly ignore any govs mentioned that don't happen to be in
          * the current ruleset, (b) enforce that govs mentioned by nations
          * must be on the list */
-        if (gov && allowed_govs) {
-          if (!is_on_allowed_list(name, allowed_govs, agcount)) {
+        if (gov != NULL && game.server.ruledit.allowed_govs != NULL) {
+          if (!is_on_allowed_list(name,
+                                  game.server.ruledit.allowed_govs,
+                                  game.server.ruledit.ag_count)) {
             /* Gov exists, but not intended for these nations */
             gov = NULL;
             ruleset_error(LOG_ERROR,
@@ -4238,8 +4275,10 @@ static bool load_ruleset_nations(struct section_file *file)
           }
         } else if (!gov) {
           /* Gov doesn't exist; only complain if it's not on any list */
-          if (!allowed_govs
-              || !is_on_allowed_list(name, allowed_govs, agcount)) {
+          if (game.server.ruledit.allowed_govs == NULL
+              || !is_on_allowed_list(name,
+                                     game.server.ruledit.allowed_govs,
+                                     game.server.ruledit.ag_count)) {
             ruleset_error(LOG_ERROR, "Nation %s: government \"%s\" not found.",
                           nation_rule_name(pnation), name);
             ok = FALSE;
@@ -4269,8 +4308,10 @@ static bool load_ruleset_nations(struct section_file *file)
       }
       pnation->style = style_by_rule_name(name);
       if (pnation->style == NULL) {
-        if (!allowed_styles
-            || !is_on_allowed_list(name, allowed_styles, ascount)) {
+        if (game.server.ruledit.allowed_styles == NULL
+            || !is_on_allowed_list(name,
+                                   game.server.ruledit.allowed_styles,
+                                   game.server.ruledit.as_count)) {
           ruleset_error(LOG_ERROR, "Nation %s: Illegal style \"%s\"",
                         nation_rule_name(pnation), name);
           ok = FALSE;
@@ -4344,9 +4385,10 @@ static bool load_ruleset_nations(struct section_file *file)
       }
       /* ...but if a list of govs has been specified, enforce that this
        * nation's init_government is on the list. */
-      if (allowed_govs
+      if (game.server.ruledit.allowed_govs != NULL
           && !is_on_allowed_list(government_rule_name(pnation->init_government),
-                                 allowed_govs, agcount)) {
+                                 game.server.ruledit.allowed_govs,
+                                 game.server.ruledit.ag_count)) {
         ruleset_error(LOG_ERROR,
                       "Nation %s: init_government \"%s\" not allowed.",
                       nation_rule_name(pnation),
@@ -4357,7 +4399,8 @@ static bool load_ruleset_nations(struct section_file *file)
 
       /* Read default city names. */
       if (!load_city_name_list(file, pnation, sec_name, "cities",
-                               allowed_terrains, atcount)) {
+                               game.server.ruledit.allowed_terrains,
+                               game.server.ruledit.at_count)) {
         ok = FALSE;
         break;
       }
@@ -4385,10 +4428,6 @@ static bool load_ruleset_nations(struct section_file *file)
     section_list_destroy(sec);
   }
 
-  FC_FREE(allowed_govs);
-  FC_FREE(allowed_terrains);
-  FC_FREE(allowed_styles);
-
   if (ok) {
     secfile_check_unused(file);
   }
@@ -4396,7 +4435,7 @@ static bool load_ruleset_nations(struct section_file *file)
   if (ok) {
     /* Update cached number of playable nations in the current set */
     count_playable_nations();
-    
+
     /* Sanity checks on all sets */
     nation_sets_iterate(pset) {
       int num_playable = 0, barb_land_count = 0, barb_sea_count = 0;

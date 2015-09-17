@@ -254,6 +254,12 @@ struct civ_game {
         char *nationlist;
         char **embedded_nations;
         size_t embedded_nations_count;
+        const char **allowed_govs;
+        size_t ag_count;
+        const char **allowed_terrains;
+        size_t at_count;
+        const char **allowed_styles;
+        size_t as_count;
       } ruledit;
     } server;
   };
