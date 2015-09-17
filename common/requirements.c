@@ -1217,7 +1217,7 @@ is_building_in_range(const struct player *target_player,
     case REQ_RANGE_LOCAL:
       if (target_building) {
         if (target_building == source) {
-          return BOOL_TO_TRISTATE(num_city_buildings(target_city, source) > 0);
+          return TRI_YES;
         } else {
           return TRI_NO;
         }
