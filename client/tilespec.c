@@ -1792,7 +1792,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     if (terrain_name != NULL) {
       draw->name = fc_strdup(terrain_name);
     } else {
-      tileset_error(LOG_ERROR, _("No terrain tag given on \"%s\"."), sec_name);
+      tileset_error(LOG_ERROR, _("No terrain tag given in section [%s]."), sec_name);
       drawing_data_destroy(draw);
       goto ON_ERROR;
     }
