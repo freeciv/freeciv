@@ -84,27 +84,27 @@ struct team_placement_state {
 ****************************************************************************/
 enum unit_role_id crole_to_role_id(char crole)
 {
-  switch(crole) {
+  switch (crole) {
   case 'c':
-    return L_CITIES;
+    return L_START_CITIES;
   case 'w':
-    return L_SETTLERS;
+    return L_START_WORKER;
   case 'x':
-    return L_EXPLORER;
+    return L_START_EXPLORER;
   case 'k':
-    return L_GAMELOSS;
+    return L_START_KING;
   case 's':
-    return L_DIPLOMAT;
+    return L_START_DIPLOMAT;
   case 'f':
-    return L_FERRYBOAT;
+    return L_START_FERRY;
   case 'd':
-    return L_DEFEND_OK;
+    return L_START_DEFEND_OK;
   case 'D':
-    return L_DEFEND_GOOD;
+    return L_START_DEFEND_GOOD;
   case 'a':
-    return L_ATTACK_FAST;
+    return L_START_ATTACK_FAST;
   case 'A':
-    return L_ATTACK_STRONG;
+    return L_START_ATTACK_STRONG;
   default: 
     return 0;
   }
@@ -113,7 +113,7 @@ enum unit_role_id crole_to_role_id(char crole)
 /****************************************************************************
   Get unit_type for given role character
 ****************************************************************************/
-struct unit_type *crole_to_unit_type(char crole,struct player *pplayer)
+struct unit_type *crole_to_unit_type(char crole, struct player *pplayer)
 {
   struct unit_type *utype = NULL;
   enum unit_role_id role = crole_to_role_id(crole);

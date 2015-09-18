@@ -418,8 +418,8 @@ static bool rs_common_units(void)
     ruleset_error(LOG_ERROR, "No flag Settler units");
     return FALSE;
   }
-  if (num_role_units(L_EXPLORER) == 0) {
-    ruleset_error(LOG_ERROR, "No role Explorer units");
+  if (num_role_units(L_START_EXPLORER) == 0) {
+    ruleset_error(LOG_ERROR, "No role Start Explorer units");
   }
   if (num_role_units(L_FERRYBOAT) == 0) {
     ruleset_error(LOG_ERROR, "No role Ferryboat units");

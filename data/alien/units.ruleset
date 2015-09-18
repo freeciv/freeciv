@@ -327,15 +327,13 @@ flags         = "Missile", "DoesntOccupyTile"
 ; ** Roles **
 ;
 ; "FirstBuild"	= first to be built when city founded
-; "Explorer"	= initial explorer unit (only one unit can have this flag)
+; "Explorer"	= unit to use for exploring
 ; "Hut"		= can be found in a hut
 ; "HutTech"	= can be found in a hut, but its techs required
 ; "Partisan"	= can be created as a partisan (only one unit can have this 
 ;                 flag), see end of this file for its tech requirements option
 ; "DefendOk"	= AI hint: ok for defending with
 ; "DefendGood"	= AI hint: good for defending with
-; "AttackFast"	= AI hint: quick attacking unit (unused)
-; "AttackStrong"= AI hint: strong attacker (unused)
 ; "Ferryboat"	= AI hint: useful for ferrying
 ; "Barbarian"	       = can be created as land barbarian
 ; "BarbarianTech"      = can be created as land barbarian, if someone has
@@ -348,12 +346,18 @@ flags         = "Missile", "DoesntOccupyTile"
 ; "BarbarianSea"       = can be created as a barbarian that disembarks from a barbarian boat
 ; "BarbarianSeaTech"   = can be created as a barbarian that disembarks from a barbarian boat
 ;                        if someone has researched its tech requirements
-; "Cities"	= can disband to produce a city
 ; "Settlers"	= can irrigate and build roads
-; "GameLoss"	= losing one of these units means you lose the game, but it
-;		  is produced without homecity and upkeep
-; "Diplomat"	= can do diplomat actions (see diplchance server option)
 ; "Hunter"      = AI hint: good for hunting other units
+; "CitiesStartUnit"       = Gets granted as 'c' startunit
+; "WorkerStartUnit"       = Gets granted as 'w' startunit
+; "ExplorerStartUnit"     = Gets granted as 'x' startunit
+; "KingStartUnit"         = Gets granted as 'k' startunit
+; "DiplomatStartUnit"     = Gets granted as 's' startunit
+; "FerryStartUnit"        = Gets granted as 'f' startunit
+; "DefendOkStartUnit"     = Gets granted as 'd' startunit
+; "DefendGoodStartUnit"   = Gets granted as 'D' startunit
+; "AttackFastStartUnit"   = Gets granted as 'a' startunit
+; "AttackStrongStartUnit" = Gets granted as 'A' startunit
 ;
 ; */ <-- avoid gettext warnings
 
@@ -383,7 +387,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Cities", "Capturable"
-roles         = "Cities"
+roles         = "CitiesStartUnit"
 helptext      = _("\
 This is Earth technology settler. \
 Most military enemy units can capture it instead of killing it.\
@@ -415,7 +419,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Cities", "Capturable"
-roles         = "Cities"
+roles         = "CitiesStartUnit"
 helptext      = _("\
 This is native Settler that can enter radiating areas. \
 Most military enemy units can capture it instead of killing it.\
@@ -447,7 +451,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Settlers", "Cant_Fortify", "NonMil"
-roles         = "Settlers"
+roles         = "Settlers", "WorkerStartUnit"
 helptext      = _("\
 This is Earth technology engineer.\
 ")
@@ -478,7 +482,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Settlers", "Cant_Fortify", "NonMil"
-roles         = "Settlers"
+roles         = "Settlers", "WorkerStartUnit"
 helptext      = _("\
 Native version of the Engineer unit.\
 ")
@@ -510,7 +514,7 @@ uk_food       = 0
 uk_gold       = 0
 city_size     = 2
 flags         = "Cities", "Settlers", "Cant_Fortify", "NonMil"
-roles         = "Cities", "Settlers"
+roles         = "CitiesStartUnit", "Settlers", "WorkerStartUnit"
 helptext      = _("\
 Amphibious Engineer that can also establish new cities on Ocean. \
 Cities cannot be located on Boiling Ocean.\
@@ -542,7 +546,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk", "FirstBuild", "Barbarian", "BarbarianSea"
+roles         = "DefendOk", "DefendOkStartUnit", "FirstBuild", "Barbarian", "BarbarianSea"
 helptext      = _("\
 This unit may be built from the start of the game.  It is the\
  weakest military unit.\
@@ -574,7 +578,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk", "Barbarian", "BarbarianSea", "BarbarianLeader"
+roles         = "DefendOk", "DefendOkStartUnit", "Barbarian", "BarbarianSea", "BarbarianLeader"
 helptext      = _("\
 Attack power to the early game.\
 ")
@@ -605,7 +609,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk", "BarbarianBuild"
+roles         = "DefendOk", "DefendOkStartUnit", "BarbarianBuild"
 helptext      = _("\
 This is the most powerful Earth technology unit.\
 ")
@@ -636,7 +640,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk"
+roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 As a native unit, this can move and fight on radiating areas too.\
 ")
@@ -667,7 +671,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk"
+roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 Alien lifeform trained to be fast.\
 ")
@@ -698,7 +702,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk"
+roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 Alien lifeform with cybernetic implants. Good in combat, and has better \
 vision than any purely organic unit.")
@@ -793,7 +797,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendGood"
+roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 This is excellent defense vehicle.\
 ")
@@ -1044,7 +1048,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "IgZOC", "NonMil"
-roles         = "Explorer"
+roles         = "Explorer", "ExplorerStartUnit"
 helptext      = _("\
 Like all Earthly units, Explorer are unable to enter radiating tiles. \
 They can maintain themselves, no upkeep cost to homecity.\
@@ -1076,7 +1080,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "IgZOC", "NonMil"
-roles         = "Explorer"
+roles         = "Explorer", "ExplorerStartUnit"
 helptext      = _("\
 This is native scout animal that can enter any land terrain.\
 ")
@@ -1108,7 +1112,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Native"
 flags         = "Trireme"
-roles         = "Ferryboat"
+roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
   This vessel allows coastal travel, but not on Boiling Seas.\
 ")
@@ -1140,7 +1144,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Native"
 flags         = ""
-roles         = "Ferryboat", "BarbarianBoat"
+roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
   This is basic ship type. It has no any special equipment, so \
 it cannot enter boiling seas.\
@@ -1232,7 +1236,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Native"
 flags         = ""
-roles         = "Ferryboat"
+roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 This is first unit that can enter boiling oceans - and more.\
 ")
@@ -1339,7 +1343,7 @@ veteran_raise_chance = 10, 0, 0
 veteran_work_raise_chance = 0, 0, 0
 veteran_power_fact = 100, 110, 125
 veteran_move_bonus = 0, 0, 0
-roles         = "Diplomat"
+roles         = "DiplomatStartUnit"
 helptext      = _("\
 Stealth Spy can make diplomatic actions, and is invisible until \
 next to enemy unit or city.");
