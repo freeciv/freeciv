@@ -250,6 +250,42 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;                         (whole movement points)
+;
+; ** Roles **
+;
+; "FirstBuild"	= first to be built when city founded
+; "Explorer"	= unit to use for exploring
+; "Hut"		= can be found in a hut
+; "HutTech"	= can be found in a hut, but its techs required
+; "Partisan"	= can be created as a partisan (only one unit can have this 
+;                 flag), see end of this file for its tech requirements option
+; "DefendOk"	= AI hint: ok for defending with
+; "DefendGood"	= AI hint: good for defending with
+; "Ferryboat"	= AI hint: useful for ferrying
+; "Barbarian"	       = can be created as land barbarian
+; "BarbarianTech"      = can be created as land barbarian, if someone has
+;		         researched its tech requirements
+; "BarbarianBoat"      = can be created as boat for sea barbarian
+; "BarbarianBuild"     = can be built by barbarians
+; "BarbarianBuildTech" = can be built by barbarians if someone has
+;		         researched its tech requirements
+; "BarbarianLeader"    = this unit is the barbarian leader (only one)
+; "BarbarianSea"       = can be created as a barbarian that disembarks from a barbarian boat
+; "BarbarianSeaTech"   = can be created as a barbarian that disembarks from a barbarian boat
+;                        if someone has researched its tech requirements
+; "Settlers"	= can irrigate and build roads
+; "Hunter"      = AI hint: good for hunting other units
+; "CitiesStartUnit"       = Gets granted as 'c' startunit
+; "WorkerStartUnit"       = Gets granted as 'w' startunit
+; "ExplorerStartUnit"     = Gets granted as 'x' startunit
+; "KingStartUnit"         = Gets granted as 'k' startunit
+; "DiplomatStartUnit"     = Gets granted as 's' startunit
+; "FerryStartUnit"        = Gets granted as 'f' startunit
+; "DefendOkStartUnit"     = Gets granted as 'd' startunit
+; "DefendGoodStartUnit"   = Gets granted as 'D' startunit
+; "AttackFastStartUnit"   = Gets granted as 'a' startunit
+; "AttackStrongStartUnit" = Gets granted as 'A' startunit
+;
 
 ; Civ1 does not have initial explorers, but we want to do something
 ; sensible if the explorer server option is set non-zero.
@@ -288,7 +324,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
 flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil", "AddToCity", "Cities", "NoVeteran"
-roles         = "Settlers", "Cities"
+roles         = "Settlers", "WorkerStartUnit", "CitiesStartUnit"
 helptext      = _("\
 Settlers are one of the key units in the game, as they are your main \
 means of founding new cities, and can also improve terrain.\
@@ -344,7 +380,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "DefendOk", "FirstBuild"
+roles         = "DefendOk", "DefendOkStartUnit", "FirstBuild"
 helptext      = _("\
 This unit may be built from the start of the game.  It is the\
  weakest offensive unit.\
@@ -376,7 +412,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "DefendGood", "FirstBuild"
+roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild"
 helptext      = _("\
 The Phalanx is armored infantry, suitable for defending your cities.\
 ")
@@ -407,7 +443,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "DefendOk", "Hut", "BarbarianBuild", "BarbarianSea"
+roles         = "DefendOk", "DefendOkStartUnit", "Hut", "BarbarianBuild", "BarbarianSea"
 helptext      = _("\
 Legions are heavily armed and well disciplined infantry\
  units with an excellent offensive value.\
@@ -439,7 +475,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "DefendGood", "FirstBuild", "HutTech",
+roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild", "HutTech",
                 "BarbarianTech", "BarbarianBuildTech", "BarbarianSeaTech"
 helptext      = _("\
 Musketeers are infantry equipped with early\
@@ -473,7 +509,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "DefendGood", "FirstBuild"
+roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild"
 helptext      = _("\
 Riflemen are World War-era infantry, very good\
  at defending your cities.\
@@ -505,7 +541,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "DefendGood"
+roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 Mechanized Infantry; this unit has the strongest defense strength\
  of any land unit, but is only available near the end of the\
@@ -538,7 +574,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackFast", "Hut", "Barbarian"
+roles         = "AttackFastStartUnit", "Hut", "Barbarian"
 helptext      = _("\
 Cavalry are mounted warriors and an early\
  shock-troop that can penetrate deep into\
@@ -571,7 +607,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackFast", "Hut"
+roles         = "AttackFastStartUnit", "Hut"
 helptext      = _("\
 Chariots are horse-pulled war wagons, stronger\
  but more expensive than Cavalry.\
@@ -603,7 +639,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackFast", "HutTech", "BarbarianTech",
+roles         = "AttackFastStartUnit", "HutTech", "BarbarianTech",
                 "BarbarianBuildTech", "BarbarianSeaTech"
 helptext      = _("\
 Knights are mounted and heavily armored warriors.\
@@ -635,7 +671,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackFast"
+roles         = "AttackFastStartUnit"
 helptext      = _("\
 Armors are motorized war wagons that are faster,\
  stronger, and can take more damage than any\
@@ -668,7 +704,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackStrong"
+roles         = "AttackStrongStartUnit"
 helptext      = _("\
 Catapults are large rock-throwing machines of war.\
  They are very strong attackers but equally weak\
@@ -701,7 +737,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackStrong", "BarbarianTech", "BarbarianBuildTech"
+roles         = "AttackStrongStartUnit", "BarbarianTech", "BarbarianBuildTech"
 helptext      = _("\
 Cannons are large firearms that can fire heavy\
  projectiles over long distances. They are very\
@@ -735,7 +771,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackStrong"
+roles         = "AttackStrongStartUnit"
 helptext      = _("\
 The artillery is an upgraded cannon with improved\
  defensive as well as offensive capabilities.\
@@ -836,7 +872,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
 flags         = "Trireme"
-roles         = "Ferryboat"
+roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
  as a transport ship and has rudimentary offensive\
@@ -870,7 +906,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
 flags         = ""
-roles         = "Ferryboat", "BarbarianBoat"
+roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Sail replaces the Trireme and is much\
  more reliable on the open seas.\
@@ -903,7 +939,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
 flags         = ""
-roles         = "Ferryboat"
+roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Frigate is a highly versatile boat unit,\
  that is both a strong offensive unit as well\
@@ -1102,7 +1138,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
 flags         = ""
-roles         = "Ferryboat"
+roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Transport cannot attack on its own but\
  may defend itself when under attack.\
@@ -1192,7 +1228,7 @@ veteran_raise_chance = 0, 0
 veteran_work_raise_chance = 0, 0
 veteran_power_fact = 100, 110
 veteran_move_bonus = 0, 0
-roles         = "Explorer", "Diplomat"
+roles         = "Explorer", "ExplorerStartUnit", "DiplomatStartUnit"
 helptext      = _("\
 A Diplomat is an official that carries your dispatches and\
  is authorized to deal with foreign dignitaries. He may\

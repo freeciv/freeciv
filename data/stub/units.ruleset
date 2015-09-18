@@ -105,6 +105,8 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = ""
 
+; /* <-- avoid gettext warnings
+;
 ; Below: The individual units, one per section.
 ;
 ; The number can be variable, up to 200.  
@@ -268,8 +270,6 @@ flags         = ""
 ;                 flag), see end of this file for its tech requirements option
 ; "DefendOk"	= AI hint: ok for defending with
 ; "DefendGood"	= AI hint: good for defending with
-; "AttackFast"	= AI hint: quick attacking unit (unused)
-; "AttackStrong"= AI hint: strong attacker (unused)
 ; "Ferryboat"	= AI hint: useful for ferrying
 ; "Barbarian"	       = can be created as land barbarian
 ; "BarbarianTech"      = can be created as land barbarian, if someone has
@@ -282,12 +282,20 @@ flags         = ""
 ; "BarbarianSea"       = can be created as a barbarian that disembarks from a barbarian boat
 ; "BarbarianSeaTech"   = can be created as a barbarian that disembarks from a barbarian boat
 ;                        if someone has researched its tech requirements
-; "Cities"	= can disband to produce a city
 ; "Settlers"	= can irrigate and build roads
-; "GameLoss"	= losing one of these units means you lose the game, but it
-;		  is produced without homecity and upkeep
-; "Diplomat"	= can do diplomat actions (see diplchance server option)
 ; "Hunter"      = AI hint: good for hunting other units
+; "CitiesStartUnit"       = Gets granted as 'c' startunit
+; "WorkerStartUnit"       = Gets granted as 'w' startunit
+; "ExplorerStartUnit"     = Gets granted as 'x' startunit
+; "KingStartUnit"         = Gets granted as 'k' startunit
+; "DiplomatStartUnit"     = Gets granted as 's' startunit
+; "FerryStartUnit"        = Gets granted as 'f' startunit
+; "DefendOkStartUnit"     = Gets granted as 'd' startunit
+; "DefendGoodStartUnit"   = Gets granted as 'D' startunit
+; "AttackFastStartUnit"   = Gets granted as 'a' startunit
+; "AttackStrongStartUnit" = Gets granted as 'A' startunit
+;
+; */ <-- avoid gettext warnings
 
 [unit_generic]
 name          = _("Generic")
@@ -315,7 +323,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Settlers"
-roles         = "Explorer", "Firstbuild", "Cities"
+roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit"
 helptext      = _("\
   This is the only land unit type you can build.\
 ")
