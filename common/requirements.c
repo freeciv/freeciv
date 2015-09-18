@@ -930,6 +930,38 @@ bool are_requirements_opposites(const struct requirement *req1,
 }
 
 /**************************************************************************
+  Returns TRUE if the specified building requirement contradicts the
+  specified building genus requirement.
+**************************************************************************/
+static bool impr_contra_genus(const struct requirement *impr_req,
+                              const struct requirement *genus_req)
+{
+  /* The input is sane. */
+  fc_assert_ret_val(impr_req->source.kind == VUT_IMPROVEMENT, FALSE);
+  fc_assert_ret_val(genus_req->source.kind == VUT_IMPR_GENUS, FALSE);
+
+  if (impr_req->range == REQ_RANGE_LOCAL
+      && genus_req->range == REQ_RANGE_LOCAL) {
+    /* Applies to the same target building. */
+
+    if (impr_req->present && !genus_req->present) {
+      /* The target building can't not have the genus it has. */
+      return (impr_req->source.value.building->genus
+              == genus_req->source.value.impr_genus);
+    }
+
+    if (impr_req->present && genus_req->present) {
+      /* The target building can't have another genus than it has. */
+      return (impr_req->source.value.building->genus
+              != genus_req->source.value.impr_genus);
+    }
+  }
+
+  /* No special knowledge. */
+  return are_requirements_opposites(impr_req, genus_req);
+}
+
+/**************************************************************************
   Returns TRUE if req1 and req2 contradicts each other.
 
   TODO: If information about what entity each requirement type will be
@@ -940,6 +972,22 @@ bool are_requirements_contradictions(const struct requirement *req1,
                                      const struct requirement *req2)
 {
   switch (req1->source.kind) {
+  case VUT_IMPROVEMENT:
+    if (req2->source.kind == VUT_IMPR_GENUS) {
+      return impr_contra_genus(req1, req2);
+    }
+
+    /* No special knowledge. */
+    return are_requirements_opposites(req1, req2);
+    break;
+  case VUT_IMPR_GENUS:
+    if (req2->source.kind == VUT_IMPROVEMENT) {
+      return impr_contra_genus(req2, req1);
+    }
+
+    /* No special knowledge. */
+    return are_requirements_opposites(req1, req2);
+    break;
   case VUT_DIPLREL:
     if (req2->source.kind != VUT_DIPLREL) {
       /* Finding contradictions across requirement kinds aren't supported
