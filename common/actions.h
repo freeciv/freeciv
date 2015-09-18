@@ -232,6 +232,8 @@ struct action_enabler_list *
 action_enablers_for_action(enum gen_action action);
 
 struct action_enabler *action_enabler_new(void);
+struct action_enabler *
+action_enabler_copy(const struct action_enabler *original);
 void action_enabler_add(struct action_enabler *enabler);
 
 bool action_blocks_attack(const struct unit *actor_unit,

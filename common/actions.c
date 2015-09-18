@@ -510,6 +510,22 @@ struct action_enabler *action_enabler_new(void)
 }
 
 /**************************************************************************
+  Create a new copy of an existing action enabler.
+**************************************************************************/
+struct action_enabler *
+action_enabler_copy(const struct action_enabler *original)
+{
+  struct action_enabler *enabler = action_enabler_new();
+
+  enabler->action = original->action;
+
+  requirement_vector_copy(&enabler->actor_reqs, &original->actor_reqs);
+  requirement_vector_copy(&enabler->target_reqs, &original->target_reqs);
+
+  return enabler;
+}
+
+/**************************************************************************
   Add an action enabler.
 **************************************************************************/
 void action_enabler_add(struct action_enabler *enabler)
