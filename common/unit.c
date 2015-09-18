@@ -198,10 +198,21 @@ bool unit_can_help_build_wonder_here(const struct unit *punit)
 {
   struct city *pcity = tile_city(unit_tile(punit));
 
-  return (pcity
-          && action_prob_possible(action_prob_vs_city(punit,
-                                                      ACTION_HELP_WONDER,
-                                                      pcity)));
+  if (!pcity) {
+    /* No city to help at this tile. */
+    return FALSE;
+  }
+
+  if (!utype_can_do_action(unit_type(punit), ACTION_HELP_WONDER)) {
+    /* This unit can never do help wonder. */
+    return FALSE;
+  }
+
+  /* Evaluate all action enablers for extra accuracy. */
+  /* TODO: Is it worth it? */
+  return action_prob_possible(action_prob_vs_city(punit,
+                                                  ACTION_HELP_WONDER,
+                                                  pcity));
 }
 
 /**************************************************************************
