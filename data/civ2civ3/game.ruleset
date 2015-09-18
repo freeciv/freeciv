@@ -31,11 +31,11 @@ Adapted for single player, with AI less aggressive at start,\
  but more challenging at the end.\
 \n\n\
 Detailed description of the differences from the former default ruleset,\
- classic, can be found in README.ruleset_civ2civ3.\
+ classic, are listed in full description in README.civ2civ3.\
 ")
 
 ; Detailed description
-; description = ""
+description = *civ2civ3/README.civ2civ3*
 
 [options]
 global_init_techs=""

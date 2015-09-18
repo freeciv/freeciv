@@ -25,7 +25,6 @@ docs =				\
 	README.ruleset_alien	\
 	README.ruleset_experimental \
 	README.ruleset_multiplayer \
-	README.ruleset_civ2civ3	\
 	README.rulesets		\
 	README.scorelog		\
 	README.sound		\
