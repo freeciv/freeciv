@@ -4749,8 +4749,8 @@ static void save_cma_presets(struct section_file *file)
 /****************************************************************
   Returns pointer to static memory containing name of the current
   option file.  Usually used for saving.
-  Ie, based on FREECIV_OPT env var, and home dir. (or a
-  OPTION_FILE_NAME define defined in fc_config.h)
+  Ie, based on FREECIV_OPT env var, and freeciv storage root dir.
+  (or a OPTION_FILE_NAME define defined in fc_config.h)
   Or NULL if problem.
 *****************************************************************/
 static const char *get_current_option_file_name(void)
@@ -4766,9 +4766,9 @@ static const char *get_current_option_file_name(void)
 #ifdef OPTION_FILE_NAME
     fc_strlcpy(name_buffer, OPTION_FILE_NAME, sizeof(name_buffer));
 #else
-    name = user_home_dir();
+    name = freeciv_home_dir();
     if (!name) {
-      log_error(_("Cannot find your home directory"));
+      log_error(_("Cannot find freeciv storage directory"));
       return NULL;
     }
     fc_snprintf(name_buffer, sizeof(name_buffer),
