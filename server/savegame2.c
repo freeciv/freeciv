@@ -817,7 +817,8 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index)
     if (pextra == NULL) {
       continue;
     }
-    if (bin & (1 << i)) {
+    if ((bin & (1 << i))
+        && (map.server.have_huts || !is_extra_caused_by(pextra, EC_HUT))) {
       BV_SET(*extras, extra_index(pextra));
     }
   }

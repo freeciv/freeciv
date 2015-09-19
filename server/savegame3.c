@@ -1128,7 +1128,8 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index)
     if (pextra == NULL) {
       continue;
     }
-    if (bin & (1 << i)) {
+    if ((bin & (1 << i))
+        && (map.server.have_huts || !is_extra_caused_by(pextra, EC_HUT))) {
       BV_SET(*extras, extra_index(pextra));
     }
   }
@@ -2349,7 +2350,11 @@ static void sg_save_map(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  secfile_insert_bool(saving->file, map.server.have_huts, "map.have_huts");
+  if (saving->scenario) {
+    secfile_insert_bool(saving->file, map.server.have_huts, "map.have_huts");
+  } else {
+    secfile_insert_bool(saving->file, TRUE, "map.have_huts");
+  }
 
   if (map_is_empty()) {
     /* No map. */
