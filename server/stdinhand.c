@@ -5639,6 +5639,12 @@ bool start_command(struct connection *caller, bool check, bool notify)
                       _("Not enough nations for all players; game will "
                         "not start."));
       return FALSE;
+    } else if (strlen(game.server.start_units) == 0 && !game.server.start_city) {
+      start_cmd_reply(caller, notify,
+                      _("Neither 'startcity' nor 'startunits' setting give "
+                        "players anything to start game with; game will "
+                        "not start."));
+      return FALSE;
     } else if (check) {
       return TRUE;
     } else if (!caller) {
