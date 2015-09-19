@@ -2910,8 +2910,13 @@ static void srv_ready(void)
     struct unit_type *utype = NULL;
     int sucount = strlen(game.server.start_units);
 
-    for (i = 0; utype == NULL && i < sucount; i++) {
-      utype = crole_to_unit_type(game.server.start_units[i], NULL);
+    if (sucount > 0) {
+      for (i = 0; utype == NULL && i < sucount; i++) {
+        utype = crole_to_unit_type(game.server.start_units[i], NULL);
+      }
+    } else {
+      /* First unit the initial city might build. */
+      utype = get_role_unit(L_FIRSTBUILD, 0);
     }
     fc_assert(utype != NULL);
 

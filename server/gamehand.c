@@ -417,6 +417,7 @@ void init_new_game(void)
   struct tile *player_startpos[player_slot_count()];
   int placed_units[player_slot_count()];
   int players_to_place = player_count();
+  int sulen;
 
   randomize_base64url_string(server.game_identifier,
                              sizeof(server.game_identifier));
@@ -751,15 +752,18 @@ void init_new_game(void)
   startpos_list_destroy(targeted_list);
   startpos_list_destroy(flexible_list);
 
+  sulen = strlen(game.server.start_units);
 
   /* Loop over all players, creating their initial units... */
   players_iterate(pplayer) {
+    struct tile *ptile;
+
     /* We have to initialise the advisor and ai here as we could make contact
      * to other nations at this point. */
     adv_data_phase_init(pplayer, FALSE);
     CALL_PLR_AI_FUNC(phase_begin, pplayer, pplayer, FALSE);
 
-    struct tile *ptile = player_startpos[player_index(pplayer)];
+    ptile = player_startpos[player_index(pplayer)];
 
     fc_assert_action(NULL != ptile, continue);
 
@@ -769,10 +773,14 @@ void init_new_game(void)
                   NULL);
     }
 
-    /* Place the first unit. */
-    if (place_starting_unit(ptile, pplayer,
-                            game.server.start_units[0]) != NULL) {
-      placed_units[player_index(pplayer)] = 1;
+    if (sulen > 0) {
+      /* Place the first unit. */
+      if (place_starting_unit(ptile, pplayer,
+                              game.server.start_units[0]) != NULL) {
+        placed_units[player_index(pplayer)] = 1;
+      } else {
+        placed_units[player_index(pplayer)] = 0;
+      }
     } else {
       placed_units[player_index(pplayer)] = 0;
     }
@@ -787,7 +795,7 @@ void init_new_game(void)
     fc_assert_action(NULL != ptile, continue);
 
     /* Place global start units */
-    for (i = 1; i < strlen(game.server.start_units); i++) {
+    for (i = 1; i < sulen; i++) {
       struct tile *rand_tile = find_dispersed_position(pplayer, ptile);
 
       /* Create the unit of an appropriate type. */
@@ -814,7 +822,7 @@ void init_new_game(void)
     adv_data_phase_done(pplayer);
     CALL_PLR_AI_FUNC(phase_finished, pplayer, pplayer);
 
-    fc_assert_msg(0 < placed_units[player_index(pplayer)],
+    fc_assert_msg(game.server.start_city || 0 < placed_units[player_index(pplayer)],
                   _("No units placed for %s!"), player_name(pplayer));
   } players_iterate_end;
 
