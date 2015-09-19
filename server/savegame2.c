@@ -340,7 +340,7 @@ static void unit_ordering_calc(void);
 static void unit_ordering_apply(void);
 static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index);
 static char sg_extras_get(bv_extras extras, const int *index);
-static void sg_special_set(bv_extras *extras, char ch,
+static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
                            const enum tile_special_type *index,
                            bool rivers_overlay);
 static void sg_bases_set(bv_extras *extras, char ch, struct base_type **index);
@@ -1202,7 +1202,7 @@ static char sg_extras_get(bv_extras extras, const int *index)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
 ****************************************************************************/
-static void sg_special_set(bv_extras *extras, char ch,
+static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
                            const enum tile_special_type *index,
                            bool rivers_overlay)
 {
@@ -1260,9 +1260,48 @@ static void sg_special_set(bv_extras *extras, char ch,
           BV_SET(*extras, extra_index(road_extra_get(proad)));
         }
       } else {
-        struct extra_type *pextra;
+        struct extra_type *pextra = NULL;
+        enum extra_cause cause = EC_COUNT;
 
-        pextra = extra_type_by_rule_name(special_rule_name(sp));
+        /* Converting from old hardcoded specials to as sensible extra as we can */
+        switch (sp) {
+        case S_IRRIGATION:
+        case S_FARMLAND:
+          /* If old savegame has both irrigation and farmland, EC_IRRIGATION
+           * gets applied twice, which hopefully has the correct result. */
+          cause = EC_IRRIGATION;
+          break;
+        case S_MINE:
+          cause = EC_MINE;
+          break;
+        case S_POLLUTION:
+          cause = EC_POLLUTION;
+          break;
+        case S_HUT:
+          cause = EC_HUT;
+          break;
+        case S_FALLOUT:
+          cause = EC_FALLOUT;
+          break;
+        default:
+          pextra = extra_type_by_rule_name(special_rule_name(sp));
+          break;
+        }
+
+        if (cause != EC_COUNT) {
+          struct tile *vtile = tile_virtual_new(ptile);
+
+          /* Do not let the extras already set to the real tile mess with setup
+           * of the player tiles if that's what we're doing. */
+          vtile->extras = *extras;
+
+          /* It's ok not to know which player or which unit originally built the extra -
+           * in the rules used when specials were saved these could not have made any
+           * difference. */
+          pextra = next_extra_for_tile(vtile, cause, NULL, NULL);
+
+          tile_virtual_destroy(vtile);
+        }
 
         if (pextra) {
           BV_SET(*extras, extra_index(pextra));
@@ -2826,7 +2865,7 @@ static void sg_load_map_tiles_specials(struct loaddata *loading,
    * the rivers overlay but no other specials. Scenarios that encode things
    * this way should have the "riversoverlay" capability. */
   halfbyte_iterate_special(j, loading->special.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_special_set(&ptile->extras, ch,
+    LOAD_MAP_CHAR(ch, ptile, sg_special_set(ptile, &ptile->extras, ch,
                                             loading->special.order + 4 * j,
                                             rivers_overlay),
                   loading->file, "map.spe%02d_%04d", j);
@@ -6161,7 +6200,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     /* Load player map (specials). */
     halfbyte_iterate_special(j, loading->special.size) {
       LOAD_MAP_CHAR(ch, ptile,
-                    sg_special_set(&map_get_player_tile(ptile, plr)->extras,
+                    sg_special_set(ptile, &map_get_player_tile(ptile, plr)->extras,
                                    ch, loading->special.order + 4 * j, FALSE),
                     loading->file, "player%d.map_spe%02d_%04d", plrno, j);
     } halfbyte_iterate_special_end;

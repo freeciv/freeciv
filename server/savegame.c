@@ -228,7 +228,7 @@ static const char num_chars[] =
 
 static bool load_river_overlay = FALSE;
 
-static void set_savegame_special(bv_extras *extras,
+static void set_savegame_special(struct tile *ptile, bv_extras *extras,
                                  char ch, const enum tile_special_type *index);
 
 static void game_load_internal(struct section_file *file);
@@ -686,7 +686,7 @@ static void map_load_rivers_overlay(struct section_file *file,
 
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	secfile_lookup_str(file, buf, nat_y),
-        set_savegame_special(&ptile->extras, ch, special_order + 4 * j));
+                    set_savegame_special(ptile, &ptile->extras, ch, special_order + 4 * j));
     } special_halfbyte_iterate_end;
   } else {
     /* Get the bits of the special flags which contain the river special
@@ -694,7 +694,7 @@ static void map_load_rivers_overlay(struct section_file *file,
     fc_assert_ret(S_LAST <= 32);
     LOAD_MAP_DATA(ch, line, ptile,
       secfile_lookup_str(file, "map.n%03d", line),
-      set_savegame_special(&ptile->extras, ch, default_specials + 8));
+                  set_savegame_special(ptile, &ptile->extras, ch, default_specials + 8));
   }
 
   load_river_overlay = FALSE;
@@ -707,7 +707,7 @@ static void map_load_rivers_overlay(struct section_file *file,
   in four to a character in hex notation.  'index' is a mapping of
   savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
 ****************************************************************************/
-static void set_savegame_special(bv_extras *extras,
+static void set_savegame_special(struct tile *ptile, bv_extras *extras,
 				 char ch,
 				 const enum tile_special_type *index)
 {
@@ -769,9 +769,48 @@ static void set_savegame_special(bv_extras *extras,
           BV_SET(*extras, extra_index(road_extra_get(proad)));
         }
       } else {
-        struct extra_type *pextra;
+        struct extra_type *pextra = NULL;
+        enum extra_cause cause = EC_COUNT;
 
-        pextra = extra_type_by_rule_name(special_rule_name(sp));
+        /* Converting from old hardcoded specials to as sensible extra as we can */
+        switch (sp) {
+        case S_IRRIGATION:
+        case S_FARMLAND:
+          /* If old savegame has both irrigation and farmland, EC_IRRIGATION
+           * gets applied twice, which hopefully has the correct result. */
+          cause = EC_IRRIGATION;
+          break;
+        case S_MINE:
+          cause = EC_MINE;
+          break;
+        case S_POLLUTION:
+          cause = EC_POLLUTION;
+          break;
+        case S_HUT:
+          cause = EC_HUT;
+          break;
+        case S_FALLOUT:
+          cause = EC_FALLOUT;
+          break;
+        default:
+          pextra = extra_type_by_rule_name(special_rule_name(sp));
+          break;
+        }
+
+        if (cause != EC_COUNT) {
+          struct tile *vtile = tile_virtual_new(ptile);
+
+          /* Do not let the extras already set to the real tile mess with setup
+           * of the player tiles if that's what we're doing. */
+          vtile->extras = *extras;
+
+          /* It's ok not to know which player or which unit originally built the extra -
+           * in the rules used when specials were saved these could not have made any
+           * difference. */
+          pextra = next_extra_for_tile(vtile, cause, NULL, NULL);
+
+          tile_virtual_destroy(vtile);
+        }
 
         if (pextra) {
           BV_SET(*extras, extra_index(pextra));
@@ -900,26 +939,26 @@ static void map_load(struct section_file *file,
 
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	  secfile_lookup_str(file, buf, nat_y),
-          set_savegame_special(&ptile->extras,
-                               ch, special_order + 4 * j));
+                    set_savegame_special(ptile, &ptile->extras,
+                                         ch, special_order + 4 * j));
     } special_halfbyte_iterate_end;
   } else {
     /* get 4-bit segments of 16-bit "special" field. */
     LOAD_MAP_DATA(ch, nat_y, ptile,
 	    secfile_lookup_str(file, "map.l%03d", nat_y),
-                  set_savegame_special(&ptile->extras,
+                  set_savegame_special(ptile, &ptile->extras,
                                        ch, default_specials + 0));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 	    secfile_lookup_str(file, "map.u%03d", nat_y),
-                  set_savegame_special(&ptile->extras,
+                  set_savegame_special(ptile, &ptile->extras,
                                        ch, default_specials + 4));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 	    secfile_lookup_str(file, "map.n%03d", nat_y),
-                  set_savegame_special(&ptile->extras,
+                  set_savegame_special(ptile, &ptile->extras,
                                        ch, default_specials + 8));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 	    secfile_lookup_str(file, "map.f%03d", nat_y),
-                  set_savegame_special(&ptile->extras,
+                  set_savegame_special(ptile, &ptile->extras,
                                        ch, default_specials + 12));
     /* Setup resources (from half-bytes 1 and 3 of old savegames) */
     LOAD_MAP_DATA(ch, nat_y, ptile,
@@ -2734,23 +2773,23 @@ static void player_load_vision(struct player *plr, int plrno,
 	sprintf (buf, "player%d.map_spe%02d_%%03d", plrno, j);
 	LOAD_MAP_DATA(ch, vnat_y, ptile,
                       secfile_lookup_str(file, buf, vnat_y),
-                      set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
-                                 ch, special_order + 4 * j));
+                      set_savegame_special(ptile, &map_get_player_tile(ptile, plr)->extras,
+                                           ch, special_order + 4 * j));
       } special_halfbyte_iterate_end;
     } else {
       /* get 4-bit segments of 12-bit "special" field. */
       LOAD_MAP_DATA(ch, vnat_y, ptile,
                     secfile_lookup_str(file, "player%d.map_l%03d", plrno, vnat_y),
-                    set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
+                    set_savegame_special(ptile, &map_get_player_tile(ptile, plr)->extras,
                                          ch, default_specials + 0));
       LOAD_MAP_DATA(ch, vnat_y, ptile,
                     secfile_lookup_str(file, "player%d.map_u%03d", plrno, vnat_y),
-                    set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
+                    set_savegame_special(ptile, &map_get_player_tile(ptile, plr)->extras,
                                          ch, default_specials + 4));
       LOAD_MAP_DATA(ch, vnat_y, ptile,
                     secfile_lookup_str_default (file, NULL, "player%d.map_n%03d",
                                                 plrno, vnat_y),
-                    set_savegame_special(&map_get_player_tile(ptile, plr)->extras,
+                    set_savegame_special(ptile, &map_get_player_tile(ptile, plr)->extras,
                                          ch, default_specials + 8));
       LOAD_MAP_DATA(ch, vnat_y, ptile,
                     secfile_lookup_str(file, "map.l%03d", vnat_y),
