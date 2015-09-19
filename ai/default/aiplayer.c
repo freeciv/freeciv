@@ -128,12 +128,21 @@ void dai_player_load(struct ai_type *ait, const char *aitstr,
 void dai_player_copy(struct ai_type *ait,
                      struct player *original, struct player *created)
 {
-  struct ai_plr *orig_data = dai_plr_data_get(ait, original, NULL);
-  struct ai_plr *created_data = dai_plr_data_get(ait, created, NULL);
+  bool close_original;
+  bool close_created;
+  struct ai_plr *orig_data = dai_plr_data_get(ait, original, &close_original);
+  struct ai_plr *created_data = dai_plr_data_get(ait, created, &close_created);
 
   advance_index_iterate(A_NONE, i) {
     created_data->tech_want[i] = orig_data->tech_want[i];
   } advance_index_iterate_end;
+
+  if (close_original) {
+    dai_data_phase_finished(ait, original);
+  }
+  if (close_created) {
+    dai_data_phase_finished(ait, created);
+  }
 }
 
 /**************************************************************************
