@@ -896,26 +896,19 @@ is_action_possible(const enum gen_action wanted_action,
   }
 
   if (wanted_action == ACTION_HELP_WONDER) {
-    /* It is only possible to help the production of a wonder. */
-    /* Info leak: It is already known when a foreign city is building a
-     * wonder. */
-    /* TODO: Do this rule belong in the ruleset? */
-    if (!(VUT_IMPROVEMENT == target_city->production.kind
-        && is_wonder(target_city->production.value.building))) {
-      return TRI_NO;
+    /* It is only possible to help the production if the production needs
+     * the help. (If not it would be possible to add shields for something
+     * that can't legally receive help if it is build later) */
+    /* Info leak: The player knows that the production in his own city has
+     * been hurried (bought or helped). The information isn't revealed when
+     * asking for action probabilities since omniscient is FALSE. */
+    if (!omniscient
+        && !can_player_see_city_internals(actor_player, target_city)) {
+      return TRI_MAYBE;
     }
 
-    /* It is only possible to help the production if the production needs
-     * the help. (If not it would be possible to add shields for a non
-     * wonder if it is build after a wonder) */
-    /* Info leak: No new information is sent with the old rules. When the
-     * ruleset is changed to make helping foreign wonders legal the
-     * information that a wonder have been hurried (bought, helped) leaks.
-     * That a foreign wonder will be ready next turn (from work) is already
-     * known. That it will be finished because of help is not. */
     if (!(target_city->shield_stock
-          < impr_build_shield_cost(
-            target_city->production.value.building))) {
+          < city_production_build_shield_cost(target_city))) {
       return TRI_NO;
     }
   }

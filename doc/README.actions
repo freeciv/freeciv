@@ -230,8 +230,7 @@ Actions done by a unit against a city
 "Help Wonder" - Add the shields used to build the actor to the target city.
  * UI name can be set using ui_name_help_wonder
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be building a wonder.
- * target city must still need the extra sheilds to build the wonder.
+ * target city must need the extra shields to complete its production.
 
 "Join City" - Add the actor to the target city's population.
  * UI name can be set using ui_name_join_city

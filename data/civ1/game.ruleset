@@ -335,6 +335,22 @@ actor_reqs    =
       "UnitFlag", "HelpWonder", "Local", TRUE
       "DiplRel", "Is foreign", "Local", FALSE
     }
+target_reqs    =
+    { "type",   "name", "range"
+      "BuildingGenus", "GreatWonder", "Local"
+    }
+
+[actionenabler_help_build_small_wonder]
+action = "Help Wonder"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "HelpWonder", "Local", TRUE
+      "DiplRel", "Is foreign", "Local", FALSE
+    }
+target_reqs    =
+    { "type",   "name", "range"
+      "BuildingGenus", "SmallWonder", "Local"
+    }
 
 [actionenabler_build_city_pioneer]
 action = "Found City"

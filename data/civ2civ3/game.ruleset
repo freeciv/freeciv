@@ -418,6 +418,22 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
     }
+target_reqs    =
+    { "type",   "name", "range"
+      "BuildingGenus", "GreatWonder", "Local"
+    }
+
+[actionenabler_help_build_small_wonder]
+action = "Help Wonder"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "HelpWonder", "Local", TRUE
+      "DiplRel", "Is foreign", "Local", FALSE
+    }
+target_reqs    =
+    { "type",   "name", "range"
+      "BuildingGenus", "SmallWonder", "Local"
+    }
 
 [actionenabler_marketplace]
 action = "Enter Marketplace"

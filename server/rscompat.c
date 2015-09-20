@@ -406,6 +406,28 @@ void rscompat_postprocess(struct rscompat_info *info)
                                            TRUE, TRUE, "Nuclear"));
 
     action_enabler_add(enabler);
+
+    /* Update action enablers. */
+    action_enablers_iterate(ae) {
+      /* The rule that Help Wonder only can help wonders now lives in the
+       * ruleset. */
+      if (ae->action == ACTION_HELP_WONDER) {
+        /* The old rule is represented with two action enablers. */
+        enabler = action_enabler_copy(ae);
+        action_enabler_add(enabler);
+
+        /* One allows doing "Help Wonder" to great wonders. */
+        requirement_vector_append(&ae->target_reqs,
+                                  req_from_str("BuildingGenus", "Local", FALSE,
+                                               TRUE, TRUE, "GreatWonder"));
+
+        /* The other allows doing "Help Wonder" to small wonders. */
+        requirement_vector_append(&enabler->target_reqs,
+                                  req_from_str("BuildingGenus", "Local", FALSE,
+                                               TRUE, TRUE, "SmallWonder"));
+
+      }
+    } action_enablers_iterate_end;
   }
 
   if (info->ver_effects < 10) {
