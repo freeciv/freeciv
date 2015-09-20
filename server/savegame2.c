@@ -5588,7 +5588,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   } else {
     punit->goto_tile = NULL;
 
-    /* This variables are not used but needed for saving the unit table.
+    /* These variables are not used but needed for saving the unit table.
      * Load them to prevent unused variables errors. */
     (void) secfile_entry_lookup(loading->file, "%s.goto_x", unitstr);
     (void) secfile_entry_lookup(loading->file, "%s.goto_y", unitstr);
