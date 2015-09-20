@@ -43,6 +43,8 @@ extern "C" {
 #define MAX_LEN_VET_SHORT_NAME 8
 /* Used in the network protocol. See diplomat_success_vs_defender() */
 #define MAX_VET_LEVELS 20
+/* Limited by what values num2char() can store in unit orders in
+ * savegames. */
 #define MAX_EXTRA_TYPES 64 /* Used in the network protocol. */
 #define MAX_BASE_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
 #define MAX_ROAD_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
