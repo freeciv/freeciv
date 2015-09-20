@@ -512,6 +512,7 @@ void help_widget::set_topic(const help_item *topic)
     case HELP_ANY:
     case HELP_MULTIPLIER:
     case HELP_RULESET:
+    case HELP_TILESET:
     case HELP_TEXT:
       set_topic_other(topic, title);
       break;

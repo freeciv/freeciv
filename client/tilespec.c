@@ -69,6 +69,7 @@
 #include "control.h"		/* for fill_xxx */
 #include "editor.h"
 #include "goto.h"
+#include "helpdata.h"
 #include "options.h"		/* for fill_xxx */
 #include "themes_common.h"
 
@@ -454,7 +455,12 @@ static void drawing_data_destroy(struct drawing_data *draw);
 
 struct tileset {
   char name[512];
+  char given_name[MAX_LEN_NAME];
+  char version[MAX_LEN_NAME];
   int priority;
+
+  char *summary;
+  char *description;
 
   enum ts_type type;
   int hex_width, hex_height;
@@ -1015,6 +1021,15 @@ static void tileset_free_toplevel(struct tileset *t)
     color_system_free(t->color_system);
     t->color_system = NULL;
   }
+
+  if (t->summary != NULL) {
+    free(t->summary);
+    t->summary = NULL;
+  }
+  if (t->description != NULL) {
+    free(t->description);
+    t->description = NULL;
+  }
 }
 
 /**************************************************************************
@@ -1132,6 +1147,7 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
       tileset_player_init(tileset, pplayer);
     } players_iterate_end;
     tileset_background_init(tileset);
+    boot_help_texts(client.conn.playing); /* "About Current Tileset" */
   }
 
   /* Step 3: Setup
@@ -1540,7 +1556,49 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   duplicates_ok = (NULL != file_capstr
                    && has_capabilities("+duplicates_ok", file_capstr));
 
-  (void) secfile_entry_lookup(file, "tilespec.name"); /* currently unused */
+  tstr = secfile_lookup_str(file, "tilespec.name");
+  /* Tileset name found */
+  sz_strlcpy(t->given_name, tstr);
+  tstr = secfile_lookup_str_default(file, "", "tilespec.version");
+  if (tstr[0] != '\0') {
+    /* Tileset version found */
+    sz_strlcpy(t->version, tstr);
+  } else {
+    /* No version information */
+    t->version[0] = '\0';
+  }
+
+  tstr = secfile_lookup_str_default(file, "", "tilespec.summary");
+  if (tstr[0] != '\0') {
+    int len;
+
+    /* Tileset summary found */
+    len = strlen(tstr);
+    t->summary = fc_malloc(len + 1);
+    fc_strlcpy(t->summary, tstr, len + 1);
+  } else {
+    /* No summary */
+    if (t->summary != NULL) {
+      free(t->summary);
+      t->summary = NULL;
+    }
+  }
+
+  tstr = secfile_lookup_str_default(file, "", "tilespec.description");
+  if (tstr[0] != '\0') {
+    int len;
+
+    /* Tileset description found */
+    len = strlen(tstr);
+    t->description = fc_malloc(len + 1);
+    fc_strlcpy(t->description, tstr, len + 1);
+  } else {
+    /* No description */
+    if (t->description != NULL) {
+      free(t->description);
+      t->description = NULL;
+    }
+  }
 
   sz_strlcpy(t->name, tileset_name);
   if (!secfile_lookup_int(file, &t->priority, "tilespec.priority")
@@ -6356,4 +6414,36 @@ void tileset_ruleset_reset(struct tileset *t)
 bool tileset_is_fully_loaded(void)
 {
   return !tileset_update;
+}
+
+/****************************************************************************
+  Return tileset name
+****************************************************************************/
+const char *tileset_name(struct tileset *t)
+{
+  return t->given_name;
+}
+
+/****************************************************************************
+  Return tileset version
+****************************************************************************/
+const char *tileset_version(struct tileset *t)
+{
+  return t->version;
+}
+
+/****************************************************************************
+  Return tileset description summary
+****************************************************************************/
+const char *tileset_summary(struct tileset *t)
+{
+  return t->summary;
+}
+
+/****************************************************************************
+  Return tileset description body
+****************************************************************************/
+const char *tileset_description(struct tileset *t)
+{
+  return t->description;
 }

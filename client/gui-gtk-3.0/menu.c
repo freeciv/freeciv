@@ -385,6 +385,14 @@ static void help_ruleset_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
+  Action "HELP_TILESET" callback.
+*****************************************************************/
+static void help_tileset_callback(GtkAction *action, gpointer data)
+{
+  popup_help_dialog_string(HELP_TILESET_ITEM);
+}
+
+/****************************************************************
   Action "HELP_ECONOMY" callback.
 *****************************************************************/
 static void help_economy_callback(GtkAction *action, gpointer data)
@@ -1476,6 +1484,8 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(help_space_rate_callback)},
       {"HELP_RULESET", NULL, _("About Current Ruleset"),
        NULL, NULL, G_CALLBACK(help_ruleset_callback)},
+      {"HELP_TILESET", NULL, _("About Current Tileset"),
+       NULL, NULL, G_CALLBACK(help_tileset_callback)},
       {"HELP_NATIONS", NULL, _("About Nations"),
        NULL, NULL, G_CALLBACK(help_nations_callback)},
 
