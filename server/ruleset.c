@@ -4973,7 +4973,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
     game.ruleset_summary = fc_malloc(len + 1);
     fc_strlcpy(game.ruleset_summary, pref_text, len + 1);
   } else {
-    /* No description */
+    /* No summary */
     if (game.ruleset_summary != NULL) {
       free(game.ruleset_summary);
       game.ruleset_summary = NULL;

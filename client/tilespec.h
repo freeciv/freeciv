@@ -391,6 +391,11 @@ int tileset_num_city_colors(const struct tileset *t);
 void tileset_use_prefered_theme(const struct tileset *t);
 bool tileset_use_hard_coded_fog(const struct tileset *t);
 
+const char *tileset_name(struct tileset *t);
+const char *tileset_version(struct tileset *t);
+const char *tileset_summary(struct tileset *t);
+const char *tileset_description(struct tileset *t);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

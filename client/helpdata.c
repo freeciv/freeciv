@@ -49,6 +49,7 @@
 #include "research.h"
 #include "road.h"
 #include "specialist.h"
+#include "tilespec.h"
 #include "unit.h"
 #include "version.h"
 
@@ -66,7 +67,7 @@
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
   "Techs", "Terrain", "Extras", "Specialists", "Governments",
-  "Ruleset", "Nations", "Multipliers", NULL
+  "Ruleset", "Tileset", "Nations", "Multipliers", NULL
 };
 
 /*define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))*/
@@ -3048,6 +3049,80 @@ void boot_help_texts(struct player *pplayer)
               if (game.ruleset_description != NULL) {
                 fc_strlcat(pitem->text, "\n\n", len + desc_len);
                 fc_strlcat(pitem->text, game.ruleset_description, len + desc_len);
+              }
+              help_list_append(help_nodes, pitem);
+            }
+            break;
+          case HELP_TILESET:
+            {
+              int desc_len;
+              int len;
+              const char *ts_name = tileset_name(tileset);
+              const char *version = tileset_version(tileset);
+              const char *summary = tileset_summary(tileset);
+              const char *description = tileset_description(tileset);
+
+              pitem = new_help_item(HELP_TILESET);
+              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                          Q_(HELP_TILESET_ITEM));
+              pitem->topic = fc_strdup(name);
+              if (description != NULL) {
+                desc_len = strlen("\n\n") + strlen(description);
+              } else {
+                desc_len = 0;
+              }
+              if (summary != NULL) {
+                if (version[0] != '\0') {
+                  len = strlen(_(ts_name))
+                    + strlen(" ")
+                    + strlen(version)
+                    + strlen("\n\n")
+                    + strlen(_(summary))
+                    + 1;
+
+                  pitem->text = fc_malloc(len + desc_len);
+                  fc_snprintf(pitem->text, len, "%s %s\n\n%s",
+                              _(ts_name), version, _(summary));
+                } else {
+                  len = strlen(_(ts_name))
+                    + strlen("\n\n")
+                    + strlen(_(summary))
+                    + 1;
+
+                  pitem->text = fc_malloc(len + desc_len);
+                  fc_snprintf(pitem->text, len, "%s\n\n%s",
+                              _(ts_name), _(summary));
+                }
+              } else {
+                const char *nodesc = _("Current tileset contains no summary.");
+
+                if (version[0] != '\0') {
+                  len = strlen(_(ts_name))
+                    + strlen(" ")
+                    + strlen(version)
+                    + strlen("\n\n")
+                    + strlen(nodesc)
+                    + 1;
+
+                  pitem->text = fc_malloc(len + desc_len);
+                  fc_snprintf(pitem->text, len, "%s %s\n\n%s",
+                              _(ts_name), version,
+                              nodesc);
+                } else {
+                  len = strlen(_(ts_name))
+                    + strlen("\n\n")
+                    + strlen(nodesc)
+                    + 1;
+
+                  pitem->text = fc_malloc(len + desc_len);
+                  fc_snprintf(pitem->text, len, "%s\n\n%s",
+                              _(ts_name),
+                              nodesc);
+                }
+              }
+              if (description != NULL) {
+                fc_strlcat(pitem->text, "\n\n", len + desc_len);
+                fc_strlcat(pitem->text, description, len + desc_len);
               }
               help_list_append(help_nodes, pitem);
             }

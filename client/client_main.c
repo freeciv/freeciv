@@ -126,7 +126,7 @@ static void fc_interface_init_client(void);
 char *logfile = NULL;
 char *scriptfile = NULL;
 char *savefile = NULL;
-static char tileset_name[512] = "\0";
+static char req_tileset_name[512] = "\0";
 char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
 char music_set_name[512] = "\0";
@@ -519,7 +519,7 @@ int client_main(int argc, char *argv[])
       }
       free(option);
     } else if ((option = get_option_malloc("--tiles", argv, &i, argc))) {
-      sz_strlcpy(tileset_name, option);
+      sz_strlcpy(req_tileset_name, option);
       free(option);
       user_tileset = TRUE;
     } else if ((option = get_option_malloc("--Announce", argv, &i, argc))) {
@@ -602,8 +602,8 @@ int client_main(int argc, char *argv[])
 
   script_client_init();
 
-  if (tileset_name[0] == '\0') {
-    sz_strlcpy(tileset_name, options.default_tileset_name);
+  if (req_tileset_name[0] == '\0') {
+    sz_strlcpy(req_tileset_name, options.default_tileset_name);
   }
   if (sound_set_name[0] == '\0') {
     sz_strlcpy(sound_set_name, options.default_sound_set_name);
@@ -651,7 +651,7 @@ int client_main(int argc, char *argv[])
   helpdata_init();
   boot_help_texts(NULL);
 
-  tilespec_try_read(tileset_name, user_tileset);
+  tilespec_try_read(req_tileset_name, user_tileset);
 
   audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
   start_menu_music("music_menu", NULL);

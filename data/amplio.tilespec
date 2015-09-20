@@ -8,8 +8,15 @@ options = "+Freeciv-tilespec-Devel-2013.Oct.19"
 name = "amplio"
 priority = 20
 
+; There`s no separate versioning in tilesets part of main freeciv distribution
+;version = ""
+
+; Summary and full description of the tileset.
+;summary = ""
+;description = ""
+
 ; TODO: add more overall information fields on tiles, 
-; eg, description, authors, colors, etc.
+; eg, authors, colors, etc.
 
 ; Basic tile sizes:
 normal_tile_width  = 96

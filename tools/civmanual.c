@@ -53,6 +53,7 @@
 #include "climisc.h"
 #include "helpdata.h"
 #include "helpdlg_g.h"
+#include "tilespec.h"
 
 /* server */
 #include "citytools.h"
@@ -123,17 +124,59 @@ static char *html_special_chars(char *str, size_t *len)
   return buf;
 }
 
-/**************************************************************************
+
+/*******************************************
   Useless stubs for compiling client code.
+*/
+
+/**************************************************************************
+  Client stub
 **************************************************************************/
 void popup_help_dialog_string(const char *item)
 {
   /* Empty stub. */
 }
 
+/**************************************************************************
+  Client stub
+**************************************************************************/
 void popdown_help_dialog(void)
 {
   /* Empty stub. */
+}
+
+struct tileset *tileset;
+
+/**************************************************************************
+  Client stub
+**************************************************************************/
+const char *tileset_name(struct tileset *t)
+{
+  return NULL;
+}
+
+/**************************************************************************
+  Client stub
+**************************************************************************/
+const char *tileset_version(struct tileset *t)
+{
+  return NULL;
+}
+
+/**************************************************************************
+  Client stub
+**************************************************************************/
+const char *tileset_summary(struct tileset *t)
+{
+  return NULL;
+}
+
+/**************************************************************************
+  Client stub
+**************************************************************************/
+const char *tileset_description(struct tileset *t)
+{
+  return NULL;
 }
 
 enum client_states client_state(void)
