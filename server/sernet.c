@@ -504,14 +504,14 @@ enum server_events server_sniff_all_input(void)
 #ifdef HAVE_LIBREADLINE
   {
     if (!no_input && !readline_initialized) {
-      char *home_dir = user_home_dir();
+      char *home_dir = freeciv_home_dir();
 
       if (home_dir) {
-        int fcdl = strlen(home_dir) + 1 + strlen(".freeciv") + 1;
+        int fcdl = strlen(home_dir) + 1;
         char *fc_dir = fc_malloc(fcdl);
 
         if (fc_dir != NULL) {
-          fc_snprintf(fc_dir, fcdl, "%s/.freeciv", home_dir);
+          fc_snprintf(fc_dir, fcdl, "%s", home_dir);
 
           if (make_dir(fc_dir)) {
             history_file
