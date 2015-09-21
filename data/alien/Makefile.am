@@ -16,6 +16,7 @@ pkgdata_DATA =          	\
 	techs.ruleset		\
 	terrain.ruleset		\
 	units.ruleset		\
+	README.alien		\
 	nation/adventurers.ruleset	\
 	nation/galacticsound.ruleset	\
 	nation/jw.ruleset		\

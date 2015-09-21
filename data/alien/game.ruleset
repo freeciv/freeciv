@@ -23,7 +23,7 @@ http://www.cazfi.net/freeciv/alien/ for ruleset info.\
 ")
 
 ; Detailed description
-; description = ""
+description = *alien/README.alien*
 
 [options]
 global_init_techs=""
