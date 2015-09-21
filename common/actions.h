@@ -89,6 +89,8 @@ extern "C" {
 #define SPECENUM_VALUE21NAME N_("Destroy City")
 #define SPECENUM_VALUE22 ACTION_EXPEL_UNIT
 #define SPECENUM_VALUE22NAME N_("Expel Unit")
+/* Limited by what values num2char() can store in unit orders in
+ * savegames. */
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 
