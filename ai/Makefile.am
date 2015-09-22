@@ -14,7 +14,8 @@ if AI_MOD_STATIC_THREADED
 module_dirs += threaded
 endif
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common \
+ -I$(top_srcdir)/dependencies/tinycthread
 
 if AI_MODULES
 if !AI_MOD_STATIC_CLASSIC

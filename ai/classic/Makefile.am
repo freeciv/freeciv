@@ -6,7 +6,10 @@ else
 aimodule_LTLIBRARIES = fc_ai_classic.la
 endif
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(top_srcdir)/server -I$(top_srcdir)/server/advisors -I$(top_srcdir)/ai/default
+AM_CPPFLAGS = \
+ -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore \
+ -I$(top_srcdir)/server -I$(top_srcdir)/server/advisors -I$(top_srcdir)/ai/default \
+ -I$(top_srcdir)/dependencies/tinycthread
 
 da_sources = \
 	classicai.c	\
