@@ -418,6 +418,21 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
     }
+
+[actionenabler_marketplace]
+action = "Enter Marketplace"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "TradeRoute", "Local", TRUE
+    }
+
+[actionenabler_help_build_wonder]
+action = "Help Wonder"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "HelpWonder", "Local", TRUE
+      "DiplRel", "Is foreign", "Local", FALSE
+    }
 target_reqs    =
     { "type",   "name", "range"
       "BuildingGenus", "GreatWonder", "Local"
@@ -433,21 +448,6 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range"
       "BuildingGenus", "SmallWonder", "Local"
-    }
-
-[actionenabler_marketplace]
-action = "Enter Marketplace"
-actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "TradeRoute", "Local", TRUE
-    }
-
-[actionenabler_help_build_wonder]
-action = "Help Wonder"
-actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "HelpWonder", "Local", TRUE
-      "DiplRel", "Is foreign", "Local", FALSE
     }
 
 [actionenabler_capture]

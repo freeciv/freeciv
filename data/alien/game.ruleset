@@ -336,6 +336,22 @@ actor_reqs    =
       "UnitFlag", "HelpWonder", "Local", TRUE
       "DiplRel", "Is foreign", "Local", FALSE
     }
+target_reqs    =
+    { "type",   "name", "range"
+      "BuildingGenus", "GreatWonder", "Local"
+    }
+
+[actionenabler_help_build_small_wonder]
+action = "Help Wonder"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "HelpWonder", "Local", TRUE
+      "DiplRel", "Is foreign", "Local", FALSE
+    }
+target_reqs    =
+    { "type",   "name", "range"
+      "BuildingGenus", "SmallWonder", "Local"
+    }
 
 [actionenabler_capture]
 action = "Capture Units"
@@ -394,22 +410,6 @@ actor_reqs    =
       "UnitFlag", "AddToCity", "Local", TRUE
       "DiplRel", "Is foreign", "Local", FALSE
       "MinMoveFrags", "1", "Local", TRUE
-    }
-target_reqs    =
-    { "type",   "name", "range"
-      "BuildingGenus", "GreatWonder", "Local"
-    }
-
-[actionenabler_help_build_small_wonder]
-action = "Help Wonder"
-actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "HelpWonder", "Local", TRUE
-      "DiplRel", "Is foreign", "Local", FALSE
-    }
-target_reqs    =
-    { "type",   "name", "range"
-      "BuildingGenus", "SmallWonder", "Local"
     }
 
 [borders]
