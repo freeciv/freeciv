@@ -298,7 +298,7 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
 
   fc_assert_ret_val(NULL != str, -1);
 
-  for (token = 0; token <= num_tokens && *str != '\0'; token++) {
+  for (token = 0; token < num_tokens && *str != '\0'; token++) {
     size_t len, padlength = 0;
 
     /* skip leading delimiters */
