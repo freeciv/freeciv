@@ -5133,7 +5133,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                          "%s.orders_length", unitstr);
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr;
-      const char *tgt_unitstr;
       const char *action_unitstr;
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
@@ -5157,15 +5156,14 @@ static bool sg_load_player_unit(struct loaddata *loading,
       act_unitstr
         = secfile_lookup_str_default(loading->file, "",
                                      "%s.activity_list", unitstr);
-      tgt_unitstr
-        = secfile_lookup_str_default(loading->file, NULL, "%s.tgt_list", unitstr);
-
       action_unitstr
         = secfile_lookup_str_default(loading->file, "",
                                      "%s.action_list", unitstr);
+
       punit->has_orders = TRUE;
       for (j = 0; j < len; j++) {
         struct unit_order *order = &punit->orders.list[j];
+        int order_tgt;
 
         if (orders_unitstr[j] == '\0' || dir_unitstr[j] == '\0'
 #ifndef FREECIV_DEV_SAVE_COMPAT
@@ -5219,19 +5217,26 @@ static bool sg_load_player_unit(struct loaddata *loading,
           break;
         }
 
-        if (tgt_unitstr) {
-          if (tgt_unitstr[j] != '?') {
-            extra_id = char2num(tgt_unitstr[j]);
+        order_tgt = secfile_lookup_int_default(loading->file, -1,
+                                               "%s.tgt_vec,%d",
+                                               unitstr, j);
 
-            if (extra_id < 0 || extra_id >= loading->extra.size) {
+        if (order->order == ORDER_PERFORM_ACTION) {
+          /* TODO: Validate action target */
+          order->target = order_tgt;
+        } else {
+          /* Assume that this is an extra */
+          extra_id = order_tgt;
+
+          if (extra_id < 0 || extra_id >= loading->extra.size) {
+            if (order_tgt != EXTRA_NONE) {
               log_sg("Cannot find extra %d for %s to build",
                      extra_id, unit_rule_name(punit));
-              order->target = EXTRA_NONE;
-            } else {
-              order->target = extra_id;
             }
-          } else {
+
             order->target = EXTRA_NONE;
+          } else {
+            order->target = extra_id;
           }
         }
       }
@@ -5302,6 +5307,7 @@ static void sg_save_player_units(struct savedata *saving,
                                  struct player *plr)
 {
   int i = 0;
+  int longest_order = 0;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -5309,10 +5315,21 @@ static void sg_save_player_units(struct savedata *saving,
   secfile_insert_int(saving->file, unit_list_size(plr->units),
                      "player%d.nunits", player_number(plr));
 
+  /* Find the longest unit order so different order length won't break
+   * storing units in the tabular format. */
+  unit_list_iterate(plr->units, punit) {
+    if (punit->has_orders) {
+      if (longest_order < punit->orders.length) {
+        longest_order = punit->orders.length;
+      }
+    }
+  } unit_list_iterate_end;
+
   unit_list_iterate(plr->units, punit) {
     char buf[32];
     char dirbuf[2] = " ";
     int nat_x, nat_y;
+    int last_order, j;
 
     fc_snprintf(buf, sizeof(buf), "player%d.u%d", player_number(plr), i);
     dirbuf[0] = dir2char(punit->facing);
@@ -5393,10 +5410,13 @@ static void sg_save_player_units(struct savedata *saving,
                        "%s.transported_by", buf);
 
     if (punit->has_orders) {
-      int len = punit->orders.length, j;
+      int len = punit->orders.length;
       char orders_buf[len + 1], dir_buf[len + 1];
-      char act_buf[len + 1], tgt_buf[len + 1];
+      char act_buf[len + 1];
       char action_buf[len + 1];
+      int tgt_vec[len];
+
+      last_order = len;
 
       secfile_insert_int(saving->file, len, "%s.orders_length", buf);
       secfile_insert_int(saving->file, punit->orders.index,
@@ -5410,14 +5430,14 @@ static void sg_save_player_units(struct savedata *saving,
         orders_buf[j] = order2char(punit->orders.list[j].order);
         dir_buf[j] = '?';
         act_buf[j] = '?';
-        tgt_buf[j] = '?';
+        tgt_vec[j] = -1;
         action_buf[j] = '?';
         switch (punit->orders.list[j].order) {
         case ORDER_MOVE:
           dir_buf[j] = dir2char(punit->orders.list[j].dir);
           break;
         case ORDER_ACTIVITY:
-          tgt_buf[j] = num2char(punit->orders.list[j].target);
+          tgt_vec[j] = punit->orders.list[j].target;
           act_buf[j] = activity2char(punit->orders.list[j].activity);
           break;
         case ORDER_PERFORM_ACTION:
@@ -5438,15 +5458,17 @@ static void sg_save_player_units(struct savedata *saving,
           break;
         }
       }
-      orders_buf[len] = dir_buf[len] = act_buf[len] = tgt_buf[len] = '\0';
+      orders_buf[len] = dir_buf[len] = act_buf[len] = '\0';
       action_buf[len] = '\0';
 
       secfile_insert_str(saving->file, orders_buf, "%s.orders_list", buf);
       secfile_insert_str(saving->file, dir_buf, "%s.dir_list", buf);
       secfile_insert_str(saving->file, act_buf, "%s.activity_list", buf);
-      secfile_insert_str(saving->file, tgt_buf, "%s.tgt_list", buf);
       secfile_insert_str(saving->file, action_buf, "%s.action_list", buf);
+      secfile_insert_int_vec(saving->file, tgt_vec, len,
+                             "%s.tgt_vec", buf);
     } else {
+
       /* Put all the same fields into the savegame - otherwise the
        * registry code can't correctly use a tabular format and the
        * savegame will be bigger. */
@@ -5457,8 +5479,18 @@ static void sg_save_player_units(struct savedata *saving,
       secfile_insert_str(saving->file, "-", "%s.orders_list", buf);
       secfile_insert_str(saving->file, "-", "%s.dir_list", buf);
       secfile_insert_str(saving->file, "-", "%s.activity_list", buf);
-      secfile_insert_str(saving->file, "-", "%s.tgt_list", buf);
       secfile_insert_str(saving->file, "-", "%s.action_list", buf);
+
+      /* The start of a vector has no number. */
+      secfile_insert_int(saving->file, -1, "%s.tgt_vec", buf);
+      last_order = 1;
+    }
+
+    for (j = last_order; j < longest_order; j++) {
+      /* Fill in dummy values for order targets so the registry will save
+       * the unit table in a tabular format. */
+
+      secfile_insert_int(saving->file, -1, "%s.tgt_vec,%d", buf, j);
     }
 
     i++;

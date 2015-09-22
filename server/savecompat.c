@@ -1036,11 +1036,35 @@ static void compat_load_030000(struct loaddata *loading)
   }
 }
 
+#ifdef FREECIV_DEV_SAVE_COMPAT
+static const char num_chars[] =
+  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
+
+/**************************************************************************
+  Converts single character into numerical value. This is not hex
+  conversion.
+**************************************************************************/
+static int char2num(char ch)
+{
+  const char *pch;
+
+  if (ch == '?') {
+    /* Not specified. */
+    return -1;
+  }
+
+  pch = strchr(num_chars, ch);
+
+  sg_failure_ret_val(NULL != pch, 0,
+                     "Unknown ascii value for num: '%c' %d", ch, ch);
+
+  return pch - num_chars;
+}
+
 /****************************************************************************
   Translate savegame secfile data from earlier development version format
   to current one.
 ****************************************************************************/
-#ifdef FREECIV_DEV_SAVE_COMPAT
 static void compat_load_dev(struct loaddata *loading)
 {
   bool randsaved;
@@ -1075,6 +1099,51 @@ static void compat_load_dev(struct loaddata *loading)
       name = secfile_lookup_str_default(loading->file, "", "player%d.ranked_username", plrno);
       secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
                           "player%d.unassigned_ranked", plrno);
+    }
+  }
+
+  /* Units orders. */
+  for (plrno = 0; plrno < nplayers; plrno++) {
+    int units_num = secfile_lookup_int_default(loading->file, 0,
+                                               "player%d.nunits",
+                                               plrno);
+    int unit;
+    int tgt_vec[MAX_LEN_ROUTE + 1];
+
+    for (unit = 0; unit < units_num; unit++) {
+      int ord_num;
+
+      /* Load the old target list string. */
+      const char *tgt_str =
+          secfile_lookup_str_default(loading->file, NULL,
+                                     "player%d.u%d.tgt_list",
+                                     plrno, unit);
+
+      /* Load the order length */
+      const int len =
+          secfile_lookup_int_default(loading->file, 0,
+                                     "player%d.u%d.orders_length",
+                                     plrno, unit);
+
+      if (tgt_str == NULL) {
+        /* Already upgraded */
+        continue;
+      }
+
+      if (len <= 0) {
+        /* No orders. */
+        continue;
+      }
+
+      /* Convert the target of each order. */
+      for (ord_num = 0; ord_num < len; ord_num++) {
+        tgt_vec[ord_num] = char2num(tgt_str[ord_num]);
+      }
+
+      /* Store the order target vector. */
+      secfile_insert_int_vec(loading->file, tgt_vec, len,
+                             "player%d.u%d.tgt_vec",
+                             plrno, unit);
     }
   }
 }
