@@ -74,12 +74,15 @@ struct bzip2_struct {
 #define XZ_DECODER_TEST_SIZE (4*1024)      /* 4kb */
 
 /* In my tests 7Mb proved to be not enough and with 10Mb decompression
-   succeeded. */
-#define XZ_DECODER_MEMLIMIT (15*1024*1024) /* 15Mb */
+   succeeded in typical case. */
+#define XZ_DECODER_MEMLIMIT (65*1024*1024)        /* 65Mb */
+#define XZ_DECODER_MEMLIMIT_STEP (25*1024*1024)   /* Increase 25Mb at a time */
+#define XZ_DECODER_MEMLIMIT_FINAL (100*1024*1024) /* 100Mb */
 
 struct xz_struct {
   lzma_stream stream;
   int out_index;
+  uint64_t memlimit;
 
   /* liblzma bug workaround. This is what stream.avail_out should be,
      calculated correctly. Used only when reading file. */
@@ -104,6 +107,7 @@ struct xz_struct {
 };
 
 static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action);
+static void xz_action(fz_FILE *fp, lzma_action action);
 
 #endif /* HAVE_LIBLZMA */
 
@@ -248,9 +252,10 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
 
 #ifdef HAVE_LIBLZMA
     /* Try to open as xz file */
+    fp->u.xz.memlimit = XZ_DECODER_MEMLIMIT;
     memset(&fp->u.xz.stream, 0, sizeof(lzma_stream));
     fp->u.xz.error = lzma_stream_decoder(&fp->u.xz.stream,
-                                         XZ_DECODER_MEMLIMIT,
+                                         fp->u.xz.memlimit,
                                          LZMA_CONCATENATED);
     if (fp->u.xz.error != LZMA_OK) {
       free(fp);
@@ -280,7 +285,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
           fp->u.xz.hack_byte_used = FALSE;
           action = LZMA_FINISH;
         }
-        fp->u.xz.error = lzma_code(&fp->u.xz.stream, action);
+        xz_action(fp, action);
         if (fp->u.xz.error == LZMA_OK || fp->u.xz.error == LZMA_STREAM_END) {
           fp->method = FZ_XZ;
           fp->u.xz.out_index = 0;
@@ -528,7 +533,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
           } else {
             fp->u.xz.stream.next_out = fp->u.xz.out_buf;
             fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE;
-            fp->u.xz.error = lzma_code(&fp->u.xz.stream, LZMA_FINISH);
+            xz_action(fp, LZMA_FINISH);
             fp->u.xz.out_index = 0;
             fp->u.xz.out_avail =
               fp->u.xz.stream.total_out - fp->u.xz.total_read;
@@ -549,7 +554,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
           } else {
             action = LZMA_FINISH;
           }
-          fp->u.xz.error = lzma_code(&fp->u.xz.stream, action);
+          xz_action(fp, action);
           fp->u.xz.out_avail =
             fp->u.xz.stream.total_out - fp->u.xz.total_read;
           fp->u.xz.out_index = 0;
@@ -652,6 +657,28 @@ static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action)
   } while (fp->u.xz.stream.avail_in > 0);
 
   return TRUE;
+}
+
+/***************************************************************
+  Helper function to do given decompression action.
+***************************************************************/
+static void xz_action(fz_FILE *fp, lzma_action action)
+{
+  fp->u.xz.error = lzma_code(&fp->u.xz.stream, action);
+  if (fp->u.xz.error != LZMA_MEMLIMIT_ERROR) {
+    return;
+  }
+
+  while (fp->u.xz.error == LZMA_MEMLIMIT_ERROR
+         && fp->u.xz.memlimit < XZ_DECODER_MEMLIMIT_FINAL) {
+    fp->u.xz.memlimit += XZ_DECODER_MEMLIMIT_STEP;
+    if (fp->u.xz.memlimit > XZ_DECODER_MEMLIMIT_FINAL) {
+      fp->u.xz.memlimit = XZ_DECODER_MEMLIMIT_FINAL;
+    }
+    fp->u.xz.error = lzma_memlimit_set(&fp->u.xz.stream, fp->u.xz.memlimit);
+  }
+
+  fp->u.xz.error = lzma_code(&fp->u.xz.stream, action);
 }
 #endif /* HAVE_LIBLZMA */
 
