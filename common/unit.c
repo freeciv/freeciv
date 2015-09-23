@@ -550,6 +550,8 @@ bool activity_requires_target(enum unit_activity activity)
   default:
     fc_assert_ret_val(FALSE, FALSE);
   }
+
+  return FALSE;
 }
 
 /**************************************************************************
