@@ -4142,7 +4142,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
       performed = unit_perform_action(pplayer,
                                       unitid,
                                       tgt_id,
-                                      0, name,
+                                      order.target,
+                                      name,
                                       order.action);
 
       if (!player_unit_by_number(pplayer, unitid)) {

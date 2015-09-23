@@ -5222,8 +5222,53 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                unitstr, j);
 
         if (order->order == ORDER_PERFORM_ACTION) {
-          /* TODO: Validate action target */
-          order->target = order_tgt;
+          switch (order->action) {
+          case ACTION_SPY_TARGETED_STEAL_TECH:
+            if (order_tgt == A_NONE
+                || (!valid_advance_by_number(order_tgt)
+                    && order_tgt != A_FUTURE)) {
+              /* Target tech is invalid. */
+              log_sg("Cannot find tech %d for %s to steal",
+                     order_tgt, unit_rule_name(punit));
+              order->target = EXTRA_NONE;
+            } else {
+              order->target = order_tgt;
+            }
+            break;
+          case ACTION_ESTABLISH_EMBASSY:
+          case ACTION_SPY_INVESTIGATE_CITY:
+          case ACTION_SPY_POISON:
+          case ACTION_SPY_STEAL_GOLD:
+          case ACTION_SPY_SABOTAGE_CITY:
+          case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+          case ACTION_SPY_STEAL_TECH:
+          case ACTION_SPY_INCITE_CITY:
+          case ACTION_TRADE_ROUTE:
+          case ACTION_MARKETPLACE:
+          case ACTION_HELP_WONDER:
+          case ACTION_SPY_BRIBE_UNIT:
+          case ACTION_SPY_SABOTAGE_UNIT:
+          case ACTION_CAPTURE_UNITS:
+          case ACTION_FOUND_CITY:
+          case ACTION_JOIN_CITY:
+          case ACTION_STEAL_MAPS:
+          case ACTION_BOMBARD:
+          case ACTION_SPY_NUKE:
+          case ACTION_NUKE:
+          case ACTION_DESTROY_CITY:
+          case ACTION_EXPEL_UNIT:
+          case ACTION_COUNT:
+            /* Target in order unsupported. */
+
+            /* Target shouldn't be specified yet. */
+            fc_assert_msg(order_tgt == -1,
+                          "Specified target for action %d unsupported.",
+                          order->action);
+
+            order->target = EXTRA_NONE;
+
+            break;
+          }
         } else {
           /* Assume that this is an extra */
           extra_id = order_tgt;
@@ -5442,6 +5487,7 @@ static void sg_save_player_units(struct savedata *saving,
           break;
         case ORDER_PERFORM_ACTION:
           action_buf[j] = num2char(punit->orders.list[j].action);
+          tgt_vec[j] = punit->orders.list[j].target;
           if (punit->orders.list[j].dir != -1) {
             /* The action target is on another tile. */
             dir_buf[j] = dir2char(punit->orders.list[j].dir);

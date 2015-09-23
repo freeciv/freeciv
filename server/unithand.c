@@ -3915,6 +3915,20 @@ void handle_unit_orders(struct player *pplayer,
           return;
         }
         break;
+      case ACTION_SPY_TARGETED_STEAL_TECH:
+        if (packet->target[i] == A_NONE
+            || (!valid_advance_by_number(packet->target[i])
+                && packet->target[i] != A_FUTURE)) {
+          /* Target tech is invalid. */
+
+          log_error("handle_unit_orders() can't do %s without a target. "
+                    "Sent in order number %d from %s to unit number %d.",
+                    action_get_rule_name(packet->action[i]), i,
+                    player_name(pplayer), packet->unit_id);
+
+          return;
+        }
+        break;
       case ACTION_ESTABLISH_EMBASSY:
       case ACTION_SPY_INVESTIGATE_CITY:
       case ACTION_SPY_POISON:
@@ -3939,7 +3953,6 @@ void handle_unit_orders(struct player *pplayer,
         break;
       /* Needs additional target information. */
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-      case ACTION_SPY_TARGETED_STEAL_TECH:
         log_error("handle_unit_orders() the action %s isn't allowed in "
                   "orders. "
                   "Sent in order number %d from %s to unit number %d.",
