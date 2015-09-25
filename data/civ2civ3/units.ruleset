@@ -478,7 +478,7 @@ veteran_raise_chance = 0
 veteran_work_raise_chance = 0
 veteran_power_fact = 100
 veteran_move_bonus = 0
-roles         = "Settlers", "WorkerStartUnit"
+roles         = "Settlers"
 helptext      = _("\
 Migrants can be used to transfer population to other cities, but \
 may not found new cities. They can also perform some of the same \
