@@ -224,12 +224,24 @@ static const char *download_modpack_recursive(const char *URL,
 
       if (needed) {
         const char *msg;
+        char dep_URL_full[2048];
 
         if (mcb != NULL) {
           mcb(_("Download dependency modpack"));
         }
 
-        msg = download_modpack_recursive(dep_URL, fcmp, mcb, pbcb, recursion + 1);
+        if (dep_URL[0] == '.') {
+          char URLstart[start_idx];
+
+          strncpy(URLstart, URL, start_idx - 1);
+          URLstart[start_idx - 1] = '\0';
+          fc_snprintf(dep_URL_full, sizeof(dep_URL_full), "%s%s",
+                      URLstart, dep_URL + 1);
+        } else {
+          strncpy(dep_URL_full, dep_URL, sizeof(dep_URL_full));
+        }
+
+        msg = download_modpack_recursive(dep_URL_full, fcmp, mcb, pbcb, recursion + 1);
 
         if (msg != NULL) {
           return msg;
@@ -353,11 +365,18 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
   int modpack_count;
   const char *msg;
   const char *mp_name;
+  int start_idx;
 
   list_file = netfile_get_section_file(fcmp->list_url, nf_cb, mcb);
 
   if (list_file == NULL) {
     return _("Cannot fetch and parse modpack list");
+  }
+
+  for (start_idx = strlen(fcmp->list_url);
+       start_idx > 0 && fcmp->list_url[start_idx - 1] != '/';
+       start_idx--) {
+    /* Nothing */
   }
 
   list_capstr = secfile_lookup_str(list_file, "info.options");
@@ -411,7 +430,9 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
                                           "modpacks.list%d.notes", modpack_count);
 
     if (mp_name != NULL && mpURL != NULL) {
+      char mpURL_full[2048];
       enum modpack_type type = modpack_type_by_name(mp_type_str, fc_strcasecmp);
+
       if (!modpack_type_is_valid(type)) {
         log_error("Illegal modpack type \"%s\"", mp_type_str ? mp_type_str : "NULL");
       }
@@ -421,7 +442,19 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
       if (mp_subtype == NULL) {
         mp_subtype = "-";
       }
-      cb(mp_name, mpURL, mpver, mplic, type, _(mp_subtype), mp_notes);
+
+      if (mpURL[0] == '.') {
+        char URLstart[start_idx];
+
+        strncpy(URLstart, fcmp->list_url, start_idx - 1);
+        URLstart[start_idx - 1] = '\0';
+        fc_snprintf(mpURL_full, sizeof(mpURL_full), "%s%s",
+                    URLstart, mpURL + 1);
+      } else {
+        strncpy(mpURL_full, mpURL, sizeof(mpURL_full));
+      }
+      
+      cb(mp_name, mpURL_full, mpver, mplic, type, _(mp_subtype), mp_notes);
     }
     modpack_count++;
   } while (mp_name != NULL);
