@@ -3693,7 +3693,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = unit_type_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
-        CATLSTR(buf, bufsz, "* ");
+        CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
       }
@@ -4400,7 +4400,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = tech_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
-        CATLSTR(buf, bufsz, "* ");
+        CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
       }
@@ -4525,7 +4525,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = terrain_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
-        CATLSTR(buf, bufsz, "* ");
+        CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
       }
