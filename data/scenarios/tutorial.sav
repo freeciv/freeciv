@@ -1,5 +1,6 @@
 
 [scenario]
+is_scenario=TRUE
 name=_("Tutorial")
 description=_("Play this tutorial scenario to get an introduction to Freeciv.")
 
