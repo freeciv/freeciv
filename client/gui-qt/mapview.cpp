@@ -946,6 +946,7 @@ info_label::info_label(QWidget *parent) : fcwidget()
   end_turn = new QPushButton(_("Turn Done"));
   end_turn->setStyleSheet(
     QString(end_turn_button_stylesheet).arg(end_turn_font_size));
+  end_turn->setFocusPolicy(Qt::NoFocus);
   connect(end_turn, &QPushButton::clicked, &key_end_turn);
   layout->addWidget(end_turn, 0, Qt::AlignCenter);
 }
