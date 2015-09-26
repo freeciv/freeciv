@@ -47,8 +47,6 @@ extern "C" {
 /* A single element of a genlist, opaque type. */
 struct genlist_link;
 
-struct genlist_link;
-
 /* Function type definitions. */
 typedef void (*genlist_free_fn_t) (void *);
 typedef void * (*genlist_copy_fn_t) (const void *);
