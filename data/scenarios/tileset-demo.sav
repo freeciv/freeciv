@@ -1,4 +1,8 @@
 
+[scenario]
+is_scenario=TRUE
+players=TRUE
+
 [savefile]
 options=" +version2 specials"
 version=20

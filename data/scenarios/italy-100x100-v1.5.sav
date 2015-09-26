@@ -1,5 +1,6 @@
 
 [scenario]
+is_scenario=TRUE
 name=_("Italy (classic/medium)")
 description=_("Classic-style 100x100 map of Italy.")
 players=FALSE
