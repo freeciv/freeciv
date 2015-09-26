@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-20 01:48+0300\n"
+"POT-Creation-Date: 2015-09-26 22:21+0300\n"
 "PO-Revision-Date: 2015-09-20 01:48+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
@@ -1060,7 +1060,7 @@ msgstr "Saa"
 # *** Depends too much on the context, phenomenom pollution & 'substance' pollution
 # aren't the same. ***
 #: client/cityrepdata.c:708 common/events.c:148 common/terrain.c:551
-#: common/unit.c:760 server/report.c:167
+#: common/unit.c:762 server/report.c:167
 msgid "Pollution"
 msgstr "Saastetta"
 
@@ -1606,7 +1606,7 @@ msgstr ""
 "Pikanäppäin: s\n"
 "Valitse erityispiirre: vaihto+s tai hiiren oikea nappi."
 
-#: client/editor.c:157 common/terrain.c:1032 common/unit.c:784
+#: client/editor.c:157 common/terrain.c:1032 common/unit.c:786
 #: data/civ1/terrain.ruleset:855 data/civ2/terrain.ruleset:983
 #: data/classic/terrain.ruleset:1195 data/experimental/terrain.ruleset:1170
 #: data/civ2civ3/terrain.ruleset:1220 data/multiplayer/terrain.ruleset:1174
@@ -2241,7 +2241,7 @@ msgstr "A_janmukaista yksikkö"
 #: client/gui-sdl/diplomat_dialog.c:1423 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1950 client/gui-xaw/diplomat_dialog.c:116
 #: client/gui-xaw/diplomat_dialog.c:662 client/gui-xaw/repodlgs.c:1010
-#: client/text.c:1347 common/unit.c:2216
+#: client/text.c:1347 common/unit.c:2218
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -3599,7 +3599,7 @@ msgstr "Nähty (Näkymätön)"
 #: client/gui-gtk-2.0/editprop.c:6248 client/gui-gtk-2.0/pages.c:667
 #: client/gui-gtk-3.0/editprop.c:6289 client/gui-gtk-3.0/pages.c:735
 #: client/gui-qt/pages.cpp:732 client/gui-sdl/citydlg.c:1981
-#: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:798
+#: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:800
 msgid "Unknown"
 msgstr "Tuntematon"
 
@@ -3675,7 +3675,7 @@ msgid "Show _All Cities"
 msgstr "_Näytä kaikki kaupungit"
 
 #: client/gui-gtk-2.0/gotodlg.c:333 client/gui-gtk-3.0/gotodlg.c:339
-#: client/gui-qt/mapview.cpp:1651 client/text.c:1173
+#: client/gui-qt/mapview.cpp:1652 client/text.c:1173
 msgid "No units selected."
 msgstr "Ei valittua yksikköä."
 
@@ -4876,7 +4876,7 @@ msgstr "Hae asetus"
 
 #: client/gui-gtk-2.0/optiondlg.c:203 client/gui-gtk-3.0/optiondlg.c:203
 msgid "Reset this option"
-msgstr "Palauta oletusarvo."
+msgstr "Palauta oletusarvo"
 
 #: client/gui-gtk-2.0/optiondlg.c:211 client/gui-gtk-3.0/optiondlg.c:211
 msgid "Apply the changes for this option"
@@ -4900,7 +4900,7 @@ msgstr "Koostetaan skenaariolistaa."
 #: client/gui-gtk-2.0/pages.c:175 client/gui-gtk-3.0/pages.c:180
 #, c-format
 msgid "%s%s, %s client"
-msgstr "%s%s, käyttöliittymä %s."
+msgstr "%s%s, käyttöliittymä %s"
 
 #. TRANS: "version 2.6.0
 #. *         commit: [modified] <git commit id>
@@ -4917,14 +4917,14 @@ msgid ""
 msgstr ""
 "%s%s\n"
 "revisiotunniste: %s\n"
-"käyttöliittymä %s."
+"käyttöliittymä %s"
 
 #. TRANS: "version 2.6.0 (r25000), gui-gtk-2.0 client"
 #. TRANS: "version 2.6.0 (r25000), gui-gtk-3.0 client"
 #: client/gui-gtk-2.0/pages.c:187 client/gui-gtk-3.0/pages.c:192
 #, c-format
 msgid "%s%s (%s), %s client"
-msgstr "%s%s (%s), käyttöliittymä %s."
+msgstr "%s%s (%s), käyttöliittymä %s"
 
 #: client/gui-gtk-2.0/pages.c:261 client/gui-gtk-3.0/pages.c:317
 msgid "Start _New Game"
@@ -5661,7 +5661,7 @@ msgstr "Maailma"
 
 # *** The three first ones are states, this and a few next are imperative. ***
 #: client/gui-gtk-2.0/unitselect.c:482 client/gui-gtk-3.0/unitselect.c:484
-#: client/gui-qt/menu.cpp:633 common/unit.c:770
+#: client/gui-qt/menu.cpp:633 common/unit.c:772
 msgid "Sentry"
 msgstr "Vartioi"
 
@@ -6236,7 +6236,7 @@ msgid "MP:"
 msgstr "LP:"
 
 #. TRANS: HP - hit points
-#: client/gui-qt/dialogs.cpp:2277 client/gui-qt/mapview.cpp:1522
+#: client/gui-qt/dialogs.cpp:2277 client/gui-qt/mapview.cpp:1523
 msgid "%1 HP:%2/%3"
 msgstr "%1 OP:%2/%3"
 
@@ -6415,27 +6415,27 @@ msgstr "Ruudun tuotannoksi tulee %1, %2, %3."
 msgid "Output (Food, Shields, Trade) of a tile where the resource is present."
 msgstr "Ruudun tuotanto (Ruoka/Tuotanto/Kauppa) kun sillä on luonnonvara."
 
-#: client/gui-qt/mapview.cpp:1136
+#: client/gui-qt/mapview.cpp:1137
 msgid ""
 "Shows your current luxury/science/tax rates. Use mouse wheel to change them"
 msgstr ""
 "Näyttää nykyisen luksus/tutkimus/vero -tasosi, käytä hiiren pyörää "
 "muuttaaksesi"
 
-#: client/gui-qt/mapview.cpp:1149
+#: client/gui-qt/mapview.cpp:1150
 msgid "%1 (Turn:%2)"
 msgstr "%1 (Vuoro:%2)"
 
-#: client/gui-qt/mapview.cpp:1157
+#: client/gui-qt/mapview.cpp:1158
 msgid "Gold:%1 (+%2)"
 msgstr "Kultaa:%1 (+%2)"
 
-#: client/gui-qt/mapview.cpp:1161
+#: client/gui-qt/mapview.cpp:1162
 msgid "Gold:%1 (%2)"
 msgstr "Kultaa:%1 (%2)"
 
 #. TRANS: unitX from cityZ
-#: client/gui-qt/mapview.cpp:1518
+#: client/gui-qt/mapview.cpp:1519
 msgid "%1 from %2"
 msgstr "%1 kaupungista %2"
 
@@ -6556,11 +6556,11 @@ msgstr "Yksikkökerros"
 msgid "Any activity"
 msgstr "Mikä hyvänsä toiminta"
 
-#: client/gui-qt/menu.cpp:564 common/unit.c:758
+#: client/gui-qt/menu.cpp:564 common/unit.c:760
 msgid "Idle"
 msgstr "Toimeton"
 
-#: client/gui-qt/menu.cpp:571 common/unit.c:768
+#: client/gui-qt/menu.cpp:571 common/unit.c:770
 msgid "Fortified"
 msgstr "Linnoittautunut"
 
@@ -6619,7 +6619,7 @@ msgstr "Tee tästä uusi kotikaupunki"
 msgid "Upgrade"
 msgstr "Ajanmukaista"
 
-#: client/gui-qt/menu.cpp:663 common/unit.c:786
+#: client/gui-qt/menu.cpp:663 common/unit.c:788
 msgid "Convert"
 msgstr "Muunna yksikkö"
 
@@ -6634,7 +6634,7 @@ msgstr "Linnoittaudu"
 
 #: client/gui-qt/menu.cpp:683 client/gui-sdl/menu.c:698
 #: client/gui-xaw/menu.c:186 client/text.c:498 client/text.c:502
-#: common/unit.c:772
+#: common/unit.c:774
 msgid "Pillage"
 msgstr "Turmele"
 
@@ -8823,7 +8823,7 @@ msgid "Paths"
 msgstr "Kulkureitit"
 
 #: client/gui-xaw/menu.c:153 common/terrain.c:549 common/terrain.c:836
-#: common/unit.c:764 tools/civmanual.c:310
+#: common/unit.c:766 tools/civmanual.c:310
 msgid "Irrigation"
 msgstr "kasteluverkosto"
 
@@ -9988,6 +9988,10 @@ msgstr "· Jos tämä yksikkö on menetetään, häviät pelin!\n"
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "· Kullakin pelaajalla voi olla vain yksi tämäntyyppinen yksikkö.\n"
 
+#: client/helpdata.c:2467 client/helpdata.c:3093 client/helpdata.c:3212
+msgid "?bullet:* "
+msgstr "· "
+
 #: client/helpdata.c:2475
 #, c-format
 msgid "* Costs %d population to build.\n"
@@ -10336,8 +10340,8 @@ msgstr[1] "Jos %s otettaisiin kohteeksi nyt, tarvitsisimme %d lamppua."
 #, c-format
 msgid " The whole project will require %d bulb to complete."
 msgid_plural " The whole project will require %d bulbs to complete."
-msgstr[0] "Koko projekti vaatii %d lampun."
-msgstr[1] "Koko projekti vaatii %d lamppua."
+msgstr[0] " Koko projekti vaatii %d lampun."
+msgstr[1] " Koko projekti vaatii %d lamppua."
 
 #. TRANS: last %s is a sentence pluralized separately.
 #: client/helpdata.c:3000
@@ -14849,7 +14853,7 @@ msgstr "Mahdollista ilmavoimat"
 msgid "Claim_Ocean"
 msgstr "Valtaa meri"
 
-#: common/terrain.c:550 common/terrain.c:840 common/unit.c:762
+#: common/terrain.c:550 common/terrain.c:840 common/unit.c:764
 msgid "Mine"
 msgstr "kaivos"
 
@@ -14857,7 +14861,7 @@ msgstr "kaivos"
 msgid "Hut"
 msgstr "maja"
 
-#: common/terrain.c:554 common/unit.c:780
+#: common/terrain.c:554 common/unit.c:782
 msgid "Fallout"
 msgstr "laskeuma"
 
@@ -14907,39 +14911,39 @@ msgstr "Makea vesi"
 msgid "NotGenerated"
 msgstr "Ei generoitu"
 
-#: common/unit.c:766
+#: common/unit.c:768
 msgid "Fortifying"
 msgstr "Linnoittautumassa"
 
-#: common/unit.c:774 data/Freeciv.in:1141
+#: common/unit.c:776 data/Freeciv.in:1141
 msgid "Goto"
 msgstr "Mene"
 
-#: common/unit.c:776
+#: common/unit.c:778
 msgid "Explore"
 msgstr "Tutki"
 
-#: common/unit.c:778 data/civ2/units.ruleset:24 data/classic/units.ruleset:29
+#: common/unit.c:780 data/civ2/units.ruleset:24 data/classic/units.ruleset:29
 #: data/experimental/units.ruleset:32 data/civ2civ3/units.ruleset:29
 #: data/multiplayer/units.ruleset:29 tools/civmanual.c:310
 msgid "Transform"
 msgstr "Muokkaa"
 
-#: common/unit.c:782
+#: common/unit.c:784
 msgid "Base"
 msgstr "Tukikohta"
 
 # *** '(s/he/it) moves' ***
-#: common/unit.c:1519 common/unit.c:1524
+#: common/unit.c:1521 common/unit.c:1526
 msgid "Moves"
 msgstr "Liikkuu"
 
-#: common/unit.c:1631
+#: common/unit.c:1633
 msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2226
+#: common/unit.c:2228
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -14954,13 +14958,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:2235
+#: common/unit.c:2237
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2241
+#: common/unit.c:2243
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -14975,17 +14979,17 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:2251
+#: common/unit.c:2253
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2255
+#: common/unit.c:2257
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2260
+#: common/unit.c:2262
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
@@ -21009,7 +21013,7 @@ msgid ""
 "chance of a plague."
 msgstr ""
 "Sallii kaupungin kasvaa 12 suuremmaksi. Vaatii vesijohtoverkoston joka "
-"sallii kasvuin 8 suuremmaksi. Vähentää edelleen ruton riskiä."
+"sallii kasvun 8 suuremmaksi. Vähentää edelleen ruton riskiä."
 
 #: data/classic/buildings.ruleset:818 data/experimental/buildings.ruleset:870
 #: data/multiplayer/buildings.ruleset:801
@@ -29719,59 +29723,59 @@ msgstr ""
 "Aikanaan viikingit hallitsivat Normandiaa, Venäjää ja myös lyhyen ajan "
 "Sisilian kuningaskuntaa."
 
-#: data/scenarios/british-isles-85x80-v2.80.sav:3
+#: data/scenarios/british-isles-85x80-v2.80.sav:4
 msgid "British Isles (classic/medium)"
 msgstr "Brittein saaret (keskikokoinen/klassinen)"
 
-#: data/scenarios/british-isles-85x80-v2.80.sav:4
+#: data/scenarios/british-isles-85x80-v2.80.sav:5
 msgid "Classic-style 85x80 map of the British Isles."
 msgstr "Klassistyylinen 85x80-kokoinen Brittein saarten kartta."
 
-#: data/scenarios/earth-160x90-v2.sav:3
+#: data/scenarios/earth-160x90-v2.sav:4
 msgid "Earth (classic/large)"
 msgstr "Maa (klassinen, suuri)"
 
-#: data/scenarios/earth-160x90-v2.sav:4
+#: data/scenarios/earth-160x90-v2.sav:5
 msgid "Classic-style 160x90 map of the Earth."
 msgstr "Klassistyylinen 160x90-kokoinen maailmankartta."
 
-#: data/scenarios/earth-80x50-v3.sav:3
+#: data/scenarios/earth-80x50-v3.sav:4
 msgid "Earth (classic/small)"
 msgstr "Maa (klassinen, pieni)"
 
-#: data/scenarios/earth-80x50-v3.sav:4
+#: data/scenarios/earth-80x50-v3.sav:5
 msgid "Classic-style 80x50 map of the Earth."
 msgstr "Klassistyylinen 80×50-kokoinen maailmankartta."
 
-#: data/scenarios/europe-200x100-v2.sav:3
+#: data/scenarios/europe-200x100-v2.sav:4
 msgid "Europe (classic/giant)"
 msgstr "Eurooppa (jättimäinen/klassinen)"
 
-#: data/scenarios/europe-200x100-v2.sav:4
+#: data/scenarios/europe-200x100-v2.sav:5
 msgid "Classic-style 200x100 map of Europe."
 msgstr "Erinomaisen suuri 200×100-kokoinen klassistyylinen Euroopan kartta."
 
-#: data/scenarios/france-140x90-v2.sav:3
+#: data/scenarios/france-140x90-v2.sav:4
 msgid "France (classic/large)"
 msgstr "Ranska (klassinen, suuri)"
 
-#: data/scenarios/france-140x90-v2.sav:4
+#: data/scenarios/france-140x90-v2.sav:5
 msgid "Classic-style 140x90 map of France."
 msgstr "Klassistyylinen 140×90-kokoinen Ranskan kartta."
 
-#: data/scenarios/hagworld-120x60-v1.2.sav:3
+#: data/scenarios/hagworld-120x60-v1.2.sav:4
 msgid "Earth (classic/medium)"
 msgstr "Maa (klassinen, keskisuuri)"
 
-#: data/scenarios/hagworld-120x60-v1.2.sav:4
+#: data/scenarios/hagworld-120x60-v1.2.sav:5
 msgid "Classic-style 120x60 map of the Earth."
 msgstr "Klassistyylinen 120×60-kokoinen maailmankartta."
 
-#: data/scenarios/iberian-peninsula-136x100-v1.0.sav:3
+#: data/scenarios/iberian-peninsula-136x100-v1.0.sav:4
 msgid "Iberian Peninsula (classic/large)"
 msgstr "Pyreneiden niemimaa (klassinen/suuri)"
 
-#: data/scenarios/iberian-peninsula-136x100-v1.0.sav:4
+#: data/scenarios/iberian-peninsula-136x100-v1.0.sav:5
 msgid ""
 "Classic-style 136x100 map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
@@ -29779,39 +29783,39 @@ msgstr ""
 "Laaja klassistyylinen kartta Pyreneiden niemimaasta, jolla nykyinen Espanja "
 "ja Portugali sijaitsevat."
 
-#: data/scenarios/italy-100x100-v1.5.sav:3
+#: data/scenarios/italy-100x100-v1.5.sav:4
 msgid "Italy (classic/medium)"
 msgstr "Italia (klassinen, keskisuuri)"
 
-#: data/scenarios/italy-100x100-v1.5.sav:4
+#: data/scenarios/italy-100x100-v1.5.sav:5
 msgid "Classic-style 100x100 map of Italy."
 msgstr "Klassistyylinen 100×100-kokoinen Italian kartta."
 
-#: data/scenarios/japan-88x100-v1.3.sav:3
+#: data/scenarios/japan-88x100-v1.3.sav:4
 msgid "Japan (classic/medium)"
 msgstr "Japani (klassinen, keskisuuri)"
 
-#: data/scenarios/japan-88x100-v1.3.sav:4
+#: data/scenarios/japan-88x100-v1.3.sav:5
 msgid "Classic-style 88x100 map of Japan."
 msgstr "Klassistyylinen 88×100-kokoinen Japanin kartta."
 
-#: data/scenarios/north_america_116x100-v1.2.sav:3
+#: data/scenarios/north_america_116x100-v1.2.sav:4
 msgid "North America (classic/medium)"
 msgstr "Pohjois-Amerikka (klassinen, keskisuuri)"
 
-#: data/scenarios/north_america_116x100-v1.2.sav:4
+#: data/scenarios/north_america_116x100-v1.2.sav:5
 msgid "Classic-style 116x100 map of North America."
 msgstr "Klassistyylinen 116×100-kokoinen kartta Pohjois-Amerikasta."
 
-#: data/scenarios/tutorial.sav:3
+#: data/scenarios/tutorial.sav:4
 msgid "Tutorial"
 msgstr "Opetusohjelma"
 
-#: data/scenarios/tutorial.sav:4
+#: data/scenarios/tutorial.sav:5
 msgid "Play this tutorial scenario to get an introduction to Freeciv."
 msgstr "Tämän opetusohjelman kanssa pääset alkuun Freecivin pelaamisessa."
 
-#: data/scenarios/tutorial.sav:70
+#: data/scenarios/tutorial.sav:71
 msgid ""
 "Welcome to Freeciv.  You lead a civilization.  Your\n"
 "task is to conquer the world!  You should start by\n"
@@ -29824,7 +29828,7 @@ msgstr ""
 "seikkailijallasi, ja etsi hyvä paikka rakentaa kaupunki\n"
 "uudisraivaajillasi. Käytä numeronäppäimistöä yksiköiden liikuttamiseen."
 
-#: data/scenarios/tutorial.sav:82
+#: data/scenarios/tutorial.sav:83
 msgid ""
 "This looks like a good place to build a city.  The next time this\n"
 "unit gets a chance to move, press (b) to found a city.\n"
@@ -29841,7 +29845,7 @@ msgstr ""
 "Ruoka on minkä tahansa kaupungin tärkein resurssi. Ruohomaa ja\n"
 "tasanko tuottavat rutkasti ruokaa."
 
-#: data/scenarios/tutorial.sav:92
+#: data/scenarios/tutorial.sav:93
 msgid ""
 "Now you have built your first city.  The city window should have\n"
 "opened automatically; if not click on the city to open it.  Cities are\n"
@@ -29867,7 +29871,7 @@ msgstr ""
 "nappiin, kaupungin pitäisi kertoa rakentavansa uudisraivaajaa\n"
 "karttanäkymässä."
 
-#: data/scenarios/tutorial.sav:95
+#: data/scenarios/tutorial.sav:96
 msgid ""
 "Congratulations, you have founded your second city.  This city will\n"
 "behave almost exactly like the first one - it will be slightly different\n"
@@ -29879,7 +29883,7 @@ msgstr ""
 "erilaisesta maastosta kaupunkien ympärillä. Halunnet rakentaa\n"
 "täälläkin uudisraivaajia."
 
-#: data/scenarios/tutorial.sav:98
+#: data/scenarios/tutorial.sav:99
 msgid ""
 "You have built your third city!  Your civilization seems to be\n"
 "thriving.  It might be time to think about a military.  Pick one of\n"
@@ -29908,7 +29912,7 @@ msgstr ""
 "lisätäksesi sen työlistan loppuun. Jahka Kasarmi valmistuu, kaupunki\n"
 "siirtyy automaattisesti kokoamaan sotilasyksikköä."
 
-#: data/scenarios/tutorial.sav:101
+#: data/scenarios/tutorial.sav:102
 msgid ""
 "Another city!  You are really getting the hang of this.  You\n"
 "probably have a pretty good idea what to do with new cities by\n"
@@ -29932,7 +29936,7 @@ msgstr ""
 "kertoo, mitä kaupunki rakentaa ja miten kauan tämä kestää; se kertoo\n"
 "myös, miten kauan kestää kunnes kaupunki kasvaa astetta suuremmaksi."
 
-#: data/scenarios/tutorial.sav:104
+#: data/scenarios/tutorial.sav:105
 msgid ""
 "As the number of cities in your empire grows, it becomes harder to\n"
 "manage individual cities.  This is where the Cities report becomes\n"
@@ -29952,7 +29956,7 @@ msgstr ""
 "mitä tahansa kaupunkeihin liittyvää tämän raportin kautta, mutta tämä\n"
 "opetusohjelma ei ulotu työkalun syvällisempien hienouksien esittelyyn."
 
-#: data/scenarios/tutorial.sav:116
+#: data/scenarios/tutorial.sav:117
 msgid ""
 "Your city has grown!  As a city grows, more citizens become\n"
 "available that can be put to work in the fields or dedicated as\n"
@@ -29974,7 +29978,7 @@ msgstr ""
 "sinulla on sitä riittävästi) saat käynnissä olevan tuotannon\n"
 "valmiiksi välittömästi."
 
-#: data/scenarios/tutorial.sav:120
+#: data/scenarios/tutorial.sav:121
 msgid ""
 "Your city has grown again!  Now with three citizens you have\n"
 "a fair amount of choice over where the city should focus its\n"
@@ -30009,7 +30013,7 @@ msgstr ""
 "viihdyttäjiksi, jotka tuottavat vain luksusta (josta ei ole vielä tässä\n"
 "vaiheessa hyötyä)."
 
-#: data/scenarios/tutorial.sav:124
+#: data/scenarios/tutorial.sav:125
 #, c-format
 msgid ""
 "Now your city has grown to size five.  As cities get larger unrest\n"
@@ -30042,7 +30046,7 @@ msgstr ""
 "rauhoittaa yhden kansalaisen). Torin rakentaminen lisää tästä saatavaa\n"
 "etua tuottamalla kaupungille +50%% luksusta."
 
-#: data/scenarios/tutorial.sav:128
+#: data/scenarios/tutorial.sav:129
 msgid ""
 "Finally you have grown a city to size eight.  A size eight city can\n"
 "provide substantial output provided you have enough luxuries to keep\n"
@@ -30061,7 +30065,7 @@ msgstr ""
 "Vesijohdon rakentaminen. Tätä varten tarvitset edistysaskeleen\n"
 "Rakennustaito."
 
-#: data/scenarios/tutorial.sav:132
+#: data/scenarios/tutorial.sav:133
 msgid ""
 "You have grown a city to size twelve.  To grow\n"
 "it larger, however, you will need to build a Sewer System.  This\n"
@@ -30071,7 +30075,7 @@ msgstr ""
 "suuremmaksi, sinun on rakennettava Viemäriverkosto, mikä puolestaan\n"
 "vaatii edistysaskeleen Puhtaanapito."
 
-#: data/scenarios/tutorial.sav:136
+#: data/scenarios/tutorial.sav:137
 msgid ""
 "Congratulations, you have grown a city to size 13.  A city this\n"
 "large can provide a tremendous amount of output if properly upgraded.\n"
@@ -30096,7 +30100,7 @@ msgstr ""
 "Suuret kaupungit tuottavat myös riittävästi verotuloja (kultaa) voidaksesi\n"
 "ostaa osan rakennuksista nopeuttaen niiden pystytystä."
 
-#: data/scenarios/tutorial.sav:156
+#: data/scenarios/tutorial.sav:157
 msgid ""
 "You have built a settler unit.  Settlers are best used to build \n"
 "new cities, so as to expand your civilization.  Move your settler\n"
@@ -30125,7 +30129,7 @@ msgstr ""
 "pienille kaupungeille. Lisätietoa löydät maastotyyppejä ja niiden\n"
 "erityispiirteitä käsittelevistä kohdista."
 
-#: data/scenarios/tutorial.sav:159
+#: data/scenarios/tutorial.sav:160
 msgid ""
 "Your second Settlers should also be used to build a new city.\n"
 "Notice how when you move the Settlers away from your existing cities\n"
@@ -30150,7 +30154,7 @@ msgstr ""
 "kungin kaupungin käyttöön enemmän resursseja, jolloin ne voivat kasvaa\n"
 "suuremmiksi."
 
-#: data/scenarios/tutorial.sav:173
+#: data/scenarios/tutorial.sav:174
 msgid ""
 "You have built a Barracks.  This building will make any military\n"
 "units you build start out as veterans.  Veteran units are stronger\n"
@@ -30173,7 +30177,7 @@ msgstr ""
 "rakentaneessa kaupungissa. Koska kasarmi on huomattava sijoitus ja sen\n"
 "ylläpitokin maksaa hieman, sitä ei kannata haaskata."
 
-#: data/scenarios/tutorial.sav:186
+#: data/scenarios/tutorial.sav:187
 msgid ""
 "Your city cannot build a settler.  Settlers take one unit of\n"
 "population to build, so a city of size one cannot build one without\n"
@@ -30196,7 +30200,7 @@ msgstr ""
 "rakennat sen maastoon joka tuottaa riittävästi ruokaa - ruohomaa on\n"
 "tältä osin paras vaihtoehto, tasanko tai kukkulat ovat lähes yhtä hyviä."
 
-#: data/scenarios/tutorial.sav:190
+#: data/scenarios/tutorial.sav:191
 msgid ""
 "You have built your first military unit!  Military units have two\n"
 "basic purposes: attack and defense.  Each unit has an attack strength\n"
@@ -30225,7 +30229,7 @@ msgstr ""
 "olet sodassa, voit haluta siirtää yksikkösi kohti viholliskaupunkia\n"
 "hyökätäksesi sen kimppuun. Varo kuitenkin, ettet menetä sitä!"
 
-#: data/scenarios/tutorial.sav:204
+#: data/scenarios/tutorial.sav:205
 msgid ""
 "You have researched your first technology!  Technological advances\n"
 "are an integral concept in Freeciv.  As you increase your technology\n"
@@ -30264,7 +30268,7 @@ msgstr ""
 "teknologiasta. Kun olet puuhannut kylliksesi, napsauta Kartta-välilehteä\n"
 "(F1) palataksesi karttanäkymään."
 
-#: data/scenarios/tutorial.sav:207
+#: data/scenarios/tutorial.sav:208
 msgid ""
 "Now you have researched your second technology.  Go back into the\n"
 "Research report (F6) and take a quick look at your progress.  If you\n"
@@ -30293,7 +30297,7 @@ msgstr ""
 "tutkimuksen. Asettamalla tutkimustavoitteesi viisaasti vältyt uusien\n"
 "kohteiden valinnan vaivalta joka kerran edistysaskeleen valmistuessa."
 
-#: data/scenarios/tutorial.sav:210
+#: data/scenarios/tutorial.sav:211
 msgid ""
 "You have successfully completed research into The Republic.  This\n"
 "technology is particularly useful because it allows a new form of\n"
@@ -30327,7 +30331,7 @@ msgstr ""
 "kuitenkin huomattavasti yksinvaltaa parempi valtiomuoto, joten\n"
 "siihen sijoittaminen maksaa itsensä pian takaisin."
 
-#: data/scenarios/tutorial.sav:223
+#: data/scenarios/tutorial.sav:224
 msgid ""
 "Your unit has found a Hut.  These are small villages scattered across\n"
 "the landscape.  When a unit enters one, several things may happen.  The\n"
@@ -30350,7 +30354,7 @@ msgstr ""
 "Keskimäärin on hyödyllistä tutkia kaikki vastaan tulevat majat\n"
 "mahdollisimman pian."
 
-#: data/scenarios/tutorial.sav:230
+#: data/scenarios/tutorial.sav:231
 msgid "Loading tutorial events."
 msgstr "Ladataan perehdytysskenaarion tapahtumia."
 
@@ -30379,7 +30383,7 @@ msgstr "crosser"
 #. "(modified r25000)"
 #: translations/Strings.txt:22
 msgid "modified "
-msgstr "muokattu"
+msgstr "muokattu "
 
 #. TRANS: Modpack subtype, "isometric"
 #: translations/Strings.txt:28
