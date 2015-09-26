@@ -1,5 +1,6 @@
 
 [scenario]
+is_scenario=TRUE
 name=_("British Isles (classic/medium)")
 description=_("Classic-style 85x80 map of the British Isles.")
 players=FALSE

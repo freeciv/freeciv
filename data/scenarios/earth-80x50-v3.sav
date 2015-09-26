@@ -1,5 +1,6 @@
 
 [scenario]
+is_scenario=TRUE
 name=_("Earth (classic/small)")
 description=_("Classic-style 80x50 map of the Earth.")
 players=FALSE
