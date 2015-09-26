@@ -419,7 +419,6 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Cities", "Capturable"
-roles         = "CitiesStartUnit"
 helptext      = _("\
 This is native Settler that can enter radiating areas. \
 Most military enemy units can capture it instead of killing it.\
@@ -482,7 +481,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Settlers", "Cant_Fortify", "NonMil"
-roles         = "Settlers", "WorkerStartUnit"
+roles         = "Settlers"
 helptext      = _("\
 Native version of the Engineer unit.\
 ")
@@ -514,7 +513,7 @@ uk_food       = 0
 uk_gold       = 0
 city_size     = 2
 flags         = "Cities", "Settlers", "Cant_Fortify", "NonMil"
-roles         = "CitiesStartUnit", "Settlers", "WorkerStartUnit"
+roles         = "Settlers"
 helptext      = _("\
 Amphibious Engineer that can also establish new cities on Ocean. \
 Cities cannot be located on Boiling Ocean.\
@@ -578,7 +577,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk", "DefendOkStartUnit", "Barbarian", "BarbarianSea", "BarbarianLeader"
+roles         = "DefendOk", "Barbarian", "BarbarianSea", "BarbarianLeader"
 helptext      = _("\
 Attack power to the early game.\
 ")
@@ -609,7 +608,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk", "DefendOkStartUnit", "BarbarianBuild"
+roles         = "DefendOk", "BarbarianBuild"
 helptext      = _("\
 This is the most powerful Earth technology unit.\
 ")
@@ -640,7 +639,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk", "DefendOkStartUnit"
+roles         = "DefendOk"
 helptext      = _("\
 As a native unit, this can move and fight on radiating areas too.\
 ")
@@ -671,7 +670,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk", "DefendOkStartUnit"
+roles         = "DefendOk"
 helptext      = _("\
 Alien lifeform trained to be fast.\
 ")
@@ -702,7 +701,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Capturer"
-roles         = "DefendOk", "DefendOkStartUnit"
+roles         = "DefendOk"
 helptext      = _("\
 Alien lifeform with cybernetic implants. Good in combat, and has better \
 vision than any purely organic unit.")
@@ -1080,7 +1079,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "IgZOC", "NonMil"
-roles         = "Explorer", "ExplorerStartUnit"
+roles         = "Explorer"
 helptext      = _("\
 This is native scout animal that can enter any land terrain.\
 ")
@@ -1144,7 +1143,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Native"
 flags         = ""
-roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
+roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
   This is basic ship type. It has no any special equipment, so \
 it cannot enter boiling seas.\
@@ -1236,7 +1235,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Native"
 flags         = ""
-roles         = "Ferryboat", "FerryStartUnit"
+roles         = "Ferryboat"
 helptext      = _("\
 This is first unit that can enter boiling oceans - and more.\
 ")
