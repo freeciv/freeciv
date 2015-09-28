@@ -143,7 +143,7 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
                            pcolor->color->r,
                            pcolor->color->g,
                            pcolor->color->b,
-                           255));
+                           pcolor->color->a));
 
   return ctor_sprite(mypixbuf);
 }
