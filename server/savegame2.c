@@ -2894,13 +2894,13 @@ static void sg_load_player_main(struct loaddata *loading,
   /* Unit statistics. */
   plr->score.units_built =
       secfile_lookup_int_default(loading->file, 0,
-                                 "player%d.units_built", plrno);
+                                 "score%d.units_built", plrno);
   plr->score.units_killed =
       secfile_lookup_int_default(loading->file, 0,
-                                 "player%d.units_killed", plrno);
+                                 "score%d.units_killed", plrno);
   plr->score.units_lost =
       secfile_lookup_int_default(loading->file, 0,
-                                 "player%d.units_lost", plrno);
+                                 "score%d.units_lost", plrno);
 
   /* Load space ship data. */
   {
