@@ -150,7 +150,7 @@ struct theme {
   struct theme_color_system *color_system;  
 };
 
-struct theme *theme;
+struct theme *theme = NULL;
 
 
 /****************************************************************************
@@ -306,14 +306,14 @@ static void theme_free_toplevel(struct theme *t)
 /**************************************************************************
   Clean up.
 **************************************************************************/
-void theme_free(struct theme *t)
+void theme_free(struct theme *ftheme)
 {
-  if (t) {
-    theme_free_sprites(t);
-    theme_free_toplevel(t);
-    specfile_list_destroy(t->specfiles);
-    small_sprite_list_destroy(t->small_sprites);
-    FC_FREE(t);
+  if (ftheme != NULL) {
+    theme_free_sprites(ftheme);
+    theme_free_toplevel(ftheme);
+    specfile_list_destroy(ftheme->specfiles);
+    small_sprite_list_destroy(ftheme->small_sprites);
+    free(ftheme);
   }
 }
 

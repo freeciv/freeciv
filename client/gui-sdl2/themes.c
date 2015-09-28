@@ -38,6 +38,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
 
   /* free previous loaded theme, if any */
   theme_free(theme);
+  theme = NULL;
 
   fc_snprintf(buf, sizeof(buf), "%s/%s/theme", directory, theme_name);
 
@@ -51,6 +52,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
 void gui_clear_theme(void)
 {
   theme_free(theme);
+  theme = NULL;
 
   if (!load_theme(options.gui_sdl2_default_theme_name)) {
     /* TRANS: No full stop after the URL, could cause confusion. */
