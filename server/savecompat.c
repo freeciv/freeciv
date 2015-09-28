@@ -763,6 +763,7 @@ static void compat_load_020600(struct loaddata *loading)
     enum barbarian_type new_barb_type;
     int i;
     const char *name;
+    int score;
 
     /* Renamed 'capital' to 'got_first_city'. */
     if (secfile_lookup_bool(loading->file, &got_first_city, 
@@ -800,6 +801,24 @@ static void compat_load_020600(struct loaddata *loading)
                                         "player%d.trait.mod%d", plrno, i),
                      "Trait mod: %s", secfile_error());
       secfile_insert_int(loading->file, val, "player%d.trait%d.mod", plrno, i);
+    }
+
+    score = secfile_lookup_int_default(loading->file, -1,
+                                       "player%d.units_built", plrno);
+    if (score >= 0) {
+      secfile_insert_int(loading->file, score, "score%d.units_built", plrno);
+    }
+
+    score = secfile_lookup_int_default(loading->file, -1,
+                                       "player%d.units_killed", plrno);
+    if (score >= 0) {
+      secfile_insert_int(loading->file, score, "score%d.units_killed", plrno);
+    }
+
+    score = secfile_lookup_int_default(loading->file, -1,
+                                       "player%d.units_lost", plrno);
+    if (score >= 0) {
+      secfile_insert_int(loading->file, score, "score%d.units_lost", plrno);
     }
   }
 
