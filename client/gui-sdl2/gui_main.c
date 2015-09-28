@@ -1019,6 +1019,7 @@ void ui_exit()
 
   free_font_system();
   theme_free(theme);
+  theme = NULL;
 
   quit_sdl();
 }

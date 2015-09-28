@@ -37,7 +37,7 @@ extern struct theme *theme;
 const char **get_theme_list(void);
 
 struct theme *theme_read_toplevel(const char *theme_name);
-void theme_free(struct theme *theme);
+void theme_free(struct theme *ftheme);
 void theme_load_sprites(struct theme *t);
 void theme_free_sprites(struct theme *t);
 
