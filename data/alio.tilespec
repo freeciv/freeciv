@@ -15,7 +15,10 @@ priority = 3
 ;version = ""
 
 ; Summary and full description of the tileset.
-;summary = ""
+summary = _("\
+Tileset containing graphics suitable for playing with alien ruleset.\
+")
+
 ;description = ""
 
 ; TODO: add more overall information fields on tiles, 
