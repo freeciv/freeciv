@@ -3,12 +3,16 @@
 is_scenario=TRUE
 name=_("Tutorial")
 description=_("Play this tutorial scenario to get an introduction to Freeciv.")
+save_random=FALSE
+players=TRUE
+startpos_nations=FALSE
 handmade=TRUE
 
 [savefile]
 options=" +version2"
-version=20
+version=30
 reason="Scenario"
+revision="2.5.99-alpha"
 rulesetdir="classic"
 improvement_size=68
 improvement_vector="Airport","Aqueduct","Bank","Barracks","Barracks II","Barracks III","Cathedral","City Walls","Coastal Defense","Colosseum","Courthouse","Factory","Granary","Harbour","Hydro Plant","Library","Marketplace","Mass Transit","Mfg. Plant","Nuclear Plant","Offshore Platform","Palace","Police Station","Port Facility","Power Plant","Recycling Center","Research Lab","SAM Battery","SDI Defense","Sewer System","Solar Plant","Space Component","Space Module","Space Structural","Stock Exchange","Super Highways","Supermarket","Temple","University","Apollo Program","A.Smith's Trading Co.","Colossus","Copernicus' Observatory","Cure For Cancer","Darwin's Voyage","Eiffel Tower","Great Library","Great Wall","Hanging Gardens","Hoover Dam","Isaac Newton's College","J.S. Bach's Cathedral","King Richard's Crusade","Leonardo's Workshop","Lighthouse","Magellan's Expedition","Manhattan Project","Marco Polo's Embassy","Michelangelo's Chapel","Oracle","Pyramids","SETI Program","Shakespeare's Theatre","Statue of Liberty","Sun Tzu's War Academy","United Nations","Women's Suffrage","Coinage"
@@ -16,24 +20,43 @@ technology_size=88
 technology_vector="A_NONE","Advanced Flight","Alphabet","Amphibious Warfare","Astronomy","Atomic Theory","Automobile","Banking","Bridge Building","Bronze Working","Ceremonial Burial","Chemistry","Chivalry","Code of Laws","Combined Arms","Combustion","Communism","Computers","Conscription","Construction","Currency","Democracy","Economics","Electricity","Electronics","Engineering","Environmentalism","Espionage","Explosives","Feudalism","Flight","Fusion Power","Genetic Engineering","Guerilla Warfare","Gunpowder","Horseback Riding","Industrialization","Invention","Iron Working","Labor Union","Laser","Leadership","Literacy","Machine Tools","Magnetism","Map Making","Masonry","Mass Production","Mathematics","Medicine","Metallurgy","Miniaturization","Mobile Warfare","Monarchy","Monotheism","Mysticism","Navigation","Nuclear Fission","Nuclear Power","Philosophy","Physics","Plastics","Polytheism","Pottery","Radio","Railroad","Recycling","Refining","Refrigeration","Robotics","Rocketry","Sanitation","Seafaring","Space Flight","Stealth","Steam Engine","Steel","Superconductors","Tactics","The Corporation","The Republic","The Wheel","Theology","Theory of Gravity","Trade","University","Warrior Code","Writing"
 activities_size=21
 activities_vector="Idle","Pollution","Unused Road","Mine","Irrigate","Fortified","Fortress","Sentry","Unused Railroad","Pillage","Goto","Explore","Transform","Unused","Unused Airbase","Fortifying","Fallout","Unused Patrol","Base","Road","Convert"
+specialists_size=3
+specialists_vector="elvis","scientist","taxman"
 trait_size=3
 trait_vector="Expansionist","Trader","Aggressive"
-specials_size=6
-specials_vector="Irrigation","Mine","Pollution","Hut","Farmland","Fallout"
-bases_size=4
-bases_vector="Fortress","Airbase","Buoy","Ruins"
-roads_size=3
-roads_vector="Road","Railroad","River"
+extras_size=14
+extras_vector="Irrigation","Mine","Oil Well","Pollution","Hut","Farmland","Fallout","Fortress","Airbase","Buoy","Ruins","Road","Railroad","River"
+multipliers_size=0
+diplstate_type_size=7
+diplstate_type_vector="Armistice","War","Cease-fire","Peace","Alliance","Never met","Team"
+city_options_size=3
+city_options_vector="Disband","New_Einstein","New_Taxman"
+terrident={"name","identifier"
+"Inaccessible","i"
+"Lake","+"
+"Ocean"," "
+"Deep Ocean",":"
+"Glacier","a"
+"Desert","d"
+"Forest","f"
+"Grassland","g"
+"Hills","h"
+"Jungle","j"
+"Mountains","m"
+"Plains","p"
+"Swamp","s"
+"Tundra","t"
+}
 
 [game]
-version=20500
+version=20599
 server_state="S_S_INITIAL"
 meta_patches=""
 meta_usermessage=FALSE
 meta_server="http://meta.freeciv.org/metaserver.php"
 id=""
 serverid=""
-skill_level=3
+level="Easy"
 phase_mode=0
 phase_mode_stored=0
 phase=0
@@ -52,6 +75,7 @@ warminglevel=3
 nuclearwinter=0
 cooling=0
 coolinglevel=3
+global_advances="1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 save_players=FALSE
 
 [random]
@@ -285,14 +309,29 @@ $
 set={"name","value","gamestart"
 "aifill",2,2
 "mapsize","FULLSIZE","FULLSIZE"
+"revolentype","RANDOM","RANDOM"
 "size",1,1
 "topology","WRAPX|ISO","WRAPX|ISO"
+"victories","",""
 }
-set_count=4
+set_count=6
 gamestart_valid=TRUE
+
+[ruledata]
+government={"name","changes"
+"Anarchy",0
+"Despotism",0
+"Monarchy",0
+"Communism",0
+"Republic",0
+"Democracy",0
+}
 
 [map]
 have_huts=FALSE
+
+[history]
+turn=-2
 
 [mapimg]
 count=0
