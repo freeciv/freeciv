@@ -1943,7 +1943,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
   boot_help = (can_client_change_view()
 	       && game.info.victory_conditions != pinfo->victory_conditions);
   if (boot_help) {
-    boot_help_texts(client.conn.playing); /* reboot, after setting game.spacerace */
+    boot_help_texts(); /* reboot, after setting game.spacerace */
   }
   unit_focus_update();
   menus_update();

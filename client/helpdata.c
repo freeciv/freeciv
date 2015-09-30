@@ -2796,7 +2796,7 @@ static int help_item_compar(const struct help_item *const *ppa,
 /****************************************************************
   pplayer may be NULL.
 *****************************************************************/
-void boot_help_texts(struct player *pplayer)
+void boot_help_texts(void)
 {
   static bool booted = FALSE;
 
