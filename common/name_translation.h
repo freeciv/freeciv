@@ -122,7 +122,7 @@ static inline const char *rule_name(const struct name_translation *ptrans)
   Return the translated name of the name translation structure.
 ****************************************************************************/
 static inline const char *
-    name_translation(const struct name_translation *ptrans)
+    name_translation_get(const struct name_translation *ptrans)
 {
   return ptrans->translated;
 }

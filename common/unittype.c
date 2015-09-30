@@ -744,7 +744,7 @@ enum unit_move_type utype_move_type(const struct unit_type *punittype)
 **************************************************************************/
 const char *utype_name_translation(const struct unit_type *punittype)
 {
-  return name_translation(&punittype->name);
+  return name_translation_get(&punittype->name);
 }
 
 /**************************************************************************
@@ -816,7 +816,7 @@ const char *utype_values_translation(const struct unit_type *punittype)
 **************************************************************************/
 const char *uclass_name_translation(const struct unit_class *pclass)
 {
-  return name_translation(&pclass->name);
+  return name_translation_get(&pclass->name);
 }
 
 /**************************************************************************
@@ -1632,7 +1632,8 @@ const char *utype_veteran_name_translation(const struct unit_type *punittype,
     return NULL;
   } else {
     const struct veteran_level *vlvl = utype_veteran_level(punittype, level);
-    return name_translation(&vlvl->name);
+
+    return name_translation_get(&vlvl->name);
   }
 }
 

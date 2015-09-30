@@ -96,7 +96,7 @@ struct disaster_type *disaster_by_number(Disaster_type_id id)
 ****************************************************************************/
 const char *disaster_name_translation(struct disaster_type *pdis)
 {
-  return name_translation(&pdis->name);
+  return name_translation_get(&pdis->name);
 }
 
 /****************************************************************************

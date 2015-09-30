@@ -153,7 +153,7 @@ const char *specialist_rule_name(const struct specialist *sp)
 **************************************************************************/
 const char *specialist_plural_translation(const struct specialist *sp)
 {
-  return name_translation(&sp->name);
+  return name_translation_get(&sp->name);
 }
 
 /**************************************************************************
@@ -162,7 +162,7 @@ const char *specialist_plural_translation(const struct specialist *sp)
 **************************************************************************/
 const char *specialist_abbreviation_translation(const struct specialist *sp)
 {
-  return name_translation(&sp->abbreviation);
+  return name_translation_get(&sp->abbreviation);
 }
 
 /****************************************************************************

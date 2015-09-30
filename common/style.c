@@ -97,7 +97,7 @@ struct nation_style *style_by_number(int id)
 **************************************************************************/
 const char *style_name_translation(const struct nation_style *pstyle)
 {
-  return name_translation(&pstyle->name);
+  return name_translation_get(&pstyle->name);
 }
 
 /**************************************************************************

@@ -959,7 +959,7 @@ static void option_dialog_option_apply(struct option *poption)
       if (color) bg_color_text = gdk_rgba_to_string(color);
 
       (void) option_color_set(poption,
-                              ft_color(fg_color_text, bg_color_text));
+                              ft_color_construct(fg_color_text, bg_color_text));
       g_free(fg_color_text);
       g_free(bg_color_text);
     }

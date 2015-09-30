@@ -32,14 +32,17 @@ struct video_mode {
   int width;
   int height;
 };
-#define VIDEO_MODE(ARG_width, ARG_height) \
+
+#define VIDEO_MODE(ARG_width, ARG_height)       \
     { ARG_width, ARG_height }
+
 /****************************************************************************
   Constructor.
 ****************************************************************************/
-static inline struct video_mode video_mode(int width, int height)
+static inline struct video_mode video_mode_construct(int width, int height)
 {
   struct video_mode mode = VIDEO_MODE(width, height);
+
   return mode;
 }
 

@@ -1056,8 +1056,8 @@ bool option_font_set(struct option *poption, const char *font)
 ****************************************************************************/
 struct ft_color option_color_get(const struct option *poption)
 {
-  fc_assert_ret_val(NULL != poption, ft_color(NULL, NULL));
-  fc_assert_ret_val(OT_COLOR == poption->type, ft_color(NULL, NULL));
+  fc_assert_ret_val(NULL != poption, ft_color_construct(NULL, NULL));
+  fc_assert_ret_val(OT_COLOR == poption->type, ft_color_construct(NULL, NULL));
 
   return poption->color_vtable->get(poption);
 }
@@ -1067,8 +1067,8 @@ struct ft_color option_color_get(const struct option *poption)
 ****************************************************************************/
 struct ft_color option_color_def(const struct option *poption)
 {
-  fc_assert_ret_val(NULL != poption, ft_color(NULL, NULL));
-  fc_assert_ret_val(OT_COLOR == poption->type, ft_color(NULL, NULL));
+  fc_assert_ret_val(NULL != poption, ft_color_construct(NULL, NULL));
+  fc_assert_ret_val(OT_COLOR == poption->type, ft_color_construct(NULL, NULL));
 
   return poption->color_vtable->def(poption);
 }
@@ -1094,8 +1094,9 @@ bool option_color_set(struct option *poption, struct ft_color color)
 ****************************************************************************/
 struct video_mode option_video_mode_get(const struct option *poption)
 {
-  fc_assert_ret_val(NULL != poption, video_mode(-1, -1));
-  fc_assert_ret_val(OT_VIDEO_MODE == poption->type, video_mode(-1, -1));
+  fc_assert_ret_val(NULL != poption, video_mode_construct(-1, -1));
+  fc_assert_ret_val(OT_VIDEO_MODE == poption->type,
+                    video_mode_construct(-1, -1));
 
   return poption->video_mode_vtable->get(poption);
 }
@@ -1105,8 +1106,9 @@ struct video_mode option_video_mode_get(const struct option *poption)
 ****************************************************************************/
 struct video_mode option_video_mode_def(const struct option *poption)
 {
-  fc_assert_ret_val(NULL != poption, video_mode(-1, -1));
-  fc_assert_ret_val(OT_VIDEO_MODE == poption->type, video_mode(-1, -1));
+  fc_assert_ret_val(NULL != poption, video_mode_construct(-1, -1));
+  fc_assert_ret_val(OT_VIDEO_MODE == poption->type,
+                    video_mode_construct(-1, -1));
 
   return poption->video_mode_vtable->def(poption);
 }

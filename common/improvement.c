@@ -231,7 +231,7 @@ struct impr_type *valid_improvement_by_number(const Impr_type_id id)
 **************************************************************************/
 const char *improvement_name_translation(const struct impr_type *pimprove)
 {
-  return name_translation(&pimprove->name);
+  return name_translation_get(&pimprove->name);
 }
 
 /****************************************************************************

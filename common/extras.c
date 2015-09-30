@@ -169,7 +169,7 @@ struct extra_type *special_extra_get(int spe)
 **************************************************************************/
 const char *extra_name_translation(const struct extra_type *pextra)
 {
-  return name_translation(&pextra->name);
+  return name_translation_get(&pextra->name);
 }
 
 /**************************************************************************

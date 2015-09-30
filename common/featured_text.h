@@ -146,10 +146,11 @@ struct ft_color {
 /**************************************************************************
   Constructor.
 **************************************************************************/
-static inline struct ft_color ft_color(const char *foreground,
-                                       const char *background)
+static inline struct ft_color ft_color_construct(const char *foreground,
+                                                 const char *background)
 {
   struct ft_color color = FT_COLOR(foreground, background);
+
   return color;
 }
 

@@ -709,7 +709,7 @@ void notify_unit_experience(struct unit *punit)
                 /* TRANS: Your <unit> became ... rank of <veteran level>. */
                 _("Your %s became more experienced and achieved the rank "
                   "of %s."),
-                unit_link(punit), name_translation(&vlevel->name));
+                unit_link(punit), name_translation_get(&vlevel->name));
 }
 
 /**************************************************************************

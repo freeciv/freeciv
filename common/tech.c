@@ -263,7 +263,7 @@ bool is_future_tech(Tech_type_id tech)
 **************************************************************************/
 const char *advance_name_translation(const struct advance *padvance)
 {
-  return name_translation(&padvance->name);
+  return name_translation_get(&padvance->name);
 }
 
 /****************************************************************************
