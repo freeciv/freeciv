@@ -208,7 +208,7 @@ void gov_menu::create() {
   for (i = 0; i < gov_count; ++i) {
     gov = government_by_number(i);
     if (gov != revol_gov) { // Skip revolution goverment
-      action = addAction(name_translation(&gov->name));
+      action = addAction(government_name_translation(gov));
       // We need to keep track of the gov <-> action mapping to be able to
       // set enabled/disabled depending on available govs.
       actions.append(action);

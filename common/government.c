@@ -142,7 +142,8 @@ const char *government_rule_name(const struct government *pgovern)
 const char *government_name_translation(const struct government *pgovern)
 {
   fc_assert_ret_val(NULL != pgovern, NULL);
-  return name_translation(&pgovern->name);
+
+  return name_translation_get(&pgovern->name);
 }
 
 /****************************************************************************
@@ -266,35 +267,35 @@ static bool ruler_title_check(const struct ruler_title *pruler_title)
     }
     ret = FALSE;
   }
-  if (!formats_match(name_translation(&pruler_title->male), "%s")) {
+  if (!formats_match(name_translation_get(&pruler_title->male), "%s")) {
     if (NULL != pruler_title->pnation) {
       log_error("Translation of \"%s\" male ruler title for nation \"%s\" "
                 "(nb %d) is not a format (\"%s\"). It should match \"%%s\"",
                 rule_name(&pruler_title->male),
                 nation_rule_name(pruler_title->pnation),
                 nation_number(pruler_title->pnation),
-                name_translation(&pruler_title->male));
+                name_translation_get(&pruler_title->male));
     } else {
       log_error("Translation of \"%s\" male ruler title is not a format "
                 "(\"%s\"). It should match \"%%s\"",
                 rule_name(&pruler_title->male),
-                name_translation(&pruler_title->male));
+                name_translation_get(&pruler_title->male));
     }
     ret = FALSE;
   }
-  if (!formats_match(name_translation(&pruler_title->female), "%s")) {
+  if (!formats_match(name_translation_get(&pruler_title->female), "%s")) {
     if (NULL != pruler_title->pnation) {
       log_error("Translation of \"%s\" female ruler title for nation \"%s\" "
                 "(nb %d) is not a format (\"%s\"). It should match \"%%s\"",
                 rule_name(&pruler_title->female),
                 nation_rule_name(pruler_title->pnation),
                 nation_number(pruler_title->pnation),
-                name_translation(&pruler_title->female));
+                name_translation_get(&pruler_title->female));
     } else {
       log_error("Translation of \"%s\" female ruler title is not a format "
                 "(\"%s\"). It should match \"%%s\"",
                 rule_name(&pruler_title->female),
-                name_translation(&pruler_title->female));
+                name_translation_get(&pruler_title->female));
     }
     ret = FALSE;
   }
@@ -409,9 +410,9 @@ const char *ruler_title_for_player(const struct player *pplayer,
     }
   } else {
     fc_snprintf(buf, buf_len,
-                name_translation(pplayer->is_male
-                                 ? &pruler_title->male
-                                 : &pruler_title->female),
+                name_translation_get(pplayer->is_male
+                                     ? &pruler_title->male
+                                     : &pruler_title->female),
                 player_name(pplayer));
   }
 

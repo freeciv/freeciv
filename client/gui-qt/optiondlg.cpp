@@ -170,7 +170,7 @@ struct ft_color option_dialog::get_color(struct option *poption) {
   pal = but->palette();
   col2 =  pal.color(QPalette::Button);
 
-  return ft_color(col1.name().toUtf8().data(), col2.name().toUtf8().data());
+  return ft_color_construct(col1.name().toUtf8().data(), col2.name().toUtf8().data());
 }
 
 /****************************************************************************

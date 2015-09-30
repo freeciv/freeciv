@@ -93,7 +93,7 @@ Multiplier_type_id multiplier_count(void)
 **************************************************************************/
 const char *multiplier_name_translation(const struct multiplier *pmul)
 {
-  return name_translation(&pmul->name);
+  return name_translation_get(&pmul->name);
 }
 
 /**************************************************************************

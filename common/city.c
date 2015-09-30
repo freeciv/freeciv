@@ -1678,9 +1678,8 @@ int city_style_by_rule_name(const char *s)
 ****************************************************************************/
 const char *city_style_name_translation(const int style)
 {
-  return name_translation(&city_styles[style].name);
+  return name_translation_get(&city_styles[style].name);
 }
-
 
 /****************************************************************************
   Return the (untranslated) rule name of the city style.

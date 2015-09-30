@@ -70,8 +70,8 @@
  *    foo_t *foo_list_get(const struct foo_list *plist, int idx);
  *    foo_t *foo_list_front(const struct foo_list *plist);
  *    foo_t *foo_list_back(const struct foo_list *plist);
- *    struct foo_list_link *foo_list_link(const struct foo_list *plist,
- *                                        int idx);
+ *    struct foo_list_link *foo_list_link_get(const struct foo_list *plist,
+ *                                            int idx);
  *    struct foo_list_link *foo_list_head(const struct foo_list *plist);
  *    struct foo_list_link *foo_list_tail(const struct foo_list *plist);
  *    struct foo_list_link *foo_list_search(const struct foo_list *plist,
@@ -415,10 +415,10 @@ SPECLIST_FOO(_list_back) (const SPECLIST_LIST *tthis)
   Return the element at position in the speclist.
 ****************************************************************************/
 static inline SPECLIST_LINK *
-SPECLIST_FOO(_list_link) (const SPECLIST_LIST *tthis, int index)
+SPECLIST_FOO(_list_link_get) (const SPECLIST_LIST *tthis, int index)
 {
   return ((SPECLIST_LINK *)
-          genlist_link((const struct genlist *) tthis, index));
+          genlist_link_get((const struct genlist *) tthis, index));
 }
 
 /****************************************************************************

@@ -286,7 +286,7 @@ research_advance_name_translation(const struct research *presearch,
     return name;
   }
 
-  return name_translation(research_advance_name(tech));
+  return name_translation_get(research_advance_name(tech));
 }
 
 /**************************************************************************

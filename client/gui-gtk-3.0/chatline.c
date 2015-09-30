@@ -449,8 +449,8 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
 
     if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),
                                      TTT_COLOR, 0, FT_OFFSET_UNSET,
-                                     ft_color(fg_color_text,
-                                              bg_color_text))) {
+                                     ft_color_construct(fg_color_text,
+                                                        bg_color_text))) {
       goto CLEAN_UP;
     }
   } else if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),

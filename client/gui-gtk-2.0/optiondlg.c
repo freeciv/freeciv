@@ -954,7 +954,7 @@ static void option_dialog_option_apply(struct option *poption)
       color_to_string(color, bg_color_text, sizeof(bg_color_text));
 
       (void) option_color_set(poption,
-                              ft_color(fg_color_text, bg_color_text));
+                              ft_color_construct(fg_color_text, bg_color_text));
     }
     break;
 

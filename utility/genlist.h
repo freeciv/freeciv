@@ -104,7 +104,7 @@ int genlist_size(const struct genlist *pgenlist);
 void *genlist_get(const struct genlist *pgenlist, int idx);
 void *genlist_front(const struct genlist *pgenlist);
 void *genlist_back(const struct genlist *pgenlist);
-struct genlist_link *genlist_link(const struct genlist *pgenlist, int idx);
+struct genlist_link *genlist_link_get(const struct genlist *pgenlist, int idx);
 inline static struct genlist_link *genlist_head(const struct genlist *pgenlist)
 {
   return (NULL != pgenlist ? pgenlist->head_link : NULL);

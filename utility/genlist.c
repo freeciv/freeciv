@@ -207,9 +207,10 @@ int genlist_size(const struct genlist *pgenlist)
   out of range (including an empty list), returns NULL.
   Recall 'idx' can be -1 meaning the last element.
 ****************************************************************************/
-struct genlist_link *genlist_link(const struct genlist *pgenlist, int idx)
+struct genlist_link *genlist_link_get(const struct genlist *pgenlist, int idx)
 {
   fc_assert_ret_val(NULL != pgenlist, NULL);
+
   return genlist_link_at_pos(pgenlist, idx);
 }
 
@@ -229,7 +230,7 @@ struct genlist_link *genlist_tail(const struct genlist *pgenlist)
 ****************************************************************************/
 void *genlist_get(const struct genlist *pgenlist, int idx)
 {
-  return genlist_link_data(genlist_link(pgenlist, idx));
+  return genlist_link_data(genlist_link_get(pgenlist, idx));
 }
 
 /****************************************************************************

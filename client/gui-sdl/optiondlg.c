@@ -453,7 +453,7 @@ static struct strvec *video_mode_list(void)
 
   for (; NULL != *mode; mode++) {
     if (video_mode_to_string(buf, sizeof(buf),
-                             video_mode((*mode)->w, (*mode)->h))) {
+                             video_mode_construct((*mode)->w, (*mode)->h))) {
       strvec_append(video_modes, buf);
     }
   }

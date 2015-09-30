@@ -246,7 +246,7 @@ int terrains_by_flag(enum terrain_flag_id flag, struct terrain **buffer, int buf
 ****************************************************************************/
 const char *terrain_name_translation(const struct terrain *pterrain)
 {
-  return name_translation(&pterrain->name);
+  return name_translation_get(&pterrain->name);
 }
 
 /**************************************************************************
@@ -374,7 +374,7 @@ struct resource *resource_by_rule_name(const char *name)
 ****************************************************************************/
 const char *resource_name_translation(const struct resource *presource)
 {
-  return name_translation(&presource->name);
+  return name_translation_get(&presource->name);
 }
 
 /**************************************************************************

@@ -146,7 +146,7 @@ const char *nation_rule_name(const struct nation_type *pnation)
 const char *nation_adjective_translation(const struct nation_type *pnation)
 {
   NATION_CHECK(pnation, return "");
-  return name_translation(&pnation->adjective);
+  return name_translation_get(&pnation->adjective);
 }
 
 /****************************************************************************
@@ -156,7 +156,7 @@ const char *nation_adjective_translation(const struct nation_type *pnation)
 const char *nation_plural_translation(const struct nation_type *pnation)
 {
   NATION_CHECK(pnation, return "");
-  return name_translation(&pnation->noun_plural);
+  return name_translation_get(&pnation->noun_plural);
 }
 
 /****************************************************************************
@@ -783,7 +783,7 @@ const char *nation_set_rule_name(const struct nation_set *pset)
 const char *nation_set_name_translation(const struct nation_set *pset)
 {
   fc_assert_ret_val(NULL != pset, NULL);
-  return name_translation(&pset->name);
+  return name_translation_get(&pset->name);
 }
 
 /****************************************************************************
@@ -1042,7 +1042,7 @@ const char *nation_group_rule_name(const struct nation_group *pgroup)
 const char *nation_group_name_translation(const struct nation_group *pgroup)
 {
   fc_assert_ret_val(NULL != pgroup, NULL);
-  return name_translation(&pgroup->name);
+  return name_translation_get(&pgroup->name);
 }
 
 /****************************************************************************

@@ -456,7 +456,7 @@ struct goods_type *goods_by_number(Goods_type_id id)
 ****************************************************************************/
 const char *goods_name_translation(struct goods_type *pgood)
 {
-  return name_translation(&pgood->name);
+  return name_translation_get(&pgood->name);
 }
 
 /****************************************************************************

@@ -104,7 +104,7 @@ struct achievement *achievement_by_number(int id)
 ****************************************************************************/
 const char *achievement_name_translation(struct achievement *pach)
 {
-  return name_translation(&pach->name);
+  return name_translation_get(&pach->name);
 }
 
 /****************************************************************************

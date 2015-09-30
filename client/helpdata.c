@@ -183,7 +183,7 @@ static bool insert_veteran_help(char *outbuf, size_t outlen,
             _("--------------------------------------------"));
     for (i = 0; i < veteran->levels; i++) {
       const struct veteran_level *level = &veteran->definitions[i];
-      const char *name = name_translation(&level->name);
+      const char *name = name_translation_get(&level->name);
       /* Use get_internal_string_length() for correct alignment with
        * multibyte character encodings */
       cat_snprintf(outbuf, outlen,
@@ -3193,7 +3193,7 @@ void boot_help_texts(struct player *pplayer)
               help_text_buffer[0] = '\0';
               pitem = new_help_item(current_type);
               fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                          name_translation(&pmul->name));
+                          name_translation_get(&pmul->name));
               pitem->topic = fc_strdup(name);
               if (pmul->helptext) {
                 const char *sep = "";
@@ -5445,7 +5445,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                            Q_("?unittype:* New %s units will have the rank "
                               "of %s.\n"),
                            utype_name_translation(unittype),
-                           name_translation(&vlevel->name));
+                           name_translation_get(&vlevel->name));
             } /* else complicated */
           } else {
             /* No extra criteria. */
