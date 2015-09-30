@@ -80,12 +80,10 @@ static int redraw_window(struct widget *pWindow)
 
     dst = pWindow->area;    
 
-#if 0
-    putline(pWindow->dst->surface,
-            dst.x, dst.y - 1,
-            dst.x + dst.w - 1, dst.y - 1,
-            get_theme_color(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR));
-#endif /* 0 */
+    create_line(pWindow->dst->surface,
+                dst.x, dst.y - 1,
+                dst.x + dst.w - 1, dst.y - 1,
+                get_theme_color(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR));
   }
 
   /* draw frame */

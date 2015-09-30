@@ -2069,7 +2069,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
       int spe, spe_max;
 
       if (j != 0) {
-        putline(pCityWindow->dst->renderer,
+        create_line(pCityWindow->dst->surface,
                 dest.x, dest.y, dest.x + adj_size(176), dest.y,
                 get_theme_color(COLOR_THEME_CITYDLG_FRAME));
         dest.y += adj_size(5);

@@ -165,7 +165,7 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
                      enum line_type ltype, int start_x, int start_y,
                      int dx, int dy)
 {
-  /*  putline(pcanvas->surf, start_x, start_y, start_x + dx, start_y + dy, pcolor->color); */
+  create_line(pcanvas->surf, start_x, start_y, start_x + dx, start_y + dy, pcolor->color);
 }
 
 /****************************************************************************
@@ -186,7 +186,7 @@ void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
 ****************************************************************************/
 void get_text_size(int *width, int *height,
                    enum client_font font, const char *text)
-{  
+{
   utf8_str *ptext = create_utf8_str(NULL, 0, *fonts[font]);
   SDL_Rect size;
 

@@ -276,17 +276,16 @@ void real_players_dialog_update(void)
 
       /* now add some eye candy ... */
       if (pPlayer1 != pPlayers_Dlg->pBeginWidgetList) {
-#if 0
+        SDL_Rect dst0, dst1;
+
         dst0.x = pPlayer0->size.x + pPlayer0->size.w / 2;
         dst0.y = pPlayer0->size.y + pPlayer0->size.h / 2;
-#endif /* 0 */
 
         do {
           pPlayer1 = pPlayer1->prev;
 	  if (have_diplomat_info_about(pPlayer)
               || have_diplomat_info_about(pPlayer1->data.player)) {
 
-#if 0
             dst1.x = pPlayer1->size.x + pPlayer1->size.w / 2;
             dst1.y = pPlayer1->size.y + pPlayer1->size.h / 2;
 
@@ -294,44 +293,43 @@ void real_players_dialog_update(void)
                                          pPlayer1->data.player)->type) {
 	      case DS_ARMISTICE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
-	          putline(pPlayer1->dst->surface,
-	                  dst0.x, dst0.y, dst1.x, dst1.y,
-	                  get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE));
+	          create_line(pPlayer1->dst->surface,
+                              dst0.x, dst0.y, dst1.x, dst1.y,
+                              get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE));
 	        }
 	      break;
               case DS_WAR:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS) {
-	          putline(pPlayer1->dst->surface,
-	                  dst0.x, dst0.y, dst1.x, dst1.y,
-	                  get_theme_color(COLOR_THEME_PLRDLG_WAR));
+	          create_line(pPlayer1->dst->surface,
+                              dst0.x, dst0.y, dst1.x, dst1.y,
+                              get_theme_color(COLOR_THEME_PLRDLG_WAR));
 	        }
               break;
 	      case DS_CEASEFIRE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
-	          putline(pPlayer1->dst->surface,
-	                  dst0.x, dst0.y, dst1.x, dst1.y,
-	                  get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE));
+	          create_line(pPlayer1->dst->surface,
+                              dst0.x, dst0.y, dst1.x, dst1.y,
+                              get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE));
 	        }
               break;
               case DS_PEACE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
-	          putline(pPlayer1->dst->surface,
-	                  dst0.x, dst0.y, dst1.x, dst1.y,
-	                  get_theme_color(COLOR_THEME_PLRDLG_PEACE));
+	          create_line(pPlayer1->dst->surface,
+                              dst0.x, dst0.y, dst1.x, dst1.y,
+                              get_theme_color(COLOR_THEME_PLRDLG_PEACE));
 	        }
               break;
 	      case DS_ALLIANCE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
-	          putline(pPlayer1->dst->surface,
-	                  dst0.x, dst0.y, dst1.x, dst1.y,
-	                  get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE));
+	          create_line(pPlayer1->dst->surface,
+                              dst0.x, dst0.y, dst1.x, dst1.y,
+                              get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE));
 	        }
               break;
               default:
 	        /* no contact */
               break;
 	    }
-#endif /* 0 */
 	  }
         } while (pPlayer1 != pPlayers_Dlg->pBeginWidgetList);
       }

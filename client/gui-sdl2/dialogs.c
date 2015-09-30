@@ -3552,14 +3552,12 @@ void popup_races_dialog(struct player *pplayer)
     pBuf->size.y = pBuf->next->size.y;
   }
 
-#if 0  
-  putline(pWindow->theme,
-          area.x,
-          natinfo_y + natinfo_h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
-          area.w - 1, 
-          natinfo_y + natinfo_h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
-          get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
-#endif
+  create_line(pWindow->theme,
+              area.x,
+              natinfo_y + natinfo_h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
+              area.w - 1, 
+              natinfo_y + natinfo_h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
+              get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
 
   /* Disconnect Button */
   pBuf = pBuf->prev;
