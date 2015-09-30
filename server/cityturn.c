@@ -2027,7 +2027,15 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
                       E_UNIT_LOST_MISC, ftc_server,
                       _("%s can't upkeep %s, unit disbanded."),
                       city_link(pcity), unit_link(punit));
-        handle_unit_disband(pplayer, punit->id);
+        /* What should be done if the Help Wonder action stops blocking
+         * Disband Unit? Cases where Disband Unit is better for the player
+         * than Help Wonder exists.
+         * Example: Unit in allied city that is building a wonder that
+         * makes the ally win without sharing the victory. */
+        /* TODO: Should the unit try to help cities on adjacent tiles? That
+         * would be a rules change. (This action is performed by the game
+         * it self) */
+        unit_do_disband_trad(pplayer, punit);
 	/* pcity->surplus[O_SHIELD] is automatically updated. */
       }
     } unit_list_iterate_safe_end;

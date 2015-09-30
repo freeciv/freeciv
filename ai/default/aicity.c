@@ -37,6 +37,7 @@
 #include "plrhand.h"
 #include "srv_log.h"
 #include "unithand.h"
+#include "unittools.h"
 
 /* server/advisors */
 #include "advdata.h"
@@ -459,7 +460,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
           && def_ai_city_data(pcity, ait)->urgency == 0) {
         CITY_LOG(LOG_BUY, pcity, "disbanding %s to increase production",
                  unit_rule_name(punit));
-	handle_unit_disband(pplayer,punit->id);
+        unit_do_disband_trad(pplayer, punit);
       }
     } unit_list_iterate_safe_end;
   } city_list_iterate_end;
@@ -926,7 +927,14 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
             && (unit_being_aggressive(punit) || is_field_unit(punit)))
         && def_ai_unit_data(punit, ait)->passenger == 0) {
       UNIT_LOG(LOG_EMERGENCY, punit, "is causing unrest, disbanded");
-      handle_unit_disband(pplayer, punit->id);
+      /* TODO: if Help Wonder stops blocking Disband Unit there may be
+       * cases where Disband Unit should be selected. Example: Field unit
+       * in allied city that is building a wonder that makes the ally win
+       * without sharing the victory. */
+      /* TODO: Should the unit try to find legal targets at adjacent tiles?
+       * Should it consider other self eliminating actions than the
+       * components of the traditional disband? */
+      unit_do_disband_trad(pplayer, punit);
       city_refresh(pcity);
     }
   } unit_list_iterate_safe_end;

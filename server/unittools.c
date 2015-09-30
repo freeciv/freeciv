@@ -3679,6 +3679,40 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 }
 
 /**************************************************************************
+  Try to disband punit in the traditional way.
+
+  Try to disband the specified unit. Match the old behavior in what kind
+  of disbanding is tried and who benefits from it.
+**************************************************************************/
+void unit_do_disband_trad(struct player *owner, struct unit *punit)
+{
+  fc_assert_ret(owner == unit_owner(punit));
+
+  /* Help Wonder gives 100% of the shields used to produce the unit to the
+   * city where it is located. */
+  if (unit_can_do_action(punit, ACTION_HELP_WONDER)) {
+    struct city *tgt_city;
+
+    /* Only a city at the same tile as the unit can benefit. */
+    tgt_city = tile_city(unit_tile(punit));
+
+    if (tgt_city
+        && is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+                                          punit, tgt_city)) {
+      if (unit_perform_action(owner, punit->id, tgt_city->id,
+                              0, NULL, ACTION_HELP_WONDER)) {
+        /* No shields wasted. The unit did Help Wonder. */
+        return;
+      }
+    }
+  }
+
+  /* Disbanding a unit inside a city gives it 50% of the shields used to
+   * produce the unit. */
+  handle_unit_disband(owner, punit->id);
+}
+
+/**************************************************************************
   Maybe cancel the goto if there is an enemy in the way
 **************************************************************************/
 static bool maybe_cancel_goto_due_to_enemy(struct unit *punit, 

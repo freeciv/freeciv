@@ -1936,6 +1936,16 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
     return;
   }
 
+  if (action_blocks_disband(punit)) {
+    /* Disband is blocked by the fact that another action is legal. */
+    notify_player(unit_owner(punit), unit_tile(punit),
+                  E_BAD_COMMAND, ftc_server,
+                  /* TRANS: ... Help Wonder ... */
+                  _("Regular disband not allowed. Try %s in stead."),
+                  action_get_ui_name(ACTION_HELP_WONDER));
+    return;
+  }
+
   pcity = tile_city(unit_tile(punit));
   if (pcity) {
     /* If you disband inside a city, it gives some shields to that city.
@@ -1944,20 +1954,16 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
      * your ally receives those shields. Should it be like this? Why not?
      * That's why we must use city_owner instead of pplayer -- Zamar */
 
+    /* Add the shields from recycling the unit to the city's current
+     * production. */
+    pcity->shield_stock += unit_disband_shields(punit);
+
     if (unit_can_do_action(punit, ACTION_HELP_WONDER)) {
       /* Count this just like a caravan that was added to a wonder.
-       * However don't actually give the city the extra shields unless
-       * they are building a wonder (but switching to a wonder later in
-       * the turn will give the extra shields back). */
+       * However don't actually give the city the extra shields. Switching
+       * to a wonder later in the turn will give the extra shields back. */
       pcity->caravan_shields += unit_build_shield_cost(punit);
-      if (is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
-                                         punit, pcity)) {
-	pcity->shield_stock += unit_build_shield_cost(punit);
-      } else {
-	pcity->shield_stock += unit_disband_shields(punit);
-      }
     } else {
-      pcity->shield_stock += unit_disband_shields(punit);
       /* If we change production later at this turn. No penalty is added. */
       pcity->disbanded_shields += unit_disband_shields(punit);
     }
