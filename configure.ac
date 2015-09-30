@@ -194,9 +194,6 @@ if test "x$MODPACK_LIST_URL" != "x" ; then
   AC_DEFINE_UNQUOTED([MODPACK_LIST_URL], ["${MODPACK_LIST_URL}"], [Default modpack list URL])
 fi
 
-dnl Do not change this as some parts of freeciv still would not adjust automatically ->
-dnl those parts would remain incompatible with the parts that do respect this.
-FREECIV_HOME_DIR="~/.freeciv"
 AC_DEFINE_UNQUOTED([FREECIV_HOME_DIR], ["$FREECIV_HOME_DIR"], [Location for freeciv to store its information])
 
 AC_ARG_WITH([readline],
