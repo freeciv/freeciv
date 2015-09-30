@@ -3476,3 +3476,61 @@ void create_frame(SDL_Surface *dest, Sint16 left, Sint16 top,
   free_sprite(horizontal);
   free_sprite(vertical);
 }
+
+/**************************************************************************
+  Create single colored line
+**************************************************************************/
+void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
+                 SDL_Color *pcolor)
+{
+  int xl = x0 < x1 ? x0 : x1;
+  int xr = x0 < x1 ? x1 : x0;
+  int yt = y0 < y1 ? y0 : y1;
+  int yb = y0 < y1 ? y1 : y0;
+  int w = (xr - xl) + 1;
+  int h = (yb - yt) + 1;
+  struct sprite *spr;
+  SDL_Rect dst = { xl, yt, w, h };
+  SDL_Color *pcol;
+  struct color gsdl2_color;
+  int l = MAX((xr - xl) + 1, (yb - yt) + 1);
+  int i;
+
+  pcol = fc_malloc(sizeof(pcol));
+  pcol->r = pcolor->r;
+  pcol->g = pcolor->g;
+  pcol->b = pcolor->b;
+  pcol->a = 0; /* Fill with transparency */
+
+  gsdl2_color.color = pcol;
+  spr = create_sprite(w, h, &gsdl2_color);
+
+  lock_surf(spr->psurface);
+
+  /* Set off transparency from pixels belonging to the line */
+  if ((x0 <= x1 && y0 <= y1)
+      || (x1 <= x0 && y1 <= y0)) {
+    for (i = 0; i < l; i++) {
+      int cx = (xr - xl) * i / l;
+      int cy = (yb - yt) * i / l;
+
+      *((Uint32 *)spr->psurface->pixels + spr->psurface->w * cy + cx)
+        |= (pcolor->a << spr->psurface->format->Ashift);
+    }
+  } else {
+    for (i = 0; i < l; i++) {
+      int cx = (xr - xl) * i / l;
+      int cy = yb - (yb - yt) * i / l;
+
+      *((Uint32 *)spr->psurface->pixels + spr->psurface->w * cy + cx)
+        |= (pcolor->a << spr->psurface->format->Ashift);
+    }
+  }
+
+  unlock_surf(spr->psurface);
+
+  alphablit(spr->psurface, NULL, dest, &dst, 255);
+
+  free_sprite(spr);
+  free(pcol);
+}

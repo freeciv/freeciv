@@ -207,7 +207,6 @@ extern struct main Main;
 struct gui_layer {
   SDL_Rect dest_rect;  /* only x and y are used */
   SDL_Surface *surface;
-  SDL_Renderer *renderer;
 };
 
 struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface);
@@ -256,33 +255,12 @@ int center_main_window_on_screen(void);
 Uint32 getpixel(SDL_Surface *pSurface, Sint16 x, Sint16 y);
 Uint32 get_first_pixel(SDL_Surface *pSurface);
 
-static inline void putline(SDL_Renderer *pDest,
-                           Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
-                           SDL_Color *pcolor)
-{
-  lineColor(pDest,
-            x0, y0, x1, y1,
-            ((Uint32) pcolor->r << 24) |
-            ((Uint32) pcolor->g << 16) |
-            ((Uint32) pcolor->b << 8) |
-            ((Uint32) pcolor->a));
-}
-
-static inline void putframe(SDL_Renderer *pDest,
-                            Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
-                            SDL_Color *pcolor)
-{
-  rectangleColor(pDest,
-                 x0, y0, x1, y1,
-                 ((Uint32) pcolor->r << 24) |
-                 ((Uint32) pcolor->g << 16) |
-                 ((Uint32) pcolor->b << 8) |
-                 ((Uint32) pcolor->a));
-}
-
 void create_frame(SDL_Surface *dest, Sint16 left, Sint16 top,
                   Sint16 right, Sint16 bottom,
                   SDL_Color *pcolor);
+
+void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
+                 SDL_Color *pcolor);
 
 /* SDL */
 void init_sdl(int f);

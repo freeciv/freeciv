@@ -1376,15 +1376,15 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 **************************************************************************/
 static void redraw_tech_tree_dlg(void)
 {
-  /*  SDL_Color *line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE); */
+  SDL_Color *line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE);
   SDL_Color bg_color = {255, 255, 255, 64};
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
   struct widget *pSub0, *pSub1;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
   struct widget *pTech = pStore->pDock->prev;
   int i,j, tech, count;
-  /* int step;
-     int mod; */
+  int step;
+  int mod;
   SDL_Rect dst;
 
   /* Redraw Window with exit button */
@@ -1448,54 +1448,52 @@ static void redraw_tech_tree_dlg(void)
     }
 
     /* draw main Arrow */
-#if 0
-    putline(pStore->pRequirementButton[i]->dst->surface,
-        pStore->pRequirementButton[i]->size.x + pStore->pRequirementButton[i]->size.w,
-        pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        pTech->size.x,
-        pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        line_color);
+    create_line(pStore->pRequirementButton[i]->dst->surface,
+           pStore->pRequirementButton[i]->size.x + pStore->pRequirementButton[i]->size.w,
+           pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
+           pTech->size.x,
+           pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
+           line_color);
 
     /* Draw Sub_Req arrows */
     if (pSub0 || pSub1) {
-      putline(pStore->pRequirementButton[i]->dst->surface,
-        pStore->pRequirementButton[i]->size.x - adj_size(10),
-        pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        pStore->pRequirementButton[i]->size.x ,
-        pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        line_color);
+      create_line(pStore->pRequirementButton[i]->dst->surface,
+             pStore->pRequirementButton[i]->size.x - adj_size(10),
+             pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
+             pStore->pRequirementButton[i]->size.x ,
+             pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
+             line_color);
     }
 
     if (pSub0) {
-      putline(pStore->pRequirementButton[i]->dst->surface,
-        pStore->pRequirementButton[i]->size.x - adj_size(10),
-        pSub0->size.y + pSub0->size.h / 2,
-        pStore->pRequirementButton[i]->size.x - adj_size(10),
-        pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        line_color);
-      putline(pStore->pRequirementButton[i]->dst->surface,
-        pSub0->size.x + pSub0->size.w,
-        pSub0->size.y + pSub0->size.h / 2,
-        pStore->pRequirementButton[i]->size.x - adj_size(10),
-        pSub0->size.y + pSub0->size.h / 2,
-        line_color);
+      create_line(pStore->pRequirementButton[i]->dst->surface,
+             pStore->pRequirementButton[i]->size.x - adj_size(10),
+             pSub0->size.y + pSub0->size.h / 2,
+             pStore->pRequirementButton[i]->size.x - adj_size(10),
+             pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
+             line_color);
+      create_line(pStore->pRequirementButton[i]->dst->surface,
+             pSub0->size.x + pSub0->size.w,
+             pSub0->size.y + pSub0->size.h / 2,
+             pStore->pRequirementButton[i]->size.x - adj_size(10),
+             pSub0->size.y + pSub0->size.h / 2,
+             line_color);
     }
 
     if (pSub1) {
-      putline(pStore->pRequirementButton[i]->dst->surface,
-        pStore->pRequirementButton[i]->size.x - adj_size(10),
-        pSub1->size.y + pSub1->size.h / 2,
-        pStore->pRequirementButton[i]->size.x - adj_size(10),
-        pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        line_color);
-      putline(pStore->pRequirementButton[i]->dst->surface,
-        pSub1->size.x + pSub1->size.w,
-        pSub1->size.y + pSub1->size.h / 2,
-        pStore->pRequirementButton[i]->size.x - adj_size(10),
-        pSub1->size.y + pSub1->size.h / 2,
-        line_color);
+      create_line(pStore->pRequirementButton[i]->dst->surface,
+             pStore->pRequirementButton[i]->size.x - adj_size(10),
+             pSub1->size.y + pSub1->size.h / 2,
+             pStore->pRequirementButton[i]->size.x - adj_size(10),
+             pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
+             line_color);
+      create_line(pStore->pRequirementButton[i]->dst->surface,
+             pSub1->size.x + pSub1->size.w,
+             pSub1->size.y + pSub1->size.h / 2,
+             pStore->pRequirementButton[i]->size.x - adj_size(10),
+             pSub1->size.y + pSub1->size.h / 2,
+             line_color);
     }
-#endif
     i++;
   }
 
@@ -1505,17 +1503,14 @@ static void redraw_tech_tree_dlg(void)
   }
   count = i;
 
-#if 0
   if (count > 4) {
     mod = 3;
   } else {
     mod = 2;
   }
-#endif
 
   for (i = 0; i < count; i++) {
     tech = MAX_ID - pStore->pTargets[i]->ID;
-#if 0
     step = pTech->size.h / (count + 1);
 
     switch ((i % mod)) {
@@ -1529,9 +1524,8 @@ static void redraw_tech_tree_dlg(void)
       line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE);
       break;
     }
-#endif
 
-    /*find Sub_Req's */
+    /* find Sub_Req's */
     if (advance_required(tech, AR_ONE) == MAX_ID - pTech->ID) {
       pSub0 = pTech;
     } else {
@@ -1558,18 +1552,15 @@ static void redraw_tech_tree_dlg(void)
 
     /* Draw Sub_Targets arrows */
     if (pSub0 || pSub1) {
-#if 0
-      putline(pStore->pTargets[i]->dst->surface,
-        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-        pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        pStore->pTargets[i]->size.x ,
-        pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        line_color);
-#endif
+      create_line(pStore->pTargets[i]->dst->surface,
+                  pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+                  pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
+                  pStore->pTargets[i]->size.x ,
+                  pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
+                  line_color);
     }
 
     if (pSub0) {
-#if 0
       int y;
 
       if (pSub0 == pTech) {
@@ -1578,24 +1569,21 @@ static void redraw_tech_tree_dlg(void)
         y = pSub0->size.y + pSub0->size.h / 2;
       }
 
-      putline(pStore->pTargets[i]->dst->surface,
-        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-        y,
-        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-        pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        line_color);
-      putline(pStore->pTargets[i]->dst->surface,
-        pSub0->size.x + pSub0->size.w,
-        y,
-        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-        y,
-        line_color);
-#endif
-
+      create_line(pStore->pTargets[i]->dst->surface,
+                  pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+                  y,
+                  pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+                  pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
+                  line_color);
+      create_line(pStore->pTargets[i]->dst->surface,
+                  pSub0->size.x + pSub0->size.w,
+                  y,
+                  pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+                  y,
+                  line_color);
     }
 
     if (pSub1) {
-#if 0
       int y;
 
       if (pSub1 == pTech) {
@@ -1603,19 +1591,19 @@ static void redraw_tech_tree_dlg(void)
       } else {
         y = pSub1->size.y + pSub1->size.h / 2;
       }
-      putline(pStore->pTargets[i]->dst->surface,
-        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-        y,
-        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-        pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        line_color);
-      putline(pStore->pTargets[i]->dst->surface,
-        pSub1->size.x + pSub1->size.w,
-        y,
-        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-        y,
-        line_color);
-#endif
+
+      create_line(pStore->pTargets[i]->dst->surface,
+                  pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+                  y,
+                  pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+                  pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
+                  line_color);
+      create_line(pStore->pTargets[i]->dst->surface,
+                  pSub1->size.x + pSub1->size.w,
+                  y,
+                  pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+                  y,
+                  line_color);
     }
   }
 

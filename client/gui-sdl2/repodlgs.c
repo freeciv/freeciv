@@ -2642,11 +2642,9 @@ void real_science_report_dialog_update(void)
     dest.x = area.x + adj_size(16);
 
     /* separator */
-#if 0
-    putline(pWindow->dst->surface,
-            dest.x, dest.y, (area.x + area.w - adj_size(16)), dest.y,
-            get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
-#endif /* 0 */
+    create_line(pWindow->dst->surface,
+                dest.x, dest.y, (area.x + area.w - adj_size(16)), dest.y,
+                get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
     dest.y += adj_size(6);
 
@@ -2748,11 +2746,9 @@ void real_science_report_dialog_update(void)
     dest.x = area.x + adj_size(16);
     dest.y += adj_size(48) + adj_size(6);
 
-#if 0
-    putline(pWindow->dst->surface,
-            dest.x, dest.y, (area.x + area.w - adj_size(16)), dest.y,
-            get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
-#endif /* 0 */
+    create_line(pWindow->dst->surface,
+                dest.x, dest.y, (area.x + area.w - adj_size(16)), dest.y,
+                get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
     dest.x = pChangeResearchButton->size.x;
     dest.y += adj_size(6);

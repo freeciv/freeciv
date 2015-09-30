@@ -455,23 +455,21 @@ void update_info_label(void)
 
     SDL_FillRect(Main.gui->surface, &area , map_rgba(Main.gui->surface->format, bg_color));
 
-#if 0
     /* Horizontal lines */
-    putline(Main.gui->surface,
-               area.x + 1, area.y, area.x + area.w - 2, area.y,
-               get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
-    putline(Main.gui->surface,
-               area.x + 1, area.y + area.h - 1, area.x + area.w - 2, area.y + area.h - 1,
-               get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
+    create_line(Main.gui->surface,
+                area.x + 1, area.y, area.x + area.w - 2, area.y,
+                get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
+    create_line(Main.gui->surface,
+                area.x + 1, area.y + area.h - 1, area.x + area.w - 2, area.y + area.h - 1,
+                get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
 
     /* vertical lines */
-    putline(Main.gui->surface,
-               area.x + area.w - 1, area.y + 1, area.x + area.w - 1, area.y + area.h - 2,
-               get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
-    putline(Main.gui->surface,
-               area.x, area.y + 1, area.x, area.y + area.h - 2,
-               get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
-#endif /* 0 */
+    create_line(Main.gui->surface,
+                area.x + area.w - 1, area.y + 1, area.x + area.w - 1, area.y + area.h - 2,
+                get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
+    create_line(Main.gui->surface,
+                area.x, area.y + 1, area.x, area.y + area.h - 2,
+                get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
 
     /* blit text to screen */
     blit_entire_src(pTmp, Main.gui->surface, area.x + adj_size(5), area.y + adj_size(2));

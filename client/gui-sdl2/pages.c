@@ -138,6 +138,7 @@ static int quit_callback(struct widget *pWidget)
 static void show_main_page(void)
 {
   SDL_Color bg_color = {255, 255, 255, 96};
+  SDL_Color line_color = {128, 128, 128, 255};
   int count = 0;
   struct widget *pWidget = NULL, *pWindow = NULL;
   SDL_Surface *pBackground;
@@ -329,12 +330,10 @@ static void show_main_page(void)
 
   redraw_group(pStartMenu->pBeginWidgetList, pStartMenu->pEndWidgetList, FALSE);
 
-#if 0
-  putline(pWindow->dst->surface,
-          area.x, area.y + (h * 2 - 1),
-          area.x + area.w - 1, area.y + (h * 2 - 1),
-          line_color);
-#endif /* 0 */
+  create_line(pWindow->dst->surface,
+              area.x, area.y + (h * 2 - 1),
+              area.x + area.w - 1, area.y + (h * 2 - 1),
+              &line_color);
 
   set_output_window_text(_("SDL2-client welcomes you..."));
 

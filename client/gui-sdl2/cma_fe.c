@@ -797,9 +797,10 @@ void update_city_cma_dialog(void)
   dst.w = pText->w + adj_size(10);
   dst.h = pText->h + adj_size(10);
   fill_rect_alpha(pBuf->dst->surface, &dst, &bg_color);
-  putframe(pBuf->dst->renderer,
-           dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-           get_theme_color(COLOR_THEME_CMA_FRAME));
+
+  create_frame(pBuf->dst->surface,
+               dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+               get_theme_color(COLOR_THEME_CMA_FRAME));
 
   dst.x += adj_size(5);
   dst.y += adj_size(5);
