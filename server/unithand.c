@@ -3915,6 +3915,20 @@ void handle_unit_orders(struct player *pplayer,
           return;
         }
         break;
+      case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+        /* Sabotage target is production (-1) or a building. */
+        if (!(packet->target[i] == -1
+              || improvement_by_number(packet->target[i]))) {
+          /* Sabotage target is invalid. */
+
+          log_error("handle_unit_orders() can't do %s without a target. "
+                    "Sent in order number %d from %s to unit number %d.",
+                    action_get_rule_name(packet->action[i]), i,
+                    player_name(pplayer), packet->unit_id);
+
+          return;
+        }
+        break;
       case ACTION_SPY_TARGETED_STEAL_TECH:
         if (packet->target[i] == A_NONE
             || (!valid_advance_by_number(packet->target[i])
@@ -3951,15 +3965,6 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_EXPEL_UNIT:
         /* No validation required. */
         break;
-      /* Needs additional target information. */
-      case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-        log_error("handle_unit_orders() the action %s isn't allowed in "
-                  "orders. "
-                  "Sent in order number %d from %s to unit number %d.",
-                  action_get_rule_name(packet->action[i]), i,
-                  player_name(pplayer), packet->unit_id);
-
-        return;
       /* Invalid action. Should have been caught above. */
       case ACTION_COUNT:
         fc_assert_ret_msg(packet->action[i] != ACTION_COUNT,

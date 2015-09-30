@@ -5223,6 +5223,18 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
         if (order->order == ORDER_PERFORM_ACTION) {
           switch (order->action) {
+          case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+            /* Sabotage target is production (-1) or a building. */
+            if (!(order_tgt == -1
+                  || improvement_by_number(order_tgt))) {
+              /* Sabotage target is invalid. */
+              log_sg("Cannot find building %d for %s to sabotage",
+                     order_tgt, unit_rule_name(punit));
+              order->target = EXTRA_NONE;
+            } else {
+              order->target = order_tgt;
+            }
+            break;
           case ACTION_SPY_TARGETED_STEAL_TECH:
             if (order_tgt == A_NONE
                 || (!valid_advance_by_number(order_tgt)
@@ -5240,7 +5252,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_SPY_POISON:
           case ACTION_SPY_STEAL_GOLD:
           case ACTION_SPY_SABOTAGE_CITY:
-          case ACTION_SPY_TARGETED_SABOTAGE_CITY:
           case ACTION_SPY_STEAL_TECH:
           case ACTION_SPY_INCITE_CITY:
           case ACTION_TRADE_ROUTE:
