@@ -1147,7 +1147,7 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
       tileset_player_init(tileset, pplayer);
     } players_iterate_end;
     tileset_background_init(tileset);
-    boot_help_texts(client.conn.playing); /* "About Current Tileset" */
+    boot_help_texts(); /* "About Current Tileset" */
   }
 
   /* Step 3: Setup

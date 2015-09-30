@@ -649,7 +649,7 @@ int client_main(int argc, char *argv[])
      have cosmetic effects only (eg city name suggestions).  --dwp */
   fc_srand(time(NULL));
   helpdata_init();
-  boot_help_texts(NULL);
+  boot_help_texts();
 
   tilespec_try_read(req_tileset_name, user_tileset);
 
@@ -887,7 +887,7 @@ void set_client_state(enum client_states newstate)
       research_update(research_get(pplayer));
     }
     role_unit_precalcs();
-    boot_help_texts(pplayer);   /* reboot with player */
+    boot_help_texts();   /* reboot with player */
     global_worklists_build();
     can_slide = FALSE;
     unit_focus_update();
@@ -934,7 +934,7 @@ void set_client_state(enum client_states newstate)
         research_update(research_get(pplayer));
       }
       role_unit_precalcs();
-      boot_help_texts(pplayer);            /* reboot */
+      boot_help_texts();            /* reboot */
       global_worklists_build();
       unit_focus_set(NULL);
       set_client_page(PAGE_GAME);

@@ -31,7 +31,7 @@ struct help_item {
 void helpdata_init(void);
 void helpdata_done(void);
 
-void boot_help_texts(struct player *pplayer);
+void boot_help_texts(void);
 void free_help_texts(void);
 
 int num_help_items(void);
