@@ -119,7 +119,7 @@ static const bool C_CARDINAL = TRUE;
 static const bool C_NUMBER = FALSE;
 static const bool C_PERCENT = TRUE;
 
-#define MAP_IS_ISOMETRIC (current_topo_has_flag(TF_ISO) || current_topo_has_flag(TF_HEX))
+#define MAP_IS_ISOMETRIC (CURRENT_TOPOLOGY & (TF_ISO + TF_HEX))
 
 #define CURRENT_TOPOLOGY (map.topology_id)
 
@@ -219,9 +219,11 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 #define CHECK_INDEX(index) ((void)0)
 #endif
 
+#define native_pos_to_index_nocheck(nat_x, nat_y)                            \
+  ((nat_x) + (nat_y) * map.xsize)
 #define native_pos_to_index(nat_x, nat_y)                                    \
   (CHECK_NATIVE_POS((nat_x), (nat_y)),                                       \
-   (nat_x) + (nat_y) * map.xsize)
+   native_pos_to_index_nocheck(nat_x, nat_y))
 #define index_to_native_pos(pnat_x, pnat_y, index)                           \
   (*(pnat_x) = index_to_native_pos_x(index),                                 \
    *(pnat_y) = index_to_native_pos_y(index))
