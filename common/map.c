@@ -396,7 +396,8 @@ static inline struct tile *base_native_pos_to_tile(int nat_x, int nat_y)
     return NULL;
   }
 
-  return map.tiles + native_pos_to_index(nat_x, nat_y);
+  /* We already checked legality of native pos above, don't repeat */
+  return map.tiles + native_pos_to_index_nocheck(nat_x, nat_y);
 }
 
 /****************************************************************************
@@ -404,7 +405,12 @@ static inline struct tile *base_native_pos_to_tile(int nat_x, int nat_y)
 ****************************************************************************/
 struct tile *map_pos_to_tile(int map_x, int map_y)
 {
-  int nat_x, nat_y;
+  /* Instead of introducing new variables for native coordinates,
+   * update the map coordinate variables = registers already in use.
+   * This is one of the most performance-critical functions we have,
+   * so taking measures like this makes sense. */
+#define nat_x map_x
+#define nat_y map_y
 
   if (!map.tiles) {
     return NULL;
@@ -413,6 +419,9 @@ struct tile *map_pos_to_tile(int map_x, int map_y)
   /* Normalization is best done in native coordinates. */
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
   return base_native_pos_to_tile(nat_x, nat_y);
+
+#undef nat_x
+#undef nat_y
 }
 
 /****************************************************************************
