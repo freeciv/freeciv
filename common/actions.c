@@ -623,7 +623,7 @@ static bool bombard_blocks(const struct unit *actor_unit,
 }
 
 /**************************************************************************
-  Returns TRUE iff exploade nuclear is forced and possible.
+  Returns TRUE iff explode nuclear is forced and possible.
 **************************************************************************/
 static bool explode_nuclear_blocks(const struct unit *actor_unit,
                                    const struct tile *target_tile)
