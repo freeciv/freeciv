@@ -3923,8 +3923,8 @@ void handle_unit_orders(struct player *pplayer,
         break;
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
         /* Sabotage target is production (-1) or a building. */
-        if (!(packet->target[i] == -1
-              || improvement_by_number(packet->target[i]))) {
+        if (!(packet->target[i] - 1 == -1
+              || improvement_by_number(packet->target[i] - 1))) {
           /* Sabotage target is invalid. */
 
           log_error("handle_unit_orders() can't do %s without a target. "

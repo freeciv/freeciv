@@ -5225,8 +5225,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
           switch (order->action) {
           case ACTION_SPY_TARGETED_SABOTAGE_CITY:
             /* Sabotage target is production (-1) or a building. */
-            if (!(order_tgt == -1
-                  || improvement_by_number(order_tgt))) {
+            if (!(order_tgt - 1 == -1
+                  || improvement_by_number(order_tgt - 1))) {
               /* Sabotage target is invalid. */
               log_sg("Cannot find building %d for %s to sabotage",
                      order_tgt, unit_rule_name(punit));
