@@ -1520,9 +1520,7 @@ bool unit_perform_action(struct player *pplayer,
     }
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-    if (pcity
-        /* This isn't untargeted sabotage city. */
-        && value != (B_LAST + 1)) {
+    if (pcity) {
       if (is_action_enabled_unit_on_city(action_type, actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
