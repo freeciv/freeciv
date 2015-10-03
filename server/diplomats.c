@@ -827,8 +827,10 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
 /**************************************************************************
   Sabotage enemy city's improvement or production.
-  If "improvement" is B_LAST, sabotage a random improvement or production.
-  Else, if "improvement" is -1, sabotage current production.
+  If this is untargeted sabotage city a random improvement or production is
+  targeted.
+  Targeted sabotage city lets the value of "improvement" decide the target.
+  If "improvement" is -1, sabotage current production.
   Otherwise, sabotage the city improvement whose ID is "improvement".
 
   - Check for infiltration success.  Our saboteur may not survive this.
@@ -907,11 +909,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   log_debug("sabotage: count of improvements: %d", count);
 
   /* Determine the target (-1 is production). */
-  if (improvement < 0) {
-    /* If told to sabotage production, do so. */
-    ptarget = NULL;
-    log_debug("sabotage: specified target production");
-  } else if (improvement >= B_LAST) {
+  if (action_id == ACTION_SPY_SABOTAGE_CITY) {
     /*
      * Pick random:
      * 50/50 chance to pick production or some improvement.
@@ -955,6 +953,10 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
         log_error("sabotage: random: targeted improvement error!");
       }
     }
+  } else if (improvement < 0) {
+    /* If told to sabotage production, do so. */
+    ptarget = NULL;
+    log_debug("sabotage: specified target production");
   } else {
     struct impr_type *pimprove = improvement_by_number(improvement);
     if (pimprove == NULL) {
