@@ -634,35 +634,38 @@ static bool explode_nuclear_blocks(const struct unit *actor_unit,
 }
 
 /**************************************************************************
-  Returns TRUE iff an action that blocks regular attacks is forced and
-  possible.
+  Returns the action that blocks regular attacks or NULL if they aren't
+  blocked.
+
+  An action that can block regular attacks blocks them when the action is
+  forced and possible.
 
   TODO: Make regular attacks action enabler controlled and delete this
   function.
 **************************************************************************/
-bool action_blocks_attack(const struct unit *actor_unit,
-                          const struct tile *target_tile)
+struct action *action_blocks_attack(const struct unit *actor_unit,
+                                    const struct tile *target_tile)
 {
   if (capture_units_blocks(actor_unit, target_tile)) {
     /* Capture unit is possible.
      * The ruleset forbids regular attacks when it is. */
-    return TRUE;
+    return action_by_number(ACTION_CAPTURE_UNITS);
   }
 
   if (bombard_blocks(actor_unit, target_tile)) {
     /* Bomard units is possible.
      * The ruleset forbids regular attacks when it is. */
-    return TRUE;
+    return action_by_number(ACTION_BOMBARD);
   }
 
   if (explode_nuclear_blocks(actor_unit, target_tile)) {
     /* Explode nuclear is possible.
      * The ruleset forbids regular attacks when it is. */
-    return TRUE;
+    return action_by_number(ACTION_NUKE);
   }
 
   /* Nothing is blocking a regular attack. */
-  return FALSE;
+  return NULL;
 }
 
 /**************************************************************************

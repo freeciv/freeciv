@@ -2972,14 +2972,15 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       || is_non_allied_city_tile(pdesttile, pplayer)) {
     struct unit *victim = NULL;
     enum unit_attack_result ua_result;
+    struct action *blocker;
 
-    if (action_blocks_attack(punit, pdesttile)) {
+    if ((blocker = action_blocks_attack(punit, pdesttile))) {
       /* Blocked by of the attacks that now are action enabler
        * controlled. */
       notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                    _("Regular attack not allowed since you could have done "
-                      "Capture Units, Bombard or Explode Nuclear in "
-                      "stead."));
+                    /* TRANS: ... Capture Units ... */
+                    _("Regular attack not allowed when %s is legal."),
+                    action_get_ui_name(blocker->id));
       return FALSE;
     }
 
