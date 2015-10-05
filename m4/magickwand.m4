@@ -42,10 +42,7 @@ AC_DEFUN([FC_CHECK_MAGICKWAND],
   if test -z "$WAND_CONFIG_PATH"; then
     AC_MSG_RESULT(no)
 
-    WAND_CFLAGS=""
-    WAND_LIBS=""
-
-    wand=no
+    PKG_CHECK_MODULES([WAND], [MagickWand], [wand=yes], [wand=no])
   else
     AC_MSG_RESULT([found in $WAND_CONFIG_PATH])
 
