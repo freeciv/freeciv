@@ -4438,13 +4438,55 @@ static void sg_save_player_main(struct savedata *saving,
   secfile_insert_int(saving->file, plr->revolution_finishes,
                      "player%d.revolution_finishes", plrno);
 
-  /* Unit statistics. */
+  /* Player score */
+  secfile_insert_int(saving->file, plr->score.happy,
+                     "score%d.happy", plrno);
+  secfile_insert_int(saving->file, plr->score.content,
+                     "score%d.content", plrno);
+  secfile_insert_int(saving->file, plr->score.unhappy,
+                     "score%d.unhappy", plrno);
+  secfile_insert_int(saving->file, plr->score.angry,
+                     "score%d.angry", plrno);
+  specialist_type_iterate(sp) {
+    secfile_insert_int(saving->file, plr->score.specialists[sp],
+                       "score%d.specialists%d", plrno, sp);
+  } specialist_type_iterate_end;
+  secfile_insert_int(saving->file, plr->score.wonders,
+                     "score%d.wonders", plrno);
+  secfile_insert_int(saving->file, plr->score.techs,
+                     "score%d.techs", plrno);
+  secfile_insert_int(saving->file, plr->score.techout,
+                     "score%d.techout", plrno);
+  secfile_insert_int(saving->file, plr->score.landarea,
+                     "score%d.landarea", plrno);
+  secfile_insert_int(saving->file, plr->score.settledarea,
+                     "score%d.settledarea", plrno);
+  secfile_insert_int(saving->file, plr->score.population,
+                     "score%d.population", plrno);
+  secfile_insert_int(saving->file, plr->score.cities,
+                     "score%d.cities", plrno);
+  secfile_insert_int(saving->file, plr->score.units,
+                     "score%d.units", plrno);
+  secfile_insert_int(saving->file, plr->score.population,
+                     "score%d.population", plrno);
+  secfile_insert_int(saving->file, plr->score.literacy,
+                     "score%d.literacy", plrno);
+  secfile_insert_int(saving->file, plr->score.bnp,
+                     "score%d.bnp", plrno);
+  secfile_insert_int(saving->file, plr->score.mfg,
+                     "score%d.mfg", plrno);
+  secfile_insert_int(saving->file, plr->score.spaceship,
+                     "score%d.spaceship", plrno);
   secfile_insert_int(saving->file, plr->score.units_built,
                      "score%d.units_built", plrno);
   secfile_insert_int(saving->file, plr->score.units_killed,
                      "score%d.units_killed", plrno);
   secfile_insert_int(saving->file, plr->score.units_lost,
                      "score%d.units_lost", plrno);
+  secfile_insert_int(saving->file, plr->score.culture,
+                     "score%d.culture", plrno);
+  secfile_insert_int(saving->file, plr->score.game,
+                     "score%d.total", plrno);
 
   /* Save space ship status. */
   secfile_insert_int(saving->file, ship->state, "player%d.spaceship.state",
