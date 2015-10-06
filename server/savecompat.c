@@ -159,7 +159,9 @@ void sg_load_compat(struct loaddata *loading)
   }
 
 #ifdef FREECIV_DEV_SAVE_COMPAT
-  compat_load_dev(loading);
+  if (loading->version == compat[compat_current].version) {
+    compat_load_dev(loading);
+  }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 
 }
