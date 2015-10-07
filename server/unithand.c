@@ -1601,9 +1601,7 @@ bool unit_perform_action(struct player *pplayer,
     }
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
-    if (pcity
-        /* This isn't untargeted steal tech. */
-        && value != A_UNSET) {
+    if (pcity) {
       if (is_action_enabled_unit_on_city(action_type,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);

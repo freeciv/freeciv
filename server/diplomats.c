@@ -583,7 +583,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
 /****************************************************************************
   Try to steal a technology from an enemy city.
-  If "technology" is A_UNSET, steal a random technology.
+  If action_id is ACTION_SPY_STEAL_TECH, steal a random technology.
   Otherwise, steal the technology whose ID is "technology".
   (Note: Only Spies can select what to steal.)
 
@@ -626,12 +626,17 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
     return FALSE;
   }
+
+  if (action_id == ACTION_SPY_STEAL_TECH) {
+    /* Can't choose target. Will steal a random tech. */
+    technology = A_UNSET;
+  }
   
   /* Targeted technology should be a ruleset defined tech,
    * "At Spy's Discretion" (A_UNSET) or a future tech (A_FUTURE). */
   if (technology == A_NONE
       || (technology != A_FUTURE
-          && technology != A_UNSET
+          && !(technology == A_UNSET && action_id == ACTION_SPY_STEAL_TECH)
           && !valid_advance_by_number(technology))) {
     return FALSE;
   }
@@ -678,7 +683,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   } else {
     /* Determine difficulty. */
     count = 1;
-    if (technology != A_UNSET) {
+    if (action_id == ACTION_SPY_TARGETED_STEAL_TECH) {
+      /* Targeted steal tech is more difficult. */
       count++;
     }
     count += pcity->server.steal;
