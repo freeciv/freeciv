@@ -2931,12 +2931,24 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
        * targeted it otherwise. */
       if (tcity || tunit
           || may_unit_act_vs_tile_units(punit, pdesttile)
-          /* Pop up the action selection dialog even if the tile target is
-           * the only target that, from the point of view of the player,
-           * may be acted against. This is to avoid confusion for players
-           * that don't remember the rules or aren't looking at the data
-           * the rules depend on. */
-          || may_unit_act_vs_tile(punit, pdesttile)) {
+          /* If the tile target is the only target that, from the point of
+           * view of the player, may be acted against the action selection
+           * dialog will only pop up when the actor can't move to the target
+           * tile.
+           *
+           * The goal is to minimize confusion and annoyance. Getting a pop
+           * up every time a unit moves is annoying. Not getting the action
+           * selection dialog when expected is confusing. So is having the
+           * actions selection dialog pop up when it is unexpected. The
+           * last case can lead the player to perform the wrong action by
+           * reflex. Example: Offered to nuke his own units rather than
+           * moving to their tile.
+           *
+           * The confusion isn't limited to new players. An experienced
+           * player can forget a rule or accidentally ignore a piece of
+           * relevant data he has access to. */
+          || (may_unit_act_vs_tile(punit, pdesttile)
+              && !unit_can_move_to_tile(punit, pdesttile, igzoc))) {
         if (pplayer->ai_controlled) {
           return FALSE;
         }
