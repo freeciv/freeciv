@@ -1915,6 +1915,7 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
 void handle_unit_disband(struct player *pplayer, int unit_id)
 {
   struct city *pcity;
+  struct action *blocker;
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
@@ -1932,13 +1933,13 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
     return;
   }
 
-  if (action_blocks_disband(punit)) {
+  if ((blocker = action_blocks_disband(punit))) {
     /* Disband is blocked by the fact that another action is legal. */
     notify_player(unit_owner(punit), unit_tile(punit),
                   E_BAD_COMMAND, ftc_server,
                   /* TRANS: ... Help Wonder ... */
                   _("Regular disband not allowed. Try %s in stead."),
-                  action_get_ui_name(ACTION_HELP_WONDER));
+                  action_get_ui_name(blocker->id));
     return;
   }
 

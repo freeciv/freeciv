@@ -669,41 +669,63 @@ struct action *action_blocks_attack(const struct unit *actor_unit,
 }
 
 /**************************************************************************
-  Returns TRUE iff an action that blocks regular disband is forced and
+  Returns TRUE iff Help Wonder blocks
+**************************************************************************/
+static bool help_wonder_blocks(const struct unit *actor_unit,
+                               const struct city *target_city)
+{
+  /* Hard code that Help Wonder blocks Recycle Unit. This must be done
+   * because caravan_shields makes it possible to avoid the consequences of
+   * choosing to do Recycle Unit rather than having it do Help Wonder.
+   *
+   * Explanation: Recycle Unit adds 50% of the shields used to produce the
+   * unit to the production of the city where it is located. Help Wonder
+   * adds 100%. If a unit that can do Help Wonder is recycled in a city
+   * and the production later is changed to something that can receive help
+   * from Help Wonder the remaining 50% of the shields are added. This can
+   * be done because the city remembers them in caravan_shields.
+   *
+   * If a unit that can do Help Wonder intentionally is recycled rather
+   * than making it do Help Wonder its shields will still be remembered.
+   * The target city that got 50% of the shields can therefore get 100% of
+   * them by changing its production. This trick makes the ability to
+   * select Recycle Unit when Help Wonder is legal pointless. */
+
+  return is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+                                        actor_unit, target_city);
+}
+
+/**************************************************************************
+  Returns the action that blocks regular regular disband or NULL if
+  disband isn't blocked.
+
+  An action that can block disband blocks disband when it is forced and
   possible.
 
   TODO: Make regular disband action enabler controlled and delete this
   function.
 **************************************************************************/
-bool action_blocks_disband(const struct unit *actor_unit)
+struct action *action_blocks_disband(const struct unit *actor_unit)
 {
   struct city *target_city;
 
-  /* Hard code that Help Wonder blocks regular disband. This must be done
-   * because caravan_shields makes it possible to avoid the consequences of
-   * choosing to disband a unit rather than having it do Help Wonder.
-   *
-   * Explanation: Disband Unit adds 50% of the shields used to produce the
-   * unit to the production of the city where it is located. Help Wonder
-   * adds 100%. If a unit that can do Help Wonder is disbanded in a city
-   * and the production later is changed to something that can receive help
-   * from Help Wonder the remaining 50% of the shields are added. This can
-   * be done because the city remembers them in caravan_shields.
-   *
-   * If a unit that can do Help Wonder intentionally is disbanded rather
-   * than making it do Help Wonder its shields will still be remembered.
-   * The target city that got 50% of the shields can therefore get 100% of
-   * them by changing its production. This trick makes the ability to
-   * select disbanding when Help Wonder is legal pointless. */
+  /* Only a city at the current tile would have received production help
+   * from Help Wonder disband or Recycle Unit disband. */
   target_city = tile_city(unit_tile(actor_unit));
 
   if (target_city == NULL) {
-    /* No city to do Help Wonder to. */
-    return FALSE;
+    /* No city to do Help Wonder or Recycle Unit to. */
+    return NULL;
   }
 
-  return is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
-                                        actor_unit, target_city);
+  if (help_wonder_blocks(actor_unit, target_city)) {
+    /* Help Wonder is possible.
+     * Freeciv forbids regular disband when it is. */
+    return action_by_number(ACTION_HELP_WONDER);
+  }
+
+  /* Nothing is blocking disbanding the unit. */
+  return NULL;
 }
 
 /**************************************************************************
