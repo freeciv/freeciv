@@ -101,7 +101,9 @@ struct unit_order {
   int target;
   /* Only valid for ORDER_PERFORM_ACTION */
   int action;
-  enum direction8 dir;          /* Only valid for ORDER_MOVE. */
+  /* Valid for ORDER_MOVE, ORDER_ACTION_MOVE and
+   * ORDER_PERFORM_ACTION. */
+  enum direction8 dir;
 };
 
 struct unit;
