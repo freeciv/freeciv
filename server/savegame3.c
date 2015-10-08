@@ -5541,7 +5541,7 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_PERFORM_ACTION:
           action_buf[j] = num2char(punit->orders.list[j].action);
           tgt_vec[j] = punit->orders.list[j].target;
-          if (punit->orders.list[j].dir != -1) {
+          if (direction8_is_valid(punit->orders.list[j].dir)) {
             /* The action target is on another tile. */
             dir_buf[j] = dir2char(punit->orders.list[j].dir);
           }
