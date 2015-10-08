@@ -1405,7 +1405,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 
   if (final_order) {
     p.orders[i] = final_order->order;
-    p.dir[i] = (final_order->order == ORDER_MOVE) ? final_order->dir : -1;
+    p.dir[i] = final_order->dir;
     p.activity[i] = (final_order->order == ORDER_ACTIVITY)
       ? final_order->activity : ACTIVITY_LAST;
     p.target[i] = final_order->target;
