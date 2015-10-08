@@ -3341,7 +3341,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
       /* Check a river in one direction. */
       pend = NULL;
       length = -1;
-      dir = -1;
+      dir = direction8_invalid();
       dirs_num = 0;
       for (j = 0; j < map.num_valid_dirs; j++) {
         if (cardinal_only && !is_cardinal_dir(map.valid_dirs[j])) {
