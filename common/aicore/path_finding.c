@@ -3441,6 +3441,38 @@ bool pf_path_advance(struct pf_path *path, struct tile *ptile)
   return TRUE;
 }
 
+/**************************************************************************
+  Remove the part of a path following a given tile.
+  If given tile is on the path more than once then the last occurrence
+  will be the one used.
+  If tile is not on the path at all, returns FALSE and path is not changed
+  at all.
+**************************************************************************/
+bool pf_path_backtrack(struct pf_path *path, struct tile *ptile)
+{
+  int i;
+  struct pf_position *new_positions;
+
+  fc_assert_ret_val(path->length > 0, FALSE);
+
+  for (i = path->length - 1; path->positions[i].tile != ptile; i--) {
+    if (i <= 0) {
+      return FALSE;
+    }
+  }
+
+  fc_assert_ret_val(i >= 0, FALSE);
+
+  path->length = i + 1;
+  new_positions = fc_malloc(sizeof(*path->positions) * path->length);
+  memcpy(new_positions, path->positions,
+         path->length * sizeof(*path->positions));
+  free(path->positions);
+  path->positions = new_positions;
+
+  return TRUE;
+}
+
 /****************************************************************************
   Get the last position of the path.
 ****************************************************************************/
