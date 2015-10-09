@@ -4070,8 +4070,8 @@ static void sg_save_player_main(struct savedata *saving,
                      "score%d.cities", plrno);
   secfile_insert_int(saving->file, plr->score.units,
                      "score%d.units", plrno);
-  secfile_insert_int(saving->file, plr->score.population,
-                     "score%d.population", plrno);
+  secfile_insert_int(saving->file, plr->score.pollution,
+                     "score%d.pollution", plrno);
   secfile_insert_int(saving->file, plr->score.literacy,
                      "score%d.literacy", plrno);
   secfile_insert_int(saving->file, plr->score.bnp,
