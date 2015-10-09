@@ -574,7 +574,8 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     /* Short path */
     parameter->get_TB = no_fights;
   } else if (utype_may_act_at_all(unit_type(punit))
-             && !utype_acts_hostile(unit_type(punit))) {
+             && !(utype_acts_hostile(unit_type(punit))
+                                     || is_military_unit(punit))) {
     /* While the AI currently won't establish a trade route to a non ally
      * it will establish an embassy. */
     parameter->get_TB = no_intermediate_fights;
@@ -598,6 +599,8 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     case AIUNIT_ATTACK:
     case AIUNIT_ESCORT:
     case AIUNIT_HUNTER:
+    case AIUNIT_TRADE:
+    case AIUNIT_WONDER:
       parameter->get_TB = no_intermediate_fights;
       break;
     case AIUNIT_EXPLORE:
