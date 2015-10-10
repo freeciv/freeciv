@@ -1,7 +1,7 @@
 # Configure paths for FreeType2
 # Marcelo Magallon 2001-10-26, based on gtk.m4 by Owen Taylor
 #
-# Copyright 2001, 2003, 2007, 2009, 2014 by
+# Copyright 2001-2015 by
 # David Turner, Robert Wilhelm, and Werner Lemberg.
 #
 # This file is part of the FreeType project, and may only be used, modified,
@@ -26,18 +26,21 @@ AC_DEFUN([AC_CHECK_FT2],
   [# Get the cflags and libraries from the freetype-config script
    #
    AC_ARG_WITH([ft-prefix],
+     dnl don't quote AS_HELP_STRING!
      AS_HELP_STRING([--with-ft-prefix=PREFIX],
                     [Prefix where FreeType is installed (optional)]),
      [ft_config_prefix="$withval"],
      [ft_config_prefix=""])
 
    AC_ARG_WITH([ft-exec-prefix],
+     dnl don't quote AS_HELP_STRING!
      AS_HELP_STRING([--with-ft-exec-prefix=PREFIX],
                     [Exec prefix where FreeType is installed (optional)]),
      [ft_config_exec_prefix="$withval"],
      [ft_config_exec_prefix=""])
 
    AC_ARG_ENABLE([freetypetest],
+     dnl don't quote AS_HELP_STRING!
      AS_HELP_STRING([--disable-freetypetest],
                     [Do not try to compile and run a test FreeType program]),
      [],
