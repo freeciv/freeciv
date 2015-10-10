@@ -4774,7 +4774,7 @@ static const char *get_current_option_file_name(void)
       return NULL;
     }
     fc_snprintf(name_buffer, sizeof(name_buffer),
-                "%s/.freeciv/" NEW_OPTION_FILE_NAME, name,
+                "%s/" NEW_OPTION_FILE_NAME, name,
                 MAJOR_NEW_OPTION_FILE_NAME, MINOR_NEW_OPTION_FILE_NAME);
 #endif /* OPTION_FILE_NAME */
   }
@@ -4813,11 +4813,13 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
     int major, minor;
     struct stat buf;
 
-    name = user_home_dir();
-    if (!name) {
-      log_error(_("Cannot find your home directory"));
+    name = freeciv_home_dir();
+    if (name == NULL) {
+      log_error(_("Cannot find freeciv storage directory"));
+
       return NULL;
     }
+
     for (major = MAJOR_NEW_OPTION_FILE_NAME,
          minor = MINOR_NEW_OPTION_FILE_NAME;
          major >= FIRST_MAJOR_NEW_OPTION_FILE_NAME; major--) {
@@ -4825,7 +4827,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
               ? minor >= FIRST_MINOR_NEW_OPTION_FILE_NAME 
               : minor >= 0); minor--) {
         fc_snprintf(name_buffer, sizeof(name_buffer),
-                    "%s/.freeciv/" NEW_OPTION_FILE_NAME, name, major, minor);
+                    "%s/" NEW_OPTION_FILE_NAME, name, major, minor);
         if (0 == fc_stat(name_buffer, &buf)) {
           if (MAJOR_NEW_OPTION_FILE_NAME != major
               || MINOR_NEW_OPTION_FILE_NAME != minor) {
@@ -4839,6 +4841,14 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
         }
       }
       minor = last_minors[major - 1];
+    }
+
+    /* Older versions had options file in user home directory */
+    name = user_home_dir();
+    if (name == NULL) {
+      log_error(_("Cannot find your home directory"));
+
+      return NULL;
     }
 
     /* minor having max value of FIRST_MINOR_NEW_OPTION_FILE_NAME
