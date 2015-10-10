@@ -2344,50 +2344,49 @@ static void sg_load_scenario(struct loaddata *loading)
   sg_check_ret();
 
   if (NULL == secfile_section_lookup(loading->file, "scenario")) {
-    /* Nothing to do. */
+    game.scenario.is_scenario = FALSE;
+
     return;
   }
 
   /* Default is that when there's scenario section (which we already checked)
    * this is a scenario. Only if it explicitly says that it's not, we consider
    * this regular savegame */
-  if (!secfile_lookup_bool_default(loading->file, TRUE, "scenario.is_scenario")) {
+  game.scenario.is_scenario = secfile_lookup_bool_default(loading->file, TRUE, "scenario.is_scenario");
+
+  if (!game.scenario.is_scenario) {
     return;
   }
 
   buf = secfile_lookup_str_default(loading->file, "", "scenario.name");
   if (buf[0] != '\0') {
-    game.scenario.is_scenario = TRUE;
     sz_strlcpy(game.scenario.name, buf);
-    buf = secfile_lookup_str_default(loading->file, "",
-                                     "scenario.description");
-    if (buf[0] != '\0') {
-      sz_strlcpy(game.scenario.description, buf);
-    } else {
-      game.scenario.description[0] = '\0';
-    }
-    game.scenario.players
-      = secfile_lookup_bool_default(loading->file, TRUE, "scenario.players");
-    game.scenario.startpos_nations
-      = secfile_lookup_bool_default(loading->file, FALSE,
-                                    "scenario.startpos_nations");
+  }
 
-    sg_failure_ret(loading->server_state == S_S_INITIAL
-                   || (loading->server_state == S_S_RUNNING
-                       && game.scenario.players == TRUE),
-                   "Invalid scenario definition (server state '%s' and "
-                   "players are %s).",
-                   server_states_name(loading->server_state),
-                   game.scenario.players ? "saved" : "not saved");
+  buf = secfile_lookup_str_default(loading->file, "",
+                                   "scenario.description");
+  if (buf[0] != '\0') {
+    sz_strlcpy(game.scenario.description, buf);
   } else {
-    game.scenario.is_scenario = FALSE;
+    game.scenario.description[0] = '\0';
   }
+  game.scenario.players
+    = secfile_lookup_bool_default(loading->file, TRUE, "scenario.players");
+  game.scenario.startpos_nations
+    = secfile_lookup_bool_default(loading->file, FALSE,
+                                  "scenario.startpos_nations");
 
-  if (game.scenario.is_scenario) {
-    /* Remove all defined players. They are recreated with the skill level
-     * defined by the scenario. */
-    (void) aifill(0);
-  }
+  sg_failure_ret(loading->server_state == S_S_INITIAL
+                 || (loading->server_state == S_S_RUNNING
+                     && game.scenario.players == TRUE),
+                 "Invalid scenario definition (server state '%s' and "
+                 "players are %s).",
+                 server_states_name(loading->server_state),
+                 game.scenario.players ? "saved" : "not saved");
+
+  /* Remove all defined players. They are recreated with the skill level
+   * defined by the scenario. */
+  (void) aifill(0);
 }
 
 /****************************************************************************
