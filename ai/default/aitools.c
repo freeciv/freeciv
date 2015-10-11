@@ -561,7 +561,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   }
 
   if (utype_acts_hostile(unit_type(punit))) {
-    /* Default tile behaviour */
+    parameter->get_TB = no_intermediate_fights;
   } else if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     parameter->get_TB = no_fights;
   } else if (long_path && unit_is_cityfounder(punit)) {
