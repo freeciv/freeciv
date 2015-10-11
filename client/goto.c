@@ -1382,7 +1382,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 
     if (same_pos(new_tile, old_tile)) {
       p.orders[i] = ORDER_FULL_MP;
-      p.dir[i] = -1;
+      p.dir[i] = DIR8_ORIGIN;
       p.activity[i] = ACTIVITY_LAST;
       p.target[i] = EXTRA_NONE;
       p.action[i] = ACTION_COUNT;
@@ -1518,7 +1518,7 @@ static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
   } extra_deps_iterate_end;
 
   p->orders[p->length] = ORDER_ACTIVITY;
-  p->dir[p->length] = -1;
+  p->dir[p->length] = DIR8_ORIGIN;
   p->activity[p->length] = ACTIVITY_GEN_ROAD;
   p->target[p->length] = extra_index(pextra);
   p->action[p->length] = ACTION_COUNT;
@@ -1567,7 +1567,7 @@ void send_connect_route(enum unit_activity activity,
 	if (!tile_has_extra(old_tile, tgt)) {
 	  /* Assume the unit can irrigate or we wouldn't be here. */
 	  p.orders[p.length] = ORDER_ACTIVITY;
-          p.dir[p.length] = -1;
+          p.dir[p.length] = DIR8_ORIGIN;
 	  p.activity[p.length] = ACTIVITY_IRRIGATE;
           p.target[p.length] = extra_index(tgt);
           p.action[p.length] = ACTION_COUNT;
@@ -1633,7 +1633,7 @@ void send_goto_route(void)
       struct unit_order order;
 
       order.order = goto_last_order;
-      order.dir = -1;
+      order.dir = DIR8_ORIGIN;
       order.activity = ACTIVITY_LAST;
       order.target = EXTRA_NONE;
       order.action = goto_last_action;

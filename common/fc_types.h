@@ -213,6 +213,10 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE7NAME "Southeast"
 #include "specenum_gen.h"
 
+/* No direction. Understood as the origin tile that a direction would have
+ * been relative to. */
+#define DIR8_ORIGIN direction8_invalid()
+
 /* Used in the network protocol. */
 #define SPECENUM_NAME free_tech_method
 #define SPECENUM_VALUE0 FTM_GOAL
