@@ -4056,7 +4056,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
     case ORDER_PERFORM_ACTION:
       log_debug("  orders: doing action %d", order.action);
 
-      if (!is_valid_dir(order.dir)) {
+      if (!direction8_is_valid(order.dir)) {
         /* The target of the action is on the actor's tile. */
         dst_tile = unit_tile(punit);
       } else {

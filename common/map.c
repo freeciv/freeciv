@@ -1213,12 +1213,31 @@ static bool is_valid_dir_calculate(enum direction8 dir)
 
 /**************************************************************************
   Returns TRUE iff the given direction is a valid one.
+
+  If the direction could be out of range you should use
+  map_untrusted_dir_is_valid() in stead.
 **************************************************************************/
 bool is_valid_dir(enum direction8 dir)
 {
   fc_assert_ret_val(direction8_is_valid(dir), FALSE);
 
   return dir_validity[dir];
+}
+
+/**************************************************************************
+  Returns TRUE iff the given direction is a valid one.
+
+  Doesn't trust the input. Can be used to validate a direction from an
+  untrusted source.
+**************************************************************************/
+bool map_untrusted_dir_is_valid(enum direction8 dir)
+{
+  if (!direction8_is_valid(dir)) {
+    /* Isn't even in range of direction8. */
+    return FALSE;
+  }
+
+  return is_valid_dir(dir);
 }
 
 /**************************************************************************

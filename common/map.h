@@ -597,6 +597,7 @@ BV_DEFINE(dir_vector, 8);
 enum direction8 dir_cw(enum direction8 dir);
 enum direction8 dir_ccw(enum direction8 dir);
 const char* dir_get_name(enum direction8 dir);
+bool map_untrusted_dir_is_valid(enum direction8 dir);
 bool is_valid_dir(enum direction8 dir);
 bool is_cardinal_dir(enum direction8 dir);
 
