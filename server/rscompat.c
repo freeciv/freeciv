@@ -407,6 +407,21 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     action_enabler_add(enabler);
 
+    /* Disbanding a unit in a city to have 50% of its shields added to the
+     * production is now action enabler controlled. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_RECYCLE_UNIT;
+
+    /* The actor unit can't have the unit type flag Undisbandable. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local",
+                                           FALSE, FALSE, TRUE,
+                                           "Undisbandable"));
+
+    action_enabler_add(enabler);
+
     /* Update action enablers. */
     action_enablers_iterate(ae) {
       /* The rule that Help Wonder only can help wonders now lives in the

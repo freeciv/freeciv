@@ -3709,6 +3709,24 @@ void unit_do_disband_trad(struct player *owner, struct unit *punit)
 
   /* Disbanding a unit inside a city gives it 50% of the shields used to
    * produce the unit. */
+  if (unit_can_do_action(punit, ACTION_RECYCLE_UNIT)) {
+    struct city *tgt_city;
+
+    /* Only a city at the same tile as the unit can benefit. */
+    tgt_city = tile_city(unit_tile(punit));
+
+    if (tgt_city
+        && is_action_enabled_unit_on_city(ACTION_RECYCLE_UNIT,
+                                          punit, tgt_city)) {
+      if (unit_perform_action(owner, punit->id, tgt_city->id,
+                              0, NULL, ACTION_RECYCLE_UNIT)) {
+        /* The unit did Recycle Unit. 50% of the shields wasted. */
+        return;
+      }
+    }
+  }
+
+  /* All shields will be wasted. */
   handle_unit_disband(owner, punit->id);
 }
 
@@ -3870,8 +3888,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
       break;
     case ORDER_ACTIVITY:
-    case ORDER_DISBAND:
     case ORDER_HOMECITY:
+    case ORDER_OLD_DISBAND:
     case ORDER_OLD_BUILD_CITY:
     case ORDER_OLD_BUILD_WONDER:
     case ORDER_OLD_TRADE_ROUTE:
@@ -4036,10 +4054,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
       break;
-    case ORDER_DISBAND:
-      log_debug("  orders: disbanding");
-      handle_unit_disband(pplayer, unitid);
-      return FALSE;
     case ORDER_HOMECITY:
       log_debug("  orders: changing homecity");
       if (tile_city(unit_tile(punit))) {
@@ -4200,6 +4214,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
 
       break;
+    case ORDER_OLD_DISBAND:
     case ORDER_OLD_BUILD_CITY:
     case ORDER_OLD_BUILD_WONDER:
     case ORDER_OLD_TRADE_ROUTE:

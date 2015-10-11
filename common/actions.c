@@ -133,6 +133,9 @@ void actions_init(void)
   actions[ACTION_EXPEL_UNIT] =
       action_new(ACTION_EXPEL_UNIT, ATK_UNIT,
                  TRUE, FALSE);
+  actions[ACTION_RECYCLE_UNIT] =
+      action_new(ACTION_RECYCLE_UNIT, ATK_CITY,
+                 FALSE, FALSE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -696,6 +699,17 @@ static bool help_wonder_blocks(const struct unit *actor_unit,
 }
 
 /**************************************************************************
+  Returns TRUE iff Recycle Unit blocks
+**************************************************************************/
+static bool recycle_unit_blocks(const struct unit *actor_unit,
+                                struct city *target_city)
+{
+  /* Recycle Unit is currently hard coded to block everything it can. */
+  return is_action_enabled_unit_on_city(ACTION_RECYCLE_UNIT,
+                                        actor_unit, target_city);
+}
+
+/**************************************************************************
   Returns the action that blocks regular regular disband or NULL if
   disband isn't blocked.
 
@@ -722,6 +736,12 @@ struct action *action_blocks_disband(const struct unit *actor_unit)
     /* Help Wonder is possible.
      * Freeciv forbids regular disband when it is. */
     return action_by_number(ACTION_HELP_WONDER);
+  }
+
+  if (recycle_unit_blocks(actor_unit, target_city)) {
+    /* Recycle Unit is possible.
+     * Freeciv forbids regular disband when it is. */
+    return action_by_number(ACTION_RECYCLE_UNIT);
   }
 
   /* Nothing is blocking disbanding the unit. */
@@ -972,6 +992,25 @@ is_action_possible(const enum gen_action wanted_action,
 
     if (!(target_city->shield_stock
           < city_production_build_shield_cost(target_city))) {
+      return TRI_NO;
+    }
+  }
+
+  if (wanted_action == ACTION_RECYCLE_UNIT) {
+    /* FIXME: The next item may be forbidden from receiving help. But
+     * forbidding the player from recycling a unit because the production
+     * has enough, like Help Wonder does, would be a rule change. */
+
+    if (help_wonder_blocks(actor_unit, target_city)) {
+      /* Help Wonder is possible. The current Freeciv code can't handle
+       * permitting Recycle Unit when Help Wonder is legal.
+       * See explanation in help_wonder_blocks(). */
+      return TRI_NO;
+    }
+
+    /* Reason: Keep the rules exactly as they were for now. */
+    /* Info leak: The actor player knows where his unit is. */
+    if (unit_tile(actor_unit) != target_tile) {
       return TRI_NO;
     }
   }
@@ -1732,6 +1771,10 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_DESTROY_CITY:
+    /* No battle is fought first. */
+    chance = 200;
+    break;
+  case ACTION_RECYCLE_UNIT:
     /* No battle is fought first. */
     chance = 200;
     break;

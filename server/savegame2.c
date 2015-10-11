@@ -581,7 +581,7 @@ static enum unit_orders char2order(char order)
     return ORDER_ACTIVITY;
   case 'd':
   case 'D':
-    return ORDER_DISBAND;
+    return ORDER_OLD_DISBAND;
   case 'u':
   case 'U':
     return ORDER_OLD_BUILD_WONDER;

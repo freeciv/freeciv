@@ -1258,11 +1258,18 @@ int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
   case ORDER_OLD_TRADE_ROUTE:
     /* Maps one to one with each other. */
     return ACTION_TRADE_ROUTE;
+  case ORDER_OLD_DISBAND:
+    /* Added to the order system in the same commit as Help Wonder. Assume
+     * that anyone that intended to order Help Wonder used Help Wonder. */
+    /* Could in theory be intended as an order to disband in the field. Why
+     * would the player give a unit an order to go to a non city location
+     * and disband there? Assume the intention was to recycle the unit
+     * until a non recycle disband order is found. */
+    return ACTION_RECYCLE_UNIT;
   case ORDER_MOVE:
   case ORDER_ACTION_MOVE:
   case ORDER_FULL_MP:
   case ORDER_ACTIVITY:
-  case ORDER_DISBAND:
   case ORDER_HOMECITY:
   case ORDER_PERFORM_ACTION:
   case ORDER_LAST:

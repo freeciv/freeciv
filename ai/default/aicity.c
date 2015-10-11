@@ -1094,6 +1094,7 @@ static int action_target_neg_util(int action_id,
   case ACTION_TRADE_ROUTE:
   case ACTION_HELP_WONDER:
   case ACTION_JOIN_CITY:
+  case ACTION_RECYCLE_UNIT:
     /* TODO: Individual and well balanced values */
     return -1;
 

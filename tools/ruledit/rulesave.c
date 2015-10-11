@@ -880,6 +880,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile,
                      action_by_number(ACTION_DESTROY_CITY)->ui_name,
                      "actions.ui_name_destroy_city");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_RECYCLE_UNIT)->ui_name,
+                     "actions.ui_name_recycle_unit");
 
   sect_idx = 0;
   action_enablers_iterate(pae) {

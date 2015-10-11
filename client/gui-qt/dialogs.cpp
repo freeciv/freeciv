@@ -81,6 +81,7 @@ static void diplomat_bribe(QVariant data1, QVariant data2);
 static void caravan_marketplace(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
+static void unit_recycle(QVariant data1, QVariant data2);
 static void capture_units(QVariant data1, QVariant data2);
 static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
@@ -132,6 +133,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_STEAL_MAPS] = spy_steal_maps;
   action_function[ACTION_SPY_NUKE] = spy_nuke_city;
   action_function[ACTION_DESTROY_CITY] = destroy_city;
+  action_function[ACTION_RECYCLE_UNIT] = unit_recycle;
 
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
@@ -1200,6 +1202,21 @@ static void caravan_help_build(QVariant data1, QVariant data2)
       && NULL != game_city_by_number(caravan_target_id)) {
     request_do_action(ACTION_HELP_WONDER,
                       caravan_id, caravan_target_id, 0, "");
+  }
+}
+
+/***************************************************************************
+  Action Recycle Unit for choice dialog
+***************************************************************************/
+static void unit_recycle(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int tgt_city_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != game_city_by_number(tgt_city_id)) {
+    request_do_action(ACTION_RECYCLE_UNIT,
+                      actor_id, tgt_city_id, 0, "");
   }
 }
 

@@ -237,6 +237,9 @@ ui_name_investigate_city = _("%sInvestigate City%s")
 ; /* TRANS: Help _build Wonder (100% chance of success). */
 ui_name_help_wonder = _("Help %sbuild Wonder%s")
 
+; /* TRANS: Rec_ycle Unit (100% chance of success). */
+ui_name_recycle_unit = _("Rec%sycle Unit%s")
+
 ; /* TRANS: _Build City (100% chance of success). */
 ui_name_found_city = _("%sBuild City%s")
 
@@ -415,6 +418,13 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range"
       "BuildingGenus", "SmallWonder", "Local"
+    }
+
+[actionenabler_recycle_unit]
+action = "Recycle Unit"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Undisbandable", "Local", FALSE
     }
 
 [actionenabler_build_city_pioneer]

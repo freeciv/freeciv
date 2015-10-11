@@ -134,6 +134,9 @@ static bool do_unit_establish_trade(struct player *pplayer,
                                     struct city *pcity_dest,
                                     bool est_if_able);
 
+static bool unit_do_recycle(struct player *pplayer,
+                            struct unit *punit,
+                            struct city *pcity);
 static bool do_unit_help_build_wonder(struct player *pplayer,
                                       int unit_id, int city_id);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
@@ -1729,6 +1732,19 @@ bool unit_perform_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_RECYCLE_UNIT:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        return unit_do_recycle(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity), NULL, pcity, NULL);
+      }
+    }
+    break;
   case ACTION_CAPTURE_UNITS:
     if (target_tile) {
       if (is_action_enabled_unit_on_units(action_type,
@@ -1909,12 +1925,13 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
 }
 
 /**************************************************************************
-  Disband a unit.  If its in a city, add 1/2 of the worth of the unit
-  to the city's shield stock for the current production.
+  Disband a unit.
+
+  No shields spent to build the unit is added to the city's shield stock
+  for the current production.
 **************************************************************************/
 void handle_unit_disband(struct player *pplayer, int unit_id)
 {
-  struct city *pcity;
   struct action *blocker;
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
@@ -1943,32 +1960,52 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
     return;
   }
 
-  pcity = tile_city(unit_tile(punit));
-  if (pcity) {
-    /* If you disband inside a city, it gives some shields to that city.
-     *
-     * Note: Nowadays it's possible to disband unit in allied city and
-     * your ally receives those shields. Should it be like this? Why not?
-     * That's why we must use city_owner instead of pplayer -- Zamar */
+  wipe_unit(punit, ULR_DISBANDED, NULL);
+}
 
-    /* Add the shields from recycling the unit to the city's current
-     * production. */
-    pcity->shield_stock += unit_disband_shields(punit);
+/**************************************************************************
+  Recycle a unit in a city.
 
-    if (unit_can_do_action(punit, ACTION_HELP_WONDER)) {
-      /* Count this just like a caravan that was added to a wonder.
-       * However don't actually give the city the extra shields. Switching
-       * to a wonder later in the turn will give the extra shields back. */
-      pcity->caravan_shields += unit_build_shield_cost(punit);
-    } else {
-      /* If we change production later at this turn. No penalty is added. */
-      pcity->disbanded_shields += unit_disband_shields(punit);
-    }
+  1/2 of the shields used to build the unit is added to the city's shield
+  stock for the current production.
 
-    send_city_info(city_owner(pcity), pcity);
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool unit_do_recycle(struct player *pplayer,
+                            struct unit *punit,
+                            struct city *pcity)
+{
+  /* Sanity check: The actor is still alive. */
+  if (!punit || !unit_alive(punit->id)) {
+    return FALSE;
   }
 
+  if (!pcity || !city_exist(pcity->id)) {
+    /* City was destroyed during pre action Lua. */
+    return FALSE;
+  }
+
+  /* Add the shields from recycling the unit to the city's current
+   * production. */
+  pcity->shield_stock += unit_disband_shields(punit);
+
+  if (unit_can_do_action(punit, ACTION_HELP_WONDER)) {
+    /* Count this just like a caravan that was added to a wonder.
+     * However don't actually give the city the extra shields. Switching
+     * to a wonder later in the turn will give the extra shields back. */
+    pcity->caravan_shields += unit_build_shield_cost(punit);
+  } else {
+    /* If we change production later at this turn. No penalty is added. */
+    pcity->disbanded_shields += unit_disband_shields(punit);
+  }
+
+  send_city_info(city_owner(pcity), pcity);
+
   wipe_unit(punit, ULR_DISBANDED, NULL);
+
+  /* The unit is now recycled. */
+  return TRUE;
 }
 
 /**************************************************************************
@@ -3979,6 +4016,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_NUKE:
       case ACTION_DESTROY_CITY:
       case ACTION_EXPEL_UNIT:
+      case ACTION_RECYCLE_UNIT:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */
@@ -4013,9 +4051,9 @@ void handle_unit_orders(struct player *pplayer,
 
       break;
     case ORDER_FULL_MP:
-    case ORDER_DISBAND:
     case ORDER_HOMECITY:
       break;
+    case ORDER_OLD_DISBAND:
     case ORDER_OLD_BUILD_CITY:
     case ORDER_OLD_BUILD_WONDER:
     case ORDER_OLD_TRADE_ROUTE:

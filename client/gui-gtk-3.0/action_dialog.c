@@ -220,6 +220,20 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
+/****************************************************************
+  User selected recycle unit from choice dialog
+*****************************************************************/
+static void recycle_unit_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  request_do_action(ACTION_RECYCLE_UNIT, args->actor_unit_id,
+                    args->target_city_id, 0, "");
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
 /**************************************************************************
   Returns a string with how many shields remains of the current production.
   This is useful as custom information on the help build wonder button.
@@ -1104,6 +1118,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_JOIN_CITY] = (GCallback)join_city_callback,
   [ACTION_SPY_NUKE] = (GCallback)spy_nuke_city_callback,
   [ACTION_DESTROY_CITY] = (GCallback)destroy_city_callback,
+  [ACTION_RECYCLE_UNIT] = (GCallback)recycle_unit_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
