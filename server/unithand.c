@@ -3159,7 +3159,7 @@ void handle_unit_orders(struct player *pplayer,
     switch (packet->orders[i]) {
     case ORDER_MOVE:
     case ORDER_ACTION_MOVE:
-      if (!is_valid_dir(packet->dir[i])) {
+      if (!map_untrusted_dir_is_valid(packet->dir[i])) {
         log_error("handle_unit_orders() %d isn't a valid move direction. "
                   "Sent in order number %d from %s to unit number %d.",
                   packet->dir[i], i,
