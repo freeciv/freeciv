@@ -1347,7 +1347,7 @@ void request_unit_return(struct unit *punit)
       struct unit_order order;
 
       order.order = ORDER_ACTIVITY;
-      order.dir = -1;
+      order.dir = DIR8_ORIGIN;
       order.activity = ACTIVITY_SENTRY;
       order.target = EXTRA_NONE;
       send_goto_path(punit, path, &order);
