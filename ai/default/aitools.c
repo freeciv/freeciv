@@ -607,7 +607,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     case AIUNIT_RECOVER:
       parameter->get_TB = no_fights;
       break;
-    default:
+    case AIUNIT_NONE:
       /* Default tile behaviour */
       break;
     }
