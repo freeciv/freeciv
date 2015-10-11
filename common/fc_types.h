@@ -193,6 +193,7 @@ typedef int Unit_Class_id;
  * last 4 (in no particular order).  See client/goto.c and
  * map.c:opposite_direction(). */
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME direction8
 #define SPECENUM_VALUE0 DIR8_NORTHWEST
 #define SPECENUM_VALUE0NAME "Northwest"
