@@ -33,7 +33,7 @@ classic ruleset can be found in README.ruleset_experimental.\
 ")
 
 ; Detailed description
-; description = ""
+description = *experimental/README.experimental*
 
 [options]
 global_init_techs=""
