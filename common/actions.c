@@ -1238,7 +1238,7 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit),
-                           actor_unit, unit_type(actor_unit),
+                           actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            city_owner(target_city), target_city,
                            target_building, city_tile(target_city),
@@ -1277,12 +1277,12 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit),
-                           actor_unit, unit_type(actor_unit),
+                           actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            unit_owner(target_unit),
                            tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit),
-                           target_unit, unit_type(target_unit),
+                           target_unit, unit_type_get(target_unit),
                            NULL, NULL);
 }
 
@@ -1320,12 +1320,12 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
     if (!is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit),
-                           actor_unit, unit_type(actor_unit),
+                           actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            unit_owner(target_unit),
                            tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit),
-                           target_unit, unit_type(target_unit),
+                           target_unit, unit_type_get(target_unit),
                            NULL, NULL)) {
       /* One unit makes it impossible for all units. */
       return FALSE;
@@ -1368,7 +1368,7 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit),
-                           actor_unit, unit_type(actor_unit),
+                           actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            tile_owner(target_tile), NULL, NULL,
                            target_tile, NULL, NULL, NULL, NULL);
@@ -1542,9 +1542,9 @@ static action_probability ap_dipl_battle_win(const struct unit *pattacker,
   /* Veteran attack and defense bonus */
   {
     const struct veteran_level *vatt =
-        utype_veteran_level(unit_type(pattacker), pattacker->veteran);
+        utype_veteran_level(unit_type_get(pattacker), pattacker->veteran);
     const struct veteran_level *vdef =
-        utype_veteran_level(unit_type(pdefender), pdefender->veteran);
+        utype_veteran_level(unit_type_get(pdefender), pdefender->veteran);
 
     chance += vatt->power_fact - vdef->power_fact;
   }
@@ -1561,7 +1561,7 @@ static action_probability ap_dipl_battle_win(const struct unit *pattacker,
     chance -= chance * get_city_bonus(tile_city(pdefender->tile),
                                       EFT_SPY_RESISTANT) / 100;
   } else {
-    if (tile_has_base_flag_for_unit(pdefender->tile, unit_type(pdefender),
+    if (tile_has_base_flag_for_unit(pdefender->tile, unit_type_get(pdefender),
                                     BF_DIPLOMAT_DEFENSE)) {
       chance -= chance * 25 / 100;
     }
@@ -1642,13 +1642,13 @@ action_prob(const enum gen_action wanted_action,
   const struct unit_type *target_unittype;
 
   if (actor_unittype_p == NULL && actor_unit != NULL) {
-    actor_unittype = unit_type(actor_unit);
+    actor_unittype = unit_type_get(actor_unit);
   } else {
     actor_unittype = actor_unittype_p;
   }
 
   if (target_unittype_p == NULL && target_unit != NULL) {
-    target_unittype = unit_type(target_unit);
+    target_unittype = unit_type_get(target_unit);
   } else {
     target_unittype = target_unittype_p;
   }

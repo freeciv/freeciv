@@ -906,7 +906,7 @@ bool can_player_see_hypotetic_units_at(const struct player *pplayer,
 
   /* Can't see non allied units in transports. */
   unit_list_iterate(ptile->units, punit) {
-    if (unit_type(punit)->transport_capacity > 0
+    if (unit_type_get(punit)->transport_capacity > 0
         && unit_owner(punit) != pplayer) {
 
       /* An ally could transport a non ally */

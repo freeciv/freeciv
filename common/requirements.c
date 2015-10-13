@@ -2584,7 +2584,7 @@ bool is_req_active(const struct player *target_player,
 
   /* The supplied unit has a type. Use it if the unit type is missing. */
   if (target_unittype == NULL && target_unit != NULL) {
-    target_unittype = unit_type(target_unit);
+    target_unittype = unit_type_get(target_unit);
   }
 
   /* Note the target may actually not exist.  In particular, effects that

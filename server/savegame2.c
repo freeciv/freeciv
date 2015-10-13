@@ -3489,7 +3489,7 @@ static void sg_load_player_units(struct loaddata *loading,
     /* Claim ownership of fortress? */
     if ((extra_owner(ptile) == NULL
          || pplayers_at_war(extra_owner(ptile), plr))
-        && tile_has_claimable_base(ptile, unit_type(punit))) {
+        && tile_has_claimable_base(ptile, unit_type_get(punit))) {
       tile_claim_bases(ptile, plr);
     }
   }
@@ -3855,7 +3855,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
     = secfile_lookup_int_default(loading->file, 0, "%s.veteran", unitstr);
   {
     /* Protect against change in veteran system in ruleset */
-    const int levels = utype_veteran_levels(unit_type(punit));
+    const int levels = utype_veteran_levels(unit_type_get(punit));
     if (punit->veteran >= levels) {
       fc_assert(levels >= 1);
       punit->veteran = levels - 1;
@@ -3920,7 +3920,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
    * otherwise these don't get initialized (and AI calculations
    * etc may use junk values). */
   output_type_iterate(o) {
-    punit->upkeep[o] = utype_upkeep_cost(unit_type(punit), plr, o);
+    punit->upkeep[o] = utype_upkeep_cost(unit_type_get(punit), plr, o);
   } output_type_iterate_end;
 
   /* load the unit orders */

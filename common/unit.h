@@ -215,7 +215,7 @@ struct unit {
 #ifdef FREECIV_DEBUG
 #define CHECK_UNIT(punit)                                                   \
   (fc_assert(punit != NULL),                                                \
-   fc_assert(unit_type(punit) != NULL),                                     \
+   fc_assert(unit_type_get(punit) != NULL),                                 \
    fc_assert(unit_owner(punit) != NULL),                                    \
    fc_assert(player_by_number(player_index(unit_owner(punit)))              \
              == unit_owner(punit)),                                         \

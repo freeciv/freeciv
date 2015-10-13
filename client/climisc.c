@@ -538,8 +538,9 @@ bool city_unit_supported(const struct city *pcity,
     struct unit_type *tvtype = target.value.utype;
 
     unit_list_iterate(pcity->units_supported, punit) {
-      if (unit_type(punit) == tvtype)
-	return TRUE;
+      if (unit_type_get(punit) == tvtype) {
+        return TRUE;
+      }
     } unit_list_iterate_end;
   }
   return FALSE;
@@ -556,8 +557,9 @@ bool city_unit_present(const struct city *pcity,
     struct unit_type *tvtype = target.value.utype;
 
     unit_list_iterate(pcity->tile->units, punit) {
-      if (unit_type(punit) == tvtype)
+      if (unit_type_get(punit) == tvtype) {
 	return TRUE;
+      }
     }
     unit_list_iterate_end;
   }
@@ -1245,7 +1247,7 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
   struct city *tgt_city;
   struct tile *tgt_tile;
 
-  if (!utype_may_act_at_all(unit_type(act_unit))) {
+  if (!utype_may_act_at_all(unit_type_get(act_unit))) {
     /* Not an actor unit. */
     return FALSE;
   }
@@ -1271,7 +1273,7 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
       /* Can't return yet unless TRUE. Another action vs the tile may be
        * possible. It may also be possible to act against a target on the
        * tile. */
-      if (can_unit_act_diplstate(unit_type(act_unit), act,
+      if (can_unit_act_diplstate(unit_type_get(act_unit), act,
                                  act_player, tgt_player)) {
         /* Tile target confirmed possible. */
         return TRUE;
@@ -1295,7 +1297,7 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
       /* Can't return yet unless TRUE. Another action vs the city may be
        * possible. It may also be possible to act against a unit target on
        * the tile. */
-      if (can_unit_act_diplstate(unit_type(act_unit), act,
+      if (can_unit_act_diplstate(unit_type_get(act_unit), act,
                                  act_player, tgt_player)) {
         /* City target confirmed possible. */
         return TRUE;
@@ -1319,7 +1321,7 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
       /* Can't return yet unless TRUE. Another action vs the unit may be
        * possible. It may also be possible to act against another unit
        * target at the tile. */
-      if (can_unit_act_diplstate(unit_type(act_unit), act,
+      if (can_unit_act_diplstate(unit_type_get(act_unit), act,
                                  act_player, tgt_player)) {
         /* Unit target confirmed possible. */
         return TRUE;
@@ -1358,7 +1360,7 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
 
       /* Can't return yet. Another action may be possible against this
        * unit. Another unit may make this action impossible. */
-      if (!can_unit_act_diplstate(unit_type(act_unit), act,
+      if (!can_unit_act_diplstate(unit_type_get(act_unit), act,
                                   act_player, tgt_player)) {
         /* Impossible for one unit and therefore impossible at all. */
         legal = FALSE;

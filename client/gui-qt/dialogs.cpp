@@ -2585,7 +2585,7 @@ void unit_select::create_pixmap()
     }
     punit = unit_list.at(i);
     Q_ASSERT(punit != NULL);
-    rate = unit_type(punit)->move_rate;
+    rate = unit_type_get(punit)->move_rate;
     f = ((punit->fuel) - 1);
     if (i == highligh_num) {
       p.drawPixmap(x, y, *h_pix);
@@ -2594,7 +2594,7 @@ void unit_select::create_pixmap()
       p.drawPixmap(x, y, *tmp_pix);
     }
 
-    if (utype_fuel(unit_type(punit))) {
+    if (utype_fuel(unit_type_get(punit))) {
       str = QString(move_points_text((rate * f) + punit->moves_left, false));
     } else {
       str = QString(move_points_text(punit->moves_left, false));
@@ -2689,7 +2689,7 @@ void unit_select::paint(QPainter *painter, QPaintEvent *event)
     /* TRANS: HP - hit points */
     str2 = QString(_("%1 HP:%2/%3")).arg(QString(unit_activity_text(punit)),
                                       QString::number(punit->hp),
-                                      QString::number(unit_type(punit)->hp));
+                                      QString::number(unit_type_get(punit)->hp));
   }
   str = QString(PL_("%1 unit", "%1 units",
                     unit_list_size(utile->units)))

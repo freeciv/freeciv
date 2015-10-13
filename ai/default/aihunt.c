@@ -155,7 +155,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
   unit_list_iterate(pcity->tile->units, punit) {
     if (dai_hunter_qualify(pplayer, punit)) {
       unit_class_iterate(uclass) {
-        if (can_unit_type_transport(unit_type(punit), uclass)
+        if (can_unit_type_transport(unit_type_get(punit), uclass)
             && uclass_has_flag(uclass, UCF_MISSILE)) {
           hunter = punit;
           break;
@@ -179,7 +179,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
       continue;
     }
 
-    if (!can_unit_type_transport(unit_type(hunter), utype_class(ut))) {
+    if (!can_unit_type_transport(unit_type_get(hunter), utype_class(ut))) {
       continue;
     }
 
@@ -325,6 +325,8 @@ static void dai_hunter_try_launch(struct ai_type *ait,
         unit_list_iterate(ptile->units, victim) {
           enum diplstate_type ds =
 	    player_diplstate_get(pplayer, unit_owner(victim))->type;
+          struct unit_type *ptype;
+          struct unit_type *victim_type;
 
           if (ds != DS_WAR) {
             continue;
@@ -336,7 +338,11 @@ static void dai_hunter_try_launch(struct ai_type *ait,
                      move_cost);
             break; /* Our target! Get him!!! */
           }
-          if (ATTACK_POWER(victim) > DEFENCE_POWER(punit)
+
+          victim_type = unit_type_get(victim);
+          ptype = unit_type_get(punit);
+
+          if (ATTACK_POWER(victim_type) > DEFENSE_POWER(ptype)
               && dai_unit_can_strike_my_unit(victim, punit)) {
             sucker = victim;
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found aux target %d(%d, %d)",
@@ -380,12 +386,14 @@ static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
   *stackcost = 0;
 
   unit_list_iterate(unit_tile(target)->units, sucker) {
-    *stackthreat += ATTACK_POWER(sucker);
+    struct unit_type *suck_type = unit_type_get(sucker);
+
+    *stackthreat += ATTACK_POWER(suck_type);
     if (unit_has_type_flag(sucker, UTYF_GAMELOSS)) {
       *stackcost += 1000;
       *stackthreat += 5000;
     }
-    if (utype_acts_hostile(unit_type(sucker))) {
+    if (utype_acts_hostile(unit_type_get(sucker))) {
       *stackthreat += 500; /* extra threatening */
     }
     *stackcost += unit_build_shield_cost(sucker);
@@ -461,7 +469,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
          * of each turn. */
         continue;
       }
-      if (!utype_acts_hostile(unit_type(target))
+      if (!utype_acts_hostile(unit_type_get(target))
           && get_transporter_capacity(target) == 0
           && !unit_has_type_flag(target, UTYF_GAMELOSS)) {
         /* Won't hunt this one. */
@@ -481,7 +489,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
                dist1, dist2);
 
       /* We can't chase if we aren't faster or on intercept vector */
-      if (unit_type(punit)->move_rate < unit_type(target)->move_rate
+      if (unit_type_get(punit)->move_rate < unit_type_get(target)->move_rate
           && dist1 >= dist2) {
         UNIT_LOG(LOGLEVEL_HUNT, punit,
                  "giving up racing %s (%d, %d)->(%d, %d)",

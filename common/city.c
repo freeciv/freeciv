@@ -1467,7 +1467,7 @@ enum city_build_result city_build_here_test(const struct tile *ptile,
       /* TODO: remove CB_BAD_UNIT_TERRAIN and CB_BAD_UNIT_TERRAIN when it
        * can be done without regressions. */
       /* The ruleset may allow founding cities on non native terrain. */
-      && !utype_can_do_act_when_ustate(unit_type(punit), ACTION_FOUND_CITY,
+      && !utype_can_do_act_when_ustate(unit_type_get(punit), ACTION_FOUND_CITY,
                                        USP_LIVABLE_TILE, FALSE)) {
     /* Many rulesets allow land units to build land cities and sea units to
      * build ocean cities. Air units can build cities anywhere. */
@@ -1478,7 +1478,7 @@ enum city_build_result city_build_here_test(const struct tile *ptile,
       /* TODO: remove CB_BAD_BORDERS and UAB_BAD_BORDERS when it
        * can be done without regressions. */
       /* The ruleset may allow founding cities on foreign terrain. */
-      && !city_on_foreign_tile_is_legal(unit_type(punit))) {
+      && !city_on_foreign_tile_is_legal(unit_type_get(punit))) {
     /* Cannot steal borders by settling. This has to be settled by
      * force of arms. */
     return CB_BAD_BORDERS;
@@ -2831,7 +2831,7 @@ inline void set_city_production(struct city *pcity)
 int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 {
   struct city *pcity = game_city_by_number(punit->homecity);
-  struct unit_type *ut = unit_type(punit);
+  struct unit_type *ut = unit_type_get(punit);
   struct player *plr = unit_owner(punit);
   int happy_cost = utype_happy_cost(ut, plr);
 

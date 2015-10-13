@@ -169,14 +169,14 @@ comment below.
 #define KNOWN_DIFF_TER_SCORE   51
 
 /* The maximum number of tiles that the unit might uncover in a move. 
- * #define MAX_NEW_TILES          (1 + 4 * (unit_type(punit)->vision_range))
+ * #define MAX_NEW_TILES          (1 + 4 * (unit_type_get(punit)->vision_range))
  * The previous line would be ideal, but we'd like these to be constants
  * for efficiency, so pretend vision_range == 1 */
 #define MAX_NEW_TILES          5
 
 /* The number of tiles that the unit can see. =(1 + 2r)^2
- * #define VISION_TILES           (1 + 2 * unit_type(punit)->vision_range)*\
- *                                (1 + 2 * unit_type(punit)->vision_range)
+ * #define VISION_TILES           (1 + 2 * unit_type_get(punit)->vision_range)*\
+ *                                (1 + 2 * unit_type_get(punit)->vision_range)
  * As above, set vision_range == 1 */
 #define VISION_TILES           9
 
@@ -199,7 +199,7 @@ comment below.
 static int explorer_desirable(struct tile *ptile, struct player *pplayer, 
                               struct unit *punit)
 {
-  int radius_sq = unit_type(punit)->vision_radius_sq;
+  int radius_sq = unit_type_get(punit)->vision_radius_sq;
   int desirable = 0;
   int unknown = 0;
 
@@ -210,7 +210,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
   }
 
   /* Do no try to cross borders and break a treaty, etc. */
-  if (!player_may_explore(ptile, punit->owner, unit_type(punit))) {
+  if (!player_may_explore(ptile, punit->owner, unit_type_get(punit))) {
     return 0;
   }
 

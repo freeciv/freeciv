@@ -101,7 +101,8 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
 
 #ifdef NEVER
       CITY_LOG(LOG_DEBUG, pcity, "desire for %s against %s(%d,%d) is %.2f",
-               unit_name_orig(punittype), unit_name_orig(unit_type(attacker)), 
+               unit_name_orig(punittype),
+               unit_name_orig(unit_type_get(attacker)), 
                TILE_XY(attacker->tile), want);
 #endif /* NEVER */
 
@@ -228,7 +229,7 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
     /* Attacker firepower doubled, defender firepower set to 1 */
     defense /= 2;
   } else {
-    defense *= unit_type(punit)->firepower;
+    defense *= unit_type_get(punit)->firepower;
   }
 
   if (pcity) {
@@ -341,7 +342,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
                                        int *move_time)
 {
   struct pf_position pos;
-  const struct unit_type *punittype = unit_type(punit);
+  const struct unit_type *punittype = unit_type_get(punit);
   const struct tile *ptile = city_tile(pcity);
   const struct unit *ferry;
   unsigned int danger;
@@ -494,7 +495,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
 
   unit_list_iterate(ptile->units, punit) {
     bool bonuses_exist = FALSE;
-    struct unit_type *def = unit_type(punit);
+    struct unit_type *def = unit_type_get(punit);
 
     if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
       city_data->has_diplomat = TRUE;
@@ -556,7 +557,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
       int move_time;
       unsigned int vulnerability;
       int defbonus;
-      struct unit_type *utype = unit_type(punit);
+      struct unit_type *utype = unit_type_get(punit);
       struct unit_type_ai *utai = utype_ai_data(utype, ait);
 
       if (!utai->carries_occupiers
@@ -594,7 +595,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
       (void) dai_wants_defender_against(ait, pplayer, pcity, utype,
                                         vulnerability / MAX(move_time, 1));
 
-      if (utype_acts_hostile(unit_type(punit)) && 2 >= move_time) {
+      if (utype_acts_hostile(unit_type_get(punit)) && 2 >= move_time) {
         city_data->diplomat_threat = TRUE;
       }
 
@@ -605,13 +606,13 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
 
       if (unit_can_do_action(punit, ACTION_NUKE)) {
         defender = dai_find_source_building(pcity, EFT_NUKE_PROOF,
-                                            unit_type(punit));
+                                            unit_type_get(punit));
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
       } else {
         defender = dai_find_source_building(pcity, EFT_DEFEND_BONUS,
-                                            unit_type(punit));
+                                            unit_type_get(punit));
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
@@ -1175,11 +1176,11 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
   struct ai_city *acity_data;
 
   init_choice(&best_choice);
-  best_choice.value.utype = unit_type(myunit);
+  best_choice.value.utype = unit_type_get(myunit);
   best_choice.type = CT_ATTACKER;
   best_choice.want = choice->want;
 
-  fc_assert_ret(is_military_unit(myunit) && !utype_fuel(unit_type(myunit)));
+  fc_assert_ret(is_military_unit(myunit) && !utype_fuel(unit_type_get(myunit)));
 
   if (city_data->danger != 0 && assess_defense(ait, pcity) == 0) {
     /* Defence comes first! */
@@ -1222,7 +1223,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
     def_owner = city_owner(acity);
     if (1 < move_time && def_type) {
       def_vet = do_make_unit_veteran(acity, def_type);
-      vulnerability = unittype_def_rating_squared(unit_type(myunit), def_type,
+      vulnerability = unittype_def_rating_squared(unit_type_get(myunit), def_type,
                                                   city_owner(acity), ptile,
                                                   FALSE, def_vet);
       benefit = utype_build_shield_cost(def_type);
@@ -1234,14 +1235,14 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
 
     pdef = get_defender(myunit, ptile);
     if (pdef) {
-      int m = unittype_def_rating_squared(unit_type(myunit), unit_type(pdef),
+      int m = unittype_def_rating_squared(unit_type_get(myunit), unit_type_get(pdef),
                                           city_owner(acity), ptile, FALSE,
                                           pdef->veteran);
       if (vulnerability < m) {
         vulnerability = m;
         benefit = unit_build_shield_cost(pdef);
         def_vet = pdef->veteran;
-        def_type = unit_type(pdef);
+        def_type = unit_type_get(pdef);
         def_owner = unit_owner(pdef);
       }
     }
@@ -1266,7 +1267,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
 
     benefit = unit_build_shield_cost(pdef);
 
-    def_type = unit_type(pdef);
+    def_type = unit_type_get(pdef);
     def_vet = pdef->veteran;
     def_owner = unit_owner(pdef);
     /* end dealing with units */

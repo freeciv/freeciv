@@ -495,9 +495,9 @@ static void editor_grab_tool(const struct tile *ptile)
       score = 0;
       if (uclass_has_flag(unit_class(punit), UCF_UNREACHABLE)) {
         score = 5;
-      } else if (utype_move_type(unit_type(punit)) == UMT_LAND) {
+      } else if (utype_move_type(unit_type_get(punit)) == UMT_LAND) {
         score = 4;
-      } else if (utype_move_type(unit_type(punit)) == UMT_SEA) {
+      } else if (utype_move_type(unit_type_get(punit)) == UMT_SEA) {
         score = 3;
       } else {
         score = 2;
@@ -514,7 +514,7 @@ static void editor_grab_tool(const struct tile *ptile)
 
     if (grabbed_punit) {
       ett = ETT_UNIT;
-      value = utype_number(unit_type(grabbed_punit));
+      value = utype_number(unit_type_get(grabbed_punit));
     }
   } else if (first_base != NULL) {
     ett = ETT_MILITARY_BASE;
@@ -1534,7 +1534,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
           continue;
         }
         vunit = unit_virtual_create(unit_owner(punit), NULL,
-                                    unit_type(punit), punit->veteran);
+                                    unit_type_get(punit), punit->veteran);
         vunit->homecity = punit->homecity;
         vunit->hp = punit->hp;
         unit_list_append(vtile->units, vunit);
@@ -1672,7 +1672,7 @@ static void paste_tile(struct edit_buffer *ebuf,
       break;
     case EBT_UNIT:
       unit_list_iterate(vtile->units, vunit) {
-        value = utype_number(unit_type(vunit));
+        value = utype_number(unit_type_get(vunit));
         owner = player_number(unit_owner(vunit));
         dsend_packet_edit_unit_create(my_conn, owner, tile, value, 1, 0);
       } unit_list_iterate_end;

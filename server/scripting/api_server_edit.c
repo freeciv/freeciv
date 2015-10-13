@@ -118,7 +118,7 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer, Tile *ptile,
     if (!ret) {
       luascript_log(fcl, LOG_ERROR, "create_unit_full: '%s' cannot transport "
                                     "'%s' here",
-                    utype_rule_name(unit_type(ptransport)),
+                    utype_rule_name(unit_type_get(ptransport)),
                     utype_rule_name(ptype));
       return NULL;
     }

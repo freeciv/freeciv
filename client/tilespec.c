@@ -3784,7 +3784,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
-  struct unit_type *ptype = unit_type(punit);
+  struct unit_type *ptype = unit_type_get(punit);
 
   if (backdrop) {
     if (!options.solid_color_behind_units) {
@@ -4809,7 +4809,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       struct unit_list *pfocus_units = get_units_in_focus();
 
       unit_list_iterate(pfocus_units, pfocus) {
-        if (!is_native_tile(unit_type(pfocus), ptile)) {
+        if (!is_native_tile(unit_type_get(pfocus), ptile)) {
           native = FALSE;
           break;
         }

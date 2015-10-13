@@ -3758,7 +3758,7 @@ pf_reverse_map_unit_pos(struct pf_reverse_map *pfrm,
    * not restored when calling this function. Let's assume the unit will
    * have its whole move rate. */
   param->moves_left_initially = param->move_rate;
-  param->utype = unit_type(punit);
+  param->utype = unit_type_get(punit);
   return pf_reverse_map_pos(pfrm, param);
 }
 

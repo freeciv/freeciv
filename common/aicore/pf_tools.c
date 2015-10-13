@@ -63,7 +63,7 @@ static inline bool pf_attack_possible(const struct tile *ptile,
 
     /* Unit reachability test. */
     if (BV_ISSET(param->utype->targets, uclass_index(unit_class(punit)))
-        || tile_has_native_base(ptile, unit_type(punit))) {
+        || tile_has_native_base(ptile, unit_type_get(punit))) {
       attack_any = TRUE;
     } else if (game.info.unreachable_protects) {
       /* We would need to be able to attack all, this is not the case. */
@@ -189,7 +189,7 @@ static inline bool pf_transport_check(const struct pf_parameter *param,
 
   unit_transports_iterate(ptrans, pparent) {
     if (unit_has_orders(pparent)
-        || param->utype == (trans_utype = unit_type(pparent))
+        || param->utype == (trans_utype = unit_type_get(pparent))
         || can_unit_type_transport(param->utype, utype_class(trans_utype))) {
       return FALSE;
     }
@@ -251,7 +251,7 @@ pf_get_move_scope(const struct tile *ptile,
     *can_disembark = FALSE;
 
     unit_list_iterate(ptile->units, punit) {
-      utype = unit_type(punit);
+      utype = unit_type_get(punit);
 
       if (!pf_transport_check(param, punit, utype)) {
         continue;
@@ -564,7 +564,7 @@ static bool is_possible_base_fuel(const struct tile *ptile,
 
   /* Check for carriers */
   unit_list_iterate(ptile->units, ptrans) {
-    const struct unit_type *trans_utype = unit_type(ptrans);
+    const struct unit_type *trans_utype = unit_type_get(ptrans);
 
     if (pf_transport_check(param, ptrans, trans_utype)
         && (utype_can_freely_load(param->utype, trans_utype)
@@ -757,25 +757,26 @@ pft_fill_unit_default_parameter(struct pf_parameter *parameter,
                                 const struct unit *punit)
 {
   const struct unit *ptrans = unit_transport_get(punit);
+  struct unit_type *ptype = unit_type_get(punit);
 
-  pft_fill_default_parameter(parameter, unit_type(punit));
+  pft_fill_default_parameter(parameter, ptype);
 
   parameter->start_tile = unit_tile(punit);
   parameter->moves_left_initially = punit->moves_left;
   parameter->move_rate = unit_move_rate(punit);
-  if (utype_fuel(unit_type(punit))) {
+  if (utype_fuel(ptype)) {
     parameter->fuel_left_initially = punit->fuel;
-    parameter->fuel = utype_fuel(unit_type(punit));
+    parameter->fuel = utype_fuel(ptype);
   } else {
     parameter->fuel = 1;
     parameter->fuel_left_initially = 1;
   }
-  parameter->transported_by_initially = (NULL != ptrans ? unit_type(ptrans)
+  parameter->transported_by_initially = (NULL != ptrans ? unit_type_get(ptrans)
                                          : NULL);
   parameter->cargo_depth = unit_cargo_depth(punit);
   BV_CLR_ALL(parameter->cargo_types);
   unit_cargo_iterate(punit, pcargo) {
-    BV_SET(parameter->cargo_types, utype_index(unit_type(pcargo)));
+    BV_SET(parameter->cargo_types, utype_index(unit_type_get(pcargo)));
   } unit_cargo_iterate_end;
   parameter->owner = unit_owner(punit);
 
@@ -824,7 +825,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 			     const struct unit *punit)
 {
   pft_fill_unit_default_parameter(parameter, punit);
-  pft_fill_parameter(parameter, unit_type(punit));
+  pft_fill_parameter(parameter, unit_type_get(punit));
 }
 
 /**********************************************************************
@@ -869,7 +870,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 				 const struct unit *punit)
 {
   pft_fill_unit_default_parameter(parameter, punit);
-  pft_fill_overlap_param(parameter, unit_type(punit));
+  pft_fill_overlap_param(parameter, unit_type_get(punit));
 }
 
 /**********************************************************************
@@ -921,7 +922,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
                                 const struct unit *punit)
 {
   pft_fill_unit_default_parameter(parameter, punit);
-  pft_fill_attack_param(parameter, unit_type(punit));
+  pft_fill_attack_param(parameter, unit_type_get(punit));
 }
 
 /****************************************************************************

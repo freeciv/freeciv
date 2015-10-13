@@ -1111,7 +1111,7 @@ void unit_select_dialog_popup(struct tile *ptile)
     const char *vetname;
 
     pUnit = unit_list_get(ptile->units, i);
-    pUnitType = unit_type(pUnit);
+    pUnitType = unit_type_get(pUnit);
     vetname = utype_veteran_name_translation(pUnitType, pUnit->veteran);
 
     if (unit_owner(pUnit) == client.conn.playing) {
@@ -1815,7 +1815,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     if (can_unit_paradrop(pFocus_Unit) && client_tile_get_known(ptile)
         && !(((pCity && pplayers_non_attack(client.conn.playing, city_owner(pCity)))
               || is_non_attack_unit_tile(ptile, client.conn.playing)))
-        && (unit_type(pFocus_Unit)->paratroopers_range >=
+        && (unit_type_get(pFocus_Unit)->paratroopers_range >=
             real_map_distance(unit_tile(pFocus_Unit), ptile))) {
 
       create_active_iconlabel(pBuf, pWindow->dst, pstr, _("Paradrop here"),
@@ -1861,7 +1861,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         if (pUnit == pFocus_Unit) {
           continue;
         }
-        pUnitType = unit_type(pUnit);
+        pUnitType = unit_type_get(pUnit);
         vetname = utype_veteran_name_translation(pUnitType, pUnit->veteran);
 
         if (unit_owner(pUnit) == client.conn.playing) {
@@ -1970,7 +1970,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     } else { /* n == 1 */
       /* one unit - give orders */
       pUnit = unit_list_get(ptile->units, 0);
-      pUnitType = unit_type(pUnit);
+      pUnitType = unit_type_get(pUnit);
       if (pUnit != pFocus_Unit) {
         const char *vetname;
 

@@ -482,7 +482,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Sanity check: The victim isn't a unique unit the actor player already
    * has. */
   if (utype_player_already_has_this_unique(pplayer,
-                                           unit_type(pvictim))) {
+                                           unit_type_get(pvictim))) {
     log_debug("bribe-unit: already got unique unit");
     notify_player(pplayer, unit_tile(pdiplomat),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
@@ -1537,7 +1537,7 @@ static bool diplomat_was_caught(struct player *act_player,
             * get_target_bonus_effects(NULL,
                                        act_player, tgt_player,
                                        tgt_city, NULL, NULL,
-                                       act_unit, unit_type(act_unit),
+                                       act_unit, unit_type_get(act_unit),
                                        NULL, NULL, act,
                                        EFT_ACTION_ODDS_PCT))
            / 100);
@@ -1595,9 +1595,9 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
    * 20% effect. */
   {
     const struct veteran_level
-      *vatt = utype_veteran_level(unit_type(pattacker), pattacker->veteran);
+      *vatt = utype_veteran_level(unit_type_get(pattacker), pattacker->veteran);
     const struct veteran_level
-      *vdef = utype_veteran_level(unit_type(pdefender), pdefender->veteran);
+      *vdef = utype_veteran_level(unit_type_get(pdefender), pdefender->veteran);
     fc_assert_ret_val(vatt != NULL && vdef != NULL, FALSE);
     chance += vatt->power_fact - vdef->power_fact;
   }
@@ -1608,7 +1608,7 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
                                       EFT_SPY_RESISTANT) / 100;
   } else {
     /* Reduce the chance of an attack if BF_DIPLOMAT_DEFENSE is active. */
-    if (tile_has_base_flag_for_unit(pdefender_tile, unit_type(pdefender),
+    if (tile_has_base_flag_for_unit(pdefender_tile, unit_type_get(pdefender),
                                     BF_DIPLOMAT_DEFENSE)) {
       chance -= chance * 25 / 100; /* 25% penalty */
     }
@@ -1874,9 +1874,10 @@ static void diplomat_escape_full(struct player *pplayer,
    * unpromoted unit's power factor */
   {
     const struct veteran_level
-      *vunit = utype_veteran_level(unit_type(pdiplomat), pdiplomat->veteran);
+      *vunit = utype_veteran_level(unit_type_get(pdiplomat), pdiplomat->veteran);
     const struct veteran_level
-      *vbase = utype_veteran_level(unit_type(pdiplomat), 0);
+      *vbase = utype_veteran_level(unit_type_get(pdiplomat), 0);
+
     escapechance = game.server.diplchance
       + (vunit->power_fact - vbase->power_fact);
   }

@@ -394,14 +394,15 @@ bool clipboard_copy_production(struct tile *ptile)
     if (!punit) {
       return FALSE;
     }
-    if (!can_player_build_unit_direct(client.conn.playing, unit_type(punit)))  {
+    if (!can_player_build_unit_direct(client.conn.playing,
+                                      unit_type_get(punit)))  {
       create_event(ptile, E_BAD_COMMAND, ftc_client,
                    _("You don't know how to build %s!"),
                    unit_name_translation(punit));
       return TRUE;
     }
     clipboard.kind = VUT_UTYPE;
-    clipboard.value.utype = unit_type(punit);
+    clipboard.value.utype = unit_type_get(punit);
   }
   upgrade_canvas_clipboard();
 

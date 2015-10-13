@@ -490,10 +490,10 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
     if (show_combat) {
       int hp0 = attacker_hp, hp1 = defender_hp;
 
-      audio_play_sound(unit_type(punit0)->sound_fight,
-		       unit_type(punit0)->sound_fight_alt);
-      audio_play_sound(unit_type(punit1)->sound_fight,
-		       unit_type(punit1)->sound_fight_alt);
+      audio_play_sound(unit_type_get(punit0)->sound_fight,
+		       unit_type_get(punit0)->sound_fight_alt);
+      audio_play_sound(unit_type_get(punit1)->sound_fight,
+		       unit_type_get(punit1)->sound_fight_alt);
 
       if (options.smooth_combat_step_msec > 0) {
         decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
@@ -1593,11 +1593,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       repaint_unit = TRUE;
     }
 
-    if (punit->utype != unit_type(packet_unit)) {
+    if (punit->utype != unit_type_get(packet_unit)) {
       /* Unit type has changed (been upgraded) */
       struct city *ccity = tile_city(unit_tile(punit));
 
-      punit->utype = unit_type(packet_unit);
+      punit->utype = unit_type_get(packet_unit);
       repaint_unit = TRUE;
       repaint_city = TRUE;
       if (ccity != NULL && (ccity->id != punit->homecity)) {
@@ -1674,7 +1674,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
             && !unit_has_orders(punit)
              /* the server handles non transported units */
             && NULL != unit_transport_get(punit)
-            && utype_may_act_at_all(unit_type(punit))) {
+            && utype_may_act_at_all(unit_type_get(punit))) {
           /* Open action dialog only if 'punit' and all its transporters
            * (recursively) don't have orders. */
           struct unit *ptrans;

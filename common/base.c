@@ -216,7 +216,7 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
   pextra = base_extra_get(pbase);
 
   return are_reqs_active(unit_owner(punit), tile_owner(ptile), NULL, NULL,
-                         ptile, punit, unit_type(punit), NULL, NULL, NULL,
+                         ptile, punit, unit_type_get(punit), NULL, NULL, NULL,
                          &pextra->reqs, RPT_CERTAIN);
 }
 

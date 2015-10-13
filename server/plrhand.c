@@ -602,7 +602,7 @@ static void maybe_claim_base(struct tile *ptile, struct player *new_owner,
 
   unit_list_iterate(ptile->units, punit) {
     if (unit_owner(punit) == new_owner
-        && tile_has_claimable_base(ptile, unit_type(punit))) {
+        && tile_has_claimable_base(ptile, unit_type_get(punit))) {
       claim = TRUE;
       break;
     }

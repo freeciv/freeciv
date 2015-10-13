@@ -1113,7 +1113,7 @@ void real_menus_update(void)
       }
 
       /* unit_can_est_trade_route_here(pUnit) */
-      if (pCity && utype_can_do_action(unit_type(pUnit),
+      if (pCity && utype_can_do_action(unit_type_get(pUnit),
                                        ACTION_TRADE_ROUTE)
           && (pHomecity = game_city_by_number(pUnit->homecity))
           && can_cities_trade(pHomecity, pCity)) {
@@ -1407,7 +1407,8 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_AIRLIFT);
       }
 
-      if (pCity && can_upgrade_unittype(client.conn.playing, unit_type(pUnit))) {
+      if (pCity && can_upgrade_unittype(client.conn.playing,
+                                        unit_type_get(pUnit))) {
         local_show(ID_UNIT_ORDER_UPGRADE);
       } else {
         local_hide(ID_UNIT_ORDER_UPGRADE);

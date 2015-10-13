@@ -466,7 +466,7 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
     }
     unit_list_iterate(ptile->units, punit) {
       if (unit_owner(punit) == pplayer &&
-          utype_acts_hostile(unit_type(punit))) {
+          utype_acts_hostile(unit_type_get(punit))) {
         return TRUE;
       }
     } unit_list_iterate_end;
@@ -633,6 +633,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     int newval, bestval = 0, cost;
     struct unit *pvictim = is_other_players_unit_tile(ptile, pplayer);
     int sanity = punit->id;
+    struct unit_type *ptype;
 
     if (pos.total_MC > punit->moves_left) {
       /* Didn't find anything within range. */
@@ -651,13 +652,16 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     /* Calculate if enemy is a threat */
     /* First find best defender on our tile */
     unit_list_iterate(ptile->units, aunit) {
-      newval = DEFENCE_POWER(aunit);
+      struct unit_type *atype = unit_type_get(aunit);
+
+      newval = DEFENSE_POWER(atype);
       if (bestval < newval) {
         bestval = newval;
       }
     } unit_list_iterate_end;
     /* Compare with victim's attack power */
-    newval = ATTACK_POWER(pvictim);
+    ptype = unit_type_get(pvictim);
+    newval = ATTACK_POWER(ptype);
     if (newval > bestval
         && unit_move_rate(pvictim) > pos.total_MC) {
       /* Enemy can probably kill us */
@@ -849,7 +853,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
       aiguard_request_guard(ait, punit);
       UNIT_LOG(LOG_DIPLOMAT, punit, "going on attack");
     } else if ((ctarget = dai_diplomat_defend(ait, pplayer, punit,
-                                              unit_type(punit), pfm))
+                                              unit_type_get(punit), pfm))
                != NULL) {
       task = AIUNIT_DEFEND_HOME;
       UNIT_LOG(LOG_DIPLOMAT, punit, "going to defend %s",

@@ -305,7 +305,7 @@ static bool are_road_reqs_fulfilled(const struct road_type *proad,
   if (punit == NULL) {
     utype = NULL;
   } else {
-    utype = unit_type(punit);
+    utype = unit_type_get(punit);
   }
 
   if (requirement_vector_size(&proad->first_reqs) > 0) {

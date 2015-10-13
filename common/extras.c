@@ -403,7 +403,7 @@ bool can_build_extra(struct extra_type *pextra,
   }
 
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         punit, unit_type(punit), NULL, NULL, NULL, &pextra->reqs,
+                         punit, unit_type_get(punit), NULL, NULL, NULL, &pextra->reqs,
                          RPT_CERTAIN);
 }
 
@@ -472,7 +472,7 @@ bool can_remove_extra(struct extra_type *pextra,
   pplayer = unit_owner(punit);
 
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         punit, unit_type(punit), NULL, NULL, NULL,
+                         punit, unit_type_get(punit), NULL, NULL, NULL,
                          &pextra->rmreqs, RPT_CERTAIN);
 }
 

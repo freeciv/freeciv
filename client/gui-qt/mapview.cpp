@@ -1526,7 +1526,7 @@ void unit_label::uupdate(unit_list *punits)
   unit_label2 = QString(_("%1 HP:%2/%3")).arg(unit_activity_text(
                    unit_list_get(punits, 0)),
                    QString::number(punit->hp),
-                   QString::number(unit_type(punit)->hp));
+                   QString::number(unit_type_get(punit)->hp));
 
   punit = head_of_units_in_focus();
   if (punit) {

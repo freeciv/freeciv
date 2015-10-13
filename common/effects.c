@@ -752,7 +752,7 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
                                   unit_tile(punit)
                                     ? tile_city(unit_tile(punit)) : NULL,
                                   NULL, unit_tile(punit),
-                                  punit, unit_type(punit), NULL, NULL,
+                                  punit, unit_type_get(punit), NULL, NULL,
                                   NULL,
                                   effect_type);
 }
@@ -774,7 +774,7 @@ int get_tile_bonus(const struct tile *ptile, const struct unit *punit,
 
   if (punit != NULL) {
     pplayer = unit_owner(punit);
-    utype = unit_type(punit);
+    utype = unit_type_get(punit);
   }
 
   return get_target_bonus_effects(NULL,
