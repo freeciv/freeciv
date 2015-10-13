@@ -309,6 +309,7 @@ static struct terrain *char2terrain(char ch);
 static Tech_type_id technology_load(struct section_file *file,
                                     const char* path, int plrno);
 
+static void sg_load_ruleset(struct loaddata *loading);
 static void sg_load_savefile(struct loaddata *loading);
 
 static void sg_load_game(struct loaddata *loading);
@@ -427,6 +428,8 @@ static void savegame2_load_real(struct section_file *file)
   sg_success = TRUE;
 
   /* Load the savegame data. */
+  /* Set up correct ruleset */
+  sg_load_ruleset(loading);
   /* [compat] */
   sg_load_compat(loading);
   /* [savefile] */
@@ -1092,6 +1095,26 @@ static Tech_type_id technology_load(struct section_file *file,
  * ======================================================================= */
 
 /****************************************************************************
+  Set up correct ruleset for the savegame
+****************************************************************************/
+static void sg_load_ruleset(struct loaddata *loading)
+{
+  /* Load ruleset. */
+  sz_strlcpy(game.server.rulesetdir,
+             secfile_lookup_str_default(loading->file, GAME_DEFAULT_RULESETDIR,
+                                        "savefile.rulesetdir"));
+  /* In 'savegame2' saves 'default' means the old name of 'classic'
+   * ruleset. So load it as 'classic' ruleset, not the current default. */
+  if (!strcmp("default", game.server.rulesetdir)) {
+    sz_strlcpy(game.server.rulesetdir, "classic");
+  }
+  if (!load_rulesets(NULL, FALSE, TRUE, FALSE)) {
+    /* Failed to load correct ruleset */
+    sg_failure_ret(TRUE, _("Failed to load ruleset"));
+  }
+}
+
+/****************************************************************************
   Load '[savefile]'.
 ****************************************************************************/
 static void sg_load_savefile(struct loaddata *loading)
@@ -1107,20 +1130,6 @@ static void sg_load_savefile(struct loaddata *loading)
    * warnings about unread secfile entries. */
   (void) secfile_entry_by_path(loading->file, "savefile.reason");
   (void) secfile_entry_by_path(loading->file, "savefile.revision");
-
-  /* Load ruleset. */
-  sz_strlcpy(game.server.rulesetdir,
-             secfile_lookup_str_default(loading->file, GAME_DEFAULT_RULESETDIR,
-                                        "savefile.rulesetdir"));
-  /* In 'savegame2' saves 'default' means the old name of 'classic'
-   * ruleset. So load it as 'classic' ruleset, not the current default. */
-  if (!strcmp("default", game.server.rulesetdir)) {
-    sz_strlcpy(game.server.rulesetdir, "classic");
-  }
-  if (!load_rulesets(NULL, FALSE, TRUE, FALSE)) {
-    /* Failed to load correct ruleset */
-    sg_failure_ret(TRUE, "Failed to load ruleset");
-  }
 
   /* Load improvements. */
   loading->improvement.size

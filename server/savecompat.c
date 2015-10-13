@@ -927,7 +927,7 @@ static void compat_load_020600(struct loaddata *loading)
     int ncities;
     int i;
 
-    ncities = secfile_lookup_int(loading->file, &ncities, "player%d.ncities", plrno);
+    ncities = secfile_lookup_int_default(loading->file, 0, "player%d.ncities", plrno);
 
     for (i = 0; i < ncities; i++) {
       int k = 0;
