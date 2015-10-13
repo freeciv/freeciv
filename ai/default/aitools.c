@@ -560,9 +560,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     parameter->get_zoc = NULL;
   }
 
-  if (utype_acts_hostile(unit_type_get(punit))) {
-    parameter->get_TB = no_intermediate_fights;
-  } else if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
+  if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     parameter->get_TB = no_fights;
   } else if (long_path && unit_is_cityfounder(punit)) {
     /* Default tile behaviour;
@@ -573,12 +571,6 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   } else if (unit_is_cityfounder(punit)) {
     /* Short path */
     parameter->get_TB = no_fights;
-  } else if (utype_may_act_at_all(unit_type_get(punit))
-             && !(utype_acts_hostile(unit_type_get(punit))
-                                     || is_military_unit(punit))) {
-    /* While the AI currently won't establish a trade route to a non ally
-     * it will establish an embassy. */
-    parameter->get_TB = no_intermediate_fights;
   } else if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
     /* Avoid capture */
     parameter->get_TB = no_fights;
@@ -588,7 +580,8 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   } else if (is_losing_hp(punit)) {
     /* Losing hitpoints over time (helicopter in default rules) */
     /* Default tile behaviour */
-  } else if (is_military_unit(punit)) {
+  } else if (is_military_unit(punit)
+             || utype_may_act_at_all(unit_type_get(punit))) {
     switch (unit_data->task) {
     case AIUNIT_AUTO_SETTLER:
     case AIUNIT_BUILD_CITY:
@@ -596,7 +589,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
       parameter->get_TB = no_fights;
       break;
     case AIUNIT_DEFEND_HOME:
-    case AIUNIT_ATTACK:
+    case AIUNIT_ATTACK: /* Includes spy actions */
     case AIUNIT_ESCORT:
     case AIUNIT_HUNTER:
     case AIUNIT_TRADE:
