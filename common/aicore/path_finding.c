@@ -3415,7 +3415,7 @@ struct pf_path *pf_path_concat(struct pf_path *dest_path,
 
 /****************************************************************************
   Remove the part of a path leading up to a given tile.
-  If given tile is on the path more than once then the first occurrance
+  If given tile is on the path more than once then the first occurrence
   will be the one used.
   If tile is not on the path at all, returns FALSE and path is not changed
   at all.
