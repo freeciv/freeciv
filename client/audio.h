@@ -39,6 +39,8 @@ struct audio_plugin {
                 audio_finished_callback cb);
 };
 
+enum music_usage { MU_SINGLE, MU_MENU, MU_INGAME };
+
 struct strvec;
 const struct strvec *get_soundplugin_list(void);
 const struct strvec *get_soundset_list(void);
@@ -54,7 +56,8 @@ void audio_stop(void);
 void audio_restart(const char *soundset_name, const char *musicset_name);
 
 void audio_play_sound(const char *const tag, char *const alt_tag);
-void audio_play_music(const char *const tag, char *const alt_tag);
+void audio_play_music(const char *const tag, char *const alt_tag,
+                      enum music_usage usage);
 void audio_play_track(const char *const tag, char *const alt_tag);
 
 double audio_get_volume(void);

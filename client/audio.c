@@ -52,6 +52,7 @@ static struct audio_plugin plugins[MAX_NUM_PLUGINS];
 static int num_plugins_used = 0;
 static int selected_plugin = -1;
 static int current_track = -1;
+static enum music_usage current_usage;
 
 static struct mfcb_data
 {
@@ -364,8 +365,24 @@ void audio_restart(const char *soundset_name, const char *musicset_name)
 **************************************************************************/
 static void music_finished_callback(void)
 {
-  current_track = audio_play_tag(mfcb.sfile, mfcb.tag, TRUE, current_track,
-                                 FALSE);
+  bool usage_enabled = TRUE;
+
+  switch (current_usage) {
+  case MU_SINGLE:
+    usage_enabled = FALSE;
+    break;
+  case MU_MENU:
+    usage_enabled = options.sound_enable_menu_music;
+    break;
+  case MU_INGAME:
+    usage_enabled = options.sound_enable_game_music;
+    break;
+  }
+
+  if (usage_enabled) {
+    current_track = audio_play_tag(mfcb.sfile, mfcb.tag, TRUE, current_track,
+                                   FALSE);
+  }
 }
 
 /**************************************************************************
@@ -511,8 +528,11 @@ static void real_audio_play_music(const char *const tag, char *const alt_tag,
 /**************************************************************************
   Loop music as suggested by sound tags
 **************************************************************************/
-void audio_play_music(const char *const tag, char *const alt_tag)
+void audio_play_music(const char *const tag, char *const alt_tag,
+                      enum music_usage usage)
 {
+  current_usage = usage;
+
   real_audio_play_music(tag, alt_tag, FALSE);
 }
 
@@ -521,6 +541,8 @@ void audio_play_music(const char *const tag, char *const alt_tag)
 **************************************************************************/
 void audio_play_track(const char *const tag, char *const alt_tag)
 {
+  current_usage = MU_SINGLE;
+
   real_audio_play_music(tag, alt_tag, TRUE);
 }
 

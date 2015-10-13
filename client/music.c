@@ -70,7 +70,7 @@ void start_style_music(void)
 
       if (tag != NULL && tag[0] != '\0') {
         log_debug("Play %s", tag);
-        audio_play_music(tag, NULL);
+        audio_play_music(tag, NULL, MU_INGAME);
       }
     }
   }
@@ -90,7 +90,7 @@ void stop_style_music(void)
 void start_menu_music(const char *const tag, char *const alt_tag)
 {
   if (options.sound_enable_menu_music) {
-    audio_play_music(tag, alt_tag);
+    audio_play_music(tag, alt_tag, MU_MENU);
   }
 }
 
