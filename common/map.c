@@ -837,7 +837,7 @@ static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
 ***************************************************************/
 int map_move_cost_unit(struct unit *punit, const struct tile *ptile)
 {
-  return tile_move_cost_ptrs(punit, unit_type(punit), unit_owner(punit),
+  return tile_move_cost_ptrs(punit, unit_type_get(punit), unit_owner(punit),
                              unit_tile(punit), ptile);
 }
 

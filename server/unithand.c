@@ -173,7 +173,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
    */
   conn_list_do_buffer(pplayer->connections);
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_type(punit) == from_unittype) {
+    if (unit_type_get(punit) == from_unittype) {
       enum unit_upgrade_result result = unit_upgrade_test(punit, FALSE);
 
       if (UU_OK == result) {
@@ -223,7 +223,7 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
   }
 
   if (UU_OK == unit_upgrade_info(punit, buf, sizeof(buf))) {
-    struct unit_type *from_unit = unit_type(punit);
+    struct unit_type *from_unit = unit_type_get(punit);
     struct unit_type *to_unit = can_upgrade_unittype(pplayer, from_unit);
     int cost = unit_upgrade_price(pplayer, from_unit, to_unit);
 
@@ -265,24 +265,24 @@ static void do_capture_units(struct player *pplayer,
 
     /* Check what the player already has. */
     if (utype_player_already_has_this_unique(pplayer,
-                                             unit_type(to_capture))) {
+                                             unit_type_get(to_capture))) {
       /* The player already has a unit of this kind. */
       unique_conflict = TRUE;
     }
 
-    if (utype_has_flag(unit_type(to_capture), UTYF_UNIQUE)) {
+    if (utype_has_flag(unit_type_get(to_capture), UTYF_UNIQUE)) {
       /* The type of the units at the tile must also be checked. Two allied
        * players can both have their unique unit at the same tile.
        * Capturing them both would give the actor two units of a kind that
        * is supposed to be unique. */
 
-      if (BV_ISSET(unique_on_tile, utype_index(unit_type(to_capture)))) {
+      if (BV_ISSET(unique_on_tile, utype_index(unit_type_get(to_capture)))) {
         /* There is another unit of the same kind at this tile. */
         unique_conflict = TRUE;
       } else {
         /* Remember the unit type in case another unit of the same kind is
          * encountered later. */
-        BV_SET(unique_on_tile, utype_index(unit_type(to_capture)));
+        BV_SET(unique_on_tile, utype_index(unit_type_get(to_capture)));
       }
     }
 
@@ -498,7 +498,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     return NULL;
   }
 
-  if (can_utype_do_act_if_tgt_diplrel(unit_type(actor),
+  if (can_utype_do_act_if_tgt_diplrel(unit_type_get(actor),
                                       act, DS_WAR, FALSE)) {
     /* The unit can do the action even if there isn't war. */
     return NULL;
@@ -582,10 +582,10 @@ static bool need_full_mp(const struct unit *actor, const int action_id)
   fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
 
   /* Check if full movement points may enable the specified action. */
-  return !utype_may_act_move_frags(unit_type(actor),
+  return !utype_may_act_move_frags(unit_type_get(actor),
                                    action_id,
                                    actor->moves_left)
-      && utype_may_act_move_frags(unit_type(actor),
+      && utype_may_act_move_frags(unit_type_get(actor),
                                   action_id,
                                   unit_move_rate(actor));
 }
@@ -605,19 +605,19 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
 
   if ((!can_exist
-       && !utype_can_do_act_when_ustate(unit_type(punit), action_id,
+       && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                         USP_LIVABLE_TILE, FALSE))
       || (can_exist
-          && !utype_can_do_act_when_ustate(unit_type(punit), action_id,
+          && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                            USP_LIVABLE_TILE, TRUE))) {
     expl->kind = ANEK_BAD_TERRAIN;
     expl->cant_act_from = tile_terrain(unit_tile(punit));
   } else if (unit_transported(punit)
-             && !utype_can_do_act_when_ustate(unit_type(punit), action_id,
+             && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTED, TRUE)) {
     expl->kind = ANEK_IS_TRANSPORTED;
   } else if (!unit_transported(punit)
-             && !utype_can_do_act_when_ustate(unit_type(punit), action_id,
+             && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTED, FALSE)) {
     expl->kind = ANEK_IS_NOT_TRANSPORTED;
   } else if ((must_war_player = need_war_player(punit,
@@ -847,7 +847,7 @@ static void illegal_action(struct player *pplayer,
                                  NULL,
                                  NULL,
                                  actor,
-                                 unit_type(actor),
+                                 unit_type_get(actor),
                                  NULL,
                                  NULL,
                                  EFT_ILLEGAL_ACTION_MOVE_COST));
@@ -955,7 +955,7 @@ void handle_unit_action_query(struct connection *pc,
     return;
   }
 
-  if (!utype_may_act_at_all(unit_type(pactor))) {
+  if (!utype_may_act_at_all(unit_type_get(pactor))) {
     /* Shouldn't happen */
     log_error("handle_unit_action_query() %s (%d) is not an actor",
               unit_rule_name(pactor), actor_id);
@@ -1045,7 +1045,7 @@ void handle_unit_do_action(struct player *pplayer,
     return;
   }
 
-  if (!utype_may_act_at_all(unit_type(actor_unit))) {
+  if (!utype_may_act_at_all(unit_type_get(actor_unit))) {
     /* Shouldn't happen */
     log_error("handle_unit_do_action() %s (%d) is not an actor unit",
               unit_rule_name(actor_unit), actor_id);
@@ -1303,7 +1303,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
     struct city *pcity = tile_city(punit->tile);
 
     fc_assert(!utype_player_already_has_this_unique(new_owner,
-                                                    unit_type(punit)));
+                                                    unit_type_get(punit)));
 
     vision_clear_sight(punit->server.vision);
     vision_free(punit->server.vision);
@@ -1607,7 +1607,7 @@ static void city_build(struct player *pplayer, struct unit *punit,
   nationality = unit_nationality(punit);
 
   create_city(pplayer, unit_tile(punit), name, nationality);
-  size = unit_type(punit)->city_size;
+  size = unit_type_get(punit)->city_size;
   if (size > 1) {
     struct city *pcity = tile_city(unit_tile(punit));
 
@@ -2189,7 +2189,7 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
                     "for %s."),
                   unit_link(punit),
                   utype_name_translation(
-                      unit_type(unit_transport_get(punit))));
+                      unit_type_get(unit_transport_get(punit))));
     break;
 
   case MR_NON_NATIVE_MOVE:
@@ -2256,7 +2256,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * For tiles occupied by allied cities or units, keep moving if
    * move_diplomat_city tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
-  if (utype_may_act_at_all(unit_type(punit))) {
+  if (utype_may_act_at_all(unit_type_get(punit))) {
     struct unit *tunit = tgt_unit(punit, pdesttile);
     struct city *tcity = tgt_city(punit, pdesttile);
 

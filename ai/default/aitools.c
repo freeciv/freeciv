@@ -218,17 +218,17 @@ static bool dai_gothere_bodyguard(struct ai_type *ait,
   /* If we are fast, there is less danger.
    * FIXME: that assumes that most units have move_rate == SINGLE_MOVE;
    * not true for all rulesets */
-  danger /= (unit_type(punit)->move_rate / SINGLE_MOVE);
+  danger /= (unit_type_get(punit)->move_rate / SINGLE_MOVE);
   if (unit_has_type_flag(punit, UTYF_IGTER)) {
     danger /= 1.5;
   }
 
-  vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
+  vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
   fc_assert_ret_val(vlevel != NULL, FALSE);
 
   /* We look for the bodyguard where we stand. */
   if (guard == NULL || unit_tile(guard) != unit_tile(punit)) {
-    int my_def = (punit->hp * unit_type(punit)->defense_strength
+    int my_def = (punit->hp * unit_type_get(punit)->defense_strength
                   * POWER_FACTOR * vlevel->power_fact / 100);
 
     if (danger >= my_def) {
@@ -321,7 +321,7 @@ struct tile *immediate_destination(struct unit *punit,
                                    struct tile *dest_tile)
 {
   if (!same_pos(unit_tile(punit), dest_tile)
-      && utype_fuel(unit_type(punit))) {
+      && utype_fuel(unit_type_get(punit))) {
     struct pf_parameter parameter;
     struct pf_map *pfm;
     struct pf_path *path;
@@ -491,7 +491,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   const bool long_path = LONG_TIME < (map_distance(unit_tile(punit),
                                                    unit_tile(punit))
                                       * SINGLE_MOVE
-                                      / unit_type(punit)->move_rate);
+                                      / unit_type_get(punit)->move_rate);
   const bool barbarian = is_barbarian(unit_owner(punit));
   bool is_ferry;
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
@@ -509,7 +509,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     /* The destination may be a coastal land tile,
      * in which case the ferry should stop on an adjacent tile. */
     pft_fill_unit_overlap_param(parameter, punit);
-  } else if (!utype_fuel(unit_type(punit))
+  } else if (!utype_fuel(unit_type_get(punit))
              && is_military_unit(punit)
              && (unit_data->task == AIUNIT_DEFEND_HOME
                  || unit_data->task == AIUNIT_ATTACK
@@ -540,7 +540,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
    * TODO: This is compatible with old code,
    * but probably ought to be more cautious for non military units
    */
-  if (!is_ferry && !utype_fuel(unit_type(punit))) {
+  if (!is_ferry && !utype_fuel(unit_type_get(punit))) {
     parameter->get_moves_left_req = NULL;
   }
 
@@ -560,7 +560,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     parameter->get_zoc = NULL;
   }
 
-  if (utype_acts_hostile(unit_type(punit))) {
+  if (utype_acts_hostile(unit_type_get(punit))) {
     parameter->get_TB = no_intermediate_fights;
   } else if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     parameter->get_TB = no_fights;
@@ -573,8 +573,8 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   } else if (unit_is_cityfounder(punit)) {
     /* Short path */
     parameter->get_TB = no_fights;
-  } else if (utype_may_act_at_all(unit_type(punit))
-             && !(utype_acts_hostile(unit_type(punit))
+  } else if (utype_may_act_at_all(unit_type_get(punit))
+             && !(utype_acts_hostile(unit_type_get(punit))
                                      || is_military_unit(punit))) {
     /* While the AI currently won't establish a trade route to a non ally
      * it will establish an embassy. */
@@ -789,8 +789,8 @@ bool dai_unit_make_homecity(struct unit *punit, struct city *pcity)
        the greater good -- Per */
     return FALSE;
   }
-  if (pcity->surplus[O_SHIELD] >= unit_type(punit)->upkeep[O_SHIELD]
-      && pcity->surplus[O_FOOD] >= unit_type(punit)->upkeep[O_FOOD]) {
+  if (pcity->surplus[O_SHIELD] >= unit_type_get(punit)->upkeep[O_SHIELD]
+      && pcity->surplus[O_FOOD] >= unit_type_get(punit)->upkeep[O_FOOD]) {
     handle_unit_change_homecity(unit_owner(punit), punit->id, pcity->id);
     return TRUE;
   }

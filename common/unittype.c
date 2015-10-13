@@ -117,7 +117,7 @@ struct unit_type *utype_by_number(const Unit_type_id id)
 /**************************************************************************
   Return the unit type for this unit.
 **************************************************************************/
-struct unit_type *unit_type(const struct unit *punit)
+struct unit_type *unit_type_get(const struct unit *punit)
 {
   fc_assert_ret_val(NULL != punit, NULL);
   return punit->utype;
@@ -200,7 +200,7 @@ bool utype_has_flag(const struct unit_type *punittype, int flag)
 **************************************************************************/
 bool unit_has_type_flag(const struct unit *punit, enum unit_type_flag_id flag)
 {
-  return utype_has_flag(unit_type(punit), flag);
+  return utype_has_flag(unit_type_get(punit), flag);
 }
 
 /**************************************************************************
@@ -218,7 +218,7 @@ bool utype_has_role(const struct unit_type *punittype, int role)
 **************************************************************************/
 bool unit_has_type_role(const struct unit *punit, enum unit_role_id role)
 {
-  return utype_has_role(unit_type(punit), role);
+  return utype_has_role(unit_type_get(punit), role);
 }
 
 /****************************************************************************
@@ -227,7 +227,7 @@ bool unit_has_type_role(const struct unit *punit, enum unit_role_id role)
 bool unit_can_take_over(const struct unit *punit)
 {
   return unit_owner(punit)->ai_common.barbarian_type != ANIMAL_BARBARIAN
-    && utype_can_take_over(unit_type(punit));
+    && utype_can_take_over(unit_type_get(punit));
 }
 
 /****************************************************************************
@@ -677,7 +677,7 @@ int utype_build_shield_cost(const struct unit_type *punittype)
 ****************************************************************************/
 int unit_build_shield_cost(const struct unit *punit)
 {
-  return utype_build_shield_cost(unit_type(punit));
+  return utype_build_shield_cost(unit_type_get(punit));
 }
 
 /****************************************************************************
@@ -711,7 +711,7 @@ int utype_disband_shields(const struct unit_type *punittype)
 ****************************************************************************/
 int unit_disband_shields(const struct unit *punit)
 {
-  return utype_disband_shields(unit_type(punit));
+  return utype_disband_shields(unit_type_get(punit));
 }
 
 /**************************************************************************
@@ -727,7 +727,7 @@ int utype_pop_value(const struct unit_type *punittype)
 **************************************************************************/
 int unit_pop_value(const struct unit *punit)
 {
-  return utype_pop_value(unit_type(punit));
+  return utype_pop_value(unit_type_get(punit));
 }
 
 /**************************************************************************
@@ -753,7 +753,7 @@ const char *utype_name_translation(const struct unit_type *punittype)
 **************************************************************************/
 const char *unit_name_translation(const struct unit *punit)
 {
-  return utype_name_translation(unit_type(punit));
+  return utype_name_translation(unit_type_get(punit));
 }
 
 /**************************************************************************
@@ -771,7 +771,7 @@ const char *utype_rule_name(const struct unit_type *punittype)
 **************************************************************************/
 const char *unit_rule_name(const struct unit *punit)
 {
-  return utype_rule_name(unit_type(punit));
+  return utype_rule_name(unit_type_get(punit));
 }
 
 /**************************************************************************
@@ -1030,7 +1030,7 @@ bool utype_player_already_has_this_unique(const struct player *pplayer,
   }
 
   unit_list_iterate(pplayer->units, existing_unit) {
-    if (putype == unit_type(existing_unit)) {
+    if (putype == unit_type_get(existing_unit)) {
       /* FIXME: This could be slow if we have lots of units. We could
        * consider keeping an array of unittypes updated with this info
        * instead. */
@@ -1543,7 +1543,7 @@ struct unit_class *utype_class(const struct unit_type *punittype)
 ***************************************************************/
 struct unit_class *unit_class(const struct unit *punit)
 {
-  return utype_class(unit_type(punit));
+  return utype_class(unit_type_get(punit));
 }
 
 /****************************************************************************

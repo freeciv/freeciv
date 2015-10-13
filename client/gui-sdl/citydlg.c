@@ -402,7 +402,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     unsellect_widget_action();
     disable_city_dlg_widgets();
   
-    pUType = unit_type(pUnit);
+    pUType = unit_type_get(pUnit);
   
     /* window */
     fc_snprintf(cBuf, sizeof(cBuf), "%s:", _("Unit commands"));
@@ -701,7 +701,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   unit_list_iterate(pList, pUnit) {
     const char *vetname;
 
-    pUType = unit_type(pUnit);
+    pUType = unit_type_get(pUnit);
     vetname = utype_veteran_name_translation(pUType, pUnit->veteran);
     pHome_City = game_city_by_number(pUnit->homecity);
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",

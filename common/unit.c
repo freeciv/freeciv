@@ -203,7 +203,7 @@ bool unit_can_help_build_wonder_here(const struct unit *punit)
     return FALSE;
   }
 
-  if (!utype_can_do_action(unit_type(punit), ACTION_HELP_WONDER)) {
+  if (!utype_can_do_action(unit_type_get(punit), ACTION_HELP_WONDER)) {
     /* This unit can never do help wonder. */
     return FALSE;
   }
@@ -223,7 +223,7 @@ bool unit_can_est_trade_route_here(const struct unit *punit)
 {
   struct city *phomecity, *pdestcity;
 
-  return (utype_can_do_action(unit_type(punit), ACTION_TRADE_ROUTE)
+  return (utype_can_do_action(unit_type_get(punit), ACTION_TRADE_ROUTE)
           && (pdestcity = tile_city(unit_tile(punit)))
           && (phomecity = game_city_by_number(punit->homecity))
           && can_cities_trade(phomecity, pdestcity));
@@ -234,7 +234,7 @@ bool unit_can_est_trade_route_here(const struct unit *punit)
 **************************************************************************/
 int get_transporter_capacity(const struct unit *punit)
 {
-  return unit_type(punit)->transport_capacity;
+  return unit_type_get(punit)->transport_capacity;
 }
 
 /**************************************************************************
@@ -242,7 +242,7 @@ int get_transporter_capacity(const struct unit *punit)
 **************************************************************************/
 bool is_attack_unit(const struct unit *punit)
 {
-  return (unit_type(punit)->attack_strength > 0);
+  return (unit_type_get(punit)->attack_strength > 0);
 }
 
 /**************************************************************************
@@ -271,7 +271,7 @@ bool is_diplomat_unit(const struct unit *punit)
 bool unit_can_do_action(const struct unit *punit,
                         const int action_id)
 {
-  return utype_can_do_action(unit_type(punit), action_id);
+  return utype_can_do_action(unit_type_get(punit), action_id);
 }
 
 /**************************************************************************
@@ -285,10 +285,10 @@ bool is_square_threatened(const struct player *pplayer,
       if ((omniscient
            || can_player_see_unit(pplayer, punit))
           && pplayers_at_war(pplayer, unit_owner(punit))
-          && (utype_acts_hostile(unit_type(punit))
+          && (utype_acts_hostile(unit_type_get(punit))
               || (is_military_unit(punit) && is_attack_unit(punit)))
-          && (is_native_tile(unit_type(punit), ptile)
-              || (can_attack_non_native(unit_type(punit))
+          && (is_native_tile(unit_type_get(punit), ptile)
+              || (can_attack_non_native(unit_type_get(punit))
                   && is_native_near_tile(unit_class(punit), ptile)))) {
 	return TRUE;
       }
@@ -465,7 +465,7 @@ int get_activity_rate(const struct unit *punit)
 
   fc_assert_ret_val(punit != NULL, 0);
 
-  vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
+  vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
   fc_assert_ret_val(vlevel != NULL, 0);
 
   /* The speed of the settler depends on its base move_rate, not on
@@ -473,7 +473,7 @@ int get_activity_rate(const struct unit *punit)
    * This means sea formers won't have their activity rate increased by
    * Magellan's, and it means injured units work just as fast as
    * uninjured ones.  Note the value is never less than SINGLE_MOVE. */
-  int move_rate = unit_type(punit)->move_rate;
+  int move_rate = unit_type_get(punit)->move_rate;
 
   /* All settler actions are multiplied by ACTIVITY_COUNT. */
   return ACTIVITY_FACTOR
@@ -678,9 +678,9 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Un-embarkable transport must be in city or base to load cargo. */
-  if (!utype_can_freely_load(unit_type(pcargo), unit_type(ptrans))
+  if (!utype_can_freely_load(unit_type_get(pcargo), unit_type_get(ptrans))
       && !tile_city(unit_tile(ptrans))
-      && !tile_has_native_base(unit_tile(ptrans), unit_type(ptrans))) {
+      && !tile_has_native_base(unit_tile(ptrans), unit_type_get(ptrans))) {
     return FALSE;
   }
 
@@ -746,9 +746,9 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Un-disembarkable transport must be in city or base to unload cargo. */
-  if (!utype_can_freely_unload(unit_type(pcargo), unit_type(ptrans))
+  if (!utype_can_freely_unload(unit_type_get(pcargo), unit_type_get(ptrans))
       && !tile_city(unit_tile(ptrans))
-      && !tile_has_native_base(unit_tile(ptrans), unit_type(ptrans))) {
+      && !tile_has_native_base(unit_tile(ptrans), unit_type_get(ptrans))) {
     return FALSE;
   }
 
@@ -770,7 +770,7 @@ bool can_unit_paradrop(const struct unit *punit)
   if(punit->paradropped)
     return FALSE;
 
-  utype = unit_type(punit);
+  utype = unit_type_get(punit);
 
   if(punit->moves_left < utype->paratroopers_mr_req)
     return FALSE;
@@ -1170,7 +1170,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_EXPLORE:
-    return (!unit_type(punit)->fuel && !is_losing_hp(punit));
+    return (!unit_type_get(punit)->fuel && !is_losing_hp(punit));
 
   case ACTIVITY_TRANSFORM:
     return (pterrain->transform_result != T_NONE
@@ -1341,9 +1341,10 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
 
   switch (punit->activity) {
   case ACTIVITY_IDLE:
-    if (utype_fuel(unit_type(punit))) {
+    if (utype_fuel(unit_type_get(punit))) {
       int rate, f;
-      rate = unit_type(punit)->move_rate;
+
+      rate = unit_type_get(punit)->move_rate;
       f = ((punit->fuel) - 1);
 
       /* Add in two parts as move_points_text() returns ptr to static
@@ -1644,7 +1645,7 @@ bool unit_being_aggressive(const struct unit *punit)
     }
   }
   if (tile_has_base_flag_for_unit(unit_tile(punit),
-                                  unit_type(punit),
+                                  unit_type_get(punit),
                                   BF_NOT_AGGRESSIVE)) {
     return !is_unit_near_a_friendly_city (punit);
   }
@@ -1745,8 +1746,8 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   max_vet_lvl = utype_veteran_levels(punittype) - 1;
   punit->veteran = MIN(veteran_level, max_vet_lvl);
   /* A unit new and fresh ... */
-  punit->fuel = utype_fuel(unit_type(punit));
-  punit->hp = unit_type(punit)->hp;
+  punit->fuel = utype_fuel(unit_type_get(punit));
+  punit->hp = unit_type_get(punit)->hp;
   punit->moves_left = unit_move_rate(punit);
   punit->moved = FALSE;
 
@@ -1912,8 +1913,8 @@ static struct unit *base_transporter_for_unit(const struct unit *pcargo,
     /* Else, transports from which the cargo could unload at any time
      * are preferable to those where the cargo can only disembark in
      * cities/bases. */
-    cur.can_freely_unload = utype_can_freely_unload(unit_type(pcargo),
-                                                    unit_type(ptrans));
+    cur.can_freely_unload = utype_can_freely_unload(unit_type_get(pcargo),
+                                                    unit_type_get(ptrans));
     if (best_trans != ptrans) {
       if (cur.can_freely_unload && !best.can_freely_unload) {
         best_trans = ptrans;
@@ -2018,7 +2019,8 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
                                            bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
-  struct unit_type *to_unittype = can_upgrade_unittype(pplayer, unit_type(punit));
+  struct unit_type *to_unittype = can_upgrade_unittype(pplayer,
+                                                       unit_type_get(punit));
   struct city *pcity;
   int cost;
 
@@ -2027,7 +2029,7 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
   }
 
   if (!is_free) {
-    cost = unit_upgrade_price(pplayer, unit_type(punit), to_unittype);
+    cost = unit_upgrade_price(pplayer, unit_type_get(punit), to_unittype);
     if (pplayer->economic.gold < cost) {
       return UU_NO_MONEY;
     }
@@ -2061,7 +2063,7 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
 **************************************************************************/
 bool unit_can_convert(const struct unit *punit)
 {
-  struct unit_type *tgt = unit_type(punit)->converted_to;
+  struct unit_type *tgt = unit_type_get(punit)->converted_to;
 
   if (tgt == NULL) {
     return FALSE;
@@ -2088,9 +2090,9 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   enum unit_upgrade_result result = unit_upgrade_test(punit, FALSE);
   int upgrade_cost;
-  struct unit_type *from_unittype = unit_type(punit);
+  struct unit_type *from_unittype = unit_type_get(punit);
   struct unit_type *to_unittype = can_upgrade_unittype(pplayer,
-                                                       unit_type(punit));
+                                                       unit_type_get(punit));
   char tbuf[MAX_LEN_MSG];
 
   fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
@@ -2152,7 +2154,7 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
 **************************************************************************/
 bool is_losing_hp(const struct unit *punit)
 {
-  struct unit_type *punittype = unit_type(punit);
+  struct unit_type *punittype = unit_type_get(punit);
 
   return get_unit_bonus(punit, EFT_UNIT_RECOVER)
     < (punittype->hp *
@@ -2232,7 +2234,7 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
 
   fc_assert_ret_val(punit != NULL, 0);
 
-  default_hp = unit_type(punit)->hp;
+  default_hp = unit_type_get(punit)->hp;
   cost = unit_owner(punit)->economic.gold + game.info.base_bribe_cost;
   capital = player_capital(unit_owner(punit));
 
@@ -2253,18 +2255,20 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
            * get_target_bonus_effects(NULL, unit_owner(punit), briber,
                                       game_city_by_number(punit->homecity),
                                       NULL, unit_tile(punit),
-                                      punit, unit_type(punit), NULL, NULL,
+                                      punit, unit_type_get(punit), NULL, NULL,
                                       EFT_UNIT_BRIBE_COST_PCT))
        / 100;
 
   /* Veterans are not cheap. */
   {
+    struct unit_type *ptype = unit_type_get(punit);
     const struct veteran_level *vlevel
-      = utype_veteran_level(unit_type(punit), punit->veteran);
+      = utype_veteran_level(ptype, punit->veteran);
+
     fc_assert_ret_val(vlevel != NULL, 0);
     cost = cost * vlevel->power_fact / 100;
-    if (unit_type(punit)->move_rate > 0) {
-      cost += cost * vlevel->move_bonus / unit_type(punit)->move_rate;
+    if (ptype->move_rate > 0) {
+      cost += cost * vlevel->move_bonus / ptype->move_rate;
     } else {
       cost += cost * vlevel->move_bonus / SINGLE_MOVE;
     }
@@ -2389,32 +2393,32 @@ unit_transport_check_one(const struct unit_type *cargo_utype,
 bool unit_transport_check(const struct unit *pcargo,
                           const struct unit *ptrans)
 {
-  const struct unit_type *cargo_utype = unit_type(pcargo);
+  const struct unit_type *cargo_utype = unit_type_get(pcargo);
 
   /* Check 'pcargo' against 'ptrans'. */
-  if (!unit_transport_check_one(cargo_utype, unit_type(ptrans))) {
+  if (!unit_transport_check_one(cargo_utype, unit_type_get(ptrans))) {
     return FALSE;
   }
 
   /* Check 'pcargo' against 'ptrans' parents. */
   unit_transports_iterate(ptrans, pparent) {
-    if (!unit_transport_check_one(cargo_utype, unit_type(pparent))) {
+    if (!unit_transport_check_one(cargo_utype, unit_type_get(pparent))) {
       return FALSE;
     }
   } unit_transports_iterate_end;
 
   /* Check cargo children... */
   unit_cargo_iterate(pcargo, pchild) {
-    cargo_utype = unit_type(pchild);
+    cargo_utype = unit_type_get(pchild);
 
     /* ...against 'ptrans'. */
-    if (!unit_transport_check_one(cargo_utype, unit_type(ptrans))) {
+    if (!unit_transport_check_one(cargo_utype, unit_type_get(ptrans))) {
       return FALSE;
     }
 
     /* ...and against 'ptrans' parents. */
     unit_transports_iterate(ptrans, pparent) {
-      if (!unit_transport_check_one(cargo_utype, unit_type(pparent))) {
+      if (!unit_transport_check_one(cargo_utype, unit_type_get(pparent))) {
         return FALSE;
       }
     } unit_transports_iterate_end;
@@ -2546,5 +2550,5 @@ struct iterator *cargo_iter_init(struct cargo_iter *iter,
 ****************************************************************************/
 bool unit_is_cityfounder(const struct unit *punit)
 {
-  return utype_is_cityfounder(unit_type(punit));
+  return utype_is_cityfounder(unit_type_get(punit));
 }

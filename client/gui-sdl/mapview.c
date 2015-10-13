@@ -545,7 +545,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	right = FALSE;
       }
 
-      vetname = utype_veteran_name_translation(unit_type(pUnit), pUnit->veteran);
+      vetname = utype_veteran_name_translation(unit_type_get(pUnit),
+                                               pUnit->veteran);
       if (vetname != NULL) {
         copy_chars_to_string16(pStr, vetname);
         change_ptsize16(pStr, adj_font(10));
@@ -721,7 +722,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       FREESURFACE(pName);
       
       /* draw unit sprite */
-      pTmpSurf = ResizeSurfaceBox(get_unittype_surface(unit_type(pUnit), pUnit->facing),
+      pTmpSurf = ResizeSurfaceBox(get_unittype_surface(unit_type_get(pUnit),
+                                                       pUnit->facing),
                                   adj_size(80), adj_size(80), 1, TRUE, TRUE);
       pBuf_Surf = blend_surface(pTmpSurf, 32);
       FREESURFACE(pTmpSurf);
@@ -783,7 +785,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             continue;
 	  }
 
-          pUType = unit_type(aunit);
+          pUType = unit_type_get(aunit);
           vetname = utype_veteran_name_translation(pUType, aunit->veteran);
           pHome_City = game_city_by_number(aunit->homecity);
           fc_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",

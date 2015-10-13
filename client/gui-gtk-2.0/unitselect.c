@@ -841,7 +841,7 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
                      0, pix,                            /* Unit pixmap */
                      1, buf,                            /* Text */
                      2, 1,                              /* Number of units */
-                     3, utype_index(unit_type(punit)),  /* Unit type ID */
+                     3, utype_index(unit_type_get(punit)), /* Unit type ID */
                      4, punit->id,                      /* Unit ID */
                      5, loc,                            /* Unit location */
                      6, act,                            /* Unit activity */

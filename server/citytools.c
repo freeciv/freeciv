@@ -602,7 +602,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
     struct city *in_city = tile_city(utile);
 
     if (utype_player_already_has_this_unique(to_player,
-                                             unit_type(punit))) {
+                                             unit_type_get(punit))) {
       /* This is a unique unit that to_player already has. A transfer would
        * break the rule that a player only may have one unit of each unique
        * unit type. */
@@ -612,7 +612,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
                 unit_rule_name(punit),
                 nation_rule_name(nation_of_player(from_player)));
 
-      if (utype_has_flag(unit_type(punit), UTYF_GAMELOSS)) {
+      if (utype_has_flag(unit_type_get(punit), UTYF_GAMELOSS)) {
         /* Try to save game loss units. */
         bounce_unit(punit, verbose);
       } else {
@@ -1616,7 +1616,7 @@ void remove_city(struct city *pcity)
   /* make sure ships are not left on land when city is removed. */
   unit_list_iterate_safe(pcenter->units, punit) {
     bool moved;
-    struct unit_type *punittype = unit_type(punit);
+    struct unit_type *punittype = unit_type_get(punit);
 
     if (is_native_tile(punittype, pcenter)) {
       continue;
@@ -2714,7 +2714,7 @@ void city_units_upkeep(const struct city *pcity)
 
   /* save the upkeep for all units in the corresponding punit struct */
   unit_list_iterate(pcity->units_supported, punit) {
-    ut = unit_type(punit);
+    ut = unit_type_get(punit);
     plr = unit_owner(punit);
     update = FALSE;
 

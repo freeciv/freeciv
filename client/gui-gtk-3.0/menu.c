@@ -1060,7 +1060,7 @@ static void build_city_callback(GtkAction *action, gpointer data)
        get an eventual error message from the server if we try. */
     if (unit_can_add_or_build_city(punit)) {
       request_unit_build_city(punit);
-    } else if (utype_can_do_action(unit_type(punit),
+    } else if (utype_can_do_action(unit_type_get(punit),
                                    ACTION_HELP_WONDER)) {
       request_unit_caravan_action(punit, ACTION_HELP_WONDER);
     }
@@ -2080,12 +2080,12 @@ void real_menus_update(void)
         if (unit_tile(punit) != ptile) {
           units_all_same_tile = FALSE;
         }
-        if (unit_type(punit) != ptype) {
+        if (unit_type_get(punit) != ptype) {
           units_all_same_type = FALSE;
         }
       } else {
         ptile = unit_tile(punit);
-        ptype = unit_type(punit);
+        ptype = unit_type_get(punit);
       }
     } unit_list_iterate_end;
   }
@@ -2340,12 +2340,13 @@ void real_menus_update(void)
   if (units_all_same_type) {
     struct unit *punit = unit_list_get(punits, 0);
     struct unit_type *to_unittype =
-      can_upgrade_unittype(client_player(), unit_type(punit));
+      can_upgrade_unittype(client_player(), unit_type_get(punit));
     if (to_unittype) {
       /* TRANS: %s is a unit type. */
       fc_snprintf(acttext, sizeof(acttext), _("Upgr_ade to %s"),
                   utype_name_translation(
-                    can_upgrade_unittype(client_player(), unit_type(punit))));
+                    can_upgrade_unittype(client_player(),
+                                         unit_type_get(punit))));
     } else {
       acttext[0] = '\0';
     }
@@ -2364,7 +2365,7 @@ void real_menus_update(void)
       struct unit *punit = unit_list_get(punits, 0);
       /* TRANS: %s is a unit type. */
       fc_snprintf(acttext, sizeof(acttext), _("C_onvert to %s"),
-                  utype_name_translation(unit_type(punit)->converted_to));
+                  utype_name_translation(unit_type_get(punit)->converted_to));
     } else {
       acttext[0] = '\0';
     }

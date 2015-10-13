@@ -74,7 +74,7 @@ static bool is_unit_reachable_by_unit(const struct unit *defender,
                                       const struct unit *attacker)
 {
   struct unit_class *dclass = unit_class(defender);
-  struct unit_type *atype = unit_type(attacker);
+  struct unit_type *atype = unit_type_get(attacker);
 
   return BV_ISSET(atype->targets, uclass_index(dclass));
 }
@@ -94,7 +94,7 @@ bool is_unit_reachable_at(const struct unit *defender,
     return TRUE;
   }
 
-  if (tile_has_native_base(location, unit_type(defender))) {
+  if (tile_has_native_base(location, unit_type_get(defender))) {
     return TRUE;
   }
 
@@ -133,15 +133,15 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
   }
 
   /* 3. Can't attack with ground unit from ocean, except for marines */
-  if (!is_native_tile(unit_type(punit), unit_tile(punit))
-      && !can_attack_from_non_native(unit_type(punit))) {
+  if (!is_native_tile(unit_type_get(punit), unit_tile(punit))
+      && !can_attack_from_non_native(unit_type_get(punit))) {
     return ATT_NONNATIVE_SRC;
   }
 
   /* 4. Most units can not attack non-native terrain.
    *    Most ships can attack land tiles (shore bombardment) */
-  if (!is_native_tile(unit_type(punit), dest_tile)
-      && !can_attack_non_native(unit_type(punit))) {
+  if (!is_native_tile(unit_type_get(punit), dest_tile)
+      && !can_attack_non_native(unit_type_get(punit))) {
     return ATT_NONNATIVE_DST;
   }
 
@@ -320,8 +320,8 @@ void get_modified_firepower(const struct unit *attacker,
 {
   struct city *pcity = tile_city(unit_tile(defender));
 
-  *att_fp = unit_type(attacker)->firepower;
-  *def_fp = unit_type(defender)->firepower;
+  *att_fp = unit_type_get(attacker)->firepower;
+  *def_fp = unit_type_get(defender)->firepower;
 
   /* Check CityBuster flag */
   if (unit_has_type_flag(attacker, UTYF_CITYBUSTER) && pcity) {
@@ -335,7 +335,7 @@ void get_modified_firepower(const struct unit *attacker,
    */
   if (unit_has_type_flag(attacker, UTYF_BADWALLATTACKER)
       && get_unittype_bonus(unit_owner(defender), unit_tile(defender),
-                            unit_type(attacker), EFT_DEFEND_BONUS) > 0) {
+                            unit_type_get(attacker), EFT_DEFEND_BONUS) > 0) {
     *att_fp = 1;
   }
 
@@ -351,14 +351,15 @@ void get_modified_firepower(const struct unit *attacker,
    * When attacked by fighters, helicopters have their firepower
    * reduced to 1.
    */
-  if (combat_bonus_against(unit_type(attacker)->bonuses, unit_type(defender),
+  if (combat_bonus_against(unit_type_get(attacker)->bonuses,
+                           unit_type_get(defender),
                            CBONUS_FIREPOWER1)) {
     *def_fp = 1;
   }
 
   /* In land bombardment both units have their firepower reduced to 1 */
-  if (!is_native_tile(unit_type(attacker), unit_tile(defender))
-      && !can_exist_at_tile(unit_type(defender), unit_tile(attacker))) {
+  if (!is_native_tile(unit_type_get(attacker), unit_tile(defender))
+      && !can_exist_at_tile(unit_type_get(defender), unit_tile(attacker))) {
     *att_fp = 1;
     *def_fp = 1;
   }
@@ -411,7 +412,7 @@ struct city *sdi_try_defend(const struct player *owner,
 **************************************************************************/
 int get_attack_power(const struct unit *punit)
 {
-  return base_get_attack_power(unit_type(punit), punit->veteran,
+  return base_get_attack_power(unit_type_get(punit), punit->veteran,
 			       punit->moves_left);
 }
 
@@ -449,10 +450,10 @@ int base_get_defense_power(const struct unit *punit)
 
   fc_assert_ret_val(punit != NULL, 0);
 
-  vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
+  vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
   fc_assert_ret_val(vlevel != NULL, 0);
 
-  return unit_type(punit)->defense_strength * POWER_FACTOR
+  return unit_type_get(punit)->defense_strength * POWER_FACTOR
          * vlevel->power_fact / 100;
 }
 
@@ -591,7 +592,8 @@ int get_virtual_defense_power(const struct unit_type *att_type,
 int get_total_defense_power(const struct unit *attacker,
 			    const struct unit *defender)
 {
-  return defense_multiplication(unit_type(attacker), unit_type(defender),
+  return defense_multiplication(unit_type_get(attacker),
+                                unit_type_get(defender),
                                 unit_owner(defender), unit_tile(defender),
                                 get_defense_power(defender),
                                 defender->activity == ACTIVITY_FORTIFIED);
@@ -608,10 +610,10 @@ int get_fortified_defense_power(const struct unit *attacker,
   struct unit_type *att_type = NULL;
 
   if (attacker != NULL) {
-    att_type = unit_type(attacker);
+    att_type = unit_type_get(attacker);
   }
 
-  return defense_multiplication(att_type, unit_type(defender),
+  return defense_multiplication(att_type, unit_type_get(defender),
                                 unit_owner(defender), unit_tile(defender),
                                 get_defense_power(defender),
                                 TRUE);

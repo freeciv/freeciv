@@ -509,7 +509,7 @@ Unit_type_id utype_count(void);
 Unit_type_id utype_index(const struct unit_type *punittype);
 Unit_type_id utype_number(const struct unit_type *punittype);
 
-struct unit_type *unit_type(const struct unit *punit);
+struct unit_type *unit_type_get(const struct unit *punit);
 struct unit_type *utype_by_number(const Unit_type_id id);
 
 struct unit_type *unit_type_by_rule_name(const char *name);

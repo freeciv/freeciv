@@ -224,7 +224,7 @@ static void count_my_units(struct player *pplayer)
     if (uclass_has_flag(pclass, UCF_AIRLIFTABLE)) {
       adv->stats.units.airliftable++;
     }
-    if (can_upgrade_unittype(pplayer, unit_type(punit)) >= 0) {
+    if (can_upgrade_unittype(pplayer, unit_type_get(punit)) >= 0) {
       adv->stats.units.upgradeable++;
     }
   } unit_list_iterate_end;
@@ -302,7 +302,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     unit_list_iterate(aplayer->units, punit) {
       const struct unit_class *pclass = unit_class(punit);
 
-      if (unit_type(punit)->adv.igwall) {
+      if (unit_type_get(punit)->adv.igwall) {
         adv->threats.igwall = TRUE;
       }
 
@@ -315,7 +315,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
         } else if (get_transporter_capacity(punit) > 0) {
           unit_class_iterate(cargoclass) {
             if (uclass_has_flag(cargoclass, UCF_CAN_OCCUPY_CITY)
-                && can_unit_type_transport(unit_type(punit), cargoclass)) {
+                && can_unit_type_transport(unit_type_get(punit), cargoclass)) {
               /* Enemy can transport some threatening units! */
               adv->threats.invasions = TRUE;
               break;
@@ -325,7 +325,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
         /* The idea is that while our enemies don't have any offensive
          * seaborne units, we don't have to worry. Go on the offensive! */
-        if (unit_type(punit)->attack_strength > 1) {
+        if (unit_type_get(punit)->attack_strength > 1) {
 	  if (is_ocean_tile(unit_tile(punit))) {
 	    Continent_id continent = tile_continent(unit_tile(punit));
 	    adv->threats.ocean[-continent] = TRUE;
@@ -343,7 +343,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
       /* If our enemy builds missiles, worry about missile defence. */
       if (uclass_has_flag(unit_class(punit), UCF_MISSILE)
-          && unit_type(punit)->attack_strength > 1) {
+          && unit_type_get(punit)->attack_strength > 1) {
         adv->threats.missile = TRUE;
       }
 

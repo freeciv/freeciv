@@ -789,7 +789,9 @@ static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
     } city_built_iterate_end;
   } city_list_iterate_end;
   unit_list_iterate(target->units, punit) {
-    fear += ATTACK_POWER(punit);
+    struct unit_type *ptype = unit_type_get(punit);
+
+    fear += ATTACK_POWER(ptype);
 
     /* Fear enemy expansionism */
     if (unit_is_cityfounder(punit)) {
@@ -797,7 +799,9 @@ static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
     }
   } unit_list_iterate_end;
   unit_list_iterate(pplayer->units, punit) {
-    fear -= ATTACK_POWER(punit) / 2;
+    struct unit_type *ptype = unit_type_get(punit);
+
+    fear -= ATTACK_POWER(ptype) / 2;
 
     /* Our own expansionism reduces want for war */
     if (unit_is_cityfounder(punit)) {

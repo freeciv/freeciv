@@ -1090,7 +1090,7 @@ void real_units_report_dialog_update(void)
     memset(unitarray, '\0', sizeof(unitarray));
 
     unit_list_iterate(client.conn.playing->units, punit) {
-      Unit_type_id uti = utype_index(unit_type(punit));
+      Unit_type_id uti = utype_index(unit_type_get(punit));
 
       (unitarray[uti].active_count)++;
       if (punit->homecity) {

@@ -83,7 +83,7 @@ static void get_units_report_data(struct units_entry *entries,
   }
 
   unit_list_iterate(client.conn.playing->units, punit) {
-    Unit_type_id uti = utype_index(unit_type(punit));
+    Unit_type_id uti = utype_index(unit_type_get(punit));
 
     (entries[uti].active_count)++;
     (total->active_count)++;

@@ -552,7 +552,7 @@ void units_report::update_report()
     }
 
     unit_list_iterate(pplayer->units, punit) {
-      info = unit_array + utype_index(unit_type(punit));
+      info = unit_array + utype_index(unit_type_get(punit));
 
       if (0 != punit->homecity) {
         for (output = 0; output < O_LAST; output++) {
@@ -694,7 +694,7 @@ struct unit *units_report::find_nearest_unit(const struct unit_type *utype,
     }
 
     unit_list_iterate(pplayer->units, punit) {
-      if (utype == unit_type(punit)
+      if (utype == unit_type_get(punit)
           && FOCUS_AVAIL == punit->client.focus_status
           && 0 < punit->moves_left
           && !punit->done_moving && !punit->ai_controlled) {

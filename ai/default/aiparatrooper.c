@@ -66,7 +66,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
   int best = 0;
   int val;
   struct tile* best_tile = NULL;
-  int range = unit_type(punit)->paratroopers_range;
+  int range = unit_type_get(punit)->paratroopers_range;
   struct city* acity;
   struct player* pplayer = unit_owner(punit);
 
@@ -199,7 +199,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
   }
 
   /* check to recover hit points */
-  if ((punit->hp < unit_type(punit)->hp / 2) && pcity) {
+  if ((punit->hp < unit_type_get(punit)->hp / 2) && pcity) {
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Recovering hit points.");
     return;
   }
@@ -264,7 +264,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
 static int calculate_want_for_paratrooper(struct unit *punit,
 				          struct tile *ptile_city)
 {
-  struct unit_type* u_type = unit_type(punit);
+  struct unit_type* u_type = unit_type_get(punit);
   int range = u_type->paratroopers_range;
   int profit = 0;
   struct player* pplayer = unit_owner(punit);

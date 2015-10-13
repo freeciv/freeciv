@@ -2685,7 +2685,7 @@ inline void set_city_production(struct city *pcity)
 int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 {
   struct city *pcity = game_city_by_number(punit->homecity);
-  struct unit_type *ut = unit_type(punit);
+  struct unit_type *ut = unit_type_get(punit);
   struct player *plr = unit_owner(punit);
   int happy_cost = utype_happy_cost(ut, plr);
 

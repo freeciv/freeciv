@@ -378,21 +378,21 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     utf8_str *pstr;
     char cBuf[80];
     struct widget *pBuf, *pWindow = pCityDlg->pEndCityWidgetList;
-    struct unit *pUnit;
+    struct unit *punit;
     struct unit_type *pUType;
     Uint16 i = 0, hh = 0;
     SDL_Rect area;
 
-    pUnit = player_unit_by_number(client_player(), MAX_ID - pButton->ID);
+    punit = player_unit_by_number(client_player(), MAX_ID - pButton->ID);
 
-    if (!pUnit || !can_client_issue_orders()) {
+    if (!punit || !can_client_issue_orders()) {
       return -1;
     }
 
     if (Main.event.button.button == SDL_BUTTON_RIGHT) {
       popdown_city_dialog(pCityDlg->pCity);
-      center_tile_mapcanvas(unit_tile(pUnit));
-      unit_focus_set(pUnit);
+      center_tile_mapcanvas(unit_tile(punit));
+      unit_focus_set(punit);
       return -1;
     }
 
@@ -400,7 +400,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     unselect_widget_action();
     disable_city_dlg_widgets();
 
-    pUType = unit_type(pUnit);
+    pUType = unit_type_get(punit);
 
     /* window */
     fc_snprintf(cBuf, sizeof(cBuf), "%s:", _("Unit commands"));
@@ -416,10 +416,10 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     area = pWindow->area;
 
     /* unit description */
-    fc_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(pUnit));
+    fc_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(punit));
     pstr = create_utf8_from_char(cBuf, adj_font(12));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pBuf = create_iconlabel(adj_surf(get_unittype_surface(pUType, pUnit->facing)),
+    pBuf = create_iconlabel(adj_surf(get_unittype_surface(pUType, punit->facing)),
                             pWindow->dst, pstr, WF_FREE_THEME);
     area.w = MAX(area.w, pBuf->size.w);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -456,8 +456,8 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       hh = MAX(hh, pBuf->size.h);
       pBuf->data = pButton->data;
       pBuf->action = sentry_units_orders_city_dlg_callback;
-      if (pUnit->activity != ACTIVITY_SENTRY
-          && can_unit_do_activity(pUnit, ACTIVITY_SENTRY)) {
+      if (punit->activity != ACTIVITY_SENTRY
+          && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
         set_wstate(pBuf, FC_WS_NORMAL);
       }
       add_to_gui_list(pButton->ID, pBuf);
@@ -471,8 +471,8 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       hh = MAX(hh, pBuf->size.h);
       pBuf->data = pButton->data;
       pBuf->action = fortify_units_orders_city_dlg_callback;
-      if (pUnit->activity != ACTIVITY_FORTIFYING
-          && can_unit_do_activity(pUnit, ACTIVITY_FORTIFYING)) {
+      if (punit->activity != ACTIVITY_FORTIFYING
+          && can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
         set_wstate(pBuf, FC_WS_NORMAL);
       }
       add_to_gui_list(pButton->ID, pBuf);
@@ -492,7 +492,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     /* ----- */
 
     if (pCityDlg->page == ARMY_PAGE) {
-      if (pUnit->homecity != pCityDlg->pCity->id) {
+      if (punit->homecity != pCityDlg->pCity->id) {
         /* Make new Homecity */
         pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
                                              _("Set Home City"), adj_font(12), 0);
@@ -697,7 +697,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   unit_list_iterate(pList, pUnit) {
     const char *vetname;
 
-    pUType = unit_type(pUnit);
+    pUType = unit_type_get(pUnit);
     vetname = utype_veteran_name_translation(pUType, pUnit->veteran);
     pHome_City = game_city_by_number(pUnit->homecity);
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",

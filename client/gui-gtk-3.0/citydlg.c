@@ -2457,7 +2457,8 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     if (!can_client_issue_orders()
-	|| NULL == can_upgrade_unittype(client.conn.playing, unit_type(punit))) {
+	|| NULL == can_upgrade_unittype(client.conn.playing,
+                                        unit_type_get(punit))) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 

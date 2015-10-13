@@ -1400,7 +1400,8 @@ void present_units_callback(Widget w, XtPointer client_data,
       XtSetSensitive(XtNameToWidget(wd, "*button5"), FALSE);
     }
     if (NULL == client.conn.playing
-	|| (NULL == can_upgrade_unittype(client.conn.playing, unit_type(punit)))) {
+        || (NULL == can_upgrade_unittype(client.conn.playing,
+                                         unit_type_get(punit)))) {
       XtSetSensitive(XtNameToWidget(wd, "*button6"), FALSE);
     }
   }

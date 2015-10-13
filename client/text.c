@@ -310,7 +310,7 @@ const char *popup_info_text(struct tile *ptile)
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
       struct city *hcity = game_city_by_number(pfocus_unit->homecity);
 
-      if (utype_can_do_action(unit_type(pfocus_unit), ACTION_TRADE_ROUTE)
+      if (utype_can_do_action(unit_type_get(pfocus_unit), ACTION_TRADE_ROUTE)
 	  && can_cities_trade(hcity, pcity)
 	  && can_establish_trade_route(hcity, pcity)) {
 	/* TRANS: "Trade from Warsaw: 5" */
@@ -332,7 +332,7 @@ const char *popup_info_text(struct tile *ptile)
   }
   if (punit && !pcity) {
     struct player *owner = unit_owner(punit);
-    struct unit_type *ptype = unit_type(punit);
+    struct unit_type *ptype = unit_type_get(punit);
 
     get_full_username(username, sizeof(username), owner);
     get_full_nation(nation, sizeof(nation), owner);
@@ -499,7 +499,7 @@ const char *unit_description(struct unit *punit)
   struct city *pcity =
       player_city_by_number(owner, punit->homecity);
   struct city *pcity_near = get_nearest_city(punit, &pcity_near_dist);
-  struct unit_type *ptype = unit_type(punit);
+  struct unit_type *ptype = unit_type_get(punit);
   static struct astring str = ASTRING_INIT;
   const struct player *pplayer = client_player();
 
@@ -1110,7 +1110,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
       } else {
 	mil++;
       }
-      types_count[utype_index(unit_type(punit))]++;
+      types_count[utype_index(unit_type_get(punit))]++;
     } unit_list_iterate_end;
 
     top[0] = top[1] = top[2] = NULL;
@@ -1208,9 +1208,9 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
     unit_list_iterate(punits, punit) {
       if (unit_owner(punit) == client_player()
           && UU_OK == unit_upgrade_test(punit, FALSE)) {
-	struct unit_type *from_unittype = unit_type(punit);
+	struct unit_type *from_unittype = unit_type_get(punit);
 	struct unit_type *to_unittype = can_upgrade_unittype(client.conn.playing,
-							     unit_type(punit));
+							     from_unittype);
 	int cost = unit_upgrade_price(unit_owner(punit),
 					   from_unittype, to_unittype);
 

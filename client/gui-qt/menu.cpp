@@ -346,7 +346,7 @@ void mr_menu::unit_select(struct unit_list *punits,
   unit_focus_remove(punit_first);
   unit_list_iterate(punits, punit) {
     if (seltype == SELTYPE_SAME) {
-      types.append(unit_type(punit));
+      types.append(unit_type_get(punit));
     }
 
     ptile = unit_tile(punit);
@@ -364,7 +364,7 @@ void mr_menu::unit_select(struct unit_list *punits,
           continue;
         }
         if (seltype == SELTYPE_SAME
-            && !types.contains(unit_type(punit))) {
+            && !types.contains(unit_type_get(punit))) {
           continue;
         }
         apply_filter(punit);
@@ -374,7 +374,7 @@ void mr_menu::unit_select(struct unit_list *punits,
     unit_list_iterate(pplayer->units, punit) {
       ptile = unit_tile(punit);
       if ((seltype == SELTYPE_SAME
-           && !types.contains(unit_type(punit)))
+           && !types.contains(unit_type_get(punit)))
           || (selloc == SELLOC_CONT
               && !conts.contains(ptile->continent))) {
         continue;
@@ -971,9 +971,9 @@ void mr_menu::menus_sensitive()
       if (unit_tile(punit) != ptile) {
         units_all_same_tile = false;
       }
-      if (unit_type(punit) == ptype) {
+      if (unit_type_get(punit) == ptype) {
         ptile = unit_tile(punit);
-        ptype = unit_type(punit);
+        ptype = unit_type_get(punit);
       }
     }
   } unit_list_iterate_end;
@@ -1386,7 +1386,7 @@ void mr_menu::slot_build_city()
        get an eventual error message from the server if we try. */
     if (unit_can_add_or_build_city(punit)) {
       request_unit_build_city(punit);
-    } else if (utype_can_do_action(unit_type(punit), ACTION_HELP_WONDER)) {
+    } else if (utype_can_do_action(unit_type_get(punit), ACTION_HELP_WONDER)) {
       request_unit_caravan_action(punit, ACTION_HELP_WONDER);
     }
   } unit_list_iterate_end;

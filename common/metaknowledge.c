@@ -552,7 +552,7 @@ mke_eval_req(const struct player *pow_player,
   }
 
   if (target_unit) {
-    target_unittype = unit_type(target_unit);
+    target_unittype = unit_type_get(target_unit);
   } else {
     target_unittype = NULL;
   }

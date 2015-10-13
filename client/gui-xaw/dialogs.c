@@ -698,19 +698,24 @@ void unit_select_dialog_popup(struct tile *ptile)
 
   fill_tile_unit_list(ptile, unit_list);
 
-  for(i=0; i<n; i++) {
+  for (i = 0; i < n; i++) {
     struct unit *punit = unit_list[i];
-    struct unit_type *punittemp=unit_type(punit);
+    struct unit_type *punittemp = unit_type_get(punit);
     struct city *pcity;
     struct canvas store;
-    
-    if(!(i%r))  {
-      nargs=0;
-      if(i)  { XtSetArg(args[nargs], XtNfromHoriz, column); nargs++;}
+
+    if (!(i % r))  {
+      nargs = 0;
+      if ( i ) {
+        XtSetArg(args[nargs], XtNfromHoriz, column);
+        nargs++;
+      }
       column = XtCreateManagedWidget("column", formWidgetClass,
-				     unit_select_form,
-				     args, nargs);
-      if(!i) firstcolumn=column;
+                                     unit_select_form,
+                                     args, nargs);
+      if (!i) {
+        firstcolumn = column;
+      }
     }
 
     unit_select_ids[i]=punit->id;

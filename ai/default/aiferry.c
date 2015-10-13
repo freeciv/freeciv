@@ -161,7 +161,7 @@ bool dai_is_ferry_type(struct unit_type *pferry, struct ai_type *ait)
 **************************************************************************/
 bool dai_is_ferry(struct unit *pferry, struct ai_type *ait)
 {
-  return dai_is_ferry_type(unit_type(pferry), ait);
+  return dai_is_ferry_type(unit_type_get(pferry), ait);
 }
 
 /**************************************************************************
@@ -455,7 +455,7 @@ bool is_boat_free(struct ai_type *ait, struct unit *boat,
           && (get_transporter_capacity(boat) 
               - get_transporter_occupancy(boat) >= cap)
           && ferry_class->adv.sea_move != MOVE_NONE
-          && !unit_type(boat)->fuel
+          && !unit_type_get(boat)->fuel
           && !is_losing_hp(boat));
 }
 
@@ -547,7 +547,7 @@ int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
           /* Turns for the boat to get to the rendezvous pnt */
           int f_turns = ((pos.total_EC / PF_TURN_FACTOR * 16 
                           - aunit->moves_left) 
-                         / unit_type(aunit)->move_rate);
+                         / unit_type_get(aunit)->move_rate);
           int turns = MAX(u_turns, f_turns);
 
           if (turns < best_turns) {
@@ -1058,11 +1058,12 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
   int sanity = punit->id;
   struct unit_ai *unit_data;
   int bossid;
+  struct unit_type *ptype;
 
   CHECK_UNIT(punit);
 
   /* Try to recover hitpoints if we are in a city, before we do anything */
-  if (punit->hp < unit_type(punit)->hp 
+  if (punit->hp < unit_type_get(punit)->hp 
       && (pcity = tile_city(unit_tile(punit)))) {
     UNIT_LOG(LOGLEVEL_FERRY, punit, "waiting in %s to recover hitpoints", 
              city_name(pcity));
@@ -1180,7 +1181,9 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
 
   /* Not carrying anyone, even the ferryman */
 
-  if (IS_ATTACKER(punit) && punit->moves_left > 0) {
+  ptype = unit_type_get(punit);
+
+  if (IS_ATTACKER(ptype) && punit->moves_left > 0) {
      /* AI used to build frigates to attack and then use them as ferries 
       * -- Syela */
     dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);

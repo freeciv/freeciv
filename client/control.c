@@ -543,7 +543,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
 	  && punit->client.focus_status == FOCUS_AVAIL
 	  && punit->activity == ACTIVITY_IDLE
 	  && !unit_has_orders(punit)
-	  && (punit->moves_left > 0 || unit_type(punit)->move_rate == 0)
+	  && (punit->moves_left > 0 || unit_type_get(punit)->move_rate == 0)
 	  && !punit->done_moving
 	  && !punit->ai_controlled) {
 	return punit;
@@ -970,7 +970,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
     ptile = index_to_tile(tgt_tile_id);
 
     if (ptile && pdiplomat
-        && utype_may_act_at_all(unit_type(pdiplomat))) {
+        && utype_may_act_at_all(unit_type_get(pdiplomat))) {
       have_asked_server_for_actions = TRUE;
       dsend_packet_unit_get_actions(&client.conn,
                                     diplomat_id,
@@ -1224,7 +1224,7 @@ bool can_unit_do_connect(struct unit *punit,
       if (tile_has_road(ptile, proad)) {
         /* This tile has road, can unit build road to other tiles too? */
         return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
-                               punit, unit_type(punit), NULL, NULL,
+                               punit, unit_type_get(punit), NULL, NULL,
                                &tgt->reqs, RPT_POSSIBLE);
       }
 
@@ -1245,7 +1245,7 @@ bool can_unit_do_connect(struct unit *punit,
     }
     if (tile_has_extra(ptile, tgt)) {
       return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
-                             punit, unit_type(punit), NULL, NULL,
+                             punit, unit_type_get(punit), NULL, NULL,
                              &tgt->reqs, RPT_POSSIBLE);
     }
 
@@ -1338,7 +1338,7 @@ void request_unit_return(struct unit *punit)
 
   if ((path = path_to_nearest_allied_city(punit))) {
     int turns = pf_path_last_position(path)->turn;
-    int max_hp = unit_type(punit)->hp;
+    int max_hp = unit_type_get(punit)->hp;
 
     if (punit->hp + turns *
         (get_unit_bonus(punit, EFT_UNIT_RECOVER)
@@ -1429,7 +1429,7 @@ void request_unit_select(struct unit_list *punits,
 
   unit_list_iterate(punits, punit) {
     if (seltype == SELTYPE_SAME) {
-      unit_type_hash_insert(type_table, unit_type(punit), NULL);
+      unit_type_hash_insert(type_table, unit_type_get(punit), NULL);
     }
 
     ptile = unit_tile(punit);
@@ -1447,7 +1447,7 @@ void request_unit_select(struct unit_list *punits,
           continue;
         }
         if (seltype == SELTYPE_SAME
-            && !unit_type_hash_lookup(type_table, unit_type(punit), NULL)) {
+            && !unit_type_hash_lookup(type_table, unit_type_get(punit), NULL)) {
           continue;
         }
         unit_focus_add(punit);
@@ -1457,7 +1457,7 @@ void request_unit_select(struct unit_list *punits,
     unit_list_iterate(pplayer->units, punit) {
       ptile = unit_tile(punit);
       if ((seltype == SELTYPE_SAME
-           && !unit_type_hash_lookup(type_table, unit_type(punit), NULL))
+           && !unit_type_hash_lookup(type_table, unit_type_get(punit), NULL))
           || (selloc == SELLOC_CONT
               && !continent_hash_lookup(cont_table, tile_continent(ptile),
                                         NULL))) {
@@ -2249,8 +2249,8 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   if (!was_teleported
       && punit->activity != ACTIVITY_SENTRY
       && !unit_transported(punit)) {
-    audio_play_sound(unit_type(punit)->sound_move,
-                     unit_type(punit)->sound_move_alt);
+    audio_play_sound(unit_type_get(punit)->sound_move,
+                     unit_type_get(punit)->sound_move_alt);
   }
 
   if (unit_owner(punit) == client.conn.playing
@@ -2455,7 +2455,7 @@ static struct unit *quickselect(struct tile *ptile,
       }
     }
     /* Any sea, pref. moves left. */
-    else if (utype_move_type(unit_type(punit)) == UMT_SEA) {
+    else if (utype_move_type(unit_type_get(punit)) == UMT_SEA) {
       if (punit->moves_left > 0) {
         if (!panymovesea) {
           panymovesea = punit;
@@ -2465,7 +2465,7 @@ static struct unit *quickselect(struct tile *ptile,
       }
     }
   } else if (qtype == SELECT_LAND) {
-    if (utype_move_type(unit_type(punit)) == UMT_LAND) {
+    if (utype_move_type(unit_type_get(punit)) == UMT_LAND) {
       if (punit->moves_left > 0) {
         if (is_military_unit(punit)) {
           return punit;
@@ -2476,7 +2476,7 @@ static struct unit *quickselect(struct tile *ptile,
         panyland = punit;
       }
     }
-    else if (utype_move_type(unit_type(punit)) == UMT_SEA) {
+    else if (utype_move_type(unit_type_get(punit)) == UMT_SEA) {
       if (punit->moves_left > 0) {
         panymovesea = punit;
       } else {
@@ -2781,8 +2781,9 @@ void key_unit_connect(enum unit_activity activity,
 void key_unit_diplomat_actions(void)
 {
   struct tile *ptile;
+
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (utype_may_act_at_all(unit_type(punit))
+    if (utype_may_act_at_all(unit_type_get(punit))
         && (ptile = unit_tile(punit))) {
       process_diplomat_arrival(punit, ptile->index);
       return;

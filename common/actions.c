@@ -736,7 +736,7 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit),
-                           actor_unit, unit_type(actor_unit),
+                           actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            city_owner(target_city), target_city, NULL,
                            city_tile(target_city), NULL, NULL, NULL, NULL);
@@ -774,12 +774,12 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
                            unit_tile(actor_unit),
-                           actor_unit, unit_type(actor_unit),
+                           actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            unit_owner(target_unit),
                            tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit),
-                           target_unit, unit_type(target_unit),
+                           target_unit, unit_type_get(target_unit),
                            NULL, NULL);
 }
 
@@ -951,9 +951,9 @@ static action_probability ap_dipl_battle_win(const struct unit *pattacker,
   /* Veteran attack and defense bonus */
   {
     const struct veteran_level *vatt =
-        utype_veteran_level(unit_type(pattacker), pattacker->veteran);
+        utype_veteran_level(unit_type_get(pattacker), pattacker->veteran);
     const struct veteran_level *vdef =
-        utype_veteran_level(unit_type(pdefender), pdefender->veteran);
+        utype_veteran_level(unit_type_get(pdefender), pdefender->veteran);
 
     chance += vatt->power_fact - vdef->power_fact;
   }
@@ -970,7 +970,7 @@ static action_probability ap_dipl_battle_win(const struct unit *pattacker,
     chance -= chance * get_city_bonus(tile_city(pdefender->tile),
                                       EFT_SPY_RESISTANT) / 100;
   } else {
-    if (tile_has_base_flag_for_unit(pdefender->tile, unit_type(pdefender),
+    if (tile_has_base_flag_for_unit(pdefender->tile, unit_type_get(pdefender),
                                     BF_DIPLOMAT_DEFENSE)) {
       chance -= chance * 25 / 100;
     }
@@ -1051,13 +1051,13 @@ action_prob(const enum gen_action wanted_action,
   if (actor_unit == NULL) {
     actor_unittype = NULL;
   } else {
-    actor_unittype = unit_type(actor_unit);
+    actor_unittype = unit_type_get(actor_unit);
   }
 
   if (target_unit == NULL) {
     target_unittype = NULL;
   } else {
-    target_unittype = unit_type(target_unit);
+    target_unittype = unit_type_get(target_unit);
   }
 
   if (!is_action_possible(wanted_action,

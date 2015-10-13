@@ -140,7 +140,7 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
   /* Cost of our unit */
   unit_cost = unit_build_shield_cost(punit);
   /* This is to say "wait, ill unit will get better!" */
-  unit_cost = unit_cost * unit_type(punit)->hp / punit->hp; 
+  unit_cost = unit_cost * unit_type_get(punit)->hp / punit->hp; 
 
   /* Determine cost of enemy units */
   victim_cost = stack_cost(punit, pdefender);
@@ -158,7 +158,7 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
 
   victim_defence = PROB_MULTIPLIER - unit_attack;
 
-  balanced_cost = build_cost_balanced(unit_type(punit));
+  balanced_cost = build_cost_balanced(unit_type_get(punit));
 
   sortie_time = (unit_has_type_flag(punit, UTYF_ONEATTACK) ? 1 : 0);
 
@@ -286,7 +286,7 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
       pvirtual =
         unit_virtual_create(pplayer,
                             player_city_by_number(pplayer, punit->homecity),
-                            unit_type(punit), punit->veteran);
+                            unit_type_get(punit), punit->veteran);
     }
 
     unit_tile_set(pvirtual, ptile);
@@ -374,7 +374,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
       return;
     }
 
-  } else if (punit->fuel == unit_type(punit)->fuel) {
+  } else if (punit->fuel == unit_type_get(punit)->fuel) {
     /* We only leave a refuel point when we are on full fuel */
 
     if (find_something_to_bomb(ait, punit, &path, &dst_tile) > 0) {

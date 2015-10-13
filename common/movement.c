@@ -88,7 +88,7 @@ int unit_move_rate(const struct unit *punit)
 {
   fc_assert_ret_val(NULL != punit, 0);
 
-  return utype_move_rate(unit_type(punit), unit_tile(punit),
+  return utype_move_rate(unit_type_get(punit), unit_tile(punit),
                          unit_owner(punit), punit->veteran, punit->hp);
 }
 
@@ -258,7 +258,7 @@ bool can_exist_at_tile(const struct unit_type *utype,
 bool can_unit_exist_at_tile(const struct unit *punit,
                             const struct tile *ptile)
 {
-  return can_exist_at_tile(unit_type(punit), ptile);
+  return can_exist_at_tile(unit_type_get(punit), ptile);
 }
 
 /****************************************************************************
@@ -429,12 +429,12 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     return TRUE;
   }
 
-  if (tile_has_refuel_extra(ptile, unit_type(punit))) {
+  if (tile_has_refuel_extra(ptile, unit_type_get(punit))) {
     /* Unit can always survive at refueling base */
     return TRUE;
   }
 
-  if (utype_fuel(unit_type(punit))) {
+  if (utype_fuel(unit_type_get(punit))) {
     /* Unit requires fuel and this is not refueling tile */
     return FALSE;
   }
@@ -492,7 +492,7 @@ static bool zoc_ok_move_gen(const struct unit *punit,
                             const struct tile *src_tile,
                             const struct tile *dst_tile)
 {
-  return can_step_taken_wrt_to_zoc(unit_type(punit), unit_owner(punit),
+  return can_step_taken_wrt_to_zoc(unit_type_get(punit), unit_owner(punit),
 				   src_tile, dst_tile);
 }
 
@@ -554,7 +554,7 @@ unit_move_to_tile_test(const struct unit *punit,
 {
   bool zoc;
   struct city *pcity;
-  const struct unit_type *punittype = unit_type(punit);
+  const struct unit_type *punittype = unit_type_get(punit);
   const struct player *puowner = unit_owner(punit);
 
   /* 1) */
@@ -670,7 +670,8 @@ bool can_unit_transport(const struct unit *transporter,
   fc_assert_ret_val(transporter != NULL, FALSE);
   fc_assert_ret_val(transported != NULL, FALSE);
 
-  return can_unit_type_transport(unit_type(transporter), unit_class(transported));
+  return can_unit_type_transport(unit_type_get(transporter),
+                                 unit_class(transported));
 }
 
 /**************************************************************************

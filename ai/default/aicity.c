@@ -405,18 +405,21 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
 
   unit_list_iterate(pcity->tile->units, punit) {
     if (pcity->owner == punit->owner) {
-      /* Only upgrade units you own, not allied ones */
-      struct unit_type *punittype = can_upgrade_unittype(pplayer, unit_type(punit));
+      struct unit_type *old_type = unit_type_get(punit);
 
-      if (military && !IS_ATTACKER(punit)) {
+      /* Only upgrade units you own, not allied ones */
+      struct unit_type *punittype = can_upgrade_unittype(pplayer, old_type);
+
+      if (military && !IS_ATTACKER(old_type)) {
         /* Only upgrade military units this round */
         continue;
-      } else if (!military && IS_ATTACKER(punit)) {
+      } else if (!military && IS_ATTACKER(old_type)) {
         /* Only civilians or tranports this round */
         continue;
       }
+
       if (punittype) {
-        int cost = unit_upgrade_price(pplayer, unit_type(punit), punittype);
+        int cost = unit_upgrade_price(pplayer, old_type, punittype);
         int real_limit = limit;
 
         /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
@@ -614,7 +617,8 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
 static int unit_food_upkeep(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  int upkeep = utype_upkeep_cost(unit_type(punit), pplayer, O_FOOD);
+  int upkeep = utype_upkeep_cost(unit_type_get(punit), pplayer, O_FOOD);
+
   if (punit->id != 0 && punit->homecity == 0)
     upkeep = 0; /* thanks, Peter */
 
@@ -632,7 +636,7 @@ static int unit_food_upkeep(struct unit *punit)
 **************************************************************************/
 static int unit_foodbox_cost(struct unit *punit)
 {
-  int pop_cost = unit_type(punit)->pop_cost;
+  int pop_cost = unit_type_get(punit)->pop_cost;
 
   if (pop_cost <= 0) {
     return 0;
@@ -701,7 +705,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   want = settler_evaluate_improvements(virtualunit, &best_act, &best_target,
                                        &best_tile,
                                        NULL, NULL);
-  if (unit_type(virtualunit)->pop_cost >= city_size_get(pcity)) {
+  if (unit_type_get(virtualunit)->pop_cost >= city_size_get(pcity)) {
     /* We don't like disbanding the city as a side effect */
     unit_virtual_destroy(virtualunit);
 
@@ -922,7 +926,7 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
 
   unit_list_iterate_safe(pcity->units_supported, punit) {
     if (city_unhappy(pcity)
-        && (utype_happy_cost(unit_type(punit), pplayer) > 0
+        && (utype_happy_cost(unit_type_get(punit), pplayer) > 0
             && (unit_being_aggressive(punit) || is_field_unit(punit)))
         && def_ai_unit_data(punit, ait)->passenger == 0) {
       UNIT_LOG(LOG_EMERGENCY, punit, "is causing unrest, disbanded");

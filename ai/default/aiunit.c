@@ -186,14 +186,15 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
       if (pcity) {
         struct ai_city *city_data = def_ai_city_data(pcity, ait);
         struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
+        struct unit_type *ptype = unit_type_get(punit);
 
         if (city_data->urgency == 0
-            && city_data->danger - DEFENCE_POWER(punit) < comparison
+            && city_data->danger - DEFENSE_POWER(ptype) < comparison
             && unit_can_airlift_to(punit, most_needed)
-            && DEFENCE_POWER(punit) > 2
+            && DEFENSE_POWER(ptype) > 2
             && (unit_data->task == AIUNIT_NONE
                 || unit_data->task == AIUNIT_DEFEND_HOME)
-            && IS_ATTACKER(punit)) {
+            && IS_ATTACKER(ptype)) {
           comparison = city_data->danger;
           transported = punit;
         }
@@ -252,7 +253,7 @@ int build_cost_balanced(const struct unit_type *punittype)
 ****************************************************************************/
 static int unit_att_rating_now(const struct unit *punit)
 {
-  return adv_unittype_att_rating(unit_type(punit), punit->veteran,
+  return adv_unittype_att_rating(unit_type_get(punit), punit->veteran,
                                  punit->moves_left, punit->hp);
 }
 
@@ -271,9 +272,11 @@ static int unit_att_rating_sq(const struct unit *punit)
 static int unit_def_rating(const struct unit *attacker,
                            const struct unit *defender)
 {
+  struct unit_type *def_type = unit_type_get(defender);
+  
   return (get_total_defense_power(attacker, defender)
-          * (attacker->id != 0 ? defender->hp : unit_type(defender)->hp)
-          * unit_type(defender)->firepower / POWER_DIVIDER);
+          * (attacker->id != 0 ? defender->hp : def_type->hp)
+          * def_type->firepower / POWER_DIVIDER);
 }
 
 /****************************************************************************
@@ -399,14 +402,14 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
           || unit_attack_unit_at_tile_result(aunit, pdef, unit_tile(pdef)) != ATT_OK) {
         continue;
       }
-      d = get_virtual_defense_power(unit_type(aunit), unit_type(pdef),
+      d = get_virtual_defense_power(unit_type_get(aunit), unit_type_get(pdef),
                                     unit_owner(pdef), unit_tile(pdef),
                                     FALSE, 0);
       if (d == 0) {
         return TRUE;            /* Thanks, Markus -- Syela */
       }
       cur = unit_att_rating_now(aunit) *
-          get_virtual_defense_power(unit_type(punit), unit_type(pdef),
+          get_virtual_defense_power(unit_type_get(punit), unit_type_get(pdef),
                                     unit_owner(pdef), unit_tile(pdef),
                                     FALSE, 0) / d;
       if (cur > val && ai_fuzzy(unit_owner(punit), TRUE)) {
@@ -458,7 +461,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
      * cities: rampage is a hit-n-run operation. */
     if (!is_stack_vulnerable(ptile) 
         && unit_list_size(ptile->units) > 1) {
-      benefit = (benefit * punit->hp) / unit_type(punit)->hp;
+      benefit = (benefit * punit->hp) / unit_type_get(punit)->hp;
     }
 
     /* If we have non-zero attack rating... */
@@ -487,7 +490,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
 
     /* ...or tiny pleasant hut here! */
     if (tile_has_cause_extra(ptile, EC_HUT) && !is_barbarian(pplayer)
-        && is_native_tile(unit_type(punit), ptile)
+        && is_native_tile(unit_type_get(punit), ptile)
         && unit_class(punit)->hut_behavior == HUT_NORMAL) {
       return -RAMPAGE_HUT_OR_BETTER;
     }
@@ -726,16 +729,18 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
 
     /* Consider unit bodyguard. */
     unit_list_iterate(ptile->units, buddy) {
+      struct unit_type *ptype = unit_type_get(punit);
+      struct unit_type *buddy_type = unit_type_get(buddy);
+
       /* TODO: allied unit bodyguard? */
-      if (!dai_can_unit_type_follow_unit_type(unit_type(punit),
-                                              unit_type(buddy), ait)
+      if (!dai_can_unit_type_follow_unit_type(ptype, buddy_type, ait)
           || unit_owner(buddy) != pplayer
           || !aiguard_wanted(ait, buddy)
           || unit_move_rate(buddy) > unit_move_rate(punit)
-          || DEFENCE_POWER(buddy) >= DEFENCE_POWER(punit)
+          || DEFENSE_POWER(buddy_type) >= DEFENSE_POWER(ptype)
           || (is_military_unit(buddy)
               && 0 == get_transporter_capacity(buddy)
-              && ATTACK_POWER(buddy) <= ATTACK_POWER(punit))) {
+              && ATTACK_POWER(buddy_type) <= ATTACK_POWER(ptype))) {
 
         continue;
       }
@@ -829,7 +834,7 @@ bool dai_can_unit_type_follow_unit_type(struct unit_type *follower,
 static void dai_military_findjob(struct ai_type *ait,
                                  struct player *pplayer, struct unit *punit)
 {
-  struct unit_type *punittype = unit_type(punit);
+  struct unit_type *punittype = unit_type_get(punit);
   struct unit_ai *unit_data;
 
   CHECK_UNIT(punit);
@@ -885,7 +890,7 @@ static void dai_military_findjob(struct ai_type *ait,
   }
 
   TIMING_LOG(AIT_BODYGUARD, TIMER_START);
-  if (unit_role_defender(unit_type(punit))) {
+  if (unit_role_defender(unit_type_get(punit))) {
     /* This is a defending unit that doesn't need to stay put.
      * It needs to defend something, but not necessarily where it's at.
      * Therefore, it will consider becoming a bodyguard. -- Syela */
@@ -994,7 +999,7 @@ static void invasion_funct(struct ai_type *ait, struct unit *punit,
       if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
         attacks = 1;
       } else {
-        attacks = unit_type(punit)->move_rate;
+        attacks = unit_type_get(punit)->move_rate;
       }
       city_data->invasion.attack += attacks;
       if (which == INVASION_OCCUPY) {
@@ -1094,7 +1099,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   struct pf_map *punit_map, *ferry_map;
   struct pf_position pos;
   struct unit_class *punit_class = unit_class(punit);
-  struct unit_type *punit_type = unit_type(punit);
+  struct unit_type *punit_type = unit_type_get(punit);
   struct tile *punit_tile = unit_tile(punit);
   /* Type of our boat (a future one if ferryboat == NULL). */
   struct unit_type *boattype = NULL;
@@ -1177,12 +1182,16 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   /* Second, calculate in units on their way there, and mark targets for
    * invasion */
   unit_list_iterate(pplayer->units, aunit) {
+    struct unit_type *atype;
+
     if (aunit == punit) {
       continue;
     }
 
+    atype = unit_type_get(aunit);
+
     /* dealing with invasion stuff */
-    if (IS_ATTACKER(aunit)) {
+    if (IS_ATTACKER(atype)) {
       if (aunit->activity == ACTIVITY_GOTO) {
         invasion_funct(ait, aunit, TRUE, 0,
                        (unit_can_take_over(aunit)
@@ -1252,7 +1261,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   }
 
   if (NULL != ferryboat) {
-    boattype = unit_type(ferryboat);
+    boattype = unit_type_get(ferryboat);
     pft_fill_unit_overlap_param(&parameter, ferryboat);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
     ferry_map = pf_map_new(&parameter);
@@ -1479,8 +1488,8 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       }
 
       if ((unit_has_type_flag(aunit, UTYF_CIVILIAN)
-           || (utype_may_act_at_all(unit_type(aunit))
-               && !utype_acts_hostile(unit_type(aunit))))
+           || (utype_may_act_at_all(unit_type_get(aunit))
+               && !utype_acts_hostile(unit_type_get(aunit))))
           && 0 == punit->id) {
         /* We will not build units just to chase caravans and
          * ambassadors. */
@@ -1590,7 +1599,7 @@ struct city *find_nearest_safe_city(struct unit *punit)
     cur = move_cost;
 
     /* Note the unit owner may be different from the city owner. */
-    if (0 == get_unittype_bonus(unit_owner(punit), ptile, unit_type(punit),
+    if (0 == get_unittype_bonus(unit_owner(punit), ptile, unit_type_get(punit),
                                EFT_HP_REGEN)) {
       /* If we cannot regen fast our hit points here, let's make some
        * penalty. */
@@ -1783,7 +1792,7 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
   pcity = find_nearest_safe_city(punit);
   if (pcity != NULL
       && (dai_is_ferry(punit, ait)
-          || punit->hp < unit_type(punit)->hp * 0.50)) { /* WAG */
+          || punit->hp < unit_type_get(punit)->hp * 0.50)) { /* WAG */
     /* Go somewhere safe */
     UNIT_LOG(LOG_DEBUG, punit, "heading to nearest safe house.");
     (void) dai_unit_goto(ait, punit, pcity->tile);
@@ -2273,7 +2282,7 @@ static void dai_manage_hitpoint_recovery(struct ai_type *ait,
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(unit_tile(punit));
   struct city *safe = NULL;
-  struct unit_type *punittype = unit_type(punit);
+  struct unit_type *punittype = unit_type_get(punit);
 
   CHECK_UNIT(punit);
 
@@ -2339,7 +2348,7 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
    * by their transport or charge.  We do _NOT_ set them to 'done'
    * since they may need be activated once our charge moves. */
   if (unit_data->task == AIUNIT_ESCORT
-      && utype_fuel(unit_type(punit))) {
+      && utype_fuel(unit_type_get(punit))) {
     return;
   }
 
@@ -2546,7 +2555,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
     dai_manage_ferryboat(ait, pplayer, punit);
     TIMING_LOG(AIT_FERRY, TIMER_STOP);
     return;
-  } else if (utype_fuel(unit_type(punit))
+  } else if (utype_fuel(unit_type_get(punit))
              && unit_data->task != AIUNIT_ESCORT) {
     TIMING_LOG(AIT_AIRUNIT, TIMER_START);
     dai_manage_airunit(ait, pplayer, punit);
@@ -2911,7 +2920,7 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
 
   /* Calculate how well we can defend at (x,y) */
   db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-  extras_bonus += tile_extras_defense_bonus(ptile, unit_type(punit));
+  extras_bonus += tile_extras_defense_bonus(ptile, unit_type_get(punit));
 
   db += (db * extras_bonus) / 100;
   d = adv_unit_def_rating_basic_sq(punit) * db;

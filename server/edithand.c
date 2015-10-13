@@ -733,7 +733,7 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
     if (i >= count) {
       break;
     }
-    if (unit_type(punit) != punittype
+    if (unit_type_get(punit) != punittype
         || unit_owner(punit) != pplayer) {
       continue;
     }
@@ -779,7 +779,7 @@ void handle_edit_unit(struct connection *pc,
     return;
   }
 
-  putype = unit_type(punit);
+  putype = unit_type_get(punit);
 
   moves_left = CLIP(0, packet->moves_left, putype->move_rate);
   if (moves_left != punit->moves_left) {

@@ -1632,7 +1632,7 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         break;
       case OPID_UNIT_TYPE:
         {
-          const struct unit_type *putype = unit_type(punit);
+          const struct unit_type *putype = unit_type_get(punit);
 
           pv->data.v_const_string = utype_name_translation(putype);
         }
@@ -1890,7 +1890,7 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
         return FALSE;
       }
 
-      putype = unit_type(punit);
+      putype = unit_type_get(punit);
 
       switch (propid) {
       case OPID_UNIT_MOVES_LEFT:

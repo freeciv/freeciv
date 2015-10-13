@@ -226,7 +226,7 @@ int adv_unittype_att_rating(const struct unit_type *punittype, int veteran,
 ****************************************************************************/
 int adv_unit_att_rating(const struct unit *punit)
 {
-  return adv_unittype_att_rating(unit_type(punit), punit->veteran,
+  return adv_unittype_att_rating(unit_type_get(punit), punit->veteran,
                                  SINGLE_MOVE, punit->hp);
 }
 
@@ -237,7 +237,7 @@ int adv_unit_att_rating(const struct unit *punit)
 int adv_unit_def_rating_basic(const struct unit *punit)
 {
   return base_get_defense_power(punit) * punit->hp *
-    unit_type(punit)->firepower / POWER_DIVIDER;
+    unit_type_get(punit)->firepower / POWER_DIVIDER;
 }
 
 /****************************************************************************
@@ -276,7 +276,7 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
 
   /* Calculate how well we can defend at (x,y) */
   db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-  extras_bonus += tile_extras_defense_bonus(ptile, unit_type(punit));
+  extras_bonus += tile_extras_defense_bonus(ptile, unit_type_get(punit));
   db += (db * extras_bonus) / 100;
   d = adv_unit_def_rating_basic_sq(punit) * db;
 
