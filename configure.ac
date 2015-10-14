@@ -1169,6 +1169,10 @@ AC_MSG_CHECKING(for working gettimeofday)
   FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE([HAVE_GETTIMEOFDAY], [1],
 	[Define if the gettimeofday function works and is sane.]),)
 
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <netinet/in.h>]],
+[[struct ip_mreqn req; req.imr_ifindex = 0;]])],
+[AC_DEFINE([HAVE_IP_MREQN], [1], [struct ip_mreqn available])])
+
 dnl Check for extra socket libraries.
 dnl If the AC_CHECK_FUNCS check finds the function, we don't look any
 dnl further.  This is rumoured to prevent choosing the wrong libs on IRIX.
