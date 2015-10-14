@@ -1035,6 +1035,8 @@ end
 PACKET_UNIT_DIPLOMAT_WANTS_INPUT = 86; sc, dsend, lsend
   UNIT diplomat_id;
   TILE target_tile_id;
+
+  BOOL is_arrival;
 end
 
 PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend

@@ -3641,6 +3641,78 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     } players_iterate_end;
   } unit_move_data_list_iterate_rev_end;
 
+  /* Inform the owner's client about actor unit arrival. Can, depending on
+   * the client settings, cause the client to start the process that makes
+   * the action selection dialog pop up. */
+  if ((pcity = tile_city(pdesttile))) {
+    /* Arrival in a city counts. */
+
+    unit_move_data_list_iterate(plist, pmove_data) {
+      struct unit *ptrans;
+      bool ok;
+      struct unit *act_unit;
+      struct player *act_player;
+
+      act_unit = pmove_data->punit;
+      act_player = unit_owner(act_unit);
+
+      if (act_unit == NULL
+          || !unit_alive(act_unit->id)) {
+        /* The unit died before reaching this point. */
+        continue;
+      }
+
+      if (unit_tile(act_unit) != pdesttile) {
+        /* The unit didn't arrive at the destination tile. */
+        continue;
+      }
+
+      if (act_player->ai_controlled) {
+        /* The AI doesn't need reminders. */
+        continue;
+      }
+
+      if (!unit_transported(act_unit)) {
+        /* Don't show the action selection dialog again. Non transported
+         * units are handled before they move to the tile.  */
+        continue;
+      }
+
+      /* Open action dialog only if 'act_unit' and all its transporters
+       * (recursively) don't have orders. */
+      if (unit_has_orders(act_unit)) {
+        /* The unit it self has orders. */
+        continue;
+      }
+
+      for (ptrans = unit_transport_get(act_unit);;
+           ptrans = unit_transport_get(ptrans)) {
+        if (NULL == ptrans) {
+          /* No (recursive) transport has orders. */
+          ok = TRUE;
+          break;
+        } else if (unit_has_orders(ptrans)) {
+          /* A unit transporting the unit has orders */
+          ok = FALSE;
+          break;
+        }
+      }
+
+      if (!ok) {
+        /* A unit transporting act_unit has orders. */
+        continue;
+      }
+
+      if (action_tgt_city(act_unit, pdesttile)) {
+        /* There is a valid target. */
+
+        dlsend_packet_unit_diplomat_wants_input(
+              player_reply_dest(act_player), act_unit->id,
+              pdesttile->index, TRUE);
+      }
+    } unit_move_data_list_iterate_end;
+  }
+
   unit_move_data_list_destroy(plist);
 
   /* Check cities at source and destination. */
