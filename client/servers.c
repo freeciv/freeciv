@@ -352,7 +352,11 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 #else  /* HAVE_WINSOCK */
   char buffer[MAX_LEN_PACKET];
 #endif /* HAVE_WINSOCK */
+#ifdef HAVE_IP_MREQN
+  struct ip_mreqn mreq4;
+#else
   struct ip_mreq mreq4;
+#endif
   const char *group;
   size_t size;
   int family;
@@ -458,7 +462,12 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   } else {
     inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
 #endif /* IPv6 support */
+#ifdef HAVE_IP_MREQN
+    mreq4.imr_address.s_addr = htonl(INADDR_ANY);
+    mreq4.imr_ifindex = 0;
+#else
     mreq4.imr_interface.s_addr = htonl(INADDR_ANY);
+#endif
 
     if (setsockopt(scan->sock, IPPROTO_IP, IP_ADD_MEMBERSHIP,
                    (const char*)&mreq4, sizeof(mreq4)) < 0) {
