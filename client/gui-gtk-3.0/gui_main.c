@@ -1763,6 +1763,7 @@ void ui_main(int argc, char **argv)
   cma_fe_done();
   free_unit_table();
   gtk_widget_destroy(toplevel_tabs);
+  message_buffer = NULL; /* Result of destruction of everything */
   tileset_free_tiles(tileset);
 }
 
@@ -1779,8 +1780,10 @@ bool is_gui_up(void)
 **************************************************************************/
 void ui_exit(void)
 {
-  g_object_unref(message_buffer);
-  message_buffer = NULL;
+  if (message_buffer != NULL) {
+    g_object_unref(message_buffer);
+    message_buffer = NULL;
+  }
 }
 
 /**************************************************************************
