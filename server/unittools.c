@@ -2703,7 +2703,7 @@ void do_explore(struct unit *punit)
      /* don't use punit! */
      return;
    case MR_OK:
-     /* FIXME: ai_manage_explorer() isn't supposed to change the activity,
+     /* FIXME: manage_auto_explorer() isn't supposed to change the activity,
       * but don't count on this.  See PR#39792.
       */
      if (punit->activity == ACTIVITY_EXPLORE) {
@@ -2713,7 +2713,7 @@ void do_explore(struct unit *punit)
    default:
      unit_activity_handling(punit, ACTIVITY_IDLE);
 
-     /* FIXME: When the ai_manage_explorer() call changes the activity from
+     /* FIXME: When the manage_auto_explorer() call changes the activity from
       * EXPLORE to IDLE, in unit_activity_handling() ai.control is left
       * alone.  We reset it here.  See PR#12931. */
      punit->ai_controlled = FALSE;
