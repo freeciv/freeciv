@@ -36,7 +36,6 @@
 #include "gui_main.h"
 
 #define	RECT_LIMIT  80
-/* #define	HAVE_MMX1 */
 
 /* DUFFS LOOPs come from SDL lib (LGPL) */
 /* DUFFS_LOOP_DOUBLE2 and DUFFS_LOOP_QUATRO2 was created by Rafal Bursig under GPL */
