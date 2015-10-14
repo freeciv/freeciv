@@ -1068,7 +1068,11 @@ int server_open_socket(void)
 {
   /* setup socket address */
   union fc_sockaddr addr;
+#ifdef HAVE_IP_MREQN
+  struct ip_mreqn mreq4;
+#else
   struct ip_mreq mreq4;
+#endif
   const char *cause, *group;
   int j, on, s;
   int lan_family;
@@ -1259,7 +1263,12 @@ int server_open_socket(void)
   } else if (addr.saddr.sa_family == AF_INET) {
     inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
 #endif /* IPv6 support */
+#ifdef HAVE_IP_MREQN
+    mreq4.imr_address.s_addr = htonl(INADDR_ANY);
+    mreq4.imr_ifindex = 0;
+#else
     mreq4.imr_interface.s_addr = htonl(INADDR_ANY);
+#endif
 
     if (setsockopt(socklan, IPPROTO_IP, IP_ADD_MEMBERSHIP,
                    (const char*)&mreq4, sizeof(mreq4)) < 0) {
