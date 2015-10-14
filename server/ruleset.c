@@ -4640,6 +4640,9 @@ static bool load_ruleset_cities(struct section_file *file)
     return FALSE;
   }
 
+  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
+  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+
   /* Specialist options */
   sec = secfile_sections_by_name_prefix(file, SPECIALIST_SECTION_PREFIX);
   if (section_list_size(sec) >= SP_MAX) {
