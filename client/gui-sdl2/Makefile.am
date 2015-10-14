@@ -59,7 +59,6 @@ libgui_sdl2_la_SOURCES = \
 	messagedlg.h	\
 	messagewin.c	\
 	messagewin.h	\
-	mmx.h		\
 	optiondlg.h	\
 	optiondlg.c	\
 	pages.c		\
