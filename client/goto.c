@@ -1605,6 +1605,42 @@ void send_connect_route(enum unit_activity activity,
 }
 
 /**************************************************************************
+  Returns TRUE if the order preferably should be performed from an
+  adjacent tile.
+
+  This function doesn't care if a direction is required or just possible.
+  Use order_demands_direction() for that.
+**************************************************************************/
+static bool order_wants_direction(enum unit_orders order)
+{
+  switch (order) {
+  case ORDER_MOVE:
+  case ORDER_ACTION_MOVE:
+    /* Not only is it legal. It is mandatory. A move is always done in a
+     * direction. */
+    return TRUE;
+  default:
+    return FALSE;
+  }
+}
+
+/**************************************************************************
+  Returns TRUE if it is certain that the order must be performed from an
+  adjacent tile.
+**************************************************************************/
+static bool order_demands_direction(enum unit_orders order)
+{
+  switch (order) {
+  case ORDER_MOVE:
+  case ORDER_ACTION_MOVE:
+    /* A move is always done in a direction. */
+    return TRUE;
+  default:
+    return FALSE;
+  }
+}
+
+/**************************************************************************
   Send the current goto route (i.e., the one generated via
   HOVER_STATE) to the server.  The route might involve more than one
   part if waypoints were used.  FIXME: danger paths are not supported.
@@ -1629,19 +1665,42 @@ void send_goto_route(void)
     clear_unit_orders(punit);
     if (goto_last_order == ORDER_LAST) {
       send_goto_path(punit, path, NULL);
-    } else {
+    } else if (path->length > 1
+               || !order_demands_direction(goto_last_order)) {
       struct unit_order order;
+      int last_order_dir;
+      struct tile *on_tile;
+      struct tile *tgt_tile;
+
+      if (order_wants_direction(goto_last_order)
+          && path->length > 1
+          && ((tgt_tile = pf_path_last_position(path)->tile))
+          && ((on_tile = path->positions[path->length - 2].tile))
+          && !same_pos(on_tile, tgt_tile)) {
+        /* The last order prefers to handle the last direction it self.
+         * There exists a tile before the target tile to do it from. */
+
+        /* Give the last path direction to the final order. */
+        last_order_dir = get_direction_for_step(on_tile, tgt_tile);
+
+        /* The last path direction is now spent. */
+        pf_path_backtrack(path, on_tile);
+      } else {
+        fc_assert(!order_demands_direction(goto_last_order));
+
+        /* Target the tile the actor is standing on. */
+        last_order_dir = DIR8_ORIGIN;
+      }
 
       order.order = goto_last_order;
       order.dir = DIR8_ORIGIN;
+      order.dir = last_order_dir;
       order.activity = ACTIVITY_LAST;
       order.target = EXTRA_NONE;
       order.action = goto_last_action;
 
-      /* ORDER_MOVE would require real direction,
-       * ORDER_ACTIVITY would require real activity */
-      fc_assert(goto_last_order != ORDER_MOVE
-                && goto_last_order != ORDER_ACTIVITY);
+      /* ORDER_ACTIVITY would require real activity */
+      fc_assert(goto_last_order != ORDER_ACTIVITY);
 
       send_goto_path(punit, path, &order);
     }
