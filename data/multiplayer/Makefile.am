@@ -14,6 +14,7 @@ pkgdata_DATA =          \
 	nations.ruleset	\
 	techs.ruleset	\
 	terrain.ruleset	\
-	units.ruleset
+	units.ruleset	\
+	README.multiplayer
 
 EXTRA_DIST = $(pkgdata_DATA)

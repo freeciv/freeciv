@@ -22,7 +22,6 @@ docs =				\
 	README.graphics		\
 	README.nations		\
 	README.packaging	\
-	README.ruleset_multiplayer \
 	README.rulesets		\
 	README.scorelog		\
 	README.sound		\

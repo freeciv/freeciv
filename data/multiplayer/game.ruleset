@@ -30,7 +30,7 @@ the differences can be found in README.ruleset_multiplayer.\
 ")
 
 ; Detailed description
-; description = ""
+description = *multiplayer/README.multiplayer*
 
 [options]
 global_init_techs=""
