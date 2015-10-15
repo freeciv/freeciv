@@ -75,6 +75,6 @@
 #undef FREECIV_HAVE_LIBLZMA
 
 /* Location for freeciv to store its information */
-#undef FREECIV_HOME_DIR
+#undef FREECIV_STORAGE_DIR
 
 #endif /* FC__FREECIV_CONFIG_H */

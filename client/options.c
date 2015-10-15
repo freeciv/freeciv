@@ -4774,7 +4774,7 @@ static const char *get_current_option_file_name(void)
 #ifdef OPTION_FILE_NAME
     fc_strlcpy(name_buffer, OPTION_FILE_NAME, sizeof(name_buffer));
 #else
-    name = freeciv_home_dir();
+    name = freeciv_storage_dir();
     if (!name) {
       log_error(_("Cannot find freeciv storage directory"));
       return NULL;
@@ -4819,7 +4819,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
     int major, minor;
     struct stat buf;
 
-    name = freeciv_home_dir();
+    name = freeciv_storage_dir();
     if (name == NULL) {
       log_error(_("Cannot find freeciv storage directory"));
 

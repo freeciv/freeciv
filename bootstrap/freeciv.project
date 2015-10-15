@@ -8,4 +8,4 @@ META_URL="http://meta.freeciv.org/metaserver.php"
 # Where to store user files. Note that changing this after user has already stored
 # something to the old dir with older version of the projects means that those
 # files won't be used any more.
-FREECIV_HOME_DIR="~/.freeciv"
+FREECIV_STORAGE_DIR="~/.freeciv"

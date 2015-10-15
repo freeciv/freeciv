@@ -74,18 +74,18 @@
 #ifndef DEFAULT_DATA_PATH
 #define DEFAULT_DATA_PATH "." PATH_SEPARATOR \
                           "data" PATH_SEPARATOR \
-                          FREECIV_HOME_DIR DATASUBDIR
+                          FREECIV_STORAGE_DIR DATASUBDIR
 #endif
 #ifndef DEFAULT_SAVE_PATH
 #define DEFAULT_SAVE_PATH "." PATH_SEPARATOR \
-                          FREECIV_HOME_DIR "/saves"
+                          FREECIV_STORAGE_DIR "/saves"
 #endif
 #ifndef DEFAULT_SCENARIO_PATH
 #define DEFAULT_SCENARIO_PATH                          \
   "." PATH_SEPARATOR                                   \
   "data/scenarios" PATH_SEPARATOR                      \
-  FREECIV_HOME_DIR DATASUBDIR "/scenarios" PATH_SEPARATOR \
-  FREECIV_HOME_DIR "/scenarios"
+  FREECIV_STORAGE_DIR DATASUBDIR "/scenarios" PATH_SEPARATOR \
+  FREECIV_STORAGE_DIR "/scenarios"
 #endif /* DEFAULT_SCENARIO_PATH */
 
 /* environment */
@@ -115,7 +115,7 @@ static struct strvec *scenario_dir_names = NULL;
 
 static char *mc_group = NULL;
 static char *home_dir_user = NULL;
-static char *home_dir_freeciv = NULL;
+static char *storage_dir_freeciv = NULL;
 
 static struct astring realfile = ASTRING_INIT;
 
@@ -812,27 +812,27 @@ void free_user_home_dir(void)
   Gets value once, and then caches result.
   Note the caller should not mess with the returned string.
 ***************************************************************************/
-char *freeciv_home_dir(void)
+char *freeciv_storage_dir(void)
 {
-  if (home_dir_freeciv == NULL) {
-    home_dir_freeciv = fc_malloc(strlen(FREECIV_HOME_DIR) + 1);
+  if (storage_dir_freeciv == NULL) {
+    storage_dir_freeciv = fc_malloc(strlen(FREECIV_STORAGE_DIR) + 1);
 
-    strcpy(home_dir_freeciv, FREECIV_HOME_DIR);
+    strcpy(storage_dir_freeciv, FREECIV_STORAGE_DIR);
 
-    home_dir_freeciv = expand_dir(home_dir_freeciv, TRUE);
+    storage_dir_freeciv = expand_dir(storage_dir_freeciv, TRUE);
   }
 
-  return home_dir_freeciv;
+  return storage_dir_freeciv;
 }
 
 /***************************************************************************
-  Free freeciv home directory information
+  Free freeciv storage directory information
 ***************************************************************************/
-void free_freeciv_home_dir(void)
+void free_freeciv_storage_dir(void)
 {
-  if (home_dir_freeciv != NULL) {
-    free(home_dir_freeciv);
-    home_dir_freeciv = NULL;
+  if (storage_dir_freeciv != NULL) {
+    free(storage_dir_freeciv);
+    storage_dir_freeciv = NULL;
   }
 }
 

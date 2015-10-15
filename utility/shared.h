@@ -150,8 +150,8 @@ struct fileinfo {
 char *user_home_dir(void);
 void free_user_home_dir(void);
 char *user_username(char *buf, size_t bufsz);
-char *freeciv_home_dir(void);
-void free_freeciv_home_dir(void);
+char *freeciv_storage_dir(void);
+void free_freeciv_storage_dir(void);
 
 const struct strvec *get_data_dirs(void);
 const struct strvec *get_save_dirs(void);
