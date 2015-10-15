@@ -2102,15 +2102,28 @@ void request_toggle_bases(void)
 }
 
 /**************************************************************************
- Toggle display of specials
+ Toggle display of resources
 **************************************************************************/
-void request_toggle_specials(void)
+void request_toggle_resources(void)
 {
   if (!can_client_change_view()) {
     return;
   }
 
   options.draw_specials ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of huts
+**************************************************************************/
+void request_toggle_huts(void)
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  options.draw_huts ^= 1;
   update_map_canvas_visible();
 }
 
@@ -3255,11 +3268,19 @@ void key_bases_toggle(void)
 }
 
 /**************************************************************************
-  Handle user 'toggle specials display' input
+  Handle user 'toggle resources display' input
 **************************************************************************/
-void key_specials_toggle(void)
+void key_resources_toggle(void)
 {
-  request_toggle_specials();
+  request_toggle_resources();
+}
+
+/**************************************************************************
+  Handle user 'toggle huts display' input
+**************************************************************************/
+void key_huts_toggle(void)
+{
+  request_toggle_huts();
 }
 
 /**************************************************************************

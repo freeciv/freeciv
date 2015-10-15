@@ -169,6 +169,7 @@ struct client_options
   bool draw_mines;
   bool draw_fortress_airbase;
   bool draw_specials;
+  bool draw_huts;
   bool draw_pollution;
   bool draw_cities;
   bool draw_units;

@@ -2439,10 +2439,17 @@ bool map_event_handler(SDL_keysym Key)
         }
         return FALSE;
   
-      /* show specials - Ctrl+s */
+      /* show resources - Ctrl+s */
       case SDLK_s:
         if (LCTRL || RCTRL) {
-          key_specials_toggle();
+          key_resources_toggle();
+        }
+        return FALSE;
+
+        /* show huts - Ctrl+s */
+      case SDLK_h:
+        if (LCTRL || RCTRL) {
+          key_huts_toggle();
         }
         return FALSE;
   

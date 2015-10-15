@@ -715,12 +715,22 @@ static void show_bases_callback(GtkToggleAction *action, gpointer data)
 }
 
 /****************************************************************
-  Action "SHOW_SPECIALS" callback.
+  Action "SHOW_RESOURCES" callback.
 *****************************************************************/
-static void show_specials_callback(GtkToggleAction *action, gpointer data)
+static void show_resources_callback(GtkToggleAction *action, gpointer data)
 {
   if (options.draw_specials ^ gtk_toggle_action_get_active(action)) {
-    key_specials_toggle();
+    key_resources_toggle();
+  }
+}
+
+/****************************************************************
+  Action "SHOW_HUTS" callback.
+*****************************************************************/
+static void show_huts_callback(GtkToggleAction *action, gpointer data)
+{
+  if (options.draw_huts ^ gtk_toggle_action_get_active(action)) {
+    key_huts_toggle();
   }
 }
 
@@ -1559,8 +1569,10 @@ static GtkActionGroup *get_safe_group(void)
       {"SHOW_BASES", NULL, _("_Bases"),
        NULL, NULL, G_CALLBACK(show_bases_callback), FALSE},
 
-      {"SHOW_SPECIALS", NULL, _("_Specials"),
-       NULL, NULL, G_CALLBACK(show_specials_callback), FALSE},
+      {"SHOW_RESOURCES", NULL, _("_Resources"),
+       NULL, NULL, G_CALLBACK(show_resources_callback), FALSE},
+      {"SHOW_HUTS", NULL, _("_Huts"),
+       NULL, NULL, G_CALLBACK(show_huts_callback), FALSE},
       {"SHOW_POLLUTION", NULL, _("Po_llution & Fallout"),
        NULL, NULL, G_CALLBACK(show_pollution_callback), FALSE},
       {"SHOW_CITIES", NULL, _("Citi_es"),
@@ -2650,7 +2662,8 @@ void real_menus_init(void)
   menus_set_active(safe_group, "SHOW_IRRIGATION", options.draw_irrigation);
   menus_set_active(safe_group, "SHOW_MINES", options.draw_mines);
   menus_set_active(safe_group, "SHOW_BASES", options.draw_fortress_airbase);
-  menus_set_active(safe_group, "SHOW_SPECIALS", options.draw_specials);
+  menus_set_active(safe_group, "SHOW_RESOURCES", options.draw_specials);
+  menus_set_active(safe_group, "SHOW_HUTS", options.draw_huts);
   menus_set_active(safe_group, "SHOW_POLLUTION", options.draw_pollution);
   menus_set_active(safe_group, "SHOW_CITIES", options.draw_cities);
   menus_set_active(safe_group, "SHOW_UNITS", options.draw_units);
