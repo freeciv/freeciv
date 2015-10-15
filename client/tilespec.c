@@ -4940,7 +4940,7 @@ static bool is_extra_drawing_enabled(struct extra_type *pextra)
     }
   }
   if (is_extra_caused_by(pextra, EC_HUT)) {
-    if (!options.draw_specials) {
+    if (!options.draw_huts) {
       return FALSE;
     }
   }

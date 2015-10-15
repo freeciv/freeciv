@@ -55,7 +55,8 @@
         <menuitem action="SHOW_MINES" />
         <menuitem action="SHOW_BASES" />
       </menu>
-      <menuitem action="SHOW_SPECIALS" />
+      <menuitem action="SHOW_RESOURCES" />
+      <menuitem action="SHOW_HUTS" />
       <menuitem action="SHOW_POLLUTION" />
       <menuitem action="SHOW_CITIES" />
       <menuitem action="SHOW_UNITS" />

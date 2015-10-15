@@ -149,6 +149,7 @@ struct client_options options = {
   .draw_mines = TRUE,
   .draw_fortress_airbase = TRUE,
   .draw_specials = TRUE,
+  .draw_huts = TRUE,
   .draw_pollution = TRUE,
   .draw_cities = TRUE,
   .draw_units = TRUE,
@@ -1915,8 +1916,13 @@ static struct client_option client_options[] = {
                   N_("Setting this option will draw the bases on the map."),
                   COC_GRAPHICS, GUI_STUB, TRUE,
                   view_option_changed_callback),
-  GEN_BOOL_OPTION(draw_specials, N_("Draw the specials"),
-                  N_("Setting this option will draw the specials on the "
+  GEN_BOOL_OPTION(draw_specials, N_("Draw the resources"),
+                  N_("Setting this option will draw the resources on the "
+                     "map."),
+                  COC_GRAPHICS, GUI_STUB, TRUE,
+                  view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_huts, N_("Draw the huts"),
+                  N_("Setting this option will draw the huts on the "
                      "map."),
                   COC_GRAPHICS, GUI_STUB, TRUE,
                   view_option_changed_callback),

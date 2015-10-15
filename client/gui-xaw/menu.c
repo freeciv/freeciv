@@ -154,7 +154,8 @@ static struct MenuEntry view_menu_entries[]={
     { { N_("Irrigation"), 0           },      "", MENU_VIEW_SHOW_IRRIGATION, 0 },
     { { N_("Mines"), 0                },      "", MENU_VIEW_SHOW_MINES, 0 },
     { { N_("Bases"), 0                },      "", MENU_VIEW_SHOW_BASES, 0 },
-    { { N_("Specials"), 0             },      "", MENU_VIEW_SHOW_SPECIALS, 0 },
+    { { N_("Resources"), 0            },      "", MENU_VIEW_SHOW_RESOURCES, 0 },
+    { { N_("Huts"), 0                 },      "", MENU_VIEW_SHOW_HUTS, 0 },
     { { N_("Pollution & Fallout"), 0  },      "", MENU_VIEW_SHOW_POLLUTION, 0 },
     { { N_("Cities"), 0               },      "", MENU_VIEW_SHOW_CITIES, 0 },
     { { N_("Units"), 0                },      "", MENU_VIEW_SHOW_UNITS, 0 },
@@ -368,7 +369,8 @@ void real_menus_update(void)
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_IRRIGATION, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_MINES, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_BASES, 1);
-    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_SPECIALS, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_RESOURCES, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_HUTS, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_POLLUTION, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITIES, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_UNITS, 1);
@@ -720,8 +722,11 @@ static void view_menu_callback(Widget w, XtPointer client_data,
   case MENU_VIEW_SHOW_BASES:
     key_bases_toggle();
     break;
-  case MENU_VIEW_SHOW_SPECIALS:
-    key_specials_toggle();
+  case MENU_VIEW_SHOW_RESOURCES:
+    key_resources_toggle();
+    break;
+  case MENU_VIEW_SHOW_HUTS:
+    key_huts_toggle();
     break;
   case MENU_VIEW_SHOW_POLLUTION:
     key_pollution_toggle();
