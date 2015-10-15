@@ -174,8 +174,8 @@ void client_kill_server(bool force)
 }   
 
 /**************************************************************** 
-forks a server if it can. returns FALSE is we find we couldn't start
-the server.
+  Forks a server if it can. Returns FALSE if we find we
+  couldn't start the server.
 *****************************************************************/ 
 bool client_start_server(void)
 {
@@ -220,9 +220,12 @@ bool client_start_server(void)
    * used by standalone server on Windows where this is known to be buggy
    * by not starting from DEFAULT_SOCK_PORT but from one higher. */
   internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT + 1,
+                                             DEFAULT_SOCK_PORT + 1 + 10000,
                                              family, "localhost", TRUE);
 
   if (internal_server_port < 0) {
+    log_verbose("None of the ports %d - %d is available to start freeciv server on.",
+                DEFAULT_SOCK_PORT + 1, DEFAULT_SOCK_PORT + 1 + 10000);
     output_window_append(ftc_client, _("Couldn't start the server."));
     output_window_append(ftc_client,
                          _("You'll have to start one manually. Sorry..."));

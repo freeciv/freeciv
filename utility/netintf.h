@@ -127,7 +127,8 @@ struct fc_sockaddr_list *net_lookup_service(const char *name, int port,
 					    enum fc_addr_family family);
 bool fc_inet_aton(const char *cp, struct in_addr *inp, bool addr_none_ok);
 fz_FILE *fc_querysocket(int sock, void *buf, size_t size);
-int find_next_free_port(int starting_port, enum fc_addr_family family,
+int find_next_free_port(int starting_port, int highest_port,
+                        enum fc_addr_family family,
                         char *net_interface, bool not_avail_ok);
 
 void sockaddr_debug(union fc_sockaddr *addr, enum log_level lvl);

@@ -541,7 +541,8 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 /************************************************************************** 
   Finds the next (lowest) free port.
 **************************************************************************/ 
-int find_next_free_port(int starting_port, enum fc_addr_family family,
+int find_next_free_port(int starting_port, int highest_port,
+                        enum fc_addr_family family,
                         char *net_interface, bool not_avail_ok)
 {
   int port;
@@ -571,7 +572,7 @@ int find_next_free_port(int starting_port, enum fc_addr_family family,
      return -1;
   }
 
-  for (port = starting_port; !found ; port++) {
+  for (port = starting_port; !found && highest_port > port; port++) {
     /* HAVE_GETADDRINFO implies IPv6 support */
 #ifdef HAVE_GETADDRINFO
     struct addrinfo hints;
@@ -646,9 +647,13 @@ int find_next_free_port(int starting_port, enum fc_addr_family family,
 #endif /* HAVE_GETADDRINFO */
   }
 
+  if (!found) {
+    return -1;
+  }
+
   /* Rollback the last increment from the loop, back to port
    * number found to be free. */
   port--;
-  
+
   return port;
 }
