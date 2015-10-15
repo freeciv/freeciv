@@ -5797,9 +5797,8 @@ static bool load_ruleset_game(struct section_file *file, bool act)
     }
   }
 
-  if (ok) {
-    secfile_check_unused(file);
-  }
+  /* secfile_check_unused() is not here, but only after also settings section
+   * has been loaded. */
 
   return ok;
 }
@@ -6908,6 +6907,10 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool buffer_script)
   if (ok) {
     /* Only load settings for a sane ruleset */
     ok = settings_ruleset(gamefile, "settings", act);
+
+    if (ok) {
+      secfile_check_unused(gamefile);
+    }
   }
 
   nullcheck_secfile_destroy(techfile);
