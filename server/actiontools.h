@@ -30,8 +30,10 @@ void action_consequence_success(const int action_id,
                                 const struct tile *victim_tile,
                                 const char *victim_link);
 
-struct city *action_tgt_city(struct unit *actor, struct tile *target_tile);
+struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
+                             bool accept_all_actions);
 
-struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile);
+struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
+                             bool accept_all_actions);
 
 #endif /* FC__ACTIONTOOLS_H */

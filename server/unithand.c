@@ -497,9 +497,14 @@ static bool may_non_act_move(struct unit *actor_unit,
 
   If the owner of the actor unit don't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
 **************************************************************************/
 static bool may_unit_act_vs_tile_units(struct unit *actor,
-                                       struct tile *target)
+                                       struct tile *target,
+                                       bool accept_all_actions)
 {
   if (actor == NULL || target == NULL) {
     /* Can't do any actions if actor or target are missing. */
@@ -510,6 +515,11 @@ static bool may_unit_act_vs_tile_units(struct unit *actor,
     if (!(action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_UNITS)) {
       /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
+      /* Not relevant since not accepted here. */
       continue;
     }
 
@@ -529,9 +539,14 @@ static bool may_unit_act_vs_tile_units(struct unit *actor,
 
   If the owner of the actor unit don't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
 **************************************************************************/
 static bool may_unit_act_vs_tile(struct unit *actor,
-                                 struct tile *target)
+                                 struct tile *target,
+                                 bool accept_all_actions)
 {
   if (actor == NULL || target == NULL) {
     /* Can't do any actions if actor or target are missing. */
@@ -542,6 +557,11 @@ static bool may_unit_act_vs_tile(struct unit *actor,
     if (!(action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_TILE)) {
       /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
+      /* Not relevant since not accepted here. */
       continue;
     }
 
@@ -965,7 +985,7 @@ void handle_unit_get_actions(struct connection *pc,
 
   if (target_unit_id_client == IDENTITY_NUMBER_ZERO) {
     /* Find a new target unit. */
-    target_unit = action_tgt_unit(actor_unit, target_tile);
+    target_unit = action_tgt_unit(actor_unit, target_tile, TRUE);
   } else {
     /* Prepare the client selected target unit. */
     target_unit = game_unit_by_number(target_unit_id_client);
@@ -973,7 +993,7 @@ void handle_unit_get_actions(struct connection *pc,
 
   if (target_city_id_client == IDENTITY_NUMBER_ZERO) {
     /* Find a new target city. */
-    target_city = action_tgt_city(actor_unit, target_tile);
+    target_city = action_tgt_city(actor_unit, target_tile, TRUE);
   } else {
     /* Prepare the client selected target city. */
     target_city = game_city_by_number(target_city_id_client);
@@ -2950,13 +2970,15 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * move_diplomat_city tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
   if (utype_may_act_at_all(unit_type_get(punit))) {
-    struct unit *tunit = action_tgt_unit(punit, pdesttile);
-    struct city *tcity = action_tgt_city(punit, pdesttile);
+    bool can_not_move = !unit_can_move_to_tile(punit, pdesttile, igzoc);
+    struct unit *tunit = action_tgt_unit(punit, pdesttile, can_not_move);
+    struct city *tcity = action_tgt_city(punit, pdesttile, can_not_move);
+    bool ttile_ok = may_unit_act_vs_tile(punit, pdesttile, can_not_move);
 
     /* Consider to pop up the action selection dialog if a potential city,
      * unit or units target exists at the destination tile. A tile target
-     * alone isn't enough. */
-    if ((0 < unit_list_size(pdesttile->units) || pcity)
+     * will only trigger the pop up if it may be legal. */
+    if ((0 < unit_list_size(pdesttile->units) || pcity || ttile_ok)
         && !(move_diplomat_city
              && may_non_act_move(punit, pcity, pdesttile, igzoc))) {
       /* A target (unit or city) exists at the tile. If a target is an ally
@@ -2967,25 +2989,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
        * since action_tgt_city() or action_tgt_unit() wouldn't have
        * targeted it otherwise. */
       if (tcity || tunit
-          || may_unit_act_vs_tile_units(punit, pdesttile)
-          /* If the tile target is the only target that, from the point of
-           * view of the player, may be acted against the action selection
-           * dialog will only pop up when the actor can't move to the target
-           * tile.
-           *
-           * The goal is to minimize confusion and annoyance. Getting a pop
-           * up every time a unit moves is annoying. Not getting the action
-           * selection dialog when expected is confusing. So is having the
-           * actions selection dialog pop up when it is unexpected. The
-           * last case can lead the player to perform the wrong action by
-           * reflex. Example: Offered to nuke his own units rather than
-           * moving to their tile.
-           *
-           * The confusion isn't limited to new players. An experienced
-           * player can forget a rule or accidentally ignore a piece of
-           * relevant data he has access to. */
-          || (may_unit_act_vs_tile(punit, pdesttile)
-              && !unit_can_move_to_tile(punit, pdesttile, igzoc))) {
+          || may_unit_act_vs_tile_units(punit, pdesttile, can_not_move)
+          || ttile_ok) {
         if (pplayer->ai_controlled) {
           return FALSE;
         }

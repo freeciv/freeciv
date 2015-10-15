@@ -35,7 +35,8 @@ static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 
 static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
-                                 bool hostile, bool requires_details);
+                                 bool hostile, bool requires_details,
+                                 bool rare_pop_up);
 
 static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct player *actor_player,
@@ -62,80 +63,80 @@ void actions_init(void)
 {
   /* Hard code the actions */
   actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
-      TRUE, FALSE);
+      TRUE, FALSE, FALSE);
   actions[ACTION_SPY_SABOTAGE_UNIT] =
       action_new(ACTION_SPY_SABOTAGE_UNIT, ATK_UNIT,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_SPY_BRIBE_UNIT] =
       action_new(ACTION_SPY_BRIBE_UNIT, ATK_UNIT,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       action_new(ACTION_SPY_SABOTAGE_CITY, ATK_CITY,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
-                 TRUE, TRUE);
+                 TRUE, TRUE, FALSE);
   actions[ACTION_SPY_INCITE_CITY] =
       action_new(ACTION_SPY_INCITE_CITY, ATK_CITY,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_ESTABLISH_EMBASSY] =
       action_new(ACTION_ESTABLISH_EMBASSY, ATK_CITY,
-                 FALSE, FALSE);
+                 FALSE, FALSE, FALSE);
   actions[ACTION_SPY_STEAL_TECH] =
       action_new(ACTION_SPY_STEAL_TECH, ATK_CITY,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
-                 TRUE, TRUE);
+                 TRUE, TRUE, FALSE);
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_SPY_STEAL_GOLD] =
       action_new(ACTION_SPY_STEAL_GOLD, ATK_CITY,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_TRADE_ROUTE] =
       action_new(ACTION_TRADE_ROUTE, ATK_CITY,
-                 FALSE, FALSE);
+                 FALSE, FALSE, FALSE);
   actions[ACTION_MARKETPLACE] =
       action_new(ACTION_MARKETPLACE, ATK_CITY,
-                 FALSE, FALSE);
+                 FALSE, FALSE, FALSE);
   actions[ACTION_HELP_WONDER] =
       action_new(ACTION_HELP_WONDER, ATK_CITY,
-                 FALSE, FALSE);
+                 FALSE, FALSE, FALSE);
   actions[ACTION_CAPTURE_UNITS] =
       action_new(ACTION_CAPTURE_UNITS, ATK_UNITS,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_FOUND_CITY] =
       action_new(ACTION_FOUND_CITY, ATK_TILE,
-                 FALSE, FALSE);
+                 FALSE, FALSE, TRUE);
   actions[ACTION_JOIN_CITY] =
       action_new(ACTION_JOIN_CITY, ATK_CITY,
-                 FALSE, FALSE);
+                 FALSE, FALSE, TRUE);
   actions[ACTION_STEAL_MAPS] =
       action_new(ACTION_STEAL_MAPS, ATK_CITY,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_BOMBARD] =
       action_new(ACTION_BOMBARD,
                  /* FIXME: Target is actually Units + City */
                  ATK_UNITS,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_SPY_NUKE] =
       action_new(ACTION_SPY_NUKE, ATK_CITY,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_NUKE] =
       action_new(ACTION_NUKE,
                  /* FIXME: Target is actually Tile + Units + City */
                  ATK_TILE,
-                 TRUE, FALSE);
+                 TRUE, FALSE, TRUE);
   actions[ACTION_DESTROY_CITY] =
       action_new(ACTION_DESTROY_CITY, ATK_CITY,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_EXPEL_UNIT] =
       action_new(ACTION_EXPEL_UNIT, ATK_UNIT,
-                 TRUE, FALSE);
+                 TRUE, FALSE, FALSE);
   actions[ACTION_RECYCLE_UNIT] =
       action_new(ACTION_RECYCLE_UNIT, ATK_CITY,
-                 FALSE, FALSE);
+                 FALSE, FALSE, TRUE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -198,7 +199,8 @@ bool actions_are_ready(void)
 **************************************************************************/
 static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
-                                 bool hostile, bool requires_details)
+                                 bool hostile, bool requires_details,
+                                 bool rare_pop_up)
 {
   struct action *action;
 
@@ -209,6 +211,7 @@ static struct action *action_new(enum gen_action id,
   action->target_kind = target_kind;
   action->hostile = hostile;
   action->requires_details = requires_details;
+  action->rare_pop_up = rare_pop_up;
 
   /* The ui_name is loaded from the ruleset. Until generalized actions
    * are ready it has to be defined seperatly from other action data. */
@@ -307,6 +310,23 @@ bool action_requires_details(int action_id)
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
   return actions[action_id]->requires_details;
+}
+
+/**************************************************************************
+  Returns TRUE iff a unit's ability to perform this action will pop up the
+  action selection dialog before the player asks for it only in exceptional
+  cases.
+
+  An example of an exceptional case is when the player tries to move a
+  unit to a tile it can't move to but can perform this action to.
+**************************************************************************/
+bool action_id_is_rare_pop_up(int action_id)
+{
+  fc_assert_ret_val_msg((action_id_is_valid(action_id)
+                         && actions[action_id]),
+                        FALSE, "Action %d don't exist.", action_id);
+
+  return actions[action_id]->rare_pop_up;
 }
 
 /**************************************************************************

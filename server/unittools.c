@@ -3703,7 +3703,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
         continue;
       }
 
-      if (action_tgt_city(act_unit, pdesttile)) {
+      if (action_tgt_city(act_unit, pdesttile, FALSE)) {
         /* There is a valid target. */
 
         dlsend_packet_unit_diplomat_wants_input(
@@ -4180,7 +4180,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
 
       /* Get a target unit at the target tile. */
-      tgt_unit = action_tgt_unit(punit, dst_tile);
+      tgt_unit = action_tgt_unit(punit, dst_tile, TRUE);
 
       if (tgt_unit == NULL
           && action_get_target_kind(order.action) == ATK_UNIT) {

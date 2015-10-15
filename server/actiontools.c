@@ -524,8 +524,13 @@ void action_consequence_success(const int action_id,
 
   If the owner of the actor unit don't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
 **************************************************************************/
-static bool may_unit_act_vs_city(struct unit *actor, struct city *target)
+static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
+                                 bool accept_all_actions)
 {
   if (actor == NULL || target == NULL) {
     /* Can't do any actions if actor or target are missing. */
@@ -536,6 +541,11 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target)
     if (!(action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_CITY)) {
       /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
+      /* Not relevant since not accepted here. */
       continue;
     }
 
@@ -553,12 +563,17 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target)
   Find a city to target for an action on the specified tile.
 
   Returns NULL if no proper target is found.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
 **************************************************************************/
-struct city *action_tgt_city(struct unit *actor, struct tile *target_tile)
+struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
+                             bool accept_all_actions)
 {
   struct city *target = tile_city(target_tile);
 
-  if (target && may_unit_act_vs_city(actor, target)) {
+  if (target && may_unit_act_vs_city(actor, target, accept_all_actions)) {
     /* It may be possible to act against this city. */
     return target;
   }
@@ -573,8 +588,13 @@ struct city *action_tgt_city(struct unit *actor, struct tile *target_tile)
 
   If the owner of the actor unit don't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
 **************************************************************************/
-static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target)
+static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target,
+                                 bool accept_all_actions)
 {
   if (actor == NULL || target == NULL) {
     /* Can't do any actions if actor or target are missing. */
@@ -585,6 +605,11 @@ static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target)
     if (!(action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_UNIT)) {
       /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
+      /* Not relevant since not accepted here. */
       continue;
     }
 
@@ -603,11 +628,16 @@ static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target)
 
   Returns the first unit found at the tile that the actor may act against
   or NULL if no proper target is found.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
 **************************************************************************/
-struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile)
+struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
+                             bool accept_all_actions)
 {
   unit_list_iterate(target_tile->units, target) {
-    if (may_unit_act_vs_unit(actor, target)) {
+    if (may_unit_act_vs_unit(actor, target, accept_all_actions)) {
       return target;
     }
   } unit_list_iterate_end;

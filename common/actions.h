@@ -161,6 +161,17 @@ struct action
    * unspecified. */
   bool requires_details;
 
+  /* A unit's ability to perform this action will pop up the action
+   * selection dialog before the player asks for it only in exceptional
+   * cases.
+   *
+   * The motivation for setting rare_pop_up is to minimize player
+   * annoyance and mistakes. Getting a pop up every time a unit moves is
+   * annoying. An unexpected offer to do something that in many cases is
+   * destructive can lead the player's muscle memory to perform the wrong
+   * action. */
+  bool rare_pop_up;
+
   /* The name of the action shown in the UI */
   char ui_name[MAX_LEN_NAME];
 };
@@ -221,6 +232,8 @@ const char *action_name_translation(const struct action *action);
 bool action_is_hostile(int action_id);
 
 bool action_requires_details(int action_id);
+
+bool action_id_is_rare_pop_up(int action_id);
 
 int action_get_role(int action_id);
 
