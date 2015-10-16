@@ -208,7 +208,7 @@ static void count_my_units(struct player *pplayer)
   memset(&adv->stats.units, 0, sizeof(adv->stats.units));
 
   unit_list_iterate(pplayer->units, punit) {
-    struct unit_class *pclass = unit_class(punit);
+    struct unit_class *pclass = unit_class_get(punit);
 
     adv->stats.units.byclass[uclass_index(pclass)]++;
 
@@ -300,7 +300,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     } city_list_iterate_end;
 
     unit_list_iterate(aplayer->units, punit) {
-      const struct unit_class *pclass = unit_class(punit);
+      const struct unit_class *pclass = unit_class_get(punit);
 
       if (unit_type_get(punit)->adv.igwall) {
         adv->threats.igwall = TRUE;
@@ -342,7 +342,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
 
       /* If our enemy builds missiles, worry about missile defence. */
-      if (uclass_has_flag(unit_class(punit), UCF_MISSILE)
+      if (uclass_has_flag(unit_class_get(punit), UCF_MISSILE)
           && unit_type_get(punit)->attack_strength > 1) {
         adv->threats.missile = TRUE;
       }

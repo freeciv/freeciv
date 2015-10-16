@@ -149,11 +149,11 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
   }
 
   /* Missile would die 100% so we adjust the victim_cost -- GB */
-  if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
+  if (uclass_has_flag(unit_class_get(punit), UCF_MISSILE)) {
     victim_cost -= unit_build_shield_cost(punit);
   }
 
-  unit_attack = (int) (PROB_MULTIPLIER 
+  unit_attack = (int) (PROB_MULTIPLIER
                        * unit_win_chance(punit, pdefender));
 
   victim_defence = PROB_MULTIPLIER - unit_attack;

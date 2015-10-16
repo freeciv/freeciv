@@ -308,7 +308,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
     struct unit *sucker = NULL;
 
     if (unit_owner(missile) == pplayer
-        && uclass_has_flag(unit_class(missile), UCF_MISSILE)) {
+        && uclass_has_flag(unit_class_get(missile), UCF_MISSILE)) {
       UNIT_LOG(LOGLEVEL_HUNT, missile, "checking for hunt targets");
       pft_fill_unit_parameter(&parameter, punit);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);

@@ -222,7 +222,7 @@ static bool has_defense(struct city *pcity)
   unit_list_iterate(ptile->units, punit) {
     if (is_military_unit(punit) && base_get_defense_power(punit) != 0
         && punit->hp != 0) {
-      struct unit_class *pclass = unit_class(punit);
+      struct unit_class *pclass = unit_class_get(punit);
 
       if (pclass->non_native_def_pct > 0
           || is_native_tile_to_class(pclass, ptile)) {
@@ -231,6 +231,7 @@ static bool has_defense(struct city *pcity)
     }
   }
   unit_list_iterate_end;
+
   return FALSE;
 }
 
@@ -494,7 +495,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
     /* ...or tiny pleasant hut here! */
     if (tile_has_cause_extra(ptile, EC_HUT) && !is_barbarian(pplayer)
         && is_native_tile(unit_type_get(punit), ptile)
-        && unit_class(punit)->hut_behavior == HUT_NORMAL) {
+        && unit_class_get(punit)->hut_behavior == HUT_NORMAL) {
       return -RAMPAGE_HUT_OR_BETTER;
     }
   }
@@ -942,7 +943,7 @@ static void dai_military_defend(struct ai_type *ait, struct player *pplayer,
      * it looks silly. */
     pcity = find_closest_city(unit_tile(punit), NULL, pplayer,
                               FALSE, FALSE, FALSE, TRUE, FALSE,
-                              unit_class(punit));
+                              unit_class_get(punit));
   }
 
   if (!pcity) {
@@ -1086,7 +1087,7 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
   Find something to kill! This function is called for units to find targets
   to destroy and for cities that want to know if they should build offensive
   units. Target location returned in 'dest_tile', want as function return
- value.
+  value.
 
   punit->id == 0 means that the unit is virtual (considered to be built).
 ****************************************************************************/
@@ -1101,7 +1102,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   struct pf_parameter parameter;
   struct pf_map *punit_map, *ferry_map;
   struct pf_position pos;
-  struct unit_class *punit_class = unit_class(punit);
+  struct unit_class *punit_class = unit_class_get(punit);
   struct unit_type *punit_type = unit_type_get(punit);
   struct tile *punit_tile = unit_tile(punit);
   /* Type of our boat (a future one if ferryboat == NULL). */

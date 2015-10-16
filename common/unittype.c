@@ -1620,7 +1620,7 @@ struct unit_class *utype_class(const struct unit_type *punittype)
 /***************************************************************
  Returns unit class pointer for a unit.
 ***************************************************************/
-struct unit_class *unit_class(const struct unit *punit)
+struct unit_class *unit_class_get(const struct unit *punit)
 {
   return utype_class(unit_type_get(punit));
 }

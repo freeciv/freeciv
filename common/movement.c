@@ -671,7 +671,7 @@ bool can_unit_transport(const struct unit *transporter,
   fc_assert_ret_val(transported != NULL, FALSE);
 
   return can_unit_type_transport(unit_type_get(transporter),
-                                 unit_class(transported));
+                                 unit_class_get(transported));
 }
 
 /**************************************************************************

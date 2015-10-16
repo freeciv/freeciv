@@ -2685,7 +2685,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   old_defender_vet = pdefender->veteran;
   unit_versus_unit(punit, pdefender, FALSE, &att_hp, &def_hp);
 
-  if ((att_hp <= 0 || uclass_has_flag(unit_class(punit), UCF_MISSILE))
+  if ((att_hp <= 0 || uclass_has_flag(unit_class_get(punit), UCF_MISSILE))
       && unit_transported(punit)) {
     /* Dying attacker must be first unloaded so it doesn't die insider transport */
     unit_transport_unload_send(punit);
@@ -2741,7 +2741,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 
   /* N.B.: unit_link always returns the same pointer. */
   sz_strlcpy(loser_link, unit_tile_link(ploser));
-  sz_strlcpy(winner_link, uclass_has_flag(unit_class(pwinner), UCF_MISSILE)
+  sz_strlcpy(winner_link, uclass_has_flag(unit_class_get(pwinner), UCF_MISSILE)
              ? unit_tile_link(pwinner) : unit_link(pwinner));
 
   if (punit == ploser) {
@@ -2781,9 +2781,9 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 
     punit->moved = TRUE;	/* We moved */
     kill_unit(pwinner, ploser,
-              vet && !uclass_has_flag(unit_class(punit), UCF_MISSILE));
+              vet && !uclass_has_flag(unit_class_get(punit), UCF_MISSILE));
     if (unit_alive(winner_id)) {
-      if (uclass_has_flag(unit_class(pwinner), UCF_MISSILE)) {
+      if (uclass_has_flag(unit_class_get(pwinner), UCF_MISSILE)) {
         wipe_unit(pwinner, ULR_MISSILE, NULL);
         return;
       }
@@ -2909,7 +2909,7 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
                   _("%s cannot move here without a native path for %s"),
                     unit_link(punit),
-                    uclass_name_translation(unit_class(punit)));
+                    uclass_name_translation(unit_class_get(punit)));
     break;
 
   default:

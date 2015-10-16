@@ -381,7 +381,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
       && !can_attack_non_native(punittype)) {
     return 0;
   }
-  if (!is_native_near_tile(unit_class(punit), ptile)) {
+  if (!is_native_near_tile(unit_class_get(punit), ptile)) {
     return 0;
   }
 
@@ -1279,7 +1279,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
                           &best_choice, NULL, NULL, NULL);
   } else { 
     /* Attract a boat to our city or retain the one that's already here */
-    fc_assert_ret(unit_class(myunit)->adv.sea_move != MOVE_FULL);
+    fc_assert_ret(unit_class_get(myunit)->adv.sea_move != MOVE_FULL);
     best_choice.need_boat = TRUE;
     process_attacker_want(ait, pcity, benefit, def_type, def_owner,
                           def_vet, ptile,
@@ -1298,7 +1298,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
     if (NULL != ferry_map && !ferryboat) { /* need a new ferry */
       /* We might need a new boat even if there are boats free,
        * if they are blockaded or in inland seas*/
-      fc_assert_ret(unit_class(myunit)->adv.sea_move != MOVE_FULL);
+      fc_assert_ret(unit_class_get(myunit)->adv.sea_move != MOVE_FULL);
       dai_choose_role_unit(ait, pplayer, pcity, choice, CT_ATTACKER,
                            L_FERRYBOAT, choice->want, TRUE);
       if (dai_is_ferry_type(choice->value.utype, ait)) {
