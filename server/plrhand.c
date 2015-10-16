@@ -2361,6 +2361,7 @@ void reset_all_start_commands(bool plrchange)
             break;
           case PERSISTENTR_CONNECTED:
             persistent = pplayer->is_connected;
+            break;
           }
       }
 
