@@ -5413,7 +5413,7 @@ void options_load(void)
     options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE;
   }
 
-  /* Removed in 2.6 */
+  /* Renamed in 2.6 */
   options.popup_actor_arrival = secfile_lookup_bool_default(sf, TRUE,
       "%s.popup_caravan_arrival", prefix);
 
