@@ -14,7 +14,7 @@
 #
 
 # The maximum number of enumerators.
-max_enum_values=125
+max_enum_values=150
 
 # The target file.
 target="utility/specenum_gen.h"
