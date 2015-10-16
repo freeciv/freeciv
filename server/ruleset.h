@@ -74,7 +74,7 @@ char *get_script_buffer(void);
 
 #define RS_DEFAULT_CULTURE_VIC_POINTS    1000
 #define RS_DEFAULT_CULTURE_VIC_LEAD      300
-#define RS_DEFAULT_CULTURE_MIGRATION_PCT 50
+#define RS_DEFAULT_CULTURE_MIGRATION_PML 50
 
 #ifdef __cplusplus
 }

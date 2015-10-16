@@ -3122,7 +3122,7 @@ static float city_migration_score(struct city *pcity)
   score *= (1 + (1 - exp(- (float) MAX(0, pcity->surplus[O_SCIENCE]) / 100))
                 / 5);
 
-  score += city_culture(pcity) * game.info.culture_migration_pct / 100;
+  score += city_culture(pcity) * game.info.culture_migration_pml / 1000;
 
   /* Take food into account; the food surplus is clipped to values between
    * -10..20 and normalize by 10. Thus, the factor is between 0.9 and 1.2. */

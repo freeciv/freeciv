@@ -887,9 +887,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.culture_vic_lead,
                    RS_DEFAULT_CULTURE_VIC_LEAD,
                    "culture.victory_lead_pct", NULL);
-  save_default_int(sfile, game.info.culture_migration_pct,
-                   RS_DEFAULT_CULTURE_MIGRATION_PCT,
-                   "culture.migration_pct", NULL);
+  save_default_int(sfile, game.info.culture_migration_pml,
+                   RS_DEFAULT_CULTURE_MIGRATION_PML,
+                   "culture.migration_pml", NULL);
 
   save_default_bool(sfile, game.info.calendar_skip_0,
                     RS_DEFAULT_CALENDAR_SKIP_0,
