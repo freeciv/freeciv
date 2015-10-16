@@ -592,7 +592,7 @@ Unit_Class_id uclass_number(const struct unit_class *pclass);
 Unit_Class_id uclass_index(const struct unit_class *pclass);
 #endif /* uclass_index */
 
-struct unit_class *unit_class(const struct unit *punit);
+struct unit_class *unit_class_get(const struct unit *punit);
 struct unit_class *uclass_by_number(const Unit_Class_id id);
 #define utype_class(_t_) (_t_)->uclass
 #ifndef utype_class

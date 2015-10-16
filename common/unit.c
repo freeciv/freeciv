@@ -76,7 +76,7 @@ enum unit_airlift_result
     return AR_NO_MOVES;
   }
 
-  if (!uclass_has_flag(unit_class(punit), UCF_AIRLIFTABLE)) {
+  if (!uclass_has_flag(unit_class_get(punit), UCF_AIRLIFTABLE)) {
     return AR_WRONG_UNITTYPE;
   }
 
@@ -289,7 +289,7 @@ bool is_square_threatened(const struct player *pplayer,
               || (is_military_unit(punit) && is_attack_unit(punit)))
           && (is_native_tile(unit_type_get(punit), ptile)
               || (can_attack_non_native(unit_type_get(punit))
-                  && is_native_near_tile(unit_class(punit), ptile)))) {
+                  && is_native_near_tile(unit_class_get(punit), ptile)))) {
 	return TRUE;
       }
     } unit_list_iterate_end;
@@ -328,7 +328,7 @@ bool is_hiding_unit(const struct unit *punit)
 bool kills_citizen_after_attack(const struct unit *punit)
 {
   return game.info.killcitizen
-    && uclass_has_flag(unit_class(punit), UCF_KILLCITIZEN);
+    && uclass_has_flag(unit_class_get(punit), UCF_KILLCITIZEN);
 }
 
 /****************************************************************************
@@ -898,7 +898,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      const struct tile *ptile)
 {
   struct terrain *pterrain = tile_terrain(ptile);
-  struct unit_class *pclass = unit_class(punit);
+  struct unit_class *pclass = unit_class_get(punit);
 
   /* Check that no build activity conflicting with one already in progress
    * gets executed. */
@@ -1546,7 +1546,7 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
       continue;
     }
 
-    if (uclass_has_flag(unit_class(punit), UCF_DOESNT_OCCUPY_TILE)) {
+    if (uclass_has_flag(unit_class_get(punit), UCF_DOESNT_OCCUPY_TILE)) {
       continue;
     }
 
@@ -1998,7 +1998,7 @@ static bool can_type_transport_units_cargo(const struct unit_type *utype,
   }
 
   unit_list_iterate(punit->transporting, pcargo) {
-    if (!can_unit_type_transport(utype, unit_class(pcargo))) {
+    if (!can_unit_type_transport(utype, unit_class_get(pcargo))) {
       return FALSE;
     }
   } unit_list_iterate_end;

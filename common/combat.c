@@ -73,7 +73,7 @@ bool can_player_attack_tile(const struct player *pplayer,
 static bool is_unit_reachable_by_unit(const struct unit *defender,
                                       const struct unit *attacker)
 {
-  struct unit_class *dclass = unit_class(defender);
+  struct unit_class *dclass = unit_class_get(defender);
   struct unit_type *atype = unit_type_get(attacker);
 
   return BV_ISSET(atype->targets, uclass_index(dclass));
@@ -466,9 +466,9 @@ static int get_defense_power(const struct unit *punit)
 {
   int db, power = base_get_defense_power(punit);
   struct tile *ptile = unit_tile(punit);
-  struct unit_class *pclass = unit_class(punit);
+  struct unit_class *pclass = unit_class_get(punit);
 
-  if (uclass_has_flag(unit_class(punit), UCF_TERRAIN_DEFENSE)) {
+  if (uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)) {
     db = 10 + tile_terrain(ptile)->defense_bonus / 10;
     power = (power * db) / 10;
   }

@@ -789,7 +789,7 @@ static struct cityresult *settler_map_iterate(struct ai_type *ait,
   pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     int turns;
 
-    if (boat_cost == 0 && unit_class(punit)->adv.sea_move == MOVE_NONE
+    if (boat_cost == 0 && unit_class_get(punit)->adv.sea_move == MOVE_NONE
         && tile_continent(ptile) != tile_continent(unit_tile(punit))) {
       /* We have an accidential land bridge. Ignore it. It will in all
        * likelihood go away next turn, or even in a few nanoseconds. */

@@ -491,9 +491,10 @@ static void editor_grab_tool(const struct tile *ptile)
   } else if (unit_list_size(ptile->units) > 0) {
     int max_score = 0, score;
     struct unit *grabbed_punit = NULL;
+
     unit_list_iterate(ptile->units, punit) {
       score = 0;
-      if (uclass_has_flag(unit_class(punit), UCF_UNREACHABLE)) {
+      if (uclass_has_flag(unit_class_get(punit), UCF_UNREACHABLE)) {
         score = 5;
       } else if (utype_move_type(unit_type_get(punit)) == UMT_LAND) {
         score = 4;

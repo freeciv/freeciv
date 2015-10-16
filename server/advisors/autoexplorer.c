@@ -215,7 +215,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
   }
 
   circle_iterate(ptile, radius_sq, ptile1) {
-    int native = likely_native(ptile1, pplayer, unit_class(punit));
+    int native = likely_native(ptile1, pplayer, unit_class_get(punit));
 
     if (!map_is_known(ptile1, pplayer)) {
       unknown++;

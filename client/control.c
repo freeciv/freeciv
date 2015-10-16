@@ -1342,7 +1342,7 @@ void request_unit_return(struct unit *punit)
 
     if (punit->hp + turns *
         (get_unit_bonus(punit, EFT_UNIT_RECOVER)
-         - (max_hp * unit_class(punit)->hp_loss_pct / 100))
+         - (max_hp * unit_class_get(punit)->hp_loss_pct / 100))
 	< max_hp) {
       struct unit_order order;
 

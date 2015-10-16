@@ -534,7 +534,7 @@ static void unit_restore_hitpoints(struct unit *punit)
 {
   bool was_lower;
   int save_hp;
-  struct unit_class *class = unit_class(punit);
+  struct unit_class *pclass = unit_class_get(punit);
   struct city *pcity = tile_city(unit_tile(punit));
 
   was_lower = (punit->hp < unit_type_get(punit)->hp);
@@ -558,7 +558,7 @@ static void unit_restore_hitpoints(struct unit *punit)
 
   if (!pcity && !tile_has_native_base(unit_tile(punit), unit_type_get(punit))
       && !unit_transported(punit)) {
-    punit->hp -= unit_type_get(punit)->hp * class->hp_loss_pct / 100;
+    punit->hp -= unit_type_get(punit)->hp * pclass->hp_loss_pct / 100;
   }
 
   if (punit->hp >= unit_type_get(punit)->hp) {
@@ -644,7 +644,7 @@ static int hp_gain_coord(struct unit *punit)
     hp = MAX(hp, base / 3);
   }
 
-  if (!unit_class(punit)->hp_loss_pct) {
+  if (!unit_class_get(punit)->hp_loss_pct) {
     hp += (base + 9) / 10;
   }
 
@@ -1403,7 +1403,7 @@ bool is_airunit_refuel_point(const struct tile *ptile,
     return TRUE;
   }
 
-  pclass = unit_class(punit);
+  pclass = unit_class_get(punit);
   if (NULL != pclass->cache.refuel_bases) {
     const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
@@ -2063,7 +2063,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   /* barbarian leader ransom hack */
   if( is_barbarian(pvictim) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
       && (unit_list_size(unit_tile(punit)->units) == 1)
-      && uclass_has_flag(unit_class(pkiller), UCF_COLLECT_RANSOM)) {
+      && uclass_has_flag(unit_class_get(pkiller), UCF_COLLECT_RANSOM)) {
     /* Occupying units can collect ransom if leader is alone in the tile */
     ransom = (pvictim->economic.gold >= game.server.ransom_gold) 
              ? game.server.ransom_gold : pvictim->economic.gold;
@@ -2703,7 +2703,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
     if (NULL == plrtile->site
-        && !is_native_to_class(unit_class(punit), plrtile->terrain,
+        && !is_native_to_class(unit_class_get(punit), plrtile->terrain,
                                plrtile->extras)) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                     _("This unit cannot paradrop into %s."),
@@ -2808,7 +2808,7 @@ static bool hut_get_limited(struct unit *punit)
 static void unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  enum hut_behavior behavior = unit_class(punit)->hut_behavior;
+  enum hut_behavior behavior = unit_class_get(punit)->hut_behavior;
   struct tile *ptile = unit_tile(punit);
 
   /* FIXME: Should we still run "hut_enter" script when
