@@ -3676,6 +3676,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, UTYF_BARBARIAN_ONLY)) {
     CATLSTR(buf, bufsz, _("* Only barbarians may build this.\n"));
   }
+  if (utype_has_flag(utype, UTYF_NEWCITY_GAMES_ONLY)) {
+    CATLSTR(buf, bufsz, _("* This may be built only in games where new cities are allowed.\n"));
+    if (game.scenario.prevent_new_cities) {
+      CATLSTR(buf, bufsz, _("  - New cities are not allowed in current game.\n"));
+    } else {
+      CATLSTR(buf, bufsz, _("  - New cities are allowed in current game.\n"));
+    }
+  }
   nations_iterate(pnation) {
     int i, count = 0;
 
