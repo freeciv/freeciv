@@ -2403,9 +2403,15 @@ static void sg_save_scenario(struct savedata *saving)
   }
 
   secfile_insert_bool(saving->file, TRUE, "scenario.is_scenario");
+
+  /* Name is mandatory to the level that is saved even if empty. */
   secfile_insert_str(saving->file, game.scenario.name, "scenario.name");
-  secfile_insert_str(saving->file, game.scenario.description,
-                     "scenario.description");
+
+  if (game.scenario.description[0] != '\0') {
+    secfile_insert_str(saving->file, game.scenario.description,
+                       "scenario.description");
+  }
+
   secfile_insert_bool(saving->file, game.scenario.players, "scenario.players");
   secfile_insert_bool(saving->file, game.scenario.startpos_nations,
                       "scenario.startpos_nations");
