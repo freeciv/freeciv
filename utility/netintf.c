@@ -547,6 +547,7 @@ int find_next_free_port(int starting_port, int highest_port,
      break;
    default:
      fc_assert(FALSE);
+     log_error("Port from unsupported address family requested!");
 
      return -1;
   }
@@ -613,7 +614,15 @@ int find_next_free_port(int starting_port, int highest_port,
         struct hostent *hp;
 
         hp = gethostbyname(net_interface);
-        if (!hp || hp->h_addrtype != AF_INET) {
+        if (hp == NULL) {
+          log_error("No hostent for %s!", net_interface);
+
+          return -1;
+        }
+        if (hp->h_addrtype != AF_INET) {
+          log_error("Requested IPv4 address for %s, got something else! (%d)",
+                    net_interface, hp->h_addrtype);
+
           return -1;
         }
 
@@ -632,10 +641,13 @@ int find_next_free_port(int starting_port, int highest_port,
   }
 
   if (!found) {
+    log_error("None of the ports %d - %d is available.",
+              starting_port, highest_port);
+
     return -1;
   }
 
-  /* Rollback the last increment from the loop, back to port
+  /* Rollback the last increment from the loop, back to the port
    * number found to be free. */
   port--;
 

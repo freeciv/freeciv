@@ -255,6 +255,10 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 int connect_to_server(const char *username, const char *hostname, int port,
 		      char *errbuf, int errbufsize)
 {
+  if (errbufsize > 0 && errbuf != NULL) {
+    errbuf[0] = '\0';
+  }
+
   if (0 != get_server_address(hostname, port, errbuf, errbufsize)) {
     return -1;
   }

@@ -192,8 +192,10 @@ bool client_start_server(void)
   char savesdir[MAX_LEN_PATH];
   char scensdir[MAX_LEN_PATH];
   char options[512];
+#ifdef DEBUG
   char cmdline1[512];
   char cmdline2[512];
+#endif /* DEBUG */
   char cmdline3[512];
   char cmdline4[512];
   char logcmdline[512];
@@ -224,8 +226,6 @@ bool client_start_server(void)
                                              family, "localhost", TRUE);
 
   if (internal_server_port < 0) {
-    log_verbose("None of the ports %d - %d is available to start freeciv server on.",
-                DEFAULT_SOCK_PORT + 1, DEFAULT_SOCK_PORT + 1 + 10000);
     output_window_append(ftc_client, _("Couldn't start the server."));
     output_window_append(ftc_client,
                          _("You'll have to start one manually. Sorry..."));
@@ -389,15 +389,15 @@ bool client_start_server(void)
               "--scenarios \"%s\" -A none",
               internal_server_port, logcmdline, scriptcmdline, savefilecmdline,
               savescmdline, scenscmdline);
+#ifdef DEBUG
   fc_snprintf(cmdline1, sizeof(cmdline1), "./fcser %s", options);
   fc_snprintf(cmdline2, sizeof(cmdline2),
               "./server/freeciv-server %s", options);
+#endif /* DEBUG */
   fc_snprintf(cmdline3, sizeof(cmdline3),
               BINDIR "/freeciv-server %s", options);
   fc_snprintf(cmdline4, sizeof(cmdline4),
               "freeciv-server %s", options);
-
-  log_verbose("Arguments to spawned server: %s", options);
 
   if (
 #ifdef DEBUG
@@ -415,11 +415,20 @@ bool client_start_server(void)
       && !CreateProcess(NULL, cmdline4, NULL, NULL, TRUE,
                         DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
                         NULL, NULL, &si, &pi)) {
+    log_error("Failed to start server process.");
+#ifdef DEBUG
+    log_verbose("Tried with commandline: '%s'", cmdline1);
+    log_verbose("Tried with commandline: '%s'", cmdline2);
+#endif /* DEBUG */
+    log_verbose("Tried with commandline: '%s'", cmdline3);
+    log_verbose("Tried with commandline: '%s'", cmdline4);
     output_window_append(ftc_client, _("Couldn't start the server."));
     output_window_append(ftc_client,
                          _("You'll have to start one manually. Sorry..."));
     return FALSE;
   }
+
+  log_verbose("Arguments to spawned server: %s", options);
 
   server_process = pi.hProcess;
 
@@ -438,6 +447,7 @@ bool client_start_server(void)
 #endif /* WIN32_NATIVE */
 #endif /* HAVE_WORKING_FORK */
     if (connect_tries++ > NUMBER_OF_TRIES) {
+      log_error("Last error from connect attempts: '%s'", buf);
       break;
     }
   }
@@ -448,11 +458,13 @@ bool client_start_server(void)
     /* possible that server is still running. kill it */ 
     client_kill_server(TRUE);
 
+    log_error("Failed to connect to spawned server!");
     output_window_append(ftc_client, _("Couldn't connect to the server."));
     output_window_append(ftc_client,
                          _("We probably couldn't start it from here."));
     output_window_append(ftc_client,
                          _("You'll have to start one manually. Sorry..."));
+
     return FALSE;
   }
 
