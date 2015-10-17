@@ -2233,7 +2233,16 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
     }
 
     caravan_parameter_init_from_unit(&parameter, punit);
-    parameter.allow_foreign_trade = TRUE;
+    /* Make more trade with allies than other peaceful nations
+     * by considering only allies 50% of the time.
+     * (the other 50% allies are still considered, but so are other nations) */
+    if (fc_rand(2)) {
+      /* Be optimistic about development of relations with no-contact and
+       * cease-fire nations. */
+      parameter.allow_foreign_trade = FTL_NONWAR;
+    } else {
+      parameter.allow_foreign_trade = FTL_ALLIED;
+    }
 
     if (log_do_output_for_level(LOG_CARAVAN2)) {
       parameter.callback = caravan_optimize_callback;

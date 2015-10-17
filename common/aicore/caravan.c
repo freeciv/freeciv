@@ -41,7 +41,7 @@ void caravan_parameter_init_default(struct caravan_parameter *parameter)
   parameter->consider_trade = TRUE;
   parameter->consider_wonders = TRUE; /* see also init_from_unit */
   parameter->account_for_broken_routes = TRUE;
-  parameter->allow_foreign_trade = FALSE;
+  parameter->allow_foreign_trade = FTL_NATIONAL_ONLY;
   parameter->ignore_transit_time = FALSE;
   parameter->convert_trade = FALSE;
   parameter->callback = NULL;
@@ -111,7 +111,7 @@ void caravan_parameter_log_real(const struct caravan_parameter *parameter,
          parameter->consider_trade ? "trade" : "-",
          parameter->consider_wonders ? "wonders" : "-",
          parameter->account_for_broken_routes ? "yes" : "no",
-         parameter->allow_foreign_trade ? "yes" : "no",
+         parameter->allow_foreign_trade != FTL_NATIONAL_ONLY ? "yes" : "no",
          parameter->ignore_transit_time ? "yes" : "no",
          parameter->convert_trade ? "yes" : "no");
 }
@@ -430,12 +430,17 @@ static void get_discounted_reward(const struct unit *caravan,
   struct player *pplayer_dest = city_owner(dest);
   
   /* if no foreign trade is allowed, just quit. */
-  if (!parameter->allow_foreign_trade && pplayer_src != pplayer_dest) {
+  if (parameter->allow_foreign_trade == FTL_NATIONAL_ONLY
+      && pplayer_src != pplayer_dest) {
     caravan_result_init_zero(result);
     return;
   } else {
     /* foreign trade allowed, we only do business with allies */
-    if (pplayers_allied(pplayer_src, pplayer_dest)) {
+    if (pplayers_allied(pplayer_src, pplayer_dest)
+        || (parameter->allow_foreign_trade == FTL_PEACEFUL
+            && pplayers_in_peace(pplayer_src, pplayer_dest))
+        || (parameter->allow_foreign_trade == FTL_NONWAR
+            && !pplayers_at_war(pplayer_src, pplayer_dest))) {
       /* do some business */
     } else {
       caravan_result_init_zero(result);
