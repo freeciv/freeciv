@@ -1075,6 +1075,12 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
 
+  if (utype_has_flag(punittype, UTYF_NEWCITY_GAMES_ONLY)
+      && game.scenario.prevent_new_cities) {
+    /* Unit is usable only in games where founding of new cities is allowed. */
+    return FALSE;
+  }
+
   if (punittype->need_government
       && punittype->need_government != government_of_player(p)) {
     return FALSE;

@@ -331,6 +331,9 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "Capturable"  = can be captured by units with "Capturer" flag
 ; "Capturer"    = can capture units with flag "Capturable" instead of
 ;                 fighting them
+; "NewCityGamesOnly" = unit can't be built on scenarios where founding new cities
+;                 is not allowed. Give this flag to units that would make no sense
+;                 to have in a game with such a scenario
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
