@@ -69,7 +69,6 @@ enum munit {
   ORDER_DIPLOMAT_DLG,
   NUKE,
   UPGRADE,
-  SETTLER,
   SAVE
 };
 
