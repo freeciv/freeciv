@@ -4058,7 +4058,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
 /**************************************************************************
   Handle request for user input on what diplomat action to do.
 **************************************************************************/
-void handle_unit_diplomat_wants_input(int diplomat_id, int target_tile_id)
+void handle_unit_actor_wants_input(int diplomat_id, int target_tile_id)
 {
   struct unit *pdiplomat = player_unit_by_number(client_player(),
                                                      diplomat_id);

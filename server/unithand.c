@@ -2283,9 +2283,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
          * end of the function.) */
         send_unit_info(player_reply_dest(pplayer), punit);
 
-        dlsend_packet_unit_diplomat_wants_input(player_reply_dest(pplayer),
-                                                punit->id,
-                                                pdesttile->index);
+        dlsend_packet_unit_actor_wants_input(player_reply_dest(pplayer),
+                                             punit->id,
+                                             pdesttile->index);
         return FALSE;
       } else if (!may_non_act_move(punit, pcity, pdesttile, igzoc)) {
         /* No action can be done. No regular move can be done. Attack isn't
