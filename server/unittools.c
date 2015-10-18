@@ -3706,7 +3706,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
       if (action_tgt_city(act_unit, pdesttile, FALSE)) {
         /* There is a valid target. */
 
-        dlsend_packet_unit_diplomat_wants_input(
+        dlsend_packet_unit_actor_wants_input(
               player_reply_dest(act_player), act_unit->id,
               pdesttile->index, TRUE);
       }

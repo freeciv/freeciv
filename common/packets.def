@@ -1032,7 +1032,7 @@ PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend
   GEN_ACTION action_type;
 end
 
-PACKET_UNIT_DIPLOMAT_WANTS_INPUT = 86; sc, dsend, lsend
+PACKET_UNIT_ACTOR_WANTS_INPUT = 86; sc, dsend, lsend
   UNIT diplomat_id;
   TILE target_tile_id;
 
