@@ -865,7 +865,7 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(BUILD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
   act = menu->addAction(_("Go And Build City"));
-  menu_list.insertMulti(SETTLER, act);
+  menu_list.insertMulti(AUTOSETTLER, act);
   act->setShortcut(QKeySequence(tr("shift+b")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_go_build_city()));
   act = menu->addAction(_("Go And Join City"));
@@ -1267,7 +1267,6 @@ void mr_menu::menus_sensitive()
           } else {
             i.value()->setText(QString(_("Build Irrigation")));
           }
-          
         }
         break;
 
@@ -1308,12 +1307,6 @@ void mr_menu::menus_sensitive()
 
       case ROAD:
         if (can_units_do_any_road(punits)) {
-          i.value()->setEnabled(true);
-        }
-        break;
-
-      case SETTLER:
-        if (units_contain_cityfounder(punits)) {
           i.value()->setEnabled(true);
         }
         break;
