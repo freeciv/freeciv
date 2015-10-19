@@ -875,7 +875,7 @@ int main(int argc, char **argv)
 **************************************************************************/
 static void migrate_options_from_sdl(void)
 {
-  log_normal("Migrating options from sdl to sdl2 client");
+  log_normal(_("Migrating options from sdl to sdl2 client"));
 
 #define MIGRATE_OPTION(opt) options.gui_sdl2_##opt = options.gui_sdl_##opt;
 

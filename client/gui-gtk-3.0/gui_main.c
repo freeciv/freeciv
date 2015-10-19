@@ -1554,7 +1554,7 @@ int main(int argc, char **argv)
 **************************************************************************/
 static void migrate_options_from_gtk2(void)
 {
-  log_normal("Migrating options from gtk2 to gtk3 client");
+  log_normal(_("Migrating options from gtk2 to gtk3 client"));
 
 #define MIGRATE_OPTION(opt) options.gui_gtk3_##opt = options.gui_gtk2_##opt;
 #define MIGRATE_STR_OPTION(opt) \
@@ -1607,7 +1607,7 @@ static void migrate_options_from_gtk2(void)
 static void migrate_options_from_2_5(void)
 {
   if (!options.first_boot) {
-    log_normal("Migrating gtk3-client options from freeciv-2.5 options.");
+    log_normal(_("Migrating gtk3-client options from freeciv-2.5 options."));
 
     options.gui_gtk3_fullscreen = options.migrate_fullscreen;
 

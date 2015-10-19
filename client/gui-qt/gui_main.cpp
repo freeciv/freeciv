@@ -138,7 +138,7 @@ static bool parse_options(int argc, char **argv)
 static void migrate_options_from_2_5()
 {
   if (!options.first_boot) {
-    log_normal("Migrating Qt-client options from freeciv-2.5 options.");
+    log_normal(_("Migrating Qt-client options from freeciv-2.5 options."));
 
     options.gui_qt_fullscreen = options.migrate_fullscreen;
 
