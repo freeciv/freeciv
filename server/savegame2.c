@@ -436,12 +436,12 @@ static void savegame2_load_real(struct section_file *file)
   sg_load_savefile(loading);
   /* [game] */
   sg_load_game(loading);
+  /* [scenario] */
+  sg_load_scenario(loading);
   /* [random] */
   sg_load_random(loading);
   /* [script] */
   sg_load_script(loading);
-  /* [scenario] */
-  sg_load_scenario(loading);
   /* [settings] */
   sg_load_settings(loading);
   /* [ruldata] */
