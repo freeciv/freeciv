@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2015.Aug.03"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2015.Oct.15"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -71,6 +71,20 @@ struct ai_type
     /* Called for every AI type for each player in game when game loaded. */
     void (*player_load)(struct player *pplayer, const struct section_file *file,
                         int plrno);
+
+    /* Called for every AI type for each player in game when game saved,
+     * with each other player as parameter.
+     * In practice it's good to use player_save_relations when you
+     * want to add entries to "player%d.ai%d", but player_iterate() inside
+     * player_save is better otherwise. The difference is in how clean
+     * structure the produced savegame will have. */
+    void (*player_save_relations)(struct player *pplayer, struct player *other,
+                                  struct section_file *file, int plrno);
+
+    /* Called for every AI type for each player in game when game loaded,
+     * with each other player as parameter. */
+    void (*player_load_relations)(struct player *pplayer, struct player *other,
+                                  const struct section_file *file, int plrno);
 
     /* Called for AI type that gains control of player. */
     void (*gained_control)(struct player *pplayer);

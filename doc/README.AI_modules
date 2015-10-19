@@ -127,3 +127,6 @@ New in Freeciv 2.6:
 - Added game_start, called for all AI types when game starts
 - "city_got" is called when the city is fully initialized, "city_lost" when city still valid
 - Added gov_value for giving AI control of deciding value of governments
+- Added player_save_relations and player_load_relations called on savegame handling for a
+  player once per other player in game. Old player_save and player_load are called only once
+  overall

@@ -91,24 +91,30 @@ static void cai_player_free(struct player *pplayer)
 
 /**************************************************************************
   Call default ai with classic ai type as parameter.
+  Classicai stores information to "ai" like the default ai common code.
 **************************************************************************/
-static void cai_player_save(struct player *pplayer, struct section_file *file,
-                     int plrno)
+static void cai_player_save_relations(struct player *pplayer,
+                                      struct player *other,
+                                      struct section_file *file,
+                                      int plrno)
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_player_save(deftype, "ai", pplayer, file, plrno);
+  dai_player_save_relations(deftype, "ai", pplayer, other, file, plrno);
 }
 
 /**************************************************************************
   Call default ai with classic ai type as parameter.
+  Classicai stores information to "ai" like the default ai common code.
 **************************************************************************/
-static void cai_player_load(struct player *pplayer,
-                            const struct section_file *file, int plrno)
+static void cai_player_load_relations(struct player *pplayer,
+                                      struct player *other,
+                                      const struct section_file *file,
+                                      int plrno)
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_player_load(deftype, "ai", pplayer, file, plrno);
+  dai_player_load_relations(deftype, "ai", pplayer, other, file, plrno);
 }
 
 /**************************************************************************
@@ -562,8 +568,10 @@ bool fc_ai_classic_setup(struct ai_type *ai)
 
   ai->funcs.player_alloc = cai_player_alloc;
   ai->funcs.player_free = cai_player_free;
-  ai->funcs.player_save = cai_player_save;
-  ai->funcs.player_load = cai_player_load;
+  /* ai->funcs.player_save = NULL; */
+  /* ai->funcs.player_load = NULL; */
+  ai->funcs.player_save_relations = cai_player_save_relations;
+  ai->funcs.player_load_relations = cai_player_load_relations;
   ai->funcs.gained_control = cai_gained_control;
   /* ai->funcs.lost_control = NULL; */
   ai->funcs.split_by_civil_war = cai_split_by_civil_war;

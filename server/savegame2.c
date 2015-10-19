@@ -2737,6 +2737,7 @@ static void sg_load_player_main(struct loaddata *loading,
 
     plr->ai_common.love[player_index(aplayer)] =
         secfile_lookup_int_default(loading->file, 1, "%s.love", buf);
+    CALL_FUNC_EACH_AI(player_load_relations, plr, aplayer, loading->file, plrno);
   } players_iterate_end;
 
   CALL_FUNC_EACH_AI(player_load, plr, loading->file, plrno);
