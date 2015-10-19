@@ -1518,7 +1518,7 @@ int main(int argc, char **argv)
 static void migrate_options_from_2_5(void)
 {
   if (!options.first_boot) {
-    log_normal("Migrating gtk2-client options from freeciv-2.5 options.");
+    log_normal(_("Migrating gtk2-client options from freeciv-2.5 options."));
 
     options.gui_gtk2_fullscreen = options.migrate_fullscreen;
 
