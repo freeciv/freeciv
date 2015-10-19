@@ -1593,7 +1593,7 @@ int main(int argc, char **argv)
 **************************************************************************/
 static void migrate_options_from_gtk2(void)
 {
-  log_normal("Migrating options from gtk2 to gtk3 client");
+  log_normal(_("Migrating options from gtk2 to gtk3 client"));
 
 #define MIGRATE_OPTION(opt) gui_gtk3_##opt = gui_gtk2_##opt;
 #define MIGRATE_STR_OPTION(opt) \
