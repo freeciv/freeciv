@@ -1,9 +1,12 @@
 dnl configure.ac for freeciv
 dnl Process this file with autoconf to produce a configure script.
 
-dnl Initialize with some random file to ensure the source is here.
-AC_INIT([freeciv], m4_esyscmd([./fc_version | tr -d '\n']))
+AC_INIT([Freeciv], m4_esyscmd([./fc_version | tr -d '\n']),
+        [http://gna.org/projects/freeciv/],
+        [freeciv], [http://www.freeciv.org/])
 AC_PREREQ(2.64)
+
+dnl Initialize with some random file to ensure the source is here.
 AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
 AC_CONFIG_MACRO_DIR([m4])
@@ -13,7 +16,7 @@ AC_CANONICAL_HOST
 AC_USE_SYSTEM_EXTENSIONS
 AC_C_BIGENDIAN
 
-BUG_URL="http://gna.org/projects/freeciv/"
+BUG_URL="$PACKAGE_BUGREPORT"
 WIKI_URL="http://www.freeciv.org/"
 MAIL_ADDRESS="freeciv-dev AT gna.org"
 
