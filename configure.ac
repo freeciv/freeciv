@@ -890,16 +890,16 @@ done
 
 if test "x$req_fcmp_gtk3" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
-  PKG_CHECK_MODULES([GTK3], [gtk+-3.0 >= 3.8.0],
+  PKG_CHECK_MODULES([GTK3MP], [gtk+-3.0 >= 3.8.0],
 [
-  GTK3_CFLAGS="$GTK3_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_8 -DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_8"
-  GTK3_CFLAGS="$GTK3_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_36 -DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_36"
-  PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
+  GTK3MP_CFLAGS="$GTK3MP_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_8 -DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_8"
+  GTK3MP_CFLAGS="$GTK3MP_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_36 -DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_36"
+  PKG_CHECK_MODULES([GTHREAD_GTK3], [gthread-2.0],
 [
   fcmp_gtk3=yes
   fcmp_list="$fcmp_list gtk3"
-  mp_gtk3_cflags="$GTK3_CFLAGS $GHTREAD_CFLAGS"
-  mp_gtk3_libs="$GTK3_LIBS $GTHREAD_LIBS"
+  mp_gtk3_cflags="$GTK3MP_CFLAGS $GHTREAD_GTK3_CFLAGS"
+  mp_gtk3_libs="$GTK3MP_LIBS $GTHREAD_GTK3_LIBS"
   if test "x$MINGW32" = "xyes"; then
     dnl Required to compile gtk3 on Windows platform
     mp_gtk3_cflags="$mp_gtk3_cflags -mms-bitfields"
@@ -920,7 +920,7 @@ if test "x$req_fcmp_gtk2" = "xyes" ||
    test "x$modinst" = "xauto" || test "x$modinst" = "xall" ; then
   AM_PATH_GTK_2_0([2.12.0],
 [
-  PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
+  PKG_CHECK_MODULES([GTHREAD_GTK2], [gthread-2.0],
 [
   fcmp_gtk2=yes
   fcmp_list="$fcmp_list gtk2"
