@@ -2428,7 +2428,10 @@ void real_menus_init(void)
         g_object_set_data(G_OBJECT(item), "government", g);
 
         if ((gsprite = get_government_sprite(tileset, g))) {
-          image = gtk_pixcomm_new_from_sprite(gsprite);
+          GdkPixbuf *pb = sprite_get_pixbuf(gsprite);
+
+          image = gtk_image_new_from_pixbuf(pb);
+          g_object_unref(pb);
           gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
           gtk_widget_show(image);
         }
