@@ -42,7 +42,7 @@ qt-installer:
 
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make EXTRA_CONFIG="--enable-svnrev" all
+	make VERSION_REVTYPE="svn" EXTRA_CONFIG="--enable-svnrev" all
 
 
 # build Freeciv
@@ -203,7 +203,7 @@ install-env-qt: install-env-common
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
 # build installer
-	
+
 installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))

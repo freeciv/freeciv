@@ -59,7 +59,15 @@ NETWORK_CAPSTRING_OPTIONAL="nationset_change tech_cost split_reports"
 
 FREECIV_DISTRIBUTOR=""
 
+if test x$VERSION_REVTYPE = xsvn && which svn > /dev/null ; then
+  VERSION_REV="r$(LANG=C svn info 2>/dev/null | grep "^Revision: " | sed 's/^Revision: //')"
+elif test x$VERSION_REVTYPE = xgit && which git > /dev/null ; then
+  VERSION_REV="$(git rev-parse HEAD)"
+else
+  VERSION_REV=""
+fi
+
 if test x$VERSION_SCRIPT_SILENT != xyes ; then
-  VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${VERSION_LABEL}
+  VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${VERSION_LABEL}${VERSION_REV}
   echo ${VERSION}
 fi
