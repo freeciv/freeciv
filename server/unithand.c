@@ -1051,6 +1051,7 @@ void handle_unit_get_actions(struct connection *pc,
       case ATK_UNITS:
         /* The target tile aren't selected here so it haven't changed. */
         fc_assert(target_tile != NULL);
+        break;
       case ATK_COUNT:
         fc_assert_msg(action_get_target_kind(act) != ATK_COUNT,
                       "Invalid action target kind.");
