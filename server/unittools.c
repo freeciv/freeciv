@@ -3799,7 +3799,7 @@ void unit_do_disband_trad(struct player *owner, struct unit *punit)
   }
 
   /* All shields will be wasted. */
-  handle_unit_disband(owner, punit->id);
+  do_unit_disband(owner, punit);
 }
 
 /**************************************************************************

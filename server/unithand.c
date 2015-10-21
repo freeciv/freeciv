@@ -1945,14 +1945,10 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
 }
 
 /**************************************************************************
-  Disband a unit.
-
-  No shields spent to build the unit is added to the city's shield stock
-  for the current production.
+  Handle an incoming packet ordering a unit to disband.
 **************************************************************************/
 void handle_unit_disband(struct player *pplayer, int unit_id)
 {
-  struct action *blocker;
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
@@ -1961,13 +1957,34 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
     return;
   }
 
+  (void)do_unit_disband(pplayer, punit);
+}
+
+/**************************************************************************
+  Disband a unit.
+
+  No shields spent to build the unit is added to the shield stock of any
+  city even if the unit is located inside it.
+
+  Returns TRUE iff the action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, the unit may have died during the action.
+**************************************************************************/
+bool do_unit_disband(struct player *pplayer, struct unit *punit)
+{
+  struct action *blocker;
+
+  if (!punit || !unit_alive(punit->id)) {
+    /* The actor is dead. */
+    return FALSE;
+  }
+
   if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
     /* refuse to kill ourselves */
     notify_player(unit_owner(punit), unit_tile(punit),
                   E_BAD_COMMAND, ftc_server,
                   _("%s refuses to disband!"),
                   unit_link(punit));
-    return;
+    return FALSE;
   }
 
   if ((blocker = action_blocks_disband(punit))) {
@@ -1977,10 +1994,13 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
                   /* TRANS: ... Help Wonder ... */
                   _("Regular disband not allowed. Try %s in stead."),
                   action_get_ui_name(blocker->id));
-    return;
+    return FALSE;
   }
 
   wipe_unit(punit, ULR_DISBANDED, NULL);
+
+  /* The unit is now disbanded. */
+  return TRUE;
 }
 
 /**************************************************************************

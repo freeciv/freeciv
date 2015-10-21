@@ -37,6 +37,8 @@ bool unit_perform_action(struct player *pplayer,
                          const char *name,
                          const enum gen_action action_type);
 
+bool do_unit_disband(struct player *pplayer, struct unit *punit);
+
 void illegal_action_msg(struct player *pplayer,
                         const enum event_type event,
                         struct unit *actor,
