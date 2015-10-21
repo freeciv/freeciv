@@ -145,65 +145,115 @@ const char **gfx_fileextensions(void)
 }
 
 /****************************************************************************
+  Called when the cairo surface with freeciv allocated data is destroyed.
+****************************************************************************/
+static void surf_destroy_callback(void *data)
+{
+  free(data);
+}
+
+/****************************************************************************
   Load the given graphics file into a sprite.  This function loads an
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
 ****************************************************************************/
 struct sprite *load_gfxfile(const char *filename)
 {
-  struct sprite *new = fc_malloc(sizeof(*new));
+  struct sprite *spr;
+  GError *err = NULL;;
+  GdkPixbuf *pb = gdk_pixbuf_new_from_file(filename, &err);
+  int width;
+  int height;
+  unsigned char *pbdata;
+  int rs;
+  unsigned char *cairo_data;
+  unsigned char *data;
+  int i, j;
+  int cairo_stride;
+  bool has_alpha;
+  int channels;
 
-  new->surface = cairo_image_surface_create_from_png(filename);
+  if (pb == NULL) {
+    log_error(_("Can't load %s: %s"), filename, err->message);
+    return NULL;
+  }
 
-  if (cairo_image_surface_get_format(new->surface) == CAIRO_FORMAT_RGB24) {
-    /* Make format right */
-    cairo_surface_t *tmp;
-    int width = cairo_image_surface_get_width(new->surface);
-    int height = cairo_image_surface_get_height(new->surface);
-    unsigned char *old_data;
-    unsigned char *new_data;
-    int i, j;
+  spr = fc_malloc(sizeof(*spr));
+  width = gdk_pixbuf_get_width(pb);
+  height = gdk_pixbuf_get_height(pb);
+  pbdata = gdk_pixbuf_get_pixels(pb);
+  rs = gdk_pixbuf_get_rowstride(pb);
+  has_alpha = gdk_pixbuf_get_has_alpha(pb);
+  channels = gdk_pixbuf_get_n_channels(pb);
 
-    /* Surface with correct format */
-    tmp = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+  cairo_stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, width);
+  if (cairo_stride <= 0) {
+    log_error("Cairo does not give stride for width %d", width);
+    free(spr);
+    return NULL;
+  }
 
-    old_data = cairo_image_surface_get_data(new->surface);
-    new_data = cairo_image_surface_get_data(tmp);
+  cairo_data = fc_malloc(height * cairo_stride * 4);
+  data = cairo_data;
 
-    for (i = 0; i < width; i++) {
-      for (j = 0; j < height; j++) {
-#ifndef WORDS_BIGENDIAN
-        /* Add alpha channel */
-        new_data[(j * width + i) * 4 + 3] = 0xff;
-        /* Copy RGB */
-        new_data[(j * width + i) * 4 + 1] = old_data[(j * width + i) * 4 + 1];
-        new_data[(j * width + i) * 4 + 2] = old_data[(j * width + i) * 4 + 2];
-        new_data[(j * width + i) * 4 + 0] = old_data[(j * width + i) * 4 + 0];
+  for (i = 0; i < height; i++) {
+    for (j = 0; j < width; j++) {
+      if (has_alpha) {
+        unsigned char tmp;
+
+#define MULTI_UNc(a,b) ((a * b - (b / 2)) / 0xFF)
+
+#ifdef WORDS_BIGENDIAN
+        tmp = pbdata[j * channels + 3];
+        data[j * 4 + 3] = MULTI_UNc(pbdata[j * channels + 2], tmp);
+        data[j * 4 + 2] = MULTI_UNc(pbdata[j * channels + 1], tmp);
+        data[j * 4 + 1] = MULTI_UNc(pbdata[j * channels + 0], tmp);
+        data[j * 4 + 0] = tmp;
 #else  /* WORDS_BIGENDIAN */
-        /* Add alpha channel */
-        new_data[(j * width + i) * 4] = 0xff;
-        /* Copy RGB */
-        new_data[(j * width + i) * 4 + 1] = old_data[(j * width + i) * 4 + 1];
-        new_data[(j * width + i) * 4 + 2] = old_data[(j * width + i) * 4 + 2];
-        new_data[(j * width + i) * 4 + 3] = old_data[(j * width + i) * 4 + 3];
-#endif  /* WORDS_BIGENDIAN */
+        tmp = MULTI_UNc(pbdata[j * channels + 2], pbdata[j * channels + 3]);
+        data[j * 4 + 1] = MULTI_UNc(pbdata[j * channels + 1], pbdata[j * channels + 3]);
+        data[j * 4 + 2] = MULTI_UNc(pbdata[j * channels + 0], pbdata[j * channels + 3]);
+        data[j * 4 + 0] = tmp;
+        data[j * 4 + 3] = pbdata[j * channels + 3];
+#endif /* WORDS_BIGENDIAN */
+
+#undef MULTI_UNc
+
+      } else {
+        data[j * 4 + 3] = 255;
+        data[j * 4 + 0] = pbdata[j * channels + 2];
+        data[j * 4 + 1] = pbdata[j * channels + 1];
+        data[j * 4 + 2] = pbdata[j * channels + 0];
       }
     }
 
-    cairo_surface_mark_dirty(tmp);
-    cairo_surface_destroy(new->surface);
-
-    new->surface = tmp;
+    data += cairo_stride;
+    pbdata += rs;
   }
 
-  fc_assert(cairo_image_surface_get_format(new->surface) == CAIRO_FORMAT_ARGB32);
+  g_object_unref(pb);
 
-  if (cairo_surface_status(new->surface) != CAIRO_STATUS_SUCCESS) {
+  spr->surface = cairo_image_surface_create_for_data(cairo_data, CAIRO_FORMAT_ARGB32,
+                                                     width, height, cairo_stride);
+  if (spr->surface == NULL || cairo_surface_status(spr->surface) != CAIRO_STATUS_SUCCESS) {
+    log_error("Cairo image surface creation error");
+    free(spr);
+    free(cairo_data);
+
+    return NULL;
+  }
+
+  cairo_surface_set_user_data(spr->surface, NULL, cairo_data, surf_destroy_callback);
+
+  fc_assert(cairo_image_surface_get_format(spr->surface) == CAIRO_FORMAT_ARGB32);
+
+  if (cairo_surface_status(spr->surface) != CAIRO_STATUS_SUCCESS) {
     log_fatal("Failed reading graphics file: \"%s\"", filename);
+
     exit(EXIT_FAILURE);
   }
 
-  return new;
+  return spr;
 }
 
 /****************************************************************************
