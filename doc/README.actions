@@ -302,3 +302,6 @@ Actions done by a unit against a tile
    - the actor must be at war with any city on the target tile
    - the actor must be at war with each unit on the target tile
    - a unit at the target tile must be reachable unless it has a city
+
+Actions done by a unit to it self
+=================================

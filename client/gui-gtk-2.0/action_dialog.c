@@ -1122,6 +1122,8 @@ static const GCallback af_map[ACTION_COUNT] = {
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
   [ACTION_NUKE] = (GCallback)nuke_callback,
+
+  /* Unit acting with no target except it self. */
 };
 
 /******************************************************************
@@ -1224,6 +1226,7 @@ void popup_action_selection(struct unit *actor_unit,
   actor_homecity = game_city_by_number(actor_unit->homecity);
 
   actor_unit_id = actor_unit->id;
+  target_ids[ATK_SELF] = actor_unit_id;
   target_ids[ATK_CITY] = target_city ?
                          target_city->id :
                          IDENTITY_NUMBER_ZERO;
@@ -1317,6 +1320,19 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_TILE) {
+      action_entry(shl,
+                   (enum gen_action)act,
+                   act_probs,
+                   NULL,
+                   data);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against it self. */
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_SELF) {
       action_entry(shl,
                    (enum gen_action)act,
                    act_probs,

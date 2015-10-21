@@ -221,6 +221,9 @@ static void notify_actor_caught(struct player *receiver,
                   gen_action_translated_name(action_id),
                   victim_link);
     break;
+  case ATK_SELF:
+    /* Special actor notice not needed. Actor is victim. */
+    break;
   case ATK_COUNT:
     fc_assert(ATK_COUNT != ATK_COUNT);
     break;
@@ -275,6 +278,9 @@ static void notify_victim_caught(struct player *receiver,
                   nation_plural_for_player(offender),
                   gen_action_translated_name(action_id),
                   victim_link);
+    break;
+  case ATK_SELF:
+    /* Special victim notice not needed. Actor is victim. */
     break;
   case ATK_COUNT:
     fc_assert(ATK_COUNT != ATK_COUNT);
@@ -393,6 +399,9 @@ static void notify_actor_success(struct player *receiver,
                   gen_action_translated_name(action_id),
                   victim_link);
     break;
+  case ATK_SELF:
+    /* Special actor notice not needed. Actor is victim. */
+    break;
   case ATK_COUNT:
     fc_assert(ATK_COUNT != ATK_COUNT);
     break;
@@ -445,6 +454,9 @@ static void notify_victim_success(struct player *receiver,
                   nation_plural_for_player(offender),
                   gen_action_translated_name(action_id),
                   victim_link);
+    break;
+  case ATK_SELF:
+    /* Special victim notice not needed. Actor is victim. */
     break;
   case ATK_COUNT:
     fc_assert(ATK_COUNT != ATK_COUNT);

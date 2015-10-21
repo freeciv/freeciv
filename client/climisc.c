@@ -1374,6 +1374,23 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
     }
   } action_iterate_end;
 
+  /* Check actions without another target than the actor it self. */
+  action_iterate(act) {
+    if (action_get_actor_kind(act) != AAK_UNIT
+        || action_get_target_kind(act) != ATK_SELF) {
+      /* Not relevant. */
+      continue;
+    }
+
+    /* Can't return yet unless TRUE. Another action vs the unit it self may
+     * be possible. It may also be possible to act against another target
+     * kind. */
+    if (utype_can_do_action(unit_type_get(act_unit), act)) {
+      /* Self target confirmed possible. */
+      return TRUE;
+    }
+  } action_iterate_end;
+
   /* No action against any kind of target possible. */
   return FALSE;
 }

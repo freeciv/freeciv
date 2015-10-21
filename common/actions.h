@@ -38,6 +38,9 @@ extern "C" {
 #define SPECENUM_VALUE2NAME N_("unit stacks")
 #define SPECENUM_VALUE3 ATK_TILE
 #define SPECENUM_VALUE3NAME N_("tiles")
+/* No target except the actor it self. */
+#define SPECENUM_VALUE4 ATK_SELF
+#define SPECENUM_VALUE4NAME N_("it self")
 #define SPECENUM_COUNT ATK_COUNT
 #include "specenum_gen.h"
 
@@ -273,6 +276,9 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile);
 
+bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
+                                    const struct unit *actor_unit);
+
 action_probability action_prob_vs_city(const struct unit* actor,
                                        const int action_id,
                                        const struct city* victim);
@@ -288,6 +294,9 @@ action_probability action_prob_vs_units(const struct unit* actor,
 action_probability action_prob_vs_tile(const struct unit *actor,
                                        const int action_id,
                                        const struct tile *victims);
+
+action_probability action_prob_self(const struct unit *actor,
+                                    const int action_id);
 
 bool action_prob_possible(action_probability probability);
 

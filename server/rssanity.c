@@ -835,6 +835,21 @@ bool sanity_check_ruleset_data(void)
         ok = FALSE;
       }
 
+      if (action_get_target_kind(enabler->action) == ATK_SELF) {
+        /* Special test for self targeted actions. */
+
+        if (requirement_vector_size(&(enabler->target_reqs)) > 0) {
+          /* Shouldn't have target requirements since the action doesn't
+           * have a target. */
+          ruleset_error(LOG_ERROR,
+                        "An action enabler for %s has a target "
+                        "requirement vector. %s doesn't have a target.",
+                        action_get_rule_name(act),
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+
       requirement_vector_iterate(&(enabler->target_reqs), preq) {
         if (preq->source.kind == VUT_DIPLREL
             && preq->range == REQ_RANGE_LOCAL) {

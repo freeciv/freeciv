@@ -957,6 +957,8 @@ static const act_func af_map[ACTION_COUNT] = {
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = found_city_callback,
   [ACTION_NUKE] = nuke_callback,
+
+  /* Unit acting with no target except it self. */
 };
 
 /**************************************************************************
@@ -997,6 +999,9 @@ static void action_entry(const enum gen_action act,
   case ATK_TILE:
   case ATK_UNITS:
     pBuf->data.tile = tgt_tile;
+    break;
+  case ATK_SELF:
+    pBuf->data.unit = act_unit;
     break;
   case ATK_COUNT:
     fc_assert_msg(FALSE, "Unsupported target kind");
@@ -1127,6 +1132,8 @@ void popup_action_selection(struct unit *actor_unit,
 
   pDiplomat_Dlg->target_ids[ATK_TILE] = tile_index(target_tile);
 
+  pDiplomat_Dlg->target_ids[ATK_SELF] = actor_unit->id;
+
   /* ---------- */
   /* Spy/Diplomat acting against a city */
 
@@ -1173,6 +1180,18 @@ void popup_action_selection(struct unit *actor_unit,
       action_entry(act, act_probs,
                    NULL,
                    actor_unit, target_tile, NULL, NULL,
+                   pWindow, &area);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against it self. */
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_SELF) {
+      action_entry(act, act_probs,
+                   NULL,
+                   actor_unit, NULL, NULL, target_unit,
                    pWindow, &area);
     }
   } action_iterate_end;

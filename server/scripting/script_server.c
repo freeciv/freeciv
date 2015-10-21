@@ -417,6 +417,10 @@ static void script_server_signal_create(void)
   luascript_signal_create(fcl_main, "action_started_unit_tile", 3,
                           API_TYPE_ACTION,
                           API_TYPE_UNIT, API_TYPE_TILE);
+
+  luascript_signal_create(fcl_main, "action_started_unit_self", 2,
+                          API_TYPE_ACTION,
+                          API_TYPE_UNIT);
 }
 
 /*****************************************************************************

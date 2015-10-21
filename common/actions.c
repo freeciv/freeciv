@@ -853,7 +853,8 @@ is_action_possible(const enum gen_action wanted_action,
                     && target_unit != NULL)
                 || (action_get_target_kind(wanted_action) == ATK_UNITS
                     /* At this level each individual unit is tested. */
-                    && target_unit != NULL),
+                    && target_unit != NULL)
+                || (action_get_target_kind(wanted_action) == ATK_SELF),
                 "Missing target!");
 
   /* Only check requirement against the target unit if the actor can see it
@@ -870,7 +871,8 @@ is_action_possible(const enum gen_action wanted_action,
     return TRI_NO;
   }
 
-  if (action_get_actor_kind(wanted_action) == AAK_UNIT) {
+  if (action_get_actor_kind(wanted_action) == AAK_UNIT
+      && action_get_target_kind(wanted_action) != ATK_SELF) {
     /* The Freeciv code for all actions controlled by enablers assumes that
      * an acting unit is on the same tile as its target or on the tile next
      * to it. */
@@ -1392,6 +1394,42 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                            NULL, NULL,
                            tile_owner(target_tile), NULL, NULL,
                            target_tile, NULL, NULL, NULL, NULL);
+}
+
+/**************************************************************************
+  Returns TRUE if actor_unit can do wanted_action to it self as far as
+  action enablers are concerned.
+
+  See note in is_action_enabled for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
+                                    const struct unit *actor_unit)
+{
+  if (actor_unit == NULL) {
+    /* Can't do an action when the actor is missing. */
+    return FALSE;
+  }
+
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+                        FALSE, "Action %s is performed by %s not %s",
+                        gen_action_name(wanted_action),
+                        action_actor_kind_name(
+                          action_get_actor_kind(wanted_action)),
+                        action_actor_kind_name(AAK_UNIT));
+
+  fc_assert_ret_val_msg(ATK_SELF == action_get_target_kind(wanted_action),
+                        FALSE, "Action %s is against %s not %s",
+                        gen_action_name(wanted_action),
+                        action_target_kind_name(
+                          action_get_target_kind(wanted_action)),
+                        action_target_kind_name(ATK_SELF));
+
+  return is_action_enabled(wanted_action,
+                           unit_owner(actor_unit), NULL, NULL,
+                           unit_tile(actor_unit),
+                           actor_unit, unit_type_get(actor_unit),
+                           NULL, NULL,
+                           NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 /**************************************************************************
@@ -2009,6 +2047,39 @@ action_probability action_prob_vs_tile(const struct unit* actor_unit,
                      NULL, NULL,
                      tile_owner(target_tile), NULL, NULL,
                      target_tile, NULL, NULL, NULL, NULL);
+}
+
+/**************************************************************************
+  Get the actor unit's probability of successfully performing the chosen
+  action on it self.
+**************************************************************************/
+action_probability action_prob_self(const struct unit* actor_unit,
+                                    const int action_id)
+{
+  if (actor_unit == NULL) {
+    /* Can't do the action when the actor is missing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+                        FALSE, "Action %s is performed by %s not %s",
+                        gen_action_name(action_id),
+                        action_actor_kind_name(
+                          action_get_actor_kind(action_id)),
+                        action_actor_kind_name(AAK_UNIT));
+
+  fc_assert_ret_val_msg(ATK_SELF == action_get_target_kind(action_id),
+                        FALSE, "Action %s is against %s not %s",
+                        gen_action_name(action_id),
+                        action_target_kind_name(
+                          action_get_target_kind(action_id)),
+                        action_target_kind_name(ATK_SELF));
+
+  return action_prob(action_id,
+                     unit_owner(actor_unit), NULL, NULL,
+                     unit_tile(actor_unit), actor_unit, NULL,
+                     NULL, NULL,
+                     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 /**************************************************************************

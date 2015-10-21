@@ -4223,6 +4223,11 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
         tgt_id = tgt_unit->id;
         break;
+      case ATK_SELF:
+        prob = action_prob_self(punit, order.action);
+
+        tgt_id = unitid;
+        break;
       case ATK_COUNT:
         log_error("Invalid action target kind");
 

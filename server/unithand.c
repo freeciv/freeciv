@@ -650,6 +650,10 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       return tile_owner(target_tile);
     }
     break;
+  case ATK_SELF:
+    /* Can't declare war on it self. */
+    return NULL;
+    break;
   case ATK_COUNT:
     /* Nothing to check. */
     fc_assert(action_get_target_kind(act) != ATK_COUNT);
@@ -759,6 +763,10 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
           && unit_list_size(target_tile->units) > 0) {
         tgt_player = unit_owner(unit_list_get(target_tile->units, 0));
       }
+      break;
+    case ATK_SELF:
+      /* A unit acting against it self. */
+      tgt_player = unit_owner(punit);
       break;
     case ATK_COUNT:
       fc_assert(action_get_target_kind(action_id) != ATK_COUNT);
@@ -1021,6 +1029,8 @@ void handle_unit_get_actions(struct connection *pc,
     } else if (target_tile && action_get_target_kind(act) == ATK_TILE) {
       probabilities[act] = action_prob_vs_tile(actor_unit, act,
                                                target_tile);
+    } else if (action_get_target_kind(act) == ATK_SELF) {
+      probabilities[act] = action_prob_self(actor_unit, act);
     } else {
       probabilities[act] = ACTPROB_IMPOSSIBLE;
     }
@@ -1051,6 +1061,10 @@ void handle_unit_get_actions(struct connection *pc,
       case ATK_UNITS:
         /* The target tile aren't selected here so it haven't changed. */
         fc_assert(target_tile != NULL);
+        break;
+      case ATK_SELF:
+        /* The target unit is the actor unit. It is already sent. */
+        fc_assert(actor_unit != NULL);
         break;
       case ATK_COUNT:
         fc_assert_msg(action_get_target_kind(act) != ATK_COUNT,
@@ -1453,6 +1467,15 @@ bool unit_perform_action(struct player *pplayer,
   }                                                                       \
   if (!target || !city_exist(target->id)) {                               \
     /* Target city was destroyed during pre action Lua. */                \
+    return FALSE;                                                         \
+  }
+
+#define ACTION_STARTED_UNIT_SELF(action, actor)                           \
+  script_server_signal_emit("action_started_unit_self", 2,                \
+                            API_TYPE_ACTION, action_by_number(action),    \
+                            API_TYPE_UNIT, actor);                        \
+  if (!actor || !unit_alive(actor->id)) {                                 \
+    /* Actor unit was destroyed during pre action Lua. */                 \
     return FALSE;                                                         \
   }
 
@@ -4070,6 +4093,8 @@ void handle_unit_orders(struct player *pplayer,
       case ATK_UNITS:
         break;
       case ATK_TILE:
+        break;
+      case ATK_SELF:
         break;
       case ATK_COUNT:
         fc_assert(action_get_target_kind(packet->action[i]) != ATK_COUNT);

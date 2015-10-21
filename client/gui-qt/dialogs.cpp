@@ -148,6 +148,8 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_FOUND_CITY] = found_city;
   action_function[ACTION_NUKE] = nuke;
 
+  /* Unit acting with no target except it self. */
+
   return action_function;
 }
 
@@ -1009,6 +1011,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   gui()->set_diplo_dialog(this);
 
   unit_id = IDENTITY_NUMBER_ZERO;
+  target_id[ATK_SELF] = unit_id;
   target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
@@ -1344,6 +1347,8 @@ void popup_action_selection(struct unit *actor_unit,
 
   cd->unit_id = actor_unit->id;
 
+  cd->target_id[ATK_SELF] = cd->unit_id;
+
   if (target_city) {
     cd->target_id[ATK_CITY] = target_city->id;
   } else {
@@ -1425,6 +1430,22 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_TILE) {
+      action_entry(cd,
+                   (enum gen_action)act,
+                   act_probs,
+                   "",
+                   qv1, qv2);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against it self */
+
+  /* Set the correct target for the following actions. */
+  qv2 = cd->target_id[ATK_SELF];
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_SELF) {
       action_entry(cd,
                    (enum gen_action)act,
                    act_probs,
@@ -2382,6 +2403,9 @@ void action_selection_refresh(struct unit *actor_unit,
 
         qv2 = IDENTITY_NUMBER_ZERO;
       }
+      break;
+    case ATK_SELF:
+      qv2 = actor_unit->id;
       break;
     case ATK_COUNT:
       fc_assert_msg(ATK_COUNT != action_get_target_kind(act),

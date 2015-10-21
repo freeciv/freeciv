@@ -1805,6 +1805,9 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
         case ATK_TILE:
           victim_link = tile_link(ptile);
           break;
+        case ATK_SELF:
+          /* How did a self targeted action end up here? */
+          fc_assert(action_get_target_kind(action_id) != ATK_SELF);
         default:
           victim_link = NULL;
           break;
