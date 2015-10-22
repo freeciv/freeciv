@@ -3920,11 +3920,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, UTYF_UNDISBANDABLE)) {
     CATLSTR(buf, bufsz, _("* May not be disbanded.\n"));
-  } else {
-    CATLSTR(buf, bufsz,
-	    /* xgettext:no-c-format */
-	    _("* May be disbanded in a city to recover 50% of the"
-	      " production cost.\n"));
   }
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
     struct universal for_utype = { .kind = VUT_UTYPE, .value = { .utype = utype }};
