@@ -259,6 +259,11 @@ void action_enabler_add(struct action_enabler *enabler);
 struct action *action_blocks_attack(const struct unit *actor_unit,
                                     const struct tile *target_tile);
 struct action *action_blocks_disband(const struct unit *actor_unit);
+struct action *action_is_blocked_by(const int action_id,
+                                    const struct unit *actor_unit,
+                                    const struct tile *target_tile,
+                                    const struct city *target_city,
+                                    const struct unit *target_unit);
 
 bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,

@@ -769,6 +769,78 @@ struct action *action_blocks_disband(const struct unit *actor_unit)
 }
 
 /**************************************************************************
+  Returns the action that blocks the specified action or NULL if the
+  specified action isn't blocked.
+
+  An action that can block another blocks when it is forced and possible.
+**************************************************************************/
+struct action *action_is_blocked_by(const int action_id,
+                                    const struct unit *actor_unit,
+                                    const struct tile *target_tile,
+                                    const struct city *target_city,
+                                    const struct unit *target_unit)
+{
+  /* TODO: Generalize. Give the ruleset more control. Maybe add a
+   * blocked_by action vector field to generalized actions when actions
+   * becomes generalized? */
+
+  switch (action_id) {
+  case ACTION_MARKETPLACE:
+    if (trade_route_blocks(actor_unit, target_city)) {
+      /* Establish Trade Route is possible.
+       * The ruleset forbids Enter Marketplace when it is. */
+      return action_by_number(ACTION_TRADE_ROUTE);
+    }
+
+    /* Not blocked. */
+    return NULL;
+    break;
+  case ACTION_BOMBARD:
+    if (capture_units_blocks(actor_unit, target_tile)) {
+      /* Capture unit is possible.
+       * The ruleset forbids bombard when it is. */
+      return action_by_number(ACTION_CAPTURE_UNITS);
+    }
+
+    /* Not blocked. */
+    return NULL;
+    break;
+  case ACTION_NUKE:
+    if (capture_units_blocks(actor_unit, target_tile)) {
+      /* Capture unit is possible.
+       * The ruleset forbids Explode Nuclear when it is. */
+      return action_by_number(ACTION_CAPTURE_UNITS);
+    }
+
+    if (bombard_blocks(actor_unit, target_tile)) {
+      /* Bombard units is possible.
+       * The ruleset forbids Explode Nuclear when it is. */
+      return action_by_number(ACTION_BOMBARD);
+    }
+
+    /* Not blocked. */
+    return NULL;
+    break;
+  case ACTION_RECYCLE_UNIT:
+    if (help_wonder_blocks(actor_unit, target_city)) {
+      /* Help Wonder is possible.
+       * Freeciv forbids Recycle Unit when it is.
+       * The current Freeciv code can't handle permitting Recycle Unit when
+       * Help Wonder is legal. See explanation in help_wonder_blocks(). */
+      return action_by_number(ACTION_HELP_WONDER);
+    }
+
+    /* Not blocked. */
+    return NULL;
+    break;
+  default:
+    /* Not able to be blocked. */
+    return NULL;
+    break;
+  }
+}
+
+/**************************************************************************
   Returns TRUE if the specified unit type can perform the wanted action
   given that an action enabler later will enable it.
 
@@ -890,6 +962,13 @@ is_action_possible(const enum gen_action wanted_action,
     }
   }
 
+  if (action_is_blocked_by(wanted_action, actor_unit,
+                           target_tile, target_city, target_unit)) {
+    /* Allows an action to block an other action. If a blocking action is
+     * legal the actions it blocks becomes illegal. */
+    return TRI_NO;
+  }
+
   if (wanted_action == ACTION_ESTABLISH_EMBASSY
       || wanted_action == ACTION_SPY_INVESTIGATE_CITY
       || wanted_action == ACTION_SPY_STEAL_GOLD
@@ -985,13 +1064,6 @@ is_action_possible(const enum gen_action wanted_action,
       return TRI_NO;
     }
 
-    /* Allow a ruleset to forbid units from entering the marketplace if a
-     * trade route can be established in stead. */
-    if (wanted_action == ACTION_MARKETPLACE
-        && trade_route_blocks(actor_unit, target_city)) {
-      return TRI_NO;
-    }
-
     /* There are more restrictions on establishing a trade route than on
      * entering the market place. */
     if (wanted_action == ACTION_TRADE_ROUTE &&
@@ -1022,13 +1094,6 @@ is_action_possible(const enum gen_action wanted_action,
     /* FIXME: The next item may be forbidden from receiving help. But
      * forbidding the player from recycling a unit because the production
      * has enough, like Help Wonder does, would be a rule change. */
-
-    if (help_wonder_blocks(actor_unit, target_city)) {
-      /* Help Wonder is possible. The current Freeciv code can't handle
-       * permitting Recycle Unit when Help Wonder is legal.
-       * See explanation in help_wonder_blocks(). */
-      return TRI_NO;
-    }
 
     /* Reason: Keep the rules exactly as they were for now. */
     /* Info leak: The actor player knows where his unit is. */
@@ -1068,26 +1133,6 @@ is_action_possible(const enum gen_action wanted_action,
     if (tile_city(target_tile)
         && !pplayers_at_war(city_owner(tile_city(target_tile)),
                             actor_player)) {
-      return TRI_NO;
-    }
-
-    if (capture_units_blocks(actor_unit, target_tile)) {
-      /* Capture unit is possible.
-       * The ruleset forbids bombarding when it is. */
-      return TRI_NO;
-    }
-  }
-
-  if (wanted_action == ACTION_NUKE) {
-    if (capture_units_blocks(actor_unit, target_tile)) {
-      /* Capture unit is possible.
-       * The ruleset forbids exploade nuclear when it is. */
-      return TRI_NO;
-    }
-
-    if (bombard_blocks(actor_unit, target_tile)) {
-      /* Bomard units is possible.
-       * The ruleset forbids explode nuclear when it is. */
       return TRI_NO;
     }
   }
