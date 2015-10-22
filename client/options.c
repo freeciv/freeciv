@@ -219,7 +219,6 @@ struct client_options options = {
   .gui_gtk3_dialogs_on_top = TRUE,
   .gui_gtk3_show_task_icons = TRUE,
   .gui_gtk3_enable_tabs = TRUE,
-  .gui_gtk3_better_fog = TRUE,
   .gui_gtk3_show_chat_message_time = FALSE,
   .gui_gtk3_new_messages_go_to_top = FALSE,
   .gui_gtk3_show_message_window_buttons = TRUE,
@@ -2490,13 +2489,6 @@ static struct client_option client_options[] = {
                      "be shown as separate tabs rather than in popup "
                      "dialogs."),
                   COC_INTERFACE, GUI_GTK3, TRUE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_better_fog,
-                  N_("Better fog-of-war drawing"),
-                  N_("If this is enabled then a better method is used "
-                     "for drawing fog-of-war.  It is not any slower but "
-                     "will consume about twice as much memory."),
-                  COC_GRAPHICS, GUI_GTK3,
-                  TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(gui_gtk3_show_chat_message_time,
                   N_("Show time for each chat message"),
                   N_("If this option is enabled then all chat messages "

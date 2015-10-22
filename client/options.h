@@ -233,7 +233,6 @@ struct client_options
   bool gui_gtk3_dialogs_on_top;
   bool gui_gtk3_show_task_icons;
   bool gui_gtk3_enable_tabs;
-  bool gui_gtk3_better_fog;
   bool gui_gtk3_show_chat_message_time;
   bool gui_gtk3_new_messages_go_to_top;
   bool gui_gtk3_show_message_window_buttons;
