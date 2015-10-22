@@ -519,6 +519,7 @@ AM_XGETTEXT_OPTION([--keyword=PL_:1,2])
 AM_XGETTEXT_OPTION([--language=C])
 AM_XGETTEXT_OPTION([--escape])
 AM_XGETTEXT_OPTION([--add-comments="TRANS:"])
+AM_XGETTEXT_OPTION([--from-code=UTF-8])
 
 PKG_PROG_PKG_CONFIG
 if test "x$PKG_CONFIG" = "x" ; then
