@@ -580,7 +580,7 @@ unit_move_to_tile_test(const struct unit *punit,
   /* 4) */
   if (puowner->ai_common.barbarian_type == ANIMAL_BARBARIAN
       && dst_tile->terrain->animal != punittype) {
-    return MR_NO_TRANSPORTER_CAPACITY;
+    return MR_ANIMAL_DISALLOWED;
   }
 
   /* 5) */

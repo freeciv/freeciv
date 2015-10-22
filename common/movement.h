@@ -44,6 +44,7 @@ enum unit_move_result {
   MR_TRIREME,
   MR_CANNOT_DISEMBARK,
   MR_NON_NATIVE_MOVE,  /* Usually RMM_RELAXED road diagonally without link */
+  MR_ANIMAL_DISALLOWED
 };
 
 int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
