@@ -2786,7 +2786,8 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
   pNewCity_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   /* create window */
-  pstr = create_utf8_from_char(_("Build City"), adj_font(12));
+  pstr = create_utf8_from_char(action_get_ui_name(ACTION_FOUND_CITY),
+                               adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
   pWindow = create_window_skeleton(NULL, pstr, 0);
   pWindow->action = move_new_city_dlg_callback;
