@@ -841,7 +841,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Form Trade route */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Establish Trade Route"), "R");
+  fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
+              action_get_ui_name(ACTION_TRADE_ROUTE), "R");
   pBuf = create_themeicon(current_theme->OTrade_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -886,7 +887,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Help Build Wonder */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Help Build Wonder"), "B");
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)",
+              action_get_ui_name(ACTION_HELP_WONDER), "B");
   pBuf = create_themeicon(current_theme->OWonder_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -1146,14 +1148,16 @@ void real_menus_update(void)
 	
         if (can_establish_trade_route(pHomecity, pCity)) {
           fc_snprintf(cBuf, sizeof(cBuf),
-                      _("Establish Trade Route With %s ( %d one time bonus + %d trade ) (R)"),
+                      _("%s With %s ( %d one time bonus + %d trade ) (R)"),
+                      action_get_ui_name(ACTION_TRADE_ROUTE),
                       city_name(pHomecity),
                       revenue,
                       trade_between_cities(pHomecity, pCity));
         } else {
           revenue = (revenue + 2) / 3;
           fc_snprintf(cBuf, sizeof(cBuf),
-                      _("Trade With %s ( %d one time bonus ) (R)"),
+                      _("%s Of %s ( %d one time bonus ) (R)"),
+                      action_get_ui_name(ACTION_MARKETPLACE),
                       city_name(pHomecity),
                       revenue);
         }
