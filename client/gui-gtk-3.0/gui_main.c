@@ -1567,7 +1567,6 @@ static void migrate_options_from_gtk2(void)
   MIGRATE_OPTION(dialogs_on_top);
   MIGRATE_OPTION(show_task_icons);
   MIGRATE_OPTION(enable_tabs);
-  MIGRATE_OPTION(better_fog);
   MIGRATE_OPTION(show_chat_message_time);
   MIGRATE_OPTION(new_messages_go_to_top);
   MIGRATE_OPTION(show_message_window_buttons);

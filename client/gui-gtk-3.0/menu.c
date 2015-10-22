@@ -810,18 +810,6 @@ static void show_fog_of_war_callback(GtkToggleAction *action, gpointer data)
 }
 
 /****************************************************************
-  Action "SHOW_BETTER_FOG_OF_WAR" callback.
-*****************************************************************/
-static void show_better_fog_of_war_callback(GtkToggleAction *action,
-                                            gpointer data)
-{
-  if (options.gui_gtk3_better_fog ^ gtk_toggle_action_get_active(action)) {
-    options.gui_gtk3_better_fog ^= 1;
-    update_map_canvas_visible();
-  }
-}
-
-/****************************************************************
   Action "FULL_SCREEN" callback.
 *****************************************************************/
 static void full_screen_callback(GtkToggleAction *action, gpointer data)
@@ -1580,7 +1568,7 @@ static GtkActionGroup *get_safe_group(void)
       {"SHOW_FOG_OF_WAR", NULL, _("Fog of _War"),
        NULL, NULL, G_CALLBACK(show_fog_of_war_callback), FALSE},
       {"SHOW_BETTER_FOG_OF_WAR", NULL, _("Better Fog of War"),
-       NULL, NULL, G_CALLBACK(show_better_fog_of_war_callback), FALSE},
+       NULL, NULL, NULL, FALSE},
 
       {"FULL_SCREEN", NULL, _("_Fullscreen"),
        "<Alt>Return", NULL, G_CALLBACK(full_screen_callback), FALSE}
@@ -2034,7 +2022,6 @@ static void view_menu_update_sensitivity(void)
   menus_set_sensitive(safe_group, "SHOW_UNIT_SHIELDS",
                       options.draw_units || options.draw_focus_unit);
   menus_set_sensitive(safe_group, "SHOW_FOCUS_UNIT", !options.draw_units);
-  menus_set_sensitive(safe_group, "SHOW_BETTER_FOG_OF_WAR", options.draw_fog_of_war);
 }
 
 /****************************************************************************
@@ -2658,13 +2645,11 @@ void real_menus_init(void)
   menus_set_active(safe_group, "SHOW_UNIT_SHIELDS", options.draw_unit_shields);
   menus_set_active(safe_group, "SHOW_FOCUS_UNIT", options.draw_focus_unit);
   menus_set_active(safe_group, "SHOW_FOG_OF_WAR", options.draw_fog_of_war);
-  if (tileset_use_hard_coded_fog(tileset)) {
-    menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", TRUE, TRUE);
-    menus_set_active(safe_group, "SHOW_BETTER_FOG_OF_WAR",
-                     options.gui_gtk3_better_fog);
-  } else {
-    menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", FALSE, FALSE);
-  }
+
+  /* To avoid run-time errors from gtk3, we have to have this action,
+   * really used by gtk2-client only, defined also in gtk3-client code.
+   * We just don't show it to the user. */
+  menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", FALSE, FALSE);
 
   view_menu_update_sensitivity();
 
