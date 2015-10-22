@@ -100,6 +100,8 @@ enum ane_kind {
   ANEK_TGT_IS_UNCLAIMED,
   /* Explanation: the action is disabled in this scenario. */
   ANEK_SCENARIO_DISABLED,
+  /* Explanation: the action is blocked by another action. */
+  ANEK_ACTION_BLOCKS,
   /* Explanation not detected. */
   ANEK_UNKNOWN,
 };
@@ -115,6 +117,9 @@ struct ane_expl {
 
     /* The player to advice declaring war on. */
     struct player *no_war_with;
+
+    /* The action that blocks the action. */
+    struct action *blocker;
   };
 };
 
@@ -728,6 +733,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                            const struct unit *target_unit)
 {
   struct player *must_war_player;
+  struct action *blocker;
   struct player *tgt_player = NULL;
   struct ane_expl *expl = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
@@ -846,6 +852,12 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     /* Please add a check for any new action forbidding scenario setting
      * above this comment. */
     expl->kind = ANEK_SCENARIO_DISABLED;
+  } else if (action_id_is_valid(action_id)
+             && (blocker = action_is_blocked_by(action_id, punit,
+                                                target_tile, target_city,
+                                                target_unit))) {
+    expl->kind = ANEK_ACTION_BLOCKS;
+    expl->blocker = blocker;
   } else {
     expl->kind = ANEK_UNKNOWN;
   }
@@ -930,6 +942,11 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Can't perform any action this scenario permits."));
     break;
+  case ANEK_ACTION_BLOCKS:
+    /* If an action blocked another action the blocking action must be
+     * possible. */
+    fc_assert(expl->kind != ANEK_ACTION_BLOCKS);
+    /* Fall through to unknown cause. */
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("No action possible."));
@@ -1236,6 +1253,15 @@ void illegal_action_msg(struct player *pplayer,
                   /* TRANS: Can't do Build City in this scenario. */
                   _("Can't do %s in this scenario."),
                   gen_action_translated_name(stopped_action));
+    break;
+  case ANEK_ACTION_BLOCKS:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  /* TRANS: Freight ... Recycle Unit ... Help Wonder ... */
+                  _("Your %s can't do %s when %s is legal."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action),
+                  gen_action_translated_name(expl->blocker->id));
     break;
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(actor),
