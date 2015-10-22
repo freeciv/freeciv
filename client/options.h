@@ -184,7 +184,6 @@ extern bool gui_gtk3_map_scrollbars;
 extern bool gui_gtk3_dialogs_on_top;
 extern bool gui_gtk3_show_task_icons;
 extern bool gui_gtk3_enable_tabs;
-extern bool gui_gtk3_better_fog;
 extern bool gui_gtk3_show_chat_message_time;
 extern bool gui_gtk3_new_messages_go_to_top;
 extern bool gui_gtk3_show_message_window_buttons;
