@@ -187,9 +187,11 @@ void tab_unit::delete_now()
 **************************************************************************/
 void tab_unit::edit_now()
 {
-  edit_utype *edit = new edit_utype(ui, selected);
+  if (selected != nullptr) {
+    edit_utype *edit = new edit_utype(ui, selected);
 
-  edit->show();
+    edit->show();
+  }
 }
 
 /**************************************************************************
