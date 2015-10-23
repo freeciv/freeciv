@@ -105,7 +105,7 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
+  if (!pplayer || !pdiplomat) {
     return FALSE;
   }
 
@@ -188,7 +188,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
     return FALSE;
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
+  if (!pplayer || !pdiplomat) {
     return FALSE;
   }
 
@@ -303,7 +303,7 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
+  if (!pplayer || !pdiplomat) {
     return FALSE;
   }
 
@@ -364,7 +364,7 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   struct player *uplayer;
 
   /* Fetch target unit's player.  Sanity checks. */
-  if (!pvictim || !unit_alive(pvictim->id)) {
+  if (!pvictim) {
     return FALSE;
   }
 
@@ -374,7 +374,7 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
+  if (!pplayer || !pdiplomat) {
     return FALSE;
   }
 
@@ -466,7 +466,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   struct city *pcity;
 
   /* Fetch target unit's player.  Sanity checks. */
-  if (!pvictim || !unit_alive(pvictim->id)) {
+  if (!pvictim) {
     return FALSE;
   }
   uplayer = unit_owner(pvictim);
@@ -475,7 +475,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
+  if (!pplayer || !pdiplomat) {
     return FALSE;
   }
 
@@ -629,7 +629,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
+  if (!pplayer || !pdiplomat) {
     return FALSE;
   }
 
@@ -799,7 +799,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
+  if (!pplayer || !pdiplomat) {
     return FALSE;
   }
 
@@ -944,7 +944,7 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
+  if (!pplayer || !pdiplomat) {
     return FALSE;
   }
 
@@ -1207,7 +1207,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   int gold_give;
 
   /* Sanity check: The actor still exists. */
-  if (!act_player || !act_unit || !unit_alive(act_unit->id)) {
+  if (!act_player || !act_unit) {
     return FALSE;
   }
 
@@ -1343,7 +1343,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   const char *tgt_city_link;
 
   /* Sanity check: The actor still exists. */
-  if (!act_player || !act_unit || !unit_alive(act_unit->id)) {
+  if (!act_player || !act_unit) {
     return FALSE;
   }
 
@@ -1452,7 +1452,7 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
   const char *tgt_city_link;
 
   /* Sanity check: The actor still exists. */
-  if (!act_player || !act_unit || !unit_alive(act_unit->id)) {
+  if (!act_player || !act_unit) {
     return FALSE;
   }
 

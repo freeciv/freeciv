@@ -287,11 +287,6 @@ static bool do_capture_units(struct player *pplayer,
   const char *capturer_nation = nation_plural_for_player(pplayer);
   bv_unit_types unique_on_tile;
 
-  /* Sanity check: The actor is still alive. */
-  if (!unit_alive(punit->id)) {
-    return FALSE;
-  }
-
   /* Sanity check: make sure that the capture won't result in the actor
    * ending up with more than one unit of each unique unit type. */
   BV_CLR_ALL(unique_on_tile);
@@ -402,7 +397,7 @@ static bool do_expel_unit(struct player *pplayer,
 
   /* Maybe it didn't survive the Lua call back. Why wasn't this caught by
    * the caller? Check in the code that emits the signal. */
-  fc_assert_ret_val(target && unit_alive(target->id), FALSE);
+  fc_assert_ret_val(target, FALSE);
 
   uplayer = unit_owner(target);
 
@@ -411,7 +406,7 @@ static bool do_expel_unit(struct player *pplayer,
 
   /* Maybe it didn't survive the Lua call back. Why wasn't this caught by
    * the caller? Check in the code that emits the signal. */
-  fc_assert_ret_val(actor && unit_alive(actor->id), FALSE);
+  fc_assert_ret_val(actor, FALSE);
 
   /* Where is the actor player? */
   fc_assert_ret_val(pplayer, FALSE);
@@ -1488,11 +1483,11 @@ bool unit_perform_action(struct player *pplayer,
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
                             API_TYPE_CITY, target);                       \
-  if (!actor || !unit_alive(actor->id)) {                                 \
+  if (!actor || !unit_alive(actor_id)) {                                  \
     /* Actor unit was destroyed during pre action Lua. */                 \
     return FALSE;                                                         \
   }                                                                       \
-  if (!target || !city_exist(target->id)) {                               \
+  if (!target || !city_exist(target_id)) {                                \
     /* Target city was destroyed during pre action Lua. */                \
     return FALSE;                                                         \
   }
@@ -1501,7 +1496,7 @@ bool unit_perform_action(struct player *pplayer,
   script_server_signal_emit("action_started_unit_self", 2,                \
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor);                        \
-  if (!actor || !unit_alive(actor->id)) {                                 \
+  if (!actor || !unit_alive(actor_id)) {                                  \
     /* Actor unit was destroyed during pre action Lua. */                 \
     return FALSE;                                                         \
   }
@@ -1511,11 +1506,11 @@ bool unit_perform_action(struct player *pplayer,
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
                             API_TYPE_UNIT, target);                       \
-  if (!actor || !unit_alive(actor->id)) {                                 \
+  if (!actor || !unit_alive(actor_id)) {                                  \
     /* Actor unit was destroyed during pre action Lua. */                 \
     return FALSE;                                                         \
   }                                                                       \
-  if (!target || !unit_alive(target->id)) {                               \
+  if (!target || !unit_alive(target_id)) {                                \
     /* Target unit was destroyed during pre action Lua. */                \
     return FALSE;                                                         \
   }
@@ -1525,7 +1520,7 @@ bool unit_perform_action(struct player *pplayer,
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
                             API_TYPE_TILE, target);                       \
-  if (!actor || !unit_alive(actor->id)) {                                 \
+  if (!actor || !unit_alive(actor_id)) {                                  \
     /* Actor unit was destroyed during pre action Lua. */                 \
     return FALSE;                                                         \
   }
@@ -1535,7 +1530,7 @@ bool unit_perform_action(struct player *pplayer,
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
                             API_TYPE_TILE, target);                       \
-  if (!actor || !unit_alive(actor->id)) {                                 \
+  if (!actor || !unit_alive(actor_id)) {                                  \
     /* Actor unit was destroyed during pre action Lua. */                 \
     return FALSE;                                                         \
   }
@@ -2024,7 +2019,7 @@ bool do_unit_disband(struct player *pplayer, struct unit *punit)
 {
   struct action *blocker;
 
-  if (!punit || !unit_alive(punit->id)) {
+  if (!punit) {
     /* The actor is dead. */
     return FALSE;
   }
@@ -2068,11 +2063,11 @@ static bool unit_do_recycle(struct player *pplayer,
                             struct city *pcity)
 {
   /* Sanity check: The actor is still alive. */
-  if (!punit || !unit_alive(punit->id)) {
+  if (!punit) {
     return FALSE;
   }
 
-  if (!pcity || !city_exist(pcity->id)) {
+  if (!pcity) {
     /* City was destroyed during pre action Lua. */
     return FALSE;
   }
@@ -2176,11 +2171,11 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
                           struct city *pcity)
 {
   /* Sanity check: The actor is still alive. */
-  if (!punit || !unit_alive(punit->id)) {
+  if (!punit) {
     return FALSE;
   }
 
-  if (!pcity || !city_exist(pcity->id)) {
+  if (!pcity) {
     /* City was destroyed during pre action Lua. */
     return FALSE;
   }
@@ -2236,11 +2231,6 @@ static bool city_build(struct player *pplayer, struct unit *punit,
   int size;
   struct player *nationality;
   struct player *towner;
-
-  /* Sanity check: The actor is still alive. */
-  if (!unit_alive(punit->id)) {
-    return FALSE;
-  }
 
   towner = tile_owner(ptile);
 
@@ -2465,7 +2455,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
 
-  if (!punit || !unit_alive(punit->id)) {
+  if (!punit) {
     /* Actor unit was destroyed during pre action Lua. */
     return FALSE;
   }
@@ -2560,7 +2550,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
 {
   struct city *pcity;
 
-  if (!punit || !unit_alive(punit->id)) {
+  if (!punit) {
     /* Actor unit was destroyed during pre action Lua. */
     return FALSE;
   }
@@ -2631,7 +2621,7 @@ static bool unit_do_destroy_city(struct player *act_player,
     return FALSE;
   }
 
-  if (!tgt_city || !city_exist(tgt_city->id)) {
+  if (!tgt_city) {
     /* City was destroyed during pre action Lua. */
     return FALSE;
   }
@@ -2644,7 +2634,7 @@ static bool unit_do_destroy_city(struct player *act_player,
     return FALSE;
   }
 
-  if (!act_unit || !unit_alive(act_unit->id)) {
+  if (!act_unit) {
     /* Actor unit was destroyed during pre action Lua. */
     return FALSE;
   }
@@ -3217,11 +3207,6 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
     return FALSE;
   }
 
-  /* Sanity check: The actor is still alive. */
-  if (!unit_alive(punit->id)) {
-    return FALSE;
-  }
-
   /* Sanity check: The target city still exists. */
   if (NULL == pcity_dest) {
     return FALSE;
@@ -3319,11 +3304,6 @@ static bool do_unit_establish_trade(struct player *pplayer,
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    return FALSE;
-  }
-
-  /* Sanity check: The actor is still alive. */
-  if (!unit_alive(punit->id)) {
     return FALSE;
   }
 
