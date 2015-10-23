@@ -196,9 +196,14 @@ void init_game_seed(void)
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
     game.server.seed = time(NULL) & (MAX_UINT32 >> 1);
+#ifdef TESTMATIC_ENABLED
+     /* Log command to reproduce the gameseed */
+    log_testmatic("set gameseed %d", game.server.seed);
+#else  /* TESTMATIC_ENABLED */
     log_debug("Setting game.seed:%d", game.server.seed);
+#endif /* TESTMATIC_ENABLED */
   }
- 
+
   if (!fc_rand_is_init()) {
     fc_srand(game.server.seed);
   }
