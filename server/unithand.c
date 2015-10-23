@@ -3333,12 +3333,6 @@ static bool do_unit_establish_trade(struct player *pplayer,
     return FALSE;
   }
 
-  /* if no destination city is passed in,
-   *  check whether the unit is already in the city */
-  if (!pcity_dest) { 
-    pcity_dest = tile_city(unit_tile(punit));
-  }
-
   if (!pcity_dest) {
     return FALSE;
   }
