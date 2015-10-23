@@ -861,8 +861,14 @@ void secfile_check_unused(const struct section_file *secfile)
           log_verbose("Unused entries in file %s:", secfile->name);
           any = TRUE;
         }
+#ifdef TESTMATIC_ENABLED
+        log_testmatic("%s: unused entry: %s.%s",
+                      secfile->name != NULL ? secfile->name : "nameless",
+                      section_name(psection), entry_name(pentry));
+#else  /* TESTMATIC_ENABLED */
         log_verbose("  unused entry: %s.%s",
                     section_name(psection), entry_name(pentry));
+#endif /* TESTMATIC_ENABLED */
       }
     } entry_list_iterate_end;
   } section_list_iterate_end;

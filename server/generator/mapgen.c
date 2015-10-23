@@ -1381,7 +1381,12 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   if (map.server.seed == 0) {
     /* Create a "random" map seed. */
     map.server.seed = seed_rand & (MAX_UINT32 >> 1);
+#ifdef TESTMATIC_ENABLED
+    /* Log command to reproduce the mapseed */
+    log_testmatic("set mapseed %d", map.server.seed);
+#else /* TESTMATICE_ENABLED */
     log_debug("Setting map.seed:%d", map.server.seed);
+#endif /* TESTMATIC_ENABLED */
   }
 
   rstate = fc_rand_state();

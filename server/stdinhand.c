@@ -1169,7 +1169,7 @@ static bool read_init_script_real(struct connection *caller,
     real_filename = tilde_filename;
   }
 
-  log_normal(_("Loading script file '%s'."), real_filename);
+  log_testmatic_alt(LOG_NORMAL, _("Loading script file '%s'."), real_filename);
 
   if (is_reg_file_for_access(real_filename, FALSE)
       && (script_file = fc_fopen(real_filename, "r"))) {

@@ -107,6 +107,16 @@ void do_log(const char *file, const char *function, int line,
 #else
 #  define log_debug(message, ...) /* Do nothing. */
 #endif /* FREECIV_DEBUG */
+#ifdef TESTMATIC_ENABLED
+#define log_testmatic(message, ...)                                         \
+  log_base(LOG_ERROR, message, ## __VA_ARGS__)
+#define log_testmatic_alt(altlvl, message, ...)                             \
+  log_base(LOG_ERROR, message, ## __VA_ARGS__)
+#else  /* TESTMATIC_ENABLED */
+#define log_testmatic(message, ...) /* Do nothing. */
+#define log_testmatic_alt(altlvl, message, ...)                             \
+  log_base(altlvl, message, ## __VA_ARGS__)
+#endif /* TESTMATIC_ENABLED */
 
 /* Used by game debug command */
 #define log_test log_normal

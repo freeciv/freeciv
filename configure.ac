@@ -282,6 +282,8 @@ esac], [fcweb=false])
 
 FC_WEB_CLIENT
 
+FC_TESTMATIC
+
 dnl no:   Do not compile client.
 dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
