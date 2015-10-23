@@ -113,12 +113,13 @@ static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
                        const char *name);
 static bool do_unit_establish_trade(struct player *pplayer,
-                                    int unit_id,
+                                    struct unit *punit,
                                     struct city *pcity_dest,
                                     bool est_if_able);
 
 static void do_unit_help_build_wonder(struct player *pplayer,
-                                      int unit_id, int city_id);
+                                      struct unit *punit,
+                                      struct city *pcity_dest);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 
 /**************************************************************************
@@ -1240,7 +1241,7 @@ void handle_unit_do_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        do_unit_establish_trade(pplayer, actor_unit->id, pcity,
+        do_unit_establish_trade(pplayer, actor_unit, pcity,
                                 TRUE);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
@@ -1254,7 +1255,7 @@ void handle_unit_do_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        do_unit_establish_trade(pplayer, actor_unit->id, pcity,
+        do_unit_establish_trade(pplayer, actor_unit, pcity,
                                 FALSE);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
@@ -1268,7 +1269,8 @@ void handle_unit_do_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        do_unit_help_build_wonder(pplayer, actor_unit->id, pcity->id);
+        do_unit_help_build_wonder(pplayer,
+                                  actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL);
@@ -2445,15 +2447,13 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   Handle request to help in wonder building.
 **************************************************************************/
 static void do_unit_help_build_wonder(struct player *pplayer,
-                                      int unit_id, int city_id)
+                                      struct unit *punit,
+                                      struct city *pcity_dest)
 {
   const char *work;
-  struct city *pcity_dest;
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    log_verbose("do_unit_help_build_wonder() invalid unit %d", unit_id);
     return;
   }
 
@@ -2461,8 +2461,6 @@ static void do_unit_help_build_wonder(struct player *pplayer,
   if (!unit_alive(punit->id)) {
     return;
   }
-
-  pcity_dest = game_city_by_number(city_id);
 
   /* Sanity check: The target city still exists. */
   if (NULL == pcity_dest) {
@@ -2534,7 +2532,7 @@ static void do_unit_help_build_wonder(struct player *pplayer,
   that unit is inside target city.
 **************************************************************************/
 static bool do_unit_establish_trade(struct player *pplayer,
-                                    int unit_id,
+                                    struct unit *punit,
                                     struct city *pcity_dest,
                                     bool est_if_able)
 {
@@ -2547,15 +2545,12 @@ static bool do_unit_establish_trade(struct player *pplayer,
   int home_max;
   int dest_max;
   struct city *pcity_homecity;
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
   struct city_list *cities_out_of_home, *cities_out_of_dest;
   enum traderoute_bonus_type bonus_type;
   const char *bonus_str;
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    log_verbose("do_unit_establish_trade() invalid unit %d",
-                unit_id);
     return FALSE;
   }
 
