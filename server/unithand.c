@@ -133,7 +133,7 @@ static void illegal_action(struct player *pplayer,
 static bool city_add_unit(struct player *pplayer, struct unit *punit,
                           struct city *pcity);
 static bool city_build(struct player *pplayer, struct unit *punit,
-                       const char *name);
+                       struct tile *ptile, const char *name);
 static bool do_unit_establish_trade(struct player *pplayer,
                                     int unit_id,
                                     struct city *pcity_dest,
@@ -1847,7 +1847,7 @@ bool unit_perform_action(struct player *pplayer,
                                           actor_unit, target_tile)) {
         ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
 
-        return city_build(pplayer, actor_unit, name);
+        return city_build(pplayer, actor_unit, target_tile, name);
       } else if (unit_can_do_action(actor_unit, ACTION_FOUND_CITY)
                  && !unit_can_build_city(actor_unit)) {
         /* Keep the rules like they was before action enabler control:
@@ -2229,12 +2229,11 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool city_build(struct player *pplayer, struct unit *punit,
-                       const char *name)
+                       struct tile *ptile, const char *name)
 {
   char message[1024];
   int size;
   struct player *nationality;
-  struct tile *ptile;
   struct player *towner;
 
   /* Sanity check: The actor is still alive. */
@@ -2242,7 +2241,6 @@ static bool city_build(struct player *pplayer, struct unit *punit,
     return FALSE;
   }
 
-  ptile = unit_tile(punit);
   towner = tile_owner(ptile);
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
