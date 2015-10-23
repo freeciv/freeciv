@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 17-Oct-15.
+Last minor update was 20-Oct-15.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -14,9 +14,8 @@ This document contains sections and subsections as follows:
      1. Prerequisites for the clients:
           1a. Prerequisites for the Gtk2 client:
           1b. Prerequisites for the Gtk3 client:
-          1c. Prerequisites for the SDL client:
-          1d. Prerequisites for the SDL2 client:
-          1e. Prerequisites for the Qt client:
+          1c. Prerequisites for the SDL2 client:
+          1d. Prerequisites for the Qt client:
      2. Generating Makefiles
           2a. Generating the Makefile for svn versions:
           2b. Generating the Makefile for release versions:
@@ -111,7 +110,7 @@ contains the generated files.
 The Freeciv client comes in the following forms:
 * Gtk+ 2.0 widget library ("Gtk+ 2.0").
 * Gtk+ 3.0 widget library ("Gtk+ 3.0").
-* SDL
+* SDL2
 * Qt
 
 These forms have different prerequisites, explained separately below.
@@ -259,48 +258,7 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
 If you are going to make these yourself, build and install them in the
 following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
-1c. Prerequisites for the SDL client:
-=====================================
-
- - The "SDL" library.
-
-   "Simple DirectMedia Layer is a cross-platform multimedia library designed
-    to provide low level access to audio, keyboard, mouse, joystick, 3D hardware
-    via OpenGL, and 2D video framebuffer." (http://www.libsdl.org)
-    
-   These features make it a good choice for portable games. You may obtain it
-   at:
-    
-   http://www.libsdl.org/release/SDL-1.2.11.tar.gz
-
-   To compile the client using the "SDL" library add "--enable-client=sdl"
-   to the Freeciv configure script.  See the section below for more 
-   information about the configure script.
-    
- - The "SDL_image" library.
- 
-   This library loads the PNG images (with the help of libpng) and converts
-   them to "SDL surfaces" that can be handled by the "SDL" library. You may
-   obtain it at:
-
-   http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.12.tar.gz
-
- - The "SDL_gfx" library.
-
-   http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.25.tar.gz
-
- - The "SDL_ttf" library.
-
-   http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.11.tar.gz
-
- - The "freetype" library.
-
-   This library helps to render text for the SDL client, using an externally
-   provided TrueType font. You may obtain it at:
-   
-   http://download.savannah.gnu.org/releases/freetype/freetype-2.3.2.tar.gz
-
-1d. Prerequisites for the SDL2 client:
+1c. Prerequisites for the SDL2 client:
 =====================================
 
  - The "SDL2" library.
@@ -341,7 +299,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
    http://download.savannah.gnu.org/releases/freetype/freetype-2.5.4.tar.bz2
 
-1e. Prerequisites for the Qt client:
+1d. Prerequisites for the Qt client:
 ====================================
 
  - C++ compiler.

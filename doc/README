@@ -94,11 +94,7 @@ freeciv-qt:  This uses the QT library. Development of this client has recently
   reached the state where it's considered generally usable, but it still lacks
   number of features gtk-clients have.
 
-freeciv-sdl:  This uses Simple DirectMedia Layer libraries version 1.2.
-  This client is currently unmaintained but is usable.
-
 freeciv-sdl2: This uses Simple DirectMedia Layer libraries version 2.
-  This client is going to replace freeciv-sdl in the future.
 
 
 Starting a game:
@@ -269,7 +265,7 @@ Server:
 
 And the game is on!
 
-  NOTE: In this version of Freeciv, the GTK, Qt, and SDL clients have the
+  NOTE: In this version of Freeciv, the GTK, Qt, and SDL2 clients have the
   capability to automagically start a freeciv-server session when the user
   selects "Start New Game" from the main menu. This reduces the steps
   needed to get started playing a game of Freeciv. On the other hand,

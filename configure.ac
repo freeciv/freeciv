@@ -289,7 +289,7 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([client],
-  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/sdl/sdl2/qt/stub],
+  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/sdl2/qt/stub],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
@@ -304,7 +304,6 @@ fi
 
 gui_gtk2=no
 gui_gtk3=no
-gui_sdl=no
 gui_sdl2=no
 gui_qt=no
 gui_stub=no
@@ -796,9 +795,6 @@ if test "x$client" != "xno"; then
   dnl SDL2-specific overrides
   FC_SDL2_CLIENT
 
-  dnl SDL-specific overrides
-  FC_SDL_CLIENT
-
   dnl Gtk-3.x-specific overrides
   FC_GTK3X_CLIENT
 
@@ -821,7 +817,6 @@ if test "x$client" = "xall" ; then
   if test "x$gui_gtk2" = "xyes" ||
      test "x$gui_gtk3" = "xyes" ||
      test "x$gui_gtk3x" = "xyes" ||
-     test "x$gui_sdl" = "xyes" ||
      test "x$gui_sdl2" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
      test "x$gui_stub" = "xyes" ; then
@@ -1048,9 +1043,6 @@ AC_SUBST([gui_gtk3_ldflags])
 AC_SUBST([gui_gtk3x_cflags])
 AC_SUBST([gui_gtk3x_libs])
 AC_SUBST([gui_gtk3x_ldflags])
-AC_SUBST([gui_sdl_cflags])
-AC_SUBST([gui_sdl_libs])
-AC_SUBST([gui_sdl_ldflags])
 AC_SUBST([gui_sdl2_cflags])
 AC_SUBST([gui_sdl2_libs])
 AC_SUBST([gui_sdl2_ldflags])
@@ -1084,7 +1076,6 @@ AC_SUBST([VERSION_LABEL])
 AC_SUBST([HOST_PATH_SEPARATOR])
 AC_SUBST([FREECIV_STORAGE_DIR])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" != "xno")
-AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
@@ -1453,8 +1444,6 @@ AC_CONFIG_FILES([Makefile
 	  data/themes/gui-gtk-3.0/Freeciv/gtk-3.0/Toolbar/Makefile
 	  data/themes/gui-qt/Makefile
 	  data/themes/gui-qt/icons/Makefile
-	  data/themes/gui-sdl/Makefile
-	  data/themes/gui-sdl/human/Makefile
 	  data/themes/gui-sdl2/Makefile
 	  data/themes/gui-sdl2/human/Makefile
 	  data/wonders/Makefile
@@ -1484,7 +1473,6 @@ AC_CONFIG_FILES([Makefile
 	  client/Makefile
 	  client/agents/Makefile
 	  client/include/Makefile
-	  client/gui-sdl/Makefile
           client/gui-sdl2/Makefile
 	  client/gui-gtk-2.0/Makefile
 	  client/gui-gtk-3.0/Makefile
@@ -1520,7 +1508,6 @@ AC_CONFIG_FILES([Makefile
 	  freeciv.spec:bootstrap/freeciv.spec.in
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
           client/freeciv-gtk2.desktop:bootstrap/freeciv-gtk2.desktop.in
-          client/freeciv-sdl.desktop:bootstrap/freeciv-sdl.desktop.in
           client/freeciv-sdl2.desktop:bootstrap/freeciv-sdl2.desktop.in
           client/freeciv-qt.desktop:bootstrap/freeciv-qt.desktop.in
 	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in
@@ -1530,7 +1517,6 @@ AC_CONFIG_FILES([Makefile
 	  tools/ruledit/freeciv-ruledit.desktop:bootstrap/freeciv-ruledit.desktop.in
           client/freeciv-gtk2.appdata.xml:bootstrap/freeciv-gtk2.appdata.xml.in
           client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
-          client/freeciv-sdl.appdata.xml:bootstrap/freeciv-sdl.appdata.xml.in
           client/freeciv-sdl2.appdata.xml:bootstrap/freeciv-sdl2.appdata.xml.in
           client/freeciv-qt.appdata.xml:bootstrap/freeciv-qt.appdata.xml.in
           server/freeciv-server.appdata.xml:bootstrap/freeciv-server.appdata.xml.in
@@ -1564,13 +1550,12 @@ AC_MSG_NOTICE([
   Maintained client frontends:
     Gtk-3.0: $gui_gtk3
     Gtk-2.0: $gui_gtk2
-    SDL:     $gui_sdl
+    SDL2:    $gui_sdl2
     QT:      $gui_qt
     Stub:    $gui_stub
 
   In-development client frontends:
   (these are not yet ready for general use)
-    SDL2:    $gui_sdl2
 
   == Server ==
   Build freeciv server:  $server

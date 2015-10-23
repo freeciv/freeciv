@@ -16,7 +16,6 @@ EXTRA_DIST =	freeciv.project		\
 		langstat.txt		\
 		freeciv.desktop.in	\
 		freeciv-gtk2.desktop.in \
-		freeciv-sdl.desktop.in \
 		freeciv-sdl2.desktop.in \
 		freeciv-qt.desktop.in \
 		freeciv-server.desktop.in	\
@@ -26,7 +25,6 @@ EXTRA_DIST =	freeciv.project		\
 		freeciv-ruledit.desktop.in	\
 		freeciv-gtk2.appdata.xml.in \
 		freeciv-gtk3.appdata.xml.in \
-		freeciv-sdl.appdata.xml.in \
 		freeciv-sdl2.appdata.xml.in \
 		freeciv-qt.appdata.xml.in \
 		freeciv-server.appdata.xml.in \
