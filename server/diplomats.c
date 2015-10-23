@@ -479,6 +479,12 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return FALSE;
   }
 
+  /* Sanity check: The target is foreign. */
+  if (uplayer == pplayer) {
+    /* Nothing to do to a domestic target. */
+    return FALSE;
+  }
+
   /* Sanity check: The victim isn't a unique unit the actor player already
    * has. */
   if (utype_player_already_has_this_unique(pplayer,
@@ -794,6 +800,12 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Sanity check: The actor still exists. */
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
+    return FALSE;
+  }
+
+  /* Sanity check: The target is foreign. */
+  if (cplayer == pplayer) {
+    /* Nothing to do to a domestic target. */
     return FALSE;
   }
 
@@ -1212,6 +1224,12 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
     return FALSE;
   }
 
+  /* Sanity check: The target is foreign. */
+  if (tgt_player == act_player) {
+    /* Nothing to do to a domestic target. */
+    return FALSE;
+  }
+
   /* Sanity check: There is something to steal. */
   if (tgt_player->economic.gold <= 0) {
     return FALSE;
@@ -1339,6 +1357,12 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 
   /* Sanity check: The target player still exists. */
   if (!tgt_player) {
+    return FALSE;
+  }
+
+  /* Sanity check: The target is foreign. */
+  if (tgt_player == act_player) {
+    /* Nothing to do to a domestic target. */
     return FALSE;
   }
 
