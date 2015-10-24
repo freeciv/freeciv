@@ -189,7 +189,7 @@ static int unit_id_top;
 static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in 
                                             * information display: (or 0) */
 GtkTextView *main_message_area;
-GtkTextBuffer *message_buffer;
+GtkTextBuffer *message_buffer = NULL;
 static GtkWidget *allied_chat_toggle_button;
 
 static enum Display_color_type display_color_type;  /* practically unused */
@@ -1028,7 +1028,6 @@ static void setup_widgets(void)
   GtkWidget *notebook, *statusbar;
 
   message_buffer = gtk_text_buffer_new(NULL);
-
 
   notebook = gtk_notebook_new();
 

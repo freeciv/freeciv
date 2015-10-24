@@ -903,6 +903,13 @@ void real_output_window_append(const char *astring,
   ft_offset_t text_start_offset;
 
   buf = message_buffer;
+
+  if (buf == NULL) {
+    log_error("Output when no message buffer: %s", astring);
+
+    return;
+  }
+
   gtk_text_buffer_get_end_iter(buf, &iter);
   gtk_text_buffer_insert(buf, &iter, "\n", -1);
   mark = gtk_text_buffer_create_mark(buf, NULL, &iter, TRUE);
