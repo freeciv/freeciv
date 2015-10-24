@@ -95,19 +95,13 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   const char *clink;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity) {
-    return FALSE;
-  }
-
+  fc_assert_ret_val(pcity, FALSE);
   cplayer = city_owner(pcity);
-  if (!cplayer) {
-    return FALSE;
-  }
+  fc_assert_ret_val(cplayer, FALSE);
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
 
   ctile = city_tile(pcity);
   clink = city_link(pcity);
@@ -179,16 +173,17 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   struct traderoute_packet_list *routes;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity) {
-    return FALSE;
-  }
-
-  cplayer = city_owner (pcity);
-  if ((cplayer == pplayer) || !cplayer)
-    return FALSE;
+  fc_assert_ret_val(pcity, FALSE);
+  cplayer = city_owner(pcity);
+  fc_assert_ret_val(cplayer, FALSE);
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat) {
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
+
+  /* Sanity check: The target is foreign. */
+  if (cplayer == pplayer) {
+    /* Nothing to do to a domestic target. */
     return FALSE;
   }
 
@@ -293,17 +288,17 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity) {
-    return FALSE;
-  }
-
+  fc_assert_ret_val(pcity, FALSE);
   cplayer = city_owner(pcity);
-  if ((cplayer == pplayer) || !cplayer) {
-    return FALSE;
-  }
+  fc_assert_ret_val(cplayer, FALSE);
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat) {
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
+
+  /* Sanity check: The target is foreign. */
+  if (cplayer == pplayer) {
+    /* Nothing to do to a domestic target. */
     return FALSE;
   }
 
@@ -364,19 +359,13 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   struct player *uplayer;
 
   /* Fetch target unit's player.  Sanity checks. */
-  if (!pvictim) {
-    return FALSE;
-  }
-
+  fc_assert_ret_val(pvictim, FALSE);
   uplayer = unit_owner(pvictim);
-  if (!uplayer) {
-    return FALSE;
-  }
+  fc_assert_ret_val(uplayer, FALSE);
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
 
   log_debug("sabotage-unit: unit: %d", pdiplomat->id);
 
@@ -466,18 +455,13 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   struct city *pcity;
 
   /* Fetch target unit's player.  Sanity checks. */
-  if (!pvictim) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pvictim, FALSE);
   uplayer = unit_owner(pvictim);
-  if (!uplayer) {
-    return FALSE;
-  }
+  fc_assert_ret_val(uplayer, FALSE);
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
 
   /* Sanity check: The target is foreign. */
   if (uplayer == pplayer) {
@@ -619,17 +603,17 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   /* We have to check arguments. They are sent to us by a client,
      so we cannot trust them */
-  if (!pcity) {
-    return FALSE;
-  }
-  
-  cplayer = city_owner (pcity);
-  if ((cplayer == pplayer) || !cplayer) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pcity, FALSE);
+  cplayer = city_owner(pcity);
+  fc_assert_ret_val(cplayer, FALSE);
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat) {
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
+
+  /* Sanity check: The target is foreign. */
+  if (cplayer == pplayer) {
+    /* Nothing to do to a domestic target. */
     return FALSE;
   }
 
@@ -789,19 +773,13 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   int revolt_cost;
 
   /* Fetch target civilization's player.  Sanity checks. */
-  if (!pcity) {
-    return FALSE;
-  }
-
-  cplayer = city_owner (pcity);
-  if (!cplayer) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pcity, FALSE);
+  cplayer = city_owner(pcity);
+  fc_assert_ret_val(cplayer, FALSE);
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
 
   /* Sanity check: The target is foreign. */
   if (cplayer == pplayer) {
@@ -934,19 +912,13 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   int count, which;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity) {
-    return FALSE;
-  }
-
-  cplayer = city_owner (pcity);
-  if (!cplayer) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pcity, FALSE);
+  cplayer = city_owner(pcity);
+  fc_assert_ret_val(cplayer, FALSE);
 
   /* Sanity check: The actor still exists. */
-  if (!pplayer || !pdiplomat) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
 
   log_debug("sabotage: unit: %d", pdiplomat->id);
 
@@ -1207,22 +1179,17 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   int gold_give;
 
   /* Sanity check: The actor still exists. */
-  if (!act_player || !act_unit) {
-    return FALSE;
-  }
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
 
   /* Sanity check: The target city still exists. */
-  if (!tgt_city) {
-    return FALSE;
-  }
+  fc_assert_ret_val(tgt_city, FALSE);
 
   /* Who to steal from. */
   tgt_player = city_owner(tgt_city);
 
   /* Sanity check: The target player still exists. */
-  if (!tgt_player) {
-    return FALSE;
-  }
+  fc_assert_ret_val(tgt_player, FALSE);
 
   /* Sanity check: The target is foreign. */
   if (tgt_player == act_player) {
@@ -1343,22 +1310,17 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   const char *tgt_city_link;
 
   /* Sanity check: The actor still exists. */
-  if (!act_player || !act_unit) {
-    return FALSE;
-  }
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
 
   /* Sanity check: The target city still exists. */
-  if (!tgt_city) {
-    return FALSE;
-  }
+  fc_assert_ret_val(tgt_city, FALSE);
 
   /* Who to steal from. */
   tgt_player = city_owner(tgt_city);
 
   /* Sanity check: The target player still exists. */
-  if (!tgt_player) {
-    return FALSE;
-  }
+  fc_assert_ret_val(tgt_player, FALSE);
 
   /* Sanity check: The target is foreign. */
   if (tgt_player == act_player) {
@@ -1452,22 +1414,17 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
   const char *tgt_city_link;
 
   /* Sanity check: The actor still exists. */
-  if (!act_player || !act_unit) {
-    return FALSE;
-  }
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
 
   /* Sanity check: The target city still exists. */
-  if (!tgt_city) {
-    return FALSE;
-  }
+  fc_assert_ret_val(tgt_city, FALSE);
 
   /* The victim. */
   tgt_player = city_owner(tgt_city);
 
   /* Sanity check: The target player still exists. */
-  if (!tgt_player) {
-    return FALSE;
-  }
+  fc_assert_ret_val(tgt_player, FALSE);
 
   tgt_tile = city_tile(tgt_city);
   tgt_city_link = city_link(tgt_city);

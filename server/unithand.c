@@ -287,6 +287,10 @@ static bool do_capture_units(struct player *pplayer,
   const char *capturer_nation = nation_plural_for_player(pplayer);
   bv_unit_types unique_on_tile;
 
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
+
   /* Sanity check: make sure that the capture won't result in the actor
    * ending up with more than one unit of each unique unit type. */
   BV_CLR_ALL(unique_on_tile);
@@ -2019,10 +2023,9 @@ bool do_unit_disband(struct player *pplayer, struct unit *punit)
 {
   struct action *blocker;
 
-  if (!punit) {
-    /* The actor is dead. */
-    return FALSE;
-  }
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
 
   if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
     /* refuse to kill ourselves */
@@ -2062,15 +2065,12 @@ static bool unit_do_recycle(struct player *pplayer,
                             struct unit *punit,
                             struct city *pcity)
 {
-  /* Sanity check: The actor is still alive. */
-  if (!punit) {
-    return FALSE;
-  }
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
 
-  if (!pcity) {
-    /* City was destroyed during pre action Lua. */
-    return FALSE;
-  }
+  /* Sanity check: The target city still exists. */
+  fc_assert_ret_val(pcity, FALSE);
 
   /* Add the shields from recycling the unit to the city's current
    * production. */
@@ -2171,14 +2171,10 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
                           struct city *pcity)
 {
   /* Sanity check: The actor is still alive. */
-  if (!punit) {
-    return FALSE;
-  }
+  fc_assert_ret_val(punit, FALSE);
 
-  if (!pcity) {
-    /* City was destroyed during pre action Lua. */
-    return FALSE;
-  }
+  /* Sanity check: The target city still exists. */
+  fc_assert_ret_val(pcity, FALSE);
 
   fc_assert_ret_val(unit_pop_value(punit) > 0, FALSE);
   city_size_add(pcity, unit_pop_value(punit));
@@ -2231,6 +2227,10 @@ static bool city_build(struct player *pplayer, struct unit *punit,
   int size;
   struct player *nationality;
   struct player *towner;
+
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
 
   towner = tile_owner(ptile);
 
@@ -2455,10 +2455,9 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
 
-  if (!punit) {
-    /* Actor unit was destroyed during pre action Lua. */
-    return FALSE;
-  }
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
 
   log_debug("Start bombard: %s %s to %d, %d.",
             nation_rule_name(nation_of_player(pplayer)),
@@ -2550,10 +2549,9 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
 {
   struct city *pcity;
 
-  if (!punit) {
-    /* Actor unit was destroyed during pre action Lua. */
-    return FALSE;
-  }
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
 
   log_debug("Start nuclear attack: %s %s against (%d, %d).",
             nation_rule_name(nation_of_player(pplayer)),
@@ -2614,30 +2612,17 @@ static bool unit_do_destroy_city(struct player *act_player,
   struct player *tgt_player;
   bool try_civil_war = FALSE;
 
-  if (!act_player) {
-    /* Someone should be performing the action. */
-    fc_assert(act_player);
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
 
-    return FALSE;
-  }
-
-  if (!tgt_city) {
-    /* City was destroyed during pre action Lua. */
-    return FALSE;
-  }
+  /* Sanity check: The target city still exists. */
+  fc_assert_ret_val(tgt_city, FALSE);
 
   tgt_player = city_owner(tgt_city);
-  if (!tgt_player) {
-    /* How can a city be ownerless? */
-    fc_assert(tgt_player);
 
-    return FALSE;
-  }
-
-  if (!act_unit) {
-    /* Actor unit was destroyed during pre action Lua. */
-    return FALSE;
-  }
+  /* How can a city be ownerless? */
+  fc_assert_ret_val(tgt_player, FALSE);
 
   /* Save city ID. */
   tgt_city_id = tgt_city->id;
@@ -3202,15 +3187,12 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
 {
   const char *work;
 
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    return FALSE;
-  }
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
 
   /* Sanity check: The target city still exists. */
-  if (NULL == pcity_dest) {
-    return FALSE;
-  }
+  fc_assert_ret_val(pcity_dest, FALSE);
 
   pcity_dest->shield_stock += unit_build_shield_cost(punit);
   pcity_dest->caravan_shields += unit_build_shield_cost(punit);
@@ -3302,14 +3284,12 @@ static bool do_unit_establish_trade(struct player *pplayer,
   struct goods_type *goods;
   const char *goods_str;
 
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    return FALSE;
-  }
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
 
-  if (!pcity_dest) {
-    return FALSE;
-  }
+  /* Sanity check: The target city still exists. */
+  fc_assert_ret_val(pcity_dest, FALSE);
 
   pcity_homecity = player_city_by_number(pplayer, punit->homecity);
 
