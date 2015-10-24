@@ -74,6 +74,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/dependencies/cvercmp \
 	-I$(top_srcdir)/dependencies/tinycthread
 
+AM_LIBTOOLFLAGS = --preserve-dup-deps
+
 # Build client common functionality in to library
 # instead linking them directly to civclient. This is necessary
 # for static linking.
