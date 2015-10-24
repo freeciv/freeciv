@@ -1035,6 +1035,27 @@ static void compat_load_020600(struct loaddata *loading)
     }
     secfile_insert_int(loading->file, count, "research.count");
   }
+
+  /* Add diplstate type order. */
+  secfile_insert_int(loading->file, DS_LAST,
+                     "savefile.diplstate_type_size");
+  if (DS_LAST > 0) {
+    const char **modname;
+    int i;
+    int j;
+
+    i = 0;
+    modname = fc_calloc(DS_LAST, sizeof(*modname));
+
+    for (j = 0; j < DS_LAST; j++) {
+      modname[i++] = diplstate_type_name(j);
+    }
+
+    secfile_insert_str_vec(loading->file, modname,
+                           DS_LAST,
+                           "savefile.diplstate_type_vector");
+    free(modname);
+  }
 }
 
 /****************************************************************************
