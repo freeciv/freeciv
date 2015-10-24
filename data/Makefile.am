@@ -32,8 +32,7 @@ else
 CLIENT_FILES =
 endif
 
-if SERVER
-SERVER_FILES = \
+SRV_RE_FILES = \
 	civ1.serv \
 	civ2.serv \
 	classic.serv \
@@ -42,11 +41,17 @@ SERVER_FILES = \
 	multiplayer.serv \
 	civ2civ3.serv
 
+if SERVER
+SERVER_FILES = $(SRV_RE_FILES)
 SERVER_CONF = database.lua
-
+else
+if RULEDIT
+SERVER_FILES = $(SRV_RE_FILES)
+SERVER_CONF =
 else
 SERVER_FILES =
 SERVER_CONF =
+endif
 endif
 
 pkgsysconf_DATA = $(SERVER_CONF)
@@ -84,10 +89,15 @@ else
 CLIENTDATADIRS = 
 endif
 
+SRV_RE_DATADIRS = default classic civ1 civ2 experimental multiplayer civ2civ3 nation
 if SERVER
-SERVERDATADIRS = default classic civ1 civ2 experimental multiplayer civ2civ3 scenarios nation
+SERVERDATADIRS = $(SRV_RE_DATADIRS) scenarios
 else
-SERVERDATADIRS = 
+if RULEDIT
+SERVERDATADIRS = $(SRV_RE_DATADIRS)
+else
+SERVERDATADIRS =
+endif
 endif
 
 if CLIENT
