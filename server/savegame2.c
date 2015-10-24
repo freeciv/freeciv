@@ -676,6 +676,8 @@ static struct loaddata *loaddata_new(struct section_file *file)
   loading->road.size = -1;
   loading->specialist.order = NULL;
   loading->specialist.size = -1;
+  loading->ds_t.order = NULL;
+  loading->ds_t.size = -1;
 
   loading->server_state = S_S_INITIAL;
   loading->rstate = fc_rand_state();
@@ -723,6 +725,10 @@ static void loaddata_destroy(struct loaddata *loading)
 
   if (loading->specialist.order != NULL) {
     free(loading->specialist.order);
+  }
+
+  if (loading->ds_t.order != NULL) {
+    free(loading->ds_t.order);
   }
 
   if (loading->worked_tiles != NULL) {
@@ -1799,6 +1805,33 @@ static void sg_load_savefile(struct loaddata *loading)
     for (; j < nmod; j++) {
       loading->specialist.order[j] = NULL;
     }
+  }
+
+  /* Load diplomatic state type order. */
+  loading->ds_t.size
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "savefile.diplstate_type_size");
+
+  sg_failure_ret(loading->ds_t.size > 0,
+                 "Failed to load diplomatic state type order: %s",
+                 secfile_error());
+
+  if (loading->ds_t.size) {
+    const char **modname;
+    int j;
+
+    modname = secfile_lookup_str_vec(loading->file, &loading->ds_t.size,
+                                     "savefile.diplstate_type_vector");
+
+    loading->ds_t.order = fc_calloc(loading->ds_t.size,
+                                  sizeof(*loading->ds_t.order));
+
+    for (j = 0; j < loading->ds_t.size; j++) {
+      loading->ds_t.order[j] = diplstate_type_by_name(modname[j],
+                                                    fc_strcasecmp);
+    }
+
+    free(modname);
   }
 }
 
@@ -3980,16 +4013,37 @@ static void sg_load_player_main(struct loaddata *loading,
   BV_CLR_ALL(plr->real_embassy);
   players_iterate(pplayer) {
     char buf[32];
+    int unconverted;
     struct player_diplstate *ds = player_diplstate_get(plr, pplayer);
     i = player_index(pplayer);
 
     /* load diplomatic status */
     fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
 
-    ds->type =
-      secfile_lookup_int_default(loading->file, DS_WAR, "%s.type", buf);
-    ds->max_state =
-      secfile_lookup_int_default(loading->file, DS_WAR, "%s.max_state", buf);
+    unconverted =
+      secfile_lookup_int_default(loading->file, -1, "%s.type", buf);
+    if (unconverted >= 0 && unconverted < loading->ds_t.size) {
+      /* Look up what state the unconverted number represents. */
+      ds->type = loading->ds_t.order[unconverted];
+    } else {
+      log_sg("No valid diplomatic state type between players %d and %d",
+             plrno, i);
+
+      ds->type = DS_WAR;
+    }
+
+    unconverted =
+      secfile_lookup_int_default(loading->file, -1, "%s.max_state", buf);
+    if (unconverted >= 0 && unconverted < loading->ds_t.size) {
+      /* Look up what state the unconverted number represents. */
+      ds->max_state = loading->ds_t.order[unconverted];
+    } else {
+      log_sg("No valid diplomatic max_state between players %d and %d",
+             plrno, i);
+
+      ds->max_state = DS_WAR;
+    }
+
     ds->first_contact_turn =
       secfile_lookup_int_default(loading->file, 0,
                                  "%s.first_contact_turn", buf);

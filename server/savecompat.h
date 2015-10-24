@@ -92,6 +92,11 @@ struct loaddata {
     struct specialist **order;
     size_t size;
   } specialist;
+  /* loaded in sg_load_savefile(); needed in sg_load_player_main(), ... */
+  struct {
+    enum diplstate_type *order;
+    size_t size;
+  } ds_t;
 
   /* loaded in sg_load_game(); needed in sg_load_random(), ... */
   enum server_states server_state;
