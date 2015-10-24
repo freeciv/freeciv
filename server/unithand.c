@@ -2447,15 +2447,12 @@ static void do_unit_help_build_wonder(struct player *pplayer,
 {
   const char *work;
 
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    return;
-  }
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret(pplayer);
+  fc_assert_ret(punit);
 
   /* Sanity check: The target city still exists. */
-  if (NULL == pcity_dest) {
-    return;
-  }
+  fc_assert_ret(pcity_dest);
 
   pcity_dest->shield_stock += unit_build_shield_cost(punit);
   pcity_dest->caravan_shields += unit_build_shield_cost(punit);
@@ -2539,14 +2536,12 @@ static bool do_unit_establish_trade(struct player *pplayer,
   enum traderoute_bonus_type bonus_type;
   const char *bonus_str;
 
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    return FALSE;
-  }
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
 
-  if (!pcity_dest) {
-    return FALSE;
-  }
+  /* Sanity check: The target city still exists. */
+  fc_assert_ret_val(pcity_dest, FALSE);
 
   pcity_homecity = player_city_by_number(pplayer, punit->homecity);
 
