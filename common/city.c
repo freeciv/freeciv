@@ -2778,7 +2778,11 @@ inline void set_city_production(struct city *pcity)
   /* Add on special extra incomes: trade routes and tithes. */
   trade_routes_iterate(pcity, proute) {
     struct city *tcity = game_city_by_number(proute->partner);
-    bool can_trade = can_cities_trade(pcity, tcity);
+    bool can_trade;
+
+    fc_assert(tcity != NULL);
+
+    can_trade = can_cities_trade(pcity, tcity);
 
     if (!can_trade) {
       enum trade_route_type type = cities_trade_route_type(pcity, tcity);
