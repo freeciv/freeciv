@@ -155,6 +155,8 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	update_queue.h	\
 	voteinfo.c	\
 	voteinfo.h	\
+	zoom.c		\
+	zoom.h		\
 	audio.c         \
 	audio.h         \
 	audio_none.c    \

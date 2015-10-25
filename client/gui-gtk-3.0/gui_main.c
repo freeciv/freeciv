@@ -67,6 +67,7 @@
 #include "options.h"
 #include "text.h"
 #include "tilespec.h"
+#include "zoom.h"
 
 /* client/gui-gtk-3.0 */
 #include "chatline.h"

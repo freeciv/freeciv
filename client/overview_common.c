@@ -24,10 +24,11 @@
 #include "client_main.h" /* can_client_change_view() */
 #include "climap.h"
 #include "control.h"
-#include "options.h"
-#include "overview_common.h"
-
 #include "mapview_g.h"
+#include "options.h"
+#include "zoom.h"
+
+#include "overview_common.h"
 
 int OVERVIEW_TILE_SIZE = 2;
 #if 0
