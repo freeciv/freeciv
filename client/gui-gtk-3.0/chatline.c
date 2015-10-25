@@ -148,9 +148,11 @@ static void inputline_return(GtkEntry *w, gpointer data)
   theinput = gtk_entry_get_text(w);
   
   if (*theinput) {
-    if (client_state() == C_S_RUNNING && options.gui_gtk3_allied_chat_only
+    if (client_state() == C_S_RUNNING
+        && gui_options.gui_gtk3_allied_chat_only
         && is_plain_public_message(theinput)) {
       char buf[MAX_LEN_MSG];
+
       fc_snprintf(buf, sizeof(buf), ". %s", theinput);
       send_chat(buf);
     } else {
@@ -401,7 +403,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
       return TRUE;
 
     case GDK_KEY_Tab:
-      if (options.gui_gtk3_chatline_autocompletion) {
+      if (gui_options.gui_gtk3_chatline_autocompletion) {
         return chatline_autocomplete(GTK_EDITABLE(w));
       }
 
@@ -897,7 +899,7 @@ void real_output_window_append(const char *astring,
   gtk_text_buffer_insert(buf, &iter, "\n", -1);
   mark = gtk_text_buffer_create_mark(buf, NULL, &iter, TRUE);
 
-  if (options.gui_gtk3_show_chat_message_time) {
+  if (gui_options.gui_gtk3_show_chat_message_time) {
     char timebuf[64];
     time_t now;
     struct tm *now_tm;

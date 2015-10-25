@@ -1082,7 +1082,7 @@ void tilespec_try_read(const char *tileset_name, bool verbose)
 
     log_verbose("Trying tileset \"%s\".", tileset->name);
   }
-  sz_strlcpy(options.default_tileset_name, tileset_get_name(tileset));
+  sz_strlcpy(gui_options.default_tileset_name, tileset_get_name(tileset));
 }
 
 /**********************************************************************
@@ -1138,7 +1138,7 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
                          "Failed to re-read the currently loaded tileset.");
     }
   }
-  sz_strlcpy(options.default_tileset_name, tileset->name);
+  sz_strlcpy(gui_options.default_tileset_name, tileset->name);
   tileset_load_tiles(tileset);
   tileset_use_prefered_theme(tileset);
 
@@ -3699,7 +3699,7 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 {
   struct nation_type *pnation = nation_of_unit(punit);
 
-  if (options.draw_unit_shields) {
+  if (gui_options.draw_unit_shields) {
     return t->sprites.nation_shield.p[nation_index(pnation)];
   } else {
     return t->sprites.nation_flag.p[nation_index(pnation)];
@@ -3787,7 +3787,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
   struct unit_type *ptype = unit_type_get(punit);
 
   if (backdrop) {
-    if (!options.solid_color_behind_units) {
+    if (!gui_options.solid_color_behind_units) {
       ADD_SPRITE(get_unit_nation_flag_sprite(t, punit), TRUE,
 		 FULL_TILE_X_OFFSET + t->unit_flag_offset_x,
 		 FULL_TILE_Y_OFFSET + t->unit_flag_offset_y);
@@ -4017,7 +4017,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     }
   } extra_type_list_iterate_end;
 
-  if (road && (!pcity || !options.draw_cities) && !hider) {
+  if (road && (!pcity || !gui_options.draw_cities) && !hider) {
     draw_single_road = TRUE;
   } else {
     draw_single_road = FALSE;
@@ -4212,7 +4212,7 @@ static int fill_irrigation_sprite_array(const struct tileset *t,
 
   /* We don't draw the irrigation if there's a city (it just gets overdrawn
    * anyway, and ends up looking bad). */
-  if (!(pcity && options.draw_cities)) {
+  if (!(pcity && gui_options.draw_cities)) {
     extra_type_list_iterate(t->style_lists[ESTYLE_CARDINALS], pextra) {
       if (is_extra_drawing_enabled(pextra)) {
         int eidx = extra_index(pextra);
@@ -4287,7 +4287,7 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
         ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[index]);
       }
     } else if (NULL != pwork && pwork == pcity
-               && (citymode || options.draw_city_output)) {
+               && (citymode || gui_options.draw_city_output)) {
       /* Add on the tile output sprites. */
       int food = city_tile_output_now(pcity, ptile, O_FOOD);
       int shields = city_tile_output_now(pcity, ptile, O_SHIELD);
@@ -4365,14 +4365,15 @@ static int fill_fog_sprite_array(const struct tileset *t,
 {
   struct drawn_sprite *saved_sprs = sprs;
 
-  if (t->fogstyle == FOG_SPRITE && options.draw_fog_of_war
+  if (t->fogstyle == FOG_SPRITE && gui_options.draw_fog_of_war
       && NULL != ptile
       && TILE_KNOWN_UNSEEN == client_tile_get_known(ptile)) {
     /* With FOG_AUTO, fog is done this way. */
     ADD_SPRITE_SIMPLE(t->sprites.tx.fog);
   }
 
-  if (t->darkness_style == DARKNESS_CORNER && pcorner && options.draw_fog_of_war) {
+  if (t->darkness_style == DARKNESS_CORNER && pcorner
+      && gui_options.draw_fog_of_war) {
     int i, tileno = 0;
 
     for (i = 3; i >= 0; i--) {
@@ -4681,7 +4682,7 @@ bool unit_drawn_with_city_outline(const struct unit *punit, bool check_focus)
    * and on a tile where a city can be built.
    * But suppress the outline if the unit has orders (likely it is in
    * transit to somewhere else and this will just slow down redraws). */
-  return options.draw_city_outlines
+  return gui_options.draw_city_outlines
          && unit_is_cityfounder(punit)
          && !unit_has_orders(punit)
          && (client_tile_get_known(unit_tile(punit)) != TILE_UNKNOWN
@@ -4748,14 +4749,14 @@ static int fill_grid_sprite_array(const struct tileset *t,
     if (mapdeco_is_highlight_set(pedge->tile[0])
         || mapdeco_is_highlight_set(pedge->tile[1])) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.selected[pedge->type]);
-    } else if (!options.draw_terrain && options.draw_coastline
+    } else if (!gui_options.draw_terrain && gui_options.draw_coastline
 	       && pedge->tile[0] && pedge->tile[1]
 	       && known[0] && known[1]
 	       && (is_ocean_tile(pedge->tile[0])
 		   ^ is_ocean_tile(pedge->tile[1]))) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.coastline[pedge->type]);
     } else {
-      if (options.draw_map_grid) {
+      if (gui_options.draw_map_grid) {
         if (worked[0] || worked[1]) {
           ADD_SPRITE_SIMPLE(t->sprites.grid.worked[pedge->type]);
         } else if (city[0] || city[1]) {
@@ -4764,7 +4765,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
           ADD_SPRITE_SIMPLE(t->sprites.grid.main[pedge->type]);
         }
       }
-      if (options.draw_city_outlines) {
+      if (gui_options.draw_city_outlines) {
         if (XOR(city[0], city[1])) {
           ADD_SPRITE_SIMPLE(t->sprites.grid.city[pedge->type]);
         }
@@ -4774,7 +4775,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       }
     }
 
-    if (options.draw_borders
+    if (gui_options.draw_borders
         && BORDERS_DISABLED != game.info.borders
         && known[0]
         && known[1]) {
@@ -4804,7 +4805,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       ADD_SPRITE_SIMPLE(t->sprites.grid.unavailable);
     }
 
-    if (options.draw_native && citymode == NULL) {
+    if (gui_options.draw_native && citymode == NULL) {
       bool native = TRUE;
       struct unit_list *pfocus_units = get_units_in_focus();
 
@@ -4901,33 +4902,33 @@ static int fill_goto_sprite_array(const struct tileset *t,
 static bool is_extra_drawing_enabled(struct extra_type *pextra)
 {
   if (is_extra_caused_by(pextra, EC_IRRIGATION)) {
-    if (!options.draw_irrigation) {
+    if (!gui_options.draw_irrigation) {
       return FALSE;
     }
   }
   if (is_extra_caused_by(pextra, EC_POLLUTION)
       || is_extra_caused_by(pextra, EC_FALLOUT)) {
-    if (!options.draw_pollution) {
+    if (!gui_options.draw_pollution) {
       return FALSE;
     }
   }
   if (is_extra_caused_by(pextra, EC_MINE)) {
-    if (!options.draw_mines) {
+    if (!gui_options.draw_mines) {
       return FALSE;
     }
   }
   if (is_extra_caused_by(pextra, EC_HUT)) {
-    if (!options.draw_huts) {
+    if (!gui_options.draw_huts) {
       return FALSE;
     }
   }
   if (is_extra_caused_by(pextra, EC_BASE)) {
-    if (!options.draw_fortress_airbase) {
+    if (!gui_options.draw_fortress_airbase) {
       return FALSE;
     }
   }
   if (is_extra_caused_by(pextra, EC_ROAD)) {
-    if (!options.draw_roads_rails) {
+    if (!gui_options.draw_roads_rails) {
       return FALSE;
     }
   }
@@ -4969,13 +4970,13 @@ int fill_sprite_array(struct tileset *t,
   struct player *owner = NULL;
   /* Unit drawing is disabled when the view options are turned off,
    * but only where we're drawing on the mapview. */
-  bool do_draw_unit = (punit && (options.draw_units || !ptile
-				 || (options.draw_focus_unit
+  bool do_draw_unit = (punit && (gui_options.draw_units || !ptile
+				 || (gui_options.draw_focus_unit
 				     && unit_is_in_focus(punit))));
-  bool solid_bg = (options.solid_color_behind_units
+  bool solid_bg = (gui_options.solid_color_behind_units
 		   && (do_draw_unit
-		       || (pcity && options.draw_cities)
-		       || (ptile && !options.draw_terrain)));
+		       || (pcity && gui_options.draw_cities)
+		       || (ptile && !gui_options.draw_terrain)));
 
   if (citymode) {
     int count = 0, i, cx, cy;
@@ -5027,34 +5028,34 @@ int fill_sprite_array(struct tileset *t,
   switch (layer) {
   case LAYER_BACKGROUND:
     /* Set up background color. */
-    if (options.solid_color_behind_units) {
+    if (gui_options.solid_color_behind_units) {
       if (do_draw_unit) {
 	owner = unit_owner(punit);
-      } else if (pcity && options.draw_cities) {
+      } else if (pcity && gui_options.draw_cities) {
 	owner = city_owner(pcity);
       }
     }
     if (owner) {
       ADD_SPRITE_SIMPLE(t->sprites.player[player_index(owner)].background);
-    } else if (ptile && !options.draw_terrain) {
+    } else if (ptile && !gui_options.draw_terrain) {
       ADD_SPRITE_SIMPLE(t->sprites.background.graphic);
     }
     break;
 
   case LAYER_TERRAIN1:
-    if (NULL != pterrain && options.draw_terrain && !solid_bg) {
+    if (NULL != pterrain && gui_options.draw_terrain && !solid_bg) {
       sprs += fill_terrain_sprite_layer(t, sprs, 0, ptile, pterrain, tterrain_near);
     }
     break;
 
   case LAYER_TERRAIN2:
-    if (NULL != pterrain && options.draw_terrain && !solid_bg) {
+    if (NULL != pterrain && gui_options.draw_terrain && !solid_bg) {
       sprs += fill_terrain_sprite_layer(t, sprs, 1, ptile, pterrain, tterrain_near);
     }
     break;
 
   case LAYER_TERRAIN3:
-    if (NULL != pterrain && options.draw_terrain && !solid_bg) {
+    if (NULL != pterrain && gui_options.draw_terrain && !solid_bg) {
       fc_assert(MAX_NUM_LAYERS == 3);
       sprs += fill_terrain_sprite_layer(t, sprs, 2, ptile, pterrain, tterrain_near);
     }
@@ -5062,7 +5063,7 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_WATER:
     if (NULL != pterrain) {
-      if (options.draw_terrain && !solid_bg
+      if (gui_options.draw_terrain && !solid_bg
           && terrain_type_terrain_class(pterrain) == TC_OCEAN) {
 	for (dir = 0; dir < 4; dir++) {
           int didx = DIR4_TO_DIR8[dir];
@@ -5081,7 +5082,7 @@ int fill_sprite_array(struct tileset *t,
       sprs += fill_irrigation_sprite_array(t, sprs, textras, textras_near,
 					   pcity);
 
-      if (options.draw_terrain && !solid_bg) {
+      if (gui_options.draw_terrain && !solid_bg) {
         extra_type_list_iterate(t->style_lists[ESTYLE_RIVER], priver) {
           int idx = extra_index(priver);
 
@@ -5134,7 +5135,7 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_SPECIAL1:
     if (NULL != pterrain) {
-      if (options.draw_specials) {
+      if (gui_options.draw_specials) {
 	if (tile_resource_is_valid(ptile)) {
 	  ADD_SPRITE_SIMPLE(t->sprites.resource[resource_index(tile_resource(ptile))]);
 	}
@@ -5190,8 +5191,8 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_CITY1:
     /* City.  Some city sprites are drawn later. */
-    if (pcity && options.draw_cities) {
-      if (!options.draw_full_citybar && !options.solid_color_behind_units) {
+    if (pcity && gui_options.draw_cities) {
+      if (!gui_options.draw_full_citybar && !gui_options.solid_color_behind_units) {
 	ADD_SPRITE(get_city_flag_sprite(t, pcity), TRUE,
 		   FULL_TILE_X_OFFSET + t->city_flag_offset_x,
 		   FULL_TILE_Y_OFFSET + t->city_flag_offset_y);
@@ -5224,7 +5225,7 @@ int fill_sprite_array(struct tileset *t,
                      FULL_TILE_Y_OFFSET + t->city_offset_y);
         }
       }
-      if (!options.draw_full_citybar && pcity->client.occupied) {
+      if (!gui_options.draw_full_citybar && pcity->client.occupied) {
 	ADD_SPRITE(get_city_sprite(t->sprites.city.occupied, pcity), TRUE,
                    FULL_TILE_X_OFFSET + t->occupied_offset_x,
                    FULL_TILE_Y_OFFSET + t->occupied_offset_y);
@@ -5380,7 +5381,7 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_CITY2:
     /* City size.  Drawing this under fog makes it hard to read. */
-    if (pcity && options.draw_cities && !options.draw_full_citybar) {
+    if (pcity && gui_options.draw_cities && !gui_options.draw_full_citybar) {
       bool warn = FALSE;
 
       ADD_SPRITE(t->sprites.city.size[city_size_get(pcity) % 10],
@@ -5901,7 +5902,7 @@ struct sprite *get_nuke_explode_sprite(const struct tileset *t)
 **************************************************************************/
 const struct citybar_sprites *get_citybar_sprites(const struct tileset *t)
 {
-  if (options.draw_full_citybar) {
+  if (gui_options.draw_full_citybar) {
     return &t->sprites.citybar;
   } else {
     return NULL;
@@ -6036,23 +6037,23 @@ void tileset_use_prefered_theme(const struct tileset *t)
 
   switch (get_gui_type()) {
   case GUI_GTK2:
-    default_theme_name = options.gui_gtk2_default_theme_name;
-    default_theme_name_sz = sizeof(options.gui_gtk2_default_theme_name);
+    default_theme_name = gui_options.gui_gtk2_default_theme_name;
+    default_theme_name_sz = sizeof(gui_options.gui_gtk2_default_theme_name);
     break;
   case GUI_GTK3:
-    default_theme_name = options.gui_gtk3_default_theme_name;
-    default_theme_name_sz = sizeof(options.gui_gtk3_default_theme_name);
+    default_theme_name = gui_options.gui_gtk3_default_theme_name;
+    default_theme_name_sz = sizeof(gui_options.gui_gtk3_default_theme_name);
     break;
   case GUI_GTK3x:
-    default_theme_name = options.gui_gtk3x_default_theme_name;
-    default_theme_name_sz = sizeof(options.gui_gtk3x_default_theme_name);
+    default_theme_name = gui_options.gui_gtk3x_default_theme_name;
+    default_theme_name_sz = sizeof(gui_options.gui_gtk3x_default_theme_name);
   case GUI_SDL:
-    default_theme_name = options.gui_sdl_default_theme_name;
-    default_theme_name_sz = sizeof(options.gui_sdl_default_theme_name);
+    default_theme_name = gui_options.gui_sdl_default_theme_name;
+    default_theme_name_sz = sizeof(gui_options.gui_sdl_default_theme_name);
     break;
   case GUI_SDL2:
-    default_theme_name = options.gui_sdl2_default_theme_name;
-    default_theme_name_sz = sizeof(options.gui_sdl2_default_theme_name);
+    default_theme_name = gui_options.gui_sdl2_default_theme_name;
+    default_theme_name_sz = sizeof(gui_options.gui_sdl2_default_theme_name);
     break;
   case GUI_STUB:
   case GUI_QT:

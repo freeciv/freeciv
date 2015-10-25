@@ -660,7 +660,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
                                     0x000000FF, 0xFF000000);
   }
 
-  if (options.gui_sdl2_swrenderer) {
+  if (gui_options.gui_sdl2_swrenderer) {
     flags = SDL_RENDERER_SOFTWARE;
   } else {
     flags = 0;

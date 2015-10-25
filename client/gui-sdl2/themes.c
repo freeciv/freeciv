@@ -54,7 +54,7 @@ void gui_clear_theme(void)
   theme_free(theme);
   theme = NULL;
 
-  if (!load_theme(options.gui_sdl2_default_theme_name)) {
+  if (!load_theme(gui_options.gui_sdl2_default_theme_name)) {
     /* TRANS: No full stop after the URL, could cause confusion. */
     log_fatal(_("No Sdl2-client theme was found. For instructions on how to "
                 "get one, please visit %s"), WIKI_URL);

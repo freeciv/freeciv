@@ -151,7 +151,7 @@ void refresh_tile_mapcanvas(struct tile *ptile,
 void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 			    bool full_refresh, bool write_to_screen)
 {
-  if (full_refresh && options.draw_native) {
+  if (full_refresh && gui_options.draw_native) {
     queue_mapview_update(UPDATE_MAP_CANVAS_VISIBLE);
   } else if (full_refresh && unit_drawn_with_city_outline(punit, TRUE)) {
     queue_mapview_tile_update(ptile, TILE_UPDATE_CITYMAP);
@@ -172,7 +172,7 @@ void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
 			    bool full_refresh, bool write_to_screen)
 {
-  if (full_refresh && (options.draw_map_grid || options.draw_borders)) {
+  if (full_refresh && (gui_options.draw_map_grid || gui_options.draw_borders)) {
     queue_mapview_tile_update(ptile, TILE_UPDATE_CITYMAP);
   } else {
     queue_mapview_tile_update(ptile, TILE_UPDATE_UNIT);
@@ -634,10 +634,11 @@ void set_mapview_origin(float gui_x0, float gui_y0)
     return;
   }
 
-  if (can_slide && options.smooth_center_slide_msec > 0) {
+  if (can_slide && gui_options.smooth_center_slide_msec > 0) {
     int start_x = mapview.gui_x0, start_y = mapview.gui_y0;
     float diff_x, diff_y;
-    double timing_sec = (double)options.smooth_center_slide_msec / 1000.0, currtime;
+    double timing_sec = (double)gui_options.smooth_center_slide_msec / 1000.0;
+    double currtime;
     static struct timer *anim_timer;
     int frames = 0;
 
@@ -992,7 +993,7 @@ void put_one_element(struct canvas *pcanvas, float zoom,
   int count = fill_sprite_array(tileset, tile_sprs, layer,
                                 ptile, pedge, pcorner,
                                 punit, pcity, citymode, putype);
-  bool fog = (ptile && options.draw_fog_of_war
+  bool fog = (ptile && gui_options.draw_fog_of_war
 	      && TILE_KNOWN_UNSEEN == client_tile_get_known(ptile));
 
   /*** Draw terrain and specials ***/
@@ -1282,7 +1283,7 @@ static void draw_trade_routes_for_city(const struct city *pcity_src)
 **************************************************************************/
 static void draw_trade_routes(void)
 {
-  if (!options.draw_city_trade_routes) {
+  if (!gui_options.draw_city_trade_routes) {
     return;
   }
 
@@ -1497,10 +1498,10 @@ static void show_full_citybar(struct canvas *pcanvas,
   const bool can_see_inside
     = (client_is_global_observer() || city_owner(pcity) == client_player());
   const bool should_draw_productions
-    = can_see_inside && options.draw_city_productions;
-  const bool should_draw_growth = can_see_inside && options.draw_city_growth;
+    = can_see_inside && gui_options.draw_city_productions;
+  const bool should_draw_growth = can_see_inside && gui_options.draw_city_growth;
   const bool should_draw_trade_routes = can_see_inside
-    && options.draw_city_trade_routes;
+    && gui_options.draw_city_trade_routes;
   const bool should_draw_lower_bar
     = should_draw_productions || should_draw_growth
     || should_draw_trade_routes;
@@ -1513,7 +1514,7 @@ static void show_full_citybar(struct canvas *pcanvas,
     *height = 0;
   }
 
-  if (!options.draw_city_names && !should_draw_lower_bar) {
+  if (!gui_options.draw_city_names && !should_draw_lower_bar) {
     return;
   }
 
@@ -1524,7 +1525,7 @@ static void show_full_citybar(struct canvas *pcanvas,
   get_city_mapview_name_and_growth(pcity, name, sizeof(name),
 				   growth, sizeof(growth), &growth_color);
 
-  if (options.draw_city_names) {
+  if (gui_options.draw_city_names) {
     fc_snprintf(size, sizeof(size), "%d", city_size_get(pcity));
 
     get_text_size(&size_rect.w, &size_rect.h, FONT_CITY_SIZE, size);
@@ -1595,7 +1596,7 @@ static void show_full_citybar(struct canvas *pcanvas,
 
   /* Next fill in X and Y locations. */
 
-  if (options.draw_city_names) {
+  if (gui_options.draw_city_names) {
     flag_rect.x = canvas_x - *width / 2;
     flag_rect.y = canvas_y + (height1 - flag_rect.h) / 2;
 
@@ -1657,7 +1658,7 @@ static void show_full_citybar(struct canvas *pcanvas,
 
   owner_color = get_player_color(tileset, city_owner(pcity));
 
-  if (options.draw_city_names) {
+  if (gui_options.draw_city_names) {
     canvas_put_sprite_full(pcanvas, flag_rect.x / map_zoom, flag_rect.y / map_zoom,
                            flag);
     canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
@@ -1729,7 +1730,7 @@ static void show_full_citybar(struct canvas *pcanvas,
   
   /* Draw the dividing line if we drew both the
    * upper and lower parts. */
-  if (options.draw_city_names && should_draw_lower_bar) {
+  if (gui_options.draw_city_names && should_draw_lower_bar) {
     canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		    (canvas_x - *width / 2) / map_zoom,
                     (canvas_y + height1) / map_zoom - 1,
@@ -1768,7 +1769,7 @@ static void show_small_citybar(struct canvas *pcanvas,
   canvas_x += tileset_tile_width(tileset) / 2 * map_zoom;
   canvas_y += tileset_citybar_offset_y(tileset) * map_zoom;
 
-  if (options.draw_city_names) {
+  if (gui_options.draw_city_names) {
     int drawposx;
 
     /* HACK: put a character's worth of space between the two
@@ -1785,13 +1786,13 @@ static void show_small_citybar(struct canvas *pcanvas,
     total_width += name_rect.w;
     total_height = MAX(total_height, name_rect.h);
 
-    if (options.draw_city_growth && can_see_inside) {
+    if (gui_options.draw_city_growth && can_see_inside) {
       get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
       total_width += spacer_width + growth_rect.w;
       total_height = MAX(total_height, growth_rect.h);
     }
 
-    if (options.draw_city_trade_routes && can_see_inside) {
+    if (gui_options.draw_city_trade_routes && can_see_inside) {
       get_city_mapview_trade_routes(pcity, trade_routes,
                                     sizeof(trade_routes),
                                     &trade_routes_color);
@@ -1808,7 +1809,7 @@ static void show_small_citybar(struct canvas *pcanvas,
 		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), name);
     drawposx += name_rect.w;
 
-    if (options.draw_city_growth && can_see_inside) {
+    if (gui_options.draw_city_growth && can_see_inside) {
       drawposx += spacer_width;
       canvas_put_text(pcanvas, drawposx / map_zoom,
 		      (canvas_y + total_height - growth_rect.h) / map_zoom,
@@ -1817,7 +1818,7 @@ static void show_small_citybar(struct canvas *pcanvas,
       drawposx += growth_rect.w;
     }
 
-    if (options.draw_city_trade_routes && can_see_inside) {
+    if (gui_options.draw_city_trade_routes && can_see_inside) {
       drawposx += spacer_width;
       canvas_put_text(pcanvas, drawposx / map_zoom,
 		      (canvas_y + total_height - trade_routes_rect.h) / map_zoom,
@@ -1831,7 +1832,7 @@ static void show_small_citybar(struct canvas *pcanvas,
     *width = MAX(*width, total_width);
     *height += total_height + 3;
   }
-  if (options.draw_city_productions && can_see_inside) {
+  if (gui_options.draw_city_productions && can_see_inside) {
     get_city_mapview_production(pcity, prod, sizeof(prod));
     get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
 
@@ -1865,7 +1866,7 @@ static void show_city_desc(struct canvas *pcanvas,
 			   int canvas_x, int canvas_y,
 			   struct city *pcity, int *width, int *height)
 {
-  if (options.draw_full_citybar) {
+  if (gui_options.draw_full_citybar) {
     show_full_citybar(pcanvas, canvas_x, canvas_y, pcity, width, height);
   } else {
     show_small_citybar(pcanvas, canvas_x, canvas_y, pcity, width, height);
@@ -1911,14 +1912,14 @@ void show_city_descriptions(int canvas_base_x, int canvas_base_y,
   const int offset_y = tileset_citybar_offset_y(tileset) * map_zoom;
   int new_max_width = max_desc_width, new_max_height = max_desc_height;
 
-  if (options.draw_full_citybar && !(options.draw_city_names
-                                     || options.draw_city_productions
-                                     || options.draw_city_growth)) {
+  if (gui_options.draw_full_citybar && !(gui_options.draw_city_names
+                                         || gui_options.draw_city_productions
+                                         || gui_options.draw_city_growth)) {
     return;
   }
 
-  if (!options.draw_full_citybar && !(options.draw_city_names
-                                      || options.draw_city_productions)) {
+  if (!gui_options.draw_full_citybar && !(gui_options.draw_city_names
+                                          || gui_options.draw_city_productions)) {
     return;
   }
 
@@ -2139,7 +2140,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     unqueue_mapview_updates(TRUE);
     gui_flush();
 
-    timer_usleep_since_start(anim_timer, options.smooth_combat_step_msec * 1000ul);
+    timer_usleep_since_start(anim_timer,
+                             gui_options.smooth_combat_step_msec * 1000ul);
   }
 
   if (num_tiles_explode_unit > 0
@@ -2180,7 +2182,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       gui_flush();
 
       timer_usleep_since_start(anim_timer,
-                               options.smooth_combat_step_msec * 2 * 1000ul);
+                               gui_options.smooth_combat_step_msec * 2 * 1000ul);
     }
   }
 
@@ -2221,9 +2223,10 @@ void move_unit_map_canvas(struct unit *punit,
       || tile_visible_mapcanvas(dest_tile)) {
     float start_x, start_y;
     float canvas_dx, canvas_dy;
-    double timing_sec = (double)options.smooth_move_unit_msec / 1000.0, mytime;
+    double timing_sec = (double)gui_options.smooth_move_unit_msec / 1000.0;
+    double mytime;
 
-    fc_assert(options.smooth_move_unit_msec > 0);
+    fc_assert(gui_options.smooth_move_unit_msec > 0);
 
     map_to_gui_vector(tileset, map_zoom, &canvas_dx, &canvas_dy, dx, dy);
 
@@ -2400,7 +2403,7 @@ static void append_city_buycost_string(const struct city *pcity,
     return;
   }
 
-  if (!options.draw_city_buycost || !city_can_buy(pcity)) {
+  if (!gui_options.draw_city_buycost || !city_can_buy(pcity)) {
     return;
   }
 

@@ -599,7 +599,7 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Fullscreen"));
   act->setShortcut(QKeySequence(tr("alt+return")));
   act->setCheckable(true);
-  act->setChecked(options.gui_qt_fullscreen);
+  act->setChecked(gui_options.gui_qt_fullscreen);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_fullscreen()));
   menu->addSeparator();
   minimap_status = menu->addAction(_("Minimap"));
@@ -620,49 +620,49 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("City Outlines"));
   act->setShortcut(QKeySequence(tr("Ctrl+y")));
   act->setCheckable(true);
-  act->setChecked(options.draw_city_outlines);
+  act->setChecked(gui_options.draw_city_outlines);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_outlines()));
   act = menu->addAction(_("City Output"));
   act->setCheckable(true);
-  act->setChecked(options.draw_city_output);
+  act->setChecked(gui_options.draw_city_output);
   act->setShortcut(QKeySequence(tr("ctrl+w")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_output()));
   act = menu->addAction(_("Map Grid"));
   act->setShortcut(QKeySequence(tr("ctrl+g")));
   act->setCheckable(true);
-  act->setChecked(options.draw_map_grid);
+  act->setChecked(gui_options.draw_map_grid);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_map_grid()));
   act = menu->addAction(_("National Borders"));
   act->setCheckable(true);
-  act->setChecked(options.draw_borders);
+  act->setChecked(gui_options.draw_borders);
   act->setShortcut(QKeySequence(tr("ctrl+b")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_borders()));
   act = menu->addAction(_("City Full Bar"));
   act->setCheckable(true);
-  act->setChecked(options.draw_full_citybar);
+  act->setChecked(gui_options.draw_full_citybar);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_fullbar()));
   act = menu->addAction(_("City Names"));
   act->setCheckable(true);
-  act->setChecked(options.draw_city_names);
+  act->setChecked(gui_options.draw_city_names);
   act->setShortcut(QKeySequence(tr("ctrl+n")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_names()));
   act = menu->addAction(_("City Growth"));
   act->setCheckable(true);
-  act->setChecked(options.draw_city_growth);
+  act->setChecked(gui_options.draw_city_growth);
   act->setShortcut(QKeySequence(tr("ctrl+r")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_growth()));
   act = menu->addAction(_("City Production Levels"));
   act->setCheckable(true);
-  act->setChecked(options.draw_city_productions);
+  act->setChecked(gui_options.draw_city_productions);
   act->setShortcut(QKeySequence(tr("ctrl+p")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_production()));
   act = menu->addAction(_("City Buy Cost"));
   act->setCheckable(true);
-  act->setChecked(options.draw_city_buycost);
+  act->setChecked(gui_options.draw_city_buycost);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_buycost()));
   act = menu->addAction(_("City Traderoutes"));
   act->setCheckable(true);
-  act->setChecked(options.draw_city_trade_routes);
+  act->setChecked(gui_options.draw_city_trade_routes);
   act->setShortcut(QKeySequence(tr("ctrl+d")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_traderoutes()));
 
@@ -1890,13 +1890,13 @@ void mr_menu::slot_center_view()
 ***************************************************************************/
 void mr_menu::slot_fullscreen()
 {
-  if (!options.gui_qt_fullscreen) {
+  if (!gui_options.gui_qt_fullscreen) {
     gui()->showFullScreen();
     gui()->mapview_wdg->showFullScreen();
   } else {
     gui()->showNormal();
   }
-  options.gui_qt_fullscreen = !options.gui_qt_fullscreen;
+  gui_options.gui_qt_fullscreen = !gui_options.gui_qt_fullscreen;
 }
 
 /***************************************************************************

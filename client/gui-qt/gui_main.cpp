@@ -137,12 +137,12 @@ static bool parse_options(int argc, char **argv)
 **************************************************************************/
 static void migrate_options_from_2_5()
 {
-  if (!options.first_boot) {
+  if (!gui_options.first_boot) {
     log_normal(_("Migrating Qt-client options from freeciv-2.5 options."));
 
-    options.gui_qt_fullscreen = options.migrate_fullscreen;
+    gui_options.gui_qt_fullscreen = gui_options.migrate_fullscreen;
 
-    options.gui_qt_migrated_from_2_5 = TRUE;
+    gui_options.gui_qt_migrated_from_2_5 = TRUE;
   }
 }
 
@@ -164,7 +164,7 @@ void qtg_ui_main(int argc, char *argv[])
     app_icon = ::QIcon(*qpm);
     qapp->setWindowIcon(app_icon);
 
-    if (!options.gui_qt_migrated_from_2_5) {
+    if (!gui_options.gui_qt_migrated_from_2_5) {
       migrate_options_from_2_5();
     }
 
@@ -485,7 +485,7 @@ void qtg_insert_client_build_info(char *outbuf, size_t outlen)
 /**************************************************************************
   Make dynamic adjustments to first-launch default options.
 **************************************************************************/
-void qtg_adjust_default_options(void)
+void qtg_adjust_default_options()
 {
   /* Nothing in case of this gui */
 }

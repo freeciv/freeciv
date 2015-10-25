@@ -1324,8 +1324,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   /* Restore size of the city dialog. */
   gtk_window_set_default_size(GTK_WINDOW(pdialog->shell),
-                              options.gui_gtk2_citydlg_xsize,
-                              options.gui_gtk2_citydlg_ysize);
+                              gui_options.gui_gtk2_citydlg_xsize,
+                              gui_options.gui_gtk2_citydlg_ysize);
 
   pdialog->popup_menu = gtk_menu_new();
 
@@ -2897,15 +2897,17 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   close_cma_dialog(pdialog->pcity);
 
   /* Save size of the city dialog. */
-  options.gui_gtk2_citydlg_xsize = CLIP(GUI_GTK2_CITYDLG_MIN_XSIZE,
-                                        pdialog->shell->allocation.width,
-                                        GUI_GTK2_CITYDLG_MAX_XSIZE);
-  options.gui_gtk2_citydlg_ysize = CLIP(GUI_GTK2_CITYDLG_MIN_XSIZE,
-                                        pdialog->shell->allocation.height,
-                                        GUI_GTK2_CITYDLG_MAX_XSIZE);
+  gui_options.gui_gtk2_citydlg_xsize
+    = CLIP(GUI_GTK2_CITYDLG_MIN_XSIZE,
+           pdialog->shell->allocation.width,
+           GUI_GTK2_CITYDLG_MAX_XSIZE);
+  gui_options.gui_gtk2_citydlg_ysize
+    = CLIP(GUI_GTK2_CITYDLG_MIN_XSIZE,
+           pdialog->shell->allocation.height,
+           GUI_GTK2_CITYDLG_MAX_XSIZE);
 
-  last_page =
-      gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
+  last_page
+    = gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
 
   if (pdialog->popup_menu) {
     gtk_widget_destroy(pdialog->popup_menu);
