@@ -66,8 +66,6 @@ extern struct view mapview;
  * reenabled afterwards. */
 extern bool can_slide;
 
-extern float map_zoom;
-
 #define BORDER_WIDTH 2
 #define GOTO_WIDTH 2
 
@@ -354,8 +352,6 @@ void link_marks_decrease_turn_counters(void);
 
 void link_mark_add_new(enum text_link_type type, int id);
 void link_mark_restore(enum text_link_type type, int id);
-
-void set_map_zoom(float new_zoom);
 
 bool tileset_map_topo_compatible(int topology_id, struct tileset *tset);
 

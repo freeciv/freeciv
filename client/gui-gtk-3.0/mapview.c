@@ -48,6 +48,7 @@
 #include "overview_common.h"
 #include "tilespec.h"
 #include "text.h"
+#include "zoom.h"
 
 /* client/gui-gtk-3.0 */
 #include "citydlg.h" /* For reset_city_dialogs() */

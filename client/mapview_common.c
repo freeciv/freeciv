@@ -44,6 +44,7 @@
 #include "citydlg_common.h"
 #include "overview_common.h"
 #include "tilespec.h"
+#include "zoom.h"
 
 #include "mapview_common.h"
 
@@ -73,7 +74,6 @@ struct gotoline_hash *mapdeco_gotoline_table;
 struct view mapview;
 bool can_slide = TRUE;
 
-float map_zoom = 1.0;
 struct tile *center_tile = NULL;
 
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
@@ -3157,16 +3157,6 @@ bool map_canvas_resized(int width, int height)
   mapview.can_do_cached_drawing = can_do_cached_drawing();
 
   return redrawn;
-}
-
-/**************************************************************************
-  Set map zoom level.
-**************************************************************************/
-void set_map_zoom(float new_zoom)
-{
-  map_zoom = new_zoom;
-
-  map_canvas_resized(mapview.width, mapview.height);
 }
 
 /**************************************************************************
