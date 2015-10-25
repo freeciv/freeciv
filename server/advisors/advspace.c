@@ -29,7 +29,7 @@
   This borrows heavily from autoplace code already in the client source.
   AJS, 19990610
 ****************************************************************************/
-bool dai_spaceship_autoplace(struct player *pplayer,
+bool adv_spaceship_autoplace(struct player *pplayer,
                              struct player_spaceship *ship)
 {
   enum spaceship_place_type type;
