@@ -341,7 +341,7 @@ void auto_center_on_focus_unit(void)
 {
   struct tile *ptile = find_a_focus_unit_tile_to_center_on();
 
-  if (ptile && options.auto_center_on_unit &&
+  if (ptile && gui_options.auto_center_on_unit &&
       !tile_visible_and_not_on_border_mapcanvas(ptile)) {
     center_tile_mapcanvas(ptile);
   }
@@ -357,7 +357,7 @@ static void current_focus_append(struct unit *punit)
   punit->client.focus_status = FOCUS_AVAIL;
   refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
 
-  if (options.unit_selection_clears_orders) {
+  if (gui_options.unit_selection_clears_orders) {
     clear_unit_orders(punit);
   }
 }
@@ -645,7 +645,7 @@ void unit_focus_advance(void)
    * non-AI unit this turn which was focused, then fake a Turn Done
    * keypress.
    */
-  if (options.auto_turn_done
+  if (gui_options.auto_turn_done
       && num_units_in_old_focus > 0
       && get_num_units_in_focus() == 0
       && non_ai_unit_focus) {
@@ -1035,7 +1035,7 @@ void control_mouse_cursor(struct tile *ptile)
   struct unit_list *active_units = get_units_in_focus();
   enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 
-  if (!options.enable_cursor_changes) {
+  if (!gui_options.enable_cursor_changes) {
     return;
   }
 
@@ -1864,7 +1864,7 @@ void request_toggle_city_outlines(void)
     return;
   }
 
-  options.draw_city_outlines = !options.draw_city_outlines;
+  gui_options.draw_city_outlines = !gui_options.draw_city_outlines;
   update_map_canvas_visible();
 }
 
@@ -1877,7 +1877,7 @@ void request_toggle_city_output(void)
     return;
   }
   
-  options.draw_city_output = !options.draw_city_output;
+  gui_options.draw_city_output = !gui_options.draw_city_output;
   update_map_canvas_visible();
 }
 
@@ -1890,7 +1890,7 @@ void request_toggle_map_grid(void)
     return;
   }
 
-  options.draw_map_grid ^= 1;
+  gui_options.draw_map_grid ^= 1;
   update_map_canvas_visible();
 }
 
@@ -1903,7 +1903,7 @@ void request_toggle_map_borders(void)
     return;
   }
 
-  options.draw_borders ^= 1;
+  gui_options.draw_borders ^= 1;
   update_map_canvas_visible();
 }
 
@@ -1916,7 +1916,7 @@ void request_toggle_map_native(void)
     return;
   }
 
-  options.draw_native ^= 1;
+  gui_options.draw_native ^= 1;
   update_map_canvas_visible();
 }
 
@@ -1929,7 +1929,7 @@ void request_toggle_city_full_bar(void)
     return;
   }
 
-  options.draw_full_citybar ^= 1;
+  gui_options.draw_full_citybar ^= 1;
   update_map_canvas_visible();
 }
 
@@ -1942,7 +1942,7 @@ void request_toggle_city_names(void)
     return;
   }
 
-  options.draw_city_names ^= 1;
+  gui_options.draw_city_names ^= 1;
   update_map_canvas_visible();
 }
  
@@ -1955,7 +1955,7 @@ void request_toggle_city_growth(void)
     return;
   }
 
-  options.draw_city_growth ^= 1;
+  gui_options.draw_city_growth ^= 1;
   update_map_canvas_visible();
 }
 
@@ -1968,7 +1968,7 @@ void request_toggle_city_productions(void)
     return;
   }
 
-  options.draw_city_productions ^= 1;
+  gui_options.draw_city_productions ^= 1;
   update_map_canvas_visible();
 }
 
@@ -1981,7 +1981,7 @@ void request_toggle_city_buycost(void)
     return;
   }
 
-  options.draw_city_buycost ^= 1;
+  gui_options.draw_city_buycost ^= 1;
   update_map_canvas_visible();
 }
 
@@ -1994,7 +1994,7 @@ void request_toggle_city_trade_routes(void)
     return;
   }
 
-  options.draw_city_trade_routes ^= 1;
+  gui_options.draw_city_trade_routes ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2007,7 +2007,7 @@ void request_toggle_terrain(void)
     return;
   }
 
-  options.draw_terrain ^= 1;
+  gui_options.draw_terrain ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2020,7 +2020,7 @@ void request_toggle_coastline(void)
     return;
   }
 
-  options.draw_coastline ^= 1;
+  gui_options.draw_coastline ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2033,7 +2033,7 @@ void request_toggle_roads_rails(void)
     return;
   }
 
-  options.draw_roads_rails ^= 1;
+  gui_options.draw_roads_rails ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2046,7 +2046,7 @@ void request_toggle_irrigation(void)
     return;
   }
 
-  options.draw_irrigation ^= 1;
+  gui_options.draw_irrigation ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2059,7 +2059,7 @@ void request_toggle_mines(void)
     return;
   }
 
-  options.draw_mines ^= 1;
+  gui_options.draw_mines ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2072,7 +2072,7 @@ void request_toggle_bases(void)
     return;
   }
 
-  options.draw_fortress_airbase ^= 1;
+  gui_options.draw_fortress_airbase ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2085,7 +2085,7 @@ void request_toggle_resources(void)
     return;
   }
 
-  options.draw_specials ^= 1;
+  gui_options.draw_specials ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2098,7 +2098,7 @@ void request_toggle_huts(void)
     return;
   }
 
-  options.draw_huts ^= 1;
+  gui_options.draw_huts ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2111,7 +2111,7 @@ void request_toggle_pollution(void)
     return;
   }
 
-  options.draw_pollution ^= 1;
+  gui_options.draw_pollution ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2124,7 +2124,7 @@ void request_toggle_cities(void)
     return;
   }
 
-  options.draw_cities ^= 1;
+  gui_options.draw_cities ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2137,7 +2137,7 @@ void request_toggle_units(void)
     return;
   }
 
-  options.draw_units ^= 1;
+  gui_options.draw_units ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2150,7 +2150,7 @@ void request_toggle_unit_solid_bg(void)
     return;
   }
 
-  options.solid_color_behind_units ^= 1;
+  gui_options.solid_color_behind_units ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2163,7 +2163,7 @@ void request_toggle_unit_shields(void)
     return;
   }
 
-  options.draw_unit_shields ^= 1;
+  gui_options.draw_unit_shields ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2176,7 +2176,7 @@ void request_toggle_focus_unit(void)
     return;
   }
 
-  options.draw_focus_unit ^= 1;
+  gui_options.draw_focus_unit ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2189,7 +2189,7 @@ void request_toggle_fog_of_war(void)
     return;
   }
 
-  options.draw_fog_of_war ^= 1;
+  gui_options.draw_fog_of_war ^= 1;
   update_map_canvas_visible();
   refresh_overview_canvas();
 }
@@ -2257,7 +2257,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   bool in_focus = unit_is_in_focus(punit);
 
   was_teleported = !is_tiles_adjacent(src_tile, dst_tile);
-  do_animation = (!was_teleported && options.smooth_move_unit_msec > 0);
+  do_animation = (!was_teleported && gui_options.smooth_move_unit_msec > 0);
 
   if (!was_teleported
       && punit->activity != ACTIVITY_SENTRY
@@ -2267,7 +2267,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   }
 
   if (unit_owner(punit) == client.conn.playing
-      && options.auto_center_on_unit
+      && gui_options.auto_center_on_unit
       && !unit_has_orders(punit)
       && punit->activity != ACTIVITY_GOTO
       && punit->activity != ACTIVITY_SENTRY
@@ -2371,7 +2371,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     struct unit *qunit = quickselect(ptile, qtype);
     if (qunit) {
       unit_focus_set_and_select(qunit);
-      maybe_goto = options.keyboardless_goto;
+      maybe_goto = gui_options.keyboardless_goto;
     }
   }
   /* Otherwise use popups. */
@@ -2382,15 +2382,15 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
   else if (unit_list_size(ptile->units) == 0
            && NULL == pcity
            && get_num_units_in_focus() > 0) {
-    maybe_goto = options.keyboardless_goto;
+    maybe_goto = gui_options.keyboardless_goto;
   }
   else if (unit_list_size(ptile->units) == 1
            && !get_transporter_occupancy(unit_list_get(ptile->units, 0))) {
-    struct unit *punit=unit_list_get(ptile->units, 0);
+    struct unit *punit = unit_list_get(ptile->units, 0);
 
     if (unit_owner(punit) == client.conn.playing) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-        maybe_goto = options.keyboardless_goto;
+        maybe_goto = gui_options.keyboardless_goto;
 	if (qtype == SELECT_APPEND) {
 	  unit_focus_add(punit);
 	} else {

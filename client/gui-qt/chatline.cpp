@@ -60,7 +60,7 @@ chatwdg::chatwdg(QWidget *parent)
   setParent(parent);
   si = new QSpacerItem(0,0,QSizePolicy::Expanding);
   cb = new QCheckBox(_("Allies only"));
-  cb->setChecked(options.gui_qt_allied_chat_only);
+  cb->setChecked(gui_options.gui_qt_allied_chat_only);
   vb = new QVBoxLayout;
   hl = new QHBoxLayout;
   chat_line = new QLineEdit;
@@ -95,9 +95,9 @@ chatwdg::chatwdg(QWidget *parent)
 void chatwdg::state_changed(int state)
 {
   if (state > 0) {
-    options.gui_qt_allied_chat_only = true;
+    gui_options.gui_qt_allied_chat_only = true;
   } else {
-    options.gui_qt_allied_chat_only = false;
+    gui_options.gui_qt_allied_chat_only = false;
   }
 }
 
@@ -181,9 +181,11 @@ void chatwdg::send()
   theinput = chat_line->text().toUtf8().data();
   gui()->chat_history.prepend(chat_line->text());
   if (*theinput) {
-    if (client_state() == C_S_RUNNING && options.gui_qt_allied_chat_only
+    if (client_state() == C_S_RUNNING
+        && gui_options.gui_qt_allied_chat_only
         && is_plain_public_message(theinput)) {
       char buf[MAX_LEN_MSG];
+
       fc_snprintf(buf, sizeof(buf), ". %s", theinput);
       send_chat(buf);
     } else {

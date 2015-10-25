@@ -971,7 +971,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
    * about us. */
   if (-1 != conn_id
       && client.conn.id != conn_id
-      && ft_color_requested(options.highlight_our_names)) {
+      && ft_color_requested(gui_options.highlight_our_names)) {
     const char *username = client.conn.username;
     size_t userlen = strlen(username);
     const char *playername = ((client_player() && !client_is_observer())
@@ -992,7 +992,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
           && 0 == fc_strncasecmp(p, username, userlen)) {
         struct text_tag *ptag = text_tag_new(TTT_COLOR, p - plain_text,
                                              p - plain_text + userlen,
-                                             options.highlight_our_names);
+                                             gui_options.highlight_our_names);
 
         fc_assert(ptag != NULL);
 
@@ -1004,7 +1004,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
                  && 0 == fc_strncasecmp(p, playername, playerlen)) {
         struct text_tag *ptag = text_tag_new(TTT_COLOR, p - plain_text,
                                              p - plain_text + playerlen,
-                                             options.highlight_our_names);
+                                             gui_options.highlight_our_names);
 
         fc_assert(ptag != NULL);
 
@@ -1477,25 +1477,25 @@ bool mapimg_client_define(void)
   }
 
   /* Map image definition: zoom, turns */
-  fc_snprintf(str, sizeof(str), "zoom=%d:turns=0:format=%s", options.mapimg_zoom,
-              options.mapimg_format);
+  fc_snprintf(str, sizeof(str), "zoom=%d:turns=0:format=%s",
+              gui_options.mapimg_zoom, gui_options.mapimg_format);
 
   /* Map image definition: show */
   if (client_is_global_observer()) {
     cat_snprintf(str, sizeof(str), ":show=all");
     /* use all available knowledge */
-    options.mapimg_layer[MAPIMG_LAYER_KNOWLEDGE] = FALSE;
+    gui_options.mapimg_layer[MAPIMG_LAYER_KNOWLEDGE] = FALSE;
   } else {
     cat_snprintf(str, sizeof(str), ":show=plrid:plrid=%d",
                  player_index(client.conn.playing));
     /* use only player knowledge */
-    options.mapimg_layer[MAPIMG_LAYER_KNOWLEDGE] = TRUE;
+    gui_options.mapimg_layer[MAPIMG_LAYER_KNOWLEDGE] = TRUE;
   }
 
   /* Map image definition: map */
   for (layer = mapimg_layer_begin(); layer != mapimg_layer_end();
        layer = mapimg_layer_next(layer)) {
-    if (options.mapimg_layer[layer]) {
+    if (gui_options.mapimg_layer[layer]) {
       cat_snprintf(mi_map, sizeof(mi_map), "%s",
                    mapimg_layer_name(layer));
       mi_map[map_pos++] = mapimg_layer_name(layer)[0];
@@ -1529,7 +1529,7 @@ bool mapimg_client_createmap(const char *filename)
   char mapimgfile[512];
 
   if (NULL == filename || '\0' == filename[0]) {
-    sz_strlcpy(mapimgfile, options.mapimg_filename);
+    sz_strlcpy(mapimgfile, gui_options.mapimg_filename);
   } else {
     sz_strlcpy(mapimgfile, filename);
   }

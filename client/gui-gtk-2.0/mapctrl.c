@@ -389,7 +389,8 @@ void update_rect_at_mouse_pos(void)
 **************************************************************************/
 gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
-  if (options.gui_gtk2_mouse_over_map_focus && !GTK_WIDGET_HAS_FOCUS(map_canvas)) {
+  if (gui_options.gui_gtk2_mouse_over_map_focus
+      && !GTK_WIDGET_HAS_FOCUS(map_canvas)) {
     gtk_widget_grab_focus(map_canvas);
   }
 

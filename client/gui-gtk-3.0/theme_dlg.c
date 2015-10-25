@@ -17,11 +17,12 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "fcintl.h"
 
-#include "options.h"
-
+/* client */
 #include "dialogs_g.h"
+#include "options.h"
 
 #include "gui_main.h"
 
@@ -45,7 +46,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
 {
   GtkWidget *dialog, *label;
   char buf[1024];
-  char *current_name = options.gui_gtk3_default_theme_name;
+  char *current_name = gui_options.gui_gtk3_default_theme_name;
 
   if (current_name == NULL) {
     /* gui_gtk3_default_theme_name is not yet set.

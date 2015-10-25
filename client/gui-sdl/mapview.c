@@ -372,13 +372,14 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 ****************************************************************************/
 void overview_size_changed(void)
 {
-  map_canvas_resized(Main.screen->w, Main.screen->h);  	
-  
+  map_canvas_resized(Main.screen->w, Main.screen->h);
+
   if (overview_canvas) {
     canvas_free(overview_canvas);
-  }      
-  overview_canvas = canvas_create(options.overview.width, options.overview.height);
-  
+  }
+  overview_canvas = canvas_create(gui_options.overview.width,
+                                  gui_options.overview.height);
+
   resize_minimap();
 }
 
@@ -915,7 +916,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       }
 
       if (!client_is_observer() && !client.conn.playing->phase_done
-          && (!client.conn.playing->ai_controlled || options.ai_manual_turn_done)) {
+          && (!client.conn.playing->ai_controlled
+              || gui_options.ai_manual_turn_done)) {
         char buf[256];
         fc_snprintf(buf, sizeof(buf), "%s\n%s\n%s",
                     _("End of Turn"), _("Press"), _("Shift+Return"));

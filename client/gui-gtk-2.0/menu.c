@@ -518,7 +518,7 @@ static void help_about_callback(GtkAction *action, gpointer data)
 static void save_options_on_exit_callback(GtkToggleAction *action,
                                           gpointer data)
 {
-  options.save_options_on_exit = gtk_toggle_action_get_active(action);
+  gui_options.save_options_on_exit = gtk_toggle_action_get_active(action);
 }
 
 /****************************************************************
@@ -539,7 +539,7 @@ static void edit_mode_callback(GtkToggleAction *action, gpointer data)
 static void show_city_outlines_callback(GtkToggleAction *action,
                                         gpointer data)
 {
-  if (options.draw_city_outlines ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_city_outlines ^ gtk_toggle_action_get_active(action)) {
     key_city_outlines_toggle();
   }
 }
@@ -549,7 +549,7 @@ static void show_city_outlines_callback(GtkToggleAction *action,
 *****************************************************************/
 static void show_city_output_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_city_output ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_city_output ^ gtk_toggle_action_get_active(action)) {
     key_city_output_toggle();
   }
 }
@@ -559,7 +559,7 @@ static void show_city_output_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_map_grid_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_map_grid ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_map_grid ^ gtk_toggle_action_get_active(action)) {
     key_map_grid_toggle();
   }
 }
@@ -570,7 +570,7 @@ static void show_map_grid_callback(GtkToggleAction *action, gpointer data)
 static void show_national_borders_callback(GtkToggleAction *action,
                                            gpointer data)
 {
-  if (options.draw_borders ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_borders ^ gtk_toggle_action_get_active(action)) {
     key_map_borders_toggle();
   }
 }
@@ -581,7 +581,7 @@ static void show_national_borders_callback(GtkToggleAction *action,
 static void show_native_tiles_callback(GtkToggleAction *action,
                                        gpointer data)
 {
-  if (options.draw_native ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_native ^ gtk_toggle_action_get_active(action)) {
     key_map_native_toggle();
   }
 }
@@ -592,7 +592,7 @@ static void show_native_tiles_callback(GtkToggleAction *action,
 static void show_city_full_bar_callback(GtkToggleAction *action,
                                         gpointer data)
 {
-  if (options.draw_full_citybar ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_full_citybar ^ gtk_toggle_action_get_active(action)) {
     key_city_full_bar_toggle();
     view_menu_update_sensitivity();
   }
@@ -603,7 +603,7 @@ static void show_city_full_bar_callback(GtkToggleAction *action,
 *****************************************************************/
 static void show_city_names_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_city_names ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_city_names ^ gtk_toggle_action_get_active(action)) {
     key_city_names_toggle();
     view_menu_update_sensitivity();
   }
@@ -614,7 +614,7 @@ static void show_city_names_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_city_growth_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_city_growth ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_city_growth ^ gtk_toggle_action_get_active(action)) {
     key_city_growth_toggle();
   }
 }
@@ -625,7 +625,7 @@ static void show_city_growth_callback(GtkToggleAction *action, gpointer data)
 static void show_city_productions_callback(GtkToggleAction *action,
                                            gpointer data)
 {
-  if (options.draw_city_productions ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_city_productions ^ gtk_toggle_action_get_active(action)) {
     key_city_productions_toggle();
     view_menu_update_sensitivity();
   }
@@ -637,7 +637,7 @@ static void show_city_productions_callback(GtkToggleAction *action,
 static void show_city_buy_cost_callback(GtkToggleAction *action,
                                         gpointer data)
 {
-  if (options.draw_city_buycost ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_city_buycost ^ gtk_toggle_action_get_active(action)) {
     key_city_buycost_toggle();
   }
 }
@@ -648,7 +648,7 @@ static void show_city_buy_cost_callback(GtkToggleAction *action,
 static void show_city_trade_routes_callback(GtkToggleAction *action,
                                             gpointer data)
 {
-  if (options.draw_city_trade_routes ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_city_trade_routes ^ gtk_toggle_action_get_active(action)) {
     key_city_trade_routes_toggle();
   }
 }
@@ -658,7 +658,7 @@ static void show_city_trade_routes_callback(GtkToggleAction *action,
 *****************************************************************/
 static void show_terrain_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_terrain ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_terrain ^ gtk_toggle_action_get_active(action)) {
     key_terrain_toggle();
     view_menu_update_sensitivity();
   }
@@ -669,7 +669,7 @@ static void show_terrain_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_coastline_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_coastline ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_coastline ^ gtk_toggle_action_get_active(action)) {
     key_coastline_toggle();
   }
 }
@@ -679,7 +679,7 @@ static void show_coastline_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_road_rails_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_roads_rails ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_roads_rails ^ gtk_toggle_action_get_active(action)) {
     key_roads_rails_toggle();
   }
 }
@@ -689,7 +689,7 @@ static void show_road_rails_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_irrigation_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_irrigation ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_irrigation ^ gtk_toggle_action_get_active(action)) {
     key_irrigation_toggle();
   }
 }
@@ -699,7 +699,7 @@ static void show_irrigation_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_mine_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_mines ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_mines ^ gtk_toggle_action_get_active(action)) {
     key_mines_toggle();
   }
 }
@@ -709,7 +709,7 @@ static void show_mine_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_bases_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_fortress_airbase ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_fortress_airbase ^ gtk_toggle_action_get_active(action)) {
     key_bases_toggle();
   }
 }
@@ -719,7 +719,7 @@ static void show_bases_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_resources_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_specials ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_specials ^ gtk_toggle_action_get_active(action)) {
     key_resources_toggle();
   }
 }
@@ -729,7 +729,7 @@ static void show_resources_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_huts_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_huts ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_huts ^ gtk_toggle_action_get_active(action)) {
     key_huts_toggle();
   }
 }
@@ -739,7 +739,7 @@ static void show_huts_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_pollution_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_pollution ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_pollution ^ gtk_toggle_action_get_active(action)) {
     key_pollution_toggle();
   }
 }
@@ -749,7 +749,7 @@ static void show_pollution_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_cities_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_cities ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_cities ^ gtk_toggle_action_get_active(action)) {
     key_cities_toggle();
   }
 }
@@ -759,7 +759,7 @@ static void show_cities_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_units_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_units ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_units ^ gtk_toggle_action_get_active(action)) {
     key_units_toggle();
     view_menu_update_sensitivity();
   }
@@ -771,7 +771,7 @@ static void show_units_callback(GtkToggleAction *action, gpointer data)
 static void show_unit_solid_bg_callback(GtkToggleAction *action,
                                         gpointer data)
 {
-  if (options.solid_color_behind_units ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.solid_color_behind_units ^ gtk_toggle_action_get_active(action)) {
     key_unit_solid_bg_toggle();
   }
 }
@@ -782,7 +782,7 @@ static void show_unit_solid_bg_callback(GtkToggleAction *action,
 static void show_unit_shields_callback(GtkToggleAction *action,
                                        gpointer data)
 {
-  if (options.draw_unit_shields ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_unit_shields ^ gtk_toggle_action_get_active(action)) {
     key_unit_shields_toggle();
   }
 }
@@ -792,7 +792,7 @@ static void show_unit_shields_callback(GtkToggleAction *action,
 *****************************************************************/
 static void show_focus_unit_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_focus_unit ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_focus_unit ^ gtk_toggle_action_get_active(action)) {
     key_focus_unit_toggle();
     view_menu_update_sensitivity();
   }
@@ -803,7 +803,7 @@ static void show_focus_unit_callback(GtkToggleAction *action, gpointer data)
 *****************************************************************/
 static void show_fog_of_war_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.draw_fog_of_war ^ gtk_toggle_action_get_active(action)) {
+  if (gui_options.draw_fog_of_war ^ gtk_toggle_action_get_active(action)) {
     key_fog_of_war_toggle();
     view_menu_update_sensitivity();
   }
@@ -815,8 +815,8 @@ static void show_fog_of_war_callback(GtkToggleAction *action, gpointer data)
 static void show_better_fog_of_war_callback(GtkToggleAction *action,
                                             gpointer data)
 {
-  if (options.gui_gtk2_better_fog ^ gtk_toggle_action_get_active(action)) {
-    options.gui_gtk2_better_fog ^= 1;
+  if (gui_options.gui_gtk2_better_fog ^ gtk_toggle_action_get_active(action)) {
+    gui_options.gui_gtk2_better_fog ^= 1;
     update_map_canvas_visible();
   }
 }
@@ -826,10 +826,10 @@ static void show_better_fog_of_war_callback(GtkToggleAction *action,
 *****************************************************************/
 static void full_screen_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.gui_gtk2_fullscreen ^ gtk_toggle_action_get_active(action)) {
-    options.gui_gtk2_fullscreen ^= 1;
+  if (gui_options.gui_gtk2_fullscreen ^ gtk_toggle_action_get_active(action)) {
+    gui_options.gui_gtk2_fullscreen ^= 1;
 
-    if (options.gui_gtk2_fullscreen) {
+    if (gui_options.gui_gtk2_fullscreen) {
       gtk_window_fullscreen(GTK_WINDOW(toplevel));
     } else {
       gtk_window_unfullscreen(GTK_WINDOW(toplevel));
@@ -2016,24 +2016,28 @@ static void view_menu_update_sensitivity(void)
   /* The "full" city bar (i.e. the new way of drawing the
    * city name), can draw the city growth even without drawing
    * the city name. But the old method cannot. */
-  if (options.draw_full_citybar) {
+  if (gui_options.draw_full_citybar) {
     menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", TRUE);
     menus_set_sensitive(safe_group, "SHOW_CITY_TRADE_ROUTES", TRUE);
   } else {
-    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", options.draw_city_names);
+    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH",
+                        gui_options.draw_city_names);
     menus_set_sensitive(safe_group, "SHOW_CITY_TRADE_ROUTES",
-                        options.draw_city_names);
+                        gui_options.draw_city_names);
   }
 
   menus_set_sensitive(safe_group, "SHOW_CITY_BUY_COST",
-                      options.draw_city_productions);
-  menus_set_sensitive(safe_group, "SHOW_COASTLINE", !options.draw_terrain);
+                      gui_options.draw_city_productions);
+  menus_set_sensitive(safe_group, "SHOW_COASTLINE",
+                      !gui_options.draw_terrain);
   menus_set_sensitive(safe_group, "SHOW_UNIT_SOLID_BG",
-                      options.draw_units || options.draw_focus_unit);
+                      gui_options.draw_units || gui_options.draw_focus_unit);
   menus_set_sensitive(safe_group, "SHOW_UNIT_SHIELDS",
-                      options.draw_units || options.draw_focus_unit);
-  menus_set_sensitive(safe_group, "SHOW_FOCUS_UNIT", !options.draw_units);
-  menus_set_sensitive(safe_group, "SHOW_BETTER_FOG_OF_WAR", options.draw_fog_of_war);
+                      gui_options.draw_units || gui_options.draw_focus_unit);
+  menus_set_sensitive(safe_group, "SHOW_FOCUS_UNIT",
+                      !gui_options.draw_units);
+  menus_set_sensitive(safe_group, "SHOW_BETTER_FOG_OF_WAR",
+                      gui_options.draw_fog_of_war);
 }
 
 /****************************************************************************
@@ -2506,7 +2510,8 @@ void real_menus_init(void)
                       can_client_access_hack()
                       && C_S_RUNNING <= client_state());
 
-  menus_set_active(safe_group, "SAVE_OPTIONS_ON_EXIT", options.save_options_on_exit);
+  menus_set_active(safe_group, "SAVE_OPTIONS_ON_EXIT",
+                   gui_options.save_options_on_exit);
   menus_set_sensitive(safe_group, "SERVER_OPTIONS", client.conn.established);
 
   menus_set_sensitive(safe_group, "LEAVE",
@@ -2623,46 +2628,69 @@ void real_menus_init(void)
   menus_set_sensitive(player_group, "POLICIES",
                       multiplier_count() > 0);
 
-  menus_set_active(safe_group, "SHOW_CITY_OUTLINES", options.draw_city_outlines);
-  menus_set_active(safe_group, "SHOW_CITY_OUTPUT", options.draw_city_output);
-  menus_set_active(safe_group, "SHOW_MAP_GRID", options.draw_map_grid);
-  menus_set_active(safe_group, "SHOW_NATIONAL_BORDERS", options.draw_borders);
+  menus_set_active(safe_group, "SHOW_CITY_OUTLINES",
+                   gui_options.draw_city_outlines);
+  menus_set_active(safe_group, "SHOW_CITY_OUTPUT",
+                   gui_options.draw_city_output);
+  menus_set_active(safe_group, "SHOW_MAP_GRID",
+                   gui_options.draw_map_grid);
+  menus_set_active(safe_group, "SHOW_NATIONAL_BORDERS",
+                   gui_options.draw_borders);
   menus_set_sensitive(safe_group, "SHOW_NATIONAL_BORDERS",
                       BORDERS_DISABLED != game.info.borders);
-  menus_set_active(safe_group, "SHOW_NATIVE_TILES", options.draw_native);
-  menus_set_active(safe_group, "SHOW_CITY_FULL_BAR", options.draw_full_citybar);
-  menus_set_active(safe_group, "SHOW_CITY_NAMES", options.draw_city_names);
-  menus_set_active(safe_group, "SHOW_CITY_GROWTH", options.draw_city_growth);
+  menus_set_active(safe_group, "SHOW_NATIVE_TILES",
+                   gui_options.draw_native);
+  menus_set_active(safe_group, "SHOW_CITY_FULL_BAR",
+                   gui_options.draw_full_citybar);
+  menus_set_active(safe_group, "SHOW_CITY_NAMES",
+                   gui_options.draw_city_names);
+  menus_set_active(safe_group, "SHOW_CITY_GROWTH",
+                   gui_options.draw_city_growth);
   menus_set_active(safe_group, "SHOW_CITY_PRODUCTIONS",
-                   options.draw_city_productions);
-  menus_set_active(safe_group, "SHOW_CITY_BUY_COST", options.draw_city_buycost);
+                   gui_options.draw_city_productions);
+  menus_set_active(safe_group, "SHOW_CITY_BUY_COST",
+                   gui_options.draw_city_buycost);
   menus_set_active(safe_group, "SHOW_CITY_TRADE_ROUTES",
-                   options.draw_city_trade_routes);
-  menus_set_active(safe_group, "SHOW_TERRAIN", options.draw_terrain);
-  menus_set_active(safe_group, "SHOW_COASTLINE", options.draw_coastline);
-  menus_set_active(safe_group, "SHOW_PATHS", options.draw_roads_rails);
-  menus_set_active(safe_group, "SHOW_IRRIGATION", options.draw_irrigation);
-  menus_set_active(safe_group, "SHOW_MINES", options.draw_mines);
-  menus_set_active(safe_group, "SHOW_BASES", options.draw_fortress_airbase);
-  menus_set_active(safe_group, "SHOW_RESOURCES", options.draw_specials);
-  menus_set_active(safe_group, "SHOW_HUTS", options.draw_huts);
-  menus_set_active(safe_group, "SHOW_POLLUTION", options.draw_pollution);
-  menus_set_active(safe_group, "SHOW_CITIES", options.draw_cities);
-  menus_set_active(safe_group, "SHOW_UNITS", options.draw_units);
+                   gui_options.draw_city_trade_routes);
+  menus_set_active(safe_group, "SHOW_TERRAIN",
+                   gui_options.draw_terrain);
+  menus_set_active(safe_group, "SHOW_COASTLINE",
+                   gui_options.draw_coastline);
+  menus_set_active(safe_group, "SHOW_PATHS",
+                   gui_options.draw_roads_rails);
+  menus_set_active(safe_group, "SHOW_IRRIGATION",
+                   gui_options.draw_irrigation);
+  menus_set_active(safe_group, "SHOW_MINES",
+                   gui_options.draw_mines);
+  menus_set_active(safe_group, "SHOW_BASES",
+                   gui_options.draw_fortress_airbase);
+  menus_set_active(safe_group, "SHOW_RESOURCES",
+                   gui_options.draw_specials);
+  menus_set_active(safe_group, "SHOW_HUTS",
+                   gui_options.draw_huts);
+  menus_set_active(safe_group, "SHOW_POLLUTION",
+                   gui_options.draw_pollution);
+  menus_set_active(safe_group, "SHOW_CITIES",
+                   gui_options.draw_cities);
+  menus_set_active(safe_group, "SHOW_UNITS",
+                   gui_options.draw_units);
   menus_set_active(safe_group, "SHOW_UNIT_SOLID_BG",
-                   options.solid_color_behind_units);
-  menus_set_active(safe_group, "SHOW_UNIT_SHIELDS", options.draw_unit_shields);
-  menus_set_active(safe_group, "SHOW_FOCUS_UNIT", options.draw_focus_unit);
-  menus_set_active(safe_group, "SHOW_FOG_OF_WAR", options.draw_fog_of_war);
+                   gui_options.solid_color_behind_units);
+  menus_set_active(safe_group, "SHOW_UNIT_SHIELDS",
+                   gui_options.draw_unit_shields);
+  menus_set_active(safe_group, "SHOW_FOCUS_UNIT",
+                   gui_options.draw_focus_unit);
+  menus_set_active(safe_group, "SHOW_FOG_OF_WAR",
+                   gui_options.draw_fog_of_war);
   if (tileset_use_hard_coded_fog(tileset)) {
     menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", TRUE, TRUE);
     menus_set_active(safe_group, "SHOW_BETTER_FOG_OF_WAR",
-                     options.gui_gtk2_better_fog);
+                     gui_options.gui_gtk2_better_fog);
   } else {
     menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", FALSE, FALSE);
   }
 
   view_menu_update_sensitivity();
 
-  menus_set_active(safe_group, "FULL_SCREEN", options.gui_gtk2_fullscreen);
+  menus_set_active(safe_group, "FULL_SCREEN", gui_options.gui_gtk2_fullscreen);
 }

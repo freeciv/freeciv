@@ -26,13 +26,15 @@
 
 #include <png.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
-#include "movement.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "movement.h"
 #include "unit.h"
 #include "version.h"
 
@@ -676,8 +678,9 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
 		 tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
 
   /* If we're using flags, put one on the tile */
-  if (!options.solid_color_behind_units) {
-    struct sprite *flag = get_nation_flag_sprite(tileset, nation_of_player(client.conn.playing));
+  if (!gui_options.solid_color_behind_units) {
+    struct sprite *flag = get_nation_flag_sprite(tileset,
+                                                 nation_of_player(client.conn.playing));
 
     XSetClipOrigin(display, civ_gc, 0,0);
     XSetClipMask(display, civ_gc, flag->mask);
@@ -687,7 +690,7 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
   }
 
   /* Finally, put a picture of the unit in the tile */
-/*  if(i<utype_count()) */ {
+/*  if (i < utype_count()) */ {
     struct sprite *s = get_unittype_sprite(tileset, punittype,
                                            direction8_invalid(), TRUE);
 

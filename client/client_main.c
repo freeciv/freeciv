@@ -564,15 +564,16 @@ int client_main(int argc, char *argv[])
 
   /* after log_init: */
 
-  (void)user_username(options.default_user_name, MAX_LEN_NAME);
-  if (!is_valid_username(options.default_user_name)) {
-    char buf[sizeof(options.default_user_name)];
+  (void)user_username(gui_options.default_user_name, MAX_LEN_NAME);
+  if (!is_valid_username(gui_options.default_user_name)) {
+    char buf[sizeof(gui_options.default_user_name)];
 
-    fc_snprintf(buf, sizeof(buf), "_%s", options.default_user_name);
+    fc_snprintf(buf, sizeof(buf), "_%s", gui_options.default_user_name);
     if (is_valid_username(buf)) {
-      sz_strlcpy(options.default_user_name, buf);
+      sz_strlcpy(gui_options.default_user_name, buf);
     } else {
-      fc_snprintf(options.default_user_name, sizeof(options.default_user_name),
+      fc_snprintf(gui_options.default_user_name,
+                  sizeof(gui_options.default_user_name),
                   "player%d", fc_rand(10000));
     }
   }
@@ -603,46 +604,47 @@ int client_main(int argc, char *argv[])
   script_client_init();
 
   if (req_tileset_name[0] == '\0') {
-    sz_strlcpy(req_tileset_name, options.default_tileset_name);
+    sz_strlcpy(req_tileset_name, gui_options.default_tileset_name);
   }
   if (sound_set_name[0] == '\0') {
-    sz_strlcpy(sound_set_name, options.default_sound_set_name);
+    sz_strlcpy(sound_set_name, gui_options.default_sound_set_name);
   }
   if (music_set_name[0] == '\0') {
-    sz_strlcpy(music_set_name, options.default_music_set_name);
+    sz_strlcpy(music_set_name, gui_options.default_music_set_name);
   }
   if (sound_plugin_name[0] == '\0') {
-    sz_strlcpy(sound_plugin_name, options.default_sound_plugin_name); 
+    sz_strlcpy(sound_plugin_name, gui_options.default_sound_plugin_name); 
   }
   if (server_host[0] == '\0') {
-    sz_strlcpy(server_host, options.default_server_host);
-  } else if (options.use_prev_server) {
-    sz_strlcpy(options.default_server_host, server_host);
+    sz_strlcpy(server_host, gui_options.default_server_host);
+  } else if (gui_options.use_prev_server) {
+    sz_strlcpy(gui_options.default_server_host, server_host);
   }
   if (user_name[0] == '\0') {
-    sz_strlcpy(user_name, options.default_user_name); 
+    sz_strlcpy(user_name, gui_options.default_user_name); 
   }
   if (metaserver[0] == '\0') {
     /* FIXME: Find a cleaner way to achieve this. */
     /* www.cazfi.net/freeciv/metaserver/ was default metaserver
      * over one release when meta.freeciv.org was unavailable. */
     const char *oldaddr = "http://www.cazfi.net/freeciv/metaserver/";
-    if (0 == strcmp(options.default_metaserver, oldaddr)) {
+
+    if (0 == strcmp(gui_options.default_metaserver, oldaddr)) {
       log_normal(_("Updating old metaserver address \"%s\"."), oldaddr);
-      sz_strlcpy(options.default_metaserver, DEFAULT_METASERVER_OPTION);
+      sz_strlcpy(gui_options.default_metaserver, DEFAULT_METASERVER_OPTION);
       log_normal(_("Default metaserver has been set to value \"%s\"."),
                  DEFAULT_METASERVER_OPTION);
     }
-    if (0 == strcmp(options.default_metaserver, DEFAULT_METASERVER_OPTION)) {
+    if (0 == strcmp(gui_options.default_metaserver, DEFAULT_METASERVER_OPTION)) {
       sz_strlcpy(metaserver, FREECIV_META_URL);
     } else {
-      sz_strlcpy(metaserver, options.default_metaserver);
+      sz_strlcpy(metaserver, gui_options.default_metaserver);
     }
   }
   if (server_port == -1) {
-    server_port = options.default_server_port;
-  } else if (options.use_prev_server) {
-    options.default_server_port = server_port;
+    server_port = gui_options.default_server_port;
+  } else if (gui_options.use_prev_server) {
+    gui_options.default_server_port = server_port;
   }
 
   /* This seed is not saved anywhere; randoms in the client should
@@ -679,7 +681,7 @@ void client_exit(void)
     client_remove_all_cli_conn();
   }
 
-  if (options.save_options_on_exit) {
+  if (gui_options.save_options_on_exit) {
     options_save();
   }
 
@@ -906,7 +908,7 @@ void set_client_state(enum client_states newstate)
     unit_focus_update();
     update_unit_info_label(get_units_in_focus());
 
-    if (options.auto_center_each_turn) {
+    if (gui_options.auto_center_each_turn) {
       center_on_something();
     }
     start_style_music();

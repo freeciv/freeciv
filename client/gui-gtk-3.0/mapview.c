@@ -149,7 +149,7 @@ void update_info_label(void)
   }
 
   gtk_label_set_text(GTK_LABEL(main_label_info),
-                     get_info_label_text(!options.gui_gtk3_small_display_layout));
+                     get_info_label_text(!gui_options.gui_gtk3_small_display_layout));
 
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
@@ -294,7 +294,8 @@ void get_overview_area_dimensions(int *width, int *height)
 void overview_size_changed(void)
 {
   gtk_widget_set_size_request(overview_canvas,
-                              options.overview.width, options.overview.height);
+                              gui_options.overview.width,
+                              gui_options.overview.height);
   update_map_canvas_scrollbars_size();
 }
 
@@ -321,11 +322,11 @@ struct canvas *get_overview_window(void)
 gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
 {
   gpointer source = (can_client_change_view()) ?
-                     (gpointer)options.overview.window : (gpointer)radar_gfx_sprite;
+                     (gpointer)gui_options.overview.window : (gpointer)radar_gfx_sprite;
 
   if (source) {
     cairo_surface_t *surface = (can_client_change_view()) ?
-                                options.overview.window->surface :
+                                gui_options.overview.window->surface :
                                 radar_gfx_sprite->surface;
 
     cairo_set_source_surface(cr, surface, 0, 0);

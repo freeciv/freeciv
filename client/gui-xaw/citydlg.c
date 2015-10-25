@@ -538,16 +538,18 @@ struct city_dialog *create_city_dialog(struct city *pcity)
   Widget relative;
   enum citizen_category c = CITIZEN_SPECIALIST + DEFAULT_SPECIALIST;
 
-  if (tileset_tile_height(tileset)<45) dummy_improvement_list[5]=0;
+  if (tileset_tile_height(tileset) < 45) {
+    dummy_improvement_list[5] = 0;
+  }
 
-  if (options.concise_city_production) {
+  if (gui_options.concise_city_production) {
     dummy_improvement_list[0] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
   }
 
-  pdialog=fc_malloc(sizeof(struct city_dialog));
-  pdialog->pcity=pcity;
-  pdialog->support_unit_base=0;
-  pdialog->present_unit_base=0;
+  pdialog = fc_malloc(sizeof(struct city_dialog));
+  pdialog->pcity = pcity;
+  pdialog->support_unit_base = 0;
+  pdialog->present_unit_base = 0;
   pdialog->worklist_shell = NULL;
 
   pdialog->shell=
@@ -650,15 +652,15 @@ struct city_dialog *create_city_dialog(struct city *pcity)
 
   pdialog->building_label=
     XtVaCreateManagedWidget("citybuildinglabel",
-			    labelWidgetClass,
-			    pdialog->sub_form,
-			    XtNfromHoriz, 
-			    (XtArgVal)pdialog->map_canvas,
-			    XtNlabel,
-			    options.concise_city_production
-				? "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-				: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-			    NULL);
+                            labelWidgetClass,
+                            pdialog->sub_form,
+                            XtNfromHoriz,
+                            (XtArgVal)pdialog->map_canvas,
+                            XtNlabel,
+                            gui_options.concise_city_production
+                                ? "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                                : "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                            NULL);
 
   get_contents_of_progress(NULL, lblbuf, sizeof(lblbuf));
   pdialog->progress_label=

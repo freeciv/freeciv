@@ -372,10 +372,10 @@ static void music_finished_callback(void)
     usage_enabled = FALSE;
     break;
   case MU_MENU:
-    usage_enabled = options.sound_enable_menu_music;
+    usage_enabled = gui_options.sound_enable_menu_music;
     break;
   case MU_INGAME:
-    usage_enabled = options.sound_enable_game_music;
+    usage_enabled = gui_options.sound_enable_game_music;
     break;
   }
 
@@ -487,7 +487,7 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
 
-  if (options.sound_enable_effects) {
+  if (gui_options.sound_enable_effects) {
     fc_assert_ret(tag != NULL);
 
     log_debug("audio_play_sound('%s', '%s')", tag, pretty_alt_tag);

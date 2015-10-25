@@ -297,7 +297,7 @@ struct client_options
   struct overview overview;
 };
 
-extern struct client_options options;
+extern struct client_options gui_options;
 
 #define SPECENUM_NAME option_type
 #define SPECENUM_VALUE0 OT_BOOLEAN

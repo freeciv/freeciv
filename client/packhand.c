@@ -473,7 +473,7 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
     if (tile_visible_mapcanvas(unit_tile(punit0)) &&
 	tile_visible_mapcanvas(unit_tile(punit1))) {
       show_combat = TRUE;
-    } else if (options.auto_center_on_combat) {
+    } else if (gui_options.auto_center_on_combat) {
       if (unit_owner(punit0) == client.conn.playing) {
         center_tile_mapcanvas(unit_tile(punit0));
       } else {
@@ -490,7 +490,7 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
       audio_play_sound(unit_type_get(punit1)->sound_fight,
 		       unit_type_get(punit1)->sound_fight_alt);
 
-      if (options.smooth_combat_step_msec > 0) {
+      if (gui_options.smooth_combat_step_msec > 0) {
         decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
       } else {
 	punit0->hp = hp0;
@@ -627,7 +627,7 @@ void handle_city_info(const struct packet_city_info *packet)
                                  sizeof(pcity->name)));
     /* pcity->trade_value doesn't change the city description, neither the
      * trade routes lines. */
-    trade_routes_changed = (options.draw_city_trade_routes
+    trade_routes_changed = (gui_options.draw_city_trade_routes
                             && 0 != memcmp(pcity->trade, packet->trade,
                                            sizeof(pcity->trade)));
 
@@ -636,15 +636,15 @@ void handle_city_info(const struct packet_city_info *packet)
      * Note that if either the food stock or surplus
      * have changed, the time-to-grow is likely to
      * have changed as well. */
-    update_descriptions = (options.draw_city_names && name_changed)
-      || (options.draw_city_productions
+    update_descriptions = (gui_options.draw_city_names && name_changed)
+      || (gui_options.draw_city_productions
           && (!are_universals_equal(&pcity->production, &product)
               || pcity->surplus[O_SHIELD] != packet->surplus[O_SHIELD]
               || pcity->shield_stock != packet->shield_stock))
-      || (options.draw_city_growth
+      || (gui_options.draw_city_growth
           && (pcity->food_stock != packet->food_stock
               || pcity->surplus[O_FOOD] != packet->surplus[O_FOOD]))
-      || (options.draw_city_trade_routes && trade_routes_changed);
+      || (gui_options.draw_city_trade_routes && trade_routes_changed);
   }
   
   sz_strlcpy(pcity->name, packet->name);
@@ -808,7 +808,7 @@ void handle_city_info(const struct packet_city_info *packet)
 
   popup = (city_is_new && can_client_change_view()
            && powner == client.conn.playing
-           && options.popup_new_cities)
+           && gui_options.popup_new_cities)
           || packet->diplomat_investigate;
 
   city_packet_common(pcity, pcenter, powner, worked_tiles,
@@ -864,7 +864,7 @@ void handle_city_info(const struct packet_city_info *packet)
                                   FALSE);
   }
 
-  if (options.draw_city_trade_routes
+  if (gui_options.draw_city_trade_routes
       && (trade_routes_changed
           || (city_is_new && 0 < city_num_trade_routes(pcity)))) {
     update_map_canvas_visible();
@@ -1054,7 +1054,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
                                  sizeof(pcity->name)));
 
     /* Check if city descriptions should be updated */
-    if (options.draw_city_names && name_changed) {
+    if (gui_options.draw_city_names && name_changed) {
       update_descriptions = TRUE;
     }
 
@@ -1071,7 +1071,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
    * us this much. */
   if (pcity->client.occupied != packet->occupied) {
     pcity->client.occupied = packet->occupied;
-    if (options.draw_full_citybar) {
+    if (gui_options.draw_full_citybar) {
       update_descriptions = TRUE;
     }
   }
@@ -1180,7 +1180,7 @@ void handle_new_year(int year, int fragments, int turn)
   update_city_descriptions();
   link_marks_decrease_turn_counters();
 
-  if (options.sound_bell_at_new_turn) {
+  if (gui_options.sound_bell_at_new_turn) {
     create_event(NULL, E_TURN_BELL, ftc_client,
                  _("Start of turn %d"), game.info.turn);
   }
@@ -1239,7 +1239,8 @@ void handle_start_phase(int phase)
 
     update_turn_done_button_state();
 
-    if (client.conn.playing->ai_controlled && !options.ai_manual_turn_done) {
+    if (client.conn.playing->ai_controlled
+        && !gui_options.ai_manual_turn_done) {
       user_ended_turn();
     }
 
@@ -1471,7 +1472,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       repaint_unit = TRUE;
 
       /* Wakeup Focus */
-      if (options.wakeup_focus 
+      if (gui_options.wakeup_focus 
           && NULL != client.conn.playing
           && !client.conn.playing->ai_controlled
           && unit_owner(punit) == client.conn.playing
@@ -1600,7 +1601,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           if (ccity->client.occupied != new_occupied) {
             ccity->client.occupied = new_occupied;
             refresh_city_mapcanvas(ccity, ccity->tile, FALSE, FALSE);
-            if (options.draw_full_citybar) {
+            if (gui_options.draw_full_citybar) {
               update_city_description(ccity);
             }
           }
@@ -1619,7 +1620,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           if (!ccity->client.occupied) {
             ccity->client.occupied = TRUE;
             refresh_city_mapcanvas(ccity, ccity->tile, FALSE, FALSE);
-            if (options.draw_full_citybar) {
+            if (gui_options.draw_full_citybar) {
               update_city_description(ccity);
             }
           }
@@ -1631,7 +1632,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           refresh_city_dialog(ccity);
         }
 
-        if (options.popup_actor_arrival
+        if (gui_options.popup_actor_arrival
             && client_has_player()
             && client_player() == unit_owner(punit)
             && !client_player()->ai_controlled
@@ -2942,7 +2943,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
     /* There is tileset suggestion */
     if (strcmp(packet->prefered_tileset, tileset_get_name(tileset))) {
       /* It's not currently in use */
-      if (options.autoaccept_tileset_suggestion) {
+      if (gui_options.autoaccept_tileset_suggestion) {
         tilespec_reread(game.control.prefered_tileset, FALSE);
       } else {
         popup_tileset_suggestion_dialog();
@@ -2954,7 +2955,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
     /* There is soundset suggestion */
     if (strcmp(packet->prefered_soundset, sound_set_name)) {
       /* It's not currently in use */
-      if (options.autoaccept_soundset_suggestion) {
+      if (gui_options.autoaccept_soundset_suggestion) {
         audio_restart(game.control.prefered_soundset, music_set_name);
       } else {
         popup_soundset_suggestion_dialog();
@@ -2966,7 +2967,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
     /* There is musicset suggestion */
     if (strcmp(packet->prefered_musicset, music_set_name)) {
       /* It's not currently in use */
-      if (options.autoaccept_musicset_suggestion) {
+      if (gui_options.autoaccept_musicset_suggestion) {
         audio_restart(sound_set_name, game.control.prefered_musicset);
       } else {
         popup_musicset_suggestion_dialog();
@@ -3969,8 +3970,9 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
   }
 
   if (punit) {
-    if (options.ask_city_name) {
+    if (gui_options.ask_city_name) {
       bool other_asking = FALSE;
+
       unit_list_iterate(unit_tile(punit)->units, other) {
         if (other->client.asking_city_name) {
           other_asking = TRUE;

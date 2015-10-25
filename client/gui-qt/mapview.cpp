@@ -468,9 +468,9 @@ static void gui_to_overview(int *ovr_x, int *ovr_y, int gui_x, int gui_y)
     ntl_y = map_y;
   }
 
-  *ovr_x = floor((ntl_x - (double)options.overview.map_x0)
+  *ovr_x = floor((ntl_x - (double)gui_options.overview.map_x0)
            * OVERVIEW_TILE_SIZE);
-  *ovr_y = floor((ntl_y - (double)options.overview.map_y0)
+  *ovr_y = floor((ntl_y - (double)gui_options.overview.map_y0)
            * OVERVIEW_TILE_SIZE);
 
   if (current_topo_has_flag(TF_WRAPX)) {
@@ -518,9 +518,10 @@ void minimap_view::draw_viewport(QPainter *painter)
   int i, x[4], y[4];
   int src_x, src_y, dst_x, dst_y;
 
-  if (!options.overview.map) {
+  if (!gui_options.overview.map) {
     return;
   }
+
   gui_to_overview(&x[0], &y[0], mapview.gui_x0, mapview.gui_y0);
   gui_to_overview(&x[1], &y[1], mapview.gui_x0 + mapview.width,
                   mapview.gui_y0);
@@ -557,8 +558,8 @@ void minimap_view::scale_point(int &x, int &y)
                   mapview.gui_y0 + mapview.height / 2);
   x = qRound(x * scale_factor);
   y = qRound(y * scale_factor);
-  dx = qRound(ax * scale_factor - options.overview.width / 2);
-  dy = qRound(bx * scale_factor - options.overview.height / 2);
+  dx = qRound(ax * scale_factor - gui_options.overview.width / 2);
+  dy = qRound(bx * scale_factor - gui_options.overview.height / 2);
   x = x - dx;
   y = y - dy;
 
@@ -574,8 +575,8 @@ void minimap_view::unscale_point(int &x, int &y)
 
   gui_to_overview(&ax, &bx, mapview.gui_x0 + mapview.width / 2,
                   mapview.gui_y0 + mapview.height / 2);
-  dx = qRound(ax * scale_factor - options.overview.width / 2);
-  dy = qRound(bx * scale_factor - options.overview.height / 2);
+  dx = qRound(ax * scale_factor - gui_options.overview.width / 2);
+  dy = qRound(bx * scale_factor - gui_options.overview.height / 2);
   x = x + dx;
   y = y + dy;
   x = qRound(x / scale_factor);
@@ -591,7 +592,8 @@ void minimap_view::update_image()
 {
   QPixmap *tpix;
   QPixmap gpix;
-  QPixmap bigger_pix(options.overview.width * 2, options.overview.height * 2);
+  QPixmap bigger_pix(gui_options.overview.width * 2,
+                     gui_options.overview.height * 2);
   int delta_x, delta_y;
   int x, y, ix, iy;
   float wf, hf;
@@ -600,38 +602,38 @@ void minimap_view::update_image()
   if (isHidden() == true ){
     return; 
   }
-  if (options.overview.map != NULL) {
+  if (gui_options.overview.map != NULL) {
     if (scale_factor > 1) {
       /* move minimap now, 
          scale later and draw without looking for origin */
-      src = &options.overview.map->map_pixmap;
-      dst = &options.overview.window->map_pixmap;
-      x = options.overview.map_x0;
-      y = options.overview.map_y0;
-      ix = options.overview.width - x;
-      iy = options.overview.height - y;
+      src = &gui_options.overview.map->map_pixmap;
+      dst = &gui_options.overview.window->map_pixmap;
+      x = gui_options.overview.map_x0;
+      y = gui_options.overview.map_y0;
+      ix = gui_options.overview.width - x;
+      iy = gui_options.overview.height - y;
       pixmap_copy(dst, src, 0, 0, ix, iy, x, y);
       pixmap_copy(dst, src, 0, y, ix, 0, x, iy);
       pixmap_copy(dst, src, x, 0, 0, iy, ix, y);
       pixmap_copy(dst, src, x, y, 0, 0, ix, iy);
-      tpix = &options.overview.window->map_pixmap;
-      wf = static_cast <float>(options.overview.width) / scale_factor;
-      hf = static_cast <float>(options.overview.height) / scale_factor;
+      tpix = &gui_options.overview.window->map_pixmap;
+      wf = static_cast <float>(gui_options.overview.width) / scale_factor;
+      hf = static_cast <float>(gui_options.overview.height) / scale_factor;
       x = 0;
       y = 0;
       unscale_point(x, y);
       /* qt 4.8 is going to copy pixmap badly if coords x+size, y+size 
          will go over image so we create extra black bigger image */
       bigger_pix.fill(Qt::black);
-      delta_x = options.overview.width / 2;
-      delta_y = options.overview.height / 2;
-      pixmap_copy(&bigger_pix, tpix, 0, 0, delta_x, delta_y, options.overview.width,
-                  options.overview.height);
+      delta_x = gui_options.overview.width / 2;
+      delta_y = gui_options.overview.height / 2;
+      pixmap_copy(&bigger_pix, tpix, 0, 0, delta_x, delta_y,
+                  gui_options.overview.width, gui_options.overview.height);
       gpix = bigger_pix.copy(delta_x + x, delta_y + y, wf, hf);
       *pix = gpix.scaled(width(), height(),
                          Qt::IgnoreAspectRatio, Qt::FastTransformation);
     } else {
-      tpix = &options.overview.map->map_pixmap;
+      tpix = &gui_options.overview.map->map_pixmap;
       *pix = tpix->scaled(width(), height(),
                           Qt::IgnoreAspectRatio, Qt::FastTransformation);
     }
@@ -646,8 +648,8 @@ void minimap_view::paint(QPainter * painter, QPaintEvent * event)
 {
   int x, y, ix, iy;
 
-  x = options.overview.map_x0 * w_ratio;
-  y = options.overview.map_y0 * h_ratio;
+  x = gui_options.overview.map_x0 * w_ratio;
+  y = gui_options.overview.map_y0 * h_ratio;
   ix = pix->width() - x;
   iy = pix->height() - y;
 
@@ -676,8 +678,8 @@ void minimap_view::resizeEvent(QResizeEvent* event)
   size = event->size();
 
   if (C_S_RUNNING == client_state()) {
-    w_ratio = static_cast<float>(width()) / options.overview.width;
-    h_ratio = static_cast<float>(height()) / options.overview.height;
+    w_ratio = static_cast<float>(width()) / gui_options.overview.width;
+    h_ratio = static_cast<float>(height()) / gui_options.overview.height;
   }
   update_image();
 }
@@ -700,7 +702,7 @@ void minimap_view::wheelEvent(QWheelEvent * event)
 ****************************************************************************/
 void minimap_view::zoom_in()
 {
-  if (scale_factor < options.overview.width / 8) {
+  if (scale_factor < gui_options.overview.width / 8) {
     scale(1.2);
   }
 }
@@ -738,8 +740,8 @@ void minimap_view::mousePressEvent(QMouseEvent * event)
     }
     fx = qMax(fx, 1);
     fy = qMax(fy, 1);
-    fx = qMin(fx, options.overview.width - 1);
-    fy = qMin(fy, options.overview.height - 1);
+    fx = qMin(fx, gui_options.overview.width - 1);
+    fy = qMin(fy, gui_options.overview.height - 1);
     overview_to_map_pos(&x, &y, fx, fy);
     center_tile_mapcanvas(map_pos_to_tile(x, y));
     update_image();
@@ -1437,8 +1439,8 @@ void overview_size_changed(void)
   float ratio;
   map_width = gui()->mapview_wdg->width();
   map_height = gui()->mapview_wdg->height();
-  over_width = 2 * options.overview.width;
-  over_height = 2 * options.overview.height;
+  over_width = 2 * gui_options.overview.width;
+  over_height = 2 * gui_options.overview.height;
 
   /* lower overview width size to max 20% of map width, keep aspect ratio*/
   if (map_width/over_width < 5){

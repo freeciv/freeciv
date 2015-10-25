@@ -99,7 +99,7 @@ void draw_mouse_cursor(void)
   int cursor_y = 0;
   static SDL_Rect area = {0, 0, 0, 0};
 
-  if (options.gui_sdl2_use_color_cursors) {
+  if (gui_options.gui_sdl2_use_color_cursors) {
     /* restore background */
     if (area.w != 0) {
       flush_rect(&area, TRUE);
@@ -184,12 +184,12 @@ void animate_mouse_cursor(void)
   }
 
   if (mouse_cursor_type != CURSOR_DEFAULT) {
-    if (!options.gui_sdl2_do_cursor_animation
+    if (!gui_options.gui_sdl2_do_cursor_animation
         || (cursor_frame == NUM_CURSOR_FRAMES)) {
       cursor_frame = 0;
     }
 
-    if (options.gui_sdl2_use_color_cursors) {
+    if (gui_options.gui_sdl2_use_color_cursors) {
       current_color_cursor.cursor = GET_SURF(get_cursor_sprite(tileset,
                                     mouse_cursor_type,
                                     &current_color_cursor.hot_x,
@@ -215,12 +215,12 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
 
   if (mouse_cursor_type == CURSOR_DEFAULT) {
     SDL_SetCursor(pStd_Cursor);
-    if (options.gui_sdl2_use_color_cursors) {
+    if (gui_options.gui_sdl2_use_color_cursors) {
       current_color_cursor.cursor = NULL;
     }
     mouse_cursor_changed = FALSE;
   } else {
-    if (options.gui_sdl2_use_color_cursors) {
+    if (gui_options.gui_sdl2_use_color_cursors) {
       SDL_SetCursor(pDisabledCursor);
     }
     mouse_cursor_changed = TRUE;

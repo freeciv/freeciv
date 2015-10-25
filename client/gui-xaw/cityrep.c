@@ -30,20 +30,23 @@
 #include <X11/Xaw/Toggle.h>
 #include <X11/Xaw/Viewport.h>
 
-/* common & utility */
-#include "city.h"
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
-#include "packets.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "city.h"
+#include "packets.h"
 #include "unit.h"
 
 /* client */
 #include "client_main.h"
 #include "climisc.h"
 
+/* gui-xaw */
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrepdata.h"
@@ -482,8 +485,8 @@ void city_popup_callback(Widget w, XtPointer client_data,
     struct city *pcity;
 
     if ((pcity = cities_in_list[ret->list_index])) {
-      if (options.center_when_popup_city) {
-	center_tile_mapcanvas(pcity->tile);
+      if (gui_options.center_when_popup_city) {
+        center_tile_mapcanvas(pcity->tile);
       }
       popup_city_dialog(pcity);
     }

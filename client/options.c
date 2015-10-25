@@ -65,7 +65,7 @@
 #include "options.h"
 
 
-struct client_options options = {
+struct client_options gui_options = {
 /** Defaults for options normally on command line **/
 
   .default_user_name = "\0",
@@ -1386,7 +1386,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .boolean = {                                                            \
-      .pvalue = &options.oname,                                             \
+      .pvalue = &gui_options.oname,                                         \
       .def = odef,                                                          \
     }                                                                       \
   },                                                                        \
@@ -1422,7 +1422,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .integer = {                                                            \
-      .pvalue = &options.oname,                                             \
+      .pvalue = &gui_options.oname,                                         \
       .def = odef,                                                          \
       .min = omin,                                                          \
       .max = omax                                                           \
@@ -1460,8 +1460,8 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .string = {                                                             \
-      .pvalue = options.oname,                                              \
-      .size = sizeof(options.oname),                                        \
+      .pvalue = gui_options.oname,                                          \
+      .size = sizeof(gui_options.oname),                                    \
       .def = odef,                                                          \
       .val_accessor = NULL                                                  \
     }                                                                       \
@@ -1501,8 +1501,8 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .string = {                                                             \
-      .pvalue = options.oname,                                              \
-      .size = sizeof(options.oname),                                        \
+      .pvalue = gui_options.oname,                                          \
+      .size = sizeof(gui_options.oname),                                    \
       .def = odef,                                                          \
       .val_accessor = oacc                                                  \
     }                                                                       \
@@ -1538,7 +1538,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .enumerator = {                                                         \
-      .pvalue = (int *) &options.oname,                                     \
+      .pvalue = (int *) &gui_options.oname,                                 \
       .def = odef,                                                          \
       .support_names = NULL, /* Set in options_init(). */                   \
       .pretty_names  = NULL,                                                \
@@ -1577,7 +1577,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .bitwise = {                                                            \
-      .pvalue = &options.oname,                                             \
+      .pvalue = &gui_options.oname,                                         \
       .def = odef,                                                          \
       .support_names = NULL, /* Set in options_init(). */                   \
       .pretty_names  = NULL,                                                \
@@ -1617,8 +1617,8 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .font = {                                                               \
-      .pvalue = options.oname,                                              \
-      .size = sizeof(options.oname),                                        \
+      .pvalue = gui_options.oname,                                          \
+      .size = sizeof(gui_options.oname),                                    \
       .def = odef,                                                          \
       .target = otgt,                                                       \
     }                                                                       \
@@ -1654,7 +1654,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .color = {                                                              \
-      .pvalue = &options.oname,                                             \
+      .pvalue = &gui_options.oname,                                         \
       .def = FT_COLOR(odef_fg, odef_bg)                                     \
     }                                                                       \
   },                                                                        \
@@ -1690,7 +1690,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .video_mode = {                                                         \
-      .pvalue = &options.oname,                                             \
+      .pvalue = &gui_options.oname,                                         \
       .def = VIDEO_MODE(odef_width, odef_height)                            \
     }                                                                       \
   },                                                                        \
@@ -5320,7 +5320,7 @@ void options_load(void)
     client_option_adjust_defaults();
     options_fully_initialized = TRUE;
     create_default_cma_presets();
-    options.first_boot = TRUE;
+    gui_options.first_boot = TRUE;
     return;
   }
   if (!(sf = secfile_load(name, TRUE))) {
@@ -5348,28 +5348,28 @@ void options_load(void)
   sz_strlcpy(password,
              secfile_lookup_str_default(sf, "", "%s.password", prefix));
 
-  options.save_options_on_exit =
-    secfile_lookup_bool_default(sf, options.save_options_on_exit,
+  gui_options.save_options_on_exit =
+    secfile_lookup_bool_default(sf, gui_options.save_options_on_exit,
                                 "%s.save_options_on_exit", prefix);
-  options.migrate_fullscreen =
-    secfile_lookup_bool_default(sf, options.migrate_fullscreen,
+  gui_options.migrate_fullscreen =
+    secfile_lookup_bool_default(sf, gui_options.migrate_fullscreen,
                                 "%s.fullscreen_mode", prefix);
 
   /* Settings migrations */
-  options.gui_gtk3_migrated_from_gtk2 =
-    secfile_lookup_bool_default(sf, options.gui_gtk3_migrated_from_gtk2,
+  gui_options.gui_gtk3_migrated_from_gtk2 =
+    secfile_lookup_bool_default(sf, gui_options.gui_gtk3_migrated_from_gtk2,
                                 "%s.migration_gtk3_from_gtk2", prefix);
-  options.gui_sdl2_migrated_from_sdl =
-    secfile_lookup_bool_default(sf, options.gui_sdl2_migrated_from_sdl,
+  gui_options.gui_sdl2_migrated_from_sdl =
+    secfile_lookup_bool_default(sf, gui_options.gui_sdl2_migrated_from_sdl,
                                 "%s.migration_sdl2_from_sdl", prefix);
-  options.gui_gtk2_migrated_from_2_5 =
-    secfile_lookup_bool_default(sf, options.gui_gtk3_migrated_from_2_5,
+  gui_options.gui_gtk2_migrated_from_2_5 =
+    secfile_lookup_bool_default(sf, gui_options.gui_gtk3_migrated_from_2_5,
                                 "%s.migration_gtk2_from_2_5", prefix);
-  options.gui_gtk3_migrated_from_2_5 =
-    secfile_lookup_bool_default(sf, options.gui_gtk2_migrated_from_2_5,
+  gui_options.gui_gtk3_migrated_from_2_5 =
+    secfile_lookup_bool_default(sf, gui_options.gui_gtk2_migrated_from_2_5,
                                 "%s.migration_gtk3_from_2_5", prefix);
-  options.gui_qt_migrated_from_2_5 =
-    secfile_lookup_bool_default(sf, options.gui_qt_migrated_from_2_5,
+  gui_options.gui_qt_migrated_from_2_5 =
+    secfile_lookup_bool_default(sf, gui_options.gui_qt_migrated_from_2_5,
                                 "%s.migration_qt_from_2_5", prefix);
 
   /* Backwards compatibility for removed options replaced by entirely "new"
@@ -5383,17 +5383,17 @@ void options_load(void)
    * migrate_options_from_gtk2() if necessary. */
   if (secfile_lookup_bool_default(sf, FALSE,
                                   "%s.gui_gtk2_merge_notebooks", prefix)) {
-    options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
+    gui_options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
   } else if (secfile_lookup_bool_default(sf, FALSE,
                                          "%s.gui_gtk2_split_bottom_notebook",
                                          prefix)) {
-    options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SPLIT;
+    gui_options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SPLIT;
   } else {
-    options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE;
+    gui_options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE;
   }
 
   /* Renamed in 2.6 */
-  options.popup_actor_arrival = secfile_lookup_bool_default(sf, TRUE,
+  gui_options.popup_actor_arrival = secfile_lookup_bool_default(sf, TRUE,
       "%s.popup_caravan_arrival", prefix);
 
   /* Load all the regular options */
@@ -5408,7 +5408,7 @@ void options_load(void)
   /* Removed in 2.4 */
   if (!secfile_lookup_bool_default(sf, TRUE,
                                    "%s.do_combat_animation", prefix)) {
-    options.smooth_combat_step_msec = 0;
+    gui_options.smooth_combat_step_msec = 0;
   }
 
   message_options_load(sf, prefix);
@@ -5450,19 +5450,21 @@ void options_save(void)
   sf = secfile_new(TRUE);
   secfile_insert_str(sf, VERSION_STRING, "client.version");
 
-  secfile_insert_bool(sf, options.save_options_on_exit, "client.save_options_on_exit");
-  secfile_insert_bool_comment(sf, options.migrate_fullscreen, "deprecated", "client.fullscreen_mode");
+  secfile_insert_bool(sf, gui_options.save_options_on_exit,
+                      "client.save_options_on_exit");
+  secfile_insert_bool_comment(sf, gui_options.migrate_fullscreen,
+                              "deprecated", "client.fullscreen_mode");
 
   /* Migrations */
-  secfile_insert_bool(sf, options.gui_gtk3_migrated_from_gtk2,
+  secfile_insert_bool(sf, gui_options.gui_gtk3_migrated_from_gtk2,
                       "client.migration_gtk3_from_gtk2");
-  secfile_insert_bool(sf, options.gui_sdl2_migrated_from_sdl,
+  secfile_insert_bool(sf, gui_options.gui_sdl2_migrated_from_sdl,
                       "client.migration_sdl2_from_sdl");
-  secfile_insert_bool(sf, options.gui_gtk2_migrated_from_2_5,
+  secfile_insert_bool(sf, gui_options.gui_gtk2_migrated_from_2_5,
                       "client.migration_gtk2_from_2_5");
-  secfile_insert_bool(sf, options.gui_gtk3_migrated_from_2_5,
+  secfile_insert_bool(sf, gui_options.gui_gtk3_migrated_from_2_5,
                       "client.migration_gtk3_from_2_5");
-  secfile_insert_bool(sf, options.gui_qt_migrated_from_2_5,
+  secfile_insert_bool(sf, gui_options.gui_qt_migrated_from_2_5,
                       "client.migration_qt_from_2_5");
 
   client_options_iterate_all(poption) {
@@ -5550,10 +5552,10 @@ void options_init(void)
       break;
 
     case OT_STRING:
-      if (options.default_user_name == option_str_get(poption)) {
+      if (gui_options.default_user_name == option_str_get(poption)) {
         /* Hack to get a default value. */
         *((const char **) &(pcoption->string.def)) =
-            fc_strdup(options.default_user_name);
+            fc_strdup(gui_options.default_user_name);
       }
 
       if (NULL == option_str_def(poption)) {
@@ -5728,7 +5730,7 @@ static void mapimg_changed_callback(struct option *poption)
 static void game_music_enable_callback(struct option *poption)
 {
   if (client_state() == C_S_RUNNING) {
-    if (options.sound_enable_game_music) {
+    if (gui_options.sound_enable_game_music) {
       start_style_music();
     } else {
       stop_style_music();
@@ -5742,7 +5744,7 @@ static void game_music_enable_callback(struct option *poption)
 static void menu_music_enable_callback(struct option *poption)
 {
   if (client_state() != C_S_RUNNING) {
-    if (options.sound_enable_menu_music) {
+    if (gui_options.sound_enable_menu_music) {
       start_menu_music("music_start", NULL);
     } else {
       stop_menu_music();

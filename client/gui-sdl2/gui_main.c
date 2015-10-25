@@ -189,9 +189,9 @@ static void parse_options(int argc, char **argv)
       print_usage();
       exit(EXIT_SUCCESS);
     } else if (is_option("--fullscreen", argv[i])) {
-      options.gui_sdl2_fullscreen = TRUE;
+      gui_options.gui_sdl2_fullscreen = TRUE;
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
-      sz_strlcpy(options.gui_sdl2_default_theme_name, option);
+      sz_strlcpy(gui_options.gui_sdl2_default_theme_name, option);
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       exit(EXIT_FAILURE);
@@ -377,7 +377,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
   }
 
 #ifndef UNDER_CE
-  if (options.gui_sdl2_fullscreen) {
+  if (gui_options.gui_sdl2_fullscreen) {
     check_scroll_area(pMotionEvent->x, pMotionEvent->y);
   }
 #endif /* UNDER_CE */
@@ -877,7 +877,7 @@ static void migrate_options_from_sdl(void)
 {
   log_normal(_("Migrating options from sdl to sdl2 client"));
 
-#define MIGRATE_OPTION(opt) options.gui_sdl2_##opt = options.gui_sdl_##opt;
+#define MIGRATE_OPTION(opt) gui_options.gui_sdl2_##opt = gui_options.gui_sdl_##opt;
 
   /* Default theme name is never migrated */
   MIGRATE_OPTION(fullscreen);
@@ -887,7 +887,7 @@ static void migrate_options_from_sdl(void)
 
 #undef MIGRATE_OPTION
 
-  options.gui_sdl2_migrated_from_sdl = TRUE;
+  gui_options.gui_sdl2_migrated_from_sdl = TRUE;
 }
 
 /**************************************************************************
@@ -905,17 +905,19 @@ void ui_main(int argc, char *argv[])
 
   parse_options(argc, argv);
 
-  if (!options.gui_sdl2_migrated_from_sdl) {
+  if (!gui_options.gui_sdl2_migrated_from_sdl) {
     migrate_options_from_sdl();
   }
 
-  if (options.gui_sdl2_fullscreen) {
+  if (gui_options.gui_sdl2_fullscreen) {
     flags |= SDL_WINDOW_FULLSCREEN;
   } else {
     flags &= ~SDL_WINDOW_FULLSCREEN;
   }
   log_normal(_("Using Video Output: %s"), SDL_GetCurrentVideoDriver());
-  set_video_mode(options.gui_sdl2_screen.width, options.gui_sdl2_screen.height, flags);
+  set_video_mode(gui_options.gui_sdl2_screen.width,
+                 gui_options.gui_sdl2_screen.height,
+                 flags);
 
   user_event_type = SDL_RegisterEvents(1);
 
