@@ -74,6 +74,10 @@
 
 #define TINYSCREEN_MAX_HEIGHT (500 - 1)
 
+/* Only CDLGR_UNITS button currently uses these, others have
+ * direct callback. */
+enum citydlg_response { CDLGR_UNITS, CDLGR_PREV, CDLGR_NEXT };
+
 struct city_dialog;
 
 /* get 'struct dialog_list' and related function */
@@ -237,7 +241,7 @@ static void city_dialog_update_supported_units(struct city_dialog
 static void city_dialog_update_present_units(struct city_dialog *pdialog);
 static void city_dialog_update_prev_next(void);
 
-static void show_units_callback(GtkWidget * w, gpointer data);
+static void show_units_response(void *data);
 
 static gboolean supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
 				        gpointer data);
@@ -289,8 +293,10 @@ static void misc_whichtab_callback(GtkWidget * w, gpointer data);
 
 static void city_destroy_callback(GtkWidget *w, gpointer data);
 static void close_city_dialog(struct city_dialog *pdialog);
+static void citydlg_response_callback(GtkDialog *dlg, gint response,
+                                      void *data);
 static void close_callback(GtkWidget *w, gpointer data);
-static void switch_city_callback(GtkWidget * w, gpointer data);
+static void switch_city_callback(GtkWidget *w, gpointer data);
 
 /****************************************************************
   Called to set the dimensions of the city dialog, both on
@@ -1542,14 +1548,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   /* bottom buttons */
 
   pdialog->show_units_command =
-	gtk_button_new_with_mnemonic(_("_List present units..."));
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_action_area(GTK_DIALOG(pdialog->shell))),
-		    pdialog->show_units_command);
-  gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(pdialog->shell))),
-      pdialog->show_units_command, TRUE);
-  g_signal_connect(pdialog->show_units_command,
-		   "clicked",
-		   G_CALLBACK(show_units_callback), pdialog);
+    gtk_dialog_add_button(GTK_DIALOG(pdialog->shell), _("_List present units..."), CDLGR_UNITS);
+
+  g_signal_connect(GTK_DIALOG(pdialog->shell), "response",
+                   G_CALLBACK(citydlg_response_callback), pdialog);
 
   pdialog->prev_command = gtk_stockbutton_new(GTK_STOCK_GO_BACK,
 	_("_Prev city"));
@@ -1594,8 +1596,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   /* need to do this every time a new dialog is opened. */
   city_dialog_update_prev_next();
 
-  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell)));
-  gtk_widget_show_all(gtk_dialog_get_action_area(GTK_DIALOG(pdialog->shell)));
+  gtk_widget_show_all(pdialog->shell);
 
   gtk_window_set_focus(GTK_WINDOW(pdialog->shell), close_command);
 
@@ -2224,15 +2225,29 @@ static void city_dialog_update_prev_next(void)
 }
 
 /****************************************************************
+  User clicked button from action area.
+*****************************************************************/
+static void citydlg_response_callback(GtkDialog *dlg, gint response,
+                                      void *data)
+{
+  switch (response) {
+  case CDLGR_UNITS:
+    show_units_response(data);
+    break;
+  }
+}
+
+/****************************************************************
   User has clicked show units
 *****************************************************************/
-static void show_units_callback(GtkWidget * w, gpointer data)
+static void show_units_response(void *data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
   struct tile *ptile = pdialog->pcity->tile;
 
-  if (unit_list_size(ptile->units))
+  if (unit_list_size(ptile->units)) {
     unit_select_dialog_popup(ptile);
+  }
 }
 
 /****************************************************************
