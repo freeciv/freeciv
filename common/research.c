@@ -641,8 +641,12 @@ enum tech_state research_invention_set(struct research *presearch,
   presearch->inventions[tech].state = value;
 
   if (value == TECH_KNOWN) {
-    game.info.global_advances[tech] = TRUE;
+    if (!game.info.global_advances[tech]) {
+      game.info.global_advances[tech] = TRUE;
+      game.info.global_advance_count++;
+    }
   }
+
   return old;
 }
 

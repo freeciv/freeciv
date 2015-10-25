@@ -46,6 +46,7 @@ Requirement types and supported ranges
 
 Tech:          World, Alliance, Team, Player
 TechFlag:      World, Alliance, Team, Player
+MinTechs:      World, Player
 Achievement:   World, Alliance, Team, Player
 Gov:           Player
 Building:      World, Alliance, Team, Player, Continent, Traderoute, City, Local

@@ -216,6 +216,11 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_MINTECHS:
+    source.value.min_techs = atoi(value);
+    if (source.value.min_techs > 0) {
+      return source;
+    }
   case VUT_ACTION:
     source.value.action = action_by_rule_name(value);
     if (source.value.action != NULL) {
@@ -436,6 +441,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_AGE:
     source.value.age = value;
     return source;
+  case VUT_MINTECHS:
+    source.value.min_techs = value;
+    return source;
   case VUT_ACTION:
     source.value.action = action_by_number(value);
     if (source.value.action != NULL) {
@@ -560,6 +568,8 @@ int universal_number(const struct universal *source)
     return source->value.min_hit_points;
   case VUT_AGE:
     return source->value.age;
+  case VUT_MINTECHS:
+    return source->value.min_techs;
   case VUT_ACTION:
     return action_number(source->value.action);
   case VUT_OTYPE:
@@ -686,6 +696,7 @@ struct requirement req_from_str(const char *type, const char *range,
       break;
     case VUT_MINYEAR:
     case VUT_TOPO:
+    case VUT_MINTECHS:
       req.range = REQ_RANGE_WORLD;
       break;
     }
@@ -716,6 +727,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
   case VUT_ACHIEVEMENT:
+  case VUT_MINTECHS:
     invalid = (req.range < REQ_RANGE_PLAYER);
     break;
   case VUT_GOVERNMENT:
@@ -847,6 +859,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_STYLE:
     case VUT_DIPLREL:
     case VUT_MAXTILEUNITS:
+    case VUT_MINTECHS:
       /* Most requirements don't support 'survives'. */
       invalid = survives;
       break;
@@ -2769,6 +2782,24 @@ bool is_req_active(const struct player *target_player,
       break;
     }
     break;
+  case VUT_MINTECHS:
+    switch (req->range) {
+    case REQ_RANGE_WORLD:
+      /* "None" does not count */
+      eval = ((game.info.global_advance_count - 1) >= req->source.value.min_techs);
+      break;
+    case REQ_RANGE_PLAYER:
+      if (target_player == NULL) {
+        eval = TRI_MAYBE;
+      } else {
+        /* "None" does not count */
+        eval = ((research_get(target_player)->techs_researched - 1) >= req->source.value.min_techs);
+      }
+      break;
+    default:
+      eval = TRI_MAYBE;
+    }
+    break;
   case VUT_ACTION:
     eval = BOOL_TO_TRISTATE(target_action
                             && action_number(target_action)
@@ -2950,6 +2981,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_IMPR_GENUS:
   case VUT_MINSIZE:
   case VUT_MINCULTURE:
+  case VUT_MINTECHS:
   case VUT_NATIONALITY:
   case VUT_DIPLREL:
   case VUT_MAXTILEUNITS:
@@ -3063,6 +3095,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.min_hit_points == psource2->value.min_hit_points;
   case VUT_AGE:
     return psource1->value.age == psource2->value.age;
+  case VUT_MINTECHS:
+    return psource1->value.min_techs == psource2->value.min_techs;
   case VUT_ACTION:
     return (action_number(psource1->value.action)
             == action_number(psource2->value.action));
@@ -3173,6 +3207,10 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_AGE:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.age);
+
+    return buffer;
+  case VUT_MINTECHS:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.min_techs);
 
     return buffer;
   case VUT_ACTION:
@@ -3347,6 +3385,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_AGE:
     cat_snprintf(buf, bufsz, _("Age %d"),
                  psource->value.age);
+    return buf;
+  case VUT_MINTECHS:
+    cat_snprintf(buf, bufsz, _("%d Techs"),
+                 psource->value.min_techs);
     return buf;
   case VUT_ACTION:
     fc_strlcat(buf, action_name_translation(psource->value.action),

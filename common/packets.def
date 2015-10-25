@@ -464,6 +464,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 forced_science;
   UINT8 fulltradesize;
   /* True if at least one civilization has researched a tech */
+  UINT16 global_advance_count;
   BOOL global_advances[A_LAST]; diff
   BOOL global_warming;
   UINT32 globalwarming;

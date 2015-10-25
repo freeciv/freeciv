@@ -704,6 +704,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_TECHFLAG:
   case VUT_ACHIEVEMENT:
   case VUT_MINCULTURE:
+  case VUT_MINTECHS:
     /* No way to remove once present. */
     return preq->present;
 

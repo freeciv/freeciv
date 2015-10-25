@@ -381,6 +381,7 @@ typedef union {
   int minveteran;
   int min_hit_points;
   int age;
+  int min_techs;
 
   enum topo_flag topo_property;
 } universals_u;
@@ -471,6 +472,8 @@ typedef union {
 #define SPECENUM_VALUE37NAME "BuildingGenus"
 #define SPECENUM_VALUE38 VUT_ACTION
 #define SPECENUM_VALUE38NAME "Action"
+#define SPECENUM_VALUE39 VUT_MINTECHS
+#define SPECENUM_VALUE39NAME "MinTechs"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

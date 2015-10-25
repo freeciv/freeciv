@@ -2566,6 +2566,44 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     return TRUE;
 
+  case VUT_MINTECHS:
+    switch (preq->range) {
+    case REQ_RANGE_WORLD:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires %d techs to be known in the world.\n"),
+                     preq->source.value.min_techs);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented when %d techs are known in the world.\n"),
+                     preq->source.value.min_techs);
+      }
+      return TRUE;
+    case REQ_RANGE_PLAYER:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires player to knoe %d techs.\n"),
+                     preq->source.value.min_techs);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented when player knows %d techs.\n"),
+                     preq->source.value.min_techs);
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_TERRAINALTER:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:

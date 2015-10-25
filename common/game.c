@@ -290,6 +290,7 @@ static void game_defaults(void)
   game.info.fogofwar         = GAME_DEFAULT_FOGOFWAR;
   game.info.foodbox          = GAME_DEFAULT_FOODBOX;
   game.info.fulltradesize    = GAME_DEFAULT_FULLTRADESIZE;
+  game.info.global_advance_count = 0;
   for (i = 0; i < A_LAST; i++) {
     /* game.num_tech_types = 0 here */
     game.info.global_advances[i] = FALSE;
