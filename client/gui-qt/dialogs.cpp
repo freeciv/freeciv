@@ -1315,7 +1315,7 @@ void popup_action_selection(struct unit *actor_unit,
     cd->target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   }
 
-  /* Spy/Diplomat acting against a city */
+  /* Unit acting against a city */
 
   /* Set the correct target for the following actions. */
   qv2 = cd->target_id[ATK_CITY];
@@ -1332,7 +1332,7 @@ void popup_action_selection(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  /* Spy/Diplomat acting against a unit */
+  /* Unit acting against another unit */
 
   /* Set the correct target for the following actions. */
   qv2 = cd->target_id[ATK_UNIT];

@@ -1107,7 +1107,7 @@ void popup_action_selection(struct unit *actor_unit,
   shl = choice_dialog_start(GTK_WINDOW(toplevel), astr_str(&title),
                             astr_str(&text));
 
-  /* Spy/Diplomat acting against a city */
+  /* Unit acting against a city */
 
   action_iterate(act) {
     if (action_get_actor_kind(act) == AAK_UNIT
@@ -1121,7 +1121,7 @@ void popup_action_selection(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  /* Spy/Diplomat acting against a unit */
+  /* Unit acting against another unit */
 
   action_iterate(act) {
     if (action_get_actor_kind(act) == AAK_UNIT
