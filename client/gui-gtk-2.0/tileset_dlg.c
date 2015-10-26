@@ -17,11 +17,14 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "fcintl.h"
 
+/* common */
 #include "game.h"
 #include "unitlist.h"
 
+/* client */
 #include "tilespec.h"
 
 #include "dialogs_g.h"
