@@ -1020,7 +1020,7 @@ bool tile_virtual_check(struct tile *vtile)
   tindex = tile_index(vtile);
   fc_assert_ret_val(0 <= tindex && tindex < map_num_tiles(), FALSE);
 
-  return (vtile != map.tiles + tindex);
+  return (vtile != game.map.tiles + tindex);
 }
 
 /****************************************************************************

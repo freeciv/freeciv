@@ -1170,7 +1170,7 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
     return;
   }
 
-  if (!tileset_map_topo_compatible(map.topology_id, tileset)) {
+  if (!tileset_map_topo_compatible(game.map.topology_id, tileset)) {
     tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
   }
 

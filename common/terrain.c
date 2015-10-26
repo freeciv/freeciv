@@ -397,14 +397,14 @@ const char *resource_rule_name(const struct resource *presource)
   int _tile##_count;							\
 									\
   if (card_only) {							\
-    _tile##_list = map.cardinal_dirs;					\
-    _tile##_count = map.num_cardinal_dirs;				\
+    _tile##_list = game.map.cardinal_dirs;				\
+    _tile##_count = game.map.num_cardinal_dirs;				\
   } else {								\
-    _tile##_list = map.valid_dirs;					\
-    _tile##_count = map.num_valid_dirs;					\
+    _tile##_list = game.map.valid_dirs;					\
+    _tile##_count = game.map.num_valid_dirs;				\
   }									\
   adjc_dirlist_iterate(center_tile, _tile, _tile##_dir,			\
-		       _tile##_list, _tile##_count) {
+                       _tile##_list, _tile##_count) {
 
 #define variable_adjc_iterate_end					\
   } adjc_dirlist_iterate_end;						\

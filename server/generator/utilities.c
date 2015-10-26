@@ -248,7 +248,7 @@ static int *ocean_sizes = NULL;
 **************************************************************************/
 static void recalculate_lake_surrounders(void)
 {
-  const size_t size = (map.num_oceans + 1) * sizeof(*lake_surrounders);
+  const size_t size = (game.map.num_oceans + 1) * sizeof(*lake_surrounders);
 
   lake_surrounders = fc_realloc(lake_surrounders, size);
   memset(lake_surrounders, 0, size);
@@ -423,8 +423,8 @@ int get_ocean_size(Continent_id id)
 void assign_continent_numbers(void)
 {
   /* Initialize */
-  map.num_continents = 0;
-  map.num_oceans = 0;
+  game.map.num_continents = 0;
+  game.map.num_oceans = 0;
 
   whole_map_iterate(ptile) {
     tile_set_continent(ptile, 0);
@@ -444,24 +444,24 @@ void assign_continent_numbers(void)
     }
 
     if (terrain_type_terrain_class(pterrain) != TC_OCEAN) {
-      map.num_continents++;
+      game.map.num_continents++;
       continent_sizes = fc_realloc(continent_sizes,
-		       (map.num_continents + 1) * sizeof(*continent_sizes));
-      continent_sizes[map.num_continents] = 0;
-      assign_continent_flood(ptile, TRUE, map.num_continents);
+                           (game.map.num_continents + 1) * sizeof(*continent_sizes));
+      continent_sizes[game.map.num_continents] = 0;
+      assign_continent_flood(ptile, TRUE, game.map.num_continents);
     } else {
-      map.num_oceans++;
+      game.map.num_oceans++;
       ocean_sizes = fc_realloc(ocean_sizes,
-		       (map.num_oceans + 1) * sizeof(*ocean_sizes));
-      ocean_sizes[map.num_oceans] = 0;
-      assign_continent_flood(ptile, FALSE, -map.num_oceans);
+                       (game.map.num_oceans + 1) * sizeof(*ocean_sizes));
+      ocean_sizes[game.map.num_oceans] = 0;
+      assign_continent_flood(ptile, FALSE, -game.map.num_oceans);
     }
   } whole_map_iterate_end;
 
   recalculate_lake_surrounders();
 
   log_verbose("Map has %d continents and %d oceans", 
-              map.num_continents, map.num_oceans);
+              game.map.num_continents, game.map.num_oceans);
 }
 
 /**************************************************************************
@@ -534,7 +534,7 @@ static int real_distance_to_land(const struct tile *ptile, int max)
 **************************************************************************/
 static struct terrain *most_adjacent_ocean_type(const struct tile *ptile)
 {
-  const int need = 2 * map.num_valid_dirs / 3;
+  const int need = 2 * game.map.num_valid_dirs / 3;
   int count;
 
   terrain_type_iterate(pterrain) {

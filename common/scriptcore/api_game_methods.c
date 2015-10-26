@@ -717,12 +717,12 @@ int api_methods_private_tile_next_outward_index(lua_State *L, Tile *pstart,
   index_to_map_pos(&startx, &starty, tile_index(pstart));
 
   index++;
-  while (index < map.num_iterate_outwards_indices) {
-    if (map.iterate_outwards_indices[index].dist > max_dist) {
+  while (index < game.map.num_iterate_outwards_indices) {
+    if (game.map.iterate_outwards_indices[index].dist > max_dist) {
       return -1;
     }
-    dx = map.iterate_outwards_indices[index].dx;
-    dy = map.iterate_outwards_indices[index].dy;
+    dx = game.map.iterate_outwards_indices[index].dx;
+    dy = game.map.iterate_outwards_indices[index].dy;
     newx = dx + startx;
     newy = dy + starty;
     if (!normalize_map_pos(&newx, &newy)) {
@@ -745,12 +745,12 @@ Tile *api_methods_private_tile_for_outward_index(lua_State *L, Tile *pstart,
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_SELF(L, pstart, NULL);
   LUASCRIPT_CHECK_ARG(L, index >= 0
-                         && index < map.num_iterate_outwards_indices, 3,
+                         && index < game.map.num_iterate_outwards_indices, 3,
                       "index out of bounds", NULL);
 
   index_to_map_pos(&newx, &newy, tile_index(pstart));
-  newx += map.iterate_outwards_indices[index].dx;
-  newy += map.iterate_outwards_indices[index].dy;
+  newx += game.map.iterate_outwards_indices[index].dx;
+  newy += game.map.iterate_outwards_indices[index].dy;
 
   if (!normalize_map_pos(&newx, &newy)) {
     return NULL;

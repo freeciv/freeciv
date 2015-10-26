@@ -144,7 +144,7 @@ void create_animals(void)
    * about invalid team. */
   send_research_info(presearch, NULL);
 
-  for (i = 0; i < map.xsize * map.ysize / 50; i++) {
+  for (i = 0; i < game.map.xsize * game.map.ysize / 50; i++) {
     place_animal(plr);
   }
 }

@@ -723,7 +723,7 @@ static void update_environmental_upset(enum environment_upset_type type,
   } else {
     *accum -= *level;
     if (fc_rand((map_num_tiles() + 19) / 20) <= *accum) {
-      upset_action_fn((map.xsize / 10) + (map.ysize / 10) + ((*accum) * 5));
+      upset_action_fn((game.map.xsize / 10) + (game.map.ysize / 10) + ((*accum) * 5));
       *accum = 0;
       *level += (map_num_tiles() + 999) / 1000;
     }
@@ -2897,7 +2897,7 @@ static void srv_ready(void)
    * call map_fractal_generate anyway to make the specials, huts and
    * continent numbers. */
   if (map_is_empty()
-      || (MAPGEN_SCENARIO == map.server.generator
+      || (MAPGEN_SCENARIO == game.map.server.generator
           && game.info.is_new_game)) {
     struct {
       const char *name;
@@ -2909,7 +2909,8 @@ static void srv_ready(void)
       { "teamplacement", }
     };
     int i;
-    bool retry_ok = (map.server.seed == 0 && map.server.generator != MAPGEN_SCENARIO);
+    bool retry_ok = (game.map.server.seed == 0
+                     && game.map.server.generator != MAPGEN_SCENARIO);
     int max = retry_ok ? 3 : 1;
     bool created = FALSE;
     struct unit_type *utype = NULL;
@@ -2952,11 +2953,11 @@ static void srv_ready(void)
           log_normal(_("Attempt %d/%d"), i + 2, max);
         }
         /* Reset mapseed so generator knows to use new one */
-        map.server.seed = 0;
+        game.map.server.seed = 0;
         /* One should never set this to false in scenario map that had resources
          * placed. We are safe side here as map generation is retried only if this is
          * not scenario map at all. */
-        map.server.have_resources = FALSE;
+        game.map.server.have_resources = FALSE;
 
         /* Remove old information already present in tiles */
         map_free();
@@ -2988,7 +2989,7 @@ static void srv_ready(void)
       exit(EXIT_FAILURE);
     }
 
-    if (map.server.generator != MAPGEN_SCENARIO) {
+    if (game.map.server.generator != MAPGEN_SCENARIO) {
       script_server_signal_emit("map_generated", 0);
     }
 

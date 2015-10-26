@@ -240,8 +240,9 @@ void update_selection_rectangle(float canvas_x, float canvas_y)
       rec_h += (diff_x + diff_y) * half_H;
 
       /* Iso wrapping */
-      if (abs(rec_w) > map.xsize * half_W / 2) {
-        int wx = map.xsize * half_W,  wy = map.xsize * half_H;
+      if (abs(rec_w) > game.map.xsize * half_W / 2) {
+        int wx = game.map.xsize * half_W, wy = game.map.xsize * half_H;
+
         rec_w > 0 ? (rec_w -= wx, rec_h -= wy) : (rec_w += wx, rec_h += wy);
       }
 
@@ -250,8 +251,9 @@ void update_selection_rectangle(float canvas_x, float canvas_y)
       rec_h += diff_y * H;
 
       /* X wrapping */
-      if (abs(rec_w) > map.xsize * half_W) {
-        int wx = map.xsize * W;
+      if (abs(rec_w) > game.map.xsize * half_W) {
+        int wx = game.map.xsize * W;
+
         rec_w > 0 ? (rec_w -= wx) : (rec_w += wx);
       }
     }

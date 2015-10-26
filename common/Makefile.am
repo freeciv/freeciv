@@ -69,6 +69,7 @@ libfreeciv_la_SOURCES = \
 		improvement.h	\
 		map.c		\
 		map.h		\
+		map_types.h	\
 		mapimg.c	\
 		mapimg.h	\
 		metaknowledge.c \

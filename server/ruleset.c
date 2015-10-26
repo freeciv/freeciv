@@ -2457,7 +2457,7 @@ static bool load_ruleset_terrain(struct section_file *file,
     = secfile_lookup_bool_default(file, RS_DEFAULT_PYTHAGOREAN_DIAGONAL,
                                   "parameters.pythagorean_diagonal");
 
-  map.server.ocean_resources
+  game.map.server.ocean_resources
     = secfile_lookup_bool_default(file, FALSE,
                                   "parameters.ocean_resources");
 
