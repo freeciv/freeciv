@@ -17,11 +17,16 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "fcintl.h"
 
+/* common */
 #include "game.h"
 #include "unitlist.h"
 
+/* client */
+#include "gui_main.h"
+#include "gui_stuff.h"
 #include "tilespec.h"
 
 #include "dialogs_g.h"
@@ -56,6 +61,7 @@ void popup_tileset_suggestion_dialog(void)
                                        _("Keep current tileset"),
                                        GTK_RESPONSE_NO,
                                        NULL);
+  setup_dialog(dialog, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_YES);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dialog), TRUE);
 
