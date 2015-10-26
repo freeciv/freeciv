@@ -41,10 +41,10 @@ static char *tmap_y2str(int ycoor)
   char *p = buf;
   int i, index;
 
-  for (i = 0; i < map.xsize; i++) {
-    index = ycoor * map.xsize + i;
+  for (i = 0; i < game.map.xsize; i++) {
+    index = ycoor * game.map.xsize + i;
 
-    if (index > map.xsize * map.ysize) {
+    if (index > game.map.xsize * game.map.ysize) {
       break;
     }
 
@@ -134,7 +134,7 @@ void create_tmap(bool real)
       float height = - 0.3 * MAX(0, hmap(ptile) - hmap_shore_level) 
 	  / (hmap_max_level - hmap_shore_level); 
       /* near ocean temperature can be 15% more "temperate" */
-      float temperate = (0.15 * (map.server.temperature / 100 - t
+      float temperate = (0.15 * (game.map.server.temperature / 100 - t
                                  / MAX_COLATITUDE)
                          * 2 * MIN(50, count_terrain_class_near_tile(ptile,
                                                                      FALSE,
@@ -149,7 +149,7 @@ void create_tmap(bool real)
   /* Notice: if colatitude is loaded from a scenario never call adjust.
              Scenario may have an odd colatitude distribution and adjust will
 	     break it */
-  if (!map.server.alltemperate) {
+  if (!game.map.server.alltemperate) {
     adjust_int_map(temperature_map, MAX_COLATITUDE);
   }
   /* now simplify to 4 base values */ 
@@ -169,7 +169,7 @@ void create_tmap(bool real)
 
   log_debug("%stemperature map ({f}rozen, {c}old, {m}edium, {t}ropical):",
             real ? "real " : "");
-  for (i = 0; i < map.ysize; i++) {
+  for (i = 0; i < game.map.ysize; i++) {
     log_debug("%5d: %s", i, tmap_y2str(i));
   }
 }

@@ -433,7 +433,7 @@ void send_all_known_tiles(struct conn_list *dest)
 
   whole_map_iterate(ptile) {
     tiles_sent++;
-    if ((tiles_sent % map.xsize) == 0) {
+    if ((tiles_sent % game.map.xsize) == 0) {
       conn_list_do_unbuffer(dest);
       flush_packets();
       conn_list_do_buffer(dest);
@@ -591,10 +591,10 @@ void send_map_info(struct conn_list *dest)
 {
   struct packet_map_info minfo;
 
-  minfo.xsize=map.xsize;
-  minfo.ysize=map.ysize;
-  minfo.topology_id = map.topology_id;
- 
+  minfo.xsize = game.map.xsize;
+  minfo.ysize = game.map.ysize;
+  minfo.topology_id = game.map.topology_id;
+
   lsend_packet_map_info(dest, &minfo);
 }
 
@@ -2051,7 +2051,7 @@ void map_calculate_borders(void)
     return;
   }
 
-  if (map.tiles == NULL) {
+  if (game.map.tiles == NULL) {
     /* Map not yet initialized */
     return;
   }

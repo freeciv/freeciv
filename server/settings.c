@@ -1040,7 +1040,7 @@ static bool mapsize_callback(int value, struct connection *caller,
                              char *reject_msg, size_t reject_msg_len)
 {
   if (value == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC &&
-      map.ysize % 2 != 0) {
+      game.map.ysize % 2 != 0) {
     /* An isometric map needs a even ysize. Is is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,
@@ -1058,18 +1058,18 @@ static bool mapsize_callback(int value, struct connection *caller,
 static bool xsize_callback(int value, struct connection *caller,
                            char *reject_msg, size_t reject_msg_len)
 {
-  int size = value * map.ysize;
+  int size = value * game.map.ysize;
 
   if (size < MAP_MIN_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The map size (%d * %d = %d) must be larger than "
-                        "%d tiles."), value, map.ysize, size,
+                        "%d tiles."), value, game.map.ysize, size,
                         MAP_MIN_SIZE * 1000);
     return FALSE;
   } else if (size > MAP_MAX_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The map size (%d * %d = %d) must be lower than "
-                        "%d tiles."), value, map.ysize, size,
+                        "%d tiles."), value, game.map.ysize, size,
                         MAP_MAX_SIZE * 1000);
     return FALSE;
   }
@@ -1083,21 +1083,21 @@ static bool xsize_callback(int value, struct connection *caller,
 static bool ysize_callback(int value, struct connection *caller,
                            char *reject_msg, size_t reject_msg_len)
 {
-  int size = map.xsize * value;
+  int size = game.map.xsize * value;
 
   if (size < MAP_MIN_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The map size (%d * %d = %d) must be larger than "
-                        "%d tiles."), map.xsize, value, size,
+                        "%d tiles."), game.map.xsize, value, size,
                         MAP_MIN_SIZE * 1000);
     return FALSE;
   } else if (size > MAP_MAX_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The map size (%d * %d = %d) must be lower than "
-                        "%d tiles."), map.xsize, value, size,
+                        "%d tiles."), game.map.xsize, value, size,
                         MAP_MAX_SIZE * 1000);
     return FALSE;
-  } else if (map.server.mapsize == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC &&
+  } else if (game.map.server.mapsize == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC &&
              value % 2 != 0) {
     /* An isometric map needs a even ysize. Is is calculated automatically
      * for all settings but mapsize=XYSIZE. */
@@ -1116,9 +1116,9 @@ static bool ysize_callback(int value, struct connection *caller,
 static bool topology_callback(unsigned value, struct connection *caller,
                               char *reject_msg, size_t reject_msg_len)
 {
-  if (map.server.mapsize == MAPSIZE_XYSIZE &&
+  if (game.map.server.mapsize == MAPSIZE_XYSIZE &&
       ((value & (TF_ISO)) != 0 || (value & (TF_HEX)) != 0) &&
-      map.ysize % 2 != 0) {
+      game.map.ysize % 2 != 0) {
     /* An isometric map needs a even ysize. Is is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,
@@ -1200,7 +1200,7 @@ static struct setting settings[] = {
   /* These should be grouped by sclass */
 
   /* Map size parameters: adjustable if we don't yet have a map */
-  GEN_ENUM("mapsize", map.server.mapsize, SSET_MAP_SIZE,
+  GEN_ENUM("mapsize", game.map.server.mapsize, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map size definition"),
           /* TRANS: The strings between double quotes are also translated
@@ -1217,7 +1217,7 @@ static struct setting settings[] = {
              "tiles (options 'xsize' and 'ysize')."), NULL,
           mapsize_callback, NULL, mapsize_name, MAP_DEFAULT_MAPSIZE)
 
-  GEN_INT("size", map.server.size, SSET_MAP_SIZE,
+  GEN_INT("size", game.map.server.size, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map area (in thousands of tiles)"),
           /* TRANS: The strings between double quotes are also translated
@@ -1233,7 +1233,7 @@ static struct setting settings[] = {
              "(FULLSIZE)."), NULL, NULL,
           MAP_MIN_SIZE, MAP_MAX_SIZE, MAP_DEFAULT_SIZE)
 
-  GEN_INT("tilesperplayer", map.server.tilesperplayer, SSET_MAP_SIZE,
+  GEN_INT("tilesperplayer", game.map.server.tilesperplayer, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Number of (land) tiles per player"),
           /* TRANS: The strings between double quotes are also translated
@@ -1250,7 +1250,7 @@ static struct setting settings[] = {
           NULL, NULL, MAP_MIN_TILESPERPLAYER,
           MAP_MAX_TILESPERPLAYER, MAP_DEFAULT_TILESPERPLAYER)
 
-  GEN_INT("xsize", map.xsize, SSET_MAP_SIZE,
+  GEN_INT("xsize", game.map.xsize, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map width in tiles"),
           /* TRANS: The strings between double quotes are also translated
@@ -1264,7 +1264,7 @@ static struct setting settings[] = {
              "(XYSIZE)."),
           xsize_callback, NULL,
           MAP_MIN_LINEAR_SIZE, MAP_MAX_LINEAR_SIZE, MAP_DEFAULT_LINEAR_SIZE)
-  GEN_INT("ysize", map.ysize, SSET_MAP_SIZE,
+  GEN_INT("ysize", game.map.ysize, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map height in tiles"),
           /* TRANS: The strings between double quotes are also translated
@@ -1279,7 +1279,7 @@ static struct setting settings[] = {
           ysize_callback, NULL,
           MAP_MIN_LINEAR_SIZE, MAP_MAX_LINEAR_SIZE, MAP_DEFAULT_LINEAR_SIZE)
 
-  GEN_BITWISE("topology", map.topology_id, SSET_MAP_SIZE,
+  GEN_BITWISE("topology", game.map.topology_id, SSET_MAP_SIZE,
               SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
               N_("Map topology index"),
               /* TRANS: do not edit the ugly ASCII art */
@@ -1305,7 +1305,7 @@ static struct setting settings[] = {
                  "             \\_/ \\_/ \\_/ \\_/ \\_/\n"),
               topology_callback, NULL, topology_name, MAP_DEFAULT_TOPO)
 
-  GEN_ENUM("generator", map.server.generator,
+  GEN_ENUM("generator", game.map.server.generator,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Method used to generate map"),
            /* TRANS: The strings between double quotes are also translated
@@ -1338,7 +1338,7 @@ static struct setting settings[] = {
               "settings, the server may fall back to another generator."),
            NULL, generator_validate, NULL, generator_name, MAP_DEFAULT_GENERATOR)
 
-  GEN_ENUM("startpos", map.server.startpos,
+  GEN_ENUM("startpos", game.map.server.startpos,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Method used to choose start positions"),
            /* TRANS: The strings between double quotes are also translated
@@ -1373,7 +1373,7 @@ static struct setting settings[] = {
               "unlikely to occur.)"),
            NULL, NULL, NULL, startpos_name, MAP_DEFAULT_STARTPOS)
 
-  GEN_ENUM("teamplacement", map.server.team_placement,
+  GEN_ENUM("teamplacement", game.map.server.team_placement,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Method used for placement of team mates"),
            /* TRANS: The strings between double quotes are also translated
@@ -1398,27 +1398,27 @@ static struct setting settings[] = {
               "team will be placed vertically."),
            NULL, NULL, NULL, teamplacement_name, MAP_DEFAULT_TEAM_PLACEMENT)
 
-  GEN_BOOL("tinyisles", map.server.tinyisles,
+  GEN_BOOL("tinyisles", game.map.server.tinyisles,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Presence of 1x1 islands"),
            N_("This setting controls whether the map generator is allowed "
               "to make islands of one only tile size."), NULL, NULL,
            MAP_DEFAULT_TINYISLES)
 
-  GEN_BOOL("separatepoles", map.server.separatepoles,
+  GEN_BOOL("separatepoles", game.map.server.separatepoles,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("Whether the poles are separate continents"),
            N_("If this setting is disabled, the continents may attach to "
               "poles."), NULL, NULL, MAP_DEFAULT_SEPARATE_POLES)
 
-  GEN_BOOL("singlepole", map.server.single_pole,
+  GEN_BOOL("singlepole", game.map.server.single_pole,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("Whether there's just one pole generated"),
            N_("If this setting is enabled, only one side of the map will have "
               "pole. This setting has no effect if the map wraps both "
               "directions."), NULL, NULL, MAP_DEFAULT_SINGLE_POLE)
 
-  GEN_BOOL("alltemperate", map.server.alltemperate, 
+  GEN_BOOL("alltemperate", game.map.server.alltemperate, 
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("All the map is temperate"),
            N_("If this setting is enabled, the temperature will be "
@@ -1426,7 +1426,7 @@ static struct setting settings[] = {
               "poles won't be generated."),
            NULL, NULL, MAP_DEFAULT_ALLTEMPERATE)
 
-  GEN_INT("temperature", map.server.temperature,
+  GEN_INT("temperature", game.map.server.temperature,
           SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
           N_("Average temperature of the planet"),
           N_("Small values will give a cold map, while larger values will "
@@ -1444,21 +1444,21 @@ static struct setting settings[] = {
           NULL, NULL,
           MAP_MIN_TEMPERATURE, MAP_MAX_TEMPERATURE, MAP_DEFAULT_TEMPERATURE)
  
-  GEN_INT("landmass", map.server.landpercent,
+  GEN_INT("landmass", game.map.server.landpercent,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Percentage of the map that is land"),
 	  N_("This setting gives the approximate percentage of the map "
              "that will be made into land."), NULL, NULL,
 	  MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS)
 
-  GEN_INT("steepness", map.server.steepness,
+  GEN_INT("steepness", game.map.server.steepness,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Amount of hills/mountains"),
 	  N_("Small values give flat maps, while higher values give a "
              "steeper map with more hills and mountains."), NULL, NULL,
 	  MAP_MIN_STEEPNESS, MAP_MAX_STEEPNESS, MAP_DEFAULT_STEEPNESS)
 
-  GEN_INT("wetness", map.server.wetness,
+  GEN_INT("wetness", game.map.server.wetness,
  	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
  	  N_("Amount of water on landmasses"), 
 	  N_("Small values mean lots of dry, desert-like land; "
@@ -1481,7 +1481,7 @@ static struct setting settings[] = {
               "as a result of nuclear war."), NULL, NULL,
            GAME_DEFAULT_NUCLEAR_WINTER)
 
-  GEN_INT("mapseed", map.server.seed,
+  GEN_INT("mapseed", game.map.server.seed,
 	  SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
 	  N_("Map generation random seed"),
 	  N_("The same seed will always produce the same map; "
@@ -1503,7 +1503,7 @@ static struct setting settings[] = {
              "only of interest while debugging the game."), NULL, NULL,
 	  GAME_MIN_SEED, GAME_MAX_SEED, GAME_DEFAULT_SEED)
 
-  GEN_INT("specials", map.server.riches,
+  GEN_INT("specials", game.map.server.riches,
 	  SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Amount of \"special\" resource tiles"),
 	  N_("Special resources improve the basic terrain type they "
@@ -1511,7 +1511,7 @@ static struct setting settings[] = {
              "thousand."), NULL, NULL,
 	  MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES)
 
-  GEN_INT("huts", map.server.huts,
+  GEN_INT("huts", game.map.server.huts,
 	  SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Amount of huts (minor tribe villages)"),
 	  N_("This setting gives the exact number of huts that will be "

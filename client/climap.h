@@ -21,7 +21,7 @@ extern "C" {
 #include "fc_types.h"           /* enum direction8, struct tile */
 #include "tile.h"               /* enum known_type */
 
-#define map_exists() (map.tiles != NULL)
+#define map_exists() (game.map.tiles != NULL)
 
 enum known_type client_tile_get_known(const struct tile *ptile);
 

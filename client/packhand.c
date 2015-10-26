@@ -1873,14 +1873,14 @@ void handle_map_info(int xsize, int ysize, int topology_id)
     map_free();
   }
 
-  map.xsize = xsize;
-  map.ysize = ysize;
+  game.map.xsize = xsize;
+  game.map.ysize = ysize;
 
   if (!tileset_map_topo_compatible(topology_id, tileset)) {
     tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
   }
 
-  map.topology_id = topology_id;
+  game.map.topology_id = topology_id;
 
   map_init_topology();
   map_allocate();
@@ -2823,7 +2823,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   }
 
   ptile->continent = packet->continent;
-  map.num_continents = MAX(ptile->continent, map.num_continents);
+  game.map.num_continents = MAX(ptile->continent, game.map.num_continents);
 
   if (packet->label[0] == '\0') {
     if (ptile->label != NULL) {

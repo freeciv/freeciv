@@ -26,92 +26,10 @@ extern "C" {
 
 /* common */
 #include "fc_types.h"
+#include "game.h"
+#include "map_types.h"
 #include "tile.h"
 #include "packets.h"
-
-/****************************************************************
-miscellaneous terrain information
-*****************************************************************/
-#define terrain_misc packet_ruleset_terrain_control
-
-/* Some types used below. */
-struct nation_hash;
-struct nation_type;
-struct packet_edit_startpos_full;
-struct startpos;
-struct startpos_hash;
-
-enum mapsize_type {
-  MAPSIZE_FULLSIZE = 0, /* Using the number of tiles / 1000. */
-  MAPSIZE_PLAYER,       /* Define the number of (land) tiles per player;
-                         * the setting 'landmass' and the number of players
-                         * are used to calculate the map size. */
-  MAPSIZE_XYSIZE        /* 'xsize' and 'ysize' are defined. */
-};
-
-enum map_generator {
-  MAPGEN_SCENARIO = 0,
-  MAPGEN_RANDOM,
-  MAPGEN_FRACTAL,
-  MAPGEN_ISLAND,
-  MAPGEN_FAIR
-};
-
-enum map_startpos {
-  MAPSTARTPOS_DEFAULT = 0,      /* Generator's choice. */
-  MAPSTARTPOS_SINGLE,           /* One player per continent. */
-  MAPSTARTPOS_2or3,             /* Two on three players per continent. */
-  MAPSTARTPOS_ALL,              /* All players on a single continent. */
-  MAPSTARTPOS_VARIABLE,         /* Depending on size of continents. */
-};
-
-#define SPECENUM_NAME team_placement
-#define SPECENUM_VALUE0 TEAM_PLACEMENT_DISABLED
-#define SPECENUM_VALUE1 TEAM_PLACEMENT_CLOSEST
-#define SPECENUM_VALUE2 TEAM_PLACEMENT_CONTINENT
-#define SPECENUM_VALUE3 TEAM_PLACEMENT_HORIZONTAL
-#define SPECENUM_VALUE4 TEAM_PLACEMENT_VERTICAL
-#include "specenum_gen.h"
-
-struct civ_map {
-  int topology_id;
-  enum direction8 valid_dirs[8], cardinal_dirs[8];
-  int num_valid_dirs, num_cardinal_dirs;
-  struct iter_index *iterate_outwards_indices;
-  int num_iterate_outwards_indices;
-  int xsize, ysize; /* native dimensions */
-  int num_continents;
-  int num_oceans;               /* not updated at the client */
-  struct tile *tiles;
-  struct startpos_hash *startpos_table;
-
-  union {
-    struct {
-      enum mapsize_type mapsize; /* how the map size is defined */
-      int size; /* used to calculate [xy]size */
-      int tilesperplayer; /* tiles per player; used to calculate size */
-      int seed;
-      int riches;
-      int huts;
-      int landpercent;
-      enum map_generator generator;
-      enum map_startpos startpos;
-      bool tinyisles;
-      bool separatepoles;
-      bool single_pole;
-      bool alltemperate;
-      int temperature;
-      int wetness;
-      int steepness;
-      bool have_resources;
-      bool ocean_resources;         /* Resources in the middle of the ocean */
-      bool have_huts;
-      enum team_placement team_placement;
-    } server;
-
-    /* Add client side when needed */
-  };
-};
 
 /* Parameters for terrain counting functions. */
 static const bool C_ADJACENT = FALSE;
@@ -121,7 +39,7 @@ static const bool C_PERCENT = TRUE;
 
 #define MAP_IS_ISOMETRIC (CURRENT_TOPOLOGY & (TF_ISO + TF_HEX))
 
-#define CURRENT_TOPOLOGY (map.topology_id)
+#define CURRENT_TOPOLOGY (game.map.topology_id)
 
 #define topo_has_flag(topo, flag) (((topo) & (flag)) != 0)
 #define current_topo_has_flag(flag) topo_has_flag((CURRENT_TOPOLOGY), (flag))
@@ -204,13 +122,13 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 
 
 /* Number of index coordinates (for sanity checks and allocations) */
-#define MAP_INDEX_SIZE (map.xsize * map.ysize)
+#define MAP_INDEX_SIZE (game.map.xsize * game.map.ysize)
 
 #ifdef DEBUG
 #define CHECK_MAP_POS(x,y) \
   fc_assert(is_normal_map_pos((x),(y)))
 #define CHECK_NATIVE_POS(x, y) \
-  fc_assert((x) >= 0 && (x) < map.xsize && (y) >= 0 && (y) < map.ysize)
+  fc_assert((x) >= 0 && (x) < game.map.xsize && (y) >= 0 && (y) < game.map.ysize)
 #define CHECK_INDEX(index) \
   fc_assert((index) >= 0 && (index) < MAP_INDEX_SIZE)
 #else
@@ -220,7 +138,7 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 #endif
 
 #define native_pos_to_index_nocheck(nat_x, nat_y)                            \
-  ((nat_x) + (nat_y) * map.xsize)
+  ((nat_x) + (nat_y) * game.map.xsize)
 #define native_pos_to_index(nat_x, nat_y)                                    \
   (CHECK_NATIVE_POS((nat_x), (nat_y)),                                       \
    native_pos_to_index_nocheck(nat_x, nat_y))
@@ -228,32 +146,32 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
   (*(pnat_x) = index_to_native_pos_x(index),                                 \
    *(pnat_y) = index_to_native_pos_y(index))
 #define index_to_native_pos_x(index)                                         \
-  ((index) % map.xsize) 
+  ((index) % game.map.xsize) 
 #define index_to_native_pos_y(index)                                         \
-  ((index) / map.xsize)
+  ((index) / game.map.xsize)
 
 /* Obscure math.  See explanation in doc/HACKING. */
 #define NATIVE_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                     \
   (MAP_IS_ISOMETRIC							    \
    ? (*(pmap_x) = ((nat_y) + ((nat_y) & 1)) / 2 + (nat_x),                  \
-      *(pmap_y) = (nat_y) - *(pmap_x) + map.xsize)                          \
+      *(pmap_y) = (nat_y) - *(pmap_x) + game.map.xsize)                     \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
 #define MAP_TO_NATIVE_POS(pnat_x, pnat_y, map_x, map_y)                     \
   (MAP_IS_ISOMETRIC							    \
-   ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
+   ? (*(pnat_y) = (map_x) + (map_y) - game.map.xsize,                       \
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
 #define NATURAL_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                    \
   (MAP_IS_ISOMETRIC							    \
    ? (*(pmap_x) = ((nat_y) + (nat_x)) / 2,                                  \
-      *(pmap_y) = (nat_y) - *(pmap_x) + map.xsize)                          \
+      *(pmap_y) = (nat_y) - *(pmap_x) + game.map.xsize)                     \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
 #define MAP_TO_NATURAL_POS(pnat_x, pnat_y, map_x, map_y)                    \
   (MAP_IS_ISOMETRIC							    \
-   ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
+   ? (*(pnat_y) = (map_x) + (map_y) - game.map.xsize,                       \
       *(pnat_x) = 2 * (map_x) - *(pnat_y))                                  \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
@@ -289,12 +207,12 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 }
 
 /* Width and height of the map, in native coordinates. */
-#define NATIVE_WIDTH map.xsize
-#define NATIVE_HEIGHT map.ysize
+#define NATIVE_WIDTH game.map.xsize
+#define NATIVE_HEIGHT game.map.ysize
 
 /* Width and height of the map, in natural coordinates. */
-#define NATURAL_WIDTH (MAP_IS_ISOMETRIC ? 2 * map.xsize : map.xsize)
-#define NATURAL_HEIGHT map.ysize
+#define NATURAL_WIDTH (MAP_IS_ISOMETRIC ? 2 * game.map.xsize : game.map.xsize)
+#define NATURAL_HEIGHT game.map.ysize
 
 static inline int map_pos_to_index(int map_x, int map_y);
 
@@ -360,8 +278,6 @@ bv_extras get_tile_infrastructure_set(const struct tile *ptile,
 bool can_channel_land(const struct tile *ptile);
 bool can_reclaim_ocean(const struct tile *ptile);
 
-extern struct civ_map map;
-
 extern struct terrain_misc terrain_control;
 
 /* This iterates outwards from the starting point.  Every tile within max_dist
@@ -379,13 +295,13 @@ extern struct terrain_misc terrain_control;
   int _tile##_index = 0;						    \
   index_to_map_pos(&_start##_x, &_start##_y, tile_index(_tile##_start));    \
   for (;								    \
-       _tile##_index < map.num_iterate_outwards_indices;		    \
+       _tile##_index < game.map.num_iterate_outwards_indices;		    \
        _tile##_index++) { 						    \
-    if (map.iterate_outwards_indices[_tile##_index].dist > _tile##_max) {   \
+    if (game.map.iterate_outwards_indices[_tile##_index].dist > _tile##_max) {   \
       break;								    \
     }									    \
-    _x = map.iterate_outwards_indices[_tile##_index].dx;		    \
-    _y = map.iterate_outwards_indices[_tile##_index].dy;		    \
+    _x = game.map.iterate_outwards_indices[_tile##_index].dx;		    \
+    _y = game.map.iterate_outwards_indices[_tile##_index].dy;		    \
     _tile##_x = _x + _start##_x;                                            \
     _tile##_y = _y + _start##_y;                                            \
     _tile = map_pos_to_tile(_tile##_x, _tile##_y);                          \
@@ -471,14 +387,14 @@ extern struct terrain_misc terrain_control;
 /* As adjc_iterate() but also set direction8 iterator variable dir_itr */
 #define adjc_dir_iterate(center_tile, itr_tile, dir_itr)		    \
   adjc_dirlist_iterate(center_tile, itr_tile, dir_itr,			    \
-		       map.valid_dirs, map.num_valid_dirs)
+		       game.map.valid_dirs, game.map.num_valid_dirs)
 
 #define adjc_dir_iterate_end adjc_dirlist_iterate_end
 
 /* Only set direction8 dir_itr (not tile) */
 #define adjc_dir_base_iterate(center_tile, dir_itr)                            \
   adjc_dirlist_base_iterate(center_tile, dir_itr,                              \
-                            map.valid_dirs, map.num_valid_dirs)
+                            game.map.valid_dirs, game.map.num_valid_dirs)
 
 #define adjc_dir_base_iterate_end                                              \
   adjc_dirlist_base_iterate_end
@@ -488,21 +404,21 @@ extern struct terrain_misc terrain_control;
  * position.  The order of positions is unspecified. */
 #define cardinal_adjc_iterate(center_tile, itr_tile)			    \
   adjc_dirlist_iterate(center_tile, itr_tile, _dir_itr##center_tile,	    \
-		       map.cardinal_dirs, map.num_cardinal_dirs)
+		       game.map.cardinal_dirs, game.map.num_cardinal_dirs)
 
 #define cardinal_adjc_iterate_end adjc_dirlist_iterate_end
 
 /* As cardinal_adjc_iterate but also set direction8 variable dir_itr */
 #define cardinal_adjc_dir_iterate(center_tile, itr_tile, dir_itr)	    \
   adjc_dirlist_iterate(center_tile, itr_tile, dir_itr,			    \
-		       map.cardinal_dirs, map.num_cardinal_dirs)
+		       game.map.cardinal_dirs, game.map.num_cardinal_dirs)
 
 #define cardinal_adjc_dir_iterate_end adjc_dirlist_iterate_end
 
 /* Only set direction8 dir_itr (not tile) */
 #define cardinal_adjc_dir_base_iterate(center_tile, dir_itr)                   \
   adjc_dirlist_base_iterate(center_tile, dir_itr,                              \
-                            map.cardinal_dirs, map.num_cardinal_dirs)
+                            game.map.cardinal_dirs, game.map.num_cardinal_dirs)
 
 #define cardinal_adjc_dir_base_iterate_end                                     \
   adjc_dirlist_base_iterate_end
@@ -583,7 +499,7 @@ extern struct terrain_misc terrain_control;
   for (;								    \
        _tile##_index < MAP_INDEX_SIZE;					    \
        _tile##_index++) {						    \
-    _tile = map.tiles + _tile##_index;
+    _tile = game.map.tiles + _tile##_index;
 
 #define whole_map_iterate_end						    \
   }									    \
@@ -742,8 +658,8 @@ static inline bool is_border_tile(const struct tile *ptile, int dist)
 
   return (nat_x < xdist 
           || nat_y < ydist
-          || nat_x >= map.xsize - xdist
-          || nat_y >= map.ysize - ydist);
+          || nat_x >= game.map.xsize - xdist
+          || nat_y >= game.map.ysize - ydist);
 }
 
 enum direction8 rand_direction(void);

@@ -112,11 +112,11 @@
 #define SAVE_MAP_DATA(ptile, line,					    \
                       GET_XY_CHAR, SECFILE_INSERT_LINE)                     \
 {                                                                           \
-  char line[map.xsize + 1];                                                 \
+  char line[game.map.xsize + 1];                                            \
   int _nat_x, _nat_y;							    \
                                                                             \
-  for (_nat_y = 0; _nat_y < map.ysize; _nat_y++) {			    \
-    for (_nat_x = 0; _nat_x < map.xsize; _nat_x++) {			    \
+  for (_nat_y = 0; _nat_y < game.map.ysize; _nat_y++) {			    \
+    for (_nat_x = 0; _nat_x < game.map.xsize; _nat_x++) {		    \
       struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		    \
       fc_assert_action(ptile != NULL, continue);                            \
       line[_nat_x] = (GET_XY_CHAR);                                         \
@@ -124,7 +124,7 @@
                     "Trying to write invalid map data: '%c' %d",            \
                     line[_nat_x], line[_nat_x]);                            \
     }                                                                       \
-    line[map.xsize] = '\0';                                                 \
+    line[game.map.xsize] = '\0';                                            \
     (SECFILE_INSERT_LINE);                                                  \
   }                                                                         \
 }
@@ -172,21 +172,21 @@
 {									\
   int _nat_x, _nat_y;							\
   bool _printed_warning = FALSE;					\
-  for (_nat_y = 0; _nat_y < map.ysize; _nat_y++) {			\
+  for (_nat_y = 0; _nat_y < game.map.ysize; _nat_y++) {			\
     const int nat_y = _nat_y;						\
     const char *_line = (SECFILE_LOOKUP_LINE);				\
     if (NULL == _line) {						\
       log_verbose("Line not found='%s'", #SECFILE_LOOKUP_LINE);		\
       _printed_warning = TRUE;						\
       continue;								\
-    } else if (strlen(_line) != map.xsize) {				\
+    } else if (strlen(_line) != game.map.xsize) {			\
       log_verbose("Line too short (expected %d got %lu)='%s'",		\
-                  map.xsize, (unsigned long) strlen(_line),		\
+                  game.map.xsize, (unsigned long) strlen(_line),	\
                   #SECFILE_LOOKUP_LINE);				\
       _printed_warning = TRUE;						\
       continue;								\
     }									\
-    for (_nat_x = 0; _nat_x < map.xsize; _nat_x++) {			\
+    for (_nat_x = 0; _nat_x < game.map.xsize; _nat_x++) {		\
       const char ch = _line[_nat_x];					\
       struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		\
       (SET_XY_CHAR);							\
@@ -602,14 +602,14 @@ static void map_load_startpos(struct section_file *file,
 ***************************************************************/
 static void map_load_tiles(struct section_file *file)
 {
-  map.topology_id = secfile_lookup_int_default(file, MAP_ORIGINAL_TOPO,
-					       "map.topology_id");
+  game.map.topology_id = secfile_lookup_int_default(file, MAP_ORIGINAL_TOPO,
+                                                    "map.topology_id");
 
   /* In some cases we read these before, but not always, and
    * its safe to read them again:
    */
-  if (!secfile_lookup_int(file, &map.xsize, "map.width")
-      || !secfile_lookup_int(file, &map.ysize, "map.height")) {
+  if (!secfile_lookup_int(file, &game.map.xsize, "map.width")
+      || !secfile_lookup_int(file, &game.map.ysize, "map.height")) {
     fc_assert_exit_msg(FALSE, "%s", secfile_error());
   }
 
@@ -982,12 +982,12 @@ static void map_load(struct section_file *file,
   } whole_map_iterate_end;
 
   if (has_capability("bases", savefile_options)) {
-    char zeroline[map.xsize+1];
+    char zeroline[game.map.xsize + 1];
     int i;
 
     /* This is needed when new bases has been added to ruleset, and                              
      * thus game.control.num_base_types is greater than, when game was saved. */
-    for (i = 0; i < map.xsize; i++) {
+    for (i = 0; i < game.map.xsize; i++) {
       zeroline[i] = '0';
     }
     zeroline[i] = '\0';
@@ -1015,7 +1015,7 @@ static void map_load_owner(struct section_file *file,
     struct player *owner = NULL;
     struct tile *claimer = NULL;
 
-    for (y = 0; y < map.ysize; y++) {
+    for (y = 0; y < game.map.ysize; y++) {
       const char *buffer1 = secfile_lookup_str(file, "map.owner%03d", y);
       const char *buffer2 = secfile_lookup_str(file, "map.source%03d", y);
       const char *ptr1 = buffer1;
@@ -1025,7 +1025,7 @@ static void map_load_owner(struct section_file *file,
                          "Savegame corrupt - map line %d not found.", y);
       fc_assert_exit_msg(NULL != buffer2,
                          "Savegame corrupt - map line %d not found.", y);
-      for (x = 0; x < map.xsize; x++) {
+      for (x = 0; x < game.map.xsize; x++) {
         char token1[TOKEN_SIZE];
         char token2[TOKEN_SIZE];
         int number;
@@ -1114,7 +1114,7 @@ static void map_load_known(struct section_file *file,
     } whole_map_iterate_end;
     FC_FREE(known);
   }
-  map.server.have_resources = TRUE;
+  game.map.server.have_resources = TRUE;
 }
 
 /*****************************************************************************
@@ -2210,13 +2210,13 @@ static int *player_load_cities_worked_map(struct section_file *file,
 
   worked_tiles = fc_malloc(MAP_INDEX_SIZE * sizeof(*worked_tiles));
 
-  for (y = 0; y < map.ysize; y++) {
+  for (y = 0; y < game.map.ysize; y++) {
     const char *buffer = secfile_lookup_str(file, "map.worked%03d", y);
     const char *ptr = buffer;
 
     fc_assert_exit_msg(NULL != buffer,
                        "Savegame corrupt - map line %d not found.", y);
-    for (x = 0; x < map.xsize; x++) {
+    for (x = 0; x < game.map.xsize; x++) {
       char token[TOKEN_SIZE];
       int number;
       struct tile *ptile = native_pos_to_tile(x, y);
@@ -2802,12 +2802,12 @@ static void player_load_vision(struct player *plr, int plrno,
     }
 
     if (has_capability("bases", savefile_options)) {
-      char zeroline[map.xsize+1];
+      char zeroline[game.map.xsize + 1];
       int xi;
 
       /* This is needed when new bases has been added to ruleset, and
        * thus game.control.num_base_types is greater than, when game was saved. */
-      for(xi = 0; xi < map.xsize; xi++) {
+      for(xi = 0; xi < game.map.xsize; xi++) {
         zeroline[xi] = '0';
       }
       zeroline[xi]= '\0';
@@ -3737,74 +3737,74 @@ static void game_load_internal(struct section_file *file)
 				     "game.dispersion");
       }
 
-      map.topology_id = secfile_lookup_int_default(file, MAP_ORIGINAL_TOPO,
-					           "map.topology_id");
-      map.server.mapsize
+      game.map.topology_id = secfile_lookup_int_default(file, MAP_ORIGINAL_TOPO,
+                                                        "map.topology_id");
+      game.map.server.mapsize
         = secfile_lookup_int_default(file, MAP_DEFAULT_MAPSIZE,
                                      "map.mapsize");
-      map.server.size = secfile_lookup_int_default(file, MAP_DEFAULT_SIZE,
-                                                   "map.size");
-      map.server.tilesperplayer
+      game.map.server.size = secfile_lookup_int_default(file, MAP_DEFAULT_SIZE,
+                                                        "map.size");
+      game.map.server.tilesperplayer
         = secfile_lookup_int_default(file, MAP_DEFAULT_TILESPERPLAYER,
                                      "map.tilesperplayer");
-      map.server.startpos = secfile_lookup_int_default(file,
-                                                       MAP_DEFAULT_STARTPOS,
-                                                       "map.startpos");
-    fc_assert_exit_msg(secfile_lookup_int(file, &map.server.riches,
-                                          "map.riches"),
-                       "%s", secfile_error());
-    fc_assert_exit_msg(secfile_lookup_int(file, &map.server.huts,
-                                          "map.huts"),
-                       "%s", secfile_error());
-    fc_assert_exit_msg(secfile_lookup_int(file,
-                                          &ei,
-                                          "map.generator"),
-                       "%s", secfile_error());
-    map.server.generator = ei;
-    fc_assert_exit_msg(secfile_lookup_int(file, &map.server.seed,
-                                          "map.seed"),
-                       "%s", secfile_error());
-    fc_assert_exit_msg(secfile_lookup_int(file, &map.server.landpercent,
-                                          "map.landpercent"),
-                       "%s", secfile_error());
+      game.map.server.startpos = secfile_lookup_int_default(file,
+                                                            MAP_DEFAULT_STARTPOS,
+                                                            "map.startpos");
+      fc_assert_exit_msg(secfile_lookup_int(file, &game.map.server.riches,
+                                            "map.riches"),
+                         "%s", secfile_error());
+      fc_assert_exit_msg(secfile_lookup_int(file, &game.map.server.huts,
+                                            "map.huts"),
+                         "%s", secfile_error());
+      fc_assert_exit_msg(secfile_lookup_int(file,
+                                            &ei,
+                                            "map.generator"),
+                         "%s", secfile_error());
+      game.map.server.generator = ei;
+      fc_assert_exit_msg(secfile_lookup_int(file, &game.map.server.seed,
+                                            "map.seed"),
+                         "%s", secfile_error());
+      fc_assert_exit_msg(secfile_lookup_int(file, &game.map.server.landpercent,
+                                            "map.landpercent"),
+                         "%s", secfile_error());
 
-      map.server.wetness =
+      game.map.server.wetness =
         secfile_lookup_int_default(file, MAP_DEFAULT_WETNESS, "map.wetness");
-      map.server.steepness =
+      game.map.server.steepness =
         secfile_lookup_int_default(file, MAP_DEFAULT_STEEPNESS,
                                    "map.steepness");
-      map.server.have_huts = secfile_lookup_bool_default(file, TRUE,
-                                                         "map.have_huts");
-      map.server.temperature =
+      game.map.server.have_huts = secfile_lookup_bool_default(file, TRUE,
+                                                              "map.have_huts");
+      game.map.server.temperature =
 	secfile_lookup_int_default(file, MAP_DEFAULT_TEMPERATURE,
                                    "map.temperature");
-      map.server.alltemperate
+      game.map.server.alltemperate
 	= secfile_lookup_bool_default(file, MAP_DEFAULT_ALLTEMPERATE,
 				      "map.alltemperate");
-      map.server.tinyisles
+      game.map.server.tinyisles
 	= secfile_lookup_bool_default(file, MAP_DEFAULT_TINYISLES,
 				      "map.tinyisles");
-      map.server.separatepoles
+      game.map.server.separatepoles
 	= secfile_lookup_bool_default(file, MAP_DEFAULT_SEPARATE_POLES,
 				      "map.separatepoles");
 
       if (has_capability("startoptions", savefile_options)) {
-        fc_assert_exit_msg(secfile_lookup_int(file, &map.xsize,
+        fc_assert_exit_msg(secfile_lookup_int(file, &game.map.xsize,
                                               "map.width"),
                            "%s", secfile_error());
-        fc_assert_exit_msg(secfile_lookup_int(file, &map.ysize,
+        fc_assert_exit_msg(secfile_lookup_int(file, &game.map.ysize,
                                               "map.height"),
                            "%s", secfile_error());
       } else {
         /* old versions saved with these names in S_S_INITIAL: */
-        fc_assert_exit_msg(secfile_lookup_int(file, &map.xsize, "map.xsize"),
+        fc_assert_exit_msg(secfile_lookup_int(file, &game.map.xsize, "map.xsize"),
                            "%s", secfile_error());
-        fc_assert_exit_msg(secfile_lookup_int(file, &map.ysize, "map.ysize"),
+        fc_assert_exit_msg(secfile_lookup_int(file, &game.map.ysize, "map.ysize"),
                            "%s", secfile_error());
       }
 
       if (S_S_INITIAL == tmp_server_state
-          && MAPGEN_SCENARIO == map.server.generator) {
+          && MAPGEN_SCENARIO == game.map.server.generator) {
         /* generator 0 = map done with a map editor aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
           map_load(file, tmp_server_state, savefile_options,

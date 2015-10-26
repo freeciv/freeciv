@@ -1366,7 +1366,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
     generate_save_name(savename, mapimgfile, sizeof(mapimgfile),
                        mapimg_generate_name(pmapdef));
 
-    pimg = img_new(pmapdef, CURRENT_TOPOLOGY, map.xsize, map.ysize);
+    pimg = img_new(pmapdef, CURRENT_TOPOLOGY, game.map.xsize, game.map.ysize);
     img_createmap(pimg);
     if (!img_save(pimg, mapimgfile, path)) {
       ret = FALSE;
@@ -1389,7 +1389,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
       generate_save_name(savename, mapimgfile, sizeof(mapimgfile),
                          mapimg_generate_name(pmapdef));
 
-      pimg = img_new(pmapdef, CURRENT_TOPOLOGY, map.xsize, map.ysize);
+      pimg = img_new(pmapdef, CURRENT_TOPOLOGY, game.map.xsize, game.map.ysize);
       img_createmap(pimg);
       if (!img_save(pimg, mapimgfile, path)) {
         ret = FALSE;

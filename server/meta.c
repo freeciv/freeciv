@@ -397,7 +397,7 @@ static bool send_to_metaserver(enum meta_flag flag)
       }
 
       /* HACK: send the most determinant setting for the map size. */
-      switch (map.server.mapsize) {
+      switch (game.map.server.mapsize) {
       case MAPSIZE_FULLSIZE:
         meta_insert_setting(post, "size");
         break;

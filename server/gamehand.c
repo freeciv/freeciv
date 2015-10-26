@@ -149,7 +149,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
   bool hut_present = FALSE;
 
   if (utype != NULL) {
-    iterate_outward(starttile, map.xsize + map.ysize, itertile) {
+    iterate_outward(starttile, game.map.xsize + game.map.ysize, itertile) {
       if (!is_non_allied_unit_tile(itertile, pplayer)
           && is_native_tile(utype, itertile)) {
         ptile = itertile;
@@ -287,7 +287,7 @@ static void do_team_placement(const struct team_placement_config *pconfig,
   bool repeat;
   int i, j, k, t1, t2;
 
-  switch (map.server.team_placement) {
+  switch (game.map.server.team_placement) {
   case TEAM_PLACEMENT_CLOSEST:
     distance = team_placement_closest;
     break;
@@ -304,7 +304,7 @@ static void do_team_placement(const struct team_placement_config *pconfig,
     break;
   }
   fc_assert_ret_msg(distance != NULL, "Wrong team_placement variant (%d)",
-                    map.server.team_placement);
+                    game.map.server.team_placement);
 
   /* Initialize starting state. */
   pstate = fc_malloc(sizeof(*pstate));
@@ -542,7 +542,7 @@ void init_new_game(void)
 
   /* Now try to assign with regard to the 'teamplacement' setting. */
   if (players_to_place > 0
-      && map.server.team_placement != TEAM_PLACEMENT_DISABLED
+      && game.map.server.team_placement != TEAM_PLACEMENT_DISABLED
       && player_count() > team_count()) {
     const struct player_list *members;
     int team_placement_players_to_place = 0;
@@ -571,7 +571,7 @@ void init_new_game(void)
 
       log_verbose("Do team placement for %d players, using %s variant.",
                   team_placement_players_to_place,
-                  team_placement_name(map.server.team_placement));
+                  team_placement_name(game.map.server.team_placement));
 
       /* Initialize configuration. */
       config.flexible_startpos_num = startpos_list_size(flexible_list);

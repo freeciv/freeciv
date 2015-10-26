@@ -31,6 +31,7 @@ extern "C" {
 /* common */
 #include "connection.h"		/* struct conn_list */
 #include "fc_types.h"
+#include "map_types.h"
 #include "player.h"
 #include "packets.h"
 
@@ -101,6 +102,8 @@ struct civ_game {
     int global_init_techs[MAX_NUM_TECH_LIST];
     int global_init_buildings[MAX_NUM_BUILDING_LIST];
   } rgame;
+
+  struct civ_map map;
 
   union {
     struct {
