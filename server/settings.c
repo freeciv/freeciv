@@ -54,6 +54,7 @@ enum sset_class {
   SSET_PLAYERS,
   SSET_GAME_INIT,
   SSET_RULES,
+  SSET_RULES_SCENARIO,
   SSET_RULES_FLEXIBLE,
   SSET_META
 };
@@ -2773,6 +2774,24 @@ static bool setting_is_free_to_change(const struct setting *pset,
                       _("The setting '%s' can't be modified after the map "
                         "is fixed."), setting_name(pset));
     return FALSE;
+
+  case SSET_RULES_SCENARIO:
+    /* Like SSET_RULES except that it can be changed before the game starts
+     * for heavy scenarios. A heavy scenario comes with players. It can
+     * include cities, units, diplomatic relations and other complex
+     * state. Make sure that changing a setting can't make the state of a
+     * heavy scenario illegal if you want to change it from SSET_RULES to
+     * SSET_RULES_SCENARIO. */
+
+    if (game.scenario.is_scenario && game.scenario.players
+        && server_state() == S_S_INITIAL) {
+      /* Special case detected. */
+      return TRUE;
+    }
+
+    /* The special case didn't make it legal to change the setting. Don't
+     * give up. It could still be legal. Fall through so the non special
+     * cases are checked too. */
 
   case SSET_MAP_ADD:
   case SSET_PLAYERS:
