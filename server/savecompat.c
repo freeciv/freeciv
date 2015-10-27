@@ -1014,6 +1014,44 @@ static void compat_load_020600(struct loaddata *loading)
                            "savefile.diplstate_type_vector");
     free(modname);
   }
+
+  /* Fix save games from Freeciv versions with a bug that made it view
+   * "Never met" as closer than "Peace" or "Alliance". */
+  for (plrno = 0; plrno < nplayers; plrno++) {
+    int i;
+
+    for (i = 0; i < nplayers; i++) {
+      char buf[32];
+      int current;
+      int closest;
+
+      fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
+
+      /* Read the current diplomatic state. */
+      current = secfile_lookup_int_default(loading->file, DS_NO_CONTACT,
+                                           "%s.type",
+                                           buf);
+
+      /* Read the closest diplomatic state. */
+      closest = secfile_lookup_int_default(loading->file, DS_NO_CONTACT,
+                                           "%s.max_state",
+                                           buf);
+
+      if (closest == DS_NO_CONTACT
+          && (current == DS_PEACE
+              || current == DS_ALLIANCE)) {
+        /* The current relationship is closer than what the save game
+         * claims is the closes relationship ever. */
+
+        log_sg(_("The save game is wrong about what the closest"
+                 " relationship player %d and player %d have had is."
+                 " Fixing it..."),
+               plrno, i);
+
+        secfile_replace_int(loading->file, current, "%s.max_state", buf);
+      }
+    }
+  }
 }
 
 /****************************************************************************

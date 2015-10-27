@@ -131,6 +131,29 @@ struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
 }
 
 /**************************************************************************
+  Return the closest of the two diplstate types.
+**************************************************************************/
+static enum diplstate_type dst_closest(enum diplstate_type a,
+                                       enum diplstate_type b)
+{
+  static const int how_close[DS_LAST] = {
+    [DS_NO_CONTACT] = 0,
+    [DS_WAR] = 1,
+    [DS_CEASEFIRE] = 2,
+    [DS_ARMISTICE] = 3,
+    [DS_PEACE] = 4,
+    [DS_ALLIANCE] = 5,
+    [DS_TEAM] = 6,
+  };
+
+  if (how_close[a] < how_close[b]) {
+    return b;
+  } else {
+    return a;
+  }
+}
+
+/**************************************************************************
 pplayer clicked the accept button. If he accepted the treaty we check the
 clauses. If both players have now accepted the treaty we execute the agreed
 clauses.
@@ -541,8 +564,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         ds_destgiver->type = DS_ARMISTICE;
         ds_giverdest->turns_left = TURNS_LEFT;
         ds_destgiver->turns_left = TURNS_LEFT;
-        ds_giverdest->max_state = MAX(DS_PEACE, ds_giverdest->max_state);
-        ds_destgiver->max_state = MAX(DS_PEACE, ds_destgiver->max_state);
+        ds_giverdest->max_state = dst_closest(DS_PEACE,
+                                              ds_giverdest->max_state);
+        ds_destgiver->max_state = dst_closest(DS_PEACE,
+                                              ds_destgiver->max_state);
         notify_player(pgiver, NULL, E_TREATY_PEACE, ftc_server,
                       /* TRANS: ... the Poles ... Polish territory. */
                       PL_("You agree on an armistice with the %s. In %d turn, "
@@ -580,8 +605,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       case CLAUSE_ALLIANCE:
         ds_giverdest->type = DS_ALLIANCE;
         ds_destgiver->type = DS_ALLIANCE;
-        ds_giverdest->max_state = MAX(DS_ALLIANCE, ds_giverdest->max_state);
-        ds_destgiver->max_state = MAX(DS_ALLIANCE, ds_destgiver->max_state);
+        ds_giverdest->max_state = dst_closest(DS_ALLIANCE,
+                                              ds_giverdest->max_state);
+        ds_destgiver->max_state = dst_closest(DS_ALLIANCE,
+                                              ds_destgiver->max_state);
         notify_player(pgiver, NULL, E_TREATY_ALLIANCE, ftc_server,
                       _("You agree on an alliance with %s."),
                       player_name(pdest));
