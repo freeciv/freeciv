@@ -1112,6 +1112,7 @@ static void compat_load_dev(struct loaddata *loading)
   bool randsaved;
   int plrno;
   int nplayers;
+  size_t diplstate_type_size;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1142,6 +1143,54 @@ static void compat_load_dev(struct loaddata *loading)
       secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
                           "player%d.unassigned_ranked", plrno);
     }
+  }
+
+  /* Diplomatic state type by name. */
+  diplstate_type_size
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "savefile.diplstate_type_size");
+
+  if (diplstate_type_size) {
+    const char **ds_t_name;
+
+    /* Read the names of the diplomatic states. */
+    ds_t_name = secfile_lookup_str_vec(loading->file,
+                                       &diplstate_type_size,
+                                       "savefile.diplstate_type_vector");
+
+    for (plrno = 0; plrno < nplayers; plrno++) {
+      int i;
+
+      for (i = 0; i < nplayers; i++) {
+        char buf[32];
+
+        fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
+
+        if (!secfile_entry_lookup(loading->file, "%s.current", buf)) {
+          /* The current diplomatic state was called type when it was
+           * stored as a number. */
+          int current = secfile_lookup_int_default(loading->file, DS_WAR,
+                                                   "%s.type",
+                                                   buf);
+
+          secfile_insert_str(loading->file, ds_t_name[current],
+                             "%s.current", buf);
+        }
+
+        if (!secfile_entry_lookup(loading->file, "%s.closest", buf)) {
+          /* The closest diplomatic state was called type when it was
+           * stored as a number. */
+          int closest = secfile_lookup_int_default(loading->file, DS_WAR,
+                                                   "%s.max_state",
+                                                   buf);
+
+          secfile_insert_str(loading->file, ds_t_name[closest],
+                             "%s.closest", buf);
+        }
+      }
+    }
+
+    free(ds_t_name);
   }
 
   /* Units orders. */
