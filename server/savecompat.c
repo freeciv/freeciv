@@ -1216,7 +1216,7 @@ static void compat_load_dev(struct loaddata *loading)
         }
 
         if (!secfile_entry_lookup(loading->file, "%s.closest", buf)) {
-          /* The closest diplomatic state was called type when it was
+          /* The closest diplomatic state was called max_state when it was
            * stored as a number. */
           int closest = secfile_lookup_int_default(loading->file, DS_WAR,
                                                    "%s.max_state",
