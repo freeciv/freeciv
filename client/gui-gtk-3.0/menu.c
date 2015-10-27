@@ -2420,6 +2420,7 @@ void real_menus_init(void)
           image = gtk_image_new_from_pixbuf(pb);
           g_object_unref(pb);
           gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+          gtk_image_menu_item_set_always_show_image(GTK_IMAGE_MENU_ITEM(item), TRUE);
           gtk_widget_show(image);
         }
 
