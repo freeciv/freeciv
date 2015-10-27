@@ -3099,6 +3099,18 @@ static void srv_ready(void)
     }
   }
 
+  if (game.scenario.is_scenario && game.scenario.players) {
+    /* This is a heavy scenario. It may include research. The sciencebox
+     * setting may have been changed. A change to the sciencebox setting
+     * may have caused the stored amount of bulbs to be enough to finish
+     * the current research. */
+
+    players_iterate(pplayer) {
+      /* Check for finished research. */
+      update_bulbs(pplayer, 0, TRUE);
+    } players_iterate_end;
+  }
+
   CALL_FUNC_EACH_AI(game_start);
 }
 
