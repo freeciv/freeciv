@@ -1668,7 +1668,8 @@ static struct setting settings[] = {
 	  GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL)
 
   GEN_INT("sciencebox", game.info.sciencebox,
-	  SSET_RULES, SSET_SCIENCE, SSET_SITUATIONAL, SSET_TO_CLIENT,
+          SSET_RULES_SCENARIO, SSET_SCIENCE, SSET_SITUATIONAL,
+          SSET_TO_CLIENT,
 	  N_("Technology cost multiplier percentage"),
 	  N_("This affects how quickly players can research new "
 	     "technology. All tech costs are multiplied by this amount "
