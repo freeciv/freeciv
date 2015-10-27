@@ -2705,11 +2705,13 @@ static int newcity_name_edit_callback(struct widget *pEdit)
 /**************************************************************************
   User interacted with the Ok button of the new city dialog.
 **************************************************************************/
-static int newcity_ok_callback(struct widget *pOk_Button)
+static int newcity_ok_callback(struct widget *ok_button)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (Main.event.type == SDL_KEYDOWN
+      || (Main.event.type == SDL_MOUSEBUTTONDOWN
+          && Main.event.button.button == SDL_BUTTON_LEFT)) {
 
-    finish_city(pOk_Button->data.tile, pNewCity_Dlg->pBeginWidgetList->string_utf8->text);
+    finish_city(ok_button->data.tile, pNewCity_Dlg->pBeginWidgetList->string_utf8->text);
 
     popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
                                 pNewCity_Dlg->pEndWidgetList);
@@ -2799,7 +2801,7 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
     create_themeicon_button_from_chars(current_theme->Small_OK_Icon, pWindow->dst,
                                        _("OK"), adj_font(10), 0);
   pOK_Button->action = newcity_ok_callback;
-  pOK_Button->key = SDLK_RETURN;  
+  pOK_Button->key = SDLK_RETURN;
   pOK_Button->data.tile = unit_tile(pUnit);
 
   area.h += pOK_Button->size.h;
