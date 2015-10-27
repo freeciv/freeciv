@@ -145,7 +145,7 @@ void ruledit_gui::setup(QWidget *central_in)
   rs_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
   preload_layout->addWidget(rs_label);
   ruleset_select = new QLineEdit(central);
-  ruleset_select->setText("classic");
+  ruleset_select->setText(GAME_DEFAULT_RULESETDIR);
   preload_layout->addWidget(ruleset_select);
   ruleset_accept = new QPushButton(QString::fromUtf8(R__("Start editing")));
   connect(ruleset_accept, SIGNAL(pressed()), this, SLOT(launch_now()));
