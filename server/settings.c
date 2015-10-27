@@ -1935,8 +1935,8 @@ static struct setting settings[] = {
               "consider attacking enemy units that move adjacent to them."),
            NULL, NULL, GAME_DEFAULT_AUTOATTACK)
 
-  GEN_BOOL("killstack", game.info.killstack, SSET_RULES, SSET_MILITARY,
-           SSET_RARE, SSET_TO_CLIENT,
+  GEN_BOOL("killstack", game.info.killstack,
+           SSET_RULES_SCENARIO, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
            N_("Do all units in tile die with defender"),
            N_("If this is enabled, each time a defender unit loses in combat, "
               "and is not inside a city or suitable base, all units in the same "
