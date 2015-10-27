@@ -4490,6 +4490,27 @@ static void game_load_internal(struct section_file *file)
     assign_player_colors();
   }
 
+  /* Fix save games from Freeciv versions with a bug that make it view
+   * "Never met" as closer than "Peace" or "Alliance". */
+  players_iterate(pplayer) {
+    players_iterate(aplayer) {
+      struct player_diplstate *ds = player_diplstate_get(pplayer, aplayer);
+
+      if (ds->max_state == DS_NO_CONTACT
+          && (ds->type == DS_PEACE
+              || ds->type == DS_ALLIANCE)) {
+        /* The current relationship is closer than what the save game
+         * claims is the closes relationship ever. */
+
+        log_error(_("The save game is wrong about what the closes "
+                    "relationship %s and %s have had is. Fixing."),
+                  player_name(pplayer), player_name(aplayer));
+
+        ds->max_state = ds->type;
+      }
+    } players_iterate_end;
+  } players_iterate_end;
+
   /* Restore game random state, just in case various initialization code
    * inexplicably altered the previously existing state. */
   if (!game.info.is_new_game) {
