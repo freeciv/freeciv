@@ -315,6 +315,7 @@ static void game_defaults(void)
   game.info.nuclear_winter   = GAME_DEFAULT_NUCLEAR_WINTER;
   game.info.positive_year_label[0] = '\0';
   game.info.rapturedelay     = GAME_DEFAULT_RAPTUREDELAY;
+  game.info.disasters        = GAME_DEFAULT_DISASTERS;
   game.info.restrictinfra    = GAME_DEFAULT_RESTRICTINFRA;
   game.info.sciencebox       = GAME_DEFAULT_SCIENCEBOX;
   game.info.shieldbox        = GAME_DEFAULT_SHIELDBOX;
