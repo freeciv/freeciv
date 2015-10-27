@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/* This header is generated from include/freeciv_config.h.in.
+/* This header is generated from gen_headers/freeciv_config.h.in.
  * It contains values to specific freeciv build, but only such
  * values that should not conflict with configuration headers from
  * other autotools projects. This is meant to be usable for external
