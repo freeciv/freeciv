@@ -1379,7 +1379,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
       if (!pplayer->is_alive || (pmapdef->player.show == SHOW_HUMAN
                                  && pplayer->ai_controlled)) {
         /* no map image for dead players
-         * or AI players if only human players show be shown */
+         * or AI players if only human players should be shown */
         continue;
       }
 
