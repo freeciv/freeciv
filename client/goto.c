@@ -1611,7 +1611,7 @@ void send_connect_route(enum unit_activity activity,
   This function doesn't care if a direction is required or just possible.
   Use order_demands_direction() for that.
 **************************************************************************/
-static bool order_wants_direction(enum unit_orders order)
+static bool order_wants_direction(enum unit_orders order, int act_id)
 {
   switch (order) {
   case ORDER_MOVE:
@@ -1619,6 +1619,21 @@ static bool order_wants_direction(enum unit_orders order)
     /* Not only is it legal. It is mandatory. A move is always done in a
      * direction. */
     return TRUE;
+  case ORDER_PERFORM_ACTION:
+    switch (act_id) {
+    case ACTION_CAPTURE_UNITS:
+    case ACTION_BOMBARD:
+      /* Mandatory. A single domestic unit at the target tile will make
+       * the action illegal. It must therefore be performed from another
+       * tile. */
+      return TRUE;
+    case ACTION_FOUND_CITY:
+    case ACTION_RECYCLE_UNIT:
+      /* Currently illegal to perform to a target on another tile. */
+      return FALSE;
+    default:
+      return FALSE;
+    }
   default:
     return FALSE;
   }
@@ -1628,13 +1643,23 @@ static bool order_wants_direction(enum unit_orders order)
   Returns TRUE if it is certain that the order must be performed from an
   adjacent tile.
 **************************************************************************/
-static bool order_demands_direction(enum unit_orders order)
+static bool order_demands_direction(enum unit_orders order, int act_id)
 {
   switch (order) {
   case ORDER_MOVE:
   case ORDER_ACTION_MOVE:
     /* A move is always done in a direction. */
     return TRUE;
+  case ORDER_PERFORM_ACTION:
+    switch (act_id) {
+    case ACTION_CAPTURE_UNITS:
+    case ACTION_BOMBARD:
+      /* A single domestic unit at the target tile will make the action
+       * illegal. It must therefore be performed from another tile. */
+      return TRUE;
+    default:
+      return FALSE;
+    }
   default:
     return FALSE;
   }
@@ -1666,13 +1691,14 @@ void send_goto_route(void)
     if (goto_last_order == ORDER_LAST) {
       send_goto_path(punit, path, NULL);
     } else if (path->length > 1
-               || !order_demands_direction(goto_last_order)) {
+               || !order_demands_direction(goto_last_order,
+                                           goto_last_action)) {
       struct unit_order order;
       int last_order_dir;
       struct tile *on_tile;
       struct tile *tgt_tile;
 
-      if (order_wants_direction(goto_last_order)
+      if (order_wants_direction(goto_last_order, goto_last_action)
           && path->length > 1
           && ((tgt_tile = pf_path_last_position(path)->tile))
           && ((on_tile = path->positions[path->length - 2].tile))
@@ -1686,7 +1712,8 @@ void send_goto_route(void)
         /* The last path direction is now spent. */
         pf_path_backtrack(path, on_tile);
       } else {
-        fc_assert(!order_demands_direction(goto_last_order));
+        fc_assert(!order_demands_direction(goto_last_order,
+                                           goto_last_action));
 
         /* Target the tile the actor is standing on. */
         last_order_dir = DIR8_ORIGIN;
