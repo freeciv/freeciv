@@ -182,8 +182,8 @@ class Choice_dialog_button: public QPushButton
   pfcn_void func;
   QVariant data1, data2;
 public:
-  Choice_dialog_button(const QString title, pfcn_void func,
-                       QVariant data1, QVariant data2);
+  Choice_dialog_button(const QString title, pfcn_void func_in,
+                       QVariant data1_in, QVariant data2_in);
   pfcn_void getFunc();
   QVariant getData1();
   QVariant getData2();
@@ -203,7 +203,7 @@ class choice_dialog: public QWidget
   void (*run_on_close)(void);
 public:
   choice_dialog(const QString title, const QString text,
-                QWidget *parent = NULL, void (*run_on_close)(void) = NULL);
+                QWidget *parent = NULL, void (*run_on_close_in)(void) = NULL);
   ~choice_dialog();
   void set_layout();
   void add_item(QString title, pfcn_void func, QVariant data1,

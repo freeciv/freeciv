@@ -257,11 +257,11 @@ private:
   void create_start_page();
   void create_game_page();
   bool chat_active_on_page(enum client_pages);
-  void show_children(const QLayout*, bool);
+  void show_children(const QLayout *layout, bool show);
   void destroy_server_scans (void);
-  void update_server_list(enum server_scan_type,
-                           const struct server_list *);
-  bool check_server_scan (server_scan*);
+  void update_server_list(enum server_scan_type sstype,
+                          const struct server_list *list);
+  bool check_server_scan(server_scan *scan_data);
   void update_load_page(void);
   void create_cursors(void);
   void update_scenarios_page(void);

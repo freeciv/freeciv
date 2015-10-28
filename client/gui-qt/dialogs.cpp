@@ -955,14 +955,14 @@ void popup_revolution_dialog(struct government *government)
   Constructor for choice_dialog_button_data
 **************************************************************************/
 Choice_dialog_button::Choice_dialog_button(const QString title,
-                                           pfcn_void func,
-                                           QVariant data1,
-                                           QVariant data2)
+                                           pfcn_void func_in,
+                                           QVariant data1_in,
+                                           QVariant data2_in)
   : QPushButton(title)
 {
-  this->func = func;
-  this->data1 = data1;
-  this->data2 = data2;
+  func = func_in;
+  data1 = data1_in;
+  data2 = data2_in;
 }
 
 /**************************************************************************
@@ -996,13 +996,13 @@ QVariant Choice_dialog_button::getData2()
 ***************************************************************************/
 choice_dialog::choice_dialog(const QString title, const QString text,
                              QWidget *parent,
-                             void (*run_on_close)(void)): QWidget(parent)
+                             void (*run_on_close_in)(void)): QWidget(parent)
 {
   QLabel *l = new QLabel(text);
 
   signal_mapper = new QSignalMapper(this);
   layout = new QVBoxLayout(this);
-  this->run_on_close = run_on_close;
+  run_on_close = run_on_close_in;
 
   layout->addWidget(l);
   setWindowFlags(Qt::Dialog);
@@ -1152,14 +1152,14 @@ void choice_dialog::stack_button(Choice_dialog_button *button)
 void choice_dialog::unstack_all_buttons()
 {
   while (!last_buttons_stack.isEmpty()) {
-    Choice_dialog_button *data = last_buttons_stack.takeLast();
+    Choice_dialog_button *button = last_buttons_stack.takeLast();
 
     /* Restore mapping. */
-    signal_mapper->setMapping(data, buttons_list.count());
+    signal_mapper->setMapping(button, buttons_list.count());
 
     /* Reinsert the button below the other buttons. */
-    buttons_list.append(data);
-    layout->addWidget(data);
+    buttons_list.append(button);
+    layout->addWidget(button);
   }
 }
 

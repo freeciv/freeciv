@@ -847,9 +847,9 @@ void fc_client::update_network_lists(void)
 /**************************************************************************
   This function updates the list of servers every so often.
 **************************************************************************/
-bool fc_client::check_server_scan(server_scan* data)
+bool fc_client::check_server_scan(server_scan *scan_data)
 {
-  struct server_scan *scan = data;
+  struct server_scan *scan = scan_data;
   enum server_scan_status stat;
 
   if (!scan) {

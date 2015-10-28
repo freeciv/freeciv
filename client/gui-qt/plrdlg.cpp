@@ -680,13 +680,16 @@ void plr_report::update_report()
 void popup_players_dialog(bool raise)
 {
   int i;
-  plr_report *pr;
   QWidget *w;
+
   if (!gui()->is_repo_dlg_open("PLR")) {
     plr_report *pr = new plr_report;
+
     pr->init();
     pr->update_report();
   } else {
+    plr_report *pr;
+
     i = gui()->gimme_index_of("PLR");
     fc_assert(i != -1);
     w = gui()->game_tab_widget->widget(i);

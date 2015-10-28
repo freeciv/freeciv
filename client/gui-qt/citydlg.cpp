@@ -809,7 +809,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   {
     QLabel *label_p = new QLabel;
     QLabel *label_up = new QLabel;
-    QLabel *ql = new QLabel(_("Disband if build settler at size 1"));
+    QLabel *disb_lbl = new QLabel(_("Disband if build settler at size 1"));
     QVBoxLayout *vbox = new QVBoxLayout;
     QVBoxLayout *vbox_layout = new QVBoxLayout;
     QGroupBox *qgb = new QGroupBox;
@@ -891,7 +891,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     qgrid->addWidget(label_p, 0, 1, 1, 1);
     qgrid->addWidget(show_units_p, 1, 0, 1, 1);
     qgrid->addWidget(disband_at_one, 2, 0, 1, 1);
-    qgrid->addWidget(ql, 2, 1, 1, 1);
+    qgrid->addWidget(disb_lbl, 2, 1, 1, 1);
     qgrid->addWidget(label_up, 1, 1, 1, 1);
     qgrid->setColumnStretch(1, 10);
     qgb->setLayout(qgrid);
@@ -1362,7 +1362,7 @@ void city_dialog::update_cma_tab()
 
   cma_table->clear();
   cma_table->setRowCount(0);
-  for (int i = 0; i < cmafec_preset_num(); i++) {
+  for (i = 0; i < cmafec_preset_num(); i++) {
     item = new QTableWidgetItem;
     item->setText(cmafec_preset_get_descr(i));
     cma_table->insertRow(i);
@@ -1617,11 +1617,11 @@ void city_dialog::update_buy_button()
 ****************************************************************************/
 void city_dialog::update_citizens()
 {
-  enum citizen_category citizens[MAX_CITY_SIZE];
+  enum citizen_category categories[MAX_CITY_SIZE];
   int i, j, width, height;
   QPainter p;
   QPixmap *pix;
-  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
+  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
   int w = tileset_small_sprite_width(tileset);
   int h = tileset_small_sprite_height(tileset);
 
@@ -1638,7 +1638,7 @@ void city_dialog::update_citizens()
   citizen_pixmap = new QPixmap(width, height);
   for (j = 0, i = 0; i < num_citizens; i++, j++) {
     dest_rect.moveTo(i * w, 0);
-    pix = get_citizen_sprite(tileset, citizens[j], j, pcity)->pm;
+    pix = get_citizen_sprite(tileset, categories[j], j, pcity)->pm;
     p.begin(citizen_pixmap);
     p.drawPixmap(dest_rect, *pix, source_rect);
     p.end();
@@ -1652,10 +1652,10 @@ void city_dialog::update_citizens()
     lab_table[k]->set_city(pcity);
     num_citizens = get_city_citizen_types(pcity,
                                           static_cast<citizen_feeling>(k),
-                                          citizens);
+                                          categories);
     for (j = 0, i = 0; i < num_citizens; i++, j++) {
       dest_rect.moveTo(i * w, 0);
-      pix = get_citizen_sprite(tileset, citizens[j], j, pcity)->pm;
+      pix = get_citizen_sprite(tileset, categories[j], j, pcity)->pm;
       p.begin(citizen_pixmap);
       p.drawPixmap(dest_rect, *pix, source_rect);
       p.end();
@@ -2323,12 +2323,12 @@ void city_dialog::update_improvements()
 ****************************************************************************/
 void city_dialog::production_changed(int index)
 {
-  cid cid;
+  cid id;
   QVariant qvar;
 
   if (can_client_issue_orders()) {
-    cid = qvar.toInt();
-    city_change_production(pcity, cid_production(cid));
+    id = qvar.toInt();
+    city_change_production(pcity, cid_production(id));
   }
 }
 

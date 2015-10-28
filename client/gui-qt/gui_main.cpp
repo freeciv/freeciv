@@ -48,7 +48,7 @@
 #include "qtg_cxxside.h"
 
 
-static QApplication *qapp;
+static QApplication *qapp = nullptr;
 static fc_client *freeciv_qt;
 const char *client_string = "gui-qt";
 
@@ -174,6 +174,14 @@ void qtg_ui_main(int argc, char *argv[])
 }
 
 /****************************************************************************
+  Return the running QApplication.
+****************************************************************************/
+QApplication *current_app()
+{
+  return qapp;
+}
+
+/****************************************************************************
   Extra initializers for client options.
 ****************************************************************************/
 void qtg_options_extra_init()
@@ -211,6 +219,7 @@ void qtg_ui_exit()
 {
   delete freeciv_qt;
   delete qapp;
+  qapp = nullptr;
 }
 
 /**************************************************************************

@@ -390,10 +390,11 @@ void science_report::update_reqtree()
 /****************************************************************************
   Slot used when combo box with current tech changes
 ****************************************************************************/
-void science_report::current_tech_changed(int index)
+void science_report::current_tech_changed(int changed_index)
 {
   QVariant qvar;
-  qvar = researching_combo->itemData(index);
+
+  qvar = researching_combo->itemData(changed_index);
 
   if (researching_combo->hasFocus()) {
     if (can_client_issue_orders()) {
@@ -405,10 +406,11 @@ void science_report::current_tech_changed(int index)
 /****************************************************************************
   Slot used when combo box with goal have been changed
 ****************************************************************************/
-void science_report::goal_tech_changed(int index)
+void science_report::goal_tech_changed(int changed_index)
 {
   QVariant qvar;
-  qvar = goal_combo->itemData(index);
+
+  qvar = goal_combo->itemData(changed_index);
 
   if (goal_combo->hasFocus()) {
     if (can_client_issue_orders()) {
@@ -918,7 +920,7 @@ void eco_report::update_report()
     } else {
       pix_scaled.fill();
     }
-    cid cid = cid_encode_building(pimprove);
+    cid id = cid_encode_building(pimprove);
 
     eco_widget->insertRow(i);
     for (j = 0; j < 6; j++) {
@@ -926,7 +928,7 @@ void eco_report::update_report()
       switch (j) {
       case 0:
         item->setData(Qt::DecorationRole, pix_scaled);
-        item->setData(Qt::UserRole, cid);
+        item->setData(Qt::UserRole, id);
         break;
       case 1:
         item->setTextAlignment(Qt::AlignLeft);
@@ -954,6 +956,7 @@ void eco_report::update_report()
   for (i = 0; i < entries_used; i++) {
     struct unit_entry *pentry = unit_entries + i;
     struct unit_type *putype = pentry->type;
+    cid id;
 
     pix = NULL;
     sprite = get_unittype_sprite(tileset, putype,
@@ -961,7 +964,7 @@ void eco_report::update_report()
     if (sprite != NULL){
       pix = sprite->pm;
     }
-    cid cid = cid_encode_unit(putype);
+    id = cid_encode_unit(putype);
 
     eco_widget->insertRow(i + max_row);
     for (j = 0; j < 6; j++) {
@@ -973,7 +976,7 @@ void eco_report::update_report()
           pix_scaled = pix->scaledToHeight(h);
           item->setData(Qt::DecorationRole, pix_scaled);
         }
-        item->setData(Qt::UserRole, cid);
+        item->setData(Qt::UserRole, id);
         break;
       case 1:
         item->setTextAlignment(Qt::AlignLeft);
@@ -1061,8 +1064,10 @@ void eco_report::disband_units()
   QString s;
   QMessageBox ask(this);
   int ret;
+  struct unit_type *putype;
+
   selected = cid_decode(uid);
-  struct unit_type *putype = selected.value.utype;
+  putype = selected.value.utype;
   fc_snprintf(buf, ARRAY_SIZE(buf),
               _("Do you really wish to disband "
                 "every %s (%d total)?"),
@@ -1098,8 +1103,11 @@ void eco_report::sell_buildings()
   QString s;
   QMessageBox ask(this);
   int ret;
+  struct impr_type *pimprove;
+
   selected = cid_decode(uid);
-  struct impr_type *pimprove = selected.value.building;
+  pimprove = selected.value.building;
+
   fc_snprintf(buf, ARRAY_SIZE(buf),
               _("Do you really wish to sell "
                 "every %s (%d total)?"),
@@ -1135,8 +1143,11 @@ void eco_report::sell_redundant()
   QString s;
   QMessageBox ask(this);
   int ret;
+  struct impr_type *pimprove;
+
   selected = cid_decode(uid);
-  struct impr_type *pimprove = selected.value.building;
+  pimprove = selected.value.building;
+
   fc_snprintf(buf, ARRAY_SIZE(buf),
               _("Do you really wish to sell "
                 "every redundant %s (%d total)?"),

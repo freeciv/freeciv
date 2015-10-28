@@ -15,5 +15,6 @@
 #define FC__GUI_MAIN_H
 
 void popup_quit_dialog();
+QApplication *current_app();
 
 #endif /* FC__GUI_MAIN_H */
