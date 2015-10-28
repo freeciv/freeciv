@@ -666,10 +666,10 @@ static void create_advances_list(struct player *pplayer,
     GValue value = { 0, };
 
     advance_index_iterate(A_FIRST, i) {
-      if (research_invention_state(vresearch, i) == TECH_KNOWN
-          && (research_invention_state(presearch, i) == TECH_UNKNOWN
-              || research_invention_state(presearch, i)
-                 == TECH_PREREQS_KNOWN)) {
+      if (research_invention_gettable(presearch, i,
+                                      game.info.tech_steal_allow_holes)
+          && research_invention_state(vresearch, i) == TECH_KNOWN
+          && research_invention_state(presearch, i) != TECH_KNOWN) {
 	gtk_list_store_append(store, &it);
 
 	g_value_init(&value, G_TYPE_STRING);
