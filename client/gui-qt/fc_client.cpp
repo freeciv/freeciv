@@ -20,6 +20,7 @@
 #include <QCompleter>
 #include <QMainWindow>
 #include <QLineEdit>
+#include <QScrollBar>
 #include <QStatusBar>
 #include <QTabBar>
 #include <QTextEdit>
@@ -225,9 +226,13 @@ void fc_client::closing()
 ****************************************************************************/
 void fc_client::append_output_window(const QString &str)
 {
+  QTextCursor cursor;
+
   if (output_window != NULL) {
     output_window->append(str);
     chat_line->setCompleter(chat_completer);
+    output_window->verticalScrollBar()->setSliderPosition(
+                              output_window->verticalScrollBar()->maximum());
   }
 }
 
