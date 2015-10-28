@@ -1503,10 +1503,10 @@ static void spy_steal(QVariant data1, QVariant data2)
     const struct research *vresearch = research_get(pvictim);
 
     advance_index_iterate(A_FIRST, i) {
-      if (research_invention_state(vresearch, i) == TECH_KNOWN
-          && (research_invention_state(presearch, i) == TECH_UNKNOWN
-              || research_invention_state(presearch, i)
-                 == TECH_PREREQS_KNOWN)) {
+      if (research_invention_gettable(presearch, i,
+                                      game.info.tech_steal_allow_holes)
+          && research_invention_state(vresearch, i) == TECH_KNOWN
+          && research_invention_state(presearch, i) != TECH_KNOWN) {
         func = spy_steal_something;
         str = research_advance_name_translation(presearch, i);
         cd->add_item(str, func, qv1, i);
