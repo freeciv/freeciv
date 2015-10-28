@@ -1341,6 +1341,12 @@ void handle_page_msg(const char *caption, const char *headline,
     page_msg_report.parts = parts;
     page_msg_report.lines = fc_malloc(len + 1);
     page_msg_report.lines[0] = '\0';
+
+    if (parts == 0) {
+      /* Empty report - handle as if last part was just received. */
+      page_msg_report.parts = 1;
+      handle_page_msg_part("");
+    }
   }
 }
 
