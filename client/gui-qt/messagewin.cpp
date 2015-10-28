@@ -73,6 +73,7 @@ info_tab::info_tab(QWidget *parent)
   resy = false;
   chat_stretch = 5;
   msg_stretch = 5;
+  setMouseTracking(true);
 }
 
 /***************************************************************************
@@ -103,10 +104,10 @@ void info_tab::mousePressEvent(QMouseEvent * event)
 {
   if (event->button() == Qt::LeftButton) {
     cursor = event->globalPos() - geometry().topLeft();
-    if (event->y() > 0 && event->y() < 20){
+    if (event->y() > 0 && event->y() < 5){
       resize_mode = true;
       resy = true;
-    } else if (event->x() > width() - 20 && event->x() < width()){
+    } else if (event->x() > width() - 5 && event->x() < width()){
       resize_mode = true;
       resx = true;
     }
@@ -128,7 +129,8 @@ void info_tab::mouseReleaseEvent(QMouseEvent* event)
 }
 
 /**************************************************************************
-  Called when mouse button was pressed. Used to moving info_tab.
+  Called when mouse moved (mouse track is enabled).
+  Used to resizing info_tab.
 **************************************************************************/
 void info_tab::mouseMoveEvent(QMouseEvent *event)
 {
@@ -141,7 +143,14 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
     resize(event->x(), height());
     move(0, gui()->mapview_wdg->height() - height());
     setCursor(Qt::SizeHorCursor);
+  } else if (event->x() > width() - 5 && event->x() < width()) {
+    setCursor(Qt::SizeHorCursor);
+  } else if (event->y() > 0 && event->y() < 5) {
+    setCursor(Qt::SizeVerCursor);
+  } else {
+    setCursor(Qt::ArrowCursor);
   }
+  event->setAccepted(true);
 }
 
 /***************************************************************************
@@ -353,6 +362,7 @@ messagewdg::messagewdg(QWidget *parent): QWidget(parent)
                                   const QItemSelection &)),
           SLOT(item_selected(const QItemSelection &,
                              const QItemSelection &)));
+  setMouseTracking(true);
 }
 
 /***************************************************************************

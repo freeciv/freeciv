@@ -88,6 +88,7 @@ chatwdg::chatwdg(QWidget *parent)
   connect(chat_line, SIGNAL(returnPressed()), this, SLOT(send()));
   connect(remove_links, SIGNAL(clicked()), this, SLOT(rm_links()));
   connect(cb, SIGNAL(stateChanged(int)), this, SLOT(state_changed(int)));
+  setMouseTracking(true);
 }
 
 /***************************************************************************
