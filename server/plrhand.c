@@ -433,7 +433,7 @@ void handle_player_change_government(struct player *pplayer, int government)
     /* Multiple changes attempted after single anarchy period */
     if (game.info.revolentype == REVOLEN_QUICKENING) {
       notify_player(pplayer, NULL, E_REVOLT_DONE, ftc_server,
-                    _("You can't revolt the same turn you finished previous revolution"));
+                    _("You can't revolt the same turn you finished previous revolution."));
       return;
     }
   }
