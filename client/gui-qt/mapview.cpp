@@ -1146,8 +1146,12 @@ void info_label::info_update()
 ****************************************************************************/
 void update_info_label(void)
 {
-  QString eco_info;
-  QString s = QString(_("%1 (Turn:%2)")).arg(textyear(game.info.year),
+  QString s, eco_info;
+
+  if (gui()->current_page() != PAGE_GAME) {
+    return;
+  }
+  s = QString(_("%1 (Turn:%2)")).arg(textyear(game.info.year),
                                              QString::number(game.info.turn));
   gui()->game_info_label->set_turn_info(s);
   set_indicator_icons(client_research_sprite(),
