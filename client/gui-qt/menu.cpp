@@ -1043,9 +1043,9 @@ void mr_menu::menus_sensitive()
 
             /* FIXME: this overloading doesn't work well with multiple focus
              * units. */
-            unit_list_iterate(punits, punit) {
-              pextra = next_extra_for_tile(unit_tile(punit), EC_MINE,
-                                           unit_owner(punit), punit);
+            unit_list_iterate(punits, builder) {
+              pextra = next_extra_for_tile(unit_tile(builder), EC_MINE,
+                                           unit_owner(builder), builder);
               if (pextra != NULL) {
                 break;
               }
@@ -1083,9 +1083,9 @@ void mr_menu::menus_sensitive()
 
             /* FIXME: this overloading doesn't work well with multiple focus
              * units. */
-            unit_list_iterate(punits, punit) {
-              pextra = next_extra_for_tile(unit_tile(punit), EC_IRRIGATION,
-                                           unit_owner(punit), punit);
+            unit_list_iterate(punits, builder) {
+              pextra = next_extra_for_tile(unit_tile(builder), EC_IRRIGATION,
+                                           unit_owner(builder), builder);
               if (pextra != NULL) {
                 break;
               }

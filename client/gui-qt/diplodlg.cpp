@@ -822,7 +822,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
     return;
   }
   if (!gui()->is_repo_dlg_open("DDI")) {
-    diplo_dlg *dd = new diplo_dlg(counterpart, initiated_from);
+    dd = new diplo_dlg(counterpart, initiated_from);
 
     if (!dd->init(false)) {
       delete dd;

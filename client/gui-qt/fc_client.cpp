@@ -37,9 +37,8 @@
 #include "optiondlg.h"
 #include "sprite.h"
 
-
-extern QApplication *qapp;
 fc_icons* fc_icons::m_instance = 0;
+
 /****************************************************************************
   Constructor
 ****************************************************************************/
@@ -427,7 +426,11 @@ void fc_client::timerEvent(QTimerEvent *event)
 ****************************************************************************/
 void fc_client::quit()
 {
-  qapp->quit();
+  QApplication *qapp = current_app();
+
+  if (qapp != nullptr) {
+    qapp->quit();
+  }
 }
 
 /****************************************************************************
