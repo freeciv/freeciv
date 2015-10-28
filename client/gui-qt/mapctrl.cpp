@@ -225,6 +225,9 @@ void map_view::mouseReleaseEvent(QMouseEvent *event)
 void map_view::mouseMoveEvent(QMouseEvent *event)
 {
   update_line(event->pos().x(), event->pos().y());
+  if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
+    maybe_activate_keyboardless_goto(event->pos().x(), event->pos().y());
+  }
   control_mouse_cursor(canvas_pos_to_tile(event->pos().x(),
                                           event->pos().y()));
 }
