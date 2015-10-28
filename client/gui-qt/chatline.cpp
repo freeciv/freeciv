@@ -16,6 +16,7 @@
 #endif
 
 //Qt
+#include <QScrollBar>
 #include <QStyleFactory>
 
 // client
@@ -168,9 +169,12 @@ void chatwdg::anchor_clicked(const QUrl &link)
 ***************************************************************************/
 void chatwdg::append(QString str)
 {
+  QTextCursor cursor;
+
   chat_output->append(str);
-  chat_output->ensureCursorVisible();
   chat_line->setCompleter(gui()->chat_completer);
+  chat_output->verticalScrollBar()->setSliderPosition(
+                              chat_output->verticalScrollBar()->maximum());
 }
 
 /***************************************************************************
