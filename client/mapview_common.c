@@ -77,7 +77,7 @@ bool can_slide = TRUE;
 struct tile *center_tile = NULL;
 
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
-				   int canvas_x, int canvas_y);
+                                   float canvas_x, float canvas_y);
 
 enum update_type {
   /* Masks */
@@ -236,21 +236,22 @@ static void map_to_gui_pos(const struct tileset *t,
   the same value you started with.
 ****************************************************************************/
 static void gui_to_map_pos(const struct tileset *t,
-			   int *map_x, int *map_y, int gui_x, int gui_y)
+                           int *map_x, int *map_y, float gui_x, float gui_y)
 {
-  const int W = tileset_tile_width(t) * map_zoom, H = tileset_tile_height(t) * map_zoom;
-  const int HH = tileset_hex_height(t) * map_zoom, HW = tileset_hex_width(t) * map_zoom;
+  const float W = tileset_tile_width(t) * map_zoom, H = tileset_tile_height(t) * map_zoom;
+  const float HH = tileset_hex_height(t) * map_zoom, HW = tileset_hex_width(t) * map_zoom;
 
   if (HH > 0 || HW > 0) {
     /* To handle hexagonal cases we have to revert to a less elegant method
      * of calculation. */
-    int x, y, dx, dy;
+    float x, y;
+    int dx, dy;
     int xmult, ymult, mod, compar;
 
     fc_assert(tileset_is_isometric(t));
 
-    x = DIVIDE(gui_x, W);
-    y = DIVIDE(gui_y, H);
+    x = gui_x / W;
+    y = gui_y / H;
     dx = gui_x - x * W;
     dy = gui_y - y * H;
     fc_assert(dx >= 0 && dx < W);
@@ -304,13 +305,13 @@ static void gui_to_map_pos(const struct tileset *t,
      * For another example of this math, see canvas_to_city_pos().
      */
     gui_x -= W / 2;
-    *map_x = DIVIDE(gui_x * H + gui_y * W, W * H);
-    *map_y = DIVIDE(gui_y * W - gui_x * H, W * H);
+    *map_x = DIVIDE((int)(gui_x * H + gui_y * W), (int)(W * H));
+    *map_y = DIVIDE((int)(gui_y * W - gui_x * H), (int)(W * H));
   } else {			/* tileset_is_isometric(t) */
     /* We use DIVIDE so that we will get the correct result even
      * for negative coordinates. */
-    *map_x = DIVIDE(gui_x, W);
-    *map_y = DIVIDE(gui_y, H);
+    *map_x = DIVIDE((int)gui_x, (int)W);
+    *map_y = DIVIDE((int)gui_y, (int)H);
   }
 }
 
@@ -381,18 +382,18 @@ bool tile_to_canvas_pos(float *canvas_x, float *canvas_y, struct tile *ptile)
   resulting position is unwrapped and may be unreal.
 ****************************************************************************/
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
-				   int canvas_x, int canvas_y)
+				   float canvas_x, float canvas_y)
 {
   gui_to_map_pos(tileset, map_x, map_y,
-		 canvas_x + mapview.gui_x0,
-		 canvas_y + mapview.gui_y0);
+                 canvas_x + mapview.gui_x0,
+                 canvas_y + mapview.gui_y0);
 }
 
 /**************************************************************************
   Finds the tile corresponding to pixel coordinates.  Returns that tile,
   or NULL if the position is off the map.
 **************************************************************************/
-struct tile *canvas_pos_to_tile(int canvas_x, int canvas_y)
+struct tile *canvas_pos_to_tile(float canvas_x, float canvas_y)
 {
   int map_x, map_y;
 
@@ -408,7 +409,7 @@ struct tile *canvas_pos_to_tile(int canvas_x, int canvas_y)
   Finds the tile corresponding to pixel coordinates.  Returns that tile,
   or the one nearest is the position is off the map.  Will never return NULL.
 **************************************************************************/
-struct tile *canvas_pos_to_nearest_tile(int canvas_x, int canvas_y)
+struct tile *canvas_pos_to_nearest_tile(float canvas_x, float canvas_y)
 {
   int map_x, map_y;
 
