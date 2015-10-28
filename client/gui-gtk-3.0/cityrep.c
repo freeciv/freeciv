@@ -1155,9 +1155,6 @@ static void create_city_report_dialog(bool make_modal)
   gui_dialog_add_widget(city_dialog_shell, menubar);
 
   /* buttons */
-  gui_dialog_add_button(city_dialog_shell,
-			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
-
   city_total_buy_cost_label = gtk_label_new(NULL);
   gtk_widget_set_hexpand(city_total_buy_cost_label, TRUE);
   gtk_label_set_ellipsize(GTK_LABEL(city_total_buy_cost_label),
@@ -1178,7 +1175,7 @@ static void create_city_report_dialog(bool make_modal)
   city_center_command = w;
 
   gui_dialog_set_default_response(city_dialog_shell,
-				  GTK_RESPONSE_CLOSE);
+                                  GTK_RESPONSE_CLOSE);
 
   /* tree view */
   buf = fc_realloc(buf, NUM_CREPORT_COLS * sizeof(buf[0]));
