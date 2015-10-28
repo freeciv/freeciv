@@ -58,6 +58,18 @@ static bool city_dlg_created = false; /** defines if dialog for city has been
 static city_dialog *city_dlg;
 
 /****************************************************************************
+  Calculates extra space needed for upkeep sprites for non-isometric tileset
+****************************************************************************/
+static float overhead_upkeep_scale()
+{
+  float ret = 1.0f;
+  if (!tileset_is_isometric(tileset)) {
+    ret = 1.33f;
+  }
+  return ret;
+}
+
+/****************************************************************************
   Draws X on pixmap pointing its useless
 ****************************************************************************/
 static void pixmap_put_x(QPixmap *pix)
@@ -88,7 +100,8 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
 
   if (punit) {
     unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    tileset_tile_height(tileset) * 3 / 2);
+                                    overhead_upkeep_scale()
+                                    * tileset_tile_height(tileset) * 3 / 2);
     unit_pixmap->map_pixmap.fill(Qt::transparent);
     put_unit(punit, unit_pixmap, 0, 0);
     if (supported) {
@@ -344,7 +357,8 @@ void unit_item::enterEvent(QEvent *event)
   }
   if (qunit) {
     unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    tileset_tile_height(tileset) * 3 / 2);
+                                    overhead_upkeep_scale()
+                                    * tileset_tile_height(tileset) * 3 / 2);
     unit_pixmap->map_pixmap.fill(QColor(200, 200, 200));
     put_unit(qunit, unit_pixmap, 0, 0);
     if (supported) {
@@ -366,7 +380,8 @@ void unit_item::leaveEvent(QEvent *event)
   }
   if (qunit) {
     unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    tileset_tile_height(tileset) * 3 / 2);
+                                    overhead_upkeep_scale()
+                                    * tileset_tile_height(tileset) * 3 / 2);
     unit_pixmap->map_pixmap.fill(Qt::transparent);
     put_unit(qunit, unit_pixmap, 0, 0);
     if (supported) {
@@ -439,7 +454,8 @@ void unit_info::init_layout()
   QSizePolicy size_fixed_policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   layout->setContentsMargins(3, 6, 3, 6);
   setSizePolicy(size_fixed_policy);
-  setFixedHeight(tileset_tile_height(tileset) * 3 / 2 + 6);
+  setFixedHeight(overhead_upkeep_scale() * tileset_tile_height(tileset)
+                 * 3 / 2 + 6);
   setLayout(layout);
 }
 
@@ -644,7 +660,6 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   QLabel *ql;
   QLabel *lab2;
   int h = 2 * fm.height() + 2;
-  int scroll_height = QStyle::PM_ScrollBarExtent;
   small_font = gui()->fc_fonts.get_font("gui_qt_font_city_label");
   QString city_stl = "QPushButton{font-weight: bold italic; border: "
                      "0px;text-align: right;}"
@@ -703,11 +718,8 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
               << _("Change in:") << _("Corruption:") << _("Waste:")
               << _("Pollution:") << _("Plague Risk:");
     info_nr = info_list.count();
-    info_widget->setMinimumHeight(tileset_tile_height(tileset) * 3 +
-                                  2 * fm.height() + 2 * scroll_height + 50);
-    info_widget->setMaximumHeight(tileset_tile_height(tileset) * 3 +
-                                  2 * fm.height() + 2 * scroll_height + 50);
     info_widget->setFont(*small_font);
+    info_grid_layout->setSpacing(0);
     for (iter = 0; iter < info_nr; iter++) {
       ql = new QLabel(info_list[iter], info_widget);
       info_grid_layout->addWidget(ql, iter, 0);
@@ -753,7 +765,8 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     supported_units = new unit_info(this, true);
     scroll = new QScrollArea;
     scroll->setWidgetResizable(true);
-    scroll->setMaximumHeight(tileset_tile_height(tileset) * 2);
+    scroll->setMaximumHeight(tileset_tile_height(tileset) * 2
+                             * overhead_upkeep_scale());
     scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll->setWidget(supported_units);
     current_units = new unit_info(this, false);
