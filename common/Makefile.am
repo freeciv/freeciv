@@ -159,7 +159,7 @@ BUILT_SOURCES = packets_gen.c packets_gen.h
 packets_gen.h packets_gen.c: packets_generate
 .INTERMEDIATE: packets_generate
 packets_generate: packets.def generate_packets.py
-	cd $(srcdir) && ./generate_packets.py
+	cd $(srcdir) && ./generate_packets.py ${GENERATE_PACKETS_ARGS}
 	touch packets_generate
 
 # These files are not generated to builddir, but to srcdir */

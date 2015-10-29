@@ -27,7 +27,6 @@ generate_variant_logs=1
 
 ### The following parameters CHANGE the protocol. You have been warned.
 fold_bool_into_header=1
-disable_delta=0
 
 ################# END OF PARAMETERS ####################
 
@@ -38,6 +37,9 @@ disable_delta=0
 import re, string, os, sys
 
 lazy_overwrite=0
+
+def is_delta_disabled():
+    return "--disable-delta" in sys.argv
 
 def verbose(s):
     if "-v" in sys.argv:
@@ -169,7 +171,7 @@ def parse_fields(str, types):
     if flaginfo["is_key"]: arr.remove("key")
     flaginfo["diff"]=("diff" in arr)
     if flaginfo["diff"]: arr.remove("diff")
-    if disable_delta:
+    if is_delta_disabled():
         flaginfo["diff"] = 0
     adds=[]
     removes=[]
@@ -1340,7 +1342,7 @@ class Packet:
 
         assert len(arr)==0,repr(arr)
 
-        if disable_delta:
+        if is_delta_disabled():
             self.delta=0
 
         self.fields=[]
