@@ -1423,7 +1423,7 @@ static bool city_on_foreign_tile_is_legal(struct unit_type *punit_type)
   tile_is_foreign.survives = FALSE;
   tile_is_foreign.source.kind = VUT_DIPLREL;
   tile_is_foreign.present = TRUE;
-  tile_is_foreign.source.value.citytile = DRO_FOREIGN;
+  tile_is_foreign.source.value.diplrel = DRO_FOREIGN;
 
   action_enabler_list_iterate(
         action_enablers_for_action(ACTION_FOUND_CITY), enabler) {
