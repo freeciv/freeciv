@@ -40,7 +40,7 @@ import re, string, os, sys
 lazy_overwrite=0
 
 def verbose(s):
-    if len(sys.argv)>1 and sys.argv[1]=="-v":
+    if "-v" in sys.argv:
         print(s)
         
 def prefix(prefix,str):
