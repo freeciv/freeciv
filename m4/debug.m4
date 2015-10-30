@@ -12,6 +12,13 @@ esac], [enable_debug=some])
 dnl -g is added by AC_PROG_CC if the compiler understands it
 
 dnl ==========================================================================
+dnl Always
+FC_C_FLAGS([-Wno-tautological-compare], [], [EXTRA_DEBUG_CFLAGS])
+if test "x$cxx_works" = "xyes" ; then
+  FC_CXX_FLAGS([-Wno-tautological-compare], [], [EXTRA_DEBUG_CXXFLAGS])
+fi
+
+dnl ==========================================================================
 dnl debug level == no
 if test "x$enable_debug" = "xno"; then
   AC_DEFINE([NDEBUG], [1], [No debugging support at all])
@@ -43,12 +50,11 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
 
   FC_C_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
               -Wformat -Wformat-security -Wnested-externs \
-              -Wno-tautological-compare -Wshadow],
+              -Wshadow],
              [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
     FC_CXX_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
-                  -Wformat -Wformat-security \
-                  -Wno-tautological-compare],
+                  -Wformat -Wformat-security],
                  [], [EXTRA_DEBUG_CXXFLAGS])
   fi
 
