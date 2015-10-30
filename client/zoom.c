@@ -22,13 +22,26 @@
 
 
 float map_zoom = 1.0;
+bool zoom_enabled = FALSE;
 
 /**************************************************************************
   Set map zoom level.
 **************************************************************************/
-void set_map_zoom(float new_zoom)
+void zoom_set(float new_zoom)
 {
+  zoom_enabled = TRUE;
   map_zoom = new_zoom;
+
+  map_canvas_resized(mapview.width, mapview.height);
+}
+
+/**************************************************************************
+  Set map zoom level to exactly one.
+**************************************************************************/
+void zoom_1_0(void)
+{
+  zoom_enabled = FALSE;
+  map_zoom = 1.0;
 
   map_canvas_resized(mapview.width, mapview.height);
 }

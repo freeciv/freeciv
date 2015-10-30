@@ -294,7 +294,7 @@ static void parse_options(int argc, char **argv)
     } else if ((option = get_option_malloc("--zoom", argv, &i, argc))) {
       char *endptr;
 
-      set_map_zoom(strtof(option, &endptr));
+      zoom_set(strtof(option, &endptr));
     }
     /* Can't check against unknown options, as those might be gtk options */
 

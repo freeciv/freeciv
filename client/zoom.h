@@ -17,8 +17,13 @@
 extern "C" {
 #endif /* __cplusplus */
 
-void set_map_zoom(float new_zoom);
+void zoom_set(float new_zoom);
+void zoom_1_0(void);
 
+#define zoom_get_level() map_zoom
+#define zoom_is_enabled() zoom_enabled
+
+extern bool zoom_enabled;
 extern float map_zoom;
 
 #ifdef __cplusplus
