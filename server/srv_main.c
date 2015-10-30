@@ -126,6 +126,7 @@
 #include "advdata.h"
 #include "autosettlers.h"
 #include "advbuilding.h"
+#include "advspace.h"
 #include "infracache.h"
 
 #include "srv_main.h"
@@ -1056,6 +1057,14 @@ static void end_phase(void)
   phase_players_iterate(pplayer) {
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
+
+    /* If player finished spaceship parts last turn already, and didn't place them
+     * during this entire turn, autoplace them. */
+    if (adv_spaceship_autoplace(pplayer, &pplayer->spaceship)) {
+      notify_player(pplayer, NULL, E_SPACESHIP, ftc_server,
+                    _("Automatically placed spaceship parts that were still not placed."));
+    }
+
     update_city_activities(pplayer);
     player_research_get(pplayer)->researching_saved = A_UNKNOWN;
     /* reduce the number of bulbs by the amount needed for tech upkeep and
