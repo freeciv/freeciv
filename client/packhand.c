@@ -3148,6 +3148,7 @@ void handle_ruleset_unit_bonus(const struct packet_ruleset_unit_bonus *p)
   bonus->flag  = p->flag;
   bonus->type  = p->type;
   bonus->value = p->value;
+  bonus->quiet = p->quiet;
 
   combat_bonus_list_append(u->bonuses, bonus);
 }

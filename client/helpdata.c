@@ -3610,6 +3610,57 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
             _("  * Can be airlifted from a suitable city.\n"));
   }
 
+  /* The unit's combat bonuses. Won't mention that another unit type has a
+   * combat bonus against this unit type. Doesn't handle complex cases like
+   * when a unit type has multiple combat bonuses of the same kind. */
+  combat_bonus_list_iterate(utype->bonuses, cbonus) {
+    const char *against[utype_count()];
+    int targets = 0;
+
+    if (cbonus->quiet) {
+      /* Handled in the help text of the ruleset. */
+      continue;
+    }
+
+    /* Find the unit types of the bonus targets. */
+    unit_type_iterate(utype2) {
+      if (utype_has_flag(utype2, cbonus->flag)) {
+        against[targets++] = utype_name_translation(utype2);
+      }
+    } unit_type_iterate_end;
+
+    if (targets > 0) {
+      struct astring list = ASTRING_INIT;
+
+      switch (cbonus->type) {
+      case CBONUS_DEFENSE_MULTIPLIER:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: multipied by ... or-list of unit types */
+                     _("* %dx defense bonus if attacked by %s.\n"),
+                     cbonus->value + 1,
+                     astr_build_or_list(&list, against, targets));
+        break;
+      case CBONUS_DEFENSE_DIVIDER:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: defense divider ... or-list of unit types */
+                     _("* reduces target's defense to 1 / %d when "
+                       "attacking %s.\n"),
+                     cbonus->value + 1,
+                     astr_build_or_list(&list, against, targets));
+        break;
+      case CBONUS_FIREPOWER1:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: or-list of unit types */
+                     _("* reduces target's fire power to 1 when "
+                       "attacking %s.\n"),
+                     astr_build_and_list(&list, against, targets));
+        break;
+      }
+
+      astr_free(&list);
+    }
+  } combat_bonus_list_iterate_end;
+
   if (utype->need_improvement) {
     cat_snprintf(buf, bufsz,
                  _("* Can only be built if there is %s in the city.\n"),

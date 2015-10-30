@@ -406,6 +406,9 @@ struct combat_bonus {
   enum unit_type_flag_id  flag;
   enum combat_bonus_type  type;
   int                     value;
+
+  /* Not listed in the help text. */
+  bool                    quiet;
 };
 
 /* get 'struct combat_bonus_list' and related functions: */

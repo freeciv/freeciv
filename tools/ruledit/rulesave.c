@@ -2044,7 +2044,16 @@ static bool save_combat_bonuses(struct section_file *sfile,
                                 struct unit_type *put,
                                 char *path)
 {
-  int i = 0;
+  int i;
+  bool has_quiet = FALSE;
+
+  combat_bonus_list_iterate(put->bonuses, pbonus) {
+    if (pbonus->quiet) {
+      has_quiet = TRUE;
+    }
+  } combat_bonus_list_iterate_end;
+
+  i = 0;
 
   combat_bonus_list_iterate(put->bonuses, pbonus) {
     secfile_insert_str(sfile, unit_type_flag_id_name(pbonus->flag),
@@ -2053,6 +2062,12 @@ static bool save_combat_bonuses(struct section_file *sfile,
                        "%s.bonuses%d.type", path, i);
     secfile_insert_int(sfile, pbonus->value,
                        "%s.bonuses%d.value", path, i);
+
+    if (has_quiet) {
+      secfile_insert_bool(sfile, pbonus->quiet,
+                          "%s.bonuses%d.quiet", path, i);
+    }
+
     i++;
   } combat_bonus_list_iterate_end;
 
