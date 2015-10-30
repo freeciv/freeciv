@@ -563,7 +563,7 @@ static void player_defaults(struct player *pplayer)
 
   spaceship_init(&pplayer->spaceship);
 
-  pplayer->ai_controlled = FALSE;
+  set_as_human(pplayer);
   pplayer->ai_common.skill_level = ai_level_invalid();
   pplayer->ai_common.fuzzy = 0;
   pplayer->ai_common.expand = 100;
@@ -1195,7 +1195,7 @@ the "ai_fuzzy(pplayer," part, and read the previous example as:
 **************************************************************************/
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision)
 {
-  if (!pplayer->ai_controlled || pplayer->ai_common.fuzzy == 0) {
+  if (!is_ai(pplayer) || pplayer->ai_common.fuzzy == 0) {
     return normal_decision;
   }
   if (fc_rand(1000) >= pplayer->ai_common.fuzzy) {

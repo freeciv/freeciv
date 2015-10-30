@@ -99,7 +99,7 @@ static inline void get_full_username(char *buf, int buflen,
     return;
   }
 
-  if (pplayer->ai_controlled) {
+  if (is_ai(pplayer)) {
     /* TRANS: "AI <player name>" */
     fc_snprintf(buf, buflen, _("AI %s"), pplayer->name);
   } else {

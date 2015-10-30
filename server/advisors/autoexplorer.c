@@ -245,7 +245,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
     desirable = 0;
   }
 
-  if ((!pplayer->ai_controlled || !has_handicap(pplayer, H_HUTS))
+  if ((!is_ai(pplayer) || !has_handicap(pplayer, H_HUTS))
       && map_is_known(ptile, pplayer)
       && tile_has_cause_extra(ptile, EC_HUT)) {
     /* we want to explore huts whenever we can,
@@ -297,7 +297,7 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
 
   UNIT_LOG(LOG_DEBUG, punit, "auto-exploring.");
 
-  if (pplayer->ai_controlled && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
+  if (!is_human(pplayer) && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
     UNIT_LOG(LOG_DEBUG, punit, "exploration too dangerous!");
     return MR_BAD_ACTIVITY; /* too dangerous */
   }

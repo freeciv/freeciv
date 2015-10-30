@@ -999,7 +999,7 @@ int research_total_bulbs_required(const struct research *presearch,
 
   total_cost = 0.0;
   research_players_iterate(presearch, pplayer) {
-    if (pplayer->ai_controlled) {
+    if (is_ai(pplayer)) {
       fc_assert(0 < pplayer->ai_common.science_cost);
       total_cost += base_cost * pplayer->ai_common.science_cost / 100.0;
     } else {
@@ -1034,7 +1034,7 @@ int player_tech_upkeep(const struct player *pplayer)
   members = 0;
   research_players_iterate(presearch, contributor) {
     total_research_factor += (get_player_bonus(contributor, EFT_TECH_COST_FACTOR)
-                              + (contributor->ai_controlled
+                              + (is_ai(contributor)
                                  ? contributor->ai_common.science_cost / 100.0
                                  : 1));
     members++;

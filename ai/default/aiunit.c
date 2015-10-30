@@ -2919,7 +2919,7 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
   struct city *pcity = tile_city(ptile);
   int extras_bonus = 0;
 
-  if (!pplayer->ai_controlled) {
+  if (is_human(pplayer)) {
     /* Use advisors code for humans. */
     return;
   }

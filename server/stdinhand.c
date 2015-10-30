@@ -670,7 +670,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 {
   fc_assert_ret(pplayer != NULL);
 
-  if (!pplayer->ai_controlled) {
+  if (is_human(pplayer)) {
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under AI control."),
 	      player_name(pplayer));
@@ -678,13 +678,13 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
                           !ai_level_is_valid(pplayer->ai_common.skill_level)
                           ? game.info.skill_level
                           : pplayer->ai_common.skill_level);
-    fc_assert(pplayer->ai_controlled == TRUE);
+    fc_assert(is_ai(pplayer));
   } else {
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under human control."),
 	      player_name(pplayer));
     player_set_under_human_control(pplayer);
-    fc_assert(pplayer->ai_controlled == FALSE);
+    fc_assert(is_human(pplayer));
   }
 }
 
@@ -912,7 +912,7 @@ enum rfc_status create_command_newcomer(const char *name,
   pplayer->unassigned_user = TRUE;
 
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
-  pplayer->ai_controlled = TRUE;
+  set_as_ai(pplayer);
   set_ai_level_directer(pplayer, game.info.skill_level);
 
   CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
@@ -1037,7 +1037,7 @@ enum rfc_status create_command_pregame(const char *name,
 
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
   pplayer->random_name = rand_name;
-  pplayer->ai_controlled = TRUE;
+  set_as_ai(pplayer);
   set_ai_level_directer(pplayer, game.info.skill_level);
   CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
   send_player_info_c(pplayer, game.est_connections);
@@ -1914,7 +1914,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
   pplayer = player_by_name_prefix(name, &match_result);
 
   if (pplayer) {
-    if (pplayer->ai_controlled) {
+    if (is_ai(pplayer)) {
       if (check) {
         return TRUE;
       }
@@ -1935,7 +1935,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
       return TRUE;
     }
     players_iterate(cplayer) {
-      if (cplayer->ai_controlled) {
+      if (is_ai(cplayer)) {
         set_ai_level_directer(cplayer, level);
         send_player_info_c(cplayer, NULL);
         cmd_reply(cmd_of_level(level), caller, C_OK,
@@ -1979,16 +1979,16 @@ static bool away_command(struct connection *caller, bool check)
   }
 
   pplayer = conn_get_player(caller);
-  if (!pplayer->ai_controlled) {
+  if (is_human(pplayer)) {
     cmd_reply(CMD_AWAY, caller, C_OK,
               _("%s set to away mode."), player_name(pplayer));
     player_set_to_ai_mode(pplayer, AI_LEVEL_AWAY);
-    fc_assert(pplayer->ai_controlled == TRUE);
+    fc_assert(!is_human(pplayer));
   } else {
     cmd_reply(CMD_AWAY, caller, C_OK,
               _("%s returned to game."), player_name(pplayer));
     player_set_under_human_control(pplayer);
-    fc_assert(pplayer->ai_controlled == FALSE);
+    fc_assert(is_human(pplayer));
   }
 
   send_player_info_c(caller->playing, game.est_connections);
@@ -3062,7 +3062,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       }
       return FALSE;
     }
-  } else if (pplayer->ai_controlled) {
+  } else if (is_ai(pplayer)) {
     if (!(allow = strchr(game.server.allow_take,
                          (game.info.is_new_game ? 'A' : 'a')))) {
       if (will_obs) {
@@ -3324,7 +3324,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
     pplayer = find_uncontrolled_player();
     if (pplayer) {
       /* Make it human! */
-      pplayer->ai_controlled = FALSE;
+      set_as_human(pplayer);
     }
   } else if (!(pplayer = player_by_name_prefix(arg[i], &match_result))) {
     cmd_reply_no_such_player(CMD_TAKE, caller, arg[i], match_result);
@@ -3429,7 +3429,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
               player_name(pplayer),
               is_barbarian(pplayer)
               ? _("Barbarian")
-              : pplayer->ai_controlled
+              : is_ai(pplayer)
               ? _("AI")
               : _("Human"),
               pplayer->is_alive
@@ -5616,7 +5616,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
 
     human_players = 0;
     players_iterate(plr) {
-      if (!plr->ai_controlled) {
+      if (is_human(plr)) {
         human_players++;
       }
     } players_iterate_end;
@@ -6256,12 +6256,12 @@ void show_players(struct connection *caller)
       buf[0] = '\0';
       if (is_barbarian(pplayer)) {
         sz_strlcat(buf, _("Barbarian"));
-      } else if (pplayer->ai_controlled) {
+      } else if (is_ai(pplayer)) {
         sz_strlcat(buf, _("AI"));
       } else {
         sz_strlcat(buf, _("Human"));
       }
-      if (pplayer->ai_controlled) {
+      if (is_ai(pplayer)) {
         cat_snprintf(buf, sizeof(buf), _(", %s"), ai_name(pplayer->ai));
         cat_snprintf(buf, sizeof(buf), _(", difficulty level %s"),
                      ai_level_translated_name(pplayer->ai_common.skill_level));

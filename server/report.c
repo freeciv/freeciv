@@ -151,7 +151,6 @@ static const char *pollution_to_text(int value);
 static const char *culture_to_text(int value);
 
 #define GOOD_PLAYER(p) ((p)->is_alive && !is_barbarian(p))
-#define AI_PLAYER(p) ((p)->ai_controlled)
 
 /*
  * Describes a row.
@@ -1471,7 +1470,7 @@ void log_civ_score_now(void)
     if (plrdata->name == NULL && GOOD_PLAYER(pplayer)) {
       switch (game.server.scoreloglevel) {
       case SL_HUMANS:
-        if (AI_PLAYER(pplayer)) {
+        if (is_ai(pplayer)) {
           break;
         }
       case SL_ALL:
@@ -1488,7 +1487,7 @@ void log_civ_score_now(void)
     if (GOOD_PLAYER(pplayer)) {
       switch (game.server.scoreloglevel) {
       case SL_HUMANS:
-        if (AI_PLAYER(pplayer) && plrdata->name == NULL) {
+        if (is_ai(pplayer) && plrdata->name == NULL) {
           /* If a human player toggled into AI mode, don't break. */
           break;
         }
@@ -1508,8 +1507,8 @@ void log_civ_score_now(void)
 
   for (i = 0; i < ARRAY_SIZE(score_tags); i++) {
     players_iterate(pplayer) {
-      if (!GOOD_PLAYER(pplayer) ||
-         (game.server.scoreloglevel == SL_HUMANS && AI_PLAYER(pplayer))) {
+      if (!GOOD_PLAYER(pplayer)
+          || (game.server.scoreloglevel == SL_HUMANS && is_ai(pplayer))) {
         continue;
       }
 

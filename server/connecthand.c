@@ -282,7 +282,7 @@ void establish_new_connection(struct connection *pconn)
   /* if need be, tell who we're waiting on to end the game.info.turn */
   if (S_S_RUNNING == server_state() && game.server.turnblock) {
     players_iterate_alive(cplayer) {
-      if (!cplayer->ai_controlled
+      if (is_human(cplayer)
           && !cplayer->phase_done
           && cplayer != pconn->playing) {  /* skip current player */
         notify_conn(dest, NULL, E_CONNECTION, ftc_any,
@@ -596,7 +596,7 @@ static bool connection_attach_real(struct connection *pconn,
       server_player_init(pplayer, FALSE, TRUE);
 
       /* Make it human! */
-      pplayer->ai_controlled = FALSE;
+      set_as_human(pplayer);
     }
 
     sz_strlcpy(pplayer->username, pconn->username);
@@ -612,7 +612,7 @@ static bool connection_attach_real(struct connection *pconn,
       (void) aifill(game.info.aifill);
     }
 
-    if (game.server.auto_ai_toggle && pplayer->ai_controlled) {
+    if (game.server.auto_ai_toggle && !is_human(pplayer)) {
       toggle_ai_player_direct(NULL, pplayer);
     }
 
@@ -773,7 +773,7 @@ void connection_detach(struct connection *pconn, bool remove_unused_player)
         reset_all_start_commands(TRUE);
       } else {
         /* Aitoggle the player if no longer connected. */
-        if (game.server.auto_ai_toggle && !pplayer->ai_controlled) {
+        if (game.server.auto_ai_toggle && is_human(pplayer)) {
           toggle_ai_player_direct(NULL, pplayer);
           /* send_player_info_c() was formerly updated by
            * toggle_ai_player_direct(), so it must be safe to send here now?

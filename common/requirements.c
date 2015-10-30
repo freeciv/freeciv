@@ -2844,7 +2844,7 @@ bool is_req_active(const struct player *target_player,
     if (target_player == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = BOOL_TO_TRISTATE(target_player->ai_controlled
+      eval = BOOL_TO_TRISTATE(is_ai(target_player)
                               && target_player->ai_common.skill_level == req->source.value.ai_level);
     }
     break;

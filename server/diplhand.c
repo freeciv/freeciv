@@ -66,7 +66,7 @@ static struct treaty_list *treaties = NULL;
 static void call_treaty_evaluate(struct player *pplayer, struct player *aplayer,
                                  struct Treaty *ptreaty)
 {
-  if (pplayer->ai_controlled) {
+  if (is_ai(pplayer)) {
     CALL_PLR_AI_FUNC(treaty_evaluate, pplayer, pplayer, aplayer, ptreaty);
   }
 }
@@ -77,7 +77,7 @@ static void call_treaty_evaluate(struct player *pplayer, struct player *aplayer,
 static void call_treaty_accepted(struct player *pplayer, struct player *aplayer,
                                  struct Treaty *ptreaty)
 {
-  if (pplayer->ai_controlled) {
+  if (is_ai(pplayer)) {
     CALL_PLR_AI_FUNC(treaty_accepted, pplayer, pplayer, aplayer, ptreaty);
   }
 }

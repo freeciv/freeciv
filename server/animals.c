@@ -121,7 +121,7 @@ void create_animals(void)
 
   plr->phase_done = TRUE;
 
-  plr->ai_controlled = TRUE;
+  set_as_ai(plr);
   plr->ai_common.barbarian_type = ANIMAL_BARBARIAN;
   set_ai_level_directer(plr, game.info.skill_level);
 

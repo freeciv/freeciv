@@ -484,7 +484,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     break;
   case EFT_GAIN_AI_LOVE:
     players_iterate(aplayer) {
-      if (aplayer->ai_controlled) {
+      if (is_ai(aplayer)) {
 	if (has_handicap(pplayer, H_DEFENSIVE)) {
 	  v += amount / 10;
 	} else {

@@ -949,7 +949,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 
   if (popup
       && NULL != client.conn.playing
-      && !client.conn.playing->ai_controlled
+      && is_human(client.conn.playing)
       && can_client_issue_orders()) {
     menus_update();
     if (!city_dialog_is_open(pcity)) {
@@ -1274,7 +1274,7 @@ void handle_start_phase(int phase)
 
     update_turn_done_button_state();
 
-    if (client.conn.playing->ai_controlled
+    if (is_ai(client.conn.playing)
         && !gui_options.ai_manual_turn_done) {
       user_ended_turn();
     }
@@ -1361,7 +1361,7 @@ void handle_page_msg(const char *caption, const char *headline,
                      enum event_type event, int len, int parts)
 {
   if (!client_has_player()
-      || !client_player()->ai_controlled
+      || is_human(client_player())
       || event != E_BROADCAST_REPORT) {
     if (page_msg_report.parts > 0) {
       /* Previous one was never finished */
@@ -1515,7 +1515,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* Wakeup Focus */
       if (gui_options.wakeup_focus 
           && NULL != client.conn.playing
-          && !client.conn.playing->ai_controlled
+          && is_human(client.conn.playing)
           && unit_owner(punit) == client.conn.playing
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
@@ -1796,7 +1796,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
   if ((check_focus || get_num_units_in_focus() == 0)
       && NULL != client.conn.playing
-      && !client.conn.playing->ai_controlled
+      && is_human(client.conn.playing)
       && is_player_phase(client.conn.playing, game.info.phase)) {
     unit_focus_update();
   }
@@ -2185,7 +2185,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   if (pplayer->ai_controlled != pinfo->ai)  {
     pplayer->ai_controlled = pinfo->ai;
     if (pplayer == my_player)  {
-      if (my_player->ai_controlled) {
+      if (is_ai(my_player)) {
         output_window_append(ftc_client, _("AI mode is now ON."));
       } else {
         output_window_append(ftc_client, _("AI mode is now OFF."));
@@ -2322,7 +2322,7 @@ void handle_research_info(const struct packet_research_info *packet)
 
   if (C_S_RUNNING == client_state()) {
     if (presearch == research_get(client_player())) {
-      if (poptechup && !client_player()->ai_controlled) {
+      if (poptechup && is_human(client_player())) {
         science_report_dialog_popup(FALSE);
       }
       science_report_dialog_update();
@@ -4077,7 +4077,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
   switch (action_type) {
   case ACTION_SPY_BRIBE_UNIT:
     if (punit && client.conn.playing
-        && !client.conn.playing->ai_controlled) {
+        && is_human(client.conn.playing)) {
       /* Focus on the unit so the player knows where it is */
       unit_focus_set(pdiplomat);
 
@@ -4089,7 +4089,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
     break;
   case ACTION_SPY_INCITE_CITY:
     if (pcity && client.conn.playing
-        && !client.conn.playing->ai_controlled) {
+        && is_human(client.conn.playing)) {
       /* Focus on the unit so the player knows where it is */
       unit_focus_set(pdiplomat);
 

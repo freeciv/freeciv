@@ -1479,7 +1479,7 @@ static void client_aitoggle_player(void *data)
 
   if (NULL != pplayer
       && pplayer == client_player()
-      && pplayer->ai_controlled) {
+      && !is_human(pplayer)) {
     send_chat("/away");
   }
 }
@@ -1796,7 +1796,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
   if (NULL != pplayer) {
     item = gtk_menu_item_new_with_label(_("Toggle player ready"));
-    gtk_widget_set_sensitive(item, !pplayer->ai_controlled);
+    gtk_widget_set_sensitive(item, is_human(pplayer));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect_swapped(item, "activate",
                              G_CALLBACK(conn_menu_ready_chosen), menu);
@@ -1879,7 +1879,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   }
 
   if (ALLOW_CTRL <= client.conn.access_level
-      && NULL != pplayer && pplayer->ai_controlled) {
+      && NULL != pplayer && is_ai(pplayer)) {
     enum ai_level level;
 
     item = gtk_separator_menu_item_new();
@@ -2180,7 +2180,7 @@ static void update_start_page_buttons(void)
       int num_unready = 0;
 
       players_iterate(pplayer) {
-        if (!pplayer->ai_controlled && !pplayer->is_ready) {
+        if (is_human(pplayer) && !pplayer->is_ready) {
           num_unready++;
         }
       } players_iterate_end;
@@ -2333,7 +2333,7 @@ void real_conn_list_dialog_update(void)
         }
       } conn_list_iterate_end;
 
-      if (pplayer->ai_controlled && !pplayer->was_created
+      if (is_ai(pplayer) && !pplayer->was_created
           && !pplayer->is_connected) {
         /* TRANS: "<Novice AI>" */
         fc_snprintf(name, sizeof(name), _("<%s AI>"),
@@ -2345,7 +2345,7 @@ void real_conn_list_dialog_update(void)
         }
       }
 
-      is_ready = pplayer->ai_controlled ? TRUE : pplayer->is_ready;
+      is_ready = !is_human(pplayer) ? TRUE : pplayer->is_ready;
 
       if (pplayer->nation == NO_NATION_SELECTED) {
         nation = _("Random");

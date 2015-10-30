@@ -332,7 +332,7 @@ static void finish_revolution(struct player *pplayer)
                 nation_plural_for_player(pplayer),
                 government_name_translation(government));
 
-  if (!pplayer->ai_controlled) {
+  if (is_human(pplayer)) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
     int max = get_player_maxrate(pplayer);
 
@@ -398,7 +398,7 @@ void handle_player_change_government(struct player *pplayer, int government)
      * or even in the past (if the player is in anarchy and hasn't chosen
      * a government). */
     turns = pplayer->revolution_finishes - game.info.turn;
-  } else if ((pplayer->ai_controlled && !has_handicap(pplayer, H_REVOLUTION))
+  } else if ((is_ai(pplayer) && !has_handicap(pplayer, H_REVOLUTION))
 	     || !anarchy) {
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
     turns = 0;
@@ -1020,7 +1020,7 @@ static void package_player_common(struct player *plr,
   packet->turns_alive=plr->turns_alive;
   packet->is_connected=plr->is_connected;
   packet->ai = plr->ai_controlled;
-  packet->ai_skill_level = plr->ai_controlled
+  packet->ai_skill_level = is_ai(plr)
                            ? plr->ai_common.skill_level : 0;
   for (i = 0; i < player_slot_count(); i++) {
     packet->love[i] = plr->ai_common.love[i];
@@ -1686,7 +1686,7 @@ struct player_economic player_limit_to_max_rates(struct player *pplayer)
   struct player_economic economic;
 
   /* ai players allowed to cheat */
-  if (pplayer->ai_controlled) {
+  if (is_ai(pplayer)) {
     return pplayer->economic;
   }
 
@@ -1964,10 +1964,10 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     send_player_all_c(pplayer2, pplayer1->connections);
     send_player_all_c(pplayer1, pplayer1->connections);
     send_player_all_c(pplayer2, pplayer2->connections);
-    if (pplayer1->ai_controlled) {
+    if (is_ai(pplayer1)) {
       call_first_contact(pplayer1, pplayer2);
     }
-    if (pplayer2->ai_controlled) {
+    if (is_ai(pplayer2)) {
       call_first_contact(pplayer2, pplayer1);
     }
     return;
@@ -2466,7 +2466,7 @@ static struct player *split_player(struct player *pplayer)
   research_update(new_research);
 
   /* Do the ai */
-  cplayer->ai_controlled = TRUE;
+  set_as_ai(cplayer);
   cplayer->ai_common.maxbuycost = pplayer->ai_common.maxbuycost;
   cplayer->ai_common.warmth = pplayer->ai_common.warmth;
   cplayer->ai_common.frost = pplayer->ai_common.frost;
@@ -3009,7 +3009,7 @@ void handle_player_multiplier(struct player *pplayer, int count,
 ****************************************************************************/
 void player_set_to_ai_mode(struct player *pplayer, enum ai_level skill_level)
 {
-  pplayer->ai_controlled = TRUE;
+  set_as_ai(pplayer);
 
   set_ai_level_directer(pplayer, skill_level);
   cancel_all_meetings(pplayer);
@@ -3031,7 +3031,8 @@ void player_set_to_ai_mode(struct player *pplayer, enum ai_level skill_level)
 ****************************************************************************/
 void player_set_under_human_control(struct player *pplayer)
 {
-  pplayer->ai_controlled = FALSE;
+  set_as_human(pplayer);
+
   if (pplayer->ai_common.skill_level == AI_LEVEL_AWAY) {
     pplayer->ai_common.skill_level = ai_level_invalid();
   }

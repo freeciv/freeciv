@@ -886,7 +886,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
   struct unit *ferry = NULL;
   struct cityresult *cr1 = NULL, *cr2 = NULL;
 
-  fc_assert_ret_val(pplayer->ai_controlled, NULL);
+  fc_assert_ret_val(is_ai(pplayer), NULL);
   /* Only virtual units may use virtual boats: */
   fc_assert_ret_val(0 == punit->id || !use_virt_boat, NULL);
 
@@ -1294,9 +1294,7 @@ void contemplate_new_city(struct ai_type *ait, struct city *pcity)
   virtualunit = unit_virtual_create(pplayer, pcity, unit_type, 0);
   unit_tile_set(virtualunit, pcenter);
 
-  fc_assert_ret(pplayer->ai_controlled);
-
-  if (pplayer->ai_controlled) {
+  if (is_ai(pplayer)) {
     struct cityresult *result;
     bool is_coastal = is_terrain_class_near_tile(pcenter, TC_OCEAN);
     struct ai_city *city_data = def_ai_city_data(pcity, ait);
@@ -1321,6 +1319,10 @@ void contemplate_new_city(struct ai_type *ait, struct city *pcity)
       CITY_LOG(LOG_DEBUG, pcity, "want no city");
       city_data->founder_want = 0;
     }
+  } else {
+    /* Always failing */
+    fc_assert_ret(is_ai(pplayer));
   }
+
   unit_virtual_destroy(virtualunit);
 }

@@ -214,6 +214,11 @@ struct attribute_block_s {
 struct ai_type;
 struct ai_data;
 
+#define is_human(plr) !(plr)->ai_controlled
+#define is_ai(plr) (plr)->ai_controlled
+#define set_as_human(plr) (plr)->ai_controlled = FALSE
+#define set_as_ai(plr) (plr)->ai_controlled = TRUE
+
 struct player {
   struct player_slot *slot;
   char name[MAX_LEN_NAME];
@@ -251,7 +256,7 @@ struct player {
 
   struct player_spaceship spaceship;
 
-  bool ai_controlled; /* 0: not automated; 1: automated */
+  bool ai_controlled; /* FALSE: not automated; TRUE: automated */
   struct player_ai ai_common;
   const struct ai_type *ai;
 

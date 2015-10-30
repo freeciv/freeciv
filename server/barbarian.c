@@ -170,7 +170,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
   barbarians->phase_done = TRUE;
 
   /* Do the ai */
-  barbarians->ai_controlled = TRUE;
+  set_as_ai(barbarians);
   barbarians->ai_common.barbarian_type = type;
   set_ai_level_directer(barbarians, game.info.skill_level);
 

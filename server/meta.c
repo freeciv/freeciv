@@ -329,10 +329,12 @@ static bool send_to_metaserver(enum meta_flag flag)
           sz_strlcpy(type, "Dead");
         } else if (is_barbarian(plr)) {
           sz_strlcpy(type, "Barbarian");
-        } else if (plr->ai_controlled) {
+        } else if (is_ai(plr)) {
           sz_strlcpy(type, "A.I.");
-        } else {
+        } else if (is_human(plr)) {
           sz_strlcpy(type, "Human");
+        } else {
+          sz_strlcpy(type, "-");
         }
 
         netfile_add_form_str(post, "plu[]", plr->username);
@@ -356,11 +358,11 @@ static bool send_to_metaserver(enum meta_flag flag)
           is_player_available = FALSE;
         } else if (!plr->is_alive && !strchr(game.server.allow_take, 'd')) {
           is_player_available = FALSE;
-        } else if (plr->ai_controlled
+        } else if (is_ai(plr)
                    && !strchr(game.server.allow_take,
                               (game.info.is_new_game ? 'A' : 'a'))) {
           is_player_available = FALSE;
-        } else if (!plr->ai_controlled
+        } else if (is_human(plr)
                    && !strchr(game.server.allow_take,
                               (game.info.is_new_game ? 'H' : 'h'))) {
           is_player_available = FALSE;
@@ -373,8 +375,8 @@ static bool send_to_metaserver(enum meta_flag flag)
         if (is_player_available) {
           players++;
         }
-          
-        if (!plr->ai_controlled && plr->is_alive) {
+
+        if (is_human(plr) && plr->is_alive) {
           humans++;
         }
       } players_iterate_end;

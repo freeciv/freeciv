@@ -193,8 +193,8 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
     return;
   }
 
-  if (client.conn.playing->ai_controlled) {
-    return;			/* Don't show if we are AI controlled. */
+  if (!is_human(client.conn.playing)) {
+    return; /* Don't show if we are not human controlled. */
   }
 
   if (!pdialog) {

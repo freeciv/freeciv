@@ -1190,8 +1190,8 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
     return;
   }
 
-  if (client.conn.playing->ai_controlled) {
-    return;			/* Don't show if we are AI controlled. */
+  if (!is_human(client.conn.playing)) {
+    return; /* Don't show if we are not under human control. */
   }
 
   if (!(pdialog = get_diplomacy_dialog(counterpart))) {

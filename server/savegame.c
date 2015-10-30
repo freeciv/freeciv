@@ -1859,10 +1859,11 @@ static void player_load_main(struct player *plr, int plrno,
   plr->ai_common.skill_level =
     ai_level_convert(secfile_lookup_int_default(file, game.info.skill_level,
                                                 "player%d.ai.skill_level", plrno));
-  if (plr->ai_controlled && !ai_level_is_valid(plr->ai_common.skill_level)) {
-    plr->ai_common.skill_level = ai_level_convert(GAME_OLD_DEFAULT_SKILL_LEVEL);
-  }
-  if (plr->ai_controlled) {
+  if (is_ai(plr)) {
+    if (!ai_level_is_valid(plr->ai_common.skill_level)) {
+      plr->ai_common.skill_level = ai_level_convert(GAME_OLD_DEFAULT_SKILL_LEVEL);
+    }
+
     /* Set AI parameters */
     set_ai_level_directer(plr, plr->ai_common.skill_level);
   }
@@ -4008,7 +4009,7 @@ static void game_load_internal(struct section_file *file)
       player_load_attributes(pplayer, plrno, file);
 
       /* print out some informations */
-      if (pplayer->ai_controlled) {
+      if (is_ai(pplayer)) {
         CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
         log_normal(_("%s has been added as %s level AI-controlled player "
                      "(%s)."), player_name(pplayer),
@@ -4255,7 +4256,7 @@ static void game_load_internal(struct section_file *file)
     bool saved_ai_control = pplayer->ai_controlled;
 
     /* Recalculate for all players. */
-    pplayer->ai_controlled = FALSE;
+    set_as_human(pplayer);
 
     /* Building advisor needs data phase open in order to work */
     adv_data_phase_init(pplayer, FALSE);

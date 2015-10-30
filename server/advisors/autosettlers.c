@@ -1056,7 +1056,7 @@ void auto_settlers_player(struct player *pplayer)
   as_timer = timer_renew(as_timer, TIMER_CPU, TIMER_DEBUG);
   timer_start(as_timer);
 
-  if (pplayer->ai_controlled) {
+  if (is_ai(pplayer)) {
     /* Set up our city map. */
     citymap_turn_init(pplayer);
   }
@@ -1090,7 +1090,7 @@ void auto_settlers_player(struct player *pplayer)
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
   unit_list_iterate_safe(pplayer->units, punit) {
-    if ((punit->ai_controlled || pplayer->ai_controlled)
+    if ((punit->ai_controlled || is_ai(pplayer))
         && (unit_has_type_flag(punit, UTYF_SETTLERS)
             || unit_is_cityfounder(punit))
         && !unit_has_orders(punit)
@@ -1105,7 +1105,7 @@ void auto_settlers_player(struct player *pplayer)
         unit_activity_handling(punit, ACTIVITY_IDLE);
       }
       if (punit->activity != ACTIVITY_IDLE) {
-        if (!pplayer->ai_controlled) {
+        if (!is_ai(pplayer)) {
           if (!adv_settler_safe_tile(pplayer, punit, unit_tile(punit))) {
             unit_activity_handling(punit, ACTIVITY_IDLE);
           }
@@ -1114,7 +1114,7 @@ void auto_settlers_player(struct player *pplayer)
         }
       }
       if (punit->activity == ACTIVITY_IDLE) {
-        if (!pplayer->ai_controlled) {
+        if (!is_ai(pplayer)) {
           auto_settler_findwork(pplayer, punit, state, 0);
         } else {
           CALL_PLR_AI_FUNC(settler_run, pplayer, pplayer, punit, state);
@@ -1123,7 +1123,7 @@ void auto_settlers_player(struct player *pplayer)
     }
   } unit_list_iterate_safe_end;
   /* Reset auto settler state for the next run. */
-  if (pplayer->ai_controlled) {
+  if (is_ai(pplayer)) {
     CALL_PLR_AI_FUNC(settler_reset, pplayer, pplayer);
   }
 

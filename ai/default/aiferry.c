@@ -635,7 +635,7 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
   struct pf_map *pfm;
   struct pf_path *path;
 
-  fc_assert_ret_val(pplayer->ai_controlled, TRUE);
+  fc_assert_ret_val(is_ai(pplayer), TRUE);
   fc_assert_ret_val(!unit_has_orders(passenger), TRUE);
   fc_assert_ret_val(unit_tile(ferry) == unit_tile(passenger), TRUE);
 

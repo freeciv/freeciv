@@ -362,7 +362,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   int count_tech = count_stealable_techs(pplayer, tplayer);
   int incite_cost, expenses;
 
-  fc_assert_ret(pplayer->ai_controlled);
+  fc_assert_ret(is_ai(pplayer));
 
   if (punit->moves_left == 0) {
     UNIT_LOG(LOG_ERROR, punit, "no moves left in ai_diplomat_city()!");

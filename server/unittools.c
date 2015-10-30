@@ -2828,7 +2828,7 @@ static void unit_enter_hut(struct unit *punit)
       }
   
       /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
-      if (pplayer->ai_controlled && has_handicap(pplayer, H_LIMITEDHUTS)) {
+      if (is_ai(pplayer) && has_handicap(pplayer, H_LIMITEDHUTS)) {
         (void) hut_get_limited(punit);
         return;
       }
@@ -3179,7 +3179,7 @@ static bool unit_move_consequences(struct unit *punit,
 
   if (tocity) { /* entering a city */
     if (tocity->owner == pplayer_end_pos) {
-      if (tocity != homecity_end_pos && !pplayer_end_pos->ai_controlled) {
+      if (tocity != homecity_end_pos && is_human(pplayer_end_pos)) {
         city_refresh(tocity);
         send_city_info(pplayer_end_pos, tocity);
       }
@@ -3195,7 +3195,7 @@ static bool unit_move_consequences(struct unit *punit,
     }
     if (fromcity != homecity_start_pos
         && fromcity->owner == pplayer_start_pos
-        && !pplayer_start_pos->ai_controlled) {
+        && is_human(pplayer_start_pos)) {
       city_refresh(fromcity);
       send_city_info(pplayer_start_pos, fromcity);
     }
@@ -3217,14 +3217,14 @@ static bool unit_move_consequences(struct unit *punit,
     }
   }
 
-  if (refresh_homecity_start_pos && !pplayer_start_pos->ai_controlled) {
+  if (refresh_homecity_start_pos && is_human(pplayer_start_pos)) {
     city_refresh(homecity_start_pos);
     send_city_info(pplayer_start_pos, homecity_start_pos);
   }
   if (refresh_homecity_end_pos
       && (!refresh_homecity_start_pos
           || homecity_start_pos != homecity_end_pos)
-      && !pplayer_end_pos->ai_controlled) {
+      && is_human(pplayer_end_pos)) {
     city_refresh(homecity_end_pos);
     send_city_info(pplayer_end_pos, homecity_end_pos);
   }
@@ -3616,7 +3616,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
         unit_transport_load_tp_status(punit, ptransporter, FALSE);
 
         /* Set activity to sentry if boarding a ship. */
-        if (!pplayer->ai_controlled
+        if (is_human(pplayer)
             && !unit_has_orders(punit)
             && !punit->ai_controlled
             && !can_unit_exist_at_tile(punit, pdesttile)) {
@@ -3670,8 +3670,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
         continue;
       }
 
-      if (act_player->ai_controlled) {
-        /* The AI doesn't need reminders. */
+      if (!is_human(act_player)) {
+        /* Only humans need reminders. */
         continue;
       }
 

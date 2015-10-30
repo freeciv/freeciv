@@ -482,7 +482,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
         /* If there is at least one AI player still alive, then pick
          * a random tech, else keep A_UNSET. */
         research_players_iterate(presearch, aplayer) {
-          if (aplayer->ai_controlled) {
+          if (is_ai(aplayer)) {
             next_tech = pick_random_tech(presearch);
             break;
           }

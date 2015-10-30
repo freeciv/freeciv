@@ -640,7 +640,7 @@ static void autotoggle_action(const struct setting *pset)
 {
   if (*pset->boolean.pvalue) {
     players_iterate(pplayer) {
-      if (!pplayer->ai_controlled && !pplayer->is_connected) {
+      if (is_human(pplayer) && !pplayer->is_connected) {
         toggle_ai_player_direct(NULL, pplayer);
         send_player_info_c(pplayer, game.est_connections);
       }

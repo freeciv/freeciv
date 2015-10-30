@@ -3309,7 +3309,7 @@ static void sg_load_players(struct loaddata *loading)
     sg_check_ret();
 
     /* print out some informations */
-    if (pplayer->ai_controlled) {
+    if (is_ai(pplayer)) {
       log_normal(_("%s has been added as %s level AI-controlled player "
                    "(%s)."), player_name(pplayer),
                  ai_level_translated_name(pplayer->ai_common.skill_level),
@@ -3671,7 +3671,7 @@ static void sg_load_player_main(struct loaddata *loading,
     server.nbarbarians++;
   }
 
-  if (plr->ai_controlled) {
+  if (is_ai(plr)) {
     set_ai_level_directer(plr, plr->ai_common.skill_level);
     CALL_PLR_AI_FUNC(gained_control, plr, plr);
   }
@@ -3944,7 +3944,7 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.turns_alive", plrno);
   secfile_insert_int(saving->file, plr->last_war_action,
                      "player%d.last_war", plrno);
-  secfile_insert_bool(saving->file, plr->ai_controlled,
+  secfile_insert_bool(saving->file, is_ai(plr),
                       "player%d.ai.control", plrno);
   secfile_insert_bool(saving->file, plr->phase_done,
                       "player%d.phase_done", plrno);
@@ -6638,7 +6638,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     bool saved_ai_control = pplayer->ai_controlled;
 
     /* Recalculate for all players. */
-    pplayer->ai_controlled = FALSE;
+    set_as_human(pplayer);
 
     /* Building advisor needs data phase open in order to work */
     adv_data_phase_init(pplayer, FALSE);

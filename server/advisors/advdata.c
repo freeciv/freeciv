@@ -483,11 +483,11 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     bool found_human = FALSE;
     adv->max_num_cities = 3;
     players_iterate_alive(aplayer) {
-      if (aplayer == pplayer || aplayer->ai_controlled) {
+      if (aplayer == pplayer || is_ai(aplayer)) {
         continue;
       }
       adv->max_num_cities = MAX(adv->max_num_cities,
-				city_list_size(aplayer->cities) + 3);
+                                city_list_size(aplayer->cities) + 3);
       found_human = TRUE;
     } players_iterate_alive_end;
     if (!found_human) {
@@ -976,7 +976,7 @@ bool adv_is_player_dangerous(struct player *pplayer,
   enum diplstate_type ds;
   enum override_bool dang = NO_OVERRIDE;
 
-  if (pplayer->ai_controlled) {
+  if (is_ai(pplayer)) {
     /* Give AI code possibility to decide itself */
     CALL_PLR_AI_FUNC(consider_plr_dangerous, pplayer, pplayer, aplayer, &dang);
   }

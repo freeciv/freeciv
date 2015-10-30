@@ -1195,7 +1195,7 @@ void fc_client::update_start_page()
     if (is_barbarian(pplayer)) {
       continue;
     }
-    if (pplayer->ai_controlled) {
+    if (is_ai(pplayer)) {
       is_ready = true;
     } else {
       is_ready = pplayer->is_ready;
@@ -1225,7 +1225,7 @@ void fc_client::update_start_page()
       case 0:
         str = pplayer->username;
 
-        if (pplayer->ai_controlled) {
+        if (is_ai(pplayer)) {
           str = str + " <" + (ai_level_translated_name(pplayer->ai_common.skill_level))
               + ">";
         }
@@ -1433,12 +1433,11 @@ void fc_client::start_page_menu(QPoint pos)
         menu.addAction(action);
       }
 
-      if (pplayer->ai_controlled) {
+      if (is_ai(pplayer)) {
         /**
          * Set AI difficulty submenu
          */
-        if (ALLOW_CTRL <= client.conn.access_level
-            && NULL != pplayer && pplayer->ai_controlled) {
+        if (ALLOW_CTRL <= client.conn.access_level) {
           submenu_AI.setTitle(_("Set difficulty"));
           menu.addMenu(&submenu_AI);
 
@@ -1552,7 +1551,7 @@ void fc_client::send_command_to_server(const QString &str)
       splayer = "\"" + splayer + "\"";
 
       if (!splayer.compare(s)) {
-        if (pplayer->ai_controlled) {
+        if (is_ai(pplayer)) {
           send_chat(str.toLocal8Bit().data());
           send_chat("/away");
           return;

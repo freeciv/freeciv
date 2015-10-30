@@ -931,7 +931,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       }
 
       if (!client_is_observer() && !client.conn.playing->phase_done
-          && (!client.conn.playing->ai_controlled
+          && (is_human(client.conn.playing)
               || gui_options.ai_manual_turn_done)) {
         char buf[256];
 

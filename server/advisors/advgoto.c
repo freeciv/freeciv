@@ -78,7 +78,7 @@ bool adv_follow_path(struct unit *punit, struct pf_path *path,
 *************************************************************************/
 bool adv_unit_execute_path(struct unit *punit, struct pf_path *path)
 {
-  const bool is_ai = unit_owner(punit)->ai_controlled;
+  const bool is_plr_ai = is_ai(unit_owner(punit));
   int i;
 
   /* We start with i = 1 for i = 0 is our present position */
@@ -99,7 +99,7 @@ bool adv_unit_execute_path(struct unit *punit, struct pf_path *path)
      * using units temporarily under AI control (such as auto-explorers)
      */
 
-    if (is_ai) {
+    if (is_plr_ai) {
       CALL_PLR_AI_FUNC(unit_move, unit_owner(punit), punit, ptile, path, i);
     } else {
       (void) adv_unit_move(punit, ptile);

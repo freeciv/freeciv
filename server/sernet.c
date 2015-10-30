@@ -1543,19 +1543,19 @@ static void send_lanserver_response(void)
     break;
   }
 
-   fc_snprintf(players, sizeof(players), "%d",
-               normal_player_count());
+  fc_snprintf(players, sizeof(players), "%d",
+              normal_player_count());
 
-   nhumans = 0;
-   players_iterate(pplayer) {
-     if (pplayer->is_alive && !pplayer->ai_controlled) {
-       nhumans++;
-     }
-   } players_iterate_end;
-   fc_snprintf(humans, sizeof(humans), "%d", nhumans);
+  nhumans = 0;
+  players_iterate(pplayer) {
+    if (pplayer->is_alive && is_human(pplayer)) {
+      nhumans++;
+    }
+  } players_iterate_end;
+  fc_snprintf(humans, sizeof(humans), "%d", nhumans);
 
-   fc_snprintf(port, sizeof(port), "%d",
-              srvarg.port );
+  fc_snprintf(port, sizeof(port), "%d",
+              srvarg.port);
 
   dio_output_init(&dout, buffer, sizeof(buffer));
   dio_put_uint8_raw(&dout, SERVER_LAN_VERSION);

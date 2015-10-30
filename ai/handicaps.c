@@ -65,8 +65,9 @@ void handicaps_set(struct player *pplayer, bv_handicap handicaps)
 **************************************************************************/
 bool has_handicap(const struct player *pplayer, enum handicap_type htype)
 {
-  if (!pplayer->ai_controlled) {
+  if (is_human(pplayer)) {
     return TRUE;
   }
+
   return BV_ISSET(*((bv_handicap *)pplayer->ai_common.handicaps), htype);
 }

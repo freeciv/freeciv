@@ -499,7 +499,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
 
   /* This function is now always omniscient and should not be used
    * for human players any more. */
-  fc_assert(pplayer->ai_controlled);
+  fc_assert(is_ai(pplayer));
 
   /* If a unit is hunting, don't expect it to be a ferry. */
   is_ferry = (unit_data->task != AIUNIT_HUNTER
@@ -835,7 +835,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
   bool alive;
 
   CHECK_UNIT(punit);
-  fc_assert_ret_val(unit_owner(punit)->ai_controlled, TRUE);
+  fc_assert_ret_val(is_ai(unit_owner(punit)), TRUE);
   fc_assert_ret_val(is_tiles_adjacent(unit_tile(punit), ptile), TRUE);
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
@@ -896,7 +896,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   struct unit *bodyguard;
   int sanity = punit->id;
   struct player *pplayer = unit_owner(punit);
-  const bool is_ai = pplayer->ai_controlled;
+  const bool is_plr_ai = is_ai(pplayer);
 
   CHECK_UNIT(punit);
   fc_assert_ret_val_msg(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
@@ -919,7 +919,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   }
 
   /* don't leave bodyguard behind */
-  if (is_ai
+  if (is_plr_ai
       && (bodyguard = aiguard_guard_of(ait, punit))
       && same_pos(unit_tile(punit), unit_tile(bodyguard))
       && bodyguard->moves_left == 0) {
@@ -945,7 +945,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   if (game_unit_by_number(sanity) && same_pos(ptile, unit_tile(punit))) {
     bodyguard = aiguard_guard_of(ait, punit);
 
-    if (is_ai && bodyguard != NULL
+    if (is_plr_ai && bodyguard != NULL
         && def_ai_unit_data(bodyguard, ait)->charge == punit->id) {
       dai_unit_bodyguard_move(ait, bodyguard, ptile);
     }
@@ -1002,7 +1002,8 @@ void dai_government_change(struct player *pplayer, struct government *gov)
 **************************************************************************/
 int dai_gold_reserve(struct player *pplayer)
 {
-  int i = total_player_citizens(pplayer)*2;
+  int i = total_player_citizens(pplayer) * 2;
+
   return MAX(pplayer->ai_common.maxbuycost, i);
 }
 

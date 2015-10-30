@@ -162,7 +162,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
   ai->last_num_oceans = adv->num_oceans;
 
   /*** Diplomacy ***/
-  if (pplayer->ai_controlled && !is_barbarian(pplayer) && is_new_phase) {
+  if (is_ai(pplayer) && !is_barbarian(pplayer) && is_new_phase) {
     dai_diplomacy_begin_new_phase(ait, pplayer);
   }
 

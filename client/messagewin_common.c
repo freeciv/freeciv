@@ -32,9 +32,10 @@
 
 /* client */
 #include "client_main.h"
-#include "messagewin_common.h"
 #include "options.h"
 #include "update_queue.h"
+
+#include "messagewin_common.h"
 
 static struct message *messages = NULL;
 static int messages_total = 0;
@@ -53,7 +54,7 @@ static void meswin_dialog_update(void)
     update_queue_add(UQ_CALLBACK(real_meswin_dialog_update), NULL);
   } else if (0 < messages_total
              && (!client_has_player()
-                 || !client.conn.playing->ai_controlled)) {
+                 || is_human(client.conn.playing))) {
     meswin_dialog_popup(FALSE);
   }
 }

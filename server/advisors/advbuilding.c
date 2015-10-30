@@ -214,7 +214,7 @@ void building_advisor(struct player *pplayer)
       Continent_id place = tile_continent(pcity->tile);
       struct adv_city *city_data = pcity->server.adv;
 
-      if (pplayer->ai_controlled) {
+      if (is_ai(pplayer)) {
         bool result = TRUE;
 
         /* AI has opportunity to say that this city cannot be
@@ -259,7 +259,7 @@ void building_advisor(struct player *pplayer)
     }
   }
 
-  if (pplayer->ai_controlled) {
+  if (is_ai(pplayer)) {
     CALL_PLR_AI_FUNC(build_adv_prepare, pplayer, pplayer, adv);
     CALL_PLR_AI_FUNC(build_adv_adjust_want, pplayer, pplayer, wonder_city);
   } else {

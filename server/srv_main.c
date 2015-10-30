@@ -891,7 +891,7 @@ static void kill_dying_players(void)
 static void ai_start_phase(void)
 {
   phase_players_iterate(pplayer) {
-    if (pplayer->ai_controlled) {
+    if (is_ai(pplayer)) {
       CALL_PLR_AI_FUNC(first_activities, pplayer, pplayer);
     }
   } phase_players_iterate_end;
@@ -1055,7 +1055,7 @@ static void begin_phase(bool is_new_phase)
   phase_players_iterate(pplayer) {
     log_debug("beginning player turn for #%d (%s)",
               player_number(pplayer), player_name(pplayer));
-    if (!pplayer->ai_controlled) {
+    if (is_human(pplayer)) {
       building_advisor(pplayer);
     }
   } phase_players_iterate_end;
@@ -1074,7 +1074,7 @@ static void begin_phase(bool is_new_phase)
   if (is_new_phase) {
     /* Try to avoid hiding events under a diplomacy dialog */
     phase_players_iterate(pplayer) {
-      if (pplayer->ai_controlled && !is_barbarian(pplayer)) {
+      if (is_ai(pplayer) && !is_barbarian(pplayer)) {
         CALL_PLR_AI_FUNC(diplomacy_actions, pplayer, pplayer);
       }
     } phase_players_iterate_end;
@@ -1083,7 +1083,7 @@ static void begin_phase(bool is_new_phase)
     ai_start_phase();
   } else {
     phase_players_iterate(pplayer) {
-      if (pplayer->ai_controlled) {
+      if (is_ai(pplayer)) {
         CALL_PLR_AI_FUNC(restart_phase, pplayer, pplayer);
       }
     } phase_players_iterate_end;
@@ -1165,7 +1165,7 @@ static void end_phase(void)
   } players_iterate_end;
   phase_players_iterate(pplayer) {
     auto_settlers_player(pplayer);
-    if (pplayer->ai_controlled) {
+    if (is_ai(pplayer)) {
       CALL_PLR_AI_FUNC(last_activities, pplayer, pplayer);
     }
   } phase_players_iterate_end;
@@ -1246,7 +1246,7 @@ static void end_turn(void)
 
   /* Output some AI measurement information */
   players_iterate(pplayer) {
-    if (!pplayer->ai_controlled || is_barbarian(pplayer)) {
+    if (!is_ai(pplayer) || is_barbarian(pplayer)) {
       continue;
     }
     unit_list_iterate(pplayer->units, punit) {
@@ -1986,7 +1986,7 @@ void check_for_full_turn_done(void)
    * timeout is set to -1 this function call is skipped entirely and the
    * server will run rampant. */
   players_iterate_alive(pplayer) {
-    if (pplayer->is_connected && !pplayer->ai_controlled) {
+    if (pplayer->is_connected && is_human(pplayer)) {
       connected = TRUE;
       break;
     }
@@ -2002,12 +2002,12 @@ void check_for_full_turn_done(void)
         /* In all cases, we wait for any connected players. */
         return;
       }
-      if (game.server.turnblock && !pplayer->ai_controlled) {
+      if (game.server.turnblock && is_human(pplayer)) {
         /* If turnblock is enabled check for human players, connected
          * or not. */
         return;
       }
-      if (pplayer->ai_controlled && !pplayer->ai_phase_done) {
+      if (is_ai(pplayer) && !pplayer->ai_phase_done) {
         /* AI player has not finished */
         return;
       }
@@ -2263,7 +2263,7 @@ const char *aifill(int amount)
     pplayer->unassigned_user = TRUE;
 
     pplayer->ai_common.skill_level = game.info.skill_level;
-    pplayer->ai_controlled = TRUE;
+    set_as_ai(pplayer);
     set_ai_level_directer(pplayer, game.info.skill_level);
 
     CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
@@ -2880,7 +2880,7 @@ static void srv_ready(void)
 
   if (game.server.auto_ai_toggle) {
     players_iterate(pplayer) {
-      if (!pplayer->is_connected && !pplayer->ai_controlled) {
+      if (!pplayer->is_connected && is_human(pplayer)) {
 	toggle_ai_player_direct(NULL, pplayer);
       }
     } players_iterate_end;
@@ -3081,7 +3081,7 @@ static void srv_ready(void)
 
   if (!game.info.is_new_game) {
     players_iterate(pplayer) {
-      if (pplayer->ai_controlled) {
+      if (is_ai(pplayer)) {
 	set_ai_level_direct(pplayer, pplayer->ai_common.skill_level);
       }
     } players_iterate_end;

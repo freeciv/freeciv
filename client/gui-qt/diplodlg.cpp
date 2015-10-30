@@ -710,7 +710,7 @@ bool diplo_dlg::init(bool raise)
   if (!can_client_issue_orders()) {
     return false;
   }
-  if (client.conn.playing->ai_controlled) {
+  if (!is_human(client.conn.playing)) {
     return false;
   }
   setAttribute(Qt::WA_DeleteOnClose);

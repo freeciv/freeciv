@@ -3035,10 +3035,10 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       if (tcity || tunit
           || may_unit_act_vs_tile_units(punit, pdesttile, can_not_move)
           || ttile_ok) {
-        if (pplayer->ai_controlled) {
+        if (is_ai(pplayer)) {
           return FALSE;
         }
-        
+
         /* If we didn't send_unit_info the client would sometimes
          * think that the diplomat didn't have any moves left and so
          * don't pop up the box.  (We are in the middle of the unit
@@ -3620,8 +3620,9 @@ void handle_unit_autosettlers(struct player *pplayer, int unit_id)
     return;
   }
 
-  if (!can_unit_do_autosettlers(punit))
+  if (!can_unit_do_autosettlers(punit)) {
     return;
+  }
 
   punit->ai_controlled = TRUE;
   send_unit_info(NULL, punit);
