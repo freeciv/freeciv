@@ -392,6 +392,16 @@ static void twai_auto_settler_cont(struct player *pplayer, struct unit *punit,
 /**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
+static void twai_switch_to_explore(struct unit *punit, struct tile *target,
+                                  enum override_bool *allow)
+{
+  TAI_AIT;
+  TAI_DFUNC(dai_switch_to_explore, punit, target, allow);
+}
+
+/**************************************************************************
+  Call default ai with threaded ai type as parameter.
+**************************************************************************/
 static void twai_first_activities(struct player *pplayer)
 {
   TAI_AIT;
@@ -579,6 +589,8 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
   ai->funcs.settler_reset = twai_auto_settler_reset;
   ai->funcs.settler_run = twai_auto_settler_run;
   ai->funcs.settler_cont = twai_auto_settler_cont;
+
+  ai->funcs.want_to_explore = twai_switch_to_explore;
 
   ai->funcs.first_activities = twai_first_activities;
   /* Do complete run after savegame loaded - we don't know what has been

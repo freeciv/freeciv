@@ -22,6 +22,7 @@
 #include "log.h"
 
 /* common */
+#include "ai.h"
 #include "movement.h"
 #include "player.h"
 #include "unit.h"
@@ -372,6 +373,15 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
   if (best_tile != NULL) {
     /* TODO: read the path off the map we made.  Then we can make a path 
      * which goes beside the unknown, with a good EC callback... */
+    enum override_bool allow = NO_OVERRIDE;
+
+    if (pplayer->ai_controlled) {
+      CALL_PLR_AI_FUNC(want_to_explore, pplayer, punit, best_tile, &allow);
+    }
+    if (allow == OVERRIDE_FALSE) {
+      UNIT_LOG(LOG_DEBUG, punit, "not allowed to explore");
+      return MR_NOT_ALLOWED;
+    }
     if (!explorer_goto(punit, best_tile)) {
       /* Died?  Strange... */
       return MR_DEATH;

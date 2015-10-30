@@ -3259,3 +3259,18 @@ bool dai_unit_can_strike_my_unit(const struct unit *attacker,
 
   return able_to_strike;
 }
+
+/****************************************************************************
+  Switch to autoexploring.
+****************************************************************************/
+void dai_switch_to_explore(struct ai_type *ait, struct unit *punit,
+                           struct tile *target, enum override_bool *allow)
+{
+  struct unit_ai *udata = def_ai_unit_data(punit, ait);
+
+  if (udata->task != AIUNIT_NONE && udata->task != AIUNIT_EXPLORE) {
+    *allow = OVERRIDE_FALSE;
+
+    return;
+  }
+}

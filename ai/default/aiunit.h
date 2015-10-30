@@ -156,4 +156,7 @@ struct unit_type *dai_role_utype_for_terrain_class(struct city *pcity, int role,
 bool dai_unit_can_strike_my_unit(const struct unit *attacker,
                                  const struct unit *defender);
 
+void dai_switch_to_explore(struct ai_type *ait, struct unit *punit,
+                           struct tile *target, enum override_bool *allow);
+
 #endif  /* FC__AIUNIT_H */
