@@ -1320,6 +1320,7 @@ PACKET_RULESET_UNIT_BONUS = 228; sc, lsend
   UTYF        flag;
   CBONUS_TYPE type;
   UINT8       value;
+  BOOL        quiet;
 end
 
 PACKET_RULESET_UNIT_FLAG = 229; sc, lsend

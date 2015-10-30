@@ -482,6 +482,9 @@ static bool lookup_cbonus_list(struct combat_bonus_list *list,
       success = FALSE;
       continue;
     }
+    bonus->quiet = secfile_lookup_bool_default(file, FALSE,
+                                               "%s.%s%d.quiet",
+                                               sec, sub, j);
     combat_bonus_list_append(list, bonus);
   }
 
@@ -6118,6 +6121,7 @@ static void send_ruleset_units(struct conn_list *dest)
       bonuspacket.flag  = pbonus->flag;
       bonuspacket.type  = pbonus->type;
       bonuspacket.value = pbonus->value;
+      bonuspacket.quiet = pbonus->quiet;
 
       lsend_packet_ruleset_unit_bonus(dest, &bonuspacket);
     } combat_bonus_list_iterate_end;
