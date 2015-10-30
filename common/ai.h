@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2015.Oct.15"
+#define FC_AI_MOD_CAPSTR "+Freeciv-2.6-ai-module-2015.Oct.30"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -196,6 +196,10 @@ struct ai_type
        Cancelling current work there will result in settler_run() call. */
     void (*settler_cont)(struct player *pplayer, struct unit *punit,
                          struct settlermap *state);
+
+    /* Called for player AI type when unit wants to autoexplore towards a tile. */
+    void (*want_to_explore)(struct unit *punit, struct tile *target,
+                            enum override_bool *allow);
 
     /* Called for player AI type in the beginning of player phase.
      * Unlike with phase_begin, everything is set up for phase already. */

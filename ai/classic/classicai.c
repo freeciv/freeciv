@@ -421,6 +421,17 @@ static void cai_auto_settler_cont(struct player *pplayer, struct unit *punit,
 /**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
+static void cai_switch_to_explore(struct unit *punit, struct tile *target,
+                                  enum override_bool *allow)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  dai_switch_to_explore(deftype, punit, target, allow);
+}
+
+/**************************************************************************
+  Call default ai with classic ai type as parameter.
+**************************************************************************/
 static void cai_do_first_activities(struct player *pplayer)
 {
   struct ai_type *deftype = classic_ai_get_self();
@@ -625,6 +636,8 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.settler_reset = cai_auto_settler_reset;
   ai->funcs.settler_run = cai_auto_settler_run;
   ai->funcs.settler_cont = cai_auto_settler_cont;
+
+  ai->funcs.want_to_explore = cai_switch_to_explore;
 
   ai->funcs.first_activities = cai_do_first_activities;
   ai->funcs.restart_phase = cai_restart_phase;

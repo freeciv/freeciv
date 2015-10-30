@@ -2602,6 +2602,9 @@ void do_explore(struct unit *punit)
    case MR_DEATH:
      /* don't use punit! */
      return;
+   case MR_NOT_ALLOWED:
+     /* Needed for something else */
+     return;
    case MR_OK:
      /* FIXME: manage_auto_explorer() isn't supposed to change the activity,
       * but don't count on this.  See PR#39792.
