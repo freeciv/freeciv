@@ -85,10 +85,12 @@ static void menus_set_active(GtkActionGroup *group,
 static void menus_set_sensitive(GtkActionGroup *group,
                                 const gchar *action_name,
                                 gboolean is_sensitive);
+#ifndef DEBUG
 static void menus_set_visible(GtkActionGroup *group,
                               const gchar *action_name,
                               gboolean is_visible,
                               gboolean is_sensitive);
+#endif /* DEBUG */
 
 static void view_menu_update_sensitivity(void);
 
@@ -1575,8 +1577,6 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(show_focus_unit_callback), FALSE},
       {"SHOW_FOG_OF_WAR", NULL, _("Fog of _War"),
        NULL, NULL, G_CALLBACK(show_fog_of_war_callback), FALSE},
-      {"SHOW_BETTER_FOG_OF_WAR", NULL, _("Better Fog of War"),
-       NULL, NULL, NULL, FALSE},
 
       {"FULL_SCREEN", NULL, _("_Fullscreen"),
        "<Alt>Return", NULL, G_CALLBACK(full_screen_callback), FALSE}
@@ -1836,7 +1836,7 @@ static const gchar *get_ui_filename(void)
   const char *name;
 
   if ((name = getenv("FREECIV_MENUS"))
-      || (name = fileinfoname(get_data_dirs(), "gtk_menus.xml"))) {
+      || (name = fileinfoname(get_data_dirs(), "gtk3_menus.xml"))) {
     sz_strlcpy(filename, name);
   } else {
     log_error("Gtk menus: file definition not found");
@@ -1945,6 +1945,7 @@ static void menus_set_sensitive(GtkActionGroup *group,
 /****************************************************************
   Sets an action visible.
 *****************************************************************/
+#ifndef DEBUG
 static void menus_set_visible(GtkActionGroup *group,
                               const gchar *action_name,
                               gboolean is_visible,
@@ -1962,6 +1963,7 @@ static void menus_set_visible(GtkActionGroup *group,
   gtk_action_set_visible(action, is_visible);
   gtk_action_set_sensitive(action, is_sensitive);
 }
+#endif /* DEBUG */
 
 /****************************************************************
   Renames an action.
@@ -2687,11 +2689,6 @@ void real_menus_init(void)
                    gui_options.draw_focus_unit);
   menus_set_active(safe_group, "SHOW_FOG_OF_WAR",
                    gui_options.draw_fog_of_war);
-
-  /* To avoid run-time errors from gtk3, we have to have this action,
-   * really used by gtk2-client only, defined also in gtk3-client code.
-   * We just don't show it to the user. */
-  menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", FALSE, FALSE);
 
   view_menu_update_sensitivity();
 

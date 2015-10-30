@@ -1846,7 +1846,7 @@ static const gchar *get_ui_filename(void)
   const char *name;
 
   if ((name = getenv("FREECIV_MENUS"))
-      || (name = fileinfoname(get_data_dirs(), "gtk_menus.xml"))) {
+      || (name = fileinfoname(get_data_dirs(), "gtk2_menus.xml"))) {
     sz_strlcpy(filename, name);
   } else {
     log_error("Gtk menus: file definition not found");
