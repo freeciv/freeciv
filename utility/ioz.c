@@ -70,7 +70,7 @@ struct bzip2_struct {
 
 #ifdef FREECIV_HAVE_LIBLZMA
 
-#define PLAIN_FILE_BUF_SIZE (250*1024)     /* 250kb */
+#define PLAIN_FILE_BUF_SIZE (1024*1024)    /* 1024kb */
 #define XZ_DECODER_TEST_SIZE (4*1024)      /* 4kb */
 
 /* In my tests 7Mb proved to be not enough and with 10Mb decompression
