@@ -21,11 +21,11 @@ endif
 if CLIENT_GUI_GTK_2_0
 CLIENT_FILES += \
 	freeciv.rc-2.0	\
-	gtk_menus.xml
+	gtk2_menus.xml
 else
 if CLIENT_GUI_GTK_3_0
 CLIENT_FILES += \
-	gtk_menus.xml
+	gtk3_menus.xml
 endif
 endif
 else
@@ -61,7 +61,8 @@ EXTRA_DIST = \
 	Freeciv	\
 	freeciv-client.png \
 	freeciv.rc-2.0	\
-	gtk_menus.xml	\
+	gtk2_menus.xml	\
+	gtk3_menus.xml	\
 	database.lua	\
 	amplio2.tilespec \
 	cimpletoon.tilespec \
