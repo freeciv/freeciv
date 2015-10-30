@@ -128,9 +128,6 @@ static bool explorer_goto(struct unit *punit, struct tile *ptile)
   parameter.get_TB = explorer_tb;
   adv_avoid_risks(&parameter, &risk_cost, punit, NORMAL_STACKING_FEARFULNESS);
 
-  /* Show the destination in the client */
-  punit->goto_tile = ptile;
-
   UNIT_LOG(LOG_DEBUG, punit, "explorer_goto to %d,%d", TILE_XY(ptile));
 
   pfm = pf_map_new(&parameter);
