@@ -54,7 +54,7 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
              [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
     FC_CXX_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
-                  -Wformat -Wformat-security],
+                  -Wformat -Wformat-security -Wshadow],
                  [], [EXTRA_DEBUG_CXXFLAGS])
   fi
 
