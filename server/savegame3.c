@@ -2707,9 +2707,7 @@ static void sg_load_map_owner(struct loaddata *loading)
 
     sg_failure_ret(buffer1 != NULL, "%s", secfile_error());
     sg_failure_ret(buffer2 != NULL, "%s", secfile_error());
-    if (loading->version >= 30) {
-      sg_failure_ret(buffer3 != NULL, "%s", secfile_error());
-    }
+    sg_failure_ret(buffer3 != NULL, "%s", secfile_error());
 
     for (x = 0; x < game.map.xsize; x++) {
       char token1[TOKEN_SIZE];
@@ -2740,19 +2738,15 @@ static void sg_load_map_owner(struct loaddata *loading)
         claimer = index_to_tile(number);
       }
 
-      if (loading->version >= 30) {
-        scanin(&ptr3, ",", token3, sizeof(token3));
-        sg_failure_ret(token3[0] != '\0',
-                       "Map size not correct (map.eowner%d).", y);
-        if (strcmp(token3, "-") == 0) {
-          eowner = NULL;
-        } else {
-          sg_failure_ret(str_to_int(token3, &number),
-                         "Got base owner %s in (%d, %d).", token3, x, y);
-          eowner = player_by_number(number);
-        }
+      scanin(&ptr3, ",", token3, sizeof(token3));
+      sg_failure_ret(token3[0] != '\0',
+                     "Map size not correct (map.eowner%d).", y);
+      if (strcmp(token3, "-") == 0) {
+        eowner = NULL;
       } else {
-        eowner = owner;
+        sg_failure_ret(str_to_int(token3, &number),
+                       "Got base owner %s in (%d, %d).", token3, x, y);
+        eowner = player_by_number(number);
       }
 
       map_claim_ownership(ptile, owner, claimer, FALSE);
@@ -3115,9 +3109,7 @@ static void sg_load_players_basic(struct loaddata *loading)
     /* Get player color */
     if (!rgbcolor_load(loading->file, &prgbcolor, "player%d.color",
                        pslot_id)) {
-      if (loading->version >= 10 && game_was_started()) {
-        /* 2.4.0 or later savegame. This is not an error in 2.3 savefiles,
-         * as they predate the introduction of configurable player colors. */
+      if (game_was_started()) {
         log_sg("Game has started, yet player %d has no color defined.",
                pslot_id);
         /* This will be fixed up later */
@@ -5867,21 +5859,16 @@ static void sg_load_player_vision(struct loaddata *loading,
           map_get_player_tile(ptile, plr)->owner = player_by_number(number);
         }
 
-        if (loading->version >= 30) {
-          scanin(&ptr2, ",", token2, sizeof(token2));
-          sg_failure_ret('\0' != token2[0],
-                         "Savegame corrupt - map size not correct.");
-          if (strcmp(token2, "-") == 0) {
-            map_get_player_tile(ptile, plr)->extras_owner = NULL;
-          } else  {
-            sg_failure_ret(str_to_int(token2, &number),
-                           "Savegame corrupt - got extras owner=%s in (%d, %d).",
-                           token, x, y);
-            map_get_player_tile(ptile, plr)->extras_owner = player_by_number(number);
-          }
-        } else {
-          map_get_player_tile(ptile, plr)->extras_owner
-            = map_get_player_tile(ptile, plr)->owner;
+        scanin(&ptr2, ",", token2, sizeof(token2));
+        sg_failure_ret('\0' != token2[0],
+                       "Savegame corrupt - map size not correct.");
+        if (strcmp(token2, "-") == 0) {
+          map_get_player_tile(ptile, plr)->extras_owner = NULL;
+        } else  {
+          sg_failure_ret(str_to_int(token2, &number),
+                         "Savegame corrupt - got extras owner=%s in (%d, %d).",
+                         token, x, y);
+          map_get_player_tile(ptile, plr)->extras_owner = player_by_number(number);
         }
       }
     }
