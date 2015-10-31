@@ -354,6 +354,18 @@ static const struct sset_val_name *borders_name(int borders)
 }
 
 /****************************************************************************
+  Trait distribution setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *trait_dist_name(int trait_dist)
+{
+  switch (trait_dist) {
+  NAME_CASE(TDM_FIXED, "FIXED", N_("Fixed"));
+  NAME_CASE(TDM_EVEN, "EVEN", N_("Even"));
+  }
+  return NULL;
+}
+
+/****************************************************************************
   Player colors configuration setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *plrcol_name(int plrcol)
@@ -1909,6 +1921,12 @@ static struct setting settings[] = {
           NULL, NULL,
           GAME_MIN_DISASTERS, GAME_MAX_DISASTERS,
           GAME_DEFAULT_DISASTERS)
+
+  GEN_ENUM("traitdistribution", game.server.trait_dist,
+           SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+           N_("AI trait distribution method"),
+           N_("How trait values are given to AI players."),
+           NULL, NULL, NULL, trait_dist_name, GAME_DEFAULT_TRAIT_DIST_MODE)
 
   GEN_INT("razechance", game.server.razechance,
 	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,

@@ -394,6 +394,7 @@ static void game_defaults(void)
     game.server.mgr_turninterval  = GAME_DEFAULT_MGR_TURNINTERVAL;
     game.server.mgr_worldchance   = GAME_DEFAULT_MGR_WORLDCHANCE;
     game.server.migration         = GAME_DEFAULT_MIGRATION;
+    game.server.trait_dist        = GAME_DEFAULT_TRAIT_DIST_MODE;
     game.server.min_players       = GAME_DEFAULT_MIN_PLAYERS;
     game.server.natural_city_names = GAME_DEFAULT_NATURALCITYNAMES;
     game.server.plrcolormode      = GAME_DEFAULT_PLRCOLORMODE;

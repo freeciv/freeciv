@@ -41,6 +41,7 @@ struct trait_limits
 {
   int min;
   int max;
+  int fixed;
 };
 
 #ifdef __cplusplus
