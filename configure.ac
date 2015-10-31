@@ -1557,6 +1557,13 @@ fi
 
 AC_OUTPUT
 
+AS_IF([test "x$json_enabled" = "xyes"],
+      [protocol="JSON"], [protocol="binary"])
+
+AS_IF([test "x$enable_delta_protocol" = "xno"],
+      [protocol="$protocol verbose"],
+      [protocol="$protocol delta"])
+
 AC_MSG_NOTICE([
 ****************** Configuration Summary ******************
 
@@ -1594,6 +1601,9 @@ AC_MSG_NOTICE([
   Modpack installers:   $fcmp_list
   Ruleset editor:        $ruledit
   Manual generator:      $fcmanual
+
+  == Gotchas ==
+  Network protocol: $protocol (binary delta is the safe choice)
 ])
 
 FC_MISSING_FEATURES
