@@ -588,7 +588,12 @@ enum borders_mode {
   BORDERS_DISABLED = 0,
   BORDERS_ENABLED,
   BORDERS_SEE_INSIDE,
-  BORDERS_EXPAND,
+  BORDERS_EXPAND
+};
+
+enum trait_dist_mode {
+  TDM_FIXED = 0,
+  TDM_EVEN
 };
 
 /* Used in the network protocol. */

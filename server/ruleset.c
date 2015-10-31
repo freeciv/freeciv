@@ -972,6 +972,10 @@ static void ruleset_load_traits(struct trait_limits *out,
                                              secname,
                                              field_prefix,
                                              trait_names[tr]);
+    out[tr].fixed = secfile_lookup_int_default(file, -1, "%s.%s%s_default",
+                                               secname,
+                                               field_prefix,
+                                               trait_names[tr]);
   }
 
   fc_assert(tr == trait_end()); /* number of trait_names correct */
@@ -3929,6 +3933,12 @@ static bool load_ruleset_nations(struct section_file *file,
     if (game.server.default_traits[tr].max < 0) {
       game.server.default_traits[tr].max = TRAIT_DEFAULT_VALUE;
     }
+    if (game.server.default_traits[tr].fixed < 0) {
+      int diff = game.server.default_traits[tr].max - game.server.default_traits[tr].min;
+
+      /* TODO: Should sometimes round the a / 2 = x.5 results up */
+      game.server.default_traits[tr].fixed = diff / 2 + game.server.default_traits[tr].min;
+    }
     if (game.server.default_traits[tr].max < game.server.default_traits[tr].min) {
       ruleset_error(LOG_ERROR, "Default values for trait %s not sane.",
                     trait_name(tr));
@@ -4234,11 +4244,27 @@ static bool load_ruleset_nations(struct section_file *file,
       /* Load nation traits */
       ruleset_load_traits(pnation->server.traits, file, sec_name, "trait_");
       for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
+        bool server_traits_used = TRUE;
+
         if (pnation->server.traits[tr].min < 0) {
           pnation->server.traits[tr].min = game.server.default_traits[tr].min;
+        } else {
+          server_traits_used = FALSE;
         }
         if (pnation->server.traits[tr].max < 0) {
           pnation->server.traits[tr].max = game.server.default_traits[tr].max;
+        } else {
+          server_traits_used = FALSE;
+        }
+        if (pnation->server.traits[tr].fixed < 0) {
+          if (server_traits_used) {
+            pnation->server.traits[tr].fixed = game.server.default_traits[tr].fixed;
+          } else {
+            int diff = pnation->server.traits[tr].max - pnation->server.traits[tr].min;
+
+            /* TODO: Should sometimes round the a / 2 = x.5 results up */
+            pnation->server.traits[tr].fixed = diff / 2 + pnation->server.traits[tr].min;
+          }
         }
         if (pnation->server.traits[tr].max < pnation->server.traits[tr].min) {
           ruleset_error(LOG_ERROR, "%s values for trait %s not sane.",

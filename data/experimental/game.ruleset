@@ -823,4 +823,5 @@ set =
       "ec_chat", TRUE, FALSE
       "ec_info", TRUE, FALSE
       "techlossforgiveness", 15, FALSE
+      "traitdistribution", "EVEN", FALSE
     }

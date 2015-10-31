@@ -20,6 +20,7 @@
 #include "rand.h"
 
 /* common */
+#include "game.h"
 #include "player.h"
 #include "traits.h"
 
@@ -39,7 +40,14 @@ void ai_traits_init(struct player *pplayer)
     int min = pplayer->nation->server.traits[tr].min;
     int max = pplayer->nation->server.traits[tr].max;
 
-    pplayer->ai_common.traits[tr].val = fc_rand(max + 1 - min) + min;
+    switch (game.server.trait_dist) {
+    case TDM_FIXED:
+      pplayer->ai_common.traits[tr].val = pplayer->nation->server.traits[tr].fixed;
+      break;
+    case TDM_EVEN:
+      pplayer->ai_common.traits[tr].val = fc_rand(max + 1 - min) + min;
+      break;
+    }
     pplayer->ai_common.traits[tr].mod = 0;
   }
 }

@@ -154,6 +154,7 @@ struct civ_game {
       int mgr_turninterval;
       int mgr_worldchance;
       bool migration;
+      enum trait_dist_mode trait_dist;
       int min_players;
       bool natural_city_names;
       int netwait;
@@ -425,7 +426,9 @@ extern struct civ_game game;
 #define GAME_DEFAULT_DISASTERS       10
 #define GAME_MIN_DISASTERS           0
 #define GAME_MAX_DISASTERS           1000
- 
+
+#define GAME_DEFAULT_TRAIT_DIST_MODE TDM_FIXED
+
 #define GAME_DEFAULT_SAVEPALACE      TRUE
 
 #define GAME_DEFAULT_HOMECAUGHTUNITS TRUE
