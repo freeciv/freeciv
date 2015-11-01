@@ -43,10 +43,8 @@ extern "C" {
 #ifdef HAVE_WINSOCK
 #include <winsock.h>
 #endif
-#ifdef HAVE_WS2TCPIP_H
-#include <ws2tcpip.h>
-#endif
 
+/* utility */
 #include "ioz.h"
 #include "support.h"            /* bool type */
 
