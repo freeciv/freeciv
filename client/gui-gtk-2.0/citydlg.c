@@ -762,7 +762,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   GtkListStore *production_store;
   /* TRANS: Overview tab in city dialog */
   const char *tab_title = _("_Overview");
-  int unit_height = tileset_tile_height(tileset) * 3 / 2;
+  int unit_height = tileset_unit_with_upkeep_height(tileset);
 
   /* main page */
   page = gtk_vbox_new(FALSE, 0);
@@ -1852,7 +1852,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     for (i = m; i < n; i++) {
       GtkWidget *cmd, *pix;
       struct unit_node node;
-      int unit_height = tileset_tile_height(tileset) * 3 / 2;
+      int unit_height = tileset_unit_with_upkeep_height(tileset);
 
       cmd = gtk_button_new();
       node.cmd = cmd;
