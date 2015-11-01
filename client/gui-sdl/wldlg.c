@@ -860,19 +860,20 @@ static const char * get_production_name(struct city *pCity,
   }
 }
 
-/*
- * return progress icon (bar) of current production state
- * stock - current shielsd stocks
- * cost - unit/imprv. cost
- * function return in "proggres" pointer (0 - 100 %) progress in numbers
-*/
+/**************************************************************************
+  Return progress icon (bar) of current production state
+  stock - current shields stocks
+  cost - unit/imprv. cost
+  function return in "progress" pointer (0 - 100 %) progress in numbers
+**************************************************************************/
 static SDL_Surface * get_progress_icon(int stock, int cost, int *progress)
 {
   SDL_Surface *pIcon = NULL;
   int width;
+
   fc_assert_ret_val(progress != NULL, NULL);
-  
-  if(stock < cost) {
+
+  if (stock < cost) {
     width = ((float)stock / cost) * adj_size(116.0);
     *progress = ((float)stock / cost) * 100.0;
     if(!width && stock) {
@@ -907,27 +908,26 @@ static void refresh_production_label(int stock)
   int cost, turns;
   char cBuf[64];
   SDL_Rect area;
+  bool gold_prod = improvement_has_flag(pEditor->currently_building.value.building, IF_GOLD);
   const char *name = get_production_name(pEditor->pCity,
-    				pEditor->currently_building, &cost);
+                                         pEditor->currently_building, &cost);
 
-  if (VUT_IMPROVEMENT == pEditor->currently_building.kind
-     && improvement_has_flag(pEditor->currently_building.value.building, IF_GOLD))
-  {
+  if (VUT_IMPROVEMENT == pEditor->currently_building.kind && gold_prod) {
     int gold = MAX(0, pEditor->pCity->surplus[O_SHIELD]);
+
     fc_snprintf(cBuf, sizeof(cBuf),
                 PL_("%s\n%d gold per turn",
                     "%s\n%d gold per turn", gold),
                 name, gold);
   } else {
-    if(stock < cost) {
+    if (stock < cost) {
       turns = city_turns_to_build(pEditor->pCity,
-				  pEditor->currently_building, TRUE);
-      if(turns == 999)
-      {
+                                  pEditor->currently_building, TRUE);
+      if (turns == 999) {
         fc_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
       } else {
         fc_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
-		    name, turns, PL_("turn", "turns", turns));
+                    name, turns, PL_("turn", "turns", turns));
       }
     } else {
       fc_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
@@ -939,8 +939,8 @@ static void refresh_production_label(int stock)
   remake_label_size(pEditor->pProduction_Name);
   
   pEditor->pProduction_Name->size.x = pEditor->pEndWidgetList->area.x +
-    (adj_size(130) - pEditor->pProduction_Name->size.w)/2;
-  
+    (adj_size(130) - pEditor->pProduction_Name->size.w) / 2;
+
   area.x = pEditor->pEndWidgetList->area.x;
   area.y = pEditor->pProduction_Name->size.y;
   area.w = adj_size(130);
@@ -949,15 +949,19 @@ static void refresh_production_label(int stock)
   if (get_wflags(pEditor->pProduction_Name) & WF_RESTORE_BACKGROUND) {
     refresh_widget_background(pEditor->pProduction_Name);
   }
-  
+
   widget_redraw(pEditor->pProduction_Name);
   sdl_dirty_rect(area);
-  
+
   FREESURFACE(pEditor->pProduction_Progres->theme);
   pEditor->pProduction_Progres->theme =
-		  get_progress_icon(stock, cost, &cost);
-    
-  fc_snprintf(cBuf, sizeof(cBuf), "%d%%" , cost);
+    get_progress_icon(stock, cost, &cost);
+
+  if (!gold_prod) {
+    fc_snprintf(cBuf, sizeof(cBuf), "%d%%" , cost);
+  } else {
+    fc_snprintf(cBuf, sizeof(cBuf), "-" );
+  }
   copy_chars_to_string16(pEditor->pProduction_Progres->string16, cBuf);
   widget_redraw(pEditor->pProduction_Progres);
   widget_mark_dirty(pEditor->pProduction_Progres);
@@ -1109,24 +1113,25 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     /* count == cost */
     /* turns == progress */
     const char *name = city_production_name_translation(pCity);
+    bool gold_prod = city_production_has_flag(pCity, IF_GOLD);
+
     count = city_production_build_shield_cost(pCity);
-    
-    if (city_production_has_flag(pCity, IF_GOLD))
-    {
+
+    if (gold_prod) {
       int gold = MAX(0, pCity->surplus[O_SHIELD]);
+
       fc_snprintf(cBuf, sizeof(cBuf),
                   PL_("%s\n%d gold per turn",
                       "%s\n%d gold per turn", gold),
                   name, gold);
     } else {
-      if(pCity->shield_stock < count) {
+      if (pCity->shield_stock < count) {
         turns = city_production_turns_to_build(pCity, TRUE);
-        if(turns == 999)
-        {
+        if (turns == 999) {
           fc_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
         } else {
           fc_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
-		    name, turns, PL_("turn", "turns", turns));
+                      name, turns, PL_("turn", "turns", turns));
         }
       } else {
         fc_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
@@ -1135,19 +1140,23 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
-    
+
     pEditor->pProduction_Name = pBuf;
     add_to_gui_list(ID_LABEL, pBuf);
-    
+
     pIcon = get_progress_icon(pCity->shield_stock, count, &turns);
-    
-    fc_snprintf(cBuf, sizeof(cBuf), "%d%%" , turns);
+
+    if (!gold_prod) {
+      fc_snprintf(cBuf, sizeof(cBuf), "%d%%" , turns);
+    } else {
+      fc_snprintf(cBuf, sizeof(cBuf), "-");
+    }
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    
+
     pBuf = create_iconlabel(pIcon, pWindow->dst, pStr,
-    		(WF_RESTORE_BACKGROUND|WF_ICON_CENTER|WF_FREE_THEME));
-    
+                            (WF_RESTORE_BACKGROUND|WF_ICON_CENTER|WF_FREE_THEME));
+
     pIcon = NULL;
     turns = 0;
     pEditor->pProduction_Progres = pBuf;
@@ -1158,7 +1167,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
                                   adj_size(120), WF_RESTORE_BACKGROUND);
     pBuf->action = rename_worklist_editor_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
-    
+
     add_to_gui_list(ID_EDIT, pBuf);
   }
 

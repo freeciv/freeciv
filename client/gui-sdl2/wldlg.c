@@ -872,9 +872,9 @@ static const char *get_production_name(struct city *pCity,
 
 /**************************************************************************
   Return progress icon (bar) of current production state
-  stock - current shielsd stocks
+  stock - current shields stocks
   cost - unit/imprv. cost
-  function return in "proggres" pointer (0 - 100 %) progress in numbers
+  function return in "progress" pointer (0 - 100 %) progress in numbers
 **************************************************************************/
 static SDL_Surface *get_progress_icon(int stock, int cost, int *progress)
 {
@@ -918,11 +918,11 @@ static void refresh_production_label(int stock)
   int cost, turns;
   char cBuf[64];
   SDL_Rect area;
+  bool gold_prod = improvement_has_flag(pEditor->currently_building.value.building, IF_GOLD);
   const char *name = get_production_name(pEditor->pCity,
                                          pEditor->currently_building, &cost);
 
-  if (VUT_IMPROVEMENT == pEditor->currently_building.kind
-      && improvement_has_flag(pEditor->currently_building.value.building, IF_GOLD)) {
+  if (VUT_IMPROVEMENT == pEditor->currently_building.kind && gold_prod) {
     int gold = MAX(0, pEditor->pCity->surplus[O_SHIELD]);
 
     fc_snprintf(cBuf, sizeof(cBuf),
@@ -967,7 +967,11 @@ static void refresh_production_label(int stock)
   pEditor->pProduction_Progres->theme =
     get_progress_icon(stock, cost, &cost);
 
-  fc_snprintf(cBuf, sizeof(cBuf), "%d%%" , cost);
+  if (!gold_prod) {
+    fc_snprintf(cBuf, sizeof(cBuf), "%d%%" , cost);
+  } else {
+    fc_snprintf(cBuf, sizeof(cBuf), "-");
+  }
   copy_chars_to_utf8_str(pEditor->pProduction_Progres->string_utf8, cBuf);
   widget_redraw(pEditor->pProduction_Progres);
   widget_mark_dirty(pEditor->pProduction_Progres);
@@ -1117,10 +1121,11 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     /* count == cost */
     /* turns == progress */
     const char *name = city_production_name_translation(pCity);
+    bool gold_prod = city_production_has_flag(pCity, IF_GOLD);
 
     count = city_production_build_shield_cost(pCity);
 
-    if (city_production_has_flag(pCity, IF_GOLD)) {
+    if (gold_prod) {
       int gold = MAX(0, pCity->surplus[O_SHIELD]);
 
       fc_snprintf(cbuf, sizeof(cbuf),
@@ -1149,7 +1154,11 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
     pIcon = get_progress_icon(pCity->shield_stock, count, &turns);
 
-    fc_snprintf(cbuf, sizeof(cbuf), "%d%%" , turns);
+    if (!gold_prod) {
+      fc_snprintf(cbuf, sizeof(cbuf), "%d%%" , turns);
+    } else {
+      fc_snprintf(cbuf, sizeof(cbuf), "-");
+    }
     pstr = create_utf8_from_char(cbuf, adj_font(12));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
