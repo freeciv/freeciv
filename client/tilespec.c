@@ -497,6 +497,8 @@ struct tileset {
   int unit_tile_width, unit_tile_height;
   int small_sprite_width, small_sprite_height;
 
+  int max_upkeep_height;
+
   char *main_intro_filename;
   char *minimap_intro_filename;
 
@@ -735,6 +737,68 @@ int tileset_unit_width(const struct tileset *t)
 int tileset_unit_height(const struct tileset *t)
 {
   return t->unit_tile_height;
+}
+
+/****************************************************************************
+  Calculate the height of a unit upkeep icons.
+****************************************************************************/
+static int calculate_max_upkeep_height(const struct tileset *t)
+{
+  int i;
+  int max = 0;
+
+  for (i = 0; i < MAX_NUM_UPKEEP_SPRITES; i++) {
+    if (t->sprites.upkeep.unhappy[i] != NULL) {
+      int width, height;
+
+      /* TODO: We want only height, getting the width might waste CPU
+       * depending on gui-specific implementation. */
+      get_sprite_dimensions(t->sprites.upkeep.unhappy[i], &width, &height);
+
+      max = MAX(max, height);
+    }
+  }
+
+  output_type_iterate(o) {
+    for (i = 0; i < MAX_NUM_UPKEEP_SPRITES; i++) {
+      if (t->sprites.upkeep.output[o][i] != NULL) {
+        int width, height;
+
+        /* TODO: We want only height, getting the width might waste CPU
+         * depending on gui-specific implementation. */
+        get_sprite_dimensions(t->sprites.upkeep.output[o][i], &width, &height);
+
+        max = MAX(max, height);
+      }
+    }
+  } output_type_iterate_end;
+
+  return max;
+}
+
+/****************************************************************************
+  Get the height of a unit upkeep icons.
+****************************************************************************/
+static int tileset_upkeep_height(const struct tileset *t)
+{
+  /* Return cached value */
+  return t->max_upkeep_height;
+}
+
+/****************************************************************************
+  Suitable canvas height for a unit icon that includes upkeep sprites.
+****************************************************************************/
+int tileset_unit_with_upkeep_height(const struct tileset *t)
+{
+  return tileset_unit_layout_offset_y(tileset) + tileset_upkeep_height(tileset);
+}
+
+/****************************************************************************
+  Offset to layout extra unit sprites, such as upkeep.
+****************************************************************************/
+int tileset_unit_layout_offset_y(const struct tileset *t)
+{
+  return tileset_tile_height(tileset);
 }
 
 /****************************************************************************
@@ -2630,7 +2694,9 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
       }
     }
   } output_type_iterate_end;
-  
+
+  t->max_upkeep_height = calculate_max_upkeep_height(t);
+
   SET_SPRITE(user.attention, "user.attention");
 
   SET_SPRITE(tx.fallout,    "tx.fallout");
@@ -5587,8 +5653,8 @@ struct sprite *get_indicator_sprite(const struct tileset *t,
   May return NULL if there's no unhappiness.
 ****************************************************************************/
 struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
-				       const struct unit *punit,
-				       int happy_cost)
+                                       const struct unit *punit,
+                                       int happy_cost)
 {
   const int unhappy = CLIP(0, happy_cost, MAX_NUM_UPKEEP_SPRITES+1);
 
@@ -5603,14 +5669,14 @@ struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
   Return a sprite for the upkeep of the unit - to be shown as an overlay
   on the unit in the city support dialog, for instance.
 
-  May return NULL if there's no unhappiness.
+  May return NULL if there's no upkeep of the kind.
 ****************************************************************************/
 struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
-				      Output_type_id otype,
-				      const struct unit *punit,
-				      const int *upkeep_cost)
+                                      Output_type_id otype,
+                                      const struct unit *punit,
+                                      const int *upkeep_cost)
 {
-  const int upkeep = CLIP(0, upkeep_cost[otype], MAX_NUM_UPKEEP_SPRITES+1);
+  const int upkeep = CLIP(0, upkeep_cost[otype], MAX_NUM_UPKEEP_SPRITES + 1);
 
   if (upkeep > 0) {
     return t->sprites.upkeep.output[otype][upkeep - 1];
@@ -5712,6 +5778,8 @@ void tileset_init(struct tileset *t)
     t->sprites.player[id].color = NULL;
     t->sprites.player[id].background = NULL;
   } player_slots_iterate_end;
+
+  t->max_upkeep_height = 0;
 }
 
 /****************************************************************************
