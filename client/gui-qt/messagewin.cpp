@@ -112,7 +112,7 @@ void info_tab::mousePressEvent(QMouseEvent * event)
       resx = true;
     }
   }
-  event->setAccepted(false);
+  event->setAccepted(true);
 }
 
 /***************************************************************************
