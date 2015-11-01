@@ -298,10 +298,6 @@ void fc_client::create_network_page(void)
   lan_widget->setProperty("selectionBehavior", "SelectRows");
   lan_widget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-  connect(lan_widget->selectionModel(),
-          SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
-          SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
-
   wan_widget->setHorizontalHeaderLabels(servers_list);
   wan_widget->setProperty("showGrid", "false");
   wan_widget->setProperty("selectionBehavior", "SelectRows");
@@ -315,6 +311,8 @@ void fc_client::create_network_page(void)
   info_widget->setProperty("selectionBehavior", "SelectRows");
   info_widget->setEditTriggers(QAbstractItemView::NoEditTriggers);
   info_widget->setSelectionMode(QAbstractItemView::SingleSelection);
+  info_widget->setProperty("showGrid", "false");
+  info_widget->setAlternatingRowColors(true);
 
   header = lan_widget->horizontalHeader();
   header->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -957,20 +955,64 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
   QModelIndexList indexes = selected.indexes();
   QStringList sl;
   QModelIndex index;
+  QTableWidgetItem *item;
   QVariant qvar;
+  int k, col, n;
   client_pages i = current_page();
+  const struct server *pserver = NULL;
+  struct srv_list *srvrs;
 
   if (indexes.isEmpty()) {
     return;
   }
-
+  k = 0;
   switch (i) {
   case PAGE_NETWORK:
     index = indexes.at(0);
     connect_host_edit->setText(index.data().toString());
     index = indexes.at(1);
     connect_port_edit->setText(index.data().toString());
-    break;
+
+    srvrs = server_scan_get_list(meta_scan);
+    if (!holding_srv_list_mutex) {
+      fc_allocate_mutex(&srvrs->mutex);
+    }
+    if (srvrs->servers) {
+      pserver = server_list_get(srvrs->servers, index.row());
+    }
+    if (!holding_srv_list_mutex) {
+      fc_release_mutex(&srvrs->mutex);
+    }
+    if (!pserver || !pserver->players) {
+      return;
+    }
+    n = pserver->nplayers;
+    info_widget->clearContents();
+    info_widget->setRowCount(0);
+    for (k = 0; k < n; k++) {
+      info_widget->insertRow(k);
+      for (col = 0; col < 4; col++) {
+        item = new QTableWidgetItem();
+        switch (col) {
+        case 0:
+          item->setText(pserver->players[k].name);
+          break;
+        case 1:
+          item->setText(pserver->players[k].type);
+          break;
+        case 2:
+          item->setText(pserver->players[k].host);
+          break;
+        case 3:
+          item->setText(pserver->players[k].nation);
+          break;
+        default:
+          break;
+        }
+        info_widget->setItem(k, col, item);
+      }
+    }
+  break;
   case PAGE_SCENARIO:
     index = indexes.at(0);
     qvar = index.data(Qt::UserRole);
