@@ -4241,7 +4241,71 @@ static void sg_load_player_main(struct loaddata *loading,
     }
   }
 
-  /* Unit statistics. */
+  /* Player score. */
+  plr->score.happy =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.happy", plrno);
+  plr->score.content =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.content", plrno);
+  plr->score.unhappy =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.unhappy", plrno);
+  plr->score.angry =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.angry", plrno);
+
+  /* Make sure that the score about specialists in current ruleset that
+   * were not present at saving time are set to zero. */
+  specialist_type_iterate(sp) {
+    plr->score.specialists[sp] = 0;
+  } specialist_type_iterate_end;
+
+  for (i = 0; i < loading->specialist.size; i++) {
+    plr->score.specialists[specialist_index(loading->specialist.order[i])]
+      = secfile_lookup_int_default(loading->file, 0,
+                                   "score%d.specialist%d", plrno, i);
+  }
+
+  plr->score.wonders =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.wonders", plrno);
+  plr->score.techs =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.techs", plrno);
+  plr->score.techout =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.techout", plrno);
+  plr->score.landarea =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.landarea", plrno);
+  plr->score.settledarea =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.settledarea", plrno);
+  plr->score.population =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.population", plrno);
+  plr->score.cities =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.cities", plrno);
+  plr->score.units =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.units", plrno);
+  plr->score.pollution =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.pollution", plrno);
+  plr->score.literacy =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.literacy", plrno);
+  plr->score.bnp =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.bnp", plrno);
+  plr->score.mfg =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.mfg", plrno);
+  plr->score.spaceship =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.spaceship", plrno);
   plr->score.units_built =
       secfile_lookup_int_default(loading->file, 0,
                                  "score%d.units_built", plrno);
@@ -4251,6 +4315,12 @@ static void sg_load_player_main(struct loaddata *loading,
   plr->score.units_lost =
       secfile_lookup_int_default(loading->file, 0,
                                  "score%d.units_lost", plrno);
+  plr->score.culture =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.culture", plrno);
+  plr->score.game =
+    secfile_lookup_int_default(loading->file, 0,
+                               "score%d.total", plrno);
 
   /* Load space ship data. */
   {
@@ -7212,10 +7282,13 @@ static void sg_load_sanitycheck(struct loaddata *loading)
   if (!game.info.is_new_game) {
     fc_rand_set_state(loading->rstate);
 
-    /* Recalculate scores. */
-    players_iterate(pplayer) {
-      calc_civ_score(pplayer);
-    } players_iterate_end;
+    if (loading->version < 30) {
+      /* For older savegames we have to recalculate the score with current data,
+       * instead of using beginning-of-turn saved scores. */
+      players_iterate(pplayer) {
+        calc_civ_score(pplayer);
+      } players_iterate_end;
+    }
   }
 
   /* At the end do the default sanity checks. */
