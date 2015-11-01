@@ -2921,8 +2921,20 @@ production_widget::production_widget(QWidget *parent, struct city *pcity,
                              const QItemSelection &)));
   resizeRowsToContents();
   resizeColumnsToContents();
-  setFixedWidth(3 * sh.x() + 5);
-  setFixedHeight(list_model->rowCount()*sh.y() + 5);
+  setFixedWidth(3 * sh.x() + 6);
+  setFixedHeight(list_model->rowCount()*sh.y() + 6);
+  if (width() > desk_width) {
+    setFixedWidth(desk_width);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  } else {
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  }
+  if (height() > desk_height) {
+    setFixedHeight(desk_height);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  } else {
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  }
 
   pos = QCursor::pos();
   if (pos.x() + width() > desk_width) {
