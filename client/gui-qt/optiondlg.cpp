@@ -841,8 +841,11 @@ void option_gui_update(struct option *poption)
   }
 
   if (option_optset(poption) == server_optset) {
-  if (strcmp(option_name(poption), "nationset") == 0) {
+    if (strcmp(option_name(poption), "nationset") == 0) {
       update_nationset_combo();
+    }
+    if (strcmp(option_name(poption), "aifill") == 0) {
+      gui()->pr_options->max_players->setValue(option_int_get(poption));
     }
   }
 }
