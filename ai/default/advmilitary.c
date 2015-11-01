@@ -795,9 +795,15 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
       int limit_cost = pcity->shield_stock + 40;
 
       if (walls && !utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
-	desire *= city_data->wallvalue;
-	/* TODO: More use of POWER_FACTOR ! */
-	desire /= POWER_FACTOR;
+        /* FIXME: Below if() is just workaround to make sure desire
+         *        is not made zero when 'walls' above is not actually
+         *        walls that increase wallvalue, but misdiagnosed
+         *        because of some other defense bonus the city gets. */
+        if (city_data->wallvalue > POWER_FACTOR) {
+          desire *= city_data->wallvalue;
+          /* TODO: More use of POWER_FACTOR ! */
+          desire /= POWER_FACTOR;
+        }
       }
 
       if ((best_unit_cost > limit_cost
