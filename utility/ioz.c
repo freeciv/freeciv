@@ -38,6 +38,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
+
 #ifdef FREECIV_HAVE_LIBZ
 #include <zlib.h>
 #endif
