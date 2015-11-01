@@ -1070,8 +1070,8 @@ void put_terrain(struct tile *ptile, struct canvas *pcanvas, float zoom,
   sprites (limiting the number of combinations).
 ****************************************************************************/
 void put_unit_city_overlays(struct unit *punit,
-			    struct canvas *pcanvas,
-			    int canvas_x, int canvas_y, int *upkeep_cost,
+                            struct canvas *pcanvas,
+                            int canvas_x, int canvas_y, int *upkeep_cost,
                             int happy_cost)
 {
   struct sprite *sprite;
