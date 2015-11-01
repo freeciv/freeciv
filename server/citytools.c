@@ -1714,9 +1714,9 @@ dbv_free(&tile_processed);
     return;
   }
 
-  trade_routes_iterate(pcity, pother_city) {
-    remove_trade_route(pcity, pother_city, TRUE, TRUE);
-  } trade_routes_iterate_end;
+  trade_routes_iterate_safe(pcity, proute) {
+    remove_trade_route(pcity, proute, TRUE, TRUE);
+  } trade_routes_iterate_safe_end;
 
   map_clear_border(pcenter);
   city_workers_queue_remove(pcity);
