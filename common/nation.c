@@ -77,9 +77,6 @@ static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
                                   log_do_output_for_level(LOG_ERROR),       \
                                   __FILE__, __FUNCTION__, __FC_LINE__),     \
                                   action)
-#else
-#define NATION_CHECK(pnation, action) /* Do Nothing. */
-#endif /* DEBUG */
 
 /****************************************************************************
   Returns TRUE if the nation is valid, else, print an error message and
@@ -115,6 +112,10 @@ static inline bool nation_check(const struct nation_type *pnation,
   }
   return TRUE;
 }
+
+#else  /* DEBUG */
+#define NATION_CHECK(pnation, action) /* Do Nothing. */
+#endif /* DEBUG */
 
 /****************************************************************************
   Returns the nation that has the given (translated) plural noun.
