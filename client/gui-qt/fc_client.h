@@ -23,9 +23,11 @@
 #endif
 
 // Qt
-#include <QTabWidget>
+#include <QComboBox>
 #include <QMainWindow>
 #include <QMap>
+#include <QSpinBox>
+#include <QTabWidget>
 
 // client
 #include "chatline_common.h"
@@ -80,6 +82,7 @@ class QApplication;
 class QTreeWidget;
 class QStatusBar;
 class QMainWindow;
+class pregame_options;
 
 class fc_icons
 {
@@ -209,6 +212,7 @@ public:
   xvote *x_vote;
   goto_dialog *gtd;
   QCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
+  pregame_options *pr_options;
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
   void remove_repo_dlg(QString str);
@@ -242,7 +246,6 @@ private slots:
 public slots:
   void switch_page(int i);
   void popup_client_options();
-  void popup_server_options();
 
 protected slots:
 
@@ -286,6 +289,27 @@ protected:
 signals:
   void keyCaught(QKeyEvent *e);
 
+};
+
+/***************************************************************************
+  Class for showing options in PAGE_START, options like ai_fill, ruleset
+  etc.
+***************************************************************************/
+class pregame_options : public QWidget
+{
+  Q_OBJECT
+  QComboBox *ailevel;
+public:
+  pregame_options() {};
+  void init();
+  QComboBox *cruleset;
+  QSpinBox *max_players;
+private slots:
+  void max_players_change(int i);
+  void ailevel_change(int i);
+  void ruleset_change(int i);
+public slots:
+  void popup_server_options();
 };
 
 // Return fc_client instance. Implementation in gui_main.cpp
