@@ -1950,7 +1950,7 @@ void mr_menu::local_options()
 *****************************************************************/
 void mr_menu::server_options()
 {
-  gui()->popup_server_options();
+  gui()->pr_options->popup_server_options();
 }
 
 /****************************************************************

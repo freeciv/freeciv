@@ -620,13 +620,6 @@ void fc_client::popup_client_options()
   option_dialog_popup(_("Set local options"), client_optset);
 }
 
-/****************************************************************************
-  Popups client options
-****************************************************************************/
-void fc_client::popup_server_options()
-{
-  option_dialog_popup(_("Set server options"), server_optset);
-}
 
 void fc_client::create_cursors(void)
 {
@@ -782,3 +775,91 @@ void fc_game_tab_widget::change_color(int index, QColor col)
 {
   tabBar()->setTabTextColor(index, col);
 }
+
+/****************************************************************************
+  Init's layout and default values for options in START_PAGE
+****************************************************************************/
+void pregame_options::init()
+{
+  QGridLayout *layout;
+  QLabel *l1, *l2, *l3;
+  QPushButton *but;
+  int level;
+
+  l1 = new QLabel(_("Number of Players\n(including AI):"));
+  l2 = new QLabel(_("AI Skill Level:"));
+  l3 = new QLabel(_("Ruleset Version:"));
+  layout = new QGridLayout(this);
+  max_players = new QSpinBox(this);
+  ailevel = new QComboBox(this);
+  cruleset = new QComboBox(this);
+  max_players->setRange(1, MAX_NUM_PLAYERS);
+
+  for (level = AI_LEVEL_AWAY; level < AI_LEVEL_LAST; level++) {
+    if (is_settable_ai_level(static_cast<ai_level>(level))) {
+      const char *level_name = ai_level_name(static_cast<ai_level>(level));
+      ailevel->addItem(level_name, level);
+    }
+  }
+  ailevel->setCurrentIndex(-1);
+
+  connect(max_players, SIGNAL(valueChanged(int)),
+          SLOT(max_players_change(int)));
+  connect(ailevel, SIGNAL(currentIndexChanged(int)),
+          SLOT(ailevel_change(int)));
+  connect(cruleset, SIGNAL(currentIndexChanged(int)),
+          SLOT(ruleset_change(int)));
+
+  but = new QPushButton;
+  but->setText(_("More Game Options"));
+  but->setIcon(fc_icons::instance()->get_icon("preferences-other"));
+  QObject::connect(but, SIGNAL(clicked()), this,
+                   SLOT(popup_server_options()));
+  layout->addWidget(l1, 0, 1);
+  layout->addWidget(l2, 1, 1);
+  layout->addWidget(l3, 2, 1);
+  layout->addWidget(max_players, 0, 2);
+  layout->addWidget(ailevel, 1, 2);
+  layout->addWidget(cruleset, 2, 2);
+  layout->addWidget(but, 3, 1);
+  setLayout(layout);
+}
+
+/****************************************************************************
+  Slot for changing aifill value
+****************************************************************************/
+void pregame_options::max_players_change(int i)
+{
+  option_int_set(optset_option_by_name(server_optset, "aifill"), i);
+}
+
+/****************************************************************************
+  Slot for changing level of AI
+****************************************************************************/
+void pregame_options::ailevel_change(int i)
+{
+  int k;
+  const char *name;
+
+  k = ailevel->currentData().toInt();
+  name = ai_level_cmd(static_cast<ai_level>(k));
+  send_chat_printf("/%s", name);
+
+}
+
+/****************************************************************************
+  Slot for changing ruleset
+****************************************************************************/
+void pregame_options::ruleset_change(int i)
+{
+  set_ruleset(cruleset->currentText().toLocal8Bit().data());
+}
+
+/****************************************************************************
+  Popups client options
+****************************************************************************/
+void pregame_options::popup_server_options()
+{
+  option_dialog_popup(_("Set server options"), server_optset);
+}
+

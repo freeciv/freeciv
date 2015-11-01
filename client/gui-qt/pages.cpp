@@ -57,7 +57,21 @@ void qtg_real_set_client_page(enum client_pages page)
 ****************************************************************************/
 void qtg_gui_set_rulesets(int num_rulesets, char **rulesets)
 {
-  /* PORTME */
+  int i;
+  int def_idx = -1;
+
+  gui()->pr_options->cruleset->clear();
+  gui()->pr_options->cruleset->blockSignals(true);
+  for (i = 0; i < num_rulesets; i++){
+    gui()->pr_options->cruleset->addItem(rulesets[i], i);
+    if (!strcmp("default", rulesets[i])) {
+      def_idx = i;
+    }
+  }
+
+  /* HACK: server should tell us the current ruleset. */
+  gui()->pr_options->cruleset->setCurrentIndex(def_idx);
+  gui()->pr_options->cruleset->blockSignals(false);
 }
 
 /**************************************************************************
@@ -75,6 +89,7 @@ void update_start_page(void)
 {
   gui()->update_start_page();
 }
+
 
 /**************************************************************************
   Creates buttons and layouts for start page.
@@ -509,14 +524,17 @@ void fc_client::create_scenario_page()
 ***************************************************************************/
 void fc_client::create_start_page()
 {
-  pages_layout[PAGE_START] = new QGridLayout;
+  QPushButton *but;
   QStringList player_widget_list;
+  pages_layout[PAGE_START] = new QGridLayout;
   start_players_tree = new QTreeWidget;
+  pr_options = new pregame_options();
   chat_line = new QLineEdit;
   output_window = new QTextEdit;
   output_window->setReadOnly(false);
   chat_line->installEventFilter(this);
 
+  pr_options->init();
   player_widget_list << _("Name") << _("Ready") << _("Leader")
                      << _("Flag") << _("Nation") << _("Team");
 
@@ -532,14 +550,8 @@ void fc_client::create_start_page()
           SIGNAL(customContextMenuRequested(const QPoint&)),
           SLOT(start_page_menu(QPoint)));
 
-  QPushButton *but;
-  but = new QPushButton;
-  but->setText(_("More Game Options"));
-  but->setIcon(fc_icons::instance()->get_icon("preferences-other"));
-  pages_layout[PAGE_START]->addWidget(but, 5, 3);
-  QObject::connect(but, SIGNAL(clicked()), this,
-                   SLOT(popup_server_options()));
-  pages_layout[PAGE_START]->addWidget(start_players_tree, 0, 0, 2, 8);
+  pages_layout[PAGE_START]->addWidget(start_players_tree, 0, 0, 3, 6);
+  pages_layout[PAGE_START]->addWidget(pr_options, 0, 6, 3, 2);
   but = new QPushButton;
   but->setText(_("Disconnect"));
   but->setIcon(style()->standardPixmap(QStyle::SP_DialogCancelButton));
@@ -567,7 +579,7 @@ void fc_client::create_start_page()
   pre_vote = new pregamevote;
 
   pages_layout[PAGE_START]->addWidget(pre_vote, 4, 0, 1, 4);
-  pages_layout[PAGE_START]->addWidget(chat_line, 5, 0, 1, 3);
+  pages_layout[PAGE_START]->addWidget(chat_line, 5, 0, 1, 4);
   pages_layout[PAGE_START]->addWidget(output_window, 3, 0, 1, 8);
   connect(chat_line, SIGNAL(returnPressed()), this, SLOT(chat()));
 
@@ -1153,7 +1165,7 @@ void fc_client::slot_connect()
 ***************************************************************************/
 void fc_client::update_start_page()
 {
-  int conn_num;
+  int conn_num, i;
   QVariant qvar, qvar2;
   bool is_ready;
   QString nation, leader, team, str;
@@ -1180,6 +1192,13 @@ void fc_client::update_start_page()
   player_item->setText(0, _("Players"));
   player_item->setData(0, Qt::UserRole, qvar2);
 
+  i = 0;
+  players_iterate(pplayer) {
+    i++;
+  } players_iterate_end;
+  gui()->pr_options->max_players->blockSignals(true);
+  gui()->pr_options->max_players->setValue(i);
+  gui()->pr_options->max_players->blockSignals(false);
   /**
    * Inserts playing players, observing custom players, and AI )
    */
