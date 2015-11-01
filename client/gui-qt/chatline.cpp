@@ -390,6 +390,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags)
 static QString replace_html(QString str)
 {
   QString s, s2;
+  int i, j;
   conn_list_iterate(game.all_connections, pconn){
     s = pconn->username;
     s = "<(" + s + ")>";
@@ -420,6 +421,24 @@ static QString replace_html(QString str)
       str = str.replace(s, s2);
     }
   } players_iterate_end;
+  /* replace all <X...> where X is uppercase letter
+   * with [X ....], its definitely message from server
+   * not html tag */
+  j = 0;
+  while (1) {
+    QChar c;
+    i = str.indexOf('<', j);
+    j = str.indexOf('>', i);
+    if (i + 1 >= str.length() || i == -1 || j == -1) {
+      break;
+    }
+    c = str.at(i + 1);
+    if (c.isUpper()) {
+      str.replace(i, 1 , '[');
+      str.replace(j, 1 , ']');
+    }
+    j++;
+  }
   return str;
 }
 
