@@ -48,6 +48,39 @@ enum {
 /* global value to store pointers to opened config dialogs */
 QMap<const struct option_set *, option_dialog *> dialog_list;
 
+/****************************************************************************
+  Splits long text to 80 characters
+****************************************************************************/
+static QString split_text(QString text)
+{
+  QStringList sl;
+  QString st, str, result;
+  int i;
+
+  sl = text.split("\n");
+  foreach (const QString &s, sl) {
+    st = s;
+    while (st.count() >= 80) {
+      str = st.left(80);
+      i = str.lastIndexOf(' ');
+      if (i == -1) {
+        i = 80;
+      }
+      result = result + str.left(i) + '\n';
+      /* Skip last space - at (i + 1)
+         unless there there was no space */
+      if (i != 80) {
+        st.remove(0, i + 1);
+      } else {
+        st.remove(0, i);
+      }
+    }
+    str = st;
+    result = result + str.left(str.count()) + '\n';
+  }
+  result.remove(result.lastIndexOf('\n'), 1);
+  return result;
+}
 
 /****************************************************************************
   Constructor for options dialog.
@@ -671,7 +704,7 @@ void option_dialog::add_option(struct option *poption)
     hbox_layout = new QHBoxLayout();
     hbox_layout->setAlignment(Qt::AlignRight);
     label = new QLabel(description);
-    label->setToolTip(option_help_text(poption));
+    label->setToolTip(split_text(option_help_text(poption)));
     hbox_layout->addWidget(label, 1, Qt::AlignLeft);
     hbox_layout->addStretch();
     hbox_layout->addWidget(widget, 1, Qt::AlignRight);
@@ -682,7 +715,7 @@ void option_dialog::add_option(struct option *poption)
   }
 
   widget->setEnabled(option_is_changeable(poption));
-  widget->setToolTip(option_help_text(poption));
+  widget->setToolTip(split_text(option_help_text(poption)));
   option_set_gui_data(poption, widget);
   option_dialog_refresh(poption);
 }
