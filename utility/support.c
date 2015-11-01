@@ -77,6 +77,9 @@
 #ifdef FREECIV_HAVE_LIBZ
 #include <zlib.h>
 #endif
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
 #ifdef WIN32_NATIVE
 #include <process.h>
 #include <windows.h>

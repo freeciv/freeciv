@@ -36,6 +36,9 @@
 #ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
 #ifdef HAVE_WINSOCK
 #include <winsock.h>
 #endif

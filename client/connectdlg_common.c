@@ -20,6 +20,9 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <string.h>
 #include <time.h>
 
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
 #ifdef WIN32_NATIVE
 #include <windows.h>
 #endif

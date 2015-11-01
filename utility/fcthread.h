@@ -24,6 +24,12 @@ extern "C" {
 /* utility */
 #include "support.h" /* bool */
 
+/* No way needed by threading, but if the one including us will ever need it, it can't be included
+ * after we have included <windows.h> directly or indirectly. */
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
+
 #ifdef FREECIV_HAVE_TINYCTHR
 #include "tinycthread.h"
 #define FREECIV_C11_THR

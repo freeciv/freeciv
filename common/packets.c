@@ -26,6 +26,9 @@
 #ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
 #ifdef HAVE_WINSOCK
 #include <winsock.h>
 #endif
