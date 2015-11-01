@@ -155,6 +155,7 @@ private slots:
   void local_options();
   void server_options();
   void messages_options();
+  void save_options_now();
   void save_game();
   void save_game_as();
   void back_to_menu();

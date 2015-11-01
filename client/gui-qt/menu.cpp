@@ -415,6 +415,12 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(server_options()));
   act = menu->addAction(_("Messages"));
   connect(act, SIGNAL(triggered()), this, SLOT(messages_options()));
+  act = menu->addAction(_("Save Options Now"));
+  act->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
+  connect(act, SIGNAL(triggered()), this, SLOT(save_options_now()));
+  act = menu->addAction(_("Save Options on Exit"));
+  act->setCheckable(true);
+  act->setChecked(save_options_on_exit);
   menu = pr;
   menu->addSeparator();
   act = menu->addAction(_("Save Game"));
@@ -1953,6 +1959,14 @@ void mr_menu::server_options()
 void mr_menu::messages_options()
 {
   popup_messageopt_dialog();
+}
+
+/****************************************************************
+  Menu Save Options Now
+*****************************************************************/
+void mr_menu::save_options_now()
+{
+  options_save();
 }
 
 /***************************************************************************
