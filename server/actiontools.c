@@ -11,6 +11,10 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
+
 /* common */
 #include "actions.h"
 
