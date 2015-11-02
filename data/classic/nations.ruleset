@@ -17,8 +17,18 @@ options="+Freeciv-2.5-ruleset"
 default_government = "Despotism"
 
 [default_traits]
+; Default values for the AI traits. These are used if nation specific
+; value for some trait has not been used. If these default too are
+; not defined, the ultimate default is 50.
+
+; Value of trait "expansionist" defines how much AI wants to settle new territory.
 ;expansionist = 50
+
+; Value of trait "trader" defines how much AI wants to establish trade routes.
 ;trader = 50
+
+; Value of trait "aggressive" defines how easily AI declares war.
 ;aggressive = 50
+
 
 *include "default/nationlist.ruleset"
