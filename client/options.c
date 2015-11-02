@@ -5432,18 +5432,35 @@ void options_load(void)
 }
 
 /**************************************************************************
+  Write messages from option saving to the output window.
+**************************************************************************/
+static void option_save_output_window_callback(enum log_level lvl,
+                                               const char *msg, ...)
+{
+  va_list args;
+
+  va_start(args, msg);
+  output_window_vprintf(ftc_client, msg, args);
+  va_end(args);
+}
+
+/**************************************************************************
   Save all options.
 **************************************************************************/
-void options_save(void)
+void options_save(option_save_log_callback log_cb)
 {
   struct section_file *sf;
   const char *name = get_current_option_file_name();
   char dir_name[2048];
   int i;
 
+  if (log_cb == NULL) {
+    /* Default callback */
+    log_cb = option_save_output_window_callback;
+  }
+
   if (!name) {
-    output_window_append(ftc_client,
-                         _("Save failed, cannot find a filename."));
+    log_cb(LOG_ERROR, _("Save failed, cannot find a filename."));
     return;
   }
 
@@ -5493,10 +5510,9 @@ void options_save(void)
 
   /* save to disk */
   if (!secfile_save(sf, name, 0, FZ_PLAIN)) {
-    output_window_printf(ftc_client,
-                         _("Save failed, cannot write to file %s"), name);
+    log_cb(LOG_ERROR, _("Save failed, cannot write to file %s"), name);
   } else {
-    output_window_printf(ftc_client, _("Saved settings to file %s"), name);
+    log_cb(LOG_VERBOSE, _("Saved settings to file %s"), name);
   }
   secfile_destroy(sf);
 }

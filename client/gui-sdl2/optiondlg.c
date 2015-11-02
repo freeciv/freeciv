@@ -347,7 +347,7 @@ static int work_lists_callback(struct widget *widget)
 static int save_client_options_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    options_save();
+    options_save(NULL);
   }
 
   return -1;

@@ -174,7 +174,7 @@ void option_dialog::apply_option(int response)
     break;
   case RESPONSE_SAVE:
     desired_settable_options_update();
-    options_save();
+    options_save(NULL);
     break;
   case RESPONSE_RESET:
     full_reset();

@@ -118,6 +118,12 @@ void do_log(const char *file, const char *function, int line,
   log_base(altlvl, message, ## __VA_ARGS__)
 #endif /* TESTMATIC_ENABLED */
 
+#define log_va_list(level, msg, args)                                       \
+  if (log_do_output_for_level(level)) {                                     \
+    vdo_log(__FILE__, __FUNCTION__, __FC_LINE__, FALSE,                     \
+            level, msg, args);                                              \
+  }
+
 /* Used by game debug command */
 #define log_test log_normal
 #define log_packet log_verbose

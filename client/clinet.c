@@ -321,7 +321,7 @@ void disconnect_from_server(void)
   output_window_append(ftc_client, _("Disconnected from server."));
 
   if (gui_options.save_options_on_exit) {
-    options_save();
+    options_save(NULL);
   }
 }
 

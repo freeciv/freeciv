@@ -137,7 +137,7 @@ static void server_options_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void save_options_callback(GtkAction *action, gpointer data)
 {
-  options_save();
+  options_save(NULL);
 }
 
 /****************************************************************
