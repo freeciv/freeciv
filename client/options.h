@@ -318,6 +318,7 @@ extern struct client_options gui_options;
 struct option;                  /* Opaque type. */
 struct option_set;              /* Opaque type. */
 
+typedef void (*option_save_log_callback)(enum log_level lvl, const char *msg, ...);
 
 /* Main functions. */
 void options_init(void);
@@ -325,7 +326,7 @@ void options_free(void);
 void server_options_init(void);
 void server_options_free(void);
 void options_load(void);
-void options_save(void);
+void options_save(option_save_log_callback log_cb);
 
 
 /* Option sets. */
