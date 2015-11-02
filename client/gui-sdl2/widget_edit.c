@@ -264,23 +264,27 @@ static void del_chain(struct Utf8Char *pChain)
 static struct Utf8Char *text2chain(const char *text_in)
 {
   int i, len;
-  struct Utf8Char *pOutChain = NULL;
+  struct Utf8Char *out_chain = NULL;
   struct Utf8Char *chr_tmp = NULL;
   int j;
+
+  if (text_in == NULL) {
+    return NULL;
+  }
 
   len = strlen(text_in);
 
   if (len == 0) {
-    return pOutChain;
+    return NULL;
   }
 
-  pOutChain = fc_calloc(1, sizeof(struct Utf8Char));
-  pOutChain->chr[0] = text_in[0];
+  out_chain = fc_calloc(1, sizeof(struct Utf8Char));
+  out_chain->chr[0] = text_in[0];
   for (j = 1; (text_in[j] & (128 + 64)) == 128; j++) {
-    pOutChain->chr[j] = text_in[j];
+    out_chain->chr[j] = text_in[j];
   }
-  pOutChain->bytes = j;
-  chr_tmp = pOutChain;
+  out_chain->bytes = j;
+  chr_tmp = out_chain;
 
   for (i = 1; i < len; i += j) {
     chr_tmp->next = fc_calloc(1, sizeof(struct Utf8Char));
@@ -293,7 +297,7 @@ static struct Utf8Char *text2chain(const char *text_in)
     chr_tmp = chr_tmp->next;
   }
 
-  return pOutChain;
+  return out_chain;
 }
 
 /**************************************************************************
