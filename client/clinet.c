@@ -323,7 +323,7 @@ void disconnect_from_server(void)
     client_exit();
   }
   if (save_options_on_exit) {
-    options_save();
+    options_save(NULL);
   }
 }  
 

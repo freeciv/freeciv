@@ -625,6 +625,18 @@ int client_main(int argc, char *argv[])
 }
 
 /**************************************************************************
+  Write messages from option saving to the log.
+**************************************************************************/
+static void log_option_save_msg(enum log_level lvl, const char *msg, ...)
+{
+  va_list args;
+
+  va_start(args, msg);
+  log_va_list(lvl, msg, args);
+  va_end(args);
+}
+
+/**************************************************************************
   Main client execution stop function. This calls ui_exit() and not the
   other way around.
 **************************************************************************/
@@ -636,7 +648,7 @@ void client_exit(void)
   }
 
   if (save_options_on_exit) {
-    options_save();
+    options_save(log_option_save_msg);
   }
 
   overview_free();

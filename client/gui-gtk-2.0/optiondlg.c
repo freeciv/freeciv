@@ -118,7 +118,7 @@ static void option_dialog_reponse_callback(GtkDialog *dialog,
     break;
   case RESPONSE_SAVE:
     desired_settable_options_update();
-    options_save();
+    options_save(NULL);
     break;
   }
 }
