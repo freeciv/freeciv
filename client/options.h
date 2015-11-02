@@ -260,8 +260,8 @@ struct client_options
   char gui_gtk3_font_reqtree_text[512];
 
 /* gui-gtk-3-x client specific options. */
-#define FC_GTK3x_DEFAULT_THEME_NAME "Freeciv"
-  char gui_gtk3x_default_theme_name[512];
+#define FC_GTK4_DEFAULT_THEME_NAME "Freeciv"
+  char gui_gtk4_default_theme_name[512];
 
 /* gui-sdl client specific options. */
 #define FC_SDL_DEFAULT_THEME_NAME "human"
