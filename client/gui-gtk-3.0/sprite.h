@@ -15,17 +15,12 @@
 
 #include <gtk/gtk.h>
 
+/* client */
 #include "sprite_g.h"
 
 struct sprite
 {
-  /* A pixmap + mask is used if there's a 1-bit alpha channel.  mask may be
-   * NULL if there's no alpha.  For multi-bit alpha levels, a pixbuf will be
-   * used instead.  For consistency a pixbuf may be generated on-demand when
-   * doing drawing (into a gtkpixcomm or gtkimage), so it's important that
-   * the sprite data not be changed after the sprite is loaded. */
   cairo_surface_t *surface;
-
 };
 
 struct sprite *sprite_scale(struct sprite *src, int new_w, int new_h);
