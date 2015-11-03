@@ -23,7 +23,8 @@ name = _("Classic ruleset")
 
 ; Summary of the ruleset
 summary = _("\
-You are playing with classic Freeciv rules for single player games.\
+You are playing with classic Freeciv rules for single player games. \
+These were the default rules until Freeciv 2.6.\
 ")
 
 ; Detailed description
