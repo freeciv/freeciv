@@ -1593,6 +1593,7 @@ void remove_city(struct city *pcity)
   const citizens old_angry_citizens = player_angry_citizens(powner);
   struct dbv tile_processed;
   struct tile_list *process_queue;
+  const char *ctl = city_tile_link(pcity);
 
   CALL_PLR_AI_FUNC(city_lost, powner, powner, pcity);
 
@@ -1639,8 +1640,7 @@ void remove_city(struct city *pcity)
                           E_UNIT_RELOCATED, ftc_server,
                           _("Moved %s out of disbanded city %s "
                             "since it cannot stay on %s."),
-                          unit_link(punit),
-                          city_tile_link(pcity),
+                          unit_link(punit), ctl,
                           terrain_name_translation(tile_terrain(pcenter)));
             break;
 	  }
@@ -1652,7 +1652,7 @@ void remove_city(struct city *pcity)
                     E_UNIT_LOST_MISC, ftc_server,
                     _("When %s was disbanded your %s could not "
                       "get out, and it was therefore lost."),
-                    city_link(pcity),
+                    ctl,
                     unit_tile_link(punit));
       wipe_unit(punit, ULR_CITY_LOST, NULL);
     }
@@ -1685,7 +1685,7 @@ void remove_city(struct city *pcity)
                           E_UNIT_LOST_MISC, ftc_server,
                           _("When %s was disbanded your %s in %s was trapped, "
                             "and it was therefore lost."),
-                          city_link(pcity),
+                          ctl,
                           unit_tile_link(punit),
                           city_link(other_city));
             wipe_unit(punit, ULR_CITY_LOST, NULL);
@@ -1697,10 +1697,11 @@ void remove_city(struct city *pcity)
     } adjc_iterate_end;
   }
 
-dbv_free(&tile_processed);
-    tile_list_destroy(process_queue);
+  dbv_free(&tile_processed);
+  tile_list_destroy(process_queue);
 
   if (!city_exist(id)) {
+    /* Wiping trapped units caused city to disappear. */
     return;
   }
 
