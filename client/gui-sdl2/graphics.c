@@ -244,21 +244,10 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
 {
   SDL_Surface *pDest = NULL;
   int row, col;
-  //  bool free_pMask = FALSE;
   Uint32 *pSrc_Pixel = NULL;
   Uint32 *pDest_Pixel = NULL;
   Uint32 *pMask_Pixel = NULL;
   unsigned char src_alpha, mask_alpha;
-
-#if 0
-  if (!pMask->format->Amask) {
-    pMask = SDL_DisplayFormatAlpha(pMask);
-    free_pMask = TRUE;
-  }
-
-  pSrc = SDL_DisplayFormatAlpha(pSrc);
-  pDest = SDL_DisplayFormatAlpha(pSrc);
-#endif /* 0 */
 
   pDest = copy_surface(pSrc);
 
@@ -288,14 +277,6 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
   unlock_surf(pDest);
   unlock_surf(pMask);
   unlock_surf(pSrc);
-
-#if 0
-  if (free_pMask) {
-    FREESURFACE(pMask);
-  }
-
-  FREESURFACE(pSrc); /* result of SDL_DisplayFormatAlpha() */
-#endif /* 0 */
 
   return pDest;
 }
@@ -396,6 +377,14 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
 SDL_Surface *create_surf(int width, int height, Uint32 flags)
 {
   return create_surf_with_format(main_surface->format, width, height, flags);
+}
+
+/**************************************************************************
+  Convert surface to the main window format.
+**************************************************************************/
+SDL_Surface *convert_surf(SDL_Surface *surf_in)
+{
+  return SDL_ConvertSurface(surf_in, main_surface->format, 0);
 }
 
 /**************************************************************************

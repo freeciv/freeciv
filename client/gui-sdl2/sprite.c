@@ -55,27 +55,21 @@ const char **gfx_fileextensions(void)
 ****************************************************************************/
 struct sprite *load_gfxfile(const char *filename)
 {
-  SDL_Surface *pNew = NULL;
-  SDL_Surface *pBuf = NULL;
+  SDL_Surface *pbuf = NULL;
 
-  if ((pBuf = IMG_Load(filename)) == NULL) {
+  if ((pbuf = IMG_Load(filename)) == NULL) {
     log_error(_("load_gfxfile: Unable to load graphic file %s!"), filename);
     return NULL; /* Should I use abort() ? */
   }
 
-#if 0
-  if (pBuf->flags & SDL_SRCCOLORKEY) {
-    /* convert colorkey to alpha */
-    SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, pBuf->format->colorkey);
-    pNew = SDL_DisplayFormatAlpha(pBuf);
-    FREESURFACE(pBuf);
-    pBuf = pNew;
+  if (pbuf->format->palette != NULL) {
+    SDL_Surface *pnew = convert_surf(pbuf);
+
+    FREESURFACE(pbuf);
+    pbuf = pnew;
   }
-#endif /* 0 */
 
-  pNew = pBuf;
-
-  return ctor_sprite(pNew);
+  return ctor_sprite(pbuf);
 }
 
 /****************************************************************************
