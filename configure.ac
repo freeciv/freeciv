@@ -639,7 +639,7 @@ case "$host_os" in
     AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [Mingw32-specific setting - stdin])
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw32])
     AC_DEFINE([WIN32_NATIVE], [1], [Mingw32-specific setting - native])
-    AC_DEFINE([HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
+    AC_DEFINE([FREECIV_HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
     AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])
     LIBS="$LIBS -lwsock32"
     ;;
@@ -1125,9 +1125,11 @@ AC_CHECK_LIB(nls,main)
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS([fcntl.h sys/time.h unistd.h sys/utsname.h \
+AC_CHECK_HEADERS([fcntl.h sys/utsname.h \
                   sys/file.h signal.h strings.h execinfo.h \
                   libgen.h])
+AC_CHECK_HEADERS([sys/time.h], [AC_DEFINE([FREECIV_HAVE_SYS_TIME_H], [1], [sys/time.h available])])
+AC_CHECK_HEADERS([unistd.h], [AC_DEFINE([FREECIV_HAVE_UNISTD_H], [1], [unistd.h available])])
 AC_CHECK_HEADERS([sys/types.h], [AC_DEFINE([FREECIV_HAVE_SYS_TYPES_H], [1], [sys/types.h available])])
 AC_CHECK_HEADERS([locale.h], [AC_DEFINE([FREECIV_HAVE_LOCALE_H], [1], [locale.h available])])
 AC_CHECK_HEADERS([libintl.h], [AC_DEFINE([FREECIV_HAVE_LIBINTL_H], [1], [libint.h available])])
@@ -1138,24 +1140,29 @@ fi
 dnl Avoid including the unix emulation layer if we build mingw executables
 dnl There would be type conflicts between winsock and bsd/unix includes
 if test "x$MINGW32" != "xyes"; then
-  AC_CHECK_HEADERS(arpa/inet.h netdb.h netinet/in.h pwd.h sys/ioctl.h \
-                   sys/select.h sys/signal.h sys/socket.h sys/termio.h \
-                   sys/uio.h termios.h)
+  AC_CHECK_HEADERS([arpa/inet.h netdb.h pwd.h sys/ioctl.h \
+                    sys/signal.h sys/termio.h \
+                    sys/uio.h termios.h])
+  AC_CHECK_HEADERS([sys/socket.h], [AC_DEFINE([FREECIV_HAVE_SYS_SOCKET_H], [1], [sys/socket.h available])])
+  AC_CHECK_HEADERS([sys/select.h], [AC_DEFINE([FREECIV_HAVE_SYS_SELECT_H], [1], [sys/select.h available])])
+  AC_CHECK_HEADERS([netinet/in.h], [AC_DEFINE([FREECIV_HAVE_NETINET_IN_H], [1], [netinet/in.h available])])
 fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_HEADER_TIME
 AC_STRUCT_TM
-AC_CHECK_HEADERS([ws2tcpip.h])
-AC_CHECK_TYPES([socklen_t], [], [],
-[#ifdef HAVE_SYS_TYPES_H
+AC_CHECK_HEADERS([ws2tcpip.h],
+  [AC_DEFINE([FREECIV_HAVE_WS2TCPIP_H], [1], [ws2tcpip.h available])])
+AC_CHECK_TYPES([socklen_t], [AC_DEFINE([FREECIV_HAVE_SOCKLEN_T], [1], [Have socklen_t type defined])],
+[],
+[#ifdef FREECIV_HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_SYS_SOCKET_H
+#ifdef FREECIV_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-#ifdef HAVE_WS2TCPIP_H
+#ifdef FREECIV_HAVE_WS2TCPIP_H
 #include <ws2tcpip.h>
 #endif
 ])

@@ -50,14 +50,38 @@
 /* stdint.h available */
 #undef FREECIV_HAVE_STDINT_H
 
+/* ws2tcpip.h available */
+#undef FREECIV_HAVE_WS2TCPIP_H
+
 /* sys/types.h available */
 #undef FREECIV_HAVE_SYS_TYPES_H
+
+/* unistd.h available */
+#undef FREECIV_HAVE_UNISTD_H
+
+/* sys/time.h available */
+#undef FREECIV_HAVE_SYS_TIME_H
+
+/* sys/socket.h available */
+#undef FREECIV_HAVE_SYS_SOCKET_H
+
+/* sys/select.h available */
+#undef FREECIV_HAVE_SYS_SELECT_H
+
+/* netinet/in.h available */
+#undef FREECIV_HAVE_NETINET_IN_H
 
 /* Have standard compliant stdbool.h */
 #undef FREECIV_HAVE_STDBOOL_H
 
+/* Have socklen_t type defined */
+#undef FREECIV_HAVE_SOCKLEN_T
+
 /* jansson network protocol in use */
 #undef FREECIV_JSON_CONNECTION
+
+/* uses winsock */
+#undef FREECIV_HAVE_WINSOCK
 
 /* Extra debugging support */
 #undef FREECIV_DEBUG

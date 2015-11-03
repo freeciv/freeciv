@@ -20,7 +20,7 @@
 /* Lua headers want to define VERSION to lua version */
 #undef VERSION
 
-#if defined(HAVE_MKSTEMP) && defined(HAVE_UNISTD_H)
+#if defined(HAVE_MKSTEMP) && defined(FREECIV_HAVE_UNISTD_H)
 #define LUA_USE_MKSTEMP
 #endif
 #if defined(HAVE_POPEN) && defined(HAVE_PCLOSE)

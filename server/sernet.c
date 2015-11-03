@@ -58,7 +58,7 @@
 #ifdef HAVE_WS2TCPIP_H
 #include <ws2tcpip.h>
 #endif
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
 #include <winsock.h>
 #endif
 
@@ -1137,7 +1137,7 @@ int server_open_socket(void)
       continue;
     }
 
-#ifndef HAVE_WINSOCK
+#ifndef FREECIV_HAVE_WINSOCK
     /* SO_REUSEADDR considered harmful on Win, necessary otherwise */
     if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, 
                    (char *)&on, sizeof(on)) == -1) {
@@ -1145,7 +1145,7 @@ int server_open_socket(void)
                 fc_strerror(fc_get_errno()));
       sockaddr_debug(paddr, LOG_NORMAL);
     }
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
     /* AF_INET6 sockets should use IPv6 only,
      * without stealing IPv4 from AF_INET sockets. */
@@ -1469,11 +1469,11 @@ static void get_lanserver_announcement(void)
   /* We would need a raw network connection for broadcast messages */
 static void send_lanserver_response(void)
 {
-#ifndef HAVE_WINSOCK
+#ifndef FREECIV_HAVE_WINSOCK
   unsigned char buffer[MAX_LEN_PACKET];
-#else  /* HAVE_WINSOCK */
+#else  /* FREECIV_HAVE_WINSOCK */
   char buffer[MAX_LEN_PACKET];
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
   char hostname[512];
   char port[256];
   char version[256];
@@ -1486,7 +1486,7 @@ static void send_lanserver_response(void)
   int socksend, setting = 1;
   const char *group;
   size_t size;
-#ifndef HAVE_WINSOCK
+#ifndef FREECIV_HAVE_WINSOCK
   unsigned char ttl;
 #endif
 
@@ -1505,7 +1505,7 @@ static void send_lanserver_response(void)
 
 /* this setsockopt call fails on Windows 98, so we stick with the default
  * value of 1 on Windows, which should be fine in most cases */
-#ifndef HAVE_WINSOCK
+#ifndef FREECIV_HAVE_WINSOCK
   /* Set the Time-to-Live field for the packet.  */
   ttl = SERVER_LAN_TTL;
   if (setsockopt(socksend, IPPROTO_IP, IP_MULTICAST_TTL, 
@@ -1513,7 +1513,7 @@ static void send_lanserver_response(void)
     log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return;
   }
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
   if (setsockopt(socksend, SOL_SOCKET, SO_BROADCAST, 
                  (const char*)&setting, sizeof(setting))) {

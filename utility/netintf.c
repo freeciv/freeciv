@@ -46,7 +46,7 @@
 #ifdef HAVE_WS2TCPIP_H
 #include <ws2tcpip.h>
 #endif
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
 #include <winsock.h>
 #endif
 #ifdef WIN32_NATIVE
@@ -73,7 +73,7 @@
 #endif /* AI_NUMERICSERV */
 #endif /* HAVE_GETADDRINFO */
 
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
 /***************************************************************
   Set errno variable on Winsock error
 ***************************************************************/
@@ -98,7 +98,7 @@ static void set_socket_errno(void)
       errno = 0;
   }
 }
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
 /***************************************************************
   Connect a socket to an address
@@ -109,11 +109,11 @@ int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
   
   result = connect(sockfd, serv_addr, addrlen);
   
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
   if (result == -1) {
     set_socket_errno();
   }
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
   return result;
 }
@@ -128,11 +128,11 @@ int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
   
   result = select(n, readfds, writefds, exceptfds, timeout);
   
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
   if (result == -1) {
     set_socket_errno();
   }
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
   return result;       
 }
@@ -144,14 +144,14 @@ int fc_readsocket(int sock, void *buf, size_t size)
 {
   int result;
   
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
   result = recv(sock, buf, size, 0);
   if (result == -1) {
     set_socket_errno();
   }
-#else  /* HAVE_WINSOCK */
+#else  /* FREECIV_HAVE_WINSOCK */
   result = read(sock, buf, size);
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
   return result;
 }
@@ -163,18 +163,18 @@ int fc_writesocket(int sock, const void *buf, size_t size)
 {
   int result;
         
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
   result = send(sock, buf, size, 0);
   if (result == -1) {
     set_socket_errno();
   }
-#else  /* HAVE_WINSOCK */
+#else  /* FREECIV_HAVE_WINSOCK */
 #  ifdef MSG_NOSIGNAL
   result = send(sock, buf, size, MSG_NOSIGNAL);
 #  else  /* MSG_NOSIGNAL */
   result = write(sock, buf, size);
 #  endif /* MSG_NOSIGNAL */
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
   return result;
 }
@@ -184,7 +184,7 @@ int fc_writesocket(int sock, const void *buf, size_t size)
 ***************************************************************/
 void fc_closesocket(int sock)
 {
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
   closesocket(sock);
 #else
   close(sock);
@@ -196,13 +196,13 @@ void fc_closesocket(int sock)
 ***************************************************************/
 void fc_init_network(void)
 {
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
   WSADATA wsa;
 
   if (WSAStartup(MAKEWORD(1, 1), &wsa) != 0) {
     log_error("no usable WINSOCK.DLL: %s", fc_strerror(fc_get_errno()));
   }
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
   /* broken pipes are ignored. */
 #ifdef HAVE_SIGPIPE
@@ -215,7 +215,7 @@ void fc_init_network(void)
 ***************************************************************/
 void fc_shutdown_network(void)
 {
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
   WSACleanup();
 #endif
 }
@@ -226,10 +226,10 @@ void fc_shutdown_network(void)
 void fc_nonblock(int sockfd)
 {
 #ifdef NONBLOCKING_SOCKETS
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
   unsigned long b = 1;
   ioctlsocket(sockfd, FIONBIO, &b);
-#else  /* HAVE_WINSOCK */
+#else  /* FREECIV_HAVE_WINSOCK */
 #ifdef HAVE_FCNTL
   int f_set;
 
@@ -251,7 +251,7 @@ void fc_nonblock(int sockfd)
   }
 #endif /* HAVE_IOCTL */
 #endif /* HAVE_FCNTL */
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 #else  /* NONBLOCKING_SOCKETS */
   log_debug("NONBLOCKING_SOCKETS not available");
 #endif /* NONBLOCKING_SOCKETS */

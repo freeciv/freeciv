@@ -18,32 +18,34 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include <freeciv_config.h>
+
 /********************************************************************** 
   Common network interface.
 ***********************************************************************/
 
-#ifdef HAVE_NETINET_IN_H
+#ifdef FREECIV_HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
-#ifdef HAVE_SYS_SELECT_H
+#ifdef FREECIV_HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
-#ifdef HAVE_SYS_SOCKET_H
+#ifdef FREECIV_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-#ifdef HAVE_SYS_TIME_H
+#ifdef FREECIV_HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
 #ifdef FREECIV_HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_UNISTD_H
+#ifdef FREECIV_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef HAVE_WS2TCPIP_H
+#ifdef FREECIV_HAVE_WS2TCPIP_H
 #include <ws2tcpip.h>
 #endif
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
 #include <winsock.h>
 #endif
 
@@ -52,7 +54,7 @@ extern "C" {
 #include "support.h"            /* bool type */
 
 /* map symbolic Winsock error names to symbolic errno names */
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
 #undef EINTR
 #undef EINPROGRESS
 #undef EWOULDBLOCK
@@ -67,7 +69,7 @@ extern "C" {
 #define ECONNREFUSED  WSAECONNREFUSED
 #define EADDRNOTAVAIL WSAEADDRNOTAVAIL
 #define ETIMEDOUT     WSAETIMEDOUT
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
 #ifdef FD_ZERO
 #define FC_FD_ZERO FD_ZERO
@@ -81,9 +83,9 @@ extern "C" {
 #define FC_IPV6_ADD_MEMBERSHIP IPV6_JOIN_GROUP
 #endif
 
-#ifndef HAVE_SOCKLEN_T
+#ifndef FREECIV_HAVE_SOCKLEN_T
 typedef int socklen_t;
-#endif
+#endif  /* FREECIV_HAVE_SOCKLEN_T */
 
 union fc_sockaddr {
   struct sockaddr saddr;

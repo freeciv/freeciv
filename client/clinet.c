@@ -56,7 +56,7 @@
 #ifdef HAVE_WS2TCPIP_H
 #include <ws2tcpip.h>
 #endif
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
 #include <winsock.h>
 #endif
 
@@ -232,11 +232,11 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
   client.conn.sock = sock;
   if (client.conn.sock == -1) {
     (void) fc_strlcpy(errbuf, fc_strerror(err), errbufsize);
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
     return -1;
 #else
     return err;
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
   }
 
   make_connection(client.conn.sock, username);

@@ -84,7 +84,7 @@
 #include <process.h>
 #include <windows.h>
 #endif
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
 #include <winsock.h>
 #endif
 #ifdef HAVE_STRINGS_H

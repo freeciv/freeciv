@@ -51,7 +51,7 @@
 #ifdef HAVE_WS2TCPIP_H
 #include <ws2tcpip.h>
 #endif
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
 #include <winsock.h>
 #endif
 
@@ -350,11 +350,11 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   union fc_sockaddr addr;
   struct raw_data_out dout;
   int send_sock, opt = 1;
-#ifndef HAVE_WINSOCK
+#ifndef FREECIV_HAVE_WINSOCK
   unsigned char buffer[MAX_LEN_PACKET];
-#else  /* HAVE_WINSOCK */
+#else  /* FREECIV_HAVE_WINSOCK */
   char buffer[MAX_LEN_PACKET];
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 #ifdef HAVE_IP_MREQN
   struct ip_mreqn mreq4;
 #else
@@ -368,7 +368,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   struct ipv6_mreq mreq6;
 #endif
 
-#ifndef HAVE_WINSOCK
+#ifndef FREECIV_HAVE_WINSOCK
   unsigned char ttl;
 #endif
 
@@ -508,7 +508,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
 /* this setsockopt call fails on Windows 98, so we stick with the default
  * value of 1 on Windows, which should be fine in most cases */
-#ifndef HAVE_WINSOCK
+#ifndef FREECIV_HAVE_WINSOCK
   /* Set the Time-to-Live field for the packet  */
   ttl = SERVER_LAN_TTL;
   if (setsockopt(send_sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
@@ -516,7 +516,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return FALSE;
   }
-#endif /* HAVE_WINSOCK */
+#endif /* FREECIV_HAVE_WINSOCK */
 
   if (setsockopt(send_sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
                  sizeof(opt))) {
