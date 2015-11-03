@@ -42,7 +42,7 @@
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
-#include "support.h"            /* mystr(n)casecmp */
+#include "support.h"            /* fc_str(n)casecmp */
 
 /* common */
 #include "game.h"               /* game.all_connections */
