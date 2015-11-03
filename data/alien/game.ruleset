@@ -690,15 +690,18 @@ colorlist =
 [settings]
 ; freeciv game settings for the alien ruleset
 set =
-   { "name", "value"
-     "topology",       "WRAPX|WRAPY|ISO|HEX"
-     "mapsize",        "PLAYER"
-     "tilesperplayer", 300
-     "aifill",         7
-     "sciencebox",     150
-     "foodbox",        150
-     "revolen",        7
-     "citymindist",    3
-     "startunits",     "cx"
-     "plrcolormode",   "NATION_ORDER"
+   { "name", "value", "lock"
+     "topology",       "WRAPX|WRAPY|ISO|HEX",   FALSE
+     "mapsize",        "PLAYER",                FALSE
+     "tilesperplayer", 300,                     FALSE
+     "aifill",         7,                       FALSE
+     "sciencebox",     150,                     FALSE
+     "foodbox",        150,                     FALSE
+     "revolen",        7,                       FALSE
+     "citymindist",    3,                       FALSE
+     "startunits",     "cx",                    FALSE
+     "plrcolormode",   "NATION_ORDER",          FALSE
+      ; Ruleset has no trait ranges, so player choosing EVEN would have
+      ; no effect anyway
+     "traitdistribution", "FIXED",              TRUE
    }

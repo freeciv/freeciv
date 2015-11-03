@@ -749,4 +749,7 @@ set =
       "sciencebox", 50, FALSE
       "startunits", "cc", FALSE
       "borders", "DISABLED", FALSE
+      ; Ruleset has no trait ranges, so player choosing EVEN would have
+      ; no effect anyway
+      "traitdistribution", "FIXED", TRUE
     }
