@@ -940,9 +940,7 @@ static void begin_turn(bool is_new_turn)
     script_server_signal_emit("turn_started", 2,
                               API_TYPE_INT, game.info.turn,
                               API_TYPE_INT, game.info.year);
-  }
 
-  if (is_new_turn) {
     /* We build scores at the beginning of every turn.  We have to
      * build them at the beginning so that the AI can use the data,
      * and we are sure to have it when we need it. */
@@ -979,23 +977,23 @@ static void begin_turn(bool is_new_turn)
     }
   } players_iterate_end;
 
-  /* See if the value of fog of war has changed */
-  if (is_new_turn && game.info.fogofwar != game.server.fogofwar_old) {
-    if (game.info.fogofwar) {
-      enable_fog_of_war();
-      game.server.fogofwar_old = TRUE;
-    } else {
-      disable_fog_of_war();
-      game.server.fogofwar_old = FALSE;
-    }
-  }
-
-  if (is_new_turn && game.info.phase_mode == PMT_CONCURRENT) {
-    log_debug("Shuffleplayers");
-    shuffle_players();
-  }
-
   if (is_new_turn) {
+    /* See if the value of fog of war has changed */
+    if (game.info.fogofwar != game.server.fogofwar_old) {
+      if (game.info.fogofwar) {
+        enable_fog_of_war();
+        game.server.fogofwar_old = TRUE;
+      } else {
+        disable_fog_of_war();
+        game.server.fogofwar_old = FALSE;
+      }
+    }
+
+    if (game.info.phase_mode == PMT_CONCURRENT) {
+      log_debug("Shuffleplayers");
+      shuffle_players();
+    }
+
     game.info.phase = 0;
   }
 
