@@ -232,6 +232,7 @@ SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags);
 SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
                                      int width, int height, Uint32 flags);
 SDL_Surface *create_surf(int width, int height, Uint32 flags);
+SDL_Surface *convert_surf(SDL_Surface *surf_in);
 
 SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
                                    SDL_Color *pColor);
