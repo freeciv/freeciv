@@ -30,14 +30,14 @@ embedded_nations = "barbarian", "pirate"
 default_government = "Despotism"
 
 [default_traits]
-expansionist_min = 35
-expansionist_max = 80
+expansionist_min = 30
+expansionist_max = 90
 expansionist_default = 50
-trader_min = 35
-trader_max = 80
+trader_min = 30
+trader_max = 90
 trader_default = 50
-aggressive_min = 35
-aggressive_max = 80
+aggressive_min = 30
+aggressive_max = 90
 aggressive_default = 50
 
 ; Please keep [ruledit] section in sync with these includes
