@@ -1629,6 +1629,7 @@ void server_remove_player(struct player *pplayer)
     cities_iterate(pcity) {
       if (city_owner(pcity) != pplayer) {
         citizens nationality = citizens_nation_get(pcity, pplayer->slot);
+
         if (nationality != 0) {
           /* Change nationality of the citizens to the nationality of the
            * city owner. */
@@ -1644,6 +1645,14 @@ void server_remove_player(struct player *pplayer)
 
   /* AI type lost control of this player */
   CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);
+
+  /* Clear all trade routes. This is needed for the other end not
+   * to point to a city removed by player_clear() */
+  city_list_iterate(pplayer->cities, pcity) {
+    trade_routes_iterate_safe(pcity, proute) {
+      remove_trade_route(pcity, proute, TRUE, TRUE);
+    } trade_routes_iterate_safe_end;
+  } city_list_iterate_end;
 
   /* We have to clear all player data before the ai memory is freed because
    * some function may depend on it. */
