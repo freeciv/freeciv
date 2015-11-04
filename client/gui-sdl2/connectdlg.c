@@ -722,7 +722,9 @@ void popup_join_game_dialog()
 **************************************************************************/
 static int convert_passwd_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (Main.event.type == SDL_KEYDOWN
+      || (Main.event.type == SDL_MOUSEBUTTONDOWN
+          && Main.event.button.button == SDL_BUTTON_LEFT)) {
     if (pWidget->string_utf8->text != NULL) {
       fc_snprintf(password, MAX_LEN_NAME, "%s", pWidget->string_utf8->text);
     }
@@ -911,9 +913,11 @@ static int convert_first_passwd_callback(struct widget *pWidget)
 /**************************************************************************
   Verify Password
 **************************************************************************/
-static int convert_secound_passwd_callback(struct widget *pWidget)
+static int convert_second_passwd_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (Main.event.type == SDL_KEYDOWN
+      || (Main.event.type == SDL_MOUSEBUTTONDOWN
+          && Main.event.button.button == SDL_BUTTON_LEFT)) {
     if (pWidget->string_utf8->text != NULL
         && !strncmp(password, pWidget->string_utf8->text, MAX_LEN_NAME)) {
       set_wstate(pWidget->prev, FC_WS_NORMAL); /* next button */
@@ -977,7 +981,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-  pBuf->action = convert_secound_passwd_callback;
+  pBuf->action = convert_second_passwd_callback;
   add_to_gui_list(ID_EDIT, pBuf);
   area.h += pBuf->size.h + adj_size(10);
 
