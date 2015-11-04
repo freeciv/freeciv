@@ -709,7 +709,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
 
   set_mapview_scroll_pos(scroll_x, scroll_y);
 
-  // Emulating mouse move now
+  /* Emulating mouse move now */
   if (!GTK_WIDGET_HAS_FOCUS(map_canvas)) {
     gtk_widget_grab_focus(map_canvas);
   }
