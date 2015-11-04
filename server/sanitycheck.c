@@ -520,7 +520,8 @@ static void check_players(const char *file, const char *function, int line)
       state1 = player_diplstate_get(pplayer, pplayer2);
       state2 = player_diplstate_get(pplayer2, pplayer);
       SANITY_CHECK(state1->type == state2->type);
-      if (state1->type == DS_CEASEFIRE) {
+      if (state1->type == DS_CEASEFIRE
+          || state1->type == DS_ARMISTICE) {
         SANITY_CHECK(state1->turns_left == state2->turns_left);
       }
       if (state1->type == DS_TEAM) {
