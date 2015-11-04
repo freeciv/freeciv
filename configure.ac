@@ -274,7 +274,14 @@ GENERATE_PACKETS_ARGS=""
 dnl make it possible to disable the delta network protocol
 AC_ARG_ENABLE([delta-protocol],
   AS_HELP_STRING([--disable-delta-protocol],
-                 [disable the delta network protocol]))
+                 [disable the delta network protocol]),
+  [case "${enableval}" in
+   yes|no)
+     enable_delta_protocol=${enableval} ;;
+   *)
+     AC_MSG_ERROR([bad value ${enableval} for --enable-delta-protocol]) ;;
+   esac],
+  [enable_delta_protocol=yes])
 
 AS_IF([test "x$enable_delta_protocol" = "xno"], [
   AC_MSG_WARN([delta network protocol is off])
