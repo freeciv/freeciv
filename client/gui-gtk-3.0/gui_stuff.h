@@ -15,6 +15,7 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "shared.h"
 
 GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text);

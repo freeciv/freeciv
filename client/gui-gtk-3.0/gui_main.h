@@ -15,8 +15,13 @@
 
 #include <gtk/gtk.h>
 
-#include "gtkpixcomm.h"
+/* client */
 #include "gui_main_g.h"
+
+/* gui-gtk-3.0 */
+#include "gtkpixcomm.h"
+
+#define GUI_GTK_OPTION(optname) gui_options.gui_gtk3_##optname
 
 /* network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
