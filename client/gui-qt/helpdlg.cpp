@@ -16,6 +16,8 @@
 #endif
 
 #define MAX_HELP_TEXT_SIZE 8192 // Taken from Gtk 3 client
+#define REQ_LABEL_NONE _("?tech:None")
+#define REQ_LABEL_NEVER _("(Never)")
 
 // common
 #include "nation.h"
@@ -479,6 +481,58 @@ void help_widget::add_info_progress(const QString &text, int progress,
   info_layout->addWidget(wdg);
 }
 
+/**************************************************************************
+  Create labels about all extras of one cause buildable to the terrain.
+**************************************************************************/
+void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
+                                                enum unit_activity act,
+                                                char *label)
+{
+
+
+  struct universal for_terr;
+  enum extra_cause cause = activity_to_extra_cause(act);
+
+  for_terr.kind = VUT_TERRAIN;
+  for_terr.value.terrain = pterr;
+
+  extra_type_by_cause_iterate(cause, pextra) {
+    if (pextra->buildable 
+        && universal_fulfills_requirement(FALSE, &(pextra->reqs),
+                                          &for_terr)) {
+      char buffer[1024];
+      int btime;
+      QLabel *tb;
+      QString str;
+      tb = new QLabel(this);
+      tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+      tb->setTextFormat(Qt::RichText);
+
+      btime = terrain_extra_build_time(pterr, act, pextra);
+      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", btime),
+                  btime);
+      str = str  + QString(label) 
+            + link_me(extra_name_translation(pextra), HELP_EXTRA)
+            + QString(buffer) + "\n";
+            tb->setText(str.trimmed());
+            tb->setFont(*gui()->fc_fonts.get_font("gui_qt_font_help_label"));
+            connect(tb, SIGNAL(linkActivated(const QString)),
+                    this, SLOT(anchor_clicked(const QString)));
+            info_layout->addWidget(tb);
+    }
+  } extra_type_by_cause_iterate_end;
+}
+
+/****************************************************************************
+  Creates link to given help page
+****************************************************************************/
+QString help_widget::link_me(const char *str, help_page_type hpt)
+{
+  return " <a href=" + QString::number(hpt)
+            + "," + QString(str) + ">"
+            + QString(str) + "</a> ";
+}
+
 /****************************************************************************
   Adds a separator to the information panel.
 ****************************************************************************/
@@ -494,6 +548,38 @@ void help_widget::info_panel_done()
 {
   info_layout->addStretch();
 }
+
+/****************************************************************************
+  Hyperlink clicked, link has 2 variables, string(name of given help)
+  and int(help_page_type)
+****************************************************************************/
+void help_widget::anchor_clicked(const QString &link)
+{
+  QStringList sl;
+  int n;
+  QString st;
+  enum help_page_type type;
+  const char *s;
+
+  sl = link.split(",");
+  n = sl.at(0).toInt();
+  st = sl.at(1);
+  type = static_cast<help_page_type>(n);
+  s = st.toLocal8Bit().data();
+  if (strcmp(s, REQ_LABEL_NEVER) != 0
+      && strcmp(s, skip_intl_qualifier_prefix(REQ_LABEL_NONE)) != 0
+      && strcmp(s, advance_name_translation(advance_by_number(A_NONE))) != 0) {
+    const struct help_item *pitem;
+    int idx;
+
+    get_help_item_spec(s, type, &idx);
+    if (!(pitem = get_help_item_spec(s, type, &idx))) {
+      return;
+    }
+    set_topic(pitem);
+  }
+}
+
 
 /**************************************************************************
   Shows the given help page.
@@ -803,6 +889,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
   bool show_panel = false;
   QScrollArea *area;
   QWidget *panel;
+  char buf[8192];
+  QString str;
 
   pterrain = terrain_by_translated_name(title);
   if (pterrain) {
@@ -842,72 +930,43 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     add_info_separator();
 
-    if (pterrain->irrigation_result == pterrain) {
-      if (effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
-        add_info_label(
-          // TRANS: When irrigated, terrain gets a bonus of %1 food;
-          //        irrigating takes %2 turns
-          QString(PL_(
-            "Irrigation: +%1 food in %2 turn",
-            "Irrigation: +%1 food in %2 turns",
-            pterrain->irrigation_time))
-          .arg(pterrain->irrigation_food_incr)
-          .arg(pterrain->irrigation_time));
+    if (pterrain->irrigation_result != pterrain && pterrain->irrigation_result != T_NONE
+        && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
+      str = N_("Irrig. Rslt/Time:");
+      sprintf(buf, "%s / %d",
+              terrain_name_translation(pterrain->irrigation_result),
+              pterrain->irrigation_time);
+        add_info_label(str + " " + QString(buf));
       }
-    } else if (pterrain->irrigation_result) {
-      if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
-        add_info_label(
-          // TRANS: When irrigated, terrain gets changed to other terrain %1
-          //        in %2 turns
-          QString(PL_(
-            "Irrigation: %1 in %2 turn",
-            "Irrigation: %1 in %2 turns",
-            pterrain->irrigation_time))
-          .arg(terrain_name_translation(pterrain->irrigation_result))
-          .arg(pterrain->irrigation_time));
-      }
+
+    if (pterrain->mining_result != pterrain && pterrain->mining_result != T_NONE
+        && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
+      str = N_("Mine Rslt/Time:");
+      sprintf(buf, "%s / %d",
+              terrain_name_translation(pterrain->mining_result),
+              pterrain->mining_time);
+      add_info_label(str + " " + QString(buf));
     }
 
-    if (pterrain->mining_result == pterrain) {
-      if (effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
-        add_info_label(
-          // TRANS: When mined, terrain gets a bonus of %1 shields; mining 
-          //        takes %2 turns
-          QString(PL_(
-            "Mining: +%1 shields in %2 turn",
-            "Mining: +%1 shields in %2 turns",
-            pterrain->mining_time))
-          .arg(pterrain->mining_shield_incr)
-          .arg(pterrain->mining_time));
-      }
-    } else if (pterrain->mining_result) {
-      if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
-        add_info_label(
-          // TRANS: When mined, terrain gets changed to other terrain %1
-          //        in %2 turns
-          QString(PL_(
-            "Mining: %1 in %2 turn",
-            "Mining: %1 in %2 turns",
-            pterrain->mining_time))
-          .arg(terrain_name_translation(pterrain->mining_result))
-          .arg(pterrain->mining_time));
-      }
-    }
+    if (pterrain->transform_result != T_NONE
+        && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+      str = N_("Trans. Rslt/Time:");
+      sprintf(buf, "%s / %d",
+              terrain_name_translation(pterrain->transform_result),
+              pterrain->transform_time);
+      add_info_label(str + " " + QString(buf));
+     }
 
-    if (pterrain->transform_result &&
-        pterrain->transform_result != pterrain) {
-      if (effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
-        add_info_label(
-          // TRANS: When transformed, terrain gets changed to other terrain %1
-          //        in %2 turns
-          QString(PL_(
-            "Transform: %1 in %2 turn",
-            "Transform: %1 in %2 turns",
-            pterrain->transform_time))
-          .arg(terrain_name_translation(pterrain->transform_result))
-          .arg(pterrain->transform_time));
-      }
+    if (pterrain->irrigation_result == pterrain
+        && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
+      add_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
+    if (pterrain->mining_result == pterrain
+        && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
+      add_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE, _("Build as mine"));
+    }
+    add_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD, _("Build as road"));
+    add_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
 
     info_panel_done();
 

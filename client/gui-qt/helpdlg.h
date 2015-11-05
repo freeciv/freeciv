@@ -14,6 +14,9 @@
 #ifndef FC__HELPDLG_H
 #define FC__HELPDLG_H
 
+// common
+#include "extras.h"
+
 // Qt
 #include <QDialog>
 #include <QHash>
@@ -84,6 +87,8 @@ class help_widget : public QWidget
   void add_info_progress(const QString& label, int progress,
                          int min, int max,
                          const QString& value = QString());
+  void add_extras_of_act_for_terrain(struct terrain *pterr,
+                                     enum unit_activity act, char *label);
   void add_info_separator();
   void add_info_widget(QWidget *widget);
   void info_panel_done();
@@ -113,9 +118,12 @@ public:
   help_widget(const help_item *item, QWidget *parent = 0);
   ~help_widget();
   void update_fonts();
-
+private:
+  QString link_me(const char *str, help_page_type hpt);
 public slots:
   void set_topic(const help_item *item);
+private slots:
+  void anchor_clicked(const QString &link);
 
 public:
   struct terrain *terrain_max_values();
