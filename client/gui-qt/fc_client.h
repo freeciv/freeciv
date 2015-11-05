@@ -198,6 +198,8 @@ public:
   void get_current_unit(int *curr, int *target);
   void set_diplo_dialog(choice_dialog *widget);
   void update_completer();
+  void handle_authentication_req(enum authentication_type type,
+                                 const char *message);
   choice_dialog *get_diplo_dialog();
 
   QCompleter *chat_completer;
@@ -273,8 +275,6 @@ private:
   void create_cursors(void);
   void update_scenarios_page(void);
   void set_connection_state(enum connection_state state);
-  void handle_authentication_req(
-    enum authentication_type type, const char *message);
   void update_obs_button();
   void init();
 
