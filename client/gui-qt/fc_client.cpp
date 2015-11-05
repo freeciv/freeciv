@@ -306,10 +306,13 @@ void fc_client::switch_page(int new_pg)
     break;
   case PAGE_NETWORK:
     update_network_lists();
+    set_connection_state(LOGIN_TYPE);
     connect_host_edit->setText(server_host);
     fc_snprintf(buf, sizeof(buf), "%d", server_port);
     connect_port_edit->setText(buf);
     connect_login_edit->setText(user_name);
+    connect_password_edit->setDisabled(true);
+    connect_confirm_password_edit->setDisabled(true);
     break;
   default:
     if (client.conn.used) {
