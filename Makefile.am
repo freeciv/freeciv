@@ -69,6 +69,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/qt5-darwin.m4		\
 		m4/qt-client.m4			\
 		m4/readline.m4			\
+		m4/sdl.m4			\
 		m4/sdl2-client.m4		\
 		m4/sdl2.m4			\
 		m4/sqlite3.m4			\
