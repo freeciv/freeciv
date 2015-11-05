@@ -60,32 +60,7 @@ void qtg_close_connection_dialog()
 void handle_authentication_req(enum authentication_type type,
                                const char *message)
 {
-  switch (type) {
-  case AUTH_NEWUSER_FIRST:
-     /* PORTME: switch configs if need be */
-    return;
-  case AUTH_NEWUSER_RETRY:
-     /* PORTME: switch configs if need be */
-    return;
-  case AUTH_LOGIN_FIRST:
-    /* if we magically have a password already present in 'password'
-     * then, use that and skip the password entry dialog */
-    if (password[0] != '\0') {
-      struct packet_authentication_reply reply;
-
-      sz_strlcpy(reply.password, password);
-      send_packet_authentication_reply(&client.conn, &reply);
-      return;
-    } else {
-     /* PORTME: switch configs if need be */
-    }
-    return;
-  case AUTH_LOGIN_RETRY:
-     /* PORTME: switch configs if need be */
-    return;
-  }
-
-  log_error("Unsupported authentication type %d: %s.", type, message);
+  gui()->handle_authentication_req(type, message);
 }
 
 /**************************************************************************

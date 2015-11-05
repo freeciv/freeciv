@@ -214,27 +214,28 @@ void fc_client::set_connection_state(enum connection_state state)
   case LOGIN_TYPE:
     set_status_bar("");
     connect_password_edit->setText("");
+    connect_password_edit->setDisabled(true);
     connect_confirm_password_edit->setText("");
-    connect_confirm_password_edit->setReadOnly(true);
+    connect_confirm_password_edit->setDisabled(true);
     break;
   case NEW_PASSWORD_TYPE:
     connect_password_edit->setText("");
     connect_confirm_password_edit->setText("");
-    connect_confirm_password_edit->setReadOnly(false);
+    connect_password_edit->setDisabled(false);
+    connect_confirm_password_edit->setDisabled(false);
     connect_password_edit->setFocus(Qt::OtherFocusReason);
     break;
   case ENTER_PASSWORD_TYPE:
     connect_password_edit->setText("");
     connect_confirm_password_edit->setText("");
-    connect_confirm_password_edit->setReadOnly(true);
+    connect_password_edit->setDisabled(false);
+    connect_confirm_password_edit->setDisabled(true);
     connect_password_edit->setFocus(Qt::OtherFocusReason);
 
 
     break;
   case WAITING_TYPE:
     set_status_bar("");
-    connect_confirm_password_edit->setReadOnly(true);
-
     break;
   }
 
@@ -267,7 +268,6 @@ void fc_client::create_network_page(void)
 
   connect_password_edit->setDisabled(true);
   connect_confirm_password_edit->setDisabled(true);
-  connect_confirm_password_edit->setReadOnly (true);
   connect_tab_widget = new QTabWidget;
   connect_lan = new QWidget;
   connect_metaserver = new QWidget;
@@ -355,6 +355,10 @@ void fc_client::create_network_page(void)
   network_button = new QPushButton(_("Connect"));
   page_network_grid_layout->addWidget(network_button, 5, 5, 1, 1);
   connect(network_button, SIGNAL(clicked()), this, SLOT(slot_connect()));
+  connect(connect_password_edit, SIGNAL(returnPressed()),
+          network_button, SIGNAL(clicked()));
+  connect(connect_confirm_password_edit, SIGNAL(returnPressed()),
+          network_button, SIGNAL(clicked()));
 
   connect_lan->setLayout(page_network_lan_layout);
   connect_metaserver->setLayout(page_network_wan_layout);
@@ -1120,7 +1124,6 @@ void fc_client::handle_authentication_req(enum authentication_type type,
     set_connection_state(NEW_PASSWORD_TYPE);
     return;
   case AUTH_LOGIN_FIRST:
-
     /* if we magically have a password already present in 'password'
      * then, use that and skip the password entry dialog */
     if (password[0] != '\0') {
@@ -1154,8 +1157,6 @@ void fc_client::slot_connect()
 
   switch (connection_status) {
   case LOGIN_TYPE:
-    connect_password_edit->setDisabled(true);
-    connect_confirm_password_edit->setDisabled(true);
     sz_strlcpy(user_name, connect_login_edit->text().toLocal8Bit().data());
     sz_strlcpy(server_host, connect_host_edit->text().toLocal8Bit().data());
     server_port = connect_port_edit->text().toInt();
@@ -1169,8 +1170,6 @@ void fc_client::slot_connect()
 
     return;
   case NEW_PASSWORD_TYPE:
-    connect_password_edit->setDisabled(false);
-    connect_confirm_password_edit->setDisabled(false);
     sz_strlcpy(password, connect_password_edit->text().toLatin1().data());
     sz_strlcpy(reply.password,
                connect_confirm_password_edit->text().toLatin1().data());
@@ -1186,8 +1185,6 @@ void fc_client::slot_connect()
 
     return;
   case ENTER_PASSWORD_TYPE:
-    connect_password_edit->setDisabled(false);
-    connect_confirm_password_edit->setDisabled(false);
     sz_strlcpy(reply.password,
                connect_password_edit->text().toLatin1().data());
     send_packet_authentication_reply(&client.conn, &reply);
