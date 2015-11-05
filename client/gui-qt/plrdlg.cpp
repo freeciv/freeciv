@@ -646,7 +646,6 @@ void plr_report::req_wiithdrw_vision()
 **************************************************************************/
 void plr_report::update_report()
 {
-  struct player_diplstate *ds;
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
@@ -654,14 +653,15 @@ void plr_report::update_report()
   ally_label->setText(plr_wdg->ally_str);
   tech_label->setText(plr_wdg->tech_str);
   other_player = plr_wdg->other_player;
-  if (other_player == NULL || can_client_issue_orders() == false) {
+  if (other_player == NULL || !can_client_issue_orders()) {
     return;
   }
   if (NULL != client.conn.playing
       && other_player != client.conn.playing) {
-    ds = player_diplstate_get(client_player(), other_player);
-    if (ds->type != DS_WAR && ds->type != DS_NO_CONTACT
-        && !players_on_same_team(client_player(), other_player)) {
+
+    // We keep button sensitive in case of DIPL_SENATE_BLOCKING, so that player
+    // can request server side to check requirements of those effects with omniscience
+    if (pplayer_can_cancel_treaty(client_player(), other_player) != DIPL_ERROR) {
       cancel_but->setEnabled(true);
     }
   }

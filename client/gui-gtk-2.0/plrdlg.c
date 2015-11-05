@@ -151,18 +151,13 @@ static void update_players_menu(void)
     }
 
     if (NULL != client.conn.playing) {
-      switch (player_diplstate_get(client.conn.playing,
-                                   player_by_number(plrno))->type) {
-      case DS_WAR:
-      case DS_NO_CONTACT:
-	gtk_widget_set_sensitive(players_war_command, FALSE);
-	break;
-      default:
-	gtk_widget_set_sensitive(players_war_command,
-				 can_client_issue_orders()
-                                 && !players_on_same_team(player_by_number(plrno),
-                                                          client.conn.playing));
-      }
+      /* We keep button sensitive in case of DIPL_SENATE_BLOCKING, so that player
+       * can request server side to check requirements of those effects with omniscience */
+      gtk_widget_set_sensitive(players_war_command,
+                               can_client_issue_orders()
+                               && pplayer_can_cancel_treaty(client_player(),
+                                                            player_by_number(plrno))
+                               != DIPL_ERROR);
     } else {
       gtk_widget_set_sensitive(players_war_command, FALSE);
     }
