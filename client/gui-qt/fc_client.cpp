@@ -117,7 +117,6 @@ void fc_client::init()
   fc_fonts.init_fonts();
   history_pos = -1;
   menu_bar = new mr_menu();
-  menu_bar->setup_menus();
   setMenuBar(menu_bar);
   status_bar = statusBar();
   status_bar_label = new QLabel;

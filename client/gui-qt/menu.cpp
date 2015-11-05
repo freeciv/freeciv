@@ -61,7 +61,9 @@ extern QApplication *qapp;
 **************************************************************************/
 void real_menus_init(void)
 {
-  /* PORTME */
+  gui()->menu_bar->clear();
+  gui()->menu_bar->setup_menus();
+
   gov_menu::create_all();
 
   /* A new ruleset may have been loaded. */
@@ -75,9 +77,12 @@ void real_menus_init(void)
 void real_menus_update(void)
 {
   if (C_S_RUNNING == client_state()) {
+    gui()->menuBar()->setVisible(true);
     gui()->menu_bar->menus_sensitive();
     gov_menu::update_all();
     go_act_menu::update_all();
+  } else {
+    gui()->menuBar()->setVisible(false);
   }
 }
 
@@ -846,11 +851,11 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(FORTIFY, act);
   act->setShortcut(QKeySequence(tr("f")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_fortify()));
-  act = menu->addAction(_("Build Type A Base"));
+  act = menu->addAction(Q_(terrain_control.gui_type_base0));
   menu_list.insertMulti(FORTRESS, act);
   act->setShortcut(QKeySequence(tr("shift+f")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_fortress()));
-  act = menu->addAction(_("Build Type B Base"));
+  act = menu->addAction(Q_(terrain_control.gui_type_base1));
   menu_list.insertMulti(AIRBASE, act);
   act->setShortcut(QKeySequence(tr("shift+e")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_airbase()));
