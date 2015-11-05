@@ -493,16 +493,16 @@ void update_info_label(void)
 }
 
 /**************************************************************************
-  Set unit to focus
+  User interacted with the focus units widget.
 **************************************************************************/
-static int focus_units_info_callback(struct widget *pWidget)
+static int focus_units_info_callback(struct widget *pwidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct unit *pUnit = pWidget->data.unit;
+    struct unit *punit = pwidget->data.unit;
 
-    if (pUnit) {
-      request_new_unit_activity(pUnit, ACTIVITY_IDLE);
-      unit_focus_set(pUnit);
+    if (punit) {
+      request_new_unit_activity(punit, ACTIVITY_IDLE);
+      unit_focus_set(punit);
     }
   }
 
