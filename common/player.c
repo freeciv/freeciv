@@ -97,10 +97,13 @@ enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
 {
   enum diplstate_type ds = player_diplstate_get(p1, p2)->type;
 
-  if (p1 == p2 || ds == DS_WAR) {
+  if (p1 == p2 || ds == DS_WAR || ds == DS_NO_CONTACT) {
     return DIPL_ERROR;
   }
   if (players_on_same_team(p1, p2)) {
+    return DIPL_ERROR;
+  }
+  if (!p1->is_alive || !p2->is_alive) {
     return DIPL_ERROR;
   }
   if (player_diplstate_get(p1, p2)->has_reason_to_cancel == 0
