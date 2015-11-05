@@ -1266,35 +1266,35 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
   fc_assert_ret(target->is_alive);
 
   switch (reason) {
-  case WAR_REASON_SPACE:
+  case DAI_WR_SPACE:
     notify(target, _("*%s (AI)* Space will never be yours. "),
            player_name(pplayer));
     adip->countdown = -10;
     break;
-  case WAR_REASON_BEHAVIOUR:
+  case DAI_WR_BEHAVIOUR:
     notify(target, _("*%s (AI)* I have tolerated your vicious antics "
            "long enough! To war!"),
            player_name(pplayer));
     adip->countdown = -20;
     break;
-  case WAR_REASON_NONE:
+  case DAI_WR_NONE:
     notify(target, _("*%s (AI)* Peace in ... some other time."),
            player_name(pplayer));
     adip->countdown = -10;
     break;
-  case WAR_REASON_HATRED:
+  case DAI_WR_HATRED:
     notify(target, _("*%s (AI)* Finally I get around to you! Did "
            "you really think you could get away with your crimes?"),
            player_name(pplayer));
     adip->countdown = -20;
     break;
-  case WAR_REASON_EXCUSE:
+  case DAI_WR_EXCUSE:
     notify(target, _("*%s (AI)* Your covert hostilities brought "
            "this war upon you!"),
            player_name(pplayer));
     adip->countdown = -20;
     break;
-  case WAR_REASON_ALLIANCE:
+  case DAI_WR_ALLIANCE:
     if (adip->at_war_with_ally) {
       notify(target, _("*%s (AI)* Your aggression against %s was "
 			"your last mistake!"),
@@ -1378,7 +1378,7 @@ void static war_countdown(struct ai_type *ait, struct player *pplayer,
     }
 
     switch (reason) {
-    case WAR_REASON_SPACE:
+    case DAI_WR_SPACE:
       notify(ally, PL_("*%s (AI)* We will be launching an all-out war "
 		       "against %s in %d turn to stop the spaceship "
 		       "launch.",
@@ -1393,8 +1393,8 @@ void static war_countdown(struct ai_type *ait, struct player *pplayer,
                      "Long live our glorious alliance!"),
              player_name(pplayer));
       break;
-    case WAR_REASON_BEHAVIOUR:
-    case WAR_REASON_EXCUSE:
+    case DAI_WR_BEHAVIOUR:
+    case DAI_WR_EXCUSE:
       notify(ally, PL_("*%s (AI)* %s has grossly violated his treaties "
 		       "with us for own gain.  We will answer in force in "
 		       "%d turn and expect you to honor your alliance "
@@ -1407,7 +1407,7 @@ void static war_countdown(struct ai_type *ait, struct player *pplayer,
 	     player_name(target),
 	     countdown);
       break;
-    case WAR_REASON_NONE:
+    case DAI_WR_NONE:
       notify(ally, PL_("*%s (AI)* We intend to pillage and plunder the rich "
 		       "civilization of %s. We declare war in %d turn.",
 		       "*%s (AI)* We intend to pillage and plunder the rich "
@@ -1420,7 +1420,7 @@ void static war_countdown(struct ai_type *ait, struct player *pplayer,
                      "free to join in the action!"),
              player_name(pplayer));
       break;
-    case WAR_REASON_HATRED:
+    case DAI_WR_HATRED:
       notify(ally, PL_("*%s (AI)* We have had it with %s. Let us tear this "
 		       "pathetic civilization apart. We declare war in "
 		       "%d turn.",
@@ -1435,7 +1435,7 @@ void static war_countdown(struct ai_type *ait, struct player *pplayer,
                      "help in this war."),
              player_name(pplayer));
       break;
-    case WAR_REASON_ALLIANCE:
+    case DAI_WR_ALLIANCE:
       if (WAR(ally, target)) {
         notify(ally, PL_("*%s (AI)* We will honor our alliance and declare "
 			 "war on %s in %d turn.  Hold on - we are coming!",
@@ -1496,7 +1496,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
         && dai_diplomacy_get(ait, pplayer, aplayer)->countdown == -1) {
       DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "Plans war in revenge");
       war_countdown(ait, pplayer, aplayer, map_size_checked(),
-                    WAR_REASON_BEHAVIOUR);
+                    DAI_WR_BEHAVIOUR);
     }
   } players_iterate_end;
 
@@ -1548,7 +1548,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
         pplayer->ai_common.love[player_index(aplayer)] -= MAX_AI_LOVE / 2;
         DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "plans war due to spaceship");
         war_countdown(ait, pplayer, aplayer, 4 + map_size_checked(),
-                      WAR_REASON_SPACE);
+                      DAI_WR_SPACE);
       }
     } players_iterate_alive_end;
   }
@@ -1587,13 +1587,13 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
     }
     if (player_diplstate_get(pplayer, target)->has_reason_to_cancel > 0) {
       /* We have good reason */
-      war_reason = WAR_REASON_EXCUSE;
+      war_reason = DAI_WR_EXCUSE;
     } else if (pplayer->ai_common.love[player_index(target)] < 0) {
       /* We have a reason of sorts from way back, maybe? */
-      war_reason = WAR_REASON_HATRED;
+      war_reason = DAI_WR_HATRED;
     } else {
       /* We have no legimitate reason... So what? */
-      war_reason = WAR_REASON_NONE;
+      war_reason = DAI_WR_NONE;
     }
     DIPLO_LOG(ait, LOG_DEBUG, pplayer, target, "plans war for spoils");
     war_countdown(ait, pplayer, target, 4 + map_size_checked(), war_reason);
@@ -1613,7 +1613,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
       DIPLO_LOG(ait, LOG_DEBUG, pplayer, aplayer, "plans war to help ally %s",
                 player_name(adip->at_war_with_ally));
       war_countdown(ait, pplayer, aplayer, 2 + map_size_checked(),
-                    WAR_REASON_ALLIANCE);
+                    DAI_WR_ALLIANCE);
     }
   } players_iterate_alive_end;
 

@@ -32,14 +32,20 @@ enum winning_strategy {
   WIN_CAPITAL   /* we cannot win unless we take war_target's capital */
 };
 
-enum war_reason {
-  WAR_REASON_BEHAVIOUR,
-  WAR_REASON_SPACE,
-  WAR_REASON_EXCUSE,
-  WAR_REASON_HATRED,
-  WAR_REASON_ALLIANCE,
-  WAR_REASON_NONE
-};
+#define SPECENUM_NAME war_reason
+#define SPECENUM_VALUE0 DAI_WR_BEHAVIOUR
+#define SPECENUM_VALUE0NAME "Behaviour"
+#define SPECENUM_VALUE1 DAI_WR_SPACE
+#define SPECENUM_VALUE1NAME "Space"
+#define SPECENUM_VALUE2 DAI_WR_EXCUSE
+#define SPECENUM_VALUE2NAME "Excuse"
+#define SPECENUM_VALUE3 DAI_WR_HATRED
+#define SPECENUM_VALUE3NAME "Hatred"
+#define SPECENUM_VALUE4 DAI_WR_ALLIANCE
+#define SPECENUM_VALUE4NAME "Alliance"
+#define SPECENUM_VALUE5 DAI_WR_NONE
+#define SPECENUM_VALUE5NAME "None"
+#include "specenum_gen.h"
 
 struct ai_dip_intel {
   /* Remember one example of each for text spam purposes. */

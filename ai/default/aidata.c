@@ -373,7 +373,7 @@ static void dai_diplomacy_defaults(struct ai_type *ait,
   /* pseudorandom value */
   player_intel->spam = (player_index(plr1) + player_index(plr2)) % 5;
   player_intel->countdown = -1;
-  player_intel->war_reason = WAR_REASON_NONE;
+  player_intel->war_reason = DAI_WR_NONE;
   player_intel->distance = 1;
   player_intel->ally_patience = 0;
   player_intel->asked_about_peace = 0;
