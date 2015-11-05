@@ -134,10 +134,9 @@ void qtg_canvas_put_sprite_fogged(struct canvas *pcanvas,
 {
   QPainter p;
 
-  /* no idea where its drawn so lets keep CompositionMode_Multiply
-   * to see where it is really used */
   p.begin(&pcanvas->map_pixmap);
-  p.setCompositionMode(QPainter::CompositionMode_Multiply);
+  p.setCompositionMode(QPainter::CompositionMode_Difference);
+  p.setOpacity(0.5);
   p.drawPixmap(canvas_x, canvas_y, *psprite->pm);
   p.end();
 }
