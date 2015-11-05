@@ -496,91 +496,6 @@ static bool may_non_act_move(struct unit *actor_unit,
 }
 
 /**************************************************************************
-  Returns TRUE iff, from the point of view of the owner of the actor unit,
-  it looks like the actor unit may be able to do any action to all units at
-  the target tile.
-
-  If the owner of the actor unit don't have the knowledge needed to know
-  for sure if the unit can act TRUE will be returned.
-
-  If the only action(s) that can be performed against a target has the
-  rare_pop_up property the target will only be considered valid if the
-  accept_all_actions argument is TRUE.
-**************************************************************************/
-static bool may_unit_act_vs_tile_units(struct unit *actor,
-                                       struct tile *target,
-                                       bool accept_all_actions)
-{
-  if (actor == NULL || target == NULL) {
-    /* Can't do any actions if actor or target are missing. */
-    return FALSE;
-  }
-
-  action_iterate(act) {
-    if (!(action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_UNITS)) {
-      /* Not a relevant action. */
-      continue;
-    }
-
-    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
-      /* Not relevant since not accepted here. */
-      continue;
-    }
-
-    if (action_prob_possible(action_prob_vs_units(actor, act, target))) {
-      /* One action is enough. */
-      return TRUE;
-    }
-  } action_iterate_end;
-
-  return FALSE;
-}
-
-/**************************************************************************
-  Returns TRUE iff, from the point of view of the owner of the actor unit,
-  it looks like the actor unit may be able to do any action to the target
-  tile.
-
-  If the owner of the actor unit don't have the knowledge needed to know
-  for sure if the unit can act TRUE will be returned.
-
-  If the only action(s) that can be performed against a target has the
-  rare_pop_up property the target will only be considered valid if the
-  accept_all_actions argument is TRUE.
-**************************************************************************/
-static bool may_unit_act_vs_tile(struct unit *actor,
-                                 struct tile *target,
-                                 bool accept_all_actions)
-{
-  if (actor == NULL || target == NULL) {
-    /* Can't do any actions if actor or target are missing. */
-    return FALSE;
-  }
-
-  action_iterate(act) {
-    if (!(action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_TILE)) {
-      /* Not a relevant action. */
-      continue;
-    }
-
-    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
-      /* Not relevant since not accepted here. */
-      continue;
-    }
-
-    if (action_prob_possible(action_prob_vs_tile(actor, act, target))) {
-      /* The actor unit may be able to do this action to the target
-       * tile. */
-      return TRUE;
-    }
-  } action_iterate_end;
-
-  return FALSE;
-}
-
-/**************************************************************************
   Returns the first player that may enable the specified action if war is
   declared.
 
@@ -3017,12 +2932,12 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     bool can_not_move = !unit_can_move_to_tile(punit, pdesttile, igzoc);
     struct unit *tunit = action_tgt_unit(punit, pdesttile, can_not_move);
     struct city *tcity = action_tgt_city(punit, pdesttile, can_not_move);
-    bool ttile_ok = may_unit_act_vs_tile(punit, pdesttile, can_not_move);
+    struct tile *ttile = action_tgt_tile(punit, pdesttile, can_not_move);
 
     /* Consider to pop up the action selection dialog if a potential city,
      * unit or units target exists at the destination tile. A tile target
      * will only trigger the pop up if it may be legal. */
-    if ((0 < unit_list_size(pdesttile->units) || pcity || ttile_ok)
+    if ((0 < unit_list_size(pdesttile->units) || pcity || ttile)
         && !(move_diplomat_city
              && may_non_act_move(punit, pcity, pdesttile, igzoc))) {
       /* A target (unit or city) exists at the tile. If a target is an ally
@@ -3033,8 +2948,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
        * since action_tgt_city() or action_tgt_unit() wouldn't have
        * targeted it otherwise. */
       if (tcity || tunit
-          || may_unit_act_vs_tile_units(punit, pdesttile, can_not_move)
-          || ttile_ok) {
+          || action_tgt_tile_units(punit, pdesttile, can_not_move)
+          || ttile) {
         if (is_ai(pplayer)) {
           return FALSE;
         }

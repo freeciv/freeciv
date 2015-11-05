@@ -660,3 +660,93 @@ struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
 
   return NULL;
 }
+
+/**************************************************************************
+  Returns the tile iff it, from the point of view of the owner of the
+  actor unit, looks like each unit on it is an ATK_UNITS target for the
+  actor unit.
+
+  Returns NULL if the player knows that the actor unit can't do any
+  ATK_UNITS action to all units at the target tile.
+
+  If the owner of the actor unit don't have the knowledge needed to know
+  for sure if the unit can act the tile will be returned.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
+**************************************************************************/
+struct tile *action_tgt_tile_units(struct unit *actor,
+                                   struct tile *target,
+                                   bool accept_all_actions)
+{
+  if (actor == NULL || target == NULL) {
+    /* Can't do any actions if actor or target are missing. */
+    return NULL;
+  }
+
+  action_iterate(act) {
+    if (!(action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_UNITS)) {
+      /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
+      /* Not relevant since not accepted here. */
+      continue;
+    }
+
+    if (action_prob_possible(action_prob_vs_units(actor, act, target))) {
+      /* One action is enough. */
+      return target;
+    }
+  } action_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+  Returns the tile iff it, from the point of view of the owner of the
+  actor unit, looks like a target tile.
+
+  Returns NULL if the player knows that the actor unit can't do any
+  ATK_TILE action to the tile.
+
+  If the owner of the actor unit doesn't have the knowledge needed to know
+  for sure if the unit can act the tile will be returned.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
+**************************************************************************/
+struct tile *action_tgt_tile(struct unit *actor,
+                             struct tile *target,
+                             bool accept_all_actions)
+{
+  if (actor == NULL || target == NULL) {
+    /* Can't do any actions if actor or target are missing. */
+    return NULL;
+  }
+
+  action_iterate(act) {
+    if (!(action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_TILE)) {
+      /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
+      /* Not relevant since not accepted here. */
+      continue;
+    }
+
+    if (action_prob_possible(action_prob_vs_tile(actor, act, target))) {
+      /* The actor unit may be able to do this action to the target
+       * tile. */
+      return target;
+    }
+  } action_iterate_end;
+
+  return NULL;
+}
