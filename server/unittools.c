@@ -3761,6 +3761,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 **************************************************************************/
 void unit_do_disband_trad(struct player *owner, struct unit *punit)
 {
+  const int punit_id_stored = punit->id;
+
   fc_assert_ret(owner == unit_owner(punit));
 
   /* Help Wonder gives 100% of the shields used to produce the unit to the
@@ -3782,6 +3784,11 @@ void unit_do_disband_trad(struct player *owner, struct unit *punit)
     }
   }
 
+  if (!unit_alive(punit_id_stored)) {
+    /* The unit is gone. Maybe it was killed in Lua? */
+    return;
+  }
+
   /* Disbanding a unit inside a city gives it 50% of the shields used to
    * produce the unit. */
   if (unit_can_do_action(punit, ACTION_RECYCLE_UNIT)) {
@@ -3799,6 +3806,11 @@ void unit_do_disband_trad(struct player *owner, struct unit *punit)
         return;
       }
     }
+  }
+
+  if (!unit_alive(punit_id_stored)) {
+    /* The unit is gone. Maybe it was killed in Lua? */
+    return;
   }
 
   /* All shields will be wasted. */
