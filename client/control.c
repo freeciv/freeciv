@@ -1653,6 +1653,34 @@ void request_new_unit_activity_targeted(struct unit *punit,
 **************************************************************************/
 void request_unit_disband(struct unit *punit)
 {
+  struct city *pcity;
+
+  if ((pcity = tile_city(unit_tile(punit)))) {
+    /* Try doing something more profitable. */
+
+    if (action_prob_possible(
+          action_prob_vs_city(punit, ACTION_HELP_WONDER, pcity))) {
+      /* Add 100% of the shields used to produce the unit to the current
+       * production of the city where it is located. */
+      request_do_action(ACTION_HELP_WONDER,
+                        punit->id, pcity->id, 0, "");
+      return;
+    }
+
+    if (action_prob_possible(
+          action_prob_vs_city(punit, ACTION_RECYCLE_UNIT, pcity))) {
+      /* Add 50% of the shields used to produce the unit to the current
+       * production of the city where it is located. */
+      request_do_action(ACTION_RECYCLE_UNIT,
+                        punit->id, pcity->id, 0, "");
+      return;
+    }
+
+    /* TODO: Should other actions that consumes the unit be considered?
+     * Join City may be an appealing alternative. Perhaps it should be a
+     * user configurable client option? */
+  }
+
   dsend_packet_unit_disband(&client.conn, punit->id);
 }
 
