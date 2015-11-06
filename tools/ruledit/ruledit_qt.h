@@ -47,7 +47,7 @@ private:
   QWidget *central;
 
 protected:
-  void closeEvent(QCloseEvent *event);
+  void closeEvent(QCloseEvent *cevent);
 };
 
 class ruledit_gui : public QObject
