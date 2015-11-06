@@ -536,7 +536,7 @@ static void base_set_mapview_origin(float gui_x0, float gui_y0)
   common_y0 = MAX(old_gui_y0, gui_y0);
   common_y1 = MIN(old_gui_y0, gui_y0) + height;
 
-  if (mapview.can_do_cached_drawing
+  if (mapview.can_do_cached_drawing && !zoom_is_enabled()
       && common_x1 > common_x0 && common_y1 > common_y0) {
     /* Do a partial redraw only.  This means the area of overlap (a
      * rectangle) is copied.  Then the remaining areas (two rectangles)
