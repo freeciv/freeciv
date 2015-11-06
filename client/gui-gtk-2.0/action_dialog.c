@@ -1138,6 +1138,22 @@ static void action_entry(GtkWidget *shl,
   const gchar *label;
   const gchar *tooltip;
 
+  if (action_id == ACTION_SPY_SABOTAGE_CITY
+      && action_prob_possible(
+        action_probabilities[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
+    /* The player can select Sabotage City from the target selection dialog
+     * of Targeted Sabotage City. */
+    return;
+  }
+
+  if (action_id == ACTION_SPY_STEAL_TECH
+      && action_prob_possible(
+        action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH])) {
+    /* The player can select Steal Tech from the target selection dialog of
+     * Targeted Steal Tech. */
+    return;
+  }
+
   /* Don't show disabled actions. */
   if (!action_prob_possible(action_probabilities[action_id])) {
     return;
