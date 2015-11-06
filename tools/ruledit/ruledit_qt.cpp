@@ -292,11 +292,11 @@ void ruledit_main::popup_quit_dialog()
 /**************************************************************************
   User clicked windows close button.
 **************************************************************************/
-void ruledit_main::closeEvent(QCloseEvent *event)
+void ruledit_main::closeEvent(QCloseEvent *cevent)
 {
   // Handle quit via confirmation dialog.
   popup_quit_dialog();
 
   // Do not handle quit here, but let user to answer to confirmation dialog.
-  event->ignore();
+  cevent->ignore();
 }
