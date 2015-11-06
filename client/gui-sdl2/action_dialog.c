@@ -978,6 +978,22 @@ static void action_entry(const enum gen_action act,
   utf8_str *pstr;
   const char *ui_name;
 
+  if (act == ACTION_SPY_SABOTAGE_CITY
+      && action_prob_possible(
+        action_probabilities[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
+    /* The player can select Sabotage City from the target selection dialog
+     * of Targeted Sabotage City. */
+    return;
+  }
+
+  if (act == ACTION_SPY_STEAL_TECH
+      && action_prob_possible(
+        action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH])) {
+    /* The player can select Steal Tech from the target selection dialog of
+     * Targeted Steal Tech. */
+    return;
+  }
+
   /* Don't show disabled actions */
   if (!action_prob_possible(action_probabilities[act])) {
     return;
