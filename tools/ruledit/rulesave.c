@@ -1201,6 +1201,10 @@ static bool save_traits(struct trait_limits *traits,
 
   for (tr = trait_begin(); tr != trait_end() && trait_names[tr] != NULL;
        tr = trait_next(tr)) {
+    int default_default;
+
+    default_default = (traits[tr].min + traits[tr].max) / 2;
+
     if ((default_traits == NULL && traits[tr].min != TRAIT_DEFAULT_VALUE)
         || (default_traits != NULL && traits[tr].min != default_traits[tr].min)) {
       secfile_insert_int(sfile, traits[tr].min, "%s.%s%s_min", secname, field_prefix,
@@ -1209,6 +1213,10 @@ static bool save_traits(struct trait_limits *traits,
     if ((default_traits == NULL && traits[tr].max != TRAIT_DEFAULT_VALUE)
         || (default_traits != NULL && traits[tr].max != default_traits[tr].max)) {
       secfile_insert_int(sfile, traits[tr].max, "%s.%s%s_max", secname, field_prefix,
+                         trait_names[tr]);
+    }
+    if (default_default != traits[tr].fixed) {
+      secfile_insert_int(sfile, traits[tr].fixed, "%s.%s%s_default", secname, field_prefix,
                          trait_names[tr]);
     }
   }
