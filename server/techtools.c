@@ -319,7 +319,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   }
 
   if (was_first && tech_found != A_FUTURE
-   && advance_has_flag(tech_found, TF_BONUS_TECH)) {
+      && advance_has_flag(tech_found, TF_BONUS_TECH)) {
     bonus_tech_hack = TRUE;
   }
   
@@ -414,17 +414,26 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   }
 
   if (bonus_tech_hack) {
+    Tech_type_id additional_tech;
+
+    additional_tech = give_immediate_free_tech(plr);
+    
     if (advance_by_number(tech_found)->bonus_message) {
       notify_research(plr, E_TECH_GAIN, ftc_server,
                       "%s", _(advance_by_number(tech_found)->bonus_message));
-    } else {
+      if (additional_tech != A_UNSET) {
+        notify_research(plr, E_TECH_GAIN, ftc_server,
+                        /* TRANS: Got free tech. */
+                        _("Acquired %s"),
+                        advance_name_for_player(plr, additional_tech));
+      }
+    } else if (additional_tech != A_UNSET) {
       notify_research(plr, E_TECH_GAIN, ftc_server,
                       _("Great scientists from all the "
-                        "world join your civilization: you get "
-                        "an immediate advance."));
+                        "world join your civilization: you learn "
+                        "%s immediately."),
+                      advance_name_for_player(plr, additional_tech));
     }
-
-    give_immediate_free_tech(plr);
   }
 
   /*
