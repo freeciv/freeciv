@@ -275,13 +275,7 @@ class info_label : public fcwidget
   QLabel *turn_info;
   QLabel *eco_info;
   QLabel *time_label;
-  sprite_widget *government_indicator;
-  sprite_widget *nuclear_indicator;
-  sprite_widget *pollution_indicator;
-  sprite_widget *research_indicator;
-  sprite_widget *tax_indicators[10];
-  QPushButton *end_turn;
-  double end_turn_font_size;
+  QLabel *res_info;
 
 public:
   info_label(QWidget *parent);
@@ -290,22 +284,37 @@ public:
   void set_turn_info(const QString &info);
   void set_time_info(const QString &info);
   void set_eco_info(const QString &info);
-  void set_highlight_turn_button(bool highlight);
-  void set_turn_button_enabled(bool enabled);
+  void set_res_info(const QString &info);
   void info_update();
   void update_menu();
-  void update_tileset();
+};
+
+class end_turn_area : public QFrame
+{
+  Q_OBJECT
+  QPushButton *etb_button;
+  int ascent_plus_descent;
+  sprite_widget *government_indicator;
+  sprite_widget *nuclear_indicator;
+  sprite_widget *pollution_indicator;
+  sprite_widget *research_indicator;
+  sprite_widget *tax_indicators[10];
+public:
+  end_turn_area(QWidget *parent);
+  void set_turn_button_enabled(bool enable);
+  void set_highlight_turn_button(bool highlight);
   void set_indicator_icons(const struct sprite *bulb,
                            const struct sprite *sol,
                            const struct sprite *flake,
                            const struct sprite *gov);
+  void update_tileset();
+  void end_turn_update();
 protected slots:
   void change_tax_rate_wheel(int delta, int id);
   void change_tax_rate_click(Qt::MouseButton button, int id);
 private:
   void change_tax_rate(output_type_id type, int delta);
 };
-
 /**************************************************************************
   Information label current unit
 **************************************************************************/
