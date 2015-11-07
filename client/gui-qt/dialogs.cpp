@@ -307,7 +307,7 @@ races_dialog::races_dialog(struct player *pplayer,
   if (nation_set_count() > 1) {
     main_layout->addWidget(ns_label, 0, 0, 1, 1);
     main_layout->addWidget(qnation_set, 0, 1, 1, 1);
-    main_layout->addWidget(nation_tabs, 1, 0, 6, 2);
+    main_layout->addWidget(nation_tabs, 1, 0, 5, 2);
   } else {
     main_layout->addWidget(nation_tabs, 0, 0, 6, 2);
   }
