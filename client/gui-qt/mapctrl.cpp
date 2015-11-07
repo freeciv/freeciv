@@ -191,7 +191,6 @@ void map_view::mousePressEvent(QMouseEvent *event)
       }
     } else {
       recenter_button_pressed(event->x(), event->y());
-      ::gui()->minimapview_wdg->update_image();
     }
   }
 

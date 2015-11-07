@@ -590,6 +590,13 @@ void minimap_view::unscale_point(int &x, int &y)
 
 }
 
+/**************************************************************************
+  Sets minimap scale to default
+**************************************************************************/
+void minimap_view::reset()
+{
+  scale_factor = 1;
+}
 
 /**************************************************************************
   Updates minimap's pixmap
@@ -1382,6 +1389,7 @@ void flush_dirty(void)
     }
   }
   num_dirty_rects = 0;
+  gui()->minimapview_wdg->update_image();
 }
 
 /****************************************************************************
@@ -1485,8 +1493,8 @@ void tileset_changed(void)
 ****************************************************************************/
 void get_overview_area_dimensions(int *width, int *height)
 {
-  *width = ::gui()->minimapview_wdg->width();
-  *height = ::gui()->minimapview_wdg->height();
+  *width = 0;
+  *height = 0;
 }
 
 /****************************************************************************
@@ -1501,6 +1509,7 @@ void overview_size_changed(void)
 {
   int map_width, map_height, over_width, over_height, ow, oh, oldx, oldy;
   float ratio;
+
   map_width = gui()->mapview_wdg->width();
   map_height = gui()->mapview_wdg->height();
   over_width = 2 * gui_options.overview.width;
@@ -1533,6 +1542,8 @@ void overview_size_changed(void)
   if (over_height < 48) {
     over_height = 48;
   }
+  /* Magic trick here */
+  gui()->minimapview_wdg->resize(0, 0);
   gui()->minimapview_wdg->resize(over_width, over_height);
   gui()->minimapview_wdg->move(oldx - over_width, oldy - over_height);
 }
