@@ -86,6 +86,8 @@ install-freeciv-common:
 	mkdir -p install-$(GUI)/share
 	mv install-$(GUI)/usr/local/share/locale install-$(GUI)/share/
 	mv install-$(GUI)/usr/local/share/doc install-$(GUI)/doc
+	mkdir -p install-$(GUI)/debuginfo
+	cp build-$(GUI)/gen_headers/fc_config.h install-$(GUI)/debuginfo
 	# delete unneeded files
 	rm -r install-$(GUI)/usr
 	# strip 'freeciv-manual' and 'freeciv-mp-<gui>' executables
@@ -123,6 +125,8 @@ install-ruledit: install-ruledit-dir
 	mv install-ruledit/usr/local/share/freeciv install-ruledit/data
 	mv install-ruledit/usr/local/share/locale install-ruledit/share/
 	mv install-ruledit/usr/local/share/doc install-ruledit/doc
+	mkdir -p install-ruledit/debuginfo
+	cp build-ruledit/gen_headers/fc_config.h install-ruledit/debuginfo
 	# delete unneeded files
 	rm -r install-ruledit/usr
 	# strip 'freeciv-ruledit' executable
