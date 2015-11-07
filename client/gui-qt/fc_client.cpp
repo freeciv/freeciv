@@ -302,6 +302,8 @@ void fc_client::switch_page(int new_pg)
     center_on_something();
     voteinfo_gui_update();
     update_info_label();
+    minimapview_wdg->reset();
+    overview_size_changed();
     break;
   case PAGE_SCENARIO:
     update_scenarios_page();
