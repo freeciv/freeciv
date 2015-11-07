@@ -515,17 +515,30 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
   }
 
   if (bonus_tech_hack) {
+    Tech_type_id additional_tech;
+
+    additional_tech = give_immediate_free_tech(presearch);
+
     if (advance_by_number(tech_found)->bonus_message) {
       notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
                       "%s", _(advance_by_number(tech_found)->bonus_message));
-    } else {
+      if (additional_tech != A_UNSET) {
+        notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
+                        /* TRANS: Got free tech. */
+                        _("Acquired %s"),
+                        research_advance_name_translation(presearch,
+                                                         additional_tech));
+      }
+    } else if (additional_tech != A_UNSET) {
+      /* FIXME: "your" when it was just civilization of one of the players
+       * sharing the reseach. */
       notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
                       _("Great scientists from all the "
-                        "world join your civilization: you get "
-                        "an immediate advance."));
+                        "world join your civilization: you learn "
+                        "%s immediately."),
+                      research_advance_name_translation(presearch,
+                                                        additional_tech));
     }
-
-    give_immediate_free_tech(presearch);
   }
 }
 
