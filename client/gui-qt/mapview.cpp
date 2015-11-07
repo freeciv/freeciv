@@ -1087,6 +1087,8 @@ void end_turn_area::end_turn_update()
 {
   const struct sprite *sprite;
   int d;
+  QSize delta;
+
   if (client_is_global_observer()) {
     return;
   }
@@ -1113,6 +1115,9 @@ void end_turn_area::end_turn_update()
     tax_indicators[d]->setToolTip(_("Shows your current luxury/science/tax "
                                     "rates. Use mouse wheel to change them"));
   }
+
+  delta = gui()->mapview_wdg->size() - gui()->end_turn_rect->sizeHint();
+  move(delta.width(), delta.height());
 }
 
 /****************************************************************************

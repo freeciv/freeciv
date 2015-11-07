@@ -181,7 +181,8 @@ void chatwdg::append(QString str)
 ***************************************************************************/
 void chatwdg::send()
 {
-  const char *theinput;
+  char *theinput;
+  char buf[MAX_LEN_MSG];
 
   theinput = chat_line->text().toUtf8().data();
   gui()->chat_history.prepend(chat_line->text());
@@ -189,12 +190,11 @@ void chatwdg::send()
     if (client_state() == C_S_RUNNING
         && gui_options.gui_qt_allied_chat_only
         && is_plain_public_message(theinput)) {
-      char buf[MAX_LEN_MSG];
-
       fc_snprintf(buf, sizeof(buf), ". %s", theinput);
       send_chat(buf);
     } else {
-      send_chat(theinput);
+      fc_snprintf(buf, sizeof(buf), "%s", theinput);
+      send_chat(buf);
     }
   }
   chat_line->clear();
