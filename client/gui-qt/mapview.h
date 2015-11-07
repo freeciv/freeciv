@@ -213,6 +213,7 @@ public:
   void paint(QPainter * painter, QPaintEvent * event);
   virtual void update_menu();
   void update_image();
+  void reset();
 
 protected:
   void paintEvent(QPaintEvent * event);
