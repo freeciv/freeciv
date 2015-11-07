@@ -2159,20 +2159,20 @@ void options_extra_init(void)
   struct option *poption;
 
 #define option_var_set_callback(var, callback)                              \
-  if ((poption = optset_option_by_name(client_optset, #var))) {             \
+  if ((poption = optset_option_by_name(client_optset, GUI_GTK_OPTION_STR(var)))) { \
     option_set_changed_callback(poption, callback);                         \
   } else {                                                                  \
-    log_error("Didn't find option %s!", #var);                              \
+    log_error("Didn't find option %s!", GUI_GTK_OPTION_STR(var));      \
   }
 
-  option_var_set_callback(GUI_GTK_OPTION(allied_chat_only),
+  option_var_set_callback(allied_chat_only,
                           allied_chat_only_callback);
 
-  option_var_set_callback(GUI_GTK_OPTION(font_city_names),
+  option_var_set_callback(font_city_names,
                           apply_city_names_font);
-  option_var_set_callback(GUI_GTK_OPTION(font_city_productions),
+  option_var_set_callback(font_city_productions,
                           apply_city_productions_font);
-  option_var_set_callback(GUI_GTK_OPTION(font_reqtree_text),
+  option_var_set_callback(font_reqtree_text,
                           apply_reqtree_text_font);
 #undef option_var_set_callback
 }

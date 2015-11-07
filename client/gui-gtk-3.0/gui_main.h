@@ -22,6 +22,7 @@
 #include "gtkpixcomm.h"
 
 #define GUI_GTK_OPTION(optname) gui_options.gui_gtk3_##optname
+#define GUI_GTK_OPTION_STR(optname) "gui_gtk3_" #optname
 
 /* network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
