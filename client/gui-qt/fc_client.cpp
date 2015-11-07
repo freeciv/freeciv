@@ -84,6 +84,7 @@ fc_client::fc_client() : QMainWindow()
   msgwdg = NULL;
   infotab = NULL;
   game_info_label = NULL;
+  end_turn_rect = NULL;
   central_wdg = NULL;
   game_tab_widget = NULL;
   start_players_tree = NULL;
@@ -300,6 +301,7 @@ void fc_client::switch_page(int new_pg)
     mapview_wdg->setFocus();
     center_on_something();
     voteinfo_gui_update();
+    update_info_label();
     break;
   case PAGE_SCENARIO:
     update_scenarios_page();

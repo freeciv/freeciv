@@ -204,6 +204,7 @@ public:
   mr_idle mr_idler;
   fc_font fc_fonts;
   info_label *game_info_label;
+  end_turn_area *end_turn_rect;
   QWidget *central_wdg;
   mr_menu *menu_bar;
   fc_game_tab_widget *game_tab_widget;

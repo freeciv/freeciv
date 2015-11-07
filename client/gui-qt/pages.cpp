@@ -609,6 +609,8 @@ void fc_client::create_game_page()
   unitinfo_wdg->show();
   game_info_label = new info_label(mapview_wdg);
   game_info_label->show();
+  end_turn_rect =  new end_turn_area(mapview_wdg);
+  end_turn_rect->show();
   infotab = new info_tab(mapview_wdg);
   infotab->show();
   x_vote = new xvote(mapview_wdg);
