@@ -837,14 +837,6 @@ bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag)
 }
 
 /****************************************************************************
-  Returns TRUE if the given tile has a road of given type on it.
-****************************************************************************/
-bool tile_has_extra(const struct tile *ptile, const struct extra_type *pextra)
-{
-  return BV_ISSET(ptile->extras, extra_index(pextra));
-}
-
-/****************************************************************************
   Returns TRUE if the given tile has a extra conflicting with the given one.
 ****************************************************************************/
 bool tile_has_conflicting_extra(const struct tile *ptile,

@@ -138,7 +138,7 @@ bool tile_has_river(const struct tile *tile);
 
 bool tile_extra_apply(struct tile *ptile, struct extra_type *tgt);
 bool tile_extra_rm_apply(struct tile *ptile, struct extra_type *tgt);
-bool tile_has_extra(const struct tile *ptile, const struct extra_type *pextra);
+#define tile_has_extra(ptile, pextra) BV_ISSET(ptile->extras, extra_index(pextra))
 bool tile_has_conflicting_extra(const struct tile *ptile, const struct extra_type *pextra);
 bool tile_has_visible_extra(const struct tile *ptile, const struct extra_type *pextra);
 bool tile_has_cause_extra(const struct tile *ptile, enum extra_cause cause);
