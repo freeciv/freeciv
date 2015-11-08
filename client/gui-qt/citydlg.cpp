@@ -58,18 +58,6 @@ static bool city_dlg_created = false; /** defines if dialog for city has been
 static city_dialog *city_dlg;
 
 /****************************************************************************
-  Calculates extra space needed for upkeep sprites for non-isometric tileset
-****************************************************************************/
-static float overhead_upkeep_scale()
-{
-  float ret = 1.0f;
-  if (!tileset_is_isometric(tileset)) {
-    ret = 1.33f;
-  }
-  return ret;
-}
-
-/****************************************************************************
   Draws X on pixmap pointing its useless
 ****************************************************************************/
 static void pixmap_put_x(QPixmap *pix)
@@ -100,13 +88,12 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
 
   if (punit) {
     unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    overhead_upkeep_scale()
-                                    * tileset_tile_height(tileset) * 3 / 2);
+                                    tileset_unit_with_upkeep_height(tileset));
     unit_pixmap->map_pixmap.fill(Qt::transparent);
     put_unit(punit, unit_pixmap, 0, 0);
     if (supported) {
       put_unit_city_overlays(punit, unit_pixmap, 0,
-                             tileset_tile_height(tileset),
+                             tileset_unit_layout_offset_y(tileset),
                              punit->upkeep, happy_cost);
     }
   }
@@ -357,13 +344,12 @@ void unit_item::enterEvent(QEvent *event)
   }
   if (qunit) {
     unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    overhead_upkeep_scale()
-                                    * tileset_tile_height(tileset) * 3 / 2);
+                                    tileset_unit_with_upkeep_height(tileset));
     unit_pixmap->map_pixmap.fill(QColor(200, 200, 200));
     put_unit(qunit, unit_pixmap, 0, 0);
     if (supported) {
       put_unit_city_overlays(qunit, unit_pixmap, 0,
-                             tileset_tile_height(tileset),
+                             tileset_unit_layout_offset_y(tileset),
                              qunit->upkeep, happy_cost);
     }
   }
@@ -380,13 +366,12 @@ void unit_item::leaveEvent(QEvent *event)
   }
   if (qunit) {
     unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    overhead_upkeep_scale()
-                                    * tileset_tile_height(tileset) * 3 / 2);
+                                    tileset_unit_with_upkeep_height(tileset));
     unit_pixmap->map_pixmap.fill(Qt::transparent);
     put_unit(qunit, unit_pixmap, 0, 0);
     if (supported) {
       put_unit_city_overlays(qunit, unit_pixmap, 0,
-                             tileset_tile_height(tileset),
+                             tileset_unit_layout_offset_y(tileset),
                              qunit->upkeep, happy_cost);
     }
   }
@@ -454,8 +439,7 @@ void unit_info::init_layout()
   QSizePolicy size_fixed_policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   layout->setContentsMargins(3, 6, 3, 6);
   setSizePolicy(size_fixed_policy);
-  setFixedHeight(overhead_upkeep_scale() * tileset_tile_height(tileset)
-                 * 3 / 2 + 6);
+  setFixedHeight(tileset_unit_with_upkeep_height(tileset) + 6);
   setLayout(layout);
 }
 
@@ -701,7 +685,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   size_expanding_policy.setVerticalStretch(0);
   current_building = 0;
 
-  /** Overview tab initiazlization */
+  /** Overview tab initialization */
   {
     QGroupBox *map_box = new QGroupBox(this);
     QVBoxLayout *v_layout = new QVBoxLayout;
@@ -765,8 +749,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     supported_units = new unit_info(this, true);
     scroll = new QScrollArea;
     scroll->setWidgetResizable(true);
-    scroll->setMaximumHeight(tileset_tile_height(tileset) * 2
-                             * overhead_upkeep_scale());
+    scroll->setMaximumHeight(tileset_unit_with_upkeep_height(tileset) * 2);
     scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll->setWidget(supported_units);
     current_units = new unit_info(this, false);
