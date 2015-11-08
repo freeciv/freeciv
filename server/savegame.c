@@ -1709,37 +1709,13 @@ static void player_load_main(struct player *plr, int plrno,
              plrno));
   plr->unassigned_ranked = (!strcmp(plr->ranked_username, ANON_USER_NAME));
 
-  /* 1.15 and later versions store nations by name.  Try that first. */
+  /* Nations stored by name. */
   p = secfile_lookup_str(file, "player%d.nation", plrno);
-  if (!p) {
-    /*
-     * Otherwise read as a pre-1.15 savefile with numeric nation indexes.
-     * This random-looking order is from the old nations/ruleset file.
-     * Use it to convert old-style nation indices to name strings.
-     * The idea is not to be dependent on the order in which nations 
-     * get read into the registry.
-     */
-    const char *name_order[] = {
-      "roman", "babylonian", "german", "egyptian", "american", "greek",
-      "indian", "russian", "zulu", "french", "aztec", "chinese", "english",
-      "mongol", "turk", "spanish", "persian", "arab", "carthaginian", "inca",
-      "viking", "polish", "hungarian", "danish", "dutch", "swedish",
-      "japanese", "portuguese", "finnish", "sioux", "czech", "australian",
-      "welsh", "korean", "scottish", "israeli", "argentine", "canadian",
-      "ukrainian", "lithuanian", "kenyan", "dunedain", "vietnamese", "thai",
-      "mordor", "bavarian", "brazilian", "irish", "cornish", "italian",
-      "filipino", "estonian", "latvian", "boer", "silesian", "singaporean",
-      "chilean", "catalan", "croatian", "slovenian", "serbian", "barbarian",
-    };
-    int index = secfile_lookup_int_default(file, -1, "player%d.race", plrno);
-
-    if (index >= 0 && index < ARRAY_SIZE(name_order)) {
-      p = name_order[index];
-    } else {
-      p = "";
-    }
+  if (p != NULL) {
+    pnation = nation_by_rule_name(p);
+  } else {
+    pnation = NO_NATION_SELECTED;
   }
-  pnation = nation_by_rule_name(p);
 
   if (pnation != NO_NATION_SELECTED) {
 
