@@ -57,6 +57,9 @@ module notify {
   void api_notify_embassies_msg
     @ embassies_msg (lua_State *L, Player *pplayer, Tile *ptile, int event,
                      const char *message);
+  void api_notify_research_msg
+    @ research_msg (lua_State *L, Player *pplayer, bool include_plr,
+                    int event, const char *message);
   void api_notify_event_msg
     @ event_msg (lua_State *L, Player *pplayer, Tile *ptile, int event,
                  const char *message);
@@ -83,6 +86,11 @@ end
 function notify.embassies(player, ptile, event, ...)
   local arg = table.pack(...);
   notify.embassies_msg(player, ptile, event, string.format(table.unpack(arg)))
+end
+
+function notify.research(player, selfmsg, event, ...)
+  local arg = table.pack(...);
+  notify.research_msg(player, selfmsg, event, string.format(table.unpack(arg))) 
 end
 $]
 
