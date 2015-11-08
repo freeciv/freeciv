@@ -592,25 +592,23 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
 /**************************************************************************
   create unit icon with support icons.
 **************************************************************************/
-static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support,
+static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
                                         int w, int h)
 {
   SDL_Rect src_rect;
-  SDL_Surface *pSurf, *pZoomed;
-  struct canvas *destcanvas = canvas_create(tileset_full_tile_width(tileset),
-                                            tileset_full_tile_height(tileset));
+  SDL_Surface *psurf;
+  struct canvas *destcanvas;
 
-  put_unit(pUnit, destcanvas, 1.0, 0, 0);
+  destcanvas = canvas_create(tileset_full_tile_width(tileset),
+                             tileset_full_tile_height(tileset));
 
+  put_unit(punit, destcanvas, 1.0, 0, 0);
   src_rect = get_smaller_surface_rect(destcanvas->surf);
-  pSurf = create_surf(src_rect.w, src_rect.h, SDL_SWSURFACE);
-  alphablit(destcanvas->surf, &src_rect, pSurf, NULL, 255);
+  src_rect.h = tileset_unit_with_upkeep_height(tileset);
+  psurf = create_surf(src_rect.w, src_rect.h, SDL_SWSURFACE);
+  alphablit(destcanvas->surf, &src_rect, psurf, NULL, 255);
 
   canvas_free(destcanvas);
-
-  pZoomed = ResizeSurfaceBox(pSurf, w, h, 1, TRUE, TRUE);
-  FREESURFACE(pSurf);
-  pSurf = pZoomed;
 
   if (support) {
     int i, step;
@@ -619,43 +617,51 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support,
     SDL_Rect dest;
 
     free_unhappy = get_city_bonus(pCityDlg->pCity, EFT_MAKE_CONTENT_MIL);
-    happy_cost = city_unit_unhappiness(pUnit, &free_unhappy);
+    happy_cost = city_unit_unhappiness(punit, &free_unhappy);
 
-    i = pUnit->upkeep[O_SHIELD] + pUnit->upkeep[O_FOOD] +
-        pUnit->upkeep[O_GOLD] + happy_cost;
+    i = punit->upkeep[O_SHIELD] + punit->upkeep[O_FOOD] +
+        punit->upkeep[O_GOLD] + happy_cost;
 
-    if (i * pIcons->pFood->w > pSurf->w / 2) {
-      step = (pSurf->w / 2 - pIcons->pFood->w) / (i - 1);
+    if (i * pIcons->pFood->w > psurf->w / 2) {
+      step = (psurf->w / 2 - pIcons->pFood->w) / (i - 1);
     } else {
       step = pIcons->pFood->w;
     }
 
-    dest.y = pSurf->h - pIcons->pFood->h - adj_size(2);
-    dest.x = pSurf->w / 8;
+    dest.y = tileset_unit_layout_offset_y(tileset);
+    dest.x = psurf->w / 8;
 
-    for (i = 0; i < pUnit->upkeep[O_SHIELD]; i++) {
-      alphablit(pIcons->pShield, NULL, pSurf, &dest, 255);
+    for (i = 0; i < punit->upkeep[O_SHIELD]; i++) {
+      alphablit(pIcons->pShield, NULL, psurf, &dest, 255);
       dest.x += step;
     }
 
-    for (i = 0; i < pUnit->upkeep[O_FOOD]; i++) {
-      alphablit(pIcons->pFood, NULL, pSurf, &dest, 255);
+    for (i = 0; i < punit->upkeep[O_FOOD]; i++) {
+      alphablit(pIcons->pFood, NULL, psurf, &dest, 255);
       dest.x += step;
     }
 
-    for (i = 0; i < pUnit->upkeep[O_GOLD]; i++) {
-      alphablit(pIcons->pCoin, NULL, pSurf, &dest, 255);
+    for (i = 0; i < punit->upkeep[O_GOLD]; i++) {
+      alphablit(pIcons->pCoin, NULL, psurf, &dest, 255);
       dest.x += step;
     }
 
     for (i = 0; i < happy_cost; i++) {
-      alphablit(pIcons->pFace, NULL, pSurf, &dest, 255);
+      alphablit(pIcons->pFace, NULL, psurf, &dest, 255);
       dest.x += step;
     }
 
   }
 
-  return pSurf;
+  if (w != src_rect.w || h != src_rect.h) {
+    SDL_Surface *pzoomed;
+
+    pzoomed = ResizeSurfaceBox(psurf, w, h, 1, TRUE, TRUE);
+    FREESURFACE(psurf);
+    psurf = pzoomed;
+  }
+
+  return psurf;
 }
 
 /**************************************************************************
