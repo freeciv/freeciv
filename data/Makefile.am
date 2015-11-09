@@ -57,7 +57,6 @@ pkgsysconf_DATA = $(SERVER_CONF)
 pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 
 EXTRA_DIST = \
-	Freeciv	\
 	freeciv-client.png \
 	freeciv.rc-2.0	\
 	gtk2_menus.xml	\
