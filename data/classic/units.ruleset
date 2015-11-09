@@ -691,7 +691,8 @@ flags         = ""
 roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
 Equipped with long pikes, Pikemen replaces Phalanx\
- as the preferred city defender.\
+ as the preferred city defender. Pikemen get double defense when\
+ attacked by mounted units (except Cavalry).\
 ")
 
 [unit_musketeers]
@@ -1297,6 +1298,9 @@ roles         = ""
 helptext      = _("\
 Fighters are your first airborne units. They can\
  move anywhere and attack any unit.\
+"), _("\
+Fighters are particularly effective when attacking Helicopters; the\
+ Helicopter's defense and firepower are both halved.\
 ")
 
 [unit_bomber]
@@ -1705,7 +1709,8 @@ flags         = "BadCityDefender"
 roles         = "DefendGood"
 helptext      = _("\
 The AEGIS Cruiser is equipped with an advanced\
- defensive missile system.\
+ defensive missile system, giving it quintuple defense against\
+ all (non-nuclear) air attacks.\
 ")
 
 [unit_battleship]
