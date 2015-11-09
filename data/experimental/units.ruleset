@@ -1947,8 +1947,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack", "Nuclear", "AirAttacker",
-                "Shield2Gold", "HasNoZOC"
+flags         = "FieldUnit", "OneAttack", "Nuclear", "Shield2Gold", "HasNoZOC"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
