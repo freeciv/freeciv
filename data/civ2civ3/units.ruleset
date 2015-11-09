@@ -2372,8 +2372,7 @@ helptext      = _("\
 A Caravan carries goods or material for trading with other nations,\
  or to help build wonders in your own cities.\
 "), _("\
-Caravans can only travel on roads, railroads, rivers or ships, and\
- are not affected by movement modifiers.\
+Caravans can only travel on roads, railroads, rivers or ships.\
 "), _("\
 A Caravan sent to a foreign city (even one owned by an enemy) can\
  establish a trade route. The route's ongoing revenue is doubled\
