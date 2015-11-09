@@ -845,7 +845,7 @@ static void update_diplomatics(void)
                               player_name(plr1),
                               player_name(plr2));
                 player_diplstate_get(plr3, plr1)->has_reason_to_cancel = TRUE;
-                player_diplstate_get(plr2, plr2)->has_reason_to_cancel = TRUE;
+                player_diplstate_get(plr3, plr2)->has_reason_to_cancel = TRUE;
                 handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
                 handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
               }
