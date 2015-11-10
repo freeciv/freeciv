@@ -1445,7 +1445,8 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
   Returns TRUE if actor_unit can do wanted_action to it self as far as
   action enablers are concerned.
 
-  See note in is_action_enabled for why the action may still be disabled.
+  See note in is_action_enabled() for why the action still may be
+  disabled.
 **************************************************************************/
 bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                                     const struct unit *actor_unit)
