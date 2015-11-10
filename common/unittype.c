@@ -1953,11 +1953,7 @@ void set_unit_move_type(struct unit_class *puclass)
   } extra_type_iterate_end;
 
   terrain_type_iterate(pterrain) {
-    bv_extras extras;
-
-    BV_CLR_ALL(extras);
-
-    if (is_native_to_class(puclass, pterrain, extras)) {
+    if (is_native_to_class(puclass, pterrain, NULL)) {
       if (is_ocean(pterrain)) {
         sea_moving = TRUE;
       } else {

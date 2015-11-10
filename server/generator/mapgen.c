@@ -3605,7 +3605,7 @@ static bool map_generate_fair_islands(void)
       }
       pftile->pterrain = tile_terrain(ptile);
       pftile->presource = tile_resource(ptile);
-      pftile->extras = tile_extras(ptile);
+      pftile->extras = *tile_extras(ptile);
     } whole_map_iterate_end;
 
     /* Create main player island. */

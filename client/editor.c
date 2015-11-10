@@ -1588,7 +1588,7 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
     return;
   }
   packet->tile = tile_index(ptile);
-  packet->extras = tile_extras(ptile);
+  packet->extras = *tile_extras(ptile);
 
   presource = tile_resource(ptile);
   packet->resource = presource

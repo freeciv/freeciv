@@ -4654,12 +4654,9 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
   {
     const char *classes[uclass_count()];
     int i = 0;
-    bv_extras extras;
-
-    BV_CLR_ALL(extras);
 
     unit_class_iterate(uclass) {
-      if (is_native_to_class(uclass, pterrain, extras)) {
+      if (is_native_to_class(uclass, pterrain, NULL)) {
         classes[i++] = uclass_name_translation(uclass);
       }
     } unit_class_iterate_end;

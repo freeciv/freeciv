@@ -900,11 +900,7 @@ bool sanity_check_ruleset_data(void)
 
   terrain_type_iterate(pterr) {
     if (pterr->animal != NULL) {
-      bv_extras no_extras;
-
-      BV_CLR_ALL(no_extras);
-
-      if (!is_native_to_class(utype_class(pterr->animal), pterr, no_extras)) {
+      if (!is_native_to_class(utype_class(pterr->animal), pterr, NULL)) {
         ruleset_error(LOG_ERROR,
                       "%s has %s as animal to appear, but it's not native to the terrain.",
                       terrain_rule_name(pterr), utype_rule_name(pterr->animal));
