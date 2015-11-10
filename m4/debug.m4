@@ -13,9 +13,9 @@ dnl -g is added by AC_PROG_CC if the compiler understands it
 
 dnl ==========================================================================
 dnl Always
-FC_C_FLAGS([-Wno-tautological-compare], [], [EXTRA_DEBUG_CFLAGS])
+FC_C_FLAGS([-Wno-tautological-compare -Wno-deprecated-declarations], [], [EXTRA_DEBUG_CFLAGS])
 if test "x$cxx_works" = "xyes" ; then
-  FC_CXX_FLAGS([-Wno-tautological-compare], [], [EXTRA_DEBUG_CXXFLAGS])
+  FC_CXX_FLAGS([-Wno-tautological-compare -Wno-deprecated-declarations], [], [EXTRA_DEBUG_CXXFLAGS])
 fi
 
 dnl ==========================================================================
@@ -47,11 +47,11 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
   AC_DEFINE([LUA_USE_APICHECK], [1], [Lua Api checks])
 
   FC_C_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
-              -Wformat -Wformat-security -Wnested-externs -Wno-deprecated-declarations],
+              -Wformat -Wformat-security -Wnested-externs],
              [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
     FC_CXX_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
-                  -Wformat -Wformat-security -Wno-deprecated-declarations],
+                  -Wformat -Wformat-security],
                  [], [EXTRA_DEBUG_CXXFLAGS])
   fi
 
