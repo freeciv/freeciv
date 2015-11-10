@@ -33,6 +33,7 @@ $#include "console.h"
 $#include "api_server_edit.h"
 $#include "api_server_base.h"
 $#include "api_server_notify.h"
+$#include "api_server_game_methods.h"
 $#include "script_server.h"
 
 /* Server module. */
@@ -134,7 +135,7 @@ module edit {
   Tech_Type *api_edit_give_technology
     @ give_technology (lua_State *L, Player *pplayer, Tech_Type *ptech,
                        int cost, const char *reason);
-  bool api_edit_trait_mod
+  bool api_edit_trait_mod_set
     @ trait_mod (lua_State *L, Player *pplayer, const char *trait_name,
                  const int mod);
   bool api_edit_unleash_barbarians
@@ -303,3 +304,24 @@ function Tile:set_label(label)
 end
 
 $]
+
+/* Additions to common Player module. */
+module Player {
+  int api_methods_player_trait
+    @ trait (lua_State *L, Player *pplayer, const char *trait_name);
+  int api_methods_player_trait_base
+    @ trait_base (lua_State *L, Player *pplayer, const char *trait_name);
+  int api_methods_player_trait_current_mod
+    @ trait_current_mod (lua_State *L, Player *pplayer, const char *trait_name);
+}
+
+/* Additions to common Nation_Type module. */
+module Nation_Type {
+  int api_methods_nation_trait_min
+    @ trait_min (lua_State *L, Nation_Type *pnation, const char *trait_name);
+  int api_methods_nation_trait_max
+    @ trait_max (lua_State *L, Nation_Type *pnation, const char *trait_name);
+  int api_methods_nation_trait_default
+    @ trait_default (lua_State *L, Nation_Type *pnation,
+                     const char *trait_name);
+}

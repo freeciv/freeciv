@@ -50,8 +50,8 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount);
 Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
                                     Tech_Type *ptech, int cost,
                                     const char *reason);
-bool api_edit_trait_mod(lua_State *L, Player *pplayer, const char *trait_name,
-                        const int mod);
+bool api_edit_trait_mod_set(lua_State *L, Player *pplayer,
+                            const char *trait_name, const int mod);
 
 void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name);
 void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
