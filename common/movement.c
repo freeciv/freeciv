@@ -102,10 +102,7 @@ int unit_move_rate(const struct unit *punit)
 int utype_unknown_move_cost(const struct unit_type *utype)
 {
   const struct unit_class *uclass = utype_class(utype);
-  bv_extras extras;
   int move_cost;
-
-  BV_CLR_ALL(extras);
 
   if (!uclass_has_flag(uclass, UCF_TERRAIN_SPEED)) {
     /* Unit is not subject to terrain movement costs. */
@@ -117,7 +114,7 @@ int utype_unknown_move_cost(const struct unit_type *utype)
     /* Unit is subject to terrain movement costs. */
     move_cost = 1; /* Arbitrary minimum. */
     terrain_type_iterate(pterrain) {
-      if (is_native_to_class(uclass, pterrain, extras)
+      if (is_native_to_class(uclass, pterrain, NULL)
           && pterrain->movement_cost > move_cost) {
         /* Exact movement cost matters only if we can enter
          * the tile. */
@@ -132,7 +129,7 @@ int utype_unknown_move_cost(const struct unit_type *utype)
    * N.B.: We don't take in account terrain no unit can enter here. */
   terrain_type_iterate(pterrain) {
     if (BV_ISSET_ANY(pterrain->native_to)
-        && !is_native_to_class(uclass, pterrain, extras)) {
+        && !is_native_to_class(uclass, pterrain, NULL)) {
       /* Units that may encounter unsuitable terrain explore less. */
       move_cost *= 2;
       break;
@@ -292,7 +289,7 @@ bool is_native_tile_to_class(const struct unit_class *punitclass,
 ****************************************************************************/
 bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain,
-                        bv_extras extras)
+                        const bv_extras *extras)
 {
   if (!pterrain) {
     /* Unknown is considered native terrain */
@@ -303,11 +300,13 @@ bool is_native_to_class(const struct unit_class *punitclass,
     return TRUE;
   }
 
-  extra_type_list_iterate(punitclass->cache.native_tile_extras, pextra) {
-    if (BV_ISSET(extras, extra_index(pextra))) {
-      return TRUE;
-    }
-  } extra_type_list_iterate_end;
+  if (extras != NULL) {
+    extra_type_list_iterate(punitclass->cache.native_tile_extras, pextra) {
+      if (BV_ISSET(*extras, extra_index(pextra))) {
+        return TRUE;
+      }
+    } extra_type_list_iterate_end;
+  }
 
   return FALSE;
 }
@@ -324,16 +323,14 @@ bool is_native_move(const struct unit_class *punitclass,
                     const struct tile *dst_tile)
 {
   const struct road_type *proad;
-  bv_extras none;
 
-  BV_CLR_ALL(none);
-  if (is_native_to_class(punitclass, tile_terrain(dst_tile), none)) {
+  if (is_native_to_class(punitclass, tile_terrain(dst_tile), NULL)) {
     /* We aren't using extras to make the destination native. */
     return TRUE;
   } else if (!is_native_tile_to_class(punitclass, src_tile)) {
     /* Disembarking or leaving port, so ignore road connectivity. */
     return TRUE;
-  } else if (is_native_to_class(punitclass, tile_terrain(src_tile), none)) {
+  } else if (is_native_to_class(punitclass, tile_terrain(src_tile), NULL)) {
     /* Native source terrain depends entirely on destination tile nativity. */
     return is_native_tile_to_class(punitclass, dst_tile);
   }

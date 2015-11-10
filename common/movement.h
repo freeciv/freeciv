@@ -68,7 +68,7 @@ bool is_native_tile_to_class(const struct unit_class *punitclass,
                              const struct tile *ptile);
 bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain,
-                        bv_extras extras);
+                        const bv_extras *extras);
 bool is_native_move(const struct unit_class *punitclass,
                     const struct tile *src_tile,
                     const struct tile *dst_tile);

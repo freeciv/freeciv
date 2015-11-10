@@ -2204,7 +2204,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       }
 
       packet->tile = tile_index(ptile);
-      packet->extras = tile_extras(ptile);
+      packet->extras = *tile_extras(ptile);
       /* TODO: Set more packet fields. */
     }
     return;

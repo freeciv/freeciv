@@ -31,6 +31,8 @@
 
 #include "tile.h"
 
+static bv_extras empty_extras;
+
 #ifndef tile_index
 /****************************************************************************
   Return the tile index.
@@ -150,16 +152,20 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 /****************************************************************************
   Returns a bit vector of the extras present at the tile.
 ****************************************************************************/
-bv_extras tile_extras(const struct tile *ptile)
+const bv_extras *tile_extras(const struct tile *ptile)
 {
   if (!ptile) {
-    bv_extras empty;
+    static bool empty_cleared = FALSE;
 
-    BV_CLR_ALL(empty);
-    return empty;
+    if (!empty_cleared) {
+      BV_CLR_ALL(empty_extras);
+      empty_cleared = TRUE;
+    }
+
+    return &(empty_extras);
   }
 
-  return ptile->extras;
+  return &(ptile->extras);
 }
 
 /****************************************************************************
