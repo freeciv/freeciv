@@ -5498,7 +5498,11 @@ void options_save(option_save_log_callback log_cb)
                       "client.migration_qt_from_2_5");
 
   client_options_iterate_all(poption) {
-    client_option_save(poption, sf);
+    if (client_poption->specific != GUI_SDL || !gui_options.gui_sdl2_migrated_from_sdl) {
+      /* Once sdl-client options have been migrated to sdl2-client, there's no
+       * use for them any more, so no point in saving them. */
+      client_option_save(poption, sf);
+    }
   } client_options_iterate_all_end;
 
   message_options_save(sf, "client");
