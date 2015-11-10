@@ -165,7 +165,9 @@ module edit {
 }
 
 $[
--- Compatibility functions (function names prior to freeciv 2.4)
+-- Compatibility functions
+-- These top-level functions were exposed prior to Freeciv 2.4. Since then
+-- we prefer use of edit.*. Do not add new functions to this section.
 function create_unit(player, tile, utype, veteran_level, homecity, moves_left)
   return edit.create_unit(player, tile, utype, veteran_level, homecity,
                           moves_left)
@@ -179,10 +181,6 @@ end
 
 function create_city(player, tile, name)
   edit.create_city (player, tile, name)
-end
-
-function create_extra(tile, name)
-  edit.create_extra(tile, name)
 end
 
 function create_base(tile, name, player)
