@@ -1538,6 +1538,7 @@ void show_tileset_error(const char *msg)
                                     GTK_BUTTONS_CLOSE,
                                     _("Tileset problem, it's probably incompatible with the ruleset:\n%s"),
                                     msg);
+    setup_dialog(dialog, toplevel);
 
     gtk_dialog_run(GTK_DIALOG(dialog));
 
