@@ -9,6 +9,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/common/scriptcore \
 	-I$(top_srcdir)/server \
+	-I$(top_srcdir)/ai \
 	-I$(top_srcdir)/dependencies/tinycthread \
 	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE_CFLAGS) \
 	$(LUA_CFLAGS) $(LUASQL_CFLAGS) $(TOLUA_CFLAGS)
@@ -20,6 +21,8 @@ dist_libscripting_server_la_SOURCES = \
 	api_server_base.h	\
 	api_server_edit.c	\
 	api_server_edit.h	\
+	api_server_game_methods.c	\
+	api_server_game_methods.h	\
 	api_server_notify.c	\
 	api_server_notify.h	\
 	script_server.c		\
