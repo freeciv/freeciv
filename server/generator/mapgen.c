@@ -3594,7 +3594,7 @@ static bool map_generate_fair_islands(void)
       pftile->pterrain = tile_terrain(ptile);
       pftile->presource = tile_resource(ptile);
       pftile->specials = tile_specials(ptile);
-      pftile->roads = tile_roads(ptile);
+      pftile->roads = *tile_roads(ptile);
     } whole_map_iterate_end;
 
     /* Create main player island. */

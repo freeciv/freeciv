@@ -1033,8 +1033,8 @@ void unit_assign_specific_activity_target(struct unit *punit,
     struct act_tgt tgt;
 
     bv_special specials = tile_specials(ptile);
-    bv_bases bases = tile_bases(ptile);
-    bv_roads roads = tile_roads(ptile);
+    bv_bases bases = *tile_bases(ptile);
+    bv_roads roads = *tile_roads(ptile);
 
     while (get_preferred_pillage(&tgt, specials, bases, roads)) {
 
@@ -2804,7 +2804,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 
     if (NULL == plrtile->site
         && !is_native_to_class(unit_class(punit), plrtile->terrain,
-                               plrtile->bases, plrtile->roads)) {
+                               &(plrtile->bases), &(plrtile->roads))) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                     _("This unit cannot paradrop into %s."),
                     terrain_name_translation(plrtile->terrain));

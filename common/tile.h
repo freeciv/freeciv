@@ -120,8 +120,8 @@ void tile_set_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_all_specials(struct tile *ptile);
 
-bv_bases tile_bases(const struct tile *ptile);
-bv_roads tile_roads(const struct tile *ptile);
+const bv_bases *tile_bases(const struct tile *ptile);
+const bv_roads *tile_roads(const struct tile *ptile);
 void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
 bool tile_has_conflicting_base(const struct tile *ptile, const struct base_type *pbase);

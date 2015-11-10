@@ -170,7 +170,7 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
         continue;
       } else if (piter != pexclude
                  && is_native_to_class(punitclass, tile_terrain(piter),
-                                       piter->bases, piter->roads)) {
+                                       tile_bases(piter), tile_roads(piter))) {
         found = TRUE;
         break;
       } else if (piter != pexclude
@@ -252,7 +252,7 @@ bool is_native_tile(const struct unit_type *punittype,
 ****************************************************************************/
 bool is_native_terrain(const struct unit_type *punittype,
                        const struct terrain *pterrain,
-                       bv_bases bases, bv_roads roads)
+                       const bv_bases *bases, const bv_roads *roads)
 {
   return is_native_to_class(utype_class(punittype), pterrain, bases, roads);
 }
@@ -275,7 +275,7 @@ bool is_native_tile_to_class(const struct unit_class *punitclass,
 ****************************************************************************/
 bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain,
-                        bv_bases bases, bv_roads roads)
+                        const bv_bases *bases, const bv_roads *roads)
 {
   if (!pterrain) {
     /* Unknown is considered native terrain */
@@ -286,17 +286,21 @@ bool is_native_to_class(const struct unit_class *punitclass,
     return TRUE;
   }
 
-  road_type_list_iterate(punitclass->cache.native_tile_roads, proad) {
-    if (BV_ISSET(roads, road_index(proad))) {
-      return TRUE;
-    }
-  } road_type_list_iterate_end;
+  if (roads != NULL) {
+    road_type_list_iterate(punitclass->cache.native_tile_roads, proad) {
+      if (BV_ISSET(*roads, road_index(proad))) {
+        return TRUE;
+      }
+    } road_type_list_iterate_end;
+  }
 
-  base_type_list_iterate(punitclass->cache.native_tile_bases, pbase) {
-    if (BV_ISSET(bases, base_index(pbase))) {
-      return TRUE;
-    }
-  } base_type_list_iterate_end;
+  if (bases != NULL) {
+    base_type_list_iterate(punitclass->cache.native_tile_bases, pbase) {
+      if (BV_ISSET(*bases, base_index(pbase))) {
+        return TRUE;
+      }
+    } base_type_list_iterate_end;
+  }
 
   return FALSE;
 }

@@ -3671,7 +3671,7 @@ static void build_tile_data(const struct tile *ptile,
       if (NULL != terrain1) {
         tterrain_near[dir] = terrain1;
         tspecial_near[dir] = tile_specials(tile1);
-        troad_near[dir] = tile_roads(tile1);
+        troad_near[dir] = *tile_roads(tile1);
         continue;
       }
       log_error("build_tile_data() tile (%d,%d) has no terrain!",
@@ -4871,7 +4871,7 @@ int fill_sprite_array(struct tileset *t,
 
   if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
     tspecial = tile_specials(ptile);
-    troad = tile_roads(ptile);
+    troad = *tile_roads(ptile);
     pterrain = tile_terrain(ptile);
 
     if (NULL != pterrain) {

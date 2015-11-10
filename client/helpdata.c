@@ -3183,14 +3183,9 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
   {
     const char *classes[uclass_count()];
     int i = 0;
-    bv_bases bases;
-    bv_roads roads;
-
-    BV_CLR_ALL(bases);
-    BV_CLR_ALL(roads);
 
     unit_class_iterate(uclass) {
-      if (is_native_to_class(uclass, pterrain, bases, roads)) {
+      if (is_native_to_class(uclass, pterrain, NULL, NULL)) {
         classes[i++] = uclass_name_translation(uclass);
       }
     } unit_class_iterate_end;

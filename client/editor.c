@@ -1496,13 +1496,13 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
       break;
     case EBT_BASE:
       if (tile_has_any_bases(ptile)) {
-        tile_set_bases(vtile, tile_bases(ptile));
+        tile_set_bases(vtile, *tile_bases(ptile));
         copied = TRUE;
       }
       break;
     case EBT_ROAD:
       if (BV_ISSET_ANY(ptile->roads)) {
-        vtile->roads = tile_roads(ptile);
+        vtile->roads = *tile_roads(ptile);
         copied = TRUE;
       }
       break;
@@ -1566,8 +1566,8 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
   }
   packet->tile = tile_index(ptile);
   packet->specials = tile_specials(ptile);
-  packet->bases = tile_bases(ptile);
-  packet->roads = tile_roads(ptile);
+  packet->bases = *tile_bases(ptile);
+  packet->roads = *tile_roads(ptile);
 
   presource = tile_resource(ptile);
   packet->resource = presource
@@ -1629,11 +1629,11 @@ static void paste_tile(struct edit_buffer *ebuf,
       send_edit_tile = TRUE;
       break;
     case EBT_BASE:
-      tile_packet.bases = tile_bases(vtile);
+      tile_packet.bases = *tile_bases(vtile);
       send_edit_tile = TRUE;
       break;
     case EBT_ROAD:
-      tile_packet.roads = tile_roads(vtile);
+      tile_packet.roads = *tile_roads(vtile);
       send_edit_tile = TRUE;
       break;
     case EBT_UNIT:

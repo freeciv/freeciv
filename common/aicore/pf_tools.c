@@ -704,15 +704,8 @@ static void pft_fill_default_parameter(struct pf_parameter *parameter,
   parameter->unknown_MC = SINGLE_MOVE;
 
   if (uclass_has_flag(punitclass, UCF_TERRAIN_SPEED)) {
-    /* Unit is subject to terrain movement costs */
-    bv_bases bases;
-    bv_roads roads;
-
-    BV_CLR_ALL(bases);
-    BV_CLR_ALL(roads);
-
     terrain_type_iterate(pterrain) {
-      if (is_native_terrain(punittype, pterrain, bases, roads)) {
+      if (is_native_terrain(punittype, pterrain, NULL, NULL)) {
         /* Exact movement cost matters only if we can enter
          * the tile. */
         int mr = 2 * pterrain->movement_cost;

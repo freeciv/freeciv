@@ -1506,10 +1506,10 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         pv->data.v_bv_special = tile_specials(ptile);
         break;
       case OPID_TILE_ROADS:
-        pv->data.v_bv_roads = tile_roads(ptile);
+        pv->data.v_bv_roads = *tile_roads(ptile);
         break;
       case OPID_TILE_BASES:
-        pv->data.v_bv_bases = tile_bases(ptile);
+        pv->data.v_bv_bases = *tile_bases(ptile);
         break;
       case OPID_TILE_VISION:
         pv->data.v_tile_vision = fc_malloc(sizeof(struct tile_vision_data));
@@ -2173,8 +2173,8 @@ static void objbind_pack_current_values(struct objbind *ob,
 
       packet->tile = tile_index(ptile);
       packet->specials = tile_specials(ptile);
-      packet->bases = tile_bases(ptile);
-      packet->roads = tile_roads(ptile);
+      packet->bases = *tile_bases(ptile);
+      packet->roads = *tile_roads(ptile);
       /* TODO: Set more packet fields. */
     }
     return;

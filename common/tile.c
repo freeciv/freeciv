@@ -30,6 +30,9 @@
 
 #include "tile.h"
 
+static bv_bases empty_bases;
+static bv_roads empty_roads;
+
 #ifndef tile_index
 /****************************************************************************
   Return the tile index.
@@ -189,28 +192,39 @@ bool tile_has_any_specials(const struct tile *ptile)
 /****************************************************************************
   Returns a bit vector of the bases present at the tile.
 ****************************************************************************/
-bv_bases tile_bases(const struct tile *ptile)
+const bv_bases *tile_bases(const struct tile *ptile)
 {
   if (!ptile) {
-    bv_bases empty;
-    BV_CLR_ALL(empty);
-    return empty;
+    static bool empty_cleared = FALSE;
+
+    if (!empty_cleared) {
+      BV_CLR_ALL(empty_bases);
+      empty_cleared = TRUE;
+    }
+
+    return &empty_bases;
   }
-  return ptile->bases;
+
+  return &(ptile->bases);
 }
 
 /****************************************************************************
   Returns a bit vector of the roads present at the tile.
 ****************************************************************************/
-bv_roads tile_roads(const struct tile *ptile)
+const bv_roads *tile_roads(const struct tile *ptile)
 {
   if (!ptile) {
-    bv_roads empty;
-    BV_CLR_ALL(empty);
-    return empty;
+    static bool empty_cleared = FALSE;
+
+    if (!empty_cleared) {
+      BV_CLR_ALL(empty_roads);
+      empty_cleared = TRUE;
+    }
+
+    return &empty_roads;
   }
 
-  return ptile->roads;
+  return &(ptile->roads);
 }
 
 /****************************************************************************
