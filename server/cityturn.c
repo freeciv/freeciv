@@ -1669,21 +1669,24 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH,
                                               RPT_CERTAIN))) {
       int i;
+      const char *provider = improvement_name_translation(pimprove);
 
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
 		    PL_("%s boosts research; you gain %d immediate advance.",
 			"%s boosts research; you gain %d immediate advances.",
-			mod),
-		    improvement_name_translation(pimprove), mod);
+			mod), provider, mod);
 
       for (i = 0; i < mod; i++) {
 	Tech_type_id tech = give_immediate_free_tech(pplayer);
+        const char *adv_name = advance_name_for_player(pplayer, tech);
+
+        notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                      _("Acquired %s from %s."), adv_name, provider);
 
         notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN, ftc_server,
                          _("The %s have acquired %s from %s."),
-                         nation_plural_for_player(pplayer),
-                         advance_name_for_player(pplayer, tech),
-                         improvement_name_translation(pimprove));
+                         nation_plural_for_player(pplayer), adv_name,
+                         provider);
       }
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
