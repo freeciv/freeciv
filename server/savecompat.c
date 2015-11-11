@@ -602,11 +602,21 @@ static void compat_load_020600(struct loaddata *loading)
   int plrno;
   bool team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
   int tsize;
+  const char *rs;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.6.0");
+
+  rs = secfile_lookup_str_default(loading->file, GAME_DEFAULT_RULESETDIR,
+                                  "savefile.rulesetdir");
+
+  if (!strcmp("default", rs)) {
+    /* In pre-2.6 savegames 'default' rulesetdir means old name of the
+     * classic ruleset. */
+    secfile_replace_str(loading->file, "classic", "savefile.rulesetdir");
+  }
 
   /* Server setting migration. */
   {
