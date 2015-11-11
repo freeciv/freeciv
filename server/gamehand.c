@@ -894,16 +894,12 @@ void send_game_info(struct conn_list *dest)
 **************************************************************************/
 void send_scenario_info(struct conn_list *dest)
 {
-  struct packet_scenario_info sinfo;
-
   if (!dest) {
     dest = game.est_connections;
   }
 
-  sinfo = game.scenario;
-
   conn_list_iterate(dest, pconn) {
-    send_packet_scenario_info(pconn, &sinfo);
+    send_packet_scenario_info(pconn, &(game.scenario));
   } conn_list_iterate_end;
 }
 
