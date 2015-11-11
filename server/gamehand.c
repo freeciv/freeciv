@@ -861,14 +861,12 @@ void send_year_to_clients(void)
 **************************************************************************/
 void send_game_info(struct conn_list *dest)
 {
-  struct packet_game_info ginfo;
   struct packet_timeout_info tinfo;
 
   if (!dest) {
     dest = game.est_connections;
   }
 
-  ginfo = game.info;
   tinfo = game.tinfo;
 
   /* the following values are computed every
@@ -891,7 +889,7 @@ void send_game_info(struct conn_list *dest)
   conn_list_iterate(dest, pconn) {
     /* These are separate packets as first one may not get sent at all
      * if there's no changes in it */
-    send_packet_game_info(pconn, &ginfo);
+    send_packet_game_info(pconn, &(game.info));
     send_packet_timeout_info(pconn, &tinfo);
   }
   conn_list_iterate_end;
@@ -902,16 +900,12 @@ void send_game_info(struct conn_list *dest)
 **************************************************************************/
 void send_scenario_info(struct conn_list *dest)
 {
-  struct packet_scenario_info sinfo;
-
   if (!dest) {
     dest = game.est_connections;
   }
 
-  sinfo = game.scenario;
-
   conn_list_iterate(dest, pconn) {
-    send_packet_scenario_info(pconn, &sinfo);
+    send_packet_scenario_info(pconn, &(game.scenario));
   } conn_list_iterate_end;
 }
 

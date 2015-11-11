@@ -3499,12 +3499,10 @@ static bool load_ruleset_governments(struct section_file *file,
 **************************************************************************/
 static void send_ruleset_control(struct conn_list *dest)
 {
-  struct packet_ruleset_control packet;
   int desc_left = game.control.desc_length;
   int index = 0;
 
-  packet = game.control;
-  lsend_packet_ruleset_control(dest, &packet);
+  lsend_packet_ruleset_control(dest, &(game.control));
 
   if (game.ruleset_summary != NULL) {
     struct packet_ruleset_summary summary;
