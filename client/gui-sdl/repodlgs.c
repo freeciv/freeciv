@@ -2602,49 +2602,51 @@ void real_science_report_dialog_update(void)
     copy_chars_to_string16(pStr, cBuf);
     
     pSurf = create_text_surf_from_str16(pStr);
-    
+
     dest.x = pChangeResearchButton->size.x + pChangeResearchButton->size.w + adj_size(10);
-    
+
     alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
 
     dest.y += pSurf->h + adj_size(4);
-    
+
     FREESURFACE(pSurf);
 
     /* progress bar */
-    dest.w = cost * pColb_Surface->w;
-    step = pColb_Surface->w;
-    if (dest.w > (area.w - dest.x - adj_size(16))) {
-      dest.w = (area.w - dest.x - adj_size(16));
-      step = ((area.w - dest.x - adj_size(16)) - pColb_Surface->w) / (cost - 1);
+    if (cost > 0) {
+      dest.w = cost * pColb_Surface->w;
+      step = pColb_Surface->w;
+      if (dest.w > (area.w - dest.x - adj_size(16))) {
+        int cost_div_safe = cost - 1;
 
-      if (step == 0) {
-        step = 1;
+        cost_div_safe = (cost_div_safe != 0 ? cost_div_safe : 1); 
+        dest.w = (area.w - dest.x - adj_size(16));
+        step = ((area.w - dest.x - adj_size(16)) - pColb_Surface->w) / cost_div_safe;
+
+        if (step == 0) {
+          step = 1;
+        }
       }
-    }
 
-    dest.h = pColb_Surface->h + adj_size(4);
-    SDL_FillRectAlpha(pWindow->dst->surface, &dest, &bg_color);
-  
-    putframe(pWindow->dst->surface,
-             dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-             get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
-  
-    if (cost > adj_size(286))
-    {
-      cost =
-        adj_size(286) * ((float) player_research_get(client.conn.playing)->bulbs_researched / cost);
-    }
-    else
-    {
-      cost =
-        (float)cost * ((float)player_research_get(client.conn.playing)->bulbs_researched/cost);
-    }
-  
-    dest.y += adj_size(2);
-    for (i = 0; i < cost; i++) {
-      alphablit(pColb_Surface, NULL, pWindow->dst->surface, &dest);
-      dest.x += step;
+      dest.h = pColb_Surface->h + adj_size(4);
+      SDL_FillRectAlpha(pWindow->dst->surface, &dest, &bg_color);
+
+      putframe(pWindow->dst->surface,
+               dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
+               get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
+
+      if (cost > adj_size(286)) {
+        cost =
+          adj_size(286) * ((float) player_research_get(client.conn.playing)->bulbs_researched / cost);
+      } else {
+        cost =
+          (float)cost * ((float)player_research_get(client.conn.playing)->bulbs_researched/cost);
+      }
+
+      dest.y += adj_size(2);
+      for (i = 0; i < cost; i++) {
+        alphablit(pColb_Surface, NULL, pWindow->dst->surface, &dest);
+        dest.x += step;
+      }
     }
 
     /* improvement icons */
