@@ -2669,34 +2669,39 @@ void real_science_report_dialog_update(void)
     FREESURFACE(pSurf);
 
     /* progress bar */
-    dest.w = cost * pColb_Surface->w;
-    step = pColb_Surface->w;
-    if (dest.w > (area.w - dest.x - adj_size(16))) {
-      dest.w = (area.w - dest.x - adj_size(16));
-      step = ((area.w - dest.x - adj_size(16)) - pColb_Surface->w) / (cost - 1);
+    if (cost > 0) {
+      int cost_div_safe = cost - 1;
 
-      if (step == 0) {
-        step = 1;
+      cost_div_safe = (cost_div_safe != 0 ? cost_div_safe : 1);
+      dest.w = cost * pColb_Surface->w;
+      step = pColb_Surface->w;
+      if (dest.w > (area.w - dest.x - adj_size(16))) {
+        dest.w = (area.w - dest.x - adj_size(16));
+        step = ((area.w - dest.x - adj_size(16)) - pColb_Surface->w) / cost_div_safe;
+
+        if (step == 0) {
+          step = 1;
+        }
       }
-    }
 
-    dest.h = pColb_Surface->h + adj_size(4);
-    fill_rect_alpha(pWindow->dst->surface, &dest, &bg_color);
+      dest.h = pColb_Surface->h + adj_size(4);
+      fill_rect_alpha(pWindow->dst->surface, &dest, &bg_color);
 
-    create_frame(pWindow->dst->surface,
-                 dest.x - 1, dest.y - 1, dest.w, dest.h,
-                 get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
+      create_frame(pWindow->dst->surface,
+                   dest.x - 1, dest.y - 1, dest.w, dest.h,
+                   get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
-    if (cost > adj_size(286)) {
-      cost = adj_size(286) * ((float) presearch->bulbs_researched / cost);
-    } else {
-      cost = (float) cost * ((float) presearch->bulbs_researched / cost);
-    }
+      if (cost > adj_size(286)) {
+        cost = adj_size(286) * ((float) presearch->bulbs_researched / cost);
+      } else {
+        cost = (float) cost * ((float) presearch->bulbs_researched / cost);
+      }
 
-    dest.y += adj_size(2);
-    for (i = 0; i < cost; i++) {
-      alphablit(pColb_Surface, NULL, pWindow->dst->surface, &dest, 255);
-      dest.x += step;
+      dest.y += adj_size(2);
+      for (i = 0; i < cost; i++) {
+        alphablit(pColb_Surface, NULL, pWindow->dst->surface, &dest, 255);
+        dest.x += step;
+      }
     }
 
     /* improvement icons */
