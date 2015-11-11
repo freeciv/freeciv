@@ -71,26 +71,6 @@ static bool get_conv(char *dst, size_t ndst, const char *src,
 
 static DIO_GET_CONV_FUN get_conv_callback = get_conv;
 
-/* Uncomment to make field range tests to asserts, fatal with -F */
-/* #define FIELD_RANGE_ASSERT */
-
-#ifdef FIELD_RANGE_ASSERT
-/* This evaluates _test_ twice. If that's a problem,
- * it should evaluate it just once and store result to variable.
- * That would lose verbosity of the assert message. */
-#define FIELD_RANGE_TEST(_test_, _action_, _format_, ...) \
-  fc_assert(!(_test_));                                   \
-  if (_test_) {                                           \
-    _action_                                              \
-  }
-#else
-#define FIELD_RANGE_TEST(_test_, _action_, _format_, ...) \
-  if (_test_) {                                           \
-    _action_                                              \
-    log_error(_format_, ## __VA_ARGS__);                  \
-  }
-#endif
-
 /**************************************************************************
   Returns a CURL easy handle for name encoding and decoding
 **************************************************************************/
