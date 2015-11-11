@@ -244,7 +244,9 @@ struct client_options
   bool gui_gtk3_chatline_autocompletion;
   int gui_gtk3_citydlg_xsize;
   int gui_gtk3_citydlg_ysize;
-  int  gui_gtk3_popup_tech_help;
+  int gui_gtk3_popup_tech_help;
+  int gui_gtk3_governor_range_min;
+  int gui_gtk3_governor_range_max;
   char gui_gtk3_font_city_label[512];
   char gui_gtk3_font_notify_label[512];
   char gui_gtk3_font_spaceship_label[512];
@@ -477,6 +479,14 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 #define GUI_GTK3_CITYDLG_DEFAULT_YSIZE  512
 #define GUI_GTK3_CITYDLG_MIN_YSIZE      128
 #define GUI_GTK3_CITYDLG_MAX_YSIZE      4096
+
+#define GUI_GTK3_GOV_RANGE_MIN_DEFAULT  -20
+#define GUI_GTK3_GOV_RANGE_MIN_MIN      -100
+#define GUI_GTK3_GOV_RANGE_MIN_MAX      0
+
+#define GUI_GTK3_GOV_RANGE_MAX_DEFAULT  20
+#define GUI_GTK3_GOV_RANGE_MAX_MIN      0
+#define GUI_GTK3_GOV_RANGE_MAX_MAX      100
 
 #define GUI_DEFAULT_MAPIMG_FILENAME     "freeciv"
 

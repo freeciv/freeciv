@@ -33,10 +33,12 @@
 #include "client_main.h"
 #include "cma_fec.h"
 #include "messagewin_g.h"
+#include "options.h"
 
 /* client/gtk-3.0 */
 #include "cityrep.h"
 #include "dialogs.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
@@ -207,7 +209,7 @@ static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
 }
 
 /**************************************************************************
- instantiates a new struct for each city_dialog window that is open.
+  Instantiates a new struct for each city_dialog window that is open.
 **************************************************************************/
 struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 {
@@ -351,7 +353,9 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
     pdialog->minimal_surplus[i] = hscale =
         gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
-    gtk_range_set_range(GTK_RANGE(hscale), -20, 20);
+    gtk_range_set_range(GTK_RANGE(hscale),
+                        GUI_GTK_OPTION(governor_range_min),
+                        GUI_GTK_OPTION(governor_range_max));
     gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
     pango_layout_get_pixel_size(gtk_scale_get_layout(GTK_SCALE(hscale)),
                                 &layout_width, NULL);
