@@ -192,6 +192,8 @@ struct player_diplstate {
   int turns_left; /* until pact (e.g., cease-fire) ends */
   int has_reason_to_cancel; /* 0: no, 1: this turn, 2: this or next turn */
   int contact_turns_left; /* until contact ends */
+
+  int auto_cancel_turn; /* used to avoid asymmetric turns_left */
 };
 
 /***************************************************************************

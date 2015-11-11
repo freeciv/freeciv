@@ -788,7 +788,10 @@ static void update_diplomatics(void)
         state->has_reason_to_cancel = MAX(state->has_reason_to_cancel - 1, 0);
         state->contact_turns_left = MAX(state->contact_turns_left - 1, 0);
 
-        if (state->type == DS_ARMISTICE) {
+        if (state->type == DS_ARMISTICE
+            /* Don't count down if auto canceled this turn. Auto canceling
+             * happens in this loop. */
+            && state->auto_cancel_turn != game.info.turn) {
           state->turns_left--;
           if (state->turns_left <= 0) {
             state->type = DS_PEACE;
@@ -838,16 +841,41 @@ static void update_diplomatics(void)
               if (plr3 != plr1 && plr3 != plr2
                   && pplayers_allied(plr3, plr1)
                   && pplayers_allied(plr3, plr2)) {
+                struct player_diplstate *to1
+                    = player_diplstate_get(plr3, plr1);
+                struct player_diplstate *from1
+                    = player_diplstate_get(plr1, plr3);
+                struct player_diplstate *to2
+                    = player_diplstate_get(plr3, plr2);
+                struct player_diplstate *from2
+                    = player_diplstate_get(plr2, plr3);
+
                 notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
                               _("The cease-fire between %s and %s has run out. "
                                 "They are at war. You cancel your alliance "
                                 "with both."),
                               player_name(plr1),
                               player_name(plr2));
-                player_diplstate_get(plr3, plr1)->has_reason_to_cancel = TRUE;
-                player_diplstate_get(plr3, plr2)->has_reason_to_cancel = TRUE;
+
+                /* Cancel the alliance. */
+                to1->has_reason_to_cancel = TRUE;
+                to2->has_reason_to_cancel = TRUE;
                 handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
                 handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
+
+                /* Avoid asymmetric turns_left for the armistice. */
+                to1->auto_cancel_turn = game.info.turn;
+                from1->auto_cancel_turn = game.info.turn;
+
+                to2->auto_cancel_turn = game.info.turn;
+                from2->auto_cancel_turn = game.info.turn;
+
+                /* Count down for this turn. */
+                to1->turns_left--;
+                from1->turns_left--;
+
+                to2->turns_left--;
+                from2->turns_left--;
               }
             } players_iterate_alive_end;
             break;

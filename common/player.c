@@ -288,6 +288,7 @@ static void player_diplstate_defaults(const struct player *plr1,
   diplstate->turns_left           = 0;
   diplstate->has_reason_to_cancel = 0;
   diplstate->contact_turns_left   = 0;
+  diplstate->auto_cancel_turn     = -1;
 }
 
 
