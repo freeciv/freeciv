@@ -1439,7 +1439,7 @@ static void setup_widgets(void)
     }
     gtk_container_add(GTK_CONTAINER(avbox), vgrid);
 
-    if (gui_options.gui_gtk3_small_display_layout) {
+    if (GUI_GTK_OPTION(small_display_layout)) {
       hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     } else {
       hpaned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
