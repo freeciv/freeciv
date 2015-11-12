@@ -51,7 +51,7 @@ QMap<const struct option_set *, option_dialog *> dialog_list;
 /****************************************************************************
   Splits long text to 80 characters
 ****************************************************************************/
-static QString split_text(QString text)
+QString split_text(QString text)
 {
   QStringList sl;
   QString st, str, result;

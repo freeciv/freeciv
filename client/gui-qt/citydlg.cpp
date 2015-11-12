@@ -33,7 +33,9 @@
 #include "climisc.h"
 #include "control.h"
 #include "global_worklist.h"
+#include "helpdata.h"
 #include "mapview_common.h"
+#include "movement.h"
 #include "sprite.h"
 #include "text.h"
 #include "tilespec.h"
@@ -56,6 +58,7 @@ static bool city_dlg_created = false; /** defines if dialog for city has been
                                        * once per client
                                        */
 static city_dialog *city_dlg;
+extern QString split_text(QString text);
 
 /****************************************************************************
   Draws X on pixmap pointing its useless
@@ -2586,6 +2589,96 @@ bool qtg_city_dialog_is_open(struct city *pcity)
   return false;
 }
 
+/**************************************************************************
+  Event filter for catching tooltip events
+**************************************************************************/
+bool fc_tooltip::eventFilter(QObject *obj, QEvent *ev)
+{
+  QHelpEvent *help_event;
+  QString item_tooltip;
+  QRect rect;
+
+  if (ev->type() == QEvent::ToolTip) {
+    QAbstractItemView *view = qobject_cast<QAbstractItemView *>(obj->parent());
+    if (!view) {
+      return false;
+    }
+
+    help_event = static_cast<QHelpEvent *>(ev);
+    QPoint pos = help_event->pos();
+    QModelIndex index = view->indexAt(pos);
+    if (!index.isValid()) {
+      return false;
+    }
+    item_tooltip = view->model()->data(index, Qt::ToolTipRole).toString();
+    rect = view->visualRect(index);
+
+    if (!item_tooltip.isEmpty()) {
+      QToolTip::showText(help_event->globalPos(), item_tooltip, view, rect);
+    } else {
+      QToolTip::hideText();
+    }
+    return true;
+  }
+  return false;
+}
+
+/**************************************************************************
+  Returns shortened help for given universal ( stored in qvar )
+**************************************************************************/
+QString get_tooltip(QVariant qvar)
+{
+  QString str, def_str, ret_str;
+  QStringList sl;
+  char buffer[8192];
+  char buf2[1];
+
+  buf2[0] = '\0';
+  struct universal *target;
+  target = reinterpret_cast<universal *>(qvar.value<void *>());
+  if (target == NULL) {
+  } else if (VUT_UTYPE == target->kind) {
+    def_str = QString(N_("Attack: %1, Defense: %2, Move: %3\n"))
+              .arg(target->value.utype->attack_strength)
+              .arg(target->value.utype->defense_strength)
+              .arg(QString(move_points_text(target->value.utype->move_rate, TRUE)));
+    def_str += QString(N_("Cost: %1, Basic Upkeep: %2\n"))
+               .arg(utype_build_shield_cost(target->value.utype))
+               .arg(helptext_unit_upkeep_str(target->value.utype));
+    def_str += QString(N_("Hitpoints: %1, FirePower: %2, Vision: %3\n\n"))
+               .arg(target->value.utype->hp)
+               .arg(target->value.utype->firepower)
+               .arg((int)sqrt((double)target->value.utype->vision_radius_sq));
+    str = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
+                        buf2, target->value.utype);
+  } else {
+    if (!improvement_has_flag(target->value.building, IF_GOLD)) {
+      def_str = QString(N_("Cost: %1, Upkeep: %2\n\n"))
+                .arg(impr_build_shield_cost(target->value.building))
+                .arg(target->value.building->upkeep);
+    }
+    str = helptext_building(buffer, sizeof(buffer), client.conn.playing,
+                            NULL, target->value.building);
+  }
+
+  /* Remove all lines from help which has '*' in first 3 chars */
+  sl = str.split('\n');
+  foreach (const QString & s, sl) {
+    if (s.count() > 2) {
+      if (s.at(0) != '*' && s.at(1) != '*' && s.at(2) != '*') {
+        ret_str = ret_str + s + '\n';
+      }
+    } else {
+      ret_str = ret_str + s + '\n';
+    }
+  }
+
+  ret_str = split_text(ret_str);
+  ret_str = ret_str.trimmed();
+  ret_str = def_str + ret_str;
+
+  return ret_str;
+}
 
 /***************************************************************************
   City item delegate constructor
@@ -2804,8 +2897,13 @@ QVariant city_production_model::data(const QModelIndex &index, int role) const
   if (!index.isValid()) return QVariant();
   if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0
       && index.column() < columnCount()
-      && (index.column() + index.row() * 3 < city_target_list.count()))
+      && (index.column() + index.row() * 3 < city_target_list.count())) {
+    if (role == Qt::ToolTipRole) {
+      return get_tooltip(city_target_list[index.row() * 3
+                                          + index.column()]->data());
+    }
     return city_target_list[index.row() * 3 + index.column()]->data();
+  }
   return QVariant();
 }
 
@@ -2864,7 +2962,7 @@ void city_production_model::populate()
 bool city_production_model::setData(const QModelIndex &index,
                                     const QVariant &value, int role)
 {
-  if (!index.isValid() || role != Qt::DisplayRole)
+  if (!index.isValid() || role != Qt::DisplayRole || role != Qt::ToolTipRole)
     return false;
   if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0
       && index.column() < columnCount()) {
@@ -2888,6 +2986,7 @@ production_widget::production_widget(QWidget *parent, struct city *pcity,
   QPoint pos, sh;
   int desk_width = QApplication::desktop()->width();
   int desk_height = QApplication::desktop()->height();
+  fc_tt = new fc_tooltip(this);
   setAttribute(Qt::WA_DeleteOnClose);
   setWindowFlags(Qt::Popup);
   verticalHeader()->setVisible(false);
@@ -2902,6 +3001,7 @@ production_widget::production_widget(QWidget *parent, struct city *pcity,
   c_p_d = new city_production_delegate(sh, this, pw_city);
   setItemDelegate(c_p_d);
   setModel(list_model);
+  viewport()->installEventFilter(fc_tt);
   installEventFilter(this);
   connect(selectionModel(), SIGNAL(selectionChanged(const QItemSelection &,
                                                     const QItemSelection &)),
@@ -3043,6 +3143,7 @@ production_widget::~production_widget()
 {
   delete c_p_d;
   delete list_model;
+  viewport()->removeEventFilter(fc_tt);
   removeEventFilter(this);
 }
 
