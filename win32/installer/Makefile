@@ -298,7 +298,7 @@ clean-installer-common:
 	rm -f Freeciv-*-$(GUI).nsi
 
 clean-installer-ruledit:
-	rm -f Output/Freeciv-*-ruledit-setup.exe
+	rm -f Output/Freeciv-ruledit-*-setup.exe
 	rm -f Freeciv-*-ruledit.nsi
 
 clean:
