@@ -24,7 +24,7 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
 				       const gchar *text);
 void choice_dialog_add(GtkWidget *dshell, const gchar *label,
                        GCallback handler, gpointer data,
-                       const gchar *tool_tip);
+                       bool meta, const gchar *tool_tip);
 void choice_dialog_end(GtkWidget *dshell);
 int choice_dialog_get_number_of_buttons(GtkWidget *cd);
 void choice_dialog_button_set_sensitive(GtkWidget *shl, int button,

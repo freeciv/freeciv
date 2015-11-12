@@ -2836,7 +2836,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     if (ptask != NULL) {
       choice_dialog_add(shl, _("Clear request"),
                         G_CALLBACK(set_city_workertask),
-                        GINT_TO_POINTER(ACTIVITY_IDLE), NULL);
+                        GINT_TO_POINTER(ACTIVITY_IDLE), FALSE, NULL);
     }
 
     if ((pterr->mining_result == pterr
@@ -2845,7 +2845,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
             && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0)) {
       choice_dialog_add(shl, _("Mine"),
                         G_CALLBACK(set_city_workertask),
-                        GINT_TO_POINTER(ACTIVITY_MINE), NULL);
+                        GINT_TO_POINTER(ACTIVITY_MINE), FALSE, NULL);
     }
     if ((pterr->irrigation_result == pterr
          && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0)
@@ -2853,21 +2853,21 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
             && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0)) {
       choice_dialog_add(shl, _("Irrigate"),
                         G_CALLBACK(set_city_workertask),
-                        GINT_TO_POINTER(ACTIVITY_IRRIGATE), NULL);
+                        GINT_TO_POINTER(ACTIVITY_IRRIGATE), FALSE, NULL);
     }
     if (next_extra_for_tile(ptile, EC_ROAD, city_owner(pcity), NULL) != NULL) {
       choice_dialog_add(shl, _("Road"),
                         G_CALLBACK(set_city_workertask),
-                        GINT_TO_POINTER(ACTIVITY_GEN_ROAD), NULL);
+                        GINT_TO_POINTER(ACTIVITY_GEN_ROAD), FALSE, NULL);
     }
     if (pterr->transform_result != pterr && pterr->transform_result != NULL
         && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
       choice_dialog_add(shl, _("Transform"),
                         G_CALLBACK(set_city_workertask),
-                        GINT_TO_POINTER(ACTIVITY_TRANSFORM), NULL);
+                        GINT_TO_POINTER(ACTIVITY_TRANSFORM), FALSE, NULL);
     }
 
-    choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0, NULL);
+    choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0, FALSE, NULL);
     choice_dialog_end(shl);
 
     g_signal_connect(shl, "destroy", G_CALLBACK(workertask_dlg_destroy),
