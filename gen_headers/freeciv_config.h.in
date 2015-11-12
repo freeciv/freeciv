@@ -20,6 +20,9 @@
 #ifndef FC__FREECIV_CONFIG_H
 #define FC__FREECIV_CONFIG_H
 
+/* Is this freeciv-web instead of regular build */
+#undef FREECIV_WEB
+
 /* Metaserver URL */
 #undef FREECIV_META_URL
 
