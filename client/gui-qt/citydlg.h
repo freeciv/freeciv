@@ -42,6 +42,21 @@ class QChecBox;
 // Qt
 #include <QProgressBar>
 #include <QTableWidget>
+#include <QToolTip>
+
+QString get_tooltip(QVariant qvar);
+
+
+class fc_tooltip : public QObject
+{
+  Q_OBJECT
+public:
+  explicit fc_tooltip(QObject *parent = NULL): QObject(parent) {}
+
+protected:
+  bool eventFilter(QObject *obj, QEvent *event);
+};
+
 
 /****************************************************************************
   Subclassed QProgressBar to receive clicked signal
@@ -263,6 +278,7 @@ private:
   int when_change;
   int curr_selection;
   bool sh_units;
+  fc_tooltip *fc_tt;
 };
 
 
