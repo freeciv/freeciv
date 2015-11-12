@@ -2636,15 +2636,7 @@ static void player_load_cities(struct player *plr, int plrno,
     vision_reveal_tiles(pcity->server.vision, game.server.vision_reveal_tiles);
     city_refresh_vision(pcity);
 
-    /* Refresh the city. This also checks the squared city radius. Thus, it
-     * must be after improvements, as the effect City_Radius_SQ could be
-     * influenced by improvements; and after the vision is defined, as the
-     * function calls city_refresh_vision(). */
-    city_refresh(pcity);
-
     city_list_append(plr->cities, pcity);
-
-    CALL_PLR_AI_FUNC(city_got, plr, plr, pcity);
   }
 }
 
@@ -4103,9 +4095,12 @@ static void game_load_internal(struct section_file *file)
     /* Update all city information.  This must come after all cities are
      * loaded (in player_load) but before player (dumb) cities are loaded
      * in player_load_vision(). */
-    cities_iterate(pcity) {
-      city_refresh_from_main_map(pcity, NULL);
-    } cities_iterate_end;
+    players_iterate(plr) {
+      city_list_iterate(plr->cities, pcity) {
+        city_refresh(pcity);
+        CALL_PLR_AI_FUNC(city_got, plr, plr, pcity);
+      } city_list_iterate_end;
+    } players_iterate_end;
 
     /* Since the cities must be placed on the map to put them on the
        player map we do this afterwards */
