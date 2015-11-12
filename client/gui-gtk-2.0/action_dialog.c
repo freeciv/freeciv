@@ -50,8 +50,9 @@
 
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_MOVE
-#define BUTTON_CANCEL BUTTON_MOVE + 1
-#define BUTTON_COUNT BUTTON_MOVE + 2
+#define BUTTON_LOCATION BUTTON_MOVE + 1
+#define BUTTON_CANCEL BUTTON_MOVE + 2
+#define BUTTON_COUNT BUTTON_MOVE + 3
 
 #define BUTTON_NOT_THERE -1
 
@@ -1050,6 +1051,20 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
 
 
 /**************************************************************************
+  Callback from action selection dialog for "Show Location".
+**************************************************************************/
+static void act_sel_location_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  struct unit *punit;
+
+  if ((punit = game_unit_by_number(args->actor_unit_id))) {
+    center_tile_mapcanvas(unit_tile(punit));
+  }
+}
+
+/**************************************************************************
   Callback from diplomat/spy dialog for "keep moving".
   (This should only occur when entering a tile that has an allied city or
   an allied unit.)
@@ -1381,6 +1396,12 @@ void popup_action_selection(struct unit *actor_unit,
                       (GCallback)diplomat_keep_moving_callback,
                       data, FALSE, NULL);
   }
+
+  action_button_map[BUTTON_LOCATION] =
+      choice_dialog_get_number_of_buttons(shl);
+  choice_dialog_add(shl, _("Show Location"),
+                    (GCallback)act_sel_location_callback, data,
+                    TRUE, NULL);
 
   action_button_map[BUTTON_CANCEL] =
       choice_dialog_get_number_of_buttons(shl);
