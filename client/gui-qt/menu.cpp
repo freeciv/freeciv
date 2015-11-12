@@ -507,7 +507,6 @@ void mr_menu::unit_select(struct unit_list *punits,
     return;
   }
   pplayer = unit_owner(punit_first);
-  unit_focus_remove(punit_first);
   unit_list_iterate(punits, punit) {
     if (seltype == SELTYPE_SAME) {
       types.append(unit_type_get(punit));
