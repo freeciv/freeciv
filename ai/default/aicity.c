@@ -463,7 +463,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
           && def_ai_city_data(pcity, ait)->urgency == 0) {
         CITY_LOG(LOG_BUY, pcity, "disbanding %s to increase production",
                  unit_rule_name(punit));
-        unit_do_disband_trad(pplayer, punit);
+        unit_do_disband_trad(pplayer, punit, ACT_REQ_PLAYER);
       }
     } unit_list_iterate_safe_end;
   } city_list_iterate_end;
@@ -938,7 +938,7 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
       /* TODO: Should the unit try to find legal targets at adjacent tiles?
        * Should it consider other self eliminating actions than the
        * components of the traditional disband? */
-      unit_do_disband_trad(pplayer, punit);
+      unit_do_disband_trad(pplayer, punit, ACT_REQ_PLAYER);
       city_refresh(pcity);
     }
   } unit_list_iterate_safe_end;

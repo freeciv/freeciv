@@ -1337,7 +1337,7 @@ void handle_unit_do_action(struct player *pplayer,
 			   const enum gen_action action_type)
 {
   (void) unit_perform_action(pplayer, actor_id, target_id, value, name,
-                             action_type);
+                             action_type, ACT_REQ_PLAYER);
 }
 
 /**************************************************************************
@@ -1356,7 +1356,8 @@ bool unit_perform_action(struct player *pplayer,
                          const int target_id,
                          const int value,
                          const char *name,
-                         const enum gen_action action_type)
+                         const enum gen_action action_type,
+                         const enum action_requester requester)
 {
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
   struct tile *target_tile = index_to_tile(target_id);

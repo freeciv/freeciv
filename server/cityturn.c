@@ -2052,7 +2052,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
         /* TODO: Should the unit try to help cities on adjacent tiles? That
          * would be a rules change. (This action is performed by the game
          * it self) */
-        unit_do_disband_trad(pplayer, punit);
+        unit_do_disband_trad(pplayer, punit, ACT_REQ_RULES);
 	/* pcity->surplus[O_SHIELD] is automatically updated. */
       }
     } unit_list_iterate_safe_end;

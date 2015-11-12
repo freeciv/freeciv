@@ -3759,7 +3759,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   Try to disband the specified unit. Match the old behavior in what kind
   of disbanding is tried and who benefits from it.
 **************************************************************************/
-void unit_do_disband_trad(struct player *owner, struct unit *punit)
+void unit_do_disband_trad(struct player *owner, struct unit *punit,
+                          const enum action_requester requester)
 {
   const int punit_id_stored = punit->id;
 
@@ -3777,7 +3778,7 @@ void unit_do_disband_trad(struct player *owner, struct unit *punit)
         && is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
                                           punit, tgt_city)) {
       if (unit_perform_action(owner, punit->id, tgt_city->id,
-                              0, NULL, ACTION_HELP_WONDER)) {
+                              0, NULL, ACTION_HELP_WONDER, requester)) {
         /* No shields wasted. The unit did Help Wonder. */
         return;
       }
@@ -3801,7 +3802,7 @@ void unit_do_disband_trad(struct player *owner, struct unit *punit)
         && is_action_enabled_unit_on_city(ACTION_RECYCLE_UNIT,
                                           punit, tgt_city)) {
       if (unit_perform_action(owner, punit->id, tgt_city->id,
-                              0, NULL, ACTION_RECYCLE_UNIT)) {
+                              0, NULL, ACTION_RECYCLE_UNIT, requester)) {
         /* The unit did Recycle Unit. 50% of the shields wasted. */
         return;
       }
@@ -3817,7 +3818,7 @@ void unit_do_disband_trad(struct player *owner, struct unit *punit)
   if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
     if (is_action_enabled_unit_on_self(ACTION_DISBAND_UNIT, punit)) {
       if (unit_perform_action(owner, punit->id, punit->id,
-                              0, NULL, ACTION_DISBAND_UNIT)) {
+                              0, NULL, ACTION_DISBAND_UNIT, requester)) {
         /* All shields wasted. The unit did Disband Unit. */
         return;
       }
@@ -4292,7 +4293,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
                                       tgt_id,
                                       order.target,
                                       name,
-                                      order.action);
+                                      order.action,
+                                      ACT_REQ_PLAYER);
 
       if (!player_unit_by_number(pplayer, unitid)) {
         /* The unit "died" while performing the action. */

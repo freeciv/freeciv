@@ -153,6 +153,21 @@ typedef int action_probability;
  */
 #define ACTPROB_NOT_KNOWN 255
 
+/* Who ordered the action to be performed? */
+#define SPECENUM_NAME action_requester
+/* The player ordered it directly. */
+#define SPECENUM_VALUE0 ACT_REQ_PLAYER
+#define SPECENUM_VALUE0NAME N_("the player")
+/* The game it self because the rules requires it. */
+#define SPECENUM_VALUE1 ACT_REQ_RULES
+#define SPECENUM_VALUE1NAME N_("the game rules")
+/* A server side autonomous agent working for the player. */
+#define SPECENUM_VALUE2 ACT_REQ_SS_AGENT
+#define SPECENUM_VALUE2NAME N_("a server agent")
+/* Number of action requesters. */
+#define SPECENUM_COUNT ACT_REQ_COUNT
+#include "specenum_gen.h"
+
 struct action
 {
   enum gen_action id;

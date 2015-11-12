@@ -35,7 +35,8 @@ bool unit_perform_action(struct player *pplayer,
                          const int target_id,
                          const int value,
                          const char *name,
-                         const enum gen_action action_type);
+                         const enum gen_action action_type,
+                         const enum action_requester requester);
 
 void illegal_action_msg(struct player *pplayer,
                         const enum event_type event,
