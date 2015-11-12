@@ -285,7 +285,7 @@ void map_view::resizeEvent(QResizeEvent *event)
 
   size = event->size();
 
-  if (C_S_RUNNING == client_state()) {
+  if (C_S_RUNNING <= client_state()) {
     map_canvas_resized(size.width(), size.height());
     gui()->infotab->resize(size.width() / 2, size.height() / 3);
     gui()->infotab->move(0 , size.height() - gui()->infotab->height());
@@ -685,7 +685,7 @@ void minimap_view::resizeEvent(QResizeEvent* event)
   QSize size;
   size = event->size();
 
-  if (C_S_RUNNING == client_state()) {
+  if (C_S_RUNNING <= client_state()) {
     w_ratio = static_cast<float>(width()) / overview.width;
     h_ratio = static_cast<float>(height()) / overview.height;
   }
