@@ -152,7 +152,7 @@ static void choice_dialog_clicked(GtkWidget *w, gpointer data)
 *****************************************************************/
 void choice_dialog_add(GtkWidget *dshell, const gchar *label,
                        GCallback handler, gpointer data,
-                       const gchar *tool_tip)
+                       bool meta, const gchar *tool_tip)
 {
   GtkWidget *button, *bbox;
   char name[512];
@@ -172,8 +172,11 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
     g_signal_connect(button, "clicked", handler, data);
   }
 
-  g_signal_connect_after(button, "clicked",
-			 G_CALLBACK(choice_dialog_clicked), dshell);
+  if (!meta) {
+    /* This button makes the choice. */
+    g_signal_connect_after(button, "clicked",
+                           G_CALLBACK(choice_dialog_clicked), dshell);
+  }
 
   if (tool_tip != NULL) {
     gtk_widget_set_tooltip_text(button, tool_tip);
@@ -222,7 +225,7 @@ GtkWidget *popup_choice_dialog(GtkWindow *parent, const gchar *dialogname,
     handler = va_arg(args, GCallback);
     data = va_arg(args, gpointer);
 
-    choice_dialog_add(dshell, name, handler, data, NULL);
+    choice_dialog_add(dshell, name, handler, data, FALSE, NULL);
   }
 
   va_end(args);

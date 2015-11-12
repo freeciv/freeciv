@@ -1192,7 +1192,8 @@ static void action_entry(GtkWidget *shl,
                                 action_probabilities[action_id]);
 
   action_button_map[action_id] = choice_dialog_get_number_of_buttons(shl);
-  choice_dialog_add(shl, label, af_map[action_id], handler_args, tooltip);
+  choice_dialog_add(shl, label, af_map[action_id], handler_args,
+                    FALSE, tooltip);
 }
 
 /******************************************************************
@@ -1388,13 +1389,14 @@ void popup_action_selection(struct unit *actor_unit,
         choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("_Keep moving"),
                       (GCallback)diplomat_keep_moving_callback,
-                      data, NULL);
+                      data, FALSE, NULL);
   }
 
   action_button_map[BUTTON_CANCEL] =
       choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, GTK_STOCK_CANCEL,
-                    (GCallback)act_sel_cancel_callback, data, NULL);
+                    (GCallback)act_sel_cancel_callback, data,
+                    FALSE, NULL);
 
   choice_dialog_end(shl);
 
