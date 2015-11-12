@@ -32,7 +32,7 @@
 
 #include "chatline.h"
 
-static bool is_plain_public_message(const char *s);
+static bool is_plain_public_message(QString s);
 static QString replace_html(QString str);
 /***************************************************************************
   Constructor for chatwdg
@@ -181,20 +181,14 @@ void chatwdg::append(QString str)
 ***************************************************************************/
 void chatwdg::send()
 {
-  char *theinput;
-  char buf[MAX_LEN_MSG];
-
-  theinput = chat_line->text().toUtf8().data();
   gui()->chat_history.prepend(chat_line->text());
-  if (*theinput) {
-    if (client_state() == C_S_RUNNING
-        && gui_options.gui_qt_allied_chat_only
-        && is_plain_public_message(theinput)) {
-      fc_snprintf(buf, sizeof(buf), ". %s", theinput);
-      send_chat(buf);
+  if (chat_line->text() != "") {
+    if (client_state() >= C_S_RUNNING && gui_options.gui_qt_allied_chat_only
+        && is_plain_public_message(chat_line->text())) {
+      send_chat(QString(". %s")
+                  .arg(chat_line->text().toUtf8().data()).toUtf8().data());
     } else {
-      fc_snprintf(buf, sizeof(buf), "%s", theinput);
-      send_chat(buf);
+      send_chat(chat_line->text().toUtf8().data());
     }
   }
   chat_line->clear();
@@ -446,32 +440,19 @@ static QString replace_html(QString str)
   Helper function to determine if a given client input line is intended as
   a "plain" public message.
 **************************************************************************/
-static bool is_plain_public_message(const char *s)
+static bool is_plain_public_message(QString s)
 {
   const char ALLIES_CHAT_PREFIX = '.';
   const char SERVER_COMMAND_PREFIX = '/';
-  const char MESSAGE_PREFIX = ':';
-  const char *p;
+  QString str;
 
-  if (s[0] == SERVER_COMMAND_PREFIX || s[0] == ALLIES_CHAT_PREFIX) {
-    return FALSE;
+  str = s.trimmed();
+  if (str.at(0) == SERVER_COMMAND_PREFIX
+      || str.at(0) == ALLIES_CHAT_PREFIX) {
+    return false;
   }
 
-  if (s[0] == '\'' || s[0] == '"') {
-    p = strchr(s + 1, s[0]);
-  } else {
-    p = s;
-  }
-
-  while (p != NULL && *p != '\0') {
-    if (fc_isspace(*p)) {
-      return TRUE;
-    } else if (*p == MESSAGE_PREFIX) {
-      return FALSE;
-    }
-    p++;
-  }
-  return TRUE;
+  return true;
 }
 
 /**************************************************************************
