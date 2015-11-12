@@ -1681,7 +1681,7 @@ void request_unit_disband(struct unit *punit)
      * user configurable client option? */
   }
 
-  dsend_packet_unit_disband(&client.conn, punit->id);
+  request_do_action(ACTION_DISBAND_UNIT, punit->id, punit->id, 0, "");
 }
 
 /**************************************************************************

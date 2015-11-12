@@ -5543,6 +5543,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           "actions.ui_name_recycle_unit");
       sz_strlcpy(action_by_number(ACTION_RECYCLE_UNIT)->ui_name,
                  text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _You're Fired (100% chance of success). */
+          N_("%sYou're Fired%s"),
+          "actions.ui_name_disband_unit");
+      sz_strlcpy(action_by_number(ACTION_DISBAND_UNIT)->ui_name,
+                 text);
     }
 
     if (ok) {

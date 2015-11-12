@@ -894,6 +894,25 @@ static int nuke_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Disband Unit"
+*****************************************************************/
+static int disband_unit_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.unit->id;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_DISBAND_UNIT,
+                      actor_id, target_id, 0, "");
+
+    choose_action_queue_next();
+  }
+
+  return -1;
+}
+
+/****************************************************************
   Close diplomat dialog.
 *****************************************************************/
 static int diplomat_close_callback(struct widget *pWidget)
@@ -959,6 +978,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_NUKE] = nuke_callback,
 
   /* Unit acting with no target except it self. */
+  [ACTION_DISBAND_UNIT] = disband_unit_callback,
 };
 
 /**************************************************************************

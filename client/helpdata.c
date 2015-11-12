@@ -4007,9 +4007,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       astr_free(&dlist);
     }
   }
-  if (utype_has_flag(utype, UTYF_UNDISBANDABLE)) {
-    CATLSTR(buf, bufsz, _("* May not be disbanded.\n"));
-  }
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
     struct universal for_utype = { .kind = VUT_UTYPE, .value = { .utype = utype }};
     struct astring extras_and = ASTRING_INIT;

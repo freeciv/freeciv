@@ -305,3 +305,7 @@ Actions done by a unit against a tile
 
 Actions done by a unit to it self
 =================================
+"Disband Unit" - Disband the unit. Gives nothing in return.
+ * UI name can be set using ui_name_disband_unit
+ * "Help Wonder" must be impossible
+ * "Recycle Unit" must be impossible

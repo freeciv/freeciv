@@ -250,6 +250,9 @@ ui_name_help_wonder = _("Help %sbuild Wonder%s")
 ; /* TRANS: Rec_ycle Unit (100% chance of success). */
 ui_name_recycle_unit = _("Rec%sycle Unit%s")
 
+; /* TRANS: _You're Fired (100% chance of success). */
+ui_name_disband_unit = _("%sYou're Fired%s")
+
 ; /* TRANS: _Capture Units (100% chance of success). */
 ui_name_capture_units = _("%sCapture Units%s")
 
@@ -455,6 +458,13 @@ target_reqs    =
 
 [actionenabler_recycle_unit]
 action = "Recycle Unit"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Undisbandable", "Local", FALSE
+    }
+
+[actionenabler_disband_unit]
+action = "Disband Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Undisbandable", "Local", FALSE

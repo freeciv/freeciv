@@ -137,6 +137,9 @@ void actions_init(void)
   actions[ACTION_RECYCLE_UNIT] =
       action_new(ACTION_RECYCLE_UNIT, ATK_CITY,
                  FALSE, FALSE, TRUE);
+  actions[ACTION_DISBAND_UNIT] =
+      action_new(ACTION_DISBAND_UNIT, ATK_SELF,
+                 FALSE, FALSE, TRUE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -730,16 +733,13 @@ static bool recycle_unit_blocks(const struct unit *actor_unit,
 }
 
 /**************************************************************************
-  Returns the action that blocks regular regular disband or NULL if
-  disband isn't blocked.
+  Returns the action that blocks Disband Unit or NULL if Disband Unit
+  isn't blocked.
 
   An action that can block disband blocks disband when it is forced and
   possible.
-
-  TODO: Make regular disband action enabler controlled and delete this
-  function.
 **************************************************************************/
-struct action *action_blocks_disband(const struct unit *actor_unit)
+static struct action *action_blocks_disband(const struct unit *actor_unit)
 {
   struct city *target_city;
 
@@ -832,6 +832,9 @@ struct action *action_is_blocked_by(const int action_id,
 
     /* Not blocked. */
     return NULL;
+    break;
+  case ACTION_DISBAND_UNIT:
+    return action_blocks_disband(actor_unit);
     break;
   default:
     /* Not able to be blocked. */
@@ -1879,6 +1882,10 @@ action_prob(const enum gen_action wanted_action,
     chance = 200;
     break;
   case ACTION_RECYCLE_UNIT:
+    /* No battle is fought first. */
+    chance = 200;
+    break;
+  case ACTION_DISBAND_UNIT:
     /* No battle is fought first. */
     chance = 200;
     break;

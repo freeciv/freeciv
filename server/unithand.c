@@ -151,6 +151,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
 static bool unit_do_destroy_city(struct player *act_player,
                                  struct unit *act_unit,
                                  struct city *tgt_city);
+static bool do_unit_disband(struct player *pplayer, struct unit *punit);
 
 /**************************************************************************
   Handle airlift request.
@@ -1051,13 +1052,6 @@ void illegal_action_msg(struct player *pplayer,
     {
       struct astring astr = ASTRING_INIT;
 
-      /* This shouldn't happen with the current users unless the client is
-       * buggy. */
-      fc_assert_msg(expl->kind != ANEK_ACTOR_UNIT,
-                    "Asked why a %s can't do %s. It never can.",
-                    unit_name_translation(actor),
-                    gen_action_translated_name(stopped_action));
-
       if (role_units_translations(&astr,
                                   action_get_role(stopped_action),
                                   TRUE)) {
@@ -1494,6 +1488,19 @@ bool unit_perform_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_DISBAND_UNIT:
+    if (actor_unit) {
+      if (is_action_enabled_unit_on_self(action_type,
+                                         actor_unit)) {
+        ACTION_STARTED_UNIT_SELF(action_type, actor_unit);
+
+        return do_unit_disband(pplayer, actor_unit);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       unit_owner(actor_unit), NULL, NULL, actor_unit);
+      }
+    }
+    break;
   case ACTION_SPY_SABOTAGE_CITY:
     if (pcity) {
       if (is_action_enabled_unit_on_city(action_type, actor_unit, pcity)) {
@@ -1910,22 +1917,6 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
 }
 
 /**************************************************************************
-  Handle an incoming packet ordering a unit to disband.
-**************************************************************************/
-void handle_unit_disband(struct player *pplayer, int unit_id)
-{
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
-
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_disband() invalid unit %d", unit_id);
-    return;
-  }
-
-  (void)do_unit_disband(pplayer, punit);
-}
-
-/**************************************************************************
   Disband a unit.
 
   No shields spent to build the unit is added to the shield stock of any
@@ -1934,32 +1925,11 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
   Returns TRUE iff the action could be done, FALSE if it couldn't. Even if
   this returns TRUE, the unit may have died during the action.
 **************************************************************************/
-bool do_unit_disband(struct player *pplayer, struct unit *punit)
+static bool do_unit_disband(struct player *pplayer, struct unit *punit)
 {
-  struct action *blocker;
-
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(punit, FALSE);
-
-  if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
-    /* refuse to kill ourselves */
-    notify_player(unit_owner(punit), unit_tile(punit),
-                  E_BAD_COMMAND, ftc_server,
-                  _("%s refuses to disband!"),
-                  unit_link(punit));
-    return FALSE;
-  }
-
-  if ((blocker = action_blocks_disband(punit))) {
-    /* Disband is blocked by the fact that another action is legal. */
-    notify_player(unit_owner(punit), unit_tile(punit),
-                  E_BAD_COMMAND, ftc_server,
-                  /* TRANS: ... Help Wonder ... */
-                  _("Regular disband not allowed. Try %s in stead."),
-                  action_get_ui_name(blocker->id));
-    return FALSE;
-  }
 
   wipe_unit(punit, ULR_DISBANDED, NULL);
 
@@ -3955,6 +3925,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_DESTROY_CITY:
       case ACTION_EXPEL_UNIT:
       case ACTION_RECYCLE_UNIT:
+      case ACTION_DISBAND_UNIT:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

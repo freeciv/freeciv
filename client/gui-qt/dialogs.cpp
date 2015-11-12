@@ -87,6 +87,7 @@ static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
+static void disband_unit(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
@@ -149,6 +150,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_NUKE] = nuke;
 
   /* Unit acting with no target except it self. */
+  action_function[ACTION_DISBAND_UNIT] = disband_unit;
 
   return action_function;
 }
@@ -1552,6 +1554,18 @@ static void action_entry_update(QPushButton *button,
   button->setToolTip(tool_tip);
 }
 
+/**************************************************************************
+  Action Disband Unit for choice dialog
+**************************************************************************/
+static void disband_unit(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_DISBAND_UNIT, actor_id,
+                    target_id, 0, "");
+}
+
 /***************************************************************************
   Action bribe unit for choice dialog
 ***************************************************************************/
@@ -2209,7 +2223,7 @@ void popup_disband_dialog(struct unit_list *punits)
     break;
   case QMessageBox::Ok:
     unit_list_iterate(punits, punit) {
-      if (!unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
+      if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
         request_unit_disband(punit);
       }
     } unit_list_iterate_end;

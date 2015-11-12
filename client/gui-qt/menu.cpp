@@ -1411,7 +1411,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case DISBAND:
-        if (units_have_type_flag(punits, UTYF_UNDISBANDABLE, false)) {
+        if (units_can_do_action(punits, ACTION_DISBAND_UNIT, true)) {
           i.value()->setEnabled(true);
         }
 

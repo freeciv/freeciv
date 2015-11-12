@@ -3813,8 +3813,16 @@ void unit_do_disband_trad(struct player *owner, struct unit *punit)
     return;
   }
 
-  /* All shields will be wasted. */
-  do_unit_disband(owner, punit);
+  /* Try to disband even if all shields will be wasted. */
+  if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
+    if (is_action_enabled_unit_on_self(ACTION_DISBAND_UNIT, punit)) {
+      if (unit_perform_action(owner, punit->id, punit->id,
+                              0, NULL, ACTION_DISBAND_UNIT)) {
+        /* All shields wasted. The unit did Disband Unit. */
+        return;
+      }
+    }
+  }
 }
 
 /**************************************************************************

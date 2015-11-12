@@ -1480,7 +1480,7 @@ void popup_disband_dialog(struct unit_list *punits)
 
     if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
       unit_list_iterate(punits, punit) {
-        if (!unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
+        if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
           request_unit_disband(punit);
         }
       } unit_list_iterate_end;

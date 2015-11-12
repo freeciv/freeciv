@@ -2237,7 +2237,8 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "DO_PILLAGE",
                       can_units_do_activity(punits, ACTIVITY_PILLAGE));
   menus_set_sensitive(unit_group, "UNIT_DISBAND",
-                      units_have_type_flag(punits, UTYF_UNDISBANDABLE, FALSE));
+                      units_can_do_action(punits, ACTION_DISBAND_UNIT,
+                                          TRUE));
   menus_set_sensitive(unit_group, "UNIT_UPGRADE",
                       units_can_upgrade(punits));
   /* "UNIT_CONVERT" dealt with below */

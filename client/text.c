@@ -1264,7 +1264,8 @@ bool get_units_disband_info(char *buf, size_t bufsz,
     fc_snprintf(buf, bufsz, _("No units to disband!"));
     return FALSE;
   } else if (unit_list_size(punits) == 1) {
-    if (unit_has_type_flag(unit_list_front(punits), UTYF_UNDISBANDABLE)) {
+    if (!unit_can_do_action(unit_list_front(punits),
+                            ACTION_DISBAND_UNIT)) {
       fc_snprintf(buf, bufsz, _("%s refuses to disband!"),
                   unit_name_translation(unit_list_front(punits)));
       return FALSE;
@@ -1277,7 +1278,7 @@ bool get_units_disband_info(char *buf, size_t bufsz,
   } else {
     int count = 0;
     unit_list_iterate(punits, punit) {
-      if (!unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
+      if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
         count++;
       }
     } unit_list_iterate_end;

@@ -193,7 +193,7 @@ void unit_item::create_actions()
   } else {
     fortify = NULL;
   }
-  if (!unit_has_type_flag(qunit, UTYF_UNDISBANDABLE)) {
+  if (unit_can_do_action(qunit, ACTION_DISBAND_UNIT)) {
     disband_action = new QAction(_("Disband unit"), this);
     connect(disband_action, SIGNAL(triggered()), this, SLOT(disband()));
   } else {
@@ -252,7 +252,7 @@ void unit_item::disband()
     return;
     break;
   case QMessageBox::Ok:
-    if (!unit_has_type_flag(qunit, UTYF_UNDISBANDABLE) && qunit) {
+    if (unit_can_do_action(qunit, ACTION_DISBAND_UNIT) && qunit) {
       request_unit_disband(qunit);
       break;
     }

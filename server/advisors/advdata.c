@@ -867,6 +867,7 @@ void adv_best_government(struct player *pplayer)
 
           case ACTION_MARKETPLACE:
           case ACTION_FOUND_CITY:
+          case ACTION_DISBAND_UNIT:
             /* Wants the ability to do this to it self. Don't want others
              * to target it. Do nothing since action_immune_government()
              * doesn't separate based on who the actor is. */

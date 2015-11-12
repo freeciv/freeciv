@@ -94,6 +94,8 @@ extern "C" {
 #define SPECENUM_VALUE22NAME N_("Expel Unit")
 #define SPECENUM_VALUE23 ACTION_RECYCLE_UNIT
 #define SPECENUM_VALUE23NAME N_("Recycle Unit")
+#define SPECENUM_VALUE24 ACTION_DISBAND_UNIT
+#define SPECENUM_VALUE24NAME N_("Disband Unit")
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */
 #define SPECENUM_COUNT ACTION_COUNT
@@ -258,7 +260,6 @@ void action_enabler_add(struct action_enabler *enabler);
 
 struct action *action_blocks_attack(const struct unit *actor_unit,
                                     const struct tile *target_tile);
-struct action *action_blocks_disband(const struct unit *actor_unit);
 struct action *action_is_blocked_by(const int action_id,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile,
