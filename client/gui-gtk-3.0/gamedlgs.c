@@ -500,8 +500,7 @@ static GtkWidget *create_rates_dialog(void)
   g_signal_connect(shell, "destroy",
 		   G_CALLBACK(gtk_widget_destroyed), &rates_dialog_shell);
 
-  gtk_widget_show_all(content);
-  gtk_widget_show_all(gtk_dialog_get_action_area(GTK_DIALOG(shell)));
+  gtk_widget_show_all(shell);
 
   rates_tax_value=-1;
   rates_lux_value=-1;
