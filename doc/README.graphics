@@ -69,18 +69,19 @@ options include:
 
   Strings (enclosed in "")
   ------------------------
-  options               : A capability string, currently "+tilespec4"
+  options               : A capability string, this should be "+Freeciv-a.b-tilespec", where
+                          "a.b" it the current freeciv version.
   name                  : the name of the tileset
   type                  : general type of tileset, different types have
                           quite different format. Supported types are
-                          "overview" and "isometric"
+                          "overhead" and "isometric"
   city_names_font       : an X font string
   city_productions_font : an X font string
   main_intro_file       : GFX file for the intro graphics
 
   String vectors
   --------------
-  prefered_themes       : List of preferred client themes to use with this
+  preferred_themes      : List of preferred client themes to use with this
                           tileset
 
   Integers
