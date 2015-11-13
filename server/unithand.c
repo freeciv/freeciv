@@ -129,7 +129,8 @@ static void illegal_action(struct player *pplayer,
                            struct player *tgt_player,
                            const struct tile *target_tile,
                            const struct city *target_city,
-                           const struct unit *target_unit);
+                           const struct unit *target_unit,
+                           const enum action_requester requester);
 static bool city_add_unit(struct player *pplayer, struct unit *punit,
                           struct city *pcity);
 static bool city_build(struct player *pplayer, struct unit *punit,
@@ -1195,8 +1196,21 @@ static void illegal_action(struct player *pplayer,
                            struct player *tgt_player,
                            const struct tile *target_tile,
                            const struct city *target_city,
-                           const struct unit *target_unit)
+                           const struct unit *target_unit,
+                           const enum action_requester requester)
 {
+  /* Why didn't the game check before trying something illegal? Did a good
+   * reason to not call is_action_enabled_unit_on...() appear? The game is
+   * omniscient... */
+  fc_assert(requester != ACT_REQ_RULES);
+
+  /* Don't punish the player for something the game did. Don't tell the
+   * player that the rules required the game to try to do something
+   * illegal. */
+  fc_assert_ret_msg((requester == ACT_REQ_PLAYER
+                     || requester == ACT_REQ_SS_AGENT),
+                    "The player wasn't responsible for this.");
+
   /* The mistake may have a cost. */
   actor->moves_left = MAX(0, actor->moves_left
       - get_target_bonus_effects(NULL,
@@ -1285,7 +1299,7 @@ void handle_unit_action_query(struct connection *pc,
                                         action_type);
       } else {
         illegal_action(pplayer, pactor, action_type, unit_owner(punit),
-                       NULL, NULL, punit);
+                       NULL, NULL, punit, ACT_REQ_PLAYER);
         unit_query_impossible(pc, actor_id, target_id);
         return;
       }
@@ -1301,7 +1315,7 @@ void handle_unit_action_query(struct connection *pc,
                                         action_type);
       } else {
         illegal_action(pplayer, pactor, action_type, city_owner(pcity),
-                       NULL, pcity, NULL);
+                       NULL, pcity, NULL, ACT_REQ_PLAYER);
         unit_query_impossible(pc, actor_id, target_id);
         return;
       }
@@ -1314,7 +1328,7 @@ void handle_unit_action_query(struct connection *pc,
         spy_send_sabotage_list(pc, pactor, pcity);
       } else {
         illegal_action(pplayer, pactor, action_type, city_owner(pcity),
-                       NULL, pcity, NULL);
+                       NULL, pcity, NULL, ACT_REQ_PLAYER);
         unit_query_impossible(pc, actor_id, target_id);
         return;
       }
@@ -1459,7 +1473,8 @@ bool unit_perform_action(struct player *pplayer,
         return diplomat_bribe(pplayer, actor_unit, punit);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       unit_owner(punit), NULL, NULL, punit);
+                       unit_owner(punit), NULL, NULL, punit,
+                       requester);
       }
     }
     break;
@@ -1472,7 +1487,8 @@ bool unit_perform_action(struct player *pplayer,
         return spy_sabotage_unit(pplayer, actor_unit, punit);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       unit_owner(punit), NULL, NULL, punit);
+                       unit_owner(punit), NULL, NULL, punit,
+                       requester);
       }
     }
     break;
@@ -1485,7 +1501,8 @@ bool unit_perform_action(struct player *pplayer,
         return do_expel_unit(pplayer, actor_unit, punit);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       unit_owner(punit), NULL, NULL, punit);
+                       unit_owner(punit), NULL, NULL, punit,
+                       requester);
       }
     }
     break;
@@ -1498,7 +1515,8 @@ bool unit_perform_action(struct player *pplayer,
         return do_unit_disband(pplayer, actor_unit);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       unit_owner(actor_unit), NULL, NULL, actor_unit);
+                       unit_owner(actor_unit), NULL, NULL, actor_unit,
+                       requester);
       }
     }
     break;
@@ -1511,7 +1529,8 @@ bool unit_perform_action(struct player *pplayer,
                                  action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1525,7 +1544,8 @@ bool unit_perform_action(struct player *pplayer,
                                  action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1538,7 +1558,8 @@ bool unit_perform_action(struct player *pplayer,
         return spy_poison(pplayer, actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1551,7 +1572,8 @@ bool unit_perform_action(struct player *pplayer,
         return diplomat_investigate(pplayer, actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1564,7 +1586,8 @@ bool unit_perform_action(struct player *pplayer,
         return diplomat_embassy(pplayer, actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1577,7 +1600,8 @@ bool unit_perform_action(struct player *pplayer,
         return diplomat_incite(pplayer, actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1592,7 +1616,8 @@ bool unit_perform_action(struct player *pplayer,
                                  action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1607,7 +1632,8 @@ bool unit_perform_action(struct player *pplayer,
                                  action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1620,7 +1646,8 @@ bool unit_perform_action(struct player *pplayer,
         return spy_steal_gold(pplayer, actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1633,7 +1660,8 @@ bool unit_perform_action(struct player *pplayer,
         return spy_steal_some_maps(pplayer, actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1647,7 +1675,8 @@ bool unit_perform_action(struct player *pplayer,
                                        TRUE);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1661,7 +1690,8 @@ bool unit_perform_action(struct player *pplayer,
                                        FALSE);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1675,7 +1705,8 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1688,7 +1719,8 @@ bool unit_perform_action(struct player *pplayer,
         return spy_nuke_city(pplayer, actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1708,7 +1740,8 @@ bool unit_perform_action(struct player *pplayer,
                                 unit_join_city_test(actor_unit, pcity));
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1721,7 +1754,8 @@ bool unit_perform_action(struct player *pplayer,
         return unit_do_destroy_city(pplayer, actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1734,7 +1768,8 @@ bool unit_perform_action(struct player *pplayer,
         return unit_do_recycle(pplayer, actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL);
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
       }
     }
     break;
@@ -1747,7 +1782,8 @@ bool unit_perform_action(struct player *pplayer,
         return do_capture_units(pplayer, actor_unit, target_tile);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL);
+                       NULL, target_tile, NULL, NULL,
+                       requester);
       }
     }
     break;
@@ -1760,7 +1796,8 @@ bool unit_perform_action(struct player *pplayer,
         return unit_bombard(actor_unit, target_tile);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL);
+                       NULL, target_tile, NULL, NULL,
+                       requester);
       }
     }
     break;
@@ -1780,7 +1817,8 @@ bool unit_perform_action(struct player *pplayer,
                                 unit_build_city_test(actor_unit));
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL);
+                       NULL, target_tile, NULL, NULL,
+                       requester);
       }
     }
     break;
@@ -1793,7 +1831,8 @@ bool unit_perform_action(struct player *pplayer,
         return unit_nuke(pplayer, actor_unit, target_tile);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL);
+                       NULL, target_tile, NULL, NULL,
+                       requester);
       }
     }
     break;
