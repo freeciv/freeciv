@@ -147,7 +147,11 @@ void ruledit_gui::setup(QWidget *central_in)
   rs_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
   preload_layout->addWidget(rs_label);
   ruleset_select = new QLineEdit(central);
-  ruleset_select->setText(GAME_DEFAULT_RULESETDIR);
+  if (reargs.ruleset) {
+    ruleset_select->setText(reargs.ruleset);
+  } else {
+    ruleset_select->setText(GAME_DEFAULT_RULESETDIR);
+  }
   connect(ruleset_select, SIGNAL(returnPressed()),
           this, SLOT(launch_now()));
   preload_layout->addWidget(ruleset_select);

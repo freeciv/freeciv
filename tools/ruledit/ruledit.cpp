@@ -40,6 +40,8 @@
 
 static int re_parse_cmdline(int argc, char *argv[]);
 
+struct ruledit_arguments reargs;
+
 /**************************************************************************
   Main entry point for freeciv-ruledit
 **************************************************************************/
@@ -74,6 +76,9 @@ int main(int argc, char **argv)
 
   log_init(NULL, loglevel, NULL, NULL, -1);
 
+  /* Initialize command line arguments. */
+  reargs.ruleset = NULL;
+
   ui_options = re_parse_cmdline(argc, argv);
 
   if (ui_options != -1) {
@@ -97,6 +102,11 @@ int main(int argc, char **argv)
   free_libfreeciv();
   free_nls();
 
+  /* Clean up command line arguments. */
+  if (reargs.ruleset) {
+    FC_FREE(reargs.ruleset);
+  }
+
   return EXIT_SUCCESS;
 }
 
@@ -110,6 +120,8 @@ static int re_parse_cmdline(int argc, char *argv[])
   int ui_options = 0;
 
   while (i < argc) {
+    char *option;
+
     if (ui_separator) {
       argv[1 + ui_options] = argv[i];
       ui_options++;
@@ -120,6 +132,10 @@ static int re_parse_cmdline(int argc, char *argv[])
                   R__("Print a summary of the options"));
       cmdhelp_add(help, "v", "version",
                   R__("Print the version number"));
+      cmdhelp_add(help, "r",
+                  /* TRANS: argument (don't translate) VALUE (translate) */
+                  R__("ruleset RULESET"),
+                  R__("Ruleset to use as the starting point."));
       /* The function below prints a header and footer for the options.
        * Furthermore, the options are sorted. */
       cmdhelp_display(help, TRUE, TRUE, TRUE);
@@ -130,6 +146,12 @@ static int re_parse_cmdline(int argc, char *argv[])
       fc_fprintf(stderr, "%s \n", freeciv_name_version());
 
       exit(EXIT_SUCCESS);
+    } else if ((option = get_option_malloc("--ruleset", argv, &i, argc))) {
+      if (reargs.ruleset) {
+        log_error(_("Can only edit one ruleset at a time."));
+      } else {
+        reargs.ruleset = option;
+      }
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
     } else {
