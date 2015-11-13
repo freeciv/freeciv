@@ -192,6 +192,11 @@ struct action
    * action. */
   bool rare_pop_up;
 
+  /* Limits on the distance on the map between the actor and the target.
+   * The action is legal iff the distance is min_distance, max_distance or
+   * a value in between. */
+  int min_distance, max_distance;
+
   /* The name of the action shown in the UI */
   char ui_name[MAX_LEN_NAME];
 };
@@ -254,6 +259,11 @@ bool action_is_hostile(int action_id);
 bool action_requires_details(int action_id);
 
 bool action_id_is_rare_pop_up(int action_id);
+
+bool action_distance_accepted(const struct action *action,
+                              const int distance);
+#define action_id_distance_accepted(action_id, distance)                  \
+  action_distance_accepted(action_by_number(action_id), distance)
 
 int action_get_role(int action_id);
 

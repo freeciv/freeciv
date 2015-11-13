@@ -1620,20 +1620,17 @@ static bool order_wants_direction(enum unit_orders order, int act_id)
      * direction. */
     return TRUE;
   case ORDER_PERFORM_ACTION:
-    switch (act_id) {
-    case ACTION_CAPTURE_UNITS:
-    case ACTION_BOMBARD:
-      /* Mandatory. A single domestic unit at the target tile will make
-       * the action illegal. It must therefore be performed from another
-       * tile. */
+    if (!action_id_distance_accepted(act_id, 0)) {
+      /* Always illegal to do to a target on the actor's own tile. */
       return TRUE;
-    case ACTION_FOUND_CITY:
-    case ACTION_RECYCLE_UNIT:
-      /* Currently illegal to perform to a target on another tile. */
-      return FALSE;
-    default:
+    }
+
+    if (!action_id_distance_accepted(act_id, 1)) {
+      /* Always illegal to perform to a target on a neighbor tile. */
       return FALSE;
     }
+
+    return FALSE;
   default:
     return FALSE;
   }
@@ -1651,15 +1648,12 @@ static bool order_demands_direction(enum unit_orders order, int act_id)
     /* A move is always done in a direction. */
     return TRUE;
   case ORDER_PERFORM_ACTION:
-    switch (act_id) {
-    case ACTION_CAPTURE_UNITS:
-    case ACTION_BOMBARD:
-      /* A single domestic unit at the target tile will make the action
-       * illegal. It must therefore be performed from another tile. */
+    if (!action_id_distance_accepted(act_id, 0)) {
+      /* Always illegal to do to a target on the actor's own tile. */
       return TRUE;
-    default:
-      return FALSE;
     }
+
+    return FALSE;
   default:
     return FALSE;
   }

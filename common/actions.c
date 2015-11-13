@@ -36,7 +36,9 @@ static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
                                  bool hostile, bool requires_details,
-                                 bool rare_pop_up);
+                                 bool rare_pop_up,
+                                 const int min_distance,
+                                 const int max_distance);
 
 static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct player *actor_player,
@@ -63,83 +65,120 @@ void actions_init(void)
 {
   /* Hard code the actions */
   actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
-      TRUE, FALSE, FALSE);
+                                          TRUE, FALSE, FALSE,
+                                          0, 1);
   actions[ACTION_SPY_SABOTAGE_UNIT] =
       action_new(ACTION_SPY_SABOTAGE_UNIT, ATK_UNIT,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_SPY_BRIBE_UNIT] =
       action_new(ACTION_SPY_BRIBE_UNIT, ATK_UNIT,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       action_new(ACTION_SPY_SABOTAGE_CITY, ATK_CITY,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
-                 TRUE, TRUE, FALSE);
+                 TRUE, TRUE, FALSE,
+                 0, 1);
   actions[ACTION_SPY_INCITE_CITY] =
       action_new(ACTION_SPY_INCITE_CITY, ATK_CITY,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_ESTABLISH_EMBASSY] =
       action_new(ACTION_ESTABLISH_EMBASSY, ATK_CITY,
-                 FALSE, FALSE, FALSE);
+                 FALSE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_SPY_STEAL_TECH] =
       action_new(ACTION_SPY_STEAL_TECH, ATK_CITY,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
-                 TRUE, TRUE, FALSE);
+                 TRUE, TRUE, FALSE,
+                 0, 1);
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_SPY_STEAL_GOLD] =
       action_new(ACTION_SPY_STEAL_GOLD, ATK_CITY,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_TRADE_ROUTE] =
       action_new(ACTION_TRADE_ROUTE, ATK_CITY,
-                 FALSE, FALSE, FALSE);
+                 FALSE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_MARKETPLACE] =
       action_new(ACTION_MARKETPLACE, ATK_CITY,
-                 FALSE, FALSE, FALSE);
+                 FALSE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_HELP_WONDER] =
       action_new(ACTION_HELP_WONDER, ATK_CITY,
-                 FALSE, FALSE, FALSE);
+                 FALSE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_CAPTURE_UNITS] =
       action_new(ACTION_CAPTURE_UNITS, ATK_UNITS,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 /* A single domestic unit at the target tile will make the
+                  * action illegal. It must therefore be performed from
+                  * another tile. */
+                 1, 1);
   actions[ACTION_FOUND_CITY] =
       action_new(ACTION_FOUND_CITY, ATK_TILE,
-                 FALSE, FALSE, TRUE);
+                 FALSE, FALSE, TRUE,
+                 /* Illegal to perform to a target on another tile.
+                  * Reason: The Freeciv code assumes that the city founding
+                  * unit is located at the tile were the new city is
+                  * founded. */
+                 0, 0);
   actions[ACTION_JOIN_CITY] =
       action_new(ACTION_JOIN_CITY, ATK_CITY,
-                 FALSE, FALSE, TRUE);
+                 FALSE, FALSE, TRUE,
+                 0, 1);
   actions[ACTION_STEAL_MAPS] =
       action_new(ACTION_STEAL_MAPS, ATK_CITY,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_BOMBARD] =
       action_new(ACTION_BOMBARD,
                  /* FIXME: Target is actually Units + City */
                  ATK_UNITS,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 /* A single domestic unit at the target tile will make the
+                  * action illegal. It must therefore be performed from
+                  * another tile. */
+                 1, 1);
   actions[ACTION_SPY_NUKE] =
       action_new(ACTION_SPY_NUKE, ATK_CITY,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_NUKE] =
       action_new(ACTION_NUKE,
                  /* FIXME: Target is actually Tile + Units + City */
                  ATK_TILE,
-                 TRUE, FALSE, TRUE);
+                 TRUE, FALSE, TRUE,
+                 0, 1);
   actions[ACTION_DESTROY_CITY] =
       action_new(ACTION_DESTROY_CITY, ATK_CITY,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_EXPEL_UNIT] =
       action_new(ACTION_EXPEL_UNIT, ATK_UNIT,
-                 TRUE, FALSE, FALSE);
+                 TRUE, FALSE, FALSE,
+                 0, 1);
   actions[ACTION_RECYCLE_UNIT] =
       action_new(ACTION_RECYCLE_UNIT, ATK_CITY,
-                 FALSE, FALSE, TRUE);
+                 FALSE, FALSE, TRUE,
+                 /* Illegal to perform to a target on another tile to
+                  * keep the rules exactly as they were for now. */
+                 0, 0);
   actions[ACTION_DISBAND_UNIT] =
       action_new(ACTION_DISBAND_UNIT, ATK_SELF,
-                 FALSE, FALSE, TRUE);
+                 FALSE, FALSE, TRUE,
+                 0, 0);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -203,7 +242,9 @@ bool actions_are_ready(void)
 static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
                                  bool hostile, bool requires_details,
-                                 bool rare_pop_up)
+                                 bool rare_pop_up,
+                                 const int min_distance,
+                                 const int max_distance)
 {
   struct action *action;
 
@@ -212,9 +253,22 @@ static struct action *action_new(enum gen_action id,
   action->id = id;
   action->actor_kind = AAK_UNIT;
   action->target_kind = target_kind;
+
   action->hostile = hostile;
   action->requires_details = requires_details;
   action->rare_pop_up = rare_pop_up;
+
+  /* The Freeciv code for all actions controlled by enablers assumes that
+   * an acting unit is on the same tile as its target or on the tile next
+   * to it. */
+  fc_assert(max_distance <= 1);
+
+  /* The distance between the actor and him self is always 0. */
+  fc_assert(target_kind != ATK_SELF
+            || (min_distance == 0 && max_distance == 0));
+
+  action->min_distance = min_distance;
+  action->max_distance = max_distance;
 
   /* The ui_name is loaded from the ruleset. Until generalized actions
    * are ready it has to be defined seperatly from other action data. */
@@ -330,6 +384,19 @@ bool action_id_is_rare_pop_up(int action_id)
                         FALSE, "Action %d don't exist.", action_id);
 
   return actions[action_id]->rare_pop_up;
+}
+
+/**************************************************************************
+  Returns TRUE iff the specified distance between actor and target is
+  within the range acceptable to the specified action.
+**************************************************************************/
+bool action_distance_accepted(const struct action *action,
+                              const int distance)
+{
+  fc_assert_ret_val(action, FALSE);
+
+  return (distance >= action->min_distance
+          && distance <= action->max_distance);
 }
 
 /**************************************************************************
@@ -946,12 +1013,12 @@ is_action_possible(const enum gen_action wanted_action,
     return TRI_NO;
   }
 
-  if (action_get_actor_kind(wanted_action) == AAK_UNIT
-      && action_get_target_kind(wanted_action) != ATK_SELF) {
-    /* The Freeciv code for all actions controlled by enablers assumes that
-     * an acting unit is on the same tile as its target or on the tile next
-     * to it. */
-    if (real_map_distance(actor_tile, target_tile) > 1) {
+  if (action_get_target_kind(wanted_action) != ATK_SELF) {
+    if (!action_id_distance_accepted(wanted_action,
+                                    real_map_distance(actor_tile,
+                                                      target_tile))) {
+      /* The distance between the actor and the target isn't inside the
+       * action's accepted range. */
       return TRI_NO;
     }
   }
@@ -1097,22 +1164,9 @@ is_action_possible(const enum gen_action wanted_action,
     /* FIXME: The next item may be forbidden from receiving help. But
      * forbidding the player from recycling a unit because the production
      * has enough, like Help Wonder does, would be a rule change. */
-
-    /* Reason: Keep the rules exactly as they were for now. */
-    /* Info leak: The actor player knows where his unit is. */
-    if (unit_tile(actor_unit) != target_tile) {
-      return TRI_NO;
-    }
   }
 
   if (wanted_action == ACTION_FOUND_CITY) {
-    /* Reason: The Freeciv code assumes that the city founding unit is
-     * located the the tile were the new city is founded. */
-    /* Info leak: The actor player knows where his unit is. */
-    if (unit_tile(actor_unit) != target_tile) {
-      return TRI_NO;
-    }
-
     /* TODO: Move more individual requirements to the action enabler. */
     if (!unit_can_build_city(actor_unit)) {
       return TRI_NO;
