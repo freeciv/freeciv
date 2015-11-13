@@ -893,16 +893,16 @@ void auto_settler_findwork(struct player *pplayer,
       completion_time = pf_path_last_position(path)->turn;
     }
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
-  }
 
-  adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
+    adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
 
-  auto_settler_setup_work(pplayer, punit, state, recursion, path,
-                          best_tile, best_act, &best_target,
-                          completion_time);
+    auto_settler_setup_work(pplayer, punit, state, recursion, path,
+                            best_tile, best_act, &best_target,
+                            completion_time);
 
-  if (NULL != path) {
-    pf_path_destroy(path);
+    if (NULL != path) {
+      pf_path_destroy(path);
+    }
   }
 }
 
