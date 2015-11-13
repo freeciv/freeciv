@@ -1297,8 +1297,8 @@ bool base_get_direction_for_step(const struct tile *start_tile,
 }
 
 /**************************************************************************
-Return the direction which is needed for a step on the map from
-(start_x, start_y) to (end_x, end_y).
+  Return the direction which is needed for a step on the map from
+ (start_x, start_y) to (end_x, end_y).
 **************************************************************************/
 int get_direction_for_step(const struct tile *start_tile,
 			   const struct tile *end_tile)
@@ -1320,7 +1320,13 @@ int get_direction_for_step(const struct tile *start_tile,
 bool is_move_cardinal(const struct tile *start_tile,
 		      const struct tile *end_tile)
 {
-  return is_cardinal_dir(get_direction_for_step(start_tile, end_tile));
+  cardinal_adjc_dir_iterate(start_tile, test_tile, test_dir) {
+    if (same_pos(end_tile, test_tile)) {
+      return TRUE;
+    }
+  } cardinal_adjc_dir_iterate_end;
+
+  return FALSE;
 }
 
 /****************************************************************************
