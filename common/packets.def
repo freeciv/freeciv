@@ -196,6 +196,10 @@ type UINT32             = uint32(int)
 type MEMORY             = memory(unsigned char)
 type REQUIREMENT        = requirement(struct requirement)
 type STRING             = string(char)
+# A string vector encoded to a string outside the packet and field system.
+# Marking it this way is useful as documentation. The marking can also be
+# used in non vanilla generate_packets.py packet generators.
+type STRVEC             = STRING
 type TECH_LIST          = tech_list(int)
 type UNIT_LIST          = unit_list(int)
 type BUILDING_LIST      = building_list(int)
@@ -1305,7 +1309,7 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   BV_UNIT_CLASSES embarks;
   BV_UNIT_CLASSES disembarks;
 
-  STRING helptext[MAX_LEN_PACKET];
+  STRVEC helptext[MAX_LEN_PACKET];
 
   BV_UTYPE_FLAGS flags;
   BV_UTYPE_ROLES roles;
@@ -1353,7 +1357,7 @@ PACKET_RULESET_SPECIALIST = 142; sc, lsend
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
 
-  STRING helptext[MAX_LEN_PACKET];
+  STRVEC helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_GOVERNMENT_RULER_TITLE = 143; sc, lsend
@@ -1374,7 +1378,7 @@ PACKET_RULESET_TECH = 144; sc, lsend
   UINT32 num_reqs;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
-  STRING helptext[MAX_LEN_PACKET];
+  STRVEC helptext[MAX_LEN_PACKET];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
 end
@@ -1395,7 +1399,7 @@ PACKET_RULESET_GOVERNMENT = 145; sc, lsend
   STRING rule_name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
-  STRING helptext[MAX_LEN_PACKET];
+  STRVEC helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
@@ -1503,7 +1507,7 @@ PACKET_RULESET_BUILDING = 150; sc, lsend
   BV_IMPR_FLAGS flags;
   STRING soundtag[MAX_LEN_NAME];
   STRING soundtag_alt[MAX_LEN_NAME];
-  STRING helptext[MAX_LEN_PACKET];
+  STRVEC helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_TERRAIN = 151; sc, lsend
@@ -1549,7 +1553,7 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
   UINT8 color_green;
   UINT8 color_blue;
 
-  STRING helptext[MAX_LEN_PACKET];
+  STRVEC helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_TERRAIN_FLAG = 231; sc, lsend
@@ -1567,7 +1571,7 @@ PACKET_RULESET_UNIT_CLASS = 152; sc, lsend
   UINT8 hut_behavior;
   BV_UCLASS_FLAGS flags;
 
-  STRING helptext[MAX_LEN_PACKET];
+  STRVEC helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_EXTRA = 232; sc, lsend
@@ -1601,7 +1605,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   BV_EXTRA_FLAGS flags;
   BV_EXTRAS hidden_by;
   BV_EXTRAS conflicts;
-  STRING helptext[MAX_LEN_PACKET];
+  STRVEC helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_BASE = 153; sc, lsend
@@ -1691,7 +1695,7 @@ PACKET_RULESET_MULTIPLIER = 243; sc, dsend, lsend
   SINT32 factor;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
-  STRING helptext[MAX_LEN_PACKET];
+  STRVEC helptext[MAX_LEN_PACKET];
 end
 
 /**************************************************************************
