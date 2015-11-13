@@ -69,7 +69,7 @@ options include:
 
   Strings (enclosed in "")
   ------------------------
-  options               : A capability string, currently "+tilespec4"
+  options               : A capability string, currently "+Freeciv-2.5-tilespec"
   name                  : the name of the tileset
   type                  : general type of tileset, different types have
                           quite different format. Supported types are
@@ -81,7 +81,7 @@ options include:
 
   String vectors
   --------------
-  prefered_themes       : List of preferred client themes to use with this
+  preferred_themes      : List of preferred client themes to use with this
                           tileset
 
   Integers
