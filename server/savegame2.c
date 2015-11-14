@@ -5003,6 +5003,25 @@ static void sg_load_sanitycheck(struct loaddata *loading)
                                sizeof(server.game_identifier));
   }
 
+  /* Check if some player has more than one of some UTYF_UNIQUE unit type */
+  players_iterate(pplayer) {
+    int utype_count[U_LAST];
+
+    memset(utype_count, 0, sizeof(utype_count));
+
+    unit_list_iterate(pplayer->units, punit) {
+      utype_count[utype_index(unit_type_get(punit))]++;
+    } unit_list_iterate_end;
+
+    unit_type_iterate(ut) {
+      if (utype_count[utype_index(ut)] > 1 && utype_has_flag(ut, UTYF_UNIQUE)) {
+        log_sg(_("%s has multiple units of type %s though it should be possible "
+                 "to have only one."),
+               player_name(pplayer), utype_name_translation(ut));
+      }
+    } unit_type_iterate_end;
+  } players_iterate_end;
+
   /* Restore game random state, just in case various initialization code
    * inexplicably altered the previously existing state. */
   if (!game.info.is_new_game) {
