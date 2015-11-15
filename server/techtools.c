@@ -516,8 +516,14 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 
   if (bonus_tech_hack) {
     Tech_type_id additional_tech;
+    char research_name[MAX_LEN_NAME * 2];
+    const char *radv_name;
+
+    research_pretty_name(presearch, research_name, sizeof(research_name));
 
     additional_tech = give_immediate_free_tech(presearch);
+
+    radv_name = research_advance_name_translation(presearch, additional_tech);
 
     if (advance_by_number(tech_found)->bonus_message) {
       notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
@@ -525,9 +531,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
       if (additional_tech != A_UNSET) {
         notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
                         /* TRANS: Got free tech. */
-                        _("Acquired %s"),
-                        research_advance_name_translation(presearch,
-                                                         additional_tech));
+                        _("Acquired %s"), radv_name);
       }
     } else if (additional_tech != A_UNSET) {
       /* FIXME: "your" when it was just civilization of one of the players
@@ -535,10 +539,12 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
       notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
                       _("Great scientists from all the "
                         "world join your civilization: you learn "
-                        "%s immediately."),
-                      research_advance_name_translation(presearch,
-                                                        additional_tech));
+                        "%s immediately."), radv_name);
     }
+    /* TODO: Ruleset should be able to customize this message too */
+    notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
+                              _("%s acquire %s as a result of learning %s."),
+                              research_name, radv_name, advance_name);
   }
 }
 
