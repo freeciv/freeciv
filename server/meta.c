@@ -40,7 +40,11 @@
 #include <ws2tcpip.h>
 #endif
 #ifdef FREECIV_HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK2
+#include <winsock2.h>
+#else
 #include <winsock.h>
+#endif
 #endif
 
 /* utility */
