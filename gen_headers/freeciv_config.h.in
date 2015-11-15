@@ -83,8 +83,11 @@
 /* jansson network protocol in use */
 #undef FREECIV_JSON_CONNECTION
 
-/* uses winsock */
+/* uses some winsock version */
 #undef FREECIV_HAVE_WINSOCK
+
+/* uses winsock2 */
+#undef FREECIV_HAVE_WINSOCK2
 
 /* Extra debugging support */
 #undef FREECIV_DEBUG
