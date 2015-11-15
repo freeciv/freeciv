@@ -286,6 +286,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   bool can_switch[player_slot_count()][government_count()];
   struct player_research *research = player_research_get(plr);
   struct advance *vap = valid_advance_by_number(tech_found);
+  const char *advance_name = advance_name_for_player(plr, tech_found);
 
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
    * or may not be the correct thing to do.  For these sanity checks we
@@ -364,8 +365,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     if (A_UNSET != next_tech) {
       notify_research(plr, E_TECH_LEARNED, ftc_server,
                       _("Learned %s. Our scientists focus on %s; "
-                        "goal is %s."),
-                      advance_name_for_player(plr, tech_found),
+                        "goal is %s."), advance_name,
                       advance_name_for_player(plr, next_tech),
                       advance_name_for_player(plr, research->tech_goal));
     } else {
@@ -382,18 +382,18 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
         notify_research(plr, E_TECH_LEARNED, ftc_server,
                         _("Learned %s. Scientists "
                           "do not know what to research next."),
-                        advance_name_for_player(plr, tech_found));
+                        advance_name);
       } else if (!is_future_tech(next_tech) || !is_future_tech(tech_found)) {
         notify_research(plr, E_TECH_LEARNED, ftc_server,
                         _("Learned %s. Scientists choose to research %s."),
-                        advance_name_for_player(plr, tech_found),
+                        advance_name,
                         advance_name_for_player(plr, next_tech));
       } else {
         char buffer1[300], buffer2[300];
 
         /* FIXME: Handle the translation in a single string. */
         fc_snprintf(buffer1, sizeof(buffer1), _("Learned %s. "),
-                    advance_name_for_player(plr, tech_found));
+                    advance_name);
         research->future_tech++;
         fc_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
                     advance_name_for_player(plr, next_tech));
@@ -415,25 +415,31 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   if (bonus_tech_hack) {
     Tech_type_id additional_tech;
+    const char *padv_name;
 
     additional_tech = give_immediate_free_tech(plr);
-    
+
+    padv_name = advance_name_for_player(plr, additional_tech);
+
     if (advance_by_number(tech_found)->bonus_message) {
       notify_research(plr, E_TECH_GAIN, ftc_server,
                       "%s", _(advance_by_number(tech_found)->bonus_message));
       if (additional_tech != A_UNSET) {
         notify_research(plr, E_TECH_GAIN, ftc_server,
                         /* TRANS: Got free tech. */
-                        _("Acquired %s"),
-                        advance_name_for_player(plr, additional_tech));
+                        _("Acquired %s"), padv_name);
       }
     } else if (additional_tech != A_UNSET) {
       notify_research(plr, E_TECH_GAIN, ftc_server,
                       _("Great scientists from all the "
                         "world join your civilization: you learn "
-                        "%s immediately."),
-                      advance_name_for_player(plr, additional_tech));
+                        "%s immediately."), padv_name);
     }
+
+    notify_embassies(plr, NULL, NULL, E_TECH_GAIN, ftc_server,
+                     _("%s acquire %s as a result of learning %s."),
+                     nation_plural_for_player(plr),
+                     padv_name, advance_name);
   }
 
   /*
