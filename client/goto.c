@@ -1409,16 +1409,21 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
        * there. */
       p.orders[i - 1] = ORDER_ACTION_MOVE;
     } else {
-      /* ...but a final order exist. Try performing it from the neigbor
-       * tile in the unit's path. */
-      p.orders[i - 1] = final_order->order;
-      /* (the direction from the final move is kept) */
-      p.activity[i - 1] = (final_order->order == ORDER_ACTIVITY)
-        ? final_order->activity : ACTIVITY_LAST;
-      p.target[i - 1] = final_order->target;
-      p.action[i - 1] = final_order->action;
+      /* ...and a final order exist. Can't assume an action move. Did the
+       * caller hope that the situation would change before the unit got
+       * there? */
+
+      /* No current final order user should try to walk through non allied
+       * units or cities. */
+      fc_assert_msg(!is_non_allied_city_tile(old_tile, client_player())
+                     && !is_non_allied_unit_tile(old_tile,
+                                                 client_player()),
+                    "Warning: unit or city blocks the path of your %s",
+                    unit_rule_name(punit));
     }
-  } else if (final_order) {
+  }
+
+  if (final_order) {
     /* Append the final order after moving to the target tile. */
     p.orders[i] = final_order->order;
     p.dir[i] = final_order->dir;
@@ -1611,7 +1616,8 @@ void send_connect_route(enum unit_activity activity,
   This function doesn't care if a direction is required or just possible.
   Use order_demands_direction() for that.
 **************************************************************************/
-static bool order_wants_direction(enum unit_orders order, int act_id)
+static bool order_wants_direction(enum unit_orders order, int act_id,
+                                  struct tile *tgt_tile)
 {
   switch (order) {
   case ORDER_MOVE:
@@ -1628,6 +1634,15 @@ static bool order_wants_direction(enum unit_orders order, int act_id)
     if (!action_id_distance_accepted(act_id, 1)) {
       /* Always illegal to perform to a target on a neighbor tile. */
       return FALSE;
+    }
+
+    if (is_non_allied_city_tile(tgt_tile, client_player()) != NULL
+        || is_non_allied_unit_tile(tgt_tile, client_player()) != NULL) {
+      /* Won't be able to move to the target tile to perform the action on
+       * top of it. */
+      /* TODO: detect situations where it also would be illegal to perform
+       * the action from the neighbor tile. */
+      return TRUE;
     }
 
     return FALSE;
@@ -1692,10 +1707,11 @@ void send_goto_route(void)
       struct tile *on_tile;
       struct tile *tgt_tile;
 
-      if (order_wants_direction(goto_last_order, goto_last_action)
-          && path->length > 1
+      if (path->length > 1
           && ((tgt_tile = pf_path_last_position(path)->tile))
           && ((on_tile = path->positions[path->length - 2].tile))
+          && order_wants_direction(goto_last_order, goto_last_action,
+                                   tgt_tile)
           && !same_pos(on_tile, tgt_tile)) {
         /* The last order prefers to handle the last direction it self.
          * There exists a tile before the target tile to do it from. */
