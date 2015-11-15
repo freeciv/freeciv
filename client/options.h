@@ -265,9 +265,8 @@ struct client_options
 #define FC_GTK4_DEFAULT_THEME_NAME "Freeciv"
   char gui_gtk4_default_theme_name[512];
 
-/* gui-sdl client specific options. */
-#define FC_SDL_DEFAULT_THEME_NAME "human"
-  char gui_sdl_default_theme_name[512];
+/* gui-sdl client specific options.
+ * These are still kept just so users can migrate them to sdl2-client */
   bool gui_sdl_fullscreen;
   struct video_mode gui_sdl_screen;
   bool gui_sdl_do_cursor_animation;

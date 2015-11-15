@@ -251,7 +251,6 @@ struct client_options gui_options = {
   .gui_gtk4_default_theme_name = FC_GTK4_DEFAULT_THEME_NAME,
 
 /* gui-sdl client specific options. */
-  .gui_sdl_default_theme_name = FC_SDL_DEFAULT_THEME_NAME,
   .gui_sdl_fullscreen = FALSE,
   .gui_sdl_screen = VIDEO_MODE(640, 480),
   .gui_sdl_do_cursor_animation = TRUE,
@@ -1824,11 +1823,6 @@ static struct client_option client_options[] = {
                          "active theme."),
                       COC_GRAPHICS, GUI_GTK3, FC_GTK3_DEFAULT_THEME_NAME,
                       get_themes_list, theme_reread_callback),
-  GEN_STR_LIST_OPTION(gui_sdl_default_theme_name, N_("Theme"),
-                      N_("By changing this option you change the "
-                         "active theme."),
-                      COC_GRAPHICS, GUI_SDL, FC_SDL_DEFAULT_THEME_NAME,
-                      get_themes_list, theme_reread_callback),
   GEN_STR_LIST_OPTION(gui_sdl2_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
@@ -2688,22 +2682,15 @@ static struct client_option client_options[] = {
                   COC_FONT, GUI_GTK3,
                   "Serif 10", NULL),
 
-  /* gui-sdl client specific options. */
-  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Fullscreen"),
-                  N_("If this option is set the client will use the "
-                     "whole screen area for drawing."),
+  /* gui-sdl client specific options.
+   * These are still kept just so users can migrate them to sdl2-client */
+  GEN_BOOL_OPTION(gui_sdl_fullscreen, NULL, NULL,
                   COC_INTERFACE, GUI_SDL, FALSE, NULL),
-  GEN_VIDEO_OPTION(gui_sdl_screen, N_("Screen resolution"),
-                   N_("This option controls the resolution of the "
-                      "selected screen."),
+  GEN_VIDEO_OPTION(gui_sdl_screen, NULL, NULL,
                    COC_INTERFACE, GUI_SDL, 640, 480, NULL),
-  GEN_BOOL_OPTION(gui_sdl_do_cursor_animation, N_("Do cursor animation"),
-                  N_("If this option is disabled, the cursor will "
-                     "always be displayed as static."),
+  GEN_BOOL_OPTION(gui_sdl_do_cursor_animation, NULL, NULL,
                   COC_INTERFACE, GUI_SDL, TRUE, NULL),
-  GEN_BOOL_OPTION(gui_sdl_use_color_cursors, N_("Use color cursors"),
-                  N_("If this option is disabled, the cursor will "
-                     "always be displayed in black and white."),
+  GEN_BOOL_OPTION(gui_sdl_use_color_cursors, NULL, NULL,
                   COC_INTERFACE, GUI_SDL, TRUE, NULL),
 
   /* gui-sdl2 client specific options. */
