@@ -167,13 +167,16 @@ void map_view::keyPressEvent(QKeyEvent * event)
 **************************************************************************/
 void map_view::mousePressEvent(QMouseEvent *event)
 {
-  struct tile *ptile = NULL;
+  struct tile *ptile = nullptr;
+  struct city *pcity = nullptr;
   bool alt;
   bool ctrl;
+  bool shft;
   QPoint pos;
 
   alt = false;
   ctrl = false;
+  shft = false;
 
   if (event->modifiers() & Qt::AltModifier) {
     alt = true;
@@ -181,28 +184,59 @@ void map_view::mousePressEvent(QMouseEvent *event)
   if (event->modifiers() & Qt::ControlModifier) {
     ctrl = true;
   }
+  if (event->modifiers() & Qt::ShiftModifier) {
+    shft = true;
+  }
   pos = gui()->mapview_wdg->mapFromGlobal(QCursor::pos());
+  ptile = canvas_pos_to_tile(pos.x(), pos.y());
+  pcity = ptile ? tile_city(ptile) : NULL;
 
+  /* Right Mouse Button pressed */
   if (event->button() == Qt::RightButton) {
-    if (alt && ctrl){
-      ptile = canvas_pos_to_tile(pos.x(), pos.y());
-      if (ptile) {
+    if (alt && ctrl && ptile) {
         gui()->infotab->chtwdg->make_link(ptile);
-      }
+      /* <SHIFT + CONTROL> + RMB: Paste Production. */
+    } else if (shft && ctrl && pcity != NULL) {
+      clipboard_paste_production(pcity);
+      /* <SHIFT> + RMB on city/unit: Copy Production. */
+    } else if (shft && clipboard_copy_production(ptile)) {
+      /* <CONTROL> + RMB : Quickselect a land unit. */
+    } else if (ctrl) {
+      action_button_pressed(event->pos().x(),event->pos().y(), SELECT_LAND);
+      /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
+    } else if (shft && alt) {
+      key_city_overlay(event->pos().x(), event->pos().y());
     } else {
-      recenter_button_pressed(event->x(), event->y());
+      recenter_button_pressed(event->pos().x(), event->pos().y());
     }
   }
 
   /* Left Button */
   if (event->button() == Qt::LeftButton) {
-    action_button_pressed(event->pos().x(), event->pos().y(), SELECT_POPUP);
+    /* <SHIFT> + <CONTROL> + LMB : Adjust workers. */
+    if (shft && ctrl) {
+      adjust_workers_button_pressed(event->pos().x(), event->pos().y());
+      /* <CONTROL> + LMB : Quickselect a sea unit. */
+    } else if (ctrl) {
+      action_button_pressed(event->pos().x(), event->pos().y(), SELECT_SEA);
+      /* <SHIFT> + LMB: Append focus unit. */
+    } else if (ptile && shft) {
+      action_button_pressed(event->pos().x(), event->pos().y(),
+                            SELECT_APPEND);
+    } else {
+      action_button_pressed(event->pos().x(), event->pos().y(), SELECT_POPUP);
+    }
   }
+
   /* Middle Button */
   if (event->button() == Qt::MiddleButton) {
-    ptile = canvas_pos_to_tile(pos.x(), pos.y());
-   gui()->popup_tile_info(ptile);
- }
+    /* <CONTROL> + MMB: Wake up sentries. */
+    if (ctrl) {
+      wakeup_button_pressed(event->pos().x(), event->pos().y());
+    } else {
+      gui()->popup_tile_info(ptile);
+    }
+  }
 
 }
 /**************************************************************************

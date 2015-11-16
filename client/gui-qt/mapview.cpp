@@ -1088,6 +1088,7 @@ void end_turn_area::end_turn_update()
   const struct sprite *sprite;
   int d;
   QSize delta;
+  QFontMetrics fm(this->font());
 
   if (client_is_global_observer()) {
     return;
@@ -1116,6 +1117,8 @@ void end_turn_area::end_turn_update()
                                     "rates. Use mouse wheel to change them"));
   }
 
+  setMinimumHeight(fm.height() + 1 + client_research_sprite()->pm->height()
+                   + get_tax_sprite(tileset, O_LUXURY)->pm->height() + 10);
   delta = gui()->mapview_wdg->size() - gui()->end_turn_rect->sizeHint();
   move(delta.width(), delta.height());
 }
