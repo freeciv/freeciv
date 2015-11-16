@@ -491,6 +491,7 @@ struct tileset {
   int activity_offset_y;
   int occupied_offset_x;
   int occupied_offset_y;
+  int unit_upkeep_offset_y;
 
 #define NUM_CORNER_DIRS 4
 #define TILES_PER_CORNER 4
@@ -798,7 +799,7 @@ int tileset_unit_with_upkeep_height(const struct tileset *t)
 ****************************************************************************/
 int tileset_unit_layout_offset_y(const struct tileset *t)
 {
-  return tileset_tile_height(tileset);
+  return t->unit_upkeep_offset_y;
 }
 
 /****************************************************************************
@@ -1841,6 +1842,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
     goto ON_ERROR;
   }
+
+  t->unit_upkeep_offset_y = secfile_lookup_int_default(file, tileset_tile_height(t),
+                                                       "tilespec.unit_upkeep_offset_y");
 
   set_city_names_font_sizes(t->city_names_font_size,
                             t->city_productions_font_size);
