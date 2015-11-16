@@ -129,7 +129,7 @@ unit_item::~unit_item()
 ****************************************************************************/
 void unit_item::contextMenuEvent(QContextMenuEvent *event)
 {
-  QMenu menu(this);
+  QMenu *menu = new QMenu(this);
 
   if (!can_client_issue_orders()) {
     return;
@@ -137,33 +137,33 @@ void unit_item::contextMenuEvent(QContextMenuEvent *event)
   if (unit_owner(qunit) != client_player()) {
     return;
   }
-  menu.addAction(activate);
-  menu.addAction(activate_and_close);
+  menu->addAction(activate);
+  menu->addAction(activate_and_close);
   if (sentry) {
-    menu.addAction(sentry);
+    menu->addAction(sentry);
   }
   if (fortify) {
-    menu.addAction(fortify);
+    menu->addAction(fortify);
   }
   if (change_home) {
-    menu.addAction(change_home);
+    menu->addAction(change_home);
   }
   if (load) {
-    menu.addAction(load);
+    menu->addAction(load);
   }
   if (unload) {
-    menu.addAction(unload);
+    menu->addAction(unload);
   }
   if (unload_trans) {
-    menu.addAction(unload_trans);
+    menu->addAction(unload_trans);
   }
   if (disband_action) {
-    menu.addAction(disband_action);
+    menu->addAction(disband_action);
   }
   if (upgrade) {
-    menu.addAction(upgrade);
+    menu->addAction(upgrade);
   }
-  menu.exec(event->globalPos());
+  menu->popup(event->globalPos());
 }
 
 /****************************************************************************
@@ -237,7 +237,7 @@ void unit_item::create_actions()
 ****************************************************************************/
 void unit_item::disband()
 {
-  QMessageBox ask(this);
+  QMessageBox ask(gui()->central_wdg);
   int ret;
 
   ask.setText(_("Are you sure you want to disband that unit?"));
@@ -1402,7 +1402,7 @@ void city_dialog::update_cma_tab()
 void city_dialog::cma_remove()
 {
   int i;
-  QMessageBox ask;
+  QMessageBox ask(gui()->central_wdg);
   int ret;
 
   i = cma_table->currentRow();
@@ -1895,7 +1895,7 @@ void city_dialog::setup_ui(struct city *qcity)
 ****************************************************************************/
 void city_dialog::dbl_click(QTableWidgetItem *item)
 {
-  QMessageBox ask(this);
+  QMessageBox ask(gui()->central_wdg);
   QString s;
   QVariant qvar;
   char buf[256];
@@ -2156,7 +2156,7 @@ void city_dialog::buy()
   const char *name = city_production_name_translation(pcity);
   int value = city_production_buy_gold_cost(pcity);
   const QString title = _("Buy ?");
-  QMessageBox ask(this);
+  QMessageBox ask(gui()->central_wdg);
 
   if (!can_client_issue_orders()) {
     return;
