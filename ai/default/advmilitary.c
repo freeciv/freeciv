@@ -464,6 +464,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   int total_danger = 0;
   int defense_bonuses[U_LAST];
   bool defender_type_handled[U_LAST];
+  int assess_turns;
 
   TIMING_LOG(AIT_DANGER, TIMER_START);
 
@@ -522,23 +523,21 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
     }
   } unit_list_iterate_end;
 
+  if (player_is_cpuhog(pplayer)) {
+    assess_turns = 6;
+  } else {
+    assess_turns = 3;
+  }
 
   /* Check. */
   players_iterate(aplayer) {
     struct pf_reverse_map *pcity_map;
-    int assess_turns;
 
     if (!adv_is_player_dangerous(pplayer, aplayer)) {
       continue;
     }
     /* Note that we still consider the units of players we are not (yet)
      * at war with. */
-
-    if (player_is_cpuhog(pplayer)) {
-      assess_turns = 6;
-    } else {
-      assess_turns = 3;
-    }
 
     pcity_map = pf_reverse_map_new_for_city(pcity, aplayer, assess_turns);
 
