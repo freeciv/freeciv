@@ -185,7 +185,7 @@ void chatwdg::send()
   if (chat_line->text() != "") {
     if (client_state() >= C_S_RUNNING && gui_options.gui_qt_allied_chat_only
         && is_plain_public_message(chat_line->text())) {
-      send_chat(QString(". %s")
+      send_chat(QString(". %1")
                   .arg(chat_line->text().toUtf8().data()).toUtf8().data());
     } else {
       send_chat(chat_line->text().toUtf8().data());
