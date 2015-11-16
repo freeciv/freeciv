@@ -151,7 +151,7 @@ QVariant city_item::data(int column, int role) const
   spec = city_report_specs+column;
   fc_snprintf(buf, sizeof(buf), "%*s", NEG_VAL(spec->width),
                 spec->func(i_city, spec->data));
-  return QString(buf);
+  return QString(buf).trimmed();
 }
 
 /***************************************************************************
@@ -219,11 +219,11 @@ QVariant city_model::headerData(int section, Qt::Orientation orientation,
 
   if (orientation == Qt::Horizontal && section < NUM_CREPORT_COLS) {
     if (role == Qt::DisplayRole) {
-    spec = city_report_specs + section;
-    fc_snprintf(buf, sizeof(buf), "%*s\n%*s",
-                NEG_VAL(spec->width), spec->title1 ? spec->title1 : "",
-                NEG_VAL(spec->width), spec->title2 ? spec->title2 : "");
-      return QString(buf);
+      spec = city_report_specs + section;
+      fc_snprintf(buf, sizeof(buf), "%*s\n%*s",
+                  NEG_VAL(spec->width), spec->title1 ? spec->title1 : "",
+                  NEG_VAL(spec->width), spec->title2 ? spec->title2 : "");
+      return QString(buf).trimmed();
     }
     if (role == Qt::ToolTipRole) {
       spec = city_report_specs + section;
@@ -357,7 +357,9 @@ city_widget::city_widget(city_report *ctr): QTreeView()
   setSelectionBehavior(QAbstractItemView::SelectRows);
   setItemsExpandable(false);
   setAutoScroll(true);
+  setProperty("uniformRowHeights", "true");
   header()->setContextMenuPolicy(Qt::CustomContextMenu);
+  header()->setMinimumSectionSize(10);
   setContextMenuPolicy(Qt::CustomContextMenu);
   hide_columns();
   connect(header(), SIGNAL(customContextMenuRequested(const QPoint &)),
@@ -1068,9 +1070,28 @@ void city_widget::update_city(city *pcity)
 ***************************************************************************/
 void city_widget::update_model()
 {
+  QStringList sl;
+  QString s, str;
+  int width;
+
   setUpdatesEnabled(false);
   list_model->all_changed();
   restore_selection();
+  for (int j = 0; j < filter_model->columnCount(); j++) {
+    str = list_model->headerData(j, Qt::Horizontal, Qt::DisplayRole).toString();
+    if (str.contains('\n')) {
+      sl = str.split('\n');
+      width = 0;
+      foreach (s, sl) {
+        QFont f = QApplication::font();
+        QFontMetrics fm(f);
+        width = qMax(width, fm.width(s));
+      }
+      header()->resizeSection(j, width + 10);
+    } else {
+      header()->resizeSection(j, header()->sectionSizeHint(j));
+    }
+  }
   setUpdatesEnabled(true);
 }
 
