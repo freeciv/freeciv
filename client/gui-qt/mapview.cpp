@@ -1590,7 +1590,8 @@ void unit_label::uupdate(unit_list *punits)
   no_units = false;
   one_unit = true;
   setFixedHeight(56);
-  if (unit_list_size(punits) == 0) {
+  if (unit_list_size(punits) == 0 || punits == nullptr
+      || C_S_OVER == client_state()) {
     unit_label1 = "";
     unit_label2 = "";
     no_units = true;
