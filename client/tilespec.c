@@ -787,7 +787,10 @@ static int tileset_upkeep_height(const struct tileset *t)
 ****************************************************************************/
 int tileset_unit_with_upkeep_height(const struct tileset *t)
 {
-  return tileset_unit_layout_offset_y(tileset) + tileset_upkeep_height(tileset);
+  int uk_bottom = tileset_unit_layout_offset_y(tileset) + tileset_upkeep_height(tileset);
+  int u_bottom = tileset_unit_height(tileset);
+
+  return MAX(uk_bottom, u_bottom);
 }
 
 /****************************************************************************
