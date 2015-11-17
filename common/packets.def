@@ -301,6 +301,7 @@ type CITY_COORD         = UINT8
 type GOLD               = UINT32
 type HP                 = UINT8
 type PERCENT            = UINT8
+type MOVEFRAGS          = UINT16  # units of TERRAIN_CONTROL.move_fragments
 type PHASE              = SINT16
 type TURN               = SINT16
 type XYSIZE             = UINT16
@@ -905,7 +906,8 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
-  UINT8 movesleft, hp, fuel;
+  MOVEFRAGS movesleft;
+  UINT8 hp, fuel;
   /* UINT16 size for activity_count assumed in checks in ruleset.c */
   UINT16 activity_count, changed_from_count;
   TILE goto_tile;
@@ -1276,7 +1278,7 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 pop_cost;
   UINT8 attack_strength;
   UINT8 defense_strength;
-  UINT8 move_rate;
+  MOVEFRAGS move_rate;
   TECH tech_requirement;
   UINT8 impr_requirement;
   GOVERNMENT gov_requirement;
@@ -1293,13 +1295,13 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 upkeep[O_LAST]; # normal upkeep cost (food, gold, shields)
 
   UINT8 paratroopers_range;  # max range of paratroopers, F_PARATROOPERS
-  UINT8 paratroopers_mr_req;
-  UINT8 paratroopers_mr_sub;
+  UINT8 paratroopers_mr_req; # whole move points, not MOVEFRAGS
+  UINT8 paratroopers_mr_sub; # whole move points, not MOVEFRAGS
 
   UINT8 veteran_levels;
   STRING veteran_name[MAX_VET_LEVELS:veteran_levels][MAX_LEN_NAME];
   UINT16 power_fact[MAX_VET_LEVELS:veteran_levels];
-  UINT8 move_bonus[MAX_VET_LEVELS:veteran_levels];
+  MOVEFRAGS move_bonus[MAX_VET_LEVELS:veteran_levels];
 
   UINT8 bombard_rate;
   UINT8 city_size;
@@ -1338,7 +1340,7 @@ PACKET_RULESET_GAME = 141; sc, lsend
   UINT8 veteran_levels;
   STRING veteran_name[MAX_VET_LEVELS:veteran_levels][MAX_LEN_NAME];
   UINT16 power_fact[MAX_VET_LEVELS:veteran_levels];
-  UINT8 move_bonus[MAX_VET_LEVELS:veteran_levels];
+  MOVEFRAGS move_bonus[MAX_VET_LEVELS:veteran_levels];
 
   UINT8 background_red;
   UINT8 background_green;
@@ -1407,8 +1409,8 @@ PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   UINT8 land_channel_requirement_pct; /* # adjacent ocean tiles for channel */
   UINT8 lake_max_size;                /* bodies of water up to this size are freshwater */
   UINT8 min_start_native_area;
-  UINT8 move_fragments;
-  UINT8 igter_cost;
+  MOVEFRAGS move_fragments;
+  MOVEFRAGS igter_cost;
   BOOL pythagorean_diagonal;
   STRING gui_type_base0[MAX_LEN_NAME];
   STRING gui_type_base1[MAX_LEN_NAME];
@@ -1566,7 +1568,7 @@ PACKET_RULESET_UNIT_CLASS = 152; sc, lsend
   UINT8 id;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
-  UINT8 min_speed;
+  MOVEFRAGS min_speed;
   UINT8 hp_loss_pct;
   UINT8 hut_behavior;
   BV_UCLASS_FLAGS flags;
@@ -1621,7 +1623,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT8 id;
   UINT8 first_reqs_count;
   REQUIREMENT first_reqs[MAX_NUM_REQS:first_reqs_count];
-  SINT8 move_cost;
+  SINT8 move_cost; # not MOVEFRAGS because -1 is valid
   MOVE_MODE move_mode;
   UINT16 tile_incr_const[O_LAST];
   UINT16 tile_incr[O_LAST];
@@ -2011,7 +2013,7 @@ PACKET_EDIT_UNIT = 210; cs, handle-per-conn, handle-via-packet
   UNIT_TYPE utype;
   PLAYER owner;
   CITY homecity;
-  UINT8 moves_left;
+  MOVEFRAGS moves_left;
   UINT8 hp;
   UINT8 veteran;
   UINT8 fuel;

@@ -1850,8 +1850,8 @@ def main():
     content=open(input_name).read()
     content=strip_c_comment(content)
     lines=content.split("\n")
-    lines=map(lambda x: re.sub("#.*$","",x),lines)
-    lines=map(lambda x: re.sub("//.*$","",x),lines)
+    lines=map(lambda x: re.sub("\s*#.*$","",x),lines)
+    lines=map(lambda x: re.sub("\s*//.*$","",x),lines)
     lines=filter(lambda x:not re.search("^\s*$",x),lines)
     lines2=[]
     types=[]
