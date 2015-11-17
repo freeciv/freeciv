@@ -385,10 +385,19 @@ void notify_research(const struct research *presearch,
 }
 
 /****************************************************************************
-  Sends a message to all players that share research.
+  Sends a message to all players that have embassies with someone who
+  shares research.
 
   Unlike other notify functions this one does not take a tile argument.  We
   assume no research message will have a tile associated.
+
+  Exclude parameter excludes everyone who has embassy (only) with that
+  player.
+
+  FIXME: Should not send multiple messages if one has embassy with multiple
+         members of the research group, should really exclude ones having
+         embassy with the exclude -one as the use-case for exclusion is that
+         different message is being sent to those excluded here.
 ****************************************************************************/
 void notify_research_embassies(const struct research *presearch,
                                const struct player *exclude,
