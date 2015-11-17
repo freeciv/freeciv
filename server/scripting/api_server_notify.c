@@ -65,3 +65,18 @@ void api_notify_research_msg(lua_State *L, Player *pplayer, bool include_plr,
   notify_research(pres, include_plr ? NULL : pplayer, event,
                   ftc_any, "%s", message);
 }
+
+/*****************************************************************************
+  Notify players sharing research with the player.
+*****************************************************************************/
+void api_notify_research_embassies_msg(lua_State *L, Player *pplayer,
+                                       int event, const char *message)
+{
+  struct research *pres;
+
+  LUASCRIPT_CHECK_STATE(L);
+
+  pres = research_get(pplayer);
+
+  notify_research_embassies(pres, NULL, event, ftc_any, "%s", message);
+}
