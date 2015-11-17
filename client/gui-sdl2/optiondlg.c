@@ -433,24 +433,6 @@ static int none_callback(struct widget *widget)
 }
 
 /****************************************************************************
-  Convert a video mode to string. Returns TRUE on success.
-****************************************************************************/
-static inline bool video_mode_to_string(char *buf, size_t buf_len,
-                                        struct video_mode *mode)
-{
-  return (2 < fc_snprintf(buf, buf_len, "%dx%d", mode->width, mode->height));
-}
-
-/****************************************************************************
-  Convert a string to video mode. Returns TRUE on success.
-****************************************************************************/
-static inline bool string_to_video_mode(const char *buf,
-                                        struct video_mode *mode)
-{
-  return (2 == sscanf(buf, "%dx%d", &mode->width, &mode->height));
-}
-
-/****************************************************************************
   Return a string vector containing all video modes.
 ****************************************************************************/
 static struct strvec *video_mode_list(void)

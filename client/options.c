@@ -5795,3 +5795,19 @@ static void client_option_adjust_defaults(void)
 {
   adjust_default_options();
 }
+
+/****************************************************************************
+  Convert a video mode to string. Returns TRUE on success.
+****************************************************************************/
+bool video_mode_to_string(char *buf, size_t buf_len, struct video_mode *mode)
+{
+  return (2 < fc_snprintf(buf, buf_len, "%dx%d", mode->width, mode->height));
+}
+
+/****************************************************************************
+  Convert a string to video mode. Returns TRUE on success.
+****************************************************************************/
+bool string_to_video_mode(const char *buf, struct video_mode *mode)
+{
+  return (2 == sscanf(buf, "%dx%d", &mode->width, &mode->height));
+}

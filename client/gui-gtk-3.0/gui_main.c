@@ -181,6 +181,8 @@ gint cur_x, cur_y;
 
 static bool gui_up = FALSE;
 
+static struct video_mode vmode = { -1, -1 };
+
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
 static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
@@ -271,6 +273,8 @@ static void print_usage(void)
              _("Other gui-specific options are:\n"));
 
   fc_fprintf(stderr,
+             _("-r, --resolution MODE\tAssume given resolution screen\n"));
+  fc_fprintf(stderr,
              _("-z, --zoom LEVEL\tSet zoom level\n\n"));
 
   /* TRANS: No full stop after the URL, could cause confusion. */
@@ -295,6 +299,11 @@ static void parse_options(int argc, char **argv)
       char *endptr;
 
       zoom_set(strtof(option, &endptr));
+    } else if ((option = get_option_malloc("--resolution", argv, &i, argc))) {
+      if (!string_to_video_mode(option, &vmode)) {
+        fc_fprintf(stderr, _("Illegal video mode '%s'"), option);
+        exit(EXIT_FAILURE);
+      }
     }
     /* Can't check against unknown options, as those might be gtk options */
 
@@ -2226,7 +2235,13 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 **************************************************************************/
 int screen_width(void)
 {
-  GdkScreen *screen = gdk_screen_get_default();
+  GdkScreen *screen;
+
+  if (vmode.width > 0) {
+    return vmode.width;
+  }
+
+  screen = gdk_screen_get_default();
 
   if (screen == NULL) {
     return 0;
@@ -2240,7 +2255,13 @@ int screen_width(void)
 **************************************************************************/
 int screen_height(void)
 {
-  GdkScreen *screen = gdk_screen_get_default();
+  GdkScreen *screen;
+
+  if (vmode.height > 0) {
+    return vmode.height;
+  }
+
+  screen = gdk_screen_get_default();
 
   if (screen == NULL) {
     return 0;

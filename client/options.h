@@ -489,6 +489,9 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 
 #define GUI_DEFAULT_MAPIMG_FILENAME     "freeciv"
 
+bool video_mode_to_string(char *buf, size_t buf_len, struct video_mode *mode);
+bool string_to_video_mode(const char *buf, struct video_mode *mode);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
