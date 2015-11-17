@@ -5232,7 +5232,9 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     sz_strlcpy(packet.name, untranslated_name(&c->name));
     sz_strlcpy(packet.rule_name, rule_name(&c->name));
     packet.move_type = c->move_type;
-    packet.min_speed = c->min_speed;
+    /* packet send code will take account of whether each connection
+     * has "extended_move_rate" capability */
+    packet.min_speed_old = packet.min_speed_new = c->min_speed;
     packet.hp_loss_pct = c->hp_loss_pct;
     packet.hut_behavior = c->hut_behavior;
     packet.flags = c->flags;
@@ -5289,7 +5291,9 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.pop_cost = u->pop_cost;
     packet.attack_strength = u->attack_strength;
     packet.defense_strength = u->defense_strength;
-    packet.move_rate = u->move_rate;
+    /* packet send code will take account of whether each connection
+     * has "extended_move_rate" capability */
+    packet.move_rate_old = packet.move_rate_new = u->move_rate;
     packet.tech_requirement = u->require_advance
                               ? advance_number(u->require_advance)
                               : advance_count();
@@ -5339,10 +5343,35 @@ static void send_ruleset_units(struct conn_list *dest)
 
         sz_strlcpy(packet.veteran_name[i], untranslated_name(&vlevel->name));
         packet.power_fact[i] = vlevel->power_fact;
-        packet.move_bonus[i] = vlevel->move_bonus;
+        /* packet send code will take account of whether each connection
+         * has "extended_move_rate" capability */
+        packet.move_bonus_old[i] = packet.move_bonus_new[i]
+          = vlevel->move_bonus;
       }
     }
     PACKET_STRVEC_COMPUTE(packet.helptext, u->helptext);
+
+    /* Warn old clients about problems with large move_rates
+     * (there will also be a "Trying to put NNN into 8 bits" message
+     * at log_error level for each) */
+    if (u->move_rate >= 256) {
+      struct conn_list *oldconns = conn_list_new();
+
+      conn_list_iterate(dest, pconn) {
+        if (!has_capability("extended_move_rate", pconn->capability)) {
+          conn_list_append(oldconns, pconn);
+          log_error("%s has client too old to receive correct move_rate (%d) "
+                    "for %s", conn_description(pconn),
+                    u->move_rate / SINGLE_MOVE, utype_name_translation(u));
+        }
+      } conn_list_iterate_end;
+      notify_conn(oldconns, NULL, E_CONNECTION, ftc_warning, 
+                  "Warning: your client is too old to cope with the large "
+                  "move rate (%d) of %s in this ruleset; expect trouble "
+                  "with this unit.",
+                  u->move_rate / SINGLE_MOVE, utype_name_translation(u));
+      conn_list_destroy(oldconns);
+    }
 
     lsend_packet_ruleset_unit(dest, &packet);
 
@@ -5671,7 +5700,9 @@ static void send_ruleset_roads(struct conn_list *dest)
     sz_strlcpy(packet.activity_gfx, r->activity_gfx);
     sz_strlcpy(packet.act_gfx_alt, r->act_gfx_alt);
 
-    packet.move_cost = r->move_cost;
+    /* packet send code will take account of whether each connection
+     * has "extended_move_rate" capability */
+    packet.move_cost_old = packet.move_cost_new = r->move_cost;
     packet.move_mode = r->move_mode;
     packet.build_time = r->build_time;
     packet.defense_bonus = r->defense_bonus;
@@ -5938,7 +5969,9 @@ static void send_ruleset_game(struct conn_list *dest)
 
     sz_strlcpy(misc_p.veteran_name[i], untranslated_name(&vlevel->name));
     misc_p.power_fact[i] = vlevel->power_fact;
-    misc_p.move_bonus[i] = vlevel->move_bonus;
+    /* packet send code will take account of whether each connection
+     * has "extended_move_rate" capability */
+    misc_p.move_bonus_old[i] = misc_p.move_bonus_new[i] = vlevel->move_bonus;
   }
 
   fc_assert(sizeof(misc_p.global_init_techs)

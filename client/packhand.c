@@ -184,7 +184,11 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   output_type_iterate(o) {
     punit->upkeep[o] = packet->upkeep[o];
   } output_type_iterate_end;
-  punit->moves_left = packet->movesleft;
+  if (has_capability("extended_move_rate", client.conn.capability)) {
+    punit->moves_left = packet->movesleft_new;
+  } else {
+    punit->moves_left = packet->movesleft_old;
+  }
   punit->hp = packet->hp;
   punit->activity = packet->activity;
   punit->activity_count = packet->activity_count;
@@ -2977,7 +2981,11 @@ void handle_ruleset_unit_class(const struct packet_ruleset_unit_class *p)
 
   names_set(&c->name, NULL, p->name, p->rule_name);
   c->move_type   = p->move_type;
-  c->min_speed   = p->min_speed;
+  if (has_capability("extended_move_rate", client.conn.capability)) {
+    c->min_speed = p->min_speed_new;
+  } else {
+    c->min_speed = p->min_speed_old;
+  }
   c->hp_loss_pct = p->hp_loss_pct;
   c->hut_behavior = p->hut_behavior;
   c->flags       = p->flags;
@@ -3006,7 +3014,11 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->pop_cost           = p->pop_cost;
   u->attack_strength    = p->attack_strength;
   u->defense_strength   = p->defense_strength;
-  u->move_rate          = p->move_rate;
+  if (has_capability("extended_move_rate", client.conn.capability)) {
+    u->move_rate        = p->move_rate_new;
+  } else {
+    u->move_rate        = p->move_rate_old;
+  }
   u->require_advance    = advance_by_number(p->tech_requirement);
   u->need_improvement   = improvement_by_number(p->impr_requirement);
   u->need_government    = government_by_number(p->gov_requirement);
@@ -3037,11 +3049,15 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   if (p->veteran_levels == 0) {
     u->veteran = NULL;
   } else {
+    const int *move_bonus
+      = has_capability("extended_move_rate", client.conn.capability)
+        ? p->move_bonus_new : p->move_bonus_old;
+
     u->veteran = veteran_system_new(p->veteran_levels);
 
     for (i = 0; i < p->veteran_levels; i++) {
       veteran_system_definition(u->veteran, i, p->veteran_name[i],
-                                p->power_fact[i], p->move_bonus[i], 0, 0);
+                                p->power_fact[i], move_bonus[i], 0, 0);
     }
   }
 
@@ -3408,7 +3424,11 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   sz_strlcpy(proad->activity_gfx, p->activity_gfx);
   sz_strlcpy(proad->act_gfx_alt, p->act_gfx_alt);
 
-  proad->move_cost = p->move_cost;
+  if (has_capability("extended_move_rate", client.conn.capability)) {
+    proad->move_cost = p->move_cost_new;
+  } else {
+    proad->move_cost = p->move_cost_old;
+  }
   proad->move_mode = p->move_mode;
   proad->build_time = p->build_time;
   proad->defense_bonus = p->defense_bonus;
@@ -3671,10 +3691,16 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
     game.rgame.global_init_buildings[i] = packet->global_init_buildings[i];
   }
 
-  for (i = 0; i < packet->veteran_levels; i++) {
-    veteran_system_definition(game.veteran, i, packet->veteran_name[i],
-                              packet->power_fact[i], packet->move_bonus[i],
-                              0, 0);
+  {
+    const int *move_bonus
+      = has_capability("extended_move_rate", client.conn.capability)
+        ? packet->move_bonus_new : packet->move_bonus_old;
+
+    for (i = 0; i < packet->veteran_levels; i++) {
+      veteran_system_definition(game.veteran, i, packet->veteran_name[i],
+                                packet->power_fact[i], move_bonus[i],
+                                0, 0);
+    }
   }
 
   fc_assert(game.plr_bg_color == NULL);

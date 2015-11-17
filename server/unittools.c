@@ -2286,7 +2286,9 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   } output_type_iterate_end;
   packet->veteran = punit->veteran;
   packet->type = utype_number(unit_type(punit));
-  packet->movesleft = punit->moves_left;
+  /* packet send code will take account of whether each connection
+   * has "extended_move_rate" capability */
+  packet->movesleft_old = packet->movesleft_new = punit->moves_left;
   packet->hp = punit->hp;
   packet->activity = punit->activity;
   packet->activity_count = punit->activity_count;

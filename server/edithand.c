@@ -19,6 +19,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"
@@ -826,7 +827,11 @@ void handle_edit_unit(struct connection *pc,
 
   putype = unit_type(punit);
 
-  moves_left = CLIP(0, packet->moves_left, putype->move_rate);
+  if (has_capability("extended_move_rate", pc->capability)) {
+    moves_left = CLIP(0, packet->moves_left_new, putype->move_rate);
+  } else {
+    moves_left = CLIP(0, packet->moves_left_old, putype->move_rate);
+  }
   if (moves_left != punit->moves_left) {
     punit->moves_left = moves_left;
     changed = TRUE;

@@ -822,7 +822,9 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
-  UINT8 movesleft, hp, fuel;
+  UINT8 movesleft_old;  remove-cap(extended_move_rate)
+  UINT16 movesleft_new; add-cap(extended_move_rate)
+  UINT8 hp, fuel;
   /* UINT16 size for activity_count assumed in checks in ruleset.c */
   UINT16 activity_count, changed_from_count;
   TILE goto_tile;
@@ -1216,7 +1218,8 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 pop_cost;
   UINT8 attack_strength;
   UINT8 defense_strength;
-  UINT8 move_rate;
+  UINT8 move_rate_old;  remove-cap(extended_move_rate)
+  UINT16 move_rate_new; add-cap(extended_move_rate)
   TECH tech_requirement;
   UINT8 impr_requirement;
   GOVERNMENT gov_requirement;
@@ -1233,13 +1236,14 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 upkeep[O_LAST]; # normal upkeep cost (food, gold, shields)
 
   UINT8 paratroopers_range;  # max range of paratroopers, F_PARATROOPERS
-  UINT8 paratroopers_mr_req;
-  UINT8 paratroopers_mr_sub;
+  UINT8 paratroopers_mr_req; # whole move points, not move_fragments
+  UINT8 paratroopers_mr_sub; # whole move points, not move_fragments
 
   UINT8 veteran_levels;
   STRING veteran_name[MAX_VET_LEVELS:veteran_levels][MAX_LEN_NAME];
   UINT16 power_fact[MAX_VET_LEVELS:veteran_levels];
-  UINT8 move_bonus[MAX_VET_LEVELS:veteran_levels];
+  UINT8 move_bonus_old[MAX_VET_LEVELS:veteran_levels];  remove-cap(extended_move_rate)
+  UINT16 move_bonus_new[MAX_VET_LEVELS:veteran_levels]; add-cap(extended_move_rate)
 
   UINT8 bombard_rate;
   UINT8 city_size;
@@ -1277,7 +1281,8 @@ PACKET_RULESET_GAME = 141; sc, lsend
   UINT8 veteran_levels;
   STRING veteran_name[MAX_VET_LEVELS:veteran_levels][MAX_LEN_NAME];
   UINT16 power_fact[MAX_VET_LEVELS:veteran_levels];
-  UINT8 move_bonus[MAX_VET_LEVELS:veteran_levels];
+  UINT8 move_bonus_old[MAX_VET_LEVELS:veteran_levels];  remove-cap(extended_move_rate)
+  UINT16 move_bonus_new[MAX_VET_LEVELS:veteran_levels]; add-cap(extended_move_rate)
 
   UINT8 background_red;
   UINT8 background_green;
@@ -1496,7 +1501,8 @@ PACKET_RULESET_UNIT_CLASS = 152; sc, lsend
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   UINT8 move_type;
-  UINT8 min_speed;
+  UINT8 min_speed_old;  remove-cap(extended_move_rate)
+  UINT16 min_speed_new; add-cap(extended_move_rate)
   UINT8 hp_loss_pct;
   UINT8 hut_behavior;
   BV_UCLASS_FLAGS flags;
@@ -1534,7 +1540,8 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   STRING graphic_alt[MAX_LEN_NAME];
   STRING activity_gfx[MAX_LEN_NAME];
   STRING act_gfx_alt[MAX_LEN_NAME];
-  UINT8 move_cost;
+  UINT8 move_cost_old;  remove-cap(extended_move_rate)
+  UINT16 move_cost_new; add-cap(extended_move_rate)
   MOVE_MODE move_mode;
   UINT8 build_time;
   UINT8 defense_bonus;
@@ -1870,7 +1877,8 @@ PACKET_EDIT_UNIT = 210; cs, handle-per-conn, handle-via-packet
   UNIT_TYPE utype;
   PLAYER owner;
   CITY homecity;
-  UINT8 moves_left;
+  UINT8 moves_left_old;  remove-cap(extended_move_rate)
+  UINT16 moves_left_new; add-cap(extended_move_rate)
   UINT8 hp;
   UINT8 veteran;
   UINT8 fuel;

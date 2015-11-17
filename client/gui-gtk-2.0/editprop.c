@@ -2200,7 +2200,9 @@ static void objbind_pack_current_values(struct objbind *ob,
       }
 
       packet->id = punit->id;
-      packet->moves_left = punit->moves_left;
+      /* packet send code will take account of whether network connection
+       * has "extended_move_rate" capability */
+      packet->moves_left_old = packet->moves_left_new = punit->moves_left;
       packet->fuel = punit->fuel;
       packet->moved = punit->moved;
       packet->done_moving = punit->done_moving;
@@ -2368,7 +2370,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
 
       switch (propid) {
       case OPID_UNIT_MOVES_LEFT:
-        packet->moves_left = pv->data.v_int;
+        /* packet send code will take account of whether network connection
+         * has "extended_move_rate" capability */
+        packet->moves_left_old = packet->moves_left_new = pv->data.v_int;
         return;
       case OPID_UNIT_FUEL:
         packet->fuel = pv->data.v_int;
