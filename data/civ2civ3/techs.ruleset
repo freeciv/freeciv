@@ -668,7 +668,7 @@ helptext = _("Allows Workers and Engineers to build airbases and buoys.")
 cost     = 540
 
 [advance_railroad]
-name     = _("Railroad")
+name     = _("?tech:Railroad")
 req1     = "Steam Engine"
 req2     = "Metallurgy"
 flags    = ""
