@@ -49,7 +49,7 @@ real_package_name ()
   RMAJOR=$3
   RMINOR=$4
   RMICRO=$5
-  
+
   new_pkg=$RPACKAGE
 
   # check if given package is suitable
@@ -155,8 +155,15 @@ version_check ()
   if [ ! -z "$MICRO" ]; then VERSION=$VERSION.$MICRO; else MICRO=0; fi
 
   debug "version $VERSION"
-  if [ "$COMPLAIN" -ne "2" ]; then
-    echo "+ checking for $PACKAGEMSG >= $VERSION ... " | tr -d '\n'
+  if [ "x$VERSION" != "x" ] ; then
+      if [ "$COMPLAIN" -ne "2" ]; then
+          echo "+ checking for $PACKAGEMSG >= $VERSION ... " | tr -d '\n'
+      fi
+  else
+      MAJOR=0
+      if [ "$COMPLAIN" -ne "2" ]; then
+          echo "+ checking for $PACKAGEMSG ... " | tr -d '\n'
+      fi
   fi
   
   ($PACKAGE --version) < /dev/null > /dev/null 2>&1 || 
@@ -169,9 +176,9 @@ version_check ()
     fi
     return 1
   }
-    
+
   # the following line is carefully crafted sed magic
-  pkg_version=`$PACKAGE --version|head -n 1|sed 's/([^)]*)//g;s/^[a-zA-Z\.\ \-]*//;s/ .*$//'`
+  pkg_version=`$PACKAGE --version 2>&1|head -n 1|sed 's/([^)]*)//g;s/^[a-zA-Z\.\ \-]*//;s/ .*$//'`
   debug "pkg_version $pkg_version"
   pkg_major=`echo $pkg_version | cut -d. -f1`
   pkg_minor=`echo $pkg_version | sed s/[-,a-z,A-Z].*// | cut -d. -f2`
@@ -239,6 +246,7 @@ real_package_name "aclocal" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 11 || DIE=1
 ACLOCAL=$REALPKGNAME
 real_package_name "libtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 2 2 || DIE=1
 LIBTOOLIZE=$REALPKGNAME
+real_package_name "python" "https://www.python.org/" || DIE=1
 
 if [ "$FC_USE_NLS" = "yes" ]; then
   DIE2=0
