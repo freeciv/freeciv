@@ -1681,7 +1681,7 @@ void ui_main(int argc, char **argv)
   chatline_init();
   init_mapcanvas_and_overview();
 
-  tileset_use_prefered_theme(tileset);
+  tileset_use_preferred_theme(tileset);
 
   gtk_widget_show(toplevel);
 

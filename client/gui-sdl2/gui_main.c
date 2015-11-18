@@ -973,7 +973,7 @@ void ui_main(int argc, char *argv[])
 
   tileset_init(tileset);
   tileset_load_tiles(tileset);
-  tileset_use_prefered_theme(tileset);
+  tileset_use_preferred_theme(tileset);
 
   load_cursors();
 

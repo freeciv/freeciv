@@ -38,7 +38,7 @@ static void tileset_suggestion_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
     /* User accepted tileset loading */
-    tilespec_reread(game.control.prefered_tileset, FALSE);
+    tilespec_reread(game.control.preferred_tileset, FALSE);
   }
 }
 
@@ -66,7 +66,7 @@ void popup_tileset_suggestion_dialog(void)
           _("Modpack suggests using %s tileset.\n"
             "It might not work with other tilesets.\n"
             "You are currently using tileset %s."),
-          game.control.prefered_tileset, tileset_get_name(tileset));
+          game.control.preferred_tileset, tileset_get_name(tileset));
 
   label = gtk_label_new(buf);
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), label);

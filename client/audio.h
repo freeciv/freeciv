@@ -49,7 +49,7 @@ const struct strvec *get_musicset_list(void);
 void audio_init(void);
 void audio_real_init(const char *const soundspec_name,
                      const char *const musicset_name,
-		     const char *const prefered_plugin_name);
+                     const char *const preferred_plugin_name);
 void audio_add_plugin(struct audio_plugin *p);
 void audio_shutdown(void);
 void audio_stop(void);
