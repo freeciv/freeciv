@@ -58,8 +58,7 @@ struct ai_city {
   bool diplomat_threat;         /* enemy diplomat or spy is near the city */
   bool has_diplomat;            /* this city has diplomat or spy defender */
 
-  /* so we can contemplate with warmap fresh and decide later */
-  /* These values are for builder (F_SETTLERS) and founder (F_CITIES) units.
+  /* These values are for builder (UTYF_SETTLERS) and founder (UTYF_CITIES) units.
    * Negative values indicate that the city needs a boat first;
    * -value is the degree of want in that case. */
   bool founder_boat;            /* city founder will need a boat */
