@@ -257,14 +257,14 @@ static bool check_audiofile_capstr(struct section_file *sfile,
 **************************************************************************/
 void audio_real_init(const char *const soundset_name,
                      const char *const musicset_name,
-		     const char *const prefered_plugin_name)
+                     const char *const preferred_plugin_name)
 {
   const char *ss_filename;
   const char *ms_filename;
   char us_ss_capstr[] = "+Freeciv-soundspec-Devel-2014.Mar.13";
   char us_ms_capstr[] = "+Freeciv-musicspec-Devel-2014.Mar.13";
 
-  if (strcmp(prefered_plugin_name, "none") == 0) {
+  if (strcmp(preferred_plugin_name, "none") == 0) {
     /* We explicitly choose none plugin, silently skip the code below */
     log_verbose("Proceeding with sound support disabled.");
     ss_tagfile = NULL;
@@ -334,8 +334,8 @@ void audio_real_init(const char *const soundset_name,
     }
   }
 
-  if (prefered_plugin_name[0] != '\0') {
-    if (!audio_select_plugin(prefered_plugin_name))
+  if (preferred_plugin_name[0] != '\0') {
+    if (!audio_select_plugin(preferred_plugin_name))
       log_normal(_("Proceeding with sound support disabled."));
     return;
   }

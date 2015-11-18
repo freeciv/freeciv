@@ -5006,10 +5006,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   pref_text = secfile_lookup_str_default(file, pref_text, "tileset.preferred");
   if (pref_text[0] != '\0') {
     /* There was tileset suggestion */
-    sz_strlcpy(game.control.prefered_tileset, pref_text);
+    sz_strlcpy(game.control.preferred_tileset, pref_text);
   } else {
     /* No tileset suggestions */
-    game.control.prefered_tileset[0] = '\0';
+    game.control.preferred_tileset[0] = '\0';
   }
 
   /* section: soundset */
@@ -5017,10 +5017,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   pref_text = secfile_lookup_str_default(file, pref_text, "soundset.preferred");
   if (pref_text[0] != '\0') {
     /* There was soundset suggestion */
-    sz_strlcpy(game.control.prefered_soundset, pref_text);
+    sz_strlcpy(game.control.preferred_soundset, pref_text);
   } else {
     /* No soundset suggestions */
-    game.control.prefered_soundset[0] = '\0';
+    game.control.preferred_soundset[0] = '\0';
   }
 
   /* section: musicset */
@@ -5028,10 +5028,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   pref_text = secfile_lookup_str_default(file, pref_text, "musicset.preferred");
   if (pref_text[0] != '\0') {
     /* There was musicset suggestion */
-    sz_strlcpy(game.control.prefered_musicset, pref_text);
+    sz_strlcpy(game.control.preferred_musicset, pref_text);
   } else {
     /* No musicset suggestions */
-    game.control.prefered_musicset[0] = '\0';
+    game.control.preferred_musicset[0] = '\0';
   }
 
   /* section: about */

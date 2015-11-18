@@ -1727,9 +1727,9 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 resource_count;
   UINT16 num_specialist_types;
 
-  STRING prefered_tileset[MAX_LEN_NAME];
-  STRING prefered_soundset[MAX_LEN_NAME];
-  STRING prefered_musicset[MAX_LEN_NAME];
+  STRING preferred_tileset[MAX_LEN_NAME];
+  STRING preferred_soundset[MAX_LEN_NAME];
+  STRING preferred_musicset[MAX_LEN_NAME];
   BOOL   popup_tech_help;
 
   STRING name[MAX_LEN_NAME];

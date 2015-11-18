@@ -647,16 +647,16 @@ static bool save_game_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
-  if (game.control.prefered_tileset[0] != '\0') {
-    secfile_insert_str(sfile, game.control.prefered_tileset,
+  if (game.control.preferred_tileset[0] != '\0') {
+    secfile_insert_str(sfile, game.control.preferred_tileset,
                        "tileset.preferred");
   }
-  if (game.control.prefered_soundset[0] != '\0') {
-    secfile_insert_str(sfile, game.control.prefered_soundset,
+  if (game.control.preferred_soundset[0] != '\0') {
+    secfile_insert_str(sfile, game.control.preferred_soundset,
                        "soundset.preferred");
   }
-  if (game.control.prefered_musicset[0] != '\0') {
-    secfile_insert_str(sfile, game.control.prefered_musicset,
+  if (game.control.preferred_musicset[0] != '\0') {
+    secfile_insert_str(sfile, game.control.preferred_musicset,
                        "musicset.preferred");
   }
 

@@ -523,8 +523,8 @@ struct tileset {
 
   struct extra_type_list *flagged_bases_list;
 
-  int num_prefered_themes;
-  char** prefered_themes;
+  int num_preferred_themes;
+  char** preferred_themes;
 };
 
 struct tileset *tileset;
@@ -1044,14 +1044,14 @@ static void tileset_free_toplevel(struct tileset *t)
     t->main_intro_filename = NULL;
   }
   
-  if (t->prefered_themes) {
-    for (i = 0; i < t->num_prefered_themes; i++) {
-      free(t->prefered_themes[i]);
+  if (t->preferred_themes) {
+    for (i = 0; i < t->num_preferred_themes; i++) {
+      free(t->preferred_themes[i]);
     }
-    free(t->prefered_themes);
-    t->prefered_themes = NULL;
+    free(t->preferred_themes);
+    t->preferred_themes = NULL;
   }
-  t->num_prefered_themes = 0;
+  t->num_preferred_themes = 0;
 
   if (t->tile_hash) {
     drawing_hash_destroy(t->tile_hash);
@@ -1208,7 +1208,7 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
   }
   sz_strlcpy(gui_options.default_tileset_name, tileset->name);
   tileset_load_tiles(tileset);
-  tileset_use_prefered_theme(tileset);
+  tileset_use_preferred_theme(tileset);
 
   if (game_fully_initialized) {
     players_iterate(pplayer) {
@@ -1588,7 +1588,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   int i;
   size_t num_spec_files;
   const char **spec_filenames;
-  size_t num_prefered_themes;
+  size_t num_preferred_themes;
   struct section_list *sections = NULL;
   const char *file_capstr;
   bool duplicates_ok, is_hex;
@@ -2113,17 +2113,17 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   t->color_system = color_system_read(file);
 
   /* FIXME: remove this hack. */
-  t->prefered_themes =
-    (char **) secfile_lookup_str_vec(file, &num_prefered_themes,
+  t->preferred_themes =
+    (char **) secfile_lookup_str_vec(file, &num_preferred_themes,
                                      "tilespec.preferred_themes");
-  if (num_prefered_themes <= 0) {
-    t->prefered_themes =
-      (char **) secfile_lookup_str_vec(file, &num_prefered_themes,
+  if (num_preferred_themes <= 0) {
+    t->preferred_themes =
+      (char **) secfile_lookup_str_vec(file, &num_preferred_themes,
                                        "tilespec.prefered_themes");
   }
-  t->num_prefered_themes = num_prefered_themes;
-  for (i = 0; i < t->num_prefered_themes; i++) {
-    t->prefered_themes[i] = fc_strdup(t->prefered_themes[i]);
+  t->num_preferred_themes = num_preferred_themes;
+  for (i = 0; i < t->num_preferred_themes; i++) {
+    t->preferred_themes[i] = fc_strdup(t->preferred_themes[i]);
   }
 
   secfile_check_unused(file);
@@ -6102,7 +6102,7 @@ struct color_system *get_color_system(const struct tileset *t)
 /****************************************************************************
   Loads preferred theme if there's any.
 ****************************************************************************/
-void tileset_use_prefered_theme(const struct tileset *t)
+void tileset_use_preferred_theme(const struct tileset *t)
 {
   char *default_theme_name = NULL;
   size_t default_theme_name_sz = 0;
@@ -6136,12 +6136,12 @@ void tileset_use_prefered_theme(const struct tileset *t)
     return;
   }
 
-  for (i = 0; i < t->num_prefered_themes; i++) {
-    if (strcmp(t->prefered_themes[i], default_theme_name)) {
-      if (popup_theme_suggestion_dialog(t->prefered_themes[i])) {
-        log_debug("trying theme \"%s\".", t->prefered_themes[i]);
-        if (load_theme(t->prefered_themes[i])) {
-          (void) fc_strlcpy(default_theme_name, t->prefered_themes[i],
+  for (i = 0; i < t->num_preferred_themes; i++) {
+    if (strcmp(t->preferred_themes[i], default_theme_name)) {
+      if (popup_theme_suggestion_dialog(t->preferred_themes[i])) {
+        log_debug("trying theme \"%s\".", t->preferred_themes[i]);
+        if (load_theme(t->preferred_themes[i])) {
+          (void) fc_strlcpy(default_theme_name, t->preferred_themes[i],
                             default_theme_name_sz);
           return;
         }

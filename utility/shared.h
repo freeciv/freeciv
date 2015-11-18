@@ -211,7 +211,7 @@ enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
                                     int max_matches,
                                     int *pnum_matches);
 
-char *get_multicast_group(bool ipv6_prefered);
+char *get_multicast_group(bool ipv6_preferred);
 void free_multicast_group(void);
 void interpret_tilde(char* buf, size_t buf_size, const char* filename);
 char *interpret_tilde_alloc(const char* filename);

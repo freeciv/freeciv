@@ -2957,36 +2957,36 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
     game.ruleset_description[0] = '\0';
   }
 
-  if (packet->prefered_tileset[0] != '\0') {
+  if (packet->preferred_tileset[0] != '\0') {
     /* There is tileset suggestion */
-    if (strcmp(packet->prefered_tileset, tileset_get_name(tileset))) {
+    if (strcmp(packet->preferred_tileset, tileset_get_name(tileset))) {
       /* It's not currently in use */
       if (gui_options.autoaccept_tileset_suggestion) {
-        tilespec_reread(game.control.prefered_tileset, FALSE);
+        tilespec_reread(game.control.preferred_tileset, FALSE);
       } else {
         popup_tileset_suggestion_dialog();
       }
     }
   }
 
-  if (packet->prefered_soundset[0] != '\0') {
+  if (packet->preferred_soundset[0] != '\0') {
     /* There is soundset suggestion */
-    if (strcmp(packet->prefered_soundset, sound_set_name)) {
+    if (strcmp(packet->preferred_soundset, sound_set_name)) {
       /* It's not currently in use */
       if (gui_options.autoaccept_soundset_suggestion) {
-        audio_restart(game.control.prefered_soundset, music_set_name);
+        audio_restart(game.control.preferred_soundset, music_set_name);
       } else {
         popup_soundset_suggestion_dialog();
       }
     }
   }
 
-  if (packet->prefered_musicset[0] != '\0') {
+  if (packet->preferred_musicset[0] != '\0') {
     /* There is musicset suggestion */
-    if (strcmp(packet->prefered_musicset, music_set_name)) {
+    if (strcmp(packet->preferred_musicset, music_set_name)) {
       /* It's not currently in use */
       if (gui_options.autoaccept_musicset_suggestion) {
-        audio_restart(sound_set_name, game.control.prefered_musicset);
+        audio_restart(sound_set_name, game.control.preferred_musicset);
       } else {
         popup_musicset_suggestion_dialog();
       }

@@ -389,7 +389,7 @@ int tileset_citybar_offset_y(const struct tileset *t);
 int tileset_tilelabel_offset_y(const struct tileset *t);
 const char *tileset_main_intro_filename(const struct tileset *t);
 int tileset_num_city_colors(const struct tileset *t);
-void tileset_use_prefered_theme(const struct tileset *t);
+void tileset_use_preferred_theme(const struct tileset *t);
 bool tileset_use_hard_coded_fog(const struct tileset *t);
 
 const char *tileset_name(struct tileset *t);

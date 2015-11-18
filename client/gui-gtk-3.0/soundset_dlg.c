@@ -41,7 +41,7 @@ static void soundset_suggestion_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
     /* User accepted soundset loading */
-    audio_restart(game.control.prefered_soundset,
+    audio_restart(game.control.preferred_soundset,
                   music_set_name);
   }
 }
@@ -71,7 +71,7 @@ void popup_soundset_suggestion_dialog(void)
           _("Modpack suggests using %s soundset.\n"
             "It might not work with other soundsets.\n"
             "You are currently using soundset %s."),
-          game.control.prefered_soundset, sound_set_name);
+          game.control.preferred_soundset, sound_set_name);
 
   label = gtk_label_new(buf);
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
@@ -96,7 +96,7 @@ static void musicset_suggestion_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
     /* User accepted musicset loading */
-    audio_restart(sound_set_name, game.control.prefered_musicset);
+    audio_restart(sound_set_name, game.control.preferred_musicset);
   }
 }
 
@@ -124,7 +124,7 @@ void popup_musicset_suggestion_dialog(void)
           _("Modpack suggests using %s musicset.\n"
             "It might not work with other musicsets.\n"
             "You are currently using musicset %s."),
-          game.control.prefered_musicset, music_set_name);
+          game.control.preferred_musicset, music_set_name);
 
   label = gtk_label_new(buf);
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
