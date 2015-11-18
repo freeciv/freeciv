@@ -148,7 +148,7 @@ static int re_parse_cmdline(int argc, char *argv[])
       exit(EXIT_SUCCESS);
     } else if ((option = get_option_malloc("--ruleset", argv, &i, argc))) {
       if (reargs.ruleset) {
-        log_error(_("Can only edit one ruleset at a time."));
+        fc_fprintf(stderr, R__("Can only edit one ruleset at a time.\n"));
       } else {
         reargs.ruleset = option;
       }
