@@ -291,13 +291,19 @@ static struct city *get_selected_city(void)
 /**************************************************************************
   Appends the list of the city owned by the player in the goto dialog.
 **************************************************************************/
-static void list_store_append_player_cities(GtkListStore *store,
+static bool list_store_append_player_cities(GtkListStore *store,
                                             const struct player *pplayer)
 {
   GtkTreeIter it;
   struct nation_type *pnation = nation_of_player(pplayer);
   const char *nation = nation_adjective_translation(pnation);
-  GdkPixbuf *pixbuf = get_flag(pnation);
+  GdkPixbuf *pixbuf;
+
+  if (city_list_size(pplayer->cities) == 0) {
+    return FALSE;
+  }
+
+  pixbuf = get_flag(pnation);
 
   city_list_iterate(pplayer->cities, pcity) {
     gtk_list_store_append(store, &it);
@@ -310,6 +316,8 @@ static void list_store_append_player_cities(GtkListStore *store,
                        -1);
   } city_list_iterate_end;
   g_object_unref(pixbuf);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -423,6 +431,8 @@ static void update_source_label(void)
 **************************************************************************/
 static void update_goto_dialog(GtkToggleButton *button)
 {
+  bool nonempty = FALSE;
+  
   if (!client_has_player()) {
     /* Case global observer. */
     return;
@@ -434,15 +444,21 @@ static void update_goto_dialog(GtkToggleButton *button)
 
   if (gtk_toggle_button_get_active(button)) {
     players_iterate(pplayer) {
-      list_store_append_player_cities(goto_list_store, pplayer);
+      nonempty |= list_store_append_player_cities(goto_list_store, pplayer);
     } players_iterate_end;
   } else {
-    list_store_append_player_cities(goto_list_store, client_player());
+    nonempty |= list_store_append_player_cities(goto_list_store, client_player());
   }
 
   gotodlg_updating = FALSE;
 
   refresh_airlift_column();
+
+  if (!nonempty) {
+    /* No selection causes callbacks to fire, causing also Airlift button
+     * to update. Do it here. */
+    refresh_airlift_button();
+  }
 }
 
 /**************************************************************************
