@@ -216,6 +216,7 @@ _("\
  each further unit causes 1 unhappy citizen.\n\
 * Base corruption is 30%, but is not affected by distance to the capital.\n\
 * There is no production waste.\
+"), _("* Your bureaucracy can prevent you from disbanding certain units.\
 ")
 
 ;------------------------------------------------------------------------
@@ -335,6 +336,7 @@ _("\
  (half as fast with knowledge of The Corporation).\n\
 * Base production waste is 5%. This increases with distance from the\
  capital (half as fast with knowledge of Trade).\
+"), _("* Your bureaucracy can prevent you from disbanding certain units.\
 ")
 
 ;------------------------------------------------------------------------
@@ -371,6 +373,7 @@ _("\
  (half as fast with knowledge of The Corporation).\n\
 * Base production waste is 25%. This increases with distance from the\
  capital (half as fast with knowledge of Trade).\
+"), _("* Your bureaucracy can prevent you from disbanding certain units.\
 ")
 
 ; /* <-- avoid gettext warnings
