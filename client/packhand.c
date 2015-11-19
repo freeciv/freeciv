@@ -107,8 +107,6 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
                                struct tile_list *worked_tiles,
                                bool is_new, bool popup, bool investigate);
 static bool handle_unit_packet_common(struct unit *packet_unit);
-static void unit_actor_wants_input(struct unit *pdiplomat,
-                                   int target_tile_id);
 
 
 /* The dumbest of cities, placeholders for unknown and unseen cities. */
@@ -414,7 +412,7 @@ void handle_unit_remove(int unit_id)
   if (action_selection_actor_unit() == punit->id) {
     close_diplomat_dialog();
     /* Open another diplomat dialog if there are other diplomats waiting */
-    choose_action_queue_next();
+    action_decision_taken(unit_id);
   }
 
   need_economy_report_update = (0 < punit->upkeep[O_GOLD]);
@@ -1271,10 +1269,6 @@ void handle_start_phase(int phase)
 
   set_client_state(C_S_RUNNING);
 
-  /* The action queue can have units the server requested to be added
-   * while the client connected. */
-  choose_action_queue_next();
-
   game.info.phase = phase;
 
   /* Possibly replace wait cursor with something else */
@@ -1728,14 +1722,14 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     agents_unit_changed(punit);
     editgui_notify_object_changed(OBJTYPE_UNIT, punit->id, FALSE);
 
+    punit->action_decision_tile = packet_unit->action_decision_tile;
     if (punit->action_decision_want != packet_unit->action_decision_want
-        && packet_unit->action_decision_want) {
+        && should_ask_server_for_actions(packet_unit)) {
       /* The unit wants the player to decide. */
-      unit_actor_wants_input(punit,
-          packet_unit->action_decision_tile->index);
+      action_decision_request(punit);
+      check_focus = TRUE;
     }
     punit->action_decision_want = packet_unit->action_decision_want;
-    punit->action_decision_tile = packet_unit->action_decision_tile;
   } else {
     /*** Create new unit ***/
     punit = packet_unit;
@@ -1776,9 +1770,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       pcity->client.occupied = TRUE;
     }
 
-    if (punit->action_decision_want) {
+    if (should_ask_server_for_actions(punit)) {
       /* The unit wants the player to decide. */
-      unit_actor_wants_input(punit, punit->action_decision_tile->index);
+      action_decision_request(punit);
+      check_focus = TRUE;
     }
 
     need_units_report_update = TRUE;
@@ -4094,14 +4089,14 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
     log_error("handle_unit_action_answer() the action %d doesn't exist.",
               action_type);
 
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
     return;
   }
 
   if (!pdiplomat) {
     log_debug("Bad actor %d.", diplomat_id);
 
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
     return;
   }
 
@@ -4115,7 +4110,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
       popup_bribe_dialog(pdiplomat, punit, cost);
     } else {
       log_debug("Bad target %d.", target_id);
-      choose_action_queue_next();
+      action_decision_taken(diplomat_id);
     }
     break;
   case ACTION_SPY_INCITE_CITY:
@@ -4127,41 +4122,25 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
       popup_incite_dialog(pdiplomat, pcity, cost);
     } else {
       log_debug("Bad target %d.", target_id);
-      choose_action_queue_next();
+      action_decision_taken(diplomat_id);
     }
     break;
   case ACTION_COUNT:
     log_debug("Server didn't respond to query.");
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
     break;
   default:
     log_error("handle_unit_action_answer() invalid action_type (%d).",
               action_type);
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
     break;
   };
 }
 
 /**************************************************************************
-  Handle request for user input on what diplomat action to do.
-**************************************************************************/
-static void unit_actor_wants_input(struct unit *pdiplomat,
-                                   int target_tile_id)
-{
-  if (pdiplomat->action_decision_want == ACT_DEC_PASSIVE
-      && !gui_options.popup_actor_arrival) {
-    /* The player isn't interested in getting a pop up for a mere
-     * arrival. */
-    return;
-  }
-
-  process_diplomat_arrival(pdiplomat, target_tile_id);
-}
-
-/**************************************************************************
   Handle reply to possible actions.
 
-  Note that it MUST call process_diplomat_arrival() in the end in case
+  Note that it MUST call action_decision_taken() in the end in case
   there are more elements in the queue.
 **************************************************************************/
 void handle_unit_actions(const struct packet_unit_actions *packet)
@@ -4191,16 +4170,13 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   if (valid && disturb_player) {
     /* The player can select an action and should be informed. */
 
-    /* Focus on the unit so the player knows where it is */
-    unit_focus_set(actor_unit);
-
     /* Show the client specific action dialog */
     popup_action_selection(actor_unit,
                            target_city, target_unit, target_tile,
                            act_prob);
   } else if (disturb_player) {
     /* Nothing to do. Go to the next queued dipomat */
-    choose_action_queue_next();
+    action_decision_taken(packet->actor_unit_id);
   } else {
     /* This was a background request. */
 
@@ -4226,14 +4202,14 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
   if (!pdiplomat) {
     log_debug("Bad diplomat %d.", diplomat_id);
 
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
     return;
   }
 
   if (!pcity) {
     log_debug("Bad city %d.", city_id);
 
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
     return;
   }
 
@@ -4250,7 +4226,7 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
     popup_sabotage_dialog(pdiplomat, pcity);
   } else {
     log_debug("Can't issue orders");
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
   }
 }
 

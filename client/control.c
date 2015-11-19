@@ -63,9 +63,6 @@ struct client_nuke_data {
   int tile_idx;
 };
 
-/* Move on in the diplomat queue. */
-#define ACTION_CHOOSE_NEXT -1
-
 /* gui-dep code may adjust depending on tile size etc: */
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
@@ -97,9 +94,6 @@ static struct unit *punit_moving = NULL;
 static struct unit *punit_attacking = NULL;
 static struct unit *punit_defending = NULL;
 
-/* unit arrival list */
-static struct genlist *diplomat_arrival_queue = NULL;
-
 static bool have_asked_server_for_actions = FALSE;
 
 /*
@@ -122,8 +116,6 @@ void control_init(void)
 {
   int i;
 
-  diplomat_arrival_queue = genlist_new_full(free);
-
   current_focus = unit_list_new();
   previous_focus = unit_list_new();
   urgent_focus_queue = unit_list_new();
@@ -140,9 +132,6 @@ void control_init(void)
 void control_free(void)
 {
   int i;
-
-  genlist_destroy(diplomat_arrival_queue);
-  diplomat_arrival_queue = NULL;
 
   unit_list_destroy(current_focus);
   current_focus = NULL;
@@ -296,6 +285,55 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
   goto_last_action = action;
 }
 
+/**************************************************************************
+  Returns TRUE iff the client should ask the server about what actions a
+  unit can perform.
+**************************************************************************/
+bool should_ask_server_for_actions(struct unit *punit)
+{
+  return (punit->action_decision_want == ACT_DEC_ACTIVE
+          /* The player is interested in getting a pop up for a mere
+           * arrival. */
+          || (punit->action_decision_want == ACT_DEC_PASSIVE
+              && gui_options.popup_actor_arrival));
+}
+
+/**************************************************************************
+  Returns TRUE iff it is OK to ask the server about what actions a unit
+  can perform.
+**************************************************************************/
+static bool can_ask_server_for_actions(void)
+{
+  /* OK as long as no other unit already asked and aren't done yet. */
+  return (!have_asked_server_for_actions
+          && action_selection_actor_unit() == IDENTITY_NUMBER_ZERO);
+}
+
+/**************************************************************************
+  Ask the server about what actions punit may be able to perform against
+  it's stored target tile.
+
+  The server's reply will pop up the action selection dialog unless no
+  alternatives exists.
+**************************************************************************/
+static void ask_server_for_actions(struct unit *punit)
+{
+  fc_assert_ret(punit);
+  fc_assert_ret(punit->action_decision_tile);
+
+  /* Only one action selection dialog at a time is supported. */
+  fc_assert(!have_asked_server_for_actions);
+
+  have_asked_server_for_actions = TRUE;
+
+  dsend_packet_unit_get_actions(&client.conn,
+                                punit->id,
+                                IDENTITY_NUMBER_ZERO,
+                                IDENTITY_NUMBER_ZERO,
+                                tile_index(punit->action_decision_tile),
+                                TRUE);
+}
+
 /****************************************************************************
   Return TRUE iff this unit is in focus.
 ****************************************************************************/
@@ -364,6 +402,11 @@ static void current_focus_append(struct unit *punit)
 
   punit->client.focus_status = FOCUS_AVAIL;
   refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
+
+  if (should_ask_server_for_actions(punit)
+      && can_ask_server_for_actions()) {
+    ask_server_for_actions(punit);
+  }
 
   if (gui_options.unit_selection_clears_orders) {
     clear_unit_orders(punit);
@@ -605,8 +648,11 @@ void unit_focus_advance(void)
                                : NULL);
 
     unit_list_both_iterate(urgent_focus_queue, plink, punit) {
-      if (ACTIVITY_IDLE != punit->activity
-          || unit_has_orders(punit)) {
+      if ((ACTIVITY_IDLE != punit->activity
+           || unit_has_orders(punit))
+          /* This isn't an action decision needed because of an
+           * ORDER_ACTION_MOVE located in the middle of an order. */
+          && !should_ask_server_for_actions(punit)) {
         /* We have assigned new orders to this unit since, remove it. */
         unit_list_erase(urgent_focus_queue, plink);
       } else if (NULL == focus_tile
@@ -674,6 +720,14 @@ void unit_focus_advance(void)
 void unit_focus_update(void)
 {
   if (NULL == client.conn.playing || !can_client_change_view()) {
+    return;
+  }
+
+  if (!can_ask_server_for_actions()) {
+    fc_assert(get_num_units_in_focus() > 0);
+
+    /* An actor unit is asking the player what to do. Don't steal his
+     * focus. */
     return;
   }
 
@@ -916,88 +970,45 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 }
 
 /**************************************************************************
-  Move along the queue of units that need player input about what action
-  to take.
+  The player made a decision about what to do.
 **************************************************************************/
-void choose_action_queue_next(void)
+void action_decision_taken(const int old_actor_id)
 {
+  struct unit *old;
+
+  /* There is a risk of a loop unkess the old unit is done. */
+  fc_assert(!(old = game_unit_by_number(old_actor_id))
+            || old->action_decision_want == ACT_DEC_NOTHING);
+
   /* This was called because the queue can move on. */
   have_asked_server_for_actions = FALSE;
 
-  process_diplomat_arrival(NULL, ACTION_CHOOSE_NEXT);
+  /* Go to the next unit in focus that needs a decision. */
+  unit_list_iterate(get_units_in_focus(), funit) {
+    if (should_ask_server_for_actions(funit)) {
+      ask_server_for_actions(funit);
+      return;
+    }
+  } unit_list_iterate_end;
 }
 
 /**************************************************************************
-  Add punit/pcity to queue of diplomat arrivals, and popup a window for
-  the next arrival in the queue, if there is not already a popup, and
-  re-checking that a popup is appropriate.
-  If punit is NULL and target_tile_id is ACTION_CHOOSE_NEXT, just do for
-  the next arrival in the queue.
-  Please use choose_action_queue_next() to move the queue along.
+  Request that the player makes a decision for the specified unit.
 **************************************************************************/
-void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
+void action_decision_request(struct unit *actor_unit)
 {
-  int *p_ids;
+  fc_assert_ret(actor_unit);
+  fc_assert_ret(actor_unit->action_decision_tile);
 
-  if (NULL == diplomat_arrival_queue) {
-    /* Can happen when the user left a game. */
-    return;
-  }
-
-  /* An unit that isn't there asks for input about what action to take.
-   * This isn't a request to move on. */
-  if (!pdiplomat && (target_tile_id != ACTION_CHOOSE_NEXT)) {
-    return;
-  }
-
-  /* diplomat_arrival_queue is a list of individually malloc-ed int[2]s with
-     the punit.id of the diplomat and the index of the targeted tile. */
-
-  if (pdiplomat) {
-    /* A new unit should be queued */
-    p_ids = fc_malloc(2*sizeof(int));
-    p_ids[0] = pdiplomat->id;
-    p_ids[1] = target_tile_id;
-    genlist_prepend(diplomat_arrival_queue, p_ids);
-  }
-
-  /* There can only be one dialog at a time.
-   * Stop if one is (about to pop) up. */
-  if (have_asked_server_for_actions
-      || action_selection_actor_unit() != IDENTITY_NUMBER_ZERO) {
-    return;
-  }
-
-  /* The server may inform about units that wants input before the client
-   * is ready to give orders. */
-  if (!can_client_issue_orders()) {
-    return;
-  }
-
-  /* Request a list of actions for the first element in the queue */
-  while (genlist_size(diplomat_arrival_queue) > 0) {
-    int diplomat_id, tgt_tile_id;
-    struct tile *ptile;
-
-    p_ids = genlist_get(diplomat_arrival_queue, 0);
-    diplomat_id = p_ids[0];
-    tgt_tile_id = p_ids[1];
-    genlist_remove(diplomat_arrival_queue, p_ids); /* Do free(p_ids). */
-
-    pdiplomat = player_unit_by_number(client_player(), diplomat_id);
-    ptile = index_to_tile(tgt_tile_id);
-
-    if (ptile && pdiplomat
-        && utype_may_act_at_all(unit_type_get(pdiplomat))) {
-      have_asked_server_for_actions = TRUE;
-      dsend_packet_unit_get_actions(&client.conn,
-                                    diplomat_id,
-                                    IDENTITY_NUMBER_ZERO,
-                                    IDENTITY_NUMBER_ZERO,
-                                    tgt_tile_id,
-                                    TRUE);
-      return;
-    }
+  if (!unit_is_in_focus(actor_unit)) {
+    /* Getting feed back may be urgent. A unit standing next to an enemy
+     * could be killed while waiting. */
+    unit_focus_urgent(actor_unit);
+  } else if (can_client_issue_orders()
+             && can_ask_server_for_actions()) {
+    /* No need to wait. The actor unit is in focus. No other actor unit
+     * is currently asking about action selection. */
+    ask_server_for_actions(actor_unit);
   }
 }
 
@@ -2780,10 +2791,18 @@ void key_unit_diplomat_actions(void)
 {
   struct tile *ptile;
 
+  if (!can_ask_server_for_actions()) {
+    /* Looks like another action selection dialog is open. */
+    return;
+  }
+
   unit_list_iterate(get_units_in_focus(), punit) {
     if (utype_may_act_at_all(unit_type_get(punit))
         && (ptile = unit_tile(punit))) {
-      process_diplomat_arrival(punit, ptile->index);
+      /* Data for ask_server_for_actions() */
+      punit->action_decision_tile = ptile;
+
+      ask_server_for_actions(punit);
       return;
       /* FIXME: diplomat dialog for more than one unit at a time. */
     }

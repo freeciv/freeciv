@@ -179,8 +179,9 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 double blink_active_unit(void);
 double blink_turn_done_button(void);
 
-void choose_action_queue_next(void);
-void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id);
+bool should_ask_server_for_actions(struct unit *punit);
+void action_decision_taken(const int old_actor_id);
+void action_decision_request(struct unit *actor_unit);
 
 void key_cancel_action(void);
 void key_center_capital(void);
