@@ -3463,7 +3463,7 @@ static bool map_generate_fair_islands(void)
   int players_per_island = 1;
   int teams_num = 0, team_players_num = 0, single_players_num = 0;
   int i, iter = CLIP(1, 100000 / map_num_tiles(), 10);
-  bool done;
+  bool done = FALSE;
 
   teams_iterate(pteam) {
     i = player_list_size(team_members(pteam));
@@ -3585,9 +3585,10 @@ static bool map_generate_fair_islands(void)
   log_debug("playermass=%d, islandmass1=%d, islandmass2=%d, islandmass3=%d",
             playermass, islandmass1, islandmass2, islandmass3);
 
+  pmap = fair_map_new();
+
   while (--iter >= 0) {
     done = TRUE;
-    pmap = fair_map_new();
 
     whole_map_iterate(ptile) {
       struct fair_tile *pftile = pmap + tile_index(ptile);
@@ -3749,6 +3750,7 @@ static bool map_generate_fair_islands(void)
     }
 
     fair_map_destroy(pmap);
+    pmap = fair_map_new();
 
     /* Decrease land mass, for better chances. */
     islandmass1 = (islandmass1 * 99) / 100;
