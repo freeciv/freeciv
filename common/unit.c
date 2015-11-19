@@ -1748,6 +1748,9 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   punit->battlegroup = BATTLEGROUP_NONE;
   punit->has_orders = FALSE;
 
+  punit->action_decision_want = ACT_DEC_NOTHING;
+  punit->action_decision_tile = NULL;
+
   if (is_server()) {
     punit->server.debug = FALSE;
     punit->server.birth_turn = game.info.turn;

@@ -107,6 +107,8 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
                                struct tile_list *worked_tiles,
                                bool is_new, bool popup, bool investigate);
 static bool handle_unit_packet_common(struct unit *packet_unit);
+static void unit_actor_wants_input(struct unit *pdiplomat,
+                                   int target_tile_id);
 
 
 /* The dumbest of cities, placeholders for unknown and unseen cities. */
@@ -250,6 +252,10 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
                 || action_id_is_valid(punit->orders.list[i].action));
     }
   }
+
+  punit->action_decision_want = packet->action_decision_want;
+  punit->action_decision_tile
+      = index_to_tile(packet->action_decision_tile);
 
   punit->client.asking_city_name = FALSE;
 
@@ -1265,6 +1271,10 @@ void handle_start_phase(int phase)
 
   set_client_state(C_S_RUNNING);
 
+  /* The action queue can have units the server requested to be added
+   * while the client connected. */
+  choose_action_queue_next();
+
   game.info.phase = phase;
 
   /* Possibly replace wait cursor with something else */
@@ -1717,6 +1727,15 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     /* This won't change punit; it enqueues the call for later handling. */
     agents_unit_changed(punit);
     editgui_notify_object_changed(OBJTYPE_UNIT, punit->id, FALSE);
+
+    if (punit->action_decision_want != packet_unit->action_decision_want
+        && packet_unit->action_decision_want) {
+      /* The unit wants the player to decide. */
+      unit_actor_wants_input(punit,
+          packet_unit->action_decision_tile->index);
+    }
+    punit->action_decision_want = packet_unit->action_decision_want;
+    punit->action_decision_tile = packet_unit->action_decision_tile;
   } else {
     /*** Create new unit ***/
     punit = packet_unit;
@@ -1755,6 +1774,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     if ((pcity = tile_city(unit_tile(punit)))) {
       /* The unit is in a city - obviously it's occupied. */
       pcity->client.occupied = TRUE;
+    }
+
+    if (punit->action_decision_want) {
+      /* The unit wants the player to decide. */
+      unit_actor_wants_input(punit, punit->action_decision_tile->index);
     }
 
     need_units_report_update = TRUE;
@@ -4121,21 +4145,17 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
 /**************************************************************************
   Handle request for user input on what diplomat action to do.
 **************************************************************************/
-void handle_unit_actor_wants_input(int diplomat_id, int target_tile_id,
-                                   bool is_arrival)
+static void unit_actor_wants_input(struct unit *pdiplomat,
+                                   int target_tile_id)
 {
-  struct unit *pdiplomat = player_unit_by_number(client_player(),
-                                                     diplomat_id);
-
-  if (is_arrival && !gui_options.popup_actor_arrival) {
+  if (pdiplomat->action_decision_want == ACT_DEC_PASSIVE
+      && !gui_options.popup_actor_arrival) {
     /* The player isn't interested in getting a pop up for a mere
      * arrival. */
     return;
   }
 
-  if (can_client_issue_orders()) {
-    process_diplomat_arrival(pdiplomat, target_tile_id);
-  }
+  process_diplomat_arrival(pdiplomat, target_tile_id);
 }
 
 /**************************************************************************

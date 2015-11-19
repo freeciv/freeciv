@@ -968,6 +968,12 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
     return;
   }
 
+  /* The server may inform about units that wants input before the client
+   * is ready to give orders. */
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   /* Request a list of actions for the first element in the queue */
   while (genlist_size(diplomat_arrival_queue) > 0) {
     int diplomat_id, tgt_tile_id;

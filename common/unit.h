@@ -169,6 +169,10 @@ struct unit {
     struct unit_order *list;
   } orders;
 
+  /* The unit may want the player to choose an action. */
+  enum action_decision action_decision_want;
+  struct tile *action_decision_tile;
+
   union {
     struct {
       /* Only used at the client (the server is omniscient; ./client/). */

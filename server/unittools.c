@@ -2318,6 +2318,11 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
     packet->orders_repeat = packet->orders_vigilant = FALSE;
     /* No need to initialize array. */
   }
+
+  packet->action_decision_want = punit->action_decision_want;
+  packet->action_decision_tile = (punit->action_decision_tile
+                                  ? tile_index(punit->action_decision_tile)
+                                  : IDENTITY_NUMBER_ZERO);
 }
 
 /**************************************************************************
@@ -3709,9 +3714,12 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
       if (action_tgt_city(act_unit, pdesttile, FALSE)) {
         /* There is a valid target. */
 
-        dlsend_packet_unit_actor_wants_input(
-              player_reply_dest(act_player), act_unit->id,
-              pdesttile->index, TRUE);
+        act_unit->action_decision_want = ACT_DEC_PASSIVE;
+        act_unit->action_decision_tile = pdesttile;
+
+        /* Let the client know that this unit wants the player to decide
+         * what to do. */
+        send_unit_info(player_reply_dest(act_player), act_unit);
       }
     } unit_move_data_list_iterate_end;
   }

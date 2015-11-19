@@ -695,6 +695,19 @@ enum diplomacy_mode {
 #define SPECENUM_COUNT MOOD_COUNT
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME action_decision
+/* Don't want the player to decide what action to take. */
+#define SPECENUM_VALUE0 ACT_DEC_NOTHING
+#define SPECENUM_VALUE0NAME N_("nothing")
+/* Wants a decision because of something done to the actor. */
+#define SPECENUM_VALUE1 ACT_DEC_PASSIVE
+#define SPECENUM_VALUE1NAME N_("passive")
+/* Wants a decision because of something the actor did. */
+#define SPECENUM_VALUE2 ACT_DEC_ACTIVE
+#define SPECENUM_VALUE2NAME N_("active")
+#include "specenum_gen.h"
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

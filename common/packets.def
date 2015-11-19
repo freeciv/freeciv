@@ -241,6 +241,7 @@ type TRI                = uint8(enum traderoute_illegal_cancelling)
 type RDIR               = uint8(enum route_direction)
 type MOVE_MODE          = uint8(enum road_move_mode)
 type GEN_ACTION         = uint8(enum gen_action)
+type ACTION_DECISION    = uint8(enum action_decision)
 type REVOLENTYPE        = uint8(enum revolen_type)
 type HAPPYBORDERSTYPE   = uint8(enum happyborders_type)
 type TECH_COST_STYLE    = uint8(enum tech_cost_style)
@@ -926,6 +927,9 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   ACTIVITY orders_activities[MAX_LEN_ROUTE:orders_length];
   ACTION_TGT orders_targets[MAX_LEN_ROUTE:orders_length];
   GEN_ACTION orders_actions[MAX_LEN_ROUTE:orders_length];
+
+  ACTION_DECISION action_decision_want;
+  TILE action_decision_tile;
 end
 
 PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, force, cancel(PACKET_UNIT_INFO)
@@ -1033,13 +1037,6 @@ PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend
   UNIT target_id;   # city_id or unit_id
   GOLD cost;
   GEN_ACTION action_type;
-end
-
-PACKET_UNIT_ACTOR_WANTS_INPUT = 86; sc, dsend, lsend
-  UNIT diplomat_id;
-  TILE target_tile_id;
-
-  BOOL is_arrival;
 end
 
 PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend

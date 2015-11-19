@@ -908,6 +908,18 @@ void handle_unit_get_actions(struct connection *pc,
   actor_unit = game_unit_by_number(actor_unit_id);
   target_tile = index_to_tile(target_tile_id);
 
+  if (disturb_player
+      && actor_unit
+      && actor_unit->action_decision_want
+      && actor_unit->action_decision_tile == target_tile) {
+    /* The client has now asked for alternatives to show the player. */
+    actor_unit->action_decision_want = ACT_DEC_NOTHING;
+    actor_unit->action_decision_tile = NULL;
+
+    /* Let the client know so future changes are seen as changes. */
+    send_unit_info(player_reply_dest(actor_player), actor_unit);
+  }
+
   /* Check if the request is valid. */
   if (!target_tile || !actor_unit || !actor_player
       || actor_unit->owner != actor_player) {
@@ -2964,18 +2976,13 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
           return FALSE;
         }
 
-        /* If we didn't send_unit_info the client would sometimes
-         * think that the diplomat didn't have any moves left and so
-         * don't pop up the box.  (We are in the middle of the unit
-         * restore cycle when doing goto's, and the unit's movepoints
-         * have been restored, but we only send the unit info at the
-         * end of the function.) */
+        punit->action_decision_want = ACT_DEC_ACTIVE;
+        punit->action_decision_tile = pdesttile;
+
+        /* Let the client know that this unit needs the player to decide
+         * what to do. */
         send_unit_info(player_reply_dest(pplayer), punit);
 
-        dlsend_packet_unit_actor_wants_input(player_reply_dest(pplayer),
-                                             punit->id,
-                                             pdesttile->index,
-                                             FALSE);
         return FALSE;
       } else if (!may_non_act_move(punit, pcity, pdesttile, igzoc)) {
         /* No action can be done. No regular move can be done. Attack isn't
