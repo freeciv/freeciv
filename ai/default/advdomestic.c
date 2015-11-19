@@ -459,7 +459,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
   /* The worker want is calculated in aicity.c called from
    * dai_manage_cities.  The expand value is the % that the AI should
    * value expansion (basically to handicap easier difficulty levels)
-   * and is set when the difficulty level is changed (stdinhand.c). */
+   * and is set when the difficulty level is changed (difficulty.c). */
   settler_want = city_data->settler_want * pplayer->ai_common.expand / 100;
 
   if (adv->wonder_city == pcity->id) {
