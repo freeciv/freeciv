@@ -938,7 +938,7 @@ int num_present_units_in_city(struct city *pcity)
   Handles a chat or event message.
 **************************************************************************/
 void handle_event(const char *featured_text, struct tile *ptile,
-		  enum event_type event, int conn_id)
+		  enum event_type event, int turn, int conn_id)
 {
   char plain_text[MAX_LEN_MSG];
   struct text_tag_list *tags;
@@ -1075,9 +1075,9 @@ void create_event(struct tile *ptile, enum event_type event,
 
     featured_text_apply_tag(message, colored_text, sizeof(colored_text),
                             TTT_COLOR, 0, FT_OFFSET_UNSET, color);
-    handle_event(colored_text, ptile, event, -1);
+    handle_event(colored_text, ptile, event, game.info.turn, -1);
   } else {
-    handle_event(message, ptile, event, -1);
+    handle_event(message, ptile, event, game.info.turn, -1);
   }
 }
 

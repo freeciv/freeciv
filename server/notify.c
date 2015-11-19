@@ -67,6 +67,7 @@ static void package_event_full(struct packet_chat_msg *packet,
   packet->tile = (NULL != ptile ? tile_index(ptile) : -1);
   packet->event = event;
   packet->conn_id = pconn ? pconn->id : -1;
+  packet->turn = game.info.turn;
 
   fc_vsnprintf(buf, sizeof(buf), format, vargs);
   if (is_capitalization_enabled()) {
@@ -444,7 +445,6 @@ enum event_cache_target {
 /* Events are saved in that structure. */
 struct event_cache_data {
   struct packet_chat_msg packet;
-  int turn;
   time_t timestamp;
   enum server_states server_state;
   enum event_cache_target target_type;
@@ -518,7 +518,6 @@ event_cache_data_new(const struct packet_chat_msg *packet, int turn,
 
   pdata = fc_malloc(sizeof(*pdata));
   pdata->packet = *packet;
-  pdata->turn = turn;
   pdata->timestamp = timestamp;
   pdata->server_state = server_status;
   pdata->target_type = target_type;
@@ -582,7 +581,7 @@ void event_cache_clear(void)
 void event_cache_remove_old(void)
 {
   event_cache_iterate(pdata) {
-    if (pdata->turn + game.server.event_cache.turns <= game.info.turn) {
+    if (pdata->packet.turn + game.server.event_cache.turns <= game.info.turn) {
       event_cache_data_destroy(pdata);
     }
   } event_cache_iterate_end;
@@ -703,8 +702,8 @@ static bool event_cache_match(const struct event_cache_data *pdata,
   }
 
   if (server_state() == S_S_RUNNING
-      && game.info.turn < pdata->turn
-      && game.info.turn > pdata->turn - game.server.event_cache.turns) {
+      && game.info.turn < pdata->packet.turn
+      && game.info.turn > pdata->packet.turn - game.server.event_cache.turns) {
     return FALSE;
   }
 
@@ -741,7 +740,7 @@ void send_pending_events(struct connection *pconn, bool include_public)
                  localtime(&pdata->timestamp));
         pcm = pdata->packet;
         fc_snprintf(pcm.message, sizeof(pcm.message), "(T%d - %s) %s",
-                    pdata->turn, timestr, pdata->packet.message);
+                    pdata->packet.turn, timestr, pdata->packet.message);
         notify_conn_packet(pconn->self, &pcm);
       } else {
         notify_conn_packet(pconn->self, &pdata->packet);
@@ -881,7 +880,7 @@ void event_cache_save(struct section_file *file, const char *section)
       index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
     }
 
-    secfile_insert_int(file, pdata->turn, "%s.events%d.turn",
+    secfile_insert_int(file, pdata->packet.turn, "%s.events%d.turn",
                        section, event_count);
     secfile_insert_int(file, pdata->timestamp, "%s.events%d.timestamp",
                        section, event_count);
