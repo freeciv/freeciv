@@ -1267,6 +1267,13 @@ void handle_start_phase(int phase)
 
   game.info.phase = phase;
 
+  /* Possibly replace wait cursor with something else */
+  if (phase == 0) {
+    /* TODO: Have server set as busy also if switching phase
+     * is taking long in a alternating phases mode. */
+    set_server_busy(FALSE);
+  }
+
   if (NULL != client.conn.playing
       && is_player_phase(client.conn.playing, phase)) {
     agents_start_turn();
@@ -1303,8 +1310,8 @@ void handle_begin_turn(void)
 {
   log_debug("handle_begin_turn()");
 
-  /* Possibly replace wait cursor with something else */
-  set_server_busy(FALSE);
+  /* Server is still considered busy until it handles also the beginning
+   * of the first phase. */
 
   stop_turn_change_wait();
 }
