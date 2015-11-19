@@ -106,7 +106,7 @@ int num_present_units_in_city(struct city* pcity);
 int num_supported_units_in_city(struct city* pcity);	
 
 void handle_event(const char *featured_text, struct tile *ptile,
-                  enum event_type event, int conn_id);
+                  enum event_type event, int turn, int conn_id);
 void create_event(struct tile *ptile, enum event_type event,
                   const struct ft_color color, const char *format, ...)
                   fc__attribute((__format__ (__printf__, 4, 5)));

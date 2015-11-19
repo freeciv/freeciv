@@ -1351,9 +1351,9 @@ void play_sound_for_event(enum event_type type)
   in-game messages and chats from other players.
 **************************************************************************/
 void handle_chat_msg(const char *message, int tile,
-                     enum event_type event, int conn_id)
+                     enum event_type event, int turn, int conn_id)
 {
-  handle_event(message, index_to_tile(tile), event, conn_id);
+  handle_event(message, index_to_tile(tile), event, turn, conn_id);
 }
 
 /**************************************************************************

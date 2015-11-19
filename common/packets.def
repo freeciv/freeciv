@@ -584,6 +584,7 @@ PACKET_CHAT_MSG = 25; sc, lsend
   STRING message[MAX_LEN_MSG];
   TILE tile;
   EVENT event;
+  TURN turn;
   CONNECTION conn_id;
 end
 
