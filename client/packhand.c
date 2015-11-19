@@ -2973,6 +2973,10 @@ void handle_rulesets_ready(void)
     set_unit_class_caches(pclass);
   } unit_class_iterate_end;
 
+  unit_type_iterate(ptype) {
+    set_unit_type_caches(ptype);
+  } unit_type_iterate_end;
+
   /* We are not going to crop any more sprites from big sprites, free them. */
   finish_loading_sprites(tileset);
 }

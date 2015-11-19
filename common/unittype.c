@@ -28,6 +28,7 @@
 #include "support.h"
 
 /* common */
+#include "combat.h"
 #include "game.h"
 #include "government.h"
 #include "movement.h"
@@ -1306,6 +1307,24 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
 void *utype_ai_data(const struct unit_type *ptype, const struct ai_type *ai)
 {
   return ptype->ais[ai_type_number(ai)];
+}
+
+/****************************************************************************
+  Set caches for unit types.
+****************************************************************************/
+void set_unit_type_caches(struct unit_type *ptype)
+{
+  ptype->cache.max_defense_mp = -FC_INFINITY;
+
+  unit_type_iterate(utype) {
+    int idx = utype_index(utype);
+
+    ptype->cache.defense_mp_bonuses[idx] = combat_bonus_against(ptype->bonuses, utype,
+                                                                CBONUS_DEFENSE_MULTIPLIER);
+    if (ptype->cache.defense_mp_bonuses[idx] > ptype->cache.max_defense_mp) {
+      ptype->cache.max_defense_mp = ptype->cache.defense_mp_bonuses[idx];
+    }
+  } unit_type_iterate_end;
 }
 
 /**************************************************************************
