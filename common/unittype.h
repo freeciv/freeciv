@@ -501,6 +501,13 @@ struct unit_type {
     bool igwall;
   } adv;
 
+  struct {
+    int max_defense_mp; /* Value 0 here does not guarantee that unit never
+                         * has CBONUS_DEFENSE_MULTIPLIER, it merely means
+                         * that there's no POSITIVE one */
+    int defense_mp_bonuses[U_LAST];
+  } cache;
+
   void *ais[FC_AI_LAST];
 };
 
@@ -700,6 +707,7 @@ void unit_classes_init(void);
 void unit_classes_free(void);
 
 void set_unit_class_caches(struct unit_class *pclass);
+void set_unit_type_caches(struct unit_type *ptype);
 
 struct unit_class *unit_class_array_first(void);
 const struct unit_class *unit_class_array_last(void);

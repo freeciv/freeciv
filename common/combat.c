@@ -515,8 +515,7 @@ static int defense_multiplication(const struct unit_type *att_type,
 
   if (NULL != att_type) {
     int defense_divider;
-    int defense_multiplier = 1 + combat_bonus_against(def_type->bonuses, att_type,
-                                                      CBONUS_DEFENSE_MULTIPLIER);
+    int defense_multiplier = 1 + def_type->cache.defense_mp_bonuses[utype_index(att_type)];
 
     defensepower *= defense_multiplier;
 
@@ -747,6 +746,9 @@ bool is_stack_vulnerable(const struct tile *ptile)
 
 /**************************************************************************
   Get bonus value against given unit type from bonus list.
+
+  Consider using cached values instead of calling this recalculation
+  directly.
 **************************************************************************/
 int combat_bonus_against(const struct combat_bonus_list *list,
                          const struct unit_type *enemy,

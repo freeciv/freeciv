@@ -496,36 +496,24 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   } unit_type_iterate_end;
 
   unit_list_iterate(ptile->units, punit) {
-    bool bonuses_exist = FALSE;
     struct unit_type *def = unit_type_get(punit);
 
     if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
       city_data->has_diplomat = TRUE;
     }
     if (!defender_type_handled[utype_index(def)]) {
-      /* This is first defender of this type. Calculate defender type
+      /* This is first defender of this type. Check defender type
        * specific bonuses. */
 
-      /* Vast majority of units have no Defense Multiplier bonus.
-       * Do not waste time on iterating through all unit types in the
-       * typical case by first checking if such bonuses exist against
-       * any units. */
-      combat_bonus_list_iterate(def->bonuses, pbonus) {
-        if (pbonus->type == CBONUS_DEFENSE_MULTIPLIER) {
-          bonuses_exist = TRUE;
-          break;
-        }
-      } combat_bonus_list_iterate_end;
-
-      if (bonuses_exist) {
+      /* Skip defenders that have no bonuses at all. Acceptable
+       * side-effect is that we can't consider negative bonuses at
+       * all ("No bonuses" should be better than "negative bonus") */
+      if (def->cache.max_defense_mp > 0) {
         unit_type_iterate(utype) {
-          int bonus;
           int idx = utype_index(utype);
 
-          bonus = combat_bonus_against(def->bonuses, utype,
-                                       CBONUS_DEFENSE_MULTIPLIER);
-          if (bonus > defense_bonuses[idx]) {
-            defense_bonuses[idx] = bonus;
+          if (def->cache.defense_mp_bonuses[idx] > defense_bonuses[idx]) {
+            defense_bonuses[idx] = def->cache.defense_mp_bonuses[idx];
           }
         } unit_type_iterate_end;
       }
@@ -691,12 +679,7 @@ int dai_unit_defence_desirability(struct ai_type *ait,
   desire += punittype->move_rate / SINGLE_MOVE;
   desire += attack;
 
-  combat_bonus_list_iterate(punittype->bonuses, pbonus) {
-    if (pbonus->type == CBONUS_DEFENSE_MULTIPLIER
-        && pbonus->value > maxbonus) {
-      maxbonus = pbonus->value;
-    }
-  } combat_bonus_list_iterate_end;
+  maxbonus = punittype->cache.max_defense_mp;
   if (maxbonus > 1) {
     maxbonus = (maxbonus + 1) / 2;
   }
@@ -704,6 +687,7 @@ int dai_unit_defence_desirability(struct ai_type *ait,
   if (utype_has_flag(punittype, UTYF_GAMELOSS)) {
     desire /= 10; /* but might actually be worth it */
   }
+
   return desire;
 }
 
