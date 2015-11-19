@@ -6994,8 +6994,9 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool buffer_script)
     unit_class_iterate(pclass) {
       set_unit_class_caches(pclass);
     } unit_class_iterate_end;
-    unit_type_iterate(u) {
-      u->unknown_move_cost = utype_unknown_move_cost(u);
+    unit_type_iterate(ptype) {
+      ptype->unknown_move_cost = utype_unknown_move_cost(ptype);
+      set_unit_type_caches(ptype);
     } unit_type_iterate_end;
 
     /* Build advisors unit class cache corresponding to loaded rulesets */

@@ -3070,9 +3070,10 @@ void handle_rulesets_ready(void)
   road_integrators_cache_init();
 
   /* Setup unit unknown move cost caches */
-  unit_type_iterate(u) {
-    u->unknown_move_cost = utype_unknown_move_cost(u);
-    unit_type_action_cache_set(u);
+  unit_type_iterate(ptype) {
+    ptype->unknown_move_cost = utype_unknown_move_cost(ptype);
+    set_unit_type_caches(ptype);
+    unit_type_action_cache_set(ptype);
   } unit_type_iterate_end;
 
   /* We are not going to crop any more sprites from big sprites, free them. */
