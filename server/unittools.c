@@ -2307,6 +2307,11 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
     packet->orders_repeat = packet->orders_vigilant = FALSE;
     /* No need to initialize array. */
   }
+
+  packet->action_decision_want = punit->action_decision_want;
+  packet->action_decision_tile = (punit->action_decision_tile
+                                  ? tile_index(punit->action_decision_tile)
+                                  : IDENTITY_NUMBER_ZERO);
 }
 
 /**************************************************************************
