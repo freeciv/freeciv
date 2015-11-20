@@ -1583,21 +1583,26 @@ unit_label::unit_label(QWidget *parent)
 void unit_label::uupdate(unit_list *punits)
 {
   struct city *pcity;
-  struct unit *punit = unit_list_get(punits, 0);
+  struct unit *punit;
   struct player *owner;
   struct canvas *unit_pixmap;
   struct canvas *tile_pixmap;
   no_units = false;
   one_unit = true;
   setFixedHeight(56);
-  if (unit_list_size(punits) == 0 || punits == nullptr
-      || C_S_OVER == client_state()) {
+
+  if (punits == nullptr) {
+    return;
+  }
+  if (unit_list_size(punits) == 0 || C_S_OVER == client_state()) {
     unit_label1 = "";
     unit_label2 = "";
     no_units = true;
     update();
     return;
-  } else if (unit_list_size(punits) == 1) {
+  }
+  punit = unit_list_get(punits, 0);
+  if (unit_list_size(punits) == 1) {
     if (unit_list_size(unit_tile(punit)->units) > 1) {
       one_unit = false;
     }
