@@ -5318,6 +5318,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
         if (order->order == ORDER_LAST
             || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
+            || (order->order == ORDER_ACTION_MOVE
+                && !direction8_is_valid(order->dir))
             || (order->order == ORDER_PERFORM_ACTION
                 && !action_id_is_valid(order->action))
             || (order->order == ORDER_ACTIVITY
@@ -5602,6 +5604,7 @@ static void sg_save_player_units(struct savedata *saving,
         action_buf[j] = '?';
         switch (punit->orders.list[j].order) {
         case ORDER_MOVE:
+        case ORDER_ACTION_MOVE:
           dir_buf[j] = dir2char(punit->orders.list[j].dir);
           break;
         case ORDER_ACTIVITY:
@@ -5618,7 +5621,6 @@ static void sg_save_player_units(struct savedata *saving,
           break;
         case ORDER_FULL_MP:
         case ORDER_HOMECITY:
-        case ORDER_ACTION_MOVE:
         case ORDER_OLD_DISBAND:
         case ORDER_OLD_BUILD_CITY:
         case ORDER_OLD_BUILD_WONDER:

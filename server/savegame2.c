@@ -4116,6 +4116,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
         if (order->order == ORDER_LAST
             || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
+            || (order->order == ORDER_ACTION_MOVE
+                && !direction8_is_valid(order->dir))
             || (order->order == ORDER_ACTIVITY
                 && order->activity == ACTIVITY_LAST)) {
           /* An invalid order. Just drop the orders for this unit. */
