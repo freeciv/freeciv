@@ -2029,6 +2029,30 @@ static void upgrade_unit_prod(struct city *pcity)
 }
 
 /**************************************************************************
+  Returns TRUE iff the given unit can't be killed if its home city don't
+  have enough shields.
+**************************************************************************/
+static bool missing_shields_kill_protected(struct unit *punit)
+{
+  struct city *tcity;
+
+  if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
+    /* Protected even if the player is allowed to disband it. */
+    return TRUE;
+  }
+
+  tcity = tile_city(unit_tile(punit));
+
+  /* Protected unless a disband action is legal. */
+  return !(is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+                                          punit, tcity)
+           || is_action_enabled_unit_on_city(ACTION_RECYCLE_UNIT,
+                                             punit, tcity)
+           || is_action_enabled_unit_on_self(ACTION_DISBAND_UNIT,
+                                             punit));
+}
+
+/**************************************************************************
   Disband units if we don't have enough shields to support them.  Returns
   FALSE if the _city_ is disbanded as a result.
 **************************************************************************/
@@ -2039,7 +2063,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (utype_upkeep_cost(unit_type_get(punit), pplayer, O_SHIELD) > 0
 	  && pcity->surplus[O_SHIELD] < 0
-          && !unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
+          && !missing_shields_kill_protected(punit)) {
         notify_player(pplayer, city_tile(pcity),
                       E_UNIT_LOST_MISC, ftc_server,
                       _("%s can't upkeep %s, unit disbanded."),
@@ -2059,7 +2083,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
   }
 
   if (pcity->surplus[O_SHIELD] < 0) {
-    /* Special case: UTYF_UNDISBANDABLE. This nasty unit won't go so easily.
+    /* Special case: MissingXProtected. This nasty unit won't go so easily.
      * It'd rather make the citizens pay in blood for their failure to upkeep
      * it! If we make it here all normal units are already disbanded, so only
      * undisbandable ones remain. */
@@ -2067,7 +2091,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       int upkeep = utype_upkeep_cost(unit_type_get(punit), pplayer, O_SHIELD);
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
-        fc_assert_action(unit_has_type_flag(punit, UTYF_UNDISBANDABLE),
+        fc_assert_action(missing_shields_kill_protected(punit),
                          continue);
         notify_player(pplayer, city_tile(pcity),
                       E_UNIT_LOST_MISC, ftc_server,
