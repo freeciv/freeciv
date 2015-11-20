@@ -151,7 +151,7 @@ class plr_report: public QWidget
 public:
   plr_report();
   ~plr_report();
-  void update_report();
+  void update_report(bool update_selection = true);
   void init();
 private:
   struct player *other_player;
