@@ -4057,6 +4057,29 @@ static bool sg_load_player_unit(struct loaddata *loading,
     punit->upkeep[o] = utype_upkeep_cost(unit_type_get(punit), plr, o);
   } output_type_iterate_end;
 
+  punit->action_decision_want
+      = secfile_lookup_enum_default(loading->file,
+                                    ACT_DEC_NOTHING, action_decision,
+                                    "%s.action_decision_want", unitstr);
+
+  if (punit->action_decision_want != ACT_DEC_NOTHING) {
+    /* Load the tile to act against. */
+    int adwt_x, adwt_y;
+
+    if (secfile_lookup_int(loading->file, &adwt_x,
+                           "%s.action_decision_tile_x", unitstr)
+        && secfile_lookup_int(loading->file, &adwt_y,
+                              "%s.action_decision_tile_y", unitstr)) {
+      punit->action_decision_tile = native_pos_to_tile(adwt_x, adwt_y);
+    } else {
+      punit->action_decision_want = ACT_DEC_NOTHING;
+      punit->action_decision_tile = NULL;
+      log_sg("Bad action_decision_tile for unit %d", punit->id);
+    }
+  } else {
+    punit->action_decision_tile = NULL;
+  }
+
   /* load the unit orders */
   {
     int len = secfile_lookup_int_default(loading->file, 0,
