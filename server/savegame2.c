@@ -5872,6 +5872,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order->activity = char2activity(act_unitstr[j]);
         if (order->order == ORDER_LAST
             || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
+            || (order->order == ORDER_ACTION_MOVE
+                && !direction8_is_valid(order->dir))
             || (order->order == ORDER_ACTIVITY
                 && order->activity == ACTIVITY_LAST)) {
           /* An invalid order. Just drop the orders for this unit. */
@@ -6115,6 +6117,7 @@ static void sg_save_player_units(struct savedata *saving,
         tgt_buf[j] = '?';
         switch (punit->orders.list[j].order) {
         case ORDER_MOVE:
+        case ORDER_ACTION_MOVE:
           dir_buf[j] = dir2char(punit->orders.list[j].dir);
           break;
         case ORDER_ACTIVITY:
@@ -6127,7 +6130,6 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_BUILD_WONDER:
         case ORDER_TRADE_ROUTE:
         case ORDER_HOMECITY:
-        case ORDER_ACTION_MOVE:
         case ORDER_LAST:
           break;
         }
