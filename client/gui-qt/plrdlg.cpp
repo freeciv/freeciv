@@ -466,11 +466,11 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       advance_iterate(A_FIRST, padvance) {
         tech_id = advance_number(padvance);
         if (player_invention_state(me, tech_id) == TECH_KNOWN
-            && (player_invention_state(pplayer, tech_id) == TECH_UNKNOWN)) {
+            && (player_invention_state(pplayer, tech_id) != TECH_KNOWN)) {
           a++;
           sorted_list_a << advance_name_for_player(pplayer, tech_id);
         }
-        if (player_invention_state(me, tech_id) == TECH_UNKNOWN
+        if (player_invention_state(me, tech_id) != TECH_KNOWN
             && (player_invention_state(pplayer, tech_id) == TECH_KNOWN)) {
           b++;
           sorted_list_b << advance_name_for_player(pplayer, tech_id);
@@ -513,7 +513,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
                     + QString("</i>") + sp;
     }
   }
-  plr->update_report();
+  plr->update_report(false);
 }
 
 /**************************************************************************
@@ -636,8 +636,19 @@ void plr_report::req_wiithdrw_vision()
 /**************************************************************************
   Updates widget
 **************************************************************************/
-void plr_report::update_report()
+void plr_report::update_report(bool update_selection)
 {
+  QModelIndex qmi;
+
+  /* Force updating selected player information */
+  if (update_selection == true) {
+    qmi = plr_wdg->currentIndex();
+    if (qmi.isValid()){
+      plr_wdg->clearSelection();
+      plr_wdg->setCurrentIndex(qmi);
+    }
+  }
+
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
