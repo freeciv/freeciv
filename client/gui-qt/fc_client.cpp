@@ -295,7 +295,9 @@ void fc_client::switch_page(int new_pg)
       gui()->showFullScreen();
       gui()->mapview_wdg->showFullScreen();
     } else {
-      showMaximized();
+      if (!isMaximized()) {
+        showMaximized();
+      }
     }
     menuBar()->setVisible(true);
     mapview_wdg->setFocus();
