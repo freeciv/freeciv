@@ -472,7 +472,7 @@ void mr_menu::apply_2nd_filter(struct unit *punit)
   if (punit->hp == punit->utype->hp && u_filter.full_hp) {
     unit_focus_add(punit);
   }
-  if (punit->moves_left  == punit->utype->move_rate && u_filter.full_mp) {
+  if (punit->moves_left  >= punit->utype->move_rate && u_filter.full_mp) {
     unit_focus_add(punit);
   }
   if (u_filter.any){
