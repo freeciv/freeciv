@@ -1077,6 +1077,7 @@ void city_widget::update_model()
   setUpdatesEnabled(false);
   list_model->all_changed();
   restore_selection();
+  header()->resizeSections(QHeaderView::ResizeToContents);
   for (int j = 0; j < filter_model->columnCount(); j++) {
     str = list_model->headerData(j, Qt::Horizontal, Qt::DisplayRole).toString();
     if (str.contains('\n')) {
@@ -1088,8 +1089,6 @@ void city_widget::update_model()
         width = qMax(width, fm.width(s));
       }
       header()->resizeSection(j, width + 10);
-    } else {
-      header()->resizeSection(j, header()->sectionSizeHint(j));
     }
   }
   setUpdatesEnabled(true);
