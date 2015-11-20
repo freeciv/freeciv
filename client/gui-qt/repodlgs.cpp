@@ -1196,6 +1196,8 @@ endgame_report::endgame_report(const struct packet_endgame_report *packet): QWid
   end_widget->setEditTriggers(QAbstractItemView::NoEditTriggers);
   end_widget->verticalHeader()->setVisible(false);
   end_widget->setSelectionMode(QAbstractItemView::SingleSelection);
+  end_widget->horizontalHeader()->setSectionResizeMode(
+                                            QHeaderView::ResizeToContents);
   end_layout->addWidget(end_widget, 1, 0, 5, 5);
   setLayout(end_layout);
 
@@ -1379,6 +1381,19 @@ void endgame_report_dialog_start(const struct packet_endgame_report *packet)
   endgame_report *end_rep;
   end_rep = new endgame_report(packet);
   end_rep->init();
+}
+
+/****************************************************************************
+  Removes endgame report
+****************************************************************************/
+void popdown_endgame_report()
+{
+  int i;
+  if (gui()->is_repo_dlg_open("END")) {
+    i = gui()->gimme_index_of("END");
+    fc_assert(i != -1);
+    delete gui()->game_tab_widget->widget(i);
+  }
 }
 
 /****************************************************************************

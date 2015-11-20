@@ -60,6 +60,7 @@ extern void popdown_economy_report();
 extern void popdown_units_report();
 extern void popdown_science_report();
 extern void popdown_city_report();
+extern void popdown_endgame_report();
 
 static void diplomat_keep_moving(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
@@ -2294,6 +2295,7 @@ void popdown_all_game_dialogs(void)
   popdown_units_report();
   popdown_science_report();
   popdown_city_report();
+  popdown_endgame_report();
 }
 
 /**************************************************************************
