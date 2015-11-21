@@ -1226,7 +1226,7 @@ static struct terrain *char2terrain(char ch)
     return T_UNKNOWN;
   }
   terrain_type_iterate(pterrain) {
-    if (pterrain->identifier == ch) {
+    if (pterrain->identifier_load == ch) {
       return pterrain;
     }
   } terrain_type_iterate_end;
@@ -1327,6 +1327,9 @@ static void technology_save(struct section_file *file,
 ****************************************************************************/
 static void sg_load_savefile(struct loaddata *loading)
 {
+  int i;
+  const char *terr_name;
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
@@ -1484,6 +1487,43 @@ static void sg_load_savefile(struct loaddata *loading)
       loading->specialist.order[j] = NULL;
     }
   }
+
+  terrain_type_iterate(pterr) {
+    pterr->identifier_load = '\0';
+  } terrain_type_iterate_end;
+
+  i = 0;
+  while ((terr_name = secfile_lookup_str_default(loading->file, NULL,
+                                                 "savefile.terrident%d.name", i)) != NULL) {
+    struct terrain *pterr = terrain_by_rule_name(terr_name);
+
+    if (pterr != NULL) {
+      const char *iptr =  secfile_lookup_str_default(loading->file, NULL,
+                                                     "savefile.terrident%d.identifier", i);
+
+      pterr->identifier_load = *iptr;
+    } else {
+      log_error("Identifier for unknown terrain type %s.", terr_name);
+    }
+    i++;
+  }
+
+  terrain_type_iterate(pterr) {
+    if (pterr->identifier_load == '\0') {
+      /* Use the current identifier for unknown ones. */
+      pterr->identifier_load = pterr->identifier;
+    }
+  } terrain_type_iterate_end;
+
+  terrain_type_iterate(pterr) {
+    terrain_type_iterate(pterr2) {
+      if (pterr != pterr2) {
+        sg_failure_ret((pterr->identifier_load != pterr2->identifier_load),
+                       "%s and %s share a saved identifier",
+                       terrain_rule_name(pterr), terrain_rule_name(pterr2));
+      }
+    } terrain_type_iterate_end;
+  } terrain_type_iterate_end;
 }
 
 /****************************************************************************

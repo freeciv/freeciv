@@ -602,11 +602,24 @@ static void compat_load_020600(struct loaddata *loading)
   int plrno;
   bool team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
   int tsize;
+  int ti;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.6.0");
+
+  /* Terrain mapping table - use current ruleset as we have no way to know
+   * any other old values. */
+  ti = 0;
+  terrain_type_iterate(pterr) {
+    char buf[2];
+
+    secfile_insert_str(loading->file, terrain_rule_name(pterr), "savefile.terrident%d.name", ti);
+    buf[0] = terrain_identifier(pterr);
+    buf[1] = '\0';
+    secfile_insert_str(loading->file, buf, "savefile.terrident%d.identifier", ti++);
+  } terrain_type_iterate_end;
 
   /* Server setting migration. */
   {
