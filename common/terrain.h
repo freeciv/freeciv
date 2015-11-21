@@ -177,7 +177,9 @@ struct terrain {
   char graphic_str[MAX_LEN_NAME];	/* add tile_ prefix */
   char graphic_alt[MAX_LEN_NAME];
 
-  char identifier; /* Single-character identifier used in savegames. */
+  char identifier; /* Single-character identifier used in games saved. */
+  char identifier_load; /* Single-character identifier that was used in the savegame
+                         * loaded. */
 
 #define TERRAIN_UNKNOWN_IDENTIFIER 'u'
 
