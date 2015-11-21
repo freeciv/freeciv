@@ -39,7 +39,9 @@ existing_flags="`eval echo '$'$5`"
 
 for flag in $3
 do
-  $2="$flags_save $existing_flags $accepted_flags $flag $4"
+  dnl We need -Werror to test any flags (it can't be tested itself)
+  dnl Without it, illegal flag will not give an error for us to detect
+  $2="-Werror $flags_save $existing_flags $accepted_flags $flag $4"
   AC_COMPILE_IFELSE([AC_LANG_SOURCE([int a;])],
                     [FC_ADD_WORDS_TO_VAR([accepted_flags], [$flag])])
 done
