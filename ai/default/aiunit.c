@@ -2627,6 +2627,7 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
     int martless_unhappy = pcity->feel[CITIZEN_UNHAPPY][FEELING_NATIONALITY]
       + pcity->feel[CITIZEN_ANGRY][FEELING_NATIONALITY];
     int entertainers = 0;
+    bool enough = FALSE;
 
     specialist_type_iterate(sp) {
       if (get_specialist_output(pcity, sp, O_LUXURY) > 0) {
@@ -2637,9 +2638,10 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
     martless_unhappy += entertainers; /* We want to use martial law instead
                                        * of entertainers. */
 
-    while (total_defense <= total_attack
-           || (count < mart_max && mart_each > 0
-               && martless_unhappy > mart_each * count)) {
+    while (!enough
+           && (total_defense <= total_attack
+               || (count < mart_max && mart_each > 0
+                   && martless_unhappy > mart_each * count))) {
       int best_want = 0;
       struct unit *best = NULL;
       bool defense_needed = total_defense <= total_attack; /* Defense or martial */
@@ -2658,6 +2660,7 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
           }
         }
       } unit_list_iterate_end;
+      
       if (best == NULL) {
         if (defense_needed) {
           /* Ooops - try to grab any unit as defender! */
@@ -2670,12 +2673,27 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
           break;
         }
       } else {
-        int loglevel = pcity->server.debug ? LOG_AI_TEST : LOG_DEBUG;
+        struct unit_type *btype = unit_type_get(best);
 
-        total_defense += best_want;
-        UNIT_LOG(loglevel, best, "Defending city");
-        dai_unit_new_task(ait, best, AIUNIT_DEFEND_HOME, pcity->tile);
-        count++;
+        if ((martless_unhappy < mart_each * count
+             || count >= mart_max || mart_each <= 0)
+            && ((count >= 2
+                 && btype->attack_strength > btype->defense_strength)
+                || (count >= 4
+                    && btype->attack_strength == btype->defense_strength))) {
+          /* In this case attack would be better defense than fortifying
+           * to city. */
+          log_normal("%s not assigning more defenders after %d",
+                     city_name(pcity), count);
+          enough = TRUE;
+        } else {
+          int loglevel = pcity->server.debug ? LOG_AI_TEST : LOG_DEBUG;
+
+          total_defense += best_want;
+          UNIT_LOG(loglevel, best, "Defending city");
+          dai_unit_new_task(ait, best, AIUNIT_DEFEND_HOME, pcity->tile);
+          count++;
+        }
       }
     }
     CITY_LOG(LOG_DEBUG, pcity, "Evaluating defense: %d defense, %d incoming"
