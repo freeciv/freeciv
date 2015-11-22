@@ -42,7 +42,7 @@ default_government = "Despotism"
 ; is randomly chosen for a given AI player unless 'traitdistribution'
 ; server setting is 'FIXED'
 ; <trait>_default is the exaxt trait value used when 'traitdistribution'
-; is 'FIXED'. If <trait>_default has not been given, it's set to the
+; is 'FIXED'. If <trait>_default has not been given, it`s set to the
 ; midpoint between <trait>_min and <trait>_max.
 
 ; Value of trait "expansionist" defines how much AI wants to settle new territory.
