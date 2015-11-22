@@ -24,13 +24,16 @@ was needed on the client-side(security problem). Little by little we moved
 more code to the server, and as of 1.5 the client is quite dumb -PU]
 
 The source code has the following important directories:
+dependencies: code from upstream projects
+utility: utility functionality that is not freeciv-specific
 common: data structures and code used by both the client and server.
 server: (duh)
 client: common client code
-client/* (fx gui-gtk): a specific gui implementation of the client.
+client/* (fx gui-gtk-3.0): a specific gui implementation of the client.
 data: graphics, rulesets and stuff
 translations: localization files
-ai: the ai, later linked into the server.
+ai: the ai, later linked into the server
+tools: freeciv support executables
 
 Freeciv is written in C.  Header files should be compatible with C++ so
 that C++ add-ons (particularly new clients) are possible.  See the
@@ -43,7 +46,7 @@ General:
 
 The server main loop basically looks like:
 
-  while(server_state==RUN_GAME_STATE) { /* looped once per turn */
+  while (server_state == RUN_GAME_STATE) { /* looped once per turn */
     do_ai_stuff();   /* do the ai controlled players */
     sniff_packets(); /* get player requests and handle them */
     end_turn();      /* main turn update */
