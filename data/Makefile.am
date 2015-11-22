@@ -20,11 +20,10 @@ if CLIENT_GUI_GTK_2_0
 CLIENT_FILES += \
 	freeciv.rc-2.0	\
 	gtk2_menus.xml
-else
+endif
 if CLIENT_GUI_GTK_3_0
 CLIENT_FILES += \
 	gtk3_menus.xml
-endif
 endif
 else
 CLIENT_FILES =
