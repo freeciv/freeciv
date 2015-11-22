@@ -567,6 +567,8 @@ static void player_defaults(struct player *pplayer)
 
   spaceship_init(&pplayer->spaceship);
 
+  BV_CLR_ALL(pplayer->flags);
+
   set_as_human(pplayer);
   pplayer->ai_common.skill_level = ai_level_invalid();
   pplayer->ai_common.fuzzy = 0;
@@ -1768,4 +1770,12 @@ int player_multiplier_target_value(const struct player *pplayer,
                                    const struct multiplier *pmul)
 {
   return pplayer->multipliers_target[multiplier_index(pmul)];
+}
+
+/****************************************************************************
+  Check if player has given flag
+****************************************************************************/
+bool player_has_flag(const struct player *pplayer, enum plr_flag_id flag)
+{
+  return BV_ISSET(pplayer->flags, flag);
 }

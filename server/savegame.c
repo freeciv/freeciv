@@ -1686,6 +1686,7 @@ static void player_load_main(struct player *plr, int plrno,
   struct nation_type *pnation;
   struct nation_style *style;
   int old_barb_type;
+  bool ai_controlled;
 
   research = research_get(plr);
 
@@ -1788,6 +1789,7 @@ static void player_load_main(struct player *plr, int plrno,
   p = secfile_lookup_str(file, "player%d.city_style_by_name", plrno);
   if (!p) {
     char* old_order[4] = {"European", "Classical", "Tropical", "Asian"};
+
     c_s = secfile_lookup_int_default(file, 0, "player%d.city_style", plrno);
     if (c_s < 0 || c_s > 3) {
       log_error("Player%d: unsupported city_style %d. Changed to \"%s\".",
@@ -1804,16 +1806,21 @@ static void player_load_main(struct player *plr, int plrno,
   }
   plr->style = style;
 
-  plr->nturns_idle=0;
-  plr->is_male=secfile_lookup_bool_default(file, TRUE, "player%d.is_male", plrno);
+  plr->nturns_idle = 0;
+  plr->is_male = secfile_lookup_bool_default(file, TRUE, "player%d.is_male", plrno);
   fc_assert_exit_msg(secfile_lookup_bool(file, &plr->is_alive,
                                          "player%d.is_alive", plrno),
                      "%s", secfile_error());
   plr->turns_alive = secfile_lookup_int_default(file, game.info.turn,
                                                 "player%d.turns_alive", plrno);
-  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->ai_controlled,
+  fc_assert_exit_msg(secfile_lookup_bool(file, &ai_controlled,
                                          "player%d.ai.control", plrno),
                      "%s", secfile_error());
+  if (ai_controlled) {
+    set_as_ai(player_by_number(plrno));
+  } else {
+    set_as_human(player_by_number(plrno));
+  }
   plr->phase_done = FALSE;
 
   /* Backwards-compatibility: the tech goal value is still stored in the
@@ -4224,7 +4231,7 @@ static void game_load_internal(struct section_file *file)
   /* Recalculate the potential buildings for each city.  
    * Has caused some problems with game random state. */
   players_iterate(pplayer) {
-    bool saved_ai_control = pplayer->ai_controlled;
+    bool saved_ai_control = is_ai(pplayer);
 
     /* Recalculate for all players. */
     set_as_human(pplayer);
@@ -4235,7 +4242,9 @@ static void game_load_internal(struct section_file *file)
     /* Close data phase again so it can be opened again when game starts. */
     adv_data_phase_done(pplayer);
 
-    pplayer->ai_controlled = saved_ai_control;
+    if (saved_ai_control) {
+      set_as_ai(pplayer);
+    }
   } players_iterate_end;
 
   /* Player colors are always needed once game has started. Pre-2.4 savegames

@@ -53,6 +53,13 @@ enum plrcolor_mode {
   PLRCOL_NATION_ORDER
 };
 
+#define SPECENUM_NAME plr_flag_id
+#define SPECENUM_VALUE0 PLRF_AI
+#define SPECENUM_VALUE0NAME "ai"
+#define SPECENUM_COUNT  PLRF_COUNT
+#define SPECENUM_BITVECTOR bv_plr_flags
+#include "specenum_gen.h"
+
 struct player_slot;
 
 struct player_economic {
@@ -216,10 +223,12 @@ struct attribute_block_s {
 struct ai_type;
 struct ai_data;
 
-#define is_human(plr) !(plr)->ai_controlled
-#define is_ai(plr) (plr)->ai_controlled
-#define set_as_human(plr) (plr)->ai_controlled = FALSE
-#define set_as_ai(plr) (plr)->ai_controlled = TRUE
+bool player_has_flag(const struct player *pplayer, enum plr_flag_id flag);
+
+#define is_human(plr) !player_has_flag((plr), PLRF_AI)
+#define is_ai(plr) player_has_flag((plr), PLRF_AI)
+#define set_as_human(plr) BV_CLR((plr)->flags, PLRF_AI)
+#define set_as_ai(plr) BV_SET((plr)->flags, PLRF_AI)
 
 struct player {
   struct player_slot *slot;
@@ -258,9 +267,10 @@ struct player {
 
   struct player_spaceship spaceship;
 
-  bool ai_controlled; /* FALSE: not automated; TRUE: automated */
   struct player_ai ai_common;
   const struct ai_type *ai;
+
+  bv_plr_flags flags;
 
   bool was_created;                    /* if the player was /created */
   bool random_name;

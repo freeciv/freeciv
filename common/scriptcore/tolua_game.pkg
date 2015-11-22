@@ -33,7 +33,6 @@ $#include "luascript_types.h"
 struct Player {
   const char *name;
   Nation_Type *nation;
-  bool ai_controlled;
   bool is_alive;
 };
 
@@ -139,6 +138,8 @@ module Player {
 
   int api_methods_player_culture_get
     @ culture(lua_State *L, Player *self);
+  bool api_methods_player_has_flag
+    @ has_flag (lua_State *L, Player *self, const char *flag);
 }
 
 module methods_private {
@@ -154,7 +155,7 @@ $[
 
 -- Player methods
 function Player:is_human()
-  return not self.ai_controlled
+  return not self.has_flag(self, "AI");
 end
 
 function Player:exists()

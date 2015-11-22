@@ -1016,10 +1016,10 @@ static void package_player_common(struct player *plr,
     packet->music_style = -1; /* No music style available */
   }
 
-  packet->is_alive=plr->is_alive;
-  packet->turns_alive=plr->turns_alive;
-  packet->is_connected=plr->is_connected;
-  packet->ai = plr->ai_controlled;
+  packet->is_alive = plr->is_alive;
+  packet->turns_alive = plr->turns_alive;
+  packet->is_connected = plr->is_connected;
+  packet->flags = plr->flags;
   packet->ai_skill_level = is_ai(plr)
                            ? plr->ai_common.skill_level : 0;
   for (i = 0; i < player_slot_count(); i++) {

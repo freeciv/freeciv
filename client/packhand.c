@@ -2208,8 +2208,8 @@ void handle_player_info(const struct packet_player_info *pinfo)
   }
 
   /* Set AI.control. */
-  if (pplayer->ai_controlled != pinfo->ai)  {
-    pplayer->ai_controlled = pinfo->ai;
+  if (is_ai(pplayer) != BV_ISSET(pinfo->flags, PLRF_AI)) {
+    BV_SET_VAL(pplayer->flags, PLRF_AI, BV_ISSET(pinfo->flags, PLRF_AI));
     if (pplayer == my_player)  {
       if (is_ai(my_player)) {
         output_window_append(ftc_client, _("AI mode is now ON."));
@@ -2219,10 +2219,13 @@ void handle_player_info(const struct packet_player_info *pinfo)
     }
   }
 
+  pplayer->flags = pinfo->flags;
+
   pplayer->ai_common.science_cost = pinfo->science_cost;
 
   turn_done_changed = (pplayer->phase_done != pinfo->phase_done
-                       || pplayer->ai_controlled != pinfo->ai);
+                       || (BV_ISSET(pplayer->flags, PLRF_AI) !=
+                           BV_ISSET(pinfo->flags, PLRF_AI)));
   pplayer->phase_done = pinfo->phase_done;
 
   pplayer->is_ready = pinfo->is_ready;

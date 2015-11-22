@@ -3553,6 +3553,7 @@ static void sg_load_player_main(struct loaddata *loading,
   struct government *gov;
   const char *level;
   const char *barb_str;
+  bool ai_controlled;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -3614,9 +3615,14 @@ static void sg_load_player_main(struct loaddata *loading,
                                      "player%d.got_first_city", plrno),
                  "%s", secfile_error());
 
-  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->ai_controlled,
+  sg_failure_ret(secfile_lookup_bool(loading->file, &ai_controlled,
                                      "player%d.ai.control", plrno),
                  "%s", secfile_error());
+  if (ai_controlled) {
+    set_as_ai(player_by_number(plrno));
+  } else {
+    set_as_human(player_by_number(plrno));
+  }
 
   /* Load diplomatic data (diplstate + embassy + vision).
    * Shared vision is loaded in sg_load_players(). */
@@ -6790,7 +6796,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
    * This also changes the game state if you save the game directly after
    * loading it and compare the results. */
   players_iterate(pplayer) {
-    bool saved_ai_control = pplayer->ai_controlled;
+    bool saved_ai_control = is_ai(pplayer);
 
     /* Recalculate for all players. */
     set_as_human(pplayer);
@@ -6801,7 +6807,9 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     /* Close data phase again so it can be opened again when game starts. */
     adv_data_phase_done(pplayer);
 
-    pplayer->ai_controlled = saved_ai_control;
+    if (saved_ai_control) {
+      set_as_ai(pplayer);
+    }
   } players_iterate_end;
 
   /* Check worked tiles map */

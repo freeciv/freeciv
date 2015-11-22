@@ -80,6 +80,10 @@ void dbv_debug(struct dbv *pdbv);
     _BV_ASSERT(bv, bit);                                                    \
     (bv).vec[_BV_BYTE_INDEX(bit)] &= ~_BV_BITMASK(bit);                     \
   } while(FALSE)
+#define BV_SET_VAL(bv, bit, val)                                            \
+  do {                                                                      \
+    if (val) { BV_SET(bv, bit); } else { BV_CLR(bv, bit); }                 \
+  } while (FALSE);
 #define BV_CLR_ALL(bv)                                                      \
   do {                                                                      \
      memset((bv).vec, 0, sizeof((bv).vec));                                 \

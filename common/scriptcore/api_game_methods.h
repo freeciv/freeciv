@@ -83,6 +83,8 @@ City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
                                                           Player *pplayer);
 int api_methods_player_culture_get(lua_State *L, Player *pplayer);
 
+bool api_methods_player_has_flag(lua_State *L, Player *pplayer, const char *flag);
+
 /* Tech Type */
 const char *api_methods_tech_type_rule_name(lua_State *L, Tech_Type *ptech);
 const char *api_methods_tech_type_name_translation(lua_State *L, Tech_Type *ptech);

@@ -265,6 +265,7 @@ type BV_STARTPOS_NATIONS= bitvector(bv_startpos_nations)
 type BV_TECH_FLAGS      = bitvector(bv_tech_flags)
 type BV_TERRAIN_FLAGS   = bitvector(bv_terrain_flags)
 type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
+type BV_PLR_FLAGS       = bitvector(bv_plr_flags)
 type BV_UNIT_CLASSES    = bitvector(bv_unit_classes)
 type BV_UTYPE_FLAGS     = bitvector(bv_unit_type_flags)
 type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
@@ -809,7 +810,6 @@ PACKET_PLAYER_INFO = 51; sc, is-info
 
   BOOL is_connected;
   TURN revolution_finishes;
-  BOOL ai;
   UINT8 ai_skill_level;
   UINT8 barbarian_type;
   BV_PLAYER gives_shared_vision;
@@ -819,6 +819,8 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   UINT8 color_red;
   UINT8 color_green;
   UINT8 color_blue;
+
+  BV_PLR_FLAGS flags;
 
   CITYSPE wonders[B_LAST]; diff
   

@@ -375,7 +375,7 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
      * which goes beside the unknown, with a good EC callback... */
     enum override_bool allow = NO_OVERRIDE;
 
-    if (pplayer->ai_controlled) {
+    if (is_ai(pplayer)) {
       CALL_PLR_AI_FUNC(want_to_explore, pplayer, punit, best_tile, &allow);
     }
     if (allow == OVERRIDE_FALSE) {

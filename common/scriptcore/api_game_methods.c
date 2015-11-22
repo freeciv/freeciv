@@ -365,6 +365,25 @@ int api_methods_player_culture_get(lua_State *L, Player *pplayer)
   return player_culture(pplayer);
 }
 
+/**************************************************************************
+  Does player have flag set?
+**************************************************************************/
+bool api_methods_player_has_flag(lua_State *L, Player *pplayer, const char *flag)
+{
+  enum plr_flag_id flag_val;
+  
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+
+  flag_val = plr_flag_id_by_name(flag, fc_strcasecmp);
+
+  if (plr_flag_id_is_valid(flag_val)) {
+    return player_has_flag(pplayer, flag_val);
+  }
+
+  return FALSE;
+}
+
 /*****************************************************************************
   Return TRUE if players share research.
 *****************************************************************************/
