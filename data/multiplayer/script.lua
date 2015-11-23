@@ -45,14 +45,21 @@ function building_built_handler(btype, city)
         gained[0]:name_translation(),
         gained[1]:name_translation())
 
+      notify.research(player, false, E.TECH_GAIN,
+        _("%s boosts %s research; you gain the immediate advances %s and %s."),
+        darw_btype:name_translation(),
+        player.nation:plural_translation(),
+        gained[0]:name_translation(),
+        gained[1]:name_translation())
+
       -- default.lua informs the embassies when the tech source is a hut.
       -- They should therefore be informed about the source here too.
-      notify.embassies(player, NIL, E.TECH_EMBASSY,
-                       _("The %s gain %s and %s from %s."),
-                       player.nation:plural_translation(),
-                       gained[0]:name_translation(),
-                       gained[1]:name_translation(),
-                       darw_btype:name_translation())
+      notify.research_embassies(player, NIL, E.TECH_EMBASSY,
+                                _("The %s gain %s and %s from %s."),
+                                player.nation:plural_translation(),
+                                gained[0]:name_translation(),
+                                gained[1]:name_translation(),
+                                darw_btype:name_translation())
     end
   end
 end
@@ -113,12 +120,18 @@ function tech_researched_handler(tech, player, how)
                  _("Great philosophers from all the world join your civilization: you get the immediate advance %s."),
                  gained:name_translation())
 
+    -- Notify research partners
+    notify.research(player, false, E.TECH_GAIN,
+                    _("Great philosophers from all the world join the %s: you get the immediate advance %s."),
+                    player.nation:plural_translation(),
+                    gained:name_translation())
+
     -- default.lua informs the embassies when the tech source is a hut.
     -- They should therefore be informed about the source here too.
-    notify.embassies(player, NIL, E.TECH_EMBASSY,
-                     _("Great philosophers from all the world join the %s: they get %s as an immediate advance."),
-                       player.nation:plural_translation(),
-                       gained:name_translation())
+    notify.research_embassies(player, NIL, E.TECH_EMBASSY,
+            _("Great philosophers from all the world join the %s: they get %s as an immediate advance."),
+            player.nation:plural_translation(),
+            gained:name_translation())
   end
 end 
 
