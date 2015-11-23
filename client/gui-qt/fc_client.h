@@ -272,7 +272,7 @@ private:
   void create_cursors(void);
   void update_scenarios_page(void);
   void set_connection_state(enum connection_state state);
-  void update_obs_button();
+  void update_buttons();
   void init();
 
   enum client_pages page;
