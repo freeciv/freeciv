@@ -39,7 +39,12 @@ function default_hut_get_tech(unit)
     notify.event(owner, unit.tile, E.HUT_TECH,
                  _("You found %s in ancient scrolls of wisdom."),
                  tech:name_translation())
-    notify.embassies(owner, unit.tile, E.HUT_TECH,
+    notify.research(owner, false, E.TECH_GAIN,
+                 -- TRANS: One player got tech for the whole team.
+                 _("%s found %s in ancient scrolls of wisdom for you."),
+                 owner.nation:plural_translation(),
+                 tech:name_translation())
+    notify.research_embassies(owner, unit.tile, E.TECH_EMBASSY,
                  _("The %s have acquired %s from ancient scrolls of wisdom."),
                  owner.nation:plural_translation(),
                  tech:name_translation())
