@@ -649,6 +649,7 @@ void plr_report::update_report(bool update_selection)
     }
   }
 
+  plr_wdg->header()->resizeSections(QHeaderView::ResizeToContents);
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
