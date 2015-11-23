@@ -935,7 +935,6 @@ void fc_client::start_scenario()
     client_start_server();
   }
   send_chat_printf("/load %s", current_file.toLocal8Bit().data());
-  send_chat("/take -");
   switch_page(PAGE_START);
 }
 
@@ -1397,19 +1396,65 @@ void fc_client::update_start_page()
   start_players_tree->insertTopLevelItem(2, detach_item);
   start_players_tree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
   start_players_tree->expandAll();
-  update_obs_button();
+  update_buttons();
 }
 
 /***************************************************************************
   Updates observe button in case user started observing manually
 ***************************************************************************/
-void fc_client::update_obs_button()
+void fc_client::update_buttons()
 {
+  bool sensitive;
+  QString text;
+  QLayoutItem *li;
+  QPushButton *pb;
+
+  /* Observe button */
   if (client_is_observer() || client_is_global_observer()) {
     obs_button->setText(_("Don't Observe"));
   } else {
     obs_button->setText(_("Observe"));
   }
+
+  /* Ready button */
+  if (can_client_control()) {
+    sensitive = true;
+    if (client_player()->is_ready) {
+      text = _("Not ready");
+    } else {
+      int num_unready = 0;
+
+      players_iterate(pplayer) {
+        if (is_human(pplayer) && !pplayer->is_ready) {
+          num_unready++;
+        }
+      } players_iterate_end;
+
+      if (num_unready > 1) {
+        text = _("Ready");
+      } else {
+        /* We are the last unready player so clicking here will
+         * immediately start the game. */
+        text = ("Start");
+      }
+    }
+  } else {
+    text = _("Start");
+    sensitive = false;
+  }
+  li = pages_layout[PAGE_START]->itemAtPosition(5, 7);
+  pb = qobject_cast<QPushButton *>(li->widget());
+  pb->setEnabled(sensitive);
+  pb->setText(text);
+
+  /* Nation button */
+  sensitive = game.info.is_new_game && !client_is_observer();
+  li = pages_layout[PAGE_START]->itemAtPosition(5, 5);
+  pb = qobject_cast<QPushButton *>(li->widget());
+  pb->setEnabled(sensitive);
+
+  sensitive = game.info.is_new_game;
+  pr_options->setEnabled(sensitive);
 }
 
 /***************************************************************************

@@ -459,10 +459,14 @@ void fc_client::slot_disconnect()
 void fc_client::slot_pregame_observe()
 {
   if (client_is_observer() || client_is_global_observer()) {
-    send_chat("/take -");
+    if (game.info.is_new_game) {
+      send_chat("/take -");
+    } else {
+      send_chat("/detach");
+    }
     obs_button->setText(_("Don't Observe"));
   } else {
-    send_chat("/obs");
+    send_chat("/observe");
     obs_button->setText(_("Observe"));
   }
 }

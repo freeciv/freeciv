@@ -70,8 +70,15 @@ void handle_authentication_req(enum authentication_type type,
  server.
 **************************************************************************/
 void handle_game_load(bool load_successful, const char *filename)
-{ 
-  /* PORTME */
+{
+  if (load_successful) {
+    set_client_page(PAGE_START);
+
+    if (game.info.is_new_game) {
+      /* It's pregame. Create a player and connect to him */
+      send_chat("/take -");
+    }
+  }
 }
 
 
