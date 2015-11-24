@@ -33,6 +33,7 @@
 
 /* common */
 #include "achievements.h"
+#include "actiontools.h"
 #include "calendar.h"
 #include "citizens.h"
 #include "city.h"
@@ -631,6 +632,44 @@ void update_city_activities(struct player *pplayer)
 }
 
 /**************************************************************************
+  Try to get rid of a unit because of missing upkeep.
+
+  Won't try to get rid of a unit without any action auto performers for
+  AAPC_UNIT_UPKEEP. Those are seen as protected from being destroyed
+  because of missing upkeep.
+
+  Can optionally wipe the unit in the end if it survived the actions in
+  the selected action auto performer.
+
+  Returns TRUE if the unit went away.
+**************************************************************************/
+static bool upkeep_kill_unit(struct unit *punit, Output_type_id outp,
+                             enum unit_loss_reason wipe_reason,
+                             bool wipe_in_the_end)
+{
+  int punit_id;
+
+  if (!action_auto_perf_unit_sel(AAPC_UNIT_UPKEEP, punit,
+                                 get_output_type(outp))) {
+    /* Can't get rid of this unit. It is undisbandable for the current
+     * situation. */
+    return FALSE;
+  }
+
+  punit_id = punit->id;
+
+  /* Try to perform this unit's can't upkeep actions. */
+  action_auto_perf_unit_do(AAPC_UNIT_UPKEEP, punit, get_output_type(outp));
+
+  if (wipe_in_the_end && unit_alive(punit_id)) {
+    /* No forced action was able to kill the unit. Finish the job. */
+    wipe_unit(punit, wipe_reason, NULL);
+  }
+
+  return !unit_alive(punit_id);
+}
+
+/**************************************************************************
   Reduce the city specialists by some (positive) value.
   Return the amount of reduction.
 **************************************************************************/
@@ -949,15 +988,17 @@ static void city_populate(struct city *pcity, struct player *nationality)
      * reserves.  Hence, I'll assume food upkeep > 0 units. -- jjm
      */
     unit_list_iterate_safe(pcity->units_supported, punit) {
-      if (punit->upkeep[O_FOOD] > 0
-          && !unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
+      if (punit->upkeep[O_FOOD] > 0) {
+        const char *punit_link = unit_tile_link(punit);
 
-        notify_player(city_owner(pcity), city_tile(pcity),
-                      E_UNIT_LOST_MISC, ftc_server,
-                      _("Famine feared in %s, %s lost!"), 
-                      city_link(pcity), unit_tile_link(punit));
-
-        wipe_unit(punit, ULR_STARVED, NULL);
+        if (upkeep_kill_unit(punit, O_FOOD, ULR_STARVED,
+                             /* TODO: Move to the ruleset */
+                             TRUE)) {
+          notify_player(city_owner(pcity), city_tile(pcity),
+                        E_UNIT_LOST_MISC, ftc_server,
+                        _("Famine feared in %s, %s lost!"),
+                        city_link(pcity), punit_link);
+        }
 
         if (city_exist(saved_id)) {
           city_reset_foodbox(pcity, city_size_get(pcity));
@@ -2029,30 +2070,6 @@ static void upgrade_unit_prod(struct city *pcity)
 }
 
 /**************************************************************************
-  Returns TRUE iff the given unit can't be killed if its home city don't
-  have enough shields.
-**************************************************************************/
-static bool missing_shields_kill_protected(struct unit *punit)
-{
-  struct city *tcity;
-
-  if (unit_has_type_flag(punit, UTYF_UNDISBANDABLE)) {
-    /* Protected even if the player is allowed to disband it. */
-    return TRUE;
-  }
-
-  tcity = tile_city(unit_tile(punit));
-
-  /* Protected unless a disband action is legal. */
-  return !(is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
-                                          punit, tcity)
-           || is_action_enabled_unit_on_city(ACTION_RECYCLE_UNIT,
-                                             punit, tcity)
-           || is_action_enabled_unit_on_self(ACTION_DISBAND_UNIT,
-                                             punit));
-}
-
-/**************************************************************************
   Disband units if we don't have enough shields to support them.  Returns
   FALSE if the _city_ is disbanded as a result.
 **************************************************************************/
@@ -2062,21 +2079,21 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
   if (pcity->surplus[O_SHIELD] < 0) {
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (utype_upkeep_cost(unit_type_get(punit), pplayer, O_SHIELD) > 0
-	  && pcity->surplus[O_SHIELD] < 0
-          && !missing_shields_kill_protected(punit)) {
-        notify_player(pplayer, city_tile(pcity),
-                      E_UNIT_LOST_MISC, ftc_server,
-                      _("%s can't upkeep %s, unit disbanded."),
-                      city_link(pcity), unit_link(punit));
-        /* What should be done if the Help Wonder action stops blocking
-         * Disband Unit? Cases where Disband Unit is better for the player
-         * than Help Wonder exists.
-         * Example: Unit in allied city that is building a wonder that
-         * makes the ally win without sharing the victory. */
+          && pcity->surplus[O_SHIELD] < 0) {
+        const char *punit_link = unit_link(punit);
+
         /* TODO: Should the unit try to help cities on adjacent tiles? That
          * would be a rules change. (This action is performed by the game
          * it self) */
-        unit_do_disband_trad(pplayer, punit, ACT_REQ_RULES);
+        if (upkeep_kill_unit(punit, O_SHIELD, ULR_DISBANDED,
+                             /* TODO: Move to the ruleset */
+                             FALSE)) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_UNIT_LOST_MISC, ftc_server,
+                        _("%s can't upkeep %s, unit disbanded."),
+                        city_link(pcity), punit_link);
+        }
+
 	/* pcity->surplus[O_SHIELD] is automatically updated. */
       }
     } unit_list_iterate_safe_end;
@@ -2091,8 +2108,6 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       int upkeep = utype_upkeep_cost(unit_type_get(punit), pplayer, O_SHIELD);
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
-        fc_assert_action(missing_shields_kill_protected(punit),
-                         continue);
         notify_player(pplayer, city_tile(pcity),
                       E_UNIT_LOST_MISC, ftc_server,
                       _("Citizens in %s perish for their failure to "
@@ -2523,17 +2538,28 @@ static struct unit *sell_random_unit(struct player *pplayer,
   /* All units in punitlist should have gold upkeep! */
   fc_assert_ret_val(gold_upkeep > 0, NULL);
 
-  notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
-                _("Not enough gold. %s disbanded."),
-                unit_tile_link(punit));
-  log_debug("%s: unit sold (%s)", player_name(pplayer),
-            unit_name_translation(punit));
-
   unit_list_remove(punitlist, punit);
-  wipe_unit(punit, ULR_SOLD, NULL);
 
-  /* Get the upkeep gold back. */
-  pplayer->economic.gold += gold_upkeep;
+  {
+    const char *punit_link = unit_tile_link(punit);
+    const char *punit_logname = unit_name_translation(punit);
+
+    if (upkeep_kill_unit(punit, O_GOLD, ULR_SOLD,
+                         /* TODO: Move to the ruleset */
+                         TRUE)) {
+      notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
+                    _("Not enough gold. %s disbanded."),
+                    punit_link);
+      log_debug("%s: unit sold (%s)", player_name(pplayer),
+                punit_logname);
+
+      /* Get the upkeep gold back. */
+      pplayer->economic.gold += gold_upkeep;
+    } else {
+      /* Not able to get rid of punit */
+      return NULL;
+    }
+  }
 
   return punit;
 }

@@ -23,6 +23,7 @@
 #include "actiontools.h"
 #include "notify.h"
 #include "plrhand.h"
+#include "unithand.h"
 
 typedef void (*action_notify)(struct player *,
                               const int,
@@ -747,6 +748,130 @@ struct tile *action_tgt_tile(struct unit *actor,
       return target;
     }
   } action_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+  Returns the action auto performer that the specified cause can force the
+  specified actor to perform. Returns NULL if no such action auto performer
+  exists.
+**************************************************************************/
+const struct action_auto_perf *
+action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
+                          const struct unit *actor,
+                          const struct output_type *output)
+{
+  action_auto_perf_by_cause_iterate(cause, autoperformer) {
+    if (are_reqs_active(unit_owner(actor), NULL,
+                        NULL, NULL, unit_tile(actor),
+                        actor, unit_type_get(actor),
+                        output, NULL, NULL,
+                        &autoperformer->reqs, RPT_CERTAIN)) {
+      /* Select this action auto performer. */
+      return autoperformer;
+    }
+  } action_auto_perf_by_cause_iterate_end;
+
+  /* Can't even try to force an action. */
+  return NULL;
+}
+
+/**************************************************************************
+  Make the specified actor unit perform an action because of cause.
+
+  Returns the action the actor unit was forced to perform.
+  Returns NULL if that didn't happen.
+
+  Note that the return value doesn't say anything about survival.
+**************************************************************************/
+const struct action *
+action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
+                         struct unit *actor,
+                         const struct output_type *output)
+{
+  int i;
+
+  int actor_id;
+
+  struct city *tgt_city;
+  struct tile *tgt_tile;
+  struct unit *tgt_unit;
+  struct tile *tgt_units;
+
+  const struct action_auto_perf *autoperf
+      = action_auto_perf_unit_sel(cause, actor, output);
+
+  if (!autoperf) {
+    /* No matching action forcer. */
+    return NULL;
+  }
+
+  actor_id = actor->id;
+
+  /* Acquire the targets. */
+  tgt_city = action_tgt_city(actor, unit_tile(actor), TRUE);
+  tgt_tile = action_tgt_tile(actor, unit_tile(actor), TRUE);
+  tgt_unit = action_tgt_unit(actor, unit_tile(actor), TRUE);
+  tgt_units = action_tgt_tile_units(actor, unit_tile(actor), TRUE);
+
+  for (i = 0; i < ACTION_COUNT; i++) {
+    const enum gen_action act = autoperf->alternatives[i];
+
+    if (act == ACTION_COUNT) {
+      /* No more alternative actions. */
+      break;
+    } else if (action_get_actor_kind(act) == AAK_UNIT) {
+      /* This action can be done by units. */
+
+#define perform_action_to(act, actor, tgtid)                              \
+  if (unit_perform_action(unit_owner(actor),                              \
+                          actor->id, tgtid,                               \
+                          0, NULL, act, ACT_REQ_RULES)) {                 \
+    return action_by_number(act);                                         \
+  }
+
+      switch (action_get_target_kind(act)) {
+      case ATK_UNITS:
+        if (tgt_units
+            && is_action_enabled_unit_on_units(act, actor, tgt_units)) {
+          perform_action_to(act, actor, tgt_units->index);
+        }
+        break;
+      case ATK_TILE:
+        if (tgt_tile
+            && is_action_enabled_unit_on_tile(act, actor, tgt_tile)) {
+          perform_action_to(act, actor, tgt_tile->index);
+        }
+        break;
+      case ATK_CITY:
+        if (tgt_city
+            && is_action_enabled_unit_on_city(act, actor, tgt_city)) {
+          perform_action_to(act, actor, tgt_city->id)
+        }
+        break;
+      case ATK_UNIT:
+        if (tgt_unit
+            && is_action_enabled_unit_on_unit(act, actor, tgt_unit)) {
+          perform_action_to(act, actor, tgt_unit->id);
+        }
+        break;
+      case ATK_SELF:
+        if (actor
+            && is_action_enabled_unit_on_self(act, actor)) {
+          perform_action_to(act, actor, actor->id);
+        }
+        break;
+      case ATK_COUNT:
+        fc_assert(action_get_target_kind(act) != ATK_COUNT);
+      }
+
+      if (!unit_alive(actor_id)) {
+        /* The unit is gone. Maybe it was killed in Lua? */
+        return NULL;
+      }
+    }
+  }
 
   return NULL;
 }

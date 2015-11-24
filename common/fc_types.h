@@ -49,6 +49,7 @@ extern "C" {
 #define MAX_GOODS_TYPES 5
 #define MAX_DISASTER_TYPES 10
 #define MAX_ACHIEVEMENT_TYPES 10
+#define MAX_NUM_ACTION_AUTO_PERFORMERS 3
 #define MAX_NUM_MULTIPLIERS 15
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS /* Used in the network protocol. */
 #define MAX_NUM_NATION_SETS 32 /* Used in the network protocol.

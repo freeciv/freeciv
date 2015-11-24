@@ -15,8 +15,10 @@
 #define FC__ACTIONTOOLS_H
 
 /* common */
+#include "actions.h"
 #include "player.h"
 #include "tile.h"
+#include "unit.h"
 
 void action_consequence_caught(const int action_id,
                                struct player *offender,
@@ -43,5 +45,15 @@ struct tile *action_tgt_tile_units(struct unit *actor,
 struct tile *action_tgt_tile(struct unit *actor,
                              struct tile *target_tile,
                              bool accept_all_actions);
+
+const struct action_auto_perf *
+action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
+                          const struct unit *actor,
+                          const struct output_type *output);
+
+const struct action *
+action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
+                         struct unit *actor,
+                         const struct output_type *output);
 
 #endif /* FC__ACTIONTOOLS_H */

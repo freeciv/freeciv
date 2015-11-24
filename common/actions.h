@@ -235,6 +235,65 @@ struct action_enabler
   } action_iterate_end;                                  \
 }
 
+/* The reason why an action should be auto performed. */
+#define SPECENUM_NAME action_auto_perf_cause
+/* Can't pay the unit's upkeep. */
+/* (Can be triggered by food, shield or gold upkeep) */
+#define SPECENUM_VALUE0 AAPC_UNIT_UPKEEP
+#define SPECENUM_VALUE0NAME N_("Unit Upkeep")
+/* Number of forced action auto performer causes. */
+#define SPECENUM_COUNT AAPC_COUNT
+#include "specenum_gen.h"
+
+/* Action Auto Performer - rule to make an actor try to perform an action
+ * without being ordered to do so by the player controlling it.
+ * - the first auto performer that matches the cause and fulfills the reqs
+ *   is selected.
+ * - the actions listed by the selected auto performer is tried in order
+ *   until an action is successful, all actions have been tried or the
+ *   actor disappears.
+ * - if no action inside the selected auto performer is legal no action is
+ *   performed. The system won't try to select another auto performer.
+ */
+struct action_auto_perf
+{
+  /* The reason for trying to auto perform an action. */
+  enum action_auto_perf_cause cause;
+
+  /* Must be fulfilled if the game should try to force an action from this
+   * action auto performer. */
+  struct requirement_vector reqs;
+
+  /* Auto perform the first legal action in this list.
+   * The list is terminated by ACTION_COUNT. */
+  enum gen_action alternatives[ACTION_COUNT];
+};
+
+#define action_auto_perf_iterate(_act_perf_)                              \
+{                                                                         \
+  int _ap_num_;                                                           \
+                                                                          \
+  for (_ap_num_ = 0;                                                      \
+       _ap_num_ < MAX_NUM_ACTION_AUTO_PERFORMERS                          \
+       && (action_auto_perf_by_number(_ap_num_)->cause                    \
+           != AAPC_COUNT);                                                \
+       _ap_num_++) {                                                      \
+    const struct action_auto_perf *_act_perf_                             \
+              = action_auto_perf_by_number(_ap_num_);
+
+#define action_auto_perf_iterate_end                                      \
+  }                                                                       \
+}
+
+#define action_auto_perf_by_cause_iterate(_cause_, _act_perf_)            \
+action_auto_perf_iterate(_act_perf_) {                                    \
+  if (_act_perf_->cause != _cause_) {                                     \
+    continue;                                                             \
+  }
+
+#define action_auto_perf_by_cause_iterate_end                             \
+} action_auto_perf_iterate_end
+
 /* Initialization */
 void actions_init(void);
 void actions_free(void);
@@ -341,6 +400,9 @@ bool action_immune_government(struct government *gov, int act);
 bool is_action_possible_on_city(const enum gen_action action_id,
                                 const struct player *actor_player,
                                 const struct city* target_city);
+
+/* Action auto performers */
+const struct action_auto_perf *action_auto_perf_by_number(const int num);
 
 #ifdef __cplusplus
 }
