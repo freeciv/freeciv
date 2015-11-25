@@ -982,8 +982,14 @@ enum rfc_status create_command_pregame(const char *name,
     }
     /* Check that we have nations available */
     if (normal_player_count() >= server.playable_nations) {
-      fc_snprintf(buf, buflen,
-                  _("Can't add more players, not enough nations."));
+      if (nation_set_count() > 1) {
+        fc_snprintf(buf, buflen,
+                    _("Can't add more players, not enough playable nations "
+                      "in current nationset (see 'nationset' setting)."));
+      } else {
+        fc_snprintf(buf, buflen,
+                    _("Can't add more players, not enough playable nations."));
+      }
       return C_FAIL;
     }
   }
@@ -5635,9 +5641,16 @@ bool start_command(struct connection *caller, bool check, bool notify)
                       _("No players; game will not start."));
       return FALSE;
     } else if (normal_player_count() > server.playable_nations) {
-      start_cmd_reply(caller, notify,
-                      _("Not enough nations for all players; game will "
-                        "not start."));
+      if (nation_set_count() > 1) {
+        start_cmd_reply(caller, notify,
+                        _("Not enough nations in the current nationset "
+                          "for all players; game will not start. "
+                          "(See 'nationset' setting.)"));
+      } else {
+        start_cmd_reply(caller, notify,
+                        _("Not enough nations for all players; game will "
+                          "not start."));
+      }
       return FALSE;
     } else if (strlen(game.server.start_units) == 0 && !game.server.start_city) {
       start_cmd_reply(caller, notify,
