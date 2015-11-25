@@ -188,7 +188,8 @@ void do_tech_parasite_effect(struct player *pplayer)
                         advance_name_for_player(pplayer, i),
                         astr_str(&effects));
           notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN, ftc_server,
-                           _("The %s have acquired %s from %s."),
+                           /* TRANS: Tech from source of an effect (Great Library) */
+                           _("?fromeffect:The %s have acquired %s from %s."),
                            nation_plural_for_player(pplayer),
                            advance_name_for_player(pplayer, i),
                            astr_str(&effects));
@@ -427,7 +428,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       if (additional_tech != A_UNSET) {
         notify_research(plr, E_TECH_GAIN, ftc_server,
                         /* TRANS: Got free tech. */
-                        _("Acquired %s"), padv_name);
+                        _("Acquired %s."), padv_name);
       }
     } else if (additional_tech != A_UNSET) {
       notify_research(plr, E_TECH_GAIN, ftc_server,

@@ -451,7 +451,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
         if (tech_transfer(pdest, pgiver, pclause->value)) {
           notify_embassies(pdest, pgiver, NULL, E_TECH_GAIN, ftc_server,
-                           _("The %s have acquired %s from the %s."),
+                           /* TRANS: Tech from another player */
+                           _("?fromplr:The %s have acquired %s from the %s."),
                            nation_plural_for_player(pdest),
                            advance_name_for_player(pdest, pclause->value),
                            nation_plural_for_player(pgiver));
