@@ -4828,6 +4828,19 @@ static bool load_ruleset_cities(struct section_file *file,
                                  "citizen.convert_speed");
     game.info.citizen_partisans_pct =
       secfile_lookup_int_default(file, 0, "citizen.partisans_pct");
+
+    /* Missing unit upkeep. */
+    game.info.muuk_food_wipe =
+        secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_FOOD_WIPE,
+                                    "missing_unit_upkeep.food_wipe");
+
+    game.info.muuk_gold_wipe =
+        secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_GOLD_WIPE,
+                                    "missing_unit_upkeep.gold_wipe");
+
+    game.info.muuk_shield_wipe =
+        secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_SHIELD_WIPE,
+                                    "missing_unit_upkeep.shield_wipe");
   }
 
   if (ok) {

@@ -236,6 +236,15 @@ void rscompat_postprocess(struct rscompat_info *info)
     return;
   }
 
+  if (info->ver_cities < 10) {
+    /* Missing unit upkeep. */
+    game.info.muuk_food_wipe = TRUE;
+
+    game.info.muuk_gold_wipe = TRUE;
+
+    game.info.muuk_shield_wipe = FALSE;
+  }
+
   if (info->ver_units < 10) {
     unit_type_iterate(ptype) {
       if (utype_has_flag(ptype, UTYF_SETTLERS)) {

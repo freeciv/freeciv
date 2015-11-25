@@ -499,6 +499,9 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL killcitizen;
   BOOL killstack;
   UINT8 min_city_center_output[O_LAST];
+  BOOL muuk_food_wipe;
+  BOOL muuk_gold_wipe;
+  BOOL muuk_shield_wipe;
   STRING negative_year_label[MAX_LEN_NAME];
   UINT8 notradesize;
   BOOL nuclear_winter;

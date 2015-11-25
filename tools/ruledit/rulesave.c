@@ -572,6 +572,18 @@ static bool save_cities_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, game.info.citizen_partisans_pct,
                        "citizen.partisans_pct");
   }
+  if (game.info.muuk_food_wipe != RS_DEFAULT_MUUK_FOOD_WIPE) {
+    secfile_insert_bool(sfile, game.info.muuk_food_wipe,
+                        "missing_unit_upkeep.food_wipe");
+  }
+  if (game.info.muuk_gold_wipe != RS_DEFAULT_MUUK_GOLD_WIPE) {
+    secfile_insert_bool(sfile, game.info.muuk_gold_wipe,
+                        "missing_unit_upkeep.gold_wipe");
+  }
+  if (game.info.muuk_shield_wipe != RS_DEFAULT_MUUK_SHIELD_WIPE) {
+    secfile_insert_bool(sfile, game.info.muuk_shield_wipe,
+                        "missing_unit_upkeep.shield_wipe");
+  }
 
   return save_ruleset_file(sfile, filename);
 }
