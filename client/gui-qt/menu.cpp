@@ -709,7 +709,7 @@ void mr_menu::setup_menus()
   menu->addSeparator();
   act = menu->addAction(_("Unit selection dialog"));
   menu_list.insertMulti(STANDARD, act);
-  act->setShortcut(QKeySequence(tr("ctrl+s")));
+  act->setShortcut(QKeySequence(tr("ctrl+space")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_selection_dialog()));
   menu->addSeparator();
   act = menu->addAction(_("Wait"));
