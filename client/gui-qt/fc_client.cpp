@@ -859,7 +859,9 @@ void pregame_options::ailevel_change(int i)
 ****************************************************************************/
 void pregame_options::ruleset_change(int i)
 {
-  set_ruleset(cruleset->currentText().toLocal8Bit().data());
+  if (!cruleset->currentText().isEmpty()) {
+    set_ruleset(cruleset->currentText().toLocal8Bit().data());
+  }
 }
 
 /****************************************************************************
