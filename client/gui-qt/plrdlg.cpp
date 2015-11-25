@@ -379,7 +379,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   tech_str.clear();
   ally_str.clear();
   if (indexes.isEmpty()) {
-    plr->update_report();
+    plr->update_report(false);
     return;
   }
   index = indexes.at(0);
@@ -387,7 +387,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   pplayer = reinterpret_cast<player *>(qvar.value<void *>());
   other_player = pplayer;
   if (pplayer->is_alive == false) {
-    plr->update_report();
+    plr->update_report(false);
     return;
   }
   pcity = player_capital(pplayer);
