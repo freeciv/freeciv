@@ -2236,10 +2236,12 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
         const char *adv_name = research_advance_name_translation(presearch, tech);
 
         notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
-                        _("Acquired %s from %s."), adv_name, provider);
+                        /* TRANS: Tech from building (Darwin's Voyage) */
+                        _("?frombldg:Acquired %s from %s."), adv_name, provider);
 
         notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
-                                  _("The %s have acquired %s from %s."),
+                                  /* TRANS: Tech from building (Darwin's Voyage) */
+                                  _("?frombldg:The %s have acquired %s from %s."),
                                   research_name, adv_name, provider);
       }
     }
