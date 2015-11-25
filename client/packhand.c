@@ -3722,6 +3722,28 @@ handle_ruleset_action_enabler(const struct packet_ruleset_action_enabler *p)
   action_enabler_add(enabler);
 }
 
+/**************************************************************************
+  Handle a packet about a particular action auto performer rule.
+**************************************************************************/
+void handle_ruleset_action_auto(const struct packet_ruleset_action_auto *p)
+{
+  struct action_auto_perf *auto_perf;
+  int i;
+
+  auto_perf = action_auto_perf_slot_number(p->id);
+
+  auto_perf->cause = p->cause;
+
+  for (i = 0; i < p->reqs_count; i++) {
+    requirement_vector_append(&auto_perf->reqs, p->reqs[i]);
+  }
+  fc_assert(auto_perf->reqs.size == p->reqs_count);
+
+  for (i = 0; i < p->alternatives_count; i++) {
+    auto_perf->alternatives[i] = p->alternatives[i];
+  }
+}
+
 /****************************************************************************
   Handle a packet about a particular disaster type.
 ****************************************************************************/

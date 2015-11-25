@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 251
+Max id: 252
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -241,6 +241,7 @@ type TRI                = uint8(enum traderoute_illegal_cancelling)
 type RDIR               = uint8(enum route_direction)
 type MOVE_MODE          = uint8(enum road_move_mode)
 type GEN_ACTION         = uint8(enum gen_action)
+type ACTION_AUTO_CAUSE  = uint8(enum action_auto_perf_cause)
 type ACTION_DECISION    = uint8(enum action_decision)
 type REVOLENTYPE        = uint8(enum revolen_type)
 type HAPPYBORDERSTYPE   = uint8(enum happyborders_type)
@@ -1680,6 +1681,17 @@ PACKET_RULESET_ACTION_ENABLER = 235; sc, lsend
   REQUIREMENT actor_reqs[MAX_NUM_REQS:actor_reqs_count];
   UINT8 target_reqs_count;
   REQUIREMENT target_reqs[MAX_NUM_REQS:target_reqs_count];
+end
+
+PACKET_RULESET_ACTION_AUTO = 252; sc, lsend
+  UINT8             id;
+
+  ACTION_AUTO_CAUSE cause;
+  UINT8             reqs_count;
+  REQUIREMENT       reqs[MAX_NUM_REQS:reqs_count];
+
+  UINT8             alternatives_count;
+  GEN_ACTION        alternatives[ACTION_COUNT:alternatives_count];
 end
 
 PACKET_RULESET_MUSIC = 240; sc, lsend

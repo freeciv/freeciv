@@ -237,10 +237,42 @@ void rscompat_postprocess(struct rscompat_info *info)
   }
 
   if (info->ver_cities < 10) {
+    struct action_auto_perf *auto_perf;
+
     /* Missing unit upkeep. */
+
+    /* Can't pay food upkeep! */
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_FOOD);
+
+    /* The actor unit can't have the unit type flag Undisbandable. */
+    requirement_vector_append(&auto_perf->reqs,
+                              req_from_str("UnitFlag", "Local",
+                                           FALSE, FALSE, TRUE,
+                                           "Undisbandable"));
+
     game.info.muuk_food_wipe = TRUE;
 
+    /* Can't pay gold upkeep! */
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_GOLD);
+
+    /* TODO: Should missing gold upkeep really be able to kill units with
+     * the Undisbandable unit type flag? */
     game.info.muuk_gold_wipe = TRUE;
+
+    /* Can't pay shield upkeep! */
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_SHIELD);
+
+    /* The actor unit can't have the unit type flag Undisbandable. */
+    requirement_vector_append(&auto_perf->reqs,
+                              req_from_str("UnitFlag", "Local",
+                                           FALSE, FALSE, TRUE,
+                                           "Undisbandable"));
+
+    /* Only disbanding because of missing shield upkeep will try to disband
+     * via a forced action. */
+    auto_perf->alternatives[0] = ACTION_HELP_WONDER;
+    auto_perf->alternatives[1] = ACTION_RECYCLE_UNIT;
+    auto_perf->alternatives[2] = ACTION_DISBAND_UNIT;
 
     game.info.muuk_shield_wipe = FALSE;
   }

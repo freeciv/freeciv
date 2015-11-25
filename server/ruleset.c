@@ -4707,6 +4707,78 @@ static bool load_ruleset_styles(struct section_file *file,
 }
 
 /**************************************************************************
+  Load missing unit upkeep ruleset settings as action auto performers.
+**************************************************************************/
+static bool load_muuk_as_action_auto(struct section_file *file,
+                                     struct action_auto_perf *auto_perf,
+                                     const char *item,
+                                     const char *filename)
+{
+  /* Add each listed protected unit type flag as a !present
+   * requirement. */
+  if (secfile_entry_lookup(file,
+                           "missing_unit_upkeep.%s_protected", item)) {
+    enum unit_type_flag_id *protecor_flag;
+    size_t psize;
+    int i;
+
+    protecor_flag =
+        secfile_lookup_enum_vec(file, &psize, unit_type_flag_id,
+                                "missing_unit_upkeep.%s_protected", item);
+
+    if (!protecor_flag) {
+      /* Entity exists but couldn't read it. */
+      ruleset_error(LOG_ERROR,
+                    "\"%s\": missing_unit_upkeep.%s_protected: bad unit "
+                    " type flag list.",
+                    filename, item);
+
+      return FALSE;
+    }
+
+    for (i = 0; i < psize; i++) {
+      requirement_vector_append(&auto_perf->reqs,
+                                req_from_values(VUT_UTFLAG,
+                                                REQ_RANGE_LOCAL,
+                                                FALSE, FALSE, TRUE,
+                                                protecor_flag[i]));
+    }
+
+    free(protecor_flag);
+  }
+
+  /* Read the alternative actions. */
+  if (secfile_entry_lookup(file,
+                           "missing_unit_upkeep.%s_unit_act", item)) {
+    enum gen_action *unit_acts;
+    size_t asize;
+    int i;
+
+    unit_acts =
+        secfile_lookup_enum_vec(file, &asize, gen_action,
+                                "missing_unit_upkeep.%s_unit_act", item);
+
+    if (!unit_acts) {
+      /* Entity exists but couldn't read it. */
+      ruleset_error(LOG_ERROR,
+                    "\"%s\": missing_unit_upkeep.%s_unit_act: bad action "
+                    "list",
+                    filename, item);
+
+      return FALSE;
+    }
+
+    for (i = 0; i < asize; i++) {
+      auto_perf->alternatives[i] = unit_acts[i];
+    }
+
+    free(unit_acts);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Load cities.ruleset file
 **************************************************************************/
 static bool load_ruleset_cities(struct section_file *file,
@@ -4828,15 +4900,64 @@ static bool load_ruleset_cities(struct section_file *file,
                                  "citizen.convert_speed");
     game.info.citizen_partisans_pct =
       secfile_lookup_int_default(file, 0, "citizen.partisans_pct");
+  }
 
+  if (ok) {
     /* Missing unit upkeep. */
+    struct action_auto_perf *auto_perf;
+
+    /* Can't pay food upkeep! */
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_FOOD);
+    auto_perf->cause = AAPC_UNIT_UPKEEP;
+
+    /* This is about food upkeep. */
+    requirement_vector_append(&auto_perf->reqs,
+                              req_from_str("OutputType", "Local",
+                                           FALSE, TRUE, TRUE,
+                                           "Food"));
+
+    /* Internally represented as an action auto performer rule. */
+    if (!load_muuk_as_action_auto(file, auto_perf, "food", filename)) {
+      ok = FALSE;
+    }
+
     game.info.muuk_food_wipe =
         secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_FOOD_WIPE,
                                     "missing_unit_upkeep.food_wipe");
 
+    /* Can't pay gold upkeep! */
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_GOLD);
+    auto_perf->cause = AAPC_UNIT_UPKEEP;
+
+    /* This is about gold upkeep. */
+    requirement_vector_append(&auto_perf->reqs,
+                              req_from_str("OutputType", "Local",
+                                           FALSE, TRUE, TRUE,
+                                           "Gold"));
+
+    /* Internally represented as an action auto performer rule. */
+    if (!load_muuk_as_action_auto(file, auto_perf, "gold", filename)) {
+      ok = FALSE;
+    }
+
     game.info.muuk_gold_wipe =
         secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_GOLD_WIPE,
                                     "missing_unit_upkeep.gold_wipe");
+
+    /* Can't pay shield upkeep! */
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_SHIELD);
+    auto_perf->cause = AAPC_UNIT_UPKEEP;
+
+    /* This is about shield upkeep. */
+    requirement_vector_append(&auto_perf->reqs,
+                              req_from_str("OutputType", "Local",
+                                           FALSE, TRUE, TRUE,
+                                           "Shield"));
+
+    /* Internally represented as an action auto performer rule. */
+    if (!load_muuk_as_action_auto(file, auto_perf, "shield", filename)) {
+      ok = FALSE;
+    }
 
     game.info.muuk_shield_wipe =
         secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_SHIELD_WIPE,
@@ -6665,6 +6786,42 @@ static void send_ruleset_action_enablers(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send action auto performer ruleset information to the specified
+  connections.
+**************************************************************************/
+static void send_ruleset_action_auto_performers(struct conn_list *dest)
+{
+  int counter;
+  int id;
+  struct packet_ruleset_action_auto packet;
+
+  id = 0;
+  action_auto_perf_iterate(aperf) {
+    packet.id = id++;
+
+    packet.cause = aperf->cause;
+
+    counter = 0;
+    requirement_vector_iterate(&aperf->reqs, req) {
+      packet.reqs[counter++] = *req;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = counter;
+
+    for (counter = 0;
+         /* Can't list more actions than all actions. */
+         counter < ACTION_COUNT
+         /* ACTION_COUNT terminates the list. */
+         && aperf->alternatives[counter] != ACTION_COUNT;
+         counter++) {
+      packet.alternatives[counter] = aperf->alternatives[counter];
+    }
+    packet.alternatives_count = counter;
+
+    lsend_packet_ruleset_action_auto(dest, &packet);
+  } action_auto_perf_iterate_end;
+}
+
+/**************************************************************************
   Send the disaster ruleset information (all individual disaster types) to the
   specified connections.
 **************************************************************************/
@@ -7302,6 +7459,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_team_names(dest);
   send_ruleset_actions(dest);
   send_ruleset_action_enablers(dest);
+  send_ruleset_action_auto_performers(dest);
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);
   send_ruleset_unit_classes(dest);

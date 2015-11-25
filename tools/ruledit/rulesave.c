@@ -489,6 +489,67 @@ static bool save_styles_ruleset(const char *filename, const char *name)
 }
 
 /**************************************************************************
+  Save the action a unit should perform when its missing food, gold or
+  shield upkeep. Save as regular settings since the Action Auto Perform
+  rules system isn't ready to be exposed to the ruleset yet.
+**************************************************************************/
+static bool save_hidden_action_auto(struct section_file *sfile,
+                                    const int aap,
+                                    const char *item)
+{
+  enum unit_type_flag_id protecor_flag[MAX_NUM_USER_UNIT_FLAGS];
+  enum gen_action unit_acts[ACTION_COUNT];
+  size_t i;
+  size_t ret;
+
+  const struct action_auto_perf *auto_perf =
+      action_auto_perf_by_number(aap);
+
+  i = 0;
+  requirement_vector_iterate(&auto_perf->reqs, req) {
+    fc_assert(req->range == REQ_RANGE_LOCAL);
+
+    if (req->source.kind == VUT_UTFLAG) {
+      fc_assert(!req->present);
+
+      protecor_flag[i++] = req->source.value.unitflag;
+    } else if (!(req->source.kind == VUT_OTYPE && req->present)) {
+      log_error("Can't handle action auto performer requirement %s",
+                req_to_fstring(req));
+
+      return FALSE;
+    }
+  } requirement_vector_iterate_end;
+
+  ret = secfile_insert_enum_vec(sfile, &protecor_flag, i,
+                                unit_type_flag_id,
+                                "missing_unit_upkeep.%s_protected", item);
+
+  if (ret != i) {
+    log_error("Didn't save all unit flags protected from upkeep killing");
+
+    return FALSE;
+  }
+
+  for (i = 0;
+       i < ACTION_COUNT && auto_perf->alternatives[i] != ACTION_COUNT;
+       i++) {
+    unit_acts[i] = auto_perf->alternatives[i];
+  }
+
+  ret = secfile_insert_enum_vec(sfile, &unit_acts, i, gen_action,
+                                "missing_unit_upkeep.%s_unit_act", item);
+
+  if (ret != i) {
+    log_error("Didn't save all upkeep failure actions");
+
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save cities.ruleset
 **************************************************************************/
 static bool save_cities_ruleset(const char *filename, const char *name)
@@ -572,14 +633,23 @@ static bool save_cities_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, game.info.citizen_partisans_pct,
                        "citizen.partisans_pct");
   }
+
+  save_hidden_action_auto(sfile, ACTION_AUTO_UPKEEP_FOOD,
+                          "food");
   if (game.info.muuk_food_wipe != RS_DEFAULT_MUUK_FOOD_WIPE) {
     secfile_insert_bool(sfile, game.info.muuk_food_wipe,
                         "missing_unit_upkeep.food_wipe");
   }
+
+  save_hidden_action_auto(sfile, ACTION_AUTO_UPKEEP_GOLD,
+                          "gold");
   if (game.info.muuk_gold_wipe != RS_DEFAULT_MUUK_GOLD_WIPE) {
     secfile_insert_bool(sfile, game.info.muuk_gold_wipe,
                         "missing_unit_upkeep.gold_wipe");
   }
+
+  save_hidden_action_auto(sfile, ACTION_AUTO_UPKEEP_SHIELD,
+                          "shield");
   if (game.info.muuk_shield_wipe != RS_DEFAULT_MUUK_SHIELD_WIPE) {
     secfile_insert_bool(sfile, game.info.muuk_shield_wipe,
                         "missing_unit_upkeep.shield_wipe");

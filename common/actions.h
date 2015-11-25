@@ -294,6 +294,12 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 #define action_auto_perf_by_cause_iterate_end                             \
 } action_auto_perf_iterate_end
 
+/* Hard coded location of action auto performers. Used for conversion while
+ * action auto performers aren't directly exposed to the ruleset. */
+#define ACTION_AUTO_UPKEEP_FOOD   0
+#define ACTION_AUTO_UPKEEP_GOLD   1
+#define ACTION_AUTO_UPKEEP_SHIELD 2
+
 /* Initialization */
 void actions_init(void);
 void actions_free(void);
@@ -403,6 +409,7 @@ bool is_action_possible_on_city(const enum gen_action action_id,
 
 /* Action auto performers */
 const struct action_auto_perf *action_auto_perf_by_number(const int num);
+struct action_auto_perf *action_auto_perf_slot_number(const int num);
 
 #ifdef __cplusplus
 }

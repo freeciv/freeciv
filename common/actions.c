@@ -202,56 +202,6 @@ void actions_init(void)
     }
   }
 
-  /* TODO: Move the action auto performer rules below to the ruleset. */
-
-  /* Can't pay food upkeep! */
-  auto_perfs[0].cause = AAPC_UNIT_UPKEEP;
-
-  /* This is about food upkeep. */
-  requirement_vector_append(&auto_perfs[0].reqs,
-                            req_from_str("OutputType", "Local",
-                                         FALSE, TRUE, TRUE,
-                                         "Food"));
-
-  /* The actor unit can't have the unit type flag Undisbandable. */
-  requirement_vector_append(&auto_perfs[0].reqs,
-                            req_from_str("UnitFlag", "Local",
-                                         FALSE, FALSE, TRUE,
-                                         "Undisbandable"));
-
-  /* Can't pay gold upkeep! */
-  auto_perfs[1].cause = AAPC_UNIT_UPKEEP;
-
-  /* This is about gold upkeep. */
-  requirement_vector_append(&auto_perfs[1].reqs,
-                            req_from_str("OutputType", "Local",
-                                         FALSE, TRUE, TRUE,
-                                         "Gold"));
-
-  /* TODO: Should missing gold upkeep really be able to disband
-   * undisbandable units? */
-
-  /* Can't pay shield upkeep! */
-  auto_perfs[2].cause = AAPC_UNIT_UPKEEP;
-
-  /* This is about shield upkeep. */
-  requirement_vector_append(&auto_perfs[2].reqs,
-                            req_from_str("OutputType", "Local",
-                                         FALSE, TRUE, TRUE,
-                                         "Shield"));
-
-  /* The actor unit can't have the unit type flag Undisbandable. */
-  requirement_vector_append(&auto_perfs[2].reqs,
-                            req_from_str("UnitFlag", "Local",
-                                         FALSE, FALSE, TRUE,
-                                         "Undisbandable"));
-
-  /* Only disbanding because of missing shield upkeep will try to disband
-   * via a forced action. */
-  auto_perfs[2].alternatives[0] = ACTION_HELP_WONDER;
-  auto_perfs[2].alternatives[1] = ACTION_RECYCLE_UNIT;
-  auto_perfs[2].alternatives[2] = ACTION_DISBAND_UNIT;
-
   /* The actions them self are now initialized. */
   actions_initialized = TRUE;
 }
@@ -2338,6 +2288,18 @@ bool is_action_possible_on_city(const enum gen_action action_id,
                             NULL, NULL);
 }
 
+
+/**************************************************************************
+  Returns action auto performer rule slot number num so it can be filled.
+**************************************************************************/
+struct action_auto_perf *action_auto_perf_slot_number(const int num)
+{
+  fc_assert_ret_val(num >= 0, NULL);
+  fc_assert_ret_val(num < MAX_NUM_ACTION_AUTO_PERFORMERS, NULL);
+
+  return &auto_perfs[num];
+}
+
 /**************************************************************************
   Returns action auto performer rule number num.
 
@@ -2348,8 +2310,5 @@ bool is_action_possible_on_city(const enum gen_action action_id,
 **************************************************************************/
 const struct action_auto_perf *action_auto_perf_by_number(const int num)
 {
-  fc_assert_ret_val(num >= 0, NULL);
-  fc_assert_ret_val(num < MAX_NUM_ACTION_AUTO_PERFORMERS, NULL);
-
-  return &auto_perfs[num];
+  return action_auto_perf_slot_number(num);
 }
