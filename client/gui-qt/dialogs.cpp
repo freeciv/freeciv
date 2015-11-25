@@ -2558,11 +2558,13 @@ void unit_select::update_units()
     }
   }
   unit_list.clear();
-  unit_list_iterate(utile->units, punit) {
-    if (i > show_line * 4)
-      unit_list.push_back(punit);
-    i++;
-  } unit_list_iterate_end;
+  if (utile != nullptr) {
+    unit_list_iterate(utile->units, punit) {
+      if (i > show_line * 4)
+        unit_list.push_back(punit);
+      i++;
+    } unit_list_iterate_end;
+  }
   if (unit_list.count() == 0) {
     close();
   }
