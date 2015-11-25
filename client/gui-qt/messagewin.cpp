@@ -452,8 +452,8 @@ void messagewdg::msg(const struct message *pmsg)
     item->setFont(f);
   }
   mesg_table->setItem(i, 0, item);
+  msg_update();
   mesg_table->scrollToBottom();
-  mesg_table->resizeRowToContents(i);
 }
 
 /***************************************************************************
