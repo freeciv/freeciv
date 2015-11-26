@@ -44,6 +44,8 @@ static const bool C_PERCENT = TRUE;
 #define topo_has_flag(topo, flag) (((topo) & (flag)) != 0)
 #define current_topo_has_flag(flag) topo_has_flag((CURRENT_TOPOLOGY), (flag))
 
+#define ALL_DIRECTIONS_CARDINAL() topo_has_flag((CURRENT_TOPOLOGY), TF_HEX)
+
 bool map_is_empty(void);
 void map_init(void);
 void map_init_topology(void);

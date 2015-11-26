@@ -738,7 +738,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
 
   cost = tile_terrain(t2)->movement_cost * SINGLE_MOVE;
   ri = restrict_infra(pplayer, t1, t2);
-  cardinal_move = is_move_cardinal(t1, t2);
+  cardinal_move = (ALL_DIRECTIONS_CARDINAL() || is_move_cardinal(t1, t2));
 
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     struct road_type *proad = extra_road_get(pextra);
@@ -760,16 +760,13 @@ static int tile_move_cost_ptrs(const struct unit *punit,
         if (tile_has_extra(t1, iextra)
             && (!pclass
                 || is_native_extra_to_uclass(iextra, pclass))) {
-          switch (proad->move_mode) {
-          case RMM_CARDINAL:
-            if (cardinal_move) {
-              cost = proad->move_cost;
-            }
-            break;
-          case RMM_RELAXED:
-            if (cardinal_move) {
-              cost = proad->move_cost;
-            } else {
+          if (cardinal_move) {
+            cost = proad->move_cost;
+          } else {
+            switch (proad->move_mode) {
+            case RMM_CARDINAL:
+              break;
+            case RMM_RELAXED:
               if (cost > proad->move_cost * 2) {
                 cardinal_between_iterate(t1, t2, between) {
                   if (tile_has_road(between, proad)) {
@@ -781,11 +778,11 @@ static int tile_move_cost_ptrs(const struct unit *punit,
                   }
                 } cardinal_between_iterate_end;
               }
+              break;
+            case RMM_FAST_ALWAYS:
+              cost = proad->move_cost;
+              break;
             }
-            break;
-          case RMM_FAST_ALWAYS:
-            cost = proad->move_cost;
-            break;
           }
         }
       } extra_type_list_iterate_end;
@@ -798,8 +795,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   }
 
   if (!cardinal_move
-      && terrain_control.pythagorean_diagonal
-      && !current_topo_has_flag(TF_HEX)) {
+      && terrain_control.pythagorean_diagonal) {
     return (int) (cost * 1.41421356f);
   } else {
     return cost;
