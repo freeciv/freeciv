@@ -358,6 +358,10 @@ bool is_native_move(const struct unit_class *punitclass,
       if (!tile_has_extra(src_tile, iextra)) {
         continue;
       }
+      if (ALL_DIRECTIONS_CARDINAL()) {
+        /* move_mode does not matter as all of them accept cardinal move */
+        return TRUE;
+      }
       switch (extra_road_get(iextra)->move_mode) {
       case RMM_FAST_ALWAYS:
         /* Road connects source and destination, so we're fine. */
