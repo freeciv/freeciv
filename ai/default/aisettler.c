@@ -1263,7 +1263,7 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
   initialize_infrastructure_cache(pplayer);
 
   /* Init ai.choice. Handling ferryboats might use it. */
-  init_choice(&def_ai_city_data(pcity, ait)->choice);
+  adv_init_choice(&def_ai_city_data(pcity, ait)->choice);
 
   return TRUE;
 }

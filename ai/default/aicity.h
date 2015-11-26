@@ -18,7 +18,7 @@
 #include "fc_types.h"
 
 /* server/advisors */
-#include "advdata.h"
+#include "advchoice.h"
 
 struct adv_data;
 struct tech_vector;

@@ -271,7 +271,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
-  init_choice(&newchoice);
+  adv_init_choice(&newchoice);
 
   if (has_handicap(pplayer, H_AWAY)
       && city_built_last_turn(pcity)
@@ -478,7 +478,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
     struct ai_city *city_data;
 
     /* Find highest wanted item on the buy list */
-    init_choice(&bestchoice);
+    adv_init_choice(&bestchoice);
     city_list_iterate(pplayer->cities, acity) {
       struct ai_city *acity_data = def_ai_city_data(acity, ait);
 

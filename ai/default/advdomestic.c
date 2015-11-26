@@ -43,6 +43,7 @@
 
 /* server/advisors */
 #include "advbuilding.h"
+#include "advchoice.h"
 #include "advdata.h"
 #include "autosettlers.h"
 #include "infracache.h" /* adv_city */
@@ -450,7 +451,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
   int settler_want, founder_want;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
-  init_choice(choice);
+  adv_init_choice(choice);
 
   /* Find out desire for workers (terrain improvers) */
   settler_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
@@ -551,17 +552,17 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
   {
     struct adv_choice cur;
 
-    init_choice(&cur);
+    adv_init_choice(&cur);
     /* Consider building caravan-type units to aid wonder construction */  
     dai_choose_help_wonder(ait, pcity, &cur, adv);
     copy_if_better_choice(&cur, choice);
 
-    init_choice(&cur);
+    adv_init_choice(&cur);
     /* Consider city improvements */
     building_advisor_choose(pcity, &cur);
     copy_if_better_choice(&cur, choice);
 
-    init_choice(&cur);
+    adv_init_choice(&cur);
     /* Consider building caravan-type units for trade route */
     dai_choose_trade_route(ait, pcity, &cur, adv);
     copy_if_better_choice(&cur, choice);
