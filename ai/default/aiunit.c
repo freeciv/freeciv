@@ -2683,8 +2683,6 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
                     && btype->attack_strength == btype->defense_strength))) {
           /* In this case attack would be better defense than fortifying
            * to city. */
-          log_normal("%s not assigning more defenders after %d",
-                     city_name(pcity), count);
           enough = TRUE;
         } else {
           int loglevel = pcity->server.debug ? LOG_AI_TEST : LOG_DEBUG;
