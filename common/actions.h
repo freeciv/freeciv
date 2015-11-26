@@ -245,7 +245,7 @@ struct action_enabler
 #define SPECENUM_COUNT AAPC_COUNT
 #include "specenum_gen.h"
 
-/* Action Auto Performer - rule to make an actor try to perform an action
+/* An Action Auto Performer rule makes an actor try to perform an action
  * without being ordered to do so by the player controlling it.
  * - the first auto performer that matches the cause and fulfills the reqs
  *   is selected.
