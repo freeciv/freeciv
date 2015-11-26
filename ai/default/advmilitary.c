@@ -129,7 +129,7 @@ void military_advisor_choose_tech(struct player *pplayer,
 				  struct adv_choice *choice)
 {
   /* This function hasn't been implemented yet. */
-  init_choice(choice);
+  adv_init_choice(choice);
 }
 
 /**************************************************************************
@@ -1167,7 +1167,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct ai_city *acity_data;
 
-  init_choice(&best_choice);
+  adv_init_choice(&best_choice);
   best_choice.value.utype = unit_type_get(myunit);
   best_choice.type = CT_ATTACKER;
   best_choice.want = choice->want;
@@ -1392,7 +1392,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   adv_want martial_value = 0;
   bool martial_need = FALSE;
 
-  init_choice(choice);
+  adv_init_choice(choice);
 
   urgency = assess_danger(ait, pcity);
   /* Changing to quadratic to stop AI from building piles 

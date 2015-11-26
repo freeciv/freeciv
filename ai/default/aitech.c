@@ -32,6 +32,9 @@
 #include "srv_log.h"
 #include "techtools.h"
 
+/* server/advisors */
+#include "advdata.h"
+
 /* ai/default */
 #include "advmilitary.h"
 #include "aidata.h"

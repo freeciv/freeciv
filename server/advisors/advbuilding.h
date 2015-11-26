@@ -14,7 +14,7 @@
 #define FC__BUILDINGADV_H
 
 /* server/advisors */
-#include "advdata.h"
+#include "advchoice.h"
 
 #define FOOD_WEIGHTING 25
 #define SHIELD_WEIGHTING 14

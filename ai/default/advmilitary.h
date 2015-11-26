@@ -18,7 +18,7 @@
 #include "unittype.h"
 
 /* server/advisors */
-#include "advdata.h"
+#include "advchoice.h"
 
 struct unit_type *dai_choose_defender_versus(struct city *pcity,
                                              struct unit *attacker);
