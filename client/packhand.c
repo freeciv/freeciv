@@ -1654,30 +1654,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
         } else {
           refresh_city_dialog(ccity);
         }
-
-        if (gui_options.popup_actor_arrival
-            && client_has_player()
-            && client_player() == unit_owner(punit)
-            && !client_player()->ai_controlled
-            && can_client_issue_orders()
-            && !unit_has_orders(punit)
-             /* the server handles non transported units */
-            && NULL != unit_transport_get(punit)
-            && utype_may_act_at_all(unit_type_get(punit))) {
-          /* Open action dialog only if 'punit' and all its transporters
-           * (recursively) don't have orders. */
-          struct unit *ptrans;
-
-          for (ptrans = unit_transport_get(punit);;
-               ptrans = unit_transport_get(ptrans)) {
-            if (NULL == ptrans) {
-              process_diplomat_arrival(punit, unit_tile(punit)->index);
-              break;
-            } else if (unit_has_orders(ptrans)) {
-              break;
-            }
-          }
-        }
       }
 
     }  /*** End of Change position. ***/
@@ -4102,6 +4078,13 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
 static void unit_actor_wants_input(struct unit *pdiplomat,
                                    int target_tile_id)
 {
+  if (pdiplomat->action_decision_want == ACT_DEC_PASSIVE
+      && !gui_options.popup_actor_arrival) {
+    /* The player isn't interested in getting a pop up for a mere
+     * arrival. */
+    return;
+  }
+
   process_diplomat_arrival(pdiplomat, target_tile_id);
 }
 

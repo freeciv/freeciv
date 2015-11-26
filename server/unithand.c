@@ -456,6 +456,16 @@ static struct city *tgt_city(struct unit *actor, struct tile *target_tile)
 }
 
 /**************************************************************************
+  Find a city to target for an action on the specified tile.
+
+  Returns NULL if no proper target is found.
+**************************************************************************/
+struct city *action_tgt_city(struct unit *actor, struct tile *target_tile)
+{
+  return tgt_city(actor, target_tile);
+}
+
+/**************************************************************************
   Find a unit to target for an action at the specified tile.
 
   Returns the first unit found at the tile that the actor may act against
