@@ -2350,15 +2350,23 @@ static bool load_terrain_names(struct section_file *file,
     for (idx = 0; idx < nval; idx++) {
       const char *sec_name = section_name(section_list_get(sec, idx));
       const char *base_name = secfile_lookup_str(file, "%s.extra", sec_name);
-      struct extra_type *pextra = extra_type_by_rule_name(base_name);
 
-      if (pextra != NULL) {
-        base_type_init(pextra, idx);
-        section_strlcpy(&base_sections[idx * MAX_SECTION_LABEL], sec_name);
+      if (base_name != NULL) {
+        struct extra_type *pextra = extra_type_by_rule_name(base_name);
+
+        if (pextra != NULL) {
+          base_type_init(pextra, idx);
+          section_strlcpy(&base_sections[idx * MAX_SECTION_LABEL], sec_name);
+        } else {
+          ruleset_error(LOG_ERROR,
+                        "No extra definition matching base definition \"%s\"",
+                        base_name);
+          ok = FALSE;
+        }
       } else {
         ruleset_error(LOG_ERROR,
-                      "No extra definition matching base definition \"%s\"",
-                      base_name);
+                      "Base section \"%s\" does not associate base with any extra",
+                      sec_name);
         ok = FALSE;
       }
     }
@@ -2394,15 +2402,23 @@ static bool load_terrain_names(struct section_file *file,
     for (idx = 0; idx < nval; idx++) {
       const char *sec_name = section_name(section_list_get(sec, idx));
       const char *road_name = secfile_lookup_str(file, "%s.extra", sec_name);
-      struct extra_type *pextra = extra_type_by_rule_name(road_name);
 
-      if (pextra != NULL) {
-        road_type_init(pextra, idx);
-        section_strlcpy(&road_sections[idx * MAX_SECTION_LABEL], sec_name);
+      if (road_name != NULL) {
+        struct extra_type *pextra = extra_type_by_rule_name(road_name);
+
+        if (pextra != NULL) {
+          road_type_init(pextra, idx);
+          section_strlcpy(&road_sections[idx * MAX_SECTION_LABEL], sec_name);
+        } else {
+          ruleset_error(LOG_ERROR,
+                        "No extra definition matching road definition \"%s\"",
+                        road_name);
+          ok = FALSE;
+        }
       } else {
         ruleset_error(LOG_ERROR,
-                      "No extra definition matching road definition \"%s\"",
-                      road_name);
+                      "Road section \"%s\" does not associate road with any extra",
+                      sec_name);
         ok = FALSE;
       }
     }
