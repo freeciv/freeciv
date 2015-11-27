@@ -3157,8 +3157,14 @@ void real_set_client_page(enum client_pages new_page)
   case PAGE_LOAD:
     break;
   case PAGE_GAME:
-    enable_menus(FALSE);
-    gtk_window_unmaximize(GTK_WINDOW(toplevel));
+    {
+      struct video_mode *vmode = resolution_request_get();
+
+      enable_menus(FALSE);
+      if (vmode == NULL) {
+        gtk_window_unmaximize(GTK_WINDOW(toplevel));
+      }
+    }
     break;
   default:
     break;
@@ -3182,11 +3188,17 @@ void real_set_client_page(enum client_pages new_page)
     conn_list_dialog_update();
     break;
   case PAGE_GAME:
-    reset_unit_table();
-    enable_menus(TRUE);
-    gtk_window_maximize(GTK_WINDOW(toplevel));
-    voteinfo_gui_update();
-    mapview_freeze();
+    {
+      struct video_mode *vmode = resolution_request_get();
+
+      reset_unit_table();
+      enable_menus(TRUE);
+      if (vmode == NULL) {
+        gtk_window_maximize(GTK_WINDOW(toplevel));
+      }
+      voteinfo_gui_update();
+      mapview_freeze();
+    }
     break;
   case PAGE_LOAD:
     update_load_page();

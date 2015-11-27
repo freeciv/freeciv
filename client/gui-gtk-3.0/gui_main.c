@@ -1643,6 +1643,9 @@ void ui_main(int argc, char **argv)
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position(GTK_WINDOW(toplevel), GTK_WIN_POS_CENTER);
+  if (vmode.width > 0 && vmode.height > 0) {
+    gtk_window_resize(GTK_WINDOW(toplevel), vmode.width, vmode.height);
+  }
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(toplevel_handler), NULL);
 
@@ -2268,6 +2271,18 @@ int screen_height(void)
   }
 
   return gdk_screen_get_height(screen);
+}
+
+/**************************************************************************
+  Give resolution requested by user, if any.
+**************************************************************************/
+struct video_mode *resolution_request_get(void)
+{
+  if (vmode.width > 0 && vmode.height > 0) {
+    return &vmode;
+  }
+
+  return NULL;
 }
 
 /**************************************************************************
