@@ -116,16 +116,19 @@ partisans_pct = 75              ; percentage of own nationality to inspire parti
 ;                above.
 
 food_protected    = "GameLoss"
-food_unit_act     = "Help Wonder", "Join City", "Establish Trade Route",
-                    "Enter Marketplace", "Recycle Unit"
+food_unit_act     = "Explode Nuclear", "Help Wonder", "Join City",
+                    "Establish Trade Route", "Enter Marketplace",
+                    "Recycle Unit"
 food_wipe         = TRUE
 
 gold_protected    = "GameLoss"
-gold_unit_act     = "Help Wonder", "Join City", "Establish Trade Route",
-                    "Enter Marketplace", "Recycle Unit"
+gold_unit_act     = "Explode Nuclear", "Help Wonder", "Join City",
+                    "Establish Trade Route", "Enter Marketplace",
+                    "Recycle Unit"
 gold_wipe         = TRUE
 
 shield_protected  = "GameLoss"
-shield_unit_act   = "Help Wonder", "Join City", "Establish Trade Route",
-                    "Enter Marketplace", "Recycle Unit"
+shield_unit_act   = "Explode Nuclear", "Help Wonder", "Join City",
+                    "Establish Trade Route", "Enter Marketplace",
+                    "Recycle Unit"
 shield_wipe       = TRUE

@@ -2156,6 +2156,9 @@ Similar to pollution and global warming, the risk of global nuclear\
  Migrants, Workers, and Engineers and (for fallout on water)\
  Transports can clean up nuclear fallout.\
 "), _("\
+Make sure that the upkeep (gold and shield) of your Nuclear is payed.\
+ A non maintained nuke will detonate in place.\
+"), _("\
 TIP:  You may be involved in a situation where you've invaded an\
  enemy country en masse, but the enemy cities are too strong.\
  Before using a Nuclear unit, assemble a gang of cleanup units\
