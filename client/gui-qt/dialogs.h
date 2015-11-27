@@ -200,10 +200,11 @@ class choice_dialog: public QWidget
   QList<Choice_dialog_button *> buttons_list;
   QList<Choice_dialog_button *> last_buttons_stack;
   QList<Choice_dialog_button *> action_button_map;
-  void (*run_on_close)(void);
+  void (*run_on_close)(int);
 public:
   choice_dialog(const QString title, const QString text,
-                QWidget *parent = NULL, void (*run_on_close_in)(void) = NULL);
+                QWidget *parent = NULL,
+                void (*run_on_close_in)(int) = NULL);
   ~choice_dialog();
   void set_layout();
   void add_item(QString title, pfcn_void func, QVariant data1,

@@ -89,7 +89,7 @@ static void caravan_marketplace_callback(Widget w, XtPointer client_data,
                       diplomat_target_id[ATK_CITY], 0);
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -107,7 +107,7 @@ static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
                       diplomat_target_id[ATK_CITY], 0);
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -126,7 +126,7 @@ static void caravan_help_build_wonder_callback(Widget w,
                       diplomat_target_id[ATK_CITY], 0);
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -213,7 +213,7 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
                       diplomat_target_id[ATK_CITY], B_LAST + 1);
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -231,7 +231,7 @@ static void diplomat_embassy_callback(Widget w, XtPointer client_data,
                       diplomat_target_id[ATK_CITY], 0);
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -249,7 +249,7 @@ static void diplomat_investigate_callback(Widget w, XtPointer client_data,
                       diplomat_target_id[ATK_CITY], 0);
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -280,7 +280,7 @@ static void spy_poison_callback(Widget w, XtPointer client_data,
                       diplomat_target_id[ATK_CITY], 0);
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /********************************************************************
@@ -298,7 +298,7 @@ static void spy_steal_gold_callback(Widget w, XtPointer client_data,
                       diplomat_target_id[ATK_CITY], 0);
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -316,7 +316,7 @@ static void diplomat_steal_callback(Widget w, XtPointer client_data,
                       diplomat_target_id[ATK_CITY], A_UNSET);
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -330,7 +330,7 @@ static void spy_close_tech_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(spy_tech_shell);
   spy_tech_shell=0;
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -344,7 +344,7 @@ static void spy_close_sabotage_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(spy_sabotage_shell);
   spy_sabotage_shell=0;
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -392,7 +392,7 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
   
   if(!steal_advance){
     log_error("Bug in spy steal tech code");
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
     return;
   }
 
@@ -411,7 +411,7 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
     }
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -425,7 +425,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
   
   if (sabotage_improvement < -1) {
     log_error("Bug in spy sabotage code");
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
     return;
   }
 
@@ -444,7 +444,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
     }
   }
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -718,7 +718,7 @@ static void diplomat_incite_yes_callback(Widget w, XtPointer client_data,
 
   destroy_message_dialog(w);
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -729,7 +729,7 @@ static void diplomat_incite_no_callback(Widget w, XtPointer client_data,
 {
   destroy_message_dialog(w);
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 
@@ -809,7 +809,7 @@ static void diplomat_keep_moving_callback(Widget w,
     request_do_action(ACTION_MOVE, diplomat_id,
                       ptile->index, 0);
   }
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /****************************************************************
@@ -820,7 +820,7 @@ static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
 
-  choose_action_queue_next();
+  action_decision_taken(diplomat_id);
 }
 
 /*************************************************************************

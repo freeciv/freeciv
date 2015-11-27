@@ -107,7 +107,7 @@ static struct action_data *act_data(int actor_id,
 static void diplomat_queue_handle_primary(void)
 {
   if (!is_more_user_input_needed) {
-    choose_action_queue_next();
+    action_decision_taken(actor_unit_id);
   }
 }
 

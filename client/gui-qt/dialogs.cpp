@@ -971,7 +971,7 @@ QVariant Choice_dialog_button::getData2()
 ***************************************************************************/
 choice_dialog::choice_dialog(const QString title, const QString text,
                              QWidget *parent,
-                             void (*run_on_close_in)(void)): QWidget(parent)
+                             void (*run_on_close_in)(int)): QWidget(parent)
 {
   QLabel *l = new QLabel(text);
 
@@ -1006,7 +1006,7 @@ choice_dialog::~choice_dialog()
   gui()->set_diplo_dialog(NULL);
 
   if (run_on_close) {
-    run_on_close();
+    run_on_close(unit_id);
     run_on_close = NULL;
   }
 }
@@ -1202,10 +1202,10 @@ void revolution_response(struct government *government)
   Move the queue of diplomats that need user input forward unless the
   current diplomat will need more input.
 **************************************************************************/
-static void diplomat_queue_handle_primary(void)
+static void diplomat_queue_handle_primary(int actor_id)
 {
   if (!is_more_user_input_needed) {
-    choose_action_queue_next();
+    action_decision_taken(actor_id);
   }
 }
 
@@ -1213,11 +1213,11 @@ static void diplomat_queue_handle_primary(void)
   Move the queue of diplomats that need user input forward since the
   current diplomat got the extra input that was required.
 **************************************************************************/
-static void diplomat_queue_handle_secondary(void)
+static void diplomat_queue_handle_secondary(int actor_id)
 {
   /* Stop waiting. Move on to the next queued diplomat. */
   is_more_user_input_needed = FALSE;
-  diplomat_queue_handle_primary();
+  diplomat_queue_handle_primary(actor_id);
 }
 
 /**************************************************************************
@@ -1768,7 +1768,7 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
     too_much.exec();
   }
 
-  diplomat_queue_handle_secondary();
+  diplomat_queue_handle_secondary(diplomat_id);
 }
 
 /**************************************************************************
@@ -1821,7 +1821,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
     ask.exec();
   }
 
-  diplomat_queue_handle_secondary();
+  diplomat_queue_handle_secondary(diplomat_id);
 }
 
 /***************************************************************************

@@ -88,8 +88,8 @@ static int caravan_marketplace_callback(struct widget *pWidget)
                         0);
     }
 
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -110,8 +110,8 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
                         0);
     }
 
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -132,8 +132,8 @@ static int caravan_help_build_wonder_callback(struct widget *pWidget)
                         0);
     }
 
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -169,8 +169,8 @@ static int diplomat_embassy_callback(struct widget *pWidget)
                         0);
     }
 
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -190,11 +190,11 @@ static int diplomat_investigate_callback(struct widget *pWidget)
                         pDiplomat_Dlg->target_ids[ATK_CITY],
                         0);
     }
-  
-    popdown_diplomat_dialog();
 
     /* FIXME: Wait for the city display in stead? */
-    choose_action_queue_next();
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
+
+    popdown_diplomat_dialog();
   }
 
   return -1;
@@ -214,8 +214,8 @@ static int spy_poison_callback( struct widget *pWidget )
                         0);
     }
   
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -236,8 +236,8 @@ static int spy_steal_gold_callback(struct widget *pWidget)
                         0);
     }
 
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -257,8 +257,8 @@ static int spy_sabotage_request(struct widget *pWidget)
                            pDiplomat_Dlg->target_ids[ATK_CITY]);
     popdown_diplomat_dialog();
   } else {
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
   
   return -1;
@@ -278,9 +278,9 @@ static int diplomat_sabotage_callback(struct widget *pWidget)
                         pDiplomat_Dlg->target_ids[ATK_CITY],
                         B_LAST + 1);
     }
-    
+
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -305,8 +305,8 @@ static int spy_steal_dlg_window_callback(struct widget *pWindow)
 static int exit_spy_steal_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;  
@@ -337,9 +337,9 @@ static int spy_steal_callback(struct widget *pWidget)
                           steal_advance);
       }
     }
-    
+
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -373,7 +373,7 @@ static int spy_steal_popup(struct widget *pWidget)
   fc_assert_ret_val_msg(!pDiplomat_Dlg, 1, "Diplomat dialog already open");
 
   if (!pVictim) {
-    choose_action_queue_next();
+    action_decision_taken(id);
     return 1;
   }
   
@@ -397,7 +397,7 @@ static int spy_steal_popup(struct widget *pWidget)
     request_do_action(ACTION_SPY_STEAL_TECH,
                       id, target_id, A_UNSET);
 
-    choose_action_queue_next();
+    action_decision_taken(id);
 
     return -1;
   }
@@ -598,8 +598,9 @@ static int diplomat_steal_callback(struct widget *pWidget)
                         A_UNSET);
     }
     
+
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -619,8 +620,8 @@ static int diplomat_incite_callback(struct widget *pWidget)
                              pDiplomat_Dlg->target_ids[ATK_CITY]);
       popdown_diplomat_dialog();
     } else {
+      action_decision_taken(pDiplomat_Dlg->actor_unit_id);
       popdown_diplomat_dialog();
-      choose_action_queue_next();
     }
   }  
   return -1;
@@ -641,9 +642,9 @@ static int diplomat_keep_moving_callback(struct widget *pWidget)
       request_do_action(ACTION_MOVE, pDiplomat_Dlg->actor_unit_id,
                         pWidget->data.tile->index, 0);
     }
-    
+
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();  
-    choose_action_queue_next();
   }
   return -1;
 }
@@ -662,8 +663,8 @@ static int diplomat_bribe_callback(struct widget *pWidget)
                              pDiplomat_Dlg->target_ids[ATK_UNIT]);
       popdown_diplomat_dialog();
     } else {
+      action_decision_taken(pDiplomat_Dlg->actor_unit_id);
       popdown_diplomat_dialog();
-      choose_action_queue_next();
     }
   }  
   return -1;
@@ -681,7 +682,7 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
     popdown_diplomat_dialog();
     request_do_action(ACTION_SPY_SABOTAGE_UNIT, diplomat_id, target_id, 0);
 
-    choose_action_queue_next();
+    action_decision_taken(diplomat_id);
   }
 
   return -1;
@@ -693,8 +694,8 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
 static int diplomat_close_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
-    choose_action_queue_next();
   }
 
   return -1;
@@ -1105,7 +1106,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
       }
     }
 
-    choose_action_queue_next();
+    action_decision_taken(diplomat_target_id);
   }
 
   return -1;
@@ -1126,7 +1127,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
   if (!actor) {
-    choose_action_queue_next();
+    action_decision_taken(IDENTITY_NUMBER_ZERO);
     return;
   }
   
@@ -1374,9 +1375,9 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
       request_do_action(ACTION_SPY_INCITE_CITY, pIncite_Dlg->actor_unit_id,
                         pIncite_Dlg->target_id, 0);
     }
+    action_decision_taken(pIncite_Dlg->target_id);
     popdown_incite_dialog();
-    choose_action_queue_next();
-  }  
+  }
   return -1;
 }
 
@@ -1386,8 +1387,8 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
 static int exit_incite_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    action_decision_taken(pIncite_Dlg->target_id);
     popdown_incite_dialog();
-    choose_action_queue_next();
   }
   return -1;
 }
@@ -1425,7 +1426,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
   }
   
   if (!actor || !unit_can_do_action(actor, ACTION_SPY_INCITE_CITY)) {
-    choose_action_queue_next();
+    action_decision_taken(actor ? actor->id : IDENTITY_NUMBER_ZERO);
     return;
   }
   
@@ -1633,9 +1634,10 @@ static int diplomat_bribe_yes_callback(struct widget *pWidget)
       request_do_action(ACTION_SPY_BRIBE_UNIT, pBribe_Dlg->actor_unit_id,
                         pBribe_Dlg->target_id, 0);
     }
+    action_decision_taken(pBribe_Dlg->actor_unit_id);
     popdown_bribe_dialog();
-    choose_action_queue_next();
-  }  
+  }
+
   return -1;
 }
 
@@ -1646,7 +1648,7 @@ static int exit_bribe_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_bribe_dialog();
-    choose_action_queue_next();
+    action_decision_taken(pBribe_Dlg->actor_unit_id);
   }
   return -1;
 }
@@ -1684,7 +1686,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   }
   
   if (!actor || !unit_can_do_action(actor, ACTION_SPY_BRIBE_UNIT)) {
-    choose_action_queue_next();
+    action_decision_taken(actor ? actor->id : IDENTITY_NUMBER_ZERO);
     return;
   }
   
