@@ -84,6 +84,7 @@ void refresh_chat_buttons(void);
 
 int screen_width(void);
 int screen_height(void);
+struct video_mode *resolution_request_get(void);
 
 bool is_gui_up(void);
 
