@@ -2543,10 +2543,11 @@ static struct unit *sell_random_unit(struct player *pplayer,
   {
     const char *punit_link = unit_tile_link(punit);
     const char *punit_logname = unit_name_translation(punit);
+    struct tile *utile = unit_tile(punit);
 
     if (upkeep_kill_unit(punit, O_GOLD, ULR_SOLD,
                          game.info.muuk_gold_wipe)) {
-      notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
+      notify_player(pplayer, utile, E_UNIT_LOST_MISC, ftc_server,
                     _("Not enough gold. %s disbanded."),
                     punit_link);
       log_debug("%s: unit sold (%s)", player_name(pplayer),
