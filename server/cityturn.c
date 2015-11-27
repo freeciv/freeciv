@@ -992,7 +992,6 @@ static void city_populate(struct city *pcity, struct player *nationality)
         const char *punit_link = unit_tile_link(punit);
 
         if (upkeep_kill_unit(punit, O_FOOD, ULR_STARVED,
-                             /* TODO: Move to the ruleset */
                              game.info.muuk_food_wipe)) {
           notify_player(city_owner(pcity), city_tile(pcity),
                         E_UNIT_LOST_MISC, ftc_server,
@@ -2086,7 +2085,6 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
          * would be a rules change. (This action is performed by the game
          * it self) */
         if (upkeep_kill_unit(punit, O_SHIELD, ULR_DISBANDED,
-                             /* TODO: Move to the ruleset */
                              game.info.muuk_shield_wipe)) {
           notify_player(pplayer, city_tile(pcity),
                         E_UNIT_LOST_MISC, ftc_server,
@@ -2547,7 +2545,6 @@ static struct unit *sell_random_unit(struct player *pplayer,
     const char *punit_logname = unit_name_translation(punit);
 
     if (upkeep_kill_unit(punit, O_GOLD, ULR_SOLD,
-                         /* TODO: Move to the ruleset */
                          game.info.muuk_gold_wipe)) {
       notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                     _("Not enough gold. %s disbanded."),
