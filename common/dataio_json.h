@@ -72,7 +72,7 @@ bool dio_get_sfloat_json(json_t *json_packet, char *key,
                          const struct plocation* location,
                          float *dest, int float_factor);
 bool dio_get_memory_json(json_t *json_packet, char *key,
-                         const struct plocation* location,
+                         struct plocation* location,
                          void *dest, size_t dest_size);
 bool dio_get_string_json(json_t *json_packet, char *key,
                          const struct plocation* location,
@@ -140,7 +140,7 @@ void dio_put_sfloat_json(struct json_data_out *dout, char *key,
                          float value, int float_factor);
 
 void dio_put_memory_json(struct json_data_out *dout, char *key,
-                         const struct plocation* location,
+                         struct plocation* location,
                          const void *value, size_t size);
 void dio_put_string_json(struct json_data_out *dout, char *key,
                          const struct plocation* location,

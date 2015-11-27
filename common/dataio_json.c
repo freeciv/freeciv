@@ -555,23 +555,26 @@ void dio_put_uint16_vec8_json(struct json_data_out *dout, char *key,
   Send block of memory as byte array
 **************************************************************************/
 void dio_put_memory_json(struct json_data_out *dout, char *key,
-                         const struct plocation* location,
+                         struct plocation* location,
                          const void *value,
                          size_t size)
 {
   int i;
   char fullkey[512];
-  struct plocation ploc;
 
-  /* TODO: Should probably be a JSON array. */
-  ploc = *plocation_field_new(NULL);
+  dio_put_farray_json(dout, key, location, size);
+
+  location->sub_location = plocation_elem_new(0);
 
   for (i = 0; i < size; i++) {
     fc_snprintf(fullkey, sizeof(fullkey), "%s_%d", key, i);
-    ploc.name = fullkey;
+    location->sub_location->number = i;
 
-    dio_put_uint8_json(dout, fullkey, &ploc, ((unsigned char *)value)[i]);
+    dio_put_uint8_json(dout, fullkey, location,
+                       ((unsigned char *)value)[i]);
   }
+
+  FC_FREE(location->sub_location);
 }
 
 /**************************************************************************
@@ -772,27 +775,28 @@ bool dio_get_sint16_json(json_t *json_packet, char *key,
   Receive block of memory as byte array
 **************************************************************************/
 bool dio_get_memory_json(json_t *json_packet, char *key,
-                         const struct plocation* location,
+                         struct plocation* location,
                          void *dest, size_t dest_size)
 {
    int i;
   char fullkey[512];
-  struct plocation ploc;
 
-  /* TODO: Should probably be a JSON array. */
-  ploc = *plocation_field_new(NULL);
+  location->sub_location = plocation_elem_new(0);
 
   for (i = 0; i < dest_size; i++) {
     int val;
 
     fc_snprintf(fullkey, sizeof(fullkey), "%s_%d", key, i);
-    ploc.name = fullkey;
+    location->sub_location->number = i;
 
-    if (!dio_get_uint8_json(json_packet, fullkey, &ploc, &val)) {
+    if (!dio_get_uint8_json(json_packet, fullkey, location, &val)) {
+      free(location->sub_location);
       return FALSE;
     }
     ((unsigned char *)dest)[i] = val;
   }
+
+  FC_FREE(location->sub_location);
 
   return TRUE;
 }
