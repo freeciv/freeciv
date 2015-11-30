@@ -3293,7 +3293,7 @@ void popup_races_dialog(struct player *pplayer)
     utf8_str *natset_str;
     struct option *poption;
 
-    natset_str = create_utf8_from_char(_("Nationset"), adj_font(12));
+    natset_str = create_utf8_from_char(_("Nation set"), adj_font(12));
     change_ptsize_utf8(natset_str, adj_font(24));
     nationsets = create_iconlabel(NULL, pWindow->dst, natset_str, 0);
     add_to_gui_list(ID_LABEL, nationsets);

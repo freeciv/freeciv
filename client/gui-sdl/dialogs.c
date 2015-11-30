@@ -3316,7 +3316,7 @@ void popup_races_dialog(struct player *pplayer)
     SDL_String16 *natset_str;
     struct option *poption;
 
-    natset_str = create_str16_from_char(_("Nationset"), adj_font(12));
+    natset_str = create_str16_from_char(_("Nation set"), adj_font(12));
     change_ptsize16(natset_str, adj_font(24));
     nationsets = create_iconlabel(NULL, pWindow->dst, natset_str, 0);
     add_to_gui_list(ID_LABEL, nationsets);
