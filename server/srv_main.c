@@ -2246,7 +2246,7 @@ const char *aifill(int amount)
   if (limit > server.playable_nations) {
     limit = server.playable_nations;
     if (nation_set_count() > 1) {
-      limitreason = _("not enough playable nations in this nationset "
+      limitreason = _("not enough playable nations in this nation set "
                       "(see 'nationset' setting)");
     } else {
       limitreason = _("not enough playable nations");

@@ -809,7 +809,7 @@ enum rfc_status create_command_newcomer(const char *name,
     if (!nation_is_in_current_set(pnation)) {
       fc_snprintf(buf, buflen,
                   _("Can't create player, requested nation %s not in "
-                    "current nationset."),
+                    "current nation set."),
                   nation_plural_translation(pnation));
       return C_FAIL;
     }
@@ -985,7 +985,7 @@ enum rfc_status create_command_pregame(const char *name,
       if (nation_set_count() > 1) {
         fc_snprintf(buf, buflen,
                     _("Can't add more players, not enough playable nations "
-                      "in current nationset (see 'nationset' setting)."));
+                      "in current nation set (see 'nationset' setting)."));
       } else {
         fc_snprintf(buf, buflen,
                     _("Can't add more players, not enough playable nations."));
@@ -5643,7 +5643,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
     } else if (normal_player_count() > server.playable_nations) {
       if (nation_set_count() > 1) {
         start_cmd_reply(caller, notify,
-                        _("Not enough nations in the current nationset "
+                        _("Not enough nations in the current nation set "
                           "for all players; game will not start. "
                           "(See 'nationset' setting.)"));
       } else {

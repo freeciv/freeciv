@@ -623,7 +623,7 @@ static void nationset_action(const struct setting *pset)
    * (However, new connections will start out detached.) */
   if (normal_player_count() > server.playable_nations) {
     notify_conn(NULL, NULL, E_SETTING, ftc_server, "%s",
-                _("Warning: not enough nations in this nationset "
+                _("Warning: not enough nations in this nation set "
                   "for all current players."));
   }
 

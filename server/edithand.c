@@ -1211,7 +1211,7 @@ void handle_edit_player(struct connection *pc,
       notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                   _("Cannot change nation for player %d (%s) "
                     "to nation %d (%s) because that nation is "
-                    "not in the current nationset."),
+                    "not in the current nation set."),
                   player_number(pplayer), player_name(pplayer),
                   packet->nation, nation_plural_translation(pnation));
     } else if (pplayer->ai_common.barbarian_type

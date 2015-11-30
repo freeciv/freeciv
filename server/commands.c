@@ -103,7 +103,7 @@ static struct command commands[] = {
       " - the list of defined map images,\n"
       " - the list of the players in the game,\n"
       " - the available scenarios,\n"
-      " - the available nationsets in this ruleset,\n"
+      " - the available nation sets in this ruleset,\n"
       " - the teams of players or\n"
       " - the running votes.\n"
       "The argument may be abbreviated, and defaults to 'players' if "
