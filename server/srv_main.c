@@ -2549,24 +2549,31 @@ static void generate_players(void)
 }
 
 /****************************************************************************
-  Returns a random ruler name picked from given nation ruler names, given
-  that nation's number. If it fails it iterates through "Player 1",
-  "Player 2", ... until an unused name is found.
+  Returns a random ruler name picked from given nation's ruler names
+  that is not already in use.
+  May return NULL if no unique name is available.
 ****************************************************************************/
 const char *pick_random_player_name(const struct nation_type *pnation)
 {
   const char *choice = NULL;
-  int i = 0;
+  struct nation_leader_list *candidates = nation_leader_list_new();
+  int n;
 
   nation_leader_list_iterate(nation_leaders(pnation), pleader) {
     const char *name = nation_leader_name(pleader);
 
     if (NULL == player_by_name(name)
-        && NULL == player_by_user(name)
-        && 0 == fc_rand(++i)) {
-      choice = name;
+        && NULL == player_by_user(name)) {
+      nation_leader_list_append(candidates, pleader);
     }
   } nation_leader_list_iterate_end;
+
+  n = nation_leader_list_size(candidates);
+  if (n > 0) {
+    choice = nation_leader_name(nation_leader_list_get(candidates,
+                                                       fc_rand(n)));
+  }
+  nation_leader_list_destroy(candidates);
 
   return choice;
 }
