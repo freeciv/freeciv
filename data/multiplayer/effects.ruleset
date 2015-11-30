@@ -1775,17 +1775,23 @@ value	= 2
       "Tech", "Genetic Engineering", "Player"
      }
 
-; This effect is here only to prevent is_building_replaced()
-; in common/effects.c from returning TRUE for Darwin's
-; Voyage (and consequently having the city production list
+; HACK: these effects, with no net outcome, are here only to prevent
+; is_building_replaced() in common/effects.c from returning TRUE for
+; Darwin's Voyage (and consequently having the city production list
 ; draw it with strike-through).
-;
-; The actual giving of techs is done in the lua script, so
-; that players cannot get the bonus again when rebuliding
-; the small wonder.
+; The actual giving of 2 techs is done in the lua script, so that players
+; cannot get the bonus again when rebuilding the small wonder.
 [effect_darwins_voyage]
 type    = "Give_Imm_Tech"
 value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Darwin's Voyage", "Player"
+    }
+
+[effect_darwins_voyage_2]
+type    = "Give_Imm_Tech"
+value	= -2
 reqs	=
     { "type", "name", "range"
       "Building", "Darwin's Voyage", "Player"
