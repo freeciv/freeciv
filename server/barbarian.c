@@ -111,8 +111,8 @@ struct player *create_barbarian_player(enum barbarian_type type)
          * This is needed in case ruleset defines just one leader for
          * barbarian nation. */
         old_barbs->name[0] = '\0';
-        sz_strlcpy(old_barbs->name,
-                   pick_random_player_name(nation_of_player(old_barbs)));
+        server_player_set_name(old_barbs,
+            pick_random_player_name(nation_of_player(old_barbs)));
         sz_strlcpy(old_barbs->username, _(ANON_USER_NAME));
         old_barbs->unassigned_user = TRUE;
         /* I need to make them to forget the map, I think */
