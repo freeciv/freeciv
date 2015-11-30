@@ -3163,73 +3163,79 @@ void tileset_setup_extra(struct tileset *t,
   const int id = extra_index(pextra);
   enum extrastyle_id extrastyle;
 
-  if (!estyle_hash_lookup(t->estyle_hash, pextra->graphic_str,
-                          &extrastyle)
-      && !estyle_hash_lookup(t->estyle_hash, pextra->graphic_alt,
-                             &extrastyle)) {
-    tileset_error(LOG_FATAL, _("No extrastyle for \"%s\" or \"%s\"."),
-                  pextra->graphic_str,
-                  pextra->graphic_alt);
-  }
+  if (!fc_strcasecmp(pextra->graphic_str, "none")) {
+    /* Extra without graphics */
+    t->sprites.extras[id].extrastyle = extrastyle_id_invalid();
+  } else {
 
-  t->sprites.extras[id].extrastyle = extrastyle;
+    if (!estyle_hash_lookup(t->estyle_hash, pextra->graphic_str,
+                            &extrastyle)
+        && !estyle_hash_lookup(t->estyle_hash, pextra->graphic_alt,
+                               &extrastyle)) {
+      tileset_error(LOG_FATAL, _("No extrastyle for \"%s\" or \"%s\"."),
+                    pextra->graphic_str,
+                    pextra->graphic_alt);
+    }
 
-  extra_type_list_append(t->style_lists[extrastyle], pextra);
+    t->sprites.extras[id].extrastyle = extrastyle;
 
-  if (extra_has_flag(pextra, EF_SHOW_FLAG)) {
-    extra_type_list_append(t->flagged_bases_list, pextra);
-  }
+    extra_type_list_append(t->style_lists[extrastyle], pextra);
 
-  switch (extrastyle) {
-  case ESTYLE_3LAYER:
-    tileset_setup_base(t, pextra);
-    break;
+    if (extra_has_flag(pextra, EF_SHOW_FLAG)) {
+      extra_type_list_append(t->flagged_bases_list, pextra);
+    }
 
-  case ESTYLE_ROAD_ALL_SEPARATE:
-  case ESTYLE_ROAD_PARITY_COMBINED:
-  case ESTYLE_ROAD_ALL_COMBINED:
-  case ESTYLE_RIVER:
-    tileset_setup_road(t, pextra);
-    break;
+    switch (extrastyle) {
+    case ESTYLE_3LAYER:
+      tileset_setup_base(t, pextra);
+      break;
 
-  case ESTYLE_SINGLE1:
-  case ESTYLE_SINGLE2:
-    SET_SPRITE_ALT(extras[id].u.single, pextra->graphic_str, pextra->graphic_alt);
-    break;
+    case ESTYLE_ROAD_ALL_SEPARATE:
+    case ESTYLE_ROAD_PARITY_COMBINED:
+    case ESTYLE_ROAD_ALL_COMBINED:
+    case ESTYLE_RIVER:
+      tileset_setup_road(t, pextra);
+      break;
 
-  case ESTYLE_CARDINALS:
-    {
-      int i;
-      char buffer[512];
+    case ESTYLE_SINGLE1:
+    case ESTYLE_SINGLE2:
+      SET_SPRITE_ALT(extras[id].u.single, pextra->graphic_str, pextra->graphic_alt);
+      break;
 
-      /* We use direction-specific irrigation and farmland graphics, if they
-       * are available.  If not, we just fall back to the basic irrigation
-       * graphics. */
-      for (i = 0; i < t->num_index_cardinal; i++) {
-        fc_snprintf(buffer, sizeof(buffer), "%s_%s",
-                    pextra->graphic_str, cardinal_index_str(t, i));
-        t->sprites.extras[id].u.cardinals[i] = load_sprite(t, buffer);
-        if (!t->sprites.extras[id].u.cardinals[i]) {
-          t->sprites.extras[id].u.cardinals[i] = load_sprite(t, pextra->graphic_str);
-        }
-        if (!t->sprites.extras[id].u.cardinals[i]) {
+    case ESTYLE_CARDINALS:
+      {
+        int i;
+        char buffer[512];
+
+        /* We use direction-specific irrigation and farmland graphics, if they
+         * are available.  If not, we just fall back to the basic irrigation
+         * graphics. */
+        for (i = 0; i < t->num_index_cardinal; i++) {
           fc_snprintf(buffer, sizeof(buffer), "%s_%s",
-                      pextra->graphic_alt, cardinal_index_str(t, i));
+                      pextra->graphic_str, cardinal_index_str(t, i));
           t->sprites.extras[id].u.cardinals[i] = load_sprite(t, buffer);
-        }
-        if (!t->sprites.extras[id].u.cardinals[i]) {
-          t->sprites.extras[id].u.cardinals[i] = load_sprite(t, pextra->graphic_alt);
-        }
-        if (!t->sprites.extras[id].u.cardinals[i]) {
-          tileset_error(LOG_FATAL, _("Sprite for tags '%s' and alternate '%s' are "
-                                     "both missing."),
-                        pextra->graphic_str, pextra->graphic_alt);
+          if (!t->sprites.extras[id].u.cardinals[i]) {
+            t->sprites.extras[id].u.cardinals[i] = load_sprite(t, pextra->graphic_str);
+          }
+          if (!t->sprites.extras[id].u.cardinals[i]) {
+            fc_snprintf(buffer, sizeof(buffer), "%s_%s",
+                        pextra->graphic_alt, cardinal_index_str(t, i));
+            t->sprites.extras[id].u.cardinals[i] = load_sprite(t, buffer);
+          }
+          if (!t->sprites.extras[id].u.cardinals[i]) {
+            t->sprites.extras[id].u.cardinals[i] = load_sprite(t, pextra->graphic_alt);
+          }
+          if (!t->sprites.extras[id].u.cardinals[i]) {
+            tileset_error(LOG_FATAL, _("Sprite for tags '%s' and alternate '%s' are "
+                                       "both missing."),
+                          pextra->graphic_str, pextra->graphic_alt);
+          }
         }
       }
+      break;
+    case ESTYLE_COUNT:
+      break;
     }
-    break;
-  case ESTYLE_COUNT:
-    break;
   }
 
   if (!fc_strcasecmp(pextra->activity_gfx, "none")) {
