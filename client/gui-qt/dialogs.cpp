@@ -286,6 +286,8 @@ races_dialog::races_dialog(struct player *pplayer,
                               const QItemSelection &)));
   connect(leader_name, SIGNAL(currentIndexChanged(int)),
           SLOT(leader_selected(int)));
+  connect(leader_name->lineEdit(), SIGNAL(returnPressed()),
+          SLOT(ok_pressed()));
   connect(qnation_set, SIGNAL(currentIndexChanged(int)),
           SLOT(nationset_changed(int)));
   connect(nation_tabs->selectionModel(),
