@@ -81,6 +81,11 @@
 /* Queue for pending city_refresh() */
 static struct city_list *city_refresh_queue = NULL;
 
+/* The game is currently considering to remove the listed units because of
+ * missing gold upkeep. A unit ends up here if it has gold upkeep that
+ * can't be payed. A random unit in the list will be removed until the
+ * problem is solved. */
+static struct unit_list *uk_rem_gold = NULL;
 
 static void check_pollution(struct city *pcity);
 static void city_populate(struct city *pcity, struct player *nationality);
@@ -2478,6 +2483,48 @@ static bool sell_random_building(struct player *pplayer,
 }
 
 /**************************************************************************
+  Call back for when a unit in uk_rem_gold dies.
+
+  A unit can die as a side effect of an action another unit in the list is
+  forced to perform. This isn't limited to "Explode Nuclear". A Lua call
+  back for another action could cause more collateral damage than "Explode
+  Nuclear".
+**************************************************************************/
+static void uk_rem_gold_callback(struct unit *punit)
+{
+  /* Remove the unit from uk_rem_gold. */
+  unit_list_remove(uk_rem_gold, punit);
+}
+
+/**************************************************************************
+  Add a unit to uk_rem_gold and make the unit remove it self from it if
+  it dies before it is processed.
+**************************************************************************/
+static void uk_rem_gold_append(struct unit *punit)
+{
+  /* Make the unit aware that it is on the uk_rem_gold list. */
+  unit_set_removal_callback(punit, uk_rem_gold_callback);
+
+  /* Add the unit to the list. */
+  unit_list_append(uk_rem_gold, punit);
+}
+
+/**************************************************************************
+  Destroy a unit list and make the units it contains aware that it no
+  longer refers to them.
+**************************************************************************/
+static void unit_list_referred_destroy(struct unit_list *punitlist)
+{
+  unit_list_iterate(punitlist, punit) {
+    /* Clear the unit's knowledge of the list. */
+    unit_unset_removal_callback(punit);
+  } unit_list_iterate_end;
+
+  /* Destroy the list it self. */
+  unit_list_destroy(punitlist);
+}
+
+/**************************************************************************
   Randomly "sell" a unit from the given list. Returns pointer to sold unit.
   This pointer is not valid any more, but can be removed from the lists.
 
@@ -2521,11 +2568,6 @@ static struct unit *sell_random_unit(struct player *pplayer,
   if (unit_list_size(cargo) > 0) {
     struct unit *ret = sell_random_unit(pplayer, cargo);
 
-    if (ret != NULL) {
-      /* Remove from original list too */
-      unit_list_remove(punitlist, ret);
-    }
-
     unit_list_destroy(cargo);
 
     return ret;
@@ -2538,8 +2580,6 @@ static struct unit *sell_random_unit(struct player *pplayer,
   /* All units in punitlist should have gold upkeep! */
   fc_assert_ret_val(gold_upkeep > 0, NULL);
 
-  unit_list_remove(punitlist, punit);
-
   {
     const char *punit_link = unit_tile_link(punit);
     const char *punit_logname = unit_name_translation(punit);
@@ -2547,6 +2587,8 @@ static struct unit *sell_random_unit(struct player *pplayer,
 
     if (upkeep_kill_unit(punit, O_GOLD, ULR_SOLD,
                          game.info.muuk_gold_wipe)) {
+      unit_list_remove(punitlist, punit);
+
       notify_player(pplayer, utile, E_UNIT_LOST_MISC, ftc_server,
                     _("Not enough gold. %s disbanded."),
                     punit_link);
@@ -2571,7 +2613,6 @@ static bool player_balance_treasury_units_and_buildings
             (struct player *pplayer)
 {
   struct cityimpr_list *pimprlist;
-  struct unit_list *punitlist;
   bool sell_unit = TRUE;
 
   if (!pplayer) {
@@ -2579,7 +2620,7 @@ static bool player_balance_treasury_units_and_buildings
   }
 
   pimprlist = cityimpr_list_new();
-  punitlist = unit_list_new();
+  uk_rem_gold = unit_list_new();
 
   city_list_iterate(pplayer->cities, pcity) {
     city_built_iterate(pcity, pimprove) {
@@ -2594,19 +2635,19 @@ static bool player_balance_treasury_units_and_buildings
 
     unit_list_iterate(pcity->units_supported, punit) {
       if (punit->upkeep[O_GOLD] > 0) {
-        unit_list_append(punitlist, punit);
+        uk_rem_gold_append(punit);
       }
     } unit_list_iterate_end;
   } city_list_iterate_end;
 
   while (pplayer->economic.gold < 0
          && (cityimpr_list_size(pimprlist) > 0
-             || unit_list_size(punitlist) > 0)) {
+             || unit_list_size(uk_rem_gold) > 0)) {
     if ((!sell_unit && cityimpr_list_size(pimprlist) > 0)
-        || unit_list_size(punitlist) == 0) {
+        || unit_list_size(uk_rem_gold) == 0) {
       sell_random_building(pplayer, pimprlist);
     } else {
-      sell_random_unit(pplayer, punitlist);
+      sell_random_unit(pplayer, uk_rem_gold);
     }
     sell_unit = !sell_unit;
   }
@@ -2624,7 +2665,7 @@ static bool player_balance_treasury_units_and_buildings
   }
 
   cityimpr_list_destroy(pimprlist);
-  unit_list_destroy(punitlist);
+  unit_list_referred_destroy(uk_rem_gold);
 
   return pplayer->economic.gold >= 0;
 }
@@ -2634,24 +2675,22 @@ static bool player_balance_treasury_units_and_buildings
 **************************************************************************/
 static bool player_balance_treasury_units(struct player *pplayer)
 {
-  struct unit_list *punitlist;
-
   if (!pplayer) {
     return FALSE;
   }
 
-  punitlist = unit_list_new();
+  uk_rem_gold = unit_list_new();
 
   city_list_iterate(pplayer->cities, pcity) {
     unit_list_iterate(pcity->units_supported, punit) {
       if (punit->upkeep[O_GOLD] > 0) {
-        unit_list_append(punitlist, punit);
+        uk_rem_gold_append(punit);
       }
     } unit_list_iterate_end;
   } city_list_iterate_end;
 
   while (pplayer->economic.gold < 0
-         && sell_random_unit(pplayer, punitlist)) {
+         && sell_random_unit(pplayer, uk_rem_gold)) {
     /* all done in sell_random_unit() */
   }
 
@@ -2662,7 +2701,7 @@ static bool player_balance_treasury_units(struct player *pplayer)
                   player_name(pplayer), player_number(pplayer));
   }
 
-  unit_list_destroy(punitlist);
+  unit_list_referred_destroy(uk_rem_gold);
 
   return pplayer->economic.gold >= 0;
 }
@@ -2720,32 +2759,31 @@ static bool city_balance_treasury_buildings(struct city *pcity)
 static bool city_balance_treasury_units(struct city *pcity)
 {
   struct player *pplayer;
-  struct unit_list *punitlist;
 
   if (!pcity) {
     return TRUE;
   }
 
   pplayer = city_owner(pcity);
-  punitlist = unit_list_new();
+  uk_rem_gold = unit_list_new();
 
   /* Create a vector of all supported units with gold upkeep. */
   unit_list_iterate(pcity->units_supported, punit) {
     if (punit->upkeep[O_GOLD] > 0) {
-       unit_list_append(punitlist, punit);
+       uk_rem_gold_append(punit);
      }
   } unit_list_iterate_end;
 
   /* Still not enough gold, so try "selling" some units. */
   while (pplayer->economic.gold < 0
-         && sell_random_unit(pplayer, punitlist)) {
+         && sell_random_unit(pplayer, uk_rem_gold)) {
     /* all done in sell_random_unit() */
   }
 
   /* If we get here the player has negative gold, but hopefully
    * another city will be able to pay the deficit, so continue. */
 
-  unit_list_destroy(punitlist);
+  unit_list_referred_destroy(uk_rem_gold);
 
   return pplayer->economic.gold >= 0;
 }
