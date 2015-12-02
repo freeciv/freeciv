@@ -2806,6 +2806,7 @@ void unit_select::update_menu()
 void unit_select::update_units()
 {
   int i = 1;
+  struct unit_list *punit_list;
 
   if (utile == NULL) {
     struct unit *punit = head_of_units_in_focus();
@@ -2815,11 +2816,14 @@ void unit_select::update_units()
   }
   unit_list.clear();
   if (utile != nullptr) {
-    unit_list_iterate(utile->units, punit) {
-      if (i > show_line * 4)
-        unit_list.push_back(punit);
-      i++;
-    } unit_list_iterate_end;
+    punit_list = utile->units;
+    if (punit_list != nullptr) {
+      unit_list_iterate(utile->units, punit) {
+        if (i > show_line * 4)
+          unit_list.push_back(punit);
+        i++;
+      } unit_list_iterate_end;
+    }
   }
   if (unit_list.count() == 0) {
     close();
