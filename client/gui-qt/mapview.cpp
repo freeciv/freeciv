@@ -1329,6 +1329,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 ****************************************************************************/
 struct canvas *get_overview_window(void)
 {
+  gui()->minimapview_wdg->update_image();
   return NULL;
 }
 
@@ -1393,7 +1394,6 @@ void flush_dirty(void)
     }
   }
   num_dirty_rects = 0;
-  gui()->minimapview_wdg->update_image();
 }
 
 /****************************************************************************
