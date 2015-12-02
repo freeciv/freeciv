@@ -125,6 +125,9 @@ void info_tab::mouseReleaseEvent(QMouseEvent* event)
     resx = false;
     resy = false;
     setCursor(Qt::ArrowCursor);
+    gui()->qt_settings.infotab_width = width() * 100 / (mapview.width
+                                       -  gui()->end_turn_rect->width());
+    gui()->qt_settings.infotab_height = height() * 100 / mapview.height;
   }
 }
 
