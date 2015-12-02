@@ -133,6 +133,10 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
                                int homecity, enum unit_loss_reason reason)
                                fc__warn_unused_result;
 
+void unit_set_removal_callback(struct unit *punit,
+                               void (*callback)(struct unit *punit));
+void unit_unset_removal_callback(struct unit *punit);
+
 /* sending to client */
 void package_unit(struct unit *punit, struct packet_unit_info *packet);
 void package_short_unit(struct unit *punit,

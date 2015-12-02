@@ -212,6 +212,9 @@ struct unit {
 
       /* The unit is in the process of dying. */
       bool dying;
+
+      /* Call back to run on unit removal. */
+      void (*removal_callback)(struct unit *punit);
     } server;
   };
 };

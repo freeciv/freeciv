@@ -1576,6 +1576,28 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   return punit;
 }
 
+/**************************************************************************
+  Set the call back to run when the server removes the unit.
+**************************************************************************/
+void unit_set_removal_callback(struct unit *punit,
+                               void (*callback)(struct unit *punit))
+{
+  /* Tried to overwrite another call back. If this assertion is triggered
+   * in a case where two call back are needed it may be time to support
+   * more than one unit removal call back at a time. */
+  fc_assert_ret(punit->server.removal_callback == NULL);
+
+  punit->server.removal_callback = callback;
+}
+
+/**************************************************************************
+  Remove the call back so nothing runs when the server removes the unit.
+**************************************************************************/
+void unit_unset_removal_callback(struct unit *punit)
+{
+  punit->server.removal_callback = NULL;
+}
+
 /****************************************************************************
   We remove the unit and see if it's disappearance has affected the homecity
   and the city it was in.
@@ -1636,6 +1658,11 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
   if (punit->server.moving != NULL) {
     /* Do not care of this unit for running moves. */
     punit->server.moving->punit = NULL;
+  }
+
+  if (punit->server.removal_callback != NULL) {
+    /* Run the unit removal call back. */
+    punit->server.removal_callback(punit);
   }
 
   /* check if this unit had UTYF_GAMELOSS flag */
