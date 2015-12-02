@@ -437,6 +437,7 @@ void popup_quit_dialog()
     return;
     break;
   case QMessageBox::Ok:
+    gui()->write_settings();
     qapp->quit();
     break;
   }

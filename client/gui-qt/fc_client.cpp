@@ -151,6 +151,9 @@ void fc_client::init()
   pages[PAGE_NETWORK]->setVisible(false);
 
   // PAGE_GAME
+  QSettings::setPath(QSettings::NativeFormat, QSettings::UserScope,
+                     "$HOME/.config");
+  read_settings();
   pages[PAGE_GAME] = new QWidget(central_wdg);
   init_mapcanvas_and_overview();
   create_game_page();
@@ -549,6 +552,36 @@ int fc_client::gimme_index_of(QString str)
   w = opened_repo_dlgs.value(str);
   i = game_tab_widget->indexOf(w);
   return i;
+}
+
+/****************************************************************************
+  Loads qt-specific options
+****************************************************************************/
+void fc_client::read_settings()
+{
+  QSettings s(QSettings::IniFormat, QSettings::UserScope, 
+              "freeciv-qt-client");
+  if (s.contains("InfoTab-xsize")) {
+    qt_settings.infotab_width = s.value("InfoTab-xsize").toInt();
+  } else {
+    qt_settings.infotab_width = 95;
+  }
+  if (s.contains("InfoTab-ysize")) {
+    qt_settings.infotab_height = s.value("InfoTab-ysize").toInt();
+  } else {
+    qt_settings.infotab_height = 29;
+  }
+}
+
+/****************************************************************************
+  Save qt-specific options
+****************************************************************************/
+void fc_client::write_settings()
+{
+  QSettings s(QSettings::IniFormat, QSettings::UserScope,
+              "freeciv-qt-client");
+  s.setValue("InfoTab-xsize", qt_settings.infotab_width);
+  s.setValue("InfoTab-ysize", qt_settings.infotab_height);
 }
 
 /****************************************************************************
