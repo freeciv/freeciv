@@ -29,7 +29,8 @@ extern "C" {
 
 class QPushButton;
 
-QString apply_tags(QString str, const struct text_tag_list *tags);
+QString apply_tags(QString str, const struct text_tag_list *tags,
+                   bool colors_change);
 /***************************************************************************
   Class for chat widget
 ***************************************************************************/

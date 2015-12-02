@@ -199,7 +199,7 @@ void chatwdg::send()
 ***************************************************************************/
 void chatwdg::paint(QPainter *painter, QPaintEvent *event)
 {
-  painter->setBrush(QColor(0, 0, 0, 65));
+  painter->setBrush(QColor(0, 0, 0, 35));
   painter->drawRect(0, 0, width(), height());
 }
 
@@ -274,7 +274,8 @@ void chatwdg::make_link(struct tile *ptile)
 /***************************************************************************
   Applies tags to text
 ***************************************************************************/
-QString apply_tags(QString str, const struct text_tag_list *tags)
+QString apply_tags(QString str, const struct text_tag_list *tags,
+                   bool colors_change)
 {
   QByteArray qba;
   int start, stop;
@@ -320,12 +321,18 @@ QString apply_tags(QString str, const struct text_tag_list *tags)
     case TTT_COLOR:
       if (text_tag_color_foreground(ptag)) {
         color = text_tag_color_foreground(ptag);
-        if (color == "#00008B" && gui()->current_page() == PAGE_GAME) {
-          color = "#E8FF00";
+        if (colors_change) {
+          if (color == "#00008B") {
+            color = "#E8FF00";
+          } else {
+            qc.setNamedColor(color);
+            qc = qc.lighter(200);
+            color = qc.name();
+          }
         }
-        str_col = QString("<span style=color:%1>").arg(color);
-        mm.insert(stop, "</span>");
-        mm.insert(start, str_col);
+          str_col = QString("<span style=color:%1>").arg(color);
+          mm.insert(stop, "</span>");
+          mm.insert(start, str_col);
       }
       if (text_tag_color_background(ptag)) {
         color = text_tag_color_background(ptag);
@@ -364,8 +371,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags)
       mm.insert(start, color);
     }
     }
-  }
-  text_tag_list_iterate_end;
+  } text_tag_list_iterate_end;
 
   /* insert html starting from last items */
   QMultiMap<int, QString>::const_iterator i = mm.constEnd();
@@ -469,11 +475,10 @@ void qtg_real_output_window_append(const char *astring,
   gui()->update_completer();
 
   str = replace_html(str);
-  str  = apply_tags(str, tags);
 
-  gui()->append_output_window(str);
+  gui()->append_output_window(apply_tags(str, tags, false));
   if (gui()->infotab != NULL) {
-    gui()->infotab->chtwdg->append(str);
+    gui()->infotab->chtwdg->append(apply_tags(str, tags, true));
   }
 }
 

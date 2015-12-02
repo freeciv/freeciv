@@ -81,7 +81,7 @@ info_tab::info_tab(QWidget *parent)
 ***************************************************************************/
 void info_tab::paint(QPainter *painter, QPaintEvent *event)
 {
-  painter->setBrush(QColor(0, 0, 0, 135));
+  painter->setBrush(QColor(0, 0, 0, 175));
   painter->drawRect(0, 0, width(), height());
 }
 
