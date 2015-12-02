@@ -285,10 +285,13 @@ void map_view::resizeEvent(QResizeEvent *event)
   QSize delta;
 
   size = event->size();
-
   if (C_S_RUNNING <= client_state()) {
     map_canvas_resized(size.width(), size.height());
-    gui()->infotab->resize(size.width() / 2, size.height() / 3);
+    gui()->infotab->resize(((size.width()
+                             - gui()->end_turn_rect->sizeHint().width())
+                             * gui()->qt_settings.infotab_width) / 100,
+                             (size.height()
+                             * gui()->qt_settings.infotab_height) / 100);
     gui()->infotab->move(0 , size.height() - gui()->infotab->height());
     gui()->unitinfo_wdg->move(width() - gui()->unitinfo_wdg->width(), 0);
     delta = size - gui()->end_turn_rect->sizeHint();

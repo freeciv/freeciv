@@ -120,6 +120,15 @@ public:
   void release_fonts();
 };
 
+/****************************************************************************
+  Some qt-specific options like size to save between restarts
+****************************************************************************/
+struct fc_settings
+{
+  int infotab_width; /* in percent */
+  int infotab_height; /* in percent */
+};
+
 class fc_client : public QMainWindow
 {
   Q_OBJECT
@@ -216,10 +225,12 @@ public:
   goto_dialog *gtd;
   QCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
   pregame_options *pr_options;
+  fc_settings qt_settings;
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
   void remove_repo_dlg(QString str);
   bool is_repo_dlg_open(QString str);
+  void write_settings();
   bool is_closing();
 
 private slots:
@@ -274,6 +285,7 @@ private:
   void set_connection_state(enum connection_state state);
   void update_buttons();
   void init();
+  void read_settings();
 
   enum client_pages page;
   QMap<QString, QWidget*> opened_repo_dlgs;
