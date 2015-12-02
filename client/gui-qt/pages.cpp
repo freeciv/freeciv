@@ -285,10 +285,12 @@ void fc_client::create_network_page(void)
   lan_widget->setRowCount(0);
   lan_widget->setColumnCount(servers_list.count());
   lan_widget->verticalHeader()->setVisible(false);
+  lan_widget->setAutoScroll(false);
 
   wan_widget->setRowCount(0);
   wan_widget->setColumnCount(servers_list.count());
   wan_widget->verticalHeader()->setVisible(false);
+  wan_widget->setAutoScroll(false);
 
   info_widget->setRowCount(0);
   info_widget->setColumnCount(server_info.count());
@@ -305,6 +307,10 @@ void fc_client::create_network_page(void)
   wan_widget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
   connect(wan_widget->selectionModel(),
+          SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
+          SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
+
+  connect(lan_widget->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
           SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
 
@@ -368,6 +374,8 @@ void fc_client::create_network_page(void)
   page_network_layout->addWidget(connect_tab_widget, 1);
   connect_tab_widget->addTab(connect_lan, _("LAN"));
   connect_tab_widget->addTab(connect_metaserver, _("NETWORK"));
+  connect(connect_tab_widget, SIGNAL(currentChanged(int)),
+         this, SLOT(network_tab_changed(int)));
   page_network_grid_layout->setColumnStretch(3, 4);
   pages_layout[PAGE_NETWORK]->addLayout(page_network_layout, 1, 1);
   pages_layout[PAGE_NETWORK]->addLayout(page_network_grid_layout, 2, 1);
@@ -712,6 +720,8 @@ void fc_client::update_server_list(enum server_scan_type sstype,
   QTableWidget* sel = NULL;
   QString host, portstr;
   int port;
+  int row;
+  int old_row_count;
 
   switch (sstype) {
   case SERVER_SCAN_LOCAL:
@@ -735,12 +745,14 @@ void fc_client::update_server_list(enum server_scan_type sstype,
   host = connect_host_edit->text();
   portstr = connect_port_edit->text();
   port = portstr.toInt();
+  old_row_count = sel->rowCount();
   sel->clearContents();
-  sel->setRowCount(0);
-  int row = 0;
+  row = 0;
   server_list_iterate(list, pserver) {
     char buf[20];
-    sel->insertRow(row);
+    if (old_row_count <= row) {
+      sel->insertRow(row);
+    }
 
     if (pserver->humans >= 0) {
       fc_snprintf(buf, sizeof(buf), "%d", pserver->humans);
@@ -777,7 +789,6 @@ void fc_client::update_server_list(enum server_scan_type sstype,
       default:
         break;
       }
-
       sel->setItem(row, col, item);
     }
 
@@ -787,8 +798,14 @@ void fc_client::update_server_list(enum server_scan_type sstype,
 
     row++;
   } server_list_iterate_end;
-}
 
+  /* Remove unneeded rows, if there are any */
+  while (old_row_count - row > 0) {
+    sel->removeRow(old_row_count - 1);
+    old_row_count--;
+  }
+
+}
 
 /**************************************************************************
   Callback function for when there's an error in the server scan.
@@ -810,6 +827,25 @@ void server_scan_error(struct server_scan *scan, const char *message)
   case SERVER_SCAN_LAST:
     break;
   }
+}
+
+/***************************************************************************
+  Tab in network page has been changed.
+  Force current selection change to emit signal.
+***************************************************************************/
+void fc_client::network_tab_changed(int index)
+{
+  QWidget *w;
+  QHBoxLayout *l;
+  QTableWidget *tw;
+  int i;
+
+  w = connect_tab_widget->currentWidget();
+  l = qobject_cast<QHBoxLayout *>(w->layout());
+  tw = qobject_cast<QTableWidget *>(l->itemAt(0)->widget());
+  i = tw->currentRow();
+  tw->clearSelection();
+  tw->selectRow(i);
 }
 
 /**************************************************************************
@@ -962,6 +998,9 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
   QStringList sl;
   QModelIndex index;
   QTableWidgetItem *item;
+  QWidget *w;
+  QHBoxLayout *l;
+  QTableWidget *tw;
   QVariant qvar;
   int k, col, n;
   client_pages i = current_page();
@@ -979,6 +1018,13 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     index = indexes.at(1);
     connect_port_edit->setText(index.data().toString());
 
+    w = connect_tab_widget->currentWidget();
+    l = qobject_cast<QHBoxLayout *>(w->layout());
+    tw = qobject_cast<QTableWidget *>(l->itemAt(0)->widget());
+
+    if (tw == lan_widget) {
+      return;
+    }
     srvrs = server_scan_get_list(meta_scan);
     if (!holding_srv_list_mutex) {
       fc_allocate_mutex(&srvrs->mutex);
