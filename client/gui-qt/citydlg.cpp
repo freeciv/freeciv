@@ -89,8 +89,13 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
   unit_pixmap = NULL;
   qunit = punit;
   if (punit) {
-    unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    tileset_unit_with_upkeep_height(tileset));
+    if (supported) {
+      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+                                      tileset_unit_with_upkeep_height(tileset));
+    } else {
+      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+                                      tileset_unit_height(tileset));
+    }
     unit_pixmap->map_pixmap.fill(Qt::transparent);
     put_unit(punit, unit_pixmap, 1.0, 0, 0);
     if (supported) {
@@ -345,8 +350,13 @@ void unit_item::enterEvent(QEvent *event)
     delete unit_pixmap;
   }
   if (qunit) {
-    unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    tileset_unit_with_upkeep_height(tileset));
+    if (supported) {
+      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+                                      tileset_unit_with_upkeep_height(tileset));
+    } else {
+      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+                                      tileset_unit_height(tileset));
+    }
     unit_pixmap->map_pixmap.fill(QColor(200, 200, 200));
     put_unit(qunit, unit_pixmap, 1.0, 0, 0);
     if (supported) {
@@ -367,8 +377,13 @@ void unit_item::leaveEvent(QEvent *event)
     delete unit_pixmap;
   }
   if (qunit) {
-    unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    tileset_unit_with_upkeep_height(tileset));
+    if (supported) {
+      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+                                      tileset_unit_with_upkeep_height(tileset));
+    } else {
+      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+                                      tileset_unit_height(tileset));
+    }
     unit_pixmap->map_pixmap.fill(Qt::transparent);
     put_unit(qunit, unit_pixmap, 1.0, 0, 0);
     if (supported) {
@@ -436,12 +451,11 @@ void unit_info::add_item(unit_item *item)
 ****************************************************************************/
 void unit_info::init_layout()
 {
-  QSizePolicy size_expanding_policy(QSizePolicy::Expanding,
-                                    QSizePolicy::Expanding);
-  QSizePolicy size_fixed_policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  QSizePolicy size_fixed_policy(QSizePolicy::Fixed, 
+                                QSizePolicy::MinimumExpanding, 
+                                QSizePolicy::Slider);
   layout->setContentsMargins(3, 6, 3, 6);
   setSizePolicy(size_fixed_policy);
-  setFixedHeight(tileset_unit_with_upkeep_height(tileset) + 6);
   setLayout(layout);
 }
 
@@ -454,7 +468,7 @@ void unit_info::update_units()
   int i = unit_list.count();
   int j;
   unit_item *ui;
-  
+
   setUpdatesEnabled(false);
   hide();
   for (j = 0; j < i; j++) {
@@ -464,6 +478,7 @@ void unit_info::update_units()
   show();
   setUpdatesEnabled(true);
   layout->update();
+  updateGeometry();
 }
 
 /****************************************************************************
@@ -689,12 +704,12 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
   /** Overview tab initialization */
   {
-    QGroupBox *map_box = new QGroupBox(this);
-    QVBoxLayout *v_layout = new QVBoxLayout;
-    QGroupBox *prod_box = new QGroupBox(this);
-    QGridLayout *prod_layout = new QGridLayout;
     QScrollArea *scroll;
     QScrollArea *scroll2;
+    QGroupBox *map_box = new QGroupBox(this);
+    QHBoxLayout *v_layout = new QHBoxLayout;
+    QGroupBox *prod_box = new QGroupBox(this);
+    QGridLayout *prod_layout = new QGridLayout;
 
     info_widget = new QWidget(overview_tab); /** City information widget
                                         * texts about surpluses and so on */
@@ -713,6 +728,9 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
       info_grid_layout->addWidget(qlt[iter], iter, 1);
     }
     info_widget->setLayout(info_grid_layout);
+    info_widget->setMinimumHeight(2 * fm.height() + 24
+                                  + tileset_tile_height(tileset)
+                                  + tileset_unit_with_upkeep_height(tileset));
     production_combo = new progress_bar(parent);
     production_combo->setToolTip(_("Click to change current production"));
 
@@ -747,17 +765,23 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     map_box->setLayout(v_layout);
     map_box->setTitle(_("City map"));
     supp_units = new QLabel();
+    supp_units->setFixedHeight(fm.height() + 4);
     curr_units = new QLabel();
+    curr_units->setFixedHeight(fm.height() + 4);
     supported_units = new unit_info(this, true);
     scroll = new QScrollArea;
     scroll->setWidgetResizable(true);
-    scroll->setMaximumHeight(tileset_unit_with_upkeep_height(tileset) * 2);
+    scroll->setMinimumHeight(tileset_unit_with_upkeep_height(tileset) + 6);
+    scroll->setMaximumHeight(tileset_unit_with_upkeep_height(tileset) + 6
+                              + scroll->horizontalScrollBar()->height());
     scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll->setWidget(supported_units);
     current_units = new unit_info(this, false);
     scroll2 = new QScrollArea;
     scroll2->setWidgetResizable(true);
-    scroll2->setMaximumHeight(tileset_tile_height(tileset) * 2);
+    scroll2->setMinimumHeight(tileset_unit_height(tileset) + 6);
+    scroll2->setMaximumHeight(tileset_unit_height(tileset) + 6
+                              + scroll2->horizontalScrollBar()->height());
     scroll2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll2->setWidget(current_units);
     prod_layout->addWidget(item_button, 0, 1, 1, 1);
@@ -1699,6 +1723,8 @@ void city_dialog::refresh()
   production_combo_p->blockSignals(false);
   production_combo->blockSignals(false);
   setUpdatesEnabled(true);
+  updateGeometry();
+  update();
 }
 
 void city_dialog::update_settings()
@@ -2015,7 +2041,6 @@ void city_dialog::update_units()
 
   current_units->update_units();
   current_units->setUpdatesEnabled(true);
-
 }
 
 /****************************************************************************
