@@ -256,6 +256,7 @@ private slots:
   void browse_saves();
   void browse_scenarios();
   void clear_status_bar();
+  void network_tab_changed(int index);
 
 public slots:
   void switch_page(int i);
