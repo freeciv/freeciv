@@ -2492,8 +2492,19 @@ static bool sell_random_building(struct player *pplayer,
 **************************************************************************/
 static void uk_rem_gold_callback(struct unit *punit)
 {
+  int gold_upkeep;
+
   /* Remove the unit from uk_rem_gold. */
   unit_list_remove(uk_rem_gold, punit);
+
+  gold_upkeep = punit->server.upkeep_payed[O_GOLD];
+
+  /* All units in uk_rem_gold should have gold upkeep! */
+  fc_assert_ret_msg(gold_upkeep > 0, "%s has %d gold upkeep",
+                    unit_rule_name(punit), gold_upkeep);
+
+  /* Get the upkeep gold back. */
+  unit_owner(punit)->economic.gold += gold_upkeep;
 }
 
 /**************************************************************************
@@ -2538,7 +2549,7 @@ static struct unit *sell_random_unit(struct player *pplayer,
                                      struct unit_list *punitlist)
 {
   struct unit *punit;
-  int gold_upkeep, r;
+  int r;
   struct unit_list *cargo;
 
   fc_assert_ret_val(pplayer != NULL, FALSE);
@@ -2575,11 +2586,6 @@ static struct unit *sell_random_unit(struct player *pplayer,
 
   unit_list_destroy(cargo);
 
-  gold_upkeep = punit->upkeep[O_GOLD];
-
-  /* All units in punitlist should have gold upkeep! */
-  fc_assert_ret_val(gold_upkeep > 0, NULL);
-
   {
     const char *punit_link = unit_tile_link(punit);
     const char *punit_logname = unit_name_translation(punit);
@@ -2589,14 +2595,14 @@ static struct unit *sell_random_unit(struct player *pplayer,
                          game.info.muuk_gold_wipe)) {
       unit_list_remove(punitlist, punit);
 
+      /* The gold was payed back when the unit removal made
+       * uk_rem_gold_callback() run as the unit's removal call back. */
+
       notify_player(pplayer, utile, E_UNIT_LOST_MISC, ftc_server,
                     _("Not enough gold. %s disbanded."),
                     punit_link);
       log_debug("%s: unit sold (%s)", player_name(pplayer),
                 punit_logname);
-
-      /* Get the upkeep gold back. */
-      pplayer->economic.gold += gold_upkeep;
     } else {
       /* Not able to get rid of punit */
       return NULL;
@@ -3047,6 +3053,11 @@ static void update_city_activity(struct city *pcity)
     pplayer->economic.gold += pcity->prod[O_GOLD];
     pplayer->economic.gold -= city_total_impr_gold_upkeep(pcity);
     pplayer->economic.gold -= city_total_unit_gold_upkeep(pcity);
+
+    /* Remember how much gold upkeep each unit was payed. */
+    unit_list_iterate(pcity->units_supported, punit) {
+      punit->server.upkeep_payed[O_GOLD] = punit->upkeep[O_GOLD];
+    } unit_list_iterate_end;
 
     if (pplayer->economic.gold < 0) {
       /* Not enough gold - we have to sell some buildings, and if that

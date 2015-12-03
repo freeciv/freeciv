@@ -215,6 +215,9 @@ struct unit {
 
       /* Call back to run on unit removal. */
       void (*removal_callback)(struct unit *punit);
+
+      /* The upkeep that actually was payed. */
+      int upkeep_payed[O_LAST];
     } server;
   };
 };
