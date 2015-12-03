@@ -3060,7 +3060,7 @@ static void update_city_activity(struct city *pcity)
       case GOLD_UPKEEP_CITY:
       case GOLD_UPKEEP_MIXED:
         if (!city_balance_treasury_buildings(pcity)
-            && game.info.gold_upkeep_style == 0) {
+            && game.info.gold_upkeep_style == GOLD_UPKEEP_CITY) {
           city_balance_treasury_units(pcity);
         }
         break;
