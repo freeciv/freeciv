@@ -219,6 +219,7 @@ type BORDERS_MODE       = uint8(enum borders_mode)
 type CLAUSE             = uint8(enum clause_type)
 type CMDLEVEL           = uint8(enum cmdlevel)
 type DIPLOMACY_MODE     = uint8(enum diplomacy_mode)
+type DIPLSTATE_TYPE     = uint8(enum diplstate_type)
 type DIRECTION          = sint8(enum direction8)
 type EFFECT_TYPE        = uint8(enum effect_type)
 type EVENT              = sint16(enum event_type)
@@ -859,7 +860,7 @@ PACKET_PLAYER_DIPLSTATE = 59; sc
   UINT32 diplstate_id; key
   PLAYER plr1;
   PLAYER plr2;
-  UINT8 type;
+  DIPLSTATE_TYPE type;
   UINT16 turns_left;
   UINT8 has_reason_to_cancel;
   UINT16 contact_turns_left;
