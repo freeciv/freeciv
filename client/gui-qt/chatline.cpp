@@ -450,13 +450,43 @@ static bool is_plain_public_message(QString s)
 {
   const char ALLIES_CHAT_PREFIX = '.';
   const char SERVER_COMMAND_PREFIX = '/';
-  QString str;
+  const char MESSAGE_PREFIX = ':';
+  QString s1, str;
+  int i;
 
   str = s.trimmed();
   if (str.at(0) == SERVER_COMMAND_PREFIX
-      || str.at(0) == ALLIES_CHAT_PREFIX) {
+      || str.at(0) == ALLIES_CHAT_PREFIX
+      || str.at(0) == MESSAGE_PREFIX) {
     return false;
   }
+
+  /* Search for private message */
+  if (!str.contains(':')) {
+    return true;
+  }
+  i = str.indexOf(':');
+  str = str.left(i);
+
+  /* Compare all players and connections looking for match */
+  conn_list_iterate(game.all_connections, pconn) {
+    s1 = pconn->username;
+    if (s1.length() < i) {
+      continue;
+    }
+    if (s1.left(i) == str) {
+      return false;
+    }
+  } conn_list_iterate_end;
+  players_iterate(pplayer) {
+    s1 = pplayer->name;
+    if (s1.length() < i) {
+      continue;
+    }
+    if (s1.left(i) == str) {
+      return false;
+    }
+  } players_iterate_end;
 
   return true;
 }
