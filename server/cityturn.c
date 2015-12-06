@@ -2566,8 +2566,9 @@ static struct unit *sell_random_unit(struct player *pplayer,
   /* Check if unit is transporting other units from punitlist,
    * and sell one of those (recursively) instead. */
   unit_list_iterate(unit_transport_cargo(punit), pcargo) {
-    if (pcargo->upkeep[O_GOLD] > 0) { /* Optimization, do not iterate over punitlist
-                                       * if we are sure that pcargo is not in it. */
+    /* Optimization, do not iterate over punitlist
+     * if we are sure that pcargo is not in it. */
+    if (pcargo->server.upkeep_payed[O_GOLD] > 0) {
       unit_list_iterate(punitlist, p2) {
         if (pcargo == p2) {
           unit_list_append(cargo, pcargo);
@@ -2640,7 +2641,7 @@ static bool player_balance_treasury_units_and_buildings
     } city_built_iterate_end;
 
     unit_list_iterate(pcity->units_supported, punit) {
-      if (punit->upkeep[O_GOLD] > 0) {
+      if (punit->server.upkeep_payed[O_GOLD] > 0) {
         uk_rem_gold_append(punit);
       }
     } unit_list_iterate_end;
@@ -2689,7 +2690,7 @@ static bool player_balance_treasury_units(struct player *pplayer)
 
   city_list_iterate(pplayer->cities, pcity) {
     unit_list_iterate(pcity->units_supported, punit) {
-      if (punit->upkeep[O_GOLD] > 0) {
+      if (punit->server.upkeep_payed[O_GOLD] > 0) {
         uk_rem_gold_append(punit);
       }
     } unit_list_iterate_end;
@@ -2775,7 +2776,7 @@ static bool city_balance_treasury_units(struct city *pcity)
 
   /* Create a vector of all supported units with gold upkeep. */
   unit_list_iterate(pcity->units_supported, punit) {
-    if (punit->upkeep[O_GOLD] > 0) {
+    if (punit->server.upkeep_payed[O_GOLD] > 0) {
        uk_rem_gold_append(punit);
      }
   } unit_list_iterate_end;
