@@ -214,6 +214,7 @@ type PERSISTENT_READY   = uint8(enum persistent_ready)
 type VICTORY_CONDITIONS = uint8(enum victory_condition_type)
 type TECH_UPKEEP_STYLE  = uint8(enum tech_upkeep_style)
 type AUTH_TYPE          = uint8(enum authentication_type)
+type BARBARIAN_TYPE     = uint8(enum barbarian_type)
 type BASE_GUI           = uint8(enum base_gui_type)
 type BORDERS_MODE       = uint8(enum borders_mode)
 type CLAUSE             = uint8(enum clause_type)
@@ -816,7 +817,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   BOOL is_connected;
   TURN revolution_finishes;
   UINT8 ai_skill_level;
-  UINT8 barbarian_type;
+  BARBARIAN_TYPE barbarian_type;
   BV_PLAYER gives_shared_vision;
   UINT16 culture;
   SINT16 love[MAX_NUM_PLAYER_SLOTS];
@@ -1458,7 +1459,7 @@ PACKET_RULESET_NATION = 148; sc, lsend
   BOOL leader_is_male[MAX_NUM_LEADERS:leader_count];
 
   BOOL is_playable;
-  UINT8 barbarian_type;
+  BARBARIAN_TYPE barbarian_type;
   
   UINT8 nsets;
   UINT8 sets[MAX_NUM_NATION_SETS:nsets];
