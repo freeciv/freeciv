@@ -1078,7 +1078,6 @@ GtkWidget *create_worklist(void)
   ptr->dst = dst_store;
   ptr->future = FALSE;
 
-
   /* create shell. */ 
   editor = gtk_grid_new();
   gtk_grid_set_row_spacing(GTK_GRID(editor), 6);
@@ -1097,9 +1096,9 @@ GtkWidget *create_worklist(void)
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+                                      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_grid_attach(GTK_GRID(table), sw, 3, 1, 2, 1);
 
   src_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(src_store));
@@ -1123,7 +1122,6 @@ GtkWidget *create_worklist(void)
   gtk_grid_attach(GTK_GRID(table), check, 4, 0, 1, 1);
   g_signal_connect(check, "toggled", G_CALLBACK(future_callback), ptr);
 
-
   table2 = gtk_grid_new();
   gtk_grid_attach(GTK_GRID(table), table2, 2, 1, 1, 1);
 
@@ -1137,7 +1135,7 @@ GtkWidget *create_worklist(void)
   arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
-			   G_CALLBACK(queue_prepend), ptr);
+                           G_CALLBACK(queue_prepend), ptr);
   gtk_widget_set_sensitive(ptr->prepend_cmd, FALSE);
 
   button = gtk_button_new();
@@ -1148,7 +1146,7 @@ GtkWidget *create_worklist(void)
   arrow = gtk_arrow_new(GTK_ARROW_UP, GTK_SHADOW_NONE);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
-			   G_CALLBACK(queue_bubble_up), ptr);
+                           G_CALLBACK(queue_bubble_up), ptr);
   gtk_widget_set_sensitive(ptr->up_cmd, FALSE);
 
   button = gtk_button_new();
@@ -1159,7 +1157,7 @@ GtkWidget *create_worklist(void)
   arrow = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_IN);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
-			   G_CALLBACK(queue_bubble_down), ptr);
+                           G_CALLBACK(queue_bubble_down), ptr);
   gtk_widget_set_sensitive(ptr->down_cmd, FALSE);
 
   button = gtk_button_new();
@@ -1172,7 +1170,7 @@ GtkWidget *create_worklist(void)
   arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
-			   G_CALLBACK(queue_append), ptr);
+                           G_CALLBACK(queue_append), ptr);
   gtk_widget_set_sensitive(ptr->append_cmd, FALSE);
 
   button = gtk_button_new();
@@ -1181,7 +1179,7 @@ GtkWidget *create_worklist(void)
   ptr->remove_cmd = button;
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 4, 1, 1);
-  
+
   arrow = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_IN);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
