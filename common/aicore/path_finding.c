@@ -2182,9 +2182,6 @@ static void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
     }
     node1->fuel_segment = fc_malloc(node1->size_alloc
                                     * sizeof(*node1->fuel_segment));
-#ifdef PF_DEBUG
-    fc_assert(256 > node1->size_alloc); /* node1->size_alloc has only 8 bits. */
-#endif
   }
 
   /* Reset tile and node pointers for main iteration. */
