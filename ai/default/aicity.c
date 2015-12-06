@@ -303,14 +303,21 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
       city_data->choice.value.utype
         = best_role_unit(pcity, action_get_role(ACTION_TRADE_ROUTE));
       city_data->choice.type = CT_CIVILIAN;
-    } else if (best_role_unit(pcity, UTYF_SETTLERS)) {
-      city_data->choice.value.utype
-        = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
-      city_data->choice.type = CT_CIVILIAN;
     } else {
-      CITY_LOG(LOG_ERROR, pcity, "Cannot even build a fallback "
-	       "(caravan/coinage/settlers). Fix the ruleset!");
-      city_data->choice.want = 0;
+      unsigned int our_def = assess_defense_quadratic(ait, pcity);
+
+      if (our_def == 0
+          && dai_process_defender_want(ait, pplayer, pcity, 1, &(city_data->choice))) {
+        CITY_LOG(LOG_DEBUG, pcity, "Building fallback defender");
+      } else if (best_role_unit(pcity, UTYF_SETTLERS)) {
+        city_data->choice.value.utype
+          = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
+        city_data->choice.type = CT_CIVILIAN;
+      } else {
+        CITY_LOG(LOG_ERROR, pcity, "Cannot even build a fallback "
+                 "(caravan/coinage/settlers). Fix the ruleset!");
+        city_data->choice.want = 0;
+      }
     }
   }
 
