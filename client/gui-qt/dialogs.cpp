@@ -1512,6 +1512,12 @@ static void action_entry(choice_dialog *cd,
     return;
   }
 
+  if (!af_map.contains(act)) {
+    /* The Qt client doesn't support ordering this action from the
+     * action selection dialog. */
+    return;
+  }
+
   /* Don't show disabled actions. */
   if (!action_prob_possible(action_probabilities[act])) {
     return;

@@ -1014,6 +1014,12 @@ static void action_entry(const enum gen_action act,
     return;
   }
 
+  if (af_map[act] == NULL) {
+    /* This client doesn't support ordering this action from the
+     * action selection dialog. */
+    return;
+  }
+
   /* Don't show disabled actions */
   if (!action_prob_possible(action_probabilities[act])) {
     return;

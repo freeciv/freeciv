@@ -1194,6 +1194,12 @@ static void action_entry(GtkWidget *shl,
     return;
   }
 
+  if (af_map[action_id] == NULL) {
+    /* This client doesn't support ordering this action from the
+     * action selection dialog. */
+    return;
+  }
+
   /* Don't show disabled actions. */
   if (!action_prob_possible(action_probabilities[action_id])) {
     return;
