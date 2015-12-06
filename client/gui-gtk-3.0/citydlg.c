@@ -1080,44 +1080,14 @@ static void create_and_append_map_page(struct city_dialog *pdialog)
 }
 
 /****************************************************************
-  Create buildings list page for small screens
+  Something dragged to worklist dialog.
 *****************************************************************/
-static void create_and_append_buildings_page(struct city_dialog *pdialog)
-{
-  if (low_citydlg) {
-    GtkWidget *page;
-    GtkWidget *label;
-    GtkWidget *vbox;
-    GtkWidget *view;
-    const char *tab_title = _("Buildings");
-
-    page = gtk_grid_new();
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
-                                   GTK_ORIENTATION_VERTICAL);
-    gtk_container_set_border_width(GTK_CONTAINER(page), 8);
-    label = gtk_label_new_with_mnemonic(tab_title);
-    gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
-
-    vbox = gtk_grid_new();
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
-                                   GTK_ORIENTATION_VERTICAL);
-    gtk_container_add(GTK_CONTAINER(page), vbox);
-
-    view = create_citydlg_improvement_list(pdialog, vbox);
-
-    gtk_container_add(GTK_CONTAINER(vbox), view);
-
-    gtk_widget_show_all(page);
-  }
-}
-
-/****************************************************************
-  Something dragged to worklist dialog
-*****************************************************************/
-static void
-target_drag_data_received(GtkWidget *w, GdkDragContext *context,
-			  gint x, gint y, GtkSelectionData *data,
-			  guint info, guint time, gpointer user_data)
+static void target_drag_data_received(GtkWidget *w,
+                                      GdkDragContext *context,
+                                      gint x, gint y,
+                                      GtkSelectionData *data,
+                                      guint info, guint time,
+                                      gpointer user_data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) user_data;
   GtkTreeModel *model;
@@ -1127,7 +1097,7 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
       && city_owner(pdialog->pcity) != client.conn.playing) {
     gtk_drag_finish(context, FALSE, FALSE, time);
   }
-    
+
   if (gtk_tree_get_row_drag_data(data, &model, &path)) {
     GtkTreeIter it;
 
@@ -1145,32 +1115,17 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
 }
 
 /****************************************************************
-                    **** Production Page **** 
+  Create production page header - what tab this actually is,
+  depends on screen size and layout.
 *****************************************************************/
-static void create_and_append_worklist_page(struct city_dialog *pdialog)
+static void create_production_header(struct city_dialog *pdialog, GtkContainer *contain)
 {
-  const char *tab_title = _("P_roduction");
-  GtkWidget *label = gtk_label_new_with_mnemonic(tab_title);
-  GtkWidget *page, *hbox, *editor, *bar;
-
-  page = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
-  gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
-
-  /* stuff that's being currently built */
-
-  label = g_object_new(GTK_TYPE_LABEL,
-		       "label", _("Production:"),
-		       "xalign", 0.0, "yalign", 0.5, NULL);
-  pdialog->production.production_label = label;
-  gtk_container_add(GTK_CONTAINER(page), label);
+  GtkWidget *hbox, *bar;
 
   hbox = gtk_grid_new();
   g_object_set(hbox, "margin", 2, NULL);
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 10);
-  gtk_container_add(GTK_CONTAINER(page), hbox);
+  gtk_container_add(contain, hbox);
 
   /* The label is set in city_dialog_update_building() */
   bar = gtk_progress_bar_new();
@@ -1181,16 +1136,79 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
   add_worklist_dnd_target(bar);
+
   g_signal_connect(bar, "drag_data_received",
-		   G_CALLBACK(target_drag_data_received), pdialog);
+                   G_CALLBACK(target_drag_data_received), pdialog);
 
   pdialog->production.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
-						      _("_Buy"));
+                                                        _("_Buy"));
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->production.buy_command);
 
   g_signal_connect(pdialog->production.buy_command, "clicked",
-		   G_CALLBACK(buy_callback), pdialog);
+                   G_CALLBACK(buy_callback), pdialog);
+}
 
+/****************************************************************
+  Create buildings list page for small screens
+*****************************************************************/
+static void create_and_append_buildings_page(struct city_dialog *pdialog)
+{
+  if (low_citydlg) {
+    GtkWidget *page;
+    GtkWidget *label;
+    GtkWidget *vbox;
+    GtkWidget *view;
+    const char *tab_title = _("Buildings");
+
+    page = gtk_grid_new();
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
+                                   GTK_ORIENTATION_VERTICAL);
+    gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+    label = gtk_label_new_with_mnemonic(tab_title);
+
+    create_production_header(pdialog, GTK_CONTAINER(page));
+    gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
+
+    vbox = gtk_grid_new();
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+                                   GTK_ORIENTATION_VERTICAL);
+    gtk_container_add(GTK_CONTAINER(page), vbox);
+
+    view = create_citydlg_improvement_list(pdialog, vbox);
+
+    gtk_container_add(GTK_CONTAINER(vbox), view);
+
+    gtk_widget_show_all(page);
+  }
+}
+
+/****************************************************************
+                    **** Production Page **** 
+*****************************************************************/
+static void create_and_append_worklist_page(struct city_dialog *pdialog)
+{
+  const char *tab_title = _("P_roduction");
+  GtkWidget *label = gtk_label_new_with_mnemonic(tab_title);
+  GtkWidget *page, *editor;
+
+  page = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+  gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
+
+  /* stuff that's being currently built */
+  if (!low_citydlg) {
+    label = g_object_new(GTK_TYPE_LABEL,
+                         "label", _("Production:"),
+                         "xalign", 0.0, "yalign", 0.5, NULL);
+    pdialog->production.production_label = label;
+    gtk_container_add(GTK_CONTAINER(page), label);
+
+    create_production_header(pdialog, GTK_CONTAINER(page));
+  } else {
+    pdialog->production.production_label = NULL;
+  }
 
   editor = create_worklist();
   g_object_set(editor, "margin", 6, NULL);
@@ -1847,15 +1865,18 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   if (pdialog->overview.buy_command != NULL) {
     gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
   }
-  gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
+  if (pdialog->production.buy_command != NULL) {
+    gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
+  }
 
   /* Make sure build slots info is up to date */
-  {
+  if (pdialog->production.production_label != NULL) {
     int build_slots = city_build_slots(pcity);
+
     /* Only display extra info if more than one slot is available */
     if (build_slots > 1) {
       fc_snprintf(buf2, sizeof(buf2),
-                  /* TRANS: never actually used with built_slots<=1 */
+                  /* TRANS: never actually used with built_slots <= 1 */
                   PL_("Production (up to %d unit per turn):",
                       "Production (up to %d units per turn):", build_slots),
                   build_slots);
@@ -1886,12 +1907,14 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       GTK_PROGRESS_BAR(pdialog->overview.production_bar), pct);
   }
 
-  fc_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
-              worklist_is_empty(&pcity->worklist) ? "" : " (+)", buf);
-  gtk_progress_bar_set_text(
-    GTK_PROGRESS_BAR(pdialog->production.production_bar), buf2);
-  gtk_progress_bar_set_fraction(
-    GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
+  if (pdialog->production.production_bar != NULL) {
+    fc_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
+                worklist_is_empty(&pcity->worklist) ? "" : " (+)", buf);
+    gtk_progress_bar_set_text(
+      GTK_PROGRESS_BAR(pdialog->production.production_bar), buf2);
+    gtk_progress_bar_set_fraction(
+      GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
+  }
 
   if (pdialog->overview.production_combo != NULL) {
     gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo),
@@ -1938,7 +1961,9 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   if (pdialog->overview.production_bar != NULL) {
     gtk_widget_queue_resize(pdialog->overview.production_bar);
   }
-  gtk_widget_queue_resize(pdialog->production.production_bar);
+  if (pdialog->production.production_bar != NULL) {
+    gtk_widget_queue_resize(pdialog->production.production_bar);
+  }
 }
 
 /****************************************************************
