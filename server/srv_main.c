@@ -1377,7 +1377,7 @@ static void end_turn(void)
   extra_type_by_rmcause_iterate(ERM_DISAPPEARANCE, pextra) {
     whole_map_iterate(ptile) {
       if (tile_has_extra(ptile, pextra)
-          && fc_rand(1000) < pextra->disappearance_chance
+          && fc_rand(10000) < pextra->disappearance_chance
           && can_extra_disappear(pextra, ptile)) {
         tile_remove_extra(ptile, pextra);
 
@@ -1407,7 +1407,7 @@ static void end_turn(void)
   extra_type_by_cause_iterate(EC_APPEARANCE, pextra) {
     whole_map_iterate(ptile) {
       if (!tile_has_extra(ptile, pextra)
-          && fc_rand(1000) < pextra->appearance_chance
+          && fc_rand(10000) < pextra->appearance_chance
           && can_extra_appear(pextra, ptile)) {
 
         tile_add_extra(ptile, pextra);
