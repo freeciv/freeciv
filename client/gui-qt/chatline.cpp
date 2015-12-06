@@ -20,7 +20,6 @@
 #include <QStyleFactory>
 
 // client
-#include "audio.h"
 #include "climisc.h"      /* for write_chatline_content */
 #include "climap.h"
 #include "control.h"
@@ -33,7 +32,6 @@
 
 #include "chatline.h"
 
-extern char gui_qt_wakeup_text[512];
 static bool gui_qt_allied_chat_only = false;
 static bool is_plain_public_message(QString s);
 static QString replace_html(QString str);
@@ -503,24 +501,12 @@ void qtg_real_output_window_append(const char *astring,
                                    int conn_id)
 {
   QString str;
-  QString wakeup;
 
   str = QString::fromUtf8(astring);
   gui()->set_status_bar(str);
   gui()->update_completer();
 
   str = replace_html(str);
-  wakeup = gui_qt_wakeup_text;
-
-  /* Format wakeup string if needed */
-  if (wakeup.contains("%1")) {
-    wakeup = wakeup.arg(client.conn.username);
-  }
-
-  /* Play sound if we encountered wakeup string */
-  if (str.contains(wakeup) && client_state() < C_S_RUNNING) {
-    audio_play_sound(get_event_sound_tag(E_IMP_SOLD), NULL);
-  }
   gui()->append_output_window(apply_tags(str, tags, false));
   if (gui()->infotab != NULL) {
     gui()->infotab->chtwdg->append(apply_tags(str, tags, true));

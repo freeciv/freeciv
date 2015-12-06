@@ -248,7 +248,6 @@ char gui_qt_font_comment_label[512] = "Sans Serif,9,-1,5,50,1,0,0,0,0";
 char gui_qt_font_city_names[512] = "Sans Serif,10,-1,5,75,0,0,0,0,0";
 char gui_qt_font_city_productions[512] = "Sans Serif,10,-1,5,50,1,0,0,0,0";
 char gui_qt_font_reqtree_text[512] = "Sans Serif,10,-1,5,50,1,0,0,0,0";
-char gui_qt_wakeup_text[512] = "Wake up %1";
 
 /* Set to TRUE after the first call to options_init(), to avoid the usage
  * of non-initialized datas when calling the changed callback. */
@@ -2683,12 +2682,7 @@ static struct client_option client_options[] = {
                   N_("This font is used to the display the requirement tree "
                      "in the Research report."),
                   COC_FONT, GUI_QT,
-                  "Sans Serif,10,-1,5,50,1,0,0,0,0", NULL),
-  GEN_STR_OPTION(gui_qt_wakeup_text,
-                 N_("Wake up sequence"),
-                 N_("String which will trigger sound in pregame page,"
-                    "%1 stands for nick"),
-                 COC_INTERFACE, GUI_QT, "Wake up %1", NULL)
+                  "Sans Serif,10,-1,5,50,1,0,0,0,0", NULL)
 
 };
 static const int client_options_num = ARRAY_SIZE(client_options);
