@@ -127,7 +127,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
   } players_iterate_end;
 
   /* make a new player, or not */
-  barbarians = server_create_player(-1, default_ai_type_name(), NULL);
+  barbarians = server_create_player(-1, default_ai_type_name(), NULL, FALSE);
   if (!barbarians) {
     return NULL;
   }

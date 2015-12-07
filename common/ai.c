@@ -328,3 +328,32 @@ const char *ai_name(const struct ai_type *ai)
   fc_assert_ret_val(ai, NULL);
   return ai->name;
 }
+
+/*****************************************************************************
+  Return usable ai type name, if possible. This is either the name
+  given as parameter or some fallback name for it. NULL is returned if
+  no name matches.
+*****************************************************************************/
+const char *ai_type_name_or_fallback(const char *orig_name)
+{
+  if (orig_name == NULL) {
+    return NULL;
+  }
+
+  if (ai_type_by_name(orig_name) != NULL) {
+    return orig_name;
+  }
+
+  if (!strcmp("threaded", orig_name)) {
+    struct ai_type *fb;
+
+    fb = ai_type_by_name("classic");
+
+    if (fb != NULL) {
+      /* Get pointer to persistent name of the ai_type */
+      return ai_name(fb);
+    }
+  }
+
+  return NULL;
+}

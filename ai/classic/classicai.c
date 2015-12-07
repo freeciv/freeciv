@@ -105,7 +105,6 @@ static void cai_player_save_relations(struct player *pplayer,
 
 /**************************************************************************
   Call default ai with classic ai type as parameter.
-  Classicai stores information to "ai" like the default ai common code.
 **************************************************************************/
 static void cai_player_load_relations(struct player *pplayer,
                                       struct player *other,

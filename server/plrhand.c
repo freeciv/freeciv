@@ -1542,8 +1542,9 @@ void give_midgame_initial_units(struct player *pplayer, struct tile *ptile)
 
   May return NULL if creation was not possible.
 ***********************************************************************/
-struct player *server_create_player(int player_id, const char *ai_type,
-                                    struct rgbcolor *prgbcolor)
+struct player *server_create_player(int player_id, const char *ai_tname,
+                                    struct rgbcolor *prgbcolor,
+                                    bool allow_ai_type_fallbacking)
 {
   struct player_slot *pslot;
   struct player *pplayer;
@@ -1556,7 +1557,12 @@ struct player *server_create_player(int player_id, const char *ai_type,
     return NULL;
   }
 
-  pplayer->ai = ai_type_by_name(ai_type);
+  if (allow_ai_type_fallbacking) {
+    pplayer->savegame_ai_type_name = fc_strdup(ai_tname);
+    ai_tname = ai_type_name_or_fallback(ai_tname);
+  }
+
+  pplayer->ai = ai_type_by_name(ai_tname);
 
   if (pplayer->ai == NULL) {
     player_destroy(pplayer);
@@ -2395,7 +2401,8 @@ static struct player *split_player(struct player *pplayer)
   struct nation_type *rebel_nation;
 
   /* make a new player, or not */
-  cplayer = server_create_player(-1, ai_name(pplayer->ai), NULL);
+  cplayer = server_create_player(-1, ai_name(pplayer->ai),
+                                 NULL, FALSE);
   if (!cplayer) {
     return NULL;
   }

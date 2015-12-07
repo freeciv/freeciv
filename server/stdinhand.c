@@ -865,8 +865,8 @@ enum rfc_status create_command_newcomer(const char *name,
     new_slot = TRUE;
   }
 
- if (new_slot) {
-   if (normal_player_count() == game.server.max_players) {
+  if (new_slot) {
+    if (normal_player_count() == game.server.max_players) {
 
       fc_assert(game.server.max_players < MAX_NUM_PLAYERS);
 
@@ -876,7 +876,7 @@ enum rfc_status create_command_newcomer(const char *name,
   }
 
   /* Create the new player. */
-  pplayer = server_create_player(-1, ai, NULL);
+  pplayer = server_create_player(-1, ai, NULL, FALSE);
   if (!pplayer) {
     fc_snprintf(buf, buflen, _("Failed to create new player %s."), name);
     return C_FAIL;
@@ -1023,7 +1023,7 @@ enum rfc_status create_command_pregame(const char *name,
     pplayer->ai = ai_type_by_name(ai);
   } else {
     /* add new player */
-    pplayer = server_create_player(-1, ai, NULL);
+    pplayer = server_create_player(-1, ai, NULL, FALSE);
     /* pregame so no need to assign_player_colors() */
     if (!pplayer) {
       fc_snprintf(buf, buflen,

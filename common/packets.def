@@ -1888,6 +1888,7 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   BOOL   save_random;
   BOOL   prevent_new_cities;
   BOOL   handmade;
+  BOOL   allow_ai_type_fallback;
   BOOL   ruleset_locked;
 end
 

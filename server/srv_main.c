@@ -2278,7 +2278,8 @@ const char *aifill(int amount)
     int filled = 1;
     struct player *pplayer;
 
-    pplayer = server_create_player(-1, default_ai_type_name(), NULL);
+    pplayer = server_create_player(-1, default_ai_type_name(),
+                                   NULL, FALSE);
     /* !game_was_started() so no need to assign_player_colors() */
     if (!pplayer) {
       break;

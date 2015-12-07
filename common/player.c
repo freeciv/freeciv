@@ -581,6 +581,7 @@ static void player_defaults(struct player *pplayer)
 
   pplayer->ai = NULL;
   pplayer->was_created = FALSE;
+  pplayer->savegame_ai_type_name = NULL;
   pplayer->random_name = TRUE;
   pplayer->is_connected = FALSE;
   pplayer->current_conn = NULL;
@@ -631,6 +632,11 @@ void player_clear(struct player *pplayer, bool full)
 
   if (pplayer == NULL) {
     return;
+  }
+
+  if (pplayer->savegame_ai_type_name != NULL) {
+    free(pplayer->savegame_ai_type_name);
+    pplayer->savegame_ai_type_name = NULL;
   }
 
   /* Clears the attribute blocks. */

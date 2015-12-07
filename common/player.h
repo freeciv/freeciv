@@ -269,6 +269,7 @@ struct player {
 
   struct player_ai ai_common;
   const struct ai_type *ai;
+  char *savegame_ai_type_name;
 
   bv_plr_flags flags;
 

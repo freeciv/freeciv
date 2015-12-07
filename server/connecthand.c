@@ -585,7 +585,8 @@ static bool connection_attach_real(struct connection *pconn,
         /* Should only be called in such a way as to create a new player
          * in the pregame */
         fc_assert_ret_val(!game_was_started(), FALSE);
-        pplayer = server_create_player(-1, default_ai_type_name(), NULL);
+        pplayer = server_create_player(-1, default_ai_type_name(),
+                                       NULL, FALSE);
         /* Pregame => no need to assign_player_colors() */
         if (!pplayer) {
           return FALSE;

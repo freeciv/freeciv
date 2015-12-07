@@ -1764,6 +1764,9 @@ static void sg_load_scenario(struct loaddata *loading)
   game.scenario.handmade
     = secfile_lookup_bool_default(loading->file, FALSE,
                                   "scenario.handmade");
+  game.scenario.allow_ai_type_fallback
+    = secfile_lookup_bool_default(loading->file, FALSE,
+                                  "scenario.allow_ai_type_fallback");
 
   sg_failure_ret(loading->server_state == S_S_INITIAL
                  || (loading->server_state == S_S_RUNNING
@@ -2384,7 +2387,7 @@ static void sg_load_players_basic(struct loaddata *loading)
 
     /* Create player. */
     pplayer = server_create_player(player_slot_index(pslot), string,
-                                   prgbcolor);
+                                   prgbcolor, game.scenario.allow_ai_type_fallback);
     sg_failure_ret(pplayer != NULL, "Invalid AI type: '%s'!", string);
 
     server_player_init(pplayer, FALSE, FALSE);
