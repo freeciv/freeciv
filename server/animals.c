@@ -100,7 +100,7 @@ void create_animals(void)
     return;
   }
 
-  plr = server_create_player(-1, default_ai_type_name(), NULL);
+  plr = server_create_player(-1, default_ai_type_name(), NULL, FALSE);
   if (plr == NULL) {
     return;
   }

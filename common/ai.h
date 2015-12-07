@@ -269,6 +269,7 @@ int ai_type_get_count(void);
 const char *ai_name(const struct ai_type *ai);
 
 struct ai_type *ai_type_by_name(const char *search);
+const char *ai_type_name_or_fallback(const char *orig_name);
 
 #ifdef DEBUG_AITIMERS
 void ai_timer_init(void);

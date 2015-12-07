@@ -256,6 +256,7 @@ struct player {
   bool ai_controlled; /* 0: not automated; 1: automated */
   struct player_ai ai_common;
   const struct ai_type *ai;
+  char *savegame_ai_type_name;
 
   bool was_created;                    /* if the player was /created */
   bool random_name;

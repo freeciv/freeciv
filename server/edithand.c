@@ -1092,7 +1092,8 @@ void handle_edit_player_create(struct connection *pc, int tag)
     return;
   }
 
-  pplayer = server_create_player(-1, default_ai_type_name(), NULL);
+  pplayer = server_create_player(-1, default_ai_type_name(),
+                                 NULL, FALSE);
   if (!pplayer) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Player creation failed."));
