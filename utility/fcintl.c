@@ -61,9 +61,10 @@ const char *skip_intl_qualifier_prefix(const char *str)
 ***********************************************************************/
 char *capitalized_string(const char *str)
 {
-  char *result = fc_malloc(strlen(str) + 1);
+  int len = strlen(str);
+  char *result = fc_malloc(len + 1);
 
-  strcpy(result, str);
+  fc_strlcpy(result, str, len);
 
   if (autocap) {
     if ((unsigned char) result[0] < 128) {
