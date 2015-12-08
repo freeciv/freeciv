@@ -1682,11 +1682,11 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
         notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
                       /* TRANS: Tech from building (Darwin's Voyage) */
-                      _("?frombldng:Acquired %s from %s."), adv_name, provider);
+                      Q_("?frombldg:Acquired %s from %s."), adv_name, provider);
 
         notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN, ftc_server,
                          /* TRANS: Tech from building (Darwin's Voyage) */
-                         _("?frombldng:The %s have acquired %s from %s."),
+                         Q_("?frombldg:The %s have acquired %s from %s."),
                          nation_plural_for_player(pplayer), adv_name,
                          provider);
       }
