@@ -6322,7 +6322,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
         /* The current relationship is closer than what the save game
          * claims is the closes relationship ever. */
 
-        log_sg(_("The save game is wrong about what the closes "
+        log_sg(_("The save game is wrong about what the closest "
                  "relationship %s and %s have had is. Fixing."),
                player_name(pplayer), player_name(aplayer));
 

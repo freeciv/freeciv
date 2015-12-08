@@ -4496,7 +4496,7 @@ static void game_load_internal(struct section_file *file)
         /* The current relationship is closer than what the save game
          * claims is the closes relationship ever. */
 
-        log_error(_("The save game is wrong about what the closes "
+        log_error(_("The save game is wrong about what the closest "
                     "relationship %s and %s have had is. Fixing."),
                   player_name(pplayer), player_name(aplayer));
 
