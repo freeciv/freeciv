@@ -199,8 +199,9 @@ void do_tech_parasite_effect(struct player *pplayer)
                   player_name(pplayer),
                   astr_str(&effects));
   notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
-                            /* TRANS: Tech from source of an effect (Great Library) */
-                            _("?fromeffect:The %s have acquired %s from %s."),
+                            /* TRANS: Tech from source of an effect
+                             * (Great Library) */
+                            Q_("?fromeffect:The %s have acquired %s from %s."),
                             research_name,
                             advance_name,
                             astr_str(&effects));

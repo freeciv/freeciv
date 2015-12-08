@@ -467,7 +467,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
             notify_research_embassies
                 (presearch, pgiver, E_TECH_EMBASSY, ftc_server,
                  /* TRANS: Tech from another player */
-                 _("?fromplr:The %s have acquired %s from the %s."),
+                 Q_("?fromplr:The %s have acquired %s from the %s."),
                  research_name,
                  advance_name,
                  nation_plural_for_player(pgiver));
