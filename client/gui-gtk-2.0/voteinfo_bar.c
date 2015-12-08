@@ -149,7 +149,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_YES));
-  gtk_widget_set_size_request(button, 70, BUTTON_HEIGHT);
+  gtk_widget_set_size_request(button, 50, BUTTON_HEIGHT);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   evbox = gtk_event_box_new();
   gtk_container_add(GTK_CONTAINER(evbox), button);
@@ -170,7 +170,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_NO));
-  gtk_widget_set_size_request(button, 70, BUTTON_HEIGHT);
+  gtk_widget_set_size_request(button, 50, BUTTON_HEIGHT);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   evbox = gtk_event_box_new();
   gtk_container_add(GTK_CONTAINER(evbox), button);
@@ -191,7 +191,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_ABSTAIN));
-  gtk_widget_set_size_request(button, 70, BUTTON_HEIGHT);
+  gtk_widget_set_size_request(button, 50, BUTTON_HEIGHT);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   evbox = gtk_event_box_new();
   gtk_container_add(GTK_CONTAINER(evbox), button);
