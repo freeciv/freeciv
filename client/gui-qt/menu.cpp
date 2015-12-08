@@ -708,6 +708,10 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(ORDER_DIPLOMAT_DLG, act);
   act->setShortcut(QKeySequence(tr("d")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_action()));
+  act = menu->addAction(_("Explode Nuclear"));
+  menu_list.insertMulti(NUKE, act);
+  act->setShortcut(QKeySequence(tr("shift+n")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_explode_nuclear()));
 
   /* Work Menu */
   menu = this->addMenu(_("Work"));
@@ -1446,6 +1450,14 @@ void mr_menu::slot_transform()
 void mr_menu::slot_pillage()
 {
   key_unit_pillage();
+}
+
+/***************************************************************************
+  Action "EXPLODE NUCLEAR"
+***************************************************************************/
+void mr_menu::slot_explode_nuclear()
+{
+  key_unit_nuke();
 }
 
 /***************************************************************************

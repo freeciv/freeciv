@@ -200,6 +200,7 @@ private slots:
   void slot_unit_airbase();
   void slot_pillage();
   void slot_action();
+  void slot_explode_nuclear();
 
   /*used by view menu*/
   void slot_center_view();
