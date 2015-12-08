@@ -1273,7 +1273,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                 _("Your %s got you %d gold from %s."),
                 unit_link(act_unit), gold_give, tgt_city_link);
   notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
-                _("The %s is suspect of taking %d gold from %s."),
+                _("The %s are suspected of taking %d gold from %s."),
                 nation_plural_for_player(act_player),
                 gold_take, tgt_city_link);
 
@@ -1353,7 +1353,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
     notify_player(tgt_player, tgt_tile, E_ENEMY_DIPLOMAT_FAILED,
                   ftc_server,
                   _("You caught %s %s attempting to steal"
-                    " parts of you world map in %s!"),
+                    " parts of your world map in %s!"),
                   nation_adjective_for_player(act_player),
                   unit_tile_link(act_unit),
                   tgt_city_link);
@@ -1380,7 +1380,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                 nation_adjective_for_player(tgt_player),
                 tgt_city_link);
   notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_MAP, ftc_server,
-                _("The %s are suspect of stealing"
+                _("The %s are suspected of stealing"
                   " parts of your world map in %s."),
                 nation_plural_for_player(act_player),
                 tgt_city_link);
@@ -1473,7 +1473,7 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
                 unit_link(act_unit),
                 tgt_city_link);
   notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_NUKE, ftc_server,
-                _("The %s are suspect of hiding a nuke in %s."),
+                _("The %s are suspected of hiding a nuke in %s."),
                 nation_plural_for_player(act_player),
                 tgt_city_link);
 

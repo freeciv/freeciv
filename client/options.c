@@ -2807,7 +2807,7 @@ static struct client_option client_options[] = {
                   "Sans Serif,10,-1,5,50,1,0,0,0,0", NULL),
   GEN_STR_OPTION(gui_qt_wakeup_text,
                  N_("Wake up sequence"),
-                 N_("String which will trigger sound in pregame page,"
+                 N_("String which will trigger sound in pregame page, "
                     "%1 stands for nick"),
                  COC_INTERFACE, GUI_QT, "Wake up %1", NULL)
 

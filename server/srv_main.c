@@ -3259,7 +3259,8 @@ void srv_main(void)
       event_cache_clear();
     }
 
-    log_normal(_("Now accepting new client connections on port %d"), srvarg.port);
+    log_normal(_("Now accepting new client connections on port %d."),
+               srvarg.port);
     /* Remain in S_S_INITIAL until all players are ready. */
     while (S_E_FORCE_END_OF_SNIFF != server_sniff_all_input()) {
       /* When force_end_of_sniff is used in pregame, it means that the server
