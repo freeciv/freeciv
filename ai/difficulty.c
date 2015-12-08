@@ -73,6 +73,7 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
      BV_SET(handicap, H_DIPLOMAT);
      BV_SET(handicap, H_LIMITEDHUTS);
      BV_SET(handicap, H_DEFENSIVE);
+     BV_SET(handicap, H_DIPLOMACY);
      BV_SET(handicap, H_REVOLUTION);
      BV_SET(handicap, H_EXPANSION);
      BV_SET(handicap, H_DANGER);
