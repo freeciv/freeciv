@@ -162,6 +162,7 @@ void unit_filter::reset_other()
 {
   full_hp = false;
   full_mp = false;
+  full_hp_mp = false;
   any = false;
 }
 
@@ -469,13 +470,20 @@ void mr_menu::apply_filter(struct unit *punit)
 ****************************************************************************/
 void mr_menu::apply_2nd_filter(struct unit *punit)
 {
-  if (punit->hp == punit->utype->hp && u_filter.full_hp) {
+  if (punit->hp >= punit->utype->hp && u_filter.full_hp
+      && !u_filter.full_hp_mp) {
     unit_focus_add(punit);
   }
-  if (punit->moves_left  >= punit->utype->move_rate && u_filter.full_mp) {
+  if (punit->moves_left  >= punit->utype->move_rate && u_filter.full_mp
+      && !u_filter.full_hp_mp) {
     unit_focus_add(punit);
   }
-  if (u_filter.any){
+  if (punit->hp >= punit->utype->hp
+      && punit->moves_left  >= punit->utype->move_rate
+      && u_filter.full_hp_mp) {
+    unit_focus_add(punit);
+  }
+  if (u_filter.any) {
     unit_focus_add(punit);
   }
 }
@@ -773,6 +781,13 @@ void mr_menu::setup_menus()
   act->setChecked(u_filter.full_mp);
   act->setShortcut(QKeySequence(tr("ctrl+8")));
   act->setData(qVariantFromValue((void *) &u_filter.full_mp));
+  filter_any->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter_other()));
+  act = filter_menu->addAction(_("Full HP and MP"));
+  act->setCheckable(true);
+  act->setChecked(u_filter.full_hp_mp);
+  act->setShortcut(QKeySequence(tr("ctrl+9")));
+  act->setData(qVariantFromValue((void *) &u_filter.full_hp_mp));
   filter_any->addAction(act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_filter_other()));
 
