@@ -86,6 +86,7 @@ public:
   bool any;
   bool full_mp;
   bool full_hp;
+  bool full_hp_mp;
 };
 
 /**************************************************************************
