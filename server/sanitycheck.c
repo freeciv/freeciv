@@ -353,6 +353,7 @@ static void check_city_feelings(const struct city *pcity, const char *file,
       sum += pcity->feel[ccategory][feel];
     }
 
+    SANITY_CITY(pcity, pcity->server.workers_frozen == 0);
     SANITY_CITY(pcity, city_size_get(pcity) - spe == sum);
   }
 }
