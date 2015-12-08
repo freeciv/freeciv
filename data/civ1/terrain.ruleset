@@ -207,6 +207,10 @@ color.g              = 46
 color.b              = 137
 helptext             = _("\
 Oceans cover much of the world.\
+"), _("\
+In cities built on the coast, stored food and work towards the current\
+ project are at risk from piracy, unless there is any kind of\
+ Barracks in the city.\
 ")
 
 [terrain_arctic]
@@ -413,6 +417,10 @@ color.b              = 5
 helptext             = _("\
 In addition to being amenable to agriculture, Hills are frequently\
  rich in resources.\
+"), _("\
+A city built in or next to hills is at risk of earthquakes, which can\
+ destroy buildings in that city. There is no technology or improvement\
+ which can prevent this disaster.\
 ")
 
 [terrain_jungle]
@@ -492,6 +500,10 @@ color.b              = 118
 helptext             = _("\
 Mountains are regions of extreme altitude, making agriculture and\
  trade very difficult.\
+"), _("\
+Cities built in or next to mountains are at risk from volcanic\
+ activity. A Temple in the city instils sufficient respect for the\
+ forces of nature to prevent population loss.\
 ")
 
 [terrain_plains]
@@ -1006,6 +1018,10 @@ Any land terrain type may have a River on it.\
 "), _("\
 Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology.\
+"), _("\
+Cities built on or next to rivers are at risk of flooding, which\
+ will cause a loss of population and stored food. City Walls\
+ eliminate this risk.\
 ")
 
 ; /* <-- avoid gettext warnings

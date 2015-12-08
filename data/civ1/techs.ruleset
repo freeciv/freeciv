@@ -388,6 +388,8 @@ req2     = "Trade"
 flags    = ""
 graphic     = "a.medicine"
 graphic_alt = "-"
+helptext = _("Eliminates the risk of population loss from plague in \
+all your cities.")
 
 [advance_metallurgy]
 name     = _("Metallurgy")

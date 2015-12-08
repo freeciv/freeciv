@@ -45,7 +45,8 @@ sound_alt	= "b_generic"
 helptext	= _("\
 Allows a city to grow larger than size 10.\
 "), _("\
-Aqueduct protects the city from Fire and Plague.\
+An Aqueduct also eliminates a city's risk of plague causing loss of\
+ population, and of fire causing loss of buildings.\
 ")
 
 [building_bank]
@@ -98,7 +99,8 @@ With a Barracks, each new unit built in a city will\
  which stay in town for one full turn without moving are completely\
  restored.\
 "), _("\
-Barracks protect the city from Pirates.\
+Barracks also prevent stored food and goods in coastal cities being\
+ lost to piracy.\
 ")
 
 [building_barracks_ii]
@@ -127,7 +129,8 @@ With a Barracks, each new unit built in a city will\
  which stay in town for one full turn without moving are completely\
  restored.\
 "), _("\
-Barracks protect the city from Pirates.\
+Barracks also prevent stored food and goods in coastal cities being\
+ lost to piracy.\
 ")
 
 [building_barracks_iii]
@@ -155,7 +158,8 @@ With a Barracks, each new unit built in a city will\
  which stay in town for one full turn without moving are completely\
  restored.\
 "), _("\
-Barracks protect the city from Pirates.\
+Barracks also prevent stored food and goods in coastal cities being\
+ lost to piracy.\
 ")
 
 [building_cathedral]
@@ -206,7 +210,8 @@ City Walls make it easier to defend a city.  They triple the defense\
  as Artillery.  City Walls also prevent the loss of population which\
  occurs when a defending unit is destroyed by a land unit.\
 "), _("\
-City Walls protect the city from Flood.\
+For cities near rivers, City Walls also eliminate the risk of population\
+ loss from flooding.\
 ")
 
 [building_colosseum]
@@ -298,12 +303,18 @@ helptext	= _("\
 The amount of stored food will be set to half full whenever a city\
  with a Granary shrinks or grows. This helps a city to grow faster\
  and more easily withstand famine.\
-"), _("\
-Granary protects the city from Famine.\
-")
+"),
 ; NOTE:
 ; In Civ1, city size reduction does not generate food like this.
 ; Dare I ask where this food comes from?? :-)
+_("\
+Famine can occur when food stock reaches zero due to a food deficit\
+ (which a Granary merely delays), in which case it leads to the loss\
+ of any Settlers consuming food, or of city population if there are\
+ none. Famine can also occur at any time due to random crop failure,\
+ in which case it causes loss of population and all stored food;\
+ a Granary eliminates this risk.\
+")
 
 [building_hydro_plant]
 name		= _("Hydro Plant")
@@ -688,7 +699,8 @@ Makes one unhappy citizen content.  The Mysticism advance doubles\
  4 citizens are made content.  Does not affect citizens made unhappy by military\
  activity.\
 "), _("\
-Temple protects the city from Volcano.\
+A Temple in a city near mountains additionally prevents population loss\
+ from volcanic activity.\
 ")
 
 [building_university]

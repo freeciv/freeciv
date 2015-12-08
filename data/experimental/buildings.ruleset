@@ -606,6 +606,9 @@ helptext	= _("\
 Together with a Factory, a Manufacturing Plant increases the shield\
  production in a city by 100%. A Manufacturing Plant on its own\
  increases shield production by 50%.\
+"), _("\
+A Manufacturing Plant also has a small risk of suffering an industrial\
+ accident, which can lead to pollution and reduce the city's population.\
 ")
 
 [building_nuclear_plant]
