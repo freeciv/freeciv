@@ -1,10 +1,12 @@
-/********************************************************
-*                                                       *
-* (c) 2011 Marko Lindqvist                              *
-*                                                       *
-* Licensed under Gnu General Public License version 2   *
-*                                                       *
-********************************************************/
+/*********************************************************
+*                                                        *
+* (c) 2011-2015 Marko Lindqvist                          *
+*                                                        *
+* Version contributed to Freeciv has been made available *
+* under GNU Public License; either version 2, or         *
+* (at your option) any later version.                    *
+*                                                        *
+*********************************************************/
 
 #ifndef H_CVERCMP
 #define H_CVERCMP
