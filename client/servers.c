@@ -49,8 +49,12 @@
 #include <unistd.h>
 #endif
 #ifdef HAVE_WINSOCK
+#ifdef HAVE_WINSOCK2
+#include <winsock2.h>
+#else  /* HAVE_WINSOCK2 */
 #include <winsock.h>
-#endif
+#endif /* HAVE_WINSOCK2 */
+#endif /* HAVE_WINSOCK */
 
 /* dependencies */
 #include "cvercmp.h"
