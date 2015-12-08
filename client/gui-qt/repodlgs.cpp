@@ -23,12 +23,14 @@
 #include <QProgressBar>
 #include <QScrollArea>
 #include <QTableWidget>
+#include <QToolTip>
 
 // common
 #include "control.h"
 #include "research.h"
 
 // client
+#include "helpdata.h"
 #include "repodlgs_common.h"
 #include "reqtree.h"
 #include "sprite.h"
@@ -39,6 +41,36 @@
 #include "qtg_cxxside.h"
 
 #include "repodlgs.h"
+
+extern QString split_text(QString text);
+extern QString cut_helptext(QString text);
+
+/****************************************************************************
+  From reqtree.c used to get tooltips
+****************************************************************************/
+struct tree_node {
+  bool is_dummy;
+  Tech_type_id tech;
+  int nrequire;
+  struct tree_node **require;
+  int nprovide;
+  struct tree_node **provide;
+  int order, layer;
+  int node_x, node_y, node_width, node_height;
+  int number;
+};
+
+/****************************************************************************
+  From reqtree.c used to get tooltips
+****************************************************************************/
+struct reqtree {
+  int num_nodes;
+  struct tree_node **nodes;
+  int num_layers;
+  int *layer_size;
+  struct tree_node ***layers;
+  int diagram_width, diagram_height;
+};
 
 /****************************************************************************
   Compare unit_items (used for techs) by name
@@ -56,6 +88,7 @@ research_diagram::research_diagram(QWidget *parent): QWidget(parent)
   pcanvas = NULL;
   req = NULL;
   reset();
+  setMouseTracking(true);
 }
 
 /****************************************************************************
@@ -68,6 +101,117 @@ research_diagram::~research_diagram()
 }
 
 /****************************************************************************
+  Constructor for req_tooltip_help
+****************************************************************************/
+req_tooltip_help::req_tooltip_help()
+{
+  tech_id = -1;
+  tunit = nullptr;
+  timpr = nullptr;
+}
+
+
+/****************************************************************************
+  Create list of rectangles for showing tooltips
+****************************************************************************/
+void research_diagram::create_tooltip_help()
+{
+  int i, j;
+  int swidth, sheight;
+  struct sprite *sprite;
+  reqtree *tree;
+  req_tooltip_help *rttp;
+
+  qDeleteAll(tt_help);
+  tt_help.clear();
+  if (req == nullptr) {
+    return;
+  } else {
+    tree = req;
+  }
+
+  for (i = 0; i < tree->num_layers; i++) {
+    for (j = 0; j < tree->layer_size[i]; j++) {
+      struct tree_node *node = tree->layers[i][j];
+      int startx, starty, width, height;
+
+      startx = node->node_x;
+      starty = node->node_y;
+      width = node->node_width;
+      height = node->node_height;
+
+      if (!node->is_dummy) {
+        const char *text = research_advance_name_translation(
+                                  research_get(client_player()), node->tech);
+        int text_w, text_h;
+        int icon_startx;
+
+        get_text_size(&text_w, &text_h, FONT_REQTREE_TEXT, text);
+        rttp = new req_tooltip_help();
+        rttp->rect = QRect(startx + (width - text_w) / 2, starty + 4,
+                           text_w, text_h);
+        rttp->tech_id = node->tech;
+        tt_help.append(rttp);
+        icon_startx = startx + 5;
+
+        if (gui_options.reqtree_show_icons) {
+          unit_type_iterate(unit) {
+            if (advance_number(unit->require_advance) != node->tech) {
+              continue;
+            }
+            sprite = get_unittype_sprite(tileset, unit, DIR8_SOUTH, TRUE);
+            get_sprite_dimensions(sprite, &swidth, &sheight);
+            rttp = new req_tooltip_help();
+            rttp->rect = QRect(icon_startx, starty + text_h + 4
+                               + (height - text_h - 4 - sheight) / 2,
+                               swidth, sheight);
+            rttp->tunit = unit;
+            tt_help.append(rttp);
+            icon_startx += swidth + 2;
+          } unit_type_iterate_end;
+
+          improvement_iterate(pimprove) {
+            requirement_vector_iterate(&(pimprove->reqs), preq) {
+              if (VUT_ADVANCE == preq->source.kind
+                  && advance_number(preq->source.value.advance) == node->tech) {
+                sprite = get_building_sprite(tileset, pimprove);
+                if (sprite) {
+                  get_sprite_dimensions(sprite, &swidth, &sheight);
+                  rttp = new req_tooltip_help();
+                  rttp->rect = QRect(icon_startx, starty + text_h + 4
+                                     + (height - text_h - 4 - sheight) / 2,
+                                     swidth, sheight);
+                  rttp->timpr = pimprove;
+                  tt_help.append(rttp);
+                  icon_startx += swidth + 2;
+                }
+              }
+            } requirement_vector_iterate_end;
+          } improvement_iterate_end;
+
+          governments_iterate(gov) {
+            requirement_vector_iterate(&(gov->reqs), preq) {
+              if (VUT_ADVANCE == preq->source.kind
+                  && advance_number(preq->source.value.advance) == node->tech) {
+                sprite = get_government_sprite(tileset, gov);
+                get_sprite_dimensions(sprite, &swidth, &sheight);
+                rttp = new req_tooltip_help();
+                rttp->rect = QRect(icon_startx, starty + text_h + 4
+                                   + (height - text_h - 4 - sheight) / 2,
+                                   swidth, sheight);
+                rttp->tech_id = node->tech;
+                tt_help.append(rttp);
+                icon_startx += swidth + 2;
+              }
+            } requirement_vector_iterate_end;
+          } governments_iterate_end;
+        }
+      }
+    }
+  }
+}
+
+/****************************************************************************
   Recreates whole diagram and schedules update
 ****************************************************************************/
 void research_diagram::update_reqtree()
@@ -75,6 +219,7 @@ void research_diagram::update_reqtree()
   destroy_reqtree(req);
   req = create_reqtree(client_player(), true);
   draw_reqtree(req, pcanvas, 0, 0, 0, 0, width, height);
+  create_tooltip_help();
   update();
 }
 
@@ -113,6 +258,45 @@ void research_diagram::mousePressEvent(QMouseEvent *event)
       break;
     case TECH_KNOWN:
       break;
+    }
+  }
+}
+
+/****************************************************************************
+  Mouse move handler for research_diagram - for showing tooltips
+****************************************************************************/
+void research_diagram::mouseMoveEvent(QMouseEvent *event)
+{
+  req_tooltip_help *rttp;
+  int i;
+  QString tt_text;
+  char buffer[8192];
+  char buf2[1];
+
+  buf2[0] = '\0';
+  for (i = 0; i < tt_help.count(); i++) {
+    rttp = tt_help.at(i);
+    if (rttp->rect.contains(event->pos())) {
+      if (rttp->tech_id != -1) {
+        helptext_advance(buffer, sizeof(buffer), client.conn.playing,
+                         buf2, rttp->tech_id);
+        tt_text = QString(buffer);
+      } else if (rttp->timpr != nullptr) {
+        tt_text = helptext_building(buffer, sizeof(buffer),
+                                    client.conn.playing, NULL, rttp->timpr);
+        tt_text = cut_helptext(tt_text);
+      } else if (rttp->tunit != nullptr) {
+        tt_text = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
+                                buf2, rttp->tunit);
+        tt_text = cut_helptext(tt_text);
+      } else {
+        return;
+      }
+      tt_text = split_text(tt_text);
+      tt_text = tt_text.trimmed();
+      if (QToolTip::text() == "") {
+        QToolTip::showText(event->globalPos(), tt_text, this, rttp->rect);
+      }
     }
   }
 }

@@ -59,6 +59,7 @@ static bool city_dlg_created = false; /** defines if dialog for city has been
                                        */
 static city_dialog *city_dlg;
 extern QString split_text(QString text);
+extern QString cut_helptext(QString text);
 
 /****************************************************************************
   Draws X on pixmap pointing its useless
@@ -2687,16 +2688,7 @@ QString get_tooltip(QVariant qvar)
   }
 
   /* Remove all lines from help which has '*' in first 3 chars */
-  sl = str.split('\n');
-  foreach (const QString & s, sl) {
-    if (s.count() > 2) {
-      if (s.at(0) != '*' && s.at(1) != '*' && s.at(2) != '*') {
-        ret_str = ret_str + s + '\n';
-      }
-    } else {
-      ret_str = ret_str + s + '\n';
-    }
-  }
+  ret_str = cut_helptext(str);
 
   ret_str = split_text(ret_str);
   ret_str = ret_str.trimmed();

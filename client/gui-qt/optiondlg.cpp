@@ -83,6 +83,29 @@ QString split_text(QString text)
 }
 
 /****************************************************************************
+  Remove some text from given text(help text) to show as tooltip
+****************************************************************************/
+QString cut_helptext(QString text)
+{
+  QStringList sl;
+  QString ret_str;
+
+  /* Remove all lines from help which has '*' in first 3 chars */
+  sl = text.split('\n');
+  foreach (const QString & s, sl) {
+    if (s.count() > 2) {
+      if (s.at(0) != '*' && s.at(1) != '*' && s.at(2) != '*') {
+        ret_str = ret_str + s + '\n';
+      }
+    } else {
+      ret_str = ret_str + s + '\n';
+    }
+  }
+  return ret_str;
+}
+
+
+/****************************************************************************
   Constructor for options dialog.
 ****************************************************************************/
 option_dialog::option_dialog(const QString & name,

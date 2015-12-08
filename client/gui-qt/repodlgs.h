@@ -50,6 +50,19 @@ struct qlist_item {
 };
 
 /****************************************************************************
+  Helper item for research diagram, about drawn rectangles and what
+  tech/unit/improvement they point to.
+****************************************************************************/
+class req_tooltip_help
+{
+public:
+  req_tooltip_help();
+  QRect rect;
+  Tech_type_id tech_id;
+  struct unit_type *tunit;
+  struct impr_type *timpr;
+};
+/****************************************************************************
   Custom widget representing research diagram in science_report
 ****************************************************************************/
 class research_diagram: public QWidget
@@ -65,11 +78,14 @@ public:
 
 private:
   void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
   void paintEvent(QPaintEvent *event);
+  void create_tooltip_help();
   struct canvas *pcanvas;
   struct reqtree *req;
   int width;
   int height;
+  QList<req_tooltip_help*> tt_help;
 };
 
 /****************************************************************************

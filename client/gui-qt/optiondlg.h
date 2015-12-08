@@ -32,6 +32,7 @@ class QWidget;
 class QString;
 
 QString split_text(QString text);
+QString cut_helptext(QString text);
 /****************************************************************************
   Dialog for client/server options
 ****************************************************************************/
