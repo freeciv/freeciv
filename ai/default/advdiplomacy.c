@@ -951,7 +951,7 @@ void dai_diplomacy_first_contact(struct ai_type *ait, struct player *pplayer,
     clear_old_treaty(pplayer, aplayer);
     dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, FALSE, 0);
   } else {
-    notify(aplayer, _("*%s (AI)* I found you %s! Now make it worth letting "
+    notify(aplayer, _("*%s (AI)* I found you %s! Now make it worth my letting "
                       "you live, or get crushed."),
            player_name(pplayer),
            player_name(aplayer));
