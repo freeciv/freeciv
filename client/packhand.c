@@ -2922,6 +2922,7 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
 {
   game.scenario.is_scenario = packet->is_scenario;
   sz_strlcpy(game.scenario.name, packet->name);
+  sz_strlcpy(game.scenario.authors, packet->authors);
   sz_strlcpy(game.scenario.description, packet->description);
   game.scenario.players = packet->players;
   game.scenario.startpos_nations = packet->startpos_nations;

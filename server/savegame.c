@@ -3063,6 +3063,7 @@ static void game_load_internal(struct section_file *file)
   if (scen_text[0] != '\0') {
     game.scenario.is_scenario = TRUE;
     sz_strlcpy(game.scenario.name, scen_text);
+    game.scenario.authors[0] = '\0';
     scen_text = secfile_lookup_str_default(file, "",
                                            "scenario.description");
     if (scen_text[0] != '\0') {

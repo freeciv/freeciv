@@ -1557,6 +1557,12 @@ void handle_edit_game(struct connection *pc,
     changed = TRUE;
   }
 
+  if (0 != strncmp(packet->scenario_authors, game.scenario.authors,
+                   MAX_LEN_PACKET)) {
+    sz_strlcpy(game.scenario.authors, packet->scenario_authors);
+    changed = TRUE;
+  }
+
   if (0 != strncmp(packet->scenario_desc, game.scenario.description,
                    MAX_LEN_PACKET)) {
     sz_strlcpy(game.scenario.description, packet->scenario_desc);

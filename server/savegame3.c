@@ -2226,6 +2226,14 @@ static void sg_load_scenario(struct loaddata *loading)
   }
 
   buf = secfile_lookup_str_default(loading->file, "",
+                                   "scenario.authors");
+  if (buf[0] != '\0') {
+    sz_strlcpy(game.scenario.authors, buf);
+  } else {
+    game.scenario.authors[0] = '\0';
+  }
+
+  buf = secfile_lookup_str_default(loading->file, "",
                                    "scenario.description");
   if (buf[0] != '\0') {
     sz_strlcpy(game.scenario.description, buf);
@@ -2286,6 +2294,13 @@ static void sg_save_scenario(struct savedata *saving)
   /* Name is mandatory to the level that is saved even if empty. */
   mod_entry = secfile_insert_str(saving->file, game.scenario.name, "scenario.name");
   entry_str_set_gt_marking(mod_entry, TRUE);
+
+  /* Authors list is saved only if it exist */
+  if (game.scenario.authors[0] != '\0') {
+    mod_entry = secfile_insert_str(saving->file, game.scenario.authors,
+                                   "scenario.authors");
+    entry_str_set_gt_marking(mod_entry, TRUE);
+  }
 
   /* Description is saved only if it exist */
   if (game.scenario.description[0] != '\0') {

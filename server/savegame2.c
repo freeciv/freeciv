@@ -1743,6 +1743,14 @@ static void sg_load_scenario(struct loaddata *loading)
   }
 
   buf = secfile_lookup_str_default(loading->file, "",
+                                   "scenario.authors");
+  if (buf[0] != '\0') {
+    sz_strlcpy(game.scenario.authors, buf);
+  } else {
+    game.scenario.authors[0] = '\0';
+  }
+
+  buf = secfile_lookup_str_default(loading->file, "",
                                    "scenario.description");
   if (buf[0] != '\0') {
     sz_strlcpy(game.scenario.description, buf);

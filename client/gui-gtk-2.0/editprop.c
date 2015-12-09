@@ -356,6 +356,7 @@ enum object_property_ids {
   OPID_GAME_YEAR,
   OPID_GAME_SCENARIO,
   OPID_GAME_SCENARIO_NAME,
+  OPID_GAME_SCENARIO_AUTHORS,
   OPID_GAME_SCENARIO_DESC,
   OPID_GAME_SCENARIO_RANDSTATE,
   OPID_GAME_SCENARIO_PLAYERS,
@@ -1791,6 +1792,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_GAME_SCENARIO_NAME:
         pv->data.v_const_string = pgame->scenario.name;
         break;
+      case OPID_GAME_SCENARIO_AUTHORS:
+        pv->data.v_const_string = pgame->scenario.authors;
+        break;
       case OPID_GAME_SCENARIO_DESC:
         pv->data.v_const_string = pgame->scenario.description;
         break;
@@ -2300,6 +2304,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       packet->year = pgame->info.year;
       packet->scenario = pgame->scenario.is_scenario;
       sz_strlcpy(packet->scenario_name, pgame->scenario.name);
+      sz_strlcpy(packet->scenario_authors, pgame->scenario.authors);
       sz_strlcpy(packet->scenario_desc, pgame->scenario.description);
       packet->scenario_players = pgame->scenario.players;
       /* TODO: Set more packet fields. */
@@ -2535,6 +2540,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_GAME_SCENARIO_NAME:
         sz_strlcpy(packet->scenario_name, pv->data.v_const_string);
+        return;
+      case OPID_GAME_SCENARIO_AUTHORS:
+        sz_strlcpy(packet->scenario_authors, pv->data.v_const_string);
         return;
       case OPID_GAME_SCENARIO_DESC:
         sz_strlcpy(packet->scenario_desc, pv->data.v_const_string);
@@ -2975,6 +2983,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_INVENTIONS:
+  case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
     ev = extviewer_new(op);
     objprop_set_extviewer(op, ev);
@@ -3185,6 +3194,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_INVENTIONS:
+  case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
     ev = objprop_get_extviewer(op);
     if (pv) {
@@ -3403,6 +3413,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   case OPID_STARTPOS_NATIONS:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_INVENTIONS:
+  case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
     hbox = gtk_hbox_new(FALSE, 4);
     ev->panel_widget = hbox;
@@ -3490,6 +3501,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
     store = gtk_list_store_new(4, G_TYPE_BOOLEAN, G_TYPE_INT,
                                GDK_TYPE_PIXBUF, G_TYPE_STRING);
     break;
+  case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
     textbuf = gtk_text_buffer_new(NULL);
     break;
@@ -3614,6 +3626,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
                FALSE, FALSE, NULL, NULL);
     break;
 
+  case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
     g_signal_connect(textbuf, "changed",
                      G_CALLBACK(extviewer_textbuf_changed), ev);
@@ -3870,6 +3883,7 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
     g_free(buf);
     break;
 
+  case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
     disable_gobject_callback(G_OBJECT(ev->textbuf),
                              G_CALLBACK(extviewer_textbuf_changed));
@@ -3877,6 +3891,7 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
       GtkTextIter start, end;
       char *oldtext;
       /* Don't re-set content if unchanged, to avoid moving cursor */
+
       gtk_text_buffer_get_bounds(textbuf, &start, &end);
       oldtext = gtk_text_buffer_get_text(textbuf, &start, &end, TRUE);
       if (strcmp(oldtext, pv->data.v_const_string) != 0) {
@@ -3935,6 +3950,7 @@ static void extviewer_clear_widgets(struct extviewer *ev)
     gtk_list_store_clear(ev->store);
     gtk_image_set_from_pixbuf(GTK_IMAGE(ev->panel_image), NULL);
     break;
+  case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
     disable_gobject_callback(G_OBJECT(ev->textbuf),
                              G_CALLBACK(extviewer_textbuf_changed));
@@ -4195,6 +4211,7 @@ static void extviewer_textbuf_changed(GtkTextBuffer *textbuf,
   pv = &value;
 
   switch (propid) {
+  case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
     buf = propval_as_string(pv);
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
@@ -4362,6 +4379,9 @@ static void property_page_setup_objprops(struct property_page *pp)
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     ADDPROP(OPID_GAME_SCENARIO_NAME, _("Scenario Name"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
+    ADDPROP(OPID_GAME_SCENARIO_AUTHORS, _("Scenario Authors"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_STRING);
     ADDPROP(OPID_GAME_SCENARIO_DESC, _("Scenario Description"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
             VALTYPE_STRING);
