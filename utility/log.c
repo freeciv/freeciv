@@ -487,7 +487,7 @@ void fc_assert_set_fatal(int fatal_assertions)
   fc_fatal_assertions = fatal_assertions;
 }
 
-#ifndef NDEBUG
+#ifndef FREECIV_NDEBUG
 /**************************************************************************
   Returns wether the fc_assert* macros should raise a signal on failed
   assertion.
@@ -520,4 +520,4 @@ void fc_assert_fail(const char *file, const char *function, int line,
     raise(fc_fatal_assertions);
   }
 }
-#endif /* NDEBUG */
+#endif /* FREECIV_NDEBUG */
