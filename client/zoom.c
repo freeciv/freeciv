@@ -28,6 +28,15 @@ static float zoom_steps[] = {
   -1.0, 0.10, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, -1.0
 };
 
+static struct zoom_data
+{
+  bool active;
+  float tgt;
+  float factor;
+  float interval;
+  bool tgt_1_0;
+} zdata = { FALSE, 0.0, 0.0 };
+
 /**************************************************************************
   Set map zoom level.
 **************************************************************************/
@@ -96,4 +105,47 @@ void zoom_step_down(void)
       zoom_set(zoom_steps[i]);
     }
   }
+}
+
+/**************************************************************************
+  Start zoom animation.
+**************************************************************************/
+void zoom_start(float tgt, bool tgt_1_0, float factor, float interval)
+{
+  zdata.tgt = tgt;
+  if ((tgt < map_zoom && factor > 1.0)
+      || (tgt > map_zoom && factor < 1.0)) {
+    factor = 1.0 / factor;
+  }
+  zdata.factor = factor;
+  zdata.interval = interval;
+  zdata.tgt_1_0 = tgt_1_0;
+  zdata.active = TRUE;
+}
+
+/**************************************************************************
+  Next step from the active zoom.
+**************************************************************************/
+bool zoom_update(double time_until_next_call)
+{
+  if (zdata.active) {
+    float new_zoom = map_zoom * zdata.factor;
+
+    if ((zdata.factor > 1.0 && new_zoom > zdata.tgt)
+        || (zdata.factor < 1.0 && new_zoom < zdata.tgt)) {
+      new_zoom = zdata.tgt;
+      zdata.active = FALSE;
+      if (zdata.tgt_1_0) {
+        zoom_1_0();
+      } else {
+        zoom_set(new_zoom);
+      }
+    } else {
+      zoom_set(new_zoom);
+
+      return MIN(time_until_next_call, zdata.interval);
+    }
+  }
+
+  return time_until_next_call;
 }

@@ -26,6 +26,9 @@ void zoom_1_0(void);
 void zoom_step_up(void);
 void zoom_step_down(void);
 
+void zoom_start(float tgt, bool tgt_1_0, float factor, float interval);
+bool zoom_update(double time_until_next_call);
+
 extern bool zoom_enabled;
 extern float map_zoom;
 
