@@ -95,6 +95,7 @@
 #include "themes_common.h"
 #include "update_queue.h"
 #include "voteinfo.h"
+#include "zoom.h"
 
 /* client/agents */
 #include "agents.h"
@@ -1148,6 +1149,8 @@ double real_timer_callback(void)
   if (C_S_RUNNING != client_state()) {
     return time_until_next_call;
   }
+
+  time_until_next_call = zoom_update(time_until_next_call);
 
   {
     double blink_time = blink_turn_done_button();
