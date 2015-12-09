@@ -2295,7 +2295,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   int i;
   int ppl = 0;
 
-  packet->id=pcity->id;
+  packet->id = pcity->id;
   packet->owner = player_number(city_owner(pcity));
   packet->tile = tile_index(city_tile(pcity));
   sz_strlcpy(packet->name, city_name(pcity));
@@ -2384,6 +2384,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     tri_packet->partner = proute->partner;
     tri_packet->value = proute->value;
     tri_packet->direction = proute->dir;
+    tri_packet->goods = goods_number(proute->goods);
 
     traderoute_packet_list_append(routes, tri_packet);
 

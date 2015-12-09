@@ -1005,6 +1005,7 @@ void handle_traderoute_info(const struct packet_traderoute_info *packet)
   proute->partner = packet->partner;
   proute->value = packet->value;
   proute->dir = packet->direction;
+  proute->goods = goods_by_number(packet->goods);
 
   if (gui_options.draw_city_trade_routes && city_changed) {
     update_city_description(pcity);
