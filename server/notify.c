@@ -486,7 +486,7 @@ static void event_cache_data_destroy(struct event_cache_data *pdata)
   old entry if needed.
 **************************************************************************/
 static struct event_cache_data *
-event_cache_data_new(const struct packet_chat_msg *packet, int turn,
+event_cache_data_new(const struct packet_chat_msg *packet,
                      time_t timestamp, enum server_states server_status,
                      enum event_cache_target target_type,
                      struct event_cache_players *players)
@@ -593,7 +593,7 @@ void event_cache_remove_old(void)
 void event_cache_add_for_all(const struct packet_chat_msg *packet)
 {
   if (0 < game.server.event_cache.turns) {
-    (void) event_cache_data_new(packet, game.info.turn, time(NULL),
+    (void) event_cache_data_new(packet, time(NULL),
                                 server_state(), ECT_ALL, NULL);
   }
 }
@@ -604,7 +604,7 @@ void event_cache_add_for_all(const struct packet_chat_msg *packet)
 void event_cache_add_for_global_observers(const struct packet_chat_msg *packet)
 {
   if (0 < game.server.event_cache.turns) {
-    (void) event_cache_data_new(packet, game.info.turn, time(NULL),
+    (void) event_cache_data_new(packet, time(NULL),
                                 server_state(), ECT_GLOBAL_OBSERVERS, NULL);
   }
 }
@@ -628,7 +628,7 @@ void event_cache_add_for_player(const struct packet_chat_msg *packet,
       && (server_state() > S_S_INITIAL || !game.info.is_new_game)) {
     struct event_cache_data *pdata;
 
-    pdata = event_cache_data_new(packet, game.info.turn, time(NULL),
+    pdata = event_cache_data_new(packet, time(NULL),
                                  server_state(), ECT_PLAYERS, NULL);
     fc_assert_ret(NULL != pdata);
     BV_SET(pdata->target, player_index(pplayer));
@@ -649,7 +649,7 @@ void event_cache_add_for_players(const struct packet_chat_msg *packet,
       && NULL != players
       && BV_ISSET_ANY(players->vector)
       && (server_state() > S_S_INITIAL || !game.info.is_new_game)) {
-    (void) event_cache_data_new(packet, game.info.turn, time(NULL),
+    (void) event_cache_data_new(packet, time(NULL),
                                 server_state(), ECT_PLAYERS, players);
   }
 
@@ -798,6 +798,7 @@ void event_cache_load(struct section_file *file, const char *section)
     /* restore event cache data */
     turn = secfile_lookup_int_default(file, 0, "%s.events%d.turn",
                                       section, i);
+    packet.turn = turn;
     timestamp = secfile_lookup_int_default(file, now,
                                            "%s.events%d.timestamp",
                                            section, i);
@@ -847,7 +848,7 @@ void event_cache_load(struct section_file *file, const char *section)
     }
 
     /* insert event into the cache */
-    (void) event_cache_data_new(&packet, turn, timestamp, server_status,
+    (void) event_cache_data_new(&packet, timestamp, server_status,
                                 target_type, players);
 
     if (NULL != players) {
