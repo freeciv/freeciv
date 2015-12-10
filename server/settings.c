@@ -87,7 +87,7 @@ struct setting {
   bool to_client;
 
   /*
-   * Sould be less than 42 chars (?), or shorter if the values may
+   * Should be less than 42 chars (?), or shorter if the values may
    * have more than about 4 digits. Don't put "." on the end.
    */
   const char *short_help;
