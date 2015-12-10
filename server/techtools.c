@@ -190,11 +190,15 @@ void do_tech_parasite_effect(struct player *pplayer)
   get_effect_list_req_text(plist, &effects);
 
   notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                _("%s acquired from %s!"),
+                /* TRANS: Tech from source of an effect
+                 * (Great Library) */
+                Q_("?fromeffect:%s acquired from %s!"),
                 advance_name,
                 astr_str(&effects));
   notify_research(presearch, pplayer, E_TECH_GAIN, ftc_server,
-                  _("%s acquired from %s's %s!"),
+                  /* TRANS: Tech from source of an effect
+                   * (Great Library) */
+                  Q_("?fromeffect:%s acquired from %s's %s!"),
                   advance_name,
                   player_name(pplayer),
                   astr_str(&effects));
