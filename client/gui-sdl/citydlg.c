@@ -604,16 +604,13 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
   struct canvas *destcanvas;
 
   destcanvas = canvas_create_with_alpha(tileset_full_tile_width(tileset),
-                                        tileset_full_tile_height(tileset));  
+                                        tileset_unit_with_upkeep_height(tileset));
 
   put_unit(punit, destcanvas, 1.0, 0, 0);
-
+  /* Get unit sprite width, but do not limit height by it */
   src_rect = get_smaller_surface_rect(destcanvas->surf);
-  src_rect.h = tileset_unit_with_upkeep_height(tileset);
-  psurf = create_surf_alpha(src_rect.w, src_rect.h, SDL_SWSURFACE);
-  alphablit(destcanvas->surf, &src_rect, psurf, NULL);
-
-  canvas_free(destcanvas);
+  src_rect.y = 0;
+  src_rect.h = destcanvas->surf->h;
 
   if (support) {
     int free_unhappy;
@@ -625,35 +622,40 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
     i = punit->upkeep[O_SHIELD] + punit->upkeep[O_FOOD] +
         punit->upkeep[O_GOLD] + happy_cost;
 
-    if (i * pIcons->pFood->w > psurf->w / 2) {
-      step = (psurf->w / 2 - pIcons->pFood->w) / (i - 1);
+    if (i * pIcons->pFood->w > src_rect.w / 2) {
+      step = (src_rect.w / 2 - pIcons->pFood->w) / (i - 1);
     } else {
       step = pIcons->pFood->w;
     }
 
     dest.y = tileset_unit_layout_offset_y(tileset);
-    dest.x = psurf->w / 8;
+    dest.x = src_rect.x + src_rect.w / 8;
 
     for (i = 0; i < punit->upkeep[O_SHIELD]; i++) {
-      alphablit(pIcons->pShield, NULL, psurf, &dest);
+      alphablit(pIcons->pShield, NULL, destcanvas->surf, &dest);
       dest.x += step;
     }
 
     for (i = 0; i < punit->upkeep[O_FOOD]; i++) {
-      alphablit(pIcons->pFood, NULL, psurf, &dest);
+      alphablit(pIcons->pFood, NULL, destcanvas->surf, &dest);
       dest.x += step;
     }
 
     for (i = 0; i < punit->upkeep[O_GOLD]; i++) {
-      alphablit(pIcons->pCoin, NULL, psurf, &dest);
+      alphablit(pIcons->pCoin, NULL, destcanvas->surf, &dest);
       dest.x += step;
     }
 
     for (i = 0; i < happy_cost; i++) {
-      alphablit(pIcons->pFace, NULL, psurf, &dest);
+      alphablit(pIcons->pFace, NULL, destcanvas->surf, &dest);
       dest.x += step;
     }
   }
+
+  psurf = create_surf_alpha(src_rect.w, src_rect.h, SDL_SWSURFACE);
+  alphablit(destcanvas->surf, &src_rect, psurf, NULL);
+
+  canvas_free(destcanvas);
 
   if (w != src_rect.w || h != src_rect.h) {
     SDL_Surface *pzoomed;
