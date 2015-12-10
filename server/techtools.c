@@ -184,7 +184,9 @@ void do_tech_parasite_effect(struct player *pplayer)
         } player_researches_iterate_end;
         if (num_research >= mod) {
           notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                        _("%s acquired from %s!"),
+                        /* TRANS: Tech from source of an effect
+                         * (Great Library) */
+                        Q_("?fromeffect:%s acquired from %s!"),
                         advance_name_for_player(pplayer, i),
                         astr_str(&effects));
           notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN, ftc_server,
