@@ -65,7 +65,7 @@
 #include "report.h"
 #include "ruleset.h"
 #include "sanitycheck.h"
-#include "savegame3.h"
+#include "savegame.h"
 #include "score.h"
 #include "sernet.h"
 #include "settings.h"

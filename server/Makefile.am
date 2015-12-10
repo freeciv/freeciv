@@ -70,8 +70,10 @@ libfreeciv_srv_la_SOURCES = \
 		gamehand.h	\
 		handchat.c	\
 		handchat.h	\
-		hand_gen.h	\
 		hand_gen.c	\
+		hand_gen.h	\
+		legacysave.c	\
+		legacysave.h	\
 		maphand.c	\
 		maphand.h	\
 		meta.c		\
@@ -94,7 +96,6 @@ libfreeciv_srv_la_SOURCES = \
 		sanitycheck.h	\
 		savecompat.c	\
 		savecompat.h	\
-		savegame.c	\
 		savegame.h	\
 		savegame2.c	\
 		savegame2.h	\

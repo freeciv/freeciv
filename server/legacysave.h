@@ -1,4 +1,4 @@
-/**********************************************************************
+/********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -10,13 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__SAVEGAME3_H
-#define FC__SAVEGAME3_H
+#ifndef FC__LEGACYSAVE_H
+#define FC__LEGACYSAVE_H
 
-/* Server */
-#include "savegame.h"
+#include "registry.h"
 
-/* Currently savegame3.c implements the main savegame functionality,
- * not fallback functionality like older savegame modules. */
+void legacy_game_load(struct section_file *file);
 
-#endif /* FC__SAVEGAME3_H */
+#endif /* FC__LEGACYSAVE_H */

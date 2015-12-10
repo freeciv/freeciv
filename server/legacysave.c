@@ -87,7 +87,7 @@
 #include "aitraits.h"
 #include "difficulty.h"
 
-#include "savegame.h"
+#include "legacysave.h"
 
 #define TOKEN_SIZE 10
 
