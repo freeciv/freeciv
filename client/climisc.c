@@ -1050,7 +1050,9 @@ void handle_event(const char *featured_text, struct tile *ptile,
     output_window_event(plain_text, tags, conn_id);
   }
 
-  play_sound_for_event(event);
+  if (turn == game.info.turn) {
+    play_sound_for_event(event);
+  }
 
   /* Free tags */
   text_tag_list_destroy(tags);
