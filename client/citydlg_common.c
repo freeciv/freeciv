@@ -474,10 +474,29 @@ void get_city_dialog_output_text(const struct city *pcity,
       /* TRANS: "unknown" location */
       const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
 
-      cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
-                   proute->value
-                   * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
-                   name);
+      switch (proute->dir) {
+      case RDIR_BIDIRECTIONAL:
+        cat_snprintf(buf, bufsz, _("%+4d : Trading %s with %s\n"),
+                     proute->value
+                     * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
+                     goods_name_translation(proute->goods),
+                     name);
+        break;
+      case RDIR_FROM:
+        cat_snprintf(buf, bufsz, _("%+4d : Trading %s from %s\n"),
+                     proute->value
+                     * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
+                     goods_name_translation(proute->goods),
+                     name);
+        break;
+      case RDIR_TO:
+        cat_snprintf(buf, bufsz, _("%+4d : Traing %s to %s\n"),
+                     proute->value
+                     * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
+                     goods_name_translation(proute->goods),
+                     name);
+        break;
+      }
       total += proute->value;
     } trade_routes_iterate_end;
   } else if (otype == O_GOLD) {
