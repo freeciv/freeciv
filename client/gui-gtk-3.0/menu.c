@@ -2001,7 +2001,7 @@ static void menu_entry_set_visible(const char *key,
   GtkWidget *item = GTK_WIDGET(gtk_builder_get_object(ui_builder, key));
 
   if (item != NULL) {
-    gtk_widget_set_visibl(item, is_visible);
+    gtk_widget_set_visible(item, is_visible);
     gtk_widget_set_sensitive(item, is_sensitive);
   }
 }
