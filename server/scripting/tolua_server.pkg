@@ -123,9 +123,11 @@ module edit {
                    const char *name);
   void api_edit_create_extra
     @ create_extra (lua_State *L, Tile *ptile, const char *name);
+  /* Deprecated; use edit.create_extra() */
   void api_edit_create_base
     @ create_base (lua_State *L, Tile *ptile, const char *name,
                    Player *pplayer);
+  /* Deprecated; use edit.create_extra() */
   void api_edit_create_road
     @ create_road (lua_State *L, Tile *ptile, const char *name);
   void api_edit_tile_set_label
@@ -192,6 +194,7 @@ function create_city(player, tile, name)
   edit.create_city (player, tile, name)
 end
 
+-- Deprecated; use edit.create_extra()
 function create_base(tile, name, player)
   edit.create_base(tile, name, player)
 end
@@ -302,10 +305,12 @@ function Tile:create_extra(name)
   edit.create_extra(self, name)
 end
 
+-- Deprecated; use edit.create_extra()
 function Tile:create_base(name, player)
   edit.create_base(self, name, player)
 end
 
+-- Deprecated; use edit.create_extra()
 function Tile:create_road(name)
   edit.create_road(self, name)
 end
