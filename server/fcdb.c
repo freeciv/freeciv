@@ -131,7 +131,10 @@ static bool fcdb_load_config(const char *filename)
                      pentry) {
     if (entry_type(pentry) == ENTRY_STR) {
       const char *value;
-      bool entry_str_get_success = entry_str_get(pentry, &value);
+#ifndef FREECIV_NDEBUG
+      bool entry_str_get_success =
+#endif
+        entry_str_get(pentry, &value);
 
       fc_assert(entry_str_get_success);
       fcdb_set_option(entry_name(pentry), value, AOS_FILE);
