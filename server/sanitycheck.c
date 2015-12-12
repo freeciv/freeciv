@@ -353,7 +353,12 @@ static void check_city_feelings(const struct city *pcity, const char *file,
       sum += pcity->feel[ccategory][feel];
     }
 
-    SANITY_CITY(pcity, pcity->server.workers_frozen == 0);
+    /* While loading savegame, we want to check sanity of values read from the
+     * savegame despite the fact that city workers_frozen level of the city
+     * is above zero -> can't limit sanitycheck callpoints by that. Instead
+     * we check even more relevant needs_arrange. */
+    SANITY_CITY(pcity, !pcity->server.needs_arrange);
+
     SANITY_CITY(pcity, city_size_get(pcity) - spe == sum);
   }
 }
