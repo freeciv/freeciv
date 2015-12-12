@@ -149,6 +149,9 @@ AC_ARG_ENABLE([server],
 esac], [server=yes])
 AM_CONDITIONAL(SERVER, test x$server = xyes)
 
+dnl Check getaddrinfo just once here, and remember the result
+AC_CHECK_FUNCS([getaddrinfo], [have_getaddrinfo=yes])
+
 dnl yes     - Support for IPv6 required
 dnl no      - Legacy IPv4 support
 dnl test    - Try to enable IPv6 support
@@ -159,12 +162,12 @@ AC_ARG_ENABLE([ipv6],
   *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ipv6) ;;
 esac], [ipv6=test])
 if test x$ipv6 != xno ; then
-  enable_ipv6=yes
-  dnl We check some functions (getaddrinfo) twice. Once unconditionally
-  dnl to get HAVE_xxx always correctly set. We need separate check here to
-  dnl correcly disable IPv6 when function is not available.
-  AC_CHECK_FUNCS([getaddrinfo inet_pton inet_ntop getnameinfo],
-[], [enable_ipv6=no])
+  if test "x$have_getaddrinfo" = "xyes" ; then
+    AC_CHECK_FUNCS([inet_pton inet_ntop getnameinfo],
+[enable_ipv6=yes], [enable_ipv6=no])
+  else
+     enable_ipv6=no
+  fi
   if test x$enable_ipv6 = xyes ; then
     AC_MSG_CHECKING([for AF_INET6])
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
@@ -1198,7 +1201,7 @@ fi
 AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
 		getpwuid inet_aton select snooze strcasestr \
 		strerror strlcat strlcpy strstr uname usleep \
-                getline _strcoll stricoll _stricoll strcasecoll getaddrinfo \
+                getline _strcoll stricoll _stricoll strcasecoll \
                 backtrace])
 
 AC_MSG_CHECKING(for working gettimeofday)
