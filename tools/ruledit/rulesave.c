@@ -113,9 +113,12 @@ static bool save_name_translation(struct section_file *sfile,
                                   struct name_translation *name,
                                   const char *path)
 {
-  secfile_insert_str(sfile,
-                     untranslated_name(name),
-                     "%s.name", path);
+  struct entry *mod_entry;
+
+  mod_entry = secfile_insert_str(sfile,
+                                 untranslated_name(name),
+                                 "%s.name", path);
+  entry_str_set_gt_marking(mod_entry, TRUE);
   if (strcmp(skip_intl_qualifier_prefix(untranslated_name(name)),
              rule_name(name))) {
     secfile_insert_str(sfile,
