@@ -1731,9 +1731,9 @@ static GtkActionGroup *get_unit_group(void)
       /* Combat menu. */
       {"FORTIFY", NULL, _("Fortify"),
        "f", NULL, G_CALLBACK(fortify_callback)},
-      {"BUILD_FORTRESS", NULL, Q_(terrain_control.gui_type_base0),
+      {"BUILD_FORTRESS", NULL, _("Build Fortress"),
        "<Shift>f", NULL, G_CALLBACK(build_fortress_callback)},
-      {"BUILD_AIRBASE", NULL, Q_(terrain_control.gui_type_base1),
+      {"BUILD_AIRBASE", NULL, _("Build Airbase"),
        "<Shift>e", NULL, G_CALLBACK(build_airbase_callback)},
 
       {"DO_PILLAGE", NULL, _("_Pillage"),
@@ -2526,10 +2526,12 @@ void real_menus_init(void)
     return;
   }
 
+  menus_rename(unit_group, "BUILD_FORTRESS", Q_(terrain_control.gui_type_base0));
+  menus_rename(unit_group, "BUILD_AIRBASE", Q_(terrain_control.gui_type_base1));
+
   if ((menu = find_action_menu(playing_group, "MENU_GOVERNMENT"))) {
     GList *list, *iter;
-    GtkWidget *item, *image;
-    struct sprite *gsprite;
+    GtkWidget *item;
     char buf[256];
 
     /* Remove previous government entries. */
@@ -2549,6 +2551,8 @@ void real_menus_init(void)
 
     governments_iterate(g) {
       if (g != game.government_during_revolution) {
+        struct sprite *gsprite;
+
         /* TRANS: %s is a government name */
         fc_snprintf(buf, sizeof(buf), _("%s..."),
                     government_name_translation(g));
@@ -2556,6 +2560,8 @@ void real_menus_init(void)
         g_object_set_data(G_OBJECT(item), "government", g);
 
         if ((gsprite = get_government_sprite(tileset, g))) {
+          GtkWidget *image;
+
           image = gtk_image_new_from_pixbuf(sprite_get_pixbuf(gsprite));
           gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
           gtk_widget_show(image);
