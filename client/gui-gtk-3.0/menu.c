@@ -2532,8 +2532,7 @@ void real_menus_init(void)
 
   if ((menu = find_menu("<MENU>/GOVERNMENT"))) {
     GList *list, *iter;
-    GtkWidget *item, *image;
-    struct sprite *gsprite;
+    GtkWidget *item;
     char buf[256];
 
     /* Remove previous government entries. */
@@ -2553,6 +2552,8 @@ void real_menus_init(void)
 
     governments_iterate(g) {
       if (g != game.government_during_revolution) {
+        struct sprite *gsprite;
+
         /* TRANS: %s is a government name */
         fc_snprintf(buf, sizeof(buf), _("%s..."),
                     government_name_translation(g));
@@ -2560,6 +2561,7 @@ void real_menus_init(void)
         g_object_set_data(G_OBJECT(item), "government", g);
 
         if ((gsprite = get_government_sprite(tileset, g))) {
+          GtkWidget *image;
           GdkPixbuf *pb = sprite_get_pixbuf(gsprite);
 
           image = gtk_image_new_from_pixbuf(pb);
