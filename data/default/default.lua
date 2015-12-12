@@ -46,7 +46,7 @@ function default_hut_get_tech(unit)
                  tech:name_translation())
     notify.research_embassies(owner, E.TECH_EMBASSY,
                  _("The %s have acquired %s from ancient scrolls of wisdom."),
-                 owner.nation:plural_translation(),
+                 owner:research_name_translation(),
                  tech:name_translation())
     return true
   else
