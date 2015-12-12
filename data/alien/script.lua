@@ -36,7 +36,7 @@ function alien_hut_get_tech(unit)
                  tech:name_translation())
     notify.research_embassies(owner, E.HUT_TECH,
                  _("The %s have acquired %s from Space Capsule they found."),
-                 owner.nation:plural_translation(),
+                 owner:research_name_translation(),
                  tech:name_translation())
     return true
   else

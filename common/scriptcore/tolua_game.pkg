@@ -135,6 +135,10 @@ module Player {
     @ knows_tech (lua_State *L, Player *self, Tech_Type *ptech);
   bool api_methods_player_shares_research
     @ shares_research (lua_State *L, Player *self, Player *other);
+  const char *api_methods_research_rule_name
+    @ research_rule_name (lua_State *L, Player *self);
+  const char *api_methods_research_name_translation
+    @ research_name_translation (lua_State *L, Player *self);
 
   int api_methods_player_culture_get
     @ culture(lua_State *L, Player *self);

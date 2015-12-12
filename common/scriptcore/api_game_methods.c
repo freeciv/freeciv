@@ -398,6 +398,28 @@ bool api_methods_player_shares_research(lua_State *L, Player *pplayer,
 }
 
 /*****************************************************************************
+  Return name of the research group player belongs to.
+*****************************************************************************/
+const char *api_methods_research_rule_name(lua_State *L, Player *pplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+
+  return research_rule_name(research_get(pplayer));
+}
+
+/*****************************************************************************
+  Return name of the research group player belongs to.
+*****************************************************************************/
+const char *api_methods_research_name_translation(lua_State *L, Player *pplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+
+  return research_name_translation(research_get(pplayer));
+}
+
+/*****************************************************************************
   Return list head for unit list for Player
 *****************************************************************************/
 Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,

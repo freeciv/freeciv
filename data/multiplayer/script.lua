@@ -56,7 +56,7 @@ function building_built_handler(btype, city)
       -- They should therefore be informed about the source here too.
       notify.research_embassies(player, E.TECH_EMBASSY,
                                 _("The %s gain %s and %s from %s."),
-                                player.nation:plural_translation(),
+                                player:research_name_translation(),
                                 gained[0]:name_translation(),
                                 gained[1]:name_translation(),
                                 darw_btype:name_translation())
@@ -130,7 +130,7 @@ function tech_researched_handler(tech, player, how)
     -- They should therefore be informed about the source here too.
     notify.research_embassies(player, E.TECH_EMBASSY,
             _("Great philosophers from all the world join the %s: they get %s as an immediate advance."),
-            player.nation:plural_translation(),
+            player:research_name_translation(),
             gained:name_translation())
   end
 end 
