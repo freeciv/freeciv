@@ -186,8 +186,10 @@ fi
 
 AC_ARG_WITH([project-definition],
   AS_HELP_STRING([--with-project-definition=file], [use given project definition file]),
-[project_definition="${withval}"],
-[project_definition="${srcdir}/bootstrap/freeciv.project"])
+[project_definition="${withval}"
+ project_definition_dyn_rel="\$(top_builddir)/${withval}"],
+[project_definition="${srcdir}/bootstrap/freeciv.project"
+ project_definition_dyn_rel="\$(top_srcdir)/bootstrap/freeciv.project"])
 
 . ${project_definition}
 
@@ -1397,7 +1399,8 @@ CXXFLAGS="$EXTRA_DEBUG_CXXFLAGS $CXXFLAGS"
 LDFLAGS="$EXTRA_DEBUG_LDFLAGS $LDFLAGS"
 
 dnl Rebuild 'configure' whenever fc_version changes, if maintainer mode enabled.
-AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/fc_version \${top_builddir}/${project_definition}"])
+AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/fc_version"])
+AC_SUBST([CONFIG_STATUS_DEPENDENCIES], ["${project_definition_dyn_rel}"])
 
 dnl Make sure that fc_config.h changes when ever CPPFLAGS, CFLAGS or CXXFLAGS
 dnl change so everything gets rebuilt. LDFLAGS is not handled here
