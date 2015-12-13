@@ -600,7 +600,7 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
   struct canvas *destcanvas;
 
   destcanvas = canvas_create(tileset_full_tile_width(tileset),
-                             tileset_unit_with_upkeep_height(tileset));
+                             tileset_unit_with_small_upkeep_height(tileset));
 
   put_unit(punit, destcanvas, 1.0, 0, 0);
 
@@ -627,7 +627,7 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
       step = pIcons->pFood->w;
     }
 
-    dest.y = tileset_unit_layout_offset_y(tileset);
+    dest.y = tileset_unit_layout_small_offset_y(tileset);
     dest.x = src_rect.x + src_rect.w / 8;
 
     for (i = 0; i < punit->upkeep[O_SHIELD]; i++) {

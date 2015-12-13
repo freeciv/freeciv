@@ -75,6 +75,11 @@ tilelabel_offset_y = 20
 ; if unit icon is higher than tiles (typical in iso tilesets)
 ;unit_upkeep_offset_y = 0
 
+; Like unit_upkeep_offset_y, but to be used in case there's only small
+; space for the overall icon produced. Defaults to unit_upkeep_offset_y -
+; not having alternative layout.
+;unit_upkeep_small_offset_y = 0
+
 ; Font to use to draw city names:
 city_names_font = "9x15bold"
 
