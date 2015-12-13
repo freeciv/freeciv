@@ -492,6 +492,7 @@ struct tileset {
   int occupied_offset_x;
   int occupied_offset_y;
   int unit_upkeep_offset_y;
+  int unit_upkeep_small_offset_y;
 
 #define NUM_CORNER_DIRS 4
 #define TILES_PER_CORNER 4
@@ -795,11 +796,32 @@ int tileset_unit_with_upkeep_height(const struct tileset *t)
 }
 
 /****************************************************************************
+  Suitable canvas height for a unit icon that includes upkeep sprites,
+  using small space layout.
+****************************************************************************/
+int tileset_unit_with_small_upkeep_height(const struct tileset *t)
+{
+  int uk_bottom = tileset_unit_layout_small_offset_y(tileset) + tileset_upkeep_height(tileset);
+  int u_bottom = tileset_unit_height(tileset);
+
+  return MAX(uk_bottom, u_bottom);
+}
+
+/****************************************************************************
   Offset to layout extra unit sprites, such as upkeep.
 ****************************************************************************/
 int tileset_unit_layout_offset_y(const struct tileset *t)
 {
   return t->unit_upkeep_offset_y;
+}
+
+/****************************************************************************
+  Offset to layout extra unit sprites, such as upkeep, requesting small
+  space layout.
+****************************************************************************/
+int tileset_unit_layout_small_offset_y(const struct tileset *t)
+{
+  return t->unit_upkeep_small_offset_y;
 }
 
 /****************************************************************************
@@ -1845,6 +1867,11 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
   t->unit_upkeep_offset_y = secfile_lookup_int_default(file, tileset_tile_height(t),
                                                        "tilespec.unit_upkeep_offset_y");
+
+  t->unit_upkeep_offset_y = secfile_lookup_int_default(file, tileset_tile_height(t),
+                                                       "tilespec.unit_upkeep_offset_y");
+  t->unit_upkeep_small_offset_y = secfile_lookup_int_default(file, t->unit_upkeep_offset_y,
+                                                             "tilespec.unit_upkeep_small_offset_y");
 
   set_city_names_font_sizes(t->city_names_font_size,
                             t->city_productions_font_size);
