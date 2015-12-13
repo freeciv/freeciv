@@ -11649,7 +11649,7 @@ msgstr "* Linia brzegowa tego terenu nie jest bezpieczna."
 #: client/helpdata.c:4377 client/helpdata.c:4565
 #, c-format
 msgid "* Can be traveled by %s units.\n"
-msgstr "* Może być przenoszona przez jednostki %s.\n"
+msgstr "* Teren mogą przekraczać jednostki %s.\n"
 
 #: client/helpdata.c:4384
 msgid ""
