@@ -358,6 +358,7 @@ void help_widget::do_layout()
     splitter->setStretchFactor(1, 75);
     splitter->setSizes(splitter_sizes);
     main_widget = splitter;
+    info_panel->setLayout(info_layout);
   } else {
     main_widget = right;
   }
@@ -398,7 +399,7 @@ void help_widget::undo_layout()
 void help_widget::show_info_panel()
 {
   info_panel = new QWidget();
-  info_layout = new QVBoxLayout(info_panel);
+  info_layout = new QVBoxLayout();
 }
 
 /****************************************************************************
