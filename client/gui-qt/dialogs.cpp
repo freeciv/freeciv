@@ -2304,6 +2304,7 @@ void popdown_all_game_dialogs(void)
   popdown_science_report();
   popdown_city_report();
   popdown_endgame_report();
+  gui()->popdown_unit_sel();
 }
 
 /**************************************************************************

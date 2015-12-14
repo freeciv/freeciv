@@ -199,6 +199,7 @@ public:
   void update_start_page();
   void toggle_unit_sel_widget(struct tile *ptile);
   void update_unit_sel();
+  void popdown_unit_sel();
   void popup_tile_info(struct tile *ptile);
   void popdown_tile_info();
   void set_diplo_dialog(choice_dialog *widget);
