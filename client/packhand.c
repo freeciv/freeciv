@@ -1402,19 +1402,23 @@ void handle_page_msg(const char *caption, const char *headline,
 ****************************************************************************/
 void handle_page_msg_part(const char *lines)
 {
-  fc_strlcat(page_msg_report.lines, lines, page_msg_report.len + 1);
-  page_msg_report.parts--;
+  if (page_msg_report.lines != NULL) {
+    /* We have already decided to show the message at the time we got
+     * the header packet. */
+    fc_strlcat(page_msg_report.lines, lines, page_msg_report.len + 1);
+    page_msg_report.parts--;
 
-  if (page_msg_report.parts == 0) {
-    /* This is the final part */
-    popup_notify_dialog(page_msg_report.caption,
-                        page_msg_report.headline,
-                        page_msg_report.lines);
-    play_sound_for_event(page_msg_report.event);
+    if (page_msg_report.parts == 0) {
+      /* This is the final part */
+      popup_notify_dialog(page_msg_report.caption,
+                          page_msg_report.headline,
+                          page_msg_report.lines);
+      play_sound_for_event(page_msg_report.event);
 
-    free(page_msg_report.caption);
-    free(page_msg_report.headline);
-    free(page_msg_report.lines);
+      free(page_msg_report.caption);
+      free(page_msg_report.headline);
+      free(page_msg_report.lines);
+    }
   }
 }
 
