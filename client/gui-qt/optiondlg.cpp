@@ -51,11 +51,12 @@ QMap<const struct option_set *, option_dialog *> dialog_list;
 /****************************************************************************
   Splits long text to 80 characters
 ****************************************************************************/
-QString split_text(QString text)
+QString split_text(QString text, bool cut)
 {
   QStringList sl;
   QString st, str, result;
   int i;
+  int j = 0;
 
   sl = text.split("\n");
   foreach (const QString &s, sl) {
@@ -76,7 +77,14 @@ QString split_text(QString text)
       }
     }
     str = st;
-    result = result + str.left(str.count()) + '\n';
+    if (str.left(str.count()) != "") {
+      result = result + str.left(str.count()) + '\n';
+    }
+    j++;
+    if (j >= 12 && cut) {
+      result = result + _("... read more in help") + "\n";
+      break;
+    }
   }
   result.remove(result.lastIndexOf('\n'), 1);
   return result;
@@ -727,7 +735,7 @@ void option_dialog::add_option(struct option *poption)
     hbox_layout = new QHBoxLayout();
     hbox_layout->setAlignment(Qt::AlignRight);
     label = new QLabel(description);
-    label->setToolTip(split_text(option_help_text(poption)));
+    label->setToolTip(split_text(option_help_text(poption), false));
     hbox_layout->addWidget(label, 1, Qt::AlignLeft);
     hbox_layout->addStretch();
     hbox_layout->addWidget(widget, 1, Qt::AlignRight);
@@ -738,7 +746,7 @@ void option_dialog::add_option(struct option *poption)
   }
 
   widget->setEnabled(option_is_changeable(poption));
-  widget->setToolTip(split_text(option_help_text(poption)));
+  widget->setToolTip(split_text(option_help_text(poption), false));
   option_set_gui_data(poption, widget);
   option_dialog_refresh(poption);
 }

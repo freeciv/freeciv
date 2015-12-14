@@ -31,7 +31,7 @@ class QSignalMapper;
 class QWidget;
 class QString;
 
-QString split_text(QString text);
+QString split_text(QString text, bool cut);
 QString cut_helptext(QString text);
 /****************************************************************************
   Dialog for client/server options
