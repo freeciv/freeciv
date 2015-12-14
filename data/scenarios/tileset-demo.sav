@@ -141,7 +141,6 @@ set={"name","value","gamestart"
 "gold",50,50
 "happyborders","NATIONAL","NATIONAL"
 "homecaughtunits",TRUE,TRUE
-"huts",50,50
 "kicktime",1800,1800
 "killcitizen",FALSE,FALSE
 "killstack",TRUE,TRUE
@@ -217,7 +216,7 @@ set={"name","value","gamestart"
 "xsize",78,78
 "ysize",52,52
 }
-set_count=118
+set_count=117
 gamestart_valid=TRUE
 
 [ruledata]

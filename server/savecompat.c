@@ -766,6 +766,18 @@ static void compat_load_020600(struct loaddata *loading)
           } else {
             log_sg("Setting '%s': %s", name, secfile_error());
           }
+        } else if (!fc_strcasecmp("huts", name)) {
+          /* Scale of 'huts' changed. */
+          int hcount;
+
+          if (secfile_lookup_int(loading->file, &hcount,
+                                 "settings.set%d.value", i)) {
+          } else {
+            log_sg("Setting '%s': %s", name, secfile_error());
+          }
+
+          /* Store old-style absolute value. */
+          game.map.server.huts_absolute = hcount;
         }
       }
 

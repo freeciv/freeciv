@@ -375,6 +375,11 @@ void generator_init_topology(bool autosize)
     }
   }
 
+  if (game.map.server.huts_absolute >= 0) {
+    game.map.server.huts = game.map.server.huts_absolute * 1000 / map_num_tiles();
+    game.map.server.huts_absolute = -1;
+  }
+
   map_init_topology();
 }
 
