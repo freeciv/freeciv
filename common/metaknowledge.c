@@ -119,8 +119,8 @@ static bool is_tile_seen_city(const struct player *pow_player,
 }
 
 /**************************************************************************
-  Returns TRUE iff all tiles of a city an all tiles of its trade partners
-  are seen by pow_player.
+  Returns TRUE iff all the tiles of a city and all the tiles of its trade
+  partners are seen by pow_player.
 **************************************************************************/
 static bool is_tile_seen_traderoute(const struct player *pow_player,
                                     const struct city *target_city)
