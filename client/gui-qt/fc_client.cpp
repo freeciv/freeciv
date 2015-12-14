@@ -644,6 +644,18 @@ void fc_client::update_unit_sel()
 }
 
 /****************************************************************************
+  Closes unit selection widget.
+****************************************************************************/
+void fc_client::popdown_unit_sel()
+{
+  if (unit_sel != nullptr){
+    unit_sel->close();
+    delete unit_sel;
+    unit_sel = nullptr;
+  }
+}
+
+/****************************************************************************
   Removes report dialog string from the list marking it as closed
 ****************************************************************************/
 void fc_client::remove_repo_dlg(QString str)
