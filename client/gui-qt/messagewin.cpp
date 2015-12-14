@@ -27,6 +27,26 @@
 #include "sprite.h"
 
 /***************************************************************************
+  Constructor for right_click_button
+***************************************************************************/
+right_click_button::right_click_button(QWidget *parent) :
+    QPushButton(parent)
+{
+}
+
+/***************************************************************************
+  Mouse event for right_clik_button
+***************************************************************************/
+void right_click_button::mousePressEvent(QMouseEvent *e)
+{
+  if (e->button() == Qt::RightButton) {
+    emit right_clicked();
+  } else if (e->button() == Qt::LeftButton) {
+    emit clicked();
+  }
+}
+
+/***************************************************************************
   info_tab constructor
 ***************************************************************************/
 info_tab::info_tab(QWidget *parent)
@@ -40,9 +60,9 @@ info_tab::info_tab(QWidget *parent)
     "QPushButton {border: noborder;}");
 
   layout = new QGridLayout;
-  msg_button = new QPushButton;
+  msg_button = new right_click_button;
   msg_button->setText(_("Messages"));
-  chat_button = new QPushButton;
+  chat_button = new right_click_button;
   chat_button->setText(_("Chat"));
   hide_button = new QPushButton(
                   style()->standardIcon(QStyle::SP_TitleBarMinButton), "");
@@ -69,11 +89,32 @@ info_tab::info_tab(QWidget *parent)
   connect(hide_button, SIGNAL(clicked()), SLOT(hide_me()));
   connect(msg_button, SIGNAL(clicked()), SLOT(activate_msg()));
   connect(chat_button, SIGNAL(clicked()), SLOT(activate_chat()));
+  connect(msg_button, SIGNAL(right_clicked()), SLOT(on_right_clicked()));
+  connect(chat_button, SIGNAL(right_clicked()), SLOT(on_right_clicked()));
   resx = false;
   resy = false;
   chat_stretch = 5;
   msg_stretch = 5;
   setMouseTracking(true);
+}
+
+/***************************************************************************
+  Slot for receinving right clicks, hides messages or chat
+***************************************************************************/
+void info_tab::on_right_clicked()
+{
+  right_click_button *rcb;
+  rcb = qobject_cast<right_click_button *>(sender());
+  if (rcb == chat_button && !hidden_mess) {
+    hide_chat(true);
+  } else if (rcb == chat_button && hidden_mess) {
+    hide_me();
+  }
+  if (rcb == msg_button && !hidden_chat) {
+    hide_messages(true);
+  } else if (rcb == msg_button && hidden_chat) {
+    hide_me();
+  }
 }
 
 /***************************************************************************
@@ -180,7 +221,13 @@ void info_tab::activate_chat()
 {
   int i;
 
-  if (hidden_mess){
+  if (hidden_state) {
+    hidden_mess = true;
+    hidden_chat = false;
+    hide_me();
+    return;
+  }
+  if (hidden_mess) {
     return;
   }
   i = layout->columnStretch(6);
@@ -249,6 +296,13 @@ void info_tab::hide_messages(bool hyde)
 void info_tab::activate_msg()
 {
   int i;
+
+  if (hidden_state) {
+    hidden_chat = true;
+    hidden_mess = false;
+    hide_me();
+    return;
+  }
   if (hidden_chat) {
     return;
   }
@@ -276,14 +330,14 @@ void info_tab::update_menu()
 ***************************************************************************/
 void info_tab::hide_me()
 {
+  whats_hidden = 0;
+  if (hidden_mess && !hidden_chat) {
+    whats_hidden = 1;
+  }
+  if (hidden_chat && !hidden_mess) {
+    whats_hidden = 2;
+  }
   if (!hidden_state) {
-    whats_hidden = 0;
-    if (hidden_mess && !hidden_chat) {
-      whats_hidden = 1;
-    }
-    if (hidden_chat && !hidden_mess) {
-      whats_hidden = 2;
-    }
     hide_messages(true);
     hide_chat(true);
     last_size.setWidth(width());
@@ -320,6 +374,10 @@ void info_tab::hide_me()
       hide_chat(true);
       break;
     }
+  }
+  if (hidden_state) {
+    chat_button->show();
+    msg_button->show();
   }
 }
 

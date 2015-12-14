@@ -31,6 +31,21 @@ extern "C" {
 #include "chatline.h"
 #include "mapview.h"
 
+
+/***************************************************************************
+  QPushButton receiving right click event
+***************************************************************************/
+class right_click_button : public QPushButton
+{
+  Q_OBJECT
+public:
+  explicit right_click_button(QWidget *parent = 0);
+signals:
+  void right_clicked();
+protected:
+  void mousePressEvent(QMouseEvent *e);
+};
+
 /***************************************************************************
   Class representing message output
 ***************************************************************************/
@@ -74,9 +89,9 @@ private:
   void change_layout();
   void update_menu();
   QPoint cursor;
-  QPushButton *chat_button;
+  right_click_button *chat_button;
   QPushButton *hide_button;
-  QPushButton *msg_button;
+  right_click_button *msg_button;
   QSize last_size;
   bool hidden_state;
   bool layout_changed;
@@ -90,6 +105,7 @@ public slots:
 private slots:
   void activate_msg();
   void activate_chat();
+  void on_right_clicked();
 protected:
   void paint(QPainter *painter, QPaintEvent *event);
   void paintEvent(QPaintEvent *event);
