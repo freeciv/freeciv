@@ -505,7 +505,9 @@ void plr_widget::nation_selected(const QItemSelection &sl,
                arg(nation_plural_for_player(pplayer));
     advance_iterate(A_FIRST, padvance) {
       tech_id = advance_number(padvance);
-      sorted_list_a << advance_name_for_player(pplayer, tech_id);
+      if (player_invention_state(pplayer, tech_id) == TECH_KNOWN) {
+        sorted_list_a << advance_name_for_player(pplayer, tech_id);
+      }
     } advance_iterate_end;
     sorted_list_a.sort(Qt::CaseInsensitive);
     foreach (res, sorted_list_a) {
