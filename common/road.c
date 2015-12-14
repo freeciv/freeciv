@@ -41,6 +41,9 @@ Road_type_id road_number(const struct road_type *proad)
 
   Currently same as road_number(), paired with road_count()
   indicates use as an array index.
+
+  FIXME: Get rid of this. _index() makes no sense when they are not
+  in an array.
 **************************************************************************/
 Road_type_id road_index(const struct road_type *proad)
 {
@@ -119,7 +122,6 @@ void road_type_init(struct extra_type *pextra, int idx)
   proad->integrators = NULL;
   proad->self = pextra;
 }
-
 
 /****************************************************************************
   Initialize the road integrators cache

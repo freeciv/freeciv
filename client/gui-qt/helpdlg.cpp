@@ -59,7 +59,7 @@
 
 static help_dialog *help_dlg = NULL;
 canvas *terrain_canvas(struct terrain *terrain,
-                       const struct resource *resource,
+                       const struct resource_type *resource,
                        enum extra_cause cause);
 /**************************************************************************
   Popup the help dialog to get help on the given string topic.  Note
@@ -796,7 +796,7 @@ void help_widget::set_topic_tech(const help_item *topic,
   Creates a terrain image on the given canvas.
 ****************************************************************************/
 canvas *terrain_canvas(struct terrain *terrain,
-                       const struct resource *resource = NULL,
+                       const struct resource_type *resource = NULL,
                        enum extra_cause cause = EC_COUNT)
 {
   struct canvas *canvas;
@@ -975,7 +975,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
     vbox = new QVBoxLayout(panel);
 
     if (*(pterrain->resources)) {
-      struct resource **r;
+      struct resource_type **r;
+
       for (r = pterrain->resources; *r; r++) {
         canvas = terrain_canvas(pterrain, *r);
         vbox->addLayout(create_terrain_widget(

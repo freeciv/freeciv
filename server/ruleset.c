@@ -91,10 +91,10 @@
 #define NATION_GROUP_SECTION_PREFIX "ngroup" /* without underscore? */
 #define NATION_SECTION_PREFIX "nation" /* without underscore? */
 #define STYLE_SECTION_PREFIX "style_"
-#define RESOURCE_SECTION_PREFIX "resource_"
 #define EXTRA_SECTION_PREFIX "extra_"
 #define BASE_SECTION_PREFIX "base_"
 #define ROAD_SECTION_PREFIX "road_"
+#define RESOURCE_SECTION_PREFIX "resource_"
 #define GOODS_SECTION_PREFIX "goods_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
 #define TERRAIN_SECTION_PREFIX "terrain_"
@@ -833,11 +833,11 @@ static struct strvec *lookup_strvec(struct section_file *file,
 /**************************************************************************
   Look up the resource section name and return its pointer.
 **************************************************************************/
-static struct resource *lookup_resource(const char *filename,
-					const char *name,
-					const char *jsection)
+static struct resource_type *lookup_resource(const char *filename,
+                                             const char *name,
+                                             const char *jsection)
 {
-  struct resource *pres;
+  struct resource_type *pres;
 
   pres = resource_by_rule_name(name);
 
@@ -2244,46 +2244,6 @@ static bool load_terrain_names(struct section_file *file,
   section_list_destroy(sec);
   sec = NULL;
 
-  /* resource names */
-  if (ok) {
-    sec = secfile_sections_by_name_prefix(file, RESOURCE_SECTION_PREFIX);
-    nval = (NULL != sec ? section_list_size(sec) : 0);
-    if (nval > MAX_NUM_RESOURCES) {
-      ruleset_error(LOG_ERROR, "\"%s\": Too many resources (%d, max %d)",
-                    filename, nval, MAX_NUM_RESOURCES);
-      ok = FALSE;
-    }
-  }
-
-  if (ok) {
-    game.control.resource_count = nval;
-
-    /* avoid re-reading files */
-    if (resource_sections) {
-      free(resource_sections);
-    }
-    resource_sections = fc_calloc(nval, MAX_SECTION_LABEL);
-
-    resource_type_iterate(presource) {
-      const int resi = resource_index(presource);
-      const char *sec_name = section_name(section_list_get(sec, resi));
-
-      if (!ruleset_load_names(&presource->name, NULL, file, sec_name)) {
-        ok = FALSE;
-        break;
-      }
-
-      if (0 == strcmp(rule_name(&presource->name), "unused")) {
-        name_set(&presource->name, NULL, "");
-      }
-
-      section_strlcpy(&resource_sections[resi * MAX_SECTION_LABEL], sec_name);
-    } resource_type_iterate_end;
-  }
-
-  section_list_destroy(sec);
-  sec = NULL;
-
   /* extra names */
 
   if (ok) {
@@ -2418,6 +2378,71 @@ static bool load_terrain_names(struct section_file *file,
       } else {
         ruleset_error(LOG_ERROR,
                       "Road section \"%s\" does not associate road with any extra",
+                      sec_name);
+        ok = FALSE;
+      }
+    }
+  }
+
+  section_list_destroy(sec);
+  sec = NULL;
+
+  /* resource names */
+
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, RESOURCE_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_RESOURCE_TYPES) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many resource types (%d, max %d)",
+                    filename, nval, MAX_RESOURCE_TYPES);
+      ok = FALSE;
+    }
+
+    game.control.num_resource_types = nval;
+  }
+
+  if (ok) {
+    int idx;
+
+    if (resource_sections) {
+      free(resource_sections);
+    }
+    resource_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
+    /* Cannot use resource_type_iterate() before resource are added to
+     * EC_RESOURCE caused_by list. Have to get them by extra_type_by_rule_name() */
+    for (idx = 0; idx < nval; idx++) {
+      const char *sec_name = section_name(section_list_get(sec, idx));
+      const char *resource_name;
+      struct extra_type *pextra = NULL;
+
+      resource_name = secfile_lookup_str_default(file, NULL, "%s.extra", sec_name);
+      if (resource_name == NULL) {
+        if (compat->compat_mode) {
+          struct extra_type *pextra_res = rscompat_extra_from_resource_3_0(sec_name);
+
+          if (pextra_res != NULL) {
+            ruleset_load_names(&pextra_res->name, NULL, file, sec_name);
+            resource_name = untranslated_name(&(pextra_res->name));
+          }
+        }
+      }
+
+      if (resource_name != NULL) {
+        pextra = extra_type_by_rule_name(resource_name);
+
+        if (pextra != NULL) {
+          resource_type_init(pextra, idx);
+          section_strlcpy(&resource_sections[idx * MAX_SECTION_LABEL], sec_name);
+        } else {
+          ruleset_error(LOG_ERROR,
+                        "No extra definition matching resource definition \"%s\"",
+                        resource_name);
+          ok = FALSE;
+        }
+      } else {
+        ruleset_error(LOG_ERROR,
+                      "Resource section %s does not list extra this resource belongs to.",
                       sec_name);
         ok = FALSE;
       }
@@ -2794,261 +2819,262 @@ static bool load_ruleset_terrain(struct section_file *file,
     } extra_type_iterate_end;
 
     extra_type_iterate(pextra) {
-      const char *section = &extra_sections[extra_index(pextra) * MAX_SECTION_LABEL];
-      const char **slist;
-      struct requirement_vector *reqs;
-      const char *catname;
-      int cj;
-      enum extra_cause cause;
-      enum extra_rmcause rmcause;
+      if (!compat->compat_mode || compat->ver_terrain >= 10 || pextra->category != ECAT_RESOURCE) {
+        const char *section = &extra_sections[extra_index(pextra) * MAX_SECTION_LABEL];
+        const char **slist;
+        struct requirement_vector *reqs;
+        const char *catname;
+        int cj;
+        enum extra_cause cause;
+        enum extra_rmcause rmcause;
 
-      catname = secfile_lookup_str(file, "%s.category", section);
-      if (catname == NULL) {
-        ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\" has no category.",
-                      filename,
-                      extra_rule_name(pextra));
-        ok = FALSE;
-        break;
-      }
-      pextra->category = extra_category_by_name(catname, fc_strcasecmp);
-      if (!extra_category_is_valid(pextra->category)) {
-        ruleset_error(LOG_ERROR,
-                      "\"%s\" extra \"%s\" has invalid category \"%s\".",
-                      filename, extra_rule_name(pextra), catname);
-        ok = FALSE;
-        break;
-      }
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.causes", section);
-      pextra->causes = 0;
-      for (cj = 0; cj < nval; cj++) {
-        const char *sval = slist[cj];
-        cause = extra_cause_by_name(sval, fc_strcasecmp);
-
-        if (!extra_cause_is_valid(cause)) {
-          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown cause \"%s\".",
+        catname = secfile_lookup_str(file, "%s.category", section);
+        if (catname == NULL) {
+          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\" has no category.",
                         filename,
-                        extra_rule_name(pextra),
-                        sval);
+                        extra_rule_name(pextra));
           ok = FALSE;
           break;
-        } else {
-          pextra->causes |= (1 << cause);
-          extra_to_caused_by_list(pextra, cause);
         }
-      }
-
-      extra_to_category_list(pextra, pextra->category);
-
-      if (pextra->causes == 0) {
-        /* Extras that do not have any causes added to EC_NONE list */
-        extra_to_caused_by_list(pextra, EC_NONE);
-      }
-
-      if (!is_extra_caused_by(pextra, EC_BASE)
-          && !is_extra_caused_by(pextra, EC_ROAD)) {
-        /* Not a base nor road, so special */
-        pextra->data.special_idx = extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL));
-        extra_to_caused_by_list(pextra, EC_SPECIAL);
-      }
-
-      free(slist);
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.rmcauses", section);
-      pextra->rmcauses = 0;
-      for (j = 0; j < nval; j++) {
-        const char *sval = slist[j];
-        rmcause = extra_rmcause_by_name(sval, fc_strcasecmp);
-
-        if (!extra_rmcause_is_valid(rmcause)) {
-          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown rmcause \"%s\".",
-                        filename,
-                        extra_rule_name(pextra),
-                        sval);
-          ok = FALSE;
-          break;
-        } else {
-          pextra->rmcauses |= (1 << rmcause);
-          extra_to_removed_by_list(pextra, rmcause);
-        }
-      }
-
-      free(slist);
-
-      sz_strlcpy(pextra->activity_gfx,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.activity_gfx", section));
-      sz_strlcpy(pextra->act_gfx_alt,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.act_gfx_alt", section));
-      sz_strlcpy(pextra->rmact_gfx,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.rmact_gfx", section));
-      sz_strlcpy(pextra->rmact_gfx_alt,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.rmact_gfx_alt", section));
-      sz_strlcpy(pextra->graphic_str,
-                 secfile_lookup_str_default(file, "-", "%s.graphic", section));
-      sz_strlcpy(pextra->graphic_alt,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.graphic_alt", section));
-
-      reqs = lookup_req_list(file, section, "reqs", extra_rule_name(pextra));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&pextra->reqs, reqs);
-
-      reqs = lookup_req_list(file, section, "rmreqs", extra_rule_name(pextra));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&pextra->rmreqs, reqs);
-
-      reqs = lookup_req_list(file, section, "appearance_reqs", extra_rule_name(pextra));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&pextra->appearance_reqs, reqs);
-
-      reqs = lookup_req_list(file, section, "disappearance_reqs", extra_rule_name(pextra));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&pextra->disappearance_reqs, reqs);
-
-      pextra->buildable = secfile_lookup_bool_default(file, TRUE,
-                                                      "%s.buildable", section);
-
-      pextra->build_time = 0; /* default */
-      lookup_time(file, &pextra->build_time, section, "build_time",
-                  filename, extra_rule_name(pextra), &ok);
-      pextra->build_time_factor = secfile_lookup_int_default(file, 1,
-                                                             "%s.build_time_factor", section);
-      pextra->removal_time = 0; /* default */
-      lookup_time(file, &pextra->removal_time, section, "removal_time",
-                  filename, extra_rule_name(pextra), &ok);
-      pextra->removal_time_factor = secfile_lookup_int_default(file, 1,
-                                                               "%s.removal_time_factor", section);
-
-      pextra->defense_bonus  = secfile_lookup_int_default(file, 0,
-                                                          "%s.defense_bonus",
-                                                          section);
-      if (pextra->defense_bonus != 0) {
-        if (extra_has_flag(pextra, EF_NATURAL_DEFENSE)) {
-          extra_to_caused_by_list(pextra, EC_NATURAL_DEFENSIVE);
-        } else {
-          extra_to_caused_by_list(pextra, EC_DEFENSIVE);
-        }
-      }
-
-      pextra->appearance_chance = secfile_lookup_int_default(file, RS_DEFAULT_EXTRA_APPEARANCE,
-                                                             "%s.appearance_chance",
-                                                             section);
-      pextra->disappearance_chance = secfile_lookup_int_default(file,
-                                                                RS_DEFAULT_EXTRA_DISAPPEARANCE,
-                                                                "%s.disappearance_chance",
-                                                                section);
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
-      BV_CLR_ALL(pextra->native_to);
-      for (j = 0; j < nval; j++) {
-        struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
-
-        if (uclass == NULL) {
+        pextra->category = extra_category_by_name(catname, fc_strcasecmp);
+        if (!extra_category_is_valid(pextra->category)) {
           ruleset_error(LOG_ERROR,
-                        "\"%s\" extra \"%s\" is native to unknown unit class \"%s\".",
-                        filename,
-                        extra_rule_name(pextra),
-                        slist[j]);
+                        "\"%s\" extra \"%s\" has invalid category \"%s\".",
+                        filename, extra_rule_name(pextra), catname);
           ok = FALSE;
           break;
-        } else {
-          BV_SET(pextra->native_to, uclass_index(uclass));
         }
-      }
-      free(slist);
 
-      if (!ok) {
-        break;
-      }
+        slist = secfile_lookup_str_vec(file, &nval, "%s.causes", section);
+        pextra->causes = 0;
+        for (cj = 0; cj < nval; cj++) {
+          const char *sval = slist[cj];
+          cause = extra_cause_by_name(sval, fc_strcasecmp);
 
-      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
-      BV_CLR_ALL(pextra->flags);
-      for (j = 0; j < nval; j++) {
-        const char *sval = slist[j];
-        enum extra_flag_id flag = extra_flag_id_by_name(sval, fc_strcasecmp);
+          if (!extra_cause_is_valid(cause)) {
+            ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown cause \"%s\".",
+                          filename,
+                          extra_rule_name(pextra),
+                          sval);
+            ok = FALSE;
+            break;
+          } else {
+            pextra->causes |= (1 << cause);
+            extra_to_caused_by_list(pextra, cause);
+          }
+        }
 
-        if (!extra_flag_id_is_valid(flag)) {
-          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown flag \"%s\".",
-                        filename,
-                        extra_rule_name(pextra),
-                        sval);
+        extra_to_category_list(pextra, pextra->category);
+
+        if (pextra->causes == 0) {
+          /* Extras that do not have any causes added to EC_NONE list */
+          extra_to_caused_by_list(pextra, EC_NONE);
+        }
+
+        if (!is_extra_caused_by(pextra, EC_BASE)
+            && !is_extra_caused_by(pextra, EC_ROAD)) {
+          /* Not a base nor road, so special */
+          pextra->data.special_idx = extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL));
+          extra_to_caused_by_list(pextra, EC_SPECIAL);
+        }
+
+        free(slist);
+
+        slist = secfile_lookup_str_vec(file, &nval, "%s.rmcauses", section);
+        pextra->rmcauses = 0;
+        for (j = 0; j < nval; j++) {
+          const char *sval = slist[j];
+          rmcause = extra_rmcause_by_name(sval, fc_strcasecmp);
+
+          if (!extra_rmcause_is_valid(rmcause)) {
+            ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown rmcause \"%s\".",
+                          filename,
+                          extra_rule_name(pextra),
+                          sval);
+            ok = FALSE;
+            break;
+          } else {
+            pextra->rmcauses |= (1 << rmcause);
+            extra_to_removed_by_list(pextra, rmcause);
+          }
+        }
+
+        free(slist);
+
+        sz_strlcpy(pextra->activity_gfx,
+                   secfile_lookup_str_default(file, "-",
+                                              "%s.activity_gfx", section));
+        sz_strlcpy(pextra->act_gfx_alt,
+                   secfile_lookup_str_default(file, "-",
+                                              "%s.act_gfx_alt", section));
+        sz_strlcpy(pextra->rmact_gfx,
+                   secfile_lookup_str_default(file, "-",
+                                              "%s.rmact_gfx", section));
+        sz_strlcpy(pextra->rmact_gfx_alt,
+                   secfile_lookup_str_default(file, "-",
+                                              "%s.rmact_gfx_alt", section));
+        sz_strlcpy(pextra->graphic_str,
+                   secfile_lookup_str_default(file, "-", "%s.graphic", section));
+        sz_strlcpy(pextra->graphic_alt,
+                   secfile_lookup_str_default(file, "-",
+                                              "%s.graphic_alt", section));
+
+        reqs = lookup_req_list(file, section, "reqs", extra_rule_name(pextra));
+        if (reqs == NULL) {
           ok = FALSE;
           break;
-        } else {
-          BV_SET(pextra->flags, flag);
         }
-      }
-      free(slist);
+        requirement_vector_copy(&pextra->reqs, reqs);
 
-      if (!ok) {
-        break;
-      }
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.conflicts", section);
-      for (j = 0; j < nval; j++) {
-        const char *sval = slist[j];
-        struct extra_type *pextra2 = extra_type_by_rule_name(sval);
-
-        if (pextra2 == NULL) {
-          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown conflict extra \"%s\".",
-                        filename,
-                        extra_rule_name(pextra),
-                        sval);
+        reqs = lookup_req_list(file, section, "rmreqs", extra_rule_name(pextra));
+        if (reqs == NULL) {
           ok = FALSE;
           break;
-        } else {
-          BV_SET(pextra->conflicts, extra_index(pextra2));
-          BV_SET(pextra2->conflicts, extra_index(pextra));
         }
-      }
+        requirement_vector_copy(&pextra->rmreqs, reqs);
+
+        reqs = lookup_req_list(file, section, "appearance_reqs", extra_rule_name(pextra));
+        if (reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+        requirement_vector_copy(&pextra->appearance_reqs, reqs);
+
+        reqs = lookup_req_list(file, section, "disappearance_reqs", extra_rule_name(pextra));
+        if (reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+        requirement_vector_copy(&pextra->disappearance_reqs, reqs);
+
+        pextra->buildable = secfile_lookup_bool_default(file, TRUE,
+                                                        "%s.buildable", section);
+
+        pextra->build_time = 0; /* default */
+        lookup_time(file, &pextra->build_time, section, "build_time",
+                    filename, extra_rule_name(pextra), &ok);
+        pextra->build_time_factor = secfile_lookup_int_default(file, 1,
+                                                               "%s.build_time_factor", section);
+        pextra->removal_time = 0; /* default */
+        lookup_time(file, &pextra->removal_time, section, "removal_time",
+                    filename, extra_rule_name(pextra), &ok);
+        pextra->removal_time_factor = secfile_lookup_int_default(file, 1,
+                                                                 "%s.removal_time_factor", section);
+
+        pextra->defense_bonus  = secfile_lookup_int_default(file, 0,
+                                                            "%s.defense_bonus",
+                                                            section);
+        if (pextra->defense_bonus != 0) {
+          if (extra_has_flag(pextra, EF_NATURAL_DEFENSE)) {
+            extra_to_caused_by_list(pextra, EC_NATURAL_DEFENSIVE);
+          } else {
+            extra_to_caused_by_list(pextra, EC_DEFENSIVE);
+          }
+        }
+
+        pextra->appearance_chance = secfile_lookup_int_default(file, RS_DEFAULT_EXTRA_APPEARANCE,
+                                                               "%s.appearance_chance",
+                                                               section);
+        pextra->disappearance_chance = secfile_lookup_int_default(file,
+                                                                  RS_DEFAULT_EXTRA_DISAPPEARANCE,
+                                                                  "%s.disappearance_chance",
+                                                                  section);
+
+        slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
+        BV_CLR_ALL(pextra->native_to);
+        for (j = 0; j < nval; j++) {
+          struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
+
+          if (uclass == NULL) {
+            ruleset_error(LOG_ERROR,
+                          "\"%s\" extra \"%s\" is native to unknown unit class \"%s\".",
+                          filename,
+                          extra_rule_name(pextra),
+                          slist[j]);
+            ok = FALSE;
+            break;
+          } else {
+            BV_SET(pextra->native_to, uclass_index(uclass));
+          }
+        }
+        free(slist);
+
+        if (!ok) {
+          break;
+        }
+
+        slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
+        BV_CLR_ALL(pextra->flags);
+        for (j = 0; j < nval; j++) {
+          const char *sval = slist[j];
+          enum extra_flag_id flag = extra_flag_id_by_name(sval, fc_strcasecmp);
+
+          if (!extra_flag_id_is_valid(flag)) {
+            ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown flag \"%s\".",
+                          filename,
+                          extra_rule_name(pextra),
+                          sval);
+            ok = FALSE;
+            break;
+          } else {
+            BV_SET(pextra->flags, flag);
+          }
+        }
+        free(slist);
+
+        if (!ok) {
+          break;
+        }
+
+        slist = secfile_lookup_str_vec(file, &nval, "%s.conflicts", section);
+        for (j = 0; j < nval; j++) {
+          const char *sval = slist[j];
+          struct extra_type *pextra2 = extra_type_by_rule_name(sval);
+
+          if (pextra2 == NULL) {
+            ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown conflict extra \"%s\".",
+                          filename,
+                          extra_rule_name(pextra),
+                          sval);
+            ok = FALSE;
+            break;
+          } else {
+            BV_SET(pextra->conflicts, extra_index(pextra2));
+            BV_SET(pextra2->conflicts, extra_index(pextra));
+          }
+        }
     
-      free(slist);
+        free(slist);
 
-      if (!ok) {
-        break;
-      }
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.hidden_by", section);
-      BV_CLR_ALL(pextra->hidden_by);
-      for (j = 0; j < nval; j++) {
-        const char *sval = slist[j];
-        const struct extra_type *top = extra_type_by_rule_name(sval);
-
-        if (top == NULL) {
-          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\" hidden by unknown extra \"%s\".",
-                        filename,
-                        extra_rule_name(pextra),
-                        sval);
-          ok = FALSE;
+        if (!ok) {
           break;
-        } else {
-          BV_SET(pextra->hidden_by, extra_index(top));
         }
+
+        slist = secfile_lookup_str_vec(file, &nval, "%s.hidden_by", section);
+        BV_CLR_ALL(pextra->hidden_by);
+        for (j = 0; j < nval; j++) {
+          const char *sval = slist[j];
+          const struct extra_type *top = extra_type_by_rule_name(sval);
+
+          if (top == NULL) {
+            ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\" hidden by unknown extra \"%s\".",
+                          filename,
+                          extra_rule_name(pextra),
+                          sval);
+            ok = FALSE;
+            break;
+          } else {
+            BV_SET(pextra->hidden_by, extra_index(top));
+          }
+        }
+        free(slist);
+
+        if (!ok) {
+          break;
+        }
+
+        pextra->helptext = lookup_strvec(file, section, "helptext");
       }
-      free(slist);
-
-      if (!ok) {
-        break;
-      }
-
-      pextra->helptext = lookup_strvec(file, section, "helptext");
-
     } extra_type_iterate_end;
   }
 
@@ -6479,7 +6505,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
   }
 
   terrain_type_iterate(pterrain) {
-    struct resource **r;
+    struct resource_type **r;
 
     packet.id = terrain_number(pterrain);
     packet.tclass = pterrain->tclass;
@@ -6551,9 +6577,8 @@ static void send_ruleset_resources(struct conn_list *dest)
 
   resource_type_iterate (presource) {
     packet.id = resource_number(presource);
+    packet.extra = extra_index(resource_extra_get(presource));
 
-    sz_strlcpy(packet.name, untranslated_name(&presource->name));
-    sz_strlcpy(packet.rule_name, rule_name(&presource->name));
     sz_strlcpy(packet.graphic_str, presource->graphic_str);
     sz_strlcpy(packet.graphic_alt, presource->graphic_alt);
 
@@ -7483,11 +7508,11 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_unit_classes(dest);
   send_ruleset_units(dest);
   send_ruleset_specialists(dest);
-  send_ruleset_resources(dest);
-  send_ruleset_terrain(dest);
   send_ruleset_extras(dest);
   send_ruleset_bases(dest);
   send_ruleset_roads(dest);
+  send_ruleset_resources(dest);
+  send_ruleset_terrain(dest);
   send_ruleset_goods(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);

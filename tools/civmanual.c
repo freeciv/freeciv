@@ -381,7 +381,7 @@ static bool manual_command(void)
       } road_type_iterate_end;
       fprintf(doc, "</tr>\n\n");
       terrain_type_iterate(pterrain) {
-        struct resource **r;
+        struct resource_type **r;
 
         if (0 == strlen(terrain_rule_name(pterrain))) {
           /* Must be a disabled piece of terrain */

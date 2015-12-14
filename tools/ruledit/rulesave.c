@@ -1902,7 +1902,8 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     fc_snprintf(path, sizeof(path), "resource_%d", sect_idx++);
 
-    save_name_translation(sfile, &(pres->name), path);
+    secfile_insert_str(sfile, extra_rule_name(resource_extra_get(pres)),
+                       "%s.extra", path);
 
     output_type_iterate(o) {
       if (pres->output[o] != 0) {

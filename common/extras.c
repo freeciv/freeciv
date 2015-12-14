@@ -60,6 +60,7 @@ void extras_init(void)
     extras[i].data.special_idx = -1;
     extras[i].data.base = NULL;
     extras[i].data.road = NULL;
+    extras[i].data.resource = NULL;
     extras[i].causes = 0;
     extras[i].rmcauses = 0;
     extras[i].helptext = NULL;
@@ -75,6 +76,7 @@ void extras_free(void)
 
   base_types_free();
   road_types_free();
+  resource_types_free();
 
   for (i = 0; i < game.control.num_extra_types; i++) {
     if (extras[i].data.base != NULL) {
@@ -84,6 +86,10 @@ void extras_free(void)
     if (extras[i].data.road != NULL) {
       FC_FREE(extras[i].data.road);
       extras[i].data.road = NULL;
+    }
+    if (extras[i].data.resource != NULL) {
+      FC_FREE(extras[i].data.resource);
+      extras[i].data.resource = NULL;
     }
   }
 

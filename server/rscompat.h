@@ -48,6 +48,7 @@ void rscompat_postprocess(struct rscompat_info *info);
 
 /* Functions specific to 2.6 -> 3.0 transition */
 void rscompat_goods_3_0(void);
+struct extra_type *rscompat_extra_from_resource_3_0(const char *sec_name);
 
 #ifdef __cplusplus
 }

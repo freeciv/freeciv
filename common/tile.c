@@ -343,7 +343,7 @@ bool tile_has_native_base(const struct tile *ptile,
 /****************************************************************************
   Return the resource at the specified tile.
 ****************************************************************************/
-const struct resource *tile_resource(const struct tile *ptile)
+const struct resource_type *tile_resource(const struct tile *ptile)
 {
   return ptile->resource;
 }
@@ -352,7 +352,7 @@ const struct resource *tile_resource(const struct tile *ptile)
 /****************************************************************************
   Set the given resource at the specified tile.
 ****************************************************************************/
-void tile_set_resource(struct tile *ptile, struct resource *presource)
+void tile_set_resource(struct tile *ptile, struct resource_type *presource)
 {
   ptile->resource = presource;
   if (NULL != ptile->terrain
@@ -754,7 +754,7 @@ const char *tile_get_info_text(const struct tile *ptile,
       sz_strlcat(s, " ");
     }
     cat_snprintf(s, sizeof(s), "(%s)",
-		 resource_name_translation(ptile->resource));
+                 resource_name_translation(ptile->resource));
   }
   if (linebreaks & TILE_LB_RESOURCE_POLL) {
     /* New linebreak requested */

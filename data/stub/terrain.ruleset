@@ -168,7 +168,7 @@ defense_bonus        = 0
 food                 = 1
 shield               = 1
 trade                = 0
-resources            = "Generic"
+resources            = "Generic Resource"
 road_food_incr_pct   = 0
 road_shield_incr_pct = 0
 road_trade_incr_pct  = 100
@@ -212,7 +212,7 @@ defense_bonus        = 0
 food                 = 1
 shield               = 1
 trade                = 0
-resources            = "Generic"
+resources            = "Generic Resource"
 road_food_incr_pct   = 0
 road_shield_incr_pct = 0
 road_trade_incr_pct  = 100
@@ -251,20 +251,19 @@ This is only possible oceanic terrain.\
 ;
 ; Notes:
 ;
-; name = name as seen by user; if "unused", it is not used,
-; but is included for conversion and/or the editor.
-; graphic = preferred graphic [tile_*] in tilespec.
-; graphic_alt = alternate graphic [tile_*] when preferred is not found;
-; otherwise may be "-"
-; identifier = single-character identifier used in savegames. This
-; must be unique for each resource, and changing it will
-; break savegame compatibility.
-; food = increased food production
-; shield = increased shield production
-; trade = increased trade production
+; extra                = name of the extra this resource section is part of
+; graphic              = preferred graphic [tile_*] in tilespec.
+; graphic_alt          = alternate graphic [tile_*] when preferred is not found;
+;                        otherwise may be "-"
+; identifier           = single-character identifier used in savegames.  This
+;                        must be unique for each resource, and changing it will
+;                        break savegame compatibility.
+; food                 = increased food production
+; shield               = increased shield production
+; trade                = increased trade production
 
 [resource_generic]
-name        = _("Generic")
+extra       = "Generic Resource"
 graphic     = "ts.grassland_resources"
 graphic_alt = "-"
 food        = 0
@@ -281,8 +280,8 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 
 ; /* <-- avoid gettext warnings
 ;
-; Each extra, including bases and roads, must have a section here.
-; Bases and roads have additional sections for their specific features below.
+; Each extra, including bases, roads, and resource, must have a section here.
+; Bases, roads, and resources have additional sections for their specific features.
 ;
 ;
 ; Extra types:
@@ -293,10 +292,10 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 ;                           savegames must not change, use this when renaming
 ;                           an extra after a ruleset has been released.
 ; category                = How UI should categorize this extra. One of
-;                           "Infra", "Natural", "Nuisance", or "Bonus"
+;                           "Infra", "Natural", "Nuisance", "Resource", or "Bonus"
 ; causes                  = events that can create extra type.
 ;                           "Irrigation", "Mine", "Hut", "Pollution", "Fallout",
-;                           "Base", "Road", or "Appear"
+;                           "Base", "Road", "Resource", or "Appear"
 ; rmcauses                = events that can remove extra type.
 ;                           "CleanPollution", "CleanFallout", "Pillage", or
 ;                           "Disappear"
@@ -429,6 +428,18 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 ;build_time     = 0
 ;removal_time   = 0
 ;helptext       = _("")
+
+[extra_gresource]
+name           = _("Generic Resource")
+category       = "Resource"
+causes         = "Resource"
+;rmcauses       = ""
+graphic        = "None"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
 
 ; /* <-- avoid gettext warnings
 ;

@@ -51,7 +51,7 @@ struct tile {
   Continent_id continent;
   bv_extras extras;
   bool resource_valid;
-  struct resource *resource;		/* NULL for no resource */
+  struct resource_type *resource;       /* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   struct unit_list *units;
   struct city *worked;			/* NULL for not worked */
@@ -98,7 +98,7 @@ void tile_set_owner(struct tile *ptile, struct player *pplayer,
 #define tile_resource(_tile) ((_tile)->resource)
 #define tile_resource_is_valid(_tile) (_tile)->resource_valid
 /*const struct resource *tile_resource(const struct tile *ptile);*/
-void tile_set_resource(struct tile *ptile, struct resource *presource);
+void tile_set_resource(struct tile *ptile, struct resource_type *presource);
 
 #define tile_terrain(_tile) ((_tile)->terrain)
 /*struct terrain *tile_terrain(const struct tile *ptile);*/

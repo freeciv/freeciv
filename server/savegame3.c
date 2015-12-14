@@ -307,8 +307,8 @@ static void unit_ordering_calc(void);
 static void unit_ordering_apply(void);
 static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index);
 static char sg_extras_get(bv_extras extras, const int *index);
-static struct resource *char2resource(char c);
-static char resource2char(const struct resource *presource);
+static struct resource_type *char2resource(char c);
+static char resource2char(const struct resource_type *presource);
 static char num2char(unsigned int num);
 static int char2num(char ch);
 static struct terrain *char2terrain(char ch);
@@ -1170,11 +1170,11 @@ static char sg_extras_get(bv_extras extras, const int *index)
 /****************************************************************************
   Return the resource for the given identifier.
 ****************************************************************************/
-static struct resource *char2resource(char c)
+static struct resource_type *char2resource(char c)
 {
   /* speed common values */
   if (c == RESOURCE_NULL_IDENTIFIER
-   || c == RESOURCE_NONE_IDENTIFIER) {
+      || c == RESOURCE_NONE_IDENTIFIER) {
     return NULL;
   }
   return resource_by_identifier(c);
@@ -1183,7 +1183,7 @@ static struct resource *char2resource(char c)
 /****************************************************************************
   Return the identifier for the given resource.
 ****************************************************************************/
-static char resource2char(const struct resource *presource)
+static char resource2char(const struct resource_type *presource)
 {
   return presource ? presource->identifier : RESOURCE_NONE_IDENTIFIER;
 }

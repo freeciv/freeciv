@@ -1449,7 +1449,7 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
   struct sprite *sprite = NULL;
   GdkPixbuf *pixbuf = NULL;
   struct terrain *pterrain;
-  struct resource *presource;
+  struct resource_type *presource;
   struct unit_type *putype;
   struct base_type *pbase;
   struct road_type *proad;

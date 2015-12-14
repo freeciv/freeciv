@@ -859,9 +859,9 @@ static void set_savegame_bases(bv_extras *extras,
   ch is the character read from the map, and n is the number of the special
   (0 for special_1, 1 for special_2).
 ****************************************************************************/
-static void set_savegame_old_resource(struct resource **r,
-				      const struct terrain *terrain,
-				      char ch, int n)
+static void set_savegame_old_resource(struct resource_type **r,
+                                      const struct terrain *terrain,
+                                      char ch, int n)
 {
   fc_assert_ret(n == 0 || n == 1);
   /* If resource is already set to non-NULL or there is no resource found
@@ -882,11 +882,11 @@ static void set_savegame_old_resource(struct resource **r,
 /****************************************************************************
   Return the resource for the given identifier.
 ****************************************************************************/
-static struct resource *identifier_to_resource(char c)
+static struct resource_type *identifier_to_resource(char c)
 {
   /* speed common values */
   if (c == RESOURCE_NULL_IDENTIFIER
-   || c == RESOURCE_NONE_IDENTIFIER) {
+      || c == RESOURCE_NONE_IDENTIFIER) {
     return NULL;
   }
   return resource_by_identifier(c);

@@ -34,7 +34,7 @@
 #include "terrain.h"
 
 static struct terrain civ_terrains[MAX_NUM_TERRAINS];
-static struct resource civ_resources[MAX_NUM_RESOURCES];
+static struct resource_type *civ_resources[MAX_RESOURCE_TYPES];
 static struct user_flag user_terrain_flags[MAX_NUM_USER_TER_FLAGS];
 
 /****************************************************************************
@@ -49,9 +49,6 @@ void terrains_init(void)
     civ_terrains[i].item_number = i;
     civ_terrains[i].rgb = NULL;
     civ_terrains[i].animal = NULL;
-  }
-  for (i = 0; i < ARRAY_SIZE(civ_resources); i++) {
-    civ_resources[i].item_number = i;
   }
 }
 
@@ -262,9 +259,9 @@ const char *terrain_rule_name(const struct terrain *pterrain)
   Check for resource in terrain resources list.
 ****************************************************************************/
 bool terrain_has_resource(const struct terrain *pterrain,
-                          const struct resource *presource)
+                          const struct resource_type *presource)
 {
-  struct resource **r = pterrain->resources;
+  struct resource_type **r = pterrain->resources;
 
   while (NULL != *r) {
     if (*r == presource) {
@@ -275,26 +272,64 @@ bool terrain_has_resource(const struct terrain *pterrain,
   return FALSE;
 }
 
+/****************************************************************************
+  Initialize resource_type structure.
+****************************************************************************/
+struct resource_type *resource_type_init(struct extra_type *pextra, int idx)
+{
+  struct resource_type *presource;
+
+  presource = fc_malloc(sizeof(*presource));
+
+  pextra->data.resource = presource;
+
+  presource->item_number = idx;
+  presource->self = pextra;
+
+  /* Save also to the old array, to be removed in the future. */
+  civ_resources[idx] = presource;
+
+  return presource;
+}
+
+/****************************************************************************
+  Free the memory associated with resource types
+****************************************************************************/
+void resource_types_free(void)
+{
+  int i;
+
+  /* Resource structure itself is freed as part of extras destruction.
+   * here we just make sure no dangling pointers are left to old
+   * civ_resources[] */
+
+  for (i = 0; i < MAX_RESOURCE_TYPES; i++) {
+    civ_resources[i] = NULL;
+  }
+}
+
+/**************************************************************************
+  Return extra that resource is.
+**************************************************************************/
+struct extra_type *resource_extra_get(const struct resource_type *presource)
+{
+  return presource->self;
+}
+
 /**************************************************************************
   Return the first item of resources.
 **************************************************************************/
-struct resource *resource_array_first(void)
+struct resource_type *resource_array_first(void)
 {
-  if (game.control.resource_count > 0) {
-    return civ_resources;
-  }
-  return NULL;
+  return civ_resources[0];
 }
 
 /**************************************************************************
   Return the last item of resources.
 **************************************************************************/
-const struct resource *resource_array_last(void)
+const struct resource_type *resource_array_last(void)
 {
-  if (game.control.resource_count > 0) {
-    return &civ_resources[game.control.resource_count - 1];
-  }
-  return NULL;
+  return civ_resources[game.control.num_resource_types - 1];
 }
 
 /**************************************************************************
@@ -302,7 +337,7 @@ const struct resource *resource_array_last(void)
 **************************************************************************/
 Resource_type_id resource_count(void)
 {
-  return game.control.resource_count;
+  return game.control.num_resource_types;
 }
 
 /**************************************************************************
@@ -310,17 +345,23 @@ Resource_type_id resource_count(void)
 
   Currently same as resource_number(), paired with resource_count()
   indicates use as an array index.
+
+  FIXME: Get rid of this. _index() makes no sense when they are not
+  in an array.
 **************************************************************************/
-Resource_type_id resource_index(const struct resource *presource)
+Resource_type_id resource_index(const struct resource_type *presource)
 {
   fc_assert_ret_val(NULL != presource, -1);
-  return presource - civ_resources;
+
+  /* FIXME: */
+  /* return presource - resources; */
+  return resource_number(presource);
 }
 
 /**************************************************************************
   Return the resource index.
 **************************************************************************/
-Resource_type_id resource_number(const struct resource *presource)
+Resource_type_id resource_number(const struct resource_type *presource)
 {
   fc_assert_ret_val(NULL != presource, -1);
   return presource->item_number;
@@ -329,19 +370,19 @@ Resource_type_id resource_number(const struct resource *presource)
 /****************************************************************************
   Return the resource for the given resource index.
 ****************************************************************************/
-struct resource *resource_by_number(const Resource_type_id type)
+struct resource_type *resource_by_number(const Resource_type_id type)
 {
-  if (type < 0 || type >= game.control.resource_count) {
+  if (type < 0 || type >= game.control.num_resource_types) {
     /* This isn't an error; some callers depend on it. */
     return NULL;
   }
-  return &civ_resources[type];
+  return civ_resources[type];
 }
 
 /****************************************************************************
   Return the resource type matching the identifier, or NULL when none matches.
 ****************************************************************************/
-struct resource *resource_by_identifier(const char identifier)
+struct resource_type *resource_by_identifier(const char identifier)
 {
   resource_type_iterate(presource) {
     if (presource->identifier == identifier) {
@@ -355,7 +396,7 @@ struct resource *resource_by_identifier(const char identifier)
 /****************************************************************************
   Return the resource type matching the name, or NULL when none matches.
 ****************************************************************************/
-struct resource *resource_by_rule_name(const char *name)
+struct resource_type *resource_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
@@ -372,20 +413,19 @@ struct resource *resource_by_rule_name(const char *name)
   Return the (translated) name of the resource.
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *resource_name_translation(const struct resource *presource)
+const char *resource_name_translation(const struct resource_type *presource)
 {
-  return name_translation_get(&presource->name);
+  return name_translation_get(&(resource_extra_get(presource)->name));
 }
 
 /**************************************************************************
   Return the (untranslated) rule name of the resource.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *resource_rule_name(const struct resource *presource)
+const char *resource_rule_name(const struct resource_type *presource)
 {
-  return rule_name(&presource->name);
+  return rule_name(&(resource_extra_get(presource)->name));
 }
-
 
 /****************************************************************************
   This iterator behaves like adjc_iterate or cardinal_adjc_iterate depending
@@ -499,7 +539,7 @@ int count_terrain_property_near_tile(const struct tile *ptile,
   Returns TRUE iff any cardinally adjacent tile contains the given resource.
 ****************************************************************************/
 bool is_resource_card_near(const struct tile *ptile,
-                           const struct resource *pres,
+                           const struct resource_type *pres,
                            bool check_self)
 {
   if (!pres) {
@@ -519,7 +559,7 @@ bool is_resource_card_near(const struct tile *ptile,
   Returns TRUE iff any adjacent tile contains the given resource.
 ****************************************************************************/
 bool is_resource_near_tile(const struct tile *ptile,
-                           const struct resource *pres,
+                           const struct resource_type *pres,
                            bool check_self)
 {
   if (!pres) {

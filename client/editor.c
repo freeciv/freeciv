@@ -1135,7 +1135,7 @@ const char *editor_tool_get_name(enum editor_tool_type ett)
 const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
 {
   struct terrain *pterrain;
-  struct resource *presource;
+  struct resource_type *presource;
   struct unit_type *putype;
   struct base_type *pbase;
   struct road_type *proad;
@@ -1581,7 +1581,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
 static void fill_tile_edit_packet(struct packet_edit_tile *packet,
                                   const struct tile *ptile)
 {
-  const struct resource *presource;
+  const struct resource_type *presource;
   const struct terrain *pterrain;
 
   if (!packet || !ptile) {

@@ -303,7 +303,7 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
                            bool rivers_overlay);
 static void sg_bases_set(bv_extras *extras, char ch, struct base_type **index);
 static void sg_roads_set(bv_extras *extras, char ch, struct road_type **index);
-static struct resource *char2resource(char c);
+static struct resource_type *char2resource(char c);
 static int char2num(char ch);
 static struct terrain *char2terrain(char ch);
 static Tech_type_id technology_load(struct section_file *file,
@@ -1014,7 +1014,7 @@ static void sg_roads_set(bv_extras *extras, char ch, struct road_type **index)
 /****************************************************************************
   Return the resource for the given identifier.
 ****************************************************************************/
-static struct resource *char2resource(char c)
+static struct resource_type *char2resource(char c)
 {
   /* speed common values */
   if (c == RESOURCE_NULL_IDENTIFIER

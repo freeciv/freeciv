@@ -2719,7 +2719,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   bool tile_changed = FALSE;
   struct player *powner = player_by_number(packet->owner);
   struct player *eowner = player_by_number(packet->extras_owner);
-  struct resource *presource = resource_by_number(packet->resource);
+  struct resource_type *presource = resource_by_number(packet->resource);
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = index_to_tile(packet->tile);
 
@@ -2965,6 +2965,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   VALIDATE(num_tech_types,      A_LAST,                 "advances");
   VALIDATE(num_base_types,	MAX_BASE_TYPES,		"bases");
   VALIDATE(num_road_types,      MAX_ROAD_TYPES,         "roads");
+  VALIDATE(num_resource_types,	MAX_RESOURCE_TYPES,     "resources");
   VALIDATE(num_disaster_types,  MAX_DISASTER_TYPES,     "disasters");
   VALIDATE(num_achievement_types, MAX_ACHIEVEMENT_TYPES, "achievements");
 
@@ -2973,7 +2974,6 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
    * not need a size check.  See the allocation bellow. */
 
   VALIDATE(terrain_count,	MAX_NUM_TERRAINS,	"terrains");
-  VALIDATE(resource_count,	MAX_NUM_RESOURCES,	"resources");
 
   VALIDATE(num_specialist_types, SP_MAX,		"specialists");
 #undef VALIDATE
@@ -3419,7 +3419,7 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
     free(pterrain->resources);
   }
   pterrain->resources = fc_calloc(p->num_resources + 1,
-				  sizeof(*pterrain->resources));
+                                  sizeof(*pterrain->resources));
   for (j = 0; j < p->num_resources; j++) {
     pterrain->resources[j] = resource_by_number(p->resources[j]);
     if (!pterrain->resources[j]) {
@@ -3493,11 +3493,16 @@ void handle_ruleset_terrain_flag(const struct packet_ruleset_terrain_flag *p)
 ****************************************************************************/
 void handle_ruleset_resource(const struct packet_ruleset_resource *p)
 {
-  struct resource *presource = resource_by_number(p->id);
+  struct resource_type *presource;
 
-  fc_assert_ret_msg(NULL != presource, "Bad resource %d.", p->id);
+  if (p->id < 0 || p->id > MAX_RESOURCE_TYPES
+      || p->extra < 0 || p->extra > MAX_EXTRA_TYPES) {
+    log_error("Bad resource %d.", p->id);
+    return;
+  }
 
-  names_set(&presource->name, NULL, p->name, p->rule_name);
+  presource = resource_type_init(extra_by_number(p->extra), p->id);
+
   sz_strlcpy(presource->graphic_str, p->graphic_str);
   sz_strlcpy(presource->graphic_alt, p->graphic_alt);
 

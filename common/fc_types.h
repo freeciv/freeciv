@@ -43,7 +43,7 @@ extern "C" {
 #define MAX_LEN_VET_SHORT_NAME 8
 /* Used in the network protocol. See diplomat_success_vs_defender() */
 #define MAX_VET_LEVELS 20
-#define MAX_EXTRA_TYPES 64 /* Used in the network protocol. */
+#define MAX_EXTRA_TYPES 128 /* Used in the network protocol. */
 #define MAX_BASE_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
 #define MAX_ROAD_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
 #define MAX_GOODS_TYPES 5
@@ -353,7 +353,7 @@ typedef union {
   struct unit_class *uclass;
   struct unit_type *utype;
   struct extra_type *extra;
-  struct resource *resource;
+  struct resource_type *resource;
   struct achievement *achievement;
   struct nation_group *nationgroup;
   struct nation_style *style;
@@ -618,6 +618,8 @@ enum diplomacy_mode {
 #define SPECENUM_VALUE2NAME "Nuisance"
 #define SPECENUM_VALUE3 ECAT_BONUS
 #define SPECENUM_VALUE3NAME "Bonus"
+#define SPECENUM_VALUE4 ECAT_RESOURCE
+#define SPECENUM_VALUE4NAME "Resource"
 #define SPECENUM_COUNT ECAT_COUNT
 #include "specenum_gen.h"
 #define ECAT_NONE ECAT_COUNT
@@ -641,6 +643,8 @@ enum diplomacy_mode {
 #define SPECENUM_VALUE6NAME "Hut"
 #define SPECENUM_VALUE7 EC_APPEARANCE
 #define SPECENUM_VALUE7NAME "Appear"
+#define SPECENUM_VALUE8 EC_RESOURCE
+#define SPECENUM_VALUE8NAME "Resource"
 #define SPECENUM_COUNT EC_COUNT
 #include "specenum_gen.h"
 #define EC_NONE EC_COUNT

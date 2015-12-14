@@ -1187,7 +1187,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
     buf[0] = '\0';
     if (*(pterrain->resources)) {
-      struct resource **r;
+      struct resource_type **r;
 
       for (r = pterrain->resources; *r; r++) {
         /* TRANS: " Whales (2/1/2)," */

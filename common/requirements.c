@@ -1705,7 +1705,7 @@ static enum fc_tristate is_terrain_in_range(const struct tile *target_tile,
 static enum fc_tristate is_resource_in_range(const struct tile *target_tile,
                                              const struct city *target_city,
                                              enum req_range range, bool survives,
-                                             const struct resource *pres)
+                                             const struct resource_type *pres)
 {
   switch (range) {
   case REQ_RANGE_LOCAL:

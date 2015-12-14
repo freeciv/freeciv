@@ -40,9 +40,8 @@ enum special_river_move {
 
 /* === */
 
-struct resource {
+struct resource_type {
   int item_number;
-  struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
 
@@ -51,6 +50,8 @@ struct resource {
 #define RESOURCE_NONE_IDENTIFIER ' '
 
   int output[O_LAST]; /* Amount added by this resource. */
+
+  struct extra_type *self;
 };
 
 /* === */
@@ -66,7 +67,7 @@ struct resource {
 #define MAX_NUM_TERRAINS (96)
 /* Reflect reality; but theoretically could be larger than terrains!
  * Used in the network protocol. */
-#define MAX_NUM_RESOURCES (MAX_NUM_TERRAINS/2)
+#define MAX_RESOURCE_TYPES (MAX_NUM_TERRAINS / 2)
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME terrain_class
@@ -190,7 +191,7 @@ struct terrain {
 
   int output[O_LAST];
 
-  struct resource **resources; /* NULL-terminated */
+  struct resource_type **resources; /* NULL-terminated */
 
   int road_output_incr_pct[O_LAST];
   int base_time;
@@ -279,7 +280,7 @@ const char *terrain_flag_helptxt(enum terrain_flag_id id);
   is_ocean(tile_terrain(ptile))
 
 bool terrain_has_resource(const struct terrain *pterrain,
-			  const struct resource *presource);
+			  const struct resource_type *presource);
 
 /* Functions to operate on a general terrain type. */
 bool is_terrain_card_near(const struct tile *ptile,
@@ -296,23 +297,28 @@ int count_terrain_property_near_tile(const struct tile *ptile,
 				     enum mapgen_terrain_property prop);
 
 bool is_resource_card_near(const struct tile *ptile,
-                           const struct resource *pres,
+                           const struct resource_type *pres,
                            bool check_self);
 bool is_resource_near_tile(const struct tile *ptile,
-                           const struct resource *pres,
+                           const struct resource_type *pres,
                            bool check_self);
+
+struct resource_type *resource_type_init(struct extra_type *pextra, int idx);
+void resource_types_free(void);
+
+struct extra_type *resource_extra_get(const struct resource_type *presource);
 
 /* General resource accessor functions. */
 Resource_type_id resource_count(void);
-Resource_type_id resource_index(const struct resource *presource);
-Resource_type_id resource_number(const struct resource *presource);
+Resource_type_id resource_index(const struct resource_type *presource);
+Resource_type_id resource_number(const struct resource_type *presource);
 
-struct resource *resource_by_number(const Resource_type_id id);
-struct resource *resource_by_identifier(const char identifier);
-struct resource *resource_by_rule_name(const char *name);
+struct resource_type *resource_by_number(const Resource_type_id id);
+struct resource_type *resource_by_identifier(const char identifier);
+struct resource_type *resource_by_rule_name(const char *name);
 
-const char *resource_rule_name(const struct resource *presource);
-const char *resource_name_translation(const struct resource *presource);
+const char *resource_rule_name(const struct resource_type *presource);
+const char *resource_name_translation(const struct resource_type *presource);
 
 /* Special helper functions */
 const char *get_infrastructure_text(bv_extras extras);
@@ -340,17 +346,16 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
                                     enum terrain_alteration talter);
 
 /* Initialization and iteration */
-struct resource *resource_array_first(void);
-const struct resource *resource_array_last(void);
+struct resource_type *resource_array_first(void);
+const struct resource_type *resource_array_last(void);
 
 #define resource_type_iterate(_p)					\
 {									\
-   struct resource *_p = resource_array_first();			\
-  if (NULL != _p) {							\
-    for (; _p <= resource_array_last(); _p++) {
+  int _ri_##p;                                                          \
+  for (_ri_##p = 0; _ri_##p < game.control.num_resource_types; _ri_##p++) { \
+    struct resource_type *_p = resource_by_number(_ri_##p);
 
 #define resource_type_iterate_end					\
-    }									\
   }									\
 }
 

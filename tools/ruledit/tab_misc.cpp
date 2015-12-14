@@ -215,7 +215,7 @@ void tab_misc::refresh_stats()
   int count;
 
   stats->item(row++, 1)->setText(QString::number(game.control.terrain_count));
-  stats->item(row++, 1)->setText(QString::number(game.control.resource_count));
+  stats->item(row++, 1)->setText(QString::number(game.control.num_resource_types));
 
   count = 0;
   advance_iterate(A_FIRST, padv) {

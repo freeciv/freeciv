@@ -1538,7 +1538,7 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
 
   UINT8 output[O_LAST];
   UINT8 num_resources;
-  RESOURCE resources[MAX_NUM_RESOURCES:num_resources];
+  RESOURCE resources[MAX_RESOURCE_TYPES:num_resources];
 
   UINT16 road_output_incr_pct[O_LAST];
   UINT8 base_time;
@@ -1734,6 +1734,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_extra_types;
   UINT16 num_base_types;
   UINT16 num_road_types;
+  UINT16 num_resource_types;
   UINT16 num_goods_types;
   UINT16 num_disaster_types;
   UINT16 num_achievement_types;
@@ -1744,7 +1745,6 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 nation_count;
   UINT16 styles_count;
   UINT16 terrain_count;
-  UINT16 resource_count;
   UINT16 num_specialist_types;
 
   STRING preferred_tileset[MAX_LEN_NAME];
@@ -1872,9 +1872,8 @@ end
 
 PACKET_RULESET_RESOURCE = 177; sc, lsend
   RESOURCE id;
-  
-  STRING name[MAX_LEN_NAME];
-  STRING rule_name[MAX_LEN_NAME];
+  UINT8 extra;
+
   UINT8 output[O_LAST];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];

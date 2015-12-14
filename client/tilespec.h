@@ -34,7 +34,7 @@ extern "C" {
 struct sprite;                  /* opaque; gui-dep */
 
 struct base_type;
-struct resource;
+struct resource_type;
 
 /* Create the sprite_vector type. */
 #define SPECVEC_TAG sprite
@@ -197,7 +197,7 @@ void tileset_setup_tech_type(struct tileset *t,
 void tileset_setup_tile_type(struct tileset *t,
 			     const struct terrain *pterrain);
 void tileset_setup_resource(struct tileset *t,
-			    const struct resource *presource);
+			    const struct resource_type *presource);
 void tileset_setup_extra(struct tileset *t,
                          struct extra_type *pextra);
 void tileset_setup_government(struct tileset *t,
@@ -355,7 +355,7 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      const int *upkeep_cost);
 struct sprite *get_basic_fog_sprite(const struct tileset *t);
 struct sprite *get_resource_sprite(const struct tileset *t,
-                                   const struct resource *presouce);
+                                   const struct resource_type *presouce);
 int fill_basic_extra_sprite_array(const struct tileset *t,
                                   struct drawn_sprite *sprs,
                                   const struct extra_type *pextra);

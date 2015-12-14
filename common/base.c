@@ -250,6 +250,9 @@ Base_type_id base_number(const struct base_type *pbase)
 
   Currently same as base_number(), paired with base_count()
   indicates use as an array index.
+
+  FIXME: Get rid of this. _index() makes no sense when they are not
+  in an array.
 **************************************************************************/
 Base_type_id base_index(const struct base_type *pbase)
 {

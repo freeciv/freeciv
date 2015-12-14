@@ -238,7 +238,7 @@ struct named_sprites {
     struct sprite *facing[U_LAST][DIR8_MAGIC_MAX]; 
   } units;
 
-  struct sprite *resource[MAX_NUM_RESOURCES];
+  struct sprite *resource[MAX_RESOURCE_TYPES];
 
   struct sprite_vector nation_flag;
   struct sprite_vector nation_shield;
@@ -3171,7 +3171,7 @@ void tileset_setup_tech_type(struct tileset *t,
   tilespec_load_tiles().
 ****************************************************************************/
 void tileset_setup_resource(struct tileset *t,
-                            const struct resource *presource)
+                            const struct resource_type *presource)
 {
   fc_assert_ret(NULL != presource);
   t->sprites.resource[resource_index(presource)] =
@@ -6264,7 +6264,7 @@ int fill_basic_terrain_layer_sprite_array(struct tileset *t,
   Return the sprite for the given resource type.
 ****************************************************************************/
 struct sprite *get_resource_sprite(const struct tileset *t,
-                                   const struct resource *presource)
+                                   const struct resource_type *presource)
 {
   if (presource == NULL) {
     return NULL;

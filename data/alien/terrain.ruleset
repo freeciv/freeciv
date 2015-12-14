@@ -505,8 +505,26 @@ Cities can work these tiles only when Thermal Module is known, and \
 city can never be located on Boiling Ocean.\
 ")
 
+; The individual resource types, one per section.
+; Roughly sorted by identifier.
+; The actual tag used (the * in [resource_*]) must be unique for each resource,
+; and may be used in debug output when reading this file.
+;
+; Notes:
+;
+; extra                = name of the extra this resource section is part of
+; graphic              = preferred graphic [tile_*] in tilespec.
+; graphic_alt          = alternate graphic [tile_*] when preferred is not found;
+;                        otherwise may be "-"
+; identifier           = single-character identifier used in savegames.  This
+;                        must be unique for each resource, and changing it will
+;                        break savegame compatibility.
+; food                 = increased food production
+; shield               = increased shield production
+; trade                = increased trade production
+
 [resource_resources]
-name        = _("Resources")
+extra       = "Resources"
 graphic     = "ts.resources"
 graphic_alt = "ts.grassland_resources"
 food        = 0
@@ -515,7 +533,7 @@ trade       = 1
 identifier  = "r"
 
 [resource_alien_mine]
-name        = _("Alien Mine")
+extra       = "Alien Mine"
 graphic     = "ts.alien_mine"
 graphic_alt = "ts.gold"
 food        = 0
@@ -524,7 +542,7 @@ trade       = 1
 identifier  = "a"
 
 [resource_huge_plant]
-name        = _("Huge Plant")
+extra       = "Huge Plant"
 graphic     = "ts.huge_plant"
 graphic_alt = "ts.pheasant"
 food        = 2
@@ -533,7 +551,7 @@ trade       = 0
 identifier  = "p"
 
 [resource_thermal_vent]
-name        = _("Thermal Vent")
+extra       = "Thermal Vent"
 graphic     = "ts.thermal_vent"
 graphic_alt = "ts.whales"
 food        = 0
@@ -542,7 +560,7 @@ trade       = 0
 identifier  = "t"
 
 [resource_fish]
-name        = _("Fish")
+extra       = "Fish"
 graphic     = "ts.fish"
 graphic_alt = "-"
 food        = 2
@@ -551,7 +569,7 @@ trade       = 0
 identifier  = "f"
 
 [resource_glowing_rocks]
-name        = _("Glowing Rocks")
+extra       = "Glowing Rocks"
 graphic     = "ts.glowing_rocks"
 graphic_alt = "ts.spice"
 food        = 0
@@ -568,8 +586,8 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 
 ; /* <-- avoid gettext warnings
 ;
-; Each extra, including bases and roads, must have a section here.
-; Bases and roads have additional sections for their specific features below.
+; Each extra, including bases, roads, and resource, must have a section here.
+; Bases, roads, and resources have additional sections for their specific features.
 ;
 ;
 ; Extra types:
@@ -580,10 +598,10 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 ;                           savegames must not change, use this when renaming
 ;                           an extra after a ruleset has been released.
 ; category                = How UI should categorize this extra. One of
-;                           "Infra", "Natural", "Nuisance", or "Bonus"
+;                           "Infra", "Natural", "Nuisance", "Resource", or "Bonus"
 ; causes                  = events that can create extra type.
 ;                           "Irrigation", "Mine", "Hut", "Pollution", "Fallout",
-;                           "Base", "Road", or "Appear"
+;                           "Base", "Road", "Resource", or "Appear"
 ; rmcauses                = events that can remove extra type.
 ;                           "CleanPollution", "CleanFallout", "Pillage", or
 ;                           "Disappear"
@@ -1030,6 +1048,79 @@ units may move along a River (but not diagonally) for fast travel.\
 "), _("\
 Brown River increases also tile's shield production by 1.\
 ")
+
+[extra_resources]
+name           = _("Resources")
+category       = "Resource"
+causes         = "Resource"
+;rmcauses       = ""
+graphic        = "None"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+
+[extra_alien_mine]
+name           = _("Alien Mine")
+category       = "Resource"
+causes         = "Resource"
+;rmcauses       = ""
+graphic        = "None"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+
+[extra_huge_plant]
+name           = _("Huge Plant")
+category       = "Resource"
+causes         = "Resource"
+;rmcauses       = ""
+graphic        = "None"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+
+[extra_thermal_vent]
+name           = _("Thermal Vent")
+category       = "Resource"
+causes         = "Resource"
+;rmcauses       = ""
+graphic        = "None"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+
+[extra_fish]
+name           = _("Fish")
+category       = "Resource"
+causes         = "Resource"
+;rmcauses       = ""
+graphic        = "None"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+
+[extra_glowing_rocks]
+name           = _("Glowing Rocks")
+category       = "Resource"
+causes         = "Resource"
+;rmcauses       = ""
+graphic        = "None"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+
 
 ; /* <-- avoid gettext warnings
 ;

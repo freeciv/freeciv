@@ -245,7 +245,7 @@ static bool edit_tile_terrain_handling(struct tile *ptile,
   the resource has changed.
 ****************************************************************************/
 static bool edit_tile_resource_handling(struct tile *ptile,
-                                        struct resource *presource,
+                                        struct resource_type *presource,
                                         bool send_tile_info)
 {
   if (presource == tile_resource(ptile)) {
@@ -432,7 +432,7 @@ void handle_edit_tile_terrain(struct connection *pc, int tile,
 void handle_edit_tile_resource(struct connection *pc, int tile,
                                Resource_type_id resource, int size)
 {
-  struct resource *presource;
+  struct resource_type *presource;
   struct tile *ptile_center;
 
   ptile_center = index_to_tile(tile);

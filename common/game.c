@@ -259,6 +259,7 @@ static void game_defaults(void)
   game.control.nation_count            = 0;
   game.control.num_base_types          = 0;
   game.control.num_road_types          = 0;
+  game.control.num_resource_types      = 0;
   game.control.num_impr_types          = 0;
   game.control.num_specialist_types    = 0;
   game.control.num_tech_types          = 0;
@@ -271,7 +272,6 @@ static void game_defaults(void)
   game.control.preferred_tileset[0]    = '\0';
   game.control.preferred_soundset[0]   = '\0';
   game.control.preferred_musicset[0]   = '\0';
-  game.control.resource_count          = 0;
   game.control.styles_count            = 0;
   game.control.terrain_count           = 0;
 
