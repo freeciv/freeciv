@@ -294,6 +294,7 @@ void fc_client::switch_page(int new_pg)
     update_load_page();
     break;
   case PAGE_GAME:
+    gui()->infotab->chtwdg->update_font();
     if (gui_options.gui_qt_fullscreen){
       gui()->showFullScreen();
       gui()->mapview_wdg->showFullScreen();
