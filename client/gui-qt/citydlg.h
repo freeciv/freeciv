@@ -36,6 +36,9 @@ class QChecBox;
 
 #define NUM_INFO_FIELDS 13
 
+//common
+#include "unittype.h"
+
 // client
 #include "canvas.h"
 
@@ -45,7 +48,9 @@ class QChecBox;
 #include <QToolTip>
 
 QString get_tooltip(QVariant qvar);
-
+QString get_tooltip_improvement(impr_type *building);
+QString get_tooltip_unit(struct unit_type *unit);
+QString bold(QString text);
 
 class fc_tooltip : public QObject
 {
