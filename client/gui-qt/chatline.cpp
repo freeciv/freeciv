@@ -252,6 +252,18 @@ bool chatwdg::eventFilter(QObject *obj, QEvent *event)
   return QObject::eventFilter(obj, event);
 }
 
+
+/***************************************************************************
+  Updates font for chatwdg
+***************************************************************************/
+void chatwdg::update_font()
+{
+  QFont *qf;
+  qf = gui()->fc_fonts.get_font("gui_qt_font_chatline");
+  chat_output->setFont(*qf);
+}
+
+
 /***************************************************************************
   Makes link to tile/unit or city
 ***************************************************************************/

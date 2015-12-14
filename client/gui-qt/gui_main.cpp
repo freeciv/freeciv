@@ -183,6 +183,8 @@ void qtg_gui_options_extra_init()
                           apply_help_font);
   option_var_set_callback(gui_qt_font_help_title,
                           apply_help_font);
+  option_var_set_callback(gui_qt_font_chatline,
+                          apply_font);
 #undef option_var_set_callback
 }
 
@@ -323,6 +325,7 @@ static void apply_font(struct option *poption)
     delete remove_old;
     gui()->fc_fonts.set_font(s, f);
     update_city_descriptions();
+    gui()->infotab->chtwdg->update_font();
   }
 }
 
