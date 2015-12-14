@@ -282,6 +282,9 @@ void fc_client::switch_page(int new_pg)
     destroy_server_scans();
   }
   menuBar()->setVisible(false);
+  if (status_bar != nullptr) {
+    status_bar->setVisible(true);
+  }
 
   for (int i = 0; i < PAGE_GGZ + 1; i++) {
     if (i == new_page) {
@@ -302,6 +305,7 @@ void fc_client::switch_page(int new_pg)
     update_load_page();
     break;
   case PAGE_GAME:
+    status_bar->setVisible(false);
     gui()->infotab->chtwdg->update_font();
     if (fullscreen_mode){
       gui()->showFullScreen();
