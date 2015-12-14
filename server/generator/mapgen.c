@@ -1484,7 +1484,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   }
 
   if (!game.map.server.have_huts) {
-    make_huts(game.map.server.huts); 
+    make_huts(game.map.server.huts * map_num_tiles() / 1000); 
   }
 
   /* restore previous random state: */
@@ -1623,7 +1623,7 @@ static void make_huts(int number)
 
   create_placed_map(); /* here it means placed huts */
 
-  while (number * map_num_tiles() >= 2000 && count++ < map_num_tiles() * 2) {
+  while (number > 0 && count++ < map_num_tiles() * 2) {
 
     /* Add a hut.  But not on a polar area, on an ocean, or too close to
      * another hut. */
@@ -3101,8 +3101,8 @@ static void fair_map_make_huts(struct fair_tile *pmap)
   struct extra_type *phut;
   int i, j, k;
 
-  for (i = game.map.server.huts, j = 0;
-       i * map_num_tiles() >= 2000 && j < map_num_tiles() * 2; j++) {
+  for (i = game.map.server.huts * map_num_tiles() / 1000, j = 0;
+       i > 0 && j < map_num_tiles() * 2; j++) {
     k = fc_rand(MAP_INDEX_SIZE);
     pftile = pmap + k;
     while (pftile->flags & FTF_NO_HUT) {

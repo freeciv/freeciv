@@ -174,6 +174,7 @@ void map_init(void)
     game.map.server.seed = MAP_DEFAULT_SEED;
     game.map.server.riches = MAP_DEFAULT_RICHES;
     game.map.server.huts = MAP_DEFAULT_HUTS;
+    game.map.server.huts_absolute = -1;
     game.map.server.landpercent = MAP_DEFAULT_LANDMASS;
     game.map.server.wetness = MAP_DEFAULT_WETNESS;
     game.map.server.steepness = MAP_DEFAULT_STEEPNESS;

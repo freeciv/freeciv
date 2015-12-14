@@ -97,7 +97,7 @@ set={"name","value","gamestart"
 "diplgoldcost",100,0
 "generator","SCENARIO","RANDOM"
 "happyborders","DISABLED","NATIONAL"
-"huts",100,50
+"huts",10,50
 "landmass",25,30
 "mapseed",0,0
 "mapsize","FULLSIZE","FULLSIZE"
