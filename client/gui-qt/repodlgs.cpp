@@ -42,8 +42,11 @@
 
 #include "repodlgs.h"
 
-extern QString split_text(QString text);
+extern QString split_text(QString text, bool cut);
 extern QString cut_helptext(QString text);
+extern QString get_tooltip_improvement(impr_type *building);
+extern QString get_tooltip_unit(struct unit_type *unit);
+
 
 /****************************************************************************
   From reqtree.c used to get tooltips
@@ -270,6 +273,7 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
   req_tooltip_help *rttp;
   int i;
   QString tt_text;
+  QString def_str;
   char buffer[8192];
   char buf2[1];
 
@@ -281,18 +285,24 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
         helptext_advance(buffer, sizeof(buffer), client.conn.playing,
                          buf2, rttp->tech_id);
         tt_text = QString(buffer);
+        def_str = "<p style='white-space:pre'><b>"
+                  + QString(advance_name_translation(
+                            advance_by_number(rttp->tech_id))) + "</b>\n";
       } else if (rttp->timpr != nullptr) {
+        def_str = get_tooltip_improvement(rttp->timpr);
         tt_text = helptext_building(buffer, sizeof(buffer),
-                                    client.conn.playing, NULL, rttp->timpr);
+                                     client.conn.playing, NULL, rttp->timpr);
         tt_text = cut_helptext(tt_text);
       } else if (rttp->tunit != nullptr) {
-        tt_text = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
+        def_str = get_tooltip_unit(rttp->tunit);
+        tt_text += helptext_unit(buffer, sizeof(buffer), client.conn.playing,
                                 buf2, rttp->tunit);
         tt_text = cut_helptext(tt_text);
       } else {
         return;
       }
-      tt_text = split_text(tt_text);
+      tt_text = split_text(tt_text, true);
+      tt_text = def_str + tt_text;
       tt_text = tt_text.trimmed();
       if (QToolTip::text() == "") {
         QToolTip::showText(event->globalPos(), tt_text, this, rttp->rect);

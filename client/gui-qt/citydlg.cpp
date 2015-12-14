@@ -58,7 +58,7 @@ static bool city_dlg_created = false; /** defines if dialog for city has been
                                        * once per client
                                        */
 static city_dialog *city_dlg;
-extern QString split_text(QString text);
+extern QString split_text(QString text, bool cut);
 extern QString cut_helptext(QString text);
 
 /****************************************************************************
@@ -2638,6 +2638,8 @@ bool fc_tooltip::eventFilter(QObject *obj, QEvent *ev)
     }
     item_tooltip = view->model()->data(index, Qt::ToolTipRole).toString();
     rect = view->visualRect(index);
+    rect.setX(rect.x() + help_event->globalPos().x());
+    rect.setY(rect.y() + help_event->globalPos().y());
 
     if (!item_tooltip.isEmpty()) {
       QToolTip::showText(help_event->globalPos(), item_tooltip, view, rect);
@@ -2648,6 +2650,58 @@ bool fc_tooltip::eventFilter(QObject *obj, QEvent *ev)
   }
   return false;
 }
+
+QString bold(QString text)
+{
+  return QString("<b>" + text + "</b>");
+}
+
+
+/***************************************************************************
+  Returns improvement properties to append in tooltip
+***************************************************************************/
+QString get_tooltip_improvement(impr_type *building)
+{
+  QString def_str;
+
+  def_str = "<p style='white-space:pre'><b>"
+            + QString(improvement_name_translation(building))
+            + "</b>\n";
+  def_str += QString(N_("Cost: %1, Upkeep: %2\n\n"))
+             .arg(impr_build_shield_cost(building))
+             .arg(building->upkeep);
+  return def_str;
+}
+
+/***************************************************************************
+  Returns unit properties to append in tooltip
+***************************************************************************/
+QString get_tooltip_unit(struct unit_type *unit)
+ {
+  QString def_str;
+
+  def_str = "<b>" + QString(utype_name_translation(unit)) + "</b>\n";
+  def_str += "<table><tr><td>" + bold(QString(_("Attack:"))) + " "
+             + QString::number(unit->attack_strength)
+             + QString("</td><td>") + bold(QString(_("Defense:"))) + " "
+             + QString::number(unit->attack_strength)
+             + QString("</td><td>") + bold(QString(_("Move:"))) + " "
+             + QString(move_points_text(unit->move_rate, TRUE))
+             + QString("</td></tr><tr><td>")
+             + bold(QString(_("Cost:"))) + " "
+             + QString::number(utype_build_shield_cost(unit))
+             + QString("</td><td>") + bold(QString(_("Basic Upkeep:")))
+             + " " + QString(helptext_unit_upkeep_str(unit))
+             + QString("</td></tr><tr><td>")
+             + bold(QString(_("Hitpoints:"))) + " "
+             + QString::number(unit->hp)
+             + QString("</td><td>") + bold(QString(_("FirePower:"))) + " "
+             + QString::number(unit->firepower)
+             + QString("</td><td>") + bold(QString(_("Vision:"))) + " "
+             + QString::number((int) sqrt((double) unit->vision_radius_sq))
+             + QString("</td></tr></table><p style='white-space:pre'>");
+  return def_str;
+};
 
 /**************************************************************************
   Returns shortened help for given universal ( stored in qvar )
@@ -2664,24 +2718,12 @@ QString get_tooltip(QVariant qvar)
   target = reinterpret_cast<universal *>(qvar.value<void *>());
   if (target == NULL) {
   } else if (VUT_UTYPE == target->kind) {
-    def_str = QString(N_("Attack: %1, Defense: %2, Move: %3\n"))
-              .arg(target->value.utype->attack_strength)
-              .arg(target->value.utype->defense_strength)
-              .arg(QString(move_points_text(target->value.utype->move_rate, TRUE)));
-    def_str += QString(N_("Cost: %1, Basic Upkeep: %2\n"))
-               .arg(utype_build_shield_cost(target->value.utype))
-               .arg(helptext_unit_upkeep_str(target->value.utype));
-    def_str += QString(N_("Hitpoints: %1, FirePower: %2, Vision: %3\n\n"))
-               .arg(target->value.utype->hp)
-               .arg(target->value.utype->firepower)
-               .arg((int)sqrt((double)target->value.utype->vision_radius_sq));
+    def_str = get_tooltip_unit(target->value.utype);
     str = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
                         buf2, target->value.utype);
   } else {
     if (!improvement_has_flag(target->value.building, IF_GOLD)) {
-      def_str = QString(N_("Cost: %1, Upkeep: %2\n\n"))
-                .arg(impr_build_shield_cost(target->value.building))
-                .arg(target->value.building->upkeep);
+      def_str = get_tooltip_improvement(target->value.building);
     }
     str = helptext_building(buffer, sizeof(buffer), client.conn.playing,
                             NULL, target->value.building);
@@ -2689,8 +2731,7 @@ QString get_tooltip(QVariant qvar)
 
   /* Remove all lines from help which has '*' in first 3 chars */
   ret_str = cut_helptext(str);
-
-  ret_str = split_text(ret_str);
+  ret_str = split_text(ret_str, true);
   ret_str = ret_str.trimmed();
   ret_str = def_str + ret_str;
 
