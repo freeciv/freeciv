@@ -294,9 +294,8 @@ void map_view::resizeEvent(QResizeEvent *event)
                              * gui()->qt_settings.infotab_height) / 100);
     gui()->infotab->move(0 , size.height() - gui()->infotab->height());
     gui()->unitinfo_wdg->move(width() - gui()->unitinfo_wdg->width(), 0);
-    delta = size - gui()->end_turn_rect->sizeHint();
-    gui()->end_turn_rect->resize(gui()->end_turn_rect->sizeHint());
-    gui()->end_turn_rect->move(delta.width(), delta.height());
+    gui()->end_turn_rect->end_turn_update();
+    delta = size - gui()->end_turn_rect->size();
     gui()->game_info_label->move(0, 0);
     gui()->game_info_label->resize(gui()->game_info_label->sizeHint());
     gui()->game_info_label->setMaximumWidth(size.width()
@@ -1091,7 +1090,7 @@ void end_turn_area::end_turn_update()
   const struct sprite *sprite;
   int d;
   QSize delta;
-  QFontMetrics fm(this->font());
+  QFontMetrics fm(etb_button->font());
 
   if (client_is_global_observer()) {
     return;
@@ -1119,10 +1118,11 @@ void end_turn_area::end_turn_update()
     tax_indicators[d]->setToolTip(_("Shows your current luxury/science/tax "
                                     "rates. Use mouse wheel to change them"));
   }
-
-  setMinimumHeight(fm.height() + 1 + client_research_sprite()->pm->height()
-                   + get_tax_sprite(tileset, O_LUXURY)->pm->height() + 10);
-  delta = gui()->mapview_wdg->size() - gui()->end_turn_rect->sizeHint();
+  setMinimumWidth(get_tax_sprite(tileset, O_LUXURY)->pm->height() + 10 + 25);
+  setMinimumHeight(fm.height() + client_research_sprite()->pm->height()
+                   + get_tax_sprite(tileset, O_LUXURY)->pm->height() + 25);
+  updateGeometry();
+  delta = gui()->mapview_wdg->size() - gui()->end_turn_rect->size();
   move(delta.width(), delta.height());
 }
 
