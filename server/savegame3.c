@@ -3570,12 +3570,13 @@ static void sg_save_players(struct savedata *saving)
 static void sg_load_player_main(struct loaddata *loading,
                                 struct player *plr)
 {
+  const char **slist;
   int i, plrno = player_number(plr);
   const char *string;
   struct government *gov;
   const char *level;
   const char *barb_str;
-  bool ai_controlled;
+  size_t nval;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -3604,6 +3605,17 @@ static void sg_load_player_main(struct loaddata *loading,
   if (strlen(string)) {
     player_delegation_set(plr, string);
   }
+
+  /* Player flags */
+  BV_CLR_ALL(plr->flags);
+  slist = secfile_lookup_str_vec(loading->file, &nval, "player%d.flags", plrno);
+  for (i = 0; i < nval; i++) {
+    const char *sval = slist[i];
+    enum plr_flag_id fid = plr_flag_id_by_name(sval, fc_strcasecmp);
+
+    BV_SET(plr->flags, fid);
+  }
+  free(slist);
 
   /* Nation */
   string = secfile_lookup_str(loading->file, "player%d.nation", plrno);
@@ -3636,15 +3648,6 @@ static void sg_load_player_main(struct loaddata *loading,
                                      &plr->server.got_first_city,
                                      "player%d.got_first_city", plrno),
                  "%s", secfile_error());
-
-  sg_failure_ret(secfile_lookup_bool(loading->file, &ai_controlled,
-                                     "player%d.ai.control", plrno),
-                 "%s", secfile_error());
-  if (ai_controlled) {
-    set_as_ai(player_by_number(plrno));
-  } else {
-    set_as_human(player_by_number(plrno));
-  }
 
   /* Load diplomatic data (diplstate + embassy + vision).
    * Shared vision is loaded in sg_load_players(). */
@@ -4028,9 +4031,21 @@ static void sg_save_player_main(struct savedata *saving,
 {
   int i, k, plrno = player_number(plr);
   struct player_spaceship *ship = &plr->spaceship;
+  const char *flag_names[PLRF_COUNT];
+  int set_count;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  set_count = 0;
+  for (i = 0; i < PLRF_COUNT; i++){
+    if (player_has_flag(plr, i)) {
+      flag_names[set_count++] = plr_flag_id_name(i);
+    }
+  }
+
+  secfile_insert_str_vec(saving->file, flag_names, set_count,
+                         "player%d.flags", plrno);
 
   secfile_insert_str(saving->file, ai_name(plr->ai),
                      "player%d.ai_type", plrno);
@@ -4082,8 +4097,6 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.turns_alive", plrno);
   secfile_insert_int(saving->file, plr->last_war_action,
                      "player%d.last_war", plrno);
-  secfile_insert_bool(saving->file, is_ai(plr),
-                      "player%d.ai.control", plrno);
   secfile_insert_bool(saving->file, plr->phase_done,
                       "player%d.phase_done", plrno);
 

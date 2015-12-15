@@ -1127,7 +1127,9 @@ static void compat_load_020600(struct loaddata *loading)
 static void compat_load_030000(struct loaddata *loading)
 {
   bool randsaved;
-  
+  int plrno;
+  int nplayers;
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
@@ -1138,6 +1140,20 @@ static void compat_load_030000(struct loaddata *loading)
     secfile_insert_bool(loading->file, randsaved, "random.saved");
   } else {
     log_sg("random.save: %s", secfile_error());
+  }
+
+  nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
+
+  for (plrno = 0; plrno < nplayers; plrno++) {
+    const char *flag_names[1];
+
+    if (secfile_lookup_bool_default(loading->file, FALSE, "player%d.ai.control",
+                                    plrno)) {
+      flag_names[0] = plr_flag_id_name(PLRF_AI);
+
+      secfile_insert_str_vec(loading->file, flag_names, 1,
+                             "player%d.flags", plrno);
+    }
   }
 }
 
@@ -1188,6 +1204,19 @@ static void compat_load_dev(struct loaddata *loading)
   }
 
   nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
+
+  /* Convert ai.control to a player flag */
+  for (plrno = 0; plrno < nplayers; plrno++) {
+    const char *flag_names[1];
+
+    if (secfile_lookup_bool_default(loading->file, FALSE, "player%d.ai.control",
+                                    plrno)) {
+      flag_names[0] = plr_flag_id_name(PLRF_AI);
+
+      secfile_insert_str_vec(loading->file, flag_names, 1,
+                             "player%d.flags", plrno);
+    }
+  }
 
   for (plrno = 0; plrno < nplayers; plrno++) {
     /* Add 'anonymous' qualifiers for user names */
