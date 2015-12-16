@@ -55,8 +55,9 @@ format_version=10
 ; graphic       = icon for technology
 ; graphic_alt   = alternate icon
 ; helptext	= optional help text string (set units ruleset for examples)
-; bonus_message = text seen when a player is the first to 
-;                 discover an bonus tech.
+; bonus_message = text seen when a player is the first to discover
+;                 an bonus tech. Must contain '%s' to mark place of the tech
+;                 gained.
 ; cost          = if tech_cost_style is set to "Classic+" or "Experimental+",
 ;                 this field is read for information on how much a tech
 ;                 costs.
@@ -558,7 +559,7 @@ req1     = "Mysticism"
 req2     = "Literacy"
 flags    = "Bonus_Tech"
 bonus_message = _("Great philosophers from all the world join \
-your civilization: you get an immediate advance.")
+your civilization: you learn %s immediately.")
 graphic     = "a.philosophy"
 graphic_alt = "-"
 

@@ -531,14 +531,11 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 
     radv_name = research_advance_name_translation(presearch, additional_tech);
 
-    if (advance_by_number(tech_found)->bonus_message) {
+    if (advance_by_number(tech_found)->bonus_message != NULL
+        && additional_tech != A_UNSET) {
       notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
-                      "%s", _(advance_by_number(tech_found)->bonus_message));
-      if (additional_tech != A_UNSET) {
-        notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
-                        /* TRANS: Got free tech. */
-                        _("Acquired %s."), radv_name);
-      }
+                      _(advance_by_number(tech_found)->bonus_message),
+                      radv_name);
     } else if (additional_tech != A_UNSET) {
       /* FIXME: "your" when it was just civilization of one of the players
        * sharing the reseach. */
