@@ -2993,6 +2993,8 @@ static void srv_ready(void)
     for (i = 0; !created && i < max ; i++) {
       created = map_fractal_generate(TRUE, utype);
       if (!created && max > 1) {
+        int set;
+
         if (i == 0) {
           /* We will retry only if max attempts allow it */
           log_normal(_("Failed to create suitable map, retrying with another mapseed."));
@@ -3013,20 +3015,20 @@ static void srv_ready(void)
         /* Remove old information already present in tiles */
         map_free();
         /* Restore the settings. */
-        for (i = 0; i < ARRAY_SIZE(mapgen_settings); i++) {
-          struct setting *pset = setting_by_name(mapgen_settings[i].name);
+        for (set = 0; set < ARRAY_SIZE(mapgen_settings); set++) {
+          struct setting *pset = setting_by_name(mapgen_settings[set].name);
 #ifdef FREECIV_NDEBUG
-          setting_enum_set(pset, mapgen_settings[i].value, NULL, NULL, 0);
+          setting_enum_set(pset, mapgen_settings[set].value, NULL, NULL, 0);
 #else  /* FREECIV_NDEBUG */
           char error[128];
           bool success;
 
           fc_assert_action(pset != NULL, continue);
-          success = setting_enum_set(pset, mapgen_settings[i].value,
+          success = setting_enum_set(pset, mapgen_settings[set].value,
                                      NULL, error, sizeof(error));
           fc_assert_msg(success == TRUE,
                         "Failed to restore '%s': %s",
-                        mapgen_settings[i].name,
+                        mapgen_settings[set].name,
                         error);
 #endif /* FREECIV_NDEBUG */
         }
