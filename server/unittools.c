@@ -1326,20 +1326,34 @@ void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
 }
 
 /****************************************************************************
-  Returns the list of the units owned by 'aplayer' seen by 'pplayer'. The
-  returned pointer is newly allocated and should be freed by the caller,
-  using unit_list_destroy().
+  Returns the list of the units seen by 'pplayer' potentially seen only
+  thanks to an alliance with 'aplayer'. The returned pointer is newly
+  allocated and should be freed by the caller, using unit_list_destroy().
 ****************************************************************************/
-struct unit_list *get_seen_units(const struct player *pplayer,
-                                 const struct player *aplayer)
+struct unit_list *get_units_seen_via_ally(const struct player *pplayer,
+                                          const struct player *aplayer)
 {
   struct unit_list *seen_units = unit_list_new();
 
+  /* Anybody's units inside ally's cities */
+  city_list_iterate(aplayer->cities, pcity) {
+    unit_list_iterate(city_tile(pcity)->units, punit) {
+      if (can_player_see_unit(pplayer, punit)) {
+        unit_list_append(seen_units, punit);
+      }
+    } unit_list_iterate_end;
+  } city_list_iterate_end;
+
+  /* Ally's own units inside transports */
   unit_list_iterate(aplayer->units, punit) {
-    if (can_player_see_unit(pplayer, punit)) {
+    if (unit_transported(punit) && can_player_see_unit(pplayer, punit)) {
       unit_list_append(seen_units, punit);
     }
   } unit_list_iterate_end;
+
+  /* Make sure the same unit is not added in multiple phases
+   * (unit within transport in a city) */
+  unit_list_unique(seen_units);
 
   return seen_units;
 }
@@ -1348,8 +1362,8 @@ struct unit_list *get_seen_units(const struct player *pplayer,
   When two players cancel an alliance, a lot of units that were visible may
   no longer be visible (this includes units in transporters and cities).
   Call this function to inform the clients that these units are no longer
-  visible. Pass the list of seen units returned by get_seen_units() before
-  alliance was broken up.
+  visible. Pass the list of seen units returned by get_units_seen_via_ally()
+  before alliance was broken up.
 ****************************************************************************/
 void remove_allied_visibility(struct player *pplayer, struct player *aplayer,
                               const struct unit_list *seen_units)

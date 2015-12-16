@@ -533,8 +533,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	}
       case CLAUSE_CEASEFIRE:
         if (old_diplstate == DS_ALLIANCE) {
-          pgiver_seen_units = get_seen_units(pgiver, pdest);
-          pdest_seen_units = get_seen_units(pdest, pgiver);
+          pgiver_seen_units = get_units_seen_via_ally(pgiver, pdest);
+          pdest_seen_units = get_units_seen_via_ally(pdest, pgiver);
         }
         ds_giverdest->type = DS_CEASEFIRE;
         ds_giverdest->turns_left = TURNS_LEFT;
@@ -558,8 +558,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	break;
       case CLAUSE_PEACE:
         if (old_diplstate == DS_ALLIANCE) {
-          pgiver_seen_units = get_seen_units(pgiver, pdest);
-          pdest_seen_units = get_seen_units(pdest, pgiver);
+          pgiver_seen_units = get_units_seen_via_ally(pgiver, pdest);
+          pdest_seen_units = get_units_seen_via_ally(pdest, pgiver);
         }
         ds_giverdest->type = DS_ARMISTICE;
         ds_destgiver->type = DS_ARMISTICE;
