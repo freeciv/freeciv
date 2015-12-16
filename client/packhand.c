@@ -3526,6 +3526,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   int i;
   bool cbase;
   bool croad;
+  bool cres;
 
   fc_assert_ret_msg(NULL != pextra, "Bad extra %d.", p->id);
 
@@ -3549,6 +3550,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 
   cbase = is_extra_caused_by(pextra, EC_BASE);
   croad = is_extra_caused_by(pextra, EC_ROAD);
+  cres  = is_extra_caused_by(pextra, EC_RESOURCE);
   if (cbase) {
     /* Index is one less than size of list when this base is already added. */
     base_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_BASE)) - 1);
@@ -3557,7 +3559,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
     /* Index is one less than size of list when this road is already added. */
     road_type_init(pextra, extra_type_list_size(extra_type_list_by_cause(EC_ROAD)) - 1);
   }
-  if (!cbase && !croad) {
+  if (!cbase && !croad && !cres) {
     pextra->data.special_idx = extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL));
     extra_to_caused_by_list(pextra, EC_SPECIAL);
   }

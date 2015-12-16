@@ -2872,8 +2872,9 @@ static bool load_ruleset_terrain(struct section_file *file,
         }
 
         if (!is_extra_caused_by(pextra, EC_BASE)
-            && !is_extra_caused_by(pextra, EC_ROAD)) {
-          /* Not a base nor road, so special */
+            && !is_extra_caused_by(pextra, EC_ROAD)
+            && !is_extra_caused_by(pextra, EC_RESOURCE)) {
+          /* Not a base, road, nor resource, so special */
           pextra->data.special_idx = extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL));
           extra_to_caused_by_list(pextra, EC_SPECIAL);
         }

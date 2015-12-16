@@ -1590,7 +1590,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   UINT8 category;
-  UINT8 causes;
+  UINT16 causes;
   UINT8 rmcauses;
   STRING activity_gfx[MAX_LEN_NAME];
   STRING act_gfx_alt[MAX_LEN_NAME];
