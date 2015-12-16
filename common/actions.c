@@ -1198,6 +1198,20 @@ is_action_possible(const enum gen_action wanted_action,
   }
 
   if (wanted_action == ACTION_JOIN_CITY) {
+    int new_pop;
+
+    if (!omniscient
+        && !mke_can_see_city_externals(actor_player, target_city)) {
+      return TRI_MAYBE;
+    }
+
+    new_pop = city_size_get(target_city) + unit_pop_value(actor_unit);
+
+    if (new_pop > game.info.add_to_size_limit) {
+      /* Reason: Make the add_to_size_limit setting work. */
+      return TRI_NO;
+    }
+
     /* TODO: Move more individual requirements to the action enabler. */
     if (!unit_can_add_to_city(actor_unit, target_city)) {
       return TRI_NO;

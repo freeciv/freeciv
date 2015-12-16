@@ -89,7 +89,6 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
     break;
 
   case UAB_ADD_OK:
-  case UAB_TOO_BIG:
   case UAB_NO_SPACE:
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
                 "there is already a city there.", TILE_XY(unit_tile(punit)));

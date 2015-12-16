@@ -100,6 +100,8 @@ enum ane_kind {
   ANEK_TGT_IS_UNCLAIMED,
   /* Explanation: the action is disabled in this scenario. */
   ANEK_SCENARIO_DISABLED,
+  /* Explanation: the target city is too big. */
+  ANEK_CITY_TOO_BIG,
   /* Explanation: the action is blocked by another action. */
   ANEK_ACTION_BLOCKS,
   /* Explanation not detected. */
@@ -762,6 +764,15 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                              CITYT_CLAIMED,
                                              FALSE)) {
     expl->kind = ANEK_TGT_IS_UNCLAIMED;
+  } else if (target_city
+             && (action_id == ACTION_JOIN_CITY
+                 && action_actor_utype_hard_reqs_ok(ACTION_JOIN_CITY,
+                                                    unit_type_get(punit))
+                 && (city_size_get(target_city) + unit_pop_value(punit)
+                     > game.info.add_to_size_limit))) {
+    /* TODO: Check max city size requirements from action enabler target
+     * vectors. */
+    expl->kind = ANEK_CITY_TOO_BIG;
   } else if ((game.scenario.prevent_new_cities
               && utype_can_do_action(unit_type_get(punit), ACTION_FOUND_CITY))
              && (action_id == ACTION_FOUND_CITY
@@ -858,6 +869,13 @@ static void explain_why_no_action_enabled(struct unit *punit,
   case ANEK_SCENARIO_DISABLED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Can't perform any action this scenario permits."));
+    break;
+  case ANEK_CITY_TOO_BIG:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  /* TRANS: Settler ... Berlin */
+                  _("%s can't do anything to %s. It is too big."),
+                  unit_name_translation(punit),
+                  city_name(target_city));
     break;
   case ANEK_ACTION_BLOCKS:
     /* If an action blocked another action the blocking action must be
@@ -1175,6 +1193,15 @@ void illegal_action_msg(struct player *pplayer,
                   /* TRANS: Can't do Build City in this scenario. */
                   _("Can't do %s in this scenario."),
                   gen_action_translated_name(stopped_action));
+    break;
+  case ANEK_CITY_TOO_BIG:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  /* TRANS: Settlers ... Join City ... London */
+                  _("%s can't do %s to %s. It is too big."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action),
+                  city_name(target_city));
     break;
   case ANEK_ACTION_BLOCKS:
     notify_player(pplayer, unit_tile(actor),
@@ -2066,11 +2093,6 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("Can't place a city there because another city is too "
                     "close."));
-    break;
-  case UAB_TOO_BIG:
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("%s is too big to add %s."),
-                  city_link(pcity), unit_link(punit));
     break;
   case UAB_NO_SPACE:
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,

@@ -416,9 +416,6 @@ unit_join_city_test(const struct unit *punit, const struct city *pcity)
   fc_assert(unit_pop_value(punit) > 0);
   new_pop = city_size_get(pcity) + unit_pop_value(punit);
 
-  if (new_pop > game.info.add_to_size_limit) {
-    return UAB_TOO_BIG;
-  }
   if (!city_can_grow_to(pcity, new_pop)) {
     return UAB_NO_SPACE;
   }
