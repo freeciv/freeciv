@@ -1176,7 +1176,7 @@ static void connect_irrigation_callback(GtkAction *action, gpointer data)
 /****************************************************************
   Action "TRANSFORM_TERRAIN" callback.
 *****************************************************************/
-static void transform_terrain_callack(GtkAction *action, gpointer data)
+static void transform_terrain_callback(GtkAction *action, gpointer data)
 {
   key_unit_transform();
 }
@@ -1711,7 +1711,7 @@ static GtkActionGroup *get_unit_group(void)
        "<Shift>i", NULL, G_CALLBACK(connect_irrigation_callback)},
 
       {"TRANSFORM_TERRAIN", NULL, _("Transf_orm Terrain"),
-       "o", NULL, G_CALLBACK(transform_terrain_callack)},
+       "o", NULL, G_CALLBACK(transform_terrain_callback)},
       {"CLEAN_POLLUTION", NULL, _("Clean _Pollution"),
        "p", NULL, G_CALLBACK(clean_pollution_callback)},
       {"CLEAN_FALLOUT", NULL, _("Clean _Nuclear Fallout"),
