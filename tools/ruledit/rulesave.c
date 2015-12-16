@@ -1367,7 +1367,7 @@ static bool save_nation(struct section_file *sfile, struct nation_type *pnat,
     secfile_insert_str(sfile, nation_leader_name(pleader), "%s.leaders%d.name",
                        path, subsect_idx);
     secfile_insert_str(sfile, nation_leader_is_male(pleader) ? "Male" : "Female",
-                       path, subsect_idx++);
+                       "%s.leaders%d.sex", path, subsect_idx++);
   } nation_leader_list_iterate_end;
 
   if (pnat->server.rgb != NULL) {
