@@ -817,7 +817,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       return FALSE;
     }
 
-    handle_unit_load(pplayer, punit->id, ferryboat->id);
+    handle_unit_load(pplayer, punit->id, ferryboat->id, ferryboat->tile->index);
     fc_assert(unit_transported(punit));
   }
 
@@ -858,7 +858,8 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       }
       if (bodyguard) {
         fc_assert(same_pos(unit_tile(punit), unit_tile(bodyguard)));
-        handle_unit_load(pplayer, bodyguard->id, ferryboat->id);
+        handle_unit_load(pplayer, bodyguard->id, ferryboat->id,
+                         ferryboat->tile->index);
       }
       if (!aiferry_goto_amphibious(ait, ferryboat, punit, dest_tile)) {
         /* died */

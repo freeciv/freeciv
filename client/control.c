@@ -1761,10 +1761,13 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
   if (ptrans
       && can_client_issue_orders()
       && can_unit_load(pcargo, ptrans)) {
-    dsend_packet_unit_load(&client.conn, pcargo->id, ptrans->id);
+    dsend_packet_unit_load(&client.conn, pcargo->id, ptrans->id,
+                           ptrans->tile->index);
 
     /* Sentry the unit.  Don't request_unit_sentry since this can give a
      * recursive loop. */
+    /* FIXME: Should not sentry if above loading fails (transport moved away,
+     *        or filled already in server side) */
     dsend_packet_unit_change_activity(&client.conn, pcargo->id,
                                       ACTIVITY_SENTRY, EXTRA_NONE);
   }

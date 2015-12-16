@@ -3688,10 +3688,16 @@ void unit_activity_handling_targeted(struct unit *punit,
 /****************************************************************************
   Handle a client request to load the given unit into the given transporter.
 ****************************************************************************/
-void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
+void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
+                      int ttile_idx)
 {
   struct unit *pcargo = player_unit_by_number(pplayer, cargo_id);
   struct unit *ptrans = game_unit_by_number(trans_id);
+  struct tile *ptile = index_to_tile(ttile_idx);
+  struct tile *ctile;
+  struct tile *ttile;
+  bool moves = FALSE;
+  bool leave = FALSE;
 
   if (NULL == pcargo) {
     /* Probably died or bribed. */
@@ -3705,11 +3711,51 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
     return;
   }
 
+  ttile = unit_tile(ptrans);
+  if (!same_pos(ttile, ptile)) {
+    /* Transport no longer in where client assumed it to be. */
+    return;
+  }
+
+  ctile = unit_tile(pcargo);
+
+  if (!same_pos(ctile, ttile)) {
+    if (pcargo->moves_left <= 0 || !unit_can_move_to_tile(pcargo, ttile, FALSE)) {
+      return;
+    }
+
+    moves = TRUE;
+  }
+
+  if (unit_transported(pcargo)) {
+    if (!can_unit_unload(pcargo, ptrans)) {
+      /* Can't leave current transport */
+      return;
+    }
+
+    leave = TRUE;
+  }
+
   /* A player may only load their units, but they may be loaded into
    * other player's transporters, depending on the rules in
-   * can_unit_load(). */
-  if (!can_unit_load(pcargo, ptrans)) {
+   * could_unit_load(). */
+  if (!could_unit_load(pcargo, ptrans)) {
     return;
+  }
+
+  /* It's possible. Let's make all the necessary steps. */
+  if (leave) {
+    unit_transport_unload(pcargo);
+  }
+
+  if (moves) {
+    int id = pcargo->id;
+
+    unit_move_handling(pcargo, ttile, FALSE, FALSE);
+
+    if (!unit_alive(id)) {
+      return;
+    }
   }
 
   /* Load the unit and send out info to clients. */

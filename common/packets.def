@@ -1004,7 +1004,9 @@ end
 
 # Load the given cargo into the transporter.
 PACKET_UNIT_LOAD = 75; cs, dsend
-  UNIT cargo_id, transporter_id;
+  UNIT cargo_id;
+  UNIT transporter_id;
+  TILE transporter_tile;
 end
 
 # Unload the given cargo from the transporter.
