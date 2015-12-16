@@ -212,6 +212,7 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE6NAME "South"
 #define SPECENUM_VALUE7 DIR8_SOUTHEAST
 #define SPECENUM_VALUE7NAME "Southeast"
+#define SPECENUM_INVALID ((enum direction8) (DIR8_SOUTHEAST + 1))
 #include "specenum_gen.h"
 
 /* No direction. Understood as the origin tile that a direction would have
