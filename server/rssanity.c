@@ -585,6 +585,15 @@ bool sanity_check_ruleset_data(void)
         }
       } advance_req_iterate_end;
     }
+
+    if (padvance->bonus_message != NULL) {
+      if (!formats_match(padvance->bonus_message, "%s")) {
+        ruleset_error(LOG_ERROR,
+                      "Tech \"%s\" bonus message is not format with %%s for a bonus tech name.",
+                      advance_rule_name(padvance));
+        ok = FALSE;
+      }
+    }
   } advance_iterate_end;
 
   /* Check that all players can have their initial techs */
