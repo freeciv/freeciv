@@ -52,6 +52,9 @@ mke_eval_reqs(const struct player *pow_player,
 bool can_see_techs_of_target(const struct player *pow_player,
                              const struct player *target_player);
 
+bool mke_can_see_city_externals(const struct player *pow_player,
+                                const struct city *target_city);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

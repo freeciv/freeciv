@@ -302,8 +302,7 @@ static bool is_req_knowable(const struct player *pow_player,
   }
 
   if (req->source.kind == VUT_MINSIZE && target_city != NULL) {
-    if (is_tile_seen(pow_player, city_tile(target_city))
-        || city_owner(target_city) == pow_player) {
+    if (mke_can_see_city_externals(pow_player, target_city)) {
       return TRUE;
     }
   }
@@ -394,26 +393,17 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_CITY:
     case REQ_RANGE_LOCAL:
       if (can_player_see_city_internals(pow_player, target_city)) {
-        /* Anyone that can see city internals (like the owner) */
+        /* Anyone that can see city internals (like the owner) known all
+         * its improvements. */
         return TRUE;
       }
 
-      /* Can't see invisible improvements in foreign cities. */
-      if (!is_improvement_visible(req->source.value.building)) {
-        return FALSE;
-      }
-
-      /* Can see visible improvements in seen cities. */
-      if (is_tile_seen(pow_player, city_tile(target_city))) {
+      if (is_improvement_visible(req->source.value.building)
+          && mke_can_see_city_externals(pow_player, target_city)) {
+        /* Can see visible improvements when the outside of the city is
+         * seen. */
         return TRUE;
       }
-
-      /* Can see visible improvements in cities traded with. */
-      trade_partners_iterate(target_city, trade_city) {
-        if (city_owner(trade_city) == pow_player) {
-          return TRUE;
-        }
-      } trade_partners_iterate_end;
 
       /* No way to know if a city has an improvement */
       return FALSE;
@@ -620,4 +610,38 @@ bool can_see_techs_of_target(const struct player *pow_player,
 {
   return pow_player == target_player
       || player_has_embassy(pow_player, target_player);
+}
+
+/**************************************************************************
+  Returns TRUE iff pow_player can see externally visible features of
+  target_city.
+
+  Those are visible to its owner, to players that currently sees its city
+  tile and to players that has it as a trade partner.
+**************************************************************************/
+bool mke_can_see_city_externals(const struct player *pow_player,
+                                const struct city *target_city) {
+  fc_assert_ret_val(target_city, FALSE);
+  fc_assert_ret_val(pow_player, FALSE);
+
+  if (can_player_see_city_internals(pow_player, target_city)) {
+    /* City internals includes city externals. */
+    return TRUE;
+  }
+
+  if (is_tile_seen(pow_player, city_tile(target_city))) {
+    /* The tile is being observed. */
+    return TRUE;
+  }
+
+  fc_assert_ret_val(target_city->routes, FALSE);
+
+  trade_partners_iterate(target_city, trade_city) {
+    if (city_owner(trade_city) == pow_player) {
+      /* Revealed because of the trade route. */
+      return TRUE;
+    }
+  } trade_partners_iterate_end;
+
+  return FALSE;
 }
