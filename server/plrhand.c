@@ -700,8 +700,8 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   ds_plr2plr = player_diplstate_get(pplayer2, pplayer);
 
   if (old_type == DS_ALLIANCE) {
-    pplayer_seen_units = get_seen_units(pplayer, pplayer2);
-    pplayer2_seen_units = get_seen_units(pplayer2, pplayer);
+    pplayer_seen_units = get_units_seen_via_ally(pplayer, pplayer2);
+    pplayer2_seen_units = get_units_seen_via_ally(pplayer2, pplayer);
   } else {
     pplayer_seen_units = NULL;
     pplayer2_seen_units = NULL;

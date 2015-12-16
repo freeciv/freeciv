@@ -99,8 +99,8 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost
 			  bool verbose);
 void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
                          bool verbose);
-struct unit_list *get_seen_units(const struct player *pplayer,
-                                 const struct player *aplayer);
+struct unit_list *get_units_seen_via_ally(const struct player *pplayer,
+                                          const struct player *aplayer);
 void remove_allied_visibility(struct player *pplayer, struct player *aplayer,
                               const struct unit_list *seen_units);
 void give_allied_visibility(struct player *pplayer, struct player *aplayer);
