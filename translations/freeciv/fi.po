@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2015-11-27 09:08+0200\n"
-"PO-Revision-Date: 2015-11-27 08:57+0200\n"
+"PO-Revision-Date: 2015-12-16 23:20+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -3039,7 +3039,7 @@ msgstr "Hyväksy sopimus"
 #: client/gui-gtk-3.0/diplodlg.c:736 client/gui-gtk-3.0/diplodlg.c:819
 #: client/gui-qt/diplodlg.cpp:129 client/gui-qt/diplodlg.cpp:131
 msgid "Add Clause..."
-msgstr "L_isää ehto..."
+msgstr "Lisää ehto..."
 
 #: client/gui-gtk-2.0/diplodlg.c:882 client/gui-gtk-3.0/diplodlg.c:886
 msgid "C_lauses:"
