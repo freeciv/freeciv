@@ -88,8 +88,8 @@ struct terrain_misc terrain_control;
 const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
-static bool dir_cardinality[8];
-static bool dir_validity[8];
+static bool dir_cardinality[9]; /* Including invalid one */
+static bool dir_validity[9];    /* Including invalid one */
 
 static bool is_valid_dir_calculate(enum direction8 dir);
 static bool is_cardinal_dir_calculate(enum direction8 dir);
@@ -356,6 +356,13 @@ void map_init_topology(void)
   fc_assert(map_num_tiles() <= MAP_MAX_SIZE * 1000);
 
   map.num_valid_dirs = map.num_cardinal_dirs = 0;
+
+  /* Values for direction8_invalid() */
+  fc_assert(direction8_invalid() == 8);
+  dir_validity[8] = FALSE;
+  dir_cardinality[8] = FALSE;
+
+  /* Values for actual directions */
   for (dir = 0; dir < 8; dir++) {
     if (is_valid_dir_calculate(dir)) {
       map.valid_dirs[map.num_valid_dirs] = dir;
@@ -1236,7 +1243,7 @@ static bool is_valid_dir_calculate(enum direction8 dir)
 **************************************************************************/
 bool is_valid_dir(enum direction8 dir)
 {
-  fc_assert_ret_val(direction8_is_valid(dir), FALSE);
+  fc_assert_ret_val(dir <= direction8_invalid(), FALSE);
 
   return dir_validity[dir];
 }
@@ -1276,7 +1283,7 @@ static bool is_cardinal_dir_calculate(enum direction8 dir)
 **************************************************************************/
 bool is_cardinal_dir(enum direction8 dir)
 {
-  fc_assert_ret_val(direction8_is_valid(dir), FALSE);
+  fc_assert_ret_val(dir <= direction8_invalid(), FALSE);
 
   return dir_cardinality[dir];
 }

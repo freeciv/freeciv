@@ -93,10 +93,6 @@ struct pf_map {
 /* Down-cast macro. */
 #define PF_MAP(pfm) ((struct pf_map *) (pfm))
 
-/* Used as an enum direction8. */
-#define PF_DIR_NONE (-1)
-
-
 /* ========================== Common functions =========================== */
 
 /****************************************************************************
@@ -212,9 +208,10 @@ struct pf_normal_node {
   signed short cost;    /* total_MC. 'cost' may be negative, see comment in
                          * pf_turns(). */
   unsigned extra_cost;  /* total_EC. Can be huge, (higher than 'cost'). */
-  signed dir_to_here : 4; /* Direction from which we came. It can be either
-                           * an 'enum direction8' or PF_DIR_NONE (so we need
-                           * 4 bits instead of 3). */
+  unsigned dir_to_here : 4; /* Direction from which we came. It's
+                             * an 'enum direction8' including
+                             * possibility of direction8_invalid (so we need
+                             * 4 bits) */
   unsigned status : 3;  /* 'enum pf_node_status' really. */
 
   /* Cached values */
@@ -353,7 +350,7 @@ static void pf_normal_map_fill_position(const struct pf_normal_map *pfnm,
 #endif /* PF_DEBUG */
   pos->fuel_left = 1;
   pos->dir_to_here = node->dir_to_here;
-  pos->dir_to_next_pos = PF_DIR_NONE;   /* This field does not apply. */
+  pos->dir_to_next_pos = direction8_invalid();   /* This field does not apply. */
 
   if (node->cost > 0) {
     pf_finalize_position(params, pos);
@@ -370,7 +367,7 @@ pf_normal_map_construct_path(const struct pf_normal_map *pfnm,
 {
   struct pf_normal_node *node = pfnm->lattice + tile_index(dest_tile);
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfnm));
-  enum direction8 dir_next = PF_DIR_NONE;
+  enum direction8 dir_next = direction8_invalid();
   struct pf_path *path;
   struct tile *ptile;
   int i;
@@ -810,7 +807,7 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
    * (see pf_turns()). */
   node->cost = pf_move_rate(params) - pf_moves_left_initially(params);
   node->extra_cost = 0;
-  node->dir_to_here = PF_DIR_NONE;
+  node->dir_to_here = direction8_invalid();
   node->status = NS_PROCESSED;
 
   return PF_MAP(pfnm);
@@ -829,9 +826,10 @@ struct pf_danger_node {
   signed short cost;    /* total_MC. 'cost' may be negative, see comment in
                          * pf_turns(). */
   unsigned extra_cost;  /* total_EC. Can be huge, (higher than 'cost'). */
-  signed dir_to_here : 4; /* Direction from which we came. It can be either
-                           * an 'enum direction8' or PF_DIR_NONE (so we need
-                           * 4 bits instead of 3). */
+  unsigned dir_to_here : 4; /* Direction from which we came. It's
+                             * an 'enum direction8' including
+                             * possibility of direction8_invalid (so we need
+                             * 4 bits) */
   unsigned status : 3;  /* 'enum pf_node_status' really. */
 
   /* Cached values */
@@ -991,7 +989,7 @@ static void pf_danger_map_fill_position(const struct pf_danger_map *pfdm,
 #endif /* PF_DEBUG */
   pos->fuel_left = 1;
   pos->dir_to_here = node->dir_to_here;
-  pos->dir_to_next_pos = PF_DIR_NONE;   /* This field does not apply. */
+  pos->dir_to_next_pos = direction8_invalid();   /* This field does not apply. */
 
   if (node->cost > 0) {
     pf_finalize_position(params, pos);
@@ -1025,7 +1023,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
                              struct tile *ptile)
 {
   struct pf_path *path = fc_malloc(sizeof(*path));
-  enum direction8 dir_next = PF_DIR_NONE;
+  enum direction8 dir_next = direction8_invalid();
   struct pf_danger_pos *danger_seg = NULL;
   bool waited = FALSE;
   struct pf_danger_node *node = pfdm->lattice + tile_index(ptile);
@@ -1098,7 +1096,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
                          + params->moves_left_initially);
         pos->dir_to_next_pos = dir_next;
         pf_finalize_position(params, pos);
-        /* Set old_waited so that we record PF_DIR_NONE as a direction at
+        /* Set old_waited so that we record direction8_invalid() as a direction at
          * the step we were going to wait. */
         old_waited = TRUE;
         i--;
@@ -1128,7 +1126,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
     pos->fuel_left = 1;
     pos->total_MC -= (pf_move_rate(params)
                       - pf_moves_left_initially(params));
-    pos->dir_to_next_pos = (old_waited ? PF_DIR_NONE : dir_next);
+    pos->dir_to_next_pos = (old_waited ? direction8_invalid() : dir_next);
     if (node->cost > 0) {
       pf_finalize_position(params, pos);
     }
@@ -1196,7 +1194,7 @@ static void pf_danger_map_create_segment(struct pf_danger_map *pfdm,
 #endif /* PF_DEBUG */
 
   /* First iteration for determining segment length */
-  while (node->is_dangerous && PF_DIR_NONE != node->dir_to_here) {
+  while (node->is_dangerous && direction8_is_valid(node->dir_to_here)) {
     length++;
     ptile = mapstep(ptile, DIR_REVERSE(node->dir_to_here));
     node = pfdm->lattice + tile_index(ptile);
@@ -1227,7 +1225,7 @@ static void pf_danger_map_create_segment(struct pf_danger_map *pfdm,
 
 #ifdef PF_DEBUG
   /* Make sure we reached a safe node or the start point */
-  fc_assert_ret(!node->is_dangerous || PF_DIR_NONE == node->dir_to_here);
+  fc_assert_ret(!node->is_dangerous || !direction8_is_valid(node->dir_to_here));
 #endif
 }
 
@@ -1668,7 +1666,7 @@ static struct pf_map *pf_danger_map_new(const struct pf_parameter *parameter)
    * (see pf_turns()). */
   node->cost = pf_move_rate(params) - pf_moves_left_initially(params);
   node->extra_cost = 0;
-  node->dir_to_here = PF_DIR_NONE;
+  node->dir_to_here = direction8_invalid();
   node->status = (node->is_dangerous ? NS_NEW : NS_PROCESSED);
 
   return PF_MAP(pfdm);
@@ -1690,9 +1688,10 @@ struct pf_fuel_node {
                          * pf_turns(). */
   unsigned extra_cost;  /* total_EC. Can be huge, (higher than 'cost'). */
   unsigned moves_left : 12; /* Moves left at this position. */
-  signed dir_to_here : 4; /* Direction from which we came. It can be either
-                           * an 'enum direction8' or PF_DIR_NONE (so we need
-                           * 4 bits instead of 3). */
+  unsigned dir_to_here : 4; /* Direction from which we came. It's
+                             * an 'enum direction8' including
+                             * possibility of direction8_invalid (so we need
+                             * 4 bits) */
   unsigned status : 3;  /* 'enum pf_node_status' really. */
 
   /* Cached values */
@@ -1935,7 +1934,7 @@ static void pf_fuel_map_fill_position(const struct pf_fuel_map *pffm,
   pos->total_MC = (head->cost - pf_move_rate(params)
                    + pf_moves_left_initially(params));
   pos->dir_to_here = head->dir_to_here;
-  pos->dir_to_next_pos = PF_DIR_NONE;   /* This field does not apply. */
+  pos->dir_to_next_pos = direction8_invalid();   /* This field does not apply. */
   pf_fuel_finalize_position(pos, params, node, head);
 }
 
@@ -1962,7 +1961,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
                            struct tile *ptile)
 {
   struct pf_path *path = fc_malloc(sizeof(*path));
-  enum direction8 dir_next = PF_DIR_NONE;
+  enum direction8 dir_next = direction8_invalid();
   struct pf_fuel_node *node = pffm->lattice + tile_index(ptile);
   struct pf_fuel_pos *segment = node->fuel_segment;
   /* There is no need to wait at destination if it is a refuel point. */
@@ -1983,7 +1982,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
   /* First iterate to find path length. */
   /* NB: the start point could be reached in the middle of a segment.
    * See comment for pf_fuel_map_create_segment(). */
-  while (PF_DIR_NONE != segment->dir_to_here) {
+  while (direction8_is_valid(segment->dir_to_here)) {
     if (node->moves_left_req == 0) {
       /* A refuel point. */
       if (waited) {
@@ -2039,7 +2038,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
         pos->moves_left = params->move_rate;
         pos->fuel_left = params->fuel;
         pos->dir_to_next_pos = dir_next;
-        dir_next = PF_DIR_NONE;
+        dir_next = direction8_invalid();
         i--;
       }
       /* Update "waited" (node->waited means "waited to get here"). */
@@ -2115,7 +2114,7 @@ static void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
    *
    * We ends at any refuel point or at start tile.
    * But determining if we reach the start of the path or not is not easy:
-   * - Testing 'PF_DIR_NONE == node->dir_to_here' may fail if the this value
+   * - Testing '!direction8_is_valid(node->dir_to_here)' may fail if the this value
    *   has been overwritten for another segment.
    * - Testing 'ptile == start_tile' in not more relevant, because the start
    *   tile can be crossed from a refuel point to 'tile1'.
@@ -2134,7 +2133,7 @@ static void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
         && segment->moves_left == node->moves_left) {
       /* We will follow this segment. */
       while (0 != node->moves_left_req
-             && PF_DIR_NONE != segment->dir_to_here) {
+             && direction8_is_valid(segment->dir_to_here)) {
         length++;
         ptile = mapstep(ptile, DIR_REVERSE(segment->dir_to_here));
         node = pffm->lattice + tile_index(ptile);
@@ -2142,7 +2141,7 @@ static void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
       }
       break;
     } else if (ptile == start_tile) {
-      if (PF_DIR_NONE == node->dir_to_here) {
+      if (!direction8_is_valid(node->dir_to_here)) {
         break;
       } else if (0 == maybe_length) {
         /* Got start tile once. */
@@ -2237,7 +2236,7 @@ static void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
     pos++;
   }
   if (start_tile == ptile) {
-    pos->dir_to_here = PF_DIR_NONE; /* ensure */
+    pos->dir_to_here = direction8_invalid(); /* ensure */
   }
 
 #ifdef PF_DEBUG
@@ -2799,7 +2798,7 @@ static struct pf_map *pf_fuel_map_new(const struct pf_parameter *parameter)
   node->moves_left = pf_moves_left_initially(params);
   node->cost = pf_move_rate(params) - node->moves_left;
   node->extra_cost = 0;
-  node->dir_to_here = PF_DIR_NONE;
+  node->dir_to_here = direction8_invalid();
   node->status = NS_PROCESSED;
 
   return PF_MAP(pffm);
@@ -2985,8 +2984,8 @@ static void pf_position_fill_start_tile(struct pf_position *pos,
   pos->fuel_left = param->fuel_left_initially;
   pos->total_MC = 0;
   pos->total_EC = 0;
-  pos->dir_to_next_pos = PF_DIR_NONE;
-  pos->dir_to_here = PF_DIR_NONE;
+  pos->dir_to_next_pos = direction8_invalid();
+  pos->dir_to_here = direction8_invalid();
 }
 
 /****************************************************************************
