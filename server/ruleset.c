@@ -3576,13 +3576,11 @@ static void send_ruleset_control(struct conn_list *dest)
 }
 
 /****************************************************************************
-  This checks if nations[pos] leader names are not already defined in any
-  previous nation, or twice in its own leader name table.
-  If not return NULL, if yes return pointer to name which is repeated
-  and id of a conflicting nation as second parameter.
+  Check for duplicate leader names in nation.
+  If no duplicates return NULL; if yes return pointer to name which is
+  repeated.
 ****************************************************************************/
-static const char *check_leader_names(struct nation_type *pnation,
-                                      struct nation_type **ppconflict_nation)
+static const char *check_leader_names(struct nation_type *pnation)
 {
   nation_leader_list_iterate(nation_leaders(pnation), pleader) {
     const char *name = nation_leader_name(pleader);
@@ -3591,31 +3589,10 @@ static const char *check_leader_names(struct nation_type *pnation,
       if (prev_leader == pleader) {
         break;
       } else if (0 == fc_strcasecmp(name, nation_leader_name(prev_leader))) {
-        *ppconflict_nation = pnation;
         return name;
       }
     } nation_leader_list_iterate_end;
   } nation_leader_list_iterate_end;
-
-  nations_iterate(prev_nation) {
-    if (prev_nation == pnation) {
-      break;
-    }
-
-    nation_leader_list_iterate(nation_leaders(prev_nation), pleader) {
-      const char *name = nation_leader_name(pleader);
-
-      nation_leader_list_iterate(nation_leaders(prev_nation), prev_leader) {
-        if (prev_leader == pleader) {
-          break;
-        } else if (0 == fc_strcasecmp(name,
-                                      nation_leader_name(prev_leader))) {
-          *ppconflict_nation = prev_nation;
-          return name;
-        }
-      } nation_leader_list_iterate_end;
-    } nation_leader_list_iterate_end;
-  } nations_iterate_end;
   return NULL;
 }
 
@@ -4262,22 +4239,13 @@ static bool load_ruleset_nations(struct section_file *file,
         break;
       }
 
-      /* Check if leader name is not already defined */
-      if ((bad_leader = check_leader_names(pnation, &pconflict))) {
-        if (pnation == pconflict) {
-          ruleset_error(LOG_ERROR,
-                        "Nation %s: leader \"%s\" defined more than once.",
-                        nation_rule_name(pnation), bad_leader);
-          ok = FALSE;
-          break;
-        } else {
-          ruleset_error(LOG_ERROR,
-                        "Nations %s and %s share the same leader \"%s\".",
-                        nation_rule_name(pnation), nation_rule_name(pconflict),
-                        bad_leader);
-          ok = FALSE;
-          break;
-        }
+      /* Check if leader name is not already defined in this nation. */
+      if ((bad_leader = check_leader_names(pnation))) {
+        ruleset_error(LOG_ERROR,
+                      "Nation %s: leader \"%s\" defined more than once.",
+                      nation_rule_name(pnation), bad_leader);
+        ok = FALSE;
+        break;
       }
 
       /* Nation player color preference, if any */
