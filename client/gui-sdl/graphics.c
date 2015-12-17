@@ -26,9 +26,9 @@
 #endif
 
 /* SDL */
-#include <SDL_image.h>
-#include <SDL_syswm.h>
-#include <SDL_ttf.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_syswm.h>
+#include <SDL/SDL_ttf.h>
 
 /* utility */
 #include "fcintl.h"

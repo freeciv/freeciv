@@ -15,8 +15,8 @@
 #include <fc_config.h>
 #endif
 
-/* SDL */
-#include <SDL.h>
+/* SDL2 */
+#include <SDL2/SDL.h>
 
 /* gui-sdl2 */
 #include "colors.h"

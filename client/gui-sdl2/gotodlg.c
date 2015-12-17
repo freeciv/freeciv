@@ -17,8 +17,8 @@
 
 #include <stdlib.h>
 
-/* SDL */
-#include <SDL.h>
+/* SDL2 */
+#include <SDL2/SDL.h>
 
 /* utility */
 #include "bitvector.h"

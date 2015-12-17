@@ -22,8 +22,8 @@
 #ifndef FC__GUI_MAIN_H
 #define FC__GUI_MAIN_H
 
-/* SDL */
-#include <SDL.h>
+/* SDL2 */
+#include <SDL2/SDL.h>
 
 #include "gui_main_g.h"
 

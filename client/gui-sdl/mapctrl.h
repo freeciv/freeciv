@@ -23,7 +23,7 @@
 #define FC__MAPCTRL_H
 
 /* SDL */
-#include <SDL.h>
+#include <SDL/SDL.h>
 
 #include "fc_types.h"
 
@@ -40,7 +40,7 @@
 #define DEFAULT_UNITS_W		(78 + BLOCKU_W)
 #define DEFAULT_UNITS_H		52
 
-#else
+#else  /* SMALL_SCREEN */
 
 #define BLOCKM_W		52
 #define BLOCKU_W                28
@@ -49,7 +49,7 @@
 #define DEFAULT_UNITS_W		(158 + BLOCKU_W)
 #define DEFAULT_UNITS_H		104
 
-#endif
+#endif /* SMALL_SCREEN */
 
 extern int overview_w;
 extern int overview_h;

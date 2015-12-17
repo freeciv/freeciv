@@ -25,7 +25,7 @@
 #define FC__GRAPHICS_H
 
 /* SDL */
-#include <SDL2_rotozoom.h>
+#include <SDL2/SDL2_rotozoom.h>
 
 /* client */
 #include "graphics_g.h"

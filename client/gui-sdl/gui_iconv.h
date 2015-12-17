@@ -27,12 +27,12 @@
 #define FC__GUI_ICONV_H
 
 /* SDL */
-#include <SDL.h>
+#include <SDL/SDL.h>
 
 Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulenght,
-			      const char *pFromString);
+                             const char *pFromString);
 char *convertcopy_to_chars(char *pToString, size_t lenght,
-			   const Uint16 *pFromUniString);
+                           const Uint16 *pFromUniString);
 
 #define convert_to_utf16(pFromString) convertcopy_to_utf16(NULL, 0, pFromString)
 #define convert_to_chars(pFromString) convertcopy_to_chars(NULL, 0, pFromString)

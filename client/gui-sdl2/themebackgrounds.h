@@ -14,8 +14,8 @@
 #ifndef FC__THEMEBACKGROUNDS_H
 #define FC__THEMEBACKGROUNDS_H
 
-/* SDL */
-#include <SDL.h>
+/* SDL2 */
+#include <SDL2/SDL.h>
 
 #include "registry.h"
 

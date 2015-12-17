@@ -45,7 +45,7 @@
 #endif
 
 /* SDL */
-#include <SDL.h>
+#include <SDL/SDL.h>
 
 /* utility */
 #include "fciconv.h"

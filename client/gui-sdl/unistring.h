@@ -23,12 +23,12 @@
 #define FC__UNISTRING_H
 
 /* SDL */
-#include <SDL.h>
+#include <SDL/SDL.h>
 
 size_t unistrlen(const Uint16 *pUniString);
 Uint16 *unistrcpy(Uint16 *pToUniString, const Uint16 *pFromUniString);
 Uint16 *unistrcat(Uint16 *pToUniString,
-		  const Uint16 *pFromUniString);
+                  const Uint16 *pFromUniString);
 Uint16 *unistrdup(const Uint16 *pUniString);
 Uint16 **create_new_line_unistrings(const Uint16 *pUnistring);
 

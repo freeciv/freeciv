@@ -22,8 +22,8 @@
 #ifndef FC__MAPVIEW_H
 #define FC__MAPVIEW_H
 
-/* SDL */
-#include <SDL.h>
+/* SDL2 */
+#include <SDL2/SDL.h>
 
 /* common */
 #include "unitlist.h"

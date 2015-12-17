@@ -22,9 +22,9 @@
 #ifndef FC__GUISTRING_H
 #define FC__GUISTRING_H
 
-/* SDL */
-#include <SDL.h>
-#include <SDL_ttf.h>
+/* SDL2 */
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 /* common */
 #include "fc_types.h"
