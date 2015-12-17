@@ -28,11 +28,11 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
 void choice_dialog_end(GtkWidget *dshell);
 int choice_dialog_get_number_of_buttons(GtkWidget *cd);
 void choice_dialog_button_set_sensitive(GtkWidget *shl, int button,
-					 gboolean state);
+                                        gboolean state);
 void choice_dialog_button_set_label(GtkWidget *cd, int button,
                                     const char* label);
 void choice_dialog_button_set_tooltip(GtkWidget *cd, int number,
                                       const char* tool_tip);
 void choice_dialog_button_move_to_the_end(GtkWidget *cd,
                                           const int number);
-#endif
+#endif /* FC__CHOICE_DIALOG_H */

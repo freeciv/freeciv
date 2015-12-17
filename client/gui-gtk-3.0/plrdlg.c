@@ -34,20 +34,24 @@
 #include "player.h"
 
 /* client */
-#include "chatline.h"
 #include "client_main.h"
 #include "climisc.h"
 #include "connectdlg_common.h"
-#include "dialogs.h"
-#include "gui_main.h"
-#include "gui_stuff.h"
-#include "inteldlg.h"
-#include "spaceshipdlg.h"
 #include "tilespec.h"
 #include "colors.h"
 #include "graphics.h"
 #include "options.h"
 #include "text.h"
+
+/* client/gui-gtk-3.0 */
+#include "chatline.h"
+#include "dialogs.h"
+#include "gui_main.h"
+#include "gui_stuff.h"
+#include "inteldlg.h"
+#include "spaceshipdlg.h"
+#include "colors.h"
+#include "graphics.h"
 
 #include "plrdlg.h"
 

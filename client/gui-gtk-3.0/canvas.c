@@ -15,10 +15,12 @@
 #include <fc_config.h>
 #endif
 
-#include "canvas.h"
+/* gui-gtk-3.0 */
 #include "colors.h"
 #include "gui_main.h"
 #include "mapview.h"
+
+#include "canvas.h"
 
 /****************************************************************************
   Create a canvas of the given size.

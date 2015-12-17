@@ -15,9 +15,12 @@
 
 #include <gtk/gtk.h>
 
-#include "worklist.h"
+/* common */
 #include "improvement.h"
 #include "unittype.h"
+#include "worklist.h"
+
+/* client */
 #include "climisc.h"
 
 #include "wldlg_g.h"

@@ -21,7 +21,6 @@
 #include <math.h> /* sqrt */
 
 #include <gtk/gtk.h>
-#include "gtkpixcomm.h"
 
 /* utility */
 #include "fcintl.h"
@@ -44,13 +43,16 @@
 /* client */
 #include "client_main.h"
 #include "climisc.h"
-#include "colors.h"
-#include "graphics.h"
-#include "gui_main.h"
-#include "gui_stuff.h"
 #include "helpdata.h"
 #include "options.h"
 #include "tilespec.h"
+
+/* client/gui-gtk-3.0 */
+#include "colors.h"
+#include "graphics.h"
+#include "gtkpixcomm.h"
+#include "gui_main.h"
+#include "gui_stuff.h"
 
 #include "helpdlg.h"
 

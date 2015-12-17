@@ -15,6 +15,7 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "support.h"            /* bool type */
 
 #include "pages_g.h"

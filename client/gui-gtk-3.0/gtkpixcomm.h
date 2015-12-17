@@ -63,17 +63,16 @@ struct _GtkPixcommClass
 };
 
 
-GType	   gtk_pixcomm_get_type	 (void) G_GNUC_CONST;
-GtkWidget *gtk_pixcomm_new	 (gint width, gint height);
+GType gtk_pixcomm_get_type (void)G_GNUC_CONST;
+GtkWidget *gtk_pixcomm_new(gint width, gint height);
 void gtk_pixcomm_set_scale(GtkPixcomm *pixcomm, gdouble scale);
 cairo_surface_t *gtk_pixcomm_get_surface(GtkPixcomm *pixcomm);
 void gtk_pixcomm_copyto(GtkPixcomm *pixcomm, struct sprite *src,
-			gint x, gint y);
-void       gtk_pixcomm_clear	 (GtkPixcomm *pixcomm);
+                        gint x, gint y);
+void gtk_pixcomm_clear(GtkPixcomm *pixcomm);
 GtkWidget *gtk_pixcomm_new_from_sprite(struct sprite *sprite);
 void gtk_pixcomm_set_from_sprite(GtkPixcomm *p, struct sprite *sprite);
 
 G_END_DECLS
 
 #endif /* __GTK_PIXCOMM_H__ */
-

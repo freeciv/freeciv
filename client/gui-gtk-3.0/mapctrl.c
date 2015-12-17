@@ -31,24 +31,28 @@
 #include "overview_common.h"
 
 /* client */
-#include "chatline.h"
-#include "citydlg.h"
 #include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
-#include "colors.h"
 #include "control.h"
+#include "editor.h"
+#include "tilespec.h"
+#include "text.h"
+
+/* client/agents */
+#include "cma_core.h"
+
+/* client/gui-gtk-3.0 */
+#include "chatline.h"
+#include "citydlg.h"
+#include "colors.h"
 #include "dialogs.h"
 #include "editgui.h"
-#include "editor.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
-#include "tilespec.h"
-#include "cma_core.h"
-#include "text.h"
 
 #include "mapctrl.h"
 

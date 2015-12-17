@@ -25,9 +25,11 @@
 #include "unitlist.h"
 
 /* client */
+#include "tilespec.h"
+
+/* client/gui-gtk-3.0 */
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "tilespec.h"
 
 #include "dialogs_g.h"
 
