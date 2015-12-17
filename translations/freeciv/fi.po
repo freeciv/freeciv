@@ -4965,7 +4965,7 @@ msgstr "Hae asetus"
 
 #: client/gui-gtk-2.0/optiondlg.c:203 client/gui-gtk-3.0/optiondlg.c:203
 msgid "Reset this option"
-msgstr "Palauta oletusarvo."
+msgstr "Palauta oletusarvo"
 
 #: client/gui-gtk-2.0/optiondlg.c:211 client/gui-gtk-3.0/optiondlg.c:211
 msgid "Apply the changes for this option"
@@ -4989,7 +4989,7 @@ msgstr "Koostetaan skenaariolistaa."
 #: client/gui-gtk-2.0/pages.c:178 client/gui-gtk-3.0/pages.c:183
 #, c-format
 msgid "%s%s, %s client"
-msgstr "%s%s, käyttöliittymä %s."
+msgstr "%s%s, käyttöliittymä %s"
 
 #. TRANS: "version 2.6.0
 #. *         commit: [modified] <git commit id>
@@ -5006,14 +5006,14 @@ msgid ""
 msgstr ""
 "%s%s\n"
 "revisiotunniste: %s\n"
-"käyttöliittymä %s."
+"käyttöliittymä %s"
 
 #. TRANS: "version 2.6.0 (r25000), gui-gtk-2.0 client"
 #. TRANS: "version 2.6.0 (r25000), gui-gtk-3.0 client"
 #: client/gui-gtk-2.0/pages.c:190 client/gui-gtk-3.0/pages.c:195
 #, c-format
 msgid "%s%s (%s), %s client"
-msgstr "%s%s (%s), käyttöliittymä %s."
+msgstr "%s%s (%s), käyttöliittymä %s"
 
 #: client/gui-gtk-2.0/pages.c:253 client/gui-gtk-3.0/pages.c:309
 msgid "Start _New Game"
@@ -32921,7 +32921,7 @@ msgstr "win32-S2_6"
 #. "(modified r25000)"
 #: translations/Strings.txt:24
 msgid "modified "
-msgstr "muokattu"
+msgstr "muokattu "
 
 #. TRANS: Modpack subtype, "isometric"
 #: translations/Strings.txt:30
