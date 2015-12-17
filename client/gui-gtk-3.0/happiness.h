@@ -14,6 +14,8 @@
 #define FC__HAPPINESS_H
 
 #include <gtk/gtk.h>
+
+/* client/gui-gtk-3.0 */
 #include "citydlg.h"
 
 void happiness_dialog_init(void);

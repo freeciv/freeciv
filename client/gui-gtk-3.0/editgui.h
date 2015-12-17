@@ -15,6 +15,7 @@
 
 #include <gtk/gtk.h>
 
+/* client */
 #include "editor.h"
 #include "editgui_g.h"
 

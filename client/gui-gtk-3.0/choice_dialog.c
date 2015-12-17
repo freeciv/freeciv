@@ -18,8 +18,10 @@
 
 #include <gtk/gtk.h>
 
+/* utility */
 #include "support.h"
 
+/* gui-gtk-3.0 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 

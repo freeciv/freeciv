@@ -15,9 +15,11 @@
 
 #include <gtk/gtk.h>
 
+/* client */
 #include "graphics_g.h"
 #include "mapview_common.h"
 
+/* client/gui-gtk-3.0 */
 #include "canvas.h"
 #include "sprite.h"
 
@@ -32,4 +34,3 @@ extern struct sprite *radar_gfx_sprite;
 extern GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 #endif  /* FC__GRAPHICS_H */
-

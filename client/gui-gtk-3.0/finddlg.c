@@ -48,7 +48,7 @@ static void update_find_dialog(GtkListStore *store);
 static void find_response(struct gui_dialog *dlg, int response, gpointer data);
 static void find_destroy_callback(GtkWidget *w, gpointer data);
 static void find_selection_callback(GtkTreeSelection *selection,
-				    GtkTreeModel *model);
+                                    GtkTreeModel *model);
 
 static struct tile *pos;
 

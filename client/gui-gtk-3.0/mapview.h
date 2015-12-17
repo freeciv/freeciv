@@ -15,15 +15,17 @@
 
 #include <gtk/gtk.h>
 
+/* common */
 #include "fc_types.h"
 
-#include "gtkpixcomm.h"
-
+/* client */
 #include "citydlg_common.h"
 #include "mapview_g.h"
 #include "mapview_common.h"
 
+/* client/gui-gtk-3.0 */
 #include "canvas.h"
+#include "gtkpixcomm.h"
 #include "graphics.h"
 
 GdkPixbuf *get_thumb_pixbuf(int onoff);
@@ -33,7 +35,7 @@ GdkPixbuf *get_thumb_pixbuf(int onoff);
 gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data);
 gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data);
 gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
-			      gpointer data);
+                              gpointer data);
 
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p);
 
@@ -44,13 +46,13 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
 
 void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
-			     int canvas_x, int canvas_y,
-			     struct sprite *ssprite);
+                             int canvas_x, int canvas_y,
+                             struct sprite *ssprite);
 
 void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
-				  int canvas_x, int canvas_y,
-				  struct sprite *ssprite,
-				  bool fog);
+                                  int canvas_x, int canvas_y,
+                                  struct sprite *ssprite,
+                                  bool fog);
 
 void mapview_freeze(void);
 void mapview_thaw(void);
