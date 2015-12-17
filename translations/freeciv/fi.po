@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-27 07:40+0200\n"
-"PO-Revision-Date: 2015-12-16 23:17+0200\n"
-"Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
+"PO-Revision-Date: 2015-12-17 23:24+0200\n"
+"Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -6636,6 +6636,10 @@ msgstr "Täydet OP:t"
 msgid "Full MP"
 msgstr "Täydet LP:t"
 
+#: client/gui-qt/menu.cpp:620
+msgid "Full HP and MP"
+msgstr "Täydet OP:t ja LP:t"
+
 #: client/gui-qt/menu.cpp:615 client/gui-sdl/menu.c:527
 #: client/gui-xaw/menu.c:202
 msgid "Go to Tile"
@@ -6804,6 +6808,10 @@ msgstr "Laskuvarjohyppy"
 #: client/gui-qt/menu.cpp:2001
 msgid "Save Games"
 msgstr "Tallennetut pelit"
+
+#: client/gui-qt/optiondlg.cpp:85
+msgid "... read more in help"
+msgstr "... lue lisää ohjeista"
 
 #: client/gui-qt/optiondlg.cpp:112 client/gui-qt/pages.cpp:345
 #: data/Freeciv.in:1671 data/Freeciv.in:1818 data/Freeciv.in:1977
@@ -7506,7 +7514,7 @@ msgid "What nation will you be?"
 msgstr "Mitä kansakuntaa haluat johtaa?"
 
 #: client/gui-sdl/dialogs.c:3344
-msgid "Nationset"
+msgid "Nation set"
 msgstr "Kansavalikoima"
 
 #: client/gui-sdl/diplodlg.c:568
@@ -15399,8 +15407,12 @@ msgid "Allows a city to grow larger than size 10."
 msgstr "Mahdollistaa kaupungin kasvamisen suuremmaksi kuin 10."
 
 #: data/civ1/buildings.ruleset:44
-msgid "Aqueduct protects the city from Fire and Plague."
-msgstr "Vesijohto suojaa kaupunkia tulelta ja rutolta."
+msgid ""
+"An Aqueduct also eliminates a city's risk of plague causing loss of "
+"population, and of fire causing loss of buildings."
+msgstr ""
+"Vesijohto myös suojaa kaupunkia, poistaen riskin väestökadosta ruton "
+"seurauksena, sekä riskin rakennusten menettämisestä tulen vaikutuksesta."
 
 #: data/civ1/buildings.ruleset:49 data/civ2/buildings.ruleset:74
 #: data/classic/buildings.ruleset:109 data/experimental/buildings.ruleset:114
@@ -15433,10 +15445,14 @@ msgstr ""
 "50%. Vahingoittuneet yksiköt, jotka viipyvät kaupungissa kokonaisen "
 "pelivuoron liikkumatta, paranevat kokonaan."
 
-#: data/civ1/buildings.ruleset:92 data/civ1/buildings.ruleset:118
-#: data/civ1/buildings.ruleset:144
-msgid "Barracks protect the city from Pirates."
-msgstr "Kasarmit suojelevat kaupunkia piraateilta."
+#: data/civ1/buildings.ruleset:93 data/civ1/buildings.ruleset:120
+#: data/civ1/buildings.ruleset:147
+msgid ""
+"Barracks also prevent stored food and goods in coastal cities being lost to "
+"piracy."
+msgstr ""
+"Kasarmit myös suojaavat varastoitua ruokaa ja hyödykkeitä "
+"rannikkokaupungeissa piraateilta."
 
 #: data/civ1/buildings.ruleset:97 data/civ2/buildings.ruleset:120
 #: data/classic/buildings.ruleset:156 data/experimental/buildings.ruleset:161
@@ -15482,8 +15498,10 @@ msgstr ""
 "maavoimien yksikön hyökkäyksessä."
 
 #: data/civ1/buildings.ruleset:191
-msgid "City Walls protect the city from Flood."
-msgstr "Kaupunginmuurit suojelevat kaupunkia tulvalta."
+msgid ""
+"For cities near rivers, City Walls also eliminate the risk of population "
+"loss from flooding."
+msgstr "Kaupunginmuuri suojelee joen lähellä sijaitsevaa kaupunkia tulvalta."
 
 #: data/civ1/buildings.ruleset:196 data/civ2/buildings.ruleset:238
 #: data/classic/buildings.ruleset:276 data/experimental/buildings.ruleset:281
@@ -15541,8 +15559,19 @@ msgstr ""
 "se kestää helpommin nälänhätää."
 
 #: data/civ1/buildings.ruleset:276
-msgid "Granary protects the city from Famine."
-msgstr "Viljasiilo suojaa kaupunkia nälänhädältä."
+msgid ""
+"Famine can occur when food stock reaches zero due to a food deficit (which a "
+"Granary merely delays), in which case it leads to the loss of any Settlers "
+"consuming food, or of city population if there are none. Famine can also "
+"occur at any time due to random crop failure, in which case it causes loss "
+"of population and all stored food; a Granary eliminates this risk."
+msgstr ""
+"Nälänhätä voi seurata jos ruokavarastot tyhjenevät ruuan alijäämän johdosta "
+"(jota viljasiilo vain hidastaa). Tällöin ruokaa kuluttavat uudisraivaajat "
+"menetetään, tai jos niitä ei ole, kaupungin väestö pienenee. Nälänhätä voi "
+"myös tapahtua milloin tahansa satunnaisesti sadon epäonnistuttua, jolloin "
+"kaupungin väestö pienenee ja kaikki varastoitu ruoka menetetään; tämän "
+"riskin viljasiilo ehkäisee."
 
 #: data/civ1/buildings.ruleset:284 data/civ2/buildings.ruleset:351
 #: data/classic/buildings.ruleset:391 data/experimental/buildings.ruleset:416
@@ -15867,8 +15896,12 @@ msgstr ""
 "Vaikutus ei ulotu asukkaisiin, joiden tyytymättömyys johtuu sotatoimista."
 
 #: data/civ1/buildings.ruleset:637
-msgid "Temple protects the city from Volcano."
-msgstr "Temppeli suojaa kaupunkia tulivuorenpurkauksilta."
+msgid ""
+"A Temple in a city near mountains additionally prevents population loss from "
+"volcanic activity."
+msgstr ""
+"Temppeli vuoren lähellä olevassa kaupungissa myös estää väestön vähenemisen "
+"tulivuorenpurkauksen sattuessa."
 
 #: data/civ1/buildings.ruleset:642 data/civ1/techs.ruleset:588
 #: data/civ2/buildings.ruleset:938 data/civ2/techs.ruleset:755
@@ -17577,6 +17610,10 @@ msgstr "Matematiikka"
 msgid "Medicine"
 msgstr "Lääketiede"
 
+#: data/civ1/techs.ruleset:380
+msgid "Eliminates the risk of population loss from plague in all your cities."
+msgstr "Suojaa väestön vähenemiseltä ruton johdosta kaikissa kaupungeissasi."
+
 #: data/civ1/techs.ruleset:382 data/civ2/techs.ruleset:464
 #: data/classic/techs.ruleset:472 data/experimental/techs.ruleset:517
 #: data/civ2civ3/techs.ruleset:531 data/multiplayer/techs.ruleset:480
@@ -17741,6 +17778,16 @@ msgstr "meri"
 msgid "Oceans cover much of the world."
 msgstr "Meret peittävät maapallosta ison osan."
 
+#: data/civ1/terrain.ruleset:212
+msgid ""
+"In cities built on the coast, stored food and work towards the current "
+"project are at risk from piracy, unless there is any kind of Barracks in the "
+"city."
+msgstr ""
+"Merirosvot aiheuttavat vaaran rannikkokaupungeissa varastoidulle ruoalle ja "
+"niissä keskeneräisiin hankkeisiin tehdylle työlle, ellei kaupungissa ole "
+"minkäänlaista kasarmia."
+
 #: data/civ1/terrain.ruleset:215
 msgid "Arctic"
 msgstr "arktinen alue"
@@ -17809,6 +17856,16 @@ msgstr ""
 "Kukkulat ovat paitsi hyvää viljelysmaata niin myös usein luonnonvaroiltaan "
 "rikkaita."
 
+#: data/civ1/terrain.ruleset:412
+msgid ""
+"A city built in or next to hills is at risk of earthquakes, which can "
+"destroy buildings in that city. There is no technology or improvement which "
+"can prevent this disaster."
+msgstr ""
+"Kukkuloille tai niiden viereen rakennettuihin kaupunkeihin voi iskeä "
+"maanjäristys, joka voi tuhota kaupungin rakennuksia. Mikään teknologia tai "
+"parannus ei voi ehkäistä tältä vaaralta."
+
 #: data/civ1/terrain.ruleset:411 data/civ2/terrain.ruleset:412
 #: data/classic/terrain.ruleset:562 data/experimental/terrain.ruleset:548
 #: data/civ2civ3/terrain.ruleset:569 data/multiplayer/terrain.ruleset:546
@@ -17838,6 +17895,16 @@ msgid ""
 msgstr ""
 "Vuoriston suuret korkeuserot vaikeuttavat kohtuuttomasti viljelyä ja "
 "kaupankäyntiä."
+
+#: data/civ1/terrain.ruleset:491
+msgid ""
+"Cities built in or next to mountains are at risk from volcanic activity. A "
+"Temple in the city instils sufficient respect for the forces of nature to "
+"prevent population loss."
+msgstr ""
+"Vuorille tai niiden lähelle rakennetut kaupungit ovat haavoittuvaisia "
+"tulivuorenpurkauksille. Kaupunkiin rakennettu temppeli saa aikaan riittävän "
+"kunnioituksen luonnonvoimia kohtaan estäen väestön vähenemisen."
 
 #: data/civ1/terrain.ruleset:486 data/civ2/terrain.ruleset:490
 #: data/classic/terrain.ruleset:648 data/experimental/terrain.ruleset:630
@@ -17977,9 +18044,8 @@ msgid ""
 "railroads. Units expend no movement points when moving along a railroad; you "
 "may ride a railroad indefinitely. (As may your enemies!)"
 msgstr ""
-" – Keksittyäsi rautatie-teknologian, voit rakentaa teittesi päälle "
-"rautatiet\n"
-" – Rautatietä pitkin kulkevat yksiköt eivät kuluta lainkaan liikepisteitä. "
+"Keksittyäsi rautatie-teknologian, voit rakentaa teittesi päälle rautatiet. "
+"Rautatietä pitkin kulkevat yksiköt eivät kuluta lainkaan liikepisteitä. "
 "Voit ajella junalla loputtomiin. (Kuten myös vihollisesi!)"
 
 #: data/civ1/terrain.ruleset:914
@@ -17988,9 +18054,9 @@ msgid ""
 "a tile. A tile whose road is upgraded to a railroad retains any trade bonus "
 "from the road as well."
 msgstr ""
-" – Rautatie lisää kaikkea ruudun tuottoa 50% (alas pyöristäen). "
-"Rakennettaessa rautatie tavallisen tien päälle, myös tien mahdollisesti "
-"tarjoamat kauppabonukset säilyvät."
+"Rautatie lisää kaikkea ruudun tuottoa 50% (alas pyöristäen). Rakennettaessa "
+"rautatie tavallisen tien päälle, myös tien mahdollisesti tarjoamat "
+"kauppabonukset säilyvät."
 
 #: data/civ1/terrain.ruleset:918 data/civ2/terrain.ruleset:1046
 #: data/classic/terrain.ruleset:1258 data/experimental/terrain.ruleset:1236
@@ -18020,6 +18086,15 @@ msgid ""
 msgstr ""
 "Teitä ja rautateitä voidaan rakentaa jokiruutujen yli vain jos "
 "sivilisaatiosi on oppinut sillanrakennustaidon."
+
+#: data/civ1/terrain.ruleset:954
+msgid ""
+"Cities built on or next to rivers are at risk of flooding, which will cause "
+"a loss of population and stored food. City Walls eliminate this risk."
+msgstr ""
+"Joelle tai sen viereen rakennetulla kaupungilla on vaara jäädä ruokavarastot "
+"tuhoavan ja väestöä vähentävän tulvan jalkoihin. Kaupunginmuuri ehkäisee tämän"
+"vaaran."
 
 #: data/civ1/units.ruleset:26 data/civ1/units.ruleset:1183
 #: data/civ2/units.ruleset:32 data/civ2/units.ruleset:1895
@@ -24619,7 +24694,7 @@ msgid ""
 "intelligence about the other, which can be accessed from the 'Nations' "
 "report."
 msgstr ""
-"7. Kanssakäynti muiden pelaajien kanssa (diplomatia).\n"
+" 7. Kanssakäynti muiden pelaajien kanssa (diplomatia).\n"
 "\n"
 "    Yhteys toiseen kansakuntaan syntyy, kun yksikkösi tapaavat ensi kerran "
 "yksiköitä vieraasta kansakunnasta tai löytävät vieraan kaupungin (tai toisin "
@@ -25462,7 +25537,7 @@ msgid ""
 "initial revenue by entering the marketplace and selling trade goods, but it "
 "is reduced to a third.)"
 msgstr ""
-"Kukin kaupunki voi perustaa vain rajatun määrän kauppareittejä (tarkka raha "
+"Kukin kaupunki voi perustaa vain rajatun määrän kauppareittejä (tarkka raja "
 "riippuu sääntökokoelmasta ja olosuhteista). Yritettäessä perustaa uusi "
 "kauppareitti, kun kaupungilla on niitä jo suurin mahdollinen määrä, uusi "
 "reitti perustetaan vain jos se tuottaa enemmän kuin vähiten tuottavat "
@@ -31723,13 +31798,13 @@ msgstr[1] "%s tehostaa tutkimusta, harppaat %d edistysaskelta."
 #. TRANS: Tech from building (Darwin's Voyage)
 #: server/cityturn.c:1685
 #, c-format
-msgid "?frombldng:Acquired %s from %s."
+msgid "?frombldg:Acquired %s from %s."
 msgstr "%s saatu, sen tuotti %s!"
 
 #. TRANS: Tech from building (Darwin's Voyage)
 #: server/cityturn.c:1689
 #, c-format
-msgid "?frombldng:The %s have acquired %s from %s."
+msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "Tiedonjanoiset %1$s saivat edistysaskeleen. %3$s tuotti teknologian %2$s."
 
 #: server/cityturn.c:1696
@@ -32216,7 +32291,7 @@ msgid ""
 " - the list of defined map images,\n"
 " - the list of the players in the game,\n"
 " - the available scenarios,\n"
-" - the available nationsets in this ruleset,\n"
+" - the available nation sets in this ruleset,\n"
 " - the teams of players or\n"
 " - the running votes.\n"
 "The argument may be abbreviated, and defaults to 'players' if absent."
@@ -34193,7 +34268,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
-"nation is not in the current nationset."
+"nation is not in the current nation set."
 msgstr ""
 "Pelaajan %d (%s) kansakunnan muuttaminen epäonnistui – uutta kansakuntaa %d "
 "(%s) ei löydy valitusta kansavalikoimasta."
@@ -35213,7 +35288,7 @@ msgstr "%s johtama kansakuntaa ei kelpaa; vaihdetaan tilalle %s."
 #: server/savegame2.c:6325 server/savegame.c:4499
 #, c-format
 msgid ""
-"The save game is wrong about what the closes relationship %s and %s have had "
+"The save game is wrong about what the closest relationship %s and %s have had "
 "is. Fixing."
 msgstr ""
 "Talletuksessa on selkeästi väärä tieto siitä kuinka läheisiä %s ja %s ovat "
@@ -35583,8 +35658,9 @@ msgid "Warning: aifill not met: %s."
 msgstr "Varoitus: pyydettyä määrää tietokonepelaajia ei voitu luoda: %s."
 
 #: server/settings.c:543
-msgid "Warning: not enough nations in this nationset for all current players."
-msgstr "Varoitus: Pelaajille ei ole tarpeeksi kansakuntia tässä kansavalikoimassa."
+msgid "Warning: not enough nations in this nation set for all current players."
+msgstr ""
+"Varoitus: Pelaajille ei ole tarpeeksi kansakuntia tässä kansavalikoimassa."
 
 #: server/settings.c:635
 #, c-format
@@ -38132,7 +38208,8 @@ msgid "requested more than 'maxplayers' setting"
 msgstr "pyydetty määrä ole enemmän kuin 'maxplayers' asetus sallii"
 
 #: server/srv_main.c:1975
-msgid "not enough playable nations in this nationset (see 'nationset' setting)"
+msgid ""
+"not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "käytössä olevassa kansavalikoimassa ei ole riittävästi kansakuntia (kokeile "
 "muuttaa 'nationset' asetusta)"
@@ -38183,7 +38260,7 @@ msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
 #: server/srv_main.c:2926
 #, c-format
-msgid "Now accepting new client connections on port %d"
+msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
 
 #: server/stdinhand.c:182
@@ -38337,7 +38414,7 @@ msgstr "Nimi on jo toisen pelaajan käytössä."
 
 #: server/stdinhand.c:911
 #, c-format
-msgid "Can't create player, requested nation %s not in current nationset."
+msgid "Can't create player, requested nation %s not in current nation set."
 msgstr "En voi luoda pelaajaa, kansaa %s ei ole valitussa kansavalikoimassa."
 
 #: server/stdinhand.c:919
@@ -38384,9 +38461,11 @@ msgstr "Palvelin on täynnä, en voi lisätä enempää pelaajia."
 
 #: server/stdinhand.c:1070
 msgid ""
-"Can't add more players, not enough playable nations in current nationset "
+"Can't add more players, not enough playable nations in current nation set "
 "(see 'nationset' setting)."
-msgstr "Ei voi lisätä pelaajia, käytössä olevassa kansavalikoimassa ei ole riittävästi pelattavia kansakuntia (kokeile muuttaa 'nationset' asetusta)"
+msgstr ""
+"Ei voi lisätä pelaajia, käytössä olevassa kansavalikoimassa ei ole "
+"riittävästi pelattavia kansakuntia (kokeile muuttaa 'nationset' asetusta)."
 
 #: server/stdinhand.c:1074
 msgid "Can't add more players, not enough playable nations."
@@ -39670,9 +39749,11 @@ msgstr "Pelaajia ei ole, peliä ei aloiteta."
 
 #: server/stdinhand.c:5666
 msgid ""
-"Not enough nations in the current nationset for all players; game will not "
+"Not enough nations in the current nation set for all players; game will not "
 "start. (See 'nationset' setting.)"
-msgstr "Pelaajille ei ole tarpeeksi kansakuntia käytössä olevassa kansavalikoimassa, peliä ei aloiteta. (Tarkista 'nationset' palvelinasetus.)"
+msgstr ""
+"Pelaajille ei ole tarpeeksi kansakuntia käytössä olevassa kansavalikoimassa, "
+"peliä ei aloiteta. (Tarkista 'nationset' palvelinasetus.)"
 
 #: server/stdinhand.c:5671
 msgid "Not enough nations for all players; game will not start."
@@ -39951,9 +40032,11 @@ msgstr ""
 "Diplomaatit raportoivat, että %s ovat saavuttaneet tulevaisuuden teknologian "
 "%d."
 
-#: server/techtools.c:187
+#. TRANS: Tech from source of an effect
+#. * (Great Library)
+#: server/techtools.c:189
 #, c-format
-msgid "%s acquired from %s!"
+msgid "?fromeffect:%s acquired from %s!"
 msgstr "%s saatu, välittäjänä %s!"
 
 #. TRANS: Tech from source of an effect (Great Library)
@@ -41454,15 +41537,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ msgid "Illegal value for fcdb port: \"%s\""
 #~ msgstr "Kelpaamaton arvo fcdb-portille: \"%s\""
 
-#~ msgid "current version"
-#~ msgstr "nykyinen versio"
-
-#~ msgid "freeciv 2.3.0"
-#~ msgstr "freeciv 2.3.0"
-
-#~ msgid "freeciv 2.4.0"
-#~ msgstr "freeciv 2.4.0"
-
 #~ msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 #~ msgstr ""
 #~ "Suoritetaan yhteensopivuustoiminto versiolle: <%d (halutaan: %d, "
@@ -41539,18 +41613,3 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ "yhden tyytymättömän asukkaan rauhalliseksi demokratiassa, ellei "
 #~ "tyytymättömyys johdu sotatoimista. Puolittaa myös pääkaupungin etäisyyden "
 #~ "vaikutuksen laskettaessa kapinan hintaa."
-
-#~ msgid ""
-#~ "* Can establish trade routes (must travel to target city and must be at "
-#~ "least %d tiles [in Manhattan distance] from this unit's home city).\n"
-#~ msgstr ""
-#~ "· Voi aloittaa kauppareittejä – kulkemalla kohdekaupunkiin, joka on "
-#~ "vähintään %d ruudun päässä taksimiehen geometrialla (ruutujen reunoja, ei "
-#~ "diagonaaleja pitkin laskien) yksikön kotikaupungista.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "veteran"
-#~ msgstr ""
-#~ "\n"
-#~ "konkari"
