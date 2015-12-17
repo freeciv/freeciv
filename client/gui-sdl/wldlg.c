@@ -24,7 +24,7 @@
 
 #include <stdlib.h>
 
-#include "SDL.h"
+#include "SDL/SDL.h"
 
 /* utility */
 #include "fcintl.h"
@@ -86,9 +86,9 @@ struct EDITOR {
 
 
 static int worklist_editor_item_callback(struct widget *pWidget);
-static SDL_Surface * get_progress_icon(int stock, int cost, int *progress);
-static const char * get_production_name(struct city *pCity,
-					struct universal prod, int *cost);
+static SDL_Surface *get_progress_icon(int stock, int cost, int *progress);
+static const char *get_production_name(struct city *pCity,
+                                       struct universal prod, int *cost);
 static void refresh_worklist_count_label(void);
 static void refresh_production_label(int stock);
 

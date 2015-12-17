@@ -14,7 +14,7 @@
 #ifndef FC__CANVAS_H
 #define FC__CANVAS_H
 
-#include "SDL.h"
+#include "SDL/SDL.h"
 
 #include "canvas_g.h"
 

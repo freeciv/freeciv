@@ -24,7 +24,7 @@
 #include <fc_config.h>
 #endif
 
-#include "SDL.h"
+#include "SDL/SDL.h"
 
 /* utility.h */
 #include "shared.h"

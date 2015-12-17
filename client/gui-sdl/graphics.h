@@ -26,8 +26,9 @@
 
 #include "graphics_g.h"
 
-#include "SDL_gfxPrimitives.h"
-#include "SDL_rotozoom.h"
+#include "SDL/SDL_gfxPrimitives.h"
+#include "SDL/SDL_rotozoom.h"
+
 #include "canvas.h"
 #include "gui_main.h"
 

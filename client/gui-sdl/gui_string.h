@@ -22,7 +22,7 @@
 #ifndef FC__GUISTRING_H
 #define FC__GUISTRING_H
 
-#include "SDL.h"
+#include "SDL/SDL.h"
 
 #include "fc_types.h"
 
@@ -52,16 +52,16 @@ typedef struct SDL_String16 {
   Uint16 *text;
 } SDL_String16;
 
-SDL_String16 * create_string16(Uint16 *pInTextString,
-					size_t n_alloc, Uint16 ptsize);
-SDL_String16 * copy_chars_to_string16(SDL_String16 *pString,
-					const char *pCharString);
+SDL_String16 *create_string16(Uint16 *pInTextString,
+                              size_t n_alloc, Uint16 ptsize);
+SDL_String16 *copy_chars_to_string16(SDL_String16 *pString,
+                                     const char *pCharString);
 bool convert_string_to_const_surface_width(SDL_String16 *pString,
-								int width);
-int write_text16(SDL_Surface * pDest, Sint16 x, Sint16 y,
-		 SDL_String16 * pString);
-SDL_Surface * create_text_surf_from_str16(SDL_String16 *pString);
-SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w);
+                                           int width);
+int write_text16(SDL_Surface *pDest, Sint16 x, Sint16 y,
+                 SDL_String16 *pString);
+SDL_Surface *create_text_surf_from_str16(SDL_String16 *pString);
+SDL_Surface *create_text_surf_smaller_that_w(SDL_String16 *pString, int w);
 SDL_Rect str16size(SDL_String16 *pString16);
 void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize);
 
