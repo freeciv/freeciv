@@ -29,6 +29,7 @@
 // common
 #include "game.h"
 #include "map.h"
+#include "research.h"
 
 // client
 #include "climisc.h"
@@ -900,6 +901,8 @@ static const char *info_label_stylesheet =
   "color: rgb(232, 255, 0); background: transparent;";
 static const char *res_label_stylesheet =
   "color: rgb(40, 138, 200); background: transparent;";
+static const char *res_blink_label_stylesheet =
+  "color: rgb(120, 220, 255); background: transparent;";
 static const char *time_label_stylesheet =
   "color: rgb(180, 0, 0); background: transparent;";
 
@@ -979,6 +982,20 @@ void end_turn_area::set_highlight_turn_button(bool highlight)
   }
 }
 
+/***************************************************************************
+  Constructor for clicked_label
+***************************************************************************/
+clicked_label::clicked_label(QWidget *parent) : QLabel(parent)
+{
+}
+
+/***************************************************************************
+  Mouse event for clicked_label
+***************************************************************************/
+void clicked_label::mousePressEvent(QMouseEvent *e)
+{
+  emit clicked();
+}
 
 /**************************************************************************
   Constructor for information label
@@ -998,7 +1015,7 @@ info_label::info_label(QWidget *parent) : fcwidget()
   layout->addWidget(eco_info);
   si = new QSpacerItem(10, 0);
   layout->addSpacerItem(si);
-  res_info = new QLabel();
+  res_info = new clicked_label();
   res_info->setStyleSheet(res_label_stylesheet);
   layout->addWidget(res_info);
   si = new QSpacerItem(10, 0);
@@ -1013,7 +1030,12 @@ info_label::info_label(QWidget *parent) : fcwidget()
   layout->addWidget(time_label);
   si = new QSpacerItem(10, 0);
   layout->addSpacerItem(si);
+  timer_active = false;
+  res_timer = new QTimer;
+  res_timer->setSingleShot(true);
   setLayout(layout);
+  connect(res_timer, SIGNAL(timeout()), this, SLOT(blink()));
+  connect(res_info, SIGNAL(clicked()), this, SLOT(show_research_tab()));
 }
 
 
@@ -1022,6 +1044,14 @@ info_label::info_label(QWidget *parent) : fcwidget()
 **************************************************************************/
 info_label::~info_label()
 {
+}
+
+/***************************************************************************
+  Slot for showing research tab
+***************************************************************************/
+void info_label::show_research_tab()
+{
+  science_report_dialog_popup(true);
 }
 
 /**************************************************************************
@@ -1214,7 +1244,50 @@ void info_label::info_update()
   str.remove(str.indexOf('('), str.count());
   set_res_info(str);
 
+  if (nullptr != client.conn.playing) {
+    struct player_research *research = player_research_get(client_player());
+
+    if (research->researching == A_UNSET && research->tech_goal == A_UNSET
+        && !timer_active) {
+      res_timer->start(700);
+      blink_state = true;
+    }
+  }
+
   resize(sizeHint());
+}
+
+/**************************************************************************
+  Makes research text blinking ( it's slot for timeout() from res_timer)
+**************************************************************************/
+void info_label::blink()
+{
+  if (client_is_observer()) {
+    res_info->setStyleSheet(res_label_stylesheet);
+    res_timer->stop();
+    timer_active = false;
+    return;
+  }
+
+  if (blink_state) {
+    res_info->setStyleSheet(res_blink_label_stylesheet);
+  } else {
+    res_info->setStyleSheet(res_label_stylesheet);
+  }
+
+  if (nullptr != client.conn.playing) {
+    struct player_research *research = player_research_get(client_player());
+    if (timer_active && ( research->researching != A_UNSET
+        || research->tech_goal != A_UNSET)) {
+      res_timer->stop();
+      timer_active = false;
+      res_info->setStyleSheet(res_label_stylesheet);
+    } else {
+      timer_active = true;
+      res_timer->start(700);
+      blink_state = !blink_state;
+    }
+  }
 }
 
 /****************************************************************************
