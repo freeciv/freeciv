@@ -2410,19 +2410,29 @@ static void generate_players(void)
       continue;
     }
 
-    /* See if the player name matches a known leader name. */
-    allowed_nations_iterate(pnation) {
-      struct nation_leader *pleader;
-      const char *name = player_name(pplayer);
+    /* See if the player name matches a known leader name.
+     * If more than one nation has this leader name, pick one at random.
+     * No attempt is made to avoid clashes to maximise the number of
+     * nations that can be assigned in this way. */
+    {
+      struct nation_list *candidates = nation_list_new();
+      int n = 0;
 
-      if (is_nation_playable(pnation)
-          && client_can_pick_nation(pnation)
-          && NULL == pnation->player
-          && (pleader = nation_leader_by_name(pnation, name))) {
-        player_set_nation_full(pplayer, pnation);
-        break;
+      allowed_nations_iterate(pnation) {
+        if (is_nation_playable(pnation)
+            && client_can_pick_nation(pnation)
+            && NULL == pnation->player
+            && (nation_leader_by_name(pnation, player_name(pplayer)))) {
+          nation_list_append(candidates, pnation);
+          n++;
+        }
+      } allowed_nations_iterate_end;
+      if (n > 0) {
+        player_set_nation_full(pplayer,
+                               nation_list_get(candidates, fc_rand(n)));
       }
-    } allowed_nations_iterate_end;
+      nation_list_destroy(candidates);
+    }
     if (pplayer->nation != NO_NATION_SELECTED) {
       announce_player(pplayer);
     } else {
