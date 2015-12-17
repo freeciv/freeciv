@@ -268,6 +268,20 @@ protected:
 };
 
 /**************************************************************************
+  Label which will trigger clicked signal on mouse click
+**************************************************************************/
+class clicked_label : public QLabel
+{
+  Q_OBJECT
+public:
+  explicit clicked_label(QWidget *parent = 0);
+signals:
+  void clicked();
+protected:
+  void mousePressEvent(QMouseEvent *e);
+};
+
+/**************************************************************************
   Information label about civilization, turn, time etc
 **************************************************************************/
 class info_label : public fcwidget
@@ -277,7 +291,9 @@ class info_label : public fcwidget
   QLabel *eco_info;
   QLabel *time_label;
   QLabel *res_info;
-
+  QTimer *res_timer;
+  bool blink_state;
+  bool timer_active;
 public:
   info_label(QWidget *parent);
   virtual ~info_label();
@@ -288,8 +304,14 @@ public:
   void set_res_info(const QString &info);
   void info_update();
   void update_menu();
+private slots:
+  void blink();
+  void show_research_tab();
 };
 
+/**************************************************************************
+  End turn widget with government indicators and taxes
+**************************************************************************/
 class end_turn_area : public QFrame
 {
   Q_OBJECT
