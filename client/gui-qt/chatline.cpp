@@ -487,7 +487,7 @@ static bool is_plain_public_message(QString s)
     if (s1.length() < i) {
       continue;
     }
-    if (s1.left(i) == str) {
+    if (!QString::compare(s1.left(i), str, Qt::CaseInsensitive)) {
       return false;
     }
   } conn_list_iterate_end;
@@ -496,7 +496,7 @@ static bool is_plain_public_message(QString s)
     if (s1.length() < i) {
       continue;
     }
-    if (s1.left(i) == str) {
+    if (!QString::compare(s1.left(i), str, Qt::CaseInsensitive)) {
       return false;
     }
   } players_iterate_end;
