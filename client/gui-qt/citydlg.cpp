@@ -2684,7 +2684,7 @@ QString get_tooltip_unit(struct unit_type *unit)
   def_str += "<table><tr><td>" + bold(QString(_("Attack:"))) + " "
              + QString::number(unit->attack_strength)
              + QString("</td><td>") + bold(QString(_("Defense:"))) + " "
-             + QString::number(unit->attack_strength)
+             + QString::number(unit->defense_strength)
              + QString("</td><td>") + bold(QString(_("Move:"))) + " "
              + QString(move_points_text(unit->move_rate, TRUE))
              + QString("</td></tr><tr><td>")
