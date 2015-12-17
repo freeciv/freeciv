@@ -14,8 +14,8 @@
 #ifndef FC__UTF8STRING_H
 #define FC__UTF8STRING_H
 
-/* SDL */
-#include <SDL.h>
+/* SDL2 */
+#include <SDL2/SDL.h>
 
 size_t utf8_strlen(const char *pstr);
 char **create_new_line_utf8strs(const char *pstr);

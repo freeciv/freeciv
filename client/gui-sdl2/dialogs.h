@@ -22,8 +22,8 @@
 #ifndef FC__DIALOGS_H
 #define FC__DIALOGS_H
 
-/* SDL */
-#include <SDL.h>
+/* SDL2 */
+#include <SDL2/SDL.h>
 
 #include "dialogs_g.h"
 

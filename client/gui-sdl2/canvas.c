@@ -15,9 +15,9 @@
 #include <fc_config.h>
 #endif
 
-/* SDL */
-#include <SDL.h>
-#include <SDL_ttf.h>
+/* SDL2 */
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 /* utility */
 #include "log.h"

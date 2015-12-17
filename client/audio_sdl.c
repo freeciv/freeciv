@@ -17,9 +17,15 @@
 
 #include <string.h>
 
+#ifdef AUDIO_SDL1_2
 /* SDL */
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
+#else  /* AUDIO_SDL1_2 */
+/* SDL2 */
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#endif /* AUDIO_SDL1_2 */
 
 /* utility */
 #include "log.h"

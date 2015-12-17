@@ -20,7 +20,13 @@
  * it is needed for sound to work as long as SDL-1.2 mixer is
  * being used. It defines "main" macro to rename our main() so that
  * it can install SDL's own. */
-#include <SDL.h>
+#ifdef AUDIO_SDL1_2
+/* SDL */
+#include <SDL/SDL.h>
+#else  /* AUDIO_SDL1_2 */
+/* SDL2 */
+#include <SDL2/SDL.h>
+#endif /* AUDIO_SDL1_2 */
 #endif
 
 #include <stdio.h>

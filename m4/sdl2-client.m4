@@ -87,7 +87,7 @@ AC_DEFUN([FC_SDL2_PROJECT],
                [sdl2_lib_found="yes"], [sdl2_lib_found="no"
 sdl2_h_found="no"])
   if test "x$sdl2_lib_found" = "xyes" ; then
-    AC_CHECK_HEADER([$3],
+    AC_CHECK_HEADER([SDL2/$3],
                     [sdl2_h_found="yes"
 gui_sdl2_libs="${gui_sdl2_libs} -l$1"], [sdl2_h_found="no"])
   fi
