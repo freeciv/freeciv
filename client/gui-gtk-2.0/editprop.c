@@ -1869,7 +1869,7 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
       switch (propid) {
       case OPID_UNIT_MOVES_LEFT:
         *pmin = 0;
-        *pmax = putype->move_rate;
+        *pmax = 65535; /* packets.def MOVEFRAGS */
         *pstep = 1;
         *pbig_step = 5;
         return TRUE;
@@ -2871,6 +2871,7 @@ static void objprop_setup_widget(struct objprop *op)
     objprop_set_child_widget(op, "entry", entry);
     return;
 
+  case OPID_UNIT_MOVES_LEFT:
   case OPID_CITY_SIZE:
   case OPID_CITY_SHIELD_STOCK:
   case OPID_PLAYER_SCIENCE:
@@ -2883,7 +2884,6 @@ static void objprop_setup_widget(struct objprop *op)
     objprop_set_child_widget(op, "spin", spin);
     return;
 
-  case OPID_UNIT_MOVES_LEFT:
   case OPID_UNIT_FUEL:
   case OPID_UNIT_HP:
   case OPID_UNIT_VETERAN:
@@ -3055,6 +3055,7 @@ static void objprop_refresh_widget(struct objprop *op,
     gtk_widget_set_sensitive(entry, pv != NULL);
     break;
 
+  case OPID_UNIT_MOVES_LEFT:
   case OPID_CITY_SIZE:
   case OPID_CITY_SHIELD_STOCK:
   case OPID_PLAYER_SCIENCE:
@@ -3077,7 +3078,6 @@ static void objprop_refresh_widget(struct objprop *op,
     gtk_widget_set_sensitive(spin, pv != NULL);
     break;
 
-  case OPID_UNIT_MOVES_LEFT:
   case OPID_UNIT_FUEL:
   case OPID_UNIT_HP:
   case OPID_UNIT_VETERAN:

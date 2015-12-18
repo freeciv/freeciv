@@ -828,9 +828,9 @@ void handle_edit_unit(struct connection *pc,
   putype = unit_type(punit);
 
   if (has_capability("extended_move_rate", pc->capability)) {
-    moves_left = CLIP(0, packet->moves_left_new, putype->move_rate);
+    moves_left = packet->moves_left_new;
   } else {
-    moves_left = CLIP(0, packet->moves_left_old, putype->move_rate);
+    moves_left = packet->moves_left_old;
   }
   if (moves_left != punit->moves_left) {
     punit->moves_left = moves_left;
