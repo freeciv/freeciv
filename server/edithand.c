@@ -769,7 +769,7 @@ void handle_edit_unit(struct connection *pc,
   struct unit *punit;
   int id;
   bool changed = FALSE;
-  int moves_left, fuel, hp;
+  int fuel, hp;
 
   id = packet->id;
   punit = game_unit_by_number(id);
@@ -781,9 +781,8 @@ void handle_edit_unit(struct connection *pc,
 
   putype = unit_type_get(punit);
 
-  moves_left = CLIP(0, packet->moves_left, putype->move_rate);
-  if (moves_left != punit->moves_left) {
-    punit->moves_left = moves_left;
+  if (packet->moves_left != punit->moves_left) {
+    punit->moves_left = packet->moves_left;
     changed = TRUE;
   }
 
