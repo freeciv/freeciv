@@ -117,6 +117,8 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 const struct packet_handlers *packet_handlers_initial(void);
 const struct packet_handlers *packet_handlers_get(const char *capability);
 
+void packets_deinit(void);
+
 #define SEND_PACKET_START(packet_type) \
   unsigned char buffer[MAX_LEN_PACKET]; \
   struct data_out dout; \
