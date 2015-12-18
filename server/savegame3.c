@@ -520,10 +520,10 @@ static void savegame3_load_real(struct section_file *file)
   sg_load_players_basic(loading);
   /* [map]; needs width and height loaded by [settings]  */
   sg_load_map(loading);
-  /* [player<i>] */
-  sg_load_players(loading);
   /* [research] */
   sg_load_researches(loading);
+  /* [player<i>] */
+  sg_load_players(loading);
   /* [event_cache] */
   sg_load_event_cache(loading);
   /* [treaties] */
@@ -3485,6 +3485,8 @@ static void sg_load_players(struct loaddata *loading)
     unit_list_iterate(pplayer->units, punit) {
       if (!can_unit_continue_current_activity(punit)) {
         log_sg("Unit doing illegal activity in savegame!");
+        log_sg("Activity: %s, Target: %s", unit_activity_name(punit->activity),
+               extra_rule_name(punit->activity_target));
         punit->activity = ACTIVITY_IDLE;
       }
     } unit_list_iterate_end;
