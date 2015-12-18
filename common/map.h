@@ -529,6 +529,10 @@ extern const int DIR_DY[8];
 #define MAP_MIN_HUTS             0
 #define MAP_MAX_HUTS             500
 
+#define MAP_DEFAULT_ANIMALS      20
+#define MAP_MIN_ANIMALS          0
+#define MAP_MAX_ANIMALS          500
+
 #define MAP_DEFAULT_MAPSIZE     MAPSIZE_FULLSIZE
 
 /* Size of the map in thousands of tiles. If MAP_MAX_SIZE is increased, 
