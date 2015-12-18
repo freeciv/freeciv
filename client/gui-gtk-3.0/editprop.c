@@ -1507,21 +1507,19 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         break;
       case OPID_TILE_ROADS:
         BV_CLR_ALL(pv->data.v_bv_roads);
-        extra_type_iterate(pextra) {
-          if (tile_has_extra(ptile, pextra)
-              && is_extra_caused_by(pextra, EC_ROAD)) {
+        extra_type_by_cause_iterate(EC_ROAD, pextra) {
+          if (tile_has_extra(ptile, pextra)) {
             BV_SET(pv->data.v_bv_roads, road_index(extra_road_get(pextra)));
           }
-        } extra_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
         break;
       case OPID_TILE_BASES:
         BV_CLR_ALL(pv->data.v_bv_bases);
-        extra_type_iterate(pextra) {
-          if (tile_has_extra(ptile, pextra)
-              && is_extra_caused_by(pextra, EC_BASE)) {
+        extra_type_by_cause_iterate(EC_BASE, pextra) {
+          if (tile_has_extra(ptile, pextra)) {
             BV_SET(pv->data.v_bv_bases, base_index(extra_base_get(pextra)));
           }
-        } extra_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
         break;
       case OPID_TILE_VISION:
         pv->data.v_tile_vision = fc_malloc(sizeof(struct tile_vision_data));
@@ -2366,30 +2364,26 @@ static void objbind_pack_modified_value(struct objbind *ob,
         } extra_type_by_cause_iterate_end;
         return;
       case OPID_TILE_ROADS:
-        extra_type_iterate(pextra) {
-          if (is_extra_caused_by(pextra, EC_ROAD)) {
-            int ridx = road_index(extra_road_get(pextra));
+        extra_type_by_cause_iterate(EC_ROAD, pextra) {
+          int ridx = road_index(extra_road_get(pextra));
 
-            if (BV_ISSET(pv->data.v_bv_roads, ridx)) {
-              BV_SET(packet->extras, extra_index(pextra));
-            } else {
-              BV_CLR(packet->extras, extra_index(pextra));
-            }
+          if (BV_ISSET(pv->data.v_bv_roads, ridx)) {
+            BV_SET(packet->extras, extra_index(pextra));
+          } else {
+            BV_CLR(packet->extras, extra_index(pextra));
           }
-        } extra_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
         return;
       case OPID_TILE_BASES:
-        extra_type_iterate(pextra) {
-          if (is_extra_caused_by(pextra, EC_BASE)) {
-            int bidx = base_index(extra_base_get(pextra));
+        extra_type_by_cause_iterate(EC_BASE, pextra) {
+          int bidx = base_index(extra_base_get(pextra));
 
-            if (BV_ISSET(pv->data.v_bv_bases, bidx)) {
-              BV_SET(packet->extras, extra_index(pextra));
-            } else {
-              BV_CLR(packet->extras, extra_index(pextra));
-            }
+          if (BV_ISSET(pv->data.v_bv_bases, bidx)) {
+            BV_SET(packet->extras, extra_index(pextra));
+          } else {
+            BV_CLR(packet->extras, extra_index(pextra));
           }
-        } extra_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
         return;
       case OPID_TILE_LABEL:
         sz_strlcpy(packet->label, pv->data.v_string);
