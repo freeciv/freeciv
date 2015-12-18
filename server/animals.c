@@ -94,6 +94,10 @@ void create_animals(void)
   struct research *presearch;
   int i;
 
+  if (game.map.server.animals <= 0) {
+    return;
+  }
+
   anination = pick_a_nation(NULL, FALSE, TRUE, ANIMAL_BARBARIAN);
 
   if (anination == NO_NATION_SELECTED) {
@@ -144,7 +148,7 @@ void create_animals(void)
    * about invalid team. */
   send_research_info(presearch, NULL);
 
-  for (i = 0; i < game.map.xsize * game.map.ysize / 50; i++) {
+  for (i = 0; i < game.map.xsize * game.map.ysize * game.map.server.animals / 1000; i++) {
     place_animal(plr);
   }
 }

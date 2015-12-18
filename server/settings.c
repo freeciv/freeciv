@@ -1568,6 +1568,15 @@ static struct setting settings[] = {
           huts_help, NULL, huts_action,
           MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS)
 
+  GEN_INT("animals", game.map.server.animals,
+          SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+          N_("Amount of animals"),
+          N_("Amount of animals initially created to terrains "
+             "defined for them in the ruleset. "
+             "The server variable's scale is animals per "
+             "thousand tiles."), NULL, NULL, NULL,
+          MAP_MIN_ANIMALS, MAP_MAX_ANIMALS, MAP_DEFAULT_ANIMALS)
+
   /* Options affecting numbers of players and AI players.  These only
    * affect the start of the game and can not be adjusted after that.
    */
