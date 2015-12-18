@@ -856,7 +856,6 @@ const struct packet_handlers *packet_handlers_get(const char *capability)
   /* Ensure the hash table is created. */
   if (packet_handlers == NULL) {
     packet_handlers = packet_handler_hash_new();
-    atexit(packet_handlers_free);
   }
 
   /* Lookup handlers for the capabilities or create new handlers. */
@@ -871,4 +870,13 @@ const struct packet_handlers *packet_handlers_get(const char *capability)
 
   fc_assert(phandlers != NULL);
   return phandlers;
+}
+
+/****************************************************************************
+  Call when there is no longer a requirement for protocol processing.
+  All connections must have been closed.
+****************************************************************************/
+void packets_deinit(void)
+{
+  packet_handlers_free();
 }

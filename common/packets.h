@@ -124,6 +124,8 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 const struct packet_handlers *packet_handlers_initial(void);
 const struct packet_handlers *packet_handlers_get(const char *capability);
 
+void packets_deinit(void);
+
 #ifdef FREECIV_JSON_CONNECTION
 #include "packets_json.h"
 #else

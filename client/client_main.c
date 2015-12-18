@@ -230,6 +230,7 @@ static void emergency_exit(void)
 static void at_exit(void)
 {
   emergency_exit();
+  packets_deinit();
   fc_shutdown_network();
   update_queue_free();
   fc_destroy_ow_mutex();

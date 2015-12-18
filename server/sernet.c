@@ -276,6 +276,7 @@ void close_connections_and_socket(void)
   send_server_info_to_metaserver(META_GOODBYE);
   server_close_meta();
 
+  packets_deinit();
   fc_shutdown_network();
 }
 
