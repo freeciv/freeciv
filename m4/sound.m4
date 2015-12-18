@@ -40,7 +40,7 @@ if test "x$USE_SOUND_SDL" != "xno" && test "x$USE_SOUND_SDL" != "xsdl" ; then
         SOUND_CFLAGS="$SOUND_CFLAGS $SDL2_CFLAGS"
         SOUND_LIBS="$SOUND_LIBS -lSDL2_mixer $SDL2_LIBS"
         AC_DEFINE([AUDIO_SDL], [1], [SDL Mixer support])
-        AC_DEFINE([AUDIO_SDL1_2], [1], [SDL-1.2 Mixer in use])
+        AC_DEFINE([AUDIO_SDL2], [1], [SDL-2 Mixer in use])
         AC_MSG_RESULT([yes])
         SOUND_SDL_OK=true
       else
@@ -62,6 +62,7 @@ if test "x$USE_SOUND_SDL" != "xsdl2" && test "x$USE_SOUND_SDL" != "xno" && test 
     SOUND_CFLAGS="$SOUND_CFLAGS $SDLMIXER_CFLAGS"
     SOUND_LIBS="$SOUND_LIBS $SDLMIXER_LIBS"
     AC_DEFINE([AUDIO_SDL], [1], [SDL_Mixer support])
+    AC_DEFINE([AUDIO_SDL1_2], [1], [SDL-1.2 Mixer in use])
     SDL_mixer=sdl
     SOUND_SDL_OK=true
 ], [
@@ -83,6 +84,7 @@ if test "x$USE_SOUND_SDL" != "xsdl2" && test "x$USE_SOUND_SDL" != "xno" && test 
         SOUND_CFLAGS="$SOUND_CFLAGS $SDL_CFLAGS"
         SOUND_LIBS="$SOUND_LIBS -lSDL_mixer $SDL_LIBS"
         AC_DEFINE([AUDIO_SDL], [1], [SDL_Mixer support])
+        AC_DEFINE([AUDIO_SDL1_2], [1], [SDL-1.2 Mixer in use])
         AC_MSG_RESULT([yes])
         SOUND_SDL_OK=true
       else
