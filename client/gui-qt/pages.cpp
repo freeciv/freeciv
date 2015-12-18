@@ -1289,100 +1289,102 @@ void fc_client::update_start_page()
    */
 
   players_iterate(pplayer) {
-    item = new QTreeWidgetItem();
-    conn_id = -1;
-    conn_list_iterate(pplayer->connections, pconn) {
-      if (pconn->playing == pplayer && !pconn->observer) {
-        conn_id = pconn->id;
-        break;
-      }
-    } conn_list_iterate_end;
-    if (is_barbarian(pplayer)) {
-      continue;
-    }
-    if (is_ai(pplayer)) {
-      is_ready = true;
-    } else {
-      is_ready = pplayer->is_ready;
-    }
-
-    if (pplayer->nation == NO_NATION_SELECTED) {
-      nation = _("Random");
-
-      if (pplayer->was_created) {
-        leader = player_name(pplayer);
-      } else {
-        leader = "";
-      }
-    } else {
-      nation = nation_adjective_for_player(pplayer);
-      leader = player_name(pplayer);
-    }
-
-    if (pplayer->team) {
-      team = team_name_translation(pplayer->team);
-    } else {
-      team = "";
-    }
-
-    for (int col = 0; col < 6; col++) {
-      switch (col) {
-      case 0:
-        str = pplayer->username;
-
-        if (is_ai(pplayer)) {
-          str = str + " <" + (ai_level_translated_name(pplayer->ai_common.skill_level))
-              + ">";
-        }
-
-        item->setText(col, str);
-        qvar = QVariant::fromValue((void *) pplayer);
-        qvar2 = 1;
-        item->setData(0, Qt::UserRole, qvar2);
-        item->setData(1, Qt::UserRole, qvar);
-        break;
-      case 1:
-        if (is_ready) {
-          item->setText(col, _("Yes"));
-        } else {
-          item->setText(col, _("No"));
-        }
-        break;
-      case 2:
-        item->setText(col, leader);
-        break;
-      case 3:
-        if (!pplayer->nation) {
+    if (!player_has_flag(pplayer, PLRF_SCENARIO_RESERVED)) {
+      item = new QTreeWidgetItem();
+      conn_id = -1;
+      conn_list_iterate(pplayer->connections, pconn) {
+        if (pconn->playing == pplayer && !pconn->observer) {
+          conn_id = pconn->id;
           break;
         }
-        psprite = get_nation_flag_sprite(tileset, pplayer->nation);
-        pixmap = psprite->pm;
-        item->setData(col, Qt::DecorationRole, *pixmap);
-        break;
-      case 4:
-        item->setText(col, nation);
-        break;
-      case 5:
-        item->setText(col, team);
-        break;
-      }
-    }
-
-    /**
-     * find any custom observers
-     */
-    recursed_items.clear();
-    conn_list_iterate(pplayer->connections, pconn) {
-      if (pconn->id == conn_id) {
+      } conn_list_iterate_end;
+      if (is_barbarian(pplayer)) {
         continue;
       }
-      item_r = new QTreeWidgetItem();
-      item_r->setText(0, pconn->username);
-      item_r->setText(5, _("Observer"));
-      recursed_items.append(item_r);
-      item->addChildren(recursed_items);
-    } conn_list_iterate_end;
-    items.append(item);
+      if (is_ai(pplayer)) {
+        is_ready = true;
+      } else {
+        is_ready = pplayer->is_ready;
+      }
+
+      if (pplayer->nation == NO_NATION_SELECTED) {
+        nation = _("Random");
+
+        if (pplayer->was_created) {
+          leader = player_name(pplayer);
+        } else {
+          leader = "";
+        }
+      } else {
+        nation = nation_adjective_for_player(pplayer);
+        leader = player_name(pplayer);
+      }
+
+      if (pplayer->team) {
+        team = team_name_translation(pplayer->team);
+      } else {
+        team = "";
+      }
+
+      for (int col = 0; col < 6; col++) {
+        switch (col) {
+        case 0:
+          str = pplayer->username;
+
+          if (is_ai(pplayer)) {
+            str = str + " <" + (ai_level_translated_name(pplayer->ai_common.skill_level))
+              + ">";
+          }
+
+          item->setText(col, str);
+          qvar = QVariant::fromValue((void *) pplayer);
+          qvar2 = 1;
+          item->setData(0, Qt::UserRole, qvar2);
+          item->setData(1, Qt::UserRole, qvar);
+          break;
+        case 1:
+          if (is_ready) {
+            item->setText(col, _("Yes"));
+          } else {
+            item->setText(col, _("No"));
+          }
+          break;
+        case 2:
+          item->setText(col, leader);
+          break;
+        case 3:
+          if (!pplayer->nation) {
+            break;
+          }
+          psprite = get_nation_flag_sprite(tileset, pplayer->nation);
+          pixmap = psprite->pm;
+          item->setData(col, Qt::DecorationRole, *pixmap);
+          break;
+        case 4:
+          item->setText(col, nation);
+          break;
+        case 5:
+          item->setText(col, team);
+          break;
+        }
+      }
+
+      /**
+       * find any custom observers
+       */
+      recursed_items.clear();
+      conn_list_iterate(pplayer->connections, pconn) {
+        if (pconn->id == conn_id) {
+          continue;
+        }
+        item_r = new QTreeWidgetItem();
+        item_r->setText(0, pconn->username);
+        item_r->setText(5, _("Observer"));
+        recursed_items.append(item_r);
+        item->addChildren(recursed_items);
+      } conn_list_iterate_end;
+      items.append(item);
+    }
   } players_iterate_end;
 
   player_item->addChildren(items);

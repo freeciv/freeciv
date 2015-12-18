@@ -56,6 +56,8 @@ enum plrcolor_mode {
 #define SPECENUM_NAME plr_flag_id
 #define SPECENUM_VALUE0 PLRF_AI
 #define SPECENUM_VALUE0NAME "ai"
+#define SPECENUM_VALUE1 PLRF_SCENARIO_RESERVED
+#define SPECENUM_VALUE1NAME "ScenarioReserved"
 #define SPECENUM_COUNT  PLRF_COUNT
 #define SPECENUM_BITVECTOR bv_plr_flags
 #include "specenum_gen.h"

@@ -2264,120 +2264,122 @@ void real_conn_list_dialog_update(void)
 
     /* Insert players into the connection list. */
     players_iterate(pplayer) {
-      conn_id = -1;
-      access_level = ALLOW_NONE;
-      pixbuf = pplayer->nation ? get_flag(pplayer->nation) : NULL;
+      if (!player_has_flag(pplayer, PLRF_SCENARIO_RESERVED)) {
+        conn_id = -1;
+        access_level = ALLOW_NONE;
+        pixbuf = pplayer->nation ? get_flag(pplayer->nation) : NULL;
 
-      conn_list_iterate(pplayer->connections, pconn) {
-        if (pconn->playing == pplayer && !pconn->observer) {
-          conn_id = pconn->id;
-          access_level = pconn->access_level;
-          break;
+        conn_list_iterate(pplayer->connections, pconn) {
+          if (pconn->playing == pplayer && !pconn->observer) {
+            conn_id = pconn->id;
+            access_level = pconn->access_level;
+            break;
+          }
+        } conn_list_iterate_end;
+
+        if (is_ai(pplayer) && !pplayer->was_created
+            && !pplayer->is_connected) {
+          /* TRANS: "<Novice AI>" */
+          fc_snprintf(name, sizeof(name), _("<%s AI>"),
+                      ai_level_translated_name(pplayer->ai_common.skill_level));
+        } else {
+          sz_strlcpy(name, pplayer->username);
+          if (access_level > ALLOW_BASIC) {
+            sz_strlcat(name, "*");
+          }
         }
-      } conn_list_iterate_end;
 
-      if (is_ai(pplayer) && !pplayer->was_created
-          && !pplayer->is_connected) {
-        /* TRANS: "<Novice AI>" */
-        fc_snprintf(name, sizeof(name), _("<%s AI>"),
-                    ai_level_translated_name(pplayer->ai_common.skill_level));
-      } else {
-        sz_strlcpy(name, pplayer->username);
-        if (access_level > ALLOW_BASIC) {
-          sz_strlcat(name, "*");
-        }
-      }
+        is_ready = !is_human(pplayer) ? TRUE : pplayer->is_ready;
 
-      is_ready = !is_human(pplayer) ? TRUE : pplayer->is_ready;
-
-      if (pplayer->nation == NO_NATION_SELECTED) {
-        nation = _("Random");
-        if (pplayer->was_created) {
+        if (pplayer->nation == NO_NATION_SELECTED) {
+          nation = _("Random");
+          if (pplayer->was_created) {
+            plr_name = player_name(pplayer);
+          } else {
+            plr_name = "";
+          }
+        } else {
+          nation = nation_adjective_for_player(pplayer);
           plr_name = player_name(pplayer);
+        }
+
+        team = pplayer->team ? team_name_translation(pplayer->team) : "";
+
+        if (model_get_player_iter(model, &parent, pprev_parent, pplayer)) {
+          gtk_tree_store_move_after(store, &parent, pprev_parent);
         } else {
-          plr_name = "";
-        }
-      } else {
-        nation = nation_adjective_for_player(pplayer);
-        plr_name = player_name(pplayer);
-      }
-
-      team = pplayer->team ? team_name_translation(pplayer->team) : "";
-
-      if (model_get_player_iter(model, &parent, pprev_parent, pplayer)) {
-        gtk_tree_store_move_after(store, &parent, pprev_parent);
-      } else {
-        gtk_tree_store_insert_after(store, &parent, NULL, pprev_parent);
-      }
-
-      gtk_tree_store_set(store, &parent,
-                         CL_COL_PLAYER_NUMBER, player_number(pplayer),
-                         CL_COL_USER_NAME, name,
-                         CL_COL_READY_STATE, is_ready,
-                         CL_COL_PLAYER_NAME, plr_name,
-                         CL_COL_FLAG, pixbuf,
-                         CL_COL_NATION, nation,
-                         CL_COL_TEAM, team,
-                         CL_COL_CONN_ID, conn_id,
-                         CL_COL_STYLE, PANGO_STYLE_NORMAL,
-                         CL_COL_WEIGHT, PANGO_WEIGHT_BOLD,
-                         -1);
-
-      /* Insert observers of this player as child nodes. */
-      pprev_child = NULL;
-      conn_list_iterate(pplayer->connections, pconn) {
-        if (pconn->id == conn_id) {
-          continue;
-        }
-        if (model_get_conn_iter(model, &child, &parent,
-                                pprev_child, pconn)) {
-          gtk_tree_store_move_after(store, &child, pprev_child);
-        } else {
-          gtk_tree_store_insert_after(store, &child, &parent, pprev_child);
+          gtk_tree_store_insert_after(store, &parent, NULL, pprev_parent);
         }
 
-        gtk_tree_store_set(store, &child,
-                           CL_COL_PLAYER_NUMBER, -1,
-                           CL_COL_USER_NAME, pconn->username,
-                           CL_COL_TEAM, _("Observer"),
-                           CL_COL_CONN_ID, pconn->id,
+        gtk_tree_store_set(store, &parent,
+                           CL_COL_PLAYER_NUMBER, player_number(pplayer),
+                           CL_COL_USER_NAME, name,
+                           CL_COL_READY_STATE, is_ready,
+                           CL_COL_PLAYER_NAME, plr_name,
+                           CL_COL_FLAG, pixbuf,
+                           CL_COL_NATION, nation,
+                           CL_COL_TEAM, team,
+                           CL_COL_CONN_ID, conn_id,
                            CL_COL_STYLE, PANGO_STYLE_NORMAL,
-                           CL_COL_WEIGHT, PANGO_WEIGHT_NORMAL,
+                           CL_COL_WEIGHT, PANGO_WEIGHT_BOLD,
                            -1);
 
-        prev_child = child;
-        pprev_child = &prev_child;
-      } conn_list_iterate_end;
+        /* Insert observers of this player as child nodes. */
+        pprev_child = NULL;
+        conn_list_iterate(pplayer->connections, pconn) {
+          if (pconn->id == conn_id) {
+            continue;
+          }
+          if (model_get_conn_iter(model, &child, &parent,
+                                  pprev_child, pconn)) {
+            gtk_tree_store_move_after(store, &child, pprev_child);
+          } else {
+            gtk_tree_store_insert_after(store, &child, &parent, pprev_child);
+          }
 
-      /* Expand node? */
-      if (NULL != pprev_child) {
-        gtk_tree_model_get(model, &parent, CL_COL_COLLAPSED, &collapsed, -1);
-        if (!collapsed) {
-          path = gtk_tree_model_get_path(model, &parent);
-          gtk_tree_view_expand_row(GTK_TREE_VIEW(connection_list_view),
-                                   path, FALSE);
-          gtk_tree_path_free(path);
+          gtk_tree_store_set(store, &child,
+                             CL_COL_PLAYER_NUMBER, -1,
+                             CL_COL_USER_NAME, pconn->username,
+                             CL_COL_TEAM, _("Observer"),
+                             CL_COL_CONN_ID, pconn->id,
+                             CL_COL_STYLE, PANGO_STYLE_NORMAL,
+                             CL_COL_WEIGHT, PANGO_WEIGHT_NORMAL,
+                             -1);
+
+          prev_child = child;
+          pprev_child = &prev_child;
+        } conn_list_iterate_end;
+
+        /* Expand node? */
+        if (NULL != pprev_child) {
+          gtk_tree_model_get(model, &parent, CL_COL_COLLAPSED, &collapsed, -1);
+          if (!collapsed) {
+            path = gtk_tree_model_get_path(model, &parent);
+            gtk_tree_view_expand_row(GTK_TREE_VIEW(connection_list_view),
+                                     path, FALSE);
+            gtk_tree_path_free(path);
+          }
         }
-      }
 
-      /* Remove trailing rows. */
-      if (NULL != pprev_child) {
-        child = prev_child;
-        if (gtk_tree_model_iter_next(model, &child)) {
+        /* Remove trailing rows. */
+        if (NULL != pprev_child) {
+          child = prev_child;
+          if (gtk_tree_model_iter_next(model, &child)) {
+            while (gtk_tree_store_remove(store, &child)) {
+              /* Do nothing more. */
+            }
+          }
+        } else if (gtk_tree_model_iter_children(model, &child, &parent)) {
           while (gtk_tree_store_remove(store, &child)) {
             /* Do nothing more. */
           }
         }
-      } else if (gtk_tree_model_iter_children(model, &child, &parent)) {
-        while (gtk_tree_store_remove(store, &child)) {
-          /* Do nothing more. */
-        }
-      }
 
-      prev_parent = parent;
-      pprev_parent = &prev_parent;
-      if (pixbuf) {
-        g_object_unref(pixbuf);
+        prev_parent = parent;
+        pprev_parent = &prev_parent;
+        if (pixbuf) {
+          g_object_unref(pixbuf);
+        }
       }
     } players_iterate_end;
 
