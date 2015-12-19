@@ -13,7 +13,7 @@
             <child>
               <object class="GtkMenuItem" id="MENU_OPTIONS" >
                 <child type="submenu">
-                  <object class="GtkMenu">
+                  <object class="GtkMenu" id="<MENU>/OPTIONS">
                     <child>
                       <object class="GtkMenuItem" id="LOCAL_OPTIONS" />
                     </child>
@@ -34,7 +34,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/GAME/SEP1" />
             </child>
             <child>
               <object class="GtkMenuItem" id="RELOAD_TILESET" />
@@ -52,7 +52,7 @@
               <object class="GtkMenuItem" id="MAPIMG_SAVE_AS" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/GAME/SEP2" />
             </child>
             <child>
               <object class="GtkMenuItem" id="LEAVE" />
@@ -75,7 +75,7 @@
               <object class="GtkMenuItem" id="WORKLISTS" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/EDIT/SEP1" />
             </child>
             <child>
               <object class="GtkCheckMenuItem" id="EDIT_MODE" />
@@ -93,7 +93,7 @@
               <object class="GtkMenuItem" id="SAVE_SCENARIO" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/EDIT/SEP2" />
             </child>
             <child>
               <object class="GtkMenuItem" id="CLIENT_LUA_SCRIPT" />
@@ -140,7 +140,7 @@
               <object class="GtkCheckMenuItem" id="SHOW_CITY_TRADE_ROUTES" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/VIEW/SEP1" />
             </child>
             <child>  
               <object class="GtkCheckMenuItem" id="SHOW_TERRAIN" />
@@ -151,7 +151,7 @@
             <child>
               <object class="GtkMenuItem" id="MENU_IMPROVEMENTS" >
                 <child type="submenu">
-                  <object class="GtkMenu">
+                  <object class="GtkMenu" id="<MENU>/IMPROVEMENTS" >
                     <child>
                       <object class="GtkCheckMenuItem" id="SHOW_PATHS" />
                     </child>
@@ -196,13 +196,13 @@
               <object class="GtkCheckMenuItem" id="SHOW_FOG_OF_WAR" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/VIEW/SEP2" />
             </child>
             <child>
               <object class="GtkCheckMenuItem" id="FULL_SCREEN" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/VIEW/SEP3" />
             </child>
             <child>
               <object class="GtkMenuItem" id="CENTER_VIEW" />
@@ -222,7 +222,7 @@
               <object class="GtkMenuItem" id="SELECT_ALL_ON_TILE" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/SELECT/SEP1" />
             </child>
             <child>
               <object class="GtkMenuItem" id="SELECT_SAME_TYPE_TILE" />
@@ -234,13 +234,13 @@
               <object class="GtkMenuItem" id="SELECT_SAME_TYPE" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/SELECT/SEP2" />
             </child>
             <child>
               <object class="GtkMenuItem" id="SELECT_DLG" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/SELECT/SEP3" />
             </child>
             <child>
               <object class="GtkMenuItem" id="UNIT_WAIT" />
@@ -266,7 +266,7 @@
               <object class="GtkMenuItem" id="UNIT_RETURN" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/UNIT/SEP1" />
             </child>
             <child>
               <object class="GtkMenuItem" id="UNIT_EXPLORE" />
@@ -275,7 +275,7 @@
               <object class="GtkMenuItem" id="UNIT_PATROL" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/UNIT/SEP2" />
             </child>
             <child>
               <object class="GtkMenuItem" id="UNIT_SENTRY" />
@@ -284,7 +284,7 @@
               <object class="GtkMenuItem" id="UNIT_UNSENTRY" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/UNIT/SEP3" />
             </child>
             <child>
               <object class="GtkMenuItem" id="UNIT_LOAD" />
@@ -296,7 +296,7 @@
               <object class="GtkMenuItem" id="UNIT_UNLOAD_TRANSPORTER" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/UNIT/SEP4"/>
             </child>
             <child>
               <object class="GtkMenuItem" id="UNIT_HOMECITY" />
@@ -331,7 +331,7 @@
               <object class="GtkMenuItem" id="AUTO_SETTLER" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/WORK/SEP1" />
             </child>
             <child>
               <object class="GtkMenuItem" id="BUILD_ROAD" />
@@ -350,7 +350,7 @@
               <object class="GtkMenuItem" id="BUILD_MINE" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/WORK/SEP2" />
             </child>
             <child>
               <object class="GtkMenuItem" id="CONNECT_ROAD" />
@@ -362,7 +362,7 @@
               <object class="GtkMenuItem" id="CONNECT_IRRIGATION" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/WORK/SEP3" />
             </child>
             <child>
               <object class="GtkMenuItem" id="TRANSFORM_TERRAIN" />
@@ -433,7 +433,7 @@
               <object class="GtkMenuItem" id="REPORT_RESEARCH" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/CIVILIZATION/SEP1" />
             </child>
             <child>
               <object class="GtkMenuItem" id="TAX_RATE" />
@@ -453,7 +453,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/CIVILIZATION/SEP2" />
             </child>
             <child>
               <object class="GtkMenuItem" id="REPORT_WOW" />
@@ -536,7 +536,7 @@
               <object class="GtkMenuItem" id="HELP_NATIONS" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/HELP/SEP1" />
             </child>
             <child>
               <object class="GtkMenuItem" id="HELP_CONNECTING" />
@@ -554,7 +554,7 @@
               <object class="GtkMenuItem" id="HELP_WORKLIST_EDITOR" />
             </child>
             <child>
-              <object class="GtkSeparatorMenuItem" />
+              <object class="GtkSeparatorMenuItem" id="<MENU>/HELP/SEP2" />
             </child>
             <child>
               <object class="GtkMenuItem" id="HELP_LANGUAGES" />
