@@ -355,15 +355,11 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 
     while ((tgt = get_preferred_pillage(extras))) {
       int what;
-      bv_extras what_extras;
-
-      BV_CLR_ALL(what_extras);
 
       what = extra_index(tgt);
       BV_CLR(extras, what);
-      BV_SET(what_extras, what);
 
-      choice_dialog_add(shl, get_infrastructure_text(what_extras),
+      choice_dialog_add(shl, extra_name_translation(tgt),
                         G_CALLBACK(pillage_callback),
                         GINT_TO_POINTER(what),
                         FALSE, NULL);

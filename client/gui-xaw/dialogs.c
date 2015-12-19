@@ -490,20 +490,16 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   prev = dlabel;
   while ((tgt = get_preferred_pillage(extras))) {
     int what;
-    bv_extras what_extras;
-
-    BV_CLR_ALL(what_extras);
 
     what = extra_index(tgt);
 
     BV_CLR(extras, what);
-    BV_SET(what_extras, what);
 
     button =
       XtVaCreateManagedWidget ("button", commandWidgetClass, form,
                                XtNfromVert, prev,
                                XtNlabel,
-                               (XtArgVal)(get_infrastructure_text(what_extras)),
+                               (XtArgVal)(extra_name_translation(tgt)),
                                NULL);
     XtAddCallback(button, XtNcallback, pillage_callback,
                   INT_TO_XTPOINTER(what));
