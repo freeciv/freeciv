@@ -1367,12 +1367,8 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
     return;
   case ACTIVITY_PILLAGE:
     if (punit->activity_target != NULL) {
-      bv_extras pset;
-
-      BV_CLR_ALL(pset);
-      BV_SET(pset, extra_index(punit->activity_target));
       astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
-                    get_infrastructure_text(pset));
+                    extra_name_translation(punit->activity_target));
     } else {
       astr_add_line(astr, "%s", get_activity_text(punit->activity));
     }

@@ -2187,16 +2187,12 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   qv2 = punit->id;
   while ((tgt = get_preferred_pillage(extras))) {
     int what;
-    bv_extras what_extras;
-
-    BV_CLR_ALL(what_extras);
 
     what = extra_index(tgt);
     BV_CLR(extras, what);
-    BV_SET(what_extras, what);
 
     func = pillage_something;
-    str = get_infrastructure_text(what_extras);
+    str = extra_name_translation(tgt);
     qv1 = what;
     cd->add_item(str, func, qv1, qv2);
   }
