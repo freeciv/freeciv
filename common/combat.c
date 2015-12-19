@@ -387,19 +387,23 @@ double unit_win_chance(const struct unit *attacker,
 }
 
 /**************************************************************************
-  Try defending against nuclear attack, if succed return a city which 
+  Try defending against nuclear attack; if successful, return a city which 
   had enough luck and EFT_NUKE_PROOF.
-  If the attack was succesful return NULL.
+  If the attack was successful return NULL.
 **************************************************************************/
 struct city *sdi_try_defend(const struct player *owner,
-			       const struct tile *ptile)
+                            const struct tile *ptile)
 {
   square_iterate(ptile, 2, ptile1) {
     struct city *pcity = tile_city(ptile1);
 
     if (pcity
-        && !pplayers_allied(city_owner(pcity), owner)
-        && fc_rand(100) < get_city_bonus(pcity, EFT_NUKE_PROOF)) {
+        && fc_rand(100) < get_target_bonus_effects(NULL,
+                                                   city_owner(pcity), owner,
+                                                   pcity, NULL, ptile,
+                                                   NULL, NULL,
+                                                   NULL, NULL, NULL,
+                                                   EFT_NUKE_PROOF)) {
       return pcity;
     }
   } square_iterate_end;

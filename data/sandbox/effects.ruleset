@@ -2588,8 +2588,10 @@ reqs    =
 type    = "Nuke_Proof"
 value   = 100
 reqs    =
-    { "type", "name", "range"
-      "Building", "SDI Defense", "City"
+    { "type", "name", "range", "present"
+      "Building", "SDI Defense", "City", TRUE
+      "DiplRel", "Is foreign", "Local", TRUE
+      "DiplRel", "Team", "Local", FALSE
     }
 
 [effect_sdi_defense_1]
