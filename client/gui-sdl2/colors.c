@@ -102,3 +102,18 @@ void color_free(struct color *pcolor)
 
   free(pcolor);
 }
+
+/****************************************************************************
+  Return a number indicating the perceptual brightness of this color
+  relative to others (larger is brighter).
+****************************************************************************/
+int color_brightness_score(struct color *pcolor)
+{
+  struct rgbcolor *prgb = rgbcolor_new(pcolor->color->r,
+                                       pcolor->color->g,
+                                       pcolor->color->b);
+  int score = rgbcolor_brightness_score(prgb);
+
+  rgbcolor_destroy(prgb);
+  return score;
+}

@@ -128,3 +128,30 @@ struct color *get_terrain_color(const struct tileset *t,
 
   return ensure_color(pterrain->rgb);
 }
+
+/****************************************************************************
+  Find the colour from 'candidates' with the best perceptual contrast from
+  'subject'.
+****************************************************************************/
+struct color *color_best_contrast(struct color *subject,
+                                  struct color **candidates, int ncandidates)
+{
+  int sbright = color_brightness_score(subject), bestdiff = 0;
+  int i;
+  struct color *best = NULL;
+
+  fc_assert_ret_val(candidates != NULL, NULL);
+  fc_assert_ret_val(ncandidates > 0, NULL);
+
+  for (i = 0; i < ncandidates; i++) {
+    int cbright = color_brightness_score(candidates[i]);
+    int diff = ABS(sbright - cbright);
+
+    if (best == NULL || diff > bestdiff) {
+      best = candidates[i];
+      bestdiff = diff;
+    }
+  }
+
+  return best;
+}

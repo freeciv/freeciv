@@ -23,6 +23,9 @@
 #include "log.h"
 #include "mem.h"
 
+/* common */
+#include "rgbcolor.h"
+
 /* client/gui-gtk-3.0 */
 #include "gui_main.h"
 
@@ -78,4 +81,19 @@ struct color *color_alloc(int r, int g, int b)
 void color_free(struct color *color)
 {
   free(color);
+}
+
+/****************************************************************************
+  Return a number indicating the perceptual brightness of this color
+  relative to others (larger is brighter).
+****************************************************************************/
+int color_brightness_score(struct color *pcolor)
+{
+  struct rgbcolor *prgb = rgbcolor_new(pcolor->color.red * 255,
+                                       pcolor->color.green * 255,
+                                       pcolor->color.blue * 255);
+  int score = rgbcolor_brightness_score(prgb);
+
+  rgbcolor_destroy(prgb);
+  return score;
 }

@@ -402,7 +402,10 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   pango_layout_set_text(layout, text, -1);
 
   pango_layout_get_pixel_extents(layout, &rect, NULL);
-  if (fonts[font].shadowed) {
+
+  /* Suppress drop shadow for black text */
+  if (fonts[font].shadowed
+      && !gdk_color_equal(&pcolor->color, &toplevel->style->black)) {
     gtk_draw_shadowed_string(pcanvas->v.pixmap,
 			     toplevel->style->black_gc, civ_gc,
 			     canvas_x,
