@@ -2960,6 +2960,8 @@ void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
 
   set_city_production(pcity);
   citizen_base_mood(pcity);
+  /* Note that pollution is calculated before unhappy_city_check() makes
+   * deductions for disorder; so a city in disorder still causes pollution */
   pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
 
   happy_copy(pcity, FEELING_LUXURY);

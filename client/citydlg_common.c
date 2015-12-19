@@ -690,7 +690,11 @@ void get_city_dialog_pollution_text(const struct city *pcity,
 {
   int pollu, prod, pop, mod;
 
-  pollu = city_pollution_types(pcity, pcity->prod[O_SHIELD],
+  /* On the server, pollution is calculated before production is deducted
+   * for disorder; we need to compensate for that */
+  pollu = city_pollution_types(pcity,
+                               pcity->prod[O_SHIELD]
+                               + pcity->unhappy_penalty[O_SHIELD],
 			       &prod, &pop, &mod);
   buf[0] = '\0';
 
