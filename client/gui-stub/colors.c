@@ -18,6 +18,9 @@
 /* utility */
 #include "mem.h"
 
+/* common */
+#include "rgbcolor.h"
+
 /* gui main header */
 #include "gui_stub.h"
 
@@ -46,4 +49,20 @@ void gui_color_free(struct color *color)
 {
   /* PORTME */
   free(color);
+}
+
+/****************************************************************************
+  Return a number indicating the perceptual brightness of this color
+  relative to others (larger is brighter).
+****************************************************************************/
+int color_brightness_score(struct color *pcolor)
+{
+  /* PORTME */
+  /* Can use GUI-specific colorspace functions here. This is a fallback
+   * using platform-independent code */
+  struct rgbcolor *prgb = rgbcolor_new(pcolor->r, pcolor->g, pcolor->b);
+  int score = rgbcolor_brightness_score(prgb);
+
+  rgbcolor_destroy(prgb);
+  return score;
 }

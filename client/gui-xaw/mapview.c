@@ -687,9 +687,11 @@ static void draw_shadowed_string(struct canvas *pcanvas,
 
   y -= XExtentsOfFontSet(fontset)->max_logical_extent.y;
 
-  XSetForeground(display, font_gc, shadow->color.pixel);
-  XmbDrawString(display, pcanvas->pixmap, fontset, font_gc,
-      x + 1, y + 1, string, len);
+  if (foreground->color.pixel != shadow->color.pixel) {
+    XSetForeground(display, font_gc, shadow->color.pixel);
+    XmbDrawString(display, pcanvas->pixmap, fontset, font_gc,
+                  x + 1, y + 1, string, len);
+  }
 
   XSetForeground(display, font_gc, foreground->color.pixel);
   XmbDrawString(display, pcanvas->pixmap, fontset, font_gc,

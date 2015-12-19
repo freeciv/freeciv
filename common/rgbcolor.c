@@ -188,3 +188,20 @@ bool rgbcolor_from_hex(struct rgbcolor **prgbcolor, const char *hex)
 
   return TRUE;
 }
+
+/****************************************************************************
+  Return a number indicating the perceptual brightness of this color
+  relative to others (larger is brighter).
+****************************************************************************/
+int rgbcolor_brightness_score(struct rgbcolor *prgbcolor)
+{
+  /* This simple scoring system taken from W3C "Techniques For Accessibility
+   * Evaluation And Repair Tools", http://www.w3.org/TR/AERT#color-contrast
+   *
+   * "Color brightness is determined by the following formula:
+   * ((Red value X 299) + (Green value X 587) + (Blue value X 114)) / 1000
+   * Note: This algorithm is taken from a formula for converting RGB values to
+   * YIQ [NTSC] values [specifically the Y component]. This brightness value
+   * gives a perceived brightness for a color." */
+  return (prgbcolor->r*299 + prgbcolor->g*587 + prgbcolor->b*114) / 1000;
+}

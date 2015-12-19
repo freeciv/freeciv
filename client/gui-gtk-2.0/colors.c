@@ -22,6 +22,8 @@
 #include "log.h"
 #include "mem.h"
 
+#include "rgbcolor.h"
+
 #include "gui_main.h"
 
 #include "colors.h"
@@ -77,6 +79,21 @@ struct color *color_alloc(int r, int g, int b)
 void color_free(struct color *color)
 {
   free(color);
+}
+
+/****************************************************************************
+  Return a number indicating the perceptual brightness of this color
+  relative to others (larger is brighter).
+****************************************************************************/
+int color_brightness_score(struct color *pcolor)
+{
+  struct rgbcolor *prgb = rgbcolor_new(pcolor->color.red >> 8,
+                                       pcolor->color.green >> 8,
+                                       pcolor->color.blue >> 8);
+  int score = rgbcolor_brightness_score(prgb);
+
+  rgbcolor_destroy(prgb);
+  return score;
 }
 
 /****************************************************************************

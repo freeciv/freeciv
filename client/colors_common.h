@@ -125,6 +125,10 @@ struct color *ensure_color(struct rgbcolor *rgb);
 struct color_system *color_system_read(struct section_file *file);
 void color_system_free(struct color_system *colors);
 
+/* Utilities for color values */
+struct color *color_best_contrast(struct color *subject,
+                                  struct color **candidates, int ncandidates);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1642,9 +1642,20 @@ static void show_full_citybar(struct canvas *pcanvas,
     canvas_put_rectangle(pcanvas, owner_color,
 			 size_rect.x - border / 2, canvas_y,
 			 size_rect.w + border, height1);
-    canvas_put_text(pcanvas, size_rect.x, size_rect.y,
-		    FONT_CITY_NAME,
-		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), size);
+    {
+      /* Try to pick a color for city size text that contrasts with
+       * player color */
+      struct color *textcolors[2] = {
+        get_color(tileset, COLOR_MAPVIEW_CITYTEXT),
+        /* HACK: this is likely to be black or a dark color */
+        get_color(tileset, COLOR_MAPVIEW_UNKNOWN)
+      };
+
+      canvas_put_text(pcanvas, size_rect.x, size_rect.y,
+                      FONT_CITY_NAME,
+                      color_best_contrast(owner_color, textcolors,
+                                          ARRAY_SIZE(textcolors)), size);
+    }
   }
 
   if (should_draw_lower_bar) {
@@ -2017,8 +2028,6 @@ bool show_unit_orders(struct unit *punit)
     return FALSE;
   }
 }
-
-#define ABS(x) (((x) >= 0) ? (x) : -(x))
 
 /****************************************************************************
   Draw a goto line at the given location and direction.  The line goes from

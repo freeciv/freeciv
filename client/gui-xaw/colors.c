@@ -29,6 +29,8 @@
 #include "log.h"
 #include "mem.h"
 
+#include "rgbcolor.h"
+
 #include "gui_main.h"
 
 #include "colors.h"
@@ -63,7 +65,7 @@ struct color *color_alloc(int r, int g, int b)
 
   alloc_color_for_colormap(&mycolor);
 
-  color->color.pixel = mycolor.pixel;
+  color->color = mycolor; /* structure copy */
   return color;
 }
 
@@ -225,7 +227,7 @@ void alloc_colors(XColor *colors, int ncols)
         }
 
   	XAllocColor(display, cmap, &cells[pixel]);
-        colors[i].pixel = pixel;
+        colors[i] = cells[pixel]; /* structure copy */
       }
 
       /* Unlock the server, since we're done querying it. */
@@ -286,7 +288,7 @@ void alloc_color_for_colormap(XColor *color)
     }
 
     XAllocColor(display, cmap, &cells[pixel]);
-    color->pixel = pixel;
+    *color = cells[pixel]; /* structure copy */
 
     /* Unlock the server, since we're done querying it. */
     XUngrabServer(display);
@@ -305,4 +307,19 @@ void free_colors(unsigned long *pixels, int ncols)
 #if 0
   XFreeColors(display, cmap, pixels, ncols, 0);
 #endif
+}
+
+/****************************************************************************
+  Return a number indicating the perceptual brightness of this color
+  relative to others (larger is brighter).
+****************************************************************************/
+int color_brightness_score(struct color *pcolor)
+{
+  struct rgbcolor *prgb = rgbcolor_new(pcolor->color.red >> 8,
+                                       pcolor->color.green >> 8,
+                                       pcolor->color.blue >> 8);
+  int score = rgbcolor_brightness_score(prgb);
+
+  rgbcolor_destroy(prgb);
+  return score;
 }

@@ -43,3 +43,20 @@ void qtg_color_free(struct color *pcolor)
 {
   delete pcolor;
 }
+
+/****************************************************************************
+  Return a number indicating the perceptual brightness of this color
+  relative to others (larger is brighter).
+****************************************************************************/
+int color_brightness_score(struct color *pcolor)
+{
+  /* QColor has color space conversions, but nothing giving a perceptually
+   * even color space */
+  struct rgbcolor *prgb = rgbcolor_new(pcolor->qcolor.red(),
+                                       pcolor->qcolor.green(),
+                                       pcolor->qcolor.blue());
+  int score = rgbcolor_brightness_score(prgb);
+
+  rgbcolor_destroy(prgb);
+  return score;
+}
