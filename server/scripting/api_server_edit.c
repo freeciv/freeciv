@@ -19,6 +19,7 @@
 #include "rand.h"
 
 /* common */
+#include "movement.h"
 #include "research.h"
 #include "unittype.h"
 
@@ -32,7 +33,7 @@
 #include "citytools.h"
 #include "console.h" /* enum rfc_status */
 #include "maphand.h"
-#include "movement.h"
+#include "notify.h"
 #include "plrhand.h"
 #include "srv_main.h" /* game_was_started() */
 #include "stdinhand.h"
@@ -272,7 +273,8 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount)
   sends script signal "tech_researched" with the given reason
 *****************************************************************************/
 Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
-                                    Tech_Type *ptech, int cost, const char *reason)
+                                    Tech_Type *ptech, int cost, bool notify,
+                                    const char *reason)
 {
   struct research *presearch;
   Tech_type_id id;
@@ -316,6 +318,22 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
     found_new_tech(presearch, id, FALSE, TRUE);
     result = advance_by_number(id);
     script_tech_learned(presearch, pplayer, result, reason);
+
+    if (notify && result != NULL) {
+      const char *adv_name = research_advance_name_translation(presearch, id);
+      char research_name[MAX_LEN_NAME * 2];
+
+      research_pretty_name(presearch, research_name, sizeof(research_name));
+
+      notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                    Q_("?fromscritp:You acquire %s."), adv_name);
+      notify_research(presearch, pplayer, E_TECH_GAIN, ftc_server,
+                      Q_("?fromscript:%s acquires %s for you."), adv_name);
+      notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
+                                Q_("?fromscript:%s acquire %s."),
+                                research_name, adv_name);
+    }
+
     return result;
   } else {
     return NULL;

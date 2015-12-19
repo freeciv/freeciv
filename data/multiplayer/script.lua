@@ -34,8 +34,8 @@ function building_built_handler(btype, city)
     if player:give_tech(find.tech_type("Theory of Evolution"),
                         0, "researched") then
       -- Give the player two free advances.
-      gained[0] = player:give_tech(nil, 0, "researched")
-      gained[1] = player:give_tech(nil, 0, "researched")
+      gained[0] = player:give_tech(nil, 0, false, "researched")
+      gained[1] = player:give_tech(nil, 0, false, "researched")
 
       -- Notify the player. Include the tech names in a way that makes it
       -- look natural no matter if each tech is announced or not.
@@ -112,7 +112,7 @@ function tech_researched_handler(tech, player, how)
 
     -- Give the player a free advance.
     -- This will give a free advance for each player that shares research.
-    gained = player:give_tech(nil, -1, "researched")
+    gained = player:give_tech(nil, -1, false, "researched")
 
       -- Notify the player. Include the tech names in a way that makes it
       -- look natural no matter if each tech is announced or not.

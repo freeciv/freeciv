@@ -33,7 +33,7 @@ end
 -- Get a tech from entering a hut.
 function default_hut_get_tech(unit)
   local owner = unit.owner
-  local tech = owner:give_tech(nil, -1, "hut")
+  local tech = owner:give_tech(nil, -1, false, "hut")
 
   if tech then
     notify.event(owner, unit.tile, E.HUT_TECH,
