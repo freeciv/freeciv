@@ -71,13 +71,6 @@ tilelabel_offset_y = 10
 ; if unit icon is higher than tiles (typical in iso tilesets)
 ;unit_upkeep_offset_y = 0
 
-; offset the upkeep icons by this amount from the top of the unit itself.
-; The default is the normal tile height, which means that the upkeep icons
-; appear below the unit icon if the unit icons are equal to tile height
-; (typical in overhead tileset), or overlay lower part of the unit icon,
-; if unit icon is higher than tiles (typical in iso tilesets)
-;unit_upkeep_offset_y = 0
-
 ; Like unit_upkeep_offset_y, but to be used in case there's only small
 ; space for the overall icon produced. Defaults to unit_upkeep_offset_y -
 ; not having alternative layout.
