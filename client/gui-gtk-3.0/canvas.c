@@ -365,9 +365,15 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   pango_layout_set_text(layout, text, -1);
 
   if (fonts[font].shadowed) {
-    cairo_set_source_rgb(cr, 0, 0, 0);
-    cairo_move_to(cr, canvas_x * pcanvas->zoom + 1, canvas_y * pcanvas->zoom + 1);
-    pango_cairo_show_layout (cr, layout);
+    /* Suppress drop shadow for black text */
+    const GdkRGBA black = { 0.0, 0.0, 0.0, 1.0 };
+
+    if (!gdk_rgba_equal(&pcolor->color, &black)) {
+      gdk_cairo_set_source_rgba(cr, &black);
+      cairo_move_to(cr, canvas_x * pcanvas->zoom + 1,
+                    canvas_y * pcanvas->zoom + 1);
+      pango_cairo_show_layout (cr, layout);
+    }
   }
 
   cairo_move_to(cr, canvas_x * pcanvas->zoom, canvas_y * pcanvas->zoom);

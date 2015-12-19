@@ -43,6 +43,10 @@ enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 #define CLIP(lower,current,upper) \
     ((current)<(lower)?(lower):(current)>(upper)?(upper):(current))
 
+#ifndef ABS
+#define ABS(x) (((x) >= 0) ? (x) : -(x))
+#endif
+
 /* Note: Solaris already has a WRAP macro that is completely different. */
 #define FC_WRAP(value, range)                                               \
     ((value) < 0                                                            \
