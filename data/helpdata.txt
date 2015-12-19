@@ -1583,9 +1583,9 @@ Unit Orders:\n\
   B: go to and (B)uild city on target tile  (settler units)\n\
   d: (d)iplomat/spy actions  (diplomat/spy units)\n\
   D: (D)isband unit\n\
-  e: build airbas(e)  (airbase units)\n\
+  E: build airbas(e)  (airbase units)\n\
   f: (f)ortify unit  (military units)\n\
-  f: build (f)ortress  (settler/worker units)\n\
+  F: build (f)ortress  (settler/worker units)\n\
   g: (g)o to tile  (then left-click mouse to select target tile)\n\
   g: add a (g)o-to waypoint  (when in go-to mode)\n\
   G: return unit to nearest friendly city\n\
