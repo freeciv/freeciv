@@ -27,11 +27,7 @@
 #ifndef __GTK_PIXCOMM_H__
 #define __GTK_PIXCOMM_H__
 
-
 #include <gtk/gtk.h>
-
-#include "sprite.h"
-
 
 G_BEGIN_DECLS
 

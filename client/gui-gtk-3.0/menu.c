@@ -52,6 +52,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
+#include "luaconsole.h"
 #include "mapctrl.h"            /* center_on_unit(). */
 #include "messagedlg.h"
 #include "messagewin.h"
@@ -60,7 +61,7 @@
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
-#include "luaconsole.h"
+#include "sprite.h"
 #include "spaceshipdlg.h"
 #include "unitselect.h"
 #include "wldlg.h"

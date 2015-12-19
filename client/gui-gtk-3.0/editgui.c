@@ -38,11 +38,10 @@
 /* client */
 #include "chatline_common.h"
 #include "client_main.h"
+#include "dialogs_g.h"
 #include "editor.h"
 #include "mapview_common.h"
 #include "tilespec.h"
-
-#include "dialogs_g.h"
 
 /* client/gui-gtk-3.0 */
 #include "canvas.h"
@@ -51,6 +50,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "plrdlg.h"
+#include "sprite.h"
 
 
 enum tool_value_selector_columns {

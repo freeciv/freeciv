@@ -46,6 +46,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "plrdlg.h"
+#include "sprite.h"
 
 #include "editprop.h"
 

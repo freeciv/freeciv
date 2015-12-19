@@ -21,8 +21,6 @@
 
 #include <gtk/gtk.h>
 
-#include "gtkpixcomm.h"
-
 /* utility */
 #include "log.h"
 #include "mem.h"

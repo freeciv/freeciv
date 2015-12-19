@@ -15,7 +15,6 @@
 
 #include <gtk/gtk.h>
 
-#include "gtkpixcomm.h"
 #include "gui_main_g.h"
 
 /* network string charset conversion */
