@@ -18,9 +18,6 @@
 /* client */
 #include "gui_main_g.h"
 
-/* gui-gtk-3.0 */
-#include "gtkpixcomm.h"
-
 #define GUI_GTK_OPTION(optname) gui_options.gui_gtk3_##optname
 #define GUI_GTK_OPTION_STR(optname) "gui_gtk3_" #optname
 #define GUI_GTK_DEFAULT_THEME_NAME FC_GTK3_DEFAULT_THEME_NAME

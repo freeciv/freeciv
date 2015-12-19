@@ -58,6 +58,7 @@
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "plrdlg.h"
+#include "sprite.h"
 
 #include "repodlgs.h"
 

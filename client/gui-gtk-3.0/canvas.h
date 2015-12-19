@@ -17,8 +17,6 @@
 
 #include "canvas_g.h"
 
-#include "gtkpixcomm.h"
-
 struct canvas
 {
   cairo_surface_t *surface;
