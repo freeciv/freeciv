@@ -2065,6 +2065,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
     fc_snprintf(buf2, ARRAY_SIZE(buf2),
                 PL_("Bribing the unit costs %d gold.\n%s",
                     "Bribing the unit costs %d gold.\n%s", cost), cost, buf);
+    ask.setText(buf2);
     ask.setWindowTitle(_("Traitors Demand Too Much!"));
     ask.exec();
   }
