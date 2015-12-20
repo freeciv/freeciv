@@ -1646,17 +1646,17 @@ static void sg_load_random(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (secfile_lookup_bool_default(loading->file, FALSE, "random.save")) {
+  if (secfile_lookup_bool_default(loading->file, FALSE, "random.saved")) {
     const char *string;
     int i;
 
     /* Since random state was previously saved, save it also when resaving.
      * This affects only pre-2.6 scenarios where scenario.save_random
      * is not defined.
-     * - If this is 2.6 or later scenario -> it would have saved random.save = TRUE
+     * - If this is 2.6 or later scenario -> it would have saved random.saved = TRUE
      *   only if scenario.save_random is already TRUE
      *
-     * Do NOT touch this in case of regular savegame. They always have random.save
+     * Do NOT touch this in case of regular savegame. They always have random.saved
      * set, but if one starts to make scenario based on a savegame, we want
      * default scenario settings in the beginning (default save_random = FALSE).
      */
@@ -1683,7 +1683,7 @@ static void sg_load_random(struct loaddata *loading)
     fc_rand_set_state(loading->rstate);
   } else {
     /* No random values - mark the setting. */
-    (void) secfile_entry_by_path(loading->file, "random.save");
+    (void) secfile_entry_by_path(loading->file, "random.saved");
 
     /* We're loading a game without a seed (which is okay, if it's a scenario).
      * We need to generate the game seed now because it will be needed later
@@ -2722,12 +2722,13 @@ static void sg_load_players(struct loaddata *loading)
 static void sg_load_player_main(struct loaddata *loading,
                                 struct player *plr)
 {
+  const char **slist;
   int i, plrno = player_number(plr);
   const char *string;
   struct government *gov;
   const char *level;
   const char *barb_str;
-  bool ai_controlled;
+  size_t nval;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -2756,6 +2757,17 @@ static void sg_load_player_main(struct loaddata *loading,
   if (strlen(string)) {
     player_delegation_set(plr, string);
   }
+
+  /* Player flags */
+  BV_CLR_ALL(plr->flags);
+  slist = secfile_lookup_str_vec(loading->file, &nval, "player%d.flags", plrno);
+  for (i = 0; i < nval; i++) {
+    const char *sval = slist[i];
+    enum plr_flag_id fid = plr_flag_id_by_name(sval, fc_strcasecmp);
+
+    BV_SET(plr->flags, fid);
+  }
+  free(slist);
 
   /* Nation */
   string = secfile_lookup_str(loading->file, "player%d.nation", plrno);
@@ -2788,15 +2800,6 @@ static void sg_load_player_main(struct loaddata *loading,
                                      &plr->server.got_first_city,
                                      "player%d.got_first_city", plrno),
                  "%s", secfile_error());
-
-  sg_failure_ret(secfile_lookup_bool(loading->file, &ai_controlled,
-                                     "player%d.ai.control", plrno),
-                 "%s", secfile_error());
-  if (ai_controlled) {
-    set_as_ai(player_by_number(plrno));
-  } else {
-    set_as_human(player_by_number(plrno));
-  }
 
   /* Load diplomatic data (diplstate + embassy + vision).
    * Shared vision is loaded in sg_load_players(). */

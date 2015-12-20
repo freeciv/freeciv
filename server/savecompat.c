@@ -1123,6 +1123,9 @@ static void compat_load_020600(struct loaddata *loading)
 
 /****************************************************************************
   Translate savegame secfile data from 2.6.x to 3.0.0 format.
+  Note that even after 2.6 savegame has gone through this compatibility
+  function, it's still 2.6 savegame in the sense that savegame2.c, and not
+  savegame3.c, handles it.
 ****************************************************************************/
 static void compat_load_030000(struct loaddata *loading)
 {
