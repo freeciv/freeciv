@@ -624,7 +624,7 @@ bool sanity_check_ruleset_data(void)
         ruleset_error(LOG_ERROR,
                       "Tech \"%s\" has the requirement %s in its"
                       " research_reqs. This requirement may change during"
-                      " the game. Changing requirments aren't supported"
+                      " the game. Changing requirements aren't supported"
                       " yet.",
                       advance_rule_name(padvance),
                       req_to_fstring(preq));
