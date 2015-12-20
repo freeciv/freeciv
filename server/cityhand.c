@@ -375,14 +375,14 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     notify_player(pplayer, pcity->tile, E_UNIT_BUY, ftc_server,
                   /* TRANS: bought an unit. */
                   _("You bought %s in %s."),
-                  utype_rule_name(pcity->production.value.utype),
+                  utype_name_translation(pcity->production.value.utype),
                   city_name(pcity));
   } else if (VUT_IMPROVEMENT == pcity->production.kind) {
     notify_player(pplayer, pcity->tile, E_IMP_BUY, ftc_server,
                   /* TRANS: bought an improvement .*/
                   _("You bought %s in %s."),
-                  improvement_name_translation(
-                    pcity->production.value.building), city_name(pcity));
+                  improvement_name_translation(pcity->production.value.building),
+                  city_name(pcity));
   }
 
   conn_list_do_buffer(pplayer->connections);
