@@ -204,8 +204,8 @@ int fc_strcasecmp(const char *str0, const char *str1)
     UErrorCode err_code0 = U_ZERO_ERROR;
     UErrorCode err_code1 = U_ZERO_ERROR;
 
-    u_strFromUTF8(cmp_buffer0, cmp_buffer_uchars, &len0, str0, -1, &err_code0);
-    u_strFromUTF8(cmp_buffer1, cmp_buffer_uchars, &len1, str1, -1, &err_code1);
+    u_strFromUTF8Lenient(cmp_buffer0, cmp_buffer_uchars, &len0, str0, -1, &err_code0);
+    u_strFromUTF8Lenient(cmp_buffer1, cmp_buffer_uchars, &len1, str1, -1, &err_code1);
 
     /* No need to handle U_STRING_NOT_TERMINATED_WARNING here as there's '0' after
      * the buffers we were using */
@@ -253,8 +253,8 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
     UErrorCode err_code0 = U_ZERO_ERROR;
     UErrorCode err_code1 = U_ZERO_ERROR;
 
-    u_strFromUTF8(cmp_buffer0, cmp_buffer_uchars, &len0, str0, -1, &err_code0);
-    u_strFromUTF8(cmp_buffer1, cmp_buffer_uchars, &len1, str1, -1, &err_code1);
+    u_strFromUTF8Lenient(cmp_buffer0, cmp_buffer_uchars, &len0, str0, -1, &err_code0);
+    u_strFromUTF8Lenient(cmp_buffer1, cmp_buffer_uchars, &len1, str1, -1, &err_code1);
 
     /* No need to handle U_STRING_NOT_TERMINATED_WARNING here as there's '0' after
      * the buffers we were using */
