@@ -243,26 +243,17 @@ void unit_item::create_actions()
 ****************************************************************************/
 void unit_item::disband()
 {
-  QMessageBox ask(gui()->central_wdg);
-  int ret;
+  struct unit_list *punits;
+  struct unit *punit = player_unit_by_number(client_player(), qunit->id);
 
-  ask.setText(_("Are you sure you want to disband that unit?"));
-  ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-  ask.setDefaultButton(QMessageBox::Cancel);
-  ask.setIcon(QMessageBox::Critical);
-  ask.setWindowTitle(_("Disband unit"));
-  ret = ask.exec();
-
-  switch (ret) {
-  case QMessageBox::Cancel:
+  if (punit == nullptr) {
     return;
-    break;
-  case QMessageBox::Ok:
-    if (unit_can_do_action(qunit, ACTION_DISBAND_UNIT) && qunit) {
-      request_unit_disband(qunit);
-      break;
-    }
   }
+
+  punits = unit_list_new();
+  unit_list_append(punits, punit);
+  popup_disband_dialog(punits);
+  unit_list_destroy(punits);
 }
 
 /****************************************************************************

@@ -2200,40 +2200,61 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   cd->show_me();
 }
 
+/***************************************************************************
+  Disband Message box contructor
+***************************************************************************/
+disband_box::disband_box(struct unit_list *punits,
+                         QWidget *parent) : QMessageBox(parent)
+{
+  QString str;
+  QPushButton *pb;
+
+  setAttribute(Qt::WA_DeleteOnClose);
+  setModal(false);
+  cpunits = unit_list_new();
+  unit_list_iterate(punits, punit) {
+    unit_list_append(cpunits, punit);
+  } unit_list_iterate_end;
+
+  str = QString(PL_("Are you sure you want to disband that %1 unit?",
+                  "Are you sure you want to disband those %1 units?",
+                  unit_list_size(punits))).arg(unit_list_size(punits));
+  setText(str);
+  pb = addButton(_("Yes"), QMessageBox::AcceptRole);
+  addButton(_("No"), QMessageBox::RejectRole);
+  setDefaultButton(QMessageBox::Cancel);
+  setIcon(QMessageBox::Question);
+  setWindowTitle(_("Disband units"));
+  connect(pb, SIGNAL(clicked()), this, SLOT(disband_clicked()));
+}
+
+/***************************************************************************
+  Clicked Yes in disband box
+***************************************************************************/
+void disband_box::disband_clicked()
+{
+  unit_list_iterate(cpunits, punit) {
+    if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
+      request_unit_disband(punit);
+    }
+  } unit_list_iterate_end;
+}
+
+/***************************************************************************
+  Destructor for disband box
+***************************************************************************/
+disband_box::~disband_box()
+{
+  unit_list_destroy(cpunits);
+}
+
 /****************************************************************************
   Pops up a dialog to confirm disband of the unit(s).
 ****************************************************************************/
 void popup_disband_dialog(struct unit_list *punits)
 {
-  QMessageBox ask(gui()->central_wdg);
-  int ret;
-  QString str;
-
-  if (!punits || unit_list_size(punits) == 0) {
-    return;
-  }
-  str = QString(PL_("Are you sure you want to disband that %1 unit?",
-                  "Are you sure you want to disband those %1 units?",
-                  unit_list_size(punits))).arg(unit_list_size(punits));
-  ask.setText(str);
-  ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-  ask.setDefaultButton(QMessageBox::Cancel);
-  ask.setIcon(QMessageBox::Question);
-  ask.setWindowTitle(_("Disband units"));
-  ret = ask.exec();
-
-  switch (ret) {
-  case QMessageBox::Cancel:
-    return;
-    break;
-  case QMessageBox::Ok:
-    unit_list_iterate(punits, punit) {
-      if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
-        request_unit_disband(punit);
-      }
-    } unit_list_iterate_end;
-    break;
-  }
+  disband_box *ask = new disband_box(punits, gui()->central_wdg);
+  ask->show();
 }
 
 /**************************************************************************
