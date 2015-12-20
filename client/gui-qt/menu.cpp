@@ -715,11 +715,6 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, 
           SLOT(slot_select_same_everywhere()));
   menu->addSeparator();
-  act = menu->addAction(_("Unit selection dialog"));
-  menu_list.insertMulti(STANDARD, act);
-  act->setShortcut(QKeySequence(tr("ctrl+space")));
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_selection_dialog()));
-  menu->addSeparator();
   act = menu->addAction(_("Wait"));
   act->setShortcut(QKeySequence(tr("w")));
   menu_list.insertMulti(STANDARD, act);
@@ -2122,16 +2117,6 @@ void mr_menu::slot_select_same_tile()
   unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
 }
 
-/***************************************************************************
-  Action "SHOW UNIT SELECTION DIALOG"
-***************************************************************************/
-void mr_menu::slot_selection_dialog()
-{
-  struct unit *punit = head_of_units_in_focus();
-  if (punit != NULL && punit->tile){
-    unit_select_dialog_popup(punit->tile);
-  }
-}
 
 /***************************************************************************
   Action "WAIT"

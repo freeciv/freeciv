@@ -255,7 +255,6 @@ private slots:
   void slot_select_same_continent();
   void slot_select_same_everywhere();
   void slot_done_moving();
-  void slot_selection_dialog();
   void slot_wait();
   void slot_filter();
   void slot_filter_other();
