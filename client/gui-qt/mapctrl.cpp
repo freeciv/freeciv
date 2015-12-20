@@ -102,8 +102,11 @@ void update_rect_at_mouse_pos(void)
 **************************************************************************/
 void map_view::keyPressEvent(QKeyEvent * event)
 {
+  struct tile *ptile;
+  QPoint local_pos;
   Qt::KeyboardModifiers key_mod = QApplication::keyboardModifiers();
   bool is_shift = key_mod.testFlag(Qt::ShiftModifier);
+  bool is_ctrl = key_mod.testFlag(Qt::ControlModifier);
 
   if (C_S_RUNNING == client_state()) {
     if (is_shift) {
@@ -155,6 +158,15 @@ void map_view::keyPressEvent(QKeyEvent * event)
       return;
     case Qt::Key_Escape:
       key_cancel_action();
+      return;
+    case Qt::Key_Space:
+      if (is_ctrl) {
+        local_pos = gui()->mapview_wdg->mapFromGlobal(QCursor::pos());
+        ptile = canvas_pos_to_tile(local_pos.x(), local_pos.y());
+        if (ptile != nullptr && unit_list_size(ptile->units) > 0) {
+          gui()->toggle_unit_sel_widget(ptile);
+        }
+      }
       return;
     default:
       break;
