@@ -46,6 +46,20 @@ void update_nationset_combo();
 void popup_races_dialog(struct player *pplayer);
 
 /***************************************************************************
+  Nonmodal message box for disbanding units
+***************************************************************************/
+class disband_box : public QMessageBox
+{
+  Q_OBJECT
+  struct unit_list *cpunits;
+public:
+  explicit disband_box(struct unit_list *punits, QWidget *parent = 0);
+  ~disband_box();
+private slots:
+  void disband_clicked();
+};
+
+/***************************************************************************
  Dialog for goto popup
 ***************************************************************************/
 class notify_goto : public QMessageBox
