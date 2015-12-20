@@ -1302,14 +1302,35 @@ void info_label::blink()
 ****************************************************************************/
 void update_info_label(void)
 {
+  gui()->update_info_label();
+}
+
+/****************************************************************************
+  Real update, updates only once per 100 ms.
+****************************************************************************/
+void fc_client::update_info_label(void)
+{
   QString s, eco_info;
 
-  if (gui()->current_page() != PAGE_GAME) {
+  if (current_page() != PAGE_GAME) {
     return;
   }
+  if (update_info_timer == nullptr) {
+    update_info_timer = new QTimer();
+    update_info_timer->setSingleShot(true);
+    connect(update_info_timer, SIGNAL(timeout()),
+            this, SLOT(update_info_label()));
+    update_info_timer->start(100);
+    return;
+  }
+
+  if (update_info_timer->remainingTime() > 0) {
+    return;
+  }
+
   s = QString(_("%1 (Turn:%2)")).arg(calendar_text(),
-                                             QString::number(game.info.turn));
-  gui()->game_info_label->set_turn_info(s);
+                                            QString::number(game.info.turn));
+  game_info_label->set_turn_info(s);
   set_indicator_icons(client_research_sprite(),
                       client_warming_sprite(),
                       client_cooling_sprite(), client_government_sprite());
@@ -1323,11 +1344,14 @@ void update_info_label(void)
            .arg(QString::number(client.conn.playing->economic.gold),
            QString::number(player_get_expected_income(client.conn.playing)));
     }
-    gui()->game_info_label->set_eco_info(eco_info);
+    game_info_label->set_eco_info(eco_info);
   }
-  gui()->game_info_label->info_update();
-  gui()->end_turn_rect->end_turn_update();
+  game_info_label->info_update();
+  end_turn_rect->end_turn_update();
+  delete update_info_timer;
+  update_info_timer = nullptr;
 }
+
 
 /****************************************************************************
   Update the information label which gives info on the current unit

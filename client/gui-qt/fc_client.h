@@ -172,6 +172,7 @@ class fc_client : public QMainWindow
 
   QTimer* meta_scan_timer;
   QTimer* lan_scan_timer;
+  QTimer *update_info_timer;
 
   QStatusBar *status_bar;
   QSignalMapper *switch_page_mapper;
@@ -262,6 +263,7 @@ private slots:
 public slots:
   void switch_page(int i);
   void popup_client_options();
+  void update_info_label();
 
 protected slots:
 
