@@ -97,6 +97,7 @@ fc_client::fc_client() : QMainWindow()
   pre_vote = NULL;
   x_vote = NULL;
   gtd = NULL;
+  update_info_timer = nullptr;
   for (int i = 0; i <= PAGE_GAME; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;
