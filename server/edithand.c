@@ -318,8 +318,7 @@ static bool edit_tile_special_handling(struct tile *ptile,
     terrain_changed(ptile);
 
   } else {
-    if (tile_has_extra(ptile, pextra)
-        || !is_native_tile_to_extra(pextra, ptile)) {
+    if (tile_has_extra(ptile, pextra)) {
       return FALSE;
     }
 
