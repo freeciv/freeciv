@@ -1264,7 +1264,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
      * This could leave a border ring around the city, updated later by
      * map_calculate_borders() at the next turn.
      */
-    map_claim_border(pcenter, ptaker);
+    map_claim_border(pcenter, ptaker, -1);
     /* city_thaw_workers_queue() later */
 
     auto_arrange_workers(pcity); /* does city_map_update_all() */
@@ -1516,7 +1516,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* This is dependent on the current vision, so must be done after
    * vision is prepared and before arranging workers. */
-  map_claim_border(ptile, pplayer);
+  map_claim_border(ptile, pplayer, -1);
   /* city_thaw_workers_queue() later */
 
   /* Refresh the city.  First a city refresh is done (this shouldn't

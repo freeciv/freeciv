@@ -1992,12 +1992,44 @@ void map_clear_border(struct tile *ptile)
 }
 
 /*************************************************************************
-  Update borders for this source. Call this for each new source.
+  Update borders for this source. Changes the radius without temporary
+  clearing.
 *************************************************************************/
-void map_claim_border(struct tile *ptile, struct player *owner)
+void map_update_border(struct tile *ptile, struct player *owner,
+                       int old_radius_sq, int new_radius_sq)
 {
-  int radius_sq = tile_border_source_radius_sq(ptile);
+  if (old_radius_sq == new_radius_sq) {
+    /* No change */
+    return;
+  }
 
+  if (BORDERS_DISABLED == game.info.borders) {
+    return;
+  }
+
+  if (old_radius_sq < new_radius_sq) {
+    map_claim_border(ptile, owner, new_radius_sq);
+  } else {
+    circle_dxyr_iterate(ptile, old_radius_sq, dtile, dx, dy, dr) {
+      if (dr > new_radius_sq) {
+        struct tile *claimer = tile_claimer(dtile);
+
+        if (claimer == ptile) {
+          map_claim_ownership(dtile, NULL, NULL, FALSE);
+        }
+      }
+    } circle_dxyr_iterate_end;
+  }
+}
+
+/*************************************************************************
+  Update borders for this source. Call this for each new source.
+
+  If radius_sq is -1, get value from the border source on tile.
+*************************************************************************/
+void map_claim_border(struct tile *ptile, struct player *owner,
+                      int radius_sq)
+{
   if (BORDERS_DISABLED == game.info.borders) {
     return;
   }
@@ -2010,8 +2042,17 @@ void map_claim_border(struct tile *ptile, struct player *owner)
     return;
   }
 
+  if (radius_sq < 0) {
+    radius_sq = tile_border_source_radius_sq(ptile);
+  }
+
   circle_dxyr_iterate(ptile, radius_sq, dtile, dx, dy, dr) {
     struct tile *dclaimer = tile_claimer(dtile);
+
+    if (dclaimer == ptile) {
+      /* Already claimed by the ptile */
+      continue;
+    }
 
     if (dr != 0 && is_border_source(dtile)) {
       /* Do not claim border sources other than self */
@@ -2088,7 +2129,7 @@ void map_calculate_borders(void)
 
   whole_map_iterate(ptile) {
     if (is_border_source(ptile)) {
-      map_claim_border(ptile, ptile->owner);
+      map_claim_border(ptile, ptile->owner, -1);
     }
   } whole_map_iterate_end;
 
@@ -2144,7 +2185,7 @@ void map_claim_base(struct tile *ptile, struct base_type *pbase,
      * ploser == powner and above check will abort the recursion. */
     if (powner != NULL) {
       map_claim_border_ownership(ptile, powner, ptile);
-      map_claim_border(ptile, powner);
+      map_claim_border(ptile, powner, -1);
     }
     city_thaw_workers_queue();
     city_refresh_queue_processing();

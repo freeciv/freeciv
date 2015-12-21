@@ -34,6 +34,7 @@
 /* common */
 #include "achievements.h"
 #include "actiontools.h"
+#include "borders.h"
 #include "calendar.h"
 #include "citizens.h"
 #include "city.h"
@@ -724,6 +725,7 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
                       struct player *destroyer)
 {
   citizens loss_remain;
+  int old_radius_sq;
 
   if (pop_loss == 0) {
     return TRUE;
@@ -739,9 +741,10 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
     remove_city(pcity);
     return FALSE;
   }
-  map_clear_border(pcity->tile);
+  old_radius_sq = tile_border_source_radius_sq(pcity->tile);
   city_size_add(pcity, -pop_loss);
-  map_claim_border(pcity->tile, pcity->owner);
+  map_update_border(pcity->tile, pcity->owner, old_radius_sq,
+                    tile_border_source_radius_sq(pcity->tile));
 
   /* Cap the food stock at the new granary size. */
   if (pcity->food_stock > city_granary_size(city_size_get(pcity))) {
@@ -957,7 +960,7 @@ bool city_change_size(struct city *pcity, citizens size,
     return city_reduce_size(pcity, city_size_get(pcity) - size, NULL);
   }
 
-  map_claim_border(pcity->tile, pcity->owner);
+  map_claim_border(pcity->tile, pcity->owner, -1);
 
   return TRUE;
 }
@@ -982,7 +985,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
       pcity->food_stock = MIN(pcity->food_stock, granary_size);
     } else {
       city_increase_size(pcity, nationality);
-      map_claim_border(pcity->tile, pcity->owner);
+      map_claim_border(pcity->tile, pcity->owner, -1);
     }
   } else if (pcity->food_stock < 0) {
     /* FIXME: should this depend on units with ability to build
