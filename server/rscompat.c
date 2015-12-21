@@ -129,66 +129,47 @@ static int first_free_unit_type_user_flag(void)
 bool rscompat_names(struct rscompat_info *info)
 {
   if (info->ver_units < 10) {
-    /* Some unit type flags have moved to the ruleset. Add them back as
-     * user flags. */
+    /* Some unit type flags moved to the ruleset between 2.6 and 3.0.
+     * Add them back as user flags.
+     * XXX: ruleset might not need all of these, and may have enough
+     * flags of its own that these additional ones prevent conversion. */
+    const struct {
+      const char *name;
+      const char *helptxt;
+    } new_flags_30[] = {
+      { N_("Capturer"), N_("Can capture some enemy units.") },
+      { N_("Capturable"), N_("Can be captured by some enemy units.") },
+      { N_("Cities"), N_("Can found cities.") },
+      { N_("AddToCity"), N_("Can join cities.") },
+      { N_("Bombarder"), N_("Can do bombard attacks.") },
+      { N_("Nuclear"), N_("This unit's attack causes a nuclear explosion!") },
+      { N_("Infra"), N_("Can build infrastructure.") }
+    };
+    int first_free = first_free_unit_type_user_flag();
+    int i;
 
-    int unit_flag_position = first_free_unit_type_user_flag();
-
-    if (MAX_NUM_USER_UNIT_FLAGS <= unit_flag_position + 7) {
-      /* Can't add the user unit type flags. */
-      log_error("Can't upgrade the ruleset. Not enough free unit type "
-                "user flags to add user flags for the unit type flags "
-                "that used to be hard coded");
-      return FALSE;
+    for (i = 0; i < ARRAY_SIZE(new_flags_30); i++) {
+      if (MAX_NUM_USER_UNIT_FLAGS <= first_free + i) {
+        /* Can't add the user unit type flags. */
+        ruleset_error(LOG_ERROR,
+                      "Can't upgrade the ruleset. Not enough free unit type "
+                      "user flags to add user flags for the unit type flags "
+                      "that used to be hardcoded.");
+        return FALSE;
+      }
+      /* Shouldn't be possible for valid old ruleset to have flag names that
+       * clash with these ones */
+      if (unit_type_flag_id_by_name(new_flags_30[i].name, fc_strcasecmp)
+          != unit_type_flag_id_invalid()) {
+        ruleset_error(LOG_ERROR,
+                      "Ruleset had illegal user unit type flag '%s'",
+                      new_flags_30[i].name);
+        return FALSE;
+      }
+      set_user_unit_type_flag_name(first_free + i,
+                                   new_flags_30[i].name,
+                                   new_flags_30[i].helptxt);
     }
-
-    /* Add the unit type flag Capturer. */
-    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
-                                 N_("Capturer"),
-                                 N_("Can capture some enemy units."));
-    unit_flag_position++;
-
-    /* Add the unit type flag Capturable. */
-    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
-                                 N_("Capturable"),
-                                 N_("Can be captured by some enemy "
-                                    "units."));
-    unit_flag_position++;
-
-    /* Add the unit type flag Cities. */
-    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
-                                 N_("Cities"),
-                                 N_("Can found cities."));
-    unit_flag_position++;
-
-    /* Add the unit type flag AddToCity. */
-    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
-                                 N_("AddToCity"),
-                                 N_("Can join cities."));
-    unit_flag_position++;
-
-    /* The unit type flag Bombarder is no longer hard coded. */
-    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
-                                 N_("Bombarder"),
-                                 N_("Can do bombard attacks."));
-    unit_flag_position++;
-
-    /* The unit type flag Nuclear is no longer hard coded. */
-    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
-                                 N_("Nuclear"),
-                                 N_("This unit's attack causes a nuclear"
-                                    " explosion!"));
-    unit_flag_position++;
-
-    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
-                                 N_("Infra"),
-                                 N_("Can build infrastructure."));
-    unit_flag_position++;
-
-    /* If you add more new flags, update also the (sanity) check about
-     * free slots in the beginning. Preferably make number of slots big
-     * enough by making UTYF_LAST_USER_FLAG in unittype.h big enough
-     * (S2_6 had 32 user unit flags) */
   }
 
   /* No errors encountered. */
