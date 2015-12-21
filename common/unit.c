@@ -332,17 +332,6 @@ bool kills_citizen_after_attack(const struct unit *punit)
 }
 
 /****************************************************************************
-  Return TRUE iff this unit may be disbanded to add its pop_cost to a
-  city at its current location.
-****************************************************************************/
-bool unit_can_add_to_city(const struct unit *punit,
-                          const struct city *tgt_city)
-{
-  return (unit_can_do_action(punit, ACTION_JOIN_CITY)
-          && unit_join_city_test(punit, tgt_city) == UAB_ADD_OK);
-}
-
-/****************************************************************************
   Return TRUE iff this unit is capable of building a new city at its
   current location.
 ****************************************************************************/
@@ -363,7 +352,7 @@ bool unit_can_add_or_build_city(const struct unit *punit)
 
   return (unit_can_build_city(punit)
           || ((tgt_city = tile_city(unit_tile(punit)))
-              && unit_can_add_to_city(punit, tgt_city)));
+              && unit_can_do_action(punit, ACTION_JOIN_CITY)));
 }
 
 /**************************************************************************
@@ -396,24 +385,6 @@ unit_build_city_test(const struct unit *punit)
     /* There is already a city here... */
     return UAB_BAD_CITY_TERRAIN; /* Returns something prohibitive. */
   }
-}
-
-/**************************************************************************
-  See if the unit can add to an existing city at its current location, and
-  return a 'result' value telling what is allowed.
-**************************************************************************/
-enum unit_add_build_city_result
-unit_join_city_test(const struct unit *punit, const struct city *pcity)
-{
-  /* Test if we can build. */
-  if (NULL == pcity) {
-    /* No city to join. */
-    return UAB_BAD_CITY_TERRAIN; /* Returns something prohibitive. */
-  }
-
-  fc_assert(unit_pop_value(punit) > 0);
-
-  return UAB_ADD_OK;
 }
 
 /**************************************************************************

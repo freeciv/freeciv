@@ -56,7 +56,6 @@ enum goto_route_type {
 
 enum unit_add_build_city_result {
   UAB_BUILD_OK,         /* Unit OK to build city. */
-  UAB_ADD_OK,           /* Unit OK to add to city. */
   UAB_BAD_CITY_TERRAIN, /* Equivalent to 'CB_BAD_CITY_TERRAIN'. */
   UAB_BAD_UNIT_TERRAIN, /* Equivalent to 'CB_BAD_UNIT_TERRAIN'. */
   UAB_BAD_BORDERS,      /* Equivalent to 'CB_BAD_BORDERS'. */
@@ -311,14 +310,10 @@ bool is_square_threatened(const struct player *pplayer,
 			  const struct tile *ptile, bool omniscient);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
-bool unit_can_add_to_city(const struct unit *punit,
-                          const struct city *tgt_city);
 bool unit_can_build_city(const struct unit *punit);
 bool unit_can_add_or_build_city(const struct unit *punit);
 enum unit_add_build_city_result
 unit_build_city_test(const struct unit *punit);
-enum unit_add_build_city_result
-unit_join_city_test(const struct unit *punit, const struct city *pcity);
 
 bool kills_citizen_after_attack(const struct unit *punit);
 

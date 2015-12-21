@@ -1798,13 +1798,6 @@ bool unit_perform_action(struct player *pplayer,
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
         return city_add_unit(pplayer, actor_unit, pcity);
-      } else if (unit_can_do_action(actor_unit, ACTION_JOIN_CITY)
-                 && !unit_can_add_to_city(actor_unit, pcity)) {
-        /* Keep the rules like they was before action enabler control:
-         *  - detailed explanation of why something is illegal. */
-        /* TODO: improve explanation about why an action failed. */
-        city_add_or_build_error(pplayer, actor_unit,
-                                unit_join_city_test(actor_unit, pcity));
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -2098,7 +2091,6 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
   /* Given that res came from unit_add_or_build_city_test(), pcity will
    * be non-null for all required status values. */
   struct tile *ptile = unit_tile(punit);
-  struct city *pcity = tile_city(ptile);
 
   switch (res) {
   case UAB_BAD_CITY_TERRAIN:
@@ -2129,14 +2121,6 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     illegal_action_msg(pplayer, E_BAD_COMMAND,
                        punit, ACTION_FOUND_CITY,
                        unit_tile(punit), NULL, NULL);
-    break;
-  case UAB_ADD_OK:
-    /* Shouldn't happen */
-    log_error("Cannot add %s to %s for unknown reason (%d)",
-              unit_rule_name(punit), city_name(pcity), res);
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("Can't add %s to %s."),
-                  unit_link(punit), city_link(pcity));
     break;
   }
 }

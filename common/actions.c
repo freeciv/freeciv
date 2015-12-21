@@ -1221,11 +1221,6 @@ is_action_possible(const enum gen_action wanted_action,
        * VisibleByOthers. */
       return TRI_NO;
     }
-
-    /* TODO: Move more individual requirements to the action enabler. */
-    if (!unit_can_add_to_city(actor_unit, target_city)) {
-      return TRI_NO;
-    }
   }
 
   if (wanted_action == ACTION_BOMBARD) {

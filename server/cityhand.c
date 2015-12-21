@@ -87,12 +87,6 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
                 "cannot build there.", TILE_XY(unit_tile(punit)));
     city_add_or_build_error(pplayer, punit, res);       /* Message. */
     break;
-
-  case UAB_ADD_OK:
-    log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
-                "there is already a city there.", TILE_XY(unit_tile(punit)));
-    /* Ignoring. */
-    break;
   }
 }
 
