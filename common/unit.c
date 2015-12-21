@@ -405,8 +405,6 @@ unit_build_city_test(const struct unit *punit)
 enum unit_add_build_city_result
 unit_join_city_test(const struct unit *punit, const struct city *pcity)
 {
-  int new_pop;
-
   /* Test if we can build. */
   if (NULL == pcity) {
     /* No city to join. */
@@ -414,11 +412,7 @@ unit_join_city_test(const struct unit *punit, const struct city *pcity)
   }
 
   fc_assert(unit_pop_value(punit) > 0);
-  new_pop = city_size_get(pcity) + unit_pop_value(punit);
 
-  if (!city_can_grow_to(pcity, new_pop)) {
-    return UAB_NO_SPACE;
-  }
   return UAB_ADD_OK;
 }
 

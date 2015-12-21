@@ -1212,6 +1212,16 @@ is_action_possible(const enum gen_action wanted_action,
       return TRI_NO;
     }
 
+    if (!city_can_grow_to(target_city, new_pop)) {
+      /* Reason: respect city size limits. */
+      /* Info leak: when it is legal to join a foreign city is legal and
+       * the EFT_SIZE_UNLIMIT effect or the EFT_SIZE_ADJ effect depends on
+       * something the actor player don't have access to.
+       * Example: depends on a building (like Aqueduct) that isn't
+       * VisibleByOthers. */
+      return TRI_NO;
+    }
+
     /* TODO: Move more individual requirements to the action enabler. */
     if (!unit_can_add_to_city(actor_unit, target_city)) {
       return TRI_NO;
