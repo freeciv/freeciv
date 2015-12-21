@@ -1061,6 +1061,12 @@ static bool load_tech_names(struct section_file *file,
        i++) {
     const char *helptxt = secfile_lookup_str_default(file, NULL, "control.flags%d.helptxt",
                                                      i);
+    if (tech_flag_id_by_name(flag, fc_strcasecmp) != tech_flag_id_invalid()) {
+      ruleset_error(LOG_ERROR, "\"%s\": Duplicate tech flag name '%s'",
+                    filename, flag);
+      ok = FALSE;
+      break;
+    }
     if (i > MAX_NUM_USER_TECH_FLAGS) {
       ruleset_error(LOG_ERROR, "\"%s\": Too many user tech flags!",
                     filename);
@@ -1306,6 +1312,13 @@ static bool load_unit_names(struct section_file *file,
     const char *helptxt = secfile_lookup_str_default(file, NULL, "control.flags%d.helptxt",
                                                      i);
 
+    if (unit_type_flag_id_by_name(flag, fc_strcasecmp)
+        != unit_type_flag_id_invalid()) {
+      ruleset_error(LOG_ERROR, "\"%s\": Duplicate unit flag name '%s'",
+                    filename, flag);
+      ok = FALSE;
+      break;
+    }
     if (i > MAX_NUM_USER_UNIT_FLAGS) {
       ruleset_error(LOG_ERROR, "\"%s\": Too many user unit type flags!",
                     filename);
@@ -2184,6 +2197,13 @@ static bool load_terrain_names(struct section_file *file,
     const char *helptxt = secfile_lookup_str_default(file, NULL, "control.flags%d.helptxt",
                                                      i);
 
+    if (terrain_flag_id_by_name(flag, fc_strcasecmp)
+        != terrain_flag_id_invalid()) {
+      ruleset_error(LOG_ERROR, "\"%s\": Duplicate terrain flag name '%s'",
+                    filename, flag);
+      ok = FALSE;
+      break;
+    }
     if (i > MAX_NUM_USER_TER_FLAGS) {
       ruleset_error(LOG_ERROR, "\"%s\": Too many user terrain flags!",
                     filename);
