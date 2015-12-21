@@ -348,11 +348,11 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       } base_type_iterate_end;
     }
     return TRUE;
-  } else if (0 == strcmp (name, "VeteranLevels")) {
+  } else if (0 == strcmp(name, "VeteranLevels")) {
     return insert_veteran_help(outbuf, outlen, game.veteran,
         _("In this ruleset, the following veteran levels are defined:"),
         _("This ruleset has no default veteran levels defined."));
-  } else if (0 == strcmp (name, "FreecivVersion")) {
+  } else if (0 == strcmp(name, "FreecivVersion")) {
     const char *ver = freeciv_name_version();
 
     cat_snprintf(outbuf, outlen,
@@ -361,6 +361,10 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
                   * Second %s is client_string, e.g., "gui-gtk-2.0". */
                  _("This is %s, %s client."), ver, client_string);
     insert_client_build_info(outbuf, outlen);
+
+    return TRUE;
+  } else if (0 == strcmp(name, "DefaultMetaserver")) {
+    cat_snprintf(outbuf, outlen, "  %s", FREECIV_META_URL);
 
     return TRUE;
   }
