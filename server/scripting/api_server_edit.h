@@ -57,6 +57,7 @@ void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name);
 void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
                           struct player *pplayer);
 void api_edit_create_road(lua_State *L, Tile *ptile, const char *name);
+void api_edit_remove_extra(lua_State *L, Tile *ptile, const char *name);
 
 void api_edit_tile_set_label(lua_State *L, Tile *ptile, const char *label);
 
