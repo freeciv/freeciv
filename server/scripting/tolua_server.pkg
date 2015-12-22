@@ -130,6 +130,8 @@ module edit {
   /* Deprecated; use edit.create_extra() */
   void api_edit_create_road
     @ create_road (lua_State *L, Tile *ptile, const char *name);
+  void api_edit_remove_extra
+    @ remove_extra (lua_State *L, Tile *ptile, const char *name);
   void api_edit_tile_set_label
     @ tile_set_label (lua_State *L, Tile *ptile, const char *label);
   Player *api_edit_create_player
@@ -313,6 +315,10 @@ end
 -- Deprecated; use edit.create_extra()
 function Tile:create_road(name)
   edit.create_road(self, name)
+end
+
+function Tile:remove_extra(name)
+  edit.remove_extra(self, name)
 end
 
 function Tile:unleash_barbarians()

@@ -429,6 +429,28 @@ void api_edit_create_road(lua_State *L, Tile *ptile, const char *name)
 }
 
 /*****************************************************************************
+  Remove extra from tile, if present
+*****************************************************************************/
+void api_edit_remove_extra(lua_State *L, Tile *ptile, const char *name)
+{
+  struct extra_type *pextra;
+
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
+
+  if (!name) {
+    return;
+  }
+
+  pextra = extra_type_by_rule_name(name);
+
+  if (pextra != NULL && tile_has_extra(ptile, pextra)) {
+    tile_extra_rm_apply(ptile, pextra);
+    update_tile_knowledge(ptile);
+  }
+}
+
+/*****************************************************************************
   Set tile label text.
 *****************************************************************************/
 void api_edit_tile_set_label(lua_State *L, Tile *ptile, const char *label)
