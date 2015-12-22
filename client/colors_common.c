@@ -106,7 +106,21 @@ struct color *get_color(const struct tileset *t, enum color_std stdcolor)
 }
 
 /**********************************************************************
+  Return whether the player has a color assigned yet.
+  Should only be FALSE in pregame.
+***********************************************************************/
+bool player_has_color(const struct tileset *t,
+                      const struct player *pplayer)
+{
+  fc_assert_ret_val(pplayer != NULL, NULL);
+
+  return pplayer->rgb != NULL;
+}
+
+/**********************************************************************
   Return the color of the player.
+  In pregame, callers should check player_has_color() before calling
+  this.
 ***********************************************************************/
 struct color *get_player_color(const struct tileset *t,
                                const struct player *pplayer)

@@ -3971,12 +3971,13 @@ static bool playercolor_command(struct connection *caller,
     goto cleanup;
   }
 
-  if (!game_was_started() && game.server.plrcolormode != PLRCOL_PLR_SET) {
-    cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
-              _("Can only set player color prior to game start if "
-                "'plrcolormode' is PLR_SET."));
-    ret = FALSE;
-    goto cleanup;
+  {
+    const char *reason;
+    if (!player_color_changeable(pplayer, &reason)) {
+      cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL, "%s", reason);
+      ret = FALSE;
+      goto cleanup;
+    }
   }
 
   if (0 == fc_strcasecmp(token[1], "reset")) {
