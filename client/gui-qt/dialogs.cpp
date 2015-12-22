@@ -50,7 +50,7 @@
 #include "sprite.h"
 
 /* Locations for non action enabler controlled buttons. */
-#define BUTTON_MOVE ACTION_MOVE
+#define BUTTON_MOVE ACTION_COUNT
 #define BUTTON_CANCEL BUTTON_MOVE + 1
 #define BUTTON_COUNT BUTTON_MOVE + 2
 
@@ -1953,8 +1953,7 @@ static void diplomat_keep_moving(QVariant data1, QVariant data2)
   if ((punit = game_unit_by_number(diplomat_id))
       && (ptile = index_to_tile(diplomat_target_id))
       && !same_pos(unit_tile(punit), ptile)) {
-    request_do_action(ACTION_MOVE, diplomat_id,
-                      diplomat_target_id, 0, "");
+    request_unit_non_action_move(punit, ptile);
   }
 }
 

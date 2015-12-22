@@ -1592,6 +1592,44 @@ void request_unit_build_city(struct unit *punit)
 }
 
 /**************************************************************************
+  Order a unit to move to a neighboring tile without performing an action.
+
+  Does nothing it the destination tile isn't next to the tile where the
+  unit currently is located.
+**************************************************************************/
+void request_unit_non_action_move(struct unit *punit,
+                                  struct tile *dest_tile)
+{
+  struct packet_unit_orders p;
+  int dir;
+
+  dir = get_direction_for_step(unit_tile(punit), dest_tile);
+
+  if (dir == -1) {
+    /* The unit isn't located next to the destination tile. */
+    return;
+  }
+
+  memset(&p, 0, sizeof(p));
+
+  p.repeat = FALSE;
+  p.vigilant = FALSE;
+
+  p.unit_id = punit->id;
+  p.src_tile = tile_index(unit_tile(punit));
+  p.dest_tile = tile_index(dest_tile);
+
+  p.length = 1;
+  p.orders[0] = ORDER_MOVE;
+  p.dir[0] = dir;
+  p.activity[0] = ACTIVITY_LAST;
+  p.target[0] = EXTRA_NONE;
+  p.action[0] = ACTION_COUNT;
+
+  send_packet_unit_orders(&client.conn, &p);
+}
+
+/**************************************************************************
   This function is called whenever the player pressed an arrow key.
 
   We do NOT take into account that punit might be a caravan or a diplomat

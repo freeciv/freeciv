@@ -1425,9 +1425,7 @@ void handle_unit_do_action(struct player *pplayer,
   Execute a request to perform an action and let the caller know if it was
   performed or not.
 
-  The action can be a valid action or the special value ACTION_MOVE.
-  ACTION_MOVE will move the unit even if it may be able to perform an
-  action against something at the target tile.
+  The action must be a valid action.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
@@ -1445,8 +1443,7 @@ bool unit_perform_action(struct player *pplayer,
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
-  if (!(action_type == ACTION_MOVE
-        || action_id_is_valid(action_type))) {
+  if (!action_id_is_valid(action_type)) {
     /* Non existing action */
     log_error("unit_perform_action() the action %d doesn't exist.",
               action_type);
@@ -1896,11 +1893,10 @@ bool unit_perform_action(struct player *pplayer,
       }
     }
     break;
-  case ACTION_MOVE:
-    if (target_tile
-        && may_non_act_move(actor_unit, pcity, target_tile, FALSE)) {
-      return unit_move_handling(actor_unit, target_tile, FALSE, TRUE);
-    }
+  case ACTION_COUNT:
+    log_error("handle_unit_do_action() %s (%d) ordered to perform an "
+              "invalid action.",
+              unit_rule_name(actor_unit), actor_id);
     break;
   }
 

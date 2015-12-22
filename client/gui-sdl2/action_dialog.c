@@ -725,8 +725,7 @@ static int diplomat_keep_moving_callback(struct widget *pWidget)
 
     if ((punit = game_unit_by_number(pDiplomat_Dlg->actor_unit_id))
         && !same_pos(unit_tile(punit), pWidget->data.tile)) {
-      request_do_action(ACTION_MOVE, pDiplomat_Dlg->actor_unit_id,
-                        pWidget->data.tile->index, 0, "");
+      request_unit_non_action_move(punit, pWidget->data.tile);
     }
 
     action_decision_taken(pDiplomat_Dlg->actor_unit_id);

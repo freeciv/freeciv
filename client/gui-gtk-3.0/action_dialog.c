@@ -49,7 +49,7 @@
 #include "wldlg.h"
 
 /* Locations for non action enabler controlled buttons. */
-#define BUTTON_MOVE ACTION_MOVE
+#define BUTTON_MOVE ACTION_COUNT
 #define BUTTON_LOCATION BUTTON_MOVE + 1
 #define BUTTON_CANCEL BUTTON_MOVE + 2
 #define BUTTON_COUNT BUTTON_MOVE + 3
@@ -1089,8 +1089,7 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
   if ((punit = game_unit_by_number(args->actor_unit_id))
       && (ptile = index_to_tile(args->target_tile_id))
       && !same_pos(unit_tile(punit), ptile)) {
-    request_do_action(ACTION_MOVE, args->actor_unit_id,
-                      args->target_tile_id, 0, "");
+    request_unit_non_action_move(punit, ptile);
   }
 
   gtk_widget_destroy(act_sel_dialog);
