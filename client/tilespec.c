@@ -6398,9 +6398,9 @@ int fill_basic_base_sprite_array(const struct tileset *t,
 void tileset_player_init(struct tileset *t, struct player *pplayer)
 {
   int plrid, i, j;
+  struct sprite *color;
 
   fc_assert_ret(pplayer != NULL);
-  fc_assert_ret(pplayer->rgb != NULL);
 
   plrid = player_index(pplayer);
   fc_assert_ret(plrid >= 0);
@@ -6409,10 +6409,18 @@ void tileset_player_init(struct tileset *t, struct player *pplayer)
   /* Free all data before recreating it. */
   tileset_player_free(t, plrid);
 
-  t->sprites.player[plrid].color
-    = create_plr_sprite(ensure_color(pplayer->rgb));
+  if (player_has_color(t, pplayer)) {
+    t->sprites.player[plrid].color = color
+      = create_plr_sprite(get_player_color(t, pplayer));
+  } else {
+    /* XXX: if player hasn't been assigned a color, perhaps there's no
+     * point proceeding with an arbitrary color; this should only happen
+     * in pregame. Probably blank sprites would be better. */
+    color = t->sprites.background.color;
+  }
+
   t->sprites.player[plrid].background
-    = crop_sprite(t->sprites.player[plrid].color, 0, 0,
+    = crop_sprite(color, 0, 0,
                   t->normal_tile_width, t->normal_tile_height,
                   t->sprites.mask.tile, 0, 0);
 
@@ -6420,9 +6428,8 @@ void tileset_player_init(struct tileset *t, struct player *pplayer)
     for (j = 0; j < 2; j++) {
       struct sprite *s;
 
-      if (t->sprites.player[plrid].color
-          && t->sprites.grid.borders[i][j]) {
-        s = crop_sprite(t->sprites.player[plrid].color, 0, 0,
+      if (color && t->sprites.grid.borders[i][j]) {
+        s = crop_sprite(color, 0, 0,
                         t->normal_tile_width, t->normal_tile_height,
                         t->sprites.grid.borders[i][j], 0, 0);
       } else {

@@ -348,6 +348,8 @@ struct player {
       enum mood_type mood;
 
       int tech_upkeep;
+
+      bool color_changeable;
     } client;
   };
 };

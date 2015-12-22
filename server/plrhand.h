@@ -27,6 +27,7 @@ struct player *server_create_player(int player_id, const char *ai_tname,
                                     struct rgbcolor *prgbcolor,
                                     bool allow_ai_type_fallbacking);
 const struct rgbcolor *player_preferred_color(struct player *pplayer);
+bool player_color_changeable(const struct player *pplayer, const char **reason);
 void assign_player_colors(void);
 void server_player_set_color(struct player *pplayer,
                              const struct rgbcolor *prgbcolor);

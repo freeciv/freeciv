@@ -2116,13 +2116,21 @@ void handle_player_info(const struct packet_player_info *pinfo)
   new_player = !player_slot_is_used(pslot);
   pplayer = player_new(pslot);
 
-  if (pplayer->rgb == NULL || (pplayer->rgb->r != pinfo->color_red
-                               || pplayer->rgb->g != pinfo->color_green
-                               || pplayer->rgb->b != pinfo->color_blue)) {
-    struct rgbcolor *prgbcolor = rgbcolor_new(pinfo->color_red,
-                                              pinfo->color_green,
-                                              pinfo->color_blue);
-    fc_assert_ret(prgbcolor != NULL);
+  if ((pplayer->rgb == NULL) != !pinfo->color_valid
+      || (pinfo->color_valid &&
+          (pplayer->rgb->r != pinfo->color_red
+           || pplayer->rgb->g != pinfo->color_green
+           || pplayer->rgb->b != pinfo->color_blue))) {
+    struct rgbcolor *prgbcolor;
+
+    if (pinfo->color_valid) {
+      prgbcolor = rgbcolor_new(pinfo->color_red,
+                               pinfo->color_green,
+                               pinfo->color_blue);
+      fc_assert_ret(prgbcolor != NULL);
+    } else {
+      prgbcolor = NULL;
+    }
 
     player_set_color(pplayer, prgbcolor);
     tileset_player_init(tileset, pplayer);
@@ -2132,6 +2140,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
     /* Queue a map update -- may need to redraw borders, etc. */
     update_map_canvas_visible();
   }
+  pplayer->client.color_changeable = pinfo->color_changeable;
 
   if (new_player) {
     /* Initialise client side player data (tile vision). At the moment

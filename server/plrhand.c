@@ -1088,6 +1088,7 @@ static void package_player_info(struct player *plr,
   } players_iterate_end;
 
   if (plr->rgb != NULL) {
+    packet->color_valid = TRUE;
     packet->color_red = plr->rgb->r;
     packet->color_green = plr->rgb->g;
     packet->color_blue = plr->rgb->b;
@@ -1096,17 +1097,20 @@ static void package_player_info(struct player *plr,
      * '/list colors' etc. */
     const struct rgbcolor *preferred = player_preferred_color(plr);
     if (preferred != NULL) {
+      packet->color_valid = TRUE;
       packet->color_red = preferred->r;
       packet->color_green = preferred->g;
       packet->color_blue = preferred->b;
     } else {
       fc_assert(!game_was_started());
-      /* Can't tell the client 'no color', so use dummy values (black). */
+      packet->color_valid = FALSE;
+      /* Client shouldn't use these dummy values */
       packet->color_red = 0;
       packet->color_green = 0;
       packet->color_blue = 0;
     }
   }
+  packet->color_changeable = player_color_changeable(plr, NULL);
 
   /* Only send score if we have contact */
   if (info_level >= INFO_MEETING) {
@@ -1378,6 +1382,23 @@ const struct rgbcolor *player_preferred_color(struct player *pplayer)
 }
 
 /****************************************************************************
+  Return whether a player's color can currently be set with the
+  '/playercolor' command. If not, give a reason why not, if 'reason' is
+  not NULL (need not be freed).
+****************************************************************************/
+bool player_color_changeable(const struct player *pplayer, const char **reason)
+{
+  if (!game_was_started() && game.server.plrcolormode != PLRCOL_PLR_SET) {
+    if (reason) {
+      *reason = _("Can only set player color prior to game start if "
+                  "'plrcolormode' is PLR_SET.");
+    }
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/****************************************************************************
   Permanently assign colors to any players that don't already have them.
   First assign preferred colors, then assign the rest randomly, trying to
   avoid clashes.
@@ -1477,7 +1498,7 @@ void server_player_set_color(struct player *pplayer,
   if (prgbcolor != NULL) {
     player_set_color(pplayer, prgbcolor);
   } else {
-    /* Server only: this can be NULL in pregame. */
+    /* This can legitimately be NULL in pregame. */
     fc_assert_ret(!game_was_started());
     rgbcolor_destroy(pplayer->rgb);
     pplayer->rgb = NULL;

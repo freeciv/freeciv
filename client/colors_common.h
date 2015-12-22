@@ -117,6 +117,8 @@ struct rgbcolor;
 #include "specenum_gen.h"
 
 struct color *get_color(const struct tileset *t, enum color_std stdcolor);
+bool player_has_color(const struct tileset *t,
+                      const struct player *pplayer);
 struct color *get_player_color(const struct tileset *t,
                                const struct player *pplayer);
 struct color *get_terrain_color(const struct tileset *t,

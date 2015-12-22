@@ -609,17 +609,19 @@ static void player_defaults(struct player *pplayer)
 
 /****************************************************************************
   Set the player's color.
+  May be NULL in pregame.
 ****************************************************************************/
 void player_set_color(struct player *pplayer,
                       const struct rgbcolor *prgbcolor)
 {
-  fc_assert_ret(prgbcolor != NULL);
-
   if (pplayer->rgb != NULL) {
     rgbcolor_destroy(pplayer->rgb);
+    pplayer->rgb = NULL;
   }
 
-  pplayer->rgb = rgbcolor_copy(prgbcolor);
+  if (prgbcolor) {
+    pplayer->rgb = rgbcolor_copy(prgbcolor);
+  }
 }
 
 /****************************************************************************

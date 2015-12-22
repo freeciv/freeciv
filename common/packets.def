@@ -825,6 +825,8 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   UINT16 culture;
   SINT16 love[MAX_NUM_PLAYER_SLOTS];
 
+  BOOL color_valid;
+  BOOL color_changeable;
   UINT8 color_red;
   UINT8 color_green;
   UINT8 color_blue;
