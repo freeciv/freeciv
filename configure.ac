@@ -333,6 +333,7 @@ fi
 
 gui_gtk2=no
 gui_gtk3=no
+gui_gtk3x=no
 gui_sdl2=no
 gui_qt=no
 gui_stub=no
@@ -355,6 +356,8 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
          test "x$gui" = "xgtk30"  ||
          test "x$gui" = "xgtk-3.0" ; then
       gui_gtk3=yes
+    elif test "x$gui" = "xgtk3x" ; then
+      gui_gtk3x=yes
     elif test "x$gui" = "xgtk" ; then
       AC_MSG_WARN([for requested client 'gtk' enabled gtk3-client, that has changed since earlier versions])
       gui_gtk3=yes
@@ -1523,6 +1526,7 @@ AC_CONFIG_FILES([Makefile
           client/gui-sdl2/Makefile
 	  client/gui-gtk-2.0/Makefile
 	  client/gui-gtk-3.0/Makefile
+	  client/gui-gtk-3.x/Makefile
           client/gui-qt/Makefile
 	  client/gui-stub/Makefile
           client/luascript/Makefile
@@ -1610,6 +1614,7 @@ AC_MSG_NOTICE([
 
   In-development client frontends:
   (these are not yet ready for general use)
+    Gtk-3.x  $gui_gtk3x
 
   == Server ==
   Build freeciv server:  $server

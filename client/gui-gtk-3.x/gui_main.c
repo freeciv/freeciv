@@ -102,7 +102,7 @@
 
 #include "gui_main.h"
 
-const char *client_string = "gui-gtk-3.0";
+const char *client_string = "gui-gtk-3.x";
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
@@ -1771,7 +1771,7 @@ void ui_exit(void)
 **************************************************************************/
 enum gui_type get_gui_type(void)
 {
-  return GUI_GTK3;
+  return GUI_GTK3x;
 }
 
 /**************************************************************************

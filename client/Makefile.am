@@ -30,6 +30,9 @@ desktopfile_DATA += \
 appdatafile_DATA += \
 	freeciv-gtk3.appdata.xml
 endif
+if CLIENT_GUI_GTK_3_X
+GUI_SUBDIRS += gui-gtk-3.x
+endif
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
 desktopfile_DATA += \
@@ -209,6 +212,22 @@ freeciv_gtk3_LDADD = \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_gtk3_libs)
+endif
+
+if CLIENT_GUI_GTK_3_X
+bin_PROGRAMS += freeciv-gtk3x
+noinst_LTLIBRARIES += libfcgui-gtk3x.la
+libfcgui_gtk3x_la_SOURCES = $(freeciv_client_src)
+libfcgui_gtk3x_la_LIBADD = gui-gtk-3.x/libgui-gtk3x.la $(clientlibs)
+freeciv_gtk3x_SOURCES = dummy.c
+freeciv_gtk3x_LDFLAGS = $(gui_gtk3x_ldflags)
+freeciv_gtk3x_LDADD = \
+ $(SOUND_LIBS) \
+ libfcgui-gtk3x.la \
+ $(top_builddir)/common/libfreeciv.la \
+ $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
+ $(gui_gtk3x_libs)
 endif
 
 if CLIENT_GUI_SDL2
