@@ -7364,7 +7364,8 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     role_unit_precalcs();
     road_integrators_cache_init();
 
-    ok = sanity_check_ruleset_data();
+    ok = autoadjust_ruleset_data()
+      && sanity_check_ruleset_data();
   }
 
   if (ok) {

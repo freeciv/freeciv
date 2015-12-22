@@ -188,7 +188,7 @@ void tab_misc::save_now()
   strncpy(game.control.version, version->text().toUtf8().data(),
           sizeof(game.control.version));
 
-  if (!sanity_check_ruleset_data()) {
+  if (!autoadjust_ruleset_data() || !sanity_check_ruleset_data()) {
     QMessageBox *box = new QMessageBox();
 
     box->setText("Current data fails sanity checks. Save anyway?");

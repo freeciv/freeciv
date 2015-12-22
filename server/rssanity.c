@@ -988,3 +988,29 @@ bool sanity_check_ruleset_data(void)
 
   return ok;
 }
+
+/**************************************************************************
+  Apply some automatic defaults to already loaded rulesets.
+
+  Returns TRUE iff everything ok.
+**************************************************************************/
+bool autoadjust_ruleset_data(void)
+{
+  bool ok = TRUE;
+  
+  extra_type_by_cause_iterate(EC_RESOURCE, pextra) {
+    extra_type_by_cause_iterate(EC_RESOURCE, pextra2) {
+      if (pextra != pextra2) {
+        int idx = extra_index(pextra2);
+
+        if (!BV_ISSET(pextra->conflicts, idx)) {
+          log_debug("Autoconflicting resource %s with %s",
+                    extra_rule_name(pextra), extra_rule_name(pextra2));
+          BV_SET(pextra->conflicts, extra_index(pextra2));
+        }
+      }
+    } extra_type_by_cause_iterate_end;
+  } extra_type_by_cause_iterate_end;
+
+  return ok;
+}

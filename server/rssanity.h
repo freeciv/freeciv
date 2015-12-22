@@ -17,6 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+bool autoadjust_ruleset_data(void);
 bool sanity_check_ruleset_data(void);
 
 #ifdef __cplusplus
