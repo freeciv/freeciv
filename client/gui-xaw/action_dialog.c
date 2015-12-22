@@ -806,8 +806,7 @@ static void diplomat_keep_moving_callback(Widget w,
   if ((punit = game_unit_by_number(diplomat_id))
       && (ptile = (struct tile *)client_data)
       && !same_pos(unit_tile(punit), ptile)) {
-    request_do_action(ACTION_MOVE, diplomat_id,
-                      ptile->index, 0);
+    request_unit_non_action_move(punit, ptile);
   }
   action_decision_taken(diplomat_id);
 }

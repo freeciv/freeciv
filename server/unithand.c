@@ -1043,12 +1043,10 @@ void handle_unit_do_action(struct player *pplayer,
 			   const enum gen_action action_type)
 {
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
-  struct tile *target_tile = index_to_tile(target_id);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
-  if (!(action_type == ACTION_MOVE
-        || action_id_is_valid(action_type))) {
+  if (!action_id_is_valid(action_type)) {
     /* Non existing action */
     log_error("unit_perform_action() the action %d doesn't exist.",
               action_type);
@@ -1294,11 +1292,10 @@ void handle_unit_do_action(struct player *pplayer,
       }
     }
     break;
-  case ACTION_MOVE:
-    if (target_tile
-        && may_non_act_move(actor_unit, pcity, target_tile, FALSE)) {
-      (void) unit_move_handling(actor_unit, target_tile, FALSE, TRUE);
-    }
+  case ACTION_COUNT:
+    log_error("handle_unit_do_action() %s (%d) ordered to perform an "
+              "invalid action.",
+              unit_rule_name(actor_unit), actor_id);
     break;
   }
 }

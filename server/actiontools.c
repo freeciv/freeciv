@@ -123,7 +123,7 @@ static void maybe_cause_incident(const enum gen_action action,
                       " stealing gold from %s."),
                     nation_plural_for_player(offender), victim_link);
       break;
-    case ACTION_MOVE:
+    case ACTION_COUNT:
     case ACTION_ESTABLISH_EMBASSY:
     case ACTION_SPY_INVESTIGATE_CITY:
     case ACTION_TRADE_ROUTE:
