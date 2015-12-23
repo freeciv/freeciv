@@ -10,11 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__DEFAULTAI_H
-#define FC__DEFAULTAI_H
+#ifndef FC__CLASSICAI_H
+#define FC__CLASSICAI_H
 
 struct ai_type;
 
 bool fc_ai_classic_setup(struct ai_type *ai);
 
-#endif /* FC__DEFAULTAI_H */
+#endif /* FC__CLASSICAI_H */
