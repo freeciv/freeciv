@@ -1418,6 +1418,7 @@ void handle_page_msg_part(const char *lines)
       free(page_msg_report.caption);
       free(page_msg_report.headline);
       free(page_msg_report.lines);
+      page_msg_report.lines = NULL;
     }
   }
 }
