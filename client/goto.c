@@ -1684,6 +1684,7 @@ void send_goto_route(void)
   fc_assert_ret(goto_is_active());
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
+    struct tile *tgt_tile;
     struct pf_path *path = NULL;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
@@ -1697,6 +1698,34 @@ void send_goto_route(void)
     }
 
     clear_unit_orders(punit);
+
+    tgt_tile = pf_path_last_position(path)->tile;
+
+    /* Make the last move in a plain goto try to pop up the action
+     * selection dialog rather than moving to the last tile if it contains
+     * a domestic, allied or team mate city, unit or unit stack. This can,
+     * in cases where the action requires movement left, save a turn. */
+    /* TODO: Should this be a client option? */
+    if (goto_last_order == ORDER_LAST
+        && ((is_allied_city_tile(tgt_tile, client_player())
+             || is_allied_unit_tile(tgt_tile, client_player()))
+            && (can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
+                                                ACTION_ANY,
+                                                DRO_FOREIGN,
+                                                FALSE)
+                || can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
+                                                   ACTION_ANY,
+                                                   DS_ALLIANCE,
+                                                   TRUE)
+                || can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
+                                                   ACTION_ANY,
+                                                   DS_TEAM,
+                                                   TRUE)))) {
+      /* Try to pop up the action selection dialog before moving to the
+       * target tile. */
+      goto_last_order = ORDER_ACTION_MOVE;
+    }
+
     if (goto_last_order == ORDER_LAST) {
       send_goto_path(punit, path, NULL);
     } else if (path->length > 1
@@ -1705,10 +1734,8 @@ void send_goto_route(void)
       struct unit_order order;
       int last_order_dir;
       struct tile *on_tile;
-      struct tile *tgt_tile;
 
       if (path->length > 1
-          && ((tgt_tile = pf_path_last_position(path)->tile))
           && ((on_tile = path->positions[path->length - 2].tile))
           && order_wants_direction(goto_last_order, goto_last_action,
                                    tgt_tile)
