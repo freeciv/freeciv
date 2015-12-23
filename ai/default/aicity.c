@@ -449,6 +449,79 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
   } unit_list_iterate_end;
 }
 
+/**************************************************************************
+  Try to disband punit in the traditional way.
+
+  Try to disband the specified unit. Match the old behavior in what kind
+  of disbanding is tried and who benefits from it.
+**************************************************************************/
+static void unit_do_disband_trad(struct player *owner, struct unit *punit,
+                                 const enum action_requester requester)
+{
+  const int punit_id_stored = punit->id;
+
+  fc_assert_ret(owner == unit_owner(punit));
+
+  /* Help Wonder gives 100% of the shields used to produce the unit to the
+   * city where it is located. */
+  if (unit_can_do_action(punit, ACTION_HELP_WONDER)) {
+    struct city *tgt_city;
+
+    /* Only a city at the same tile as the unit can benefit. */
+    tgt_city = tile_city(unit_tile(punit));
+
+    if (tgt_city
+        && is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+                                          punit, tgt_city)) {
+      if (unit_perform_action(owner, punit->id, tgt_city->id,
+                              0, NULL, ACTION_HELP_WONDER, requester)) {
+        /* No shields wasted. The unit did Help Wonder. */
+        return;
+      }
+    }
+  }
+
+  if (!unit_alive(punit_id_stored)) {
+    /* The unit is gone. Maybe it was killed in Lua? */
+    return;
+  }
+
+  /* Disbanding a unit inside a city gives it 50% of the shields used to
+   * produce the unit. */
+  if (unit_can_do_action(punit, ACTION_RECYCLE_UNIT)) {
+    struct city *tgt_city;
+
+    /* Only a city at the same tile as the unit can benefit. */
+    tgt_city = tile_city(unit_tile(punit));
+
+    if (tgt_city
+        && is_action_enabled_unit_on_city(ACTION_RECYCLE_UNIT,
+                                          punit, tgt_city)) {
+      if (unit_perform_action(owner, punit->id, tgt_city->id,
+                              0, NULL, ACTION_RECYCLE_UNIT, requester)) {
+        /* The unit did Recycle Unit. 50% of the shields wasted. */
+        return;
+      }
+    }
+  }
+
+  if (!unit_alive(punit_id_stored)) {
+    /* The unit is gone. Maybe it was killed in Lua? */
+    return;
+  }
+
+  /* Try to disband even if all shields will be wasted. */
+  if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
+    if (is_action_enabled_unit_on_self(ACTION_DISBAND_UNIT, punit)) {
+      if (unit_perform_action(owner, punit->id, punit->id,
+                              0, NULL, ACTION_DISBAND_UNIT, requester)) {
+        /* All shields wasted. The unit did Disband Unit. */
+        return;
+      }
+    }
+  }
+}
+
 /************************************************************************** 
   Buy and upgrade stuff!
 **************************************************************************/
