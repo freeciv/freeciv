@@ -76,6 +76,8 @@
 enum ane_kind {
   /* Explanation: wrong actor unit. */
   ANEK_ACTOR_UNIT,
+  /* Explanation: the action is redundant vs this target. */
+  ANEK_BAD_TARGET,
   /* Explanation: bad terrain. */
   ANEK_BAD_TERRAIN,
   /* Explanation: being transported. */
@@ -703,6 +705,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
 
   if (!unit_can_do_action(punit, action_id)) {
     expl->kind = ANEK_ACTOR_UNIT;
+  } else if (action_id == ACTION_FOUND_CITY
+             && tile_city(target_tile)) {
+    expl->kind = ANEK_BAD_TARGET;
   } else if ((!can_exist
        && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                         USP_LIVABLE_TILE, FALSE))
@@ -826,6 +831,16 @@ static void explain_why_no_action_enabled(struct unit *punit,
 
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot do anything."));
+    break;
+  case ANEK_BAD_TARGET:
+    /* This shouldn't happen at the moment. Only specific action checks
+     * will trigger bad target checks. This is a reply to a question about
+     * any action. */
+    fc_assert(expl->kind != ANEK_BAD_TARGET);
+
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("Your %s found no suitable target."),
+                  unit_name_translation(punit));
     break;
   case ANEK_BAD_TERRAIN:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1120,6 +1135,12 @@ void illegal_action_msg(struct player *pplayer,
                       action_get_ui_name(stopped_action));
       }
     }
+    break;
+  case ANEK_BAD_TARGET:
+    notify_player(pplayer, unit_tile(actor), event, ftc_server,
+                  _("Having your %s do %s to this target is redundant."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action));
     break;
   case ANEK_BAD_TERRAIN:
     notify_player(pplayer, unit_tile(actor),
