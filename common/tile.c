@@ -491,10 +491,10 @@ static bool add_recursive_extras(struct tile *ptile, struct extra_type *pextra,
 }
 
 /****************************************************************************
-  Recursively remove all extras depending on  given extra.
+  Recursively remove all extras depending on given extra.
 ****************************************************************************/
 static bool rm_recursive_extras(struct tile *ptile, struct extra_type *pextra,
-                                 int rec)
+                                int rec)
 {
   if (rec > MAX_EXTRA_TYPES) {
     /* Infinite recursion */
@@ -514,7 +514,7 @@ static bool rm_recursive_extras(struct tile *ptile, struct extra_type *pextra,
     }
   } extra_type_iterate_end;
 
-  tile_remove_extra(ptile, pextra);
+  tile_destroy_extra(ptile, pextra);
 
   return TRUE;
 }
