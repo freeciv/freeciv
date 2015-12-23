@@ -1046,7 +1046,7 @@ void request_unit_goto(enum unit_orders last_order, int action_id)
                          * Nuclear. */
                        _("Only %s can do %s."),
                        astr_str(&astr),
-                       gen_action_translated_name(action_id));
+                       action_get_ui_name(action_id));
 
           astr_free(&astr);
         } else {
@@ -1054,7 +1054,7 @@ void request_unit_goto(enum unit_orders last_order, int action_id)
                        /* TRANS: Spy can't do Explode Nuclear. */
                        _("%s can't do %s."),
                        unit_name_translation(punit),
-                       gen_action_translated_name(action_id));
+                       action_get_ui_name(action_id));
         }
 
         return;
