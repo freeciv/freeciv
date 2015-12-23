@@ -1010,6 +1010,7 @@ is_action_possible(const enum gen_action wanted_action,
                    const bool omniscient)
 {
   bool can_see_tgt_unit;
+  bool can_see_tgt_tile;
 
   fc_assert_msg((action_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
@@ -1029,6 +1030,14 @@ is_action_possible(const enum gen_action wanted_action,
   can_see_tgt_unit = (omniscient || (target_unit
                                      && can_player_see_unit(actor_player,
                                                             target_unit)));
+
+  /* Only check requirement against the target tile if the actor can see it
+   * or if the evaluator is omniscient. The game checking the rules is
+   * omniscient. The player asking about his odds isn't. */
+  can_see_tgt_tile = (omniscient
+                      || (target_tile
+                          && (tile_get_known(target_tile, actor_player)
+                              == TILE_KNOWN_SEEN)));
 
   if (!action_actor_utype_hard_reqs_ok(wanted_action, actor_unittype)) {
     /* Info leak: The actor player knows the type of his unit. */
@@ -1191,6 +1200,16 @@ is_action_possible(const enum gen_action wanted_action,
   }
 
   if (wanted_action == ACTION_FOUND_CITY) {
+    if (!can_see_tgt_tile) {
+      /* Need to know if target tile already has a city. */
+      return TRI_MAYBE;
+    }
+
+    if (tile_city(target_tile)) {
+      /* Reason: a tile can have 0 or 1 cities. */
+      return TRI_NO;
+    }
+
     /* TODO: Move more individual requirements to the action enabler. */
     if (!unit_can_build_city(actor_unit)) {
       return TRI_NO;
