@@ -1399,7 +1399,24 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 
   if (p.orders[i - 1] == ORDER_MOVE
       && (is_non_allied_city_tile(old_tile, client_player()) != NULL
-          || is_non_allied_unit_tile(old_tile, client_player()) != NULL)) {
+          || is_non_allied_unit_tile(old_tile, client_player()) != NULL
+          || ((is_allied_city_tile(old_tile, client_player())
+               || is_allied_unit_tile(old_tile, client_player()))
+              && (can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
+                                                  ACTION_ANY,
+                                                  DRO_FOREIGN,
+                                                  FALSE)
+                  || can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
+                                                     ACTION_ANY,
+                                                     DS_ALLIANCE,
+                                                     TRUE)
+                  || can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
+                                                     ACTION_ANY,
+                                                     DS_TEAM,
+                                                     TRUE))))) {
+    /* Can't move to the target tile because of non allied unit/city or can
+     * move to the target tile but may be able to perform an action to an
+     * allied unit/city at the target tile. */
     p.orders[i - 1] = ORDER_ACTION_MOVE;
   }
 
