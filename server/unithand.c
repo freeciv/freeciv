@@ -1045,8 +1045,10 @@ void handle_unit_do_action(struct player *pplayer,
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
+  struct tile *target_tile = index_to_tile(target_id);
 
-  if (!action_id_is_valid(action_type)) {
+  if (!(action_type == ACTION_COUNT
+        || action_id_is_valid(action_type))) {
     /* Non existing action */
     log_error("unit_perform_action() the action %d doesn't exist.",
               action_type);
@@ -1293,9 +1295,17 @@ void handle_unit_do_action(struct player *pplayer,
     }
     break;
   case ACTION_COUNT:
-    log_error("handle_unit_do_action() %s (%d) ordered to perform an "
-              "invalid action.",
-              unit_rule_name(actor_unit), actor_id);
+    switch ((enum action_proto_signal)value) {
+    case ACTSIG_QUEUE:
+      actor_unit->action_decision_want = ACT_DEC_ACTIVE;
+      actor_unit->action_decision_tile = target_tile;
+
+      /* Let the client know that this unit needs the player to decide
+       * what to do. */
+      send_unit_info(player_reply_dest(pplayer), actor_unit);
+
+      break;
+    }
     break;
   }
 }
