@@ -269,7 +269,7 @@ class production_widget: public QTableView
 
 public:
   production_widget(QWidget *parent, struct city *pcity, bool future,
-                    int when, int curr, bool show_units);
+                    int when, int curr, bool show_units, bool buy = false);
   ~production_widget();
 
 public slots:
@@ -284,6 +284,7 @@ private:
   int when_change;
   int curr_selection;
   bool sh_units;
+  bool buy_it;
   fc_tooltip *fc_tt;
 };
 
