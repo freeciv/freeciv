@@ -101,14 +101,20 @@ void popdown_players_dialog(void)
   }
 }
 
-/**************************************************************************
-  Create pixbuf for player
-**************************************************************************/
-static GdkPixbuf *create_player_icon(const struct player *plr)
+/***************************************************************************
+  Create a small colored square representing the player color, for use
+  in player lists. 
+  May return NULL if the player has no color yet.
+***************************************************************************/
+GdkPixbuf *create_player_icon(const struct player *plr)
 {
   int width, height;
   GdkPixbuf *tmp;
   GdkPixmap *pixmap;
+
+  if (!player_has_color(tileset, plr)) {
+    return NULL;
+  }
 
   gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height);
 

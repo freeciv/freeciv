@@ -1362,13 +1362,14 @@ static GtkTreeView *connection_list_view;
 static GtkWidget *start_aifill_spin = NULL;
 
 
-/* NB: Must match creation arugments in connection_list_store_new(). */
+/* NB: Must match creation arguments in connection_list_store_new(). */
 enum connection_list_columns {
   CL_COL_PLAYER_NUMBER = 0,
   CL_COL_USER_NAME,
   CL_COL_READY_STATE,
   CL_COL_PLAYER_NAME,
   CL_COL_FLAG,
+  CL_COL_COLOR,
   CL_COL_NATION,
   CL_COL_TEAM,
   CL_COL_CONN_ID,
@@ -1390,6 +1391,7 @@ static inline GtkTreeStore *connection_list_store_new(void)
                             G_TYPE_BOOLEAN,     /* CL_COL_READY_STATE */
                             G_TYPE_STRING,      /* CL_COL_PLAYER_NAME */
                             GDK_TYPE_PIXBUF,    /* CL_COL_FLAG */
+                            GDK_TYPE_PIXBUF,    /* CL_COL_COLOR */
                             G_TYPE_STRING,      /* CL_COL_NATION */
                             G_TYPE_STRING,      /* CL_COL_TEAM */
                             G_TYPE_INT,         /* CL_COL_CONN_ID */
@@ -2249,7 +2251,7 @@ void real_conn_list_dialog_update(void)
     GtkTreePath *path;
     GtkTreeIter child, prev_child, *pprev_child;
     GtkTreeIter parent, prev_parent, *pprev_parent = NULL;
-    GdkPixbuf *pixbuf;
+    GdkPixbuf *flag, *color;
     gboolean collapsed;
     struct player *pselected_player;
     struct connection *pselected_conn;
@@ -2267,7 +2269,8 @@ void real_conn_list_dialog_update(void)
       if (!player_has_flag(pplayer, PLRF_SCENARIO_RESERVED)) {
         conn_id = -1;
         access_level = ALLOW_NONE;
-        pixbuf = pplayer->nation ? get_flag(pplayer->nation) : NULL;
+        flag = pplayer->nation ? get_flag(pplayer->nation) : NULL;
+        color = create_player_icon(pplayer);
 
         conn_list_iterate(pplayer->connections, pconn) {
           if (pconn->playing == pplayer && !pconn->observer) {
@@ -2316,7 +2319,8 @@ void real_conn_list_dialog_update(void)
                            CL_COL_USER_NAME, name,
                            CL_COL_READY_STATE, is_ready,
                            CL_COL_PLAYER_NAME, plr_name,
-                           CL_COL_FLAG, pixbuf,
+                           CL_COL_FLAG, flag,
+                           CL_COL_COLOR, color,
                            CL_COL_NATION, nation,
                            CL_COL_TEAM, team,
                            CL_COL_CONN_ID, conn_id,
@@ -2377,8 +2381,11 @@ void real_conn_list_dialog_update(void)
 
         prev_parent = parent;
         pprev_parent = &prev_parent;
-        if (pixbuf) {
-          g_object_unref(pixbuf);
+        if (flag) {
+          g_object_unref(flag);
+        }
+        if (color) {
+          g_object_unref(color);
         }
       }
     } players_iterate_end;
@@ -2631,6 +2638,8 @@ GtkWidget *create_start_page(void)
                CL_COL_PLAYER_NAME, NULL);
   add_tree_col(view, GDK_TYPE_PIXBUF, _("Flag"),
                CL_COL_FLAG, NULL);
+  add_tree_col(view, GDK_TYPE_PIXBUF, _("Border"),
+               CL_COL_COLOR, NULL);
   add_tree_col(view, G_TYPE_STRING, _("Nation"),
                CL_COL_NATION, NULL);
   add_tree_col(view, G_TYPE_STRING, _("Team"),
