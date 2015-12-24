@@ -1123,7 +1123,10 @@ void end_turn_area::end_turn_update()
   QFontMetrics fm(etb_button->font());
 
   if (client_is_global_observer()) {
+    hide();
     return;
+  } else {
+    show();
   }
   // Update tax rates
   sprite = get_tax_sprite(tileset, O_LUXURY);
