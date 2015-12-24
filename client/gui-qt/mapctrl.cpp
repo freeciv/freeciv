@@ -35,6 +35,7 @@
 
 // gui-qt
 #include "fc_client.h"
+#include "citydlg.h"
 #include "qtg_cxxside.h"
 
 
@@ -185,6 +186,7 @@ void map_view::mousePressEvent(QMouseEvent *event)
   bool ctrl;
   bool shft;
   QPoint pos;
+  production_widget *pw;
 
   alt = false;
   ctrl = false;
@@ -223,10 +225,20 @@ void map_view::mousePressEvent(QMouseEvent *event)
     }
   }
 
+  if (pcity && pcity->owner != client_player()) {
+    pcity = nullptr;
+  }
+
   /* Left Button */
   if (event->button() == Qt::LeftButton) {
-    /* <SHIFT> + <CONTROL> + LMB : Adjust workers. */
-    if (shft && ctrl) {
+    if (ctrl && shft && pcity) {
+      pw = new production_widget(this, pcity, false, 0, 0, true, true);
+      pw->show();
+    } else if (ctrl && pcity) {
+      pw = new production_widget(this, pcity, false, 0, 0, true);
+      pw->show();
+      /* <SHIFT> + <CONTROL> + LMB : Adjust workers. */
+    } else if (shft && ctrl) {
       adjust_workers_button_pressed(event->pos().x(), event->pos().y());
       /* <CONTROL> + LMB : Quickselect a sea unit. */
     } else if (ctrl) {

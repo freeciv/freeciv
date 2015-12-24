@@ -3027,10 +3027,11 @@ bool city_production_model::setData(const QModelIndex &index,
   show_units - if to show units
   when - where to insert
   curr - current index to insert
+  buy - buy if possible
 ****************************************************************************/
-production_widget::production_widget(QWidget *parent, struct city *pcity, 
+production_widget::production_widget(QWidget *parent, struct city *pcity,
                                      bool future, int when, int curr,
-                                     bool show_units): QTableView()
+                                     bool show_units, bool buy): QTableView()
 {
   QPoint pos, sh;
   int desk_width = QApplication::desktop()->width();
@@ -3044,6 +3045,7 @@ production_widget::production_widget(QWidget *parent, struct city *pcity,
   curr_selection = curr;
   sh_units = show_units;
   pw_city = pcity;
+  buy_it = buy;
   when_change = when;
   list_model = new city_production_model(pw_city, future, show_units, this);
   sh = list_model->sh;
@@ -3148,6 +3150,9 @@ void production_widget::prod_selected(const QItemSelection &sl,
     switch (when_change) {
     case 0: /*Change current tech*/
       city_change_production(pw_city, *target);
+      if (buy_it) {
+        city_buy_production(pw_city);
+      }
       break;
     case 1:                 /* Change current (selected on list)*/
       if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
