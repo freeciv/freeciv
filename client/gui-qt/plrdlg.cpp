@@ -611,6 +611,17 @@ void plr_report::init()
   gui()->game_tab_widget->setCurrentIndex(index);
 }
 
+
+/**************************************************************************
+  Public function to call meeting
+**************************************************************************/
+void plr_report::call_meeting()
+{
+  if (meet_but->isEnabled() == true) {
+    req_meeeting();
+  }
+}
+
 /**************************************************************************
   Slot for canceling threaty (name changed to cheat autoconnect, and
   doubled execution)
@@ -639,6 +650,19 @@ void plr_report::req_wiithdrw_vision()
   dsend_packet_diplomacy_cancel_pact(&client.conn, 
                                      player_number(other_player),
                                      CLAUSE_VISION);
+}
+
+/**************************************************************************
+  Handle mouse click
+**************************************************************************/
+void plr_widget::mousePressEvent(QMouseEvent *event)
+{
+  QModelIndex index =  this->indexAt(event->pos());
+  if (index.isValid() &&  event->button() == Qt::RightButton
+      && can_client_issue_orders()) {
+     plr->call_meeting();
+  }
+  QTreeView::mousePressEvent(event);
 }
 
 /**************************************************************************
