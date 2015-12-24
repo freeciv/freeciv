@@ -250,6 +250,8 @@ void research_diagram::reset()
 void research_diagram::mousePressEvent(QMouseEvent *event)
 {
   Tech_type_id tech = get_tech_on_reqtree(req, event->x(), event->y());
+  req_tooltip_help *rttp;
+  int i;
 
   if (event->button() == Qt::LeftButton && can_client_issue_orders()) {
     switch (research_invention_state(research_get(client_player()), tech)) {
@@ -261,6 +263,25 @@ void research_diagram::mousePressEvent(QMouseEvent *event)
       break;
     case TECH_KNOWN:
       break;
+    }
+  }  else if (event->button() == Qt::RightButton) {
+    for (i = 0; i < tt_help.count(); i++) {
+      rttp = tt_help.at(i);
+      if (rttp->rect.contains(event->pos())) {
+        if (rttp->tech_id != -1) {
+          popup_help_dialog_typed(research_advance_name_translation(
+                                  research_get(client_player()),
+                                  rttp->tech_id), HELP_TECH);
+        } else if (rttp->timpr != nullptr) {
+          popup_help_dialog_typed(improvement_name_translation(rttp->timpr),
+                                  HELP_IMPROVEMENT);
+        } else if (rttp->tunit != nullptr) {
+          popup_help_dialog_typed(utype_name_translation(rttp->tunit),
+                                  HELP_UNIT);
+        } else {
+          return;
+        }
+      }
     }
   }
 }
