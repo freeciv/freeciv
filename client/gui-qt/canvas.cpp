@@ -202,7 +202,7 @@ void qtg_canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
   case LINE_BORDER:
     pen.setStyle(Qt::DashLine);
     pen.setDashOffset(4);
-    pen.setWidth(2);
+    pen.setWidth(1);
     break;
   case LINE_TILE_FRAME:
     pen.setWidth(2);
