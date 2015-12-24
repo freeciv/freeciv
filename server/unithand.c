@@ -1430,16 +1430,42 @@ void handle_unit_action_query(struct connection *pc,
 
 /**************************************************************************
   Handle a request to do an action.
+
+  action_type can be a valid action or a ACTION_COUNT. ACTION_COUNT signals
+  that a special value used for in band signaling can be found in value.
+  The in band signaling values are:
+    ACTSIG_QUEUE - remind the player to ask what actions the unit can do
+                   to the target tile.
 **************************************************************************/
 void handle_unit_do_action(struct player *pplayer,
 			   const int actor_id,
 			   const int target_id,
 			   const int value,
                            const char *name,
-			   const enum gen_action action_type)
+                           const enum gen_action action_type)
 {
-  (void) unit_perform_action(pplayer, actor_id, target_id, value, name,
-                             action_type, ACT_REQ_PLAYER);
+  struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
+  struct tile *target_tile = index_to_tile(target_id);
+
+  switch (action_type) {
+  case ACTION_COUNT:
+    switch ((enum action_proto_signal)value) {
+    case ACTSIG_QUEUE:
+      actor_unit->action_decision_want = ACT_DEC_ACTIVE;
+      actor_unit->action_decision_tile = target_tile;
+
+      /* Let the client know that this unit needs the player to decide
+       * what to do. */
+      send_unit_info(player_reply_dest(pplayer), actor_unit);
+
+      break;
+    }
+    break;
+  default:
+    (void) unit_perform_action(pplayer, actor_id, target_id, value, name,
+                               action_type, ACT_REQ_PLAYER);
+    break;
+  }
 }
 
 /**************************************************************************

@@ -2840,12 +2840,10 @@ void key_unit_diplomat_actions(void)
   unit_list_iterate(get_units_in_focus(), punit) {
     if (utype_may_act_at_all(unit_type_get(punit))
         && (ptile = unit_tile(punit))) {
-      /* Data for ask_server_for_actions() */
-      punit->action_decision_tile = ptile;
-
-      ask_server_for_actions(punit);
-      return;
-      /* FIXME: diplomat dialog for more than one unit at a time. */
+      /* Have the server record that an action decision is wanted for this
+       * unit. */
+      request_do_action(ACTION_COUNT, punit->id, tile_index(ptile),
+                        ACTSIG_QUEUE, "");
     }
   } unit_list_iterate_end;
 }
