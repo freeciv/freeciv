@@ -19,6 +19,7 @@ void popdown_players_dialog(void);
 
 /* Misc helper functions */
 GdkPixbuf *get_flag(const struct nation_type *pnation);
+GdkPixbuf *create_player_icon(const struct player *plr);
 
 extern struct gui_dialog *players_dialog_shell;
 
