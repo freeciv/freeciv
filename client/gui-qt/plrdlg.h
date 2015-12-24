@@ -128,6 +128,7 @@ public slots:
   void display_header_menu(const QPoint &);
   void nation_selected(const QItemSelection &sl, const QItemSelection &ds);
 private:
+  void mousePressEvent(QMouseEvent *event);
   void hide_columns();
 };
 
@@ -153,6 +154,7 @@ public:
   ~plr_report();
   void update_report(bool update_selection = true);
   void init();
+  void call_meeting();
 private:
   struct player *other_player;
   int index;
