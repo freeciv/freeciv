@@ -797,6 +797,13 @@ static const char *get_token_value(struct inputfile *inf)
     while(*c != '\0' && fc_isdigit(*c)) {
       c++;
     }
+    if (*c == '.') {
+      /* Float maybe */
+      c++;
+      while(*c != '\0' && fc_isdigit(*c)) {
+        c++;
+      }
+    }
     /* check that the trailing stuff is ok: */
     if (!(*c == '\0' || *c == ',' || fc_isspace(*c) || is_comment(*c))) {
       return NULL;

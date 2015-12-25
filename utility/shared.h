@@ -134,6 +134,7 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 char *end_of_strn(char *str, int *nleft);
 
 bool str_to_int(const char *str, int *pint);
+bool str_to_float(const char *str, float *pfloat);
 
 /**************************************************************************
 ...

@@ -694,8 +694,8 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 }
 
 /****************************************************************************
-  Convert 'str' to it's string reprentation if possible. 'pint' can be NULL,
-  then it will only test 'str' only contains a number.
+  Convert 'str' to it's int reprentation if possible. 'pint' can be NULL,
+  then it will only test 'str' only contains an integer number.
 ****************************************************************************/
 bool str_to_int(const char *str, int *pint)
 {
@@ -724,6 +724,54 @@ bool str_to_int(const char *str, int *pint)
   }
 
   return ('\0' == *str && (NULL == pint || 1 == sscanf(start, "%d", pint)));
+}
+
+/****************************************************************************
+  Convert 'str' to it's float reprentation if possible. 'pfloat' can be NULL,
+  then it will only test 'str' only contains a floating point number.
+****************************************************************************/
+bool str_to_float(const char *str, float *pfloat)
+{
+  bool dot;
+  const char *start;
+
+  fc_assert_ret_val(NULL != str, FALSE);
+
+  while (fc_isspace(*str)) {
+    /* Skip leading spaces. */
+    str++;
+  }
+
+  start = str;
+
+  if ('-' == *str || '+' == *str) {
+    /* Handle sign. */
+    str++;
+  }
+  while (fc_isdigit(*str)) {
+    /* Digits. */
+    str++;
+  }
+
+  if (*str == '.') {
+    dot = TRUE;
+    str++;
+
+    while (fc_isdigit(*str)) {
+      /* Digits. */
+      str++;
+    }
+  } else {
+    dot = FALSE;
+  }
+
+  while (fc_isspace(*str)) {
+    /* Ignore trailing spaces. */
+    str++;
+  }
+
+  return ('\0' == *str && dot
+          && (NULL == pfloat || 1 == sscanf(start, "%f", pfloat)));
 }
 
 /***************************************************************************

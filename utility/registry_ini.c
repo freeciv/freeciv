@@ -1097,6 +1097,56 @@ size_t secfile_insert_int_vec_full(struct section_file *secfile,
 }
 
 /**************************************************************************
+  Insert a floating entry.
+**************************************************************************/
+struct entry *secfile_insert_float_full(struct section_file *secfile,
+                                        float value, const char *comment,
+                                        bool allow_replace,
+                                        const char *path, ...)
+{
+  char fullpath[MAX_LEN_SECPATH];
+  const char *ent_name;
+  struct section *psection;
+  struct entry *pentry = NULL;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  psection = secfile_insert_base(secfile, fullpath, &ent_name);
+  if (!psection) {
+    return NULL;
+  }
+
+  if (allow_replace) {
+    pentry = section_entry_by_name(psection, ent_name);
+    if (NULL != pentry) {
+      if (ENTRY_FLOAT == entry_type(pentry)) {
+        if (!entry_float_set(pentry, value)) {
+          return NULL;
+        }
+      } else {
+        entry_destroy(pentry);
+        pentry = NULL;
+      }
+    }
+  }
+
+  if (NULL == pentry) {
+    pentry = section_entry_float_new(psection, ent_name, value);
+  }
+
+  if (NULL != pentry && NULL != comment) {
+    entry_set_comment(pentry, comment);
+  }
+
+  return pentry;
+}
+
+/**************************************************************************
   Insert a include entry.
 **************************************************************************/
 struct section *secfile_insert_include(struct section_file *secfile,
@@ -2851,6 +2901,10 @@ struct entry {
     struct {
       int value;
     } integer;
+    /* ENTRY_FLOAT */
+    struct {
+      float value;
+    } floating;
     /* ENTRY_STR */
     struct {
       char *value;              /* Malloced string. */
@@ -2938,6 +2992,22 @@ struct entry *section_entry_bool_new(struct section *psection,
 }
 
 /**************************************************************************
+  Returns a new entry of type ENTRY_FLOAT.
+**************************************************************************/
+struct entry *section_entry_float_new(struct section *psection,
+                                      const char *name, float value)
+{
+  struct entry *pentry = entry_new(psection, name);
+
+  if (NULL != pentry) {
+    pentry->type = ENTRY_FLOAT;
+    pentry->floating.value = value;
+  }
+
+  return pentry;
+}
+
+/**************************************************************************
   Returns a new entry of type ENTRY_STR.
 **************************************************************************/
 struct entry *section_entry_str_new(struct section *psection,
@@ -2985,6 +3055,7 @@ void entry_destroy(struct entry *pentry)
   switch (pentry->type) {
   case ENTRY_BOOL:
   case ENTRY_INT:
+  case ENTRY_FLOAT:
     break;
 
   case ENTRY_STR:
@@ -3163,6 +3234,36 @@ bool entry_bool_set(struct entry *pentry, bool value)
 }
 
 /**************************************************************************
+  Gets an floating value. Returns TRUE on success.
+**************************************************************************/
+bool entry_float_get(const struct entry *pentry, float *value)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_FLOAT == pentry->type, FALSE);
+
+  if (NULL != value) {
+    *value = pentry->floating.value;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Sets an floating value. Returns TRUE on success.
+**************************************************************************/
+bool entry_float_set(struct entry *pentry, float value)
+{
+  SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+                             ENTRY_FLOAT == pentry->type, FALSE);
+
+  pentry->floating.value = value;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Gets an integer value.  Returns TRUE on success.
 **************************************************************************/
 bool entry_int_get(const struct entry *pentry, int *value)
@@ -3264,6 +3365,8 @@ bool entry_str_set_gt_marking(struct entry *pentry, bool gt_marking)
 static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
 {
   static char buf[8192];
+  char *dot = NULL;
+  int i;
 
   switch (pentry->type) {
   case ENTRY_BOOL:
@@ -3271,6 +3374,22 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
     break;
   case ENTRY_INT:
     fz_fprintf(fs, "%d", pentry->integer.value);
+    break;
+  case ENTRY_FLOAT:
+    snprintf(buf, sizeof(buf), "%f", pentry->floating.value);
+    for (i = 0; buf[i] != '\0' ; i++) {
+      if (buf[i] == '.') {
+        dot = &(buf[i]);
+        break;
+      }
+    }
+    if (dot == NULL) {
+      /* There's no '.' so it would seem like a integer value when loaded.
+       * Force it not to look like an integer by adding ".0" */
+      fz_fprintf(fs, "%s.0", buf);
+    } else {
+      fz_fprintf(fs, "%s", buf);
+    }
     break;
   case ENTRY_STR:
     if (pentry->string.escaped) {

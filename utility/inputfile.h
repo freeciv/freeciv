@@ -23,6 +23,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "ioz.h"
 #include "log.h"                /* enum log_level */
 #include "support.h"            /* bool type and fc__attribute */
@@ -32,9 +33,9 @@ struct inputfile;		/* opaque */
 typedef const char *(*datafilename_fn_t)(const char *filename);
 
 struct inputfile *inf_from_file(const char *filename,
-				datafilename_fn_t datafn);
+                                datafilename_fn_t datafn);
 struct inputfile *inf_from_stream(fz_FILE * stream,
-				  datafilename_fn_t datafn);
+                                  datafilename_fn_t datafn);
 void inf_close(struct inputfile *inf);
 bool inf_at_eof(struct inputfile *inf);
 
