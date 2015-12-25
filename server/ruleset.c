@@ -344,8 +344,8 @@ static const char *check_ruleset_capabilities(struct section_file *file,
   (callers need not worry about freeing anything).
 **************************************************************************/
 static struct requirement_vector *lookup_req_list(struct section_file *file,
-						  const char *sec,
-						  const char *sub,
+                                                  const char *sec,
+                                                  const char *sub,
                                                   const char *rfor)
 {
   const char *type, *name;
@@ -394,6 +394,12 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       break;
     case ENTRY_STR:
       (void) entry_str_get(pentry, &name);
+      break;
+    case ENTRY_FLOAT:
+      fc_assert(entry_type(pentry) != ENTRY_FLOAT);
+      ruleset_error(LOG_ERROR,
+                    "\"%s\": trying to have an floating point entry as a requirement name in '%s.%s%d'.",
+                    filename, sec, sub, j);
       break;
     }
     if (NULL == name) {

@@ -4964,6 +4964,10 @@ static void settable_options_load(struct section_file *sf)
     case ENTRY_STR:
       (void) entry_str_get(pentry, &string);
       break;
+
+    case ENTRY_FLOAT:
+      /* Not supported yet */
+      break;
     }
 
     if (NULL == string) {

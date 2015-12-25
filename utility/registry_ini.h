@@ -142,6 +142,15 @@ size_t secfile_insert_int_vec_full(struct section_file *secfile,
   secfile_insert_int_vec_full(secfile, values, dim, comment, TRUE,          \
                               path, ## __VA_ARGS__)
 
+struct entry *secfile_insert_float_full(struct section_file *secfile,
+                                        float value, const char *comment,
+                                        bool allow_replace,
+                                        const char *path, ...)
+                                        fc__attribute((__format__ (__printf__, 5, 6)));
+#define secfile_insert_float(secfile, value, path, ...)                     \
+  secfile_insert_float_full(secfile, value, NULL, FALSE,                    \
+                            path, ## __VA_ARGS__)
+
 struct section *secfile_insert_include(struct section_file *secfile,
                                        const char *filename);
 
@@ -579,6 +588,9 @@ struct entry *section_entry_int_new(struct section *psection,
 struct entry *section_entry_bool_new(struct section *psection,
                                      const char *entry_name,
                                      bool value);
+struct entry *section_entry_float_new(struct section *psection,
+                                      const char *entry_name,
+                                      float value);
 struct entry *section_entry_str_new(struct section *psection,
                                     const char *entry_name,
                                     const char *value, bool escaped);
@@ -587,6 +599,7 @@ struct entry *section_entry_str_new(struct section *psection,
 enum entry_type {
   ENTRY_BOOL,
   ENTRY_INT,
+  ENTRY_FLOAT,
   ENTRY_STR
 };
 
@@ -607,6 +620,9 @@ bool entry_int_set(struct entry *pentry, int value);
 
 bool entry_bool_get(const struct entry *pentry, bool *value);
 bool entry_bool_set(struct entry *pentry, bool value);
+
+bool entry_float_get(const struct entry *pentry, float *value);
+bool entry_float_set(struct entry *pentry, float value);
 
 bool entry_str_get(const struct entry *pentry, const char **value);
 bool entry_str_set(struct entry *pentry, const char *value);
