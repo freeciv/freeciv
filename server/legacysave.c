@@ -861,6 +861,7 @@ static void set_savegame_bases(bv_extras *extras,
 ****************************************************************************/
 static void set_savegame_old_resource(struct resource_type **r,
                                       const struct terrain *terrain,
+                                      bv_extras *extras,
                                       char ch, int n)
 {
   fc_assert_ret(n == 0 || n == 1);
@@ -876,6 +877,10 @@ static void set_savegame_old_resource(struct resource_type **r,
     *r = terrain->resources[0];
   } else {
     *r = terrain->resources[1];
+  }
+
+  if ((*r) != NULL) {
+    BV_SET(*extras, extra_index((*r)->self));
   }
 }
 
@@ -962,11 +967,11 @@ static void map_load(struct section_file *file,
                                        ch, default_specials + 12));
     /* Setup resources (from half-bytes 1 and 3 of old savegames) */
     LOAD_MAP_DATA(ch, nat_y, ptile,
-	secfile_lookup_str(file, "map.l%03d", nat_y),
-	set_savegame_old_resource(&ptile->resource, ptile->terrain, ch, 0));
+                  secfile_lookup_str(file, "map.l%03d", nat_y),
+                  set_savegame_old_resource(&ptile->resource, ptile->terrain, &ptile->extras, ch, 0));
     LOAD_MAP_DATA(ch, nat_y, ptile,
-	secfile_lookup_str(file, "map.n%03d", nat_y),
-	set_savegame_old_resource(&ptile->resource, ptile->terrain, ch, 1));
+                  secfile_lookup_str(file, "map.n%03d", nat_y),
+                  set_savegame_old_resource(&ptile->resource, ptile->terrain, &ptile->extras, ch, 1));
   }
 
   /* after the resources are loaded, indicate those currently valid */
@@ -2788,11 +2793,13 @@ static void player_load_vision(struct player *plr, int plrno,
       LOAD_MAP_DATA(ch, vnat_y, ptile,
                     secfile_lookup_str(file, "map.l%03d", vnat_y),
                     set_savegame_old_resource(&map_get_player_tile(ptile, plr)->resource,
-                                              ptile->terrain, ch, 0));
+                                              ptile->terrain,
+                                              &map_get_player_tile(ptile, plr)->extras, ch, 0));
       LOAD_MAP_DATA(ch, vnat_y, ptile,
                     secfile_lookup_str(file, "map.n%03d", vnat_y),
                     set_savegame_old_resource(&map_get_player_tile(ptile, plr)->resource,
-                                              ptile->terrain, ch, 1));
+                                              ptile->terrain,
+                                              &map_get_player_tile(ptile, plr)->extras, ch, 1));
     }
 
     if (has_capability("bases", savefile_options)) {

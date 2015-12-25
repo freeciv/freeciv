@@ -347,8 +347,6 @@ static void sg_load_map_tiles(struct loaddata *loading);
 static void sg_save_map_tiles(struct savedata *saving);
 static void sg_load_map_tiles_extras(struct loaddata *loading);
 static void sg_save_map_tiles_extras(struct savedata *saving);
-static void sg_load_map_tiles_resources(struct loaddata *loading);
-static void sg_save_map_tiles_resources(struct savedata *saving);
 
 static void sg_load_map_startpos(struct loaddata *loading);
 static void sg_save_map_startpos(struct savedata *saving);
@@ -2393,11 +2391,6 @@ static void sg_load_map(struct loaddata *loading)
     sg_load_map_startpos(loading);
     sg_load_map_tiles_extras(loading);
 
-    if (has_capability("specials", loading->secfile_options)) {
-      /* Load resources. */
-      sg_load_map_tiles_resources(loading);
-    }
-
     /* Nothing more needed for a scenario. */
     return;
   }
@@ -2410,7 +2403,6 @@ static void sg_load_map(struct loaddata *loading)
   sg_load_map_tiles(loading);
   sg_load_map_startpos(loading);
   sg_load_map_tiles_extras(loading);
-  sg_load_map_tiles_resources(loading);
   sg_load_map_known(loading);
   sg_load_map_owner(loading);
   sg_load_map_worked(loading);
@@ -2438,11 +2430,6 @@ static void sg_save_map(struct savedata *saving)
   sg_save_map_tiles(saving);
   sg_save_map_startpos(saving);
   sg_save_map_tiles_extras(saving);
-  if (game.map.server.have_resources) {
-    sg_save_savefile_options(saving, " specials");
-    sg_save_map_tiles_resources(saving);
-  }
-
   sg_save_map_owner(saving);
   sg_save_map_worked(saving);
   sg_save_map_known(saving);
@@ -2529,6 +2516,25 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
     LOAD_MAP_CHAR(ch, ptile, sg_extras_set(&ptile->extras, ch, loading->extra.order + 4 * j),
                   loading->file, "map.e%02d_%04d", j);
   } halfbyte_iterate_extras_end;
+
+  if (S_S_INITIAL != loading->server_state
+      || MAPGEN_SCENARIO != game.map.server.generator
+      || has_capability("specials", loading->secfile_options)) {
+    whole_map_iterate(ptile) {
+      extra_type_by_cause_iterate(EC_RESOURCE, pres) {
+        if (tile_has_extra(ptile, pres)) {
+          tile_set_resource(ptile, pres->data.resource);
+
+          if (terrain_has_resource(ptile->terrain, ptile->resource)) {
+            /* cannot use set_special() for internal values */
+            ptile->resource_valid = TRUE;
+          }
+        }
+      } extra_type_by_cause_iterate_end;
+    } whole_map_iterate_end;
+
+    game.map.server.have_resources = TRUE;
+  }
 }
 
 /****************************************************************************
@@ -2538,6 +2544,10 @@ static void sg_save_map_tiles_extras(struct savedata *saving)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  if (game.map.server.have_resources) {
+    sg_save_savefile_options(saving, " specials");
+  }
 
   /* Save extras. */
   halfbyte_iterate_extras(j, game.control.num_extra_types) {
@@ -2554,44 +2564,6 @@ static void sg_save_map_tiles_extras(struct savedata *saving)
     SAVE_MAP_CHAR(ptile, sg_extras_get(ptile->extras, mod),
                   saving->file, "map.e%02d_%04d", j);
   } halfbyte_iterate_extras_end;
-}
-
-/****************************************************************************
-  Load information about resources on map.
-****************************************************************************/
-static void sg_load_map_tiles_resources(struct loaddata *loading)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  LOAD_MAP_CHAR(ch, ptile, ptile->resource = char2resource(ch),
-                loading->file, "map.res%04d");
-
-  /* After the resources are loaded, indicate those currently valid. */
-  whole_map_iterate(ptile) {
-    if (NULL == ptile->resource || NULL == ptile->terrain) {
-      continue;
-    }
-
-    if (terrain_has_resource(ptile->terrain, ptile->resource)) {
-      /* cannot use set_special() for internal values */
-      ptile->resource_valid = TRUE;
-    }
-  } whole_map_iterate_end;
-
-  game.map.server.have_resources = TRUE;
-}
-
-/****************************************************************************
-  Load information about resources on map.
-****************************************************************************/
-static void sg_save_map_tiles_resources(struct savedata *saving)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  SAVE_MAP_CHAR(ptile, resource2char(ptile->resource), saving->file,
-                "map.res%04d");
 }
 
 /****************************************************************************

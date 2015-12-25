@@ -354,10 +354,22 @@ const struct resource_type *tile_resource(const struct tile *ptile)
 ****************************************************************************/
 void tile_set_resource(struct tile *ptile, struct resource_type *presource)
 {
+  if (presource == ptile->resource) {
+    return; /* No change */
+  }
+
+  if (ptile->resource != NULL) {
+    tile_remove_extra(ptile, ptile->resource->self);
+  }
+  if (presource != NULL) {
+    tile_add_extra(ptile, presource->self);
+  }
+
   ptile->resource = presource;
+
   if (NULL != ptile->terrain
-   && NULL != presource
-   && terrain_has_resource(ptile->terrain, presource)) {
+      && NULL != presource
+      && terrain_has_resource(ptile->terrain, presource)) {
     ptile->resource_valid = TRUE;
   } else {
     ptile->resource_valid = FALSE;

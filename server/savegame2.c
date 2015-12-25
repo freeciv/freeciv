@@ -2010,7 +2010,7 @@ static void sg_load_map_tiles_resources(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  LOAD_MAP_CHAR(ch, ptile, ptile->resource = char2resource(ch),
+  LOAD_MAP_CHAR(ch, ptile, tile_set_resource(ptile, char2resource(ch)),
                 loading->file, "map.res%04d");
 
   /* After the resources are loaded, indicate those currently valid. */
