@@ -29,6 +29,10 @@ extern "C" {
 #define SPECENUM_VALUE2NAME N_("River")
 #define SPECENUM_VALUE3 RF_UNRESTRICTED_INFRA
 #define SPECENUM_VALUE3NAME N_("UnrestrictedInfra")
+#define SPECENUM_VALUE4 RF_JUMP_FROM
+#define SPECENUM_VALUE4NAME N_("JumpFrom")
+#define SPECENUM_VALUE5 RF_JUMP_TO
+#define SPECENUM_VALUE5NAME N_("JumpTo")
 #define SPECENUM_COUNT RF_COUNT
 #define SPECENUM_BITVECTOR bv_road_flags
 #include "specenum_gen.h"

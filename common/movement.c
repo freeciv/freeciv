@@ -354,6 +354,18 @@ bool is_native_move(const struct unit_class *punitclass,
     }
 
     proad = extra_road_get(pextra);
+
+    if (road_has_flag(proad, RF_JUMP_TO)) {
+      extra_type_list_iterate(punitclass->cache.native_tile_extras, jextra) {
+        if (pextra != jextra
+            && is_extra_caused_by(jextra, EC_ROAD)
+            && tile_has_extra(src_tile, jextra)
+            && road_has_flag(jextra->data.road, RF_JUMP_FROM)) {
+          return TRUE;
+        }
+      } extra_type_list_iterate_end;
+    }
+
     extra_type_list_iterate(proad->integrators, iextra) {
       if (!tile_has_extra(src_tile, iextra)) {
         continue;
