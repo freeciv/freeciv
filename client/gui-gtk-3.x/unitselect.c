@@ -35,7 +35,7 @@
 #include "tilespec.h"
 #include "unitselect_common.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.x */
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "gui_main.h"

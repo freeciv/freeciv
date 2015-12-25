@@ -43,7 +43,7 @@
 #include "options.h"
 #include "text.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.x */
 #include "chatline.h"
 #include "dialogs.h"
 #include "gui_main.h"

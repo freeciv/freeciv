@@ -38,7 +38,7 @@
 #include "client_main.h"
 #include "options.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.x */
 #include "chatline.h"
 #include "cityrep.h"
 #include "dialogs.h"

@@ -29,7 +29,7 @@
 /* client */
 #include "themes_common.h"
 
-/* gui-gtk-3.0 */
+/* gui-gtk-3.x */
 #include "gui_main.h"
 
 #include "themes_g.h"
@@ -90,7 +90,7 @@ void gui_clear_theme(void)
 
 /*****************************************************************************
   Each gui has its own themes directories.
-  For gtk3 these are:
+  For gtk3x these are:
   - /usr/share/themes
   - ~/.themes
   Returns an array containing these strings and sets array size in count.
@@ -106,7 +106,7 @@ char **get_gui_specific_themes_directories(int *count)
 
   *count = 0;
 
-  /* Freeciv-specific GTK3 themes directories */
+  /* Freeciv-specific GTK3x themes directories */
   strvec_iterate(data_dirs, dir_name) {
     char buf[strlen(dir_name) + strlen("/themes/gui-gtk-3.0") + 1];
 

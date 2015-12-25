@@ -26,7 +26,7 @@
 /* client */
 #include "options.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.x */
 #include "colors.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
