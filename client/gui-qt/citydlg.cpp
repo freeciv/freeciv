@@ -1024,6 +1024,8 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
                                     const QItemSelection &)),
             SLOT(cma_selected(const QItemSelection &,
                               const QItemSelection &)));
+    connect(cma_table, SIGNAL(cellDoubleClicked(int, int)), this,
+            SLOT(cma_double_clicked(int, int)));
     gridl->addWidget(cma_table, 0, 0, 1, 2);
     gridl->addWidget(qpush1, 1, 0, 1, 2);
     qgbox->setLayout(gridl);
@@ -1280,6 +1282,21 @@ void city_dialog::cma_changed()
     param.factor[i] = slider_tab[2 * i + 1]->value();
   }
   cma_put_city_under_agent(pcity, &param);
+}
+
+/****************************************************************************
+  Double click on some row ( column is unused )
+****************************************************************************/
+void city_dialog::cma_double_clicked(int row, int column)
+{
+  const struct cm_parameter *param;
+
+  param = cmafec_preset_get_parameter(row);
+
+  if (cma_is_city_under_agent(pcity, NULL)) {
+    cma_release_city(pcity);
+  }
+  cma_put_city_under_agent(pcity, param);
 }
 
 /****************************************************************************

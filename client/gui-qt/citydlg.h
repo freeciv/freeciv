@@ -422,6 +422,7 @@ private slots:
   void cma_enable();
   void cma_changed();
   void cma_selected(const QItemSelection &sl, const QItemSelection &ds);
+  void cma_double_clicked(int row, int column);
   void save_cma();
   void city_rename();
 };
