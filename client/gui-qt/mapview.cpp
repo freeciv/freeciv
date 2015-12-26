@@ -1618,45 +1618,11 @@ void get_overview_area_dimensions(int *width, int *height)
 ****************************************************************************/
 void overview_size_changed(void)
 {
-  int map_width, map_height, over_width, over_height, ow, oh, oldx, oldy;
-  float ratio;
-
-  map_width = gui()->mapview_wdg->width();
-  map_height = gui()->mapview_wdg->height();
-  over_width = 2 * gui_options.overview.width;
-  over_height = 2 * gui_options.overview.height;
-
-  oldx = gui()->minimapview_wdg->pos().x()
-         + gui()->minimapview_wdg->size().width();
-  oldy = gui()->minimapview_wdg->pos().y()
-         + gui()->minimapview_wdg->size().height();
-  /* lower overview width size to max 20% of map width, keep aspect ratio*/
-  if (map_width/over_width < 5){
-    ratio = static_cast<float>(map_width)/over_width;
-    ow = static_cast<float>(map_width)/5.0;
-    ratio = static_cast<float>(over_width)/ow;
-    over_height=static_cast<float>(over_height)/ratio;
-    over_width=ow;
-  }
-  /* if height still too high lower again */
-  if (map_height/over_height < 5){
-    ratio = static_cast<float>(map_height)/over_height;
-    oh = static_cast<float>(map_height)/5.0;
-    ratio = static_cast<float>(over_height)/oh;
-    over_width=static_cast<float>(over_width)/ratio;
-    over_height = oh;
-  }
-  /* make minimap not less than 48x48 */
-  if (over_width < 48) {
-    over_width =48;
-  }
-  if (over_height < 48) {
-    over_height = 48;
-  }
-  /* Magic trick here */
   gui()->minimapview_wdg->resize(0, 0);
-  gui()->minimapview_wdg->resize(over_width, over_height);
-  gui()->minimapview_wdg->move(oldx - over_width, oldy - over_height);
+  gui()->minimapview_wdg->resize(gui()->end_turn_rect->width(),
+                                 gui()->end_turn_rect->width()
+                                 * (static_cast<float>(game.map.xsize)
+                                 / game.map.ysize));
 }
 
 /**************************************************************************
