@@ -778,7 +778,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
             case RMM_RELAXED:
               if (cost > proad->move_cost * 2) {
                 cardinal_between_iterate(t1, t2, between) {
-                  if (tile_has_road(between, proad)) {
+                  if (tile_has_extra(between, pextra)) {
                     /* TODO: Should we restrict this more?
                      * Should we check against enemy cities on between tile?
                      * Should we check against non-native terrain on between tile?
