@@ -122,11 +122,9 @@ GdkPixbuf *create_player_icon(const struct player *plr)
     return NULL;
   }
 
-  gtk_icon_size_lookup_for_settings(
-      gtk_settings_get_for_screen(gtk_widget_get_screen(top_notebook)), 
-      GTK_ICON_SIZE_MENU, &width, &height);
+  gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height);
   surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
-  
+
   cr = cairo_create(surface);
 
   color = get_color(tileset, COLOR_PLAYER_COLOR_BACKGROUND);
