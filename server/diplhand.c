@@ -527,8 +527,14 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                         _("You give the city of %s to %s."),
                         city_link(pcity), player_name(pdest));
 
-          (void) transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE,
-                               !is_barbarian(pdest));
+          if (transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE,
+                            !is_barbarian(pdest))) {
+            script_server_signal_emit("city_transfered", 4,
+                                      API_TYPE_CITY, pcity,
+                                      API_TYPE_PLAYER, pgiver,
+                                      API_TYPE_PLAYER, pdest,
+                                      API_TYPE_STRING, "trade");
+          }
 	  break;
 	}
       case CLAUSE_CEASEFIRE:
