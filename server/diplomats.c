@@ -48,6 +48,9 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/* server/scripting */
+#include "script_server.h"
+
 /****************************************************************************/
 
 static void diplomat_charge_movement (struct unit *pdiplomat,
@@ -869,8 +872,14 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Transfer city and units supported by this city (that
      are within one square of the city) to the new owner. */
-  (void) transfer_city(pplayer, pcity, 1, TRUE, TRUE, FALSE,
-                       !is_barbarian(pplayer));
+  if (transfer_city(pplayer, pcity, 1, TRUE, TRUE, FALSE,
+                    !is_barbarian(pplayer))) {
+    script_server_signal_emit("city_transfered", 4,
+                              API_TYPE_CITY, pcity,
+                              API_TYPE_PLAYER, cplayer,
+                              API_TYPE_PLAYER, pplayer,
+                              API_TYPE_STRING, "incited");
+  }
 
   /* Check if a spy survives her mission. Diplomats never do.
    * _After_ transferring the city, or the city area is first fogged

@@ -176,8 +176,8 @@ signal.connect("hut_enter", "default_hut_enter_callback")
   c) The player must run either a democracy or a communist society.
 ]]--
 
-function default_make_partisans_callback(city, loser, winner)
-  if city:inspire_partisans(loser) <= 0 then
+function default_make_partisans_callback(city, loser, winner, reason)
+  if not reason == 'conquest' or city:inspire_partisans(loser) <= 0 then
     return
   end
 
@@ -192,7 +192,7 @@ function default_make_partisans_callback(city, loser, winner)
       _("The loss of %s has inspired partisans!"), city.name)
 end
 
-signal.connect("city_lost", "default_make_partisans_callback")
+signal.connect("city_transfered", "default_make_partisans_callback")
 
 
 -- Notify player about the fact that disaster had no effect if that is

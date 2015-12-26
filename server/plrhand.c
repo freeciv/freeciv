@@ -157,8 +157,14 @@ void kill_player(struct player *pplayer)
       /* Transfer city to original owner, kill all its units outside of
          a radius of 3, give verbose messages of every unit transferred,
          and raze buildings according to raze chance (also removes palace) */
-      (void) transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE,
-                           TRUE);
+      if (transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE,
+                        TRUE)) {
+        script_server_signal_emit("city_transfered", 4,
+                                  API_TYPE_CITY, pcity,
+                                  API_TYPE_PLAYER, pplayer,
+                                  API_TYPE_PLAYER, pcity->original,
+                                  API_TYPE_STRING, "death-back_to_original");
+      }
     }
   } city_list_iterate_safe_end;
   game.server.savepalace = save_palace;
@@ -196,8 +202,14 @@ void kill_player(struct player *pplayer)
 
     /* Transfer any remaining cities */
     city_list_iterate_safe(pplayer->cities, pcity) {
-      (void) transfer_city(barbarians, pcity, -1, FALSE, FALSE, FALSE,
-                           FALSE);
+      if (transfer_city(barbarians, pcity, -1, FALSE, FALSE, FALSE,
+                        FALSE)) {
+        script_server_signal_emit("city_transfered", 4,
+                                  API_TYPE_CITY, pcity,
+                                  API_TYPE_PLAYER, pplayer,
+                                  API_TYPE_PLAYER, barbarians,
+                                  API_TYPE_STRING, "death-barbarians_get");
+      }
     } city_list_iterate_safe_end;
 
     game.server.savepalace = palace;
@@ -2737,6 +2749,11 @@ struct player *civil_war(struct player *pplayer)
                         _("%s declares allegiance to the %s."),
                         city_link(pcity),
                         nation_plural_for_player(cplayer));
+          script_server_signal_emit("city_transfered", 4,
+                                  API_TYPE_CITY, pcity,
+                                  API_TYPE_PLAYER, pplayer,
+                                  API_TYPE_PLAYER, cplayer,
+                                  API_TYPE_STRING, "civil_war");
         }
         i--;
       }
