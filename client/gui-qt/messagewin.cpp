@@ -65,7 +65,7 @@ info_tab::info_tab(QWidget *parent)
   chat_button = new right_click_button;
   chat_button->setText(_("Chat"));
   hide_button = new QPushButton(
-                  style()->standardIcon(QStyle::SP_TitleBarMinButton), "");
+                  style()->standardIcon(QStyle::SP_ArrowDown), "");
 
   layout->addWidget(hide_button, 1, 0, 1, 1);
   layout->addWidget(msg_button, 1, 1, 1, 4);
@@ -345,7 +345,7 @@ void info_tab::hide_me()
     resize(width(), hide_button->fontMetrics().height());
     move(0 , gui()->mapview_wdg->size().height()
          - hide_button->fontMetrics().height());
-    hide_button->setIcon(style()->standardIcon(QStyle::SP_TitleBarMaxButton));
+    hide_button->setIcon(style()->standardIcon(QStyle::SP_ArrowUp));
     hidden_state = true;
     if (layout_changed) {
       change_layout();
@@ -353,7 +353,7 @@ void info_tab::hide_me()
   } else {
     resize(last_size);
     move(0 , gui()->mapview_wdg->size().height() - last_size.height());
-    hide_button->setIcon(style()->standardIcon(QStyle::SP_TitleBarMinButton));
+    hide_button->setIcon(style()->standardIcon(QStyle::SP_ArrowDown));
     hidden_state = false;
     if (layout_changed) {
       change_layout();
