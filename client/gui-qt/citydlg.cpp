@@ -3087,6 +3087,7 @@ production_widget::production_widget(QWidget *parent, struct city *pcity,
     pos.setY(0);
   }
   move(pos);
+  setMouseTracking(true);
   setFocus();
 }
 
