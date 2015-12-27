@@ -33,3 +33,54 @@ void adv_init_choice(struct adv_choice *choice)
   choice->type = CT_NONE;
   choice->need_boat = FALSE;
 }
+
+/**************************************************************************
+  Dynamically allocate a new choice.
+**************************************************************************/
+struct adv_choice *adv_new_choice(void)
+{
+  struct adv_choice *choice = fc_malloc(sizeof(*choice));
+
+  adv_init_choice(choice);
+
+  return choice;
+}
+
+/**************************************************************************
+  Free dynamically allocated choice.
+**************************************************************************/
+void adv_free_choice(struct adv_choice *choice)
+{
+  free(choice);
+}
+
+/**************************************************************************
+  Return better one of the choices given. In case of a draw, first one
+  is preferred.
+**************************************************************************/
+struct adv_choice *adv_better_choice(struct adv_choice *first,
+                                     struct adv_choice *second)
+{
+  if (second->want > first->want) {
+    return second;
+  } else {
+    return first;
+  }
+}
+
+/**************************************************************************
+  Return better one of the choices given, and free the other.
+**************************************************************************/
+struct adv_choice *adv_better_choice_free(struct adv_choice *first,
+                                          struct adv_choice *second)
+{
+  if (second->want > first->want) {
+    free(first);
+
+    return second;
+  } else {
+    free(second);
+
+    return first;
+  }
+}

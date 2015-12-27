@@ -267,11 +267,9 @@ static void dai_barbarian_choose_build(struct player *pplayer,
 static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
                                   struct city *pcity)
 {
-  struct adv_choice newchoice;
+  struct adv_choice *newchoice;
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
-
-  adv_init_choice(&newchoice);
 
   if (has_handicap(pplayer, H_AWAY)
       && city_built_last_turn(pcity)
@@ -288,8 +286,9 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
          || city_data->urgency == 0)
         && !(dai_on_war_footing(ait, pplayer) && city_data->choice.want > 0
              && pcity->id != adv->wonder_city)) {
-      domestic_advisor_choose_build(ait, pplayer, pcity, &newchoice);
-      copy_if_better_choice(&newchoice, &(city_data->choice));
+      newchoice = domestic_advisor_choose_build(ait, pplayer, pcity);
+      city_data->choice = *(adv_better_choice(&(city_data->choice), newchoice));
+      adv_free_choice(newchoice);
     }
   }
 
@@ -383,7 +382,7 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
   improvement_iterate(pimprove) {
     if (can_city_sell_building(pcity, pimprove)
 	&& !building_has_effect(pimprove, EFT_DEFEND_BONUS)) {
-/* selling walls to buy defenders is counterproductive -- Syela */
+      /* selling walls to buy defenders is counterproductive -- Syela */
       really_handle_city_sell(pplayer, pcity, pimprove);
       break;
     }
@@ -860,9 +859,13 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
   initialize_infrastructure_cache(pplayer);
   city_list_iterate(pplayer->cities, pcity) {
     struct ai_city *city_data = def_ai_city_data(pcity, ait);
+    struct adv_choice *choice;
+
     /* Note that this function mungs the seamap, but we don't care */
     TIMING_LOG(AIT_CITY_MILITARY, TIMER_START);
-    military_advisor_choose_build(ait, pplayer, pcity, &city_data->choice);
+    choice = military_advisor_choose_build(ait, pplayer, pcity);
+    city_data->choice = *choice;
+    adv_free_choice(choice);
     TIMING_LOG(AIT_CITY_MILITARY, TIMER_STOP);
     if (dai_on_war_footing(ait, pplayer) && city_data->choice.want > 0) {
       continue; /* Go, soldiers! */

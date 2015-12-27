@@ -24,9 +24,9 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
                                              struct unit *attacker);
 void military_advisor_choose_tech(struct player *pplayer,
 				  struct adv_choice *choice);
-void  military_advisor_choose_build(struct ai_type *ait,
-                                    struct player *pplayer, struct city *pcity,
-				    struct adv_choice *choice);
+struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
+                                                 struct player *pplayer,
+                                                 struct city *pcity);
 void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer);
 int assess_defense_quadratic(struct ai_type *ait, struct city *pcity);
 int assess_defense_unit(struct ai_type *ait, struct city *pcity,

@@ -13,11 +13,11 @@
 #ifndef FC__ADVDOMESTIC_H
 #define FC__ADVDOMESTIC_H
 
+/* common */
 #include "fc_types.h"
 
-void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
-                                   struct city *pcity,
-                                   struct adv_choice *choice);
+struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
+                                                 struct city *pcity);
 
 void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer, 
                               struct adv_data *adv);

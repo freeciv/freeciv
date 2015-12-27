@@ -31,4 +31,12 @@ struct adv_choice {
 
 void adv_init_choice(struct adv_choice *choice);
 
+struct adv_choice *adv_new_choice(void);
+void adv_free_choice(struct adv_choice *choice);
+
+struct adv_choice *adv_better_choice(struct adv_choice *first,
+                                     struct adv_choice *second);
+struct adv_choice *adv_better_choice_free(struct adv_choice *first,
+                                          struct adv_choice *second);
+
 #endif   /* FC__ADVCHOICE_H */

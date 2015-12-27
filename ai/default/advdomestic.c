@@ -441,8 +441,8 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 
   If want is 0, this advisor doesn't want anything.
 ***************************************************************************/
-void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
-                                   struct city *pcity, struct adv_choice *choice)
+struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
+                                                 struct city *pcity)
 {
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   /* Unit type with certain role */
@@ -450,8 +450,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
   struct unit_type *founder_type;
   int settler_want, founder_want;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
-
-  adv_init_choice(choice);
+  struct adv_choice *choice = adv_new_choice();
 
   /* Find out desire for workers (terrain improvers) */
   settler_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
@@ -550,22 +549,22 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
   }
 
   {
-    struct adv_choice cur;
+    struct adv_choice *cur;
 
-    adv_init_choice(&cur);
+    cur = adv_new_choice();
     /* Consider building caravan-type units to aid wonder construction */  
-    dai_choose_help_wonder(ait, pcity, &cur, adv);
-    copy_if_better_choice(&cur, choice);
+    dai_choose_help_wonder(ait, pcity, cur, adv);
+    choice = adv_better_choice_free(choice, cur);
 
-    adv_init_choice(&cur);
+    cur = adv_new_choice();
     /* Consider city improvements */
-    building_advisor_choose(pcity, &cur);
-    copy_if_better_choice(&cur, choice);
+    building_advisor_choose(pcity, cur);
+    choice = adv_better_choice_free(choice, cur);
 
-    adv_init_choice(&cur);
+    cur = adv_new_choice();
     /* Consider building caravan-type units for trade route */
-    dai_choose_trade_route(ait, pcity, &cur, adv);
-    copy_if_better_choice(&cur, choice);
+    dai_choose_trade_route(ait, pcity, cur, adv);
+    choice = adv_better_choice_free(choice, cur);
   }
 
   if (choice->want >= 200) {
@@ -574,7 +573,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
     choice->want = 199;
   }
 
-  return;
+  return choice;
 }
 
 /**************************************************************************

@@ -1134,9 +1134,9 @@ This function
 If the target is overseas, the function might suggest building a ferry
 to carry a land attack unit, instead of the land attack unit itself.
 **************************************************************************/
-static void kill_something_with(struct ai_type *ait, struct player *pplayer,
-                                struct city *pcity, struct unit *myunit,
-                                struct adv_choice *choice)
+static struct adv_choice *kill_something_with(struct ai_type *ait, struct player *pplayer,
+                                              struct city *pcity, struct unit *myunit,
+                                              struct adv_choice *choice)
 {
   /* Our attack rating (with reinforcements) */
   int attack;
@@ -1157,25 +1157,24 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
   struct unit_type *boattype;
   struct pf_map *ferry_map = NULL;
   int move_time;
-  struct adv_choice best_choice;
+  struct adv_choice *best_choice;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct ai_city *acity_data;
 
-  adv_init_choice(&best_choice);
-  best_choice.value.utype = unit_type_get(myunit);
-  best_choice.type = CT_ATTACKER;
-  best_choice.want = choice->want;
+  best_choice = adv_new_choice();
+  best_choice->value.utype = unit_type_get(myunit);
+  best_choice->type = CT_ATTACKER;
 
-  fc_assert_ret(is_military_unit(myunit) && !utype_fuel(unit_type_get(myunit)));
+  fc_assert_ret_val(is_military_unit(myunit) && !utype_fuel(unit_type_get(myunit)), choice);
 
   if (city_data->danger != 0 && assess_defense(ait, pcity) == 0) {
     /* Defence comes first! */
     goto cleanup;
   }
 
-  best_choice.want = find_something_to_kill(ait, pplayer, myunit, &ptile, NULL,
-                                            &ferry_map, &ferryboat,
-                                            &boattype, &move_time);
+  best_choice->want = find_something_to_kill(ait, pplayer, myunit, &ptile, NULL,
+                                             &ferry_map, &ferryboat,
+                                             &boattype, &move_time);
   if (NULL == ptile
       || ptile == unit_tile(myunit)
       || !can_unit_attack_tile(myunit, ptile)) {
@@ -1262,29 +1261,30 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
   if (NULL == ferry_map) {
     process_attacker_want(ait, pcity, benefit, def_type, def_owner,
                           def_vet, ptile,
-                          &best_choice, NULL, NULL, NULL);
+                          best_choice, NULL, NULL, NULL);
   } else { 
     /* Attract a boat to our city or retain the one that's already here */
-    fc_assert_ret(unit_class_get(myunit)->adv.sea_move != MOVE_FULL);
-    best_choice.need_boat = TRUE;
+    fc_assert_ret_val(unit_class_get(myunit)->adv.sea_move != MOVE_FULL, choice);
+    best_choice->need_boat = TRUE;
     process_attacker_want(ait, pcity, benefit, def_type, def_owner,
                           def_vet, ptile,
-                          &best_choice, ferry_map, ferryboat, boattype);
+                          best_choice, ferry_map, ferryboat, boattype);
   }
 
-  if (best_choice.want > choice->want) {
+  if (best_choice->want > choice->want) {
     /* We want attacker more than what we have selected before */
-    copy_if_better_choice(&best_choice, choice);
+    adv_free_choice(choice);
+    choice = best_choice;
     CITY_LOG(LOG_DEBUG, pcity, "kill_something_with()"
 	     " %s has chosen attacker, %s, want=" ADV_WANT_PRINTF,
 	     city_name(pcity),
-	     utype_rule_name(best_choice.value.utype),
-	     best_choice.want);
+	     utype_rule_name(best_choice->value.utype),
+	     best_choice->want);
 
     if (NULL != ferry_map && !ferryboat) { /* need a new ferry */
       /* We might need a new boat even if there are boats free,
        * if they are blockaded or in inland seas*/
-      fc_assert_ret(unit_class_get(myunit)->adv.sea_move != MOVE_FULL);
+      fc_assert_ret_val(unit_class_get(myunit)->adv.sea_move != MOVE_FULL, choice);
       dai_choose_role_unit(ait, pplayer, pcity, choice, CT_ATTACKER,
                            L_FERRYBOAT, choice->want, TRUE);
       if (dai_is_ferry_type(choice->value.utype, ait)) {
@@ -1306,6 +1306,8 @@ cleanup:
   if (NULL != ferry_map) {
     pf_map_destroy(ferry_map);
   }
+
+  return choice;
 }
 
 /**********************************************************************
@@ -1372,10 +1374,9 @@ static void adjust_ai_unit_choice(struct city *pcity,
   It records its choice into adv_choice struct.
   If 'choice->want' is 0 this advisor doesn't want anything.
 ****************************************************************************/
-void military_advisor_choose_build(struct ai_type *ait,
-                                   struct player *pplayer,
-                                   struct city *pcity,
-                                   struct adv_choice *choice)
+struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
+                                                 struct player *pplayer,
+                                                 struct city *pcity)
 {
   struct adv_data *ai = adv_data_get(pplayer, NULL);
   struct unit_type *punittype;
@@ -1385,8 +1386,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   adv_want martial_value = 0;
   bool martial_need = FALSE;
-
-  adv_init_choice(choice);
+  struct adv_choice *choice = adv_new_choice();
 
   urgency = assess_danger(ait, pcity);
   /* Changing to quadratic to stop AI from building piles 
@@ -1524,7 +1524,7 @@ void military_advisor_choose_build(struct ai_type *ait,
       || pcity->id == ai->wonder_city) {
     /* Things we consider below are not life-saving so we don't want to 
      * build them if our populace doesn't feel like it */
-    return;
+    return choice;
   }
 
   /* Consider making a land bodyguard */
@@ -1540,7 +1540,7 @@ void military_advisor_choose_build(struct ai_type *ait,
     CITY_LOG(LOGLEVEL_BUILD, pcity,
              "severe danger (want " ADV_WANT_PRINTF "), force defender",
              choice->want);
-    return;
+    return choice;
   }
 
   /* Consider making an offensive diplomat */
@@ -1564,7 +1564,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype,
                                       do_make_unit_veteran(pcity, punittype));
-    kill_something_with(ait, pplayer, pcity, virtualunit, choice);
+    choice = kill_something_with(ait, pplayer, pcity, virtualunit, choice);
     unit_virtual_destroy(virtualunit);
   }
 
@@ -1574,7 +1574,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   punittype = dai_choose_attacker(ait, pcity, TC_LAND);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype, 1);
-    kill_something_with(ait, pplayer, pcity, virtualunit, choice);
+    choice = kill_something_with(ait, pplayer, pcity, virtualunit, choice);
     unit_virtual_destroy(virtualunit);
   }
 
@@ -1592,4 +1592,6 @@ void military_advisor_choose_build(struct ai_type *ait,
              dai_choice_rule_name(choice),
              choice->want);
   }
+
+  return choice;
 }

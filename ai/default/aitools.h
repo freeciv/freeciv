@@ -70,7 +70,6 @@ void dai_government_change(struct player *pplayer, struct government *gov);
 int dai_gold_reserve(struct player *pplayer);
 
 void adjust_choice(int value, struct adv_choice *choice);
-void copy_if_better_choice(struct adv_choice *cur, struct adv_choice *best);
 
 bool is_unit_choice_type(enum choice_type type);
 

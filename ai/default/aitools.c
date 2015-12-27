@@ -1016,22 +1016,6 @@ void adjust_choice(int value, struct adv_choice *choice)
 }
 
 /**************************************************************************
-  After call to this function best is better of cur and best 
-**************************************************************************/
-void copy_if_better_choice(struct adv_choice *cur, struct adv_choice *best)
-{
-  if (best->want < cur->want) {
-    /* This simple minded copy works for now.
-     *
-     * TODO: We should get rid of this function. Choice structures should
-     *       be accessed via pointers, and those pointers should be updated
-     *       instead of copying whole structures.
-     */
-    *best = *cur;
-  }
-}
-
-/**************************************************************************
   Does choice type refer to unit
 **************************************************************************/
 bool is_unit_choice_type(enum choice_type type)
