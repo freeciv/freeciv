@@ -1955,7 +1955,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   if (city_remains) {
     /* reduce size should not destroy this city */
     fc_assert(city_size_get(pcity) > 1);
-    city_reduce_size(pcity, 1, pplayer);
+    city_reduce_size(pcity, 1, pplayer, "conquest");
   }
 
   if (try_civil_war) {

@@ -2257,7 +2257,7 @@ static bool city_build(struct player *pplayer, struct unit *punit,
 
     fc_assert_ret_val(pcity != NULL, FALSE);
 
-    city_change_size(pcity, size, nationality);
+    city_change_size(pcity, size, nationality, NULL);
   }
   wipe_unit(punit, ULR_USED, NULL);
 
@@ -2531,7 +2531,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
       && city_size_get(pcity) > 1
       && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) <= 0
       && kills_citizen_after_attack(punit)) {
-    city_reduce_size(pcity, 1, pplayer);
+    city_reduce_size(pcity, 1, pplayer, "bombard");
     city_refresh(pcity);
     send_city_info(NULL, pcity);
   }
@@ -2775,7 +2775,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
       && city_size_get(pcity) > 1
       && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) <= 0
       && kills_citizen_after_attack(punit)) {
-    city_reduce_size(pcity, 1, pplayer);
+    city_reduce_size(pcity, 1, pplayer, "attack");
     city_refresh(pcity);
     send_city_info(NULL, pcity);
   }

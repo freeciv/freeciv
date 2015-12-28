@@ -2536,7 +2536,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
                     city_link(pcity));
     }
 
-    city_reduce_size(pcity, city_size_get(pcity) / 2, pplayer);
+    city_reduce_size(pcity, city_size_get(pcity) / 2, pplayer, "nuke");
   }
 
   if (fc_rand(2) == 1) {

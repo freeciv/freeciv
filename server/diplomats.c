@@ -121,7 +121,7 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   log_debug("poison: succeeded");
 
   /* Poison people! */
-  if (city_reduce_size(pcity, 1, pplayer)) {
+  if (city_reduce_size(pcity, 1, pplayer, "poison")) {
     /* Notify everybody involved. */
     notify_player(pplayer, ctile, E_MY_DIPLOMAT_POISON, ftc_server,
                   _("Your %s poisoned the water supply of %s."),
@@ -845,7 +845,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* City loses some population. */
   if (city_size_get(pcity) > 1) {
-    city_reduce_size(pcity, 1, pplayer);
+    city_reduce_size(pcity, 1, pplayer, "incited");
   }
 
   /* This costs! */

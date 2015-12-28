@@ -722,13 +722,20 @@ static citizens city_reduce_workers(struct city *pcity, citizens change)
   loss.
 **************************************************************************/
 bool city_reduce_size(struct city *pcity, citizens pop_loss,
-                      struct player *destroyer)
+                      struct player *destroyer, const char *reason)
 {
   citizens loss_remain;
   int old_radius_sq;
 
   if (pop_loss == 0) {
     return TRUE;
+  }
+
+  if (reason != NULL) {
+    script_server_signal_emit("city_size_change", 3,
+                              API_TYPE_CITY, pcity,
+                              API_TYPE_INT, -pop_loss,
+                              API_TYPE_STRING, reason);
   }
 
   if (city_size_get(pcity) <= pop_loss) {
@@ -927,6 +934,10 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
   notify_player(powner, city_tile(pcity), E_CITY_GROWTH, ftc_server,
                 _("%s grows to size %d."),
                 city_link(pcity), city_size_get(pcity));
+  script_server_signal_emit("city_size_change", 3,
+                            API_TYPE_CITY, pcity,
+                            API_TYPE_INT, 1,
+                            API_TYPE_STRING, "growth");
   script_server_signal_emit("city_growth", 2,
                             API_TYPE_CITY, pcity,
                             API_TYPE_INT, city_size_get(pcity));
@@ -943,21 +954,30 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
   Change the city size.  Return TRUE iff the city is still alive afterwards.
 ****************************************************************************/
 bool city_change_size(struct city *pcity, citizens size,
-                      struct player *nationality)
+                      struct player *nationality, const char *reason)
 {
+  int change = size - city_size_get(pcity);
+
   fc_assert_ret_val(size >= 0 && size <= MAX_CITY_SIZE, TRUE);
 
-  if (size > city_size_get(pcity)) {
+  if (change != 0 && reason != NULL) {
+    script_server_signal_emit("city_size_change", 3,
+                              API_TYPE_CITY, pcity,
+                              API_TYPE_INT, size - city_size_get(pcity),
+                              API_TYPE_STRING, reason);
+  }
+
+  if (change > 0) {
     /* Increase city size until size reached, or increase fails */
     while (size > city_size_get(pcity)
            && city_increase_size(pcity, nationality)) {
       /* city_increase_size() does all the work. */
     }
-  } else if (size < city_size_get(pcity)) {
+  } else if (change < 0) {
     /* We assume that city_change_size() is never called because
      * of enemy actions. If that changes, enemy must be passed
      * to city_reduce_size() */
-    return city_reduce_size(pcity, city_size_get(pcity) - size, NULL);
+    return city_reduce_size(pcity, -change, NULL, NULL);
   }
 
   map_claim_border(pcity->tile, pcity->owner, -1);
@@ -986,6 +1006,10 @@ static void city_populate(struct city *pcity, struct player *nationality)
     } else {
       city_increase_size(pcity, nationality);
       map_claim_border(pcity->tile, pcity->owner, -1);
+      script_server_signal_emit("city_size_change", 3,
+                            API_TYPE_CITY, pcity,
+                            API_TYPE_INT, 1,
+                            API_TYPE_STRING, "growth");
     }
   } else if (pcity->food_stock < 0) {
     /* FIXME: should this depend on units with ability to build
@@ -1025,7 +1049,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
 		    city_link(pcity));
     }
     city_reset_foodbox(pcity, city_size_get(pcity) - 1);
-    city_reduce_size(pcity, 1, NULL);
+    city_reduce_size(pcity, 1, NULL, "famine");
   }
 }
 
@@ -2119,7 +2143,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
                       _("Citizens in %s perish for their failure to "
                         "upkeep %s!"),
                       city_link(pcity), unit_link(punit));
-	if (!city_reduce_size(pcity, 1, NULL)) {
+	if (!city_reduce_size(pcity, 1, NULL, "upkeep_failure")) {
 	  return FALSE;
 	}
 
@@ -2364,7 +2388,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
        * rearrange the worker to take into account the extra resources
        * (food) needed. */
       if (pop_cost > 0) {
-        city_reduce_size(pcity, pop_cost, NULL);
+        city_reduce_size(pcity, pop_cost, NULL, "unit_built");
       }
 
       /* to eliminate micromanagement, we only subtract the unit's cost */
@@ -3034,7 +3058,7 @@ static void update_city_activity(struct city *pcity)
         notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE, ftc_server,
                       _("%s has been struck by a plague! Population lost!"), 
                       city_link(pcity));
-        city_reduce_size(pcity, 1, NULL);
+        city_reduce_size(pcity, 1, NULL, "plague");
         pcity->turn_plague = game.info.turn;
 
         /* recalculate illness */
@@ -3457,6 +3481,10 @@ static bool do_city_migration(struct city *pcity_from,
                           -1, TRUE);
       sz_strlcpy(name_from, city_tile_link(pcity_from));
 
+      script_server_signal_emit("city_size_change", 3,
+                            API_TYPE_CITY, pcity_from,
+                            API_TYPE_INT, -1,
+                            API_TYPE_STRING, "migration_from");
       script_server_signal_emit("city_destroyed", 3,
                                 API_TYPE_CITY, pcity_from,
                                 API_TYPE_PLAYER, pcity_from->owner,
@@ -3490,7 +3518,7 @@ static bool do_city_migration(struct city *pcity_from,
       /* This should be followed by city_reduce_size(). */
       citizens_nation_add(pcity_from, pplayer_citizen->slot, -1);
     }
-    city_reduce_size(pcity_from, 1, pplayer_from);
+    city_reduce_size(pcity_from, 1, pplayer_from, "migration_from");
     city_refresh_vision(pcity_from);
     if (city_refresh(pcity_from)) {
       auto_arrange_workers(pcity_from);
@@ -3525,6 +3553,10 @@ static bool do_city_migration(struct city *pcity_from,
   if (city_refresh(pcity_to)) {
     auto_arrange_workers(pcity_to);
   }
+  script_server_signal_emit("city_size_change", 3,
+                            API_TYPE_CITY, pcity_to,
+                            API_TYPE_INT, 1,
+                            API_TYPE_STRING, "migration_to");
 
   log_debug("[M] T%d migration successful (%s -> %s)",
             game.info.turn, name_from, name_to);
@@ -3609,7 +3641,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
   if (disaster_has_effect(pdis, DE_REDUCE_DESTROY)
       || (disaster_has_effect(pdis, DE_REDUCE_POP)
           && pcity->size > 1)) {
-    if (!city_reduce_size(pcity, 1, NULL)) {
+    if (!city_reduce_size(pcity, 1, NULL, "disaster")) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     /* TRANS: "Industrial Accident destroys Bogota entirely" */
                     _("%s destroys %s entirely."),
