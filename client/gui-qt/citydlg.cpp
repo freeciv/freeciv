@@ -3166,7 +3166,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
   if (target != NULL) {
     city_get_queue(pw_city, &queue);
     switch (when_change) {
-    case 0: /*Change current tech*/
+    case 0: /* Change current target */
       city_change_production(pw_city, *target);
       if (city_can_buy(pw_city) && buy_it) {
         city_buy_production(pw_city);
