@@ -140,12 +140,13 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
                 tile_city(ptile)->id);
 
   ptile->terrain = pterrain;
-  if (NULL != pterrain
-      && NULL != ptile->resource
-      && terrain_has_resource(pterrain, ptile->resource)) {
-    ptile->resource_valid = TRUE;
-  } else {
-    ptile->resource_valid = FALSE;
+  if (ptile->resource != NULL) {
+    if (NULL != pterrain
+        && terrain_has_resource(pterrain, ptile->resource)) {
+      BV_SET(ptile->extras, extra_index(ptile->resource->self));
+    } else {
+      BV_CLR(ptile->extras, extra_index(ptile->resource->self));
+    }
   }
 }
 
@@ -362,18 +363,12 @@ void tile_set_resource(struct tile *ptile, struct resource_type *presource)
     tile_remove_extra(ptile, ptile->resource->self);
   }
   if (presource != NULL) {
-    tile_add_extra(ptile, presource->self);
+    if (ptile->terrain && terrain_has_resource(ptile->terrain, presource)) {
+      tile_add_extra(ptile, presource->self);
+    }
   }
 
   ptile->resource = presource;
-
-  if (NULL != ptile->terrain
-      && NULL != presource
-      && terrain_has_resource(ptile->terrain, presource)) {
-    ptile->resource_valid = TRUE;
-  } else {
-    ptile->resource_valid = FALSE;
-  }
 }
 
 #ifndef tile_continent
@@ -965,8 +960,6 @@ struct tile *tile_virtual_new(const struct tile *ptile)
         BV_SET(vtile->extras, extra_number(pextra));
       }
     } extra_type_iterate_end;
-
-    vtile->resource_valid = ptile->resource_valid;
 
     vtile->resource = ptile->resource;
     vtile->terrain = ptile->terrain;

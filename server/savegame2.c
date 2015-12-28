@@ -2015,13 +2015,12 @@ static void sg_load_map_tiles_resources(struct loaddata *loading)
 
   /* After the resources are loaded, indicate those currently valid. */
   whole_map_iterate(ptile) {
-    if (NULL == ptile->resource || NULL == ptile->terrain) {
+    if (NULL == ptile->resource) {
       continue;
     }
 
-    if (terrain_has_resource(ptile->terrain, ptile->resource)) {
-      /* cannot use set_special() for internal values */
-      ptile->resource_valid = TRUE;
+    if (ptile->terrain == NULL || !terrain_has_resource(ptile->terrain, ptile->resource)) {
+      BV_CLR(ptile->extras, extra_index(ptile->resource->self));
     }
   } whole_map_iterate_end;
 

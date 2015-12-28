@@ -2525,9 +2525,8 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
         if (tile_has_extra(ptile, pres)) {
           tile_set_resource(ptile, pres->data.resource);
 
-          if (terrain_has_resource(ptile->terrain, ptile->resource)) {
-            /* cannot use set_special() for internal values */
-            ptile->resource_valid = TRUE;
+          if (!terrain_has_resource(ptile->terrain, ptile->resource)) {
+            BV_CLR(ptile->extras, extra_index(pres));
           }
         }
       } extra_type_by_cause_iterate_end;
