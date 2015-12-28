@@ -185,7 +185,7 @@ bool entry_from_token(struct section *psection, const char *name,
     return TRUE;
   }
 
-  if (fc_isdigit(tok[0]) || ('-' == tok[0] && fc_isdigit(tok[1]))) {
+  if (fc_isdigit(tok[0]) || (('-' == tok[0] || '+' == tok[0]) && fc_isdigit(tok[1]))) {
     float fvalue;
 
     if (str_to_float(tok, &fvalue)) {
