@@ -881,7 +881,7 @@ void handle_edit_city_create(struct connection *pc, int owner, int tile,
 
   if (size > 1) {
     /* FIXME: Slow and inefficient for large size changes. */
-    city_change_size(pcity, CLIP(1, size, MAX_CITY_SIZE), pplayer);
+    city_change_size(pcity, CLIP(1, size, MAX_CITY_SIZE), pplayer, NULL);
     send_city_info(NULL, pcity);
   }
 
@@ -939,7 +939,7 @@ void handle_edit_city(struct connection *pc,
                   packet->size, city_link(pcity));
     } else {
       /* FIXME: Slow and inefficient for large size changes. */
-      city_change_size(pcity, packet->size, NULL);
+      city_change_size(pcity, packet->size, NULL, NULL);
       changed = TRUE;
     }
   }

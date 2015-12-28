@@ -31,9 +31,9 @@ void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
 void apply_cmresult_to_city(struct city *pcity, const struct cm_result *cmr);
 
 bool city_change_size(struct city *pcity, citizens new_size,
-                      struct player *nationality);
+                      struct player *nationality, const char *reason);
 bool city_reduce_size(struct city *pcity, citizens pop_loss,
-                      struct player *destroyer);
+                      struct player *destroyer, const char *reason);
 void city_repair_size(struct city *pcity, int change);
 
 void send_city_turn_notifications(struct connection *pconn);

@@ -353,6 +353,10 @@ static void script_server_signal_create(void)
   luascript_signal_create(fcl_main, "city_built", 1,
                           API_TYPE_CITY);
 
+  luascript_signal_create(fcl_main, "city_size_change", 3,
+                          API_TYPE_CITY, API_TYPE_INT, API_TYPE_STRING);
+
+  /* Deprecated form of the 'city_size_change' signal for the case of growth. */
   luascript_signal_create(fcl_main, "city_growth", 2,
                           API_TYPE_CITY, API_TYPE_INT);
 
