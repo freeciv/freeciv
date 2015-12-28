@@ -2314,6 +2314,7 @@ unit_select::unit_select(tile *ptile, QWidget *parent)
   h_pix = NULL;
   create_pixmap();
   p = mapFromGlobal(QCursor::pos());
+  cw = new close_widget(this);
   setMouseTracking(true);
   final_p.setX(p.x());
   final_p.setY(p.y());
@@ -2324,6 +2325,7 @@ unit_select::unit_select(tile *ptile, QWidget *parent)
     final_p.setY(height());
   }
   move(final_p.x(), final_p.y() - height());
+  setFocus();
 }
 /****************************************************************
   Destructor for unit select
@@ -2333,6 +2335,7 @@ unit_select::~unit_select()
     delete h_pix;
     delete pix;
     delete ufont;
+    delete cw;
 }
 
 /****************************************************************
@@ -2544,6 +2547,7 @@ void unit_select::paint(QPainter *painter, QPaintEvent *event)
   } else {
     info_font->setPointSize(*f_size);
   }
+  cw->put_to_corner();
 }
 /****************************************************************
   Paint event, redirects to paint(...)
@@ -2563,6 +2567,9 @@ void unit_select::paintEvent(QPaintEvent *event)
 *****************************************************************/
 void unit_select::update_menu()
 {
+  was_destroyed = true;
+  close();
+  destroy();
 }
 
 /****************************************************************
@@ -2617,6 +2624,19 @@ void unit_select::wheelEvent(QWheelEvent *event)
   create_pixmap();
   update();
   event->accept();
+}
+
+/****************************************************************
+  Keyboard handler for unit_select
+*****************************************************************/
+void unit_select::keyPressEvent(QKeyEvent *event)
+{
+  if (event->key() == Qt::Key_Escape) {
+    was_destroyed = true;
+    close();
+    destroy();
+  }
+  QWidget::keyPressEvent(event);
 }
 
 /***************************************************************************
