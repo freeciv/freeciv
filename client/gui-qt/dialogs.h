@@ -168,6 +168,7 @@ class unit_select: public fcwidget
   QFont *ufont;
   QFont *info_font;
   int row_count;
+  close_widget *cw;
 public:
   unit_select(struct tile *ptile, QWidget *parent);
   ~unit_select();
@@ -179,6 +180,7 @@ protected:
   void paint(QPainter *painter, QPaintEvent *event);
   void paintEvent(QPaintEvent *event);
   void mousePressEvent(QMouseEvent *event);
+  void keyPressEvent(QKeyEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
   void wheelEvent(QWheelEvent *event);
 private:
