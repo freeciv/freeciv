@@ -239,10 +239,11 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
                    &pdialog->entry);
 
   /* Load lua script command button. */
-  gui_dialog_add_button(pdialog->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(pdialog->shell, "window-close", _("Close"),
+                        GTK_RESPONSE_CLOSE);
 
-  gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_OPEN,
-                             _("Load Lua Script"), LUACONSOLE_RES_OPEN);
+  gui_dialog_add_button(pdialog->shell, "document-open",
+                        _("Load Lua Script"), LUACONSOLE_RES_OPEN);
   gui_dialog_response_set_callback(pdialog->shell,
                                    luaconsole_response_callback);
 

@@ -228,10 +228,10 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
   gui_dialog_set_title(pdialog->shell, player_name(pplayer));
 
-  gui_dialog_add_button(pdialog->shell,
-      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
-  gui_dialog_add_button(pdialog->shell,
-      _("_Launch"), GTK_RESPONSE_ACCEPT);
+  gui_dialog_add_button(pdialog->shell, "window-close", _("Close"),
+                        GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(pdialog->shell, NULL, _("_Launch"),
+                        GTK_RESPONSE_ACCEPT);
 
   g_signal_connect(pdialog->shell->vbox, "destroy",
 		   G_CALLBACK(spaceship_destroy_callback), pdialog);

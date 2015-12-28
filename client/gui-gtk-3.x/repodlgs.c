@@ -555,7 +555,8 @@ static void science_report_init(struct science_report *preport)
   /* TRANS: Research report title */
   gui_dialog_set_title(preport->shell, _("Research"));
 
-  gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(preport->shell, "window-close", _("Close"),
+                        GTK_RESPONSE_CLOSE);
   gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);
 
   vbox = GTK_CONTAINER(preport->shell->vbox);
@@ -1149,17 +1150,18 @@ static void economy_report_init(struct economy_report *preport)
   gtk_misc_set_padding(GTK_MISC(label), 5, 5);
   preport->label = GTK_LABEL(label);
 
-  gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(preport->shell, "window-close", _("Close"),
+                        GTK_RESPONSE_CLOSE);
 
-  button = gui_dialog_add_button(preport->shell, _("_Disband"),
+  button = gui_dialog_add_button(preport->shell, NULL, _("_Disband"),
                                  ERD_RES_DISBAND_UNITS);
   gtk_widget_set_sensitive(button, FALSE);
 
-  button = gui_dialog_add_button(preport->shell, _("Sell _All"),
+  button = gui_dialog_add_button(preport->shell, NULL, _("Sell _All"),
                                  ERD_RES_SELL_ALL);
   gtk_widget_set_sensitive(button, FALSE);
 
-  button = gui_dialog_add_button(preport->shell, _("Sell _Redundant"),
+  button = gui_dialog_add_button(preport->shell, NULL, _("Sell _Redundant"),
                                  ERD_RES_SELL_REDUNDANT);
   gtk_widget_set_sensitive(button, FALSE);
 
@@ -1670,9 +1672,10 @@ static void units_report_init(struct units_report *preport)
     }
   }
 
-  gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(preport->shell, "window-close", _("Close"),
+                        GTK_RESPONSE_CLOSE);
 
-  button = gui_dialog_add_button(preport->shell, _("_Upgrade"),
+  button = gui_dialog_add_button(preport->shell, NULL, _("_Upgrade"),
                                  URD_RES_UPGRADE);
   gtk_widget_set_sensitive(button, FALSE);
 
