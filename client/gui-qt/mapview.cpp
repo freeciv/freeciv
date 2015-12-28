@@ -1151,7 +1151,8 @@ void end_turn_area::end_turn_update()
     tax_indicators[d]->setToolTip(_("Shows your current luxury/science/tax "
                                     "rates. Use mouse wheel to change them"));
   }
-  setMinimumWidth(get_tax_sprite(tileset, O_LUXURY)->pm->height() + 10 + 25);
+  setMinimumWidth(qMax(get_tax_sprite(tileset, O_LUXURY)->pm->width() * 10
+                  + 25, fm.width(etb_button->text())));
   setMinimumHeight(fm.height() + client_research_sprite()->pm->height()
                    + get_tax_sprite(tileset, O_LUXURY)->pm->height() + 25);
   updateGeometry();
