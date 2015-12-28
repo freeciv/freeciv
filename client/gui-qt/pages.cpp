@@ -34,6 +34,7 @@
 #include "connectdlg_common.h"
 
 // gui-qt
+#include "colors.h"
 #include "dialogs.h"
 #include "pages.h"
 #include "sprite.h"
@@ -544,8 +545,8 @@ void fc_client::create_start_page()
   chat_line->installEventFilter(this);
 
   pr_options->init();
-  player_widget_list << _("Name") << _("Ready") << _("Leader")
-                     << _("Flag") << _("Nation") << _("Team");
+  player_widget_list << _("Name") << _("Ready") << Q_("?player:Leader")
+                     << _("Flag") << _("Border") << _("Nation") << _("Team");
 
 
   start_players_tree->setColumnCount(player_widget_list.count());
@@ -1255,6 +1256,7 @@ void fc_client::update_start_page()
   bool is_ready;
   QString nation, leader, team, str;
   QPixmap *pixmap;
+  QPainter p;
   struct sprite *psprite;
   QTreeWidgetItem *item;
   QTreeWidgetItem *item_r;
@@ -1326,7 +1328,7 @@ void fc_client::update_start_page()
         team = "";
       }
 
-      for (int col = 0; col < 6; col++) {
+      for (int col = 0; col < 7; col++) {
         switch (col) {
         case 0:
           str = pplayer->username;
@@ -1361,9 +1363,24 @@ void fc_client::update_start_page()
           item->setData(col, Qt::DecorationRole, *pixmap);
           break;
         case 4:
-          item->setText(col, nation);
+          if (!player_has_color(tileset, pplayer)) {
+            break;
+          }
+          pixmap = new QPixmap(
+                     start_players_tree->header()->sectionSizeHint(col), 16);
+          pixmap->fill(Qt::transparent);
+          p.begin(pixmap);
+          p.fillRect(pixmap->width() / 2 - 8, 0, 16, 16, Qt::black);
+          p.fillRect(pixmap->width() / 2 - 7, 1, 14, 14,
+                     get_player_color(tileset, pplayer)->qcolor);
+          p.end();
+          item->setData(col, Qt::DecorationRole, *pixmap);
+          delete pixmap;
           break;
         case 5:
+          item->setText(col, nation);
+          break;
+        case 6:
           item->setText(col, team);
           break;
         }
