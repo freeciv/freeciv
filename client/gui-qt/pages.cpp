@@ -1513,7 +1513,7 @@ void fc_client::update_buttons()
   pb->setText(text);
 
   /* Nation button */
-  sensitive = game.info.is_new_game && !client_is_observer();
+  sensitive = game.info.is_new_game && can_client_control();
   li = pages_layout[PAGE_START]->itemAtPosition(5, 5);
   pb = qobject_cast<QPushButton *>(li->widget());
   pb->setEnabled(sensitive);
