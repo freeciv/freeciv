@@ -582,6 +582,9 @@ void fc_client::read_settings()
   } else {
     qt_settings.infotab_height = 29;
   }
+  qt_settings.player_repo_sort_col = -1;
+  qt_settings.city_repo_sort_col = -1;
+
 }
 
 /****************************************************************************

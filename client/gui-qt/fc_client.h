@@ -127,6 +127,10 @@ struct fc_settings
 {
   int infotab_width; /* in percent */
   int infotab_height; /* in percent */
+  int player_repo_sort_col;
+  Qt::SortOrder player_report_sort;
+  int city_repo_sort_col;
+  Qt::SortOrder city_report_sort;
 };
 
 class fc_client : public QMainWindow
