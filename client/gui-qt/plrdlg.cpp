@@ -540,6 +540,8 @@ plr_widget::~plr_widget()
   delete pid;
   delete list_model;
   delete filter_model;
+  gui()->qt_settings.player_repo_sort_col = header()->sortIndicatorSection();
+  gui()->qt_settings.player_report_sort = header()->sortIndicatorOrder();
 }
 
 /**************************************************************************
@@ -591,6 +593,10 @@ plr_report::plr_report():QWidget()
   connect(cancel_but, SIGNAL(pressed()), SLOT(req_caancel_threaty()));
   connect(withdraw_but, SIGNAL(pressed()), SLOT(req_wiithdrw_vision()));
   setLayout(layout);
+  if (gui()->qt_settings.player_repo_sort_col != -1) {
+    plr_wdg->sortByColumn(gui()->qt_settings.player_repo_sort_col,
+                          gui()->qt_settings.player_report_sort);
+  }
 }
 
 /**************************************************************************
