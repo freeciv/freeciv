@@ -191,6 +191,9 @@ struct client_options
   bool mapimg_layer[MAPIMG_LAYER_COUNT];
   char mapimg_filename[512];
 
+  bool zoom_set;
+  float zoom_default_level;
+
 /* gui-gtk-2.0 client specific options. */
 #define FC_GTK2_DEFAULT_THEME_NAME "Freeciv"
   char gui_gtk2_default_theme_name[512];

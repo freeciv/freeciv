@@ -1956,6 +1956,59 @@ int *secfile_lookup_int_vec(const struct section_file *secfile,
 }
 
 /**************************************************************************
+  Lookup a floating point value in the secfile.  Returns TRUE on success.
+**************************************************************************/
+bool secfile_lookup_float(const struct section_file *secfile, float *fval,
+                          const char *path, ...)
+{
+  char fullpath[MAX_LEN_SECPATH];
+  const struct entry *pentry;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return FALSE;
+  }
+
+  return entry_float_get(pentry, fval);
+}
+
+/**************************************************************************
+  Lookup a floating point value in the secfile. On failure, use the default
+  value.
+**************************************************************************/
+float secfile_lookup_float_default(const struct section_file *secfile,
+                                   float def, const char *path, ...)
+{
+  char fullpath[MAX_LEN_SECPATH];
+  const struct entry *pentry;
+  float fval;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, def);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    return def;
+  }
+
+  if (entry_float_get(pentry, &fval)) {
+    return fval;
+  }
+
+  return def;
+}
+
+/**************************************************************************
   Lookup a string value in the secfile.  Returns NULL on error.
 **************************************************************************/
 const char *secfile_lookup_str(const struct section_file *secfile,

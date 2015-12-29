@@ -179,6 +179,9 @@ struct client_options gui_options = {
   },
 /*  .mapimg_filename, */
 
+  .zoom_set = FALSE,
+  .zoom_default_level = 1.0,
+
 /* gui-gtk-2.0 client specific options. */
   .gui_gtk2_default_theme_name = FC_GTK2_DEFAULT_THEME_NAME,
   .gui_gtk2_fullscreen = FALSE,
@@ -5660,6 +5663,13 @@ void options_load(void)
     secfile_lookup_bool_default(sf, gui_options.gui_qt_migrated_from_2_5,
                                 "%s.migration_qt_from_2_5", prefix);
 
+  /* These are not gui-enabled yet */
+  gui_options.zoom_set =
+    secfile_lookup_bool_default(sf, FALSE, "%s.zoom_set", prefix);
+  gui_options.zoom_default_level =
+    secfile_lookup_float_default(sf, 1.0,
+                                 "%s.zoom_default_level", prefix);
+
   /* Backwards compatibility for removed options replaced by entirely "new"
    * options. The equivalent "new" option will override these, if set. */
 
@@ -5774,6 +5784,7 @@ void options_save(option_save_log_callback log_cb)
   secfile_insert_bool(sf, gui_options.gui_qt_migrated_from_2_5,
                       "client.migration_qt_from_2_5");
 
+  /* gui-enabled options */
   client_options_iterate_all(poption) {
     if (client_poption->specific != GUI_SDL || !gui_options.gui_sdl2_migrated_from_sdl) {
       /* Once sdl-client options have been migrated to sdl2-client, there's no
@@ -5781,6 +5792,11 @@ void options_save(option_save_log_callback log_cb)
       client_option_save(poption, sf);
     }
   } client_options_iterate_all_end;
+
+  /* These are not gui-enabled yet. */
+  secfile_insert_bool(sf, gui_options.zoom_set, "client.zoom_set");
+  secfile_insert_float(sf, gui_options.zoom_default_level,
+                       "client.zoom_default_level");
 
   message_options_save(sf, "client");
   options_dialogs_save(sf);
