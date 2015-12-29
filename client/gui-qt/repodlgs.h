@@ -61,6 +61,7 @@ public:
   Tech_type_id tech_id;
   struct unit_type *tunit;
   struct impr_type *timpr;
+  struct government *tgov;
 };
 /****************************************************************************
   Custom widget representing research diagram in science_report

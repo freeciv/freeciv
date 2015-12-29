@@ -202,7 +202,7 @@ void research_diagram::create_tooltip_help()
                 rttp->rect = QRect(icon_startx, starty + text_h + 4
                                    + (height - text_h - 4 - sheight) / 2,
                                    swidth, sheight);
-                rttp->tech_id = node->tech;
+                rttp->tgov = gov;
                 tt_help.append(rttp);
                 icon_startx += swidth + 2;
               }
@@ -279,6 +279,9 @@ void research_diagram::mousePressEvent(QMouseEvent *event)
         } else if (rttp->tunit != nullptr) {
           popup_help_dialog_typed(utype_name_translation(rttp->tunit),
                                   HELP_UNIT);
+        } else if (rttp->tgov != nullptr) {
+          popup_help_dialog_typed(government_name_translation(rttp->tgov),
+                                  HELP_GOVERNMENT);
         } else {
           return;
         }
@@ -320,6 +323,13 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
         tt_text += helptext_unit(buffer, sizeof(buffer), client.conn.playing,
                                 buf2, rttp->tunit);
         tt_text = cut_helptext(tt_text);
+      } else if (rttp->tgov != nullptr) {
+        helptext_government(buffer, sizeof(buffer), client.conn.playing,
+                            buf2, rttp->tgov);
+        tt_text = QString(buffer);
+        tt_text = cut_helptext(tt_text);
+        def_str = "<p style='white-space:pre'><b>"
+                  + QString(government_name_translation(rttp->tgov)) + "</b>\n";
       } else {
         return;
       }
@@ -1700,4 +1710,5 @@ void popdown_units_report()
     units_rep = reinterpret_cast<units_report*>(w);
     units_rep->deleteLater();
   }
+
 }
