@@ -274,7 +274,8 @@ void research_diagram::mousePressEvent(QMouseEvent *event)
                                   rttp->tech_id), HELP_TECH);
         } else if (rttp->timpr != nullptr) {
           popup_help_dialog_typed(improvement_name_translation(rttp->timpr),
-                                  HELP_IMPROVEMENT);
+                                  is_great_wonder(rttp->timpr) ? HELP_WONDER
+                                    : HELP_IMPROVEMENT);
         } else if (rttp->tunit != nullptr) {
           popup_help_dialog_typed(utype_name_translation(rttp->tunit),
                                   HELP_UNIT);
