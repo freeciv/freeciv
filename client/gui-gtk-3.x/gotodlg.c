@@ -139,15 +139,15 @@ static void create_goto_dialog(void)
   GtkTreeViewColumn *col;
 
   dshell = gtk_dialog_new_with_buttons(_("Goto/Airlift Unit"),
-    NULL,
-    0,
-    GTK_STOCK_CANCEL,
-    GTK_RESPONSE_CANCEL,
-    _("Air_lift"),
-    CMD_AIRLIFT,
-    _("_Goto"),
-    CMD_GOTO,
-    NULL);
+                                       NULL,
+                                       0,
+                                       _("Cancel"),
+                                       GTK_RESPONSE_CANCEL,
+                                       _("Air_lift"),
+                                       CMD_AIRLIFT,
+                                       _("_Goto"),
+                                       CMD_GOTO,
+                                       NULL);
   setup_dialog(dshell, toplevel);
   gtk_window_set_position(GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
   gtk_dialog_set_default_response(GTK_DIALOG(dshell), CMD_GOTO);

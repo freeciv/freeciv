@@ -1162,16 +1162,16 @@ static void create_city_report_dialog(bool make_modal)
   gtk_container_add(GTK_CONTAINER(city_dialog_shell->action_area),
                     city_total_buy_cost_label);
 
-  w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_EXECUTE,
-      _("_Buy"), CITY_BUY);
+  w = gui_dialog_add_button(city_dialog_shell, NULL,
+                            _("Buy"), CITY_BUY);
   city_buy_command = w;
 
-  w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_ZOOM_IN,
-      _("_Inspect"), CITY_POPUP);
+  w = gui_dialog_add_button(city_dialog_shell, NULL,
+                            _("Inspect"), CITY_POPUP);
   city_popup_command = w;
 
-  w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_ZOOM_FIT,
-      _("Cen_ter"), CITY_CENTER);
+  w = gui_dialog_add_button(city_dialog_shell, NULL,
+                            _("Center"), CITY_CENTER);
   city_center_command = w;
 
   gui_dialog_set_default_response(city_dialog_shell,

@@ -18,7 +18,6 @@
 /* utility */
 #include "shared.h"
 
-GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text);
 GtkWidget *icon_label_button_new(const gchar *icon_name,
                                  const gchar *label_text);
 void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text);
@@ -78,7 +77,7 @@ struct gui_dialog
   enum gui_dialog_type type;
   int id;
   int return_dialog_id;
-  
+
   int default_width;
   int default_height;
 
@@ -106,8 +105,6 @@ void gui_dialog_set_default_response(struct gui_dialog *dlg, int response);
 GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
                                  const char *icon_name,
                                  const char *text, int response);
-GtkWidget *gui_dialog_add_stockbutton(struct gui_dialog *dlg,
-    const char *stock, const char *text, int response);
 GtkWidget *gui_dialog_add_widget(struct gui_dialog *dlg,
 				 GtkWidget *widget);
 void gui_dialog_set_default_size(struct gui_dialog *dlg,

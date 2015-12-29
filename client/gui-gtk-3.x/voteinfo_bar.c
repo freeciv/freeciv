@@ -127,8 +127,8 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   gtk_widget_set_name(label, "vote label");
   vib->label = label;
 
-  arrow = gtk_image_new_from_stock(GTK_STOCK_MEDIA_REWIND,
-                                   GTK_ICON_SIZE_SMALL_TOOLBAR);
+  arrow = gtk_image_new_from_icon_name("media-seek-backward",
+                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_misc_set_alignment(GTK_MISC(arrow), 0.5, 0.25);
 
   if (split_bar) {
