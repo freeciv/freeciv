@@ -529,7 +529,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
           if (transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE,
                             !is_barbarian(pdest))) {
-            script_server_signal_emit("city_transfered", 4,
+            script_server_signal_emit("city_transferred", 4,
                                       API_TYPE_CITY, pcity,
                                       API_TYPE_PLAYER, pgiver,
                                       API_TYPE_PLAYER, pdest,

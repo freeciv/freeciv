@@ -1963,7 +1963,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   }
 
   if (city_remains) {
-    script_server_signal_emit("city_transfered", 4,
+    script_server_signal_emit("city_transferred", 4,
                               API_TYPE_CITY, pcity,
                               API_TYPE_PLAYER, cplayer,
                               API_TYPE_PLAYER, pplayer,

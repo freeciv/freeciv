@@ -192,7 +192,7 @@ function default_make_partisans_callback(city, loser, winner, reason)
       _("The loss of %s has inspired partisans!"), city.name)
 end
 
-signal.connect("city_transfered", "default_make_partisans_callback")
+signal.connect("city_transferred", "default_make_partisans_callback")
 
 
 -- Notify player about the fact that disaster had no effect if that is

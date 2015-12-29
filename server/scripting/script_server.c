@@ -388,10 +388,12 @@ static void script_server_signal_create(void)
                           API_TYPE_CITY, API_TYPE_PLAYER, API_TYPE_PLAYER);
 
   /* First player is former owner, second new one. */
-  luascript_signal_create(fcl_main, "city_transfered", 4,
-                          API_TYPE_CITY, API_TYPE_PLAYER, API_TYPE_PLAYER, API_TYPE_STRING);
+  luascript_signal_create(fcl_main, "city_transferred", 4,
+                          API_TYPE_CITY, API_TYPE_PLAYER, API_TYPE_PLAYER,
+                          API_TYPE_STRING);
 
-  /* Deprecated form of the 'city_transfered' signal for the case of conquest. */
+  /* Deprecated form of the 'city_transferred' signal for the case of
+   * conquest. */
   luascript_signal_create(fcl_main, "city_lost", 3,
                           API_TYPE_CITY, API_TYPE_PLAYER, API_TYPE_PLAYER);
 

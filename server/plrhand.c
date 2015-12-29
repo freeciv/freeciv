@@ -159,7 +159,7 @@ void kill_player(struct player *pplayer)
          and raze buildings according to raze chance (also removes palace) */
       if (transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE,
                         TRUE)) {
-        script_server_signal_emit("city_transfered", 4,
+        script_server_signal_emit("city_transferred", 4,
                                   API_TYPE_CITY, pcity,
                                   API_TYPE_PLAYER, pplayer,
                                   API_TYPE_PLAYER, pcity->original,
@@ -204,7 +204,7 @@ void kill_player(struct player *pplayer)
     city_list_iterate_safe(pplayer->cities, pcity) {
       if (transfer_city(barbarians, pcity, -1, FALSE, FALSE, FALSE,
                         FALSE)) {
-        script_server_signal_emit("city_transfered", 4,
+        script_server_signal_emit("city_transferred", 4,
                                   API_TYPE_CITY, pcity,
                                   API_TYPE_PLAYER, pplayer,
                                   API_TYPE_PLAYER, barbarians,
@@ -2749,7 +2749,7 @@ struct player *civil_war(struct player *pplayer)
                         _("%s declares allegiance to the %s."),
                         city_link(pcity),
                         nation_plural_for_player(cplayer));
-          script_server_signal_emit("city_transfered", 4,
+          script_server_signal_emit("city_transferred", 4,
                                   API_TYPE_CITY, pcity,
                                   API_TYPE_PLAYER, pplayer,
                                   API_TYPE_PLAYER, cplayer,
