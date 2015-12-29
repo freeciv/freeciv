@@ -424,6 +424,13 @@ int *secfile_lookup_int_vec(const struct section_file *secfile,
                             fc__warn_unused_result
                             fc__attribute((__format__ (__printf__, 3, 4)));
 
+bool secfile_lookup_float(const struct section_file *secfile, float *fval,
+                          const char *path, ...)
+                          fc__warn_unused_result
+                          fc__attribute((__format__ (__printf__, 3, 4)));
+float secfile_lookup_float_default(const struct section_file *secfile,
+                                   float def, const char *path, ...);
+
 const char *secfile_lookup_str(const struct section_file *secfile,
                                const char *path, ...)
                                fc__warn_unused_result
