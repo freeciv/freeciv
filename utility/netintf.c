@@ -262,7 +262,7 @@ void fc_nonblock(int sockfd)
 }
 
 /***************************************************************************
-  Write information about socaddr to debug log.
+  Write information about sockaddr to debug log.
 ***************************************************************************/
 void sockaddr_debug(union fc_sockaddr *addr, enum log_level lvl)
 {
