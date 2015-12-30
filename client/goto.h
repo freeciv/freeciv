@@ -52,6 +52,7 @@ void request_orders_cleared(struct unit *punit);
 void send_goto_path(struct unit *punit, struct pf_path *path,
 		    struct unit_order *last_order);
 bool send_goto_tile(struct unit *punit, struct tile *ptile);
+bool send_attack_tile(struct unit *punit, struct tile *ptile);
 void send_patrol_route(void);
 void send_goto_route(void);
 void send_connect_route(enum unit_activity activity,

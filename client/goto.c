@@ -1344,8 +1344,9 @@ void request_orders_cleared(struct unit *punit)
   Send a path as a goto or patrol route to the server.
 **************************************************************************/
 static void send_path_orders(struct unit *punit, struct pf_path *path,
-			     bool repeat, bool vigilant,
-			     struct unit_order *final_order)
+                             bool repeat, bool vigilant,
+                             enum unit_orders orders,
+                             struct unit_order *final_order)
 {
   struct packet_unit_orders p;
   int i;
@@ -1388,7 +1389,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
       p.action[i] = ACTION_COUNT;
       log_goto_packet("  packet[%d] = wait: %d,%d", i, TILE_XY(old_tile));
     } else {
-      p.orders[i] = ORDER_MOVE;
+      p.orders[i] = orders;
       p.dir[i] = get_direction_for_step(old_tile, new_tile);
       p.activity[i] = ACTIVITY_LAST;
       p.target[i] = EXTRA_NONE;
@@ -1445,7 +1446,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 void send_goto_path(struct unit *punit, struct pf_path *path,
 		    struct unit_order *final_order)
 {
-  send_path_orders(punit, path, FALSE, FALSE, final_order);
+  send_path_orders(punit, path, FALSE, FALSE, ORDER_MOVE, final_order);
 }
 
 /****************************************************************************
@@ -1472,6 +1473,32 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
   }
 }
 
+/****************************************************************************
+  Send orders for the unit to move it to the arbitrary tile and attack
+  everything it approaches. Returns FALSE if no path is found.
+****************************************************************************/
+bool send_attack_tile(struct unit *punit, struct tile *ptile)
+{
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct pf_path *path;
+
+  goto_fill_parameter_base(&parameter, punit);
+  parameter.move_rate = 0;
+  parameter.is_pos_dangerous = NULL;
+  parameter.get_moves_left_req = NULL;
+  pfm = pf_map_new(&parameter);
+  path = pf_map_path(pfm, ptile);
+  pf_map_destroy(pfm);
+
+  if (path) {
+   send_path_orders(punit, path, false, false, ORDER_ACTION_MOVE, NULL);
+   pf_path_destroy(path);
+   return TRUE;
+  }
+  return FALSE;
+}
+
 /**************************************************************************
   Send the current patrol route (i.e., the one generated via HOVER_STATE)
   to the server.
@@ -1494,7 +1521,7 @@ void send_patrol_route(void)
     }
     path = pf_path_concat(path, goto_map->patrol.return_path);
 
-    send_path_orders(punit, path, TRUE, TRUE, NULL);
+    send_path_orders(punit, path, TRUE, TRUE, ORDER_MOVE, NULL);
 
     pf_path_destroy(path);
   } goto_map_unit_iterate_end;
