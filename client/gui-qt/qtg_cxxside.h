@@ -53,6 +53,7 @@ void qtg_color_free(struct color *pcolor);
 struct canvas *qtg_canvas_create(int width, int height);
 void qtg_canvas_free(struct canvas *store);
 void qtg_canvas_set_zoom(struct canvas *store, float zoom);
+bool qtg_has_zoom_support();
 void qtg_canvas_copy(struct canvas *dest, struct canvas *src,
 		     int src_x, int src_y, int dest_x, int dest_y, int width,
 		     int height);

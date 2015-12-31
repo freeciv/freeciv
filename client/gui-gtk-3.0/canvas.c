@@ -56,6 +56,14 @@ void canvas_set_zoom(struct canvas *store, float zoom)
 }
 
 /****************************************************************************
+  This gui has zoom support.
+****************************************************************************/
+bool has_zoom_support(void)
+{
+  return TRUE;
+}
+
+/****************************************************************************
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
 void canvas_copy(struct canvas *dest, struct canvas *src,

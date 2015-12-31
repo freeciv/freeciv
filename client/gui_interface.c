@@ -210,6 +210,14 @@ void canvas_set_zoom(struct canvas *store, float zoom)
 }
 
 /**************************************************************************
+  Call has_zoom_support callback
+**************************************************************************/
+bool has_zoom_support(void)
+{
+  return funcs.has_zoom_support();
+}
+
+/**************************************************************************
   Call canvas_copy callback
 **************************************************************************/
 void canvas_copy(struct canvas *dest, struct canvas *src,

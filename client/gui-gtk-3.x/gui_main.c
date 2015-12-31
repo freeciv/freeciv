@@ -304,7 +304,8 @@ static void parse_options(int argc, char **argv)
     } else if ((option = get_option_malloc("--zoom", argv, &i, argc))) {
       char *endptr;
 
-      zoom_set(strtof(option, &endptr));
+      gui_options.zoom_set = TRUE;
+      gui_options.zoom_default_level = strtof(option, &endptr);
     } else if ((option = get_option_malloc("--resolution", argv, &i, argc))) {
       if (!string_to_video_mode(option, &vmode)) {
         fc_fprintf(stderr, _("Illegal video mode '%s'"), option);
@@ -312,6 +313,9 @@ static void parse_options(int argc, char **argv)
       }
     }
     /* Can't check against unknown options, as those might be gtk options */
+    /* TODO: gtk+ is about to drop its commandline options anyway,
+     *       so we can stop supporting them and have error checking
+     *       added here. */
 
     i++;
   }

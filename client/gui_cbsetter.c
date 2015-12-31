@@ -67,6 +67,7 @@ void setup_gui_funcs()
   funcs->canvas_create = gui_canvas_create;
   funcs->canvas_free = gui_canvas_free;
   funcs->canvas_set_zoom = gui_canvas_set_zoom;
+  funcs->has_zoom_support = gui_has_zoom_support;
   funcs->canvas_copy = gui_canvas_copy;
   funcs->canvas_put_sprite = gui_canvas_put_sprite;
   funcs->canvas_put_sprite_full = gui_canvas_put_sprite_full;

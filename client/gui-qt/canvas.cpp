@@ -54,6 +54,14 @@ void qtg_canvas_set_zoom(struct canvas *store, float zoom)
 }
 
 /****************************************************************************
+  This gui has zoom support.
+****************************************************************************/
+bool qtg_has_zoom_support()
+{
+  return FALSE;
+}
+
+/****************************************************************************
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
 void qtg_canvas_copy(struct canvas *dest, struct canvas *src,
