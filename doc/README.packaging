@@ -29,6 +29,9 @@ Updating from 2.6 to 3.0
 * Sdl-client has been dropped completely
 * Minimum libcurl version is now 7.15.4
 * Minimum libtool version is now 2.2
+* Added gtk3x-client. The difference between gtk3-client and gtk3x-client is
+  that latter is adjusted for, and depends on, as new gtk3 version as
+  possible. Once gtk4 gets released, this client is turned to gtk4-client.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
@@ -128,7 +131,7 @@ Building multiple clients at once
 ---------------------------------
 Starting from 2.2 it has been possible to build multiple clients running
 'make' just once. Just give configure option "--enable-client" comma
-separated list of clients to compile, e.g. "--enable-client=gtk3,gtk2,sdl2,qt"
+separated list of clients to compile, e.g. "--enable-client=gtk3,gtk2,gtk3x,sdl2,qt"
 
 ----------------------------------------------------------------------
 Savegame compression support
