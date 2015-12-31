@@ -138,7 +138,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   }
 
   button = gtk_button_new();
-  gtk_widget_set_margin_right(button, 16);
+  gtk_widget_set_margin_end(button, 16);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_next_callback), NULL);
   gtk_button_set_image(GTK_BUTTON(button), arrow);

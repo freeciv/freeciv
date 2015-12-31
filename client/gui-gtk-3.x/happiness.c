@@ -234,7 +234,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 
     /* list of citizens */
     ebox = gtk_event_box_new();
-    gtk_widget_set_margin_left(ebox, 5);
+    gtk_widget_set_margin_start(ebox, 5);
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
     g_object_set_data(G_OBJECT(ebox), "pdialog", pdialog);
     g_signal_connect(ebox, "button_press_event",

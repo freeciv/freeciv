@@ -753,7 +753,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
       default:
         break;
     }
-    gtk_widget_set_margin_right(label, 5);
+    gtk_widget_set_margin_end(label, 5);
     gtk_widget_set_name(label, "city_label");	/* for font style? */
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
     gtk_grid_attach(GTK_GRID(table), label, 0, i, 1, 1);
