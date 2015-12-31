@@ -70,7 +70,7 @@ static void sanity_check_size(size_t size, const char *called_as,
   always return a valid pointer (even for a 0-byte malloc).
 *******************************************************************************/ 
 void *fc_real_malloc(size_t size,
-		     const char *called_as, int line, const char *file)
+                     const char *called_as, int line, const char *file)
 {
   void *ptr;
 
@@ -79,12 +79,15 @@ void *fc_real_malloc(size_t size,
   /* Some systems return NULL on malloc(0)
    * According to ANSI C, the return is implementation-specific, 
    * this is a safe guard. Having the extra byte is, of course, harmless. */
+#ifndef MALLOC_ZERO_OK
   size = MAX(size, 1);
-    
+#endif
+
   ptr = malloc(size);
-  if (!ptr) {
+  if (ptr == NULL) {
     handle_alloc_failure(size, called_as, line, file);
   }
+
   return ptr;
 }
 
