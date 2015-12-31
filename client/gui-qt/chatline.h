@@ -43,6 +43,7 @@ public:
   QLineEdit *chat_line;
   void make_link(struct tile *ptile);
   void update_font();
+  void update_widgets();
 private slots:
   void send();
   void state_changed(int state);
