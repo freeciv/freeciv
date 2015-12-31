@@ -542,8 +542,9 @@ void qtg_real_output_window_append(const char *astring,
   }
 
   /* Play sound if we encountered wakeup string */
-  if (str.contains(wakeup) && client_state() < C_S_RUNNING) {
-    audio_play_sound(get_event_tag(E_IMP_SOLD), NULL);
+  if (str.contains(wakeup) && client_state() < C_S_RUNNING
+      && !wakeup.isEmpty()) {
+    audio_play_sound("e_player_wake", NULL);
   }
   gui()->append_output_window(apply_tags(str, tags, false));
   if (gui()->infotab != NULL) {

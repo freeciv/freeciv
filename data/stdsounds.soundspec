@@ -7,7 +7,8 @@ artists = "\
  FreeCol - [fcol]\
  OpenQuartz - Ali Jackson (alister667@hotmail.com) [ali]\
  OpenQuartz - Frank Condello (pox@planetquake.com) [pox]\
- Warzone - Eidos Entertainment (GPL release) [warzone]"
+ Warzone - Eidos Entertainment (GPL release) [warzone]\
+ Eskapada - eskapada@o2.pl (Public Domain) [jt]"
 
 ; For a list of tags used see README.sound, buildings.ruleset and
 ; units.ruleset.
@@ -324,5 +325,6 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_unit_illegal_action = ""
 ;e_spontaneous_extra = ""
 
-; This pseudo-event is only used in the sound system.
+; Those pseudo-events are only used in the sound system.
 ;e_game_quit = ""
+e_player_wake = "stdsounds/wakeup.ogg" ; [jt]
