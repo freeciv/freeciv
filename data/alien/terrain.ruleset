@@ -513,9 +513,6 @@ city can never be located on Boiling Ocean.\
 ; Notes:
 ;
 ; extra                = name of the extra this resource section is part of
-; graphic              = preferred graphic [tile_*] in tilespec.
-; graphic_alt          = alternate graphic [tile_*] when preferred is not found;
-;                        otherwise may be "-"
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each resource, and changing it will
 ;                        break savegame compatibility.
@@ -525,8 +522,6 @@ city can never be located on Boiling Ocean.\
 
 [resource_resources]
 extra       = "Resources"
-graphic     = "ts.resources"
-graphic_alt = "ts.grassland_resources"
 food        = 0
 shield      = 1
 trade       = 1
@@ -534,8 +529,6 @@ identifier  = "r"
 
 [resource_alien_mine]
 extra       = "Alien Mine"
-graphic     = "ts.alien_mine"
-graphic_alt = "ts.gold"
 food        = 0
 shield      = 2
 trade       = 1
@@ -543,8 +536,6 @@ identifier  = "a"
 
 [resource_huge_plant]
 extra       = "Huge Plant"
-graphic     = "ts.huge_plant"
-graphic_alt = "ts.pheasant"
 food        = 2
 shield      = 0
 trade       = 0
@@ -552,8 +543,6 @@ identifier  = "p"
 
 [resource_thermal_vent]
 extra       = "Thermal Vent"
-graphic     = "ts.thermal_vent"
-graphic_alt = "ts.whales"
 food        = 0
 shield      = 5
 trade       = 0
@@ -561,8 +550,6 @@ identifier  = "t"
 
 [resource_fish]
 extra       = "Fish"
-graphic     = "ts.fish"
-graphic_alt = "-"
 food        = 2
 shield      = 0
 trade       = 0
@@ -570,8 +557,6 @@ identifier  = "f"
 
 [resource_glowing_rocks]
 extra       = "Glowing Rocks"
-graphic     = "ts.glowing_rocks"
-graphic_alt = "ts.spice"
 food        = 0
 shield      = 2
 trade       = 2
@@ -1054,8 +1039,8 @@ name           = _("Resources")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
-graphic_alt    = "-"
+graphic        = "ts.resources"
+graphic_alt    = "ts.grassland_resources"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -1066,8 +1051,8 @@ name           = _("Alien Mine")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
-graphic_alt    = "-"
+graphic        = "ts.alien_mine"
+graphic_alt    = "ts.gold"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -1078,8 +1063,8 @@ name           = _("Huge Plant")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
-graphic_alt    = "-"
+graphic        = "ts.huge_plant"
+graphic_alt    = "ts.pheasant"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -1090,8 +1075,8 @@ name           = _("Thermal Vent")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
-graphic_alt    = "-"
+graphic        = "ts.thermal_vent"
+graphic_alt    = "ts.whales"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
@@ -1102,7 +1087,7 @@ name           = _("Fish")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.fish"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1114,8 +1099,8 @@ name           = _("Glowing Rocks")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
-graphic_alt    = "-"
+graphic        = "ts.glowing_rocks"
+graphic_alt    = "ts.spice"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"

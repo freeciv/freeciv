@@ -42,8 +42,6 @@ enum special_river_move {
 
 struct resource_type {
   int item_number;
-  char graphic_str[MAX_LEN_NAME];
-  char graphic_alt[MAX_LEN_NAME];
 
   char identifier; /* Single-character identifier used in savegames. */
 #define RESOURCE_NULL_IDENTIFIER '\0'

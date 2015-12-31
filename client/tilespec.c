@@ -238,8 +238,6 @@ struct named_sprites {
     struct sprite *facing[U_LAST][DIR8_MAGIC_MAX]; 
   } units;
 
-  struct sprite *resource[MAX_RESOURCE_TYPES];
-
   struct sprite_vector nation_flag;
   struct sprite_vector nation_shield;
 
@@ -1267,9 +1265,6 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
   terrain_type_iterate(pterrain) {
     tileset_setup_tile_type(tileset, pterrain);
   } terrain_type_iterate_end;
-  resource_type_iterate(presource) {
-    tileset_setup_resource(tileset, presource);
-  } resource_type_iterate_end;
   unit_type_iterate(punittype) {
     tileset_setup_unit_type(tileset, punittype);
   } unit_type_iterate_end;
@@ -3167,20 +3162,6 @@ void tileset_setup_tech_type(struct tileset *t,
 }
 
 /****************************************************************************
-  Set resource sprite values; should only happen after
-  tilespec_load_tiles().
-****************************************************************************/
-void tileset_setup_resource(struct tileset *t,
-                            const struct resource_type *presource)
-{
-  fc_assert_ret(NULL != presource);
-  t->sprites.resource[resource_index(presource)] =
-    tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, presource->graphic_str,
-                                presource->graphic_alt, "resource",
-                                resource_rule_name(presource));
-}
-
-/****************************************************************************
   Set extra sprite values; should only happen after
   tilespec_load_tiles().
 ****************************************************************************/
@@ -3202,6 +3183,13 @@ void tileset_setup_extra(struct tileset *t,
       tileset_error(LOG_FATAL, _("No extrastyle for \"%s\" or \"%s\"."),
                     pextra->graphic_str,
                     pextra->graphic_alt);
+    }
+
+    if (is_extra_caused_by(pextra, EC_RESOURCE) && extrastyle != ESTYLE_SINGLE1) {
+      tileset_error(LOG_FATAL,
+                    /* Not translated as this should go away before next release. */
+                    "Extrastyle \"%s\" given for resource \"%s\", only \"Single1\" supported.",
+                    extrastyle_id_name(extrastyle));
     }
 
     t->sprites.extras[id].extrastyle = extrastyle;
@@ -5023,6 +5011,11 @@ static bool is_extra_drawing_enabled(struct extra_type *pextra)
       return FALSE;
     }
   }
+  if (is_extra_caused_by(pextra, EC_RESOURCE)) {
+    if (!gui_options.draw_specials) {
+      return FALSE;
+    }
+  }
   if (is_extra_caused_by(pextra, EC_HUT)) {
     if (!gui_options.draw_huts) {
       return FALSE;
@@ -5241,12 +5234,6 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_SPECIAL1:
     if (NULL != pterrain) {
-      if (gui_options.draw_specials) {
-	if (tile_resource_is_valid(ptile)) {
-	  ADD_SPRITE_SIMPLE(t->sprites.resource[resource_index(tile_resource(ptile))]);
-	}
-      }
-
       if (ptile) {
         extra_type_list_iterate(t->style_lists[ESTYLE_3LAYER], pextra) {
           if (tile_has_extra(ptile, pextra)
@@ -6270,7 +6257,7 @@ struct sprite *get_resource_sprite(const struct tileset *t,
     return NULL;
   }
 
-  return t->sprites.resource[resource_index(presource)];
+  return t->sprites.extras[presource->self->id].u.single;
 }
 
 /****************************************************************************

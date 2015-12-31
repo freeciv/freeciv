@@ -398,7 +398,7 @@ static bool manual_command(void)
         for (r = pterrain->resources; *r; r++) {
           fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>"
                   "<td align=\"right\">%d/%d/%d</td></tr>\n",
-                  (*r)->graphic_str,
+                  (*r)->self->graphic_str,
                   resource_name_translation(*r),
                   (*r)->output[O_FOOD],
                   (*r)->output[O_SHIELD],

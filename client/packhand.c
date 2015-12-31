@@ -3520,14 +3520,9 @@ void handle_ruleset_resource(const struct packet_ruleset_resource *p)
 
   presource = resource_type_init(extra_by_number(p->extra), p->id);
 
-  sz_strlcpy(presource->graphic_str, p->graphic_str);
-  sz_strlcpy(presource->graphic_alt, p->graphic_alt);
-
   output_type_iterate(o) {
     presource->output[o] = p->output[o];
   } output_type_iterate_end;
-
-  tileset_setup_resource(tileset, presource);
 }
 
 /****************************************************************************

@@ -1912,8 +1912,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       }
     } output_type_iterate_end;
 
-    secfile_insert_str(sfile, pres->graphic_str, "%s.graphic", path);
-    secfile_insert_str(sfile, pres->graphic_alt, "%s.graphic_alt", path);
     identifier[0] = pres->identifier;
     identifier[1] = '\0';
     secfile_insert_str(sfile, identifier, "%s.identifier", path);

@@ -637,9 +637,6 @@ Tundra are broad, cold regions, fit for some agriculture and little\
 ; Notes:
 ;
 ; extra                = name of the extra this resource section is part of
-; graphic              = preferred graphic [tile_*] in tilespec.
-; graphic_alt          = alternate graphic [tile_*] when preferred is not found;
-;                        otherwise may be "-"
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each resource, and changing it will
 ;                        break savegame compatibility.
@@ -657,72 +654,54 @@ trade       = 6
 
 [resource_game]
 extra       = "Game"
-graphic     = "ts.tundra_game"
-graphic_alt = "-"
 identifier  = "A"
 food        = 2
 # forest, tundra.
 
 [resource_coal]
 extra       = "Coal"
-graphic     = "ts.coal"
-graphic_alt = "-"
 identifier  = "C"
 shield      = 2
 # hills.
 
 [resource_fish]
 extra       = "Fish"
-graphic     = "ts.fish"
-graphic_alt = "-"
 identifier  = "F"
 food        = 2
 # ocean.
 
 [resource_gems]
 extra       = "Gems"
-graphic     = "ts.gems"
-graphic_alt = "-"
 identifier  = "G"
 trade       = 4
 # jungle.
 
 [resource_horses]
 extra       = "Horses"
-graphic     = "ts.horses"
-graphic_alt = "-"
 identifier  = "I"
 shield      = 2
 # plains (horses => buffalo => cattle).
 
 [resource_oasis]
 extra       = "Oasis"
-graphic     = "ts.oasis"
-graphic_alt = "-"
 identifier  = "O"
 food        = 3
 # desert.
 
 [resource_swamp_oil]
 extra       = "Oil"
-graphic     = "ts.oil"
-graphic_alt = "-"
 identifier  = "P"
 shield      = 4
 # swamp (petroleum => peat => petroleum).
 
 [resource_bonus]
 extra       = "Resources"
-graphic     = "ts.grassland_resources"
-graphic_alt = "-"
 identifier  = "R"
 shield      = 1
 # grassland.
 
 [resource_seals]
 extra       = "Seals"
-graphic     = "ts.seals"
-graphic_alt = "-"
 identifier  = "S"
 food        = 2
 # arctic (seals => walrus).
@@ -1028,7 +1007,7 @@ name           = _("Gold")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.gold"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1040,7 +1019,7 @@ name           = _("?animals:Game")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.tundra_game"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1052,7 +1031,7 @@ name           = _("Coal")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.coal"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1064,7 +1043,7 @@ name           = _("Fish")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.fish"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1076,7 +1055,7 @@ name           = _("Gems")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.gems"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1088,7 +1067,7 @@ name           = _("Horses")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.horses"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1100,7 +1079,7 @@ name           = _("Oasis")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.oasis"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1112,7 +1091,7 @@ name           = _("Oil")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.oil"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1124,7 +1103,7 @@ name           = _("Resources")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.grassland_resources"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1136,7 +1115,7 @@ name           = _("Seals")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.seals"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"

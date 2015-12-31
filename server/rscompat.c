@@ -625,7 +625,7 @@ void rscompat_goods_3_0(void)
 /**************************************************************************
   Create extra equivalent for resource
 **************************************************************************/
-struct extra_type *rscompat_extra_from_resource_3_0(const char *sec_name)
+struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile, const char *sec_name)
 {
   if (game.control.num_extra_types >= MAX_EXTRA_TYPES) {
     ruleset_error(LOG_ERROR, "Can't convert resource from %s to an extra. No free slots.",
@@ -636,8 +636,10 @@ struct extra_type *rscompat_extra_from_resource_3_0(const char *sec_name)
     pextra->category = ECAT_RESOURCE;
     extra_to_caused_by_list(pextra, EC_RESOURCE);
     pextra->causes |= (1 << EC_RESOURCE);
-    strcpy(pextra->graphic_str, "None");
-    strcpy(pextra->graphic_alt, "-");
+
+    strcpy(pextra->graphic_str, secfile_lookup_str_default(sfile, "None", "%s.graphic", sec_name));
+    strcpy(pextra->graphic_alt, secfile_lookup_str_default(sfile, "-", "%s.graphic_alt", sec_name));
+
     strcpy(pextra->activity_gfx, "None");
     strcpy(pextra->act_gfx_alt, "-");
     strcpy(pextra->rmact_gfx, "None");

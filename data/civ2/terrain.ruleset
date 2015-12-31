@@ -631,9 +631,6 @@ Tundra are broad, cold regions, fit for some agriculture and little\
 ; Notes:
 ;
 ; extra                = name of the extra this resource section is part of
-; graphic              = preferred graphic [tile_*] in tilespec.
-; graphic_alt          = alternate graphic [tile_*] when preferred is not found;
-;                        otherwise may be "-"
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each resource, and changing it will
 ;                        break savegame compatibility.
@@ -643,24 +640,18 @@ Tundra are broad, cold regions, fit for some agriculture and little\
 
 [resource_gold]
 extra       = "Gold"
-graphic     = "ts.gold"
-graphic_alt = "-"
 identifier  = "$"
 trade       = 6
 # mountains.
 
 [resource_iron]
 extra       = "Iron"
-graphic     = "ts.iron"
-graphic_alt = "-"
 identifier  = "/"
 shield      = 3
 # mountains.
 
 [resource_game]
 extra       = "Game"
-graphic     = "ts.tundra_game"
-graphic_alt = "-"
 identifier  = "e"
 food        = 2
 shield      = 1
@@ -668,8 +659,6 @@ shield      = 1
 
 [resource_furs]
 extra       = "Furs"
-graphic     = "ts.furs"
-graphic_alt = "-"
 identifier  = "u"
 food        = 1
 trade       = 3
@@ -677,8 +666,6 @@ trade       = 3
 
 [resource_coal]
 extra       = "Coal"
-graphic     = "ts.coal"
-graphic_alt = "-"
 identifier  = "c"
 shield      = 2
 # hills.
@@ -689,16 +676,12 @@ shield      = 2
 
 [resource_fish]
 extra       = "Fish"
-graphic     = "ts.fish"
-graphic_alt = "-"
 identifier  = "y"
 food        = 2
 # ocean.
 
 [resource_fruit]
 extra       = "Fruit"
-graphic     = "ts.fruit"
-graphic_alt = "-"
 identifier  = "f"
 food        = 3
 trade       = 1
@@ -706,64 +689,48 @@ trade       = 1
 
 [resource_gems]
 extra       = "Gems"
-graphic     = "ts.gems"
-graphic_alt = "-"
 identifier  = "g"
 trade       = 4
 # jungle.
 
 [resource_buffalo]
 extra       = "Buffalo"
-graphic     = "ts.buffalo"
-graphic_alt = "-"
 identifier  = "b"
 shield      = 2
 # plains (horses => buffalo => cattle).
 
 [resource_wheat]
 extra       = "Wheat"
-graphic     = "ts.wheat"
-graphic_alt = "-"
 identifier  = "j"
 food        = 2
 # plains.
 
 [resource_oasis]
 extra       = "Oasis"
-graphic     = "ts.oasis"
-graphic_alt = "-"
 identifier  = "o"
 food        = 3
 # desert.
 
 [resource_peat]
 extra       = "Peat"
-graphic     = "ts.peat"
-graphic_alt = "-"
 identifier  = "a"
 shield      = 4
 # swamp (petroleum => peat => petroleum).
 
 [resource_pheasant]
 extra       = "Pheasant"
-graphic     = "ts.pheasant"
-graphic_alt = "-"
 identifier  = "p"
 food        = 2
 # forest.
 
 [resource_bonus]
 extra       = "Resources"
-graphic     = "ts.grassland_resources"
-graphic_alt = "-"
 identifier  = "r"
 shield      = 1
 # grassland.
 
 [resource_icy_ivory]
 extra       = "Ivory"
-graphic     = "ts.arctic_ivory"
-graphic_alt = "-"
 identifier  = "i"
 food        = 1
 shield      = 1
@@ -772,16 +739,12 @@ trade       = 4
 
 [resource_silk]
 extra       = "Silk"
-graphic     = "ts.silk"
-graphic_alt = "-"
 identifier  = "s"
 trade       = 3
 # forest.
 
 [resource_spice]
 extra       = "Spice"
-graphic     = "ts.spice"
-graphic_alt = "-"
 identifier  = "t"
 food        = 2
 trade       = 4
@@ -789,8 +752,6 @@ trade       = 4
 
 [resource_whales]
 extra       = "Whales"
-graphic     = "ts.whales"
-graphic_alt = "-"
 identifier  = "v"
 food        = 1
 shield      = 1
@@ -798,24 +759,18 @@ shield      = 1
 
 [resource_wine]
 extra       = "Wine"
-graphic     = "ts.wine"
-graphic_alt = "-"
 identifier  = "w"
 trade       = 4
 # hilly.
 
 [resource_icy_oil]
 extra       = "Icy Oil"
-graphic     = "ts.oil"
-graphic_alt = "-"
 identifier  = "x"
 shield      = 4
 # glacier-only.
 
 [resource_desert_oil]
 extra       = "Oil"
-graphic     = "ts.oil"
-graphic_alt = "-"
 identifier  = "P"
 shield      = 3
 # desert-only, special processing, see savegame map_load().
@@ -1173,7 +1128,7 @@ name           = _("Gold")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.gold"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1185,7 +1140,7 @@ name           = _("Iron")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.iron"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1197,7 +1152,7 @@ name           = _("?animals:Game")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.tundra_game"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1209,7 +1164,7 @@ name           = _("Furs")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.furs"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1221,7 +1176,7 @@ name           = _("Coal")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.coal"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1233,7 +1188,7 @@ name           = _("Fish")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.fish"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1245,7 +1200,7 @@ name           = _("Fruit")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.fruit"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1257,7 +1212,7 @@ name           = _("Gems")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.gems"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1269,7 +1224,7 @@ name           = _("Buffalo")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.buffalo"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1281,7 +1236,7 @@ name           = _("Wheat")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.wheat"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1293,7 +1248,7 @@ name           = _("Oasis")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.oasis"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1305,7 +1260,7 @@ name           = _("Peat")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.peat"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1317,7 +1272,7 @@ name           = _("Pheasant")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.pheasant"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1329,7 +1284,7 @@ name           = _("Resources")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.grassland_resources"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1341,7 +1296,7 @@ name           = _("Ivory")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.arctic_ivory"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1353,7 +1308,7 @@ name           = _("Silk")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.silk"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1365,7 +1320,7 @@ name           = _("Spice")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.spice"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1377,7 +1332,7 @@ name           = _("Whales")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.whales"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1389,7 +1344,7 @@ name           = _("Wine")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.wine"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1402,7 +1357,7 @@ rule_name      = "Icy Oil"
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.oil"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
@@ -1414,7 +1369,7 @@ name           = _("Oil")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.oil"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"

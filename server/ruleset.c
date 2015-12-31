@@ -2445,7 +2445,7 @@ static bool load_terrain_names(struct section_file *file,
       resource_name = secfile_lookup_str_default(file, NULL, "%s.extra", sec_name);
       if (resource_name == NULL) {
         if (compat->compat_mode) {
-          struct extra_type *pextra_res = rscompat_extra_from_resource_3_0(sec_name);
+          struct extra_type *pextra_res = rscompat_extra_from_resource_3_0(file, sec_name);
 
           if (pextra_res != NULL) {
             ruleset_load_names(&pextra_res->name, NULL, file, sec_name);
@@ -2797,10 +2797,6 @@ static bool load_ruleset_terrain(struct section_file *file,
 	  secfile_lookup_int_default(file, 0, "%s.%s", rsection,
                                      get_output_identifier(o));
       } output_type_iterate_end;
-      sz_strlcpy(presource->graphic_str,
-                 secfile_lookup_str(file,"%s.graphic", rsection));
-      sz_strlcpy(presource->graphic_alt,
-                 secfile_lookup_str(file,"%s.graphic_alt", rsection));
 
       sz_strlcpy(identifier,
                  secfile_lookup_str(file,"%s.identifier", rsection));
@@ -6573,9 +6569,6 @@ static void send_ruleset_resources(struct conn_list *dest)
   resource_type_iterate (presource) {
     packet.id = resource_number(presource);
     packet.extra = extra_index(resource_extra_get(presource));
-
-    sz_strlcpy(packet.graphic_str, presource->graphic_str);
-    sz_strlcpy(packet.graphic_alt, presource->graphic_alt);
 
     output_type_iterate(o) {
       packet.output[o] = presource->output[o];

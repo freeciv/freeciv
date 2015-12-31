@@ -252,9 +252,6 @@ This is only possible oceanic terrain.\
 ; Notes:
 ;
 ; extra                = name of the extra this resource section is part of
-; graphic              = preferred graphic [tile_*] in tilespec.
-; graphic_alt          = alternate graphic [tile_*] when preferred is not found;
-;                        otherwise may be "-"
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each resource, and changing it will
 ;                        break savegame compatibility.
@@ -264,8 +261,6 @@ This is only possible oceanic terrain.\
 
 [resource_generic]
 extra       = "Generic Resource"
-graphic     = "ts.grassland_resources"
-graphic_alt = "-"
 food        = 0
 shield      = 0
 trade       = 1
@@ -434,7 +429,7 @@ name           = _("Generic Resource")
 category       = "Resource"
 causes         = "Resource"
 ;rmcauses       = ""
-graphic        = "None"
+graphic        = "ts.grassland_resources"
 graphic_alt    = "-"
 activity_gfx   = "None"
 act_gfx_alt    = "-"
