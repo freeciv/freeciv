@@ -68,6 +68,14 @@ void canvas_set_zoom(struct canvas *store, float zoom)
   /* sdl2-client has no zoom support */
 }
 
+/****************************************************************************
+  This gui has zoom support.
+****************************************************************************/
+bool has_zoom_support(void)
+{
+  return FALSE;
+}
+
 /**************************************************************************
   Copies an area from the source canvas to the destination canvas.
 **************************************************************************/

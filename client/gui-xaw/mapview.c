@@ -127,6 +127,14 @@ void canvas_set_zoom(struct canvas *store, float zoom)
 }
 
 /****************************************************************************
+  This gui has zoom support.
+****************************************************************************/
+bool has_zoom_support(void)
+{
+  return FALSE;
+}
+
+/****************************************************************************
   Return a canvas that is the overview window.
 ****************************************************************************/
 struct canvas *get_overview_window(void)

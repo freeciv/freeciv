@@ -25,6 +25,7 @@
 #include "player.h"
 
 /* client/include */
+#include "canvas_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
 #include "dialogs_g.h"
@@ -38,6 +39,8 @@
 /* client */
 #include "client_main.h"
 #include "connectdlg_common.h"
+#include "options.h"
+#include "zoom.h"
 
 #include "update_queue.h"
 
@@ -472,7 +475,19 @@ void update_queue_connect_processing_finished_full(int request_id,
 ****************************************************************************/
 static void set_client_page_callback(void *data)
 {
-  real_set_client_page(FC_PTR_TO_INT(data));
+  enum client_pages page = FC_PTR_TO_INT(data);
+
+  real_set_client_page(page);
+
+  if (page == PAGE_GAME) {
+    if (has_zoom_support()) {
+      if (gui_options.zoom_set) {
+        zoom_set(gui_options.zoom_default_level);
+      } else {
+        zoom_1_0();
+      }
+    }
+  }
 }
 
 /****************************************************************************
