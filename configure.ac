@@ -84,6 +84,27 @@ dnl Sed is needed for the configuration
 dnl of the clients, database setting and the mapimg toolkits.
 AC_PROG_SED
 
+AC_CACHE_CHECK([for malloc(0) return value], [fc_cv_malloc_zero_ok], [
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <stdlib.h>
+
+int
+main()
+{
+  void *allocation = malloc(0);
+
+  if (allocation != NULL) {
+    free(allocation);
+  }
+
+  return (allocation == NULL);
+}
+]])], [fc_cv_malloc_zero_ok=true], [fc_cv_malloc_zero_ok=false], [fc_cv_malloc_zero_ok=false])])
+
+if test "x$fc_cv_malloc_zero_ok" = "xtrue" ; then
+  AC_DEFINE([MALLOC_ZERO_OK], [1], [It's ok to call malloc() for zero bytes])
+fi
+
 dnl set default values
 fcdb_all=no
 fcdb_mysql=no
