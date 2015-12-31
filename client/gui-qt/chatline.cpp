@@ -24,6 +24,7 @@
 #include "climisc.h"      /* for write_chatline_content */
 #include "climap.h"
 #include "control.h"
+#include "connectdlg_common.h"
 #include "game.h"
 
 // gui-qt
@@ -263,6 +264,19 @@ void chatwdg::update_font()
   chat_output->setFont(*qf);
 }
 
+/***************************************************************************
+  Hides allies and links button for local game
+***************************************************************************/
+void chatwdg::update_widgets()
+{
+  if (is_server_running()) {
+    cb->hide();
+    remove_links->hide();
+  } else {
+    cb->show();
+    remove_links->show();
+  }
+}
 
 /***************************************************************************
   Makes link to tile/unit or city
