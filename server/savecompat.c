@@ -603,6 +603,7 @@ static void compat_load_020600(struct loaddata *loading)
   bool team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
   int tsize;
   int ti;
+  int turn;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -824,6 +825,8 @@ static void compat_load_020600(struct loaddata *loading)
   sg_failure_ret(secfile_lookup_int(loading->file, &tsize, "savefile.trait_size"),
                  "Trait size: %s", secfile_error());
 
+  turn = secfile_lookup_int_default(loading->file, 0, "game.turn");
+
   for (plrno = 0; plrno < nplayers; plrno++) {
     bool got_first_city;
     int old_barb_type;
@@ -854,6 +857,13 @@ static void compat_load_020600(struct loaddata *loading)
     new_barb_type = barb_type_convert(old_barb_type);
     secfile_insert_str(loading->file, barbarian_type_name(new_barb_type),
                        "player%d.ai.barb_type", plrno);
+
+    /* Pre-2.6 didn't record when a player was created or died, so we have
+     * to assume they lived from the start of the game until last turn */
+    secfile_insert_int(loading->file, turn, "player%d.turns_alive", plrno);
+
+    /* As if there never has been a war. */
+    secfile_insert_int(loading->file, -1, "player%d.last_war", plrno); 
 
     for (i = 0; i < tsize; i++) {
       int val;

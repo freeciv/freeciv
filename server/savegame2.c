@@ -2945,13 +2945,12 @@ static void sg_load_player_main(struct loaddata *loading,
   sg_failure_ret(secfile_lookup_bool(loading->file, &plr->is_alive,
                                      "player%d.is_alive", plrno),
                  "%s", secfile_error());
-  /* Pre-2.6 didn't record when a player was created or died, so we have
-   * to assume they lived from the start of the game until last turn */
-  plr->turns_alive = secfile_lookup_int_default(loading->file,
-                                                game.info.turn,
-                                                "player%d.turns_alive", plrno);
-  plr->last_war_action = secfile_lookup_int_default(loading->file, -1,
-                                                    "player%d.last_war", plrno);
+  sg_failure_ret(secfile_lookup_int(loading->file, &plr->turns_alive,
+                                    "player%d.turns_alive", plrno),
+                 "%s", secfile_error());
+  sg_failure_ret(secfile_lookup_int(loading->file, &plr->last_war_action,
+                                    "player%d.last_war", plrno),
+                 "%s", secfile_error());
   plr->phase_done = secfile_lookup_bool_default(loading->file, FALSE,
                                                 "player%d.phase_done", plrno);
   sg_failure_ret(secfile_lookup_int(loading->file, &plr->economic.gold,
