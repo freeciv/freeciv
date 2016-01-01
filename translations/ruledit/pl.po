@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-25 08:07+0200\n"
+"POT-Creation-Date: 2015-12-09 01:02+0200\n"
 "PO-Revision-Date: 2015-02-09 15:10+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: polski <hubkow@gmail.com>\n"
@@ -26,24 +26,41 @@ msgstr "Zamknij"
 msgid "Needed by %s"
 msgstr "Wymagane przez %s"
 
-#: tools/ruledit/ruledit.cpp:118
+#: tools/ruledit/ruledit.cpp:132
 msgid "Print a summary of the options"
 msgstr "Pokaż podsumowanie opcji"
 
-#: tools/ruledit/ruledit.cpp:120
+#: tools/ruledit/ruledit.cpp:134
 msgid "Print the version number"
 msgstr "Pokaż nazwę wersji"
 
-#: tools/ruledit/ruledit.cpp:134
+#. TRANS: argument (don't translate) VALUE (translate)
+#: tools/ruledit/ruledit.cpp:137
+#, fuzzy
+#| msgid "source RULESET"
+msgid "ruleset RULESET"
+msgstr "source ZESTAW-ZASAD"
+
+#: tools/ruledit/ruledit.cpp:138
+#, fuzzy
+#| msgid "Give ruleset to use as starting point."
+msgid "Ruleset to use as the starting point."
+msgstr "Podaj zestaw zasad będący punktem wyjścia"
+
+#: tools/ruledit/ruledit.cpp:151
+msgid "Can only edit one ruleset at a time.\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:158
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:60
+#: tools/ruledit/ruledit_qt.cpp:62
 msgid "Freeciv Ruleset Editor"
 msgstr "Edytor zestawu zasad Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:127
+#: tools/ruledit/ruledit_qt.cpp:129
 #, c-format
 msgid ""
 "%s%s\n"
@@ -52,45 +69,53 @@ msgstr ""
 "%s%s\n"
 "łatka: %s"
 
-#: tools/ruledit/ruledit_qt.cpp:142
+#: tools/ruledit/ruledit_qt.cpp:144
 msgid "Give ruleset to use as starting point."
 msgstr "Podaj zestaw zasad będący punktem wyjścia"
 
-#: tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:156
 msgid "Start editing"
 msgstr "Tryb edycji"
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:166
 msgid "Misc"
 msgstr "Różne"
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:168
 msgid "Tech"
 msgstr "Technologia"
 
-#: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Buildings"
 msgstr "Budynki"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Units"
 msgstr "Jednostki"
 
-#: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Nations"
 msgstr "Narody"
 
-#: tools/ruledit/ruledit_qt.cpp:175
+#: tools/ruledit/ruledit_qt.cpp:183
 msgid "Welcome to freeciv-ruledit"
 msgstr "Witamy we freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:195
+#: tools/ruledit/ruledit_qt.cpp:203
 msgid "Ruleset loaded"
 msgstr "Wczytano zestaw zasad"
 
-#: tools/ruledit/ruledit_qt.cpp:211
+#: tools/ruledit/ruledit_qt.cpp:219
 msgid "Ruleset loading failed!"
 msgstr "Nie udało się wczytać zestawu zasad!"
+
+#: tools/ruledit/ruledit_qt.cpp:275
+msgid "Are you sure you want to quit?"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:279
+msgid "Quit?"
+msgstr ""
 
 #: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
 #: tools/ruledit/tab_unit.cpp:62
@@ -131,55 +156,93 @@ msgid "Save now"
 msgstr "Zapisz teraz"
 
 #: tools/ruledit/tab_misc.cpp:86
-msgid "Terrains"
+#, fuzzy
+#| msgid "Terrains"
+msgid "?stat:Terrains"
 msgstr "Tereny"
 
 #: tools/ruledit/tab_misc.cpp:90
-msgid "Resources"
+#, fuzzy
+#| msgid "Resources"
+msgid "?stat:Resources"
 msgstr "Zasoby"
 
 #: tools/ruledit/tab_misc.cpp:94
-msgid "Techs"
+#, fuzzy
+#| msgid "Techs"
+msgid "?stat:Techs"
 msgstr "Technologie"
 
 #: tools/ruledit/tab_misc.cpp:98
-msgid "Unit Classes"
+#, fuzzy
+#| msgid "Unit Classes"
+msgid "?stat:Unit Classes"
 msgstr "Klasy jednostek"
 
 #: tools/ruledit/tab_misc.cpp:102
-msgid "Unit Types"
+#, fuzzy
+#| msgid "Unit Types"
+msgid "?stat:Unit Types"
 msgstr "Typy jednostek"
 
+#: tools/ruledit/tab_misc.cpp:106
+#, fuzzy
+#| msgid "Buildings"
+msgid "?stat:Buildings"
+msgstr "Budynki"
+
+#: tools/ruledit/tab_misc.cpp:110
+#, fuzzy
+#| msgid "Nations"
+msgid "?stat:Nations"
+msgstr "Narody"
+
 #: tools/ruledit/tab_misc.cpp:114
-msgid "Styles"
+#, fuzzy
+#| msgid "Styles"
+msgid "?stat:Styles"
 msgstr "Styke"
 
 #: tools/ruledit/tab_misc.cpp:118
-msgid "Specialists"
+#, fuzzy
+#| msgid "Specialists"
+msgid "?stat:Specialists"
 msgstr "Specjaliści"
 
 #: tools/ruledit/tab_misc.cpp:122
-msgid "Governments"
+#, fuzzy
+#| msgid "Governments"
+msgid "?stat:Governments"
 msgstr "Ustroje"
 
 #: tools/ruledit/tab_misc.cpp:126
-msgid "Disasters"
+#, fuzzy
+#| msgid "Disasters"
+msgid "?stat:Disasters"
 msgstr "Klęski"
 
 #: tools/ruledit/tab_misc.cpp:130
-msgid "Achievements"
+#, fuzzy
+#| msgid "Achievements"
+msgid "?stat:Achievements"
 msgstr "Osiągnięcia"
 
 #: tools/ruledit/tab_misc.cpp:134
-msgid "Extras"
+#, fuzzy
+#| msgid "Extras"
+msgid "?stat:Extras"
 msgstr "Dodatki"
 
 #: tools/ruledit/tab_misc.cpp:138
-msgid "Bases"
+#, fuzzy
+#| msgid "Bases"
+msgid "?stat:Bases"
 msgstr "Bazy"
 
 #: tools/ruledit/tab_misc.cpp:142
-msgid "Roads"
+#, fuzzy
+#| msgid "Roads"
+msgid "?stat:Roads"
 msgstr "Drogi"
 
 #: tools/ruledit/tab_misc.cpp:150
@@ -249,9 +312,6 @@ msgstr ""
 #: tools/ruledit/validity.c:145
 msgid "Music Style"
 msgstr "Styl muzyki"
-
-#~ msgid "source RULESET"
-#~ msgstr "source ZESTAW-ZASAD"
 
 #~ msgid "Load given ruleset"
 #~ msgstr "Wczytaj dany zestaw zasad"
