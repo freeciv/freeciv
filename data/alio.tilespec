@@ -42,7 +42,7 @@ fog_style      = "Auto"
 darkness_style = "CardinalSingle"
 
 ; Which terrain layer darkness is drawn top of (0-2)
-darkness_layer = 0
+darkness_layer = 1
 
 ; offset the flags by this amount when drawing units
 unit_flag_offset_x = 46
