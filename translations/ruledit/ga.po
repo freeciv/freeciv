@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 10:27+0000\n"
+"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
+"POT-Creation-Date: 2015-12-09 01:19+0200\n"
 "PO-Revision-Date: 2011-01-29 07:42-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -20,88 +20,114 @@ msgstr ""
 msgid "Close"
 msgstr "Dún"
 
+#: tools/ruledit/requirers_dlg.cpp:57
+#, c-format
+msgid "Removing %s"
+msgstr ""
+
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
-#: tools/ruledit/requirers_dlg.cpp:68
+#: tools/ruledit/requirers_dlg.cpp:72
 #, c-format
 msgid "Needed by %s"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:120
+#: tools/ruledit/ruledit.cpp:132
 msgid "Print a summary of the options"
 msgstr "Taispeáin achoimre ar na roghanna"
 
-#: tools/ruledit/ruledit.cpp:122
+#: tools/ruledit/ruledit.cpp:134
 msgid "Print the version number"
 msgstr "Taispeáin an uimhir leagain"
 
-#: tools/ruledit/ruledit.cpp:136
+#. TRANS: argument (don't translate) VALUE (translate)
+#: tools/ruledit/ruledit.cpp:137
+msgid "ruleset RULESET"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:138
+msgid "Ruleset to use as the starting point."
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:151
+msgid "Can only edit one ruleset at a time.\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:158
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:60
+#: tools/ruledit/ruledit_qt.cpp:62
 #, fuzzy
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv leagan %s"
 
-#: tools/ruledit/ruledit_qt.cpp:127
+#: tools/ruledit/ruledit_qt.cpp:131
 #, c-format
 msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:142
+#: tools/ruledit/ruledit_qt.cpp:146
 msgid "Give ruleset to use as starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:158
 #, fuzzy
 msgid "Start editing"
 msgstr "Ionad Tosaigh"
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:168
 msgid "Misc"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:170
 #, fuzzy
 msgid "Tech"
 msgstr "_Teic"
 
-#: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Buildings"
 msgstr "Foirgnimh"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Units"
 msgstr "Aonaid"
 
-#: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Nations"
 msgstr "Náisiúin"
 
-#: tools/ruledit/ruledit_qt.cpp:175
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Welcome to freeciv-ruledit"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:195
+#: tools/ruledit/ruledit_qt.cpp:203
 #, fuzzy
 msgid "Ruleset loaded"
 msgstr "Rialacha"
 
-#: tools/ruledit/ruledit_qt.cpp:211
+#: tools/ruledit/ruledit_qt.cpp:219
 msgid "Ruleset loading failed!"
 msgstr ""
 
+#: tools/ruledit/ruledit_qt.cpp:281
+msgid "Are you sure you want to quit?"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:285
+msgid "Quit?"
+msgstr ""
+
 #: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
-#: tools/ruledit/tab_unit.cpp:62
+#: tools/ruledit/tab_unit.cpp:64
 msgid "Name"
 msgstr "Ainm"
 
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
-#: tools/ruledit/tab_unit.cpp:70
+#: tools/ruledit/tab_unit.cpp:72
 #, fuzzy
 msgid "Rule Name"
 msgstr "Ainm Imreora:"
@@ -142,62 +168,78 @@ msgstr "Sábháil an Cnámhscéal"
 
 #: tools/ruledit/tab_misc.cpp:86
 #, fuzzy
-msgid "Terrains"
+msgid "?stat:Terrains"
 msgstr "Tír-raon"
 
 #: tools/ruledit/tab_misc.cpp:90
-msgid "Resources"
+#, fuzzy
+#| msgid "Resources"
+msgid "?stat:Resources"
 msgstr "Acmhainní"
 
 #: tools/ruledit/tab_misc.cpp:94
 #, fuzzy
-msgid "Techs"
+msgid "?stat:Techs"
 msgstr "_Teic"
 
 #: tools/ruledit/tab_misc.cpp:98
 #, fuzzy
-msgid "Unit Classes"
+msgid "?stat:Unit Classes"
 msgstr "Aonaid Chaillte\n"
 
 #: tools/ruledit/tab_misc.cpp:102
 #, fuzzy
-msgid "Unit Types"
+msgid "?stat:Unit Types"
 msgstr "Cineál Aonaid"
 
+#: tools/ruledit/tab_misc.cpp:106
+#, fuzzy
+#| msgid "Buildings"
+msgid "?stat:Buildings"
+msgstr "Foirgnimh"
+
+#: tools/ruledit/tab_misc.cpp:110
+#, fuzzy
+#| msgid "Nations"
+msgid "?stat:Nations"
+msgstr "Náisiúin"
+
 #: tools/ruledit/tab_misc.cpp:114
-msgid "Styles"
+msgid "?stat:Styles"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:118
 #, fuzzy
-msgid "Specialists"
+msgid "?stat:Specialists"
 msgstr " Saineolaithe"
 
 #: tools/ruledit/tab_misc.cpp:122
 #, fuzzy
-msgid "Governments"
+msgid "?stat:Governments"
 msgstr "Rialtas"
 
 #: tools/ruledit/tab_misc.cpp:126
 #, fuzzy
-msgid "Disasters"
+msgid "?stat:Disasters"
 msgstr "Éiceathubaiste"
 
 #: tools/ruledit/tab_misc.cpp:130
-msgid "Achievements"
+msgid "?stat:Achievements"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:134
-msgid "Extras"
+msgid "?stat:Extras"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:138
-msgid "Bases"
+#, fuzzy
+#| msgid "Bases"
+msgid "?stat:Bases"
 msgstr "Bunáiteanna"
 
 #: tools/ruledit/tab_misc.cpp:142
 #, fuzzy
-msgid "Roads"
+msgid "?stat:Roads"
 msgstr "Bóthar"
 
 #: tools/ruledit/tab_misc.cpp:150
@@ -250,29 +292,34 @@ msgstr "Riamh"
 msgid "Tech with that rule name already exist!"
 msgstr "Tá cathair darb ainm %s ann cheana."
 
-#: tools/ruledit/tab_unit.cpp:78
+#: tools/ruledit/tab_unit.cpp:80
+#, fuzzy
+msgid "Edit Unit"
+msgstr "Luchtaigh Aonad"
+
+#: tools/ruledit/tab_unit.cpp:84
 #, fuzzy
 msgid "Add Unit"
 msgstr "Luchtaigh Aonad"
 
-#: tools/ruledit/tab_unit.cpp:83
+#: tools/ruledit/tab_unit.cpp:89
 #, fuzzy
 msgid "Remove this Unit"
 msgstr "An bhfuil fonn ort an réamhshocrú a bhaint?"
 
-#: tools/ruledit/tab_unit.cpp:148
+#: tools/ruledit/tab_unit.cpp:154
 msgid "Unit type with that rule name already exist!"
 msgstr ""
 
-#: tools/ruledit/validity.c:64
+#: tools/ruledit/validity.c:65
 msgid "Effect"
 msgstr ""
 
-#: tools/ruledit/validity.c:125
+#: tools/ruledit/validity.c:127
 msgid "Action Enabler"
 msgstr ""
 
-#: tools/ruledit/validity.c:145
+#: tools/ruledit/validity.c:147
 #, fuzzy
 msgid "Music Style"
 msgstr "Stíl na Cathrach:"

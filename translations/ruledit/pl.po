@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-09 10:12+0100\n"
+"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
+"POT-Creation-Date: 2015-12-09 01:19+0200\n"
 "PO-Revision-Date: 2015-02-09 15:10+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: polski <hubkow@gmail.com>\n"
@@ -31,15 +31,32 @@ msgstr ""
 msgid "Needed by %s"
 msgstr "Wymagane przez %s"
 
-#: tools/ruledit/ruledit.cpp:120
+#: tools/ruledit/ruledit.cpp:132
 msgid "Print a summary of the options"
 msgstr "Pokaż podsumowanie opcji"
 
-#: tools/ruledit/ruledit.cpp:122
+#: tools/ruledit/ruledit.cpp:134
 msgid "Print the version number"
 msgstr "Pokaż nazwę wersji"
 
-#: tools/ruledit/ruledit.cpp:136
+#. TRANS: argument (don't translate) VALUE (translate)
+#: tools/ruledit/ruledit.cpp:137
+#, fuzzy
+#| msgid "source RULESET"
+msgid "ruleset RULESET"
+msgstr "source ZESTAW-ZASAD"
+
+#: tools/ruledit/ruledit.cpp:138
+#, fuzzy
+#| msgid "Give ruleset to use as starting point."
+msgid "Ruleset to use as the starting point."
+msgstr "Podaj zestaw zasad będący punktem wyjścia"
+
+#: tools/ruledit/ruledit.cpp:151
+msgid "Can only edit one ruleset at a time.\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:158
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
@@ -61,47 +78,47 @@ msgstr ""
 msgid "Give ruleset to use as starting point."
 msgstr "Podaj zestaw zasad będący punktem wyjścia"
 
-#: tools/ruledit/ruledit_qt.cpp:152
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Start editing"
 msgstr "Tryb edycji"
 
-#: tools/ruledit/ruledit_qt.cpp:162
+#: tools/ruledit/ruledit_qt.cpp:168
 msgid "Misc"
 msgstr "Różne"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Tech"
 msgstr "Technologia"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Buildings"
 msgstr "Budynki"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Units"
 msgstr "Jednostki"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Nations"
 msgstr "Narody"
 
-#: tools/ruledit/ruledit_qt.cpp:179
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Welcome to freeciv-ruledit"
 msgstr "Witamy we freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:197
+#: tools/ruledit/ruledit_qt.cpp:203
 msgid "Ruleset loaded"
 msgstr "Wczytano zestaw zasad"
 
-#: tools/ruledit/ruledit_qt.cpp:213
+#: tools/ruledit/ruledit_qt.cpp:219
 msgid "Ruleset loading failed!"
 msgstr "Nie udało się wczytać zestawu zasad!"
 
-#: tools/ruledit/ruledit_qt.cpp:275
+#: tools/ruledit/ruledit_qt.cpp:281
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:279
+#: tools/ruledit/ruledit_qt.cpp:285
 msgid "Quit?"
 msgstr ""
 
@@ -290,9 +307,6 @@ msgstr ""
 #: tools/ruledit/validity.c:147
 msgid "Music Style"
 msgstr "Styl muzyki"
-
-#~ msgid "source RULESET"
-#~ msgstr "source ZESTAW-ZASAD"
 
 #~ msgid "Load given ruleset"
 #~ msgstr "Wczytaj dany zestaw zasad"
