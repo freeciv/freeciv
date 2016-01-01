@@ -1,4 +1,3 @@
-
 [tilespec]
 
 ; Format and options of this tilespec file:
@@ -71,7 +70,7 @@ tilelabel_offset_y = 10
 ; if unit icon is higher than tiles (typical in iso tilesets)
 ;unit_upkeep_offset_y = 0
 
-; Like unit_upkeep_offset_y, but to be used in case there's only small
+; Like unit_upkeep_offset_y, but to be used in case there`s only small
 ; space for the overall icon produced. Defaults to unit_upkeep_offset_y -
 ; not having alternative layout.
 ; Set it to overlay lower part of the unit icon instead of taking extra
