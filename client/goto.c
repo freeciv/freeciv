@@ -1828,3 +1828,32 @@ struct pf_path *path_to_nearest_allied_city(struct unit *punit)
 
   return path;
 }
+
+/**************************************************************************
+  Finds penultimate tile on path for given unit going to ptile
+***************************************************************************/
+struct tile *tile_before_end_path(struct unit *punit, struct tile *ptile)
+{
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct tile *dtile;
+  struct pf_path *path;
+
+  goto_fill_parameter_base(&parameter, punit);
+  parameter.move_rate = 0;
+  parameter.is_pos_dangerous = NULL;
+  parameter.get_moves_left_req = NULL;
+  pfm = pf_map_new(&parameter);
+  path = pf_map_path(pfm, ptile);
+  if (path == NULL) {
+    return NULL;
+  }
+  if (path->length < 2) {
+    dtile = NULL;
+  } else {
+    dtile = path->positions[path->length - 2].tile;
+  }
+  pf_map_destroy(pfm);
+
+  return dtile;
+}
