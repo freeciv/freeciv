@@ -179,6 +179,9 @@ void unit_item::create_actions()
 {
   struct unit_list *qunits;
 
+  if (unit_owner(qunit) != client_player() || !can_client_issue_orders()) {
+    return;
+  }
   qunits = unit_list_new();
   unit_list_append(qunits, qunit);
   activate = new QAction(_("Activate unit"), this);
