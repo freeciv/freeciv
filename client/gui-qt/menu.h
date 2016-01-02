@@ -73,6 +73,37 @@ enum munit {
   SAVE
 };
 
+enum delay_order{
+  D_GOTO,
+  D_NUKE,
+  D_PARADROP,
+  D_FORT
+};
+
+class qfc_delayed_unit_item
+{
+public:
+  qfc_delayed_unit_item(delay_order dg, int i) {
+   order = dg;
+   id = i;
+   ptile = nullptr;
+  }
+  delay_order order;
+  int id;
+  struct tile *ptile;
+};
+
+class qfc_units_list
+{
+public:
+  qfc_units_list();
+  void add(qfc_delayed_unit_item* fui);
+  void clear();
+  QList<qfc_delayed_unit_item*> unit_list;
+  int nr_units;
+};
+
+
 /**************************************************************************
   Class for filtering chosen units
 **************************************************************************/
@@ -172,13 +203,16 @@ class mr_menu : public QMenuBar
   QActionGroup *filter_any;;
   QHash<munit, QAction*> menu_list;
   unit_filter u_filter;
+  qfc_units_list units_list;
 public:
   mr_menu();
   void setup_menus();
   void menus_sensitive();
+  void set_tile_for_order(struct tile *ptile);
   QAction *minimap_status;
   QAction *chat_status;
   QAction *messages_status;
+  bool delayed_order;
 private slots:
   /* game menu */
   void local_options();
@@ -259,6 +293,11 @@ private slots:
   void slot_filter();
   void slot_filter_other();
 
+  /* used by multiplayer menu */
+  void slot_orders_clear();
+  void slot_execute_orders();
+  void slot_delayed_goto();
+
   /*used by civilization menu */
   void slot_show_map();
   void slot_popup_tax_rates();
@@ -281,6 +320,7 @@ private:
                    enum unit_select_location_mode selloc);
   void apply_filter(struct unit *punit);
   void apply_2nd_filter(struct unit *punit);
+  struct tile* find_last_unit_pos(struct unit* punit, int pos);
   QSignalMapper *signal_help_mapper;
 };
 

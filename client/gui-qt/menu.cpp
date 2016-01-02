@@ -28,6 +28,7 @@
 // common
 #include "game.h"
 #include "government.h"
+#include "goto.h"
 #include "name_translation.h"
 #include "road.h"
 #include "unit.h"
@@ -45,6 +46,7 @@
 #include "dialogs.h"
 #include "gotodlg.h"
 #include "gui_main.h"
+#include "mapctrl.h"
 #include "messagedlg.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
@@ -55,6 +57,31 @@
 #include "menu.h"
 
 extern QApplication *qapp;
+
+/**************************************************************************
+  Constructor for units used in delayed orders
+**************************************************************************/
+qfc_units_list::qfc_units_list()
+{
+
+}
+
+/**************************************************************************
+  Adds givent unit to list
+**************************************************************************/
+void qfc_units_list::add(qfc_delayed_unit_item* fui)
+{
+  unit_list.append(fui);
+}
+
+/**************************************************************************
+  Clears list of units
+**************************************************************************/
+void qfc_units_list::clear()
+{
+  unit_list.clear();
+}
+
 /**************************************************************************
   Initialize menus (sensitivity, name, etc.) based on the
   current state and current ruleset, etc.  Call menus_update().
@@ -466,6 +493,48 @@ void mr_menu::apply_filter(struct unit *punit)
 }
 
 /****************************************************************************
+  Predicts last unit position
+****************************************************************************/
+struct tile *mr_menu::find_last_unit_pos(unit *punit, int pos)
+{
+  qfc_delayed_unit_item *fui;
+  struct tile *ptile = nullptr;
+  struct unit *zunit;
+  struct unit *qunit;
+
+  int i = 0;
+  qunit = punit;
+  foreach (fui, units_list.unit_list) {
+    zunit = unit_list_find(client_player()->units, fui->id);
+    i++;
+    if (i >= pos) {
+      punit = qunit;
+      return ptile;
+    }
+    if (zunit == nullptr) {
+      continue;
+    }
+
+    if (punit == zunit) {  /* Unit found */
+      /* Unit was ordered to attack city so it might stay in
+         front of that city */
+      if (is_non_allied_city_tile(fui->ptile, unit_owner(punit))) {
+        ptile = tile_before_end_path(punit, fui->ptile);
+        if (ptile == nullptr) {
+          ptile = fui->ptile;
+        }
+      } else {
+        ptile = fui->ptile;
+      }
+      /* unit found in tranporter */
+    } else if (unit_contained_in(punit, zunit)) {
+      ptile = fui->ptile;
+    }
+  }
+  return nullptr;
+}
+
+/****************************************************************************
   Applies miscelanous filter for given unit
 ****************************************************************************/
 void mr_menu::apply_2nd_filter(struct unit *punit)
@@ -572,6 +641,7 @@ void mr_menu::setup_menus()
 {
   QAction *act;
   QMenu *pr;
+  delayed_order = false;
 
   /* Game Menu */
   menu = this->addMenu(_("Game"));
@@ -692,7 +762,7 @@ void mr_menu::setup_menus()
   /* Select Menu */
   menu = this->addMenu(_("Select"));
   act = menu->addAction(_("Single Unit (Unselect Others)"));
-  act->setShortcut(QKeySequence(tr("z")));
+  act->setShortcut(QKeySequence(tr("shift+z")));
   menu_list.insertMulti(STANDARD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_select_one()));
   act = menu->addAction(_("All On Tile"));
@@ -949,6 +1019,17 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(ORDER_TRADEROUTE, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_road()));
 
+  menu = this->addMenu(_("Multiplayer"));
+  act = menu->addAction(_("Delayed Goto"));
+  act->setShortcut(QKeySequence(tr("z")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_delayed_goto()));
+  act = menu->addAction(_("Delayed Orders Execute"));
+  act->setShortcut(QKeySequence(tr("ctrl+z")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_execute_orders()));
+  act = menu->addAction(_("Clear Orders"));
+  act->setShortcut(QKeySequence(tr("ctrl+shift+c")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_orders_clear()));
+
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
   act = menu->addAction(_("Tax Rates..."));
@@ -1118,6 +1199,17 @@ void mr_menu::setup_menus()
 
   this->setVisible(false);
 }
+
+/****************************************************************************
+  Sets given tile for delayed order
+****************************************************************************/
+void mr_menu::set_tile_for_order(tile *ptile)
+{
+  for (int i=0; i < units_list.nr_units; i++) {
+    units_list.unit_list.at(units_list.unit_list.count() - i -1)->ptile = ptile;
+  }
+}
+
 
 /****************************************************************************
   Enables/disables menu items and renames them depending on key in menu_list
@@ -1806,6 +1898,78 @@ void mr_menu::slot_convert()
 void mr_menu::slot_disband()
 {
   popup_disband_dialog(get_units_in_focus());
+}
+
+/***************************************************************************
+  Clears delayed orders
+***************************************************************************/
+void mr_menu::slot_orders_clear()
+{
+  delayed_order = false;
+  units_list.clear();
+}
+
+/***************************************************************************
+  Delayed goto
+***************************************************************************/
+void mr_menu::slot_delayed_goto()
+{
+  qfc_delayed_unit_item *unit_item;
+  int i = 0;
+  delay_order dg;
+  delayed_order = true;
+  dg = D_GOTO;
+
+  struct unit_list *punits = get_units_in_focus();
+  if (unit_list_size(punits) == 0) {
+    return;
+  }
+  if (hover_state != HOVER_GOTO) {
+    set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL, ACTION_COUNT,
+                    ORDER_LAST);
+    enter_goto_state(punits);
+    create_line_at_mouse_pos();
+    control_mouse_cursor(NULL);
+  }
+  unit_list_iterate(get_units_in_focus(), punit) {
+    i++;
+    unit_item = new qfc_delayed_unit_item(dg, punit->id);
+    units_list.add(unit_item);
+    units_list.nr_units = i;
+  } unit_list_iterate_end;
+}
+
+/***************************************************************************
+  Executes stored orders
+***************************************************************************/
+void mr_menu::slot_execute_orders()
+{
+  qfc_delayed_unit_item *fui;
+  struct unit *punit;
+  struct tile *last_tile;
+  struct tile *new_tile;
+  int i = 0;
+
+  foreach (fui, units_list.unit_list) {
+    i++;
+    punit = unit_list_find(client_player()->units, fui->id);
+    if (punit == nullptr) {
+      continue;
+    }
+    last_tile = punit->tile;
+    new_tile = find_last_unit_pos(punit, i);
+    if (new_tile != nullptr) {
+      punit->tile = new_tile;
+    }
+    if (is_tiles_adjacent(punit->tile, fui->ptile)) {
+      request_move_unit_direction(punit, get_direction_for_step(punit->tile,
+                                  fui->ptile));
+    } else {
+      send_attack_tile(punit, fui->ptile);
+    }
+    punit->tile = last_tile;
+  }
+  units_list.clear();
 }
 
 /***************************************************************************

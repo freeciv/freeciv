@@ -25,6 +25,10 @@
 #include <QPushButton>
 #include <QMouseEvent>
 
+//common
+#include "control.h"
+#include "goto.h"
+
 // client
 #include "client_main.h"
 #include "climap.h"
@@ -37,7 +41,6 @@
 #include "fc_client.h"
 #include "citydlg.h"
 #include "qtg_cxxside.h"
-
 
 
 /**************************************************************************
@@ -230,7 +233,8 @@ void map_view::mousePressEvent(QMouseEvent *event)
   }
 
   /* Left Button */
-  if (event->button() == Qt::LeftButton) {
+  if (event->button() == Qt::LeftButton
+      && gui()->menu_bar->delayed_order == false) {
     if (ctrl && shft && pcity) {
       pw = new production_widget(this, pcity, false, 0, 0, true, true);
       pw->show();
@@ -250,6 +254,15 @@ void map_view::mousePressEvent(QMouseEvent *event)
     } else {
       action_button_pressed(event->pos().x(), event->pos().y(), SELECT_POPUP);
     }
+  }
+  if (event->button() == Qt::LeftButton
+      && gui()->menu_bar->delayed_order == true) {
+      ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+      gui()->menu_bar->set_tile_for_order(ptile);
+      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ACTION_COUNT,
+                      ORDER_LAST);
+      exit_goto_state();
+      gui()->menu_bar->delayed_order = false;
   }
 
   /* Middle Button */
