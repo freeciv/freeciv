@@ -66,8 +66,8 @@ struct extra_type
   int id;
   struct name_translation name;
   enum extra_category category;
-  enum extra_cause causes;
-  enum extra_rmcause rmcauses;
+  uint16_t causes;
+  uint8_t rmcauses;
 
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];

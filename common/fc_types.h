@@ -654,6 +654,9 @@ enum diplomacy_mode {
 #define EC_NATURAL_DEFENSIVE (EC_NONE + 3)
 #define EC_LAST (EC_NONE + 4)
 
+/* packets.def and struct extra_type reserve 16 bits (0-15) for these. */
+FC_STATIC_ASSERT(EC_COUNT < 16, extra_causes_over_limit);
+
 /* Used in the network protocol. */
 #define SPECENUM_NAME extra_rmcause
 #define SPECENUM_VALUE0 ERM_PILLAGE
@@ -667,6 +670,9 @@ enum diplomacy_mode {
 #define SPECENUM_COUNT ERM_COUNT
 #include "specenum_gen.h"
 #define ERM_NONE ERM_COUNT
+
+/* packets.def and struct extra_type reserve 8 bits (0-7) for these. */
+FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME achievement_type
