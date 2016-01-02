@@ -1287,7 +1287,7 @@ static void help_update_extra(const struct help_item *pitem, char *title)
       sprintf(buf, "-");
     }
     gtk_label_set_text(GTK_LABEL(help_elabel[1]), buf);
-    /* Conflicting bases */
+    /* Conflicting extras */
     buf[0] = '\0';
     extra_type_iterate(pextra2) {
       if (!can_extras_coexist(pextra, pextra2)) {
