@@ -337,7 +337,8 @@ static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
 
   button = gtk_button_new();
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_widget_set_name(label, "help_link");
   gtk_container_add(GTK_CONTAINER(button), label);
   gtk_widget_show(button);
@@ -355,8 +356,10 @@ static GtkWidget *help_slink_new(const gchar *txt, enum help_page_type type)
   GtkWidget *button, *label;
 
   label = gtk_label_new(txt);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   button = help_hyperlink_new(label, type);
+
   return button;
 }
 

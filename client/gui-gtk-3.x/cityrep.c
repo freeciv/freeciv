@@ -422,11 +422,11 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
       switch (i) {
         case 0:
           gtk_widget_set_halign(label, GTK_ALIGN_START);
-          gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+          gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
         break;
         case 2:
           gtk_widget_set_halign(label, GTK_ALIGN_END);
-          gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
+          gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
           break;
         default:
           break;

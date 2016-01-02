@@ -154,7 +154,10 @@ static gboolean show_happiness_popup(GtkWidget *w,
 
     label = gtk_label_new(buf);
     gtk_widget_set_name(label, "city_happiness_label");
-    gtk_misc_set_padding(GTK_MISC(label), 4, 4);
+    gtk_widget_set_margin_start(label, 4);
+    gtk_widget_set_margin_end(label, 4);
+    gtk_widget_set_margin_top(label, 4);
+    gtk_widget_set_margin_bottom(label, 4);
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show_all(p);
 
@@ -228,7 +231,8 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
     label = gtk_label_new(happiness_label_str[i]);
     pdialog->happiness_label[i] = label;
     gtk_widget_set_name(label, "city_label");
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
 
     gtk_grid_attach(GTK_GRID(table), label, 0, i, 1, 1);
 
@@ -243,7 +247,8 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 
     pdialog->hpixmaps[i] = gtk_pixcomm_new(PIXCOMM_WIDTH, PIXCOMM_HEIGHT);
     gtk_container_add(GTK_CONTAINER(ebox), pdialog->hpixmaps[i]);
-    gtk_misc_set_alignment(GTK_MISC(pdialog->hpixmaps[i]), 0, 0);
+    gtk_widget_set_halign(pdialog->hpixmaps[i], GTK_ALIGN_START);
+    gtk_widget_set_valign(pdialog->hpixmaps[i], GTK_ALIGN_START);
 
     gtk_grid_attach(GTK_GRID(table), ebox, 1, i, 1, 1);
   }
@@ -252,7 +257,8 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
   label = gtk_label_new(_("Additional information is available via left "
                           "click on the citizens."));
   gtk_widget_set_name(label, "city_label");
-  gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_grid_attach(GTK_GRID(table), label, 0, NUM_HAPPINESS_MODIFIERS, 2, 1);
 
   gtk_widget_show_all(pdialog->shell);

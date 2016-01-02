@@ -210,12 +210,14 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   for (i = 0; i < ARRAY_SIZE(table_text); i++) {
     if (table_text[i]) {
       label = gtk_label_new(_(table_text[i]));
-      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+      gtk_widget_set_halign(label, GTK_ALIGN_START);
+      gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
       gtk_grid_attach(GTK_GRID(table), label, 0, i, 1, 1);
 
       label = gtk_label_new(NULL);
       pdialog->table_labels[i] = label;
-      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+      gtk_widget_set_halign(label, GTK_ALIGN_START);
+      gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
       gtk_grid_attach(GTK_GRID(table), label, 1, i, 1, 1);
     } else {
       pdialog->table_labels[i] = NULL;

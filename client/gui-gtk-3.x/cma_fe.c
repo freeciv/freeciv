@@ -338,16 +338,19 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   gtk_container_add(GTK_CONTAINER(vbox), table);
 
   label = gtk_label_new(_("Minimal Surplus"));
-  gtk_misc_set_alignment(GTK_MISC(label), 0.1, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_grid_attach(GTK_GRID(table), label, 1, 0, 1, 1);
   label = gtk_label_new(_("Factor"));
-  gtk_misc_set_alignment(GTK_MISC(label), 0.1, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_grid_attach(GTK_GRID(table), label, 2, 0, 1, 1);
 
   output_type_iterate(i) {
     label = gtk_label_new(get_output_name(i));
     gtk_grid_attach(GTK_GRID(table), label, 0, i + 1, 1, 1);
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
 
     pdialog->minimal_surplus[i] = hscale =
         gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
@@ -387,7 +390,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   label = gtk_label_new(_("Celebrate"));
   gtk_grid_attach(GTK_GRID(table), label, 0, O_LAST + 1, 1, 1);
-  gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
 
   pdialog->happy_button = gtk_check_button_new();
   gtk_widget_set_halign(pdialog->happy_button, GTK_ALIGN_END);

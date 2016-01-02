@@ -2883,7 +2883,8 @@ static void objprop_setup_widget(struct objprop *op)
   op->widget = w;
 
   label = gtk_label_new(objprop_get_name(op));
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   objprop_set_child_widget(op, "name-label", label);
 
@@ -2914,8 +2915,8 @@ static void objprop_setup_widget(struct objprop *op)
 #endif /* DEBUG */
     label = gtk_label_new(NULL);
     gtk_widget_set_hexpand(label, TRUE);
-    gtk_widget_set_halign(label, GTK_ALIGN_END);
-    gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
     gtk_container_add(GTK_CONTAINER(hbox), label);
     objprop_set_child_widget(op, "value-label", label);
     return;
@@ -2926,8 +2927,8 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_CITY_IMAGE:
     image = gtk_image_new();
     gtk_widget_set_hexpand(image, TRUE);
-    gtk_widget_set_halign(image, GTK_ALIGN_END);
-    gtk_misc_set_alignment(GTK_MISC(image), 0.0, 0.5);
+    gtk_widget_set_halign(image, GTK_ALIGN_START);
+    gtk_widget_set_valign(image, GTK_ALIGN_CENTER);
     gtk_container_add(GTK_CONTAINER(hbox), image);
     objprop_set_child_widget(op, "image", image);
     return;
@@ -2977,7 +2978,8 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_container_add(GTK_CONTAINER(hbox2), spin);
     objprop_set_child_widget(op, "spin", spin);
     label = gtk_label_new(NULL);
-    gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
     gtk_container_add(GTK_CONTAINER(hbox2), label);
     objprop_set_child_widget(op, "max-value-label", label);
     return;
@@ -3430,7 +3432,8 @@ static struct extviewer *extviewer_new(struct objprop *op)
     ev->panel_widget = hbox;
 
     label = gtk_label_new(NULL);
-    gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
     gtk_container_add(GTK_CONTAINER(hbox), label);
     ev->panel_label = label;
     break;
@@ -3443,7 +3446,8 @@ static struct extviewer *extviewer_new(struct objprop *op)
     ev->panel_widget = vbox;
 
     label = gtk_label_new(NULL);
-    gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
     gtk_container_add(GTK_CONTAINER(vbox), label);
     ev->panel_label = label;
 
@@ -3452,7 +3456,8 @@ static struct extviewer *extviewer_new(struct objprop *op)
     gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
     image = gtk_image_new();
-    gtk_misc_set_alignment(GTK_MISC(image), 0.0, 0.5);
+    gtk_widget_set_halign(image, GTK_ALIGN_START);
+    gtk_widget_set_valign(image, GTK_ALIGN_CENTER);
     gtk_container_add(GTK_CONTAINER(hbox), image);
     ev->panel_image = image;
     break;
@@ -3540,7 +3545,8 @@ static struct extviewer *extviewer_new(struct objprop *op)
   ev->view_widget = vbox;
 
   label = gtk_label_new(objprop_get_name(op));
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(vbox), label);
   ev->view_label = label;
 

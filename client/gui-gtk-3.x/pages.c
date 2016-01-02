@@ -289,7 +289,8 @@ GtkWidget *create_main_page(void)
 
     label = gtk_label_new(beta_message());
     gtk_widget_set_name(label, "beta_label");
-    gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
+    gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
     gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
     gtk_container_add(GTK_CONTAINER(vbox), label);
   }
@@ -891,7 +892,10 @@ GtkWidget *create_statusbar(void)
   gtk_frame_set_shadow_type(GTK_FRAME(statusbar_frame), GTK_SHADOW_IN);
 
   statusbar = gtk_label_new("");
-  gtk_misc_set_padding(GTK_MISC(statusbar), 2, 2);
+  gtk_widget_set_margin_start(statusbar, 2);
+  gtk_widget_set_margin_end(statusbar, 2);
+  gtk_widget_set_margin_top(statusbar, 2);
+  gtk_widget_set_margin_bottom(statusbar, 2);
   gtk_container_add(GTK_CONTAINER(statusbar_frame), statusbar);
 
   statusbar_queue = g_queue_new();
@@ -3092,7 +3096,8 @@ GtkWidget *create_scenario_page(void)
 
   text = gtk_label_new(_("Filename:"));
   scenario_filename = gtk_label_new("");
-  gtk_misc_set_alignment(GTK_MISC(scenario_filename), 0.0, 0.5);
+  gtk_widget_set_halign(scenario_filename, GTK_ALIGN_START);
+  gtk_widget_set_valign(scenario_filename, GTK_ALIGN_CENTER);
   gtk_label_set_selectable(GTK_LABEL(scenario_filename), TRUE);
 
   filenamebox = gtk_grid_new();

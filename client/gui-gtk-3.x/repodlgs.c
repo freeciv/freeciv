@@ -1147,7 +1147,10 @@ static void economy_report_init(struct economy_report *preport)
 
   label = gtk_label_new(NULL);
   gtk_container_add(vbox, label);
-  gtk_misc_set_padding(GTK_MISC(label), 5, 5);
+  gtk_widget_set_margin_start(label, 5);
+  gtk_widget_set_margin_end(label, 5);
+  gtk_widget_set_margin_top(label, 5);
+  gtk_widget_set_margin_bottom(label, 5);
   preport->label = GTK_LABEL(label);
 
   gui_dialog_add_button(preport->shell, "window-close", _("Close"),
