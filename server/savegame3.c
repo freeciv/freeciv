@@ -4506,17 +4506,12 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   pcity->server.steal =
     secfile_lookup_int_default(loading->file, 0, "%s.steal", citystr);
 
-  /* before did_buy for undocumented hack */
-  pcity->turn_founded =
-    secfile_lookup_int_default(loading->file, -2, "%s.turn_founded",
-                               citystr);
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->turn_founded,
+                                     "%s.turn_founded", citystr),
+                  FALSE, "%s", secfile_error());
   sg_warn_ret_val(secfile_lookup_int(loading->file, &i, "%s.did_buy",
                                      citystr), FALSE, "%s", secfile_error());
   pcity->did_buy = (i != 0);
-  if (i == -1 && pcity->turn_founded == -2) {
-    /* undocumented hack */
-    pcity->turn_founded = game.info.turn;
-  }
 
   pcity->did_sell =
     secfile_lookup_bool_default(loading->file, FALSE, "%s.did_sell", citystr);
@@ -4828,9 +4823,9 @@ static void sg_save_player_cities(struct savedata *saving,
     secfile_insert_int(saving->file, pcity->anarchy, "%s.anarchy", buf);
     secfile_insert_int(saving->file, pcity->rapture, "%s.rapture", buf);
     secfile_insert_int(saving->file, pcity->server.steal, "%s.steal", buf);
-
     secfile_insert_int(saving->file, pcity->turn_founded, "%s.turn_founded",
                        buf);
+
     if (pcity->turn_founded == game.info.turn) {
       j = -1; /* undocumented hack */
     } else {
