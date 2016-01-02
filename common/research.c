@@ -80,7 +80,7 @@ void researches_init(void)
 
   /* Set technology names. */
   /* TRANS: "None" tech */
-  name_set(&advance_unset_name, NULL, N_("None"));
+  name_set(&advance_unset_name, NULL, N_("?tech:None"));
   name_set(&advance_future_name, NULL, N_("Future Tech."));
   /* TRANS: "Unknown" advance/technology */
   name_set(&advance_unknown_name, NULL, N_("(Unknown)"));
