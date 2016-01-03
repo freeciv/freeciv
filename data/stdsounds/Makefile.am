@@ -19,6 +19,7 @@ pkgdata_DATA =          \
 	Splash.ogg	\
 	THover.ogg	\
 	Tread.ogg	\
+	wakeup.ogg	\
 	wall01.ogg	\
 	woodbrk.ogg
 
