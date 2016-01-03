@@ -1,6 +1,6 @@
 #!/bin/bash
 
-"$1/translations/stats.sh" release | (
+"$1/translations/stats.sh" freeciv | (
     while read CODE PRCT ; do
         NLANG=$(grep "^$CODE " "$1/bootstrap/langnames.txt" 2>/dev/null | sed "s/$CODE //")
         echo "$CODE $PRCT $NLANG"

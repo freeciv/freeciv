@@ -53,15 +53,20 @@ do
 done
 }
 
-if test "x$1" = "xrelease" ; then
-    DOMAINLIST="freeciv"
+if test "x$1" = "x-h" || test "x$1" = "x--help" ; then
+    echo "Usage: $(basename $0) [domain=all]"
+    exit
+fi
+
+if test "x$1" != "x" && test "x$1" != "xall" ; then
+    DOMAINLIST="$1"
 else
     DOMAINLIST="freeciv nations ruledit"
 fi
 
 for domain in $DOMAINLIST
 do
-  if test "x$1" != "xrelease" ; then
+  if test "x$1" = "x" ; then
     echo
     echo "$domain"
     echo "----------"
