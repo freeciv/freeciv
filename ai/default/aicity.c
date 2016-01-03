@@ -1048,6 +1048,7 @@ void dai_city_alloc(struct ai_type *ait, struct city *pcity)
   struct ai_city *city_data = fc_calloc(1, sizeof(struct ai_city));
 
   city_data->building_wait = BUILDING_WAIT_MINIMUM;
+  adv_init_choice(&(city_data->choice));
 
   city_set_ai_data(pcity, ait, city_data);
 }
