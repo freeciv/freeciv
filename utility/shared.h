@@ -33,6 +33,14 @@ extern "C" {
    another unreachable condition. */
 #define FC_INFINITY    	(1000 * 1000 * 1000)
 
+#ifndef TESTMATIC_ENABLED
+/* Initialize something for the sole purpose of silencing false compiler warning
+ * about variable possibly used uninitialized. */
+#define BAD_HEURISTIC_INIT(_ini_val_) = _ini_val_
+#else  /* TESTMATIC_ENABLED */
+#define BAD_HEURISTIC_INIT(_ini_val_)
+#endif /* TESTMATIC_ENABLED */
+
 enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 #define BOOL_TO_TRISTATE(tri) ((tri) ? TRI_YES : TRI_NO)
 

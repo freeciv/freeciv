@@ -418,7 +418,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       struct player_diplstate *ds_destgiver
         = player_diplstate_get(pdest, pgiver);
       enum diplstate_type old_diplstate = ds_giverdest->type;
-      struct unit_list *pgiver_seen_units, *pdest_seen_units;
+      struct unit_list *pgiver_seen_units BAD_HEURISTIC_INIT(NULL);
+      struct unit_list *pdest_seen_units BAD_HEURISTIC_INIT(NULL);
 
       switch (pclause->type) {
       case CLAUSE_EMBASSY:
