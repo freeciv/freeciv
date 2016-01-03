@@ -21,7 +21,7 @@
 
 // gui-qt
 #include "qtg_cxxside.h"
-
+#include "colors.h"
 #include "diplodlg.h"
 
 typedef advance *p_advance;
@@ -32,8 +32,10 @@ typedef city *p_city;
 ****************************************************************************/
 diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
 {
+  color *colr;
   QString text;
   QString text2;
+  QString text_color;
   QLabel *plr1_label;
   QLabel *plr2_label;
   QLabel *label;
@@ -45,10 +47,14 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   QPushButton *add_clause1;
   QPushButton *add_clause2;
   QPixmap *pix = NULL;
+  QPalette palette;
   struct sprite *sprite, *sprite2;
   char plr_buf[4 * MAX_LEN_NAME];
   QHeaderView *header;
-
+  struct color *textcolors[2] = {
+    get_color(tileset, COLOR_MAPVIEW_CITYTEXT),
+    get_color(tileset, COLOR_MAPVIEW_CITYTEXT_DARK)
+  };
   if (counterpart == initiated_from) {
     initiated_from = client_player_number();
   }
@@ -64,11 +70,25 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   text = "<b><h3><center>"
          + QString(nation_plural_for_player(player_by_number(initiated_from)))
          + "</center></h3></b>";
+  colr = get_player_color(tileset, player_by_number(initiated_from));
+  text = "<style>h3{background-color: "
+         + colr->qcolor.name() + ";}</style>" + text;
+  palette.setColor(QPalette::WindowText, color_best_contrast(colr,
+                   textcolors, ARRAY_SIZE(textcolors))->qcolor);
+  label3->setPalette(palette);
   label3->setText(text);
+  label3->setMinimumWidth(300);
   label4 = new QLabel;
   text = "<b><h3><center>"
          + QString(nation_plural_for_player(player_by_number(counterpart)))
-         + "</center></h3></b>";
+         + "</center></h3></b></body>";
+  colr = get_player_color(tileset, player_by_number(counterpart));
+  text = "<style>h3{background-color: "
+         + colr->qcolor.name() + ";}</style>" + text;
+  palette.setColor(QPalette::WindowText, color_best_contrast(colr,
+                   textcolors, ARRAY_SIZE(textcolors))->qcolor);
+  label4->setPalette(palette);
+  label4->setMinimumWidth(300);
   label4->setText(text);
   layout->addWidget(label3, 0, 5);
   layout->addWidget(label4, 5, 5);
