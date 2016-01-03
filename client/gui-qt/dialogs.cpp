@@ -2397,6 +2397,15 @@ void unit_select::update_units()
 }
 
 /****************************************************************
+  Close event for unit_select, restores focus to map
+*****************************************************************/
+void unit_select::closeEvent(QCloseEvent* event)
+{
+  gui()->mapview_wdg->setFocus();
+  QWidget::closeEvent(event);
+}
+
+/****************************************************************
   Mouse wheel event for unit_select
 *****************************************************************/
 void unit_select::wheelEvent(QWheelEvent *event)

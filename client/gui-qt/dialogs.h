@@ -183,6 +183,7 @@ protected:
   void keyPressEvent(QKeyEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
   void wheelEvent(QWheelEvent *event);
+  void closeEvent(QCloseEvent *event);
 private:
   bool more;
   int show_line;
