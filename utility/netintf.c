@@ -418,7 +418,7 @@ struct fc_sockaddr_list *net_lookup_service(const char *name, int port,
   struct sockaddr_in *sock4;
   struct hostent *hp;
   struct fc_sockaddr_list *addrs = fc_sockaddr_list_new();
-  union fc_sockaddr *result = fc_malloc(sizeof(result));
+  union fc_sockaddr *result = fc_malloc(sizeof(*result));
 
   sock4 = &result->saddr_in4;
 
