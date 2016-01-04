@@ -306,12 +306,21 @@ styles =
       "base.airbase",  "3layer"
       "base.buoy",     "3layer"
       "base.ruins",    "3layer"
+      "ts.fish",       "Single1"
+      "ts.grassland_resources", "Single1"
+      "ts.thermal_vent",  "Single1"
+      "ts.glowing_rocks", "Single1"
+      "ts.huge_plant",    "Single1"
+      "ts.alien_mine",    "Single1"
+
+      ; Following resources are not needed with alien ruleset,
+      ; but are available in files hexemplio files currently loaded
+      ; anyway.
       "ts.gold",       "Single1"
       "ts.iron",       "Single1"
       "ts.tundra_game", "Single1"
       "ts.furs",       "Single1"
       "ts.coal",       "Single1"
-      "ts.fish",       "Single1"
       "ts.fruit",      "Single1"
       "ts.gems",       "Single1"
       "ts.buffalo",    "Single1"
@@ -319,7 +328,6 @@ styles =
       "ts.oasis",      "Single1"
       "ts.peat",       "Single1"
       "ts.pheasant",   "Single1"
-      "ts.grassland_resources", "Single1"
       "ts.arctic_ivory", "Single1"
       "ts.silk",       "Single1"
       "ts.spice",      "Single1"
