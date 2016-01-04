@@ -177,8 +177,8 @@ version_check ()
     return 1
   }
 
-  # the following line is carefully crafted sed magic
-  pkg_version=`$PACKAGE --version 2>&1|head -n 1|sed 's/([^)]*)//g;s/^[a-zA-Z\.\ \-]*//;s/ .*$//'`
+  # The following line is carefully crafted sed magic
+  pkg_version=`$PACKAGE --version 2>&1|grep -v " line " |head -n 1|sed 's/([^)]*)//g;s/^[a-zA-Z\.\ \-]*//;s/ .*$//'`
   debug "pkg_version $pkg_version"
   pkg_major=`echo $pkg_version | cut -d. -f1`
   pkg_minor=`echo $pkg_version | sed s/[-,a-z,A-Z].*// | cut -d. -f2`
@@ -188,7 +188,7 @@ version_check ()
 
   debug "found major $pkg_major minor $pkg_minor micro $pkg_micro"
 
-  #start checking the version
+  # Start checking the version
   if [ "$pkg_major" -lt "$MAJOR" ]; then
     WRONG=1
   elif [ "$pkg_major" -eq "$MAJOR" ]; then
