@@ -339,7 +339,8 @@ bool unit_can_build_city(const struct unit *punit)
 {
   return (unit_can_do_action(punit, ACTION_FOUND_CITY)
           && !game.scenario.prevent_new_cities
-          && unit_build_city_test(punit) == UAB_BUILD_OK);
+          && !tile_city(unit_tile(punit))
+          && city_build_here_test(unit_tile(punit), punit) == CB_OK);
 }
 
 /****************************************************************************
@@ -353,38 +354,6 @@ bool unit_can_add_or_build_city(const struct unit *punit)
   return (unit_can_build_city(punit)
           || ((tgt_city = tile_city(unit_tile(punit)))
               && unit_can_do_action(punit, ACTION_JOIN_CITY)));
-}
-
-/**************************************************************************
-  See if the unit can build a new city at its current location, and return
-  a 'result' value telling what is allowed.
-**************************************************************************/
-enum unit_add_build_city_result
-unit_build_city_test(const struct unit *punit)
-{
-  struct tile *ptile = unit_tile(punit);
-  struct city *pcity = tile_city(ptile);
-
-  /* Test if we can build. */
-  if (NULL == pcity) {
-    switch (city_build_here_test(ptile, punit)) {
-    case CB_OK:
-      return UAB_BUILD_OK;
-    case CB_BAD_CITY_TERRAIN:
-      return UAB_BAD_CITY_TERRAIN;
-    case CB_BAD_UNIT_TERRAIN:
-      return UAB_BAD_UNIT_TERRAIN;
-    case CB_BAD_BORDERS:
-      return UAB_BAD_BORDERS;
-    case CB_NO_MIN_DIST:
-      return UAB_NO_MIN_DIST;
-    }
-    log_error("%s(): Internal error.", __FUNCTION__);
-    return UAB_BAD_CITY_TERRAIN; /* Returns something prohibitive. */
-  } else {
-    /* There is already a city here... */
-    return UAB_BAD_CITY_TERRAIN; /* Returns something prohibitive. */
-  }
 }
 
 /**************************************************************************

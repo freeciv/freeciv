@@ -1918,7 +1918,7 @@ bool unit_perform_action(struct player *pplayer,
          *  - detailed explanation of why something is illegal. */
         /* TODO: improve explanation about why an action failed. */
         city_add_or_build_error(pplayer, actor_unit,
-                                unit_build_city_test(actor_unit));
+                                city_build_here_test(target_tile, actor_unit));
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        NULL, target_tile, NULL, NULL,
@@ -2129,35 +2129,35 @@ static bool unit_do_recycle(struct player *pplayer,
  consistency checking.
 **************************************************************************/
 void city_add_or_build_error(struct player *pplayer, struct unit *punit,
-                             enum unit_add_build_city_result res)
+                             enum city_build_result res)
 {
   /* Given that res came from unit_add_or_build_city_test(), pcity will
    * be non-null for all required status values. */
   struct tile *ptile = unit_tile(punit);
 
   switch (res) {
-  case UAB_BAD_CITY_TERRAIN:
+  case CB_BAD_CITY_TERRAIN:
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   /* TRANS: <tile-terrain>. */
                   _("Can't build a city on %s."),
                   terrain_name_translation(tile_terrain(ptile)));
     break;
-  case UAB_BAD_UNIT_TERRAIN:
+  case CB_BAD_UNIT_TERRAIN:
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   /* TRANS: <unit> ... <tile-terrain>. */
                   _("%s can't build a city on %s."), unit_link(punit),
                   terrain_name_translation(tile_terrain(ptile)));
     break;
-  case UAB_BAD_BORDERS:
+  case CB_BAD_BORDERS:
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("Can't place a city inside foreigner borders."));
     break;
-  case UAB_NO_MIN_DIST:
+  case CB_NO_MIN_DIST:
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("Can't place a city there because another city is too "
                     "close."));
     break;
-  case UAB_BUILD_OK:
+  case CB_OK:
     /* No action enabler allowed building the city. Happens when called
      * from handle_city_name_suggestion_req() because no enabler allowed
      * city founding. */

@@ -54,14 +54,6 @@ enum goto_route_type {
   ROUTE_GOTO, ROUTE_PATROL
 };
 
-enum unit_add_build_city_result {
-  UAB_BUILD_OK,         /* Unit OK to build city. */
-  UAB_BAD_CITY_TERRAIN, /* Equivalent to 'CB_BAD_CITY_TERRAIN'. */
-  UAB_BAD_UNIT_TERRAIN, /* Equivalent to 'CB_BAD_UNIT_TERRAIN'. */
-  UAB_BAD_BORDERS,      /* Equivalent to 'CB_BAD_BORDERS'. */
-  UAB_NO_MIN_DIST,      /* Equivalent to 'CB_NO_MIN_DIST'. */
-};
-
 enum unit_upgrade_result {
   UU_OK,
   UU_NO_UNITTYPE,
@@ -312,8 +304,6 @@ bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
 bool unit_can_build_city(const struct unit *punit);
 bool unit_can_add_or_build_city(const struct unit *punit);
-enum unit_add_build_city_result
-unit_build_city_test(const struct unit *punit);
 
 bool kills_citizen_after_attack(const struct unit *punit);
 

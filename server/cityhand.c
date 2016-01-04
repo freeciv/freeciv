@@ -54,7 +54,7 @@
 void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
-  enum unit_add_build_city_result res;
+  enum city_build_result res;
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -74,15 +74,15 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
     return;
   }
 
-  res = unit_build_city_test(punit);
+  res = city_build_here_test(unit_tile(punit), punit);
 
   switch (res) {
-  case UAB_BUILD_OK:
+  case CB_OK:
     /* No action enabler permitted the city to be built. */
-  case UAB_BAD_CITY_TERRAIN:
-  case UAB_BAD_UNIT_TERRAIN:
-  case UAB_BAD_BORDERS:
-  case UAB_NO_MIN_DIST:
+  case CB_BAD_CITY_TERRAIN:
+  case CB_BAD_UNIT_TERRAIN:
+  case CB_BAD_BORDERS:
+  case CB_NO_MIN_DIST:
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
                 "cannot build there.", TILE_XY(unit_tile(punit)));
     city_add_or_build_error(pplayer, punit, res);       /* Message. */
