@@ -50,9 +50,10 @@ Freeciv metaserver, which records games being played around the world.
 License:
 ========
 
-Freeciv is released under the GNU General Public License.  In short,
-you may copy this program (including source) freely, but see the
-COPYING file for full details.
+Freeciv is released under the GNU General Public License (version 2
+or, at your option, any later version).  In short, you may copy this
+program (including source) freely, but see the COPYING file for full
+details.
 
 Some materials that were used to prepare the graphics in the game (in
 the 'data' subdirectory), such as 3D models used to prepare bitmap
