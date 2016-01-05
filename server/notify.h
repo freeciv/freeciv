@@ -113,6 +113,8 @@ void event_cache_add_for_players(const struct packet_chat_msg *packet,
 
 void send_pending_events(struct connection *pconn, bool include_public);
 
+void event_cache_phases_invalidate(void);
+
 struct section_file;
 void event_cache_load(struct section_file *file, const char *section);
 void event_cache_save(struct section_file *file, const char *section);

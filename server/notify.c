@@ -68,6 +68,7 @@ static void package_event_full(struct packet_chat_msg *packet,
   packet->event = event;
   packet->conn_id = pconn ? pconn->id : -1;
   packet->turn = game.info.turn;
+  packet->phase = game.info.phase;
 
   fc_vsnprintf(buf, sizeof(buf), format, vargs);
   if (is_capitalization_enabled()) {
@@ -758,7 +759,7 @@ void event_cache_load(struct section_file *file, const char *section)
   enum event_cache_target target_type;
   enum server_states server_status;
   struct event_cache_players *players = NULL;
-  int i, x, y, turn, event_count;
+  int i, x, y, event_count;
   time_t timestamp, now;
   const char *p, *q;
 
@@ -771,6 +772,9 @@ void event_cache_load(struct section_file *file, const char *section)
 
   now = time(NULL);
   for (i = 0; i < event_count; i++) {
+    int turn;
+    int phase;
+
     /* restore packet */
     x = secfile_lookup_int_default(file, -1, "%s.events%d.x", section, i);
     y = secfile_lookup_int_default(file, -1, "%s.events%d.y", section, i);
@@ -799,6 +803,11 @@ void event_cache_load(struct section_file *file, const char *section)
     turn = secfile_lookup_int_default(file, 0, "%s.events%d.turn",
                                       section, i);
     packet.turn = turn;
+
+    phase = secfile_lookup_int_default(file, PHASE_UNKNOWN, "%s.events%d.phase",
+                                       section, i);
+    packet.phase = phase;
+
     timestamp = secfile_lookup_int_default(file, now,
                                            "%s.events%d.timestamp",
                                            section, i);
@@ -883,6 +892,16 @@ void event_cache_save(struct section_file *file, const char *section)
 
     secfile_insert_int(file, pdata->packet.turn, "%s.events%d.turn",
                        section, event_count);
+    if (pdata->packet.phase != PHASE_UNKNOWN) {
+      /* Do not save current value of PHASE_UNKNOWN to savegame.
+       * It practically means that "savegame had no phase stored".
+       * Note that the only case where phase might be PHASE_UNKNOWN
+       * may be present is that the event was loaded from previous
+       * savegame created by a freeciv version that did not store event
+       * phases. */
+      secfile_insert_int(file, pdata->packet.phase, "%s.events%d.phase",
+                         section, event_count);
+    }
     secfile_insert_int(file, pdata->timestamp, "%s.events%d.timestamp",
                        section, event_count);
     secfile_insert_int(file, tile_x, "%s.events%d.x", section, event_count);
@@ -922,4 +941,16 @@ void event_cache_save(struct section_file *file, const char *section)
   log_verbose("Events saved: %d.", event_count);
 
   event_cache_status = TRUE;
+}
+
+/***************************************************************
+  Mark all existing phase values in event cache invalid.
+***************************************************************/
+void event_cache_phases_invalidate(void)
+{
+  event_cache_iterate(pdata) {
+    if (pdata->packet.phase >= 0) {
+      pdata->packet.phase = PHASE_INVALIDATED;
+    }
+  } event_cache_iterate_end;
 }
