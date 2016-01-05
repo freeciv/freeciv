@@ -162,15 +162,17 @@ void tab_building::name_given()
 **************************************************************************/
 void tab_building::delete_now()
 {
-  ui->clear_required(improvement_rule_name(selected));
-  if (is_building_needed(selected, &ruledit_qt_display_requirers)) {
-    return;
+  if (selected != 0) {
+    ui->clear_required(improvement_rule_name(selected));
+    if (is_building_needed(selected, &ruledit_qt_display_requirers)) {
+      return;
+    }
+
+    selected->disabled = true;
+
+    refresh();
+    update_bldg_info(0);
   }
-
-  selected->disabled = true;
-
-  refresh();
-  update_bldg_info(0);
 }
 
 /**************************************************************************
