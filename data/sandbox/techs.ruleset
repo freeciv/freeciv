@@ -296,6 +296,8 @@ graphic_alt = "-"
 helptext = _("\
 Allows irrigation without an adjacent water source, improves the \
 effect of Amphitheaters, and increases city vision radius.\
+"), _("\
+Grants you vision inside your borders.\
 ")
 cost     = 300
 
