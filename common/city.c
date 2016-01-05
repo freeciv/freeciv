@@ -1398,7 +1398,7 @@ bool city_can_be_built_here(const struct tile *ptile,
   requirement vector is evaluated against a contradiction can be
   introduced.
 
-  TODO: Get rid of this together with CB_BAD_BORDERS and UAB_BAD_BORDERS.
+  TODO: Get rid of this together with CB_BAD_BORDERS.
   Maybe get rid of it before if the problem above is solved.
 **************************************************************************/
 static bool city_on_foreign_tile_is_legal(struct unit_type *punit_type)
@@ -1475,8 +1475,8 @@ enum city_build_result city_build_here_test(const struct tile *ptile,
   }
 
   if (punit && tile_owner(ptile) && tile_owner(ptile) != unit_owner(punit)
-      /* TODO: remove CB_BAD_BORDERS and UAB_BAD_BORDERS when it
-       * can be done without regressions. */
+      /* TODO: remove CB_BAD_BORDERS when it can be done without
+       * regressions. */
       /* The ruleset may allow founding cities on foreign terrain. */
       && !city_on_foreign_tile_is_legal(unit_type_get(punit))) {
     /* Cannot steal borders by settling. This has to be settled by
