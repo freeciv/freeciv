@@ -58,7 +58,7 @@ build-freeciv-common:
 	# make
 	make -C build-$(GUI)
 	make -C build-$(GUI)/translations/freeciv update-po
-	make -C build-$(GUI)/bootstrap langstat.txt
+	make -C build-$(GUI)/bootstrap langstat_freeciv.txt
 
 build-freeciv-ruledit:
 	# create build directory
