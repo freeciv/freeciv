@@ -679,7 +679,7 @@ bool research_invention_reachable(const struct research *presearch,
   Returns TRUE iff the given tech can be given to the players sharing the
   research immediately.
 
-  If reachable_ok is TRUE, any reachable tech is ok. If it's FALSE,
+  If allow_holes is TRUE, any reachable tech is ok. If it's FALSE,
   getting the tech must not leave holes to the known techs tree.
 ****************************************************************************/
 bool research_invention_gettable(const struct research *presearch,
