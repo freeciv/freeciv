@@ -2204,16 +2204,8 @@ static void sg_load_scenario(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (NULL == secfile_section_lookup(loading->file, "scenario")) {
-    game.scenario.is_scenario = FALSE;
-
-    return;
-  }
-
-  /* Default is that when there's scenario section (which we already checked)
-   * this is a scenario. Only if it explicitly says that it's not, we consider
-   * this regular savegame */
-  game.scenario.is_scenario = secfile_lookup_bool_default(loading->file, TRUE, "scenario.is_scenario");
+  sg_failure_ret(secfile_lookup_bool(loading->file, &game.scenario.is_scenario,
+                                     "scenario.is_scenario"), "%s", secfile_error());
   if (!game.scenario.is_scenario) {
     return;
   }
