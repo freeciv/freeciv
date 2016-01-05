@@ -162,17 +162,19 @@ void tab_building::name_given()
 **************************************************************************/
 void tab_building::delete_now()
 {
-  requirers_dlg *requirers;
+  if (selected != 0) {
+    requirers_dlg *requirers;
 
-  requirers = ui->create_requirers(improvement_rule_name(selected));
-  if (is_building_needed(selected, &ruledit_qt_display_requirers, requirers)) {
-    return;
+    requirers = ui->create_requirers(improvement_rule_name(selected));
+    if (is_building_needed(selected, &ruledit_qt_display_requirers, requirers)) {
+      return;
+    }
+
+    selected->disabled = true;
+
+    refresh();
+    update_bldg_info(0);
   }
-
-  selected->disabled = true;
-
-  refresh();
-  update_bldg_info(0);
 }
 
 /**************************************************************************

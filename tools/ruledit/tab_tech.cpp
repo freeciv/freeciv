@@ -326,17 +326,19 @@ void tab_tech::name_given()
 **************************************************************************/
 void tab_tech::delete_now()
 {
-  requirers_dlg *requirers;
+  if (selected != 0) {
+    requirers_dlg *requirers;
 
-  requirers = ui->create_requirers(advance_rule_name(selected));
-  if (is_tech_needed(selected, &ruledit_qt_display_requirers, requirers)) {
-    return;
+    requirers = ui->create_requirers(advance_rule_name(selected));
+    if (is_tech_needed(selected, &ruledit_qt_display_requirers, requirers)) {
+      return;
+    }
+
+    selected->require[AR_ONE] = A_NEVER;
+
+    refresh();
+    update_tech_info(0);
   }
-
-  selected->require[AR_ONE] = A_NEVER;
-
-  refresh();
-  update_tech_info(0);
 }
 
 /**************************************************************************
