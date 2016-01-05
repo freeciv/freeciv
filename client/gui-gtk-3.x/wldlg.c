@@ -1132,7 +1132,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 0, 1, 1);
 
-  arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
+  arrow = gtk_image_new_from_icon_name("pan-start-symbolic", GTK_ICON_SIZE_MENU);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_prepend), ptr);
@@ -1143,7 +1143,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 1, 1, 1);
 
-  arrow = gtk_arrow_new(GTK_ARROW_UP, GTK_SHADOW_NONE);
+  arrow = gtk_image_new_from_icon_name("pan-up-symbolic", GTK_ICON_SIZE_MENU);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_bubble_up), ptr);
@@ -1154,7 +1154,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 2, 1, 1);
 
-  arrow = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_IN);
+  arrow = gtk_image_new_from_icon_name("pan-down-symbolic", GTK_ICON_SIZE_MENU);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_bubble_down), ptr);
@@ -1167,7 +1167,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 3, 1, 1);
 
-  arrow = gtk_arrow_new(GTK_ARROW_LEFT, GTK_SHADOW_NONE);
+  arrow = gtk_image_new_from_icon_name("pan-start-symbolic", GTK_ICON_SIZE_MENU);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_append), ptr);
@@ -1180,7 +1180,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 4, 1, 1);
 
-  arrow = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_IN);
+  arrow = gtk_image_new_from_icon_name("pan-end-symbolic", GTK_ICON_SIZE_MENU);
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_remove), ptr);
