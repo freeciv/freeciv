@@ -1273,6 +1273,7 @@ static void help_update_extra(const struct help_item *pitem, char *title)
     strcat(buf, pitem->text);
   } else {
     struct road_type *proad = extra_road_get(pextra);
+    bool is_resource = is_extra_caused_by(pextra, EC_RESOURCE);
 
     /* Cost to build */
     if (pextra->buildable) {
@@ -1289,8 +1290,13 @@ static void help_update_extra(const struct help_item *pitem, char *title)
     gtk_label_set_text(GTK_LABEL(help_elabel[1]), buf);
     /* Conflicting extras */
     buf[0] = '\0';
+    if (is_resource) {
+      /* TRANS: (Resource extra) Conflicts with: */
+      strcat(buf, _("Other Resources"));
+    }
     extra_type_iterate(pextra2) {
-      if (!can_extras_coexist(pextra, pextra2)) {
+      if (!can_extras_coexist(pextra, pextra2)
+          && (!is_resource || !is_extra_caused_by(pextra2, EC_RESOURCE))) {
         if (buf[0] != '\0') {
           strcat(buf, "/");
         }
