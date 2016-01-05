@@ -11,8 +11,10 @@ EXTRA_DIST =    fcgui.in		\
 		generate_svnrev.sh	\
 		fc_gitrev_gen.h.tmpl	\
 		generate_gitrev.sh	\
-		generate_langstat.sh  \
-		langstat.txt		\
+		generate_langstat.sh	\
+		langstat_freeciv.txt	\
+		langstat_nations.txt	\
+		langstat_ruledit.txt	\
 		freeciv.desktop.in	\
 		freeciv-gtk2.desktop.in \
 		freeciv-sdl.desktop.in \
@@ -38,9 +40,15 @@ EXTRA_DIST =    fcgui.in		\
 		Makerules.mk		\
 		langnames.txt
 
-langstat.txt:
-	"$(top_srcdir)/bootstrap/generate_langstat.sh" "$(top_srcdir)" "$(top_builddir)"
+langstat_freeciv.txt:
+	"$(top_srcdir)/bootstrap/generate_langstat.sh" freeciv "$(top_srcdir)" "$(top_builddir)"
 
-.PHONY: langstat.txt
+langstat_nations.txt:
+	"$(top_srcdir)/bootstrap/generate_langstat.sh" nations "$(top_srcdir)" "$(top_builddir)"
 
-MAINTAINERCLEANFILES = langstat.txt
+langstat_ruledit.txt:
+	"$(top_srcdir)/bootstrap/generate_langstat.sh" ruledit "$(top_srcdir)" "$(top_builddir)"
+
+.PHONY: langstat_freeciv.txt langstat_nations.txt langstat_ruledit.txt
+
+MAINTAINERCLEANFILES = langstat_freeciv.txt langstat_nations.txt langstat_ruledit.txt
