@@ -594,6 +594,7 @@ PACKET_CHAT_MSG = 25; sc, lsend
   TILE tile;
   EVENT event;
   TURN turn;
+  PHASE phase;
   CONNECTION conn_id;
 end
 

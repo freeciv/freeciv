@@ -585,6 +585,11 @@ enum phase_mode_types {
   PMT_TEAMS_ALTERNATE
 };
 
+/* Phase mode change has changed meaning of the phase numbers */
+#define PHASE_INVALIDATED -1
+/* Phase was never known */
+#define PHASE_UNKNOWN     -2
+
 /* Used in the network protocol. */
 enum borders_mode {
   BORDERS_DISABLED = 0,

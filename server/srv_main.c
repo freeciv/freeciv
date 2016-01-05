@@ -943,7 +943,10 @@ static void begin_turn(bool is_new_turn)
 
   /* Reset this each turn. */
   if (is_new_turn) {
-    game.info.phase_mode = game.server.phase_mode_stored;
+    if (game.info.phase_mode != game.server.phase_mode_stored) {
+      event_cache_phases_invalidate();
+      game.info.phase_mode = game.server.phase_mode_stored;
+    }
   }
 
   /* NB: Phase logic must match is_player_phase(). */

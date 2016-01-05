@@ -1354,10 +1354,14 @@ void play_sound_for_event(enum event_type type)
   Handle a message packet.  This includes all messages - both
   in-game messages and chats from other players.
 **************************************************************************/
-void handle_chat_msg(const char *message, int tile,
-                     enum event_type event, int turn, int conn_id)
+void handle_chat_msg(const struct packet_chat_msg *packet)
 {
-  handle_event(message, index_to_tile(tile), event, turn, conn_id);
+  handle_event(packet->message,
+               index_to_tile(packet->tile),
+               packet->event,
+               packet->turn,
+               packet->phase,
+               packet->conn_id);
 }
 
 /**************************************************************************
