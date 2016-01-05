@@ -445,7 +445,7 @@ void go_act_menu::update()
 **************************************************************************/
 void go_act_menu::start_go_act(int action_id)
 {
-  request_unit_goto(ORDER_PERFORM_ACTION, action_id);
+  request_unit_goto(ORDER_PERFORM_ACTION, action_id, EXTRA_NONE);
 }
 
 /**************************************************************************
@@ -1775,7 +1775,7 @@ void mr_menu::slot_conn_road()
 ***************************************************************************/
 void mr_menu::slot_go_build_city()
 {
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_FOUND_CITY);
+  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_FOUND_CITY, EXTRA_NONE);
 }
 
 /***************************************************************************
@@ -1783,7 +1783,7 @@ void mr_menu::slot_go_build_city()
 ***************************************************************************/
 void mr_menu::slot_go_join_city()
 {
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_JOIN_CITY);
+  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_JOIN_CITY, EXTRA_NONE);
 }
 
 /***************************************************************************
@@ -1925,8 +1925,8 @@ void mr_menu::slot_delayed_goto()
     return;
   }
   if (hover_state != HOVER_GOTO) {
-    set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL, ACTION_COUNT,
-                    ORDER_LAST);
+    set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     control_mouse_cursor(NULL);

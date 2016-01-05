@@ -1787,7 +1787,7 @@ void send_goto_route(void)
       order.dir = DIR8_ORIGIN;
       order.dir = last_order_dir;
       order.activity = ACTIVITY_LAST;
-      order.target = EXTRA_NONE;
+      order.target = goto_last_tgt;
       order.action = goto_last_action;
 
       /* ORDER_ACTIVITY would require real activity */

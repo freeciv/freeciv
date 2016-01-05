@@ -259,8 +259,8 @@ void map_view::mousePressEvent(QMouseEvent *event)
       && gui()->menu_bar->delayed_order == true) {
       ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
       gui()->menu_bar->set_tile_for_order(ptile);
-      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ACTION_COUNT,
-                      ORDER_LAST);
+      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL,
+                      EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
       exit_goto_state();
       gui()->menu_bar->delayed_order = false;
   }

@@ -46,6 +46,7 @@ extern enum cursor_hover_state hover_state;
 extern enum unit_activity connect_activity;
 extern struct extra_type *connect_tgt;
 extern int goto_last_action;
+extern int goto_last_tgt;
 extern enum unit_orders goto_last_order;
 extern bool non_ai_unit_focus;
 
@@ -69,6 +70,7 @@ void control_mouse_cursor(struct tile *ptile);
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
                      enum unit_activity connect_activity,
                      struct extra_type *tgt,
+                     int goto_last_tgt,
                      int goto_last_action,
                      enum unit_orders goto_last_order);
 void request_center_focus_unit(void);
@@ -89,7 +91,7 @@ void request_unit_connect(enum unit_activity activity,
                           struct extra_type *tgt);
 void request_unit_disband(struct unit *punit);
 void request_unit_fortify(struct unit *punit);
-void request_unit_goto(enum unit_orders last_order, int action_id);
+void request_unit_goto(enum unit_orders last_order, int action_id, int tgt_id);
 void request_unit_move_done(void);
 void request_unit_paradrop(struct unit_list *punits);
 void request_unit_patrol(void);

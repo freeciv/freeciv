@@ -82,6 +82,7 @@ enum unit_activity connect_activity;
 struct extra_type *connect_tgt;
 
 int goto_last_action;
+int goto_last_tgt;
 enum unit_orders goto_last_order; /* Last order for goto */
 
 static struct tile *hover_tile = NULL;
@@ -146,7 +147,8 @@ void control_free(void)
   }
 
   set_hover_state(NULL, HOVER_NONE,
-                  ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                  ACTIVITY_LAST, NULL,
+                  EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
   free_client_goto();
 }
 
@@ -211,7 +213,8 @@ void control_unit_killed(struct unit *punit)
   unit_list_remove(get_units_in_focus(), punit);
   if (get_num_units_in_focus() < 1) {
     set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                    ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
   }
 
   unit_list_remove(previous_focus, punit);
@@ -265,6 +268,7 @@ void unit_register_battlegroup(struct unit *punit)
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity activity,
                      struct extra_type *tgt,
+                     int last_tgt,
                      int action,
                      enum unit_orders order)
 {
@@ -283,6 +287,7 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
   }
   goto_last_order = order;
   goto_last_action = action;
+  goto_last_tgt = last_tgt;
 }
 
 /**************************************************************************
@@ -491,7 +496,8 @@ void unit_focus_set(struct unit *punit)
 
   if (focus_changed) {
     set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                    ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
     focus_units_changed();
   }
 }
@@ -520,7 +526,8 @@ void unit_focus_add(struct unit *punit)
     /* Can't continue with current goto if set of focus units
      * change. Cancel it. */
     set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                    ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
   }
 
   current_focus_append(punit);
@@ -551,7 +558,8 @@ void unit_focus_remove(struct unit *punit)
     /* Can't continue with current goto if set of focus units
      * change. Cancel it. */
     set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                    ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
   }
 
   current_focus_remove(punit);
@@ -628,7 +636,8 @@ void unit_focus_advance(void)
   }
 
   set_hover_state(NULL, HOVER_NONE,
-                  ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                  ACTIVITY_LAST, NULL,
+                  EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
 
   unit_list_iterate(get_units_in_focus(), punit) {
     /* 
@@ -1015,7 +1024,8 @@ void action_decision_request(struct unit *actor_unit)
 /**************************************************************************
   Do a goto with an order at the end (or ORDER_LAST).
 **************************************************************************/
-void request_unit_goto(enum unit_orders last_order, int action_id)
+void request_unit_goto(enum unit_orders last_order,
+                       int action_id, int tgt_id)
 {
   struct unit_list *punits = get_units_in_focus();
 
@@ -1064,7 +1074,7 @@ void request_unit_goto(enum unit_orders last_order, int action_id)
 
   if (hover_state != HOVER_GOTO) {
     set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL,
-                    action_id, last_order);
+                    tgt_id, action_id, last_order);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
@@ -1343,7 +1353,7 @@ void request_unit_connect(enum unit_activity activity,
           && (activity == ACTIVITY_GEN_ROAD
               || activity == ACTIVITY_IRRIGATE))) {
     set_hover_state(punits, HOVER_CONNECT,
-                    activity, tgt, ACTION_COUNT, ORDER_LAST);
+                    activity, tgt, EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
@@ -1880,7 +1890,7 @@ void request_unit_paradrop(struct unit_list *punits)
   } unit_list_iterate_end;
   if (can) {
     set_hover_state(punits, HOVER_PARADROP, ACTIVITY_LAST, NULL,
-                    ACTION_COUNT, ORDER_LAST);
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
     update_unit_info_label(punits);
   } else {
     create_event(offender, E_BAD_COMMAND, ftc_client,
@@ -1901,7 +1911,7 @@ void request_unit_patrol(void)
 
   if (hover_state != HOVER_PATROL) {
     set_hover_state(punits, HOVER_PATROL, ACTIVITY_LAST, NULL,
-                    ACTION_COUNT, ORDER_LAST);
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
     update_unit_info_label(punits);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
@@ -2389,7 +2399,8 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   if (hover_state != HOVER_NONE && in_focus) {
     /* Cancel current goto/patrol/connect/nuke command. */
     set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                    ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
   }
 
@@ -2472,7 +2483,8 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     }
 
     set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                    ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
   }
 
@@ -2686,7 +2698,8 @@ void do_unit_patrol_to(struct tile *ptile)
   }
 
   set_hover_state(NULL, HOVER_NONE,
-                  ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                  ACTIVITY_LAST, NULL,
+                  EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
 }
  
 /**************************************************************************
@@ -2704,7 +2717,8 @@ void do_unit_connect(struct tile *ptile,
   }
 
   set_hover_state(NULL, HOVER_NONE,
-                  ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                  ACTIVITY_LAST, NULL,
+                  EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
 }
  
 /**************************************************************************
@@ -2724,7 +2738,8 @@ void key_cancel_action(void)
     /* else fall through: */
   case HOVER_PARADROP:
     set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                    ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
 
     keyboardless_goto_button_down = FALSE;
@@ -2861,7 +2876,7 @@ void key_unit_done(void)
 **************************************************************************/
 void key_unit_goto(void)
 {
-  request_unit_goto(ORDER_LAST, ACTION_COUNT);
+  request_unit_goto(ORDER_LAST, ACTION_COUNT, EXTRA_NONE);
 }
 
 /**************************************************************************
@@ -2869,7 +2884,7 @@ Explode nuclear at a tile without enemy units
 **************************************************************************/
 void key_unit_nuke(void)
 {
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_NUKE);
+  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_NUKE, EXTRA_NONE);
 }
 
 /**************************************************************************

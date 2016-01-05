@@ -1082,7 +1082,8 @@ static void build_city_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void go_build_city_callback(GtkAction *action, gpointer data)
 {
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_FOUND_CITY);
+  request_unit_goto(ORDER_PERFORM_ACTION,
+                    ACTION_FOUND_CITY, EXTRA_NONE);
 }
 
 /****************************************************************
@@ -1090,7 +1091,8 @@ static void go_build_city_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void go_join_city_callback(GtkAction *action, gpointer data)
 {
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_JOIN_CITY);
+  request_unit_goto(ORDER_PERFORM_ACTION,
+                    ACTION_JOIN_CITY, EXTRA_NONE);
 }
 
 /****************************************************************

@@ -1964,7 +1964,8 @@ void handle_game_info(const struct packet_game_info *pinfo)
     popdown_all_city_dialogs();
     /* Clears the current goto command. */
     set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
+                    ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
 
     if (pinfo->is_edit_mode && game.scenario.handmade) {
       if (!handmade_scenario_warning()) {
