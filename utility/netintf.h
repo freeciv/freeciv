@@ -48,10 +48,10 @@ extern "C" {
 #ifdef FREECIV_HAVE_WINSOCK
 #ifdef FREECIV_HAVE_WINSOCK2
 #include <winsock2.h>
-#else
+#else  /* FREECIV_HAVE_WINSOCK2 */
 #include <winsock.h>
-#endif
-#endif
+#endif /* FREECIV_HAVE_WINSOCK2 */
+#endif /* FREECIV_HAVE_WINSOCK */
 
 /* utility */
 #include "ioz.h"

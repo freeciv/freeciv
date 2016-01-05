@@ -28,9 +28,13 @@
 #ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
-#ifdef HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK2
+#include <winsock2.h>
+#else  /* FREECIV_HAVE_WINSOCK2 */
 #include <winsock.h>
-#endif
+#endif /* FREECIV_HAVE_WINSOCK2 */
+#endif /* FREECIV_HAVE_WINSOCK */
 
 #include <jansson.h>
 
