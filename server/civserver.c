@@ -32,9 +32,13 @@
 #include <Dialogs.h>
 #endif
 
-#ifdef HAVE_WS2TCPIP_H
-#include <ws2tcpip.h>
-#endif
+#ifdef FREECIV_HAVE_WINSOCK
+#ifdef FREECIV_HAVE_WINSOCK2
+#include <winsock2.h>
+#else  /* FREECIV_HAVE_WINSOCK2 */
+#include <winsock.h>
+#endif /* FREECIV_HAVE_WINSOCK2 */
+#endif /* FREECIV_HAVE_WINSOCK */
 #ifdef WIN32_NATIVE
 #include <windows.h>
 #endif
