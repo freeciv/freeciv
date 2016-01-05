@@ -907,8 +907,6 @@ food        = 3
 
 [resource_peat]
 extra       = "Peat"
-graphic     = "ts.peat"
-graphic_alt = "-"
 identifier  = "a"
 shield      = 4
 # swamp (petroleum => peat => petroleum).
