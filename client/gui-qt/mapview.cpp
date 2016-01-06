@@ -181,14 +181,12 @@ void map_view::paintEvent(QPaintEvent *event)
 }
 
 /**************************************************************************
-  Redraws visible map
+  Redraws given rectangle on map
 **************************************************************************/
 void map_view::paint(QPainter *painter, QPaintEvent *event)
 {
-  int width = mapview.store->map_pixmap.width();
-  int height = mapview.store->map_pixmap.height();
-
-  painter->drawPixmap(0, 0, width, height, mapview.store->map_pixmap);
+  painter->drawPixmap(event->rect(), mapview.store->map_pixmap,
+                      event->rect());
 }
 
 /**************************************************************************
