@@ -6,13 +6,13 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2015.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-02 01:22+0200\n"
-"PO-Revision-Date: 2015-12-22 20:14+0100\n"
+"PO-Revision-Date: 2016-01-06 19:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
 "Language: ca\n"
@@ -8754,19 +8754,17 @@ msgid "Unable to initialize SDL2 library: %s"
 msgstr "No s'ha pogut inicialitzar la llibreria SDL2: %s"
 
 #: client/gui-sdl2/graphics.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to initialize SDL2_ttf library: %s"
 msgstr "No s'ha pogut inicialitzar la llibreria SDL_ttf: %s"
 
 #: client/gui-sdl2/graphics.c:626
-#, fuzzy
 msgid "SDL2 Client for Freeciv"
-msgstr "Client SDL per Freeciv"
+msgstr "Client SDL2 per Freeciv"
 
 #: client/gui-sdl2/gui_main.c:885
-#, fuzzy
 msgid "Migrating options from sdl to sdl2 client"
-msgstr "Migrant les opcions del client gtk2 al gtk3"
+msgstr "Migrant les opcions del client sdl al sdl2"
 
 #: client/gui-sdl2/mapview.c:163
 #, fuzzy, c-format
@@ -8774,18 +8772,18 @@ msgid "Failed to add events to SDL2 event buffer: %s"
 msgstr "No s'han pogut llegir les dades de metaservidor de %s."
 
 #: client/gui-sdl2/pages.c:338
-#, fuzzy
 msgid "SDL2-client welcomes you..."
-msgstr "El client SDL et dóna la benvinguda..."
+msgstr "El client SDL2 et dóna la benvinguda..."
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/gui-sdl2/themes.c:59
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "No Sdl2-client theme was found. For instructions on how to get one, please "
 "visit %s"
 msgstr ""
-"No s'ha trobat cap tema per al gui-sdl. Per instruccions sobre com obtenir-"
+"No s'ha trobat cap tema per al client Sdl2. Per instruccions sobre com "
+"obtenir-"
 "ne, visiteu si us plau %s"
 
 #: client/gui-xaw/citydlg.c:225
@@ -9119,7 +9117,7 @@ msgstr "Recursos"
 
 #: client/gui-xaw/menu.c:158
 msgid "Huts"
-msgstr ""
+msgstr "Cabanes"
 
 #: client/gui-xaw/menu.c:159
 msgid "Pollution & Fallout"
@@ -9299,24 +9297,25 @@ msgid "Prevented by knowledge of the technology %s.\n"
 msgstr "S'evita si es coneix la tecnologia %s.\n"
 
 #: client/helpdata.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that a player on your team knows the technology %s.\n"
-msgstr "Requereix que algun jugador hagi investigat la tecnologia %s.\n"
+msgstr "Requereix que algun jugador del teu equip conegui la tecnologia %s.\n"
 
 #: client/helpdata.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if any player on your team knows the technology %s.\n"
-msgstr "S'evita si has investigat la tecnologia %s.\n"
+msgstr ""
+"S'evita si algun jugador del teu equip ha investigat la tecnologia %s.\n"
 
 #: client/helpdata.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that a player allied to you knows the technology %s.\n"
-msgstr "Requereix que algun jugador hagi investigat la tecnologia %s.\n"
+msgstr "Requereix que algun jugador aliat amb tu conegui la tecnologia %s.\n"
 
 #: client/helpdata.c:429
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if any player allied to you knows the technology %s.\n"
-msgstr "S'evita si has investigat la tecnologia %s.\n"
+msgstr "S'evita si algun jugador aliat amb tu coneix la tecnologia %s.\n"
 
 #: client/helpdata.c:438
 #, c-format
@@ -9352,11 +9351,13 @@ msgstr "No es pot fer si es coneix alguna tecnologia amb l'opció \"%s\".\n"
 
 #. TRANS: %s is a (translateable) tech flag.
 #: client/helpdata.c:494
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that a player on your team knows a technology with the \"%s\" "
 "flag.\n"
-msgstr "Requereix que algun jugador hagi investigat la tecnologia %s.\n"
+msgstr ""
+"Requereix que algun jugador del teu equip conegui una tecnologia amb l'opció "
+"\"%s\".\n"
 
 #. TRANS: %s is a (translateable) tech flag.
 #: client/helpdata.c:500
@@ -9365,14 +9366,18 @@ msgid ""
 "Prevented if any player on your team knows any technology with the \"%s\" "
 "flag.\n"
 msgstr ""
+"S'evita si algun jugador del teu equip coneix alguna tecnologia amb l'opció "
+"\"%s\".\n"
 
 #. TRANS: %s is a (translateable) tech flag.
 #: client/helpdata.c:509
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that a player allied to you knows a technology with the \"%s\" "
 "flag.\n"
-msgstr "Requereix que algun jugador hagi investigat la tecnologia %s.\n"
+msgstr ""
+"Requereix que algun jugador aliat amb tu conegui una tecnologia amb l'opció "
+"\"%s\".\n"
 
 #. TRANS: %s is a (translateable) tech flag.
 #: client/helpdata.c:515
@@ -9381,6 +9386,8 @@ msgid ""
 "Prevented if any player allied to you knows any technology with the \"%s\" "
 "flag.\n"
 msgstr ""
+"S'evita si algun jugador aliat amb tu coneix alguna tecnologia amb l'opció \"%"
+"s\".\n"
 
 #. TRANS: %s is a (translateable) tech flag.
 #: client/helpdata.c:524
@@ -9407,44 +9414,46 @@ msgid "Not available under the %s government.\n"
 msgstr "No està disponible sota el govern %s.\n"
 
 #: client/helpdata.c:564
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to have achieved \"%s\".\n"
-msgstr "Requereix que hagis investigat la tecnologia %s.\n"
+msgstr "Requereix que hagis aconseguit \"%s\".\n"
 
 #: client/helpdata.c:567
 #, c-format
 msgid "Not available once you have achieved \"%s\".\n"
-msgstr ""
+msgstr "No està disponible un cop has aconseguit \"%s\".\n"
 
 #: client/helpdata.c:574
 #, c-format
 msgid "Requires that at least one of your team-mates has achieved \"%s\".\n"
 msgstr ""
+"Requereix que almenys un dels teus companys d'equip hagi aconseguit \"%s\".\n"
 
 #: client/helpdata.c:578
 #, c-format
 msgid "Not available if any of your team-mates has achieved \"%s\".\n"
 msgstr ""
+"No està disponible si algun dels teus companys d'equip ha aconseguit \"%s\".\n"
 
 #: client/helpdata.c:585
 #, c-format
 msgid "Requires that at least one of your allies has achieved \"%s\".\n"
-msgstr ""
+msgstr "Requereix que almenys un dels teus aliats hagi aconseguit \"%s\".\n"
 
 #: client/helpdata.c:589
 #, c-format
 msgid "Not available if any of your allies has achieved \"%s\".\n"
-msgstr ""
+msgstr "No està disponible si algun dels teus aliats ha aconseguit \"%s\".\n"
 
 #: client/helpdata.c:596
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that at least one player has achieved \"%s\".\n"
-msgstr "Requereix que algun jugador hagi investigat la tecnologia %s.\n"
+msgstr "Requereix que almenys un jugador hagi aconseguit \"%s\".\n"
 
 #: client/helpdata.c:600
 #, c-format
 msgid "Not available if any player has achieved \"%s\".\n"
-msgstr ""
+msgstr "No està disponible si algun jugador ha aconseguit \"%s\".\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:626
@@ -9508,6 +9517,8 @@ msgid ""
 "Requires someone who is currently allied to you to have built %s at some "
 "point, and for it not to have been rendered obsolete.\n"
 msgstr ""
+"Requereix que algú que estigui aliat amb tu actualment hagi construït %s en "
+"algun moment, i que encara no hagi quedat obsolet.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:708
@@ -9516,6 +9527,8 @@ msgid ""
 "Requires someone who is currently allied to you to have built %s at some "
 "point.\n"
 msgstr ""
+"Requereix que algú que estigui aliat amb tu actualment hagi construït %s en "
+"algun moment.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:717
@@ -9524,12 +9537,16 @@ msgid ""
 "Prevented if someone currently allied to you has ever built %s, unless it "
 "would be obsolete.\n"
 msgstr ""
+"S'evita si algú que estigui aliat amb tu actualment ha construït %s en algun "
+"moment, a no ser que ja hagi quedat obsolet.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:725
 #, c-format
 msgid "Prevented if someone currently allied to you has ever built %s.\n"
 msgstr ""
+"S'evita si algú que estigui aliat amb tu actualment ha construït %s en algun "
+"moment.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:737
@@ -9538,24 +9555,28 @@ msgid ""
 "Requires someone allied to you to own %s, and for it not to have been "
 "rendered obsolete.\n"
 msgstr ""
+"Requereix que algú que estigui aliat amb tu actualment posseeixi %s, i que "
+"encara no hagi quedat obsolet.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:745
-#, fuzzy, c-format
+#, c-format
 msgid "Requires someone allied to you to own %s.\n"
-msgstr "Requereix que tinguis la meravella %s.\n"
+msgstr "Requereix que algú que estigui aliat amb tu actualment posseeixi %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:753
 #, c-format
 msgid "Prevented if someone allied to you owns %s, unless it is obsolete.\n"
 msgstr ""
+"S'evita si algú que estigui aliat amb tu actualment posseeix %s, a no ser que "
+"hagi quedat obsolet.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:760
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone allied to you owns %s.\n"
-msgstr "S'evita si tens la meravella %s.\n"
+msgstr "S'evita si algú que estigui aliat amb tu actualment posseeix %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:777
@@ -9564,13 +9585,14 @@ msgid ""
 "Requires someone on your team to have built %s at some point, and for it not "
 "to have been rendered obsolete.\n"
 msgstr ""
+"Requereix que algú del teu equip hagi construït %s en algun moment, i que "
+"encara no hagi quedat obsolet.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:785
-#, fuzzy, c-format
+#, c-format
 msgid "Requires someone on your team to have built %s at some point.\n"
-msgstr ""
-"Requereix que tinguis la meravella %s i que sigui al mateix continent.\n"
+msgstr "Requereix que algú del teu equip hagi construït %s en algun moment.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:794
@@ -9579,12 +9601,14 @@ msgid ""
 "Prevented if someone on your team has ever built %s, unless it would be "
 "obsolete.\n"
 msgstr ""
+"S'evita si algú del teu equip ha construït %s en algun moment, a no ser que "
+"hagi quedat obsolet.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:801
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone on your team has ever built %s.\n"
-msgstr "S'evita si tens la meravella %s.\n"
+msgstr "S'evita si algú del teu equip ha construït %s en algun moment.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:813
@@ -9593,24 +9617,27 @@ msgid ""
 "Requires someone on your team to own %s, and for it not to have been "
 "rendered obsolete.\n"
 msgstr ""
+"Requereix que algú del teu equip posseeixi %s, i que encara no hagi quedat "
+"obsolet.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Requires someone on your team to own %s.\n"
-msgstr "Requereix que tinguis la meravella %s.\n"
+msgstr "Requereix que algú del teu equip posseeixi %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:829
 #, c-format
 msgid "Prevented if someone on your team owns %s, unless it is obsolete.\n"
 msgstr ""
+"S'evita si algú del teu equip posseeix %s, a no ser que hagi quedat obsolet.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:836
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone on your team owns %s.\n"
-msgstr "S'evita si tens la meravella %s.\n"
+msgstr "S'evita si algú del teu equip posseeix %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:853
@@ -9699,28 +9726,32 @@ msgstr "S'evita si %s  és en una de les teves ciutats del mateix continent.\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:964
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s in the city or a trade partner (and not yet obsolete).\n"
-msgstr "Requereix que %s sigui a la ciutat (i encara no sigui obsolet).\n"
+msgstr ""
+"Requereix que hi hagi %s a la ciutat o en un soci comercial seu (i encara no "
+"sigui obsolet).\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:971
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s in the city or a trade partner.\n"
-msgstr "Requereix que %s sigui a la ciutat.\n"
+msgstr "Requereix que hi hagi %s a la ciutat o en un soci comercial seu.\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:980
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented by %s in the city or a trade partner (unless it is obsolete).\n"
-msgstr "S'evita si %s és a la ciutat (a no ser que sigui obsolet).\n"
+msgstr ""
+"S'evita si hi ha %s a la ciutat o en un soci comercial seu (a no ser que "
+"sigui obsolet).\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:987
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by %s in the city or a trade partner.\n"
-msgstr "S'evita si %s és a la ciutat.\n"
+msgstr "S'evita si hi ha %s a la ciutat o en un soci comercial seu.\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:999
@@ -9757,27 +9788,27 @@ msgid "Does not apply to \"%s\" buildings.\n"
 msgstr "No s'aplica a edificis \"%s\".\n"
 
 #: client/helpdata.c:1053
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Requires %s on the tile.\n"
 msgstr "Requereix %s a la casella.\n"
 
 #: client/helpdata.c:1057
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Prevented by %s on the tile.\n"
-msgstr "Requereix el terreny %s a la casella.\n"
+msgstr "S'evita si hi ha %s a la casella.\n"
 
 #: client/helpdata.c:1064
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr ""
-"Requereix el terreny %s a la casella o en una d'adjacent en el sentit dels "
+"Requereix %s a la casella o en una d'adjacent en el sentit dels "
 "punts cardinals.\n"
 
 #: client/helpdata.c:1069
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
-"Requereix el terreny %s a la casella o en una d'adjacent en el sentit dels "
+"S'evita si hi ha %s a la casella o en una d'adjacent en el sentit dels "
 "punts cardinals.\n"
 
 #: client/helpdata.c:1077
@@ -9786,33 +9817,37 @@ msgid "?extra:Requires %s on the tile or an adjacent tile.\n"
 msgstr "Requereix %s a la casella o en una d'adjacent.\n"
 
 #: client/helpdata.c:1082
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Prevented by %s on the tile or any adjacent tile.\n"
-msgstr "Requereix el terreny %s a la casella o en una d'adjacent.\n"
+msgstr "S'evita si hi ha %s a la casella o en una d'adjacent.\n"
 
 #: client/helpdata.c:1090
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Requires %s on a tile within the city radius.\n"
-msgstr "Requereix el terreny %s a la casella.\n"
+msgstr "Requereix %s en alguna casella dins del radi de la ciutat.\n"
 
 #: client/helpdata.c:1095
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Prevented by %s on any tile within the city radius.\n"
-msgstr "Requereix el terreny %s a la casella.\n"
+msgstr "S'evita si hi ha %s en alguna casella dins del radi de la ciutat.\n"
 
 #: client/helpdata.c:1103
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?extra:Requires %s on a tile within the city radius, or the city radius of a "
 "trade partner.\n"
-msgstr "Requereix el terreny %s a la casella.\n"
+msgstr ""
+"Requereix %s en alguna casella dins del radi de la ciutat, o en el radi de la "
+"ciutat d'algun soci comercial.\n"
 
 #: client/helpdata.c:1108
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?extra:Prevented by %s on any tile within the city radius or the city radius "
 "of a trade partner.\n"
-msgstr "Requereix el terreny %s a la casella.\n"
+msgstr ""
+"S'evita si hi ha %s en alguna casella dins del radi de la ciutat, o en el "
+"radi de la ciutat d'algun soci comercial.\n"
 
 #: client/helpdata.c:1128
 #, c-format
@@ -9861,20 +9896,22 @@ msgstr ""
 "No es pot fer si hi ha %s en alguna casella dins del radi de la ciutat.\n"
 
 #: client/helpdata.c:1177
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?terrain:Requires %s on a tile within the city radius, or the city radius of "
 "a trade partner.\n"
 msgstr ""
-"Requereix que hi hagi %s en alguna casella dins del radi de la ciutat.\n"
+"Requereix %s en alguna casella dins del radi de la ciutat, o en el radi de la "
+"ciutat d'algun soci comercial.\n"
 
 #: client/helpdata.c:1182
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?terrain:Prevented by %s on any tile within the city radius or the city "
 "radius of a trade partner.\n"
 msgstr ""
-"No es pot fer si hi ha %s en alguna casella dins del radi de la ciutat.\n"
+"S'evita si hi ha %s en alguna casella dins del radi de la ciutat, o en el "
+"radi de la ciutat d'algun soci comercial.\n"
 
 #: client/helpdata.c:1203
 #, c-format
@@ -9924,20 +9961,22 @@ msgstr ""
 "No es pot fer si hi ha %s en alguna casella dins del radi de la ciutat.\n"
 
 #: client/helpdata.c:1253
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?resource:Requires %s on a tile within the city radius or the city radius of "
 "a trade partner.\n"
 msgstr ""
-"Requereix que hi hagi %s en alguna casella dins del radi de la ciutat.\n"
+"Requereix que hi hagi %s en alguna casella dins del radi de la ciutat, o en "
+"el radi de la ciutat d'algun soci comercial.\n"
 
 #: client/helpdata.c:1258
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?resource:Prevented by %s on any tile within the city radius or the city "
 "radius of a trade partner.\n"
 msgstr ""
-"No es pot fer si hi ha %s en alguna casella dins del radi de la ciutat.\n"
+"S'evita si hi ha %s en alguna casella dins del radi de la ciutat, o en el "
+"radi de la ciutat d'algun soci comercial.\n"
 
 #. TRANS: "... playing as the Swedes."
 #: client/helpdata.c:1280
@@ -9953,9 +9992,9 @@ msgstr "Requereix que no estiguis jugant com a %s.\n"
 
 #. TRANS: "... same team as the Indonesians."
 #: client/helpdata.c:1293
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are on the same team as the %s.\n"
-msgstr "Requereix que estiguis jugant la nació %s.\n"
+msgstr "Requereix que estiguis al mateix equip que els %s.\n"
 
 #. TRANS: "... same team as the Greeks."
 #: client/helpdata.c:1299
@@ -10001,51 +10040,51 @@ msgstr "Requereix que els %s no participin a la partida.\n"
 
 #. TRANS: nation group: "... playing African nation."
 #: client/helpdata.c:1363
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are playing %s nation.\n"
-msgstr "Requereix que estiguis jugant la nació %s.\n"
+msgstr "Requereix que estiguis jugant amb una nació %s.\n"
 
 #. TRANS: nation group: "... playing Imaginary nation."
 #: client/helpdata.c:1368
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if you are playing %s nation.\n"
-msgstr "Requereix que estiguis jugant la nació %s.\n"
+msgstr "S'evita si estàs jugant amb una nació %s.\n"
 
 #. TRANS: nation group: "Requires Medieval nation ..."
 #: client/helpdata.c:1376
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s nation on your team.\n"
-msgstr "Requereix que tinguis la meravella %s.\n"
+msgstr "Requereix que tinguis una nació %s al teu equip.\n"
 
 #. TRANS: nation group: "Prevented by Medieval nation ..."
 #: client/helpdata.c:1381
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by %s nation on your team.\n"
-msgstr "S'evita si tens la meravella %s.\n"
+msgstr "S'evita si tens una nació %s al teu equip.\n"
 
 #. TRANS: nation group: "Requires Modern nation ..."
 #: client/helpdata.c:1389
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s nation in alliance with you.\n"
-msgstr "Requereix que %s sigui a la ciutat.\n"
+msgstr "Requereix que una nació %s sigui aliada teva.\n"
 
 #. TRANS: nation group: "Prevented by Modern nation ..."
 #: client/helpdata.c:1394
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if %s nation is in alliance with you.\n"
-msgstr "S'evita si tens la meravella %s.\n"
+msgstr "S'evita si una nació %s és aliada teva.\n"
 
 #. TRANS: nation group: "Requires Asian nation ..."
 #: client/helpdata.c:1402
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s nation in the game.\n"
-msgstr "Requereix que els %s participin a la partida.\n"
+msgstr "Requereix que una nació %s participi a la partida.\n"
 
 #. TRANS: nation group: "Prevented by Asian nation ..."
 #: client/helpdata.c:1407
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by %s nation in the game.\n"
-msgstr "S'evita si %s és a la ciutat.\n"
+msgstr "S'evita si una nació %s participa a la partida.\n"
 
 #. TRANS: "Requires that you are playing Asian style
 #. * nation."
@@ -11019,7 +11058,7 @@ msgstr ""
 "activada).\n"
 
 #: client/helpdata.c:3544
-#, fuzzy, c-format
+#, c-format
 msgid "* Belongs to %s unit class."
 msgstr "* Pertany a la classe d'unitats %s.\n"
 
@@ -11135,11 +11174,11 @@ msgstr ""
 
 #: client/helpdata.c:3689
 msgid "  - New cities are not allowed in current game.\n"
-msgstr ""
+msgstr "  - Les ciutats noves no es permeten en la partida actual.\n"
 
 #: client/helpdata.c:3691
 msgid "  - New cities are allowed in current game.\n"
-msgstr ""
+msgstr "  - Les ciutats noves es permeten en la partida actual.\n"
 
 #. TRANS: %s is a nation plural
 #: client/helpdata.c:3711
@@ -11297,9 +11336,9 @@ msgid "* Can transform terrain to another type.\n"
 msgstr "* Pot convertir terreny d'un tipus en un altre.\n"
 
 #: client/helpdata.c:4035 client/helpdata.c:4048
-#, fuzzy, c-format
+#, c-format
 msgid "* Can clean %s from tiles.\n"
-msgstr "* Pot netejar contaminació de les caselles.\n"
+msgstr "* Pot netejar %s de les caselles.\n"
 
 #: client/helpdata.c:4057
 #, fuzzy
@@ -11601,14 +11640,13 @@ msgstr ""
 "control, o ser-hi restringits per una altra.\n"
 
 #: client/helpdata.c:4578
-#, fuzzy
 msgid "* No units can fortify on this terrain.\n"
-msgstr "* No es poden construir camins sobre aquest terreny."
+msgstr "* Les unitats es poden fortificar sobre aquest terreny.\n"
 
 #: client/helpdata.c:4581
-#, fuzzy
 msgid "* Units able to fortify may do so on this terrain.\n"
-msgstr "* No pots construir ciutats sobre aquest terreny."
+msgstr ""
+"* Les unitats que es poden fortificar, poden fer-ho sobre aquest terreny."
 
 #: client/helpdata.c:4709
 msgid "* May randomly appear around polluting city.\n"
