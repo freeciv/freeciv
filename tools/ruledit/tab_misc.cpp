@@ -143,6 +143,10 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   stats->setItem(2, 6, item);
   item = new QTableWidgetItem("-");
   stats->setItem(2, 7, item);
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Goods")));
+  stats->setItem(3, 6, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(3, 7, item);
   stats->verticalHeader()->setVisible(false);
   stats->horizontalHeader()->setVisible(false);
   stats->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -257,6 +261,7 @@ void tab_misc::refresh_stats()
   stats->item(row++, 7)->setText(QString::number(game.control.num_extra_types));
   stats->item(row++, 7)->setText(QString::number(game.control.num_base_types));
   stats->item(row++, 7)->setText(QString::number(game.control.num_road_types));
+  stats->item(row++, 7)->setText(QString::number(game.control.num_goods_types));
 
   stats->resizeColumnsToContents();
 }
