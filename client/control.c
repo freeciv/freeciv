@@ -57,6 +57,21 @@
 #include "control.h"
 
 
+struct client_disband_unit_data {
+  int unit_id;
+  int alt;
+};
+
+/* Ways to disband a unit. Sorted by preference. Starts with the worst. */
+/* TODO: Should other actions that consumes the unit be considered?
+ * Join City may be an appealing alternative. Perhaps it should be a
+ * user configurable client option? */
+static int disband_unit_alternatives[3] = {
+  ACTION_DISBAND_UNIT,
+  ACTION_RECYCLE_UNIT,
+  ACTION_HELP_WONDER,
+};
+
 /* gui-dep code may adjust depending on tile size etc: */
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
@@ -1708,39 +1723,126 @@ void request_new_unit_activity_targeted(struct unit *punit,
 }
 
 /**************************************************************************
+  Destroy the client disband unit data.
+**************************************************************************/
+static void client_disband_unit_data_destroy(void *p)
+{
+  struct client_disband_unit_data *data = p;
+
+  free(data);
+}
+
+/**************************************************************************
+  Try to disband a unit using actions ordered by preference.
+**************************************************************************/
+static void do_disband_alternative(void *p)
+{
+  struct unit *punit;
+  struct city *pcity;
+  struct tile *ptile;
+  int last_request_id_used;
+  struct client_disband_unit_data *next;
+  struct client_disband_unit_data *data = p;
+  const int act = disband_unit_alternatives[data->alt];
+
+  fc_assert_ret(can_client_issue_orders());
+
+  /* Fetch the unit to get rid of. */
+  punit = player_unit_by_number(client_player(), data->unit_id);
+
+  if (punit == NULL) {
+    /* Success! It is gone. */
+    return;
+  }
+
+  if (data->alt == -1) {
+    /* All alternatives have been tried. */
+    create_event(unit_tile(punit), E_BAD_COMMAND, ftc_client,
+                  /* TRANS: Unable to get rid of Leader. */
+                 _("Unable to get rid of %s."),
+                 unit_name_translation(punit));
+    return;
+  }
+
+  /* Prepare the data for the next try in case this try fails. */
+  next = fc_malloc(sizeof(struct client_disband_unit_data));
+  next->unit_id = data->unit_id;
+  next->alt = data->alt - 1;
+
+  /* Lates request ID before trying to send a request. */
+  last_request_id_used = client.conn.client.last_request_id_used;
+
+  /* Send a request to the server unless it is known to be pointless. */
+  switch (action_get_target_kind(act)) {
+  case ATK_CITY:
+    if ((pcity = tile_city(unit_tile(punit)))
+        && action_prob_possible(action_prob_vs_city(punit, act, pcity))) {
+      request_do_action(act, punit->id, pcity->id, 0, "");
+    }
+    break;
+  case ATK_UNIT:
+    if (action_prob_possible(action_prob_vs_unit(punit, act, punit))) {
+      request_do_action(act, punit->id, punit->id, 0, "");
+    }
+    break;
+  case ATK_UNITS:
+    if ((ptile = unit_tile(punit))
+        && action_prob_possible(action_prob_vs_units(punit, act, ptile))) {
+      request_do_action(act, punit->id, ptile->index, 0, "");
+    }
+    break;
+  case ATK_TILE:
+    if ((ptile = unit_tile(punit))
+        && action_prob_possible(action_prob_vs_tile(punit, act, ptile))) {
+      request_do_action(act, punit->id, ptile->index, 0, "");
+    }
+    break;
+  case ATK_SELF:
+    if (action_prob_possible(action_prob_self(punit, act))) {
+      request_do_action(act, punit->id, punit->id, 0, "");
+    }
+    break;
+  case ATK_COUNT:
+    fc_assert(action_get_target_kind(act) != ATK_COUNT);
+    break;
+  }
+
+  if (last_request_id_used != client.conn.client.last_request_id_used) {
+    /* A request was sent. */
+
+    /* Check if it worked. Move on if it didn't. */
+    update_queue_connect_processing_finished_full
+        (client.conn.client.last_request_id_used,
+         do_disband_alternative, next,
+         client_disband_unit_data_destroy);
+  } else {
+    /* No request was sent. */
+
+    /* Move on. */
+    do_disband_alternative(next);
+
+    /* Won't be freed by anyone else. */
+    client_disband_unit_data_destroy(next);
+  }
+}
+
+/**************************************************************************
   Send request to disband unit to server.
 **************************************************************************/
 void request_unit_disband(struct unit *punit)
 {
-  struct city *pcity;
+  struct client_disband_unit_data *data;
 
-  if ((pcity = tile_city(unit_tile(punit)))) {
-    /* Try doing something more profitable. */
+  /* Set up disband data. Start at the end of the array. */
+  data = fc_malloc(sizeof(struct client_disband_unit_data));
+  data->unit_id = punit->id;
+  data->alt = 2;
 
-    if (action_prob_possible(
-          action_prob_vs_city(punit, ACTION_HELP_WONDER, pcity))) {
-      /* Add 100% of the shields used to produce the unit to the current
-       * production of the city where it is located. */
-      request_do_action(ACTION_HELP_WONDER,
-                        punit->id, pcity->id, 0, "");
-      return;
-    }
+  /* Begin. */
+  do_disband_alternative(data);
 
-    if (action_prob_possible(
-          action_prob_vs_city(punit, ACTION_RECYCLE_UNIT, pcity))) {
-      /* Add 50% of the shields used to produce the unit to the current
-       * production of the city where it is located. */
-      request_do_action(ACTION_RECYCLE_UNIT,
-                        punit->id, pcity->id, 0, "");
-      return;
-    }
-
-    /* TODO: Should other actions that consumes the unit be considered?
-     * Join City may be an appealing alternative. Perhaps it should be a
-     * user configurable client option? */
-  }
-
-  request_do_action(ACTION_DISBAND_UNIT, punit->id, punit->id, 0, "");
+  /* Won't be freed by anyone else. */
+  client_disband_unit_data_destroy(data);
 }
 
 /**************************************************************************
