@@ -170,6 +170,27 @@ AC_ARG_ENABLE([server],
 esac], [server=yes])
 AM_CONDITIONAL(SERVER, test x$server = xyes)
 
+dnl Host type variable defaults
+MINGW32=no
+AMIGA=no
+
+dnl Settings specific to host OS
+case "$host_os" in
+
+  *mingw32*)
+    dnl Windows-specific settings
+    MINGW32=yes ;;
+esac
+
+dnl Networking headers
+AC_CHECK_HEADERS([sys/types.h], [AC_DEFINE([FREECIV_HAVE_SYS_TYPES_H], [1], [sys/types.h available])])
+
+dnl Avoid including the unix emulation layer if we build mingw executables
+dnl There would be type conflicts between winsock and bsd/unix includes
+if test "x$MINGW32" != "xyes"; then
+  AC_CHECK_HEADERS([sys/socket.h], [AC_DEFINE([FREECIV_HAVE_SYS_SOCKET_H], [1], [sys/socket.h available])])
+fi
+
 dnl Check getaddrinfo just once here, and remember the result
 AC_CHECK_FUNCS([getaddrinfo], [have_getaddrinfo=yes])
 
@@ -192,9 +213,12 @@ if test x$ipv6 != xno ; then
   if test x$enable_ipv6 = xyes ; then
     AC_MSG_CHECKING([for AF_INET6])
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#ifdef FREECIV_HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+#ifdef FREECIV_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-      ]], [[return AF_INET6;]])], [AC_MSG_RESULT([yes])],
+#endif]], [[return AF_INET6;]])], [AC_MSG_RESULT([yes])],
        [AC_MSG_RESULT([no])
         enable_ipv6=no])
   fi
@@ -654,9 +678,7 @@ if test x`$UNAME -s` = xBeOS ; then
   # necessary with a working automake.
 fi
 
-dnl Defaults
-MINGW32=no
-AMIGA=no
+dnl Defaults to override with host specific values
 HOST_PATH_SEPARATOR=":"
 
 dnl Settings specific to host OS
@@ -664,7 +686,6 @@ case "$host_os" in
 
   *mingw32*)
     dnl Windows-specific settings
-    MINGW32=yes
     AC_CHECK_TOOL([WINDRES], [windres])
     if test -z $WINDRES; then
 	  AC_MSG_ERROR([*** 'windres' missing.  Install binutils, fix your \$PATH, or set \$WINDRES manually. ***])
@@ -1168,7 +1189,6 @@ AC_CHECK_HEADERS([fcntl.h sys/utsname.h \
                   libgen.h])
 AC_CHECK_HEADERS([sys/time.h], [AC_DEFINE([FREECIV_HAVE_SYS_TIME_H], [1], [sys/time.h available])])
 AC_CHECK_HEADERS([unistd.h], [AC_DEFINE([FREECIV_HAVE_UNISTD_H], [1], [unistd.h available])])
-AC_CHECK_HEADERS([sys/types.h], [AC_DEFINE([FREECIV_HAVE_SYS_TYPES_H], [1], [sys/types.h available])])
 AC_CHECK_HEADERS([locale.h], [AC_DEFINE([FREECIV_HAVE_LOCALE_H], [1], [locale.h available])])
 AC_CHECK_HEADERS([libintl.h], [AC_DEFINE([FREECIV_HAVE_LIBINTL_H], [1], [libint.h available])])
 AC_HEADER_STDBOOL
@@ -1181,7 +1201,6 @@ if test "x$MINGW32" != "xyes"; then
   AC_CHECK_HEADERS([arpa/inet.h netdb.h pwd.h sys/ioctl.h \
                     sys/signal.h sys/termio.h \
                     sys/uio.h termios.h])
-  AC_CHECK_HEADERS([sys/socket.h], [AC_DEFINE([FREECIV_HAVE_SYS_SOCKET_H], [1], [sys/socket.h available])])
   AC_CHECK_HEADERS([sys/select.h], [AC_DEFINE([FREECIV_HAVE_SYS_SELECT_H], [1], [sys/select.h available])])
   AC_CHECK_HEADERS([netinet/in.h], [AC_DEFINE([FREECIV_HAVE_NETINET_IN_H], [1], [netinet/in.h available])])
 fi
