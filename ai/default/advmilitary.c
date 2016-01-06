@@ -1303,6 +1303,12 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
   }
 
 cleanup:
+  if (best_choice != choice) {
+    /* It was not taken to use.
+     * This hackery needed since 'goto cleanup:' might skip
+     * sensible points to do adv_free_choice(). */
+    adv_free_choice(best_choice);
+  }
   if (NULL != ferry_map) {
     pf_map_destroy(ferry_map);
   }
