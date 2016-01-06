@@ -6,21 +6,21 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-20 02:35+0300\n"
-"PO-Revision-Date: 2014-08-21 18:00+0200\n"
-"Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
-"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"PO-Revision-Date: 2016-01-06 19:48+0100\n"
+"Last-Translator: \n"
+"Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 1.4\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -1590,7 +1590,6 @@ msgid "?plural:Asturians"
 msgstr "Asturians"
 
 #: data/nation/asturian.ruleset:6
-#, fuzzy
 #| msgid ""
 #| "The Astures were a Celtic people which occupied most of the northern "
 #| "coast of Spain. They battled against the Roman Empire until their defeat "
@@ -1615,7 +1614,7 @@ msgstr ""
 "derrota per les legions de Cèsar August entre els anys 29 i 19 abans de la "
 "nostra era. Sota el regne visigòtic de Toledo, les relacions entre visigots "
 "i asturians no van ser gaire bones. L'any 722, el rei Pelai va derrotar les "
-"tropes musulmanes Umayyad a Cuadonga, establint el Regne d'Astúries, que va "
+"tropes musulmanes omeies a Covadonga, establint el Regne d'Astúries, que va "
 "durar fins l'any 910 quan la capital es va moure d'Oviedo a Lleó. Ara, "
 "Astúries és una comunitat autònoma d'Espanya."
 
