@@ -221,9 +221,7 @@ void diplo_wdg::dbl_click(QTableWidgetItem *item)
 ****************************************************************************/
 void diplo_wdg::closeEvent(QCloseEvent *event)
 {
-  if (!gui()->is_closing()) {
-    response_cancel();
-  }
+  response_cancel();
   event->accept();
 }
 
@@ -756,6 +754,7 @@ diplo_dlg::~diplo_dlg()
   while (i.hasNext()) {
     i.next();
     dw = i.value();
+    dw->close();
     removeTab(dw->get_index());
     dw->deleteLater();
   }
