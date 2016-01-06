@@ -10,7 +10,7 @@ AC_DEFUN([FC_GTK3X_CLIENT],
      test "x$client" = "xall" ; then
     PKG_CHECK_MODULES([GTK3X], [gtk+-3.0 >= 3.14.0],
       [
-        GTK3X_CFLAGS="$GTK3X_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_12"
+        GTK3X_CFLAGS="$GTK3X_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_14"
         GTK3X_CFLAGS="$GTK3X_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_44"
         gui_gtk3x=yes
         if test "x$client" = "xauto" ; then
