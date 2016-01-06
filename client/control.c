@@ -57,12 +57,6 @@
 #include "control.h"
 
 
-struct client_nuke_data {
-  int *units_id;
-  int units_num;
-  int tile_idx;
-};
-
 /* gui-dep code may adjust depending on tile size etc: */
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
