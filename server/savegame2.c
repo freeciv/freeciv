@@ -22,10 +22,7 @@
 
   Structure of this file:
 
-  - The main function is savegame2_load(). The savegame version is tested and 
-    the requested savegame version is loaded.
-
-  - The real work is done by savegame2_load_real().
+  - The real work is done by savegame2_load().
     This function call all submodules (settings, players, etc.)
 
   - The remaining part of this file is split into several sections:
@@ -46,7 +43,7 @@
   Loading a savegame:
 
   - The status of the process is saved within the static variable
-    'sg_success'. This variable is set to TRUE within savegame2_load_real().
+    'sg_success'. This variable is set to TRUE within savegame2_load().
     If you encounter an error use sg_failure_*() to set it to FALSE and
     return an error message. Furthermore, sg_check_* should be used at the
     start of each (submodule) function to return if previous functions failed.
@@ -107,7 +104,6 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
-#include "legacysave.h"
 #include "maphand.h"
 #include "meta.h"
 #include "notify.h"
@@ -284,7 +280,6 @@ extern bool sg_success;
 static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
-static void savegame2_load_real(struct section_file *file);
 static struct loaddata *loaddata_new(struct section_file *file);
 static void loaddata_destroy(struct loaddata *loading);
 
@@ -379,36 +374,6 @@ static void sg_load_mapimg(struct loaddata *loading);
 static void sg_load_sanitycheck(struct loaddata *loading);
 
 
-/****************************************************************************
-  Main entry point for loading a game.
-  Called only in ./server/stdinhand.c:load_command().
-  The entire ruleset is always sent afterwards->
-****************************************************************************/
-void savegame2_load(struct section_file *file)
-{
-  const char *savefile_options;
-
-  fc_assert_ret(file != NULL);
-
-  savefile_options = secfile_lookup_str(file, "savefile.options");
-
-  if (!savefile_options) {
-    log_error("Missing savefile options. Can not load the savegame.");
-    return;
-  }
-
-  if (!has_capabilities("+version2", savefile_options)) {
-    /* load old format (freeciv 2.2.x) */
-    log_verbose("loading savefile in old format ...");
-    secfile_allow_digital_boolean(file, TRUE);
-    legacy_game_load(file);
-  } else {
-    /* load new format (freeciv 2.2.99 and newer) */
-    log_verbose("loading savefile in format 2...");
-    savegame2_load_real(file);
-  }
-}
-
 /* =======================================================================
  * Basic load / save functions.
  * ======================================================================= */
@@ -416,7 +381,7 @@ void savegame2_load(struct section_file *file)
 /****************************************************************************
   Really loading the savegame.
 ****************************************************************************/
-static void savegame2_load_real(struct section_file *file)
+void savegame2_load(struct section_file *file)
 {
   struct loaddata *loading;
   bool was_send_city_suppressed, was_send_tile_suppressed;

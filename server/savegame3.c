@@ -22,11 +22,9 @@
 
   Structure of this file:
 
-  - The main functions are savegame_load() and savegame_save(). Within
-    former function the savegame version is tested and the requested savegame version is
-    loaded.
+  - The main function for saving is savegame3_save().
 
-  - The real work is done by savegame3_load_real() and savegame3_save_real().
+  - The real work is done by savegame3_load() and savegame3_save_real().
     This function call all submodules (settings, players, etc.)
 
   - The remaining part of this file is split into several sections:
@@ -51,7 +49,7 @@
   Loading a savegame:
 
   - The status of the process is saved within the static variable
-    'sg_success'. This variable is set to TRUE within savegame3_load_real().
+    'sg_success'. This variable is set to TRUE within savegame3_load().
     If you encounter an error use sg_failure_*() to set it to FALSE and
     return an error message. Furthermore, sg_check_* should be used at the
     start of each (submodule) function to return if previous functions failed.
@@ -120,7 +118,6 @@
 #include "ruleset.h"
 #include "sanitycheck.h"
 #include "savecompat.h"
-#include "savegame2.h"
 #include "score.h"
 #include "settings.h"
 #include "spacerace.h"
@@ -277,7 +274,6 @@ static const char savefile_options_default[] =
 static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
-static void savegame3_load_real(struct section_file *file);
 static void savegame3_save_real(struct section_file *file,
                                 const char *save_reason,
                                 bool scenario);
@@ -416,53 +412,12 @@ static void sg_save_sanitycheck(struct savedata *saving);
 
 
 /****************************************************************************
-  Main entry point for loading a game.
-  Called only in ./server/stdinhand.c:load_command().
-  The entire ruleset is always sent afterwards->
+  Main entry point for saving a game in savegame3 format.
 ****************************************************************************/
-void savegame_load(struct section_file *file)
+void savegame3_save(struct section_file *sfile, const char *save_reason,
+                    bool scenario)
 {
-  const char *savefile_options;
-
-  fc_assert_ret(file != NULL);
-
-#ifdef DEBUG_TIMERS
-  struct timer *loadtimer = timer_new(TIMER_CPU, TIMER_DEBUG);
-  timer_start(loadtimer);
-#endif
-
-  savefile_options = secfile_lookup_str(file, "savefile.options");
-
-  if (!savefile_options) {
-    log_error("Missing savefile options. Can not load the savegame.");
-    return;
-  }
-
-  if (!has_capabilities("+version3", savefile_options)) {
-    /* load old format (freeciv 2.6.x or older) */
-    log_verbose("loading savefile in old format ...");
-    savegame2_load(file);
-  } else {
-    /* load new format (freeciv 3.0.x and newer) */
-    log_verbose("loading savefile in new format ...");
-    savegame3_load_real(file);
-  }
-
-#ifdef DEBUG_TIMERS
-  timer_stop(loadtimer);
-  log_debug("Loading secfile in %.3f seconds.", timer_read_seconds(loadtimer));
-  timer_destroy(loadtimer);
-#endif /* DEBUG_TIMERS */
-}
-
-/****************************************************************************
-  Main entry point for saving a game.
-  Called only in ./server/srv_main.c:save_game().
-****************************************************************************/
-void savegame_save(struct section_file *file, const char *save_reason,
-                   bool scenario)
-{
-  fc_assert_ret(file != NULL);
+  fc_assert_ret(sfile != NULL);
 
 #ifdef DEBUG_TIMERS
   struct timer *savetimer = timer_new(TIMER_CPU, TIMER_DEBUG);
@@ -470,7 +425,7 @@ void savegame_save(struct section_file *file, const char *save_reason,
 #endif
 
   log_verbose("saving game in new format ...");
-  savegame3_save_real(file, save_reason, scenario);
+  savegame3_save_real(sfile, save_reason, scenario);
 
 #ifdef DEBUG_TIMERS
   timer_stop(savetimer);
@@ -486,7 +441,7 @@ void savegame_save(struct section_file *file, const char *save_reason,
 /****************************************************************************
   Really loading the savegame.
 ****************************************************************************/
-static void savegame3_load_real(struct section_file *file)
+void savegame3_load(struct section_file *file)
 {
   struct loaddata *loading;
   bool was_send_city_suppressed, was_send_tile_suppressed;

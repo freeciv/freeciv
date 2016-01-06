@@ -13,10 +13,13 @@
 #ifndef FC__SAVEGAME_H
 #define FC__SAVEGAME_H
 
+/* utility */
+#include "support.h"
+
 struct section_file;
 
-void savegame_load(struct section_file *file);
-void savegame_save(struct section_file *file, const char *save_reason,
+void savegame_load(struct section_file *sfile);
+void savegame_save(struct section_file *sfile, const char *save_reason,
                    bool scenario);
 
 #endif /* FC__SAVEGAME_H */
