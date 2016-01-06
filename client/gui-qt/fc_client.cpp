@@ -486,7 +486,11 @@ void fc_client::slot_pregame_observe()
 ****************************************************************************/
 void fc_client::slot_pregame_start()
 {
-  send_chat("/start");
+  if (can_client_control()) {
+    dsend_packet_player_ready(&client.conn,
+                              player_number(client_player()),
+                              !client_player()->is_ready);
+  }
 }
 
 /****************************************************************************
