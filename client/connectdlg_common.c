@@ -540,17 +540,19 @@ void send_client_wants_hack(const char *filename)
   if (filename[0] != '\0') {
     struct packet_single_want_hack_req req;
     struct section_file *file;
+    const char *sdir = freeciv_storage_dir();
+
+    if (sdir == NULL) {
+      return;
+    }
 
     if (!is_safe_filename(filename)) {
       return;
     }
 
-    /* get the full filename path */
-    interpret_tilde(challenge_fullname, sizeof(challenge_fullname),
-		    "~/.freeciv/");
-    make_dir(challenge_fullname);
+    make_dir(sdir);
 
-    sz_strlcat(challenge_fullname, filename);
+    fc_snprintf(challenge_fullname, sizeof(challenge_fullname), "%s/%s", sdir, filename);
 
     /* generate an authentication token */ 
     randomize_string(req.token, sizeof(req.token));
