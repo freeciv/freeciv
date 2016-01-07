@@ -112,6 +112,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   show_experimental(delete_button);
 
   refresh();
+  update_tech_info(0);
 
   main_layout->addLayout(tech_layout);
 
