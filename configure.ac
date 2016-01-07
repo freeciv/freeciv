@@ -179,7 +179,14 @@ case "$host_os" in
 
   *mingw32*)
     dnl Windows-specific settings
-    MINGW32=yes ;;
+    MINGW32=yes
+    AC_DEFINE([FREECIV_HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
+    AC_CHECK_HEADERS([winsock2.h], [AC_DEFINE([FREECIV_HAVE_WINSOCK2], [1], [Mingw32-specific setting - winsock2])])
+    AC_CHECK_HEADERS([ws2tcpip.h], [AC_DEFINE([FREECIV_HAVE_WS2TCPIP_H], [1], [ws2tcpip.h available])])
+
+    dnl Without WINSOCK2, use: LIBS="$LIBS -lwsock32"
+    LIBS="${LIBS} -lws2_32"
+    ;;
 esac
 
 dnl Networking headers
@@ -192,7 +199,15 @@ if test "x$MINGW32" != "xyes"; then
 fi
 
 dnl Check getaddrinfo just once here, and remember the result
-AC_CHECK_FUNCS([getaddrinfo], [have_getaddrinfo=yes])
+AC_CHECK_FUNCS([getaddrinfo], [have_getaddrinfo=yes], [
+  AC_MSG_CHECKING([getaddrinfo() as a macro])
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([
+#ifdef FREECIV_HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif], [getaddrinfo(NULL, NULL, NULL, NULL);])], [
+  AC_MSG_RESULT([yes])
+  have_getaddrinfo=yes
+  AC_DEFINE([HAVE_GETADDRINFO])], [AC_MSG_RESULT([no])])])
 
 dnl yes     - Support for IPv6 required
 dnl no      - Legacy IPv4 support
@@ -696,11 +711,7 @@ case "$host_os" in
     AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [Mingw32-specific setting - stdin])
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw32])
     AC_DEFINE([WIN32_NATIVE], [1], [Mingw32-specific setting - native])
-    AC_DEFINE([FREECIV_HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
-    AC_DEFINE([FREECIV_HAVE_WINSOCK2], [1], [Mingw32-specific setting - winsock2])
     AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])
-    dnl Without WINSOCK2, use: LIBS="$LIBS -lwsock32"
-    LIBS="${LIBS} -lws2_32"
     ;;
 
   *skyos*)
