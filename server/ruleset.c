@@ -6624,12 +6624,14 @@ static void send_ruleset_extras(struct conn_list *dest)
     } requirement_vector_iterate_end;
     packet.rmreqs_count = j;
 
+    packet.appearance_chance = e->appearance_chance;
     j = 0;
     requirement_vector_iterate(&e->appearance_reqs, preq) {
       packet.appearance_reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.appearance_reqs_count = j;
 
+    packet.disappearance_chance = e->disappearance_chance;
     j = 0;
     requirement_vector_iterate(&e->disappearance_reqs, preq) {
       packet.disappearance_reqs[j++] = *preq;

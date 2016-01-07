@@ -3600,11 +3600,13 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   }
   fc_assert(pextra->rmreqs.size == p->rmreqs_count);
 
+  pextra->appearance_chance = p->appearance_chance;
   for (i = 0; i < p->appearance_reqs_count; i++) {
     requirement_vector_append(&pextra->appearance_reqs, p->appearance_reqs[i]);
   }
   fc_assert(pextra->appearance_reqs.size == p->appearance_reqs_count);
 
+  pextra->disappearance_chance = p->disappearance_chance;
   for (i = 0; i < p->disappearance_reqs_count; i++) {
     requirement_vector_append(&pextra->disappearance_reqs, p->disappearance_reqs[i]);
   }
