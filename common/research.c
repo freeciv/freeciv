@@ -514,8 +514,13 @@ void research_update(struct research *presearch)
     bool root_reqs_known = TRUE;
     bool reachable = research_get_reachable(presearch, i);
 
+    /* Finding if the root reqs of an unreachable tech isn't redundant.
+     * A tech can be unreachable via research but have known root reqs
+     * because of unfilfilled research_reqs. Unfulfilled research_reqs
+     * doesn't prevent the player from aquiring the tech by other means. */
+    root_reqs_known = research_get_root_reqs_known(presearch, i);
+
     if (reachable) {
-      root_reqs_known = research_get_root_reqs_known(presearch, i);
       if (state != TECH_KNOWN) {
         /* Update state. */
         state = (root_reqs_known
@@ -528,7 +533,6 @@ void research_update(struct research *presearch)
       }
     } else {
       fc_assert(state == TECH_UNKNOWN);
-      root_reqs_known = FALSE;
     }
     presearch->inventions[i].state = state;
     presearch->inventions[i].reachable = reachable;
@@ -651,8 +655,8 @@ enum tech_state research_invention_set(struct research *presearch,
 }
 
 /****************************************************************************
-  Returns TRUE iff the given tech is ever reachable by the players sharing
-  the research by checking tech tree limitations.
+  Returns TRUE iff the given tech is ever reachable via research by the
+  players sharing the research by checking tech tree limitations.
 
   'presearch' may be NULL in which case a simplified result is returned
   (used by the client).
@@ -679,8 +683,8 @@ bool research_invention_reachable(const struct research *presearch,
   Returns TRUE iff the given tech can be given to the players sharing the
   research immediately.
 
-  If allow_holes is TRUE, any reachable tech is ok. If it's FALSE,
-  getting the tech must not leave holes to the known techs tree.
+  If allow_holes is TRUE, any tech with known root reqs is ok. If it's
+  FALSE, getting the tech must not leave holes to the known techs tree.
 ****************************************************************************/
 bool research_invention_gettable(const struct research *presearch,
                                  const Tech_type_id tech,
