@@ -1143,6 +1143,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
     fc_snprintf(path, sizeof(path), "goods_%d", sect_idx++);
 
     save_name_translation(sfile, &(pgood->name), path);
+
+    save_reqs_vector(sfile, &(pgood->reqs), path, "reqs");
   } goods_type_iterate_end;
 
   locks = FALSE;

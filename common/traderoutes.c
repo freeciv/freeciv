@@ -408,6 +408,8 @@ void goods_init(void)
 
   for (i = 0; i < MAX_GOODS_TYPES; i++) {
     goods[i].id = i;
+
+    requirement_vector_init(&(goods[i].reqs));
   }
 }
 
@@ -416,6 +418,11 @@ void goods_init(void)
 ****************************************************************************/
 void goods_free(void)
 {
+  int i;
+
+  for (i = 0; i < MAX_GOODS_TYPES; i++) {
+    requirement_vector_free(&(goods[i].reqs));
+  }
 }
 
 /**************************************************************************
@@ -491,9 +498,33 @@ struct goods_type *goods_by_rule_name(const char *name)
 }
 
 /****************************************************************************
+  Can the city provide goods.
+****************************************************************************/
+bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood)
+{
+  return are_reqs_active(city_owner(pcity), NULL,
+                         pcity, NULL, city_tile(pcity),
+                         NULL, NULL, NULL, NULL, NULL,
+                         &pgood->reqs, RPT_CERTAIN);
+}
+
+/****************************************************************************
   Return goods type for the new traderoute between given cities.
 ****************************************************************************/
 struct goods_type *goods_for_new_route(struct city *src, struct city *dest)
 {
-  return goods_by_number(fc_rand(game.control.num_goods_types));
+  int i = 0;
+  struct goods_type *potential[MAX_GOODS_TYPES];
+
+  goods_type_iterate(pgood) {
+    if (goods_can_be_provided(src, pgood)) {
+      potential[i++] = pgood;
+    }
+  } goods_type_iterate_end;
+
+  if (i == 0) {
+    return NULL;
+  }
+
+  return potential[fc_rand(i)];
 }

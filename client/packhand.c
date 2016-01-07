@@ -3688,10 +3688,16 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 void handle_ruleset_goods(const struct packet_ruleset_goods *p)
 {
   struct goods_type *pgood = goods_by_number(p->id);
+  int i;
 
   fc_assert_ret_msg(NULL != pgood, "Bad goods %d.", p->id);
 
   names_set(&pgood->name, NULL, p->name, p->rule_name);
+
+  for (i = 0; i < p->reqs_count; i++) {
+    requirement_vector_append(&pgood->reqs, p->reqs[i]);
+  }
+  fc_assert(pgood->reqs.size == p->reqs_count);
 }
 
 /**************************************************************************

@@ -6169,6 +6169,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       goods_type_iterate(pgood) {
         int id = goods_index(pgood);
         const char *sec_name = section_name(section_list_get(sec, id));
+        struct requirement_vector *reqs;
 
         if (!ruleset_load_names(&pgood->name, NULL, file, sec_name)) {
           ruleset_error(LOG_ERROR, "\"%s\": Cannot load goods names",
@@ -6176,6 +6177,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           ok = FALSE;
           break;
         }
+
+        reqs = lookup_req_list(file, sec_name, "reqs", goods_rule_name(pgood));
+        if (reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+        requirement_vector_copy(&pgood->reqs, reqs);
       } goods_type_iterate_end;
     }
   }
@@ -6715,9 +6723,17 @@ static void send_ruleset_goods(struct conn_list *dest)
   struct packet_ruleset_goods packet;
 
   goods_type_iterate(g) {
+    int j;
+
     packet.id = goods_number(g);
     sz_strlcpy(packet.name, untranslated_name(&g->name));
     sz_strlcpy(packet.rule_name, rule_name(&g->name));
+
+    j = 0;
+    requirement_vector_iterate(&g->reqs, preq) {
+      packet.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = j;
 
     lsend_packet_ruleset_goods(dest, &packet);
   } goods_type_iterate_end;
@@ -6733,6 +6749,7 @@ static void send_ruleset_disasters(struct conn_list *dest)
 
   disaster_type_iterate(d) {
     int j;
+
     packet.id = disaster_number(d);
 
     sz_strlcpy(packet.name, untranslated_name(&d->name));
