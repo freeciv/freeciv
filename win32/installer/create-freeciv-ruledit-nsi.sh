@@ -162,16 +162,16 @@ EOF
 ### additional languages ###
 
 cat <<EOF
-SectionGroup "Additional languages"
+SectionGroup "Additional languages (translation %)"
 
 EOF
 
-cat ../../bootstrap/langnames.txt |
+cat ../../bootstrap/langstat_ruledit.txt |
 sort -k 2 |
-while read -r code name
+while read -r code prct name
 do
 if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-ruledit.mo; then
-echo "  Section \"$name ($code)\""
+echo "  Section \"$name ($code) $prct\""
 echo "  SetOutPath \$INSTDIR\\share\\locale\\$code"
 echo "  File /r $1\\share\\locale\\$code\*.*"
 echo "  SetOutPath \$INSTDIR"
@@ -226,12 +226,12 @@ Start Menu shortcut properties."
   \${NSD_CB_AddString} \$DefaultLanguageDropList "US English (en_US)"
 EOF
 
-  cat ../../bootstrap/langnames.txt |
+  cat ../../bootstrap/langstat_ruledit.txt |
   sort -k 2 |
-  while read -r code name
+  while read -r code prct name
   do
   if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-ruledit.mo; then
-  echo "  \${NSD_CB_AddString} \$DefaultLanguageDropList \"$name ($code)\""
+  echo "  \${NSD_CB_AddString} \$DefaultLanguageDropList \"$name ($code) $prct\""
   fi
   done
 
@@ -250,10 +250,10 @@ EOF
   echo "    StrCpy \$DefaultLanguageCode \"en_US\""
   echo "  \${EndIf}"
 
-  cat ../../bootstrap/langnames.txt |
-  while read -r code name
+  cat ../../bootstrap/langstat_freeciv.txt |
+  while read -r code prct name
   do
-    echo "  \${If} \$LangName == \"$name ($code)\""
+    echo "  \${If} \$LangName == \"$name ($code) $prct\""
     echo "    StrCpy \$DefaultLanguageCode \"$code\""
     echo "  \${EndIf}"
   done
