@@ -145,7 +145,7 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("Nuclear"), N_("This unit's attack causes a nuclear explosion!") },
       { N_("Infra"), N_("Can build infrastructure.") }
     };
-    int first_free = first_free_unit_type_user_flag();
+    int first_free = first_free_unit_type_user_flag() + UTYF_USER_FLAG_1;
     int i;
 
     for (i = 0; i < ARRAY_SIZE(new_flags_30); i++) {
