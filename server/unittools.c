@@ -3960,7 +3960,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
       break;
     case ORDER_ACTIVITY:
-    case ORDER_HOMECITY:
+    case ORDER_OLD_HOMECITY:
     case ORDER_OLD_DISBAND:
     case ORDER_OLD_BUILD_CITY:
     case ORDER_OLD_BUILD_WONDER:
@@ -4127,19 +4127,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
       break;
-    case ORDER_HOMECITY:
-      log_debug("  orders: changing homecity");
-      if (tile_city(unit_tile(punit))) {
-        handle_unit_change_homecity(pplayer, unitid,
-                                    tile_city(unit_tile(punit))->id);
-      } else {
-        cancel_orders(punit, "  no homecity");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("Attempt to change homecity for %s failed."),
-                      unit_link(punit));
-        return TRUE;
-      }
-      break;
     case ORDER_PERFORM_ACTION:
       log_debug("  orders: doing action %d", order.action);
 
@@ -4293,6 +4280,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
 
       break;
+    case ORDER_OLD_HOMECITY:
     case ORDER_OLD_DISBAND:
     case ORDER_OLD_BUILD_CITY:
     case ORDER_OLD_BUILD_WONDER:

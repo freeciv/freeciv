@@ -246,6 +246,13 @@ Actions done by a unit against a city
  * target must be able to grow to the size that adding the unit would
    result in.
 
+"Home City" - Set target city as the actor unit's new home city
+ * UI name can be set using ui_name_home_city
+ * actor must be on the same tile as the target
+ * homeless units can't change homecity (this is a feature since being
+   homeless is a big benefit)
+ * can't set existing home city as new home city
+
 Actions done by a unit against another unit
 ===========================================
 "Sabotage Unit" - Halve the target unit's hit points.

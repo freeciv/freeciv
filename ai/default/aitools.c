@@ -784,7 +784,8 @@ bool dai_unit_make_homecity(struct unit *punit, struct city *pcity)
   }
   if (pcity->surplus[O_SHIELD] >= unit_type_get(punit)->upkeep[O_SHIELD]
       && pcity->surplus[O_FOOD] >= unit_type_get(punit)->upkeep[O_FOOD]) {
-    handle_unit_change_homecity(unit_owner(punit), punit->id, pcity->id);
+    handle_unit_do_action(unit_owner(punit), punit->id, pcity->id,
+                          0, "", ACTION_HOME_CITY);
     return TRUE;
   }
   return FALSE;

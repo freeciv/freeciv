@@ -975,11 +975,6 @@ PACKET_UNIT_COMBAT_INFO = 65; sc, lsend
   BOOL make_winner_veteran;
 end
 
-PACKET_UNIT_CHANGE_HOMECITY = 69; cs, dsend
-  UNIT unit_id;
-  CITY city_id;
-end
-
 PACKET_UNIT_BATTLEGROUP = 71; cs, dsend
   UNIT unit_id;
   SINT8 battlegroup;

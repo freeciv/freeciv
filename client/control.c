@@ -1853,7 +1853,7 @@ void request_unit_change_homecity(struct unit *punit)
   struct city *pcity=tile_city(unit_tile(punit));
 
   if (pcity) {
-    dsend_packet_unit_change_homecity(&client.conn, punit->id, pcity->id);
+    request_do_action(ACTION_HOME_CITY, punit->id, pcity->id, 0, "");
   }
 }
 

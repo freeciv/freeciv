@@ -39,7 +39,7 @@ enum unit_orders {
   ORDER_OLD_DISBAND = 4,
   ORDER_OLD_BUILD_WONDER = 5,
   ORDER_OLD_TRADE_ROUTE = 6,
-  ORDER_HOMECITY = 7,
+  ORDER_OLD_HOMECITY = 7,
   ORDER_ACTION_MOVE = 8,
   ORDER_PERFORM_ACTION = 9,
   /* and plenty more for later... */

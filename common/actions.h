@@ -96,6 +96,8 @@ extern "C" {
 #define SPECENUM_VALUE23NAME N_("Recycle Unit")
 #define SPECENUM_VALUE24 ACTION_DISBAND_UNIT
 #define SPECENUM_VALUE24NAME N_("Disband Unit")
+#define SPECENUM_VALUE25 ACTION_HOME_CITY
+#define SPECENUM_VALUE25NAME N_("Home City")
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */
 #define SPECENUM_COUNT ACTION_COUNT

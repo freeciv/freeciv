@@ -459,6 +459,19 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     action_enabler_add(enabler);
 
+    /* Changing a unit's home city is now action enabler controlled. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_HOME_CITY;
+
+    /* The target city must be domestic. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           FALSE, TRUE, "Is foreign"));
+
+    action_enabler_add(enabler);
+
     /* Update action enablers. */
     action_enablers_iterate(ae) {
       /* The rule that Help Wonder only can help wonders now lives in the

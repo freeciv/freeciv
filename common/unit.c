@@ -369,12 +369,10 @@ bool can_unit_change_homecity_to(const struct unit *punit,
    * 1. Homeless units can't change homecity (this is a feature since
    *    being homeless is a big benefit).
    * 2. The unit must be inside the city it is rehoming to.
-   * 3. Of course you can only have your own cities as homecity.
-   * 4. You can't rehome to the current homecity. */
+   * 3. You can't rehome to the current homecity. */
   return (punit && pcity
 	  && punit->homecity > 0
-	  && acity
-	  && city_owner(acity) == unit_owner(punit)
+          && acity
 	  && punit->homecity != acity->id);
 }
 

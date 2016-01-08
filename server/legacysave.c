@@ -304,7 +304,7 @@ static enum unit_orders char2order(char order)
     return ORDER_OLD_TRADE_ROUTE;
   case 'h':
   case 'H':
-    return ORDER_HOMECITY;
+    return ORDER_OLD_HOMECITY;
   }
 
   /* This can happen if the savegame is invalid. */

@@ -159,6 +159,8 @@ static bool unit_do_destroy_city(struct player *act_player,
                                  struct unit *act_unit,
                                  struct city *tgt_city);
 static bool do_unit_disband(struct player *pplayer, struct unit *punit);
+static bool do_unit_change_homecity(struct unit *punit,
+                                    struct city *pcity);
 
 /**************************************************************************
   Handle airlift request.
@@ -1877,6 +1879,20 @@ bool unit_perform_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_HOME_CITY:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        return do_unit_change_homecity(actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
+      }
+    }
+    break;
   case ACTION_CAPTURE_UNITS:
     if (target_tile) {
       if (is_action_enabled_unit_on_units(action_type,
@@ -2039,24 +2055,16 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
 }
 
 /**************************************************************************
-  Change a unit's home city. The unit must be present in the city to 
-  be set as its new home city.
+  Change a unit's home city.
+
+  Returns TRUE iff the action could be done, FALSE if it couldn't.
 **************************************************************************/
-void handle_unit_change_homecity(struct player *pplayer, int unit_id,
-				 int city_id)
+static bool do_unit_change_homecity(struct unit *punit,
+                                    struct city *pcity)
 {
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
-  struct city *pcity = player_city_by_number(pplayer, city_id);
+  unit_change_homecity_handling(punit, pcity);
 
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_change_homecity() invalid unit %d", unit_id);
-    return;
-  }
-
-  if (pcity && can_unit_change_homecity_to(punit, pcity)) {
-    unit_change_homecity_handling(punit, pcity);
-  }
+  return punit->homecity == pcity->id;
 }
 
 /**************************************************************************
@@ -4096,6 +4104,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_EXPEL_UNIT:
       case ACTION_RECYCLE_UNIT:
       case ACTION_DISBAND_UNIT:
+      case ACTION_HOME_CITY:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */
@@ -4132,8 +4141,8 @@ void handle_unit_orders(struct player *pplayer,
 
       break;
     case ORDER_FULL_MP:
-    case ORDER_HOMECITY:
       break;
+    case ORDER_OLD_HOMECITY:
     case ORDER_OLD_DISBAND:
     case ORDER_OLD_BUILD_CITY:
     case ORDER_OLD_BUILD_WONDER:

@@ -182,6 +182,12 @@ void actions_init(void)
       action_new(ACTION_DISBAND_UNIT, ATK_SELF,
                  FALSE, FALSE, TRUE,
                  0, 0);
+  actions[ACTION_HOME_CITY] =
+      action_new(ACTION_HOME_CITY, ATK_CITY,
+                 FALSE, FALSE, TRUE,
+                 /* Illegal to perform to a target on another tile to
+                  * keep the rules exactly as they were for now. */
+                 0, 0);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -1286,6 +1292,16 @@ is_action_possible(const enum gen_action wanted_action,
     }
   }
 
+  if (wanted_action == ACTION_HOME_CITY) {
+    /* Reason: Keep the old rules. */
+    /* Info leak: The player knows if his own unit is homeless. The player
+     * knows where his unit is. The player knows his unit's current home
+     * city. */
+    if (!can_unit_change_homecity_to(actor_unit, target_city)) {
+      return TRI_NO;
+    }
+  }
+
   return TRI_YES;
 }
 
@@ -2002,6 +2018,10 @@ action_prob(const enum gen_action wanted_action,
     chance = 200;
     break;
   case ACTION_DISBAND_UNIT:
+    /* No battle is fought first. */
+    chance = 200;
+    break;
+  case ACTION_HOME_CITY:
     /* No battle is fought first. */
     chance = 200;
     break;

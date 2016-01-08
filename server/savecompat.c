@@ -1492,11 +1492,12 @@ int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
      * and disband there? Assume the intention was to recycle the unit
      * until a non recycle disband order is found. */
     return ACTION_RECYCLE_UNIT;
+  case ORDER_OLD_HOMECITY:
+    return ACTION_HOME_CITY;
   case ORDER_MOVE:
   case ORDER_ACTION_MOVE:
   case ORDER_FULL_MP:
   case ORDER_ACTIVITY:
-  case ORDER_HOMECITY:
   case ORDER_PERFORM_ACTION:
   case ORDER_LAST:
     break;
