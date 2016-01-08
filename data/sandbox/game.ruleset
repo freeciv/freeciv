@@ -232,6 +232,9 @@ ui_name_steal_tech = _("Steal %sTechnology%s")
 ; /* TRANS: Indus_trial Espionage (3% chance of success). */
 ui_name_targeted_steal_tech = _("Indus%strial Espionage%s")
 
+; /* TRANS: Steal _Map Fragments (3% chance of success). */
+ui_name_steal_maps = _("Steal %sMap Fragments%s")
+
 ; /* TRANS: _Investigate City (100% chance of success). */
 ui_name_investigate_city = _("%sInvestigate City%s")
 
@@ -320,6 +323,19 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
+    }
+
+[actionenabler_steal_maps]
+action = "Steal Maps"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Spy", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
+    }
+target_reqs  =
+    { "type",   "name", "range", "present"
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_random]

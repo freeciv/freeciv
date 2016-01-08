@@ -3883,6 +3883,32 @@ reqs	=
       "Action", "Join City", "Local", FALSE
     }
 
+[effect_incident_caught_steal_maps]
+type	= "Casus_Belli_Caught"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Steal Maps", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
+[effect_incident_success_steal_maps]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Steal Maps", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
+[effect_half_chance_steal_maps]
+type	= "Action_Odds_Pct"
+value	= -50
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Steal Maps", "Local", TRUE
+    }
+
 [effect_incident_caught_steal_tech]
 type	= "Casus_Belli_Caught"
 value	= 1
