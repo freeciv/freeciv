@@ -1,6 +1,7 @@
 
 [scenario]
 is_scenario=TRUE
+game_version=20599
 name=_("North America (classic/medium)")
 description=_("Classic-style 116x100 map of North America.")
 save_random=FALSE

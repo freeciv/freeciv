@@ -2633,6 +2633,7 @@ static void sg_load_scenario(struct loaddata *loading)
 static void sg_save_scenario(struct savedata *saving)
 {
   struct entry *mod_entry;
+  int game_version;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -2643,6 +2644,9 @@ static void sg_save_scenario(struct savedata *saving)
   }
 
   secfile_insert_bool(saving->file, TRUE, "scenario.is_scenario");
+
+  game_version = MAJOR_VERSION * 10000 + MINOR_VERSION * 100 + PATCH_VERSION;
+  secfile_insert_int(saving->file, game_version, "scenario.game_version");
 
   /* Name is mandatory to the level that is saved even if empty. */
   mod_entry = secfile_insert_str(saving->file, game.scenario.name, "scenario.name");

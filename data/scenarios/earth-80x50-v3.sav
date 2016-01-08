@@ -1,6 +1,7 @@
 
 [scenario]
 is_scenario=TRUE
+game_version=20599
 name=_("Earth (classic/small)")
 description=_("Classic-style 80x50 map of the Earth.")
 save_random=FALSE
