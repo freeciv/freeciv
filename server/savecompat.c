@@ -1206,6 +1206,7 @@ static int char2num(char ch)
 static void compat_load_dev(struct loaddata *loading)
 {
   bool randsaved;
+  int game_version;
   int plrno;
   int nplayers;
   size_t diplstate_type_size;
@@ -1215,9 +1216,14 @@ static void compat_load_dev(struct loaddata *loading)
 
   log_debug("Upgrading data between development revisions");
 
-    /* Rename "random.save" as "random.saved", if not already saved by later name */
+  /* Rename "random.save" as "random.saved", if not already saved by later name */
   if (secfile_lookup_bool(loading->file, &randsaved, "random.save")) {
     secfile_insert_bool(loading->file, randsaved, "random.saved");
+  }
+
+  /* Move version information from game.version to scenario.game_version */
+  if (secfile_lookup_int(loading->file, &game_version, "game.version")) {
+    secfile_insert_int(loading->file, game_version, "scenario.game_version");
   }
 
   nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");

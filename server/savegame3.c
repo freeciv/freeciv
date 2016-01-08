@@ -1760,20 +1760,12 @@ static void sg_load_ruledata(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_game(struct loaddata *loading)
 {
-  int game_version;
   const char *string;
   const char *level;
   int i;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
-
-  /* Load version. */
-  game_version
-    = secfile_lookup_int_default(loading->file, 0, "game.version");
-  /* We require at least version 2.90.99 */
-  sg_failure_ret(29099 <= game_version, "Saved game is too old, at least "
-                                        "version 2.90.99 required.");
 
   /* Load server state. */
   string = secfile_lookup_str_default(loading->file, "S_S_INITIAL",
@@ -1941,7 +1933,6 @@ static void sg_save_ruledata(struct savedata *saving)
 ****************************************************************************/
 static void sg_save_game(struct savedata *saving)
 {
-  int game_version;
   const char *user_message;
   enum server_states srv_state;
   char global_advances[game.control.num_tech_types + 1];
@@ -1949,9 +1940,6 @@ static void sg_save_game(struct savedata *saving)
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
-
-  game_version = MAJOR_VERSION *10000 + MINOR_VERSION *100 + PATCH_VERSION;
-  secfile_insert_int(saving->file, game_version, "game.version");
 
   /* Game state: once the game is no longer a new game (ie, has been
    * started the first time), it should always be considered a running
@@ -2155,9 +2143,17 @@ static void sg_save_script(struct savedata *saving)
 static void sg_load_scenario(struct loaddata *loading)
 {
   const char *buf;
+  int game_version;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  /* Load version. */
+  game_version
+    = secfile_lookup_int_default(loading->file, 0, "scenario.game_version");
+  /* We require at least version 2.90.99 */
+  sg_failure_ret(29099 <= game_version, "Saved game is too old, at least "
+                                        "version 2.90.99 required.");
 
   sg_failure_ret(secfile_lookup_bool(loading->file, &game.scenario.is_scenario,
                                      "scenario.is_scenario"), "%s", secfile_error());
@@ -2225,9 +2221,13 @@ static void sg_load_scenario(struct loaddata *loading)
 static void sg_save_scenario(struct savedata *saving)
 {
   struct entry *mod_entry;
+  int game_version;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  game_version = MAJOR_VERSION * 10000 + MINOR_VERSION * 100 + PATCH_VERSION;
+  secfile_insert_int(saving->file, game_version, "scenario.game_version");
 
   if (!saving->scenario || !game.scenario.is_scenario) {
     secfile_insert_bool(saving->file, FALSE, "scenario.is_scenario");

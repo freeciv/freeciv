@@ -1,6 +1,7 @@
 
 [scenario]
 is_scenario=TRUE
+game_version=20599
 name=_("Iberian Peninsula (classic/large)")
 description=_("Classic-style 136x100 map of the Iberian Peninsula (modern-day Spain and Portugal).")
 save_random=FALSE
