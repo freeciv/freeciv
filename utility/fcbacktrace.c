@@ -25,7 +25,8 @@
 
 #include "fcbacktrace.h"
 
-#if defined(DEBUG) && defined(HAVE_BACKTRACE)
+/* We don't want backtrace-spam to testmatic logs */
+#if defined(DEBUG) && defined(HAVE_BACKTRACE) && !defined(TESTMATIC_ENABLED)
 #define BACKTRACE_ACTIVE 1
 #endif
 
