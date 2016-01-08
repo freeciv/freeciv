@@ -67,6 +67,8 @@ build-freeciv-ruledit:
 	cd build-ruledit; ../../../configure --disable-client --disable-server --disable-fcmp --disable-freeciv-manual
 	# make
 	make -C build-ruledit
+	make -C build-ruledit/translations/ruledit update-po
+	make -C build-ruledit/bootstrap langstat_ruledit.txt
 
 build-freeciv-gtk3: build-freeciv-common
 
