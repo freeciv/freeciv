@@ -99,6 +99,8 @@ struct gui_dialog
   GtkSizeGroup *gui_button;
 };
 
+void dlg_tab_provider_prepare(void);
+
 void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
                     gpointer user_data, bool check_top);
 void gui_dialog_set_default_response(struct gui_dialog *dlg, int response);

@@ -81,15 +81,29 @@ void update_turn_done_button(bool do_restore)
   }
 
   if ((do_restore && flip) || !do_restore) {
-    GdkRGBA fore;
-    GdkRGBA back;
-    GtkStyleContext *context = gtk_widget_get_style_context(turn_done_button);
+    static GtkCssProvider *tdb_provider = NULL;
+    GtkStyleContext *scontext = gtk_widget_get_style_context(turn_done_button);
 
-    gtk_style_context_get_color(context, GTK_STATE_FLAG_NORMAL, &fore);
-    gtk_style_context_get_background_color(context, GTK_STATE_FLAG_NORMAL, &back);
+    if (tdb_provider == NULL) {
+      tdb_provider = gtk_css_provider_new();
 
-    gtk_widget_override_color(turn_done_button, GTK_STATE_FLAG_NORMAL, &back);
-    gtk_widget_override_background_color(turn_done_button, GTK_STATE_FLAG_NORMAL, &fore);
+      gtk_css_provider_load_from_data(tdb_provider,
+                                      ".lighted {\n"
+                                      "color: rgba(235, 127, 235, 255);\n"
+                                      "background-color: rgba(127, 127, 127, 255);\n"
+                                      "}\n",
+                                      -1, NULL);
+
+      gtk_style_context_add_provider(scontext,
+                                     GTK_STYLE_PROVIDER(tdb_provider),
+                                     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    }
+
+    if (flip) {
+      gtk_style_context_add_class(scontext, "lighted");
+    } else {
+      gtk_style_context_remove_class(scontext, "lighted");
+    }
 
     flip = !flip;
   }
