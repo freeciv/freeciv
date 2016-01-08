@@ -199,12 +199,36 @@ static int tolua_bnd_release (lua_State* L)
   return 1;
 }
 
+/*
+** Function to return peer table associated to a given object
+*/
+static int tolua_bnd_getpeertable (lua_State* L)
+{
+  lua_pushstring(L,"tolua_peer");
+  lua_rawget(L,LUA_REGISTRYINDEX);        /* stack: k v peer */
+  lua_pushvalue(L,1);
+  lua_rawget(L,-2);                       /* stack: k v peer peer[u] */
+  if (!lua_istable(L,-1))
+  {
+    lua_pop(L,1);                          /* stack: k v peer */
+    lua_newtable(L);                       /* stack: k v peer table */
+    lua_pushvalue(L,1);
+    lua_pushvalue(L,-2);                   /* stack: k v peer table u table */
+    lua_rawset(L,-4);                      /* stack: k v peer peer[u]=table */
+  }
+  return 1;
+}
+
 static void tolua_push_globals_table (lua_State* L)
 {
+#if defined (LUA_VERSION_NUM) && LUA_VERSION_NUM >= 502 /* after lua 5.2 */
   lua_pushvalue(L,LUA_REGISTRYINDEX); /* registry */
   lua_pushnumber(L,LUA_RIDX_GLOBALS); /* registry globalsindex */
   lua_rawget(L, -2);                  /* registry registry[globalsindex] */
   lua_remove(L, -2);                  /* registry[globalsindex] */
+#else
+  lua_pushvalue(L,LUA_GLOBALSINDEX);
+#endif
 }
 
 TOLUA_API void tolua_open (lua_State* L)
@@ -245,6 +269,7 @@ TOLUA_API void tolua_open (lua_State* L)
     tolua_function(L,"releaseownership",tolua_bnd_releaseownership);
     tolua_function(L,"cast",tolua_bnd_cast);
     tolua_function(L,"release",tolua_bnd_release);
+    tolua_function(L,"getpeertable",tolua_bnd_getpeertable);
     tolua_endmodule(L);
     tolua_endmodule(L);
   }

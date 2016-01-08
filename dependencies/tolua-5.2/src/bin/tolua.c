@@ -26,7 +26,6 @@
 int tolua_tolua_open(lua_State *L);
 #endif
 
-
 static void help (void)
 {
  fprintf(stderr,"\n"
@@ -115,7 +114,7 @@ int main (int argc, char* argv[])
 #else
  {
   char* p;
-  char  path[BUFSIZ];
+  char  path[BUFSIZ] = "";
   strcpy(path,argv[0]);
   p = strrchr(path,'/');
   if (p==NULL) p = strrchr(path,'\\');
