@@ -476,7 +476,7 @@ bool is_metaserver_open(void)
 }
 
 /**************************************************************************
- control when we send info to the metaserver.
+  Control when we send info to the metaserver.
 **************************************************************************/
 bool send_server_info_to_metaserver(enum meta_flag flag)
 {
@@ -497,6 +497,7 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
 
     /* Wait metaserver thread to finish */
     fc_thread_wait(meta_srv_thread);
+    free(meta_srv_thread);
     meta_srv_thread = NULL;
 
     return TRUE;
