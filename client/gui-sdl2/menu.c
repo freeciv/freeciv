@@ -678,7 +678,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Find Homecity */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Find Home City"), "H");
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", action_get_ui_name(ACTION_HOME_CITY), "H");
   pBuf = create_themeicon(current_theme->OHomeCity_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);

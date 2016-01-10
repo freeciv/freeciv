@@ -2278,7 +2278,8 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       gtk_widget_set_sensitive(item, FALSE);
     }
 
-    item = gtk_menu_item_new_with_mnemonic(_("Set _Home City"));
+    item = gtk_menu_item_new_with_mnemonic(
+          action_prepare_ui_name(ACTION_HOME_CITY, "_", ACTPROB_NA, NULL));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_homecity_callback),
       GINT_TO_POINTER(punit->id));

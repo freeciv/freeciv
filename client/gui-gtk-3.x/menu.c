@@ -2497,6 +2497,7 @@ void real_menus_update(void)
   }
 
   menus_rename("EXPLODE_NUKE", action_get_ui_name(ACTION_NUKE));
+  menus_rename("UNIT_HOMECITY", action_get_ui_name(ACTION_HOME_CITY));
 }
 
 /**************************************************************************

@@ -209,7 +209,7 @@ void unit_item::create_actions()
     disband_action = NULL;
   }
   if (can_unit_change_homecity(qunit)) {
-    change_home = new QAction(_("Change homecity"), this);
+    change_home = new QAction(action_get_ui_name(ACTION_HOME_CITY), this);
     connect(change_home, SIGNAL(triggered()), this, SLOT(change_homecity()));
   } else {
     change_home = NULL;

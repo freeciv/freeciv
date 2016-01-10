@@ -907,7 +907,7 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(TRANSPORTER, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unload_all()));
   menu->addSeparator();
-  act = menu->addAction(_("Set Home City"));
+  act = menu->addAction(action_get_ui_name(ACTION_HOME_CITY));
   menu_list.insertMulti(HOMECITY, act);
   act->setShortcut(QKeySequence(tr("h")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_set_home()));

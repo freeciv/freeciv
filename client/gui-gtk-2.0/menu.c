@@ -2500,6 +2500,9 @@ void real_menus_update(void)
   }
 
   menus_rename(unit_group, "EXPLODE_NUKE", action_get_ui_name(ACTION_NUKE));
+  menus_rename(unit_group, "UNIT_HOMECITY",
+               action_prepare_ui_name(ACTION_HOME_CITY,
+                                      "_", ACTPROB_NA, NULL));
 }
 
 /**************************************************************************
