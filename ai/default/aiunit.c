@@ -1698,6 +1698,13 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
 
   CHECK_UNIT(punit);
 
+  /* Barbarians pillage, and might keep on doing that so they sometimes
+   * even finish it. */
+  if (punit->activity == ACTIVITY_PILLAGE && is_barbarian(pplayer)
+      && fc_rand(2) == 1) {
+    return;
+  }
+
   /* First find easy nearby enemies, anything better than pillage goes.
    * NB: We do not need to repeat dai_military_rampage, it is repeats itself
    * until it runs out of targets. */
