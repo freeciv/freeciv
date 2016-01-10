@@ -879,8 +879,8 @@ There are four player-related entities:
   nation)
 
 + user
-  Identifies 'someone out there', usually a human user running a civclient
-  (this is the plan; it is not yet implemented).
+  Identifies 'someone out there', usually a human user running
+  freeciv client.
 
 + connection
   Records a client connection; like a user, but disappears when the user 
