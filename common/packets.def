@@ -1380,10 +1380,10 @@ end
 
 PACKET_RULESET_TECH = 144; sc, lsend
   TECH id;
-  TECH req[2];
   TECH root_req;
   UINT8 research_reqs_count;
   REQUIREMENT research_reqs[MAX_NUM_REQS:research_reqs_count];
+  BOOL removed;
   BV_TECH_FLAGS flags;
   UFLOAT10x3 cost;
   UINT32 num_reqs;

@@ -6407,26 +6407,48 @@ static void send_ruleset_techs(struct conn_list *dest)
 
   advance_iterate(A_FIRST, a) {
     packet.id = advance_number(a);
+    packet.removed = !valid_advance(a);
     sz_strlcpy(packet.name, untranslated_name(&a->name));
     sz_strlcpy(packet.rule_name, rule_name(&a->name));
     sz_strlcpy(packet.graphic_str, a->graphic_str);
     sz_strlcpy(packet.graphic_alt, a->graphic_alt);
 
-    packet.req[AR_ONE] = a->require[AR_ONE]
-                         ? advance_number(a->require[AR_ONE])
-                         : advance_count();
-    packet.req[AR_TWO] = a->require[AR_TWO]
-                         ? advance_number(a->require[AR_TWO])
-                         : advance_count();
-    packet.root_req = a->require[AR_ROOT]
-                      ? advance_number(a->require[AR_ROOT])
-                      : advance_count();
-
+    /* Current size of the packet's research_reqs requirement vector. */
     i = 0;
+
+    /* The requirements req1 and req2 are needed to research a tech. Send
+     * them in the research_reqs requirement vector. Range is set to player
+     * since pooled research is configurable. */
+
+    if ((a->require[AR_ONE] != A_NEVER)
+        && advance_number(a->require[AR_ONE]) > A_NONE) {
+      packet.research_reqs[i++]
+          = req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
+                            FALSE, TRUE, FALSE,
+                            advance_number(a->require[AR_ONE]));
+    }
+
+    if ((a->require[AR_TWO] != A_NEVER)
+        && advance_number(a->require[AR_TWO]) > A_NONE) {
+      packet.research_reqs[i++]
+          = req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
+                            FALSE, TRUE, FALSE,
+                            advance_number(a->require[AR_TWO]));;
+    }
+
+    /* The requirements of the tech's research_reqs also goes in the
+     * packet's research_reqs requirement vector. */
     requirement_vector_iterate(&a->research_reqs, req) {
       packet.research_reqs[i++] = *req;
     } requirement_vector_iterate_end;
+
+    /* The packet's research_reqs should contain req1, req2 and the
+     * requirements of the tech's research_reqs. */
     packet.research_reqs_count = i;
+
+    packet.root_req = a->require[AR_ROOT]
+                      ? advance_number(a->require[AR_ROOT])
+                      : advance_count();
 
     packet.flags = a->flags;
     packet.cost = a->cost;

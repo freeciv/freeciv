@@ -3248,6 +3248,41 @@ void handle_ruleset_unit_flag(const struct packet_ruleset_unit_flag *p)
   set_user_unit_type_flag_name(p->id, flagname, helptxt);
 }
 
+/**************************************************************************
+  Unpack a traditional tech req from a standard requirement vector (that
+  still is in the network serialized format rather than a proper
+  requirement vector).
+
+  Returns the position in the requirement vector after unpacking. It will
+  increase if a tech req was extracted.
+**************************************************************************/
+static int unpack_tech_req(const enum tech_req r_num,
+                           const int reqs_size,
+                           const struct requirement *reqs,
+                           struct advance *a,
+                           int i)
+{
+  if (i < reqs_size
+      && reqs[i].source.kind == VUT_ADVANCE) {
+    /* Extract the tech req so the old code can reason about it. */
+
+    /* This IS a traditional tech req... right? */
+    fc_assert(reqs[i].present);
+    fc_assert(reqs[i].range == REQ_RANGE_PLAYER);
+
+    /* Put it in the advance structure. */
+    a->require[r_num] = reqs[i].source.value.advance;
+
+    /* Move on in the requirement vector. */
+    i++;
+  } else {
+    /* No tech req. */
+    a->require[r_num] = advance_by_number(A_NONE);
+  }
+
+  return i;
+}
+
 /****************************************************************************
   Packet ruleset_tech handler.
 ****************************************************************************/
@@ -3262,14 +3297,41 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
   sz_strlcpy(a->graphic_str, p->graphic_str);
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
 
-  a->require[AR_ONE] = advance_by_number(p->req[AR_ONE]);
-  a->require[AR_TWO] = advance_by_number(p->req[AR_TWO]);
-  a->require[AR_ROOT] = advance_by_number(p->root_req);
-  for (i = 0; i < p->research_reqs_count; i++) {
+  i = 0;
+
+  /* The tech requirements req1 and req2 are send inside research_reqs
+   * since they too are required to be fulfilled before the tech can be
+   * researched. */
+
+  if (p->removed) {
+    /* The Freeciv data structures currently records that a tech is removed
+     * by setting req1 and req2 to "Never". */
+    a->require[AR_ONE] = A_NEVER;
+    a->require[AR_TWO] = A_NEVER;
+  } else {
+    /* Unpack req1 and req2 from the research_reqs requirement vector. */
+    i = unpack_tech_req(AR_ONE, p->research_reqs_count, p->research_reqs, a, i);
+    i = unpack_tech_req(AR_TWO, p->research_reqs_count, p->research_reqs, a, i);
+  }
+
+  /* Any remaining requirements are a part of the research_reqs requirement
+   * vector. */
+  for (; i < p->research_reqs_count; i++) {
     requirement_vector_append(&a->research_reqs, p->research_reqs[i]);
   }
 
-  fc_assert(a->research_reqs.size == p->research_reqs_count);
+  /* The packet's research_reqs should contain req1, req2 and the
+   * requirements of the tech's research_reqs. */
+  fc_assert((a->research_reqs.size
+             + ((a->require[AR_ONE]
+                 && (advance_number(a->require[AR_ONE]) != A_NONE)) ?
+                  1 : 0)
+             + ((a->require[AR_TWO]
+                 && (advance_number(a->require[AR_TWO]) != A_NONE)) ?
+                  1 : 0))
+            == p->research_reqs_count);
+
+  a->require[AR_ROOT] = advance_by_number(p->root_req);
 
   a->flags = p->flags;
   a->cost = p->cost;
