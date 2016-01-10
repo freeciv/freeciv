@@ -1220,8 +1220,6 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_HEADER_TIME
 AC_STRUCT_TM
-AC_CHECK_HEADERS([ws2tcpip.h],
-  [AC_DEFINE([FREECIV_HAVE_WS2TCPIP_H], [1], [ws2tcpip.h available])])
 AC_CHECK_TYPES([socklen_t], [AC_DEFINE([FREECIV_HAVE_SOCKLEN_T], [1], [Have socklen_t type defined])],
 [],
 [#ifdef FREECIV_HAVE_SYS_TYPES_H
