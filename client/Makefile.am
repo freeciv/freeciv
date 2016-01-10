@@ -84,7 +84,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/dependencies/cvercmp
 
 # Build client common functionality in to library
-# instead linking them directly to civclient. This is necessary
+# instead linking them directly to the client. This is necessary
 # for static linking.
 freeciv_client_src = $(AUDIO_SDL_FILES) \
 	attribute.h	\
