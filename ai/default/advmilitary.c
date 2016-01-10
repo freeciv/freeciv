@@ -1164,6 +1164,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
   best_choice = adv_new_choice();
   best_choice->value.utype = unit_type_get(myunit);
   best_choice->type = CT_ATTACKER;
+  adv_choice_set_use(best_choice, "attacker");
 
   fc_assert_ret_val(is_military_unit(myunit) && !utype_fuel(unit_type_get(myunit)), choice);
 
@@ -1298,6 +1299,8 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
                   choice->want,
                   ai->stats.available_boats, ai->stats.boats);
 #endif /* DEBUG */
+
+        adv_choice_set_use(choice, "attacker ferry");
       } /* else can not build ferries yet */
     }
   }
@@ -1341,6 +1344,7 @@ static void dai_unit_consider_bodyguard(struct ai_type *ait,
       choice->want = want;
       choice->value.utype = punittype;
       choice->type = CT_DEFENDER;
+      adv_choice_set_use(choice, "bodyguard");
     }
   }
   unit_virtual_destroy(virtualunit);
@@ -1372,6 +1376,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
        && !city_has_building(pcity, improvement_by_number(id))) {
     choice->value.building = improvement_by_number(id);
     choice->type = CT_BUILDING;
+    adv_choice_set_use(choice, "veterancy building");
   }
 }
 
@@ -1459,6 +1464,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
        * nobody behind them. */
       if (dai_process_defender_want(ait, pplayer, pcity, danger, choice)) {
         choice->want = 100 + danger;
+        adv_choice_set_use(choice, "first defender");
         build_walls = FALSE;
 
         CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants first defender with " ADV_WANT_PRINTF,
@@ -1491,6 +1497,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
           choice->want = 100;
         }
         choice->type = CT_BUILDING;
+        adv_choice_set_use(choice, "defense building");
         CITY_LOG(LOG_DEBUG, pcity,
                  "m_a_c_d wants defense building with " ADV_WANT_PRINTF,
                  choice->want);
@@ -1512,6 +1519,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
           }
 
           choice->want += martial_value;
+          adv_choice_set_use(choice, "defender");
 
           CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire " ADV_WANT_PRINTF,
                    utype_rule_name(choice->value.utype),

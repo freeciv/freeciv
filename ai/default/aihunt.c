@@ -213,6 +213,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
     choice->want = best;
     choice->type = CT_ATTACKER;
     choice->need_boat = FALSE;
+    adv_choice_set_use(choice, "missile");
   } else if (best >= 0) {
     CITY_LOG(LOGLEVEL_HUNT, pcity, "not pri missile w/ want " ADV_WANT_PRINTF
              "(old want " ADV_WANT_PRINTF ")", best, choice->want);
@@ -240,6 +241,7 @@ static void eval_hunter_want(struct ai_type *ait, struct player *pplayer,
     choice->want = want;
     choice->type = CT_ATTACKER;
     choice->need_boat = FALSE;
+    adv_choice_set_use(choice, "hunter");
   }
 }
 

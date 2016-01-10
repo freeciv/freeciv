@@ -150,6 +150,7 @@ void dai_choose_diplomat_defensive(struct ai_type *ait,
        choice->type = CT_DEFENDER;
        choice->value.utype = ut;
        choice->need_boat = FALSE;
+       adv_choice_set_use(choice, "defensive diplomat");
     } else if (num_role_units(UTYF_DIPLOMAT) > 0) {
       /* We don't know diplomats yet... */
       log_base(LOG_DIPLOMAT_BUILD,
@@ -305,6 +306,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
       choice->type = CT_CIVILIAN; /* so we don't build barracks for it */
       choice->value.utype = ut;
       choice->need_boat = FALSE;
+      adv_choice_set_use(choice, "offensive diplomat");
       BV_SET(ai->stats.diplomat_reservations, acity->id);
     }
   }

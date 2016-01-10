@@ -389,13 +389,14 @@ void dai_choose_paratrooper(struct ai_type *ait,
     profit = calculate_want_for_paratrooper(virtual_unit, pcity->tile);
     unit_virtual_destroy(virtual_unit);
 
-    /* update choise struct if it's worth */
+    /* update choice struct if it's worth */
     if (profit > choice->want) {
       /* Update choice */
       choice->want = profit;
       choice->value.utype = u_type;
       choice->type = CT_ATTACKER;
       choice->need_boat = FALSE;
+      adv_choice_set_use(choice, "paratrooper");
       log_base(LOGLEVEL_PARATROOPER, "%s wants to build %s (want=%d)",
                city_name(pcity), utype_rule_name(u_type), profit);
     }

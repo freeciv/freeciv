@@ -251,6 +251,7 @@ static void dai_barbarian_choose_build(struct player *pplayer,
     /* FIXME: 101 is the "overriding military emergency" indicator */
     choice->want   = 101;
     choice->type   = CT_ATTACKER;
+    adv_choice_set_use(choice, "barbarian");
   } else {
     log_base(LOG_WANT, "Barbarians don't know what to build!");
   }
@@ -287,7 +288,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
         && !(dai_on_war_footing(ait, pplayer) && city_data->choice.want > 0
              && pcity->id != adv->wonder_city)) {
       newchoice = domestic_advisor_choose_build(ait, pplayer, pcity);
-      city_data->choice = *(adv_better_choice(&(city_data->choice), newchoice));
+      adv_choice_copy(&(city_data->choice), adv_better_choice(&(city_data->choice), newchoice));
       adv_free_choice(newchoice);
     }
   }
@@ -302,16 +303,19 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
       city_data->choice.value.utype
         = best_role_unit(pcity, action_get_role(ACTION_TRADE_ROUTE));
       city_data->choice.type = CT_CIVILIAN;
+      adv_choice_set_use(&(city_data->choice), "fallback trade route");
     } else {
       unsigned int our_def = assess_defense_quadratic(ait, pcity);
 
       if (our_def == 0
           && dai_process_defender_want(ait, pplayer, pcity, 1, &(city_data->choice))) {
+        adv_choice_set_use(&(city_data->choice), "fallback defender");
         CITY_LOG(LOG_DEBUG, pcity, "Building fallback defender");
       } else if (best_role_unit(pcity, UTYF_SETTLERS)) {
         city_data->choice.value.utype
           = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
         city_data->choice.type = CT_CIVILIAN;
+        adv_choice_set_use(&(city_data->choice), "fallback worker");
       } else {
         CITY_LOG(LOG_ERROR, pcity, "Cannot even build a fallback "
                  "(caravan/coinage/settlers). Fix the ruleset!");
@@ -864,7 +868,7 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
     /* Note that this function mungs the seamap, but we don't care */
     TIMING_LOG(AIT_CITY_MILITARY, TIMER_START);
     choice = military_advisor_choose_build(ait, pplayer, pcity);
-    city_data->choice = *choice;
+    adv_choice_copy(&(city_data->choice), choice);
     adv_free_choice(choice);
     TIMING_LOG(AIT_CITY_MILITARY, TIMER_STOP);
     if (dai_on_war_footing(ait, pplayer) && city_data->choice.want > 0) {
@@ -1061,6 +1065,7 @@ void dai_city_free(struct ai_type *ait, struct city *pcity)
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   if (city_data != NULL) {
+    adv_deinit_choice(&(city_data->choice));
     city_set_ai_data(pcity, ait, NULL);
     FC_FREE(city_data);
   }

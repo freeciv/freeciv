@@ -496,6 +496,7 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
         choice->value.utype = punittype;
         choice->type = CT_ATTACKER;
         choice->need_boat = FALSE;
+        adv_choice_set_use(choice, "offensive air");
         want_something = TRUE;
         log_debug("%s wants to build %s (want=%d)",
                   city_name(pcity), utype_rule_name(punittype), profit);

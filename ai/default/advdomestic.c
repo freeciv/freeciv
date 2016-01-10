@@ -475,6 +475,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
                settler_want);
       dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
                            UTYF_SETTLERS, settler_want, FALSE);
+      adv_choice_set_use(choice, "worker");
     }
     /* Terrain improvers don't use boats (yet) */
 
@@ -517,6 +518,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
                              action_get_role(ACTION_FOUND_CITY),
                              founder_want,
                              city_data->founder_boat);
+        adv_choice_set_use(choice, "founder");
 
       } else if (founder_want < -choice->want) {
         /* We need boats to colonize! */
@@ -538,6 +540,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
          * If no ferryboat is found, above founder choice stays. */
         dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
                              L_FERRYBOAT, -founder_want, TRUE);
+        adv_choice_set_use(choice, "founder's boat");
       }
     } else if (!founder_type
                && (founder_want > choice->want || founder_want < -choice->want)) {
@@ -551,18 +554,21 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
   {
     struct adv_choice *cur;
 
+    /* Consider building caravan-type units to aid wonder construction */
     cur = adv_new_choice();
-    /* Consider building caravan-type units to aid wonder construction */  
+    adv_choice_set_use(cur, "wonder");
     dai_choose_help_wonder(ait, pcity, cur, adv);
     choice = adv_better_choice_free(choice, cur);
 
-    cur = adv_new_choice();
     /* Consider city improvements */
+    cur = adv_new_choice();
+    adv_choice_set_use(cur, "improvement");
     building_advisor_choose(pcity, cur);
     choice = adv_better_choice_free(choice, cur);
 
-    cur = adv_new_choice();
     /* Consider building caravan-type units for trade route */
+    cur = adv_new_choice();
+    adv_choice_set_use(cur, "trade route");
     dai_choose_trade_route(ait, pcity, cur, adv);
     choice = adv_better_choice_free(choice, cur);
   }
