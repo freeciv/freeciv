@@ -6,7 +6,6 @@
 *.o
 *.lo
 *.orig
-*.patch
 *.png
 *.pot
 *.pox
@@ -33,8 +32,8 @@ charset.alias
 fcgui
 freeciv-gtk2
 freeciv-gtk3
-freeciv-sdl
-freeciv-xaw
+freeciv-gtk3x
+freeciv-sdl2
 freeciv-qt
 *.sav.gz
 civgame.log
@@ -65,7 +64,9 @@ stamp-h.in
 tags
 undep.sh
 freeciv-manual
-freeciv-modpack
+freeciv-mp-*
+freeciv-ruledit
+fcruledit
 freeciv.spec
 libtool
 tolua

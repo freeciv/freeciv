@@ -6,12 +6,9 @@ files=`find $1 -name "*.c" -o -name "*.h" -o -name "*.cpp" \
        | fgrep -v "_gen." \
        | grep -v "fc_config.h" \
        | grep -v gtkpixcomm \
-       | grep -v mmx.h \
-       | grep -v xaw/canvas \
        | grep -v pixcomm \
        | grep -v dependencies \
-       | grep -v utility/md5\.. \
-       | grep -v client/gui-sdl/alphablit.c `
+       | grep -v utility/md5\.. `
 
 echo "# No Freeciv Copyright:"
 echo "# Excludes: generated files, various 3rd party sources"
