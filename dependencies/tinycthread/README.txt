@@ -1,7 +1,7 @@
-TinyCThread v1.1
+TinyCThread v1.2
 ================
 
-http://tinycthread.bitsnbites.eu
+https://tinycthread.github.io
 
 
 About
@@ -43,6 +43,13 @@ Windows/MS Visual Studio:
 History
 -------
 
+v1.2 - Unreleased
+  - Updated API to better match the final specification (e.g. removed mtx_try)
+  - Improved Windows support, including TSS destructors
+  - Added once support
+  - Improved unit testing
+  - Assorted bug fixes.
+
 v1.1 - 2012.9.8
   - First release.
   - Updated API to better match the final specification (e.g. removed xtime).
@@ -58,6 +65,7 @@ License
 -------
 
 Copyright (c) 2012 Marcus Geelnard
+              2013-2014 Evan Nemerson
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages

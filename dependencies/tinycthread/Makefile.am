@@ -4,4 +4,5 @@ libtinycthread_la_SOURCES = \
 	tinycthread.c	\
 	tinycthread.h
 
-EXTRA_DIST = README.txt
+EXTRA_DIST = README.txt \
+	Version
