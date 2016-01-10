@@ -183,6 +183,7 @@ case "$host_os" in
     AC_DEFINE([FREECIV_HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
     AC_CHECK_HEADERS([winsock2.h], [AC_DEFINE([FREECIV_HAVE_WINSOCK2], [1], [Mingw32-specific setting - winsock2])])
     AC_CHECK_HEADERS([ws2tcpip.h], [AC_DEFINE([FREECIV_HAVE_WS2TCPIP_H], [1], [ws2tcpip.h available])])
+    AC_CHECK_HEADERS([direct.h])
 
     dnl Without WINSOCK2, use: LIBS="$LIBS -lwsock32"
     LIBS="${LIBS} -lws2_32"
