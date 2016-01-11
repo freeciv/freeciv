@@ -1476,6 +1476,12 @@ FC_STORE_CXXFLAGS="$(echo $CXXFLAGS | $SED 's/\\/\\\\/g' | $SED 's/\"/\\\"/g')"
 AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ["$FC_STORE_CXXFLAGS"],
                    [These are the CXXFLAGS used in compilation])
 
+dnl If old default of AR_FLAGS is otherwise being used (because of older automake),
+dnl replace it with one without 'u'
+if test "x$AR_FLAGS" = "xcru" ; then
+  AR_FLAGS="cr"
+fi
+
 AC_CONFIG_FILES([Makefile
           data/Makefile
 	  data/hex2t/Makefile
