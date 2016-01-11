@@ -22,4 +22,9 @@ void savegame_load(struct section_file *sfile);
 void savegame_save(struct section_file *sfile, const char *save_reason,
                    bool scenario);
 
+void save_game(const char *orig_filename, const char *save_reason,
+               bool scenario);
+
+void save_system_close(void);
+
 #endif /* FC__SAVEGAME_H */

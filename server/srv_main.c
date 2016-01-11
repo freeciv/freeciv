@@ -1468,148 +1468,6 @@ static void end_turn(void)
 }
 
 /**************************************************************************
-  Unconditionally save the game, with specified filename.
-  Always prints a message: either save ok, or failed.
-**************************************************************************/
-void save_game(const char *orig_filename, const char *save_reason,
-               bool scenario)
-{
-  char filepath[600];
-  char *dot, *filename;
-  struct section_file *file;
-  struct timer *timer_cpu, *timer_user;
-
-  if (!orig_filename) {
-    filepath[0] = '\0';
-    filename = filepath;
-  } else {
-    sz_strlcpy(filepath, orig_filename);
-    if ((filename = strrchr(filepath, '/'))) {
-      filename++;
-    } else {
-      filename = filepath;
-    }
-
-    /* Ignores the dot at the start of the filename. */
-    for (dot = filename; '.' == *dot; dot++) {
-      /* Nothing. */
-    }
-    if ('\0' == *dot) {
-      /* Only dots in this file name, consider it as empty. */
-      filename[0] = '\0';
-    } else {
-      char *end_dot;
-      char *strip_extensions[] = { ".sav", ".gz", ".bz2", ".xz", NULL };
-      bool stripped = TRUE;
-
-      while ((end_dot = strrchr(dot, '.')) && stripped) {
-	int i;
-        stripped = FALSE;
-
-	for (i = 0; strip_extensions[i] != NULL && !stripped; i++) {
-          if (!strcmp(end_dot, strip_extensions[i])) {
-            *end_dot = '\0';
-            stripped = TRUE;
-          }
-        }
-      }
-    }
-  }
-
-  /* If orig_filename is NULL or empty, use a generated default name. */
-  if (filename[0] == '\0'){
-    /* manual save */
-    generate_save_name(game.server.save_name, filename,
-                       sizeof(filepath) + filepath - filename, "manual");
-  }
-
-  timer_cpu = timer_new(TIMER_CPU, TIMER_ACTIVE);
-  timer_start(timer_cpu);
-  timer_user = timer_new(TIMER_USER, TIMER_ACTIVE);
-  timer_start(timer_user);
-
-  /* Allowing duplicates shouldn't be allowed. However, it takes very too
-   * long time for huge game saving... */
-  file = secfile_new(TRUE);
-  savegame_save(file, save_reason, scenario);
-
-  /* Append ".sav" to filename. */
-  sz_strlcat(filepath, ".sav");
-
-  if (game.server.save_compress_level > 0) {
-    switch (game.server.save_compress_type) {
-#ifdef FREECIV_HAVE_LIBZ
-    case FZ_ZLIB:
-      /* Append ".gz" to filename. */
-      sz_strlcat(filepath, ".gz");
-      break;
-#endif
-#ifdef FREECIV_HAVE_LIBBZ2
-    case FZ_BZIP2:
-      /* Append ".bz2" to filename. */
-      sz_strlcat(filepath, ".bz2");
-      break;
-#endif
-#ifdef FREECIV_HAVE_LIBLZMA
-   case FZ_XZ:
-      /* Append ".xz" to filename. */
-      sz_strlcat(filepath, ".xz");
-      break;
-#endif
-    case FZ_PLAIN:
-      break;
-    default:
-      log_error(_("Unsupported compression type %d."),
-                game.server.save_compress_type);
-      notify_conn(NULL, NULL, E_SETTING, ftc_warning,
-                  _("Unsupported compression type %d."),
-                  game.server.save_compress_type);
-      break;
-    }
-  }
-
-  if (!path_is_absolute(filepath)) {
-    char tmpname[600];
-
-    if (!scenario) {
-      /* Ensure the saves directory exists. */
-      make_dir(srvarg.saves_pathname);
-
-      sz_strlcpy(tmpname, srvarg.saves_pathname);
-    } else {
-      /* Make sure scenario directory exist */
-      make_dir(srvarg.scenarios_pathname);
-
-      sz_strlcpy(tmpname, srvarg.scenarios_pathname);
-    }
-
-    if (tmpname[0] != '\0') {
-      sz_strlcat(tmpname, "/");
-    }
-    sz_strlcat(tmpname, filepath);
-    sz_strlcpy(filepath, tmpname);
-  }
-
-  if (!secfile_save(file, filepath, game.server.save_compress_level,
-                    game.server.save_compress_type)) {
-    con_write(C_FAIL, _("Failed saving game as %s"), filepath);
-    log_error("Game saving failed: %s", secfile_error());
-  } else {
-    con_write(C_OK, _("Game saved as %s"), filepath);
-  }
-
-  secfile_destroy(file);
-
-#ifdef LOG_TIMERS
-  log_verbose("Save time: %g seconds (%g apparent)",
-              timer_read_seconds(timer_cpu), timer_read_seconds(timer_user));
-#endif
-
-  timer_destroy(timer_cpu);
-  timer_destroy(timer_user);
-}
-
-/**************************************************************************
 Save game with autosave filename
 **************************************************************************/
 void save_game_auto(const char *save_reason, enum autosave_type type)
@@ -3291,6 +3149,9 @@ void srv_main(void)
     while (conn_list_size(game.est_connections) > 0) {
       server_sniff_all_input();
     }
+
+    /* Close it even between games. */
+    save_system_close();
 
     if (game.info.timeout == -1 || srvarg.exit_on_end) {
       /* For autogames or if the -e option is specified, exit the server. */

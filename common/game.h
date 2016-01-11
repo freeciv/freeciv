@@ -167,6 +167,7 @@ struct civ_game {
       int razechance;
       unsigned revealmap;
       int revolution_length;
+      bool threaded_save;
       int save_compress_level;
       enum fz_method save_compress_type;
       int save_nturns;
@@ -588,6 +589,8 @@ extern struct civ_game game;
 #define GAME_MAX_SAVEFREQUENCY       1440
 
 #define GAME_DEFAULT_AUTOSAVES       (1 << AS_TURN | 1 << AS_GAME_OVER | 1 << AS_QUITIDLE | 1 << AS_INTERRUPT)
+
+#define GAME_DEFAULT_THREADED_SAVE   FALSE
 
 #define GAME_DEFAULT_SKILL_LEVEL     AI_LEVEL_EASY
 #define GAME_HARDCODED_DEFAULT_SKILL_LEVEL 3 /* that was 'easy' in old saves */

@@ -49,7 +49,7 @@
 #include "plrhand.h"
 #include "notify.h"
 #include "sanitycheck.h"
-#include "srv_main.h"
+#include "savegame.h"
 #include "stdinhand.h"
 #include "techtools.h"
 #include "unittools.h"

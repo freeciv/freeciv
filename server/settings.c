@@ -2647,6 +2647,17 @@ static struct setting settings[] = {
                  "- \"Timer\" (TIMER): Save every 'savefrequency' minutes."),
               autosaves_callback, NULL, autosaves_name, GAME_DEFAULT_AUTOSAVES)
 
+  GEN_BOOL("threaded_save", game.server.threaded_save,
+           SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
+           N_("Whether to do saving in separate thread"),
+           /* TRANS: The string between single quotes is a setting name and
+            * should not be translated. */
+           N_("If this is turned in, compressing and saving the actual "
+              "file containing the game situation takes place in "
+              "the background while game otherwise continues. This way "
+              "users are not required to wait for the save to finish."),
+           NULL, NULL, GAME_DEFAULT_THREADED_SAVE)
+
   GEN_INT("compress", game.server.save_compress_level,
           SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
           N_("Savegame compression level"),

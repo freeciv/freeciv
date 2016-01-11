@@ -19,6 +19,7 @@
 #include "luascript.h"
 
 /* server */
+#include "savegame.h"
 #include "score.h"
 #include "settings.h"
 #include "srv_main.h"
@@ -62,6 +63,7 @@ bool api_server_save(lua_State *L, const char *filename)
   }
 
   save_game(filename, "User request (Lua)", FALSE);
+
   return TRUE;
 }
 
