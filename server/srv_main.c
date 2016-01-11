@@ -1076,7 +1076,7 @@ static void begin_phase(bool is_new_phase)
   if (is_new_phase) {
     /* Try to avoid hiding events under a diplomacy dialog */
     phase_players_iterate(pplayer) {
-      if (pplayer->ai_controlled && !is_barbarian(pplayer)) {
+      if (pplayer->ai_controlled) {
         CALL_PLR_AI_FUNC(diplomacy_actions, pplayer, pplayer);
       }
     } phase_players_iterate_end;
