@@ -234,6 +234,9 @@ if test x$ipv6 != xno ; then
 #endif
 #ifdef FREECIV_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+#ifdef FREECIV_HAVE_WINSOCK2
+#include <winsock2.h>
 #endif]], [[return AF_INET6;]])], [AC_MSG_RESULT([yes])],
        [AC_MSG_RESULT([no])
         enable_ipv6=no])
