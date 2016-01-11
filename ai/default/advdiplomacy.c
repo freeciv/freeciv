@@ -1469,7 +1469,7 @@ void static war_countdown(struct ai_type *ait, struct player *pplayer,
   Do diplomatic actions. Must be called only after calculate function
   above has been run for _all_ AI players.
 
-  Only ever called for AI players and never for barbarians.
+  Only ever called for AI players.
 ***********************************************************************/
 void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
 {
@@ -1485,6 +1485,11 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
   fc_assert_ret(is_ai(pplayer));
 
   if (!pplayer->is_alive) {
+    return;
+  }
+
+  if (get_player_bonus(pplayer, EFT_NO_DIPLOMACY) > 0) {
+    /* Diplomacy disabled for this player */
     return;
   }
 
