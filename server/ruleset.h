@@ -17,12 +17,17 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2015.January.14"
+#define RULESET_CAPABILITIES_BASE "+Freeciv-ruleset-Devel-2015.January.14"
+#ifdef FREECIV_WEB
+#define RULESET_CAPABILITIES RULESET_CAPABILITIES_BASE " +web-compatible"
+#else  /* FREECIV_WEB */
+#define RULESET_CAPABILITIES RULESET_CAPABILITIES_BASE
+#endif /* FREECIV_WEB */
 /*
  * Ruleset capabilities acceptable to this program:
  *
- * +Freeciv-2.3-ruleset
- *    - basic ruleset format for Freeciv versions 2.3.x; required
+ * +Freeciv-3.0-ruleset
+ *    - basic ruleset format for Freeciv versions 3.0.x; required
  *
  * +Freeciv-tilespec-Devel-YYYY.MMM.DD
  *    - ruleset of the development version at the given data

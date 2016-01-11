@@ -263,8 +263,8 @@ case $capability in
     file=`find $basedir -name "ruleset\.h"`
 
     old=`cat $file \
-         | grep "#define RULESET_CAPABILITIES " \
-         | sed 's/#define RULESET_CAPABILITIES "\(.*\)".*/\1/'`
+         | grep "#define RULESET_CAPABILITIES_BASE " \
+         | sed 's/#define RULESET_CAPABILITIES_BASE "\(.*\)".*/\1/'`
 
     echo "* Replacing \"${old}\" with \"${string}\" in:"
     cat $file \
