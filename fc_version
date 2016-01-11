@@ -5,7 +5,7 @@
 # Version definition for Freeciv.
 
 MAJOR_VERSION="2"
-MINOR_VERSION="90"
+MINOR_VERSION="91"
 PATCH_VERSION="99"
 VERSION_LABEL="-dev"
 
