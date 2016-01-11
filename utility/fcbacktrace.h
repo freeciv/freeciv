@@ -14,11 +14,19 @@
 #ifndef FC__BACKTRACE_H
 #define FC__BACKTRACE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "log.h"
 
 void backtrace_init(void);
 void backtrace_deinit(void);
 void backtrace_print(enum log_level level);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__BACKTRACE_H */
