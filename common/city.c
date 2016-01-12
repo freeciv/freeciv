@@ -2780,7 +2780,7 @@ inline void set_city_production(struct city *pcity)
     struct city *tcity = game_city_by_number(proute->partner);
     bool can_trade;
 
-    fc_assert(tcity != NULL);
+    fc_assert_action(tcity != NULL, continue);
 
     can_trade = can_cities_trade(pcity, tcity);
 
