@@ -222,7 +222,62 @@ int api_methods_city_culture_get(lua_State *L, City *pcity)
 }
 
 /*****************************************************************************
-  Return rule name for Government
+  Return TRUE iff city happy
+*****************************************************************************/
+bool api_methods_is_city_happy(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
+
+  return city_happy(pcity);
+}
+
+/*****************************************************************************
+  Return TRUE iff city is unhappy
+*****************************************************************************/
+bool api_methods_is_city_unhappy(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
+
+  return city_unhappy(pcity);
+}
+
+/*****************************************************************************
+  Return TRUE iff city is celebrating
+*****************************************************************************/
+bool api_methods_is_city_celebrating(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
+
+  return city_celebrating(pcity);
+}
+
+/*****************************************************************************
+  Return TRUE iff city is government center
+*****************************************************************************/
+bool api_methods_is_gov_center(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
+
+  return is_gov_center(pcity);
+}
+
+/*****************************************************************************
+  Return TRUE if city is capital
+*****************************************************************************/
+bool api_methods_is_capital(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
+
+  return is_capital(pcity);
+}
+
+/*****************************************************************************
+   Return rule name for Government
 *****************************************************************************/
 const char *api_methods_government_rule_name(lua_State *L,
                                              Government *pgovernment)
@@ -281,7 +336,6 @@ const char *api_methods_nation_type_plural_translation(lua_State *L,
 
   return nation_plural_translation(pnation);
 }
-
 
 /*****************************************************************************
   Return TRUE iff player has wonder
