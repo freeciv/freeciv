@@ -70,12 +70,12 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 
 #define WAIT_BETWEEN_TRIES 100000 /* usecs */ 
 #define NUMBER_OF_TRIES 500
-  
-#ifdef WIN32_NATIVE
+
+#ifdef HAVE_WORKING_FORK
+static pid_t server_pid = -1;
+#elif WIN32_NATIVE
 HANDLE server_process = INVALID_HANDLE_VALUE;
 HANDLE loghandle = INVALID_HANDLE_VALUE;
-#else
-static pid_t server_pid = - 1;
 #endif
 
 static char challenge_fullname[MAX_LEN_PATH];
@@ -111,12 +111,14 @@ then:
 /************************************************************************** 
 Tests if the client has started the server.
 **************************************************************************/ 
-bool is_server_running()
-{ 
-#ifdef WIN32_NATIVE
-  return (server_process != INVALID_HANDLE_VALUE);
-#else    
+bool is_server_running(void)
+{
+#ifdef HAVE_WORKING_FORK
   return (server_pid > 0);
+#elif WIN32_NATIVE
+  return (server_process != INVALID_HANDLE_VALUE);
+#else
+  return FALSE; /* We've been unable to start one! */
 #endif
 } 
 
@@ -152,17 +154,21 @@ void client_kill_server(bool force)
        * it could potentially be called when we're connected to an unowned
        * server.  In this case we don't want to kill it. */
       send_chat("/quit");
-#ifdef WIN32_NATIVE
+#ifdef HAVE_WORKING_FORK
+      server_pid = -1;
+#elif WIN32_NATIVE
       server_process = INVALID_HANDLE_VALUE;
       loghandle = INVALID_HANDLE_VALUE;
-#else
-      server_pid = -1;
 #endif
     } else if (force) {
       /* Either we already disconnected, or we didn't get control of the
        * server. In either case, the only thing to do is a "hard" kill of
        * the server. */
-#ifdef WIN32_NATIVE
+#ifdef HAVE_WORKING_FORK
+      kill(server_pid, SIGTERM);
+      waitpid(server_pid, NULL, WUNTRACED);
+      server_pid = -1; 
+#elif WIN32_NATIVE
       TerminateProcess(server_process, 0);
       CloseHandle(server_process);
       if (loghandle != INVALID_HANDLE_VALUE) {
@@ -170,10 +176,6 @@ void client_kill_server(bool force)
       }
       server_process = INVALID_HANDLE_VALUE;
       loghandle = INVALID_HANDLE_VALUE;
-#elif HAVE_WORKING_FORK
-      kill(server_pid, SIGTERM);
-      waitpid(server_pid, NULL, WUNTRACED);
-      server_pid = -1;
 #endif /* WIN32_NATIVE || HAVE_WORKING_FORK */
     }
   }
@@ -192,7 +194,9 @@ bool client_start_server(void)
 #else /* HAVE_WORKING_FORK || WIN32_NATIVE */
   char buf[512];
   int connect_tries = 0;
-# ifdef WIN32_NATIVE
+#if !defined(HAVE_WORKING_FORK)
+  /* Above also implies that this is WIN32_NATIVE ->
+   * Win32 that can't use fork() */
   STARTUPINFO si;
   PROCESS_INFORMATION pi;
 
@@ -210,7 +214,7 @@ bool client_start_server(void)
   char savefilecmdline[512];
   char savescmdline[512];
   char scenscmdline[512];
-# endif /* WIN32_NATIVE */
+#endif /* !HAVE_WORKING_FORK -> WIN32_NATIVE */
 
 #ifdef IPV6_SUPPORT
   enum fc_addr_family family = FC_ADDR_ANY;
@@ -239,7 +243,7 @@ bool client_start_server(void)
     return FALSE;
   }
 
-# ifdef HAVE_WORKING_FORK
+#ifdef HAVE_WORKING_FORK
   {
     int argc = 0;
     const int max_nargs = 18;
@@ -339,8 +343,8 @@ bool client_start_server(void)
       _exit(1);
     } 
   }
-# else /* HAVE_WORKING_FORK */
-#  ifdef WIN32_NATIVE
+#else /* HAVE_WORKING_FORK */
+#ifdef WIN32_NATIVE
   if (logfile) {
     loghandle = CreateFile(logfile, GENERIC_WRITE,
                            FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -440,9 +444,9 @@ bool client_start_server(void)
 
   server_process = pi.hProcess;
 
-#  endif /* WIN32_NATIVE */
-# endif /* HAVE_WORKING_FORK */
- 
+#endif /* WIN32_NATIVE */
+#endif /* HAVE_WORKING_FORK */
+
   /* a reasonable number of tries */ 
   while (connect_to_server(user_name, "localhost", internal_server_port, 
                            buf, sizeof(buf)) == -1) {
