@@ -108,7 +108,7 @@ void improvement_feature_cache_init(void)
     pimprove->prevents_disaster = FALSE;
     disaster_type_iterate(pdis) {
       if (!requirement_fulfilled_by_improvement(pimprove, &pdis->reqs)) {
-        pimprove->protects_vs_actions = TRUE;
+        pimprove->prevents_disaster = TRUE;
         break;
       }
     } disaster_type_iterate_end;
