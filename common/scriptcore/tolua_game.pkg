@@ -186,6 +186,17 @@ module City {
 
   int api_methods_city_culture_get
     @ culture(lua_State *L, City *self);
+
+  bool api_methods_is_city_happy
+    @ is_happy(lua_State *L, City *self);
+  bool api_methods_is_city_unhappy
+    @ is_unhappy(lua_State *L, City *self);
+  bool api_methods_is_city_celebrating
+    @ is_celebrating(lua_State *L, City *self);
+  bool api_methods_is_gov_center
+    @ is_gov_center(lua_State *L, City *self);
+  bool api_methods_is_capital
+    @ is_capital(lua_State *L, City *self);
 }
 
 $[

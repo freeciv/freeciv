@@ -37,9 +37,8 @@ bool api_methods_building_type_is_improvement(lua_State *L,
                                               Building_Type *pbuilding);
 const char *api_methods_building_type_rule_name(lua_State *L,
                                                 Building_Type *pbuilding);
-const char
-  *api_methods_building_type_name_translation(lua_State *L,
-                                              Building_Type *pbuilding);
+const char *api_methods_building_type_name_translation(lua_State *L,
+                                                       Building_Type *pbuilding);
 
 /* City */
 bool api_methods_city_has_building(lua_State *L, City *pcity,
@@ -50,6 +49,12 @@ Tile *api_methods_city_tile_get(lua_State *L, City *pcity);
 int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspirer);
 
 int api_methods_city_culture_get(lua_State *L, City *pcity);
+
+bool api_methods_is_city_happy(lua_State *L, City *pcity);
+bool api_methods_is_city_unhappy(lua_State *L, City *pcity);
+bool api_methods_is_city_celebrating(lua_State *L, City *pcity);
+bool api_methods_is_gov_center(lua_State *L, City *pcity);
+bool api_methods_is_capital(lua_State *L, City *pcity);
 
 /* Government */
 const char *api_methods_government_rule_name(lua_State *L,
@@ -62,9 +67,8 @@ const char *api_methods_nation_type_rule_name(lua_State *L,
                                               Nation_Type *pnation);
 const char *api_methods_nation_type_name_translation(lua_State *L,
                                                      Nation_Type *pnation);
-const char
-  *api_methods_nation_type_plural_translation(lua_State *L,
-                                              Nation_Type *pnation);
+const char *api_methods_nation_type_plural_translation(lua_State *L,
+                                                       Nation_Type *pnation);
 
 /* Player */
 bool api_methods_player_has_wonder(lua_State *L, Player *pplayer,
