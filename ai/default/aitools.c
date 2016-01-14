@@ -1017,14 +1017,6 @@ void adjust_choice(int value, struct adv_choice *choice)
 }
 
 /**************************************************************************
-  Does choice type refer to unit
-**************************************************************************/
-bool is_unit_choice_type(enum choice_type type)
-{
-   return type == CT_CIVILIAN || type == CT_ATTACKER || type == CT_DEFENDER;
-}
-
-/**************************************************************************
   Calls dai_wants_role_unit to choose the best unit with the given role and 
   set tech wants.  Sets choice->value.utype when we can build something.
 **************************************************************************/

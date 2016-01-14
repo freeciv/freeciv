@@ -109,24 +109,6 @@
  (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)			\
   || pcity->food_stock + pcity->surplus[O_FOOD] < 0)
 
-#ifdef FREECIV_NDEBUG
-#define ASSERT_CHOICE(c) /* Do nothing. */
-#else  /* FREECIV_NDEBUG */
-#define ASSERT_CHOICE(c)                                                 \
-  do {                                                                   \
-    if ((c).want > 0) {                                                  \
-      fc_assert((c).type > CT_NONE && (c).type < CT_LAST);               \
-      if ((c).type == CT_BUILDING) {                                     \
-        int _iindex = improvement_index((c).value.building);             \
-        fc_assert(_iindex >= 0 && _iindex < improvement_count());        \
-      } else {                                                           \
-        int _uindex = utype_index((c).value.utype);                      \
-        fc_assert(_uindex >= 0 && _uindex < utype_count());              \
-      }                                                                  \
-    }                                                                    \
-  } while(FALSE);
-#endif /* FREECIV_NDEBUG */
-
 static void dai_sell_obsolete_buildings(struct city *pcity);
 static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
                                    struct city *pcity);
@@ -325,7 +307,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
   }
 
   if (city_data->choice.want != 0) {
-    ASSERT_CHOICE(city_data->choice);
+    ADV_CHOICE_ASSERT(city_data->choice);
 
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire " ADV_WANT_PRINTF ".",
 	     dai_choice_rule_name(&city_data->choice),
@@ -584,7 +566,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
     /* Not dealing with this city a second time */
     city_data->choice.want = 0;
 
-    ASSERT_CHOICE(bestchoice);
+    ADV_CHOICE_ASSERT(bestchoice);
 
     /* Try upgrade units at danger location (high want is usually danger) */
     if (city_data->urgency > 1) {
@@ -891,7 +873,7 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
       contemplate_new_city(ait, pcity);
     }
     TIMING_LOG(AIT_CITY_SETTLERS, TIMER_STOP);
-    ASSERT_CHOICE(city_data->choice);
+    ADV_CHOICE_ASSERT(city_data->choice);
   } city_list_iterate_end;
   /* Reset auto settler state for the next run. */
   dai_auto_settler_reset(ait, pplayer);

@@ -108,9 +108,15 @@ struct adv_choice *adv_better_choice_free(struct adv_choice *first,
   }
 }
 
+/**************************************************************************
+  Does choice type refer to unit
+**************************************************************************/
+bool is_unit_choice_type(enum choice_type type)
+{
+   return type == CT_CIVILIAN || type == CT_ATTACKER || type == CT_DEFENDER;
+}
 
 #ifdef ADV_CHOICE_TRACK
-
 /**************************************************************************
   Copy contents of one choice structure to the other
 **************************************************************************/

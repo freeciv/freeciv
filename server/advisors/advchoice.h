@@ -50,6 +50,8 @@ struct adv_choice *adv_better_choice(struct adv_choice *first,
 struct adv_choice *adv_better_choice_free(struct adv_choice *first,
                                           struct adv_choice *second);
 
+bool is_unit_choice_type(enum choice_type type);
+
 #ifdef ADV_CHOICE_TRACK
 void adv_choice_copy(struct adv_choice *dest, struct adv_choice *src);
 void adv_choice_set_use(struct adv_choice *choice, const char *use);
@@ -65,4 +67,22 @@ static inline void adv_choice_copy(struct adv_choice *dest, struct adv_choice *s
 #define adv_choice_log_info(_choice, _loc1, _loc2)
 #endif /* ADV_CHOICE_TRACK */
 
-#endif   /* FC__ADVCHOICE_H */
+#ifdef FREECIV_NDEBUG
+#define ADV_CHOICE_ASSERT(c) /* Do nothing. */
+#else  /* FREECIV_NDEBUG */
+#define ADV_CHOICE_ASSERT(c)                                             \
+  do {                                                                   \
+    if ((c).want > 0) {                                                  \
+      fc_assert((c).type > CT_NONE && (c).type < CT_LAST);               \
+      if (!is_unit_choice_type((c).type)) {                              \
+        int _iindex = improvement_index((c).value.building);             \
+        fc_assert(_iindex >= 0 && _iindex < improvement_count());        \
+      } else {                                                           \
+        int _uindex = utype_index((c).value.utype);                      \
+        fc_assert(_uindex >= 0 && _uindex < utype_count());              \
+      }                                                                  \
+    }                                                                    \
+  } while(FALSE);
+#endif /* FREECIV_NDEBUG */
+
+#endif /* FC__ADVCHOICE_H */
