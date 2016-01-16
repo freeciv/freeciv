@@ -110,4 +110,5 @@ tiles = { "row", "column", "tag"
   4, 10, "e_spaceship"
 
   1, 2,  "e_spontaneous_extra"
+  4, 17, "e_unit_escaped"
 }

@@ -3762,7 +3762,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                  _("* Can only be built with %s as government.\n"),
                  government_name_translation(utype->need_government));
   }
-  
+
+  if (utype_has_flag(utype, UTYF_CANESCAPE)) {
+    CATLSTR(buf, bufsz, _("* Can escape once stack defender is lost.\n"));
+  }
+  if (utype_has_flag(utype, UTYF_CANKILLESCAPING)) {
+    CATLSTR(buf, bufsz, _("* Can pursue escaping units and kill them.\n"));
+  }
+
   if (utype_has_flag(utype, UTYF_NOBUILD)) {
     CATLSTR(buf, bufsz, _("* May not be built in cities.\n"));
   }

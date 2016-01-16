@@ -324,6 +324,7 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_worklist = ""
 ;e_unit_illegal_action = ""
 ;e_spontaneous_extra = ""
+;e_unit_escaped = ""
 
 ; Those pseudo-events are only used in the sound system.
 ;e_game_quit = ""

@@ -2027,6 +2027,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   struct player *pvictim = unit_owner(punit);
   struct player *pvictor = unit_owner(pkiller);
   int ransom, unitcount = 0;
+  bool escaped;
 
   sz_strlcpy(pkiller_link, unit_link(pkiller));
   sz_strlcpy(punit_link, unit_tile_link(punit));
@@ -2158,6 +2159,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   } else { /* unitcount > 1 */
     int i;
     int num_killed[player_slot_count()];
+    int num_escaped[player_slot_count()];
     struct unit *other_killed[player_slot_count()];
     struct tile *ptile = unit_tile(punit);
 
@@ -2167,18 +2169,63 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     for (i = 0; i < player_slot_count(); i++) {
       num_killed[i] = 0;
       other_killed[i] = NULL;
+      num_escaped[i] = 0;
     }
 
     /* count killed units */
     unit_list_iterate(ptile->units, vunit) {
       struct player *vplayer = unit_owner(vunit);
+
       if (pplayers_at_war(pvictor, vplayer)
           && is_unit_reachable_at(vunit, pkiller, ptile)) {
-	num_killed[player_index(vplayer)]++;
-	if (vunit != punit) {
-	  other_killed[player_index(vplayer)] = vunit;
-	  other_killed[player_index(pvictor)] = vunit;
-	}
+        escaped = FALSE;
+
+        if (unit_has_type_flag(vunit, UTYF_CANESCAPE)
+            && !unit_has_type_flag(pkiller, UTYF_CANKILLESCAPING)
+            && vunit->hp > 0
+            && vunit->moves_left > pkiller->moves_left
+            && fc_rand(2)) {
+          int curr_def_bonus;
+          int def_bonus = 0;
+          struct tile *dsttile = NULL;
+          int move_cost;
+
+          fc_assert(vunit->hp > 0);
+
+          adjc_iterate(ptile, ptile2) {
+            if (can_exist_at_tile(vunit->utype, ptile2)
+                && NULL == tile_city(ptile2)) {
+              move_cost = map_move_cost_unit(vunit, ptile2);
+              if (pkiller->moves_left <= vunit->moves_left - move_cost
+                  && (is_allied_unit_tile(ptile2, pvictim)
+                      || unit_list_size(ptile2->units)) == 0) {
+                curr_def_bonus = tile_extras_defense_bonus(ptile2,
+                                                           vunit->utype);
+                if (def_bonus <= curr_def_bonus) {
+                  def_bonus = curr_def_bonus;
+                  dsttile = ptile2;
+                }
+              }
+            }
+          } adjc_iterate_end;
+
+          if (dsttile != NULL) {
+            move_cost = map_move_cost_unit(vunit, dsttile);
+            unit_move(vunit, dsttile, move_cost);
+            ++num_escaped[player_index(vplayer)];
+            escaped = TRUE;
+            unitcount--;
+          }
+        }
+
+        if (!escaped) {
+          num_killed[player_index(vplayer)]++;
+
+          if (vunit != punit) {
+            other_killed[player_index(vplayer)] = vunit;
+            other_killed[player_index(pvictor)] = vunit;
+          }
+        }
       }
     } unit_list_iterate_end;
 
@@ -2271,6 +2318,21 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                         nation_adjective_for_player(pvictim),
                         punit_link);
         }
+      }
+    }
+
+    /* Inform the owner of the units that escaped. */
+    for (i = 0; i < player_slot_count(); ++i) {
+      if (0 < num_escaped[i]) {
+        notify_player(player_by_number(i), unit_tile(punit),
+                      E_UNIT_ESCAPED, ftc_server,
+                      PL_("%d unit escaped from attack by %s %s",
+                          "%d units escaped from attack by %s %s",
+                          num_escaped[i]),
+                      num_escaped[i],
+                      pkiller_link,
+                      nation_adjective_for_player(pkiller->nationality)
+        );
       }
     }
 
