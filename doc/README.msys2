@@ -1,0 +1,39 @@
+
+MSYS2 Windows Installer build notes
+===================================
+
+MSYS2 support is still Work In Progress!
+These are the notes so far, not yet documentation of working
+build.
+
+This document is about building Freeciv Windows Installer packages
+using MSYS2 from http://msys2.github.io
+
+1) Install MSYS2 following the documentation on their homepage
+
+2) Install following packages with 'pacman -S'
+ - subversion
+ - make
+ - automake
+ - libtool
+ - gettext
+ - autoconf
+ - python
+ - gcc
+ - libsqlite-devel
+ - libiconv-devel
+ - pkg-config
+ - libreadline-devel
+ - libbz2-devel
+ - libcurl-devel
+ - liblzma-devel
+
+ - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
+
+Missing:
+ - icu
+ - Mixer support
+
+3) Build Installers from Freeciv sources
+> cd win32/installer_msys2
+> make
