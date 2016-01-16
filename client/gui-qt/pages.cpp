@@ -632,7 +632,7 @@ void fc_client::create_game_page()
 
   game_tab_widget->setMinimumSize(600,400);
   game_tab_widget->setTabsClosable(true);
-  add_game_tab(game_main_widget, "View");
+  add_game_tab(game_main_widget, Q_("?noun:View"));
 
   QObject::connect(game_tab_widget, SIGNAL(tabCloseRequested(int)),
                    SLOT(slot_close_widget(int)));
