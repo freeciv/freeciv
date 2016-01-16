@@ -934,10 +934,9 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
   notify_player(powner, city_tile(pcity), E_CITY_GROWTH, ftc_server,
                 _("%s grows to size %d."),
                 city_link(pcity), city_size_get(pcity));
-  script_server_signal_emit("city_size_change", 3,
-                            API_TYPE_CITY, pcity,
-                            API_TYPE_INT, 1,
-                            API_TYPE_STRING, "growth");
+
+  /* Deprecated signal. Connect your lua functions to "city_size_change" that's
+   * emitted from calling functions which know the 'reason' of the increase. */
   script_server_signal_emit("city_growth", 2,
                             API_TYPE_CITY, pcity,
                             API_TYPE_INT, city_size_get(pcity));
