@@ -1592,11 +1592,17 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
 static void city_add_unit(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity = tile_city(unit_tile(punit));
+  int amount = unit_pop_value(punit);
 
-  fc_assert_ret(unit_pop_value(punit) > 0);
-  city_size_add(pcity, unit_pop_value(punit));
+  fc_assert_ret(amount > 0);
+
+  script_server_signal_emit("city_size_change", 3,
+                            API_TYPE_CITY, pcity,
+                            API_TYPE_INT, amount,
+                            API_TYPE_STRING, "unit_added");
+  city_size_add(pcity, amount);
   /* Make the new people something, otherwise city fails the checks */
-  pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit);
+  pcity->specialists[DEFAULT_SPECIALIST] += amount;
   citizens_update(pcity, unit_nationality(punit));
   /* Refresh the city data. */
   city_refresh(pcity);
