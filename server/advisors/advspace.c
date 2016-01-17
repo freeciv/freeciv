@@ -27,6 +27,8 @@
 
 /****************************************************************************
   Place all available spaceship components.
+
+  Returns TRUE iff at least one part was placed.
 ****************************************************************************/
 bool adv_spaceship_autoplace(struct player *pplayer,
                              struct player_spaceship *ship)
@@ -39,8 +41,15 @@ bool adv_spaceship_autoplace(struct player *pplayer,
     placed = next_spaceship_component(pplayer, ship, &place);
 
     if (placed) {
-      handle_spaceship_place(pplayer, place.type, place.num);
-      retval = TRUE;
+      if (do_spaceship_place(pplayer, ACT_REQ_SS_AGENT,
+                             place.type, place.num)) {
+        /* A part was placed. It was placed even if the placement of future
+         * parts will fail. */
+        retval = TRUE;
+      } else {
+        /* Unable to place this part. Don't try to place it again. */
+        break;
+      }
     }
   } while (placed);
 
