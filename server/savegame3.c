@@ -3690,7 +3690,9 @@ static void sg_load_player_main(struct loaddata *loading,
     plr->style = style;
   }
 
-  plr->nturns_idle = 0;
+  sg_failure_ret(secfile_lookup_int(loading->file, &plr->nturns_idle,
+                                    "player%d.idle_turns", plrno),
+                 "%s", secfile_error());
   plr->is_male = secfile_lookup_bool_default(loading->file, TRUE,
                                              "player%d.is_male", plrno);
   sg_failure_ret(secfile_lookup_bool(loading->file, &plr->is_alive,
@@ -4017,6 +4019,8 @@ static void sg_save_player_main(struct savedata *saving,
   secfile_insert_str(saving->file, style_rule_name(plr->style),
                       "player%d.style_by_name", plrno);
 
+  secfile_insert_int(saving->file, plr->nturns_idle,
+                     "player%d.idle_turns", plrno);
   secfile_insert_bool(saving->file, plr->is_male,
                       "player%d.is_male", plrno);
   secfile_insert_bool(saving->file, plr->is_alive,
