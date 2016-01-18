@@ -330,6 +330,17 @@ generate = " Terrain"
 generate = " Extras"
 categories = "Natural"
 
+[help_resources]
+; /* TRANS: Preserve the leading space: it controls nesting */
+name = _(" Resources")
+text = _("\
+Tiles can have natural resources in addition to their base terrain.\
+")
+
+[help_gen_resource_extras]
+generate = "  Extras"
+categories = "Resource"
+
 [help_terrain_alterations]
 ; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Terrain Alterations")
