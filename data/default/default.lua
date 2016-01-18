@@ -16,7 +16,7 @@
 -- default.lua updated when ever it changes in Freeciv distribution.
 
 -- Get gold from entering a hut.
-function default_hut_get_gold(unit, gold)
+function _deflua_hut_get_gold(unit, gold)
   local owner = unit.owner
 
   notify.event(owner, unit.tile, E.HUT_GOLD, PL_("You found %d gold.",
@@ -26,12 +26,12 @@ function default_hut_get_gold(unit, gold)
 end
 
 -- Default if intended hut behavior wasn`t possible.
-function default_hut_consolation_prize(unit)
-  default_hut_get_gold(unit, 25)
+function _deflua_hut_consolation_prize(unit)
+  _deflua_hut_get_gold(unit, 25)
 end
 
 -- Get a tech from entering a hut.
-function default_hut_get_tech(unit)
+function _deflua_hut_get_tech(unit)
   local owner = unit.owner
   local tech = owner:give_tech(nil, -1, false, "hut")
 
@@ -55,7 +55,7 @@ function default_hut_get_tech(unit)
 end
 
 -- Get a mercenary unit from entering a hut.
-function default_hut_get_mercenaries(unit)
+function _deflua_hut_get_mercenaries(unit)
   local owner = unit.owner
   local type = find.role_unit_type('HutTech', owner)
 
@@ -77,7 +77,7 @@ function default_hut_get_mercenaries(unit)
 end
 
 -- Get new city from hut, or settlers (nomads) if terrain is poor.
-function default_hut_get_city(unit)
+function _deflua_hut_get_city(unit)
   local owner = unit.owner
   local settlers = find.role_unit_type('Cities', owner)
 
@@ -101,7 +101,7 @@ end
 -- Get barbarians from hut, unless close to a city, king enters, or
 -- barbarians are disabled
 -- Unit may die: returns true if unit is alive
-function default_hut_get_barbarians(unit)
+function _deflua_hut_get_barbarians(unit)
   local tile = unit.tile
   local type = unit.utype
   local owner = unit.owner
@@ -127,27 +127,27 @@ function default_hut_get_barbarians(unit)
 end
 
 -- Randomly choose a hut event
-function default_hut_enter_callback(unit)
+function _deflua_hut_enter_callback(unit)
   local chance = random(0, 11)
   local alive = true
 
   if chance == 0 then
-    default_hut_get_gold(unit, 25)
+    _deflua_hut_get_gold(unit, 25)
   elseif chance == 1 or chance == 2 or chance == 3 then
-    default_hut_get_gold(unit, 50)
+    _deflua_hut_get_gold(unit, 50)
   elseif chance == 4 then
-    default_hut_get_gold(unit, 100)
+    _deflua_hut_get_gold(unit, 100)
   elseif chance == 5 or chance == 6 or chance == 7 then
-    default_hut_get_tech(unit)
+    _deflua_hut_get_tech(unit)
   elseif chance == 8 or chance == 9 then
-    if not default_hut_get_mercenaries(unit) then
-      default_hut_consolation_prize(unit)
+    if not _deflua_hut_get_mercenaries(unit) then
+      _deflua_hut_consolation_prize(unit)
     end
   elseif chance == 10 then
-    alive = default_hut_get_barbarians(unit)
+    alive = _deflua_hut_get_barbarians(unit)
   elseif chance == 11 then
-    if not default_hut_get_city(unit) then
-      default_hut_consolation_prize(unit)
+    if not _deflua_hut_get_city(unit) then
+      _deflua_hut_consolation_prize(unit)
     end
   end
 
@@ -155,7 +155,7 @@ function default_hut_enter_callback(unit)
   return (not alive)
 end
 
-signal.connect("hut_enter", "default_hut_enter_callback")
+signal.connect("hut_enter", "_deflua_hut_enter_callback")
 
 
 --[[
@@ -176,7 +176,7 @@ signal.connect("hut_enter", "default_hut_enter_callback")
   c) The player must run either a democracy or a communist society.
 ]]--
 
-function default_make_partisans_callback(city, loser, winner, reason)
+function _deflua_make_partisans_callback(city, loser, winner, reason)
   if not reason == 'conquest' or city:inspire_partisans(loser) <= 0 then
     return
   end
@@ -192,16 +192,16 @@ function default_make_partisans_callback(city, loser, winner, reason)
       _("The loss of %s has inspired partisans!"), city.name)
 end
 
-signal.connect("city_transferred", "default_make_partisans_callback")
+signal.connect("city_transferred", "_deflua_make_partisans_callback")
 
 
 -- Notify player about the fact that disaster had no effect if that is
 -- the case
-function harmless_disaster_message(disaster, city, had_internal_effect)
+function _deflua_harmless_disaster_message(disaster, city, had_internal_effect)
   if not had_internal_effect then
     notify.event(city.owner, city.tile, E.DISASTER,
         _("We survived the disaster without serious damages."))
   end
 end
 
-signal.connect("disaster", "harmless_disaster_message")
+signal.connect("disaster", "_deflua_harmless_disaster_message")
