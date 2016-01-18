@@ -821,7 +821,10 @@ static void compat_load_020600(struct loaddata *loading)
     secfile_insert_int(loading->file, turn, "player%d.turns_alive", plrno);
 
     /* As if there never has been a war. */
-    secfile_insert_int(loading->file, -1, "player%d.last_war", plrno); 
+    secfile_insert_int(loading->file, -1, "player%d.last_war", plrno);
+
+    /* Assume people were playing until current reload */
+    secfile_insert_int(loading->file, 0, "player%d.idle_turns", plrno);
 
     for (i = 0; i < tsize; i++) {
       int val;
