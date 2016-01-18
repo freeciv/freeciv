@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -938,21 +938,24 @@ int fc_gethostname(char *buf, size_t len)
   Support for console I/O in case SOCKET_ZERO_ISNT_STDIN.
 ***********************************************************************/
 
-#define MYBUFSIZE 100
-static char mybuf[MYBUFSIZE+1];
+#define CONSOLE_BUF_SIZE 100
+static char console_buf[CONSOLE_BUF_SIZE + 1];
 
 /**********************************************************************/
 
 #ifdef WIN32_NATIVE
-static HANDLE mythread = INVALID_HANDLE_VALUE;
+static HANDLE console_thread = INVALID_HANDLE_VALUE;
 
-static unsigned int WINAPI thread_proc(LPVOID data)
+static DWORD WINAPI thread_proc(LPVOID arg)
 {
-  if (fgets(mybuf, MYBUFSIZE, stdin)) {
+  if (fgets(console_buf, CONSOLE_BUF_SIZE, stdin)) {
     char *s;
-    if ((s = strchr(mybuf, '\n')))
+
+    if ((s = strchr(console_buf, '\n'))) {
       *s = '\0';
+    }
   }
+
   return 0;
 }
 #endif /* WIN32_NATIVE */
@@ -963,17 +966,19 @@ static unsigned int WINAPI thread_proc(LPVOID data)
 void fc_init_console(void)
 {
 #ifdef WIN32_NATIVE
-  unsigned int threadid;
+  DWORD threadid;
 
-  if (mythread != INVALID_HANDLE_VALUE)
+  if (console_thread != INVALID_HANDLE_VALUE) {
     return;
+  }
 
-  mybuf[0] = '\0';
-  mythread = (HANDLE)_beginthreadex(NULL, 0, thread_proc, NULL, 0, &threadid);
+  console_buf[0] = '\0';
+  console_thread = (HANDLE) CreateThread(NULL, 0, thread_proc, NULL, 0, &threadid);
 #else  /* WIN32_NATIVE */
-  static int initialized = 0;
+  static bool initialized = FALSE;
+
   if (!initialized) {
-    initialized = 1;
+    initialized = TRUE;
 #ifdef HAVE_FILENO
     fc_nonblock(fileno(stdin));
 #endif
@@ -991,26 +996,35 @@ void fc_init_console(void)
 char *fc_read_console(void)
 {
 #ifdef WIN32_NATIVE
-  if (WaitForSingleObject(mythread, 0) == WAIT_OBJECT_0) {
-    CloseHandle(mythread);
-    mythread = INVALID_HANDLE_VALUE;
-    return mybuf;
+  if (WaitForSingleObject(console_thread, 0) == WAIT_OBJECT_0) {
+    CloseHandle(console_thread);
+    console_thread = INVALID_HANDLE_VALUE;
+
+    return console_buf;
   }
+
   return NULL;
 #else  /* WIN32_NATIVE */
   if (!feof(stdin)) {    /* input from server operator */
-    static char *bufptr = mybuf;
+    static char *bufptr = console_buf;
+
     /* fetch chars until \n, or run out of space in buffer */
     /* blocks if fc_nonblock() in fc_init_console() failed */
     while ((*bufptr = fgetc(stdin)) != EOF) {
-      if (*bufptr == '\n') *bufptr = '\0';
-      if (*bufptr == '\0') {
-	bufptr = mybuf;
-	return mybuf;
+      if (*bufptr == '\n') {
+        *bufptr = '\0';
       }
-      if ((bufptr - mybuf) <= MYBUFSIZE) bufptr++; /* prevent overrun */
+      if (*bufptr == '\0') {
+	bufptr = console_buf;
+
+	return console_buf;
+      }
+      if ((bufptr - console_buf) <= CONSOLE_BUF_SIZE) {
+        bufptr++; /* prevent overrun */
+      }
     }
   }
+
   return NULL;
 #endif /* WIN32_NATIVE */
 }
