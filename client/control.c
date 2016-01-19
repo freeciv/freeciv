@@ -2953,8 +2953,8 @@ void key_unit_diplomat_actions(void)
         && (ptile = unit_tile(punit))) {
       /* Have the server record that an action decision is wanted for this
        * unit. */
-      request_do_action(ACTION_COUNT, punit->id, tile_index(ptile),
-                        ACTSIG_QUEUE, "");
+      dsend_packet_unit_sscs_set(&client.conn, punit->id,
+                                 USSDT_QUEUE, tile_index(ptile));
     }
   } unit_list_iterate_end;
 }
@@ -3279,8 +3279,9 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
       unit_list_iterate_safe(battlegroups[battlegroup], punit) {
 	if (!unit_is_in_focus(punit)) {
 	  punit->battlegroup = BATTLEGROUP_NONE;
-	  dsend_packet_unit_battlegroup(&client.conn,
-					punit->id, BATTLEGROUP_NONE);
+          dsend_packet_unit_sscs_set(&client.conn, punit->id,
+                                     USSDT_BATTLE_GROUP,
+                                     BATTLEGROUP_NONE);
 	  refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
 	  unit_list_remove(battlegroups[battlegroup], punit);
 	}
@@ -3293,8 +3294,9 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
 	  unit_list_remove(battlegroups[punit->battlegroup], punit);
 	}
 	punit->battlegroup = battlegroup;
-	dsend_packet_unit_battlegroup(&client.conn,
-				      punit->id, battlegroup);
+        dsend_packet_unit_sscs_set(&client.conn, punit->id,
+                                   USSDT_BATTLE_GROUP,
+                                   battlegroup);
 	unit_list_append(battlegroups[battlegroup], punit);
 	refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
       }

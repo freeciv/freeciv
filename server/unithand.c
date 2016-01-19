@@ -1433,11 +1433,7 @@ void handle_unit_action_query(struct connection *pc,
 /**************************************************************************
   Handle a request to do an action.
 
-  action_type can be a valid action or a ACTION_COUNT. ACTION_COUNT signals
-  that a special value used for in band signaling can be found in value.
-  The in band signaling values are:
-    ACTSIG_QUEUE - remind the player to ask what actions the unit can do
-                   to the target tile.
+  action_type must be a valid action.
 **************************************************************************/
 void handle_unit_do_action(struct player *pplayer,
 			   const int actor_id,
@@ -1446,28 +1442,8 @@ void handle_unit_do_action(struct player *pplayer,
                            const char *name,
                            const enum gen_action action_type)
 {
-  struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
-  struct tile *target_tile = index_to_tile(target_id);
-
-  switch (action_type) {
-  case ACTION_COUNT:
-    switch ((enum action_proto_signal)value) {
-    case ACTSIG_QUEUE:
-      actor_unit->action_decision_want = ACT_DEC_ACTIVE;
-      actor_unit->action_decision_tile = target_tile;
-
-      /* Let the client know that this unit needs the player to decide
-       * what to do. */
-      send_unit_info(player_reply_dest(pplayer), actor_unit);
-
-      break;
-    }
-    break;
-  default:
-    (void) unit_perform_action(pplayer, actor_id, target_id, value, name,
-                               action_type, ACT_REQ_PLAYER);
-    break;
-  }
+  (void) unit_perform_action(pplayer, actor_id, target_id, value, name,
+                             action_type, ACT_REQ_PLAYER);
 }
 
 /**************************************************************************
@@ -3612,23 +3588,56 @@ static bool do_unit_establish_trade(struct player *pplayer,
 }
 
 /**************************************************************************
-  Assign the unit to the battlegroup.
+  Change various unit server side client state.
 
-  Battlegroups are handled entirely by the client, so all we have to
-  do here is save the battlegroup ID so that it'll be persistent.
+  The server keeps various unit state that is owned by the client. The only
+  consequence this state has for the game is how the client reacts to it.
+  The state may be server side because the server writes to it or simply to
+  have it end up in the save game.
 **************************************************************************/
-void handle_unit_battlegroup(struct player *pplayer,
-			     int unit_id, int battlegroup)
+void handle_unit_sscs_set(struct player *pplayer,
+                          int unit_id,
+                          enum unit_ss_data_type type,
+                          int value)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    log_verbose("handle_unit_battlegroup() invalid unit %d", unit_id);
+    log_verbose("handle_unit_sscs_set() invalid unit %d", unit_id);
     return;
   }
 
-  punit->battlegroup = CLIP(-1, battlegroup, MAX_NUM_BATTLEGROUPS);
+  switch (type) {
+  case USSDT_QUEUE:
+    /* Reminds the client to ask the server about what actions the unit can
+     * perform against the target tile. Action decision state can be set by
+     * the server it self too. */
+
+    if (index_to_tile(value) == NULL) {
+      /* Asked to be reminded to ask what actions the unit can do to a non
+       * existing target tile. */
+      log_verbose("unit_sscs_set() invalid target tile %d for unit %d",
+                  value, unit_id);
+      break;
+    }
+
+    punit->action_decision_want = ACT_DEC_ACTIVE;
+    punit->action_decision_tile = index_to_tile(value);
+
+    /* Let the client know that this unit needs the player to decide
+     * what to do. */
+    send_unit_info(player_reply_dest(pplayer), punit);
+
+    break;
+  case USSDT_BATTLE_GROUP:
+    /* Battlegroups are handled entirely by the client, so all we have to
+       do here is save the battlegroup ID so that it'll be persistent. */
+
+    punit->battlegroup = CLIP(-1, value, MAX_NUM_BATTLEGROUPS);
+
+    break;
+  }
 }
 
 /**************************************************************************

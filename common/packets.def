@@ -246,6 +246,7 @@ type MOVE_MODE          = uint8(enum road_move_mode)
 type GEN_ACTION         = uint8(enum gen_action)
 type ACTION_AUTO_CAUSE  = uint8(enum action_auto_perf_cause)
 type ACTION_DECISION    = uint8(enum action_decision)
+type UNIT_DATA_TYPE     = uint8(enum unit_ss_data_type)
 type REVOLENTYPE        = uint8(enum revolen_type)
 type HAPPYBORDERSTYPE   = uint8(enum happyborders_type)
 type TECH_COST_STYLE    = uint8(enum tech_cost_style)
@@ -975,9 +976,10 @@ PACKET_UNIT_COMBAT_INFO = 65; sc, lsend
   BOOL make_winner_veteran;
 end
 
-PACKET_UNIT_BATTLEGROUP = 71; cs, dsend
+PACKET_UNIT_SSCS_SET = 71; cs, dsend
   UNIT unit_id;
-  SINT8 battlegroup;
+  UNIT_DATA_TYPE type;
+  SINT32 value;
 end
 
 # used for client orders: currently client-side goto and patrol

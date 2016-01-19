@@ -95,6 +95,16 @@ struct unit_order {
   enum direction8 dir;
 };
 
+/* Used in the network protocol */
+#define SPECENUM_NAME unit_ss_data_type
+/* The player wants to be reminded to ask what actions the unit can perform
+ * to a certain target tile. */
+#define SPECENUM_VALUE0 USSDT_QUEUE
+/* The player wants to record that the unit now belongs to the specified
+ * battle group. */
+#define SPECENUM_VALUE1 USSDT_BATTLE_GROUP
+#include "specenum_gen.h"
+
 struct unit;
 struct unit_list;
 

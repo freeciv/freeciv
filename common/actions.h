@@ -106,13 +106,6 @@ extern "C" {
 /* Used in searches to signal that any action at all is OK. */
 #define ACTION_ANY ACTION_COUNT
 
-/* Used in the network protocol */
-#define SPECENUM_NAME action_proto_signal
-/* The player wants to be reminded to ask what actions the unit can perform
- * to a certain target tile. */
-#define SPECENUM_VALUE0 ACTSIG_QUEUE
-#include "specenum_gen.h"
-
 /*
  * Action probability
  *
