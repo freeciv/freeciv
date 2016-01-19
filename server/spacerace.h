@@ -28,4 +28,7 @@ void handle_spaceship_launch(struct player *pplayer);
 void handle_spaceship_place(struct player *pplayer,
 			    enum spaceship_place_type type, int num);
 
+bool do_spaceship_place(struct player *pplayer, bool user_initiated,
+                        enum spaceship_place_type type, int num);
+
 #endif /* FC__SPACERACE_H */

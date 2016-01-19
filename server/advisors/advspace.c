@@ -26,8 +26,12 @@
 #include "advspace.h"
 
 /****************************************************************************
+  Place all available spaceship components.
+
   This borrows heavily from autoplace code already in the client source.
   AJS, 19990610
+
+  Returns TRUE iff at least one part was placed.
 ****************************************************************************/
 bool adv_spaceship_autoplace(struct player *pplayer,
                              struct player_spaceship *ship)
@@ -35,7 +39,7 @@ bool adv_spaceship_autoplace(struct player *pplayer,
   enum spaceship_place_type type;
   int num, i;
   bool retval = FALSE;
-  
+
   while (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
     
@@ -64,8 +68,15 @@ bool adv_spaceship_autoplace(struct player *pplayer,
     }
     fc_assert_ret_val(num <= NUM_SS_MODULES / 3, FALSE);
 
-    handle_spaceship_place(pplayer, type, num);
-    retval = TRUE;
+    if (do_spaceship_place(pplayer, FALSE,
+                           type, num)) {
+      /* A part was placed. It was placed even if the placement of future
+       * parts will fail. */
+      retval = TRUE;
+    } else {
+      /* Unable to place this part. Don't try to place it again. */
+      break;
+    }
   }
   while (ship->components > ship->fuel + ship->propulsion) {
     if (ship->fuel <= ship->propulsion) {
@@ -75,8 +86,16 @@ bool adv_spaceship_autoplace(struct player *pplayer,
       type = SSHIP_PLACE_PROPULSION;
       num = ship->propulsion + 1;
     }
-    handle_spaceship_place(pplayer, type, num);
-    retval = TRUE;
+
+    if (do_spaceship_place(pplayer, FALSE,
+                           type, num)) {
+      /* A part was placed. It was placed even if the placement of future
+       * parts will fail. */
+      retval = TRUE;
+    } else {
+      /* Unable to place this part. Don't try to place it again. */
+      break;
+    }
   }
   while (ship->structurals > num_spaceship_structurals_placed(ship)) {
     /* Want to choose which structurals are most important.
@@ -90,7 +109,16 @@ bool adv_spaceship_autoplace(struct player *pplayer,
       /* if we don't have the first structural, place that! */
       type = SSHIP_PLACE_STRUCTURAL;
       num = 0;
-      handle_spaceship_place(pplayer, type, num);
+
+      if (do_spaceship_place(pplayer, FALSE,
+                             type, num)) {
+        /* A part was placed. It was placed even if the placement of future
+         * parts will fail. */
+        retval = TRUE;
+      } else {
+        /* Unable to place this part. Don't try to place it again. */
+        break;
+      }
     }
     
     if (ship->habitation >= 1
@@ -147,8 +175,16 @@ bool adv_spaceship_autoplace(struct player *pplayer,
     }
     type = SSHIP_PLACE_STRUCTURAL;
     num = req;
-    handle_spaceship_place(pplayer, type, num);
-    retval = TRUE;
+
+    if (do_spaceship_place(pplayer, FALSE,
+                           type, num)) {
+      /* A part was placed. It was placed even if the placement of future
+       * parts will fail. */
+      retval = TRUE;
+    } else {
+      /* Unable to place this part. Don't try to place it again. */
+      break;
+    }
   }
   return retval;
 }
