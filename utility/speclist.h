@@ -387,10 +387,10 @@ static inline int SPECLIST_FOO(_list_size) (const SPECLIST_LIST *tthis)
   Return the element at position in the speclist.
 ****************************************************************************/
 static inline SPECLIST_TYPE *
-SPECLIST_FOO(_list_get) (const SPECLIST_LIST *tthis, int index)
+SPECLIST_FOO(_list_get) (const SPECLIST_LIST *tthis, int slindex)
 {
   return ((SPECLIST_TYPE *)
-          genlist_get((const struct genlist *) tthis, index));
+          genlist_get((const struct genlist *) tthis, slindex));
 }
 
 /****************************************************************************
@@ -415,10 +415,10 @@ SPECLIST_FOO(_list_back) (const SPECLIST_LIST *tthis)
   Return the element at position in the speclist.
 ****************************************************************************/
 static inline SPECLIST_LINK *
-SPECLIST_FOO(_list_link_get) (const SPECLIST_LIST *tthis, int index)
+SPECLIST_FOO(_list_link_get) (const SPECLIST_LIST *tthis, int slindex)
 {
   return ((SPECLIST_LINK *)
-          genlist_link_get((const struct genlist *) tthis, index));
+          genlist_link_get((const struct genlist *) tthis, slindex));
 }
 
 /****************************************************************************
