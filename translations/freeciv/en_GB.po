@@ -65,7 +65,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-02 17:46+0000\n"
+"POT-Creation-Date: 2016-01-19 20:35+0000\n"
 "PO-Revision-Date: 2016-01-02 17:47+0000\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
@@ -1969,8 +1969,8 @@ msgstr "Trade:"
 #: client/gui-gtk-2.0/diplodlg.c:838 client/gui-gtk-2.0/inteldlg.c:51
 #: client/gui-gtk-3.0/citydlg.c:709 client/gui-gtk-3.0/diplodlg.c:759
 #: client/gui-gtk-3.0/diplodlg.c:842 client/gui-gtk-3.0/inteldlg.c:51
-#: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:114
-#: client/gui-qt/diplodlg.cpp:116 client/gui-qt/plrdlg.cpp:420
+#: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
+#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:420
 msgid "Gold:"
 msgstr "Gold:"
 
@@ -2419,7 +2419,7 @@ msgstr "_Display"
 
 #: client/gui-gtk-2.0/cityrep.c:1136 client/gui-gtk-2.0/menu.c:1408
 #: client/gui-gtk-3.0/cityrep.c:1146 client/gui-gtk-3.0/menu.c:1396
-#: client/gui-qt/cityrep.cpp:1214 client/gui-qt/diplodlg.cpp:308
+#: client/gui-qt/cityrep.cpp:1214 client/gui-qt/diplodlg.cpp:327
 #: client/gui-qt/menu.cpp:794 client/gui-sdl/diplodlg.c:725
 #: client/gui-xaw/cityrep.c:228 client/gui-xaw/cityrep.c:534
 #: client/gui-xaw/menu.c:158 client/gui-xaw/menu.c:223
@@ -2763,13 +2763,13 @@ msgstr ""
 "%s"
 
 #: client/gui-gtk-2.0/diplodlg.c:253 client/gui-gtk-3.0/diplodlg.c:253
-#: client/gui-qt/diplodlg.cpp:263 client/gui-xaw/diplodlg.c:403
+#: client/gui-qt/diplodlg.cpp:282 client/gui-xaw/diplodlg.c:403
 #: client/gui-xaw/diplodlg.c:421
 msgid "World-map"
 msgstr "World-map"
 
 #: client/gui-gtk-2.0/diplodlg.c:259 client/gui-gtk-3.0/diplodlg.c:259
-#: client/gui-qt/diplodlg.cpp:266 client/gui-xaw/diplodlg.c:407
+#: client/gui-qt/diplodlg.cpp:285 client/gui-xaw/diplodlg.c:407
 #: client/gui-xaw/diplodlg.c:425
 msgid "Sea-map"
 msgstr "Sea-map"
@@ -2784,7 +2784,7 @@ msgstr "_Advances"
 
 #. TRANS: All technologies menu item in the diplomatic dialog.
 #: client/gui-gtk-2.0/diplodlg.c:300 client/gui-gtk-3.0/diplodlg.c:300
-#: client/gui-qt/diplodlg.cpp:284
+#: client/gui-qt/diplodlg.cpp:303
 msgid "All advances"
 msgstr "All advances"
 
@@ -2802,19 +2802,19 @@ msgid "Give _embassy"
 msgstr "Give _embassy"
 
 #: client/gui-gtk-2.0/diplodlg.c:419 client/gui-gtk-3.0/diplodlg.c:419
-#: client/gui-qt/diplodlg.cpp:346 client/gui-sdl/diplodlg.c:497
+#: client/gui-qt/diplodlg.cpp:365 client/gui-sdl/diplodlg.c:497
 #: client/gui-xaw/diplodlg.c:546 common/player.c:1225
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Cease-fire"
 
 #: client/gui-gtk-2.0/diplodlg.c:425 client/gui-gtk-3.0/diplodlg.c:425
-#: client/gui-qt/diplodlg.cpp:352 client/gui-sdl/diplodlg.c:511
+#: client/gui-qt/diplodlg.cpp:371 client/gui-sdl/diplodlg.c:511
 #: client/gui-xaw/diplodlg.c:550 common/player.c:1226
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Peace"
 
 #: client/gui-gtk-2.0/diplodlg.c:431 client/gui-gtk-3.0/diplodlg.c:431
-#: client/gui-qt/diplodlg.cpp:358 client/gui-sdl/diplodlg.c:526
+#: client/gui-qt/diplodlg.cpp:377 client/gui-sdl/diplodlg.c:526
 #: client/gui-xaw/diplodlg.c:554 common/player.c:1227
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Alliance"
@@ -2834,20 +2834,20 @@ msgid "Diplomacy [%d]"
 msgstr "Diplomacy [%d]"
 
 #: client/gui-gtk-2.0/diplodlg.c:651 client/gui-gtk-3.0/diplodlg.c:655
-#: client/gui-qt/diplodlg.cpp:161 client/gui-sdl/diplodlg.c:917
+#: client/gui-qt/diplodlg.cpp:182 client/gui-sdl/diplodlg.c:917
 #: data/Freeciv.in:528
 msgid "Cancel meeting"
 msgstr "Cancel meeting"
 
 #: client/gui-gtk-2.0/diplodlg.c:653 client/gui-gtk-3.0/diplodlg.c:653
-#: client/gui-qt/diplodlg.cpp:158 client/gui-sdl/diplodlg.c:928
+#: client/gui-qt/diplodlg.cpp:179 client/gui-sdl/diplodlg.c:928
 #: data/Freeciv.in:519
 msgid "Accept treaty"
 msgstr "Accept treaty"
 
 #: client/gui-gtk-2.0/diplodlg.c:726 client/gui-gtk-2.0/diplodlg.c:810
 #: client/gui-gtk-3.0/diplodlg.c:732 client/gui-gtk-3.0/diplodlg.c:815
-#: client/gui-qt/diplodlg.cpp:129 client/gui-qt/diplodlg.cpp:131
+#: client/gui-qt/diplodlg.cpp:150 client/gui-qt/diplodlg.cpp:152
 msgid "Add Clause..."
 msgstr "Add Clause..."
 
@@ -2856,7 +2856,7 @@ msgid "C_lauses:"
 msgstr "C_lauses:"
 
 #: client/gui-gtk-2.0/diplodlg.c:922 client/gui-gtk-3.0/diplodlg.c:930
-#: client/gui-qt/diplodlg.cpp:604
+#: client/gui-qt/diplodlg.cpp:623
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- This treaty is blank. Please add some clauses. ---"
 
@@ -3693,7 +3693,7 @@ msgid "Show _All Cities"
 msgstr "Show _All Cities"
 
 #: client/gui-gtk-2.0/gotodlg.c:341 client/gui-gtk-3.0/gotodlg.c:345
-#: client/gui-qt/mapview.cpp:1817 client/text.c:1173
+#: client/gui-qt/mapview.cpp:1815 client/text.c:1173
 msgid "No units selected."
 msgstr "No units selected."
 
@@ -3750,7 +3750,7 @@ msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1268 client/gui-gtk-2.0/gui_main.c:1276
 #: client/gui-gtk-3.0/gui_main.c:1279 client/gui-gtk-3.0/gui_main.c:1287
-#: client/gui-qt/mapview.cpp:957 client/gui-sdl/mapctrl.c:1576
+#: client/gui-qt/mapview.cpp:955 client/gui-sdl/mapctrl.c:1576
 #: data/Freeciv.in:2663
 msgid "Turn Done"
 msgstr "Turn Done"
@@ -3761,7 +3761,7 @@ msgid "Shift+Return"
 msgstr "Shift+Return"
 
 #: client/gui-gtk-2.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1364
-#: client/gui-qt/menu.cpp:782
+#: client/gui-qt/menu.cpp:782 client/gui-qt/pages.cpp:635
 msgid "?noun:View"
 msgstr "?noun:View"
 
@@ -4158,7 +4158,7 @@ msgid "Better fog will only work in truecolor. Disabling it"
 msgstr "Better fog will only work in truecolor. Disabling it"
 
 #: client/gui-gtk-2.0/menu.c:115 client/gui-gtk-3.0/menu.c:115
-#: client/gui-qt/fc_client.cpp:688 client/gui-qt/menu.cpp:419
+#: client/gui-qt/fc_client.cpp:692 client/gui-qt/menu.cpp:419
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Set local options"
@@ -4340,7 +4340,7 @@ msgid "Government"
 msgstr "Government"
 
 #: client/gui-gtk-2.0/menu.c:1422 client/gui-gtk-3.0/menu.c:1410
-#: client/gui-qt/diplodlg.cpp:707 client/gui-xaw/menu.c:255
+#: client/gui-qt/diplodlg.cpp:726 client/gui-xaw/menu.c:255
 #: client/include/helpdlg_g.h:51 data/Freeciv.in:233 data/helpdata.txt:1427
 msgid "Diplomacy"
 msgstr "Diplomacy"
@@ -6273,7 +6273,7 @@ msgid "MP:"
 msgstr "MP:"
 
 #. TRANS: HP - hit points
-#: client/gui-qt/dialogs.cpp:2308 client/gui-qt/mapview.cpp:1688
+#: client/gui-qt/dialogs.cpp:2308 client/gui-qt/mapview.cpp:1686
 msgid "%1 HP:%2/%3"
 msgstr "%1 HP:%2/%3"
 
@@ -6283,25 +6283,25 @@ msgid_plural "%1 units"
 msgstr[0] "%1 unit"
 msgstr[1] "%1 units"
 
-#: client/gui-qt/diplodlg.cpp:262 client/gui-sdl/diplodlg.c:560
+#: client/gui-qt/diplodlg.cpp:281 client/gui-sdl/diplodlg.c:560
 #: data/Freeciv.in:392 data/Freeciv.in:401
 msgid "Maps"
 msgstr "Maps"
 
-#: client/gui-qt/diplodlg.cpp:272 client/gui-sdl/diplodlg.c:648
+#: client/gui-qt/diplodlg.cpp:291 client/gui-sdl/diplodlg.c:648
 #: client/gui-sdl/helpdlg.c:1990 data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "Advances"
 
-#: client/gui-qt/diplodlg.cpp:328 client/gui-sdl/diplodlg.c:546
+#: client/gui-qt/diplodlg.cpp:347 client/gui-sdl/diplodlg.c:546
 msgid "Give shared vision"
 msgstr "Give shared vision"
 
-#: client/gui-qt/diplodlg.cpp:335 client/gui-sdl/diplodlg.c:599
+#: client/gui-qt/diplodlg.cpp:354 client/gui-sdl/diplodlg.c:599
 msgid "Give embassy"
 msgstr "Give embassy"
 
-#: client/gui-qt/diplodlg.cpp:344 client/gui-sdl/diplodlg.c:489
+#: client/gui-qt/diplodlg.cpp:363 client/gui-sdl/diplodlg.c:489
 #: data/Freeciv.in:510
 msgid "Pacts"
 msgstr "Pacts"
@@ -6323,7 +6323,7 @@ msgstr "Don't Observe"
 msgid "Observe"
 msgstr "Observe"
 
-#: client/gui-qt/fc_client.cpp:857
+#: client/gui-qt/fc_client.cpp:861
 msgid ""
 "Number of Players\n"
 "(including AI):"
@@ -6331,19 +6331,19 @@ msgstr ""
 "Number of Players\n"
 "(including AI):"
 
-#: client/gui-qt/fc_client.cpp:858
+#: client/gui-qt/fc_client.cpp:862
 msgid "AI Skill Level:"
 msgstr "AI Skill Level:"
 
-#: client/gui-qt/fc_client.cpp:859
+#: client/gui-qt/fc_client.cpp:863
 msgid "Ruleset Version:"
 msgstr "Ruleset Version:"
 
-#: client/gui-qt/fc_client.cpp:882
+#: client/gui-qt/fc_client.cpp:886
 msgid "More Game Options"
 msgstr "More Game Options"
 
-#: client/gui-qt/fc_client.cpp:933
+#: client/gui-qt/fc_client.cpp:937
 msgid "Set server options"
 msgstr "Set server options"
 
@@ -6470,26 +6470,26 @@ msgstr "Tile output becomes %1, %2, %3."
 msgid "Output (Food, Shields, Trade) of a tile where the resource is present."
 msgstr "Output (Food, Shields, Trade) of a tile where the resource is present."
 
-#: client/gui-qt/mapview.cpp:1146
+#: client/gui-qt/mapview.cpp:1144
 msgid ""
 "Shows your current luxury/science/tax rates. Use mouse wheel to change them"
 msgstr ""
 "Shows your current luxury/science/tax rates. Use mouse wheel to change them"
 
-#: client/gui-qt/mapview.cpp:1330
+#: client/gui-qt/mapview.cpp:1328
 msgid "%1 (Turn:%2)"
 msgstr "%1 (Turn:%2)"
 
-#: client/gui-qt/mapview.cpp:1338
+#: client/gui-qt/mapview.cpp:1336
 msgid "Gold:%1 (+%2)"
 msgstr "Gold:%1 (+%2)"
 
-#: client/gui-qt/mapview.cpp:1342
+#: client/gui-qt/mapview.cpp:1340
 msgid "Gold:%1 (%2)"
 msgstr "Gold:%1 (%2)"
 
 #. TRANS: unitX from cityZ
-#: client/gui-qt/mapview.cpp:1684
+#: client/gui-qt/mapview.cpp:1682
 msgid "%1 from %2"
 msgstr "%1 from %2"
 
@@ -37542,52 +37542,52 @@ msgstr ""
 "The %s have launched a spaceship!  It is estimated to arrive at Alpha "
 "Centauri in %s."
 
-#: server/spacerace.c:212
+#: server/spacerace.c:222
 msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr "Spaceship action received, but you don't have a spaceship!"
 
-#: server/spacerace.c:218
+#: server/spacerace.c:232
 msgid "You can't modify your spaceship after launch!"
 msgstr "You can't modify your spaceship after launch!"
 
-#: server/spacerace.c:228
+#: server/spacerace.c:246
 msgid "You don't have any unplaced Space Structurals!"
 msgstr "You don't have any unplaced Space Structurals!"
 
-#: server/spacerace.c:234
+#: server/spacerace.c:255
 msgid "That Space Structural would not be connected!"
 msgstr "That Space Structural would not be connected!"
 
-#: server/spacerace.c:248 server/spacerace.c:268
+#: server/spacerace.c:274 server/spacerace.c:302
 msgid "You don't have any unplaced Space Components!"
 msgstr "You don't have any unplaced Space Components!"
 
-#: server/spacerace.c:253
+#: server/spacerace.c:282
 msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr "Your spaceship already has the maximum number of Fuel Components!"
 
-#: server/spacerace.c:274
+#: server/spacerace.c:311
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
 msgstr ""
 "Your spaceship already has the maximum number of Propulsion Components!"
 
-#: server/spacerace.c:290 server/spacerace.c:311 server/spacerace.c:332
+#: server/spacerace.c:332 server/spacerace.c:361 server/spacerace.c:390
 msgid "You don't have any unplaced Space Modules!"
 msgstr "You don't have any unplaced Space Modules!"
 
-#: server/spacerace.c:295
+#: server/spacerace.c:340
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
 msgstr "Your spaceship already has the maximum number of Habitation Modules!"
 
-#: server/spacerace.c:316
+#: server/spacerace.c:369
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
 msgstr "Your spaceship already has the maximum number of Life Support Modules!"
 
-#: server/spacerace.c:337
+#: server/spacerace.c:398
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr "Your spaceship already has the maximum number of Solar Panel Modules!"
 
-#: server/spacerace.c:356
+#: server/spacerace.c:422
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Without guidance from the capital, the %s spaceship is lost!"

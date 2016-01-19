@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-22 19:39+0100\n"
+"POT-Creation-Date: 2016-01-19 20:35+0000\n"
 "PO-Revision-Date: 2015-12-22 19:53+0100\n"
 "Last-Translator: \n"
 "Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
@@ -414,7 +414,7 @@ msgstr "a mida"
 #: client/agents/cma_fec.c:257 client/agents/cma_fec.c:291
 #: client/citydlg_common.c:283 client/citydlg_common.c:336
 #: client/citydlg_common.c:427 client/gui-gtk-2.0/citydlg.c:1563
-#: client/gui-gtk-3.0/citydlg.c:1746 client/gui-qt/citydlg.cpp:1853
+#: client/gui-gtk-3.0/citydlg.c:1746 client/gui-qt/citydlg.cpp:1870
 #: client/gui-sdl/cityrep.c:554 client/gui-sdl/cityrep.c:1086
 #: client/gui-sdl/wldlg.c:1419 client/gui-sdl/wldlg.c:1424
 #: client/gui-xaw/citydlg.c:252 client/text.c:971
@@ -423,7 +423,7 @@ msgstr "mai"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
 #: client/citydlg_common.c:333 client/gui-gtk-2.0/citydlg.c:1569
-#: client/gui-gtk-3.0/citydlg.c:1752 client/gui-qt/citydlg.cpp:1859
+#: client/gui-gtk-3.0/citydlg.c:1752 client/gui-qt/citydlg.cpp:1876
 #: client/gui-xaw/citydlg.c:257 client/text.c:969 client/text.c:1446
 #, c-format
 msgid "%d turn"
@@ -787,10 +787,10 @@ msgstr "Nom de la ciutat"
 #: client/gui-gtk-2.0/pages.c:2695 client/gui-gtk-3.0/citizensinfo.c:65
 #: client/gui-gtk-3.0/editprop.c:3509 client/gui-gtk-3.0/editprop.c:4294
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1396
-#: client/gui-gtk-3.0/pages.c:2749 client/gui-qt/citydlg.cpp:1750
+#: client/gui-gtk-3.0/pages.c:2749 client/gui-qt/citydlg.cpp:1767
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
 #: client/gui-qt/pages.cpp:549 client/gui-qt/plrdlg.cpp:411
-#: client/gui-qt/repodlgs.cpp:1370 client/gui-sdl/repodlgs.c:2079
+#: client/gui-qt/repodlgs.cpp:1401 client/gui-sdl/repodlgs.c:2079
 #: client/plrdlg_common.c:307
 msgid "Nation"
 msgstr "Nació"
@@ -890,7 +890,7 @@ msgstr "Unitats defensives millors"
 #: client/gui-gtk-3.0/cityrep.c:1575 client/gui-gtk-3.0/cityrep.c:1595
 #: client/gui-gtk-3.0/menu.c:1402 client/gui-gtk-3.0/repodlgs.c:1602
 #: client/gui-qt/cityrep.cpp:710 client/gui-qt/menu.cpp:786
-#: client/gui-qt/repodlgs.cpp:704 client/gui-sdl/helpdlg.c:704
+#: client/gui-qt/repodlgs.cpp:735 client/gui-sdl/helpdlg.c:704
 #: client/gui-sdl/mapctrl.c:1618 client/gui-sdl/repodlgs.c:366
 #: client/gui-xaw/menu.c:159 client/gui-xaw/menu.c:220
 #: client/gui-xaw/menu.c:251 client/gui-xaw/repodlgs.c:889
@@ -985,7 +985,7 @@ msgstr "Corrupció"
 #: client/cityrepdata.c:696 client/gui-gtk-2.0/menu.c:1406
 #: client/gui-gtk-2.0/repodlgs.c:1045 client/gui-gtk-3.0/menu.c:1394
 #: client/gui-gtk-3.0/repodlgs.c:1078 client/gui-qt/menu.cpp:798
-#: client/gui-qt/repodlgs.cpp:1074 client/gui-sdl/mapctrl.c:1403
+#: client/gui-qt/repodlgs.cpp:1105 client/gui-sdl/mapctrl.c:1403
 #: client/gui-xaw/menu.c:224 client/gui-xaw/menu.c:247
 #: client/gui-xaw/repodlgs.c:652 client/gui-xaw/repodlgs.c:780
 #: client/include/helpdlg_g.h:40 data/Freeciv.in:1837 data/helpdata.txt:461
@@ -1772,13 +1772,13 @@ msgstr "Ajudar a Construir _Meravella"
 
 #. TRANS: %s is a unit type
 #: client/gui-gtk-2.0/caravan_dialog.c:104
-#: client/gui-gtk-3.0/caravan_dialog.c:104 client/gui-qt/dialogs.cpp:1165
+#: client/gui-gtk-3.0/caravan_dialog.c:104 client/gui-qt/dialogs.cpp:1166
 #, c-format
 msgid "Your %s Has Arrived"
 msgstr "La teva %s Ha Arribat"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:106
-#: client/gui-gtk-3.0/caravan_dialog.c:106 client/gui-qt/dialogs.cpp:1167
+#: client/gui-gtk-3.0/caravan_dialog.c:106 client/gui-qt/dialogs.cpp:1168
 #: client/gui-xaw/dialogs.c:460
 #, c-format
 msgid ""
@@ -1794,7 +1794,7 @@ msgid "Establish _Trade route"
 msgstr "Establir _Ruta Comercial"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:124
-#: client/gui-gtk-3.0/caravan_dialog.c:124 client/gui-qt/dialogs.cpp:1200
+#: client/gui-gtk-3.0/caravan_dialog.c:124 client/gui-qt/dialogs.cpp:1201
 msgid "Enter Marketplace"
 msgstr "Entrar al Mercat"
 
@@ -1818,22 +1818,22 @@ msgid "No visible unit on this tile."
 msgstr "No hi ha cap unitat visible en aquesta casella."
 
 #: client/gui-gtk-2.0/chatline.c:630 client/gui-gtk-3.0/chatline.c:636
-#: client/gui-qt/chatline.cpp:137
+#: client/gui-qt/chatline.cpp:138
 msgid "This city isn't known!"
 msgstr "No es coneix aquesta ciutat!"
 
 #: client/gui-gtk-2.0/chatline.c:639 client/gui-gtk-3.0/chatline.c:645
-#: client/gui-qt/chatline.cpp:146
+#: client/gui-qt/chatline.cpp:147
 msgid "This tile doesn't exist in this game!"
 msgstr "Aquesta casella no existeix en aquesta partida!"
 
 #: client/gui-gtk-2.0/chatline.c:649 client/gui-gtk-3.0/chatline.c:655
-#: client/gui-qt/chatline.cpp:155
+#: client/gui-qt/chatline.cpp:156
 msgid "This unit isn't known!"
 msgstr "No es coneix aquesta unitat!"
 
 #: client/gui-gtk-2.0/chatline.c:967 client/gui-gtk-3.0/chatline.c:950
-#: client/gui-qt/chatline.cpp:545 client/gui-xaw/chatline.c:121
+#: client/gui-qt/chatline.cpp:559 client/gui-xaw/chatline.c:121
 msgid "Cleared output window."
 msgstr "S'ha netejat la finestra de missatges."
 
@@ -1893,7 +1893,7 @@ msgid "Chat tools"
 msgstr "Eines de xat"
 
 #: client/gui-gtk-2.0/citizensinfo.c:63 client/gui-gtk-3.0/citizensinfo.c:63
-#: client/gui-qt/citydlg.cpp:1750
+#: client/gui-qt/citydlg.cpp:1767
 msgid "#"
 msgstr "#"
 
@@ -1901,7 +1901,7 @@ msgstr "#"
 #: client/gui-gtk-2.0/editprop.c:3527 client/gui-gtk-2.0/pages.c:2693
 #: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3540
 #: client/gui-gtk-3.0/editprop.c:3552 client/gui-gtk-3.0/pages.c:2747
-#: client/gui-qt/citydlg.cpp:1750 client/gui-qt/pages.cpp:549
+#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:549
 #: client/plrdlg_common.c:306
 msgid "Flag"
 msgstr "Bandera"
@@ -1930,8 +1930,8 @@ msgstr "Comerç:"
 #: client/gui-gtk-2.0/diplodlg.c:838 client/gui-gtk-2.0/inteldlg.c:51
 #: client/gui-gtk-3.0/citydlg.c:709 client/gui-gtk-3.0/diplodlg.c:759
 #: client/gui-gtk-3.0/diplodlg.c:842 client/gui-gtk-3.0/inteldlg.c:51
-#: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:114
-#: client/gui-qt/diplodlg.cpp:116 client/gui-qt/plrdlg.cpp:420
+#: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
+#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:420
 msgid "Gold:"
 msgstr "Or:"
 
@@ -2144,7 +2144,7 @@ msgstr "<b>%s</b> - %s ciutadans"
 
 #. TRANS: city growth is blocked.  Keep short.
 #: client/gui-gtk-2.0/citydlg.c:1560 client/gui-gtk-3.0/citydlg.c:1743
-#: client/gui-qt/citydlg.cpp:1850 client/gui-sdl/citydlg.c:3308
+#: client/gui-qt/citydlg.cpp:1867 client/gui-sdl/citydlg.c:3308
 #: client/gui-xaw/citydlg.c:250
 msgid "blocked"
 msgstr "bloquejat"
@@ -2159,13 +2159,13 @@ msgstr[0] "Producció (fins a %d unitat per torn):"
 msgstr[1] "Producció (fins a %d unitats per torn):"
 
 #: client/gui-gtk-2.0/citydlg.c:1916 client/gui-gtk-3.0/citydlg.c:2101
-#: client/gui-qt/citydlg.cpp:2005
+#: client/gui-qt/citydlg.cpp:2022
 #, c-format
 msgid "Supported units %d"
 msgstr "Unitats suportades %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2023 client/gui-gtk-3.0/citydlg.c:2204
-#: client/gui-qt/citydlg.cpp:2026
+#: client/gui-qt/citydlg.cpp:2043
 #, c-format
 msgid "Present units %d"
 msgstr "Unitats presents %d"
@@ -2219,8 +2219,8 @@ msgstr "_Millorar unitat"
 #: client/gui-gtk-2.0/diplomat_dialog.c:667 client/gui-gtk-2.0/repodlgs.c:1525
 #: client/gui-gtk-3.0/citydlg.c:2823 client/gui-gtk-3.0/diplomat_dialog.c:124
 #: client/gui-gtk-3.0/diplomat_dialog.c:677 client/gui-gtk-3.0/repodlgs.c:1557
-#: client/gui-qt/citydlg.cpp:2177 client/gui-qt/dialogs.cpp:1573
-#: client/gui-qt/dialogs.cpp:1634 client/gui-qt/repodlgs.cpp:946
+#: client/gui-qt/citydlg.cpp:2194 client/gui-qt/dialogs.cpp:1574
+#: client/gui-qt/dialogs.cpp:1635 client/gui-qt/repodlgs.cpp:977
 #: client/gui-sdl/citydlg.c:1146 client/gui-sdl/diplomat_dialog.c:1163
 #: client/gui-sdl/diplomat_dialog.c:1423 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1950 client/gui-xaw/diplomat_dialog.c:116
@@ -2273,7 +2273,7 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2702 client/gui-gtk-3.0/citydlg.c:2898
-#: client/gui-qt/citydlg.cpp:1935 client/gui-sdl/citydlg.c:1407
+#: client/gui-qt/citydlg.cpp:1952 client/gui-sdl/citydlg.c:1407
 #: client/gui-xaw/citydlg.c:2349
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -2287,12 +2287,12 @@ msgid "Sell It!"
 msgstr "Vendre-la!"
 
 #: client/gui-gtk-2.0/citydlg.c:2775 client/gui-gtk-3.0/citydlg.c:2979
-#: client/gui-qt/citydlg.cpp:1218
+#: client/gui-qt/citydlg.cpp:1220
 msgid "Rename City"
 msgstr "Reanomenar ciutat"
 
 #: client/gui-gtk-2.0/citydlg.c:2776 client/gui-gtk-3.0/citydlg.c:2980
-#: client/gui-qt/citydlg.cpp:1219 client/gui-xaw/citydlg.c:1438
+#: client/gui-qt/citydlg.cpp:1221 client/gui-xaw/citydlg.c:1438
 msgid "What should we rename the city to?"
 msgstr "Com s'ha de dir la ciutat ?"
 
@@ -2319,7 +2319,7 @@ msgid "No %s could be sold."
 msgstr "No s'ha pogut vendre cap %s"
 
 #: client/gui-gtk-2.0/cityrep.c:966 client/gui-gtk-3.0/cityrep.c:974
-#: client/gui-qt/citydlg.cpp:1535 client/gui-qt/cityrep.cpp:490
+#: client/gui-qt/citydlg.cpp:1552 client/gui-qt/cityrep.cpp:490
 msgid "(no worklists defined)"
 msgstr "(no s'han definit llistes de treball)"
 
@@ -2380,7 +2380,7 @@ msgstr "_Mostrar"
 
 #: client/gui-gtk-2.0/cityrep.c:1136 client/gui-gtk-2.0/menu.c:1408
 #: client/gui-gtk-3.0/cityrep.c:1146 client/gui-gtk-3.0/menu.c:1396
-#: client/gui-qt/cityrep.cpp:1209 client/gui-qt/diplodlg.cpp:308
+#: client/gui-qt/cityrep.cpp:1214 client/gui-qt/diplodlg.cpp:327
 #: client/gui-qt/menu.cpp:794 client/gui-sdl/diplodlg.c:725
 #: client/gui-xaw/cityrep.c:228 client/gui-xaw/cityrep.c:534
 #: client/gui-xaw/menu.c:158 client/gui-xaw/menu.c:223
@@ -2530,7 +2530,7 @@ msgid "Results"
 msgstr "Resultats"
 
 #: client/gui-gtk-2.0/cma_fe.c:321 client/gui-gtk-3.0/cma_fe.c:340
-#: client/gui-qt/citydlg.cpp:1035 client/gui-sdl/cma_fe.c:928
+#: client/gui-qt/citydlg.cpp:1037 client/gui-sdl/cma_fe.c:928
 msgid "Minimal Surplus"
 msgstr "Excedent mínim"
 
@@ -2540,7 +2540,7 @@ msgid "Factor"
 msgstr "Factor"
 
 #: client/gui-gtk-2.0/cma_fe.c:359 client/gui-gtk-3.0/cma_fe.c:386
-#: client/gui-qt/citydlg.cpp:1034 client/gui-sdl/cma_fe.c:978
+#: client/gui-qt/citydlg.cpp:1036 client/gui-sdl/cma_fe.c:978
 #: client/gui-xaw/cma_fe.c:184 client/gui-xaw/cma_fe.c:226
 msgid "Celebrate"
 msgstr "Celebrar"
@@ -2554,23 +2554,23 @@ msgid "Governor Disabl_ed"
 msgstr "Gestor A_turat"
 
 #: client/gui-gtk-2.0/cma_fe.c:539 client/gui-gtk-3.0/cma_fe.c:569
-#: client/gui-qt/citydlg.cpp:1239 client/gui-sdl/cma_fe.c:259
+#: client/gui-qt/citydlg.cpp:1241 client/gui-sdl/cma_fe.c:259
 #: client/gui-sdl/cma_fe.c:334 client/gui-xaw/cma_fe.c:439
 msgid "new preset"
 msgstr "nou prefixat"
 
 #: client/gui-gtk-2.0/cma_fe.c:543 client/gui-gtk-3.0/cma_fe.c:573
-#: client/gui-qt/citydlg.cpp:1236 client/gui-sdl/cma_fe.c:307
+#: client/gui-qt/citydlg.cpp:1238 client/gui-sdl/cma_fe.c:307
 msgid "Name new preset"
 msgstr "Anomenar nou prefixat"
 
 #: client/gui-gtk-2.0/cma_fe.c:544 client/gui-gtk-3.0/cma_fe.c:574
-#: client/gui-qt/citydlg.cpp:1237 client/gui-sdl/cma_fe.c:323
+#: client/gui-qt/citydlg.cpp:1239 client/gui-sdl/cma_fe.c:323
 msgid "What should we name the preset?"
 msgstr "Com hem d'anomenar el prefixat ?"
 
 #: client/gui-gtk-2.0/cma_fe.c:630 client/gui-gtk-3.0/cma_fe.c:660
-#: client/gui-qt/citydlg.cpp:1429
+#: client/gui-qt/citydlg.cpp:1446
 msgid "Remove this preset?"
 msgstr "Eliminar aquest prefixat?"
 
@@ -2585,25 +2585,25 @@ msgid "I_nspect City"
 msgstr "I_nspeccionar Ciutat"
 
 #: client/gui-gtk-2.0/dialogs.c:296 client/gui-gtk-3.0/dialogs.c:297
-#: client/gui-qt/dialogs.cpp:874 client/gui-sdl/dialogs.c:2597
+#: client/gui-qt/dialogs.cpp:875 client/gui-sdl/dialogs.c:2597
 #: client/gui-xaw/dialogs.c:531
 msgid "You say you wanna revolution?"
 msgstr "Dius que vols una revolució?"
 
 #: client/gui-gtk-2.0/dialogs.c:297 client/gui-gtk-3.0/dialogs.c:298
-#: client/gui-qt/dialogs.cpp:878 client/gui-sdl/dialogs.c:2616
+#: client/gui-qt/dialogs.cpp:879 client/gui-sdl/dialogs.c:2616
 #: data/Freeciv.in:2488
 msgid "Revolution!"
 msgstr "Revolució!"
 
 #: client/gui-gtk-2.0/dialogs.c:366 client/gui-gtk-3.0/dialogs.c:367
-#: client/gui-qt/dialogs.cpp:1778 client/gui-sdl/dialogs.c:2243
+#: client/gui-qt/dialogs.cpp:1779 client/gui-sdl/dialogs.c:2243
 #: data/Freeciv.in:2545
 msgid "What To Pillage"
 msgstr "Què Saquejar"
 
 #: client/gui-gtk-2.0/dialogs.c:367 client/gui-gtk-3.0/dialogs.c:368
-#: client/gui-qt/dialogs.cpp:1778 data/Freeciv.in:2547
+#: client/gui-qt/dialogs.cpp:1779 data/Freeciv.in:2547
 msgid "Select what to pillage:"
 msgstr "Selecciona què saquejar:"
 
@@ -2694,13 +2694,13 @@ msgid "You must type a legal name."
 msgstr "Has d'escriure un nom vàlid."
 
 #: client/gui-gtk-2.0/dialogs.c:1448 client/gui-gtk-3.0/dialogs.c:1458
-#: client/gui-qt/dialogs.cpp:2066 data/Freeciv.in:2510
+#: client/gui-qt/dialogs.cpp:2067 data/Freeciv.in:2510
 msgid "Upgrade Unit!"
 msgstr "Millorar unitat!"
 
 #: client/gui-gtk-2.0/dialogs.c:1457 client/gui-gtk-2.0/repodlgs.c:1545
 #: client/gui-gtk-3.0/dialogs.c:1467 client/gui-gtk-3.0/repodlgs.c:1577
-#: client/gui-qt/dialogs.cpp:2070 client/gui-qt/repodlgs.cpp:961
+#: client/gui-qt/dialogs.cpp:2071 client/gui-qt/repodlgs.cpp:992
 #: client/gui-sdl/dialogs.c:680 client/gui-sdl/repodlgs.c:203
 #: data/Freeciv.in:2499
 msgid "Upgrade Obsolete Units"
@@ -2709,7 +2709,7 @@ msgstr "Millorar unitats obsoletes"
 #: client/gui-gtk-2.0/dialogs.c:1486 client/gui-gtk-2.0/dialogs.c:1495
 #: client/gui-gtk-2.0/repodlgs.c:956 client/gui-gtk-3.0/dialogs.c:1496
 #: client/gui-gtk-3.0/dialogs.c:1505 client/gui-gtk-3.0/repodlgs.c:989
-#: client/gui-qt/repodlgs.cpp:1268 client/gui-sdl/dialogs.c:874
+#: client/gui-qt/repodlgs.cpp:1299 client/gui-sdl/dialogs.c:874
 #: data/Freeciv.in:2518 data/Freeciv.in:2529
 msgid "Disband Units"
 msgstr "Desmobilitzar Unitats"
@@ -2725,13 +2725,13 @@ msgstr ""
 "%s"
 
 #: client/gui-gtk-2.0/diplodlg.c:253 client/gui-gtk-3.0/diplodlg.c:253
-#: client/gui-qt/diplodlg.cpp:263 client/gui-xaw/diplodlg.c:403
+#: client/gui-qt/diplodlg.cpp:282 client/gui-xaw/diplodlg.c:403
 #: client/gui-xaw/diplodlg.c:421
 msgid "World-map"
 msgstr "Mapa mundial"
 
 #: client/gui-gtk-2.0/diplodlg.c:259 client/gui-gtk-3.0/diplodlg.c:259
-#: client/gui-qt/diplodlg.cpp:266 client/gui-xaw/diplodlg.c:407
+#: client/gui-qt/diplodlg.cpp:285 client/gui-xaw/diplodlg.c:407
 #: client/gui-xaw/diplodlg.c:425
 msgid "Sea-map"
 msgstr "Mapa marítim"
@@ -2746,7 +2746,7 @@ msgstr "_Avenços"
 
 #. TRANS: All technologies menu item in the diplomatic dialog.
 #: client/gui-gtk-2.0/diplodlg.c:300 client/gui-gtk-3.0/diplodlg.c:300
-#: client/gui-qt/diplodlg.cpp:284
+#: client/gui-qt/diplodlg.cpp:303
 msgid "All advances"
 msgstr "Tots els avenços"
 
@@ -2764,19 +2764,19 @@ msgid "Give _embassy"
 msgstr "Donar A_mbaixada"
 
 #: client/gui-gtk-2.0/diplodlg.c:419 client/gui-gtk-3.0/diplodlg.c:419
-#: client/gui-qt/diplodlg.cpp:346 client/gui-sdl/diplodlg.c:497
+#: client/gui-qt/diplodlg.cpp:365 client/gui-sdl/diplodlg.c:497
 #: client/gui-xaw/diplodlg.c:546 common/player.c:1225
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Alto el foc"
 
 #: client/gui-gtk-2.0/diplodlg.c:425 client/gui-gtk-3.0/diplodlg.c:425
-#: client/gui-qt/diplodlg.cpp:352 client/gui-sdl/diplodlg.c:511
+#: client/gui-qt/diplodlg.cpp:371 client/gui-sdl/diplodlg.c:511
 #: client/gui-xaw/diplodlg.c:550 common/player.c:1226
 msgid "?diplomatic_state:Peace"
 msgstr "Pau"
 
 #: client/gui-gtk-2.0/diplodlg.c:431 client/gui-gtk-3.0/diplodlg.c:431
-#: client/gui-qt/diplodlg.cpp:358 client/gui-sdl/diplodlg.c:526
+#: client/gui-qt/diplodlg.cpp:377 client/gui-sdl/diplodlg.c:526
 #: client/gui-xaw/diplodlg.c:554 common/player.c:1227
 msgid "?diplomatic_state:Alliance"
 msgstr "Aliança"
@@ -2796,20 +2796,20 @@ msgid "Diplomacy [%d]"
 msgstr "Diplomàcia [%d]"
 
 #: client/gui-gtk-2.0/diplodlg.c:651 client/gui-gtk-3.0/diplodlg.c:655
-#: client/gui-qt/diplodlg.cpp:161 client/gui-sdl/diplodlg.c:917
+#: client/gui-qt/diplodlg.cpp:182 client/gui-sdl/diplodlg.c:917
 #: data/Freeciv.in:528
 msgid "Cancel meeting"
 msgstr "Cancel·lar cimera"
 
 #: client/gui-gtk-2.0/diplodlg.c:653 client/gui-gtk-3.0/diplodlg.c:653
-#: client/gui-qt/diplodlg.cpp:158 client/gui-sdl/diplodlg.c:928
+#: client/gui-qt/diplodlg.cpp:179 client/gui-sdl/diplodlg.c:928
 #: data/Freeciv.in:519
 msgid "Accept treaty"
 msgstr "Acceptar tractat"
 
 #: client/gui-gtk-2.0/diplodlg.c:726 client/gui-gtk-2.0/diplodlg.c:810
 #: client/gui-gtk-3.0/diplodlg.c:732 client/gui-gtk-3.0/diplodlg.c:815
-#: client/gui-qt/diplodlg.cpp:129 client/gui-qt/diplodlg.cpp:131
+#: client/gui-qt/diplodlg.cpp:150 client/gui-qt/diplodlg.cpp:152
 msgid "Add Clause..."
 msgstr "Afegir Clàusula..."
 
@@ -2818,7 +2818,7 @@ msgid "C_lauses:"
 msgstr "C_làusules:"
 
 #: client/gui-gtk-2.0/diplodlg.c:922 client/gui-gtk-3.0/diplodlg.c:930
-#: client/gui-qt/diplodlg.cpp:604
+#: client/gui-qt/diplodlg.cpp:623
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- Tractat en blanc. Si us plau, afegeix clàusules. ---"
 
@@ -2828,19 +2828,19 @@ msgid "Invalid amount of gold specified."
 msgstr "La quantitat d'or especificada no és vàlida."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:130
-#: client/gui-gtk-3.0/diplomat_dialog.c:130 client/gui-qt/dialogs.cpp:1639
+#: client/gui-gtk-3.0/diplomat_dialog.c:130 client/gui-qt/dialogs.cpp:1640
 msgid "Ooops..."
 msgstr "Uuuui..."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:131
-#: client/gui-gtk-3.0/diplomat_dialog.c:131 client/gui-qt/dialogs.cpp:1640
+#: client/gui-gtk-3.0/diplomat_dialog.c:131 client/gui-qt/dialogs.cpp:1641
 #: client/gui-xaw/diplomat_dialog.c:123
 msgid "This unit cannot be bribed!"
 msgstr "Aquesta unitat no pot ser subornada!"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/diplomat_dialog.c:139
-#: client/gui-gtk-3.0/diplomat_dialog.c:139 client/gui-qt/dialogs.cpp:1647
+#: client/gui-gtk-3.0/diplomat_dialog.c:139 client/gui-qt/dialogs.cpp:1648
 #: client/gui-sdl/diplomat_dialog.c:1448 client/gui-xaw/diplomat_dialog.c:128
 #, c-format
 msgid ""
@@ -2857,8 +2857,8 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:141
-#: client/gui-gtk-3.0/diplomat_dialog.c:141 client/gui-qt/dialogs.cpp:1332
-#: client/gui-qt/dialogs.cpp:1645 client/gui-sdl/diplomat_dialog.c:724
+#: client/gui-gtk-3.0/diplomat_dialog.c:141 client/gui-qt/dialogs.cpp:1333
+#: client/gui-qt/dialogs.cpp:1646 client/gui-sdl/diplomat_dialog.c:724
 #: client/gui-sdl/diplomat_dialog.c:1429 data/Freeciv.in:2445
 #: data/Freeciv.in:2458
 msgid "Bribe Enemy Unit"
@@ -2866,7 +2866,7 @@ msgstr "Subornar unitat enemiga"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/diplomat_dialog.c:147
-#: client/gui-gtk-3.0/diplomat_dialog.c:147 client/gui-qt/dialogs.cpp:1667
+#: client/gui-gtk-3.0/diplomat_dialog.c:147 client/gui-qt/dialogs.cpp:1668
 #: client/gui-sdl/diplomat_dialog.c:1498 client/gui-xaw/diplomat_dialog.c:137
 #, c-format
 msgid ""
@@ -2885,15 +2885,15 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:149
 #: client/gui-gtk-2.0/diplomat_dialog.c:695
 #: client/gui-gtk-3.0/diplomat_dialog.c:149
-#: client/gui-gtk-3.0/diplomat_dialog.c:705 client/gui-qt/dialogs.cpp:1670
+#: client/gui-gtk-3.0/diplomat_dialog.c:705 client/gui-qt/dialogs.cpp:1671
 #: client/gui-sdl/diplomat_dialog.c:1288 client/gui-sdl/diplomat_dialog.c:1510
 #: data/Freeciv.in:2480
 msgid "Traitors Demand Too Much!"
 msgstr "Els traïdors demanen massa!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:314
-#: client/gui-gtk-3.0/diplomat_dialog.c:314 client/gui-qt/dialogs.cpp:1277
-#: client/gui-qt/dialogs.cpp:1300 client/gui-qt/dialogs.cpp:1398
+#: client/gui-gtk-3.0/diplomat_dialog.c:314 client/gui-qt/dialogs.cpp:1278
+#: client/gui-qt/dialogs.cpp:1301 client/gui-qt/dialogs.cpp:1399
 #: client/gui-sdl/diplomat_dialog.c:673 data/Freeciv.in:2311
 #: data/Freeciv.in:2344 data/Freeciv.in:2361
 msgid "Steal Technology"
@@ -2919,8 +2919,8 @@ msgstr "_Avenços:"
 #: client/gui-gtk-2.0/diplomat_dialog.c:391
 #: client/gui-gtk-2.0/diplomat_dialog.c:544
 #: client/gui-gtk-3.0/diplomat_dialog.c:396
-#: client/gui-gtk-3.0/diplomat_dialog.c:554 client/gui-qt/dialogs.cpp:1412
-#: client/gui-qt/dialogs.cpp:1752 client/gui-sdl/diplomat_dialog.c:355
+#: client/gui-gtk-3.0/diplomat_dialog.c:554 client/gui-qt/dialogs.cpp:1413
+#: client/gui-qt/dialogs.cpp:1753 client/gui-sdl/diplomat_dialog.c:355
 #: client/gui-sdl/diplomat_dialog.c:957 client/gui-xaw/diplomat_dialog.c:424
 #: client/gui-xaw/diplomat_dialog.c:515
 #, c-format
@@ -2938,7 +2938,7 @@ msgid "_Sabotage"
 msgstr "_Sabotejar"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:489
-#: client/gui-gtk-3.0/diplomat_dialog.c:494 client/gui-qt/dialogs.cpp:1734
+#: client/gui-gtk-3.0/diplomat_dialog.c:494 client/gui-qt/dialogs.cpp:1735
 #: client/gui-sdl/diplomat_dialog.c:872 data/Freeciv.in:2418
 msgid "Select Improvement to Sabotage"
 msgstr "Escull l'edifici a sabotejar"
@@ -2949,13 +2949,13 @@ msgid "_Improvements:"
 msgstr "_Edificis:"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:528
-#: client/gui-gtk-3.0/diplomat_dialog.c:538 client/gui-qt/dialogs.cpp:1742
+#: client/gui-gtk-3.0/diplomat_dialog.c:538 client/gui-qt/dialogs.cpp:1743
 #: client/gui-sdl/diplomat_dialog.c:901 client/gui-xaw/diplomat_dialog.c:502
 msgid "City Production"
 msgstr "Producció de la ciutat"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:676
-#: client/gui-gtk-3.0/diplomat_dialog.c:686 client/gui-qt/dialogs.cpp:1582
+#: client/gui-gtk-3.0/diplomat_dialog.c:686 client/gui-qt/dialogs.cpp:1583
 #: client/gui-sdl/diplomat_dialog.c:1202 client/gui-xaw/diplomat_dialog.c:668
 #, c-format
 msgid "You can't incite a revolt in %s."
@@ -2969,7 +2969,7 @@ msgstr "La ciutat no pot ser incitada!"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/diplomat_dialog.c:684
-#: client/gui-gtk-3.0/diplomat_dialog.c:694 client/gui-qt/dialogs.cpp:1589
+#: client/gui-gtk-3.0/diplomat_dialog.c:694 client/gui-qt/dialogs.cpp:1590
 #: client/gui-sdl/diplomat_dialog.c:1223 client/gui-xaw/diplomat_dialog.c:675
 #, c-format
 msgid ""
@@ -2986,14 +2986,14 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:686
-#: client/gui-gtk-3.0/diplomat_dialog.c:696 client/gui-qt/dialogs.cpp:1595
+#: client/gui-gtk-3.0/diplomat_dialog.c:696 client/gui-qt/dialogs.cpp:1596
 #: client/gui-sdl/diplomat_dialog.c:1169 data/Freeciv.in:2469
 msgid "Incite a Revolt!"
 msgstr "Incitar una revolta!"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/diplomat_dialog.c:693
-#: client/gui-gtk-3.0/diplomat_dialog.c:703 client/gui-qt/dialogs.cpp:1611
+#: client/gui-gtk-3.0/diplomat_dialog.c:703 client/gui-qt/dialogs.cpp:1612
 #: client/gui-sdl/diplomat_dialog.c:1275 client/gui-xaw/diplomat_dialog.c:685
 #, c-format
 msgid ""
@@ -3011,14 +3011,14 @@ msgstr[1] ""
 
 #. TRANS: %s is a unit name, e.g., Spy
 #: client/gui-gtk-2.0/diplomat_dialog.c:775
-#: client/gui-gtk-3.0/diplomat_dialog.c:785 client/gui-qt/dialogs.cpp:1250
+#: client/gui-gtk-3.0/diplomat_dialog.c:785 client/gui-qt/dialogs.cpp:1251
 #: client/gui-sdl/diplomat_dialog.c:577
 #, c-format
 msgid "Choose Your %s's Strategy"
 msgstr "Escull l'Estratègia del teu %s"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:777
-#: client/gui-gtk-3.0/diplomat_dialog.c:787 client/gui-qt/dialogs.cpp:1252
+#: client/gui-gtk-3.0/diplomat_dialog.c:787 client/gui-qt/dialogs.cpp:1253
 #: client/gui-xaw/diplomat_dialog.c:744
 #, c-format
 msgid ""
@@ -3073,14 +3073,14 @@ msgstr "_Sabotatge Industrial"
 
 #. TRANS: %s is a unit name, e.g., Diplomat, Spy
 #: client/gui-gtk-2.0/diplomat_dialog.c:851
-#: client/gui-gtk-3.0/diplomat_dialog.c:861 client/gui-qt/dialogs.cpp:1323
+#: client/gui-gtk-3.0/diplomat_dialog.c:861 client/gui-qt/dialogs.cpp:1324
 #: client/gui-xaw/diplomat_dialog.c:809
 #, c-format
 msgid "Your %s is waiting for your command."
 msgstr "El teu %s està esperant ordres."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:855
-#: client/gui-gtk-3.0/diplomat_dialog.c:865 client/gui-qt/dialogs.cpp:1325
+#: client/gui-gtk-3.0/diplomat_dialog.c:865 client/gui-qt/dialogs.cpp:1326
 #: client/gui-sdl/diplomat_dialog.c:584 data/Freeciv.in:2456
 msgid "Subvert Enemy Unit"
 msgstr "Subvertir Unitat Enemiga"
@@ -3160,7 +3160,7 @@ msgstr ""
 #: client/gui-gtk-2.0/editgui.c:1328 client/gui-gtk-2.0/repodlgs.c:764
 #: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1375
 #: client/gui-gtk-3.0/repodlgs.c:792 client/gui-gtk-3.0/unitselect.c:97
-#: client/gui-qt/repodlgs.cpp:1023
+#: client/gui-qt/repodlgs.cpp:1054
 msgid "Count"
 msgstr "Quantitat"
 
@@ -3177,7 +3177,7 @@ msgid "Tile"
 msgstr "Casella"
 
 #: client/gui-gtk-2.0/editprop.c:664 client/gui-gtk-3.0/editprop.c:664
-#: client/gui-qt/repodlgs.cpp:1370
+#: client/gui-qt/repodlgs.cpp:1401
 msgid "Player"
 msgstr "Jugador"
 
@@ -3406,7 +3406,7 @@ msgstr "Nacions"
 #: client/gui-gtk-2.0/repodlgs.c:758 client/gui-gtk-2.0/wldlg.c:998
 #: client/gui-gtk-3.0/editprop.c:4243 client/gui-gtk-3.0/pages.c:1394
 #: client/gui-gtk-3.0/repodlgs.c:786 client/gui-gtk-3.0/wldlg.c:1001
-#: client/gui-qt/pages.cpp:283 client/gui-qt/repodlgs.cpp:1022
+#: client/gui-qt/pages.cpp:283 client/gui-qt/repodlgs.cpp:1053
 msgid "Type"
 msgstr "Tipus"
 
@@ -3454,13 +3454,13 @@ msgstr "Invents"
 
 #: client/gui-gtk-2.0/editprop.c:4274 client/gui-gtk-2.0/gamedlgs.c:287
 #: client/gui-gtk-3.0/editprop.c:4298 client/gui-gtk-3.0/gamedlgs.c:297
-#: client/gui-qt/citydlg.cpp:1034 common/city.c:88 server/plrhand.c:282
+#: client/gui-qt/citydlg.cpp:1036 common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "Ciència"
 
 #: client/gui-gtk-2.0/editprop.c:4276 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4300 client/gui-gtk-3.0/repodlgs.c:1278
-#: client/gui-qt/citydlg.cpp:1033 client/gui-qt/repodlgs.cpp:650
+#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:681
 #: common/city.c:86 data/civ1/terrain.ruleset:634
 #: data/civ2/terrain.ruleset:628 data/classic/terrain.ruleset:797
 #: data/experimental/terrain.ruleset:773 data/civ2civ3/terrain.ruleset:811
@@ -3615,7 +3615,7 @@ msgid "Lock"
 msgstr "Bloquejar"
 
 #: client/gui-gtk-2.0/gamedlgs.c:267 client/gui-gtk-3.0/gamedlgs.c:272
-#: client/gui-qt/citydlg.cpp:1034 common/city.c:87 server/plrhand.c:280
+#: client/gui-qt/citydlg.cpp:1036 common/city.c:87 server/plrhand.c:280
 msgid "Luxury"
 msgstr "Luxes"
 
@@ -3656,7 +3656,7 @@ msgid "Show _All Cities"
 msgstr "Mostrar _totes les ciutats"
 
 #: client/gui-gtk-2.0/gotodlg.c:341 client/gui-gtk-3.0/gotodlg.c:345
-#: client/gui-qt/mapview.cpp:1847 client/text.c:1173
+#: client/gui-qt/mapview.cpp:1815 client/text.c:1173
 msgid "No units selected."
 msgstr "Cap unitat seleccionada."
 
@@ -3713,7 +3713,7 @@ msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1268 client/gui-gtk-2.0/gui_main.c:1276
 #: client/gui-gtk-3.0/gui_main.c:1279 client/gui-gtk-3.0/gui_main.c:1287
-#: client/gui-qt/mapview.cpp:957 client/gui-sdl/mapctrl.c:1576
+#: client/gui-qt/mapview.cpp:955 client/gui-sdl/mapctrl.c:1576
 #: data/Freeciv.in:2663
 msgid "Turn Done"
 msgstr "Acabar el torn"
@@ -3724,7 +3724,7 @@ msgid "Shift+Return"
 msgstr "Maj.+Retorn"
 
 #: client/gui-gtk-2.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1364
-#: client/gui-qt/menu.cpp:782
+#: client/gui-qt/menu.cpp:782 client/gui-qt/pages.cpp:635
 msgid "?noun:View"
 msgstr "Vista"
 
@@ -3738,7 +3738,7 @@ msgid "Allies Only"
 msgstr "Només Aliats"
 
 #: client/gui-gtk-2.0/gui_main.c:1492 client/gui-gtk-3.0/gui_main.c:1519
-#: client/gui-qt/chatline.cpp:70
+#: client/gui-qt/chatline.cpp:71
 msgid "Clear links"
 msgstr "Esborrar enllaços"
 
@@ -3805,7 +3805,7 @@ msgstr ""
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-2.0/helpdlg.c:101
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:98
 #: client/gui-gtk-3.0/helpdlg.c:101 client/gui-gtk-3.0/helpdlg.c:105
-#: client/gui-qt/citydlg.cpp:2677 client/gui-qt/helpdlg.cpp:635
+#: client/gui-qt/citydlg.cpp:2694 client/gui-qt/helpdlg.cpp:635
 #: client/gui-sdl/helpdlg.c:349 client/gui-sdl/helpdlg.c:751
 #: data/Freeciv.in:654 data/Freeciv.in:796
 msgid "Cost:"
@@ -3833,41 +3833,41 @@ msgid "Obsolete by:"
 msgstr "Substituïda per:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:105
-#: client/gui-qt/citydlg.cpp:2670 client/gui-qt/helpdlg.cpp:625
+#: client/gui-qt/citydlg.cpp:2687 client/gui-qt/helpdlg.cpp:625
 #: client/gui-sdl/helpdlg.c:784 data/Freeciv.in:813
 msgid "Attack:"
 msgstr "Atac:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
-#: client/gui-qt/citydlg.cpp:2672 client/gui-qt/helpdlg.cpp:627
+#: client/gui-qt/citydlg.cpp:2689 client/gui-qt/helpdlg.cpp:627
 #: client/gui-sdl/helpdlg.c:785 data/Freeciv.in:831
 msgid "Defense:"
 msgstr "Defensa:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
-#: client/gui-qt/citydlg.cpp:2674 client/gui-sdl/helpdlg.c:786
+#: client/gui-qt/citydlg.cpp:2691 client/gui-sdl/helpdlg.c:786
 #: data/Freeciv.in:849
 msgid "Move:"
 msgstr "Moviments:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-qt/citydlg.cpp:2684 client/gui-sdl/helpdlg.c:788
+#: client/gui-qt/citydlg.cpp:2701 client/gui-sdl/helpdlg.c:788
 msgid "FirePower:"
 msgstr "Potència de foc:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-qt/citydlg.cpp:2682 client/gui-qt/helpdlg.cpp:634
+#: client/gui-qt/citydlg.cpp:2699 client/gui-qt/helpdlg.cpp:634
 #: client/gui-sdl/helpdlg.c:789 data/Freeciv.in:894
 msgid "Hitpoints:"
 msgstr "Punts de Vida:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-qt/citydlg.cpp:2679 data/Freeciv.in:930
+#: client/gui-qt/citydlg.cpp:2696 data/Freeciv.in:930
 msgid "Basic Upkeep:"
 msgstr "Manteniment bàsic:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-qt/citydlg.cpp:2686 client/gui-sdl/helpdlg.c:787
+#: client/gui-qt/citydlg.cpp:2703 client/gui-sdl/helpdlg.c:787
 #: data/Freeciv.in:912
 msgid "Vision:"
 msgstr "Visió:"
@@ -3925,7 +3925,7 @@ msgstr "Bonificació (M/P/C):"
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:137 client/gui-gtk-3.0/helpdlg.c:137
 #: client/gui-qt/plrdlg.cpp:491 client/gui-qt/plrdlg.cpp:497
-#: client/gui-qt/repodlgs.cpp:550 client/gui-sdl/gui_tilespec.c:371
+#: client/gui-qt/repodlgs.cpp:581 client/gui-sdl/gui_tilespec.c:371
 #: client/gui-sdl/helpdlg.c:809 client/gui-sdl/mapview.c:334
 #: client/gui-xaw/helpdlg.c:825 client/gui-xaw/helpdlg.c:870
 #: client/gui-xaw/helpdlg.c:889 common/tech.c:1217 common/tech.c:1220
@@ -4095,12 +4095,12 @@ msgid "Load Lua Script"
 msgstr "Carregar Script Lua"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:192
-#: client/gui-qt/mapctrl.cpp:50
+#: client/gui-qt/mapctrl.cpp:51
 msgid "Build New City"
 msgstr "Construcció de Ciutat Nova"
 
 #: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:193
-#: client/gui-qt/mapctrl.cpp:51 client/gui-sdl/mapctrl.c:2632
+#: client/gui-qt/mapctrl.cpp:52 client/gui-sdl/mapctrl.c:2632
 #: client/gui-xaw/mapctrl.c:90
 msgid "What should we call our new city?"
 msgstr "Com hem d'anomenar la nostra nova ciutat?"
@@ -4124,7 +4124,7 @@ msgid "Better fog will only work in truecolor. Disabling it"
 msgstr "La boira millorada només funciona en \"true color\". Desactivant-la"
 
 #: client/gui-gtk-2.0/menu.c:115 client/gui-gtk-3.0/menu.c:115
-#: client/gui-qt/fc_client.cpp:684 client/gui-qt/menu.cpp:419
+#: client/gui-qt/fc_client.cpp:692 client/gui-qt/menu.cpp:419
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Establir les opcions locals"
@@ -4306,7 +4306,7 @@ msgid "Government"
 msgstr "Govern"
 
 #: client/gui-gtk-2.0/menu.c:1422 client/gui-gtk-3.0/menu.c:1410
-#: client/gui-qt/diplodlg.cpp:707 client/gui-xaw/menu.c:255
+#: client/gui-qt/diplodlg.cpp:726 client/gui-xaw/menu.c:255
 #: client/include/helpdlg_g.h:51 data/Freeciv.in:233 data/helpdata.txt:1427
 msgid "Diplomacy"
 msgstr "Diplomàcia"
@@ -4612,7 +4612,7 @@ msgstr "C_onvertir"
 
 #: client/gui-gtk-2.0/menu.c:1637 client/gui-gtk-2.0/repodlgs.c:1122
 #: client/gui-gtk-3.0/menu.c:1625 client/gui-gtk-3.0/repodlgs.c:1148
-#: client/gui-qt/repodlgs.cpp:1036
+#: client/gui-qt/repodlgs.cpp:1067
 msgid "_Disband"
 msgstr "_Desmobilitzar"
 
@@ -4960,7 +4960,7 @@ msgstr "Estat"
 #: client/gui-gtk-2.0/pages.c:1153 client/gui-gtk-2.0/pages.c:1196
 #: client/gui-gtk-3.0/pages.c:1225 client/gui-gtk-3.0/pages.c:1270
 #: client/gui-qt/menu.cpp:790 client/gui-qt/pages.cpp:281
-#: client/gui-qt/pages.cpp:1278 client/gui-qt/plrdlg.cpp:604
+#: client/gui-qt/pages.cpp:1278 client/gui-qt/plrdlg.cpp:610
 #: client/gui-sdl/connectdlg.c:330 client/gui-sdl/plrdlg.c:337
 msgid "Players"
 msgstr "Jugadors"
@@ -5316,7 +5316,7 @@ msgstr "Retirar Visió Compartida"
 #. TRANS: Research report action
 #. TRANS: Research report title
 #: client/gui-gtk-2.0/repodlgs.c:530 client/gui-gtk-3.0/repodlgs.c:549
-#: client/gui-qt/menu.cpp:802 client/gui-qt/repodlgs.cpp:407
+#: client/gui-qt/menu.cpp:802 client/gui-qt/repodlgs.cpp:438
 #: client/gui-sdl/mapctrl.c:1418 client/gui-sdl/mapview.c:333
 #: client/gui-sdl/mapview.c:337 client/gui-sdl/mapview.c:343
 #: client/gui-sdl/repodlgs.c:3286 client/gui-xaw/menu.c:226
@@ -5346,81 +5346,81 @@ msgid "Show all"
 msgstr "Veure-les totes"
 
 #: client/gui-gtk-2.0/repodlgs.c:760 client/gui-gtk-3.0/repodlgs.c:788
-#: client/gui-qt/repodlgs.cpp:1022
+#: client/gui-qt/repodlgs.cpp:1053
 msgid "?Building or Unit type:Name"
 msgstr "Nom"
 
 #: client/gui-gtk-2.0/repodlgs.c:762 client/gui-gtk-3.0/repodlgs.c:790
-#: client/gui-qt/repodlgs.cpp:1022
+#: client/gui-qt/repodlgs.cpp:1053
 msgid "Redundant"
 msgstr "Redundant"
 
 #: client/gui-gtk-2.0/repodlgs.c:766 client/gui-gtk-2.0/wldlg.c:998
 #: client/gui-gtk-3.0/repodlgs.c:794 client/gui-gtk-3.0/wldlg.c:1001
-#: client/gui-qt/repodlgs.cpp:1023 tools/civmanual.c:424
+#: client/gui-qt/repodlgs.cpp:1054 tools/civmanual.c:424
 msgid "Cost"
 msgstr "Cost"
 
 #. TRANS: Upkeep total, count*cost.
 #: client/gui-gtk-2.0/repodlgs.c:769 client/gui-gtk-3.0/repodlgs.c:797
-#: client/gui-qt/repodlgs.cpp:1023 client/gui-sdl/repodlgs.c:2047
+#: client/gui-qt/repodlgs.cpp:1054 client/gui-sdl/repodlgs.c:2047
 msgid "U Total"
 msgstr "U Total"
 
 #: client/gui-gtk-2.0/repodlgs.c:861 client/gui-gtk-3.0/repodlgs.c:894
-#: client/gui-qt/repodlgs.cpp:1193
+#: client/gui-qt/repodlgs.cpp:1224
 #, c-format
 msgid "Income: %d    Total Costs: %d"
 msgstr "Ingressos: %d  Cost Total: %d"
 
 #. TRANS: %s is an improvement
 #: client/gui-gtk-2.0/repodlgs.c:922 client/gui-gtk-3.0/repodlgs.c:955
-#: client/gui-qt/repodlgs.cpp:1334
+#: client/gui-qt/repodlgs.cpp:1365
 #, c-format
 msgid "Do you really wish to sell every redundant %s (%d total)?"
 msgstr "De veritat vols vendre't tots els %s redundants? (%d en total)"
 
 #. TRANS: %s is an improvement
 #: client/gui-gtk-2.0/repodlgs.c:925 client/gui-gtk-3.0/repodlgs.c:958
-#: client/gui-qt/repodlgs.cpp:1297
+#: client/gui-qt/repodlgs.cpp:1328
 #, c-format
 msgid "Do you really wish to sell every %s (%d total)?"
 msgstr "De veritat vols vendre't tots els %s? (%d en total)"
 
 #: client/gui-gtk-2.0/repodlgs.c:930 client/gui-gtk-3.0/repodlgs.c:963
-#: client/gui-qt/repodlgs.cpp:1305 client/gui-qt/repodlgs.cpp:1342
+#: client/gui-qt/repodlgs.cpp:1336 client/gui-qt/repodlgs.cpp:1373
 msgid "Sell Improvements"
 msgstr "Vendre Millores"
 
 #. TRANS: %s is a unit
 #: client/gui-gtk-2.0/repodlgs.c:951 client/gui-gtk-3.0/repodlgs.c:984
-#: client/gui-qt/repodlgs.cpp:1260
+#: client/gui-qt/repodlgs.cpp:1291
 #, c-format
 msgid "Do you really wish to disband every %s (%d total)?"
 msgstr "De veritat vols desmobilitzar tots els %s? (%d en total)"
 
 #: client/gui-gtk-2.0/repodlgs.c:976 client/gui-gtk-3.0/repodlgs.c:1009
-#: client/gui-qt/repodlgs.cpp:1317 client/gui-qt/repodlgs.cpp:1354
+#: client/gui-qt/repodlgs.cpp:1348 client/gui-qt/repodlgs.cpp:1385
 msgid "Sell-Off: Results"
 msgstr "Resultats de la venda"
 
 #: client/gui-gtk-2.0/repodlgs.c:1114 client/gui-gtk-3.0/repodlgs.c:1156
-#: client/gui-qt/repodlgs.cpp:1040
+#: client/gui-qt/repodlgs.cpp:1071
 msgid "Sell _Redundant"
 msgstr "Vendre _Redundants"
 
 #: client/gui-gtk-2.0/repodlgs.c:1118 client/gui-gtk-3.0/repodlgs.c:1152
-#: client/gui-qt/repodlgs.cpp:1038
+#: client/gui-qt/repodlgs.cpp:1069
 msgid "Sell _All"
 msgstr "Vendre _tots"
 
 #: client/gui-gtk-2.0/repodlgs.c:1231 client/gui-gtk-3.0/repodlgs.c:1263
-#: client/gui-qt/repodlgs.cpp:649
+#: client/gui-qt/repodlgs.cpp:680
 msgid "Unit Type"
 msgstr "Tipus d'Unitat"
 
 #: client/gui-gtk-2.0/repodlgs.c:1233 client/gui-gtk-3.0/repodlgs.c:1265
-#: client/gui-qt/repodlgs.cpp:649
+#: client/gui-qt/repodlgs.cpp:680
 msgid "?Upgradable unit [short]:U"
 msgstr "M"
 
@@ -5431,7 +5431,7 @@ msgstr "Millorable"
 #. TRANS: "In progress" abbrevation.
 #. URD_COL_IN_PROGRESS
 #: client/gui-gtk-2.0/repodlgs.c:1238 client/gui-gtk-3.0/repodlgs.c:1270
-#: client/gui-qt/repodlgs.cpp:649
+#: client/gui-qt/repodlgs.cpp:680
 msgid "In-Prog"
 msgstr "En-Prog"
 
@@ -5440,12 +5440,12 @@ msgid "In progress"
 msgstr "Progressant"
 
 #: client/gui-gtk-2.0/repodlgs.c:1240 client/gui-gtk-3.0/repodlgs.c:1272
-#: client/gui-qt/repodlgs.cpp:650
+#: client/gui-qt/repodlgs.cpp:681
 msgid "Active"
 msgstr "Actives"
 
 #: client/gui-gtk-2.0/repodlgs.c:1242 client/gui-gtk-3.0/repodlgs.c:1274
-#: client/gui-qt/citydlg.cpp:1033 client/gui-qt/repodlgs.cpp:650
+#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:681
 #: common/city.c:84
 msgid "Shield"
 msgstr "Escut"
@@ -5455,7 +5455,7 @@ msgid "Total shield upkeep"
 msgstr "Cost de manteniment en escuts"
 
 #: client/gui-gtk-2.0/repodlgs.c:1244 client/gui-gtk-3.0/repodlgs.c:1276
-#: client/gui-qt/citydlg.cpp:1033 client/gui-qt/repodlgs.cpp:650
+#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:681
 #: common/city.c:83
 msgid "Food"
 msgstr "Menjar"
@@ -5469,7 +5469,7 @@ msgid "Total gold upkeep"
 msgstr "Cost de manteniment en or"
 
 #: client/gui-gtk-2.0/repodlgs.c:1385 client/gui-gtk-3.0/repodlgs.c:1417
-#: client/gui-qt/repodlgs.cpp:844
+#: client/gui-qt/repodlgs.cpp:875
 msgid "Totals:"
 msgstr "Totals:"
 
@@ -5477,7 +5477,7 @@ msgstr "Totals:"
 #. * "Treasury contains %d gold."
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/repodlgs.c:1536 client/gui-gtk-3.0/repodlgs.c:1568
-#: client/gui-qt/repodlgs.cpp:951 client/gui-sdl/repodlgs.c:195
+#: client/gui-qt/repodlgs.cpp:982 client/gui-sdl/repodlgs.c:195
 #: client/gui-xaw/repodlgs.c:1017
 #, c-format
 msgid ""
@@ -5514,7 +5514,7 @@ msgid "Score\n"
 msgstr "Puntuació\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1851 client/gui-gtk-3.0/repodlgs.c:1882
-#: client/gui-qt/repodlgs.cpp:1370 client/gui-qt/repodlgs.cpp:1402
+#: client/gui-qt/repodlgs.cpp:1401 client/gui-qt/repodlgs.cpp:1433
 #: client/plrdlg_common.c:309
 msgid "Score"
 msgstr "Puntuació"
@@ -5745,7 +5745,7 @@ msgstr "Mapa de la ciutat"
 msgid "Migrating options from gtk2 to gtk3 client"
 msgstr "Migrant les opcions del client gtk2 al gtk3"
 
-#: client/gui-qt/chatline.cpp:64
+#: client/gui-qt/chatline.cpp:65
 msgid "Allies only"
 msgstr "Només aliats"
 
@@ -5886,18 +5886,18 @@ msgstr "Esborrar"
 msgid "Save"
 msgstr "Desar"
 
-#: client/gui-qt/citydlg.cpp:1033 common/city.c:85 data/civ1/techs.ruleset:582
+#: client/gui-qt/citydlg.cpp:1035 common/city.c:85 data/civ1/techs.ruleset:582
 #: data/civ2/techs.ruleset:747 data/classic/techs.ruleset:756
 #: data/experimental/techs.ruleset:836 data/civ2civ3/techs.ruleset:858
 #: data/Freeciv.in:3108 data/multiplayer/techs.ruleset:761
 msgid "Trade"
 msgstr "Comerç"
 
-#: client/gui-qt/citydlg.cpp:1038
+#: client/gui-qt/citydlg.cpp:1040
 msgid "Priority"
 msgstr "Prioritat"
 
-#: client/gui-qt/citydlg.cpp:1098 client/gui-xaw/connectdlg.c:680
+#: client/gui-qt/citydlg.cpp:1100 client/gui-xaw/connectdlg.c:680
 #: data/Freeciv.in:180 data/Freeciv.in:230 data/Freeciv.in:255
 #: data/Freeciv.in:559 data/Freeciv.in:578 data/Freeciv.in:623
 #: data/Freeciv.in:1467 data/Freeciv.in:1485 data/Freeciv.in:1624
@@ -5908,105 +5908,105 @@ msgstr "Prioritat"
 msgid "Close"
 msgstr "Tancar"
 
-#: client/gui-qt/citydlg.cpp:1104
+#: client/gui-qt/citydlg.cpp:1106
 msgid "Next City"
 msgstr "Ciutat Següent"
 
-#: client/gui-qt/citydlg.cpp:1109
+#: client/gui-qt/citydlg.cpp:1111
 msgid "Previous City"
 msgstr "Ciutat Anterior"
 
-#: client/gui-qt/citydlg.cpp:1377
+#: client/gui-qt/citydlg.cpp:1394
 msgid "No governor defined"
 msgstr "No s'ha definit gestor"
 
 #. TRANS: %1 is custom string chosen player
-#: client/gui-qt/citydlg.cpp:1388
+#: client/gui-qt/citydlg.cpp:1405
 msgid "<h3>Governor Enabled - %1</h3>"
 msgstr "<h3>Gestor Engegat - %1</h3>"
 
-#: client/gui-qt/citydlg.cpp:1396
+#: client/gui-qt/citydlg.cpp:1413
 msgid "<h3>Governor Disabled</h3>"
 msgstr "<h3>Gestor Aturat</h3>"
 
-#: client/gui-qt/citydlg.cpp:1408
+#: client/gui-qt/citydlg.cpp:1425
 msgid "Disable"
 msgstr "Desactivar"
 
-#: client/gui-qt/citydlg.cpp:1410
+#: client/gui-qt/citydlg.cpp:1427
 msgid "Enable"
 msgstr "Activar"
 
-#: client/gui-qt/citydlg.cpp:1532 client/gui-qt/cityrep.cpp:489
+#: client/gui-qt/citydlg.cpp:1549 client/gui-qt/cityrep.cpp:489
 msgid "Clear"
 msgstr "Esborrar"
 
-#: client/gui-qt/citydlg.cpp:1542
+#: client/gui-qt/citydlg.cpp:1559
 msgid "Change worklist"
 msgstr "Modificar llista treball"
 
-#: client/gui-qt/citydlg.cpp:1543
+#: client/gui-qt/citydlg.cpp:1560
 msgid "Insert worklist"
 msgstr "Inserir llista de treball"
 
-#: client/gui-qt/citydlg.cpp:1606
+#: client/gui-qt/citydlg.cpp:1623
 msgid "Buy (%1 gold)"
 msgid_plural "Buy (%1 gold)"
 msgstr[0] "Comprar (%1 peça d'or)"
 msgstr[1] "Comprar (%1 peces d'or)"
 
-#: client/gui-qt/citydlg.cpp:1612 data/Freeciv.in:1647
+#: client/gui-qt/citydlg.cpp:1629 data/Freeciv.in:1647
 msgid "Buy"
 msgstr "Comprar"
 
-#: client/gui-qt/citydlg.cpp:1943
+#: client/gui-qt/citydlg.cpp:1960
 msgid "Sell improvement?"
 msgstr "Vendre Millora?"
 
-#: client/gui-qt/citydlg.cpp:2170
+#: client/gui-qt/citydlg.cpp:2187
 msgid "Buy ?"
 msgstr "Comprar ?"
 
-#: client/gui-qt/citydlg.cpp:2182
+#: client/gui-qt/citydlg.cpp:2199
 #, c-format
 msgid "Buy %s for %d gold?"
 msgid_plural "Buy %s for %d gold?"
 msgstr[0] "Comprar %s per %d peça d'or?"
 msgstr[1] "Comprar %s per %d peces d'or?"
 
-#: client/gui-qt/citydlg.cpp:2461
+#: client/gui-qt/citydlg.cpp:2478
 msgid "Save current worklist"
 msgstr "Desar llista de treball actual"
 
-#: client/gui-qt/citydlg.cpp:2462
+#: client/gui-qt/citydlg.cpp:2479
 msgid "What should we name new worklist?"
 msgstr "Com hem d'anomenar la nova llista de treball?"
 
-#: client/gui-qt/citydlg.cpp:2464
+#: client/gui-qt/citydlg.cpp:2481
 msgid "New worklist"
 msgstr "Llista de treball nova"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2484
+#: client/gui-qt/citydlg.cpp:2501
 msgid "%1 - %2 citizens - DISORDER"
 msgstr "%1 - %2 ciutadans - DESORDRE"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2488
+#: client/gui-qt/citydlg.cpp:2505
 msgid "%1 - %2 citizens - celebrating"
 msgstr "%1 - %2 ciutadans - en festa"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2492
+#: client/gui-qt/citydlg.cpp:2509
 msgid "%1 - %2 citizens - happy"
 msgstr "%1 - %2 ciutadans - feliços"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2496
+#: client/gui-qt/citydlg.cpp:2513
 msgid "%1 - %2 citizens"
 msgstr "%1 - %2 ciutadans"
 
-#: client/gui-qt/citydlg.cpp:2656
+#: client/gui-qt/citydlg.cpp:2673
 msgid ""
 "Cost: %1, Upkeep: %2\n"
 "\n"
@@ -6014,7 +6014,7 @@ msgstr ""
 "Cost: %1, Manteniment: %2\n"
 "\n"
 
-#: client/gui-qt/citydlg.cpp:2781 client/gui-qt/dialogs.cpp:229
+#: client/gui-qt/citydlg.cpp:2798 client/gui-qt/dialogs.cpp:229
 #: client/gui-qt/messagedlg.cpp:61 client/gui-qt/optiondlg.cpp:132
 #: client/gui-qt/pages.cpp:356 client/gui-qt/pages.cpp:459
 #: client/gui-qt/pages.cpp:517 client/gui-qt/ratesdlg.cpp:140
@@ -6117,83 +6117,83 @@ msgstr "Anar a Lloc"
 msgid "Inspect City"
 msgstr "Inspeccionar Ciutat"
 
-#: client/gui-qt/dialogs.cpp:1188 client/gui-qt/dialogs.cpp:1997
+#: client/gui-qt/dialogs.cpp:1189 client/gui-qt/dialogs.cpp:1998
 #, c-format
 msgid "Help build Wonder (%d remaining)"
 msgstr "Ajudar a construir la Meravella (en queden %d)"
 
-#: client/gui-qt/dialogs.cpp:1194 client/gui-qt/dialogs.cpp:2002
+#: client/gui-qt/dialogs.cpp:1195 client/gui-qt/dialogs.cpp:2003
 #: client/gui-qt/menu.cpp:764 client/gui-sdl/caravan_dialog.c:191
 #: data/Freeciv.in:2289
 msgid "Help build Wonder"
 msgstr "Ajudar a construir meravella"
 
-#: client/gui-qt/dialogs.cpp:1199
+#: client/gui-qt/dialogs.cpp:1200
 msgid "Establish Trade route"
 msgstr "Establir Ruta Comercial"
 
-#: client/gui-qt/dialogs.cpp:1208 client/gui-qt/dialogs.cpp:1286
-#: client/gui-qt/dialogs.cpp:1309 client/gui-sdl/caravan_dialog.c:204
+#: client/gui-qt/dialogs.cpp:1209 client/gui-qt/dialogs.cpp:1287
+#: client/gui-qt/dialogs.cpp:1310 client/gui-sdl/caravan_dialog.c:204
 #: client/gui-sdl/diplomat_dialog.c:702 data/Freeciv.in:2292
 #: data/Freeciv.in:2316 data/Freeciv.in:2351
 msgid "Keep moving"
 msgstr "Continuar movent-se"
 
-#: client/gui-qt/dialogs.cpp:1263 client/gui-sdl/diplomat_dialog.c:613
+#: client/gui-qt/dialogs.cpp:1264 client/gui-sdl/diplomat_dialog.c:613
 #: data/Freeciv.in:2304 data/Freeciv.in:2330
 msgid "Establish Embassy"
 msgstr "Establir una ambaixada"
 
-#: client/gui-qt/dialogs.cpp:1268 client/gui-sdl/diplomat_dialog.c:628
+#: client/gui-qt/dialogs.cpp:1269 client/gui-sdl/diplomat_dialog.c:628
 #: data/Freeciv.in:2306
 msgid "Investigate City"
 msgstr "Investigar la ciutat"
 
-#: client/gui-qt/dialogs.cpp:1273 client/gui-sdl/diplomat_dialog.c:657
+#: client/gui-qt/dialogs.cpp:1274 client/gui-sdl/diplomat_dialog.c:657
 #: data/Freeciv.in:2309
 msgid "Sabotage City"
 msgstr "Sabotejar la ciutat"
 
-#: client/gui-qt/dialogs.cpp:1282 client/gui-qt/dialogs.cpp:1305
+#: client/gui-qt/dialogs.cpp:1283 client/gui-qt/dialogs.cpp:1306
 #: client/gui-sdl/diplomat_dialog.c:688 data/Freeciv.in:2314
 #: data/Freeciv.in:2347
 msgid "Incite a Revolt"
 msgstr "Incitar revolta"
 
-#: client/gui-qt/dialogs.cpp:1291 client/gui-sdl/diplomat_dialog.c:643
+#: client/gui-qt/dialogs.cpp:1292 client/gui-sdl/diplomat_dialog.c:643
 #: data/Freeciv.in:2337
 msgid "Poison City"
 msgstr "Enverinar ciutat"
 
-#: client/gui-qt/dialogs.cpp:1295 data/Freeciv.in:2340
+#: client/gui-qt/dialogs.cpp:1296 data/Freeciv.in:2340
 msgid "Industrial Sabotage"
 msgstr "Sabotatge industrial"
 
-#: client/gui-qt/dialogs.cpp:1336 client/gui-sdl/diplomat_dialog.c:739
+#: client/gui-qt/dialogs.cpp:1337 client/gui-sdl/diplomat_dialog.c:739
 #: data/Freeciv.in:2460
 msgid "Sabotage Enemy Unit"
 msgstr "Sabotejar unitat enemiga"
 
-#: client/gui-qt/dialogs.cpp:1340
+#: client/gui-qt/dialogs.cpp:1341
 msgid "Do nothing"
 msgstr "No fer res"
 
-#: client/gui-qt/dialogs.cpp:1398 data/Freeciv.in:2392
+#: client/gui-qt/dialogs.cpp:1399 data/Freeciv.in:2392
 msgid "Steal"
 msgstr "Robar"
 
-#: client/gui-qt/dialogs.cpp:1733 common/events.c:123 common/events.c:130
+#: client/gui-qt/dialogs.cpp:1734 common/events.c:123 common/events.c:130
 #: data/Freeciv.in:2434
 msgid "Sabotage"
 msgstr "Sabotatge"
 
-#: client/gui-qt/dialogs.cpp:1833
+#: client/gui-qt/dialogs.cpp:1834
 msgid "Are you sure you want to disband that %1 unit?"
 msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "Segur que voleu desmobilitzar aquesta unitat %1?"
 msgstr[1] "Segur que voleu desmobilitzar aquestes unitats %1?"
 
-#: client/gui-qt/dialogs.cpp:1837 client/gui-qt/pages.cpp:1347
+#: client/gui-qt/dialogs.cpp:1838 client/gui-qt/pages.cpp:1347
 #: client/gui-qt/voteinfo_bar.cpp:36 client/gui-sdl/citydlg.c:1214
 #: client/gui-sdl/cma_fe.c:344 client/gui-sdl/diplodlg.c:1401
 #: client/gui-sdl/diplomat_dialog.c:1236 client/gui-sdl/diplomat_dialog.c:1460
@@ -6209,7 +6209,7 @@ msgstr[1] "Segur que voleu desmobilitzar aquestes unitats %1?"
 msgid "Yes"
 msgstr "Sí"
 
-#: client/gui-qt/dialogs.cpp:1838 client/gui-qt/pages.cpp:1349
+#: client/gui-qt/dialogs.cpp:1839 client/gui-qt/pages.cpp:1349
 #: client/gui-qt/voteinfo_bar.cpp:37 client/gui-sdl/citydlg.c:1203
 #: client/gui-sdl/cma_fe.c:353 client/gui-sdl/diplodlg.c:1391
 #: client/gui-sdl/diplomat_dialog.c:1247 client/gui-sdl/diplomat_dialog.c:1470
@@ -6225,49 +6225,49 @@ msgstr "Sí"
 msgid "No"
 msgstr "No"
 
-#: client/gui-qt/dialogs.cpp:1841
+#: client/gui-qt/dialogs.cpp:1842
 msgid "Disband units"
 msgstr "Desmobilitzar unitats"
 
-#: client/gui-qt/dialogs.cpp:2024
+#: client/gui-qt/dialogs.cpp:2025
 msgid "Help build Wonder (%1 remaining)"
 msgstr "Ajudar a construir la Meravella (en queden %1)"
 
 #. TRANS: MP = Movement points
-#: client/gui-qt/dialogs.cpp:2217
+#: client/gui-qt/dialogs.cpp:2221
 msgid "MP:"
 msgstr "PM:"
 
 #. TRANS: HP - hit points
-#: client/gui-qt/dialogs.cpp:2304 client/gui-qt/mapview.cpp:1718
+#: client/gui-qt/dialogs.cpp:2308 client/gui-qt/mapview.cpp:1686
 msgid "%1 HP:%2/%3"
 msgstr "%1 PV:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:2308
+#: client/gui-qt/dialogs.cpp:2312
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 unitat"
 msgstr[1] "%1 unitats"
 
-#: client/gui-qt/diplodlg.cpp:262 client/gui-sdl/diplodlg.c:560
+#: client/gui-qt/diplodlg.cpp:281 client/gui-sdl/diplodlg.c:560
 #: data/Freeciv.in:392 data/Freeciv.in:401
 msgid "Maps"
 msgstr "Mapes"
 
-#: client/gui-qt/diplodlg.cpp:272 client/gui-sdl/diplodlg.c:648
+#: client/gui-qt/diplodlg.cpp:291 client/gui-sdl/diplodlg.c:648
 #: client/gui-sdl/helpdlg.c:1990 data/Freeciv.in:410 data/Freeciv.in:419
 msgid "Advances"
 msgstr "Avenços"
 
-#: client/gui-qt/diplodlg.cpp:328 client/gui-sdl/diplodlg.c:546
+#: client/gui-qt/diplodlg.cpp:347 client/gui-sdl/diplodlg.c:546
 msgid "Give shared vision"
 msgstr "Donar visió compartida"
 
-#: client/gui-qt/diplodlg.cpp:335 client/gui-sdl/diplodlg.c:599
+#: client/gui-qt/diplodlg.cpp:354 client/gui-sdl/diplodlg.c:599
 msgid "Give embassy"
 msgstr "Donar ambaixada"
 
-#: client/gui-qt/diplodlg.cpp:344 client/gui-sdl/diplodlg.c:489
+#: client/gui-qt/diplodlg.cpp:363 client/gui-sdl/diplodlg.c:489
 #: data/Freeciv.in:510
 msgid "Pacts"
 msgstr "Pactes"
@@ -6280,16 +6280,16 @@ msgstr "Benvingut a Freeciv"
 msgid "This is Qt-client for Freeciv."
 msgstr "Això és el client-Qt de Freeciv."
 
-#: client/gui-qt/fc_client.cpp:481 client/gui-qt/pages.cpp:1465
+#: client/gui-qt/fc_client.cpp:482 client/gui-qt/pages.cpp:1465
 msgid "Don't Observe"
 msgstr "No Observar"
 
-#: client/gui-qt/fc_client.cpp:484 client/gui-qt/pages.cpp:578
+#: client/gui-qt/fc_client.cpp:485 client/gui-qt/pages.cpp:578
 #: client/gui-qt/pages.cpp:1467 client/gui-qt/pages.cpp:1556
 msgid "Observe"
 msgstr "Observar"
 
-#: client/gui-qt/fc_client.cpp:853
+#: client/gui-qt/fc_client.cpp:861
 msgid ""
 "Number of Players\n"
 "(including AI):"
@@ -6297,19 +6297,19 @@ msgstr ""
 "Nombre de Jugadors\n"
 "(comptant IA):"
 
-#: client/gui-qt/fc_client.cpp:854
+#: client/gui-qt/fc_client.cpp:862
 msgid "AI Skill Level:"
 msgstr "Nivell de Dificultat dels IA:"
 
-#: client/gui-qt/fc_client.cpp:855
+#: client/gui-qt/fc_client.cpp:863
 msgid "Ruleset Version:"
 msgstr "Versió de Joc de Regles:"
 
-#: client/gui-qt/fc_client.cpp:878
+#: client/gui-qt/fc_client.cpp:886
 msgid "More Game Options"
 msgstr "Més Opcions de Joc"
 
-#: client/gui-qt/fc_client.cpp:929
+#: client/gui-qt/fc_client.cpp:937
 msgid "Set server options"
 msgstr "Fixar les opcions del servidor."
 
@@ -6436,27 +6436,27 @@ msgstr "La producció de la casella es converteix en %1, %2, %3"
 msgid "Output (Food, Shields, Trade) of a tile where the resource is present."
 msgstr "Producció (Menjar, Escuts, Comerç) d'una casella on hi ha el recurs."
 
-#: client/gui-qt/mapview.cpp:1143
+#: client/gui-qt/mapview.cpp:1144
 msgid ""
 "Shows your current luxury/science/tax rates. Use mouse wheel to change them"
 msgstr ""
 "Mostra les proporcions actuals de luxes/ciència/impostos; utilitzeu la roda "
 "del ratolí per modificar-les."
 
-#: client/gui-qt/mapview.cpp:1326
+#: client/gui-qt/mapview.cpp:1328
 msgid "%1 (Turn:%2)"
 msgstr "%1 (Torn:%2)"
 
-#: client/gui-qt/mapview.cpp:1334
+#: client/gui-qt/mapview.cpp:1336
 msgid "Gold:%1 (+%2)"
 msgstr "Or:%1 (+%2)"
 
-#: client/gui-qt/mapview.cpp:1338
+#: client/gui-qt/mapview.cpp:1340
 msgid "Gold:%1 (%2)"
 msgstr "Or:%1 (%2)"
 
 #. TRANS: unitX from cityZ
-#: client/gui-qt/mapview.cpp:1714
+#: client/gui-qt/mapview.cpp:1682
 msgid "%1 from %2"
 msgstr "%1 de %2"
 
@@ -6646,8 +6646,8 @@ msgstr "Activar Tots els de la Casella"
 msgid "Set Home City"
 msgstr "Establir Ciutat Origen"
 
-#: client/gui-qt/menu.cpp:674 client/gui-qt/repodlgs.cpp:645
-#: client/gui-qt/repodlgs.cpp:662 client/gui-sdl/dialogs.c:720
+#: client/gui-qt/menu.cpp:674 client/gui-qt/repodlgs.cpp:676
+#: client/gui-qt/repodlgs.cpp:693 client/gui-sdl/dialogs.c:720
 #: data/Freeciv.in:1969
 msgid "Upgrade"
 msgstr "Millorar"
@@ -6929,15 +6929,15 @@ msgstr "<b>Tecnologies desconegudes per tu:</b>"
 msgid "<b>Techs known by %1:</b>"
 msgstr "<b>Tecnologies conegudes per %1:</b>"
 
-#: client/gui-qt/plrdlg.cpp:565 data/Freeciv.in:3286
+#: client/gui-qt/plrdlg.cpp:567 data/Freeciv.in:3286
 msgid "Meet"
 msgstr "Cimera"
 
-#: client/gui-qt/plrdlg.cpp:567 client/gui-sdl/diplodlg.c:1533
+#: client/gui-qt/plrdlg.cpp:569 client/gui-sdl/diplodlg.c:1533
 msgid "Cancel Treaty"
 msgstr "Cancel·lar el tractat"
 
-#: client/gui-qt/plrdlg.cpp:569
+#: client/gui-qt/plrdlg.cpp:571
 msgid "Withdraw Vision"
 msgstr "Retirar Visió"
 
@@ -6945,11 +6945,11 @@ msgstr "Retirar Visió"
 msgid "%1 - max rate: %2%"
 msgstr "%1 - taxa màxima: %2%"
 
-#: client/gui-qt/repodlgs.cpp:643
+#: client/gui-qt/repodlgs.cpp:674
 msgid "Find Nearest"
 msgstr "Trobar el Més Proper"
 
-#: client/gui-qt/repodlgs.cpp:1280
+#: client/gui-qt/repodlgs.cpp:1311
 msgid "Disband Results"
 msgstr "Resultats de la Desmobilització"
 
@@ -12523,11 +12523,11 @@ msgstr "Inici del torn %d"
 msgid "Welcome"
 msgstr "Benvingut"
 
-#: client/packhand.c:2151
+#: client/packhand.c:2152
 msgid "AI mode is now ON."
 msgstr "El mode IA està actiu ara."
 
-#: client/packhand.c:2153
+#: client/packhand.c:2154
 msgid "AI mode is now OFF."
 msgstr "El mode IA està apagat ara."
 
@@ -24477,7 +24477,7 @@ msgid "Popup City"
 msgstr "Obrir ciutat"
 
 #. TRANS: Game state for local server
-#: data/Freeciv.in:3381 data/Freeciv.in:3382 server/sernet.c:1525
+#: data/Freeciv.in:3381 data/Freeciv.in:3382 server/sernet.c:1532
 msgid "Pregame"
 msgstr "Abans de començar"
 
@@ -34630,8 +34630,8 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "small. Setting map size to the minimal size %d."
 msgstr ""
-"La mida de mapa calculada per %d caselles (de terra) per jugador i %d jugador"
-"(s) és massa petita. Es deixa la mida de mapa al mínim de %d."
+"La mida de mapa calculada per %d caselles (de terra) per jugador i %d "
+"jugador(s) és massa petita. Es deixa la mida de mapa al mínim de %d."
 
 #: server/generator/mapgen_topology.c:320
 #, c-format
@@ -34639,14 +34639,14 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "large. Setting map size to the maximal size %d."
 msgstr ""
-"La mida de mapa calculada per %d caselles (de terra) per jugador i %d jugador"
-"(s) és massa gran. Es deixa la mida de mapa al màxim de %d."
+"La mida de mapa calculada per %d caselles (de terra) per jugador i %d "
+"jugador(s) és massa gran. Es deixa la mida de mapa al màxim de %d."
 
 #: server/generator/mapgen_topology.c:326
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
-"(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d "
+"player(s))."
 msgstr ""
 "Es posa la mida de mapa a %d (aprox. %d caselles (de terra) per cadascun "
 "dels %d jugador(s))."
@@ -35587,18 +35587,18 @@ msgstr "temporitzador de ping"
 msgid "client disconnected"
 msgstr "client desconnectat"
 
-#: server/sernet.c:1098
+#: server/sernet.c:1099
 #, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Servidor: adreça incorrecta: <%s:%d>."
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1529
+#: server/sernet.c:1536
 msgid "Running"
 msgstr "En execució"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1533 server/settings.c:301
+#: server/sernet.c:1540 server/settings.c:301
 msgid "Game over"
 msgstr "Partida acabada"
 
@@ -38227,53 +38227,53 @@ msgstr ""
 "Els %s han llançat una nau espacial! S'espera que arribi a Alpha Centauri el "
 "%s."
 
-#: server/spacerace.c:212
+#: server/spacerace.c:222
 msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr ""
 "S'ha rebut una acció de la nau espacial, però tu no tens cap nau espacial!"
 
-#: server/spacerace.c:218
+#: server/spacerace.c:232
 msgid "You can't modify your spaceship after launch!"
 msgstr "No pots modificar la teva nau espacial un cop ha estat llançada!"
 
-#: server/spacerace.c:228
+#: server/spacerace.c:246
 msgid "You don't have any unplaced Space Structurals!"
 msgstr "No tens cap Estructura Espacial sense col·locar !"
 
-#: server/spacerace.c:234
+#: server/spacerace.c:255
 msgid "That Space Structural would not be connected!"
 msgstr "Aquesta Estructura Espacial no s'ha pogut connectar !"
 
-#: server/spacerace.c:248 server/spacerace.c:268
+#: server/spacerace.c:274 server/spacerace.c:302
 msgid "You don't have any unplaced Space Components!"
 msgstr "No tens cap Component Espacial sense col·locar!"
 
-#: server/spacerace.c:253
+#: server/spacerace.c:282
 msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr ""
 "La teva nau espacial ja té el nombre màxim de components de combustible!"
 
-#: server/spacerace.c:274
+#: server/spacerace.c:311
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
 msgstr "La teva nau espacial ja té el nombre màxim de components de propulsió!"
 
-#: server/spacerace.c:290 server/spacerace.c:311 server/spacerace.c:332
+#: server/spacerace.c:332 server/spacerace.c:361 server/spacerace.c:390
 msgid "You don't have any unplaced Space Modules!"
 msgstr "No tens cap Mòdul Espacial sense col·locar!"
 
-#: server/spacerace.c:295
+#: server/spacerace.c:340
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
 msgstr "La teva nau espacial ja té el nombre màxim de mòduls habitables!"
 
-#: server/spacerace.c:316
+#: server/spacerace.c:369
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
 msgstr "La teva nau espacial ja té el nombre màxim de mòduls de suport vital!"
 
-#: server/spacerace.c:337
+#: server/spacerace.c:398
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr "La teva nau espacial ja té el nombre màxim de plafons solars!"
 
-#: server/spacerace.c:356
+#: server/spacerace.c:422
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Sense el guiament de la capital, la nau espacial %s s'ha perdut!"

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-10 17:12+0100\n"
+"POT-Creation-Date: 2016-01-19 20:35+0000\n"
 "PO-Revision-Date: 2015-12-19 10:21+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -3743,7 +3743,7 @@ msgid "Shift+Return"
 msgstr "Maj+Entrée"
 
 #: client/gui-gtk-2.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1364
-#: client/gui-qt/menu.cpp:782
+#: client/gui-qt/menu.cpp:782 client/gui-qt/pages.cpp:635
 msgid "?noun:View"
 msgstr "Vue"
 
@@ -38628,57 +38628,57 @@ msgstr ""
 "Les %s ont lancé un vaisseau spatial ! Son arrivée sur Alpha du Centaure est "
 "prévue en %s."
 
-#: server/spacerace.c:212
+#: server/spacerace.c:222
 msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr ""
 "Ordre donné au vaisseau spatial bien reçu, mais vous n'avez pas de vaisseau "
 "spatial !"
 
-#: server/spacerace.c:218
+#: server/spacerace.c:232
 msgid "You can't modify your spaceship after launch!"
 msgstr ""
 "Vous ne pouvez pas modifier votre vaisseau spatial après son lancement !"
 
-#: server/spacerace.c:228
+#: server/spacerace.c:246
 msgid "You don't have any unplaced Space Structurals!"
 msgstr "Vous n'avez pas de Structure Spatiale non placée !"
 
-#: server/spacerace.c:234
+#: server/spacerace.c:255
 msgid "That Space Structural would not be connected!"
 msgstr "Cette Structure Spatiale ne serait pas connectée !"
 
-#: server/spacerace.c:248 server/spacerace.c:268
+#: server/spacerace.c:274 server/spacerace.c:302
 msgid "You don't have any unplaced Space Components!"
 msgstr "Vous n'avez pas de Composant Spatial non placé !"
 
-#: server/spacerace.c:253
+#: server/spacerace.c:282
 msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr "Votre vaisseau a déjà le maximum de Réservoirs de Carburant !"
 
-#: server/spacerace.c:274
+#: server/spacerace.c:311
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
 msgstr "Votre vaisseau spatial a déjà le nombre maximum de Propulseurs !"
 
-#: server/spacerace.c:290 server/spacerace.c:311 server/spacerace.c:332
+#: server/spacerace.c:332 server/spacerace.c:361 server/spacerace.c:390
 msgid "You don't have any unplaced Space Modules!"
 msgstr "Vous n'avez pas de Module Spatial non placé !"
 
-#: server/spacerace.c:295
+#: server/spacerace.c:340
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
 msgstr ""
 "Votre vaisseau spatial a déjà le nombre maximum de Modules d'Habitation !"
 
-#: server/spacerace.c:316
+#: server/spacerace.c:369
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
 msgstr ""
 "Votre vaisseau spatial a déjà le nombre maximum de Modules "
 "d'Approvisionnement !"
 
-#: server/spacerace.c:337
+#: server/spacerace.c:398
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr "Votre vaisseau spatial a déjà le nombre maximum de Panneaux Solaires !"
 
-#: server/spacerace.c:356
+#: server/spacerace.c:422
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr ""
