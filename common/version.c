@@ -38,7 +38,7 @@
 ***********************************************************************/
 const char *freeciv_name_version(void)
 {
-  static char msgbuf[128];
+  static char msgbuf[256];
 
 #if IS_BETA_VERSION
   fc_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s %s"),
