@@ -146,6 +146,24 @@ AC_ARG_ENABLE([server],
 esac], [server=yes])
 AM_CONDITIONAL(SERVER, test x$server = xyes)
 
+dnl Host type variable defaults
+MINGW32=no
+AMIGA=no
+
+dnl Settings specific to host OS
+case "$host_os" in
+
+  *mingw32*)
+    dnl Windows-specific settings
+    MINGW32=yes ;;
+esac
+
+dnl Networking headers
+AC_CHECK_HEADERS([sys/types.h])
+if test "x$MINGW32" != "xyes" ; then
+  AC_CHECK_HEADERS([sys/socket.h])
+fi
+
 dnl Check getaddrinfo just once here, and remember the result
 AC_CHECK_FUNCS([getaddrinfo], [have_getaddrinfo=yes])
 
@@ -168,9 +186,12 @@ if test x$ipv6 != xno ; then
   if test x$enable_ipv6 = xyes ; then
     AC_MSG_CHECKING([for AF_INET6])
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-      ]], [[return AF_INET6;]])], [AC_MSG_RESULT([yes])],
+#endif]], [[return AF_INET6;]])], [AC_MSG_RESULT([yes])],
        [AC_MSG_RESULT([no])
         enable_ipv6=no])
   fi
@@ -645,9 +666,7 @@ if test x`$UNAME -s` = xBeOS ; then
   # necessary with a working automake.
 fi
 
-dnl Defaults
-MINGW32=no
-AMIGA=no
+dnl Defaults to override with host specific values
 HOST_PATH_SEPARATOR=":"
 
 dnl Settings specific to host OS
@@ -655,7 +674,6 @@ case "$host_os" in
 
   *mingw32*)
     dnl Windows-specific settings
-    MINGW32=yes
     AC_CHECK_TOOL([WINDRES], [windres])
     if test -z $WINDRES; then
 	  AC_MSG_ERROR([*** 'windres' missing.  Install binutils, fix your \$PATH, or set \$WINDRES manually. ***])
@@ -1117,7 +1135,7 @@ AC_CHECK_LIB(nls,main)
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS([fcntl.h sys/time.h sys/types.h unistd.h sys/utsname.h \
+AC_CHECK_HEADERS([fcntl.h sys/time.h unistd.h sys/utsname.h \
                   sys/file.h libintl.h signal.h strings.h execinfo.h \
                   libgen.h locale.h])
 AC_HEADER_STDBOOL
@@ -1125,7 +1143,7 @@ dnl Avoid including the unix emulation layer if we build mingw executables
 dnl There would be type conflicts between winsock and bsd/unix includes
 if test "x$MINGW32" != "xyes"; then
   AC_CHECK_HEADERS(arpa/inet.h netdb.h netinet/in.h pwd.h sys/ioctl.h \
-                   sys/select.h sys/signal.h sys/socket.h sys/termio.h \
+                   sys/select.h sys/signal.h sys/termio.h \
                    sys/uio.h termios.h)
 fi
 if test "x$gui_xaw" = "xyes" ; then
