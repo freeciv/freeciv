@@ -3531,7 +3531,7 @@ static const char *setting_bitwise_to_str(const struct setting *pset,
   int bit;
 
   if (pretty) {
-    char buf2[64];
+    char buf2[256];
     struct astring astr = ASTRING_INIT;
     struct strvec *vec = strvec_new();
     size_t len;
