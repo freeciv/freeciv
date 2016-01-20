@@ -21,7 +21,7 @@ gfx = "hexemplio/rivers"
 
 x_top_left = 1
 y_top_left = 1
-dx = 128
+dx = 126
 dy = 64
 pixel_border = 1
 
