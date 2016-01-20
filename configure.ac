@@ -221,8 +221,28 @@ AC_ARG_ENABLE([ipv6],
 esac], [ipv6=test])
 if test x$ipv6 != xno ; then
   if test "x$have_getaddrinfo" = "xyes" ; then
-    AC_CHECK_FUNCS([inet_pton inet_ntop getnameinfo],
-[enable_ipv6=yes], [enable_ipv6=no])
+    enable_ipv6=yes
+    AC_CHECK_FUNCS([inet_pton], [],
+       [AC_MSG_CHECKING([inet_pton() as a macro])
+      AC_LINK_IFELSE([AC_LANG_PROGRAM([
+#ifdef FREECIV_HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif], [inet_pton(0, NULL, NULL);])], [
+      AC_MSG_RESULT([yes])], [enable_ipv6=no])])
+    AC_CHECK_FUNCS([inet_ntop], [],
+       [AC_MSG_CHECKING([inet_ntop() as a macro])
+      AC_LINK_IFELSE([AC_LANG_PROGRAM([
+#ifdef FREECIV_HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif], [inet_ntop(0, NULL, NULL, 0);])], [
+      AC_MSG_RESULT([yes])], [enable_ipv6=no])])
+    AC_CHECK_FUNCS([getnameinfo], [],
+       [AC_MSG_CHECKING([getnameinfo() as a macro])
+      AC_LINK_IFELSE([AC_LANG_PROGRAM([
+#ifdef FREECIV_HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif], [getnameinfo(NULL, 0, NULL, 0, NULL, 0, 0);])], [
+      AC_MSG_RESULT([yes])], [enable_ipv6=no])])
   else
      enable_ipv6=no
   fi
