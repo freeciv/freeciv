@@ -90,6 +90,7 @@ static void found_city(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
+static void unit_home_city(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
@@ -136,6 +137,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_SPY_NUKE] = spy_nuke_city;
   action_function[ACTION_DESTROY_CITY] = destroy_city;
   action_function[ACTION_RECYCLE_UNIT] = unit_recycle;
+  action_function[ACTION_HOME_CITY] = unit_home_city;
 
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
@@ -1230,11 +1232,27 @@ static void unit_recycle(QVariant data1, QVariant data2)
 }
 
 /***************************************************************************
+  Action Home City for choice dialog
+***************************************************************************/
+static void unit_home_city(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int tgt_city_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != game_city_by_number(tgt_city_id)) {
+    request_do_action(ACTION_HOME_CITY,
+                      actor_id, tgt_city_id, 0, "");
+  }
+}
+
+/***************************************************************************
   Empty action for choice dialog (just do nothing)
 ***************************************************************************/
 static void keep_moving(QVariant data1, QVariant data2)
 {
 }
+
 /***************************************************************************
   Starts revolution with targeted government as target or anarchy otherwise
 ***************************************************************************/

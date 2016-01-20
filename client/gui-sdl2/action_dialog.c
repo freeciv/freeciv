@@ -912,6 +912,28 @@ static int disband_unit_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Set Home City"
+*****************************************************************/
+static int home_city_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])
+        && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
+      request_do_action(ACTION_HOME_CITY,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0, "");
+    }
+
+    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/****************************************************************
   Close diplomat dialog.
 *****************************************************************/
 static int diplomat_close_callback(struct widget *pWidget)
@@ -962,6 +984,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_SPY_NUKE] = spy_nuke_city_callback,
   [ACTION_DESTROY_CITY] = destroy_city_callback,
   [ACTION_RECYCLE_UNIT] = unit_recycle_callback,
+  [ACTION_HOME_CITY] = home_city_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,
