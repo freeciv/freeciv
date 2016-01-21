@@ -50,7 +50,7 @@ tiles = { "row", "column", "tag"
   3, 3, "unit.loaded"
 
   4, 0, "unit.irrigate"
-  4, 1, "unit.mine"
+  4, 1, "unit.plant"
   4, 2, "unit.transform"
   4, 3, "unit.pollution"
   4, 4, "unit.fallout"
