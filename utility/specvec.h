@@ -12,12 +12,12 @@
 ***********************************************************************/
 
 /* specvectors: "specific vectors".
-   
+
    This file is used to implement resizable arrays.
-   
+
    Before including this file, you must define the following:
      SPECVEC_TAG - this tag will be used to form names for functions etc.
-   You may also define:  
+   You may also define:
      SPECVEC_TYPE - the typed vector will contain pointers to this type;
    If SPECVEC_TYPE is not defined, then 'struct SPECVEC_TAG' is used.
    At the end of this file, these (and other defines) are undef-ed.
@@ -29,8 +29,8 @@
       void foo_vector_init(struct foo_vector *tthis);
       void foo_vector_reserve(struct foo_vector *tthis, int n);
       int  foo_vector_size(const struct foo_vector *tthis);
-      foo_t *foo_vector_get(struct foo_vector *tthis, int index);
-      void foo_vector_copy(struct foo_vector *to, 
+      foo_t *foo_vector_get(struct foo_vector *tthis, int svindex);
+      void foo_vector_copy(struct foo_vector *to,
                 const struct foo_vector *from);
       void foo_vector_free(struct foo_vector *tthis);
 
@@ -44,8 +44,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <string.h>		/* for memcpy */
+#include <string.h>             /* for memcpy */
 
+/* utility */
 #include "mem.h"
 
 #ifndef SPECVEC_TAG
@@ -94,13 +95,13 @@ static inline size_t SPECVEC_FOO(_vector_size) (const SPECVEC_VECTOR *tthis)
 }
 
 static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (const SPECVEC_VECTOR
-						      *tthis,
-						      int index)
+                                                      *tthis,
+                                                      int svindex)
 {
-  if (index == -1 && tthis->size > 0) {
+  if (svindex == -1 && tthis->size > 0) {
     return tthis->p + tthis->size - 1;
-  } else if (index >= 0 && (size_t)index < tthis->size) {
-    return tthis->p + index;
+  } else if (svindex >= 0 && (size_t)svindex < tthis->size) {
+    return tthis->p + svindex;
   } else {
     return NULL;
   }
