@@ -472,6 +472,14 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     action_enabler_add(enabler);
 
+    /* User initiated unit upgrade is now action enabler controlled. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_UPGRADE_UNIT;
+
+    action_enabler_add(enabler);
+
     /* Update action enablers. */
     action_enablers_iterate(ae) {
       /* The rule that Help Wonder only can help wonders now lives in the

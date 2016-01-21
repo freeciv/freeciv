@@ -1014,10 +1014,6 @@ PACKET_UNIT_UNLOAD = 76; cs, dsend
   UNIT cargo_id, transporter_id;
 end
 
-PACKET_UNIT_UPGRADE = 77; cs, dsend
-  UNIT unit_id;
-end
-
 PACKET_UNIT_PARADROP_TO = 80; cs, dsend
   UNIT unit_id;
   TILE tile;

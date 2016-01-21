@@ -253,6 +253,17 @@ Actions done by a unit against a city
    homeless is a big benefit)
  * can't set existing home city as new home city
 
+"Upgrade Unit" - Upgrade the actor unit using the target's facilities.
+ * UI name can be set using ui_upgrade_unit.
+ * actor must be on the same tile as the target.
+ * actor player must have enough gold to pay for the upgrade.
+ * actor unit must have a type to upgrade to (obsoleted_by).
+ * actor unit's upgraded form must be able to exist at its current
+   location.
+ * actor unit's upgraded form must have room in its current transport.
+ * target player must be able to build the unit upgraded to
+ * target city must be domestic.
+
 Actions done by a unit against another unit
 ===========================================
 "Sabotage Unit" - Halve the target unit's hit points.

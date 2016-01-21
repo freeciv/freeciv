@@ -974,6 +974,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile,
                      action_by_number(ACTION_HOME_CITY)->ui_name,
                      "actions.ui_name_home_city");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_UPGRADE_UNIT)->ui_name,
+                     "actions.ui_upgrade_unit");
 
   sect_idx = 0;
   action_enablers_iterate(pae) {

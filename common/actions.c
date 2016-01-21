@@ -188,6 +188,12 @@ void actions_init(void)
                  /* Illegal to perform to a target on another tile to
                   * keep the rules exactly as they were for now. */
                  0, 0);
+  actions[ACTION_UPGRADE_UNIT] =
+      action_new(ACTION_UPGRADE_UNIT, ATK_CITY,
+                 FALSE, FALSE, TRUE,
+                 /* Illegal to perform to a target on another tile to
+                  * keep the rules exactly as they were for now. */
+                 0, 0);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -1302,6 +1308,14 @@ is_action_possible(const enum gen_action wanted_action,
     }
   }
 
+  if (wanted_action == ACTION_UPGRADE_UNIT) {
+    /* Reason: Keep the old rules. */
+    /* Info leak: */
+    if (unit_upgrade_test(actor_unit, FALSE) != UU_OK) {
+      return TRI_NO;
+    }
+  }
+
   return TRI_YES;
 }
 
@@ -2022,6 +2036,10 @@ action_prob(const enum gen_action wanted_action,
     chance = 200;
     break;
   case ACTION_HOME_CITY:
+    /* No battle is fought first. */
+    chance = 200;
+    break;
+  case ACTION_UPGRADE_UNIT:
     /* No battle is fought first. */
     chance = 200;
     break;

@@ -161,6 +161,9 @@ static bool unit_do_destroy_city(struct player *act_player,
 static bool do_unit_disband(struct player *pplayer, struct unit *punit);
 static bool do_unit_change_homecity(struct unit *punit,
                                     struct city *pcity);
+static bool do_unit_upgrade(struct player *pplayer,
+                            struct unit *punit, struct city *pcity,
+                            enum action_requester ordered_by);
 
 /**************************************************************************
   Handle airlift request.
@@ -215,12 +218,13 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
   conn_list_do_buffer(pplayer->connections);
   unit_list_iterate(pplayer->units, punit) {
     if (unit_type_get(punit) == from_unittype) {
-      enum unit_upgrade_result result = unit_upgrade_test(punit, FALSE);
+      struct city *pcity = tile_city(unit_tile(punit));
 
-      if (UU_OK == result) {
+      if (is_action_enabled_unit_on_city(ACTION_UPGRADE_UNIT, punit, pcity)
+          && unit_perform_action(pplayer, punit->id, pcity->id, 0, "",
+                                 ACTION_UPGRADE_UNIT, ACT_REQ_SS_AGENT)) {
         number_of_upgraded_units++;
-        transform_unit(punit, to_unittype, FALSE);
-      } else if (UU_NO_MONEY == result) {
+      } else if (UU_NO_MONEY == unit_upgrade_test(punit, FALSE)) {
         break;
       }
     }
@@ -250,35 +254,43 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
 }
 
 /**************************************************************************
- Upgrade a single unit.
+  Upgrade the unit to a newer unit type.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 **************************************************************************/
-void handle_unit_upgrade(struct player *pplayer, int unit_id)
+static bool do_unit_upgrade(struct player *pplayer,
+                            struct unit *punit, struct city *pcity,
+                            enum action_requester ordered_by)
 {
   char buf[512];
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
-
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_upgrade() invalid unit %d", unit_id);
-    return;
-  }
 
   if (UU_OK == unit_upgrade_info(punit, buf, sizeof(buf))) {
     struct unit_type *from_unit = unit_type_get(punit);
     struct unit_type *to_unit = can_upgrade_unittype(pplayer, from_unit);
-    int cost = unit_upgrade_price(pplayer, from_unit, to_unit);
 
     transform_unit(punit, to_unit, FALSE);
     send_player_info_c(pplayer, pplayer->connections);
-    notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
-                  PL_("%s upgraded to %s for %d gold.",
-                      "%s upgraded to %s for %d gold.", cost),
-                  utype_name_translation(from_unit),
-                  unit_link(punit),
-                  cost);
+
+    if (ordered_by == ACT_REQ_PLAYER) {
+      int cost = unit_upgrade_price(pplayer, from_unit, to_unit);
+
+      notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
+                    PL_("%s upgraded to %s for %d gold.",
+                        "%s upgraded to %s for %d gold.", cost),
+                    utype_name_translation(from_unit),
+                    unit_link(punit),
+                    cost);
+    }
+
+    return TRUE;
   } else {
-    notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
-                  "%s", buf);
+    if (ordered_by == ACT_REQ_PLAYER) {
+      notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
+                    "%s", buf);
+    }
+
+    return FALSE;
   }
 }
 
@@ -1862,6 +1874,21 @@ bool unit_perform_action(struct player *pplayer,
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
         return do_unit_change_homecity(actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
+      }
+    }
+    break;
+  case ACTION_UPGRADE_UNIT:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        return do_unit_upgrade(pplayer, actor_unit, pcity,
+                               requester);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -4121,6 +4148,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_RECYCLE_UNIT:
       case ACTION_DISBAND_UNIT:
       case ACTION_HOME_CITY:
+      case ACTION_UPGRADE_UNIT:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

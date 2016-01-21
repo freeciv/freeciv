@@ -1865,7 +1865,7 @@ void request_unit_upgrade(struct unit *punit)
   struct city *pcity=tile_city(unit_tile(punit));
 
   if (pcity) {
-    dsend_packet_unit_upgrade(&client.conn, punit->id);
+    request_do_action(ACTION_UPGRADE_UNIT, punit->id, pcity->id, 0, "");
   }
 }
 
