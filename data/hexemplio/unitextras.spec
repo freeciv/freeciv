@@ -78,7 +78,7 @@ tiles = { "row", "column", "tag"
 
   4, 0, "unit.rest"
   4, 1, "unit.irrigate"
-  4, 2, "unit.mine"
+  4, 2, "unit.plant"
   4, 3, "unit.transform"
   4, 4, "unit.pillage"
   4, 5, "unit.pollution"

@@ -268,7 +268,7 @@ struct named_sprites {
       *fortifying,
       *go_to,			/* goto is a C keyword :-) */
       *irrigate,
-      *mine,
+      *plant,
       *pillage,
       *sentry,
       *stack,
@@ -2651,7 +2651,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.fortifying,	"unit.fortifying");
   SET_SPRITE(unit.go_to,	"unit.goto");
   SET_SPRITE(unit.irrigate,     "unit.irrigate"); 
-  SET_SPRITE(unit.mine,         "unit.mine");
+  SET_SPRITE(unit.plant,        "unit.plant");
   SET_SPRITE(unit.pillage,	"unit.pillage");
   SET_SPRITE(unit.sentry,	"unit.sentry");
   SET_SPRITE(unit.convert,      "unit.convert");      
@@ -3904,7 +3904,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     switch (punit->activity) {
     case ACTIVITY_MINE:
       if (punit->activity_target == NULL) {
-        s = t->sprites.unit.mine;
+        s = t->sprites.unit.plant;
       } else {
         s = t->sprites.extras[extra_index(punit->activity_target)].activity;
       }
@@ -5545,7 +5545,7 @@ int fill_sprite_array(struct tileset *t,
         switch (ptask->act) {
         case ACTIVITY_MINE:
           if (ptask->tgt == NULL) {
-            ADD_SPRITE_SIMPLE(t->sprites.unit.mine);
+            ADD_SPRITE_SIMPLE(t->sprites.unit.plant);
           } else {
             ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
           }
