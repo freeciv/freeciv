@@ -78,6 +78,7 @@ struct civ_map {
       enum mapsize_type mapsize; /* how the map size is defined */
       int size; /* used to calculate [xy]size */
       int tilesperplayer; /* tiles per player; used to calculate size */
+      int seed_setting;
       int seed;
       int riches;
       int huts;

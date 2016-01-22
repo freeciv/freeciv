@@ -1527,13 +1527,12 @@ static struct setting settings[] = {
               "as a result of nuclear war."), NULL, NULL,
            GAME_DEFAULT_NUCLEAR_WINTER)
 
-  GEN_INT("mapseed", game.map.server.seed,
+  GEN_INT("mapseed", game.map.server.seed_setting,
           SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
           N_("Map generation random seed"),
           N_("The same seed will always produce the same map; "
              "for zero (the default) a seed will be chosen based on "
-             "the time to give a random map. This setting is usually "
-             "only of interest while debugging the game."),
+             "the time to give a random map."),
           NULL, NULL, NULL,
           MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED)
 
@@ -1542,12 +1541,11 @@ static struct setting settings[] = {
    * These are done when the game starts, so these are historical and
    * fixed after the game has started.
    */
-  GEN_INT("gameseed", game.server.seed,
+  GEN_INT("gameseed", game.server.seed_setting,
           SSET_MAP_ADD, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
           N_("Game random seed"),
           N_("For zero (the default) a seed will be chosen based "
-             "on the current time. This setting is usually "
-             "only of interest while debugging the game."),
+             "on the current time."),
           NULL, NULL, NULL,
           GAME_MIN_SEED, GAME_MAX_SEED, GAME_DEFAULT_SEED)
 

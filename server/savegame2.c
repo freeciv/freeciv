@@ -2405,6 +2405,10 @@ static void sg_save_game(struct savedata *saving)
   secfile_insert_int(saving->file, game.info.coolinglevel,
                      "game.coolinglevel");
 
+  /* For debugging purposes only */
+  secfile_insert_int(saving->file, game.server.seed,
+                     "game.random_seed");
+
   /* Global advances. */
   for (i = 0; i < game.control.num_tech_types; i++) {
     global_advances[i] = game.info.global_advances[i] ? '1' : '0';
@@ -2818,6 +2822,10 @@ static void sg_save_map(struct savedata *saving)
     /* No map. */
     return;
   }
+
+  /* For debugging purposes only */
+  secfile_insert_int(saving->file, game.map.server.seed,
+                     "map.random_seed");
 
   sg_save_map_tiles(saving);
   sg_save_map_startpos(saving);

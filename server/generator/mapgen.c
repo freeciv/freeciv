@@ -1378,7 +1378,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
    * set seed. */
   seed_rand = fc_rand(MAX_UINT32);
 
-  if (game.map.server.seed == 0) {
+  if (game.map.server.seed_setting == 0) {
     /* Create a "random" map seed. */
     game.map.server.seed = seed_rand & (MAX_UINT32 >> 1);
 #ifdef TESTMATIC_ENABLED
@@ -1387,6 +1387,8 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 #else /* TESTMATICE_ENABLED */
     log_debug("Setting map.seed:%d", game.map.server.seed);
 #endif /* TESTMATIC_ENABLED */
+  } else {
+    game.map.server.seed = game.map.server.seed_setting;
   }
 
   rstate = fc_rand_state();
