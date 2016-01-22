@@ -1441,13 +1441,17 @@ esac], [
 if test "x$cross_compiling" = "xyes" ; then
   sys_tolua_cmd=true
 else
-  sys_tolua_cmd=false
+  sys_tolua_cmd=test
 fi])
 
-if test "x$sys_tolua_cmd" = "xtrue" ; then
+if test "x$sys_tolua_cmd" = "xtrue" || test "x$sys_tolua_cmd" = "xtest" ; then
   AC_PATH_PROG([TOLUA], [tolua], [notfound])
-  if test x$TOLUA = xnotfound ; then
-    AC_MSG_ERROR([tolua command not found from the system])
+  if test "x$TOLUA" = "xnotfound" ; then
+    if test "x$sys_tolua_cmd" = "xtest" ; then
+      TOLUA="\$(top_builddir)/dependencies/tolua-5.2/src/bin/tolua$EXEEXT"
+    else
+      AC_MSG_ERROR([tolua command not found from the system])
+    fi
   fi
 elif test "x$sys_tolua_cmd" != "xfalse" ; then
   TOLUA=$sys_tolua_cmd
