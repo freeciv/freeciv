@@ -537,7 +537,7 @@ int client_main(int argc, char *argv[])
         announce = ANNOUNCE_IPV4;
       } else if (!strcasecmp(option, "none")) {
         announce = ANNOUNCE_NONE;
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
       } else if(!strcasecmp(option, "ipv6")) {
         announce = ANNOUNCE_IPV6;
 #endif /* IPv6 support */

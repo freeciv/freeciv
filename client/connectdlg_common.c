@@ -216,11 +216,11 @@ bool client_start_server(void)
   char scenscmdline[512];
 #endif /* !HAVE_WORKING_FORK -> WIN32_NATIVE */
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   enum fc_addr_family family = FC_ADDR_ANY;
 #else
   enum fc_addr_family family = FC_ADDR_IPV4;
-#endif /* IPV6_SUPPORT */
+#endif /* FREECIV_IPV6_SUPPORT */
 
   /* only one server (forked from this client) shall be running at a time */
   /* This also resets client_has_hack. */

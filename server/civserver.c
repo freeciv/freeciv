@@ -297,7 +297,7 @@ int main(int argc, char *argv[])
         srvarg.announce = ANNOUNCE_IPV4;
       } else if(!strcasecmp(option, "none")) {
         srvarg.announce= ANNOUNCE_NONE;
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
       } else if (!strcasecmp(option, "ipv6")) {
         srvarg.announce = ANNOUNCE_IPV6;
 #endif /* IPv6 support */

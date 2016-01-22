@@ -101,4 +101,7 @@
 /* liblzma is available */
 #undef FREECIV_HAVE_LIBLZMA
 
+/* IPv6 Support built in */
+#undef FREECIV_IPV6_SUPPORT
+
 #endif /* FC__FREECIV_CONFIG_H */
