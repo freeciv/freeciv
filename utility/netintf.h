@@ -94,9 +94,9 @@ typedef int socklen_t;
 union fc_sockaddr {
   struct sockaddr saddr;
   struct sockaddr_in saddr_in4;
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   struct sockaddr_in6 saddr_in6;
-#endif
+#endif /* FREECIV_IPV6_SUPPORT */
 };
 
 /* get 'struct sockaddr_list' and related functions: */

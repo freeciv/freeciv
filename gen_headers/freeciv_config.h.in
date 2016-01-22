@@ -107,4 +107,7 @@
 /* Location for freeciv to store its information */
 #undef FREECIV_STORAGE_DIR
 
+/* IPv6 Support built in */
+#undef FREECIV_IPV6_SUPPORT
+
 #endif /* FC__FREECIV_CONFIG_H */

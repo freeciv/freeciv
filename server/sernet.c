@@ -951,7 +951,7 @@ static int server_accept_connection(int sockfd)
   int new_sock;
   union fc_sockaddr fromend;
   bool nameinfo = FALSE;
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   char host[NI_MAXHOST], service[NI_MAXSERV];
   char dst[INET6_ADDRSTRLEN];
 #else  /* IPv6 support */
@@ -967,7 +967,7 @@ static int server_accept_connection(int sockfd)
     return -1;
   }
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (fromend.saddr.sa_family == AF_INET6) {
     inet_ntop(AF_INET6, &fromend.saddr_in6.sin6_addr,
               dst, sizeof(dst));
@@ -1004,7 +1004,7 @@ static int server_accept_connection(int sockfd)
     } conn_list_iterate_end;
   }
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   nameinfo = (0 == getnameinfo(&fromend.saddr, fromlen, host, NI_MAXHOST,
                                service, NI_MAXSERV, NI_NUMERICSERV)
               && '\0' != host[0]);
@@ -1102,7 +1102,7 @@ int server_open_socket(void)
   fc_errno eno = 0;
   union fc_sockaddr *problematic = NULL;
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   struct ipv6_mreq mreq6;
 #endif
 
@@ -1153,7 +1153,7 @@ int server_open_socket(void)
 
     /* AF_INET6 sockets should use IPv6 only,
      * without stealing IPv4 from AF_INET sockets. */
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
     if (paddr->saddr.sa_family == AF_INET6) {
 #ifdef IPV6_V6ONLY
       if (setsockopt(s, IPPROTO_IPV6, IPV6_V6ONLY,
@@ -1225,7 +1225,7 @@ int server_open_socket(void)
     return 0;
   }
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (srvarg.announce == ANNOUNCE_IPV6) {
     lan_family = AF_INET6;
   } else
@@ -1254,7 +1254,7 @@ int server_open_socket(void)
 
   addr.saddr.sa_family = lan_family;
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (addr.saddr.sa_family == AF_INET6) {
     addr.saddr_in6.sin6_family = AF_INET6;
     addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT);
@@ -1275,7 +1275,7 @@ int server_open_socket(void)
     log_error("Announcement socket binding failed: %s", fc_strerror(fc_get_errno()));
   }
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (addr.saddr.sa_family == AF_INET6) {
     inet_pton(AF_INET6, group, &mreq6.ipv6mr_multiaddr.s6_addr);
     mreq6.ipv6mr_interface = 0; /* TODO: Interface selection */

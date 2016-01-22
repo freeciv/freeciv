@@ -265,7 +265,7 @@ if test x$ipv6 != xno ; then
     AC_MSG_ERROR([Cannot enable IPv6 functionality])
   fi
   if test x$enable_ipv6 = xyes ; then
-    AC_DEFINE([IPV6_SUPPORT], [1], [IPv6 Support built in])
+    AC_DEFINE([FREECIV_IPV6_SUPPORT], [1], [IPv6 Support built in])
   else
     feature_ipv6=missing
   fi

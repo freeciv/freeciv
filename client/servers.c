@@ -365,7 +365,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   size_t size;
   int family;
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   struct ipv6_mreq mreq6;
 #endif
 
@@ -378,7 +378,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     return TRUE;
   }
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (announce == ANNOUNCE_IPV6) {
     family = AF_INET6;
   } else
@@ -411,7 +411,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   memset(&addr, 0, sizeof(addr));
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (family == AF_INET6) {
     addr.saddr.sa_family = AF_INET6;
     addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT + 1);
@@ -442,7 +442,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     return FALSE;
   }
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (family == AF_INET6) {
     inet_pton(AF_INET6, group, &mreq6.ipv6mr_multiaddr.s6_addr);
     mreq6.ipv6mr_interface = 0; /* TODO: Interface selection */
@@ -488,7 +488,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   memset(&addr, 0, sizeof(addr));
 
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (family == AF_INET6) {
     addr.saddr.sa_family = AF_INET6;
     inet_pton(AF_INET6, group, &addr.saddr_in6.sin6_addr);
@@ -601,7 +601,7 @@ get_lan_server_list(struct server_scan *scan)
 
     if (!fc_strcasecmp("none", servername)) {
       bool nameinfo = FALSE;
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
       char dst[INET6_ADDRSTRLEN];
       char host[NI_MAXHOST], service[NI_MAXSERV];
 

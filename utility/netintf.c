@@ -263,7 +263,7 @@ void fc_nonblock(int sockfd)
 ***************************************************************************/
 void sockaddr_debug(union fc_sockaddr *addr, enum log_level lvl)
 {
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   char buf[INET6_ADDRSTRLEN] = "Unknown";
 
   if (addr->saddr.sa_family == AF_INET6) { 
@@ -302,11 +302,11 @@ int sockaddr_size(union fc_sockaddr *addr)
 #ifdef WIN32_NATIVE
   return sizeof(*addr);
 #else
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (addr->saddr.sa_family == AF_INET6) {
     return sizeof(addr->saddr_in6);
   } else
-#endif /* IPV6_SUPPORT */
+#endif /* FREECIV_IPV6_SUPPORT */
   if (addr->saddr.sa_family == AF_INET) {
     return sizeof(addr->saddr_in4);
   } else {
@@ -324,7 +324,7 @@ int sockaddr_size(union fc_sockaddr *addr)
 ***************************************************************************/
 bool sockaddr_ipv6(union fc_sockaddr *addr)
 {
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   if (addr->saddr.sa_family == AF_INET6) {
     return TRUE;
   }
@@ -357,7 +357,7 @@ static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
       gafam = AF_INET6;
       break;
     case FC_ADDR_ANY:
-#ifndef IPV6_SUPPORT
+#ifndef FREECIV_IPV6_SUPPORT
       gafam = AF_INET;
 #else
       gafam = AF_UNSPEC;
@@ -554,7 +554,7 @@ int find_next_free_port(int starting_port, int highest_port,
   int gafamily;
   bool found = FALSE;
 
-#ifndef IPV6_SUPPORT
+#ifndef FREECIV_IPV6_SUPPORT
   fc_assert(family == FC_ADDR_IPV4 || family == FC_ADDR_ANY);
 #endif
 
@@ -562,11 +562,11 @@ int find_next_free_port(int starting_port, int highest_port,
    case FC_ADDR_IPV4:
      gafamily = AF_INET;
      break;
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
    case FC_ADDR_IPV6:
      gafamily = AF_INET6;
      break;
-#endif /* IPV6_SUPPORT */
+#endif /* FREECIV_IPV6_SUPPORT */
    case FC_ADDR_ANY:
      gafamily = AF_UNSPEC;
      break;
