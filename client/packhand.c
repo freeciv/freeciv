@@ -1147,17 +1147,9 @@ void handle_new_year(int year, int turn)
 **************************************************************************/
 void handle_end_phase(void)
 {
+  /* Messagewindow will contain events happened since our own phase ended,
+   * so player of the first phase and last phase are in equal situation. */
   meswin_clear();
-  /*
-   * The local idea of the game.info.turn is increased here since the
-   * client will get unit updates (reset of move points for example)
-   * between handle_before_new_year() and handle_new_year(). These
-   * unit updates will look like they did take place in the old turn
-   * which is incorrect. If we get the authoritative information about
-   * the game.info.turn in handle_new_year() we will check it.
-   */
-  game.info.turn++;
-  agents_before_new_turn();
 }
 
 /**************************************************************************
@@ -1240,6 +1232,17 @@ void handle_end_turn(void)
 
   /* Make sure wait cursor is in use */
   set_server_busy(TRUE);
+
+  /*
+   * The local idea of the game.info.turn is increased here since the
+   * client will get unit updates (reset of move points for example)
+   * between handle_before_new_year() and handle_new_year(). These
+   * unit updates will look like they did take place in the old turn
+   * which is incorrect. If we get the authoritative information about
+   * the game.info.turn in handle_new_year() we will check it.
+   */
+  game.info.turn++;
+  agents_before_new_turn();
 }
 
 /**************************************************************************
