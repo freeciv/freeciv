@@ -29,8 +29,9 @@ Updating from 2.5 to 2.6
 * There's new configure option --enable-sys-tolua-cmd to use tolua
   command from the build system when generating lua bindings. Plain
   --enable-sys-tolua-cmd searches tolua from the PATH, other values
-  are treated as full path to executable. You have to use system
-  tolua when cross-compiling.
+  are treated as full path to executable. The default is to search
+  for tolua from the system. You have to use system tolua when
+  cross-compiling.
 * Minimum libtool version is now 1.5.2
 * For translation support minimum gettext version is now 0.14. It's
   still possible to build completely without translation support
