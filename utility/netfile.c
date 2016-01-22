@@ -17,6 +17,10 @@
 
 #include <curl/curl.h>
 
+#ifdef WIN32_NATIVE
+#include <windows.h>
+#endif
+
 /* utility */
 #include "fcintl.h"
 #include "ioz.h"
