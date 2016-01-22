@@ -197,7 +197,7 @@ static struct timer *between_turns = NULL;
 **************************************************************************/
 void init_game_seed(void)
 {
-  if (game.server.seed == 0) {
+  if (game.server.seed_setting == 0) {
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
     game.server.seed = time(NULL) & (MAX_UINT32 >> 1);
@@ -207,6 +207,8 @@ void init_game_seed(void)
 #else  /* TESTMATIC_ENABLED */
     log_debug("Setting game.seed:%d", game.server.seed);
 #endif /* TESTMATIC_ENABLED */
+  } else {
+    game.server.seed = game.server.seed_setting;
   }
 
   if (!fc_rand_is_init()) {

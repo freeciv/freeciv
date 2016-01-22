@@ -171,6 +171,7 @@ void map_init(void)
     game.map.server.mapsize = MAP_DEFAULT_MAPSIZE;
     game.map.server.size = MAP_DEFAULT_SIZE;
     game.map.server.tilesperplayer = MAP_DEFAULT_TILESPERPLAYER;
+    game.map.server.seed_setting = MAP_DEFAULT_SEED;
     game.map.server.seed = MAP_DEFAULT_SEED;
     game.map.server.riches = MAP_DEFAULT_RICHES;
     game.map.server.huts = MAP_DEFAULT_HUTS;

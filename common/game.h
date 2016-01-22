@@ -212,6 +212,7 @@ struct civ_game {
       enum scorelog_level scoreloglevel;
       char scorefile[MAX_LEN_NAME];
       int scoreturn;    /* next make_history_report() */
+      int seed_setting;
       int seed;
 
       bool global_warming;
