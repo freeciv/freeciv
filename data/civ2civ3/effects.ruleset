@@ -2837,7 +2837,7 @@ reqs    =
       "CityTile", "Center", "Local", TRUE
       "Building", "Supermarket", "City", TRUE
       "Terrain", "Desert", "Local", TRUE
-      "Resource", "Oasis", "Local", FALSE
+      "Extra", "Oasis", "Local", FALSE
       "Extra", "River", "Local", FALSE
       ; Desert cannot have mine, only oil well
       "Extra", "Oil Well", "Local", FALSE
@@ -3645,7 +3645,7 @@ reqs    =
       "Terrain", "Desert", "Local", TRUE
       "Extra", "River", "Local", TRUE
       "OutputType", "Food", "Local", TRUE
-      "Resource", "Oasis", "Local", FALSE
+      "Extra", "Oasis", "Local", FALSE
     }
 
 [effect_city_shield]
@@ -3784,7 +3784,7 @@ reqs    =
     { "type", "name", "range", "present"
       "Terrain", "Desert", "Local", TRUE
       "Extra", "Irrigation", "Local", TRUE
-      "Resource", "Oasis", "Local", FALSE
+      "Extra", "Oasis", "Local", FALSE
       "Extra", "River", "Local", FALSE
     }
 
