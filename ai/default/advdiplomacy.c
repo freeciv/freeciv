@@ -1647,175 +1647,178 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
   /*** Try to make peace with everyone we love ***/
 
   players_iterate_alive(aplayer) {
-    enum diplstate_type ds = player_diplstate_get(pplayer, aplayer)->type;
-    struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
-    struct Clause clause;
+    if (get_player_bonus(aplayer, EFT_NO_DIPLOMACY) <= 0
+        && diplomacy_possible(pplayer, aplayer)) {
+      enum diplstate_type ds = player_diplstate_get(pplayer, aplayer)->type;
+      struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
+      struct Clause clause;
 
-    /* Meaningless values, but rather not have them unset. */
-    clause.from = pplayer;
-    clause.value = 0;
+      /* Meaningless values, but rather not have them unset. */
+      clause.from = pplayer;
+      clause.value = 0;
 
-    /* Remove shared vision if we are not allied or it is no longer safe. */
-    if (gives_shared_vision(pplayer, aplayer)) {
-      if (!pplayers_allied(pplayer, aplayer)) {
-        remove_shared_vision(pplayer, aplayer);
-      } else if (!shared_vision_is_safe(pplayer, aplayer)) {
-        notify(aplayer, _("*%s (AI)* Sorry, sharing vision with you "
+      /* Remove shared vision if we are not allied or it is no longer safe. */
+      if (gives_shared_vision(pplayer, aplayer)) {
+        if (!pplayers_allied(pplayer, aplayer)) {
+          remove_shared_vision(pplayer, aplayer);
+        } else if (!shared_vision_is_safe(pplayer, aplayer)) {
+          notify(aplayer, _("*%s (AI)* Sorry, sharing vision with you "
 	                    "is no longer safe."),
-	       player_name(pplayer));
-	remove_shared_vision(pplayer, aplayer);
+                 player_name(pplayer));
+          remove_shared_vision(pplayer, aplayer);
+        }
       }
-    }
 
-    /* No peace to enemies of our allies... or pointless peace. */
-    if (is_barbarian(aplayer)
-        || aplayer == pplayer
-        || aplayer == target     /* no mercy */
-        || adip->countdown >= 0
-        || !could_meet_with_player(pplayer, aplayer)) {
-      continue;
-    }
-
-    /* Spam control */
-    adip->asked_about_peace = MAX(adip->asked_about_peace - 1, 0);
-    adip->asked_about_alliance = MAX(adip->asked_about_alliance - 1, 0);
-    adip->asked_about_ceasefire = MAX(adip->asked_about_ceasefire - 1, 0);
-    adip->warned_about_space = MAX(adip->warned_about_space - 1, 0);
-    adip->spam = MAX(adip->spam - 1, 0);
-    if (adip->spam > 0) {
-      /* Don't spam */
-      continue;
-    }
-
-    /* Canvass support from existing friends for our war, and try to
-     * make friends with enemies. Then we wait some turns until next time
-     * we spam them with our gibbering chatter. */
-    if (is_human(aplayer)) {
-      if (!pplayers_allied(pplayer, aplayer)) {
-        adip->spam = fc_rand(4) + 3; /* Bugger allies often. */
-      } else {
-        adip->spam = fc_rand(8) + 6; /* Others are less important. */
+      /* No peace to enemies of our allies... or pointless peace. */
+      if (is_barbarian(aplayer)
+          || aplayer == pplayer
+          || aplayer == target     /* no mercy */
+          || adip->countdown >= 0
+          || !could_meet_with_player(pplayer, aplayer)) {
+        continue;
       }
-    }
 
-    switch (ds) {
-    case DS_TEAM:
-      dai_share(ait, pplayer, aplayer);
-      break;
-    case DS_ALLIANCE:
-      /* See if our allies are diligently declaring war on our enemies... */
-      if (adip->at_war_with_ally) {
+      /* Spam control */
+      adip->asked_about_peace = MAX(adip->asked_about_peace - 1, 0);
+      adip->asked_about_alliance = MAX(adip->asked_about_alliance - 1, 0);
+      adip->asked_about_ceasefire = MAX(adip->asked_about_ceasefire - 1, 0);
+      adip->warned_about_space = MAX(adip->warned_about_space - 1, 0);
+      adip->spam = MAX(adip->spam - 1, 0);
+      if (adip->spam > 0) {
+        /* Don't spam */
+        continue;
+      }
+
+      /* Canvass support from existing friends for our war, and try to
+       * make friends with enemies. Then we wait some turns until next time
+       * we spam them with our gibbering chatter. */
+      if (is_human(aplayer)) {
+        if (!pplayers_allied(pplayer, aplayer)) {
+          adip->spam = fc_rand(4) + 3; /* Bugger allies often. */
+        } else {
+          adip->spam = fc_rand(8) + 6; /* Others are less important. */
+        }
+      }
+
+      switch (ds) {
+      case DS_TEAM:
+        dai_share(ait, pplayer, aplayer);
         break;
-      }
-      target = NULL;
-      players_iterate(eplayer) {
-        if (WAR(pplayer, eplayer)
-            && !pplayers_at_war(aplayer, eplayer)) {
-          target = eplayer;
+      case DS_ALLIANCE:
+        /* See if our allies are diligently declaring war on our enemies... */
+        if (adip->at_war_with_ally) {
           break;
         }
-      } players_iterate_end;
+        target = NULL;
+        players_iterate(eplayer) {
+          if (WAR(pplayer, eplayer)
+              && !pplayers_at_war(aplayer, eplayer)) {
+            target = eplayer;
+            break;
+          }
+        } players_iterate_end;
 
-      if ((players_on_same_team(pplayer, aplayer)
-          || pplayer->ai_common.love[player_index(aplayer)] > MAX_AI_LOVE / 2)) {
-        /* Share techs only with team mates and allies we really like. */
-        dai_share(ait, pplayer, aplayer);
-      }
-      if (!target || !target->is_alive) {
-        adip->ally_patience = 0;
-        break; /* No need to nag our ally */
-      }
+        if ((players_on_same_team(pplayer, aplayer)
+             || pplayer->ai_common.love[player_index(aplayer)] > MAX_AI_LOVE / 2)) {
+          /* Share techs only with team mates and allies we really like. */
+          dai_share(ait, pplayer, aplayer);
+        }
+        if (!target || !target->is_alive) {
+          adip->ally_patience = 0;
+          break; /* No need to nag our ally */
+        }
 
-      if (adip->ally_patience == 0) {
-        notify(aplayer, _("*%s (AI)* Greetings our most trustworthy "
-                          "ally. We call upon you to destroy our enemy, %s."), 
-               player_name(pplayer),
-               player_name(target));
-        adip->ally_patience--;
-      } else if (adip->ally_patience == -1) {
-        if (fc_rand(5) == 1) {
-          notify(aplayer, _("*%s (AI)* Greetings ally, I see you have not yet "
-                            "made war with our enemy, %s. Why do I need to remind "
-                            "you of your promises?"),
+        if (adip->ally_patience == 0) {
+          notify(aplayer, _("*%s (AI)* Greetings our most trustworthy "
+                            "ally. We call upon you to destroy our enemy, %s."), 
                  player_name(pplayer),
                  player_name(target));
           adip->ally_patience--;
-        }
-      } else {
-        if (fc_rand(5) == 1) {
-          notify(aplayer, _("*%s (AI)* Dishonored one, we made a pact of "
-                            "alliance, and yet you remain at peace with our mortal "
-                            "enemy, %s! This is unacceptable; our alliance is no "
-                            "more!"),
-                 player_name(pplayer),
-                 player_name(target));
-          DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "breaking useless alliance");
-	  /* to peace */
-	  handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
-				       CLAUSE_ALLIANCE);
-          pplayer->ai_common.love[player_index(aplayer)] =
-            MIN(pplayer->ai_common.love[player_index(aplayer)], 0);
-          if (gives_shared_vision(pplayer, aplayer)) {
-            remove_shared_vision(pplayer, aplayer);
+        } else if (adip->ally_patience == -1) {
+          if (fc_rand(5) == 1) {
+            notify(aplayer, _("*%s (AI)* Greetings ally, I see you have not yet "
+                              "made war with our enemy, %s. Why do I need to remind "
+                              "you of your promises?"),
+                   player_name(pplayer),
+                   player_name(target));
+            adip->ally_patience--;
           }
-          fc_assert(!gives_shared_vision(pplayer, aplayer));
+        } else {
+          if (fc_rand(5) == 1) {
+            notify(aplayer, _("*%s (AI)* Dishonored one, we made a pact of "
+                              "alliance, and yet you remain at peace with our mortal "
+                              "enemy, %s! This is unacceptable; our alliance is no "
+                              "more!"),
+                   player_name(pplayer),
+                   player_name(target));
+            DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "breaking useless alliance");
+            /* to peace */
+            handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
+                                         CLAUSE_ALLIANCE);
+            pplayer->ai_common.love[player_index(aplayer)] =
+              MIN(pplayer->ai_common.love[player_index(aplayer)], 0);
+            if (gives_shared_vision(pplayer, aplayer)) {
+              remove_shared_vision(pplayer, aplayer);
+            }
+            fc_assert(!gives_shared_vision(pplayer, aplayer));
+          }
         }
-      }
-      break;
+        break;
 
-    case DS_PEACE:
-      clause.type = CLAUSE_ALLIANCE;
-      if (adip->at_war_with_ally
-          || (is_human(aplayer) && adip->asked_about_alliance > 0)
-          || dai_goldequiv_clause(ait, pplayer, aplayer, &clause,
-                                  FALSE, DS_ALLIANCE) < 0) {
+      case DS_PEACE:
+        clause.type = CLAUSE_ALLIANCE;
+        if (adip->at_war_with_ally
+            || (is_human(aplayer) && adip->asked_about_alliance > 0)
+            || dai_goldequiv_clause(ait, pplayer, aplayer, &clause,
+                                    FALSE, DS_ALLIANCE) < 0) {
+          break;
+        }
+        clear_old_treaty(pplayer, aplayer);
+        dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ALLIANCE, FALSE, 0);
+        adip->asked_about_alliance = is_human(aplayer) ? 13 : 0;
+        notify(aplayer, _("*%s (AI)* Greetings friend, may we suggest "
+                          "making a common cause and join in an alliance?"), 
+               player_name(pplayer));
+        break;
+
+      case DS_CEASEFIRE:
+        clause.type = CLAUSE_PEACE;
+        if (adip->at_war_with_ally
+            || (is_human(aplayer) && adip->asked_about_peace > 0)
+            || dai_goldequiv_clause(ait, pplayer, aplayer, &clause,
+                                    FALSE, DS_PEACE) < 0) {
+          break;
+        }
+        clear_old_treaty(pplayer, aplayer);
+        dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, FALSE, 0);
+        adip->asked_about_peace = is_human(aplayer) ? 12 : 0;
+        notify(aplayer, _("*%s (AI)* Greetings neighbor, may we suggest "
+                          "more peaceful relations?"),
+               player_name(pplayer));
+        break;
+
+      case DS_NO_CONTACT: /* but we do have embassy! weird. */
+      case DS_WAR:
+        clause.type = CLAUSE_CEASEFIRE;
+        if ((is_human(aplayer) && adip->asked_about_ceasefire > 0)
+            || dai_goldequiv_clause(ait, pplayer, aplayer, &clause,
+                                    FALSE, DS_CEASEFIRE) < 0) {
+          break; /* Fight until the end! */
+        }
+        clear_old_treaty(pplayer, aplayer);
+        dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, FALSE, 0);
+        adip->asked_about_ceasefire = is_human(aplayer) ? 9 : 0;
+        notify(aplayer, _("*%s (AI)* We grow weary of this constant "
+                          "bloodshed. May we suggest a cessation of hostilities?"), 
+               player_name(pplayer));
+        break;
+
+      case DS_ARMISTICE:
+        break;
+      default:
+        fc_assert_msg(FALSE, "Unknown pact type %d.", ds);
         break;
       }
-      clear_old_treaty(pplayer, aplayer);
-      dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ALLIANCE, FALSE, 0);
-      adip->asked_about_alliance = is_human(aplayer) ? 13 : 0;
-      notify(aplayer, _("*%s (AI)* Greetings friend, may we suggest "
-             "making a common cause and join in an alliance?"), 
-             player_name(pplayer));
-      break;
-
-    case DS_CEASEFIRE:
-      clause.type = CLAUSE_PEACE;
-      if (adip->at_war_with_ally
-          || (is_human(aplayer) && adip->asked_about_peace > 0)
-          || dai_goldequiv_clause(ait, pplayer, aplayer, &clause,
-                                  FALSE, DS_PEACE) < 0) {
-        break;
-      }
-      clear_old_treaty(pplayer, aplayer);
-      dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, FALSE, 0);
-      adip->asked_about_peace = is_human(aplayer) ? 12 : 0;
-      notify(aplayer, _("*%s (AI)* Greetings neighbor, may we suggest "
-             "more peaceful relations?"),
-             player_name(pplayer));
-      break;
-
-    case DS_NO_CONTACT: /* but we do have embassy! weird. */
-    case DS_WAR:
-      clause.type = CLAUSE_CEASEFIRE;
-      if ((is_human(aplayer) && adip->asked_about_ceasefire > 0)
-          || dai_goldequiv_clause(ait, pplayer, aplayer, &clause,
-                                  FALSE, DS_CEASEFIRE) < 0) {
-        break; /* Fight until the end! */
-      }
-      clear_old_treaty(pplayer, aplayer);
-      dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, FALSE, 0);
-      adip->asked_about_ceasefire = is_human(aplayer) ? 9 : 0;
-      notify(aplayer, _("*%s (AI)* We grow weary of this constant "
-             "bloodshed. May we suggest a cessation of hostilities?"), 
-             player_name(pplayer));
-      break;
-
-    case DS_ARMISTICE:
-      break;
-    default:
-      fc_assert_msg(FALSE, "Unknown pact type %d.", ds);
-      break;
     }
   } players_iterate_alive_end;
 }
