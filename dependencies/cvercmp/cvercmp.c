@@ -110,8 +110,10 @@ static enum cvercmp_type cvercmp_tokens(const char *token1, const char *token2)
   bool solution = false;
 
   for (i = 0; (t1[i] != NULL && t2[i] != NULL) && !solution; i++) {
-    bool d1 = isdigit(t1[i][0]);
-    bool d2 = isdigit(t2[i][0]);
+    int t1c0 = t1[i][0];
+    int t2c0 = t2[i][0];
+    bool d1 = isdigit(t1c0);
+    bool d2 = isdigit(t2c0);
 
     if (d1 && !d2) {
       /* Numbers are always greater than alpha, so don't need to check prever */
@@ -296,16 +298,18 @@ static int cvercmp_next_subtoken(const char *str)
 {
   int i;
   bool alpha;
+  int sc0 = str[0];
+  int sci;
 
-  if (isdigit(str[0])) {
+  if (isdigit(sc0)) {
     alpha = false;
   } else {
     alpha = true;
   }
 
-  for (i = 0;
-       str[i] != '\0'
-        && ((alpha && !isdigit(str[i])) || (!alpha && isdigit(str[i])));
+  for (i = 0; sci = str[i],
+         sci != '\0'
+         && ((alpha && !isdigit(sci)) || (!alpha && isdigit(sci)));
        i++) {
   }
 
