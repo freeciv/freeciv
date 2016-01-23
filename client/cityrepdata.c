@@ -102,7 +102,7 @@ static const char *cr_entry_hstate_concise(const struct city *pcity,
 static const char *cr_entry_hstate_verbose(const struct city *pcity,
 					   const void *data)
 {
-  static char buf[16];
+  static char buf[32];
   fc_snprintf(buf, sizeof(buf), "%s",
               (city_celebrating(pcity) ? Q_("?city_state:Celebrating")
                : (city_unhappy(pcity) ? Q_("?city_state:Disorder")
@@ -515,7 +515,7 @@ static const char *cr_entry_build_slots(const struct city *pcity,
 static const char *cr_entry_building(const struct city *pcity,
 				     const void *data)
 {
-  static char buf[128];
+  static char buf[192];
   const char *from_worklist =
     worklist_is_empty(&pcity->worklist) ? "" :
     gui_options.concise_city_production ? "+" : _("(worklist)");
