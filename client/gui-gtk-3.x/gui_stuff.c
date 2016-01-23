@@ -1067,7 +1067,7 @@ void enable_gobject_callback(GObject *obj, GCallback cb)
 
 /**************************************************************************
   Convenience function to add a column to a GtkTreeView. Returns the added
-  column, or NULL if an error occured.
+  column, or NULL if an error occurred.
 **************************************************************************/
 GtkTreeViewColumn *add_treeview_column(GtkWidget *view, const char *title,
                                        GType gtype, int model_index)

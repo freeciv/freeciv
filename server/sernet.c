@@ -311,7 +311,7 @@ static void really_close_connections(void)
       lost_connection_to_client(pconn);
       close_connection(pconn);
     }
-  } while (0 < num); /* May some errors occured, let's check. */
+  } while (0 < num); /* May some errors occurred, let's check. */
 }
 
 /****************************************************************************

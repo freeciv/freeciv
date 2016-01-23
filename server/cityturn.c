@@ -3349,7 +3349,7 @@ static float city_migration_score(struct city *pcity)
   Do the migrations between the cities that overlap, if the growth of the
   target city is not blocked due to a missing improvement or missing food.
 
-  Returns TRUE if migration occured.
+  Returns TRUE if migration occurred.
 **************************************************************************/
 static bool do_city_migration(struct city *pcity_from,
                               struct city *pcity_to)
