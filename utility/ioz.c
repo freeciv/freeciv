@@ -571,7 +571,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
       int i, j;
 
       for (i = 0; i < size - 1; i += j) {
-        ssize_t len = 0;
+        size_t len = 0;
         bool line_end;
 
         for (j = 0, line_end = FALSE; fp->u.xz.out_avail > 0
@@ -591,7 +591,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
         }
 
         if (fp->u.xz.hack_byte_used) {
-          ssize_t hblen = 0;
+          size_t hblen = 0;
 
           fp->u.xz.in_buf[0] = fp->u.xz.hack_byte;
           len = fread(fp->u.xz.in_buf + 1, 1, PLAIN_FILE_BUF_SIZE - 1,
@@ -601,11 +601,11 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
           if (len <= 1) {
             hblen = fread(&fp->u.xz.hack_byte, 1, 1, fp->u.xz.plain);
           }
-          if (hblen <= 0) {
+          if (hblen == 0) {
             fp->u.xz.hack_byte_used = FALSE;
           }
         }
-        if (len <= 0) {
+        if (len == 0) {
           if (fp->u.xz.error == LZMA_STREAM_END) {
             if (i + j == 0) {
               /* Plain file read complete, and there was nothing in xz buffers
@@ -718,8 +718,8 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action)
 {
   do {
-    ssize_t len;
-    ssize_t total = 0;
+    size_t len;
+    size_t total = 0;
 
     fp->u.xz.error = lzma_code(&fp->u.xz.stream, action);
 
@@ -732,7 +732,7 @@ static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action)
                    PLAIN_FILE_BUF_SIZE - fp->u.xz.stream.avail_out - total,
                    fp->u.xz.plain);
       total += len;
-      if (len <= 0) {
+      if (len == 0) {
         return FALSE;
       }
     }
