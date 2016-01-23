@@ -31,7 +31,7 @@ static char error_buffer[MAX_LEN_ERRORBUF] = "\0";
 #define DEBUG_ENTRIES(...) /* log_debug(__VA_ARGS__); */
 
 /**************************************************************************
-  Returns the last error which occured in a string.  It never returns NULL.
+  Returns the last error which occurred in a string.  It never returns NULL.
 **************************************************************************/
 const char *secfile_error(void)
 {

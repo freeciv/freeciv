@@ -2666,7 +2666,7 @@ void do_unit_nuke(struct tile *ptile)
            do_real_unit_nuke, data, client_nuke_data_destroy);
     } else {
       /* We didn't sent the packets, that mean that the route was nil, or
-       * an internal error occured. Process nuke units now. */
+       * an internal error occurred. Process nuke units now. */
       do_real_unit_nuke(data);
       client_nuke_data_destroy(data);
     }

@@ -298,7 +298,7 @@ dnl
                    echo "***" >>error.]DOWN[test
                  fi
                  echo "*** The test program failed to compile or link.  See the file" >>error.]DOWN[test
-                 echo "*** config.log for the exact error that occured.  This usually" >>error.]DOWN[test
+                 echo "*** config.log for the exact error that occurred.  This usually" >>error.]DOWN[test
                  echo "*** means UP was not installed, was incorrectly installed" >>error.]DOWN[test
                  echo "*** or that you have moved UP since it was installed.  In" >>error.]DOWN[test
                  echo "*** the latter case, you may want to edit the $LDOWN[]_config" >>error.]DOWN[test
@@ -338,7 +338,7 @@ if test x$CACHEDOWN[]_present = xno ; then
           echo "*** If you have an old version installed, it is best to remove" >>error.]DOWN[test
 	  echo "*** it, although you may also be able to get things to work by" >>error.]DOWN[test
 	  echo "*** modifying LD_LIBRARY_PATH" >>error.]DOWN[test],[ echo "*** The test program failed to compile or link.  See the file" >>error.]DOWN[test
-	  echo "*** config.log for the exact error that occured.  This usually" >>error.]DOWN[test
+	  echo "*** config.log for the exact error that occurred.  This usually" >>error.]DOWN[test
           echo "*** means UP was incorrectly installed or that you have" >>error.]DOWN[test
           echo "*** moved UP since it was installed.  In the latter case," >>error.]DOWN[test
 	  echo "*** you may want to edit the $LDOWN[]_config script:" >>error.]DOWN[test
