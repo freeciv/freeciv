@@ -1,29 +1,12 @@
 #
 # Makefile for Freeciv Windows installer creation
 #
-# Usage:
+# See doc/README.msys2 for building instructions.
 #
-# 1. download and extract the MinGW build environment from
-#    http://download.gna.org/freeciv/packages/windows/gnuwin32/
-#    Current version is gnuwin32-2015-02-25.
-# 2. double click on "gnuwin32/msys.bat"
-# 3. install the development packages:
-#    $ hg qpush -a
-# 4. close current session and restart msys.bat. This is required
-#    for PATH to be set correctly after development packages
-#    installation.
-# 5. change into the Freeciv directory where this Makefile resides
-#    $ cd <path_to_freeciv_source>/win32/installer
-# 6. run make
-#    $ make
-# 7. find the installer executables in the 'Output' directory
-#
-
 
 #
 # Make rules
 #
-
 
 # by default build all installers
 all: gtk3-installer gtk2-installer sdl-installer qt-installer ruledit-installer
