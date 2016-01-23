@@ -1402,12 +1402,36 @@ static void compat_load_dev(struct loaddata *loading)
   /* Idle turns */
   for (plrno = 0; plrno < nplayers; plrno++) {
     int idlet;
+    int ncities;
+    int i;
 
     idlet = secfile_lookup_int_default(loading->file, -1,
                                        "player%d.idle_turns", plrno);
 
     if (idlet == -1) {
       secfile_insert_int(loading->file, 0, "player%d.idle_turns", plrno);
+    }
+
+    ncities = secfile_lookup_int_default(loading->file, 0, "player%d.ncities", plrno);
+
+    for (i = 0; i < ncities; i++) {
+      struct entry *did_buy = secfile_entry_lookup(loading->file, "player%d.c%d.did_buy",
+                                                   plrno, i);
+
+      /* If did buy is an integer value, make it boolean instead */
+      if (did_buy != NULL && entry_type(did_buy) == ENTRY_INT) {
+        int val;
+
+        entry_int_get(did_buy, &val);
+
+        if (val) {
+          secfile_replace_bool(loading->file, TRUE, "player%d.c%d.did_buy",
+                               plrno, i);
+        } else {
+          secfile_replace_bool(loading->file, FALSE, "player%d.c%d.did_buy",
+                               plrno, i);
+        }
+      }
     }
   }
 }
