@@ -1797,7 +1797,7 @@ bool *secfile_lookup_bool_vec(const struct section_file *secfile,
   for(i = 0; i < *dim; i++) {
     if (!secfile_lookup_bool(secfile, vec + i, "%s,%d", fullpath, (int) i)) {
       SECFILE_LOG(secfile, NULL,
-                  "An error occured when looking up to \"%s,%d\" entry.",
+                  "An error occurred when looking up to \"%s,%d\" entry.",
                   fullpath, (int) i);
       free(vec);
       *dim = 0;
@@ -1944,7 +1944,7 @@ int *secfile_lookup_int_vec(const struct section_file *secfile,
   for(i = 0; i < *dim; i++) {
     if (!secfile_lookup_int(secfile, vec + i, "%s,%d", fullpath, (int) i)) {
       SECFILE_LOG(secfile, NULL,
-                  "An error occured when looking up to \"%s,%d\" entry.",
+                  "An error occurred when looking up to \"%s,%d\" entry.",
                   fullpath, (int) i);
       free(vec);
       *dim = 0;
@@ -2105,7 +2105,7 @@ const char **secfile_lookup_str_vec(const struct section_file *secfile,
     if (!(vec[i] = secfile_lookup_str(secfile, "%s,%d",
                                       fullpath, (int) i))) {
       SECFILE_LOG(secfile, NULL,
-                  "An error occured when looking up to \"%s,%d\" entry.",
+                  "An error occurred when looking up to \"%s,%d\" entry.",
                   fullpath, (int) i);
       free(vec);
       *dim = 0;
@@ -2245,7 +2245,7 @@ int *secfile_lookup_plain_enum_vec_full(const struct section_file *secfile,
                                         by_name_fn, "%s,%d",
                                         fullpath, (int) i)) {
       SECFILE_LOG(secfile, NULL,
-                  "An error occured when looking up to \"%s,%d\" entry.",
+                  "An error occurred when looking up to \"%s,%d\" entry.",
                   fullpath, (int) i);
       free(vec);
       *dim = 0;
@@ -2428,7 +2428,7 @@ int *secfile_lookup_bitwise_enum_vec_full(const struct section_file *secfile,
                                           by_name_fn, "%s,%d",
                                           fullpath, (int) i)) {
       SECFILE_LOG(secfile, NULL,
-                  "An error occured when looking up to \"%s,%d\" entry.",
+                  "An error occurred when looking up to \"%s,%d\" entry.",
                   fullpath, (int) i);
       free(vec);
       *dim = 0;
@@ -2642,7 +2642,7 @@ int *secfile_lookup_enum_vec_data(const struct section_file *secfile,
     if (!secfile_lookup_enum_data(secfile, vec + i, bitwise, name_fn, data,
                                   "%s,%d", fullpath, (int) i)) {
       SECFILE_LOG(secfile, NULL,
-                  "An error occured when looking up to \"%s,%d\" entry.",
+                  "An error occurred when looking up to \"%s,%d\" entry.",
                   fullpath, (int) i);
       free(vec);
       *dim = 0;

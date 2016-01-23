@@ -1510,7 +1510,7 @@ bool mapimg_colortest(const char *savename, const char *path)
 
         if (!img_save(pimg, mapimgfile, path)) {
           /* If one of the mapimg format/toolkit combination fail, return
-           * FALSE, i.e. an error occured. */
+           * FALSE, i.e. an error occurred. */
           ret = FALSE;
         }
       }

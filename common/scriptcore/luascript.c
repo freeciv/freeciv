@@ -493,7 +493,7 @@ bool luascript_check_function(struct fc_lua *fcl, const char *funcname)
 
 /*****************************************************************************
   Evaluate a Lua function call or loaded script on the stack.
-  Return nonzero if an error occured.
+  Return nonzero if an error occurred.
 
   If available pass the source code string as code, else NULL.
 
