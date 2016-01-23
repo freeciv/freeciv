@@ -19,7 +19,7 @@ gfx = "hexemplio/unitextras"
 x_top_left = 1
 y_top_left = 1
 dx = 126
-dy = 128
+dy = 82
 pixel_border = 1
 
 tiles = { "row", "column", "tag"
@@ -99,5 +99,12 @@ tiles = { "row", "column", "tag"
   5,  6, "unit.airstrip"
   5,  7, "unit.airbase"
   5,  8, "unit.buoy"
+
+; Unit activities: other extras
+
+  6,  0, "unit.irrigation"
+  6,  1, "unit.farmland"
+  6,  2, "unit.mine"
+  6,  3, "unit.oil_mine"
 
 }
