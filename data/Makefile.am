@@ -73,6 +73,7 @@ EXTRA_DIST = \
 	isophex.tilespec	\
 	isotrident.tilespec \
 	toonhex.tilespec	\
+	alio.tilespec	\
 	trident.tilespec	\
 	stdmusic.musicspec	\
 	stdsounds.soundspec	\
