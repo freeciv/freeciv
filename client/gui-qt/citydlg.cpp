@@ -966,8 +966,8 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     nationality_table->horizontalHeader()->setStretchLastSection(true);
 
     info_list.clear();
-    info_list << N_("Cities:") << N_("Luxuries:") << N_("Buildings:")
-              << N_("Nationality:") << N_("Units:") <<  N_("Wonders:");
+    info_list << _("Cities:") << _("Luxuries:") << _("Buildings:")
+              << _("Nationality:") << _("Units:") <<  _("Wonders:");
     info_nr = info_list.count();
     for (int i = 0; i < info_list.count(); i++) {
       lab_table[i] = new city_label(1 + i, this);
@@ -1766,7 +1766,7 @@ void city_dialog::update_nation_table()
   nationality_table->clear();
   nationality_table->setRowCount(0);
   info_list.clear();
-  info_list << N_("#") << N_("Flag") << N_("Nation");
+  info_list << _("#") << _("Flag") << _("Nation");
   nationality_table->setHorizontalHeaderLabels(info_list);
 
   citizens_iterate(pcity, pslot, nationality) {
@@ -2678,7 +2678,7 @@ QString get_tooltip_improvement(impr_type *building)
   def_str = "<p style='white-space:pre'><b>"
             + QString(improvement_name_translation(building))
             + "</b>\n";
-  def_str += QString(N_("Cost: %1, Upkeep: %2\n\n"))
+  def_str += QString(_("Cost: %1, Upkeep: %2\n\n"))
              .arg(impr_build_shield_cost(building))
              .arg(building->upkeep);
   return def_str;
