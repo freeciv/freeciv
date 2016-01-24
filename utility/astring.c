@@ -58,6 +58,8 @@
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
