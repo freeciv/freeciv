@@ -324,6 +324,7 @@ static bool openload_script_file(const char *whichset, const char *rsdir,
   (callers need not worry about freeing anything).
 **************************************************************************/
 static struct requirement_vector *lookup_req_list(struct section_file *file,
+                                                  struct rscompat_info *compat,
                                                   const char *sec,
                                                   const char *sub,
                                                   const char *rfor)
@@ -343,6 +344,10 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
     bool survives, present, quiet;
     struct entry *pentry;
     struct requirement req;
+
+    if (compat->compat_mode) {
+      type = rscompat_req_type_name_3_0(type);
+    }
 
     if (!(pentry = secfile_entry_lookup(file, "%s.%s%d.name",
                                         sec, sub, j))) {
@@ -1166,7 +1171,7 @@ static bool load_ruleset_techs(struct section_file *file,
       break;
     }
 
-    research_reqs = lookup_req_list(file, sec_name, "research_reqs",
+    research_reqs = lookup_req_list(file, compat, sec_name, "research_reqs",
                                     rule_name(&a->name));
     if (research_reqs == NULL) {
       ok = FALSE;
@@ -2077,7 +2082,7 @@ static bool load_ruleset_buildings(struct section_file *file,
     struct impr_type *b = improvement_by_number(i);
     const char *sec_name = section_name(section_list_get(sec, i));
     struct requirement_vector *reqs =
-      lookup_req_list(file, sec_name, "reqs",
+      lookup_req_list(file, compat, sec_name, "reqs",
                       improvement_rule_name(b));
 
     if (reqs == NULL) {
@@ -2127,7 +2132,7 @@ static bool load_ruleset_buildings(struct section_file *file,
 
       {
         struct requirement_vector *obs_reqs =
-          lookup_req_list(file, sec_name, "obsolete_by",
+          lookup_req_list(file, compat, sec_name, "obsolete_by",
                           improvement_rule_name(b));
 
         if (obs_reqs == NULL) {
@@ -2942,28 +2947,28 @@ static bool load_ruleset_terrain(struct section_file *file,
                    secfile_lookup_str_default(file, "-",
                                               "%s.graphic_alt", section));
 
-        reqs = lookup_req_list(file, section, "reqs", extra_rule_name(pextra));
+        reqs = lookup_req_list(file, compat, section, "reqs", extra_rule_name(pextra));
         if (reqs == NULL) {
           ok = FALSE;
           break;
         }
         requirement_vector_copy(&pextra->reqs, reqs);
 
-        reqs = lookup_req_list(file, section, "rmreqs", extra_rule_name(pextra));
+        reqs = lookup_req_list(file, compat, section, "rmreqs", extra_rule_name(pextra));
         if (reqs == NULL) {
           ok = FALSE;
           break;
         }
         requirement_vector_copy(&pextra->rmreqs, reqs);
 
-        reqs = lookup_req_list(file, section, "appearance_reqs", extra_rule_name(pextra));
+        reqs = lookup_req_list(file, compat, section, "appearance_reqs", extra_rule_name(pextra));
         if (reqs == NULL) {
           ok = FALSE;
           break;
         }
         requirement_vector_copy(&pextra->appearance_reqs, reqs);
 
-        reqs = lookup_req_list(file, section, "disappearance_reqs", extra_rule_name(pextra));
+        reqs = lookup_req_list(file, compat, section, "disappearance_reqs", extra_rule_name(pextra));
         if (reqs == NULL) {
           ok = FALSE;
           break;
@@ -3179,7 +3184,7 @@ static bool load_ruleset_terrain(struct section_file *file,
       const char *modestr;
       struct requirement_vector *reqs;
 
-      reqs = lookup_req_list(file, section, "first_reqs", road_rule_name(proad));
+      reqs = lookup_req_list(file, compat, section, "first_reqs", road_rule_name(proad));
       if (reqs == NULL) {
         ok = FALSE;
         break;
@@ -3416,7 +3421,7 @@ static bool load_ruleset_governments(struct section_file *file,
       const int i = government_index(g);
       const char *sec_name = section_name(section_list_get(sec, i));
       struct requirement_vector *reqs =
-        lookup_req_list(file, sec_name, "reqs", government_rule_name(g));
+        lookup_req_list(file, compat, sec_name, "reqs", government_rule_name(g));
 
       if (reqs == NULL) {
         ok = FALSE;
@@ -4692,7 +4697,7 @@ static bool load_ruleset_styles(struct section_file *file,
                secfile_lookup_str_default(file, "generic", 
                                           "%s.citizens_graphic_alt", sec_name));
 
-    reqs = lookup_req_list(file, sec_name, "reqs", city_style_rule_name(i));
+    reqs = lookup_req_list(file, compat, sec_name, "reqs", city_style_rule_name(i));
     if (reqs == NULL) {
       ok = FALSE;
       break;
@@ -4724,7 +4729,7 @@ static bool load_ruleset_styles(struct section_file *file,
                    secfile_lookup_str_default(file, "-",
                                               "%s.music_combat", sec_name));
 
-        reqs = lookup_req_list(file, sec_name, "reqs", "Music Style");
+        reqs = lookup_req_list(file, compat, sec_name, "reqs", "Music Style");
         if (reqs == NULL) {
           ok = FALSE;
           break;
@@ -4863,7 +4868,7 @@ static bool load_ruleset_cities(struct section_file *file,
                  secfile_lookup_str_default(file, "-",
                                             "%s.graphic_alt", sec_name));
 
-      reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s));
+      reqs = lookup_req_list(file, compat, sec_name, "reqs", specialist_rule_name(s));
       if (reqs == NULL) {
         ok = FALSE;
         break;
@@ -5076,7 +5081,7 @@ static bool load_ruleset_effects(struct section_file *file,
 
     peffect = effect_new(eff, value, pmul);
 
-    reqs = lookup_req_list(file, sec_name, "reqs", type);
+    reqs = lookup_req_list(file, compat, sec_name, "reqs", type);
     if (reqs == NULL) {
       ok = FALSE;
       break;
@@ -5087,7 +5092,7 @@ static bool load_ruleset_effects(struct section_file *file,
     } requirement_vector_iterate_end;
 
     if (compat->compat_mode) {
-      reqs = lookup_req_list(file, sec_name, "nreqs", type);
+      reqs = lookup_req_list(file, compat, sec_name, "nreqs", type);
       if (reqs == NULL) {
         ok = FALSE;
         break;
@@ -5769,7 +5774,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
           enabler->action = action;
 
-          actor_reqs = lookup_req_list(file, sec_name, "actor_reqs", action_text);
+          actor_reqs = lookup_req_list(file, compat, sec_name, "actor_reqs", action_text);
           if (actor_reqs == NULL) {
             ok = FALSE;
             break;
@@ -5777,7 +5782,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
           requirement_vector_copy(&enabler->actor_reqs, actor_reqs);
 
-          target_reqs = lookup_req_list(file, sec_name, "target_reqs", action_text);
+          target_reqs = lookup_req_list(file, compat, sec_name, "target_reqs", action_text);
           if (target_reqs == NULL) {
             ok = FALSE;
             break;
@@ -6019,7 +6024,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         break;
       }
 
-      reqs = lookup_req_list(file, sec_name, "reqs", disaster_rule_name(pdis));
+      reqs = lookup_req_list(file, compat, sec_name, "reqs", disaster_rule_name(pdis));
       if (reqs == NULL) {
         ok = FALSE;
         break;
@@ -6192,7 +6197,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           break;
         }
 
-        reqs = lookup_req_list(file, sec_name, "reqs", goods_rule_name(pgood));
+        reqs = lookup_req_list(file, compat, sec_name, "reqs", goods_rule_name(pgood));
         if (reqs == NULL) {
           ok = FALSE;
           break;

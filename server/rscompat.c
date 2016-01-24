@@ -646,7 +646,8 @@ void rscompat_goods_3_0(void)
 /**************************************************************************
   Create extra equivalent for resource
 **************************************************************************/
-struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile, const char *sec_name)
+struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile,
+                                                    const char *sec_name)
 {
   if (game.control.num_extra_types >= MAX_EXTRA_TYPES) {
     ruleset_error(LOG_ERROR, "Can't convert resource from %s to an extra. No free slots.",
@@ -670,4 +671,16 @@ struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile, 
   }
 
   return NULL;
+}
+
+/**************************************************************************
+  Replace deprecated resource names with currently valid ones.
+**************************************************************************/
+const char *rscompat_req_type_name_3_0(const char *old_name)
+{
+  if (!fc_strcasecmp("Resource", old_name)) {
+    return "Extra";
+  }
+
+  return old_name;
 }
