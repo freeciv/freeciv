@@ -68,7 +68,7 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
   main_layout->addSpacing(20);
 
   // tax
-  QGroupBox* group_box = new QGroupBox("Tax");
+  QGroupBox* group_box = new QGroupBox(_("Tax"));
   QHBoxLayout *group_box_layout = new QHBoxLayout;
   QHBoxLayout *some_layout = new QHBoxLayout;
   tax_slider->setMaximum(max / 10);
@@ -91,7 +91,7 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
   main_layout->addWidget(group_box);
 
   // sci
-  group_box = new QGroupBox("Science");
+  group_box = new QGroupBox(_("Science"));
   group_box_layout = new QHBoxLayout;
   some_layout = new QHBoxLayout;
   sci_slider->setMaximum(max / 10);
@@ -114,7 +114,7 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
   main_layout->addWidget(group_box);
 
   // lux
-  group_box = new QGroupBox("Luxury");
+  group_box = new QGroupBox(_("Luxury"));
   group_box_layout = new QHBoxLayout;
   some_layout = new QHBoxLayout;
   lux_slider->setMaximum(max / 10);
