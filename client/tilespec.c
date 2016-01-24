@@ -205,7 +205,7 @@ struct city_sprite {
 struct river_sprites {
   struct sprite
     *spec[MAX_INDEX_CARDINAL],
-    *outlet[4];		/* indexed by enum direction4 */
+    *outlet[MAX_INDEX_CARDINAL];
 };
 
 struct named_sprites {
@@ -2203,7 +2203,7 @@ static const char *cardinal_index_str(const struct tileset *t, int idx)
     int value = (idx >> i) & 1;
 
     cat_snprintf(c, sizeof(c), "%s%d",
-		 dir_get_tileset_name(t->cardinal_tileset_dirs[i]), value);
+                 dir_get_tileset_name(t->cardinal_tileset_dirs[i]), value);
   }
 
   return c;
@@ -2967,7 +2967,6 @@ static bool load_river_sprites(struct tileset *t,
                                struct river_sprites *store, const char *tag_pfx)
 {
   int i;
-  const char dir_char[] = "nsew";
   char buffer[512];
 
   for (i = 0; i < t->num_index_cardinal; i++) {
@@ -2979,12 +2978,19 @@ static bool load_river_sprites(struct tileset *t,
     }
   }
 
-  for (i = 0; i < 4; i++) {
-    fc_snprintf(buffer, sizeof(buffer), "%s_outlet_%c",
-                tag_pfx, dir_char[i]);
+  for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
+    fc_snprintf(buffer, sizeof(buffer), "%s_outlet_%s",
+                tag_pfx, dir_get_tileset_name(t->cardinal_tileset_dirs[i]));
     store->outlet[i] = load_sprite(t, buffer);
     if (store->outlet[i] == NULL) {
-      return FALSE;
+      if (t->cardinal_tileset_dirs[i] == DIR8_NORTHWEST
+          || t->cardinal_tileset_dirs[i] == DIR8_NORTHEAST
+          || t->cardinal_tileset_dirs[i] == DIR8_SOUTHEAST
+          || t->cardinal_tileset_dirs[i] == DIR8_SOUTHWEST) {
+        log_debug("Missing \"%s\", support for this is deprecated.", buffer);
+      } else {
+        return FALSE;
+      }
     }
   }
 
@@ -5164,14 +5170,16 @@ int fill_sprite_array(struct tileset *t,
     if (NULL != pterrain) {
       if (gui_options.draw_terrain && !solid_bg
           && terrain_type_terrain_class(pterrain) == TC_OCEAN) {
-	for (dir = 0; dir < 4; dir++) {
-          int didx = DIR4_TO_DIR8[dir];
+	for (dir = 0; dir < t->num_cardinal_tileset_dirs; dir++) {
+          int didx = t->cardinal_tileset_dirs[dir];
 
           extra_type_list_iterate(t->style_lists[ESTYLE_RIVER], priver) {
             int idx = extra_index(priver);
 
             if (BV_ISSET(textras_near[didx], idx)) {
-              ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
+              if (t->sprites.extras[idx].u.road.ru.rivers.outlet[dir] != NULL) {
+                ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
+              }
               break;
             }
           } extra_type_list_iterate_end;
