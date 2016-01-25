@@ -152,6 +152,11 @@ tiles = { "row", "column","tag"
   0, 3, "t.blend.ocean"
   0, 4, "user.attention"
   0, 5, "tx.fog"
+
+  1, 0, "path.step"            ; turn boundary within path
+  1, 1, "path.exhausted_mp"    ; tip of path, no MP left
+  1, 2, "path.normal"          ; tip of path with MP remaining
+  1, 3, "path.waypoint"
 }
 
 

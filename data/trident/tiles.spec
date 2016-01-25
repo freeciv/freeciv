@@ -578,6 +578,13 @@ tiles = { "row", "column", "tag"
   5, 18, "user.attention"	; Variously crosshair/red-square/arrows
   5, 19, "unit.stack"
 
+; Goto path:
+
+  1, 16, "path.step"            ; turn boundary within path
+  2, 16, "path.exhausted_mp"    ; tip of path, no MP left
+  3, 16, "path.normal"          ; tip of path with MP remaining
+  4, 16, "path.waypoint"
+
 ; Unit activity letters:  (note unit icons have just "u.")
 
   6, 17, "unit.auto_attack",
