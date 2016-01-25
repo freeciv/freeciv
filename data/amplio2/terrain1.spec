@@ -128,4 +128,10 @@ tiles = { "row", "column", "tag"
  15,  3, "t.blend.lake"
  15,  4, "user.attention"
  15,  5, "tx.fog"
+
+;goto path sprites
+ 14,  7, "path.exhausted_mp"    ; tip of path, no MP left
+ 15,  7, "path.normal"          ; tip of path with MP remaining
+ 14,  8, "path.step"            ; turn boundary within path
+ 15,  8, "path.waypoint"
 }

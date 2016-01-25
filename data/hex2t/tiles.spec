@@ -154,6 +154,12 @@ tiles = { "row", "column","tag"
   8, 4, "tx.darkness_sw"
   8, 5, "tx.darkness_w"
 
+; goto path
+
+  8, 6, "path.step"            ; turn boundary within path
+  8, 7, "path.exhausted_mp"    ; tip of path, no MP left
+  8, 8, "path.normal"          ; tip of path with MP remaining
+  8, 9, "path.waypoint"
 }
 
 [grid_upkeep]

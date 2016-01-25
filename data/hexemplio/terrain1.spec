@@ -119,4 +119,10 @@ tiles = { "row", "column","tag"
  5, 4, "user.attention"
  5, 5, "tx.fog"
  5, 8, "mask.tile"
+
+;goto path
+ 6, 0, "path.step"            ; turn boundary within path
+ 6, 1, "path.exhausted_mp"    ; tip of path, no MP left
+ 6, 2, "path.normal"          ; tip of path with MP remaining
+ 6, 3, "path.waypoint"
 }
