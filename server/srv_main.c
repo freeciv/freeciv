@@ -2830,7 +2830,9 @@ static void srv_ready(void)
       { "teamplacement", }
     };
     int i;
-    bool retry_ok = (game.map.server.seed == 0
+    /* If a specific seed has been requested, there's no point retrying,
+     * as the map will be the same every time. */
+    bool retry_ok = (game.map.server.seed_setting == 0
                      && game.map.server.generator != MAPGEN_SCENARIO);
     int max = retry_ok ? 3 : 1;
     bool created = FALSE;
@@ -2865,6 +2867,9 @@ static void srv_ready(void)
       if (!created && max > 1) {
         int set;
 
+        /* If we're retrying, seed_setting==0, which will yield a new map
+         * next time */
+        fc_assert(game.map.server.seed_setting == 0);
         if (i == 0) {
           /* We will retry only if max attempts allow it */
           log_normal(_("Failed to create suitable map, retrying with another mapseed."));
@@ -2875,8 +2880,6 @@ static void srv_ready(void)
            * +2 */
           log_normal(_("Attempt %d/%d"), i + 2, max);
         }
-        /* Reset mapseed so generator knows to use new one */
-        game.map.server.seed = 0;
         /* One should never set this to false in scenario map that had resources
          * placed. We are safe side here as map generation is retried only if this is
          * not scenario map at all. */
