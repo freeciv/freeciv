@@ -4998,7 +4998,7 @@ static int fill_goto_sprite_array(const struct tileset *t,
 
       sprite = t->sprites.path.s[state].specific;
       if (sprite != NULL) {
-        ADD_SPRITE_SIMPLE(sprite);
+        ADD_SPRITE(sprite, FALSE, 0, 0);
       }
 
       sprite = t->sprites.path.s[state].turns[length % 10];
@@ -5023,7 +5023,7 @@ static int fill_goto_sprite_array(const struct tileset *t,
     }
 
     if (waypoint) {
-      ADD_SPRITE_SIMPLE(t->sprites.path.waypoint);
+      ADD_SPRITE(t->sprites.path.waypoint, FALSE, 0, 0);
     }
 
     if (warn) {
