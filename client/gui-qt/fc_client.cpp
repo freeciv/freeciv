@@ -189,13 +189,12 @@ fc_client::~fc_client()
 ****************************************************************************/
 void fc_client::main(QApplication *qapp)
 {
-
   qRegisterMetaType<QTextCursor>("QTextCursor");
   qRegisterMetaType<QTextBlock>("QTextBlock");
   fc_allocate_ow_mutex();
   real_output_window_append(_("This is Qt-client for Freeciv."), NULL, -1);
   fc_release_ow_mutex();
-  chat_welcome_message();
+  chat_welcome_message(true);
 
   set_client_state(C_S_DISCONNECTED);
 

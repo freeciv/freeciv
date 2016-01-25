@@ -1516,7 +1516,7 @@ static void setup_widgets(void)
 
   main_message_area = GTK_TEXT_VIEW(text);
 
-  chat_welcome_message();
+  chat_welcome_message(TRUE);
 
   /* the chat line */
   view = inputline_toolkit_view_new();
