@@ -15,4 +15,6 @@
 
 void set_ai_level_directer(struct player *pplayer, enum ai_level level);
 
+bool ai_fuzzy(const struct player *pplayer, bool normal_decision);
+
 #endif /* FC__DIFFICULTY_H */

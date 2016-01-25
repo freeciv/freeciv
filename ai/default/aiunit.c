@@ -34,7 +34,6 @@
 #include "map.h"
 #include "movement.h"
 #include "packets.h"
-#include "player.h"
 #include "specialist.h"
 #include "traderoutes.h"
 #include "unit.h"
@@ -62,6 +61,7 @@
 #include "autosettlers.h"
 
 /* ai */
+#include "difficulty.h"
 #include "handicaps.h"
 
 /* ai/default */

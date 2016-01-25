@@ -47,6 +47,7 @@
 
 /* ai */
 #include "aitraits.h"
+#include "difficulty.h"
 #include "handicaps.h"
 
 /* ai/default */
