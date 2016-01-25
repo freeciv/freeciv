@@ -345,7 +345,7 @@ static void show_main_page(void)
     set_output_window_text(buffer);
   }
 
-  chat_welcome_message();
+  chat_welcome_message(FALSE);
 
   meswin_dialog_popup(TRUE);
 
