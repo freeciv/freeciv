@@ -3618,8 +3618,8 @@ static void game_load_internal(struct section_file *file)
     game.server.autoattack =
       secfile_lookup_bool_default(file, GAME_DEFAULT_AUTOATTACK,
                                   "game.autoattack");
-    game.server.seed =
-      secfile_lookup_int_default(file, game.server.seed,
+    game.server.seed = game.server.seed_setting =
+      secfile_lookup_int_default(file, game.server.seed_setting,
                                  "game.randseed");
     game.server.allowed_city_names =
       secfile_lookup_int_default(file, game.server.allowed_city_names,
@@ -3763,9 +3763,10 @@ static void game_load_internal(struct section_file *file)
                                             "map.generator"),
                          "%s", secfile_error());
       game.map.server.generator = ei;
-      fc_assert_exit_msg(secfile_lookup_int(file, &game.map.server.seed,
+      fc_assert_exit_msg(secfile_lookup_int(file, &game.map.server.seed_setting,
                                             "map.seed"),
                          "%s", secfile_error());
+      game.map.server.seed = game.map.server.seed_setting;
       fc_assert_exit_msg(secfile_lookup_int(file, &game.map.server.landpercent,
                                             "map.landpercent"),
                          "%s", secfile_error());
