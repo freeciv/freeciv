@@ -29,6 +29,16 @@ extern "C" {
 
 #elif defined (HAVE_WINTHREADS)
 
+/* No way needed by threading, but if the one including us will ever need it,
+ * it can't be included after we have included <windows.h> directly or indirectly. */
+#ifdef HAVE_WINSOCK
+#ifdef HAVE_WINSOCK2
+#include <winsock2.h>
+#else  /* HAVE_WINSOCK2 */
+#include <winsock.h>
+#endif /* HAVE_WINSOCK2 */
+#endif /* HAVE_WINSOCK */
+
 #include <windows.h>
 #define fc_thread      HANDLE *
 #define fc_mutex       HANDLE *

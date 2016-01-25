@@ -685,8 +685,10 @@ case "$host_os" in
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw32])
     AC_DEFINE([WIN32_NATIVE], [1], [Mingw32-specific setting - native])
     AC_DEFINE([HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
+    AC_DEFINE([HAVE_WINSOCK2], [1], [Mingw32-specific setting - winsock2])
     AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])
-    LIBS="$LIBS -lwsock32"
+    dnl Without WINSOCK2, use: LIBS="$LIBS -lwsock32"
+    LIBS="${LIBS} -lws2_32"
     ;;
 
   *skyos*)
@@ -1159,6 +1161,7 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_HEADER_TIME
 AC_STRUCT_TM
+AC_CHECK_HEADERS([ws2tcpip.h])
 AC_CHECK_TYPES([socklen_t], [], [],
 [#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>

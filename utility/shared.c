@@ -40,6 +40,16 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+
+/* Must be before <windows.h> */
+#ifdef HAVE_WINSOCK
+#ifdef HAVE_WINSOCK2
+#include <winsock2.h>
+#else  /* HAVE_WINSOCK2 */
+#include <winsock.h>
+#endif /* HAVE_WINSOCK2 */
+#endif /* HAVE_WINSOCK */
+
 #ifdef WIN32_NATIVE
 #include <windows.h>
 #include <lmcons.h>	/* UNLEN */

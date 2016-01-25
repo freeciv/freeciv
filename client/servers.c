@@ -49,7 +49,14 @@
 #include <unistd.h>
 #endif
 #ifdef HAVE_WINSOCK
+#ifdef HAVE_WINSOCK2
+#include <winsock2.h>
+#else  /* HAVE_WINSOCK2 */
 #include <winsock.h>
+#endif /* HAVE_WINSOCK2 */
+#endif /* HAVE_WINSOCK */
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
 #endif
 
 /* dependencies */
