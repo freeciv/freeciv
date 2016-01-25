@@ -140,6 +140,9 @@ Unit_List_Link *api_methods_private_tile_unit_list_head(lua_State *L,
 bool api_methods_unit_city_can_be_built_here(lua_State *L, Unit *punit);
 Tile *api_methods_unit_tile_get(lua_State *L, Unit * punit);
 Direction api_methods_unit_orientation_get(lua_State *L, Unit *punit);
+Unit *api_methods_unit_transporter(lua_State *L, Unit *punit);
+Unit_List_Link *api_methods_private_unit_cargo_list_head(lua_State *L,
+                                                         Unit *punit);
 
 /* Unit Type */
 bool api_methods_unit_type_has_flag(lua_State *L, Unit_Type *punit_type,

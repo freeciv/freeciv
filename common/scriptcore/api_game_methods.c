@@ -899,6 +899,28 @@ Direction api_methods_unit_orientation_get(lua_State *L, Unit *punit)
 }
 
 /*****************************************************************************
+  Return Unit that transports punit, if any.
+*****************************************************************************/
+Unit *api_methods_unit_transporter(lua_State *L, Unit *punit)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+
+  return punit->transporter;
+}
+
+/*****************************************************************************
+  Return list head for cargo list for Unit
+*****************************************************************************/
+Unit_List_Link *api_methods_private_unit_cargo_list_head(lua_State *L,
+                                                         Unit *punit)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+  return unit_list_head(punit->transporting);
+}
+
+/*****************************************************************************
   Return TRUE if punit_type has flag.
 *****************************************************************************/
 bool api_methods_unit_type_has_flag(lua_State *L, Unit_Type *punit_type,

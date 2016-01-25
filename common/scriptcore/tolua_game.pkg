@@ -215,10 +215,19 @@ module Unit {
       @ tile(lua_State *L, Unit *self);
   }
 
+  Unit *api_methods_unit_transporter
+    @ transporter (lua_State *L, Unit *self);
   bool api_methods_unit_city_can_be_built_here
     @ is_on_possible_city_tile (lua_State *L, Unit *self);
   Direction api_methods_unit_orientation_get
     @ facing(lua_State *L, Unit *self);
+}
+
+module methods_private {
+  module Unit {
+    Unit_List_Link *api_methods_private_unit_cargo_list_head
+      @ cargo_list_head (lua_State *L, Unit *self);
+  }
 }
 
 $[
@@ -534,6 +543,11 @@ do
   -- Safe iteration over the units on Tile
   function Tile:units_iterate()
     return safe_iterate_list(private.Tile.unit_list_head(self))
+  end
+
+  -- Safe iteration over the units transported by Unit
+  function Unit:cargo_iterate()
+    return safe_iterate_list(private.Unit.cargo_list_head(self))
   end
 end
 
