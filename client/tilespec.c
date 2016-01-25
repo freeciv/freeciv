@@ -973,7 +973,7 @@ const struct strvec *get_tileset_list(void)
 
     tilesets = strvec_new();
     strvec_iterate(list, file) {
-      struct tileset *t = tileset_read_toplevel(file, FALSE);
+      struct tileset *t = tileset_read_toplevel(file, FALSE, -1);
 
       if (t) {
         strvec_append(tilesets, file);
@@ -1145,11 +1145,11 @@ void tileset_free(struct tileset *t)
 ***********************************************************************/
 void tilespec_try_read(const char *tileset_name, bool verbose)
 {
-  if (!(tileset = tileset_read_toplevel(tileset_name, verbose))) {
+  if (!(tileset = tileset_read_toplevel(tileset_name, verbose, -1))) {
     struct strvec *list = fileinfolist(get_data_dirs(), TILESPEC_SUFFIX);
 
     strvec_iterate(list, file) {
-      struct tileset *t = tileset_read_toplevel(file, FALSE);
+      struct tileset *t = tileset_read_toplevel(file, FALSE, -1);
 
       if (t) {
         if (!tileset) {
@@ -1219,8 +1219,8 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
    *
    * We read in the new tileset.  This should be pretty straightforward.
    */
-  if (!(tileset = tileset_read_toplevel(tileset_name, FALSE))) {
-    if (!(tileset = tileset_read_toplevel(old_name, FALSE))) {
+  if (!(tileset = tileset_read_toplevel(tileset_name, FALSE, -1))) {
+    if (!(tileset = tileset_read_toplevel(old_name, FALSE, -1))) {
       /* Always fails. */
       fc_assert_exit_msg(NULL != tileset,
                          "Failed to re-read the currently loaded tileset.");
@@ -1596,8 +1596,10 @@ static int check_sprite_type(const char *sprite_type, const char *tile_section)
   Finds and reads the toplevel tilespec file based on given name.
   Sets global variables, including tile sizes and full names for
   intro files.
+  topology_id of -1 means any topology is acceptable.
 ***********************************************************************/
-struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
+struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
+                                      int topology_id)
 {
   struct section_file *file;
   char *fname;
@@ -1613,6 +1615,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   struct tileset *t = NULL;
   const char *extraname;
   const char *tstr;
+  int topo;
 
   fname = tilespec_fullname(tileset_name);
   if (!fname) {
@@ -1704,6 +1707,12 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     goto ON_ERROR;
   }
 
+  if (t->type == TS_ISOMETRIC) {
+    topo = TF_ISO;
+  } else {
+    topo = 0;
+  }
+
   /* Read hex-tileset information. */
   t->hex_width = t->hex_height = 0;
   if (is_hex) {
@@ -1719,10 +1728,18 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     } else {
       t->hex_height = hex_side;
     }
+
+    topo |= TF_HEX;
+
     /* Hex tilesets are drawn the same as isometric. */
     /* FIXME: There will be other legal values to be used with hex
      * tileset in the future, and this would just overwrite it. */
     t->type = TS_ISOMETRIC;
+  }
+
+  if (topology_id >= 0 && topo != (topology_id & (TF_ISO | TF_HEX))) {
+    /* Not of requested topology */
+    goto ON_ERROR;
   }
 
   if (!is_view_supported(t->type)) {
