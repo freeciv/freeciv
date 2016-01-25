@@ -2363,20 +2363,20 @@ type    = "Output_Add_Tile"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Terrain", "Ocean", "Local"
+      "TerrainClass", "Oceanic", "Local"
       "Building", "Offshore Platform", "City"
       "OutputType", "Shield", "Local"
     }
 
 [effect_offshore_platform_1]
 type    = "Output_Add_Tile"
-value   = 1
+value   = -1
 reqs    =
-    { "type", "name", "range"
-      "Terrain", "Deep Ocean", "Local"
-      "Building", "Offshore Platform", "City"
-      "Extra", "Oil Well", "Local"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "present"
+      "Terrain", "Deep Ocean", "Local", TRUE
+      "Building", "Offshore Platform", "City", TRUE
+      "Extra", "Oil Platform", "Local", FALSE
+      "OutputType", "Shield", "Local", TRUE
     }
 
 [effect_offshore_platform_2]
@@ -2873,42 +2873,6 @@ value   = 25
 reqs    =
     { "type", "name", "range"
       "Building", "Super Highways", "City"
-    }
-
-[effect_mine]
-type    = "Mining_Pct"
-value   = 100
-reqs    =
-    { "type", "name", "range"
-      "Extra", "Mine", "Local"
-    }
-
-[effect_oil_well]
-type    = "Mining_Pct"
-value   = 100
-reqs    =
-    { "type", "name", "range"
-      "Extra", "Oil Well", "Local"
-    }
-
-[effect_irrigation]
-type    = "Irrigation_Pct"
-value   = 100
-reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Irrigation", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
-
-[effect_irrigation_2]
-type    = "Irrigation_Pct"
-value	= 100
-reqs	=
-    { "type", "name", "range", "present"
-      "CityTile", "Center", "Local", TRUE
-      "TerrainAlter", "CanIrrigate", "Local", TRUE
-      "Extra", "Mine", "Local", FALSE
-      "Extra", "Oil Well", "Local", FALSE
     }
 
 [effect_supermarket]
@@ -3637,26 +3601,6 @@ reqs    =
       "MinYear", "1900", "World"
     }
 
-[effect_river_food_desert]
-type    = "Output_Inc_Tile"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Terrain", "Desert", "Local", TRUE
-      "Extra", "River", "Local", TRUE
-      "OutputType", "Food", "Local", TRUE
-      "Extra", "Oasis", "Local", FALSE
-    }
-
-[effect_city_shield]
-type    = "Output_Add_Tile"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
-      "OutputType", "Shield", "Local"
-    }
-
 ; No base pop pollution; buildings will increase it
 [effect_pollu_pop]
 type    = "Pollu_Pop_Pct"
@@ -3731,6 +3675,63 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "MinSize", "17", "City"
+    }
+
+[effect_city_shield]
+type    = "Output_Add_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "CityTile", "Center", "Local"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_river_food_desert]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Terrain", "Desert", "Local", TRUE
+      "Extra", "River", "Local", TRUE
+      "OutputType", "Food", "Local", TRUE
+      "Extra", "Oasis", "Local", FALSE
+    }
+
+[effect_oil_well]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Oil Well", "Local"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_mine]
+type    = "Mining_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Mine", "Local"
+    }
+
+[effect_irrigation]
+type    = "Irrigation_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range", "present"
+      "Extra", "Irrigation", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
+    }
+
+[effect_irrigation_2]
+type    = "Irrigation_Pct"
+value	= 100
+reqs	=
+    { "type", "name", "range", "present"
+      "CityTile", "Center", "Local", TRUE
+      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "Extra", "Mine", "Local", FALSE
+      "Extra", "Oil Well", "Local", FALSE
     }
 
 ; "Sea" nreq is for Transports, which are only supposed to clean pollution
