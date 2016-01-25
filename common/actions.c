@@ -978,6 +978,13 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
     }
   }
 
+  if (wanted_action == ACTION_UPGRADE_UNIT) {
+    if (actor_unittype->obsoleted_by == U_NOT_OBSOLETED) {
+      /* Reason: Nothing to upgrade to. */
+      return FALSE;
+    }
+  }
+
   return TRUE;
 }
 
