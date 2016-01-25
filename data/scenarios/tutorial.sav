@@ -3,7 +3,8 @@
 is_scenario=TRUE
 game_version=20599
 name=_("Tutorial")
-description=_("Play this tutorial scenario to get an introduction to Freeciv.")
+description=_("Play this tutorial scenario to get an introduction to Freeciv.\
+ This is intended for single-player games.")
 save_random=FALSE
 players=TRUE
 startpos_nations=FALSE
@@ -91,6 +92,11 @@ function has_tile_terrain_name(tile, terrain_name)
   return (tile.terrain.id == find.terrain(terrain_name).id)
 end
 
+-- TODO:
+-- Hint to check science after building 1st city?
+-- Words for first military unit?
+-- Hint to build workers?
+
 function turn_callback(turn, year)
   if turn == 0 then
     notify.event(nil, nil, E.SCRIPT,
@@ -99,8 +105,36 @@ _("Welcome to Freeciv.  You lead a civilization.  Your\ntask is to conquer the w
 end
 signal.connect('turn_started', 'turn_callback')
 
+-- Check for and warn about vulnerable stacks.
+function check_stacks(tile, player)
+  if not vuln_stack_warning
+     and server.setting.get("killstack") == "ENABLED"
+     and not tile:city() and tile.terrain:class_name() == "Land" then
+    n_our_units = 0
+    for unit in tile:units_iterate() do
+      if unit.owner == player
+         and unit:transporter() == nil then
+        n_our_units = n_our_units + 1
+      end
+    end
+    -- Do not complain about 2 units, as that is a common defensive
+    -- formation: civilian plus bodyguard
+    if n_our_units >= 3 then
+      notify.event(player, tile, E.SCRIPT,
+_("Outside of a city, if a 'stack' of units on a single tile is\n\
+attacked, the strongest unit defends; and if that unit is defeated,\n\
+ALL of the units on the tile are killed.  Therefore, it's often a\n\
+good idea to spread units out, avoiding 'stacks' of units like this,\n\
+particularly on land."))
+      vuln_stack_warning = true
+    end
+  end
+end
+vuln_stack_warning = false
+
 function unit_moved_callback(unit, src_tile, dst_tile)
   if unit.owner:is_human() then
+    check_stacks(dst_tile, unit.owner)
     if citiesbuilt == 0
       and has_unit_type_name(unit, 'Settlers')
       and (has_tile_terrain_name(dst_tile, 'Grassland')
@@ -139,7 +173,7 @@ function third_city_pulse()
     citypulses = citypulses + 1
   else
     notify.event(city_builder, city_tile, E.SCRIPT,
-_("You have built your third city!  Your civilization seems to be\nthriving.  It might be time to think about a military.  Pick one of\nthe cities that has a high production, and convert it into a military\nbase. Build a Barracks there first, then start work on a military\nunit.  Pick the best unit you have available - at the beginning of\nthe game, Warriors will be the only choice, but soon you will have \nplenty of options.\n\nThis might also be a good time to use the worklist feature of the\ncity dialog production report.  Click on Barracks, then click Change\nto begin building them.  Then double-click on a military unit to\nappend it to the worklist.  As soon as the Barracks are complete the\ncity will automatically switch over to producing the unit."))
+_("You have built your third city!  Your civilization seems to be\nthriving.  It might be time to think about a military.  Pick one of\nthe cities that has a high production, and turn it into a military\ncenter.  Build a Barracks there first, then start work on a military\nunit.  Pick the best unit you have available - at the beginning of\nthe game, Warriors will be the only choice, but soon you will have\nplenty of options.\n\nThis might also be a good time to use the worklist feature of the\ncity dialog production report.  Click on Barracks, then click Change\nto begin building them.  Then double-click on a military unit to\nappend it to the worklist.  As soon as the Barracks are complete the\ncity will automatically switch over to producing the unit."))
     signal.remove('pulse', 'third_city_pulse')
   end
 end
@@ -189,7 +223,7 @@ function city_growth_callback(city, size)
   if city.owner:is_human() then
     if size == 2 and not growth2msg then
       notify.event(city.owner, city.tile, E.SCRIPT,
-_("Your city has grown!  As a city grows, more citizens become\navailable that can be put to work in the fields or dedicated as\ncitizen specialists.  A city with two citizens gets to work two\ndifferent tiles, in addition to its center tile which is worked\nfor free.  In the city dialog, the map shows which tiles are worked\nand how much food, shields, and trade each provides.  Food is used\nto grow your city, shields are used for production of buildings\nand units, while trade provides taxable revenue that can be\nturned into science research, gold, or luxuries.\n\nClick on a worked tile to remove the citizen from that tile.  Then\nclick on an unworked tile to place a citizen there.  You may place\nup to two citizens on tiles, of course.  The remaining citizens are\nall specialists - right now they are all entertainers which provide\nonly luxuries (which will not be useful until later)."))
+_("Your city has grown!  As a city grows, more citizens become\navailable that can be put to work in the fields or dedicated as\ncitizen specialists.  A city with two citizens gets to work two\ndifferent tiles, in addition to its center tile which is worked\nfor free.  In the city dialog, the map shows which tiles are worked\nand how much food, shields, and trade each provides.  Food is used\nto grow your city, shields are used for production of buildings\nand units, while trade provides taxable revenue that can be\nturned into science research, gold, or luxuries.\n\nClick on a worked tile to remove the citizen from that tile.  Then\nclick on an unworked tile to place a citizen there.  You may place\nup to two citizens on tiles, of course.  The remaining citizens are\nall specialists - by default they are all entertainers which provide\nonly luxuries (which will not be useful until later)."))
       growth2msg = true
     elseif size == 3 and not growth3msg then
       notify.event(city.owner, city.tile, E.SCRIPT,
@@ -235,9 +269,29 @@ _("You have built a settler unit.  Settlers are best used to build \nnew cities,
 _("Your second Settlers should also be used to build a new city.\nNotice how when you move the Settlers away from your existing cities\nan outline is drawn around them.  This shows the area that would be\ncovered by a city built at this location; it fits in with the outline\nalready on the map view that shows which tiles are covered by your\nexisting cities.  Generally when building new cities you want to make\nsure that all tiles are covered by at least one city, but after that\nit is best that your cities overlap as little as possible.  Spreading\nout cities properly gives each city access to more resources, allowing\nthem to grow to larger sizes."))
     end
     settlersbuilt = settlersbuilt + 1
+  elseif has_unit_type_name(unit, 'Trireme')
+    or has_unit_type_name(unit, 'Caravel')
+    or has_unit_type_name(unit, 'Frigate')
+    or has_unit_type_name(unit, 'Galleon')
+    or has_unit_type_name(unit, 'Transport') then
+    -- Let us assume that if they do not build any early boats, they
+    -- will not survive long enough to reach Submarine/Carrier
+    if boatsbuilt == 0 then
+      notify.event(unit.owner, unit.tile, E.SCRIPT,
+_("You have built your first waterborne unit.  These can transport\n\
+other units across water, allowing you to explore and settle new\n\
+lands.  You can load land units onto your boat in one of two ways.\n\
+When your boat and the unit you want to transport are in the same\n\
+city, select the latter and press L to load the unit; or if the boat\n\
+is adjacent to a land tile, you can move the unit from there onto the\n\
+boat.  When you want to disembark, select the transported unit and\n\
+press U, or move it onto a land tile."))
+    end
+    boatsbuilt = boatsbuilt + 1
   end
 end
 settlersbuilt = 0
+boatsbuilt = 0
 signal.connect('unit_built', 'unit_built_callback')
 
 function building_built_callback(building, city)
