@@ -1396,15 +1396,8 @@ static void sg_load_savefile(struct loaddata *loading)
   }
 
   terrain_type_iterate(pterr) {
-    if (pterr->identifier_load == '\0') {
-      /* Use the current identifier for unknown ones. */
-      pterr->identifier_load = pterr->identifier;
-    }
-  } terrain_type_iterate_end;
-
-  terrain_type_iterate(pterr) {
     terrain_type_iterate(pterr2) {
-      if (pterr != pterr2) {
+      if (pterr != pterr2  && pterr->identifier_load != '\0') {
         sg_failure_ret((pterr->identifier_load != pterr2->identifier_load),
                        "%s and %s share a saved identifier",
                        terrain_rule_name(pterr), terrain_rule_name(pterr2));
