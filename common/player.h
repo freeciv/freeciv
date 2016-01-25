@@ -434,8 +434,6 @@ int player_get_expected_income(const struct player *pplayer);
 
 struct city *player_capital(const struct player *pplayer);
 
-bool ai_fuzzy(const struct player *pplayer, bool normal_decision);
-
 const char *love_text(const int love);
 
 enum diplstate_type cancel_pact_result(enum diplstate_type oldstate);

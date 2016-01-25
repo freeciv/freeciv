@@ -17,6 +17,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "rand.h"
 
 /* common */
 #include "player.h"
@@ -216,4 +217,31 @@ static int expansionism_of_skill_level(enum ai_level level)
   }
 
   return 100;
+}
+
+/**************************************************************************
+  Return the value normal_decision (a boolean), except if the AI is fuzzy,
+  then sometimes flip the value.  The intention of this is that instead of
+    if (condition) { action }
+  you can use
+    if (ai_fuzzy(pplayer, condition)) { action }
+  to sometimes flip a decision, to simulate an AI with some confusion,
+  indecisiveness, forgetfulness etc. In practice its often safer to use
+    if (condition && ai_fuzzy(pplayer,1)) { action }
+  for an action which only makes sense if condition holds, but which a
+  fuzzy AI can safely "forget".  Note that for a non-fuzzy AI, or for a
+  human player being helped by the AI (eg, autosettlers), you can ignore
+  the "ai_fuzzy(pplayer," part, and read the previous example as:
+    if (condition && 1) { action }
+  --dwp
+**************************************************************************/
+bool ai_fuzzy(const struct player *pplayer, bool normal_decision)
+{
+  if (!is_ai(pplayer) || pplayer->ai_common.fuzzy == 0) {
+    return normal_decision;
+  }
+  if (fc_rand(1000) >= pplayer->ai_common.fuzzy) {
+    return normal_decision;
+  }
+  return !normal_decision;
 }

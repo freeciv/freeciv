@@ -47,6 +47,7 @@
 #include "infracache.h" /* adv_city */
 
 /* ai */
+#include "difficulty.h"
 #include "handicaps.h"
 
 /* ai/default */
