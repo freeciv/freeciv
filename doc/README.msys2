@@ -12,6 +12,11 @@ using MSYS2 from http://msys2.github.io
 1) Install MSYS2 following the documentation on their homepage
 
 2) Install following packages with 'pacman -S'
+
+2.1) Packages needed for building freeciv
+ These packages are needed even if you don't plan to make installer,
+ but only build freeciv for local use.
+
  - subversion
  - make
  - automake
@@ -30,7 +35,11 @@ using MSYS2 from http://msys2.github.io
 
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
-Missing:
+2.2) Packaged needed for building installer
+ - mingw-w64-i686-nsis / mingw-w64-x86_64-nsis
+
+
+TODO:
  - icu
  - Mixer support
 
