@@ -4624,7 +4624,7 @@ static bool server_option_str_set(struct option *poption, const char *str)
     return FALSE;
   }
 
-  send_chat_printf("/set %s %s", psoption->name, str);
+  send_chat_printf("/set %s \"%s\"", psoption->name, str);
   return TRUE;
 }
 
