@@ -8,6 +8,9 @@
 # Make rules
 #
 
+# msys2 has dlls in...
+DLLPATH_PREFIX=/mingw32/bin/
+
 # by default build all installers
 all: gtk3-installer gtk2-installer sdl-installer qt-installer ruledit-installer
 
@@ -169,14 +172,14 @@ COMMON_DLLS := \
 
 install-env-common:
 	# add DLLs
-	cp -R $(addprefix /bin/, $(COMMON_DLLS)) install-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(GUI)
 
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
 	libgtk-3-0.dll
 
 install-env-default-fcmp: install-env-common
-	cp -R $(addprefix /bin/, $(DEFAULT_FCMP_DLLS)) install-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(GUI)
 	# add additional GTK+3 files
 	mkdir -p install-$(GUI)/etc
 	cp -R /etc/gtk-3.0 install-$(GUI)/etc/
@@ -193,7 +196,7 @@ GTK2_DLLS := \
 
 install-env-gtk2: install-env-common
 	# add DLLs
-	cp -R $(addprefix /bin/, $(GTK2_DLLS)) install-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK2_DLLS)) install-$(GUI)
 	# add additional GTK+2 files
 	mkdir -p install-$(GUI)/etc
 	cp -R /etc/gtk-2.0 install-$(GUI)/etc/
@@ -210,7 +213,7 @@ SDL_DLLS := \
 
 install-env-sdl: install-env-default-fcmp
 	# add DLLs
-	cp -R $(addprefix /bin/, $(SDL_DLLS)) install-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL_DLLS)) install-$(GUI)
 
 QT_DLLS := \
 	libstdc++-6.dll \
@@ -220,7 +223,7 @@ QT_DLLS := \
 
 install-env-qt: install-env-common
 	# add DLLs
-	cp -R $(addprefix /bin/, $(QT_DLLS)) install-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-$(GUI)
 	# add additional Qt files
 	cp -R /plugins install-$(GUI)/
 	cp -R /share/locale install-$(GUI)/share/
@@ -228,8 +231,8 @@ install-env-qt: install-env-common
 
 install-env-ruledit:
 	# add DLLs
-	cp -R $(addprefix /bin/, $(COMMON_DLLS)) install-ruledit
-	cp -R $(addprefix /bin/, $(QT_DLLS)) install-ruledit
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-ruledit
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-ruledit
 	# add additional Qt files
 	cp -R /plugins install-ruledit/
 	cp -R /share/locale install-ruledit/share/
