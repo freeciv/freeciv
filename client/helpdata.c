@@ -390,6 +390,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
 
   switch (preq->source.kind) {
   case VUT_NONE:
+  case VUT_RESERVED_1:
     return FALSE;
 
   case VUT_ADVANCE:
@@ -1219,82 +1220,6 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      Q_("?terrain:Prevented by %s on any tile within the city "
                         "radius or the city radius of a trade partner.\n"),
                      terrain_name_translation(preq->source.value.terrain));
-      }
-      return TRUE;
-    case REQ_RANGE_CONTINENT:
-    case REQ_RANGE_PLAYER:
-    case REQ_RANGE_TEAM:
-    case REQ_RANGE_ALLIANCE:
-    case REQ_RANGE_WORLD:
-    case REQ_RANGE_COUNT:
-      /* Not supported. */
-      break;
-    }
-    break;
-
-  case VUT_RESOURCE:
-    switch (preq->range) {
-    case REQ_RANGE_LOCAL:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Requires %s on the tile.\n"),
-                     resource_name_translation(preq->source.value.resource));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Prevented by %s on the tile.\n"),
-                     resource_name_translation(preq->source.value.resource));
-      }
-      return TRUE;
-    case REQ_RANGE_CADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Requires %s on the tile or a cardinally "
-                        "adjacent tile.\n"),
-                     resource_name_translation(preq->source.value.resource));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Prevented by %s on the tile or any "
-                        "cardinally adjacent tile.\n"),
-                     resource_name_translation(preq->source.value.resource));
-      }
-      return TRUE;
-    case REQ_RANGE_ADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Requires %s on the tile or an adjacent "
-                        "tile.\n"),
-                     resource_name_translation(preq->source.value.resource));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Prevented by %s on the tile or any "
-                        "adjacent tile.\n"),
-                     resource_name_translation(preq->source.value.resource));
-      }
-      return TRUE;
-    case REQ_RANGE_CITY:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Requires %s on a tile within the "
-                        "city radius.\n"),
-                     resource_name_translation(preq->source.value.resource));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Prevented by %s on any tile within the "
-                        "city radius.\n"),
-                     resource_name_translation(preq->source.value.resource));
-      }
-      return TRUE;
-    case REQ_RANGE_TRADEROUTE:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Requires %s on a tile within the "
-                        "city radius or the city radius of a trade partner.\n"),
-                     resource_name_translation(preq->source.value.resource));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     Q_("?resource:Prevented by %s on any tile within the "
-                        "city radius or the city radius of a trade partner.\n"),
-                     resource_name_translation(preq->source.value.resource));
       }
       return TRUE;
     case REQ_RANGE_CONTINENT:

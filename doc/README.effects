@@ -55,7 +55,6 @@ Extra:         Local, Adjacent, CAdjacent, Traderoute, City
 BaseFlag:      Local, Adjacent, CAdjacent, Traderoute, City
 RoadFlag:      Local, Adjacent, CAdjacent, Traderoute, City
 Terrain:       Local, Adjacent, CAdjacent, Traderoute, City
-Resource:      Local, Adjacent, CAdjacent, Traderoute, City
 UnitType:      Local
 UnitFlag:      Local
 UnitClass:     Local

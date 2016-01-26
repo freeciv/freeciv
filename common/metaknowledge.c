@@ -477,7 +477,6 @@ static bool is_req_knowable(const struct player *pow_player,
   if (req->source.kind == VUT_TERRAIN
       || req->source.kind == VUT_TERRFLAG
       || req->source.kind == VUT_TERRAINCLASS
-      || req->source.kind == VUT_RESOURCE
       || req->source.kind == VUT_EXTRA
       || req->source.kind == VUT_BASEFLAG
       || req->source.kind == VUT_BASEFLAG) {

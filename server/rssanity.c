@@ -193,7 +193,6 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
        break;
 
      case VUT_TERRAIN:
-     case VUT_RESOURCE:
        /* There can be only up to max_tiles requirements of these types */
        if (max_tiles != -1 && rc > max_tiles) {
          log_error("%s: Requirement list has more %s requirements than "
@@ -243,6 +242,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_NATIONGROUP:
        /* Nations can be in multiple groups. */
      case VUT_NONE:
+     case VUT_RESERVED_1:
      case VUT_ADVANCE:
      case VUT_TECHFLAG:
      case VUT_IMPROVEMENT:

@@ -708,10 +708,6 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     /* No way to remove once present. */
     return preq->present;
 
-  case VUT_RESOURCE: /* AI can't remove, but global warm/cool can. */
-    /* No way to create if absent. */
-    return !preq->present;
-
   case VUT_NATION:
   case VUT_NATIONGROUP:
   case VUT_AI_LEVEL:
@@ -737,6 +733,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_MINVETERAN:
   case VUT_MINHP:
   case VUT_ACTION:
+  case VUT_RESERVED_1:
   case VUT_COUNT:
     /* No sensible implementation possible with data available. */
     break;
