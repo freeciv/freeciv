@@ -149,7 +149,7 @@ bool rscompat_names(struct rscompat_info *info)
     int i;
 
     for (i = 0; i < ARRAY_SIZE(new_flags_30); i++) {
-      if (MAX_NUM_USER_UNIT_FLAGS <= first_free + i) {
+      if (UTYF_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS <= first_free + i) {
         /* Can't add the user unit type flags. */
         ruleset_error(LOG_ERROR,
                       "Can't upgrade the ruleset. Not enough free unit type "
