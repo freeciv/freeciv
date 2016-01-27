@@ -1230,10 +1230,13 @@ AC_HEADER_STDBOOL
 if test $ac_cv_header_stdbool_h = yes; then
   AC_DEFINE([FREECIV_HAVE_STDBOOL_H], [1], [Have standard compliant stdbool.h])
 fi
+
+AC_CHECK_HEADERS([pwd.h])
+
 dnl Avoid including the unix emulation layer if we build mingw executables
 dnl There would be type conflicts between winsock and bsd/unix includes
 if test "x$MINGW32" != "xyes"; then
-  AC_CHECK_HEADERS([arpa/inet.h netdb.h pwd.h sys/ioctl.h \
+  AC_CHECK_HEADERS([arpa/inet.h netdb.h sys/ioctl.h \
                     sys/signal.h sys/termio.h \
                     sys/uio.h termios.h])
   AC_CHECK_HEADERS([sys/select.h], [AC_DEFINE([FREECIV_HAVE_SYS_SELECT_H], [1], [sys/select.h available])])
