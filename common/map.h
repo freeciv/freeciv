@@ -126,18 +126,18 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 /* Number of index coordinates (for sanity checks and allocations) */
 #define MAP_INDEX_SIZE (game.map.xsize * game.map.ysize)
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define CHECK_MAP_POS(x,y) \
   fc_assert(is_normal_map_pos((x),(y)))
 #define CHECK_NATIVE_POS(x, y) \
   fc_assert((x) >= 0 && (x) < game.map.xsize && (y) >= 0 && (y) < game.map.ysize)
 #define CHECK_INDEX(index) \
   fc_assert((index) >= 0 && (index) < MAP_INDEX_SIZE)
-#else
+#else  /* FREECIV_DEBUG */
 #define CHECK_MAP_POS(x,y) ((void)0)
 #define CHECK_NATIVE_POS(x, y) ((void)0)
 #define CHECK_INDEX(index) ((void)0)
-#endif
+#endif /* FREECIV_DEBUG */
 
 #define native_pos_to_index_nocheck(nat_x, nat_y)                            \
   ((nat_x) + (nat_y) * game.map.xsize)
