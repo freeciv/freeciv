@@ -81,9 +81,9 @@ extern bool auto_connect;
 extern bool auto_spawn;
 extern bool waiting_for_end_turn;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 extern bool hackless;
-#endif
+#endif /* FREECIV_DEBUG */
 
 struct global_worklist_list;    /* Defined in global_worklist.[ch]. */
 
