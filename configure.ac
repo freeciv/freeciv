@@ -178,8 +178,9 @@ AC_ARG_ENABLE([ipv6],
 esac], [ipv6=test])
 if test x$ipv6 != xno ; then
   if test "x$have_getaddrinfo" = "xyes" ; then
+    enable_ipv6=yes
     AC_CHECK_FUNCS([inet_pton inet_ntop getnameinfo],
-[enable_ipv6=yes], [enable_ipv6=no])
+[], [enable_ipv6=no])
   else
      enable_ipv6=no
   fi
