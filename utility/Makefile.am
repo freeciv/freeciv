@@ -38,6 +38,7 @@ libcivutility_la_SOURCES = \
 		iterator.h	\
 		log.c		\
 		log.h		\
+		net_types.h	\
 		netfile.c	\
 		netfile.h	\
 		netintf.c	\

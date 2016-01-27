@@ -20,7 +20,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
-#include "netintf.h"
+#include "net_types.h"
 #include "rand.h"
 #include "registry.h"
 
