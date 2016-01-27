@@ -185,6 +185,39 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs);
 static void entry_from_inf_token(struct section *psection, const char *name,
                                  const char *tok, struct inputfile *file);
 
+/* An 'entry' is a string, integer, boolean or string vector;
+ * See enum entry_type in registry.h.
+ */
+struct entry {
+  struct section *psection;     /* Parent section. */
+  char *name;                   /* Name, not including section prefix. */
+  enum entry_type type;         /* The type of the entry. */
+  int used;                     /* Number of times entry looked up. */
+  char *comment;                /* Comment, may be NULL. */
+
+  union {
+    /* ENTRY_BOOL */
+    struct {
+      bool value;
+    } boolean;
+    /* ENTRY_INT */
+    struct {
+      int value;
+    } integer;
+    /* ENTRY_FLOAT */
+    struct {
+      float value;
+    } floating;
+    /* ENTRY_STR */
+    struct {
+      char *value;              /* Malloced string. */
+      bool escaped;             /* " or $. Usually TRUE */
+      bool raw;                 /* Do not add anything. */
+      bool gt_marking;          /* Save with gettext marking. */
+    } string;
+  };
+};
+
 /****************************************************************************
   Copies a string and convert the following characters:
   - '\n' to "\\n".
@@ -647,7 +680,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
   }
 
   section_list_iterate(secfile->sections, psection) {
-    if (psection->include) {
+    if (psection->special == EST_INCLUDE) {
       for (ent_iter = entry_list_head(section_entries(psection));
            ent_iter && (pentry = entry_list_link_data(ent_iter));
            ent_iter = entry_list_link_next(ent_iter)) {
@@ -655,6 +688,16 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         fc_assert(!strcmp(entry_name(pentry), "file"));
 
         fz_fprintf(fs, "*include ");
+        entry_to_file(pentry, fs);
+        fz_fprintf(fs, "\n");
+      }
+    } else if (psection->special == EST_COMMENT) {
+      for (ent_iter = entry_list_head(section_entries(psection));
+           ent_iter && (pentry = entry_list_link_data(ent_iter));
+           ent_iter = entry_list_link_next(ent_iter)) {
+
+        fc_assert(!strcmp(entry_name(pentry), "comment"));
+
         entry_to_file(pentry, fs);
         fz_fprintf(fs, "\n");
       }
@@ -1157,14 +1200,39 @@ struct section *secfile_insert_include(struct section_file *secfile,
 
   fc_snprintf(buffer, sizeof(buffer), "include_%u", secfile->num_includes++);
 
-  fc_assert_ret_val(secfile_section_by_name(secfile, filename) == NULL, NULL);
+  fc_assert_ret_val(secfile_section_by_name(secfile, buffer) == NULL, NULL);
 
   /* Create include section. */
   psection = secfile_section_new(secfile, buffer);
-  psection->include = TRUE;
+  psection->special = EST_INCLUDE;
 
   /* Then add string entry "file" to it. */
-  secfile_insert_str_full(secfile, filename, NULL, FALSE, FALSE, TRUE, "%s.file", buffer);
+  secfile_insert_str_full(secfile, filename, NULL, FALSE, FALSE,
+                          EST_INCLUDE, "%s.file", buffer);
+
+  return psection;
+}
+
+/**************************************************************************
+  Insert a long comment entry.
+**************************************************************************/
+struct section *secfile_insert_long_comment(struct section_file *secfile,
+                                            const char *comment)
+{
+  struct section *psection;
+  char buffer[200];
+
+  fc_snprintf(buffer, sizeof(buffer), "long_comment_%u", secfile->num_long_comments++);
+
+  fc_assert_ret_val(secfile_section_by_name(secfile, buffer) == NULL, NULL);
+
+  /* Create long comment section. */
+  psection = secfile_section_new(secfile, buffer);
+  psection->special = EST_COMMENT;
+
+  /* Then add string entry "comment" to it. */
+  secfile_insert_str_full(secfile, comment, NULL, FALSE, TRUE,
+                          EST_COMMENT, "%s.comment", buffer);
 
   return psection;
 }
@@ -1177,7 +1245,7 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
                                       const char *comment,
                                       bool allow_replace,
                                       bool no_escape,
-                                      bool include,
+                                      enum entry_special_type stype,
                                       const char *path, ...)
 {
   char fullpath[MAX_LEN_SECPATH];
@@ -1197,8 +1265,8 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
     return NULL;
   }
 
-  if (psection->include && !include) {
-    log_error("Tried to insert normal entry to include section");
+  if (psection->special != stype) {
+    log_error("Tried to insert wrong type of entry to section");
     return NULL;
   }
 
@@ -1222,6 +1290,10 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
 
   if (NULL != pentry && NULL != comment) {
     entry_set_comment(pentry, comment);
+  }
+
+  if (stype == EST_COMMENT) {
+    pentry->string.raw = TRUE;
   }
 
   return pentry;
@@ -2759,7 +2831,7 @@ struct section *secfile_section_new(struct section_file *secfile,
   }
 
   psection = fc_malloc(sizeof(struct section));
-  psection->include = FALSE;
+  psection->special = EST_NORMAL;
   psection->name = fc_strdup(name);
   psection->entries = entry_list_new_full(entry_destroy);
 
@@ -2934,39 +3006,6 @@ struct entry *section_entry_lookup(const struct section *psection,
   return NULL;
 }
 
-
-/* An 'entry' is a string, integer, boolean or string vector;
- * See enum entry_type in registry.h.
- */
-struct entry {
-  struct section *psection;     /* Parent section. */
-  char *name;                   /* Name, not including section prefix. */
-  enum entry_type type;         /* The type of the entry. */
-  int used;                     /* Number of times entry looked up. */
-  char *comment;                /* Comment, may be NULL. */
-
-  union {
-    /* ENTRY_BOOL */
-    struct {
-      bool value;
-    } boolean;
-    /* ENTRY_INT */
-    struct {
-      int value;
-    } integer;
-    /* ENTRY_FLOAT */
-    struct {
-      float value;
-    } floating;
-    /* ENTRY_STR */
-    struct {
-      char *value;              /* Malloced string. */
-      bool escaped;             /* " or $. Usually TRUE */
-      bool gt_marking;          /* Save with gettext marking. */
-    } string;
-  };
-};
-
 /**************************************************************************
   Returns a new entry.
 **************************************************************************/
@@ -3073,6 +3112,7 @@ struct entry *section_entry_str_new(struct section *psection,
     pentry->type = ENTRY_STR;
     pentry->string.value = fc_strdup(NULL != value ? value : "");
     pentry->string.escaped = escaped;
+    pentry->string.raw = FALSE;
     pentry->string.gt_marking = FALSE;
   }
 
@@ -3452,6 +3492,8 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
       } else {
         fz_fprintf(fs, "\"%s\"", buf);
       }
+    } else if (pentry->string.raw) {
+      fz_fprintf(fs, "%s", pentry->string.value);
     } else {
       fz_fprintf(fs, "$%s$", pentry->string.value);
     }

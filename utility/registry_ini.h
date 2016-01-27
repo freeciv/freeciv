@@ -17,6 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "ioz.h"
 #include "support.h"            /* bool type and fc__attribute */
 
@@ -66,6 +67,8 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
                   int compression_level, enum fz_method compression_method);
 void secfile_check_unused(const struct section_file *secfile);
 const char *secfile_name(const struct section_file *secfile);
+
+enum entry_special_type { EST_NORMAL, EST_INCLUDE, EST_COMMENT };
 
 /* Insertion functions. */
 struct entry *secfile_insert_bool_full(struct section_file *secfile,
@@ -154,11 +157,14 @@ struct entry *secfile_insert_float_full(struct section_file *secfile,
 struct section *secfile_insert_include(struct section_file *secfile,
                                        const char *filename);
 
+struct section *secfile_insert_long_comment(struct section_file *secfile,
+                                            const char *comment);
+
 struct entry *secfile_insert_str_full(struct section_file *secfile,
                                       const char *string,
                                       const char *comment,
                                       bool allow_replace, bool no_escape,
-                                      bool include,
+                                      enum entry_special_type stype,
                                       const char *path, ...)
                                       fc__attribute((__format__(__printf__, 7, 8)));
 #define secfile_insert_str(secfile, string, path, ...)                      \

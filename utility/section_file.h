@@ -27,7 +27,7 @@ extern "C" {
 /* Section structure. */
 struct section {
   struct section_file *secfile; /* Parent structure. */
-  bool include;
+  enum entry_special_type special;
   char *name;                   /* Name of the section. */
   struct entry_list *entries;   /* The list of the children. */
 };
@@ -40,6 +40,7 @@ struct section_file {
    * printf format for size_t and we need to construct string containing
    * num_includes with fc_snprintf(), we set for unsigned int. */
   unsigned int num_includes;
+  unsigned int num_long_comments;
   struct section_list *sections;
   bool allow_duplicates;
   bool allow_digital_boolean;
