@@ -89,6 +89,9 @@ typedef bool(*DIO_GET_CONV_FUN) (char *dst, size_t ndst,
 				 const char *src, size_t nsrc);
 void dio_set_get_conv_callback(DIO_GET_CONV_FUN fun);
 
+bool dataio_get_conv_callback(char *dst, size_t ndst, const char *src,
+                              size_t nsrc);
+
 /* General functions */
 void dio_output_init(struct raw_data_out *dout, void *destination,
 		     size_t dest_size);

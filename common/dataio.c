@@ -134,6 +134,15 @@ void dio_set_get_conv_callback(DIO_GET_CONV_FUN fun)
 }
 
 /**************************************************************************
+  Call the get_conv callback.
+**************************************************************************/
+bool dataio_get_conv_callback(char *dst, size_t ndst, const char *src,
+                              size_t nsrc)
+{
+  return get_conv_callback(dst, ndst, src, nsrc);
+}
+
+/**************************************************************************
   Returns TRUE iff the output has size bytes available.
 **************************************************************************/
 static bool enough_space(struct raw_data_out *dout, size_t size)

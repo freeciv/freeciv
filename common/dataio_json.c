@@ -70,11 +70,6 @@
 
 #include "dataio.h"
 
-static bool get_conv(char *dst, size_t ndst, const char *src,
-		     size_t nsrc);
-
-static DIO_GET_CONV_FUN get_conv_callback = get_conv;
-
 /**************************************************************************
   Returns a CURL easy handle for name encoding and decoding
 **************************************************************************/
@@ -90,27 +85,6 @@ static CURL *get_curl(void)
   }
 
   return curl_easy_handle;
-}
-
-/**************************************************************************
- Returns FALSE if the destination isn't large enough or the source was
- bad. This is default get_conv_callback.
-**************************************************************************/
-static bool get_conv(char *dst, size_t ndst, const char *src,
-		     size_t nsrc)
-{
-  size_t len = nsrc;		/* length to copy, not including null */
-  bool ret = TRUE;
-
-  if (ndst > 0 && len >= ndst) {
-    ret = FALSE;
-    len = ndst - 1;
-  }
-
-  memcpy(dst, src, len);
-  dst[len] = '\0';
-
-  return ret;
 }
 
 static void plocation_write_data(json_t *item,
@@ -809,14 +783,17 @@ bool dio_get_string_json(json_t *json_packet, char *key,
                          char *dest, size_t max_dest_size)
 {
   json_t *pstring = plocation_read_data(json_packet, location);
+  const char *result_str;
 
   if (!pstring) {
     log_error("ERROR: Unable to get string with key: %s", key);
     return FALSE;
   }
-  const char *result_str = json_string_value(pstring);
 
-  if (dest && !(*get_conv_callback) (dest, max_dest_size, result_str, strlen(result_str))) {
+  result_str = json_string_value(pstring);
+
+  if (dest
+      && !dataio_get_conv_callback(dest, max_dest_size, result_str, strlen(result_str))) {
     log_error("ERROR: Unable to get string with key: %s", key);
     return FALSE;
   }
