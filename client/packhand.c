@@ -3647,6 +3647,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 
   sz_strlcpy(pextra->activity_gfx, p->activity_gfx);
   sz_strlcpy(pextra->act_gfx_alt, p->act_gfx_alt);
+  sz_strlcpy(pextra->act_gfx_alt2, p->act_gfx_alt2);
   sz_strlcpy(pextra->rmact_gfx, p->rmact_gfx);
   sz_strlcpy(pextra->rmact_gfx_alt, p->rmact_gfx_alt);
   sz_strlcpy(pextra->graphic_str, p->graphic_str);

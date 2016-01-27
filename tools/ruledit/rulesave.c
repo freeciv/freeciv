@@ -1984,6 +1984,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     if (strcmp(pextra->act_gfx_alt, "-")) {
       secfile_insert_str(sfile, pextra->act_gfx_alt, "%s.act_gfx_alt", path);
     }
+    if (strcmp(pextra->act_gfx_alt2, "-")) {
+      secfile_insert_str(sfile, pextra->act_gfx_alt2, "%s.act_gfx_alt2", path);
+    }
     if (strcmp(pextra->rmact_gfx, "-")) {
       secfile_insert_str(sfile, pextra->rmact_gfx, "%s.rmact_gfx", path);
     }

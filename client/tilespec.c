@@ -3282,10 +3282,14 @@ void tileset_setup_extra(struct tileset *t,
     t->sprites.extras[id].activity = load_sprite(t, pextra->activity_gfx);
     if (t->sprites.extras[id].activity == NULL) {
       t->sprites.extras[id].activity = load_sprite(t, pextra->act_gfx_alt);
-      if (t->sprites.extras[id].activity == NULL) {
-        tileset_error(LOG_FATAL, _("Missing %s building activity sprite for tags \"%s\" and alternative \"%s\"."),
-                      extra_rule_name(pextra), pextra->activity_gfx, pextra->act_gfx_alt);
-      }
+    }
+    if (t->sprites.extras[id].activity == NULL) {
+      t->sprites.extras[id].activity = load_sprite(t, pextra->act_gfx_alt2);
+    }
+    if (t->sprites.extras[id].activity == NULL) {
+      tileset_error(LOG_FATAL, _("Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" and \"%s\"."),
+                    extra_rule_name(pextra), pextra->activity_gfx,
+                    pextra->act_gfx_alt, pextra->act_gfx_alt2);
     }
   }
 
