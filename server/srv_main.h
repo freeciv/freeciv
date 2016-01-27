@@ -15,7 +15,7 @@
 
 /* utility */
 #include "log.h"        /* enum log_level */
-#include "netintf.h"
+#include "net_types.h"  /* announce_type */
 
 /* common */
 #include "fc_types.h"

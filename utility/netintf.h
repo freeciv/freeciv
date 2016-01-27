@@ -55,25 +55,8 @@ extern "C" {
 
 /* utility */
 #include "ioz.h"
-#include "support.h"            /* bool type */
-
-/* map symbolic Winsock error names to symbolic errno names */
-#ifdef FREECIV_HAVE_WINSOCK
-#undef EINTR
-#undef EINPROGRESS
-#undef EWOULDBLOCK
-#undef ECONNRESET
-#undef ECONNREFUSED
-#undef EADDRNOTAVAIL
-#undef ETIMEDOUT
-#define EINTR         WSAEINTR
-#define EINPROGRESS   WSAEWOULDBLOCK
-#define EWOULDBLOCK   WSAEWOULDBLOCK
-#define ECONNRESET    WSAECONNRESET
-#define ECONNREFUSED  WSAECONNREFUSED
-#define EADDRNOTAVAIL WSAEADDRNOTAVAIL
-#define ETIMEDOUT     WSAETIMEDOUT
-#endif /* FREECIV_HAVE_WINSOCK */
+#include "net_types.h"
+#include "support.h"   /* bool type */
 
 #ifdef FD_ZERO
 #define FC_FD_ZERO FD_ZERO
@@ -108,29 +91,12 @@ union fc_sockaddr {
     TYPED_LIST_ITERATE(union fc_sockaddr, sockaddrlist, paddr)
 #define fc_sockaddr_list_iterate_end  LIST_ITERATE_END
 
-/* Which protocol will be used for LAN announcements */
-enum announce_type {
-  ANNOUNCE_NONE,
-  ANNOUNCE_IPV4,
-  ANNOUNCE_IPV6
-};
-
-#define ANNOUNCE_DEFAULT ANNOUNCE_IPV4
-
-enum fc_addr_family {
-  FC_ADDR_IPV4,
-  FC_ADDR_IPV6,
-  FC_ADDR_ANY
-};
-
 int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
 int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
               struct timeval *timeout);
 int fc_readsocket(int sock, void *buf, size_t size);
 int fc_writesocket(int sock, const void *buf, size_t size);
 void fc_closesocket(int sock);
-void fc_init_network(void);
-void fc_shutdown_network(void);
 
 void fc_nonblock(int sockfd);
 struct fc_sockaddr_list *net_lookup_service(const char *name, int port,

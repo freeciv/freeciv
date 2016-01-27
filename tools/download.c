@@ -31,7 +31,6 @@
 #include "capability.h"
 #include "fcintl.h"
 #include "log.h"
-#include "netintf.h"
 #include "netfile.h"
 #include "registry.h"
 
