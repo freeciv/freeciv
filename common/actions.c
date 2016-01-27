@@ -964,25 +964,58 @@ bool
 action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
                                 const struct unit_type *actor_unittype)
 {
-  if (wanted_action == ACTION_JOIN_CITY) {
+  switch (wanted_action) {
+  case ACTION_JOIN_CITY:
     if (utype_pop_value(actor_unittype) <= 0) {
       /* Reason: Must have population to add. */
       return FALSE;
     }
-  }
+    break;
 
-  if (wanted_action == ACTION_BOMBARD) {
+  case ACTION_BOMBARD:
     if (actor_unittype->bombard_rate <= 0) {
       /* Reason: Can't bombard if it never fires. */
       return FALSE;
     }
-  }
+    break;
 
-  if (wanted_action == ACTION_UPGRADE_UNIT) {
+  case ACTION_UPGRADE_UNIT:
     if (actor_unittype->obsoleted_by == U_NOT_OBSOLETED) {
       /* Reason: Nothing to upgrade to. */
       return FALSE;
     }
+    break;
+
+  case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_SPY_POISON:
+  case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_INCITE_CITY:
+  case ACTION_TRADE_ROUTE:
+  case ACTION_MARKETPLACE:
+  case ACTION_HELP_WONDER:
+  case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_CAPTURE_UNITS:
+  case ACTION_FOUND_CITY:
+  case ACTION_STEAL_MAPS:
+  case ACTION_SPY_NUKE:
+  case ACTION_NUKE:
+  case ACTION_DESTROY_CITY:
+  case ACTION_EXPEL_UNIT:
+  case ACTION_RECYCLE_UNIT:
+  case ACTION_DISBAND_UNIT:
+  case ACTION_HOME_CITY:
+    /* No hard unit type requirements. */
+    break;
+
+  case ACTION_COUNT:
+    fc_assert_ret_val(wanted_action != ACTION_COUNT, FALSE);
+    break;
   }
 
   return TRUE;
