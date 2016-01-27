@@ -80,6 +80,12 @@ struct ai_type;
 #define SPECENUM_COUNT UCF_COUNT
 #include "specenum_gen.h"
 
+/* The largest distance a ruleset can allow a unit to paradrop.
+ * Remember to make sure that the field type of PACKET_RULESET_UNIT's
+ * paratroopers_range field can transfer the new maximum if you increase
+ * it. */
+#define UNIT_MAX_PARADROP_RANGE 255
+
 /* Used in the network protocol. */
 BV_DEFINE(bv_unit_classes, UCL_LAST);
 BV_DEFINE(bv_unit_class_flags, UCF_COUNT);
