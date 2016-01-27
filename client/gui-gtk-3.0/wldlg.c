@@ -1334,7 +1334,6 @@ static void reset_global_worklist(GtkWidget *editor,
 void refresh_worklist(GtkWidget *editor)
 {
   struct worklist_data *ptr;
-  const struct global_worklist *pgwl = NULL;
   struct worklist queue;
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   int i, targets_used;
@@ -1348,10 +1347,6 @@ void refresh_worklist(GtkWidget *editor)
 
   ptr = g_object_get_data(G_OBJECT(editor), "data");
 
-  if (!ptr->pcity
-      && !(pgwl = global_worklist_by_id(ptr->global_worklist_id))) {
-  }
-
   /* refresh source tasks. */
   if (gtk_tree_selection_get_selected(ptr->src_selection, NULL, &it)) {
     gtk_tree_model_get(GTK_TREE_MODEL(ptr->src), &it, 0, &id, -1);
@@ -1361,6 +1356,8 @@ void refresh_worklist(GtkWidget *editor)
   }
   gtk_list_store_clear(ptr->src);
 
+  /* These behave just right if ptr->pcity is NULL -> in case of global
+   * worklist. */
   targets_used = collect_eventually_buildable_targets(targets, ptr->pcity,
                                                       ptr->future);
   name_and_sort_items(targets, targets_used, items, FALSE, ptr->pcity);
@@ -1385,10 +1382,15 @@ void refresh_worklist(GtkWidget *editor)
   exists = gtk_tree_model_get_iter_first(model, &it);
 
   /* dance around worklist braindamage. */
-  if (ptr->pcity) {
+  if (ptr->pcity != NULL) {
     city_get_queue(ptr->pcity, &queue);
   } else {
+    const struct global_worklist *pgwl;
+
+    pgwl = global_worklist_by_id(ptr->global_worklist_id);
+
     fc_assert(NULL != pgwl);
+
     worklist_copy(&queue, global_worklist_get(pgwl));
   }
 
@@ -1421,8 +1423,8 @@ void refresh_worklist(GtkWidget *editor)
 
   /* update widget sensitivity. */
   if (ptr->pcity) {
-    if ((can_client_issue_orders() &&
-	 city_owner(ptr->pcity) == client.conn.playing)) {
+    if ((can_client_issue_orders()
+         && city_owner(ptr->pcity) == client.conn.playing)) {
       gtk_widget_set_sensitive(ptr->add_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->dst_view, TRUE);
     } else {
