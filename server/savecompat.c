@@ -1219,181 +1219,190 @@ static void compat_load_dev(struct loaddata *loading)
 
   log_debug("Upgrading data between development revisions");
 
-  /* Rename "random.save" as "random.saved", if not already saved by later name */
-  if (secfile_lookup_bool(loading->file, &randsaved, "random.save")) {
-    secfile_insert_bool(loading->file, randsaved, "random.saved");
-  }
-
-  /* Move version information from game.version to scenario.game_version */
-  if (secfile_lookup_int(loading->file, &game_version, "game.version")) {
-    secfile_insert_int(loading->file, game_version, "scenario.game_version");
+  if (!secfile_lookup_int(loading->file, &game_version, "scenario.game_version")) {
+    /* Oldest development versions handled here had version info in "game.version" */
+    if (secfile_lookup_int(loading->file, &game_version, "game.version")) {
+      /* Move it to scenario.game_version while here. */
+      secfile_insert_int(loading->file, game_version, "scenario.game_version");
+    } else {
+      game_version = 20600;
+    }
   }
 
   nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
 
-  /* Convert ai.control to a player flag */
-  for (plrno = 0; plrno < nplayers; plrno++) {
-    const char *flag_names[1];
-
-    if (secfile_lookup_bool_default(loading->file, FALSE, "player%d.ai.control",
-                                    plrno)) {
-      flag_names[0] = plr_flag_id_name(PLRF_AI);
-
-      secfile_insert_str_vec(loading->file, flag_names, 1,
-                             "player%d.flags", plrno);
-    }
-  }
-
-  for (plrno = 0; plrno < nplayers; plrno++) {
-    /* Add 'anonymous' qualifiers for user names */
-    if (secfile_entry_lookup(loading->file, "player%d.unassigned_user", plrno) == NULL) {
-      const char *name;
-
-      name = secfile_lookup_str_default(loading->file, "", "player%d.username", plrno);
-      secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
-                          "player%d.unassigned_user", plrno);
+  if (game_version < 29100) {
+    /* Early 3.0 development version save. */
+  
+    /* Rename "random.save" as "random.saved", if not already saved by later name */
+    if (secfile_lookup_bool(loading->file, &randsaved, "random.save")) {
+      secfile_insert_bool(loading->file, randsaved, "random.saved");
     }
 
-    if (secfile_entry_lookup(loading->file, "player%d.unassigned_ranked", plrno) == NULL) {
-      const char *name;
+    /* Convert ai.control to a player flag */
+    for (plrno = 0; plrno < nplayers; plrno++) {
+      const char *flag_names[1];
 
-      name = secfile_lookup_str_default(loading->file, "", "player%d.ranked_username", plrno);
-      secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
-                          "player%d.unassigned_ranked", plrno);
+      if (secfile_lookup_bool_default(loading->file, FALSE, "player%d.ai.control",
+                                      plrno)) {
+        flag_names[0] = plr_flag_id_name(PLRF_AI);
+
+        secfile_insert_str_vec(loading->file, flag_names, 1,
+                               "player%d.flags", plrno);
+      }
     }
-  }
 
-  /* Diplomatic state type by name. */
-  diplstate_type_size
-    = secfile_lookup_int_default(loading->file, 0,
-                                 "savefile.diplstate_type_size");
+    for (plrno = 0; plrno < nplayers; plrno++) {
+      /* Add 'anonymous' qualifiers for user names */
+      if (secfile_entry_lookup(loading->file, "player%d.unassigned_user", plrno) == NULL) {
+        const char *name;
 
-  if (diplstate_type_size) {
-    const char **ds_t_name;
+        name = secfile_lookup_str_default(loading->file, "", "player%d.username", plrno);
+        secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
+                            "player%d.unassigned_user", plrno);
+      }
 
-    /* Read the names of the diplomatic states. */
-    ds_t_name = secfile_lookup_str_vec(loading->file,
-                                       &diplstate_type_size,
-                                       "savefile.diplstate_type_vector");
+      if (secfile_entry_lookup(loading->file, "player%d.unassigned_ranked", plrno) == NULL) {
+        const char *name;
 
+        name = secfile_lookup_str_default(loading->file, "", "player%d.ranked_username", plrno);
+        secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
+                            "player%d.unassigned_ranked", plrno);
+      }
+    }
+
+    /* Diplomatic state type by name. */
+    diplstate_type_size
+      = secfile_lookup_int_default(loading->file, 0,
+                                   "savefile.diplstate_type_size");
+
+    if (diplstate_type_size) {
+      const char **ds_t_name;
+
+      /* Read the names of the diplomatic states. */
+      ds_t_name = secfile_lookup_str_vec(loading->file,
+                                         &diplstate_type_size,
+                                         "savefile.diplstate_type_vector");
+
+      for (plrno = 0; plrno < nplayers; plrno++) {
+        int i;
+
+        for (i = 0; i < nplayers; i++) {
+          char buf[32];
+
+          fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
+
+          if (!secfile_entry_lookup(loading->file, "%s.current", buf)) {
+            /* The current diplomatic state was called type when it was
+             * stored as a number. */
+            int current = secfile_lookup_int_default(loading->file, DS_WAR,
+                                                     "%s.type",
+                                                     buf);
+
+            secfile_insert_str(loading->file, ds_t_name[current],
+                               "%s.current", buf);
+          }
+
+          if (!secfile_entry_lookup(loading->file, "%s.closest", buf)) {
+            /* The closest diplomatic state was called max_state when it was
+             * stored as a number. */
+            int closest = secfile_lookup_int_default(loading->file, DS_WAR,
+                                                     "%s.max_state",
+                                                     buf);
+
+            secfile_insert_str(loading->file, ds_t_name[closest],
+                               "%s.closest", buf);
+          }
+        }
+      }
+
+      free(ds_t_name);
+    }
+
+    /* Fix save games from Freeciv versions with a bug that made it view
+     * "Never met" as closer than "Peace" or "Alliance". */
     for (plrno = 0; plrno < nplayers; plrno++) {
       int i;
 
       for (i = 0; i < nplayers; i++) {
         char buf[32];
+        int current;
+        int closest;
 
         fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
 
-        if (!secfile_entry_lookup(loading->file, "%s.current", buf)) {
-          /* The current diplomatic state was called type when it was
-           * stored as a number. */
-          int current = secfile_lookup_int_default(loading->file, DS_WAR,
-                                                   "%s.type",
-                                                   buf);
+        /* Read the current diplomatic state. */
+        current = secfile_lookup_enum_default(loading->file, DS_NO_CONTACT,
+                                              diplstate_type,
+                                              "%s.current",
+                                              buf);
 
-          secfile_insert_str(loading->file, ds_t_name[current],
-                             "%s.current", buf);
-        }
+        /* Read the closest diplomatic state. */
+        closest = secfile_lookup_enum_default(loading->file, DS_NO_CONTACT,
+                                              diplstate_type,
+                                              "%s.closest",
+                                              buf);
 
-        if (!secfile_entry_lookup(loading->file, "%s.closest", buf)) {
-          /* The closest diplomatic state was called max_state when it was
-           * stored as a number. */
-          int closest = secfile_lookup_int_default(loading->file, DS_WAR,
-                                                   "%s.max_state",
-                                                   buf);
+        if (closest == DS_NO_CONTACT
+            && (current == DS_PEACE
+                || current == DS_ALLIANCE)) {
+          /* The current relationship is closer than what the save game
+           * claims is the closes relationship ever. */
 
-          secfile_insert_str(loading->file, ds_t_name[closest],
-                             "%s.closest", buf);
+          log_sg(_("The save game is wrong about what the closest"
+                   " relationship player %d and player %d have had is."
+                   " Fixing it..."),
+                 plrno, i);
+
+          secfile_replace_enum(loading->file, current,
+                               diplstate_type, "%s.closest", buf);
         }
       }
     }
 
-    free(ds_t_name);
-  }
+    /* Units orders. */
+    for (plrno = 0; plrno < nplayers; plrno++) {
+      int units_num = secfile_lookup_int_default(loading->file, 0,
+                                                 "player%d.nunits",
+                                                 plrno);
+      int unit;
+      int tgt_vec[MAX_LEN_ROUTE + 1];
 
-  /* Fix save games from Freeciv versions with a bug that made it view
-   * "Never met" as closer than "Peace" or "Alliance". */
-  for (plrno = 0; plrno < nplayers; plrno++) {
-    int i;
+      for (unit = 0; unit < units_num; unit++) {
+        int ord_num;
 
-    for (i = 0; i < nplayers; i++) {
-      char buf[32];
-      int current;
-      int closest;
-
-      fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
-
-      /* Read the current diplomatic state. */
-      current = secfile_lookup_enum_default(loading->file, DS_NO_CONTACT,
-                                            diplstate_type,
-                                            "%s.current",
-                                            buf);
-
-      /* Read the closest diplomatic state. */
-      closest = secfile_lookup_enum_default(loading->file, DS_NO_CONTACT,
-                                            diplstate_type,
-                                            "%s.closest",
-                                            buf);
-
-      if (closest == DS_NO_CONTACT
-          && (current == DS_PEACE
-              || current == DS_ALLIANCE)) {
-        /* The current relationship is closer than what the save game
-         * claims is the closes relationship ever. */
-
-        log_sg(_("The save game is wrong about what the closest"
-                 " relationship player %d and player %d have had is."
-                 " Fixing it..."),
-               plrno, i);
-
-        secfile_replace_enum(loading->file, current,
-                             diplstate_type, "%s.closest", buf);
-      }
-    }
-  }
-
-  /* Units orders. */
-  for (plrno = 0; plrno < nplayers; plrno++) {
-    int units_num = secfile_lookup_int_default(loading->file, 0,
-                                               "player%d.nunits",
-                                               plrno);
-    int unit;
-    int tgt_vec[MAX_LEN_ROUTE + 1];
-
-    for (unit = 0; unit < units_num; unit++) {
-      int ord_num;
-
-      /* Load the old target list string. */
-      const char *tgt_str =
+        /* Load the old target list string. */
+        const char *tgt_str =
           secfile_lookup_str_default(loading->file, NULL,
                                      "player%d.u%d.tgt_list",
                                      plrno, unit);
 
-      /* Load the order length */
-      const int len =
+        /* Load the order length */
+        const int len =
           secfile_lookup_int_default(loading->file, 0,
                                      "player%d.u%d.orders_length",
                                      plrno, unit);
 
-      if (tgt_str == NULL) {
-        /* Already upgraded */
-        continue;
-      }
+        if (tgt_str == NULL) {
+          /* Already upgraded */
+          continue;
+        }
 
-      if (len <= 0) {
-        /* No orders. */
-        continue;
-      }
+        if (len <= 0) {
+          /* No orders. */
+          continue;
+        }
 
-      /* Convert the target of each order. */
-      for (ord_num = 0; ord_num < len; ord_num++) {
-        tgt_vec[ord_num] = char2num(tgt_str[ord_num]);
-      }
+        /* Convert the target of each order. */
+        for (ord_num = 0; ord_num < len; ord_num++) {
+          tgt_vec[ord_num] = char2num(tgt_str[ord_num]);
+        }
 
-      /* Store the order target vector. */
-      secfile_insert_int_vec(loading->file, tgt_vec, len,
-                             "player%d.u%d.tgt_vec",
-                             plrno, unit);
+        /* Store the order target vector. */
+        secfile_insert_int_vec(loading->file, tgt_vec, len,
+                               "player%d.u%d.tgt_vec",
+                               plrno, unit);
+      }
     }
   }
 
