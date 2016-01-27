@@ -738,6 +738,20 @@ bool sanity_check_ruleset_data(void)
     }
   } unit_type_iterate_end;
 
+  /* Check that unit type fields are in range. */
+  unit_type_iterate(putype) {
+    if (putype->paratroopers_range < 0
+        || putype->paratroopers_range > UNIT_MAX_PARADROP_RANGE) {
+      /* Paradrop range is limited by the network protocol. */
+      ruleset_error(LOG_ERROR,
+                    "The paratroopers_range of the unit type '%s' is %d. "
+                    "That is out of range. Max range is %d.",
+                    utype_rule_name(putype),
+                    putype->paratroopers_range, UNIT_MAX_PARADROP_RANGE);
+      ok = FALSE;
+    }
+  } unit_type_iterate_end;
+
   /* Check requirement sets against conflicting requirements.
    * Effects use requirement lists */
   if (!iterate_effect_cache(effect_list_sanity_cb, NULL)) {
