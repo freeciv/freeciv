@@ -1271,20 +1271,6 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
 }
 
 /****************************************************************************
-  Gives a random tech, which he hasn't researched yet. Applies freecost.
-  Returns the tech.
-****************************************************************************/
-Tech_type_id give_random_free_tech(struct research *presearch)
-{
-  Tech_type_id tech;
-
-  tech = pick_random_tech(presearch);
-  research_apply_penalty(presearch, tech, game.server.freecost);
-  found_new_tech(presearch, tech, FALSE, TRUE);
-  return tech;
-}
-
-/****************************************************************************
   Gives an immediate free tech. Applies freecost. Returns the tech.
 ****************************************************************************/
 Tech_type_id give_immediate_free_tech(struct research *presearch)
