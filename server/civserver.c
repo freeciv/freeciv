@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,13 +34,6 @@
 #include <Dialogs.h>
 #endif
 
-#ifdef FREECIV_HAVE_WINSOCK
-#ifdef FREECIV_HAVE_WINSOCK2
-#include <winsock2.h>
-#else  /* FREECIV_HAVE_WINSOCK2 */
-#include <winsock.h>
-#endif /* FREECIV_HAVE_WINSOCK2 */
-#endif /* FREECIV_HAVE_WINSOCK */
 #ifdef WIN32_NATIVE
 #include <windows.h>
 #endif

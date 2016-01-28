@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
