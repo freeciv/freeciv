@@ -283,6 +283,12 @@ $LIBTOOLIZE -f || {
   echo "$LIBTOOLIZE failed"
   exit 1
 }
+echo "+ running $ACLOCAL for libtool installed files..."
+$ACLOCAL -I m4 -I dependencies/m4 $ACLOCAL_FLAGS || {
+  echo
+  echo "$ACLOCAL failed on libtool files run"
+  exit 1
+}
 echo "+ running $AUTOCONF ... "
 $AUTOCONF || {
   echo
