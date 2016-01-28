@@ -54,8 +54,10 @@
 #include <windows.h>
 #include <lmcons.h>	/* UNLEN */
 #include <shlobj.h>
+#ifdef HAVE_DIRECT_H
 #include <direct.h>
-#endif
+#endif /* HAVE_DIRECT_H */
+#endif /* WIN32_NATIVE */
 
 /* utility */
 #include "astring.h"

@@ -688,6 +688,8 @@ case "$host_os" in
     AC_DEFINE([HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
     AC_DEFINE([HAVE_WINSOCK2], [1], [Mingw32-specific setting - winsock2])
     AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])
+    AC_CHECK_HEADERS([direct.h])
+
     dnl Without WINSOCK2, use: LIBS="$LIBS -lwsock32"
     LIBS="${LIBS} -lws2_32"
     ;;
