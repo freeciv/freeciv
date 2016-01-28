@@ -1,6 +1,6 @@
 
-MSYS2 Windows Installer build notes
-===================================
+ MSYS2 Windows Installer build notes
+====================================
 
 MSYS2 support is still Work In Progress!
 These are the notes so far, not yet documentation of working
@@ -9,9 +9,23 @@ build.
 This document is about building Freeciv Windows Installer packages
 using MSYS2 from http://msys2.github.io
 
+
+ Status
+====================================
+
+- With very specific configure options (see Problems) and msys2 package
+  selection freeciv can be built. This includes the server and gtk3-client
+- Both server and client launch ok
+- Client cannot connect to the server
+- Installers cannot be built
+
+
+ Setup
+====================================
+
 1) Install MSYS2 following the documentation on their homepage
 
-2) Install following packages with 'pacman -S'
+2) Install following packages with 'pacman -Su'
 
 2.1) Packages needed for building freeciv
  These packages are needed even if you don't plan to make installer,
@@ -28,10 +42,10 @@ using MSYS2 from http://msys2.github.io
  - libsqlite-devel
  - libiconv-devel
  - pkg-config
- - libreadline-devel
  - libbz2-devel
  - libcurl-devel
  - liblzma-devel
+ - icu-devel
 
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
@@ -39,14 +53,31 @@ using MSYS2 from http://msys2.github.io
  - mingw-w64-i686-nsis / mingw-w64-x86_64-nsis
 
 
-TODO:
- - icu
+Packages TODO:
  - Mixer support
+ - Clients other than gtk3
+ - MagickWand support
+
 
 3) Build Installers from Freeciv sources
 > cd win32/installer_msys2
-> make
+> make <targets>
 
+  Target can be:
+  - "<gui>-installer", where <gui> is
+     - gtk3
+
+Problems
+====================================
+
+- Freeciv linked against readline in msys2 does not work.
+  Either avoid installing libreadline-devel package to your msys2
+  environment at all, or configure freeciv with --without-readline
+
+- Freeciv with Native Language Support does not build.
+  Use configure option --disable-nls
+
+====================================
 
 Instructions used with msys1 below. These need to be updated:
 - pacman used instead of hg
