@@ -440,6 +440,8 @@ static void game_defaults(void)
     game.server.turnblock         = GAME_DEFAULT_TURNBLOCK;
     game.server.unitwaittime      = GAME_DEFAULT_UNITWAITTIME;
     game.server.plr_colors        = NULL;
+  } else {
+    /* Client side takes care of itself in client_main() */
   }
 }
 
