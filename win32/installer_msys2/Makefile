@@ -40,7 +40,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(GUI)
 	# configure
-	cd build-$(GUI); ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --enable-client=$(GUI) --with-followtag="win32-S3_0" --enable-fcdb=sqlite3 --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
+	cd build-$(GUI); ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --enable-client=$(GUI) --with-followtag="win32-S3_0" --enable-fcdb=sqlite3 --without-readline --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(GUI)
 	make -C build-$(GUI)/translations/freeciv update-po
