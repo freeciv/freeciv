@@ -38,10 +38,18 @@ struct ai_type;
 #define U_LAST MAX_NUM_ITEMS
 
 /* The largest distance a ruleset can allow a unit to paradrop.
+ *
  * Remember to make sure that the field type of PACKET_RULESET_UNIT's
  * paratroopers_range field can transfer the new maximum if you increase
- * it. */
-#define UNIT_MAX_PARADROP_RANGE 255
+ * it.
+ *
+ * The top value is reserved in case a future Freeciv version wants to
+ * implement "no maximum range". It could be used to signal that the unit
+ * can paradrop anywhere. Note that the value below it is high enough to
+ * give the same effect on all maps inside the current size limits.
+ * (No map side can be larger than MAP_MAX_LINEAR_SIZE)
+ */
+#define UNIT_MAX_PARADROP_RANGE (65535 - 1)
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME unit_class_flag_id
