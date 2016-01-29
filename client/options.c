@@ -713,7 +713,7 @@ void *option_get_gui_data(const struct option *poption)
 ****************************************************************************/
 int option_get_cb_data(const struct option *poption)
 {
-  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(NULL != poption, 0);
 
   return poption->callback_data;
 }
