@@ -73,7 +73,13 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #define WAIT_BETWEEN_TRIES 100000 /* usecs */ 
 #define NUMBER_OF_TRIES 500
 
-#ifdef HAVE_WORKING_FORK
+#if defined(HAVE_WORKING_FORK) && !defined(WIN32_NATIVE)
+/* We are yet to see WIN32_NATIVE setup where even HAVE_WORKING_FORK would
+ * mean fork() that actually works for us. */
+#define HAVE_USABLE_FORK
+#endif
+
+#ifdef HAVE_USABLE_FORK
 static pid_t server_pid = -1;
 #elif WIN32_NATIVE
 HANDLE server_process = INVALID_HANDLE_VALUE;
@@ -115,7 +121,7 @@ Tests if the client has started the server.
 **************************************************************************/ 
 bool is_server_running(void)
 {
-#ifdef HAVE_WORKING_FORK
+#ifdef HAVE_USABLE_FORK
   return (server_pid > 0);
 #elif WIN32_NATIVE
   return (server_process != INVALID_HANDLE_VALUE);
@@ -156,7 +162,7 @@ void client_kill_server(bool force)
        * it could potentially be called when we're connected to an unowned
        * server.  In this case we don't want to kill it. */
       send_chat("/quit");
-#ifdef HAVE_WORKING_FORK
+#ifdef HAVE_USABLE_FORK
       server_pid = -1;
 #elif WIN32_NATIVE
       server_process = INVALID_HANDLE_VALUE;
@@ -166,7 +172,7 @@ void client_kill_server(bool force)
       /* Either we already disconnected, or we didn't get control of the
        * server. In either case, the only thing to do is a "hard" kill of
        * the server. */
-#ifdef HAVE_WORKING_FORK
+#ifdef HAVE_USABLE_FORK
       kill(server_pid, SIGTERM);
       waitpid(server_pid, NULL, WUNTRACED);
       server_pid = -1; 
@@ -178,7 +184,7 @@ void client_kill_server(bool force)
       }
       server_process = INVALID_HANDLE_VALUE;
       loghandle = INVALID_HANDLE_VALUE;
-#endif /* WIN32_NATIVE || HAVE_WORKING_FORK */
+#endif /* WIN32_NATIVE || HAVE_USABLE_FORK */
     }
   }
   client_has_hack = FALSE;
@@ -190,13 +196,13 @@ void client_kill_server(bool force)
 *****************************************************************/ 
 bool client_start_server(void)
 {
-#if !defined(HAVE_WORKING_FORK) && !defined(WIN32_NATIVE)
+#if !defined(HAVE_USABLE_FORK) && !defined(WIN32_NATIVE)
   /* Can't do much without fork */
   return FALSE;
-#else /* HAVE_WORKING_FORK || WIN32_NATIVE */
+#else /* HAVE_USABLE_FORK || WIN32_NATIVE */
   char buf[512];
   int connect_tries = 0;
-#if !defined(HAVE_WORKING_FORK)
+#if !defined(HAVE_USABLE_FORK)
   /* Above also implies that this is WIN32_NATIVE ->
    * Win32 that can't use fork() */
   STARTUPINFO si;
@@ -216,7 +222,7 @@ bool client_start_server(void)
   char savefilecmdline[512];
   char savescmdline[512];
   char scenscmdline[512];
-#endif /* !HAVE_WORKING_FORK -> WIN32_NATIVE */
+#endif /* !HAVE_USABLE_FORK -> WIN32_NATIVE */
 
 #ifdef IPV6_SUPPORT
   enum fc_addr_family family = FC_ADDR_ANY;
@@ -245,7 +251,7 @@ bool client_start_server(void)
     return FALSE;
   }
 
-#ifdef HAVE_WORKING_FORK
+#ifdef HAVE_USABLE_FORK
   {
     int argc = 0;
     const int max_nargs = 18;
@@ -344,7 +350,7 @@ bool client_start_server(void)
       _exit(1);
     } 
   }
-#else /* HAVE_WORKING_FORK */
+#else /* HAVE_USABLE_FORK */
 #ifdef WIN32_NATIVE
   if (logfile) {
     loghandle = CreateFile(logfile, GENERIC_WRITE,
@@ -446,19 +452,19 @@ bool client_start_server(void)
   server_process = pi.hProcess;
 
 #endif /* WIN32_NATIVE */
-#endif /* HAVE_WORKING_FORK */
+#endif /* HAVE_USABLE_FORK */
 
   /* a reasonable number of tries */ 
   while (connect_to_server(user_name, "localhost", internal_server_port, 
                            buf, sizeof(buf)) == -1) {
     fc_usleep(WAIT_BETWEEN_TRIES);
-#ifdef HAVE_WORKING_FORK
+#ifdef HAVE_USABLE_FORK
 #ifndef WIN32_NATIVE
     if (waitpid(server_pid, NULL, WNOHANG) != 0) {
       break;
     }
 #endif /* WIN32_NATIVE */
-#endif /* HAVE_WORKING_FORK */
+#endif /* HAVE_USABLE_FORK */
     if (connect_tries++ > NUMBER_OF_TRIES) {
       log_error("Last error from connect attempts: '%s'", buf);
       break;
@@ -514,7 +520,7 @@ bool client_start_server(void)
   }
 
   return TRUE;
-#endif /* HAVE_WORKING_FORK || WIN32_NATIVE */
+#endif /* HAVE_USABLE_FORK || WIN32_NATIVE */
 }
 
 /*************************************************************************
