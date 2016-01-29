@@ -1,7 +1,15 @@
 ; This is Alien World nation specific effects ruleset.
 
-; /* <-- avoid gettext warnings
-; */ <-- avoid gettext warnings
+; Modifying this file:
+; You should not modify this file except to make bugfixes or
+; for other \"maintenance\".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command \"rulesetdir <mysubdir>\" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not cope well with anything more
+; than minor changes.
 
 [effect_mathclub_science]
 type    = "Output_Bonus"
