@@ -157,7 +157,6 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_YES));
-  gtk_widget_set_size_request(button, 50, BUTTON_HEIGHT);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   gtk_widget_set_name(button, "vote yes button");
@@ -166,7 +165,6 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   label = gtk_label_new("0");
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_widget_set_size_request(label, 24, -1);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   vib->yes_count_label = label;
 
@@ -174,7 +172,6 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_NO));
-  gtk_widget_set_size_request(button, 50, BUTTON_HEIGHT);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   gtk_widget_set_name(button, "vote no button");
@@ -183,7 +180,6 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   label = gtk_label_new("0");
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_widget_set_size_request(label, 24, -1);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   vib->no_count_label = label;
 
@@ -191,7 +187,6 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_ABSTAIN));
-  gtk_widget_set_size_request(button, 50, BUTTON_HEIGHT);
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   gtk_widget_set_name(button, "vote abstain button");
@@ -200,14 +195,12 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   label = gtk_label_new("0");
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_widget_set_size_request(label, 24, -1);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   vib->abstain_count_label = label;
 
   label = gtk_label_new("/0");
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_widget_set_size_request(label, 24, -1);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   vib->voter_count_label = label;
 
