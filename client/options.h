@@ -95,7 +95,10 @@ struct client_options
   int  default_server_port;
   bool use_prev_server;
   char default_metaserver[512];
-  char default_tileset_name[512];
+  char default_tileset_overhead_name[512];
+  char default_tileset_iso_name[512];
+  char default_tileset_hex_name[512];
+  char default_tileset_isohex_name[512];
   char default_sound_set_name[512];
   char default_music_set_name[512];
   char default_sound_plugin_name[512];
@@ -104,8 +107,9 @@ struct client_options
   bool save_options_on_exit;
 
 /** Migrations **/
-  bool first_boot; /* There was no ealier options saved.
+  bool first_boot; /* There was no earlier options saved.
                     * This affects some migrations, but not all. */
+  char default_tileset_name[512]; /* pre-2.6 had just this one tileset name */
   bool gui_gtk3_migrated_from_gtk2;
   bool gui_gtk4_migrated_from_gtk3;
   bool gui_sdl2_migrated_from_sdl;
@@ -405,6 +409,9 @@ void option_changed(struct option *poption);
 void option_set_gui_data(struct option *poption, void *data);
 void *option_get_gui_data(const struct option *poption);
 
+/* Callback assistance */
+int option_get_cb_data(const struct option *poption);
+
 /* Option type OT_BOOLEAN functions. */
 bool option_bool_get(const struct option *poption);
 bool option_bool_def(const struct option *poption);
@@ -545,6 +552,11 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 
 bool video_mode_to_string(char *buf, size_t buf_len, struct video_mode *mode);
 bool string_to_video_mode(const char *buf, struct video_mode *mode);
+
+struct tileset;
+
+const char *tileset_name_for_topology(int topology_id);
+void option_set_default_ts(struct tileset *t);
 
 #ifdef __cplusplus
 }

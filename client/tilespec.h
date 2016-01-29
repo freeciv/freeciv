@@ -170,7 +170,7 @@ struct tileset;
 extern struct tileset *tileset;
 
 struct strvec;
-const struct strvec *get_tileset_list(void);
+const struct strvec *get_tileset_list(const struct option *poption);
 
 void tileset_error(enum log_level level, const char *format, ...);
 
@@ -188,6 +188,7 @@ void finish_loading_sprites(struct tileset *t);
 void tilespec_try_read(const char *tileset_name, bool verbose);
 void tilespec_reread(const char *tileset_name, bool game_fully_initialized);
 void tilespec_reread_callback(struct option *poption);
+void tilespec_reread_frozen_refresh(const char *tname);
 
 void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id);
 void tileset_setup_unit_type(struct tileset *t, struct unit_type *punittype);
@@ -395,10 +396,18 @@ int tileset_num_city_colors(const struct tileset *t);
 void tileset_use_preferred_theme(const struct tileset *t);
 bool tileset_use_hard_coded_fog(const struct tileset *t);
 
+/* These are used as array index -> can't be changed freely to values
+   bigger than size of those arrays. */
+#define TS_TOPO_OVERHEAD 0
+#define TS_TOPO_ISO      1
+#define TS_TOPO_HEX      (1 << 1)
+#define TS_TOPO_ISOHEX   (TS_TOPO_ISO + TS_TOPO_HEX)
+
 const char *tileset_name(struct tileset *t);
 const char *tileset_version(struct tileset *t);
 const char *tileset_summary(struct tileset *t);
 const char *tileset_description(struct tileset *t);
+int tileset_topo_index(struct tileset *t);
 
 #ifdef __cplusplus
 }

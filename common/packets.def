@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 252
+Max id: 253
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1859,6 +1859,10 @@ PACKET_SERVER_SETTING_BITWISE = 170; sc, handle-via-packet, is-info
   UINT8 bits_num;
   STRING support_names[64:bits_num][MAX_LEN_NAME];
   STRING pretty_names[64:bits_num][MAX_LEN_ENUM]; /* untranslated */
+end
+
+PACKET_SET_TOPOLOGY = 253; sc
+  UINT8 topology_id;
 end
 
 /************** Effects hash packets **********************/

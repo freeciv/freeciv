@@ -135,7 +135,7 @@ static void fc_interface_init_client(void);
 char *logfile = NULL;
 char *scriptfile = NULL;
 char *savefile = NULL;
-static char req_tileset_name[512] = "\0";
+char forced_tileset_name[512] = "\0";
 char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
 char music_set_name[512] = "\0";
@@ -280,6 +280,7 @@ static void client_game_free(void)
   attribute_free();
   agents_free();
   game.client.ruleset_init = FALSE;
+  game.client.ruleset_ready = FALSE;
   game_free();
   /* update_queue_init() is correct at this point. The queue is reset to
      a clean state which is also needed if the client is not connected to
@@ -322,8 +323,7 @@ int client_main(int argc, char *argv[])
   enum log_level loglevel = LOG_NORMAL;
   int ui_options = 0;
   bool ui_separator = FALSE;
-  char *option=NULL;
-  bool user_tileset = FALSE;
+  char *option = NULL;
   int fatal_assertions = -1;
   int aii;
 
@@ -529,9 +529,8 @@ int client_main(int argc, char *argv[])
       }
       free(option);
     } else if ((option = get_option_malloc("--tiles", argv, &i, argc))) {
-      sz_strlcpy(req_tileset_name, option);
+      sz_strlcpy(forced_tileset_name, option);
       free(option);
-      user_tileset = TRUE;
     } else if ((option = get_option_malloc("--Announce", argv, &i, argc))) {
       if (!strcasecmp(option, "ipv4")) {
         announce = ANNOUNCE_IPV4;
@@ -613,9 +612,6 @@ int client_main(int argc, char *argv[])
 
   script_client_init();
 
-  if (req_tileset_name[0] == '\0') {
-    sz_strlcpy(req_tileset_name, gui_options.default_tileset_name);
-  }
   if (sound_set_name[0] == '\0') {
     sz_strlcpy(sound_set_name, gui_options.default_sound_set_name);
   }
@@ -663,7 +659,11 @@ int client_main(int argc, char *argv[])
   helpdata_init();
   boot_help_texts();
 
-  tilespec_try_read(req_tileset_name, user_tileset);
+  if (forced_tileset_name[0] != '\0') {
+    tilespec_try_read(forced_tileset_name, TRUE);
+  } else {
+    tilespec_try_read(gui_options.default_tileset_name, FALSE);
+  }
 
   audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
   start_menu_music("music_menu", NULL);

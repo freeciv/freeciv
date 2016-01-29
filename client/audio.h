@@ -42,9 +42,10 @@ struct audio_plugin {
 enum music_usage { MU_SINGLE, MU_MENU, MU_INGAME };
 
 struct strvec;
-const struct strvec *get_soundplugin_list(void);
-const struct strvec *get_soundset_list(void);
-const struct strvec *get_musicset_list(void);
+struct option;
+const struct strvec *get_soundplugin_list(const struct option *poption);
+const struct strvec *get_soundset_list(const struct option *poption);
+const struct strvec *get_musicset_list(const struct option *poption);
 
 void audio_init(void);
 void audio_real_init(const char *const soundspec_name,

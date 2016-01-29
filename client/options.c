@@ -73,7 +73,10 @@ struct client_options gui_options = {
   .default_server_host = "localhost",
   .default_server_port = DEFAULT_SOCK_PORT,
   .default_metaserver = DEFAULT_METASERVER_OPTION,
-  .default_tileset_name = "\0",
+  .default_tileset_overhead_name = "\0",
+  .default_tileset_iso_name = "\0",
+  .default_tileset_hex_name = "\0",
+  .default_tileset_isohex_name = "\0",
   .default_sound_set_name = "stdsounds",
   .default_music_set_name = "stdmusic",
   .default_sound_plugin_name = "\0",
@@ -85,6 +88,7 @@ struct client_options gui_options = {
 
 /** Migrations **/
   .first_boot = FALSE,
+  .default_tileset_name = "\0",
   .gui_gtk3_migrated_from_gtk2 = FALSE,
   .gui_gtk4_migrated_from_gtk3 = FALSE,
   .gui_sdl2_migrated_from_sdl = FALSE,
@@ -324,6 +328,7 @@ struct client_options gui_options = {
  * of non-initialized datas when calling the changed callback. */
 static bool options_fully_initialized = FALSE;
 
+static const struct strvec *get_mapimg_format_list(const struct option *poption);
 
 /****************************************************************************
   Option set structure.
@@ -476,6 +481,8 @@ struct option {
   /* Called after the value changed. */
   void (*changed_callback) (struct option *option);
 
+  int callback_data;
+
   /* Volatile. */
   void *gui_data;
 };
@@ -483,7 +490,7 @@ struct option {
 #define OPTION(poption) ((struct option *) (poption))
 
 #define OPTION_INIT(optset, spec_type, spec_table_var, common_table,        \
-                    spec_table, changed_cb) {                               \
+                    spec_table, changed_cb, cb_data) {                      \
   .poptset = optset,                                                        \
   .type = spec_type,                                                        \
   .common_vtable = &common_table,                                           \
@@ -491,34 +498,35 @@ struct option {
     .spec_table_var = &spec_table                                           \
   },                                                                        \
   .changed_callback = changed_cb,                                           \
+  .callback_data = cb_data,                                                 \
   .gui_data = NULL                                                          \
 }
 #define OPTION_BOOL_INIT(optset, common_table, bool_table, changed_cb)      \
   OPTION_INIT(optset, OT_BOOLEAN, bool_vtable, common_table, bool_table,    \
-              changed_cb)
+              changed_cb, 0)
 #define OPTION_INT_INIT(optset, common_table, int_table, changed_cb)        \
   OPTION_INIT(optset, OT_INTEGER, int_vtable, common_table, int_table,      \
-              changed_cb)
-#define OPTION_STR_INIT(optset, common_table, str_table, changed_cb)        \
+              changed_cb, 0)
+#define OPTION_STR_INIT(optset, common_table, str_table, changed_cb, cb_data) \
   OPTION_INIT(optset, OT_STRING, str_vtable, common_table, str_table,       \
-              changed_cb)
+              changed_cb, cb_data)
 #define OPTION_ENUM_INIT(optset, common_table, enum_table, changed_cb)      \
   OPTION_INIT(optset, OT_ENUM, enum_vtable, common_table, enum_table,       \
-              changed_cb)
+              changed_cb, 0)
 #define OPTION_BITWISE_INIT(optset, common_table, bitwise_table,            \
                             changed_cb)                                     \
   OPTION_INIT(optset, OT_BITWISE, bitwise_vtable, common_table,             \
-              bitwise_table, changed_cb)
+              bitwise_table, changed_cb, 0)
 #define OPTION_FONT_INIT(optset, common_table, font_table, changed_cb)      \
   OPTION_INIT(optset, OT_FONT, font_vtable, common_table, font_table,       \
-              changed_cb)
+              changed_cb, 0)
 #define OPTION_COLOR_INIT(optset, common_table, color_table, changed_cb)    \
   OPTION_INIT(optset, OT_COLOR, color_vtable, common_table, color_table,    \
-              changed_cb)
+              changed_cb, 0)
 #define OPTION_VIDEO_MODE_INIT(optset, common_table, video_mode_table,      \
                                changed_cb)                                  \
   OPTION_INIT(optset, OT_VIDEO_MODE, video_mode_vtable, common_table,       \
-              video_mode_table, changed_cb)
+              video_mode_table, changed_cb, 0)
 
 
 /****************************************************************************
@@ -698,6 +706,16 @@ void *option_get_gui_data(const struct option *poption)
   fc_assert_ret_val(NULL != poption, NULL);
 
   return poption->gui_data;
+}
+
+/****************************************************************************
+  Returns the callback data of this option.
+****************************************************************************/
+int option_get_cb_data(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, NULL);
+
+  return poption->callback_data;
 }
 
 /****************************************************************************
@@ -1362,7 +1380,7 @@ struct client_option {
        * A function to return a string vector of possible string values,
        * or NULL for none. 
        */
-      const struct strvec *(*const val_accessor) (void);
+      const struct strvec *(*const val_accessor) (const struct option *);
     } string;
     /* OT_ENUM type option. */
     struct {
@@ -1490,11 +1508,11 @@ struct client_option {
  * ocb:   A callback function of type void (*)(struct option *) called when
  *        the option changed.
  */
-#define GEN_STR_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb)         \
+#define GEN_STR_OPTION(oname, odesc, ohelp, ocat, ospec, odef, ocb, cbd)    \
 {                                                                           \
   .base_option = OPTION_STR_INIT(&client_optset_static,                     \
                                  client_option_common_vtable,               \
-                                 client_option_str_vtable, ocb),            \
+                                 client_option_str_vtable, ocb, cbd),       \
   .name = #oname,                                                           \
   .description = odesc,                                                     \
   .help_text = ohelp,                                                       \
@@ -1531,11 +1549,11 @@ struct client_option {
  * ocb:   A callback function of type void (*)(struct option *) called when
  *        the option changed.
  */
-#define GEN_STR_LIST_OPTION(oname, odesc, ohelp, ocat, ospec, odef, oacc, ocb) \
+#define GEN_STR_LIST_OPTION(oname, odesc, ohelp, ocat, ospec, odef, oacc, ocb, cbd) \
 {                                                                           \
   .base_option = OPTION_STR_INIT(&client_optset_static,                     \
                                  client_option_common_vtable,               \
-                                 client_option_str_vtable, ocb),            \
+                                 client_option_str_vtable, ocb, cbd),       \
   .name = #oname,                                                           \
   .description = odesc,                                                     \
   .help_text = ohelp,                                                       \
@@ -1797,7 +1815,7 @@ static struct client_option client_options[] = {
                  N_("This is the default login username that will be used "
                     "in the connection dialogs or with the -a command-line "
                     "parameter."),
-                 COC_NETWORK, GUI_STUB, NULL, NULL),
+                 COC_NETWORK, GUI_STUB, NULL, NULL, 0),
   GEN_BOOL_OPTION(use_prev_server, N_("Default to previously used server"),
                   N_("Automatically update \"Server\" and \"Server port\" "
                      "options to match your latest connection, so by "
@@ -1811,7 +1829,7 @@ static struct client_option client_options[] = {
                  N_("This is the default server hostname that will be used "
                     "in the connection dialogs or with the -a command-line "
                     "parameter."),
-                 COC_NETWORK, GUI_STUB, "localhost", NULL),
+                 COC_NETWORK, GUI_STUB, "localhost", NULL, 0),
   GEN_INT_OPTION(default_server_port,
                  N_("Server port"),
                  N_("This is the default server port that will be used "
@@ -1824,30 +1842,30 @@ static struct client_option client_options[] = {
                     "find out about games on the internet.  Don't change "
                     "this from its default value unless you know what "
                     "you're doing."),
-                 COC_NETWORK, GUI_STUB, DEFAULT_METASERVER_OPTION, NULL),
+                 COC_NETWORK, GUI_STUB, DEFAULT_METASERVER_OPTION, NULL, 0),
   GEN_STR_LIST_OPTION(default_sound_set_name,
                       N_("Soundset"),
                       N_("This is the soundset that will be used.  Changing "
                          "this is the same as using the -S command-line "
                          "parameter."),
-                      COC_SOUND, GUI_STUB, "stdsounds", get_soundset_list, NULL),
+                      COC_SOUND, GUI_STUB, "stdsounds", get_soundset_list, NULL, 0),
   GEN_STR_LIST_OPTION(default_music_set_name,
                       N_("Musicset"),
                       N_("This is the musicset that will be used.  Changing "
                          "this is the same as using the -m command-line "
                          "parameter."),
-                      COC_SOUND, GUI_STUB, "stdmusic", get_musicset_list, musicspec_reread_callback),
+                      COC_SOUND, GUI_STUB, "stdmusic", get_musicset_list, musicspec_reread_callback, 0),
   GEN_STR_LIST_OPTION(default_sound_plugin_name,
                       N_("Sound plugin"),
                       N_("If you have a problem with sound, try changing "
                          "the sound plugin.  The new plugin won't take "
                          "effect until you restart Freeciv.  Changing this "
                          "is the same as using the -P command-line option."),
-                      COC_SOUND, GUI_STUB, NULL, get_soundplugin_list, NULL),
+                      COC_SOUND, GUI_STUB, NULL, get_soundplugin_list, NULL, 0),
   GEN_STR_OPTION(default_chat_logfile,
                  N_("The chat log file"),
                  N_("The name of the chat log file."),
-                 COC_INTERFACE, GUI_STUB, GUI_DEFAULT_CHAT_LOGFILE, NULL),
+                 COC_INTERFACE, GUI_STUB, GUI_DEFAULT_CHAT_LOGFILE, NULL, 0),
   /* gui_gtk2/3/4_default_theme_name and gui_sdl/2_default_theme_name are
    * different settings to avoid client crash after loading the
    * style for the other gui.  Keeps 5 different options! */
@@ -1855,34 +1873,60 @@ static struct client_option client_options[] = {
                       N_("By changing this option you change the "
                          "active theme."),
                       COC_GRAPHICS, GUI_GTK2, FC_GTK2_DEFAULT_THEME_NAME,
-                      get_themes_list, theme_reread_callback),
+                      get_themes_list, theme_reread_callback, 0),
   GEN_STR_LIST_OPTION(gui_gtk3_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
                       COC_GRAPHICS, GUI_GTK3, FC_GTK3_DEFAULT_THEME_NAME,
-                      get_themes_list, theme_reread_callback),
+                      get_themes_list, theme_reread_callback, 0),
   GEN_STR_LIST_OPTION(gui_gtk4_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
                       COC_GRAPHICS, GUI_GTK3x, FC_GTK4_DEFAULT_THEME_NAME,
-                      get_themes_list, theme_reread_callback),
+                      get_themes_list, theme_reread_callback, 0),
   GEN_STR_LIST_OPTION(gui_sdl2_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
                       COC_GRAPHICS, GUI_SDL2, FC_SDL2_DEFAULT_THEME_NAME,
-                      get_themes_list, theme_reread_callback),
+                      get_themes_list, theme_reread_callback, 0),
 
   /* It's important to give empty string instead of NULL as as default
    * value. For NULL value it would default to assigning first value
    * from the tileset list returned by get_tileset_list() as default
    * tileset. We don't want default tileset assigned at all here, but
    * leave it to tilespec code that can handle tileset priority. */
-  GEN_STR_LIST_OPTION(default_tileset_name, N_("Tileset"),
-                      N_("By changing this option you change the active "
-                         "tileset.  This is the same as using the -t "
+  GEN_STR_LIST_OPTION(default_tileset_overhead_name, N_("Tileset (Overhead)"),
+                      N_("Select the tileset used with Overhead maps. "
+                         "This may change currently active tileset, if "
+                         "you are playing on such a map, in which "
+                         "case this is the same as using the -t "
                          "command-line parameter."),
                       COC_GRAPHICS, GUI_STUB, "",
-                      get_tileset_list, tilespec_reread_callback),
+                      get_tileset_list, tilespec_reread_callback, 0),
+  GEN_STR_LIST_OPTION(default_tileset_iso_name, N_("Tileset (Isometric)"),
+                      N_("Select the tileset used with Isometric maps. "
+                         "This may change currently active tileset, if "
+                         "you are playing on such a map, in which "
+                         "case this is the same as using the -t "
+                         "command-line parameter."),
+                      COC_GRAPHICS, GUI_STUB, "",
+                      get_tileset_list, tilespec_reread_callback, TF_ISO),
+  GEN_STR_LIST_OPTION(default_tileset_hex_name, N_("Tileset (Hex)"),
+                      N_("Select the tileset used with Hex maps. "
+                         "This may change currently active tileset, if "
+                         "you are playing on such a map, in which "
+                         "case this is the same as using the -t "
+                         "command-line parameter."),
+                      COC_GRAPHICS, GUI_STUB, "",
+                      get_tileset_list, tilespec_reread_callback, TF_HEX),
+  GEN_STR_LIST_OPTION(default_tileset_isohex_name, N_("Tileset (Isometric Hex)"),
+                      N_("Select the tileset used with Isometric Hex maps. "
+                         "This may change currently active tileset, if "
+                         "you are playing on such a map, in which "
+                         "case this is the same as using the -t "
+                         "command-line parameter."),
+                      COC_GRAPHICS, GUI_STUB, "",
+                      get_tileset_list, tilespec_reread_callback, TF_ISO | TF_HEX),
 
   GEN_BOOL_OPTION(draw_city_outlines, N_("Draw city outlines"),
                   N_("Setting this option will draw a line at the city "
@@ -2248,8 +2292,8 @@ static struct client_option client_options[] = {
                       N_("Image format"),
                       N_("The image toolkit and file format used for "
                          "map images."),
-                      COC_MAPIMG, GUI_STUB, NULL, mapimg_get_format_list,
-                      NULL),
+                      COC_MAPIMG, GUI_STUB, NULL, get_mapimg_format_list,
+                      NULL, 0),
   GEN_INT_OPTION(mapimg_zoom,
                  N_("Zoom factor for map images"),
                  N_("The magnification used for map images."),
@@ -2288,7 +2332,7 @@ static struct client_option client_options[] = {
                  N_("The base part of the filename for saved map images. "
                     "A string identifying the game turn and map options will "
                     "be appended."),
-                 COC_MAPIMG, GUI_STUB, GUI_DEFAULT_MAPIMG_FILENAME, NULL),
+                 COC_MAPIMG, GUI_STUB, GUI_DEFAULT_MAPIMG_FILENAME, NULL, 0),
 
   /* gui-gtk-2.0 client specific options. */
   GEN_BOOL_OPTION(gui_gtk2_fullscreen, N_("Fullscreen"),
@@ -3072,7 +3116,7 @@ static struct client_option client_options[] = {
                  N_("Wake up sequence"),
                  N_("String which will trigger sound in pregame page, "
                     "%1 stands for nick"),
-                 COC_INTERFACE, GUI_QT, "Wake up %1", NULL)
+                 COC_INTERFACE, GUI_QT, "Wake up %1", NULL, 0)
 
 };
 static const int client_options_num = ARRAY_SIZE(client_options);
@@ -3330,7 +3374,7 @@ static const struct strvec *
     client_option_str_values(const struct option *poption)
 {
   return (CLIENT_OPTION(poption)->string.val_accessor
-          ? CLIENT_OPTION(poption)->string.val_accessor() : NULL);
+          ? CLIENT_OPTION(poption)->string.val_accessor(poption) : NULL);
 }
 
 /****************************************************************************
@@ -5601,7 +5645,8 @@ void options_load(void)
   bool allow_digital_boolean;
   int i, num;
   const char *name;
-  const char * const prefix = "client";
+  const char *const prefix = "client";
+  const char *str;
 
   name = get_last_option_file_name(&allow_digital_boolean);
   if (!name) {
@@ -5670,6 +5715,12 @@ void options_load(void)
   gui_options.zoom_default_level =
     secfile_lookup_float_default(sf, 1.0,
                                  "%s.zoom_default_level", prefix);
+
+  str = secfile_lookup_str_default(sf, NULL, "client.default_tileset_name");
+  if (str != NULL) {
+    strncpy(gui_options.default_tileset_name, str,
+            sizeof(gui_options.default_tileset_name));
+  }
 
   /* Backwards compatibility for removed options replaced by entirely "new"
    * options. The equivalent "new" option will override these, if set. */
@@ -5798,6 +5849,11 @@ void options_save(option_save_log_callback log_cb)
   secfile_insert_bool(sf, gui_options.zoom_set, "client.zoom_set");
   secfile_insert_float(sf, gui_options.zoom_default_level,
                        "client.zoom_default_level");
+
+  if (gui_options.default_tileset_name[0] != '\0') {
+    secfile_insert_str(sf, gui_options.default_tileset_name,
+                       "client.default_tileset_name");
+  }
 
   message_options_save(sf, "client");
   options_dialogs_save(sf);
@@ -6101,4 +6157,81 @@ bool video_mode_to_string(char *buf, size_t buf_len, struct video_mode *mode)
 bool string_to_video_mode(const char *buf, struct video_mode *mode)
 {
   return (2 == sscanf(buf, "%dx%d", &mode->width, &mode->height));
+}
+
+/****************************************************************************
+  Option framework wrapper for mapimg_get_format_list()
+****************************************************************************/
+static const struct strvec *get_mapimg_format_list(const struct option *poption)
+{
+  return mapimg_get_format_list();
+}
+
+/****************************************************************************
+  What is the user defined tileset for the given topology
+****************************************************************************/
+const char *tileset_name_for_topology(int topology_id)
+{
+  const char *tsn = NULL;
+  
+  switch (topology_id & (TF_ISO | TF_HEX)) {
+  case 0:
+    tsn = gui_options.default_tileset_overhead_name;
+    break;
+  case TF_ISO:
+    tsn = gui_options.default_tileset_iso_name;
+    break;
+  case TF_HEX:
+    tsn = gui_options.default_tileset_hex_name;
+    break;
+  case TF_ISO | TF_HEX:
+    tsn = gui_options.default_tileset_isohex_name;
+    break;
+  }
+
+  if (tsn == NULL) {
+    tsn = gui_options.default_tileset_name;
+  }
+
+  return tsn;
+}
+
+/****************************************************************************
+  Set given tileset as the default for suitable topology
+****************************************************************************/
+void option_set_default_ts(struct tileset *t)
+{
+  const char *optname = "<not set>";
+  struct option *opt;
+
+  switch (tileset_topo_index(t)) {
+  case TS_TOPO_OVERHEAD:
+    /* Overhead */
+    optname = "default_tileset_overhead_name";
+    break;
+  case TS_TOPO_ISO:
+    /* Iso */
+    optname = "default_tileset_iso_name";
+    break;
+  case TS_TOPO_HEX:
+    /* Hex */
+    optname = "default_tileset_hex_name";
+    break;
+  case TS_TOPO_ISOHEX:
+    /* Isohex */
+    optname = "default_tileset_isohex_name";
+    break;
+  }
+
+  opt = optset_option_by_name(client_optset, optname);
+
+  if (opt == NULL) {
+    log_error("Unknown option name \"%s\" in option_set_default_ts()", optname);
+    return;
+  }
+
+  /* Do not call option_str_set() since we don't want option changed callback
+   * to reload this tileset. */
+  opt->str_vtable->set(opt, tileset_name(t));
+  option_gui_update(opt);
 }

@@ -72,7 +72,7 @@ static int audio_play_tag(struct section_file *sfile,
   available on the system.  This function is unfortunately similar to
   audio_get_all_plugin_names().
 ***********************************************************************/
-const struct strvec *get_soundplugin_list(void)
+const struct strvec *get_soundplugin_list(const struct option *poption)
 {
   static struct strvec *plugin_list = NULL;
 
@@ -108,7 +108,7 @@ static const struct strvec *get_audio_speclist(const char *suffix,
 /**********************************************************************
   Returns a static string vector of soundsets available on the system.
 ***********************************************************************/
-const struct strvec *get_soundset_list(void)
+const struct strvec *get_soundset_list(const struct option *poption)
 {
   static struct strvec *sound_list = NULL;
 
@@ -118,7 +118,7 @@ const struct strvec *get_soundset_list(void)
 /**********************************************************************
   Returns a static string vector of musicsets available on the system.
 ***********************************************************************/
-const struct strvec *get_musicset_list(void)
+const struct strvec *get_musicset_list(const struct option *poption)
 {
   static struct strvec *music_list = NULL;
 

@@ -129,6 +129,7 @@ void establish_new_connection(struct connection *pconn)
   struct packet_chat_msg connect_info;
   char hostname[512];
   bool delegation_error = FALSE;
+  struct packet_set_topology topo_packet;
 
   /* zero out the password */
   memset(pconn->server.password, 0, sizeof(pconn->server.password));
@@ -181,6 +182,8 @@ void establish_new_connection(struct connection *pconn)
   send_server_settings(dest);
   send_scenario_info(dest);
   send_game_info(dest);
+  topo_packet.topology_id = game.map.topology_id;
+  send_packet_set_topology(pconn, &topo_packet);
 
   /* Do we have a player that a delegate is currently controlling? */
   if ((pplayer = player_by_user_delegated(pconn->username))) {

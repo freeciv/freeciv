@@ -127,6 +127,8 @@ static struct {
   int parts;
 } page_msg_report = { .parts = 0 };
 
+extern const char forced_tileset_name[];
+
 /****************************************************************************
   Called below, and by client/client_main.c client_game_free()
 ****************************************************************************/
@@ -1920,6 +1922,25 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
 }
 
 /****************************************************************************
+  Server requested topology change.
+****************************************************************************/
+void handle_set_topology(int topology_id)
+{
+  game.map.topology_id = topology_id;
+
+  if (forced_tileset_name[0] == '\0'
+      && !tileset_map_topo_compatible(topology_id, tileset)) {
+    const char *ts_to_load;
+
+    ts_to_load = tileset_name_for_topology(topology_id);
+
+    if (ts_to_load != NULL && ts_to_load[0] != '\0') {
+      tilespec_reread_frozen_refresh(ts_to_load);
+    }
+  }
+}
+
+/****************************************************************************
   Receive information about the map size and topology from the server.  We
   initialize some global variables at the same time.
 ****************************************************************************/
@@ -2968,6 +2989,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   popdown_races_dialog();
 
   game.client.ruleset_init = FALSE;
+  game.client.ruleset_ready = FALSE;
   game_ruleset_free();
   game_ruleset_init();
   game.client.ruleset_init = TRUE;
@@ -3116,6 +3138,8 @@ void handle_rulesets_ready(void)
 
   /* We are not going to crop any more sprites from big sprites, free them. */
   finish_loading_sprites(tileset);
+
+  game.client.ruleset_ready = TRUE;
 }
 
 /****************************************************************************

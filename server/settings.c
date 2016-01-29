@@ -730,6 +730,20 @@ static void huts_action(const struct setting *pset)
 }
 
 /*************************************************************************
+  Topology setting changed.
+*************************************************************************/
+static void topology_action(const struct setting *pset)
+{
+  struct packet_set_topology packet;
+
+  packet.topology_id = *pset->integer.pvalue;
+
+  conn_list_iterate(game.est_connections, pconn) {
+    send_packet_set_topology(pconn, &packet);
+  } conn_list_iterate_end;
+}
+
+/*************************************************************************
   Validation callback functions.
 *************************************************************************/
 
@@ -1348,7 +1362,7 @@ static struct setting settings[] = {
                  "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
                  "   \\/\\/\\/\\/\\/\\/"
                  "             \\_/ \\_/ \\_/ \\_/ \\_/\n"),
-              topology_callback, NULL, topology_name, MAP_DEFAULT_TOPO)
+              topology_callback, topology_action, topology_name, MAP_DEFAULT_TOPO)
 
   GEN_ENUM("generator", game.map.server.generator,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,

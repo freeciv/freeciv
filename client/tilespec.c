@@ -462,6 +462,7 @@ struct tileset {
 
   enum ts_type type;
   int hex_width, hex_height;
+  int ts_topo_idx;
 
   int normal_tile_width, normal_tile_height;
   int full_tile_width, full_tile_height;
@@ -959,31 +960,58 @@ static bool is_cardinal_tileset_dir(const struct tileset *t,
 }
 
 /**********************************************************************
+  Convert properties of the actual topology to an index of different
+  tileset topology types.
+***********************************************************************/
+static int ts_topology_index(int actual_topology)
+{
+  int idx;
+
+  if (actual_topology & TF_ISO) {
+    idx = TS_TOPO_ISO;
+  } else {
+    idx = 0;
+  }
+
+  if (actual_topology & TF_HEX) {
+    idx |= TS_TOPO_HEX;
+  }
+
+  return idx;
+}
+
+/**********************************************************************
   Returns a static list of tilesets available on the system by
   searching all data directories for files matching TILESPEC_SUFFIX.
 ***********************************************************************/
-const struct strvec *get_tileset_list(void)
+const struct strvec *get_tileset_list(const struct option *poption)
 {
-  static struct strvec *tilesets = NULL;
+  static struct strvec *tilesets[4] = { NULL, NULL, NULL, NULL };
+  int topo = option_get_cb_data(poption);
+  int idx;
 
-  if (!tilesets) {
+  idx = ts_topology_index(topo);
+
+  fc_assert_ret_val(idx < ARRAY_SIZE(tilesets), NULL);
+
+  if (tilesets[idx] == NULL) {
     /* Note: this means you must restart the client after installing a new
        tileset. */
     struct strvec *list = fileinfolist(get_data_dirs(), TILESPEC_SUFFIX);
 
-    tilesets = strvec_new();
+    tilesets[idx] = strvec_new();
     strvec_iterate(list, file) {
-      struct tileset *t = tileset_read_toplevel(file, FALSE, -1);
+      struct tileset *t = tileset_read_toplevel(file, FALSE, topo);
 
       if (t) {
-        strvec_append(tilesets, file);
+        strvec_append(tilesets[idx], file);
         tileset_free(t);
       }
     } strvec_iterate_end;
     strvec_destroy(list);
   }
 
-  return tilesets;
+  return tilesets[idx];
 }
 
 /**********************************************************************
@@ -1170,6 +1198,7 @@ void tilespec_try_read(const char *tileset_name, bool verbose)
 
     log_verbose("Trying tileset \"%s\".", tileset->name);
   }
+  option_set_default_ts(tileset);
   sz_strlcpy(gui_options.default_tileset_name, tileset_get_name(tileset));
 }
 
@@ -1226,9 +1255,10 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
                          "Failed to re-read the currently loaded tileset.");
     }
   }
-  sz_strlcpy(gui_options.default_tileset_name, tileset->name);
   tileset_load_tiles(tileset);
-  tileset_use_preferred_theme(tileset);
+  if (game_fully_initialized) {
+    tileset_use_preferred_theme(tileset);
+  }
 
   if (game_fully_initialized) {
     players_iterate(pplayer) {
@@ -1253,7 +1283,7 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
    * doesn't mess up too badly if we change tilesets while not connected
    * to a server.
    */
-  if (state < C_S_RUNNING) {
+  if (!game.client.ruleset_ready) {
     /* The ruleset data is not sent until this point. */
     return;
   }
@@ -1291,6 +1321,11 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
     tileset_setup_city_tiles(tileset, id);
   }
 
+  if (state < C_S_RUNNING) {
+    /* Below redraws do not apply before this. */
+    return;
+  }
+
   /* Step 4:  Draw.
    *
    * Do any necessary redraws.
@@ -1311,11 +1346,35 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
 **************************************************************************/
 void tilespec_reread_callback(struct option *poption)
 {
-  const char *tileset_name = option_str_get(poption);
+  const char *tileset_name;
+  enum client_states state = client_state();
+
+  if ((state == C_S_RUNNING || state == C_S_OVER)
+      && option_get_cb_data(poption) != (game.map.topology_id & (TF_ISO | TF_HEX))) {
+    /* Changed option was not for current topology */
+    return;
+  }
+
+  tileset_name = option_str_get(poption);
+
+  /* As it's going to be 'current' tileset, make it global default if
+   * options saved. */
+  sz_strlcpy(gui_options.default_tileset_name, tileset_name);
 
   fc_assert_ret(NULL != tileset_name && tileset_name[0] != '\0');
   tileset_update = TRUE;
   tilespec_reread(tileset_name, client.conn.established);
+  tileset_update = FALSE;
+  menus_init();
+}
+
+/**************************************************************************
+  
+**************************************************************************/
+void tilespec_reread_frozen_refresh(const char *tname)
+{
+  tileset_update = TRUE;
+  tilespec_reread(tname, TRUE);
   tileset_update = FALSE;
   menus_init();
 }
@@ -1713,6 +1772,12 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
     topo = 0;
   }
 
+  if (t->type == TS_ISOMETRIC) {
+    topo = TF_ISO;
+  } else {
+    topo = 0;
+  }
+
   /* Read hex-tileset information. */
   t->hex_width = t->hex_height = 0;
   if (is_hex) {
@@ -1741,6 +1806,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
     /* Not of requested topology */
     goto ON_ERROR;
   }
+
+  t->ts_topo_idx = ts_topology_index(topo);
 
   if (!is_view_supported(t->type)) {
     log_normal(_("Client does not support %s tilesets."),
@@ -6578,4 +6645,12 @@ const char *tileset_summary(struct tileset *t)
 const char *tileset_description(struct tileset *t)
 {
   return t->description;
+}
+
+/****************************************************************************
+  Return tileset topology index
+****************************************************************************/
+int tileset_topo_index(struct tileset *t)
+{
+  return t->ts_topo_idx;
 }
