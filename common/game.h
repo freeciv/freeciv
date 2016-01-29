@@ -110,6 +110,7 @@ struct civ_game {
       /* Only used at the client (./client/). */
 
       bool ruleset_init;
+      bool ruleset_ready;
     } client;
 
     struct {

@@ -17,11 +17,12 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* client */
 #include "options.h"
 
 void init_themes(void);
 struct strvec;
-const struct strvec *get_themes_list(void);
+const struct strvec *get_themes_list(const struct option *poption);
 bool load_theme(const char* theme_name);
 void theme_reread_callback(struct option *option);
 
