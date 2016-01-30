@@ -180,8 +180,8 @@ case "$host_os" in
   *mingw32*)
     dnl Windows-specific settings
     MINGW32=yes
+    FC_WINSOCK2_INCLUDE([AC_DEFINE([FREECIV_HAVE_WINSOCK2], [1], [Mingw32-specific setting - winsock2])])
     AC_DEFINE([FREECIV_HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
-    AC_CHECK_HEADERS([winsock2.h], [AC_DEFINE([FREECIV_HAVE_WINSOCK2], [1], [Mingw32-specific setting - winsock2])])
     AC_CHECK_HEADERS([ws2tcpip.h], [AC_DEFINE([FREECIV_HAVE_WS2TCPIP_H], [1], [ws2tcpip.h available])])
     AC_CHECK_HEADERS([direct.h])
 
