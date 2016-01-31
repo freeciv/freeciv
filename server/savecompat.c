@@ -1149,6 +1149,7 @@ static void compat_load_030000(struct loaddata *loading)
   bool randsaved;
   int plrno;
   int nplayers;
+  int num_settings;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1175,6 +1176,30 @@ static void compat_load_030000(struct loaddata *loading)
                              "player%d.flags", plrno);
     }
   }
+
+  /* Settings */
+  num_settings = secfile_lookup_int_default(loading->file, 0,
+                                            "settings.set_count");
+
+  /* User meta server message is now a setting. */
+  if (secfile_lookup_bool_default(loading->file, FALSE,
+                                  "game.meta_usermessage")) {
+    const char *metamessage;
+
+    metamessage = secfile_lookup_str_default(loading->file, "",
+                                             "game.meta_message");
+
+    /* Insert the meta message as a setting */
+    secfile_insert_str(loading->file, "metamessage",
+                       "settings.set%d.name", num_settings);
+    secfile_insert_str(loading->file, metamessage,
+                       "settings.set%d.value", num_settings);
+    secfile_insert_str(loading->file, "",
+                       "settings.set%d.gamestart", num_settings);
+    num_settings++;
+  }
+
+  secfile_replace_int(loading->file, num_settings, "settings.set_count");
 }
 
 #ifdef FREECIV_DEV_SAVE_COMPAT
@@ -1213,6 +1238,7 @@ static void compat_load_dev(struct loaddata *loading)
   int plrno;
   int nplayers;
   size_t diplstate_type_size;
+  int num_settings;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1443,6 +1469,30 @@ static void compat_load_dev(struct loaddata *loading)
       }
     }
   }
+
+  /* Settings */
+  num_settings = secfile_lookup_int_default(loading->file, 0,
+                                            "settings.set_count");
+
+  /* User meta server message is now a setting. */
+  if (secfile_lookup_bool_default(loading->file, FALSE,
+                                  "game.meta_usermessage")) {
+    const char *metamessage;
+
+    metamessage = secfile_lookup_str_default(loading->file, "",
+                                             "game.meta_message");
+
+    /* Insert the meta message as a setting */
+    secfile_insert_str(loading->file, "metamessage",
+                       "settings.set%d.name", num_settings);
+    secfile_insert_str(loading->file, metamessage,
+                       "settings.set%d.value", num_settings);
+    secfile_insert_str(loading->file, "",
+                       "settings.set%d.gamestart", num_settings);
+    num_settings++;
+  }
+
+  secfile_replace_int(loading->file, num_settings, "settings.set_count");
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 

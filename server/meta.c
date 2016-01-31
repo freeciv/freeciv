@@ -134,7 +134,8 @@ static const char *get_meta_type_string(void)
 *************************************************************************/
 const char *get_user_meta_message_string(void)
 {
-  if (game.server.meta_info.user_message_set) {
+  if (game.server.meta_info.user_message
+      && game.server.meta_info.user_message[0] != '\0') {
     return game.server.meta_info.user_message;
   }
 
@@ -187,12 +188,10 @@ void set_user_meta_message_string(const char *string)
 {
   if (string != NULL && string[0] != '\0') {
     sz_strlcpy(game.server.meta_info.user_message, string);
-    game.server.meta_info.user_message_set = TRUE;
     set_meta_message_string(string);
   } else {
     /* Remove user meta message. We will use automatic messages instead */
     game.server.meta_info.user_message[0] = '\0';
-    game.server.meta_info.user_message_set = FALSE;
     set_meta_message_string(default_meta_message_string());    
   }
 }

@@ -1780,15 +1780,6 @@ static void sg_load_game(struct loaddata *loading)
                                       default_meta_patches_string(),
                                       "game.meta_patches");
   set_meta_patches_string(string);
-  game.server.meta_info.user_message_set
-    = secfile_lookup_bool_default(loading->file, FALSE,
-                                  "game.meta_usermessage");
-  if (game.server.meta_info.user_message_set) {
-    string = secfile_lookup_str_default(loading->file,
-                                        default_meta_message_string(),
-                                        "game.meta_message");
-    set_user_meta_message_string(string);
-  }
 
   if (0 == strcmp(DEFAULT_META_SERVER_ADDR, srvarg.metaserver_addr)) {
     /* Do not overwrite this if the user requested a specific metaserver
@@ -1933,7 +1924,6 @@ static void sg_save_ruledata(struct savedata *saving)
 ****************************************************************************/
 static void sg_save_game(struct savedata *saving)
 {
-  const char *user_message;
   enum server_states srv_state;
   char global_advances[game.control.num_tech_types + 1];
   int i;
@@ -1954,12 +1944,6 @@ static void sg_save_game(struct savedata *saving)
 
   secfile_insert_str(saving->file, get_meta_patches_string(),
                      "game.meta_patches");
-  secfile_insert_bool(saving->file, game.server.meta_info.user_message_set,
-                      "game.meta_usermessage");
-  user_message = get_user_meta_message_string();
-  if (user_message != NULL) {
-    secfile_insert_str(saving->file, user_message, "game.meta_message");
-  }
   secfile_insert_str(saving->file, meta_addr_port(), "game.meta_server");
 
   secfile_insert_str(saving->file, server.game_identifier, "game.id");

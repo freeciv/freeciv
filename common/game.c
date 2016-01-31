@@ -391,7 +391,6 @@ static void game_defaults(void)
     game.server.last_ping         = 0;
     game.server.max_players       = GAME_DEFAULT_MAX_PLAYERS;
     game.server.meta_info.user_message[0] = '\0';
-    game.server.meta_info.user_message_set = FALSE;
     /* Do not clear meta_info.type here as it's already set to correct value */
     game.server.mgr_distance      = GAME_DEFAULT_MGR_DISTANCE;
     game.server.mgr_foodneeded    = GAME_DEFAULT_MGR_FOODNEEDED;

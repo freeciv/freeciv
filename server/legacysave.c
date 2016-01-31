@@ -3289,9 +3289,9 @@ static void game_load_internal(struct section_file *file)
     set_meta_patches_string(secfile_lookup_str_default(file, 
                                                 default_meta_patches_string(),
                                                 "game.metapatches"));
-    game.server.meta_info.user_message_set =
-      secfile_lookup_bool_default(file, FALSE, "game.user_metamessage");
-    if (game.server.meta_info.user_message_set) {
+
+    if (secfile_lookup_bool_default(file, FALSE,
+                                    "game.user_metamessage")) {
       set_user_meta_message_string(secfile_lookup_str_default(file, 
                                                 default_meta_message_string(),
                                                 "game.metamessage"));

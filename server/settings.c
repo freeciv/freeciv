@@ -31,6 +31,7 @@
 /* server */
 #include "gamehand.h"
 #include "maphand.h"
+#include "meta.h"
 #include "notify.h"
 #include "plrhand.h"
 #include "report.h"
@@ -741,6 +742,23 @@ static void topology_action(const struct setting *pset)
   conn_list_iterate(game.est_connections, pconn) {
     send_packet_set_topology(pconn, &packet);
   } conn_list_iterate_end;
+}
+
+/*************************************************************************
+  Update metaserver message string from changed user meta server message
+  string.
+*************************************************************************/
+static void metamessage_action(const struct setting *pset)
+{
+  /* Set the metaserver message based on the new meta server user message.
+   * An empty user metaserver message results in an automatic meta message.
+   * A non empty user meta message results in the user meta message. */
+  set_user_meta_message_string(pset->string.value);
+
+  if (is_metaserver_open()) {
+    /* Update the meta server. */
+    send_server_info_to_metaserver(META_INFO);
+  }
 }
 
 /*************************************************************************
@@ -2754,6 +2772,16 @@ static struct setting settings[] = {
              "\"kick\" command may reconnect. Changing this setting will "
              "affect users kicked in the past."), NULL, NULL, NULL,
           GAME_MIN_KICK_TIME, GAME_MAX_KICK_TIME, GAME_DEFAULT_KICK_TIME)
+
+  GEN_STRING("metamessage", game.server.meta_info.user_message,
+             SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
+             N_("Metaserver info line"),
+             N_("User defined metaserver info line. For most of the time "
+                "a user defined metamessage will be used instead of an "
+                "automatically generated message. "
+                "Set to empty (\"\", not \"empty\") to always use an "
+                "automatically generated meta server message."),
+             NULL, metamessage_action, GAME_DEFAULT_USER_META_MESSAGE)
 };
 
 #undef GEN_BOOL
