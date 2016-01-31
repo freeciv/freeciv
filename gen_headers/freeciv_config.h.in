@@ -38,6 +38,9 @@
 /* Has thread condition variable implementation */
 #undef FREECIV_HAVE_THREAD_COND
 
+/* Build xml-backend for registry */
+#undef FREECIV_HAVE_XML_REGISTRY
+
 /* Native language support enabled */
 #undef FREECIV_ENABLE_NLS
 
