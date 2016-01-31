@@ -32,6 +32,8 @@ MOC_FILES = \
             meta_tab_unit.cpp
 
 freeciv_ruledit_SOURCES =	\
+		comments.c	\
+		comments.h	\
 		edit_utype.cpp	\
 		edit_utype.h	\
 		tab_building.cpp \

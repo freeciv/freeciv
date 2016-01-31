@@ -35,6 +35,9 @@
 #include "ruleset.h"
 #include "settings.h"
 
+/* tools/ruledit */
+#include "comments.h"
+
 #include "rulesave.h"
 
 /* Ruleset format version */
@@ -52,6 +55,8 @@ static struct section_file *create_ruleset_file(const char *rsname,
 {
   struct section_file *sfile = secfile_new(TRUE);
   char buf[500];
+
+  comment_file_header(sfile);
 
   if (rsname != NULL && rsname[0] != '\0') {
     fc_snprintf(buf, sizeof(buf), "%s %s data for Freeciv", rsname, rstype);
