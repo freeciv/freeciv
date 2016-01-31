@@ -11,6 +11,8 @@
 # msys2 has dlls in...
 DLLPATH_PREFIX=/mingw32/bin/
 
+WINARCH=$(shell ./win_arch.sh)
+
 # by default build all installers
 all: gtk3-installer gtk2-installer sdl-installer qt-installer ruledit-installer
 
@@ -244,7 +246,7 @@ installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# create NSIS script
-	./create-freeciv-$(GUI)-nsi.sh install-$(GUI) $(FREECIV_VERSION) > Freeciv-$(FREECIV_VERSION)-$(GUI).nsi
+	./create-freeciv-$(GUI)-nsi.sh install-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(FREECIV_VERSION)-$(GUI).nsi
 	# create installer executable
 	mkdir -p Output
 	makensis Freeciv-$(FREECIV_VERSION)-$(GUI).nsi
@@ -253,7 +255,7 @@ installer-ruledit: clean-install-ruledit install-ruledit install-env-ruledit
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# create NSIS script
-	./create-freeciv-ruledit-nsi.sh install-ruledit $(FREECIV_VERSION) > Freeciv-$(FREECIV_VERSION)-ruledit.nsi
+	./create-freeciv-ruledit-nsi.sh install-ruledit $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(FREECIV_VERSION)-ruledit.nsi
 	# create installer executable
 	mkdir -p Output
 	makensis Freeciv-$(FREECIV_VERSION)-ruledit.nsi

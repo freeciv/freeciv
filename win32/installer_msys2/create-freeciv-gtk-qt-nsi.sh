@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk2|gtk3|qt> <GTK+2|GTK+3|Qt>
+# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk2|gtk3|qt> <GTK+2|GTK+3|Qt> <win32|win64|win>
 
 cat <<EOF
 ; Freeciv Windows installer script
@@ -12,6 +12,7 @@ SetCompressor /SOLID lzma
 !define VERSION $2
 !define GUI_ID $3
 !define GUI_NAME $4
+!define WIN_ARCH $5
 !define APPID "\${APPNAME}-\${VERSION}-\${GUI_ID}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
@@ -30,7 +31,7 @@ SetCompressor /SOLID lzma
 ;General
 
 Name "\${APPNAME} \${VERSION} (\${GUI_NAME} client)"
-OutFile "Output/\${APPNAME}-\${VERSION}-win32-\${GUI_ID}-setup.exe"
+OutFile "Output/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
 
 ;Variables
 
