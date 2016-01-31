@@ -15,12 +15,20 @@ AC_DEFUN([FC_C11_STATIC_ASSERT],
 
 AC_DEFUN([FC_C11_AT_QUICK_EXIT],
 [
-  AC_CACHE_CHECK([for C11 at_quick_exit()], [ac_cv_c11_at_quick_exit],
-    [AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdlib.h>
+  AC_CACHE_CHECK([for C11 at_quick_exit()], [ac_cv_c11_at_quick_exit], [
+    dnl Add -Werror to detect cases where the header does not declare
+    dnl at_quick_exit() but linking still work. This situation can happen
+    dnl when the header is strict about the fact that at_quick_exit() is
+    dnl a C11 feature and the compiler is not in C11 mode.
+    dnl $EXTRA_DEBUG_CFLAGS contains -Wmissing-declarations if it's supported.
+    fc_save_CPPFLAGS="$CPPFLAGS"
+    CPPFLAGS="$CPPFLAGS -Werror $EXTRA_DEBUG_CFLAGS"
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdlib.h>
 static void func(void)
 {}
 ]], [[ at_quick_exit(func); ]])],
-[ac_cv_c11_at_quick_exit=yes], [ac_cv_c11_at_quick_exit=no])])
+[ac_cv_c11_at_quick_exit=yes], [ac_cv_c11_at_quick_exit=no])
+    CPPFLAGS="$fc_save_CPPFLAGS"])
   if test "x${ac_cv_c11_at_quick_exit}" = "xyes" ; then
     AC_DEFINE([HAVE_AT_QUICK_EXIT], [1], [C11 at_quick_exit() available])
   fi
