@@ -635,7 +635,7 @@ if test "x$XMLREGISTRY" = "xyes" ; then
       [AC_MSG_ERROR([libxml2 development files required])])
   UTILITY_CFLAGS="${UTILITY_CFLAGS} ${LIBXML2_CFLAGS}"
   UTILITY_LIBS="${UTILITY_LIBS} ${LIBXML2_LIBS}"
-  AC_DEFINE([HAVE_XML_REGISTRY], [1], [Build xml-backend for registry])
+  AC_DEFINE([FREECIV_HAVE_XML_REGISTRY], [1], [Build xml-backend for registry])
 fi
 
 dnl Set debug flags supported by compiler

@@ -17,13 +17,13 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#ifdef HAVE_XML_REGISTRY
+#ifdef FREECIV_HAVE_XML_REGISTRY
 
 #define FCXML_CAPSTR "+xml"
 
 struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename);
 
-#endif /* HAVE_XML_REGISTRY */
+#endif /* FREECIV_HAVE_XML_REGISTRY */
 
 #ifdef __cplusplus
 }

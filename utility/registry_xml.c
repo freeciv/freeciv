@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-#ifdef HAVE_XML_REGISTRY
+#ifdef FREECIV_HAVE_XML_REGISTRY
 
 #include <libxml/parser.h>
 
@@ -117,4 +117,4 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename)
   return secfile;
 }
 
-#endif /* HAVE_XML_REGISTRY */
+#endif /* FREECIV_HAVE_XML_REGISTRY */
