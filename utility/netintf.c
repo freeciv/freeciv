@@ -91,6 +91,7 @@ static void set_socket_errno(void)
     case WSAECONNRESET:
     case WSAECONNREFUSED:
     case WSAETIMEDOUT:
+    case WSAECONNABORTED:
       errno = err;
       return;
     default:

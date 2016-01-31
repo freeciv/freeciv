@@ -35,6 +35,7 @@ extern "C" {
 #undef ECONNREFUSED
 #undef EADDRNOTAVAIL
 #undef ETIMEDOUT
+#undef ECONNABORTED
 #define EINTR         WSAEINTR
 #define EINPROGRESS   WSAEWOULDBLOCK
 #define EWOULDBLOCK   WSAEWOULDBLOCK
@@ -42,6 +43,7 @@ extern "C" {
 #define ECONNREFUSED  WSAECONNREFUSED
 #define EADDRNOTAVAIL WSAEADDRNOTAVAIL
 #define ETIMEDOUT     WSAETIMEDOUT
+#define ECONNABORTED  WSAECONNABORTED
 #endif /* FREECIV_HAVE_WINSOCK */
 
 /* Which protocol will be used for LAN announcements */
