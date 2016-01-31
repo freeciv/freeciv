@@ -15,8 +15,11 @@
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 #include <string.h>
 
+/* utility */
 #include "shared.h"		/* TRUE, FALSE */
 #include "support.h"		/* fc_is* */
 

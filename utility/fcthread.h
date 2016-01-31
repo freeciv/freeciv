@@ -24,16 +24,6 @@ extern "C" {
 /* utility */
 #include "support.h" /* bool */
 
-/* No way needed by threading, but if the one including us will ever need it,
- * it can't be included after we have included <windows.h> directly or indirectly. */
-#ifdef FREECIV_HAVE_WINSOCK
-#ifdef FREECIV_HAVE_WINSOCK2
-#include <winsock2.h>
-#else  /* FREECIV_HAVE_WINSOCK2 */
-#include <winsock.h>
-#endif /* FREECIV_HAVE_WINSOCK2 */
-#endif /* FREECIV_HAVE_WINSOCK */
-
 #ifdef FREECIV_HAVE_TINYCTHR
 #include "tinycthread.h"
 #define FREECIV_C11_THR

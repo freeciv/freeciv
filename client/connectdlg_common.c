@@ -14,19 +14,14 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <signal.h>             /* SIGTERM and kill */
 #include <string.h>
 #include <time.h>
 
-#ifdef FREECIV_HAVE_WINSOCK
-#ifdef FREECIV_HAVE_WINSOCK2
-#include <winsock2.h>
-#else  /* FREECIV_HAVE_WINSOCK2 */
-#include <winsock.h>
-#endif /* FREECIV_HAVE_WINSOCK2 */
-#endif /* FREECIV_HAVE_WINSOCK */
 #ifdef WIN32_NATIVE
 #include <windows.h>
 #endif

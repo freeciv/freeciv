@@ -19,6 +19,8 @@
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>

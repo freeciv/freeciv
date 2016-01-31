@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 #include <errno.h>
 #include <stdlib.h>
 
@@ -48,13 +50,6 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef FREECIV_HAVE_WINSOCK
-#ifdef FREECIV_HAVE_WINSOCK2
-#include <winsock2.h>
-#else  /* FREECIV_HAVE_WINSOCK2 */
-#include <winsock.h>
-#endif /* FREECIV_HAVE_WINSOCK2 */
-#endif /* FREECIV_HAVE_WINSOCK */
 
 /* dependencies */
 #include "cvercmp.h"

@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 #ifdef FREECIV_HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
