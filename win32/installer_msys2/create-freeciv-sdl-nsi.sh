@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-sdl-nsi.sh <Freeciv files directory> <version>
+# ./create-freeciv-sdl-nsi.sh <Freeciv files directory> <version> <win32|win64|win>
 
 cat <<EOF
 ; Freeciv Windows installer script
@@ -12,6 +12,7 @@ SetCompressor /SOLID lzma
 !define VERSION $2
 !define GUI_ID sdl
 !define GUI_NAME SDL
+!define WIN_ARCH $3
 !define APPID "\${APPNAME}-\${VERSION}-\${GUI_ID}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
@@ -30,7 +31,7 @@ SetCompressor /SOLID lzma
 ;General
 
 Name "\${APPNAME} \${VERSION} (\${GUI_NAME} client)"
-OutFile "Output/\${APPNAME}-\${VERSION}-win32-\${GUI_ID}-setup.exe"
+OutFile "Output/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
 
 ;Variables
 
