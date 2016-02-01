@@ -2814,6 +2814,10 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
   SET_SPRITE(city.disorder, "city.disorder");
 
+  /* Fallbacks for goto path turn numbers:
+   *   path.step_%d, path.exhausted_mp_%d
+   *   --> path.turns_%d
+   *       --> city.size_%d */
 #define SET_GOTO_TURN_SPRITE(state, state_name, factor, factor_name)        \
   fc_snprintf(buffer, sizeof(buffer), "path." state_name "_%d" #factor, i); \
   SET_SPRITE_OPT(path.s[state].turns ## factor_name [i], buffer);           \
@@ -2886,25 +2890,11 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   t->max_upkeep_height = calculate_max_upkeep_height(t);
 
   SET_SPRITE(user.attention, "user.attention");
-  SET_SPRITE_OPT(path.s[GTS_MP_LEFT].specific, "path.normal");
-  if (t->sprites.path.s[GTS_TURN_STEP].turns[0]
-      == t->sprites.path.s[GTS_MP_LEFT].turns[0]) {
-    /* No specific sprites for step turn numbers. */
-    SET_SPRITE_ALT(path.s[GTS_TURN_STEP].specific, "path.step",
-                   "user.attention");
-  } else {
-    SET_SPRITE_OPT(path.s[GTS_TURN_STEP].specific, "path.step");
-  }
-  if (t->sprites.path.s[GTS_EXHAUSTED_MP].turns[0]
-      == t->sprites.path.s[GTS_MP_LEFT].turns[0]) {
-    /* No specific sprites for exhausted move points turn numbers. */
-    SET_SPRITE_ALT(path.s[GTS_EXHAUSTED_MP].specific, "path.exhausted_mp",
-                   "unit.tired");
-  } else {
-    SET_SPRITE_OPT(path.s[GTS_EXHAUSTED_MP].specific, "path.exhausted_mp");
-  }
-  SET_SPRITE_ALT(path.waypoint, "path.waypoint", "editor.startpos");
 
+  SET_SPRITE_OPT(path.s[GTS_MP_LEFT].specific, "path.normal");
+  SET_SPRITE_OPT(path.s[GTS_EXHAUSTED_MP].specific, "path.exhausted_mp");
+  SET_SPRITE_OPT(path.s[GTS_TURN_STEP].specific, "path.step");
+  SET_SPRITE(path.waypoint, "path.waypoint");
 
   SET_SPRITE(tx.fog,        "tx.fog");
 
