@@ -129,19 +129,10 @@ install-ruledit: install-ruledit-dir
 # install Freeciv environment
 
 COMMON_DLLS := \
-	SDL.dll \
-	SDL_mixer.dll \
-	exchndl.dll \
-	freetype6.dll \
-	intl.dll \
-	libMagickCore-6.Q16-1.dll \
-	libMagickWand-6.Q16-1.dll \
 	libatk-1.0-0.dll \
-	libbz2-2.dll \
-	libcurl.dll \
+	libbz2-1.dll \
 	libcairo-2.dll \
 	libcairo-gobject-2.dll \
-	libeay32.dll \
 	libffi-6.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
@@ -153,7 +144,6 @@ COMMON_DLLS := \
 	libgobject-2.0-0.dll \
 	libgthread-2.0-0.dll \
 	libiconv-2.dll \
-	libidn-11.dll \
 	libintl-8.dll \
 	liblzma-5.dll \
 	libogg-0.dll \
@@ -161,32 +151,61 @@ COMMON_DLLS := \
 	libpangocairo-1.0-0.dll \
 	libpangowin32-1.0-0.dll \
 	libpixman-1-0.dll \
-	libpng14-14.dll \
-	libpng15-15.dll \
-	libpthread-2.dll \
-	libsqlite3-0.dll \
-	libssl32.dll \
+	libpng16-16.dll \
 	libvorbis-0.dll \
 	libvorbisfile-3.dll \
 	libxml2-2.dll \
-	pthreadGC2.dll \
-	zlib1.dll
+	zlib1.dll \
+	libwinpthread-1.dll
+
+COMMON_MSYS_DLLS := \
+	2.0.dll \
+	stdc++-6.dll \
+	curl-4.dll \
+	icuuc56.dll \
+	icudata56.dll \
+	idn-11.dll \
+	sqlite3-0.dll \
+	ssl-1.0.0.dll \
+	gcc_s-1.dll \
+	z.dll \
+	bz2-1.dll \
+	crypto-1.0.0.dll \
+	gssapi-3.dll \
+	heimntlm-0.dll \
+	krb5-26.dll \
+	asn1-8.dll \
+	com_err-1.dll \
+	roken-18.dll \
+	crypt-0.dll \
+	wind-0.dll \
+	hx509-5.dll \
+	heimbase-1.dll \
+	iconv-2.dll \
+	intl-8.dll \
+	ssh2-1.dll \
+	lzma-5.dll
 
 install-env-common:
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(GUI)
+	cp -R $(addprefix /bin/msys-, $(COMMON_MSYS_DLLS)) install-$(GUI)
 
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
-	libgtk-3-0.dll
+	libgtk-3-0.dll \
+	libexpat-1.dll \
+	libharfbuzz-0.dll \
+	libepoxy-0.dll \
+	libpangoft2-1.0-0.dll
 
 install-env-default-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(GUI)
 	# add additional GTK+3 files
 	mkdir -p install-$(GUI)/etc
-	cp -R /etc/gtk-3.0 install-$(GUI)/etc/
+	cp -R /mingw32/etc/gtk-3.0 install-$(GUI)/etc/
 	mkdir -p install-$(GUI)/lib/gtk-3.0/
-	cp -R /lib/gtk-3.0/3.0.0 install-$(GUI)/lib/gtk-3.0/
+	cp -R /mingw32/lib/gtk-3.0/* install-$(GUI)/lib/gtk-3.0/
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
