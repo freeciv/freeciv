@@ -121,7 +121,7 @@ tiles = { "row", "column","tag"
  12, 8, "road.rail_nw"
 
 ;add-ons
- 2, 7, "tx.oil_mine" 
+ 2, 7, "tx.oil_mine", "tx.oil_rig"
  4, 7, "tx.farmland"
  3, 7, "tx.irrigation"
  5, 7, "tx.mine"
