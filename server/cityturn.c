@@ -2589,7 +2589,9 @@ static struct unit *sell_random_unit(struct player *pplayer,
 
   {
     const char *punit_link = unit_tile_link(punit);
+#ifdef FREECIV_DEBUG
     const char *punit_logname = unit_name_translation(punit);
+#endif /* FREECIV_DEBUG */
     struct tile *utile = unit_tile(punit);
 
     if (upkeep_kill_unit(punit, O_GOLD, ULR_SOLD,
