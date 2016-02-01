@@ -11,6 +11,7 @@ artists = "
     Daniel Speyer
     Yautja
     CapTVK
+    GriffonSpade
 "
 
 [file]
@@ -118,6 +119,7 @@ tiles = { "row", "column", "tag"
  4,  6, "tx.pollution"
  5,  6, "tx.village"
  6,  6, "tx.fallout"
+ 7,  6, "tx.oil_rig"
 
  15,  0, "t.dither_tile"
  15,  0, "tx.darkness"
