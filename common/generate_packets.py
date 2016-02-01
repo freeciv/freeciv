@@ -1120,6 +1120,9 @@ static char *stats_%(name)s_names[] = {%(names)s};
 '''%self.get_dict(vars())
 
         body=body+'''
+  #ifdef FREECIV_JSON_CONNECTION
+  field_addr.name = "fields";
+  #endif /* FREECIV_JSON_CONNECTION */
   DIO_BV_PUT(&dout, \"fields\", &field_addr, fields);
 '''
 
@@ -1161,7 +1164,12 @@ static char *stats_%(name)s_names[] = {%(names)s};
   struct %(packet_name)s *old;
   struct genhash **hash = pc->phs.received + %(type)s;
 '''
-            delta_body1="\n  DIO_BV_GET(&din, \"fields\", &field_addr, fields);\n"
+            delta_body1='''
+  #ifdef FREECIV_JSON_CONNECTION
+  field_addr.name = "fields";
+  #endif /* FREECIV_JSON_CONNECTION */
+  DIO_BV_GET(&din, \"fields\", &field_addr, fields);
+  '''
             body1=""
             for field in self.key_fields:
                 body1=body1+prefix("  ",field.get_get())+"\n"
