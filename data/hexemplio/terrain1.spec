@@ -62,6 +62,8 @@ tiles = { "row", "column","tag"
  1,   3, "ts.tundra_game"
  1,   4, "ts.arctic_ivory"
  1,   5, "ts.peat"
+ 1,   6, "ts.coal"
+ 1,   7, "ts.forest_game"
 
  2,   0, "ts.oasis"
  2,   1, "ts.wheat"
@@ -69,21 +71,17 @@ tiles = { "row", "column","tag"
  2,   3, "ts.furs"
  2,   4, "ts.seals"
  2,   5, "ts.spice"
-
- 1,   6, "ts.coal"
  2,   6, "ts.wine"
-
- 3,   6, "ts.gold"
- 4,   6, "ts.iron"
-
- 1,   7, "ts.forest_game"
  2,   7, "ts.silk"
+ 2,   8, "ts.gold"
 
+ 3,   6, "ts.fruit"
  3,   7, "ts.gems"
- 4,   7, "ts.fruit"
+ 3,   8, "ts.iron"
 
  5,  6,  "ts.fish"
  5,  7,  "ts.whales"
+
 
 
 ; Strategic Resources
@@ -92,15 +90,17 @@ tiles = { "row", "column","tag"
  3,   2, "ts.uranium"
  3,   3, "ts.horses"
  3,   4, "ts.elephant"
+ 3,   5, "ts.rubber"
 
 ;add-ons
  4, 0, "tx.oil_mine" 
  4, 1, "tx.mine"
- 4, 2, "tx.irrigation"
- 4, 3, "tx.farmland"
- 4, 4, "tx.fallout"
- 4, 5, "tx.pollution"
- 3, 5, "tx.village"
+ 4, 2, "tx.oil_rig"
+ 4, 3, "tx.irrigation"
+ 4, 4, "tx.farmland"
+ 4, 5, "tx.fallout"
+ 4, 6, "tx.pollution"
+ 4, 7, "tx.village"
 
 ;misc
  5, 1, "t.dither_tile"
