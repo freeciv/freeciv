@@ -106,5 +106,6 @@ tiles = { "row", "column", "tag"
   6,  1, "unit.farmland"
   6,  2, "unit.mine"
   6,  3, "unit.oil_mine"
+  6,  4, "unit.oil_rig"
 
 }
