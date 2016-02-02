@@ -528,7 +528,7 @@ struct unit_type {
     int defense_mp_bonuses[U_LAST];
   } cache;
 
-  void *ais[FC_AI_LAST];
+  void *ais[FREECIV_AI_MOD_LAST];
 };
 
 /* General unit and unit type (matched) routines */
