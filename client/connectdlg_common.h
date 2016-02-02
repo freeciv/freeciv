@@ -17,11 +17,8 @@ Freeciv - Copyright (C) 2003 - The Freeciv Project
 extern "C" {
 #endif /* __cplusplus */
 
-#include "shared.h"
-
-#if defined(HAVE_WORKING_FORK) || defined(WIN32_NATIVE)
-# define CLIENT_CAN_LAUNCH_SERVER
-#endif
+/* utility */
+#include "support.h" /* bool */
 
 bool client_start_server(void);
 void client_kill_server(bool force);
