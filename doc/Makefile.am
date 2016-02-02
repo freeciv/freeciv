@@ -20,6 +20,7 @@ docs =				\
 	README.fcdb		\
 	README.governor		\
 	README.graphics		\
+	README.msys2		\
 	README.nations		\
 	README.packaging	\
 	README.rulesets		\
