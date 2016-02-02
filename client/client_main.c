@@ -347,7 +347,7 @@ int client_main(int argc, char *argv[])
   /* Ensure that all AIs are initialized to unused state
    * Not using ai_type_iterate as it would stop at
    * current ai type count, ai_type_get_count(), i.e., 0 */
-  for (aii = 0; aii < FC_AI_LAST; aii++) {
+  for (aii = 0; aii < FREECIV_AI_MOD_LAST; aii++) {
     struct ai_type *ai = get_ai_type(aii);
 
     init_ai(ai);

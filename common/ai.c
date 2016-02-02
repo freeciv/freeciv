@@ -27,7 +27,7 @@
 #include "ai.h"
 #include "player.h"
 
-static struct ai_type ai_types[FC_AI_LAST];
+static struct ai_type ai_types[FREECIV_AI_MOD_LAST];
 
 static int ai_type_count = 0;
 
@@ -53,16 +53,16 @@ void ai_timer_init(void)
   fc_assert_ret(aitimers == NULL);
   fc_assert_ret(aitimer_plrs == NULL);
 
-  aitimers = fc_calloc(FC_AI_LAST, sizeof(*aitimers));
-  for (i = 0; i < FC_AI_LAST; i++) {
+  aitimers = fc_calloc(FREECIV_AI_MOD_LAST, sizeof(*aitimers));
+  for (i = 0; i < FREECIV_AI_MOD_LAST; i++) {
     struct ai_timer *aitimer = aitimers + i;
     aitimer->count = 0;
     aitimer->timer = NULL;
   }
 
-  aitimer_plrs = fc_calloc(FC_AI_LAST * MAX_NUM_PLAYER_SLOTS,
+  aitimer_plrs = fc_calloc(FREECIV_AI_MOD_LAST * MAX_NUM_PLAYER_SLOTS,
                            sizeof(*aitimer_plrs));
-  for (i = 0; i < FC_AI_LAST * MAX_NUM_PLAYER_SLOTS; i++) {
+  for (i = 0; i < FREECIV_AI_MOD_LAST * MAX_NUM_PLAYER_SLOTS; i++) {
     struct ai_timer *aitimer = aitimer_plrs + i;
     aitimer->count = 0;
     aitimer->timer = NULL;
@@ -77,7 +77,7 @@ void ai_timer_free(void)
   int i,j;
   struct ai_timer *aitimer;
 
-  for (i = 0; i < FC_AI_LAST; i++) {
+  for (i = 0; i < FREECIV_AI_MOD_LAST; i++) {
     struct ai_type *ai = get_ai_type(i);
 
     aitimer = aitimers + i;
@@ -89,7 +89,7 @@ void ai_timer_free(void)
     }
 
     for (j = 0; j < MAX_NUM_PLAYER_SLOTS; j++) {
-      aitimer = aitimer_plrs + j * FC_AI_LAST + i;
+      aitimer = aitimer_plrs + j * FREECIV_AI_MOD_LAST + i;
 
       if (aitimer->timer) {
         log_normal("AI timer stats: [%15.3f] P%03d (AI type: %s)",
@@ -137,7 +137,7 @@ static struct ai_timer *ai_timer_player_get(const struct player *pplayer)
 
   fc_assert_ret_val(aitimer_plrs != NULL, NULL);
 
-  aitimer = aitimer_plrs + (player_index(pplayer) * FC_AI_LAST
+  aitimer = aitimer_plrs + (player_index(pplayer) * FREECIV_AI_MOD_LAST
                             + ai_type_number(pplayer->ai));
 
   if (!aitimer->timer) {
@@ -252,7 +252,7 @@ void ai_timer_player_stop(const struct player *pplayer)
 ***************************************************************/
 struct ai_type *get_ai_type(int id)
 {
-  fc_assert(id >= 0 && id < FC_AI_LAST);
+  fc_assert(id >= 0 && id < FREECIV_AI_MOD_LAST);
 
   return &ai_types[id];
 }
@@ -272,7 +272,7 @@ int ai_type_number(const struct ai_type *ai)
 {
   int ainbr = ai - ai_types;
 
-  fc_assert_ret_val(ainbr >= 0 && ainbr < FC_AI_LAST, 0);
+  fc_assert_ret_val(ainbr >= 0 && ainbr < FREECIV_AI_MOD_LAST, 0);
 
   return ainbr;
 }
@@ -296,8 +296,10 @@ struct ai_type *ai_type_by_name(const char *search)
 ***************************************************************/
 struct ai_type *ai_type_alloc(void)
 {
-  if (ai_type_count >= FC_AI_LAST) {
-    log_error(_("Too many AI modules. Max is %d."), FC_AI_LAST);
+  if (ai_type_count >= FREECIV_AI_MOD_LAST) {
+    log_error(_("Too many AI modules. Max is %d."),
+              FREECIV_AI_MOD_LAST);
+
     return NULL;
   }
 

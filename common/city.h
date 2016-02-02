@@ -416,7 +416,7 @@ struct city {
       bool debug;                   /* not saved */
 
       struct adv_city *adv;
-      void *ais[FC_AI_LAST];
+      void *ais[FREECIV_AI_MOD_LAST];
 
       struct vision *vision;
     } server;

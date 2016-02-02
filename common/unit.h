@@ -196,7 +196,7 @@ struct unit {
       bool debug;
 
       struct unit_adv *adv;
-      void *ais[FC_AI_LAST];
+      void *ais[FREECIV_AI_MOD_LAST];
       int birth_turn;
 
       /* ord_map and ord_city are the order index of this unit in tile.units

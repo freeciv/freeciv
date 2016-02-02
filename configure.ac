@@ -593,7 +593,7 @@ if test "x$enable_aimodules" = "xyes" ; then
   dnl Dynamic modules allowed, give slots for them
   fc_ai_last=$fc_ai_last+3
 fi
-AC_DEFINE_UNQUOTED([FC_AI_LAST], [(${fc_ai_last})], [Max number of AI modules])
+AC_DEFINE_UNQUOTED([FREECIV_AI_MOD_LAST], [(${fc_ai_last})], [Max number of AI modules])
 
 AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type name])
 

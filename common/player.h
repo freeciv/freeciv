@@ -320,7 +320,7 @@ struct player {
 
       struct adv_data *adv;
 
-      void *ais[FC_AI_LAST];
+      void *ais[FREECIV_AI_MOD_LAST];
 
       /* This user is allowed to take over the player. */
       char delegate_to[MAX_LEN_NAME];
