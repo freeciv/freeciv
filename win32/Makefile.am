@@ -7,6 +7,7 @@ dist_noinst_DATA = \
 		clienticon.rc 	\
 		mpicon.rc	\
 		servericon.rc	\
+		installer/licenses/COPYING.installer	\
 		installer/create-freeciv-gtk-qt-nsi.sh	\
 		installer/create-freeciv-gtk2-nsi.sh	\
 		installer/create-freeciv-gtk3-nsi.sh	\

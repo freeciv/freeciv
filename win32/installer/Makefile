@@ -77,6 +77,8 @@ install-freeciv-common:
 	mv install-$(GUI)/usr/local/share/doc install-$(GUI)/doc
 	mkdir -p install-$(GUI)/debuginfo
 	cp build-$(GUI)/fc_config.h install-$(GUI)/debuginfo
+	mkdir -p install-$(GUI)/doc/freeciv/installer
+	cp licenses/COPYING.installer install-$(GUI)/doc/freeciv/installer/
 	# delete unneeded files
 	rm -r install-$(GUI)/usr
 	# strip 'freeciv-manual' and 'freeciv-mp-<gui>' executables
