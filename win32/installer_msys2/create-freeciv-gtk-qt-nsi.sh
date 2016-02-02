@@ -42,7 +42,7 @@ Var LangName
 ; Pages
 
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "$1\doc\freeciv\COPYING"
+!insertmacro MUI_PAGE_LICENSE "$1\doc\freeciv\installer\COPYING.installer"
 !insertmacro MUI_PAGE_COMPONENTS
 Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MULTIUSER_PAGE_INSTALLMODE
