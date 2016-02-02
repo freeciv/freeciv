@@ -196,10 +196,28 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
                               const struct text_tag_list *tags,
                               struct tile *ptile)
 {
-  GtkWidget *shell, *label, *goto_command, *popcity_command;
+  GtkWidget *shell, *label;
   
-  shell = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(shell), headline);
+  if (ptile == NULL) {
+    shell = gtk_dialog_new_with_buttons(headline, NULL, 0,
+                                        _("Close"), GTK_RESPONSE_CLOSE,
+                                        NULL);
+  } else {
+    struct city *pcity = tile_city(ptile);
+
+    if (pcity != NULL && city_owner(pcity) == client.conn.playing) {
+      shell = gtk_dialog_new_with_buttons(headline, NULL, 0,
+                                          _("Goto _Location"), 1,
+                                          _("I_nspect City"), 2,
+                                          _("Close"), GTK_RESPONSE_CLOSE,
+                                          NULL);
+    } else {
+      shell = gtk_dialog_new_with_buttons(headline, NULL, 0,
+                                          _("Goto _Location"), 1,
+                                          _("Close"), GTK_RESPONSE_CLOSE,
+                                          NULL);
+    }
+  }
   setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -207,29 +225,6 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   label = gtk_label_new(lines);
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
   gtk_widget_show(label);
-  
-  goto_command = GTK_WIDGET(gtk_tool_button_new(gtk_image_new_from_icon_name("go-jump", 0),
-                                                _("Goto _Location")));
-  gtk_dialog_add_action_widget(GTK_DIALOG(shell), goto_command, 1);
-  gtk_widget_show(goto_command);
-
-  popcity_command = GTK_WIDGET(gtk_tool_button_new(gtk_image_new_from_icon_name("zoom-in", 0),
-                                                   _("I_nspect City")));
-  gtk_dialog_add_action_widget(GTK_DIALOG(shell), popcity_command, 2);
-  gtk_widget_show(popcity_command);
-
-  gtk_dialog_add_button(GTK_DIALOG(shell), _("Close"), GTK_RESPONSE_CLOSE);
-
-  if (!ptile) {
-    gtk_widget_set_sensitive(goto_command, FALSE);
-    gtk_widget_set_sensitive(popcity_command, FALSE);
-  } else {
-    struct city *pcity;
-
-    pcity = tile_city(ptile);
-    gtk_widget_set_sensitive(popcity_command,
-      (NULL != pcity && city_owner(pcity) == client.conn.playing));
-  }
 
   g_object_set_data(G_OBJECT(shell), "tile", ptile);
 
