@@ -1241,6 +1241,24 @@ void mr_menu::menus_sensitive()
     a->setEnabled(false);
   }
 
+  /* Non unit menus */
+  keys = menu_list.keys();
+  foreach (munit key, keys) {
+    i = menu_list.find(key);
+    while (i != menu_list.end() && i.key() == key) {
+      switch (key) {
+      case SAVE:
+        if (can_client_access_hack() && C_S_RUNNING <= client_state()) {
+          i.value()->setEnabled(true);
+        }
+        break;
+      default:
+        break;
+      }
+      i++;
+    }
+  }
+
   if (can_client_issue_orders() == false || get_num_units_in_focus() == 0) {
     return;
   }
@@ -1585,11 +1603,6 @@ void mr_menu::menus_sensitive()
 
       case UPGRADE:
         if (units_can_upgrade(punits)) {
-          i.value()->setEnabled(true);
-        }
-        break;
-      case SAVE:
-        if (can_client_access_hack() && C_S_RUNNING <= client_state()) {
           i.value()->setEnabled(true);
         }
         break;
