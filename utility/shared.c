@@ -2427,7 +2427,7 @@ static size_t extract_escapes(const char *format, char *escapes,
   };
   bool reordered = FALSE;
   size_t num = 0;
-  int index = 0;
+  int idx = 0;
 
   memset(escapes, 0, max_escapes);
   format = strchr(format, '%');
@@ -2444,7 +2444,7 @@ static size_t extract_escapes(const char *format, char *escapes,
       } while (fc_isdigit(*format));
       if ('$' == *format) {
         /* Strings are reordered. */
-        sscanf(start, "%d", &index);
+        sscanf(start, "%d", &idx);
         reordered = TRUE;
       }
     }
@@ -2453,15 +2453,15 @@ static size_t extract_escapes(const char *format, char *escapes,
            && NULL == strchr(format_escapes, *format)) {
       format++;
     }
-    escapes[index] = *format;
+    escapes[idx] = *format;
 
     /* Increase the read count. */
     if (reordered) {
-      if (index > num) {
-        num = index;
+      if (idx > num) {
+        num = idx;
       }
     } else {
-      index++;
+      idx++;
       num++;
     }
 

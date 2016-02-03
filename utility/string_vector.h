@@ -17,10 +17,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "support.h"            /* bool type. */
 
 struct astring;
-
 
 struct strvec;                  /* Opaque. */
 
@@ -40,14 +40,14 @@ void strvec_sort(struct strvec *psv, int (*sort_func) (const char *const *,
 
 void strvec_prepend(struct strvec *psv, const char *string);
 void strvec_append(struct strvec *psv, const char *string);
-void strvec_insert(struct strvec *psv, size_t index, const char *string);
-bool strvec_set(struct strvec *psv, size_t index, const char *string);
-bool strvec_remove(struct strvec *psv, size_t index);
+void strvec_insert(struct strvec *psv, size_t svindex, const char *string);
+bool strvec_set(struct strvec *psv, size_t svindex, const char *string);
+bool strvec_remove(struct strvec *psv, size_t svindex);
 
 size_t strvec_size(const struct strvec *psv);
 const char *const *strvec_data(const struct strvec *psv);
-bool strvec_index_valid(const struct strvec *psv, size_t index);
-const char *strvec_get(const struct strvec *psv, size_t index);
+bool strvec_index_valid(const struct strvec *psv, size_t svindex);
+const char *strvec_get(const struct strvec *psv, size_t svindex);
 void strvec_to_str(const struct strvec *psv, char separator,
                    char *buf, size_t buf_len);
 const char *strvec_to_or_list(const struct strvec *psv,

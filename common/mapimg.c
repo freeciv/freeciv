@@ -388,7 +388,7 @@ struct img {
 
 static struct img *img_new(struct mapdef *mapdef, int topo, int xsize, int ysize);
 static void img_destroy(struct img *pimg);
-static inline void img_set_pixel(struct img *pimg, const int index,
+static inline void img_set_pixel(struct img *pimg, const int mindex,
                                  const struct rgbcolor *pcolor);
 static inline int img_index(const int x, const int y,
                             const struct img *pimg);
@@ -1950,16 +1950,16 @@ static void img_destroy(struct img *pimg)
 /****************************************************************************
   Set the color of one pixel.
 ****************************************************************************/
-static inline void img_set_pixel(struct img *pimg, const int index,
+static inline void img_set_pixel(struct img *pimg, const int mindex,
                                  const struct rgbcolor *pcolor)
 {
-  if (index < 0 || index > pimg->imgsize.x * pimg->imgsize.y) {
-    log_error("invalid index: 0 <= %d < %d", index,
+  if (mindex < 0 || mindex > pimg->imgsize.x * pimg->imgsize.y) {
+    log_error("invalid index: 0 <= %d < %d", mindex,
               pimg->imgsize.x * pimg->imgsize.y);
     return;
   }
 
-  pimg->map[index] = pcolor;
+  pimg->map[mindex] = pcolor;
 }
 
 /****************************************************************************
@@ -1980,7 +1980,7 @@ static inline int img_index(const int x, const int y,
 static void img_plot(struct img *pimg, int x, int y,
                      const struct rgbcolor *pcolor, const bv_pixel pixel)
 {
-  int base_x, base_y, i, index;
+  int base_x, base_y, i, mindex;
 
   if (!BV_ISSET_ANY(pixel)) {
     return;
@@ -1990,9 +1990,9 @@ static void img_plot(struct img *pimg, int x, int y,
 
   for (i = 0; i < NUM_PIXEL; i++) {
     if (BV_ISSET(pixel, i)) {
-      index = img_index(base_x + pimg->tileshape->x[i],
-                        base_y + pimg->tileshape->y[i], pimg);
-      img_set_pixel(pimg, index, pcolor);
+      mindex = img_index(base_x + pimg->tileshape->x[i],
+                         base_y + pimg->tileshape->y[i], pimg);
+      img_set_pixel(pimg, mindex, pcolor);
     }
   }
 }
@@ -2079,7 +2079,7 @@ static bool img_save_magickwand(const struct img *pimg,
   char imagefile[MAX_LEN_PATH];
   char str_color[32], comment[2048] = "", title[258];
   magickwand_size_t img_width, img_height, map_width, map_height;
-  int x, y, xxx, yyy, row, i, index, plrwidth, plroffset, textoffset;
+  int x, y, xxx, yyy, row, i, mindex, plrwidth, plroffset, textoffset;
   bool withplr = BV_ISSET_ANY(pimg->def->player.checked_plrbv);
 
   if (!img_filename(mapimgfile, pimg->def->format, imagefile,
@@ -2225,8 +2225,8 @@ static bool img_save_magickwand(const struct img *pimg,
 
       /* x coordinate */
       for (x = 0; x < pimg->imgsize.x; x++) {
-        index = img_index(x, y, pimg);
-        pcolor = pimg->map[index];
+        mindex = img_index(x, y, pimg);
+        pcolor = pimg->map[mindex];
 
         if (pcolor != NULL) {
           SET_COLOR(str_color, pcolor);
@@ -2282,7 +2282,7 @@ static bool img_save_ppm(const struct img *pimg, const char *mapimgfile)
 {
   char ppmname[MAX_LEN_PATH];
   FILE *fp;
-  int x, y, xxx, yyy, index;
+  int x, y, xxx, yyy, mindex;
   const struct rgbcolor *pcolor;
 
   if (pimg->def->format != IMGFORMAT_PPM) {
@@ -2331,8 +2331,8 @@ static bool img_save_ppm(const struct img *pimg, const char *mapimgfile)
     for (yyy = 0; yyy < pimg->def->zoom; yyy++) {
       /* x coordinate */
       for (x = 0; x < pimg->imgsize.x; x++) {
-        index = img_index(x, y, pimg);
-        pcolor = pimg->map[index];
+        mindex = img_index(x, y, pimg);
+        pcolor = pimg->map[mindex];
 
         /* zoom for x */
         for (xxx = 0; xxx < pimg->def->zoom; xxx++) {
