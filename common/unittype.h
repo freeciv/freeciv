@@ -606,7 +606,7 @@ void role_unit_precalcs_free(void);
 int num_role_units(int role);
 struct unit_type *role_units_iterate(int role, role_unit_callback cb, void *data);
 struct unit_type *role_units_iterate_backwards(int role, role_unit_callback cb, void *data);
-struct unit_type *get_role_unit(int role, int index);
+struct unit_type *get_role_unit(int role, int rindex);
 struct unit_type *best_role_unit(const struct city *pcity, int role);
 struct unit_type *best_role_unit_for_player(const struct player *pplayer,
 					    int role);

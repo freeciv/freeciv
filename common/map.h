@@ -131,12 +131,12 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
   fc_assert(is_normal_map_pos((x),(y)))
 #define CHECK_NATIVE_POS(x, y) \
   fc_assert((x) >= 0 && (x) < game.map.xsize && (y) >= 0 && (y) < game.map.ysize)
-#define CHECK_INDEX(index) \
-  fc_assert((index) >= 0 && (index) < MAP_INDEX_SIZE)
+#define CHECK_INDEX(mindex) \
+  fc_assert((mindex) >= 0 && (mindex) < MAP_INDEX_SIZE)
 #else  /* FREECIV_DEBUG */
 #define CHECK_MAP_POS(x,y) ((void)0)
 #define CHECK_NATIVE_POS(x, y) ((void)0)
-#define CHECK_INDEX(index) ((void)0)
+#define CHECK_INDEX(mindex) ((void)0)
 #endif /* FREECIV_DEBUG */
 
 #define native_pos_to_index_nocheck(nat_x, nat_y)                            \
@@ -144,13 +144,13 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 #define native_pos_to_index(nat_x, nat_y)                                    \
   (CHECK_NATIVE_POS((nat_x), (nat_y)),                                       \
    native_pos_to_index_nocheck(nat_x, nat_y))
-#define index_to_native_pos(pnat_x, pnat_y, index)                           \
-  (*(pnat_x) = index_to_native_pos_x(index),                                 \
-   *(pnat_y) = index_to_native_pos_y(index))
-#define index_to_native_pos_x(index)                                         \
-  ((index) % game.map.xsize) 
-#define index_to_native_pos_y(index)                                         \
-  ((index) / game.map.xsize)
+#define index_to_native_pos(pnat_x, pnat_y, mindex)                          \
+  (*(pnat_x) = index_to_native_pos_x(mindex),                                \
+   *(pnat_y) = index_to_native_pos_y(mindex))
+#define index_to_native_pos_x(mindex)                                        \
+  ((mindex) % game.map.xsize) 
+#define index_to_native_pos_y(mindex)                                        \
+  ((mindex) / game.map.xsize)
 
 /* Obscure math.  See explanation in doc/HACKING. */
 #define NATIVE_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                     \
@@ -219,12 +219,12 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 static inline int map_pos_to_index(int map_x, int map_y);
 
 /* index_to_map_pos(int *, int *, int) inverts map_pos_to_index */
-#define index_to_map_pos(pmap_x, pmap_y, index) \
-  (CHECK_INDEX(index),                          \
-   index_to_native_pos(pmap_x, pmap_y, index),  \
+#define index_to_map_pos(pmap_x, pmap_y, mindex) \
+  (CHECK_INDEX(mindex),                          \
+   index_to_native_pos(pmap_x, pmap_y, mindex),  \
    NATIVE_TO_MAP_POS(pmap_x, pmap_y, *(pmap_x), *(pmap_y)))
-static inline int index_to_map_pos_x(int index);
-static inline int index_to_map_pos_y(int index);
+static inline int index_to_map_pos_x(int mindex);
+static inline int index_to_map_pos_y(int mindex);
 
 #define DIRSTEP(dest_x, dest_y, dir)	\
 (    (dest_x) = DIR_DX[(dir)],      	\
@@ -242,7 +242,7 @@ struct tile *mapstep(const struct tile *ptile, enum direction8 dir);
 
 struct tile *map_pos_to_tile(int x, int y);
 struct tile *native_pos_to_tile(int nat_x, int nat_y);
-struct tile *index_to_tile(int index);
+struct tile *index_to_tile(int mindex);
 
 bool is_real_map_pos(int x, int y);
 bool is_normal_map_pos(int x, int y);
@@ -628,21 +628,21 @@ static inline int map_pos_to_index(int map_x, int map_y)
   return native_pos_to_index(nat_x, nat_y);
 }
 
-static inline int index_to_map_pos_x(int index)
+static inline int index_to_map_pos_x(int mindex)
 {
   /* Note: writing this as a macro is hard; it needs temp variables. */
   int map_x, map_y;
 
-  index_to_map_pos(&map_x, &map_y, index);
+  index_to_map_pos(&map_x, &map_y, mindex);
   return map_x;
 }
 
-static inline int index_to_map_pos_y(int index)
+static inline int index_to_map_pos_y(int mindex)
 {
   /* Note: writing this as a macro is hard; it needs temp variables. */
   int map_x, map_y;
 
-  index_to_map_pos(&map_x, &map_y, index);
+  index_to_map_pos(&map_x, &map_y, mindex);
   return map_y;
 }
 

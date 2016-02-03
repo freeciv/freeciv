@@ -284,17 +284,17 @@ void strvec_append(struct strvec *psv, const char *string)
 /**************************************************************************
   Insert a string at the index of the vector.
 **************************************************************************/
-void strvec_insert(struct strvec *psv, size_t index, const char *string)
+void strvec_insert(struct strvec *psv, size_t svindex, const char *string)
 {
-  if (index <= 0) {
+  if (svindex <= 0) {
     strvec_prepend(psv, string);
-  } else if (index >= psv->size) {
+  } else if (svindex >= psv->size) {
     strvec_append(psv, string);
   } else {
     strvec_reserve(psv, psv->size + 1);
-    memmove(psv->vec + index + 1, psv->vec + index,
-            (psv->size - index - 1) * sizeof(char *));
-    psv->vec[index] = string_duplicate(string);
+    memmove(psv->vec + svindex + 1, psv->vec + svindex,
+            (psv->size - svindex - 1) * sizeof(char *));
+    psv->vec[svindex] = string_duplicate(string);
   }
 }
 
@@ -302,11 +302,11 @@ void strvec_insert(struct strvec *psv, size_t index, const char *string)
   Replace a string at the index of the vector.
   Returns TRUE if the element has been really set.
 **************************************************************************/
-bool strvec_set(struct strvec *psv, size_t index, const char *string)
+bool strvec_set(struct strvec *psv, size_t svindex, const char *string)
 {
-  if (strvec_index_valid(psv, index)) {
-    string_free(psv->vec[index]);
-    psv->vec[index] = string_duplicate(string);
+  if (strvec_index_valid(psv, svindex)) {
+    string_free(psv->vec[svindex]);
+    psv->vec[svindex] = string_duplicate(string);
     return TRUE;
   }
   return FALSE;
@@ -316,9 +316,9 @@ bool strvec_set(struct strvec *psv, size_t index, const char *string)
   Remove the string at the index from the vector.
   Returns TRUE if the element has been really removed.
 **************************************************************************/
-bool strvec_remove(struct strvec *psv, size_t index)
+bool strvec_remove(struct strvec *psv, size_t svindex)
 {
-  if (!strvec_index_valid(psv, index)) {
+  if (!strvec_index_valid(psv, svindex)) {
     return FALSE;
   }
 
@@ -328,9 +328,9 @@ bool strvec_remove(struct strvec *psv, size_t index)
     return TRUE;
   }
 
-  string_free(psv->vec[index]);
-  memmove(psv->vec + index, psv->vec + index + 1,
-          (psv->size - index - 1) * sizeof(char *));
+  string_free(psv->vec[svindex]);
+  memmove(psv->vec + svindex, psv->vec + svindex + 1,
+          (psv->size - svindex - 1) * sizeof(char *));
   psv->vec[psv->size - 1] = NULL; /* Do not attempt to free this data. */
   strvec_reserve(psv, psv->size - 1);
 
@@ -356,17 +356,17 @@ const char *const *strvec_data(const struct strvec *psv)
 /**************************************************************************
   Returns TRUE if the index is valid.
 **************************************************************************/
-bool strvec_index_valid(const struct strvec *psv, size_t index)
+bool strvec_index_valid(const struct strvec *psv, size_t svindex)
 {
-  return index >= 0 && index < psv->size;
+  return svindex >= 0 && svindex < psv->size;
 }
 
 /**************************************************************************
   Returns the string at the index of the vector.
 **************************************************************************/
-const char *strvec_get(const struct strvec *psv, size_t index)
+const char *strvec_get(const struct strvec *psv, size_t svindex)
 {
-  return strvec_index_valid(psv, index) ? psv->vec[index] : NULL;
+  return strvec_index_valid(psv, svindex) ? psv->vec[svindex] : NULL;
 }
 
 /****************************************************************************

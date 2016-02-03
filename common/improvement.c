@@ -713,16 +713,16 @@ bool is_special_improvement(const struct impr_type *pimprove)
 void wonder_built(const struct city *pcity, const struct impr_type *pimprove)
 {
   struct player *pplayer;
-  int index = improvement_number(pimprove);
+  int windex = improvement_number(pimprove);
 
   fc_assert_ret(NULL != pcity);
   fc_assert_ret(is_wonder(pimprove));
 
   pplayer = city_owner(pcity);
-  pplayer->wonders[index] = pcity->id;
+  pplayer->wonders[windex] = pcity->id;
 
   if (is_great_wonder(pimprove)) {
-    game.info.great_wonder_owners[index] = player_number(pplayer);
+    game.info.great_wonder_owners[windex] = player_number(pplayer);
   }
 }
 
@@ -734,19 +734,19 @@ void wonder_destroyed(const struct city *pcity,
                       const struct impr_type *pimprove)
 {
   struct player *pplayer;
-  int index = improvement_number(pimprove);
+  int windex = improvement_number(pimprove);
 
   fc_assert_ret(NULL != pcity);
   fc_assert_ret(is_wonder(pimprove));
 
   pplayer = city_owner(pcity);
-  fc_assert_ret(pplayer->wonders[index] == pcity->id);
-  pplayer->wonders[index] = WONDER_LOST;
+  fc_assert_ret(pplayer->wonders[windex] == pcity->id);
+  pplayer->wonders[windex] = WONDER_LOST;
 
   if (is_great_wonder(pimprove)) {
-    fc_assert_ret(game.info.great_wonder_owners[index]
+    fc_assert_ret(game.info.great_wonder_owners[windex]
                    == player_number(pplayer));
-    game.info.great_wonder_owners[index] = WONDER_DESTROYED;
+    game.info.great_wonder_owners[windex] = WONDER_DESTROYED;
   }
 }
 

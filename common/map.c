@@ -445,14 +445,14 @@ struct tile *native_pos_to_tile(int nat_x, int nat_y)
 /****************************************************************************
   Return the tile for the given index position.
 ****************************************************************************/
-struct tile *index_to_tile(int index)
+struct tile *index_to_tile(int mindex)
 {
   if (!game.map.tiles) {
     return NULL;
   }
 
-  if (index >= 0 && index < MAP_INDEX_SIZE) {
-    return game.map.tiles + index;
+  if (mindex >= 0 && mindex < MAP_INDEX_SIZE) {
+    return game.map.tiles + mindex;
   } else {
     /* Unwrapped index coordinates are impossible, so the best we can do is
      * return NULL. */

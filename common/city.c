@@ -350,7 +350,7 @@ int compare_iter_index(const void *a, const void *b)
 #define CITYLOG_MAX_VAL 9999 /* maximal value displayed in the citylog */
 static char *citylog_map_line(int y, int city_radius_sq, int *city_map_data)
 {
-  int x, index;
+  int x, mindex;
   static char citylog[128], tmp[8];
 
   fc_assert_ret_val(city_map_data != NULL, NULL);
@@ -361,11 +361,11 @@ static char *citylog_map_line(int y, int city_radius_sq, int *city_map_data)
   /* print values */
   for (x = 0; x < CITY_MAP_MAX_SIZE; x++) {
     if (is_valid_city_coords(city_radius_sq, x, y)) {
-      index = city_tile_xy_to_index(x, y, city_radius_sq);
+      mindex = city_tile_xy_to_index(x, y, city_radius_sq);
       /* show values between -10000 and +10000 */
-      if (city_map_data[index] >= -CITYLOG_MAX_VAL
-          && city_map_data[index] <= CITYLOG_MAX_VAL) {
-        fc_snprintf(tmp, sizeof(tmp), "%5d", city_map_data[index]);
+      if (city_map_data[mindex] >= -CITYLOG_MAX_VAL
+          && city_map_data[mindex] <= CITYLOG_MAX_VAL) {
+        fc_snprintf(tmp, sizeof(tmp), "%5d", city_map_data[mindex]);
         sz_strlcat(citylog, tmp);
       } else {
         fc_snprintf(tmp, sizeof(tmp), " ####");
@@ -466,8 +466,8 @@ static void citylog_map_index(enum log_level level)
   city_map_data = fc_calloc(city_map_tiles(CITY_MAP_MAX_RADIUS_SQ),
                             sizeof(*city_map_data));
 
-  city_map_iterate(CITY_MAP_MAX_RADIUS_SQ, index, x, y) {
-    city_map_data[index] = index;
+  city_map_iterate(CITY_MAP_MAX_RADIUS_SQ, cindex, x, y) {
+    city_map_data[cindex] = cindex;
   } city_map_iterate_end;
 
   log_debug("city map index:");
@@ -489,9 +489,9 @@ static void citylog_map_radius_sq(enum log_level level)
   city_map_data = fc_calloc(city_map_tiles(CITY_MAP_MAX_RADIUS_SQ),
                             sizeof(*city_map_data));
 
-  city_map_iterate(CITY_MAP_MAX_RADIUS_SQ, index, x, y) {
-    city_map_data[index] = map_vector_to_sq_distance(CITY_ABS2REL(x),
-                                                     CITY_ABS2REL(y));
+  city_map_iterate(CITY_MAP_MAX_RADIUS_SQ, cindex, x, y) {
+    city_map_data[cindex] = map_vector_to_sq_distance(CITY_ABS2REL(x),
+                                                      CITY_ABS2REL(y));
   } city_map_iterate_end;
 
   log_debug("city map squared radius:");
@@ -2299,6 +2299,7 @@ static void set_surpluses(struct city *pcity)
 static void happy_copy(struct city *pcity, enum citizen_feeling i)
 {
   int c = 0;
+
   for (; c < CITIZEN_LAST; c++) {
     pcity->feel[c][i] = pcity->feel[c][i - 1];
   }

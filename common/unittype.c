@@ -1398,17 +1398,18 @@ struct unit_type *role_units_iterate_backwards(int role, role_unit_callback cb, 
 Return index-th unit with specified role/flag.
 Index -1 means (n-1), ie last one.
 **************************************************************************/
-struct unit_type *get_role_unit(int role, int index)
+struct unit_type *get_role_unit(int role, int rindex)
 {
   fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
                     || (role >= L_FIRST && role < L_LAST)
                     || (role >= L_LAST && role < MAX_UNIT_ROLES), NULL);
   fc_assert_ret_val(!first_init, NULL);
-  if (index==-1) {
-    index = n_with_role[role]-1;
+  if (rindex == -1) {
+    rindex = n_with_role[role] - 1;
   }
-  fc_assert_ret_val(index >= 0 && index < n_with_role[role], NULL);
-  return with_role[role][index];
+  fc_assert_ret_val(rindex >= 0 && rindex < n_with_role[role], NULL);
+
+  return with_role[role][rindex];
 }
 
 /**************************************************************************
