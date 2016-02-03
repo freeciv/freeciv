@@ -110,6 +110,7 @@ fc_client::fc_client() : QMainWindow()
 ****************************************************************************/
 void fc_client::init()
 {
+  QString path;
   central_wdg = new QWidget;
   central_layout = new QGridLayout;
   chat_completer = new QCompleter;
@@ -152,8 +153,10 @@ void fc_client::init()
   pages[PAGE_NETWORK]->setVisible(false);
 
   // PAGE_GAME
-  QSettings::setPath(QSettings::NativeFormat, QSettings::UserScope,
-                     "$HOME/.config");
+  path = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
+  if (path.isEmpty() == false) {
+    QSettings::setPath(QSettings::NativeFormat, QSettings::UserScope, path);
+  }
   read_settings();
   pages[PAGE_GAME] = new QWidget(central_wdg);
   init_mapcanvas_and_overview();
