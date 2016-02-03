@@ -5,14 +5,14 @@
 options = "+Freeciv-tilespec-Devel-2015-Dec-17"
 
 ; A simple name for the tileset specified by this file:
-name = "amplio"
+name = "Amplio"
 priority = 20
 
 ; There`s no separate versioning in tilesets part of main freeciv distribution
 ;version = ""
 
 ; Summary and full description of the tileset.
-;summary = ""
+summary = _("Older variant of the current default tileset, Amplio2")
 ;description = ""
 
 ; TODO: add more overall information fields on tiles, 

@@ -5,7 +5,7 @@
 options = "+Freeciv-tilespec-Devel-2015-Dec-17"
 
 ; A simple name for the tileset specified by this file:
-name = "hexemplio"
+name = "Hexemplio"
 ; Based on amplio2hexgbig by GriffonSpade
 
 priority = 3
@@ -14,7 +14,7 @@ priority = 3
 ;version = ""
 
 ; Summary and full description of the tileset.
-;summary = ""
+summary = _("Basic large hex tileset")
 ;description = ""
 
 ; TODO: add more overall information fields on tiles, 

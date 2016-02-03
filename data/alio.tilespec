@@ -5,7 +5,7 @@
 options = "+Freeciv-tilespec-Devel-2015-Dec-17"
 
 ; A simple name for the tileset specified by this file:
-name = "alio"
+name = "Alio"
 ; Tileset meant to be used with alien ruleset.
 ; Started as copy of toonhex
 

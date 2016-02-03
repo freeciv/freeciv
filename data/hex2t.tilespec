@@ -5,14 +5,14 @@
 options = "+Freeciv-tilespec-Devel-2015-Dec-17"
 
 ; A simple name for the tileset specified by this file:
-name = "hex-2 tileset"
+name = "Hex-2"
 priority = 5
 
 ; There`s no separate versioning in tilesets part of main freeciv distribution
 ;version = ""
 
 ; Summary and full description of the tileset.
-;summary = ""
+summary = _("Small hex tiles")
 ;description = ""
 
 ; TODO: add more overall information fields on tiles, 

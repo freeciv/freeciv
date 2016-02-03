@@ -5,7 +5,7 @@
 options = "+Freeciv-tilespec-Devel-2015-Dec-17"
 
 ; A simple name for the tileset specified by this file:
-name = "toonhex"
+name = "Toonhex"
 ; Based on hexemplio, which in turn is based on
 ; amplio2hexgbig by GriffonSpade
 
@@ -15,7 +15,7 @@ priority = 3
 ;version = ""
 
 ; Summary and full description of the tileset.
-;summary = ""
+summary = _("Tileset combining Hexemplio's terrains and Cimpletoon's units with orientation.")
 ;description = ""
 
 ; TODO: add more overall information fields on tiles, 
