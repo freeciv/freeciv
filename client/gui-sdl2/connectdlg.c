@@ -325,11 +325,11 @@ void popup_connection_dialog(bool lan_scan)
   /* servers */
   server_list_iterate(pServer_list, pServer) {
 
-    /* TRANS: "host.example.com Port 5556 Ver: 2.2.0 Running Players 3\n
+    /* TRANS: "host.example.com Port 5556 Ver: 2.6.0 Running Players 3\n
      * [server message]" */
     fc_snprintf(cBuf, sizeof(cBuf), _("%s Port %d Ver: %s %s %s %d\n%s"),
                 pServer->host, pServer->port, pServer->version, _(pServer->state),
-                _("Players"), pServer->nplayers, pServer->message);
+                Q_("?header:Players"), pServer->nplayers, pServer->message);
 
     pNewWidget = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(10),
                      WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);

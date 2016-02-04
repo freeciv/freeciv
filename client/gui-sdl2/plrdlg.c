@@ -376,7 +376,7 @@ void popup_players_dialog(bool raise)
 
   pPlayers_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  pstr = create_utf8_from_char(_("Players"), adj_font(12));
+  pstr = create_utf8_from_char(Q_("?header:Players"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pstr, 0);

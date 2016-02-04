@@ -329,15 +329,15 @@ void popup_players_dialog(bool raise)
     n++;
   } players_iterate_end;
 
-  if(n < 2) {
+  if (n < 2) {
     return;
   }
-    
+
   pPlayers_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-  
-  pStr = create_str16_from_char(_("Players"), adj_font(12));
+
+  pStr = create_str16_from_char(Q_("?header:Players"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  
+
   pWindow = create_window_skeleton(NULL, pStr, 0);
     
   pWindow->action = players_window_dlg_callback;

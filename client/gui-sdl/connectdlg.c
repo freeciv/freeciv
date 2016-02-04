@@ -329,7 +329,7 @@ void popup_connection_dialog(bool lan_scan)
      * [server message]" */
     fc_snprintf(cBuf, sizeof(cBuf), _("%s Port %d Ver: %s %s %s %d\n%s"),
     	pServer->host, pServer->port, pServer->version, _(pServer->state),
-    		_("Players"), pServer->nplayers, pServer->message);
+    		Q_("?count:Players"), pServer->nplayers, pServer->message);
 
     pNewWidget = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(10),
 	WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);

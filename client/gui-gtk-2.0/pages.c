@@ -1140,7 +1140,7 @@ GtkWidget *create_network_page(void)
   add_treeview_column(view, _("Port"), G_TYPE_INT, 1);
   add_treeview_column(view, _("Version"), G_TYPE_STRING, 2);
   add_treeview_column(view, _("Status"), G_TYPE_STRING, 3);
-  add_treeview_column(view, _("Players"), G_TYPE_INT, 4);
+  add_treeview_column(view, Q_("?count:Players"), G_TYPE_INT, 4);
   add_treeview_column(view, _("Humans"), G_TYPE_STRING, 5);
   add_treeview_column(view, _("Comment"), G_TYPE_STRING, 6);
 
@@ -1183,7 +1183,7 @@ GtkWidget *create_network_page(void)
   add_treeview_column(view, _("Port"), G_TYPE_INT, 1);
   add_treeview_column(view, _("Version"), G_TYPE_STRING, 2);
   add_treeview_column(view, _("Status"), G_TYPE_STRING, 3);
-  add_treeview_column(view, _("Players"), G_TYPE_INT, 4);
+  add_treeview_column(view, Q_("?count:Players"), G_TYPE_INT, 4);
   add_treeview_column(view, _("Humans"), G_TYPE_STRING, 5);
   add_treeview_column(view, _("Comment"), G_TYPE_STRING, 6);
 
