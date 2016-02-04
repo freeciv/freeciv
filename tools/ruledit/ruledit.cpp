@@ -15,8 +15,14 @@
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 /* ANSI */
 #include <stdlib.h>
+
+#ifdef WIN32_NATIVE
+#include <windows.h>
+#endif
 
 /* utility */
 #include "fciconv.h"
