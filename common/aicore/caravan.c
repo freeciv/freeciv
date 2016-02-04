@@ -95,6 +95,23 @@ void caravan_parameter_log_real(const struct caravan_parameter *parameter,
                                 enum log_level level, const char *file,
                                 const char *function, int line)
 {
+  const char *foreign = "<illegal>";
+
+  switch (parameter->allow_foreign_trade) {
+  case FTL_NATIONAL_ONLY:
+    foreign = "no";
+    break;
+  case FTL_ALLIED:
+    foreign = "allied";
+    break;
+  case FTL_PEACEFUL:
+    foreign = "peaceful";
+    break;
+  case FTL_NONWAR:
+    foreign = "anything but enemies";
+    break;
+  }
+
   do_log(file, function, line, FALSE, level,
          "parameter {\n"
          "  horizon   = %d\n"
@@ -111,7 +128,7 @@ void caravan_parameter_log_real(const struct caravan_parameter *parameter,
          parameter->consider_trade ? "trade" : "-",
          parameter->consider_wonders ? "wonders" : "-",
          parameter->account_for_broken_routes ? "yes" : "no",
-         parameter->allow_foreign_trade != FTL_NATIONAL_ONLY ? "yes" : "no",
+         foreign,
          parameter->ignore_transit_time ? "yes" : "no",
          parameter->convert_trade ? "yes" : "no");
 }
