@@ -198,13 +198,13 @@ void fc_assert_fail(const char *file, const char *function, int line,
                    log_fatal(message, ## __VA_ARGS__); exit(EXIT_FAILURE))
 
 #ifdef __cplusplus
-#ifdef CXX11_STATIC_ASSERT
+#ifdef FREECIV_CXX11_STATIC_ASSERT
 #define FC_STATIC_ASSERT(cond, tag) static_assert(cond, #tag)
-#endif /* CXX11_STATIC_ASSERT */
+#endif /* FREECIV_CXX11_STATIC_ASSERT */
 #else  /* __cplusplus */
-#ifdef C11_STATIC_ASSERT
+#ifdef FREECIV_C11_STATIC_ASSERT
 #define FC_STATIC_ASSERT(cond, tag) _Static_assert(cond, #tag)
-#endif /* C11_STATIC_ASSERT */
+#endif /* FREECIV_C11_STATIC_ASSERT */
 #endif /* __cplusplus */
 
 #ifndef FC_STATIC_ASSERT

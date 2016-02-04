@@ -12,7 +12,7 @@ AC_DEFUN([FC_CXX11_STATIC_ASSERT],
 [ac_cv_cxx11_static_assert=yes], [ac_cv_cxx11_static_assert=no])
        AC_LANG_POP([C++])])
     if test "x${ac_cv_cxx11_static_assert}" = "xyes" ; then
-      AC_DEFINE([CXX11_STATIC_ASSERT], [1], [C++11 static assert supported])
+      AC_DEFINE([FREECIV_CXX11_STATIC_ASSERT], [1], [C++11 static assert supported])
     fi
   fi
 ])

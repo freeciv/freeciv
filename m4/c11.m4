@@ -9,7 +9,7 @@ AC_DEFUN([FC_C11_STATIC_ASSERT],
 ]], [[ _Static_assert(1, "1 is not true"); ]])],
 [ac_cv_c11_static_assert=yes], [ac_cv_c11_static_assert=no])])
   if test "x${ac_cv_c11_static_assert}" = "xyes" ; then
-    AC_DEFINE([C11_STATIC_ASSERT], [1], [C11 static assert supported])
+    AC_DEFINE([FREECIV_C11_STATIC_ASSERT], [1], [C11 static assert supported])
   fi
 ])
 

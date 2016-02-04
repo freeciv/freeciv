@@ -116,4 +116,10 @@
 /* Max number of AI modules */
 #undef FREECIV_AI_MOD_LAST
 
+/* C11 static assert supported */
+#undef FREECIV_C11_STATIC_ASSERT
+
+/* C++11 static assert supported */
+#undef FREECIV_CXX11_STATIC_ASSERT
+
 #endif /* FC__FREECIV_CONFIG_H */
