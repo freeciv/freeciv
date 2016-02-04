@@ -562,7 +562,6 @@ AC_DISABLE_SHARED
 dnl Replace AC_PROG_LIBTOOL with LT_INIT when minimum libtool
 dnl version 2.2
 AC_PROG_LIBTOOL
-LIBTOOL="$LIBTOOL --preserve-dup-deps"
 AC_SUBST(LIBTOOL)
 AC_CHECK_TOOL(AR, ar)
 if test -z $AR; then

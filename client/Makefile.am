@@ -83,6 +83,8 @@ AM_CPPFLAGS = \
 	$(CLIENT_CFLAGS) $(SOUND_CFLAGS) \
 	-I$(top_srcdir)/dependencies/cvercmp
 
+AM_LIBTOOLFLAGS = --preserve-dup-deps
+
 # Build client common functionality in to library
 # instead linking them directly to the client. This is necessary
 # for static linking.

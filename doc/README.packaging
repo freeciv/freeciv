@@ -33,6 +33,7 @@ Updating from 2.5 to 2.6
   for tolua from the system. You have to use system tolua when
   cross-compiling.
 * Minimum libtool version is now 1.5.2
+* Minimum automake version is not 1.10
 * For translation support minimum gettext version is now 0.14. It's
   still possible to build completely without translation support
   with configure option --disable-nls
