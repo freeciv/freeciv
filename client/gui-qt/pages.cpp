@@ -278,7 +278,7 @@ void fc_client::create_network_page(void)
 
   QStringList servers_list;
   servers_list << _("Server Name") << _("Port") << _("Version")
-               << _("Status") << _("Players") << _("Comment");
+               << _("Status") << Q_("?count:Players") << _("Comment");
   QStringList server_info;
   server_info << _("Name") << _("Type") << _("Host") << _("Nation");
 
@@ -1276,7 +1276,7 @@ void fc_client::update_start_page()
   qvar2 = 0;
 
   player_item = new QTreeWidgetItem();
-  player_item->setText(0, _("Players"));
+  player_item->setText(0, Q_("?header:Players"));
   player_item->setData(0, Qt::UserRole, qvar2);
 
   i = 0;

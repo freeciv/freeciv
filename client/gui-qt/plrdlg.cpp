@@ -613,7 +613,7 @@ plr_report::~plr_report()
 void plr_report::init()
 {
   gui()->gimme_place(this, "PLR");
-  index = gui()->add_game_tab(this, _("Players"));
+  index = gui()->add_game_tab(this, Q_("?header:Players"));
   gui()->game_tab_widget->setCurrentIndex(index);
 }
 
