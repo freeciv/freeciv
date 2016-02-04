@@ -30,7 +30,7 @@ dist_noinst_DATA = \
 		installer_msys2/create-freeciv-gtk2-nsi.sh	\
 		installer_msys2/create-freeciv-gtk3-nsi.sh	\
 		installer_msys2/create-freeciv-qt-nsi.sh	\
-		installer_msys2/create-freeciv-sdl-nsi.sh	\
+		installer_msys2/create-freeciv-sdl2-nsi.sh	\
 		installer_msys2/create-freeciv-ruledit-nsi.sh	\
 		installer_msys2/freeciv-gtk2.cmd		\
 		installer_msys2/freeciv-gtk3.cmd		\
@@ -38,7 +38,7 @@ dist_noinst_DATA = \
 		installer_msys2/freeciv-mp-gtk3.cmd		\
 		installer_msys2/freeciv-mp-qt.cmd		\
 		installer_msys2/freeciv-qt.cmd			\
-		installer_msys2/freeciv-sdl.cmd			\
+		installer_msys2/freeciv-sdl2.cmd		\
 		installer_msys2/freeciv-server.cmd		\
 		installer_msys2/freeciv-ruledit.cmd		\
 		installer_msys2/Freeciv.url			\
