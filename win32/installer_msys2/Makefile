@@ -14,7 +14,7 @@ DLLPATH_PREFIX=/mingw32/bin/
 WINARCH=$(shell ./win_arch.sh)
 
 # by default build all installers
-all: gtk3-installer gtk2-installer sdl-installer qt-installer ruledit-installer
+all: gtk3-installer gtk2-installer sdl2-installer qt-installer ruledit-installer
 
 gtk3-installer:
 	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
@@ -22,8 +22,8 @@ gtk3-installer:
 gtk2-installer:
 	make GUI=gtk2 FCMP=gtk2 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk2
 
-sdl-installer:
-	make GUI=sdl FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl
+sdl2-installer:
+	make GUI=sdl2 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
 
 qt-installer:
 	make GUI=qt FCMP=qt wrap-qt
@@ -62,7 +62,7 @@ build-freeciv-gtk3: build-freeciv-common
 
 build-freeciv-gtk2: build-freeciv-common
 
-build-freeciv-sdl: build-freeciv-common
+build-freeciv-sdl2: build-freeciv-common
 
 build-freeciv-qt: build-freeciv-common
 
@@ -93,14 +93,14 @@ install-freeciv-gtk3: install-freeciv-common
 
 install-freeciv-gtk2: install-freeciv-common
 
-install-freeciv-sdl: install-freeciv-common
+install-freeciv-sdl2: install-freeciv-common
 	# add CJK fonts
-	cp /opt/fireflysung-1.3.0/fireflysung.ttf install-sdl/data/themes/gui-sdl/human/
-	cp /opt/fireflysung-1.3.0/COPYRIGHT install-sdl/data/themes/gui-sdl/human/COPYING.fireflysung
-	cp /opt/sazanami-20040629/sazanami-gothic.ttf install-sdl/data/themes/gui-sdl/human/
-	cp /opt/sazanami-20040629/README install-sdl/data/themes/gui-sdl/human/COPYING.sazanami
-	cp /opt/un-fonts/UnDotum.ttf install-sdl/data/themes/gui-sdl/human/
-	cp /opt/un-fonts/COPYING install-sdl/data/themes/gui-sdl/human/COPYING.UnDotum
+	cp /opt/fireflysung-1.3.0/fireflysung.ttf install-sdl2/data/themes/gui-sdl2/human/
+	cp /opt/fireflysung-1.3.0/COPYRIGHT install-sdl2/data/themes/gui-sdl2/human/COPYING.fireflysung
+	cp /opt/sazanami-20040629/sazanami-gothic.ttf install-sdl2/data/themes/gui-sdl2/human/
+	cp /opt/sazanami-20040629/README install-sdl2/data/themes/gui-sdl2/human/COPYING.sazanami
+	cp /opt/un-fonts/UnDotum.ttf install-sdl2/data/themes/gui-sdl2/human/
+	cp /opt/un-fonts/COPYING install-sdl2/data/themes/gui-sdl2/human/COPYING.UnDotum
 
 install-freeciv-qt: install-freeciv-common
 	# strip 'freeciv-ruledit' executable
@@ -230,15 +230,15 @@ install-env-gtk2: install-env-common
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
 
-SDL_DLLS := \
+SDL2_DLLS := \
 	libpng12-0.dll \
-	libSDL_gfx-15.dll \
-	SDL_image.dll \
-	SDL_ttf.dll
+	libSDL2_gfx-15.dll \
+	SDL2_image.dll \
+	SDL2_ttf.dll
 
-install-env-sdl: install-env-default-fcmp
+install-env-sdl2: install-env-default-fcmp
 	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL_DLLS)) install-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(GUI)
 
 QT_DLLS := \
 	libstdc++-6.dll \
@@ -287,7 +287,7 @@ wrap-gtk3: build-freeciv-gtk3 installer-common
 
 wrap-gtk2: build-freeciv-gtk2 installer-common
 
-wrap-sdl: build-freeciv-sdl installer-common
+wrap-sdl2: build-freeciv-sdl2 installer-common
 
 wrap-qt: build-freeciv-qt installer-common
 
@@ -319,6 +319,6 @@ clean-installer-ruledit:
 clean:
 	make GUI=gtk3 clean-build-common clean-install-common clean-installer-common
 	make GUI=gtk2 clean-build-common clean-install-common clean-installer-common
-	make GUI=sdl clean-build-common clean-install-common clean-installer-common
+	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt clean-build-common clean-install-common clean-installer-common
 	make clean-build-ruledit clean-install-ruledit clean-installer-ruledit
