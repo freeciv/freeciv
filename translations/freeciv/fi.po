@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-19 20:35+0000\n"
-"PO-Revision-Date: 2015-12-18 13:12+0200\n"
+"PO-Revision-Date: 2016-02-03 21:08+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -4423,7 +4423,7 @@ msgstr "Kaupunkien ääri_viivat"
 #: client/gui-gtk-2.0/menu.c:1464 client/gui-gtk-3.0/menu.c:1452
 #: client/gui-qt/menu.cpp:482
 msgid "City Output"
-msgstr "Kaupunkien t_yöruudut"
+msgstr "Kaupunkiruutujen tuotanto"
 
 #: client/gui-gtk-2.0/menu.c:1466 client/gui-gtk-3.0/menu.c:1454
 msgid "Map _Grid"
@@ -4440,7 +4440,7 @@ msgstr "Sallitut ruudut"
 #: client/gui-gtk-2.0/menu.c:1474 client/gui-gtk-3.0/menu.c:1462
 #: client/gui-qt/menu.cpp:497
 msgid "City Full Bar"
-msgstr "Täydellinen kaupunki-in_fo"
+msgstr "Täydellinen kaupunki-info"
 
 #: client/gui-gtk-2.0/menu.c:1476 client/gui-gtk-3.0/menu.c:1464
 msgid "City _Names"
@@ -4457,7 +4457,7 @@ msgstr "Kaupunkien _tuotanto"
 #: client/gui-gtk-2.0/menu.c:1483 client/gui-gtk-3.0/menu.c:1471
 #: client/gui-qt/menu.cpp:516
 msgid "City Buy Cost"
-msgstr "Tuotannon osto_hinnat"
+msgstr "Tuotannon ostohinnat"
 
 #: client/gui-gtk-2.0/menu.c:1485 client/gui-gtk-3.0/menu.c:1473
 msgid "City Tra_deroutes"
@@ -5199,11 +5199,11 @@ msgstr "AI:n vaikeus_taso:"
 
 #: client/gui-gtk-2.0/pages.c:2658 client/gui-gtk-3.0/pages.c:2710
 msgid "Ruleset _Version:"
-msgstr "Sääntökokoelman _versio:"
+msgstr "Sääntökokoelma:"
 
 #: client/gui-gtk-2.0/pages.c:2666 client/gui-gtk-3.0/pages.c:2717
 msgid "_More Game Options..."
-msgstr "_Lisää peliasetuksia..."
+msgstr "_Enemmän peliasetuksia..."
 
 # (Guess... 17 Jan 09)
 #: client/gui-gtk-2.0/pages.c:2685 client/gui-gtk-3.0/pages.c:2739
@@ -6346,11 +6346,11 @@ msgstr "AI:n vaikeustaso:"
 
 #: client/gui-qt/fc_client.cpp:863
 msgid "Ruleset Version:"
-msgstr "Sääntökokoelman versio:"
+msgstr "Sääntökokoelma:"
 
 #: client/gui-qt/fc_client.cpp:886
 msgid "More Game Options"
-msgstr "Lisää peliasetuksia..."
+msgstr "Enemmän peliasetuksia"
 
 #: client/gui-qt/fc_client.cpp:937
 msgid "Set server options"
@@ -20066,7 +20066,7 @@ msgstr "Teollisuusautomaatio"
 #: data/experimental/techs.ruleset:526 data/civ2civ3/techs.ruleset:540
 #: data/multiplayer/techs.ruleset:488
 msgid "Miniaturization"
-msgstr "Nanotekniikka"
+msgstr "Pientekniikka"
 
 #: data/civ2/techs.ruleset:480 data/classic/techs.ruleset:488
 #: data/experimental/techs.ruleset:535 data/civ2civ3/techs.ruleset:549
