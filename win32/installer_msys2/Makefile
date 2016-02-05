@@ -5,13 +5,23 @@
 #
 
 #
-# Make rules
+# Variable setup
 #
 
-# msys2 has dlls in...
-DLLPATH_PREFIX=/mingw32/bin/
-
 WINARCH=$(shell ./win_arch.sh)
+
+ifeq ($(WINARCH),win64)
+ARCHDIR=/mingw64
+else
+ARCHDIR=/mingw32
+endif
+
+# msys2 has dlls in...
+DLLPATH_PREFIX=$(ARCHDIR)/bin/
+
+#
+# Make rules
+#
 
 # by default build all installers
 all: gtk3-installer gtk2-installer sdl2-installer qt-installer ruledit-installer
@@ -207,9 +217,9 @@ install-env-default-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(GUI)
 	# add additional GTK+3 files
 	mkdir -p install-$(GUI)/etc
-	cp -R /mingw32/etc/gtk-3.0 install-$(GUI)/etc/
+	cp -R $(ARCHDIR)/etc/gtk-3.0 install-$(GUI)/etc/
 	mkdir -p install-$(GUI)/lib/gtk-3.0/
-	cp -R /mingw32/lib/gtk-3.0/* install-$(GUI)/lib/gtk-3.0/
+	cp -R $(ARCHDIR)/lib/gtk-3.0/* install-$(GUI)/lib/gtk-3.0/
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
