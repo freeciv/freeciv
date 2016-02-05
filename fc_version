@@ -6,7 +6,7 @@
 
 MAJOR_VERSION="2"
 MINOR_VERSION="5"
-PATCH_VERSION="2"
+PATCH_VERSION="3"
 VERSION_LABEL="+"
 
 # 1) Development until MAJOR and MINOR version numbers are
@@ -36,7 +36,7 @@ IS_DEVEL_VERSION=0
 IS_FREEZE_VERSION=0
 IS_BETA_VERSION=0
 
-NEXT_STABLE_VERSION="2.5.0"
+NEXT_STABLE_VERSION="2.5.4"
 
 # 0 to disable display of release month until we can make better estimate
 RELEASE_MONTH=3
