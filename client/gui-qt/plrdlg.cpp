@@ -271,6 +271,7 @@ plr_widget::plr_widget(plr_report *pr): QTreeView()
 {
   plr = pr;
   other_player = NULL;
+  selected_player = nullptr;
   pid = new plr_item_delegate(this);
   setItemDelegate(pid);
   list_model = new plr_model(this);
@@ -295,6 +296,34 @@ plr_widget::plr_widget(plr_report *pr): QTreeView()
                                   const QItemSelection &)),
           SLOT(nation_selected(const QItemSelection &,
                                const QItemSelection &)));
+}
+
+/**************************************************************************
+  Restores selection of previously selected nation
+**************************************************************************/
+void plr_widget::restore_selection()
+{
+  QItemSelection selection;
+  QModelIndex i;
+  struct player *pplayer;
+  QVariant qvar;
+
+  if (selected_player == nullptr) {
+    return;
+  }
+  for (int j = 0; j < filter_model->rowCount(); j++) {
+    i = filter_model->index(j, 0);
+    qvar = i.data(Qt::UserRole);
+    if (qvar.isNull()) {
+      continue;
+    }
+    pplayer = reinterpret_cast<struct player *>(qvar.value<void *>());
+    if (selected_player == pplayer) {
+      selection.append(QItemSelectionRange(i));
+    }
+  }
+  selectionModel()->select(selection, QItemSelectionModel::Rows
+                           | QItemSelectionModel::SelectCurrent);
 }
 
 /**************************************************************************
@@ -379,12 +408,14 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   tech_str.clear();
   ally_str.clear();
   if (indexes.isEmpty()) {
+    selected_player = nullptr;
     plr->update_report(false);
     return;
   }
   index = indexes.at(0);
   qvar = index.data(Qt::UserRole);
   pplayer = reinterpret_cast<player *>(qvar.value<void *>());
+  selected_player = pplayer;
   other_player = pplayer;
   if (pplayer->is_alive == false) {
     plr->update_report(false);
@@ -715,6 +746,7 @@ void plr_report::update_report(bool update_selection)
   if (can_meet_with_player(other_player) == true) {
     meet_but->setEnabled(true);
   }
+  plr_wdg->restore_selection();
 }
 
 /**************************************************************************
