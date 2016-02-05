@@ -68,7 +68,7 @@ AC_DEFUN([FC_CHECK_SQLITE3],
     ],
     [
       AC_MSG_RESULT([not found])
-      succees="no"
+      success="no"
     ]
   )
 
