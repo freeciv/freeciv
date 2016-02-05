@@ -116,9 +116,11 @@ class plr_widget: public QTreeView
   plr_report *plr;
   QString techs_known;
   QString techs_unknown;
+  struct player *selected_player;
 public:
   plr_widget(plr_report *pr);
   ~plr_widget();
+  void restore_selection();
   plr_model *get_model() const;
   QString intel_str;
   QString ally_str;
