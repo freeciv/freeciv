@@ -856,7 +856,7 @@ void pregame_options::init()
 
   l1 = new QLabel(_("Number of Players\n(including AI):"));
   l2 = new QLabel(_("AI Skill Level:"));
-  l3 = new QLabel(_("Ruleset Version:"));
+  l3 = new QLabel(_("Ruleset:"));
   layout = new QGridLayout(this);
   max_players = new QSpinBox(this);
   ailevel = new QComboBox(this);
