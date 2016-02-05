@@ -98,7 +98,7 @@ Configuring server without readline support.)
                    dnl We can't check for rl_completion_suppress_append again,
                    dnl cause the result is cached. And autoconf doesn't
                    dnl seem to have a way to uncache it.
-                   AC_CHECK_LIB([readline], [rl_completion_mode]
+                   AC_CHECK_LIB([readline], [rl_completion_mode],
                                 [have_readline_lib=1], [have_readline_lib=0],
                         ["$HAVE_TERMCAP"])
                    if test "$have_readline_lib" = "1"; then
