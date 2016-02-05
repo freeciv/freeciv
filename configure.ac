@@ -504,13 +504,13 @@ AC_ARG_ENABLE([nls],
 esac], [USE_NLS=yes])
 
 if test "$USE_NLS" = "yes" ; then
-  AM_GLIB_GNU_GETTEXT
+  FC_GNU_GETTEXT
 
-  dnl AM_GLIB_GNU_GETTEXT doesn't have all features we want
+  dnl FC_GNU_GETTEXT doesn't have all features we want
   dnl or they don't behave correctly.
   dnl Old gettext binaries don't understand plurals. (ngettext, msgid_plural)
   dnl and there are some problems with missing ngettext.
-  dnl Is that ngettext part still true? AM_GLIB_GNU_GETTEXT does check for it
+  dnl Is that ngettext part still true? FC_GNU_GETTEXT does check for it
 
   have_working_ngettext=0
   AC_CHECK_LIB(c, ngettext,
@@ -599,7 +599,7 @@ gettext package. We recommend you versions >= 0.10.38. Or use
   fi
 else
   dnl Setup POFILES even when NLS disabled.
-  dnl AM_GLIB_GNU_GETTEXT does this when NLS enabled.
+  dnl FC_GNU_GETTEXT does this when NLS enabled.
   for lang in $ALL_LINGUAS; do
     POFILES="$POFILES $lang.po"
   done
@@ -1569,7 +1569,7 @@ if test "$USE_NLS" != "yes" ; then
   dnl do that check in configure when producing config.status.
   AC_CONFIG_COMMANDS([translations/freeciv/Makefile], [
     for domain in $PODOMAINS ; do
-    dnl Usually glib-gettext.m4:AM_GLIB_GNU_GETTEXT outputs commands to
+    dnl Usually freeciv-gettext.m4:FC_GNU_GETTEXT outputs commands to
     dnl generate translations/${domain}/Makefile.
     dnl If NLS is disabled, we generate one here.
     rm -f translations/${domain}/Makefile
