@@ -47,6 +47,8 @@ struct fcmp_params
 #define SPECENUM_VALUE4NAME N_("Soundset")
 #define SPECENUM_VALUE5 MPT_MUSICSET
 #define SPECENUM_VALUE5NAME N_("Musicset")
+#define SPECENUM_VALUE6 MPT_MODPACK_GROUP
+#define SPECENUM_VALUE6NAME N_("Group")
 #include "specenum_gen.h"
 
 void fcmp_init(int loglevel);
