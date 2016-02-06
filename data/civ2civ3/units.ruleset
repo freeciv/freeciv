@@ -2068,7 +2068,7 @@ The Transport cannot attack on its own but\
  may defend itself when under attack.\
 "), _("\
 Transports can also clean pollution and fallout on water tiles, and \
-with knowledge of Miniaturization, may build Oil Wells on deep ocean \
+with knowledge of Miniaturization, may build Oil Platforms on deep ocean \
 tiles (for use by Offshore Platforms).\
 ")
 ; FIXME: also cleans pollution/fallout in coastal cities (and faster
