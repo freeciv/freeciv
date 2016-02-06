@@ -5,7 +5,7 @@ if ! test -f ../../bootstrap/config.guess ; then
 fi
 
 case $(../../bootstrap/config.guess 2>/dev/null) in
-    *i686*) echo "win32" ;;
-    *x86_64*) echo "win64" ;;
+    *mingw32*) echo "win32" ;;
+    *mingw64*) echo "win64" ;;
     *) echo "win" ;;
 esac
