@@ -319,30 +319,35 @@ void handle_player_rates(struct player *pplayer,
   as the player has set a target_government and the revolution_finishes
   turn has arrived.
 **************************************************************************/
-static void finish_revolution(struct player *pplayer)
+void government_change(struct player *pplayer, struct government *gov,
+                       bool revolution_finished)
 {
-  struct government *government = pplayer->target_government;
   struct research *presearch;
 
-  fc_assert_ret(pplayer->target_government
-                != game.government_during_revolution
-                && NULL != pplayer->target_government);
-  fc_assert_ret(pplayer->revolution_finishes <= game.info.turn);
+  if (revolution_finished) {
+    fc_assert_ret(pplayer->target_government
+                  != game.government_during_revolution
+                  && NULL != pplayer->target_government);
+    fc_assert_ret(pplayer->revolution_finishes <= game.info.turn);
 
-  pplayer->government = government;
+    gov->changed_to_times++;
+  }
+
+  pplayer->government = gov;
   pplayer->target_government = NULL;
 
-  pplayer->government->changed_to_times++;
+  if (revolution_finished) {
+    log_debug("Revolution finished for %s. Government is %s. "
+              "Revofin %d (%d).", player_name(pplayer),
+              government_rule_name(gov),
+              pplayer->revolution_finishes, game.info.turn);
+  }
 
-  log_debug("Revolution finished for %s. Government is %s. "
-            "Revofin %d (%d).", player_name(pplayer),
-            government_rule_name(government),
-            pplayer->revolution_finishes, game.info.turn);
   notify_player(pplayer, NULL, E_REVOLT_DONE, ftc_server,
                 _("%s now governs the %s as a %s."), 
-                player_name(pplayer), 
+                player_name(pplayer),
                 nation_plural_for_player(pplayer),
-                government_name_translation(government));
+                government_name_translation(gov));
 
   if (is_human(pplayer)) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
@@ -382,6 +387,40 @@ static void finish_revolution(struct player *pplayer)
 }
 
 /**************************************************************************
+  Get length of a revolution.
+**************************************************************************/
+int revolution_length(struct government *gov, struct player *plr)
+{
+  int turns;
+
+  turns = GAME_DEFAULT_REVOLUTION_LENGTH; /* To avoid compiler warning */
+  switch (game.info.revolentype) {
+  case REVOLEN_FIXED:
+    turns = game.server.revolution_length;
+    break;
+  case REVOLEN_RANDOM:
+    turns = fc_rand(game.server.revolution_length) + 1;
+    break;
+  case REVOLEN_QUICKENING:
+  case REVOLEN_RANDQUICK:
+    if (gov == game.government_during_revolution) {
+      /* Targetless revolution not acceptable */
+      notify_player(plr, NULL, E_REVOLT_DONE, ftc_server,
+                    _("You can't revolt without selecting target government."));
+      return -1;
+    }
+    turns = game.server.revolution_length - gov->changed_to_times;
+    turns = MAX(1, turns);
+    if (game.info.revolentype == REVOLEN_RANDQUICK) {
+      turns = fc_rand(turns) + 1;
+    }
+    break;
+  }
+
+  return turns;
+}
+
+/**************************************************************************
   Called by the client or AI to change government.
 **************************************************************************/
 void handle_player_change_government(struct player *pplayer, int government)
@@ -415,28 +454,9 @@ void handle_player_change_government(struct player *pplayer, int government)
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
     turns = 0;
   } else {
-    turns = GAME_DEFAULT_REVOLUTION_LENGTH; /* To avoid compiler warning */
-    switch (game.info.revolentype) {
-    case REVOLEN_FIXED:
-      turns = game.server.revolution_length;
-      break;
-    case REVOLEN_RANDOM:
-      turns = fc_rand(game.server.revolution_length) + 1;
-      break;
-    case REVOLEN_QUICKENING:
-    case REVOLEN_RANDQUICK:
-      if (gov == game.government_during_revolution) {
-        /* Targetless revolution not acceptable */
-        notify_player(pplayer, NULL, E_REVOLT_DONE, ftc_server,
-                      _("You can't revolt without selecting target government."));
-        return;
-      }
-      turns = game.server.revolution_length - gov->changed_to_times;
-      turns = MAX(1, turns);
-      if (game.info.revolentype == REVOLEN_RANDQUICK) {
-        turns = fc_rand(turns) + 1;
-      }
-      break;
+    turns = revolution_length(gov, pplayer);
+    if (turns < 0) {
+      return;
     }
   }
 
@@ -462,7 +482,7 @@ void handle_player_change_government(struct player *pplayer, int government)
   /* Now see if the revolution is instantaneous. */
   if (turns <= 0
       && pplayer->target_government != game.government_during_revolution) {
-    finish_revolution(pplayer);
+    government_change(pplayer, pplayer->target_government, TRUE);
     return;
   } else if (turns > 0) {
     notify_player(pplayer, NULL, E_REVOLT_START, ftc_server,
@@ -537,7 +557,7 @@ void update_revolution(struct player *pplayer)
       /* If the revolution is over and a target government is set, go into
        * the new government. */
       log_debug("Update: finishing revolution for %s.", player_name(pplayer));
-      finish_revolution(pplayer);
+      government_change(pplayer, pplayer->target_government, TRUE);
     } else {
       /* If the revolution is over but there's no target government set,
        * alert the player. */

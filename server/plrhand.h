@@ -38,6 +38,9 @@ void give_midgame_initial_units(struct player *pplayer, struct tile *ptile);
 void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void update_revolution(struct player *pplayer);
+void government_change(struct player *pplayer, struct government *gov,
+                       bool revolution_finished);
+int revolution_length(struct government *gov, struct player *plr);
 
 struct player_economic player_limit_to_max_rates(struct player *pplayer);
 

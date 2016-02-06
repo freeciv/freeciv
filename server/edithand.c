@@ -1161,6 +1161,7 @@ void handle_edit_player(struct connection *pc,
   struct nation_type *pnation;
   struct research *research;
   enum tech_state known;
+  struct government *gov;
 
   pplayer = player_by_number(packet->id);
   if (!pplayer) {
@@ -1233,7 +1234,7 @@ void handle_edit_player(struct connection *pc,
     changed = TRUE;
     update_research = TRUE;
   }
-  
+
   /* Handle a change in known inventions. */
   advance_index_iterate(A_FIRST, tech) {
     known = research_invention_state(research, tech);
@@ -1267,9 +1268,24 @@ void handle_edit_player(struct connection *pc,
     }
   }
 
+  /* Handle player government change */
+  gov = government_by_number(packet->government);
+  if (gov != pplayer->government) {
+    if (gov != game.government_during_revolution) {
+      government_change(pplayer, gov, FALSE);
+    } else {
+      int turns = revolution_length(gov, pplayer);
+
+      if (turns >= 0) {
+        pplayer->government = gov;
+        pplayer->revolution_finishes = game.info.turn + turns;
+      }
+    }
+
+    changed = TRUE;
+  }
 
   /* TODO: Handle more property edits. */
-
 
   if (update_research) {
     Tech_type_id current, goal;
