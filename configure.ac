@@ -1429,13 +1429,13 @@ if test x$enable_fcdb = xyes ; then
 fi
 
 AC_ARG_ENABLE([sys-tolua-cmd],
-  AS_HELP_STRING([--enable-sys-tolua-cmd], [use tolua command from system instead of one from freeciv tree [true when cross-compiling]]),
+  AS_HELP_STRING([--enable-sys-tolua-cmd], [use tolua command from build system instead of one from freeciv tree [true when cross-compiling]]),
 [case "${enableval}" in
   yes)
     sys_tolua_cmd=true ;;
   no)
     if test "x$cross_compiling" = "xyes" ; then
-      AC_MSG_ERROR([Must use external host tolua command when cross-compiling])
+      AC_MSG_ERROR([Must use external build system tolua command when cross-compiling])
     fi
     sys_tolua_cmd=false ;;
   *)
@@ -1452,6 +1452,7 @@ if test "x$sys_tolua_cmd" = "xtrue" || test "x$sys_tolua_cmd" = "xtest" ; then
   if test "x$TOLUA" = "xnotfound" ; then
     if test "x$sys_tolua_cmd" = "xtest" ; then
       TOLUA="\$(top_builddir)/dependencies/tolua-5.2/src/bin/tolua$EXEEXT"
+      feature_systolua_cmd=missing
     else
       AC_MSG_ERROR([tolua command not found from the system])
     fi

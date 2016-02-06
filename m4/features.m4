@@ -27,6 +27,7 @@ if test "x$list_missing_features" = "xyes" ; then
   FC_FEATURE([xz savegame compression], [$feature_xz], [liblzma])
   FC_FEATURE([threads suitable for threaded ai], [$feature_thr_cond], [pthreads])
   FC_FEATURE([lua linked from system], [$feature_syslua], [lua-5.3])
+  FC_FEATURE([tolua command from system], [$feature_systolua_cmd], [tolua])
   FC_FEATURE([IPv6 support], [$feature_ipv6], [IPv6 functions])
   FC_FEATURE([Ruleset Editor], [$feature_ruledit], [Qt5 development packages])
 
