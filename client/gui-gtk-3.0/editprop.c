@@ -29,6 +29,7 @@
 /* common */
 #include "fc_interface.h"
 #include "game.h"
+#include "government.h"
 #include "map.h"
 #include "movement.h"
 #include "research.h"
@@ -199,6 +200,7 @@ enum value_types {
   VALTYPE_BV_BASES,
   VALTYPE_NATION,
   VALTYPE_NATION_HASH,        /* struct nation_hash */
+  VALTYPE_GOV,
   VALTYPE_TILE_VISION_DATA    /* struct tile_vision_data */
 };
 
@@ -226,6 +228,7 @@ union propval_data {
   bv_bases v_bv_bases;
   struct nation_type *v_nation;
   struct nation_hash *v_nation_hash;
+  struct government *v_gov;
   bool *v_inventions;
   struct tile_vision_data *v_tile_vision;
 };
@@ -346,6 +349,7 @@ enum object_property_ids {
 
   OPID_PLAYER_NAME,
   OPID_PLAYER_NATION,
+  OPID_PLAYER_GOV,
   OPID_PLAYER_AGE,
 #ifdef DEBUG
   OPID_PLAYER_ADDRESS,
@@ -784,6 +788,8 @@ static const char *valtype_get_name(enum value_types valtype)
     return "nation";
   case VALTYPE_NATION_HASH:
     return "struct nation_hash";
+  case VALTYPE_GOV:
+    return "government";
   case VALTYPE_TILE_VISION_DATA:
     return "struct tile_vision_data";
   }
@@ -856,6 +862,9 @@ static gchar *propval_as_string(struct propval *pv)
 
   case VALTYPE_NATION:
     return g_strdup_printf("%s", nation_adjective_translation(pv->data.v_nation));
+
+  case VALTYPE_GOV:
+    return g_strdup_printf("%s", government_name_translation(pv->data.v_gov));
 
   case VALTYPE_BUILT_ARRAY:
     {
@@ -1058,6 +1067,9 @@ static struct propval *propval_copy(struct propval *pv)
   case VALTYPE_NATION:
     pv_copy->data.v_nation = pv->data.v_nation;
     return pv_copy;
+  case VALTYPE_GOV:
+    pv_copy->data.v_gov = pv->data.v_gov;
+    return pv_copy;
   case VALTYPE_NATION_HASH:
     pv_copy->data.v_nation_hash
       = nation_hash_copy(pv->data.v_nation_hash);
@@ -1120,6 +1132,7 @@ static void propval_free_data(struct propval *pv)
   case VALTYPE_BV_ROADS:
   case VALTYPE_BV_BASES:
   case VALTYPE_NATION:
+  case VALTYPE_GOV:
     return;
   case VALTYPE_PIXBUF:
     g_object_unref(pv->data.v_pixbuf);
@@ -1212,6 +1225,8 @@ static bool propval_equal(struct propval *pva,
   case VALTYPE_NATION_HASH:
     return nation_hashs_are_equal(pva->data.v_nation_hash,
                                   pvb->data.v_nation_hash);
+  case VALTYPE_GOV:
+    return pva->data.v_gov == pvb->data.v_gov;
   case VALTYPE_TILE_VISION_DATA:
     if (!BV_ARE_EQUAL(pva->data.v_tile_vision->tile_known,
                       pvb->data.v_tile_vision->tile_known)) {
@@ -1738,6 +1753,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         break;
       case OPID_PLAYER_NATION:
         pv->data.v_nation = nation_of_player(pplayer);
+        break;
+      case OPID_PLAYER_GOV:
+        pv->data.v_gov = pplayer->government;
         break;
       case OPID_PLAYER_AGE:
         pv->data.v_int = pplayer->turns_alive;
@@ -2502,6 +2520,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
       case OPID_PLAYER_NATION:
         packet->nation = nation_index(pv->data.v_nation);
         return;
+      case OPID_PLAYER_GOV:
+        packet->government = government_index(pv->data.v_gov);
+        return;
       case OPID_PLAYER_INVENTIONS:
         advance_index_iterate(A_FIRST, tech) {
           packet->inventions[tech] = pv->data.v_inventions[tech];
@@ -2635,6 +2656,7 @@ static GType objprop_get_gtype(const struct objprop *op)
     return G_TYPE_STRING;
   case VALTYPE_PIXBUF:
   case VALTYPE_NATION:
+  case VALTYPE_GOV:
     return GDK_TYPE_PIXBUF;
   }
   log_error("%s(): Unhandled value type %d.", __FUNCTION__, op->valtype);
@@ -2989,6 +3011,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_STARTPOS_NATIONS:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
+  case OPID_PLAYER_GOV:
   case OPID_PLAYER_INVENTIONS:
   case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
@@ -3203,6 +3226,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_STARTPOS_NATIONS:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
+  case OPID_PLAYER_GOV:
   case OPID_PLAYER_INVENTIONS:
   case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
@@ -3436,6 +3460,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
     break;
 
   case OPID_PLAYER_NATION:
+  case OPID_PLAYER_GOV:
     vbox = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                    GTK_ORIENTATION_VERTICAL);
@@ -3513,6 +3538,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
     break;
   case OPID_STARTPOS_NATIONS:
   case OPID_PLAYER_NATION:
+  case OPID_PLAYER_GOV:
     store = gtk_list_store_new(4, G_TYPE_BOOLEAN, G_TYPE_INT,
                                GDK_TYPE_PIXBUF, G_TYPE_STRING);
     break;
@@ -3625,12 +3651,15 @@ static struct extviewer *extviewer_new(struct objprop *op)
     break;
 
   case OPID_PLAYER_NATION:
+  case OPID_PLAYER_GOV:
     /* TRANS: As in "the player has set this nation". */
     add_column(view, 0, _("Set"), G_TYPE_BOOLEAN, TRUE, TRUE,
                G_CALLBACK(extviewer_view_cell_toggled), ev);
     add_column(view, 1, _("ID"), G_TYPE_INT,
                FALSE, FALSE, NULL, NULL);
-    add_column(view, 2, _("Flag"), GDK_TYPE_PIXBUF,
+    add_column(view, 2,
+               propid == OPID_PLAYER_GOV ? _("Icon") : _("Flag"),
+               GDK_TYPE_PIXBUF,
                FALSE, FALSE, NULL, NULL);
     add_column(view, 3, _("Name"), G_TYPE_STRING,
                FALSE, FALSE, NULL, NULL);
@@ -3889,6 +3918,31 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
     }
     break;
 
+  case OPID_PLAYER_GOV:
+    {
+      gtk_list_store_clear(store);
+      governments_iterate(pgov) {
+        present = (pgov == pv->data.v_gov);
+        id = government_index(pgov);
+        pixbuf = sprite_get_pixbuf(get_government_sprite(tileset, pgov));
+        name = government_name_translation(pgov);
+        gtk_list_store_append(store, &iter);
+        gtk_list_store_set(store, &iter, 0, present, 1, id,
+                           2, pixbuf, 3, name, -1);
+        if (pixbuf) {
+          g_object_unref(pixbuf);
+        }
+      } governments_iterate_end;
+      gtk_label_set_text(GTK_LABEL(ev->panel_label),
+                         government_name_translation(pv->data.v_gov));
+      pixbuf = sprite_get_pixbuf(get_government_sprite(tileset, pv->data.v_gov));
+      gtk_image_set_from_pixbuf(GTK_IMAGE(ev->panel_image), pixbuf);
+      if (pixbuf) {
+        g_object_unref(pixbuf);
+      }
+    }
+    break;
+
   case OPID_PLAYER_INVENTIONS:
     gtk_list_store_clear(store);
     advance_iterate(A_FIRST, padvance) {
@@ -3967,6 +4021,7 @@ static void extviewer_clear_widgets(struct extviewer *ev)
     gtk_list_store_clear(ev->store);
     break;
   case OPID_PLAYER_NATION:
+  case OPID_PLAYER_GOV:
     gtk_list_store_clear(ev->store);
     gtk_image_set_from_pixbuf(GTK_IMAGE(ev->panel_image), NULL);
     break;
@@ -4177,6 +4232,25 @@ static void extviewer_view_cell_toggled(GtkCellRendererToggle *cell,
     }
     break;
 
+  case OPID_PLAYER_GOV:
+    gtk_tree_model_get(model, &iter, 1, &id, -1);
+    if (!(0 <= id && id < government_count()) || !present) {
+      return;
+    }
+    old_id = government_index(pv->data.v_gov);
+    pv->data.v_gov = government_by_number(id);
+    gtk_list_store_set(ev->store, &iter, 0, TRUE, -1);
+    gtk_tree_model_iter_nth_child(model, &iter, NULL, old_id);
+    gtk_list_store_set(ev->store, &iter, 0, FALSE, -1);
+    gtk_label_set_text(GTK_LABEL(ev->panel_label),
+                       government_name_translation(pv->data.v_gov));
+    pixbuf = sprite_get_pixbuf(get_government_sprite(tileset, pv->data.v_gov));
+    gtk_image_set_from_pixbuf(GTK_IMAGE(ev->panel_image), pixbuf);
+    if (pixbuf) {
+      g_object_unref(pixbuf);
+    }
+    break;
+
   case OPID_PLAYER_INVENTIONS:
     gtk_tree_model_get(model, &iter, 1, &id, -1);
     if (!(A_FIRST <= id && id < advance_count())) {
@@ -4381,6 +4455,8 @@ static void property_page_setup_objprops(struct property_page *pp)
 #endif /* DEBUG */
     ADDPROP(OPID_PLAYER_NATION, _("Nation"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_NATION);
+    ADDPROP(OPID_PLAYER_GOV, _("Government"), OPF_IN_LISTVIEW
+            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_GOV);
     ADDPROP(OPID_PLAYER_AGE, _("Age"),
             OPF_HAS_WIDGET, VALTYPE_INT);
     ADDPROP(OPID_PLAYER_INVENTIONS, _("Inventions"), OPF_IN_LISTVIEW
@@ -5168,6 +5244,13 @@ static bool property_page_set_store_value(struct property_page *pp,
     break;
   case VALTYPE_NATION:
     pixbuf = get_flag(pv->data.v_nation);
+    gtk_list_store_set(store, iter, col_id, pixbuf, -1);
+    if (pixbuf) {
+      g_object_unref(pixbuf);
+    }
+    break;
+  case VALTYPE_GOV:
+    pixbuf = sprite_get_pixbuf(get_government_sprite(tileset, pv->data.v_gov));
     gtk_list_store_set(store, iter, col_id, pixbuf, -1);
     if (pixbuf) {
       g_object_unref(pixbuf);
