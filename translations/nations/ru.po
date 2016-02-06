@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-08 18:00+0100\n"
-"PO-Revision-Date: 2016-01-16 03:09+0500\n"
+"POT-Creation-Date: 2016-02-07 03:26+0500\n"
+"PO-Revision-Date: 2016-02-07 02:41+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -911,7 +911,7 @@ msgstr "Генеральный Секретарь %s"
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
 msgid "%s Dey"
-msgstr "Дей %s"
+msgstr "%s-дей"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
@@ -989,8 +989,7 @@ msgstr "Бейлиф %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34
-#: data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1010,13 +1009,13 @@ msgstr "Бейлиф %s"
 #: data/nation/panamanian.ruleset:30 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
 #: data/nation/savoyard.ruleset:32 data/nation/saxon.ruleset:22
-#: data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
-#: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
-#: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/yucatecan.ruleset:31 data/nation/zimbabwean.ruleset:26
+#: data/nation/schleswig-holsteinian.ruleset:27 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:19 data/nation/thuringian.ruleset:43
+#: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/vincentian.ruleset:25
+#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
+#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:31
+#: data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr "Епископ %s"
@@ -1715,7 +1714,7 @@ msgstr ""
 #: data/nation/xiongnu.ruleset:39
 #, c-format
 msgid "%s Khan"
-msgstr "Хан %s"
+msgstr "%s-хан"
 
 #: data/nation/avar.ruleset:32 data/nation/azeri.ruleset:35
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
@@ -1729,7 +1728,7 @@ msgstr "Хан %s"
 #: data/nation/xiongnu.ruleset:39
 #, c-format
 msgid "%s Khatan"
-msgstr "Хатан %s"
+msgstr "%s-хатан"
 
 #: data/nation/avar.ruleset:33 data/nation/buryat.ruleset:27
 #: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:45
@@ -1799,7 +1798,7 @@ msgstr ""
 #: data/nation/khwarezmian.ruleset:28
 #, c-format
 msgid "%s Shah"
-msgstr "Шах %s"
+msgstr "%s Шах"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
 #: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:31
@@ -1861,10 +1860,9 @@ msgstr ""
 "впоследствии опустели и большей частью игнорировались до того как на них в "
 "XVII веке обосновались британские поселенцы. С 1973 года Багамы — "
 "независимое государство, состоящее в Британском Содружестве. Сегодня Багамы "
-"известны как своими пляжами, так и своими офшорными финансовыми "
-"учреждениями. Багамы — самая развитая страна Латинской Америки и Карибского "
-"региона — также является богатейшей страной мира с чёрным большинством "
-"населения."
+"известны как своими пляжами, так и своими офшорными банками. Багамы — самая "
+"развитая страна Латинской Америки и Карибского региона — также является "
+"богатейшей страной мира с чёрным большинством населения."
 
 #: data/nation/bahraini.ruleset:3
 msgid "Bahraini"
@@ -4032,7 +4030,7 @@ msgstr ""
 #: data/nation/tunisian.ruleset:28
 #, c-format
 msgid "%s Bey"
-msgstr "Бей %s"
+msgstr "%s-бей"
 
 #: data/nation/circassian.ruleset:34 data/nation/ghaznavid.ruleset:31
 #: data/nation/lipkatatar.ruleset:28 data/nation/seljuk.ruleset:38
@@ -5206,7 +5204,7 @@ msgstr "Высший Вождь %s"
 #: data/nation/xhosa.ruleset:28
 #, c-format
 msgid "?female:Paramount Chief %s"
-msgstr "Высший Вождь %s"
+msgstr "Небесная Владычица %s"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -7894,7 +7892,7 @@ msgstr "Поднебесный Правитель %s"
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
 #, c-format
 msgid "?female:Paramount Ruler %s"
-msgstr "Поднебесная Правительница %s"
+msgstr "Небесная Правительница %s"
 
 #: data/nation/lipkatatar.ruleset:3
 msgid "Lipka Tatar"
@@ -9530,7 +9528,7 @@ msgstr "Великий Вождь и Учитель %s"
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
 #, c-format
 msgid "?female:Great Leader %s"
-msgstr "Великая Вождь и Учитель %s"
+msgstr "Великая Владычица и Учитель %s"
 
 #: data/nation/northumbrian.ruleset:3
 msgid "Northumbrian"
@@ -9955,7 +9953,7 @@ msgstr "Падишах %s"
 #: data/nation/ottoman.ruleset:29
 #, c-format
 msgid "?female:Padishah %s"
-msgstr "Падишах %s"
+msgstr "Падишахиня %s"
 
 #: data/nation/ozite.ruleset:3
 msgid "Ozite"
@@ -11234,11 +11232,11 @@ msgstr ""
 
 #: data/nation/saudi.ruleset:3
 msgid "Saudi"
-msgstr "Саудовцы"
+msgstr "Саудиты"
 
 #: data/nation/saudi.ruleset:4
 msgid "?plural:Saudis"
-msgstr "Саудовцы"
+msgstr "Саудиты"
 
 #: data/nation/saudi.ruleset:6
 msgid ""
