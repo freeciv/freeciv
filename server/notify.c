@@ -426,15 +426,11 @@ static struct event_cache_data_list *event_cache = NULL;
 static bool event_cache_status = FALSE;
 
 /**************************************************************************
-  Destroy an event_cache_data.  Removes it from the cache.
+  Callback for freeing event cache data
 **************************************************************************/
-static void event_cache_data_destroy(struct event_cache_data *pdata)
+static void event_cache_data_free(struct event_cache_data *data)
 {
-  fc_assert_ret(NULL != event_cache);
-  fc_assert_ret(NULL != pdata);
-
-  event_cache_data_list_remove(event_cache, pdata);
-  free(pdata);
+  free(data);
 }
 
 /**************************************************************************
@@ -489,7 +485,7 @@ event_cache_data_new(const struct packet_chat_msg *packet, int turn,
                ? game.server.event_cache.max_size
                : GAME_MAX_EVENT_CACHE_MAX_SIZE;
   while (event_cache_data_list_size(event_cache) > max_events) {
-    event_cache_data_destroy(event_cache_data_list_get(event_cache, 0));
+    event_cache_data_list_pop_front(event_cache);
   }
 
   return pdata;
@@ -503,7 +499,7 @@ void event_cache_init(void)
   if (event_cache != NULL) {
     event_cache_free();
   }
-  event_cache = event_cache_data_list_new();
+  event_cache = event_cache_data_list_new_full(event_cache_data_free);
   event_cache_status = TRUE;
 }
 
@@ -513,9 +509,6 @@ void event_cache_init(void)
 void event_cache_free(void)
 {
   if (event_cache != NULL) {
-    event_cache_iterate(pdata) {
-      event_cache_data_destroy(pdata);
-    } event_cache_iterate_end;
     event_cache_data_list_destroy(event_cache);
     event_cache = NULL;
   }
@@ -527,9 +520,7 @@ void event_cache_free(void)
 **************************************************************************/
 void event_cache_clear(void)
 {
-  event_cache_iterate(pdata) {
-    event_cache_data_destroy(pdata);
-  } event_cache_iterate_end;
+  event_cache_data_list_clear(event_cache);
 }
 
 /**************************************************************************
@@ -537,11 +528,16 @@ void event_cache_clear(void)
 **************************************************************************/
 void event_cache_remove_old(void)
 {
-  event_cache_iterate(pdata) {
-    if (pdata->turn + game.server.event_cache.turns <= game.info.turn) {
-      event_cache_data_destroy(pdata);
-    }
-  } event_cache_iterate_end;
+  struct event_cache_data *current;
+
+  /* This assumes that entries are in order, the ones to be removed first. */
+  current = event_cache_data_list_get(event_cache, 0);
+
+  while (current != NULL
+         && current->turn + game.server.event_cache.turns <= game.info.turn) {
+    event_cache_data_list_pop_front(event_cache);
+    current = event_cache_data_list_get(event_cache, 0);
+  }
 }
 
 /**************************************************************************
