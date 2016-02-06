@@ -50,6 +50,20 @@ int api_methods_game_turn(lua_State *L)
 }
 
 /*****************************************************************************
+  Return the current turn, as if real turns started from 0.
+*****************************************************************************/
+int api_methods_game_turn_deprecated(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  if (game.info.turn > 0) {
+    return game.info.turn - 1;
+  }
+
+  return game.info.turn;
+}
+
+/*****************************************************************************
   Return TRUE if pbuilding is a wonder.
 *****************************************************************************/
 bool api_methods_building_type_is_wonder(lua_State *L,

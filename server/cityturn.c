@@ -3545,7 +3545,7 @@ static bool do_city_migration(struct city *pcity_from,
 
   'game.server.mgr_turninterval' controls the number of turns between
   migration checks for one city (counted from the founding). If this
-  setting is zero, or it is the first turn (T0), migration does no occur.
+  setting is zero, or it is the first turn (T1), migration does no occur.
 
   'game.server.mgr_distance' is the maximal distance for migration.
 

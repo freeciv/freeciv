@@ -693,7 +693,7 @@ static void timeout_action(const struct setting *pset)
   if (S_S_RUNNING == server_state()) {
     int timeout = *pset->integer.pvalue;
 
-    if (game.info.turn != 0 || game.info.first_timeout == -1) {
+    if (game.info.turn != 1 || game.info.first_timeout == -1) {
       /* This may cause the current turn to end immediately. */
       game.tinfo.seconds_to_phasedone = timeout;
     }
@@ -710,7 +710,7 @@ static void first_timeout_action(const struct setting *pset)
   if (S_S_RUNNING == server_state()) {
     int timeout = *pset->integer.pvalue;
 
-    if (game.info.turn == 0) {
+    if (game.info.turn == 1) {
       /* This may cause the current turn to end immediately. */
       if (timeout != -1) {
         game.tinfo.seconds_to_phasedone = timeout;
@@ -2512,9 +2512,9 @@ static struct setting settings[] = {
           N_("First turn timeout"),
           /* TRANS: The strings between single quotes are setting names and
            * should not be translated. */
-          N_("If greater than 0, T0 will last for 'first_timeout' seconds.\n"
-             "If set to 0, T0 will not have a timeout.\n"
-             "If set to -1, the special treatment of T0 will be disabled.\n"
+          N_("If greater than 0, T1 will last for 'first_timeout' seconds.\n"
+             "If set to 0, T1 will not have a timeout.\n"
+             "If set to -1, the special treatment of T1 will be disabled.\n"
              "See also 'timeout'."),
           NULL, first_timeout_callback, first_timeout_action,
           GAME_MIN_FIRST_TIMEOUT, GAME_MAX_FIRST_TIMEOUT,

@@ -973,8 +973,11 @@ static void begin_turn(bool is_new_turn)
   send_game_info(NULL);
 
   if (is_new_turn) {
-    script_server_signal_emit("turn_started", 2,
+    script_server_signal_emit("turn_begin", 2,
                               API_TYPE_INT, game.info.turn,
+                              API_TYPE_INT, game.info.year);
+    script_server_signal_emit("turn_started", 2,
+                              API_TYPE_INT, game.info.turn > 0 ? game.info.turn - 1: game.info.turn,
                               API_TYPE_INT, game.info.year);
 
     /* We build scores at the beginning of every turn.  We have to
@@ -2810,6 +2813,8 @@ static void srv_ready(void)
 #endif
 
   if (game.info.is_new_game) {
+    game.info.turn++; /* pregame T0 -> game T1 */
+    fc_assert(game.info.turn == 1);
     game.info.year = game.server.start_year;
     /* Must come before assign_player_colors() */
     generate_players();

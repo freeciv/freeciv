@@ -1343,7 +1343,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
    * - it is the first turn
    * - turns is set to a value not zero and the current turn can be devided
    *   by this number */
-  if (!force && game.info.turn != 0
+  if (!force && game.info.turn != 1
       && !(pmapdef->turns != 0 && game.info.turn % pmapdef->turns == 0)) {
     return TRUE;
   }

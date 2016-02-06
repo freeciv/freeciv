@@ -113,6 +113,10 @@ struct City_List_Link {
 /* Module Game */
 module game {
   int api_methods_game_turn
+    @ current_turn (lua_State *L);
+
+  /* Deprecated. Use current_turn() to get the real turn number */
+  int api_methods_game_turn_deprecated
     @ turn (lua_State *L);
 }
 

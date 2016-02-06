@@ -1139,6 +1139,24 @@ static void compat_load_020600(struct loaddata *loading)
 }
 
 /****************************************************************************
+  Increase turn value in secfile by one.
+****************************************************************************/
+static int increase_secfile_turn_int(struct loaddata *loading, const char *key,
+                                     int old_def, bool keep_default)
+{
+  int value;
+
+  value = secfile_lookup_int_default(loading->file, old_def, "%s", key);
+
+  if (value != old_def || !keep_default) {
+    value++;
+    secfile_replace_int(loading->file, value, "%s", key);
+  }
+
+  return value;
+}
+
+/****************************************************************************
   Translate savegame secfile data from 2.6.x to 3.0.0 format.
   Note that even after 2.6 savegame has gone through this compatibility
   function, it's still 2.6 savegame in the sense that savegame2.c, and not
@@ -1150,6 +1168,8 @@ static void compat_load_030000(struct loaddata *loading)
   int plrno;
   int nplayers;
   int num_settings;
+  bool started;
+  int old_turn;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1163,6 +1183,17 @@ static void compat_load_030000(struct loaddata *loading)
     log_sg("random.save: %s", secfile_error());
   }
 
+  /* Already started games should have their turn counts increased by 1 */
+  if (secfile_lookup_bool_default(loading->file, TRUE, "game.save_players")) {
+    started = TRUE;
+
+    old_turn = increase_secfile_turn_int(loading, "game.turn", 0, FALSE) - 1;
+    increase_secfile_turn_int(loading, "game.scoreturn", old_turn + GAME_DEFAULT_SCORETURN, FALSE);
+    increase_secfile_turn_int(loading, "history.turn", -2, TRUE);
+  } else {
+    started = FALSE;
+  }
+
   nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
 
   for (plrno = 0; plrno < nplayers; plrno++) {
@@ -1174,6 +1205,32 @@ static void compat_load_030000(struct loaddata *loading)
 
       secfile_insert_str_vec(loading->file, flag_names, 1,
                              "player%d.flags", plrno);
+    }
+
+    if (started) {
+      int num = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.nunits",
+                                           plrno);
+      int i;
+
+      for (i = 0; i < num; i++) {
+        char buf[64];
+
+        fc_snprintf(buf, sizeof(buf), "player%d.u%d.born", plrno, i);
+
+        increase_secfile_turn_int(loading, buf, old_turn, FALSE);
+      }
+
+      num = secfile_lookup_int_default(loading->file, 0,
+                                       "player%d.ncities", plrno);
+
+      for (i = 0; i < num; i++) {
+        char buf[64];
+
+        fc_snprintf(buf, sizeof(buf), "player%d.c%d.turn_founded", plrno, i);
+
+        increase_secfile_turn_int(loading, buf, -2, TRUE);
+      }
     }
   }
 

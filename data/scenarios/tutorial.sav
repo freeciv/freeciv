@@ -98,12 +98,12 @@ end
 -- Hint to build workers?
 
 function turn_callback(turn, year)
-  if turn == 0 then
+  if turn == 1 then
     notify.event(nil, nil, E.SCRIPT,
 _("Welcome to Freeciv.  You lead a civilization.  Your\ntask is to conquer the world!  You should start by\nexploring the land around you with your explorer,\nand using your settlers to find a good place to build\na city.  Use the number pad to move units around."))
   end
 end
-signal.connect('turn_started', 'turn_callback')
+signal.connect('turn_begin', 'turn_callback')
 
 -- Check for and warn about vulnerable stacks.
 function check_stacks(tile, player)

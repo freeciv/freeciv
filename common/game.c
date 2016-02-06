@@ -811,7 +811,7 @@ void user_flag_free(struct user_flag *flag)
 ****************************************************************************/
 int current_turn_timeout(void)
 {
-  if (game.info.turn == 0 && game.info.first_timeout != -1) {
+  if (game.info.turn == 1 && game.info.first_timeout != -1) {
     return game.info.first_timeout;
   } else {
     return game.info.timeout;

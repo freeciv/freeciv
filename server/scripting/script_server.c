@@ -344,8 +344,14 @@ void script_server_signal_emit(const char *signal_name, int nargs, ...)
 *****************************************************************************/
 static void script_server_signal_create(void)
 {
+  luascript_signal_create(fcl_main, "turn_begin", 2,
+                          API_TYPE_INT, API_TYPE_INT);
+
+  /* Deprecated form of the 'turn_begin' signal that counts real turns
+   * starting from 0. */
   luascript_signal_create(fcl_main, "turn_started", 2,
                           API_TYPE_INT, API_TYPE_INT);
+
   luascript_signal_create(fcl_main, "unit_moved", 3,
                           API_TYPE_UNIT, API_TYPE_TILE, API_TYPE_TILE);
 

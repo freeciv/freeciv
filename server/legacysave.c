@@ -1271,7 +1271,7 @@ static void player_load_units(struct player *plr, int plrno,
     }
 
     punit->server.birth_turn = secfile_lookup_int_default(file, game.info.turn,
-                                                   "player%d.u%d.born", plrno, i);
+                                                          "player%d.u%d.born", plrno, i) + 1;
     base = secfile_lookup_int_default(file, -1,
                                       "player%d.u%d.activity_base", plrno, i);
     if (base >= 0 && base < num_base_types) {
@@ -2391,7 +2391,7 @@ static void player_load_cities(struct player *plr, int plrno,
     /* before did_buy for undocumented hack */
     pcity->turn_founded =
       secfile_lookup_int_default(file, -2, "player%d.c%d.turn_founded",
-                                 plrno, i);
+                                 plrno, i) + 1;
     fc_assert_exit_msg(secfile_lookup_int(file, &j, "player%d.c%d.did_buy",
                                           plrno, i),
                        "%s", secfile_error());
@@ -3354,8 +3354,11 @@ static void game_load_internal(struct section_file *file)
       = secfile_lookup_int_default(file, GAME_DEFAULT_UNITWAITTIME,
                                    "game.unitwaittime");
 
-    game.server.end_turn      = secfile_lookup_int_default(file, 5000,
-                                                         "game.end_turn");
+    game.server.end_turn
+      = secfile_lookup_int_default(file, 5000 - 1, "game.end_turn") + 1;
+    if (game.server.end_turn > GAME_MAX_END_TURN) {
+      game.server.end_turn = GAME_MAX_END_TURN;
+    }
     game.info.shieldbox
       = secfile_lookup_int_default(file, GAME_DEFAULT_SHIELDBOX,
 				   "game.box_shield");
@@ -3385,6 +3388,9 @@ static void game_load_internal(struct section_file *file)
          * (I_DESTROYED) are used at turn number for the city improvements,
          * we cannot use that strange hack anymore. */
         game.info.turn = 0;
+      } else if (!game.info.is_new_game) {
+        /* Game start at T1 nowadays */
+        game.info.turn++;
       }
     } else {
       game.info.turn = 0;
