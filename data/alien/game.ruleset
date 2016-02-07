@@ -25,12 +25,11 @@ name = _("Alien World")
 
 ; Summary of the ruleset
 summary = _("\
-One of the design goals of this ruleset is that it has to \
+One of the design goals of this ruleset was that it has to \
 provide gameplay different from standard rules. Do not assume that any rules \
 you know from classic rules apply with this ruleset.\n\n\
-See http://www.freeciv.org/wiki/Alien_World, \
-doc/README.ruleset_alien under freeciv version control and \
-http://www.cazfi.net/freeciv/alien/ for ruleset info.\
+See http://www.freeciv.org/wiki/Alien_World and \
+http://www.cazfi.net/freeciv/alien/ for additional ruleset info.\
 ")
 
 ; Detailed description
