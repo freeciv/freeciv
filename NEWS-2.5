@@ -1,10 +1,43 @@
 ========================
-Welcome to Freeciv 2.5.2
+Welcome to Freeciv 2.5.3
 ========================
 
 The changes in the 2.5.x series are summarised below.
 For changes prior to 2.5, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.5.2 to 2.5.3
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.3>)
+
+   2.5.3 is a bugfix release mainly aimed at Linux distribution
+   maintainers and other repackagers. There have only been a few minor
+   user-visible fixes since 2.5.2.
+
+     * Build fixes:
+          + Re-generating the configure script could fail on recent OS
+            distributions due to a clash with the system supplied
+            glib-gettext.m4. This did not affect most users, who would
+            build with the configure script supplied in the tarball.
+            GNA#24379
+          + configure could spuriously output "-lncurses: not found" and
+            fail to find readline on some systems (seen on OpenBSD).
+            GNA#24372
+     * Qt client fixes:
+          + The menu options and keyboard shortcuts to save games were
+            disabled when there were no active units. GNA#24371
+          + The Qt client could create a directory called literally
+            '$HOME'. GNA#24359
+          + A few strings in the Qt client were displayed unlocalized.
+            GNA#24339
+     * Increase the size of some buffers that were causing truncated
+       strings in some localizations, such as Russian. GNA#24328
+     * Change a couple of flag files to address auto-detected licensing
+       conflicts. GNA#23814 GNAPATCH#6855
+     * Some corrections to the Finnish and Russian translations.
+       GNAPATCH#6902
 
 
 CHANGES FROM 2.5.1 to 2.5.2
