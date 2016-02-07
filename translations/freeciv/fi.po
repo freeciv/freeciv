@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-19 20:35+0000\n"
-"PO-Revision-Date: 2016-02-03 21:08+0200\n"
+"PO-Revision-Date: 2016-02-07 10:38+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -6791,7 +6791,7 @@ msgstr "Puhdista ydinlaskeumaa"
 #: client/gui-qt/menu.cpp:768 client/gui-sdl/menu.c:836
 #: client/gui-xaw/menu.c:209
 msgid "Establish Trade Route"
-msgstr "Perusta kaupparei_tti"
+msgstr "Perusta kauppareitti"
 
 #: client/gui-qt/menu.cpp:774
 msgid "Civilization"
