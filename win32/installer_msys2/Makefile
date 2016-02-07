@@ -36,7 +36,7 @@ sdl2-installer:
 	make GUI=sdl2 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
 
 qt-installer:
-	make GUI=qt FCMP=qt wrap-qt
+	make GUI=qt FCMP=qt EXTRA_CONFIG="--with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt
 
 ruledit-installer:
 	make wrap-ruledit
@@ -252,15 +252,25 @@ install-env-sdl2: install-env-default-fcmp
 
 QT_DLLS := \
 	libstdc++-6.dll \
+	libicuin56.dll \
+	libicuuc56.dll \
+	libicudt56.dll \
+	libpcre16-0.dll \
+	libharfbuzz-0.dll \
+	libsqlite3-0.dll \
 	Qt5Core.dll \
 	Qt5Gui.dll \
 	Qt5Widgets.dll
 
+QT_MSYS_DLLS := \
+	stdc++-6.dll
+
 install-env-qt: install-env-common
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-$(GUI)
+	cp -R $(addprefix /bin/msys-, $(QT_MSYS_DLLS)) install-$(GUI)
 	# add additional Qt files
-	cp -R /plugins install-$(GUI)/
+	cp -R $(ARCHDIR)/share/qt5/plugins install-$(GUI)/
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
@@ -269,7 +279,7 @@ install-env-ruledit:
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-ruledit
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-ruledit
 	# add additional Qt files
-	cp -R /plugins install-ruledit/
+	cp -R $(ARCHDIR)/share/qt5/plugins install-ruledit/
 	cp -R /share/locale install-ruledit/share/
 	find install-ruledit/share/locale -type f -not -name "freeciv-ruledit.mo" -delete
 

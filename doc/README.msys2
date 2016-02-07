@@ -14,7 +14,8 @@ using MSYS2 from http://msys2.github.io
 ====================================
 
 - With very specific configure options (see Problems) and msys2 package
-  selection freeciv can be built. This includes the server and gtk3-client
+  selection freeciv can be built.
+- Buildable clients are gtk3 and Qt
 - Both server and client launch ok
 - Client cannot connect to the server
 - Installers cannot be built
@@ -30,6 +31,8 @@ using MSYS2 from http://msys2.github.io
 2.1) Packages needed for building freeciv
  These packages are needed even if you don't plan to make installer,
  but only build freeciv for local use.
+
+2.1.1) Arch independent packages needed for building freeciv
 
  - subversion
  - make
@@ -47,13 +50,21 @@ using MSYS2 from http://msys2.github.io
  - liblzma-devel
  - icu-devel
 
- - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
+2.1.2) Arch-specific packages needed for building freeciv
 
-2.2) Packaged needed for building installer
+ - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
+ - mingw-w64-i686-qt5 / mingw-w64-x86_64-qt5
+
+2.2) Packaged needed for building installer package
+ These are needed in addition to above ones used in the
+ building step already.
+
+2.2.1) Arch-specific packages needed for building installer
+ package
+
  - mingw-w64-i686-nsis / mingw-w64-x86_64-nsis
 
-
-Packages TODO:
+2.3) Packages TODO:
  - Mixer support
  - Clients other than gtk3
  - MagickWand support
@@ -66,6 +77,7 @@ Packages TODO:
   Target can be:
   - "<gui>-installer", where <gui> is
      - gtk3
+     - qt
 
 Problems
 ====================================
