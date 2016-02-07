@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-19 20:35+0000\n"
+"POT-Creation-Date: 2016-02-06 23:21+0000\n"
 "PO-Revision-Date: 2015-12-31 02:17+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
 "Language-Team: Spanish <>\n"
@@ -3469,7 +3469,8 @@ msgstr "Invenciones"
 
 #: client/gui-gtk-2.0/editprop.c:4274 client/gui-gtk-2.0/gamedlgs.c:287
 #: client/gui-gtk-3.0/editprop.c:4298 client/gui-gtk-3.0/gamedlgs.c:297
-#: client/gui-qt/citydlg.cpp:1036 common/city.c:88 server/plrhand.c:282
+#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:94
+#: common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "Ciencia"
 
@@ -3616,7 +3617,7 @@ msgid "Select tax, luxury and science rates"
 msgstr "Elige las tasas de impuestos, lujo y ciencia"
 
 #: client/gui-gtk-2.0/gamedlgs.c:247 client/gui-gtk-3.0/gamedlgs.c:247
-#: server/plrhand.c:278
+#: client/gui-qt/ratesdlg.cpp:71 server/plrhand.c:278
 msgid "Tax"
 msgstr "Impuestos"
 
@@ -3631,7 +3632,8 @@ msgid "Lock"
 msgstr "Fijar"
 
 #: client/gui-gtk-2.0/gamedlgs.c:267 client/gui-gtk-3.0/gamedlgs.c:272
-#: client/gui-qt/citydlg.cpp:1036 common/city.c:87 server/plrhand.c:280
+#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:117
+#: common/city.c:87 server/plrhand.c:280
 msgid "Luxury"
 msgstr "Lujo"
 
@@ -4141,7 +4143,7 @@ msgstr ""
 "Mejor neblina de la guerra sólo funcionará mejor en truecolor. Se deshabilita"
 
 #: client/gui-gtk-2.0/menu.c:115 client/gui-gtk-3.0/menu.c:115
-#: client/gui-qt/fc_client.cpp:692 client/gui-qt/menu.cpp:419
+#: client/gui-qt/fc_client.cpp:695 client/gui-qt/menu.cpp:419
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Cambiar opciones locales"
@@ -4153,7 +4155,7 @@ msgid "Game Settings"
 msgstr "Preferencias de la partida"
 
 #: client/gui-gtk-2.0/menu.c:207 client/gui-gtk-3.0/menu.c:207
-#: client/gui-qt/menu.cpp:2031
+#: client/gui-qt/menu.cpp:2044
 msgid "Leaving a local game will end it!"
 msgstr "Dejar un juego en local lo acabará!"
 
@@ -4692,7 +4694,7 @@ msgstr "Limpiar la radioactividad (_N)"
 
 #: client/gui-gtk-2.0/menu.c:1670 client/gui-gtk-2.0/menu.c:2347
 #: client/gui-gtk-3.0/menu.c:1658 client/gui-gtk-3.0/menu.c:2333
-#: client/gui-qt/menu.cpp:1130
+#: client/gui-qt/menu.cpp:1148
 msgid "Build Type A Base"
 msgstr "Construir Base Tipo A"
 
@@ -4754,7 +4756,7 @@ msgid "Help _Build Wonder"
 msgstr "Contri_buir a la maravilla"
 
 #: client/gui-gtk-2.0/menu.c:2228 client/gui-gtk-3.0/menu.c:2214
-#: client/gui-qt/menu.cpp:1110 client/gui-sdl/menu.c:893
+#: client/gui-qt/menu.cpp:1128 client/gui-sdl/menu.c:893
 #: client/gui-sdl/menu.c:1090 client/gui-xaw/menu.c:169
 msgid "Add to City"
 msgstr "Añadirse a la ciudad"
@@ -6289,24 +6291,24 @@ msgstr "Dar embajada"
 msgid "Pacts"
 msgstr "Pactos"
 
-#: client/gui-qt/fc_client.cpp:134
+#: client/gui-qt/fc_client.cpp:135
 msgid "Welcome to Freeciv"
 msgstr "Bienvenido a Freeciv"
 
-#: client/gui-qt/fc_client.cpp:204
+#: client/gui-qt/fc_client.cpp:207
 msgid "This is Qt-client for Freeciv."
 msgstr "Este es el cliente Qt de Freeciv."
 
-#: client/gui-qt/fc_client.cpp:482 client/gui-qt/pages.cpp:1465
+#: client/gui-qt/fc_client.cpp:485 client/gui-qt/pages.cpp:1465
 msgid "Don't Observe"
 msgstr "No Observar"
 
-#: client/gui-qt/fc_client.cpp:485 client/gui-qt/pages.cpp:578
+#: client/gui-qt/fc_client.cpp:488 client/gui-qt/pages.cpp:578
 #: client/gui-qt/pages.cpp:1467 client/gui-qt/pages.cpp:1556
 msgid "Observe"
 msgstr "Observar"
 
-#: client/gui-qt/fc_client.cpp:861
+#: client/gui-qt/fc_client.cpp:864
 msgid ""
 "Number of Players\n"
 "(including AI):"
@@ -6314,19 +6316,19 @@ msgstr ""
 "Número de Jugadores\n"
 "(incluyendo ordenadores):"
 
-#: client/gui-qt/fc_client.cpp:862
+#: client/gui-qt/fc_client.cpp:865
 msgid "AI Skill Level:"
 msgstr "Nivel de los Jugadores Controlados por Ordenador:"
 
-#: client/gui-qt/fc_client.cpp:863
+#: client/gui-qt/fc_client.cpp:866
 msgid "Ruleset Version:"
 msgstr "Versión de Ruleset:"
 
-#: client/gui-qt/fc_client.cpp:886
+#: client/gui-qt/fc_client.cpp:889
 msgid "More Game Options"
 msgstr "Más Opciones del Juego"
 
-#: client/gui-qt/fc_client.cpp:937
+#: client/gui-qt/fc_client.cpp:940
 msgid "Set server options"
 msgstr "Cambiar las opciones del servidor"
 
@@ -6510,7 +6512,7 @@ msgstr "Guardar Opciones Ahora"
 msgid "Save Options on Exit"
 msgstr "Guardar opciones al Salir"
 
-#: client/gui-qt/menu.cpp:438 client/gui-qt/menu.cpp:2016
+#: client/gui-qt/menu.cpp:438 client/gui-qt/menu.cpp:2029
 msgid "Save Game As..."
 msgstr "Grabar partida como..."
 
@@ -6679,7 +6681,7 @@ msgstr "Convertir"
 msgid "Disband"
 msgstr "Desarticular"
 
-#: client/gui-qt/menu.cpp:689 client/gui-qt/menu.cpp:1128
+#: client/gui-qt/menu.cpp:689 client/gui-qt/menu.cpp:1146
 #: client/gui-sdl/menu.c:771 client/gui-xaw/menu.c:184
 msgid "Fortify Unit"
 msgstr "Atrincherar unidad"
@@ -6703,7 +6705,7 @@ msgstr "Explosión nuclear"
 msgid "Work"
 msgstr "Trabajo"
 
-#: client/gui-qt/menu.cpp:713 client/gui-qt/menu.cpp:1112
+#: client/gui-qt/menu.cpp:713 client/gui-qt/menu.cpp:1130
 #: client/gui-sdl/mapctrl.c:2602 client/gui-sdl/menu.c:895
 #: client/gui-sdl/menu.c:1092 client/gui-xaw/menu.c:168
 msgid "Build City"
@@ -6722,13 +6724,13 @@ msgstr "Auto-colonizar"
 msgid "Build Road"
 msgstr "Construir camino"
 
-#: client/gui-qt/menu.cpp:730 client/gui-qt/menu.cpp:1074
+#: client/gui-qt/menu.cpp:730 client/gui-qt/menu.cpp:1092
 #: client/gui-sdl/menu.c:822 client/gui-sdl/menu.c:1174
 #: client/gui-xaw/menu.c:171
 msgid "Build Irrigation"
 msgstr "Construir regadío"
 
-#: client/gui-qt/menu.cpp:734 client/gui-qt/menu.cpp:1050
+#: client/gui-qt/menu.cpp:734 client/gui-qt/menu.cpp:1068
 #: client/gui-sdl/menu.c:808 client/gui-sdl/menu.c:1209
 #: client/gui-xaw/menu.c:174
 msgid "Build Mine"
@@ -6747,12 +6749,12 @@ msgstr "Conectar con Ferrocarril"
 msgid "Connect With Irrigation"
 msgstr "Conectar con Regadío"
 
-#: client/gui-qt/menu.cpp:752 client/gui-qt/menu.cpp:1097
+#: client/gui-qt/menu.cpp:752 client/gui-qt/menu.cpp:1115
 #: client/gui-xaw/menu.c:176
 msgid "Transform Terrain"
 msgstr "Transformar el terreno"
 
-#: client/gui-qt/menu.cpp:756 client/gui-qt/menu.cpp:1148
+#: client/gui-qt/menu.cpp:756 client/gui-qt/menu.cpp:1166
 #: client/gui-sdl/menu.c:747 client/gui-xaw/menu.c:180
 msgid "Clean Pollution"
 msgstr "Descontaminar"
@@ -6788,21 +6790,21 @@ msgstr "Informe demográfico"
 msgid "Spaceship"
 msgstr "Nave espacial"
 
-#: client/gui-qt/menu.cpp:1045 client/gui-qt/menu.cpp:1064
-#: client/gui-qt/menu.cpp:1092
+#: client/gui-qt/menu.cpp:1063 client/gui-qt/menu.cpp:1082
+#: client/gui-qt/menu.cpp:1110
 msgid "Transform to %1"
 msgstr "Transformar a %1"
 
-#: client/gui-qt/menu.cpp:1072 client/gui-xaw/menu.c:172
+#: client/gui-qt/menu.cpp:1090 client/gui-xaw/menu.c:172
 msgid "Build Farmland"
 msgstr "Construir huerta"
 
-#: client/gui-qt/menu.cpp:1146 client/gui-sdl/menu.c:735
+#: client/gui-qt/menu.cpp:1164 client/gui-sdl/menu.c:735
 #: client/gui-xaw/menu.c:181
 msgid "Drop Paratrooper"
 msgstr "Lanzar Paracaidistas"
 
-#: client/gui-qt/menu.cpp:2013
+#: client/gui-qt/menu.cpp:2026
 msgid "Save Games"
 msgstr "Grabar la partida"
 

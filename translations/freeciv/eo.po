@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-19 20:35+0000\n"
+"POT-Creation-Date: 2016-02-06 23:21+0000\n"
 "PO-Revision-Date: 2008-07-10 17:52+0200\n"
 "Last-Translator: Antonio Codazzi <f_sophia@libero.it>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -3489,7 +3489,8 @@ msgstr "Eltrovo"
 
 #: client/gui-gtk-2.0/editprop.c:4274 client/gui-gtk-2.0/gamedlgs.c:287
 #: client/gui-gtk-3.0/editprop.c:4298 client/gui-gtk-3.0/gamedlgs.c:297
-#: client/gui-qt/citydlg.cpp:1036 common/city.c:88 server/plrhand.c:282
+#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:94
+#: common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "Scienco"
 
@@ -3631,7 +3632,7 @@ msgid "Select tax, luxury and science rates"
 msgstr "Elektu impostan, luksan kaj sciencan kvantojn"
 
 #: client/gui-gtk-2.0/gamedlgs.c:247 client/gui-gtk-3.0/gamedlgs.c:247
-#: server/plrhand.c:278
+#: client/gui-qt/ratesdlg.cpp:71 server/plrhand.c:278
 msgid "Tax"
 msgstr "Impostoj"
 
@@ -3646,7 +3647,8 @@ msgid "Lock"
 msgstr "Bloku"
 
 #: client/gui-gtk-2.0/gamedlgs.c:267 client/gui-gtk-3.0/gamedlgs.c:272
-#: client/gui-qt/citydlg.cpp:1036 common/city.c:87 server/plrhand.c:280
+#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:117
+#: common/city.c:87 server/plrhand.c:280
 #, fuzzy
 msgid "Luxury"
 msgstr "Lukso"
@@ -4169,7 +4171,7 @@ msgid "Better fog will only work in truecolor. Disabling it"
 msgstr "Nebulo plenumas bone nur en verkolora moduso.  Malebligu ĝin"
 
 #: client/gui-gtk-2.0/menu.c:115 client/gui-gtk-3.0/menu.c:115
-#: client/gui-qt/fc_client.cpp:692 client/gui-qt/menu.cpp:419
+#: client/gui-qt/fc_client.cpp:695 client/gui-qt/menu.cpp:419
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Agordu lokajn opciojn"
@@ -4181,7 +4183,7 @@ msgid "Game Settings"
 msgstr "Lud-agordoj"
 
 #: client/gui-gtk-2.0/menu.c:207 client/gui-gtk-3.0/menu.c:207
-#: client/gui-qt/menu.cpp:2031
+#: client/gui-qt/menu.cpp:2044
 msgid "Leaving a local game will end it!"
 msgstr "Forlaso de loka ludo estas la fino de la ludo mem!"
 
@@ -4778,7 +4780,7 @@ msgstr "Malpolui _radioaktivan refalon"
 
 #: client/gui-gtk-2.0/menu.c:1670 client/gui-gtk-2.0/menu.c:2347
 #: client/gui-gtk-3.0/menu.c:1658 client/gui-gtk-3.0/menu.c:2333
-#: client/gui-qt/menu.cpp:1130
+#: client/gui-qt/menu.cpp:1148
 #, fuzzy
 msgid "Build Type A Base"
 msgstr "Konstruu avian bazon"
@@ -4846,7 +4848,7 @@ msgid "Help _Build Wonder"
 msgstr "Helpu konstrui mirindaĵon (_B)"
 
 #: client/gui-gtk-2.0/menu.c:2228 client/gui-gtk-3.0/menu.c:2214
-#: client/gui-qt/menu.cpp:1110 client/gui-sdl/menu.c:893
+#: client/gui-qt/menu.cpp:1128 client/gui-sdl/menu.c:893
 #: client/gui-sdl/menu.c:1090 client/gui-xaw/menu.c:169
 msgid "Add to City"
 msgstr "Aldonu al urbo"
@@ -6475,49 +6477,49 @@ msgstr "Ambasado"
 msgid "Pacts"
 msgstr "Paktoj"
 
-#: client/gui-qt/fc_client.cpp:134
+#: client/gui-qt/fc_client.cpp:135
 msgid "Welcome to Freeciv"
 msgstr "Bonvenon al Freeciv"
 
-#: client/gui-qt/fc_client.cpp:204
+#: client/gui-qt/fc_client.cpp:207
 #, fuzzy
 msgid "This is Qt-client for Freeciv."
 msgstr "Bonvenon al Freeciv"
 
-#: client/gui-qt/fc_client.cpp:482 client/gui-qt/pages.cpp:1465
+#: client/gui-qt/fc_client.cpp:485 client/gui-qt/pages.cpp:1465
 #, fuzzy
 msgid "Don't Observe"
 msgstr "Ne _observi"
 
-#: client/gui-qt/fc_client.cpp:485 client/gui-qt/pages.cpp:578
+#: client/gui-qt/fc_client.cpp:488 client/gui-qt/pages.cpp:578
 #: client/gui-qt/pages.cpp:1467 client/gui-qt/pages.cpp:1556
 #, fuzzy
 msgid "Observe"
 msgstr "_Observi"
 
-#: client/gui-qt/fc_client.cpp:861
+#: client/gui-qt/fc_client.cpp:864
 #, fuzzy
 msgid ""
 "Number of Players\n"
 "(including AI):"
 msgstr "Nombro de _ludantoj (inkluziva de la AI):"
 
-#: client/gui-qt/fc_client.cpp:862
+#: client/gui-qt/fc_client.cpp:865
 #, fuzzy
 msgid "AI Skill Level:"
 msgstr "Lerteco de _AI:"
 
-#: client/gui-qt/fc_client.cpp:863
+#: client/gui-qt/fc_client.cpp:866
 #, fuzzy
 msgid "Ruleset Version:"
 msgstr "_Versio de la reguloj:"
 
-#: client/gui-qt/fc_client.cpp:886
+#: client/gui-qt/fc_client.cpp:889
 #, fuzzy
 msgid "More Game Options"
 msgstr "Pluaj opcioj de la ludo..."
 
-#: client/gui-qt/fc_client.cpp:937
+#: client/gui-qt/fc_client.cpp:940
 #, fuzzy
 msgid "Set server options"
 msgstr "Agordu opciojn pri servilo."
@@ -6723,7 +6725,7 @@ msgstr "Konservu opciojn _nun"
 msgid "Save Options on Exit"
 msgstr "Konservu opciojn _elirante"
 
-#: client/gui-qt/menu.cpp:438 client/gui-qt/menu.cpp:2016
+#: client/gui-qt/menu.cpp:438 client/gui-qt/menu.cpp:2029
 #, fuzzy
 msgid "Save Game As..."
 msgstr "Konservu ludon k_iel..."
@@ -6913,7 +6915,7 @@ msgstr "K_onektu"
 msgid "Disband"
 msgstr "Dissolvu"
 
-#: client/gui-qt/menu.cpp:689 client/gui-qt/menu.cpp:1128
+#: client/gui-qt/menu.cpp:689 client/gui-qt/menu.cpp:1146
 #: client/gui-sdl/menu.c:771 client/gui-xaw/menu.c:184
 #, fuzzy
 msgid "Fortify Unit"
@@ -6940,7 +6942,7 @@ msgstr "Atomeksplodo"
 msgid "Work"
 msgstr "_Laborlistoj"
 
-#: client/gui-qt/menu.cpp:713 client/gui-qt/menu.cpp:1112
+#: client/gui-qt/menu.cpp:713 client/gui-qt/menu.cpp:1130
 #: client/gui-sdl/mapctrl.c:2602 client/gui-sdl/menu.c:895
 #: client/gui-sdl/menu.c:1092 client/gui-xaw/menu.c:168
 msgid "Build City"
@@ -6960,13 +6962,13 @@ msgstr "Aŭtomata farmigo"
 msgid "Build Road"
 msgstr "Konstruu vojon"
 
-#: client/gui-qt/menu.cpp:730 client/gui-qt/menu.cpp:1074
+#: client/gui-qt/menu.cpp:730 client/gui-qt/menu.cpp:1092
 #: client/gui-sdl/menu.c:822 client/gui-sdl/menu.c:1174
 #: client/gui-xaw/menu.c:171
 msgid "Build Irrigation"
 msgstr "Preparu irigacion"
 
-#: client/gui-qt/menu.cpp:734 client/gui-qt/menu.cpp:1050
+#: client/gui-qt/menu.cpp:734 client/gui-qt/menu.cpp:1068
 #: client/gui-sdl/menu.c:808 client/gui-sdl/menu.c:1209
 #: client/gui-xaw/menu.c:174
 msgid "Build Mine"
@@ -6988,12 +6990,12 @@ msgstr "Kunligo/Fervojo"
 msgid "Connect With Irrigation"
 msgstr "Kunligi irigacion"
 
-#: client/gui-qt/menu.cpp:752 client/gui-qt/menu.cpp:1097
+#: client/gui-qt/menu.cpp:752 client/gui-qt/menu.cpp:1115
 #: client/gui-xaw/menu.c:176
 msgid "Transform Terrain"
 msgstr "Transformu grundon"
 
-#: client/gui-qt/menu.cpp:756 client/gui-qt/menu.cpp:1148
+#: client/gui-qt/menu.cpp:756 client/gui-qt/menu.cpp:1166
 #: client/gui-sdl/menu.c:747 client/gui-xaw/menu.c:180
 msgid "Clean Pollution"
 msgstr "Malpolui"
@@ -7032,23 +7034,23 @@ msgstr "Demografio"
 msgid "Spaceship"
 msgstr "Kosmoŝipo"
 
-#: client/gui-qt/menu.cpp:1045 client/gui-qt/menu.cpp:1064
-#: client/gui-qt/menu.cpp:1092
+#: client/gui-qt/menu.cpp:1063 client/gui-qt/menu.cpp:1082
+#: client/gui-qt/menu.cpp:1110
 #, fuzzy
 msgid "Transform to %1"
 msgstr "Transformu en %s"
 
-#: client/gui-qt/menu.cpp:1072 client/gui-xaw/menu.c:172
+#: client/gui-qt/menu.cpp:1090 client/gui-xaw/menu.c:172
 msgid "Build Farmland"
 msgstr "Konstruu farmaron"
 
-#: client/gui-qt/menu.cpp:1146 client/gui-sdl/menu.c:735
+#: client/gui-qt/menu.cpp:1164 client/gui-sdl/menu.c:735
 #: client/gui-xaw/menu.c:181
 #, fuzzy
 msgid "Drop Paratrooper"
 msgstr "Paraŝutistoj"
 
-#: client/gui-qt/menu.cpp:2013
+#: client/gui-qt/menu.cpp:2026
 #, fuzzy
 msgid "Save Games"
 msgstr "Konservu ludon"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-19 20:35+0000\n"
+"POT-Creation-Date: 2016-02-06 23:21+0000\n"
 "PO-Revision-Date: 2008-06-01 16:36+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
@@ -3427,7 +3427,8 @@ msgstr "İcat Etme"
 
 #: client/gui-gtk-2.0/editprop.c:4274 client/gui-gtk-2.0/gamedlgs.c:287
 #: client/gui-gtk-3.0/editprop.c:4298 client/gui-gtk-3.0/gamedlgs.c:297
-#: client/gui-qt/citydlg.cpp:1036 common/city.c:88 server/plrhand.c:282
+#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:94
+#: common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "Bilim"
 
@@ -3568,7 +3569,7 @@ msgid "Select tax, luxury and science rates"
 msgstr "Vergi, Lüks ve Bilim oranlarını seçin"
 
 #: client/gui-gtk-2.0/gamedlgs.c:247 client/gui-gtk-3.0/gamedlgs.c:247
-#: server/plrhand.c:278
+#: client/gui-qt/ratesdlg.cpp:71 server/plrhand.c:278
 msgid "Tax"
 msgstr "Vergi"
 
@@ -3583,7 +3584,8 @@ msgid "Lock"
 msgstr "Kilitle"
 
 #: client/gui-gtk-2.0/gamedlgs.c:267 client/gui-gtk-3.0/gamedlgs.c:272
-#: client/gui-qt/citydlg.cpp:1036 common/city.c:87 server/plrhand.c:280
+#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:117
+#: common/city.c:87 server/plrhand.c:280
 msgid "Luxury"
 msgstr "Lüks"
 
@@ -4104,7 +4106,7 @@ msgid "Better fog will only work in truecolor. Disabling it"
 msgstr "Daha iyi sis sadece gerçek renkte çalışır.  Kapatılıyor"
 
 #: client/gui-gtk-2.0/menu.c:115 client/gui-gtk-3.0/menu.c:115
-#: client/gui-qt/fc_client.cpp:692 client/gui-qt/menu.cpp:419
+#: client/gui-qt/fc_client.cpp:695 client/gui-qt/menu.cpp:419
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Yerel seçenekleri ayarla"
@@ -4116,7 +4118,7 @@ msgid "Game Settings"
 msgstr "Oyun Ayarları"
 
 #: client/gui-gtk-2.0/menu.c:207 client/gui-gtk-3.0/menu.c:207
-#: client/gui-qt/menu.cpp:2031
+#: client/gui-qt/menu.cpp:2044
 msgid "Leaving a local game will end it!"
 msgstr "Yerel bir oyundan çıkarsanız oyun bitecektir!"
 
@@ -4712,7 +4714,7 @@ msgstr "_Nükleer Serpintiyi Temizle"
 
 #: client/gui-gtk-2.0/menu.c:1670 client/gui-gtk-2.0/menu.c:2347
 #: client/gui-gtk-3.0/menu.c:1658 client/gui-gtk-3.0/menu.c:2333
-#: client/gui-qt/menu.cpp:1130
+#: client/gui-qt/menu.cpp:1148
 #, fuzzy
 msgid "Build Type A Base"
 msgstr "Hava Üssü Yap"
@@ -4780,7 +4782,7 @@ msgid "Help _Build Wonder"
 msgstr "Harika _Yapımına Yardım Et"
 
 #: client/gui-gtk-2.0/menu.c:2228 client/gui-gtk-3.0/menu.c:2214
-#: client/gui-qt/menu.cpp:1110 client/gui-sdl/menu.c:893
+#: client/gui-qt/menu.cpp:1128 client/gui-sdl/menu.c:893
 #: client/gui-sdl/menu.c:1090 client/gui-xaw/menu.c:169
 msgid "Add to City"
 msgstr "Şehre Ekle"
@@ -6399,49 +6401,49 @@ msgstr "Elçilik ver"
 msgid "Pacts"
 msgstr "Antlaşmalar"
 
-#: client/gui-qt/fc_client.cpp:134
+#: client/gui-qt/fc_client.cpp:135
 msgid "Welcome to Freeciv"
 msgstr "Freeciv'e Hoş Geldiniz"
 
-#: client/gui-qt/fc_client.cpp:204
+#: client/gui-qt/fc_client.cpp:207
 #, fuzzy
 msgid "This is Qt-client for Freeciv."
 msgstr "Freeciv'e Hoş Geldiniz"
 
-#: client/gui-qt/fc_client.cpp:482 client/gui-qt/pages.cpp:1465
+#: client/gui-qt/fc_client.cpp:485 client/gui-qt/pages.cpp:1465
 #, fuzzy
 msgid "Don't Observe"
 msgstr "İ_zleme"
 
-#: client/gui-qt/fc_client.cpp:485 client/gui-qt/pages.cpp:578
+#: client/gui-qt/fc_client.cpp:488 client/gui-qt/pages.cpp:578
 #: client/gui-qt/pages.cpp:1467 client/gui-qt/pages.cpp:1556
 #, fuzzy
 msgid "Observe"
 msgstr "İ_zle"
 
-#: client/gui-qt/fc_client.cpp:861
+#: client/gui-qt/fc_client.cpp:864
 #, fuzzy
 msgid ""
 "Number of Players\n"
 "(including AI):"
 msgstr "_Oyuncu Sayısı (YZ dahil):"
 
-#: client/gui-qt/fc_client.cpp:862
+#: client/gui-qt/fc_client.cpp:865
 #, fuzzy
 msgid "AI Skill Level:"
 msgstr "YZ Beceri _Derecesi:"
 
-#: client/gui-qt/fc_client.cpp:863
+#: client/gui-qt/fc_client.cpp:866
 #, fuzzy
 msgid "Ruleset Version:"
 msgstr "_Kural Seti Sürümü:"
 
-#: client/gui-qt/fc_client.cpp:886
+#: client/gui-qt/fc_client.cpp:889
 #, fuzzy
 msgid "More Game Options"
 msgstr "Diğ_er Oyun Ayarları..."
 
-#: client/gui-qt/fc_client.cpp:937
+#: client/gui-qt/fc_client.cpp:940
 #, fuzzy
 msgid "Set server options"
 msgstr "Sunucu tercihini ayarla."
@@ -6639,7 +6641,7 @@ msgstr "Seçenekleri Ş_imdi Kaydet"
 msgid "Save Options on Exit"
 msgstr "Çıkışta Aya_rları Kaydet"
 
-#: client/gui-qt/menu.cpp:438 client/gui-qt/menu.cpp:2016
+#: client/gui-qt/menu.cpp:438 client/gui-qt/menu.cpp:2029
 #, fuzzy
 msgid "Save Game As..."
 msgstr "Oyunu _Farklı Kaydet"
@@ -6829,7 +6831,7 @@ msgstr "_Bağlan"
 msgid "Disband"
 msgstr "Terhis et"
 
-#: client/gui-qt/menu.cpp:689 client/gui-qt/menu.cpp:1128
+#: client/gui-qt/menu.cpp:689 client/gui-qt/menu.cpp:1146
 #: client/gui-sdl/menu.c:771 client/gui-xaw/menu.c:184
 #, fuzzy
 msgid "Fortify Unit"
@@ -6856,7 +6858,7 @@ msgstr "Atom Bombasını patlat"
 msgid "Work"
 msgstr "İş _Listeleri"
 
-#: client/gui-qt/menu.cpp:713 client/gui-qt/menu.cpp:1112
+#: client/gui-qt/menu.cpp:713 client/gui-qt/menu.cpp:1130
 #: client/gui-sdl/mapctrl.c:2602 client/gui-sdl/menu.c:895
 #: client/gui-sdl/menu.c:1092 client/gui-xaw/menu.c:168
 msgid "Build City"
@@ -6876,13 +6878,13 @@ msgstr "Otomatik Göçmen"
 msgid "Build Road"
 msgstr "Yol Yap"
 
-#: client/gui-qt/menu.cpp:730 client/gui-qt/menu.cpp:1074
+#: client/gui-qt/menu.cpp:730 client/gui-qt/menu.cpp:1092
 #: client/gui-sdl/menu.c:822 client/gui-sdl/menu.c:1174
 #: client/gui-xaw/menu.c:171
 msgid "Build Irrigation"
 msgstr "Sulama yap"
 
-#: client/gui-qt/menu.cpp:734 client/gui-qt/menu.cpp:1050
+#: client/gui-qt/menu.cpp:734 client/gui-qt/menu.cpp:1068
 #: client/gui-sdl/menu.c:808 client/gui-sdl/menu.c:1209
 #: client/gui-xaw/menu.c:174
 msgid "Build Mine"
@@ -6904,12 +6906,12 @@ msgstr "Bağla/Demiryolu"
 msgid "Connect With Irrigation"
 msgstr "Sulamayla bağla"
 
-#: client/gui-qt/menu.cpp:752 client/gui-qt/menu.cpp:1097
+#: client/gui-qt/menu.cpp:752 client/gui-qt/menu.cpp:1115
 #: client/gui-xaw/menu.c:176
 msgid "Transform Terrain"
 msgstr "Araziyi Dönüştür"
 
-#: client/gui-qt/menu.cpp:756 client/gui-qt/menu.cpp:1148
+#: client/gui-qt/menu.cpp:756 client/gui-qt/menu.cpp:1166
 #: client/gui-sdl/menu.c:747 client/gui-xaw/menu.c:180
 msgid "Clean Pollution"
 msgstr "Kirliliği Temizle"
@@ -6948,23 +6950,23 @@ msgstr "İstatistikler"
 msgid "Spaceship"
 msgstr "Uzay gemisi"
 
-#: client/gui-qt/menu.cpp:1045 client/gui-qt/menu.cpp:1064
-#: client/gui-qt/menu.cpp:1092
+#: client/gui-qt/menu.cpp:1063 client/gui-qt/menu.cpp:1082
+#: client/gui-qt/menu.cpp:1110
 #, fuzzy
 msgid "Transform to %1"
 msgstr "%s dönüşümü"
 
-#: client/gui-qt/menu.cpp:1072 client/gui-xaw/menu.c:172
+#: client/gui-qt/menu.cpp:1090 client/gui-xaw/menu.c:172
 msgid "Build Farmland"
 msgstr "Tarla Yap"
 
-#: client/gui-qt/menu.cpp:1146 client/gui-sdl/menu.c:735
+#: client/gui-qt/menu.cpp:1164 client/gui-sdl/menu.c:735
 #: client/gui-xaw/menu.c:181
 #, fuzzy
 msgid "Drop Paratrooper"
 msgstr "Paraşütçü"
 
-#: client/gui-qt/menu.cpp:2013
+#: client/gui-qt/menu.cpp:2026
 #, fuzzy
 msgid "Save Games"
 msgstr "Oyunu Kaydet"

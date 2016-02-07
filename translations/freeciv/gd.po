@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-19 20:35+0000\n"
+"POT-Creation-Date: 2016-02-06 23:21+0000\n"
 "PO-Revision-Date: 2014-08-08 08:40+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
@@ -3583,7 +3583,8 @@ msgstr "Tionnsgnaidhean"
 
 #: client/gui-gtk-2.0/editprop.c:4274 client/gui-gtk-2.0/gamedlgs.c:287
 #: client/gui-gtk-3.0/editprop.c:4298 client/gui-gtk-3.0/gamedlgs.c:297
-#: client/gui-qt/citydlg.cpp:1036 common/city.c:88 server/plrhand.c:282
+#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:94
+#: common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "Saidheans"
 
@@ -3732,7 +3733,7 @@ msgid "Select tax, luxury and science rates"
 msgstr "Tagh reataichean cìse, sòghalachd is saidheans"
 
 #: client/gui-gtk-2.0/gamedlgs.c:247 client/gui-gtk-3.0/gamedlgs.c:247
-#: server/plrhand.c:278
+#: client/gui-qt/ratesdlg.cpp:71 server/plrhand.c:278
 msgid "Tax"
 msgstr "Cìsean"
 
@@ -3747,7 +3748,8 @@ msgid "Lock"
 msgstr "Glais"
 
 #: client/gui-gtk-2.0/gamedlgs.c:267 client/gui-gtk-3.0/gamedlgs.c:272
-#: client/gui-qt/citydlg.cpp:1036 common/city.c:87 server/plrhand.c:280
+#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:117
+#: common/city.c:87 server/plrhand.c:280
 msgid "Luxury"
 msgstr "Sòghalachd"
 
@@ -4261,7 +4263,7 @@ msgid "Better fog will only work in truecolor. Disabling it"
 msgstr "Chan obraich an ceò nas fhearr ach ann an truecolor. 'Ga chur à comas."
 
 #: client/gui-gtk-2.0/menu.c:115 client/gui-gtk-3.0/menu.c:115
-#: client/gui-qt/fc_client.cpp:692 client/gui-qt/menu.cpp:419
+#: client/gui-qt/fc_client.cpp:695 client/gui-qt/menu.cpp:419
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Suidhich na roghainnean ionadail"
@@ -4273,7 +4275,7 @@ msgid "Game Settings"
 msgstr "Roghainnean a' gheama"
 
 #: client/gui-gtk-2.0/menu.c:207 client/gui-gtk-3.0/menu.c:207
-#: client/gui-qt/menu.cpp:2031
+#: client/gui-qt/menu.cpp:2044
 msgid "Leaving a local game will end it!"
 msgstr "Ma dh'fhàgas tu geama ionadail, thig e gu crìoch!"
 
@@ -4815,7 +4817,7 @@ msgstr "Glan an sileadh _niùclasach"
 
 #: client/gui-gtk-2.0/menu.c:1670 client/gui-gtk-2.0/menu.c:2347
 #: client/gui-gtk-3.0/menu.c:1658 client/gui-gtk-3.0/menu.c:2333
-#: client/gui-qt/menu.cpp:1130
+#: client/gui-qt/menu.cpp:1148
 msgid "Build Type A Base"
 msgstr "Tog bunait dhen t-seòrsa A"
 
@@ -4877,7 +4879,7 @@ msgid "Help _Build Wonder"
 msgstr "Cuir taic ri togail na mìor_bhail"
 
 #: client/gui-gtk-2.0/menu.c:2228 client/gui-gtk-3.0/menu.c:2214
-#: client/gui-qt/menu.cpp:1110 client/gui-sdl/menu.c:893
+#: client/gui-qt/menu.cpp:1128 client/gui-sdl/menu.c:893
 #: client/gui-sdl/menu.c:1090 client/gui-xaw/menu.c:169
 msgid "Add to City"
 msgstr "Cuir ris a' bhaile"
@@ -6512,49 +6514,49 @@ msgstr "Thoir dhaibh ambasaid"
 msgid "Pacts"
 msgstr "Co-aontaidhean"
 
-#: client/gui-qt/fc_client.cpp:134
+#: client/gui-qt/fc_client.cpp:135
 #, fuzzy
 msgid "Welcome to Freeciv"
 msgstr "Mu Freeciv"
 
-#: client/gui-qt/fc_client.cpp:204
+#: client/gui-qt/fc_client.cpp:207
 msgid "This is Qt-client for Freeciv."
 msgstr "Seo an cliant Qt airson Freeciv."
 
-#: client/gui-qt/fc_client.cpp:482 client/gui-qt/pages.cpp:1465
+#: client/gui-qt/fc_client.cpp:485 client/gui-qt/pages.cpp:1465
 #, fuzzy
 msgid "Don't Observe"
 msgstr "Na _coimhead"
 
-#: client/gui-qt/fc_client.cpp:485 client/gui-qt/pages.cpp:578
+#: client/gui-qt/fc_client.cpp:488 client/gui-qt/pages.cpp:578
 #: client/gui-qt/pages.cpp:1467 client/gui-qt/pages.cpp:1556
 #, fuzzy
 msgid "Observe"
 msgstr "C_oimhead"
 
-#: client/gui-qt/fc_client.cpp:861
+#: client/gui-qt/fc_client.cpp:864
 #, fuzzy
 msgid ""
 "Number of Players\n"
 "(including AI):"
 msgstr "Àireamh de _chluicheadairean (a' gabhail a-steach na h-IF):"
 
-#: client/gui-qt/fc_client.cpp:862
+#: client/gui-qt/fc_client.cpp:865
 #, fuzzy
 msgid "AI Skill Level:"
 msgstr "_Leibheil sgilean na h-Intinne Fhuadain:"
 
-#: client/gui-qt/fc_client.cpp:863
+#: client/gui-qt/fc_client.cpp:866
 #, fuzzy
 msgid "Ruleset Version:"
 msgstr "_Seata nan riaghailtean:"
 
-#: client/gui-qt/fc_client.cpp:886
+#: client/gui-qt/fc_client.cpp:889
 #, fuzzy
 msgid "More Game Options"
 msgstr "_Barrachd roghainnean airson a' gheama..."
 
-#: client/gui-qt/fc_client.cpp:937
+#: client/gui-qt/fc_client.cpp:940
 #, fuzzy
 msgid "Set server options"
 msgstr "Suidhich roghainn an fhrithealaiche."
@@ -6772,7 +6774,7 @@ msgstr "Sàbhail _na roghainnean an-dràsta"
 msgid "Save Options on Exit"
 msgstr "Sàbhail na roghainn_ean nuair a dh'fhàgas tu"
 
-#: client/gui-qt/menu.cpp:438 client/gui-qt/menu.cpp:2016
+#: client/gui-qt/menu.cpp:438 client/gui-qt/menu.cpp:2029
 #, fuzzy
 msgid "Save Game As..."
 msgstr "Sàbhail _an geama mar..."
@@ -6957,7 +6959,7 @@ msgstr "Io_mpaich"
 msgid "Disband"
 msgstr "Leig mu sgaoil"
 
-#: client/gui-qt/menu.cpp:689 client/gui-qt/menu.cpp:1128
+#: client/gui-qt/menu.cpp:689 client/gui-qt/menu.cpp:1146
 #: client/gui-sdl/menu.c:771 client/gui-xaw/menu.c:184
 msgid "Fortify Unit"
 msgstr "Daingnich an t-aonad"
@@ -6983,7 +6985,7 @@ msgstr "Spreadh arm niùclasach"
 msgid "Work"
 msgstr "_Obair"
 
-#: client/gui-qt/menu.cpp:713 client/gui-qt/menu.cpp:1112
+#: client/gui-qt/menu.cpp:713 client/gui-qt/menu.cpp:1130
 #: client/gui-sdl/mapctrl.c:2602 client/gui-sdl/menu.c:895
 #: client/gui-sdl/menu.c:1092 client/gui-xaw/menu.c:168
 msgid "Build City"
@@ -7003,13 +7005,13 @@ msgstr "Fèin-tuiniche"
 msgid "Build Road"
 msgstr "Tog rathad"
 
-#: client/gui-qt/menu.cpp:730 client/gui-qt/menu.cpp:1074
+#: client/gui-qt/menu.cpp:730 client/gui-qt/menu.cpp:1092
 #: client/gui-sdl/menu.c:822 client/gui-sdl/menu.c:1174
 #: client/gui-xaw/menu.c:171
 msgid "Build Irrigation"
 msgstr "Tog uisgeachadh"
 
-#: client/gui-qt/menu.cpp:734 client/gui-qt/menu.cpp:1050
+#: client/gui-qt/menu.cpp:734 client/gui-qt/menu.cpp:1068
 #: client/gui-sdl/menu.c:808 client/gui-sdl/menu.c:1209
 #: client/gui-xaw/menu.c:174
 msgid "Build Mine"
@@ -7029,12 +7031,12 @@ msgstr "Dèan ceangal le rathad-iarainn"
 msgid "Connect With Irrigation"
 msgstr "Dèan ceangal le uisgeachadh"
 
-#: client/gui-qt/menu.cpp:752 client/gui-qt/menu.cpp:1097
+#: client/gui-qt/menu.cpp:752 client/gui-qt/menu.cpp:1115
 #: client/gui-xaw/menu.c:176
 msgid "Transform Terrain"
 msgstr "Cruth-atharraich an talamh"
 
-#: client/gui-qt/menu.cpp:756 client/gui-qt/menu.cpp:1148
+#: client/gui-qt/menu.cpp:756 client/gui-qt/menu.cpp:1166
 #: client/gui-sdl/menu.c:747 client/gui-xaw/menu.c:180
 msgid "Clean Pollution"
 msgstr "Glan an truailleadh"
@@ -7071,22 +7073,22 @@ msgstr "Eòlas-sluaigh"
 msgid "Spaceship"
 msgstr "Soitheach-fànais"
 
-#: client/gui-qt/menu.cpp:1045 client/gui-qt/menu.cpp:1064
-#: client/gui-qt/menu.cpp:1092
+#: client/gui-qt/menu.cpp:1063 client/gui-qt/menu.cpp:1082
+#: client/gui-qt/menu.cpp:1110
 #, fuzzy
 msgid "Transform to %1"
 msgstr "Cruth-atharraich 'na %s"
 
-#: client/gui-qt/menu.cpp:1072 client/gui-xaw/menu.c:172
+#: client/gui-qt/menu.cpp:1090 client/gui-xaw/menu.c:172
 msgid "Build Farmland"
 msgstr "Tog fearann"
 
-#: client/gui-qt/menu.cpp:1146 client/gui-sdl/menu.c:735
+#: client/gui-qt/menu.cpp:1164 client/gui-sdl/menu.c:735
 #: client/gui-xaw/menu.c:181
 msgid "Drop Paratrooper"
 msgstr "Leig às para-trùpair"
 
-#: client/gui-qt/menu.cpp:2013
+#: client/gui-qt/menu.cpp:2026
 #, fuzzy
 msgid "Save Games"
 msgstr "Sàbhail an geama"
