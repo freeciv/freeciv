@@ -866,7 +866,7 @@ static struct cityresult *settler_map_iterate(struct ai_type *ait,
 /**************************************************************************
   Find nearest and best city placement or (TODO) a city to immigrate to.
 
-  Option look_for_boat forces us to find a (real) boat before cosidering
+  Option look_for_boat forces us to find a (real) boat before considering
   going overseas.  Option use_virt_boat allows to use virtual boat but only
   if punit is in a coastal city right now (should only be used by 
   virtual units).  I guess it won't hurt to remove this condition, PF 
