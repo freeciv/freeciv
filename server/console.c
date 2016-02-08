@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
 #include <readline/readline.h>
 #endif
 
@@ -42,7 +42,7 @@
 static bool console_show_prompt = FALSE;
 static bool console_prompt_is_showing = FALSE;
 static bool console_rfcstyle = FALSE;
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
 static bool readline_received_enter = TRUE;
 #else
 static int con_dump(enum rfc_status rfc_status, const char *message, ...);
@@ -87,19 +87,20 @@ Print the prompt if it is not the last thing printed.
 ************************************************************************/
 static void con_update_prompt(void)
 {
-  if (console_prompt_is_showing || !console_show_prompt)
+  if (console_prompt_is_showing || !console_show_prompt) {
     return;
+  }
 
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
   if (readline_received_enter) {
     readline_received_enter = FALSE;
   } else {
     rl_forced_update_display();
   }
-#else  /* HAVE_LIBREADLINE */
+#else  /* FREECIV_HAVE_LIBREADLINE */
   con_dump(C_READY,"> ");
   con_flush();
-#endif /* HAVE_LIBREADLINE */
+#endif /* FREECIV_HAVE_LIBREADLINE */
 
   console_prompt_is_showing = TRUE;
 }
@@ -157,7 +158,7 @@ void con_log_close(void)
   log_close();
 }
 
-#ifndef HAVE_LIBREADLINE
+#ifndef FREECIV_HAVE_LIBREADLINE
 /************************************************************************
 Write to console without line-break, don't print prompt.
 ************************************************************************/
@@ -181,7 +182,7 @@ static int con_dump(enum rfc_status rfc_status, const char *message, ...)
   console_prompt_is_showing = FALSE;
   return (int) strlen(buf);
 }
-#endif /* HAVE_LIBREADLINE */
+#endif /* FREECIV_HAVE_LIBREADLINE */
 
 /************************************************************************
 Write to console and add line-break, and show prompt if required.
@@ -288,7 +289,7 @@ User pressed enter: will need a new prompt
 void con_prompt_enter(void)
 {
   console_prompt_is_showing = FALSE;
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
   readline_received_enter = TRUE;
 #endif
 }
@@ -299,7 +300,7 @@ Clear "user pressed enter" state (used in special cases).
 void con_prompt_enter_clear(void)
 {
   console_prompt_is_showing = TRUE;
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
   readline_received_enter = FALSE;
 #endif
 }
