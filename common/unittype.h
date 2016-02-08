@@ -489,7 +489,8 @@ struct unit_type {
   int happy_cost;  /* unhappy people in home city */
   int upkeep[O_LAST];
 
-  int paratroopers_range; /* only valid for F_PARATROOPERS */
+  /* Only valid for UTYF_PARATROOPERS */
+  int paratroopers_range;
   int paratroopers_mr_req;
   int paratroopers_mr_sub;
 
