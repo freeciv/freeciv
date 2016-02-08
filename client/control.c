@@ -994,7 +994,7 @@ void action_decision_taken(const int old_actor_id)
 {
   struct unit *old;
 
-  /* There is a risk of a loop unkess the old unit is done. */
+  /* There is a risk of a loop unless the old unit is done. */
   fc_assert(!(old = game_unit_by_number(old_actor_id))
             || old->action_decision_want == ACT_DEC_NOTHING);
 
