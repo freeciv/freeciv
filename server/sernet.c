@@ -41,7 +41,7 @@
 #ifdef HAVE_PWD_H
 #include <pwd.h>
 #endif
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
 #include <readline/history.h>
 #include <readline/readline.h>
 #endif
@@ -143,8 +143,8 @@ static bool no_input = FALSE;
 
 /* Avoid compiler warning about defined, but unused function
  * by defining it only when needed */
-#if defined(HAVE_LIBREADLINE) || \
-    (!defined(SOCKET_ZERO_ISNT_STDIN) && !defined(HAVE_LIBREADLINE))  
+#if defined(FREECIV_HAVE_LIBREADLINE) || \
+    (!defined(SOCKET_ZERO_ISNT_STDIN) && !defined(FREECIV_HAVE_LIBREADLINE))  
 /*****************************************************************************
   This happens if you type an EOF character with nothing on the current line.
 *****************************************************************************/
@@ -159,9 +159,9 @@ static void handle_stdin_close(void)
 #endif /* SOCKET_ZERO_ISNT_STDIN */
 }
 
-#endif /* HAVE_LIBREADLINE || (!SOCKET_ZERO_ISNT_STDIN && !HAVE_LIBREADLINE) */
+#endif /* FREECIV_HAVE_LIBREADLINE || (!SOCKET_ZERO_ISNT_STDIN && !FREECIV_HAVE_LIBREADLINE) */
 
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
 /****************************************************************************/
 
 #define HISTORY_FILENAME  "freeciv-server_history"
@@ -199,7 +199,7 @@ static void handle_readline_input_callback(char *line)
 
   readline_handled_input = TRUE;
 }
-#endif /* HAVE_LIBREADLINE */
+#endif /* FREECIV_HAVE_LIBREADLINE */
 
 /****************************************************************************
   Close the connection (very low-level). See also
@@ -262,7 +262,7 @@ void close_connections_and_socket(void)
     fc_closesocket(socklan);
   }
 
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
   if (history_file) {
     write_history(history_file);
     history_truncate_file(history_file, HISTORY_LENGTH);
@@ -270,7 +270,7 @@ void close_connections_and_socket(void)
     history_file = NULL;
     clear_history();
   }
-#endif
+#endif /* FREECIV_HAVE_LIBREADLINE */
 
   send_server_info_to_metaserver(META_GOODBYE);
   server_close_meta();
@@ -508,7 +508,7 @@ enum server_events server_sniff_all_input(void)
 
   con_prompt_init();
 
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
   {
     if (!no_input && !readline_initialized) {
       char *storage_dir = freeciv_storage_dir();
@@ -544,7 +544,7 @@ enum server_events server_sniff_all_input(void)
       atexit(rl_callback_handler_remove);
     }
   }
-#endif /* HAVE_LIBREADLINE */
+#endif /* FREECIV_HAVE_LIBREADLINE */
 
   while (TRUE) {
     con_prompt_on();		/* accepting new input */
@@ -798,14 +798,14 @@ enum server_events server_sniff_all_input(void)
     }
 #else  /* !SOCKET_ZERO_ISNT_STDIN */
     if (!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
       rl_callback_read_char();
       if (readline_handled_input) {
         readline_handled_input = FALSE;
         con_prompt_enter_clear();
       }
       continue;
-#else  /* !HAVE_LIBREADLINE */
+#else  /* !FREECIV_HAVE_LIBREADLINE */
       ssize_t didget;
       char *buffer = NULL; /* Must be NULL when calling getline() */
       char *buf_internal;
@@ -842,7 +842,7 @@ enum server_events server_sniff_all_input(void)
         free(buf_internal);
       }
       free(buffer);
-#endif /* !HAVE_LIBREADLINE */
+#endif /* !FREECIV_HAVE_LIBREADLINE */
     } else
 #endif /* !SOCKET_ZERO_ISNT_STDIN */
 

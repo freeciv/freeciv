@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
 #include <readline/readline.h>
 #endif
 
@@ -1536,7 +1536,7 @@ static const char *optname_accessor(int i)
   return setting_name(setting_by_number(i));
 }
 
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
 /**************************************************************************
   Returns possible parameters for the /show command.
 **************************************************************************/
@@ -1550,7 +1550,7 @@ static const char *olvlname_accessor(int i)
     return optname_accessor(i-OLEVELS_NUM-1);
   }
 }
-#endif /* HAVE_LIBREADLINE */
+#endif /* FREECIV_HAVE_LIBREADLINE */
 
 /**************************************************************************
   Set timeout options.
@@ -6531,7 +6531,7 @@ static bool show_list(struct connection *caller, char *arg)
   return FALSE;
 }
 
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
 /********************* RL completion functions ***************************/
 /* To properly complete both commands, player names, options and filenames
    there is one array per type of completion with the commands that
@@ -7243,4 +7243,4 @@ char **freeciv_completion(const char *text, int start, int end)
   return (matches);
 }
 
-#endif /* HAVE_LIBREADLINE */
+#endif /* FREECIV_HAVE_LIBREADLINE */

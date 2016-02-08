@@ -33,7 +33,7 @@
 #define LUA_USE_GMTIME_R
 #endif
 
-#ifdef HAVE_LIBREADLINE
+#ifdef FREECIV_HAVE_LIBREADLINE
 #define LUA_USE_READLINE
 #endif
 

@@ -80,6 +80,9 @@
 /* Have standard compliant stdbool.h */
 #undef FREECIV_HAVE_STDBOOL_H
 
+/* Readline support */
+#undef FREECIV_HAVE_LIBREADLINE
+
 /* Have socklen_t type defined */
 #undef FREECIV_HAVE_SOCKLEN_T
 
