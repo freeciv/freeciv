@@ -382,8 +382,9 @@ void go_act_menu::create()
       }
 
       if (action_requires_details(action_id)) {
-        /* The order system doesn't support actions that requires the
-         * player to specify details. */
+        /* This menu doesn't support specifying a detailed target (think
+         * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
+         * action order. */
         continue;
       }
 
