@@ -251,6 +251,8 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;                         (whole movement points)
+;  "Bombarder"
+;   bombard_rate = the number of shots fired at enemy units when attacking
 ;
 ; ** Roles **
 ;
