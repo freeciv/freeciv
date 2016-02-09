@@ -218,26 +218,6 @@ struct terrain *rand_terrain_by_flag(enum terrain_flag_id flag)
 }
 
 /****************************************************************************
-  Fill terrain with flag to buffer. Returns number of terrains found.
-  Return value can be greater than size of buffer.
-****************************************************************************/
-int terrains_by_flag(enum terrain_flag_id flag, struct terrain **buffer, int bufsize)
-{
-  int num = 0;
-
-  terrain_type_iterate(pterr) {
-    if (terrain_has_flag(pterr, flag)) {
-      if (num < bufsize) {
-        buffer[num] = pterr;
-      }
-      num++;
-    }
-  } terrain_type_iterate_end;
-
-  return num;
-}
-
-/****************************************************************************
   Return the (translated) name of the terrain.
   You don't have to free the return pointer.
 ****************************************************************************/

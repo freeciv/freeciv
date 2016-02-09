@@ -1469,8 +1469,8 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     /* Continent numbers must be assigned before regenerate_lakes() */
     assign_continent_numbers();
 
-    /* Make second pass on water. */
-    regenerate_lakes(NULL);
+    /* Turn small oceans into lakes. */
+    regenerate_lakes();
   } else {
     assign_continent_numbers();
   }

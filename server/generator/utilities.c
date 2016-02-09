@@ -337,52 +337,56 @@ static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
 }
 
 /**************************************************************************
-  Regenerate all oceanic tiles with coasts, lakes, and deeper oceans.
+  Regenerate all oceanic tiles for small water bodies as lakes.
   Assumes assign_continent_numbers() and recalculate_lake_surrounders()
   have already been done!
   FIXME: insufficiently generalized, use terrain property.
-  FIXME: Results differ from initially generated waters, but this is not
-         used at all in normal map generation.
 **************************************************************************/
-void regenerate_lakes(tile_knowledge_cb knowledge_cb)
+void regenerate_lakes(void)
 {
-#define MAX_ALT_TER_TYPES 5
-#define DEFAULT_NEAR_COAST (6)
-  struct terrain *lakes[MAX_ALT_TER_TYPES];
-  int num_laketypes;
+  struct terrain *lake_for_ocean[game.map.num_oceans];
 
-  num_laketypes = terrains_by_flag(TER_FRESHWATER, lakes, sizeof(lakes));
-  if (num_laketypes > MAX_ALT_TER_TYPES) {
-    log_verbose("Number of lake types in ruleset %d, considering "
-                "only %d ones.", num_laketypes, MAX_ALT_TER_TYPES);
-    num_laketypes = MAX_ALT_TER_TYPES;
+  {
+    struct terrain *lakes[5];
+    int num_laketypes = 0, i;
+
+    terrain_type_iterate(pterr) {
+      if (terrain_has_flag(pterr, TER_FRESHWATER)
+          && !terrain_has_flag(pterr, TER_NOT_GENERATED)) {
+        if (num_laketypes < ARRAY_SIZE(lakes)) {
+          lakes[num_laketypes++] = pterr;
+        } else {
+          log_verbose("Ruleset has more than %d lake types, ignoring %s",
+                      (int) ARRAY_SIZE(lakes), terrain_rule_name(pterr));
+        }
+      }
+    } terrain_type_iterate_end;
+
+    if (num_laketypes == 0) {
+      /* No lake terrains usable by map generator, so nothing to do */
+      return;
+    }
+    for (i = 0; i < game.map.num_oceans; i++) {
+      lake_for_ocean[i] = lakes[fc_rand(num_laketypes)];
+    }
   }
 
-#undef MAX_ALT_TER_TYPES
+  whole_map_iterate(ptile) {
+    struct terrain *pterrain = tile_terrain(ptile);
+    Continent_id here = tile_continent(ptile);
 
-  if (num_laketypes > 0) {
-    /* Lakes */
-    whole_map_iterate(ptile) {
-      struct terrain *pterrain = tile_terrain(ptile);
-      Continent_id here = tile_continent(ptile);
-
-      if (T_UNKNOWN == pterrain) {
-        continue;
+    if (T_UNKNOWN == pterrain) {
+      continue;
+    }
+    if (terrain_type_terrain_class(pterrain) != TC_OCEAN) {
+      continue;
+    }
+    if (0 < lake_surrounders[-here]) {
+      if (terrain_control.lake_max_size >= ocean_sizes[-here]) {
+        tile_change_terrain(ptile, lake_for_ocean[-here-1]);
       }
-      if (terrain_type_terrain_class(pterrain) != TC_OCEAN) {
-        continue;
-      }
-      if (0 < lake_surrounders[-here]) {
-        if (terrain_control.lake_max_size >= ocean_sizes[-here]) {
-          tile_change_terrain(ptile, lakes[fc_rand(num_laketypes)]);
-        }
-        if (knowledge_cb) {
-          knowledge_cb(ptile);
-        }
-        continue;
-      }
-    } whole_map_iterate_end;
-  }
+    }
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************

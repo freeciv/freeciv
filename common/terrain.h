@@ -257,8 +257,6 @@ const char *terrain_name_translation(const struct terrain *pterrain);
 /* Functions to operate on a terrain flag. */
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
 
-int terrains_by_flag(enum terrain_flag_id flag, struct terrain **buffer, int bufsize);
-
 bool is_terrain_flag_card_near(const struct tile *ptile,
 			       enum terrain_flag_id flag);
 bool is_terrain_flag_near_tile(const struct tile *ptile,
