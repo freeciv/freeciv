@@ -2211,10 +2211,10 @@ void add_specialist_output(const struct city *pcity, int *output)
   specialist_type_iterate(sp) {
     int count = pcity->specialists[sp];
 
-    output_type_iterate(stat) {
-      int amount = get_specialist_output(pcity, sp, stat);
+    output_type_iterate(stat_index) {
+      int amount = get_specialist_output(pcity, sp, stat_index);
 
-      output[stat] += count * amount;
+      output[stat_index] += count * amount;
     } output_type_iterate_end;
   } specialist_type_iterate_end;
 }

@@ -67,7 +67,7 @@
   Create a module table and set the member lookup function.
 *****************************************************************************/
 static void api_specenum_create_table(lua_State *L, const char *name,
-                                      lua_CFunction index)
+                                      lua_CFunction findex)
 {
   /* Insert a module table in the global environment,
    * or reuse any preexisting table */
@@ -81,7 +81,7 @@ static void api_specenum_create_table(lua_State *L, const char *name,
   /* Create a metatable */
   lua_newtable(L);                /* stack: module mt */
   lua_pushliteral(L, "__index");
-  lua_pushcfunction(L, index);    /* stack: module mt '__index' index */
+  lua_pushcfunction(L, findex);    /* stack: module mt '__index' index */
   lua_rawset(L, -3);              /* stack: module mt */
   lua_setmetatable(L, -2);        /* stack: module */
   lua_pop(L, 1);

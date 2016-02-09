@@ -125,7 +125,7 @@ FILE *fc_fopen(const char *filename, const char *opentype);
 #include <zlib.h>
 gzFile fc_gzopen(const char *filename, const char *opentype);
 #endif
-DIR *fc_opendir(const char *dirname);
+DIR *fc_opendir(const char *dir_to_open);
 int fc_remove(const char *filename);
 int fc_stat(const char *filename, struct stat *buf);
 

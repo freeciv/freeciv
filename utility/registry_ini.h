@@ -394,7 +394,7 @@ bool secfile_entry_delete(struct section_file *secfile,
 
 /* Lookup functions. */
 struct entry *secfile_entry_by_path(const struct section_file *secfile,
-                                    const char *entry_path);
+                                    const char *path);
 struct entry *secfile_entry_lookup(const struct section_file *secfile,
                                    const char *path, ...)
                                    fc__attribute((__format__ (__printf__, 2, 3)));

@@ -347,12 +347,12 @@ void luascript_signal_free(struct fc_lua *fcl)
 /*****************************************************************************
   Return the name of the signal with the given index.
 *****************************************************************************/
-const char *luascript_signal_by_index(struct fc_lua *fcl, int index)
+const char *luascript_signal_by_index(struct fc_lua *fcl, int sindex)
 {
   fc_assert_ret_val(fcl != NULL, NULL);
   fc_assert_ret_val(fcl->signal_names != NULL, NULL);
 
-  return luascript_signal_name_list_get(fcl->signal_names, index);
+  return luascript_signal_name_list_get(fcl->signal_names, sindex);
 }
 
 /*****************************************************************************
@@ -361,7 +361,7 @@ const char *luascript_signal_by_index(struct fc_lua *fcl, int index)
 *****************************************************************************/
 const char *luascript_signal_callback_by_index(struct fc_lua *fcl,
                                                const char *signal_name,
-                                               int index)
+                                               int sindex)
 {
   struct signal *psignal;
 
@@ -370,7 +370,7 @@ const char *luascript_signal_callback_by_index(struct fc_lua *fcl,
 
   if (luascript_signal_hash_lookup(fcl->signals, signal_name, &psignal)) {
     struct signal_callback *pcallback
-      = signal_callback_list_get(psignal->callbacks, index);
+      = signal_callback_list_get(psignal->callbacks, sindex);
     if (pcallback) {
       return pcallback->name;
     }

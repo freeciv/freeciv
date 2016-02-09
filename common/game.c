@@ -711,21 +711,21 @@ const char *population_to_text(int thousand_citizen)
 static char *year_suffix(void)
 {
   static char buf[MAX_LEN_NAME];
-  const char *year_suffix;
+  const char *suffix;
   char safe_year_suffix[MAX_LEN_NAME];
   const char *max = safe_year_suffix + MAX_LEN_NAME - 1;
   char *c = safe_year_suffix;
 
   if (game.info.year < 0) {
-    year_suffix = game.info.negative_year_label;
+    suffix = game.info.negative_year_label;
   } else {
-    year_suffix = game.info.positive_year_label;
+    suffix = game.info.positive_year_label;
   }
 
   /* Remove all non alphanumeric characters from the year suffix. */
-  for (; '\0' != *year_suffix && c < max; year_suffix++) {
-    if (fc_isalnum(*year_suffix)) {
-      *c++ = *year_suffix;
+  for (; '\0' != *suffix && c < max; suffix++) {
+    if (fc_isalnum(*suffix)) {
+      *c++ = *suffix;
     }
   }
   *c = '\0';

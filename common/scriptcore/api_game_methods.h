@@ -131,9 +131,9 @@ bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name);
 int api_methods_tile_num_units(lua_State *L, Tile *ptile);
 int api_methods_tile_sq_distance(lua_State *L, Tile *ptile1, Tile *ptile2);
 int api_methods_private_tile_next_outward_index(lua_State *L, Tile *pstart,
-                                                int index, int max_dist);
+                                                int tindex, int max_dist);
 Tile *api_methods_private_tile_for_outward_index(lua_State *L, Tile *pstart,
-                                                 int index);
+                                                 int tindex);
 Unit_List_Link *api_methods_private_tile_unit_list_head(lua_State *L,
                                                         Tile *ptile);
 

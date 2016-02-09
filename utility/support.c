@@ -467,17 +467,17 @@ gzFile fc_gzopen(const char *filename, const char *opentype)
   Wrapper function for opendir() with filename conversion to local
   encoding on Windows.
 ******************************************************************/
-DIR *fc_opendir(const char *dirname)
+DIR *fc_opendir(const char *dir_to_open)
 {
 #ifdef WIN32_NATIVE
 	DIR *result;
 	char *dirname_in_local_encoding =
-	     internal_to_local_string_malloc(dirname);
+	     internal_to_local_string_malloc(dir_to_open);
 	result = opendir(dirname_in_local_encoding);
 	free(dirname_in_local_encoding);
 	return result;
 #else  /* WIN32_NATIVE */
-	return opendir(dirname);
+	return opendir(dir_to_open);
 #endif /* WIN32_NATIVE */
 }
 

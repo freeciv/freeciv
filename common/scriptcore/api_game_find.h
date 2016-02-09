@@ -33,7 +33,7 @@ Unit *api_find_unit(lua_State *L, Player *pplayer, int unit_id);
 Unit *api_find_transport_unit(lua_State *L, Player *pplayer, Unit_Type *ptype,
                               Tile *ptile);
 Tile *api_find_tile(lua_State *L, int nat_x, int nat_y);
-Tile *api_find_tile_by_index(lua_State *L, int index);
+Tile *api_find_tile_by_index(lua_State *L, int tindex);
 
 Government *api_find_government(lua_State *L, int government_id);
 Government *api_find_government_by_name(lua_State *L, const char *name_orig);

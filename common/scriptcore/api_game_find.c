@@ -124,11 +124,11 @@ Tile *api_find_tile(lua_State *L, int nat_x, int nat_y)
 /*****************************************************************************
   Return the tile at the given index.
 *****************************************************************************/
-Tile *api_find_tile_by_index(lua_State *L, int index)
+Tile *api_find_tile_by_index(lua_State *L, int tindex)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
 
-  return index_to_tile(index);
+  return index_to_tile(tindex);
 }
 
 /*****************************************************************************

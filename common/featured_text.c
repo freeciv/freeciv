@@ -170,46 +170,46 @@ static const char *text_link_type_name(enum text_link_type type)
   Find inside a sequence the string associated to a particular option name.
   Returns TRUE on success.
 **************************************************************************/
-static bool find_option(const char *read, const char *option,
-                        char *write, size_t write_len)
+static bool find_option(const char *buf_in, const char *option,
+                        char *buf_out, size_t write_len)
 {
   size_t option_len = strlen(option);
 
-  while (*read != '\0') {
-    while (fc_isspace(*read) && *read != '\0') {
-      read++;
+  while (*buf_in != '\0') {
+    while (fc_isspace(*buf_in) && *buf_in != '\0') {
+      buf_in++;
     }
 
-    if (0 == strncasecmp(read, option, option_len)) {
+    if (0 == strncasecmp(buf_in, option, option_len)) {
       /* This is this one. */
-      read += option_len;
+      buf_in += option_len;
 
-      while ((fc_isspace(*read) || *read == '=') && *read != '\0') {
-        read++;
+      while ((fc_isspace(*buf_in) || *buf_in == '=') && *buf_in != '\0') {
+        buf_in++;
       }
-      if (*read == '"') {
+      if (*buf_in == '"') {
         /* Quote case. */
-        const char *end = strchr(++read, '"');
+        const char *end = strchr(++buf_in, '"');
 
         if (!end) {
           return FALSE;
         }
-        if (end - read + 1 > 0) {
-          fc_strlcpy(write, read, MIN(end - read + 1, write_len));
+        if (end - buf_in + 1 > 0) {
+          fc_strlcpy(buf_out, buf_in, MIN(end - buf_in + 1, write_len));
         } else {
-          *write = '\0';
+          *buf_out = '\0';
         }
         return TRUE;
       } else {
-        while (fc_isalnum(*read) && write_len > 1) {
-          *write++ = *read++;
+        while (fc_isalnum(*buf_in) && write_len > 1) {
+          *buf_out++ = *buf_in++;
           write_len--;
         }
-        *write = '\0';
+        *buf_out = '\0';
         return TRUE;
       }
     }
-    read++;
+    buf_in++;
   }
 
   return FALSE;
@@ -770,8 +770,8 @@ static size_t extract_sequence_text(const char *featured_text,
                                     enum sequence_type *seq_type,
                                     enum text_tag_type *type)
 {
-  const char *read = featured_text;
-  const char *stop = strchr(read, SEQ_STOP);
+  const char *buf_in = featured_text;
+  const char *stop = strchr(buf_in, SEQ_STOP);
   const char *end = stop;
   const char *name;
   size_t type_len;
@@ -783,11 +783,11 @@ static size_t extract_sequence_text(const char *featured_text,
   }
 
   /* Check sequence type. */
-  for (read++; fc_isspace(*read); read++);
+  for (buf_in++; fc_isspace(*buf_in); buf_in++);
 
-  if (*read == SEQ_END) {
+  if (*buf_in == SEQ_END) {
     *seq_type = ST_STOP;
-    read++;
+    buf_in++;
   } else {
     for (end--; fc_isspace(*end); end--);
 
@@ -800,23 +800,23 @@ static size_t extract_sequence_text(const char *featured_text,
     }
   }
 
-  while (fc_isspace(*read)) {
-    read++;
+  while (fc_isspace(*buf_in)) {
+    buf_in++;
   }
 
   /* Check the length of the type name. */
-  for (name = read; name < stop; name++) {
+  for (name = buf_in; name < stop; name++) {
     if (!fc_isalpha(*name)) {
       break;
     }
   }
-  type_len = name - read;
+  type_len = name - buf_in;
 
   *type = -1;
   for (i = 0; (name = text_tag_type_name(i)); i++) {
     name_len = strlen(name);
-    if (name_len == type_len && 0 == fc_strncasecmp(name, read, name_len)) {
-      read += name_len;
+    if (name_len == type_len && 0 == fc_strncasecmp(name, buf_in, name_len)) {
+      buf_in += name_len;
       *type = i;
       break;
     }
@@ -826,8 +826,8 @@ static size_t extract_sequence_text(const char *featured_text,
     for (i = 0; (name = text_tag_type_short_name(i)); i++) {
       name_len = strlen(name);
       if (name_len == type_len
-          && 0 == fc_strncasecmp(name, read, name_len)) {
-        read += name_len;
+          && 0 == fc_strncasecmp(name, buf_in, name_len)) {
+        buf_in += name_len;
         *type = i;
         break;
       }
@@ -837,12 +837,12 @@ static size_t extract_sequence_text(const char *featured_text,
     }
   }
 
-  while (fc_isspace(*read)) {
-    read++;
+  while (fc_isspace(*buf_in)) {
+    buf_in++;
   }
 
-  if (end - read + 2 > 0) {
-    fc_strlcpy(buf, read, MIN(end - read + 2, len));
+  if (end - buf_in + 2 > 0) {
+    fc_strlcpy(buf, buf_in, MIN(end - buf_in + 2, len));
   } else {
     buf[0] = '\0';
   }

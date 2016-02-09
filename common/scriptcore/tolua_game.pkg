@@ -289,10 +289,10 @@ $]
 module methods_private {
   module Tile {
     int api_methods_private_tile_next_outward_index
-      @ next_outward_index (lua_State *L, Tile *pcenter, int index,
+      @ next_outward_index (lua_State *L, Tile *pcenter, int tindex,
                             int max_dist);
     Tile *api_methods_private_tile_for_outward_index
-      @ tile_for_outward_index (lua_State *L, Tile *pcenter, int index);
+      @ tile_for_outward_index (lua_State *L, Tile *pcenter, int tindex);
     Unit_List_Link *api_methods_private_tile_unit_list_head
       @ unit_list_head (lua_State *L, Tile *self);
   }
@@ -436,7 +436,7 @@ module find {
   Tile *api_find_tile
     @ tile (lua_State *L, int nat_x, int nat_y);
   Tile *api_find_tile_by_index
-    @ tile (lua_State *L, int index);
+    @ tile (lua_State *L, int tindex);
 
   /* NOTE: For overloading to work correctly, the string function
    * must be before the integer function for each case below. */

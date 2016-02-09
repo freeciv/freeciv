@@ -338,7 +338,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
   const char *tok;
   int i;
   struct astring base_name = ASTRING_INIT;    /* for table or single entry */
-  struct astring entry_name = ASTRING_INIT;
+  struct astring field_name = ASTRING_INIT;
   struct astring_vector columns;    /* astrings for column headings */
   bool found_my_section = FALSE;
   bool error = FALSE;
@@ -444,14 +444,14 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         }
 
         if (i < num_columns) {
-          astr_set(&entry_name, "%s%d.%s", astr_str(&base_name),
+          astr_set(&field_name, "%s%d.%s", astr_str(&base_name),
                    table_lineno, astr_str(&columns.p[i]));
         } else {
-          astr_set(&entry_name, "%s%d.%s,%d", astr_str(&base_name),
+          astr_set(&field_name, "%s%d.%s,%d", astr_str(&base_name),
                    table_lineno, astr_str(&columns.p[num_columns - 1]),
                    (int) (i - num_columns + 1));
         }
-        entry_from_inf_token(psection, astr_str(&entry_name), tok, inf);
+        entry_from_inf_token(psection, astr_str(&field_name), tok, inf);
       } while (inf_token(inf, INF_TOK_COMMA));
 
       if (!inf_token(inf, INF_TOK_EOL)) {
@@ -532,8 +532,8 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
       if (i == 0) {
         entry_from_inf_token(psection, astr_str(&base_name), tok, inf);
       } else {
-        astr_set(&entry_name, "%s,%d", astr_str(&base_name), i);
-        entry_from_inf_token(psection, astr_str(&entry_name), tok, inf);
+        astr_set(&field_name, "%s,%d", astr_str(&base_name), i);
+        entry_from_inf_token(psection, astr_str(&field_name), tok, inf);
       }
     } while (inf_token(inf, INF_TOK_COMMA));
     if (!inf_token(inf, INF_TOK_EOL)) {
@@ -553,7 +553,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
 END:
   inf_close(inf);
   astr_free(&base_name);
-  astr_free(&entry_name);
+  astr_free(&field_name);
   for (i = 0; i < astring_vector_size(&columns); i++) {
     astr_free(&columns.p[i]);
   }
@@ -1693,7 +1693,7 @@ size_t secfile_insert_enum_vec_data_full(struct section_file *secfile,
   Returns the entry by the name or NULL if not matched.
 ****************************************************************************/
 struct entry *secfile_entry_by_path(const struct section_file *secfile,
-                                    const char *entry_path)
+                                    const char *path)
 {
   char fullpath[MAX_LEN_SECPATH];
   char *ent_name;
@@ -1702,7 +1702,7 @@ struct entry *secfile_entry_by_path(const struct section_file *secfile,
 
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
 
-  sz_strlcpy(fullpath, entry_path);
+  sz_strlcpy(fullpath, path);
 
   /* treat "sec.foo,0" as "sec.foo": */
   len = strlen(fullpath);
