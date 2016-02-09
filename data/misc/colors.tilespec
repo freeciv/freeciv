@@ -75,6 +75,10 @@ overview_ocean = {"r", "g", "b"
 overview_ground = {"r", "g", "b"
     0,   200,   0
 }
+overview_frozen = {"r", "g", "b"
+; Generic frozen/polar terrain, not specifically Glacier/Arctic
+  192,   192, 192
+}
 overview_viewrect = {"r", "g", "b"
     255, 255, 255
 }

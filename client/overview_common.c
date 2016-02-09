@@ -164,10 +164,14 @@ static struct color *overview_tile_color(struct tile *ptile)
   }
   if (gui_options.overview.layers[OLAYER_BACKGROUND]
       && tile_terrain(ptile) != T_UNKNOWN) {
-    if (is_ocean_tile(ptile)) {
-      return get_color(tileset, COLOR_OVERVIEW_OCEAN);
+    if (terrain_has_flag(tile_terrain(ptile), TER_FROZEN)) {
+      return get_color(tileset, COLOR_OVERVIEW_FROZEN);
     } else {
-      return get_color(tileset, COLOR_OVERVIEW_LAND);
+      if (is_ocean_tile(ptile)) {
+        return get_color(tileset, COLOR_OVERVIEW_OCEAN);
+      } else {
+        return get_color(tileset, COLOR_OVERVIEW_LAND);
+      }
     }
   }
 
