@@ -245,6 +245,8 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;                         (whole movement points)
+;  "Bombarder"
+;   bombard_rate = the number of shots fired at enemy units when attacking
 
 ; Civ1 does not have initial explorers, but we want to do something
 ; sensible if the explorer server option is set non-zero.
