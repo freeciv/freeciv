@@ -249,6 +249,9 @@ bool chatwdg::eventFilter(QObject *obj, QEvent *event)
         return true;
       }
     }
+    if (event->type() == QEvent::ShortcutOverride) {
+      event->setAccepted(true);
+    }
   }
   return QObject::eventFilter(obj, event);
 }
