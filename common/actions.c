@@ -674,6 +674,15 @@ action_enablers_for_action(enum gen_action action)
 }
 
 /**************************************************************************
+  Returns TRUE iff the specified player can see the specified tile.
+**************************************************************************/
+static bool plr_sees_tile(const struct player *plr,
+                          const struct tile *ttile)
+{
+  return plr && ttile && (tile_get_known(ttile, plr) == TILE_KNOWN_SEEN);
+}
+
+/**************************************************************************
   Returns the local building type of a city target.
 
   target_city can't be NULL
@@ -1087,9 +1096,7 @@ is_action_possible(const enum gen_action wanted_action,
    * or if the evaluator is omniscient. The game checking the rules is
    * omniscient. The player asking about his odds isn't. */
   can_see_tgt_tile = (omniscient
-                      || (target_tile
-                          && (tile_get_known(target_tile, actor_player)
-                              == TILE_KNOWN_SEEN)));
+                      || plr_sees_tile(actor_player, target_tile));
 
   if (!action_actor_utype_hard_reqs_ok(wanted_action, actor_unittype)) {
     /* Info leak: The actor player knows the type of his unit. */
