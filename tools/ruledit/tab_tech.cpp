@@ -21,6 +21,7 @@
 #include <QListWidget>
 #include <QMenu>
 #include <QPushButton>
+#include <QRadioButton>
 #include <QToolButton>
 
 // utility
@@ -59,21 +60,24 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
 
   tech_layout->setSizeConstraint(QLayout::SetMaximumSize);
 
-  label = new QLabel(QString::fromUtf8(R__("Name")));
-  label->setParent(this);
-  name = new QLineEdit(this);
-  name->setText("None");
-  connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  tech_layout->addWidget(label, 0, 0);
-  tech_layout->addWidget(name, 0, 1);
-
   label = new QLabel(QString::fromUtf8(R__("Rule Name")));
   label->setParent(this);
   rname = new QLineEdit(this);
   rname->setText("None");
   connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
+  tech_layout->addWidget(label, 0, 0);
+  tech_layout->addWidget(rname, 0, 2);
+
+  label = new QLabel(QString::fromUtf8(R__("Name")));
+  label->setParent(this);
+  same_name = new QRadioButton();
+  connect(same_name, SIGNAL(toggled(bool)), this, SLOT(same_name_toggle(bool)));
+  name = new QLineEdit(this);
+  name->setText("None");
+  connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
   tech_layout->addWidget(label, 1, 0);
-  tech_layout->addWidget(rname, 1, 1);
+  tech_layout->addWidget(same_name, 1, 1);
+  tech_layout->addWidget(name, 1, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Req1")));
   label->setParent(this);
@@ -82,7 +86,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   req1 = prepare_req_button(req1_button, AR_ONE);
   connect(req1_button, SIGNAL(pressed()), this, SLOT(req1_jump()));
   tech_layout->addWidget(label, 2, 0);
-  tech_layout->addWidget(req1_button, 2, 1);
+  tech_layout->addWidget(req1_button, 2, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Req2")));
   label->setParent(this);
@@ -90,7 +94,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   req2 = prepare_req_button(req2_button, AR_TWO);
   connect(req2_button, SIGNAL(pressed()), this, SLOT(req2_jump()));
   tech_layout->addWidget(label, 3, 0);
-  tech_layout->addWidget(req2_button, 3, 1);
+  tech_layout->addWidget(req2_button, 3, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Root Req")));
   label->setParent(this);
@@ -99,7 +103,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   root_req = prepare_req_button(root_req_button, AR_ROOT);
   connect(root_req_button, SIGNAL(pressed()), this, SLOT(root_req_jump()));
   tech_layout->addWidget(label, 4, 0);
-  tech_layout->addWidget(root_req_button, 4, 1);
+  tech_layout->addWidget(root_req_button, 4, 2);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add tech")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
@@ -108,7 +112,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this tech")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  tech_layout->addWidget(delete_button, 5, 1);
+  tech_layout->addWidget(delete_button, 5, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -201,8 +205,20 @@ void tab_tech::update_tech_info(struct advance *adv)
   selected = adv;
 
   if (selected != 0) {
-    name->setText(untranslated_name(&(adv->name)));
-    rname->setText(rule_name(&(adv->name)));
+    QString dispn = QString::fromUtf8(untranslated_name(&(adv->name)));
+    QString rulen = QString::fromUtf8(rule_name(&(adv->name)));
+
+    name->setText(dispn);
+    rname->setText(rulen);
+
+    if (dispn == rulen) {
+      name->setEnabled(false);
+      same_name->setChecked(true);
+    } else {
+      same_name->setChecked(false);
+      name->setEnabled(true);
+    }
+    
     req1_button->setText(tech_name(adv->require[AR_ONE]));
     req2_button->setText(tech_name(adv->require[AR_TWO]));
     root_req_button->setText(tech_name(adv->require[AR_ROOT]));
@@ -212,6 +228,8 @@ void tab_tech::update_tech_info(struct advance *adv)
     req1_button->setText("None");
     req2_button->setText("None");
     root_req_button->setText("None");
+    same_name->setChecked(true);
+    name->setEnabled(false);
   }
 }
 
@@ -315,6 +333,10 @@ void tab_tech::name_given()
       }
     } advance_iterate_end;
 
+    if (same_name->isChecked()) {
+      name->setText(rname->text());
+    }
+
     names_set(&(selected->name), 0,
               name->text().toUtf8().data(),
               rname->text().toUtf8().data());
@@ -381,4 +403,15 @@ void tab_tech::add_now()
   initialize_new_tech(new_adv);
   update_tech_info(new_adv);
   refresh();
+}
+
+/**************************************************************************
+  Toggled whether rule_name and name should be kept identical
+**************************************************************************/
+void tab_tech::same_name_toggle(bool checked)
+{
+  name->setEnabled(!checked);
+  if (checked) {
+    name->setText(rname->text());
+  }
 }

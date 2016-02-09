@@ -29,6 +29,7 @@ class QLabel;
 class QLineEdit;
 class QListWidget;
 class QMenu;
+class QRadioButton;
 class QToolButton;
 
 class ruledit_gui;
@@ -58,6 +59,7 @@ class tab_tech : public QWidget
     QMenu *req2;
     QMenu *root_req;
     QListWidget *tech_list;
+    QRadioButton *same_name;
 
     struct advance *selected;
 
@@ -72,6 +74,7 @@ class tab_tech : public QWidget
     void root_req_menu(QAction *action);
     void add_now();
     void delete_now();
+    void same_name_toggle(bool checked);
 };
 
 

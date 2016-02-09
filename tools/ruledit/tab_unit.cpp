@@ -21,6 +21,7 @@
 #include <QListWidget>
 #include <QMenu>
 #include <QPushButton>
+#include <QRadioButton>
 #include <QToolButton>
 
 // utility
@@ -61,25 +62,28 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
 
   unit_layout->setSizeConstraint(QLayout::SetMaximumSize);
 
-  label = new QLabel(QString::fromUtf8(R__("Name")));
-  label->setParent(this);
-  name = new QLineEdit(this);
-  name->setText("None");
-  connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  unit_layout->addWidget(label, 0, 0);
-  unit_layout->addWidget(name, 0, 1);
-
   label = new QLabel(QString::fromUtf8(R__("Rule Name")));
   label->setParent(this);
   rname = new QLineEdit(this);
   rname->setText("None");
   connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
+  unit_layout->addWidget(label, 0, 0);
+  unit_layout->addWidget(rname, 0, 2);
+
+  label = new QLabel(QString::fromUtf8(R__("Name")));
+  label->setParent(this);
+  same_name = new QRadioButton();
+  connect(same_name, SIGNAL(toggled(bool)), this, SLOT(same_name_toggle(bool)));
+  name = new QLineEdit(this);
+  name->setText("None");
+  connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
   unit_layout->addWidget(label, 1, 0);
-  unit_layout->addWidget(rname, 1, 1);
+  unit_layout->addWidget(same_name, 1, 1);
+  unit_layout->addWidget(name, 1, 2);
 
   edit_button = new QPushButton(QString::fromUtf8(R__("Edit Unit")), this);
   connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
-  unit_layout->addWidget(edit_button, 2, 1);
+  unit_layout->addWidget(edit_button, 2, 2);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Unit")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
@@ -88,7 +92,7 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Unit")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  unit_layout->addWidget(delete_button, 5, 1);
+  unit_layout->addWidget(delete_button, 5, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -122,11 +126,23 @@ void tab_unit::update_utype_info(struct unit_type *ptype)
   selected = ptype;
 
   if (selected != nullptr) {
-    name->setText(QString::fromUtf8(untranslated_name(&(ptype->name))));
-    rname->setText(QString::fromUtf8(utype_rule_name(ptype)));
+    QString dispn = QString::fromUtf8(untranslated_name(&(ptype->name)));
+    QString rulen = QString::fromUtf8(utype_rule_name(ptype));
+
+    name->setText(dispn);
+    rname->setText(rulen);
+    if (dispn == rulen) {
+      name->setEnabled(false);
+      same_name->setChecked(true);
+    } else {
+      same_name->setChecked(false);
+      name->setEnabled(true);
+    }
   } else {
     name->setText("None");
     rname->setText("None");
+    same_name->setChecked(true);
+    name->setEnabled(false);
   }
 }
 
@@ -156,6 +172,10 @@ void tab_unit::name_given()
         }
       }
     } unit_type_iterate_end;
+
+    if (same_name->isChecked()) {
+      name->setText(rname->text());
+    }
 
     names_set(&(selected->name), 0,
               name->text().toUtf8().data(),
@@ -232,4 +252,15 @@ void tab_unit::add_now()
   update_utype_info(new_utype);
 
   refresh();
+}
+
+/**************************************************************************
+  Toggled whether rule_name and name should be kept identical
+**************************************************************************/
+void tab_unit::same_name_toggle(bool checked)
+{
+  name->setEnabled(!checked);
+  if (checked) {
+    name->setText(rname->text());
+  }
 }
