@@ -388,6 +388,14 @@ void go_act_menu::create()
         continue;
       }
 
+      if (action_by_number(action_id)->max_distance > 1) {
+        /* The order system doesn't support actions that can be done to a
+         * target that isn't at or next to the actor unit's tile.
+         *
+         * Full explanation in handle_unit_orders(). */
+        continue;
+      }
+
       /* Create and add the menu item. It will be hidden or shown based on
        * unit type.  */
       item = addAction(action_get_ui_name(action_id));

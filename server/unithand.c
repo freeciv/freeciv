@@ -4084,6 +4084,33 @@ void handle_unit_orders(struct player *pplayer,
         return;
       }
 
+      if (action_by_number(packet->action[i])->max_distance > 1) {
+        /* Long range actions aren't supported in unit orders. Clients
+         * should order them performed via the unit_do_action packet.
+         *
+         * Reason: A unit order stores an action's target as the tile it is
+         * located on. The tile is stored as a direction (when the target
+         * is at a tile adjacent to the actor unit tile) or as no
+         * direction (when the target is at the same tile as the actor
+         * unit). The order system will pick a suitable target at the
+         * specified tile during order execution. This makes it impossible
+         * to target something that isn't at or next to the actors tile.
+         * Being unable to exploit the full range of an action handicaps
+         * it.
+         *
+         * A patch that allows a distant target in an order should remove
+         * this check and update the comment in the Qt client's
+         * go_act_menu::create(). */
+
+        log_error("handle_unit_orders() the action %s isn't supported in "
+                  "unit orders. "
+                  "Sent in order number %d from %s to unit number %d.",
+                  action_get_ui_name(packet->action[i]), i,
+                  player_name(pplayer), packet->unit_id);
+
+        return;
+      }
+
       /* Validate individual actions. */
       switch ((enum gen_action) packet->action[i]) {
       case ACTION_FOUND_CITY:
