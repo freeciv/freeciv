@@ -23,6 +23,7 @@
 
 class QLineEdit;
 class QListWidget;
+class QRadioButton;
 
 class ruledit_gui;
 
@@ -42,6 +43,7 @@ class tab_unit : public QWidget
     QLineEdit *name;
     QLineEdit *rname;
     QListWidget *unit_list;
+    QRadioButton *same_name;
 
     struct unit_type *selected;
 
@@ -50,7 +52,7 @@ class tab_unit : public QWidget
     void select_unit();
     void add_now();
     void delete_now();
+    void same_name_toggle(bool checked);
 };
-
 
 #endif // FC__TAB_UNIT_H
