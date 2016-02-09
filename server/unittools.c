@@ -2751,6 +2751,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("You cannot paradrop a unit that is "
                     "transporting other units."));
+    return FALSE;
   }
 
   if (!map_is_known(ptile, pplayer)) {
