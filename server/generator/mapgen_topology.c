@@ -170,12 +170,12 @@ int map_colatitude(const struct tile *ptile)
 }
 
 /****************************************************************************
-  Return TRUE if the map in a city radius is SINGULAR.  This is used to
-  avoid putting (non-polar) land near the edge of the map.
+  Return TRUE if the map in a typical city radius is SINGULAR.  This is
+  used to avoid putting (non-polar) land near the edge of the map.
 ****************************************************************************/
 bool near_singularity(const struct tile *ptile)
 {
-  return is_singular_tile(ptile, CITY_MAP_MAX_RADIUS);
+  return is_singular_tile(ptile, CITY_MAP_DEFAULT_RADIUS);
 }
 
 
