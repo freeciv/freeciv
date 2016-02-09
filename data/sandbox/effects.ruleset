@@ -1808,8 +1808,6 @@ reqs    =
     { "type", "name", "range", "present"
       "Building", "Barracks", "City", TRUE
       "UnitClass", "Land", "Local", TRUE
-      "Building", "Barracks II", "City", FALSE
-      "Building", "Barracks III", "City", FALSE
       "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
     }
@@ -1821,8 +1819,6 @@ reqs    =
     { "type", "name", "range", "present"
       "Building", "Barracks", "City", TRUE
       "UnitClass", "Big Land", "Local", TRUE
-      "Building", "Barracks II", "City", FALSE
-      "Building", "Barracks III", "City", FALSE
       "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
     }
@@ -1834,8 +1830,6 @@ reqs    =
     { "type", "name", "range", "present"
       "Building", "Barracks", "City", TRUE
       "UnitClass", "Land", "Local", TRUE
-      "Building", "Barracks II", "City", FALSE
-      "Building", "Barracks III", "City", FALSE
     }
 
 [effect_barracks_b_hp]
@@ -1845,8 +1839,6 @@ reqs    =
     { "type", "name", "range", "present"
       "Building", "Barracks", "City", TRUE
       "UnitClass", "Big Land", "Local", TRUE
-      "Building", "Barracks II", "City", FALSE
-      "Building", "Barracks III", "City", FALSE
     }
 
 [effect_barracks_ii]
@@ -1856,7 +1848,6 @@ reqs    =
     { "type", "name", "range", "present"
       "Building", "Barracks II", "City", TRUE
       "UnitClass", "Land", "Local", TRUE
-      "Building", "Barracks III", "City", FALSE
       "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
     }
@@ -1868,7 +1859,6 @@ reqs    =
     { "type", "name", "range", "present"
       "Building", "Barracks II", "City", TRUE
       "UnitClass", "Big Land", "Local", TRUE
-      "Building", "Barracks III", "City", FALSE
       "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
     }
@@ -1880,7 +1870,6 @@ reqs    =
     { "type", "name", "range", "present"
       "Building", "Barracks II", "City", TRUE
       "UnitClass", "Land", "Local", TRUE
-      "Building", "Barracks III", "City", FALSE
     }
 
 [effect_barracks_ii_b_hp]
@@ -1890,7 +1879,6 @@ reqs    =
     { "type", "name", "range", "present"
       "Building", "Barracks II", "City", TRUE
       "UnitClass", "Big Land", "Local", TRUE
-      "Building", "Barracks III", "City", FALSE
     }
 
 [effect_barracks_iii]
