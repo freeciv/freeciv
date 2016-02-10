@@ -561,9 +561,9 @@ AC_PROG_LN_S
 AC_DISABLE_SHARED
 dnl Replace AC_PROG_LIBTOOL with LT_INIT when minimum libtool
 dnl version 2.2
+m4_ifdef([AM_PROG_AR], [AM_PROG_AR], [AC_CHECK_TOOL([AR], [ar])])
 AC_PROG_LIBTOOL
 AC_SUBST(LIBTOOL)
-AC_CHECK_TOOL(AR, ar)
 if test -z $AR; then
 	AC_MSG_ERROR([*** 'ar' missing.  Install binutils, fix your \$PATH, or set \$AR manually. ***])
 fi
