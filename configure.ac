@@ -603,11 +603,11 @@ AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_LN_S
 AC_DISABLE_SHARED
-LT_INIT
-AC_CHECK_TOOL(AR, ar)
+AM_PROG_AR
 if test -z $AR; then
 	AC_MSG_ERROR([*** 'ar' missing.  Install binutils, fix your \$PATH, or set \$AR manually. ***])
 fi
+LT_INIT
 
 AM_PROG_CC_C_O
 AC_PROG_CXX

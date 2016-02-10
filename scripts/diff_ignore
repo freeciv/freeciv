@@ -53,6 +53,7 @@ freeciv-*.tar.gz
 install-sh
 missing
 mkinstalldirs
+ar-lib
 ref-add.sed
 ref-del.sed
 fcser
