@@ -76,11 +76,11 @@ ocean_resources = TRUE
 ;                        present, 'name' is used. Since the name used in
 ;                        savegames must not change, use this when renaming a
 ;                        terrain after a ruleset has been released.
-; graphic              = preferred base graphics tag in tilespec; must have
-;                        tags with extensions _n0s0e0e0 etc.
-; graphic_alt          = alternate graphics tag if preferred is not found;
-;                        should be a standard tag if preferred is not;
-;			 otherwise may be "-"
+; graphic              = preferred graphic; Tilespec [tile_*] section
+;                        with 'tag' matching this will be used. 
+; graphic_alt          = alternate graphic. When no tilespec 'tag' matching
+;                        preferred graphic is not found, this will be used.
+;                        Otherwise may be "-"
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each terrain, and changing it will
 ;                        break savegame compatibility.
@@ -517,6 +517,27 @@ This ocean is boiling. No ship without special equipment can enter.\n\n\
 Cities can work these tiles only when Thermal Module is known, and \
 city can never be located on Boiling Ocean.\
 ")
+
+; The individual resource types, one per section.
+; Roughly sorted by identifier.
+; The actual tag used (the * in [resource_*]) must be unique for each resource,
+; and may be used in debug output when reading this file.
+;
+; Notes:
+;
+; name                 = name as seen by user; if "unused", it is not used,
+;                        but is included for conversion and/or the editor.
+; graphic              = tag specifying preferred graphic
+; graphic_alt	       = tag for alternate garphic if preferred graphic is not 
+;		         present; especially if preferred graphic is non-standard, 
+;		         this should be a standard tag.  Otherwise can use eg "-" 
+;		         for no alternate graphic.
+; identifier           = single-character identifier used in savegames.  This
+;                        must be unique for each resource, and changing it will
+;                        break savegame compatibility.
+; food                 = increased food production
+; shield               = increased shield production
+; trade                = increased trade production
 
 [resource_resources]
 name        = _("Resources")
