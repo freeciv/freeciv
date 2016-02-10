@@ -275,11 +275,7 @@ void popup_impr_info(Impr_type_id impr)
     improvement_iterate(pImprove) {
 
       /* copy background surface */  
-#if 0
-      pBackground = SDL_DisplayFormatAlpha(pBackgroundTmpl);
-#else
-      pBackground = pBackgroundTmpl;
-#endif
+      pBackground = copy_surface(pBackgroundTmpl);
 
       /* blit improvement name */
       copy_chars_to_utf8_str(pstr, improvement_name_translation(pImprove));
@@ -695,11 +691,7 @@ void popup_unit_info(Unit_type_id type_id)
     unit_type_iterate(ut) {
 
       /* copy background surface */
-#if 0
-      pBackground = SDL_DisplayFormatAlpha(pBackgroundTmpl);
-#else
-      pBackground = pBackgroundTmpl;
-#endif
+      pBackground = copy_surface(pBackgroundTmpl);
 
       /* blit unit name */
       copy_chars_to_utf8_str(pstr, utype_name_translation(ut));
