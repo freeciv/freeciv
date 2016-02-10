@@ -16,9 +16,13 @@ using MSYS2 from http://msys2.github.io
 - With very specific configure options (see Problems) and msys2 package
   selection freeciv can be built.
 - Buildable clients are gtk3 and Qt
+- Audio support cannot be built in
 - Both server and client launch ok
-- Client cannot connect to the server
-- Installers cannot be built
+- Most Installers cannot be built
+- Buildable Installers:
+  - Ruledit
+- win64 support is added in theory (win64 should work equally well to
+  win32) but so far testing has been almost exlusively on win32 side
 
 
  Setup
@@ -52,7 +56,10 @@ using MSYS2 from http://msys2.github.io
 
 2.1.2) Arch-specific packages needed for building freeciv
 
+2.1.2.1) For building gtk3-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
+
+2.1.2.2) For buildind Qt-client and/or Ruledit
  - mingw-w64-i686-qt5 / mingw-w64-x86_64-qt5
 
 2.2) Packaged needed for building installer package
@@ -78,6 +85,7 @@ using MSYS2 from http://msys2.github.io
   - "<gui>-installer", where <gui> is
      - gtk3
      - qt
+  - "ruledit-installer"
 
 Problems
 ====================================
@@ -86,8 +94,11 @@ Problems
   Either avoid installing libreadline-devel package to your msys2
   environment at all, or configure freeciv with --without-readline
 
-- Freeciv with Native Language Support does not build.
-  Use configure option --disable-nls
+- Many Freeciv components do not build when Native Language Support
+  is enabled. Use configure option --disable-nls to build without
+  Native Language Support.
+  Notable components that do build with nls are the server and
+  ruledit.
 
 ====================================
 

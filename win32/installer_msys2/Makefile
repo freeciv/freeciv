@@ -62,7 +62,7 @@ build-freeciv-ruledit:
 	# create build directory
 	mkdir -p build-$(WINARCH)-ruledit
 	# configure
-	cd build-$(WINARCH)-ruledit; ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual
+	cd build-$(WINARCH)-ruledit; ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib
 	# make
 	make -C build-$(WINARCH)-ruledit
 	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
@@ -125,7 +125,6 @@ install-ruledit: install-ruledit-dir
 	make -C build-$(WINARCH)-ruledit DESTDIR=`pwd`/install-$(WINARCH)-ruledit install
 	# reorder directory layout
 	mv install-$(WINARCH)-ruledit/usr/local/bin/* install-$(WINARCH)-ruledit/
-	mv install-$(WINARCH)-ruledit/usr/local/etc install-$(WINARCH)-ruledit/
 	mv install-$(WINARCH)-ruledit/usr/local/share/freeciv install-$(WINARCH)-ruledit/data
 	mv install-$(WINARCH)-ruledit/usr/local/share/locale install-$(WINARCH)-ruledit/share/
 	mv install-$(WINARCH)-ruledit/usr/local/share/doc install-$(WINARCH)-ruledit/doc
@@ -274,13 +273,66 @@ install-env-qt: install-env-common
 	cp -R /share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
+# TODO: Clean out unnecessary ones. These are just copies of COMMON_DLLS and
+#       COMMON_MSYS_DLLS with most obviously unnecessary things left out.
+RULEDIT_DLLS := \
+	libatk-1.0-0.dll \
+	libbz2-1.dll \
+	libcairo-2.dll \
+	libcairo-gobject-2.dll \
+	libffi-6.dll \
+	libfontconfig-1.dll \
+	libfreetype-6.dll \
+	libgcc_s_dw2-1.dll \
+	libglib-2.0-0.dll \
+	libgdk_pixbuf-2.0-0.dll \
+	libgio-2.0-0.dll \
+	libiconv-2.dll \
+	libintl-8.dll \
+	liblzma-5.dll \
+	libpango-1.0-0.dll \
+	libpangocairo-1.0-0.dll \
+	libpangowin32-1.0-0.dll \
+	libpixman-1-0.dll \
+	libpng16-16.dll \
+	libxml2-2.dll \
+	zlib1.dll \
+	libwinpthread-1.dll
+
+RULEDIT_MSYS_DLLS := \
+	2.0.dll \
+	curl-4.dll \
+	idn-11.dll \
+	sqlite3-0.dll \
+	ssl-1.0.0.dll \
+	gcc_s-1.dll \
+	z.dll \
+	bz2-1.dll \
+	crypto-1.0.0.dll \
+	gssapi-3.dll \
+	heimntlm-0.dll \
+	krb5-26.dll \
+	asn1-8.dll \
+	com_err-1.dll \
+	roken-18.dll \
+	crypt-0.dll \
+	wind-0.dll \
+	hx509-5.dll \
+	heimbase-1.dll \
+	iconv-2.dll \
+	intl-8.dll \
+	ssh2-1.dll \
+	lzma-5.dll
+
 install-env-ruledit:
 	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(WINARCH)-ruledit
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_DLLS)) install-$(WINARCH)-ruledit
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-$(WINARCH)-ruledit
+	cp -R $(addprefix /bin/msys-, $(RULEDIT_MSYS_DLLS)) install-$(WINARCH)-ruledit
+	cp -R $(addprefix /bin/msys-, $(QT_MSYS_DLLS)) install-$(WINARCH)-ruledit
 	# add additional Qt files
 	cp -R $(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-ruledit/
-	cp -R /share/locale install-$(WINARCH)-ruledit/share/
+	cp -R /usr/share/locale install-$(WINARCH)-ruledit/share/
 	find install-$(WINARCH)-ruledit/share/locale -type f -not -name "freeciv-ruledit.mo" -delete
 
 # build installer
