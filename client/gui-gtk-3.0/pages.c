@@ -835,7 +835,7 @@ static void update_network_lists(void)
 }
 
 /**************************************************************************
-  network connection state defines.
+  Network connection state defines.
 **************************************************************************/
 enum connection_state {
   LOGIN_TYPE, 
@@ -847,7 +847,7 @@ enum connection_state {
 static enum connection_state connection_status;
 
 /**************************************************************************
-  update statusbar label text.
+  Update statusbar label text.
 **************************************************************************/
 static gboolean update_network_statusbar(gpointer data)
 {
@@ -925,6 +925,7 @@ static void set_connection_state(enum connection_state state)
     gtk_widget_set_sensitive(network_port, TRUE);
     gtk_widget_set_sensitive(network_login, TRUE);
     gtk_widget_set_sensitive(network_password_label, FALSE);
+    gtk_label_set_markup_with_mnemonic(GTK_LABEL(network_password_label), _("Pass_word:"));
     gtk_widget_set_sensitive(network_password, FALSE);
     gtk_widget_set_sensitive(network_confirm_password_label, FALSE);
     gtk_widget_set_sensitive(network_confirm_password, FALSE);
@@ -938,6 +939,7 @@ static void set_connection_state(enum connection_state state)
     gtk_widget_set_sensitive(network_port, FALSE);
     gtk_widget_set_sensitive(network_login, FALSE);
     gtk_widget_set_sensitive(network_password_label, TRUE);
+    gtk_label_set_markup_with_mnemonic(GTK_LABEL(network_password_label), _("New Pass_word:"));
     gtk_widget_set_sensitive(network_password, TRUE);
     gtk_widget_set_sensitive(network_confirm_password_label, TRUE);
     gtk_widget_set_sensitive(network_confirm_password, TRUE);
@@ -953,6 +955,7 @@ static void set_connection_state(enum connection_state state)
     gtk_widget_set_sensitive(network_port, FALSE);
     gtk_widget_set_sensitive(network_login, FALSE);
     gtk_widget_set_sensitive(network_password_label, TRUE);
+    gtk_label_set_markup_with_mnemonic(GTK_LABEL(network_password_label), _("Pass_word:"));
     gtk_widget_set_sensitive(network_password, TRUE);
     gtk_widget_set_sensitive(network_confirm_password_label, FALSE);
     gtk_widget_set_sensitive(network_confirm_password, FALSE);
@@ -964,6 +967,7 @@ static void set_connection_state(enum connection_state state)
 
     gtk_widget_set_sensitive(network_login, FALSE);
     gtk_widget_set_sensitive(network_password_label, FALSE);
+    gtk_label_set_markup_with_mnemonic(GTK_LABEL(network_password_label), _("Pass_word:"));
     gtk_widget_set_sensitive(network_password, FALSE);
     gtk_widget_set_sensitive(network_confirm_password_label, FALSE);
     gtk_widget_set_sensitive(network_confirm_password, FALSE);
