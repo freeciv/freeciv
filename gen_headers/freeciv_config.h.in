@@ -26,6 +26,9 @@
 /* Metaserver URL */
 #undef FREECIV_META_URL
 
+/* Month next version will be released */
+#undef FREECIV_RELEASE_MONTH
+
 /* Use pthreads as thread implementation */
 #undef FREECIV_HAVE_PTHREAD
 
