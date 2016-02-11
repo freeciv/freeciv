@@ -268,11 +268,34 @@ bool can_be_irrigated(const struct tile *ptile,
 bool is_tiles_adjacent(const struct tile *ptile0, const struct tile *ptile1);
 bool is_move_cardinal(const struct tile *src_tile,
 		      const struct tile *dst_tile);
-int map_move_cost_unit(struct unit *punit, const struct tile *ptile);
-int map_move_cost(const struct player *pplayer,
-                  const struct unit_type *punittype,
-                  const struct tile *src_tile,
-                  const struct tile *dst_tile);
+
+int tile_move_cost_ptrs(const struct unit *punit,
+                        const struct unit_type *punittype,
+                        const struct player *pplayer,
+                        const struct tile *t1, const struct tile *t2);
+
+/***************************************************************
+  The cost to move punit from where it is to tile x,y.
+  It is assumed the move is a valid one, e.g. the tiles are adjacent.
+***************************************************************/
+static inline int map_move_cost_unit(struct unit *punit,
+                                     const struct tile *ptile)
+{
+  return tile_move_cost_ptrs(punit, unit_type_get(punit), unit_owner(punit),
+                             unit_tile(punit), ptile);
+}
+
+/***************************************************************
+  Move cost between two tiles
+***************************************************************/
+static inline int map_move_cost(const struct player *pplayer,
+                                const struct unit_type *punittype,
+                                const struct tile *src_tile,
+                                const struct tile *dst_tile)
+{
+  return tile_move_cost_ptrs(NULL, punittype, pplayer, src_tile, dst_tile);
+}
+
 bool is_safe_ocean(const struct tile *ptile);
 bv_extras get_tile_infrastructure_set(const struct tile *ptile,
                                       int *count);
