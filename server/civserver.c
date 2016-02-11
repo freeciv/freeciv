@@ -39,6 +39,7 @@
 #endif
 
 /* utility */
+#include "deprecations.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -300,6 +301,8 @@ int main(int argc, char *argv[])
         log_error(_("Illegal value \"%s\" for --Announce"), option);
       }
       free(option);
+    } else if (is_option("--warnings", argv[inx])) {
+      deprecation_warnings_enable();
 #ifdef AI_MODULES
     } else if ((option = get_option_malloc("--LoadAI", argv, &inx, argc))) {
       if (!load_ai_module(option)) {
@@ -434,6 +437,8 @@ int main(int argc, char *argv[])
 #endif /* AI_MODULES */
     cmdhelp_add(help, "v", "version",
                 _("Print the version number"));
+    cmdhelp_add(help, "w", "warnings",
+                _("Warn about deprecated modpack constructs"));
 
     /* The function below prints a header and footer for the options.
      * Furthermore, the options are sorted. */

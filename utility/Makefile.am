@@ -11,6 +11,8 @@ libcivutility_la_SOURCES = \
 		bitvector.h     \
 		capability.c	\
 		capability.h	\
+		deprecations.c	\
+		deprecations.h	\
 		distribute.c	\
 		distribute.h	\
 		fc_utf8.c	\
