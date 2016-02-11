@@ -40,6 +40,7 @@ void init_connections(void);
 int server_make_connection(int new_sock,
                            const char *client_addr, const char *client_ip);
 void handle_conn_pong(struct connection *pconn);
+void handle_client_heartbeat(struct connection *pconn);
 
 #ifdef __cplusplus
 }
