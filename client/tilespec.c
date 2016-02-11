@@ -1463,8 +1463,11 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
     tileset_error(LOG_FATAL, _("Specfile %s has incompatible capabilities"), sf->file_name);
   }
 
-  /* currently unused */
+  /* Currently unused */
   (void) secfile_entry_lookup(file, "info.artists");
+
+  /* Not used here */
+  (void) secfile_entry_lookup(file, "file.gfx");
 
   if ((sections = secfile_sections_by_name_prefix(file, "grid_"))) {
     section_list_iterate(sections, psection) {
