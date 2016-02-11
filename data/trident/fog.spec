@@ -1,6 +1,9 @@
 [spec]
 
+; Format and options of this spec file:
 options = "+Freeciv-2.5-spec"
+
+[info]
 
 artists = "unknown"
 
