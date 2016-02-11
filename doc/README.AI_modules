@@ -131,3 +131,5 @@ New in Freeciv 2.6:
   player once per other player in game. Old player_save and player_load are called only once
   overall
 - Added want_to_explore, called for AI type of the unit owner, when it is about to autoexplore
+- Added currently unused 'reserved' pointers that we can populate with optional callbacks
+  without need to change the mandatory capability of the modules
