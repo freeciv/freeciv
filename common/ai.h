@@ -21,8 +21,10 @@ extern "C" {
 #include "fc_types.h" /* MAX_LEN_NAME */
 
 /* Update this capability string when ever there is changes to ai_type
-   structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-3.0-ai-module-2015.Oct.30"
+ * structure below. When changing mandatory capability part, check that
+ * there's enough reserved_xx pointers in the end of the structure for
+ * taking to use without need to bump mandatory capability again. */
+#define FC_AI_MOD_CAPSTR "+Freeciv-3.0-ai-module-2016.Feb.09"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -257,6 +259,20 @@ struct ai_type
 
     /* Called for player AI type with short internval */
     void (*refresh)(struct player *pplayer);
+
+    /* These are here reserving space for future optional callbacks.
+     * This way we don't need to change the mandatory capability of the AI module
+     * interface when adding such callbacks, but existing modules just have these
+     * set to NULL. Optional capability should be set when taking one of these to use,
+     * so that new modules know if the server is going to call these or is it too old
+     * version to do so.
+     * When mandatory capability then changes again, please add new reservations to
+     * replace those taken to use. */
+    void (*reserved_01)(void);
+    void (*reserved_02)(void);
+    void (*reserved_03)(void);
+    void (*reserved_04)(void);
+    void (*reserved_05)(void);
   } funcs;
 };
 
