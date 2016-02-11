@@ -21,6 +21,11 @@ if test "x$USE_SOUND_SDL" != "xno" && test "x$USE_SOUND_SDL" != "xsdl" ; then
     AC_DEFINE([AUDIO_SDL2], [1], [SDL-2 Mixer in use])
     SDL_mixer=sdl2
     SOUND_SDL_OK=true
+    if test x$sdl_headers_without_path != xyes ; then
+      AC_CHECK_HEADER([SDL2/SDL_mixer.h], [], [
+AC_DEFINE([SDL2_PLAIN_INCLUDE], [1], [sdl2 headers must be included without path])
+sdl_headers_without_path=yes])
+    fi
 ], [
     ac_save_CPPFLAGS="$CPPFLAGS"
     ac_save_CFLAGS="$CFLAGS"

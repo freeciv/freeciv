@@ -87,9 +87,20 @@ AC_DEFUN([FC_SDL2_PROJECT],
                [sdl2_lib_found="yes"], [sdl2_lib_found="no"
 sdl2_h_found="no"])
   if test "x$sdl2_lib_found" = "xyes" ; then
-    AC_CHECK_HEADER([SDL2/$3],
-                    [sdl2_h_found="yes"
-gui_sdl2_libs="${gui_sdl2_libs} -l$1"], [sdl2_h_found="no"])
+    sdl2_h_found="no"
+    if test x$sdl_headers_without_path != xyes ; then
+      AC_CHECK_HEADER([SDL2/$3],
+                      [sdl2_h_found="yes"
+gui_sdl2_libs="${gui_sdl2_libs} -l$1"], [])
+    fi
+    if test x$sdl2_h_found = xno ; then
+      AC_CHECK_HEADER([$3], [sdl2_h_found="yes"
+gui_sdl2_libs="${gui_sdl2_libs} -l$1"
+if test x$sdl_headers_without_path != xyes ; then
+  AC_DEFINE([SDL2_PLAIN_INCLUDE], [1], [sdl2 headers must be included without path])
+  sdl_headers_without_path=yes
+fi], [])
+    fi
   fi
   CPPFLAGS="$ac_save_CPPFLAGS"
   CFLAGS="$ac_save_CFLAGS"
