@@ -158,6 +158,7 @@
 
 /* utility */
 #include "astring.h"
+#include "deprecations.h"
 #include "fcintl.h"
 #include "inputfile.h"
 #include "ioz.h"
@@ -904,14 +905,20 @@ void secfile_check_unused(const struct section_file *secfile)
           log_verbose("Unused entries in file %s:", secfile->name);
           any = TRUE;
         }
+        if (are_deprecation_warnings_enabled()) {
+          log_deprecation_always("%s: unused entry: %s.%s",
+                                 secfile->name != NULL ? secfile->name : "nameless",
+                                 section_name(psection), entry_name(pentry));
+        } else {
 #ifdef TESTMATIC_ENABLED
-        log_testmatic("%s: unused entry: %s.%s",
-                      secfile->name != NULL ? secfile->name : "nameless",
-                      section_name(psection), entry_name(pentry));
+          log_testmatic("%s: unused entry: %s.%s",
+                        secfile->name != NULL ? secfile->name : "nameless",
+                        section_name(psection), entry_name(pentry));
 #else  /* TESTMATIC_ENABLED */
-        log_verbose("  unused entry: %s.%s",
-                    section_name(psection), entry_name(pentry));
+          log_verbose("  unused entry: %s.%s",
+                      section_name(psection), entry_name(pentry));
 #endif /* TESTMATIC_ENABLED */
+        }
       }
     } entry_list_iterate_end;
   } section_list_iterate_end;
