@@ -733,23 +733,25 @@ bool can_channel_land(const struct tile *ptile)
   the tiles are assumed to be adjacent, and the (x,y)
   values are used only to get the river bonus correct.
 
-  May also be used with punit==NULL, in which case punit
+  May also be used with punit == NULL, in which case punit
   tests are not done (for unit-independent results).
 ***************************************************************/
-static int tile_move_cost_ptrs(const struct unit *punit,
-                               const struct unit_class *pclass,
-                               const struct player *pplayer,
-			       const struct tile *t1, const struct tile *t2)
+int tile_move_cost_ptrs(const struct unit *punit,
+                        const struct unit_class *pclass,
+                        const struct player *pplayer,
+                        const struct tile *t1, const struct tile *t2)
 {
   bool native = TRUE;
   int cost = tile_terrain(t2)->movement_cost * SINGLE_MOVE;
   bool cardinal_move;
   bool ri;
 
-  fc_assert(punit == NULL || pclass == NULL || unit_class(punit) == pclass);
-
   if (punit) {
-    pclass = unit_class(punit);
+    struct unit_class *puclass = unit_class(punit);
+
+    fc_assert(pclass == NULL || puclass == pclass);
+
+    pclass = puclass;
     native = is_native_tile_to_class(pclass, t2);
   }
 
@@ -861,25 +863,6 @@ static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
   }
 
   return FALSE;
-}
-
-/***************************************************************
-  The cost to move punit from where it is to tile x,y.
-  It is assumed the move is a valid one, e.g. the tiles are adjacent.
-***************************************************************/
-int map_move_cost_unit(struct unit *punit, const struct tile *ptile)
-{
-  return tile_move_cost_ptrs(punit, NULL, unit_owner(punit),
-                             unit_tile(punit), ptile);
-}
-
-/***************************************************************
-  Move cost between two tiles
-***************************************************************/
-int map_move_cost(const struct player *pplayer, const struct unit_class *pclass,
-                  const struct tile *src_tile, const struct tile *dst_tile)
-{
-  return tile_move_cost_ptrs(NULL, pclass, pplayer, src_tile, dst_tile);
 }
 
 /***************************************************************
