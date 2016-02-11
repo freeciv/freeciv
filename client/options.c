@@ -85,6 +85,7 @@ struct client_options gui_options = {
   .save_options_on_exit = TRUE,
 
   .use_prev_server = FALSE,
+  .heartbeat_enabled = FALSE,
 
 /** Migrations **/
   .first_boot = FALSE,
@@ -1843,6 +1844,12 @@ static struct client_option client_options[] = {
                     "this from its default value unless you know what "
                     "you're doing."),
                  COC_NETWORK, GUI_STUB, DEFAULT_METASERVER_OPTION, NULL, 0),
+  GEN_BOOL_OPTION(heartbeat_enabled, N_("Send heartbeat messages to server."),
+                  N_("Regularly send empty heartbeat message to the server "
+                     "to make sure that the connection is still up. This "
+                     "can be useful if the client otherwise may sit for a "
+                     "long time with no data being sent or received at all."),
+                  COC_NETWORK, GUI_STUB, NULL, NULL),
   GEN_STR_LIST_OPTION(default_sound_set_name,
                       N_("Soundset"),
                       N_("This is the soundset that will be used.  Changing "

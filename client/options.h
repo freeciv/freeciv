@@ -94,6 +94,7 @@ struct client_options
   char default_server_host[512];
   int  default_server_port;
   bool use_prev_server;
+  bool heartbeat_enabled;
   char default_metaserver[512];
   char default_tileset_overhead_name[512];
   char default_tileset_iso_name[512];

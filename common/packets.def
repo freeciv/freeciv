@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 253
+Max id: 254
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1188,6 +1188,9 @@ end
 # For compatibility with older versions, this number cannot be changed.
 # Can be used in initial protocol, if the client received a PACKET_CONN_PING.
 PACKET_CONN_PONG = 89; cs, handle-per-conn
+end
+
+PACKET_CLIENT_HEARTBEAT = 254; cs, handle-per-conn
 end
 
 PACKET_CLIENT_INFO = 119; cs, handle-per-conn

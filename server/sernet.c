@@ -1406,6 +1406,14 @@ void handle_conn_pong(struct connection *pconn)
 }
 
 /**************************************************************************
+  Handle client's regular hearbeat
+**************************************************************************/
+void handle_client_heartbeat(struct connection *pconn)
+{
+  log_debug("Received heartbeat");
+}
+
+/**************************************************************************
   Send ping time info about all connections to all connections.
 **************************************************************************/
 static void send_ping_times_to_all(void)

@@ -1194,6 +1194,16 @@ double real_timer_callback(void)
     }
   }
 
+  {
+    static long counter = 0;
+
+    counter++;
+
+    if (gui_options.heartbeat_enabled && (counter % (20 * 10) == 0)) {
+      send_packet_client_heartbeat(&client.conn);
+    }
+  }
+
   /* Make sure we wait at least 50 ms, otherwise we may not give any other
    * code time to run. */
   return MAX(time_until_next_call, 0.05);

@@ -1789,6 +1789,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       || type == PACKET_REPORT_REQ
       || type == PACKET_CLIENT_INFO
       || type == PACKET_CONN_PONG
+      || type == PACKET_CLIENT_HEARTBEAT
       || type == PACKET_SAVE_SCENARIO
       || is_client_edit_packet(type)) {
 
