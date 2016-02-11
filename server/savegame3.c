@@ -2143,7 +2143,8 @@ static void sg_load_scenario(struct loaddata *loading)
   /* Load version. */
   game_version
     = secfile_lookup_int_default(loading->file, 0, "scenario.game_version");
-  /* We require at least version 2.90.99 */
+  /* We require at least version 2.90.99 - and at that time we saved version
+   * numbers as 10000*MAJOR+100*MINOR+PATCH */
   sg_failure_ret(29099 <= game_version, "Saved game is too old, at least "
                                         "version 2.90.99 required.");
 
@@ -2218,7 +2219,7 @@ static void sg_save_scenario(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  game_version = MAJOR_VERSION * 10000 + MINOR_VERSION * 100 + PATCH_VERSION;
+  game_version = MAJOR_VERSION * 1000000 + MINOR_VERSION * 10000 + PATCH_VERSION * 100;
   secfile_insert_int(saving->file, game_version, "scenario.game_version");
 
   if (!saving->scenario || !game.scenario.is_scenario) {

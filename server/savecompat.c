@@ -1312,9 +1312,13 @@ static void compat_load_dev(struct loaddata *loading)
     }
   }
 
+  if (game_version < 1000000) {
+    game_version *= 100;
+  }
+
   nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
 
-  if (game_version < 29100) {
+  if (game_version < 2910000) {
     /* Early 3.0 development version save. */
   
     /* Rename "random.save" as "random.saved", if not already saved by later name */
