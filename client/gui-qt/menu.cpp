@@ -1485,8 +1485,8 @@ void mr_menu::menus_sensitive()
             || can_units_do(punits, can_unit_paradrop)) {
           i.value()->setEnabled(true);
         }
-        if (units_have_type_flag(punits, UTYF_PARATROOPERS, true)) {
-          i.value()->setText(_("Drop Paratrooper"));
+        if (units_can_do_action(punits, ACTION_PARADROP, true)) {
+          i.value()->setText(action_get_ui_name(ACTION_PARADROP));
         } else {
           i.value()->setText(_("Clean Pollution"));
         }

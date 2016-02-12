@@ -697,8 +697,9 @@ bool can_unit_paradrop(const struct unit *punit)
 {
   struct unit_type *utype;
 
-  if (!unit_has_type_flag(punit, UTYF_PARATROOPERS))
+  if (!unit_can_do_action(punit, ACTION_PARADROP)) {
     return FALSE;
+  }
 
   if(punit->paradropped)
     return FALSE;

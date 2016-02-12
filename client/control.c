@@ -2779,7 +2779,7 @@ void do_unit_goto(struct tile *ptile)
 **************************************************************************/
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 {
-  dsend_packet_unit_paradrop_to(&client.conn, punit->id, tile_index(ptile));
+  request_do_action(ACTION_PARADROP, punit->id, tile_index(ptile), 0 , "");
 }
  
 /**************************************************************************

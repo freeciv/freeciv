@@ -32,6 +32,7 @@ flags =
     _("AddToCity")
     _("Nuclear")
     _("Infra"), _("Can build infrastructure.")
+    _("Paratroopers")
   }
 
 [veteran_system]
@@ -260,15 +261,14 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                       Bonus is defined in attackers entry.
 ;
 ;
-; Following flag strings require extra fields:
-;  "Paratroopers"
+; Following actions require extra fields:
+;  "Paradrop Unit"
 ;   paratroopers_range  = the maximal range the unit can be paradropped to.
 ;                         Max range is 65534.
 ;   paratroopers_mr_req = the move rate which is required at least for
 ;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;                         (whole movement points)
-; Following actions require extra fields:
 ;  "Bombard"
 ;   bombard_rate = the number of shots fired at enemy units when attacking
 ;  "Join City"

@@ -192,8 +192,10 @@ struct unit_class {
 /* Enhanced spy abilities */
 #define SPECENUM_VALUE13 UTYF_SPY
 #define SPECENUM_VALUE13NAME N_("?unitflag:Spy")
-#define SPECENUM_VALUE14 UTYF_PARATROOPERS
-#define SPECENUM_VALUE14NAME N_("?unitflag:Paratroopers")
+/* Want to add a new unit flag without having to renumber user flags and
+ * unit roles? Use this slot. */
+#define SPECENUM_VALUE14 UTYF_RESERVED_1
+#define SPECENUM_VALUE14NAME "_Reserved_"
 /* Cannot attack vs non-native tiles even if class can */
 #define SPECENUM_VALUE15 UTYF_ONLY_NATIVE_ATTACK
 #define SPECENUM_VALUE15NAME N_("?unitflag:Only_Native_Attack")
@@ -489,7 +491,7 @@ struct unit_type {
   int happy_cost;  /* unhappy people in home city */
   int upkeep[O_LAST];
 
-  /* Only valid for UTYF_PARATROOPERS */
+  /* Only valid for ACTION_PARADROP */
   int paratroopers_range;
   int paratroopers_mr_req;
   int paratroopers_mr_sub;

@@ -727,7 +727,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Paradrop */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Drop Paratrooper"), "P");
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)",
+              action_get_ui_name(ACTION_PARADROP), "P");
   pBuf = create_themeicon(current_theme->OParaDrop_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);

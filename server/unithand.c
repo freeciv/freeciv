@@ -1947,6 +1947,20 @@ bool unit_perform_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_PARADROP:
+    if (target_tile) {
+      if (is_action_enabled_unit_on_tile(action_type,
+                                         actor_unit, target_tile)) {
+        ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
+
+        return do_paradrop(actor_unit, target_tile);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       NULL, target_tile, NULL, NULL,
+                       requester);
+      }
+    }
+    break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
               "invalid action.",
@@ -3913,30 +3927,6 @@ void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
   unit_transport_unload_send(pcargo);
 }
 
-/**************************************************************************
-  Handle paradrop request.
-**************************************************************************/
-void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int tile)
-{
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
-  struct tile *ptile = index_to_tile(tile);
-
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_paradrop_to() invalid unit %d", unit_id);
-    return;
-  }
-
-  if (NULL == ptile) {
-    /* Shouldn't happen */
-    log_error("handle_unit_paradrop_to() invalid tile index (%d) for %s (%d)",
-              tile, unit_rule_name(punit), unit_id);
-    return;
-  }
-
-  (void) do_paradrop(punit, ptile);
-}
-
 /****************************************************************************
   Receives route packages.
 ****************************************************************************/
@@ -4183,6 +4173,15 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_HOME_CITY:
       case ACTION_UPGRADE_UNIT:
         /* No validation required. */
+        break;
+      case ACTION_PARADROP:
+        /* Can't specify target tile in the current order packet format.
+         * Should have been caught above. */
+        log_error("Action %s isn't supported in orders. "
+                  "It was sent in order number %d from %s to "
+                  "unit number %d.",
+                  action_get_ui_name(packet->action[i]), i,
+                  player_name(pplayer), packet->unit_id);
         break;
       /* Invalid action. Should have been caught above. */
       case ACTION_COUNT:

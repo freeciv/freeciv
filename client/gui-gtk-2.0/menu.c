@@ -2493,8 +2493,9 @@ void real_menus_update(void)
   menus_rename(unit_group, "BUILD_MINE", mintext);
   menus_rename(unit_group, "TRANSFORM_TERRAIN", transtext);
 
-  if (units_have_type_flag(punits, UTYF_PARATROOPERS, TRUE)) {
-    menus_rename(unit_group, "CLEAN_POLLUTION", _("Drop _Paratrooper"));
+  if (units_can_do_action(punits, ACTION_PARADROP, TRUE)) {
+    menus_rename(unit_group, "CLEAN_POLLUTION",
+                 action_get_ui_name(ACTION_PARADROP));
   } else {
     menus_rename(unit_group, "CLEAN_POLLUTION", _("Clean _Pollution"));
   }

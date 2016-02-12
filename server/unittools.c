@@ -2737,17 +2737,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
   int range, distance;
 
-  if (!unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("This unit type can not be paradropped."));
-    return FALSE;
-  }
-
-  if (!can_unit_paradrop(punit)) {
-    return FALSE;
-  }
-
   if (get_transporter_occupancy(punit) > 0) {
+    /* TODO: Explain using the action not enabled system and remove. */
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("You cannot paradrop a unit that is "
                     "transporting other units."));
@@ -2755,6 +2746,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   }
 
   if (!map_is_known(ptile, pplayer)) {
+    /* TODO: Explain using the action not enabled system and remove. */
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("The destination location is not known."));
     return FALSE;

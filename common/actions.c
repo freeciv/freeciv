@@ -194,6 +194,10 @@ void actions_init(void)
                  /* Illegal to perform to a target on another tile to
                   * keep the rules exactly as they were for now. */
                  0, 0);
+  actions[ACTION_PARADROP] =
+      action_new(ACTION_PARADROP, ATK_TILE,
+                 FALSE, FALSE, TRUE,
+                 0, UNIT_MAX_PARADROP_RANGE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -293,11 +297,6 @@ static struct action *action_new(enum gen_action id,
   action->hostile = hostile;
   action->requires_details = requires_details;
   action->rare_pop_up = rare_pop_up;
-
-  /* The Freeciv code for all actions controlled by enablers assumes that
-   * an acting unit is on the same tile as its target or on the tile next
-   * to it. */
-  fc_assert(max_distance <= 1);
 
   /* The distance between the actor and him self is always 0. */
   fc_assert(target_kind != ATK_SELF
@@ -674,6 +673,16 @@ action_enablers_for_action(enum gen_action action)
 }
 
 /**************************************************************************
+  Returns TRUE iff the specified player knows (has seen) the specified
+  tile.
+**************************************************************************/
+static bool plr_knows_tile(const struct player *plr,
+                           const struct tile *ttile)
+{
+  return plr && ttile && (tile_get_known(ttile, plr) == TILE_KNOWN_UNSEEN);
+}
+
+/**************************************************************************
   Returns TRUE iff the specified player can see the specified tile.
 **************************************************************************/
 static bool plr_sees_tile(const struct player *plr,
@@ -1019,6 +1028,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
+  case ACTION_PARADROP:
     /* No hard unit type requirements. */
     break;
 
@@ -1359,6 +1369,28 @@ is_action_possible(const enum gen_action wanted_action,
     /* Reason: Keep the old rules. */
     /* Info leak: */
     if (unit_upgrade_test(actor_unit, FALSE) != UU_OK) {
+      return TRI_NO;
+    }
+  }
+
+  if (wanted_action == ACTION_PARADROP) {
+    /* Reason: Keep the old rules. */
+    /* Info leak: The player knows if his unit has paradropped this turn,
+     * how many move fragments it has left and if it is standing in a city
+     * or in a base with the ParadropFrom flag. */
+    if (!can_unit_paradrop(actor_unit)) {
+      return TRI_NO;
+    }
+
+    /* Reason: Keep the old rules. */
+    /* Info leak: The player knows if his unit is transporting a unit. */
+    if (get_transporter_occupancy(actor_unit) > 0) {
+      return TRI_NO;
+    }
+
+    /* Reason: Keep the old rules. */
+    /* Info leak: The player knows if he knows the target tile. */
+    if (!plr_knows_tile(actor_player, target_tile)) {
       return TRI_NO;
     }
   }
@@ -2089,6 +2121,9 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_UPGRADE_UNIT:
     /* No battle is fought first. */
     chance = 200;
+    break;
+  case ACTION_PARADROP:
+    /* TODO */
     break;
   case ACTION_COUNT:
     fc_assert(FALSE);

@@ -143,7 +143,8 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("AddToCity"), N_("Can join cities.") },
       { N_("Bombarder"), N_("Can do bombard attacks.") },
       { N_("Nuclear"), N_("This unit's attack causes a nuclear explosion!") },
-      { N_("Infra"), N_("Can build infrastructure.") }
+      { N_("Infra"), N_("Can build infrastructure.") },
+      { N_("Paratroopers"), N_("Can paradrop.") }
     };
     int first_free = first_free_unit_type_user_flag() + UTYF_USER_FLAG_1;
     int i;
@@ -477,6 +478,19 @@ void rscompat_postprocess(struct rscompat_info *info)
     enabler = action_enabler_new();
 
     enabler->action = ACTION_UPGRADE_UNIT;
+
+    action_enabler_add(enabler);
+
+    /* Paradrop is now action enabler controlled. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_PARADROP;
+
+    /* The actor unit must have the unit type flag Paratroopers. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local", FALSE,
+                                           TRUE, TRUE, "Paratroopers"));
 
     action_enabler_add(enabler);
 

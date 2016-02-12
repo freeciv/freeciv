@@ -2567,7 +2567,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
   } else if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
     dai_manage_barbarian_leader(ait, pplayer, punit);
     return;
-  } else if (unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
+  } else if (unit_can_do_action(punit, ACTION_PARADROP)) {
     dai_manage_paratrooper(ait, pplayer, punit);
     return;
   } else if (is_ferry && unit_data->task != AIUNIT_HUNTER) {

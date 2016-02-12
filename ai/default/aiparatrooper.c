@@ -33,6 +33,7 @@
 #include "citytools.h"
 #include "maphand.h"
 #include "srv_log.h"
+#include "unithand.h"
 #include "unittools.h"
 
 /* server/advisors */
@@ -218,7 +219,9 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
     ptile_dest = find_best_tile_to_paradrop_to(ait, punit);
 
     if (ptile_dest) {
-      if (do_paradrop(punit, ptile_dest)) {
+      if (unit_perform_action(unit_owner(punit),
+                              punit->id, tile_index(ptile_dest), 0, "",
+                              ACTION_PARADROP, ACT_REQ_PLAYER)) {
 	/* successfull! */
         if (NULL == game_unit_by_number(sanity)) {
 	  /* the unit did not survive the move */
@@ -352,7 +355,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
   unit_type_iterate(u_type) {
     struct unit *virtual_unit;
 
-    if (!utype_has_flag(u_type, UTYF_PARATROOPERS)) {
+    if (!utype_can_do_action(u_type, ACTION_PARADROP)) {
       continue;
     }
     if (A_NEVER == u_type->require_advance) {

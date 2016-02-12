@@ -218,7 +218,7 @@ static void count_my_units(struct player *pplayer)
     if (uclass_has_flag(pclass, UCF_MISSILE)) {
       adv->stats.units.missiles++;
     }
-    if (unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
+    if (unit_can_do_action(punit, ACTION_PARADROP)) {
       adv->stats.units.paratroopers++;
     }
     if (uclass_has_flag(pclass, UCF_AIRLIFTABLE)) {
@@ -868,6 +868,7 @@ void adv_best_government(struct player *pplayer)
           case ACTION_MARKETPLACE:
           case ACTION_FOUND_CITY:
           case ACTION_DISBAND_UNIT:
+          case ACTION_PARADROP:
             /* Wants the ability to do this to it self. Don't want others
              * to target it. Do nothing since action_immune_government()
              * doesn't separate based on who the actor is. */

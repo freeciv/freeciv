@@ -4076,12 +4076,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
             _("* Won't lose all movement when moving from non-native "
               "terrain to native terrain.\n"));
   }
-  if (utype_has_flag(utype, UTYF_PARATROOPERS)) {
-    cat_snprintf(buf, bufsz,
-		 _("* Can be paradropped from a friendly city or suitable base"
-		   " (range: %d tiles).\n"),
-		 utype->paratroopers_range);
-  }
   if (!uclass_has_flag(utype_class(utype), UCF_MISSILE)
       && utype_has_flag(utype, UTYF_ONEATTACK)) {
     CATLSTR(buf, bufsz,
@@ -4254,6 +4248,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                                        * name. */
                      action_get_ui_name(act),
                      utype->bombard_rate);
+        break;
+      case ACTION_PARADROP:
+        cat_snprintf(buf, bufsz,
+                     _("* Can do the action \'%s\' from a friendly city "
+                       "or suitable base (range: %d tiles).\n"),
+                     action_get_ui_name(act), utype->paratroopers_range);
         break;
       default:
         /* Generic action information. */

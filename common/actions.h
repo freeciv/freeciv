@@ -100,6 +100,8 @@ extern "C" {
 #define SPECENUM_VALUE25NAME N_("Home City")
 #define SPECENUM_VALUE26 ACTION_UPGRADE_UNIT
 #define SPECENUM_VALUE26NAME N_("Upgrade Unit")
+#define SPECENUM_VALUE27 ACTION_PARADROP
+#define SPECENUM_VALUE27NAME N_("Paradrop Unit")
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */
 #define SPECENUM_COUNT ACTION_COUNT

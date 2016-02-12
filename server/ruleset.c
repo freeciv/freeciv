@@ -5748,6 +5748,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           "actions.ui_upgrade_unit");
       sz_strlcpy(action_by_number(ACTION_UPGRADE_UNIT)->ui_name,
                  text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Drop _Paratrooper (100% chance of success). */
+          N_("Drop %sParatrooper%s"),
+          "actions.ui_paradrop_unit");
+      sz_strlcpy(action_by_number(ACTION_PARADROP)->ui_name,
+                 text);
     }
 
     if (ok) {
