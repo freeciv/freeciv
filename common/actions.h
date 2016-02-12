@@ -78,6 +78,9 @@ extern "C" {
 /* The player wants to be reminded to ask what actions the unit can perform
  * to a certain target tile. */
 #define SPECENUM_VALUE0 ACTSIG_QUEUE
+/* The player no longer wants the reminder to ask what actions the unit can
+ * perform to a certain target tile. */
+#define SPECENUM_VALUE1 ACTSIG_UNQUEUE
 #include "specenum_gen.h"
 
 /*

@@ -726,18 +726,6 @@ void handle_unit_get_actions(struct connection *pc,
   actor_unit = game_unit_by_number(actor_unit_id);
   target_tile = index_to_tile(target_tile_id);
 
-  if (disturb_player
-      && actor_unit
-      && actor_unit->action_decision_want
-      && actor_unit->action_decision_tile == target_tile) {
-    /* The client has now asked for alternatives to show the player. */
-    actor_unit->action_decision_want = ACT_DEC_NOTHING;
-    actor_unit->action_decision_tile = NULL;
-
-    /* Let the client know so future changes are seen as changes. */
-    send_unit_info(player_reply_dest(actor_player), actor_unit);
-  }
-
   /* Check if the request is valid. */
   if (!target_tile || !actor_unit || !actor_player
       || actor_unit->owner != actor_player) {
@@ -1057,9 +1045,14 @@ void handle_unit_do_action(struct player *pplayer,
   }
 
   if (NULL == actor_unit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_do_action() invalid actor %d",
-                actor_id);
+    /* Being asked to unqueue a "spent" unit because the client haven't
+     * been told that it's gone is expected. */
+    if (!(action_type == ACTION_COUNT && value == ACTSIG_UNQUEUE)) {
+      /* Probably died or bribed. */
+      log_verbose("handle_unit_do_action() invalid actor %d",
+                  actor_id);
+    }
+
     return;
   }
 
@@ -1302,6 +1295,19 @@ void handle_unit_do_action(struct player *pplayer,
 
       /* Let the client know that this unit needs the player to decide
        * what to do. */
+      send_unit_info(player_reply_dest(pplayer), actor_unit);
+
+      break;
+    case ACTSIG_UNQUEUE:
+      /* Delete the reminder for the client to ask the server about what
+       * actions the unit can perform against a certain target tile.
+       * Action decision state can be set by the server it self too. */
+
+      actor_unit->action_decision_want = ACT_DEC_NOTHING;
+      actor_unit->action_decision_tile = NULL;
+
+      /* Let the client know that this unit no longer needs the player to
+       * decide what to do. */
       send_unit_info(player_reply_dest(pplayer), actor_unit);
 
       break;
