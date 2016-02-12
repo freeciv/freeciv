@@ -54,6 +54,7 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_tilespec.h"
+#include "helpdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
@@ -361,6 +362,18 @@ static int save_game_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     send_save_game(NULL);
     back_callback(NULL);
+  }
+
+  return -1;
+}
+
+/****************************************************************************
+  Open Help Browser callback
+****************************************************************************/
+static int help_browser_callback(struct widget *pwidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_help_browser();
   }
 
   return -1;
@@ -825,6 +838,17 @@ static struct option_dialog *option_dialog_new(void)
   }
   widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
   add_to_gui_list(ID_OPTIONS_SAVE_GAME_BUTTON, widget);
+
+  /* Create help browser button widget. */
+  widget = create_icon_button_from_chars(NULL, window->dst,
+                                         _("Help Browser"), adj_font(12), 0);
+  widget->action = help_browser_callback;
+  widget->key = SDLK_h;
+  if (client.conn.established) {
+    set_wstate(widget, FC_WS_NORMAL);
+  }
+  widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
+  add_to_gui_list(ID_OPTIONS_HELP_BROWSER_BUTTON, widget);
 
   /* Create leave game button widget. */
   widget = create_icon_button_from_chars(NULL, window->dst,

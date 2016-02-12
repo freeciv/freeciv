@@ -14,9 +14,12 @@
 #ifndef FC__HELPDLG_H
 #define FC__HELPDLG_H
 
+/* common */
 #include "tech.h"
 
 #include "helpdlg_g.h"
+
+void popup_help_browser(void);
 
 void popup_tech_info(Tech_type_id tech);
 void popup_impr_info(Impr_type_id impr);

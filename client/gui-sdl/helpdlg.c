@@ -68,8 +68,16 @@ static const int bufsz = 8192;
 static int change_tech_callback(struct widget *pWidget);
 
 /**************************************************************************
+  Open Help Browser without any specific topic in mind
+**************************************************************************/
+void popup_help_browser(void)
+{
+  popup_tech_info(A_NONE);
+}
+
+/**************************************************************************
   Popup the help dialog to get help on the given string topic.  Note that
-  the toppic may appear in multiple sections of the help (it may be both
+  the topic may appear in multiple sections of the help (it may be both
   an improvement and a unit, for example).
 
   The string will be untranslated.
