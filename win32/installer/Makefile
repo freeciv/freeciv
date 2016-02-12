@@ -64,7 +64,7 @@ build-freeciv-ruledit:
 	# create build directory
 	mkdir -p build-ruledit
 	# configure
-	cd build-ruledit; ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual
+	cd build-ruledit; ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit
 	# make
 	make -C build-ruledit
 	make -C build-ruledit/translations/ruledit update-po

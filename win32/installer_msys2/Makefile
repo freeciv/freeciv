@@ -62,7 +62,7 @@ build-freeciv-ruledit:
 	# create build directory
 	mkdir -p build-$(WINARCH)-ruledit
 	# configure
-	cd build-$(WINARCH)-ruledit; ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib
+	cd build-$(WINARCH)-ruledit; ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit --with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib
 	# make
 	make -C build-$(WINARCH)-ruledit
 	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
