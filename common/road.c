@@ -128,18 +128,21 @@ void road_type_init(struct extra_type *pextra, int idx)
 ****************************************************************************/
 void road_integrators_cache_init(void)
 {
-  road_type_iterate(proad) {
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    struct road_type *proad = extra_road_get(pextra);
+
     proad->integrators = extra_type_list_new();
     /* Roads always integrate with themselves. */
-    extra_type_list_append(proad->integrators, road_extra_get(proad));
-    road_type_iterate(oroad) {
+    extra_type_list_append(proad->integrators, pextra);
+    extra_type_by_cause_iterate(EC_ROAD, oextra) {
+      struct road_type *oroad = extra_road_get(oextra);
       if (BV_ISSET(proad->integrates, road_index(oroad))) {
-        extra_type_list_append(proad->integrators, road_extra_get(oroad));
+        extra_type_list_append(proad->integrators, oextra);
       }
-    } road_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
     extra_type_list_unique(proad->integrators);
     extra_type_list_sort(proad->integrators, &compare_road_move_cost);
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 }
 
 /****************************************************************************
@@ -147,14 +150,16 @@ void road_integrators_cache_init(void)
 ****************************************************************************/
 void road_types_free(void)
 {
-  road_type_iterate(proad) {
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    struct road_type *proad = extra_road_get(pextra);
+
     requirement_vector_free(&proad->first_reqs);
 
     if (proad->integrators != NULL) {
       extra_type_list_destroy(proad->integrators);
       proad->integrators = NULL;
     }
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 }
 
 /****************************************************************************
@@ -175,11 +180,12 @@ struct road_type *road_by_compat_special(enum road_compat compat)
     return NULL;
   }
 
-  road_type_iterate(proad) {
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    struct road_type *proad = extra_road_get(pextra);
     if (road_compat_special(proad) == compat) {
       return proad;
     }
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   return NULL;
 }
@@ -281,12 +287,14 @@ bool can_build_road_base(const struct road_type *proad,
     /* TODO: Cache list of road types with RF_PREVENTS_OTHER_ROADS
      *       after ruleset loading and use that list here instead
      *       of always iterating through all road types. */
-    road_type_iterate(old) {
+    extra_type_by_cause_iterate(EC_ROAD, poextra) {
+      struct road_type *old = extra_road_get(poextra);
+
       if (road_has_flag(old, RF_PREVENTS_OTHER_ROADS)
-          && tile_has_road(ptile, old)) {
+          && tile_has_extra(ptile, poextra)) {
         return FALSE;
       }
-    } road_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
 
   return TRUE;
@@ -395,7 +403,7 @@ int count_road_near_tile(const struct tile *ptile, const struct road_type *proad
   Count tiles with any river near the tile.
 ****************************************************************************/
 int count_river_near_tile(const struct tile *ptile,
-                          const struct road_type *priver)
+                          const struct extra_type *priver)
 {
   int count = 0;
 
@@ -403,7 +411,7 @@ int count_river_near_tile(const struct tile *ptile,
     if (priver == NULL && tile_has_river(adjc_tile)) {
       /* Some river */
       count++;
-    } else if (priver != NULL && tile_has_road(adjc_tile, priver)) {
+    } else if (priver != NULL && tile_has_extra(adjc_tile, priver)) {
       /* Specific river */
       count++;
     }
@@ -416,7 +424,7 @@ int count_river_near_tile(const struct tile *ptile,
   Count tiles with river of specific type cardinally adjacent to the tile.
 ****************************************************************************/
 int count_river_type_tile_card(const struct tile *ptile,
-                               const struct road_type *priver,
+                               const struct extra_type *priver,
                                bool percentage)
 {
   int count = 0;
@@ -425,7 +433,7 @@ int count_river_type_tile_card(const struct tile *ptile,
   fc_assert(priver != NULL);
 
   cardinal_adjc_iterate(ptile, adjc_tile) {
-    if (tile_has_road(adjc_tile, priver)) {
+    if (tile_has_extra(adjc_tile, priver)) {
       count++;
     }
     total++;
@@ -441,7 +449,7 @@ int count_river_type_tile_card(const struct tile *ptile,
   Count tiles with river of specific type near the tile.
 ****************************************************************************/
 int count_river_type_near_tile(const struct tile *ptile,
-                               const struct road_type *priver,
+                               const struct extra_type *priver,
                                bool percentage)
 {
   int count = 0;
@@ -450,7 +458,7 @@ int count_river_type_near_tile(const struct tile *ptile,
   fc_assert(priver != NULL);
 
   adjc_iterate(ptile, adjc_tile) {
-    if (tile_has_road(adjc_tile, priver)) {
+    if (tile_has_extra(adjc_tile, priver)) {
       count++;
     }
     total++;
@@ -477,11 +485,13 @@ bool road_has_flag(const struct road_type *proad, enum road_flag_id flag)
 bool is_road_flag_card_near(const struct tile *ptile, enum road_flag_id flag)
 {
   cardinal_adjc_iterate(ptile, adjc_tile) {
-    road_type_iterate(proad) {
-      if (road_has_flag(proad, flag) && tile_has_road(adjc_tile, proad)) {
+    extra_type_by_cause_iterate(EC_ROAD, pextra) {
+      struct road_type *proad = extra_road_get(pextra);
+
+      if (road_has_flag(proad, flag) && tile_has_extra(adjc_tile, pextra)) {
         return TRUE;
       }
-    } road_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   } cardinal_adjc_iterate_end;
 
   return FALSE;
@@ -494,11 +504,12 @@ bool is_road_flag_card_near(const struct tile *ptile, enum road_flag_id flag)
 bool is_road_flag_near_tile(const struct tile *ptile, enum road_flag_id flag)
 {
   adjc_iterate(ptile, adjc_tile) {
-    road_type_iterate(proad) {
-      if (road_has_flag(proad, flag) && tile_has_road(adjc_tile, proad)) {
+    extra_type_by_cause_iterate(EC_ROAD, pextra) {
+      if (road_has_flag(extra_road_get(pextra), flag)
+          && tile_has_extra(adjc_tile, pextra)) {
         return TRUE;
       }
-    } road_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   } adjc_iterate_end;
 
   return FALSE;

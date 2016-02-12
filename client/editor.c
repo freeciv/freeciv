@@ -474,12 +474,12 @@ static void editor_grab_tool(const struct tile *ptile)
     }
   } base_type_iterate_end;
 
-  road_type_iterate(proad) {
-    if (tile_has_road(ptile, proad)) {
-      first_road = proad;
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      first_road = extra_road_get(pextra);
       break;
     }
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   if (client_has_player()
       && tile_get_known(ptile, client_player()) == TILE_UNKNOWN) {

@@ -371,14 +371,14 @@ static bool manual_command(void)
       if (game.control.num_road_types > 0) {
         fprintf(doc, "<th>");
       }
-      road_type_iterate(proad) {
+      extra_type_by_cause_iterate(EC_ROAD, pextra) {
         if (++ri < game.control.num_road_types) {
-          fprintf(doc, "%s<br/>", road_name_translation(proad));
+          fprintf(doc, "%s<br/>", extra_name_translation(pextra));
         } else {
           /* Last one */
-          fprintf(doc, "%s</th>", road_name_translation(proad));
+          fprintf(doc, "%s</th>", extra_name_translation(pextra));
         }
-      } road_type_iterate_end;
+      } extra_type_by_cause_iterate_end;
       fprintf(doc, "</tr>\n\n");
       terrain_type_iterate(pterrain) {
         struct resource_type **r;
@@ -450,15 +450,15 @@ static bool manual_command(void)
         if (game.control.num_road_types > 0) {
           fprintf(doc, "<td>");
         }
-        road_type_iterate(proad) {
+        extra_type_by_cause_iterate(EC_ROAD, pextra) {
           if (++ri < game.control.num_road_types) {
             fprintf(doc, "%d / ", terrain_extra_build_time(pterrain, ACTIVITY_GEN_ROAD,
-                                                           road_extra_get(proad)));
+                                                           pextra));
           } else {
             fprintf(doc, "%d</td>", terrain_extra_build_time(pterrain, ACTIVITY_GEN_ROAD,
-                                                             road_extra_get(proad)));
+                                                             pextra));
           }
-        } road_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
         fprintf(doc, "</tr>\n\n");
       } terrain_type_iterate_end;
 

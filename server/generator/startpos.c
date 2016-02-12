@@ -1,5 +1,5 @@
-/********************************************************************** 
- Freeciv - Copyright (C) 1996 - 2004 The Freeciv Project Team 
+/**********************************************************************
+ Freeciv - Copyright (C) 1996 - 2004 The Freeciv Project Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
@@ -66,17 +67,16 @@ static int get_tile_value(struct tile *ptile)
   if (num_role_units(L_SETTLERS) > 0) {
     struct unit_type *start_worker = get_role_unit(L_SETTLERS, 0);
 
-    road_type_iterate(proad) {
-      struct extra_type *pextra;
+    extra_type_by_cause_iterate(EC_ROAD, pextra) {
+      struct road_type *proad = extra_road_get(pextra);
 
-      pextra = road_extra_get(proad);
       if (road_can_be_built(proad, roaded)
           && are_reqs_active(NULL, NULL, NULL, NULL, roaded,
                              NULL, start_worker, NULL, NULL, NULL,
                              &pextra->reqs, RPT_CERTAIN)) {
-        tile_add_road(roaded, proad);
+        tile_add_extra(roaded, pextra);
       }
-    } road_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
 
   nextra = next_extra_for_tile(roaded, EC_IRRIGATION, NULL, NULL);

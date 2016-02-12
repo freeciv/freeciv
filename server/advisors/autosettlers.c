@@ -596,15 +596,17 @@ int settler_evaluate_improvements(struct unit *punit,
                 /* Here 'old' means actually 'without the evaluated': In case of
                  * removal activity it's the value after the removal. */
 
-                road_type_iterate(pold) {
-                  if (tile_has_road(ptile, pold) && pold != proad) {
+                extra_type_by_cause_iterate(EC_ROAD, pold) {
+                  if (tile_has_extra(ptile, pold) && pold != pextra) {
+                    struct road_type *po_road = extra_road_get(pold);
+
                     /* This ignores the fact that new road may be native to units that
                      * old road is not. */
-                    if (pold->move_cost < old_move_cost) {
-                      old_move_cost = pold->move_cost;
+                    if (po_road->move_cost < old_move_cost) {
+                      old_move_cost = po_road->move_cost;
                     }
                   }
-                } road_type_iterate_end;
+                } extra_type_by_cause_iterate_end;
 
                 if (proad->move_cost < old_move_cost) {
                   if (proad->move_cost >= terrain_control.move_fragments) {

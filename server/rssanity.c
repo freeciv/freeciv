@@ -831,7 +831,9 @@ bool sanity_check_ruleset_data(void)
   } extra_type_iterate_end;
 
   /* Roads */
-  road_type_iterate(proad) {
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    struct road_type *proad = extra_road_get(pextra);
+
     extra_type_list_iterate(proad->integrators, iextra) {
       struct road_type *iroad = extra_road_get(iextra);
 
@@ -843,7 +845,7 @@ bool sanity_check_ruleset_data(void)
                       road_name_translation(iroad));
       }
     } extra_type_list_iterate_end;
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   /* City styles */
   for (i = 0; i < game.control.styles_count; i++) {

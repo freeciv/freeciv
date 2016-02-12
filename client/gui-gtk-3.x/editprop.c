@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -911,11 +911,13 @@ static gchar *propval_as_string(struct propval *pv)
     return g_strdup_printf(_("%d present"), count);
 
   case VALTYPE_BV_ROADS:
-    road_type_iterate(proad) {
+    extra_type_by_cause_iterate(EC_ROAD, pextra) {
+      struct road_type *proad = extra_road_get(pextra);
+
       if (BV_ISSET(pv->data.v_bv_roads, road_number(proad))) {
         count++;
       }
-    } road_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
     return g_strdup_printf(_("%d present"), count);
 
   case VALTYPE_BV_BASES:
@@ -3788,13 +3790,15 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
 
   case OPID_TILE_ROADS:
     gtk_list_store_clear(store);
-    road_type_iterate(proad) {
+    extra_type_by_cause_iterate(EC_ROAD, pextra) {
+      struct road_type *proad = extra_road_get(pextra);
+
       id = road_number(proad);
-      name = road_name_translation(proad);
+      name = extra_name_translation(pextra);
       present = BV_ISSET(pv->data.v_bv_roads, id);
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, present, 1, id, 2, name, -1);
-    } road_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
     buf = propval_as_string(pv);
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
     g_free(buf);

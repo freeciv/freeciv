@@ -1638,12 +1638,12 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
     if (!ocean_near) {
       /* If ruleset has several river types defined, this
        * may cause same tile to contain more than one river. */
-      road_type_iterate(priver) {
-        if (tile_has_road(tile1, priver)
-            && road_has_flag(priver, RF_RIVER)) {
-          tile_add_road(ptile, priver);
+      extra_type_by_cause_iterate(EC_ROAD, priver) {
+        if (tile_has_extra(tile1, priver)
+            && road_has_flag(extra_road_get(priver), RF_RIVER)) {
+          tile_add_extra(ptile, priver);
         }
-      } road_type_iterate_end;
+      } extra_type_by_cause_iterate_end;
     }
   } cardinal_adjc_iterate_end;
 }

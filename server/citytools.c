@@ -251,13 +251,13 @@ static int evaluate_city_name_priority(struct tile *ptile,
    * terrain labels would have their priorities hurt (or helped).
    */
   goodness = nation_city_river_preference(pncity);
-  road_type_iterate(priver) {
-    if (road_has_flag(priver, RF_RIVER)
-        && tile_has_road(ptile, priver)) {
+  extra_type_by_cause_iterate(EC_ROAD, priver) {
+    if (tile_has_extra(ptile, priver)
+        && road_has_flag(extra_road_get(priver), RF_RIVER)) {
       river = TRUE;
       break;
     }
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
   if (!river) {
     goodness = nation_city_preference_revert(goodness);
   }

@@ -765,20 +765,20 @@ bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name)
   LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
 
   if (!name) {
-    road_type_iterate(proad) {
-      if (tile_has_extra(ptile, road_extra_get(proad))) {
+    extra_type_by_cause_iterate(EC_ROAD, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
         return TRUE;
       }
-    } road_type_iterate_end;
-
+    } extra_type_by_cause_iterate_end;
 
     return FALSE;
   } else {
-    struct road_type *proad;
+    struct extra_type *pextra;
  
-    proad = road_type_by_rule_name(name);
+    pextra = extra_type_by_rule_name(name);
 
-    return (NULL != proad && tile_has_extra(ptile, road_extra_get(proad)));
+    return (NULL != pextra && is_extra_caused_by(pextra, EC_ROAD)
+            && tile_has_extra(ptile, pextra));
   }
 }
 

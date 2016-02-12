@@ -291,14 +291,12 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       }
     } base_type_iterate_end;
     if (!terrain_independent_extras) {
-      road_type_iterate(r) {
-        struct extra_type *pextra = road_extra_get(r);
-
+      extra_type_by_cause_iterate(EC_ROAD, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
           terrain_independent_extras = TRUE;
           break;
         }
-      } road_type_iterate_end;
+      } extra_type_by_cause_iterate_end;
     }
 
     if (clean_pollution_time > 0 || clean_fallout_time > 0
@@ -320,11 +318,9 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       if (clean_fallout_time > 0)
 	cat_snprintf(outbuf, outlen,
 		     _("\nClean fallout      %3d"), clean_fallout_time);
-      road_type_iterate(r) {
-        struct extra_type *pextra = road_extra_get(r);
-
+      extra_type_by_cause_iterate(EC_ROAD, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
-          const char *rname = road_name_translation(r);
+          const char *rname = extra_name_translation(pextra);
 
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
@@ -332,7 +328,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
                        MAX(0, 18 - (int)get_internal_string_length(rname)), "",
                        pextra->build_time);
         }
-      } road_type_iterate_end;
+      } extra_type_by_cause_iterate_end;
       base_type_iterate(b) {
         struct extra_type *pextra = base_extra_get(b);
 
@@ -4558,14 +4554,14 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (pterrain->road_time == 0) {
     /* Can't build roads; only mention if ruleset has buildable roads */
-    road_type_iterate(r) {
-      if (road_extra_get(r)->buildable) {
+    extra_type_by_cause_iterate(EC_ROAD, pextra) {
+      if (pextra->buildable) {
         CATLSTR(buf, bufsz,
                 _("* Paths cannot be built on this terrain."));
         CATLSTR(buf, bufsz, "\n");
         break;
       }
-    } road_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
   if (pterrain->base_time == 0) {
     /* Can't build bases; only mention if ruleset has buildable bases */

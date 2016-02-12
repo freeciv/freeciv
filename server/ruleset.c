@@ -2389,7 +2389,7 @@ static bool load_terrain_names(struct section_file *file,
     }
     road_sections = fc_calloc(nval, MAX_SECTION_LABEL);
 
-    /* Cannot use road_type_iterate() before roads are added to
+    /* Cannot use extra_type_by_cause_iterate(EC_ROAD) before roads are added to
      * EC_ROAD caused_by list. Have to get them by extra_type_by_rule_name() */
     for (idx = 0; idx < nval; idx++) {
       const char *sec_name = section_name(section_list_get(sec, idx));
@@ -3181,14 +3181,15 @@ static bool load_ruleset_terrain(struct section_file *file,
   }
 
   if (ok) {
-    road_type_iterate(proad) {
+    extra_type_by_cause_iterate(EC_ROAD, pextra) {
+      struct road_type *proad = extra_road_get(pextra);
       const char *section = &road_sections[road_index(proad) * MAX_SECTION_LABEL];
       const char **slist;
       const char *special;
       const char *modestr;
       struct requirement_vector *reqs;
 
-      reqs = lookup_req_list(file, compat, section, "first_reqs", road_rule_name(proad));
+      reqs = lookup_req_list(file, compat, section, "first_reqs", extra_rule_name(pextra));
       if (reqs == NULL) {
         ok = FALSE;
         break;
@@ -3303,7 +3304,7 @@ static bool load_ruleset_terrain(struct section_file *file,
       if (!ok) {
         break;
       }
-    } road_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
 
   if (ok) {
@@ -6738,7 +6739,8 @@ static void send_ruleset_roads(struct conn_list *dest)
 {
   struct packet_ruleset_road packet;
 
-  road_type_iterate(r) {
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    struct road_type *r = extra_road_get(pextra);
     int j;
 
     packet.id = road_number(r);
@@ -6764,7 +6766,7 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.flags = r->flags;
 
     lsend_packet_ruleset_road(dest, &packet);
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 }
 
 /**************************************************************************
