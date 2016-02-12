@@ -102,12 +102,12 @@ struct road_type *road_type_by_translated_name(const char *name);
 
 int count_road_near_tile(const struct tile *ptile, const struct road_type *proad);
 int count_river_near_tile(const struct tile *ptile,
-                          const struct road_type *priver);
+                          const struct extra_type *priver);
 int count_river_type_tile_card(const struct tile *ptile,
-                               const struct road_type *priver,
+                               const struct extra_type *priver,
                                bool percentage);
 int count_river_type_near_tile(const struct tile *ptile,
-                               const struct road_type *priver,
+                               const struct extra_type *priver,
                                bool percentage);
 
 /* Functions to operate on a road flag. */
@@ -143,18 +143,6 @@ int compare_road_move_cost(const struct extra_type *const *p,
 void road_type_init(struct extra_type *pextra, int idx);
 void road_integrators_cache_init(void);
 void road_types_free(void);
-
-/* TODO: Change users to use extra_type_by_cause_iterate(EC_ROAD...)
- * directly instead. Especially if they need the 'extra' again and
- * get it back from the _p with road_extra_get() */
-#define road_type_iterate(_p)                        \
-{                                                    \
-  extra_type_by_cause_iterate(EC_ROAD, _e_##_p) {    \
-    struct road_type *_p = extra_road_get(_e_##_p);
-
-#define road_type_iterate_end                    \
-  } extra_type_by_cause_iterate_end              \
-}
 
 #define road_deps_iterate(_reqs, _dep)                                 \
 {                                                                      \

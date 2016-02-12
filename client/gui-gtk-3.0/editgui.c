@@ -869,7 +869,8 @@ static void editbar_reload_tileset(struct editbar *eb)
   store = tvs->store;
   clear_tool_store(store);
 
-  road_type_iterate(proad) {
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    struct road_type *proad = extra_road_get(pextra);
     int id;
 
     id = road_number(proad);
@@ -877,14 +878,14 @@ static void editbar_reload_tileset(struct editbar *eb)
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
                        TVS_COL_ID, id,
-                       TVS_COL_NAME, road_name_translation(proad),
+                       TVS_COL_NAME, extra_name_translation(pextra),
                        -1);
-    pixbuf = create_extra_pixbuf(road_extra_get(proad));
+    pixbuf = create_extra_pixbuf(pextra);
     if (pixbuf != NULL) {
       gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
       g_object_unref(pixbuf);
     }
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   /* Reload military bases. */
 
