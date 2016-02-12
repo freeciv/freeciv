@@ -994,16 +994,18 @@ void action_decision_taken(const int old_actor_id)
 {
   struct unit *old;
 
-  /* There is a risk of a loop unless the old unit is done. */
-  fc_assert(!(old = game_unit_by_number(old_actor_id))
-            || old->action_decision_want == ACT_DEC_NOTHING);
-
   /* This was called because the queue can move on. */
   have_asked_server_for_actions = FALSE;
 
+  if ((old = game_unit_by_number(old_actor_id))) {
+    /* Have the server record that a decision no longer is wanted. */
+    dsend_packet_unit_sscs_set(&client.conn, old_actor_id,
+                               USSDT_UNQUEUE, IDENTITY_NUMBER_ZERO);
+  }
+
   /* Go to the next unit in focus that needs a decision. */
   unit_list_iterate(get_units_in_focus(), funit) {
-    if (should_ask_server_for_actions(funit)) {
+    if (old != funit && should_ask_server_for_actions(funit)) {
       ask_server_for_actions(funit);
       return;
     }

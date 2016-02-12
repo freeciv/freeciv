@@ -100,9 +100,12 @@ struct unit_order {
 /* The player wants to be reminded to ask what actions the unit can perform
  * to a certain target tile. */
 #define SPECENUM_VALUE0 USSDT_QUEUE
+/* The player no longer wants the reminder to ask what actions the unit can
+ * perform to a certain target tile. */
+#define SPECENUM_VALUE1 USSDT_UNQUEUE
 /* The player wants to record that the unit now belongs to the specified
  * battle group. */
-#define SPECENUM_VALUE1 USSDT_BATTLE_GROUP
+#define SPECENUM_VALUE2 USSDT_BATTLE_GROUP
 #include "specenum_gen.h"
 
 struct unit;
