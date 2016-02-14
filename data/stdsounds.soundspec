@@ -195,6 +195,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 
 
 ; This list contains all events up to E_ACHIEVEMENT
+; and at least some of the later ones (E_DEPRECATION_WARNING)
 ; (as numbered in common/events.h), in the sorted order.
 ; Alphabetical sorting is based on these tag names,
 ; as the message names and contents change. {was}
@@ -227,6 +228,7 @@ e_bad_command = "stdsounds/illegal.ogg" ; [fcol]
 ;e_city_plague = ""
 ;e_civil_war = ""
 ;e_connection = ""
+;e_deprecation_warning = ""
 ;e_destroyed = ""
 ;e_diplomacy = ""
 ;e_diplomatic_incident = ""

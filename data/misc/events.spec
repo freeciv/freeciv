@@ -56,6 +56,7 @@ tiles = { "row", "column", "tag"
   1,  2, "e_report"
   1,  2, "e_chat_msg"
   1,  2, "e_log_error"
+  1,  2, "e_deprecation_warning"
   1,  3, "e_log_fatal"
   1,  3, "e_chat_error"
 

@@ -161,6 +161,7 @@ extern "C" {
 #define SPECENUM_VALUE123 E_UNIT_DID_EXPEL
 #define SPECENUM_VALUE124 E_UNIT_ACTION_FAILED
 #define SPECENUM_VALUE125 E_UNIT_ESCAPED
+#define SPECENUM_VALUE126 E_DEPRECATION_WARNING
 /*
  * Note: If you add a new event, make sure you make a similar change
  * to the events array in "common/events.c" using GEN_EV, to
