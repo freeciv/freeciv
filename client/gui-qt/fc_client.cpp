@@ -765,9 +765,13 @@ void fc_font::release_fonts()
 /****************************************************************************
   Adds new font or overwrite old one
 ****************************************************************************/
-void fc_font::set_font(QString name, QFont * qf)
+void fc_font::set_font(QString name, QFont *qf)
 {
-  font_map.insert(name,qf);
+  font_map.insert(name, qf);
+  /* Automatically set default font */
+  if (name == "gui_qt_font_default") {
+    QApplication::setFont(*qf);
+  }
 }
 
 /****************************************************************************

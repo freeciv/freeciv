@@ -203,6 +203,8 @@ void qtg_options_extra_init()
 
   option_var_set_callback(gui_qt_font_city_names,
                           apply_font);
+  option_var_set_callback(gui_qt_font_default,
+                          apply_font);
   option_var_set_callback(gui_qt_font_city_productions,
                           apply_font);
   option_var_set_callback(gui_qt_font_reqtree_text,

@@ -309,6 +309,7 @@ struct client_options gui_options = {
 /* gui-qt client specific options. */
   .gui_qt_fullscreen = FALSE,
   .gui_qt_font_city_label = "Monospace,8,-1,5,50,0,0,0,0,0",
+  .gui_qt_font_default = "Sans Serif,10,-1,5,75,0,0,0,0,0",
   .gui_qt_font_notify_label = "Monospace,8,-1,5,75,0,0,0,0,0",
   .gui_qt_font_spaceship_label = "Monospace,8,-1,5,50,0,0,0,0,0",
   .gui_qt_font_help_label = "Sans Serif,9,-1,5,50,0,0,0,0,0",
@@ -3041,6 +3042,11 @@ static struct client_option client_options[] = {
                      "dialogs."),
                   COC_FONT, GUI_QT,
                   "Monospace,8,-1,5,50,0,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_default, "default_font",
+                  N_("Default font"),
+                  N_("This is default font"),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,10,-1,5,75,0,0,0,0,0", font_changed_callback),
   GEN_FONT_OPTION(gui_qt_font_notify_label, "notify_label",
                   N_("Notify Label"),
                   N_("This font is used to display server reports such "
