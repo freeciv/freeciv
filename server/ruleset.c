@@ -1041,6 +1041,40 @@ static bool load_game_names(struct section_file *file,
 
   section_list_destroy(sec);
 
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, GOODS_SECTION_PREFIX);
+
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_GOODS_TYPES) {
+      int num = nval; /* No "size_t" to printf */
+
+      ruleset_error(LOG_ERROR, "\"%s\": Too many goods types (%d, max %d)",
+                    filename, num, MAX_GOODS_TYPES);
+      section_list_destroy(sec);
+      ok = FALSE;
+    } else if (nval < 1) {
+      ruleset_error(LOG_ERROR, "\"%s\": At least one goods type needed",
+                    filename);
+      section_list_destroy(sec);
+      ok = FALSE;
+    } else {
+      game.control.num_goods_types = nval;
+    }
+
+    if (ok) {
+      goods_type_iterate(pgood) {
+        const char *sec_name = section_name(section_list_get(sec, goods_index(pgood)));
+
+        if (!ruleset_load_names(&pgood->name, NULL, file, sec_name)) {
+          ruleset_error(LOG_ERROR, "\"%s\": Cannot load goods names",
+                        filename);
+          ok = FALSE;
+          break;
+        }
+      } goods_type_iterate_end;
+    }
+  }
+
   return ok;
 }
 
@@ -6183,36 +6217,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   } else {
     if (ok) {
       sec = secfile_sections_by_name_prefix(file, GOODS_SECTION_PREFIX);
-      nval = (NULL != sec ? section_list_size(sec) : 0);
-      if (nval > MAX_GOODS_TYPES) {
-        int num = nval; /* No "size_t" to printf */
 
-        ruleset_error(LOG_ERROR, "\"%s\": Too many goods types (%d, max %d)",
-                      filename, num, MAX_GOODS_TYPES);
-        section_list_destroy(sec);
-        ok = FALSE;
-      } else if (nval < 1) {
-        ruleset_error(LOG_ERROR, "\"%s\": At least one goods type needed",
-                      filename);
-        section_list_destroy(sec);
-        ok = FALSE;
-      } else {
-        game.control.num_goods_types = nval;
-      }
-    }
-
-    if (ok) {
       goods_type_iterate(pgood) {
         int id = goods_index(pgood);
         const char *sec_name = section_name(section_list_get(sec, id));
         struct requirement_vector *reqs;
-
-        if (!ruleset_load_names(&pgood->name, NULL, file, sec_name)) {
-          ruleset_error(LOG_ERROR, "\"%s\": Cannot load goods names",
-                        filename);
-          ok = FALSE;
-          break;
-        }
 
         reqs = lookup_req_list(file, compat, sec_name, "reqs", goods_rule_name(pgood));
         if (reqs == NULL) {
