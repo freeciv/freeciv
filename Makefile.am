@@ -20,13 +20,14 @@ else
 DSUBDIRS =
 endif
 
-SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) translations doc tools
+SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) \
+          translations doc tools lua
 
 ## Automake should distribute config.rpath automatically - and new
 ## versions probably do. We still support versions that do not, so
 ## it's in the list below.
 ## It should also install it automatically when running autogen.sh.
-EXTRA_DIST=	autogen.sh 			\
+EXTRA_DIST =	autogen.sh 			\
 		configure.ac			\
 		diff_ignore			\
 		bootstrap/fcgui.in		\

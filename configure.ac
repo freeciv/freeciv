@@ -1576,6 +1576,7 @@ AC_CONFIG_FILES([Makefile
 	  doc/sv/Makefile
 	  freeciv.spec:bootstrap/freeciv.spec.in
 	  data/Freeciv
+          lua/Makefile
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
           client/freeciv-gtk2.desktop:bootstrap/freeciv-gtk2.desktop.in
           client/freeciv-sdl.desktop:bootstrap/freeciv-sdl.desktop.in
