@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -120,8 +120,12 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
 
   label = gtk_label_new("");
   gtk_widget_set_hexpand(label, TRUE);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_misc_set_padding(GTK_MISC(label), 8, 4);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
+  gtk_widget_set_margin_left(label, 8);
+  gtk_widget_set_margin_right(label, 8);
+  gtk_widget_set_margin_top(label, 4);
+  gtk_widget_set_margin_bottom(label, 4);
   gtk_label_set_max_width_chars(GTK_LABEL(label), 80);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   gtk_widget_set_name(label, "vote label");
@@ -129,7 +133,8 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
 
   arrow = gtk_image_new_from_stock(GTK_STOCK_MEDIA_REWIND,
                                    GTK_ICON_SIZE_SMALL_TOOLBAR);
-  gtk_misc_set_alignment(GTK_MISC(arrow), 0.5, 0.25);
+  gtk_widget_set_halign(arrow, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(arrow, GTK_ALIGN_START);
 
   if (split_bar) {
     hbox = gtk_grid_new();
@@ -158,7 +163,8 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   vib->yes_button = button;
 
   label = gtk_label_new("0");
-  gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   vib->yes_count_label = label;
 
@@ -172,7 +178,8 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   vib->no_button = button;
 
   label = gtk_label_new("0");
-  gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   vib->no_count_label = label;
 
@@ -186,12 +193,14 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   vib->abstain_button = button;
 
   label = gtk_label_new("0");
-  gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   vib->abstain_count_label = label;
 
   label = gtk_label_new("/0");
-  gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(hbox), label);
   vib->voter_count_label = label;
 

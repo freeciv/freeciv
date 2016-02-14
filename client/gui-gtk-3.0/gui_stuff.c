@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -583,8 +583,12 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       hbox = gtk_grid_new();
 
       label = gtk_label_new(NULL);
-      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_misc_set_padding(GTK_MISC(label), 4, 0);
+      gtk_widget_set_halign(label, GTK_ALIGN_START);
+      gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
+      gtk_widget_set_margin_left(label, 4);
+      gtk_widget_set_margin_right(label, 4);
+      gtk_widget_set_margin_top(label, 0);
+      gtk_widget_set_margin_bottom(label, 0);
       gtk_container_add(GTK_CONTAINER(hbox), label);
 
       button = gtk_button_new();
@@ -597,7 +601,10 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       g_free(buf);
 
       image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-      gtk_misc_set_padding(GTK_MISC(image), 0, 0);
+      gtk_widget_set_margin_left(image, 0);
+      gtk_widget_set_margin_right(image, 0);
+      gtk_widget_set_margin_top(image, 0);
+      gtk_widget_set_margin_bottom(image, 0);
       gtk_button_set_image(GTK_BUTTON(button), image);
 
       gtk_container_add(GTK_CONTAINER(hbox), button);
