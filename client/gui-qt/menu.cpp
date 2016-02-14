@@ -229,15 +229,16 @@ void gov_menu::create() {
   gov_mapper->deleteLater();
   gov_mapper = new QSignalMapper();
 
+  gov_count = government_count();
+  actions.reserve(gov_count + 1);
   action = addAction(_("Revolution..."));
   connect(action, &QAction::triggered, this, &gov_menu::revolution);
+  actions.append(action);
 
   addSeparator();
 
   // Add an action for each government. There is no icon yet.
-  gov_count = government_count();
   revol_gov = game.government_during_revolution;
-  actions.reserve(gov_count);
   for (i = 0; i < gov_count; ++i) {
     gov = government_by_number(i);
     if (gov != revol_gov) { // Skip revolution goverment
@@ -268,11 +269,13 @@ void gov_menu::update()
     if (gov != revol_gov) { // Skip revolution goverment
       sprite = get_government_sprite(tileset, gov);
       if (sprite != NULL) {
-        actions[j]->setIcon(QIcon(*(sprite->pm)));
+        actions[j + 1]->setIcon(QIcon(*(sprite->pm)));
       }
-      actions[j]->setEnabled(
-          can_change_to_government(client.conn.playing, gov));
+      actions[j + 1]->setEnabled(
+        can_change_to_government(client.conn.playing, gov));
       ++j;
+    } else {
+      actions[0]->setEnabled(!client_is_observer());
     }
   }
 }
@@ -969,7 +972,7 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(BUILD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
   act = menu->addAction(_("Go And Build City"));
-  menu_list.insertMulti(AUTOSETTLER, act);
+  menu_list.insertMulti(GO_AND_BUILD_CITY, act);
   act->setShortcut(QKeySequence(tr("shift+b")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_go_build_city()));
   act = menu->addAction(_("Go And Join City"));
@@ -1042,6 +1045,7 @@ void mr_menu::setup_menus()
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
   act = menu->addAction(_("Tax Rates..."));
+  menu_list.insertMulti(NOT_4_OBS, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_popup_tax_rates()));
   menu->addSeparator();
 
@@ -1262,6 +1266,10 @@ void mr_menu::menus_sensitive()
           i.value()->setEnabled(true);
         }
         break;
+      case NOT_4_OBS:
+        if (client_is_observer() == false) {
+          i.value()->setEnabled(true);
+        }
       default:
         break;
       }
@@ -1526,8 +1534,17 @@ void mr_menu::menus_sensitive()
         if (can_units_do(punits, can_unit_do_autosettlers)) {
           i.value()->setEnabled(true);
         }
+        if (units_contain_cityfounder(punits)) {
+          i.value()->setText(_("Auto Settler"));
+        } else {
+          i.value()->setText(_("Auto Worker"));
+        }
         break;
-
+      case GO_AND_BUILD_CITY:
+        if (units_contain_cityfounder(punits)) {
+          i.value()->setEnabled(true);
+        }
+        break;
       case CONNECT_ROAD:
         proad = road_by_compat_special(ROCO_ROAD);
         if (proad != NULL) {
