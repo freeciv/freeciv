@@ -34,8 +34,8 @@ class QPushButton;
 class QSignalMapper;
 class QScrollArea;
 
-/** used for indicating menu about current option - for renaming 
- * and enabling disbaling */
+/** used for indicating menu about current option - for renaming
+ * and enabling, disabling */
 enum munit {
   STANDARD,
   EXPLORE,
@@ -69,6 +69,8 @@ enum munit {
   ORDER_DIPLOMAT_DLG,
   NUKE,
   UPGRADE,
+  GO_AND_BUILD_CITY,
+  NOT_4_OBS,
   SAVE
 };
 
