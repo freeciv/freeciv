@@ -690,7 +690,10 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
 
     label = gtk_label_new(buf);
     gtk_widget_set_name(label, "city_info_label");
-    gtk_misc_set_padding(GTK_MISC(label), 4, 4);
+    gtk_widget_set_margin_left(label, 4);
+    gtk_widget_set_margin_right(label, 4);
+    gtk_widget_set_margin_top(label, 4);
+    gtk_widget_set_margin_bottom(label, 4);
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show_all(p);
 
@@ -755,7 +758,8 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     }
     gtk_widget_set_margin_right(label, 5);
     gtk_widget_set_name(label, "city_label");	/* for font style? */
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
     gtk_grid_attach(GTK_GRID(table), label, 0, i, 1, 1);
 
     ebox = gtk_event_box_new();
@@ -782,7 +786,8 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     label = gtk_label_new("");
     info_label[i] = label;
     gtk_widget_set_name(label, "city_label");	/* ditto */
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
 
     gtk_container_add(GTK_CONTAINER(ebox), label);
 
@@ -1538,8 +1543,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
                       * NUM_CITIZENS_SHOWN,
                       tileset_small_sprite_height(tileset));
   gtk_widget_add_events(pdialog->citizen_pixmap, GDK_BUTTON_PRESS_MASK);
-  gtk_misc_set_padding(GTK_MISC(pdialog->citizen_pixmap), 2, 2);
-  gtk_misc_set_alignment(GTK_MISC(pdialog->citizen_pixmap), 0.0f, 0.5f);
+  gtk_widget_set_margin_left(pdialog->citizen_pixmap, 2);
+  gtk_widget_set_margin_right(pdialog->citizen_pixmap, 2);
+  gtk_widget_set_margin_top(pdialog->citizen_pixmap, 2);
+  gtk_widget_set_margin_bottom(pdialog->citizen_pixmap, 2);
+  gtk_widget_set_halign(pdialog->citizen_pixmap, GTK_ALIGN_START);
+  gtk_widget_set_valign(pdialog->citizen_pixmap, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
   g_signal_connect(G_OBJECT(ebox), "button-press-event",
                    G_CALLBACK(citizens_callback), pdialog);
@@ -1547,7 +1556,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   /**** City name label here ****/
   pdialog->name_label = gtk_label_new(NULL);
   gtk_widget_set_hexpand(pdialog->name_label, TRUE);
-  gtk_misc_set_alignment(GTK_MISC(pdialog->name_label), 0.0f, 0.5f);
+  gtk_widget_set_halign(pdialog->name_label, GTK_ALIGN_START);
+  gtk_widget_set_valign(pdialog->name_label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->name_label);
 
   /**** -Start of Notebook- ****/
@@ -1683,7 +1693,9 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   enum citizen_category categories[MAX_CITY_SIZE];
-  int i, width, size, xpad;
+  int i, width, size;
+  int start_margin;
+  int end_margin;
   struct city *pcity = pdialog->pcity;
   int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
 
@@ -1702,11 +1714,12 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   pdialog->cwidth = width;
 
   /* overview page */
-  gtk_misc_get_padding(GTK_MISC(pdialog->citizen_pixmap), &xpad, NULL);
+  start_margin = gtk_widget_get_margin_left(pdialog->citizen_pixmap);
+  end_margin = gtk_widget_get_margin_right(pdialog->citizen_pixmap);
   gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap));
 
   size = (num_citizens - 1) * width + tileset_small_sprite_width(tileset) +
-         2 * xpad;
+    2 * (start_margin + end_margin);
   gtk_widget_set_size_request(GTK_WIDGET(pdialog->citizen_pixmap), size, -1);
 
   for (i = 0; i < num_citizens; i++) {

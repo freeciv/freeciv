@@ -1253,12 +1253,14 @@ static struct editinfobox *editinfobox_create(void)
   gtk_container_add(GTK_CONTAINER(hbox), vbox2);
 
   label = gtk_label_new(NULL);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(vbox2), label);
   ei->tool_label = label;
 
   label = gtk_label_new(NULL);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(vbox2), label);
   ei->tool_value_label = label;
 
@@ -1287,11 +1289,13 @@ static struct editinfobox *editinfobox_create(void)
   fc_snprintf(buf, sizeof(buf), "<span weight=\"bold\">%s</span>",
               _("Mode"));
   gtk_label_set_markup(GTK_LABEL(label), buf);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(vbox2), label);
 
   label = gtk_label_new(NULL);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_container_add(GTK_CONTAINER(vbox2), label);
   ei->mode_label = label;
 

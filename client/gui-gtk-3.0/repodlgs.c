@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1146,7 +1146,10 @@ static void economy_report_init(struct economy_report *preport)
 
   label = gtk_label_new(NULL);
   gtk_container_add(vbox, label);
-  gtk_misc_set_padding(GTK_MISC(label), 5, 5);
+  gtk_widget_set_margin_left(label, 5);
+  gtk_widget_set_margin_right(label, 5);
+  gtk_widget_set_margin_top(label, 5);
+  gtk_widget_set_margin_bottom(label, 5);
   preport->label = GTK_LABEL(label);
 
   gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
