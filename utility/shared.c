@@ -70,7 +70,7 @@
 #include "shared.h"
 
 #ifndef PATH_SEPARATOR
-#if defined _WIN32 || defined __WIN32__ || defined __EMX__ || defined __DJGPP__
+#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
   /* Win32, OS/2, DOS */
 # define PATH_SEPARATOR ";"
 #else
