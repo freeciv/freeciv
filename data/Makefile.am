@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-pkgsysconfdir = $(sysconfdir)/$(PACKAGE)
-
 if CLIENT
 CLIENT_FILES =				\
 	amplio2.tilespec		\
@@ -45,18 +43,14 @@ SRV_RE_FILES = \
 
 if SERVER
 SERVER_FILES = $(SRV_RE_FILES)
-SERVER_CONF = database.lua
 else
 if RULEDIT
 SERVER_FILES = $(SRV_RE_FILES)
-SERVER_CONF =
 else
 SERVER_FILES =
-SERVER_CONF =
 endif
 endif
 
-pkgsysconf_DATA = $(SERVER_CONF)
 pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 
 EXTRA_DIST = \
