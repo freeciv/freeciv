@@ -122,7 +122,8 @@ void popup_notify_dialog(const char *caption, const char *headline,
   gtk_widget_set_name(headline_label, "notify_label");
 
   gtk_label_set_justify(GTK_LABEL(headline_label), GTK_JUSTIFY_LEFT);
-  gtk_misc_set_alignment(GTK_MISC(headline_label), 0.0, 0.0);
+  gtk_widget_set_halign(headline_label, GTK_ALIGN_START);
+  gtk_widget_set_valign(headline_label, GTK_ALIGN_START);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
@@ -136,7 +137,8 @@ void popup_notify_dialog(const char *caption, const char *headline,
 
   gtk_widget_set_name(label, "notify_label");
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_START);
 
   gtk_container_add(GTK_CONTAINER(vbox), sw);
 

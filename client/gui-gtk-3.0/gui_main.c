@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1207,8 +1207,12 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(vgrid), ebox);
 
   label = gtk_label_new(NULL);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_misc_set_padding(GTK_MISC(label), 2, 2);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
+  gtk_widget_set_margin_left(label, 2);
+  gtk_widget_set_margin_right(label, 2);
+  gtk_widget_set_margin_top(label, 2);
+  gtk_widget_set_margin_bottom(label, 2);
   gtk_container_add(GTK_CONTAINER(ebox), label);
   main_label_info = label;
 
@@ -1278,8 +1282,12 @@ static void setup_widgets(void)
       break;
     }
 
-    gtk_misc_set_alignment(GTK_MISC(w), 0.0, 0.0);
-    gtk_misc_set_padding(GTK_MISC(w), 0, 0);
+    gtk_widget_set_halign(w, GTK_ALIGN_START);
+    gtk_widget_set_valign(w, GTK_ALIGN_START);
+    gtk_widget_set_margin_left(w, 0);
+    gtk_widget_set_margin_right(w, 0);
+    gtk_widget_set_margin_top(w, 0);
+    gtk_widget_set_margin_bottom(w, 0);
     gtk_container_add(GTK_CONTAINER(ebox), w);
     gtk_grid_attach(GTK_GRID(table), ebox, i, 1, 1, 1);
   }
@@ -1329,8 +1337,12 @@ static void setup_widgets(void)
 
   label = gtk_label_new(NULL);
   gtk_widget_set_hexpand(label, TRUE);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_misc_set_padding(GTK_MISC(label), 2, 2);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
+  gtk_widget_set_margin_left(label, 2);
+  gtk_widget_set_margin_right(label, 2);
+  gtk_widget_set_margin_top(label, 2);
+  gtk_widget_set_margin_bottom(label, 2);
   gtk_container_add(GTK_CONTAINER(sw), label);
   unit_info_label = label;
 
