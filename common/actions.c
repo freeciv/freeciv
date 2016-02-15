@@ -1367,7 +1367,17 @@ is_action_possible(const enum gen_action wanted_action,
 
   if (wanted_action == ACTION_UPGRADE_UNIT) {
     /* Reason: Keep the old rules. */
-    /* Info leak: */
+    /* Info leak: The player knows his unit's type. He knows if he can
+     * build the unit type upgraded to. If the upgrade happens in a foreign
+     * city that fact may leak. This can be seen as a price for changing
+     * the rules to allow upgrading in a foreign city.
+     * The player knows how much gold he has. If the Upgrade_Price_Pct
+     * effect depends on information he don't have that information may
+     * leak. The player knows the location of his unit. He knows if the
+     * tile has a city and if the unit can exist there outside a transport.
+     * The player knows his unit's cargo. By knowing their number and type
+     * he can predict if there will be room for them in the unit upgraded
+     * to as long as he knows what unit type his unit will end up as. */
     if (unit_upgrade_test(actor_unit, FALSE) != UU_OK) {
       return TRI_NO;
     }
