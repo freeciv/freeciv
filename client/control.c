@@ -1562,12 +1562,13 @@ void request_unit_select(struct unit_list *punits,
 
 /**************************************************************************
   Request an actor unit to do a specific action.
-  - action : The action to be requested.
-  - actor_id : The unit ID of the actor unit.
+  - action    : The action to be requested.
+  - actor_id  : The unit ID of the actor unit.
   - target_id : The ID of the target unit, city or tile.
-  - value : For DIPLOMAT_STEAL or DIPLOMAT_SABOTAGE, the technology
-            or building to aim for (spies only).
-  - name : Used by ACTION_FOUND_CITY to specify city name.
+  - value     : For ACTION_SPY_TARGETED_STEAL_TECH or
+                ACTION_SPY_TARGETED_SABOTAGE_CITY, the technology or
+                building to aim for.
+  - name      : Used by ACTION_FOUND_CITY to specify city name.
 **************************************************************************/
 void request_do_action(enum gen_action action, int actor_id,
                        int target_id, int value, const char *name)
