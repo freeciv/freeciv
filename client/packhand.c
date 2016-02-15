@@ -4290,8 +4290,8 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
 /**************************************************************************
   Handle reply to possible actions.
 
-  Note that it MUST call action_decision_taken() in the end in case
-  there are more elements in the queue.
+  Note that a reply to a foreground request (a reply where disturb_player
+  is true) must result in its clean up.
 **************************************************************************/
 void handle_unit_actions(const struct packet_unit_actions *packet)
 {
