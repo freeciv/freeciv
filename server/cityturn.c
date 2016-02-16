@@ -1377,6 +1377,33 @@ static bool worklist_change_build_target(struct player *pplayer,
                                           API_TYPE_STRING, "have_extra");
               }
 	      break;
+            case VUT_GOOD:
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?extra:%s can't build %s from the worklist; "
+                                 "%s is required. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              goods_name_translation(preq->source.value.good));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_good");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?extra:%s can't build %s from the worklist; "
+                                 "%s is prohibited. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              goods_name_translation(preq->source.value.good));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_good");
+              }
+	      break;
 	    case VUT_TERRAIN:
               if (preq->present) {
                 notify_player(pplayer, city_tile(pcity),
@@ -1848,7 +1875,6 @@ static bool worklist_change_build_target(struct player *pplayer,
                 success = FALSE;
               }
               break;
-            case VUT_RESERVED_1:
             case VUT_NONE:
             case VUT_COUNT:
               fc_assert_ret_val_msg(FALSE, TRUE,

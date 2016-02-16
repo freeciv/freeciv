@@ -358,6 +358,7 @@ typedef union {
   struct nation_group *nationgroup;
   struct nation_style *style;
   struct action *action;
+  struct goods_type *good;
 
   enum ai_level ai_level;
   enum citytile_type citytile;
@@ -431,8 +432,8 @@ typedef union {
 /* Target tile is used by city. */
 #define SPECENUM_VALUE17 VUT_CITYTILE
 #define SPECENUM_VALUE17NAME "CityTile"
-#define SPECENUM_VALUE18 VUT_RESERVED_1
-#define SPECENUM_VALUE18NAME "_Reserved_"
+#define SPECENUM_VALUE18 VUT_GOOD
+#define SPECENUM_VALUE18NAME "Good"
 #define SPECENUM_VALUE19 VUT_TERRFLAG
 #define SPECENUM_VALUE19NAME "TerrainFlag"
 #define SPECENUM_VALUE20 VUT_NATIONALITY

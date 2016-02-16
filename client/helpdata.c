@@ -382,7 +382,6 @@ static bool insert_requirement(char *buf, size_t bufsz,
 
   switch (preq->source.kind) {
   case VUT_NONE:
-  case VUT_RESERVED_1:
     return FALSE;
 
   case VUT_ADVANCE:
@@ -1140,6 +1139,32 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      extra_name_translation(preq->source.value.extra));
       }
       return TRUE;
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_GOOD:
+    switch (preq->range) {
+    case REQ_RANGE_CITY:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz, Q_("?good:Requires import of %s .\n"),
+                     goods_name_translation(preq->source.value.good));
+      } else {
+        cat_snprintf(buf, bufsz, Q_("?goods:Prevented by import of %s.\n"),
+                     goods_name_translation(preq->source.value.good));
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:

@@ -509,6 +509,22 @@ bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood)
 }
 
 /****************************************************************************
+  Does city receive goods
+****************************************************************************/
+bool city_receives_goods(const struct city *pcity,
+                         const struct goods_type *pgood)
+{
+  trade_routes_iterate(pcity, proute) {
+    if (proute->goods == pgood
+        && (proute->dir == RDIR_TO || proute->dir == RDIR_BIDIRECTIONAL)) {
+      return TRUE;
+    }
+  } trade_routes_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Return goods type for the new traderoute between given cities.
 ****************************************************************************/
 struct goods_type *goods_for_new_route(struct city *src, struct city *dest)

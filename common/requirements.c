@@ -118,6 +118,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_GOOD:
+    source.value.good = goods_by_rule_name(value);
+    if (source.value.good != NULL) {
+      return source;
+    }
+    break;
   case VUT_TERRAIN:
     source.value.terrain = terrain_by_rule_name(value);
     if (source.value.terrain != T_UNKNOWN) {
@@ -297,7 +303,6 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
-  case VUT_RESERVED_1:
   case VUT_COUNT:
     break;
   }
@@ -320,7 +325,6 @@ struct universal universal_by_number(const enum universals_n kind,
   source.kind = kind;
 
   switch (source.kind) {
-  case VUT_RESERVED_1:
   case VUT_NONE:
     /* Avoid compiler warning about unitialized source.value */
     source.value.advance = NULL;
@@ -364,6 +368,9 @@ struct universal universal_by_number(const enum universals_n kind,
     return source;
   case VUT_EXTRA:
     source.value.extra = extra_by_number(value);
+    return source;
+  case VUT_GOOD:
+    source.value.good = goods_by_number(value);
     return source;
   case VUT_TERRAIN:
     source.value.terrain = terrain_by_number(value);
@@ -509,7 +516,6 @@ int universal_number(const struct universal *source)
 {
   switch (source->kind) {
   case VUT_NONE:
-  case VUT_RESERVED_1:
     return 0;
   case VUT_ADVANCE:
     return advance_number(source->value.advance);
@@ -527,6 +533,8 @@ int universal_number(const struct universal *source)
     return source->value.impr_genus;
   case VUT_EXTRA:
     return extra_number(source->value.extra);
+  case VUT_GOOD:
+    return goods_number(source->value.good);
   case VUT_TERRAIN:
     return terrain_number(source->value.terrain);
   case VUT_TERRFLAG:
@@ -640,11 +648,11 @@ struct requirement req_from_str(const char *type, const char *range,
     switch (req.source.kind) {
     case VUT_NONE:
     case VUT_COUNT:
-    case VUT_RESERVED_1:
       break;
     case VUT_IMPROVEMENT:
     case VUT_IMPR_GENUS:
     case VUT_EXTRA:
+    case VUT_GOOD:
     case VUT_TERRAIN:
     case VUT_TERRFLAG:
     case VUT_UTYPE:
@@ -698,7 +706,7 @@ struct requirement req_from_str(const char *type, const char *range,
   /* These checks match what combinations are supported inside
    * is_req_active(). However, it's only possible to do basic checks,
    * not anything that might depend on the rest of the ruleset which
-   * might not have been lodaed yet. */
+   * might not have been loaded yet. */
   switch (req.source.kind) {
   case VUT_TERRAIN:
   case VUT_EXTRA:
@@ -725,6 +733,7 @@ struct requirement req_from_str(const char *type, const char *range,
     break;
   case VUT_MINSIZE:
   case VUT_NATIONALITY:
+  case VUT_GOOD:
     invalid = (req.range != REQ_RANGE_CITY
                && req.range != REQ_RANGE_TRADEROUTE);
     break;
@@ -793,7 +802,6 @@ struct requirement req_from_str(const char *type, const char *range,
      * So we allow anything here, and do a proper check once ruleset
      * loading is complete, in sanity_check_req_individual(). */
   case VUT_NONE:
-  case VUT_RESERVED_1:
     invalid = FALSE;
     break;
   case VUT_COUNT:
@@ -841,6 +849,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_BASEFLAG:
     case VUT_ROADFLAG:
     case VUT_EXTRA:
+    case VUT_GOOD:
     case VUT_TECHFLAG:
     case VUT_ACHIEVEMENT:
     case VUT_NATIONGROUP:
@@ -853,7 +862,6 @@ struct requirement req_from_str(const char *type, const char *range,
       break;
     case VUT_NONE:
     case VUT_COUNT:
-    case VUT_RESERVED_1:
       break;
     }
     if (invalid) {
@@ -1601,6 +1609,39 @@ static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
 
     return TRI_NO;
 
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+
+  return TRI_MAYBE;
+}
+
+/****************************************************************************
+  Is there a source goods type within range of the target?
+****************************************************************************/
+static enum fc_tristate is_goods_type_in_range(const struct tile *target_tile,
+                                               const struct city *target_city,
+                                               enum req_range range, bool survives,
+                                               struct goods_type *pgood)
+{
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CITY:
+    /* The requirement is filled if the tile has extra of requested type. */
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(city_receives_goods(target_city, pgood));
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_TRADEROUTE:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -2567,6 +2608,11 @@ bool is_req_active(const struct player *target_player,
                                   req->range, req->survives,
                                   req->source.value.extra);
     break;
+  case VUT_GOOD:
+    eval = is_goods_type_in_range(target_tile, target_city,
+                                  req->range, req->survives,
+                                  req->source.value.good);
+    break;
   case VUT_TERRAIN:
     eval = is_terrain_in_range(target_tile, target_city,
                                req->range, req->survives,
@@ -2801,7 +2847,6 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_COUNT:
-  case VUT_RESERVED_1:
     log_error("is_req_active(): invalid source kind %d.", req->source.kind);
     return FALSE;
   }
@@ -2908,6 +2953,7 @@ bool is_req_unchanging(const struct requirement *req)
     return FALSE;
   case VUT_TERRAIN:
   case VUT_EXTRA:
+  case VUT_GOOD:
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
@@ -2921,7 +2967,6 @@ bool is_req_unchanging(const struct requirement *req)
     /* Once year is reached, it does not change again */
     return req->source.value.minyear > game.info.year;
   case VUT_COUNT:
-  case VUT_RESERVED_1:
     break;
   }
   fc_assert_msg(FALSE, "Invalid source kind %d.", req->source.kind);
@@ -2956,7 +3001,6 @@ bool are_universals_equal(const struct universal *psource1,
   }
   switch (psource1->kind) {
   case VUT_NONE:
-  case VUT_RESERVED_1:
     return TRUE;
   case VUT_ADVANCE:
     return psource1->value.advance == psource2->value.advance;
@@ -2974,6 +3018,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.impr_genus == psource2->value.impr_genus;
   case VUT_EXTRA:
     return psource1->value.extra == psource2->value.extra;
+  case VUT_GOOD:
+    return psource1->value.good == psource2->value.good;
   case VUT_TERRAIN:
     return psource1->value.terrain == psource2->value.terrain;
   case VUT_TERRFLAG:
@@ -3078,6 +3124,8 @@ const char *universal_rule_name(const struct universal *psource)
     return impr_genus_id_name(psource->value.impr_genus);
   case VUT_EXTRA:
     return extra_rule_name(psource->value.extra);
+  case VUT_GOOD:
+    return goods_rule_name(psource->value.good);
   case VUT_TERRAIN:
     return terrain_rule_name(psource->value.terrain);
   case VUT_TERRFLAG:
@@ -3148,7 +3196,6 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_TERRAINALTER:
     return terrain_alteration_name(psource->value.terrainalter);
   case VUT_COUNT:
-  case VUT_RESERVED_1:
     break;
   }
 
@@ -3204,6 +3251,9 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_EXTRA:
     fc_strlcat(buf, extra_name_translation(psource->value.extra), bufsz);
+    return buf;
+  case VUT_GOOD:
+    fc_strlcat(buf, goods_name_translation(psource->value.good), bufsz);
     return buf;
   case VUT_TERRAIN:
     fc_strlcat(buf, terrain_name_translation(psource->value.terrain), bufsz);
@@ -3367,7 +3417,6 @@ const char *universal_name_translation(const struct universal *psource,
     fc_strlcat(buf, _("City center"), bufsz);
     return buf;
   case VUT_COUNT:
-  case VUT_RESERVED_1:
     break;
   }
 
