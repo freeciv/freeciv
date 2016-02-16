@@ -260,7 +260,7 @@ Actions done by a unit against a city
  * actor unit must have a type to upgrade to (obsoleted_by).
  * actor unit's upgraded form must be able to exist at its current
    location.
- * actor unit's upgraded form must have room in its current transport.
+ * actor unit's upgraded form must have room for its current cargo.
  * target player must be able to build the unit upgraded to
  * target city must be domestic.
 
