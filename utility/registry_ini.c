@@ -31,7 +31,7 @@
        *include "filename"
   includes the named file at that point.  (The '*' must be the
   first character on the line.) The file is found by looking in
-  FREECIV_PATH.  Non-infinite recursive includes are allowed.
+  FREECIV_DATA_PATH.  Non-infinite recursive includes are allowed.
   
   - A line with "[name]" labels the start of a section with
   that name; one of these must be the first non-comment line in
