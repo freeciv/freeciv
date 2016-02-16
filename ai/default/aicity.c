@@ -856,6 +856,11 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
     adv_free_choice(choice);
     TIMING_LOG(AIT_CITY_MILITARY, TIMER_STOP);
     if (dai_on_war_footing(ait, pplayer) && city_data->choice.want > 0) {
+      city_data->settler_want = 0;
+      city_data->founder_want = 0;
+      city_data->founder_turn = game.info.turn; /* Do not consider zero we set here
+                                                 * valid value, if real want is needed.
+                                                 * Recalculate immediately in such situation. */
       continue; /* Go, soldiers! */
     }
     /* Will record its findings in pcity->settler_want */ 
@@ -868,6 +873,8 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
       /* Will record its findings in pcity->founder_want */ 
       contemplate_new_city(ait, pcity);
       /* Avoid recalculating all the time.. */
+      /* This means AI is not very opportunistic if there happens to open up spot for
+       * a new city. */
       city_data->founder_turn = 
         game.info.turn + fc_rand(AI_CITY_RECALC_SPEED) + AI_CITY_RECALC_SPEED;
     } else if (pcity->server.debug) {
