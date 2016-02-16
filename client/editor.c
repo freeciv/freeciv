@@ -467,12 +467,12 @@ static void editor_grab_tool(const struct tile *ptile)
     return;
   }
 
-  base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase)) {
-      first_base = pbase;
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      first_base = extra_base_get(pextra);
       break;
     }
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     if (tile_has_extra(ptile, pextra)) {

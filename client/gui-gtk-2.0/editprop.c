@@ -920,11 +920,13 @@ static gchar *propval_as_string(struct propval *pv)
     return g_strdup_printf(_("%d present"), count);
 
   case VALTYPE_BV_BASES:
-    base_type_iterate(pbase) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      struct base_type *pbase = extra_base_get(pextra);
+
       if (BV_ISSET(pv->data.v_bv_bases, base_number(pbase))) {
         count++;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
     return g_strdup_printf(_("%d present"), count);
 
   case VALTYPE_NATION_HASH:
@@ -3775,13 +3777,15 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
 
   case OPID_TILE_BASES:
     gtk_list_store_clear(store);
-    base_type_iterate(pbase) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      struct base_type *pbase = extra_base_get(pextra);
+
       id = base_number(pbase);
-      name = base_name_translation(pbase);
+      name = extra_name_translation(pextra);
       present = BV_ISSET(pv->data.v_bv_bases, id);
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, present, 1, id, 2, name, -1);
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
     buf = propval_as_string(pv);
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
     g_free(buf);
