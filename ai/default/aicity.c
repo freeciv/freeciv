@@ -800,14 +800,23 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   }
   want = MAX(want, 0);
 
-  CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
-           "we have %d workers and %d cities on the continent",
-	   utype_rule_name(utype),
-	   want,
-	   get_activity_text(best_act),
-	   TILE_XY(best_tile),
-           ai->stats.workers[place], 
-           adv->stats.cities[place]);
+  if (place >= 0) {
+    CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
+             "we have %d workers and %d cities on the continent",
+             utype_rule_name(utype),
+             want,
+             get_activity_text(best_act),
+             TILE_XY(best_tile),
+             ai->stats.workers[place], 
+             adv->stats.cities[place]);
+  } else {
+    CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d)",
+             utype_rule_name(utype),
+             want,
+             get_activity_text(best_act),
+             TILE_XY(best_tile));
+  }
+
   fc_assert(want >= 0);
 
   city_data->settler_want = want;
