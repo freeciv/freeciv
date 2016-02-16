@@ -50,7 +50,7 @@ if AUDIO_SDL
 AUDIO_SDL_FILES=$(ALL_AUDIO_SDL_FILES)
 endif
 
-if MINGW32
+if MINGW
 CLIENTICON=../win32/clienticon.o
 endif
 

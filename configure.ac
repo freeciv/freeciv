@@ -174,17 +174,17 @@ esac], [server=yes])
 AM_CONDITIONAL(SERVER, test x$server = xyes)
 
 dnl Host type variable defaults
-MINGW32=no
+MINGW=no
 AMIGA=no
 
 dnl Settings specific to host OS
 case "$host_os" in
 
-  *mingw32*)
+  *mingw*)
     dnl Windows-specific settings
-    MINGW32=yes
-    FC_WINSOCK2_INCLUDE([AC_DEFINE([FREECIV_HAVE_WINSOCK2], [1], [Mingw32-specific setting - winsock2])])
-    AC_DEFINE([FREECIV_HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
+    MINGW=yes
+    FC_WINSOCK2_INCLUDE([AC_DEFINE([FREECIV_HAVE_WINSOCK2], [1], [Mingw-specific setting - winsock2])])
+    AC_DEFINE([FREECIV_HAVE_WINSOCK], [1], [Mingw-specific setting - winsock])
     AC_CHECK_HEADERS([ws2tcpip.h], [AC_DEFINE([FREECIV_HAVE_WS2TCPIP_H], [1], [ws2tcpip.h available])])
     AC_CHECK_HEADERS([direct.h])
 
@@ -198,7 +198,7 @@ AC_CHECK_HEADERS([sys/types.h], [AC_DEFINE([FREECIV_HAVE_SYS_TYPES_H], [1], [sys
 
 dnl Avoid including the unix emulation layer if we build mingw executables
 dnl There would be type conflicts between winsock and bsd/unix includes
-if test "x$MINGW32" != "xyes"; then
+if test "x$MINGW" != "xyes"; then
   AC_CHECK_HEADERS([sys/socket.h], [AC_DEFINE([FREECIV_HAVE_SYS_SOCKET_H], [1], [sys/socket.h available])])
 fi
 
@@ -726,7 +726,7 @@ HOST_PATH_SEPARATOR=":"
 dnl Settings specific to host OS
 case "$host_os" in
 
-  *mingw32*)
+  *mingw*)
     dnl Windows-specific settings
     AC_CHECK_TOOL([WINDRES], [windres])
     if test -z $WINDRES; then
@@ -735,9 +735,9 @@ case "$host_os" in
 
     HOST_PATH_SEPARATOR=";"
 
-    AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [Mingw32-specific setting - stdin])
-    AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw32])
-    AC_DEFINE([WIN32_NATIVE], [1], [Mingw32-specific setting - native])
+    AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [Mingw-specific setting - stdin])
+    AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw])
+    AC_DEFINE([WIN32_NATIVE], [1], [Mingw-specific setting - native])
     AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])
     ;;
 
@@ -766,7 +766,7 @@ if test x$build = x$host ; then
 fi
 
 dnl note this has to match the path installed by translations/freeciv/Makefile
-if test x"$MINGW32" != "xyes"; then
+if test x"$MINGW" != "xyes"; then
   CPPFLAGS="$CPPFLAGS -DLOCALEDIR=\"\\\"$localedir\\\"\""
 else
   AC_DEFINE_UNQUOTED([LOCALEDIR], ["./share/locale"], [Locale directory (windows)])
@@ -826,7 +826,7 @@ AC_ARG_ENABLE([crosser],
   no)  crosser=no ;;
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-crosser]) ;;
 esac], [crosser=no])
-if test x$crosser = xyes && test x$MINGW32 != xyes ; then
+if test x$crosser = xyes && test x$MINGW != xyes ; then
   AC_MSG_ERROR([--enable-crosser is Windows build specific option])
 fi
 
@@ -1015,7 +1015,7 @@ if test "x$req_fcmp_gtk3" = "xyes" ||
   fcmp_list="$fcmp_list gtk3"
   mp_gtk3_cflags="$GTK3MP_CFLAGS $GHTREAD_GTK3_CFLAGS"
   mp_gtk3_libs="$GTK3MP_LIBS $GTHREAD_GTK3_LIBS"
-  if test "x$MINGW32" = "xyes"; then
+  if test "x$MINGW" = "xyes"; then
     dnl Required to compile gtk3 on Windows platform
     mp_gtk3_cflags="$mp_gtk3_cflags -mms-bitfields"
     mp_gtk3_ldflags="$mp_gtk3_ldflags -mwindows"
@@ -1041,7 +1041,7 @@ if test "x$req_fcmp_gtk2" = "xyes" ||
   fcmp_list="$fcmp_list gtk2"
   mp_gtk2_cflags="$GTK2_CFLAGS $GTHREAD_GTK2_CFLAGS"
   mp_gtk2_libs="$GTK2_LIBS $GTHREAD_GTK2_LIBS"
-  if test "x$MINGW32" = "xyes"; then
+  if test "x$MINGW" = "xyes"; then
      dnl Required to compile gtk2 on Windows platform
      mp_gtk2_cflags="$mp_gtk2_cflags -mms-bitfields"
      mp_gtk2_ldflags="$mp_gtk2_ldflags -mwindows"
@@ -1098,7 +1098,7 @@ if test "x$modinst" != "xfound" &&
   AC_MSG_ERROR([Cannot build modpack installer with any gui])
 fi 
 
-if test "x$modinst" != "xno" && test "x$MINGW32" != "xyes" ; then
+if test "x$modinst" != "xno" && test "x$MINGW" != "xyes" ; then
   dnl Hack to get a run-time icon -- not needed on Windows
   mp_gtk2_cflags="$mp_gtk2_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
   mp_gtk3_cflags="$mp_gtk3_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
@@ -1196,7 +1196,7 @@ AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_X, test "x$gui_gtk3x" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
-AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
+AM_CONDITIONAL(MINGW, test x"$MINGW" = "xyes")
 
 dnl Additional client libraries:
 if test "x$client" = "xyes"; then
@@ -1238,7 +1238,7 @@ AC_CHECK_HEADERS([pwd.h])
 
 dnl Avoid including the unix emulation layer if we build mingw executables
 dnl There would be type conflicts between winsock and bsd/unix includes
-if test "x$MINGW32" != "xyes"; then
+if test "x$MINGW" != "xyes"; then
   AC_CHECK_HEADERS([arpa/inet.h netdb.h sys/ioctl.h \
                     sys/signal.h sys/termio.h \
                     sys/uio.h termios.h])
@@ -1275,7 +1275,7 @@ AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
 
 dnl Windows vsnprintf doesn't support argument reordering (see PR#12932)
-if test "x$MINGW32" != "xyes"; then
+if test "x$MINGW" != "xyes"; then
 AC_FUNC_VSNPRINTF
 AC_CHECK_FUNCS([vsnprintf])
 fi
@@ -1311,7 +1311,7 @@ dnl The use of both AC_FUNC_VSNPRINTF and AC_CHECK_FUNCS(vsnprintf) is
 dnl deliberate.
 
 dnl Windows fdopen does not work with sockets.
-if test "x$MINGW32" != "xyes"; then
+if test "x$MINGW" != "xyes"; then
   AC_CHECK_FUNCS(fdopen)
 fi
 
@@ -1337,7 +1337,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[signal (SIGPIPE, S
 dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 
-if test x"$MINGW32" = xyes; then
+if test x"$MINGW" = xyes; then
   DEFAULT_SAVE_PATH=".;$FREECIV_STORAGE_DIR/saves"
   if test x$crosser = xyes ; then
     FC_CONF_PATH="../etc/freeciv"

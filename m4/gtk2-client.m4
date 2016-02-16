@@ -15,7 +15,7 @@ AC_DEFUN([FC_GTK2_CLIENT],
         fi
         gui_gtk2_cflags="$GTK2_CFLAGS"
         gui_gtk2_libs="$GTK2_LIBS"
-        if test "x$MINGW32" = "xyes"; then
+        if test "x$MINGW" = "xyes"; then
           dnl Required to compile gtk2 on Windows platform
           gui_gtk2_cflags="$gui_gtk2_cflags -mms-bitfields"
           gui_gtk2_ldflags="$gui_gtk2_ldflags -mwindows"
