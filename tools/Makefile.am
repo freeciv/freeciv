@@ -45,7 +45,7 @@ common_cppflags = \
 
 AM_CPPFLAGS = $(common_cppflags)
 
-if MINGW32
+if MINGW
 MPICON = $(top_builddir)/win32/mpicon.o
 else
 desktopfiledir = @DESKTOPDIR@

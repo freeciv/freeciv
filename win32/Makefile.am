@@ -45,7 +45,7 @@ dist_noinst_DATA = \
 		installer_msys2/Makefile			\
 		installer_msys2/win_arch.sh
 
-if MINGW32
+if MINGW
 nodist_noinst_DATA = 		\
 		clienticon.o 	\
 		mpicon.o	\

@@ -25,7 +25,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/scripting \
 	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE3_CFLAGS)
 
-if MINGW32
+if MINGW
 SERVERICON=../win32/servericon.o
 endif
 

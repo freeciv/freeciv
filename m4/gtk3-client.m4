@@ -17,7 +17,7 @@ AC_DEFUN([FC_GTK3_CLIENT],
         fi
         gui_gtk3_cflags="$GTK3_CFLAGS"
         gui_gtk3_libs="$GTK3_LIBS"
-        if test "x$MINGW32" = "xyes"; then
+        if test "x$MINGW" = "xyes"; then
           dnl Required to compile gtk3 on Windows platform
           gui_gtk3_cflags="$gui_gtk3_cflags -mms-bitfields"
           gui_gtk3_ldflags="$gui_gtk3_ldflags -mwindows"
