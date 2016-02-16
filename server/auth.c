@@ -136,7 +136,8 @@ bool auth_user(struct connection *pconn, char *username)
     case FCDB_SUCCESS_FALSE:
       /* we couldn't find the user, he is new */
       if (srvarg.auth_allow_newusers) {
-        sz_strlcpy(buffer, _("Enter a new password (and remember it)."));
+        /* TRANS: Try not to make the translation much longer than the original. */
+        sz_strlcpy(buffer, _("First time login. Set a new password and confirm it."));
         dsend_packet_authentication_req(pconn, AUTH_NEWUSER_FIRST, buffer);
         pconn->server.auth_settime = time(NULL);
         pconn->server.status = AS_REQUESTING_NEW_PASS;
