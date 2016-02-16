@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -641,9 +641,9 @@ static void maybe_claim_base(struct tile *ptile, struct player *new_owner,
   } unit_list_iterate_end;
 
   if (claim) {
-    base_type_iterate(pbase) {
-      map_claim_base(ptile, pbase, new_owner, old_owner);
-    } base_type_iterate_end;
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      map_claim_base(ptile, pextra, new_owner, old_owner);
+    } extra_type_by_cause_iterate_end;
 
     ptile->extras_owner = new_owner;
   }

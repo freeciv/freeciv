@@ -48,12 +48,14 @@ int tile_border_source_radius_sq(struct tile *ptile)
     radius_sq += MIN(city_size_get(pcity), CITY_MAP_MAX_RADIUS_SQ)
                  * game.info.border_size_effect;
   } else {
-    base_type_iterate(pbase) {
-      if (tile_has_base(ptile, pbase) && territory_claiming_base(pbase)) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      struct base_type *pbase = extra_base_get(pextra);
+
+      if (tile_has_extra(ptile, pextra) && territory_claiming_base(pbase)) {
         radius_sq = pbase->border_sq;
         break;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
 
   return radius_sq;
@@ -76,12 +78,14 @@ int tile_border_source_strength(struct tile *ptile)
   if (pcity) {
     strength = city_size_get(pcity) + 2;
   } else {
-    base_type_iterate(pbase) {
-      if (tile_has_base(ptile, pbase) && territory_claiming_base(pbase)) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      struct base_type *pbase = extra_base_get(pextra);
+
+      if (tile_has_extra(ptile, pextra) && territory_claiming_base(pbase)) {
         strength = 1;
         break;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
 
   return strength;
@@ -112,11 +116,13 @@ bool is_border_source(struct tile *ptile)
   }
 
   if (extra_owner(ptile) != NULL) {
-    base_type_iterate(pbase) {
-      if (tile_has_base(ptile, pbase) && territory_claiming_base(pbase)) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      struct base_type *pbase = extra_base_get(pextra);
+
+      if (tile_has_extra(ptile, pextra) && territory_claiming_base(pbase)) {
         return TRUE;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
 
   return FALSE;

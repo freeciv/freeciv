@@ -39,11 +39,13 @@ bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag)
 bool is_base_flag_card_near(const struct tile *ptile, enum base_flag_id flag)
 {
   cardinal_adjc_iterate(ptile, adjc_tile) {
-    base_type_iterate(pbase) {
-      if (base_has_flag(pbase, flag) && tile_has_base(adjc_tile, pbase)) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      struct base_type *pbase = extra_base_get(pextra);
+
+      if (base_has_flag(pbase, flag) && tile_has_extra(adjc_tile, pextra)) {
         return TRUE;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   } cardinal_adjc_iterate_end;
 
   return FALSE;
@@ -56,11 +58,13 @@ bool is_base_flag_card_near(const struct tile *ptile, enum base_flag_id flag)
 bool is_base_flag_near_tile(const struct tile *ptile, enum base_flag_id flag)
 {
   adjc_iterate(ptile, adjc_tile) {
-    base_type_iterate(pbase) {
-      if (base_has_flag(pbase, flag) && tile_has_base(adjc_tile, pbase)) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      struct base_type *pbase = extra_base_get(pextra);
+
+      if (base_has_flag(pbase, flag) && tile_has_extra(adjc_tile, pextra)) {
         return TRUE;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   } adjc_iterate_end;
 
   return FALSE;
@@ -308,12 +312,14 @@ struct base_type *get_base_by_gui_type(enum base_gui_type type,
                                        const struct unit *punit,
                                        const struct tile *ptile)
 {
-  base_type_iterate(pbase) {
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    struct base_type *pbase = extra_base_get(pextra);
+
     if (type == pbase->gui_type
-        && (!punit || can_build_base(punit, pbase, ptile))) {
+        && (punit == NULL || can_build_base(punit, pbase, ptile))) {
       return pbase;
     }
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   return NULL;
 }

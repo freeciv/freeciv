@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -115,7 +115,7 @@ void map_update_border(struct tile *ptile, struct player *owner,
                        int old_radius_sq, int new_radius_sq);
 
 void tile_claim_bases(struct tile *ptile, struct player *powner);
-void map_claim_base(struct tile *ptile, struct base_type *pbase,
+void map_claim_base(struct tile *ptile, struct extra_type *pextra,
                     struct player *powner, struct player *ploser);
 
 void terrain_changed(struct tile *ptile);
@@ -134,11 +134,11 @@ void vision_clear_sight(struct vision *vision);
 void change_playertile_site(struct player_tile *ptile,
                             struct vision_site *new_site);
 
-void create_base(struct tile *ptile, struct base_type *pbase,
+void create_base(struct tile *ptile, struct extra_type *pextra,
                  struct player *pplayer);
 void destroy_extra(struct tile *ptile, struct extra_type *pextra);
 
-void create_road(struct tile *ptile, struct road_type *proad);
+void create_road(struct tile *ptile, struct extra_type *pextra);
 
 void give_distorted_map(struct player *pfrom, struct player *pto, int good,
                         int bad, bool reveal_cities);

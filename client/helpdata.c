@@ -282,14 +282,12 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       }
     } terrain_type_iterate_end;
 
-    base_type_iterate(b) {
-      struct extra_type *pextra = base_extra_get(b);
-
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
       if (pextra->buildable && pextra->build_time > 0) {
         terrain_independent_extras = TRUE;
         break;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
     if (!terrain_independent_extras) {
       extra_type_by_cause_iterate(EC_ROAD, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
@@ -329,11 +327,9 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
                        pextra->build_time);
         }
       } extra_type_by_cause_iterate_end;
-      base_type_iterate(b) {
-        struct extra_type *pextra = base_extra_get(b);
-
+      extra_type_by_cause_iterate(EC_BASE, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
-          const char *bname = base_name_translation(b);
+          const char *bname = extra_name_translation(pextra);
 
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
@@ -341,7 +337,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
                        MAX(0, 18 - (int)get_internal_string_length(bname)), "",
                        pextra->build_time);
         }
-      } base_type_iterate_end;
+      } extra_type_by_cause_iterate_end;
     }
     return TRUE;
   } else if (0 == strcmp(name, "VeteranLevels")) {
@@ -4565,14 +4561,14 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (pterrain->base_time == 0) {
     /* Can't build bases; only mention if ruleset has buildable bases */
-    base_type_iterate(b) {
-      if (base_extra_get(b)->buildable) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      if (pextra->buildable) {
         CATLSTR(buf, bufsz,
                 _("* Bases cannot be built on this terrain."));
         CATLSTR(buf, bufsz, "\n");
         break;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
   if (terrain_has_flag(pterrain, TER_UNSAFE_COAST)
       && terrain_type_terrain_class(pterrain) != TC_OCEAN) {

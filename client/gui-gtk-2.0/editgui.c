@@ -864,7 +864,8 @@ static void editbar_reload_tileset(struct editbar *eb)
   store = tvs->store;
   gtk_list_store_clear(store);
 
-  base_type_iterate(pbase) {
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    struct base_type *pbase = extra_base_get(pextra);
     int id;
 
     id = base_number(pbase);
@@ -872,14 +873,14 @@ static void editbar_reload_tileset(struct editbar *eb)
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
                        TVS_COL_ID, id,
-                       TVS_COL_NAME, base_name_translation(pbase),
+                       TVS_COL_NAME, extra_name_translation(pextra),
                        -1);
-    pixbuf = create_extra_pixbuf(base_extra_get(pbase));
+    pixbuf = create_extra_pixbuf(pextra);
     if (pixbuf != NULL) {
       gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
       g_object_unref(pixbuf);
     }
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
 
   /* Reload unit types. */

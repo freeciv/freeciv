@@ -3146,19 +3146,19 @@ static bool load_ruleset_terrain(struct section_file *file,
 
   if (ok) {
     /* base details */
-    base_type_iterate(pbase) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      struct base_type *pbase = extra_base_get(pextra);
       const char *section = &base_sections[base_index(pbase) * MAX_SECTION_LABEL];
       int bj;
       const char **slist;
       const char *gui_str;
-      struct extra_type *pextra = base_extra_get(pbase);
 
       gui_str = secfile_lookup_str(file,"%s.gui_type", section);
       pbase->gui_type = base_gui_type_by_name(gui_str, fc_strcasecmp);
       if (!base_gui_type_is_valid(pbase->gui_type)) {
         ruleset_error(LOG_ERROR, "\"%s\" base \"%s\": unknown gui_type \"%s\".",
                       filename,
-                      base_rule_name(pbase),
+                      extra_rule_name(pextra),
                       gui_str);
         ok = FALSE;
         break;
@@ -3198,20 +3198,22 @@ static bool load_ruleset_terrain(struct section_file *file,
       }
 
       if (territory_claiming_base(pbase)) {
-        base_type_iterate(pbase2) {
-          if (pbase == pbase2) {
+        extra_type_by_cause_iterate(EC_BASE, pextra2) {
+          struct base_type *pbase2;
+
+          if (pextra == pextra2) {
             /* End of the fully initialized bases iteration. */
             break;
           }
-          if (territory_claiming_base(pbase2)) {
-            struct extra_type *pextra2 = base_extra_get(pbase2);
 
+          pbase2 = extra_base_get(pextra2);
+          if (territory_claiming_base(pbase2)) {
             BV_SET(pextra->conflicts, extra_index(pextra2));
             BV_SET(pextra2->conflicts, extra_index(pextra));
           }
-        } base_type_iterate_end;
+        } extra_type_by_cause_iterate_end;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
 
   if (ok) {
@@ -6731,9 +6733,10 @@ static void send_ruleset_extras(struct conn_list *dest)
 **************************************************************************/
 static void send_ruleset_bases(struct conn_list *dest)
 {
-  struct packet_ruleset_base packet;
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    struct base_type *b = extra_base_get(pextra);
+    struct packet_ruleset_base packet;
 
-  base_type_iterate(b) {
     packet.id = base_number(b);
 
     packet.gui_type = b->gui_type;
@@ -6744,7 +6747,7 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.flags = b->flags;
 
     lsend_packet_ruleset_base(dest, &packet);
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 }
 
 /**************************************************************************

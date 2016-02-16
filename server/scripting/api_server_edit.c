@@ -391,7 +391,7 @@ void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name)
 void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
                           Player *pplayer)
 {
-  struct base_type *pbase;
+  struct extra_type *pextra;
 
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
@@ -400,10 +400,10 @@ void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
     return;
   }
 
-  pbase = base_type_by_rule_name(name);
+  pextra = extra_type_by_rule_name(name);
 
-  if (pbase) {
-    create_base(ptile, pbase, pplayer);
+  if (pextra != NULL && is_extra_caused_by(pextra, EC_BASE)) {
+    create_base(ptile, pextra, pplayer);
     update_tile_knowledge(ptile);
   }
 }
@@ -413,7 +413,7 @@ void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
 *****************************************************************************/
 void api_edit_create_road(lua_State *L, Tile *ptile, const char *name)
 {
-  struct road_type *proad;
+  struct extra_type *pextra;
 
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
@@ -422,10 +422,10 @@ void api_edit_create_road(lua_State *L, Tile *ptile, const char *name)
     return;
   }
 
-  proad = road_type_by_rule_name(name);
+  pextra = extra_type_by_rule_name(name);
 
-  if (proad) {
-    create_road(ptile, proad);
+  if (pextra != NULL && is_extra_caused_by(pextra, EC_ROAD)) {
+    create_road(ptile, pextra);
     update_tile_knowledge(ptile);
   }
 }

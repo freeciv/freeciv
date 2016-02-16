@@ -2084,15 +2084,16 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
   } extra_type_iterate_end;
 
   sect_idx = 0;
-  base_type_iterate(pbase) {
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
     char path[512];
+    struct base_type *pbase = extra_base_get(pextra);
     const char *flag_names[BF_COUNT];
     int flagi;
     int set_count;
 
     fc_snprintf(path, sizeof(path), "base_%d", sect_idx++);
 
-    secfile_insert_str(sfile, extra_rule_name(base_extra_get(pbase)),
+    secfile_insert_str(sfile, extra_rule_name(pextra),
                        "%s.extra", path);
 
     secfile_insert_str(sfile, base_gui_type_name(pbase->gui_type),
@@ -2116,7 +2117,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       secfile_insert_str_vec(sfile, flag_names, set_count,
                              "%s.flags", path);
     }
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_ROAD, pextra) {

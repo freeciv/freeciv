@@ -2613,9 +2613,7 @@ void real_menus_init(void)
     g_list_free(list);
 
     /* Add new base entries. */
-    base_type_iterate(p) {
-      struct extra_type *pextra = base_extra_get(p);
-
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
       if (pextra->buildable) {
         item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
         g_object_set_data(G_OBJECT(item), "base", pextra);
@@ -2623,7 +2621,7 @@ void real_menus_init(void)
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         gtk_widget_show(item);
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
   }
 
   if ((menu = find_action_menu(unit_group, "MENU_BUILD_PATH"))) {

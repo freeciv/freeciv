@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1970,9 +1970,9 @@ void tile_claim_bases(struct tile *ptile, struct player *powner)
    * abort recursion. */
   ptile->extras_owner = powner;
 
-  base_type_iterate(pbase) {
-    map_claim_base(ptile, pbase, powner, base_loser);
-  } base_type_iterate_end;
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    map_claim_base(ptile, pextra, powner, base_loser);
+  } extra_type_by_cause_iterate_end;
 }
 
 /*************************************************************************
@@ -2141,12 +2141,18 @@ void map_calculate_borders(void)
 /****************************************************************************
   Claim base to player's ownership.
 ****************************************************************************/
-void map_claim_base(struct tile *ptile, struct base_type *pbase,
+void map_claim_base(struct tile *ptile, struct extra_type *pextra,
                     struct player *powner, struct player *ploser)
 {
-  if (!tile_has_base(ptile, pbase)) {
+  struct base_type *pbase;
+
+  if (!tile_has_extra(ptile, pextra)) {
     return;
   }
+
+  pbase = extra_base_get(pextra);
+
+  fc_assert_ret(pbase != NULL);
 
   /* Transfer base provided vision to new owner */
   if (powner != NULL) {
@@ -2220,20 +2226,20 @@ void vision_clear_sight(struct vision *vision)
 /****************************************************************************
   Create base to tile.
 ****************************************************************************/
-void create_base(struct tile *ptile, struct base_type *pbase,
+void create_base(struct tile *ptile, struct extra_type *pextra,
                  struct player *pplayer)
 {
   bool extras_removed = FALSE;
 
   extra_type_iterate(old_extra) {
     if (tile_has_extra(ptile, old_extra)
-        && !can_extras_coexist(old_extra, base_extra_get(pbase))) {
+        && !can_extras_coexist(old_extra, pextra)) {
       destroy_extra(ptile, old_extra);
       extras_removed = TRUE;
     }
   } extra_type_iterate_end;
 
-  tile_add_base(ptile, pbase);
+  tile_add_extra(ptile, pextra);
 
   /* Watchtower might become effective
    * FIXME: Reqs on other specials will not be updated immediately. */
@@ -2244,21 +2250,21 @@ void create_base(struct tile *ptile, struct base_type *pbase,
     struct player *old_owner = extra_owner(ptile);
 
     /* Created base from NULL -> pplayer */
-    map_claim_base(ptile, pbase, pplayer, NULL);
+    map_claim_base(ptile, pextra, pplayer, NULL);
 
     if (old_owner != pplayer) {
       /* Existing bases from old_owner -> pplayer */
-      base_type_iterate(oldbase) {
-        if (oldbase != pbase) {
+      extra_type_by_cause_iterate(EC_BASE, oldbase) {
+        if (oldbase != pextra) {
           map_claim_base(ptile, oldbase, pplayer, old_owner);
         }
-      } base_type_iterate_end;
+      } extra_type_by_cause_iterate_end;
 
       ptile->extras_owner = pplayer;
     }
   } else {
     /* Player who already owns bases on tile claims new base */
-    map_claim_base(ptile, pbase, extra_owner(ptile), NULL);
+    map_claim_base(ptile, pextra, extra_owner(ptile), NULL);
   }
 
   if (extras_removed) {
@@ -2271,19 +2277,19 @@ void create_base(struct tile *ptile, struct base_type *pbase,
 /****************************************************************************
   Create road to tile.
 ****************************************************************************/
-void create_road(struct tile *ptile, struct road_type *proad)
+void create_road(struct tile *ptile, struct extra_type *pextra)
 {
   bool extras_removed = FALSE;
 
   extra_type_iterate(old_extra) {
     if (tile_has_extra(ptile, old_extra)
-        && !can_extras_coexist(old_extra, road_extra_get(proad))) {
+        && !can_extras_coexist(old_extra, pextra)) {
       tile_remove_extra(ptile, old_extra);
       extras_removed = TRUE;
     }
   } extra_type_iterate_end;
 
-  tile_add_road(ptile, proad);
+  tile_add_extra(ptile, pextra);
 
   if (extras_removed) {
     /* Maybe conflicting extra that was removed was the only thing

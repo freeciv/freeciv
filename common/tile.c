@@ -191,11 +191,13 @@ void tile_remove_base(struct tile *ptile, const struct base_type *pbase)
 ****************************************************************************/
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
 {
-  base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase) && base_has_flag(pbase, flag)) {
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    struct base_type *pbase = extra_base_get(pextra);
+
+    if (tile_has_extra(ptile, pextra) && base_has_flag(pbase, flag)) {
       return TRUE;
     }
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   return FALSE;
 }
@@ -207,12 +209,14 @@ bool tile_has_base_flag_for_unit(const struct tile *ptile,
                                  const struct unit_type *punittype,
                                  enum base_flag_id flag)
 {
-  base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase)
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    struct base_type *pbase = extra_base_get(pextra);
+
+    if (tile_has_extra(ptile, pextra)
         && base_has_flag_for_utype(pbase, flag, punittype)) {
       return TRUE;
     }
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   return FALSE;
 }
@@ -223,14 +227,15 @@ bool tile_has_base_flag_for_unit(const struct tile *ptile,
 bool tile_has_claimable_base(const struct tile *ptile,
                              const struct unit_type *punittype)
 {
-  base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase)
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    struct base_type *pbase = extra_base_get(pextra);
+
+    if (tile_has_extra(ptile, pextra)
         && territory_claiming_base(pbase)
-        && is_native_extra_to_uclass(base_extra_get(pbase),
-                                     utype_class(punittype))) {
+        && is_native_extra_to_uclass(pextra, utype_class(punittype))) {
       return TRUE;
     }
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   return FALSE;
 }
@@ -334,12 +339,12 @@ bool tile_has_refuel_extra(const struct tile *ptile,
 bool tile_has_native_base(const struct tile *ptile,
                           const struct unit_type *punittype)
 {
-  base_type_iterate(pbase) {
-    if (tile_has_base(ptile, pbase)
-        && is_native_extra_to_utype(base_extra_get(pbase), punittype)) {
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && is_native_extra_to_utype(pextra, punittype)) {
       return TRUE;
     }
-  } base_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   return FALSE;
 }

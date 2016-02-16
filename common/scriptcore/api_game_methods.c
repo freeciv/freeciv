@@ -739,11 +739,11 @@ bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name)
   LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
 
   if (!name) {
-    base_type_iterate(pbase) {
-      if (tile_has_extra(ptile, base_extra_get(pbase))) {
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      if (tile_has_extra(ptile, pextra)) {
         return TRUE;
       }
-    } base_type_iterate_end;
+    } extra_type_by_cause_iterate_end;
 
     return FALSE;
   } else {

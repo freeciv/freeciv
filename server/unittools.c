@@ -885,9 +885,7 @@ static void update_unit_activity(struct unit *punit)
     {
       if (total_activity(ptile, ACTIVITY_BASE, punit->activity_target)
           >= tile_activity_time(ACTIVITY_BASE, ptile, punit->activity_target)) {
-        struct base_type *new_base = extra_base_get(punit->activity_target);
-
-        create_base(ptile, new_base, unit_owner(punit));
+        create_base(ptile, punit->activity_target, unit_owner(punit));
         unit_activity_done = TRUE;
       }
     }
@@ -897,9 +895,7 @@ static void update_unit_activity(struct unit *punit)
     {
       if (total_activity(ptile, ACTIVITY_GEN_ROAD, punit->activity_target)
           >= tile_activity_time(ACTIVITY_GEN_ROAD, ptile, punit->activity_target)) {
-        struct road_type *new_road = extra_road_get(punit->activity_target);
-
-        create_road(ptile, new_road);
+        create_road(ptile, punit->activity_target);
         unit_activity_done = TRUE;
       }
     }
