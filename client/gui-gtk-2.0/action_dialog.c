@@ -1563,9 +1563,9 @@ void action_selection_refresh(struct unit *actor_unit,
 }
 
 /****************************************************************
-  Closes the diplomat dialog
+  Closes the action selection dialog
 ****************************************************************/
-void close_diplomat_dialog(void)
+void action_selection_close(void)
 {
   if (act_sel_dialog != NULL) {
     gtk_widget_destroy(act_sel_dialog);

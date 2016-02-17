@@ -412,7 +412,7 @@ void handle_unit_remove(int unit_id)
 
   /* Close diplomat dialog if the diplomat is lost */
   if (action_selection_actor_unit() == punit->id) {
-    close_diplomat_dialog();
+    action_selection_close();
     /* Open another diplomat dialog if there are other diplomats waiting */
     action_decision_taken(unit_id);
   }
