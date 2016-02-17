@@ -9,7 +9,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/aicore \
 	-I$(srcdir)/scriptcore \
 	-I$(top_srcdir)/dependencies/tinycthread \
-	$(MAPIMG_WAND_CFLAGS)
+	$(MAPIMG_WAND_CFLAGS) $(JANSSON_CFLAGS)
 
 libfreeciv_la_SOURCES = \
 		achievements.c	\

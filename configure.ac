@@ -774,7 +774,7 @@ fi
 
 CPPFLAGS="$CPPFLAGS -DBINDIR=\"\\\"$bindir\\\"\""
 
-COMMON_LIBS=-lm
+COMMON_LIBS="${COMMON_LIBS} -lm"
 
 dnl Check for zlib
 AC_CHECK_LIB([z], [gzgets],

@@ -18,14 +18,19 @@ AC_ARG_ENABLE([json],
   *) AC_MSG_ERROR([bad value ${enableval} for --enable-json]) ;;
 esac], [json_enabled=no])
 
-if test "x$json_enabled" = "xyes" ; then
-  AC_CHECK_LIB([jansson], [json_object_set_new],
-[LIBS="${LIBS} -ljansson"],
-[AC_MSG_ERROR([cannot find libjansson])])
+JANSSON_CFLAGS=""
+JANSSON_LIBS=""
 
-  AC_CHECK_HEADER([jansson.h], [],
-[AC_MSG_ERROR([libjansson found but not jansson.h])])
+if test "x$json_enabled" = "xyes" ; then
+  PKG_CHECK_MODULES([JANSSON], [jansson], [], [
+    AC_CHECK_LIB([jansson], [json_object_set_new],
+[JANSSON_LIBS="-ljansson"],
+[AC_MSG_ERROR([cannot find libjansson])])
+    AC_CHECK_HEADER([jansson.h], [],
+[AC_MSG_ERROR([libjansson found but not jansson.h])])])
 
   AC_DEFINE([FREECIV_JSON_CONNECTION], [1], [jansson network protocol in use])
+
+  COMMON_LIBS="${COMMON_LIBS} ${JANSSON_LIBS}"
 fi
 ])
