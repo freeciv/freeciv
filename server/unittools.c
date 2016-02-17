@@ -4167,8 +4167,21 @@ bool execute_orders(struct unit *punit, const bool fresh)
         /* Movement failed (ZOC, etc.) */
         cancel_orders(punit, "  attempt to move failed.");
 
-        if (!player_is_watching(punit, fresh)) {
-          /* The player may have missed this. Inform him. */
+        if (!player_is_watching(punit, fresh)
+            /* The final move "failed" because the unit needs to ask the
+             * player what action it should take.
+             *
+             * The action decision request notifies the player. Its
+             * location at the unit's last order makes it clear to the
+             * player who the decision is for. ("The Spy I sent to Berlin
+             * has arrived.")
+             *
+             * A notification message is therefore redundant. */
+            && !(last_order
+                 && punit->action_decision_want == ACT_DEC_ACTIVE
+                 && punit->action_decision_tile == dst_tile)) {
+          /* The player may have missed this. No one else will announce it
+           * in a satisfying manner. Inform the player. */
           notify_player(pplayer, unit_tile(punit),
                         E_UNIT_ORDERS, ftc_server,
                         _("Orders for %s aborted because of failed move."),

@@ -3000,9 +3000,9 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 
 /**************************************************************************
   Will try to move to/attack the tile dest_x,dest_y.  Returns TRUE if this
-  could be done, FALSE if it couldn't for some reason. Even if this
-  returns TRUE, unit may have died upon arrival to new tile.
-  
+  was done, FALSE if it wasn't for some reason. Even if this returns TRUE,
+  the unit may have died upon arrival to new tile.
+
   'igzoc' means ignore ZOC rules - not necessary for igzoc units etc, but
   done in some special cases (moving barbarians out of initial hut).
   Should normally be FALSE.
@@ -3080,6 +3080,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
          * what to do. */
         send_unit_info(player_reply_dest(pplayer), punit);
 
+        /* The move wasn't done because the unit wanted the player to
+         * decide what to do. */
         return FALSE;
       } else if (!may_non_act_move(punit, pcity, pdesttile, igzoc)) {
         /* No action can be done. No regular move can be done. Attack isn't
@@ -3088,6 +3090,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                                       is_non_attack_unit_tile(pdesttile,
                                                               pplayer));
 
+        /* The move wasn't done because the unit couldn't do anything. */
         return FALSE;
       }
     }
