@@ -457,6 +457,13 @@ void go_act_menu::update()
 **************************************************************************/
 void go_act_menu::start_go_act(int action_id)
 {
+  /* This menu doesn't support specifying a detailed target (think
+   * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
+   * action order. */
+  fc_assert_ret_msg(!action_requires_details(action_id),
+                    "Underspecified target for %s.",
+                    action_get_ui_name(action_id));
+
   request_unit_goto(ORDER_PERFORM_ACTION, action_id, EXTRA_NONE);
 }
 
