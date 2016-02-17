@@ -296,7 +296,7 @@ class Field:
       }
     }'''%self.get_dict(vars())
 
-    # Returns a code fragement which updates the bit of the this field
+    # Returns a code fragment which updates the bit of the this field
     # in the "fields" bitvector. The bit is either a "content-differs"
     # bit or (for bools which gets folded in the header) the actual
     # value of the bool.
@@ -323,7 +323,7 @@ class Field:
 
 '''%(cmp,i)
 
-    # Returns a code fragement which will put this field if the
+    # Returns a code fragment which will put this field if the
     # content has changed. Does nothing for bools-in-header.    
     def get_put_wrapper(self,packet,i):
         if fold_bool_into_header and self.struct_type=="bool" and \
@@ -421,7 +421,7 @@ class Field:
       dio_put_uint8(&dout, 255);
     } '''%self.get_dict(vars())
 
-    # Returns a code fragement which will get the field if the
+    # Returns a code fragment which will get the field if the
     # "fields" bitvector says so.
     def get_get_wrapper(self,packet,i):
         get=self.get_get()
@@ -672,7 +672,7 @@ class Variant:
         result.update(vars)
         return result
 
-    # Returns a code fragement which contains the declarations of the
+    # Returns a code fragment which contains the declarations of the
     # statistical counters of this packet.
     def get_stats(self):
         names=map(lambda x:'"'+x.name+'"',self.other_fields)
@@ -685,13 +685,13 @@ static char *stats_%(name)s_names[] = {%(names)s};
 
 '''%self.get_dict(vars())
 
-    # Returns a code fragement which declares the packet specific
+    # Returns a code fragment which declares the packet specific
     # bitvector. Each bit in this bitvector represents one non-key
     # field.    
     def get_bitvector(self):
         return "BV_DEFINE(%(name)s_fields, %(bits)d);\n\n"%self.__dict__
 
-    # Returns a code fragement which is the packet specific part of
+    # Returns a code fragment which is the packet specific part of
     # the delta_stats_report() function.
     def get_report_part(self):
         return '''
@@ -710,7 +710,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
   }
 '''%self.__dict__
 
-    # Returns a code fragement which is the packet specific part of
+    # Returns a code fragment which is the packet specific part of
     # the delta_stats_reset() function.
     def get_reset_part(self):
         return '''
@@ -720,7 +720,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
          sizeof(stats_%(name)s_counters));
 '''%self.__dict__
 
-    # Returns a code fragement which is the implementation of the hash
+    # Returns a code fragment which is the implementation of the hash
     # function. The hash function is using all key fields.
     def get_hash(self):
         if len(self.key_fields)==0:
@@ -745,7 +745,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
             extro="}\n\n"
             return intro+body+extro
 
-    # Returns a code fragement which is the implementation of the cmp
+    # Returns a code fragment which is the implementation of the cmp
     # function. The cmp function is using all key fields. The cmp
     # function is used for the hash table.    
     def get_cmp(self):
@@ -766,7 +766,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
             extro="}\n\n"
             return intro+body+extro
 
-    # Returns a code fragement which is the implementation of the send
+    # Returns a code fragment which is the implementation of the send
     # function. This is one of the two real functions. So it is rather
     # complex to create.
     def get_send(self):
@@ -915,7 +915,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
 
         return intro+body
 
-    # Returns a code fragement which is the implementation of the receive
+    # Returns a code fragment which is the implementation of the receive
     # function. This is one of the two real functions. So it is rather
     # complex to create.
     def get_receive(self):
@@ -1180,7 +1180,7 @@ class Packet:
             self.variants.append(Variant(poscaps,negcaps,"%s_%d"%(self.name,no),fields,self,no))
 
 
-    # Returns a code fragement which contains the struct for this packet.
+    # Returns a code fragment which contains the struct for this packet.
     def get_struct(self):
         intro="struct %(name)s {\n"%self.__dict__
         extro="};\n\n"
@@ -1193,7 +1193,7 @@ class Packet:
         return intro+body+extro
     # '''
 
-    # Returns a code fragement which represents the prototypes of the
+    # Returns a code fragment which represents the prototypes of the
     # send and receive functions for the header file.
     def get_prototypes(self):
         result=self.send_prototype+";\n"
@@ -1247,7 +1247,7 @@ class Packet:
             result=result+v.get_send()
         return result
 
-    # Returns a code fragement which is the implementation of the
+    # Returns a code fragment which is the implementation of the
     # lsend function.
     def get_lsend(self):
         if not self.want_lsend: return ""
@@ -1260,7 +1260,7 @@ class Packet:
 
 '''%self.__dict__
 
-    # Returns a code fragement which is the implementation of the
+    # Returns a code fragment which is the implementation of the
     # dsend function.
     def get_dsend(self):
         if not self.want_dsend: return ""
@@ -1276,7 +1276,7 @@ class Packet:
 
 '''%self.get_dict(vars())
 
-    # Returns a code fragement which is the implementation of the
+    # Returns a code fragment which is the implementation of the
     # dlsend function.
     def get_dlsend(self):
         if not (self.want_lsend and self.want_dsend): return ""
@@ -1292,7 +1292,7 @@ class Packet:
 
 '''%self.get_dict(vars())
 
-# Returns a code fragement which is the implementation of the
+# Returns a code fragment which is the implementation of the
 # packet_functional_capability string.
 def get_packet_functional_capability(packets):
     all_caps={}
@@ -1304,7 +1304,7 @@ def get_packet_functional_capability(packets):
 const char *const packet_functional_capability = "%s";
 '''%' '.join(all_caps.keys())
 
-# Returns a code fragement which is the implementation of the
+# Returns a code fragment which is the implementation of the
 # delta_stats_report() function.
 def get_report(packets):
     if not generate_stats: return 'void delta_stats_report(void) {}\n\n'
@@ -1321,7 +1321,7 @@ void delta_stats_report(void) {
         body=body+p.get_report_part()
     return intro+body+extro
 
-# Returns a code fragement which is the implementation of the
+# Returns a code fragment which is the implementation of the
 # delta_stats_reset() function.
 def get_reset(packets):
     if not generate_stats: return 'void delta_stats_reset(void) {}\n\n'
@@ -1335,7 +1335,7 @@ void delta_stats_reset(void) {
         body=body+p.get_reset_part()
     return intro+body+extro
 
-# Returns a code fragement which is the implementation of the
+# Returns a code fragment which is the implementation of the
 # packet_name() function.
 def get_packet_name(packets):
     intro='''const char *packet_name(enum packet_type type)
@@ -1365,7 +1365,7 @@ def get_packet_name(packets):
 '''
     return intro+body+extro
 
-# Returns a code fragement which is the implementation of the
+# Returns a code fragment which is the implementation of the
 # packet_has_game_info_flag() function.
 def get_packet_has_game_info_flag(packets):
     intro='''bool packet_has_game_info_flag(enum packet_type type)
@@ -1398,7 +1398,7 @@ def get_packet_has_game_info_flag(packets):
 '''
     return intro+body+extro
 
-# Returns a code fragement which is the implementation of the
+# Returns a code fragment which is the implementation of the
 # packet_handlers_fill_initial() function.
 def get_packet_handlers_fill_initial(packets):
     intro='''void packet_handlers_fill_initial(struct packet_handlers *phandlers)
@@ -1459,7 +1459,7 @@ def get_packet_handlers_fill_initial(packets):
 '''
     return intro+body+extro
 
-# Returns a code fragement which is the implementation of the
+# Returns a code fragment which is the implementation of the
 # packet_handlers_fill_capability() function.
 def get_packet_handlers_fill_capability(packets):
     intro='''void packet_handlers_fill_capability(struct packet_handlers *phandlers,
@@ -1548,7 +1548,7 @@ def get_packet_handlers_fill_capability(packets):
 '''
     return intro+body+extro
 
-# Returns a code fragement which is the declartion of
+# Returns a code fragment which is the declartion of
 # "enum packet_type".
 def get_enum_packet(packets):
     intro="enum packet_type {\n"
