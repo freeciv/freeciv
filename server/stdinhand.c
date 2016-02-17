@@ -583,6 +583,8 @@ static bool metapatches_command(struct connection *caller,
 static bool metamessage_command(struct connection *caller, 
                                 char *arg, bool check)
 {
+  struct setting *pset;
+
   if (check) {
     return TRUE;
   }
@@ -597,6 +599,11 @@ static bool metamessage_command(struct connection *caller,
               _("Metaserver message string set to '%s', "
                 "not reporting to metaserver."), arg);
   }
+
+  /* Metamessage is also a setting. */
+  pset = setting_by_name("metamessage");
+  setting_changed(pset);
+  send_server_setting(NULL, pset);
 
   return TRUE;
 }
