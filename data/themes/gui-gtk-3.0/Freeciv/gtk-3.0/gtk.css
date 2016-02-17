@@ -62,7 +62,7 @@
 
 .background {
   background-image: url("bg.png");
-  background-repeat: round;
+  background-repeat: repeat;
 }
 
 .notebook {
