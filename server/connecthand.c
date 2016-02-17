@@ -75,9 +75,8 @@ void conn_set_access(struct connection *pconn, enum cmdlevel new_level,
     pconn->server.granted_access_level = new_level;
   }
 
-  if (old_level != new_level
-      && (ALLOW_HACK == old_level || ALLOW_HACK == new_level)) {
-    send_server_hack_level_settings(pconn->self);
+  if (old_level != new_level) {
+    send_server_access_level_settings(pconn->self, old_level, new_level);
   }
 }
 

@@ -29,13 +29,6 @@ struct sset_val_name {
                                  * users. */
 };
 
-/* Whether settings are sent to the client when the client lists
- * server options; also determines whether clients can set them in principle.
- * Eg, not sent: seeds, saveturns, etc.
- */
-#define SSET_TO_CLIENT TRUE
-#define SSET_SERVER_ONLY FALSE
-
 /* Categories allow options to be usefully organized when presented to the
  * user */
 #define SPECENUM_NAME sset_category
@@ -216,7 +209,9 @@ bool settings_ruleset(struct section_file *file, const char *section, bool act);
 
 void send_server_setting(struct conn_list *dest, const struct setting *pset);
 void send_server_settings(struct conn_list *dest);
-void send_server_hack_level_settings(struct conn_list *dest);
+void send_server_access_level_settings(struct conn_list *dest,
+                                       enum cmdlevel old_level,
+                                       enum cmdlevel new_level);
 void send_server_setting_control(struct connection *pconn);
 
 void setting_changed(struct setting *pset);
