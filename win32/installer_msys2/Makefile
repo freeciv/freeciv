@@ -26,6 +26,9 @@ DLLPATH_PREFIX=$(ARCHDIR)/bin/
 # by default build all installers
 all: gtk3-installer gtk2-installer sdl2-installer qt-installer ruledit-installer
 
+gtk3x-installer:
+	make GUI=gtk3x FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3x
+
 gtk3-installer:
 	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
 
@@ -68,6 +71,8 @@ build-freeciv-ruledit:
 	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
 	make -C build-$(WINARCH)-ruledit/bootstrap langstat_ruledit.txt
 
+build-freeciv-gtk3x: build-freeciv-common
+
 build-freeciv-gtk3: build-freeciv-common
 
 build-freeciv-gtk2: build-freeciv-common
@@ -98,6 +103,8 @@ install-freeciv-common:
 	strip install-$(WINARCH)-$(GUI)/freeciv-m*
 	# add start menu files
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(GUI).cmd Freeciv.url install-$(WINARCH)-$(GUI)/
+
+install-freeciv-gtk3x: install-freeciv-common
 
 install-freeciv-gtk3: install-freeciv-common
 
@@ -221,6 +228,8 @@ install-env-default-fcmp: install-env-common
 	cp -R $(ARCHDIR)/lib/gtk-3.0/* install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
 	cp -R /share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
+
+install-env-gtk3x: install-env-default-fcmp
 
 install-env-gtk3: install-env-default-fcmp
 
@@ -355,6 +364,8 @@ installer-ruledit: clean-install-ruledit install-ruledit install-env-ruledit
 	mkdir -p Output
 	makensis Freeciv-$(FREECIV_VERSION)-ruledit.nsi
 
+wrap-gtk3x: build-freeciv-gtk3x installer-common
+
 wrap-gtk3: build-freeciv-gtk3 installer-common
 
 wrap-gtk2: build-freeciv-gtk2 installer-common
@@ -390,6 +401,7 @@ clean-installer-ruledit:
 
 clean:
 	make GUI=gtk3 clean-build-common clean-install-common clean-installer-common
+	make GUI=gtk3x clean-build-common clean-install-common clean-installer-common
 	make GUI=gtk2 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt clean-build-common clean-install-common clean-installer-common
