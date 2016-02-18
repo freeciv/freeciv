@@ -1646,7 +1646,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
-       * the formating code happy. The resulting "" is ignored when the
+       * the formatting code happy. The resulting "" is ignored when the
        * ruleset is loaded. */
       secfile_insert_str(sfile, helptxt, "control.flags%d.helptxt", i);
     }
@@ -1725,7 +1725,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
-       * the formating code happy. The resulting "" is ignored when the
+       * the formatting code happy. The resulting "" is ignored when the
        * ruleset is loaded. */
       secfile_insert_str(sfile, helptxt, "control.flags%d.helptxt", i);
     }
@@ -2278,7 +2278,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
-       * the formating code happy. The resulting "" is ignored when the
+       * the formatting code happy. The resulting "" is ignored when the
        * ruleset is loaded. */
       secfile_insert_str(sfile, helptxt, "control.flags%d.helptxt", i);
     }
