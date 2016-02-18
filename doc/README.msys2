@@ -17,7 +17,7 @@ using MSYS2 from http://msys2.github.io
   selection freeciv can be built.
 - Buildable clients are gtk3 and Qt
 - Audio support cannot be built in
-- Both server and client launch ok
+- Both server and gtk3-client launch ok, Qt client does not
 - Most Installers cannot be built
 - Buildable Installers:
   - Ruledit
@@ -99,6 +99,11 @@ Problems
   Native Language Support.
   Notable components that do build with nls are the server and
   ruledit.
+
+- Linking against SDL2, including audio support for any client,
+  fails. Use configure option --disable-sdl-mixer to build without
+  audio support, or avoid installing any SDL2 packages to your
+  msys2 environment.
 
 ====================================
 
