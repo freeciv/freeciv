@@ -391,8 +391,10 @@ bool is_native_move(const struct unit_class *punitclass,
         }
         cardinal_between_iterate(src_tile, dst_tile, between) {
           if (tile_has_extra(between, iextra)
-              || tile_has_extra(between, pextra)) {
-            /* We have a link for the connection. */
+              || (pextra != iextra && tile_has_extra(between, pextra))) {
+            /* We have a link for the connection.
+             * 'pextra != iextra' is there just to avoid tile_has_extra()
+             * in by far more common case that 'pextra == iextra' */
             return TRUE;
           }
         } cardinal_between_iterate_end;

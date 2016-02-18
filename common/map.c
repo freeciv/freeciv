@@ -778,7 +778,10 @@ int tile_move_cost_ptrs(const struct unit *punit,
             case RMM_RELAXED:
               if (cost > proad->move_cost * 2) {
                 cardinal_between_iterate(t1, t2, between) {
-                  if (tile_has_extra(between, pextra)) {
+                  if (tile_has_extra(between, pextra)
+                      || (pextra != iextra && tile_has_extra(between, iextra))) {
+                    /* 'pextra != iextra' is there just to avoid tile_has_extra()
+                     * in by far more common case that 'pextra == iextra' */
                     /* TODO: Should we restrict this more?
                      * Should we check against enemy cities on between tile?
                      * Should we check against non-native terrain on between tile?
