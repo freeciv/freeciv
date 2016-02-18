@@ -2308,6 +2308,7 @@ static void objbind_pack_current_values(struct objbind *ob,
             = TECH_KNOWN == research_invention_state(presearch, tech);
       } advance_index_iterate_end;
       packet->gold = pplayer->economic.gold;
+      packet->government = government_index(pplayer->government);
       /* TODO: Set more packet fields. */
     }
     return;
