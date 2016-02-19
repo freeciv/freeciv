@@ -5971,37 +5971,37 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                    "culture.migration_pml");
 
     /* section: calendar */
-    game.info.calendar_skip_0
+    game.calendar.calendar_skip_0
       = secfile_lookup_bool_default(file, RS_DEFAULT_CALENDAR_SKIP_0,
                                     "calendar.skip_year_0");
     game.server.start_year
       = secfile_lookup_int_default(file, GAME_START_YEAR,
                                    "calendar.start_year");
-    game.info.calendar_fragments
+    game.calendar.calendar_fragments
       = secfile_lookup_int_default(file, 0, "calendar.fragments");
 
-    if (game.info.calendar_fragments > MAX_CALENDAR_FRAGMENTS) {
+    if (game.calendar.calendar_fragments > MAX_CALENDAR_FRAGMENTS) {
       ruleset_error(LOG_ERROR, "Too many calendar fragments. Max is %d",
                     MAX_CALENDAR_FRAGMENTS);
       ok = FALSE;
-      game.info.calendar_fragments = 0;
+      game.calendar.calendar_fragments = 0;
     }
-    sz_strlcpy(game.info.positive_year_label,
+    sz_strlcpy(game.calendar.positive_year_label,
                secfile_lookup_str_default(file,
                                           RS_DEFAULT_POS_YEAR_LABEL,
                                           "calendar.positive_label"));
-    sz_strlcpy(game.info.negative_year_label,
+    sz_strlcpy(game.calendar.negative_year_label,
                secfile_lookup_str_default(file,
                                           RS_DEFAULT_NEG_YEAR_LABEL,
                                           "calendar.negative_label"));
 
-    for (cf = 0; cf < game.info.calendar_fragments; cf++) {
+    for (cf = 0; cf < game.calendar.calendar_fragments; cf++) {
       const char *fname;
 
       fname = secfile_lookup_str_default(file, NULL, "calendar.fragment_name%d", cf);
       if (fname != NULL) {
-        strncpy(game.info.calendar_fragment_name[cf], fname,
-                sizeof(game.info.calendar_fragment_name[cf]));
+        strncpy(game.calendar.calendar_fragment_name[cf], fname,
+                sizeof(game.calendar.calendar_fragment_name[cf]));
       }
     }
   }

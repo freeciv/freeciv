@@ -283,7 +283,7 @@ static void game_defaults(void)
   game.info.airlifting_style = GAME_DEFAULT_AIRLIFTINGSTYLE;
   game.info.angrycitizen     = GAME_DEFAULT_ANGRYCITIZEN;
   game.info.borders          = GAME_DEFAULT_BORDERS;
-  game.info.calendar_skip_0  = FALSE;
+  game.calendar.calendar_skip_0 = FALSE;
   game.info.celebratesize    = GAME_DEFAULT_CELEBRATESIZE;
   game.info.citymindist      = GAME_DEFAULT_CITYMINDIST;
   game.info.cooling          = 0;
@@ -312,11 +312,11 @@ static void game_defaults(void)
   game.info.is_new_game      = TRUE;
   game.info.killstack        = GAME_DEFAULT_KILLSTACK;
   game.info.killcitizen      = GAME_DEFAULT_KILLCITIZEN;
-  game.info.negative_year_label[0] = '\0';
+  game.calendar.negative_year_label[0] = '\0';
   game.info.notradesize      = GAME_DEFAULT_NOTRADESIZE;
   game.info.nuclearwinter    = 0;
   game.info.nuclear_winter   = GAME_DEFAULT_NUCLEAR_WINTER;
-  game.info.positive_year_label[0] = '\0';
+  game.calendar.positive_year_label[0] = '\0';
   game.info.rapturedelay     = GAME_DEFAULT_RAPTUREDELAY;
   game.info.disasters        = GAME_DEFAULT_DISASTERS;
   game.info.restrictinfra    = GAME_DEFAULT_RESTRICTINFRA;
@@ -633,7 +633,7 @@ void game_ruleset_free(void)
   }
 
   for (i = 0; i < MAX_CALENDAR_FRAGMENTS; i++) {
-    game.info.calendar_fragment_name[i][0] = '\0';
+    game.calendar.calendar_fragment_name[i][0] = '\0';
   }
 
   if (game.ruleset_summary != NULL) {
@@ -721,9 +721,9 @@ static char *year_suffix(void)
   char *c = safe_year_suffix;
 
   if (game.info.year < 0) {
-    suffix = game.info.negative_year_label;
+    suffix = game.calendar.negative_year_label;
   } else {
-    suffix = game.info.positive_year_label;
+    suffix = game.calendar.positive_year_label;
   }
 
   /* Remove all non alphanumeric characters from the year suffix. */

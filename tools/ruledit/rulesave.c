@@ -1046,28 +1046,28 @@ static bool save_game_ruleset(const char *filename, const char *name)
                    RS_DEFAULT_CULTURE_MIGRATION_PML,
                    "culture.migration_pml", NULL);
 
-  save_default_bool(sfile, game.info.calendar_skip_0,
+  save_default_bool(sfile, game.calendar.calendar_skip_0,
                     RS_DEFAULT_CALENDAR_SKIP_0,
                     "calendar.skip_year_0", NULL);
   save_default_int(sfile, game.server.start_year,
                    GAME_START_YEAR,
                    "calendar.start_year", NULL);
-  save_default_int(sfile, game.info.calendar_fragments,
+  save_default_int(sfile, game.calendar.calendar_fragments,
                    0, "calendar.fragments", NULL);
 
   for (i = 0; i < MAX_CALENDAR_FRAGMENTS; i++) {
-    if (game.info.calendar_fragment_name[i][0] != '\0') {
-      secfile_insert_str(sfile, game.info.calendar_fragment_name[i],
+    if (game.calendar.calendar_fragment_name[i][0] != '\0') {
+      secfile_insert_str(sfile, game.calendar.calendar_fragment_name[i],
                          "calendar.fragment_name%d", i);
     }
   }
 
-  if (strcmp(game.info.positive_year_label, RS_DEFAULT_POS_YEAR_LABEL)) {
-    secfile_insert_str(sfile, game.info.positive_year_label,
+  if (strcmp(game.calendar.positive_year_label, RS_DEFAULT_POS_YEAR_LABEL)) {
+    secfile_insert_str(sfile, game.calendar.positive_year_label,
                        "calendar.positive_label");
   }
-  if (strcmp(game.info.negative_year_label, RS_DEFAULT_NEG_YEAR_LABEL)) {
-    secfile_insert_str(sfile, game.info.negative_year_label,
+  if (strcmp(game.calendar.negative_year_label, RS_DEFAULT_NEG_YEAR_LABEL)) {
+    secfile_insert_str(sfile, game.calendar.negative_year_label,
                        "calendar.negative_label");
   }
 

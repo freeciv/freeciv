@@ -1980,11 +1980,10 @@ void handle_game_info(const struct packet_game_info *pinfo)
   bool boot_help;
   bool update_aifill_button = FALSE;
 
-
   if (game.info.aifill != pinfo->aifill) {
     update_aifill_button = TRUE;
   }
-  
+
   if (game.info.is_edit_mode != pinfo->is_edit_mode) {
     popdown_all_city_dialogs();
     /* Clears the current goto command. */
@@ -2037,6 +2036,14 @@ void handle_game_info(const struct packet_game_info *pinfo)
   }
 
   editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
+}
+
+/****************************************************************************
+  Packet calendar_info handler.
+****************************************************************************/
+void handle_calendar_info(const struct packet_calendar_info *pcalendar)
+{
+  game.calendar = *pcalendar;
 }
 
 /**************************************************************************

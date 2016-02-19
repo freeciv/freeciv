@@ -66,17 +66,17 @@ int game_next_year(int year)
     }
   }
 
-  if (game.info.calendar_fragments) {
+  if (game.calendar.calendar_fragments) {
     game.info.fragment_count += get_world_bonus(EFT_TURN_FRAGMENTS);
-    fragment_years = game.info.fragment_count / game.info.calendar_fragments;
+    fragment_years = game.info.fragment_count / game.calendar.calendar_fragments;
 
     increase += fragment_years;
-    game.info.fragment_count -= fragment_years * game.info.calendar_fragments;
+    game.info.fragment_count -= fragment_years * game.calendar.calendar_fragments;
   }
 
   year += increase;
 
-  if (year == 0 && game.info.calendar_skip_0) {
+  if (year == 0 && game.calendar.calendar_skip_0) {
     year = 1;
     game.info.year_0_hack = TRUE;
   }
@@ -104,11 +104,11 @@ const char *textyear(int year)
   if (year < 0) {
     /* TRANS: <year> <label> -> "1000 BC" */
     fc_snprintf(y, sizeof(y), _("%d %s"), -year,
-                _(game.info.negative_year_label));
+                _(game.calendar.negative_year_label));
   } else {
     /* TRANS: <year> <label> -> "1000 AD" */
     fc_snprintf(y, sizeof(y), _("%d %s"), year,
-                _(game.info.positive_year_label));
+                _(game.calendar.positive_year_label));
   }
 
   return y;
@@ -120,12 +120,12 @@ const char *textyear(int year)
 ****************************************************************************/
 const char *calendar_text(void)
 {
-  if (game.info.calendar_fragments) {
+  if (game.calendar.calendar_fragments) {
     static char buffer[128];
 
-    if (game.info.calendar_fragment_name[game.info.fragment_count][0] != '\0') {
+    if (game.calendar.calendar_fragment_name[game.info.fragment_count][0] != '\0') {
       fc_snprintf(buffer, sizeof(buffer), "%s/%s", textyear(game.info.year),
-                  _(game.info.calendar_fragment_name[game.info.fragment_count]));
+                  _(game.calendar.calendar_fragment_name[game.info.fragment_count]));
     } else {
       /* Human readable fragment count starts from 1, not 0 */
       fc_snprintf(buffer, sizeof(buffer), "%s/%d", textyear(game.info.year),

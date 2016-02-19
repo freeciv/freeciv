@@ -84,6 +84,7 @@ struct civ_game {
   char *ruleset_description;
   struct packet_scenario_info scenario;
   struct packet_game_info info;
+  struct packet_calendar_info calendar;
   struct packet_timeout_info tinfo;
 
   struct government *government_during_revolution;

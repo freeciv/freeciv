@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 254
+Max id: 255
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -457,7 +457,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 culture_vic_points;
   UINT16 culture_vic_lead;
   UINT16 culture_migration_pml;
-  BOOL calendar_skip_0;
   /* size limit for cities before they can celebrate */
   UINT8 celebratesize;
   BOOL changable_tax;
@@ -508,7 +507,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL muuk_food_wipe;
   BOOL muuk_gold_wipe;
   BOOL muuk_shield_wipe;
-  STRING negative_year_label[MAX_LEN_NAME];
   UINT8 notradesize;
   BOOL nuclear_winter;
   UINT32 nuclearwinter;
@@ -520,7 +518,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL tech_trade_loss_allow_holes;
   BOOL tech_parasite_allow_holes;
   BOOL tech_loss_allow_holes;
-  STRING positive_year_label[MAX_LEN_NAME];
   UINT8 rapturedelay;
   UINT16 disasters;
   BOOL restrictinfra;
@@ -553,11 +550,17 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 warminglevel;
   YEAR year;
   BOOL year_0_hack;
-  UINT16 calendar_fragments;
   UINT16 fragment_count;
-  STRING calendar_fragment_name[MAX_CALENDAR_FRAGMENTS][MAX_LEN_NAME];
   BOOL civil_war_enabled;
   BOOL paradrop_to_transport;
+end
+
+PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet
+  STRING positive_year_label[MAX_LEN_NAME];
+  STRING negative_year_label[MAX_LEN_NAME];
+  UINT16 calendar_fragments;
+  STRING calendar_fragment_name[MAX_CALENDAR_FRAGMENTS][MAX_LEN_NAME];
+  BOOL calendar_skip_0;
 end
 
 # This cannot have is-info set. Sending the same value a second time after a

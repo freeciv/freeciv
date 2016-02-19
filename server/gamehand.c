@@ -887,9 +887,12 @@ void send_game_info(struct conn_list *dest)
   }
 
   conn_list_iterate(dest, pconn) {
-    /* These are separate packets as first one may not get sent at all
-     * if there's no changes in it */
+    /* Timeout info is separate from other packets since it has to
+     * be sent always (it's not 'is-info') while the others are 'is-info'
+     * Calendar info has been split from Game info packet to make packet
+     * size more tolerable when json protocol is in use. */
     send_packet_game_info(pconn, &(game.info));
+    send_packet_calendar_info(pconn, &(game.calendar));
     send_packet_timeout_info(pconn, &tinfo);
   }
   conn_list_iterate_end;
