@@ -1539,6 +1539,7 @@ AC_CONFIG_FILES([Makefile
 	  data/civ2/Makefile
 	  data/scenarios/Makefile
 	  data/nation/Makefile
+          data/ruledit/Makefile
 	  data/themes/Makefile
 	  data/themes/gui-gtk-2.0/Makefile
 	  data/themes/gui-gtk-2.0/Freeciv/Makefile

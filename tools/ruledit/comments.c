@@ -16,28 +16,55 @@
 #endif
 
 /* utility */
-#include "registry_ini.h"
+#include "mem.h"
+#include "registry.h"
 #include "section_file.h"
 
 #include "comments.h"
+
+static struct {
+  char *file_header;
+} comments_storage;
+
+/**************************************************************************
+  Load comments to add to the saved rulesets.
+**************************************************************************/
+bool comments_load(void)
+{
+  struct section_file *comment_file;
+  const char *fullpath;
+
+  fullpath = fileinfoname(get_data_dirs(), "ruledit/comments.txt");
+
+  if (fullpath == NULL) {
+    return FALSE;
+  }
+
+  comment_file = secfile_load(fullpath, FALSE);
+  if (comment_file == NULL) {
+    return FALSE;
+  }
+
+  comments_storage.file_header = fc_strdup(secfile_lookup_str(comment_file, "common.header"));
+
+  secfile_check_unused(comment_file);
+  secfile_destroy(comment_file);
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Free comments.
+**************************************************************************/
+void comments_free(void)
+{
+  free(comments_storage.file_header);
+}
 
 /**************************************************************************
   Write file header.
 **************************************************************************/
 void comment_file_header(struct section_file *sfile)
 {
-
-  secfile_insert_long_comment(sfile, "\
-; Modifying this file:\n\
-; You should not modify this file except to make bugfixes or\n\
-; for other \"maintenance\".  If you want to make custom changes,\n\
-; you should create a new datadir subdirectory and copy this file\n\
-; into that directory, and then modify that copy.  Then use the\n\
-; command \"rulesetdir <mysubdir>\" in the server to have freeciv\n\
-; use your new customized file.\n\
-\n\
-; Note that the freeciv AI may not cope well with anything more\n\
-; than minor changes.\n\
-");
-
+  secfile_insert_long_comment(sfile, comments_storage.file_header);
 }

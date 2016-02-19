@@ -1,0 +1,16 @@
+; This file contains standard comments to include to the rulesets
+
+[common]
+
+header = "\
+; Modifying this file:\n\
+; You should not modify this file except to make bugfixes or\n\
+; for other \"maintenance\".  If you want to make custom changes,\n\
+; you should create a new datadir subdirectory and copy this file\n\
+; into that directory, and then modify that copy.  Then use the\n\
+; command \"rulesetdir <mysubdir>\" in the server to have freeciv\n\
+; use your new customized file.\n\
+\n\
+; Note that the freeciv AI may not cope well with anything more\n\
+; than minor changes.\n\
+"

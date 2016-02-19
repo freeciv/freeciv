@@ -40,6 +40,7 @@
 #include "settings.h"
 
 /* ruledit */
+#include "comments.h"
 #include "ruledit_qt.h"
 
 #include "ruledit.h"
@@ -98,9 +99,16 @@ int main(int argc, char **argv)
     game_init();
     i_am_server();
 
-    ruledit_qt_setup(ui_options, argv);
-    ruledit_qt_run();
-    ruledit_qt_close();
+    if (comments_load()) {
+
+      ruledit_qt_setup(ui_options, argv);
+      ruledit_qt_run();
+      ruledit_qt_close();
+
+      comments_free();
+    } else {
+      log_error(R__("Failed to load comments.txt"));
+    }
   }
 
   registry_module_close();

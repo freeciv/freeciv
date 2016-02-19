@@ -99,6 +99,12 @@ SERVERDATADIRS =
 endif
 endif
 
+if RULEDIT
+RULEDITDIRS = ruledit
+else
+RULEDITDIRS =
+endif
+
 if CLIENT
 ICONS = freeciv-client.png
 else
@@ -108,4 +114,4 @@ endif
 icondir = $(prefix)/share/pixmaps
 icon_DATA=$(ICONS)
 
-SUBDIRS = icons $(CLIENTDATADIRS) $(SERVERDATADIRS) override
+SUBDIRS = icons $(CLIENTDATADIRS) $(SERVERDATADIRS) $(RULEDITDIRS) override
