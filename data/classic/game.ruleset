@@ -13,6 +13,13 @@
 description="Classic game rules for Freeciv"
 options="+Freeciv-ruleset-Devel-2014.September.14c"
 
+; This section contains meta information for freeciv-ruledit to recreate the ruleset
+; file in a form wanted. These have no in-game effect whatsoever
+[ruledit]
+
+; Which file to read description in from.
+;description_file = ""
+
 [about]
 ; Ruleset name
 name = _("Classic ruleset")
@@ -26,6 +33,7 @@ You are playing with classic Freeciv rules for single player games.\
 ")
 
 ; Detailed description
+; When updating this, update also desciption_file in [ruledit] section to match
 ; description = ""
 
 [options]

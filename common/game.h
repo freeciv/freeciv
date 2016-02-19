@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -257,6 +257,7 @@ struct civ_game {
       struct government *default_government;
 
       struct {
+        char *description_file;
         char *nationlist;
         char **embedded_nations;
         size_t embedded_nations_count;

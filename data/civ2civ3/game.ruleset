@@ -13,6 +13,13 @@
 description="Civ2Civ3 game rules for Freeciv"
 options="+Freeciv-ruleset-Devel-2014.September.14c"
 
+; This section contains meta information for freeciv-ruledit to recreate the ruleset
+; file in a form wanted. These have no in-game effect whatsoever
+[ruledit]
+
+; Which file to read description in from.
+description_file = "civ2civ3/README.civ2civ3"
+
 [about]
 ; Ruleset name
 name = _("Civ2Civ3 ruleset")
@@ -34,6 +41,7 @@ Detailed description of the differences from the classic ruleset are\
 ")
 
 ; Detailed description
+; When updating this, update also desciption_file in [ruledit] section to match
 description = *civ2civ3/README.civ2civ3*
 
 [options]
