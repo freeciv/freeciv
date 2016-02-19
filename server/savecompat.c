@@ -1511,6 +1511,14 @@ static void compat_load_dev(struct loaddata *loading)
       secfile_insert_int(loading->file, 0, "player%d.idle_turns", plrno);
     }
 
+    if (secfile_entry_lookup(loading->file, "player%d.sex", plrno) == NULL) {
+      if (secfile_lookup_bool_default(loading->file, TRUE, "player%d.is_male", plrno)) {
+        secfile_insert_str(loading->file, "male", "player%d.sex", plrno);
+      } else {
+        secfile_insert_str(loading->file, "female", "player%d.sex", plrno);
+      }
+    }
+
     ncities = secfile_lookup_int_default(loading->file, 0, "player%d.ncities", plrno);
 
     for (i = 0; i < ncities; i++) {

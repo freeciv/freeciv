@@ -3499,6 +3499,7 @@ static void sg_load_player_main(struct loaddata *loading,
   const char *level;
   const char *barb_str;
   size_t nval;
+  const char *sex;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -3688,8 +3689,12 @@ static void sg_load_player_main(struct loaddata *loading,
   sg_failure_ret(secfile_lookup_int(loading->file, &plr->nturns_idle,
                                     "player%d.idle_turns", plrno),
                  "%s", secfile_error());
-  plr->is_male = secfile_lookup_bool_default(loading->file, TRUE,
-                                             "player%d.is_male", plrno);
+  sex = secfile_lookup_str(loading->file, "player%d.sex", plrno);
+  if (!strcmp("male", sex)) {
+    plr->is_male = TRUE;
+  } else {
+    plr->is_male = FALSE;
+  }
   sg_failure_ret(secfile_lookup_bool(loading->file, &plr->is_alive,
                                      "player%d.is_alive", plrno),
                  "%s", secfile_error());
@@ -4016,8 +4021,13 @@ static void sg_save_player_main(struct savedata *saving,
 
   secfile_insert_int(saving->file, plr->nturns_idle,
                      "player%d.idle_turns", plrno);
-  secfile_insert_bool(saving->file, plr->is_male,
-                      "player%d.is_male", plrno);
+  if (plr->is_male) {
+    secfile_insert_str(saving->file, "male",
+                       "player%d.sex", plrno);
+  } else {
+    secfile_insert_str(saving->file, "female",
+                       "player%d.sex", plrno);
+  }
   secfile_insert_bool(saving->file, plr->is_alive,
                       "player%d.is_alive", plrno);
   secfile_insert_int(saving->file, plr->turns_alive,
