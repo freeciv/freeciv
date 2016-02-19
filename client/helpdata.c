@@ -467,13 +467,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_PLAYER:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) tech flag. */
+                     /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires knowledge of a technology with the "
                        "\"%s\" flag.\n"),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) tech flag. */
+                     /* TRANS: %s is a (translatable) tech flag. */
                      _("Prevented by knowledge of any technology with the "
                        "\"%s\" flag.\n"),
                      tech_flag_id_translated_name(preq->source.value.techflag));
@@ -482,13 +482,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_TEAM:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) tech flag. */
+                     /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires that a player on your team knows "
                        "a technology with the \"%s\" flag.\n"),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) tech flag. */
+                     /* TRANS: %s is a (translatable) tech flag. */
                      _("Prevented if any player on your team knows "
                        "any technology with the \"%s\" flag.\n"),
                      tech_flag_id_translated_name(preq->source.value.techflag));
@@ -497,13 +497,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_ALLIANCE:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) tech flag. */
+                     /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires that a player allied to you knows "
                        "a technology with the \"%s\" flag.\n"),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) tech flag. */
+                     /* TRANS: %s is a (translatable) tech flag. */
                      _("Prevented if any player allied to you knows "
                        "any technology with the \"%s\" flag.\n"),
                      tech_flag_id_translated_name(preq->source.value.techflag));
@@ -512,13 +512,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_WORLD:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) tech flag. */
+                     /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires that some player knows a technology "
                        "with the \"%s\" flag.\n"),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) tech flag. */
+                     /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires that no player knows any technology with "
                        "the \"%s\" flag.\n"),
                      tech_flag_id_translated_name(preq->source.value.techflag));
@@ -2209,12 +2209,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Requires terrain with the \"%s\" flag on the tile.\n"),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on the "
                        "tile.\n"),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
@@ -2223,13 +2223,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Requires terrain with the \"%s\" flag on the "
                        "tile or a cardinally adjacent tile.\n"),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on "
                        "the tile or any cardinally adjacent tile.\n"),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
@@ -2238,13 +2238,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_ADJACENT:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Requires terrain with the \"%s\" flag on the "
                        "tile or an adjacent tile.\n"),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on "
                        "the tile or any adjacent tile.\n"),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
@@ -2253,13 +2253,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Requires terrain with the \"%s\" flag on a tile "
                        "within the city radius.\n"),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on any tile "
                        "within the city radius.\n"),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
@@ -2268,14 +2268,14 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_TRADEROUTE:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Requires terrain with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of "
                        "a trade partner.\n"),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) terrain flag. */
+                     /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of "
                        "a trade partner.\n"),
@@ -2298,12 +2298,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Requires a base with the \"%s\" flag on the tile.\n"),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on the "
                        "tile.\n"),
                      base_flag_id_translated_name(preq->source.value.baseflag));
@@ -2312,13 +2312,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Requires a base with the \"%s\" flag on the "
                        "tile or a cardinally adjacent tile.\n"),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on "
                        "the tile or any cardinally adjacent tile.\n"),
                      base_flag_id_translated_name(preq->source.value.baseflag));
@@ -2327,13 +2327,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_ADJACENT:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Requires a base with the \"%s\" flag on the "
                        "tile or an adjacent tile.\n"),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on "
                        "the tile or any adjacent tile.\n"),
                      base_flag_id_translated_name(preq->source.value.baseflag));
@@ -2342,13 +2342,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Requires a base with the \"%s\" flag on a tile "
                        "within the city radius.\n"),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on any tile "
                        "within the city radius.\n"),
                      base_flag_id_translated_name(preq->source.value.baseflag));
@@ -2357,14 +2357,14 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_TRADEROUTE:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Requires a base with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of a "
                        "trade partner.\n"),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) base flag. */
+                     /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of a "
                        "trade partner.\n"),
@@ -2387,12 +2387,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Requires a road with the \"%s\" flag on the tile.\n"),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on the "
                        "tile.\n"),
                      road_flag_id_translated_name(preq->source.value.roadflag));
@@ -2401,13 +2401,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Requires a road with the \"%s\" flag on the "
                        "tile or a cardinally adjacent tile.\n"),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on "
                        "the tile or any cardinally adjacent tile.\n"),
                      road_flag_id_translated_name(preq->source.value.roadflag));
@@ -2416,13 +2416,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_ADJACENT:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Requires a road with the \"%s\" flag on the "
                        "tile or an adjacent tile.\n"),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on "
                        "the tile or any adjacent tile.\n"),
                      road_flag_id_translated_name(preq->source.value.roadflag));
@@ -2431,13 +2431,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Requires a road with the \"%s\" flag on a tile "
                        "within the city radius.\n"),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on any tile "
                        "within the city radius.\n"),
                      road_flag_id_translated_name(preq->source.value.roadflag));
@@ -2446,14 +2446,14 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_TRADEROUTE:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Requires a road with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of a "
                        "trade partner.\n"),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translateable) road flag. */
+                     /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of a "
                        "trade partner.\n"),
@@ -5400,7 +5400,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           } else if (unit_type_flag_id_is_valid(unitflag)) {
             /* FIXME: same problems as unitclass */
             cat_snprintf(buf, bufsz,
-                         /* TRANS: %s is a (translateable) unit type flag */
+                         /* TRANS: %s is a (translatable) unit type flag */
                          Q_("?unitflag:* New %s units will be veteran.\n"),
                          unit_type_flag_id_translated_name(unitflag));
           } else if (unittype != NULL) {
