@@ -160,7 +160,7 @@ struct unit_class {
 #define SPECENUM_VALUE10NAME N_("?unitflag:Settlers")
 #define SPECENUM_VALUE11 UTYF_DIPLOMAT
 #define SPECENUM_VALUE11NAME N_("?unitflag:Diplomat")
-/* Trireme sinking effect */
+/* Trireme must stay close to the coast */
 #define SPECENUM_VALUE12 UTYF_TRIREME
 #define SPECENUM_VALUE12NAME N_("?unitflag:Trireme")
 /* Nuclear attack effect */
