@@ -65,6 +65,9 @@ module log {
 
   void api_utilities_log_base
     @ base (lua_State *L, int log_level, const char *message);
+
+  void api_utilities_deprecation_warning
+    @ deprecation_warning(lua_State *L, char *method, char *replacement, char *deprecated_since);
 }
 
 $[

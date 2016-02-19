@@ -18,6 +18,7 @@
 #include <math.h>
 
 /* utilities */
+#include "deprecations.h"
 #include "log.h"
 #include "rand.h"
 
@@ -123,3 +124,25 @@ Direction api_utilities_opposite_dir(lua_State *L, Direction dir)
   return opposite_direction(dir);
 }
 
+/**************************************************************************
+  Lua script wants to warn about use of deprecated construct.
+**************************************************************************/
+void api_utilities_deprecation_warning(lua_State *L, char *method,
+                                       char *replacement,
+                                       char *deprecated_since)
+{
+  if (are_deprecation_warnings_enabled()) {
+    /* TODO: Keep track which deprecations we have already warned about, and do not keep spamming
+     * about them. */
+    if (deprecated_since != NULL && replacement != NULL) {
+      log_deprecation_always("Deprecated: lua construct \"%s\", deprecated since \"%s\", used. "
+                             "Use \"%s\" instead", method, deprecated_since, replacement);
+    } else if (replacement != NULL) {
+      log_deprecation_always("Deprecated: lua construct \"%s\" used. "
+                             "Use \"%s\" instead", method, replacement);
+    } else {
+      log_deprecation_always("Deprecated: lua construct \"%s\" used.",
+                             method);
+    }
+  }
+}
