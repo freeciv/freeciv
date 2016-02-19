@@ -387,6 +387,8 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
                     "\"%s\": trying to have an floating point entry as a requirement name in '%s.%s%d'.",
                     filename, sec, sub, j);
       break;
+    case ENTRY_FILEREFERENCE:
+      fc_assert(entry_type(pentry) != ENTRY_FILEREFERENCE);
     }
     if (NULL == name) {
       ruleset_error(LOG_ERROR,
@@ -5220,6 +5222,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     return FALSE;
   }
   filename = secfile_name(file);
+
+  name = secfile_lookup_str_default(file, NULL, "ruledit.description_file");
+  if (name != NULL) {
+    game.server.ruledit.description_file = fc_strdup(name);
+  }
 
   /* section: tileset */
   pref_text = secfile_lookup_str_default(file, "", "tileset.prefered");

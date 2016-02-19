@@ -737,6 +737,11 @@ static bool save_game_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  if (game.server.ruledit.description_file != NULL) {
+    secfile_insert_str(sfile, game.server.ruledit.description_file,
+                       "ruledit.description_file");
+  }
+
   if (game.control.preferred_tileset[0] != '\0') {
     secfile_insert_str(sfile, game.control.preferred_tileset,
                        "tileset.preferred");
@@ -754,8 +759,13 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile, game.control.version, "about.version");
 
   if (game.ruleset_description != NULL) {
-    secfile_insert_str(sfile, game.ruleset_description,
-                       "about.description");
+    if (game.server.ruledit.description_file == NULL) {
+      secfile_insert_str(sfile, game.ruleset_description,
+                         "about.description");
+    } else {
+      secfile_insert_filereference(sfile, game.server.ruledit.description_file,
+                                   "about.description");
+    }
   }
 
   save_tech_list(sfile, game.rgame.global_init_techs,

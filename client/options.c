@@ -5286,6 +5286,7 @@ static void settable_options_load(struct section_file *sf)
       break;
 
     case ENTRY_FLOAT:
+    case ENTRY_FILEREFERENCE:
       /* Not supported yet */
       break;
     }

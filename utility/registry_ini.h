@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -387,6 +387,10 @@ size_t secfile_insert_enum_vec_data_full(struct section_file *secfile,
                                     data, comment, TRUE, path,              \
                                     ## __VA_ARGS__)
 
+struct entry *secfile_insert_filereference(struct section_file *secfile,
+                                           char *filename, char *path, ...)
+                              fc__attribute((__format__ (__printf__, 3, 4)));
+
 /* Deletion function. */
 bool secfile_entry_delete(struct section_file *secfile,
                           const char *path, ...)
@@ -566,7 +570,7 @@ int *secfile_lookup_enum_vec_data(const struct section_file *secfile,
                                   secfile_data_t data, const char *path, ...)
                                   fc__warn_unused_result
                                   fc__attribute((__format__ (__printf__, 6, 7)));
-
+  
 /* Sections functions. */
 struct section *secfile_section_by_name(const struct section_file *secfile,
                                         const char *section_name);
@@ -613,7 +617,8 @@ enum entry_type {
   ENTRY_BOOL,
   ENTRY_INT,
   ENTRY_FLOAT,
-  ENTRY_STR
+  ENTRY_STR,
+  ENTRY_FILEREFERENCE
 };
 
 void entry_destroy(struct entry *pentry);

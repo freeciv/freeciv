@@ -1072,6 +1072,9 @@ static void compat_load_020600(struct loaddata *loading)
           sg_failure_ret(entries[j].entry_type != ENTRY_FLOAT,
                          "Research related entry marked as float.");
           break;
+        case ENTRY_FILEREFERENCE:
+          fc_assert(entries[j].entry_type != ENTRY_FILEREFERENCE);
+          break;
         }
       }
     }

@@ -3258,6 +3258,7 @@ static void game_load_internal(struct section_file *file)
       break;
     case ENTRY_BOOL:
     case ENTRY_FLOAT:
+    case ENTRY_FILEREFERENCE:
       break;
     }
   }

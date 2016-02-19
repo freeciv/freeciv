@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -218,6 +218,9 @@ struct entry {
     } string;
   };
 };
+
+static struct entry *section_entry_filereference_new(struct section *psection,
+                                                     const char *name, const char *value);
 
 /****************************************************************************
   Copies a string and convert the following characters:
@@ -1342,6 +1345,41 @@ size_t secfile_insert_str_vec_full(struct section_file *secfile,
   }
 
   return ret;
+}
+
+/****************************************************************************
+  Insert a read-from-a-file string entry
+****************************************************************************/
+struct entry *secfile_insert_filereference(struct section_file *secfile,
+                                           char *filename, char *path, ...)
+{
+  char fullpath[MAX_LEN_SECPATH];
+  const char *ent_name;
+  struct section *psection;
+  struct entry *pentry = NULL;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  psection = secfile_insert_base(secfile, fullpath, &ent_name);
+  if (!psection) {
+    return NULL;
+  }
+
+  if (psection->special != EST_NORMAL) {
+    log_error("Tried to insert normal entry to different kind of section");
+    return NULL;
+  }
+
+  if (NULL == pentry) {
+    pentry = section_entry_filereference_new(psection, ent_name, filename);
+  }
+
+  return pentry;
 }
 
 /****************************************************************************
@@ -3127,6 +3165,22 @@ struct entry *section_entry_str_new(struct section *psection,
 }
 
 /**************************************************************************
+  Returns a new entry of type ENTRY_FILEREFERENCE.
+**************************************************************************/
+static struct entry *section_entry_filereference_new(struct section *psection,
+                                                     const char *name, const char *value)
+{
+  struct entry *pentry = entry_new(psection, name);
+
+  if (NULL != pentry) {
+    pentry->type = ENTRY_FILEREFERENCE;
+    pentry->string.value = fc_strdup(NULL != value ? value : "");
+  }
+
+  return pentry;
+}
+
+/**************************************************************************
   Entry structure destructor.
 **************************************************************************/
 void entry_destroy(struct entry *pentry)
@@ -3159,6 +3213,7 @@ void entry_destroy(struct entry *pentry)
     break;
 
   case ENTRY_STR:
+  case ENTRY_FILEREFERENCE:
     free(pentry->string.value);
     break;
   }
@@ -3504,6 +3559,9 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
     } else {
       fz_fprintf(fs, "$%s$", pentry->string.value);
     }
+    break;
+  case ENTRY_FILEREFERENCE:
+    fz_fprintf(fs, "*%s*", pentry->string.value);
     break;
   }
 }
