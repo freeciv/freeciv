@@ -29,6 +29,10 @@ all: gtk3-installer gtk2-installer sdl2-installer qt-installer ruledit-installer
 gtk3x-installer:
 	make GUI=gtk3x FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3x
 
+buildable-win32: gtk3-installer ruledit-installer qt-installer gtk3x-installer
+
+buildable-win64:
+
 gtk3-installer:
 	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
 
@@ -46,7 +50,7 @@ ruledit-installer:
 
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="svn" EXTRA_CONFIG="--enable-svnrev" all
+	make VERSION_REVTYPE="svn" EXTRA_CONFIG="--enable-svnrev" buildable-$(WINARCH)
 
 
 # build Freeciv
