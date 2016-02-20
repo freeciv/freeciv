@@ -360,9 +360,6 @@ dnl checks for MagickWand mapimg support
 dnl sets MAPIMG_WAND_CFLAGS, MAPIMG_WAND_LIBS
 FC_MAPIMG_MAGICKWAND
 
-dnl set arguments for the packet generator
-GENERATE_PACKETS_ARGS=""
-
 dnl make it possible to disable the delta network protocol
 AC_ARG_ENABLE([delta-protocol],
   AS_HELP_STRING([--disable-delta-protocol],
@@ -378,8 +375,8 @@ AC_ARG_ENABLE([delta-protocol],
 AS_IF([test "x$enable_delta_protocol" = "xno"], [
   AC_MSG_WARN([delta network protocol is off])
   AC_MSG_WARN([no network compatibility with regular Freeciv])
-  AC_MSG_WARN([won't be able to play with regular Freeciv])
-  GENERATE_PACKETS_ARGS="$GENERATE_PACKETS_ARGS --disable-delta"])
+  AC_MSG_WARN([won't be able to play with regular Freeciv])],[
+  AC_DEFINE([FREECIV_DELTA_PROTOCOL], [1], [Delta protocol enabled])])
 
 dnl done setting arguments for the packet generator
 AC_SUBST([GENERATE_PACKETS_ARGS])

@@ -92,6 +92,9 @@
 /* jansson network protocol in use */
 #undef FREECIV_JSON_CONNECTION
 
+/* Delta protocol enabled */
+#undef FREECIV_DELTA_PROTOCOL
+
 /* uses some winsock version */
 #undef FREECIV_HAVE_WINSOCK
 
