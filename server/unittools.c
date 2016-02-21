@@ -2733,14 +2733,6 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
   int range, distance;
 
-  if (get_transporter_occupancy(punit) > 0) {
-    /* TODO: Explain using the action not enabled system and remove. */
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("You cannot paradrop a unit that is "
-                    "transporting other units."));
-    return FALSE;
-  }
-
   if (!map_is_known(ptile, pplayer)) {
     /* TODO: Explain using the action not enabled system and remove. */
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,

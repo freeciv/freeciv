@@ -1392,8 +1392,12 @@ is_action_possible(const enum gen_action wanted_action,
       return TRI_NO;
     }
 
-    /* Reason: Keep the old rules. */
+    /* Reason: The paradrop code doesn't check if transported units can
+     * coexist with the target tile city and units. */
     /* Info leak: The player knows if his unit is transporting a unit. */
+    /* This hard coded limitation is detected in the action not enabled
+     * explanation code. Remember to remove it too if this hard coded
+     * limitation moves to the ruleset. */
     if (get_transporter_occupancy(actor_unit) > 0) {
       return TRI_NO;
     }
