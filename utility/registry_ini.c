@@ -1251,7 +1251,7 @@ struct section *secfile_insert_long_comment(struct section_file *secfile,
   Insert a string entry.
 **************************************************************************/
 struct entry *secfile_insert_str_full(struct section_file *secfile,
-                                      const char *string,
+                                      const char *str,
                                       const char *comment,
                                       bool allow_replace,
                                       bool no_escape,
@@ -1284,7 +1284,7 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
       if (ENTRY_STR == entry_type(pentry)) {
-        if (!entry_str_set(pentry, string)) {
+        if (!entry_str_set(pentry, str)) {
           return NULL;
         }
       } else {
@@ -1295,7 +1295,7 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
   }
 
   if (NULL == pentry) {
-    pentry = section_entry_str_new(psection, ent_name, string, !no_escape);
+    pentry = section_entry_str_new(psection, ent_name, str, !no_escape);
   }
 
   if (NULL != pentry && NULL != comment) {
@@ -1393,7 +1393,7 @@ struct entry *secfile_insert_plain_enum_full(struct section_file *secfile,
                                              const char *path, ...)
 {
   char fullpath[MAX_LEN_SECPATH];
-  const char *string;
+  const char *str;
   const char *ent_name;
   struct section *psection;
   struct entry *pentry = NULL;
@@ -1401,8 +1401,8 @@ struct entry *secfile_insert_plain_enum_full(struct section_file *secfile,
 
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != name_fn, NULL);
-  string = name_fn(enumerator);
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != string, NULL);
+  str = name_fn(enumerator);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != str, NULL);
 
   va_start(args, path);
   fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
@@ -1417,7 +1417,7 @@ struct entry *secfile_insert_plain_enum_full(struct section_file *secfile,
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
       if (ENTRY_STR == entry_type(pentry)) {
-        if (!entry_str_set(pentry, string)) {
+        if (!entry_str_set(pentry, str)) {
           return NULL;
         }
       } else {
@@ -1428,7 +1428,7 @@ struct entry *secfile_insert_plain_enum_full(struct section_file *secfile,
   }
 
   if (NULL == pentry) {
-    pentry = section_entry_str_new(psection, ent_name, string, TRUE);
+    pentry = section_entry_str_new(psection, ent_name, str, TRUE);
   }
 
   if (NULL != pentry && NULL != comment) {
@@ -1498,7 +1498,7 @@ struct entry *secfile_insert_bitwise_enum_full(struct section_file *secfile,
                                                bool allow_replace,
                                                const char *path, ...)
 {
-  char fullpath[MAX_LEN_SECPATH], string[MAX_LEN_SECPATH];
+  char fullpath[MAX_LEN_SECPATH], str[MAX_LEN_SECPATH];
   const char *ent_name;
   struct section *psection;
   struct entry *pentry = NULL;
@@ -1512,14 +1512,14 @@ struct entry *secfile_insert_bitwise_enum_full(struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != next_fn, NULL);
 
   /* Compute a string containing all the values separated by '|'. */
-  string[0] = '\0';     /* Insert at least an empty string. */
+  str[0] = '\0';     /* Insert at least an empty string. */
   if (0 != bitwise_val) {
     for (i = begin_fn(); i != end_fn(); i = next_fn(i)) {
       if (i & bitwise_val) {
-        if ('\0' == string[0]) {
-          sz_strlcpy(string, name_fn(i));
+        if ('\0' == str[0]) {
+          sz_strlcpy(str, name_fn(i));
         } else {
-          cat_snprintf(string, sizeof(string), "|%s", name_fn(i));
+          cat_snprintf(str, sizeof(str), "|%s", name_fn(i));
         }
       }
     }
@@ -1538,7 +1538,7 @@ struct entry *secfile_insert_bitwise_enum_full(struct section_file *secfile,
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
       if (ENTRY_STR == entry_type(pentry)) {
-        if (!entry_str_set(pentry, string)) {
+        if (!entry_str_set(pentry, str)) {
           return NULL;
         }
       } else {
@@ -1549,7 +1549,7 @@ struct entry *secfile_insert_bitwise_enum_full(struct section_file *secfile,
   }
 
   if (NULL == pentry) {
-    pentry = section_entry_str_new(psection, ent_name, string, TRUE);
+    pentry = section_entry_str_new(psection, ent_name, str, TRUE);
   }
 
   if (NULL != pentry && NULL != comment) {
@@ -1623,7 +1623,7 @@ struct entry *secfile_insert_enum_data_full(struct section_file *secfile,
                                             bool allow_replace,
                                             const char *path, ...)
 {
-  char fullpath[MAX_LEN_SECPATH], string[MAX_LEN_SECPATH];
+  char fullpath[MAX_LEN_SECPATH], str[MAX_LEN_SECPATH];
   const char *ent_name, *val_name;
   struct section *psection;
   struct entry *pentry = NULL;
@@ -1635,14 +1635,14 @@ struct entry *secfile_insert_enum_data_full(struct section_file *secfile,
 
   if (bitwise) {
     /* Compute a string containing all the values separated by '|'. */
-    string[0] = '\0';     /* Insert at least an empty string. */
+    str[0] = '\0';     /* Insert at least an empty string. */
     if (0 != value) {
       for (i = 0; (val_name = name_fn(data, i)); i++) {
         if ((1 << i) & value) {
-          if ('\0' == string[0]) {
-            sz_strlcpy(string, val_name);
+          if ('\0' == str[0]) {
+            sz_strlcpy(str, val_name);
           } else {
-            cat_snprintf(string, sizeof(string), "|%s", val_name);
+            cat_snprintf(str, sizeof(str), "|%s", val_name);
           }
         }
       }
@@ -1652,7 +1652,7 @@ struct entry *secfile_insert_enum_data_full(struct section_file *secfile,
       SECFILE_LOG(secfile, NULL, "Value %d not supported.", value);
       return NULL;
     }
-    sz_strlcpy(string, val_name);
+    sz_strlcpy(str, val_name);
   }
 
   va_start(args, path);
@@ -1668,7 +1668,7 @@ struct entry *secfile_insert_enum_data_full(struct section_file *secfile,
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
       if (ENTRY_STR == entry_type(pentry)) {
-        if (!entry_str_set(pentry, string)) {
+        if (!entry_str_set(pentry, str)) {
           return NULL;
         }
       } else {
@@ -1679,7 +1679,7 @@ struct entry *secfile_insert_enum_data_full(struct section_file *secfile,
   }
 
   if (NULL == pentry) {
-    pentry = section_entry_str_new(psection, ent_name, string, TRUE);
+    pentry = section_entry_str_new(psection, ent_name, str, TRUE);
   }
 
   if (NULL != pentry && NULL != comment) {

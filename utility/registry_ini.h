@@ -161,7 +161,7 @@ struct section *secfile_insert_long_comment(struct section_file *secfile,
                                             const char *comment);
 
 struct entry *secfile_insert_str_full(struct section_file *secfile,
-                                      const char *string,
+                                      const char *str,
                                       const char *comment,
                                       bool allow_replace, bool no_escape,
                                       enum entry_special_type stype,
