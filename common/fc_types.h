@@ -300,6 +300,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE1NAME "OnLivableTile"
 #define SPECENUM_VALUE2 USP_DOMESTIC_TILE
 #define SPECENUM_VALUE2NAME "OnDomesticTile"
+#define SPECENUM_VALUE3 USP_TRANSPORTING
+#define SPECENUM_VALUE3NAME "Transporting"
 #define SPECENUM_COUNT USP_COUNT
 #include "specenum_gen.h"
 

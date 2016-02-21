@@ -2366,6 +2366,8 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
     return BOOL_TO_TRISTATE(
           tile_owner(unit_tile(target_unit)) == unit_owner(target_unit));
     break;
+  case USP_TRANSPORTING:
+    return BOOL_TO_TRISTATE(0 < get_transporter_occupancy(target_unit));
   case USP_COUNT:
     fc_assert_msg(uprop != USP_COUNT, "Invalid unit state property.");
     /* Invalid property is unknowable. */
@@ -3319,6 +3321,10 @@ const char *universal_name_translation(const struct universal *psource,
                    /* TRANS: unit state. (appears in strings like
                     * "Missile+On domestic tile") */
                    _("On domestic tile"));
+      break;
+    case USP_TRANSPORTING:
+      /* TRANS: unit state. (appears in strings like "Missile+Transported") */
+      cat_snprintf(buf, bufsz, _("Transporting"));
       break;
     case USP_COUNT:
       fc_assert_msg(psource->value.unit_state != USP_COUNT,

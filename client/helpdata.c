@@ -1718,6 +1718,17 @@ static bool insert_requirement(char *buf, size_t bufsz,
                            "tile.\n"));
           }
           return TRUE;
+        case USP_TRANSPORTING:
+          if (preq->present) {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit does transport one or "
+                           "more cargo units.\n"));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit doesn't transport "
+                           "any cargo units.\n"));
+          }
+          return TRUE;
         case USP_COUNT:
           fc_assert_msg(preq->source.value.unit_state != USP_COUNT,
                         "Invalid unit state property.");

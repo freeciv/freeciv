@@ -84,6 +84,10 @@ enum ane_kind {
   ANEK_IS_TRANSPORTED,
   /* Explanation: not being transported. */
   ANEK_IS_NOT_TRANSPORTED,
+  /* Explanation: transports a cargo unit. */
+  ANEK_IS_TRANSPORTING,
+  /* Explanation: doesn't transport a cargo unit. */
+  ANEK_IS_NOT_TRANSPORTING,
   /* Explanation: must declare war first. */
   ANEK_NO_WAR,
   /* Explanation: can't be done to domestic targets. */
@@ -738,6 +742,14 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTED, FALSE)) {
     expl->kind = ANEK_IS_NOT_TRANSPORTED;
+  } else if (0 < get_transporter_occupancy(punit)
+             && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+                                              USP_TRANSPORTING, TRUE)) {
+    expl->kind = ANEK_IS_TRANSPORTING;
+  } else if (!(0 < get_transporter_occupancy(punit))
+             && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+                                              USP_TRANSPORTING, FALSE)) {
+    expl->kind = ANEK_IS_NOT_TRANSPORTING;
   } else if ((must_war_player = need_war_player(punit,
                                                 action_id,
                                                 target_tile,
@@ -870,6 +882,15 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit cannot act when it isn't being "
                     "transported."));
+    break;
+  case ANEK_IS_TRANSPORTING:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit is transporting, and"
+                    " so cannot act."));
+    break;
+  case ANEK_IS_NOT_TRANSPORTING:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit cannot act when it isn't transporting."));
     break;
   case ANEK_NO_WAR:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1163,6 +1184,20 @@ void illegal_action_msg(struct player *pplayer,
     notify_player(pplayer, unit_tile(actor),
                   event, ftc_server,
                   _("Your %s can't do %s while not being transported."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action));
+    break;
+  case ANEK_IS_TRANSPORTING:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s while transporting."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action));
+    break;
+  case ANEK_IS_NOT_TRANSPORTING:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s while not transporting."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action));
     break;
