@@ -631,7 +631,7 @@ static void drawing_data_destroy(struct drawing_data *draw)
 /****************************************************************************
   Return the name of the given tileset.
 ****************************************************************************/
-const char *tileset_get_name(const struct tileset *t)
+const char *tileset_basename(const struct tileset *t)
 {
   return t->name;
 }
@@ -1199,7 +1199,7 @@ void tilespec_try_read(const char *tileset_name, bool verbose)
     log_verbose("Trying tileset \"%s\".", tileset->name);
   }
   option_set_default_ts(tileset);
-  sz_strlcpy(gui_options.default_tileset_name, tileset_get_name(tileset));
+  sz_strlcpy(gui_options.default_tileset_name, tileset_basename(tileset));
 }
 
 /**********************************************************************

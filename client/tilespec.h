@@ -373,7 +373,7 @@ struct color_system;
 struct color_system *get_color_system(const struct tileset *t);
 
 /* Tileset accessor functions. */
-const char *tileset_get_name(const struct tileset *t);
+const char *tileset_basename(const struct tileset *t);
 bool tileset_is_isometric(const struct tileset *t);
 int tileset_hex_width(const struct tileset *t);
 int tileset_hex_height(const struct tileset *t);

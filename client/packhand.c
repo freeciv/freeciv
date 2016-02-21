@@ -3042,7 +3042,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
 
   if (packet->preferred_tileset[0] != '\0') {
     /* There is tileset suggestion */
-    if (strcmp(packet->preferred_tileset, tileset_get_name(tileset))) {
+    if (strcmp(packet->preferred_tileset, tileset_basename(tileset))) {
       /* It's not currently in use */
       if (gui_options.autoaccept_tileset_suggestion) {
         tilespec_reread(game.control.preferred_tileset, FALSE);

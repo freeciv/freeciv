@@ -6246,6 +6246,6 @@ void option_set_default_ts(struct tileset *t)
 
   /* Do not call option_str_set() since we don't want option changed callback
    * to reload this tileset. */
-  opt->str_vtable->set(opt, tileset_name(t));
+  opt->str_vtable->set(opt, tileset_basename(t));
   option_gui_update(opt);
 }
