@@ -45,7 +45,7 @@ typedef struct _GtkPixcommClass	GtkPixcommClass;
 
 struct _GtkPixcomm
 {
-  GtkMisc misc;
+  GtkWidget widget;
 
   gint w, h;
 
@@ -55,7 +55,7 @@ struct _GtkPixcomm
 
 struct _GtkPixcommClass
 {
-  GtkMiscClass parent_class;
+  GtkWidgetClass parent_class;
 };
 
 

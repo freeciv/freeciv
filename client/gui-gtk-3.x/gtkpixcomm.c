@@ -56,7 +56,7 @@ static void
 gtk_pixcomm_get_preferred_height(GtkWidget *widget, gint *minimal_height,
                                  gint *natural_height);
 
-static GtkMiscClass *parent_class;
+static GtkWidgetClass *parent_class;
 
 typedef struct _GtkPixcommPrivate GtkPixcommPrivate;
 struct _GtkPixcommPrivate
