@@ -59,7 +59,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(WINARCH)-$(GUI)
 	# configure
-	cd build-$(WINARCH)-$(GUI); ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --enable-client=$(GUI) --with-followtag="win32-S3_0" --enable-fcdb=sqlite3 --without-readline --disable-sdl-mixer --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
+	cd build-$(WINARCH)-$(GUI); ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --enable-client=$(GUI) --with-followtag="win32-S3_0" --enable-fcdb=sqlite3 --without-readline --disable-sdl-mixer --disable-nls --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(WINARCH)-$(GUI)
 	make -C build-$(WINARCH)-$(GUI)/translations/freeciv update-po
@@ -95,7 +95,6 @@ install-freeciv-common:
 	mv install-$(WINARCH)-$(GUI)/usr/local/etc install-$(WINARCH)-$(GUI)/
 	mv install-$(WINARCH)-$(GUI)/usr/local/share/freeciv install-$(WINARCH)-$(GUI)/data
 	mkdir -p install-$(WINARCH)-$(GUI)/share
-	mv install-$(WINARCH)-$(GUI)/usr/local/share/locale install-$(WINARCH)-$(GUI)/share/
 	mv install-$(WINARCH)-$(GUI)/usr/local/share/doc install-$(WINARCH)-$(GUI)/doc
 	mkdir -p install-$(WINARCH)-$(GUI)/debuginfo
 	cp build-$(WINARCH)-$(GUI)/gen_headers/fc_config.h install-$(WINARCH)-$(GUI)/debuginfo
@@ -230,8 +229,6 @@ install-env-default-fcmp: install-env-common
 	cp -R $(ARCHDIR)/etc/gtk-3.0 install-$(WINARCH)-$(GUI)/etc/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
 	cp -R $(ARCHDIR)/lib/gtk-3.0/* install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
-	cp -R /share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
 install-env-gtk3x: install-env-default-fcmp
 
@@ -249,8 +246,6 @@ install-env-gtk2: install-env-common
 	cp -R /etc/gtk-2.0 install-$(WINARCH)-$(GUI)/etc/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
 	cp -R /lib/gtk-2.0/2.10.0 install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
-	cp -R /share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
 
 SDL2_DLLS := \
 	libpng12-0.dll \
@@ -283,8 +278,6 @@ install-env-qt: install-env-common
 	cp -R $(addprefix /bin/msys-, $(QT_MSYS_DLLS)) install-$(WINARCH)-$(GUI)
 	# add additional Qt files
 	cp -R $(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-$(GUI)/
-	cp -R /share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
 # TODO: Clean out unnecessary ones. These are just copies of COMMON_DLLS and
 #       COMMON_MSYS_DLLS with most obviously unnecessary things left out.
