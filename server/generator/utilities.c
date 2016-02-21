@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2004 - Marcelo J. Burda
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -623,5 +623,126 @@ void generator_free(void)
   if (ocean_sizes != NULL) {
     free(ocean_sizes);
     ocean_sizes = NULL;
+  }
+}
+
+/****************************************************************************
+  Return a random terrain that has the specified flag.
+  Returns T_UNKNOWN when there is no matching terrain.
+****************************************************************************/
+struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
+{
+  bool has_flag[terrain_count()];
+  int count = 0;
+
+  terrain_type_iterate(pterrain) {
+    if ((has_flag[terrain_index(pterrain)]
+         = (terrain_has_flag(pterrain, flag)
+            && !terrain_has_flag(pterrain, TER_NOT_GENERATED)))) {
+      count++;
+    }
+  } terrain_type_iterate_end;
+
+  count = fc_rand(count);
+  terrain_type_iterate(pterrain) {
+    if (has_flag[terrain_index(pterrain)]) {
+      if (count == 0) {
+	return pterrain;
+      }
+      count--;
+    }
+  } terrain_type_iterate_end;
+
+  return T_UNKNOWN;
+}
+
+
+/****************************************************************************
+  Pick a terrain based on the target property and a property to avoid.
+
+  If the target property is given, then all terrains with that property
+  will be considered and one will be picked at random based on the amount
+  of the property each terrain has.  If no target property is given all
+  terrains will be assigned equal likelihood.
+
+  If the preferred property is given, only terrains with (some of) that
+  property will be chosen.
+
+  If the avoid property is given, then any terrain with (any of) that
+  property will be avoided.
+
+  This function must always return a valid terrain.
+****************************************************************************/
+struct terrain *pick_terrain(enum mapgen_terrain_property target,
+                             enum mapgen_terrain_property prefer,
+                             enum mapgen_terrain_property avoid)
+{
+  int sum = 0;
+
+  /* Find the total weight. */
+  terrain_type_iterate(pterrain) {
+    if (!terrain_has_flag(pterrain, TER_NOT_GENERATED)) {
+      if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
+        continue;
+      }
+      if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
+        continue;
+      }
+
+      if (target != MG_UNUSED) {
+        sum += pterrain->property[target];
+      } else {
+        sum++;
+      }
+    }
+  } terrain_type_iterate_end;
+
+  /* Now pick. */
+  sum = fc_rand(sum);
+
+  /* Finally figure out which one we picked. */
+  terrain_type_iterate(pterrain) {
+    if (!terrain_has_flag(pterrain, TER_NOT_GENERATED)) {
+      int property;
+
+      if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
+        continue;
+      }
+      if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
+        continue;
+      }
+
+      if (target != MG_UNUSED) {
+        property = pterrain->property[target];
+      } else {
+        property = 1;
+      }
+      if (sum < property) {
+        return pterrain;
+      }
+      sum -= property;
+    }
+  } terrain_type_iterate_end;
+
+  /* This can happen with sufficient quantities of preferred and avoided
+   * characteristics.  Drop a requirement and try again. */
+  if (prefer != MG_UNUSED) {
+    log_debug("pick_terrain(target: %s, [dropping prefer: %s], avoid: %s)",
+              mapgen_terrain_property_name(target),
+              mapgen_terrain_property_name(prefer),
+              mapgen_terrain_property_name(avoid));
+    return pick_terrain(target, MG_UNUSED, avoid);
+  } else if (avoid != MG_UNUSED) {
+    log_debug("pick_terrain(target: %s, prefer: %s, [dropping avoid: %s])",
+              mapgen_terrain_property_name(target),
+              mapgen_terrain_property_name(prefer),
+              mapgen_terrain_property_name(avoid));
+    return pick_terrain(target, prefer, MG_UNUSED);
+  } else {
+    log_debug("pick_terrain([dropping target: %s], prefer: %s, avoid: %s)",
+              mapgen_terrain_property_name(target),
+              mapgen_terrain_property_name(prefer),
+              mapgen_terrain_property_name(avoid));
+    return pick_terrain(MG_UNUSED, prefer, avoid);
   }
 }

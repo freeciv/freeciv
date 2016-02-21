@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2004 - Marcelo J. Burda
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,6 +15,8 @@
 
 typedef void (*tile_knowledge_cb)(struct tile *ptile);
 
+#define MG_UNUSED mapgen_terrain_property_invalid()
+
 void generator_free(void);
 
 void regenerate_lakes(void);
@@ -26,6 +28,11 @@ int get_ocean_size(Continent_id id);
 
 struct terrain *most_shallow_ocean(void);
 struct terrain *pick_ocean(int depth);
+
+struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag);
+struct terrain *pick_terrain(enum mapgen_terrain_property target,
+                             enum mapgen_terrain_property prefer,
+                             enum mapgen_terrain_property avoid);
 
 /* Provide a block to convert from native to map coordinates.  For instance
  *   do_in_map_pos(mx, my, xn, yn) {

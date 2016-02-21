@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996-2007 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,5 +38,7 @@ void normalize_hmap_poles(void);
 void renormalize_hmap_poles(void);
 void make_random_hmap(int smooth);
 void make_pseudofractal1_hmap(int extra_div);
+
+bool area_is_too_flat(struct tile *ptile, int thill, int my_height);
 
 #endif  /* FC__HEIGHT__MAP_H */
