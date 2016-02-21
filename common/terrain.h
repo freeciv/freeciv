@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -292,8 +292,8 @@ int count_terrain_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
 			    const struct terrain *pterrain);
 int count_terrain_property_near_tile(const struct tile *ptile,
-				     bool cardinal_only, bool percentage,
-				     enum mapgen_terrain_property prop);
+                                     bool cardinal_only, bool percentage,
+                                     enum mapgen_terrain_property prop);
 
 bool is_resource_card_near(const struct tile *ptile,
                            const struct resource_type *pres,

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996-2007 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,9 +20,11 @@
 /* common */
 #include "map.h"
 
-#include "height_map.h"
+/* server/generator */
 #include "mapgen_topology.h"
-#include "utilities.h" 
+#include "utilities.h"
+
+#include "height_map.h"
 
 int *height_map = NULL;
 int hmap_shore_level = 0, hmap_mountain_level = 0;
@@ -227,4 +229,37 @@ void make_pseudofractal1_hmap(int extra_div)
   } whole_map_iterate_end;
 
   adjust_int_map(height_map, hmap_max_level);
+}
+
+/**************************************************************************
+  We don't want huge areas of grass/plains,
+  so we put in a hill here and there, where it gets too 'clean'
+
+  Return TRUE if the terrain around the given map position is "clean".  This
+  means that all the terrain for 2 squares around it is not mountain or hill.
+****************************************************************************/
+bool area_is_too_flat(struct tile *ptile, int thill, int my_height)
+{
+  int higher_than_me = 0;
+
+  square_iterate(ptile, 2, tile1) {
+    if (hmap(tile1) > thill) {
+      return FALSE;
+    }
+    if (hmap(tile1) > my_height) {
+      if (map_distance(ptile, tile1) == 1) {
+        return FALSE;
+      }
+      if (++higher_than_me > 2) {
+        return FALSE;
+      }
+    }
+  } square_iterate_end;
+
+  if ((thill - hmap_shore_level) * higher_than_me
+      > (my_height - hmap_shore_level) * 4) {
+    return FALSE;
+  }
+
+  return TRUE;
 }

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -42,8 +42,6 @@
 #include "utilities.h"
 
 #include "mapgen.h"
-
-#define MG_UNUSED mapgen_terrain_property_invalid()
 
 static void make_huts(int number);
 static void add_resources(int prob);
@@ -269,45 +267,13 @@ static struct tile *rand_map_pos_characteristic(wetness_c wc,
 }
 
 /**************************************************************************
-  we don't want huge areas of grass/plains, 
-  so we put in a hill here and there, where it gets too 'clean' 
-
-  Return TRUE if the terrain at the given map position is "clean".  This
-  means that all the terrain for 2 squares around it is not mountain or hill.
-****************************************************************************/
-static bool terrain_is_too_flat(struct tile *ptile, 
-				int thill, int my_height)
-{
-  int higher_than_me = 0;
-  square_iterate(ptile, 2, tile1) {
-    if (hmap(tile1) > thill) {
-      return FALSE;
-    }
-    if (hmap(tile1) > my_height) {
-      if (map_distance(ptile, tile1) == 1) {
-	return FALSE;
-      }
-      if (++higher_than_me > 2) {
-	return FALSE;
-      }
-    }
-  } square_iterate_end;
-
-  if ((thill - hmap_shore_level) * higher_than_me  > 
-      (my_height - hmap_shore_level) * 4) {
-    return FALSE;
-  }
-  return TRUE;
-}
-
-/**************************************************************************
   we don't want huge areas of hill/mountains, 
   so we put in a plains here and there, where it gets too 'heigh' 
 
   Return TRUE if the terrain at the given map position is too heigh.
 ****************************************************************************/
 static bool terrain_is_too_high(struct tile *ptile,
-				int thill, int my_height)
+                                int thill, int my_height)
 {
   square_iterate(ptile, 1, tile1) {
     if (hmap(tile1) + (hmap_max_level - hmap_mountain_level) / 5 < thill) {
@@ -315,125 +281,6 @@ static bool terrain_is_too_high(struct tile *ptile,
     }
   } square_iterate_end;
   return TRUE;
-}
-
-/****************************************************************************
-  Return a random terrain that has the specified flag.
-  Returns T_UNKNOWN when there is no matching terrain.
-****************************************************************************/
-static struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
-{
-  bool has_flag[terrain_count()];
-  int count = 0;
-
-  terrain_type_iterate(pterrain) {
-    if ((has_flag[terrain_index(pterrain)]
-         = (terrain_has_flag(pterrain, flag)
-            && !terrain_has_flag(pterrain, TER_NOT_GENERATED)))) {
-      count++;
-    }
-  } terrain_type_iterate_end;
-
-  count = fc_rand(count);
-  terrain_type_iterate(pterrain) {
-    if (has_flag[terrain_index(pterrain)]) {
-      if (count == 0) {
-	return pterrain;
-      }
-      count--;
-    }
-  } terrain_type_iterate_end;
-  return T_UNKNOWN;
-}
-
-/****************************************************************************
-  Pick a terrain based on the target property and a property to avoid.
-
-  If the target property is given, then all terrains with that property
-  will be considered and one will be picked at random based on the amount
-  of the property each terrain has.  If no target property is given all
-  terrains will be assigned equal likelihood.
-
-  If the preferred property is given, only terrains with (some of) that
-  property will be chosen.
-
-  If the avoid property is given, then any terrain with (any of) that
-  property will be avoided.
-
-  This function must always return a valid terrain.
-****************************************************************************/
-static struct terrain *pick_terrain(enum mapgen_terrain_property target,
-				    enum mapgen_terrain_property prefer,
-				    enum mapgen_terrain_property avoid)
-{
-  int sum = 0;
-
-  /* Find the total weight. */
-  terrain_type_iterate(pterrain) {
-    if (!terrain_has_flag(pterrain, TER_NOT_GENERATED)) {
-      if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
-        continue;
-      }
-      if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
-        continue;
-      }
-
-      if (target != MG_UNUSED) {
-        sum += pterrain->property[target];
-      } else {
-        sum++;
-      }
-    }
-  } terrain_type_iterate_end;
-
-  /* Now pick. */
-  sum = fc_rand(sum);
-
-  /* Finally figure out which one we picked. */
-  terrain_type_iterate(pterrain) {
-    if (!terrain_has_flag(pterrain, TER_NOT_GENERATED)) {
-      int property;
-
-      if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
-        continue;
-      }
-      if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
-        continue;
-      }
-
-      if (target != MG_UNUSED) {
-        property = pterrain->property[target];
-      } else {
-        property = 1;
-      }
-      if (sum < property) {
-        return pterrain;
-      }
-      sum -= property;
-    }
-  } terrain_type_iterate_end;
-
-  /* This can happen with sufficient quantities of preferred and avoided
-   * characteristics.  Drop a requirement and try again. */
-  if (prefer != MG_UNUSED) {
-    log_debug("pick_terrain(target: %s, [dropping prefer: %s], avoid: %s)",
-              mapgen_terrain_property_name(target),
-              mapgen_terrain_property_name(prefer),
-              mapgen_terrain_property_name(avoid));
-    return pick_terrain(target, MG_UNUSED, avoid);
-  } else if (avoid != MG_UNUSED) {
-    log_debug("pick_terrain(target: %s, prefer: %s, [dropping avoid: %s])",
-              mapgen_terrain_property_name(target),
-              mapgen_terrain_property_name(prefer),
-              mapgen_terrain_property_name(avoid));
-    return pick_terrain(target, prefer, MG_UNUSED);
-  } else {
-    log_debug("pick_terrain([dropping target: %s], prefer: %s, avoid: %s)",
-              mapgen_terrain_property_name(target),
-              mapgen_terrain_property_name(prefer),
-              mapgen_terrain_property_name(avoid));
-    return pick_terrain(MG_UNUSED, prefer, avoid);
-  }
 }
 
 /**************************************************************************
@@ -451,12 +298,12 @@ static void make_relief(void)
                          / 100 + hmap_shore_level);
 
   whole_map_iterate(ptile) {
-    if (not_placed(ptile) &&
-        ((hmap_mountain_level < hmap(ptile)
-          && (fc_rand(10) > 5
-              || !terrain_is_too_high(ptile, hmap_mountain_level,
-                                      hmap(ptile))))
-         || terrain_is_too_flat(ptile, hmap_mountain_level, hmap(ptile)))) {
+    if (not_placed(ptile)
+        && ((hmap_mountain_level < hmap(ptile)
+             && (fc_rand(10) > 5
+                 || !terrain_is_too_high(ptile, hmap_mountain_level,
+                                         hmap(ptile))))
+            || area_is_too_flat(ptile, hmap_mountain_level, hmap(ptile)))) {
       if (tmap_is(ptile, TT_HOT)) {
         /* Prefer hills to mountains in hot regions. */
         tile_set_terrain(ptile,
@@ -491,8 +338,8 @@ static void make_polar(void)
 }
 
 /*************************************************************************
- if separatepoles is set, return false if this tile has to keep ocean
-************************************************************************/
+  If separatepoles is set, return false if this tile has to keep ocean
+*************************************************************************/
 static bool ok_for_separate_poles(struct tile *ptile)
 {
   if (!game.map.server.separatepoles) {
@@ -587,6 +434,7 @@ static void make_plain(struct tile *ptile, int *to_be_placed )
 static void make_plains(void)
 {
   int to_be_placed;
+
   whole_map_iterate(ptile) {
     if (not_placed(ptile)) {
       to_be_placed = 1;
@@ -599,14 +447,14 @@ static void make_plains(void)
  This place randomly a cluster of terrains with some characteristics
  **************************************************************************/
 #define PLACE_ONE_TYPE(count, alternate, ter, wc, tc, mc, weight) \
-  if((count) > 0) {                                       \
+  if ((count) > 0) {                                      \
     struct tile *ptile;					  \
     /* Place some terrains */                             \
-    if ((ptile = rand_map_pos_characteristic((wc), (tc), (mc)))) {	\
+    if ((ptile = rand_map_pos_characteristic((wc), (tc), (mc)))) {	  \
       place_terrain(ptile, (weight), (ter), &(count), (wc),(tc), (mc));   \
-    } else {                                                             \
-      /* If rand_map_pos_temperature returns FALSE we may as well stop*/ \
-      /* looking for this time and go to alternate type. */              \
+    } else {                                                              \
+      /* If rand_map_pos_temperature returns FALSE we may as well stop */ \
+      /* looking for this time and go to alternate type. */               \
       (alternate) += (count); \
       (count) = 0;            \
     }                         \
@@ -631,7 +479,7 @@ static void make_terrains(void)
 
   whole_map_iterate(ptile) {
     if (not_placed(ptile)) {
-     total++;
+      total++;
     }
   } whole_map_iterate_end;
 
@@ -664,7 +512,7 @@ static void make_terrains(void)
                    pick_terrain(MG_DRY, MG_TROPICAL, MG_WET),
                    WC_ALL, TT_NFROZEN, MC_NLOW, 40);
 
-  /* make the plains and tundras */
+    /* make the plains and tundras */
     if (plains_count > 0) {
       struct tile *ptile;
 
@@ -677,13 +525,13 @@ static void make_terrains(void)
 	plains_count = 0;
       }
     }
-  } while (forests_count > 0 || jungles_count > 0 
-	   || deserts_count > 0 || alt_deserts_count > 0 
-	   || plains_count > 0 || swamps_count > 0 );
+  } while (forests_count > 0 || jungles_count > 0
+           || deserts_count > 0 || alt_deserts_count > 0
+           || plains_count > 0 || swamps_count > 0 );
 }
 
 /*********************************************************************
- Help function used in make_river(). See the help there.
+  Help function used in make_river(). See the help there.
 *********************************************************************/
 static int river_test_blocked(struct river_map *privermap,
                               struct tile *ptile,
