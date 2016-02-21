@@ -679,7 +679,7 @@ action_enablers_for_action(enum gen_action action)
 static bool plr_knows_tile(const struct player *plr,
                            const struct tile *ttile)
 {
-  return plr && ttile && (tile_get_known(ttile, plr) == TILE_KNOWN_UNSEEN);
+  return plr && ttile && (tile_get_known(ttile, plr) != TILE_UNKNOWN);
 }
 
 /**************************************************************************
