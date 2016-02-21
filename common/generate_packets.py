@@ -389,15 +389,21 @@ class Field:
             else:
                 c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, real_packet->%(name)s[i]);"%self.__dict__
 
-        if deltafragment and self.diff:
+        if deltafragment and self.diff and self.is_array == 1:
             return '''
     {
       int i, count;
       char namestr[512];
 
 #ifdef FREECIV_JSON_CONNECTION
+      count = 0;
+      for (i = 0; i < %(array_size_u)s; i++) {
+        if (old->%(name)s[i] != real_packet->%(name)s[i]) {
+          count++;
+        }
+      }
       /* Create the array. */
-      DIO_PUT(farray, &dout, \"%(name)s\", &field_addr, %(array_size_u)s);
+      DIO_PUT(farray, &dout, \"%(name)s\", &field_addr, count + 1);
 
       /* Enter array. */
       field_addr.sub_location = plocation_elem_new(0);
@@ -414,7 +420,7 @@ class Field:
           field_addr.sub_location->number = count - 1;
 
           /* Create the diff array element. */
-          DIO_PUT(farray, &dout, \"%(name)s\", &field_addr, %(array_size_u)s);
+          DIO_PUT(farray, &dout, \"%(name)s\", &field_addr, 2);
 
           /* Enter diff array element (start at the index address). */
           field_addr.sub_location->sub_location = plocation_elem_new(0);
@@ -740,7 +746,7 @@ field_addr.name = \"%(name)s\";
   field_addr.sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
 }'''%self.get_dict(vars())
-        elif deltafragment and self.diff:
+        elif deltafragment and self.diff and self.is_array == 1:
             return '''
 {
 int count;
