@@ -24,6 +24,7 @@ flags =
   { "name", "helptxt"
     _("Oil"), _("Has Oil Well instead of Mine.")
     _("NoPollution"), _("No Pollution nor Fallout appear here.")
+    _("DifficultLanding"), _("Only veterans can paradrop here.")
   }
 
 [parameters]
@@ -480,7 +481,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
-flags                = "Starter", "CanHaveRiver", "NoPollution"
+flags                = "Starter", "CanHaveRiver", "NoPollution", "DifficultLanding"
 property_cold        = 20
 property_wet         = 20
 property_foliage     = 50
@@ -619,7 +620,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "Forest"
 native_to            = "Land", "Small Land", "Air", "Missile", "Helicopter"
-flags                = "CanHaveRiver", "NoPollution"
+flags                = "CanHaveRiver", "NoPollution", "DifficultLanding"
 property_foliage     = 50
 property_tropical    = 50
 property_wet         = 50

@@ -597,11 +597,23 @@ actor_reqs    =
       "DiplRel", "Is foreign", "Local", FALSE
     }
 
-[actionenabler_paradrop]
+[actionenabler_paradrop_not_forest]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Paratroopers", "Local"
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "TerrainFlag", "DifficultLanding", "Local", FALSE
+    }
+
+[actionenabler_paradrop_veteran]
+action = "Paradrop Unit"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Paratroopers", "Local"
+      "MinVeteran", 1, "Local"
     }
 
 [actionenabler_upgrade_unit]

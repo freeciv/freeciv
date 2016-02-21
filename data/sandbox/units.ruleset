@@ -1026,7 +1026,7 @@ movement points can paradrop directly to any tile in range, and be \
 immediately ready to act there. (Beware dropping into unseen territory, \
 as Paratroopers landing on a tile occupied by enemy units are easy \
 targets!)\
-")
+"), _("Veteran Paratroopers can land on forest and jungle tiles.")
 paratroopers_range = 10
 paratroopers_mr_req = 1
 paratroopers_mr_sub = 0
