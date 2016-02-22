@@ -302,6 +302,10 @@ bv_extras get_tile_infrastructure_set(const struct tile *ptile,
 
 bool can_channel_land(const struct tile *ptile);
 bool can_reclaim_ocean(const struct tile *ptile);
+bool can_thaw_terrain(const struct tile *ptile);
+bool can_freeze_terrain(const struct tile *ptile);
+bool terrain_surroundings_allow_change(const struct tile *ptile,
+                                       const struct terrain *pterrain);
 
 extern struct terrain_misc terrain_control;
 
