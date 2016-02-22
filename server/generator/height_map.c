@@ -30,42 +30,65 @@ int *height_map = NULL;
 int hmap_shore_level = 0, hmap_mountain_level = 0;
 
 /****************************************************************************
-  Lower the land near the polar region to avoid too much land there.
+  Factor by which to lower height map near poles in normalize_hmap_poles
+****************************************************************************/
+static float hmap_pole_factor(struct tile *ptile)
+{
+  float factor = 1.0;
 
-  See also renomalize_hmap_poles
+  if (near_singularity(ptile)) {
+    /* Map edge near pole: clamp to what linear ramp would give us at pole
+     * (maybe greater than 0) */
+    factor = (100 - game.map.server.flatpoles) / 100.0;
+  } else if (game.map.server.flatpoles > 0) {
+    /* Linear ramp down from 100% at 2.5*ICE_BASE_LEVEL to (100-flatpoles) %
+     * at the poles */
+    factor = 1 - ((1 - (map_colatitude(ptile) / (2.5 * ICE_BASE_LEVEL)))
+                  * game.map.server.flatpoles / 100);
+  }
+  if (game.map.server.separatepoles
+      && map_colatitude(ptile) >= 2 * ICE_BASE_LEVEL) {
+    /* A band of low height to try to separate the pole (this function is
+     * only assumed to be called <= 2.5*ICE_BASE_LEVEL) */
+    factor = MIN(factor, 0.1);
+  }
+  return factor;
+}
+
+/****************************************************************************
+  Lower the land near the map edges and (optionally) the polar region to
+  avoid too much land there.
+
+  See also renormalize_hmap_poles
 ****************************************************************************/
 void normalize_hmap_poles(void)
 {
   whole_map_iterate(ptile) {
-    if (near_singularity(ptile)) {
+    if (map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(ptile) *= hmap_pole_factor(ptile);
+    } else if (near_singularity(ptile)) {
+      /* Near map edge but not near pole. */
       hmap(ptile) = 0;
-    } else if (map_colatitude(ptile) < 2 * ICE_BASE_LEVEL) {
-      hmap(ptile) *= map_colatitude(ptile) / (2.5 * ICE_BASE_LEVEL);
-    } else if (game.map.server.separatepoles 
-               && map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(ptile) *= 0.1;
-    } else if (map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(ptile) *= map_colatitude(ptile) / (2.5 * ICE_BASE_LEVEL);
     }
   } whole_map_iterate_end;
 }
 
 /****************************************************************************
-  Invert the effects of normalize_hmap_poles so that we have accurate heights
-  for texturing the poles.
+  Invert (most of) the effects of normalize_hmap_poles so that we have
+  accurate heights for texturing the poles.
 ****************************************************************************/
 void renormalize_hmap_poles(void)
 {
   whole_map_iterate(ptile) {
-    if (hmap(ptile) == 0 || map_colatitude(ptile) == 0) {
-      /* Nothing. */
-    } else if (map_colatitude(ptile) < 2 * ICE_BASE_LEVEL) {
-      hmap(ptile) *= (2.5 * ICE_BASE_LEVEL) / map_colatitude(ptile);
-    } else if (game.map.server.separatepoles
-               && map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(ptile) *= 10;
+    if (hmap(ptile) == 0) {
+      /* Nothing left to restore. */
     } else if (map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(ptile) *= (2.5 * ICE_BASE_LEVEL) /  map_colatitude(ptile);
+      float factor = hmap_pole_factor(ptile);
+
+      if (factor > 0) {
+        /* Invert the previously applied function */
+        hmap(ptile) /= factor;
+      }
     }
   } whole_map_iterate_end;
 }
@@ -123,26 +146,30 @@ static void gen5rec(int step, int x0, int y0, int x1, int y1)
 #define set_midpoints(X, Y, V)						\
   {									\
     struct tile *ptile = native_pos_to_tile((X), (Y));			\
-    if (!near_singularity(ptile)					\
-	&& map_colatitude(ptile) >  ICE_BASE_LEVEL/2			\
-	&& hmap(ptile) == 0) {						\
+    if (map_colatitude(ptile) <= ICE_BASE_LEVEL/2) {			\
+      /* possibly flatten poles, or possibly not (even at map edge) */	\
+      hmap(ptile) = (V) * (100 - game.map.server.flatpoles) / 100;	\
+    } else if (near_singularity(ptile)					\
+        || hmap(ptile) != 0) {						\
+      /* do nothing */							\
+    } else {								\
       hmap(ptile) = (V);						\
     }									\
   }
 
   set_midpoints((x0 + x1) / 2, y0,
-                (val[0][0] + val[1][0]) / 2 + fc_rand(step) - step / 2);
+                (val[0][0] + val[1][0]) / 2 + (int)fc_rand(step) - step / 2);
   set_midpoints((x0 + x1) / 2,  y1wrap,
-                (val[0][1] + val[1][1]) / 2 + fc_rand(step) - step / 2);
+                (val[0][1] + val[1][1]) / 2 + (int)fc_rand(step) - step / 2);
   set_midpoints(x0, (y0 + y1)/2,
-                (val[0][0] + val[0][1]) / 2 + fc_rand(step) - step / 2);
+                (val[0][0] + val[0][1]) / 2 + (int)fc_rand(step) - step / 2);
   set_midpoints(x1wrap,  (y0 + y1) / 2,
-                (val[1][0] + val[1][1]) / 2 + fc_rand(step) - step / 2);
+                (val[1][0] + val[1][1]) / 2 + (int)fc_rand(step) - step / 2);
 
   /* set middle to average of midpoints plus a random factor, if not set */
   set_midpoints((x0 + x1) / 2, (y0 + y1) / 2,
                 ((val[0][0] + val[0][1] + val[1][0] + val[1][1]) / 4
-                 + fc_rand(step) - step / 2));
+                 + (int)fc_rand(step) - step / 2));
 
 #undef set_midpoints
 
@@ -209,7 +236,7 @@ void make_pseudofractal1_hmap(int extra_div)
 
 	if (map_colatitude(ptile) <= ICE_BASE_LEVEL / 2 ) {
 	  /* separate poles and avoid too much land at poles */
-          hmap(ptile) -= fc_rand(avoidedge);
+          hmap(ptile) -= fc_rand(avoidedge * game.map.server.flatpoles / 100);
 	}
       } do_in_map_pos_end;
     }
