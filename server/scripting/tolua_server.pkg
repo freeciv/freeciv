@@ -182,52 +182,76 @@ $[
 -- These top-level functions were exposed prior to Freeciv 2.4. Since then
 -- we prefer use of edit.*. Do not add new functions to this section.
 function create_unit(player, tile, utype, veteran_level, homecity, moves_left)
+  log.deprecation_warning("create_unit()", "edit.create_unit()",
+                          "2.4");
   return edit.create_unit(player, tile, utype, veteran_level, homecity,
                           moves_left)
 end
 
 function create_unit_full(player, tile, utype, veteran_level, homecity,
                           moves_left, hp_left, transport)
+  log.deprecation_warning("create_unit_full()", "edit.create_unit_full()",
+                          "2.4");
   return edit.create_unit_full(player, tile, utype, veteran_level, homecity,
                                moves_left, hp_left, transport)
 end
 
 function create_city(player, tile, name)
+  log.deprecation_warning("create_city()", "edit.create_city()",
+                          "2.4");
   edit.create_city (player, tile, name)
 end
 
 -- Deprecated; use edit.create_extra()
 function create_base(tile, name, player)
+  -- Out-of-namespace since 2.4
+  -- edit.create_base() -> edit.create_extra() since 2.6
+  log.deprecation_warning("create_base()", "edit.create_extra()",
+                          "2.4");
   edit.create_base(tile, name, player)
 end
 
 function create_player(username, nation)
+  log.deprecation_warning("create_player()", "edit.create_player()",
+                          "2.4");
   return edit.create_player(username, nation, nil)
 end
 
 function change_gold(pplayer, amount)
+  log.deprecation_warning("change_gold()", "edit.change_gold()",
+                          "2.4");
   edit.change_gold(pplayer, amount)
 end
 
 -- Deprecated; use edit.give_tech()
 function give_technology(player, tech, reason)
+  log.deprecation_warning("give_technology()", "edit.give_tech()",
+                          "2.4");
   return edit.give_tech(player, tech, -1, false, reason)
 end
 
 -- Deprecated; use edit.give_tech()
 function edit.give_technology(player, tech, reason)
+  log.deprecation_warning("edit.give_technology()", "edit.give_tech()",
+                          "2.6");
   return edit.give_tech(player, tech, -1, false, reason)
 end
 
 function trait_mod(player, trait, mod)
+  log.deprecation_warning("trait_mod()", "edit.trait_mod()",
+                          "2.4");
   return edit.trait_mod(player, trait, mod)
 end
 
 function unleash_barbarians(tile)
+  log.deprecation_warning("unleash_barbarians()", "edit.unleash_barbarians()",
+                          "2.4");
   return edit.unleash_barbarians(tile)
 end
 
 function place_partisans(tile, player, count, sq_radius)
+  log.deprecation_warning("place_partisans()", "edit.place_partisans()",
+                          "2.4");
   edit.place_partisans(tile, player, count, sq_radius)
 end
 
@@ -261,6 +285,8 @@ end
 
 -- Deprecated; use Player:give_tech()
 function Player:give_technology(tech, reason)
+  log.deprecation_warning("Player:give_technology()", "Player:give_tech()",
+                          "2.6");
   return edit.give_tech(self, tech, -1, false, reason)
 end
 
@@ -307,13 +333,17 @@ function Tile:create_extra(name)
   edit.create_extra(self, name)
 end
 
--- Deprecated; use edit.create_extra()
+-- Deprecated; use Tile:create_extra()
 function Tile:create_base(name, player)
+  log.deprecation_warning("Tile:create_base()", "Tile:create_extra()",
+                          "2.6");
   edit.create_base(self, name, player)
 end
 
--- Deprecated; use edit.create_extra()
+-- Deprecated; use Tile:create_extra()
 function Tile:create_road(name)
+  log.deprecation_warning("Tile:create_road()", "Tile:create_extra()",
+                          "2.6");
   edit.create_road(self, name)
 end
 

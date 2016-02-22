@@ -281,6 +281,8 @@ $[
 -- Deprecated. New one is Tile:city_exists_within_max_city_map().
 -- ***************************************************************************
 function Tile:city_exists_within_city_radius(center)
+  log.deprecation_warning("city_exists_within_city_radius()", "city_exists_within_max_city_map()",
+                          "2.3");
   return self:city_exists_within_max_city_map(center)
 end
 
