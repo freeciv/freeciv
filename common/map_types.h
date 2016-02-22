@@ -89,6 +89,7 @@ struct civ_map {
       enum map_startpos startpos;
       bool tinyisles;
       bool separatepoles;
+      int flatpoles;
       bool single_pole;
       bool alltemperate;
       int temperature;

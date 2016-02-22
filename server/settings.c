@@ -1492,6 +1492,18 @@ static struct setting settings[] = {
            N_("If this setting is disabled, the continents may attach to "
               "poles."), NULL, NULL, MAP_DEFAULT_SEPARATE_POLES)
 
+  GEN_INT("flatpoles", game.map.server.flatpoles,
+          SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, ALLOW_NONE, ALLOW_BASIC,
+          N_("How much the land at the poles is flattened"),
+          /* TRANS: The strings in quotes shouldn't be translated. */
+          N_("Controls how much the height of the poles is flattened "
+             "during map generation, preventing a diversity of land "
+             "terrain there. 0 is no flattening, 100 is maximum "
+             "flattening. Only affects the 'RANDOM' and 'FRACTAL' "
+             "map generators."), NULL,
+          NULL, NULL,
+          MAP_MIN_FLATPOLES, MAP_MAX_FLATPOLES, MAP_DEFAULT_FLATPOLES)
+
   GEN_BOOL("singlepole", game.map.server.single_pole,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL,
            ALLOW_NONE, ALLOW_BASIC,
