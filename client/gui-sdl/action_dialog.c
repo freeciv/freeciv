@@ -67,7 +67,30 @@ void popdown_incite_dialog(void);
 void popdown_bribe_dialog(void);
 
 static struct diplomat_dialog *pDiplomat_Dlg = NULL;
+static bool is_more_user_input_needed = FALSE;
 static action_probability follow_up_act_probs[ACTION_COUNT];
+
+/**************************************************************************
+  The action selection is done.
+**************************************************************************/
+static void act_sel_done_primary(int actor_unit_id)
+{
+  if (!is_more_user_input_needed) {
+    /* The client isn't waiting for more information about the selected
+     * action. */
+    action_decision_taken(actor_unit_id);
+  }
+}
+
+/**************************************************************************
+  A follow up question about the selected action is done.
+**************************************************************************/
+static void act_sel_done_secondary(int actor_unit_id)
+{
+  /* Stop blocking. */
+  is_more_user_input_needed = FALSE;
+  act_sel_done_primary(actor_unit_id);
+}
 
 /* ====================================================================== */
 /* ============================ CARAVAN DIALOG ========================== */
@@ -88,7 +111,6 @@ static int caravan_marketplace_callback(struct widget *pWidget)
                         0);
     }
 
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
   }
 
@@ -110,7 +132,6 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
                         0);
     }
 
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
   }
 
@@ -132,7 +153,6 @@ static int caravan_help_build_wonder_callback(struct widget *pWidget)
                         0);
     }
 
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
   }
 
@@ -169,7 +189,6 @@ static int diplomat_embassy_callback(struct widget *pWidget)
                         0);
     }
 
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
   }
 
@@ -192,8 +211,6 @@ static int diplomat_investigate_callback(struct widget *pWidget)
     }
 
     /* FIXME: Wait for the city display in stead? */
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
-
     popdown_diplomat_dialog();
   }
 
@@ -213,8 +230,7 @@ static int spy_poison_callback( struct widget *pWidget )
                         pDiplomat_Dlg->target_ids[ATK_CITY],
                         0);
     }
-  
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
+
     popdown_diplomat_dialog();
   }
 
@@ -236,7 +252,6 @@ static int spy_steal_gold_callback(struct widget *pWidget)
                         0);
     }
 
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
   }
 
@@ -255,9 +270,9 @@ static int spy_sabotage_request(struct widget *pWidget)
     request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY,
                            pDiplomat_Dlg->actor_unit_id,
                            pDiplomat_Dlg->target_ids[ATK_CITY]);
+    is_more_user_input_needed = TRUE;
     popdown_diplomat_dialog();
   } else {
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
   }
   
@@ -279,7 +294,6 @@ static int diplomat_sabotage_callback(struct widget *pWidget)
                         B_LAST + 1);
     }
 
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
   }
 
@@ -300,13 +314,16 @@ static int spy_steal_dlg_window_callback(struct widget *pWindow)
 }
 
 /****************************************************************
-  Exit spy's steal dialog.
+  Exit spy's steal or sabotage dialog.
 *****************************************************************/
-static int exit_spy_steal_dlg_callback(struct widget *pWidget)
+static int exit_spy_tgt_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
+
+    fc_assert(is_more_user_input_needed);
     popdown_diplomat_dialog();
+    act_sel_done_secondary(actor_id);
   }
 
   return -1;  
@@ -319,6 +336,7 @@ static int spy_steal_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int steal_advance = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
   
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
@@ -338,8 +356,9 @@ static int spy_steal_callback(struct widget *pWidget)
       }
     }
 
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
+    fc_assert(is_more_user_input_needed);
     popdown_diplomat_dialog();
+    act_sel_done_secondary(actor_id);
   }
 
   return -1;
@@ -363,6 +382,7 @@ static int spy_steal_popup(struct widget *pWidget)
   int tech, idx;
   SDL_Rect area;
 
+  is_more_user_input_needed = TRUE;
   popdown_diplomat_dialog();
 
   if (pVcity)
@@ -373,7 +393,7 @@ static int spy_steal_popup(struct widget *pWidget)
   fc_assert_ret_val_msg(!pDiplomat_Dlg, 1, "Diplomat dialog already open");
 
   if (!pVictim) {
-    action_decision_taken(id);
+    act_sel_done_secondary(id);
     return 1;
   }
   
@@ -397,7 +417,7 @@ static int spy_steal_popup(struct widget *pWidget)
     request_do_action(ACTION_SPY_STEAL_TECH,
                       id, target_id, A_UNSET);
 
-    action_decision_taken(id);
+    act_sel_done_secondary(id);
 
     return -1;
   }
@@ -432,7 +452,7 @@ static int spy_steal_popup(struct widget *pWidget)
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
-  pBuf->action = exit_spy_steal_dlg_callback;
+  pBuf->action = exit_spy_tgt_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
@@ -598,8 +618,6 @@ static int diplomat_steal_callback(struct widget *pWidget)
                         A_UNSET);
     }
     
-
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
   }
 
@@ -618,9 +636,9 @@ static int diplomat_incite_callback(struct widget *pWidget)
       request_action_details(ACTION_SPY_INCITE_CITY,
                              pDiplomat_Dlg->actor_unit_id,
                              pDiplomat_Dlg->target_ids[ATK_CITY]);
+      is_more_user_input_needed = TRUE;
       popdown_diplomat_dialog();
     } else {
-      action_decision_taken(pDiplomat_Dlg->actor_unit_id);
       popdown_diplomat_dialog();
     }
   }  
@@ -642,8 +660,7 @@ static int diplomat_keep_moving_callback(struct widget *pWidget)
       request_unit_non_action_move(punit, pWidget->data.tile);
     }
 
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
-    popdown_diplomat_dialog();  
+    popdown_diplomat_dialog();
   }
   return -1;
 }
@@ -660,9 +677,9 @@ static int diplomat_bribe_callback(struct widget *pWidget)
       request_action_details(ACTION_SPY_BRIBE_UNIT,
                              pDiplomat_Dlg->actor_unit_id,
                              pDiplomat_Dlg->target_ids[ATK_UNIT]);
+      is_more_user_input_needed = TRUE;
       popdown_diplomat_dialog();
     } else {
-      action_decision_taken(pDiplomat_Dlg->actor_unit_id);
       popdown_diplomat_dialog();
     }
   }  
@@ -679,9 +696,8 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
     int target_id = pWidget->data.unit->id;
     
     popdown_diplomat_dialog();
-    request_do_action(ACTION_SPY_SABOTAGE_UNIT, diplomat_id, target_id, 0);
-
-    action_decision_taken(diplomat_id);
+    request_do_action(ACTION_SPY_SABOTAGE_UNIT,
+                      diplomat_id, target_id, 0);
   }
 
   return -1;
@@ -693,7 +709,6 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
 static int diplomat_close_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    action_decision_taken(pDiplomat_Dlg->actor_unit_id);
     popdown_diplomat_dialog();
   }
 
@@ -707,6 +722,8 @@ static int diplomat_close_callback(struct widget *pWidget)
 void popdown_diplomat_dialog(void)
 {
   if (pDiplomat_Dlg) {
+    act_sel_done_primary(pDiplomat_Dlg->actor_unit_id);
+
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pDiplomat_Dlg->pdialog->pBeginWidgetList,
 				pDiplomat_Dlg->pdialog->pEndWidgetList);
@@ -868,6 +885,14 @@ void popup_action_selection(struct unit *actor_unit,
   struct city *actor_homecity;
 
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
+
+  /* Could be caused by the server failing to reply to a request for more
+   * information or a bug in the client code. */
+  fc_assert_msg(!is_more_user_input_needed,
+                "Diplomat queue problem. Is another diplomat window open?");
+
+  /* No extra input is required as no action has been chosen yet. */
+  is_more_user_input_needed = FALSE;
 
   is_unit_move_blocked = TRUE;
 
@@ -1085,6 +1110,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
     int diplomat_target_id = pWidget->data.cont->id0;
     int diplomat_id = pWidget->data.cont->id1;
       
+    fc_assert(is_more_user_input_needed);
     popdown_diplomat_dialog();
     
     if(sabotage_improvement == 1000)
@@ -1105,7 +1131,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
       }
     }
 
-    action_decision_taken(diplomat_target_id);
+    act_sel_done_secondary(diplomat_id);
   }
 
   return -1;
@@ -1125,8 +1151,11 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
 
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
+  /* Should be set before sending request to the server. */
+  fc_assert(is_more_user_input_needed);
+
   if (!actor) {
-    action_decision_taken(IDENTITY_NUMBER_ZERO);
+    act_sel_done_secondary(IDENTITY_NUMBER_ZERO);
     return;
   }
   
@@ -1162,7 +1191,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
                                             adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
-  pBuf->action = diplomat_close_callback;
+  pBuf->action = exit_spy_tgt_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
@@ -1374,7 +1403,7 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
       request_do_action(ACTION_SPY_INCITE_CITY, pIncite_Dlg->actor_unit_id,
                         pIncite_Dlg->target_id, 0);
     }
-    action_decision_taken(pIncite_Dlg->target_id);
+
     popdown_incite_dialog();
   }
   return -1;
@@ -1386,7 +1415,6 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
 static int exit_incite_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    action_decision_taken(pIncite_Dlg->target_id);
     popdown_incite_dialog();
   }
   return -1;
@@ -1399,6 +1427,8 @@ static int exit_incite_dlg_callback(struct widget *pWidget)
 void popdown_incite_dialog(void)
 {
   if (pIncite_Dlg) {
+    act_sel_done_secondary(pIncite_Dlg->actor_unit_id);
+
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pIncite_Dlg->pdialog->pBeginWidgetList,
 				pIncite_Dlg->pdialog->pEndWidgetList);
@@ -1423,9 +1453,12 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
   if (pIncite_Dlg) {
     return;
   }
+
+  /* Should be set before sending request to the server. */
+  fc_assert(is_more_user_input_needed);
   
   if (!actor || !unit_can_do_action(actor, ACTION_SPY_INCITE_CITY)) {
-    action_decision_taken(actor ? actor->id : IDENTITY_NUMBER_ZERO);
+    act_sel_done_secondary(actor ? actor->id : IDENTITY_NUMBER_ZERO);
     return;
   }
   
@@ -1633,7 +1666,6 @@ static int diplomat_bribe_yes_callback(struct widget *pWidget)
       request_do_action(ACTION_SPY_BRIBE_UNIT, pBribe_Dlg->actor_unit_id,
                         pBribe_Dlg->target_id, 0);
     }
-    action_decision_taken(pBribe_Dlg->actor_unit_id);
     popdown_bribe_dialog();
   }
 
@@ -1647,7 +1679,6 @@ static int exit_bribe_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_bribe_dialog();
-    action_decision_taken(pBribe_Dlg->actor_unit_id);
   }
   return -1;
 }
@@ -1659,6 +1690,8 @@ static int exit_bribe_dlg_callback(struct widget *pWidget)
 void popdown_bribe_dialog(void)
 {
   if (pBribe_Dlg) {
+    act_sel_done_secondary(pBribe_Dlg->actor_unit_id);
+
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pBribe_Dlg->pdialog->pBeginWidgetList,
 				pBribe_Dlg->pdialog->pEndWidgetList);
@@ -1683,9 +1716,12 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   if (pBribe_Dlg) {
     return;
   }
-  
+
+  /* Should be set before sending request to the server. */
+  fc_assert(is_more_user_input_needed);
+
   if (!actor || !unit_can_do_action(actor, ACTION_SPY_BRIBE_UNIT)) {
-    action_decision_taken(actor ? actor->id : IDENTITY_NUMBER_ZERO);
+    act_sel_done_secondary(actor ? actor->id : IDENTITY_NUMBER_ZERO);
     return;
   }
   
