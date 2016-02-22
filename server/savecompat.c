@@ -598,8 +598,6 @@ static char *revolentype_str(enum revolen_type type)
 ****************************************************************************/
 static void compat_load_020600(struct loaddata *loading)
 {
-  int nplayers;
-  int plrno;
   bool team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
   int tsize;
   int ti;
@@ -820,20 +818,24 @@ static void compat_load_020600(struct loaddata *loading)
     }
   }
 
-  nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
-
   sg_failure_ret(secfile_lookup_int(loading->file, &tsize, "savefile.trait_size"),
                  "Trait size: %s", secfile_error());
 
   turn = secfile_lookup_int_default(loading->file, 0, "game.turn");
 
-  for (plrno = 0; plrno < nplayers; plrno++) {
+  player_slots_iterate(pslot) {
+    int plrno = player_slot_index(pslot);
     bool got_first_city;
     int old_barb_type;
     enum barbarian_type new_barb_type;
     int i;
     const char *name;
     int score;
+    int units_num;
+
+    if (NULL == secfile_section_lookup(loading->file, "player%d", plrno)) {
+      continue;
+    }
 
     /* Renamed 'capital' to 'got_first_city'. */
     if (secfile_lookup_bool(loading->file, &got_first_city, 
@@ -900,14 +902,11 @@ static void compat_load_020600(struct loaddata *loading)
     if (score >= 0) {
       secfile_insert_int(loading->file, score, "score%d.units_lost", plrno);
     }
-  }
 
-  /* Units orders. */
-  for (plrno = 0; plrno < nplayers; plrno++) {
-    int units_num = secfile_lookup_int_default(loading->file, 0,
-                                               "player%d.nunits",
-                                               plrno);
-    int i;
+    /* Units orders. */
+    units_num = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.nunits",
+                                           plrno);
 
     for (i = 0; i < units_num; i++) {
       int len;
@@ -937,7 +936,7 @@ static void compat_load_020600(struct loaddata *loading)
         }
       }
     }
-  }
+  } player_slots_iterate_end;
 
   /* Add specialist order - loading time order is ok here, as we will use
    * that when we in later part of compatibility conversion use the specialist
@@ -961,9 +960,14 @@ static void compat_load_020600(struct loaddata *loading)
   }
 
   /* Replace all city specialist count fields with correct names */
-  for (plrno = 0; plrno < nplayers; plrno++) {
+  player_slots_iterate(pslot) {
+    int plrno = player_slot_index(pslot);
     int ncities;
     int i;
+
+    if (NULL == secfile_section_lookup(loading->file, "player%d", plrno)) {
+      continue;
+    }
 
     ncities = secfile_lookup_int_default(loading->file, 0, "player%d.ncities", plrno);
 
@@ -984,7 +988,7 @@ static void compat_load_020600(struct loaddata *loading)
                            plrno, i, k++);
       } specialist_type_iterate_end;
     }
-  }
+  } player_slots_iterate_end;
 
   /* Build [research]. */
   {
@@ -1011,7 +1015,8 @@ static void compat_load_020600(struct loaddata *loading)
       researches[i] = -1;
     }
 
-    for (plrno = 0; plrno < nplayers; plrno++) {
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
       int ival;
       bool bval;
       const char *sval;
@@ -1077,7 +1082,7 @@ static void compat_load_020600(struct loaddata *loading)
           break;
         }
       }
-    }
+    } player_slots_iterate_end;
     secfile_insert_int(loading->file, count, "research.count");
   }
 
@@ -1104,13 +1109,22 @@ static void compat_load_020600(struct loaddata *loading)
 
   /* Fix save games from Freeciv versions with a bug that made it view
    * "Never met" as closer than "Peace" or "Alliance". */
-  for (plrno = 0; plrno < nplayers; plrno++) {
-    int i;
+  player_slots_iterate(pslot) {
+    int plrno = player_slot_index(pslot);
 
-    for (i = 0; i < nplayers; i++) {
+    if (NULL == secfile_section_lookup(loading->file, "player%d", plrno)) {
+      continue;
+    }
+
+    player_slots_iterate(pslot2) {
+      int i = player_slot_index(pslot2);
       char buf[32];
       int current;
       int closest;
+
+      if (NULL == secfile_section_lookup(loading->file, "player%d", i)) {
+        continue;
+      }
 
       fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
 
@@ -1137,8 +1151,8 @@ static void compat_load_020600(struct loaddata *loading)
 
         secfile_replace_int(loading->file, current, "%s.max_state", buf);
       }
-    }
-  }
+    } player_slots_iterate_end;
+  } player_slots_iterate_end;
 }
 
 /****************************************************************************
