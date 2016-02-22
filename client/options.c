@@ -4702,7 +4702,7 @@ static int server_option_enum_def(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the user-visible, translateable (but untranslated) "pretty" names
+  Returns the user-visible, translatable (but untranslated) "pretty" names
   of this server option of type OT_ENUM.
 ****************************************************************************/
 static const struct strvec *
@@ -4765,7 +4765,7 @@ static unsigned server_option_bitwise_def(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the user-visible, translateable (but untranslated) "pretty" names
+  Returns the user-visible, translatable (but untranslated) "pretty" names
   of this server option of type OT_BITWISE.
 ****************************************************************************/
 static const struct strvec *
