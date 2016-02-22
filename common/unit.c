@@ -935,12 +935,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                 && pterrain->mining_result != T_NONE
                 && get_tile_bonus(ptile, punit, EFT_MINING_TF_POSSIBLE) > 0
                 && target == NULL
-                && (!is_ocean(pterrain)
-                    || is_ocean(pterrain->mining_result)
-                    || can_reclaim_ocean(ptile))
-                && (is_ocean(pterrain)
-                    || !is_ocean(pterrain->mining_result)
-                    || can_channel_land(ptile))
+                && terrain_surroundings_allow_change(ptile,
+                                                     pterrain->mining_result)
                 && (!terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
                     || !tile_city(ptile))))) {
       return TRUE;
@@ -971,12 +967,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                 && pterrain->irrigation_result != T_NONE
                 && get_tile_bonus(ptile, punit, EFT_IRRIG_TF_POSSIBLE) > 0
                 && target == NULL
-                && (!is_ocean(pterrain)
-                    || is_ocean(pterrain->irrigation_result)
-                    || can_reclaim_ocean(ptile))
-                && (is_ocean(pterrain)
-                    || !is_ocean(pterrain->irrigation_result)
-                    || can_channel_land(ptile))
+                && terrain_surroundings_allow_change(ptile,
+                                                     pterrain->irrigation_result)
                 && (!terrain_has_flag(pterrain->irrigation_result, TER_NO_CITIES)
                     || !tile_city(ptile))))) {
       return TRUE;
@@ -1091,12 +1083,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_TRANSFORM:
     return (pterrain->transform_result != T_NONE
 	    && pterrain != pterrain->transform_result
-	    && (!is_ocean(pterrain)
-		|| is_ocean(pterrain->transform_result)
-		|| can_reclaim_ocean(ptile))
-	    && (is_ocean(pterrain)
-		|| !is_ocean(pterrain->transform_result)
-		|| can_channel_land(ptile))
+            && terrain_surroundings_allow_change(ptile,
+                                                 pterrain->transform_result)
 	    && (!terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
 		|| !(tile_city(ptile)))
             && get_tile_bonus(ptile, punit, EFT_TRANSFORM_POSSIBLE) > 0);

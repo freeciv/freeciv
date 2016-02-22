@@ -692,6 +692,64 @@ bool can_channel_land(const struct tile *ptile)
   return ocean_tiles >= terrain_control.land_channel_requirement_pct;
 }
 
+/**************************************************************************
+  Returns true if the tile at the given location can be thawed from
+  terrain with a 'Frozen' flag to terrain without. This requires a
+  sufficient number of adjacent unfrozen tiles.
+**************************************************************************/
+bool can_thaw_terrain(const struct tile *ptile)
+{
+  int unfrozen_tiles = 100 - count_terrain_flag_near_tile(ptile, FALSE, TRUE,
+                                                          TER_FROZEN);
+
+  return unfrozen_tiles >= terrain_control.terrain_thaw_requirement_pct;
+}
+
+/**************************************************************************
+  Returns true if the tile at the given location can be turned from
+  terrain without a 'Frozen' flag to terrain with. This requires a
+  sufficient number of adjacent frozen tiles.
+**************************************************************************/
+bool can_freeze_terrain(const struct tile *ptile)
+{
+  int frozen_tiles = count_terrain_flag_near_tile(ptile, FALSE, TRUE,
+                                                  TER_FROZEN);
+
+  return frozen_tiles >= terrain_control.terrain_freeze_requirement_pct;
+}
+
+/**************************************************************************
+  Returns FALSE if a terrain change to 'pterrain' would be prevented by not
+  having enough similar terrain surrounding ptile.
+**************************************************************************/
+bool terrain_surroundings_allow_change(const struct tile *ptile,
+                                       const struct terrain *pterrain)
+{
+  bool ret = TRUE;
+
+  if (is_ocean(tile_terrain(ptile))
+      && !is_ocean(pterrain) && !can_reclaim_ocean(ptile)) {
+    ret = FALSE;
+  } else if (!is_ocean(tile_terrain(ptile))
+             && is_ocean(pterrain) && !can_channel_land(ptile)) {
+    ret = FALSE;
+  }
+
+  if (ret) {
+    if (terrain_has_flag(tile_terrain(ptile), TER_FROZEN)
+        && !terrain_has_flag(pterrain, TER_FROZEN)
+        && !can_thaw_terrain(ptile)) {
+      ret = FALSE;
+    } else if (!terrain_has_flag(tile_terrain(ptile), TER_FROZEN)
+               && terrain_has_flag(pterrain, TER_FROZEN)
+               && !can_freeze_terrain(ptile)) {
+      ret = FALSE;
+    }
+  }
+
+  return ret;
+}
+
 /***************************************************************
   The basic cost to move punit from tile t1 to tile t2.
   That is, tile_move_cost(), with pre-calculated tile pointers;

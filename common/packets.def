@@ -1415,6 +1415,8 @@ end
 PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   UINT8 ocean_reclaim_requirement_pct; /* # adjacent land tiles for reclaim */
   UINT8 land_channel_requirement_pct; /* # adjacent ocean tiles for channel */
+  UINT8 terrain_thaw_requirement_pct; /* # adjacent unfrozen tiles for thaw */
+  UINT8 terrain_freeze_requirement_pct; /* # adjacent frozen tiles */
   UINT8 lake_max_size;                /* bodies of water up to this size are freshwater */
   UINT8 min_start_native_area;
   MOVEFRAGS move_fragments;

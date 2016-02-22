@@ -1749,6 +1749,14 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, terrain_control.land_channel_requirement_pct,
                        "parameters.land_channel_requirement");
   }
+  if (terrain_control.terrain_thaw_requirement_pct <= 100) {
+    secfile_insert_int(sfile, terrain_control.terrain_thaw_requirement_pct,
+                       "parameters.thaw_requirement");
+  }
+  if (terrain_control.terrain_freeze_requirement_pct <= 100) {
+    secfile_insert_int(sfile, terrain_control.terrain_freeze_requirement_pct,
+                       "parameters.freeze_requirement");
+  }
   if (terrain_control.lake_max_size != 0) {
     secfile_insert_int(sfile, terrain_control.lake_max_size,
                        "parameters.lake_max_size");

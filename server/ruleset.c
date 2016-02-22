@@ -2546,6 +2546,12 @@ static bool load_ruleset_terrain(struct section_file *file,
   terrain_control.land_channel_requirement_pct
     = secfile_lookup_int_default(file, 101,
 				 "parameters.land_channel_requirement");
+  terrain_control.terrain_thaw_requirement_pct
+    = secfile_lookup_int_default(file, 101,
+				 "parameters.thaw_requirement");
+  terrain_control.terrain_freeze_requirement_pct
+    = secfile_lookup_int_default(file, 101,
+				 "parameters.freeze_requirement");
   terrain_control.lake_max_size
     = secfile_lookup_int_default(file, 0,
 				 "parameters.lake_max_size");

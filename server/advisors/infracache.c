@@ -151,14 +151,8 @@ static int adv_calc_transform(const struct city *pcity,
     return -1;
   }
 
-  if (is_ocean(old_terrain) && !is_ocean(new_terrain)
-      && !can_reclaim_ocean(ptile)) {
-    /* Can't change ocean into land here. */
-    return -1;
-  }
-  if (is_ocean(new_terrain) && !is_ocean(old_terrain)
-      && !can_channel_land(ptile)) {
-    /* Can't change land into ocean here. */
+  if (!terrain_surroundings_allow_change(ptile, new_terrain)) {
+    /* Can't do this terrain conversion here. */
     return -1;
   }
 

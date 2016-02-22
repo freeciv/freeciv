@@ -176,10 +176,9 @@ void climate_change(bool warming, int effect)
         continue;
       }
 
-      /* Only change between water and land at coastlines */
-      if (!is_ocean(old) && is_ocean(new) && !can_channel_land(ptile)) {
-        continue;
-      } else if (is_ocean(old) && !is_ocean(new) && !can_reclaim_ocean(ptile)) {
+      /* Only change between water and land at coastlines, and between
+       * frozen and unfrozen at ice margin */
+      if (!terrain_surroundings_allow_change(ptile, new)) {
         continue;
       }
       
