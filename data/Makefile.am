@@ -56,7 +56,6 @@ EXTRA_DIST = \
 	freeciv.rc-2.0	\
 	gtk2_menus.xml	\
 	gtk3_menus.xml	\
-	database.lua	\
 	amplio2.tilespec \
 	cimpletoon.tilespec \
 	hex2t.tilespec	\
