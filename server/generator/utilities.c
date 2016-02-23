@@ -344,30 +344,49 @@ static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
 **************************************************************************/
 void regenerate_lakes(void)
 {
-  struct terrain *lake_for_ocean[game.map.num_oceans];
+  struct terrain *lake_for_ocean[2][game.map.num_oceans];
 
   {
-    struct terrain *lakes[5];
-    int num_laketypes = 0, i;
+    struct terrain *lakes[2][5];
+    int num_laketypes[2] = { 0, 0 };
+    int i;
 
     terrain_type_iterate(pterr) {
       if (terrain_has_flag(pterr, TER_FRESHWATER)
           && !terrain_has_flag(pterr, TER_NOT_GENERATED)) {
-        if (num_laketypes < ARRAY_SIZE(lakes)) {
-          lakes[num_laketypes++] = pterr;
+        int frozen = terrain_has_flag(pterr, TER_FROZEN);
+
+        if (num_laketypes[frozen] < ARRAY_SIZE(lakes[frozen])) {
+          lakes[frozen][num_laketypes[frozen]++] = pterr;
         } else {
-          log_verbose("Ruleset has more than %d lake types, ignoring %s",
-                      (int) ARRAY_SIZE(lakes), terrain_rule_name(pterr));
+          log_verbose("Ruleset has more than %d %s lake types, ignoring %s",
+                      (int) ARRAY_SIZE(lakes[frozen]),
+                      frozen ? "frozen" : "unfrozen",
+                      terrain_rule_name(pterr));
         }
       }
     } terrain_type_iterate_end;
 
-    if (num_laketypes == 0) {
-      /* No lake terrains usable by map generator, so nothing to do */
+    /* We don't want to generate any boundaries between fresh and
+     * non-fresh water.
+     * If there are no unfrozen lake types, just give up.
+     * Else if there are no frozen lake types, use unfrozen lake instead.
+     * If both are available, preserve frozenness of previous terrain. */
+    if (num_laketypes[0] == 0) {
       return;
-    }
-    for (i = 0; i < game.map.num_oceans; i++) {
-      lake_for_ocean[i] = lakes[fc_rand(num_laketypes)];
+    } else if (num_laketypes[1] == 0) {
+      for (i = 0; i < game.map.num_oceans; i++) {
+        lake_for_ocean[0][i] = lake_for_ocean[1][i]
+          = lakes[0][fc_rand(num_laketypes[0])];
+      }
+    } else {
+      for (i = 0; i < game.map.num_oceans; i++) {
+        int frozen;
+        for (frozen = 0; frozen < 2; frozen++) {
+          lake_for_ocean[frozen][i]
+            = lakes[frozen][fc_rand(num_laketypes[frozen])];
+        }
+      }
     }
   }
 
@@ -383,7 +402,8 @@ void regenerate_lakes(void)
     }
     if (0 < lake_surrounders[-here]) {
       if (terrain_control.lake_max_size >= ocean_sizes[-here]) {
-        tile_change_terrain(ptile, lake_for_ocean[-here-1]);
+        int frozen = terrain_has_flag(pterrain, TER_FROZEN);
+        tile_change_terrain(ptile, lake_for_ocean[frozen][-here-1]);
       }
     }
   } whole_map_iterate_end;
@@ -469,23 +489,42 @@ void assign_continent_numbers(void)
 }
 
 /**************************************************************************
-  Return most shallow ocean terrain type. Freshwater lakes are not
-  considered, if there is any salt water terrain types.
+  Return most shallow ocean terrain type. Prefers not to return freshwater
+  terrain, and will ignore 'frozen' rather than do so.
 **************************************************************************/
-struct terrain *most_shallow_ocean(void)
+struct terrain *most_shallow_ocean(bool frozen)
 {
-  bool oceans = FALSE;
+  bool oceans = FALSE, frozenmatch = FALSE;
   struct terrain *shallow = NULL;
 
   terrain_type_iterate(pterr) {
-    if (is_ocean(pterr)) {
-      if (!oceans && !terrain_has_flag(pterr, TER_FRESHWATER)) {
-        /* First ocean type */
+    if (is_ocean(pterr) && !terrain_has_flag(pterr, TER_NOT_GENERATED)) {
+      bool nonfresh = !terrain_has_flag(pterr, TER_FRESHWATER);
+      bool frozen_ok = terrain_has_flag(pterr, TER_FROZEN) == frozen;
+
+      if (!oceans && nonfresh) {
+        /* First ocean type seen, reset even if frozenness doesn't match */
         oceans = TRUE;
         shallow = pterr;
-      } else if (!shallow
-                 || pterr->property[MG_OCEAN_DEPTH] <
-                    shallow->property[MG_OCEAN_DEPTH]) {
+        frozenmatch = frozen_ok;
+        continue;
+      } else if (oceans && !nonfresh) {
+        /* Dismiss any step backward on freshness */
+        continue;
+      }
+      if (!frozenmatch && frozen_ok) {
+        /* Prefer terrain that matches frozenness (as long as we don't go
+         * backwards on freshness) */
+        frozenmatch = TRUE;
+        shallow = pterr;
+        continue;
+      } else if (frozenmatch && !frozen_ok) {
+        /* Dismiss any step backward on frozenness */
+        continue;
+      }
+      if (!shallow
+          || pterr->property[MG_OCEAN_DEPTH] <
+          shallow->property[MG_OCEAN_DEPTH]) {
         shallow = pterr;
       }
     }
@@ -496,9 +535,10 @@ struct terrain *most_shallow_ocean(void)
 
 /**************************************************************************
   Picks an ocean terrain to match the given depth.
+  Only considers terrains with/without Frozen flag depending on 'frozen'.
   Return NULL when there is no available ocean.
 **************************************************************************/
-struct terrain *pick_ocean(int depth)
+struct terrain *pick_ocean(int depth, bool frozen)
 {
   struct terrain *best_terrain = NULL;
   int best_match = TERRAIN_OCEAN_DEPTH_MAXIMUM;
@@ -506,6 +546,7 @@ struct terrain *pick_ocean(int depth)
   terrain_type_iterate(pterrain) {
     if (terrain_type_terrain_class(pterrain) == TC_OCEAN
         && TERRAIN_OCEAN_DEPTH_MINIMUM <= pterrain->property[MG_OCEAN_DEPTH]
+        && !!frozen == terrain_has_flag(pterrain, TER_FROZEN)
         && !terrain_has_flag(pterrain, TER_NOT_GENERATED)) {
       int match = abs(depth - pterrain->property[MG_OCEAN_DEPTH]);
 
@@ -577,9 +618,10 @@ void smooth_water_depth(void)
 
     dist = real_distance_to_land(ptile, OCEAN_DIST_MAX);
     if (dist <= OCEAN_DIST_MAX) {
-      /* Overwrite the terrain. */
+      /* Overwrite the terrain (but preserve frozenness). */
       ocean = pick_ocean(dist * OCEAN_DEPTH_STEP
-                         + fc_rand(OCEAN_DEPTH_RAND));
+                         + fc_rand(OCEAN_DEPTH_RAND),
+                         terrain_has_flag(tile_terrain(ptile), TER_FROZEN));
       if (NULL != ocean && ocean != tile_terrain(ptile)) {
         log_debug("Replacing %s by %s at (%d, %d) "
                   "to have shallow ocean on coast.",

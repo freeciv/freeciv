@@ -321,18 +321,26 @@ static void make_relief(void)
 }
 
 /****************************************************************************
-  Add arctic and tundra squares in the arctic zone (that is, the coolest
-  10% of the map).  We also texture the pole (adding arctic, tundra, and
-  mountains).  This is used in generators 2-4.
+  Add frozen tiles in the arctic zone.
+  If ruleset has frozen ocean, use that, else use frozen land terrains with
+  appropriate texturing.
+  This is used in generators 2-4.
 ****************************************************************************/
 static void make_polar(void)
 {
+  struct terrain *ocean = pick_ocean(TERRAIN_OCEAN_DEPTH_MAXIMUM, TRUE);
+
   whole_map_iterate(ptile) {  
     if (tmap_is(ptile, TT_FROZEN)
         || (tmap_is(ptile, TT_COLD)
             && (fc_rand(10) > 7)
             && is_temperature_type_near(ptile, TT_FROZEN))) { 
-      tile_set_terrain(ptile, pick_terrain(MG_FROZEN, MG_UNUSED, MG_TROPICAL));
+      if (ocean) {
+        tile_set_terrain(ptile, ocean);
+      } else {
+        tile_set_terrain(ptile,
+                         pick_terrain(MG_FROZEN, MG_UNUSED, MG_TROPICAL));
+      }
     }
   } whole_map_iterate_end;
 }
@@ -354,18 +362,22 @@ static bool ok_for_separate_poles(struct tile *ptile)
 }
 
 /****************************************************************************
-  Place untextured land at the poles.  This is used by generators 1 and 5.
+  Place untextured land at the poles on any tile that is not already
+  covered with TER_FROZEN terrain.
+  This is used by generators 1 and 5.
 ****************************************************************************/
 static void make_polar_land(void)
 {
   assign_continent_numbers();
   whole_map_iterate(ptile) {
-    if ((tmap_is(ptile, TT_FROZEN)
-         && ok_for_separate_poles(ptile))
-        || (tmap_is(ptile, TT_COLD)
-            && fc_rand(10) > 7
-            && is_temperature_type_near(ptile, TT_FROZEN)
-            && ok_for_separate_poles(ptile))) {
+    if ((tile_terrain(ptile) == T_UNKNOWN
+         || !terrain_has_flag(tile_terrain(ptile), TER_FROZEN))
+        && ((tmap_is(ptile, TT_FROZEN)
+             && ok_for_separate_poles(ptile))
+            || (tmap_is(ptile, TT_COLD)
+                && fc_rand(10) > 7
+                && is_temperature_type_near(ptile, TT_FROZEN)
+                && ok_for_separate_poles(ptile)))) {
       tile_set_terrain(ptile, T_UNKNOWN);
       tile_set_continent(ptile, 0);
     } 
@@ -1075,7 +1087,24 @@ static void make_land(void)
 
       depth = MIN(depth, TERRAIN_OCEAN_DEPTH_MAXIMUM);
 
-      tile_set_terrain(ptile, pick_ocean(depth));
+      /* Generate sea ice here, if ruleset supports it. Dummy temperature
+       * map is sufficient for this. If ruleset doesn't support it,
+       * use unfrozen ocean; make_polar_land() will later fill in with
+       * land-based ice. Ice has a ragged margin. */
+      {
+        bool frozen = HAS_POLES
+                      && (tmap_is(ptile, TT_FROZEN)
+                          || (tmap_is(ptile, TT_COLD)
+                              && fc_rand(10) > 7
+                              && is_temperature_type_near(ptile, TT_FROZEN)));
+        struct terrain *pterrain = pick_ocean(depth, frozen);
+
+        if (frozen && !pterrain) {
+          pterrain = pick_ocean(depth, FALSE);
+          fc_assert(pterrain);
+        }
+        tile_set_terrain(ptile, pterrain);
+      }
     } else {
       /* See note above for 'land_fill'. */
       tile_set_terrain(ptile, land_fill);
@@ -1130,14 +1159,17 @@ static bool is_tiny_island(struct tile *ptile)
 
 /**************************************************************************
   Removes all 1x1 islands (sets them to ocean).
+  This happens before regenerate_lakes(), so don't need to worry about
+  TER_FRESHWATER here.
 **************************************************************************/
 static void remove_tiny_islands(void)
 {
-  struct terrain *shallow = most_shallow_ocean();
-
-  fc_assert_ret(NULL != shallow);
   whole_map_iterate(ptile) {
     if (is_tiny_island(ptile)) {
+      struct terrain *shallow
+        = most_shallow_ocean(terrain_has_flag(tile_terrain(ptile), TER_FROZEN));
+
+      fc_assert_ret(NULL != shallow);
       tile_set_terrain(ptile, shallow);
       extra_type_by_cause_iterate(EC_ROAD, priver) {
         if (tile_has_extra(ptile, priver)
@@ -2135,7 +2167,8 @@ static bool make_island(int islemass, int starters,
 **************************************************************************/
 static void initworld(struct gen234_state *pstate)
 {
-  struct terrain *deepest_ocean = pick_ocean(TERRAIN_OCEAN_DEPTH_MAXIMUM);
+  struct terrain *deepest_ocean = pick_ocean(TERRAIN_OCEAN_DEPTH_MAXIMUM,
+                                             FALSE);
 
   fc_assert(NULL != deepest_ocean);
   height_map = fc_malloc(MAP_INDEX_SIZE * sizeof(*height_map));
@@ -3114,7 +3147,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
     }
   }
 
-  /* Make sea arround the island. */
+  /* Make sea around the island. */
   for (i = 0; i < size; i++) {
     circle_iterate(index_to_tile(land_tiles[i] - pisland),
                    sea_around_island_sq, ptile) {
@@ -3122,9 +3155,10 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
 
       if (pftile->flags == FTF_NONE) {
         pftile->flags = FTF_OCEAN;
+        /* No ice around island */
         pftile->pterrain =
             pick_ocean(TERRAIN_OCEAN_DEPTH_MINIMUM
-                       + fc_rand(TERRAIN_OCEAN_DEPTH_MAXIMUM / 2));
+                       + fc_rand(TERRAIN_OCEAN_DEPTH_MAXIMUM / 2), FALSE);
         if (startpos_num > 0) {
           pftile->flags |= FTF_ASSIGNED;
         }
@@ -3306,7 +3340,8 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
 ****************************************************************************/
 static bool map_generate_fair_islands(void)
 {
-  struct terrain *deepest_ocean = pick_ocean(TERRAIN_OCEAN_DEPTH_MAXIMUM);
+  struct terrain *deepest_ocean
+    = pick_ocean(TERRAIN_OCEAN_DEPTH_MAXIMUM, FALSE);
   struct fair_tile *pmap, *pisland;
   int playermass, islandmass1 , islandmass2, islandmass3;
   int min_island_size = game.map.server.tinyisles ? 1 : 2;
