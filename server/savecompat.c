@@ -1182,8 +1182,6 @@ static int increase_secfile_turn_int(struct loaddata *loading, const char *key,
 static void compat_load_030000(struct loaddata *loading)
 {
   bool randsaved;
-  int plrno;
-  int nplayers;
   int num_settings;
   bool started;
   int old_turn;
@@ -1211,10 +1209,13 @@ static void compat_load_030000(struct loaddata *loading)
     started = FALSE;
   }
 
-  nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
-
-  for (plrno = 0; plrno < nplayers; plrno++) {
+  player_slots_iterate(pslot) {
+    int plrno = player_slot_index(pslot);
     const char *flag_names[1];
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+      continue;
+    }
 
     if (secfile_lookup_bool_default(loading->file, FALSE, "player%d.ai.control",
                                     plrno)) {
@@ -1249,7 +1250,7 @@ static void compat_load_030000(struct loaddata *loading)
         increase_secfile_turn_int(loading, buf, -2, TRUE);
       }
     }
-  }
+  } player_slots_iterate_end;
 
   /* Settings */
   num_settings = secfile_lookup_int_default(loading->file, 0,
@@ -1309,8 +1310,6 @@ static void compat_load_dev(struct loaddata *loading)
 {
   bool randsaved;
   int game_version;
-  int plrno;
-  int nplayers;
   size_t diplstate_type_size;
   int num_settings;
 
@@ -1333,8 +1332,6 @@ static void compat_load_dev(struct loaddata *loading)
     game_version *= 100;
   }
 
-  nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
-
   if (game_version < 2910000) {
     /* Early 3.0 development version save. */
   
@@ -1344,8 +1341,13 @@ static void compat_load_dev(struct loaddata *loading)
     }
 
     /* Convert ai.control to a player flag */
-    for (plrno = 0; plrno < nplayers; plrno++) {
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
       const char *flag_names[1];
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+        continue;
+      }
 
       if (secfile_lookup_bool_default(loading->file, FALSE, "player%d.ai.control",
                                       plrno)) {
@@ -1354,9 +1356,7 @@ static void compat_load_dev(struct loaddata *loading)
         secfile_insert_str_vec(loading->file, flag_names, 1,
                                "player%d.flags", plrno);
       }
-    }
 
-    for (plrno = 0; plrno < nplayers; plrno++) {
       /* Add 'anonymous' qualifiers for user names */
       if (secfile_entry_lookup(loading->file, "player%d.unassigned_user", plrno) == NULL) {
         const char *name;
@@ -1373,7 +1373,7 @@ static void compat_load_dev(struct loaddata *loading)
         secfile_insert_bool(loading->file, (!strcmp(name, ANON_USER_NAME)),
                             "player%d.unassigned_ranked", plrno);
       }
-    }
+    } player_slots_iterate_end;
 
     /* Diplomatic state type by name. */
     diplstate_type_size
@@ -1388,11 +1388,20 @@ static void compat_load_dev(struct loaddata *loading)
                                          &diplstate_type_size,
                                          "savefile.diplstate_type_vector");
 
-      for (plrno = 0; plrno < nplayers; plrno++) {
-        int i;
+      player_slots_iterate(pslot) {
+        int plrno = player_slot_index(pslot);
 
-        for (i = 0; i < nplayers; i++) {
+        if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+          continue;
+        }
+
+        player_slots_iterate(pslot2) {
+          int i = player_slot_index(pslot2);
           char buf[32];
+
+          if (secfile_section_lookup(loading->file, "player%d", i) == NULL) {
+            continue;
+          }
 
           fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
 
@@ -1417,21 +1426,33 @@ static void compat_load_dev(struct loaddata *loading)
             secfile_insert_str(loading->file, ds_t_name[closest],
                                "%s.closest", buf);
           }
-        }
-      }
+        } player_slots_iterate_end;
+      } player_slots_iterate_end;
 
       free(ds_t_name);
     }
 
     /* Fix save games from Freeciv versions with a bug that made it view
      * "Never met" as closer than "Peace" or "Alliance". */
-    for (plrno = 0; plrno < nplayers; plrno++) {
-      int i;
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+      int unit;
+      int tgt_vec[MAX_LEN_ROUTE + 1];
+      int units_num;
 
-      for (i = 0; i < nplayers; i++) {
+      if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+        continue;
+      }
+
+      player_slots_iterate(pslot2) {
+        int i = player_slot_index(pslot2);
         char buf[32];
         int current;
         int closest;
+
+        if (secfile_section_lookup(loading->file, "player%d", i) == NULL) {
+          continue;
+        }
 
         fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
 
@@ -1461,16 +1482,12 @@ static void compat_load_dev(struct loaddata *loading)
           secfile_replace_enum(loading->file, current,
                                diplstate_type, "%s.closest", buf);
         }
-      }
-    }
+      } player_slots_iterate_end;
 
-    /* Units orders. */
-    for (plrno = 0; plrno < nplayers; plrno++) {
-      int units_num = secfile_lookup_int_default(loading->file, 0,
-                                                 "player%d.nunits",
-                                                 plrno);
-      int unit;
-      int tgt_vec[MAX_LEN_ROUTE + 1];
+      /* Units orders. */
+      units_num = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.nunits",
+                                             plrno);
 
       for (unit = 0; unit < units_num; unit++) {
         int ord_num;
@@ -1507,16 +1524,21 @@ static void compat_load_dev(struct loaddata *loading)
                                "player%d.u%d.tgt_vec",
                                plrno, unit);
       }
-    }
+    } player_slots_iterate_end;
   }
 
   /* Since version number bump to 2.91.99 */
 
   /* Idle turns */
-  for (plrno = 0; plrno < nplayers; plrno++) {
+  player_slots_iterate(pslot) {
+    int plrno = player_slot_index(pslot);
     int idlet;
     int ncities;
     int i;
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+      continue;
+    }
 
     idlet = secfile_lookup_int_default(loading->file, -1,
                                        "player%d.idle_turns", plrno);
@@ -1554,7 +1576,7 @@ static void compat_load_dev(struct loaddata *loading)
         }
       }
     }
-  }
+  } player_slots_iterate_end;
 
   /* Settings */
   num_settings = secfile_lookup_int_default(loading->file, 0,
