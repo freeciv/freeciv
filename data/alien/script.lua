@@ -9,6 +9,12 @@
 --   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --   GNU General Public License for more details.
 
+-- This file is for lua-functionality that is specific to a given
+-- ruleset. When freeciv loads a ruleset, it also loads script
+-- file called 'default.lua'. The one loaded if your ruleset
+-- does not provide an override is default/default.lua.
+
+-----------------------------------------------------------------------------------------------------
 -- default.lua callback overrides
 
 -- Get gold from entering a hut.
@@ -115,6 +121,7 @@ end
 
 signal.connect("hut_enter", "alien_hut_enter_callback")
 
+-----------------------------------------------------------------------------------------------------
 -- Alien ruleset specific callbacks
 
 -- Show a pop up telling the beginning of the story when the game starts.
