@@ -317,7 +317,7 @@ bool log_do_output_for_level_at_location(enum log_level level,
 
 /*****************************************************************************
   Unconditionally print a simple string.
-  Let the callback do its own level formating and add a '\n' if it wants.
+  Let the callback do its own level formatting and add a '\n' if it wants.
 *****************************************************************************/
 static void log_write(FILE *fs, enum log_level level, bool print_from_where,
                       const char *where, const char *message)
