@@ -1791,8 +1791,9 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
       /* Need to pick a new, non-freshwater ocean type for this tile.
        * We don't want e.g. Deep Ocean to be propagated to this tile
        * and then to a whole lake by the flooding below, so we pick
-       * the shallowest non-fresh oceanic type. */
-      newter = most_shallow_ocean();
+       * the shallowest non-fresh oceanic type.
+       * Prefer terrain that matches the frozenness of the target. */
+      newter = most_shallow_ocean(terrain_has_flag(newter, TER_FROZEN));
       tile_change_terrain(ptile, newter);
     }
   }
@@ -1805,9 +1806,11 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
       if (terrain_has_flag(tile_terrain(atile), TER_FRESHWATER)) {
         struct terrain *aold = tile_terrain(atile);
 
-        tile_change_terrain(atile, newter);
+        tile_change_terrain(atile,
+                            most_shallow_ocean(terrain_has_flag(aold,
+                                                                TER_FROZEN)));
 
-        /* Recursive, but as lakes as lakes are of limited size, this
+        /* Recursive, but as lakes are of limited size, this
          * won't recurse so much as to cause stack problems. */
         check_terrain_change(atile, aold);
         update_tile_knowledge(atile);

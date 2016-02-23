@@ -26,8 +26,8 @@ int get_lake_surrounders(Continent_id cont);
 int get_continent_size(Continent_id id);
 int get_ocean_size(Continent_id id);
 
-struct terrain *most_shallow_ocean(void);
-struct terrain *pick_ocean(int depth);
+struct terrain *most_shallow_ocean(bool frozen);
+struct terrain *pick_ocean(int depth, bool frozen);
 
 struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag);
 struct terrain *pick_terrain(enum mapgen_terrain_property target,
