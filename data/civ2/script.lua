@@ -8,3 +8,8 @@
 --   but WITHOUT ANY WARRANTY; without even the implied warranty of
 --   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --   GNU General Public License for more details.
+
+-- This file is for lua-functionality that is specific to a given
+-- ruleset. When freeciv loads a ruleset, it also loads script
+-- file called 'default.lua'. The one loaded if your ruleset
+-- does not provide an override is default/default.lua.
