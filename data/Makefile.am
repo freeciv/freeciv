@@ -59,7 +59,6 @@ EXTRA_DIST = \
 	gtk2_menus.xml	\
 	gtk3_menus.xml	\
 	gtk3x_menus.xml	\
-	database.lua	\
 	amplio2.tilespec \
 	cimpletoon.tilespec \
 	hex2t.tilespec	\
