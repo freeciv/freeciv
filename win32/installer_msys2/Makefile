@@ -12,8 +12,10 @@ WINARCH=$(shell ./win_arch.sh)
 
 ifeq ($(WINARCH),win64)
 ARCHDIR=/mingw64
+GCCDLL=libgcc_s_seh-1.dll
 else
 ARCHDIR=/mingw32
+GCCDLL=libgcc_s_dw2-1.dll
 endif
 
 # msys2 has dlls in...
@@ -159,7 +161,7 @@ COMMON_DLLS := \
 	libffi-6.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
-	libgcc_s_dw2-1.dll \
+	$(GCCDLL) \
 	libgdk_pixbuf-2.0-0.dll \
 	libgio-2.0-0.dll \
 	libglib-2.0-0.dll \
@@ -169,14 +171,11 @@ COMMON_DLLS := \
 	libiconv-2.dll \
 	libintl-8.dll \
 	liblzma-5.dll \
-	libogg-0.dll \
 	libpango-1.0-0.dll \
 	libpangocairo-1.0-0.dll \
 	libpangowin32-1.0-0.dll \
 	libpixman-1-0.dll \
 	libpng16-16.dll \
-	libvorbis-0.dll \
-	libvorbisfile-3.dll \
 	libxml2-2.dll \
 	zlib1.dll \
 	libwinpthread-1.dll
@@ -289,7 +288,7 @@ RULEDIT_DLLS := \
 	libffi-6.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
-	libgcc_s_dw2-1.dll \
+	$(GCCDLL) \
 	libglib-2.0-0.dll \
 	libgdk_pixbuf-2.0-0.dll \
 	libgio-2.0-0.dll \
