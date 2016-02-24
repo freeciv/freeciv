@@ -37,6 +37,7 @@
 #include "bitvector.h"
 #include "capstr.h"
 #include "dataio.h"
+#include "deprecations.h"
 #include "fcbacktrace.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -456,6 +457,8 @@ int client_main(int argc, char *argv[])
                   _("Use data file FILE.tilespec for tiles"));
       cmdhelp_add(help, "v", "version",
                   _("Print the version number"));
+      cmdhelp_add(help, "w", "warnings",
+                  _("Warn about deprecated modpack constructs"));
 
       /* The function below prints a header and footer for the options.
        * Furthermore, the options are sorted. */
@@ -545,6 +548,8 @@ int client_main(int argc, char *argv[])
         exit(EXIT_FAILURE);
       }
       free(option);
+    } else if (is_option("--warnings", argv[i])) {
+      deprecation_warnings_enable();
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
     } else {
