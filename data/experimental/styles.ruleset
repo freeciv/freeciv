@@ -1,3 +1,5 @@
+; This is the experimental ruleset. See doc/README.experimental
+; for a detailed description.
 
 ; Modifying this file:
 ; You should not modify this file except to make bugfixes or
@@ -8,7 +10,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Nation theme data for Freeciv"
+description="Experimental nation theme data for Freeciv"
 options="+Freeciv-ruleset-Devel-2015.January.14"
 format_version=10
 

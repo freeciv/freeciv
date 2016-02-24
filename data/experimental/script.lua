@@ -14,7 +14,7 @@
 -- file called 'default.lua'. The one loaded if your ruleset
 -- does not provide an override is default/default.lua.
 
--- This is the experimental ruleset. See doc/README.ruleset_experimental
+-- This is the experimental ruleset. See README.experimental
 -- for a detailed description.
 
 

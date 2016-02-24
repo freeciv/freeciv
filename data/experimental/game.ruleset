@@ -1,4 +1,4 @@
-; This is the experimental ruleset. See doc/README.ruleset_experimental
+; This is the experimental ruleset. See README.experimental
 ; for a detailed description.
 
 ; Modifying this file:
@@ -36,7 +36,7 @@ summary = _("\
 You are playing with the experimental ruleset. This showcases new or \
 unusual features available in Freeciv without regard for strict game \
 balancing or playability. A description of the differences from the \
-classic ruleset can be found in README.ruleset_experimental.\
+classic ruleset can be found in README.experimental.\
 ")
 
 ; Detailed description
