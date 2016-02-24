@@ -35,7 +35,6 @@ EXTRA_DIST =    fcgui.in		\
 		freeciv-mp-gtk3.appdata.xml.in \
 		freeciv-mp-qt.appdata.xml.in \
 		freeciv-ruledit.appdata.xml.in \
-		freeciv.spec.in	\
 		config.rpath		\
 		Makerules.mk		\
 		langnames.txt
