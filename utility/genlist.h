@@ -124,12 +124,40 @@ void genlist_reverse(struct genlist *pgenlist);
 void genlist_allocate_mutex(struct genlist *pgenlist);
 void genlist_release_mutex(struct genlist *pgenlist);
 
-void *genlist_link_data(const struct genlist_link *plink);
-struct genlist_link *genlist_link_prev(const struct genlist_link *plink)
-                     fc__warn_unused_result;
-struct genlist_link *genlist_link_next(const struct genlist_link *plink)
-                     fc__warn_unused_result;
 
+/* A single element of a genlist, storing the pointer to user
+ * data, and pointers to the next and previous elements: */
+struct genlist_link {
+  struct genlist_link *next, *prev;
+  void *dataptr;
+};
+
+/****************************************************************************
+  Returns the pointer of this link.
+****************************************************************************/
+static inline void *genlist_link_data(const struct genlist_link *plink)
+{
+  return (NULL != plink ? plink->dataptr : NULL);
+}
+
+/****************************************************************************
+  Returns the previous link.
+****************************************************************************/
+fc__warn_unused_result
+static inline struct genlist_link *genlist_link_prev(const struct genlist_link *plink)
+{
+  return plink->prev;
+}
+
+/****************************************************************************
+  Returns the next link.
+****************************************************************************/
+fc__warn_unused_result
+static inline struct genlist_link *genlist_link_next(const struct genlist_link *plink)
+{
+  return plink->next;
+}
+  
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
