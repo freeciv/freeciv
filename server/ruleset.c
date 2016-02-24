@@ -1378,10 +1378,49 @@ static bool load_unit_names(struct section_file *file,
   }
 
   if (ok) {
+    /* Blank the remaining unit type user flags. */
     for (; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
       set_user_unit_type_flag_name(UTYF_USER_FLAG_1 + i, NULL, NULL);
     }
+  }
 
+  if (ok) {
+    /* User unit class flag names */
+    for (i = 0;
+         (flag = secfile_lookup_str_default(file, NULL,
+                                            "control.class_flags%d.name",
+                                            i));
+         i++) {
+      const char *helptxt = secfile_lookup_str_default(file, NULL,
+          "control.class_flags%d.helptxt", i);
+
+      if (unit_class_flag_id_by_name(flag, fc_strcasecmp)
+          != unit_class_flag_id_invalid()) {
+        ruleset_error(LOG_ERROR, "\"%s\": Duplicate unit class flag name "
+                                 "'%s'",
+                      filename, flag);
+        ok = FALSE;
+        break;
+      }
+      if (i > MAX_NUM_USER_UCLASS_FLAGS) {
+        ruleset_error(LOG_ERROR, "\"%s\": Too many user unit class flags!",
+                      filename);
+        ok = FALSE;
+        break;
+      }
+
+      set_user_unit_class_flag_name(UCF_USER_FLAG_1 + i, flag, helptxt);
+    }
+  }
+
+  if (ok) {
+    /* Blank the remaining unit class user flags. */
+    for (; i < MAX_NUM_USER_UCLASS_FLAGS; i++) {
+      set_user_unit_class_flag_name(UCF_USER_FLAG_1 + i, NULL, NULL);
+    }
+  }
+
+  if (ok) {
     /* Unit classes */
     sec = secfile_sections_by_name_prefix(file, UNIT_CLASS_SECTION_PREFIX);
     if (NULL == sec || 0 == (nval = section_list_size(sec))) {
@@ -6261,6 +6300,31 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 static void send_ruleset_unit_classes(struct conn_list *dest)
 {
   struct packet_ruleset_unit_class packet;
+  struct packet_ruleset_unit_class_flag fpacket;
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_UCLASS_FLAGS; i++) {
+    const char *flagname;
+    const char *helptxt;
+
+    fpacket.id = i + UCF_USER_FLAG_1;
+
+    flagname = unit_class_flag_id_name(i + UCF_USER_FLAG_1);
+    if (flagname == NULL) {
+      fpacket.name[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.name, flagname);
+    }
+
+    helptxt = unit_class_flag_helptxt(i + UCF_USER_FLAG_1);
+    if (helptxt == NULL) {
+      fpacket.helptxt[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.helptxt, helptxt);
+    }
+
+    lsend_packet_ruleset_unit_class_flag(dest, &fpacket);
+  }
 
   unit_class_iterate(c) {
     packet.id = uclass_number(c);

@@ -3652,6 +3652,17 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("  * Can be airlifted from a suitable city.\n"));
   }
+  for (flagid = UCF_USER_FLAG_1; flagid <= UCF_LAST_USER_FLAG; flagid++) {
+    if (uclass_has_flag(pclass, flagid)) {
+      const char *helptxt = unit_class_flag_helptxt(flagid);
+
+      if (helptxt != NULL) {
+        CATLSTR(buf, bufsz, Q_("?bullet:  * "));
+        CATLSTR(buf, bufsz, _(helptxt));
+        CATLSTR(buf, bufsz, "\n");
+      }
+    }
+  }
 
   /* The unit's combat bonuses. Won't mention that another unit type has a
    * combat bonus against this unit type. Doesn't handle complex cases like

@@ -1339,6 +1339,12 @@ PACKET_RULESET_UNIT_FLAG = 229; sc, lsend
   STRING      helptxt[MAX_LEN_PACKET];
 end
 
+PACKET_RULESET_UNIT_CLASS_FLAG = 230; sc, lsend
+  UINT8       id;
+  STRING      name[MAX_LEN_NAME];
+  STRING      helptxt[MAX_LEN_PACKET];
+end
+
 PACKET_RULESET_GAME = 141; sc, lsend
   UINT8 default_specialist;
 

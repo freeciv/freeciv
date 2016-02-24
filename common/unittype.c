@@ -50,6 +50,8 @@ static struct unit_class unit_classes[UCL_LAST];
 
 static struct user_flag user_type_flags[MAX_NUM_USER_UNIT_FLAGS];
 
+static struct user_flag user_class_flags[MAX_NUM_USER_UCLASS_FLAGS];
+
 /**************************************************************************
   Return the first item of unit_types.
 **************************************************************************/
@@ -1033,6 +1035,70 @@ struct unit_class *unit_class_by_rule_name(const char *s)
     }
   } unit_class_iterate_end;
   return NULL;
+}
+
+/**************************************************************************
+  Initialize user unit class flags.
+**************************************************************************/
+void user_unit_class_flags_init(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_UCLASS_FLAGS; i++) {
+    user_flag_init(&user_class_flags[i]);
+  }
+}
+
+/**************************************************************************
+  Sets user defined name for unit class flag.
+**************************************************************************/
+void set_user_unit_class_flag_name(enum unit_class_flag_id id,
+                                   const char *name,
+                                   const char *helptxt)
+{
+  int ufid = id - UCF_USER_FLAG_1;
+
+  fc_assert_ret(id >= UCF_USER_FLAG_1 && id <= UCF_LAST_USER_FLAG);
+
+  if (user_class_flags[ufid].name != NULL) {
+    FC_FREE(user_class_flags[ufid].name);
+    user_class_flags[ufid].name = NULL;
+  }
+
+  if (name && name[0] != '\0') {
+    user_class_flags[ufid].name = fc_strdup(name);
+  }
+
+  if (user_class_flags[ufid].helptxt != NULL) {
+    free(user_class_flags[ufid].helptxt);
+    user_class_flags[ufid].helptxt = NULL;
+  }
+
+  if (helptxt && helptxt[0] != '\0') {
+    user_class_flags[ufid].helptxt = fc_strdup(helptxt);
+  }
+}
+
+/**************************************************************************
+  Unit class flag name callback, called from specenum code.
+**************************************************************************/
+const char *unit_class_flag_id_name_cb(enum unit_class_flag_id flag)
+{
+  if (flag < UCF_USER_FLAG_1 || flag > UCF_LAST_USER_FLAG) {
+    return NULL;
+  }
+
+  return user_class_flags[flag - UCF_USER_FLAG_1].name;
+}
+
+/**************************************************************************
+  Return the (untranslated) help text of the user unit class flag.
+**************************************************************************/
+const char *unit_class_flag_helptxt(enum unit_class_flag_id id)
+{
+  fc_assert(id >= UCF_USER_FLAG_1 && id <= UCF_LAST_USER_FLAG);
+
+  return user_class_flags[id - UCF_USER_FLAG_1].helptxt;
 }
 
 /**************************************************************************

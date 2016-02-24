@@ -2302,6 +2302,21 @@ static bool save_units_ruleset(const char *filename, const char *name)
     }
   }
 
+  for (i = 0; i < MAX_NUM_USER_UCLASS_FLAGS; i++) {
+    const char *flagname = unit_class_flag_id_name_cb(i + UCF_USER_FLAG_1);
+    const char *helptxt = unit_class_flag_helptxt(i + UCF_USER_FLAG_1);
+
+    if (flagname != NULL) {
+      secfile_insert_str(sfile, flagname, "control.class_flags%d.name", i);
+
+      /* Save the user flag help text even when it is undefined. That makes
+       * the formatting code happy. The resulting "" is ignored when the
+       * ruleset is loaded. */
+      secfile_insert_str(sfile, helptxt,
+                         "control.class_flags%d.helptxt", i);
+    }
+  }
+
   save_veteran_system(sfile, "veteran_system", game.veteran);
 
   sect_idx = 0;

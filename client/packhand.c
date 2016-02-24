@@ -3279,6 +3279,33 @@ void handle_ruleset_unit_flag(const struct packet_ruleset_unit_flag *p)
   set_user_unit_type_flag_name(p->id, flagname, helptxt);
 }
 
+/***************************************************************************
+  Packet ruleset_unit_class_flag handler.
+***************************************************************************/
+void handle_ruleset_unit_class_flag(
+    const struct packet_ruleset_unit_class_flag *p)
+{
+  const char *flagname;
+  const char *helptxt;
+
+  fc_assert_ret_msg(p->id >= UCF_USER_FLAG_1 && p->id <= UCF_LAST_USER_FLAG,
+                    "Bad user flag %d.", p->id);
+
+  if (p->name[0] == '\0') {
+    flagname = NULL;
+  } else {
+    flagname = p->name;
+  }
+
+  if (p->helptxt[0] == '\0') {
+    helptxt = NULL;
+  } else {
+    helptxt = p->helptxt;
+  }
+
+  set_user_unit_class_flag_name(p->id, flagname, helptxt);
+}
+
 /**************************************************************************
   Unpack a traditional tech req from a standard requirement vector (that
   still is in the network serialized format rather than a proper

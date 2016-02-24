@@ -94,10 +94,25 @@ struct ai_type;
 /* Can be airlifted */
 #define SPECENUM_VALUE15 UCF_AIRLIFTABLE
 #define SPECENUM_VALUE15NAME N_("?uclassflag:Airliftable")
+
+#define SPECENUM_VALUE16 UCF_USER_FLAG_1
+#define SPECENUM_VALUE17 UCF_USER_FLAG_2
+#define SPECENUM_VALUE18 UCF_USER_FLAG_3
+#define SPECENUM_VALUE19 UCF_USER_FLAG_4
+#define SPECENUM_VALUE20 UCF_USER_FLAG_5
+#define SPECENUM_VALUE21 UCF_USER_FLAG_6
+#define SPECENUM_VALUE22 UCF_USER_FLAG_7
+#define SPECENUM_VALUE23 UCF_USER_FLAG_8
+
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
+#define SPECENUM_NAMEOVERRIDE
 #define SPECENUM_BITVECTOR bv_unit_class_flags
 #include "specenum_gen.h"
+
+#define UCF_LAST_USER_FLAG UCF_USER_FLAG_8
+#define MAX_NUM_USER_UCLASS_FLAGS (UCF_LAST_USER_FLAG                     \
+                                   - UCF_USER_FLAG_1 + 1)
 
 /* Used in savegame processing and clients. */
 #define SPECENUM_NAME unit_move_type
@@ -641,6 +656,12 @@ const char *uclass_name_translation(const struct unit_class *pclass);
 
 bool uclass_has_flag(const struct unit_class *punitclass,
                      enum unit_class_flag_id flag);
+
+void user_unit_class_flags_init(void);
+void set_user_unit_class_flag_name(enum unit_class_flag_id id,
+                                   const char *name,
+                                   const char *helptxt);
+const char *unit_class_flag_helptxt(enum unit_class_flag_id id);
 
 /* Ancillary routines */
 int unit_build_shield_cost(const struct unit *punit);
