@@ -1501,6 +1501,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
   /* Update citizens. */
   citizens_update(pcity, nationality);
 
+  /* Restore the old-owner information so removal
+   * of territory claiming bases can work relative to it. */
+  tile_set_owner(ptile, saved_owner, saved_claimer);
+
   /* Remove any roads that don't belong in the city. */
   road_type_iterate(proad) {
     if (tile_has_road(ptile, proad)
@@ -1523,7 +1527,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
   upgrade_city_bases(pcity, NULL);
 
   /* Claim the ground we stand on */
-  tile_set_owner(ptile, saved_owner, saved_claimer);
   map_claim_ownership(ptile, pplayer, ptile);
 
   /* Before arranging workers to show unknown land */
