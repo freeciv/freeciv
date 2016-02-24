@@ -1956,8 +1956,7 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_TECHFLAG:
     cat_snprintf(buf, bufsz, _("\"%s\" tech"),
-                 /* flag names are never translated */
-                 tech_flag_id_name(psource->value.techflag));
+                 tech_flag_id_translated_name(psource->value.techflag));
     return buf;
   case VUT_GOVERNMENT:
     fc_strlcat(buf, government_name_translation(psource->value.govern),
@@ -1991,8 +1990,8 @@ const char *universal_name_translation(const struct universal *psource,
     cat_snprintf(buf, bufsz,
                  /* TRANS: Unit type flag */
                  Q_("?utflag:\"%s\" units"),
-                 /* flag names are never translated */
-                 unit_type_flag_id_name(psource->value.unitflag));
+                 unit_type_flag_id_translated_name(
+                   psource->value.unitflag));
     return buf;
   case VUT_UCLASS:
     cat_snprintf(buf, bufsz,
@@ -2033,8 +2032,8 @@ const char *universal_name_translation(const struct universal *psource,
     cat_snprintf(buf, bufsz,
                  /* TRANS: Terrain flag */
                  Q_("?terrflag:\"%s\" terrain"),
-                 /* flag names are never translated */
-                 terrain_flag_id_name(psource->value.terrainflag));
+                 terrain_flag_id_translated_name(
+                   psource->value.terrainflag));
     return buf;
   case VUT_BASE:
     fc_strlcat(buf, base_name_translation(psource->value.base), bufsz);
