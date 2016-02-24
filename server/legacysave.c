@@ -1300,11 +1300,17 @@ static void player_load_units(struct player *plr, int plrno,
       }
     }
     if (target == S_OLD_FORTRESS) {
+      struct extra_type *pextra = extra_type_by_rule_name("Fortress");
       target = S_LAST;
-      pbase = base_type_by_rule_name("Fortress");
+      if (pextra != NULL) {
+        pbase = extra_base_get(pextra);
+      }
     } else if (target == S_OLD_AIRBASE) {
+      struct extra_type *pextra = extra_type_by_rule_name("Airbase");
       target = S_LAST;
-      pbase = base_type_by_rule_name("Airbase");
+      if (pextra != NULL) {
+        pbase = extra_base_get(pextra);
+      }
     }
 
     if (target == S_OLD_ROAD) {
@@ -3713,7 +3719,13 @@ static void game_load_internal(struct section_file *file)
     base_order = fc_calloc(4 * ((num_base_types + 3) / 4),
                            sizeof(*base_order));
     for (j = 0; j < num_base_types; j++) {
-      base_order[j] = base_type_by_rule_name(modname[j]);
+      struct extra_type *pextra = extra_type_by_rule_name(modname[j]);
+
+      if (pextra != NULL) {
+        base_order[j] = extra_base_get(pextra);
+      } else {
+        base_order[j] = NULL;
+      }
     }
     free(modname);
   }

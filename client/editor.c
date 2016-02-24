@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Poject
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1162,11 +1162,11 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
   case ETT_ROAD:
     proad = road_by_number(value);
 
-    return proad != NULL ? road_name_translation(proad) : "";
+    return proad != NULL ? extra_name_translation(road_extra_get(proad)) : "";
   case ETT_MILITARY_BASE:
     pbase = base_by_number(value);
 
-    return pbase != NULL ? base_name_translation(pbase) : "";
+    return pbase != NULL ? extra_name_translation(base_extra_get(pbase)) : "";
   case ETT_UNIT:
     putype = utype_by_number(value);
     return putype ? utype_name_translation(putype) : "";

@@ -2133,14 +2133,14 @@ void real_menus_update(void)
     if (proad != NULL) {
       /* TRANS: Connect with some road type (Road/Railroad) */
       snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
-               road_name_translation(proad));
+               extra_name_translation(road_extra_get(proad)));
       menus_rename("CONNECT_ROAD", road_buf);
     }
 
     proad = road_by_compat_special(ROCO_RAILROAD);
     if (proad != NULL) {
       snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
-               road_name_translation(proad));
+               extra_name_translation(road_extra_get(proad)));
       menus_rename("CONNECT_RAIL", road_buf);
     }
   }

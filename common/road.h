@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -94,11 +94,6 @@ struct extra_type *road_extra_get(const struct road_type *proad);
 
 enum road_compat road_compat_special(const struct road_type *proad);
 struct road_type *road_by_compat_special(enum road_compat compat);
-
-const char *road_name_translation(struct road_type *proad);
-const char *road_rule_name(const struct road_type *proad);
-struct road_type *road_type_by_rule_name(const char *name);
-struct road_type *road_type_by_translated_name(const char *name);
 
 int count_road_near_tile(const struct tile *ptile, const struct road_type *proad);
 int count_river_near_tile(const struct tile *ptile,

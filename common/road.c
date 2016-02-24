@@ -191,64 +191,6 @@ struct road_type *road_by_compat_special(enum road_compat compat)
 }
 
 /****************************************************************************
-  Return translated name of this road type.
-****************************************************************************/
-const char *road_name_translation(struct road_type *proad)
-{
-  struct extra_type *pextra = road_extra_get(proad);
-
-  if (pextra == NULL) {
-    return NULL;
-  }
-
-  return extra_name_translation(pextra);
-}
-
-/****************************************************************************
-  Return untranslated name of this road type.
-****************************************************************************/
-const char *road_rule_name(const struct road_type *proad)
-{
-  struct extra_type *pextra = road_extra_get(proad);
-
-  if (pextra == NULL) {
-    return NULL;
-  }
-
-  return extra_rule_name(pextra);
-}
-
-/**************************************************************************
-  Returns road type matching rule name or NULL if there is no road type
-  with such name.
-**************************************************************************/
-struct road_type *road_type_by_rule_name(const char *name)
-{
-  struct extra_type *pextra = extra_type_by_rule_name(name);
-
-  if (pextra == NULL) {
-    return NULL;
-  }
-
-  return extra_road_get(pextra);
-}
-
-/**************************************************************************
-  Returns road type matching the translated name, or NULL if there is no
-  road type with that name.
-**************************************************************************/
-struct road_type *road_type_by_translated_name(const char *name)
-{
-  struct extra_type *pextra = extra_type_by_translated_name(name);
-
-  if (pextra == NULL) {
-    return NULL;
-  }
-
-  return extra_road_get(pextra);
-}
-
-/****************************************************************************
   Tells if road can build to tile if all other requirements are met.
 ****************************************************************************/
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -4880,7 +4880,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                    /* TRANS: "MP" = movement points. Second %s may have a
                     * fractional part. */
                    _("* Movement cost along %s is %s MP.\n"),
-                   road_name_translation(proad),
+                   extra_name_translation(pextra),
                    move_points_text(proad->move_cost, TRUE));
     }
   }

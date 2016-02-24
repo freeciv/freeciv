@@ -1277,7 +1277,13 @@ static void sg_load_savefile(struct loaddata *loading)
     nmod = 4 * ((loading->base.size + 3) / 4);
     loading->base.order = fc_calloc(nmod, sizeof(*loading->base.order));
     for (j = 0; j < loading->base.size; j++) {
-      loading->base.order[j] = base_type_by_rule_name(modname[j]);
+      struct extra_type *pextra = extra_type_by_rule_name(modname[j]);
+
+      if (pextra != NULL) {
+        loading->base.order[j] = extra_base_get(pextra);
+      } else {
+        loading->base.order[j] = NULL;
+      }
     }
     free(modname);
     for (; j < nmod; j++) {
@@ -1307,7 +1313,13 @@ static void sg_load_savefile(struct loaddata *loading)
     nmod = 4 * ((loading->road.size + 3) / 4);
     loading->road.order = fc_calloc(nmod, sizeof(*loading->road.order));
     for (j = 0; j < loading->road.size; j++) {
-      loading->road.order[j] = road_type_by_rule_name(modname[j]);
+      struct extra_type *pextra = extra_type_by_rule_name(modname[j]);
+
+      if (pextra != NULL) {
+        loading->road.order[j] = extra_road_get(pextra);
+      } else {
+        loading->road.order[j] = NULL;
+      }
     }
     free(modname);
     for (; j < nmod; j++) {

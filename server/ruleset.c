@@ -3229,7 +3229,7 @@ static bool load_ruleset_terrain(struct section_file *file,
         if (!base_flag_id_is_valid(flag)) {
           ruleset_error(LOG_ERROR, "\"%s\" base \"%s\": unknown flag \"%s\".",
                         filename,
-                        base_rule_name(pbase),
+                        extra_rule_name(pextra),
                         sval);
           ok = FALSE;
           break;
@@ -3291,7 +3291,7 @@ static bool load_ruleset_terrain(struct section_file *file,
       proad->move_mode = road_move_mode_by_name(modestr, fc_strcasecmp);
       if (!road_move_mode_is_valid(proad->move_mode)) {
         ruleset_error(LOG_ERROR, "Illegal move_mode \"%s\" for road \"%s\"",
-                      modestr, road_rule_name(proad));
+                      modestr, extra_rule_name(pextra));
         ok = FALSE;
         break;
       }
@@ -3334,7 +3334,7 @@ static bool load_ruleset_terrain(struct section_file *file,
         proad->compat = ROCO_NONE;
       } else {
         ruleset_error(LOG_ERROR, "Illegal compatibility special \"%s\" for road %s",
-                      special, road_rule_name(proad));
+                      special, extra_rule_name(pextra));
         ok = FALSE;
       }
 
@@ -3346,12 +3346,17 @@ static bool load_ruleset_terrain(struct section_file *file,
       BV_CLR_ALL(proad->integrates);
       for (j = 0; j < nval; j++) {
         const char *sval = slist[j];
-        struct road_type *top = road_type_by_rule_name(sval);
+        struct extra_type *textra = extra_type_by_rule_name(sval);
+        struct road_type *top = NULL;
+
+        if (textra != NULL) {
+          top = extra_road_get(pextra);
+        }
 
         if (top == NULL) {
           ruleset_error(LOG_ERROR, "\"%s\" road \"%s\" integrates with unknown road \"%s\".",
                         filename,
-                        road_rule_name(proad),
+                        extra_rule_name(pextra),
                         sval);
           ok = FALSE;
           break;
@@ -3374,7 +3379,7 @@ static bool load_ruleset_terrain(struct section_file *file,
         if (!road_flag_id_is_valid(flag)) {
           ruleset_error(LOG_ERROR, "\"%s\" road \"%s\": unknown flag \"%s\".",
                         filename,
-                        road_rule_name(proad),
+                        extra_rule_name(pextra),
                         sval);
           ok = FALSE;
           break;

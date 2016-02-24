@@ -841,8 +841,8 @@ bool sanity_check_ruleset_data(void)
           && !BV_ISSET(iroad->integrates, road_index(proad))) {
         ruleset_error(LOG_ERROR,
                       "Road %s integrates with non integrating road %s!",
-                      road_name_translation(proad),
-                      road_name_translation(iroad));
+                      extra_name_translation(pextra),
+                      extra_name_translation(iextra));
       }
     } extra_type_list_iterate_end;
   } extra_type_by_cause_iterate_end;

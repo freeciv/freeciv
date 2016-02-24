@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -567,7 +567,7 @@ void create_units_order_widgets(void)
   if (proad != NULL) {
     fc_snprintf(cBuf, sizeof(cBuf),
                 _("Connect With %s (%s)"),
-                road_name_translation(proad),
+                extra_name_translation(road_extra_get(proad)),
                 "Shift+R");
     pBuf = create_themeicon(current_theme->OAutoConnect_Icon, Main.gui,
                             WF_HIDDEN | WF_RESTORE_BACKGROUND
@@ -586,7 +586,7 @@ void create_units_order_widgets(void)
   if (prail != NULL) {
     fc_snprintf(cBuf, sizeof(cBuf),
                 _("Connect With %s (%s)"),
-                road_name_translation(prail),
+                extra_name_translation(road_extra_get(prail)),
                 "Shift+L");
     pBuf = create_themeicon(current_theme->OAutoConnect_Icon, Main.gui,
                             WF_HIDDEN | WF_RESTORE_BACKGROUND
@@ -847,12 +847,12 @@ void create_units_order_widgets(void)
   /* TRANS: "Build Road (R) 999 turns" */
   if (proad != NULL) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                road_name_translation(proad), "R", 999, 
+                extra_name_translation(road_extra_get(proad)), "R", 999,
                 PL_("turn", "turns", 999));
   } else if (prail != NULL) {
     /* TRANS: "Build Railroad (R) 999 turns" */
     fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                road_name_translation(prail), "R", 999, 
+                extra_name_translation(road_extra_get(prail)), "R", 999,
                 PL_("turn", "turns", 999));
   } else {
     cBuf[0] = '\0';
@@ -1104,8 +1104,8 @@ void real_menus_update(void)
 
         /* TRANS: "Build Railroad (R) 3 turns" */
 	fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                    road_name_translation(proad),
-                    "R", time, 
+                    extra_name_translation(pextra),
+                    "R", time,
                     PL_("turn", "turns", time));
 
 	if (compat == ROCO_RAILROAD) {

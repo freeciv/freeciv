@@ -747,11 +747,12 @@ bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name)
 
     return FALSE;
   } else {
-    struct base_type *pbase;
+    struct extra_type *pextra;
 
-    pbase = base_type_by_rule_name(name);
+    pextra = extra_type_by_rule_name(name);
 
-    return (NULL != pbase && tile_has_extra(ptile, base_extra_get(pbase)));
+    return (NULL != pextra && is_extra_caused_by(pextra, EC_BASE)
+            && tile_has_extra(ptile, pextra));
   }
 }
 
