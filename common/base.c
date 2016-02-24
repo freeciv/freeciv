@@ -98,66 +98,6 @@ bool base_has_flag_for_utype(const struct base_type *pbase,
 }
 
 /**************************************************************************
-  Return the (translated) name of the base type.
-  You don't have to free the return pointer.
-**************************************************************************/
-const char *base_name_translation(const struct base_type *pbase)
-{
-  struct extra_type *pextra = base_extra_get(pbase);
-
-  if (pextra == NULL) {
-    return NULL;
-  }
-
-  return extra_name_translation(pextra);
-}
-
-/**************************************************************************
-  Return the (untranslated) rule name of the base type.
-  You don't have to free the return pointer.
-**************************************************************************/
-const char *base_rule_name(const struct base_type *pbase)
-{
-  struct extra_type *pextra = base_extra_get(pbase);
-
-  if (pextra == NULL) {
-    return NULL;
-  }
-
-  return extra_rule_name(pextra);
-}
-
-/**************************************************************************
-  Returns base type matching rule name or NULL if there is no base type
-  with such name.
-**************************************************************************/
-struct base_type *base_type_by_rule_name(const char *name)
-{
-  struct extra_type *pextra = extra_type_by_rule_name(name);
-
-  if (pextra == NULL || !is_extra_caused_by(pextra, EC_BASE)) {
-    return NULL;
-  }
-
-  return extra_base_get(pextra);
-}
-
-/**************************************************************************
-  Returns base type matching the translated name, or NULL if there is no
-  base type with that name.
-**************************************************************************/
-struct base_type *base_type_by_translated_name(const char *name)
-{
-  struct extra_type *pextra = extra_type_by_translated_name(name);
-
-  if (pextra == NULL || !is_extra_caused_by(pextra, EC_BASE)) {
-    return NULL;
-  }
-
-  return extra_base_get(pextra);
-}
-
-/**************************************************************************
   Can unit build base to given tile?
 **************************************************************************/
 bool base_can_be_built(const struct base_type *pbase,
