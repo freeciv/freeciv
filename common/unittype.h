@@ -54,46 +54,46 @@ struct ai_type;
 /* Used in the network protocol. */
 #define SPECENUM_NAME unit_class_flag_id
 #define SPECENUM_VALUE0 UCF_TERRAIN_SPEED
-#define SPECENUM_VALUE0NAME "TerrainSpeed"
+#define SPECENUM_VALUE0NAME N_("?uclassflag:TerrainSpeed")
 #define SPECENUM_VALUE1 UCF_TERRAIN_DEFENSE
-#define SPECENUM_VALUE1NAME "TerrainDefense"
+#define SPECENUM_VALUE1NAME N_("?uclassflag:TerrainDefense")
 #define SPECENUM_VALUE2 UCF_DAMAGE_SLOWS
-#define SPECENUM_VALUE2NAME "DamageSlows"
+#define SPECENUM_VALUE2NAME N_("?uclassflag:DamageSlows")
 /* Can occupy enemy cities */
 #define SPECENUM_VALUE3 UCF_CAN_OCCUPY_CITY
-#define SPECENUM_VALUE3NAME "CanOccupyCity"
+#define SPECENUM_VALUE3NAME N_("?uclassflag:CanOccupyCity")
 #define SPECENUM_VALUE4 UCF_MISSILE
-#define SPECENUM_VALUE4NAME "Missile"
+#define SPECENUM_VALUE4NAME N_("?uclassflag:Missile")
 #define SPECENUM_VALUE5 UCF_BUILD_ANYWHERE
-#define SPECENUM_VALUE5NAME "BuildAnywhere"
+#define SPECENUM_VALUE5NAME N_("?uclassflag:BuildAnywhere")
 #define SPECENUM_VALUE6 UCF_UNREACHABLE
-#define SPECENUM_VALUE6NAME "Unreachable"
+#define SPECENUM_VALUE6NAME N_("?uclassflag:Unreachable")
 /* Can collect ransom from barbarian leader */
 #define SPECENUM_VALUE7 UCF_COLLECT_RANSOM
-#define SPECENUM_VALUE7NAME "CollectRansom"
+#define SPECENUM_VALUE7NAME N_("?uclassflag:CollectRansom")
 /* Is subject to ZOC */
 #define SPECENUM_VALUE8 UCF_ZOC
-#define SPECENUM_VALUE8NAME "ZOC"
+#define SPECENUM_VALUE8NAME N_("?uclassflag:ZOC")
 /* Can fortify on land squares */
 #define SPECENUM_VALUE9 UCF_CAN_FORTIFY
-#define SPECENUM_VALUE9NAME "CanFortify"
+#define SPECENUM_VALUE9NAME N_("?uclassflag:CanFortify")
 #define SPECENUM_VALUE10 UCF_CAN_PILLAGE
-#define SPECENUM_VALUE10NAME "CanPillage"
+#define SPECENUM_VALUE10NAME N_("?uclassflag:CanPillage")
 /* Cities can still work tile when enemy unit on it */
 #define SPECENUM_VALUE11 UCF_DOESNT_OCCUPY_TILE
-#define SPECENUM_VALUE11NAME "DoesntOccupyTile"
+#define SPECENUM_VALUE11NAME N_("?uclassflag:DoesntOccupyTile")
 /* Can attack against units on non-native tiles */
 #define SPECENUM_VALUE12 UCF_ATTACK_NON_NATIVE
-#define SPECENUM_VALUE12NAME "AttackNonNative"
+#define SPECENUM_VALUE12NAME N_("?uclassflag:AttackNonNative")
 /* Can launch attack from non-native tile (to native tile) */
 #define SPECENUM_VALUE13 UCF_ATT_FROM_NON_NATIVE
-#define SPECENUM_VALUE13NAME "AttFromNonNative"
+#define SPECENUM_VALUE13NAME N_("?uclassflag:AttFromNonNative")
 /* Kills citizens upon successful attack against a city */
 #define SPECENUM_VALUE14 UCF_KILLCITIZEN
-#define SPECENUM_VALUE14NAME "KillCitizen"
+#define SPECENUM_VALUE14NAME N_("?uclassflag:KillCitizen")
 /* Can be airlifted */
 #define SPECENUM_VALUE15 UCF_AIRLIFTABLE
-#define SPECENUM_VALUE15NAME "Airliftable"
+#define SPECENUM_VALUE15NAME N_("?uclassflag:Airliftable")
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
 #define SPECENUM_BITVECTOR bv_unit_class_flags

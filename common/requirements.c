@@ -3295,8 +3295,8 @@ const char *universal_name_translation(const struct universal *psource,
     cat_snprintf(buf, bufsz,
                  /* TRANS: Unit class flag */
                  Q_("?ucflag:\"%s\" units"),
-                 /* flag names are never translated */
-                 unit_class_flag_id_name(psource->value.unitclassflag));
+                 unit_class_flag_id_translated_name(
+                   psource->value.unitclassflag));
     return buf;
   case VUT_MINVETERAN:
     /* FIXME */
