@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -3214,7 +3214,7 @@ const char *universal_rule_name(const struct universal *psource)
   insert_requirement() for that).
 *****************************************************************************/
 const char *universal_name_translation(const struct universal *psource,
-				       char *buf, size_t bufsz)
+                                       char *buf, size_t bufsz)
 {
   buf[0] = '\0'; /* to be safe. */
   switch (psource->kind) {
@@ -3398,11 +3398,13 @@ const char *universal_name_translation(const struct universal *psource,
                  /* TRANS: Base flag */
                  Q_("?baseflag:\"%s\" base"),
                  base_flag_id_translated_name(psource->value.baseflag));
+    return buf;
   case VUT_ROADFLAG:
     cat_snprintf(buf, bufsz,
                  /* TRANS: Road flag */
                  Q_("?roadflag:\"%s\" road"),
                  road_flag_id_translated_name(psource->value.roadflag));
+    return buf;
   case VUT_MINYEAR:
     cat_snprintf(buf, bufsz, _("After %s"),
                  textyear(psource->value.minyear));
