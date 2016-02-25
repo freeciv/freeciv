@@ -758,6 +758,14 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile, game.control.name, "about.name");
   secfile_insert_str(sfile, game.control.version, "about.version");
 
+  if (game.ruleset_summary != NULL) {
+    struct entry *mod_entry;
+
+    mod_entry = secfile_insert_str(sfile, game.ruleset_summary,
+                                   "about.summary");
+    entry_str_set_gt_marking(mod_entry, TRUE);
+  }
+
   if (game.ruleset_description != NULL) {
     if (game.server.ruledit.description_file == NULL) {
       secfile_insert_str(sfile, game.ruleset_description,
