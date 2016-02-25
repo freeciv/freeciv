@@ -35,6 +35,9 @@ buildable-win32: gtk3-installer ruledit-installer qt-installer gtk3x-installer
 
 buildable-win64:
 
+# See comments on 'snapshot' target why this wrapping is needed
+buildable: buildable-$(WINARCH)
+
 gtk3-installer:
 	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
 
@@ -50,9 +53,13 @@ qt-installer:
 ruledit-installer:
 	make wrap-ruledit
 
+# Autogen.sh here will make ./win_arch.sh to work.
+# The $(WINACRH) value we got for this run is not good. The new run
+# launched from this target will pick correct value, and can make 'buildable' target
+# to depend on correct arch version.
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="svn" EXTRA_CONFIG="--enable-svnrev" buildable-$(WINARCH)
+	make VERSION_REVTYPE="svn" EXTRA_CONFIG="--enable-svnrev" buildable
 
 
 # build Freeciv
