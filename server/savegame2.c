@@ -2569,6 +2569,7 @@ static void sg_save_script(struct savedata *saving)
 static void sg_load_scenario(struct loaddata *loading)
 {
   const char *buf;
+  bool lake_flood_default;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -2620,6 +2621,18 @@ static void sg_load_scenario(struct loaddata *loading)
   game.scenario.prevent_new_cities
     = secfile_lookup_bool_default(loading->file, FALSE,
                                   "scenario.prevent_new_cities");
+  if (loading->version < 20599) {
+    /* Lake flooding may break some old scenarios where rivers made out of
+     * lake terrains, so play safe there */
+    lake_flood_default = FALSE;
+  } else {
+    /* If lake flooding is a problem for a newer scenario, it could explicitly
+     * disable it. */
+    lake_flood_default = TRUE;
+  }
+  game.scenario.lake_flooding
+    = secfile_lookup_bool_default(loading->file, lake_flood_default,
+                                  "scenario.lake_flooding");
   game.scenario.handmade
     = secfile_lookup_bool_default(loading->file, FALSE,
                                   "scenario.handmade");
@@ -2687,6 +2700,8 @@ static void sg_save_scenario(struct savedata *saving)
     secfile_insert_bool(saving->file, game.scenario.prevent_new_cities,
                         "scenario.prevent_new_cities");
   }
+  secfile_insert_bool(saving->file, game.scenario.lake_flooding,
+                      "scenario.lake_flooding");
   if (game.scenario.handmade) {
     secfile_insert_bool(saving->file, game.scenario.handmade,
                         "scenario.handmade");

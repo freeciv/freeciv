@@ -1869,6 +1869,7 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   BOOL   startpos_nations;
   BOOL   save_random;
   BOOL   prevent_new_cities;
+  BOOL   lake_flooding;
   BOOL   handmade;
   BOOL   allow_ai_type_fallback;
 end
@@ -2125,6 +2126,7 @@ PACKET_EDIT_GAME = 218; cs, handle-per-conn, handle-via-packet
   BOOL scenario_players;
   BOOL startpos_nations;
   BOOL prevent_new_cities;
+  BOOL lake_flooding;
 end
 
 /************** Server Editor Packets **********************/

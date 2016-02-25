@@ -6,6 +6,7 @@ name=_("Tileset Demo")
 save_random=TRUE
 players=TRUE
 startpos_nations=FALSE
+lake_flooding=TRUE
 
 [savefile]
 options=" +version2 specials"

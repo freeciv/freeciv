@@ -1603,6 +1603,11 @@ void handle_edit_game(struct connection *pc,
     changed = TRUE;
   }
 
+  if (packet->lake_flooding != game.scenario.lake_flooding) {
+    game.scenario.lake_flooding = packet->lake_flooding;
+    changed = TRUE;
+  }
+
   if (changed) {
     send_scenario_info(NULL);
     send_game_info(NULL);

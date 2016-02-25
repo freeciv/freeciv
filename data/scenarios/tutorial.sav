@@ -8,6 +8,7 @@ description=_("Play this tutorial scenario to get an introduction to Freeciv.\
 save_random=FALSE
 players=TRUE
 startpos_nations=FALSE
+lake_flooding=TRUE
 handmade=TRUE
 
 [savefile]
