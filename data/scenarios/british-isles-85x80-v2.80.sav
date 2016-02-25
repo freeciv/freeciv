@@ -7,6 +7,7 @@ description=_("Classic-style 85x80 map of the British Isles.")
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE
+lake_flooding=TRUE
 handmade=TRUE
 
 [savefile]

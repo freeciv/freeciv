@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1600,6 +1600,11 @@ void handle_edit_game(struct connection *pc,
 
   if (packet->prevent_new_cities != game.scenario.prevent_new_cities) {
     game.scenario.prevent_new_cities = packet->prevent_new_cities;
+    changed = TRUE;
+  }
+
+  if (packet->lake_flooding != game.scenario.lake_flooding) {
+    game.scenario.lake_flooding = packet->lake_flooding;
     changed = TRUE;
   }
 

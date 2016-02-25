@@ -1801,7 +1801,8 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
   fix_tile_on_terrain_change(ptile, oldter, TRUE);
 
   /* Check for saltwater filling freshwater lake */
-  if (is_ocean(newter) && !terrain_has_flag(newter, TER_FRESHWATER)) {
+  if (game.scenario.lake_flooding
+      && is_ocean(newter) && !terrain_has_flag(newter, TER_FRESHWATER)) {
     adjc_iterate(ptile, atile) {
       if (terrain_has_flag(tile_terrain(atile), TER_FRESHWATER)) {
         struct terrain *aold = tile_terrain(atile);

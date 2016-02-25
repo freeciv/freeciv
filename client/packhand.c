@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2977,6 +2977,7 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
   game.scenario.players = packet->players;
   game.scenario.startpos_nations = packet->startpos_nations;
   game.scenario.prevent_new_cities = packet->prevent_new_cities;
+  game.scenario.lake_flooding = packet->lake_flooding;
   game.scenario.save_random = packet->save_random;
   game.scenario.handmade = packet->handmade;
   game.scenario.allow_ai_type_fallback = packet->allow_ai_type_fallback;

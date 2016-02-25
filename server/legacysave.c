@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -3088,6 +3088,7 @@ static void game_load_internal(struct section_file *file)
 
     /* Old scenarios couldn't prevent cities */
     game.scenario.prevent_new_cities = FALSE;
+    game.scenario.lake_flooding = FALSE;
 
     /* Assume any scenario from pre-editor time handmade with special settings. */
     game.scenario.handmade = TRUE;

@@ -2184,6 +2184,9 @@ static void sg_load_scenario(struct loaddata *loading)
   game.scenario.prevent_new_cities
     = secfile_lookup_bool_default(loading->file, FALSE,
                                   "scenario.prevent_new_cities");
+  game.scenario.lake_flooding
+    = secfile_lookup_bool_default(loading->file, TRUE,
+                                  "scenario.lake_flooding");
   game.scenario.handmade
     = secfile_lookup_bool_default(loading->file, FALSE,
                                   "scenario.handmade");
@@ -2255,6 +2258,8 @@ static void sg_save_scenario(struct savedata *saving)
     secfile_insert_bool(saving->file, game.scenario.prevent_new_cities,
                         "scenario.prevent_new_cities");
   }
+  secfile_insert_bool(saving->file, game.scenario.lake_flooding,
+                      "scenario.lake_flooding");
   if (game.scenario.handmade) {
     secfile_insert_bool(saving->file, game.scenario.handmade,
                         "scenario.handmade");

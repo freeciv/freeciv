@@ -346,6 +346,7 @@ static void game_defaults(void)
   game.scenario.startpos_nations = FALSE;
   game.scenario.handmade = FALSE;
   game.scenario.prevent_new_cities = FALSE;
+  game.scenario.lake_flooding = TRUE;
   game.scenario.save_random = FALSE;
   game.scenario.allow_ai_type_fallback = FALSE;
 
