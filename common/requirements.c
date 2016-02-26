@@ -264,6 +264,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_EXTRAFLAG:
+    source.value.extraflag = extra_flag_id_by_name(value, fc_strcasecmp);
+    if (extra_flag_id_is_valid(source.value.extraflag)) {
+      return source;
+    }
+    break;
   case VUT_MINYEAR:
     source.value.minyear = atoi(value);
     return source;
@@ -448,6 +454,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_ROADFLAG:
     source.value.roadflag = value;
     return source;
+  case VUT_EXTRAFLAG:
+    source.value.extraflag = value;
+    return source;
   case VUT_MINYEAR:
     source.value.minyear = value;
     return source;
@@ -555,6 +564,8 @@ int universal_number(const struct universal *source)
     return source->value.baseflag;
   case VUT_ROADFLAG:
     return source->value.roadflag;
+  case VUT_EXTRAFLAG:
+    return source->value.extraflag;
   case VUT_MINYEAR:
     return source->value.minyear;
   case VUT_TOPO:
@@ -636,6 +647,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_TERRAINCLASS:
     case VUT_BASEFLAG:
     case VUT_ROADFLAG:
+    case VUT_EXTRAFLAG:
     case VUT_TERRAINALTER:
     case VUT_CITYTILE:
     case VUT_MAXTILEUNITS:
@@ -680,6 +692,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_TERRFLAG:
   case VUT_BASEFLAG:
   case VUT_ROADFLAG:
+  case VUT_EXTRAFLAG:
     invalid = (req.range != REQ_RANGE_LOCAL
                && req.range != REQ_RANGE_CADJACENT
 	       && req.range != REQ_RANGE_ADJACENT
@@ -806,6 +819,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_NATIONALITY:
     case VUT_BASEFLAG:
     case VUT_ROADFLAG:
+    case VUT_EXTRAFLAG:
     case VUT_EXTRA:
     case VUT_TECHFLAG:
     case VUT_ACHIEVEMENT:
@@ -1990,6 +2004,80 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
 }
 
 /****************************************************************************
+  Is there an extra with the given flag within range of the target?
+****************************************************************************/
+static enum fc_tristate is_extraflag_in_range(const struct tile *target_tile,
+                                              const struct city *target_city,
+                                              enum req_range range, bool survives,
+                                              enum extra_flag_id extraflag)
+{
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    /* The requirement is filled if the tile has an extra with correct flag. */
+    if (!target_tile) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(tile_has_extra_flag(target_tile, extraflag));
+  case REQ_RANGE_CADJACENT:
+    if (!target_tile) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(tile_has_extra_flag(target_tile, extraflag)
+                            || is_extra_flag_card_near(target_tile, extraflag));
+  case REQ_RANGE_ADJACENT:
+    if (!target_tile) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(tile_has_extra_flag(target_tile, extraflag)
+                            || is_extra_flag_near_tile(target_tile, extraflag));
+  case REQ_RANGE_CITY:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_extra_flag(ptile, extraflag)) {
+        return TRI_YES;
+      }
+    } city_tile_iterate_end;
+
+    return TRI_NO;
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_extra_flag(ptile, extraflag)) {
+        return TRI_YES;
+      }
+    } city_tile_iterate_end;
+
+    trade_routes_iterate(target_city, trade_partner) {
+      city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                        city_tile(trade_partner), ptile) {
+        if (tile_has_extra_flag(ptile, extraflag)) {
+          return TRI_YES;
+        }
+      } city_tile_iterate_end;
+    } trade_routes_iterate_end;
+
+    return TRI_NO;
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+
+  return TRI_MAYBE;
+}
+
+/****************************************************************************
   Is there a terrain which can support the specified infrastructure
   within range of the target?
 ****************************************************************************/
@@ -2734,6 +2822,11 @@ bool is_req_active(const struct player *target_player,
                                  req->range, req->survives,
                                  req->source.value.roadflag);
     break;
+  case VUT_EXTRAFLAG:
+    eval = is_extraflag_in_range(target_tile, target_city,
+                                 req->range, req->survives,
+                                 req->source.value.extraflag);
+    break;
   case VUT_MINYEAR:
     eval = BOOL_TO_TRISTATE(game.info.year >= req->source.value.minyear);
     break;
@@ -2858,6 +2951,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_MINHP:
   case VUT_AGE:
   case VUT_ROADFLAG:
+  case VUT_EXTRAFLAG:
     return FALSE;
   case VUT_TERRAIN:
   case VUT_EXTRA:
@@ -2974,6 +3068,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.baseflag == psource2->value.baseflag;
   case VUT_ROADFLAG:
     return psource1->value.roadflag == psource2->value.roadflag;
+  case VUT_EXTRAFLAG:
+    return psource1->value.extraflag == psource2->value.extraflag;
   case VUT_MINYEAR:
     return psource1->value.minyear == psource2->value.minyear;
   case VUT_TOPO:
@@ -3086,6 +3182,8 @@ const char *universal_rule_name(const struct universal *psource)
     return base_flag_id_name(psource->value.baseflag);
   case VUT_ROADFLAG:
     return road_flag_id_name(psource->value.roadflag);
+  case VUT_EXTRAFLAG:
+    return extra_flag_id_name(psource->value.extraflag);
   case VUT_TERRAINALTER:
     return terrain_alteration_name(psource->value.terrainalter);
   case VUT_COUNT:
@@ -3272,6 +3370,13 @@ const char *universal_name_translation(const struct universal *psource,
                  /* TRANS: Road flag */
                  Q_("?roadflag:\"%s\" road"),
                  road_flag_id_translated_name(psource->value.roadflag));
+    return buf;
+  case VUT_EXTRAFLAG:
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Extra flag */
+                 Q_("?extraflag:\"%s\" extra"),
+                 /* flag names are never translated */
+                 extra_flag_id_name(psource->value.extraflag));
     return buf;
   case VUT_MINYEAR:
     cat_snprintf(buf, bufsz, _("After %s"),
