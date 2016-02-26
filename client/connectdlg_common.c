@@ -247,7 +247,7 @@ bool client_start_server(void)
 #ifdef HAVE_USABLE_FORK
   {
     int argc = 0;
-    const int max_nargs = 18;
+    const int max_nargs = 22;
     char *argv[max_nargs + 1], port_buf[32];
 
     /* Set up the command-line parameters. */
