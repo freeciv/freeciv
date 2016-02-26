@@ -70,7 +70,7 @@ static void script_server_code_free(void);
 static void script_server_code_load(struct section_file *file);
 static void script_server_code_save(struct section_file *file);
 
-static void script_server_signal_create(void);
+static void script_server_signals_create(void);
 static void script_server_functions_define(void);
 
 static void script_server_cmd_reply(struct fc_lua *fcl, enum log_level level,
@@ -283,7 +283,7 @@ bool script_server_init(void)
   script_server_vars_init();
 
   luascript_signal_init(fcl_main);
-  script_server_signal_create();
+  script_server_signals_create();
 
   luascript_func_init(fcl_main);
   script_server_functions_define();
@@ -342,8 +342,10 @@ void script_server_signal_emit(const char *signal_name, int nargs, ...)
 /*****************************************************************************
   Declare any new signal types you need here.
 *****************************************************************************/
-static void script_server_signal_create(void)
+static void script_server_signals_create(void)
 {
+  signal_deprecator *depr;
+
   luascript_signal_create(fcl_main, "turn_started", 2,
                           API_TYPE_INT, API_TYPE_INT);
   luascript_signal_create(fcl_main, "unit_moved", 3,
@@ -357,8 +359,9 @@ static void script_server_signal_create(void)
                           API_TYPE_CITY, API_TYPE_INT, API_TYPE_STRING);
 
   /* Deprecated form of the 'city_size_change' signal for the case of growth. */
-  luascript_signal_create(fcl_main, "city_growth", 2,
-                          API_TYPE_CITY, API_TYPE_INT);
+  depr = luascript_signal_create(fcl_main, "city_growth", 2,
+                                 API_TYPE_CITY, API_TYPE_INT);
+  deprecate_signal(depr, "city_growth", "city_size_change", "2.6");
 
   /* Only includes units built in cities, for now. */
   luascript_signal_create(fcl_main, "unit_built", 2,
@@ -394,8 +397,9 @@ static void script_server_signal_create(void)
 
   /* Deprecated form of the 'city_transferred' signal for the case of
    * conquest. */
-  luascript_signal_create(fcl_main, "city_lost", 3,
-                          API_TYPE_CITY, API_TYPE_PLAYER, API_TYPE_PLAYER);
+  depr = luascript_signal_create(fcl_main, "city_lost", 3,
+                                 API_TYPE_CITY, API_TYPE_PLAYER, API_TYPE_PLAYER);
+  deprecate_signal(depr, "city_lost", "city_transferred", "2.6");
 
   luascript_signal_create(fcl_main, "hut_enter", 1,
                           API_TYPE_UNIT);

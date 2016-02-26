@@ -22,6 +22,8 @@ extern "C" {
 
 struct fc_lua;
 
+typedef char * signal_deprecator;
+
 void luascript_signal_init(struct fc_lua *fcl);
 void luascript_signal_free(struct fc_lua *fcl);
 
@@ -29,11 +31,10 @@ void luascript_signal_emit_valist(struct fc_lua *fcl, const char *signal_name,
                                   int nargs, va_list args);
 void luascript_signal_emit(struct fc_lua *fcl, const char *signal_name,
                            int nargs, ...);
-void luascript_signal_create_valist(struct fc_lua *fcl,
-                                    const char *signal_name, int nargs,
-                                    va_list args);
-void luascript_signal_create(struct fc_lua *fcl, const char *signal_name,
-                             int nargs, ...);
+signal_deprecator *luascript_signal_create(struct fc_lua *fcl, const char *signal_name,
+                                           int nargs, ...);
+void deprecate_signal(signal_deprecator *deprecator, char *signal,
+                      char *replacement, char *deprecated_since);
 void luascript_signal_callback(struct fc_lua *fcl, const char *signal_name,
                                const char *callback_name, bool create);
 bool luascript_signal_callback_defined(struct fc_lua *fcl,
