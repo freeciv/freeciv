@@ -203,6 +203,10 @@ bool extra_conflicting_on_tile(const struct extra_type *pextra,
                                const struct tile *ptile);
 
 bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag);
+bool is_extra_flag_card_near(const struct tile *ptile,
+                             enum extra_flag_id flag);
+bool is_extra_flag_near_tile(const struct tile *ptile,
+                             enum extra_flag_id flag);
 
 bool extra_causes_env_upset(struct extra_type *pextra,
                             enum environment_upset_type upset);

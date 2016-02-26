@@ -666,6 +666,44 @@ bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag)
   return BV_ISSET(pextra->flags, flag);
 }
 
+/****************************************************************************
+  Returns TRUE iff any cardinally adjacent tile contains an extra with
+  the given flag (does not check ptile itself).
+****************************************************************************/
+bool is_extra_flag_card_near(const struct tile *ptile, enum extra_flag_id flag)
+{
+  extra_type_iterate(pextra) {
+    if (extra_has_flag(pextra, flag)) {
+      cardinal_adjc_iterate(ptile, adjc_tile) {
+        if (tile_has_extra(adjc_tile, pextra)) {
+          return TRUE;
+        }
+      } cardinal_adjc_iterate_end;
+    }
+  } extra_type_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Returns TRUE iff any adjacent tile contains an extra with the given flag
+  (does not check ptile itself).
+****************************************************************************/
+bool is_extra_flag_near_tile(const struct tile *ptile, enum extra_flag_id flag)
+{
+  extra_type_iterate(pextra) {
+    if (extra_has_flag(pextra, flag)) {
+      adjc_iterate(ptile, adjc_tile) {
+        if (tile_has_extra(adjc_tile, pextra)) {
+          return TRUE;
+        }
+      } adjc_iterate_end;
+    }
+  } extra_type_iterate_end;
+
+  return FALSE;
+}
+
 /**************************************************************************
   Can two extras coexist in same tile?
 **************************************************************************/

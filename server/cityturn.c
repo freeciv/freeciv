@@ -1807,6 +1807,35 @@ static bool worklist_change_build_target(struct player *pplayer,
                                           API_TYPE_STRING, "have_roadflag");
               }
 	      break;
+            case VUT_EXTRAFLAG:
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "extra with \"%s\" flag is required. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              extra_flag_id_name(preq->source.value.extraflag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_extraflag");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "extra with \"%s\" flag is prohibited. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              extra_flag_id_name(preq->source.value.extraflag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_extraflag");
+              }
+	      break;
 	    case VUT_UTYPE:
 	    case VUT_UTFLAG:
 	    case VUT_UCLASS:

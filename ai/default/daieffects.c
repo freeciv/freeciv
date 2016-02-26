@@ -689,6 +689,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_TERRFLAG:
   case VUT_BASEFLAG:
   case VUT_ROADFLAG:
+  case VUT_EXTRAFLAG:
   case VUT_EXTRA:
     /* TODO: These could be determined by building a map of all
      *       possible futures (e.g. terrain transformations, etc.),

@@ -864,6 +864,21 @@ bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag)
 }
 
 /****************************************************************************
+  Check if tile contains extra providing effect
+****************************************************************************/
+bool tile_has_extra_flag(const struct tile *ptile, enum extra_flag_id flag)
+{
+  extra_type_iterate(pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && extra_has_flag(pextra, flag)) {
+      return TRUE;
+    }
+  } extra_type_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Returns TRUE if the given tile has a extra conflicting with the given one.
 ****************************************************************************/
 bool tile_has_conflicting_extra(const struct tile *ptile,

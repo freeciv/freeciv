@@ -253,6 +253,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_TERRFLAG:
      case VUT_BASEFLAG:
      case VUT_ROADFLAG:
+     case VUT_EXTRAFLAG:
      case VUT_NATIONALITY:
      case VUT_MINCULTURE:
      case VUT_ACHIEVEMENT:

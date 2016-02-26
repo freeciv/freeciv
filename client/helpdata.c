@@ -2480,6 +2480,95 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_EXTRAFLAG:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Requires an extra with the \"%s\" flag on the tile.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Prevented by an extra with the \"%s\" flag on the "
+                       "tile.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Requires an extra with the \"%s\" flag on the "
+                       "tile or a cardinally adjacent tile.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Prevented by an extra with the \"%s\" flag on "
+                       "the tile or any cardinally adjacent tile.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      }
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Requires an extra with the \"%s\" flag on the "
+                       "tile or an adjacent tile.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Prevented by an extra with the \"%s\" flag on "
+                       "the tile or any adjacent tile.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      }
+      return TRUE;
+    case REQ_RANGE_CITY:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Requires an extra with the \"%s\" flag on a tile "
+                       "within the city radius.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Prevented by an extra with the \"%s\" flag on any tile "
+                       "within the city radius.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      }
+      return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Requires an extra with the \"%s\" flag on a tile "
+                       "within the city radius or the city radius of a "
+                       "trade partner.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Prevented by an extra with the \"%s\" flag on any tile "
+                       "within the city radius or the city radius of a "
+                       "trade partner.\n"),
+                     extra_flag_id_translated_name(preq->source.value.extraflag));
+      }
+      return TRUE;
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_MINYEAR:
     if (preq->range != REQ_RANGE_WORLD) {
       break;
