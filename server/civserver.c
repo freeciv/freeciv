@@ -358,13 +358,13 @@ int main(int argc, char *argv[])
 #ifdef FREECIV_DEBUG
     cmdhelp_add(help, "d",
                 /* TRANS: "debug" is exactly what user must type, do not translate. */
-                _("debug NUM"),
+                _("debug LEVEL"),
                 _("Set debug log level (%d to %d, or %d:file1,min,max:...)"),
                 LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
 #else  /* FREECIV_DEBUG */
     cmdhelp_add(help, "d",
                 /* TRANS: "debug" is exactly what user must type, do not translate. */
-                _("debug NUM"),
+                _("debug LEVEL"),
                 _("Set debug log level (%d to %d)"), LOG_FATAL, LOG_VERBOSE);
 #endif /* FREECIV_DEBUG */
 #ifndef FREECIV_NDEBUG

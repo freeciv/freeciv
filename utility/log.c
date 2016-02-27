@@ -64,6 +64,10 @@ static int log_num_files = 0;
 static struct log_fileinfo *log_files = NULL;
 #endif /* DEBUG */
 
+static char *log_level_names[] = {
+  "Fatal", "Error", "Normal", "Verbose", "Debug", NULL
+};
+
 /* A helper variable to indicate that there is no log message. The '%s' is
  * added to use it as format string as well as the argument. */
 const char *nologmsg = "nologmsg:%s";
@@ -85,24 +89,37 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   const char *c;
   int n = 0;                    /* number of filenames */
   int level;
+  int ln;
 #ifdef DEBUG
   const char *tok;
   int i;
   char *dup;
   bool ret = TRUE;
+  int first_len = -1;
 #endif /* DEBUG */
 
   c = level_str;
   n = 0;
   while ((c = strchr(c, ':'))) {
+    if (first_len < 0) {
+      first_len = c - level_str;
+    }
     c++;
     n++;
   }
   if (n == 0) {
     /* Global log level. */
     if (!str_to_int(level_str, &level)) {
-      fc_fprintf(stderr, _("Bad log level \"%s\".\n"), level_str);
-      return FALSE;
+      level = -1;
+      for (ln = 0; log_level_names[ln] != NULL && level < 0; ln++) {
+        if (!fc_strncasecmp(level_str, log_level_names[ln], strlen(level_str))) {
+          level = ln;
+        }
+      }
+      if (level < 0) {
+        fc_fprintf(stderr, _("Bad log level \"%s\".\n"), level_str);
+        return FALSE;
+      }
     }
     if (level >= LOG_FATAL && level <= max_level) {
       if (NULL != ret_level) {
@@ -124,17 +141,27 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
 
 #ifdef DEBUG
   c = level_str;
-  level = c[0] - '0';
-  if (c[1] == ':') {
-    if (level < LOG_FATAL || level > max_level) {
-      fc_fprintf(stderr, _("Bad log level %d in \"%s\".\n"),
-                 level, level_str);
+  level = -1;
+  if (first_len > 0) {
+    for (ln = 0; log_level_names[ln] != NULL && level < 0; ln++) {
+      if (!fc_strncasecmp(level_str, log_level_names[ln], first_len)) {
+        level = ln;
+      }
+    }
+  }
+  if (level < 0) {
+    level = c[0] - '0';
+    if (c[1] == ':') {
+      if (level < LOG_FATAL || level > max_level) {
+        fc_fprintf(stderr, _("Bad log level %c in \"%s\".\n"),
+                   c[0], level_str);
+        return FALSE;
+      }
+    } else {
+      fc_fprintf(stderr, _("Badly formed log level argument \"%s\".\n"),
+                 level_str);
       return FALSE;
     }
-  } else {
-    fc_fprintf(stderr, _("Badly formed log level argument \"%s\".\n"),
-               level_str);
-    return FALSE;
   }
   i = log_num_files;
   log_num_files += n;
