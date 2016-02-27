@@ -664,8 +664,6 @@ Tundra are broad, cold regions, fit for some agriculture and little\
 
 [resource_gold]
 extra       = "Gold"
-graphic     = "ts.gold"
-graphic_alt = "-"
 identifier  = "H"
 trade       = 6
 # mountains.
