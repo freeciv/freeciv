@@ -90,12 +90,12 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   int n = 0;                    /* number of filenames */
   int level;
   int ln;
+  int first_len = -1;
 #ifdef DEBUG
   const char *tok;
   int i;
   char *dup;
   bool ret = TRUE;
-  int first_len = -1;
 #endif /* DEBUG */
 
   c = level_str;
