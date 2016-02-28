@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,29 +21,34 @@ extern "C" {
 /* utility */
 #include "log.h"
 
+typedef void (*deprecation_warn_callback)(const char *msg);
+
 #define LOG_DEPRECATION LOG_NORMAL
 
+void deprecation_warn_cb_set(deprecation_warn_callback new_cb);
 void deprecation_warnings_enable(void);
 bool are_deprecation_warnings_enabled(void);
+
+void do_log_deprecation(const char *format, ...);
 
 #define log_deprecation(message, ...) \
   do { \
     if (are_deprecation_warnings_enabled()) { \
-      log_base(LOG_DEPRECATION, message, ## __VA_ARGS__); \
+      do_log_deprecation(message, ## __VA_ARGS__); \
     } \
   } while (FALSE);
 
 #define log_deprecation_alt(altlvl, message, ...) \
   do { \
     if (are_deprecation_warnings_enabled()) { \
-      log_base(LOG_DEPRECATION, message, ## __VA_ARGS__); \
+      do_log_deprecation(message, ## __VA_ARGS__); \
     } else { \
       log_base(altlvl, message, ## __VA_ARGS__); \
     } \
   } while (FALSE);
 
 #define log_deprecation_always(message, ...) \
-  log_base(LOG_DEPRECATION, message, ## __VA_ARGS__);
+  do_log_deprecation(message, ## __VA_ARGS__);
 
 #ifdef __cplusplus
 }

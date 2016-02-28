@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ bool log_do_output_for_level_at_location(enum log_level level,
 
 void vdo_log(const char *file, const char *function, int line,
              bool print_from_where, enum log_level level,
-             const char *message, va_list args);
+             char *buf, int buflen, const char *message, va_list args);
 void do_log(const char *file, const char *function, int line,
             bool print_from_where, enum log_level level,
             const char *message, ...)
@@ -120,8 +120,9 @@ void do_log(const char *file, const char *function, int line,
 
 #define log_va_list(level, msg, args)                                       \
   if (log_do_output_for_level(level)) {                                     \
+    char __buf_[1024];                                                      \
     vdo_log(__FILE__, __FUNCTION__, __FC_LINE__, FALSE,                     \
-            level, msg, args);                                              \
+            level, __buf_, sizeof(__buf_), msg, args);                      \
   }
 
 /* Used by game debug command */

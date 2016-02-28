@@ -201,9 +201,10 @@ void ruleset_error_real(const char *file, const char *function,
                         const char *format, ...)
 {
   va_list args;
+  char buf[1024];
 
   va_start(args, format);
-  vdo_log(file, function, line, FALSE, level, format, args);
+  vdo_log(file, function, line, FALSE, level, buf, sizeof(buf), format, args);
   va_end(args);
 
   if (LOG_FATAL >= level) {

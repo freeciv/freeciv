@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 
 #include "deprecations.h"
 
+static deprecation_warn_callback depr_cb = NULL;
+
 static bool depr_warns_enabled = FALSE;
 
 /************************************************************************
@@ -39,4 +41,29 @@ void deprecation_warnings_enable(void)
 bool are_deprecation_warnings_enabled(void)
 {
   return depr_warns_enabled;
+}
+
+/************************************************************************
+  Set callback to call when deprecation warnings are issued
+************************************************************************/
+void deprecation_warn_cb_set(deprecation_warn_callback new_cb)
+{
+  depr_cb = new_cb;
+}
+
+/************************************************************************
+  Log the deprecation warning
+************************************************************************/
+void do_log_deprecation(const char *format, ...)
+{
+  va_list args;
+  char buf[1024];
+
+  va_start(args, format);
+  vdo_log(__FILE__, __FUNCTION__, __FC_LINE__, FALSE, LOG_DEPRECATION,
+          buf, sizeof(buf), format, args);
+  if (depr_cb != NULL) {
+    depr_cb(buf);
+  }
+  va_end(args);
 }

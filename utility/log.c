@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -385,23 +385,22 @@ static void log_write(FILE *fs, enum log_level level, bool print_from_where,
 *****************************************************************************/
 void vdo_log(const char *file, const char *function, int line,
              bool print_from_where, enum log_level level,
-             const char *message, va_list args)
+             char *buf, int buflen, const char *message, va_list args)
 {
   char buf_where[MAX_LEN_LOG_LINE];
-  char buf_msg[MAX_LEN_LOG_LINE];
 
   /* There used to be check against recursive logging here, but
    * the way it worked prevented any kind of simultaneous logging,
    * not just recursive. Multiple threads should be able to log
    * simultaneously. */
 
-  fc_vsnprintf(buf_msg, sizeof(buf_msg), message, args);
+  fc_vsnprintf(buf, buflen, message, args);
   fc_snprintf(buf_where, sizeof(buf_where), "in %s() [%s::%d]: ",
               function, file, line);
 
   /* In the default configuration log_pre_callback is equal to log_real(). */
   if (log_pre_callback) {
-    log_pre_callback(level, print_from_where, buf_where, buf_msg);
+    log_pre_callback(level, print_from_where, buf_where, buf);
   }
 }
 
@@ -498,10 +497,12 @@ void do_log(const char *file, const char *function, int line,
             bool print_from_where, enum log_level level,
             const char *message, ...)
 {
+  char buf[MAX_LEN_LOG_LINE];
   va_list args;
 
   va_start(args, message);
-  vdo_log(file, function, line, print_from_where, level, message, args);
+  vdo_log(file, function, line, print_from_where, level,
+          buf, MAX_LEN_LOG_LINE, message, args);
   va_end(args);
 }
 
@@ -531,10 +532,12 @@ void fc_assert_fail(const char *file, const char *function, int line,
 
   if (NULL != message && NOLOGMSG != message) {
     /* Additional message. */
+    char buf[MAX_LEN_LOG_LINE];
     va_list args;
 
     va_start(args, message);
-    vdo_log(file, function, line, FALSE, level, message, args);
+    vdo_log(file, function, line, FALSE, level, buf, MAX_LEN_LOG_LINE,
+            message, args);
     va_end(args);
   }
 
