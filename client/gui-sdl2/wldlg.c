@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1202,7 +1202,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   /* work list */
 
   /*
-     pWidget->data filed will contains postion of target in worklist all
+     pWidget->data filed will contains position of target in worklist all
      action on worklist (swap/romove/add) must correct this fields
 
      Production Widget Label in worklist Widget list

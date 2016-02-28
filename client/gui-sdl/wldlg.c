@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1188,22 +1188,21 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   pBuf->action = popdown_worklist_editor_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
-    
+
   add_to_gui_list(ID_BUTTON, pBuf);
   /* --------------------------- */
   /* work list */
-  
+
   /*
-     pWidget->data filed will contains postion of target in worklist all
+     pWidget->data filed will contains position of target in worklist all
      action on worklist (swap/romove/add) must correct this fields
-     
+
      Production Widget Label in worklist Widget list
      will have this field NULL
   */
-  
+
   pEditor->pWork = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  
   pEditor->pWork->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pEditor->pWork->pScroll->count = 0;
   pEditor->pWork->pScroll->active = MAX_LEN_WORKLIST;
