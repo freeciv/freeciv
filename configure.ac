@@ -758,9 +758,10 @@ esac
 
 dnl Autoconf provides path separator for build system.
 dnl Use that instead of our own guess in case of native build.
-if test x$build = x$host ; then
-  HOST_PATH_SEPARATOR=$PATH_SEPARATOR
-fi
+dnl Actually; Don't, since at least with autoconf-2.69 msys2 builds got wrong separator this way
+dnl if test x$build = x$host ; then
+dnl   HOST_PATH_SEPARATOR=$PATH_SEPARATOR
+dnl fi
 
 dnl note this has to match the path installed by translations/freeciv/Makefile
 if test x"$MINGW" != "xyes"; then
