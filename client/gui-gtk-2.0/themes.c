@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 
 /* Array of default files. First num_default_files positions
  * are files returned by gtk_rc_get_default_files() on client startup.
- * There are two extra postions allocated in the array - one for
+ * There are two extra positions allocated in the array - one for
  * specific Freeciv file and one for NULL. */
 static char** default_files;
 static int num_default_files;

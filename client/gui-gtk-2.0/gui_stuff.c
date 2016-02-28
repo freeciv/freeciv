@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ void gtk_expose_now(GtkWidget *w)
 }
 
 /**************************************************************************
-  Set widget postion relative to reference widget
+  Set widget position relative to reference widget
 **************************************************************************/
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
 {
