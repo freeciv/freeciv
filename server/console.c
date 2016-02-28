@@ -24,6 +24,7 @@
 #endif
 
 /* utility */
+#include "deprecations.h"
 #include "fcbacktrace.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -133,6 +134,14 @@ static const char *log_prefix(void)
 #endif /* DEBUG */
 
 /************************************************************************
+  Deprecation warning callback to send event to clients.
+************************************************************************/
+static void depr_warn_callback(const char *msg)
+{
+  notify_conn(NULL, NULL, E_DEPRECATION_WARNING, ftc_warning, "%s", msg);
+}
+
+/************************************************************************
   Initialize logging via console.
 ************************************************************************/
 void con_log_init(const char *log_filename, enum log_level level,
@@ -146,6 +155,7 @@ void con_log_init(const char *log_filename, enum log_level level,
            fatal_assertions);
 #endif /* DEBUG */
   backtrace_init();
+  deprecation_warn_cb_set(depr_warn_callback);
 }
 
 /************************************************************************
