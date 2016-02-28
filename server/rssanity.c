@@ -596,6 +596,15 @@ bool sanity_check_ruleset_data(void)
                     "Barbarian nation %s has init_buildings set but will "
                     "never see them", nation_rule_name(pnation));
     }
+
+    if (pnation->init_government == game.government_during_revolution) {
+      ruleset_error(LOG_ERROR,
+                    "The government form %s reserved for revolution handling has been set as "
+                    "initial government for %s.",
+                    government_rule_name(game.government_during_revolution),
+                    nation_rule_name(pnation));
+      ok = FALSE;
+    }
   } nations_iterate_end;
 
   /* Check against unit upgrade loops */
