@@ -563,6 +563,7 @@ bool sanity_check_ruleset_data(void)
   bool ok = TRUE; /* Store failures to variable instead of returning
                    * immediately so all errors get printed, not just first
                    * one. */
+  bool default_gov_failed = FALSE;
 
   if (!sanity_check_metadata()) {
     ok = FALSE;
@@ -643,6 +644,15 @@ bool sanity_check_ruleset_data(void)
     }
   } advance_iterate_end;
 
+  if (game.server.default_government == game.government_during_revolution) {
+    ruleset_error(LOG_ERROR,
+                  "The government form %s reserved for revolution handling has been set as "
+                  "default_government.",
+                  government_rule_name(game.government_during_revolution));
+    ok = FALSE;
+    default_gov_failed = TRUE;
+  }
+
   /* Check that all players can have their initial techs */
   nations_iterate(pnation) {
     int techi;
@@ -702,6 +712,15 @@ bool sanity_check_ruleset_data(void)
       ruleset_error(LOG_ERROR,
                     "Barbarian nation %s has init_buildings set but will "
                     "never see them", nation_rule_name(pnation));
+    }
+
+    if (!default_gov_failed && pnation->init_government == game.government_during_revolution) {
+      ruleset_error(LOG_ERROR,
+                    "The government form %s reserved for revolution handling has been set as "
+                    "initial government for %s.",
+                    government_rule_name(game.government_during_revolution),
+                    nation_rule_name(pnation));
+      ok = FALSE;
     }
   } nations_iterate_end;
 

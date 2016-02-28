@@ -97,6 +97,13 @@ units.ruleset:
       - "BarbarianBoat"    (Must be able to move at sea)
       - "BarbarianSea"
 
+nations.ruleset
+
+  Restrictions:
+
+    - Government used during revolution can't be used as default_government
+      or init_government for any nation
+
 ----------------------------------------------------------------------
 Implementation details:
 -----------------------
