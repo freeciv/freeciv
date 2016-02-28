@@ -1616,6 +1616,18 @@ void unit_type_flags_free(void)
   }
 }
 
+/***************************************************************
+  Frees the memory associated with all unit class flags
+***************************************************************/
+void unit_class_flags_free(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_UCLASS_FLAGS; i++) {
+    user_flag_free(&user_class_flags[i]);
+  }
+}
+
 /**************************************************************************
   Return the first item of unit_classes.
 **************************************************************************/

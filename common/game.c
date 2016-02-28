@@ -575,6 +575,7 @@ void game_ruleset_free(void)
   nations_free();
   unit_types_free();
   unit_type_flags_free();
+  unit_class_flags_free();
   role_unit_precalcs_free();
   improvements_free();
   goods_free();

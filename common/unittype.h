@@ -724,6 +724,7 @@ bool utype_is_cityfounder(struct unit_type *utype);
 void unit_types_init(void);
 void unit_types_free(void);
 void unit_type_flags_free(void);
+void unit_class_flags_free(void);
 
 struct unit_type *unit_type_array_first(void);
 const struct unit_type *unit_type_array_last(void);
