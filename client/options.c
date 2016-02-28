@@ -5664,7 +5664,7 @@ void options_load(void)
 
   name = get_last_option_file_name(&allow_digital_boolean);
   if (!name) {
-    log_normal(_("Didn't find the option file."));
+    log_normal(_("Didn't find the option file. Creating a new one."));
     client_option_adjust_defaults();
     options_fully_initialized = TRUE;
     create_default_cma_presets();
