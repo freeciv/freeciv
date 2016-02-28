@@ -5854,6 +5854,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           "actions.ui_paradrop_unit");
       sz_strlcpy(action_by_number(ACTION_PARADROP)->ui_name,
                  text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Airlift to City (100% chance of success). */
+          N_("%sAirlift to City%s"),
+          "actions.ui_airlift_unit");
+      sz_strlcpy(action_by_number(ACTION_AIRLIFT)->ui_name,
+                 text);
     }
 
     if (ok) {

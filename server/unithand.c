@@ -170,29 +170,6 @@ static bool do_unit_upgrade(struct player *pplayer,
                             enum action_requester ordered_by);
 
 /**************************************************************************
-  Handle airlift request.
-**************************************************************************/
-void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
-{
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
-  struct city *pcity = game_city_by_number(city_id);
-
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_airlift() invalid unit %d", unit_id);
-    return;
-  }
-
-  if (NULL == pcity) {
-    /* Probably lost. */
-    log_verbose("handle_unit_airlift() invalid city %d", city_id);
-    return;
-  }
-
-  (void) do_airline(punit, pcity);
-}
-
-/**************************************************************************
  Upgrade all units of a given type.
 **************************************************************************/
 void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
@@ -746,7 +723,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTING, TRUE)) {
     expl->kind = ANEK_IS_TRANSPORTING;
-  } else if (action_id == ACTION_PARADROP
+  } else if ((action_id == ACTION_PARADROP || action_id == ACTION_AIRLIFT)
              && 0 < get_transporter_occupancy(punit)) {
     /* Hard action requirement. */
     expl->kind = ANEK_IS_TRANSPORTING;
@@ -1916,6 +1893,20 @@ bool unit_perform_action(struct player *pplayer,
 
         return do_unit_upgrade(pplayer, actor_unit, pcity,
                                requester);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
+      }
+    }
+    break;
+  case ACTION_AIRLIFT:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        return do_airline(actor_unit, pcity);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -4217,6 +4208,7 @@ void handle_unit_orders(struct player *pplayer,
         /* No validation required. */
         break;
       case ACTION_PARADROP:
+      case ACTION_AIRLIFT:
         /* Can't specify target tile in the current order packet format.
          * Should have been caught above. */
         log_error("Action %s isn't supported in orders. "

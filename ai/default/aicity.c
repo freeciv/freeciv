@@ -1190,6 +1190,7 @@ static int action_target_neg_util(int action_id,
   case ACTION_RECYCLE_UNIT:
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
+  case ACTION_AIRLIFT:
     /* TODO: Individual and well balanced values */
     return -1;
 

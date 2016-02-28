@@ -205,7 +205,8 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
     }
     UNIT_LOG(LOG_DEBUG, transported, "airlifted to defend %s",
              city_name(most_needed));
-    do_airline(transported, most_needed);
+    handle_unit_do_action(pplayer, transported->id, most_needed->id,
+                          0, "", ACTION_AIRLIFT);
   } while (TRUE);
 }
 

@@ -76,7 +76,7 @@ enum unit_airlift_result
     return AR_NO_MOVES;
   }
 
-  if (!uclass_has_flag(unit_class_get(punit), UCF_AIRLIFTABLE)) {
+  if (!unit_can_do_action(punit, ACTION_AIRLIFT)) {
     return AR_WRONG_UNITTYPE;
   }
 

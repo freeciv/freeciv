@@ -198,6 +198,10 @@ void actions_init(void)
       action_new(ACTION_PARADROP, ATK_TILE,
                  FALSE, FALSE, TRUE,
                  0, UNIT_MAX_PARADROP_RANGE);
+  actions[ACTION_AIRLIFT] =
+      action_new(ACTION_AIRLIFT, ATK_CITY,
+                 FALSE, FALSE, TRUE,
+                 1, MAP_MAX_LINEAR_SIZE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -1029,6 +1033,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
   case ACTION_PARADROP:
+  case ACTION_AIRLIFT:
     /* No hard unit type requirements. */
     break;
 
@@ -1405,6 +1410,28 @@ is_action_possible(const enum gen_action wanted_action,
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows if he knows the target tile. */
     if (!plr_knows_tile(actor_player, target_tile)) {
+      return TRI_NO;
+    }
+  }
+
+  if (wanted_action == ACTION_AIRLIFT) {
+    /* Reason: Keep the old rules. */
+    /* Info leak: same as test_unit_can_airlift_to() */
+    switch (test_unit_can_airlift_to(omniscient ? NULL : actor_player,
+                                     actor_unit, target_city)) {
+    case AR_OK:
+      return TRI_YES;
+    case AR_OK_SRC_UNKNOWN:
+    case AR_OK_DST_UNKNOWN:
+      return TRI_MAYBE;
+    case AR_NO_MOVES:
+    case AR_WRONG_UNITTYPE:
+    case AR_OCCUPIED:
+    case AR_NOT_IN_CITY:
+    case AR_BAD_SRC_CITY:
+    case AR_BAD_DST_CITY:
+    case AR_SRC_NO_FLIGHTS:
+    case AR_DST_NO_FLIGHTS:
       return TRI_NO;
     }
   }
@@ -2137,6 +2164,9 @@ action_prob(const enum gen_action wanted_action,
     chance = 200;
     break;
   case ACTION_PARADROP:
+    /* TODO */
+    break;
+  case ACTION_AIRLIFT:
     /* TODO */
     break;
   case ACTION_COUNT:

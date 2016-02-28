@@ -221,7 +221,7 @@ static void count_my_units(struct player *pplayer)
     if (unit_can_do_action(punit, ACTION_PARADROP)) {
       adv->stats.units.paratroopers++;
     }
-    if (uclass_has_flag(pclass, UCF_AIRLIFTABLE)) {
+    if (utype_can_do_action(punit->utype, ACTION_AIRLIFT)) {
       adv->stats.units.airliftable++;
     }
     if (can_upgrade_unittype(pplayer, unit_type_get(punit)) >= 0) {
@@ -881,6 +881,7 @@ void adv_best_government(struct player *pplayer)
           case ACTION_RECYCLE_UNIT:
           case ACTION_HOME_CITY:
           case ACTION_UPGRADE_UNIT:
+          case ACTION_AIRLIFT:
             /* Could be good. An embassy gives permanent contact. A trade
              * route gives gold per turn. Join city gives population. Help
              * wonder gives shields. */

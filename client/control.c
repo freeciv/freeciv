@@ -1420,7 +1420,7 @@ struct unit *request_unit_unload_all(struct unit *punit)
 **************************************************************************/
 void request_unit_airlift(struct unit *punit, struct city *pcity)
 {
-  dsend_packet_unit_airlift(&client.conn, punit->id, pcity->id);
+  request_do_action(ACTION_AIRLIFT, punit->id, pcity->id, 0, "");
 }
 
 /**************************************************************************

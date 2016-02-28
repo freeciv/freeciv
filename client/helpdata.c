@@ -3737,10 +3737,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("  * Can launch attack from non-native tiles.\n"));
   }
-  if (uclass_has_flag(pclass, UCF_AIRLIFTABLE)) {
-    CATLSTR(buf, bufsz,
-            _("  * Can be airlifted from a suitable city.\n"));
-  }
   for (flagid = UCF_USER_FLAG_1; flagid <= UCF_LAST_USER_FLAG; flagid++) {
     if (uclass_has_flag(pclass, flagid)) {
       const char *helptxt = unit_class_flag_helptxt(flagid);

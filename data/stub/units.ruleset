@@ -100,7 +100,6 @@ veteran_move_bonus = 0
 ;                       "Marines"
 ; "KillCitizen"       = Upon successful attack against a city unit kills one citizen.
 ;                       There's server setting, as well as effects, to disable this.
-; "Airliftable"       = Unit may be airlifted
 ;
 ; */ <-- avoid gettext warnings 	 ; */ <-- avoid gettext warnings
 

@@ -264,6 +264,18 @@ Actions done by a unit against a city
  * target player must be able to build the unit upgraded to
  * target city must be domestic.
 
+"Airlift Unit" - Airlift actor unit to target city.
+ * UI name can be set using ui_airlift_unit
+ * the actor unit must have movement left
+ * the actor unit isn't transporting another unit
+ * the actor unit isn't inside the target city
+ * the actor unit is in a city
+   - that is domestic or, if airliftingstyle permits it, allied
+   - that has Airlift (see the Airlift effect and the airliftingstyle
+     setting)
+ * the target city is domestic or, if airliftingstyle permits it, allied
+ * the target city has Airlift
+
 Actions done by a unit against another unit
 ===========================================
 "Sabotage Unit" - Halve the target unit's hit points.

@@ -117,6 +117,25 @@ static int first_free_unit_type_user_flag(void)
 }
 
 /**************************************************************************
+  Find and return the first unused unit class user flag. If all unit class
+  user flags are taken MAX_NUM_USER_UCLASS_FLAGS is returned.
+**************************************************************************/
+static int first_free_unit_class_user_flag(void)
+{
+  int flag;
+
+  /* Find the first unused user defined unit type flag. */
+  for (flag = 0; flag < MAX_NUM_USER_UCLASS_FLAGS; flag++) {
+    if (unit_class_flag_id_name_cb(flag + UCF_USER_FLAG_1) == NULL) {
+      return flag;
+    }
+  }
+
+  /* All unit type user flags are taken. */
+  return MAX_NUM_USER_UCLASS_FLAGS;
+}
+
+/**************************************************************************
   Do compatibility things with names before they are referred to. Runs
   after names are loaded from the ruleset but before the ruleset objects
   that may refer to them are loaded.
@@ -146,8 +165,23 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("Infra"), N_("Can build infrastructure.") },
       { N_("Paratroopers"), N_("Can paradrop.") }
     };
-    int first_free = first_free_unit_type_user_flag() + UTYF_USER_FLAG_1;
+
+    /* Some unit class flags moved to the ruleset between 2.6 and 3.0.
+     * Add them back as user flags.
+     * XXX: ruleset might not need all of these, and may have enough
+     * flags of its own that these additional ones prevent conversion. */
+    const struct {
+      const char *name;
+      const char *helptxt;
+    } new_class_flags_30[] = {
+      { N_("Airliftable"), N_("Can be airlifted from a suitable city.") },
+    };
+
+    int first_free;
     int i;
+
+    /* Unit type flags. */
+    first_free = first_free_unit_type_user_flag() + UTYF_USER_FLAG_1;
 
     for (i = 0; i < ARRAY_SIZE(new_flags_30); i++) {
       if (UTYF_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS <= first_free + i) {
@@ -170,6 +204,32 @@ bool rscompat_names(struct rscompat_info *info)
       set_user_unit_type_flag_name(first_free + i,
                                    new_flags_30[i].name,
                                    new_flags_30[i].helptxt);
+    }
+
+    /* Unit type class flags. */
+    first_free = first_free_unit_class_user_flag() + UCF_USER_FLAG_1;
+
+    for (i = 0; i < ARRAY_SIZE(new_class_flags_30); i++) {
+      if (UCF_USER_FLAG_1 + MAX_NUM_USER_UCLASS_FLAGS <= first_free + i) {
+        /* Can't add the user unit type class flags. */
+        ruleset_error(LOG_ERROR,
+                      "Can't upgrade the ruleset. Not enough free unit "
+                      "type class user flags to add user flags for the "
+                      "unit type class flags that used to be hardcoded.");
+        return FALSE;
+      }
+      /* Shouldn't be possible for valid old ruleset to have flag names that
+       * clash with these ones */
+      if (unit_class_flag_id_by_name(new_class_flags_30[i].name, fc_strcasecmp)
+          != unit_class_flag_id_invalid()) {
+        ruleset_error(LOG_ERROR,
+                      "Ruleset had illegal user unit class flag '%s'",
+                      new_class_flags_30[i].name);
+        return FALSE;
+      }
+      set_user_unit_class_flag_name(first_free + i,
+                                    new_class_flags_30[i].name,
+                                    new_class_flags_30[i].helptxt);
     }
   }
 
@@ -491,6 +551,19 @@ void rscompat_postprocess(struct rscompat_info *info)
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, TRUE, "Paratroopers"));
+
+    action_enabler_add(enabler);
+
+    /* Airlift is now action enabler controlled. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_AIRLIFT;
+
+    /* The actor unit must have the unit class flag Airliftable. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitClassFlag", "Local", FALSE,
+                                           TRUE, TRUE, "Airliftable"));
 
     action_enabler_add(enabler);
 
