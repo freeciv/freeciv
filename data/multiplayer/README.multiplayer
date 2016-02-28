@@ -43,7 +43,11 @@ discovered by the owning player (rather than by any player).
 
 Unless otherwise noted, for these small wonders, all wonder effects
 that affect all of a player's cities have been changed to affect only
-cities on the same continent as the city with the small wonder. 
+cities on the same continent as the city with the small wonder.
+
+The Palace is still the only Small Wonder that can be moved around
+by rebuilding it to a new city. Other Small Wonders can be rebuilt
+only if you have lost them with the city where they were.
 
 For the Colossus, Copernicus' Observatory, Great Wall, Hoover Dam,
 King Richard's Crusade, Oracle, Shakespeare's Theater, Statue of

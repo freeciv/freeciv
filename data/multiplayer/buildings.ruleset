@@ -639,6 +639,10 @@ The cost to enemy Diplomats and Spies of inciting a revolt in a\
 Take good care of your capital, as its loss may result in your\
  empire plunging into civil war. Losing your current palace also\
  results in losing whatever spaceship you might have.\
+"), _("\
+If the city with palace is in dangerous location, or making some\
+ more central city your capital would give better corruption distribution,\
+ you can move Palace by rebuilding it to an other city.\
 "),
 ; /* xgettext:no-c-format */
 _("\
@@ -1096,8 +1100,9 @@ Together with a Library, a University increases the science\
 name		= _("Apollo Program")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Space Flight", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Space Flight", "Player", TRUE
+      "Building", "Apollo Program", "Player", FALSE
     }
 graphic	= "b.apollo_program"
 graphic_alt	= "-"
@@ -1119,8 +1124,9 @@ Allows you to start building spaceship parts in cities\
 name		= _("A.Smith's Trading Co.")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Economics", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Economics", "Player", TRUE
+      "Building", "A.Smith's Trading Co.", "Player", FALSE
     }
 graphic	= "b.asmiths_trading_co"
 graphic_alt	= "-"
@@ -1141,8 +1147,9 @@ City improvements which would normally have an upkeep of 1 are free\
 name		= _("Colossus")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Bronze Working", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Bronze Working", "Player", TRUE
+      "Building", "Colossus", "Player", FALSE
     }
 graphic	= "b.colossus"
 graphic_alt	= "-"
@@ -1164,8 +1171,9 @@ Each tile around the city where this wonder is built that is already\
 name		= _("Copernicus' Observatory")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Astronomy", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Astronomy", "Player", TRUE
+      "Building", "Copernicus' Observatory", "Player", FALSE
     }
 graphic	= "b.copernicus_observatory"
 graphic_alt	= "-"
@@ -1212,8 +1220,9 @@ This stunning technological achievement makes two content citizens\
 name		= _("Darwin's Voyage")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Railroad", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Railroad", "Player", TRUE
+      "Building", "Darwin's Voyage", "Player", FALSE
     }
 graphic	= "b.darwins_voyage"
 graphic_alt	= "-"
@@ -1234,8 +1243,9 @@ Gives two immediate technology advances the first time it is\
 name		= _("Eiffel Tower")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Steam Engine", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Steam Engine", "Player", TRUE
+      "Building", "Eiffel Tower", "Player", FALSE
     }
 graphic	= "b.eiffel_tower"
 graphic_alt	= "-"
@@ -1257,8 +1267,9 @@ Each city on the same continent may support one unit free of\
 name		= _("Great Library")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Literacy", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Literacy", "Player", TRUE
+      "Building", "Great Library", "Player", FALSE
     }
 graphic	= "b.great_library"
 graphic_alt	= "-"
@@ -1279,8 +1290,9 @@ Reduces corruption by 50% in all cities on the same continent.\
 name		= _("Great Wall")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Masonry", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Masonry", "Player", TRUE
+      "Building", "Great Wall", "Player", FALSE
     }
 graphic	= "b.great_wall"
 graphic_alt	= "-"
@@ -1301,8 +1313,9 @@ Works as a City Wall in all your cities on the same continent.\
 name		= _("Hanging Gardens")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Pottery", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Pottery", "Player", TRUE
+      "Building", "Hanging Gardens", "Player", FALSE
     }
 graphic	= "b.hanging_gardens"
 graphic_alt	= "-"
@@ -1327,9 +1340,10 @@ Makes two content citizens happy in every city on the same continent.\
 name		= _("Hoover Dam")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Electronics", "Player"
-      "Extra", "River", "Adjacent"
+    { "type", "name", "range", "present"
+      "Tech", "Electronics", "Player", TRUE
+      "Extra", "River", "Adjacent", TRUE
+      "Building", "Hoover Dam", "Player", FALSE
     }
 graphic	= "b.hoover_dam"
 graphic_alt	= "-"
@@ -1351,8 +1365,9 @@ Works as if you had a Hydro Plant in every city on the same\
 name		= _("Isaac Newton's College")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Theory of Gravity", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Theory of Gravity", "Player", TRUE
+      "Building", "Isaac Newton's College", "Player", FALSE
     }
 graphic	= "b.isaac_newtons_college"
 graphic_alt	= "-"
@@ -1374,8 +1389,9 @@ Boosts science production by 100% in every city on the same\
 name		= _("J.S. Bach's Cathedral")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Theology", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Theology", "Player", TRUE
+      "Building", "J.S. Bach's Cathedral", "Player", FALSE
     }
 graphic	= "b.js_bachs_cathedral"
 graphic_alt	= "-"
@@ -1396,8 +1412,9 @@ Makes two unhappy citizens content in every city on the same continent\
 name		= _("King Richard's Crusade")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Engineering", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Engineering", "Player", TRUE
+      "Building", "King Richard's Crusade", "Player", FALSE
     }
 graphic	= "b.king_richards_crusade"
 graphic_alt	= "-"
@@ -1419,8 +1436,9 @@ Adds one extra shield resource on every tile around the city\
 name		= _("Leonardo's Workshop")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Invention", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Invention", "Player", TRUE
+      "Building", "Leonardo's Workshop", "Player", FALSE
     }
 graphic	= "b.leonardos_workshop"
 graphic_alt	= "-"
@@ -1441,9 +1459,10 @@ Upgrades two obsolete units per game turn.\
 name		= _("Lighthouse")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Map Making", "Player"
-      "TerrainClass", "Oceanic", "Adjacent"
+    { "type", "name", "range", "present"
+      "Tech", "Map Making", "Player", TRUE
+      "TerrainClass", "Oceanic", "Adjacent", TRUE
+      "Building", "Lighthouse", "Player", FALSE
     }
 graphic	= "b.lighthouse"
 graphic_alt	= "-"
@@ -1464,9 +1483,10 @@ Gives all your sea units 1 additional movement point.\
 name		= _("Magellan's Expedition")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Navigation", "Player"
-      "TerrainClass", "Oceanic", "Adjacent"
+    { "type", "name", "range", "present"
+      "Tech", "Navigation", "Player", TRUE
+      "TerrainClass", "Oceanic", "Adjacent", TRUE
+      "Building", "Magellan's Expedition", "Player", FALSE
     }
 graphic	= "b.magellans_expedition"
 graphic_alt	= "-"
@@ -1508,8 +1528,9 @@ sound_alt	= "w_generic"
 name		= _("Marco Polo's Embassy")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Trade", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Trade", "Player", TRUE
+      "Building", "Marco Polo's Embassy", "Player", FALSE
     }
 graphic	= "b.marco_polos_embassy"
 graphic_alt	= "-"
@@ -1531,8 +1552,9 @@ Increases trade output by 40% in all cities on the same\
 name		= _("Michelangelo's Chapel")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Monotheism", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Monotheism", "Player", TRUE
+      "Building", "Michelangelo's Chapel", "Player", FALSE
     }
 graphic	= "b.michelangelos_chapel"
 graphic_alt	= "-"
@@ -1558,8 +1580,9 @@ Counts as having a Cathedral in each of your cities on the same\
 name		= _("Oracle")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Mysticism", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Mysticism", "Player", TRUE
+      "Building", "Oracle", "Player", FALSE
     }
 graphic	= "b.oracle"
 graphic_alt	= "-"
@@ -1582,8 +1605,9 @@ Makes two of your unhappy citizens content in every city\
 name		= _("Pyramids")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Masonry", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Masonry", "Player", TRUE
+      "Building", "Pyramids", "Player", FALSE
     }
 graphic	= "b.pyramids"
 graphic_alt	= "-"
@@ -1605,8 +1629,9 @@ The city where this wonder is built will experience\
 name		= _("The Internet")
 genus		= "SmallWonder"
  reqs	=
-     { "type", "name", "range"
-       "Tech", "Computers", "Player"
+     { "type", "name", "range", "present"
+       "Tech", "Computers", "Player", TRUE
+       "Building", "The Internet", "Player", FALSE
      }
 graphic	= "b.internet"
 graphic_alt	= "b.seti_program"
@@ -1629,8 +1654,9 @@ name            = _("Shakespeare's Theater")
 rule_name       = "Shakespeare's Theatre"       ; en_GB used originally
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Medicine", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Medicine", "Player", TRUE
+      "Building", "Shakespeare's Theatre", "Player", FALSE
     }
 graphic	= "b.shakespeares_theatre"
 graphic_alt	= "-"
@@ -1651,8 +1677,9 @@ Makes all angry and unhappy citizens content in the city where it\
 name		= _("Statue of Liberty")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Democracy", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Democracy", "Player", TRUE
+      "Building", "Statue of Liberty", "Player", FALSE
     }
 graphic	= "b.statue_of_liberty"
 graphic_alt	= "-"
@@ -1674,8 +1701,9 @@ Allows you to choose any government, including those that have not yet\
 name		= _("Sun Tzu's War Academy")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Feudalism", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Feudalism", "Player", TRUE
+      "Building", "Sun Tzu's War Academy", "Player", FALSE
     }
 graphic	= "b.sun_tzus_war_academy"
 graphic_alt	= "-"
@@ -1721,8 +1749,9 @@ Creates a world senate that may prevent declarations of\
 name		= _("Women's Suffrage")
 genus		= "SmallWonder"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Industrialization", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Industrialization", "Player", TRUE
+      "Building", "Women's Suffrage", "Player", FALSE
     }
 graphic	= "b.womens_suffrage"
 graphic_alt	= "-"
