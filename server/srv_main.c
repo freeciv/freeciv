@@ -1153,7 +1153,7 @@ static void begin_phase(bool is_new_phase)
 static void end_phase(void)
 {
   log_debug("Endphase");
- 
+
   /* 
    * This empties the client Messages window; put this before
    * everything else below, since otherwise any messages from the
@@ -1556,6 +1556,18 @@ void start_game(void)
 **************************************************************************/
 void server_quit(void)
 {
+  if (server_state() == S_S_RUNNING) {
+    /* Quitting mid-game. */
+
+    phase_players_iterate(pplayer) {
+      CALL_PLR_AI_FUNC(phase_finished, pplayer, pplayer);
+      /* This has to be after all access to advisor data. */
+      /* We used to run this for ai players only, but data phase
+         is initialized for human players also. */
+      adv_data_phase_done(pplayer);
+    } phase_players_iterate_end;
+  }
+
   if (game.server.save_timer != NULL) {
     timer_destroy(game.server.save_timer);
     game.server.save_timer = NULL;
@@ -2588,7 +2600,7 @@ static void srv_running(void)
         game.server.turn_change_time = timer_read_seconds(between_turns);
         log_debug("Inresponsive between turns %g seconds", game.server.turn_change_time);
       }
-      
+
       while (server_sniff_all_input() == S_E_OTHERWISE) {
         /* nothing */
       }
