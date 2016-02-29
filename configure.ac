@@ -425,7 +425,7 @@ gui_stub=no
 for gui in $(echo $clients | $SED 's/,/ /g') ; do
   if test "x$gui" = "xno" ; then
     client=no
-  elif test "x$gui" = "xauto" ; then
+  elif test "x$gui" = "xauto" || test "x$gui" = "xyes" ; then
     client=auto
   elif test "x$gui" = "xall" ; then
     client=all
