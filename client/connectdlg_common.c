@@ -41,6 +41,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 /* utility */
 #include "astring.h"
 #include "capability.h"
+#include "deprecations.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "ioz.h"
@@ -204,6 +205,7 @@ bool client_start_server(void)
   char savesdir[MAX_LEN_PATH];
   char scensdir[MAX_LEN_PATH];
   char options[512];
+  char *depr;
 #ifdef DEBUG
   char cmdline1[512];
   char cmdline2[512];
@@ -247,7 +249,7 @@ bool client_start_server(void)
 #ifdef HAVE_USABLE_FORK
   {
     int argc = 0;
-    const int max_nargs = 22;
+    const int max_nargs = 23;
     char *argv[max_nargs + 1], port_buf[32];
 
     /* Set up the command-line parameters. */
@@ -279,6 +281,9 @@ bool client_start_server(void)
     if (savefile) {
       argv[argc++] = "--file";
       argv[argc++] = savefile;
+    }
+    if (are_deprecation_warnings_enabled()) {
+      argv[argc++] = "--warnings";
     }
     argv[argc] = NULL;
     fc_assert(argc <= max_nargs);
@@ -397,11 +402,17 @@ bool client_start_server(void)
   interpret_tilde(scensdir, sizeof(scensdir), "~/.freeciv/scenarios");
   internal_to_local_string_buffer(scensdir, scenscmdline, sizeof(scenscmdline));
 
+  if (are_deprecation_warnings_enabled()) {
+    depr = " --warnings";
+  } else {
+    depr = "";
+  }
+
   fc_snprintf(options, sizeof(options),
               "-p %d --bind localhost -q 1 -e%s%s%s --saves \"%s\" "
-              "--scenarios \"%s\" -A none",
+              "--scenarios \"%s\" -A none %s",
               internal_server_port, logcmdline, scriptcmdline, savefilecmdline,
-              savescmdline, scenscmdline);
+              savescmdline, scenscmdline, depr);
 #ifdef DEBUG
   fc_snprintf(cmdline1, sizeof(cmdline1), "./fcser %s", options);
   fc_snprintf(cmdline2, sizeof(cmdline2),
