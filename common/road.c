@@ -426,15 +426,15 @@ bool road_has_flag(const struct road_type *proad, enum road_flag_id flag)
 ****************************************************************************/
 bool is_road_flag_card_near(const struct tile *ptile, enum road_flag_id flag)
 {
-  cardinal_adjc_iterate(ptile, adjc_tile) {
-    extra_type_by_cause_iterate(EC_ROAD, pextra) {
-      struct road_type *proad = extra_road_get(pextra);
-
-      if (road_has_flag(proad, flag) && tile_has_extra(adjc_tile, pextra)) {
-        return TRUE;
-      }
-    } extra_type_by_cause_iterate_end;
-  } cardinal_adjc_iterate_end;
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    if (road_has_flag(extra_road_get(pextra), flag)) {
+      cardinal_adjc_iterate(ptile, adjc_tile) {
+        if (tile_has_extra(adjc_tile, pextra)) {
+          return TRUE;
+        }
+      } cardinal_adjc_iterate_end;
+    }
+  } extra_type_by_cause_iterate_end;
 
   return FALSE;
 }
@@ -445,14 +445,15 @@ bool is_road_flag_card_near(const struct tile *ptile, enum road_flag_id flag)
 ****************************************************************************/
 bool is_road_flag_near_tile(const struct tile *ptile, enum road_flag_id flag)
 {
-  adjc_iterate(ptile, adjc_tile) {
-    extra_type_by_cause_iterate(EC_ROAD, pextra) {
-      if (road_has_flag(extra_road_get(pextra), flag)
-          && tile_has_extra(adjc_tile, pextra)) {
-        return TRUE;
-      }
-    } extra_type_by_cause_iterate_end;
-  } adjc_iterate_end;
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    if (road_has_flag(extra_road_get(pextra), flag)) {
+      adjc_iterate(ptile, adjc_tile) {
+        if (tile_has_extra(adjc_tile, pextra)) {
+          return TRUE;
+        }
+      } adjc_iterate_end;
+    }
+  } extra_type_by_cause_iterate_end;
 
   return FALSE;
 }

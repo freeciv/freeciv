@@ -38,15 +38,15 @@ bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag)
 ****************************************************************************/
 bool is_base_flag_card_near(const struct tile *ptile, enum base_flag_id flag)
 {
-  cardinal_adjc_iterate(ptile, adjc_tile) {
-    extra_type_by_cause_iterate(EC_BASE, pextra) {
-      struct base_type *pbase = extra_base_get(pextra);
-
-      if (base_has_flag(pbase, flag) && tile_has_extra(adjc_tile, pextra)) {
-        return TRUE;
-      }
-    } extra_type_by_cause_iterate_end;
-  } cardinal_adjc_iterate_end;
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    if (base_has_flag(extra_base_get(pextra), flag)) {
+      cardinal_adjc_iterate(ptile, adjc_tile) {
+        if (tile_has_extra(adjc_tile, pextra)) {
+          return TRUE;
+        }
+      } cardinal_adjc_iterate_end;
+    }
+  } extra_type_by_cause_iterate_end;
 
   return FALSE;
 }
@@ -57,15 +57,15 @@ bool is_base_flag_card_near(const struct tile *ptile, enum base_flag_id flag)
 ****************************************************************************/
 bool is_base_flag_near_tile(const struct tile *ptile, enum base_flag_id flag)
 {
-  adjc_iterate(ptile, adjc_tile) {
-    extra_type_by_cause_iterate(EC_BASE, pextra) {
-      struct base_type *pbase = extra_base_get(pextra);
-
-      if (base_has_flag(pbase, flag) && tile_has_extra(adjc_tile, pextra)) {
-        return TRUE;
-      }
-    } extra_type_by_cause_iterate_end;
-  } adjc_iterate_end;
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    if (base_has_flag(extra_base_get(pextra), flag)) {
+      adjc_iterate(ptile, adjc_tile) {
+        if (tile_has_extra(adjc_tile, pextra)) {
+          return TRUE;
+        }
+      } adjc_iterate_end;
+    }
+  } extra_type_by_cause_iterate_end;
 
   return FALSE;
 }
