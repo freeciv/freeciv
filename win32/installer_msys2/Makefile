@@ -161,6 +161,7 @@ install-ruledit: install-ruledit-dir
 # install Freeciv environment
 
 COMMON_DLLS := \
+	libstdc++-6.dll \
 	libatk-1.0-0.dll \
 	libbz2-1.dll \
 	libcairo-2.dll \
@@ -185,14 +186,13 @@ COMMON_DLLS := \
 	libpng16-16.dll \
 	libxml2-2.dll \
 	zlib1.dll \
-	libwinpthread-1.dll
+	libwinpthread-1.dll \
+	libicuuc56.dll \
+	libicudt56.dll
 
 COMMON_MSYS_DLLS := \
 	2.0.dll \
-	stdc++-6.dll \
 	curl-4.dll \
-	icuuc56.dll \
-	icudata56.dll \
 	idn-11.dll \
 	sqlite3-0.dll \
 	ssl-1.0.0.dll \
