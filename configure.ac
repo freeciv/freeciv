@@ -407,11 +407,7 @@ AC_ARG_ENABLE([client],
 [clients=${enableval}],
 [client=auto])
 
-if test "x$fcweb" = "xtrue" ; then
-  if test "x$clients" != "x" && test "x$clients" != "xauto" &&
-     test "x$clients" != "xno" ; then
-    AC_MSG_ERROR([One cannot enable any clients for freeciv-web build])
-  fi
+if test "x$fcweb" = "xtrue" && test "x$client" = "xauto" ; then
   clients=no
 fi
 
