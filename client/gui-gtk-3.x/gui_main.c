@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -159,7 +159,7 @@ GtkWidget *sun_ebox;
 GtkWidget *flake_ebox;
 GtkWidget *government_ebox;
 
-const char * const gui_character_encoding = "UTF-8";
+const char *const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
 static GtkWidget *main_menubar;
@@ -1068,7 +1068,7 @@ static void setup_canvas_color_for_state(GtkStateFlags state)
 #endif
 
 /**************************************************************************
- do the heavy lifting for the widget setup.
+  Do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
 {
@@ -1077,9 +1077,8 @@ static void setup_widgets(void)
   GtkWidget *button, *view, *vgrid, *right_vbox = NULL;
   int i;
   char buf[256];
-  struct sprite *sprite;
-
   GtkWidget *notebook, *statusbar;
+  struct sprite *spr;
 
   message_buffer = gtk_text_buffer_new(NULL);
 
@@ -1249,10 +1248,10 @@ static void setup_widgets(void)
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
   gtk_grid_attach(GTK_GRID(table), ebox, 0, 0, 10, 1);
   econ_ebox = ebox;
-  
+
   table2 = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(ebox), table2);
-  
+
   for (i = 0; i < 10; i++) {
     ebox = gtk_event_box_new();
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
@@ -1263,24 +1262,43 @@ static void setup_widgets(void)
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
-    sprite = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
-    econ_label[i] = gtk_pixcomm_new_from_sprite(sprite);
+    spr = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
+    econ_label[i] = gtk_image_new_from_surface(spr->surface);
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
 
   /* science, environmental, govt, timeout */
-  bulb_label
-    = gtk_pixcomm_new_from_sprite(client_research_sprite());
-  sun_label
-    = gtk_pixcomm_new_from_sprite(client_warming_sprite());
-  flake_label
-    = gtk_pixcomm_new_from_sprite(client_cooling_sprite());
-  government_label
-    = gtk_pixcomm_new_from_sprite(client_government_sprite());
+  spr = client_research_sprite();
+  if (spr != NULL) {
+    bulb_label = gtk_image_new_from_surface(spr->surface);
+  } else {
+    bulb_label = gtk_image_new();
+  }
+
+  spr = client_warming_sprite();
+  if (spr != NULL) {
+    sun_label = gtk_image_new_from_surface(spr->surface);
+  } else {
+    sun_label = gtk_image_new();
+  }
+
+  spr = client_cooling_sprite();
+  if (spr != NULL) {
+    flake_label = gtk_image_new_from_surface(spr->surface);
+  } else {
+    flake_label = gtk_image_new();
+  }
+
+  spr = client_government_sprite();
+  if (spr != NULL) {
+    government_label = gtk_image_new_from_surface(spr->surface);
+  } else {
+    government_label = gtk_image_new();
+  }
 
   for (i = 0; i < 4; i++) {
     GtkWidget *w;
-    
+
     ebox = gtk_event_box_new();
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
 

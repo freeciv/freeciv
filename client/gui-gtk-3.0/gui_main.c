@@ -159,7 +159,7 @@ GtkWidget *sun_ebox;
 GtkWidget *flake_ebox;
 GtkWidget *government_ebox;
 
-const char * const gui_character_encoding = "UTF-8";
+const char *const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
 static GtkWidget *main_menubar;
@@ -1046,7 +1046,7 @@ static void setup_canvas_color_for_state(GtkStateFlags state)
 }
 
 /**************************************************************************
- do the heavy lifting for the widget setup.
+  Do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
 {
@@ -1055,8 +1055,6 @@ static void setup_widgets(void)
   GtkWidget *button, *view, *vgrid, *right_vbox = NULL;
   int i;
   char buf[256];
-  struct sprite *sprite;
-
   GtkWidget *notebook, *statusbar;
 
   message_buffer = gtk_text_buffer_new(NULL);
@@ -1232,6 +1230,8 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(ebox), table2);
   
   for (i = 0; i < 10; i++) {
+    struct sprite *spr;
+
     ebox = gtk_event_box_new();
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
     gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
@@ -1241,20 +1241,20 @@ static void setup_widgets(void)
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
-    sprite = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
-    econ_label[i] = gtk_pixcomm_new_from_sprite(sprite);
+    spr = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
+    econ_label[i] = gtk_image_new_from_pixbuf(sprite_get_pixbuf(spr));
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
 
   /* science, environmental, govt, timeout */
   bulb_label
-    = gtk_pixcomm_new_from_sprite(client_research_sprite());
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_research_sprite()));
   sun_label
-    = gtk_pixcomm_new_from_sprite(client_warming_sprite());
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_warming_sprite()));
   flake_label
-    = gtk_pixcomm_new_from_sprite(client_cooling_sprite());
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_cooling_sprite()));
   government_label
-    = gtk_pixcomm_new_from_sprite(client_government_sprite());
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_government_sprite()));
 
   for (i = 0; i < 4; i++) {
     GtkWidget *w;
