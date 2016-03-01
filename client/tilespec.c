@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 #include "astring.h"
 #include "bitvector.h"
 #include "capability.h"
+#include "deprecations.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -2229,6 +2230,10 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
     t->preferred_themes =
       (char **) secfile_lookup_str_vec(file, &num_preferred_themes,
                                        "tilespec.prefered_themes");
+    if (num_preferred_themes > 0) {
+      log_deprecation("Entry tilespec.prefered_themes in tilespec."
+                      " Use correct spelling tilespec.preferred_themes instead");
+    }
   }
   t->num_preferred_themes = num_preferred_themes;
   for (i = 0; i < t->num_preferred_themes; i++) {
