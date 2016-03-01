@@ -2170,9 +2170,9 @@ static void sg_load_scenario(struct loaddata *loading)
   buf = secfile_lookup_str_default(loading->file, "",
                                    "scenario.description");
   if (buf[0] != '\0') {
-    sz_strlcpy(game.scenario.description, buf);
+    sz_strlcpy(game.scenario_desc.description, buf);
   } else {
-    game.scenario.description[0] = '\0';
+    game.scenario_desc.description[0] = '\0';
   }
   game.scenario.save_random
     = secfile_lookup_bool_default(loading->file, FALSE, "scenario.save_random");
@@ -2244,8 +2244,8 @@ static void sg_save_scenario(struct savedata *saving)
   }
 
   /* Description is saved only if it exist */
-  if (game.scenario.description[0] != '\0') {
-    mod_entry = secfile_insert_str(saving->file, game.scenario.description,
+  if (game.scenario_desc.description[0] != '\0') {
+    mod_entry = secfile_insert_str(saving->file, game.scenario_desc.description,
                                    "scenario.description");
     entry_str_set_gt_marking(mod_entry, TRUE);
   }

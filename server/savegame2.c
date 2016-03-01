@@ -1715,9 +1715,9 @@ static void sg_load_scenario(struct loaddata *loading)
   buf = secfile_lookup_str_default(loading->file, "",
                                    "scenario.description");
   if (buf[0] != '\0') {
-    sz_strlcpy(game.scenario.description, buf);
+    sz_strlcpy(game.scenario_desc.description, buf);
   } else {
-    game.scenario.description[0] = '\0';
+    game.scenario_desc.description[0] = '\0';
   }
 
   game.scenario.save_random

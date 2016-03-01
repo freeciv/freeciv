@@ -2973,7 +2973,6 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
   game.scenario.is_scenario = packet->is_scenario;
   sz_strlcpy(game.scenario.name, packet->name);
   sz_strlcpy(game.scenario.authors, packet->authors);
-  sz_strlcpy(game.scenario.description, packet->description);
   game.scenario.players = packet->players;
   game.scenario.startpos_nations = packet->startpos_nations;
   game.scenario.prevent_new_cities = packet->prevent_new_cities;
@@ -2981,6 +2980,16 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
   game.scenario.save_random = packet->save_random;
   game.scenario.handmade = packet->handmade;
   game.scenario.allow_ai_type_fallback = packet->allow_ai_type_fallback;
+
+  editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
+}
+
+/****************************************************************************
+  Received packet containing description of current scenario
+****************************************************************************/
+void handle_scenario_description(const char *description)
+{
+  sz_strlcpy(game.scenario_desc.description, description);
 
   editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
 }

@@ -337,8 +337,7 @@ static void game_defaults(void)
   game.info.year_0_hack      = FALSE;
   game.info.year             = GAME_START_YEAR;
 
-  /* The scenario packet. */
-  game.scenario.description[0] = '\0';
+  /* The scenario packets. */
   game.scenario.is_scenario = FALSE;
   game.scenario.name[0] = '\0';
   game.scenario.authors[0] = '\0';
@@ -349,6 +348,8 @@ static void game_defaults(void)
   game.scenario.lake_flooding = TRUE;
   game.scenario.save_random = FALSE;
   game.scenario.allow_ai_type_fallback = FALSE;
+
+  game.scenario_desc.description[0] = '\0';
 
   /* Veteran system. */
   game.veteran = NULL;

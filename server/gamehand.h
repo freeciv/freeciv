@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ void send_year_to_clients(void);
 void send_game_info(struct conn_list *dest);
 
 void send_scenario_info(struct conn_list *dest);
+void send_scenario_description(struct conn_list *dest);
 
 enum unit_role_id crole_to_role_id(char crole);
 struct unit_type *crole_to_unit_type(char crole,struct player *pplayer);

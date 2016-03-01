@@ -1577,12 +1577,6 @@ void handle_edit_game(struct connection *pc,
     changed = TRUE;
   }
 
-  if (0 != strncmp(packet->scenario_desc, game.scenario.description,
-                   MAX_LEN_PACKET)) {
-    sz_strlcpy(game.scenario.description, packet->scenario_desc);
-    changed = TRUE;
-  }
-
   if (packet->scenario_random != game.scenario.save_random) {
     game.scenario.save_random = packet->scenario_random;
     changed = TRUE;
@@ -1611,6 +1605,18 @@ void handle_edit_game(struct connection *pc,
   if (changed) {
     send_scenario_info(NULL);
     send_game_info(NULL);
+  }
+}
+
+/****************************************************************************
+  Handle edit requests to scenario description
+****************************************************************************/
+void handle_edit_scenario_desc(struct connection *pc, const char *scenario_desc)
+{
+  if (0 != strncmp(scenario_desc, game.scenario_desc.description,
+                   MAX_LEN_PACKET)) {
+    sz_strlcpy(game.scenario_desc.description, scenario_desc);
+    send_scenario_description(NULL);
   }
 }
 

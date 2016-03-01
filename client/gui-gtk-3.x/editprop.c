@@ -93,13 +93,19 @@ static int get_next_unique_tag(void);
 /* NB: If packet definitions change, be sure to
  * update objbind_pack_current_values!!! */
 union packetdata {
-  gpointer v_pointer;
+  struct {
+    gpointer v_pointer1;
+    gpointer v_pointer2;
+  } pointers;
   struct packet_edit_tile *tile;
   struct packet_edit_startpos_full *startpos;
   struct packet_edit_city *city;
   struct packet_edit_unit *unit;
   struct packet_edit_player *player;
-  struct packet_edit_game *game;
+  struct {
+    struct packet_edit_game *game;
+    struct packet_edit_scenario_desc *desc;
+  } game;
 };
 
 /* Helpers for the OPID_TILE_VISION property. */
@@ -1818,7 +1824,7 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         pv->data.v_const_string = pgame->scenario.authors;
         break;
       case OPID_GAME_SCENARIO_DESC:
-        pv->data.v_const_string = pgame->scenario.description;
+        pv->data.v_const_string = pgame->scenario_desc.description;
         break;
       case OPID_GAME_SCENARIO_RANDSTATE:
         pv->data.v_bool = pgame->scenario.save_random;
@@ -2216,7 +2222,7 @@ static void objbind_pack_current_values(struct objbind *ob,
 {
   enum editor_object_type objtype;
 
-  if (!ob || !pd.v_pointer) {
+  if (!ob || !pd.pointers.v_pointer1) {
     return;
   }
 
@@ -2320,7 +2326,7 @@ static void objbind_pack_current_values(struct objbind *ob,
 
   case OBJTYPE_GAME:
     {
-      struct packet_edit_game *packet = pd.game;
+      struct packet_edit_game *packet = pd.game.game;
       const struct civ_game *pgame = objbind_get_object(ob);
 
       if (NULL == pgame) {
@@ -2331,7 +2337,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       packet->scenario = pgame->scenario.is_scenario;
       sz_strlcpy(packet->scenario_name, pgame->scenario.name);
       sz_strlcpy(packet->scenario_authors, pgame->scenario.authors);
-      sz_strlcpy(packet->scenario_desc, pgame->scenario.description);
+      sz_strlcpy(pd.game.desc->scenario_desc, pgame->scenario_desc.description);
       packet->scenario_players = pgame->scenario.players;
       /* TODO: Set more packet fields. */
     }
@@ -2356,7 +2362,7 @@ static void objbind_pack_modified_value(struct objbind *ob,
   enum editor_object_type objtype;
   enum object_property_ids propid;
 
-  if (!op || !ob || !pd.v_pointer) {
+  if (!op || !ob || !pd.pointers.v_pointer1) {
     return;
   }
 
@@ -2554,7 +2560,7 @@ static void objbind_pack_modified_value(struct objbind *ob,
 
   case OBJTYPE_GAME:
     {
-      struct packet_edit_game *packet = pd.game;
+      struct packet_edit_game *packet = pd.game.game;
 
       switch (propid) {
       case OPID_GAME_YEAR:
@@ -2570,7 +2576,7 @@ static void objbind_pack_modified_value(struct objbind *ob,
         sz_strlcpy(packet->scenario_authors, pv->data.v_const_string);
         return;
       case OPID_GAME_SCENARIO_DESC:
-        sz_strlcpy(packet->scenario_desc, pv->data.v_const_string);
+        sz_strlcpy(pd.game.desc->scenario_desc, pv->data.v_const_string);
         return;
       case OPID_GAME_SCENARIO_RANDSTATE:
         packet->scenario_random = pv->data.v_bool;
@@ -5473,7 +5479,7 @@ static void property_page_send_values(struct property_page *pp)
   }
 
   packet = property_page_new_packet(pp);
-  if (!packet.v_pointer) {
+  if (!packet.pointers.v_pointer1) {
     return;
   }
 
@@ -5508,9 +5514,12 @@ static void property_page_send_values(struct property_page *pp)
 ****************************************************************************/
 static union packetdata property_page_new_packet(struct property_page *pp)
 {
-  union packetdata packet = {NULL,};
+  union packetdata packet;
+
+  packet.pointers.v_pointer2 = NULL;
 
   if (!pp) {
+    packet.pointers.v_pointer1 = NULL;
     return packet;
   }
 
@@ -5531,7 +5540,8 @@ static union packetdata property_page_new_packet(struct property_page *pp)
     packet.player = fc_calloc(1, sizeof(*packet.player));
     break;
   case OBJTYPE_GAME:
-    packet.game = fc_calloc(1, sizeof(*packet.game));
+    packet.game.game = fc_calloc(1, sizeof(*packet.game.game));
+    packet.game.desc = fc_calloc(1, sizeof(*packet.game.desc));
     break;
   case NUM_OBJTYPES:
     break;
@@ -5548,7 +5558,7 @@ static void property_page_send_packet(struct property_page *pp,
 {
   struct connection *my_conn = &client.conn;
 
-  if (!pp || !packet.v_pointer) {
+  if (!pp || !packet.pointers.v_pointer1) {
     return;
   }
 
@@ -5569,7 +5579,8 @@ static void property_page_send_packet(struct property_page *pp,
     send_packet_edit_player(my_conn, packet.player);
     return;
   case OBJTYPE_GAME:
-    send_packet_edit_game(my_conn, packet.game);
+    send_packet_edit_game(my_conn, packet.game.game);
+    send_packet_edit_scenario_desc(my_conn, packet.game.desc);
     return;
   case NUM_OBJTYPES:
     break;
@@ -5586,12 +5597,17 @@ static void property_page_send_packet(struct property_page *pp,
 static void property_page_free_packet(struct property_page *pp,
                                       union packetdata packet)
 {
-  if (!packet.v_pointer) {
+  if (!packet.pointers.v_pointer1) {
     return;
   }
 
-  free(packet.v_pointer);
-  packet.v_pointer = NULL;
+  free(packet.pointers.v_pointer1);
+  packet.pointers.v_pointer1 = NULL;
+
+  if (packet.pointers.v_pointer2 != NULL) {
+    free(packet.pointers.v_pointer2);
+    packet.pointers.v_pointer2 = NULL;
+  }
 }
 
 /****************************************************************************

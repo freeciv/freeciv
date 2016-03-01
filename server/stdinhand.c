@@ -3686,6 +3686,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   send_rulesets(game.est_connections);
   send_server_settings(game.est_connections);
   send_scenario_info(game.est_connections);
+  send_scenario_description(game.est_connections);
   send_game_info(game.est_connections);
   conn_list_compression_thaw(game.est_connections);
 

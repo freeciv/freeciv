@@ -1893,8 +1893,7 @@ end
 PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   BOOL   is_scenario;
   STRING name[256];
-  STRING authors[MAX_LEN_PACKET / 5];
-  STRING description[MAX_LEN_PACKET / 5 * 3];
+  STRING authors[MAX_LEN_PACKET / 3];
   BOOL   players;
   BOOL   startpos_nations;
   BOOL   save_random;
@@ -1903,6 +1902,10 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   BOOL   handmade;
   BOOL   allow_ai_type_fallback;
   BOOL   ruleset_locked;
+end
+
+PACKET_SCENARIO_DESCRIPTION = 13; sc, handle-per-conn
+  STRING description[MAX_LEN_CONTENT];
 end
 
 PACKET_SAVE_SCENARIO = 181; cs, handle-per-conn, dsend
@@ -2151,13 +2154,16 @@ PACKET_EDIT_GAME = 218; cs, handle-per-conn, handle-via-packet
   YEAR year;
   BOOL scenario;
   STRING scenario_name[256];
-  STRING scenario_authors[MAX_LEN_PACKET / 5];
-  STRING scenario_desc[MAX_LEN_PACKET / 5 * 3];
+  STRING scenario_authors[MAX_LEN_PACKET / 3];
   BOOL scenario_random;
   BOOL scenario_players;
   BOOL startpos_nations;
   BOOL prevent_new_cities;
   BOOL lake_flooding;
+end
+
+PACKET_EDIT_SCENARIO_DESC = 14; cs, handle-per-conn
+  STRING scenario_desc[MAX_LEN_CONTENT];
 end
 
 /************** Server Editor Packets **********************/

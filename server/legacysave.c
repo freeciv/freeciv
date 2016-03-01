@@ -3079,9 +3079,9 @@ static void game_load_internal(struct section_file *file)
     scen_text = secfile_lookup_str_default(file, "",
                                            "scenario.description");
     if (scen_text[0] != '\0') {
-      sz_strlcpy(game.scenario.description, scen_text);
+      sz_strlcpy(game.scenario_desc.description, scen_text);
     } else {
-      game.scenario.description[0] = '\0';
+      game.scenario_desc.description[0] = '\0';
     }
     game.scenario.players
       = secfile_lookup_bool_default(file, TRUE, "scenario.save_players");
