@@ -203,12 +203,12 @@ void init_game_seed(void)
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
     game.server.seed = time(NULL) & (MAX_UINT32 >> 1);
-#ifdef TESTMATIC_ENABLED
+#ifdef FREECIV_TESTMATIC
      /* Log command to reproduce the gameseed */
     log_testmatic("set gameseed %d", game.server.seed);
-#else  /* TESTMATIC_ENABLED */
+#else  /* FREECIV_TESTMATIC */
     log_debug("Setting game.seed:%d", game.server.seed);
-#endif /* TESTMATIC_ENABLED */
+#endif /* FREECIV_TESTMATIC */
   } else {
     game.server.seed = game.server.seed_setting;
   }
