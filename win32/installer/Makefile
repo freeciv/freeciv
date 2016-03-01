@@ -5,7 +5,7 @@
 #
 # 1. download and extract the MinGW build environment from
 #    http://download.gna.org/freeciv/packages/windows/gnuwin32/
-#    Current version is gnuwin32-2015-02-25.
+#    Current version is gnuwin32-2016-02-03.
 # 2. double click on "gnuwin32/msys.bat"
 # 3. install the development packages:
 #    $ hg qpush -a
@@ -26,7 +26,7 @@
 
 
 # by default build all installers
-all: gtk3-installer gtk2-installer sdl-installer qt-installer ruledit-installer
+all: gtk3-installer gtk2-installer sdl2-installer sdl-installer qt-installer ruledit-installer
 
 gtk3-installer:
 	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
@@ -34,8 +34,11 @@ gtk3-installer:
 gtk2-installer:
 	make GUI=gtk2 FCMP=gtk2 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk2
 
+sdl2-installer:
+	make GUI=sdl2 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
+
 sdl-installer:
-	make GUI=sdl FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl
+	make GUI=sdl FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit --enable-sdl-mixer=sdl1.2 $(EXTRA_CONFIG)" wrap-sdl
 
 qt-installer:
 	make GUI=qt FCMP=qt wrap-qt
@@ -74,6 +77,8 @@ build-freeciv-gtk3: build-freeciv-common
 
 build-freeciv-gtk2: build-freeciv-common
 
+build-freeciv-sdl2: build-freeciv-common
+
 build-freeciv-sdl: build-freeciv-common
 
 build-freeciv-qt: build-freeciv-common
@@ -104,6 +109,15 @@ install-freeciv-common:
 install-freeciv-gtk3: install-freeciv-common
 
 install-freeciv-gtk2: install-freeciv-common
+
+install-freeciv-sdl2: install-freeciv-common
+	# add CJK fonts
+	cp /opt/fireflysung-1.3.0/fireflysung.ttf install-sdl2/data/themes/gui-sdl2/human/
+	cp /opt/fireflysung-1.3.0/COPYRIGHT install-sdl2/data/themes/gui-sdl2/human/COPYING.fireflysung
+	cp /opt/sazanami-20040629/sazanami-gothic.ttf install-sdl2/data/themes/gui-sdl2/human/
+	cp /opt/sazanami-20040629/README install-sdl2/data/themes/gui-sdl2/human/COPYING.sazanami
+	cp /opt/un-fonts/UnDotum.ttf install-sdl2/data/themes/gui-sdl2/human/
+	cp /opt/un-fonts/COPYING install-sdl2/data/themes/gui-sdl2/human/COPYING.UnDotum
 
 install-freeciv-sdl: install-freeciv-common
 	# add CJK fonts
@@ -145,8 +159,6 @@ install-ruledit: install-ruledit-dir
 # install Freeciv environment
 
 COMMON_DLLS := \
-	SDL.dll \
-	SDL_mixer.dll \
 	exchndl.dll \
 	freetype6.dll \
 	intl.dll \
@@ -206,11 +218,19 @@ install-env-default-fcmp: install-env-common
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
+GTK3_DLLS := \
+	SDL2.dll \
+	SDL2_mixer.dll
+
 install-env-gtk3: install-env-default-fcmp
+	# add DLLs
+	cp -R $(addprefix /bin/, $(GTK3_DLLS)) install-$(GUI)
 
 GTK2_DLLS := \
 	libgdk-win32-2.0-0.dll \
-	libgtk-win32-2.0-0.dll
+	libgtk-win32-2.0-0.dll \
+	SDL2.dll \
+	SDL2_mixer.dll
 
 install-env-gtk2: install-env-common
 	# add DLLs
@@ -223,9 +243,23 @@ install-env-gtk2: install-env-common
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
 
+SDL2_DLLS := \
+	libpng16-16.dll \
+	libSDL2_gfx-1-0-0.dll \
+	SDL2.dll \
+	SDL2_mixer.dll \
+	SDL2_image.dll \
+	SDL2_ttf.dll
+
+install-env-sdl2: install-env-default-fcmp
+	# add DLLs
+	cp -R $(addprefix /bin/, $(SDL2_DLLS)) install-$(GUI)
+	
 SDL_DLLS := \
 	libpng12-0.dll \
 	libSDL_gfx-15.dll \
+	SDL.dll \
+	SDL_mixer.dll \
 	SDL_image.dll \
 	SDL_ttf.dll
 
@@ -237,7 +271,9 @@ QT_DLLS := \
 	libstdc++-6.dll \
 	Qt5Core.dll \
 	Qt5Gui.dll \
-	Qt5Widgets.dll
+	Qt5Widgets.dll \
+	SDL2.dll \
+	SDL2_mixer.dll
 
 install-env-qt: install-env-common
 	# add DLLs
@@ -280,6 +316,8 @@ wrap-gtk3: build-freeciv-gtk3 installer-common
 
 wrap-gtk2: build-freeciv-gtk2 installer-common
 
+wrap-sdl2: build-freeciv-sdl2 installer-common
+
 wrap-sdl: build-freeciv-sdl installer-common
 
 wrap-qt: build-freeciv-qt installer-common
@@ -312,6 +350,7 @@ clean-installer-ruledit:
 clean:
 	make GUI=gtk3 clean-build-common clean-install-common clean-installer-common
 	make GUI=gtk2 clean-build-common clean-install-common clean-installer-common
+	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl clean-build-common clean-install-common clean-installer-common
 	make GUI=qt clean-build-common clean-install-common clean-installer-common
 	make clean-build-ruledit clean-install-ruledit clean-installer-ruledit
