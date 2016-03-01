@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,13 +33,13 @@ extern "C" {
    another unreachable condition. */
 #define FC_INFINITY    	(1000 * 1000 * 1000)
 
-#ifndef TESTMATIC_ENABLED
+#ifndef FREECIV_TESTMATIC
 /* Initialize something for the sole purpose of silencing false compiler warning
  * about variable possibly used uninitialized. */
 #define BAD_HEURISTIC_INIT(_ini_val_) = _ini_val_
-#else  /* TESTMATIC_ENABLED */
+#else  /* FREECIV_TESTMATIC */
 #define BAD_HEURISTIC_INIT(_ini_val_)
-#endif /* TESTMATIC_ENABLED */
+#endif /* FREECIV_TESTMATIC */
 
 enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 #define BOOL_TO_TRISTATE(tri) ((tri) ? TRI_YES : TRI_NO)

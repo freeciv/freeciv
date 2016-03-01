@@ -107,16 +107,16 @@ void do_log(const char *file, const char *function, int line,
 #else
 #  define log_debug(message, ...) /* Do nothing. */
 #endif /* FREECIV_DEBUG */
-#ifdef TESTMATIC_ENABLED
+#ifdef FREECIV_TESTMATIC
 #define log_testmatic(message, ...)                                         \
   log_base(LOG_ERROR, message, ## __VA_ARGS__)
 #define log_testmatic_alt(altlvl, message, ...)                             \
   log_base(LOG_ERROR, message, ## __VA_ARGS__)
-#else  /* TESTMATIC_ENABLED */
+#else  /* FREECIV_TESTMATIC */
 #define log_testmatic(message, ...) /* Do nothing. */
 #define log_testmatic_alt(altlvl, message, ...)                             \
   log_base(altlvl, message, ## __VA_ARGS__)
-#endif /* TESTMATIC_ENABLED */
+#endif /* FREECIV_TESTMATIC */
 
 #define log_va_list(level, msg, args)                                       \
   if (log_do_output_for_level(level)) {                                     \

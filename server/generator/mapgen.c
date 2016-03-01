@@ -1261,12 +1261,12 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   if (game.map.server.seed_setting == 0) {
     /* Create a "random" map seed. */
     game.map.server.seed = seed_rand & (MAX_UINT32 >> 1);
-#ifdef TESTMATIC_ENABLED
+#ifdef FREECIV_TESTMATIC
     /* Log command to reproduce the mapseed */
     log_testmatic("set mapseed %d", game.map.server.seed);
-#else /* TESTMATICE_ENABLED */
+#else /* FREECIV_TESTMATICE */
     log_debug("Setting map.seed:%d", game.map.server.seed);
-#endif /* TESTMATIC_ENABLED */
+#endif /* FREECIV_TESTMATIC */
   } else {
     game.map.server.seed = game.map.server.seed_setting;
   }

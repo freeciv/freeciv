@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ static DIO_GET_CONV_FUN get_conv_callback = get_conv;
 /* Uncomment to make field range tests to asserts, fatal with -F */
 #define FIELD_RANGE_ASSERT */
 
-#if defined(TESTMATIC_ENABLED) && !defined(FIELD_RANGE_ASSERT)
+#if defined(FREECIV_TESTMATIC) && !defined(FIELD_RANGE_ASSERT)
 #define FIELD_RANGE_ASSERT
 #endif
 

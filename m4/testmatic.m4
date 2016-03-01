@@ -14,6 +14,6 @@ AC_ARG_ENABLE([testmatic],
 esac], [enable_testmatic=no])
 
   if test x$enable_testmatic = xyes ; then
-    AC_DEFINE([TESTMATIC_ENABLED], [1], [Testmatic integration enabled])
+    AC_DEFINE([FREECIV_TESTMATIC], [1], [Testmatic integration enabled])
   fi
 ])
