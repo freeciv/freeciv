@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ GtkWidget *icon_label_button_new(const gchar *icon_name,
                                  const gchar *label_text);
 void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text);
 void gtk_expose_now(GtkWidget *w);
-void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py);
+void set_relative_window_position(GtkWindow *ref, GtkWindow *w, int px, int py);
 
 void intl_slist(int n, const char **s, bool *done);
 

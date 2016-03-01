@@ -55,19 +55,19 @@ void gtk_expose_now(GtkWidget *w)
 }
 
 /**************************************************************************
-  Set widget position relative to reference widget
+  Set window position relative to reference window
 **************************************************************************/
-void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
+void set_relative_window_position(GtkWindow *ref, GtkWindow *w, int px, int py)
 {
   gint x, y, width, height;
 
-  gtk_window_get_position(GTK_WINDOW(ref), &x, &y);
-  gtk_window_get_size(GTK_WINDOW(ref), &width, &height);
+  gtk_window_get_position(ref, &x, &y);
+  gtk_window_get_size(ref, &width, &height);
 
-  x += px*width/100;
-  y += py*height/100;
+  x += px * width / 100;
+  y += py * height / 100;
 
-  gtk_window_move(GTK_WINDOW(w), x, y);
+  gtk_window_move(w, x, y);
 }
 
 /**************************************************************************
