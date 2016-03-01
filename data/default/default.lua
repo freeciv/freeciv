@@ -204,4 +204,4 @@ function _deflua_harmless_disaster_message(disaster, city, had_internal_effect)
   end
 end
 
-signal.connect("disaster", "_deflua_harmless_disaster_message")
+signal.connect("disaster_occurred", "_deflua_harmless_disaster_message")

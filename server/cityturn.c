@@ -3740,10 +3740,13 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     }
   }
 
-  script_server_signal_emit("disaster", 3,
+  script_server_signal_emit("disaster_occurred", 3,
                             API_TYPE_DISASTER, pdis,
                             API_TYPE_CITY, pcity,
                             API_TYPE_BOOL, had_internal_effect);
+  script_server_signal_emit("disaster", 2,
+                            API_TYPE_DISASTER, pdis,
+                            API_TYPE_CITY, pcity);
 }
 
 /**************************************************************************

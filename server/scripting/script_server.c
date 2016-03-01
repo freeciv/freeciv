@@ -414,8 +414,14 @@ static void script_server_signals_create(void)
   luascript_signal_create(fcl_main, "unit_lost", 3,
                           API_TYPE_UNIT, API_TYPE_PLAYER, API_TYPE_STRING);
 
-  luascript_signal_create(fcl_main, "disaster", 3,
+  luascript_signal_create(fcl_main, "disaster_occurred", 3,
                           API_TYPE_DISASTER, API_TYPE_CITY, API_TYPE_BOOL);
+
+  /* Deprecated form of the 'disaster_occurred' signal without 'had_internal_effct'
+   * support. */
+  depr = luascript_signal_create(fcl_main, "disaster", 2,
+                          API_TYPE_DISASTER, API_TYPE_CITY);
+  deprecate_signal(depr, "disaster", "disaster_occurred", "2.6");
 
   luascript_signal_create(fcl_main, "achievement_gained", 3,
                           API_TYPE_ACHIEVEMENT, API_TYPE_PLAYER,
