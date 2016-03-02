@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,17 +11,17 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/********************************************************************** 
+/**********************************************************************
   An IO layer to support transparent compression/uncompression.
   (Currently only "required" functionality is supported.)
 
   There are various reasons for making this a full-blown module
   instead of just defining a few macros:
-  
+
   - Ability to switch between compressed and uncompressed at run-time
     (zlib with compression level 0 saves uncompressed, but still with
     gzip header, so non-zlib server cannot read the savefile).
-    
+
   - Flexibility to add other methods if desired (eg, bzip2, arbitrary
     external filter program, etc).
 
@@ -236,6 +236,9 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     if (fp->u.bz2.plain) {
       fp->u.bz2.file = BZ2_bzReadOpen(&fp->u.bz2.error, fp->u.bz2.plain, 1, 0,
                                       NULL, 0);
+    } else {
+      /* This may currently have garbage value assigned via other union member. */
+      fp->u.bz2.file = NULL;
     }
     if (!fp->u.bz2.file) {
       if (fp->u.bz2.plain) {
