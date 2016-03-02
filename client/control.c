@@ -104,10 +104,18 @@ static struct unit *punit_moving = NULL;
 static struct unit *punit_attacking = NULL;
 static struct unit *punit_defending = NULL;
 
-/* No client supports more than one action selection process at once. It
- * begins when the client asks the server what actions a unit can take. It
- * ends when the last follow up question is answered. */
-static bool action_selection_in_progress = FALSE;
+/* The ID of the unit that currently is in the action selection process.
+ *
+ * The action selection process begins when the client asks the server what
+ * actions a unit can take. It ends when the last follow up question is
+ * answered.
+ *
+ * No common client code using client supports more than one action
+ * selection process at once. The interface between the common client code
+ * and the clients would have to change before that could happen. (See
+ * action_selection_actor_unit() etc)
+ */
+static int action_selection_in_progress_for = IDENTITY_NUMBER_ZERO;
 
 /*
  * This variable is TRUE iff a NON-AI controlled unit was focused this
@@ -322,7 +330,7 @@ bool should_ask_server_for_actions(struct unit *punit)
 static bool can_ask_server_for_actions(void)
 {
   /* OK as long as no other unit already asked and aren't done yet. */
-  return (!action_selection_in_progress
+  return (action_selection_in_progress_for == IDENTITY_NUMBER_ZERO
           && action_selection_actor_unit() == IDENTITY_NUMBER_ZERO);
 }
 
@@ -339,8 +347,8 @@ static void ask_server_for_actions(struct unit *punit)
   fc_assert_ret(punit->action_decision_tile);
 
   /* Only one action selection dialog at a time is supported. */
-  fc_assert(!action_selection_in_progress);
-  action_selection_in_progress = TRUE;
+  fc_assert(action_selection_in_progress_for == IDENTITY_NUMBER_ZERO);
+  action_selection_in_progress_for = punit->id;
 
   dsend_packet_unit_get_actions(&client.conn,
                                 punit->id,
@@ -996,8 +1004,15 @@ void action_decision_taken(const int old_actor_id)
 {
   struct unit *old;
 
+  /* IDENTITY_NUMBER_ZERO is accepted for cases where the unit is gone
+   * without a trace. */
+  fc_assert_msg(old_actor_id == action_selection_in_progress_for
+                || old_actor_id == IDENTITY_NUMBER_ZERO,
+                "Decision taken for %d but selection is for %d.",
+                old_actor_id, action_selection_in_progress_for);
+
   /* Stop objecting to allowing the next unit to ask. */
-  action_selection_in_progress = FALSE;
+  action_selection_in_progress_for = IDENTITY_NUMBER_ZERO;
 
   if ((old = game_unit_by_number(old_actor_id))) {
     /* Have the server record that a decision no longer is wanted. */
