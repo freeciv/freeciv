@@ -71,8 +71,8 @@ build-freeciv-common:
 	cd build-$(WINARCH)-$(GUI); ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --enable-client=$(GUI) --with-followtag="win32-S3_0" --enable-fcdb=sqlite3 --without-readline --disable-sdl-mixer --disable-nls --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(WINARCH)-$(GUI)
-	make -C build-$(WINARCH)-$(GUI)/translations/freeciv update-po
-	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_freeciv.txt
+	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
+	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
 
 build-freeciv-ruledit:
 	# create build directory

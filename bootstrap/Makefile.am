@@ -13,7 +13,7 @@ EXTRA_DIST =	freeciv.project		\
 		fc_gitrev_gen.h.tmpl	\
 		generate_gitrev.sh	\
 		generate_langstat.sh	\
-		langstat_freeciv.txt	\
+		langstat_core.txt	\
 		langstat_nations.txt	\
 		langstat_ruledit.txt	\
 		freeciv.desktop.in	\
@@ -38,8 +38,8 @@ EXTRA_DIST =	freeciv.project		\
 		Makerules.mk		\
 		langnames.txt
 
-langstat_freeciv.txt:
-	"$(top_srcdir)/bootstrap/generate_langstat.sh" freeciv "$(top_srcdir)" "$(top_builddir)"
+langstat_core.txt:
+	"$(top_srcdir)/bootstrap/generate_langstat.sh" core "$(top_srcdir)" "$(top_builddir)"
 
 langstat_nations.txt:
 	"$(top_srcdir)/bootstrap/generate_langstat.sh" nations "$(top_srcdir)" "$(top_builddir)"
@@ -47,6 +47,6 @@ langstat_nations.txt:
 langstat_ruledit.txt:
 	"$(top_srcdir)/bootstrap/generate_langstat.sh" ruledit "$(top_srcdir)" "$(top_builddir)"
 
-.PHONY: langstat_freeciv.txt langstat_nations.txt langstat_ruledit.txt
+.PHONY: langstat_core.txt langstat_nations.txt langstat_ruledit.txt
 
-MAINTAINERCLEANFILES = langstat_freeciv.txt langstat_nations.txt langstat_ruledit.txt
+MAINTAINERCLEANFILES = langstat_core.txt langstat_nations.txt langstat_ruledit.txt

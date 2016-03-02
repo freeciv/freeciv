@@ -1551,8 +1551,8 @@ void init_nls(void)
 #endif /* WIN32_NATIVE */
 
   (void) setlocale(LC_ALL, "");
-  (void) bindtextdomain(PACKAGE, get_locale_dir());
-  (void) textdomain(PACKAGE);
+  (void) bindtextdomain("freeciv-core", get_locale_dir());
+  (void) textdomain("freeciv-core");
 
   /* Don't touch the defaults when LC_NUMERIC == "C".
      This is intended to cater to the common case where:

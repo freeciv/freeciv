@@ -117,7 +117,7 @@ void init_character_encodings(const char *my_internal_encoding,
   }
 
 #ifdef ENABLE_NLS
-  bind_textdomain_codeset(PACKAGE, internal_encoding);
+  bind_textdomain_codeset("freeciv-core", internal_encoding);
 #endif
 
 #ifdef DEBUG

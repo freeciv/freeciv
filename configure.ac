@@ -759,7 +759,7 @@ dnl if test x$build = x$host ; then
 dnl   HOST_PATH_SEPARATOR=$PATH_SEPARATOR
 dnl fi
 
-dnl note this has to match the path installed by translations/freeciv/Makefile
+dnl note this has to match the path installed by translations/*/Makefile
 if test x"$MINGW" != "xyes"; then
   CPPFLAGS="$CPPFLAGS -DLOCALEDIR=\"\\\"$localedir\\\"\""
 else
@@ -1623,7 +1623,7 @@ AC_CONFIG_FILES([Makefile
           tools/ruledit/Makefile
           gen_headers/Makefile
           translations/Makefile
-	  translations/freeciv/Makefile.in
+	  translations/core/Makefile.in
 	  translations/nations/Makefile.in
           translations/ruledit/Makefile.in
 	  doc/Makefile

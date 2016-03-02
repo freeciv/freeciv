@@ -61,7 +61,7 @@ fi
 if test "x$1" != "x" && test "x$1" != "xall" ; then
     DOMAINLIST="$1"
 else
-    DOMAINLIST="freeciv nations ruledit"
+    DOMAINLIST="core nations ruledit"
 fi
 
 for domain in $DOMAINLIST

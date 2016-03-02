@@ -60,8 +60,8 @@ build-freeciv-common:
 	cd build-$(GUI); ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --enable-client=$(GUI) --with-followtag="win32-S3_0" --enable-fcdb=sqlite3 --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(GUI)
-	make -C build-$(GUI)/translations/freeciv update-po
-	make -C build-$(GUI)/bootstrap langstat_freeciv.txt
+	make -C build-$(GUI)/translations/core update-po
+	make -C build-$(GUI)/bootstrap langstat_core.txt
 
 build-freeciv-ruledit:
 	# create build directory
