@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* utility */
+#include "deprecations.h"
+
 /* common */
 #include "achievements.h"
 #include "actions.h"
@@ -55,6 +58,9 @@ int api_methods_game_turn(lua_State *L)
 int api_methods_game_turn_deprecated(lua_State *L)
 {
   LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  log_deprecation("Deprecated: lua construct \"game:turn\", deprecated since \"3.0\", used. "
+                  "Use \"game:current_turn\" instead.");
 
   if (game.info.turn > 0) {
     return game.info.turn - 1;
