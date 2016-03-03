@@ -278,7 +278,7 @@ $AUTOHEADER || {
   exit 1
 }
 echo "+ running $LIBTOOLIZE ... "
-$LIBTOOLIZE -f || {
+$LIBTOOLIZE -f -c || {
   echo
   echo "$LIBTOOLIZE failed"
   exit 1
