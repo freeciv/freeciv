@@ -2974,14 +2974,13 @@ void boot_help_texts(void)
       char help_text_buffer[MAX_LEN_PACKET];
       const char *sec_name = section_name(psection);
       const char *gen_str = secfile_lookup_str(sf, "%s.generate", sec_name);
-      
+
       if (gen_str) {
         enum help_page_type current_type = HELP_ANY;
         int level = strspn(gen_str, " ");
+
         gen_str += level;
-        if (!booted) {
-          continue; /* on initial boot data tables are empty */
-        }
+
         for (i = 2; help_type_names[i]; i++) {
           if (strcmp(gen_str, help_type_names[i]) == 0) {
             current_type = i;
@@ -2992,6 +2991,19 @@ void boot_help_texts(void)
           log_error("bad help-generate category \"%s\"", gen_str);
           continue;
         }
+
+        if (!booted) {
+          if (current_type == HELP_EXTRA) {
+            size_t ncats;
+
+            /* Avoid warnings about entries unused on this round,
+             * when the entries in question are valid once help system has been booted */
+            (void) secfile_lookup_str_vec(sf, &ncats,
+                                          "%s.categories", sec_name);
+          }
+          continue; /* on initial boot data tables are empty */
+        }
+
         {
           /* Note these should really fill in pitem->text from auto-gen
              data instead of doing it later on the fly, but I don't want
