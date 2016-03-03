@@ -18,7 +18,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-/********************************************************************** 
+/***********************************************************************
   Replacements for functions which are not available on all platforms.
   Where the functions are available natively, these are just wrappers.
   See also mem.h, netintf.h, rand.h, and see support.c for more comments.
@@ -157,11 +157,11 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
 
 int fc_gethostname(char *buf, size_t len);
 
-#ifdef SOCKET_ZERO_ISNT_STDIN
-/* Support for console I/O in case SOCKET_ZERO_ISNT_STDIN. */
+#ifdef FREECIV_SOCKET_ZERO_NOT_STDIN
+/* Support for console I/O in case FREECIV_SOCKET_ZERO_NOT_STDIN. */
 void fc_init_console(void);
 char *fc_read_console(void);
-#endif
+#endif /* FREECIV_SOCKET_ZERO_NOT_STDIN */
 
 bool is_reg_file_for_access(const char *name, bool write_access);
 

@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/********************************************************************** 
+/**********************************************************************
   This module contains replacements for functions which are not
   available on all platforms.  Where the functions are available
   natively, these are (mostly) just wrappers.
@@ -20,7 +20,7 @@
   alternative would be to use the "standard" function name, and
   provide the implementation only if required.  However the method
   here has some advantages:
-  
+
    - We can provide definite prototypes in support.h, rather than
    worrying about whether a system prototype exists, and if so where,
    and whether it is correct.  (Note that whether or not configure
@@ -935,9 +935,9 @@ int fc_gethostname(char *buf, size_t len)
 #endif
 }
 
-#ifdef SOCKET_ZERO_ISNT_STDIN
+#ifdef FREECIV_SOCKET_ZERO_NOT_STDIN
 /**********************************************************************
-  Support for console I/O in case SOCKET_ZERO_ISNT_STDIN.
+  Support for console I/O in case FREECIV_SOCKET_ZERO_NOT_STDIN.
 ***********************************************************************/
 
 #define CONSOLE_BUF_SIZE 100
@@ -963,7 +963,7 @@ static DWORD WINAPI thread_proc(LPVOID arg)
 #endif /* WIN32_NATIVE */
 
 /**********************************************************************
-  Initialize console I/O in case SOCKET_ZERO_ISNT_STDIN.
+  Initialize console I/O in case FREECIV_SOCKET_ZERO_NOT_STDIN.
 ***********************************************************************/
 void fc_init_console(void)
 {
@@ -989,7 +989,7 @@ void fc_init_console(void)
 }
 
 /**********************************************************************
-  Read a line from console I/O in case SOCKET_ZERO_ISNT_STDIN.
+  Read a line from console I/O in case FREECIV_SOCKET_ZERO_NOT_STDIN.
 
   This returns a pointer to a statically allocated buffer.
   Subsequent calls to fc_read_console() or fc_init_console() will
@@ -1031,7 +1031,7 @@ char *fc_read_console(void)
 #endif /* WIN32_NATIVE */
 }
 
-#endif /* SOCKET_ZERO_ISNT_STDIN */
+#endif /* FREECIV_SOCKET_ZERO_NOT_STDIN */
 
 /**********************************************************************
   Returns TRUE iff the file is a regular file or a link to a regular

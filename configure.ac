@@ -701,7 +701,7 @@ FC_CXX11_NULLPTR
 
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then
-  AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [BeOS-specific setting])
+  AC_DEFINE([FREECIV_SOCKET_ZERO_NOT_STDIN], [1], [BeOS-specific setting])
   CFLAGS="$CFLAGS -Wno-multichar"
   LDFLAGS="$LDFLAGS -x none"
   if test x$enable_debug = xyes ; then
@@ -728,7 +728,7 @@ case "$host_os" in
 
     HOST_PATH_SEPARATOR=";"
 
-    AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [Mingw-specific setting - stdin])
+    AC_DEFINE([FREECIV_SOCKET_ZERO_NOT_STDIN], [1], [Mingw-specific setting - stdin])
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw])
     AC_DEFINE([WIN32_NATIVE], [1], [Mingw-specific setting - native])
     AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])
