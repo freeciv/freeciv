@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1718,16 +1718,15 @@ void boot_help_texts(struct player *pplayer)
     section_list_iterate(sec, psection) {
       const char *sec_name = section_name(psection);
       const char *gen_str = secfile_lookup_str(sf, "%s.generate", sec_name);
-      
+
       if (gen_str) {
         enum help_page_type current_type = HELP_ANY;
         int level = strspn(gen_str, " ");
+
         gen_str += level;
-        if (!booted) {
-          continue; /* on initial boot data tables are empty */
-        }
-        for(i=2; help_type_names[i]; i++) {
-          if(strcmp(gen_str, help_type_names[i])==0) {
+
+        for (i = 2; help_type_names[i]; i++) {
+          if (strcmp(gen_str, help_type_names[i]) == 0) {
             current_type = i;
             break;
           }
@@ -1736,6 +1735,16 @@ void boot_help_texts(struct player *pplayer)
           log_error("bad help-generate category \"%s\"", gen_str);
           continue;
         }
+
+        if (!booted) {
+          if (current_type == HELP_ROAD) {
+            /* Avoid warnings about entries unused on this round,
+             * when the entries in question are valid once help system has been booted */
+            (void) secfile_entry_lookup(sf, "%s.filter", sec_name);
+          }
+          continue; /* on initial boot data tables are empty */
+        }
+
         {
           /* Note these should really fill in pitem->text from auto-gen
              data instead of doing it later on the fly, but I don't want
