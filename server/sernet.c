@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -131,7 +131,7 @@ static int socklan;
 
 static int server_accept_connection(int sockfd);
 static void start_processing_request(struct connection *pconn,
-				     int request_id);
+                                     int request_id);
 static void finish_processing_request(struct connection *pconn);
 static void connection_ping(struct connection *pconn);
 static void send_ping_times_to_all(void);
@@ -144,22 +144,22 @@ static bool no_input = FALSE;
 /* Avoid compiler warning about defined, but unused function
  * by defining it only when needed */
 #if defined(FREECIV_HAVE_LIBREADLINE) || \
-    (!defined(SOCKET_ZERO_ISNT_STDIN) && !defined(FREECIV_HAVE_LIBREADLINE))  
+    (!defined(FREECIV_SOCKET_ZERO_NOT_STDIN) && !defined(FREECIV_HAVE_LIBREADLINE))
 /*****************************************************************************
   This happens if you type an EOF character with nothing on the current line.
 *****************************************************************************/
 static void handle_stdin_close(void)
 {
-  /* Note this function may be called even if SOCKET_ZERO_ISNT_STDIN, so
+  /* Note this function may be called even if FREECIV_SOCKET_ZERO_NOT_STDIN, so
    * the preprocessor check has to come inside the function body.  But
-   * perhaps we want to do this even when SOCKET_ZERO_ISNT_STDIN? */
-#ifndef SOCKET_ZERO_ISNT_STDIN
+   * perhaps we want to do this even when FREECIV_SOCKET_ZERO_NOT_STDIN? */
+#ifndef FREECIV_SOCKET_ZERO_NOT_STDIN
   log_normal(_("Server cannot read standard input. Ignoring input."));
   no_input = TRUE;
-#endif /* SOCKET_ZERO_ISNT_STDIN */
+#endif /* FREECIV_SOCKET_ZERO_NOT_STDIN */
 }
 
-#endif /* FREECIV_HAVE_LIBREADLINE || (!SOCKET_ZERO_ISNT_STDIN && !FREECIV_HAVE_LIBREADLINE) */
+#endif /* FREECIV_HAVE_LIBREADLINE || (!FREECIV_SOCKET_ZERO_NOT_STDIN && !FREECIV_HAVE_LIBREADLINE) */
 
 #ifdef FREECIV_HAVE_LIBREADLINE
 /****************************************************************************/
@@ -502,8 +502,8 @@ enum server_events server_sniff_all_input(void)
   bool excepting;
   fd_set readfs, writefs, exceptfs;
   struct timeval tv;
-#ifdef SOCKET_ZERO_ISNT_STDIN
-  char *bufptr;    
+#ifdef FREECIV_SOCKET_ZERO_NOT_STDIN
+  char *bufptr;
 #endif
 
   con_prompt_init();
@@ -668,13 +668,13 @@ enum server_events server_sniff_all_input(void)
     FC_FD_ZERO(&exceptfs);
 
     if (!no_input) {
-#ifdef SOCKET_ZERO_ISNT_STDIN
+#ifdef FREECIV_SOCKET_ZERO_NOT_STDIN
       fc_init_console();
-#else /* SOCKET_ZERO_ISNT_STDIN */
+#else /* FREECIV_SOCKET_ZERO_NOT_STDIN */
 #   if !defined(__VMS)
       FD_SET(0, &readfs);
-#   endif /* VMS */	
-#endif /* SOCKET_ZERO_ISNT_STDIN */
+#   endif /* VMS */
+#endif /* FREECIV_SOCKET_ZERO_NOT_STDIN */
     }
 
     max_desc = 0;
@@ -745,10 +745,10 @@ enum server_events server_sniff_all_input(void)
 	  }
 	}
 #else  /* !__VMS */
-#ifndef SOCKET_ZERO_ISNT_STDIN
+#ifndef FREECIV_SOCKET_ZERO_NOT_STDIN
         really_close_connections();
         continue;
-#endif /* SOCKET_ZERO_ISNT_STDIN */
+#endif /* FREECIV_SOCKET_ZERO_NOT_STDIN */
 #endif /* !__VMS */
       }
     }
@@ -788,7 +788,7 @@ enum server_events server_sniff_all_input(void)
         connection_close_server(pconn, _("network exception"));
       }
     }
-#ifdef SOCKET_ZERO_ISNT_STDIN
+#ifdef FREECIV_SOCKET_ZERO_NOT_STDIN
     if (!no_input && (bufptr = fc_read_console())) {
       char *bufptr_internal = local_to_internal_string_malloc(bufptr);
 
@@ -796,7 +796,7 @@ enum server_events server_sniff_all_input(void)
       handle_stdin_input(NULL, bufptr_internal);
       free(bufptr_internal);
     }
-#else  /* !SOCKET_ZERO_ISNT_STDIN */
+#else  /* !FREECIV_SOCKET_ZERO_NOT_STDIN */
     if (!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
 #ifdef FREECIV_HAVE_LIBREADLINE
       rl_callback_read_char();
@@ -844,7 +844,7 @@ enum server_events server_sniff_all_input(void)
       free(buffer);
 #endif /* !FREECIV_HAVE_LIBREADLINE */
     } else
-#endif /* !SOCKET_ZERO_ISNT_STDIN */
+#endif /* !FREECIV_SOCKET_ZERO_NOT_STDIN */
 
     {                             /* input from a player */
       for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
