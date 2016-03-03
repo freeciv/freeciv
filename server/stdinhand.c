@@ -3575,9 +3575,10 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     legitimate but has inconsistencies) and would lead to a broken server
     afterwards.
 **************************************************************************/
-bool load_command(struct connection *caller, const char *filename, bool check)
+bool load_command(struct connection *caller, const char *filename, bool check,
+                  bool cmdline_load)
 {
-  struct timer *loadtimer, *uloadtimer;  
+  struct timer *loadtimer, *uloadtimer;
   struct section_file *file;
   char arg[MAX_LEN_PATH];
   struct conn_list *global_observers;
@@ -3612,10 +3613,26 @@ bool load_command(struct connection *caller, const char *filename, bool check)
     const char **ext, *found = NULL;
     const struct strvec **path;
 
+    if (cmdline_load) {
+      /* Allow plain names being loaded with '--file' option, but not otherwise
+       * (no loading of arbitrary files by unauthorized users)
+       * Iterate through ALL paths to check for file with plain name before
+       * looking any path with an extension, i.e., prefer plain name file
+       * in later directory over file with extension in name in earlier
+       * directory. */
+      for (path = pathes; !found && *path; path++) {
+        found = fileinfoname(*path, filename);
+        if (found != NULL) {
+          sz_strlcpy(arg, found);
+        }
+      }
+    }
+
     for (path = pathes; !found && *path; path++) {
       for (ext = exts; !found && *ext; ext++) {
         fc_snprintf(testfile, sizeof(testfile), "%s.%s", filename, *ext);
-        if ((found = fileinfoname(*path, testfile))) {
+        found = fileinfoname(*path, testfile);
+        if (found != NULL) {
           sz_strlcpy(arg, found);
         }
       }
@@ -4245,7 +4262,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   case CMD_SCENSAVE:
     return scensave_command(caller, arg, check);
   case CMD_LOAD:
-    return load_command(caller, arg, check);
+    return load_command(caller, arg, check, FALSE);
   case CMD_METAPATCHES:
     return metapatches_command(caller, arg, check);
   case CMD_METAMESSAGE:

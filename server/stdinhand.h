@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ enum rfc_status create_command_pregame(const char *name,
                                        char *buf, size_t buflen);
 
 bool load_command(struct connection *caller,
-		  const char *filename, bool check);
+                  const char *filename, bool check, bool cmdline_load);
 bool start_command(struct connection *caller, bool check, bool notify);
 
 void toggle_ai_player_direct(struct connection *caller,

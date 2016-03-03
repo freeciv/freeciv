@@ -2728,7 +2728,7 @@ static void srv_prepare(void)
 
   /* load a saved game */
   if ('\0' == srvarg.load_filename[0]
-   || !load_command(NULL, srvarg.load_filename, FALSE)) {
+      || !load_command(NULL, srvarg.load_filename, FALSE, TRUE)) {
     /* Rulesets are loaded on game initialization, but may be changed later
      * if /load or /rulesetdir is done. */
     load_rulesets(NULL, FALSE, TRUE, FALSE);
@@ -2736,7 +2736,7 @@ static void srv_prepare(void)
 
   maybe_automatic_meta_message(default_meta_message_string());
 
-  if(!(srvarg.metaserver_no_send)) {
+  if (!(srvarg.metaserver_no_send)) {
     log_normal(_("Sending info to metaserver <%s>."), meta_addr_port());
     /* Open socket for meta server */
     if (!server_open_meta()
