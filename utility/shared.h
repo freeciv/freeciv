@@ -178,9 +178,10 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
 const char *fileinfoname(const struct strvec *dirs, const char *filename);
 void free_fileinfo_data(void);
 
-char *get_langname(void);
 void init_nls(void);
 void free_nls(void);
+char *setup_langname(void);
+
 void dont_run_as_root(const char *argv0, const char *fallback);
 
 /*** matching prefixes: ***/

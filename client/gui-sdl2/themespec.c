@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -748,7 +748,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   sz_strlcpy(t->name, theme_name);
   t->priority = secfile_lookup_int_default(file, 0, "themespec.priority");
 
-  langname = get_langname();
+  langname = setup_langname();
   if (langname) {
     if (strstr(langname, "zh_CN") != NULL) {
       c = secfile_lookup_str(file, "themespec.font_file_zh_CN");

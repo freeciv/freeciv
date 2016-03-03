@@ -1434,12 +1434,11 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
 /***************************************************************************
   Language environmental variable (with emulation).
 ***************************************************************************/
-char *get_langname(void)
+char *setup_langname(void)
 {
   char *langname = NULL;
 
 #ifdef ENABLE_NLS
-
   langname = getenv("LANG");
 
 #ifdef WIN32_NATIVE
@@ -1447,76 +1446,117 @@ char *get_langname(void)
   if (!langname) {
     switch (PRIMARYLANGID(GetUserDefaultLangID())) {
       case LANG_ARABIC:
-        return "ar";
+        langname = "ar";
+        break;
       case LANG_CATALAN:
-        return "ca";
+        langname = "ca";
+        break;
       case LANG_CZECH:
-        return "cs";
+        langname = "cs";
+        break;
       case LANG_DANISH:
-        return "da";
+        langname = "da";
+        break;
       case LANG_GERMAN:
-        return "de";
+        langname = "de";
+        break;
       case LANG_GREEK:
-        return "el";
+        langname = "el";
+        break;
       case LANG_ENGLISH:
         switch (SUBLANGID(GetUserDefaultLangID())) {
           case SUBLANG_ENGLISH_UK:
-            return "en_GB";
+            langname = "en_GB";
+            break;
           default:
-            return "en";
+            langname = "en";
+            break;
         }
+        break;
       case LANG_SPANISH:
-        return "es";
+        langname = "es";
+        break;
       case LANG_ESTONIAN:
-        return "et";
+        langname = "et";
+        break;
       case LANG_FARSI:
-        return "fa";
+        langname = "fa";
+        break;
       case LANG_FINNISH:
-        return "fi";
+        langname = "fi";
+        break;
       case LANG_FRENCH:
-        return "fr";
+        langname = "fr";
+        break;
       case LANG_HEBREW:
-        return "he";
+        langname = "he";
+        break;
       case LANG_HUNGARIAN:
-        return "hu";
+        langname = "hu";
+        break;
       case LANG_ITALIAN:
-        return "it";
+        langname = "it";
+        break;
       case LANG_JAPANESE:
-        return "ja";
+        langname = "ja";
+        break;
       case LANG_KOREAN:
-        return "ko";
+        langname = "ko";
+        break;
       case LANG_LITHUANIAN:
-        return "lt";
+        langname = "lt";
+        break;
       case LANG_DUTCH:
-        return "nl";
+        langname = "nl";
+        break;
       case LANG_NORWEGIAN:
         switch (SUBLANGID(GetUserDefaultLangID())) {
           case SUBLANG_NORWEGIAN_BOKMAL:
-            return "nb";
+            langname = "nb";
+            break;
           default:
-            return "no";
+            langname = "no";
+            break;
         }
+        break;
       case LANG_POLISH:
-        return "pl";
+        langname = "pl";
+        break;
       case LANG_PORTUGUESE:
         switch (SUBLANGID(GetUserDefaultLangID())) {
           case SUBLANG_PORTUGUESE_BRAZILIAN:
-            return "pt_BR";
+            langname = "pt_BR";
+            break;
           default:
-            return "pt";
+            langname = "pt";
+            break;
         }
+        break;
       case LANG_ROMANIAN:
-        return "ro";
+        langname = "ro";
+        break;
       case LANG_RUSSIAN:
-        return "ru";
+        langname = "ru";
+        break;
       case LANG_SWEDISH:
-        return "sv";
+        langname = "sv";
+        break;
       case LANG_TURKISH:
-        return "tr";
+        langname = "tr";
+        break;
       case LANG_UKRAINIAN:
-        return "uk";
+        langname = "uk";
+        break;
       case LANG_CHINESE:
-        return "zh_CN";
+        langname = "zh_CN";
+        break;
+    }
+
+    if (langname != NULL) {
+      static char envstr[40];
+
+      fc_snprintf(envstr, sizeof(envstr), "LANG=%s", langname);
+      putenv(envstr);
     }
   }
 #endif /* WIN32_NATIVE */
@@ -1541,13 +1581,7 @@ void init_nls(void)
 #ifdef ENABLE_NLS
 
 #ifdef WIN32_NATIVE
-  char *langname = get_langname();
-  if (langname) {
-    static char envstr[40];
-
-    fc_snprintf(envstr, sizeof(envstr), "LANG=%s", langname);
-    putenv(envstr);
-  }
+  setup_langname(); /* Makes sure LANG env variable has been set */
 #endif /* WIN32_NATIVE */
 
   (void) setlocale(LC_ALL, "");
