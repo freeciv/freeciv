@@ -95,6 +95,7 @@ set={"name","value","gamestart"
 "aqueductloss",0,0
 "diplchance",3,80
 "endturn",410,5000
+"flatpoles",100,100
 "foodbox",10,100
 "generator","SCENARIO","RANDOM"
 "gold",75,50
@@ -122,7 +123,7 @@ set={"name","value","gamestart"
 "xsize",73,64
 "ysize",81,64
 }
-set_count=30
+set_count=31
 gamestart_valid=FALSE
 
 [ruledata]

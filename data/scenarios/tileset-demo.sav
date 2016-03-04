@@ -105,6 +105,7 @@ set={"name","value","gamestart"
 "airliftingstyle","",""
 "allowtake","HAhadOo","HAhadOo"
 "alltemperate",FALSE,FALSE
+"animals",20,20
 "aqueductloss",0,0
 "autoattack",FALSE,FALSE
 "autosaves","TURN|GAMEOVER|QUITIDLE|INTERRUPT","TURN|GAMEOVER|QUITIDLE|INTERRUPT"
@@ -133,6 +134,7 @@ set={"name","value","gamestart"
 "endturn",5000,5000
 "first_timeout",-1,-1
 "fixedlength",FALSE,FALSE
+"flatpoles",100,100
 "foggedborders",FALSE,FALSE
 "fogofwar",TRUE,TRUE
 "foodbox",100,100
@@ -144,6 +146,7 @@ set={"name","value","gamestart"
 "gold",50,50
 "happyborders","NATIONAL","NATIONAL"
 "homecaughtunits",TRUE,TRUE
+"huts",15,15
 "kicktime",1800,1800
 "killcitizen",FALSE,FALSE
 "killstack",TRUE,TRUE
@@ -211,6 +214,7 @@ set={"name","value","gamestart"
 "trading_city",TRUE,TRUE
 "trading_gold",TRUE,TRUE
 "trading_tech",TRUE,TRUE
+"traitdistribution","FIXED","FIXED"
 "turnblock",TRUE,TRUE
 "unitwaittime",0,0
 "unreachableprotects",TRUE,TRUE
@@ -219,7 +223,7 @@ set={"name","value","gamestart"
 "xsize",78,78
 "ysize",52,52
 }
-set_count=117
+set_count=121
 gamestart_valid=TRUE
 
 [ruledata]

@@ -94,6 +94,7 @@ set={"name","value","gamestart"
 "aifill",9,5
 "alltemperate",FALSE,FALSE
 "borders","DISABLED","ENABLED"
+"flatpoles",100,100
 "gameseed",1002711941,0
 "generator","SCENARIO","RANDOM"
 "happyborders","DISABLED","NATIONAL"
@@ -123,7 +124,7 @@ set={"name","value","gamestart"
 "xsize",100,64
 "ysize",100,64
 }
-set_count=31
+set_count=32
 gamestart_valid=FALSE
 
 [ruledata]

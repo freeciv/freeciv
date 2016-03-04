@@ -94,6 +94,7 @@ set={"name","value","gamestart"
 "aifill",10,5
 "alltemperate",FALSE,FALSE
 "borders","DISABLED","ENABLED"
+"flatpoles",100,100
 "generator","SCENARIO","RANDOM"
 "landmass",30,30
 "mapseed",539221826,0
@@ -119,7 +120,7 @@ set={"name","value","gamestart"
 "xsize",120,64
 "ysize",60,64
 }
-set_count=27
+set_count=28
 gamestart_valid=FALSE
 
 [ruledata]
