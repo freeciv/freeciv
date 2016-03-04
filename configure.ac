@@ -787,23 +787,43 @@ if test "$GZIP" = "no"; then
 fi
 
 dnl Check for bzip2 compression
-AC_CHECK_LIB(bz2, BZ2_bzReadOpen,
-  [AC_CHECK_HEADERS([bzlib.h],
-   [AC_DEFINE([FREECIV_HAVE_LIBBZ2], [1], [libbzip2 is available])
-UTILITY_LIBS="${UTILITY_LIBS} -lbz2"
-libbz2_available=true])])
-if test "x$libbz2_available" != "xtrue" ; then
-  feature_bz2=missing
+AC_ARG_WITH([libbz2],
+  AS_HELP_STRING([--with-libbz2], [support bzip2 compressed files [if possible]]),
+[WITH_BZ2="${withval}"],
+[WITH_BZ2="test"])
+
+if test "x$WITH_BZ2" != xno ; then
+  AC_CHECK_LIB([bz2], [BZ2_bzReadOpen],
+    [AC_CHECK_HEADERS([bzlib.h],
+     [AC_DEFINE([FREECIV_HAVE_LIBBZ2], [1], [libbzip2 is available])
+  UTILITY_LIBS="${UTILITY_LIBS} -lbz2"
+  libbz2_available=true])])
+  if test "x$libbz2_available" != "xtrue" ; then
+    if test "x$WITH_BZ2" = "xyes" ; then
+      AC_MSG_ERROR([Could not find libbz2 devel files])
+    fi
+    feature_bz2=missing
+  fi
 fi
 
 dnl Check for xz compression
-AC_CHECK_LIB(lzma, lzma_code,
-  [AC_CHECK_HEADERS([lzma.h],
-   [AC_DEFINE([FREECIV_HAVE_LIBLZMA], [1], [liblzma is available])
-UTILITY_LIBS="${UTILITY_LIBS} -llzma"
-libxz_available=true])])
-if test "x$libxz_available" != "xtrue" ; then
-  feature_xz=missing
+AC_ARG_WITH([liblzma],
+  AS_HELP_STRING([--with-liblzma], [support xz compressed files [if possible]]),
+[WITH_XZ="${withval}"],
+[WITH_XZ="test"])
+
+if test "x$WITH_XZ" != xno ; then
+  AC_CHECK_LIB([lzma], [lzma_code],
+    [AC_CHECK_HEADERS([lzma.h],
+     [AC_DEFINE([FREECIV_HAVE_LIBLZMA], [1], [liblzma is available])
+  UTILITY_LIBS="${UTILITY_LIBS} -llzma"
+  libxz_available=true])])
+  if test "x$libxz_available" != "xtrue" ; then
+    if test "x$WITH_XZ" = "xyes" ; then
+      AC_MSG_ERROR([Could not find liblzma devel files])
+    fi
+    feature_xz=missing
+  fi
 fi
 
 UTILITY_LIBS="${UTILITY_LIBS} ${LTLIBINTL}"
