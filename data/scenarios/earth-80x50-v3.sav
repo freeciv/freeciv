@@ -93,6 +93,7 @@ vars=$$
 set={"name","value","gamestart"
 "aifill",10,10
 "alltemperate",FALSE,FALSE
+"flatpoles",100,100
 "generator","SCENARIO","SCENARIO"
 "landmass",30,30
 "mapseed",0,0
@@ -114,7 +115,7 @@ set={"name","value","gamestart"
 "xsize",80,80
 "ysize",50,50
 }
-set_count=22
+set_count=23
 gamestart_valid=TRUE
 
 [ruledata]

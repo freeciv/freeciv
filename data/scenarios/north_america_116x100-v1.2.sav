@@ -97,6 +97,7 @@ set={"name","value","gamestart"
 "civilwarsize",6,10
 "diplbulbcost",100,0
 "diplgoldcost",100,0
+"flatpoles",100,100
 "generator","SCENARIO","RANDOM"
 "happyborders","DISABLED","NATIONAL"
 "huts",10,50
@@ -124,7 +125,7 @@ set={"name","value","gamestart"
 "xsize",116,64
 "ysize",100,64
 }
-set_count=32
+set_count=33
 gamestart_valid=FALSE
 
 [ruledata]

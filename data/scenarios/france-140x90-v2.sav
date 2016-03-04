@@ -96,6 +96,7 @@ set={"name","value","gamestart"
 "borders","EXPAND","ENABLED"
 "citynames","GLOBAL_UNIQUE","PLAYER_UNIQUE"
 "civilwarsize",6,10
+"flatpoles",100,100
 "generator","SCENARIO","RANDOM"
 "landmass",33,30
 "mapseed",0,0
@@ -123,7 +124,7 @@ set={"name","value","gamestart"
 "xsize",140,64
 "ysize",90,64
 }
-set_count=31
+set_count=32
 gamestart_valid=FALSE
 
 [ruledata]
