@@ -48,6 +48,13 @@ Updating from 2.5 to 2.6
   that can take also value --enable-freeciv-manual=html to make
   freeciv-manual that produces manuals with alternative formatting,
   default still being wiki formatting.
+* Added configure options --with[out]-libbz2 and --with[out]-liblzma to
+  explicitly enable or disable support for bz2 or xz compressed files.
+  The default is still to autodetect if the support can be built in.
+  Note that it's usually a bad idea to disable one of these if you
+  have had it previously enabled, as then your new version will be
+  unable to load old savegames created with that compression type in
+  use.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
@@ -146,9 +153,11 @@ its savegames. See server setting "compresstype".
 * zlib (gzip compression) is required to compile freeciv so zlib
   compression support is always present
 * bzip2 compression is built into Freeciv if bzip2 libraries and
-  headers are present at configure time
+  headers are present at configure time. One can override this automatic
+  detection with configure option --with[out]-libbz2.
 * xz compression is built into Freeciv if liblzma library and
-  headers are present at configure time
+  headers are present at configure time. One can override this automatic
+  detection with configure option --with[out]-liblzma.
 
 While this feature is called "Savegame compression support" it actually
 applies to loading of all the section files: savegames, rulesets, tileset
