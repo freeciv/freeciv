@@ -1274,19 +1274,64 @@ is_action_possible(const enum gen_action wanted_action,
   }
 
   if (wanted_action == ACTION_FOUND_CITY) {
-    if (!can_see_tgt_tile) {
-      /* Need to know if target tile already has a city. */
-      return TRI_MAYBE;
+    if (game.scenario.prevent_new_cities) {
+      /* Reason: allow scenarios to disable city founding. */
+      /* Info leak: the setting is public knowledge. */
+      return TRI_NO;
     }
 
-    if (tile_city(target_tile)) {
+    if (can_see_tgt_tile && tile_city(target_tile)) {
       /* Reason: a tile can have 0 or 1 cities. */
       return TRI_NO;
     }
 
-    /* TODO: Move more individual requirements to the action enabler. */
-    if (!unit_can_build_city(actor_unit)) {
-      return TRI_NO;
+    switch (city_build_here_test(target_tile, actor_unit)) {
+    case CB_OK:
+      /* If the player knows this is checked below. */
+      break;
+    case CB_BAD_CITY_TERRAIN:
+    case CB_BAD_UNIT_TERRAIN:
+    case CB_BAD_BORDERS:
+      if (can_see_tgt_tile) {
+        /* Known to be blocked. Target tile is seen. */
+        return TRI_NO;
+      }
+      break;
+    case CB_NO_MIN_DIST:
+      if (omniscient) {
+        /* No need to check again. */
+        return TRI_NO;
+      } else {
+        square_iterate(target_tile, game.info.citymindist - 1, otile) {
+          if (tile_city(otile) != NULL
+              && plr_sees_tile(actor_player, otile)) {
+            /* Known to be blocked by citymindist */
+            return TRI_NO;
+          }
+        } square_iterate_end;
+      }
+      break;
+    }
+
+    /* The player may not have enough information to be certain. */
+
+    if (!can_see_tgt_tile) {
+      /* Need to know if target tile already has a city, has TER_NO_CITIES
+       * terrain, is non native to the actor or is owned by a foreigner. */
+      return TRI_MAYBE;
+    }
+
+    if (!omniscient) {
+      /* The player may not have enough information to find out if
+       * citymindist blocks or not. This doesn't depend on if it blocks. */
+      square_iterate(target_tile, game.info.citymindist - 1, otile) {
+        if (!plr_sees_tile(actor_player, otile)) {
+          /* Could have a city that blocks via citymindist. Even if this
+           * tile has TER_NO_CITIES terrain the player don't know that it
+           * didn't change and had a city built on it. */
+          return TRI_MAYBE;
+        }
+      } square_iterate_end;
     }
   }
 
