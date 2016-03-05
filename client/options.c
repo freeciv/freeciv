@@ -2241,13 +2241,13 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(sound_enable_game_music,
                   N_("Enable in-game music"),
                   N_("Play music during the game, assuming there's suitable "
-                     "sound plugin and soundset with the sounds."),
+                     "sound plugin and musicset with in-game tracks."),
                   COC_SOUND, GUI_STUB, TRUE, game_music_enable_callback),
  GEN_BOOL_OPTION(sound_enable_menu_music,
                   N_("Enable menu music"),
                   N_("Play music while not in actual game, "
                      "assuming there's suitable "
-                     "sound plugin and soundset with the sounds."),
+                     "sound plugin and musicset with menu music tracks."),
                   COC_SOUND, GUI_STUB, TRUE, menu_music_enable_callback),
   GEN_BOOL_OPTION(autoaccept_soundset_suggestion,
                   N_("Autoaccept soundset suggestions"),
