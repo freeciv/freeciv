@@ -1456,12 +1456,7 @@ char *get_langname(void)
       case LANG_DUTCH:
         return "nl";
       case LANG_NORWEGIAN:
-        switch (SUBLANGID(GetUserDefaultLangID())) {
-          case SUBLANG_NORWEGIAN_BOKMAL:
-            return "nb";
-          default:
-            return "no";
-        }
+        return "nb";
       case LANG_POLISH:
         return "pl";
       case LANG_PORTUGUESE:
