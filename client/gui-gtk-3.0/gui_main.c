@@ -358,6 +358,7 @@ static void main_message_area_size_allocate(GtkWidget *widget,
                                             gpointer data)
 {
   static int old_width = 0, old_height = 0;
+
   if (allocation->width != old_width
       || allocation->height != old_height) {
     chatline_scroll_to_bottom(TRUE);
@@ -748,7 +749,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
 }
 
 /**************************************************************************
- reattaches the detached widget when the user destroys it.
+  Reattaches the detached widget when the user destroys it.
 **************************************************************************/
 static void tearoff_destroy(GtkWidget *w, gpointer data)
 {
@@ -764,17 +765,18 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
- propagates a keypress in a tearoff back to the toplevel window.
+  Propagates a keypress in a tearoff back to the toplevel window.
 **************************************************************************/
 static gboolean propagate_keypress(GtkWidget *w, GdkEventKey *ev)
 {
   gtk_widget_event(toplevel, (GdkEvent *)ev);
+
   return FALSE;
 }
 
 /**************************************************************************
- callback for the toggle button in the detachable widget: causes the
- widget to detach or reattach.
+  Callback for the toggle button in the detachable widget: causes the
+  widget to detach or reattach.
 **************************************************************************/
 static void tearoff_callback(GtkWidget *b, gpointer data)
 {
@@ -782,6 +784,8 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
   GtkWidget *w;
 
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(b))) {
+    GtkWidget *temp_hide;
+
     w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     setup_dialog(w, toplevel);
     gtk_widget_set_name(w, "Freeciv");
@@ -791,11 +795,17 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
     g_signal_connect(w, "key_press_event",
 	G_CALLBACK(propagate_keypress), NULL);
 
-
     g_object_set_data(G_OBJECT(w), "parent", gtk_widget_get_parent(box));
     g_object_set_data(G_OBJECT(w), "toggle", b);
+    temp_hide = g_object_get_data(G_OBJECT(box), "hide-over-reparent");
+    if (temp_hide != NULL) {
+      gtk_widget_hide(temp_hide);
+    }
     gtk_widget_reparent(box, w);
     gtk_widget_show(w);
+    if (temp_hide != NULL) {
+      gtk_widget_show(temp_hide);
+    }
   } else {
     gtk_widget_destroy(gtk_widget_get_parent(box));
   }
@@ -1050,12 +1060,13 @@ static void setup_canvas_color_for_state(GtkStateFlags state)
 **************************************************************************/
 static void setup_widgets(void)
 {
-  GtkWidget *page, *ebox, *hgrid, *hgrid2, *sbox, *label;
+  GtkWidget *page, *ebox, *hgrid, *hgrid2, *label;
   GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
   GtkWidget *button, *view, *vgrid, *right_vbox = NULL;
   int i;
   char buf[256];
   GtkWidget *notebook, *statusbar;
+  GtkWidget *dtach_lowbox = NULL;
 
   message_buffer = gtk_text_buffer_new(NULL);
 
@@ -1460,9 +1471,9 @@ static void setup_widgets(void)
     bottom_hpaned = hpaned = paned;
     right_notebook = bottom_notebook = top_notebook;
   } else {
-    sbox = detached_widget_new();
-    gtk_paned_pack2(GTK_PANED(paned), sbox, FALSE, TRUE);
-    avbox = detached_widget_fill(sbox);
+    dtach_lowbox = detached_widget_new();
+    gtk_paned_pack2(GTK_PANED(paned), dtach_lowbox, FALSE, TRUE);
+    avbox = detached_widget_fill(dtach_lowbox);
 
     vgrid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
@@ -1527,6 +1538,9 @@ static void setup_widgets(void)
   gtk_text_view_set_left_margin(GTK_TEXT_VIEW(text), 5);
 
   main_message_area = GTK_TEXT_VIEW(text);
+  if (dtach_lowbox != NULL) {
+    g_object_set_data(G_OBJECT(dtach_lowbox), "hide-over-reparent", main_message_area);
+  }
 
   chat_welcome_message(TRUE);
 
