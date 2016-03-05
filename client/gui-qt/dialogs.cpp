@@ -1269,10 +1269,14 @@ void revolution_response(struct government *government)
   Move the queue of diplomats that need user input forward unless the
   current diplomat will need more input.
 **************************************************************************/
-static void diplomat_queue_handle_primary(int actor_id)
+static void diplomat_queue_handle_primary(int actor_unit_id)
 {
   if (!is_more_user_input_needed) {
-    action_decision_taken(actor_id);
+    /* The client isn't waiting for information for any unanswered follow
+     * up questions. */
+    action_selection_no_longer_in_progress(actor_unit_id);
+    action_decision_clear_want(actor_unit_id);
+    action_selection_next_in_focus(actor_unit_id);
   }
 }
 

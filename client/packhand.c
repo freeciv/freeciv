@@ -413,8 +413,9 @@ void handle_unit_remove(int unit_id)
   /* Close diplomat dialog if the diplomat is lost */
   if (action_selection_actor_unit() == punit->id) {
     action_selection_close();
-    /* Open another diplomat dialog if there are other diplomats waiting */
-    action_decision_taken(unit_id);
+    /* Open another action selection dialog if there are other actors in the
+     * current selection that want a decision. */
+    action_selection_next_in_focus(unit_id);
   }
 
   need_economy_report_update = (0 < punit->upkeep[O_GOLD]);
@@ -4283,14 +4284,17 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
     log_error("handle_unit_action_answer() the action %d doesn't exist.",
               action_type);
 
-    action_decision_taken(diplomat_id);
+    action_selection_no_longer_in_progress(diplomat_id);
+    action_decision_clear_want(diplomat_id);
+    action_selection_next_in_focus(diplomat_id);
     return;
   }
 
   if (!pdiplomat) {
     log_debug("Bad actor %d.", diplomat_id);
 
-    action_decision_taken(diplomat_id);
+    action_selection_no_longer_in_progress(diplomat_id);
+    action_selection_next_in_focus(diplomat_id);
     return;
   }
 
@@ -4304,7 +4308,9 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
       popup_bribe_dialog(pdiplomat, punit, cost);
     } else {
       log_debug("Bad target %d.", target_id);
-      action_decision_taken(diplomat_id);
+      action_selection_no_longer_in_progress(diplomat_id);
+      action_decision_clear_want(diplomat_id);
+      action_selection_next_in_focus(diplomat_id);
     }
     break;
   case ACTION_SPY_INCITE_CITY:
@@ -4316,17 +4322,23 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
       popup_incite_dialog(pdiplomat, pcity, cost);
     } else {
       log_debug("Bad target %d.", target_id);
-      action_decision_taken(diplomat_id);
+      action_selection_no_longer_in_progress(diplomat_id);
+      action_decision_clear_want(diplomat_id);
+      action_selection_next_in_focus(diplomat_id);
     }
     break;
   case ACTION_COUNT:
     log_debug("Server didn't respond to query.");
-    action_decision_taken(diplomat_id);
+    action_selection_no_longer_in_progress(diplomat_id);
+    action_decision_clear_want(diplomat_id);
+    action_selection_next_in_focus(diplomat_id);
     break;
   default:
     log_error("handle_unit_action_answer() invalid action_type (%d).",
               action_type);
-    action_decision_taken(diplomat_id);
+    action_selection_no_longer_in_progress(diplomat_id);
+    action_decision_clear_want(diplomat_id);
+    action_selection_next_in_focus(diplomat_id);
     break;
   };
 }
@@ -4369,8 +4381,10 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
                            target_city, target_unit, target_tile,
                            act_prob);
   } else if (disturb_player) {
-    /* Nothing to do. Go to the next queued dipomat */
-    action_decision_taken(packet->actor_unit_id);
+    /* Nothing to do. */
+    action_selection_no_longer_in_progress(packet->actor_unit_id);
+    action_decision_clear_want(packet->actor_unit_id);
+    action_selection_next_in_focus(packet->actor_unit_id);
   } else {
     /* This was a background request. */
 
@@ -4396,14 +4410,17 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
   if (!pdiplomat) {
     log_debug("Bad diplomat %d.", diplomat_id);
 
-    action_decision_taken(diplomat_id);
+    action_selection_no_longer_in_progress(diplomat_id);
+    action_selection_next_in_focus(diplomat_id);
     return;
   }
 
   if (!pcity) {
     log_debug("Bad city %d.", city_id);
 
-    action_decision_taken(diplomat_id);
+    action_selection_no_longer_in_progress(diplomat_id);
+    action_decision_clear_want(diplomat_id);
+    action_selection_next_in_focus(diplomat_id);
     return;
   }
 
@@ -4420,7 +4437,8 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
     popup_sabotage_dialog(pdiplomat, pcity);
   } else {
     log_debug("Can't issue orders");
-    action_decision_taken(diplomat_id);
+    action_selection_no_longer_in_progress(diplomat_id);
+    action_decision_clear_want(diplomat_id);
   }
 }
 

@@ -77,9 +77,11 @@ static action_probability follow_up_act_probs[ACTION_COUNT];
 static void act_sel_done_primary(int actor_unit_id)
 {
   if (!is_more_user_input_needed) {
-    /* The client isn't waiting for more information about the selected
-     * action. */
-    action_decision_taken(actor_unit_id);
+    /* The client isn't waiting for information for any unanswered follow
+     * up questions. */
+    action_selection_no_longer_in_progress(actor_unit_id);
+    action_decision_clear_want(actor_unit_id);
+    action_selection_next_in_focus(actor_unit_id);
   }
 }
 

@@ -998,12 +998,11 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 }
 
 /**************************************************************************
-  The player made a decision about what to do.
+  The action selection process is no longer in progres for the specified
+  unit. It is safe to let another unit enter it.
 **************************************************************************/
-void action_decision_taken(const int old_actor_id)
+void action_selection_no_longer_in_progress(const int old_actor_id)
 {
-  struct unit *old;
-
   /* IDENTITY_NUMBER_ZERO is accepted for cases where the unit is gone
    * without a trace. */
   fc_assert_msg(old_actor_id == action_selection_in_progress_for
@@ -1013,12 +1012,31 @@ void action_decision_taken(const int old_actor_id)
 
   /* Stop objecting to allowing the next unit to ask. */
   action_selection_in_progress_for = IDENTITY_NUMBER_ZERO;
+}
+
+/**************************************************************************
+  Have the server record that a decision no longer is wanted for the
+  specified unit.
+**************************************************************************/
+void action_decision_clear_want(const int old_actor_id)
+{
+  struct unit *old;
 
   if ((old = game_unit_by_number(old_actor_id))) {
     /* Have the server record that a decision no longer is wanted. */
     dsend_packet_unit_sscs_set(&client.conn, old_actor_id,
                                USSDT_UNQUEUE, IDENTITY_NUMBER_ZERO);
   }
+}
+
+/**************************************************************************
+  Move on to the next unit in focus that needs an action decision.
+**************************************************************************/
+void action_selection_next_in_focus(const int old_actor_id)
+{
+  struct unit *old;
+
+  old = game_unit_by_number(old_actor_id);
 
   /* Go to the next unit in focus that needs a decision. */
   unit_list_iterate(get_units_in_focus(), funit) {

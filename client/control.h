@@ -184,7 +184,9 @@ double blink_active_unit(void);
 double blink_turn_done_button(void);
 
 bool should_ask_server_for_actions(struct unit *punit);
-void action_decision_taken(const int old_actor_id);
+void action_selection_no_longer_in_progress(const int old_actor_id);
+void action_decision_clear_want(const int old_actor_id);
+void action_selection_next_in_focus(const int old_actor_id);
 void action_decision_request(struct unit *actor_unit);
 
 void key_cancel_action(void);
