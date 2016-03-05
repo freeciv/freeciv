@@ -1539,14 +1539,7 @@ char *setup_langname(void)
         langname = "nl";
         break;
       case LANG_NORWEGIAN:
-        switch (SUBLANGID(GetUserDefaultLangID())) {
-          case SUBLANG_NORWEGIAN_BOKMAL:
-            langname = "nb";
-            break;
-          default:
-            langname = "no";
-            break;
-        }
+        langname = "nb";
         break;
       case LANG_POLISH:
         langname = "pl";
