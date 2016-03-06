@@ -1591,6 +1591,7 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city)
 {
+  struct tile *actor_tile = unit_tile(actor_unit);
   struct impr_type *target_building;
   struct unit_type *target_utype;
 
@@ -1617,8 +1618,8 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
   target_utype = tgt_city_local_utype(target_city);
 
   return is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), NULL, NULL,
-                           unit_tile(actor_unit),
+                           unit_owner(actor_unit), tile_city(actor_tile),
+                           NULL, actor_tile,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            city_owner(target_city), target_city,
@@ -1636,6 +1637,8 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit)
 {
+  struct tile *actor_tile = unit_tile(actor_unit);
+
   if (actor_unit == NULL || target_unit == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -1656,8 +1659,8 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                         action_target_kind_name(ATK_UNIT));
 
   return is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), NULL, NULL,
-                           unit_tile(actor_unit),
+                           unit_owner(actor_unit), tile_city(actor_tile),
+                           NULL, actor_tile,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            unit_owner(target_unit),
@@ -1677,6 +1680,8 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
                                      const struct unit *actor_unit,
                                      const struct tile *target_tile)
 {
+  struct tile *actor_tile = unit_tile(actor_unit);
+
   if (actor_unit == NULL || target_tile == NULL
       || unit_list_size(target_tile->units) == 0) {
     /* Can't do an action when actor or target are missing. */
@@ -1699,8 +1704,8 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
 
   unit_list_iterate(target_tile->units, target_unit) {
     if (!is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), NULL, NULL,
-                           unit_tile(actor_unit),
+                           unit_owner(actor_unit), tile_city(actor_tile),
+                           NULL, actor_tile,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            unit_owner(target_unit),
@@ -1727,6 +1732,8 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile)
 {
+  struct tile *actor_tile = unit_tile(actor_unit);
+
   if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -1747,8 +1754,8 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                         action_target_kind_name(ATK_TILE));
 
   return is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), NULL, NULL,
-                           unit_tile(actor_unit),
+                           unit_owner(actor_unit), tile_city(actor_tile),
+                           NULL, actor_tile,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            tile_owner(target_tile), NULL, NULL,
@@ -1765,6 +1772,8 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
 bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                                     const struct unit *actor_unit)
 {
+  struct tile *actor_tile = unit_tile(actor_unit);
+
   if (actor_unit == NULL) {
     /* Can't do an action when the actor is missing. */
     return FALSE;
@@ -1785,8 +1794,8 @@ bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                         action_target_kind_name(ATK_SELF));
 
   return is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), NULL, NULL,
-                           unit_tile(actor_unit),
+                           unit_owner(actor_unit), tile_city(actor_tile),
+                           NULL, actor_tile,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -2243,6 +2252,7 @@ action_probability action_prob_vs_city(const struct unit* actor_unit,
                                        const int action_id,
                                        const struct city* target_city)
 {
+  struct tile *actor_tile = unit_tile(actor_unit);
   struct impr_type *target_building;
   struct unit_type *target_utype;
 
@@ -2269,8 +2279,8 @@ action_probability action_prob_vs_city(const struct unit* actor_unit,
   target_utype = tgt_city_local_utype(target_city);
 
   return action_prob(action_id,
-                     unit_owner(actor_unit), NULL, NULL,
-                     unit_tile(actor_unit), actor_unit, NULL,
+                     unit_owner(actor_unit), tile_city(actor_tile),
+                     NULL, actor_tile, actor_unit, NULL,
                      NULL, NULL,
                      city_owner(target_city), target_city,
                      target_building, city_tile(target_city),
@@ -2285,6 +2295,8 @@ action_probability action_prob_vs_unit(const struct unit* actor_unit,
                                        const int action_id,
                                        const struct unit* target_unit)
 {
+  struct tile *actor_tile = unit_tile(actor_unit);
+
   if (actor_unit == NULL || target_unit == NULL) {
     /* Can't do an action when actor or target are missing. */
     return ACTPROB_IMPOSSIBLE;
@@ -2305,8 +2317,8 @@ action_probability action_prob_vs_unit(const struct unit* actor_unit,
                         action_target_kind_name(ATK_UNIT));
 
   return action_prob(action_id,
-                     unit_owner(actor_unit), NULL, NULL,
-                     unit_tile(actor_unit), actor_unit, NULL,
+                     unit_owner(actor_unit), tile_city(actor_tile),
+                     NULL, actor_tile, actor_unit, NULL,
                      NULL, NULL,
                      unit_owner(target_unit),
                      tile_city(unit_tile(target_unit)), NULL,
@@ -2323,6 +2335,7 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
                                         const struct tile* target_tile)
 {
   int prob_all;
+  struct tile *actor_tile = unit_tile(actor_unit);
 
   if (actor_unit == NULL || target_tile == NULL
       || unit_list_size(target_tile->units) == 0) {
@@ -2347,9 +2360,9 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
   prob_all = 200;
   unit_list_iterate(target_tile->units, target_unit) {
     int prob_unit = action_prob(action_id,
-                                unit_owner(actor_unit), NULL, NULL,
-                                unit_tile(actor_unit),
-                                actor_unit, NULL,
+                                unit_owner(actor_unit),
+                                tile_city(actor_tile),
+                                NULL, actor_tile, actor_unit, NULL,
                                 NULL, NULL,
                                 unit_owner(target_unit),
                                 tile_city(unit_tile(target_unit)), NULL,
@@ -2399,6 +2412,8 @@ action_probability action_prob_vs_tile(const struct unit* actor_unit,
                                        const int action_id,
                                        const struct tile* target_tile)
 {
+  struct tile *actor_tile = unit_tile(actor_unit);
+
   if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
     return ACTPROB_IMPOSSIBLE;
@@ -2419,9 +2434,8 @@ action_probability action_prob_vs_tile(const struct unit* actor_unit,
                         action_target_kind_name(ATK_TILE));
 
   return action_prob(action_id,
-                     unit_owner(actor_unit), NULL, NULL,
-                     unit_tile(actor_unit),
-                     actor_unit, NULL,
+                     unit_owner(actor_unit), tile_city(actor_tile),
+                     NULL, actor_tile, actor_unit, NULL,
                      NULL, NULL,
                      tile_owner(target_tile), NULL, NULL,
                      target_tile, NULL, NULL, NULL, NULL);
@@ -2434,6 +2448,8 @@ action_probability action_prob_vs_tile(const struct unit* actor_unit,
 action_probability action_prob_self(const struct unit* actor_unit,
                                     const int action_id)
 {
+  struct tile *actor_tile = unit_tile(actor_unit);
+
   if (actor_unit == NULL) {
     /* Can't do the action when the actor is missing. */
     return ACTPROB_IMPOSSIBLE;
@@ -2454,8 +2470,8 @@ action_probability action_prob_self(const struct unit* actor_unit,
                         action_target_kind_name(ATK_SELF));
 
   return action_prob(action_id,
-                     unit_owner(actor_unit), NULL, NULL,
-                     unit_tile(actor_unit), actor_unit, NULL,
+                     unit_owner(actor_unit), tile_city(actor_tile),
+                     NULL, actor_tile, actor_unit, NULL,
                      NULL, NULL,
                      NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
