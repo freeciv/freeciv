@@ -347,7 +347,9 @@ static void ask_server_for_actions(struct unit *punit)
   fc_assert_ret(punit->action_decision_tile);
 
   /* Only one action selection dialog at a time is supported. */
-  fc_assert(action_selection_in_progress_for == IDENTITY_NUMBER_ZERO);
+  fc_assert_msg(action_selection_in_progress_for == IDENTITY_NUMBER_ZERO,
+                "Unit %d started action selection before unit %d was done",
+                action_selection_in_progress_for, punit->id);
   action_selection_in_progress_for = punit->id;
 
   dsend_packet_unit_get_actions(&client.conn,
