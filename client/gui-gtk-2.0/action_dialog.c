@@ -63,6 +63,7 @@ static int action_button_map[BUTTON_COUNT];
 static int actor_unit_id;
 static int target_ids[ATK_COUNT];
 static bool is_more_user_input_needed = FALSE;
+static bool did_not_decide = FALSE;
 static action_probability follow_up_act_probs[ACTION_COUNT];
 
 static GtkWidget  *spy_tech_shell;
@@ -109,9 +110,21 @@ static void diplomat_queue_handle_primary(void)
   if (!is_more_user_input_needed) {
     /* The client isn't waiting for information for any unanswered follow
      * up questions. */
+
+    /* The action selection process is over, at least for now. */
     action_selection_no_longer_in_progress(actor_unit_id);
-    action_decision_clear_want(actor_unit_id);
-    action_selection_next_in_focus(actor_unit_id);
+
+    if (did_not_decide) {
+      /* The action selection dialog was closed but the player didn't
+       * decide what the unit should do. */
+
+      /* Reset so the next action selection dialog does the right thing. */
+      did_not_decide = FALSE;
+    } else {
+      /* An action, or no action at all, was selected. */
+      action_decision_clear_want(actor_unit_id);
+      action_selection_next_in_focus(actor_unit_id);
+    }
   }
 }
 
@@ -1572,6 +1585,7 @@ void action_selection_refresh(struct unit *actor_unit,
 void action_selection_close(void)
 {
   if (act_sel_dialog != NULL) {
+    did_not_decide = TRUE;
     gtk_widget_destroy(act_sel_dialog);
   }
 }
