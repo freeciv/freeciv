@@ -78,8 +78,10 @@ enum ane_kind {
   ANEK_ACTOR_UNIT,
   /* Explanation: the action is redundant vs this target. */
   ANEK_BAD_TARGET,
-  /* Explanation: bad terrain. */
-  ANEK_BAD_TERRAIN,
+  /* Explanation: bad actor terrain. */
+  ANEK_BAD_TERRAIN_ACT,
+  /* Explanation: bad target terrain. */
+  ANEK_BAD_TERRAIN_TGT,
   /* Explanation: being transported. */
   ANEK_IS_TRANSPORTED,
   /* Explanation: not being transported. */
@@ -123,7 +125,7 @@ struct ane_expl {
 
   union {
     /* The bad terrain in question. */
-    struct terrain *cant_act_from;
+    struct terrain *no_act_terrain;
 
     /* The player to advice declaring war on. */
     struct player *no_war_with;
@@ -709,8 +711,14 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       || (can_exist
           && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                            USP_LIVABLE_TILE, TRUE))) {
-    expl->kind = ANEK_BAD_TERRAIN;
-    expl->cant_act_from = tile_terrain(unit_tile(punit));
+    expl->kind = ANEK_BAD_TERRAIN_ACT;
+    expl->no_act_terrain = tile_terrain(unit_tile(punit));
+  } else if (action_id == ACTION_FOUND_CITY
+             && target_tile
+             && terrain_has_flag(tile_terrain(target_tile),
+                                 TER_NO_CITIES)) {
+    expl->kind = ANEK_BAD_TERRAIN_TGT;
+    expl->no_act_terrain = tile_terrain(target_tile);
   } else if (unit_transported(punit)
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTED, TRUE)) {
@@ -849,10 +857,15 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("Your %s found no suitable target."),
                   unit_name_translation(punit));
     break;
-  case ANEK_BAD_TERRAIN:
+  case ANEK_BAD_TERRAIN_ACT:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot act from %s."),
-                  terrain_name_translation(expl->cant_act_from));
+                  terrain_name_translation(expl->no_act_terrain));
+    break;
+  case ANEK_BAD_TERRAIN_TGT:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("Unit cannot act against %s."),
+                  terrain_name_translation(expl->no_act_terrain));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1146,13 +1159,21 @@ void illegal_action_msg(struct player *pplayer,
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action));
     break;
-  case ANEK_BAD_TERRAIN:
+  case ANEK_BAD_TERRAIN_ACT:
     notify_player(pplayer, unit_tile(actor),
                   event, ftc_server,
                   _("Your %s can't do %s from %s."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  terrain_name_translation(expl->cant_act_from));
+                  terrain_name_translation(expl->no_act_terrain));
+    break;
+  case ANEK_BAD_TERRAIN_TGT:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s to %s."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action),
+                  terrain_name_translation(expl->no_act_terrain));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(actor),
