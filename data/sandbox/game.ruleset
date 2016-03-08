@@ -625,11 +625,37 @@ actor_reqs    =
 [actionenabler_upgrade_unit]
 action = "Upgrade Unit"
 
-[actionenabler_airlift_unit]
+[actionenabler_airlift_light_unit]
 action = "Airlift Unit"
 actor_reqs    =
     { "type",          "name",        "range"
-      "UnitClassFlag", "Airliftable", "Local"
+      "UnitClassFlag", "LightWeight", "Local"
+    }
+
+[actionenabler_airlift_medium_unit]
+action = "Airlift Unit"
+actor_reqs    =
+    { "type",          "name",            "range"
+      "UnitClassFlag", "MediumWeight",    "Local"
+      "Tech",          "Advanced Flight", "Player"
+      "Building",      "Airport",         "City"
+    }
+target_reqs    =
+    { "type",     "name",    "range"
+      "Building", "Airport", "City"
+    }
+
+[actionenabler_airlift_heavy_unit]
+action = "Airlift Unit"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitClassFlag", "HeavyWeight",  "Local"
+      "Tech",          "Fusion Power", "Player"
+      "Building",      "Airport",       "City"
+    }
+target_reqs    =
+    { "type",     "name",    "range"
+      "Building", "Airport", "City"
     }
 
 [borders]

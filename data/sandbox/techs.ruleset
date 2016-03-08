@@ -88,7 +88,8 @@ req2     = "Machine Tools"
 flags    = ""
 graphic     = "a.advanced_flight"
 graphic_alt = "-"
-helptext = _("Enables movement of nuclear units.")
+helptext = _("Enables movement of nuclear units."),
+           _("Enables airlift of medium weight units.")
 cost     = 570
 
 [advance_alphabet]
@@ -363,6 +364,7 @@ req2     = "Tactics"
 flags    = "Build_Airborne"
 graphic     = "a.flight"
 graphic_alt = "-"
+helptext = _("Enables airlift of light weight units.")
 cost     = 500
 
 [advance_fusion_power]
@@ -372,7 +374,8 @@ req2     = "Labor Union"
 flags    = ""
 graphic     = "a.fusion_power"
 graphic_alt = "-"
-helptext = _("Makes it possible for Engineers to transform terrains.")
+helptext = _("Makes it possible for Engineers to transform terrains."),
+           _("Enables airlift of heavy weight units.")
 cost     = 770
 
 [advance_genetic_engineering]

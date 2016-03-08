@@ -53,7 +53,9 @@ flags =
 ;                 with this flag (optional)
 class_flags =
   { "name", "helptxt"
-    _("Airliftable"), _("Can be airlifted from a suitable city.")
+    _("LightWeight"), _("Airliftable once you learn Flight.")
+    _("MediumWeight"), _("Airliftable from Airport after you learn Advanced Flight.")
+    _("HeavyWeight"), _("Airliftable from Airport after you learn Fusion Power.")
   }
 
 [veteran_system]
@@ -147,7 +149,7 @@ name          = _("?unitclass:Missile")
 min_speed     = 0
 hp_loss_pct   = 0
 hut_behavior  = "Frighten"
-flags         = "Missile", "Unreachable", "DoesntOccupyTile", "Airliftable"
+flags         = "Missile", "Unreachable", "DoesntOccupyTile", "MediumWeight"
 
 [unitclass_land]
 ; /* TRANS: Unit class: used adjectivally */
@@ -156,7 +158,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "KillCitizen", "Airliftable"
+                "TerrainDefense", "KillCitizen", "LightWeight"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -164,7 +166,7 @@ name          = _("?unitclass:Small Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
-                "ZOC", "TerrainDefense", "DoesntOccupyTile", "Airliftable"
+                "ZOC", "TerrainDefense", "DoesntOccupyTile", "LightWeight"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -172,7 +174,7 @@ name          = _("?unitclass:Big Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
-                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "Airliftable"
+                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "MediumWeight"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */
@@ -180,28 +182,29 @@ name          = _("?unitclass:Merchant")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
-                "TerrainDefense", "TerrainSpeed", "Airliftable"
+                "TerrainDefense", "TerrainSpeed", "MediumWeight"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Sea")
 min_speed     = 2
 hp_loss_pct   = 0
-flags         = "ZOC", "DamageSlows", "AttackNonNative", "AttFromNonNative"
+flags         = "ZOC", "DamageSlows", "AttackNonNative", "AttFromNonNative",
+                "HeavyWeight"
 
 [unitclass_trireme]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Trireme")
 min_speed     = 2
 hp_loss_pct   = 0
-flags         = "ZOC", "DamageSlows", "AttFromNonNative"
+flags         = "ZOC", "DamageSlows", "AttFromNonNative", "MediumWeight"
 
 [unitclass_heli]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Helicopter")
 min_speed     = 1
 hp_loss_pct   = 10
-flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRansom", "Airliftable"
+flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRansom", "MediumWeight"
 
 [unitclass_air]
 ; /* TRANS: Unit class: used adjectivally */
@@ -209,7 +212,7 @@ name          = _("?unitclass:Air")
 min_speed     = 1
 hp_loss_pct   = 10
 hut_behavior  = "Frighten"
-flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
+flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "MediumWeight"
 
 ; /* <-- avoid gettext warnings
 ;
