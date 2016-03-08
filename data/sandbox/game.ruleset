@@ -192,7 +192,7 @@ tired_attack = FALSE
 ; If force_trade_route is set to TRUE it is illegal for an actor unit to
 ; enter the marketplace of a city if it can establish a trade route to it
 ; in stead.
-force_trade_route = TRUE
+force_trade_route = FALSE
 
 ; If force_capture_units is set to TRUE it is illegal for an actor unit to
 ; bombard, explode nuclear or perform a regular attack against a tile if
@@ -462,6 +462,10 @@ action = "Enter Marketplace"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
+    }
+target_reqs  =
+    { "type",     "name",        "range"
+      "Building", "Marketplace", "City"
     }
 
 [actionenabler_help_build_wonder]
