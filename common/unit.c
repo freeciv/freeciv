@@ -95,6 +95,15 @@ enum unit_airlift_result
     return AR_BAD_DST_CITY;
   }
 
+  if (pdest_city
+      && (NULL == restriction
+          || (tile_get_known(city_tile(pdest_city), restriction)
+              == TILE_KNOWN_SEEN))
+      && !can_unit_exist_at_tile(punit, city_tile(pdest_city))) {
+    /* Can't exist at the destination tile. */
+    return AR_BAD_DST_CITY;
+  }
+
   punit_owner = unit_owner(punit);
 
   /* Check validity of both source and destination before checking capacity,
