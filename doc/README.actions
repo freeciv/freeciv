@@ -269,6 +269,7 @@ Actions done by a unit against a city
  * the actor unit must have movement left
  * the actor unit isn't transporting another unit
  * the actor unit isn't inside the target city
+ * the actor unit can exist in the target city (outside a transport)
  * the actor unit is in a city
    - that is domestic or, if airliftingstyle permits it, allied
    - that has Airlift (see the Airlift effect and the airliftingstyle
