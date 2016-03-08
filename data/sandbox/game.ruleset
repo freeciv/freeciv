@@ -328,7 +328,6 @@ action       = "Establish Embassy"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
-      "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
 target_reqs  =
