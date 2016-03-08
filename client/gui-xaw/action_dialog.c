@@ -74,6 +74,11 @@ static Widget diplomat_dialog;
 int diplomat_id;
 int diplomat_target_id[ATK_COUNT];
 
+#define action_decision_taken(actor_id)                                   \
+  action_selection_no_longer_in_progress(actor_id);                       \
+  action_decision_clear_want(actor_id);                                   \
+  action_selection_next_in_focus(actor_id);
+
 /**************************************************************************
   User selected enter market place from caravan dialog
 **************************************************************************/
