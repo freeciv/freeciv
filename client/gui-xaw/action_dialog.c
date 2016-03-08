@@ -1040,6 +1040,8 @@ void action_selection_refresh(struct unit *actor_unit,
 void action_selection_close(void)
 {
   if (diplomat_dialog != NULL) {
+    action_selection_no_longer_in_progress(diplomat_id);
+
     XtDestroyWidget(diplomat_dialog);
   }
 }
