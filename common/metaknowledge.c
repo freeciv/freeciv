@@ -383,6 +383,11 @@ static bool is_req_knowable(const struct player *pow_player,
       return FALSE;
     case REQ_RANGE_CITY:
     case REQ_RANGE_LOCAL:
+      if (!target_city) {
+        /* Can't be. No city to contain it. */
+        return TRUE;
+      }
+
       if (can_player_see_city_internals(pow_player, target_city)) {
         /* Anyone that can see city internals (like the owner) known all
          * its improvements. */
