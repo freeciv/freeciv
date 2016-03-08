@@ -3620,9 +3620,19 @@ static enum item_found improvement_found(const struct requirement *preq,
    * cannot fulfill the requirements. This is necessary to allow
    * requirement vectors to specify multiple required improvements. */
 
-  if (preq->source.kind == VUT_IMPROVEMENT
-      && source->value.building == preq->source.value.building) {
-    return ITF_YES;
+  switch (preq->source.kind) {
+  case VUT_IMPROVEMENT:
+    if (source->value.building == preq->source.value.building) {
+      return ITF_YES;
+    }
+    break;
+  case VUT_IMPR_GENUS:
+    if (source->value.building->genus == preq->source.value.impr_genus) {
+      return ITF_YES;
+    }
+    break;
+  default:
+    break;
   }
 
   return ITF_NOT_APPLICABLE;
