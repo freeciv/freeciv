@@ -141,6 +141,7 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   gold_edit2->setMinimum(0);
   if (game.info.trading_gold) {
     gold_edit2->setMaximum(player_by_number(player1)->economic.gold);
+    gold_edit1->setMaximum(player_by_number(player2)->economic.gold);
   }
   connect(gold_edit1, SIGNAL(valueChanged(int)), SLOT(gold_changed1(int)));
   connect(gold_edit2, SIGNAL(valueChanged(int)), SLOT(gold_changed2(int)));
