@@ -323,6 +323,7 @@ struct client_options gui_options = {
   .gui_qt_font_city_names = "Sans Serif,10,-1,5,75,0,0,0,0,0",
   .gui_qt_font_city_productions = "Sans Serif,10,-1,5,50,1,0,0,0,0",
   .gui_qt_font_reqtree_text = "Sans Serif,10,-1,5,50,1,0,0,0,0",
+  .gui_qt_show_titlebar = TRUE,
   .gui_qt_wakeup_text = "Wake up %1"
 };
 
@@ -3036,6 +3037,11 @@ static struct client_option client_options[] = {
                   N_("If this option is set the client will use the "
                      "whole screen area for drawing."),
                   COC_INTERFACE, GUI_QT, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_qt_show_titlebar, N_("Show titlebar"),
+                  N_("If this option is set the client will show titlebar "
+                     "If disabled, then minimize/maximize/buttons will be "
+                     "placed on menubar." ),
+                  COC_INTERFACE, GUI_QT, TRUE, NULL),
   GEN_FONT_OPTION(gui_qt_font_city_label, "city_label",
                   N_("City Label"),
                   N_("This font is used to display the city labels on city "

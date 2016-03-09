@@ -340,6 +340,7 @@ struct client_options
   char gui_qt_font_city_names[512];
   char gui_qt_font_city_productions[512];
   char gui_qt_font_reqtree_text[512];
+  bool gui_qt_show_titlebar;
   char gui_qt_wakeup_text[512];
 
   struct overview overview;

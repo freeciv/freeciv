@@ -133,6 +133,22 @@ struct fc_settings
   Qt::SortOrder city_report_sort;
 };
 
+/****************************************************************************
+  Corner widget for menu
+****************************************************************************/
+class fc_corner : public QWidget
+{
+  Q_OBJECT
+  QMainWindow *mw;
+public:
+  fc_corner(QMainWindow *qmw);
+public slots:
+  void maximize();
+  void minimize();
+  void close_fc();
+};
+
+
 class fc_client : public QMainWindow
 {
   Q_OBJECT
@@ -222,6 +238,7 @@ public:
   end_turn_area *end_turn_rect;
   QWidget *central_wdg;
   mr_menu *menu_bar;
+  fc_corner *corner_wid;
   fc_game_tab_widget *game_tab_widget;
   messagewdg *msgwdg;
   info_tab *infotab;

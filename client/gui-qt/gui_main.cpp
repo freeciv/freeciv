@@ -66,6 +66,7 @@ static QPixmap *unit_pixmap;
 void reset_unit_table(void);
 static void populate_unit_pixmap_table(void);
 static void apply_font(struct option *poption);
+static void apply_titlebar(struct option *poption);
 static void apply_city_font(struct option *poption);
 static void apply_help_font(struct option *poption);
 
@@ -219,6 +220,8 @@ void qtg_options_extra_init()
                           apply_help_font);
   option_var_set_callback(gui_qt_font_chatline,
                           apply_font);
+  option_var_set_callback(gui_qt_show_titlebar,
+                          apply_titlebar);
 #undef option_var_set_callback
 }
 
@@ -345,6 +348,35 @@ static void apply_font(struct option *poption)
     update_city_descriptions();
     gui()->infotab->chtwdg->update_font();
   }
+}
+
+/****************************************************************************
+  Shows/Hides titlebar
+****************************************************************************/
+void apply_titlebar(struct option *poption)
+{
+  bool val;
+  QWidget *w;
+  Qt::WindowFlags flags = Qt::Window;
+  val = option_bool_get(poption);
+  
+  if (gui()->current_page() < PAGE_GAME) {
+    return;
+  }
+
+  if (val == true) {
+    w = new QWidget();
+    gui()->setWindowFlags(flags);
+    delete gui()->corner_wid;
+    gui()->corner_wid = nullptr;
+    gui()->menu_bar->setCornerWidget(w);
+  } else {
+    flags |= Qt::CustomizeWindowHint;
+    gui()->setWindowFlags(flags);
+    gui()->corner_wid = new fc_corner(gui());
+    gui()->menu_bar->setCornerWidget(gui()->corner_wid);
+  }
+  gui()->show();
 }
 
 /****************************************************************************
