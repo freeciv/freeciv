@@ -764,6 +764,21 @@ static int diplomat_keep_moving_callback(struct widget *pWidget)
   return -1;
 }
 
+/********************************************************************
+  Delay selection of what action to take.
+*********************************************************************/
+static int act_sel_wait_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    key_unit_wait();
+
+    /* The dialog was popped down when key_unit_wait() resulted in
+     * action_selection_close() being called. */
+  }
+
+  return -1;
+}
+
 /****************************************************************
 ...  Ask the server how much the bribe is
 *****************************************************************/
@@ -1300,7 +1315,19 @@ void popup_action_selection(struct unit *actor_unit,
   }
 
   /* ---------- */
+  create_active_iconlabel(pBuf, pWindow->dst, pstr,
+                          _("Wait"), act_sel_wait_callback);
 
+  pBuf->data.tile = target_tile;
+
+  set_wstate(pBuf, FC_WS_NORMAL);
+
+  add_to_gui_list(MAX_ID - actor_unit->id, pBuf);
+
+  area.w = MAX(area.w, pBuf->size.w);
+  area.h += pBuf->size.h;
+
+  /* ---------- */
   create_active_iconlabel(pBuf, pWindow->dst, pstr,
                           _("Cancel"), diplomat_close_callback);
 

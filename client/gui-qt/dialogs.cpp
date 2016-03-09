@@ -51,8 +51,9 @@
 
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_COUNT
-#define BUTTON_CANCEL BUTTON_MOVE + 1
-#define BUTTON_COUNT BUTTON_MOVE + 2
+#define BUTTON_WAIT BUTTON_MOVE + 1
+#define BUTTON_CANCEL BUTTON_MOVE + 2
+#define BUTTON_COUNT BUTTON_MOVE + 3
 
 extern void popdown_all_spaceships_dialogs();
 extern void popdown_players_report();
@@ -1251,6 +1252,14 @@ static void unit_home_city(QVariant data1, QVariant data2)
 }
 
 /***************************************************************************
+  Delay selection of what action to take.
+***************************************************************************/
+static void act_sel_wait(QVariant data1, QVariant data2)
+{
+  key_unit_wait();
+}
+
+/***************************************************************************
   Empty action for choice dialog (just do nothing)
 ***************************************************************************/
 static void keep_moving(QVariant data1, QVariant data2)
@@ -1506,6 +1515,10 @@ void popup_action_selection(struct unit *actor_unit,
     cd->add_item(QString(_("Keep moving")), func, qv1, qv2,
                  "", BUTTON_MOVE);
   }
+
+  func = act_sel_wait;
+  cd->add_item(QString(_("&Wait")), func, qv1, qv2,
+               "", BUTTON_WAIT);
 
   func = keep_moving;
   cd->add_item(QString(_("Do nothing")), func, qv1, qv2,
@@ -2424,6 +2437,7 @@ void action_selection_refresh(struct unit *actor_unit,
 {
   choice_dialog *asd;
   Choice_dialog_button *keep_moving_button;
+  Choice_dialog_button *wait_button;
   QVariant qv1, qv2;
 
   asd = gui()->get_diplo_dialog();
@@ -2446,6 +2460,13 @@ void action_selection_refresh(struct unit *actor_unit,
     /* Temporary remove the Keep moving button so it won't end up above
      * any added buttons. */
     asd->stack_button(keep_moving_button);
+  }
+
+  wait_button = asd->get_identified_button(BUTTON_WAIT);
+  if (wait_button != NULL) {
+    /* Temporary remove the Wait button so it won't end up above
+     * any added buttons. */
+    asd->stack_button(wait_button);
   }
 
   action_iterate(act) {
@@ -2522,7 +2543,7 @@ void action_selection_refresh(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  if (keep_moving_button != NULL) {
+  if (keep_moving_button != NULL || wait_button != NULL) {
     /* Reinsert the "Keep moving" button below any potential
      * buttons recently added. */
     asd->unstack_all_buttons();

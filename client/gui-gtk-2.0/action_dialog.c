@@ -51,8 +51,9 @@
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_COUNT
 #define BUTTON_LOCATION BUTTON_MOVE + 1
-#define BUTTON_CANCEL BUTTON_MOVE + 2
-#define BUTTON_COUNT BUTTON_MOVE + 3
+#define BUTTON_WAIT BUTTON_MOVE + 2
+#define BUTTON_CANCEL BUTTON_MOVE + 3
+#define BUTTON_COUNT BUTTON_MOVE + 4
 
 #define BUTTON_NOT_THERE -1
 
@@ -1120,6 +1121,21 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
+/**************************************************************************
+  Delay selection of what action to take.
+**************************************************************************/
+static void act_sel_wait_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  key_unit_wait();
+
+  /* the dialog was destroyed when key_unit_wait() resulted in
+   * action_selection_close() being called. */
+
+  free(args);
+}
+
 /****************************************************************
   Action selection dialog has been destroyed
 *****************************************************************/
@@ -1443,6 +1459,12 @@ void popup_action_selection(struct unit *actor_unit,
                     (GCallback)act_sel_location_callback, data,
                     TRUE, NULL);
 
+  action_button_map[BUTTON_WAIT] =
+      choice_dialog_get_number_of_buttons(shl);
+  choice_dialog_add(shl, _("_Wait"),
+                    (GCallback)act_sel_wait_callback, data,
+                    TRUE, NULL);
+
   action_button_map[BUTTON_CANCEL] =
       choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, GTK_STOCK_CANCEL,
@@ -1564,16 +1586,21 @@ void action_selection_refresh(struct unit *actor_unit,
     }
   } action_iterate_end;
 
+  /* DO NOT change the action_button_map[] for any button to reflect its
+   * new position. A button keeps its choice dialog internal name when its
+   * position changes. A button's id number is therefore based on when
+   * it was added, not on its current position. */
+
+  if (BUTTON_NOT_THERE != action_button_map[BUTTON_WAIT]) {
+    /* Move the wait button below the recently added button. */
+    choice_dialog_button_move_to_the_end(act_sel_dialog,
+        action_button_map[BUTTON_WAIT]);
+  }
+
   if (BUTTON_NOT_THERE != action_button_map[BUTTON_CANCEL]) {
     /* Move the cancel button below the recently added button. */
     choice_dialog_button_move_to_the_end(act_sel_dialog,
         action_button_map[BUTTON_CANCEL]);
-
-    /* DO NOT change action_button_map[BUTTON_CANCEL] or
-     * the action_button_map[] for any other button to reflect the new
-     * positions. A button keeps its choice dialog internal name when its
-     * position changes. A button's id number is therefore based on when
-     * it was added, not on its current position. */
   }
 
   choice_dialog_end(act_sel_dialog);
