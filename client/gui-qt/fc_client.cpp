@@ -120,6 +120,10 @@ void fc_client::init()
   fc_fonts.init_fonts();
   history_pos = -1;
   menu_bar = new mr_menu();
+  corner_wid = new fc_corner(this);
+  if (gui_options.gui_qt_show_titlebar == false) {
+    menu_bar->setCornerWidget(corner_wid);
+  }
   setMenuBar(menu_bar);
   status_bar = statusBar();
   status_bar_label = new QLabel;
@@ -300,6 +304,10 @@ void fc_client::switch_page(int new_pg)
     update_load_page();
     break;
   case PAGE_GAME:
+    if (gui_options.gui_qt_show_titlebar == false) {
+      setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+      showMaximized();
+    }
     gui()->infotab->chtwdg->update_widgets();
     status_bar->setVisible(false);
     gui()->infotab->chtwdg->update_font();
@@ -708,6 +716,58 @@ void fc_client::create_cursors(void)
       fc_cursors[cursor][frame] = c;
     }
   }
+}
+
+/****************************************************************************
+  Contructor for corner widget (used for menubar)
+****************************************************************************/
+fc_corner::fc_corner(QMainWindow *qmw): QWidget()
+{
+  QHBoxLayout *hb;
+  QPushButton *qpb;
+  mw = qmw;
+  hb = new QHBoxLayout();
+  qpb = new QPushButton(style()->standardIcon(
+                                 QStyle::SP_TitleBarMinButton), "");
+  connect(qpb, SIGNAL(clicked()), SLOT(minimize()));
+  hb->addWidget(qpb);
+  qpb = new QPushButton(style()->standardIcon(
+                                 QStyle::SP_TitleBarMaxButton), "");
+  connect(qpb, SIGNAL(clicked()), SLOT(maximize()));
+  hb->addWidget(qpb);
+  qpb = new QPushButton(style()->standardIcon(
+                                 QStyle::SP_TitleBarCloseButton), "");
+  connect(qpb, SIGNAL(clicked()), SLOT(close_fc()));
+  hb->addWidget(qpb);
+  setLayout(hb);
+}
+
+/****************************************************************************
+  Slot for closing freeciv via corner widget
+****************************************************************************/
+void fc_corner::close_fc()
+{
+  mw->close();
+}
+
+/****************************************************************************
+  Slot for maximizing freeciv window via corner widget
+****************************************************************************/
+void fc_corner::maximize()
+{
+  if (mw->isMaximized() == false) {
+    mw->showMaximized();
+  } else {
+    mw->showNormal();
+  }
+}
+
+/****************************************************************************
+  Slot for minimizing freeciv window via corner widget
+****************************************************************************/
+void fc_corner::minimize()
+{
+  mw->showMinimized();
 }
 
 /****************************************************************************
