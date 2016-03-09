@@ -444,6 +444,11 @@ static void current_focus_append(struct unit *punit)
 **************************************************************************/
 static void current_focus_remove(struct unit *punit)
 {
+  /* Close the action selection dialog if the actor unit lose focus. */
+  if (action_selection_actor_unit() == punit->id) {
+    action_selection_close();
+  }
+
   unit_list_remove(current_focus, punit);
   refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
 }
@@ -495,6 +500,13 @@ void unit_focus_set(struct unit *punit)
     store_previous_focus();
     focus_changed = TRUE;
   }
+
+  /* Close the action selection dialog if the actor unit lose focus. */
+  unit_list_iterate(current_focus, punit_old) {
+    if (action_selection_actor_unit() == punit_old->id) {
+      action_selection_close();
+    }
+  } unit_list_iterate_end;
 
   /* Redraw the old focus unit (to fix blinking or remove the selection
    * circle). */
