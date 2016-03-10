@@ -5189,14 +5189,17 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     struct strvec *outputs = strvec_new();
     struct astring outputs_or = ASTRING_INIT;
     struct astring outputs_and = ASTRING_INIT;
-    bool extra_reqs = FALSE;
+    bool too_complex = FALSE;
     bool world_value_valid = TRUE;
 
     /* Grab output type, if there is one */
     requirement_vector_iterate(&peffect->reqs, preq) {
-      /* FIXME: perhaps we should treat any effect with negated requirements
-       * as too complex for us to explain here? */
-      if (!preq->present) {
+      /* Treat an effect with any negated requirements as too complex for
+       * us to explain here.
+       * Also don't try to explain an effect with any requirements explicitly
+       * marked as 'quiet' by ruleset author. */
+      if (!preq->present || preq->quiet) {
+        too_complex = TRUE;
         continue;
       }
       switch (preq->source.kind) {
@@ -5228,7 +5231,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
            /* Already have a unit flag requirement. More than one is too
             * complex for us to explain, so say nothing. */
            /* FIXME: we could handle this */
-           extra_reqs = TRUE;
+           too_complex = TRUE;
          }
          break;
        case VUT_GOVERNMENT:
@@ -5238,13 +5241,13 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
          fc_assert(preq->source.value.govern == gov);
          break;
        default:
-         extra_reqs = TRUE;
+         too_complex = TRUE;
          world_value_valid = FALSE;
          break;
       };
     } requirement_vector_iterate_end;
 
-    if (!extra_reqs) {
+    if (!too_complex) {
       /* Only list effects that don't have extra requirements too complex
        * for us to handle.
        * Anything more complicated will have to be documented by hand by the
