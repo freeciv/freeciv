@@ -643,6 +643,48 @@ static bool need_full_mp(const struct unit *actor, const int action_id)
 }
 
 /**************************************************************************
+  Returns TRUE iff the specified terrain type blocks the specified action.
+
+  If the "action" is ACTION_ANY all actions are checked.
+**************************************************************************/
+static bool does_terrain_block_action(const int action_id,
+                                      bool is_target,
+                                      struct terrain *pterrain)
+{
+  struct universal univ_terr
+      = {.kind = VUT_TERRAIN, .value = {.terrain = pterrain}};
+
+  if (action_id == ACTION_ANY) {
+    /* Any action is OK. */
+    action_iterate(alt_act) {
+      if (!does_terrain_block_action(alt_act, is_target, pterrain)) {
+        /* Only one action has to be possible. */
+        return FALSE;
+      }
+    } action_iterate_end;
+
+    /* No action enabled. */
+    return TRUE;
+  }
+
+  /* ACTION_ANY is handled above. */
+  fc_assert_ret_val(action_id_is_valid(action_id), FALSE);
+
+  action_enabler_list_iterate(action_enablers_for_action(action_id),
+                              enabler) {
+    if (universal_fulfills_requirement(FALSE,
+                                       (is_target ? &enabler->target_reqs
+                                                  : &enabler->actor_reqs),
+                                       &univ_terr)) {
+      /* This terrain kind doesn't block this action enabler. */
+      return FALSE;
+    }
+  } action_enabler_list_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Returns an explaination why punit can't perform the specified action
   based on the current game state.
 **************************************************************************/
@@ -713,10 +755,22 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                            USP_LIVABLE_TILE, TRUE))) {
     expl->kind = ANEK_BAD_TERRAIN_ACT;
     expl->no_act_terrain = tile_terrain(unit_tile(punit));
+  } else if (punit
+             && does_terrain_block_action(action_id, FALSE,
+                 tile_terrain(unit_tile(punit)))) {
+    /* No action enabler allows acting against this terrain kind. */
+    expl->kind = ANEK_BAD_TERRAIN_ACT;
+    expl->no_act_terrain = tile_terrain(unit_tile(punit));
   } else if (action_id == ACTION_FOUND_CITY
              && target_tile
              && terrain_has_flag(tile_terrain(target_tile),
                                  TER_NO_CITIES)) {
+    expl->kind = ANEK_BAD_TERRAIN_TGT;
+    expl->no_act_terrain = tile_terrain(target_tile);
+  } else if (target_tile
+             && does_terrain_block_action(action_id, TRUE,
+                                          tile_terrain(target_tile))) {
+    /* No action enabler allows acting against this terrain kind. */
     expl->kind = ANEK_BAD_TERRAIN_TGT;
     expl->no_act_terrain = tile_terrain(target_tile);
   } else if (unit_transported(punit)
