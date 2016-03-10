@@ -174,9 +174,10 @@ static struct action *action_new(enum gen_action id,
   action->target_kind = target_kind;
   action->hostile = hostile;
 
-  /* The ui_name is loaded from the ruleset. Until generalized actions
-   * are ready it has to be defined seperatly from other action data. */
+  /* Loaded from the ruleset. Until generalized actions are ready it has to
+   * be defined seperatly from other action data. */
   action->ui_name[0] = '\0';
+  action->quiet = FALSE;
 
   return action;
 }

@@ -640,6 +640,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                                 * safety margin here. */
   enum trade_route_type trt;
   int i;
+  enum gen_action quiet_actions[ACTION_COUNT];
   bool locks;
 
   if (sfile == NULL) {
@@ -861,6 +862,21 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile,
                      action_by_number(ACTION_HELP_WONDER)->ui_name,
                      "actions.ui_name_help_wonder");
+
+  i = 0;
+  action_iterate(act) {
+    if (action_by_number(act)->quiet) {
+      quiet_actions[i] = act;
+      i++;
+    }
+  } action_iterate_end;
+
+  if (secfile_insert_enum_vec(sfile, &quiet_actions, i, gen_action,
+                              "actions.quiet_actions") != i) {
+    log_error("Didn't save all quiet actions.");
+
+    return FALSE;
+  }
 
   sect_idx = 0;
   action_enablers_iterate(pae) {

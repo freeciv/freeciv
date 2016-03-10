@@ -4293,6 +4293,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
   action_iterate(act) {
+    if (action_by_number(act)->quiet) {
+      /* The ruleset documents this action it self. */
+      continue;
+    }
+    
     if (action_get_actor_kind(act) != AAK_UNIT) {
       continue;
     }
@@ -4340,6 +4345,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   } action_iterate_end;
   action_iterate(act) {
     bool vulnerable;
+
+    if (action_by_number(act)->quiet) {
+      /* The ruleset documents this action it self. */
+      continue;
+    }
 
     /* Not relevant */
     if (action_get_target_kind(act) != ATK_UNIT) {
@@ -5673,6 +5683,11 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Action immunity */
   action_iterate(act) {
+    if (action_by_number(act)->quiet) {
+      /* The ruleset documents this action it self. */
+      continue;
+    }
+
     if (action_immune_government(gov, act)) {
       cat_snprintf(buf, bufsz,
                    _("* Makes it impossible to do the action \'%s\'"
