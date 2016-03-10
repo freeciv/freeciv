@@ -74,8 +74,10 @@
 
 /* A category of reasons why an action isn't enabled. */
 enum ane_kind {
-  /* Explanation: bad terrain. */
-  ANEK_BAD_TERRAIN,
+  /* Explanation: bad actor terrain. */
+  ANEK_BAD_TERRAIN_ACT,
+  /* Explanation: bad target terrain. */
+  ANEK_BAD_TERRAIN_TGT,
   /* Explanation: being transported. */
   ANEK_IS_TRANSPORTED,
   /* Explanation: not being transported. */
@@ -95,7 +97,7 @@ struct ane_expl {
 
   union {
     /* The bad terrain in question. */
-    struct terrain *cant_act_from;
+    struct terrain *no_act_terrain;
 
     /* The player to advice declaring war on. */
     struct player *no_war_with;
@@ -597,6 +599,48 @@ static bool need_full_mp(const struct unit *actor, const int action_id)
 }
 
 /**************************************************************************
+  Returns TRUE iff the specified terrain type blocks the specified action.
+
+  If the "action" is ACTION_ANY all actions are checked.
+**************************************************************************/
+static bool does_terrain_block_action(const int action_id,
+                                      bool is_target,
+                                      struct terrain *pterrain)
+{
+  struct universal univ_terr
+      = {.kind = VUT_TERRAIN, .value = {.terrain = pterrain}};
+
+  if (action_id == ACTION_ANY) {
+    /* Any action is OK. */
+    action_iterate(alt_act) {
+      if (!does_terrain_block_action(alt_act, is_target, pterrain)) {
+        /* Only one action has to be possible. */
+        return FALSE;
+      }
+    } action_iterate_end;
+
+    /* No action enabled. */
+    return TRUE;
+  }
+
+  /* ACTION_ANY is handled above. */
+  fc_assert_ret_val(action_id_is_valid(action_id), FALSE);
+
+  action_enabler_list_iterate(action_enablers_for_action(action_id),
+                              enabler) {
+    if (universal_fulfills_requirement(FALSE,
+                                       (is_target ? &enabler->target_reqs
+                                                  : &enabler->actor_reqs),
+                                       &univ_terr)) {
+      /* This terrain kind doesn't block this action enabler. */
+      return FALSE;
+    }
+  } action_enabler_list_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Returns an explaination why punit can't perform the specified action
   based on the current game state.
 **************************************************************************/
@@ -616,8 +660,20 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       || (can_exist
           && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                            USP_LIVABLE_TILE, TRUE))) {
-    expl->kind = ANEK_BAD_TERRAIN;
-    expl->cant_act_from = tile_terrain(unit_tile(punit));
+    expl->kind = ANEK_BAD_TERRAIN_ACT;
+    expl->no_act_terrain = tile_terrain(unit_tile(punit));
+  } else if (punit
+             && does_terrain_block_action(action_id, FALSE,
+                 tile_terrain(unit_tile(punit)))) {
+    /* No action enabler allows acting against this terrain kind. */
+    expl->kind = ANEK_BAD_TERRAIN_ACT;
+    expl->no_act_terrain = tile_terrain(unit_tile(punit));
+  } else if (target_tile
+             && does_terrain_block_action(action_id, TRUE,
+                                          tile_terrain(target_tile))) {
+    /* No action enabler allows acting against this terrain kind. */
+    expl->kind = ANEK_BAD_TERRAIN_TGT;
+    expl->no_act_terrain = tile_terrain(target_tile);
   } else if (unit_transported(punit)
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTED, TRUE)) {
@@ -657,10 +713,15 @@ static void explain_why_no_action_enabled(struct unit *punit,
                                              target_city, target_unit);
 
   switch (expl->kind) {
-  case ANEK_BAD_TERRAIN:
+  case ANEK_BAD_TERRAIN_ACT:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot act from %s."),
-                  terrain_name_translation(expl->cant_act_from));
+                  terrain_name_translation(expl->no_act_terrain));
+    break;
+  case ANEK_BAD_TERRAIN_TGT:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("Unit cannot act against %s."),
+                  terrain_name_translation(expl->no_act_terrain));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -864,13 +925,21 @@ static void illegal_action(struct player *pplayer,
   expl = expl_act_not_enabl(actor, stopped_action,
                             target_tile, target_city, target_unit);
   switch (expl->kind) {
-  case ANEK_BAD_TERRAIN:
+  case ANEK_BAD_TERRAIN_ACT:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   _("Your %s can't do %s from %s."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  terrain_name_translation(expl->cant_act_from));
+                  terrain_name_translation(expl->no_act_terrain));
+    break;
+  case ANEK_BAD_TERRAIN_TGT:
+    notify_player(pplayer, unit_tile(actor),
+                  E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  _("Your %s can't do %s to %s."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action),
+                  terrain_name_translation(expl->no_act_terrain));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(actor),
