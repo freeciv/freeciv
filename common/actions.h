@@ -203,6 +203,10 @@ struct action
 
   /* The name of the action shown in the UI */
   char ui_name[MAX_LEN_NAME];
+
+  /* Suppress automatic help text generation about what enables and/or
+   * disables this action. */
+  bool quiet;
 };
 
 struct action_enabler

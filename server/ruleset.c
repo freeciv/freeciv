@@ -5874,6 +5874,35 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           "actions.ui_airlift_unit");
       sz_strlcpy(action_by_number(ACTION_AIRLIFT)->ui_name,
                  text);
+
+      /* The quiet (don't auto generate help for) property of all actions
+       * live in a single enum vector. This avoids generic action
+       * expectations. */
+      if (secfile_entry_by_path(file, "actions.quiet_actions")) {
+        enum gen_action *quiet_actions;
+        size_t asize;
+        int j;
+
+        quiet_actions =
+            secfile_lookup_enum_vec(file, &asize, gen_action,
+                                    "actions.quiet_actions");
+
+        if (!quiet_actions) {
+          /* Entity exists but couldn't read it. */
+          ruleset_error(LOG_ERROR,
+                        "\"%s\": actions.quiet_actions: bad action list",
+                        filename);
+
+          ok = FALSE;
+        }
+
+        for (j = 0; j < asize; j++) {
+          /* Don't auto generate help text for this action. */
+          action_by_number(quiet_actions[j])->quiet = TRUE;
+        }
+
+        free(quiet_actions);
+      }
     }
 
     if (ok) {
@@ -6979,6 +7008,7 @@ static void send_ruleset_actions(struct conn_list *dest)
   action_iterate(act) {
     packet.id = act;
     sz_strlcpy(packet.ui_name, action_by_number(act)->ui_name);
+    packet.quiet = action_by_number(act)->quiet;
 
     lsend_packet_ruleset_action(dest, &packet);
   } action_iterate_end;

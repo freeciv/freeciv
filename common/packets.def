@@ -1685,6 +1685,7 @@ PACKET_RULESET_ACTION = 246; sc, lsend
   GEN_ACTION id;
 
   STRING ui_name[MAX_LEN_NAME];
+  BOOL   quiet;
 end
 
 PACKET_RULESET_ACTION_ENABLER = 235; sc, lsend

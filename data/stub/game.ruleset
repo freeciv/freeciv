@@ -219,6 +219,12 @@ force_explode_nuclear = FALSE
 ;
 ; */ <-- avoid gettext warnings
 
+; Suppress automatic help text generation about what enables and/or
+; disables the following actions.
+;
+; Can make the help text less redundant when you document it your self.
+;quiet_actions = "Targeted Sabotage City", "Targeted Steal Tech"
+
 ; No enabled actions
 ; [actionenabler_embassy]
 ; action = "Establish Embassy"
