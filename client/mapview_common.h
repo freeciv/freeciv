@@ -89,8 +89,8 @@ extern bool can_slide;
  * caller needs to use a larger rectangle of iteration.
  *
  * The grid of iteration is rather complicated.  For a picture of it see
- * http://bugs.freeciv.org/Ticket/Attachment/89565/56824/newgrid.png
- * or the other text in PR#12085.
+ * http://article.gmane.org/gmane.games.freeciv.devel/50449
+ * (formerly newgrid.png in PR#12085).
  */
 #define gui_rect_iterate(GRI_x0, GRI_y0, GRI_width, GRI_height,         \
 			 _t, _e, _c, _zoom)                             \
