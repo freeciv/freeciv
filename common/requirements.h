@@ -92,9 +92,6 @@ struct requirement req_from_values(int type, int range,
 bool are_requirements_equal(const struct requirement *req1,
 			    const struct requirement *req2);
 
-bool are_requirements_opposites(const struct requirement *req1,
-                                const struct requirement *req2);
-
 bool are_requirements_contradictions(const struct requirement *req1,
                                      const struct requirement *req2);
 

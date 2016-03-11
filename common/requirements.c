@@ -944,8 +944,8 @@ bool are_requirements_equal(const struct requirement *req1,
 /****************************************************************************
   Returns TRUE if req1 and req2 directly negate each other.
 ****************************************************************************/
-bool are_requirements_opposites(const struct requirement *req1,
-                                const struct requirement *req2)
+static bool are_requirements_opposites(const struct requirement *req1,
+                                       const struct requirement *req2)
 {
   return (are_universals_equal(&req1->source, &req2->source)
           && req1->range == req2->range
