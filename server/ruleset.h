@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2014.September.14c"
+#define RULESET_CAPABILITIES "+Freeciv-2.6-ruleset"
 /*
  * Ruleset capabilities acceptable to this program:
  *

@@ -5,8 +5,8 @@
 # Version definition for Freeciv.
 
 MAJOR_VERSION="2"
-MINOR_VERSION="5"
-PATCH_VERSION="99"
+MINOR_VERSION="6"
+PATCH_VERSION="0"
 EMERGENCY_VERSION=""
 VERSION_LABEL="-alpha"
 
@@ -34,7 +34,7 @@ VERSION_LABEL="-alpha"
 # win32/installer/Makefile --follow-tag to "win32")
 
 IS_DEVEL_VERSION=1
-IS_FREEZE_VERSION=0
+IS_FREEZE_VERSION=1
 IS_BETA_VERSION=0
 
 NEXT_STABLE_VERSION="2.6.0"
@@ -42,7 +42,7 @@ NEXT_STABLE_VERSION="2.6.0"
 # 0 to disable display of release month until we can make better estimate
 RELEASE_MONTH=0
 
-DATASUBDIR=test
+DATASUBDIR=2.6
 DEFAULT_FOLLOW_TAG=S2_6
 
 # Freeciv network capstring: see documentation in common/capstr.c

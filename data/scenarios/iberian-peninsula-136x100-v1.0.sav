@@ -1,7 +1,7 @@
 
 [scenario]
 is_scenario=TRUE
-game_version=20599
+game_version=20600
 name=_("Iberian Peninsula (classic/large)")
 description=_("Classic-style 136x100 map of the Iberian Peninsula (modern-day Spain and Portugal).")
 save_random=FALSE
@@ -51,7 +51,7 @@ terrident={"name","identifier"
 }
 
 [game]
-version=20599
+version=20600
 server_state="S_S_INITIAL"
 meta_patches="none"
 meta_usermessage=TRUE
