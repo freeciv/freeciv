@@ -1,7 +1,7 @@
 
 [scenario]
 is_scenario=TRUE
-game_version=20599
+game_version=20600
 name=_("Tileset Demo")
 save_random=TRUE
 players=TRUE
@@ -49,7 +49,7 @@ terrident={"name","identifier"
 }
 
 [game]
-version=20599
+version=20600
 server_state="S_S_RUNNING"
 meta_patches="none"
 meta_usermessage=TRUE

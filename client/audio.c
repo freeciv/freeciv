@@ -44,8 +44,8 @@
 #define SNDSPEC_SUFFIX		".soundspec"
 #define MUSICSPEC_SUFFIX        ".musicspec"
 
-#define SOUNDSPEC_CAPSTR "+Freeciv-soundspec-Devel-2014.Mar.13"
-#define MUSICSPEC_CAPSTR "+Freeciv-musicspec-Devel-2014.Mar.13"
+#define SOUNDSPEC_CAPSTR "+Freeciv-2.6-soundset"
+#define MUSICSPEC_CAPSTR "+Freeciv-2.6-musicset"
 
 /* keep it open throughout */
 static struct section_file *ss_tagfile = NULL;
