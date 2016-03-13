@@ -50,7 +50,9 @@ void rscompat_postprocess(struct rscompat_info *info);
 void rscompat_goods_3_0(void);
 struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile,
                                                     const char *sec_name);
-const char *rscompat_req_type_name_3_0(const char *old_name);
+const char *rscompat_req_type_name_3_0(const char *type, const char *range,
+                                       bool survives, bool present,
+                                       bool quiet, const char *value);
 
 #ifdef __cplusplus
 }

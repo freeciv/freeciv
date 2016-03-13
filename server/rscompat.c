@@ -762,12 +762,19 @@ struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile,
 
 /**************************************************************************
   Replace deprecated resource names with currently valid ones.
+
+  The extra arguments are for situation where some, but not all, instances
+  of a requirement type should become something else.
 **************************************************************************/
-const char *rscompat_req_type_name_3_0(const char *old_name)
+const char *rscompat_req_type_name_3_0(const char *old_type,
+                                       const char *old_range,
+                                       bool old_survives, bool old_present,
+                                       bool old_quiet,
+                                       const char *old_value)
 {
-  if (!fc_strcasecmp("Resource", old_name)) {
+  if (!fc_strcasecmp("Resource", old_type)) {
     return "Extra";
   }
 
-  return old_name;
+  return old_type;
 }

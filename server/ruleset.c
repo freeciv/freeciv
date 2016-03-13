@@ -347,10 +347,6 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
     struct entry *pentry;
     struct requirement req;
 
-    if (compat->compat_mode) {
-      type = rscompat_req_type_name_3_0(type);
-    }
-
     if (!(pentry = secfile_entry_lookup(file, "%s.%s%d.name",
                                         sec, sub, j))) {
       ruleset_error(LOG_ERROR, "%s", secfile_error());
@@ -428,6 +424,12 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       ruleset_error(LOG_ERROR,
                     "\"%s\": invalid boolean value for quiet for "
                     "'%s.%s%d'.", filename, sec, sub, j);
+    }
+
+    if (compat->compat_mode) {
+      type = rscompat_req_type_name_3_0(type, range,
+                                        survives, present, quiet,
+                                        name);
     }
 
     req = req_from_str(type, range, survives, present, quiet, name);
