@@ -1121,6 +1121,7 @@ is_action_possible(const enum gen_action wanted_action,
     return TRI_NO;
   }
 
+  /* Info leak: The player knows where his unit is. */
   if (action_get_target_kind(wanted_action) != ATK_SELF) {
     if (!action_id_distance_accepted(wanted_action,
                                     real_map_distance(actor_tile,
@@ -1407,11 +1408,17 @@ is_action_possible(const enum gen_action wanted_action,
   }
 
   if (wanted_action == ACTION_HOME_CITY) {
-    /* Reason: Keep the old rules. */
-    /* Info leak: The player knows if his own unit is homeless. The player
-     * knows where his unit is. The player knows his unit's current home
-     * city. */
-    if (!can_unit_change_homecity_to(actor_unit, target_city)) {
+    /* Reason: being homeless is a big benefit (no upkeep). */
+    /* Info leak: The player knows if his own unit is homeless. */
+    if (actor_unit->homecity <= 0) {
+      /* Don't home a homeless unit. */
+      return TRI_NO;
+    }
+
+    /* Reason: can't change to what is. */
+    /* Info leak: The player knows his unit's current home city. */
+    if (actor_unit->homecity == target_city->id) {
+      /* This is already the unit's home city. */
       return TRI_NO;
     }
   }

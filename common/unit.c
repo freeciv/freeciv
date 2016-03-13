@@ -363,18 +363,13 @@ bool unit_can_add_or_build_city(const struct unit *punit)
 bool can_unit_change_homecity_to(const struct unit *punit,
 				 const struct city *pcity)
 {
-  struct city *acity = tile_city(unit_tile(punit));
+  if (pcity == NULL) {
+    /* Can't change home city to a non existing city. */
+    return FALSE;
+  }
 
-  /* Requirements to change homecity:
-   *
-   * 1. Homeless units can't change homecity (this is a feature since
-   *    being homeless is a big benefit).
-   * 2. The unit must be inside the city it is rehoming to.
-   * 3. You can't rehome to the current homecity. */
-  return (punit && pcity
-	  && punit->homecity > 0
-          && acity
-	  && punit->homecity != acity->id);
+  return action_prob_possible(action_prob_vs_city(punit, ACTION_HOME_CITY,
+                                                  pcity));
 }
 
 /**************************************************************************
