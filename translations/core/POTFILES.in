@@ -194,6 +194,7 @@ common/clientutils.c
 common/connection.c
 common/effects.c
 common/events.c
+common/extras.h
 common/fc_cmdhelp.c
 common/fc_types.h
 common/game.h

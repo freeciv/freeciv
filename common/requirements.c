@@ -3507,8 +3507,7 @@ const char *universal_name_translation(const struct universal *psource,
     cat_snprintf(buf, bufsz,
                  /* TRANS: Extra flag */
                  Q_("?extraflag:\"%s\" extra"),
-                 /* flag names are never translated */
-                 extra_flag_id_name(psource->value.extraflag));
+                 extra_flag_id_translated_name(psource->value.extraflag));
     return buf;
   case VUT_MINYEAR:
     cat_snprintf(buf, bufsz, _("After %s"),
