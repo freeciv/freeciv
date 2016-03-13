@@ -27,34 +27,34 @@ extern "C" {
 #define SPECENUM_NAME extra_flag_id
 /* Tile with this extra is considered native for units in tile. */
 #define SPECENUM_VALUE0 EF_NATIVE_TILE
-#define SPECENUM_VALUE0NAME "NativeTile"
+#define SPECENUM_VALUE0NAME N_("?extraflag:NativeTile")
 /* Refuel native units */
 #define SPECENUM_VALUE1 EF_REFUEL
-#define SPECENUM_VALUE1NAME "Refuel"
+#define SPECENUM_VALUE1NAME N_("?extraflag:Refuel")
 #define SPECENUM_VALUE2 EF_TERR_CHANGE_REMOVES
-#define SPECENUM_VALUE2NAME "TerrChangeRemoves"
+#define SPECENUM_VALUE2NAME N_("?extraflag:TerrChangeRemoves")
 /* Extra will be built in cities automatically */
 #define SPECENUM_VALUE3 EF_AUTO_ON_CITY_CENTER
-#define SPECENUM_VALUE3NAME "AutoOnCityCenter"
+#define SPECENUM_VALUE3NAME N_("?extraflag:AutoOnCityCenter")
 /* Extra is always present in cities */
 #define SPECENUM_VALUE4 EF_ALWAYS_ON_CITY_CENTER
-#define SPECENUM_VALUE4NAME "AlwaysOnCityCenter"
+#define SPECENUM_VALUE4NAME N_("?extraflag:AlwaysOnCityCenter")
 /* Road style gfx from ocean extra connects to nearby land */
 #define SPECENUM_VALUE5 EF_CONNECT_LAND
-#define SPECENUM_VALUE5NAME "ConnectLand"
+#define SPECENUM_VALUE5NAME N_("?extraflag:ConnectLand")
 /* Counts towards Global Warming */
 #define SPECENUM_VALUE6 EF_GLOBAL_WARMING
-#define SPECENUM_VALUE6NAME "GlobalWarming"
+#define SPECENUM_VALUE6NAME N_("?extraflag:GlobalWarming")
 /* Counts towards Nuclear Winter */
 #define SPECENUM_VALUE7 EF_NUCLEAR_WINTER
-#define SPECENUM_VALUE7NAME "NuclearWinter"
+#define SPECENUM_VALUE7NAME N_("?extraflag:NuclearWinter")
 /* Owner's flag will be shown on the tile */
 #define SPECENUM_VALUE8 EF_SHOW_FLAG
-#define SPECENUM_VALUE8NAME "ShowFlag"
+#define SPECENUM_VALUE8NAME N_("?extraflag:ShowFlag")
 /* Extra's defense bonus will be counted to
  * separate "Natural" defense layer. */
 #define SPECENUM_VALUE9 EF_NATURAL_DEFENSE
-#define SPECENUM_VALUE9NAME "NaturalDefense"
+#define SPECENUM_VALUE9NAME N_("?extraflag:NaturalDefense")
 #define SPECENUM_COUNT EF_COUNT
 #define SPECENUM_BITVECTOR bv_extra_flags
 #include "specenum_gen.h"
