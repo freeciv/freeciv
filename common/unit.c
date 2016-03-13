@@ -344,7 +344,7 @@ bool kills_citizen_after_attack(const struct unit *punit)
   Return TRUE iff this unit is capable of building a new city at its
   current location.
 ****************************************************************************/
-bool unit_can_build_city(const struct unit *punit)
+static bool unit_can_build_city(const struct unit *punit)
 {
   return (unit_can_do_action(punit, ACTION_FOUND_CITY)
           && !game.scenario.prevent_new_cities

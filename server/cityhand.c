@@ -85,7 +85,9 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
   case CB_NO_MIN_DIST:
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
                 "cannot build there.", TILE_XY(unit_tile(punit)));
-    city_add_or_build_error(pplayer, punit, res);       /* Message. */
+
+    illegal_action_msg(pplayer, E_BAD_COMMAND, punit, ACTION_FOUND_CITY,
+                       unit_tile(punit), NULL, NULL);
     break;
   }
 }

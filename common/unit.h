@@ -315,7 +315,6 @@ bool is_square_threatened(const struct player *pplayer,
 			  const struct tile *ptile, bool omniscient);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
-bool unit_can_build_city(const struct unit *punit);
 bool unit_can_add_or_build_city(const struct unit *punit);
 
 bool kills_citizen_after_attack(const struct unit *punit);

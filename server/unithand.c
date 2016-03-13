@@ -108,6 +108,8 @@ enum ane_kind {
   ANEK_TGT_IS_UNCLAIMED,
   /* Explanation: the action is disabled in this scenario. */
   ANEK_SCENARIO_DISABLED,
+  /* Explanation: too close to a city. */
+  ANEK_CITY_TOO_CLOSE_TGT,
   /* Explanation: the target city is too big. */
   ANEK_CITY_TOO_BIG,
   /* Explanation: the target city's population limit banned the action. */
@@ -699,6 +701,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   struct player *tgt_player = NULL;
   struct ane_expl *expl = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
+  int action_custom;
 
   if (action_id == ACTION_ANY) {
     /* Find the target player of some actions. */
@@ -740,6 +743,18 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       fc_assert(action_get_target_kind(action_id) != ATK_COUNT);
       break;
     }
+  }
+
+  switch (action_id) {
+  case ACTION_FOUND_CITY:
+    /* Detects that the target is closer to a city than citymindist allows.
+     * Detects that the target tile is claimed by a foreigner even when it
+     * is legal to found a city on an unclaimed or domestic tile. */
+    action_custom = city_build_here_test(target_tile, punit);
+    break;
+  default:
+    action_custom = 0;
+    break;
   }
 
   if (!unit_can_do_action(punit, action_id)) {
@@ -809,6 +824,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                  DRO_FOREIGN,
                                                  TRUE)) {
     expl->kind = ANEK_FOREIGN;
+  } else if (action_id == ACTION_FOUND_CITY
+             && action_custom == CB_BAD_BORDERS) {
+    expl->kind = ANEK_FOREIGN;
   } else if (tgt_player
              && unit_owner(punit) == tgt_player
              && !can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
@@ -857,6 +875,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                        city_size_get(target_city)
                                        + unit_pop_value(punit))))) {
     expl->kind = ANEK_CITY_POP_LIMIT;
+  } else if (action_id == ACTION_FOUND_CITY
+             && action_custom == CB_NO_MIN_DIST) {
+    expl->kind = ANEK_CITY_TOO_CLOSE_TGT;
   } else if ((game.scenario.prevent_new_cities
               && utype_can_do_action(unit_type_get(punit), ACTION_FOUND_CITY))
              && (action_id == ACTION_FOUND_CITY
@@ -977,6 +998,10 @@ static void explain_why_no_action_enabled(struct unit *punit,
   case ANEK_SCENARIO_DISABLED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Can't perform any action this scenario permits."));
+    break;
+  case ANEK_CITY_TOO_CLOSE_TGT:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("Can't perform any action this close to a city."));
     break;
   case ANEK_CITY_TOO_BIG:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1324,6 +1349,13 @@ void illegal_action_msg(struct player *pplayer,
                   event, ftc_server,
                   /* TRANS: Can't do Build City in this scenario. */
                   _("Can't do %s in this scenario."),
+                  action_get_ui_name(stopped_action));
+    break;
+  case ANEK_CITY_TOO_CLOSE_TGT:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  /* TRANS: Can't do Build City this close to a city. */
+                  _("Can't do %s this close to a city."),
                   action_get_ui_name(stopped_action));
     break;
   case ANEK_CITY_TOO_BIG:
@@ -2024,13 +2056,6 @@ bool unit_perform_action(struct player *pplayer,
         ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
 
         return city_build(pplayer, actor_unit, target_tile, name);
-      } else if (unit_can_do_action(actor_unit, ACTION_FOUND_CITY)
-                 && !unit_can_build_city(actor_unit)) {
-        /* Keep the rules like they was before action enabler control:
-         *  - detailed explanation of why something is illegal. */
-        /* TODO: improve explanation about why an action failed. */
-        city_add_or_build_error(pplayer, actor_unit,
-                                city_build_here_test(target_tile, actor_unit));
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        NULL, target_tile, NULL, NULL,
@@ -2244,52 +2269,6 @@ static bool unit_do_recycle(struct player *pplayer,
 
   /* The unit is now recycled. */
   return TRUE;
-}
-
-/**************************************************************************
- This function assumes that there is a valid city at punit->(x,y) for
- certain values of test_add_build_or_city.  It should only be called
- after a call to unit_add_build_city_result, which does the
- consistency checking.
-**************************************************************************/
-void city_add_or_build_error(struct player *pplayer, struct unit *punit,
-                             enum city_build_result res)
-{
-  /* Given that res came from unit_add_or_build_city_test(), pcity will
-   * be non-null for all required status values. */
-  struct tile *ptile = unit_tile(punit);
-
-  switch (res) {
-  case CB_BAD_CITY_TERRAIN:
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  /* TRANS: <tile-terrain>. */
-                  _("Can't build a city on %s."),
-                  terrain_name_translation(tile_terrain(ptile)));
-    break;
-  case CB_BAD_UNIT_TERRAIN:
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  /* TRANS: <unit> ... <tile-terrain>. */
-                  _("%s can't build a city on %s."), unit_link(punit),
-                  terrain_name_translation(tile_terrain(ptile)));
-    break;
-  case CB_BAD_BORDERS:
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("Can't place a city inside foreigner borders."));
-    break;
-  case CB_NO_MIN_DIST:
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("Can't place a city there because another city is too "
-                    "close."));
-    break;
-  case CB_OK:
-    /* No action enabler allowed building the city. Happens when called
-     * from handle_city_name_suggestion_req() because no enabler allowed
-     * city founding. */
-    illegal_action_msg(pplayer, E_BAD_COMMAND,
-                       punit, ACTION_FOUND_CITY,
-                       unit_tile(punit), NULL, NULL);
-    break;
-  }
 }
 
 /**************************************************************************
