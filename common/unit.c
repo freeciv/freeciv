@@ -341,18 +341,6 @@ bool kills_citizen_after_attack(const struct unit *punit)
 }
 
 /****************************************************************************
-  Return TRUE iff this unit is capable of building a new city at its
-  current location.
-****************************************************************************/
-static bool unit_can_build_city(const struct unit *punit)
-{
-  return (unit_can_do_action(punit, ACTION_FOUND_CITY)
-          && !game.scenario.prevent_new_cities
-          && !tile_city(unit_tile(punit))
-          && city_build_here_test(unit_tile(punit), punit) == CB_OK);
-}
-
-/****************************************************************************
   Return TRUE iff this unit can add to a current city or build a new city
   at its current location.
 ****************************************************************************/
@@ -360,9 +348,13 @@ bool unit_can_add_or_build_city(const struct unit *punit)
 {
   struct city *tgt_city;
 
-  return (unit_can_build_city(punit)
-          || ((tgt_city = tile_city(unit_tile(punit)))
-              && unit_can_do_action(punit, ACTION_JOIN_CITY)));
+  if ((tgt_city = tile_city(unit_tile(punit)))) {
+    return action_prob_possible(action_prob_vs_city(punit,
+        ACTION_JOIN_CITY, tgt_city));
+  } else {
+    return action_prob_possible(action_prob_vs_tile(punit,
+        ACTION_FOUND_CITY, unit_tile(punit)));
+  }
 }
 
 /**************************************************************************
