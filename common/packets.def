@@ -1624,6 +1624,12 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   STRVEC helptext[MAX_LEN_PACKET];
 end
 
+PACKET_RULESET_EXTRA_FLAG = 226; sc, lsend
+  UINT8       id;
+  STRING      name[MAX_LEN_NAME];
+  STRING      helptxt[MAX_LEN_PACKET];
+end
+
 PACKET_RULESET_BASE = 153; sc, lsend
   UINT8 id;
   BASE_GUI gui_type;

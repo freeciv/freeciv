@@ -2311,8 +2311,42 @@ static bool load_terrain_names(struct section_file *file,
   }
 
   if (ok) {
+    /* Blank the remaining terrain user flag slots. */
     for (; i < MAX_NUM_USER_TER_FLAGS; i++) {
       set_user_terrain_flag_name(TER_USER_1 + i, NULL, NULL);
+    }
+  }
+
+  /* User extra flag names */
+  for (i = 0;
+       (flag = secfile_lookup_str_default(file, NULL,
+                                          "control.extra_flags%d.name",
+                                          i));
+       i++) {
+    const char *helptxt = secfile_lookup_str_default(file, NULL,
+        "control.extra_flags%d.helptxt", i);
+
+    if (extra_flag_id_by_name(flag, fc_strcasecmp)
+        != extra_flag_id_invalid()) {
+      ruleset_error(LOG_ERROR, "\"%s\": Duplicate extra flag name '%s'",
+                    filename, flag);
+      ok = FALSE;
+      break;
+    }
+    if (i > MAX_NUM_USER_EXTRA_FLAGS) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many user extra flags!",
+                    filename);
+      ok = FALSE;
+      break;
+    }
+
+    set_user_extra_flag_name(EF_USER_FLAG_1 + i, flag, helptxt);
+  }
+
+  if (ok) {
+    /* Blank the remaining extra user flag slots. */
+    for (; i < MAX_NUM_USER_EXTRA_FLAGS; i++) {
+      set_user_extra_flag_name(EF_USER_FLAG_1 + i, NULL, NULL);
     }
 
     /* terrain names */
@@ -6797,6 +6831,31 @@ static void send_ruleset_resources(struct conn_list *dest)
 static void send_ruleset_extras(struct conn_list *dest)
 {
   struct packet_ruleset_extra packet;
+  struct packet_ruleset_extra_flag fpacket;
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_EXTRA_FLAGS; i++) {
+    const char *flagname;
+    const char *helptxt;
+
+    fpacket.id = i + EF_USER_FLAG_1;
+
+    flagname = extra_flag_id_name(i + EF_USER_FLAG_1);
+    if (flagname == NULL) {
+      fpacket.name[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.name, flagname);
+    }
+
+    helptxt = extra_flag_helptxt(i + EF_USER_FLAG_1);
+    if (helptxt == NULL) {
+      fpacket.helptxt[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.helptxt, helptxt);
+    }
+
+    lsend_packet_ruleset_extra_flag(dest, &fpacket);
+  }
 
   extra_type_iterate(e) {
     int j;

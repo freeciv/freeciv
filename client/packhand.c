@@ -3770,6 +3770,32 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   tileset_setup_extra(tileset, pextra);
 }
 
+/**************************************************************************
+  Packet ruleset_extra_flag handler.
+**************************************************************************/
+void handle_ruleset_extra_flag(const struct packet_ruleset_extra_flag *p)
+{
+  const char *flagname;
+  const char *helptxt;
+
+  fc_assert_ret_msg(p->id >= EF_USER_FLAG_1 && p->id <= EF_LAST_USER_FLAG,
+                    "Bad user flag %d.", p->id);
+
+  if (p->name[0] == '\0') {
+    flagname = NULL;
+  } else {
+    flagname = p->name;
+  }
+
+  if (p->helptxt[0] == '\0') {
+    helptxt = NULL;
+  } else {
+    helptxt = p->helptxt;
+  }
+
+  set_user_extra_flag_name(p->id, flagname, helptxt);
+}
+
 /****************************************************************************
   Handle a packet about a particular base type.
 ****************************************************************************/

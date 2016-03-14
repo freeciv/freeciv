@@ -538,6 +538,7 @@ void game_ruleset_init(void)
   user_unit_class_flags_init();
   user_unit_type_flags_init();
   user_terrain_flags_init();
+  user_extra_flags_init();
   user_tech_flags_init();
   multipliers_init();
 
@@ -590,6 +591,7 @@ void game_ruleset_free(void)
   disaster_types_free();
   terrains_free();
   user_tech_flags_free();
+  extra_flags_free();
   user_terrain_flags_free();
   ruleset_cache_free();
   nation_sets_groups_free();

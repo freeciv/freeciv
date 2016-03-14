@@ -4861,6 +4861,8 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     .value = {.extra = pextra}
   };
 
+  int flagid;
+
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
@@ -5024,6 +5026,17 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
       CATLSTR(buf, bufsz,
               _("* Allows the owner to see normally invisible units in an "
                 "area around the tile.\n"));
+    }
+  }
+  for (flagid = EF_USER_FLAG_1; flagid <= EF_LAST_USER_FLAG; flagid++) {
+    if (extra_has_flag(pextra, flagid)) {
+      const char *helptxt = extra_flag_helptxt(flagid);
+
+      if (helptxt != NULL) {
+        CATLSTR(buf, bufsz, Q_("?bullet:* "));
+        CATLSTR(buf, bufsz, _(helptxt));
+        CATLSTR(buf, bufsz, "\n");
+      }
     }
   }
 

@@ -1768,6 +1768,21 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     }
   }
 
+  for (i = 0; i < MAX_NUM_USER_EXTRA_FLAGS; i++) {
+    const char *flagname = extra_flag_id_name_cb(i + EF_USER_FLAG_1);
+    const char *helptxt = extra_flag_helptxt(i + EF_USER_FLAG_1);
+
+    if (flagname != NULL) {
+      secfile_insert_str(sfile, flagname, "control.extra_flags%d.name", i);
+
+      /* Save the user flag help text even when it is undefined. That makes
+       * the formatting code happy. The resulting "" is ignored when the
+       * ruleset is loaded. */
+      secfile_insert_str(sfile, helptxt,
+                         "control.extra_flags%d.helptxt", i);
+    }
+  }
+
   if (terrain_control.ocean_reclaim_requirement_pct <= 100) {
     secfile_insert_int(sfile, terrain_control.ocean_reclaim_requirement_pct,
                        "parameters.ocean_reclaim_requirement");

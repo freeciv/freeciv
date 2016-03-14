@@ -55,9 +55,23 @@ extern "C" {
  * separate "Natural" defense layer. */
 #define SPECENUM_VALUE9 EF_NATURAL_DEFENSE
 #define SPECENUM_VALUE9NAME N_("?extraflag:NaturalDefense")
+
+#define SPECENUM_VALUE10 EF_USER_FLAG_1
+#define SPECENUM_VALUE11 EF_USER_FLAG_2
+#define SPECENUM_VALUE12 EF_USER_FLAG_3
+#define SPECENUM_VALUE13 EF_USER_FLAG_4
+#define SPECENUM_VALUE14 EF_USER_FLAG_5
+#define SPECENUM_VALUE15 EF_USER_FLAG_6
+#define SPECENUM_VALUE16 EF_USER_FLAG_7
+#define SPECENUM_VALUE17 EF_USER_FLAG_8
+
 #define SPECENUM_COUNT EF_COUNT
+#define SPECENUM_NAMEOVERRIDE
 #define SPECENUM_BITVECTOR bv_extra_flags
 #include "specenum_gen.h"
+
+#define EF_LAST_USER_FLAG EF_USER_FLAG_8
+#define MAX_NUM_USER_EXTRA_FLAGS (EF_LAST_USER_FLAG - EF_USER_FLAG_1 + 1)
 
 #define EXTRA_NONE (-1)
 
@@ -207,6 +221,13 @@ bool is_extra_flag_card_near(const struct tile *ptile,
                              enum extra_flag_id flag);
 bool is_extra_flag_near_tile(const struct tile *ptile,
                              enum extra_flag_id flag);
+
+void user_extra_flags_init(void);
+void extra_flags_free(void);
+void set_user_extra_flag_name(enum extra_flag_id id,
+                              const char *name,
+                              const char *helptxt);
+const char *extra_flag_helptxt(enum extra_flag_id id);
 
 bool extra_causes_env_upset(struct extra_type *pextra,
                             enum environment_upset_type upset);

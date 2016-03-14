@@ -29,6 +29,8 @@
 
 static struct extra_type extras[MAX_EXTRA_TYPES];
 
+static struct user_flag user_extra_flags[MAX_NUM_USER_EXTRA_FLAGS];
+
 static struct extra_type_list *category_extra[ECAT_COUNT];
 static struct extra_type_list *caused_by[EC_LAST];
 static struct extra_type_list *removed_by[ERM_COUNT];
@@ -702,6 +704,81 @@ bool is_extra_flag_near_tile(const struct tile *ptile, enum extra_flag_id flag)
   } extra_type_iterate_end;
 
   return FALSE;
+}
+
+/**************************************************************************
+  Initialize user extra flags.
+**************************************************************************/
+void user_extra_flags_init(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_EXTRA_FLAGS; i++) {
+    user_flag_init(&user_extra_flags[i]);
+  }
+}
+
+/***************************************************************
+  Frees the memory associated with all extra flags
+***************************************************************/
+void extra_flags_free(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_EXTRA_FLAGS; i++) {
+    user_flag_free(&user_extra_flags[i]);
+  }
+}
+
+/**************************************************************************
+  Sets user defined name for extra flag.
+**************************************************************************/
+void set_user_extra_flag_name(enum extra_flag_id id, const char *name,
+                              const char *helptxt)
+{
+  int efid = id - EF_USER_FLAG_1;
+
+  fc_assert_ret(id >= EF_USER_FLAG_1 && id <= EF_LAST_USER_FLAG);
+
+  if (user_extra_flags[efid].name != NULL) {
+    FC_FREE(user_extra_flags[efid].name);
+    user_extra_flags[efid].name = NULL;
+  }
+
+  if (name && name[0] != '\0') {
+    user_extra_flags[efid].name = fc_strdup(name);
+  }
+
+  if (user_extra_flags[efid].helptxt != NULL) {
+    free(user_extra_flags[efid].helptxt);
+    user_extra_flags[efid].helptxt = NULL;
+  }
+
+  if (helptxt && helptxt[0] != '\0') {
+    user_extra_flags[efid].helptxt = fc_strdup(helptxt);
+  }
+}
+
+/**************************************************************************
+  Extra flag name callback, called from specenum code.
+**************************************************************************/
+const char *extra_flag_id_name_cb(enum extra_flag_id flag)
+{
+  if (flag < EF_USER_FLAG_1 || flag > EF_LAST_USER_FLAG) {
+    return NULL;
+  }
+
+  return user_extra_flags[flag - EF_USER_FLAG_1].name;
+}
+
+/**************************************************************************
+  Return the (untranslated) help text of the user extra flag.
+**************************************************************************/
+const char *extra_flag_helptxt(enum extra_flag_id id)
+{
+  fc_assert(id >= EF_USER_FLAG_1 && id <= EF_LAST_USER_FLAG);
+
+  return user_extra_flags[id - EF_USER_FLAG_1].helptxt;
 }
 
 /**************************************************************************
