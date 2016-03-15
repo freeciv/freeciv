@@ -1169,8 +1169,10 @@ is_action_possible(const enum gen_action wanted_action,
     }
   }
 
-  if (wanted_action == ACTION_CAPTURE_UNITS
-      || wanted_action == ACTION_SPY_BRIBE_UNIT) {
+  /* Hard requiremetns for individual actions. */
+  switch (wanted_action) {
+  case ACTION_CAPTURE_UNITS:
+  case ACTION_SPY_BRIBE_UNIT:
     /* Why this is a hard requirement: Can't transfer a unique unit if the
      * actor player already has one. */
     /* Info leak: This is only checked for when the actor player can see
@@ -1192,9 +1194,10 @@ is_action_possible(const enum gen_action wanted_action,
     /* FIXME: Capture Unit may want to look for more than one unique unit
      * of the same kind at the target tile. Currently caught by sanity
      * check in do_capture_units(). */
-  }
 
-  if (wanted_action == ACTION_ESTABLISH_EMBASSY) {
+    break;
+
+  case ACTION_ESTABLISH_EMBASSY:
     /* Why this is a hard requirement: There is currently no point in
      * establishing an embassy when a real embassy already exists.
      * (Possible exception: crazy hack using the Lua callback
@@ -1204,54 +1207,60 @@ is_action_possible(const enum gen_action wanted_action,
     if (player_has_real_embassy(actor_player, target_player)) {
       return TRI_NO;
     }
-  }
 
-  if (wanted_action == ACTION_SPY_TARGETED_STEAL_TECH) {
+    break;
+
+  case ACTION_SPY_TARGETED_STEAL_TECH:
     /* Reason: The Freeciv code don't support selecting a target tech
      * unless it is known that the victim player has it. */
     /* Info leak: The actor player knowns who's techs he can see. */
     if (!can_see_techs_of_target(actor_player, target_player)) {
       return TRI_NO;
     }
-  }
 
-  if (wanted_action == ACTION_SPY_STEAL_GOLD) {
+    break;
+
+  case ACTION_SPY_STEAL_GOLD:
     /* If actor_unit can do the action the actor_player can see how much
      * gold target_player have. Not requireing it is therefore pointless.
      */
     if (target_player->economic.gold <= 0) {
       return TRI_NO;
     }
-  }
 
-  if (wanted_action == ACTION_TRADE_ROUTE ||
-      wanted_action == ACTION_MARKETPLACE) {
-    const struct city *actor_homecity;
+    break;
 
-    /* It isn't possible to establish a trade route from a non existing
+  case ACTION_TRADE_ROUTE:
+  case ACTION_MARKETPLACE:
+    {
+      const struct city *actor_homecity;
+
+      /* It isn't possible to establish a trade route from a non existing
      * city. The Freeciv code assumes this applies to Enter Marketplace
      * too. */
-    if (!(actor_homecity = game_city_by_number(actor_unit->homecity))) {
-      return TRI_NO;
-    }
+      if (!(actor_homecity = game_city_by_number(actor_unit->homecity))) {
+        return TRI_NO;
+      }
 
-    /* Can't establish a trade route or enter the market place if the
+      /* Can't establish a trade route or enter the market place if the
      * cities can't trade at all. */
-    /* TODO: Should this restriction (and the above restriction that the
+      /* TODO: Should this restriction (and the above restriction that the
      * actor unit must have a home city) be kept for Enter Marketplace? */
-    if (!can_cities_trade(actor_homecity, target_city)) {
-      return TRI_NO;
-    }
+      if (!can_cities_trade(actor_homecity, target_city)) {
+        return TRI_NO;
+      }
 
-    /* There are more restrictions on establishing a trade route than on
+      /* There are more restrictions on establishing a trade route than on
      * entering the market place. */
-    if (wanted_action == ACTION_TRADE_ROUTE &&
-        !can_establish_trade_route(actor_homecity, target_city)) {
-      return TRI_NO;
+      if (wanted_action == ACTION_TRADE_ROUTE &&
+          !can_establish_trade_route(actor_homecity, target_city)) {
+        return TRI_NO;
+      }
     }
-  }
 
-  if (wanted_action == ACTION_HELP_WONDER) {
+    break;
+
+  case ACTION_HELP_WONDER:
     /* It is only possible to help the production if the production needs
      * the help. (If not it would be possible to add shields for something
      * that can't legally receive help if it is build later) */
@@ -1267,15 +1276,17 @@ is_action_possible(const enum gen_action wanted_action,
           < city_production_build_shield_cost(target_city))) {
       return TRI_NO;
     }
-  }
 
-  if (wanted_action == ACTION_RECYCLE_UNIT) {
+    break;
+
+  case ACTION_RECYCLE_UNIT:
     /* FIXME: The next item may be forbidden from receiving help. But
      * forbidding the player from recycling a unit because the production
      * has enough, like Help Wonder does, would be a rule change. */
-  }
 
-  if (wanted_action == ACTION_FOUND_CITY) {
+    break;
+
+  case ACTION_FOUND_CITY:
     if (game.scenario.prevent_new_cities) {
       /* Reason: allow scenarios to disable city founding. */
       /* Info leak: the setting is public knowledge. */
@@ -1335,35 +1346,39 @@ is_action_possible(const enum gen_action wanted_action,
         }
       } square_iterate_end;
     }
-  }
 
-  if (wanted_action == ACTION_JOIN_CITY) {
-    int new_pop;
+    break;
 
-    if (!omniscient
-        && !mke_can_see_city_externals(actor_player, target_city)) {
-      return TRI_MAYBE;
-    }
+  case ACTION_JOIN_CITY:
+    {
+      int new_pop;
 
-    new_pop = city_size_get(target_city) + unit_pop_value(actor_unit);
+      if (!omniscient
+          && !mke_can_see_city_externals(actor_player, target_city)) {
+        return TRI_MAYBE;
+      }
 
-    if (new_pop > game.info.add_to_size_limit) {
-      /* Reason: Make the add_to_size_limit setting work. */
-      return TRI_NO;
-    }
+      new_pop = city_size_get(target_city) + unit_pop_value(actor_unit);
 
-    if (!city_can_grow_to(target_city, new_pop)) {
-      /* Reason: respect city size limits. */
-      /* Info leak: when it is legal to join a foreign city is legal and
+      if (new_pop > game.info.add_to_size_limit) {
+        /* Reason: Make the add_to_size_limit setting work. */
+        return TRI_NO;
+      }
+
+      if (!city_can_grow_to(target_city, new_pop)) {
+        /* Reason: respect city size limits. */
+        /* Info leak: when it is legal to join a foreign city is legal and
        * the EFT_SIZE_UNLIMIT effect or the EFT_SIZE_ADJ effect depends on
        * something the actor player don't have access to.
        * Example: depends on a building (like Aqueduct) that isn't
        * VisibleByOthers. */
-      return TRI_NO;
+        return TRI_NO;
+      }
     }
-  }
 
-  if (wanted_action == ACTION_BOMBARD) {
+    break;
+
+  case ACTION_BOMBARD:
     /* TODO: Move to the ruleset. */
     if (!pplayers_at_war(unit_owner(target_unit), actor_player)) {
       return TRI_NO;
@@ -1375,39 +1390,42 @@ is_action_possible(const enum gen_action wanted_action,
                             actor_player)) {
       return TRI_NO;
     }
-  }
 
-  if (wanted_action == ACTION_NUKE
-      && actor_tile != target_tile) {
-    /* The old rules only restricted other tiles. Keep them for now. */
+    break;
 
-    struct city *tcity;
+  case ACTION_NUKE:
+    if (actor_tile != target_tile) {
+      /* The old rules only restricted other tiles. Keep them for now. */
 
-    if (actor_unit->moves_left <= 0) {
-      return TRI_NO;
+      struct city *tcity;
+
+      if (actor_unit->moves_left <= 0) {
+        return TRI_NO;
+      }
+
+      if (!(tcity = tile_city(target_tile))
+          && !unit_list_size(target_tile->units)) {
+        return TRI_NO;
+      }
+
+      if (tcity && !pplayers_at_war(city_owner(tcity), actor_player)) {
+        return TRI_NO;
+      }
+
+      if (is_non_attack_unit_tile(target_tile, actor_player)) {
+        return TRI_NO;
+      }
+
+      if (!tcity
+          && (unit_attack_units_at_tile_result(actor_unit, target_tile)
+              != ATT_OK)) {
+        return TRI_NO;
+      }
     }
 
-    if (!(tcity = tile_city(target_tile))
-        && !unit_list_size(target_tile->units)) {
-      return TRI_NO;
-    }
+    break;
 
-    if (tcity && !pplayers_at_war(city_owner(tcity), actor_player)) {
-      return TRI_NO;
-    }
-
-    if (is_non_attack_unit_tile(target_tile, actor_player)) {
-      return TRI_NO;
-    }
-
-    if (!tcity
-        && (unit_attack_units_at_tile_result(actor_unit, target_tile)
-            != ATT_OK)) {
-      return TRI_NO;
-    }
-  }
-
-  if (wanted_action == ACTION_HOME_CITY) {
+  case ACTION_HOME_CITY:
     /* Reason: being homeless is a big benefit (no upkeep). */
     /* Info leak: The player knows if his own unit is homeless. */
     if (actor_unit->homecity <= 0) {
@@ -1421,9 +1439,10 @@ is_action_possible(const enum gen_action wanted_action,
       /* This is already the unit's home city. */
       return TRI_NO;
     }
-  }
 
-  if (wanted_action == ACTION_UPGRADE_UNIT) {
+    break;
+
+  case ACTION_UPGRADE_UNIT:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows his unit's type. He knows if he can
      * build the unit type upgraded to. If the upgrade happens in a foreign
@@ -1439,9 +1458,10 @@ is_action_possible(const enum gen_action wanted_action,
     if (unit_upgrade_test(actor_unit, FALSE) != UU_OK) {
       return TRI_NO;
     }
-  }
 
-  if (wanted_action == ACTION_PARADROP) {
+    break;
+
+  case ACTION_PARADROP:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows if his unit has paradropped this turn,
      * how many move fragments it has left and if it is standing in a city
@@ -1465,9 +1485,10 @@ is_action_possible(const enum gen_action wanted_action,
     if (!plr_knows_tile(actor_player, target_tile)) {
       return TRI_NO;
     }
-  }
 
-  if (wanted_action == ACTION_AIRLIFT) {
+    break;
+
+  case ACTION_AIRLIFT:
     /* Reason: Keep the old rules. */
     /* Info leak: same as test_unit_can_airlift_to() */
     switch (test_unit_can_airlift_to(omniscient ? NULL : actor_player,
@@ -1487,6 +1508,26 @@ is_action_possible(const enum gen_action wanted_action,
     case AR_DST_NO_FLIGHTS:
       return TRI_NO;
     }
+
+    break;
+
+  case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_SPY_POISON:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_STEAL_MAPS:
+  case ACTION_SPY_NUKE:
+  case ACTION_DESTROY_CITY:
+  case ACTION_EXPEL_UNIT:
+  case ACTION_DISBAND_UNIT:
+    /* No known hard coded requirements. */
+    break;
+  case ACTION_COUNT:
+    fc_assert(action_id_is_valid(wanted_action));
+    break;
   }
 
   return TRI_YES;
