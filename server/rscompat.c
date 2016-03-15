@@ -526,6 +526,13 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     enabler->action = ACTION_HOME_CITY;
 
+    /* The actor unit has a home city. (This is a feature since being
+     * homeless is a big benefit. Unless the killunhomed setting is above
+     * 0.) */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitState", "Local", FALSE,
+                                           TRUE, TRUE, "HasHomeCity"));
+
     /* The target city must be domestic. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("DiplRel", "Local", FALSE,

@@ -821,8 +821,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                               USP_HAS_HOME_CITY, FALSE)) {
     expl->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
   } else if ((punit->homecity <= 0)
-             && (action_id == ACTION_HOME_CITY
-                 || action_id == ACTION_TRADE_ROUTE
+             && (action_id == ACTION_TRADE_ROUTE
                  || action_id == ACTION_MARKETPLACE)) {
     expl->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
   } else if ((must_war_player = need_war_player(punit,

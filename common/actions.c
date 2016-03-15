@@ -1426,13 +1426,6 @@ is_action_possible(const enum gen_action wanted_action,
     break;
 
   case ACTION_HOME_CITY:
-    /* Reason: being homeless is a big benefit (no upkeep). */
-    /* Info leak: The player knows if his own unit is homeless. */
-    if (actor_unit->homecity <= 0) {
-      /* Don't home a homeless unit. */
-      return TRI_NO;
-    }
-
     /* Reason: can't change to what is. */
     /* Info leak: The player knows his unit's current home city. */
     if (actor_unit->homecity == target_city->id) {
