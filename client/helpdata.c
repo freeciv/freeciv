@@ -1729,6 +1729,15 @@ static bool insert_requirement(char *buf, size_t bufsz,
                            "any cargo units.\n"));
           }
           return TRUE;
+        case USP_HAS_HOME_CITY:
+          if (preq->present) {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit has a home city.\n"));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit is homeless.\n"));
+          }
+          return TRUE;
         case USP_COUNT:
           fc_assert_msg(preq->source.value.unit_state != USP_COUNT,
                         "Invalid unit state property.");

@@ -90,6 +90,10 @@ enum ane_kind {
   ANEK_IS_TRANSPORTING,
   /* Explanation: doesn't transport a cargo unit. */
   ANEK_IS_NOT_TRANSPORTING,
+  /* Explanation: actor unit has a home city. */
+  ANEK_ACTOR_HAS_HOME_CITY,
+  /* Explanation: actor unit has no a home city. */
+  ANEK_ACTOR_HAS_NO_HOME_CITY,
   /* Explanation: must declare war first. */
   ANEK_NO_WAR,
   /* Explanation: can't be done to domestic targets. */
@@ -808,6 +812,19 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTING, FALSE)) {
     expl->kind = ANEK_IS_NOT_TRANSPORTING;
+  } else if ((punit->homecity > 0)
+             && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+                                              USP_HAS_HOME_CITY, TRUE)) {
+    expl->kind = ANEK_ACTOR_HAS_HOME_CITY;
+  } else if ((punit->homecity <= 0)
+             && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+                                              USP_HAS_HOME_CITY, FALSE)) {
+    expl->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
+  } else if ((punit->homecity <= 0)
+             && (action_id == ACTION_HOME_CITY
+                 || action_id == ACTION_TRADE_ROUTE
+                 || action_id == ACTION_MARKETPLACE)) {
+    expl->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
   } else if ((must_war_player = need_war_player(punit,
                                                 action_id,
                                                 target_tile,
@@ -960,6 +977,14 @@ static void explain_why_no_action_enabled(struct unit *punit,
   case ANEK_IS_NOT_TRANSPORTING:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit cannot act when it isn't transporting."));
+    break;
+  case ANEK_ACTOR_HAS_HOME_CITY:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit has a home city, and so cannot act."));
+    break;
+  case ANEK_ACTOR_HAS_NO_HOME_CITY:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit cannot act unless it has a home city."));
     break;
   case ANEK_NO_WAR:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1279,6 +1304,20 @@ void illegal_action_msg(struct player *pplayer,
     notify_player(pplayer, unit_tile(actor),
                   event, ftc_server,
                   _("Your %s can't do %s while not transporting."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action));
+    break;
+  case ANEK_ACTOR_HAS_HOME_CITY:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s because it has a home city."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action));
+    break;
+  case ANEK_ACTOR_HAS_NO_HOME_CITY:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s because it is homeless."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action));
     break;
