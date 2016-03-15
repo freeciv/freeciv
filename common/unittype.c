@@ -350,10 +350,10 @@ bool utype_acts_hostile(const struct unit_type *putype)
 /* Cache if any action at all may be possible when the actor unit's state
  * is...
  * bit 0 to USP_COUNT - 1: Possible when the corresponding property is TRUE
- * bit USP_COUNT to ((USP_COUNT - 1) * 2): Possible when the corresponding
+ * bit USP_COUNT to ((USP_COUNT * 2) - 1): Possible when the corresponding
  * property is FALSE
  */
-BV_DEFINE(bv_ustate_act_cache, ((USP_COUNT - 1) * 2));
+BV_DEFINE(bv_ustate_act_cache, USP_COUNT * 2);
 
 /* Caches for each unit type */
 static bv_ustate_act_cache ustate_act_cache[U_LAST][ACTION_AND_FAKES];
