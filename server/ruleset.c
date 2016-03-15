@@ -3276,6 +3276,14 @@ static bool load_ruleset_terrain(struct section_file *file,
                         sval);
           ok = FALSE;
           break;
+        } else if ((!compat->compat_mode || compat->ver_terrain >= 10)
+                   && base_flag_is_retired(flag)) {
+          ruleset_error(LOG_ERROR, "\"%s\" base \"%s\": retired flag "
+                                   "\"%s\". Please update the ruleset.",
+                        filename,
+                        extra_rule_name(pextra),
+                        sval);
+          ok = FALSE;
         } else {
           BV_SET(pbase->flags, flag);
         }

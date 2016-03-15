@@ -87,6 +87,7 @@ bool is_base_flag_card_near(const struct tile *ptile,
                             enum base_flag_id flag);
 bool is_base_flag_near_tile(const struct tile *ptile,
                             enum base_flag_id flag);
+bool base_flag_is_retired(enum base_flag_id flag);
 bool base_has_flag_for_utype(const struct base_type *pbase,
                              enum base_flag_id flag,
                              const struct unit_type *punittype);

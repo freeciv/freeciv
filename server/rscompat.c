@@ -712,6 +712,29 @@ void rscompat_postprocess(struct rscompat_info *info)
                                     TRUE, TRUE, "Targeted Sabotage City"));
   }
 
+  if (info->ver_terrain < 10) {
+    /* Map from retired base flag to current extra flag. */
+    const struct {
+      enum base_flag_id from;
+      enum extra_flag_id to;
+    } base_to_extra_flag_map_3_0[] = {
+    };
+
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      int i;
+      struct base_type *pbase = extra_base_get(pextra);
+
+      for (i = 0; i < ARRAY_SIZE(base_to_extra_flag_map_3_0); i++) {
+        if (BV_ISSET(pbase->flags, base_to_extra_flag_map_3_0[i].from)) {
+          /* Set the *extra* user flag */
+          BV_SET(pextra->flags, base_to_extra_flag_map_3_0[i].to);
+          /* Remove the retired *base* flag. */
+          BV_CLR(pbase->flags, base_to_extra_flag_map_3_0[i].from);
+        }
+      }
+    } extra_type_by_cause_iterate_end;
+  }
+
   /* Upgrade existing effects. */
   iterate_effect_cache(effect_list_compat_cb, info);
 }
@@ -774,6 +797,12 @@ const char *rscompat_req_type_name_3_0(const char *old_type,
 {
   if (!fc_strcasecmp("Resource", old_type)) {
     return "Extra";
+  }
+
+  if (!fc_strcasecmp("BaseFlag", old_type)
+      && base_flag_is_retired(base_flag_id_by_name(old_value,
+                                                   fc_strcasecmp))) {
+    return "ExtraFlag";
   }
 
   return old_type;

@@ -857,6 +857,26 @@ bool sanity_check_ruleset_data(void)
     } extra_type_list_iterate_end;
   } extra_type_by_cause_iterate_end;
 
+  /* Bases */
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    int bfi;
+    struct base_type *pbase = extra_base_get(pextra);
+
+    for (bfi = 0; bfi < BF_COUNT; bfi++) {
+      if (!base_flag_is_retired(bfi)) {
+        /* Still valid. */
+        continue;
+      }
+
+      if (BV_ISSET(pbase->flags, bfi)) {
+        ruleset_error(LOG_ERROR,
+                      "Base %s uses the retired base flag %s!",
+                      extra_name_translation(pextra),
+                      base_flag_id_name(bfi));
+      }
+    }
+  } extra_type_by_cause_iterate_end;
+
   /* City styles */
   for (i = 0; i < game.control.styles_count; i++) {
     if (!sanity_check_req_vec(&city_styles[i].reqs, TRUE, -1,
