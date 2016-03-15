@@ -1169,7 +1169,7 @@ is_action_possible(const enum gen_action wanted_action,
     }
   }
 
-  /* Hard requiremetns for individual actions. */
+  /* Hard requirements for individual actions. */
   switch (wanted_action) {
   case ACTION_CAPTURE_UNITS:
   case ACTION_SPY_BRIBE_UNIT:
