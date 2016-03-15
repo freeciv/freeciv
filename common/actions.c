@@ -1236,22 +1236,22 @@ is_action_possible(const enum gen_action wanted_action,
       const struct city *actor_homecity;
 
       /* It isn't possible to establish a trade route from a non existing
-     * city. The Freeciv code assumes this applies to Enter Marketplace
-     * too. */
+       * city. The Freeciv code assumes this applies to Enter Marketplace
+       * too. */
       if (!(actor_homecity = game_city_by_number(actor_unit->homecity))) {
         return TRI_NO;
       }
 
       /* Can't establish a trade route or enter the market place if the
-     * cities can't trade at all. */
+       * cities can't trade at all. */
       /* TODO: Should this restriction (and the above restriction that the
-     * actor unit must have a home city) be kept for Enter Marketplace? */
+       * actor unit must have a home city) be kept for Enter Marketplace? */
       if (!can_cities_trade(actor_homecity, target_city)) {
         return TRI_NO;
       }
 
       /* There are more restrictions on establishing a trade route than on
-     * entering the market place. */
+       * entering the market place. */
       if (wanted_action == ACTION_TRADE_ROUTE &&
           !can_establish_trade_route(actor_homecity, target_city)) {
         return TRI_NO;
@@ -1368,10 +1368,10 @@ is_action_possible(const enum gen_action wanted_action,
       if (!city_can_grow_to(target_city, new_pop)) {
         /* Reason: respect city size limits. */
         /* Info leak: when it is legal to join a foreign city is legal and
-       * the EFT_SIZE_UNLIMIT effect or the EFT_SIZE_ADJ effect depends on
-       * something the actor player don't have access to.
-       * Example: depends on a building (like Aqueduct) that isn't
-       * VisibleByOthers. */
+         * the EFT_SIZE_UNLIMIT effect or the EFT_SIZE_ADJ effect depends on
+         * something the actor player don't have access to.
+         * Example: depends on a building (like Aqueduct) that isn't
+         * VisibleByOthers. */
         return TRI_NO;
       }
     }
