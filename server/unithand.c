@@ -118,6 +118,8 @@ enum ane_kind {
   ANEK_CITY_TOO_BIG,
   /* Explanation: the target city's population limit banned the action. */
   ANEK_CITY_POP_LIMIT,
+  /* Explanation: the specified city don't have the needed capacity. */
+  ANEK_CITY_NO_CAPACITY,
   /* Explanation: the action is blocked by another action. */
   ANEK_ACTION_BLOCKS,
   /* Explanation not detected. */
@@ -130,6 +132,9 @@ struct ane_expl {
   enum ane_kind kind;
 
   union {
+    /* The city without the needed capacity- */
+    struct city *capacity_city;
+
     /* The bad terrain in question. */
     struct terrain *no_act_terrain;
 
@@ -756,6 +761,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
      * is legal to found a city on an unclaimed or domestic tile. */
     action_custom = city_build_here_test(target_tile, punit);
     break;
+  case ACTION_AIRLIFT:
+    action_custom = test_unit_can_airlift_to(NULL, punit, target_city);
+    break;
   default:
     action_custom = 0;
     break;
@@ -891,6 +899,14 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                        city_size_get(target_city)
                                        + unit_pop_value(punit))))) {
     expl->kind = ANEK_CITY_POP_LIMIT;
+  } else if (action_id == ACTION_AIRLIFT
+             && action_custom == AR_SRC_NO_FLIGHTS) {
+    expl->kind = ANEK_CITY_NO_CAPACITY;
+    expl->capacity_city = tile_city(unit_tile(punit));
+  } else if (action_id == ACTION_AIRLIFT
+             && action_custom == AR_DST_NO_FLIGHTS) {
+    expl->kind = ANEK_CITY_NO_CAPACITY;
+    expl->capacity_city = game_city_by_number(target_city->id);
   } else if (action_id == ACTION_FOUND_CITY
              && action_custom == CB_NO_MIN_DIST) {
     expl->kind = ANEK_CITY_TOO_CLOSE_TGT;
@@ -1040,6 +1056,14 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("%s needs an improvement to grow, so "
                     "%s cannot do anything to it."),
                   city_name(target_city),
+                  unit_name_translation(punit));
+    break;
+  case ANEK_CITY_NO_CAPACITY:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  /* TRANS: Paris ... Warriors (think: airlift) */
+                  _("%s don't have enough capacity, so "
+                    "%s cannot do anything."),
+                  city_name(expl->capacity_city),
                   unit_name_translation(punit));
     break;
   case ANEK_ACTION_BLOCKS:
@@ -1414,6 +1438,15 @@ void illegal_action_msg(struct player *pplayer,
                   city_name(target_city),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action));
+    break;
+  case ANEK_CITY_NO_CAPACITY:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  /* TRANS: Paris ... Airlift to City ... Warriors */
+                  _("%s has no capacity to %s %s."),
+                  city_name(expl->capacity_city),
+                  action_get_ui_name(stopped_action),
+                  unit_name_translation(actor));
     break;
   case ANEK_ACTION_BLOCKS:
     notify_player(pplayer, unit_tile(actor),
