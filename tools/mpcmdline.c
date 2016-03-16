@@ -40,6 +40,7 @@ extern struct fcmp_params fcmp;
   returns with success or exit()s. Implementation can be changed so that
   this returns with value -1 in case program should be shut down instead
   of exiting itself. Callers are prepared for such implementation.
+  This call initialises the log system.
 **************************************************************************/
 int fcmp_parse_cmdline(int argc, char *argv[])
 {
@@ -47,6 +48,7 @@ int fcmp_parse_cmdline(int argc, char *argv[])
   bool ui_separator = FALSE;
   int ui_options = 0;
   const char *option = NULL;
+  enum log_level loglevel = LOG_NORMAL;
 
   while (i < argc) {
     if (ui_separator) {
@@ -69,6 +71,20 @@ int fcmp_parse_cmdline(int argc, char *argv[])
                   /* TRANS: "install" is exactly what user must type, do not translate. */
                   _("install URL"),
                   _("Automatically install modpack from a given URL"));
+#ifdef FREECIV_DEBUG
+      cmdhelp_add(help, "d",
+                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                  _("debug NUM"),
+                  _("Set debug log level (%d to %d, or "
+                    "%d:file1,min,max:...)"), LOG_FATAL, LOG_DEBUG,
+                  LOG_DEBUG);
+#else  /* FREECIV_DEBUG */
+      cmdhelp_add(help, "d",
+                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                  _("debug NUM"),
+                  _("Set debug log level (%d to %d)"),
+                  LOG_FATAL, LOG_VERBOSE);
+#endif /* FREECIV_DEBUG */
       cmdhelp_add(help, "v", "version",
                   _("Print the version number"));
       /* The function below prints a header and footer for the options.
@@ -83,6 +99,14 @@ int fcmp_parse_cmdline(int argc, char *argv[])
       fcmp.inst_prefix = option;
     } else if ((option = get_option_malloc("--install", argv, &i, argc))) {
       fcmp.autoinstall = option;
+    } else if ((option = get_option_malloc("--debug", argv, &i, argc))) {
+      if (!log_parse_level_str(option, &loglevel)) {
+        fc_fprintf(stderr,
+                   _("Invalid debug level \"%s\" specified with --debug "
+                     "option.\n"), option);
+        fc_fprintf(stderr, _("Try using --help.\n"));
+        exit(EXIT_FAILURE);
+      }
     } else if (is_option("--version", argv[i])) {
       fc_fprintf(stderr, "%s \n", freeciv_name_version());
 
@@ -96,6 +120,8 @@ int fcmp_parse_cmdline(int argc, char *argv[])
 
     i++;
   }
+
+  log_init(NULL, loglevel, NULL, NULL, -1);
 
   if (fcmp.inst_prefix == NULL) {
     fcmp.inst_prefix = freeciv_storage_dir();
