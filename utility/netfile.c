@@ -81,6 +81,8 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
   CURLcode curlret;
   struct curl_slist *headers = NULL;
   static CURL *handle;
+  char errorbuf[CURL_ERROR_SIZE] = "";
+  bool ret = TRUE;
 
   handle = netfile_init_handle();
 
@@ -96,6 +98,8 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
     curl_easy_setopt(handle, CURLOPT_WRITEDATA, fp);
   }
   curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
+  curl_easy_setopt(handle, CURLOPT_FAILONERROR, 1);
+  curl_easy_setopt(handle, CURLOPT_ERRORBUFFER, errorbuf);
 
   curlret = curl_easy_perform(handle);
 
@@ -103,17 +107,23 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
 
   if (curlret != CURLE_OK) {
     if (cb != NULL) {
-      char buf[2048];
+      char buf[2048 + CURL_ERROR_SIZE];
 
       fc_snprintf(buf, sizeof(buf),
-                  _("Failed to fetch %s"), URL);
+                  /* TRANS: first %s is URL, second is Curl error message
+                   * (not in Freeciv translation domain) */
+                  _("Failed to fetch %s: %s"), URL,
+                  strlen(errorbuf) ? errorbuf : curl_easy_strerror(curlret));
       cb(buf, data);
     }
 
-    return FALSE;
+    ret = FALSE;
   }
 
-  return TRUE;
+  /* Just in case next user of Curl handle doesn't reset it */
+  curl_easy_setopt(handle, CURLOPT_ERRORBUFFER, NULL);
+
+  return ret;
 }
 
 /********************************************************************** 
