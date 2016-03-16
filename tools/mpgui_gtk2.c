@@ -130,6 +130,7 @@ static gboolean quit_dialog_callback(void)
 **************************************************************************/
 static void msg_callback(const char *msg)
 {
+  log_verbose("%s", msg);
   gtk_label_set_text(GTK_LABEL(statusbar), msg);
 }
 
@@ -558,10 +559,9 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 int main(int argc, char *argv[])
 {
   GtkWidget *toplevel;
-  int loglevel = LOG_NORMAL;
   int ui_options;
 
-  fcmp_init(loglevel);
+  fcmp_init();
 
   g_thread_init(NULL);
 
