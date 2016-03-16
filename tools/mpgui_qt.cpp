@@ -81,10 +81,9 @@ static void gui_download_modpack(QString URL);
 **************************************************************************/
 int main(int argc, char **argv)
 {
-  enum log_level loglevel = LOG_NORMAL;
   int ui_options;
 
-  fcmp_init(loglevel);
+  fcmp_init();
 
   /* This modifies argv! */
   ui_options = fcmp_parse_cmdline(argc, argv);
@@ -271,6 +270,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *params)
 **************************************************************************/
 void mpgui::display_msg(const char *msg)
 {
+  log_verbose("%s", msg);
   msg_dspl->setText(QString::fromUtf8(msg));
 }
 

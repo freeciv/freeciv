@@ -96,10 +96,9 @@ static void setup_modpack_list(const char *name, const char *URL,
 **************************************************************************/
 int main(int argc, char *argv[])
 {
-  int loglevel = LOG_NORMAL;
   int ui_options;
 
-  fcmp_init(loglevel);
+  fcmp_init();
 
   /* This modifies argv! */
   ui_options = fcmp_parse_cmdline(argc, argv);
