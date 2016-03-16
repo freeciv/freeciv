@@ -71,7 +71,9 @@ enum unit_airlift_result
   const struct player *punit_owner;
   enum unit_airlift_result ok_result = AR_OK;
 
-  if (0 == punit->moves_left) {
+  if (0 == punit->moves_left
+      && !utype_may_act_move_frags(unit_type_get(punit),
+                                   ACTION_AIRLIFT, 0)) {
     /* No moves left. */
     return AR_NO_MOVES;
   }

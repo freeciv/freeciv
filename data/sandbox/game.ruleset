@@ -637,6 +637,7 @@ action = "Airlift Unit"
 actor_reqs    =
     { "type",          "name",        "range"
       "UnitClassFlag", "LightWeight", "Local"
+      "MinMoveFrags",  "1",           "Local"
     }
 
 [actionenabler_airlift_medium_unit]
@@ -646,6 +647,7 @@ actor_reqs    =
       "UnitClassFlag", "MediumWeight",    "Local"
       "Tech",          "Advanced Flight", "Player"
       "Building",      "Airport",         "City"
+      "MinMoveFrags",  "1",               "Local"
     }
 target_reqs    =
     { "type",     "name",    "range"
@@ -658,7 +660,8 @@ actor_reqs    =
     { "type",          "name",         "range"
       "UnitClassFlag", "HeavyWeight",  "Local"
       "Tech",          "Fusion Power", "Player"
-      "Building",      "Airport",       "City"
+      "Building",      "Airport",      "City"
+      "MinMoveFrags",  "1",            "Local"
     }
 target_reqs    =
     { "type",     "name",    "range"

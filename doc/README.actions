@@ -264,7 +264,6 @@ Actions done by a unit against a city
 
 "Airlift Unit" - Airlift actor unit to target city.
  * UI name can be set using ui_airlift_unit
- * the actor unit must have movement left
  * the actor unit isn't transporting another unit
  * the actor unit isn't inside the target city
  * the actor unit can exist in the target city (outside a transport)
