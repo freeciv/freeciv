@@ -491,6 +491,7 @@ static bool is_req_knowable(const struct player *pow_player,
       || req->source.kind == VUT_TERRFLAG
       || req->source.kind == VUT_TERRAINCLASS
       || req->source.kind == VUT_EXTRA
+      || req->source.kind == VUT_EXTRAFLAG
       || req->source.kind == VUT_BASEFLAG
       || req->source.kind == VUT_BASEFLAG) {
     switch (req->range) {
