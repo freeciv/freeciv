@@ -513,16 +513,19 @@ static bool is_action_possible(const enum gen_action wanted_action,
     }
   }
 
-  if (wanted_action == ACTION_SPY_BRIBE_UNIT) {
+  /* Hard requirements for individual actions. */
+  switch (wanted_action) {
+  case ACTION_SPY_BRIBE_UNIT:
     /* Why this is a hard requirement: Can't transfer a unique unit if the
      * actor player already has one. */
     if (utype_player_already_has_this_unique(actor_player,
                                              target_unittype)) {
       return FALSE;
     }
-  }
 
-  if (wanted_action == ACTION_ESTABLISH_EMBASSY) {
+    break;
+
+  case ACTION_ESTABLISH_EMBASSY:
     /* Why this is a hard requirement: There is currently no point in
      * establishing an embassy when a real embassy already exists.
      * (Possible exception: crazy hack using the Lua callback
@@ -532,63 +535,69 @@ static bool is_action_possible(const enum gen_action wanted_action,
     if (player_has_real_embassy(actor_player, target_player)) {
       return FALSE;
     }
-  }
 
-  if (wanted_action == ACTION_SPY_TARGETED_STEAL_TECH) {
+    break;
+
+  case ACTION_SPY_TARGETED_STEAL_TECH:
     /* Reason: The Freeciv code don't support selecting a target tech
      * unless it is known that the victim player has it. */
     /* Info leak: The actor player knowns who's techs he can see. */
     if (!can_see_techs_of_target(actor_player, target_player)) {
       return FALSE;
     }
-  }
 
-  if (wanted_action == ACTION_SPY_STEAL_GOLD) {
+    break;
+
+  case ACTION_SPY_STEAL_GOLD:
     /* If actor_unit can do the action the actor_player can see how much
      * gold target_player have. Not requireing it is therefore pointless.
      */
     if (target_player->economic.gold <= 0) {
       return FALSE;
     }
-  }
 
-  if (wanted_action == ACTION_TRADE_ROUTE ||
-      wanted_action == ACTION_MARKETPLACE) {
-    const struct city *actor_homecity;
+    break;
 
-    /* It isn't possible to establish a trade route from a non existing
-     * city. The Freeciv code assumes this applies to Enter Marketplace
-     * too. */
-    if (!(actor_homecity = game_city_by_number(actor_unit->homecity))) {
-      return FALSE;
+  case ACTION_TRADE_ROUTE:
+  case ACTION_MARKETPLACE:
+    {
+      const struct city *actor_homecity;
+
+      /* It isn't possible to establish a trade route from a non existing
+       * city. The Freeciv code assumes this applies to Enter Marketplace
+       * too. */
+      if (!(actor_homecity = game_city_by_number(actor_unit->homecity))) {
+        return FALSE;
+      }
+
+      /* Can't establish a trade route or enter the market place if the
+       * cities can't trade at all. */
+      /* TODO: Should this restriction (and the above restriction that the
+       * actor unit must have a home city) be kept for Enter Marketplace? */
+      if (!can_cities_trade(actor_homecity, target_city)) {
+        return FALSE;
+      }
+
+      /* Allow a ruleset to forbid units from entering the marketplace if a
+       * trade route can be established in stead. */
+      if (wanted_action == ACTION_MARKETPLACE
+          && game.info.force_trade_route
+          && is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
+                                            actor_unit, target_city)) {
+        return FALSE;
+      }
+
+      /* There are more restrictions on establishing a trade route than on
+       * entering the market place. */
+      if (wanted_action == ACTION_TRADE_ROUTE &&
+          !can_establish_trade_route(actor_homecity, target_city)) {
+        return FALSE;
+      }
     }
 
-    /* Can't establish a trade route or enter the market place if the
-     * cities can't trade at all. */
-    /* TODO: Should this restriction (and the above restriction that the
-     * actor unit must have a home city) be kept for Enter Marketplace? */
-    if (!can_cities_trade(actor_homecity, target_city)) {
-      return FALSE;
-    }
+    break;
 
-    /* Allow a ruleset to forbid units from entering the marketplace if a
-     * trade route can be established in stead. */
-    if (wanted_action == ACTION_MARKETPLACE
-        && game.info.force_trade_route
-        && is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
-                                          actor_unit, target_city)) {
-      return FALSE;
-    }
-
-    /* There are more restrictions on establishing a trade route than on
-     * entering the market place. */
-    if (wanted_action == ACTION_TRADE_ROUTE &&
-        !can_establish_trade_route(actor_homecity, target_city)) {
-      return FALSE;
-    }
-  }
-
-  if (wanted_action == ACTION_HELP_WONDER) {
+  case ACTION_HELP_WONDER:
     /* It is only possible to help the production of a wonder. */
     /* Info leak: It is already known when a foreign city is building a
      * wonder. */
@@ -611,6 +620,21 @@ static bool is_action_possible(const enum gen_action wanted_action,
             target_city->production.value.building))) {
       return FALSE;
     }
+
+    break;
+
+  case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_SPY_POISON:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_SABOTAGE_UNIT:
+    /* No known hard coded requirements. */
+    break;
+  case ACTION_COUNT:
+    fc_assert(action_id_is_valid(wanted_action));
+    break;
   }
 
   return TRUE;
