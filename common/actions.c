@@ -1887,13 +1887,13 @@ action_enabled_local(const enum gen_action wanted_action,
                                     actor_building, actor_tile,
                                     actor_unit, actor_output,
                                     actor_specialist,
-                                    &enabler->actor_reqs),
+                                    &enabler->actor_reqs, RPT_CERTAIN),
                       mke_eval_reqs(actor_player, target_player,
                                     actor_player, target_city,
                                     target_building, target_tile,
                                     target_unit, target_output,
                                     target_specialist,
-                                    &enabler->target_reqs));
+                                    &enabler->target_reqs, RPT_CERTAIN));
     if (current == TRI_YES) {
       return TRI_YES;
     } else if (current == TRI_MAYBE) {
@@ -1928,7 +1928,7 @@ static bool is_effect_val_known(enum effect_type effect_type,
                                    target_building, target_tile,
                                    target_unit, target_output,
                                    target_specialist,
-                                   &(peffect->reqs))) {
+                                   &(peffect->reqs), RPT_CERTAIN)) {
       return FALSE;
     }
   } effect_list_iterate_end;

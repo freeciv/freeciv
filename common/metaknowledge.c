@@ -188,7 +188,8 @@ static bool is_req_knowable(const struct player *pow_player,
                             const struct unit *target_unit,
                             const struct output_type *target_output,
                             const struct specialist *target_specialist,
-                            const struct requirement *req)
+                            const struct requirement *req,
+                            const enum   req_problem_type prob_type)
 {
   fc_assert_ret_val_msg(NULL != pow_player, false, "No point of view");
 
@@ -200,6 +201,12 @@ static bool is_req_knowable(const struct player *pow_player,
       || req->source.kind == VUT_MINHP) {
     switch (req->range) {
     case REQ_RANGE_LOCAL:
+      if (target_unit == NULL) {
+        /* The unit may exist but not be passed when the problem type is
+         * RPT_POSSIBLE. */
+        return prob_type == RPT_CERTAIN;
+      }
+
       return target_unit && can_player_see_unit(pow_player, target_unit);
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
@@ -217,6 +224,12 @@ static bool is_req_knowable(const struct player *pow_player,
 
   if (req->source.kind == VUT_UNITSTATE) {
     fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL, FALSE, "Wrong range");
+
+    if (target_unit == NULL) {
+      /* The unit may exist but not be passed when the problem type is
+       * RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
 
     switch (req->source.value.unit_state) {
     case USP_TRANSPORTED:
@@ -237,6 +250,12 @@ static bool is_req_knowable(const struct player *pow_player,
 
   if (req->source.kind == VUT_MINMOVES) {
     fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL, FALSE, "Wrong range");
+
+    if (target_unit == NULL) {
+      /* The unit may exist but not be passed when the problem type is
+       * RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
 
     switch (req->range) {
     case REQ_RANGE_LOCAL:
@@ -260,6 +279,13 @@ static bool is_req_knowable(const struct player *pow_player,
   if (req->source.kind == VUT_DIPLREL) {
     switch (req->range) {
     case REQ_RANGE_LOCAL:
+      if (other_player == NULL
+          || target_player == NULL) {
+        /* The two players may exist but not be passed when the problem
+         * type is RPT_POSSIBLE. */
+        return prob_type == RPT_CERTAIN;
+      }
+
       if (pow_player == target_player
           || pow_player == other_player)  {
         return TRUE;
@@ -273,6 +299,12 @@ static bool is_req_knowable(const struct player *pow_player,
       /* TODO: Non symmetric diplomatic relationships. */
       break;
     case REQ_RANGE_PLAYER:
+      if (target_player == NULL) {
+        /* The target player may exist but not be passed when the problem
+         * type is RPT_POSSIBLE. */
+        return prob_type == RPT_CERTAIN;
+      }
+
       if (pow_player == target_player) {
         return TRUE;
       }
@@ -304,7 +336,13 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
-  if (req->source.kind == VUT_MINSIZE && target_city != NULL) {
+  if (req->source.kind == VUT_MINSIZE) {
+    if (target_city == NULL) {
+      /* The city may exist but not be passed when the problem type is
+       * RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
+
     if (mke_can_see_city_externals(pow_player, target_city)) {
       return TRUE;
     }
@@ -312,6 +350,12 @@ static bool is_req_knowable(const struct player *pow_player,
 
   if (req->source.kind == VUT_CITYTILE) {
     struct city *pcity;
+
+    if (target_tile == NULL) {
+      /* The tile may exist but not be passed when the problem type is
+       * RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
 
     switch (req->range) {
     case REQ_RANGE_LOCAL:
@@ -373,8 +417,9 @@ static bool is_req_knowable(const struct player *pow_player,
     fc_assert(req->range == REQ_RANGE_LOCAL);
 
     if (!target_city) {
-      /* Can't be. No city to contain it. */
-      return TRUE;
+      /* RPT_CERTAIN: Can't be. No city to contain it.
+       * RPT_POSSIBLE: A city like that may exist but not be passed. */
+      return prob_type == RPT_CERTAIN;
     }
 
     /* Local BuildingGenus could be about city production. */
@@ -401,8 +446,9 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_CITY:
     case REQ_RANGE_LOCAL:
       if (!target_city) {
-        /* Can't be. No city to contain it. */
-        return TRUE;
+        /* RPT_CERTAIN: Can't be. No city to contain it.
+         * RPT_POSSIBLE: A city like that may exist but not be passed. */
+        return prob_type == RPT_CERTAIN;
       }
 
       if (can_player_see_city_internals(pow_player, target_city)) {
@@ -430,25 +476,51 @@ static bool is_req_knowable(const struct player *pow_player,
 
   if (req->source.kind == VUT_NATION
       || req->source.kind == VUT_NATIONGROUP) {
+    if (!target_player
+        && (req->range == REQ_RANGE_PLAYER
+            || req->range == REQ_RANGE_TEAM
+            || req->range == REQ_RANGE_ALLIANCE)) {
+      /* The player (that can have a nationality or be alllied to someone
+       * with the nationality) may exist but not be passed when the problem
+       * type is RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
+
     return TRUE;
   }
 
   if (req->source.kind == VUT_ADVANCE || req->source.kind == VUT_TECHFLAG) {
-    if (req->range == REQ_RANGE_PLAYER
-        && can_see_techs_of_target(pow_player, target_player)) {
-      return TRUE;
+    if (req->range == REQ_RANGE_PLAYER) {
+      if (!target_player) {
+        /* The player (that may or may not possess the tech) may exist but
+         * not be passed when the problem type is RPT_POSSIBLE. */
+        return prob_type == RPT_CERTAIN;
+      }
+
+      return can_see_techs_of_target(pow_player, target_player);
     }
   }
 
   if (req->source.kind == VUT_GOVERNMENT) {
-    if (req->range == REQ_RANGE_PLAYER
-        && (pow_player == target_player
-            || could_intel_with_player(pow_player, target_player))) {
-      return TRUE;
+    if (req->range == REQ_RANGE_PLAYER) {
+      if (!target_player) {
+        /* The player (that may or may not possess the tech) may exist but
+         * not be passed when the problem type is RPT_POSSIBLE. */
+        return prob_type == RPT_CERTAIN;
+      }
+
+      return (pow_player == target_player
+              || could_intel_with_player(pow_player, target_player));
     }
   }
 
   if (req->source.kind == VUT_MAXTILEUNITS) {
+    if (target_tile == NULL) {
+      /* The tile may exist but not be passed when the problem type is
+       * RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
+
     switch (req->range) {
     case REQ_RANGE_LOCAL:
       return can_player_see_hypotetic_units_at(pow_player, target_tile);
@@ -494,6 +566,12 @@ static bool is_req_knowable(const struct player *pow_player,
       || req->source.kind == VUT_EXTRAFLAG
       || req->source.kind == VUT_BASEFLAG
       || req->source.kind == VUT_BASEFLAG) {
+    if (target_tile == NULL) {
+      /* The tile may exist but not be passed when the problem type is
+       * RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
+
     switch (req->range) {
     case REQ_RANGE_LOCAL:
       return is_tile_seen(pow_player, target_tile);
@@ -553,14 +631,15 @@ mke_eval_req(const struct player *pow_player,
              const struct unit *target_unit,
              const struct output_type *target_output,
              const struct specialist *target_specialist,
-             const struct requirement *req)
+             const struct requirement *req,
+             const enum   req_problem_type prob_type)
 {
   const struct unit_type *target_unittype;
 
   if (!is_req_knowable(pow_player, target_player, other_player,
                        target_city, target_building, target_tile,
                        target_unit, target_output,
-                       target_specialist, req)) {
+                       target_specialist, req, prob_type)) {
     return TRI_MAYBE;
   }
 
@@ -572,7 +651,7 @@ mke_eval_req(const struct player *pow_player,
 
   if (is_req_active(target_player, other_player, target_city,
                     target_building, target_tile, target_unit, target_unittype,
-                    target_output, target_specialist, NULL, req, RPT_CERTAIN)) {
+                    target_output, target_specialist, NULL, req, prob_type)) {
     return TRI_YES;
   } else {
     return TRI_NO;
@@ -594,7 +673,8 @@ mke_eval_reqs(const struct player *pow_player,
               const struct unit *target_unit,
               const struct output_type *target_output,
               const struct specialist *target_specialist,
-              const struct requirement_vector *reqs)
+              const struct requirement_vector *reqs,
+              const enum   req_problem_type prob_type)
 {
   enum fc_tristate current;
   enum fc_tristate result;
@@ -604,7 +684,7 @@ mke_eval_reqs(const struct player *pow_player,
     current = mke_eval_req(pow_player, target_player, other_player,
                            target_city, target_building, target_tile,
                            target_unit, target_output,
-                           target_specialist, preq);
+                           target_specialist, preq, prob_type);
     if (current == TRI_NO) {
       return TRI_NO;
     } else if (current == TRI_MAYBE) {
