@@ -2958,6 +2958,7 @@ static void fair_map_make_resources(struct fair_tile *pmap)
     for (r = pftile->pterrain->resources; *r != NULL; r++) {
       if (fc_rand(++j) == 0) {
         pftile->presource = *r;
+        BV_SET(pftile->extras, extra_index((*r)->self));
       }
     }
     /* Note that 'pftile->presource' might be NULL if there is no suitable
@@ -3677,8 +3678,8 @@ static bool map_generate_fair_islands(void)
 
     fc_assert(pftile->pterrain != NULL);
     tile_set_terrain(ptile, pftile->pterrain);
-    tile_set_resource(ptile, pftile->presource);
     ptile->extras = pftile->extras;
+    tile_set_resource(ptile, pftile->presource);
     if (pftile->flags & FTF_STARTPOS) {
       struct startpos *psp = map_startpos_new(ptile);
 
