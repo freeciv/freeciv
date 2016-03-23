@@ -2329,14 +2329,16 @@ action_probability action_prob_vs_city(const struct unit* actor_unit,
   }
 
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
-                        FALSE, "Action %s is performed by %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
                           action_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
   fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(action_id),
-                        FALSE, "Action %s is against %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
                           action_get_target_kind(action_id)),
@@ -2375,14 +2377,16 @@ action_probability action_prob_vs_unit(const struct unit* actor_unit,
   }
 
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
-                        FALSE, "Action %s is performed by %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
                           action_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
   fc_assert_ret_val_msg(ATK_UNIT == action_get_target_kind(action_id),
-                        FALSE, "Action %s is against %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
                           action_get_target_kind(action_id)),
@@ -2421,14 +2425,16 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
   }
 
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
-                        FALSE, "Action %s is performed by %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
                           action_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
   fc_assert_ret_val_msg(ATK_UNITS == action_get_target_kind(action_id),
-                        FALSE, "Action %s is against %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
                           action_get_target_kind(action_id)),
@@ -2502,14 +2508,16 @@ action_probability action_prob_vs_tile(const struct unit* actor_unit,
   }
 
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
-                        FALSE, "Action %s is performed by %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
                           action_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
   fc_assert_ret_val_msg(ATK_TILE == action_get_target_kind(action_id),
-                        FALSE, "Action %s is against %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
                           action_get_target_kind(action_id)),
@@ -2543,14 +2551,16 @@ action_probability action_prob_self(const struct unit* actor_unit,
   }
 
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
-                        FALSE, "Action %s is performed by %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
                           action_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
   fc_assert_ret_val_msg(ATK_SELF == action_get_target_kind(action_id),
-                        FALSE, "Action %s is against %s not %s",
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
                           action_get_target_kind(action_id)),
