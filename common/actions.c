@@ -760,6 +760,11 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                           action_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_CITY));
 
+  if (!unit_can_do_action(actor_unit, wanted_action)) {
+    /* No point in continuing. */
+    return FALSE;
+  }
+
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), tile_city(actor_tile),
                            NULL, actor_tile,
@@ -800,6 +805,11 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                         action_target_kind_name(
                           action_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_UNIT));
+
+  if (!unit_can_do_action(actor_unit, wanted_action)) {
+    /* No point in continuing. */
+    return FALSE;
+  }
 
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), tile_city(actor_tile),
@@ -1223,6 +1233,11 @@ action_probability action_prob_vs_city(const struct unit* actor_unit,
                           action_get_target_kind(action_id)),
                         action_target_kind_name(ATK_CITY));
 
+  if (!unit_can_do_action(actor_unit, action_id)) {
+    /* No point in continuing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   return action_prob(action_id,
                      unit_owner(actor_unit), tile_city(actor_tile),
                      NULL, actor_tile, actor_unit,
@@ -1259,6 +1274,11 @@ action_probability action_prob_vs_unit(const struct unit* actor_unit,
                         action_target_kind_name(
                           action_get_target_kind(action_id)),
                         action_target_kind_name(ATK_UNIT));
+
+  if (!unit_can_do_action(actor_unit, action_id)) {
+    /* No point in continuing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
 
   return action_prob(action_id,
                      unit_owner(actor_unit), tile_city(actor_tile),
