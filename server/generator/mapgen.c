@@ -2958,7 +2958,6 @@ static void fair_map_make_resources(struct fair_tile *pmap)
     for (r = pftile->pterrain->resources; *r != NULL; r++) {
       if (fc_rand(++j) == 0) {
         pftile->presource = *r;
-        BV_SET(pftile->extras, extra_index((*r)->self));
       }
     }
     /* Note that 'pftile->presource' might be NULL if there is no suitable
@@ -2971,6 +2970,8 @@ static void fair_map_make_resources(struct fair_tile *pmap)
           pftile2->flags |= FTF_NO_RESOURCE;
         }
       }
+
+      BV_SET(pftile->extras, extra_index(pftile->presource->self));
     }
   }
 }
