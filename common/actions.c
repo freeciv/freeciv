@@ -1047,6 +1047,104 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
 }
 
 /**************************************************************************
+  Returns TRUE iff the wanted action is possible as far as the actor is
+  concerned given that an action enabler later will enable it. Will, unlike
+  action_actor_utype_hard_reqs_ok(), check the actor unit's current state.
+
+  Can return maybe when not omniscient. Should always return yes or no when
+  omniscient.
+**************************************************************************/
+static enum fc_tristate
+action_hard_reqs_actor(const enum gen_action wanted_action,
+                       const struct player *actor_player,
+                       const struct city *actor_city,
+                       const struct impr_type *actor_building,
+                       const struct tile *actor_tile,
+                       const struct unit *actor_unit,
+                       const struct unit_type *actor_unittype,
+                       const struct output_type *actor_output,
+                       const struct specialist *actor_specialist,
+                       const bool omniscient)
+{
+  if (!action_actor_utype_hard_reqs_ok(wanted_action, actor_unittype)) {
+    /* Info leak: The actor player knows the type of his unit. */
+    /* The actor unit type can't perform the action because of hard
+     * unit type requirements. */
+    return TRI_NO;
+  }
+
+  switch (wanted_action) {
+  case ACTION_TRADE_ROUTE:
+  case ACTION_MARKETPLACE:
+    /* It isn't possible to establish a trade route from a non existing
+     * city. The Freeciv code assumes this applies to Enter Marketplace
+     * too. */
+    /* Info leak: The actor player knowns his unit's home city. */
+    if (!game_city_by_number(actor_unit->homecity)) {
+      return TRI_NO;
+    }
+
+    break;
+
+  case ACTION_PARADROP:
+    /* Reason: Keep the old rules. */
+    /* Info leak: The player knows if his unit has paradropped this turn,
+     * how many move fragments it has left and if it is standing in a city
+     * or in a base with the ParadropFrom flag. */
+    if (!can_unit_paradrop(actor_unit)) {
+      return TRI_NO;
+    }
+
+    /* Reason: The paradrop code doesn't check if transported units can
+     * coexist with the target tile city and units. */
+    /* Info leak: The player knows if his unit is transporting a unit. */
+    /* This hard coded limitation is detected in the action not enabled
+     * explanation code. Remember to remove it too if this hard coded
+     * limitation moves to the ruleset. */
+    if (get_transporter_occupancy(actor_unit) > 0) {
+      return TRI_NO;
+    }
+
+    break;
+
+  case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_SPY_POISON:
+  case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_INCITE_CITY:
+  case ACTION_HELP_WONDER:
+  case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_CAPTURE_UNITS:
+  case ACTION_FOUND_CITY:
+  case ACTION_JOIN_CITY:
+  case ACTION_STEAL_MAPS:
+  case ACTION_BOMBARD:
+  case ACTION_SPY_NUKE:
+  case ACTION_NUKE:
+  case ACTION_DESTROY_CITY:
+  case ACTION_EXPEL_UNIT:
+  case ACTION_RECYCLE_UNIT:
+  case ACTION_DISBAND_UNIT:
+  case ACTION_HOME_CITY:
+  case ACTION_UPGRADE_UNIT:
+  case ACTION_AIRLIFT:
+    /* No hard unit type requirements. */
+    break;
+
+  case ACTION_COUNT:
+    fc_assert_ret_val(wanted_action != ACTION_COUNT, TRI_NO);
+    break;
+  }
+
+  return TRI_YES;
+}
+
+/**************************************************************************
   Returns if the wanted action is possible given that an action enabler
   later will enable it.
 
@@ -1088,6 +1186,7 @@ is_action_possible(const enum gen_action wanted_action,
 {
   bool can_see_tgt_unit;
   bool can_see_tgt_tile;
+  enum fc_tristate out;
 
   fc_assert_msg((action_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
@@ -1113,13 +1212,6 @@ is_action_possible(const enum gen_action wanted_action,
    * omniscient. The player asking about his odds isn't. */
   can_see_tgt_tile = (omniscient
                       || plr_sees_tile(actor_player, target_tile));
-
-  if (!action_actor_utype_hard_reqs_ok(wanted_action, actor_unittype)) {
-    /* Info leak: The actor player knows the type of his unit. */
-    /* The actor unit type can't perform the action because of hard
-     * unit type requirements. */
-    return TRI_NO;
-  }
 
   /* Info leak: The player knows where his unit is. */
   if (action_get_target_kind(wanted_action) != ATK_SELF) {
@@ -1167,6 +1259,18 @@ is_action_possible(const enum gen_action wanted_action,
     if (actor_player == target_player) {
       return TRI_NO;
     }
+  }
+
+  /* Actor specific hard requirements. */
+  out = action_hard_reqs_actor(wanted_action,
+                               actor_player, actor_city, actor_building,
+                               actor_tile, actor_unit, actor_unittype,
+                               actor_output, actor_specialist,
+                               omniscient);
+
+  if (out == TRI_NO) {
+    /* Illegal because of a hard actor requirement. */
+    return TRI_NO;
   }
 
   /* Hard requirements for individual actions. */
@@ -1235,12 +1339,10 @@ is_action_possible(const enum gen_action wanted_action,
     {
       const struct city *actor_homecity;
 
-      /* It isn't possible to establish a trade route from a non existing
-       * city. The Freeciv code assumes this applies to Enter Marketplace
-       * too. */
-      if (!(actor_homecity = game_city_by_number(actor_unit->homecity))) {
-        return TRI_NO;
-      }
+      actor_homecity = game_city_by_number(actor_unit->homecity);
+
+      /* Checked in action_hard_reqs_actor() */
+      fc_assert_ret_val(actor_homecity != NULL, TRI_NO);
 
       /* Can't establish a trade route or enter the market place if the
        * cities can't trade at all. */
@@ -1456,24 +1558,6 @@ is_action_possible(const enum gen_action wanted_action,
 
   case ACTION_PARADROP:
     /* Reason: Keep the old rules. */
-    /* Info leak: The player knows if his unit has paradropped this turn,
-     * how many move fragments it has left and if it is standing in a city
-     * or in a base with the ParadropFrom flag. */
-    if (!can_unit_paradrop(actor_unit)) {
-      return TRI_NO;
-    }
-
-    /* Reason: The paradrop code doesn't check if transported units can
-     * coexist with the target tile city and units. */
-    /* Info leak: The player knows if his unit is transporting a unit. */
-    /* This hard coded limitation is detected in the action not enabled
-     * explanation code. Remember to remove it too if this hard coded
-     * limitation moves to the ruleset. */
-    if (get_transporter_occupancy(actor_unit) > 0) {
-      return TRI_NO;
-    }
-
-    /* Reason: Keep the old rules. */
     /* Info leak: The player knows if he knows the target tile. */
     if (!plr_knows_tile(actor_player, target_tile)) {
       return TRI_NO;
@@ -1523,7 +1607,7 @@ is_action_possible(const enum gen_action wanted_action,
     break;
   }
 
-  return TRI_YES;
+  return out;
 }
 
 /**************************************************************************
