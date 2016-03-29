@@ -1088,10 +1088,26 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
 
   case ACTION_PARADROP:
     /* Reason: Keep the old rules. */
-    /* Info leak: The player knows if his unit has paradropped this turn,
-     * how many move fragments it has left and if it is standing in a city
-     * or in a base with the ParadropFrom flag. */
-    if (!can_unit_paradrop(actor_unit)) {
+    /* Info leak: The player knows if his unit already has paradropped this
+     * turn. */
+    if (actor_unit->paradropped) {
+      return TRI_NO;
+    }
+
+    /* Reason: Support the paratroopers_mr_req unit type field. */
+    /* Info leak: The player knows how many move fragments his unit has
+     * left. */
+    if (actor_unit->moves_left < actor_unittype->paratroopers_mr_req) {
+      return TRI_NO;
+    }
+
+    /* Reason: Keep the old rules. */
+    /* Info leak: The player knows if his unit is standing in a city or in
+     * a base with the ParadropFrom flag. */
+    if (!(tile_has_base_flag(actor_tile, BF_PARADROP_FROM)
+          || tile_city(actor_tile))) {
+      /* Paradrop has to be possible from non-native base.
+       * Paratroopers are "Land" units, but they can paradrom from Airbase. */
       return TRI_NO;
     }
 
