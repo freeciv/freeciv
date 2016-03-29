@@ -2737,6 +2737,59 @@ bool is_action_possible_on_city(const enum gen_action action_id,
                             NULL, NULL);
 }
 
+/**************************************************************************
+  Returns TRUE if the wanted action (as far as the player knows) can be
+  performed right now by the specified actor unit if an approriate target
+  is provided.
+**************************************************************************/
+bool action_maybe_possible_actor_unit(const int action_id,
+                                      const struct unit* actor_unit)
+{
+  const struct player *actor_player = unit_owner(actor_unit);
+  const struct tile *actor_tile = unit_tile(actor_unit);
+  const struct city *actor_city = tile_city(actor_tile);
+  const struct unit_type *actor_unittype = unit_type_get(actor_unit);
+
+  enum fc_tristate result;
+
+  fc_assert_ret_val(actor_unit, FALSE);
+
+  if (!utype_can_do_action(actor_unit->utype, action_id)) {
+    /* The unit type can't perform the action. */
+    return FALSE;
+  }
+
+  result = action_hard_reqs_actor(action_id,
+                                  actor_player, actor_city, NULL,
+                                  actor_tile, actor_unit, actor_unittype,
+                                  NULL, NULL, FALSE);
+
+  if (result == TRI_NO) {
+    /* The hard requirements aren't fulfilled. */
+    return FALSE;
+  }
+
+  action_enabler_list_iterate(action_enablers_for_action(action_id),
+                              enabler) {
+    const enum fc_tristate current
+        = mke_eval_reqs(actor_player,
+                        actor_player, NULL, actor_city, NULL, actor_tile,
+                        actor_unit, NULL, NULL,
+                        &enabler->actor_reqs,
+                        /* Needed since no player to evaluate DiplRel
+                         * requirements against. */
+                        RPT_POSSIBLE);
+
+    if (current == TRI_YES
+        || current == TRI_MAYBE) {
+      /* The ruleset requirements may be fulfilled. */
+      return TRUE;
+    }
+  } action_enabler_list_iterate_end;
+
+  /* No action enabler allows this action. */
+  return FALSE;
+}
 
 /**************************************************************************
   Returns action auto performer rule slot number num so it can be filled.
