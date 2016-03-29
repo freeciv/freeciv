@@ -1208,187 +1208,19 @@ bool can_units_do_connect(struct unit_list *punits,
 }
 
 /**************************************************************************
-  Returns TRUE if a unit of the given type can act given an actor player,
-  a target player and their diplomatic state.
-
-  Note: only DRO_FOREIGN and the values of diplstate_type are tested.
-**************************************************************************/
-static bool can_unit_act_diplstate(struct unit_type *act_unit_type,
-                                   const int action_id,
-                                   const struct player *act_player,
-                                   const struct player *tgt_player)
-{
-  if (act_player == tgt_player) {
-    /* The actor player is the target player. */
-    return can_utype_do_act_if_tgt_diplrel(act_unit_type, action_id,
-                                           DRO_FOREIGN, FALSE);
-  } else if (NULL == tgt_player) {
-    /* No target player. */
-    return utype_can_do_action(act_unit_type, action_id);
-  } else {
-    /* The actor player and the target player are different. */
-    struct player_diplstate *diplstate;
-
-    /* Get the diplstate between actor player and target player. */
-    diplstate = player_diplstate_get(act_player, tgt_player);
-    fc_assert(diplstate);
-
-    return can_utype_do_act_if_tgt_diplrel(act_unit_type, action_id,
-                                           diplstate->type, TRUE);
-  }
-}
-
-/**************************************************************************
   Returns TRUE if the unit can do a generalized action against its own
   tile. May contain false positives.
 **************************************************************************/
 bool can_unit_act_against_own_tile(struct unit *act_unit)
 {
-  struct player *act_player;
-  struct player *tgt_player;
-  struct city *tgt_city;
-  struct tile *tgt_tile;
-
   if (!utype_may_act_at_all(unit_type_get(act_unit))) {
     /* Not an actor unit. */
     return FALSE;
   }
 
-  act_player = unit_owner(act_unit);
-  fc_assert(act_player);
-
-  tgt_tile = unit_tile(act_unit);
-  fc_assert(tgt_tile);
-
-  {
-    /* Check target tile. */
-
-    tgt_player = tile_owner(tgt_tile);
-
-    action_iterate(act) {
-      if (action_get_actor_kind(act) != AAK_UNIT
-          || action_get_target_kind(act) != ATK_TILE) {
-        /* Not relevant. */
-        continue;
-      }
-
-      /* Can't return yet unless TRUE. Another action vs the tile may be
-       * possible. It may also be possible to act against a target on the
-       * tile. */
-      if (can_unit_act_diplstate(unit_type_get(act_unit), act,
-                                 act_player, tgt_player)) {
-        /* Tile target confirmed possible. */
-        return TRUE;
-      }
-    } action_iterate_end;
-  }
-
-  if ((tgt_city = tile_city(tgt_tile))) {
-    /* Target city detected. */
-
-    tgt_player = city_owner(tgt_city);
-    fc_assert(tgt_player);
-
-    action_iterate(act) {
-      if (action_get_actor_kind(act) != AAK_UNIT
-          || action_get_target_kind(act) != ATK_CITY) {
-        /* Not relevant. */
-        continue;
-      }
-
-      /* Can't return yet unless TRUE. Another action vs the city may be
-       * possible. It may also be possible to act against a unit target on
-       * the tile. */
-      if (can_unit_act_diplstate(unit_type_get(act_unit), act,
-                                 act_player, tgt_player)) {
-        /* City target confirmed possible. */
-        return TRUE;
-      }
-    } action_iterate_end;
-  }
-
-  unit_list_iterate(tgt_tile->units, tgt_unit) {
-    /* Checking this target unit. */
-
-    tgt_player = unit_owner(tgt_unit);
-    fc_assert(tgt_player);
-
-    action_iterate(act) {
-      if (action_get_actor_kind(act) != AAK_UNIT
-          || action_get_target_kind(act) != ATK_UNIT) {
-        /* Not relevant. */
-        continue;
-      }
-
-      /* Can't return yet unless TRUE. Another action vs the unit may be
-       * possible. It may also be possible to act against another unit
-       * target at the tile. */
-      if (can_unit_act_diplstate(unit_type_get(act_unit), act,
-                                 act_player, tgt_player)) {
-        /* Unit target confirmed possible. */
-        return TRUE;
-      }
-    } action_iterate_end;
-  } unit_list_iterate_end;
-
-  /* Check the all units on tile target. An action against all units at a
-   * tile that the actor does to him self too may be added in the future.
-   * (Example: "Heal Tile Units")
-   * Remembering to add code here if that should happend will be hard.
-   * Discovering the bug that the client don't know it can be done against
-   * a unit that is alone at its tile will be even harder. */
   action_iterate(act) {
-    /* Must check action by action since an action with an all units at
-     * tile target only is legal when it is legal to do to *all* target
-     * units at the target tile. */
-
-    bool legal;
-
-    if (action_get_actor_kind(act) != AAK_UNIT
-        || action_get_target_kind(act) != ATK_UNITS) {
-      /* Not relevant. */
-      continue;
-    }
-
-    /* No proof of illegality yet... */
-    legal = TRUE;
-
-    unit_list_iterate(tgt_tile->units, tgt_unit) {
-      /* Check the relationship to the owner of this potential target
-       * unit. */
-
-      tgt_player = unit_owner(tgt_unit);
-      fc_assert(tgt_player);
-
-      /* Can't return yet. Another action may be possible against this
-       * unit. Another unit may make this action impossible. */
-      if (!can_unit_act_diplstate(unit_type_get(act_unit), act,
-                                  act_player, tgt_player)) {
-        /* Impossible for one unit and therefore impossible at all. */
-        legal = FALSE;
-        break;
-      }
-    } unit_list_iterate_end;
-
-    if (legal) {
-      /* Actiong against all units on this tile confirmed possible. */
-      return TRUE;
-    }
-  } action_iterate_end;
-
-  /* Check actions without another target than the actor it self. */
-  action_iterate(act) {
-    if (action_get_actor_kind(act) != AAK_UNIT
-        || action_get_target_kind(act) != ATK_SELF) {
-      /* Not relevant. */
-      continue;
-    }
-
-    /* Can't return yet unless TRUE. Another action vs the unit it self may
-     * be possible. It may also be possible to act against another target
-     * kind. */
-    if (utype_can_do_action(unit_type_get(act_unit), act)) {
-      /* Self target confirmed possible. */
+    if (action_maybe_possible_actor_unit(act, act_unit)) {
+      /* May be able to act. */
       return TRUE;
     }
   } action_iterate_end;
