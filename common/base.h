@@ -49,9 +49,13 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 /* Base provides bonus for defending diplomat */
 #define SPECENUM_VALUE2 BF_DIPLOMAT_DEFENSE
 #define SPECENUM_VALUE2NAME N_("DiplomatDefense")
-/* Paratroopers can use base for paradrop */
-#define SPECENUM_VALUE3 BF_PARADROP_FROM
+
+/* Flags below this comment are retired in 3.0. */
+
+/* Paratroopers can use base for paradrop. Now an extra user flag. */
+#define SPECENUM_VALUE3 BF_RETIRED_PARADROP_FROM
 #define SPECENUM_VALUE3NAME N_("ParadropFrom")
+
 #define SPECENUM_COUNT BF_COUNT
 #define SPECENUM_BITVECTOR bv_base_flags
 #include "specenum_gen.h"

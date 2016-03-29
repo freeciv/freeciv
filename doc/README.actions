@@ -336,7 +336,6 @@ Actions done by a unit against a tile
  * the distance between actor and target is paratroopers_range or less
  * the actor unit hasn't paradropped this turn
  * the actor unit has paratroopers_mr_req moves left
- * the actor unit is in a base with the ParadropFrom flag or in a city
  * the actor unit isn't transporting another unit
  * the target tile is known (doesn't have to be seen) by the actor
 

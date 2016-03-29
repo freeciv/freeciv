@@ -1101,16 +1101,6 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
       return TRI_NO;
     }
 
-    /* Reason: Keep the old rules. */
-    /* Info leak: The player knows if his unit is standing in a city or in
-     * a base with the ParadropFrom flag. */
-    if (!(tile_has_base_flag(actor_tile, BF_PARADROP_FROM)
-          || tile_city(actor_tile))) {
-      /* Paradrop has to be possible from non-native base.
-       * Paratroopers are "Land" units, but they can paradrom from Airbase. */
-      return TRI_NO;
-    }
-
     /* Reason: The paradrop code doesn't check if transported units can
      * coexist with the target tile city and units. */
     /* Info leak: The player knows if his unit is transporting a unit. */

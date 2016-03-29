@@ -261,6 +261,7 @@ bool rscompat_names(struct rscompat_info *info)
       const char *name;
       const char *helptxt;
     } new_extra_flags_30[] = {
+      { N_("ParadropFrom"), N_("Units can paradrop from this tile.") },
     };
 
     int first_free;
@@ -620,6 +621,27 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, TRUE, "Paratroopers"));
 
+    /* The actor unit must be inside a city. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("CityTile", "Local", FALSE,
+                                           TRUE, TRUE, "Center"));
+
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_PARADROP;
+
+    /* The actor unit must have the unit type flag Paratroopers. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local", FALSE,
+                                           TRUE, TRUE, "Paratroopers"));
+
+    /* The actor unit must be in an extra it can paradrop from. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("ExtraFlag", "Local", FALSE,
+                                           TRUE, TRUE, "ParadropFrom"));
+
     action_enabler_add(enabler);
 
     /* Airlift is now action enabler controlled. */
@@ -791,6 +813,9 @@ void rscompat_postprocess(struct rscompat_info *info)
       enum base_flag_id from;
       enum extra_flag_id to;
     } base_to_extra_flag_map_3_0[] = {
+      /* ParadropFrom has moved to the ruleset as an extra user flag. */
+      { BF_RETIRED_PARADROP_FROM,
+          extra_flag_id_by_name("ParadropFrom", fc_strcasecmp) },
     };
 
     extra_type_by_cause_iterate(EC_BASE, pextra) {

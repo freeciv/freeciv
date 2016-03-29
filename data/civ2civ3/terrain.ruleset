@@ -33,9 +33,10 @@ flags =
 ;                 and sensible.
 ; helptxt       = displayed in the help for extra types with this flag
 ;                 (optional)
-;extra_flags =
-;  { "name", "helptxt"
-;  }
+extra_flags =
+  { "name", "helptxt"
+    _("ParadropFrom"), _("Units can paradrop from this tile.")
+  }
 
 [parameters]
 
@@ -1371,7 +1372,7 @@ removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
 hidden_by      = "Airbase"
-flags          = "Refuel"
+flags          = "Refuel", "ParadropFrom"
 helptext       = _("\
 Airstrips are rapidly-built runways allowing air units to land, refuel, \
 and recover; an aircraft remaining on an airstrip for a whole turn \
@@ -1411,7 +1412,7 @@ build_time     = 2
 removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
-flags          = "Refuel"
+flags          = "Refuel", "ParadropFrom"
 helptext       = _("\
 Airbases are more permanent airstrips; construction on them can only \
 begin once the underlying airstrip is complete; and cannot be built on \
@@ -1898,7 +1899,6 @@ rmact_gfx_alt  = "-"
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
-;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1918,13 +1918,12 @@ flags          = "NoAggressive", "DiplomatDefense"
 extra          = "Airstrip"
 gui_type       = "Airbase"
 border_sq      = -1
-flags          = "ParadropFrom"
 
 [base_airbase]
 extra          = "Airbase"
 gui_type       = "Airbase"
 border_sq      = -1
-flags          = "NoAggressive", "ParadropFrom"
+flags          = "NoAggressive"
 
 [base_buoy]
 extra          = "Buoy"

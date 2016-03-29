@@ -610,23 +610,46 @@ actor_reqs    =
       "DiplRel", "Is foreign", "Local", FALSE
     }
 
-[actionenabler_paradrop_not_forest]
+[actionenabler_paradrop_not_forest_base]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Paratroopers", "Local"
+      "ExtraFlag", "ParadropFrom", "Local"
     }
 target_reqs    =
     { "type",   "name", "range", "present"
       "TerrainFlag", "DifficultLanding", "Local", FALSE
     }
 
-[actionenabler_paradrop_veteran]
+[actionenabler_paradrop_veteran_base]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Paratroopers", "Local"
       "MinVeteran", 1, "Local"
+      "ExtraFlag", "ParadropFrom", "Local"
+    }
+
+[actionenabler_paradrop_not_forest_city]
+action = "Paradrop Unit"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Paratroopers", "Local"
+      "CityTile", "Center", "Local"
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "TerrainFlag", "DifficultLanding", "Local", FALSE
+    }
+
+[actionenabler_paradrop_veteran_city]
+action = "Paradrop Unit"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Paratroopers", "Local"
+      "MinVeteran", 1, "Local"
+      "CityTile", "Center", "Local"
     }
 
 [actionenabler_upgrade_unit]

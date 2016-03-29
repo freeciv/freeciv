@@ -1184,7 +1184,6 @@ rmact_gfx_alt  = "-"
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ;   - "ClaimTerritory"    = Base will claim land ownership
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
-;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;
 ; */ <-- avoid gettext warnings
 
