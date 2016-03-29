@@ -136,6 +136,25 @@ static int first_free_unit_class_user_flag(void)
 }
 
 /**************************************************************************
+  Find and return the first unused extra user flag. If all extra user
+  flags are taken MAX_NUM_USER_EXTRA_FLAGS is returned.
+**************************************************************************/
+static int first_free_extra_user_flag(void)
+{
+  int flag;
+
+  /* Find the first unused user defined extra flag. */
+  for (flag = 0; flag < MAX_NUM_USER_EXTRA_FLAGS; flag++) {
+    if (extra_flag_id_name_cb(flag + EF_USER_FLAG_1) == NULL) {
+      return flag;
+    }
+  }
+
+  /* All unit type user flags are taken. */
+  return MAX_NUM_USER_EXTRA_FLAGS;
+}
+
+/**************************************************************************
   Do compatibility things with names before they are referred to. Runs
   after names are loaded from the ruleset but before the ruleset objects
   that may refer to them are loaded.
@@ -230,6 +249,48 @@ bool rscompat_names(struct rscompat_info *info)
       set_user_unit_class_flag_name(first_free + i,
                                     new_class_flags_30[i].name,
                                     new_class_flags_30[i].helptxt);
+    }
+  }
+
+  if (info->ver_terrain < 10) {
+    /* Some extra flags moved to the ruleset between 2.6 and 3.0.
+     * Add them back as user flags.
+     * XXX: ruleset might not need all of these, and may have enough
+     * flags of its own that these additional ones prevent conversion. */
+    const struct {
+      const char *name;
+      const char *helptxt;
+    } new_extra_flags_30[] = {
+    };
+
+    int first_free;
+    int i;
+
+    /* Extra flags. */
+    first_free = first_free_extra_user_flag() + EF_USER_FLAG_1;
+
+    for (i = 0; i < ARRAY_SIZE(new_extra_flags_30); i++) {
+      if (EF_USER_FLAG_1 + MAX_NUM_USER_EXTRA_FLAGS <= first_free + i) {
+        /* Can't add the user extra flags. */
+        ruleset_error(LOG_ERROR,
+                      "Can't upgrade the ruleset. Not enough free extra "
+                      "user flags to add user flags for the extra flags "
+                      "that used to be hardcoded.");
+        return FALSE;
+      }
+
+      /* Shouldn't be possible for valid old ruleset to have flag names that
+       * clash with these ones */
+      if (extra_flag_id_by_name(new_extra_flags_30[i].name, fc_strcasecmp)
+          != extra_flag_id_invalid()) {
+        ruleset_error(LOG_ERROR,
+                      "Ruleset had illegal user extra flag '%s'",
+                      new_extra_flags_30[i].name);
+        return FALSE;
+      }
+      set_user_extra_flag_name(first_free + i,
+                               new_extra_flags_30[i].name,
+                               new_extra_flags_30[i].helptxt);
     }
   }
 
