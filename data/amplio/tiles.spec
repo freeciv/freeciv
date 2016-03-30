@@ -10,6 +10,7 @@ artists = "
     Tatu Rissanen <tatu.rissanen@hut.fi>
     Jeff Mallatt <jjm@codewell.com> (miscellaneous)
     GriffonSpade
+    Sveinung Kvilhaugsvik (action_decision_want)
 "
 
 [file]
@@ -28,6 +29,7 @@ tiles = { "row", "column", "tag"
   0, 18, "unit.auto_attack",
          "unit.auto_settler"
   0, 19, "unit.stack"
+  1, 16, "unit.action_decision_want"
   1, 17, "unit.loaded"
   1, 18, "unit.connect"
   1, 19, "unit.auto_explore"
