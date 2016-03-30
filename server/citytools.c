@@ -2589,6 +2589,9 @@ void remove_trade_route(struct city *pc1, struct city *pc2,
 
   if (announce) {
     announce_trade_route_removal(pc1, pc2, source_gone);
+
+    city_refresh(pc2);
+    send_city_info(city_owner(pc2), pc2);
   }
 }
 
