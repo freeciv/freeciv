@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -417,10 +417,9 @@ void input_from_server(int fd)
 
   nb = read_from_connection(&client.conn, FALSE);
   if (0 <= nb) {
-    enum packet_type type;
-
     agents_freeze_hint();
     while (client.conn.used) {
+      enum packet_type type;
       void *packet = get_packet_from_connection(&client.conn, &type);
 
       if (NULL != packet) {

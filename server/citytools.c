@@ -2649,6 +2649,9 @@ struct trade_route *remove_trade_route(struct city *pc1, struct trade_route *pro
 
   if (announce) {
     announce_trade_route_removal(pc1, pc2, source_gone);
+
+    city_refresh(pc2);
+    send_city_info(city_owner(pc2), pc2);
   }
 
   return back_route;
