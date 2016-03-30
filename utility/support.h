@@ -100,7 +100,7 @@ extern "C" {
 #define fc__warn_unused_result
 #endif
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 typedef long int fc_errno;
 #else
 typedef int fc_errno;

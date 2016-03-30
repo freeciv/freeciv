@@ -92,6 +92,9 @@
 /* jansson network protocol in use */
 #undef FREECIV_JSON_CONNECTION
 
+/* Windows build */
+#undef FREECIV_MSWINDOWS
+
 /* uses some winsock version */
 #undef FREECIV_HAVE_WINSOCK
 
