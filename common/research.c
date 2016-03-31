@@ -819,7 +819,7 @@ bool research_goal_tech_req(const struct research *presearch,
   from game.info.tech_cost_style and game.info.tech_leakage.
 
   tech_cost_style:
-  TECH_COST_CIV1CIV2: Civ (I|II) style. Every new tech add researchcost to
+  TECH_COST_CIV1CIV2: Civ (I|II) style. Every new tech add base_tech_cost to
                       cost of next tech.
   TECH_COST_CLASSIC: Cost of technology is:
                        base_tech_cost * (1 + reqs) * sqrt(1 + reqs) / 2
