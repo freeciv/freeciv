@@ -183,7 +183,7 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 double blink_active_unit(void);
 double blink_turn_done_button(void);
 
-bool should_ask_server_for_actions(struct unit *punit);
+bool should_ask_server_for_actions(const struct unit *punit);
 void action_selection_no_longer_in_progress(const int old_actor_id);
 void action_decision_clear_want(const int old_actor_id);
 void action_selection_next_in_focus(const int old_actor_id);

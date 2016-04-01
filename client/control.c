@@ -314,7 +314,7 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
   Returns TRUE iff the client should ask the server about what actions a
   unit can perform.
 **************************************************************************/
-bool should_ask_server_for_actions(struct unit *punit)
+bool should_ask_server_for_actions(const struct unit *punit)
 {
   return (punit->action_decision_want == ACT_DEC_ACTIVE
           /* The player is interested in getting a pop up for a mere
