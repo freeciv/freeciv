@@ -4974,12 +4974,6 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                   _("  * Can be captured by such units if at war with the "
                     "nation that currently owns it.\n"));
         }
-        if (base_has_flag(pbase, BF_DIPLOMAT_DEFENSE)) {
-          CATLSTR(buf, bufsz,
-                  /* xgettext:no-c-format */
-                  _("  * Diplomatic units get a 25% defense bonus in "
-                    "diplomatic fights.\n"));
-        }
       }
       if (pextra->defense_bonus) {
         cat_snprintf(buf, bufsz,

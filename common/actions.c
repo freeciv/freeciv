@@ -2094,8 +2094,6 @@ tech_can_be_stolen(const struct player *actor_player,
 static action_probability ap_dipl_battle_win(const struct unit *pattacker,
                                              const struct unit *pdefender)
 {
-  struct city *pcity;
-
   /* Keep unconverted until the end to avoid scaling each step */
   int chance;
 
@@ -2133,22 +2131,23 @@ static action_probability ap_dipl_battle_win(const struct unit *pattacker,
     chance += vatt->power_fact - vdef->power_fact;
   }
 
-  /* City and base defense bonus */
-  pcity = tile_city(pdefender->tile);
-  if (pcity) {
+  /* Defense bonus. */
+  {
     if (!is_effect_val_known(EFT_SPY_RESISTANT, unit_owner(pattacker),
-                             city_owner(pcity),  NULL, pcity, NULL,
-                             city_tile(pcity), NULL, NULL, NULL)) {
+                             tile_owner(pdefender->tile),  NULL,
+                             tile_city(pdefender->tile), NULL,
+                             pdefender->tile, NULL, NULL, NULL)) {
       return ACTPROB_NOT_KNOWN;
     }
 
-    chance -= chance * get_city_bonus(tile_city(pdefender->tile),
-                                      EFT_SPY_RESISTANT) / 100;
-  } else {
-    if (tile_has_base_flag_for_unit(pdefender->tile, unit_type_get(pdefender),
-                                    BF_DIPLOMAT_DEFENSE)) {
-      chance -= chance * 25 / 100;
-    }
+    /* Reduce the chance of an attack by EFT_SPY_RESISTANT percent. */
+    chance -= chance
+              * get_target_bonus_effects(NULL,
+                                         tile_owner(pdefender->tile), NULL,
+                                         tile_city(pdefender->tile), NULL,
+                                         pdefender->tile, NULL, NULL, NULL,
+                                         NULL, NULL,
+                                         EFT_SPY_RESISTANT) / 100;
   }
 
   /* Convert to action probability */

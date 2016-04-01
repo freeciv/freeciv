@@ -262,6 +262,8 @@ bool rscompat_names(struct rscompat_info *info)
       const char *helptxt;
     } new_extra_flags_30[] = {
       { N_("ParadropFrom"), N_("Units can paradrop from this tile.") },
+      { N_("DiplomatDefense"), N_("Diplomatic units get a 25% defense "
+                                  "bonus in diplomatic fights.") },
     };
 
     int first_free;
@@ -805,6 +807,12 @@ void rscompat_postprocess(struct rscompat_info *info)
      effect_req_append(peffect,
                        req_from_str("Action", "Local", FALSE,
                                     TRUE, TRUE, "Targeted Sabotage City"));
+
+     /* The DiplomatDefense flag effect now lives in the ruleset. */
+     peffect = effect_new(EFT_SPY_RESISTANT, 25, NULL);
+     effect_req_append(peffect,
+                       req_from_str("ExtraFlag", "Local", FALSE,
+                                    TRUE, TRUE, "DiplomatDefense"));
   }
 
   if (info->ver_terrain < 10) {
@@ -816,6 +824,9 @@ void rscompat_postprocess(struct rscompat_info *info)
       /* ParadropFrom has moved to the ruleset as an extra user flag. */
       { BF_RETIRED_PARADROP_FROM,
           extra_flag_id_by_name("ParadropFrom", fc_strcasecmp) },
+      /* DiplomatDefense has moved to the ruleset as an extra user flag. */
+      { BF_RETIRED_DIPLOMAT_DEFENSE,
+          extra_flag_id_by_name("DiplomatDefense", fc_strcasecmp) },
     };
 
     extra_type_by_cause_iterate(EC_BASE, pextra) {

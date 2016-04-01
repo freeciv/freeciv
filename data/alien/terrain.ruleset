@@ -1183,7 +1183,6 @@ rmact_gfx_alt  = "-"
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
-;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;
 ; */ <-- avoid gettext warnings
 

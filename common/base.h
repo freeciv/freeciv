@@ -46,12 +46,12 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 /* Units inside will not die all at once */
 #define SPECENUM_VALUE1 BF_NO_STACK_DEATH
 #define SPECENUM_VALUE1NAME N_("NoStackDeath")
-/* Base provides bonus for defending diplomat */
-#define SPECENUM_VALUE2 BF_DIPLOMAT_DEFENSE
-#define SPECENUM_VALUE2NAME N_("DiplomatDefense")
 
 /* Flags below this comment are retired in 3.0. */
 
+/* Base provides bonus for defending diplomat */
+#define SPECENUM_VALUE2 BF_RETIRED_DIPLOMAT_DEFENSE
+#define SPECENUM_VALUE2NAME N_("DiplomatDefense")
 /* Paratroopers can use base for paradrop. Now an extra user flag. */
 #define SPECENUM_VALUE3 BF_RETIRED_PARADROP_FROM
 #define SPECENUM_VALUE3NAME N_("ParadropFrom")

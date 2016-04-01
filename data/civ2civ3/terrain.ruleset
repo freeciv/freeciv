@@ -36,6 +36,7 @@ flags =
 extra_flags =
   { "name", "helptxt"
     _("ParadropFrom"), _("Units can paradrop from this tile.")
+    _("DiplomatDefense"), _("Diplomatic units get a 25% defense bonus in diplomatic fights.")
   }
 
 [parameters]
@@ -1298,7 +1299,7 @@ removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
 hidden_by      = "Fortress"
-flags          = "NativeTile"
+flags          = "NativeTile", "DiplomatDefense"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Forts are rapidly-built fortifications providing some defense (+50%) \
@@ -1332,7 +1333,7 @@ build_time     = 2
 removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
-flags          = "NativeTile"
+flags          = "NativeTile", "DiplomatDefense"
 helptext       = _("\
 Fortresses are more permanent forts; construction on them can only begin \
 once the underlying fort is complete; and cannot be built on River tiles.\
@@ -1898,7 +1899,6 @@ rmact_gfx_alt  = "-"
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
-;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1906,13 +1906,12 @@ rmact_gfx_alt  = "-"
 extra          = "Fort"
 gui_type       = "Fortress"
 border_sq      = -1
-flags          = "DiplomatDefense"
 
 [base_fortress]
 extra          = "Fortress"
 gui_type       = "Fortress"
 border_sq      = -1
-flags          = "NoAggressive", "DiplomatDefense"
+flags          = "NoAggressive"
 
 [base_airstrip]
 extra          = "Airstrip"
