@@ -279,6 +279,7 @@ struct named_sprites {
       *patrol,
       *convert,
       *battlegroup[MAX_NUM_BATTLEGROUPS],
+      *action_decision_want,
       *lowfuel,
       *tired;
   } unit;
@@ -2761,6 +2762,8 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.lowfuel, "unit.lowfuel");
   SET_SPRITE(unit.tired, "unit.tired");
 
+  SET_SPRITE_OPT(unit.action_decision_want, "unit.action_decision_want");
+
   for(i=0; i<NUM_TILES_HP_BAR; i++) {
     fc_snprintf(buffer, sizeof(buffer), "unit.hp_%d", i*10);
     SET_SPRITE(unit.hp_bar[i], buffer);
@@ -4066,6 +4069,11 @@ static int fill_unit_sprite_array(const struct tileset *t,
     } else {
       ADD_SPRITE_FULL(t->sprites.unit.go_to);
     }
+  }
+
+  if (t->sprites.unit.action_decision_want != NULL
+      && should_ask_server_for_actions(punit)) {
+    ADD_SPRITE_FULL(t->sprites.unit.action_decision_want);
   }
 
   if (punit->battlegroup != BATTLEGROUP_NONE) {
