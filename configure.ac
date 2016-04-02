@@ -1360,7 +1360,7 @@ if test x"$MINGW" = xyes; then
   if test x$crosser = xyes ; then
     FC_CONF_PATH="../etc/freeciv"
     DEFAULT_DATA_PATH=".;data;$FREECIV_STORAGE_DIR/$DATASUBDIR;$datadir/freeciv;../share/freeciv"
-    DEFAULT_SCENARIO_PATH=".;data/scenarios;$FREECIV_STORAGE_DIR/$DATASUBDIR/scenarios;~/$FREECIV_STORAGE_DIR/scenarios;$datadir/freeciv/scenarios;../share/freeciv/scenarios"
+    DEFAULT_SCENARIO_PATH=".;data/scenarios;$FREECIV_STORAGE_DIR/$DATASUBDIR/scenarios;$FREECIV_STORAGE_DIR/scenarios;$datadir/freeciv/scenarios;../share/freeciv/scenarios"
   else
     FC_CONF_PATH="etc/freeciv"
     DEFAULT_DATA_PATH=".;data;$FREECIV_STORAGE_DIR/$DATASUBDIR;$datadir/freeciv"
