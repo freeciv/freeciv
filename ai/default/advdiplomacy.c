@@ -1684,7 +1684,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
       adip->asked_about_ceasefire = MAX(adip->asked_about_ceasefire - 1, 0);
       adip->warned_about_space = MAX(adip->warned_about_space - 1, 0);
       adip->spam = MAX(adip->spam - 1, 0);
-      if (adip->spam > 0) {
+      if (adip->spam > 0 && is_ai(aplayer)) {
         /* Don't spam */
         continue;
       }
@@ -1692,7 +1692,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
       /* Canvass support from existing friends for our war, and try to
        * make friends with enemies. Then we wait some turns until next time
        * we spam them with our gibbering chatter. */
-      if (is_human(aplayer)) {
+      if (adip->spam <= 0) {
         if (!pplayers_allied(pplayer, aplayer)) {
           adip->spam = fc_rand(4) + 3; /* Bugger allies often. */
         } else {
@@ -1728,39 +1728,43 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
           break; /* No need to nag our ally */
         }
 
-        if (adip->ally_patience == 0) {
-          notify(aplayer, _("*%s (AI)* Greetings our most trustworthy "
-                            "ally. We call upon you to destroy our enemy, %s."), 
-                 player_name(pplayer),
-                 player_name(target));
-          adip->ally_patience--;
-        } else if (adip->ally_patience == -1) {
-          if (fc_rand(5) == 1) {
-            notify(aplayer, _("*%s (AI)* Greetings ally, I see you have not yet "
-                              "made war with our enemy, %s. Why do I need to remind "
-                              "you of your promises?"),
+        if (adip->spam <= 0) {
+          /* Count down patience toward AI player (one that can have spam > 0) 
+           * at the same speed as toward human players. */
+          if (adip->ally_patience == 0) {
+            notify(aplayer, _("*%s (AI)* Greetings our most trustworthy "
+                              "ally. We call upon you to destroy our enemy, %s."), 
                    player_name(pplayer),
                    player_name(target));
             adip->ally_patience--;
-          }
-        } else {
-          if (fc_rand(5) == 1) {
-            notify(aplayer, _("*%s (AI)* Dishonored one, we made a pact of "
-                              "alliance, and yet you remain at peace with our mortal "
-                              "enemy, %s! This is unacceptable; our alliance is no "
-                              "more!"),
-                   player_name(pplayer),
-                   player_name(target));
-            DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "breaking useless alliance");
-            /* to peace */
-            handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
-                                         CLAUSE_ALLIANCE);
-            pplayer->ai_common.love[player_index(aplayer)] =
-              MIN(pplayer->ai_common.love[player_index(aplayer)], 0);
-            if (gives_shared_vision(pplayer, aplayer)) {
-              remove_shared_vision(pplayer, aplayer);
+          } else if (adip->ally_patience == -1) {
+            if (fc_rand(5) == 1) {
+              notify(aplayer, _("*%s (AI)* Greetings ally, I see you have not yet "
+                                "made war with our enemy, %s. Why do I need to remind "
+                                "you of your promises?"),
+                     player_name(pplayer),
+                     player_name(target));
+              adip->ally_patience--;
             }
-            fc_assert(!gives_shared_vision(pplayer, aplayer));
+          } else {
+            if (fc_rand(5) == 1) {
+              notify(aplayer, _("*%s (AI)* Dishonored one, we made a pact of "
+                                "alliance, and yet you remain at peace with our mortal "
+                                "enemy, %s! This is unacceptable; our alliance is no "
+                                "more!"),
+                     player_name(pplayer),
+                     player_name(target));
+              DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "breaking useless alliance");
+              /* to peace */
+              handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
+                                           CLAUSE_ALLIANCE);
+              pplayer->ai_common.love[player_index(aplayer)] =
+                MIN(pplayer->ai_common.love[player_index(aplayer)], 0);
+              if (gives_shared_vision(pplayer, aplayer)) {
+                remove_shared_vision(pplayer, aplayer);
+              }
+              fc_assert(!gives_shared_vision(pplayer, aplayer));
+            }
           }
         }
         break;
