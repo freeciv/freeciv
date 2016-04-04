@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
 Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and / or modify
    it under the terms of the GNU General Public License as published by
@@ -90,11 +90,11 @@ The general chain of events:
 
 Two distinct paths are taken depending on the choice of mode: 
 
-if the user selects the multi- player mode, then a packet_req_join_game 
+if the user selects the multi- player mode, then a packet_req_join_game
 packet is sent to the server. It is either successful or not. The end.
 
-If the user selects a single- player mode (either a new game or a save game) 
-then: 
+If the user selects a single- player mode (either a new game or a save game)
+then:
    1. the packet_req_join_game is sent.
    2. on receipt, if we can join, then a challenge packet is sent to the
       server, so we can get hack level control.
@@ -102,17 +102,17 @@ then:
       we can, then:
       a. for a new game, we send a series of packet_generic_message packets
          with commands to start the game.
-      b. for a saved game, we send the load command with a 
+      b. for a saved game, we send the load command with a
          packet_generic_message, then we send a PACKET_PLAYER_LIST_REQUEST.
          the response to this request will tell us if the game was loaded or
          not. if not, then we send another load command. if so, then we send
-         a series of packet_generic_message packets with commands to start 
+         a series of packet_generic_message packets with commands to start
          the game.
-**************************************************************************/ 
+**************************************************************************/
 
-/************************************************************************** 
-Tests if the client has started the server.
-**************************************************************************/ 
+/**************************************************************************
+  Tests if the client has started the server.
+**************************************************************************/
 bool is_server_running(void)
 {
 #ifdef HAVE_USABLE_FORK
@@ -122,9 +122,9 @@ bool is_server_running(void)
 #else
   return FALSE; /* We've been unable to start one! */
 #endif
-} 
+}
 
-/************************************************************************** 
+/**************************************************************************
   Returns TRUE if the client has hack access.
 **************************************************************************/
 bool can_client_access_hack(void)
@@ -184,10 +184,10 @@ void client_kill_server(bool force)
   client_has_hack = FALSE;
 }   
 
-/**************************************************************** 
+/****************************************************************
   Forks a server if it can. Returns FALSE if we find we
   couldn't start the server.
-*****************************************************************/ 
+*****************************************************************/
 bool client_start_server(void)
 {
 #if !defined(HAVE_USABLE_FORK) && !defined(WIN32_NATIVE)
@@ -250,7 +250,11 @@ bool client_start_server(void)
   {
     int argc = 0;
     const int max_nargs = 23;
-    char *argv[max_nargs + 1], port_buf[32];
+    char *argv[max_nargs + 1];
+    char port_buf[32];
+    char dbg_lvl_buf[32]; /* Do not move this inside the block where it gets filled,
+                           * it's needed via the argv[x] pointer later on, so must
+                           * remain in scope. */
 
     /* Set up the command-line parameters. */
     fc_snprintf(port_buf, sizeof(port_buf), "%d", internal_server_port);
@@ -269,8 +273,11 @@ bool client_start_server(void)
     argv[argc++] = "-A";
     argv[argc++] = "none";
     if (logfile) {
+      enum log_level llvl = log_get_level();
+
       argv[argc++] = "--debug";
-      argv[argc++] = "3";
+      fc_snprintf(dbg_lvl_buf, sizeof(dbg_lvl_buf), "%d", llvl);
+      argv[argc++] = dbg_lvl_buf;
       argv[argc++] = "--log";
       argv[argc++] = logfile;
     }
@@ -374,8 +381,9 @@ bool client_start_server(void)
   if (logfile) {
     char *logfile_in_local_encoding =
         internal_to_local_string_malloc(logfile);
+    enum log_level llvl = log_get_level();
 
-    fc_snprintf(logcmdline, sizeof(logcmdline), " --debug 3 --log %s",
+    fc_snprintf(logcmdline, sizeof(logcmdline), " --debug %d --log %s", llvl,
                 logfile_in_local_encoding);
     free(logfile_in_local_encoding);
   }

@@ -319,6 +319,18 @@ enum log_level log_get_level(void)
   return fc_log_level;
 }
 
+/**************************************************************************
+  Return name of the given log level
+**************************************************************************/
+const char *log_level_name(enum log_level lvl)
+{
+  if (lvl < LOG_FATAL || lvl > LOG_DEBUG) {
+    return NULL;
+  }
+
+  return log_level_names[lvl];
+}
+
 #ifdef DEBUG
 /**************************************************************************
   Returns wether we should do an output for this level, in this file,

@@ -64,6 +64,7 @@ log_callback_fn log_set_callback(log_callback_fn callback);
 log_prefix_fn log_set_prefix(log_prefix_fn prefix);
 void log_set_level(enum log_level level);
 enum log_level log_get_level(void);
+const char *log_level_name(enum log_level lvl);
 #ifdef FREECIV_DEBUG
 bool log_do_output_for_level_at_location(enum log_level level,
                                          const char *file, int line);
