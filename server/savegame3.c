@@ -577,6 +577,8 @@ static struct loaddata *loaddata_new(struct section_file *file)
   loading->multiplier.size = -1;
   loading->specialist.order = NULL;
   loading->specialist.size = -1;
+  loading->act_dec.order = NULL;
+  loading->act_dec.size = -1;
 
   loading->server_state = S_S_INITIAL;
   loading->rstate = fc_rand_state();
@@ -612,6 +614,10 @@ static void loaddata_destroy(struct loaddata *loading)
 
   if (loading->specialist.order != NULL) {
     free(loading->specialist.order);
+  }
+
+  if (loading->act_dec.order != NULL) {
+    free(loading->act_dec.order);
   }
 
   if (loading->worked_tiles != NULL) {
@@ -1458,6 +1464,33 @@ static void sg_load_savefile(struct loaddata *loading)
     }
   }
 
+  /* Load action decision order. */
+  loading->act_dec.size
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "savefile.action_decision_size");
+
+  sg_failure_ret(loading->act_dec.size > 0,
+                 "Failed to load action decision order: %s",
+                 secfile_error());
+
+  if (loading->act_dec.size) {
+    const char **modname;
+    int j;
+
+    modname = secfile_lookup_str_vec(loading->file, &loading->act_dec.size,
+                                     "savefile.action_decision_vector");
+
+    loading->act_dec.order = fc_calloc(loading->act_dec.size,
+                                       sizeof(*loading->act_dec.order));
+
+    for (j = 0; j < loading->act_dec.size; j++) {
+      loading->act_dec.order[j] = action_decision_by_name(modname[j],
+                                                          fc_strcasecmp);
+    }
+
+    free(modname);
+  }
+
   terrain_type_iterate(pterr) {
     pterr->identifier_load = '\0';
   } terrain_type_iterate_end;
@@ -1706,6 +1739,26 @@ static void sg_save_savefile(struct savedata *saving)
     secfile_insert_str_vec(saving->file, modname,
                            ACTION_COUNT,
                            "savefile.action_vector");
+    free(modname);
+  }
+
+  /* Save action decision order in the savegame. */
+  secfile_insert_int(saving->file, ACT_DEC_COUNT,
+                     "savefile.action_decision_size");
+  if (ACT_DEC_COUNT > 0) {
+    const char **modname;
+    int j;
+
+    i = 0;
+    modname = fc_calloc(ACT_DEC_COUNT, sizeof(*modname));
+
+    for (j = 0; j < ACT_DEC_COUNT; j++) {
+      modname[i++] = action_decision_name(j);
+    }
+
+    secfile_insert_str_vec(saving->file, modname,
+                           ACT_DEC_COUNT,
+                           "savefile.action_decision_vector");
     free(modname);
   }
 
@@ -4996,6 +5049,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   const char *facing_str;
   enum tile_special_type cfspe;
   int natnbr;
+  int unconverted;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
                                      unitstr), FALSE, "%s", secfile_error());
@@ -5261,10 +5315,19 @@ static bool sg_load_player_unit(struct loaddata *loading,
     punit->upkeep[o] = utype_upkeep_cost(unit_type_get(punit), plr, o);
   } output_type_iterate_end;
 
-  punit->action_decision_want
-      = secfile_lookup_enum_default(loading->file,
-                                    ACT_DEC_NOTHING, action_decision,
-                                    "%s.action_decision_want", unitstr);
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &unconverted,
+                                     "%s.action_decision", unitstr),
+                  FALSE, "%s", secfile_error());
+
+  if (unconverted >= 0 && unconverted < loading->act_dec.size) {
+    /* Look up what action decision want the unconverted number
+     * represents. */
+    punit->action_decision_want = loading->act_dec.order[unconverted];
+  } else {
+    log_sg("Invalid action decision want for unit %d", punit->id);
+
+    punit->action_decision_want = ACT_DEC_NOTHING;
+  }
 
   if (punit->action_decision_want != ACT_DEC_NOTHING) {
     /* Load the tile to act against. */
@@ -5624,8 +5687,8 @@ static void sg_save_player_units(struct savedata *saving,
                                      ? unit_transport_get(punit)->id : -1,
                        "%s.transported_by", buf);
 
-    secfile_insert_enum(saving->file, punit->action_decision_want,
-                        action_decision, "%s.action_decision_want", buf);
+    secfile_insert_int(saving->file, punit->action_decision_want,
+                       "%s.action_decision", buf);
 
     /* Stored as tile rather than direction to make sure the target tile is
      * sane. */

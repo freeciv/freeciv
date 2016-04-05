@@ -100,6 +100,11 @@ struct loaddata {
     enum diplstate_type *order;
     size_t size;
   } ds_t;
+  /* loaded in sg_load_savefile(); needed in sg_load_player_unit(), ... */
+  struct {
+    enum action_decision *order;
+    size_t size;
+  } act_dec;
 
   /* loaded in sg_load_game(); needed in sg_load_random(), ... */
   enum server_states server_state;

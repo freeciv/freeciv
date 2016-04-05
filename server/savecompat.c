@@ -1601,6 +1601,63 @@ static void compat_load_dev(struct loaddata *loading)
   }
 
   secfile_replace_int(loading->file, num_settings, "settings.set_count");
+
+  /* Unit action decision aren't text any more. */
+  if (secfile_section_lookup(loading->file,
+                             "savefile.action_decision_vector") == NULL) {
+    int i;
+
+    /* Write action decision order. */
+    secfile_insert_int(loading->file, ACT_DEC_COUNT,
+                       "savefile.action_decision_size");
+    if (ACT_DEC_COUNT > 0) {
+      const char **modname;
+      int j;
+
+      i = 0;
+      modname = fc_calloc(ACT_DEC_COUNT, sizeof(*modname));
+
+      for (j = 0; j < ACT_DEC_COUNT; j++) {
+        modname[i++] = action_decision_name(j);
+      }
+
+      secfile_insert_str_vec(loading->file, modname,
+                             ACT_DEC_COUNT,
+                             "savefile.action_decision_vector");
+      free(modname);
+    }
+
+    /* Upgrade each unit. */
+    player_slots_iterate(pslot) {
+      int unit;
+      int units_num;
+      int plrno = player_slot_index(pslot);
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno)
+          == NULL) {
+        continue;
+      }
+
+      /* Number of units the player has. */
+      units_num = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.nunits",
+                                             plrno);
+
+      for (unit = 0; unit < units_num; unit++) {
+        int want;
+
+        /* Load old enum action decision want. */
+        want = secfile_lookup_enum_default(loading->file,
+            ACT_DEC_NOTHING, action_decision,
+            "player%d.u%d.action_decision_want", plrno, unit);
+
+        /* Store the action decision want. */
+        secfile_insert_int(loading->file, want,
+                           "player%d.u%d.action_decision",
+                           plrno, unit);
+      }
+    } player_slots_iterate_end;
+  }
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 

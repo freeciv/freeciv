@@ -731,6 +731,7 @@ FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
 /* Wants a decision because of something the actor did. */
 #define SPECENUM_VALUE2 ACT_DEC_ACTIVE
 #define SPECENUM_VALUE2NAME N_("active")
+#define SPECENUM_COUNT ACT_DEC_COUNT
 #include "specenum_gen.h"
 
 #ifdef __cplusplus
