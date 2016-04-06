@@ -1702,11 +1702,11 @@ static void player_load_units_transporter(struct player *plr,
     fc_assert_action(id_trans == -1 || ptrans != NULL, continue);
 
     if (ptrans) {
-#ifndef FREECIV_NDEBUG
-      bool result =
-#endif /* FREECIV_NDEBUG */
-      unit_transport_load(punit, ptrans, TRUE);
-      fc_assert_action(result, continue);
+      bool result = unit_transport_load(punit, ptrans, TRUE);
+
+      if (!result) {
+        continue;
+      }
     }
   }
 }
