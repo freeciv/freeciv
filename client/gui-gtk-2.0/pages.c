@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2910,7 +2910,7 @@ static void scenario_browse_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-  update the scenario page.
+  Update the scenario page.
 **************************************************************************/
 static void update_scenario_page(void)
 {
@@ -2926,19 +2926,75 @@ static void update_scenario_page(void)
     if ((sf = secfile_load_section(pfile->fullname, "scenario", TRUE))
         && secfile_lookup_bool_default(sf, TRUE, "scenario.is_scenario")) {
       const char *sname, *sdescription;
-      GtkTreeIter it;
+      int fcver;
+      int current_ver = MAJOR_VERSION * 1000000 + MINOR_VERSION * 10000;
 
-      gtk_list_store_append(scenario_store, &it);
-
+      fcver = secfile_lookup_int_default(sf, 0, "scenario.game_version");
+      fcver -= (fcver % 10000); /* Patch level does not affect compatibility */
       sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
       sdescription = secfile_lookup_str_default(sf, NULL,
                                                 "scenario.description");
-      gtk_list_store_set(scenario_store, &it,
-                         0, sname && strlen(sname) ? Q_(sname) : pfile->name,
-                         1, pfile->fullname,
-                         2, (NULL != sdescription && '\0' != sdescription[0]
-                             ? Q_(sdescription) : ""),
-                         -1);
+      log_debug("scenario file: %s from %s", sname, pfile->fullname);
+
+      /* Ignore scenarios for newer freeciv versions than we are */
+      if (fcver <= current_ver) {
+        bool add_new = TRUE;
+
+        if (sname != NULL) {
+          GtkTreeIter it;
+          bool valid;
+
+          valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(scenario_store), &it);
+          while (valid) {
+            char *oname;
+
+            gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
+                               0, &oname, -1);
+
+            if (!strcmp(sname, oname)) {
+              /* Already listed scenario has the same name as the one we just found */
+              int existing;
+
+              gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
+                                 3, &existing, -1);
+              log_debug("Duplicate %s (%d vs %d)", sname, existing, fcver);
+
+              if (existing > fcver) {
+                /* Already listed one has higher version number */
+                add_new = FALSE;
+              } else if (existing < fcver) {
+                /* New one has higher version number */
+                add_new = FALSE;
+
+                gtk_list_store_set(scenario_store, &it,
+                                   0, sname && strlen(sname) ? Q_(sname) : pfile->name,
+                                   1, pfile->fullname,
+                                   2, (NULL != sdescription && '\0' != sdescription[0]
+                                       ? Q_(sdescription) : ""),
+                                   3, fcver,
+                                   -1);
+              } else {
+                /* Same version number -> list both */
+              }
+            }
+            valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(scenario_store), &it);
+          }
+        }
+
+        if (add_new) {
+          GtkTreeIter it;
+
+          gtk_list_store_append(scenario_store, &it);
+          gtk_list_store_set(scenario_store, &it,
+                             0, sname && strlen(sname) ? Q_(sname) : pfile->name,
+                             1, pfile->fullname,
+                             2, (NULL != sdescription && '\0' != sdescription[0]
+                                 ? Q_(sdescription) : ""),
+                             3, fcver,
+                             -1);
+        }
+      }
+
       secfile_destroy(sf);
     }
   } fileinfo_list_iterate_end;
@@ -2947,7 +3003,7 @@ static void update_scenario_page(void)
 }
 
 /**************************************************************************
-  create the scenario page.
+  Create the scenario page.
 **************************************************************************/
 GtkWidget *create_scenario_page(void)
 {
@@ -2959,9 +3015,10 @@ GtkWidget *create_scenario_page(void)
   vbox = gtk_vbox_new(FALSE, 18);
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
 
-  scenario_store = gtk_list_store_new(3, G_TYPE_STRING,
-					 G_TYPE_STRING,
-					 G_TYPE_STRING);
+  scenario_store = gtk_list_store_new(4, G_TYPE_STRING,
+                                         G_TYPE_STRING,
+                                         G_TYPE_STRING,
+                                         G_TYPE_INT);
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(scenario_store));
   g_object_unref(scenario_store);
 
