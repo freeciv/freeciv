@@ -1057,7 +1057,7 @@ reqs	=
       "Building", "Michelangelo's Chapel", "Player", FALSE
     }
 
-[effect_city_walls]
+[effect_city_walls_land_defense]
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
@@ -1065,10 +1065,20 @@ reqs	=
       "Building", "City Walls", "City", TRUE
       "UnitClass", "Land", "Local", TRUE
       "Building", "Great Wall", "Player", FALSE
+    }
+
+[effect_city_walls_big_land_defense]
+type    = "Defend_Bonus"
+value	= 200
+reqs	=
+    { "type", "name", "range", "present"
+      "Building", "City Walls", "City", TRUE
+      "UnitClass", "Big Land", "Local", TRUE
+      "Building", "Great Wall", "Player", FALSE
       "UnitType", "Howitzer", "Local", FALSE
     }
 
-[effect_city_walls_0]
+[effect_city_walls_heli_defense]
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
@@ -2029,18 +2039,28 @@ reqs	=
       "Building", "Great Library", "Player"
     }
 
-[effect_great_wall]
+[effect_great_wall_land_defense]
+type    = "Defend_Bonus"
+value	= 200
+reqs	=
+    { "type", "name", "range"
+      "Building", "Great Wall", "Player"
+      "UnitClass", "Land", "Local"
+      "CityTile", "Center", "Local"
+    }
+
+[effect_great_wall_big_land_defense]
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
     { "type", "name", "range", "present"
       "Building", "Great Wall", "Player", TRUE
-      "UnitClass", "Land", "Local", TRUE
+      "UnitClass", "Big Land", "Local", TRUE
       "CityTile", "Center", "Local", TRUE
       "UnitType", "Howitzer", "Local", FALSE
     }
 
-[effect_great_wall_0]
+[effect_great_wall_heli_defense]
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
