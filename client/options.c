@@ -5134,7 +5134,11 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
     6   /* 2.6 */
   };
 
+#if MINOR_VERSION >= 90
   FC_STATIC_ASSERT(MAJOR_VERSION < sizeof(last_minors) / sizeof(int), missing_last_minor);
+#else
+  FC_STATIC_ASSERT(MAJOR_VERSION <= sizeof(last_minors) / sizeof(int), missing_last_minor);
+#endif
 
   *allow_digital_boolean = FALSE;
   name = getenv("FREECIV_OPT");
