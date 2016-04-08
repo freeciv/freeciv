@@ -3995,8 +3995,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
       break;
     case ORDER_BUILD_CITY:
-      handle_unit_build_city(pplayer, unitid,
-			     city_name_suggestion(pplayer, unit_tile(punit)));
+      unit_build_city(pplayer, punit,
+                      city_name_suggestion(pplayer, unit_tile(punit)));
       log_debug("  building city");
       if (player_unit_by_number(pplayer, unitid)) {
 	/* Build failed. */

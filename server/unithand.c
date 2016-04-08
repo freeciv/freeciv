@@ -1726,24 +1726,24 @@ static void city_build(struct player *pplayer, struct unit *punit,
 }
 
 /**************************************************************************
-  Handle city building request. Can result in adding to existing city
-  also.
+  Try to build city.
+  Return value tells if request was sane. It can be TRUE even if city
+  building failed, as long as the reason was not bad request.
 **************************************************************************/
-void handle_unit_build_city(struct player *pplayer, int unit_id,
-                            const char *name)
+bool unit_build_city(struct player *pplayer, struct unit *punit,
+                     const char *name)
 {
   enum unit_add_build_city_result res;
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    log_verbose("handle_unit_build_city() invalid unit %d", unit_id);
-    return;
+    log_verbose("unit_build_city() invalid unit.");
+    return FALSE;
   }
 
   if (!unit_can_do_action_now(punit)) {
     /* Building a city not possible due to unitwaittime setting. */
-    return;
+    return FALSE;
   }
 
   res = unit_add_or_build_city_test(punit);
@@ -1754,7 +1754,22 @@ void handle_unit_build_city(struct player *pplayer, int unit_id,
     city_add_unit(pplayer, punit);
   } else {
     city_add_or_build_error(pplayer, punit, res);
+    if (res != UAB_NO_MIN_DIST) {
+      return FALSE;
+    }
   }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Handle city building request. Can result in adding to existing city
+  also.
+**************************************************************************/
+void handle_unit_build_city(struct player *pplayer, int unit_id,
+                            const char *name)
+{
+  unit_build_city(pplayer, player_unit_by_number(pplayer, unit_id), name);
 }
 
 /**************************************************************************
