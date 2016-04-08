@@ -13,8 +13,10 @@
 #ifndef FC__UNITHAND_H
 #define FC__UNITHAND_H
 
+/* common */
 #include "unit.h"
 
+/* server */
 #include "hand_gen.h"
 
 void unit_activity_handling(struct unit *punit,
@@ -26,6 +28,9 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity);
 
 bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                         bool igzoc, bool move_diplomat_city);
+
+bool unit_build_city(struct player *pplayer, struct unit *punit,
+                     const char *name);
 
 void city_add_or_build_error(struct player *pplayer, struct unit *punit,
                              enum unit_add_build_city_result res);

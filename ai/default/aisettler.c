@@ -1243,11 +1243,17 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
               player_name(pplayer), TILE_XY(ptile));
     return FALSE;
   }
-  handle_unit_build_city(pplayer, punit->id,
-                         city_name_suggestion(pplayer, ptile));
+  if (!unit_build_city(pplayer, punit, city_name_suggestion(pplayer, ptile))) {
+    /* It's an error when unit_build_city() says that request was illegal to begin with. */
+    log_error("%s: Failed to build city at (%d, %d)",
+              player_name(pplayer), TILE_XY(ptile));
+    return FALSE;
+  }
+
   pcity = tile_city(ptile);
   if (!pcity) {
-    log_error("%s: Failed to build city at (%d, %d)",
+    /* Write just debug log when city building didn't success for acceptable reason. */
+    log_debug("%s: Failed to build city at (%d, %d)",
               player_name(pplayer), TILE_XY(ptile));
     return FALSE;
   }
