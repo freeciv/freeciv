@@ -1,11 +1,11 @@
 # Finnish translation
 # Copyright (C) 2002-2003 2005-2009 2011-2012, 2014
-# Sini Ruohomaa <sini.ruohomaa@iki.fi>, 
+# Sini Ruohomaa <sini.ruohomaa@iki.fi>,
 # Markus Linnakangas <markus.linnakangas@luukku.com>,
 # Marko Lindqvist <cazfi74@gmail.com>,
 # Pekka Pessi <nospam@pessi.fi>,
 # Juhana Uuttu <juhana.uuttu@gmail.com>,
-# Jarkko Siekkinen <jarkko.siekkinen@evl.fi>, 
+# Jarkko Siekkinen <jarkko.siekkinen@evl.fi>,
 # Juhani Heino <juhani.heino@vtt.fi>,
 # Timo Jyrinki <timo.jyrinki@iki.fi> & helpers.
 # This translation is covered by the GNU General Public License Version 2.
@@ -13,11 +13,11 @@
 # NOTE: Ruledit strings are independent from pre-2.6 versions, no need to merge
 # from below.
 #
-# Merging translations upwards to e.g. TRUNK is fine, do not merge downwards 
+# Merging translations upwards to e.g. TRUNK is fine, do not merge downwards
 # by default.
 #
 # Prioritizing stable branch 2_6 for translations (February 2016), merge
-# to trunk when feeling like it with: 
+# to trunk when feeling like it with:
 #   msgmerge --compendium=fi.po.trunk fi.po.s2_6 freeciv-ruledit.pot -o fi.po.newtrunk
 # where fi.po.trunk is current trunk version, fi.po.s2_6 the improved branch
 # version, freeciv-ruledit.pot an up-to-date POT for the trunk.
@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2016-02-16 17:24+0200\n"
-"PO-Revision-Date: 2016-02-28 15:59+0200\n"
+"POT-Creation-Date: 2016-04-08 10:23+0300\n"
+"PO-Revision-Date: 2016-04-08 10:28+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -129,7 +129,7 @@ msgstr "Sääntökokoelman lataaminen epäonnistui!"
 
 #: tools/ruledit/ruledit_qt.cpp:275
 msgid "Are you sure you want to quit?"
-msgstr "Oletko varma että halua sulkea ohjelman?"
+msgstr "Oletko varma että haluat sulkea ohjelman?"
 
 #: tools/ruledit/ruledit_qt.cpp:279
 msgid "Quit?"
