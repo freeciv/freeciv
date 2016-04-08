@@ -892,6 +892,8 @@ static const char *get_token_value(struct inputfile *inf)
       }
     }
 
+    fz_fclose(fp);
+
     inf->cur_line_pos = c + 1 - astr_str(&inf->cur_line);
 
     return astr_str(&inf->token);
