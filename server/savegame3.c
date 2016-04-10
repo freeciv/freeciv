@@ -146,6 +146,10 @@
 
 extern bool sg_success;
 
+#ifdef FREECIV_TESTMATIC
+#define SAVE_DUMMY_TURN_CHANGE_TIME 1
+#endif
+
 /*
  * This loops over the entire map to save data. It collects all the data of
  * a line using GET_XY_CHAR and then executes the macro SECFILE_INSERT_LINE.
@@ -2076,8 +2080,13 @@ static void sg_save_game(struct savedata *saving)
     } else {
       saving->save_players = TRUE;
     }
+#ifndef SAVE_DUMMY_TURN_CHANGE_TIME
     secfile_insert_int(saving->file, game.server.turn_change_time * 100,
                        "game.last_turn_change_time");
+#else  /* SAVE_DUMMY_TURN_CHANGE_TIME */
+    secfile_insert_int(saving->file, game.info.turn * 10,
+                       "game.last_turn_change_time");
+#endif /* SAVE_DUMMY_TURN_CHANGE_TIME */
   }
   secfile_insert_bool(saving->file, saving->save_players,
                       "game.save_players");
