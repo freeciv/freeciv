@@ -24,6 +24,7 @@
 
 static struct {
   char *file_header;
+  char *buildings;
 } comments_storage;
 
 /**************************************************************************
@@ -46,6 +47,7 @@ bool comments_load(void)
   }
 
   comments_storage.file_header = fc_strdup(secfile_lookup_str(comment_file, "common.header"));
+  comments_storage.buildings = fc_strdup(secfile_lookup_str(comment_file, "typedoc.buildings"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -62,9 +64,31 @@ void comments_free(void)
 }
 
 /**************************************************************************
+  Generic comment writing function with some error checking.
+**************************************************************************/
+static void comment_write(struct section_file *sfile, const char *comment,
+                          const char *name)
+{
+  if (comment == NULL) {
+    log_error("Comment for %s missing.", name);
+    return;
+  }
+
+  secfile_insert_long_comment(sfile, comment);
+}
+
+/**************************************************************************
   Write file header.
 **************************************************************************/
 void comment_file_header(struct section_file *sfile)
 {
-  secfile_insert_long_comment(sfile, comments_storage.file_header);
+  comment_write(sfile, comments_storage.file_header, "File header");
+}
+
+/**************************************************************************
+  Write buildings header.
+**************************************************************************/
+void comment_buildings(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.buildings, "Buildings");
 }

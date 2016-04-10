@@ -14,3 +14,54 @@ header = "\
 ; Note that the freeciv AI may not cope well with anything more\n\
 ; than minor changes.\n\
 "
+
+[typedoc]
+; This section contains comments documenting different ruleset object types.
+
+buildings = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Below: The individual buildings, one per section.\n\
+; (Buildings = City Improvements and Wonders)\n\
+;\n\
+; The actual tag used (the * in [building_*]) does not matter, except\n\
+; it must be unique within this file, and it may be used in debug\n\
+; output when reading this file.\n\
+;\n\
+; Notes:\n\
+;\n\
+; name          = translatable name as seen by user\n\
+; rule_name     = (optional) name for savegames, rulesets etc; if not\n\
+;                 present, 'name' is used. Since the name used in savegames\n\
+;                 must not change, use this when renaming a building after a\n\
+;                 ruleset has been released.\n\
+; genus         = genus; one of:\n\
+;                 \"GreatWonder\", \"SmallWonder\", \"Improvement\", \"Special\".\n\
+; reqs          = requirements to build the building (see effects.ruleset\n\
+;                 and README.effects for help on requirements)\n\
+; graphic       = icon of improvement (used in city dialog)\n\
+; graphic_alt   = alternate icon of improvement\n\
+; obsolete_by   = requirements for the building to become obsolete\n\
+; build_cost    = production shields required to build\n\
+; upkeep        = monetary upkeep value\n\
+; sabotage      = percent chance of diplomat sabotage being successful\n\
+; flags         = special flag strings\n\
+;\n\
+; ** Building flags **\n\
+; \"VisibleByOthers\"  = Anyone who can see your city knows whether it has\n\
+;                      this improvement. (Great and small wonders are\n\
+;                      always visible.)\n\
+; \"SaveSmallWonder\"  = If you lose the city with this building in, and the\n\
+;                      \"savepalace\" server setting is enabled, another will\n\
+;                      be built for free in a random city.\n\
+;                      Should only be used with genus \"SmallWonder\".\n\
+; \"Gold\"             = Not a real building; production turned into gold\n\
+;                      indefinitely (capitalization/coinage).\n\
+;                      Genus should be \"Special\".\n\
+; \"DisasterProof\"    = Disasters never destroy this building. Is meaningful\n\
+;                      only for genus \"Improvement\" buildings as others are\n\
+;                      automatically disaster proof.\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

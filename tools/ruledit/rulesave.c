@@ -383,6 +383,8 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  comment_buildings(sfile);
+
   sect_idx = 0;
   improvement_iterate(pb) {
     if (!pb->disabled) {
