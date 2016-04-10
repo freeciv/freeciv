@@ -133,13 +133,22 @@ type    = "Tech_Upkeep_Free"
 value   = 3
 
 ; Fortress HP regen
-[effect_fortress_hp_regen]
+[effect_fortress_hp_regen_land]
 type    = "HP_Regen"
 value   = 25
 reqs    =
     { "type", "name", "range"
       "Extra", "Fortress", "Tile"
       "UnitClass", "Land", "Local"
+    }
+
+[effect_fortress_hp_regen_big_land]
+type    = "HP_Regen"
+value   = 25
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Fortress", "Tile"
+      "UnitClass", "Big Land", "Local"
     }
 
 ; Nuclear power gives +1 moves to sea units
@@ -2335,7 +2344,7 @@ reqs	=
       "Building", "Statue of Liberty", "Player"
     }
 
-[effect_sun_tzus_war_academy]
+[effect_sun_tzus_land_veteran]
 type    = "Veteran_Build"
 value	= 1
 reqs	=
@@ -2346,13 +2355,34 @@ reqs	=
       "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
-[effect_sun_tzus_war_academy_1]
+[effect_sun_tzus_big_land_veteran]
+type    = "Veteran_Build"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Building", "Sun Tzu's War Academy", "Player", TRUE
+      "UnitClass", "Big Land", "Local", TRUE
+      "UnitFlag", "NonMil", "Local", FALSE
+      "UnitFlag", "NoVeteran", "Local", FALSE
+    }
+
+[effect_sun_tzus_land_combat_vet]
 type    = "Veteran_Combat"
 value	= 50
 reqs	=
     { "type", "name", "range", "present"
       "Building", "Sun Tzu's War Academy", "Player", TRUE
       "UnitClass", "Land", "Local", TRUE
+      "UnitFlag", "Diplomat", "Local", FALSE
+    }
+
+[effect_sun_tzus_big_land_combat_vet]
+type    = "Veteran_Combat"
+value	= 50
+reqs	=
+    { "type", "name", "range", "present"
+      "Building", "Sun Tzu's War Academy", "Player", TRUE
+      "UnitClass", "Big Land", "Local", TRUE
       "UnitFlag", "Diplomat", "Local", FALSE
     }
 
