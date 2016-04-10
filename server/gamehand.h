@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,5 +29,7 @@ int update_timeout(void);
 void increase_timeout_because_unit_moved(void);
 
 const char *new_challenge_filename(struct connection *pc);
+
+void ruleset_choices_free(void);
 
 #endif  /* FC__GAMEHAND_H */
