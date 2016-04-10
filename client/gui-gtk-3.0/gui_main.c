@@ -1067,6 +1067,7 @@ static void setup_widgets(void)
   char buf[256];
   GtkWidget *notebook, *statusbar;
   GtkWidget *dtach_lowbox = NULL;
+  GdkPixbuf *pb;
 
   message_buffer = gtk_text_buffer_new(NULL);
 
@@ -1253,19 +1254,25 @@ static void setup_widgets(void)
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
     spr = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
-    econ_label[i] = gtk_image_new_from_pixbuf(sprite_get_pixbuf(spr));
+    pb = sprite_get_pixbuf(spr);
+    econ_label[i] = gtk_image_new_from_pixbuf(pb);
+    g_object_unref(pb);
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
 
   /* science, environmental, govt, timeout */
-  bulb_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_research_sprite()));
-  sun_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_warming_sprite()));
-  flake_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_cooling_sprite()));
-  government_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_government_sprite()));
+  pb = sprite_get_pixbuf(client_research_sprite());
+  bulb_label = gtk_image_new_from_pixbuf(pb);
+  g_object_unref(pb);
+  pb = sprite_get_pixbuf(client_warming_sprite());
+  sun_label = gtk_image_new_from_pixbuf(pb);
+  g_object_unref(pb);
+  pb = sprite_get_pixbuf(client_cooling_sprite());
+  flake_label = gtk_image_new_from_pixbuf(pb);
+  g_object_unref(pb);
+  pb = sprite_get_pixbuf(client_government_sprite());
+  government_label = gtk_image_new_from_pixbuf(pb);
+  g_object_unref(pb);
 
   for (i = 0; i < 4; i++) {
     GtkWidget *w;

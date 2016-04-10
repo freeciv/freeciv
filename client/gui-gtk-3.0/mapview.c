@@ -164,21 +164,30 @@ void update_info_label(void)
 
     for (; d < client.conn.playing->economic.luxury /10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_LUXURY);
+      GdkPixbuf *pb;
 
-      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]), sprite_get_pixbuf(spr));
+      pb = sprite_get_pixbuf(spr);
+      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]), pb);
+      g_object_unref(pb);
     }
 
     for (; d < (client.conn.playing->economic.science
 		+ client.conn.playing->economic.luxury) / 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_SCIENCE);
+      GdkPixbuf *pb;
 
-      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]), sprite_get_pixbuf(spr));
+      pb = sprite_get_pixbuf(spr);
+      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]), pb);
+      g_object_unref(pb);
     }
 
     for (; d < 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_GOLD);
+      GdkPixbuf *pb;
 
-      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]), sprite_get_pixbuf(spr));
+      pb = sprite_get_pixbuf(spr);
+      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]), pb);
+      g_object_unref(pb);
     }
   }
 
@@ -272,10 +281,20 @@ GdkPixbuf *get_thumb_pixbuf(int onoff)
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                          struct sprite *flake, struct sprite *gov)
 {
-  gtk_image_set_from_pixbuf(GTK_IMAGE(bulb_label), sprite_get_pixbuf(bulb));
-  gtk_image_set_from_pixbuf(GTK_IMAGE(sun_label), sprite_get_pixbuf(sol));
-  gtk_image_set_from_pixbuf(GTK_IMAGE(flake_label), sprite_get_pixbuf(flake));
-  gtk_image_set_from_pixbuf(GTK_IMAGE(government_label), sprite_get_pixbuf(gov));
+  GdkPixbuf *pb;
+
+  pb = sprite_get_pixbuf(bulb);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(bulb_label), pb);
+  g_object_unref(pb);
+  pb = sprite_get_pixbuf(sol);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(sun_label), pb);
+  g_object_unref(pb);
+  pb = sprite_get_pixbuf(flake);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(flake_label), pb);
+  g_object_unref(pb);
+  pb = sprite_get_pixbuf(gov);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(government_label), pb);
+  g_object_unref(pb);
 }
 
 /****************************************************************************
