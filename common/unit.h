@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -61,7 +61,8 @@ enum unit_upgrade_result {
   UU_NOT_IN_CITY,
   UU_NOT_CITY_OWNER,
   UU_NOT_ENOUGH_ROOM,
-  UU_NOT_TERRAIN        /* The upgraded unit could not survive. */
+  UU_NOT_TERRAIN,         /* The upgraded unit could not survive. */
+  UU_UNSUITABLE_TRANSPORT /* Can't upgrade inside current transport. */
 };
 
 enum unit_airlift_result {

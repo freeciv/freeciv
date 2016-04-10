@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1193,7 +1193,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
   Returns TRUE iff any units can be upgraded.
 ****************************************************************************/
 bool get_units_upgrade_info(char *buf, size_t bufsz,
-			    struct unit_list *punits)
+                            struct unit_list *punits)
 {
   if (unit_list_size(punits) == 0) {
     fc_snprintf(buf, bufsz, _("No units to upgrade!"));

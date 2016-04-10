@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1932,7 +1932,12 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
     return UU_NOT_ENOUGH_ROOM;
   }
 
-  if (!can_exist_at_tile(to_unittype, unit_tile(punit))) {
+  if (punit->transporter != NULL) {
+    if (!can_unit_type_transport(unit_type_get(punit->transporter),
+                                 unit_class_get(punit))) {
+      return UU_UNSUITABLE_TRANSPORT;
+    }
+  } else if (!can_exist_at_tile(to_unittype, unit_tile(punit))) {
     /* The new unit type can't survive on this terrain. */
     return UU_NOT_TERRAIN;
   }
@@ -2025,6 +2030,14 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
                   "survive at this place."),
                 utype_name_translation(from_unittype),
                 utype_name_translation(to_unittype));
+    break;
+  case UU_UNSUITABLE_TRANSPORT:
+    fc_snprintf(buf, bufsz,
+                _("Upgrading this %s would result in a %s which its "
+                  "current transport, %s, could not transport."),
+                utype_name_translation(from_unittype),
+                utype_name_translation(to_unittype),
+                unit_name_translation(punit->transporter));
     break;
   }
 
