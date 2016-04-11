@@ -20,13 +20,14 @@
 # version, freeciv.pot an up-to-date POT for the trunk.
 # Then upload the resulting  fi.po.newtrunk to trunk.
 #
-# For nationality translations, see http://www.kotus.fi/index.phtml?s=2377 
+# For nationality translations, see
+# http://www.kotus.fi/julkaisut/nimijulkaisut/paikannimijulkaisut/maat_paakaupungit_ja_kansalaisuudet
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 09:50+0300\n"
-"PO-Revision-Date: 2016-04-08 10:08+0300\n"
+"POT-Creation-Date: 2016-04-11 09:03+0300\n"
+"PO-Revision-Date: 2016-04-11 14:52+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -410,7 +411,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:426 client/gui-sdl/mapview.c:158
-#: server/console.c:71 server/srv_main.c:2745 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2746 utility/log.c:516
 #: utility/netintf.c:97 utility/registry_ini.c:745
 #, c-format
 msgid "Please report this message at %s"
@@ -2250,7 +2251,7 @@ msgstr "A_janmukaista yksikkö"
 #: client/gui-sdl/diplomat_dialog.c:1423 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1950 client/gui-xaw/diplomat_dialog.c:116
 #: client/gui-xaw/diplomat_dialog.c:662 client/gui-xaw/repodlgs.c:1010
-#: client/text.c:1347 common/unit.c:2218
+#: client/text.c:1347 common/unit.c:2223
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -5587,7 +5588,7 @@ msgid ""
 "It might not work with other soundsets.\n"
 "You are currently using soundset %s."
 msgstr ""
-"Mod-paketti ehdottaa äänistön %s käyttöä\n"
+"Muunnospaketti ehdottaa äänistön %s käyttöä\n"
 "Paketti ei välttämättä toimi muiden äänistöjen kanssa.\n"
 "Käytät tällä hetkellä äänistöä %s."
 
@@ -5635,7 +5636,7 @@ msgid ""
 "It might not work with other tilesets.\n"
 "You are currently using tileset %s."
 msgstr ""
-"Mod-paketti ehdottaa kuvitussetin %s käyttöä\n"
+"Muunnospaketti ehdottaa kuvitussetin %s käyttöä\n"
 "Paketti ei välttämättä toimi muiden kuvitusten kanssa.\n"
 "Käytät tällä hetkellä kuvitusta %s."
 
@@ -13074,7 +13075,7 @@ msgstr "(Napsauttamalla lisätietoa)"
 msgid "%s People"
 msgstr "%s kansalaista"
 
-#: client/text.c:1048 server/gamehand.c:848
+#: client/text.c:1048 server/gamehand.c:850
 #, c-format
 msgid "Year: %s"
 msgstr "Vuosi: %s"
@@ -15018,7 +15019,7 @@ msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2228
+#: common/unit.c:2233
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -15033,13 +15034,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:2237
+#: common/unit.c:2242
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2243
+#: common/unit.c:2248
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -15054,22 +15055,29 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:2253
+#: common/unit.c:2258
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2257
+#: common/unit.c:2262
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2262
+#: common/unit.c:2267
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei tulisi toimeen tällaisessa maastossa."
+
+#: common/unit.c:2274
+#, c-format
+msgid ""
+"Upgrading this %s would result in a %s which its current transport, %s, "
+"could not transport."
+msgstr "Ajanmukaistettu yksikkö %1$.0s%2$s ei olisi sitä kuljettavan yksikön, %3$s, kuljetettavissa."
 
 #: common/unittype.c:444
 #, c-format
@@ -15089,7 +15097,7 @@ msgstr "Kauppareitin perustaja"
 
 #: common/unittype.h:136
 msgid "?unitflag:HelpWonder"
-msgstr "Ihmeen rakentaja"
+msgstr "Ihmeenrakentaja"
 
 #. TRANS: unit type flag (rarely shown): "ignore zones of control"
 #: common/unittype.h:139
@@ -34459,28 +34467,28 @@ msgstr ""
 "En onnistu lataamaan fcdb-konfigurointitiedostoa '%s':\n"
 "%s"
 
-#: server/gamehand.c:189
+#: server/gamehand.c:191
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
 msgstr ""
 "Merellä liikkuvia aloitusyksiköitä ei vielä tueta. Kukaan ei saa yksikköä %s."
 
-#: server/gamehand.c:407
+#: server/gamehand.c:409
 #, c-format
 msgid "Didn't find optimal solution for team placement in %d iterations."
 msgstr ""
 "Ei löytynyt kelvollista aloituspaikkojen jakoa joukkueille %d yrityksellä."
 
-#: server/gamehand.c:824
+#: server/gamehand.c:826
 #, c-format
 msgid "No units placed for %s!"
 msgstr "%s on jäänyt ilman sijoitettuja yksiköitä!"
 
-#: server/gamehand.c:932
+#: server/gamehand.c:934
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr "Vuoron aikaraja on liian suuri ja palautetaan maksimiarvoon"
 
-#: server/gamehand.c:940
+#: server/gamehand.c:942
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Vuoron aikaraja on nollaa pienempi ja muutetaan nollaksi."
 
@@ -35359,8 +35367,8 @@ msgstr ""
 "tallennettu peli on vanha, tai tiedosto voi olla viallinen. Jatka omalla "
 "vastuullasi."
 
-#: server/savegame2.c:3504 server/savegame.c:4290 server/srv_main.c:2044
-#: server/srv_main.c:2049
+#: server/savegame2.c:3504 server/savegame.c:4290 server/srv_main.c:2045
+#: server/srv_main.c:2050
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
@@ -36870,8 +36878,11 @@ msgid ""
 "the ruleset. The relative frequency of disaster types is set by the ruleset. "
 "Zero prevents any random disasters from occurring."
 msgstr ""
-"Tämä vaikuttaa siihen kuinka usein onnettomuudet iskevät kaupunkeihin, mikäli niitä on\n"
-"sääntökokoelmassa määritetty. Onnettomuuksien suhteellinen esiintymistiheys on asetettu sääntökokoelmassa. Arvo '0' poistaa onnettomuudet kokonaan käytöstä."
+"Tämä vaikuttaa siihen kuinka usein onnettomuudet iskevät kaupunkeihin, "
+"mikäli niitä on\n"
+"sääntökokoelmassa määritetty. Onnettomuuksien suhteellinen esiintymistiheys "
+"on asetettu sääntökokoelmassa. Arvo '0' poistaa onnettomuudet kokonaan "
+"käytöstä."
 
 #: server/settings.c:1795
 msgid "Chance for conquered building destruction"
@@ -38259,17 +38270,17 @@ msgstr ""
 msgid "Starting game."
 msgstr "Aloitan pelin."
 
-#: server/srv_main.c:1523
+#: server/srv_main.c:1524
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "tuntemattoman raporttityypin pyyntö (tyyppi %d)"
 
-#: server/srv_main.c:1612
+#: server/srv_main.c:1613
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Varoitus: hylättiin vanha asiakasohjelma %s"
 
-#: server/srv_main.c:1622
+#: server/srv_main.c:1623
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -38277,52 +38288,52 @@ msgstr ""
 "Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi vähintään "
 "Freeciv-versioon 2.2."
 
-#: server/srv_main.c:1680
+#: server/srv_main.c:1681
 msgid "You are not allowed to edit."
 msgstr "Sinulla ei ole tarvittavia oikeuksia muokkaamiseen."
 
-#: server/srv_main.c:1882
+#: server/srv_main.c:1883
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Kansakunta (%s) ei ole käyttäjän valittavissa."
 
-#: server/srv_main.c:1888
+#: server/srv_main.c:1889
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Kansakunta (%s) on jo käytössä."
 
 # Johndoe on suomalaisten hallitsija Tarja Halonen.
-#: server/srv_main.c:1904
+#: server/srv_main.c:1905
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s on %s hallitsija %s."
 
-#: server/srv_main.c:1958
+#: server/srv_main.c:1959
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Odotetaan pelin alkamista: %d / %d pelaajaa valmiina aloittamaan."
 
-#: server/srv_main.c:1984
+#: server/srv_main.c:1985
 msgid "requested more than 'maxplayers' setting"
 msgstr "pyydetty määrä ole enemmän kuin 'maxplayers' asetus sallii"
 
-#: server/srv_main.c:1991
+#: server/srv_main.c:1992
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "käytössä olevassa kansavalikoimassa ei ole riittävästi kansakuntia (kokeile "
 "muuttaa 'nationset' asetusta)"
 
-#: server/srv_main.c:1994
+#: server/srv_main.c:1995
 msgid "not enough playable nations"
 msgstr "Kansakuntia ei ole riittävästi."
 
-#: server/srv_main.c:2337 server/srv_main.c:2341
+#: server/srv_main.c:2338 server/srv_main.c:2342
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s sai johtaakseen %s."
 
-#: server/srv_main.c:2505
+#: server/srv_main.c:2506
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -38330,34 +38341,34 @@ msgstr ""
 "Tämä civ-palvelinohjelma tukee käyttäjien kirjautumista (autentikaatiota), "
 "mutta se ei ole tällä hetkellä käytössä."
 
-#: server/srv_main.c:2574
+#: server/srv_main.c:2575
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Lähetän tietoa metapalvelimelle <%s>"
 
-#: server/srv_main.c:2578
+#: server/srv_main.c:2579
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 
-#: server/srv_main.c:2601
+#: server/srv_main.c:2602
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:2710
+#: server/srv_main.c:2711
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:2743
+#: server/srv_main.c:2744
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:2766 server/srv_main.c:2770
+#: server/srv_main.c:2767 server/srv_main.c:2771
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:2964
+#: server/srv_main.c:2965
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
@@ -40372,89 +40383,89 @@ msgstr "%s ei voi liittyä kaupunkiin %s."
 msgid "%s added to aid %s in growing."
 msgstr "%s lisätty auttamaan kaupunkia %s kasvamaan."
 
-#: server/unithand.c:1097
+#: server/unithand.c:1112
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr ""
 "Laukaisemasi %s ammuttiin alas ohjuspuolustusjärjestelmällä. Ilonpilaajat!"
 
-#: server/unithand.c:1100
+#: server/unithand.c:1115
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Ohjustentorjuntajärjestelmäsi torjui ydiniskun – %s ei vahingoittunut."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:1196
+#: server/unithand.c:1211
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "%s selviytyi surkeasta hyökkäyksestä, jota %s %s yritti."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:1206
+#: server/unithand.c:1221
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "Hyökkäyksesi meni mönkään, %s hävisi ja %s %s selviytyi voittajana."
 
-#: server/unithand.c:1282
+#: server/unithand.c:1297
 msgid "This type of troops cannot take over a city."
 msgstr "Tämäntyyppinen yksikkö ei voi valloittaa kaupunkia."
 
 #. TRANS: %s is a list of units separated by "or".
-#: server/unithand.c:1302
+#: server/unithand.c:1317
 #, c-format
 msgid "Only %s can conquer from a non-native tile."
 msgstr ""
 "Vain %s voi hyökätä sellaisesta maastosta käsin, jossa se ei voi itse "
 "liikkua."
 
-#: server/unithand.c:1307
+#: server/unithand.c:1322
 msgid "Cannot conquer from a non-native tile."
 msgstr ""
 "Ei voi vallata kaupunkia sellaisesta maastosta käsin, jossa se ei voi itse "
 "liikkua."
 
-#: server/unithand.c:1314 server/unittools.c:2797 server/unittools.c:2805
+#: server/unithand.c:1329 server/unittools.c:2797 server/unittools.c:2805
 #: server/unittools.c:2835
 msgid "Cannot attack unless you declare war first."
 msgstr "Et voi hyökätä ennen sodanjulistusta."
 
-#: server/unithand.c:1319
+#: server/unithand.c:1334
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s voi siirtyä vain itse valvomallesi alueelle."
 
-#: server/unithand.c:1325
+#: server/unithand.c:1340
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ei voi liikkua niin kauas rannikolta."
 
-#: server/unithand.c:1332 server/unittools.c:2813 server/unittools.c:2843
+#: server/unithand.c:1347 server/unittools.c:2813 server/unittools.c:2843
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
 "Sinä ja %s olette solmineet rauhan, et voi hyökätä ennen sopimuksen purkua."
 
-#: server/unithand.c:1340
+#: server/unithand.c:1355
 #, c-format
 msgid "%s cannot disembark outside of a city or a native base for %s."
 msgstr ""
 "%2$s ei voi purkaa lastiaan muualla kuin kaupungissa tai sopivassa "
 "tukikohdassa. %1$s jää kyytiin."
 
-#: server/unithand.c:1388
+#: server/unithand.c:1403
 msgid "This unit has no moves left."
 msgstr "Tällä yksiköllä ei ole liikepisteitä jäljellä."
 
-#: server/unithand.c:1448
+#: server/unithand.c:1463
 msgid "No diplomat action possible."
 msgstr "Diplomaattitoiminta ei ole mahdollista."
 
-#: server/unithand.c:1452
+#: server/unithand.c:1467
 #, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "Yksikkö ei kykene diplomaattisiin toimiin maastotyypistä %s."
 
-#: server/unithand.c:1471
+#: server/unithand.c:1486
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr ""
@@ -40462,81 +40473,81 @@ msgstr ""
 "Kansakunnat-näkymää (F3)."
 
 #. TRANS: You can only have one Leader.
-#: server/unithand.c:1520
+#: server/unithand.c:1535
 #, c-format
 msgid "You can only have one %s."
 msgstr "Sinulla voi olla vain yksi %s-yksikkö."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1552
+#: server/unithand.c:1567
 #, c-format
 msgid "Your %s succeeded in capturing the %s %s."
 msgstr "Lähettämäsi %s onnistui vangitsemaan %s yksikön %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1558
+#: server/unithand.c:1573
 #, c-format
 msgid "Your %s was captured by the %s."
 msgstr "Petolliset %2$s vangitsivat yksikkösi %1$s."
 
-#: server/unithand.c:1583
+#: server/unithand.c:1598
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Tätä yksikköä kuljetetaan, joten se ei voi pommittaa."
 
-#: server/unithand.c:1600
+#: server/unithand.c:1615
 #, c-format
 msgid "%s is not an attack unit."
 msgstr "%s ei ole hyökkäykseen kykenevä yksikkö."
 
-#: server/unithand.c:1604
+#: server/unithand.c:1619
 msgid "You can't attack there since there's an unreachable unit."
 msgstr ""
 "Et voi hyökätä - ainakin yksi yksiköistä on sellainen ettet pääse siihen "
 "käsiksi."
 
-#: server/unithand.c:1608
+#: server/unithand.c:1623
 #, c-format
 msgid "%s can't launch attack from %s."
 msgstr "%s ei voi hyökätä %sruudusta."
 
-#: server/unithand.c:1614
+#: server/unithand.c:1629
 #, c-format
 msgid "%s can't attack to %s."
 msgstr "%s ei voi hyökätä %sruutuun."
 
-#: server/unithand.c:1661
+#: server/unithand.c:1676
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Kuljetettu yksikkö ei ole liitossa kaikkien kohderuudun joukkojen tai sen "
 "kaupungin kanssa."
 
-#: server/unithand.c:1709
+#: server/unithand.c:1724
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "%s auttaa rakennushanketta %s kaupungissa %s (%d jäljellä)."
 
-#: server/unithand.c:1711
+#: server/unithand.c:1726
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%s auttaa rakennushanketta %s kaupungissa %s (%d jäi yli)."
 
-#: server/unithand.c:1769
+#: server/unithand.c:1784
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia."
 
-#: server/unithand.c:1781
+#: server/unithand.c:1796
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "%s ei voi luoda kauppareittiä kaupunkien %s ja %s välille."
 
-#: server/unithand.c:1816 server/unithand.c:1840
+#: server/unithand.c:1831 server/unithand.c:1855
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "%s ei voi luoda kauppareittiä tänne!"
 
-#: server/unithand.c:1822 server/unithand.c:1846
+#: server/unithand.c:1837 server/unithand.c:1861
 #, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
@@ -40544,7 +40555,7 @@ msgstr[0] "      Kaupungilla %s on jo %d parempi kauppareitti!"
 msgstr[1] "      Kaupungilla %s on jo %d parempaa kauppareittiä!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:1871
+#: server/unithand.c:1886
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -40559,12 +40570,12 @@ msgstr[1] ""
 "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d kultaa ja "
 "tutkimuspanosta."
 
-#: server/unithand.c:1897
+#: server/unithand.c:1912
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Uusi kauppareitti perustettu kaupungista %s kaupunkiin %s."
 
-#: server/unithand.c:1903
+#: server/unithand.c:1918
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "%s perusti kauppareitin kaupunkinsa %s ja kaupungin %s välille."
@@ -40754,7 +40765,7 @@ msgstr "%s ei pysty lennättämään yksikköä %s."
 #: server/unittools.c:2684
 #, c-format
 msgid "%s cannot be transported to %s."
-msgstr "Yksikköä %s ei voi kuljettaa kaupunkiin %s."
+msgstr "Yksikköä %s ei voida kuljettaa kaupunkiin %s."
 
 #: server/unittools.c:2694
 #, c-format
