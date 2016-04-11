@@ -12,20 +12,21 @@
 # Merging translations upwards to e.g. TRUNK is fine, do not merge downwards
 # by default.
 #
-# Prioritizing stable branch 2_4 for translations (June 2014), merge
+# Prioritizing stable branch 2_5 for translations (April 2016), merge
 # to trunk when feeling like it with:
-#   msgmerge --compendium=fi.po.trunk fi.po.s2_4 freeciv.pot -o fi.po.newtrunk
-# where fi.po.trunk is current trunk version, fi.po.s2_4 the improved branch
+#   msgmerge --compendium=fi.po.trunk fi.po.s2_5 freeciv.pot -o fi.po.newtrunk
+# where fi.po.trunk is current trunk version, fi.po.s2_5 the improved branch
 # version, freeciv.pot an up-to-date POT for the trunk.
 # Then upload the resulting  fi.po.newtrunk to trunk.
 #
-# For nationality translations, see http://www.kotus.fi/index.phtml?s=2377 
+# For nationality translations, see
+# http://www.kotus.fi/julkaisut/nimijulkaisut/paikannimijulkaisut/maat_paakaupungit_ja_kansalaisuudet
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.4\n"
+"Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2015-10-23 19:07+0300\n"
-"PO-Revision-Date: 2015-02-13 04:35+0200\n"
+"POT-Creation-Date: 2016-01-22 12:56+0200\n"
+"PO-Revision-Date: 2016-04-11 10:08+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
