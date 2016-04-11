@@ -1033,7 +1033,7 @@ static const act_func af_map[ACTION_COUNT] = {
 };
 
 /**************************************************************************
-  Add an entry for an action in the action choise dialog.
+  Add an entry for an action in the action choice dialog.
 **************************************************************************/
 static void action_entry(const enum gen_action act,
                          const int *action_probabilities,
