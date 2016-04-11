@@ -940,7 +940,7 @@ static int unquote_block(const char *const quoted_, void *dest,
   parsed = sscanf(quoted, "%d", &length);
   fc_assert_ret_val(1 == parsed, 0);
 
-  if (length <= dest_length) {
+  if (length > dest_length) {
     return 0;
   }
   quoted = strchr(quoted, ':');
