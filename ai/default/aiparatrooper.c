@@ -374,7 +374,7 @@ void dai_choose_paratrooper(struct player *pplayer, struct city *pcity,
     profit = calculate_want_for_paratrooper(virtual_unit, pcity->tile);
     unit_virtual_destroy(virtual_unit);
 
-    /* update choise struct if it's worth */
+    /* update choice struct if it's worth */
     if (profit > choice->want) {
       /* Update choice */
       choice->want = profit;
