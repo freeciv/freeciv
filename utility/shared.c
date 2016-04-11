@@ -79,24 +79,36 @@
 #endif
 #endif
 
+#ifndef DIR_SEPARATOR
+#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
+  /* Win32, OS/2, DOS */
+# define DIR_SEPARATOR "\\"
+# define DIR_SEPARATOR_CHAR '\\'
+#else
+  /* Unix */
+# define DIR_SEPARATOR "/"
+# define DIR_SEPARATOR_CHAR '/'
+#endif
+#endif
+
 #define PARENT_DIR_OPERATOR ".."
 
 /* If no default data path is defined use the default default one */
 #ifndef DEFAULT_DATA_PATH
 #define DEFAULT_DATA_PATH "." PATH_SEPARATOR \
                           "data" PATH_SEPARATOR \
-                          FREECIV_STORAGE_DIR DATASUBDIR
+                          FREECIV_STORAGE_DIR DIR_SEPARATOR DATASUBDIR
 #endif
 #ifndef DEFAULT_SAVE_PATH
 #define DEFAULT_SAVE_PATH "." PATH_SEPARATOR \
-                          FREECIV_STORAGE_DIR "/saves"
+                          FREECIV_STORAGE_DIR DIR_SEPARATOR "saves"
 #endif
 #ifndef DEFAULT_SCENARIO_PATH
 #define DEFAULT_SCENARIO_PATH                          \
   "." PATH_SEPARATOR                                   \
-  "data/scenarios" PATH_SEPARATOR                      \
-  FREECIV_STORAGE_DIR DATASUBDIR "/scenarios" PATH_SEPARATOR \
-  FREECIV_STORAGE_DIR "/scenarios"
+  "data" DIR_SEPARATOR "scenarios" PATH_SEPARATOR                      \
+  FREECIV_STORAGE_DIR DATASUBDIR DIR_SEPARATOR "scenarios" PATH_SEPARATOR \
+  FREECIV_STORAGE_DIR DIR_SEPARATOR "scenarios"
 #endif /* DEFAULT_SCENARIO_PATH */
 
 /* environment */
@@ -984,15 +996,15 @@ static char *expand_dir(char *tok_in, bool ok_to_free)
 
   tok = skip_leading_spaces(tok_in);
   remove_trailing_spaces(tok);
-  if (strcmp(tok, "/") != 0) {
-    remove_trailing_char(tok, '/');
+  if (strcmp(tok, DIR_SEPARATOR) != 0) {
+    remove_trailing_char(tok, DIR_SEPARATOR_CHAR);
   }
 
   i = strlen(tok);
   if (tok[0] == '~') {
-    if (i > 1 && tok[1] != '/') {
+    if (i > 1 && tok[1] != DIR_SEPARATOR_CHAR) {
       log_error("For \"%s\" in path cannot expand '~'"
-                " except as '~/'; ignoring", tok);
+                " except as '~" DIR_SEPARATOR "'; ignoring", tok);
       i = 0;  /* skip this one */
     } else {
       char *home = user_home_dir();
@@ -1196,7 +1208,7 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
   struct strvec *files = strvec_new();
   size_t suffix_len = strlen(suffix);
 
-  fc_assert_ret_val(!strchr(suffix, '/'), NULL);
+  fc_assert_ret_val(!strchr(suffix, DIR_SEPARATOR_CHAR), NULL);
 
   if (NULL == dirs) {
     return files;
@@ -1267,6 +1279,13 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
 ***************************************************************************/
 const char *fileinfoname(const struct strvec *dirs, const char *filename)
 {
+#ifdef WIN32_NATIVE
+  char fnbuf[strlen(filename) + 1];
+  int i;
+#else  /* WIN32_NATIVE */
+  const char *fnbuf = filename;
+#endif /* WIN32_NATIVE */
+
   if (NULL == dirs) {
     return NULL;
   }
@@ -1287,10 +1306,21 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
     return astr_str(&realfile);
   }
 
+#ifdef WIN32_NATIVE
+  for (i = 0; filename[i] != '\0'; i++) {
+    if (filename[i] == '/') {
+      fnbuf[i] = DIR_SEPARATOR_CHAR;
+    } else {
+      fnbuf[i] = filename[i];
+    }
+  }
+  fnbuf[i] = '\0';
+#endif /* WIN32_NATIVE */
+
   strvec_iterate(dirs, dirname) {
     struct stat buf;    /* see if we can open the file or directory */
 
-    astr_set(&realfile, "%s/%s", dirname, filename);
+    astr_set(&realfile, "%s" DIR_SEPARATOR "%s", dirname, fnbuf);
     if (fc_stat(astr_str(&realfile), &buf) == 0) {
       return astr_str(&realfile);
     }
@@ -1824,8 +1854,8 @@ void free_multicast_group(void)
 ***************************************************************************/
 void interpret_tilde(char* buf, size_t buf_size, const char* filename)
 {
-  if (filename[0] == '~' && filename[1] == '/') {
-    fc_snprintf(buf, buf_size, "%s/%s", user_home_dir(), filename + 2);
+  if (filename[0] == '~' && filename[1] == DIR_SEPARATOR_CHAR) {
+    fc_snprintf(buf, buf_size, "%s" DIR_SEPARATOR "%s", user_home_dir(), filename + 2);
   } else if (filename[0] == '~' && filename[1] == '\0') {
     strncpy(buf, user_home_dir(), buf_size);
   } else  {
@@ -1841,7 +1871,7 @@ void interpret_tilde(char* buf, size_t buf_size, const char* filename)
 ***************************************************************************/
 char *interpret_tilde_alloc(const char* filename)
 {
-  if (filename[0] == '~' && filename[1] == '/') {
+  if (filename[0] == '~' && filename[1] == DIR_SEPARATOR_CHAR) {
     const char *home = user_home_dir();
     size_t sz;
     char *buf;
@@ -1868,7 +1898,7 @@ char *skip_to_basename(char *filepath)
   fc_assert_ret_val(NULL != filepath, NULL);
 
   for (j = strlen(filepath); j >= 0; j--) {
-    if (filepath[j] == '/') {
+    if (filepath[j] == DIR_SEPARATOR_CHAR) {
       return &filepath[j+1];
     }
   }
@@ -1887,7 +1917,7 @@ bool make_dir(const char *pathname)
   path = interpret_tilde_alloc(pathname);
   dir = path;
   do {
-    dir = strchr(dir, '/');
+    dir = strchr(dir, DIR_SEPARATOR_CHAR);
     /* We set the current / with 0, and restore it afterwards */
     if (dir) {
       *dir = 0;
@@ -1902,7 +1932,7 @@ bool make_dir(const char *pathname)
 #endif
 
     if (dir) {
-      *dir = '/';
+      *dir = DIR_SEPARATOR_CHAR;
       dir++;
     }
   } while (dir);

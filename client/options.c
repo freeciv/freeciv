@@ -5056,6 +5056,17 @@ static void save_cma_presets(struct section_file *file)
   }
 }
 
+#ifndef DIR_SEPARATOR
+#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
+  /* Win32, OS/2, DOS */
+# define DIR_SEPARATOR "\\"
+# define DIR_SEPARATOR_CHAR '\\'
+#else
+  /* Unix */
+# define DIR_SEPARATOR "/"
+# define DIR_SEPARATOR_CHAR '/'
+#endif
+#endif
 
 /* Old rc file name. */
 #define OLD_OPTION_FILE_NAME ".civclientrc"
@@ -5108,7 +5119,7 @@ static const char *get_current_option_file_name(void)
       return NULL;
     }
     fc_snprintf(name_buffer, sizeof(name_buffer),
-                "%s/" NEW_OPTION_FILE_NAME, name,
+                "%s" DIR_SEPARATOR NEW_OPTION_FILE_NAME, name,
                 MAJOR_NEW_OPTION_FILE_NAME, MINOR_NEW_OPTION_FILE_NAME);
 #endif /* OPTION_FILE_NAME */
   }
@@ -5165,7 +5176,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
               ? minor >= FIRST_MINOR_NEW_OPTION_FILE_NAME 
               : minor >= 0); minor--) {
         fc_snprintf(name_buffer, sizeof(name_buffer),
-                    "%s/" NEW_OPTION_FILE_NAME, name, major, minor);
+                    "%s" DIR_SEPARATOR NEW_OPTION_FILE_NAME, name, major, minor);
         if (0 == fc_stat(name_buffer, &buf)) {
           if (MAJOR_NEW_OPTION_FILE_NAME != major
               || MINOR_NEW_OPTION_FILE_NAME != minor) {
@@ -5197,7 +5208,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
          minor >= FIRST_MINOR_MID_OPTION_FILE_NAME ;
          minor--) {
       fc_snprintf(name_buffer, sizeof(name_buffer),
-                  "%s/" MID_OPTION_FILE_NAME, name, major, minor);
+                  "%s" DIR_SEPARATOR MID_OPTION_FILE_NAME, name, major, minor);
       if (0 == fc_stat(name_buffer, &buf)) {
         log_normal(_("Didn't find '%s' option file, "
                      "loading from '%s' instead."),
@@ -5213,7 +5224,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
 
     /* Try with the old one. */
     fc_snprintf(name_buffer, sizeof(name_buffer),
-                "%s/" OLD_OPTION_FILE_NAME, name);
+                "%s" DIR_SEPARATOR OLD_OPTION_FILE_NAME, name);
     if (0 == fc_stat(name_buffer, &buf)) {
       log_normal(_("Didn't find '%s' option file, "
                    "loading from '%s' instead."),

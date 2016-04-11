@@ -289,8 +289,6 @@ if test "x$MODPACK_LIST_URL" != "x" ; then
   AC_DEFINE_UNQUOTED([MODPACK_LIST_URL], ["${MODPACK_LIST_URL}"], [Default modpack list URL])
 fi
 
-AC_DEFINE_UNQUOTED([FREECIV_STORAGE_DIR], ["$FREECIV_STORAGE_DIR"], [Location for freeciv to store its information])
-
 AC_ARG_WITH([readline],
   AS_HELP_STRING([--with-readline], [support fancy command line editing]),
 WITH_READLINE=$withval,	dnl yes/no - required to use / never use
@@ -715,6 +713,7 @@ fi
 
 dnl Defaults to override with host specific values
 HOST_PATH_SEPARATOR=":"
+HOST_DIR_SEPARATOR="/"
 
 dnl Settings specific to host OS
 case "$host_os" in
@@ -727,6 +726,9 @@ case "$host_os" in
     fi
 
     HOST_PATH_SEPARATOR=";"
+    HOST_DIR_SEPARATOR="\\"
+
+    FREECIV_STORAGE_DIR=$(echo $FREECIV_STORAGE_DIR | $SED 's,/,\\\\\\\\,g')
 
     AC_DEFINE([FREECIV_SOCKET_ZERO_NOT_STDIN], [1], [Mingw-specific setting - stdin])
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw])
@@ -763,11 +765,13 @@ dnl if test x$build = x$host ; then
 dnl   HOST_PATH_SEPARATOR=$PATH_SEPARATOR
 dnl fi
 
+AC_DEFINE_UNQUOTED([FREECIV_STORAGE_DIR], ["$FREECIV_STORAGE_DIR"], [Location for freeciv to store its information])
+
 dnl note this has to match the path installed by translations/*/Makefile
 if test x"$MINGW" != "xyes"; then
   CPPFLAGS="$CPPFLAGS -DLOCALEDIR=\"\\\"$localedir\\\"\""
 else
-  AC_DEFINE_UNQUOTED([LOCALEDIR], ["./share/locale"], [Locale directory (windows)])
+  AC_DEFINE_UNQUOTED([LOCALEDIR], [".\\\\share\\\\locale"], [Locale directory (windows)])
 fi
 
 CPPFLAGS="$CPPFLAGS -DBINDIR=\"\\\"$bindir\\\"\""
@@ -1206,6 +1210,7 @@ AC_SUBST([SOUND_LIBS])
 AC_SUBST([VERSION_WITHOUT_LABEL])
 AC_SUBST([VERSION_LABEL])
 AC_SUBST([HOST_PATH_SEPARATOR])
+AC_SUBST([HOST_DIR_SEPARATOR])
 AC_SUBST([FREECIV_STORAGE_DIR])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" != "xno")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
@@ -1356,15 +1361,15 @@ dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 
 if test x"$MINGW" = xyes; then
-  DEFAULT_SAVE_PATH=".;$FREECIV_STORAGE_DIR/saves"
+  DEFAULT_SAVE_PATH=".;$FREECIV_STORAGE_DIR\\\\\\\\saves"
   if test x$crosser = xyes ; then
     FC_CONF_PATH="../etc/freeciv"
     DEFAULT_DATA_PATH=".;data;$FREECIV_STORAGE_DIR/$DATASUBDIR;$datadir/freeciv;../share/freeciv"
     DEFAULT_SCENARIO_PATH=".;data/scenarios;$FREECIV_STORAGE_DIR/$DATASUBDIR/scenarios;$FREECIV_STORAGE_DIR/scenarios;$datadir/freeciv/scenarios;../share/freeciv/scenarios"
   else
-    FC_CONF_PATH="etc/freeciv"
-    DEFAULT_DATA_PATH=".;data;$FREECIV_STORAGE_DIR/$DATASUBDIR;$datadir/freeciv"
-    DEFAULT_SCENARIO_PATH=".;data/scenarios;$FREECIV_STORAGE_DIR/$DATASUBDIR/scenarios;$FREECIV_STORAGE_DIR/scenarios;$datadir/freeciv/scenarios"
+    FC_CONF_PATH="etc\\\\\\\\freeciv"
+    DEFAULT_DATA_PATH=".;data;$FREECIV_STORAGE_DIR\\\\\\\\$DATASUBDIR;$datadir\\\\\\\\freeciv"
+    DEFAULT_SCENARIO_PATH=".;data\\\\\\\\scenarios;$FREECIV_STORAGE_DIR\\\\\\\\$DATASUBDIR\\\\\\\\scenarios;$FREECIV_STORAGE_DIR\\\\\\\\scenarios;$datadir\\\\\\\\freeciv\\\\\\\\scenarios"
   fi
 else
   FC_CONF_PATH="$sysconfdir/freeciv"

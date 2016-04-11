@@ -53,6 +53,17 @@
 
 #define CHALLENGE_ROOT "challenge"
 
+#ifndef DIR_SEPARATOR
+#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
+  /* Win32, OS/2, DOS */
+# define DIR_SEPARATOR "\\"
+# define DIR_SEPARATOR_CHAR '\\'
+#else
+  /* Unix */
+# define DIR_SEPARATOR "/"
+# define DIR_SEPARATOR_CHAR '/'
+#endif
+#endif
 
 #define SPECLIST_TAG startpos
 #define SPECLIST_TYPE struct startpos
@@ -1041,7 +1052,7 @@ static const char *get_challenge_fullname(struct connection *pc)
     return NULL;
   }
 
-  fc_snprintf(fullname, sizeof(fullname), "%s/%s", sdir, cname);
+  fc_snprintf(fullname, sizeof(fullname), "%s" DIR_SEPARATOR "%s", sdir, cname);
 
   return fullname;
 }
