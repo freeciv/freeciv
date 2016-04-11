@@ -10,7 +10,7 @@ src-check:
 	$(srcdir)/fcintl.sh $(top_srcdir) >> check-output_
 	$(srcdir)/header_guard.sh $(top_srcdir) >> check-output_
 	$(srcdir)/va_list.sh $(top_srcdir) >> check-output_
-	cat check-output_ | sed "s\\$(top_srcdir)/\\\\" > check-output
+	cat check-output_ | sed "s,$(top_srcdir)/,," > check-output
 	rm -f check-output_
 
 .PHONY: src-check
