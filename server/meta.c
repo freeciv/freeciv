@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -132,12 +132,11 @@ static const char *get_meta_type_string(void)
 }
 
 /*************************************************************************
- The metaserver message set by user
+  The metaserver message set by user
 *************************************************************************/
 const char *get_user_meta_message_string(void)
 {
-  if (game.server.meta_info.user_message
-      && game.server.meta_info.user_message[0] != '\0') {
+  if (game.server.meta_info.user_message[0] != '\0') {
     return game.server.meta_info.user_message;
   }
 
