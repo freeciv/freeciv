@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -627,7 +627,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   GtkWidget *vbox, *hbox, *table, *mainbox;
   GtkWidget *label, *sw, *view, *image, *spin;
   GtkWidget *menubar, *menuitem, *menu, *notebook;
-  struct sprite *sprite;
+  struct sprite *flag_spr;
   GtkListStore *store;
   GtkCellRenderer *rend;
   int i;
@@ -709,9 +709,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   /* Our flag */
-  sprite = get_nation_flag_sprite(tileset, nation_of_player(plr0));
-  
-  image = gtk_pixcomm_new_from_sprite(sprite);
+  flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr0));
+
+  image = gtk_image_new_from_surface(flag_spr->surface);
   gtk_container_add(GTK_CONTAINER(hbox), image);
 
   /* Our name. */
@@ -791,9 +791,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   /* Their flag */
-  sprite = get_nation_flag_sprite(tileset, nation_of_player(plr1));
-  
-  image = gtk_pixcomm_new_from_sprite(sprite);
+  flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr1));
+
+  image = gtk_image_new_from_surface(flag_spr->surface);
   gtk_container_add(GTK_CONTAINER(hbox), image);
 
   /* Their name. */
