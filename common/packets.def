@@ -359,10 +359,12 @@ end
 # client. The player hasn't been accepted yet.
 # For compatibility with older versions, this number cannot be changed.
 # Used in initial protocol.
+# 48 used instead of MAX_LEN_NAME to keep compatibility with old versions
+# even if MAX_LEN_NAME changes. Similarly 512 instead of MAX_LEN_CAPSTR.
 PACKET_SERVER_JOIN_REQ = 4; cs, dsend, no-delta, no-handle
-  STRING username[MAX_LEN_NAME];
-  STRING capability[MAX_LEN_CAPSTR];
-  STRING version_label[MAX_LEN_NAME];
+  STRING username[48];
+  STRING capability[512];
+  STRING version_label[48];
   UINT32 major_version, minor_version, patch_version;
 end
 
@@ -371,9 +373,9 @@ end
 # Used in initial protocol.
 PACKET_SERVER_JOIN_REPLY = 5; sc, no-delta, post-send, post-recv
   BOOL you_can_join;
-  STRING message[MAX_LEN_MSG];
-  STRING capability[MAX_LEN_CAPSTR];
-  STRING challenge_file[MAX_LEN_PATH];
+  STRING message[1536];        /* MAX_LEN_MSG */
+  STRING capability[512];      /* MAX_LEN_CAPSTR */
+  STRING challenge_file[4095]; /* MAX_LEN_PATH */
   # clients conn id as known in server
   CONNECTION conn_id;
 end
