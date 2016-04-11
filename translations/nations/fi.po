@@ -12,20 +12,21 @@
 # Merging translations upwards to e.g. TRUNK is fine, do not merge downwards
 # by default.
 #
-# Prioritizing stable branch 2_4 for translations (June 2014), merge
+# Prioritizing stable branch 2_5 for translations (April 2016), merge
 # to trunk when feeling like it with:
-#   msgmerge --compendium=fi.po.trunk fi.po.s2_4 freeciv.pot -o fi.po.newtrunk
-# where fi.po.trunk is current trunk version, fi.po.s2_4 the improved branch
+#   msgmerge --compendium=fi.po.trunk fi.po.s2_5 freeciv.pot -o fi.po.newtrunk
+# where fi.po.trunk is current trunk version, fi.po.s2_5 the improved branch
 # version, freeciv.pot an up-to-date POT for the trunk.
 # Then upload the resulting  fi.po.newtrunk to trunk.
 #
-# For nationality translations, see http://www.kotus.fi/index.phtml?s=2377 
+# For nationality translations, see
+# http://www.kotus.fi/julkaisut/nimijulkaisut/paikannimijulkaisut/maat_paakaupungit_ja_kansalaisuudet
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.4\n"
+"Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-08 18:00+0100\n"
-"PO-Revision-Date: 2015-02-13 04:35+0200\n"
+"POT-Creation-Date: 2014-07-21 00:15+0300\n"
+"PO-Revision-Date: 2016-04-11 10:08+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -999,8 +1000,7 @@ msgstr "Vouti %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34
-#: data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1020,13 +1020,13 @@ msgstr "Vouti %s"
 #: data/nation/panamanian.ruleset:30 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
 #: data/nation/savoyard.ruleset:32 data/nation/saxon.ruleset:22
-#: data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
-#: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
-#: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/yucatecan.ruleset:31 data/nation/zimbabwean.ruleset:26
+#: data/nation/schleswig-holsteinian.ruleset:27 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:19 data/nation/thuringian.ruleset:43
+#: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/vincentian.ruleset:25
+#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
+#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:31
+#: data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr "Piispa %s"
