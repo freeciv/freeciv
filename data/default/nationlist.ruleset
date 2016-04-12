@@ -99,12 +99,15 @@ hidden=true
 ; do not have some of them (if a referenced game identifier is not on these
 ; lists, it will cause an error, to allow typos to be spotted)
 
+; Nations can specify terrain types and river for "natural" city names.
+
 allowed_govs =
   "Anarchy", "Despotism", "Monarchy", "Communism", "Fundamentalism",
   "Republic", "Democracy"
 allowed_terrains =
   "Lake", "Ocean", "Desert", "Forest", "Grassland", "Hills", "Jungle",
-  "Mountains", "Plains", "Swamp", "Tundra", "Glacier", "River"
+  "Mountains", "Plains", "Swamp", "Tundra", "Glacier", "Deep Ocean",
+  "River"
 allowed_styles =
   "European", "Classical", "Tropical", "Asian", "Babylonian", "Celtic"
 
