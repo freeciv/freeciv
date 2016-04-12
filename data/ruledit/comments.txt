@@ -65,3 +65,67 @@ buildings = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+techs = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Below: The individual advances, one per section.\n\
+; The number can be variable, up to 196.\n\
+;\n\
+; The actual tag used (the * in [advance_*]) does not matter, except\n\
+; it must be unique within this file, and it may be used in debug\n\
+; output when reading this file.\n\
+;\n\
+; Notes:\n\
+;\n\
+; name          = translatable name as seen by user\n\
+; rule_name     = (optional) name for savegames, rulesets etc; if not\n\
+;                 present, 'name' is used. Since the name used in savegames\n\
+;                 must not change, use this when renaming a tech after a\n\
+;                 ruleset has been released.\n\
+; req1, req2	= advances required before researching this one\n\
+; root_req      = tech required before acquiring this tech, by any\n\
+;                 means, inherited by all techs that require this tech in turn\n\
+;                 unless \"None\" is given here explicitly; and you can make\n\
+;                 a tech available only through the init_tech of a nation by\n\
+;                 making it root_req itself.\n\
+; research_reqs = requirements before researching this one. Can have non\n\
+;                 tech requirements because it is a requirement vector.\n\
+;                 See doc/README.effects to learn more about requirement\n\
+;                 vectors.\n\
+;                 Requireing a tech here in stead of in req1, req2 or\n\
+;                 root_req is not supported yet.\n\
+;                 Requirements that may become fulfilled during the game\n\
+;                 when they weren't at the start of the game is not\n\
+;                 supported yet.\n\
+; flags         = special flag strings\n\
+; graphic       = icon for technology\n\
+; graphic_alt   = alternate icon\n\
+; helptext	= optional help text string (set units ruleset for examples)\n\
+; bonus_message = text seen when a player is the first to discover\n\
+;                 an bonus tech. Must contain '%s' to mark place of the tech\n\
+;                 gained.\n\
+; cost          = if tech_cost_style is set to \"Classic+\" or \"Experimental+\",\n\
+;                 this field is read for information on how much a tech\n\
+;                 costs.\n\
+;\n\
+; Special values for req1 and req2 are \"None\" (first section below)\n\
+; and \"Never\" (never available).  If only one tech is required,\n\
+; it should be listed as req1.\n\
+;\n\
+; As well as custom flags defined above, the following flag strings are\n\
+; possible:\n\
+;\n\
+; \"Bonus_Tech\"          = player gets extra tech if reached first\n\
+; \"Bridge\"              = \"Settler\" unit types can build roads with\n\
+;                         \"RequiresBridge\" flag over roads with\n\
+;                         \"PreventsOtherRoads\" flag (rivers)\n\
+; \"Build_Airborne\"      = from now on can build air units (for use by AI)\n\
+; \"Claim_Ocean\"         = Player claims ocean tiles even if they are not\n\
+;                         adjacent to border source\n\
+; \"Claim_Ocean_Limited\" = Oceanic border sources claim ocean tiles even if\n\
+;                         they are not adjacent to border source\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

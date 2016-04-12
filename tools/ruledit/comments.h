@@ -25,6 +25,7 @@ void comments_free(void);
 void comment_file_header(struct section_file *sfile);
 
 void comment_buildings(struct section_file *sfile);
+void comment_techs(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

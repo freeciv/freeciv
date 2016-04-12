@@ -25,6 +25,7 @@
 static struct {
   char *file_header;
   char *buildings;
+  char *techs;
 } comments_storage;
 
 /**************************************************************************
@@ -48,6 +49,7 @@ bool comments_load(void)
 
   comments_storage.file_header = fc_strdup(secfile_lookup_str(comment_file, "common.header"));
   comments_storage.buildings = fc_strdup(secfile_lookup_str(comment_file, "typedoc.buildings"));
+  comments_storage.techs = fc_strdup(secfile_lookup_str(comment_file, "typedoc.techs"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -91,4 +93,12 @@ void comment_file_header(struct section_file *sfile)
 void comment_buildings(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.buildings, "Buildings");
+}
+
+/**************************************************************************
+  Write techs header.
+**************************************************************************/
+void comment_techs(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.techs, "Techs");
 }

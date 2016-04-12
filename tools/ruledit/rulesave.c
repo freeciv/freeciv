@@ -1691,6 +1691,8 @@ static bool save_techs_ruleset(const char *filename, const char *name)
     }
   }
 
+  comment_techs(sfile);
+
   sect_idx = 0;
   advance_iterate(A_FIRST, pa) {
     if (pa->require[AR_ONE] != A_NEVER) {
