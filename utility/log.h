@@ -207,6 +207,11 @@ void fc_assert_fail(const char *file, const char *function, int line,
 #ifdef FREECIV_C11_STATIC_ASSERT
 #define FC_STATIC_ASSERT(cond, tag) _Static_assert(cond, #tag)
 #endif /* FREECIV_C11_STATIC_ASSERT */
+#ifdef FREECIV_STATIC_STRLEN
+#define FC_STATIC_STRLEN_ASSERT(cond, tag) FC_STATIC_ASSERT(cond, tag)
+#else  /* FREECIV_STATIC_STRLEN */
+#define FC_STATIC_STRLEN_ASSERT(cond, tag)
+#endif /* FREECIV_STATIC_STRLEN */
 #endif /* __cplusplus */
 
 #ifndef FC_STATIC_ASSERT

@@ -137,6 +137,9 @@
 /* C11 static assert supported */
 #undef FREECIV_C11_STATIC_ASSERT
 
+/* strlen() in static assert supported */
+#undef FREECIV_STATIC_STRLEN
+
 /* C++11 static assert supported */
 #undef FREECIV_CXX11_STATIC_ASSERT
 

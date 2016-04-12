@@ -13,6 +13,22 @@ AC_DEFUN([FC_C11_STATIC_ASSERT],
   fi
 ])
 
+AC_DEFUN([FC_STATIC_STRLEN],
+[
+  AC_REQUIRE([FC_C11_STATIC_ASSERT])
+  if test "x${ac_cv_c11_static_assert}" = "xyes" ; then
+    AC_CACHE_CHECK([for strlen() usability in static assert], [ac_cv_static_strlen],
+      [AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <assert.h>
+#include <string.h>
+static const char str[] = "12345";
+]], [[_Static_assert(5 == strlen(str), "Wrong length"); ]])],
+[ac_cv_static_strlen=yes], [ac_cv_static_strlen=no])])
+    if test "x${ac_cv_static_strlen}" = "xyes" ; then
+      AC_DEFINE([FREECIV_STATIC_STRLEN], [1], [strlen() in static assert supported])
+    fi
+  fi
+])
+
 AC_DEFUN([FC_C11_AT_QUICK_EXIT],
 [
   AC_CACHE_CHECK([for C11 at_quick_exit()], [ac_cv_c11_at_quick_exit], [

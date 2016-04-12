@@ -5751,8 +5751,8 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_PERFORM_ACTION:
           action_buf[j] = num2char(punit->orders.list[j].action);
           /* Encoding with num2char() limits the number of actions. */
-          FC_STATIC_ASSERT(ACTION_COUNT <= strlen(num_chars),
-                           can_not_encode_all_actions);
+          FC_STATIC_STRLEN_ASSERT(ACTION_COUNT <= strlen(num_chars),
+                                  can_not_encode_all_actions);
 
           tgt_vec[j] = punit->orders.list[j].target;
           if (direction8_is_valid(punit->orders.list[j].dir)) {
