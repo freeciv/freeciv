@@ -5985,8 +5985,11 @@ static void sg_load_player_vision(struct loaddata *loading,
   sg_check_ret();
 
   if (!plr->is_alive) {
-    /* Reveal all for dead players. */
-    map_know_and_see_all(plr);
+    if (game.server.revealmap & REVEAL_MAP_DEAD
+        && player_list_size(team_members(plr->team)) == 1) {
+      /* Reveal all for dead players. */
+      map_know_and_see_all(plr);
+    }
   }
 
   if (!plr->is_alive
