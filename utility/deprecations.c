@@ -17,6 +17,8 @@
 
 #include "fc_prehdrs.h"
 
+#include <stdarg.h>
+
 /* utility */
 #include "log.h"
 #include "shared.h"
