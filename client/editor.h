@@ -20,7 +20,7 @@ extern "C" {
 
 #include "fc_types.h"
 
-/* See client/gui-gtk-2.0/editprop.c for instructions
+/* See client/gui-gtk-3.0/editprop.c for instructions
  * on how to add more object types. */
 enum editor_object_type {
   OBJTYPE_TILE = 0,
@@ -61,6 +61,8 @@ enum editor_tool_mode {
 void editor_init(void);
 void editor_clear(void);
 void editor_free(void);
+
+void editor_ruleset_changed(void);
 
 bool editor_is_active(void);
 enum editor_tool_type editor_get_tool(void);
@@ -192,7 +194,7 @@ do {\
 
 #define edit_buffer_type_iterate_end \
   }\
-} while (0)
+} while (FALSE)
 
 #ifdef __cplusplus
 }

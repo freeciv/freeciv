@@ -3103,6 +3103,9 @@ void handle_rulesets_ready(void)
     unit_type_action_cache_set(ptype);
   } unit_type_iterate_end;
 
+  /* Adjust editor for changed ruleset. */
+  editor_ruleset_changed();
+
   /* We are not going to crop any more sprites from big sprites, free them. */
   finish_loading_sprites(tileset);
 
