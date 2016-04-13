@@ -183,7 +183,7 @@ static void create_colinfo (lua_State *L, cur_data *cur) {
 /*
 ** Closes the cursos and nullify all structure fields.
 */
-static void cur_nullify (lua_State *L, cur_data *cur) {
+static int cur_nullify (lua_State *L, cur_data *cur) {
 	/* Nullify structure fields. */
 	cur->closed = 1;
 	mysql_free_result(cur->my_res);
@@ -282,7 +282,7 @@ static int cur_close (lua_State *L) {
 ** a reference to it on the cursor structure.
 */
 static void _pushtable (lua_State *L, cur_data *cur, size_t off) {
-        int *ref = (int *)(cur + off/sizeof(int));
+	int *ref = (int *)((char *)cur + off);
 
 	/* If colnames or coltypes do not exist, create both. */
 	if (*ref == LUA_NOREF)
@@ -316,7 +316,7 @@ static int cur_getcoltypes (lua_State *L) {
 ** Push the number of rows.
 */
 static int cur_numrows (lua_State *L) {
-	lua_pushnumber (L, (lua_Number)mysql_num_rows (getcursor(L)->my_res));
+	lua_pushinteger (L, (lua_Number)mysql_num_rows (getcursor(L)->my_res));
 	return 1;
 }
 
@@ -409,7 +409,7 @@ static int conn_execute (lua_State *L) {
 		else { /* mysql_use_result() returned nothing; should it have? */
 			if(num_cols == 0) { /* no tuples returned */
             	/* query does not return data (it was not a SELECT) */
-				lua_pushnumber(L, mysql_affected_rows(conn->my_conn));
+				lua_pushinteger(L, mysql_affected_rows(conn->my_conn));
 				return 1;
         	}
 			else /* mysql_use_result() should have returned data */
@@ -460,7 +460,7 @@ static int conn_setautocommit (lua_State *L) {
 */
 static int conn_getlastautoid (lua_State *L) {
   conn_data *conn = getconnection(L);
-  lua_pushnumber(L, mysql_insert_id(conn->my_conn));
+  lua_pushinteger(L, mysql_insert_id(conn->my_conn));
   return 1;
 }
 
