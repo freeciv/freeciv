@@ -136,12 +136,12 @@ void research_diagram::create_tooltip_help()
   for (i = 0; i < tree->num_layers; i++) {
     for (j = 0; j < tree->layer_size[i]; j++) {
       struct tree_node *node = tree->layers[i][j];
-      int startx, starty, width, height;
+      int startx, starty, nwidth, nheight;
 
       startx = node->node_x;
       starty = node->node_y;
-      width = node->node_width;
-      height = node->node_height;
+      nwidth = node->node_width;
+      nheight = node->node_height;
 
       if (!node->is_dummy) {
         const char *text = research_advance_name_translation(
@@ -151,7 +151,7 @@ void research_diagram::create_tooltip_help()
 
         get_text_size(&text_w, &text_h, FONT_REQTREE_TEXT, text);
         rttp = new req_tooltip_help();
-        rttp->rect = QRect(startx + (width - text_w) / 2, starty + 4,
+        rttp->rect = QRect(startx + (nwidth - text_w) / 2, starty + 4,
                            text_w, text_h);
         rttp->tech_id = node->tech;
         tt_help.append(rttp);
@@ -166,7 +166,7 @@ void research_diagram::create_tooltip_help()
             get_sprite_dimensions(sprite, &swidth, &sheight);
             rttp = new req_tooltip_help();
             rttp->rect = QRect(icon_startx, starty + text_h + 4
-                               + (height - text_h - 4 - sheight) / 2,
+                               + (nheight - text_h - 4 - sheight) / 2,
                                swidth, sheight);
             rttp->tunit = unit;
             tt_help.append(rttp);
@@ -182,7 +182,7 @@ void research_diagram::create_tooltip_help()
                   get_sprite_dimensions(sprite, &swidth, &sheight);
                   rttp = new req_tooltip_help();
                   rttp->rect = QRect(icon_startx, starty + text_h + 4
-                                     + (height - text_h - 4 - sheight) / 2,
+                                     + (nheight - text_h - 4 - sheight) / 2,
                                      swidth, sheight);
                   rttp->timpr = pimprove;
                   tt_help.append(rttp);
@@ -200,7 +200,7 @@ void research_diagram::create_tooltip_help()
                 get_sprite_dimensions(sprite, &swidth, &sheight);
                 rttp = new req_tooltip_help();
                 rttp->rect = QRect(icon_startx, starty + text_h + 4
-                                   + (height - text_h - 4 - sheight) / 2,
+                                   + (nheight - text_h - 4 - sheight) / 2,
                                    swidth, sheight);
                 rttp->tgov = gov;
                 tt_help.append(rttp);
