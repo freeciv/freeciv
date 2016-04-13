@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,8 +33,8 @@ void *get_packet_from_connection_json(struct connection *pc,
   \
   dio_output_init(&(dout.raw), buffer, sizeof(buffer)); \
   dio_put_uint16_raw(&(dout.raw), 0);                   \
-  pid_addr = *plocation_field_new("pid");              \
-  dio_put_uint8_json(&dout, "pid", &pid_addr, packet_type);
+  pid_addr = *plocation_field_new("pid");               \
+  dio_put_uint8_json(&dout, &pid_addr, packet_type);
 
 #define SEND_PACKET_END(packet_type) \
   { \

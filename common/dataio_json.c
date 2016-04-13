@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -194,7 +194,7 @@ static json_t *plocation_read_data(json_t *item,
   Insert 8 bit value with json.
 **************************************************************************/
 void dio_put_uint8_json(struct json_data_out *dout,
-                        char *key, const struct plocation* location,
+                        const struct plocation *location,
                         int value)
 {
   plocation_write_data(dout->json, location, json_integer(value));
@@ -203,8 +203,8 @@ void dio_put_uint8_json(struct json_data_out *dout,
 /**************************************************************************
   Insert value using 32 bits. May overflow.
 **************************************************************************/
-void dio_put_uint16_json(struct json_data_out *dout, char *key,
-                         const struct plocation* location, int value)
+void dio_put_uint16_json(struct json_data_out *dout,
+                         const struct plocation *location, int value)
 {
   plocation_write_data(dout->json, location, json_integer(value));
 }
@@ -213,8 +213,8 @@ void dio_put_uint16_json(struct json_data_out *dout, char *key,
   Insert unit type numbers from value array as 8 bit values until there is
   value U_LAST or MAX_NUM_UNIT_LIST numbers have been inserted.
 **************************************************************************/
-void dio_put_unit_list_json(struct json_data_out *dout, char *key,
-                            const struct plocation* location,
+void dio_put_unit_list_json(struct json_data_out *dout,
+                            const struct plocation *location,
                             const int *value)
 {
   /* TODO: implement */
@@ -224,8 +224,8 @@ void dio_put_unit_list_json(struct json_data_out *dout, char *key,
   Insert building type numbers from value array as 8 bit values until there
   is value B_LAST or MAX_NUM_BUILDING_LIST numbers have been inserted.
 **************************************************************************/
-void dio_put_building_list_json(struct json_data_out *dout, char *key,
-                                const struct plocation* location,
+void dio_put_building_list_json(struct json_data_out *dout,
+                                const struct plocation *location,
                                 const int *value)
 {
   /* TODO: implement */
@@ -234,29 +234,29 @@ void dio_put_building_list_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_worklist_json(struct json_data_out *dout, char *key,
-                           const struct plocation* location,
+void dio_put_worklist_json(struct json_data_out *dout,
+                           const struct plocation *location,
                            const struct worklist *pwl)
 {
   /* TODO: implement */
 }
 
 /**************************************************************************
- Receive uint8 value to dest with json.
+  Receive uint8 value to dest with json.
 **************************************************************************/
-bool dio_get_uint8_json(json_t *json_packet, char *key,
-                        const struct plocation* location, int *dest)
+bool dio_get_uint8_json(json_t *json_packet,
+                        const struct plocation *location, int *dest)
 {
   json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
-    log_error("ERROR: Unable to get uint8 with key: %s", key);
+    log_error("ERROR: Unable to get uint8 from location: %s", plocation_name(location));
     return FALSE;
   } 
   *dest = json_integer_value(pint);
 
   if (!dest) {
-    log_error("ERROR: Unable to get unit8 with key: %s", key);
+    log_error("ERROR: Unable to get unit8 from location: %s", plocation_name(location));
     return FALSE;
   }
 
@@ -266,19 +266,19 @@ bool dio_get_uint8_json(json_t *json_packet, char *key,
 /**************************************************************************
  Receive uint16 value to dest with json.
 **************************************************************************/
-bool dio_get_uint16_json(json_t *json_packet, char *key,
-                         const struct plocation* location, int *dest)
+bool dio_get_uint16_json(json_t *json_packet,
+                         const struct plocation *location, int *dest)
 {
   json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
-    log_error("ERROR: Unable to get uint16 with key: %s", key);
+    log_error("ERROR: Unable to get uint16 from location: %s", plocation_name(location));
     return FALSE;
   } 
   *dest = json_integer_value(pint);
 
   if (!dest) {
-    log_error("ERROR: Unable to get unit16 with key: %s", key);
+    log_error("ERROR: Unable to get unit16 from location: %s", plocation_name(location));
     return FALSE;
   }
 
@@ -288,19 +288,19 @@ bool dio_get_uint16_json(json_t *json_packet, char *key,
 /**************************************************************************
  ..
 **************************************************************************/
-bool dio_get_uint32_json(json_t *json_packet, char *key,
-                         const struct plocation* location, int *dest)
+bool dio_get_uint32_json(json_t *json_packet,
+                         const struct plocation *location, int *dest)
 {
   json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
-    log_error("ERROR: Unable to get uint32 with key: %s", key);
+    log_error("ERROR: Unable to get uint32 from location: %s", plocation_name(location));
     return FALSE;
   } 
   *dest = json_integer_value(pint);
 
   if (!dest) {
-    log_error("ERROR: Unable to get unit32 with key: %s", key);
+    log_error("ERROR: Unable to get unit32 from location: %s", plocation_name(location));
     return FALSE;
   }
 
@@ -310,8 +310,8 @@ bool dio_get_uint32_json(json_t *json_packet, char *key,
 /**************************************************************************
  ..
 **************************************************************************/
-bool dio_get_tech_list_json(json_t *json_packet, char *key,
-                            const struct plocation* location, int *dest)
+bool dio_get_tech_list_json(json_t *json_packet,
+                            const struct plocation *location, int *dest)
 {
   /* TODO: implement */
   return TRUE;
@@ -321,8 +321,8 @@ bool dio_get_tech_list_json(json_t *json_packet, char *key,
   Take unit type numbers until UTYF_LAST encountered, or MAX_NUM_UNIT_LIST
   types retrieved.
 **************************************************************************/
-bool dio_get_unit_list_json(json_t *json_packet, char *key,
-                            const struct plocation* location, int *dest)
+bool dio_get_unit_list_json(json_t *json_packet,
+                            const struct plocation *location, int *dest)
 {
   /* TODO: implement */
   return TRUE;
@@ -331,8 +331,8 @@ bool dio_get_unit_list_json(json_t *json_packet, char *key,
 /**************************************************************************
  ..
 **************************************************************************/
-bool dio_get_building_list_json(json_t *json_packet, char *key,
-                                const struct plocation* location, int *dest)
+bool dio_get_building_list_json(json_t *json_packet,
+                                const struct plocation *location, int *dest)
 {
   /* TODO: implement */
   return TRUE;
@@ -341,8 +341,8 @@ bool dio_get_building_list_json(json_t *json_packet, char *key,
 /**************************************************************************
  ..
 **************************************************************************/
-bool dio_get_worklist_json(json_t *json_packet, char *key,
-                           const struct plocation* location,
+bool dio_get_worklist_json(json_t *json_packet,
+                           const struct plocation *location,
                            struct worklist *pwl)
 {
   /* TODO: implement */
@@ -352,8 +352,8 @@ bool dio_get_worklist_json(json_t *json_packet, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_uint8_vec8_json(json_t *json_packet, char *key,
-                             const struct plocation* location,
+bool dio_get_uint8_vec8_json(json_t *json_packet,
+                             const struct plocation *location,
                              int **values, int stop_value)
 {
   /* TODO: implement */
@@ -363,8 +363,8 @@ bool dio_get_uint8_vec8_json(json_t *json_packet, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_uint16_vec8_json(json_t *json_packet, char *key,
-                              const struct plocation* location,
+bool dio_get_uint16_vec8_json(json_t *json_packet,
+                              const struct plocation *location,
                               int **values,
                               int stop_value)
 {
@@ -375,8 +375,8 @@ bool dio_get_uint16_vec8_json(json_t *json_packet, char *key,
 /**************************************************************************
   Read a single requirement.
 **************************************************************************/
-bool dio_get_requirement_json(json_t *json_packet, char *key,
-                              const struct plocation* location,
+bool dio_get_requirement_json(json_t *json_packet,
+                              const struct plocation *location,
                               struct requirement *preq)
 {
   int kind, range, value;
@@ -387,50 +387,50 @@ bool dio_get_requirement_json(json_t *json_packet, char *key,
   /* Find the requirement object. */
   json_t *requirement = plocation_read_data(json_packet, location);
   if (!requirement) {
-    log_error("ERROR: Unable to get requirement with key: %s", key);
+    log_error("ERROR: Unable to get requirement from location: %s", plocation_name(location));
     return FALSE;
   }
 
   /* Find the requirement object fields and translate their values. */
   req_field = *plocation_field_new("kind");
-  if (!dio_get_uint8_json(requirement, "kind", &req_field, &kind)) {
-    log_error("ERROR: Unable to get part of requirement with key: %s",
-              key);
+  if (!dio_get_uint8_json(requirement, &req_field, &kind)) {
+    log_error("ERROR: Unable to get part of requirement from location: %s",
+              plocation_name(location));
     return FALSE;
   }
 
   req_field.name = "value";
-  if (!dio_get_sint32_json(requirement, "value", &req_field, &value)) {
-    log_error("ERROR: Unable to get part of requirement with key: %s",
-              key);
+  if (!dio_get_sint32_json(requirement, &req_field, &value)) {
+    log_error("ERROR: Unable to get part of requirement from location: %s",
+              plocation_name(location));
     return FALSE;
   }
 
   req_field.name = "range";
-  if (!dio_get_uint8_json(requirement, "range", &req_field, &range)) {
-    log_error("ERROR: Unable to get part of requirement with key: %s",
-              key);
+  if (!dio_get_uint8_json(requirement, &req_field, &range)) {
+    log_error("ERROR: Unable to get part of requirement from location: %s",
+              plocation_name(location));
     return FALSE;
   }
 
   req_field.name = "survives";
-  if (!dio_get_bool8_json(requirement, "survives", &req_field, &survives)) {
-    log_error("ERROR: Unable to get part of requirement with key: %s",
-              key);
+  if (!dio_get_bool8_json(requirement, &req_field, &survives)) {
+    log_error("ERROR: Unable to get part of requirement from location: %s",
+              plocation_name(location));
     return FALSE;
   }
 
   req_field.name = "present";
-  if (!dio_get_bool8_json(requirement, "present", &req_field, &present)) {
-    log_error("ERROR: Unable to get part of requirement with key: %s",
-              key);
+  if (!dio_get_bool8_json(requirement, &req_field, &present)) {
+    log_error("ERROR: Unable to get part of requirement from location: %s",
+              plocation_name(location));
     return FALSE;
   }
 
   req_field.name = "quiet";
-  if (!dio_get_bool8_json(requirement, "quiet", &req_field, &quiet)) {
-    log_error("ERROR: Unable to get part of requirement with key: %s",
-              key);
+  if (!dio_get_bool8_json(requirement, &req_field, &quiet)) {
+    log_error("ERROR: Unable to get part of requirement from location: %s",
+              plocation_name(location));
     return FALSE;
   }
 
@@ -441,10 +441,10 @@ bool dio_get_requirement_json(json_t *json_packet, char *key,
 }
 
 /**************************************************************************
-  Create an empthy field array.
+  Create an empty field array.
 **************************************************************************/
-void dio_put_farray_json(struct json_data_out *dout, char *key,
-                         const struct plocation* location, int size)
+void dio_put_farray_json(struct json_data_out *dout,
+                         const struct plocation *location, int size)
 {
   int i;
   json_t *farray = json_array();
@@ -461,8 +461,8 @@ void dio_put_farray_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_uint32_json(struct json_data_out *dout, char *key,
-                         const struct plocation* location, int value)
+void dio_put_uint32_json(struct json_data_out *dout,
+                         const struct plocation *location, int value)
 {
   plocation_write_data(dout->json, location, json_integer(value));
 }
@@ -470,8 +470,8 @@ void dio_put_uint32_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_bool8_json(struct json_data_out *dout, char *key,
-                        const struct plocation* location, bool value)
+void dio_put_bool8_json(struct json_data_out *dout,
+                        const struct plocation *location, bool value)
 {
   plocation_write_data(dout->json, location, value ? json_true() : json_false());
 }
@@ -479,8 +479,8 @@ void dio_put_bool8_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_bool32_json(struct json_data_out *dout, char *key,
-                         const struct plocation* location, bool value)
+void dio_put_bool32_json(struct json_data_out *dout,
+                         const struct plocation *location, bool value)
 {
   plocation_write_data(dout->json, location, value ? json_true() : json_false());
 }
@@ -488,8 +488,8 @@ void dio_put_bool32_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_ufloat_json(struct json_data_out *dout, char *key,
-                         const struct plocation* location,
+void dio_put_ufloat_json(struct json_data_out *dout,
+                         const struct plocation *location,
                          float value, int float_factor)
 {
   plocation_write_data(dout->json, location, json_real(value));
@@ -498,8 +498,8 @@ void dio_put_ufloat_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_sfloat_json(struct json_data_out *dout, char *key,
-                         const struct plocation* location,
+void dio_put_sfloat_json(struct json_data_out *dout,
+                         const struct plocation *location,
                          float value, int float_factor)
 {
   plocation_write_data(dout->json, location, json_real(value));
@@ -508,8 +508,8 @@ void dio_put_sfloat_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_uint8_vec8_json(struct json_data_out *dout, char *key,
-                             const struct plocation* location,
+void dio_put_uint8_vec8_json(struct json_data_out *dout,
+                             const struct plocation *location,
                              int *values, int stop_value)
 {
   /* TODO: implement. */
@@ -518,8 +518,8 @@ void dio_put_uint8_vec8_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_uint16_vec8_json(struct json_data_out *dout, char *key,
-                              const struct plocation* location, int *values,
+void dio_put_uint16_vec8_json(struct json_data_out *dout,
+                              const struct plocation *location, int *values,
                               int stop_value)
 {
   /* TODO: implement. */
@@ -528,23 +528,21 @@ void dio_put_uint16_vec8_json(struct json_data_out *dout, char *key,
 /**************************************************************************
   Send block of memory as byte array
 **************************************************************************/
-void dio_put_memory_json(struct json_data_out *dout, char *key,
-                         struct plocation* location,
+void dio_put_memory_json(struct json_data_out *dout,
+                         struct plocation *location,
                          const void *value,
                          size_t size)
 {
   int i;
-  char fullkey[512];
 
-  dio_put_farray_json(dout, key, location, size);
+  dio_put_farray_json(dout, location, size);
 
   location->sub_location = plocation_elem_new(0);
 
   for (i = 0; i < size; i++) {
-    fc_snprintf(fullkey, sizeof(fullkey), "%s_%d", key, i);
     location->sub_location->number = i;
 
-    dio_put_uint8_json(dout, fullkey, location,
+    dio_put_uint8_json(dout, location,
                        ((unsigned char *)value)[i]);
   }
 
@@ -554,8 +552,8 @@ void dio_put_memory_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_string_json(struct json_data_out *dout, char *key,
-                         const struct plocation* location,
+void dio_put_string_json(struct json_data_out *dout,
+                         const struct plocation *location,
                          const char *value)
 {
   plocation_write_data(dout->json, location, json_string(value));
@@ -564,8 +562,8 @@ void dio_put_string_json(struct json_data_out *dout, char *key,
 /**************************************************************************
   Encode and write the specified string to the specified location.
 **************************************************************************/
-void dio_put_estring_json(struct json_data_out *dout, char *key,
-                          const struct plocation* location,
+void dio_put_estring_json(struct json_data_out *dout,
+                          const struct plocation *location,
                           const char *value)
 {
   char *escaped_value;
@@ -574,7 +572,7 @@ void dio_put_estring_json(struct json_data_out *dout, char *key,
   escaped_value = curl_easy_escape(get_curl(), value, 0);
 
   /* Handle as a regular string from now on. */
-  dio_put_string_json(dout, key, location, escaped_value);
+  dio_put_string_json(dout, location, escaped_value);
 
   /* CURL's memory management wants to free this it self. */
   curl_free(escaped_value);
@@ -583,8 +581,8 @@ void dio_put_estring_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_tech_list_json(struct json_data_out *dout, char *key,
-                            const struct plocation* location,
+void dio_put_tech_list_json(struct json_data_out *dout,
+                            const struct plocation *location,
                             const int *value)
 {
   /* TODO: implement */
@@ -593,8 +591,8 @@ void dio_put_tech_list_json(struct json_data_out *dout, char *key,
 /**************************************************************************
   Insert a single requirement.
 **************************************************************************/
-void dio_put_requirement_json(struct json_data_out *dout, char *key,
-                              const struct plocation* location,
+void dio_put_requirement_json(struct json_data_out *dout,
+                              const struct plocation *location,
                               const struct requirement *preq)
 {
   int kind, range, value;
@@ -624,19 +622,19 @@ void dio_put_requirement_json(struct json_data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_bool8_json(json_t *json_packet, char *key,
-                        const struct plocation* location, bool *dest)
+bool dio_get_bool8_json(json_t *json_packet,
+                        const struct plocation *location, bool *dest)
 {
   json_t *pbool = plocation_read_data(json_packet, location);
 
   if (!pbool) {
-    log_error("ERROR: Unable to get bool8 with key: %s", key);
+    log_error("ERROR: Unable to get bool8 from location: %s", plocation_name(location));
     return FALSE;
   } 
   *dest = json_is_true(pbool);
 
   if (!dest) {
-    log_error("ERROR: Unable to get bool with key: %s", key);
+    log_error("ERROR: Unable to get bool from location: %s", plocation_name(location));
     return FALSE;
   }
 
@@ -646,19 +644,19 @@ bool dio_get_bool8_json(json_t *json_packet, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_bool32_json(json_t *json_packet, char *key,
-                         const struct plocation* location, bool *dest)
+bool dio_get_bool32_json(json_t *json_packet,
+                         const struct plocation *location, bool *dest)
 {
   json_t *pbool = plocation_read_data(json_packet, location);
 
   if (!pbool) {
-    log_error("ERROR: Unable to get bool32 with key: %s", key);
+    log_error("ERROR: Unable to get bool32 from location: %s", plocation_name(location));
     return FALSE;
   }
   *dest = json_is_true(pbool);
 
   if (!dest) {
-    log_error("ERROR: Unable to get bool32 with key: %s", key);
+    log_error("ERROR: Unable to get bool32 from location: %s", plocation_name(location));
     return FALSE;
   }
 
@@ -668,14 +666,14 @@ bool dio_get_bool32_json(json_t *json_packet, char *key,
 /**************************************************************************
   ...
 **************************************************************************/
-bool dio_get_ufloat_json(json_t *json_packet, char *key,
-                         const struct plocation* location,
+bool dio_get_ufloat_json(json_t *json_packet,
+                         const struct plocation *location,
                          float *dest, int float_factor)
 {
   json_t *preal = plocation_read_data(json_packet, location);
 
   if (!preal) {
-    log_error("ERROR: Unable to get real with key: %s", key);
+    log_error("ERROR: Unable to get real from location: %s", plocation_name(location));
     return FALSE;
   }
   *dest = json_real_value(preal);
@@ -686,14 +684,14 @@ bool dio_get_ufloat_json(json_t *json_packet, char *key,
 /**************************************************************************
   ...
 **************************************************************************/
-bool dio_get_sfloat_json(json_t *json_packet, char *key,
-                         const struct plocation* location,
+bool dio_get_sfloat_json(json_t *json_packet,
+                         const struct plocation *location,
                          float *dest, int float_factor)
 {
   json_t *preal = plocation_read_data(json_packet, location);
 
   if (!preal) {
-    log_error("ERROR: Unable to get real with key: %s", key);
+    log_error("ERROR: Unable to get real from location: %s", plocation_name(location));
     return FALSE;
   }
   *dest = json_real_value(preal);
@@ -704,19 +702,19 @@ bool dio_get_sfloat_json(json_t *json_packet, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_sint8_json(json_t *json_packet, char *key,
-                        const struct plocation* location, int *dest)
+bool dio_get_sint8_json(json_t *json_packet,
+                        const struct plocation *location, int *dest)
 {
   json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
-    log_error("ERROR: Unable to get sint8 with key: %s", key);
+    log_error("ERROR: Unable to get sint8 from location: %s", plocation_name(location));
     return FALSE;
   }
   *dest = json_integer_value(pint);
 
   if (!dest) {
-    log_error("ERROR: Unable to get sint8 with key: %s", key);
+    log_error("ERROR: Unable to get sint8 from location: %s", plocation_name(location));
     return FALSE;
   }
 
@@ -726,19 +724,19 @@ bool dio_get_sint8_json(json_t *json_packet, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_sint16_json(json_t *json_packet, char *key,
-                         const struct plocation* location, int *dest)
+bool dio_get_sint16_json(json_t *json_packet,
+                         const struct plocation *location, int *dest)
 {
   json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
-    log_error("ERROR: Unable to get sint16 with key: %s", key);
+    log_error("ERROR: Unable to get sint16 from location: %s", plocation_name(location));
     return FALSE;
   }
   *dest = json_integer_value(pint);
 
   if (!dest) {
-    log_error("ERROR: Unable to get sint16 with key: %s", key);
+    log_error("ERROR: Unable to get sint16 from location: %s", plocation_name(location));
     return FALSE;
   }
 
@@ -748,22 +746,20 @@ bool dio_get_sint16_json(json_t *json_packet, char *key,
 /**************************************************************************
   Receive block of memory as byte array
 **************************************************************************/
-bool dio_get_memory_json(json_t *json_packet, char *key,
-                         struct plocation* location,
+bool dio_get_memory_json(json_t *json_packet,
+                         struct plocation *location,
                          void *dest, size_t dest_size)
 {
    int i;
-  char fullkey[512];
 
   location->sub_location = plocation_elem_new(0);
 
   for (i = 0; i < dest_size; i++) {
     int val;
 
-    fc_snprintf(fullkey, sizeof(fullkey), "%s_%d", key, i);
     location->sub_location->number = i;
 
-    if (!dio_get_uint8_json(json_packet, fullkey, location, &val)) {
+    if (!dio_get_uint8_json(json_packet, location, &val)) {
       free(location->sub_location);
       return FALSE;
     }
@@ -778,15 +774,15 @@ bool dio_get_memory_json(json_t *json_packet, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_string_json(json_t *json_packet, char *key,
-                         const struct plocation* location,
+bool dio_get_string_json(json_t *json_packet,
+                         const struct plocation *location,
                          char *dest, size_t max_dest_size)
 {
   json_t *pstring = plocation_read_data(json_packet, location);
   const char *result_str;
 
   if (!pstring) {
-    log_error("ERROR: Unable to get string with key: %s", key);
+    log_error("ERROR: Unable to get string from location: %s", plocation_name(location));
     return FALSE;
   }
 
@@ -794,7 +790,7 @@ bool dio_get_string_json(json_t *json_packet, char *key,
 
   if (dest
       && !dataio_get_conv_callback(dest, max_dest_size, result_str, strlen(result_str))) {
-    log_error("ERROR: Unable to get string with key: %s", key);
+    log_error("ERROR: Unable to get string from location: %s", plocation_name(location));
     return FALSE;
   }
 
@@ -806,8 +802,8 @@ bool dio_get_string_json(json_t *json_packet, char *key,
 
   max_dest_size applies to both the encoded and to the decoded string.
 **************************************************************************/
-bool dio_get_estring_json(json_t *json_packet, char *key,
-                          const struct plocation* location,
+bool dio_get_estring_json(json_t *json_packet,
+                          const struct plocation *location,
                           char *dest, size_t max_dest_size)
 {
   char *escaped_value;
@@ -816,7 +812,7 @@ bool dio_get_estring_json(json_t *json_packet, char *key,
   /* The encoded string has the same size limit as the decoded string. */
   escaped_value = fc_malloc(max_dest_size);
 
-  if (!dio_get_string_json(json_packet, key, location,
+  if (!dio_get_string_json(json_packet, location,
                            escaped_value, max_dest_size)) {
     /* dio_get_string_json() has logged this already. */
     return FALSE;

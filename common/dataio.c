@@ -1078,3 +1078,27 @@ struct plocation *plocation_elem_new(int number)
 
   return out;
 }
+
+/**************************************************************************
+  Give textual description of the location. This might return address of
+  a static buffer next call reuses, so don't expect result to be valid
+  over another call to this.
+**************************************************************************/
+const char *plocation_name(const struct plocation *loc)
+{
+  static char locname[10];
+
+  if (loc == NULL) {
+    return "No location";
+  }
+
+  switch (loc->kind) {
+  case PADR_FIELD:
+    return loc->name;
+  case PADR_ELEMENT:
+    fc_snprintf(locname, sizeof(locname), "%d", loc->number);
+    return locname;
+  }
+
+  return "Illegal location";
+}

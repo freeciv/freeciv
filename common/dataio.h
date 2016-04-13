@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -76,6 +76,7 @@ struct plocation {
 
 struct plocation *plocation_field_new(char *name);
 struct plocation *plocation_elem_new(int number);
+const char *plocation_name(const struct plocation *loc);
 
 #ifdef FREECIV_JSON_CONNECTION
 #include "dataio_json.h"
@@ -158,10 +159,10 @@ bool dio_get_uint16_vec8_raw(struct data_in *din, int **values, int stop_value)
 #ifndef FREECIV_JSON_CONNECTION
 
 /* Should be a function but we need some macro magic. */
-#define DIO_BV_GET(pdin, basekey, location, bv)               \
+#define DIO_BV_GET(pdin, location, bv)               \
   dio_get_memory_raw((pdin), (bv).vec, sizeof((bv).vec))
 
-#define DIO_GET(f, d, k, l, ...) dio_get_##f##_raw(d, ## __VA_ARGS__)
+#define DIO_GET(f, d, l, ...) dio_get_##f##_raw(d, ## __VA_ARGS__)
 
 #endif /* FREECIV_JSON_CONNECTION */
 
@@ -196,10 +197,10 @@ void dio_put_uint16_vec8_raw(struct raw_data_out *dout, int *values, int stop_va
 #ifndef FREECIV_JSON_CONNECTION
 
 /* Should be a function but we need some macro magic. */
-#define DIO_BV_PUT(pdout, k, location, bv)               \
+#define DIO_BV_PUT(pdout, location, bv)               \
   dio_put_memory_raw((pdout), (bv).vec, sizeof((bv).vec))
 
-#define DIO_PUT(f, d, k, l, ...) dio_put_##f##_raw(d, ## __VA_ARGS__)
+#define DIO_PUT(f, d, l, ...) dio_put_##f##_raw(d, ## __VA_ARGS__)
 
 #endif /* FREECIV_JSON_CONNECTION */
 
