@@ -126,7 +126,12 @@ static int finalize(lua_State *L, cur_data *cur) {
 static void push_column(lua_State *L, sqlite3_stmt *vm, int column) {
   switch (sqlite3_column_type(vm, column)) {
   case SQLITE_INTEGER:
+#if LUA_VERSION_NUM >= 503
     lua_pushinteger(L, sqlite3_column_int64(vm, column));
+#else
+    // Preserves precision of integers up to 2^53.
+    lua_pushnumber(L, sqlite3_column_int64(vm, column));
+#endif
     break;
   case SQLITE_FLOAT:
     lua_pushnumber(L, sqlite3_column_double(vm, column));
