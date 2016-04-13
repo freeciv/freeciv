@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -313,7 +313,7 @@ static void editbar_player_pov_combobox_changed(GtkComboBox *combo,
 }
 
 /****************************************************************************
-  Run the tool value selection dailog and return the value ID selected.
+  Run the tool value selection dialog and return the value ID selected.
   Returns -1 if cancelled.
 ****************************************************************************/
 static int tool_value_selector_run(struct tool_value_selector *tvs)
