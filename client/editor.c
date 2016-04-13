@@ -100,6 +100,20 @@ struct editor_state {
 static struct editor_state *editor = NULL;
 
 /****************************************************************************
+  Set tool to some value legal under current ruleset.
+****************************************************************************/
+static void tool_set_init_value(enum editor_tool_type ett)
+{
+  struct editor_tool *tool = editor->tools + ett;
+
+  if (ett == ETT_TERRAIN_SPECIAL) {
+    tool->value = S_IRRIGATION;
+  } else {
+    tool->value = 0;
+  }
+}
+
+/****************************************************************************
   Initialize editor tool data.
 ****************************************************************************/
 static void tool_init(enum editor_tool_type ett, const char *name,
@@ -125,10 +139,18 @@ static void tool_init(enum editor_tool_type ett, const char *name,
   tool->count = 1;
   tool->applied_player_no = 0;
 
-  if (ett == ETT_TERRAIN_SPECIAL) {
-    tool->value = S_IRRIGATION;
-  } else {
-    tool->value = 0;
+  tool_set_init_value(ett);
+}
+
+/****************************************************************************
+  Adjust editor for changed ruleset.
+****************************************************************************/
+void editor_ruleset_changed(void)
+{
+  int t;
+
+  for (t = 0; t < NUM_EDITOR_TOOL_TYPES; t++) {
+    tool_set_init_value(t);
   }
 }
 
