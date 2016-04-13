@@ -15,6 +15,7 @@ freeciv-mp-gtk2, freeciv-mp-gtk3, freeciv-mp-qt, freeciv-mp-cli \
 \- Custom content installers for the Freeciv game
 .SH SYNOPSIS
 .B freeciv-modpack \
+[ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-h|\-\-help ] \
 [ \-i|\-\-install \fIURL\fP ] \
 [ \-L|\-\-List \fIURL\fP ] \
@@ -57,11 +58,23 @@ All options have a short
 form (single hyphen and single letter) and a long form (double hyphen
 and a complete word); their effects are identical.
 .TP
+.BI "\-d \fIlevel_number\fP, \-\-debug \fIlevel_number\fP"
+Sets the amount of debugging information to be logged.
+Acceptable values for the \fIlevel_number\fP are:
 
+\fB0\fP    for fatal messages only.
+
+\fB1\fP    for fatal and error messages.
+
+\fB2\fP    for fatal, error and normal messages (default).
+
+\fB3\fP    for fatal, error, normal, and verbose messages.
+
+.TP
 .BI "\-h, \-\-help"
 Prints a short summary of the command line options.
 .TP
-.BI "\-i, \fIURL\fP \-\-install \fIURL\fP"
+.BI "\-i \fIURL\fP, \-\-install \fIURL\fP"
 Automatically install modpack from a given URL.
 .TP
 .BI "\-L \fIURL\fP, \-\-List \fIURL\fP"
