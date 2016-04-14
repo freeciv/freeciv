@@ -33,6 +33,14 @@ using MSYS2 from http://msys2.github.io
  Setup
 ====================================
 
+ This chapter is about creating new msys2 build environment.
+
+ If you want to reproduce more official freeciv builds, the
+environment used to make those builds is available for
+download from
+http://download.gna.org/freeciv/packages/windows/testing/cazfi/installer_msys2/envs/
+ Current version is: freeciv-msys2-i686-20160222.7z
+
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20160205.exe
@@ -105,7 +113,16 @@ using MSYS2 from http://msys2.github.io
  - MagickWand support
 
 
-3) Build Installers from Freeciv sources
+ Build
+====================================
+
+Launch msys2 shell. Get the freeciv sources there
+somehow. Some options are:
+1) Download freeciv tarball within msys2 shell with wget
+2) Use svn within msys2 shell to get them from version control
+3) Copy them from Windows folder where they are to a directory that
+   is within msys2
+
 > cd win32/installer_msys2
 > make <targets>
 
@@ -114,6 +131,7 @@ using MSYS2 from http://msys2.github.io
      - gtk3
      - qt
   - "ruledit-installer"
+
 
 Problems
 ====================================
