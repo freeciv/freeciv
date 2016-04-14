@@ -79,7 +79,7 @@ $]
 /* Module find. */
 module find {
   const char *api_signal_by_index
-    @ signal (lua_State *L, int index);
+    @ signal (lua_State *L, int sindex);
   const char *api_signal_callback_by_index
-    @ signal_callback(lua_State *L, const char *signal_name, int index);
+    @ signal_callback(lua_State *L, const char *signal_name, int sindex);
 }

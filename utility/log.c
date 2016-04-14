@@ -88,7 +88,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
 #ifdef DEBUG
   const char *tok;
   int i;
-  char *dup;
+  char *dupled;
   bool ret = TRUE;
 #endif /* DEBUG */
 
@@ -141,8 +141,8 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   log_files = fc_realloc(log_files,
                          log_num_files * sizeof(struct log_fileinfo));
 
-  dup = fc_strdup(c + 2);
-  tok = strtok(dup, ":");
+  dupled = fc_strdup(c + 2);
+  tok = strtok(dupled, ":");
 
   if (!tok) {
     fc_fprintf(stderr, _("Badly formed log level argument \"%s\".\n"),
@@ -195,7 +195,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   }
 
 out:
-  free(dup);
+  free(dupled);
   return ret;
 #else  /* DEBUG */
   fc_fprintf(stderr, _("Freeciv must be compiled with the DEBUG flag "

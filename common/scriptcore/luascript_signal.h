@@ -33,7 +33,7 @@ void luascript_signal_emit(struct fc_lua *fcl, const char *signal_name,
                            int nargs, ...);
 signal_deprecator *luascript_signal_create(struct fc_lua *fcl, const char *signal_name,
                                            int nargs, ...);
-void deprecate_signal(signal_deprecator *deprecator, char *signal,
+void deprecate_signal(signal_deprecator *deprecator, char *signal_name,
                       char *replacement, char *deprecated_since);
 void luascript_signal_callback(struct fc_lua *fcl, const char *signal_name,
                                const char *callback_name, bool create);

@@ -265,7 +265,7 @@ signal_deprecator *luascript_signal_create(struct fc_lua *fcl, const char *signa
 /*****************************************************************************
   Mark signal deprecated.
 *****************************************************************************/
-void deprecate_signal(signal_deprecator *deprecator, char *signal,
+void deprecate_signal(signal_deprecator *deprecator, char *signal_name,
                       char *replacement, char *deprecated_since)
 {
   if (deprecator != NULL) {
@@ -274,14 +274,14 @@ void deprecate_signal(signal_deprecator *deprecator, char *signal,
     if (deprecated_since != NULL && replacement != NULL) {
       fc_snprintf(buffer, sizeof(buffer),
                   "Deprecated: lua signal \"%s\", deprecated since \"%s\", used. "
-                  "Use \"%s\" instead", signal, deprecated_since, replacement);
+                  "Use \"%s\" instead", signal_name, deprecated_since, replacement);
     } else if (replacement != NULL) {
       fc_snprintf(buffer, sizeof(buffer),
                   "Deprecated: lua signal \"%s\" used. Use \"%s\" instad",
-                  signal, replacement);
+                  signal_name, replacement);
     } else {
       fc_snprintf(buffer, sizeof(buffer),
-                  "Deprecated: lua signal \"%s\" used.", signal);
+                  "Deprecated: lua signal \"%s\" used.", signal_name);
     }
 
     *deprecator = fc_strdup(buffer);
