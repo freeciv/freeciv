@@ -22,12 +22,15 @@
 #
 # For nationality translations, see
 # http://www.kotus.fi/julkaisut/nimijulkaisut/paikannimijulkaisut/maat_paakaupungit_ja_kansalaisuudet
+#
+# cardinally adjacent - remember that in hex topologies also NW, SE, etc are cardinally adjacent
+#                       I've used 'rinnalla' for cardinally adjacent and 'vieressä' for any way adjacent.
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2016-04-11 09:08+0300\n"
-"PO-Revision-Date: 2016-04-11 15:04+0300\n"
+"POT-Creation-Date: 2016-04-14 12:19+0300\n"
+"PO-Revision-Date: 2016-04-14 13:50+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -1641,7 +1644,7 @@ msgstr "Kohteeseen ei löytynyt käyttökelpoista reittiä!"
 msgid "Oh my! You seem to have no capital!"
 msgstr "Katsohan mokomaa, sinulla ei näköjään ole pääkaupunkia!"
 
-#: client/editor.c:160 client/gui-gtk-2.0/editprop.c:4330
+#: client/editor.c:182 client/gui-gtk-2.0/editprop.c:4330
 #: client/gui-gtk-2.0/menu.c:1460 client/gui-gtk-3.0/editprop.c:4371
 #: client/gui-gtk-3.0/menu.c:1454 client/gui-xaw/menu.c:151
 #: client/gui-xaw/menu.c:250 client/include/helpdlg_g.h:50
@@ -1649,7 +1652,7 @@ msgstr "Katsohan mokomaa, sinulla ei näköjään ole pääkaupunkia!"
 msgid "Terrain"
 msgstr "Maasto"
 
-#: client/editor.c:162
+#: client/editor.c:184
 msgid ""
 "Change tile terrain.\n"
 "Shortcut: t\n"
@@ -1659,11 +1662,11 @@ msgstr ""
 "Pikanäppäin: t\n"
 "Valitse maastotyyppi: vaihto+t tai hiiren oikea nappi."
 
-#: client/editor.c:164
+#: client/editor.c:186
 msgid "Terrain Resource"
 msgstr "Luonnonvara"
 
-#: client/editor.c:166
+#: client/editor.c:188
 msgid ""
 "Change tile terrain resources.\n"
 "Shortcut: r\n"
@@ -1673,11 +1676,11 @@ msgstr ""
 "Pikanäppäin: r\n"
 "Valitse maastotyyppi: vaihto+r tai hiiren oikea nappi.<"
 
-#: client/editor.c:168
+#: client/editor.c:190
 msgid "Terrain Special"
 msgstr "Maaston erityispiirre"
 
-#: client/editor.c:170
+#: client/editor.c:192
 msgid ""
 "Modify tile specials.\n"
 "Shortcut: s\n"
@@ -1687,14 +1690,14 @@ msgstr ""
 "Pikanäppäin: s\n"
 "Valitse erityispiirre: vaihto+s tai hiiren oikea nappi."
 
-#: client/editor.c:172 client/gui-gtk-3.0/citydlg.c:2897 common/unit.c:651
+#: client/editor.c:194 client/gui-gtk-3.0/citydlg.c:2897 common/unit.c:651
 #: data/civ1/terrain.ruleset:952 data/civ2/terrain.ruleset:1099
 #: data/classic/terrain.ruleset:1373 data/experimental/terrain.ruleset:1349
 #: data/civ2civ3/terrain.ruleset:1503 data/multiplayer/terrain.ruleset:1347
 msgid "Road"
 msgstr "tie"
 
-#: client/editor.c:174
+#: client/editor.c:196
 msgid ""
 "Modify roads on tile.\n"
 "Shortcut: p\n"
@@ -1704,11 +1707,11 @@ msgstr ""
 "Pikanäppäin: p\n"
 "Valitse tietyyppi: vaihto+p tai hiiren oikea nappi."
 
-#: client/editor.c:176
+#: client/editor.c:198
 msgid "Military Base"
 msgstr "Tukikohta"
 
-#: client/editor.c:178
+#: client/editor.c:200
 msgid ""
 "Create a military base.\n"
 "Shortcut: m\n"
@@ -1718,13 +1721,13 @@ msgstr ""
 "Pikanäppäin: m\n"
 "Valitse tukikohtatyyppi: vaihto+m tai hiiren oikea nappi."
 
-#: client/editor.c:180 client/gui-gtk-2.0/editprop.c:666
+#: client/editor.c:202 client/gui-gtk-2.0/editprop.c:666
 #: client/gui-gtk-2.0/unitselect.c:95 client/gui-gtk-3.0/editprop.c:667
 #: client/gui-gtk-3.0/unitselect.c:95 client/gui-qt/menu.cpp:704
 msgid "Unit"
 msgstr "Yksikkö"
 
-#: client/editor.c:182
+#: client/editor.c:204
 msgid ""
 "Create unit.\n"
 "Shortcut: u\n"
@@ -1734,14 +1737,14 @@ msgstr ""
 "Pikanäppäin: u\n"
 "Valitse yksikkötyyppi: vaihto+u tai hiiren oikea nappi."
 
-#: client/editor.c:184 client/gui-gtk-2.0/citydlg.c:1226
+#: client/editor.c:206 client/gui-gtk-2.0/citydlg.c:1226
 #: client/gui-gtk-2.0/editprop.c:668 client/gui-gtk-2.0/gotodlg.c:202
 #: client/gui-gtk-3.0/citydlg.c:1419 client/gui-gtk-3.0/editprop.c:669
 #: client/gui-gtk-3.0/gotodlg.c:208 client/gui-qt/gotodlg.cpp:68
 msgid "City"
 msgstr "Kaupunki"
 
-#: client/editor.c:185
+#: client/editor.c:207
 msgid ""
 "Create city.\n"
 "Shortcut: c"
@@ -1749,12 +1752,12 @@ msgstr ""
 "Luo kaupunki.\n"
 "Pikanäppäin: c"
 
-#: client/editor.c:186 client/gui-gtk-2.0/editprop.c:4366
+#: client/editor.c:208 client/gui-gtk-2.0/editprop.c:4366
 #: client/gui-gtk-3.0/editprop.c:4406 client/plrdlg_common.c:317
 msgid "Vision"
 msgstr "Näkymä"
 
-#: client/editor.c:187
+#: client/editor.c:209
 msgid ""
 "Modify player's tile knowledge.\n"
 "Shortcut: v"
@@ -1762,12 +1765,12 @@ msgstr ""
 "Muokkaa pelaajan näkymää ruutuun.\n"
 "Pikanäppäin: v"
 
-#: client/editor.c:188 client/gui-gtk-2.0/editprop.c:664
+#: client/editor.c:210 client/gui-gtk-2.0/editprop.c:664
 #: client/gui-gtk-3.0/editprop.c:665
 msgid "Start Position"
 msgstr "Aloituspaikka"
 
-#: client/editor.c:189
+#: client/editor.c:211
 msgid ""
 "Place a start position which allows any nation to start at the tile. To "
 "allow only certain nations to start there, middle click on the start "
@@ -1779,11 +1782,11 @@ msgstr ""
 "mitkä kansakunnat voivat aloittaa tältä paikalta.\n"
 "Pikanäppäin: b"
 
-#: client/editor.c:194
+#: client/editor.c:216
 msgid "Copy/Paste"
 msgstr "Leikkaa/liimaa"
 
-#: client/editor.c:195
+#: client/editor.c:217
 msgid ""
 "Copy and paste tiles.\n"
 "Shortcut for copy mode: shift-c\n"
@@ -1793,27 +1796,27 @@ msgstr ""
 "Pikanäppäin kopiointitilalle: vaihto-c\n"
 "Pikanäppäin liimaustilalle: vaihto-v"
 
-#: client/editor.c:1755
+#: client/editor.c:1777
 msgid "Paint"
 msgstr "Maalaa"
 
-#: client/editor.c:1759
+#: client/editor.c:1781
 msgid "Erase Value"
 msgstr "Poista arvo"
 
-#: client/editor.c:1761
+#: client/editor.c:1783
 msgid "Erase"
 msgstr "Poista"
 
-#: client/editor.c:1765
+#: client/editor.c:1787
 msgid "Copy"
 msgstr "Kopioi"
 
-#: client/editor.c:1768
+#: client/editor.c:1790
 msgid "Paste"
 msgstr "Liitä"
 
-#: client/editor.c:1787
+#: client/editor.c:1809
 msgid ""
 "Toggle erase mode.\n"
 "Shortcut: shift-d"
@@ -1821,7 +1824,7 @@ msgstr ""
 "Aseta poistotila.\n"
 "Pikanäppäin: vaihto-d"
 
-#: client/editor.c:1790
+#: client/editor.c:1812
 msgid ""
 "Toggle copy mode.\n"
 "Shortcut: shift-c"
@@ -1829,7 +1832,7 @@ msgstr ""
 "Aseta kopiointitila.\n"
 "Pikanäppäin: vaihto-c"
 
-#: client/editor.c:1793
+#: client/editor.c:1815
 msgid ""
 "Toggle paste mode.\n"
 "Shortcut: shift-v"
@@ -1837,11 +1840,11 @@ msgstr ""
 "Aseta liittämistila.\n"
 "Pikanäppäin: vaihto-v"
 
-#: client/editor.c:1848
+#: client/editor.c:1870
 msgid "Buffer empty."
 msgstr "Puskuri on tyhjä."
 
-#: client/editor.c:1855
+#: client/editor.c:1877
 #, c-format
 msgid "%d tile copied."
 msgid_plural "%d tiles copied."
@@ -8427,14 +8430,6 @@ msgstr "Istuta metsää"
 msgid "Transform to"
 msgstr "Muuta maastotyypiksi"
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# SES 13. Nov 99:
-#
-# There seems to be an ugly bug when this word is any longer
-# in the gtk gui (menu-init) which is also noted in the
-# german translation.
-#
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #: client/gui-sdl/optiondlg.c:315 client/gui-sdl2/optiondlg.c:315
 #: client/gui-xaw/menu.c:114 client/gui-xaw/menu.c:613
 msgid "Local Options"
@@ -8445,12 +8440,6 @@ msgstr "Paikalliset asetukset"
 msgid "Server options"
 msgstr "Etäpalvelimen asetukset"
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# SES 13. Nov 99:
-# There seems to be an ugly bug when this word is any longer
-# in the gtk gui (menu-init) which is also noted in the
-# german translation.
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #: client/gui-sdl/optiondlg.c:788 client/gui-sdl2/optiondlg.c:795
 msgid "Local options"
 msgstr "Paikalliset asetukset"
@@ -8460,12 +8449,6 @@ msgstr "Paikalliset asetukset"
 msgid "Worklists"
 msgstr "Työlistat"
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# SES 13. Nov 99:
-# There seems to be an ugly bug when this word is any longer
-# in the gtk gui (menu-init) which is also noted in the
-# german translation.
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #: client/gui-sdl/optiondlg.c:818 client/gui-sdl2/optiondlg.c:825
 msgid "Save Local Options"
 msgstr "Tallenna paikalliset asetukset"
@@ -9925,13 +9908,12 @@ msgstr "Estyy jos ruudussa on %s.\n"
 #: client/helpdata.c:1056
 #, c-format
 msgid "?extra:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr ""
-"Edellyttää että ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Edellyttää että ruudulla tai sen rinnalla olevalla ruudulla on %s.\n"
 
 #: client/helpdata.c:1061
 #, c-format
 msgid "?extra:Prevented by %s on the tile or any cardinally adjacent tile.\n"
-msgstr "Estyy jos ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Estyy jos ruudulla tai sen rinnalla olevalla ruudulla on %s.\n"
 
 #: client/helpdata.c:1069
 #, c-format
@@ -9983,15 +9965,12 @@ msgstr "Estyy jos ruutu on maastotyyppiä %s.\n"
 #: client/helpdata.c:1130
 #, c-format
 msgid "?terrain:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr ""
-"Edellyttää ruudun tai pääilmansuunnassa viereisen ruudun olevan "
-"maastotyyppiä %s.\n"
+msgstr "Edellyttää ruudun tai sen rinnalla olevan ruudun olevan maastotyyppiä %s.\n"
 
 #: client/helpdata.c:1135
 #, c-format
 msgid "?terrain:Prevented by %s on the tile or any cardinally adjacent tile.\n"
-msgstr ""
-"Estyy jos ruutu tai pääilmansuunnassa viereinen ruutu on maastotyyppiä %s.\n"
+msgstr "Estyy jos ruutu tai sen rinnalla oleva ruutu on maastotyyppiä %s.\n"
 
 #: client/helpdata.c:1143
 #, c-format
@@ -10044,14 +10023,13 @@ msgstr "Estyy jos ruudussa on %s.\n"
 #: client/helpdata.c:1206
 #, c-format
 msgid "?resource:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr ""
-"Edellyttää että ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Edellyttää että ruudulla tai sen rinnalla olevalla ruudulla on %s.\n"
 
 #: client/helpdata.c:1211
 #, c-format
 msgid ""
 "?resource:Prevented by %s on the tile or any cardinally adjacent tile.\n"
-msgstr "Estyy jos ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Estyy jos ruudulla tai sen rinnalla olevalla ruudulla on %s.\n"
 
 #: client/helpdata.c:1219
 #, c-format
@@ -10460,27 +10438,23 @@ msgid "?specialist:Does not apply to %s.\n"
 msgstr "Ei päde erikoisyksikköön %s.\n"
 
 #: client/helpdata.c:1856
-#, fuzzy, c-format
-#| msgid "Requires a minimum city size of %d.\n"
-#| msgid_plural "Requires a minimum city size of %d.\n"
+#, c-format
 msgid "Requires a minimum city size of %d for this city or a trade partner.\n"
 msgid_plural ""
 "Requires a minimum city size of %d for this city or a trade partner.\n"
-msgstr[0] "Edellyttää kaupungin minimikoon %d.\n"
-msgstr[1] "Edellyttää kaupungin minimikoon %d.\n"
+msgstr[0] "Edellyttää kaupungin minimikoon %d joko kaupungilta itseltään tai joltakin kauppakumppanilta.\n"
+msgstr[1] "Edellyttää kaupungin minimikoon %d joko kaupungilta itseltään tai joltakin kauppakumppanilta.\n"
 
 #: client/helpdata.c:1864
-#, fuzzy, c-format
-#| msgid "Requires the city size to be less than %d.\n"
-#| msgid_plural "Requires the city size to be less than %d.\n"
+#, c-format
 msgid ""
 "Requires the city size to be less than %d for this city and all trade "
 "partners.\n"
 msgid_plural ""
 "Requires the city size to be less than %d for this city and all trade "
 "partners.\n"
-msgstr[0] "Edellyttää että kaupungin koko on pienempi kuin %d.\n"
-msgstr[1] "Edellyttää että kaupungin koko on pienempi kuin %d.\n"
+msgstr[0] "Edellyttää että kaupungin ja kaikkien sen kauppakumppanien koko on pienempi kuin %d.\n"
+msgstr[1] "Edellyttää että kaupungin ja kaikkien sen kauppakumppanien koko on pienempi kuin %d.\n"
 
 #: client/helpdata.c:1875
 #, c-format
@@ -10527,33 +10501,29 @@ msgstr[1] ""
 "kauppakumppanissa.\n"
 
 #: client/helpdata.c:1930
-#, fuzzy, c-format
-#| msgid "Requires the city size to be less than %d.\n"
-#| msgid_plural "Requires the city size to be less than %d.\n"
+#, c-format
 msgid ""
 "Requires the culture in this city and all trade partners to be less than "
 "%d.\n"
 msgid_plural ""
 "Requires the culture in this city and all trade partners to be less than "
 "%d.\n"
-msgstr[0] "Edellyttää että kaupungin koko on pienempi kuin %d.\n"
-msgstr[1] "Edellyttää että kaupungin koko on pienempi kuin %d.\n"
+msgstr[0] "Edellyttää että kaupungilla ja kaikilla sen kauppakumppanilla on vähemmän kuin %d piste kulttuuria.\n"
+msgstr[1] "Edellyttää että kaupungilla ja kaikilla sen kauppakumppanilla on vähemmän kuin %d pistettä kulttuuria.\n"
 
 #: client/helpdata.c:1941
-#, fuzzy, c-format
-#| msgid "Requires you to have built %s at some point.\n"
+#, c-format
 msgid "Requires your nation to have culture of at least %d.\n"
 msgid_plural "Requires your nation to have culture of at least %d.\n"
-msgstr[0] "Edellyttää sinun rakentaneen ihmeen %s taannoin.\n"
-msgstr[1] "Edellyttää sinun rakentaneen ihmeen %s taannoin.\n"
+msgstr[0] "Edellyttää kansalla olevan vähintään %d piste kulttuuria.\n"
+msgstr[1] "Edellyttää kansalla olevan vähintään %d pistettä kulttuuria.\n"
 
 #: client/helpdata.c:1949
-#, fuzzy, c-format
-#| msgid "Prevented if you own %s, unless it is obsolete.\n"
+#, c-format
 msgid "Prevented if your nation has culture of %d or more.\n"
 msgid_plural "Prevented if your nation has culture of %d or more.\n"
-msgstr[0] "Estyy jos sinulla on %s, paitsi jos se on vanhentunut.\n"
-msgstr[1] "Estyy jos sinulla on %s, paitsi jos se on vanhentunut.\n"
+msgstr[0] "Estyy jos kansalla on %d piste tai enemmän kultturia.\n"
+msgstr[1] "Estyy jos kansalla on %d pistettä tai enemmän kultturia.\n"
 
 #: client/helpdata.c:1960
 #, fuzzy, c-format
@@ -10637,8 +10607,8 @@ msgid ""
 msgid_plural ""
 "The tile or at least one cardinally adjacent tile must have %d units or "
 "fewer.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ruudulla tai jollakin sen rinnalla olevalla ruudulla saa olla korkeintaan %d yksikkö.\n"
+msgstr[1] "Ruudulla tai jollakin sen rinnalla olevalla ruudulla saa olla korkeintaan %d yksikköä.\n"
 
 #: client/helpdata.c:2053
 #, c-format
@@ -10648,24 +10618,24 @@ msgid ""
 msgid_plural ""
 "The tile and all cardinally adjacent tiles must have more than %d units "
 "each.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ruudulla ja kaikilla sen rinnalla olevilla ruuduilla täytyy olla vähintään %d yksikkö.\n"
+msgstr[1] "Ruudulla ja kaikilla sen rinnalla olevilla ruuduilla täytyy olla vähintään %d yksikköä.\n"
 
 #: client/helpdata.c:2064
 #, c-format
 msgid "The tile or at least one adjacent tile must have %d unit or fewer.\n"
 msgid_plural ""
 "The tile or at least one adjacent tile must have %d units or fewer.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ruudulla tai jollakin sen viereisellä ruudulla saa olla korkeintaan %d yksikkö.\n"
+msgstr[1] "Ruudulla tai jollakin sen viereisellä ruudulla saa olla korkeintaan %d yksikköä.\n"
 
 #: client/helpdata.c:2072
 #, c-format
 msgid "The tile and all adjacent tiles must have more than %d unit each.\n"
 msgid_plural ""
 "The tile and all adjacent tiles must have more than %d units each.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ruudulla ja kaikilla viereisillä ruuduilla täytyy olla vähintään %d yksikkö.\n"
+msgstr[1] "Ruudulla ja kaikilla viereisillä ruuduilla täytyy olla vähintään %d yksikköä.\n"
 
 #. TRANS: AI level (e.g., "Handicapped")
 #: client/helpdata.c:2099
@@ -10697,9 +10667,7 @@ msgstr "Estyy jos ruutu on maastotyyppiä %s.\n"
 msgid ""
 "?terrainclass:Requires %s terrain on the tile or a cardinally adjacent "
 "tile.\n"
-msgstr ""
-"Edellyttää ruudun tai pääilmansuunnassa viereisen ruudun olevan "
-"maastotyyppiä %s.\n"
+msgstr "Edellyttää ruudun tai rinnalla olevan ruudun olevan maastotyyppiä %s.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:2137
@@ -10707,8 +10675,7 @@ msgstr ""
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any cardinally adjacent "
 "tile.\n"
-msgstr ""
-"Estyy jos ruutu tai pääilmansuunnassa viereinen ruutu on maastotyyppiä %s.\n"
+msgstr "Estyy jos ruutu tai sen rinnalla oleva ruutu on maastotyyppiä %s.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:2147
@@ -10774,9 +10741,7 @@ msgstr "Estyy, jos ruudun maastolla on \"%s\" ominaisuus.\n"
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile.\n"
-msgstr ""
-"Edellyttää että ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Edellyttää että ruudun tai sen rinnalla olevan ruudun maastolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:2233
@@ -10784,9 +10749,7 @@ msgstr ""
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile.\n"
-msgstr ""
-"Estyy jos ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Estyy jos ruudun tai sen rinnalla olevan ruudun maastolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:2242
@@ -10848,214 +10811,147 @@ msgstr ""
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2302
-#, fuzzy, c-format
-#| msgid "Requires terrain with the \"%s\" flag on the tile.\n"
+#, c-format
 msgid "Requires a base with the \"%s\" flag on the tile.\n"
-msgstr "Edellyttää ruudun maastolla olevan \"%s\" ominaisuuden.\n"
+msgstr "Edellyttää ruudulla olevan tukikohdan, jolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2307
-#, fuzzy, c-format
-#| msgid "Prevented by terrain with the \"%s\" flag on the tile.\n"
+#, c-format
 msgid "Prevented by a base with the \"%s\" flag on the tile.\n"
-msgstr "Estyy, jos ruudun maastolla on \"%s\" ominaisuus.\n"
+msgstr "Estyy, jos ruudulla on tukikohta, jolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2316
-#, fuzzy, c-format
-#| msgid ""
-#| "Requires terrain with the \"%s\" flag on the tile or a cardinally "
-#| "adjacent tile.\n"
+#, c-format
 msgid ""
 "Requires a base with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile.\n"
-msgstr ""
-"Edellyttää että ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Edellyttää että ruudulla tai sen rinnalla olevalla ruudulla on tukikohta ominaisuudella \"%s\".\n"
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2322
-#, fuzzy, c-format
-#| msgid ""
-#| "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
-#| "adjacent tile.\n"
+#, c-format
 msgid ""
 "Prevented by a base with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile.\n"
-msgstr ""
-"Estyy jos ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Estyy jos ruudulla tai sen rinnalla olevalla ruudulla on tukikohta, jolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2331
 #, c-format
 msgid "Requires a base with the \"%s\" flag on the tile or an adjacent tile.\n"
-msgstr ""
-"Edellyttää että ruudussa tai viereisessä ruudussa on tukikohta "
-"ominaisuudella \"%s\".\n"
+msgstr "Edellyttää että ruudulla tai viereisellä ruudulla on tukikohta ominaisuudella \"%s\".\n"
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2337
 #, c-format
 msgid ""
 "Prevented by a base with the \"%s\" flag on the tile or any adjacent tile.\n"
-msgstr ""
-"Estyy jos ruudussa tai viereisessä ruudussa on tukikohta ominaisuudella \"%s"
-"\".\n"
+msgstr "Estyy jos ruudulla tai viereisellä ruudulla on tukikohta ominaisuudella \"%s\".\n"
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2346
-#, fuzzy, c-format
-#| msgid ""
-#| "Requires terrain with the \"%s\" flag on a tile within the city radius.\n"
+#, c-format
 msgid ""
 "Requires a base with the \"%s\" flag on a tile within the city radius.\n"
-msgstr ""
-"Edellyttää kaupungin alueella ruudun, jonka maastolla on ominaisuus \"%s\".\n"
+msgstr "Edellyttää kaupungin alueella tukikohdan ominaisuudella \"%s\".\n"
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2352
-#, fuzzy, c-format
-#| msgid ""
-#| "Prevented by terrain with the \"%s\" flag on any tile within the city "
-#| "radius.\n"
+#, c-format
 msgid ""
 "Prevented by a base with the \"%s\" flag on any tile within the city "
 "radius.\n"
-msgstr ""
-"Estyy, jos kaupungin alueella on ruutu, jonka maastolla on ominaisuus \"%s"
-"\".\n"
+msgstr "Estyy, jos kaupungin alueella on tukikohta ominaisuudella \"%s\".\n"
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2361
-#, fuzzy, c-format
-#| msgid ""
-#| "Requires terrain with the \"%s\" flag on a tile within the city radius.\n"
+#, c-format
 msgid ""
 "Requires a base with the \"%s\" flag on a tile within the city radius or the "
 "city radius of a trade partner.\n"
-msgstr ""
-"Edellyttää kaupungin alueella ruudun, jonka maastolla on ominaisuus \"%s\".\n"
+msgstr "Edellyttää kaupungin tai jonkin sen kauppakumppanin alueella tukikohdan, jolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) base flag.
 #: client/helpdata.c:2368
-#, fuzzy, c-format
-#| msgid ""
-#| "Prevented by terrain with the \"%s\" flag on any tile within the city "
-#| "radius.\n"
+#, c-format
 msgid ""
 "Prevented by a base with the \"%s\" flag on any tile within the city radius "
 "or the city radius of a trade partner.\n"
-msgstr ""
-"Estyy, jos kaupungin alueella on ruutu, jonka maastolla on ominaisuus \"%s"
-"\".\n"
+msgstr "Estyy, jos kaupungin tai jonkun sen kauppakumppanin alueella on tukikohta, jolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2391
-#, fuzzy, c-format
-#| msgid "Requires terrain with the \"%s\" flag on the tile.\n"
+#, c-format
 msgid "Requires a road with the \"%s\" flag on the tile.\n"
-msgstr "Edellyttää ruudun maastolla olevan \"%s\" ominaisuuden.\n"
+msgstr "Edellyttää ruudulla olevan tien, jolla on ominaisuus \"%s\"\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2396
-#, fuzzy, c-format
-#| msgid "Prevented by terrain with the \"%s\" flag on the tile.\n"
+#, c-format
 msgid "Prevented by a road with the \"%s\" flag on the tile.\n"
-msgstr "Estyy, jos ruudun maastolla on \"%s\" ominaisuus.\n"
+msgstr "Estyy, jos ruudulla on tie, jolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2405
-#, fuzzy, c-format
-#| msgid ""
-#| "Requires terrain with the \"%s\" flag on the tile or a cardinally "
-#| "adjacent tile.\n"
+#, c-format
 msgid ""
 "Requires a road with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile.\n"
-msgstr ""
-"Edellyttää että ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Edellyttää että ruudulla tai sen rinnalla olevalla ruudulla on tie ominaisuudella \"%s\".\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2411
-#, fuzzy, c-format
-#| msgid ""
-#| "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
-#| "adjacent tile.\n"
+#, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile.\n"
-msgstr ""
-"Estyy jos ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Estyy jos ruudulla tai sen rinnalla olevalla ruudulla on tie, jolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2420
-#, fuzzy, c-format
-#| msgid ""
-#| "Requires terrain with the \"%s\" flag on the tile or an adjacent tile.\n"
+#, c-format
 msgid "Requires a road with the \"%s\" flag on the tile or an adjacent tile.\n"
-msgstr ""
-"Edellyttää että ruudun tai viereisen ruudun maastolla on ominaisuus \"%s\".\n"
+msgstr "Edellyttää että ruudulla tai viereisellä ruudulla on tie ominaisuudella \"%s\".\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2426
-#, fuzzy, c-format
-#| msgid ""
-#| "Prevented by terrain with the \"%s\" flag on the tile or any adjacent "
-#| "tile.\n"
+#, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on the tile or any adjacent tile.\n"
-msgstr ""
-"Estyy jos ruudun tai viereisen ruudun maastolla on ominaisuus \"%s\".\n"
+msgstr "Estyy jos ruudulla tai viereisellä ruudulla on tie ominaisuudella \"%s\".\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2435
-#, fuzzy, c-format
-#| msgid ""
-#| "Requires terrain with the \"%s\" flag on a tile within the city radius.\n"
+#, c-format
 msgid ""
 "Requires a road with the \"%s\" flag on a tile within the city radius.\n"
-msgstr ""
-"Edellyttää kaupungin alueella ruudun, jonka maastolla on ominaisuus \"%s\".\n"
+msgstr "Edellyttää kaupungin alueella tien ominaisuudella \"%s\".\n\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2441
-#, fuzzy, c-format
-#| msgid ""
-#| "Prevented by terrain with the \"%s\" flag on any tile within the city "
-#| "radius.\n"
+#, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on any tile within the city "
 "radius.\n"
-msgstr ""
-"Estyy, jos kaupungin alueella on ruutu, jonka maastolla on ominaisuus \"%s"
-"\".\n"
+msgstr "Estyy, jos kaupungin alueella on tie ominaisuudella \"%s\".\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2450
-#, fuzzy, c-format
-#| msgid ""
-#| "Requires terrain with the \"%s\" flag on a tile within the city radius.\n"
+#, c-format
 msgid ""
 "Requires a road with the \"%s\" flag on a tile within the city radius or the "
 "city radius of a trade partner.\n"
-msgstr ""
-"Edellyttää kaupungin alueella ruudun, jonka maastolla on ominaisuus \"%s\".\n"
+msgstr "Edellyttää kaupungin tai jonkin sen kauppakumppanin alueella tien, jolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2457
-#, fuzzy, c-format
-#| msgid ""
-#| "Prevented by terrain with the \"%s\" flag on any tile within the city "
-#| "radius.\n"
+#, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on any tile within the city radius "
 "or the city radius of a trade partner.\n"
-msgstr ""
-"Estyy, jos kaupungin alueella on ruutu, jonka maastolla on ominaisuus \"%s"
-"\".\n"
+msgstr "Estyy, jos kaupungin tai jonkun sen kauppakumppanin alueella on tie, jolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) extra flag.
 #: client/helpdata.c:2480
@@ -11074,28 +10970,18 @@ msgstr "Estyy, jos ruudun maastolla on \"%s\" ominaisuus.\n"
 #. TRANS: %s is a (translatable) extra flag.
 #: client/helpdata.c:2494
 #, fuzzy, c-format
-#| msgid ""
-#| "Requires terrain with the \"%s\" flag on the tile or a cardinally "
-#| "adjacent tile.\n"
 msgid ""
 "Requires an extra with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile.\n"
-msgstr ""
-"Edellyttää että ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Edellyttää että ruudun tai sen rinnalla olevan ruudun maastolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) extra flag.
 #: client/helpdata.c:2500
 #, fuzzy, c-format
-#| msgid ""
-#| "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
-#| "adjacent tile.\n"
 msgid ""
 "Prevented by an extra with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile.\n"
-msgstr ""
-"Estyy jos ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Estyy jos ruudun tai sen rinnalla olevan ruudun maastolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) extra flag.
 #: client/helpdata.c:2509
@@ -11189,16 +11075,14 @@ msgid "Prevented on %s map.\n"
 msgstr "Estyy jos sinulla on %s.\n"
 
 #: client/helpdata.c:2597
-#, fuzzy, c-format
-#| msgid "Requires you to own %s.\n"
+#, c-format
 msgid "Requires age of %d turns.\n"
-msgstr "Edellyttää sinulla olevan ihmeen %s.\n"
+msgstr "Edellyttää %d kierroksen ikää.\n"
 
 #: client/helpdata.c:2601
-#, fuzzy, c-format
-#| msgid "Prevented if %s has ever been built.\n"
+#, c-format
 msgid "Prevented if age is over %d turns.\n"
-msgstr "Estyy jos %s on koskaan rakennettu.\n"
+msgstr "Estyy jos ikä on yli %d kierrosta.\n"
 
 #: client/helpdata.c:2611
 #, c-format
@@ -11226,11 +11110,8 @@ msgstr "Ei päde yksikköön %s.\n"
 
 #: client/helpdata.c:2666
 #, fuzzy, c-format
-#| msgid "?special:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgid "Applies only to %s and cardinally adjacent tiles.\n"
-msgstr ""
-"Edellyttää erityispiirteen %s samalla tai pääilmansunnassa viereisellä "
-"ruudulla.\n"
+msgstr "Edellyttää erityispiirteen %s samalla tai sen rinnalla olevalla ruudulla.\n"
 
 #: client/helpdata.c:2670
 #, fuzzy, c-format
@@ -11311,16 +11192,12 @@ msgid "?improvement:* Prevents %s."
 msgstr "· %s estyy."
 
 #: client/helpdata.c:3120
-#, fuzzy
-#| msgid "Current ruleset contains no description."
 msgid "Current ruleset contains no summary."
-msgstr "Tämänhetkisestä sääntökokoelmasta puuttuu kuvaus."
+msgstr "Tämänhetkisestä sääntökokoelmasta puuttuu yhteenveto."
 
 #: client/helpdata.c:3194
-#, fuzzy
-#| msgid "Current ruleset contains no description."
 msgid "Current tileset contains no summary."
-msgstr "Tämänhetkisestä sääntökokoelmasta puuttuu kuvaus."
+msgstr "Tämänhetkisestä kuvituksesta puuttuu yhteenveto."
 
 #: client/helpdata.c:3384
 #, c-format
@@ -11344,10 +11221,9 @@ msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "· Kun %s keksitään, %s vanhentuu.\n"
 
 #: client/helpdata.c:3488
-#, fuzzy, c-format
-#| msgid "* The discovery of %s will make %s obsolete.\n"
+#, c-format
 msgid "* The presence of %s in the city will make %s obsolete.\n"
-msgstr "· Kun %s keksitään, %s vanhentuu.\n"
+msgstr "· Kun kaupungissa on %s, %s vanhentuu.\n"
 
 #: client/helpdata.c:3497
 msgid ""
@@ -11395,10 +11271,9 @@ msgstr ""
 "'savepalace' on käytössä).\n"
 
 #: client/helpdata.c:3637
-#, fuzzy, c-format
-#| msgid "* Belongs to %s unit class.\n"
+#, c-format
 msgid "* Belongs to %s unit class."
-msgstr "· Kuuluu %s yksiköihin.\n"
+msgstr "· Kuuluu %s yksiköihin."
 
 #: client/helpdata.c:3648
 msgid "  * Can occupy empty enemy cities.\n"
@@ -11484,14 +11359,13 @@ msgstr "· %d-kertainen puolustusbonus jos hyökkääjä on %s.\n"
 #: client/helpdata.c:3743
 #, c-format
 msgid "* reduces target's defense to 1 / %d when attacking %s.\n"
-msgstr "· vastustajan puolustusarvo 1 / %d normaalista, kun vastustajana %s.\n"
+msgstr "· kun hyökkäyksen kohteena %2$s, sen puolustusarvo on 1 / %1$d normaalista.\n"
 
 #. TRANS: or-list of unit types
 #: client/helpdata.c:3751
-#, fuzzy, c-format
-#| msgid "* Gets double firepower when attacking cities.\n"
+#, c-format
 msgid "* reduces target's fire power to 1 when attacking %s.\n"
-msgstr "· Saa kaksinkertaisen tulivoiman kaupunkeja vastaan.\n"
+msgstr "· kun hyökkäyksen kohteena %s, sen tulivoima on vain 1.\n"
 
 #: client/helpdata.c:3763
 #, c-format
@@ -13548,7 +13422,9 @@ msgstr "Salli ääniefektit"
 msgid ""
 "Play sound effects, assuming there's suitable sound plugin and soundset with "
 "the sounds."
-msgstr "Soita ääniefektit, edellyttäen että käytössä on toimiva audioliitännäinen ja äänistö."
+msgstr ""
+"Soita ääniefektit, edellyttäen että käytössä on toimiva audioliitännäinen ja "
+"äänistö."
 
 #: client/options.c:2209
 msgid "Enable in-game music"
@@ -13558,7 +13434,9 @@ msgstr "Salli musiikki pelitilanteessa"
 msgid ""
 "Play music during the game, assuming there's suitable sound plugin and "
 "musicset with in-game tracks."
-msgstr "Soita taustamusiikkia pelin aikana, edellyttäen että käytössä on toimiva audioliitännäinen ja musiikkivalikoima soveltuvin raidoin."
+msgstr ""
+"Soita taustamusiikkia pelin aikana, edellyttäen että käytössä on toimiva "
+"audioliitännäinen ja musiikkivalikoima soveltuvin raidoin."
 
 #: client/options.c:2214
 msgid "Enable menu music"
@@ -13568,7 +13446,10 @@ msgstr "Salli musiikki valikoissa"
 msgid ""
 "Play music while not in actual game, assuming there's suitable sound plugin "
 "and musicset with menu music tracks."
-msgstr "oita taustamusiikkia normaalin pelitilanteen ulkopuolisissa valikoissa oltaessa, edellyttäen että käytössä on toimiva audioliitännäinen ja musiikkivalikoima soveltuvin raidoin."
+msgstr ""
+"oita taustamusiikkia normaalin pelitilanteen ulkopuolisissa valikoissa "
+"oltaessa, edellyttäen että käytössä on toimiva audioliitännäinen ja "
+"musiikkivalikoima soveltuvin raidoin."
 
 #: client/options.c:2220
 msgid "Autoaccept soundset suggestions"
@@ -14109,7 +13990,11 @@ msgstr "Pienin käskynhaltijalle asetettavissa oleva ylijäämä-asetus."
 #: client/options.c:2656
 msgid ""
 "The lower limit of the range for requesting surpluses from the governor."
-msgstr "Käskynhaltijalta pyydettävissä olevan ylijäämän alin mahdollinen arvo. Tämä vaikuttaa vain käyttöliittymään. Mitä laajemman arvoalueen sallit valittavaksi, sitä vaikeampi liukusäätimellä on valita juuri tiettyä tarkkaa arvoa."
+msgstr ""
+"Käskynhaltijalta pyydettävissä olevan ylijäämän alin mahdollinen arvo. Tämä "
+"vaikuttaa vain käyttöliittymään. Mitä laajemman arvoalueen sallit "
+"valittavaksi, sitä vaikeampi liukusäätimellä on valita juuri tiettyä tarkkaa "
+"arvoa."
 
 #: client/options.c:2662
 msgid "Maximum surplus for a governor"
@@ -14118,7 +14003,11 @@ msgstr "Suurin käskynhaltijalle asetettavissa oleva ylijäämä-asetus."
 #: client/options.c:2663
 msgid ""
 "The higher limit of the range for requesting surpluses from the governor."
-msgstr "Käskynhaltijalta pyydettävissä olevan ylijäämän ylin mahdollinen arvo. Tämä vaikuttaa vain käyttöliittymään. Mitä laajemman arvoalueen sallit valittavaksi, sitä vaikeampi liukusäätimellä on valita juuri tiettyä tarkkaa arvoa."
+msgstr ""
+"Käskynhaltijalta pyydettävissä olevan ylijäämän ylin mahdollinen arvo. Tämä "
+"vaikuttaa vain käyttöliittymään. Mitä laajemman arvoalueen sallit "
+"valittavaksi, sitä vaikeampi liukusäätimellä on valita juuri tiettyä tarkkaa "
+"arvoa."
 
 #: client/options.c:2752 client/options.c:2770
 msgid "Screen resolution"
@@ -14193,11 +14082,11 @@ msgstr "Tätä kirjasinta käytetään ohjeen otsikon näyttämiseen ohjeikkunas
 
 #: client/options.c:2887
 msgid "Wake up sequence"
-msgstr ""
+msgstr "Herätysmerkkijono"
 
 #: client/options.c:2888
 msgid "String which will trigger sound in pregame page, %1 stands for nick"
-msgstr ""
+msgstr "Pelin valmistelun aikana äänimerkin aiheuttava merkkijono. %1 tarkoittaa käyttäjätunnustasi."
 
 #: client/options.c:2963
 msgid "Graphics"
@@ -15407,16 +15296,11 @@ msgid "No extrastyle for \"%s\" or \"%s\"."
 msgstr "Ei ruutulisätyyliä määritetty tunnisteelle \"%s\" tai \"%s\"."
 
 #: client/tilespec.c:3384
-#, fuzzy, c-format
-#| msgid ""
-#| "Missing %s building activity sprite for tags \"%s\" and alternative \"%s"
-#| "\"."
+#, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
 "and \"%s\"."
-msgstr ""
-"Ei löydy toimintoikonia näytettäväksi kun rakennetaan %s. Sen pitäisi löytyä "
-"tunnisteella \"%s\" tai \"%s\"."
+msgstr "Ei löydy toimintoikonia näytettäväksi kun rakennetaan %s. Sen pitäisi löytyä tunnisteella \"%s\", \"%s\" tai \"%s\"."
 
 #: client/tilespec.c:3397
 #, c-format
@@ -16160,7 +16044,7 @@ msgstr "Tankkauspaikka"
 
 #: common/extras.h:35
 msgid "?extraflag:TerrChangeRemoves"
-msgstr ""
+msgstr "Maastonmuutoksessa poistuva"
 
 #: common/extras.h:38
 msgid "?extraflag:AutoOnCityCenter"
@@ -16183,16 +16067,12 @@ msgid "?extraflag:NuclearWinter"
 msgstr "Edistää ydintalvea"
 
 #: common/extras.h:53
-#, fuzzy
-#| msgid "?roadflag:\"%s\" road"
 msgid "?extraflag:ShowFlag"
-msgstr "ominaisuuden \"%s\" polkutyyppi"
+msgstr "Liputtava"
 
 #: common/extras.h:57
-#, fuzzy
-#| msgid "?unitflag:Capturable"
 msgid "?extraflag:NaturalDefense"
-msgstr "Vangittava"
+msgstr "Puolustettava maastonmuoto"
 
 #: common/fc_cmdhelp.c:110
 #, c-format
@@ -17059,10 +16939,8 @@ msgid "NoFortify"
 msgstr "Ei linnoittautumista"
 
 #: common/terrain.h:134
-#, fuzzy
-#| msgid "Frozen Lake"
 msgid "Frozen"
-msgstr "Jääjärvi"
+msgstr "Jäätynyt"
 
 #. TRANS: Activity name, verb in English
 #: common/unit.c:629
@@ -17159,7 +17037,9 @@ msgstr ""
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
 "could not transport."
-msgstr "Ajanmukaistettu yksikkö %1$.0s%2$s ei olisi sitä kuljettavan yksikön, %3$s, kuljetettavissa."
+msgstr ""
+"Ajanmukaistettu yksikkö %1$.0s%2$s ei olisi sitä kuljettavan yksikön, %3$s, "
+"kuljetettavissa."
 
 #: common/unittype.c:843
 #, c-format
@@ -17172,10 +17052,8 @@ msgid "%s and similar units"
 msgstr "%s ja vastaavat yksiköt"
 
 #: common/unittype.h:57
-#, fuzzy
-#| msgid "?unitclass:Trireme"
 msgid "?uclassflag:TerrainSpeed"
-msgstr "soutulaivaston"
+msgstr "Maastokohtaista nopeutta kulkeva"
 
 #: common/unittype.h:59
 msgid "?uclassflag:TerrainDefense"
@@ -17215,11 +17093,11 @@ msgstr "Linnoittautuva"
 
 #: common/unittype.h:81
 msgid "?uclassflag:CanPillage"
-msgstr ""
+msgstr "Voi turmella"
 
 #: common/unittype.h:84
 msgid "?uclassflag:DoesntOccupyTile"
-msgstr ""
+msgstr "Ei estä ruudun käyttöä"
 
 #: common/unittype.h:87
 #, fuzzy
@@ -20593,12 +20471,7 @@ msgid ""
 "river tile, or another tile with an irrigation system, must share an edge "
 "(not just a corner) with the target tile. Once irrigated, land remains so "
 "even if the water source is removed."
-msgstr ""
-"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
-"lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai "
-"jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun "
-"vieressä pääilmansuunnassa. Kun kasteluverkosto on kaivettu, ruutu pysyy "
-"kasteltuna vaikka vedenlähde poistettaisiin."
+msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin."
 
 #: data/civ1/units.ruleset:343 data/civ2/units.ruleset:347
 #: data/classic/units.ruleset:481 data/experimental/units.ruleset:500
@@ -22476,16 +22349,11 @@ msgstr "Merivoimien yksiköt saavat ylimääräisen liikepisteen."
 
 #: data/civ2/techs.ruleset:545 data/classic/techs.ruleset:552
 #: data/experimental/techs.ruleset:607 data/civ2civ3/techs.ruleset:624
-#, fuzzy, c-format
-#| msgid ""
-#| "Great scientists from all the world join your civilization: you learn %s "
-#| "immediately."
+#, c-format
 msgid ""
 "Great philosophers from all the world join your civilization: you learn %s "
 "immediately."
-msgstr ""
-"Suuret tiedemiehet ympäri maailmaa liittyvät riveihisi; saavutat "
-"välittömästi edistysaskeleen %s."
+msgstr "Suuret filosofit ympäri maailmaa liittyvät riveihisi; saavutat välittömästi edistysaskeleen %s."
 
 #: data/civ2/techs.ruleset:567 data/classic/techs.ruleset:574
 #: data/experimental/techs.ruleset:631 data/civ2civ3/techs.ruleset:649
@@ -22723,11 +22591,7 @@ msgid ""
 "resources produced by that tile.  It also increases a tile's defense factor "
 "by 50%.  Finally, land units may move along a River (but not diagonally) for "
 "fast travel."
-msgstr ""
-"Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa "
-"kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 50%. "
-"Maavoimien yksiköt voivat kulkea jokea pitkin pääilmansuuntiin tavallista "
-"nopeammin."
+msgstr "Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 50%. Maavoimien yksiköt voivat kulkea jokea pitkin, mutta eivät kulmittain olevien jokiruutujen välillä, tavallista nopeammin."
 
 #: data/civ2/units.ruleset:26 data/classic/units.ruleset:31
 #: data/experimental/units.ruleset:34 data/civ2civ3/units.ruleset:31
@@ -22781,15 +22645,7 @@ msgid ""
 "even if the water source is removed. When Refrigeration is known, irrigation "
 "systems can be upgraded to Farmland by irrigating them a second time; this "
 "provides more food to a city if it has a Supermarket."
-msgstr ""
-"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
-"lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai "
-"jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun "
-"vieressä pääilmansuunnassa. Kun kasteluverkosto on kaivettu, ruutu pysyy "
-"kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa "
-"kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, "
-"jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa "
-"enemmän ruokaa kaupungeille, joissa on supermarketti."
+msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on supermarketti."
 
 #: data/civ2/units.ruleset:360
 msgid ""
@@ -24096,15 +23952,7 @@ msgid ""
 "remains so even if the water source is removed. When Refrigeration is known, "
 "irrigation systems can be upgraded to Farmland by irrigating them a second "
 "time; this provides more food to a city if it has a Supermarket."
-msgstr ""
-"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
-"lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri-, "
-"järvi- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan "
-"ruudun vieressä pääilmansuunnassa. Kun kasteluverkosto on kaivettu, ruutu "
-"pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa "
-"kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, "
-"jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa "
-"enemmän ruokaa kaupungeille, joissa on Supermarketti."
+msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri-, järvi- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on Supermarketti."
 
 #: data/classic/units.ruleset:491 data/experimental/units.ruleset:510
 msgid ""
@@ -26388,16 +26236,7 @@ msgid ""
 "removed. When Refrigeration is known, irrigation systems can be upgraded to "
 "Farmland by irrigating them a second time; this provides more food to a city "
 "if it has a Supermarket."
-msgstr ""
-"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
-"lisää ruuantuotantoa ruudussa. Mikäli sähköä ei tunneta, lähellä on oltava "
-"saatavilla vettä: meri-, järvi- tai jokiruutu taikka jo kasteltu ruutu on "
-"oltava heti kohteena olevan ruudun vieressä pääilmansuunnassa. Kun "
-"kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde "
-"poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan "
-"muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi "
-"peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on "
-"Supermarketti."
+msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Mikäli sähköä ei tunneta, lähellä on oltava saatavilla vettä: meri-, järvi- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on Supermarketti."
 
 #: data/civ2civ3/units.ruleset:549
 msgid ""
@@ -29928,7 +29767,7 @@ msgid ""
 "- An enemy city counts as an enemy occupied tile if there are any units "
 "inside the city, but not if the city is empty. (This is the same rule as for "
 "any other tile.)"
-msgstr ""
+msgstr "- Kaupungit eivät sinänsä saa aikaan valvonta-alueita, mutta niiden sisällä olevat yksiköt voivat sen tehdä."
 
 #: data/helpdata.txt:1337
 msgid ""
@@ -30055,7 +29894,9 @@ msgstr ""
 
 #: data/helpdata.txt:1407
 msgid "Policies are changable values, which define your civilization's rights."
-msgstr "Linjauksest ovat muutettavissa olevia arvoja, jotka määrittävät kansasi oikeudet."
+msgstr ""
+"Linjauksest ovat muutettavissa olevia arvoja, jotka määrittävät kansasi "
+"oikeudet."
 
 #: data/helpdata.txt:1414
 msgid ""
@@ -31676,16 +31517,11 @@ msgstr ""
 "edistysaskeleen %s."
 
 #: data/multiplayer/script.lua:131
-#, fuzzy, c-format
-#| msgid ""
-#| "Great philosophers from all the world join the %s: they get %s as an "
-#| "immediate advance."
+#, c-format
 msgid ""
 "Great philosophers from all the world join the %s: you get the immediate "
 "advance %s."
-msgstr ""
-"Suuret filosofit ympäri maailmaa liittyvät %s riveihin; he saavat "
-"välittömästi edistysaskeleen %s."
+msgstr "Suuret filosofit ympäri maailmaa liittyvät %s riveihin; saatte välittömästi edistysaskeleen %s."
 
 #: data/multiplayer/script.lua:138
 #, c-format
@@ -33037,9 +32873,11 @@ msgid ""
 msgstr ""
 "Europe 1901\n"
 "\n"
-"Yritys luoda historiallisesti tarkka asetelma Euroopan suurvalloista juuri ennen ensimmäisen maailmansodan syttymistä.\n"
+"Yritys luoda historiallisesti tarkka asetelma Euroopan suurvalloista juuri "
+"ennen ensimmäisen maailmansodan syttymistä.\n"
 "\n"
-"Tekijät: Ferdinand Steinkrüger (a.k.a XYZ) and Jamie Troini (a.k.a. Nimrod).\n"
+"Tekijät: Ferdinand Steinkrüger (a.k.a XYZ) and Jamie Troini (a.k.a. "
+"Nimrod).\n"
 "\n"
 "VAROITUS: Tekoälyltä kuluu erittäin pitkä aika vuorojensa pelaamiseen."
 
@@ -35260,15 +35098,11 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska se on saatavilla vasta vuonna %s."
 
 #: server/cityturn.c:1801
-#, fuzzy, c-format
-#| msgid ""
-#| "%s can't build %s from the worklist; only available from %s.  "
-#| "Postponing..."
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old. "
 "Postponing..."
-msgstr ""
-"%s lykkää työlistan hanketta %s, koska se on saatavilla vasta vuonna %s."
+msgstr "%s lykkää työlistan hanketta %s, koska se on saatavilla vasta %d vuotta vanhoille kaupungeille."
 
 #. TRANS: The <city> worklist ....
 #: server/cityturn.c:1902
@@ -38944,17 +38778,17 @@ msgstr "%s on lisätty tavalliseksi pelaajaksi."
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakuntaa ei kelpaa; vaihdetaan tilalle %s."
 
-#: server/savegame2.c:7432 server/savegame.c:4094
+#: server/savegame2.c:7435 server/savegame.c:4094
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/savegame2.c:7442 server/savegame.c:4105
+#: server/savegame2.c:7445 server/savegame.c:4105
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
-#: server/savegame2.c:7467
+#: server/savegame2.c:7470
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -39398,7 +39232,9 @@ msgid ""
 "Explicitly set this setting again to make it take effect instead."
 msgstr ""
 "%s\n"
-"Tällä hetkellä tämän asetuksen sijasta käytössä on kiinteä määrä majoja: %d. Tämän asetuksen asettaminen mihin hyvänsä arvoon vaihtaa käyttöön kartan kokoon suhteutettavan laskentavan."
+"Tällä hetkellä tämän asetuksen sijasta käytössä on kiinteä määrä majoja: %d. "
+"Tämän asetuksen asettaminen mihin hyvänsä arvoon vaihtaa käyttöön kartan "
+"kokoon suhteutettavan laskentavan."
 
 #: server/settings.c:616 server/settings.c:618
 #, c-format
@@ -40130,7 +39966,12 @@ msgid ""
 "already accepted game to start by toggling \"Ready\" get that autotoggled "
 "off in the changed situation. This setting can be used to make readiness "
 "more persistent."
-msgstr "Normaalisti pelin alkua odotettaessa uusien pelaajien yhteydenotot palvelimelle tai vanhojen pelaajien yhteyden katkeaminen vaatii jo pelin alkamisen hyväksyneiltä pelaajilta uuden hyväksynnän muuttuneessa tilanteessa. Tällä asetuksella voidaan määrittää että pelin alun hyväksyntä pysyy voimassa muuttuneissakin olosuhteissa."
+msgstr ""
+"Normaalisti pelin alkua odotettaessa uusien pelaajien yhteydenotot "
+"palvelimelle tai vanhojen pelaajien yhteyden katkeaminen vaatii jo pelin "
+"alkamisen hyväksyneiltä pelaajilta uuden hyväksynnän muuttuneessa "
+"tilanteessa. Tällä asetuksella voidaan määrittää että pelin alun hyväksyntä "
+"pysyy voimassa muuttuneissakin olosuhteissa."
 
 #: server/settings.c:1651
 msgid "Set of nations to choose from"
@@ -43730,7 +43571,9 @@ msgstr "Pelaajille ei ole tarpeeksi kansakuntia, peliä ei aloiteta."
 msgid ""
 "Neither 'startcity' nor 'startunits' setting give players anything to start "
 "game with; game will not start."
-msgstr "Kumpikaan asetuksista 'startcity' tai 'startunits' ei anna pelaajille mitään millä aloittaa peli; peliä ei voi aloittaa."
+msgstr ""
+"Kumpikaan asetuksista 'startcity' tai 'startunits' ei anna pelaajille mitään "
+"millä aloittaa peli; peliä ei voi aloittaa."
 
 #: server/stdinhand.c:5687
 msgid "All players are ready; starting game."
