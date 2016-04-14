@@ -125,11 +125,14 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
    * - pterrain is NULL (= unknown terrain)
    * - ptile is a virtual tile
    * - pterrain does not has the flag TER_NO_CITIES
-   * - there is no city on ptile.
+   * - there is no city on ptile
+   * - client may have had tile fogged and is receiving terrain change before
+   *   city removal
    * This should be read as: The terrain change is INVALID if a terrain with
    * the flag TER_NO_CITIES is given for a real tile with a city (i.e. all
    * check evaluate to TRUE). */
   fc_assert_msg(NULL == pterrain
+                || !is_server()
                 || tile_virtual_check(ptile)
                 || !terrain_has_flag(pterrain, TER_NO_CITIES)
                 || NULL == tile_city(ptile),
