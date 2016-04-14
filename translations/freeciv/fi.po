@@ -22,12 +22,15 @@
 #
 # For nationality translations, see
 # http://www.kotus.fi/julkaisut/nimijulkaisut/paikannimijulkaisut/maat_paakaupungit_ja_kansalaisuudet
+#
+# cardinally adjacent - remember that in hex topologies also NW, SE, etc are cardinally adjacent
+#                       I've used 'rinnalla' for cardinally adjacent and 'vieressä' for any way adjacent.
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-11 09:03+0300\n"
-"PO-Revision-Date: 2016-04-11 14:52+0300\n"
+"POT-Creation-Date: 2016-04-14 12:13+0300\n"
+"PO-Revision-Date: 2016-04-14 13:27+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -1569,7 +1572,7 @@ msgstr "Kohteeseen ei löytynyt käyttökelpoista reittiä!"
 msgid "Oh my! You seem to have no capital!"
 msgstr "Katsohan mokomaa, sinulla ei näköjään ole pääkaupunkia!"
 
-#: client/editor.c:145 client/gui-gtk-2.0/editprop.c:4156
+#: client/editor.c:167 client/gui-gtk-2.0/editprop.c:4156
 #: client/gui-gtk-2.0/menu.c:1404 client/gui-gtk-3.0/editprop.c:4187
 #: client/gui-gtk-3.0/menu.c:1392 client/gui-xaw/menu.c:150
 #: client/gui-xaw/menu.c:246 client/include/helpdlg_g.h:48
@@ -1577,7 +1580,7 @@ msgstr "Katsohan mokomaa, sinulla ei näköjään ole pääkaupunkia!"
 msgid "Terrain"
 msgstr "Maasto"
 
-#: client/editor.c:147
+#: client/editor.c:169
 msgid ""
 "Change tile terrain.\n"
 "Shortcut: t\n"
@@ -1587,11 +1590,11 @@ msgstr ""
 "Pikanäppäin: t\n"
 "Valitse maastotyyppi: vaihto+t tai hiiren oikea nappi."
 
-#: client/editor.c:149
+#: client/editor.c:171
 msgid "Terrain Resource"
 msgstr "Luonnonvara"
 
-#: client/editor.c:151
+#: client/editor.c:173
 msgid ""
 "Change tile terrain resources.\n"
 "Shortcut: r\n"
@@ -1601,11 +1604,11 @@ msgstr ""
 "Pikanäppäin: r\n"
 "Valitse maastotyyppi: vaihto+r tai hiiren oikea nappi.<"
 
-#: client/editor.c:153
+#: client/editor.c:175
 msgid "Terrain Special"
 msgstr "Maaston erityispiirre"
 
-#: client/editor.c:155
+#: client/editor.c:177
 msgid ""
 "Modify tile specials.\n"
 "Shortcut: s\n"
@@ -1615,14 +1618,14 @@ msgstr ""
 "Pikanäppäin: s\n"
 "Valitse erityispiirre: vaihto+s tai hiiren oikea nappi."
 
-#: client/editor.c:157 common/terrain.c:1032 common/unit.c:786
+#: client/editor.c:179 common/terrain.c:1032 common/unit.c:786
 #: data/civ1/terrain.ruleset:870 data/civ2/terrain.ruleset:986
 #: data/classic/terrain.ruleset:1198 data/experimental/terrain.ruleset:1173
 #: data/civ2civ3/terrain.ruleset:1223 data/multiplayer/terrain.ruleset:1177
 msgid "Road"
 msgstr "tie"
 
-#: client/editor.c:159
+#: client/editor.c:181
 msgid ""
 "Modify roads on tile.\n"
 "Shortcut: p\n"
@@ -1632,11 +1635,11 @@ msgstr ""
 "Pikanäppäin: p\n"
 "Valitse tietyyppi: vaihto+p tai hiiren oikea nappi."
 
-#: client/editor.c:161
+#: client/editor.c:183
 msgid "Military Base"
 msgstr "Tukikohta"
 
-#: client/editor.c:163
+#: client/editor.c:185
 msgid ""
 "Create a military base.\n"
 "Shortcut: m\n"
@@ -1646,13 +1649,13 @@ msgstr ""
 "Pikanäppäin: m\n"
 "Valitse tukikohtatyyppi: vaihto+m tai hiiren oikea nappi."
 
-#: client/editor.c:165 client/gui-gtk-2.0/editprop.c:660
+#: client/editor.c:187 client/gui-gtk-2.0/editprop.c:660
 #: client/gui-gtk-2.0/unitselect.c:95 client/gui-gtk-3.0/editprop.c:660
 #: client/gui-gtk-3.0/unitselect.c:95 client/gui-qt/menu.cpp:627
 msgid "Unit"
 msgstr "Yksikkö"
 
-#: client/editor.c:167
+#: client/editor.c:189
 msgid ""
 "Create unit.\n"
 "Shortcut: u\n"
@@ -1662,14 +1665,14 @@ msgstr ""
 "Pikanäppäin: u\n"
 "Valitse yksikkötyyppi: vaihto+u tai hiiren oikea nappi."
 
-#: client/editor.c:169 client/gui-gtk-2.0/citydlg.c:1221
+#: client/editor.c:191 client/gui-gtk-2.0/citydlg.c:1221
 #: client/gui-gtk-2.0/editprop.c:662 client/gui-gtk-2.0/gotodlg.c:202
 #: client/gui-gtk-3.0/citydlg.c:1404 client/gui-gtk-3.0/editprop.c:662
 #: client/gui-gtk-3.0/gotodlg.c:208 client/gui-qt/gotodlg.cpp:68
 msgid "City"
 msgstr "Kaupunki"
 
-#: client/editor.c:170
+#: client/editor.c:192
 msgid ""
 "Create city.\n"
 "Shortcut: c"
@@ -1677,12 +1680,12 @@ msgstr ""
 "Luo kaupunki.\n"
 "Pikanäppäin: c"
 
-#: client/editor.c:171 client/gui-gtk-2.0/editprop.c:4192
+#: client/editor.c:193 client/gui-gtk-2.0/editprop.c:4192
 #: client/gui-gtk-3.0/editprop.c:4222 client/plrdlg_common.c:316
 msgid "Vision"
 msgstr "Näkymä"
 
-#: client/editor.c:172
+#: client/editor.c:194
 msgid ""
 "Modify player's tile knowledge.\n"
 "Shortcut: v"
@@ -1690,12 +1693,12 @@ msgstr ""
 "Muokkaa pelaajan näkymää ruutuun.\n"
 "Pikanäppäin: v"
 
-#: client/editor.c:173 client/gui-gtk-2.0/editprop.c:658
+#: client/editor.c:195 client/gui-gtk-2.0/editprop.c:658
 #: client/gui-gtk-3.0/editprop.c:658
 msgid "Start Position"
 msgstr "Aloituspaikka"
 
-#: client/editor.c:174
+#: client/editor.c:196
 msgid ""
 "Place a start position which allows any nation to start at the tile. To "
 "allow only certain nations to start there, middle click on the start "
@@ -1707,11 +1710,11 @@ msgstr ""
 "mitkä kansakunnat voivat aloittaa tältä paikalta.\n"
 "Pikanäppäin: b"
 
-#: client/editor.c:179
+#: client/editor.c:201
 msgid "Copy/Paste"
 msgstr "Leikkaa/liimaa"
 
-#: client/editor.c:180
+#: client/editor.c:202
 msgid ""
 "Copy and paste tiles.\n"
 "Shortcut for copy mode: shift-c\n"
@@ -1721,27 +1724,27 @@ msgstr ""
 "Pikanäppäin kopiointitilalle: vaihto-c\n"
 "Pikanäppäin liimaustilalle: vaihto-v"
 
-#: client/editor.c:1720
+#: client/editor.c:1742
 msgid "Paint"
 msgstr "Maalaa"
 
-#: client/editor.c:1724
+#: client/editor.c:1746
 msgid "Erase Value"
 msgstr "Poista arvo"
 
-#: client/editor.c:1726
+#: client/editor.c:1748
 msgid "Erase"
 msgstr "Poista"
 
-#: client/editor.c:1730
+#: client/editor.c:1752
 msgid "Copy"
 msgstr "Kopioi"
 
-#: client/editor.c:1733
+#: client/editor.c:1755
 msgid "Paste"
 msgstr "Liitä"
 
-#: client/editor.c:1752
+#: client/editor.c:1774
 msgid ""
 "Toggle erase mode.\n"
 "Shortcut: shift-d"
@@ -1749,7 +1752,7 @@ msgstr ""
 "Aseta poistotila.\n"
 "Pikanäppäin: vaihto-d"
 
-#: client/editor.c:1755
+#: client/editor.c:1777
 msgid ""
 "Toggle copy mode.\n"
 "Shortcut: shift-c"
@@ -1757,7 +1760,7 @@ msgstr ""
 "Aseta kopiointitila.\n"
 "Pikanäppäin: vaihto-c"
 
-#: client/editor.c:1758
+#: client/editor.c:1780
 msgid ""
 "Toggle paste mode.\n"
 "Shortcut: shift-v"
@@ -1765,11 +1768,11 @@ msgstr ""
 "Aseta liittämistila.\n"
 "Pikanäppäin: vaihto-v"
 
-#: client/editor.c:1813
+#: client/editor.c:1835
 msgid "Buffer empty."
 msgstr "Puskuri on tyhjä."
 
-#: client/editor.c:1820
+#: client/editor.c:1842
 #, c-format
 msgid "%d tile copied."
 msgid_plural "%d tiles copied."
@@ -9304,16 +9307,12 @@ msgstr "Estyy jos ruudulla on erityispiirre %s.\n"
 #: client/helpdata.c:720
 #, c-format
 msgid "?special:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr ""
-"Edellyttää erityispiirteen %s samalla tai pääilmansunnassa viereisellä "
-"ruudulla.\n"
+msgstr "Edellyttää erityispiirteen %s samalla tai sen rinnalla olevalla ruudulla.\n"
 
 #: client/helpdata.c:725
 #, c-format
 msgid "?special:Prevented by %s on the tile or any cardinally adjacent tile.\n"
-msgstr ""
-"Estyy jos ruudulla tai pääilmansuunnassa viereisellä ruudulla on "
-"erityispiirre %s.\n"
+msgstr "Estyy jos ruudulla tai sen rinnalla olevalla ruudulla on erityispiirre %s.\n"
 
 #: client/helpdata.c:733
 #, c-format
@@ -9348,15 +9347,12 @@ msgstr "Estyy jos ruutu on maastotyyppiä %s.\n"
 #: client/helpdata.c:779
 #, c-format
 msgid "?terrain:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr ""
-"Edellyttää ruudun tai pääilmansuunnassa viereisen ruudun olevan "
-"maastotyyppiä %s.\n"
+msgstr "Edellyttää ruudun tai sen rinnalla olevan ruudun olevan maastotyyppiä %s.\n"
 
 #: client/helpdata.c:784
 #, c-format
 msgid "?terrain:Prevented by %s on the tile or any cardinally adjacent tile.\n"
-msgstr ""
-"Estyy jos ruutu tai pääilmansuunnassa viereinen ruutu on maastotyyppiä %s.\n"
+msgstr "Estyy jos ruutu tai sen rinnalla oleva ruutu on maastotyyppiä %s.\n"
 
 #: client/helpdata.c:792
 #, c-format
@@ -9391,14 +9387,13 @@ msgstr "Estyy jos ruudussa on %s.\n"
 #: client/helpdata.c:840
 #, c-format
 msgid "?resource:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr ""
-"Edellyttää että ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Edellyttää että ruudulla tai sen rinnalla olevalla ruudulla on %s.\n"
 
 #: client/helpdata.c:845
 #, c-format
 msgid ""
 "?resource:Prevented by %s on the tile or any cardinally adjacent tile.\n"
-msgstr "Estyy jos ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Estyy jos ruudulla tai sen rinnalla olevalla ruudulla on %s.\n"
 
 #: client/helpdata.c:853
 #, c-format
@@ -9590,9 +9585,7 @@ msgstr "Estyy jos ruutu on maastotyyppiä %s.\n"
 msgid ""
 "?terrainclass:Requires %s terrain on the tile or a cardinally adjacent "
 "tile.\n"
-msgstr ""
-"Edellyttää ruudun tai pääilmansuunnassa viereisen ruudun olevan "
-"maastotyyppiä %s.\n"
+msgstr "Edellyttää ruudun tai sen rinnalla olevan ruudun olevan maastotyyppiä %s.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1192
@@ -9600,8 +9593,7 @@ msgstr ""
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any cardinally adjacent "
 "tile.\n"
-msgstr ""
-"Estyy jos ruutu tai pääilmansuunnassa viereinen ruutu on maastotyyppiä %s.\n"
+msgstr "Estyy jos ruutu tai sen rinnalla oleva ruutu on maastotyyppiä %s.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1202
@@ -9647,9 +9639,7 @@ msgstr "Estyy, jos ruudun maastolla on \"%s\" ominaisuus.\n"
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile.\n"
-msgstr ""
-"Edellyttää että ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Edellyttää että ruudun tai sen rinalla olevan ruudun maastolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1267
@@ -9657,9 +9647,7 @@ msgstr ""
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile.\n"
-msgstr ""
-"Estyy jos ruudun tai pääilmansuunnassa viereisen ruudun maastolla on "
-"ominaisuus \"%s\".\n"
+msgstr "Estyy jos ruudun tai sen rinnalla olevan ruudun maastolla on ominaisuus \"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1276
@@ -9708,13 +9696,12 @@ msgstr "Estyy jos ruudussa on %s.\n"
 #: client/helpdata.c:1327
 #, c-format
 msgid "?base:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr ""
-"Edellyttää että ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Edellyttää että ruudulla tai sen rinnalla olevalla ruudulla on %s.\n"
 
 #: client/helpdata.c:1332
 #, c-format
 msgid "?base:Prevented by %s on the tile or any cardinally adjacent tile.\n"
-msgstr "Estyy jos ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Estyy jos ruudulla tai sen rinnalla olevalla ruudulla on %s.\n"
 
 #: client/helpdata.c:1340
 #, c-format
@@ -9749,13 +9736,12 @@ msgstr "Estyy jos ruudussa on %s.\n"
 #: client/helpdata.c:1388
 #, c-format
 msgid "?road:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr ""
-"Edellyttää että ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Edellyttää että ruudulla tai sen rinnalla olevalla ruudulla on %s.\n"
 
 #: client/helpdata.c:1393
 #, c-format
 msgid "?road:Prevented by %s on the tile or any cardinally adjacent tile.\n"
-msgstr "Estyy jos ruudulla tai pääilmansuunnassa viereisellä ruudulla on %s.\n"
+msgstr "Estyy jos ruudulla tai sen viereisellä ruudulla on %s.\n"
 
 #: client/helpdata.c:1401
 #, c-format
@@ -15077,7 +15063,9 @@ msgstr ""
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
 "could not transport."
-msgstr "Ajanmukaistettu yksikkö %1$.0s%2$s ei olisi sitä kuljettavan yksikön, %3$s, kuljetettavissa."
+msgstr ""
+"Ajanmukaistettu yksikkö %1$.0s%2$s ei olisi sitä kuljettavan yksikön, %3$s, "
+"kuljetettavissa."
 
 #: common/unittype.c:444
 #, c-format
@@ -18209,12 +18197,7 @@ msgid ""
 "river tile, or another tile with an irrigation system, must share an edge "
 "(not just a corner) with the target tile. Once irrigated, land remains so "
 "even if the water source is removed."
-msgstr ""
-"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
-"lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai "
-"jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun "
-"vieressä pääilmansuunnassa. Kun kasteluverkosto on kaivettu, ruutu pysyy "
-"kasteltuna vaikka vedenlähde poistettaisiin."
+msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin."
 
 #: data/civ1/units.ruleset:301 data/civ2/units.ruleset:307
 #: data/classic/units.ruleset:468 data/experimental/units.ruleset:487
@@ -20278,11 +20261,7 @@ msgid ""
 "resources produced by that tile.  It also increases a tile's defense factor "
 "by 50%.  Finally, land units may move along a River (but not diagonally) for "
 "fast travel."
-msgstr ""
-"Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa "
-"kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 50%. "
-"Maavoimien yksiköt voivat kulkea jokea pitkin pääilmansuuntiin tavallista "
-"nopeammin."
+msgstr "Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 50%. Maavoimien yksiköt voivat kulkea jokea pitkin, mutta eivät kulmittain kahden jokiruudun välillä, tavallista nopeammin."
 
 #: data/civ2/units.ruleset:26 data/classic/units.ruleset:31
 #: data/experimental/units.ruleset:34 data/civ2civ3/units.ruleset:31
@@ -20336,15 +20315,7 @@ msgid ""
 "even if the water source is removed. When Refrigeration is known, irrigation "
 "systems can be upgraded to Farmland by irrigating them a second time; this "
 "provides more food to a city if it has a Supermarket."
-msgstr ""
-"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
-"lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai "
-"jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun "
-"vieressä pääilmansuunnassa. Kun kasteluverkosto on kaivettu, ruutu pysyy "
-"kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa "
-"kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, "
-"jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa "
-"enemmän ruokaa kaupungeille, joissa on supermarketti."
+msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on supermarketti."
 
 #: data/civ2/units.ruleset:320
 msgid ""
@@ -21582,15 +21553,7 @@ msgid ""
 "remains so even if the water source is removed. When Refrigeration is known, "
 "irrigation systems can be upgraded to Farmland by irrigating them a second "
 "time; this provides more food to a city if it has a Supermarket."
-msgstr ""
-"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
-"lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri-, "
-"järvi- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan "
-"ruudun vieressä pääilmansuunnassa. Kun kasteluverkosto on kaivettu, ruutu "
-"pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa "
-"kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, "
-"jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa "
-"enemmän ruokaa kaupungeille, joissa on Supermarketti."
+msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri-, järvi- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on Supermarketti."
 
 #: data/classic/units.ruleset:478 data/experimental/units.ruleset:497
 msgid ""
@@ -23556,16 +23519,7 @@ msgid ""
 "removed. When Refrigeration is known, irrigation systems can be upgraded to "
 "Farmland by irrigating them a second time; this provides more food to a city "
 "if it has a Supermarket."
-msgstr ""
-"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
-"lisää ruuantuotantoa ruudussa. Mikäli sähköä ei tunneta, lähellä on oltava "
-"saatavilla vettä: meri-, järvi- tai jokiruutu taikka jo kasteltu ruutu on "
-"oltava heti kohteena olevan ruudun vieressä pääilmansuunnassa. Kun "
-"kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde "
-"poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan "
-"muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi "
-"peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on "
-"Supermarketti."
+msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Mikäli sähköä ei tunneta, lähellä on oltava saatavilla vettä: meri-, järvi- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on Supermarketti."
 
 #: data/civ2civ3/units.ruleset:535
 msgid ""
@@ -35394,7 +35348,7 @@ msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakuntaa ei kelpaa; vaihdetaan tilalle %s."
 
-#: server/savegame2.c:6327 server/savegame.c:4564
+#: server/savegame2.c:6330 server/savegame.c:4564
 #, c-format
 msgid ""
 "The save game is wrong about what the closest relationship %s and %s have "
@@ -35403,7 +35357,7 @@ msgstr ""
 "Talletuksessa on selkeästi väärä tieto siitä kuinka läheisiä %s ja %s ovat "
 "parhaimmillaan olleet. Korjaan ilmeisen virheen."
 
-#: server/savegame2.c:6348
+#: server/savegame2.c:6351
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -35412,7 +35366,7 @@ msgstr ""
 "%s omistaa monta %s yksikköä, vaikka sellaisia pitäisi voida olla vain yksi "
 "kullakin pelaajalla."
 
-#: server/savegame2.c:6725
+#: server/savegame2.c:6728
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
