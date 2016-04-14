@@ -1026,42 +1026,42 @@ const char *api_methods_unit_type_name_translation(lua_State *L,
   Return Unit for list link
 *****************************************************************************/
 Unit *api_methods_unit_list_link_data(lua_State *L,
-                                      Unit_List_Link *link)
+                                      Unit_List_Link *ul_link)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
 
-  return unit_list_link_data(link);
+  return unit_list_link_data(ul_link);
 }
 
 /*****************************************************************************
   Return next list link or NULL when link is the last link
 *****************************************************************************/
 Unit_List_Link *api_methods_unit_list_next_link(lua_State *L,
-                                                Unit_List_Link *link)
+                                                Unit_List_Link *ul_link)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
 
-  return unit_list_link_next(link);
+  return unit_list_link_next(ul_link);
 }
 
 /*****************************************************************************
   Return City for list link
 *****************************************************************************/
 City *api_methods_city_list_link_data(lua_State *L,
-                                      City_List_Link *link)
+                                      City_List_Link *cl_link)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
 
-  return city_list_link_data(link);
+  return city_list_link_data(cl_link);
 }
 
 /*****************************************************************************
   Return next list link or NULL when link is the last link
 *****************************************************************************/
 City_List_Link *api_methods_city_list_next_link(lua_State *L,
-                                                City_List_Link *link)
+                                                City_List_Link *cl_link)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
 
-  return city_list_link_next(link);
+  return city_list_link_next(cl_link);
 }

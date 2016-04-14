@@ -992,17 +992,17 @@ int map_num_tiles(void)
   instead.
 ****************************************************************************/
 void base_map_distance_vector(int *dx, int *dy,
-			      int x0, int y0, int x1, int y1)
+			      int x0dv, int y0dv, int x1dv, int y1dv)
 {
   if (current_topo_has_flag(TF_WRAPX) || current_topo_has_flag(TF_WRAPY)) {
     /* Wrapping is done in native coordinates. */
-    MAP_TO_NATIVE_POS(&x0, &y0, x0, y0);
-    MAP_TO_NATIVE_POS(&x1, &y1, x1, y1);
+    MAP_TO_NATIVE_POS(&x0dv, &y0dv, x0dv, y0dv);
+    MAP_TO_NATIVE_POS(&x1dv, &y1dv, x1dv, y1dv);
 
     /* Find the "native" distance vector. This corresponds closely to the
      * map distance vector but is easier to wrap. */
-    *dx = x1 - x0;
-    *dy = y1 - y0;
+    *dx = x1dv - x0dv;
+    *dy = y1dv - y0dv;
     if (current_topo_has_flag(TF_WRAPX)) {
       /* Wrap dx to be in [-map.xsize/2, map.xsize/2). */
       *dx = FC_WRAP(*dx + game.map.xsize / 2, game.map.xsize) - game.map.xsize / 2;
@@ -1013,15 +1013,15 @@ void base_map_distance_vector(int *dx, int *dy,
     }
 
     /* Convert the native delta vector back to a pair of map positions. */
-    x1 = x0 + *dx;
-    y1 = y0 + *dy;
-    NATIVE_TO_MAP_POS(&x0, &y0, x0, y0);
-    NATIVE_TO_MAP_POS(&x1, &y1, x1, y1);
+    x1dv = x0dv + *dx;
+    y1dv = y0dv + *dy;
+    NATIVE_TO_MAP_POS(&x0dv, &y0dv, x0dv, y0dv);
+    NATIVE_TO_MAP_POS(&x1dv, &y1dv, x1dv, y1dv);
   }
 
   /* Find the final (map) vector. */
-  *dx = x1 - x0;
-  *dy = y1 - y0;
+  *dx = x1dv - x0dv;
+  *dy = y1dv - y0dv;
 }
 
 /****************************************************************************

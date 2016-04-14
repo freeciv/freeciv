@@ -864,26 +864,26 @@ size_t featured_text_to_plain_text(const char *featured_text,
                                    struct text_tag_list **tags,
                                    bool replace_link_text)
 {
-  const char *read = featured_text;
-  char *write = plain_text;
-  size_t write_len = plain_text_len;
+  const char *text_in = featured_text;
+  char *text_out = plain_text;
+  size_t text_out_len = plain_text_len;
 
   if (tags) {
     *tags = text_tag_list_new();
   }
 
-  while (*read != '\0' && write_len > 1) {
-    if (SEQ_START == *read) {
+  while (*text_in != '\0' && text_out_len > 1) {
+    if (SEQ_START == *text_in) {
       /* Escape sequence... */
-      char buf[write_len];
+      char buf[text_out_len];
       enum sequence_type seq_type;
       enum text_tag_type type;
-      size_t len = extract_sequence_text(read, buf, write_len,
+      size_t len = extract_sequence_text(text_in, buf, text_out_len,
                                          &seq_type, &type);
 
       if (len > 0) {
         /* Looks a valid sequence. */
-        read += len;
+        text_in += len;
         switch (seq_type) {
         case ST_START:
           if (tags) {
@@ -891,7 +891,7 @@ size_t featured_text_to_plain_text(const char *featured_text,
             struct text_tag *ptag = fc_malloc(sizeof(struct text_tag));
 
             if (text_tag_init_from_sequence(ptag, type,
-                                            write - plain_text, buf)) {
+                                            text_out - plain_text, buf)) {
               text_tag_list_append(*tags, ptag);
             } else {
               text_tag_destroy(ptag);
@@ -915,7 +915,7 @@ size_t featured_text_to_plain_text(const char *featured_text,
             } text_tag_list_rev_iterate_end;
 
             if (ptag) {
-              ptag->stop_offset = write - plain_text;
+              ptag->stop_offset = text_out - plain_text;
             } else {
               log_featured_text("Extra text tag end for \"%s\".",
                                 text_tag_type_name(type));
@@ -928,20 +928,20 @@ size_t featured_text_to_plain_text(const char *featured_text,
             struct text_tag tag;
 
             if (!text_tag_init_from_sequence(&tag, type,
-                                             write - plain_text, buf)) {
+                                             text_out - plain_text, buf)) {
               log_featured_text("Couldn't create a text tag with \"%s\".",
                                 buf);
             } else {
-              len = text_tag_replace_text(&tag, write, write_len,
+              len = text_tag_replace_text(&tag, text_out, text_out_len,
                                           replace_link_text);
-              write += len;
-              write_len -= len;
+              text_out += len;
+              text_out_len -= len;
               if (tags) {
                 /* Set it in the list. */
                 struct text_tag *ptag = fc_malloc(sizeof(struct text_tag));
 
                 *ptag = tag;
-                ptag->stop_offset = write - plain_text;
+                ptag->stop_offset = text_out - plain_text;
                 text_tag_list_append(*tags, ptag);
               }
             }
@@ -949,16 +949,17 @@ size_t featured_text_to_plain_text(const char *featured_text,
           break;
         };
       } else {
-        *write++ = *read++;
-        write_len--;
+        *text_out++ = *text_in++;
+        text_out_len--;
       }
     } else {
-      *write++ = *read++;
-      write_len--;
+      *text_out++ = *text_in++;
+      text_out_len--;
     }
   }
-  *write = '\0';
-  return plain_text_len - write_len;
+  *text_out = '\0';
+
+  return plain_text_len - text_out_len;
 }
 
 /**************************************************************************

@@ -1200,12 +1200,12 @@ static void init_tile_lattice(struct city *pcity,
   tile_type_init(&type); /* init just once */
 
   city_tile_iterate_index(city_map_radius_sq_get(pcity), pcenter, ptile,
-                          index) {
+                          ctindex) {
     if (is_free_worked(pcity, ptile)) {
       continue;
     } else if (city_can_work_tile(pcity, ptile)) {
       compute_tile_production(pcity, ptile, &type); /* clobbers type */
-      tile_type_lattice_add(lattice, &type, index); /* copy type if needed */
+      tile_type_lattice_add(lattice, &type, ctindex); /* copy type if needed */
     }
   } city_tile_iterate_index_end;
 
