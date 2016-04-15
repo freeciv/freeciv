@@ -549,6 +549,9 @@ void game_ruleset_init(void)
     game.server.ruledit.allowed_govs = NULL;
     game.server.ruledit.allowed_terrains = NULL;
     game.server.ruledit.allowed_styles = NULL;
+    game.server.ruledit.nc_agovs = NULL;
+    game.server.ruledit.nc_aterrs = NULL;
+    game.server.ruledit.nc_astyles = NULL;
     game.server.ruledit.ag_count = 0;
     game.server.ruledit.at_count = 0;
     game.server.ruledit.as_count = 0;
@@ -624,16 +627,28 @@ void game_ruleset_free(void)
       game.server.ruledit.embedded_nations = NULL;
       game.server.ruledit.embedded_nations_count = 0;
       if (game.server.ruledit.allowed_govs != NULL) {
+        for (i = 0; i < game.server.ruledit.ag_count; i++) {
+          free(game.server.ruledit.nc_agovs[i]);
+        }
         free(game.server.ruledit.allowed_govs);
         game.server.ruledit.allowed_govs = NULL;
+        game.server.ruledit.nc_agovs = NULL;
       }
       if (game.server.ruledit.allowed_terrains != NULL) {
+        for (i = 0; i < game.server.ruledit.at_count; i++) {
+          free(game.server.ruledit.nc_aterrs[i]);
+        }
         free(game.server.ruledit.allowed_terrains);
         game.server.ruledit.allowed_terrains = NULL;
+        game.server.ruledit.nc_aterrs = NULL;
       }
       if (game.server.ruledit.allowed_styles != NULL) {
+        for (i = 0; i < game.server.ruledit.as_count; i++) {
+          free(game.server.ruledit.nc_astyles[i]);
+        }
         free(game.server.ruledit.allowed_styles);
         game.server.ruledit.allowed_styles = NULL;
+        game.server.ruledit.nc_astyles = NULL;
       }
     }
   }

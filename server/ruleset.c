@@ -4143,8 +4143,10 @@ static bool load_ruleset_nations(struct section_file *file,
                                  "compatibility.allowed_govs");
     if (vec != NULL) {
       /* Copy to persistent vector */
-      game.server.ruledit.allowed_govs
+      game.server.ruledit.nc_agovs
         = fc_malloc(game.server.ruledit.ag_count * sizeof(char *));
+      game.server.ruledit.allowed_govs =
+        (const char **)game.server.ruledit.nc_agovs;
 
       for (j = 0; j < game.server.ruledit.ag_count; j++) {
         game.server.ruledit.allowed_govs[j] = fc_strdup(vec[j]);
@@ -4157,8 +4159,10 @@ static bool load_ruleset_nations(struct section_file *file,
                                  "compatibility.allowed_terrains");
     if (vec != NULL) {
       /* Copy to persistent vector */
-      game.server.ruledit.allowed_terrains
+      game.server.ruledit.nc_aterrs
         = fc_malloc(game.server.ruledit.at_count * sizeof(char *));
+      game.server.ruledit.allowed_terrains =
+        (const char **)game.server.ruledit.nc_aterrs;
 
       for (j = 0; j < game.server.ruledit.at_count; j++) {
         game.server.ruledit.allowed_terrains[j] = fc_strdup(vec[j]);
@@ -4171,8 +4175,10 @@ static bool load_ruleset_nations(struct section_file *file,
                                  "compatibility.allowed_styles");
     if (vec != NULL) {
       /* Copy to persistent vector */
-      game.server.ruledit.allowed_styles
+      game.server.ruledit.nc_astyles
         = fc_malloc(game.server.ruledit.as_count * sizeof(char *));
+      game.server.ruledit.allowed_styles =
+        (const char **)game.server.ruledit.nc_astyles;
 
       for (j = 0; j < game.server.ruledit.as_count; j++) {
         game.server.ruledit.allowed_styles[j] = fc_strdup(vec[j]);

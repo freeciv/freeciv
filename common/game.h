@@ -264,10 +264,13 @@ struct civ_game {
         char **embedded_nations;
         size_t embedded_nations_count;
         const char **allowed_govs;
+        char **nc_agovs;
         size_t ag_count;
         const char **allowed_terrains;
+        char **nc_aterrs;
         size_t at_count;
         const char **allowed_styles;
+        char **nc_astyles;
         size_t as_count;
       } ruledit;
     } server;

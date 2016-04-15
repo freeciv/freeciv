@@ -1588,15 +1588,18 @@ static bool save_nations_ruleset(const char *filename, const char *name,
               "default_traits", "");
 
   if (game.server.ruledit.allowed_govs != NULL) {
-    secfile_insert_str_vec(sfile, game.server.ruledit.allowed_govs, game.server.ruledit.ag_count,
+    secfile_insert_str_vec(sfile, game.server.ruledit.allowed_govs,
+                           game.server.ruledit.ag_count,
                            "compatibility.allowed_govs");
   }
   if (game.server.ruledit.allowed_terrains != NULL) {
-    secfile_insert_str_vec(sfile, game.server.ruledit.allowed_terrains, game.server.ruledit.at_count,
+    secfile_insert_str_vec(sfile, game.server.ruledit.allowed_terrains,
+                           game.server.ruledit.at_count,
                            "compatibility.allowed_terrains");
   }
   if (game.server.ruledit.allowed_styles != NULL) {
-    secfile_insert_str_vec(sfile, game.server.ruledit.allowed_styles, game.server.ruledit.as_count,
+    secfile_insert_str_vec(sfile, game.server.ruledit.allowed_styles,
+                           game.server.ruledit.as_count,
                            "compatibility.allowed_styles");
   }
 
