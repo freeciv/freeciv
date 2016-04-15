@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,19 +11,23 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
                           gui_tilespec.h  -  description
                              -------------------
     begin                : Dec. 2 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafal Bursig <bursig@poczta.fm>
-**********************************************************************/
+***********************************************************************/
 
 #ifndef FC__GUI_TILESPEC_H
 #define FC__GUI_TILESPEC_H
 
 /* SDL2 */
+#ifdef SDL2_PLAIN_INCLUDE
+#include <SDL.h>
+#else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL.h>
+#endif /* SDL2_PLAIN_INCLUDE */
 
 /* client */
 #include "tilespec.h"

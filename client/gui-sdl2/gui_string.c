@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,20 +11,24 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/***************************************************************************
+/***********************************************************************
                           gui_string.c  -  description
                              -------------------
     begin                : June 30 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- ***************************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
 
 /* SDL2 */
+#ifdef SDL2_PLAIN_INCLUDE
+#include <SDL.h>
+#else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL.h>
+#endif /* SDL2_PLAIN_INCLUDE */
 
 /* utility */
 #include "fcintl.h"

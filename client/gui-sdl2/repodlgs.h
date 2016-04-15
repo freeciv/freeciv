@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,8 +15,13 @@
 #define FC__REPODLGS_H
 
 /* SDL2 */
+#ifdef SDL2_PLAIN_INCLUDE
+#include <SDL.h>
+#else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL.h>
+#endif /* SDL2_PLAIN_INCLUDE */
 
+/* client/gui-sdl2 */
 #include "gui_string.h"
 
 #include "repodlgs_g.h"

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,11 @@
 #include <string.h>
 
 /* SDL2 */
+#ifdef SDL2_PLAIN_INCLUDE
+#include <SDL_types.h>
+#else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL_types.h>
+#endif /* SDL2_PLAIN_INCLUDE */
 
 /* utility */
 #include "mem.h"
