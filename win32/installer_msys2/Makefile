@@ -18,6 +18,10 @@ ARCHDIR=/mingw32
 GCCDLL=libgcc_s_dw2-1.dll
 endif
 
+ifeq ($(MIN_WIN_VER),)
+MIN_WIN_VER=0x0600
+endif
+
 # msys2 has dlls in...
 DLLPATH_PREFIX=$(ARCHDIR)/bin/
 
@@ -68,7 +72,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(WINARCH)-$(GUI)
 	# configure
-	cd build-$(WINARCH)-$(GUI); ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --enable-client=$(GUI) --with-followtag="win32-S3_0" --enable-fcdb=sqlite3 --without-readline --disable-sdl-mixer --disable-nls --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
+	cd build-$(WINARCH)-$(GUI); ../../../configure CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(GUI) --with-followtag="win32-S3_0" --enable-fcdb=sqlite3 --without-readline --disable-sdl-mixer --disable-nls --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(WINARCH)-$(GUI)
 	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
@@ -78,7 +82,7 @@ build-freeciv-ruledit:
 	# create build directory
 	mkdir -p build-$(WINARCH)-ruledit
 	# configure
-	cd build-$(WINARCH)-ruledit; ../../../configure CPPFLAGS="-D_WIN32_WINNT=0x0600" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit --with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib
+	cd build-$(WINARCH)-ruledit; ../../../configure CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit --with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib
 	# make
 	make -C build-$(WINARCH)-ruledit
 	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po

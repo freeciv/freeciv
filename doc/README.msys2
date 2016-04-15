@@ -112,6 +112,14 @@ http://download.gna.org/freeciv/packages/windows/testing/cazfi/installer_msys2/e
  - Clients other than gtk3
  - MagickWand support
 
+ You can also set minimum Windows version targeted. While setting this
+ to an older version allows those Windows versions to run the created
+ executables, it may come with the cost of disabling functionality that
+ newer Windows versions could otherwise have.
+ The version is set via MIN_WIN_VER variable. For values to use, see
+ list in: https://msdn.microsoft.com/en-us/library/6sehtctf.aspx
+ Current default is 0x0600 (Vista).
+
 
  Build
 ====================================
