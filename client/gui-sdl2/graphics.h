@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
                           graphics.h  -  description
                              -------------------
     begin                : Mon Jul 1 2002
@@ -19,13 +19,17 @@
 			 : (C) 2002 by Rafał Bursig
     email                : Michael Speck <kulkanie@gmx.net>
 			 : Rafał Bursig <bursig@poczta.fm>
-**********************************************************************/
+***********************************************************************/
 
 #ifndef FC__GRAPHICS_H
 #define FC__GRAPHICS_H
 
 /* SDL */
+#ifdef SDL2_PLAIN_INCLUDE
+#include <SDL2_rotozoom.h>
+#else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL2_rotozoom.h>
+#endif /* SDL2_PLAIN_INCLUDE */
 
 /* client */
 #include "graphics_g.h"

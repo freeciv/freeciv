@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
                           graphics.c  -  description
                              -------------------
     begin                : Mon Jul 1 2002
@@ -19,16 +19,22 @@
                          : (C) 2002 by Rafał Bursig
     email                : Michael Speck <kulkanie@gmx.net>
                          : Rafał Bursig <bursig@poczta.fm>
-**********************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
 
 /* SDL2 */
+#ifdef SDL2_PLAIN_INCLUDE
+#include <SDL_image.h>
+#include <SDL_syswm.h>
+#include <SDL_ttf.h>
+#else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_syswm.h>
 #include <SDL2/SDL_ttf.h>
+#endif /* SDL2_PLAIN_INCLUDE */
 
 /* utility */
 #include "fcintl.h"

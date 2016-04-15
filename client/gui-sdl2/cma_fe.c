@@ -16,7 +16,11 @@
 #endif
 
 /* SDL2 */
+#ifdef SDL2_PLAIN_INCLUDE
+#include <SDL.h>
+#else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL.h>
+#endif /* SDL2_PLAIN_INCLUDE */
 
 /* utility */
 #include "fcintl.h"

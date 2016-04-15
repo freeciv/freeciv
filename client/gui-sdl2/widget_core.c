@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,14 +16,17 @@
 #endif
 
 /* SDL2 */
+#ifdef SDL2_PLAIN_INCLUDE
+#include <SDL.h>
+#else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL.h>
+#endif /* SDL2_PLAIN_INCLUDE */
 
 /* gui-sdl2 */
 #include "colors.h"
 #include "graphics.h"
 #include "mapview.h"
 #include "themespec.h"
-
 #include "widget.h"
 #include "widget_p.h"
 

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
                           gui_iconv.c  -  description
                              -------------------
     begin                : Thu May 30 2002
@@ -19,7 +19,7 @@
     email                : Rafał Bursig <bursig@poczta.fm>
 
     Based on "iconv_string(...)" function Copyright (C) 1999-2001 Bruno Haible.
-    This function is put into the public domain.
+    That function has been put into the public domain.
 
 ***********************************************************************/
 
@@ -33,7 +33,11 @@
 #include <string.h>
 
 /* SDL2 */
+#ifdef SDL2_PLAIN_INCLUDE
+#include <SDL_types.h>
+#else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL_types.h>
+#endif /* SDL2_PLAIN_INCLUDE */
 
 #ifdef HAVE_LIBCHARSET
 #include <libcharset.h>
