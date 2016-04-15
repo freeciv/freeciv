@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -982,7 +982,7 @@ bool dio_get_uint8_vec8_raw(struct data_in *din, int **values, int stop_value)
 }
 
 /**************************************************************************
- Receive vector of uint6 values.
+  Receive vector of uint16 values.
 **************************************************************************/
 bool dio_get_uint16_vec8_raw(struct data_in *din, int **values, int stop_value)
 {
