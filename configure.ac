@@ -437,7 +437,7 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
     elif test "x$gui" = "xgtk3x" ; then
       gui_gtk3x=yes
     elif test "x$gui" = "xgtk" ; then
-      AC_MSG_WARN([for requested client 'gtk' enabled gtk3-client, that has changed since earlier versions])
+      AC_MSG_WARN([for requested client 'gtk' enabled gtk3-client, that has changed since earlier versions and will change again in the future])
       gui_gtk3=yes
     else
       if test ! -d "${srcdir}/client/gui-$gui" ; then
@@ -1723,7 +1723,6 @@ AC_MSG_NOTICE([
 
   Maintained client frontends:
     Gtk-3.0: $gui_gtk3
-    Gtk-2.0: $gui_gtk2
     SDL2:    $gui_sdl2
     QT:      $gui_qt
     Stub:    $gui_stub
@@ -1731,6 +1730,9 @@ AC_MSG_NOTICE([
   In-development client frontends:
   (these are not yet ready for general use)
     Gtk-3.x  $gui_gtk3x
+
+  Not maintained client frontends:
+    Gtk-2.0: $gui_gtk2
 
   == Server ==
   Build freeciv server:  $server

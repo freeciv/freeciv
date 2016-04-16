@@ -32,6 +32,7 @@ Updating from 2.6 to 3.0
 * Added gtk3x-client. The difference between gtk3-client and gtk3x-client is
   that latter is adjusted for, and depends on, as new gtk3 version as
   possible. Once gtk4 gets released, this client is turned to gtk4-client.
+* Gtk2-client is no longer considered maintained client
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
