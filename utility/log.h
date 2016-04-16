@@ -157,6 +157,14 @@ void fc_assert_fail(const char *file, const char *function, int line,
 /* Disabled. */
 #define fc_assert(...) (void) 0
 #define fc_assert_msg(...) (void) 0
+#define fc_assert_action(...) (void) 0
+#define fc_assert_ret(...) (void) 0
+#define fc_assert_ret_val(...) (void) 0
+#define fc_assert_exit(...) (void) 0
+#define fc_assert_action_msg(...) (void) 0
+#define fc_assert_ret_msg(...) (void) 0
+#define fc_assert_ret_val_msg(...) (void) 0
+#define fc_assert_exit_msg(...) (void) 0
 #else
 /* Like assert(). */
 #define fc_assert(condition)                                                \
@@ -168,7 +176,6 @@ void fc_assert_fail(const char *file, const char *function, int line,
   ((condition) ? (void) 0                                                   \
    : fc_assert_fail(__FILE__, __FUNCTION__, __FC_LINE__,                    \
                     #condition, message, ## __VA_ARGS__))
-#endif /* FREECIV_NDEBUG */
 
 /* Do action on failure. */
 #define fc_assert_action(condition, action)                                 \
@@ -198,6 +205,7 @@ void fc_assert_fail(const char *file, const char *function, int line,
 #define fc_assert_exit_msg(condition, message, ...)                         \
   fc_assert_action(condition,                                               \
                    log_fatal(message, ## __VA_ARGS__); exit(EXIT_FAILURE))
+#endif /* FREECIV_NDEBUG */
 
 #ifdef __cplusplus
 #ifdef FREECIV_CXX11_STATIC_ASSERT
