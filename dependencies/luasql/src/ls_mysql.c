@@ -183,7 +183,7 @@ static void create_colinfo (lua_State *L, cur_data *cur) {
 /*
 ** Closes the cursos and nullify all structure fields.
 */
-static int cur_nullify (lua_State *L, cur_data *cur) {
+static void cur_nullify (lua_State *L, cur_data *cur) {
 	/* Nullify structure fields. */
 	cur->closed = 1;
 	mysql_free_result(cur->my_res);
