@@ -1263,6 +1263,8 @@ static bool save_governments_ruleset(const char *filename, const char *name)
   save_gov_ref(sfile, game.government_during_revolution, "governments",
                "during_revolution");
 
+  comment_govs(sfile);
+
   sect_idx = 0;
   governments_iterate(pg) {
     char path[512];

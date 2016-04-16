@@ -129,3 +129,40 @@ techs = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+governments = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Below: The individual government types, one per section.\n\
+;\n\
+; The actual tag used (the * in [government_*]) does not matter, except\n\
+; it must be unique within this file, and it may be used in debug\n\
+; output when reading this file.\n\
+;\n\
+; For the \"official\" rulesets, the order of these sections should not\n\
+; be changed because that would break backward compatability with\n\
+; savegames.  (In particular, if Fundamentalism is added to default\n\
+; ruleset, should be added at end.)\n\
+;\n\
+; Notes on fields:\n\
+;\n\
+; name         = translatable name as seen by user\n\
+; rule_name    = (optional) name for savegames, rulesets etc; if not\n\
+;                present, 'name' is used. Since the name used in savegames\n\
+;                must not change, use this when renaming a government after a\n\
+;                ruleset has been released.\n\
+; reqs         = requirements for this government (see README.effects)\n\
+; graphic      = tag specifing preferred graphic\n\
+; graphic_alt  = alternate graphics tag if preferred is not found;\n\
+;                should be a standard tag if preferred is not;\n\
+;                otherwise may be \"-\"\n\
+; ai_better    = AI will not consider this government for use if the\n\
+;                government listed here is available\n\
+; ruler_titles = ruler titles by nation, \"-\" is default, and non-matched\n\
+;	         nations are ignored\n\
+; helptext     = optional help text string; should escape all raw newlines\n\
+;	         so that xgettext parsing works\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
