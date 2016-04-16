@@ -53,6 +53,17 @@
 
 #define CHALLENGE_ROOT "challenge"
 
+#ifndef DIR_SEPARATOR
+#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
+  /* Win32, OS/2, DOS */
+# define DIR_SEPARATOR "\\"
+# define DIR_SEPARATOR_CHAR '\\'
+#else
+  /* Unix */
+# define DIR_SEPARATOR "/"
+# define DIR_SEPARATOR_CHAR '/'
+#endif
+#endif
 
 #define SPECLIST_TAG startpos
 #define SPECLIST_TYPE struct startpos
@@ -1026,7 +1037,7 @@ static const char *get_challenge_fullname(struct connection *pc)
 {
   static char fullname[MAX_LEN_PATH];
 
-  interpret_tilde(fullname, sizeof(fullname), "~/.freeciv/");
+  interpret_tilde(fullname, sizeof(fullname), "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR);
   sz_strlcat(fullname, get_challenge_filename(pc));
 
   return fullname;
