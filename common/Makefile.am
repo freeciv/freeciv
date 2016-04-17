@@ -38,10 +38,11 @@ libfreeciv_la_SOURCES = \
 		connection.h	\
 		culture.c	\
 		culture.h	\
-		dataio.c	\
 		dataio.h	\
 		dataio_json.c	\
 		dataio_json.h	\
+		dataio_raw.c	\
+		dataio_raw.h	\
 		diptreaty.c	\
 		diptreaty.h	\
 		disaster.c	\
