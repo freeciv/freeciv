@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2069,9 +2069,9 @@ bool unit_type_is_losing_hp(const struct player *pplayer,
 
 /**************************************************************************
   Check if unit with given id is still alive. Use this before using
-  old unit pointers when unit might have dead.
+  old unit pointers when unit might have died.
 **************************************************************************/
-bool unit_alive(int id)
+bool unit_is_alive(int id)
 {
   /* Check if unit exist in game */
   if (game_unit_by_number(id)) {

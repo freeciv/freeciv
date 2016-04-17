@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -667,12 +667,12 @@ static bool upkeep_kill_unit(struct unit *punit, Output_type_id outp,
   /* Try to perform this unit's can't upkeep actions. */
   action_auto_perf_unit_do(AAPC_UNIT_UPKEEP, punit, get_output_type(outp));
 
-  if (wipe_in_the_end && unit_alive(punit_id)) {
+  if (wipe_in_the_end && unit_is_alive(punit_id)) {
     /* No forced action was able to kill the unit. Finish the job. */
     wipe_unit(punit, wipe_reason, NULL);
   }
 
-  return !unit_alive(punit_id);
+  return !unit_is_alive(punit_id);
 }
 
 /**************************************************************************

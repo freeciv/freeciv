@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -3202,7 +3202,7 @@ static bool unit_move_consequences(struct unit *punit,
   if (tocity) {
     unit_enter_city(punit, tocity, passenger);
 
-    alive = unit_alive(saved_id);
+    alive = unit_is_alive(saved_id);
     if (alive) {
       /* In case script has changed something about unit */
       pplayer_end_pos = unit_owner(punit);
@@ -3710,7 +3710,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
       act_player = unit_owner(act_unit);
 
       if (act_unit == NULL
-          || !unit_alive(act_unit->id)) {
+          || !unit_is_alive(act_unit->id)) {
         /* The unit died before reaching this point. */
         continue;
       }
@@ -3785,7 +3785,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
                               API_TYPE_UNIT, punit,
                               API_TYPE_TILE, psrctile,
                               API_TYPE_TILE, pdesttile);
-    unit_lives = unit_alive(saved_id);
+    unit_lives = unit_is_alive(saved_id);
   }
 
   if (unit_lives) {
@@ -3797,7 +3797,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     /* Is there a hut? */
     if (tile_has_cause_extra(pdesttile, EC_HUT)) {
       unit_enter_hut(punit);
-      unit_lives = unit_alive(saved_id);
+      unit_lives = unit_is_alive(saved_id);
     }
   }
 

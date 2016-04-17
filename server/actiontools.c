@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2015 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,10 +20,11 @@
 
 /* server */
 #include "aiiface.h"
-#include "actiontools.h"
 #include "notify.h"
 #include "plrhand.h"
 #include "unithand.h"
+
+#include "actiontools.h"
 
 typedef void (*action_notify)(struct player *,
                               const int,
@@ -866,7 +867,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
         fc_assert(action_get_target_kind(act) != ATK_COUNT);
       }
 
-      if (!unit_alive(actor_id)) {
+      if (!unit_is_alive(actor_id)) {
         /* The unit is gone. Maybe it was killed in Lua? */
         return NULL;
       }

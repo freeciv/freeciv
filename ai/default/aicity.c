@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -468,7 +468,7 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
     }
   }
 
-  if (!unit_alive(punit_id_stored)) {
+  if (!unit_is_alive(punit_id_stored)) {
     /* The unit is gone. Maybe it was killed in Lua? */
     return;
   }
@@ -492,7 +492,7 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
     }
   }
 
-  if (!unit_alive(punit_id_stored)) {
+  if (!unit_is_alive(punit_id_stored)) {
     /* The unit is gone. Maybe it was killed in Lua? */
     return;
   }

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -552,7 +552,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   action_consequence_success(ACTION_SPY_BRIBE_UNIT, pplayer, uplayer,
                              victim_tile, victim_link);
 
-  if (!unit_alive(diplomat_id)) {
+  if (!unit_is_alive(diplomat_id)) {
     return TRUE;
   }
 
@@ -561,7 +561,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   if (NULL == pcity && unit_list_size(unit_tile(pvictim)->units) < 2
       && !unit_move_handling(pdiplomat, victim_tile, FALSE, FALSE)
       /* May have died while trying to move. */
-      && unit_alive(diplomat_id)) {
+      && unit_is_alive(diplomat_id)) {
     pdiplomat->moves_left = 0;
   }
   if (NULL != player_unit_by_number(pplayer, diplomat_id)) {
