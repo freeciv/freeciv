@@ -191,7 +191,8 @@ void package_event(struct packet_chat_msg *packet,
   coordinates have been normalized.
 **************************************************************************/
 static void notify_conn_packet(struct conn_list *dest,
-                               const struct packet_chat_msg *packet)
+                               const struct packet_chat_msg *packet,
+                               bool early)
 {
   struct packet_chat_msg real_packet = *packet;
   int tile = packet->tile;
@@ -224,7 +225,11 @@ static void notify_conn_packet(struct conn_list *dest,
       real_packet.tile = -1;
     }
 
-    send_packet_chat_msg(pconn, &real_packet);
+    if (early) {
+      send_packet_early_chat_msg(pconn, (struct packet_early_chat_msg *)(&real_packet));
+    } else {
+      send_packet_chat_msg(pconn, &real_packet);
+    }
   } conn_list_iterate_end;
 }
 
@@ -244,7 +249,32 @@ void notify_conn(struct conn_list *dest,
   vpackage_event(&genmsg, ptile, event, color, format, args);
   va_end(args);
 
-  notify_conn_packet(dest, &genmsg);
+  notify_conn_packet(dest, &genmsg, FALSE);
+
+  if (!dest || dest == game.est_connections) {
+    /* Add to the cache */
+    event_cache_add_for_all(&genmsg);
+  }
+}
+
+/**************************************************************************
+  See notify_conn_packet - this is just the "non-v" version, with varargs.
+  Use for early connecting protocol messages.
+**************************************************************************/
+void notify_conn_early(struct conn_list *dest,
+                       const struct tile *ptile,
+                       enum event_type event,
+                       const struct ft_color color,
+                       const char *format, ...)
+{
+  struct packet_chat_msg genmsg;
+  va_list args;
+
+  va_start(args, format);
+  vpackage_event(&genmsg, ptile, event, color, format, args);
+  va_end(args);
+
+  notify_conn_packet(dest, &genmsg, TRUE);
 
   if (!dest || dest == game.est_connections) {
     /* Add to the cache */
@@ -273,7 +303,7 @@ void notify_player(const struct player *pplayer,
   vpackage_event(&genmsg, ptile, event, color, format, args);
   va_end(args);
 
-  notify_conn_packet(dest, &genmsg);
+  notify_conn_packet(dest, &genmsg, FALSE);
 
   /* Add to the cache */
   event_cache_add_for_player(&genmsg, pplayer);
@@ -300,7 +330,7 @@ void notify_embassies(const struct player *pplayer,
   players_iterate(other_player) {
     if (player_has_embassy(other_player, pplayer)
         && pplayer != other_player) {
-      notify_conn_packet(other_player->connections, &genmsg);
+      notify_conn_packet(other_player->connections, &genmsg, FALSE);
       players = event_cache_player_add(players, other_player);
     }
   } players_iterate_end;
@@ -348,7 +378,7 @@ void notify_team(const struct player *pplayer,
     event_cache_add_for_all(&genmsg);
   }
 
-  notify_conn_packet(dest, &genmsg);
+  notify_conn_packet(dest, &genmsg, FALSE);
 
   if (pplayer) {
     conn_list_destroy(dest);
@@ -738,9 +768,9 @@ void send_pending_events(struct connection *pconn, bool include_public)
         pcm = pdata->packet;
         fc_snprintf(pcm.message, sizeof(pcm.message), "(T%d - %s) %s",
                     pdata->packet.turn, timestr, pdata->packet.message);
-        notify_conn_packet(pconn->self, &pcm);
+        notify_conn_packet(pconn->self, &pcm, FALSE);
       } else {
-        notify_conn_packet(pconn->self, &pdata->packet);
+        notify_conn_packet(pconn->self, &pdata->packet, FALSE);
       }
     }
   } event_cache_iterate_end;

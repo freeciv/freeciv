@@ -59,6 +59,12 @@ void notify_conn(struct conn_list *dest,
                  const struct ft_color color,
                  const char *format, ...)
                  fc__attribute((__format__ (__printf__, 5, 6)));
+void notify_conn_early(struct conn_list *dest,
+                       const struct tile *ptile,
+                       enum event_type event,
+                       const struct ft_color color,
+                       const char *format, ...)
+                       fc__attribute((__format__ (__printf__, 5, 6)));
 void notify_player(const struct player *pplayer,
                    const struct tile *ptile,
                    enum event_type event,
