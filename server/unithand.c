@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1142,7 +1142,7 @@ void handle_unit_do_action(struct player *pplayer,
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
                             API_TYPE_CITY, target);                       \
-  if (!actor || !unit_alive(actor_id)) {                                  \
+  if (!actor || !unit_is_alive(actor_id)) {                               \
     /* Actor unit was destroyed during pre action Lua. */                 \
     return;                                                         \
   }                                                                       \
@@ -1156,11 +1156,11 @@ void handle_unit_do_action(struct player *pplayer,
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
                             API_TYPE_UNIT, target);                       \
-  if (!actor || !unit_alive(actor_id)) {                                  \
+  if (!actor || !unit_is_alive(actor_id)) {                               \
     /* Actor unit was destroyed during pre action Lua. */                 \
     return;                                                         \
   }                                                                       \
-  if (!target || !unit_alive(target_id)) {                                \
+  if (!target || !unit_is_alive(target_id)) {                             \
     /* Target unit was destroyed during pre action Lua. */                \
     return;                                                         \
   }
@@ -2191,7 +2191,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     punit->moved = TRUE;	/* We moved */
     kill_unit(pwinner, ploser,
               vet && !uclass_has_flag(unit_class_get(punit), UCF_MISSILE));
-    if (unit_alive(winner_id)) {
+    if (unit_is_alive(winner_id)) {
       if (uclass_has_flag(unit_class_get(pwinner), UCF_MISSILE)) {
         wipe_unit(pwinner, ULR_MISSILE, NULL);
         return;
@@ -3152,7 +3152,7 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
 
     unit_move_handling(pcargo, ttile, FALSE, FALSE);
 
-    if (!unit_alive(id)) {
+    if (!unit_is_alive(id)) {
       return;
     }
   }

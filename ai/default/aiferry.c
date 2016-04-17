@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -682,7 +682,7 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
          * ferry to die. That has happened at least when passenger
          * destroyed city cutting the civ1-style channel (cities in
          * a chain) ferry was in. */
-	if (unit_alive(ferry_id) && 0 < ferry->moves_left
+	if (unit_is_alive(ferry_id) && 0 < ferry->moves_left
             && (!alive || unit_tile(ferry) != unit_tile(passenger))) {
 	  /* The passenger is no longer on the ferry,
 	   * and the ferry can still act.
