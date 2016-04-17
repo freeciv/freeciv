@@ -154,12 +154,12 @@ extern bool can_slide;
 					  (_t##_di + 2) / 4);		\
 	    _c->tile[3] = map_pos_to_tile((_t##_si - 6) / 4,		\
 					  (_t##_di + 2) / 4);		\
-	    if (tileset_hex_width(tileset) * _zoom > 0) {		\
+	    if (tileset_hex_width(tileset) > 0) {			\
 	      _e = &_t##_e;						\
 	      _e->type = EDGE_UD;					\
 	      _e->tile[0] = _c->tile[0];				\
 	      _e->tile[1] = _c->tile[2];				\
-	    } else if (tileset_hex_height(tileset) * _zoom > 0) {	\
+	    } else if (tileset_hex_height(tileset) > 0) {		\
 	      _e = &_t##_e;						\
 	      _e->type = EDGE_LR;					\
 	      _e->tile[0] = _c->tile[1];				\
