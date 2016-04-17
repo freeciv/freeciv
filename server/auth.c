@@ -84,9 +84,9 @@ bool auth_user(struct connection *pconn, char *username)
       get_unique_guest_name(username);
 
       if (strncmp(tmpname, username, MAX_LEN_NAME) != 0) {
-        notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
-                    _("Warning: the guest name '%s' has been "
-                      "taken, renaming to user '%s'."), tmpname, username);
+        notify_conn_early(pconn->self, NULL, E_CONNECTION, ftc_warning,
+                          _("Warning: the guest name '%s' has been "
+                            "taken, renaming to user '%s'."), tmpname, username);
       }
       sz_strlcpy(pconn->username, username);
       establish_new_connection(pconn);
@@ -111,10 +111,10 @@ bool auth_user(struct connection *pconn, char *username)
         sz_strlcpy(pconn->username, tmpname);
 
         log_error("Error reading database; connection -> guest");
-        notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
-                    _("There was an error reading the user "
-                      "database, logging in as guest connection '%s'."),
-                    pconn->username);
+        notify_conn_early(pconn->self, NULL, E_CONNECTION, ftc_warning,
+                          _("There was an error reading the user "
+                            "database, logging in as guest connection '%s'."),
+                          pconn->username);
         establish_new_connection(pconn);
       } else {
         reject_new_connection(_("There was an error reading the user database "

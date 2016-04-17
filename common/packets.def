@@ -598,7 +598,20 @@ end
 
 /************** Chat/event packets **********************/
 
+/* This MUST have identical structure to PACKET_EARLY_CHAT_MSG as there's casting
+ * the two. */
 PACKET_CHAT_MSG = 25; sc, lsend
+  STRING message[MAX_LEN_MSG];
+  TILE tile;
+  EVENT event;
+  TURN turn;
+  PHASE phase;
+  CONNECTION conn_id;
+end
+
+/* This MUST have identical structure to PACKET_CHAT_MSG as there's casting
+ * the two. */
+PACKET_EARLY_CHAT_MSG = 28; sc, lsend
   STRING message[MAX_LEN_MSG];
   TILE tile;
   EVENT event;

@@ -1368,6 +1368,26 @@ void handle_chat_msg(const struct packet_chat_msg *packet)
 }
 
 /**************************************************************************
+  Handle an early message packet. Thease have format like other chat
+  messages but server sends them only about events related to establishing
+  the connection and other setup in the early phase. They are a separate
+  packet just so that client knows thse to be already relevant when it's
+  only setting itself up - other chat messages might be just something
+  sent to all clients, and we might want to still consider ourselves
+  "not connected" (not receivers of those messages) until we are fully
+  in the game.
+**************************************************************************/
+void handle_early_chat_msg(const struct packet_early_chat_msg *packet)
+{
+  handle_event(packet->message,
+               index_to_tile(packet->tile),
+               packet->event,
+               packet->turn,
+               packet->phase,
+               packet->conn_id);
+}
+
+/**************************************************************************
   Handle a connect message packet. Server sends connect message to
   client immediately when client connects.
 **************************************************************************/
