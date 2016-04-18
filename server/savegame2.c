@@ -2881,7 +2881,7 @@ static void sg_save_map(struct savedata *saving)
 }
 
 /****************************************************************************
-  ...
+  Load tiles of the map.
 ****************************************************************************/
 static void sg_load_map_tiles(struct loaddata *loading)
 {
