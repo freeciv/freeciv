@@ -600,6 +600,9 @@ static void player_defaults(struct player *pplayer)
 
   pplayer->rgb = NULL;
 
+  memset(pplayer->multipliers, 0, sizeof(pplayer->multipliers));
+  memset(pplayer->multipliers_target, 0, sizeof(pplayer->multipliers_target));
+
   /* pplayer->server is initialised in
       ./server/plrhand.c:server_player_init()
      and pplayer->client in

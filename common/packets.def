@@ -857,7 +857,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   BV_PLR_FLAGS flags;
 
   CITYSPE wonders[B_LAST]; diff
-  
+
   SINT32 multiplier[MAX_NUM_MULTIPLIERS];
   SINT32 multiplier_target[MAX_NUM_MULTIPLIERS];
 end
