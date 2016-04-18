@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -139,6 +139,8 @@ int main(int argc, char *argv[])
     } else {
       log_normal("%s%s (%s)", word_version(), VERSION_STRING, rev_ver);
     }
+
+    log_normal("%s", "");
 
     if (fcmp.autoinstall == NULL) {
       download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
