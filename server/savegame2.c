@@ -1861,7 +1861,7 @@ static void sg_load_map(struct loaddata *loading)
 }
 
 /****************************************************************************
-  ...
+  Load tiles of the map.
 ****************************************************************************/
 static void sg_load_map_tiles(struct loaddata *loading)
 {
