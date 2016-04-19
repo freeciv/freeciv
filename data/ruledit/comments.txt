@@ -166,3 +166,29 @@ governments = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+policies = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Multipliers (aka policies)\n\
+;\n\
+; name                    = translatable name as seen by user\n\
+; rule_name               = (optional) name for savegames, rulesets etc; if not\n\
+;                           present, 'name' is used. Since the name used in\n\
+;                           savegames must not change, use this when renaming\n\
+;                           a multiplier after a ruleset has been released.\n\
+; default                 = default value (as presented in UI)\n\
+; start                   = minimum value (as presented in UI)\n\
+; stop                    = maximum value (as presented in UI)\n\
+; step                    = minimum increase/decrease (as presented in UI)\n\
+; offset                  = offset/factor control how UI values are turned\n\
+; factor                  = into effect values for use in effects.ruleset.\n\
+;                           effect_value = (ui_value + offset) * (factor/100)\n\
+;                           Optional; by default offset=0, factor=100, so\n\
+;                           that UI values are used as-is.\n\
+; helptext                = optional help text string; should escape all raw\n\
+;                           newlines so that xgettext parsing works\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

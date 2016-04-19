@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1305,6 +1305,8 @@ static bool save_governments_ruleset(const char *filename, const char *name)
     save_strvec(sfile, pg->helptext, path, "helptext");
 
   } governments_iterate_end;
+
+  comment_policies(sfile);
 
   sect_idx = 0;
   multipliers_iterate(pmul) {
