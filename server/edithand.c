@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -241,32 +241,6 @@ static bool edit_tile_terrain_handling(struct tile *ptile,
 }
 
 /****************************************************************************
-  Base function to edit the resource property of a tile. Returns TRUE if
-  the resource has changed.
-****************************************************************************/
-static bool edit_tile_resource_handling(struct tile *ptile,
-                                        struct resource_type *presource,
-                                        bool send_tile_info)
-{
-  if (presource == tile_resource(ptile)) {
-    return FALSE;
-  }
-
-  if (NULL != presource
-      && !terrain_has_resource(tile_terrain(ptile), presource)) {
-    return FALSE;
-  }
-
-  tile_set_resource(ptile, presource);
-
-  if (send_tile_info) {
-    update_tile_knowledge(ptile);
-  }
-
-  return TRUE;
-}
-
-/****************************************************************************
   Base function to edit the extras property of a tile. Returns TRUE if
   the extra state has changed.
 ****************************************************************************/
@@ -282,38 +256,6 @@ static bool edit_tile_extra_handling(struct tile *ptile,
     if (!tile_extra_rm_apply(ptile, pextra)) {
       return FALSE;
     }
-  } else {
-    if (!tile_extra_apply(ptile, pextra)) {
-      return FALSE;
-    }
-  }
-
-  if (send_tile_info) {
-    update_tile_knowledge(ptile);
-  }
-
-  return TRUE;
-}
-
-/****************************************************************************
-  Base function to edit the special property of a tile. Returns TRUE if
-  the special state has changed.
-****************************************************************************/
-static bool edit_tile_special_handling(struct tile *ptile,
-                                       int special,
-                                       bool remove_mode,
-                                       bool send_tile_info)
-{
-  struct extra_type *pextra;
-
-  pextra = special_extra_get(special);
-
-  if (remove_mode) {
-    if (!tile_has_extra(ptile, pextra)) {
-      return FALSE;
-    }
-
-    tile_extra_rm_apply(ptile, pextra);
 
     terrain_changed(ptile);
 
@@ -322,59 +264,7 @@ static bool edit_tile_special_handling(struct tile *ptile,
       return FALSE;
     }
 
-    tile_extra_apply(ptile, pextra);
-  }
-
-  if (send_tile_info) {
-    update_tile_knowledge(ptile);
-  }
-
-  return TRUE;
-}
-
-/****************************************************************************
-  Base function to edit the road property of a tile. Returns TRUE if
-  the road state has changed.
-****************************************************************************/
-static bool edit_tile_road_handling(struct tile *ptile,
-                                    struct road_type *proad,
-                                    bool remove_mode, bool send_tile_info)
-{
-  if (remove_mode) {
-    if (!tile_has_road(ptile, proad)) {
-      return FALSE;
-    }
-
-    tile_extra_rm_apply(ptile, road_extra_get(proad));
-  } else {
-    if (!tile_extra_apply(ptile, road_extra_get(proad))) {
-      return FALSE;
-    }
-  }
-
-  if (send_tile_info) {
-    update_tile_knowledge(ptile);
-  }
-
-  return TRUE;
-}
-
-/****************************************************************************
-  Base function to edit the base property of a tile. Returns TRUE if
-  the base state has changed.
-****************************************************************************/
-static bool edit_tile_base_handling(struct tile *ptile,
-                                    struct base_type *pbase,
-                                    bool remove_mode, bool send_tile_info)
-{
-  if (remove_mode) {
-    if (!tile_has_base(ptile, pbase)) {
-      return FALSE;
-    }
-
-    tile_extra_rm_apply(ptile, base_extra_get(pbase));
-  } else {
-    if (!tile_extra_apply(ptile, base_extra_get(pbase))) {
+    if (!tile_extra_apply(ptile, pextra)) {
       return FALSE;
     }
   }
@@ -426,38 +316,11 @@ void handle_edit_tile_terrain(struct connection *pc, int tile,
 }
 
 /****************************************************************************
-  Handle a request to change one or more tiles' resources.
+  Handle a request to change one or more tiles' extras. The 'remove'
+  argument controls whether to remove or add the given extra from the tile.
 ****************************************************************************/
-void handle_edit_tile_resource(struct connection *pc, int tile,
-                               Resource_type_id resource, int size)
-{
-  struct resource_type *presource;
-  struct tile *ptile_center;
-
-  ptile_center = index_to_tile(tile);
-  if (!ptile_center) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                _("Cannot edit the tile because %d is not a valid "
-                  "tile index on this map!"), tile);
-    return;
-  }
-  presource = resource_by_number(resource); /* May be NULL. */
-
-  conn_list_do_buffer(game.est_connections);
-  square_iterate(ptile_center, size - 1, ptile) {
-    edit_tile_resource_handling(ptile, presource, TRUE);
-  } square_iterate_end;
-  conn_list_do_unbuffer(game.est_connections);
-}
-
-/****************************************************************************
-  Handle a request to change one or more tiles' specials. The 'remove'
-  argument controls whether to remove or add the given special of type
-  'special' from the tile.
-****************************************************************************/
-void handle_edit_tile_special(struct connection *pc, int tile,
-                              int special,
-                              bool remove, int size)
+void handle_edit_tile_extra(struct connection *pc, int tile,
+                            int id, bool remove, int size)
 {
   struct tile *ptile_center;
 
@@ -469,88 +332,18 @@ void handle_edit_tile_special(struct connection *pc, int tile,
     return;
   }
 
-  if (special < 0 || special >= game.control.num_extra_types) {
+  if (id < 0 || id >= game.control.num_extra_types) {
     notify_conn(pc->self, ptile_center, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." the tile <tile-coordinates> because"... */
-                _("Cannot modify specials for the tile %s because "
-                  "%d is not a valid terrain special id."),
-                tile_link(ptile_center), special);
-    return;
-  }
-
-  conn_list_do_buffer(game.est_connections);
-  square_iterate(ptile_center, size - 1, ptile) {
-    edit_tile_special_handling(ptile, special, remove, TRUE);
-  } square_iterate_end;
-  conn_list_do_unbuffer(game.est_connections);
-}
-
-/****************************************************************************
-  Handle a request to change the road at one or more than one tile.
-****************************************************************************/
-void handle_edit_tile_road(struct connection *pc, int tile,
-                           Road_type_id id, bool remove, int size)
-{
-  struct tile *ptile_center;
-  struct road_type *proad;
-
-  ptile_center = index_to_tile(tile);
-  if (!ptile_center) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                _("Cannot edit the tile because %d is not a valid "
-                  "tile index on this map!"), tile);
-    return;
-  }
-
-  proad = road_by_number(id);
-
-  if (!proad) {
-    notify_conn(pc->self, ptile_center, E_BAD_COMMAND, ftc_editor,
-                /* TRANS: ..." the tile <tile-coordinates> because"... */
-                _("Cannot modify road for the tile %s because "
-                  "%d is not a valid road type id."),
+                _("Cannot modify extras for the tile %s because "
+                  "%d is not a valid extra id."),
                 tile_link(ptile_center), id);
     return;
   }
 
   conn_list_do_buffer(game.est_connections);
   square_iterate(ptile_center, size - 1, ptile) {
-    edit_tile_road_handling(ptile, proad, remove, TRUE);
-  } square_iterate_end;
-  conn_list_do_unbuffer(game.est_connections);
-}
-
-/****************************************************************************
-  Handle a request to change the military base at one or more than one tile.
-****************************************************************************/
-void handle_edit_tile_base(struct connection *pc, int tile,
-                           Base_type_id id, bool remove, int size)
-{
-  struct tile *ptile_center;
-  struct base_type *pbase;
-
-  ptile_center = index_to_tile(tile);
-  if (!ptile_center) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                _("Cannot edit the tile because %d is not a valid "
-                  "tile index on this map!"), tile);
-    return;
-  }
-
-  pbase = base_by_number(id);
-
-  if (!pbase) {
-    notify_conn(pc->self, ptile_center, E_BAD_COMMAND, ftc_editor,
-                /* TRANS: ..." the tile <tile-coordinates> because"... */
-                _("Cannot modify base for the tile %s because "
-                  "%d is not a valid base type id."),
-                tile_link(ptile_center), id);
-    return;
-  }
-
-  conn_list_do_buffer(game.est_connections);
-  square_iterate(ptile_center, size - 1, ptile) {
-    edit_tile_base_handling(ptile, pbase, remove, TRUE);
+    edit_tile_extra_handling(ptile, extra_by_number(id), remove, TRUE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
 }

@@ -57,7 +57,7 @@ enum tool_value_selector_columns {
   TVS_COL_IMAGE = 0,
   TVS_COL_ID,
   TVS_COL_NAME,
-  
+
   TVS_NUM_COLS
 };
 
@@ -350,7 +350,7 @@ static int tool_value_selector_run(struct tool_value_selector *tvs)
 /****************************************************************************
   Run the tool value selector for the given tool type. Sets the editor state
   and refreshes the editor GUI depending on the user's choices.
-  
+
   Returns FALSE if running the dialog is not possible.
 ****************************************************************************/
 static bool editgui_run_tool_selection(enum editor_tool_type ett)
@@ -827,22 +827,18 @@ static void editbar_reload_tileset(struct editbar *eb)
   store = tvs->store;
   clear_tool_store(store);
 
-  resource_type_iterate(presource) {
+  extra_type_by_cause_iterate(EC_RESOURCE, pextra) {
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
-                       TVS_COL_ID, resource_number(presource),
-                       TVS_COL_NAME, resource_name_translation(presource),
+                       TVS_COL_ID, extra_index(pextra),
+                       TVS_COL_NAME, extra_name_translation(pextra),
                        -1);
-    sprite = get_resource_sprite(tileset, presource);
-    if (sprite == NULL) {
-      continue;
-    }
-    pixbuf = sprite_get_pixbuf(sprite);
+    pixbuf = create_extra_pixbuf(pextra);
     if (pixbuf != NULL) {
       gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
-      g_object_unref(G_OBJECT(pixbuf));
+      g_object_unref(pixbuf);
     }
-  } resource_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   /* Reload terrain specials. */
 
@@ -850,13 +846,13 @@ static void editbar_reload_tileset(struct editbar *eb)
   store = tvs->store;
   clear_tool_store(store);
 
-  extra_type_by_cause_iterate(EC_SPECIAL, spe) {
+  extra_type_by_cause_iterate(EC_SPECIAL, pextra) {
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
-                       TVS_COL_ID, spe->data.special_idx,
-                       TVS_COL_NAME, extra_name_translation(spe),
+                       TVS_COL_ID, extra_index(pextra),
+                       TVS_COL_NAME, extra_name_translation(pextra),
                        -1);
-    pixbuf = create_extra_pixbuf(spe);
+    pixbuf = create_extra_pixbuf(pextra);
     if (pixbuf != NULL) {
       gtk_list_store_set(store, &iter, TVS_COL_IMAGE, pixbuf, -1);
       g_object_unref(pixbuf);
@@ -870,14 +866,9 @@ static void editbar_reload_tileset(struct editbar *eb)
   clear_tool_store(store);
 
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
-    struct road_type *proad = extra_road_get(pextra);
-    int id;
-
-    id = road_number(proad);
-
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
-                       TVS_COL_ID, id,
+                       TVS_COL_ID, extra_index(pextra),
                        TVS_COL_NAME, extra_name_translation(pextra),
                        -1);
     pixbuf = create_extra_pixbuf(pextra);
@@ -894,14 +885,9 @@ static void editbar_reload_tileset(struct editbar *eb)
   clear_tool_store(store);
 
   extra_type_by_cause_iterate(EC_BASE, pextra) {
-    struct base_type *pbase = extra_base_get(pextra);
-    int id;
-
-    id = base_number(pbase);
-
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
-                       TVS_COL_ID, id,
+                       TVS_COL_ID, extra_index(pextra),
                        TVS_COL_NAME, extra_name_translation(pextra),
                        -1);
     pixbuf = create_extra_pixbuf(pextra);
@@ -1454,10 +1440,7 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
   struct sprite *sprite = NULL;
   GdkPixbuf *pixbuf = NULL;
   struct terrain *pterrain;
-  struct resource_type *presource;
   struct unit_type *putype;
-  struct base_type *pbase;
-  struct road_type *proad;
   const struct editor_sprites *sprites;
 
   sprites = get_editor_sprites(tileset);
@@ -1473,26 +1456,11 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
     }
     break;
   case ETT_TERRAIN_RESOURCE:
-    presource = resource_by_number(value);
-    if (presource) {
-      sprite = get_resource_sprite(tileset, presource);
-    }
-    break;
   case ETT_TERRAIN_SPECIAL:
-    if (value >= 0) {
-      pixbuf = create_extra_pixbuf(special_extra_get(value));
-    }
-    break;
   case ETT_ROAD:
-    proad = road_by_number(value);
-    if (proad != NULL) {
-      pixbuf = create_extra_pixbuf(road_extra_get(proad));
-    }
-    break;
   case ETT_MILITARY_BASE:
-    pbase = base_by_number(value);
-    if (pbase != NULL) {
-      pixbuf = create_extra_pixbuf(base_extra_get(pbase));
+    if (value >= 0) {
+      pixbuf = create_extra_pixbuf(extra_by_number(value));
     }
     break;
   case ETT_UNIT:
@@ -1943,7 +1911,7 @@ void editgui_popdown_all(void)
   This is called to notify the editor GUI that some object (e.g. tile, unit,
   etc.) has changed (usually because the corresponding packet was received)
   and that widgets displaying the object should be updated.
-  
+
   Currently this is used to notify the property editor that some object
   has been removed or some property value has changed at the server.
 ****************************************************************************/

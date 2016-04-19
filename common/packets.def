@@ -2000,29 +2000,9 @@ PACKET_EDIT_TILE_TERRAIN = 200; cs, handle-per-conn, dsend
   UINT8 size;
 end
 
-PACKET_EDIT_TILE_RESOURCE = 201; cs, handle-per-conn, dsend
+PACKET_EDIT_TILE_EXTRA = 202; cs, handle-per-conn, dsend
   TILE tile; key
-  RESOURCE resource;
-  UINT8 size;
-end
-
-PACKET_EDIT_TILE_SPECIAL = 202; cs, handle-per-conn, dsend
-  TILE tile; key
-  UINT8 special;
-  BOOL remove;
-  UINT8 size;
-end
-
-PACKET_EDIT_TILE_BASE = 203; cs, handle-per-conn, dsend
-  TILE tile; key
-  BASE base_type_id;
-  BOOL remove;
-  UINT8 size;
-end
-
-PACKET_EDIT_TILE_ROAD = 196; cs, handle-per-conn, dsend
-  TILE tile; key
-  ROAD road_type_id;
+  EXTRA extra_type_id;
   BOOL remove;
   UINT8 size;
 end

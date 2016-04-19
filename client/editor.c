@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -106,20 +106,37 @@ static void tool_set_init_value(enum editor_tool_type ett)
 {
   struct editor_tool *tool = editor->tools + ett;
 
-  if (ett == ETT_TERRAIN_SPECIAL) {
-    struct extra_type *first_special = NULL;
+  if (ett == ETT_TERRAIN_SPECIAL
+      || ett == ETT_ROAD
+      || ett == ETT_MILITARY_BASE
+      || ett == ETT_TERRAIN_RESOURCE) {
+    struct extra_type *first = NULL;
 
     extra_type_iterate(pextra) {
-      if (!is_extra_caused_by(pextra, EC_BASE)
-          && !is_extra_caused_by(pextra, EC_ROAD)) {
+      if (ett == ETT_ROAD) {
+        if (is_extra_caused_by(pextra, EC_ROAD)) {
+          first = pextra;
+          break;
+        }
+      } else if (ett == ETT_MILITARY_BASE) {
+        if (is_extra_caused_by(pextra, EC_BASE)) {
+          first = pextra;
+          break;
+        }
+      } else if (ett == ETT_TERRAIN_RESOURCE) {
+        if (is_extra_caused_by(pextra, EC_RESOURCE)) {
+          first = pextra;
+          break;
+        }
+      } else {
         /* Considers extras that are neither bases or roads, specials */
-        first_special = pextra;
+        first = pextra;
         break;
       }
     } extra_type_iterate_end;
 
-    if (first_special != NULL) {
-      tool->value = extra_index(first_special);
+    if (first != NULL) {
+      tool->value = extra_index(first);
     } else {
       tool->value = 0;
     }
@@ -478,8 +495,9 @@ static void editor_grab_applied_player(const struct tile *ptile)
 static void editor_grab_tool(const struct tile *ptile)
 {
   int ett = -1, value = 0;
-  struct base_type *first_base = NULL;
-  struct road_type *first_road = NULL;
+  struct extra_type *first_base = NULL;
+  struct extra_type *first_road = NULL;
+  struct extra_type *first_resource = NULL;
 
   if (!editor) {
     return;
@@ -491,14 +509,21 @@ static void editor_grab_tool(const struct tile *ptile)
 
   extra_type_by_cause_iterate(EC_BASE, pextra) {
     if (tile_has_extra(ptile, pextra)) {
-      first_base = extra_base_get(pextra);
+      first_base = pextra;
       break;
     }
   } extra_type_by_cause_iterate_end;
 
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     if (tile_has_extra(ptile, pextra)) {
-      first_road = extra_road_get(pextra);
+      first_road = pextra;
+      break;
+    }
+  } extra_type_by_cause_iterate_end;
+
+  extra_type_by_cause_iterate(EC_RESOURCE, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
+      first_resource = pextra;
       break;
     }
   } extra_type_by_cause_iterate_end;
@@ -541,11 +566,11 @@ static void editor_grab_tool(const struct tile *ptile)
     }
   } else if (first_base != NULL) {
     ett = ETT_MILITARY_BASE;
-    value = base_number(first_base);
+    value = extra_index(first_base);
 
   } else if (first_road != NULL) {
     ett = ETT_ROAD;
-    value = road_number(first_road);
+    value = extra_index(first_road);
 
   } else if (tile_really_has_any_specials(ptile)) {
     struct extra_type *specials_array[MAX_EXTRA_TYPES];
@@ -567,11 +592,11 @@ static void editor_grab_tool(const struct tile *ptile)
 
     if (special != NULL) {
       ett = ETT_TERRAIN_SPECIAL;
-      value = special->data.special_idx;
+      value = extra_index(special);
     }
   } else if (tile_resource(ptile) != NULL) {
     ett = ETT_TERRAIN_RESOURCE;
-    value = resource_number(tile_resource(ptile));
+    value = extra_index(first_resource);
 
   } else if (tile_terrain(ptile) != NULL) {
     ett = ETT_TERRAIN;
@@ -942,21 +967,10 @@ void editor_apply_tool(const struct tile *ptile,
     break;
 
   case ETT_TERRAIN_RESOURCE:
-    dsend_packet_edit_tile_resource(my_conn, tile,
-                                    erase ? resource_count() : value,
-                                    size);
-    break;
-
   case ETT_TERRAIN_SPECIAL:
-    dsend_packet_edit_tile_special(my_conn, tile, value, erase, size);
-    break;
-
   case ETT_ROAD:
-    dsend_packet_edit_tile_road(my_conn, tile, value, erase, size);
-    break;
-
   case ETT_MILITARY_BASE:
-    dsend_packet_edit_tile_base(my_conn, tile, value, erase, size);
+    dsend_packet_edit_tile_extra(my_conn, tile, value, erase, size);
     break;
 
   case ETT_UNIT:
@@ -1157,10 +1171,8 @@ const char *editor_tool_get_name(enum editor_tool_type ett)
 const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
 {
   struct terrain *pterrain;
-  struct resource_type *presource;
   struct unit_type *putype;
-  struct base_type *pbase;
-  struct road_type *proad;
+  struct extra_type *pextra;
 
   if (!editor) {
     return "";
@@ -1172,23 +1184,12 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
     return pterrain ? terrain_name_translation(pterrain) : "";
     break;
   case ETT_TERRAIN_RESOURCE:
-    presource = resource_by_number(value);
-    return presource ? resource_name_translation(presource) : "";
-    break;
   case ETT_TERRAIN_SPECIAL:
-    if (value < 0 || value >= extra_type_list_size(extra_type_list_by_cause(EC_SPECIAL))) {
-      return "";
-    }
-    return extra_name_translation(special_extra_get(value));
-    break;
   case ETT_ROAD:
-    proad = road_by_number(value);
-
-    return proad != NULL ? extra_name_translation(road_extra_get(proad)) : "";
   case ETT_MILITARY_BASE:
-    pbase = base_by_number(value);
-
-    return pbase != NULL ? extra_name_translation(base_extra_get(pbase)) : "";
+    pextra = extra_by_number(value);
+    return pextra != NULL ? extra_name_translation(pextra) : "";
+    break;
   case ETT_UNIT:
     putype = utype_by_number(value);
     return putype ? utype_name_translation(putype) : "";
@@ -1661,11 +1662,12 @@ static void paste_tile(struct edit_buffer *ebuf,
       dsend_packet_edit_tile_terrain(my_conn, tile, value, 1);
       break;
     case EBT_RESOURCE:
-      if (!tile_resource(vtile)) {
-        continue;
-      }
-      value = resource_number(tile_resource(vtile));
-      dsend_packet_edit_tile_resource(my_conn, tile, value, 1);
+      extra_type_by_cause_iterate(EC_RESOURCE, pextra) {
+        if (tile_has_extra(vtile, pextra)) {
+          BV_SET(tile_packet.extras, extra_index(pextra));
+          send_edit_tile = TRUE;
+        }
+      } extra_type_by_cause_iterate_end;
       break;
     case EBT_SPECIAL:
       extra_type_by_cause_iterate(EC_SPECIAL, pextra) {
