@@ -2711,10 +2711,10 @@ static bool insert_requirement(char *buf, size_t bufsz,
       case REQ_RANGE_LOCAL:
         if (preq->present) {
           cat_snprintf(buf, bufsz,
-                       _("Applies only to %s.\n"), tile_property);
+                       Q_("?tileprop:Applies only to %s.\n"), tile_property);
         } else {
           cat_snprintf(buf, bufsz,
-                       _("Does not apply to %s.\n"), tile_property);
+                       Q_("?tileprop:Does not apply to %s.\n"), tile_property);
         }
         return TRUE;
       case REQ_RANGE_CADJACENT:
