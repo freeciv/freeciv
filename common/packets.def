@@ -2165,6 +2165,7 @@ PACKET_EDIT_GAME = 218; cs, handle-per-conn, handle-via-packet
   BOOL startpos_nations;
   BOOL prevent_new_cities;
   BOOL lake_flooding;
+  BOOL ruleset_locked;
 end
 
 PACKET_EDIT_SCENARIO_DESC = 14; cs, handle-per-conn

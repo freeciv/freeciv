@@ -1395,6 +1395,11 @@ void handle_edit_game(struct connection *pc,
     changed = TRUE;
   }
 
+  if (packet->ruleset_locked != game.scenario.ruleset_locked) {
+    game.scenario.ruleset_locked = packet->ruleset_locked;
+    changed = TRUE;
+  }
+
   if (changed) {
     send_scenario_info(NULL);
     send_game_info(NULL);

@@ -1751,6 +1751,7 @@ static void sg_load_scenario(struct loaddata *loading)
   game.scenario.allow_ai_type_fallback
     = secfile_lookup_bool_default(loading->file, FALSE,
                                   "scenario.allow_ai_type_fallback");
+  game.scenario.ruleset_locked = TRUE;
 
   sg_failure_ret(loading->server_state == S_S_INITIAL
                  || (loading->server_state == S_S_RUNNING

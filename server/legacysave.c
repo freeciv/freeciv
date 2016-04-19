@@ -3168,6 +3168,8 @@ static void game_load_internal(struct section_file *file)
     game.scenario.is_scenario = FALSE;
   }
 
+  game.scenario.ruleset_locked = TRUE;
+
   /* [rulesets] */
   if ((string = secfile_lookup_str(file, "game.rulesetdir"))) {
     /* A ruleset was explicitly required, let's ignore the "rulesetdir"

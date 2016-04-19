@@ -1329,8 +1329,8 @@ static void sg_load_savefile(struct loaddata *loading)
                                           "savefile.rulesetdir"));
     if (!strcmp("default", game.server.rulesetdir)) {
       /* Here 'default' really means current default.
-     * Saving happens with real ruleset name, so savegames containing this
-     * are special scenarios. */
+       * Saving happens with real ruleset name, so savegames containing this
+       * are special scenarios. */
       sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
     }
     if (!load_rulesets(NULL, FALSE, TRUE, FALSE)) {

@@ -2998,6 +2998,7 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
   game.scenario.startpos_nations = packet->startpos_nations;
   game.scenario.prevent_new_cities = packet->prevent_new_cities;
   game.scenario.lake_flooding = packet->lake_flooding;
+  game.scenario.ruleset_locked = packet->ruleset_locked;
   game.scenario.save_random = packet->save_random;
   game.scenario.handmade = packet->handmade;
   game.scenario.allow_ai_type_fallback = packet->allow_ai_type_fallback;
