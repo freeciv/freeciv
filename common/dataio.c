@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 #include <fc_config.h>
 #endif
 
+#include "fc_prehdrs.h"
+
 #include <limits.h>
 #include <math.h>
 #include <stdint.h>
@@ -42,13 +44,6 @@
 #ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
-#ifdef FREECIV_HAVE_WINSOCK
-#ifdef FREECIV_HAVE_WINSOCK2
-#include <winsock2.h>
-#else  /* FREECIV_HAVE_WINSOCK2 */
-#include <winsock.h>
-#endif /* FREECIV_HAVE_WINSOCK2 */
-#endif /* FREECIV_HAVE_WINSOCK */
 
 /* utility */
 #include "bitvector.h"
@@ -67,7 +62,7 @@
 #include "dataio.h"
 
 static bool get_conv(char *dst, size_t ndst, const char *src,
-		     size_t nsrc);
+                     size_t nsrc);
 
 static DIO_PUT_CONV_FUN put_conv_callback = NULL;
 static DIO_GET_CONV_FUN get_conv_callback = get_conv;
