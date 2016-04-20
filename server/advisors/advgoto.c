@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -149,7 +149,7 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
 
   /* go */
   unit_activity_handling(punit, ACTIVITY_IDLE);
-  (void) unit_move_handling(punit, ptile, FALSE, TRUE);
+  (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
 
   return TRUE;
 }
@@ -193,7 +193,9 @@ int adv_could_unit_move_to_tile(struct unit *punit, struct tile *dest_tile)
 {
   enum unit_move_result reason =
       unit_move_to_tile_test(punit, ACTIVITY_IDLE, unit_tile(punit),
-                             dest_tile, unit_has_type_flag(punit, UTYF_IGZOC));
+                             dest_tile, unit_has_type_flag(punit, UTYF_IGZOC),
+                             NULL);
+
   switch (reason) {
   case MR_OK:
     return 1;

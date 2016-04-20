@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1661,7 +1661,7 @@ static void check_units_single_tile(struct tile *ptile)
         && !can_unit_exist_at_tile(punit, ptile)) {
       /* look for a nearby safe tile */
       adjc_iterate(ptile, ptile2) {
-	if (can_unit_exist_at_tile(punit, ptile2)
+        if (can_unit_exist_at_tile(punit, ptile2)
             && !is_non_allied_unit_tile(ptile2, unit_owner(punit))
             && !is_non_allied_city_tile(ptile2, unit_owner(punit))) {
           log_verbose("Moved %s %s due to changing terrain at (%d,%d).",
@@ -1671,11 +1671,11 @@ static void check_units_single_tile(struct tile *ptile)
                         E_UNIT_RELOCATED, ftc_server,
                         _("Moved your %s due to changing terrain."),
                         unit_link(punit));
-	  unit_alive = unit_move(punit, ptile2, 0);
-	  if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
-	    unit_activity_handling(punit, ACTIVITY_IDLE);
-	  }
-	  break;
+          unit_alive = unit_move(punit, ptile2, 0, NULL);
+          if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
+            unit_activity_handling(punit, ACTIVITY_IDLE);
+          }
+          break;
 	}
       } adjc_iterate_end;
       if (unit_alive && unit_tile(punit) == ptile) {

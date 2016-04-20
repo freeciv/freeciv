@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,8 @@ void unit_activity_handling_targeted(struct unit *punit,
 void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity);
 
 bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
-                        bool igzoc, bool move_diplomat_city);
+                        bool igzoc, bool move_diplomat_city,
+                        struct unit *embark_to);
 
 bool unit_perform_action(struct player *pplayer,
                          const int actor_id,

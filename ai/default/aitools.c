@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -857,7 +857,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
                           0, "", ACTION_NUKE);
   } else {
     /* Regular attack. */
-    (void) unit_move_handling(punit, ptile, FALSE, FALSE);
+    (void) unit_move_handling(punit, ptile, FALSE, FALSE, NULL);
   }
   alive = (game_unit_by_number(sanity) != NULL);
 
@@ -940,7 +940,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 
   /* go */
   unit_activity_handling(punit, ACTIVITY_IDLE);
-  (void) unit_move_handling(punit, ptile, FALSE, TRUE);
+  (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
 
   /* handle the results */
   if (game_unit_by_number(sanity) && same_pos(ptile, unit_tile(punit))) {

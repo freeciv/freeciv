@@ -536,7 +536,7 @@ bool unit_can_move_to_tile(const struct unit *punit,
 {
   return (MR_OK == unit_move_to_tile_test(punit,
                                           punit->activity, unit_tile(punit),
-                                          dst_tile, igzoc));
+                                          dst_tile, igzoc, NULL));
 }
 
 /**************************************************************************
@@ -565,7 +565,8 @@ enum unit_move_result
 unit_move_to_tile_test(const struct unit *punit,
                        enum unit_activity activity,
                        const struct tile *src_tile,
-                       const struct tile *dst_tile, bool igzoc)
+                       const struct tile *dst_tile, bool igzoc,
+                       struct unit *embark_to)
 {
   bool zoc;
   struct city *pcity;
@@ -599,8 +600,12 @@ unit_move_to_tile_test(const struct unit *punit,
   }
 
   /* 5) */
-  if (!(can_exist_at_tile(punittype, dst_tile)
-        || unit_could_load_at(punit, dst_tile))) {
+  if (embark_to != NULL) {
+    if (!could_unit_load(punit, embark_to)) {
+      return MR_NO_TRANSPORTER_CAPACITY;
+    }
+  } else if (!(can_exist_at_tile(punittype, dst_tile)
+               || unit_could_load_at(punit, dst_tile))) {
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 

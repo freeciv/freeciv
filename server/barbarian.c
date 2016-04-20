@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
   Functions for creating barbarians in huts, land and sea
   Started by Jerzy Klek <jekl@altavista.net>
   with more ideas from Falk Hueffner 
@@ -339,7 +339,7 @@ bool unleash_barbarians(struct tile *ptile)
           int rdir = random_unchecked_direction(land_tiles - checked_count, checked);
 
           if (unit_can_move_to_tile(punit2, dir_tiles[rdir], TRUE)) {
-            (void) unit_move_handling(punit2, dir_tiles[rdir], TRUE, FALSE);
+            (void) unit_move_handling(punit2, dir_tiles[rdir], TRUE, FALSE, NULL);
             log_debug("Moved barbarian unit from (%d, %d) to (%d, %d)", 
                       TILE_XY(ptile), TILE_XY(dir_tiles[rdir]));
             dest_found = TRUE;
@@ -382,7 +382,7 @@ bool unleash_barbarians(struct tile *ptile)
         unit_list_iterate_safe((ptile)->units, punit2) {
           if (unit_owner(punit2) == barbarians) {
             if (unit_can_move_to_tile(punit2, btile, TRUE)) {
-              (void) unit_move_handling(punit2, btile, TRUE, FALSE);
+              (void) unit_move_handling(punit2, btile, TRUE, FALSE, NULL);
             }
           }
         } unit_list_iterate_safe_end;
@@ -403,7 +403,7 @@ bool unleash_barbarians(struct tile *ptile)
             rdir = random_unchecked_direction(land_tiles - checked_count, checked);
 
             if (unit_can_move_to_tile(punit2, dir_tiles[rdir], TRUE)) {
-              (void) unit_move_handling(punit2, dir_tiles[rdir], TRUE, FALSE);
+              (void) unit_move_handling(punit2, dir_tiles[rdir], TRUE, FALSE, NULL);
               dest_found = TRUE;
             }
 

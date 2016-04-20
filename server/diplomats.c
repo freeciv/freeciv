@@ -559,7 +559,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Try to move the briber onto the victim's square unless its a city or
    * have other units. */
   if (NULL == pcity && unit_list_size(unit_tile(pvictim)->units) < 2
-      && !unit_move_handling(pdiplomat, victim_tile, FALSE, FALSE)
+      && !unit_move_handling(pdiplomat, victim_tile, FALSE, FALSE, NULL)
       /* May have died while trying to move. */
       && unit_is_alive(diplomat_id)) {
     pdiplomat->moves_left = 0;

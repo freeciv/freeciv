@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -153,7 +153,8 @@ void do_explore(struct unit *punit);
 bool do_paradrop(struct unit *punit, struct tile *ptile);
 void unit_transport_load_send(struct unit *punit, struct unit *ptrans);
 void unit_transport_unload_send(struct unit *punit);
-bool unit_move(struct unit *punit, struct tile *ptile, int move_cost);
+bool unit_move(struct unit *punit, struct tile *ptile, int move_cost,
+               struct unit *embark_to);
 bool execute_orders(struct unit *punit, const bool fresh);
 
 bool unit_can_do_action_now(const struct unit *punit);

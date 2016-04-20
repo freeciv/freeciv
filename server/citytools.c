@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1637,8 +1637,8 @@ void remove_city(struct city *pcity)
     adjc_iterate(pcenter, tile1) {
       if (!moved && is_native_tile(punittype, tile1)) {
         if (adv_could_unit_move_to_tile(punit, tile1) == 1) {
-	  moved = unit_move_handling(punit, tile1, FALSE, TRUE);
-	  if (moved) {
+          moved = unit_move_handling(punit, tile1, FALSE, TRUE, NULL);
+          if (moved) {
             notify_player(unit_owner(punit), tile1,
                           E_UNIT_RELOCATED, ftc_server,
                           _("Moved %s out of disbanded city %s "
@@ -1646,8 +1646,8 @@ void remove_city(struct city *pcity)
                           unit_link(punit), ctl,
                           terrain_name_translation(tile_terrain(pcenter)));
             break;
-	  }
-	}
+          }
+        }
       }
     } adjc_iterate_end;
     if (!moved) {

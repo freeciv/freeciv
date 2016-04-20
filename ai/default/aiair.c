@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -412,7 +412,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
                                 punit->id, tile_index(dst_tile),
                                 0, "", ACTION_NUKE);
         } else {
-          (void) unit_move_handling(punit, dst_tile, TRUE, FALSE);
+          (void) unit_move_handling(punit, dst_tile, TRUE, FALSE, NULL);
         }
       }
     } else if ((dst_tile = dai_find_strategic_airbase(ait, punit, &path))) {
