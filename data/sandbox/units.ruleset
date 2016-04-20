@@ -56,6 +56,8 @@ class_flags =
     _("LightWeight"), _("Airliftable once you learn Flight.")
     _("MediumWeight"), _("Airliftable from Airport after you learn Advanced Flight.")
     _("HeavyWeight"), _("Airliftable from Airport after you learn Fusion Power.")
+    _("BorderPolice"), _("Can peacefully expel certain foreign units.")
+    _("Expellable"), _("Can be peacefully expelled from foreign tiles.")
   }
 
 [veteran_system]
@@ -158,7 +160,8 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "KillCitizen", "LightWeight"
+                "TerrainDefense", "KillCitizen", "LightWeight",
+                "BorderPolice"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -166,7 +169,8 @@ name          = _("?unitclass:Small Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
-                "ZOC", "TerrainDefense", "DoesntOccupyTile", "LightWeight"
+                "ZOC", "TerrainDefense", "DoesntOccupyTile", "LightWeight",
+                "Expellable"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -182,7 +186,8 @@ name          = _("?unitclass:Merchant")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
-                "TerrainDefense", "TerrainSpeed", "MediumWeight"
+                "TerrainDefense", "TerrainSpeed", "MediumWeight",
+                "Expellable"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */

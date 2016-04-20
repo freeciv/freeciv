@@ -595,6 +595,23 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local", TRUE
     }
 
+[actionenabler_border_police]
+action = "Expel Unit"
+actor_reqs    =
+    { "type",          "name",           "range", "present"
+      "UnitClassFlag", "BorderPolice",   "Local", TRUE
+      "UnitState",     "OnDomesticTile", "Local", TRUE
+      "DiplRel",       "Is foreign",     "Local", TRUE
+      "DiplRel",       "Team",           "Local", FALSE
+      "DiplRel",       "Alliance",       "Local", FALSE
+      "DiplRel",       "War",            "Local", FALSE
+    }
+target_reqs    =
+    { "type",          "name",           "range", "present"
+      "UnitClassFlag", "Expellable",     "Local", TRUE
+      "UnitState",     "OnDomesticTile", "Local", FALSE
+    }
+
 [actionenabler_nuke]
 action = "Explode Nuclear"
 actor_reqs    =
