@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1464,18 +1464,18 @@ struct unit_type *role_units_iterate_backwards(int role, role_unit_callback cb, 
 Return index-th unit with specified role/flag.
 Index -1 means (n-1), ie last one.
 **************************************************************************/
-struct unit_type *get_role_unit(int role, int rindex)
+struct unit_type *get_role_unit(int role, int role_index)
 {
   fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
                     || (role >= L_FIRST && role < L_LAST)
                     || (role >= L_LAST && role < MAX_UNIT_ROLES), NULL);
   fc_assert_ret_val(!first_init, NULL);
-  if (rindex == -1) {
-    rindex = n_with_role[role] - 1;
+  if (role_index == -1) {
+    role_index = n_with_role[role] - 1;
   }
-  fc_assert_ret_val(rindex >= 0 && rindex < n_with_role[role], NULL);
+  fc_assert_ret_val(role_index >= 0 && role_index < n_with_role[role], NULL);
 
-  return with_role[role][rindex];
+  return with_role[role][role_index];
 }
 
 /**************************************************************************

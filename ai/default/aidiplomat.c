@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -111,9 +111,9 @@ static int count_stealable_techs(struct player *pplayer, struct player *tplayer)
   struct research *tresearch = research_get(tplayer);
   int count = 0;
 
-  advance_index_iterate(A_FIRST, index) {
-    if (research_invention_state(presearch, index) != TECH_KNOWN
-        && research_invention_state(tresearch, index) == TECH_KNOWN) {
+  advance_index_iterate(A_FIRST, idx) {
+    if (research_invention_state(presearch, idx) != TECH_KNOWN
+        && research_invention_state(tresearch, idx) == TECH_KNOWN) {
       count++;
     }
   } advance_index_iterate_end;

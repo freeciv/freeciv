@@ -26,7 +26,7 @@ bool api_server_was_started(lua_State *L);
 
 bool api_server_save(lua_State *L, const char *filename);
 
-const char *api_server_setting_get(lua_State *L, const char *setting_name);
+const char *api_server_setting_get(lua_State *L, const char *sett_name);
 
 bool api_play_music(lua_State *L, Player *pplayer, const char *tag);
 

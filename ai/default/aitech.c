@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -359,6 +359,7 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
     choose_tech_goal(research, goal.choice);
   }
 }
+
 /**************************************************************************
   Returns the best defense multiplier unit we can build, or NULL if none.
   Assigns tech wants for techs to get better units, but only for the
@@ -380,8 +381,8 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
 
   unit_type_iterate(deftype) {
     int mp = deftype->cache.defense_mp_bonuses[att_idx] + 1;
-    int div = combat_bonus_against(att->bonuses, deftype, CBONUS_DEFENSE_DIVIDER) + 1;
-    int def = deftype->defense_strength * mp / div;
+    int div_bonus = combat_bonus_against(att->bonuses, deftype, CBONUS_DEFENSE_DIVIDER) + 1;
+    int def = deftype->defense_strength * mp / div_bonus;
 
     def_values[utype_index(deftype)] = def;
 

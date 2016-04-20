@@ -88,15 +88,15 @@ bool api_play_music(lua_State *L, Player *pplayer, const char *tag)
 /*****************************************************************************
   Return the formated value of the setting or NULL if no such setting exists,
 *****************************************************************************/
-const char *api_server_setting_get(lua_State *L, const char *setting_name)
+const char *api_server_setting_get(lua_State *L, const char *sett_name)
 {
   struct setting *pset;
   static char buf[512];
 
   LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, setting_name, 2, API_TYPE_STRING, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, sett_name, 2, API_TYPE_STRING, NULL);
 
-  pset = setting_by_name(setting_name);
+  pset = setting_by_name(sett_name);
 
   if (!pset) {
     return NULL;

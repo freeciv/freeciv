@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -289,12 +289,12 @@ get_allied_with_enemy_player(const struct player *us,
 ***********************************************************************/
 static int dai_goldequiv_clause(struct ai_type *ait,
                                 struct player *pplayer,
-				struct player *aplayer,
-				struct Clause *pclause,
-				bool verbose,
-				enum diplstate_type ds_after)
+                                struct player *aplayer,
+                                struct Clause *pclause,
+                                bool verbose,
+                                enum diplstate_type ds_after)
 {
-  bool close;
+  bool close_here;
   struct ai_plr *ai;
   int worth = 0; /* worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
@@ -303,7 +303,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
   struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
   bool is_dangerous;
 
-  ai = dai_plr_data_get(ait, pplayer, &close);
+  ai = dai_plr_data_get(ait, pplayer, &close_here);
 
   fc_assert_ret_val(pplayer != aplayer, 0);
 
@@ -568,7 +568,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
     break;
   } /* end of switch */
 
-  if (close) {
+  if (close_here) {
     dai_data_phase_finished(ait, pplayer);
   }
 
@@ -703,14 +703,14 @@ static void dai_treaty_react(struct ai_type *ait,
 void dai_treaty_accepted(struct ai_type *ait, struct player *pplayer,
                          struct player *aplayer, struct Treaty *ptreaty)
 {
-  bool close;
+  bool close_here;
   struct ai_plr *ai;
   int total_balance = 0;
   bool gift = TRUE;
   enum diplstate_type ds_after =
     player_diplstate_get(pplayer, aplayer)->type;
 
-  ai = dai_plr_data_get(ait, pplayer, &close);
+  ai = dai_plr_data_get(ait, pplayer, &close_here);
 
   fc_assert_ret(pplayer != aplayer);
 
@@ -747,7 +747,7 @@ void dai_treaty_accepted(struct ai_type *ait, struct player *pplayer,
     DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "gift increased love by %d", i);
   }
 
-  if (close) {
+  if (close_here) {
     dai_data_phase_finished(ait, pplayer);
   }
 }
