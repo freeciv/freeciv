@@ -1121,7 +1121,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
     if (move_cost == -1) {
       move_cost = punit->moves_left;
     }
-    unit_move(punit, dst_tile, move_cost);
+    unit_move(punit, dst_tile, move_cost, NULL);
 
     return TRUE;
   }
@@ -1179,7 +1179,7 @@ void bounce_unit(struct unit *punit, bool verbose)
                     _("Moved your %s."),
                     unit_link(punit));
     }
-    unit_move(punit, ptile, 0);
+    unit_move(punit, ptile, 0, NULL);
     return;
   }
 
@@ -2593,7 +2593,7 @@ bool do_airline(struct unit *punit, struct city *pdest_city)
                 _("%s transported successfully."),
                 unit_link(punit));
 
-  unit_move(punit, pdest_city->tile, punit->moves_left);
+  unit_move(punit, pdest_city->tile, punit->moves_left, NULL);
 
   /* Update airlift fields. */
   if (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
@@ -2781,7 +2781,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 
   /* All ok */
   punit->paradropped = TRUE;
-  if (unit_move(punit, ptile, unit_type_get(punit)->paratroopers_mr_sub)) {
+  if (unit_move(punit, ptile, unit_type_get(punit)->paratroopers_mr_sub, NULL)) {
     /* Ensure we finished on valid state. */
     fc_assert(can_unit_exist_at_tile(punit, unit_tile(punit))
               || unit_transported(punit));
@@ -3035,7 +3035,7 @@ static bool unit_survive_autoattack(struct unit *punit)
 #endif
 
       unit_activity_handling(penemy, ACTIVITY_IDLE);
-      (void) unit_move_handling(penemy, unit_tile(punit), FALSE, FALSE);
+      (void) unit_move_handling(penemy, unit_tile(punit), FALSE, FALSE, NULL);
     } else {
 #ifdef REALLY_DEBUG_THIS
       log_test("!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
@@ -3395,7 +3395,8 @@ static void unit_move_data_unref(struct unit_move_data *pdata)
 
   Returns TRUE iff unit still alive.
 *****************************************************************************/
-bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
+bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
+               struct unit *embark_to)
 {
   struct player *pplayer;
   struct tile *psrctile;
@@ -3633,8 +3634,12 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   if (unit_lives) {
     /* Special checks for ground units in the ocean. */
-    if (!can_unit_survive_at_tile(punit, pdesttile)) {
-      ptransporter = transporter_for_unit(punit);
+    if (embark_to || !can_unit_survive_at_tile(punit, pdesttile)) {
+      if (embark_to != NULL) {
+        ptransporter = embark_to;
+      } else {
+        ptransporter = transporter_for_unit(punit);
+      }
       if (ptransporter) {
         unit_transport_load_tp_status(punit, ptransporter, FALSE);
 
@@ -4108,7 +4113,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       log_debug("  moving to %d,%d", TILE_XY(dst_tile));
       res = unit_move_handling(punit, dst_tile, FALSE,
-                               order.order != ORDER_ACTION_MOVE);
+                               order.order != ORDER_ACTION_MOVE, NULL);
       if (!player_unit_by_number(pplayer, unitid)) {
         log_debug("  unit died while moving.");
         /* A player notification should already have been sent. */

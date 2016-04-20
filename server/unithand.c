@@ -2214,8 +2214,9 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 
     int old_moves = punit->moves_left;
     int full_moves = unit_move_rate(punit);
+
     punit->moves_left = full_moves;
-    if (unit_move_handling(punit, def_tile, FALSE, FALSE)) {
+    if (unit_move_handling(punit, def_tile, FALSE, FALSE, NULL)) {
       punit->moves_left = old_moves - (full_moves - punit->moves_left);
       if (punit->moves_left < 0) {
 	punit->moves_left = 0;
@@ -2236,12 +2237,13 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 **************************************************************************/
 static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 					      struct tile *dest_tile,
-					      bool igzoc)
+					      bool igzoc,
+                                              struct unit *embark_to)
 {
   struct tile *src_tile = unit_tile(punit);
   enum unit_move_result reason =
       unit_move_to_tile_test(punit, punit->activity,
-                             src_tile, dest_tile, igzoc);
+                             src_tile, dest_tile, igzoc, embark_to);
 
   switch (reason) {
   case MR_OK:
@@ -2345,7 +2347,8 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
   FIXME: This function needs a good cleaning.
 **************************************************************************/
 bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
-                        bool igzoc, bool move_diplomat_city)
+                        bool igzoc, bool move_diplomat_city,
+                        struct unit *embark_to)
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(pdesttile);
@@ -2426,6 +2429,11 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       || is_non_allied_city_tile(pdesttile, pplayer)) {
     struct unit *victim = NULL;
     enum unit_attack_result ua_result;
+
+    if (embark_to != NULL) {
+      /* Can't both attack and embark. */
+      return FALSE;
+    }
 
     /* We can attack ONLY in enemy cities */
     if ((pcity && !pplayers_at_war(city_owner(pcity), pplayer))
@@ -2520,7 +2528,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                         TRUE);
 
       if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
-        if (unit_move(punit, pcity->tile, 0)) {
+        if (unit_move(punit, pcity->tile, 0, NULL)) {
           /* Survived dangers of moving */
           unit_attack_handling(punit, punit); /* Boom! */
         }
@@ -2551,10 +2559,11 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     } unit_list_iterate_end;
   }
 
-  if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc)) {
+  if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc,
+                                        embark_to)) {
     int move_cost = map_move_cost_unit(punit, pdesttile);
 
-    unit_move(punit, pdesttile, move_cost);
+    unit_move(punit, pdesttile, move_cost, embark_to);
 
     return TRUE;
   } else {
@@ -3148,13 +3157,8 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
   }
 
   if (moves) {
-    int id = pcargo->id;
-
-    unit_move_handling(pcargo, ttile, FALSE, FALSE);
-
-    if (!unit_is_alive(id)) {
-      return;
-    }
+    unit_move_handling(pcargo, ttile, FALSE, FALSE, ptrans);
+    return;
   }
 
   /* Load the unit and send out info to clients. */
