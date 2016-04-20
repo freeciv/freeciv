@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -544,12 +544,12 @@ void adv_data_phase_done(struct player *pplayer)
 }
 
 /**************************************************************************
-  Return a pointer to our data
-  If close is set, data phase will be opened even if it's currently closed,
-  and the boolean will be set accordingly to tell caller that phase needs
-  closing.
+  Return a pointer to our data.
+  If caller_closes is set, data phase will be opened even if it's
+  currently closed, and the boolean will be set accordingly to tell caller
+  that phase needs closing.
 **************************************************************************/
-struct adv_data *adv_data_get(struct player *pplayer, bool *close)
+struct adv_data *adv_data_get(struct player *pplayer, bool *caller_closes)
 {
   struct adv_data *adv = pplayer->server.adv;
 
@@ -593,11 +593,11 @@ struct adv_data *adv_data_get(struct player *pplayer, bool *close)
        instead of making intrusive fixes for actual bug in stable branch,
        do not assert for non-debug builds of stable versions. */
 #if defined(DEBUG) || defined(IS_DEVEL_VERSION)
-  fc_assert(close != NULL || adv->phase_is_initialized);
+  fc_assert(caller_closes != NULL || adv->phase_is_initialized);
 #endif
 
-  if (close != NULL) {
-    *close = FALSE;
+  if (caller_closes != NULL) {
+    *caller_closes = FALSE;
   }
 
   if (adv->num_continents != game.map.num_continents
@@ -623,16 +623,16 @@ struct adv_data *adv_data_get(struct player *pplayer, bool *close)
       log_debug("%s advisor data phase closed when adv_data_get() called",
                 player_name(pplayer));
       adv_data_phase_init(pplayer, FALSE);
-      if (close != NULL) {
-        *close = TRUE;
+      if (caller_closes != NULL) {
+        *caller_closes = TRUE;
       } else {
         adv_data_phase_done(pplayer);
       }
     }
   } else {
-    if (!adv->phase_is_initialized && close != NULL) {
+    if (!adv->phase_is_initialized && caller_closes != NULL) {
       adv_data_phase_init(pplayer, FALSE);
-      *close = TRUE;
+      *caller_closes = TRUE;
     }
   }
 

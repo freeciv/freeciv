@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - Marcelo J. Burda
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,21 +34,21 @@ static int *temperature_map;
 /**************************************************************************
   Returns one line (given by the y coordinate) of the temperature map.
 **************************************************************************/
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 static char *tmap_y2str(int ycoor)
 {
   static char buf[MAP_MAX_LINEAR_SIZE + 1];
   char *p = buf;
-  int i, index;
+  int i, idx;
 
   for (i = 0; i < game.map.xsize; i++) {
-    index = ycoor * game.map.xsize + i;
+    idx = ycoor * game.map.xsize + i;
 
-    if (index > game.map.xsize * game.map.ysize) {
+    if (idx > game.map.xsize * game.map.ysize) {
       break;
     }
 
-    switch (temperature_map[index]) {
+    switch (temperature_map[idx]) {
     case TT_TROPICAL:
       *p++ = 't'; /* tropical */
       break;
@@ -68,7 +68,7 @@ static char *tmap_y2str(int ycoor)
 
   return buf;
 }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 /**************************************************************
   Return TRUE if temperateure_map is initialized

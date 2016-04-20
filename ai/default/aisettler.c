@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -197,8 +197,8 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
                                           struct tile *center);
 static bool food_starvation(const struct cityresult *result);
 static bool shield_starvation(const struct cityresult *result);
-static int defense_bonus(struct player *pplayer,
-                         const struct cityresult *result);
+static int result_defense_bonus(struct player *pplayer,
+                                const struct cityresult *result);
 static int naval_bonus(const struct cityresult *result);
 static void print_cityresult(struct player *pplayer,
                              const struct cityresult *cr);
@@ -581,11 +581,11 @@ static bool shield_starvation(const struct cityresult *result)
   Calculate defense bonus, which is a % of total results equal to a
   given % of the defense bonus %.
 **************************************************************************/
-static int defense_bonus(struct player *pplayer,
-                         const struct cityresult *result)
+static int result_defense_bonus(struct player *pplayer,
+                                const struct cityresult *result)
 {
   /* Defense modification (as tie breaker mostly) */
-  int defense_bonus = 
+  int defense_bonus =
     10 + tile_terrain(result->tile)->defense_bonus / 10;
   int extra_bonus = 0;
   struct tile *vtile = tile_virtual_new(result->tile);
@@ -680,7 +680,7 @@ static void print_cityresult(struct player *pplayer,
            cr->best_other.cindex, cr->best_other.tdc->sum);
   log_test("- corr %d - waste %d + remaining %d"
            " + defense bonus %d + naval bonus %d", cr->corruption,
-           cr->waste, cr->remaining, defense_bonus(pplayer, cr),
+           cr->waste, cr->remaining, result_defense_bonus(pplayer, cr),
            naval_bonus(cr));
   log_test("= %d (%d)", cr->total, cr->result);
 
@@ -753,7 +753,7 @@ struct cityresult *city_desirability(struct ai_type *ait, struct player *pplayer
     return NULL;
   }
 
-  cr->total += defense_bonus(pplayer, cr);
+  cr->total += result_defense_bonus(pplayer, cr);
   cr->total += naval_bonus(cr);
 
   /* Add remaining points, which is our potential */

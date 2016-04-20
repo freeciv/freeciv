@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -469,7 +469,7 @@ int settler_evaluate_improvements(struct unit *punit,
       }
 
       if (pf_map_position(pfm, ptile, &pos)) {
-        int eta = FC_INFINITY, inbound_distance = FC_INFINITY, time;
+        int eta = FC_INFINITY, inbound_distance = FC_INFINITY, turns;
 
         if (enroute) {
           eta = state[tile_index(ptile)].eta;
@@ -516,15 +516,15 @@ int settler_evaluate_improvements(struct unit *punit,
               int extra = 0;
               int base_value = adv_city_worker_act_get(pcity, cindex, act);
 
-              time = pos.turn + get_turns_for_activity_at(punit, act, ptile,
-                                                          target);
+              turns = pos.turn + get_turns_for_activity_at(punit, act, ptile,
+                                                           target);
               if (pos.moves_left == 0) {
                 /* We need moves left to begin activity immediately. */
-                time++;
+                turns++;
               }
 
               consider_settler_action(pplayer, act, target, extra, base_value,
-                                      oldv, in_use, time,
+                                      oldv, in_use, turns,
                                       &best_newv, &best_oldv, &improve_worked,
                                       &best_delay, best_act, best_target,
                                       best_tile, ptile);
@@ -579,11 +579,11 @@ int settler_evaluate_improvements(struct unit *punit,
               int extra;
               struct road_type *proad;
 
-              time = pos.turn + get_turns_for_activity_at(punit, eval_act,
-                                                          ptile, pextra);
+              turns = pos.turn + get_turns_for_activity_at(punit, eval_act,
+                                                           ptile, pextra);
               if (pos.moves_left == 0) {
                 /* We need moves left to begin activity immediately. */
-                time++;
+                turns++;
               }
 
               proad = extra_road_get(pextra);
@@ -640,7 +640,7 @@ int settler_evaluate_improvements(struct unit *punit,
 
               if (act != ACTIVITY_LAST) {
                 consider_settler_action(pplayer, act, pextra, extra, base_value,
-                                        oldv, in_use, time,
+                                        oldv, in_use, turns,
                                         &best_newv, &best_oldv, &improve_worked,
                                         &best_delay, best_act, best_target,
                                         best_tile, ptile);
@@ -656,19 +656,19 @@ int settler_evaluate_improvements(struct unit *punit,
                                                        dep_tgt, ptile)) {
                     /* Consider building dependency road for later upgrade to target extra.
                      * Here we set value to be sum of dependency
-                     * road and target extra values, which increases want, and time is sum
-                     * of dependency and target build times, which decreases want. This can
+                     * road and target extra values, which increases want, and turns is sum
+                     * of dependency and target build turns, which decreases want. This can
                      * result in either bigger or lesser want than when checkin dependency
                      * road for the sake of itself when its turn in extra_type_iterate() is. */
-                    int dep_time = time + get_turns_for_activity_at(punit,
-                                                                    ACTIVITY_GEN_ROAD,
-                                                                    ptile,
-                                                                    dep_tgt);
+                    int dep_turns = turns + get_turns_for_activity_at(punit,
+                                                                      ACTIVITY_GEN_ROAD,
+                                                                      ptile,
+                                                                      dep_tgt);
                     int dep_value = base_value + adv_city_worker_extra_get(pcity, cindex, dep_tgt);
 
                     consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, dep_tgt, extra,
                                             dep_value,
-                                            oldv, in_use, dep_time,
+                                            oldv, in_use, dep_turns,
                                             &best_newv, &best_oldv, &improve_worked,
                                             &best_delay, best_act, best_target,
                                             best_tile, ptile);
@@ -685,17 +685,17 @@ int settler_evaluate_improvements(struct unit *punit,
                     /* Consider building dependency base for later upgrade to
                      * target extra. See similar road implementation above for
                      * extended commentary. */
-                    int dep_time = time + get_turns_for_activity_at(punit,
-                                                                    ACTIVITY_BASE,
-                                                                    ptile,
-                                                                    dep_tgt);
+                    int dep_turns = turns + get_turns_for_activity_at(punit,
+                                                                      ACTIVITY_BASE,
+                                                                      ptile,
+                                                                      dep_tgt);
                     int dep_value = base_value + adv_city_worker_extra_get(pcity,
                                                                            cindex,
                                                                            dep_tgt);
 
                     consider_settler_action(pplayer, ACTIVITY_BASE, dep_tgt,
                                             0, dep_value, oldv, in_use,
-                                            dep_time, &best_newv, &best_oldv,
+                                            dep_turns, &best_newv, &best_oldv,
                                             &improve_worked, &best_delay,
                                             best_act, best_target,
                                             best_tile, ptile);

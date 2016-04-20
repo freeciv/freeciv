@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1569,23 +1569,22 @@ static void add_resources(int prob)
 }
 
 /**************************************************************************
-Returns a random position in the rectangle denoted by the given state.
+  Returns a random position in the rectangle denoted by the given state.
 **************************************************************************/
 static struct tile *get_random_map_position_from_state(
-					       const struct gen234_state
-					       *const pstate)
+                                   const struct gen234_state *const pstate)
 {
-  int xn, yn;
+  int xrnd, yrnd;
 
   fc_assert_ret_val((pstate->e - pstate->w) > 0, NULL);
   fc_assert_ret_val((pstate->e - pstate->w) < game.map.xsize, NULL);
   fc_assert_ret_val((pstate->s - pstate->n) > 0, NULL);
   fc_assert_ret_val((pstate->s - pstate->n) < game.map.ysize, NULL);
 
-  xn = pstate->w + fc_rand(pstate->e - pstate->w);
-  yn = pstate->n + fc_rand(pstate->s - pstate->n);
+  xrnd = pstate->w + fc_rand(pstate->e - pstate->w);
+  yrnd = pstate->n + fc_rand(pstate->s - pstate->n);
 
-  return native_pos_to_tile(xn, yn);
+  return native_pos_to_tile(xrnd, yrnd);
 }
 
 /**************************************************************************
@@ -1814,23 +1813,23 @@ static bool is_near_land(struct tile *ptile)
 static long int checkmass;
 
 /**************************************************************************
-  finds a place and drop the island created when called with islemass != 0
+  Finds a place and drop the island created when called with islemass != 0
 **************************************************************************/
 static bool place_island(struct gen234_state *pstate)
 {
-  int i=0, xn, yn, nat_x, nat_y;
+  int i = 0, xcur, ycur, nat_x, nat_y;
   struct tile *ptile;
 
   ptile = rand_map_pos();
   index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
 
   /* this helps a lot for maps with high landmass */
-  for (yn = pstate->n, xn = pstate->w;
-       yn < pstate->s && xn < pstate->e;
-       yn++, xn++) {
-    struct tile *tile0 = native_pos_to_tile(xn, yn);
-    struct tile *tile1 = native_pos_to_tile(xn + nat_x - pstate->w,
-                                            yn + nat_y - pstate->n);
+  for (ycur = pstate->n, xcur = pstate->w;
+       ycur < pstate->s && xcur < pstate->e;
+       ycur++, xcur++) {
+    struct tile *tile0 = native_pos_to_tile(xcur, ycur);
+    struct tile *tile1 = native_pos_to_tile(xcur + nat_x - pstate->w,
+                                            ycur + nat_y - pstate->n);
 
     if (!tile0 || !tile1) {
       return FALSE;
@@ -1839,12 +1838,12 @@ static bool place_island(struct gen234_state *pstate)
       return FALSE;
     }
   }
-		       
-  for (yn = pstate->n; yn < pstate->s; yn++) {
-    for (xn = pstate->w; xn < pstate->e; xn++) {
-      struct tile *tile0 = native_pos_to_tile(xn, yn);
-      struct tile *tile1 = native_pos_to_tile(xn + nat_x - pstate->w,
-                                              yn + nat_y - pstate->n);
+
+  for (ycur = pstate->n; ycur < pstate->s; ycur++) {
+    for (xcur = pstate->w; xcur < pstate->e; xcur++) {
+      struct tile *tile0 = native_pos_to_tile(xcur, ycur);
+      struct tile *tile1 = native_pos_to_tile(xcur + nat_x - pstate->w,
+                                              ycur + nat_y - pstate->n);
 
       if (!tile0 || !tile1) {
 	return FALSE;
@@ -1855,11 +1854,11 @@ static bool place_island(struct gen234_state *pstate)
     }
   }
 
-  for (yn = pstate->n; yn < pstate->s; yn++) {
-    for (xn = pstate->w; xn < pstate->e; xn++) {
-      if (hmap(native_pos_to_tile(xn, yn)) != 0) {
-        struct tile *tile1 = native_pos_to_tile(xn + nat_x - pstate->w,
-                                                yn + nat_y - pstate->n);
+  for (ycur = pstate->n; ycur < pstate->s; ycur++) {
+    for (xcur = pstate->w; xcur < pstate->e; xcur++) {
+      if (hmap(native_pos_to_tile(xcur, ycur)) != 0) {
+        struct tile *tile1 = native_pos_to_tile(xcur + nat_x - pstate->w,
+                                                ycur + nat_y - pstate->n);
 
 	checkmass--; 
 	if (checkmass <= 0) {
@@ -1941,24 +1940,24 @@ static bool create_island(int islemass, struct gen234_state *pstate)
       }
     }
     if (i < islemass / 10) {
-      int xn, yn;
+      int xcur, ycur;
 
-      for (yn = pstate->n; yn < pstate->s; yn++) {
-	for (xn = pstate->w; xn < pstate->e; xn++) {
-	  ptile = native_pos_to_tile(xn, yn);
-	  if (hmap(ptile) == 0 && i > 0
-	      && count_card_adjc_elevated_tiles(ptile) == 4) {
-	    hmap(ptile) = 1;
+      for (ycur = pstate->n; ycur < pstate->s; ycur++) {
+        for (xcur = pstate->w; xcur < pstate->e; xcur++) {
+          ptile = native_pos_to_tile(xcur, ycur);
+          if (hmap(ptile) == 0 && i > 0
+	     && count_card_adjc_elevated_tiles(ptile) == 4) {
+            hmap(ptile) = 1;
             i--; 
           }
-	}
+        }
       }
     }
   }
-  if (tries<=0) {
+  if (tries <= 0) {
     log_error("create_island ended early with %d/%d.", islemass-i, islemass);
   }
-  
+
   tries = map_num_tiles() / 4;	/* on a 40x60 map, there are 2400 places */
   while (!(j = place_island(pstate)) && (--tries) > 0) {
     /* nothing */

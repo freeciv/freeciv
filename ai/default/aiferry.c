@@ -218,10 +218,10 @@ void dai_ferry_lost(struct ai_type *ait, struct unit *punit)
 {
   /* Ignore virtual units. */
   if (punit->id != 0 && is_ai_data_phase_open(ait, unit_owner(punit))) {
-    bool close;
+    bool close_here;
     struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
     struct player *pplayer = unit_owner(punit);
-    struct ai_plr *ai = dai_plr_data_get(ait, pplayer, &close);
+    struct ai_plr *ai = dai_plr_data_get(ait, pplayer, &close_here);
 
     if (dai_is_ferry(punit, ait)) {
       ai->stats.boats--;
@@ -235,7 +235,7 @@ void dai_ferry_lost(struct ai_type *ait, struct unit *punit)
       }
     }
 
-    if (close) {
+    if (close_here) {
       dai_data_phase_finished(ait, pplayer);
     }
   }

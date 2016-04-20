@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ void dai_unit_log(struct ai_type *ait, char *buffer, int buflength,
   Log player tech messages.
 **************************************************************************/
 void real_tech_log(struct ai_type *ait, const char *file, const char *function,
-                   int line, enum log_level level, bool notify,
+                   int line, enum log_level level, bool send_notify,
                    const struct player *pplayer, struct advance *padvance,
                    const char *msg, ...)
 {
@@ -89,7 +89,7 @@ void real_tech_log(struct ai_type *ait, const char *file, const char *function,
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
-  if (notify) {
+  if (send_notify) {
     notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   do_log(file, function, line, FALSE, level, "%s", buffer);
@@ -102,7 +102,7 @@ void real_tech_log(struct ai_type *ait, const char *file, const char *function,
 **************************************************************************/
 void real_diplo_log(struct ai_type *ait, const char *file,
                     const char *function, int line,
-                    enum log_level level, bool notify,
+                    enum log_level level, bool send_notify,
                     const struct player *pplayer,
                     const struct player *aplayer, const char *msg, ...)
 {
@@ -128,7 +128,7 @@ void real_diplo_log(struct ai_type *ait, const char *file,
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
-  if (notify) {
+  if (send_notify) {
     notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   do_log(file, function, line, FALSE, level, "%s", buffer);
@@ -141,7 +141,7 @@ void real_diplo_log(struct ai_type *ait, const char *file,
 **************************************************************************/
 void real_bodyguard_log(struct ai_type *ait, const char *file,
                         const char *function, int line,
-                        enum log_level level,  bool notify,
+                        enum log_level level,  bool send_notify,
                         const struct unit *punit, const char *msg, ...)
 {
   char buffer[500];
@@ -185,7 +185,7 @@ void real_bodyguard_log(struct ai_type *ait, const char *file,
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
-  if (notify) {
+  if (send_notify) {
     notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   do_log(file, function, line, FALSE, level, "%s", buffer);
