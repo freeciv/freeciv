@@ -394,7 +394,7 @@ void tai_req_worker_task_rcv(struct tai_req *req)
     ptask->want  = data->task.want;
 
     /* Send info to observers */
-    package_and_send_worker_task(pcity);
+    package_and_send_worker_tasks(pcity);
   }
 
   free(data);
