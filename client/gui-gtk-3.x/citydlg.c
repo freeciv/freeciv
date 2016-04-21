@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2829,9 +2829,7 @@ static void set_city_workertask(GtkWidget *w, gpointer data)
 
   task.city_id = pcity->id;
 
-  if (act == ACTIVITY_IDLE) {
-    task.tile_id = -1;
-    task.activity = ACTIVITY_IDLE;
+  if (act == ACTIVITY_LAST) {
     task.tgt = -1;
     task.want = 0;
   } else {
@@ -2864,10 +2862,11 @@ static void set_city_workertask(GtkWidget *w, gpointer data)
       task.tgt = extra_index(tgt);
     }
 
-    task.tile_id = ptile->index;
-    task.activity = act;
     task.want = 100;
   }
+
+  task.tile_id = ptile->index;
+  task.activity = act;
 
   send_packet_worker_task(&client.conn, &task);
 }
@@ -2904,7 +2903,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     if (ptask != NULL) {
       choice_dialog_add(shl, _("Clear request"),
                         G_CALLBACK(set_city_workertask),
-                        GINT_TO_POINTER(ACTIVITY_IDLE), FALSE, NULL);
+                        GINT_TO_POINTER(ACTIVITY_LAST), FALSE, NULL);
     }
 
     if ((pterr->mining_result == pterr

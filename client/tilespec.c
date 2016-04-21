@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
   Functions for handling the tilespec files which describe
   the files and contents of tilesets.
   original author: David Pfitzner <dwp@mso.anu.edu.au>
@@ -5641,34 +5641,34 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_WORKERTASK:
     if (citymode != NULL && ptile != NULL) {
-      struct worker_task *ptask = worker_task_list_get(citymode->task_reqs, 0);
-
-      if (ptask != NULL && ptask->ptile == ptile) {
-        switch (ptask->act) {
-        case ACTIVITY_MINE:
-          if (ptask->tgt == NULL) {
-            ADD_SPRITE_SIMPLE(t->sprites.unit.plant);
-          } else {
+      worker_task_list_iterate(citymode->task_reqs, ptask) {
+        if (ptask->ptile == ptile) {
+          switch (ptask->act) {
+          case ACTIVITY_MINE:
+            if (ptask->tgt == NULL) {
+              ADD_SPRITE_SIMPLE(t->sprites.unit.plant);
+            } else {
+              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
+            }
+            break;
+          case ACTIVITY_IRRIGATE:
+            if (ptask->tgt == NULL) {
+              ADD_SPRITE_SIMPLE(t->sprites.unit.irrigate);
+            } else {
+              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
+            }
+            break;
+          case ACTIVITY_GEN_ROAD:
             ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
+            break;
+          case ACTIVITY_TRANSFORM:
+            ADD_SPRITE_SIMPLE(t->sprites.unit.transform);
+            break;
+          default:
+            break;
           }
-          break;
-        case ACTIVITY_IRRIGATE:
-          if (ptask->tgt == NULL) {
-            ADD_SPRITE_SIMPLE(t->sprites.unit.irrigate);
-          } else {
-            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
-          }
-          break;
-        case ACTIVITY_GEN_ROAD:
-          ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
-          break;
-        case ACTIVITY_TRANSFORM:
-          ADD_SPRITE_SIMPLE(t->sprites.unit.transform);
-          break;
-        default:
-          break;
         }
-      }
+      } worker_task_list_iterate_end;
     }
     break;
 

@@ -4464,26 +4464,37 @@ void handle_worker_task(struct player *pplayer,
                         const struct packet_worker_task *packet)
 {
   struct city *pcity = game_city_by_number(packet->city_id);
-  struct worker_task *ptask;
+  struct worker_task *ptask = NULL;
+  struct tile *ptile = index_to_tile(packet->tile_id);
 
-  if (pcity == NULL || pcity->owner != pplayer) {
+  if (pcity == NULL || pcity->owner != pplayer || ptile == NULL) {
     return;
   }
 
-  ptask = worker_task_list_get(pcity->task_reqs, 0);
+  worker_task_list_iterate(pcity->task_reqs, ptask_old) {
+    if (tile_index(ptask_old->ptile) == packet->tile_id) {
+      ptask = ptask_old;
+    }
+  } worker_task_list_iterate_end;
 
-  if (ptask == NULL && packet->tile_id >= 0) {
+  if (ptask == NULL) {
+    if (packet->activity == ACTIVITY_LAST) {
+      return;
+    }
+
     ptask = fc_malloc(sizeof(struct worker_task));
     worker_task_init(ptask);
     worker_task_list_append(pcity->task_reqs, ptask);
-  } else if (ptask != NULL && packet->tile_id < 0) {
-    worker_task_list_remove(pcity->task_reqs, ptask);
-    free(ptask);
-    ptask = NULL;
+  } else {
+    if (packet->activity == ACTIVITY_LAST) {
+      worker_task_list_remove(pcity->task_reqs, ptask);
+      free(ptask);
+      ptask = NULL;
+    }
   }
 
   if (ptask != NULL) {
-    ptask->ptile = index_to_tile(packet->tile_id);
+    ptask->ptile = ptile;
     ptask->act = packet->activity;
     if (packet->tgt >= 0) {
       ptask->tgt = extra_by_number(packet->tgt);

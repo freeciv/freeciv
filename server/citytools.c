@@ -3199,16 +3199,19 @@ void clear_worker_task(struct city *pcity, struct worker_task *ptask)
 {
   struct packet_worker_task packet;
 
-  if (ptask != NULL) {
-    worker_task_list_remove(pcity->task_reqs, ptask);
-    free(ptask);
+  if (ptask == NULL) {
+    return;
   }
 
+  worker_task_list_remove(pcity->task_reqs, ptask);
+
   packet.city_id = pcity->id;
-  packet.tile_id = -1;
-  packet.activity = ACTIVITY_IDLE;
+  packet.tile_id = tile_index(ptask->ptile);
+  packet.activity = ACTIVITY_LAST;
   packet.tgt = 0;
   packet.want = 0;
+
+  free(ptask);
 
   lsend_packet_worker_task(city_owner(pcity)->connections, &packet);
   lsend_packet_worker_task(game.glob_observers, &packet);
@@ -3219,19 +3222,21 @@ void clear_worker_task(struct city *pcity, struct worker_task *ptask)
 **************************************************************************/
 void clear_worker_tasks(struct city *pcity)
 {
-  clear_worker_task(pcity, worker_task_list_get(pcity->task_reqs, 0));
+  while (worker_task_list_size(pcity->task_reqs) > 0) {
+    clear_worker_task(pcity, worker_task_list_get(pcity->task_reqs, 0));
+  }
 }
 
 /**************************************************************************
   Send city worker task to owner
 **************************************************************************/
-void package_and_send_worker_task(struct city *pcity)
+void package_and_send_worker_tasks(struct city *pcity)
 {
   struct packet_worker_task packet;
-  struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
 
   packet.city_id = pcity->id;
-  if (ptask != NULL) {
+
+  worker_task_list_iterate(pcity->task_reqs, ptask) {
     packet.tile_id = tile_index(ptask->ptile);
     packet.activity = ptask->act;
     if (ptask->tgt == NULL) {
@@ -3240,13 +3245,8 @@ void package_and_send_worker_task(struct city *pcity)
       packet.tgt = extra_number(ptask->tgt);
     }
     packet.want = ptask->want;
-  } else {
-    packet.tile_id = -1;
-    packet.activity = ACTIVITY_IDLE;
-    packet.tgt = 0;
-    packet.want = 0;
-  }
 
-  lsend_packet_worker_task(city_owner(pcity)->connections, &packet);
-  lsend_packet_worker_task(game.glob_observers, &packet);
+    lsend_packet_worker_task(city_owner(pcity)->connections, &packet);
+    lsend_packet_worker_task(game.glob_observers, &packet);
+  } worker_task_list_iterate_end;
 }

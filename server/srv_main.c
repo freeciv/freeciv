@@ -633,7 +633,7 @@ void send_all_info(struct conn_list *dest)
   send_spaceship_info(NULL, dest);
 
   cities_iterate(pcity) {
-    package_and_send_worker_task(pcity);
+    package_and_send_worker_tasks(pcity);
   } cities_iterate_end;
 }
 
