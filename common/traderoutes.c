@@ -471,7 +471,7 @@ const char *goods_name_translation(struct goods_type *pgood)
 ****************************************************************************/
 const char *goods_rule_name(struct goods_type *pgood)
 {
-  return rule_name(&pgood->name);
+  return rule_name_get(&pgood->name);
 }
 
 /**************************************************************************

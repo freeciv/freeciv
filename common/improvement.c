@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -240,7 +240,7 @@ const char *improvement_name_translation(const struct impr_type *pimprove)
 ****************************************************************************/
 const char *improvement_rule_name(const struct impr_type *pimprove)
 {
-  return rule_name(&pimprove->name);
+  return rule_name_get(&pimprove->name);
 }
 
 /****************************************************************************
@@ -865,7 +865,7 @@ struct city *city_from_great_wonder(const struct impr_type *pimprove)
   fc_assert_ret_val(is_great_wonder(pimprove), NULL);
 
   if (WONDER_OWNED(player_id)) {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     const struct player *pplayer = player_by_number(player_id);
     struct city *pcity = city_from_wonder(pplayer, pimprove);
 
@@ -880,7 +880,7 @@ struct city *city_from_great_wonder(const struct impr_type *pimprove)
     return pcity;
 #else
     return city_from_wonder(player_by_number(player_id), pimprove);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
   } else {
     return NULL;
   }

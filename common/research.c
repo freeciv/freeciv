@@ -246,7 +246,7 @@ const char *research_advance_rule_name(const struct research *presearch,
 
     /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
     fc_snprintf(buffer, sizeof(buffer), "%s %d",
-                rule_name(&advance_future_name),
+                rule_name_get(&advance_future_name),
                 no + 1);
     name = research_future_set_name(future_rule_name, no, buffer);
     fc_assert(name != NULL);
@@ -254,7 +254,7 @@ const char *research_advance_rule_name(const struct research *presearch,
     return name;
   }
 
-  return rule_name(research_advance_name(tech));
+  return rule_name_get(research_advance_name(tech));
 }
 
 /****************************************************************************
@@ -567,7 +567,7 @@ void research_update(struct research *presearch)
     presearch->techs_researched = techs_researched;
   } advance_index_iterate_end;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   advance_index_iterate(A_FIRST, i) {
     char buf[advance_count() + 1];
 
@@ -590,7 +590,7 @@ void research_update(struct research *presearch)
               ? "" : " [root reqs aren't known]");
     log_debug("%s: [%3d] %s", research_rule_name(presearch), i, buf);
   } advance_index_iterate_end;
-#endif
+#endif /* FREECIV_DEBUG */
 
   for (flag = 0; flag <= tech_flag_id_max(); flag++) {
     /* Iterate over all possible tech flags (0..max). */

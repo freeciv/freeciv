@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,9 +11,9 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
    Functions for handling the nations.
-***********************************************************************/
+************************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -137,7 +137,8 @@ struct nation_type *nation_by_rule_name(const char *name)
 const char *nation_rule_name(const struct nation_type *pnation)
 {
   NATION_CHECK(pnation, return "");
-  return rule_name(&pnation->adjective);
+
+  return rule_name_get(&pnation->adjective);
 }
 
 /****************************************************************************
@@ -710,13 +711,15 @@ struct nation_set *nation_set_new(const char *set_name,
   names_set(&pset->name, NULL, set_name, set_rule_name);
   (void) sz_loud_strlcpy(pset->description, set_description,
                          "Nation set description \"%s\" too long; truncating.");
-  if (NULL != nation_set_by_rule_name(rule_name(&pset->name))) {
-    log_error("Duplicate nation set name %s.", rule_name(&pset->name));
+
+  if (NULL != nation_set_by_rule_name(rule_name_get(&pset->name))) {
+    log_error("Duplicate nation set name %s.", rule_name_get(&pset->name));
     return NULL;
   }
-  if (NULL != nation_group_by_rule_name(rule_name(&pset->name))) {
+
+  if (NULL != nation_group_by_rule_name(rule_name_get(&pset->name))) {
     log_error("Nation set name %s is already used for a group.",
-              rule_name(&pset->name));
+              rule_name_get(&pset->name));
     return NULL;
   }
 
@@ -748,7 +751,7 @@ struct nation_set *nation_set_by_rule_name(const char *name)
   const char *qname = Qn_(name);
 
   nation_sets_iterate(pset) {
-    if (0 == fc_strcasecmp(rule_name(&pset->name), qname)) {
+    if (0 == fc_strcasecmp(rule_name_get(&pset->name), qname)) {
       return pset;
     }
   } nation_sets_iterate_end;
@@ -774,7 +777,8 @@ const char *nation_set_untranslated_name(const struct nation_set *pset)
 const char *nation_set_rule_name(const struct nation_set *pset)
 {
   fc_assert_ret_val(NULL != pset, NULL);
-  return rule_name(&pset->name);
+
+  return rule_name_get(&pset->name);
 }
 
 /****************************************************************************
@@ -936,13 +940,14 @@ struct nation_group *nation_group_new(const char *name)
   /* Print the name and truncate if needed. */
   pgroup = nation_groups + num_nation_groups;
   name_set(&pgroup->name, NULL, name);
-  if (NULL != nation_group_by_rule_name(rule_name(&pgroup->name))) {
-    log_error("Duplicate nation group name %s.", rule_name(&pgroup->name));
+  if (NULL != nation_group_by_rule_name(rule_name_get(&pgroup->name))) {
+    log_error("Duplicate nation group name %s.", rule_name_get(&pgroup->name));
     return NULL;
   }
-  if (NULL != nation_set_by_rule_name(rule_name(&pgroup->name))) {
+
+  if (NULL != nation_set_by_rule_name(rule_name_get(&pgroup->name))) {
     log_error("Nation group name %s is already used for a set.",
-              rule_name(&pgroup->name));
+              rule_name_get(&pgroup->name));
     return NULL;
   }
 
@@ -977,7 +982,7 @@ struct nation_group *nation_group_by_rule_name(const char *name)
   const char *qname = Qn_(name);
 
   nation_groups_iterate(pgroup) {
-    if (0 == fc_strcasecmp(rule_name(&pgroup->name), qname)) {
+    if (0 == fc_strcasecmp(rule_name_get(&pgroup->name), qname)) {
       return pgroup;
     }
   } nation_groups_iterate_end;
@@ -1033,7 +1038,8 @@ const char *nation_group_untranslated_name(const struct nation_group *pgroup)
 const char *nation_group_rule_name(const struct nation_group *pgroup)
 {
   fc_assert_ret_val(NULL != pgroup, NULL);
-  return rule_name(&pgroup->name);
+
+  return rule_name_get(&pgroup->name);
 }
 
 /****************************************************************************

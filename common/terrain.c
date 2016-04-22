@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -232,7 +232,7 @@ const char *terrain_name_translation(const struct terrain *pterrain)
 **************************************************************************/
 const char *terrain_rule_name(const struct terrain *pterrain)
 {
-  return rule_name(&pterrain->name);
+  return rule_name_get(&pterrain->name);
 }
 
 /****************************************************************************
@@ -404,7 +404,7 @@ const char *resource_name_translation(const struct resource_type *presource)
 **************************************************************************/
 const char *resource_rule_name(const struct resource_type *presource)
 {
-  return rule_name(&(resource_extra_get(presource)->name));
+  return rule_name_get(&(resource_extra_get(presource)->name));
 }
 
 /****************************************************************************

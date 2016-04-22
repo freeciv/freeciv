@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1687,7 +1687,7 @@ const char *city_style_name_translation(const int style)
 ****************************************************************************/
 const char *city_style_rule_name(const int style)
 {
-   return rule_name(&city_styles[style].name);
+   return rule_name_get(&city_styles[style].name);
 }
 
 /* Cache of what city production caravan shields are allowed to help. */

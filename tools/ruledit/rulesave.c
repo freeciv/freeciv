@@ -125,9 +125,9 @@ static bool save_name_translation(struct section_file *sfile,
                                  "%s.name", path);
   entry_str_set_gt_marking(mod_entry, TRUE);
   if (strcmp(skip_intl_qualifier_prefix(untranslated_name(name)),
-             rule_name(name))) {
+             rule_name_get(name))) {
     secfile_insert_str(sfile,
-                       rule_name(name),
+                       rule_name_get(name),
                        "%s.rule_name", path);
   }
 
@@ -580,8 +580,8 @@ static bool save_cities_ruleset(const char *filename, const char *name)
 
     save_name_translation(sfile, &(s->name), path);
 
-    if (strcmp(rule_name(&s->name), rule_name(&s->abbreviation))) {
-      secfile_insert_str(sfile, rule_name(&s->abbreviation),
+    if (strcmp(rule_name_get(&s->name), rule_name_get(&s->abbreviation))) {
+      secfile_insert_str(sfile, rule_name_get(&s->abbreviation),
                          "%s.short_name", path);
     }
 
@@ -2270,7 +2270,7 @@ static bool save_veteran_system(struct section_file *sfile, const char *path,
   int i;
 
   for (i = 0; i < vsystem->levels; i++) {
-    vlist_name[i] = rule_name(&(vsystem->definitions[i].name));
+    vlist_name[i] = rule_name_get(&(vsystem->definitions[i].name));
     vlist_power[i] = vsystem->definitions[i].power_fact;
     vlist_raise[i] = vsystem->definitions[i].raise_chance;
     vlist_wraise[i] = vsystem->definitions[i].work_raise_chance;
