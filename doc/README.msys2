@@ -92,10 +92,13 @@ http://download.gna.org/freeciv/packages/windows/testing/cazfi/installer_msys2/e
 
 2.1.2) Arch-specific packages needed for building freeciv
 
-2.1.2.1) For building gtk3-client
+2.1.2.1) For building common part
+ - mingw-w64-i686-icu / mingw-w64-x86_64-icu
+
+2.1.2.2) For building gtk3-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
-2.1.2.2) For buildind Qt-client and/or Ruledit
+2.1.2.3) For buildind Qt-client and/or Ruledit
  - mingw-w64-i686-qt5 / mingw-w64-x86_64-qt5
 
 2.2) Packaged needed for building installer package
