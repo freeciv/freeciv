@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2014 Lach Sławomir
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ const char *multiplier_name_translation(const struct multiplier *pmul)
 **************************************************************************/
 const char *multiplier_rule_name(const struct multiplier *pmul)
 {
-  return rule_name(&pmul->name);
+  return rule_name_get(&pmul->name);
 }
 
 /**************************************************************************

@@ -187,7 +187,7 @@ const char *extra_name_translation(const struct extra_type *pextra)
 **************************************************************************/
 const char *extra_rule_name(const struct extra_type *pextra)
 {
-  return rule_name(&pextra->name);
+  return rule_name_get(&pextra->name);
 }
 
 /**************************************************************************

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -109,7 +109,7 @@ static inline const char *
 /****************************************************************************
   Return the rule name of the name translation structure.
 ****************************************************************************/
-static inline const char *rule_name(const struct name_translation *ptrans)
+static inline const char *rule_name_get(const struct name_translation *ptrans)
 {
   return ptrans->rulename;
 }

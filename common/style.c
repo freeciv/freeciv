@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -106,7 +106,7 @@ const char *style_name_translation(const struct nation_style *pstyle)
 **************************************************************************/
 const char *style_rule_name(const struct nation_style *pstyle)
 {
-  return rule_name(&pstyle->name);
+  return rule_name_get(&pstyle->name);
 }
 
 /**************************************************************************

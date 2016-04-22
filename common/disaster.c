@@ -104,7 +104,7 @@ const char *disaster_name_translation(struct disaster_type *pdis)
 ****************************************************************************/
 const char *disaster_rule_name(struct disaster_type *pdis)
 {
-  return rule_name(&pdis->name);
+  return rule_name_get(&pdis->name);
 }
 
 /****************************************************************************

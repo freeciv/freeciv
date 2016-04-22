@@ -763,7 +763,7 @@ const char *unit_name_translation(const struct unit *punit)
 **************************************************************************/
 const char *utype_rule_name(const struct unit_type *punittype)
 {
-  return rule_name(&punittype->name);
+  return rule_name_get(&punittype->name);
 }
 
 /**************************************************************************
@@ -826,7 +826,7 @@ const char *uclass_name_translation(const struct unit_class *pclass)
 **************************************************************************/
 const char *uclass_rule_name(const struct unit_class *pclass)
 {
-  return rule_name(&pclass->name);
+  return rule_name_get(&pclass->name);
 }
 
 /****************************************************************************
@@ -953,6 +953,7 @@ struct unit_class *unit_class_by_rule_name(const char *s)
       return pclass;
     }
   } unit_class_iterate_end;
+
   return NULL;
 }
 

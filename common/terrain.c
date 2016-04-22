@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -235,7 +235,7 @@ const char *terrain_name_translation(const struct terrain *pterrain)
 **************************************************************************/
 const char *terrain_rule_name(const struct terrain *pterrain)
 {
-  return rule_name(&pterrain->name);
+  return rule_name_get(&pterrain->name);
 }
 
 /****************************************************************************
@@ -363,9 +363,8 @@ const char *resource_name_translation(const struct resource *presource)
 **************************************************************************/
 const char *resource_rule_name(const struct resource *presource)
 {
-  return rule_name(&presource->name);
+  return rule_name_get(&presource->name);
 }
-
 
 /****************************************************************************
   This iterator behaves like adjc_iterate or cardinal_adjc_iterate depending

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -112,7 +112,7 @@ const char *achievement_name_translation(struct achievement *pach)
 ****************************************************************************/
 const char *achievement_rule_name(struct achievement *pach)
 {
-  return rule_name(&pach->name);
+  return rule_name_get(&pach->name);
 }
 
 /**************************************************************************

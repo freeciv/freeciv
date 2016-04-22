@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -144,7 +144,7 @@ struct specialist *specialist_by_translated_name(const char *name)
 **************************************************************************/
 const char *specialist_rule_name(const struct specialist *sp)
 {
-  return rule_name(&sp->name);
+  return rule_name_get(&sp->name);
 }
 
 /**************************************************************************
