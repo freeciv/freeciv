@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -476,20 +476,6 @@ void update_city_descriptions(void)
 }
 
 /**************************************************************************
-  Fill pixcomm with unit gfx
-**************************************************************************/
-void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
-{
-  struct canvas canvas_store = FC_STATIC_CANVAS_INIT;
-
-  canvas_store.surface = gtk_pixcomm_get_surface(p);
-
-  gtk_pixcomm_clear(p);
-
-  put_unit(punit, &canvas_store, 1.0, 0, 0);
-}
-
-/**************************************************************************
   Fill image with unit gfx
 **************************************************************************/
 void put_unit_image(struct unit *punit, GtkImage *p)
@@ -507,15 +493,23 @@ void put_unit_image(struct unit *punit, GtkImage *p)
   unit, the proper way to do this is probably something like what Civ II does.
   (One food/shield/mask drawn N times, possibly one top of itself. -- SKi 
 **************************************************************************/
-void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
-                                    int *upkeep_cost, int happy_cost)
+void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
+                                  int height,
+                                  int *upkeep_cost, int happy_cost)
 {
   struct canvas store = FC_STATIC_CANVAS_INIT;
- 
-  store.surface = gtk_pixcomm_get_surface(p);
+  int width = tileset_full_tile_width(tileset);
+
+  store.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
+                                             width, height);
+
+  put_unit(punit, &store, 1.0, 0, 0);
 
   put_unit_city_overlays(punit, &store, 0, tileset_unit_layout_offset_y(tileset),
                          upkeep_cost, happy_cost);
+
+  gtk_image_set_from_surface(p, store.surface);
+  cairo_surface_destroy(store.surface);
 }
 
 /**************************************************************************

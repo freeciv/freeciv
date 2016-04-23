@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 
 /* client/gui-gtk-3.x */
 #include "canvas.h"
-#include "gtkpixcomm.h"
 #include "graphics.h"
 
 GdkPixbuf *get_thumb_pixbuf(int onoff);
@@ -37,12 +36,10 @@ gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data);
 gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
                               gpointer data);
 
-void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p);
-
 void put_unit_image(struct unit *punit, GtkImage *p);
 
-void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
-                                    int *upkeep_cost, int happy_cost);
+void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
+                                  int height, int *upkeep_cost, int happy_cost);
 
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);

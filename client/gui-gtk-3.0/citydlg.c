@@ -61,6 +61,7 @@
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "gtkpixcomm.h"
 #include "happiness.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
@@ -94,6 +95,7 @@ struct city_dialog;
 struct unit_node {
   GtkWidget *cmd;
   GtkWidget *pix;
+  int height;
 };
 
 /* get 'struct unit_node' and related function */
@@ -348,7 +350,7 @@ void reset_city_dialogs(void)
   init_citydlg_dimensions();
 
   dialog_list_iterate(dialog_list, pdialog) {
-    /* There's no reasonable way to resize a GtkPixcomm, so we don't try.
+    /* There's no reasonable way to resize a GtkImage, so we don't try.
        Instead we just redraw the overview within the existing area.  The
        player has to close and reopen the dialog to fix this. */
     city_dialog_update_map(pdialog);
@@ -1509,7 +1511,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_widget_realize(pdialog->shell);
 
   /* keep the icon of the executable on Windows (see PR#36491) */
-#ifndef WIN32_NATIVE
+#ifndef FREECIV_MSWINDOWS
   {
     GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_CITYDLG));
 
@@ -1517,7 +1519,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
     gtk_window_set_icon(GTK_WINDOW(pdialog->shell), pixbuf);
     g_object_unref(pixbuf);
   }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
   /* Restore size of the city dialog. */
   gtk_window_set_default_size(GTK_WINDOW(pdialog->shell),
@@ -2063,7 +2065,6 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     for (i = m; i < n; i++) {
       GtkWidget *cmd, *pix;
       struct unit_node node;
-      int unit_height = tileset_unit_with_upkeep_height(tileset);
 
       cmd = gtk_button_new();
       node.cmd = cmd;
@@ -2072,8 +2073,9 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       gtk_widget_add_events(cmd,
 	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-      pix = gtk_pixcomm_new(tileset_full_tile_width(tileset), unit_height);
+      pix = gtk_image_new();
       node.pix = pix;
+      node.height = tileset_unit_with_upkeep_height(tileset);
 
       gtk_container_add(GTK_CONTAINER(cmd), pix);
 
@@ -2095,9 +2097,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       cmd = pnode->cmd;
       pix = pnode->pix;
 
-      put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
-      put_unit_gpixmap_city_overlays(punit, GTK_PIXCOMM(pix), punit->upkeep,
-                                     happy_cost);
+      put_unit_image_city_overlays(punit, GTK_IMAGE(pix), pnode->height,
+                                   punit->upkeep, happy_cost);
 
       g_signal_handlers_disconnect_matched(cmd,
 	  G_SIGNAL_MATCH_FUNC,
@@ -2177,9 +2178,9 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       gtk_widget_add_events(cmd,
 	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-      pix = gtk_pixcomm_new(tileset_full_tile_width(tileset),
-                            tileset_full_tile_height(tileset));
+      pix = gtk_image_new();
       node.pix = pix;
+      node.height = tileset_full_tile_height(tileset);
 
       gtk_container_add(GTK_CONTAINER(cmd), pix);
 
@@ -2200,7 +2201,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       cmd = pnode->cmd;
       pix = pnode->pix;
 
-      put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
+      put_unit_image(punit, GTK_IMAGE(pix));
 
       g_signal_handlers_disconnect_matched(cmd,
 	  G_SIGNAL_MATCH_FUNC,
