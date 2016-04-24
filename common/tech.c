@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1110,7 +1110,7 @@ const char *advance_name_translation(const struct advance *padvance)
 ****************************************************************************/
 const char *advance_rule_name(const struct advance *padvance)
 {
-  return skip_intl_qualifier_prefix(rule_name(&padvance->name));
+  return rule_name(&padvance->name);
 }
 
 /**************************************************************************
