@@ -2785,7 +2785,7 @@ void city_units_upkeep(const struct city *pcity)
     return;
   }
 
-  memset(free, 0, O_LAST * sizeof(*free_uk));
+  memset(free_uk, 0, O_LAST * sizeof(*free_uk));
   output_type_iterate(o) {
     free_uk[o] = get_city_output_bonus(pcity, get_output_type(o),
                                        EFT_UNIT_UPKEEP_FREE_PER_CITY);
