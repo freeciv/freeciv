@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -139,7 +139,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
                           bool is_new_phase)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer, ait);
-  bool close;
+  bool caller_closes;
 
   /* Note that this refreshes advisor data if needed. ai_plr_data_get()
      is expected to refresh advisor data if needed, and ai_plr_data_get()
@@ -154,7 +154,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
 
   ai->phase_initialized = TRUE;
 
-  adv = adv_data_get(pplayer, &close);
+  adv = adv_data_get(pplayer, &caller_closes);
 
   /* Store current number of known continents and oceans so we can compare
      against it later in order to see if ai data needs refreshing. */
@@ -263,7 +263,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
     } unit_list_iterate_end;
   } players_iterate_alive_end;
 
-  if (close) {
+  if (caller_closes) {
     adv_data_phase_done(pplayer);
   }
 }
@@ -292,7 +292,7 @@ void dai_data_phase_finished(struct ai_type *ait, struct player *pplayer)
   closing.
 ****************************************************************************/
 struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer,
-                                bool *close)
+                                bool *caller_closes)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer, ait);
 
@@ -300,12 +300,12 @@ struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer,
 
   /* This assert really is required. See longer comment
      in adv_data_get() for equivalent code. */
-#if defined(DEBUG) || defined(IS_DEVEL_VERSION)
-  fc_assert(close != NULL || ai->phase_initialized);
+#if defined(FREECIV_DEBUG) || defined(IS_DEVEL_VERSION)
+  fc_assert(caller_closes != NULL || ai->phase_initialized);
 #endif
 
-  if (close != NULL) {
-    *close = FALSE;
+  if (caller_closes != NULL) {
+    *caller_closes = FALSE;
   }
 
   if (ai->last_num_continents != game.map.num_continents
@@ -321,16 +321,16 @@ struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer,
       log_debug("%s ai data phase closed when dai_plr_data_get() called",
                 player_name(pplayer));
       dai_data_phase_begin(ait, pplayer, FALSE);
-      if (close != NULL) {
-        *close = TRUE;
+      if (caller_closes != NULL) {
+        *caller_closes = TRUE;
       } else {
         dai_data_phase_finished(ait, pplayer);
       }
     }
   } else {
-    if (!ai->phase_initialized && close != NULL) {
+    if (!ai->phase_initialized && caller_closes != NULL) {
       dai_data_phase_begin(ait, pplayer, FALSE);
-      *close = TRUE;
+      *caller_closes = TRUE;
     }
   }
 

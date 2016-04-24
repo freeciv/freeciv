@@ -346,15 +346,15 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
   Modify player's trait value.
 *****************************************************************************/
 bool api_edit_trait_mod_set(lua_State *L, Player *pplayer,
-                            const char *trait_name, const int mod)
+                            const char *tname, const int mod)
 {
   enum trait tr;
 
   LUASCRIPT_CHECK_STATE(L, -1);
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, FALSE);
-  LUASCRIPT_CHECK_ARG_NIL(L, trait_name, 3, string, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, tname, 3, string, FALSE);
 
-  tr = trait_by_name(trait_name, fc_strcasecmp);
+  tr = trait_by_name(tname, fc_strcasecmp);
 
   LUASCRIPT_CHECK_ARG(L, trait_is_valid(tr), 3, "no such trait", 0);
 

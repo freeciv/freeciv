@@ -216,7 +216,7 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
 ****************************************************************************/
 static bool edit_tile_terrain_handling(struct tile *ptile,
                                        struct terrain *pterrain,
-                                       bool send_tile_info)
+                                       bool send_info)
 {
   struct terrain *old_terrain = tile_terrain(ptile);
 
@@ -233,7 +233,7 @@ static bool edit_tile_terrain_handling(struct tile *ptile,
     need_continents_reassigned = TRUE;
   }
 
-  if (send_tile_info) {
+  if (send_info) {
     update_tile_knowledge(ptile);
   }
 
@@ -246,7 +246,7 @@ static bool edit_tile_terrain_handling(struct tile *ptile,
 ****************************************************************************/
 static bool edit_tile_extra_handling(struct tile *ptile,
                                      struct extra_type *pextra,
-                                     bool remove_mode, bool send_tile_info)
+                                     bool remove_mode, bool send_info)
 {
   if (remove_mode) {
     if (!tile_has_extra(ptile, pextra)) {
@@ -269,7 +269,7 @@ static bool edit_tile_extra_handling(struct tile *ptile,
     }
   }
 
-  if (send_tile_info) {
+  if (send_info) {
     update_tile_knowledge(ptile);
   }
 
@@ -320,7 +320,7 @@ void handle_edit_tile_terrain(struct connection *pc, int tile,
   argument controls whether to remove or add the given extra from the tile.
 ****************************************************************************/
 void handle_edit_tile_extra(struct connection *pc, int tile,
-                            int id, bool remove, int size)
+                            int id, bool removal, int size)
 {
   struct tile *ptile_center;
 
@@ -343,7 +343,7 @@ void handle_edit_tile_extra(struct connection *pc, int tile,
 
   conn_list_do_buffer(game.est_connections);
   square_iterate(ptile_center, size - 1, ptile) {
-    edit_tile_extra_handling(ptile, extra_by_number(id), remove, TRUE);
+    edit_tile_extra_handling(ptile, extra_by_number(id), removal, TRUE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
 }

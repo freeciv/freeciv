@@ -468,7 +468,7 @@ const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
   {
     struct nation_type *nation_list[nation_count()];
     bool nations_selected[nation_count()];
-    int queue_size = 1, i = 0, index;
+    int queue_size = 1, i = 0, idx;
 
     memset(nations_selected, 0, sizeof(nations_selected));
     nation_list[0] = pnation;
@@ -496,10 +496,10 @@ const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 
         /* Append the nation's civil war nations into the search tree. */
         nation_list_iterate(pnation->server.civilwar_nations, n) {
-          index = nation_index(n);
-          if (!nations_selected[index]) {
+          idx = nation_index(n);
+          if (!nations_selected[idx]) {
             nation_list[queue_size] = n;
-            nations_selected[index] = TRUE;
+            nations_selected[idx] = TRUE;
             queue_size++;
             log_debug("Child %s.", nation_rule_name(n));
           }
@@ -507,10 +507,10 @@ const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 
         /* Append the nation's parent nations into the search tree. */
         nation_list_iterate(pnation->server.parent_nations, n) {
-          index = nation_index(n);
-          if (!nations_selected[index]) {
+          idx = nation_index(n);
+          if (!nations_selected[idx]) {
             nation_list[queue_size] = n;
-            nations_selected[index] = TRUE;
+            nations_selected[idx] = TRUE;
             queue_size++;
             log_debug("Parent %s.", nation_rule_name(n));
           }
@@ -519,8 +519,8 @@ const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 
       /* Still not found; append all remaining nations. */
       allowed_nations_iterate(n) {
-        index = nation_index(n);
-        if (!nations_selected[index]) {
+        idx = nation_index(n);
+        if (!nations_selected[idx]) {
           nation_list[queue_size] = n;
           nations_selected[nation_index(n)] = TRUE;
           queue_size++;
@@ -2019,7 +2019,7 @@ bool send_city_suppression(bool now)
   This fills out a package from a player's vision_site.
 **************************************************************************/
 static void package_dumb_city(struct player* pplayer, struct tile *ptile,
-			      struct packet_city_short_info *packet)
+                              struct packet_city_short_info *packet)
 {
   struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
 
@@ -2662,17 +2662,17 @@ struct trade_route *remove_trade_route(struct city *pc1, struct trade_route *pro
 ****************************************************************************/
 static void remove_smallest_trade_routes(struct city *pcity)
 {
-  struct trade_route_list *remove = trade_route_list_new();
+  struct trade_route_list *smallest = trade_route_list_new();
 
-  (void) city_trade_removable(pcity, remove);
-  trade_route_list_iterate(remove, proute) {
+  (void) city_trade_removable(pcity, smallest);
+  trade_route_list_iterate(smallest, proute) {
     struct trade_route *back;
 
     back = remove_trade_route(pcity, proute, TRUE, FALSE);
     free(proute);
     free(back);
   } trade_route_list_iterate_end;
-  trade_route_list_destroy(remove);
+  trade_route_list_destroy(smallest);
 }
 
 /**************************************************************************
@@ -2774,7 +2774,8 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove)
 **************************************************************************/
 void city_units_upkeep(const struct city *pcity)
 {
-  int free[O_LAST], cost;
+  int free_uk[O_LAST];
+  int cost;
   struct unit_type *ut;
   struct player *plr;
   bool update;
@@ -2784,10 +2785,10 @@ void city_units_upkeep(const struct city *pcity)
     return;
   }
 
-  memset(free, 0, O_LAST * sizeof(*free));
+  memset(free, 0, O_LAST * sizeof(*free_uk));
   output_type_iterate(o) {
-    free[o] = get_city_output_bonus(pcity, get_output_type(o),
-                                    EFT_UNIT_UPKEEP_FREE_PER_CITY);
+    free_uk[o] = get_city_output_bonus(pcity, get_output_type(o),
+                                       EFT_UNIT_UPKEEP_FREE_PER_CITY);
   } output_type_iterate_end;
 
   /* save the upkeep for all units in the corresponding punit struct */
@@ -2799,12 +2800,12 @@ void city_units_upkeep(const struct city *pcity)
     output_type_iterate(o) {
       cost = utype_upkeep_cost(ut, plr, o);
       if (cost > 0) {
-        if (free[o] > cost) {
-          free[o] -= cost;
+        if (free_uk[o] > cost) {
+          free_uk[o] -= cost;
           cost = 0;
         } else {
-          cost -= free[o];
-          free[o] = 0;
+          cost -= free_uk[o];
+          free_uk[o] = 0;
         }
       }
 

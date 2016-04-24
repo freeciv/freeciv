@@ -708,7 +708,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   struct player *must_war_player;
   struct action *blocker;
   struct player *tgt_player = NULL;
-  struct ane_expl *expl = fc_malloc(sizeof(struct ane_expl));
+  struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
   int action_custom;
 
@@ -770,118 +770,118 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   }
 
   if (!unit_can_do_action(punit, action_id)) {
-    expl->kind = ANEK_ACTOR_UNIT;
+    explnat->kind = ANEK_ACTOR_UNIT;
   } else if (action_id == ACTION_FOUND_CITY
              && tile_city(target_tile)) {
-    expl->kind = ANEK_BAD_TARGET;
+    explnat->kind = ANEK_BAD_TARGET;
   } else if ((!can_exist
        && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                         USP_LIVABLE_TILE, FALSE))
       || (can_exist
           && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                            USP_LIVABLE_TILE, TRUE))) {
-    expl->kind = ANEK_BAD_TERRAIN_ACT;
-    expl->no_act_terrain = tile_terrain(unit_tile(punit));
+    explnat->kind = ANEK_BAD_TERRAIN_ACT;
+    explnat->no_act_terrain = tile_terrain(unit_tile(punit));
   } else if (punit
              && does_terrain_block_action(action_id, FALSE,
                  tile_terrain(unit_tile(punit)))) {
     /* No action enabler allows acting against this terrain kind. */
-    expl->kind = ANEK_BAD_TERRAIN_ACT;
-    expl->no_act_terrain = tile_terrain(unit_tile(punit));
+    explnat->kind = ANEK_BAD_TERRAIN_ACT;
+    explnat->no_act_terrain = tile_terrain(unit_tile(punit));
   } else if (action_id == ACTION_FOUND_CITY
              && target_tile
              && terrain_has_flag(tile_terrain(target_tile),
                                  TER_NO_CITIES)) {
-    expl->kind = ANEK_BAD_TERRAIN_TGT;
-    expl->no_act_terrain = tile_terrain(target_tile);
+    explnat->kind = ANEK_BAD_TERRAIN_TGT;
+    explnat->no_act_terrain = tile_terrain(target_tile);
   } else if (target_tile
              && does_terrain_block_action(action_id, TRUE,
                                           tile_terrain(target_tile))) {
     /* No action enabler allows acting against this terrain kind. */
-    expl->kind = ANEK_BAD_TERRAIN_TGT;
-    expl->no_act_terrain = tile_terrain(target_tile);
+    explnat->kind = ANEK_BAD_TERRAIN_TGT;
+    explnat->no_act_terrain = tile_terrain(target_tile);
   } else if (unit_transported(punit)
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTED, TRUE)) {
-    expl->kind = ANEK_IS_TRANSPORTED;
+    explnat->kind = ANEK_IS_TRANSPORTED;
   } else if (!unit_transported(punit)
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTED, FALSE)) {
-    expl->kind = ANEK_IS_NOT_TRANSPORTED;
+    explnat->kind = ANEK_IS_NOT_TRANSPORTED;
   } else if (0 < get_transporter_occupancy(punit)
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTING, TRUE)) {
-    expl->kind = ANEK_IS_TRANSPORTING;
+    explnat->kind = ANEK_IS_TRANSPORTING;
   } else if ((action_id == ACTION_PARADROP || action_id == ACTION_AIRLIFT)
              && 0 < get_transporter_occupancy(punit)) {
     /* Hard action requirement. */
-    expl->kind = ANEK_IS_TRANSPORTING;
+    explnat->kind = ANEK_IS_TRANSPORTING;
   } else if (!(0 < get_transporter_occupancy(punit))
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTING, FALSE)) {
-    expl->kind = ANEK_IS_NOT_TRANSPORTING;
+    explnat->kind = ANEK_IS_NOT_TRANSPORTING;
   } else if ((punit->homecity > 0)
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_HAS_HOME_CITY, TRUE)) {
-    expl->kind = ANEK_ACTOR_HAS_HOME_CITY;
+    explnat->kind = ANEK_ACTOR_HAS_HOME_CITY;
   } else if ((punit->homecity <= 0)
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_HAS_HOME_CITY, FALSE)) {
-    expl->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
+    explnat->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
   } else if ((punit->homecity <= 0)
              && (action_id == ACTION_TRADE_ROUTE
                  || action_id == ACTION_MARKETPLACE)) {
-    expl->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
+    explnat->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
   } else if ((must_war_player = need_war_player(punit,
                                                 action_id,
                                                 target_tile,
                                                 target_city,
                                                 target_unit))) {
-    expl->kind = ANEK_NO_WAR;
-    expl->no_war_with = must_war_player;
+    explnat->kind = ANEK_NO_WAR;
+    explnat->no_war_with = must_war_player;
   } else if (need_full_mp(punit, action_id)) {
-    expl->kind = ANEK_LOW_MP;
+    explnat->kind = ANEK_LOW_MP;
   } else if (tgt_player
              && unit_owner(punit) != tgt_player
              && !can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
                                                  action_id,
                                                  DRO_FOREIGN,
                                                  TRUE)) {
-    expl->kind = ANEK_FOREIGN;
+    explnat->kind = ANEK_FOREIGN;
   } else if (action_id == ACTION_FOUND_CITY
              && action_custom == CB_BAD_BORDERS) {
-    expl->kind = ANEK_FOREIGN;
+    explnat->kind = ANEK_FOREIGN;
   } else if (tgt_player
              && unit_owner(punit) == tgt_player
              && !can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
                                                  action_id,
                                                  DRO_FOREIGN,
                                                  FALSE)) {
-    expl->kind = ANEK_DOMESTIC;
+    explnat->kind = ANEK_DOMESTIC;
   } else if ((target_tile && tile_city(target_tile))
              && !utype_may_act_tgt_city_tile(unit_type_get(punit),
                                              action_id,
                                              CITYT_CENTER,
                                              TRUE)) {
-    expl->kind = ANEK_IS_CITY_CENTER;
+    explnat->kind = ANEK_IS_CITY_CENTER;
   } else if ((target_tile && !tile_city(target_tile))
              && !utype_may_act_tgt_city_tile(unit_type_get(punit),
                                              action_id,
                                              CITYT_CENTER,
                                              FALSE)) {
-    expl->kind = ANEK_IS_NOT_CITY_CENTER;
+    explnat->kind = ANEK_IS_NOT_CITY_CENTER;
   } else if ((target_tile && tile_owner(target_tile) != NULL)
              && !utype_may_act_tgt_city_tile(unit_type_get(punit),
                                              action_id,
                                              CITYT_CLAIMED,
                                              TRUE)) {
-    expl->kind = ANEK_TGT_IS_CLAIMED;
+    explnat->kind = ANEK_TGT_IS_CLAIMED;
   } else if ((target_tile && tile_owner(target_tile) == NULL)
              && !utype_may_act_tgt_city_tile(unit_type_get(punit),
                                              action_id,
                                              CITYT_CLAIMED,
                                              FALSE)) {
-    expl->kind = ANEK_TGT_IS_UNCLAIMED;
+    explnat->kind = ANEK_TGT_IS_UNCLAIMED;
   } else if (target_city
              && (action_id == ACTION_JOIN_CITY
                  && action_actor_utype_hard_reqs_ok(ACTION_JOIN_CITY,
@@ -890,7 +890,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                      > game.info.add_to_size_limit))) {
     /* TODO: Check max city size requirements from action enabler target
      * vectors. */
-    expl->kind = ANEK_CITY_TOO_BIG;
+    explnat->kind = ANEK_CITY_TOO_BIG;
   } else if (target_city
              && (action_id == ACTION_JOIN_CITY
                  && action_actor_utype_hard_reqs_ok(ACTION_JOIN_CITY,
@@ -898,36 +898,36 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                  && (!city_can_grow_to(target_city,
                                        city_size_get(target_city)
                                        + unit_pop_value(punit))))) {
-    expl->kind = ANEK_CITY_POP_LIMIT;
+    explnat->kind = ANEK_CITY_POP_LIMIT;
   } else if (action_id == ACTION_AIRLIFT
              && action_custom == AR_SRC_NO_FLIGHTS) {
-    expl->kind = ANEK_CITY_NO_CAPACITY;
-    expl->capacity_city = tile_city(unit_tile(punit));
+    explnat->kind = ANEK_CITY_NO_CAPACITY;
+    explnat->capacity_city = tile_city(unit_tile(punit));
   } else if (action_id == ACTION_AIRLIFT
              && action_custom == AR_DST_NO_FLIGHTS) {
-    expl->kind = ANEK_CITY_NO_CAPACITY;
-    expl->capacity_city = game_city_by_number(target_city->id);
+    explnat->kind = ANEK_CITY_NO_CAPACITY;
+    explnat->capacity_city = game_city_by_number(target_city->id);
   } else if (action_id == ACTION_FOUND_CITY
              && action_custom == CB_NO_MIN_DIST) {
-    expl->kind = ANEK_CITY_TOO_CLOSE_TGT;
+    explnat->kind = ANEK_CITY_TOO_CLOSE_TGT;
   } else if ((game.scenario.prevent_new_cities
               && utype_can_do_action(unit_type_get(punit), ACTION_FOUND_CITY))
              && (action_id == ACTION_FOUND_CITY
                  || action_id == ACTION_ANY)) {
     /* Please add a check for any new action forbidding scenario setting
      * above this comment. */
-    expl->kind = ANEK_SCENARIO_DISABLED;
+    explnat->kind = ANEK_SCENARIO_DISABLED;
   } else if (action_id_is_valid(action_id)
              && (blocker = action_is_blocked_by(action_id, punit,
                                                 target_tile, target_city,
                                                 target_unit))) {
-    expl->kind = ANEK_ACTION_BLOCKS;
-    expl->blocker = blocker;
+    explnat->kind = ANEK_ACTION_BLOCKS;
+    explnat->blocker = blocker;
   } else {
-    expl->kind = ANEK_UNKNOWN;
+    explnat->kind = ANEK_UNKNOWN;
   }
 
-  return expl;
+  return explnat;
 }
 
 /**************************************************************************

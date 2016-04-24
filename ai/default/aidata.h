@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -112,7 +112,8 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
 void dai_data_phase_finished(struct ai_type *ait, struct player *pplayer);
 bool is_ai_data_phase_open(struct ai_type *ait, struct player *pplayer);
 
-struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer, bool *close);
+struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer,
+                                bool *caller_closes);
 
 struct ai_dip_intel *dai_diplomacy_get(struct ai_type *ait,
                                        const struct player *plr1,

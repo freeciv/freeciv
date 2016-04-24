@@ -917,25 +917,26 @@ static bool lookup_terrain(struct section_file *file,
   Returns FALSE if not found in secfile, but TRUE even if validation failed.
   Sets *ok to FALSE if validation failed, leaves it alone otherwise.
 **************************************************************************/
-static bool lookup_time(const struct section_file *secfile, int *time,
+static bool lookup_time(const struct section_file *secfile, int *turns,
                         const char *sec_name, const char *property_name,
                         const char *filename, const char *item_name,
                         bool *ok)
 {
   /* Assumes that PACKET_UNIT_INFO.activity_count in packets.def is UINT16 */
-  const int max_time = 65535 / ACTIVITY_FACTOR;
+  const int max_turns = 65535 / ACTIVITY_FACTOR;
 
-  if (!secfile_lookup_int(secfile, time, "%s.%s", sec_name, property_name)) {
+  if (!secfile_lookup_int(secfile, turns, "%s.%s", sec_name, property_name)) {
     return FALSE;
   }
 
-  if (*time > max_time) {
+  if (*turns > max_turns) {
     ruleset_error(LOG_ERROR,
                   "\"%s\": \"%s\": \"%s\" value %d too large (max %d)",
                   filename, item_name ? item_name : sec_name,
-                  property_name, *time, max_time);
+                  property_name, *turns, max_turns);
     *ok = FALSE;
   }
+
   return TRUE; /* we found _something */
 }
 
@@ -3716,7 +3717,7 @@ static bool load_ruleset_governments(struct section_file *file,
 static void send_ruleset_control(struct conn_list *dest)
 {
   int desc_left = game.control.desc_length;
-  int index = 0;
+  int idx = 0;
 
   lsend_packet_ruleset_control(dest, &(game.control));
 
@@ -3738,8 +3739,8 @@ static void send_ruleset_control(struct conn_list *dest)
 
     part.text[this_len] = '\0';
 
-    strncpy(part.text, &game.ruleset_description[index], this_len);
-    index += this_len;
+    strncpy(part.text, &game.ruleset_description[idx], this_len);
+    idx += this_len;
     desc_left -= this_len;
 
     lsend_packet_ruleset_description_part(dest, &part);
@@ -6164,7 +6165,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   if (ok) {
     /* section playercolors */
     struct rgbcolor *prgbcolor = NULL;
-    bool read = TRUE;
+    bool color_read = TRUE;
 
     /* Check if the player list is defined and empty. */
     if (playercolor_count() != 0) {
@@ -6172,11 +6173,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     } else {
       i = 0;
 
-      while (read) {
+      while (color_read) {
         prgbcolor = NULL;
 
-        read = rgbcolor_load(file, &prgbcolor, "playercolors.colorlist%d", i);
-        if (read) {
+        color_read = rgbcolor_load(file, &prgbcolor, "playercolors.colorlist%d", i);
+        if (color_read) {
           playercolor_add(prgbcolor);
         }
 

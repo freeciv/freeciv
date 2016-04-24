@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2015 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,15 +30,15 @@
   Return the current value of an AI trait in force (base+mod)
 *****************************************************************************/
 int api_methods_player_trait(lua_State *L, Player *pplayer,
-                             const char *trait_name)
+                             const char *tname)
 {
   enum trait tr;
 
   LUASCRIPT_CHECK_STATE(L, -1);
   LUASCRIPT_CHECK_SELF(L, pplayer, -1);
-  LUASCRIPT_CHECK_ARG_NIL(L, trait_name, 3, string, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, tname, 3, string, 0);
 
-  tr = trait_by_name(trait_name, fc_strcasecmp);
+  tr = trait_by_name(tname, fc_strcasecmp);
 
   LUASCRIPT_CHECK_ARG(L, trait_is_valid(tr), 3, "no such trait", 0);
 
@@ -49,15 +49,15 @@ int api_methods_player_trait(lua_State *L, Player *pplayer,
   Return the current base value of an AI trait (not including Lua mod)
 *****************************************************************************/
 int api_methods_player_trait_base(lua_State *L, Player *pplayer,
-                                  const char *trait_name)
+                                  const char *tname)
 {
   enum trait tr;
 
   LUASCRIPT_CHECK_STATE(L, -1);
   LUASCRIPT_CHECK_SELF(L, pplayer, -1);
-  LUASCRIPT_CHECK_ARG_NIL(L, trait_name, 3, string, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, tname, 3, string, 0);
 
-  tr = trait_by_name(trait_name, fc_strcasecmp);
+  tr = trait_by_name(tname, fc_strcasecmp);
 
   LUASCRIPT_CHECK_ARG(L, trait_is_valid(tr), 3, "no such trait", 0);
 
@@ -69,15 +69,15 @@ int api_methods_player_trait_base(lua_State *L, Player *pplayer,
   (can be changed with api_edit_trait_mod_set())
 *****************************************************************************/
 int api_methods_player_trait_current_mod(lua_State *L, Player *pplayer,
-                                         const char *trait_name)
+                                         const char *tname)
 {
   enum trait tr;
 
   LUASCRIPT_CHECK_STATE(L, -1);
   LUASCRIPT_CHECK_SELF(L, pplayer, -1);
-  LUASCRIPT_CHECK_ARG_NIL(L, trait_name, 3, string, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, tname, 3, string, 0);
 
-  tr = trait_by_name(trait_name, fc_strcasecmp);
+  tr = trait_by_name(tname, fc_strcasecmp);
 
   LUASCRIPT_CHECK_ARG(L, trait_is_valid(tr), 3, "no such trait", 0);
 
@@ -88,15 +88,15 @@ int api_methods_player_trait_current_mod(lua_State *L, Player *pplayer,
   Return the minimum random trait value that will be allocated for a nation
 *****************************************************************************/
 int api_methods_nation_trait_min(lua_State *L, Nation_Type *pnation,
-                                 const char *trait_name)
+                                 const char *tname)
 {
   enum trait tr;
 
   LUASCRIPT_CHECK_STATE(L, -1);
   LUASCRIPT_CHECK_SELF(L, pnation, -1);
-  LUASCRIPT_CHECK_ARG_NIL(L, trait_name, 3, string, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, tname, 3, string, 0);
 
-  tr = trait_by_name(trait_name, fc_strcasecmp);
+  tr = trait_by_name(tname, fc_strcasecmp);
 
   LUASCRIPT_CHECK_ARG(L, trait_is_valid(tr), 3, "no such trait", 0);
 
@@ -107,15 +107,15 @@ int api_methods_nation_trait_min(lua_State *L, Nation_Type *pnation,
   Return the maximum random trait value that will be allocated for a nation
 *****************************************************************************/
 int api_methods_nation_trait_max(lua_State *L, Nation_Type *pnation,
-                                 const char *trait_name)
+                                 const char *tname)
 {
   enum trait tr;
 
   LUASCRIPT_CHECK_STATE(L, -1);
   LUASCRIPT_CHECK_SELF(L, pnation, -1);
-  LUASCRIPT_CHECK_ARG_NIL(L, trait_name, 3, string, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, tname, 3, string, 0);
 
-  tr = trait_by_name(trait_name, fc_strcasecmp);
+  tr = trait_by_name(tname, fc_strcasecmp);
 
   LUASCRIPT_CHECK_ARG(L, trait_is_valid(tr), 3, "no such trait", 0);
 
@@ -126,15 +126,15 @@ int api_methods_nation_trait_max(lua_State *L, Nation_Type *pnation,
   Return the default trait value that will be allocated for a nation
 *****************************************************************************/
 int api_methods_nation_trait_default(lua_State *L, Nation_Type *pnation,
-                                     const char *trait_name)
+                                     const char *tname)
 {
   enum trait tr;
 
   LUASCRIPT_CHECK_STATE(L, -1);
   LUASCRIPT_CHECK_SELF(L, pnation, -1);
-  LUASCRIPT_CHECK_ARG_NIL(L, trait_name, 3, string, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, tname, 3, string, 0);
 
-  tr = trait_by_name(trait_name, fc_strcasecmp);
+  tr = trait_by_name(tname, fc_strcasecmp);
 
   LUASCRIPT_CHECK_ARG(L, trait_is_valid(tr), 3, "no such trait", 0);
 

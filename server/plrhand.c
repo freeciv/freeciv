@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2152,7 +2152,7 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
   enum {
     UNAVAILABLE, AVAILABLE, PREFERRED, UNWANTED
   } nations_used[nation_count()], looking_for;
-  int match[nation_count()], pick, index;
+  int match[nation_count()], pick, idx;
   int num_avail_nations = 0, num_pref_nations = 0;
 
   /* Values of nations_used:
@@ -2161,7 +2161,7 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
    * PREFERRED - we can use this nation and it is on the choices list.
    * UNWANTED - we can use this nation, but we really don't want to. */
   nations_iterate(pnation) {
-    index = nation_index(pnation);
+    idx = nation_index(pnation);
 
     if (!nation_is_in_current_set(pnation)
         || pnation->player
@@ -2173,16 +2173,16 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
        * (If nations aren't currently restricted to those with start
        * positions, we do nothing special here, but generate_players() will
        * tend to prefer them.) */
-      nations_used[index] = UNAVAILABLE;
-      match[index] = 0;
+      nations_used[idx] = UNAVAILABLE;
+      match[idx] = 0;
       continue;
     }
 
-    nations_used[index] = AVAILABLE;
+    nations_used[idx] = AVAILABLE;
 
     /* Determine which nations look good with nations already in the game,
      * or conflict with them. */
-    match[index] = 1;
+    match[idx] = 1;
     players_iterate(pplayer) {
       if (pplayer->nation != NO_NATION_SELECTED) {
         int x = nations_match(pnation, nation_of_player(pplayer),
@@ -2192,17 +2192,17 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
                     nation_rule_name(pnation), nation_number(pnation),
                     nation_rule_name(nation_of_player(pplayer)),
                     nation_number(nation_of_player(pplayer)));
-          nations_used[index] = UNWANTED;
-          match[index] -= x * 100;
+          nations_used[idx] = UNWANTED;
+          match[idx] -= x * 100;
           break;
         } else {
-          match[index] += x * 100;
+          match[idx] += x * 100;
         }
       }
     } players_iterate_end;
 
-    if (AVAILABLE == nations_used[index]) {
-      num_avail_nations += match[index];
+    if (AVAILABLE == nations_used[idx]) {
+      num_avail_nations += match[idx];
     }
   } nations_iterate_end;
 
@@ -2210,10 +2210,10 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
    * which are AVAILABLE, but no UNWANTED */
   if (NULL != choices) {
     nation_list_iterate(choices, pnation) {
-      index = nation_index(pnation);
-      if (nations_used[index] == AVAILABLE) {
-        num_pref_nations += match[index];
-        nations_used[index] = PREFERRED;
+      idx = nation_index(pnation);
+      if (nations_used[idx] == AVAILABLE) {
+        num_pref_nations += match[idx];
+        nations_used[idx] = PREFERRED;
       }
     } nation_list_iterate_end;
   }
@@ -2233,9 +2233,9 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     }
 
     nations_iterate(pnation) {
-      index = nation_index(pnation);
-      if (nations_used[index] == looking_for) {
-        pick -= match[index];
+      idx = nation_index(pnation);
+      if (nations_used[idx] == looking_for) {
+        pick -= match[idx];
 
         if (0 > pick) {
           return pnation;
@@ -2249,9 +2249,9 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
 
     log_debug("Picking an unwanted nation.");
     nations_iterate(pnation) {
-      index = nation_index(pnation);
-      if (UNWANTED == nations_used[index]) {
-        pick = -fc_rand(match[index]);
+      idx = nation_index(pnation);
+      if (UNWANTED == nations_used[idx]) {
+        pick = -fc_rand(match[idx]);
         if (pick > less_worst_score) {
           less_worst_nation = pnation;
           less_worst_score = pick;

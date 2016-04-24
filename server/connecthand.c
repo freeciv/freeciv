@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -499,7 +499,7 @@ static void package_conn_info(struct connection *pconn,
   off 'used' if 'remove' is specified.
 **************************************************************************/
 static void send_conn_info_arg(struct conn_list *src,
-                               struct conn_list *dest, bool remove)
+                               struct conn_list *dest, bool remove_conn)
 {
   struct packet_conn_info packet;
 
@@ -509,7 +509,7 @@ static void send_conn_info_arg(struct conn_list *src,
 
   conn_list_iterate(src, psrc) {
     package_conn_info(psrc, &packet);
-    if (remove) {
+    if (remove_conn) {
       packet.used = FALSE;
     }
     lsend_packet_conn_info(dest, &packet);

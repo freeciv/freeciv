@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -292,12 +292,12 @@ static int unquote_block(const char *const quoted_, void *dest,
 static void worklist_load(struct section_file *file, struct worklist *pwl,
                           const char *path, ...);
 static void unit_ordering_apply(void);
-static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index);
+static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx);
 static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
-                           const enum tile_special_type *index,
+                           const enum tile_special_type *idx,
                            bool rivers_overlay);
-static void sg_bases_set(bv_extras *extras, char ch, struct base_type **index);
-static void sg_roads_set(bv_extras *extras, char ch, struct road_type **index);
+static void sg_bases_set(bv_extras *extras, char ch, struct base_type **idx);
+static void sg_roads_set(bv_extras *extras, char ch, struct road_type **idx);
 static struct resource_type *char2resource(char c);
 static int char2num(char ch);
 static struct terrain *char2terrain(char ch);
@@ -775,7 +775,7 @@ static void unit_ordering_apply(void)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> base bit.
 ****************************************************************************/
-static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index)
+static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -788,7 +788,7 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index)
   }
 
   for (i = 0; i < 4; i++) {
-    struct extra_type *pextra = index[i];
+    struct extra_type *pextra = idx[i];
 
     if (pextra == NULL) {
       continue;
@@ -808,7 +808,7 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index)
   savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
 ****************************************************************************/
 static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
-                           const enum tile_special_type *index,
+                           const enum tile_special_type *idx,
                            bool rivers_overlay)
 {
   int i, bin;
@@ -822,7 +822,7 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
   }
 
   for (i = 0; i < 4; i++) {
-    enum tile_special_type sp = index[i];
+    enum tile_special_type sp = idx[i];
 
     if (sp == S_LAST) {
       continue;
@@ -923,7 +923,7 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> base bit.
 ****************************************************************************/
-static void sg_bases_set(bv_extras *extras, char ch, struct base_type **index)
+static void sg_bases_set(bv_extras *extras, char ch, struct base_type **idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -936,7 +936,7 @@ static void sg_bases_set(bv_extras *extras, char ch, struct base_type **index)
   }
 
   for (i = 0; i < 4; i++) {
-    struct base_type *pbase = index[i];
+    struct base_type *pbase = idx[i];
 
     if (pbase == NULL) {
       continue;
@@ -954,7 +954,7 @@ static void sg_bases_set(bv_extras *extras, char ch, struct base_type **index)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> road bit.
 ****************************************************************************/
-static void sg_roads_set(bv_extras *extras, char ch, struct road_type **index)
+static void sg_roads_set(bv_extras *extras, char ch, struct road_type **idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -967,7 +967,7 @@ static void sg_roads_set(bv_extras *extras, char ch, struct road_type **index)
   }
 
   for (i = 0; i < 4; i++) {
-    struct road_type *proad = index[i];
+    struct road_type *proad = idx[i];
 
     if (proad == NULL) {
       continue;
@@ -2393,7 +2393,7 @@ static void sg_load_players_basic(struct loaddata *loading)
       const struct multiplier *pmul = loading->multiplier.order[k];
 
       if (pmul) {
-        Multiplier_type_id index = multiplier_index(pmul);
+        Multiplier_type_id idx = multiplier_index(pmul);
         int val =
           secfile_lookup_int_default(loading->file, pmul->def,
                                      "player%d.multiplier%d.val",
@@ -2406,11 +2406,11 @@ static void sg_load_players_basic(struct loaddata *loading)
                       "was %d, clamped to %d", pslot_id,
                       multiplier_rule_name(pmul), val, rval);
         }
-        pplayer->multipliers[index] = rval;
+        pplayer->multipliers[idx] = rval;
 
         val =
           secfile_lookup_int_default(loading->file,
-                                     pplayer->multipliers[index],
+                                     pplayer->multipliers[idx],
                                      "player%d.multiplier%d.target",
                                      player_slot_index(pslot), k);
         rval = (((CLIP(pmul->start, val, pmul->stop)
@@ -2421,7 +2421,7 @@ static void sg_load_players_basic(struct loaddata *loading)
                       "\"%s\": was %d, clamped to %d", pslot_id,
                       multiplier_rule_name(pmul), val, rval);
         }
-        pplayer->multipliers_target[index] = rval;
+        pplayer->multipliers_target[idx] = rval;
       } /* else silently discard multiplier not in current ruleset */
     }
 
@@ -5082,16 +5082,16 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 
   /* Check if some player has more than one of some UTYF_UNIQUE unit type */
   players_iterate(pplayer) {
-    int utype_count[U_LAST];
+    int unique_count[U_LAST];
 
-    memset(utype_count, 0, sizeof(utype_count));
+    memset(unique_count, 0, sizeof(unique_count));
 
     unit_list_iterate(pplayer->units, punit) {
-      utype_count[utype_index(unit_type_get(punit))]++;
+      unique_count[utype_index(unit_type_get(punit))]++;
     } unit_list_iterate_end;
 
     unit_type_iterate(ut) {
-      if (utype_count[utype_index(ut)] > 1 && utype_has_flag(ut, UTYF_UNIQUE)) {
+      if (unique_count[utype_index(ut)] > 1 && utype_has_flag(ut, UTYF_UNIQUE)) {
         log_sg(_("%s has multiple units of type %s though it should be possible "
                  "to have only one."),
                player_name(pplayer), utype_name_translation(ut));

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -305,9 +305,9 @@ static void worklist_save(struct section_file *file,
                           int max_length, const char *path, ...);
 static void unit_ordering_calc(void);
 static void unit_ordering_apply(void);
-static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index);
+static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx);
 static char sg_extras_get(bv_extras extras, struct resource_type *presource,
-                          const int *index);
+                          const int *idx);
 static struct resource_type *char2resource(char c);
 static char resource2char(const struct resource_type *presource);
 static char num2char(unsigned int num);
@@ -1090,7 +1090,7 @@ static void unit_ordering_apply(void)
   in four to a character in hex notation. 'index' is a mapping of
   savegame bit -> base bit.
 ****************************************************************************/
-static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index)
+static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -1103,7 +1103,7 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index)
   }
 
   for (i = 0; i < 4; i++) {
-    struct extra_type *pextra = index[i];
+    struct extra_type *pextra = idx[i];
 
     if (pextra == NULL) {
       continue;
@@ -1122,12 +1122,12 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index)
   specifies which set of extras are included in this character.
 ****************************************************************************/
 static char sg_extras_get(bv_extras extras, struct resource_type *presource,
-                          const int *index)
+                          const int *idx)
 {
   int i, bin = 0;
 
   for (i = 0; i < 4; i++) {
-    int extra = index[i];
+    int extra = idx[i];
 
     if (extra < 0) {
       break;
@@ -3206,7 +3206,7 @@ static void sg_load_players_basic(struct loaddata *loading)
       const struct multiplier *pmul = loading->multiplier.order[k];
 
       if (pmul) {
-        Multiplier_type_id index = multiplier_index(pmul);
+        Multiplier_type_id idx = multiplier_index(pmul);
         int val =
           secfile_lookup_int_default(loading->file, pmul->def,
                                      "player%d.multiplier%d.val",
@@ -3219,11 +3219,11 @@ static void sg_load_players_basic(struct loaddata *loading)
                       "was %d, clamped to %d", pslot_id,
                       multiplier_rule_name(pmul), val, rval);
         }
-        pplayer->multipliers[index] = rval;
+        pplayer->multipliers[idx] = rval;
 
         val =
           secfile_lookup_int_default(loading->file,
-                                     pplayer->multipliers[index],
+                                     pplayer->multipliers[idx],
                                      "player%d.multiplier%d.target",
                                      player_slot_index(pslot), k);
         rval = (((CLIP(pmul->start, val, pmul->stop)
@@ -3234,7 +3234,7 @@ static void sg_load_players_basic(struct loaddata *loading)
                       " \"%s\": was %d, clamped to %d", pslot_id,
                       multiplier_rule_name(pmul), val, rval);
         }
-        pplayer->multipliers_target[index] = rval;
+        pplayer->multipliers_target[idx] = rval;
       } /* else silently discard multiplier not in current ruleset */
     }
 
@@ -6907,16 +6907,16 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 
   /* Check if some player has more than one of some UTYF_UNIQUE unit type */
   players_iterate(pplayer) {
-    int utype_count[U_LAST];
+    int unique_count[U_LAST];
 
-    memset(utype_count, 0, sizeof(utype_count));
+    memset(unique_count, 0, sizeof(unique_count));
 
     unit_list_iterate(pplayer->units, punit) {
-      utype_count[utype_index(unit_type_get(punit))]++;
+      unique_count[utype_index(unit_type_get(punit))]++;
     } unit_list_iterate_end;
 
     unit_type_iterate(ut) {
-      if (utype_count[utype_index(ut)] > 1 && utype_has_flag(ut, UTYF_UNIQUE)) {
+      if (unique_count[utype_index(ut)] > 1 && utype_has_flag(ut, UTYF_UNIQUE)) {
         log_sg(_("%s has multiple units of type %s though it should be possible "
                  "to have only one."),
                player_name(pplayer), utype_name_translation(ut));
