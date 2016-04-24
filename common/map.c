@@ -767,7 +767,7 @@ int tile_move_cost_ptrs(const struct unit *punit,
   const struct unit_class *pclass = utype_class(punittype);
   int cost;
   bool cardinality_checked = FALSE;
-  bool cardinal_move;
+  bool cardinal_move BAD_HEURISTIC_INIT(FALSE);
   bool ri;
 
   /* Try to exit early for detectable conditions */
