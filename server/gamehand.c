@@ -1097,7 +1097,7 @@ static void send_ruleset_choices(struct connection *pc)
 void ruleset_choices_free(void)
 {
   if (ruleset_choices != NULL) {
-    free(ruleset_choices);
+    strvec_destroy(ruleset_choices);
     ruleset_choices = NULL;
   }
 }
