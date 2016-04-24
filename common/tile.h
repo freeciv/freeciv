@@ -110,7 +110,18 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain);
 /* struct city *tile_worked(const struct tile *ptile); */
 void tile_set_worked(struct tile *ptile, struct city *pcity);
 
-const bv_extras *tile_extras(const struct tile *ptile);
+const bv_extras *tile_extras_safe(const struct tile *ptile);
+const bv_extras *tile_extras_null(void);
+static inline const bv_extras *tile_extras(const struct tile *ptile)
+{
+  /* With this NULL check this function is actually same as tile_extras_safe().
+   * We may remove the check later when callers that need _safe(), do so. */
+  if (ptile == NULL) {
+    return tile_extras_null();
+  }
+  return &(ptile->extras);
+}
+
 void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);

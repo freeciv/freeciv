@@ -154,19 +154,27 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 }
 
 /****************************************************************************
+  Returns a bit vector of the extras present at NULL tile.
+****************************************************************************/
+const bv_extras *tile_extras_null(void)
+{
+  static bool empty_cleared = FALSE;
+
+  if (!empty_cleared) {
+    BV_CLR_ALL(empty_extras);
+    empty_cleared = TRUE;
+  }
+
+  return &(empty_extras);  
+}
+
+/****************************************************************************
   Returns a bit vector of the extras present at the tile.
 ****************************************************************************/
-const bv_extras *tile_extras(const struct tile *ptile)
+const bv_extras *tile_extras_safe(const struct tile *ptile)
 {
   if (!ptile) {
-    static bool empty_cleared = FALSE;
-
-    if (!empty_cleared) {
-      BV_CLR_ALL(empty_extras);
-      empty_cleared = TRUE;
-    }
-
-    return &(empty_extras);
+    return tile_extras_null();
   }
 
   return &(ptile->extras);
