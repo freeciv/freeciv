@@ -28,6 +28,7 @@ static struct {
   char *techs;
   char *govs;
   char *policies;
+  char *uclasses;
 } comments_storage;
 
 /**************************************************************************
@@ -54,6 +55,7 @@ bool comments_load(void)
   comments_storage.techs = fc_strdup(secfile_lookup_str(comment_file, "typedoc.techs"));
   comments_storage.govs = fc_strdup(secfile_lookup_str(comment_file, "typedoc.governments"));
   comments_storage.policies = fc_strdup(secfile_lookup_str(comment_file, "typedoc.policies"));
+  comments_storage.uclasses = fc_strdup(secfile_lookup_str(comment_file, "typedoc.uclasses"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -121,4 +123,12 @@ void comment_govs(struct section_file *sfile)
 void comment_policies(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.policies, "Policies");
+}
+
+/**************************************************************************
+  Write unit classes header.
+**************************************************************************/
+void comment_uclasses(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.uclasses, "Unit classes");
 }

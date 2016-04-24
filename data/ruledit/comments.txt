@@ -192,3 +192,71 @@ policies = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+uclasses = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Unit classes\n\
+; The number can be variable, up to 32\n\
+; When adding new classes, remember to check effects.ruleset also.\n\
+; Eg. if you divide class \'Land\' to two separate classes, you may\n\
+; want add effect giving City Walls defence bonus against new class\n\
+; too.\n\
+;\n\
+; The actual tag used (the * in [unitclass_*]) does not matter, except\n\
+; it must be unique within this file, and it may be used in debug\n\
+; output when reading this file.\n\
+;\n\
+; ** Fields **\n\
+;\n\
+; name                = translatable name as seen by user\n\
+; rule_name           = (optional) name for savegames, rulesets etc; if not\n\
+;                       present, \'name\' is used. Since the name used in savegames\n\
+;                       must not change, use this when renaming a unit class after a\n\
+;                       ruleset has been released.\n\
+; min_speed           = Minimum speed after damage and effects (whole movement points)\n\
+; hp_loss_pct         = Hitpoints lost each turn if unit not in city or native base\n\
+; non_native_def_pct  = Defense power percentage applying when defending on\n\
+;                       non-native terrain (such as ship in harbour)\n\
+; hut_behavior        = What happens to huts when unit enters tile:\n\
+;                       \"Normal\", \"Nothing\", or \"Frighten\"\n\
+; flags               = List of unit class flags (from the following list; you\n\
+;                       cannot add custom unit class flags)\n\
+; helptext            = optional help text string; should escape all raw newlines\n\
+;                       so that xgettext parsing works\n\
+;\n\
+; ** Unit class Flags **\n\
+;\n\
+; \"TerrainSpeed\"      = Units use terrain specific speed\n\
+; \"TerrainDefense\"    = Units gain defense bonus from terrain\n\
+; \"DamageSlows\"       = Damaged units are slowed down\n\
+; \"CanOccupyCity\"     = Military units of this class can occupy enemy cities\n\
+; \"Missile\"           = Unit is destroyed when it attacks\n\
+; \"BuildAnywhere\"     = Unit can be built even in the middle of non-native terrain\n\
+; \"Unreachable\"       = Unit can be attacked only by units explicitly listing this\n\
+;                       class in its \'targets\', unless on a city or native base.\n\
+;                       For class members which are transports, cargo cannot load/\n\
+;                       unload except in a city or native base, unless that unit\n\
+;                       explicitly lists this class in its \'embarks\'/\'disembarks\'.\n\
+; \"CollectRansom\"     = Unit can collect ransom when killing lone barbarian leader\n\
+; \"ZOC\"               = Unit is subject to ZOC rules. Unit type flag \"IgZOC\" can\n\
+;                       override this\n\
+; \"CanFortify\"        = Unit can fortify at land tiles. Unit type flag\n\
+;                       \"Cant_Fortify\" can override this\n\
+; \"CanPillage\"        = Unit can pillage tile infrastructure\n\
+; \"DoesntOccupyTile\"  = Even if this kind of enemy unit is on tile, cities can\n\
+;                       still work that tile\n\
+; \"AttackNonNative\"   = Unit can attack units on non-native tiles. Unit type\n\
+;                       flag \"Only_Native_Attack\" can override this\n\
+; \"AttFromNonNative\"  = Unit can launch attack from non-native tile (against\n\
+;                       native one)\n\
+;                       This applies for both attacking from transport or\n\
+;                       cities. If only some unit types of the class should\n\
+;                       get this property, use type flag \"Marines\"\n\
+; \"KillCitizen\"       = Upon successful attack against a city, unit kills one\n\
+;                       citizen. The effect \"Unit_No_Lose_Pop\" and the server\n\
+;                       setting \'killcitizen\' can disable this.\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

@@ -2372,6 +2372,8 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
   save_veteran_system(sfile, "veteran_system", game.veteran);
 
+  comment_uclasses(sfile);
+
   sect_idx = 0;
   unit_class_iterate(puc) {
     char path[512];

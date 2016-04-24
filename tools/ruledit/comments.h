@@ -28,6 +28,7 @@ void comment_buildings(struct section_file *sfile);
 void comment_techs(struct section_file *sfile);
 void comment_govs(struct section_file *sfile);
 void comment_policies(struct section_file *sfile);
+void comment_uclasses(struct section_file *sfile);
 
 #ifdef __cplusplus
 }
