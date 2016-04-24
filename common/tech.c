@@ -272,7 +272,7 @@ const char *advance_name_translation(const struct advance *padvance)
 ****************************************************************************/
 const char *advance_rule_name(const struct advance *padvance)
 {
-  return skip_intl_qualifier_prefix(rule_name_get(&padvance->name));
+  return rule_name_get(&padvance->name);
 }
 
 /**************************************************************************
