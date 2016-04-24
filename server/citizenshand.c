@@ -35,7 +35,6 @@
 
 #define log_citizens log_debug
 
-
 /*****************************************************************************
   Update the nationality according to the city size. New citiens are added
   using the nationality of the owner. If the city size is reduced, the
@@ -96,8 +95,8 @@ void citizens_update(struct city *pcity, struct player *plr)
 
     /* First remove from foreign nationalities. */
     while (count > 0 && delta < 0) {
-      int select = fc_rand(count);
-      struct player_slot *pslot = city_nations[select];
+      int selected = fc_rand(count);
+      struct player_slot *pslot = city_nations[selected];
       struct player *pplayer = player_slot_get_player(pslot);
       citizens nationality = citizens_nation_get(pcity, pslot);
 
@@ -109,8 +108,8 @@ void citizens_update(struct city *pcity, struct player *plr)
         delta++;
         citizens_nation_set(pcity, pslot, 0);
         /* Remove this nation from the list of nationalities. */
-        if (select != count) {
-          city_nations[select] = city_nations[count - 1];
+        if (selected != count) {
+          city_nations[selected] = city_nations[count - 1];
         }
         count--;
 

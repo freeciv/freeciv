@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -268,10 +268,10 @@ void apply_cmresult_to_city(struct city *pcity,
 
   /* Now apply results */
   city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
-                                     ptile, index, x, y) {
+                                     ptile, idx, x, y) {
     struct city *pwork = tile_worked(ptile);
 
-    if (cmr->worker_positions[index]) {
+    if (cmr->worker_positions[idx]) {
       if (NULL == pwork) {
         city_map_update_worker(pcity, ptile);
       } else {

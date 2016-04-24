@@ -651,7 +651,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                            const struct unit *target_unit)
 {
   struct player *must_war_player;
-  struct ane_expl *expl = fc_malloc(sizeof(struct ane_expl));
+  struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
 
   if ((!can_exist
@@ -660,42 +660,42 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       || (can_exist
           && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                            USP_LIVABLE_TILE, TRUE))) {
-    expl->kind = ANEK_BAD_TERRAIN_ACT;
-    expl->no_act_terrain = tile_terrain(unit_tile(punit));
+    explnat->kind = ANEK_BAD_TERRAIN_ACT;
+    explnat->no_act_terrain = tile_terrain(unit_tile(punit));
   } else if (punit
              && does_terrain_block_action(action_id, FALSE,
                  tile_terrain(unit_tile(punit)))) {
     /* No action enabler allows acting against this terrain kind. */
-    expl->kind = ANEK_BAD_TERRAIN_ACT;
-    expl->no_act_terrain = tile_terrain(unit_tile(punit));
+    explnat->kind = ANEK_BAD_TERRAIN_ACT;
+    explnat->no_act_terrain = tile_terrain(unit_tile(punit));
   } else if (target_tile
              && does_terrain_block_action(action_id, TRUE,
                                           tile_terrain(target_tile))) {
     /* No action enabler allows acting against this terrain kind. */
-    expl->kind = ANEK_BAD_TERRAIN_TGT;
-    expl->no_act_terrain = tile_terrain(target_tile);
+    explnat->kind = ANEK_BAD_TERRAIN_TGT;
+    explnat->no_act_terrain = tile_terrain(target_tile);
   } else if (unit_transported(punit)
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTED, TRUE)) {
-    expl->kind = ANEK_IS_TRANSPORTED;
+    explnat->kind = ANEK_IS_TRANSPORTED;
   } else if (!unit_transported(punit)
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTED, FALSE)) {
-    expl->kind = ANEK_IS_NOT_TRANSPORTED;
+    explnat->kind = ANEK_IS_NOT_TRANSPORTED;
   } else if ((must_war_player = need_war_player(punit,
                                                 action_id,
                                                 target_tile,
                                                 target_city,
                                                 target_unit))) {
-    expl->kind = ANEK_NO_WAR;
-    expl->no_war_with = must_war_player;
+    explnat->kind = ANEK_NO_WAR;
+    explnat->no_war_with = must_war_player;
   } else if (need_full_mp(punit, action_id)) {
-    expl->kind = ANEK_LOW_MP;
+    explnat->kind = ANEK_LOW_MP;
   } else {
-    expl->kind = ANEK_UNKNOWN;
+    explnat->kind = ANEK_UNKNOWN;
   }
 
-  return expl;
+  return explnat;
 }
 
 /**************************************************************************

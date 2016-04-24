@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -229,7 +229,7 @@ static const char num_chars[] =
 static bool load_river_overlay = FALSE;
 
 static void set_savegame_special(struct tile *ptile, bv_extras *extras,
-                                 char ch, const enum tile_special_type *index);
+                                 char ch, const enum tile_special_type *idx);
 
 static void game_load_internal(struct section_file *file);
 
@@ -720,8 +720,8 @@ static void map_load_rivers_overlay(struct section_file *file,
   savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
 ****************************************************************************/
 static void set_savegame_special(struct tile *ptile, bv_extras *extras,
-				 char ch,
-				 const enum tile_special_type *index)
+                                 char ch,
+                                 const enum tile_special_type *idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -734,7 +734,7 @@ static void set_savegame_special(struct tile *ptile, bv_extras *extras,
   }
 
   for (i = 0; i < 4; i++) {
-    enum tile_special_type sp = index[i];
+    enum tile_special_type sp = idx[i];
 
     if (sp == S_LAST) {
       continue;
@@ -841,7 +841,7 @@ static void set_savegame_special(struct tile *ptile, bv_extras *extras,
 ****************************************************************************/
 static void set_savegame_bases(bv_extras *extras,
                                char ch,
-                               struct base_type **index)
+                               struct base_type **idx)
 {
   int i, bin;
   const char *pch = strchr(hex_chars, ch);
@@ -854,7 +854,7 @@ static void set_savegame_bases(bv_extras *extras,
   }
 
   for (i = 0; i < 4; i++) {
-    struct base_type *pbase = index[i];
+    struct base_type *pbase = idx[i];
 
     if (pbase == NULL) {
       continue;
