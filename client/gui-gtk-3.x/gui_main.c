@@ -1460,7 +1460,7 @@ static void setup_widgets(void)
   setup_canvas_color_for_state(GTK_STATE_FLAG_INCONSISTENT);
   setup_canvas_color_for_state(GTK_STATE_FLAG_FOCUSED);
   setup_canvas_color_for_state(GTK_STATE_FLAG_BACKDROP);
-#endif
+#endif /* 0 */
 
   gtk_widget_add_events(map_canvas, GDK_EXPOSURE_MASK
                                    |GDK_BUTTON_PRESS_MASK
@@ -1884,7 +1884,6 @@ void set_unit_icon(int idx, struct unit *punit)
   if (punit) {
     put_unit_image(punit, GTK_IMAGE(w));
   } else {
-    //    gtk_pixcomm_clear(GTK_PIXCOMM(w));
     gtk_image_clear(GTK_IMAGE(w));
   }
 }

@@ -1863,7 +1863,6 @@ void set_unit_icon(int idx, struct unit *punit)
   if (punit) {
     put_unit_image(punit, GTK_IMAGE(w));
   } else {
-    //    gtk_pixcomm_clear(GTK_PIXCOMM(w));
     gtk_image_clear(GTK_IMAGE(w));
   }
 }
