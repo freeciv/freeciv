@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -113,6 +113,8 @@ void setup_gui_funcs()
   funcs->handmade_scenario_warning = gui_handmade_scenario_warning;
   funcs->refresh_unit_city_dialogs = gui_refresh_unit_city_dialogs;
   funcs->city_dialog_is_open = gui_city_dialog_is_open;
+
+  funcs->request_transport = gui_request_transport;
 
   funcs->gui_load_theme = gui_gui_load_theme;
   funcs->gui_clear_theme = gui_gui_clear_theme;

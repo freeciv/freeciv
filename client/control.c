@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1727,6 +1727,12 @@ void request_move_unit_direction(struct unit *punit, int dir)
     return;
   }
 
+  if (!can_unit_exist_at_tile(punit, dest_tile)) {
+    if (request_transport(punit, dest_tile)) {
+      return;
+    }
+  }
+
   /* The goto system isn't used to send the order because that would
    * prevent direction movement from overriding it.
    * Example of a situation when overriding the goto system is useful:
@@ -1955,7 +1961,8 @@ void request_unit_autosettlers(const struct unit *punit)
 
   If ptransporter is NULL a suitable transporter will be chosen.
 ****************************************************************************/
-void request_unit_load(struct unit *pcargo, struct unit *ptrans)
+void request_unit_load(struct unit *pcargo, struct unit *ptrans,
+                       struct tile *ptile)
 {
   if (!ptrans) {
     ptrans = transporter_for_unit(pcargo);
@@ -1963,9 +1970,9 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
 
   if (ptrans
       && can_client_issue_orders()
-      && can_unit_load(pcargo, ptrans)) {
+      && could_unit_load(pcargo, ptrans)) {
     dsend_packet_unit_load(&client.conn, pcargo->id, ptrans->id,
-                           ptrans->tile->index);
+                           ptile->index);
 
     /* Sentry the unit.  Don't request_unit_sentry since this can give a
      * recursive loop. */

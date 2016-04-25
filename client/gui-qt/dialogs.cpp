@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,9 +39,8 @@
 // client
 #include "control.h"
 #include "helpdata.h"
-#include "text.h"
-
 #include "packhand.h"
+#include "text.h"
 #include "tilespec.h"
 
 // gui-qt
@@ -2971,7 +2970,7 @@ void unit_select::keyPressEvent(QKeyEvent *event)
 }
 
 /***************************************************************************
- Set current diplo dialog
+  Set current diplo dialog
 ***************************************************************************/
 void fc_client::set_diplo_dialog(choice_dialog *widget)
 {
@@ -2979,9 +2978,9 @@ void fc_client::set_diplo_dialog(choice_dialog *widget)
 }
 
 /***************************************************************************
- Get current diplo dialog
+  Get current diplo dialog
 ***************************************************************************/
-choice_dialog* fc_client::get_diplo_dialog()
+choice_dialog *fc_client::get_diplo_dialog()
 {
   return opened_dialog;
 }
@@ -2994,4 +2993,12 @@ bool qtg_handmade_scenario_warning()
 {
   /* Just tell the client common code to handle this. */
   return false;
+}
+
+/****************************************************************
+  Unit wants to get into some transport on given tile.
+*****************************************************************/
+bool qtg_request_transport(struct unit *pcargo, struct tile *ptile)
+{
+  return false; /* Unit was not handled here. */
 }

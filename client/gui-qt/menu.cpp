@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -63,7 +63,6 @@ extern QApplication *qapp;
 **************************************************************************/
 qfc_units_list::qfc_units_list()
 {
-
 }
 
 /**************************************************************************
@@ -2025,7 +2024,7 @@ void mr_menu::slot_execute_orders()
 void mr_menu::slot_load()
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    request_unit_load(punit, NULL);
+    request_unit_load(punit, NULL, unit_tile(punit));
   } unit_list_iterate_end;
 }
 
@@ -2503,6 +2502,7 @@ void mr_menu::back_to_menu()
 {
   QMessageBox ask(gui()->central_wdg);
   int ret;
+
   if (is_server_running()) {
     ask.setText(_("Leaving a local game will end it!"));
     ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
@@ -2524,4 +2524,3 @@ void mr_menu::back_to_menu()
     disconnect_from_server();
   }
 }
-

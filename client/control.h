@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -81,7 +81,8 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
 					struct extra_type *tgt);
-void request_unit_load(struct unit *pcargo, struct unit *ptransporter);
+void request_unit_load(struct unit *pcargo, struct unit *ptransporter,
+                       struct tile *ptile);
 void request_unit_unload(struct unit *pcargo);
 void request_unit_autosettlers(const struct unit *punit);
 void request_unit_build_city(struct unit *punit);

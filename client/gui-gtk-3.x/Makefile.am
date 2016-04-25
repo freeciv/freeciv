@@ -87,11 +87,13 @@ libgui_gtk3x_la_SOURCES = \
 	theme_dlg.c	\
 	themes.c	\
 	tileset_dlg.c	\
+	transportdlg.c	\
+	transportdlg.h	\
 	unitselect.h	\
 	unitselect.c	\
 	voteinfo_bar.c	\
 	voteinfo_bar.h	\
 	wldlg.c		\
-	wldlg.h	
+	wldlg.h
 
 libgui_gtk3x_la_LIBADD = -lm

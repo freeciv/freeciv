@@ -85,6 +85,7 @@ client/gui-gtk-3.0/spaceshipdlg.c
 client/gui-gtk-3.0/sprite.c
 client/gui-gtk-3.0/theme_dlg.c
 client/gui-gtk-3.0/tileset_dlg.c
+client/gui-gtk-3.0/transportdlg.c
 client/gui-gtk-3.0/unitselect.c
 client/gui-gtk-3.0/voteinfo_bar.c
 client/gui-gtk-3.0/wldlg.c
@@ -122,6 +123,7 @@ client/gui-gtk-3.x/spaceshipdlg.c
 client/gui-gtk-3.x/sprite.c
 client/gui-gtk-3.x/theme_dlg.c
 client/gui-gtk-3.x/tileset_dlg.c
+client/gui-gtk-3.x/transportdlg.c
 client/gui-gtk-3.x/unitselect.c
 client/gui-gtk-3.x/voteinfo_bar.c
 client/gui-gtk-3.x/wldlg.c

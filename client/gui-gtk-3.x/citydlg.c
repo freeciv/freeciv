@@ -21,6 +21,7 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+
 /* utility */
 #include "bitvector.h"
 #include "fcintl.h"
@@ -2687,20 +2688,20 @@ static void present_unit_activate_close_callback(GtkWidget * w,
 /****************************************************************
   User has requested unit to be loaded to transport
 *****************************************************************/
-static void unit_load_callback(GtkWidget * w, gpointer data)
+static void unit_load_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit =
     player_unit_by_number(client_player(), (size_t)data);
 
   if (NULL != punit) {
-    request_unit_load(punit, NULL);
+    request_unit_load(punit, NULL, unit_tile(punit));
   }
 }
 
 /****************************************************************
   User has requested unit to be unloaded from transport
 *****************************************************************/
-static void unit_unload_callback(GtkWidget * w, gpointer data)
+static void unit_unload_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit =
     player_unit_by_number(client_player(), (size_t)data);

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -63,6 +63,7 @@
 #include "repodlgs.h"
 #include "sprite.h"
 #include "spaceshipdlg.h"
+#include "transportdlg.h"
 #include "unitselect.h"
 #include "wldlg.h"
 
@@ -1440,7 +1441,7 @@ static void unit_unsentry_callback(GtkMenuItem *item, gpointer data)
 static void unit_load_callback(GtkMenuItem *item, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    request_unit_load(punit, NULL);
+    request_transport(punit, unit_tile(punit));
   } unit_list_iterate_end;
 }
 
