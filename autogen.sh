@@ -183,6 +183,7 @@ version_check ()
   pkg_major=`echo $pkg_version | cut -d. -f1`
   pkg_minor=`echo $pkg_version | sed s/[-,a-z,A-Z].*// | cut -d. -f2`
   pkg_micro=`echo $pkg_version | sed s/[-,a-z,A-Z].*// | cut -d. -f3`
+  [ -z "$pkg_major" ] && pkg_major=0
   [ -z "$pkg_minor" ] && pkg_minor=0
   [ -z "$pkg_micro" ] && pkg_micro=0
 
