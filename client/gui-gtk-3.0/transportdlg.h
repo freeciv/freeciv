@@ -1,5 +1,5 @@
 /***********************************************************************
- Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+ Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -10,10 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifndef FC__TRANSPORTDLG_H
+#define FC__TRANSPORTDLG_H
 
-#ifndef FC__GUI_CBSETTER_H
-#define FC__GUI_CBSETTER_H
+#include "dialogs_g.h"
 
-void setup_gui_funcs(void);
-
-#endif /* FC__GUI_CBSETTER_H */
+#endif  /* FC__TRANSPORTDLG_H */

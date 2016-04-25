@@ -52,7 +52,7 @@
 #include "xaw_actions.h"
 
 /*******************************************************************************
- Action Routines!!
+  Action Routines!!
 *******************************************************************************/
 static void xaw_mouse_moved(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
@@ -708,11 +708,11 @@ static void xaw_key_unit_unload_all(Widget w, XEvent *event,
   Invoked when the key binding for orders->load is pressed.
 ****************************************************************************/
 static void xaw_key_unit_load(Widget w, XEvent *event,
-			      String *argv, Cardinal *argc)
+                              String *argv, Cardinal *argc)
 {
   if (can_client_issue_orders()) {
     unit_list_iterate(get_units_in_focus(), punit) {
-      request_unit_load(punit, NULL);
+      request_unit_load(punit, NULL, unit_tile(punit));
     } unit_list_iterate_end;
   }
 }
@@ -721,7 +721,7 @@ static void xaw_key_unit_load(Widget w, XEvent *event,
   Invoked when the key binding for orders->unload is pressed.
 ****************************************************************************/
 static void xaw_key_unit_unload(Widget w, XEvent *event,
-				String *argv, Cardinal *argc)
+                                String *argv, Cardinal *argc)
 {
   if (can_client_issue_orders()) {
     unit_list_iterate(get_units_in_focus(), punit) {

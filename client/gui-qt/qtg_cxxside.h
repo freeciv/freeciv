@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -122,6 +122,8 @@ void qtg_popdown_all_city_dialogs();
 bool qtg_handmade_scenario_warning();
 void qtg_refresh_unit_city_dialogs(struct unit *punit);
 bool qtg_city_dialog_is_open(struct city *pcity);
+
+bool qtg_request_transport(struct unit *pcargo, struct tile *ptile);
 
 void qtg_gui_load_theme(const char *directory, const char *theme_name);
 void qtg_gui_clear_theme();

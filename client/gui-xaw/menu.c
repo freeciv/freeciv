@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -755,10 +755,10 @@ static void view_menu_callback(Widget w, XtPointer client_data,
 }
 
 /****************************************************************
-...
+  Order selected from the orders menu.
 *****************************************************************/
 static void orders_menu_callback(Widget w, XtPointer client_data,
-				 XtPointer garbage)
+                                 XtPointer garbage)
 {
   size_t pane_num = (size_t)client_data;
 
@@ -816,7 +816,7 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_ORDER_LOAD:
     unit_list_iterate(get_units_in_focus(), punit) {
-      request_unit_load(punit, NULL);
+      request_unit_load(punit, NULL, unit_tile(punit));
     } unit_list_iterate_end;
     break;
   case MENU_ORDER_UNLOAD:

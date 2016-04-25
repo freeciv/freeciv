@@ -155,7 +155,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       break;
     case ID_UNIT_ORDER_LOAD:
       unit_list_iterate(get_units_in_focus(), punit) {
-        request_unit_load(punit, NULL);
+        request_unit_load(punit, NULL, unit_tile(punit));
       } unit_list_iterate_end;
       break;
     case ID_UNIT_ORDER_UNLOAD:

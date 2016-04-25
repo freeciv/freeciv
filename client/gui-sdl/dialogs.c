@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,13 +11,13 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/***************************************************************************
+/***********************************************************************
                           dialogs.c  -  description
                              -------------------
     begin                : Wed Jul 24 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
-***************************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -3760,4 +3760,12 @@ bool handmade_scenario_warning(void)
 void real_multipliers_dialog_update(void)
 { 
   /* PORTME */
+}
+
+/****************************************************************
+  Unit wants to get into some transport on given tile.
+*****************************************************************/
+bool request_transport(struct unit *pcargo, struct tile *ptile)
+{
+  return FALSE; /* Unit was not handled here. */
 }

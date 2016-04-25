@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,15 +15,14 @@
 #include <fc_config.h>
 #endif
 
-
 // client
 #include "gui_interface.h"
 
 #include "qtg_cxxside.h"
 
-/**************************************************************************
+/***********************************************************************
   Setup the gui callback table.
-**************************************************************************/
+***********************************************************************/
 void setup_gui_funcs()
 {
   struct gui_funcs *funcs = get_gui_funcs();
@@ -99,6 +98,8 @@ void setup_gui_funcs()
   funcs->handmade_scenario_warning = qtg_handmade_scenario_warning;
   funcs->refresh_unit_city_dialogs = qtg_refresh_unit_city_dialogs;
   funcs->city_dialog_is_open = qtg_city_dialog_is_open;
+
+  funcs->request_transport = qtg_request_transport;
 
   funcs->gui_load_theme = qtg_gui_load_theme;
   funcs->gui_clear_theme = qtg_gui_clear_theme;

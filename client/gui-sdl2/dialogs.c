@@ -3743,3 +3743,11 @@ void real_multipliers_dialog_update(void)
 {
   /* PORTME */
 } 
+
+/****************************************************************
+  Unit wants to get into some transport on given tile.
+*****************************************************************/
+bool request_transport(struct unit *pcargo, struct tile *ptile)
+{
+  return FALSE; /* Unit was not handled here. */
+}
