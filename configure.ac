@@ -947,7 +947,7 @@ if test "x$client" != "xno"; then
 
   dnl If client still "auto", error out since we couldn't select any of them
   if test "x$client" = "xauto" ; then
-    AC_MSG_ERROR([can not build any of the clients])
+    AC_MSG_ERROR([can not build any of the supported clients])
   fi
 fi
 
