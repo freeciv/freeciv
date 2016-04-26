@@ -260,3 +260,231 @@ uclasses = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+utypes = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Below: The individual unit types, one per section.\n\
+;\n\
+; The number can be variable, up to 200.\n\
+; However for the \"official\" rulesets, units should not be removed\n\
+; because that would break backward compatability with savegames.\n\
+;\n\
+; The order here matters: later units are considered \"better\" for\n\
+; a given flag or role.\n\
+;\n\
+; The actual tag used (the * in [unit_*]) does not matter, except\n\
+; it must be unique within this file, and it may be used in debug\n\
+; output when reading this file.\n\
+;\n\
+; ** Fields **\n\
+;\n\
+; name          = translatable name as seen by user\n\
+; rule_name     = (optional) name for savegames, rulesets etc; if not\n\
+;                 present, \'name\' is used. Since the name used in savegames\n\
+;                 must not change, use this when renaming a unit after a\n\
+;                 ruleset has been released.\n\
+; graphic       = tag specifying preferred graphic\n\
+; graphic_alt	= tag for alternate garphic if preferred graphic is not\n\
+;		  present; especially if preferred graphic is non-standard,\n\
+;		  this should be a standard tag.  Otherwise can use eg \"-\"\n\
+;		  for no alternate graphic.\n\
+; tech_req      = required advance, names from techs.ruleset, or special:\n\
+;                 \"None\" => available from start\n\
+; impr_req	= required city improvement, names from buildings.ruleset\n\
+; gov_req       = required government, names from governments.ruleset\n\
+; obsolete_by   = can be upgraded to and made obsolete by another unit by name\n\
+; build_cost    = production shields required to build\n\
+; pop_cost      = population removed from city when built; for \'Join City\'\n\
+;                 units this is also the population added to the destination\n\
+; attack        = base attack strength (0 = cannot attack)\n\
+; defense       = base defense strength (0 = cannot defend)\n\
+; hitpoints     = how much damage unit can withstand\n\
+; firepower     = number of hitpoints removed per round of combat; at least 1\n\
+; move_rate     = base move rate (whole movement points)\n\
+; vision_radius_sq = base vision of unit: unit can see tile up to the square\n\
+;                 root of this value away\n\
+; convert_to    = can be converted to another type of unit by name\n\
+; convert_time  = time it takes to convert to another unit type\n\
+; class         = One of the classes listed above\n\
+; transport_cap = Number of units (ground, or air/missiles, depending on flags)\n\
+; fuel          = Number of turns unit can spend outside refuel points.\n\
+;                 If more time passes without unit refueling over turn change,\n\
+;                 they are lost. If this is zero, unit has no need to refuel\n\
+; uk_*          = upkeep costs, these are used as base values in the game\n\
+; cargo         = Unit classes this unit can transport\n\
+; city_size     = Initial size of the cities built by \'Found City\' type units\n\
+;                 (but \'Join City\' uses pop_cost)\n\
+; targets       = list of unit classes this unit can attack against even\n\
+;                 if they have Unreachable unit class flag\n\
+; embarks       = list of unit classes this unit may load into while not in\n\
+;                 native base or city even if transporter has Unreachable unit\n\
+;                 class flag\n\
+; disembarks    = list of unit classes this unit may unload from while not in\n\
+;                 native base or city even if transporter has Unreachable unit\n\
+;                 class flag\n\
+; bonuses       = definitions of combat bonuses against specific other units\n\
+; bonuses.flag  = flag of the unit that bonus applies against\n\
+; bonuses.type  = type of the bonus. See below\n\
+; bonuses.value = value of the bonus. Sum of these is used if multiple apply.\n\
+; bonuses.quiet = don\'t auto generate help text for this bonus. Use this if\n\
+;                 the bonus is documented in the unit type\'s help text.\n\
+;                 This is useful when the combination of a unit\'s bonuses\n\
+;                 becomes complex enough to make the auto generated help\n\
+;                 ugly or inaccurate.\n\
+; flags         = special flag strings; list of built-in flags described below\n\
+;                 and/or user flags defined above\n\
+;\n\
+; veteran_names = Special veteran level for this unit. See the definitions in\n\
+;                 game.ruleset. All of the veteran_* entries have to have the\n\
+;                 same length!\n\
+; veteran_raise_chance =\n\
+; veteran_work_raise_chance =\n\
+; veteran_power_fact =\n\
+; veteran_move_bonus =\n\
+;\n\
+; roles         = special role strings\n\
+; sound_move	= optional sound effect when the unit moves\n\
+; sound_move_alt= optional alternative sound effect if above not\n\
+;		  supported in client\n\
+; sound_fight	= optional sound effect when the unit fights\n\
+; sound_fight_alt = optional alternative sound effect if above not\n\
+;		    supported in client\n\
+; helptext        = optional help text string; should escape all raw newlines\n\
+;                   so that xgettext parsing works\n\
+;\n\
+;\n\
+; ** Bonuses **\n\
+;\n\
+; \"DefenseMultiplier\" = Multiply defense value (1 + \'value\') times.\n\
+;                       Value of 1 means multiplication by 2, value 2 by 3...\n\
+;                       Bonus is defined in defenders entry.\n\
+; \"DefenseDivider\"    = Divide defense value with (1 + \'value\').\n\
+;                       Bonus is defined in attackers entry.\n\
+; \"FirePower1\"        = Defender firepower is reduced to value 1 when\n\
+;                       ever this has non-zero value.\n\
+;                       Bonus is defined in attackers entry.\n\
+;\n\
+;\n\
+; ** Flags **\n\
+;\n\
+; \"IgZOC\"       = ignore Zones of Control (ZOC) even if unit class has\n\
+;                 \"ZOC\" flag\n\
+; \"HasNoZOC\"	= unit has no Zone of Control (ZOC), thus any unit can move\n\
+;		  around it freely\n\
+; \"NonMil\"	= a non-military unit: no attacks; no martial law; can enter\n\
+;                 peaceful borders; DoesntOccupyTile\n\
+; \"IgTer\"       = use constant move cost defined in igter_cost (terrain.ruleset)\n\
+;                 rather than terrain/road etc cost, unless terrain cost is\n\
+;                 less\n\
+; \"OneAttack\"	= can only make a single attack, regardless of movement points\n\
+; \"FieldUnit\"	= cause unhappiness even when not being aggressive\n\
+; \"Marines\"	= can attack from non-native tile (from transport or city)\n\
+; \"BeachLander\" = won\'t lose all its movement when moving from non-native\n\
+;                 terrain to native terrain even if slow_invasions is on.\n\
+; \"Partial_Invis\" = visible only to adjancent units; does not hide transported\n\
+;		  units other than missiles\n\
+; \"Settlers\"	= can irrigate and build roads\n\
+; \"Diplomat\"	= can defend against diplomat actions (see diplchance\n\
+;                 server option)\n\
+; \"Spy\"       = enhanced diplomat actions. _Must_ be \"Diplomat\" also\n\
+; \"Trireme\"	= (sea only) cannot leave shoreline\n\
+; \"Only_Native_Attack\" = cannot attack targets on non-native tiles even if\n\
+;                 unit class can\n\
+; \"Cant_Fortify\" =  cannot fortify even if unit class has \"CanFortify\" flag\n\
+; \"Fanatic\"   = can only be built by governments that allow them\n\
+;                 (see civ2/governments.ruleset, Fundamentalism government)\n\
+; \"Unique\"    = a player can only have one of these units in the game at\n\
+;		  the same time; barbarians cannot use this at present\n\
+; \"GameLoss\"  = losing one of these units means you lose the game, but it\n\
+;		  is produced without homecity and upkeep\n\
+; \"Undisbandable\" = this unit is protected. It will not drown and will not\n\
+;		  disband due to lack of shields to upkeep it in homecity;\n\
+;		  if not given enough food to upkeep it, homecity will shrink\n\
+;		  every turn it cannot do so, however\n\
+; \"SuperSpy\"  = this unit always wins diplomatic contests, that is, unless\n\
+;		  it encounters another SuperSpy, in which case defender wins;\n\
+;		  can also be used on non-diplomat units, in which case it can\n\
+;		  protect cities from diplomats; also 100% spy survival chance\n\
+; \"NoHome\"    = this unit has no homecity and will be free of all upkeep, and\n\
+;		  therefore will not revolt along with its city of origin should\n\
+;		  it be incited\n\
+; \"NoVeteran\"   = this unit cannot gain veteran levels through experience\n\
+;                 (as if both raise_chance and work_raise_chance were zero);\n\
+;                 it can still gain veterancy through Veteran_Build, etc\n\
+; \"CityBuster\"  = this unit has double firepower against cities\n\
+; \"NoBuild\"     = this unit cannot be built\n\
+; \"BadWallAttacker\" = the firepower of this unit is set to 1 if\n\
+;                 attacking a city\n\
+;		  defended by a city wall (or other city building defense)\n\
+; \"BadCityDefender\" = if attacked while in a city, firepower is set to 1\n\
+;		  and firepower of attacker is doubled (the Pearl Harbour\n\
+;                 rule)\n\
+; \"BarbarianOnly\" = only barbarians can build this unit\n\
+; \"Shield2Gold\" = Switch from shield upkeep to gold upkeep possible\n\
+; \"NewCityGamesOnly\" = unit can\'t be built on scenarios where founding new cities\n\
+;                 is not allowed. Give this flag to units that would make no sense\n\
+;                 to have in a game with such a scenario\n\
+; \"CanEscape\"   = this unit has, given that certain conditions are\n\
+;                 fulfilled, a 50% chance to escape rather than being\n\
+;                 killed when killstack is enabled and the defender of its\n\
+;                 tile is defeated. The conditions are that it has more move\n\
+;                 points than required to move to an adjacent tile plus the\n\
+;                 attackers move points and that the attacker doesn\'t have\n\
+;                 the \"CanKillEscaping\" unit type flag.\n\
+; \"CanKillEscaping\" = an attack from this unit ignores the \"CanEscape\" unit\n\
+;                 type flag.\n\
+;\n\
+; Following actions require extra fields:\n\
+;  \"Paradrop Unit\"\n\
+;   paratroopers_range  = the maximal range the unit can be paradropped to.\n\
+;                         Max range is 65534.\n\
+;   paratroopers_mr_req = the move rate which is required at least for\n\
+;                         paradropping (whole movement points)\n\
+;   paratroopers_mr_sub = the move rate which is subtracted after paradropping\n\
+;                         (whole movement points)\n\
+;  \"Bombard\"\n\
+;   bombard_rate = the number of shots fired at enemy units when attacking\n\
+;  \"Join City\"\n\
+;   pop_cost = the number of population added to the target city\n\
+;  \"Upgrade Unit\"\n\
+;   obsolete_by = the unit type upgraded to.\n\
+;\n\
+; ** Roles **\n\
+;\n\
+; \"FirstBuild\" = first to be built when city founded\n\
+; \"Explorer\"   = unit to use for exploring\n\
+; \"Hut\"        = can be found in a hut\n\
+; \"HutTech\"    = can be found in a hut, but its techs required\n\
+; \"Partisan\"   = can be created as a partisan (only one unit can have this\n\
+;                  flag), see end of this file for its tech requirements option\n\
+; \"DefendOk\"   = AI hint: ok for defending with\n\
+; \"DefendGood\" = AI hint: good for defending with\n\
+; \"Ferryboat\"  = AI hint: useful for ferrying\n\
+; \"Barbarian\"  = can be created as land barbarian\n\
+; \"BarbarianTech\"  = can be created as land barbarian, if someone has\n\
+;                      researched its tech requirements\n\
+; \"BarbarianBoat\"  = can be created as boat for sea barbarian\n\
+; \"BarbarianBuild\" = can be built by barbarians\n\
+; \"BarbarianBuildTech\" = can be built by barbarians if someone has\n\
+;                          researched its tech requirements\n\
+; \"BarbarianLeader\"    = this unit is the barbarian leader (only one)\n\
+; \"BarbarianSea\"       = can be created as a barbarian that disembarks from a barbarian boat\n\
+; \"BarbarianSeaTech\"   = can be created as a barbarian that disembarks from a barbarian boat\n\
+;                        if someone has researched its tech requirements\n\
+; \"Settlers\"              = can irrigate and build roads\n\
+; \"Hunter\"                = AI hint: good for hunting other units\n\
+; \"CitiesStartUnit\"       = Gets granted as \'c\' startunit\n\
+; \"WorkerStartUnit\"       = Gets granted as \'w\' startunit\n\
+; \"ExplorerStartUnit\"     = Gets granted as \'x\' startunit\n\
+; \"KingStartUnit\"         = Gets granted as \'k\' startunit\n\
+; \"DiplomatStartUnit\"     = Gets granted as \'s\' startunit\n\
+; \"FerryStartUnit\"        = Gets granted as \'f\' startunit\n\
+; \"DefendOkStartUnit\"     = Gets granted as \'d\' startunit\n\
+; \"DefendGoodStartUnit\"   = Gets granted as \'D\' startunit\n\
+; \"AttackFastStartUnit\"   = Gets granted as \'a\' startunit\n\
+; \"AttackStrongStartUnit\" = Gets granted as \'A\' startunit\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

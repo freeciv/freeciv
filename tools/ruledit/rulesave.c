@@ -2425,6 +2425,8 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
   } unit_class_iterate_end;
 
+  comment_utypes(sfile);
+
   sect_idx = 0;
   unit_type_iterate(put) {
     if (!put->disabled) {
