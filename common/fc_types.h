@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "bitvector.h"
 #include "shared.h"
 
@@ -509,6 +510,8 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE1NAME "gtk2"
 #define SPECENUM_VALUE2 GUI_GTK3
 #define SPECENUM_VALUE2NAME "gtk3"
+/* GUI_SDL remains for now for keeping client options alive until
+ * user has migrated them to sdl2-client */
 #define SPECENUM_VALUE3 GUI_SDL
 #define SPECENUM_VALUE3NAME "sdl"
 #define SPECENUM_VALUE4 GUI_QT
