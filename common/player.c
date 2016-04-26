@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1326,14 +1326,6 @@ bool players_on_same_team(const struct player *pplayer1,
                           const struct player *pplayer2)
 {
   return pplayer1->team == pplayer2->team;
-}
-
-/**************************************************************************
-  Return TRUE iff player is any kind of barbarian
-**************************************************************************/
-bool is_barbarian(const struct player *pplayer)
-{
-  return pplayer->ai_common.barbarian_type != NOT_A_BARBARIAN;
 }
 
 /**************************************************************************
