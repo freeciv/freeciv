@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -463,15 +463,10 @@ void get_city_dialog_output_text(const struct city *pcity,
    * city.c. */
   if (otype == O_TRADE) {
     trade_routes_iterate(pcity, proute) {
-      /* There have been bugs causing the trade city to not be sent
-       * properly to the client.  If this happens we trust the
-       * trade_value[] array and simply don't give the name of the
-       * city.
-       *
-       * NB: (proute->value == 0) is valid case.  The trade route
+      /* NB: (proute->value == 0) is valid case.  The trade route
        * is established but doesn't give trade surplus. */
       struct city *trade_city = game_city_by_number(proute->partner);
-      /* TRANS: "unknown" location */
+      /* TRANS: Trade partner unknown to client */
       const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
 
       switch (proute->dir) {
@@ -490,7 +485,7 @@ void get_city_dialog_output_text(const struct city *pcity,
                      name);
         break;
       case RDIR_TO:
-        cat_snprintf(buf, bufsz, _("%+4d : Traing %s to %s\n"),
+        cat_snprintf(buf, bufsz, _("%+4d : Trading %s to %s\n"),
                      proute->value
                      * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
                      goods_name_translation(proute->goods),
