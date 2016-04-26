@@ -35,6 +35,8 @@ veteran_work_raise_chance = 0
 ; terrain.ruleset.
 veteran_move_bonus = 0
 
+; /* <-- avoid gettext warnings
+;
 ; Unit classes
 ; The number can be variable, up to 32
 ; When adding new classes, remember to check effects.ruleset also.
@@ -42,13 +44,17 @@ veteran_move_bonus = 0
 ; want add effect giving City Walls defence bonus against new class
 ; too.
 ;
-; The actual tag used (the * in [unitclass_*]) does not matter, except 
-; it must be unique within this file, and it may be used in debug 
+; The actual tag used (the * in [unitclass_*]) does not matter, except
+; it must be unique within this file, and it may be used in debug
 ; output when reading this file.
 ;
 ; ** Fields **
 ;
-; name          = Name as used in other rulesets
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a unit class after a
+;                 ruleset has been released.
 ; min_speed     = Minimum speed after damage and effects (whole movement points)
 ; hp_loss_pct   = Hitpoints lost each turn if unit not in city or native base
 ; non_native_def_pct = Defense power percentage applying when defending on
@@ -57,8 +63,8 @@ veteran_move_bonus = 0
 ;                 "Normal", "Nothing" or "Frighten"
 ; flags         = List of unit class flags (from the following list; you
 ;                 cannot add custom unit class flags)
-; helptext	= optional help text string; should escape all raw newlines 
-;		  so that xgettext parsing works
+; helptext      = optional help text string; should escape all raw newlines
+;                 so that xgettext parsing works
 ;
 ; ** Unit class Flags **
 ;
@@ -83,15 +89,16 @@ veteran_move_bonus = 0
 ;                       still work that tile
 ; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type flag
 ;                       "Only_Native_Attack" can override this
-; "AttFromNonNative"  = Unit can launch attach from non-native tile (against native one)
-;                       This applies for both attacking from transport or cities. If only
-;                       some unit types of the class should get this property, use type flag
-;                       "Marines"
+; "AttFromNonNative"  = Unit can launch attack from non-native tile (against
+;                       native one)
+;                       This applies for both attacking from transport or
+;                       cities. If only some unit types of the class should
+;                       get this property, use type flag "Marines"
 ; "KillCitizen"       = Upon successful attack against a city unit kills one citizen.
 ;                       There's server setting, as well as effects, to disable this.
 ; "Airliftable"       = Unit may be airlifted
 ;
-; */ <-- avoid gettext warnings 	 ; */ <-- avoid gettext warnings
+; */ <-- avoid gettext warnings
 
 [unitclass_generic]
 name          = _("Generic")
