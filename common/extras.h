@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -154,11 +154,9 @@ int extra_number(const struct extra_type *pextra);
 struct extra_type *extra_by_number(int id);
 
 /* For optimization purposes (being able to have it as macro instead of function
- * call) this is now same as extra_number(). extras.c does have sematically correct
+ * call) this is now same as extra_number(). extras.c does have semantically correct
  * implementation too. */
 #define extra_index(_e_) (_e_)->id
-
-struct extra_type *special_extra_get(int spe);
 
 const char *extra_name_translation(const struct extra_type *pextra);
 const char *extra_rule_name(const struct extra_type *pextra);

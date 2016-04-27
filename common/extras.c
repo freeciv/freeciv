@@ -170,20 +170,6 @@ struct extra_type *extra_by_number(int id)
   return &extras[id];
 }
 
-/****************************************************************************
-  Get extra of the given special
-****************************************************************************/
-struct extra_type *special_extra_get(int spe)
-{
-  struct extra_type_list *elist = extra_type_list_by_cause(EC_SPECIAL);
-
-  if (spe < extra_type_list_size(elist)) {
-    return extra_type_list_get(elist, spe);
-  }
-
-  return NULL;
-}
-
 /**************************************************************************
   Return the (translated) name of the extra type.
   You don't have to free the return pointer.

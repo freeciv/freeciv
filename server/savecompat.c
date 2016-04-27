@@ -235,6 +235,20 @@ const char *special_rule_name(enum tile_special_type type)
   return special_names[type];
 }
 
+/****************************************************************************
+  Get extra of the given special
+****************************************************************************/
+struct extra_type *special_extra_get(int spe)
+{
+  struct extra_type_list *elist = extra_type_list_by_cause(EC_SPECIAL);
+
+  if (spe < extra_type_list_size(elist)) {
+    return extra_type_list_get(elist, spe);
+  }
+
+  return NULL;
+}
+
 /* =======================================================================
  * Compatibility functions for loading a game.
  * ======================================================================= */
