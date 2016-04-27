@@ -5,7 +5,7 @@
 
 AC_DEFUN([FC_GTK2_CLIENT],
 [
-  if test "x$gui_gtk2" = "xyes" || test "x$client" = "xauto" ||
+  if test "x$gui_gtk2" = "xyes" ||
      test "x$client" = "xall" ; then
     AM_PATH_GTK_2_0(2.12.0,
       [

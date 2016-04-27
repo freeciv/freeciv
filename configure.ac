@@ -1056,7 +1056,7 @@ if test "x$req_fcmp_gtk3" = "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
 fi
 
 if test "x$req_fcmp_gtk2" = "xyes" ||
-   test "x$modinst" = "xauto" || test "x$modinst" = "xall" ; then
+   test "x$modinst" = "xall" ; then
   AM_PATH_GTK_2_0([2.12.0],
 [
   PKG_CHECK_MODULES([GTHREAD_GTK2], [gthread-2.0],
