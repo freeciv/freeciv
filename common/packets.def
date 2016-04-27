@@ -858,8 +858,9 @@ PACKET_PLAYER_INFO = 51; sc, is-info
 
   CITYSPE wonders[B_LAST]; diff
 
-  SINT32 multiplier[MAX_NUM_MULTIPLIERS];
-  SINT32 multiplier_target[MAX_NUM_MULTIPLIERS];
+  UINT8  multip_count;
+  SINT32 multiplier[MAX_NUM_MULTIPLIERS:multip_count];
+  SINT32 multiplier_target[MAX_NUM_MULTIPLIERS:multip_count];
 end
 
 PACKET_PLAYER_PHASE_DONE = 52; cs, dsend

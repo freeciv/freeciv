@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2319,6 +2319,8 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->revolution_finishes = pinfo->revolution_finishes;
   pplayer->ai_common.skill_level = pinfo->ai_skill_level;
 
+  fc_assert(pinfo->multip_count == multiplier_count());
+  game.control.num_multipliers = pinfo->multip_count;
   multipliers_iterate(pmul) {
     pplayer->multipliers[multiplier_index(pmul)] =
         pinfo->multiplier[multiplier_index(pmul)];

@@ -1094,6 +1094,7 @@ static void package_player_info(struct player *plr,
   }
 
   /* multipliers */
+  packet->multip_count = multiplier_count();
   if (info_level >= INFO_FULL) {
     multipliers_iterate(pmul) {
       packet->multiplier[multiplier_index(pmul)] =
