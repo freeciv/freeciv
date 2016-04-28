@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1895,11 +1895,10 @@ void handle_game_info(const struct packet_game_info *pinfo)
   bool boot_help;
   bool update_aifill_button = FALSE;
 
-
   if (game.info.aifill != pinfo->aifill) {
     update_aifill_button = TRUE;
   }
-  
+
   if (game.info.is_edit_mode != pinfo->is_edit_mode) {
     popdown_all_city_dialogs();
     /* Clears the current goto command. */
@@ -1907,6 +1906,13 @@ void handle_game_info(const struct packet_game_info *pinfo)
   }
 
   game.info = *pinfo;
+
+  if (!has_capability("illness_ranges", client.conn.capability)) {
+    /* Fill current values from the old-format values sent by older server. */
+    game.info.illness_base_factor = game.info.illness_base_factor_old;
+    game.info.illness_pollution_factor = game.info.illness_pollution_factor_old;
+    game.info.illness_trade_infection = game.info.illness_trade_infection_old;
+  }
 
   /* check the values! */
 #define VALIDATE(_count, _maximum, _string)                                 \

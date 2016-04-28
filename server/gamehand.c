@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -868,6 +868,11 @@ void send_game_info(struct conn_list *dest)
 
   ginfo = game.info;
 
+  /* Set values used by old clients (lacking "illness_ranges" capability). */
+  game.info.illness_base_factor_old = game.info.illness_base_factor;
+  game.info.illness_pollution_factor_old = game.info.illness_pollution_factor;
+  game.info.illness_trade_infection_old = game.info.illness_trade_infection;
+
   /* the following values are computed every
      time a packet_game_info packet is created */
 
@@ -887,8 +892,7 @@ void send_game_info(struct conn_list *dest)
 
   conn_list_iterate(dest, pconn) {
     send_packet_game_info(pconn, &ginfo);
-  }
-  conn_list_iterate_end;
+  } conn_list_iterate_end;
 }
 
 /**************************************************************************
