@@ -272,7 +272,7 @@ struct savedata {
 static const char savefile_options_default[] =
   " +version3";
 /* The following savefile option are added if needed:
- *  - specials
+ *  - nothing at current version
  * See also calls to sg_save_savefile_options(). */
 
 static const char num_chars[] =
@@ -2400,10 +2400,12 @@ static void sg_load_map(struct loaddata *loading)
 
   /* This defaults to TRUE even if map has not been generated.
    * We rely on that
-   *   1) scenario maps have it explicity right.
+   *   1) scenario maps have it explicitly right.
    *   2) when map is actually generated, it re-initialize this to FALSE. */
   game.map.server.have_huts
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_huts");
+  game.map.server.have_resources
+    = secfile_lookup_bool_default(loading->file, TRUE, "map.have_resources");
 
   if (S_S_INITIAL == loading->server_state
       && MAPGEN_SCENARIO == game.map.server.generator) {
@@ -2447,8 +2449,10 @@ static void sg_save_map(struct savedata *saving)
 
   if (saving->scenario) {
     secfile_insert_bool(saving->file, game.map.server.have_huts, "map.have_huts");
+    secfile_insert_bool(saving->file, game.map.server.have_resources, "map.have_resources");
   } else {
     secfile_insert_bool(saving->file, TRUE, "map.have_huts");
+    secfile_insert_bool(saving->file, TRUE, "map.have_resources");
   }
 
   /* For debugging purposes only.
@@ -2552,7 +2556,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
 
   if (S_S_INITIAL != loading->server_state
       || MAPGEN_SCENARIO != game.map.server.generator
-      || has_capability("specials", loading->secfile_options)) {
+      || game.map.server.have_resources) {
     whole_map_iterate(ptile) {
       extra_type_by_cause_iterate(EC_RESOURCE, pres) {
         if (tile_has_extra(ptile, pres)) {
@@ -2564,8 +2568,6 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
         }
       } extra_type_by_cause_iterate_end;
     } whole_map_iterate_end;
-
-    game.map.server.have_resources = TRUE;
   }
 }
 
@@ -2576,10 +2578,6 @@ static void sg_save_map_tiles_extras(struct savedata *saving)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
-
-  if (game.map.server.have_resources) {
-    sg_save_savefile_options(saving, " specials");
-  }
 
   /* Save extras. */
   halfbyte_iterate_extras(j, game.control.num_extra_types) {

@@ -1801,7 +1801,7 @@ static void sg_load_map(struct loaddata *loading)
   /* This defaults to TRUE even if map has not been generated. Also,
    * old versions have also explicitly saved TRUE even in pre-game.
    * We rely on that
-   *   1) scenario maps have it explicity right.
+   *   1) scenario maps have it explicitly right.
    *   2) when map is actually generated, it re-initialize this to FALSE. */
   game.map.server.have_huts
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_huts");
