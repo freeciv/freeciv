@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,6 +35,8 @@ struct netfile_post {
   struct curl_httppost *last;
 };
 
+static char error_buf_curl[CURL_ERROR_SIZE];
+
 /********************************************************************** 
   Set handle to usable state.
 ***********************************************************************/
@@ -49,6 +51,9 @@ static CURL *netfile_init_handle(void)
     curl_easy_reset(handle);
   }
 
+  error_buf_curl[0] = '\0';
+  curl_easy_setopt(handle, CURLOPT_ERRORBUFFER, error_buf_curl);
+
   return handle;
 }
 
@@ -62,7 +67,6 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
   CURLcode curlret;
   struct curl_slist *headers = NULL;
   static CURL *handle;
-  char errorbuf[CURL_ERROR_SIZE] = "";
   bool ret = TRUE;
 
   handle = netfile_init_handle();
@@ -73,7 +77,6 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
   curl_easy_setopt(handle, CURLOPT_WRITEDATA, fp);
   curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
   curl_easy_setopt(handle, CURLOPT_FAILONERROR, 1);
-  curl_easy_setopt(handle, CURLOPT_ERRORBUFFER, errorbuf);
 
   curlret = curl_easy_perform(handle);
 
@@ -87,15 +90,12 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
                   /* TRANS: first %s is URL, second is Curl error message
                    * (not in Freeciv translation domain) */
                   _("Failed to fetch %s: %s"), URL,
-                  strlen(errorbuf) ? errorbuf : curl_easy_strerror(curlret));
+                  error_buf_curl[0] != '\0' ? error_buf_curl : curl_easy_strerror(curlret));
       cb(buf, data);
     }
 
     ret = FALSE;
   }
-
-  /* Just in case next user of Curl handle doesn't reset it */
-  curl_easy_setopt(handle, CURLOPT_ERRORBUFFER, NULL);
 
   return ret;
 }
