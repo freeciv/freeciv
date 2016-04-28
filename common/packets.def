@@ -496,11 +496,11 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 happy_cost;
   HAPPYBORDERSTYPE happyborders;
   UINT32 heating;
-  UINT8 illness_base_factor;
+  UINT16 illness_base_factor;
   UINT8 illness_min_size;
   BOOL illness_on;
-  UINT8 illness_pollution_factor;
-  UINT8 illness_trade_infection;
+  UINT16 illness_pollution_factor;
+  UINT16 illness_trade_infection;
   UINT8 init_city_radius_sq;
   /* If set, editing is allowed */
   BOOL is_edit_mode;
