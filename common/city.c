@@ -2835,24 +2835,39 @@ inline void set_city_production(struct city *pcity)
 **************************************************************************/
 int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 {
-  struct city *pcity = game_city_by_number(punit->homecity);
-  struct unit_type *ut = unit_type_get(punit);
-  struct player *plr = unit_owner(punit);
-  int happy_cost = utype_happy_cost(ut, plr);
+  struct city *pcity;
+  struct unit_type *ut;
+  struct player *plr;
+  int happy_cost;
 
-  if (!punit || !pcity || !free_unhappy || happy_cost <= 0) {
+  if (!punit || !free_unhappy) {
     return 0;
   }
-  fc_assert_ret_val(0 <= *free_unhappy, 0);
 
-  happy_cost -= get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL_PER);
+  pcity = game_city_by_number(punit->homecity);
+  if (pcity == NULL) {
+    return 0;
+  }
+
+  ut = unit_type_get(punit);
+  plr = unit_owner(punit);
+  happy_cost = utype_happy_cost(ut, plr);
+
+  if (happy_cost <= 0) {
+    return 0;
+  }
+
+  fc_assert_ret_val(0 <= *free_unhappy, 0);
 
   if (!unit_being_aggressive(punit) && !is_field_unit(punit)) {
     return 0;
   }
+
+  happy_cost -= get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL_PER);
   if (happy_cost <= 0) {
     return 0;
   }
+
   if (*free_unhappy >= happy_cost) {
     *free_unhappy -= happy_cost;
     return 0;
@@ -2860,6 +2875,7 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
     happy_cost -= *free_unhappy;
     *free_unhappy = 0;
   }
+
   return happy_cost;
 }
 
