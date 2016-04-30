@@ -1651,7 +1651,7 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
   case UAB_ADD_OK:
     /* Shouldn't happen */
     log_error("Cannot add %s to %s for unknown reason (%d)",
-              unit_rule_name(punit), city_name(pcity), res);
+              unit_rule_name(punit), city_name_get(pcity), res);
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("Can't add %s to %s."),
                   unit_link(punit), city_link(pcity));
@@ -1693,10 +1693,10 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 }
 
 /**************************************************************************
- This function assumes a certain level of consistency checking: There
- is no city under punit->(x,y), and that location is a valid one on
- which to build a city. It should only be called after a call to a
- function like test_unit_add_or_build_city, which does the checking.
+  This function assumes a certain level of consistency checking: There
+  is no city under punit->(x,y), and that location is a valid one on
+  which to build a city. It should only be called after a call to a
+  function like test_unit_add_or_build_city(), which does the checking.
 **************************************************************************/
 static void city_build(struct player *pplayer, struct unit *punit,
                        const char *name)

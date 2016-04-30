@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -279,13 +279,13 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 
   pcity = player_capital(pdialog->pplayer);
   fc_snprintf(buf, sizeof(buf), _("Capital: %s"),
-	      /* TRANS: "unknown" location */
-	      (!pcity) ? _("(unknown)") : city_name(pcity));
+              /* TRANS: "unknown" location */
+              (!pcity) ? _("(unknown)") : city_name_get(pcity));
   XtVaCreateManagedWidget("intelcapitallabel",
-			  labelWidgetClass,
-			  pdialog->intel_form,
-			  XtNlabel, buf,
-			  NULL);
+                          labelWidgetClass,
+                          pdialog->intel_form,
+                          XtNlabel, buf,
+                          NULL);
 
   advance_index_iterate(A_FIRST, i) {
     if (research_invention_state(presearch, i)

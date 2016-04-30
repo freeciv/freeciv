@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2006 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1550,12 +1550,12 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     add_to_gui_list(ID_INCITE_DLG_EXIT_BUTTON, pBuf);
     exit = TRUE;
     /* --------------- */
-    
+
     fc_snprintf(cBuf, sizeof(cBuf), _("You can't incite a revolt in %s."),
-		city_name(pCity));
+                city_name_get(pCity));
 
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
-        
+
     add_to_gui_list(ID_LABEL , pBuf);
     
     area.w = MAX(area.w , pBuf->size.w);

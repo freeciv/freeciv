@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -97,7 +97,7 @@ struct vision_site *vision_site_new_from_city(const struct city *pcity)
     vision_site_new(pcity->id, city_tile(pcity), city_owner(pcity));
 
   vision_site_size_set(psite, city_size_get(pcity));
-  sz_strlcpy(psite->name, city_name(pcity));
+  sz_strlcpy(psite->name, city_name_get(pcity));
 
   return psite;
 }
@@ -115,7 +115,7 @@ void vision_site_update_from_city(struct vision_site *psite,
   psite->owner = city_owner(pcity);
 
   vision_site_size_set(psite, city_size_get(pcity));
-  sz_strlcpy(psite->name, city_name(pcity));
+  sz_strlcpy(psite->name, city_name_get(pcity));
 }
 
 /*****************************************************************************

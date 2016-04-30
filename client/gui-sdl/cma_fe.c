@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2001 - R. Falke, M. Kaufman
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -891,13 +891,13 @@ void popup_city_cma_dialog(struct city *pCity)
   cmafec_get_fe_parameter(pCity, &pCma->edited_cm_parm);
   
   /* --------------------------- */
-    
+
   fc_snprintf(cBuf, sizeof(cBuf),
-	      _("City of %s (Population %s citizens) : %s"),
-	      city_name(pCity),
-	      population_to_text(city_population(pCity)),
-	      _("Citizen Governor"));
-  
+              _("City of %s (Population %s citizens) : %s"),
+              city_name_get(pCity),
+              population_to_text(city_population(pCity)),
+              _("Citizen Governor"));
+
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 

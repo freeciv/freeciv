@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -160,7 +160,7 @@ static void want_tech_for_improvement_effect(struct ai_type *ait,
    * so activate it only while necessary. */
   TECH_LOG(LOG_DEBUG, pplayer, tech,
     "wanted by %s for building: %d -> %d",
-    city_name(pcity), improvement_rule_name(pimprove),
+    city_name_get(pcity), improvement_rule_name(pimprove),
     building_want, tech_want);
 #endif /* 0 */
   if (tech) {
@@ -912,7 +912,7 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
 
   log_base(LOG_EMERGENCY,
            "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
-           city_name(pcity),
+           city_name_get(pcity),
            city_unhappy(pcity) ? "unhappy" : "content",
            pcity->feel[CITIZEN_ANGRY][FEELING_FINAL],
            pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL],
@@ -924,7 +924,7 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
 
     if (acity && acity != pcity && city_owner(acity) == city_owner(pcity))  {
       log_base(LOG_EMERGENCY, "%s taking over %s square in (%d, %d)",
-               city_name(pcity), city_name(acity), TILE_XY(atile));
+               city_name_get(pcity), city_name_get(acity), TILE_XY(atile));
 
       int ax, ay;
       fc_assert_action(city_base_to_city_map(&ax, &ay, acity, atile),
@@ -944,7 +944,7 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
   auto_arrange_workers(pcity);
 
   if (!CITY_EMERGENCY(pcity)) {
-    log_base(LOG_EMERGENCY, "Emergency in %s resolved", city_name(pcity));
+    log_base(LOG_EMERGENCY, "Emergency in %s resolved", city_name_get(pcity));
     goto cleanup;
   }
 
@@ -961,11 +961,11 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
 
   if (CITY_EMERGENCY(pcity)) {
     log_base(LOG_EMERGENCY, "Emergency in %s remains unresolved",
-             city_name(pcity));
+             city_name_get(pcity));
   } else {
     log_base(LOG_EMERGENCY,
              "Emergency in %s resolved by disbanding unit(s)",
-             city_name(pcity));
+             city_name_get(pcity));
   }
 
   cleanup:

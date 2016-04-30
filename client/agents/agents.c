@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2001 - R. Falke
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -586,7 +586,7 @@ void agents_city_changed(struct city *pcity)
   int i;
 
   log_debug("A: agents_city_changed(city %d=\"%s\") owner=%s",
-            pcity->id, city_name(pcity),
+            pcity->id, city_name_get(pcity),
             nation_rule_name(nation_of_city(pcity)));
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -612,7 +612,7 @@ void agents_city_new(struct city *pcity)
   int i;
 
   log_debug("A: agents_city_new(city %d=\"%s\") pos=(%d,%d) owner=%s",
-            pcity->id, city_name(pcity), TILE_XY(pcity->tile),
+            pcity->id, city_name_get(pcity), TILE_XY(pcity->tile),
             nation_rule_name(nation_of_city(pcity)));
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -638,7 +638,7 @@ void agents_city_remove(struct city *pcity)
   int i;
 
   log_debug("A: agents_city_remove(city %d=\"%s\") pos=(%d,%d) owner=%s",
-            pcity->id, city_name(pcity), TILE_XY(pcity->tile),
+            pcity->id, city_name_get(pcity), TILE_XY(pcity->tile),
             nation_rule_name(nation_of_city(pcity)));
 
   for (i = 0; i < agents.entries_used; i++) {

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -553,12 +553,11 @@ struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->worklist_shell = NULL;
 
   pdialog->shell=
-    XtVaCreatePopupShell(city_name(pcity),
-/*			 make_modal ? transientShellWidgetClass :*/
-			 topLevelShellWidgetClass,
-			 toplevel, 
-			 XtNallowShellResize, True, 
-			 NULL);
+    XtVaCreatePopupShell(city_name_get(pcity),
+                         topLevelShellWidgetClass,
+                         toplevel, 
+                         XtNallowShellResize, True, 
+                         NULL);
 
   pdialog->main_form=
     XtVaCreateManagedWidget("citymainform", 
@@ -1435,13 +1434,13 @@ void rename_callback(Widget w, XtPointer client_data, XtPointer call_data)
   struct city_dialog *pdialog;
 
   pdialog=(struct city_dialog *)client_data;
-  
-  input_dialog_create(pdialog->shell, 
-		      "shellrenamecity", 
-		      _("What should we rename the city to?"),
-		      city_name(pdialog->pcity),
-		      rename_city_callback, (XtPointer)pdialog,
-		      rename_city_callback, (XtPointer)0);
+
+  input_dialog_create(pdialog->shell,
+                      "shellrenamecity", 
+                      _("What should we rename the city to?"),
+                      city_name_get(pdialog->pcity),
+                      rename_city_callback, (XtPointer)pdialog,
+                      rename_city_callback, (XtPointer)0);
 }
 
 /****************************************************************
@@ -1464,13 +1463,13 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
   int nleft = sizeof(buf);
   struct city_dialog *pdialog;
 
-  pdialog=(struct city_dialog *)client_data;
+  pdialog = (struct city_dialog *)client_data;
 
   fc_snprintf(buf, sizeof(buf),
-	      _("These trade routes have been established with %s:\n"),
-	      city_name(pdialog->pcity));
+              _("These trade routes have been established with %s:\n"),
+              city_name_get(pdialog->pcity));
   bptr = end_of_strn(bptr, &nleft);
-  
+
   for (i = 0; i < MAX_TRADE_ROUTES; i++)
     if(pdialog->pcity->trade[i]) {
       struct city *pcity;
@@ -1478,7 +1477,7 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
       total+=pdialog->pcity->trade_value[i];
       if ((pcity = game_city_by_number(pdialog->pcity->trade[i]))) {
 	fc_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
-		    city_name(pcity), pdialog->pcity->trade_value[i]);
+                    city_name_get(pcity), pdialog->pcity->trade_value[i]);
 	bptr = end_of_strn(bptr, &nleft);
       } else {	
 	fc_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"), _("Unknown"),
@@ -1839,15 +1838,16 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   String now;
 
   fc_snprintf(buf, sizeof(buf), _("%s - %s citizens  Governor: %s"),
-	      city_name(pdialog->pcity),
-	      population_to_text(city_population(pdialog->pcity)),
-                   cmafec_get_short_descr_of_city(pdialog->pcity));
+              city_name_get(pdialog->pcity),
+              population_to_text(city_population(pdialog->pcity)),
+              cmafec_get_short_descr_of_city(pdialog->pcity));
 
   XtVaGetValues(pdialog->cityname_label, XtNlabel, &now, NULL);
-  if(strcmp(now, buf) != 0) {
+  if (strcmp(now, buf) != 0) {
     XtVaSetValues(pdialog->cityname_label, XtNlabel, (XtArgVal)buf, NULL);
     xaw_horiz_center(pdialog->cityname_label);
-    XtVaSetValues(pdialog->shell, XtNtitle, (XtArgVal)city_name(pdialog->pcity), NULL);
+    XtVaSetValues(pdialog->shell, XtNtitle,
+                  (XtArgVal)city_name_get(pdialog->pcity), NULL);
   }
 }
 
@@ -2463,16 +2463,20 @@ void cityopt_callback(Widget w, XtPointer client_data,
   struct city *pcity = pdialog->pcity;
   int i;
 
-  if(cityopt_shell) {
+  if (cityopt_shell) {
     XtDestroyWidget(cityopt_shell);
   }
-  cityopt_shell=create_cityopt_dialog(city_name(pcity));
+
+  cityopt_shell = create_cityopt_dialog(city_name_get(pcity));
+
   /* Doing this here makes the "No"'s centered consistently */
-  for(i=0; i<NUM_CITYOPT_TOGGLES; i++) {
+  for (i = 0; i < NUM_CITYOPT_TOGGLES; i++) {
     bool state = is_city_option_set(pcity, i);
+
     XtVaSetValues(cityopt_toggles[i], XtNstate, state,
-		  XtNlabel, state?_("Yes"):_("No"), NULL);
+                  XtNlabel, state?_("Yes"):_("No"), NULL);
   }
+
   if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
     newcitizen_index = 1;
   } else if (is_city_option_set(pcity, CITYO_NEW_TAXMAN)) {
@@ -2480,10 +2484,11 @@ void cityopt_callback(Widget w, XtPointer client_data,
   } else {
     newcitizen_index = 0;
   }
+
   XtVaSetValues(cityopt_triggle, XtNstate, 1,
-		XtNlabel, _(newcitizen_labels[newcitizen_index]),
-		NULL);
-  
+                XtNlabel, _(newcitizen_labels[newcitizen_index]),
+                NULL);
+
   cityopt_city_id = pcity->id;
 
   xaw_set_relative_position(pdialog->shell, cityopt_shell, 15, 15);

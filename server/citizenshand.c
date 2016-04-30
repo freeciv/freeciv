@@ -42,7 +42,7 @@
 *****************************************************************************/
 #define log_citizens_add(_pcity, _delta, _pplayer)                           \
   log_citizens("%s (size %d; %s): %+d citizen(s) for %s (now: %d)",          \
-               city_name(_pcity), city_size_get(_pcity),                     \
+               city_name_get(_pcity), city_size_get(_pcity),                 \
                player_name(city_owner(_pcity)), _delta,                      \
                player_name(_pplayer),                                        \
                citizens_nation_get(_pcity, _pplayer->slot));
@@ -152,7 +152,7 @@ void citizens_print(const struct city *pcity)
   }
 
   log_citizens("%s (size %d; %s): %d citizen(s)",
-               city_name(pcity), city_size_get(pcity),
+               city_name_get(pcity), city_size_get(pcity),
                player_name(city_owner(pcity)), citizens_count(pcity));
 
   citizens_iterate(pcity, pslot, nationality) {
@@ -161,7 +161,7 @@ void citizens_print(const struct city *pcity)
     fc_assert_ret(pplayer != NULL);
 
     log_citizens("%s (size %d; %s): %d citizen(s) for %s",
-                 city_name(pcity), city_size_get(pcity),
+                 city_name_get(pcity), city_size_get(pcity),
                  player_name(city_owner(pcity)), nationality,
                  player_name(pplayer));
   } citizens_iterate_end;
@@ -217,7 +217,7 @@ void citizens_convert(struct city *pcity)
   fc_assert_ret(pplayer != NULL);
 
   log_citizens("%s (size %d; %s): convert 1 citizen from %s",
-               city_name(pcity), city_size_get(pcity),
+               city_name_get(pcity), city_size_get(pcity),
                player_name(city_owner(pcity)), player_name(pplayer));
   citizens_nation_move(pcity, pslot, city_owner(pcity)->slot, 1);
 }

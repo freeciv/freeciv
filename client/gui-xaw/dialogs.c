@@ -717,11 +717,11 @@ void unit_select_dialog_popup(struct tile *ptile)
     unit_select_ids[i]=punit->id;
 
     pcity = player_city_by_number(client_player(), punit->homecity);
-    
-    fc_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s", 
-	    utype_name_translation(punittemp), 
-	    pcity ? city_name(pcity) : "",
-	    unit_activity_text(punit));
+
+    fc_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
+                utype_name_translation(punittemp),
+                pcity ? city_name_get(pcity) : "",
+                unit_activity_text(punit));
 
     unit_select_pixmaps[i]=XCreatePixmap(display, XtWindow(map_canvas), 
 					 tileset_full_tile_width(tileset), tileset_full_tile_height(tileset),

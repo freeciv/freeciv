@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -237,12 +237,13 @@ void update_goto_dialog(Widget goto_cities)
     }
     city_list_iterate(pplayer->cities, pcity) {
       char name[MAX_LEN_NAME+3];
-      sz_strlcpy(name, city_name(pcity));
+
+      sz_strlcpy(name, city_name_get(pcity));
       /* FIXME: should use unit_can_airlift_to(). */
       if (pcity->airlift) {
-	sz_strlcat(name, "(A)");
+        sz_strlcat(name, "(A)");
       }
-      city_name_ptrs[j++]=fc_strdup(name);
+      city_name_ptrs[j++] = fc_strdup(name);
     } city_list_iterate_end;
   } players_iterate_end;
 

@@ -524,7 +524,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
     }
     if (offer != NULL) {
       DIPLO_LOG(ait, LOG_DEBUG, pplayer, aplayer, "worth of %s is %d", 
-		city_name(offer), worth);
+                city_name_get(offer), worth);
     }
     break;
   }

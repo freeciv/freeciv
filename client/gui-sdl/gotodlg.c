@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -153,7 +153,7 @@ static void update_goto_dialog(void)
 	continue;
       }
 
-      fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name(pCity),
+      fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name_get(pCity),
                   city_size_get(pCity));
 
       pStr = create_str16_from_char(cBuf, adj_font(12));
@@ -167,7 +167,7 @@ static void update_goto_dialog(void)
       pBuf = create_iconlabel(pLogo, pGotoDlg->pEndWidgetList->dst, pStr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
-      if(!player_owns_city(owner, pCity)) {
+      if (!player_owns_city(owner, pCity)) {
         set_wflag(pBuf, WF_FREE_THEME);
         owner = city_owner(pCity);
       }
@@ -176,7 +176,7 @@ static void update_goto_dialog(void)
 	    *(get_player_color(tileset, city_owner(pCity))->color);
       pBuf->action = goto_city_callback;
 
-      if(GOTO || pCity->airlift) {
+      if (GOTO || pCity->airlift) {
         set_wstate(pBuf, FC_WS_NORMAL);
       }
 
@@ -186,8 +186,7 @@ static void update_goto_dialog(void)
       DownAdd(pBuf, pAdd_Dock);
       pAdd_Dock = pBuf;
 
-      if (n > (pGotoDlg->pScroll->active - 1))
-      {
+      if (n > (pGotoDlg->pScroll->active - 1)) {
         set_wflag(pBuf, WF_HIDDEN);
       }
 

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -139,7 +139,7 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
                 "At (%d, %d), the terrain \"%s\" (nb %d) doesn't "
                 "support cities, whereas \"%s\" (nb %d) is built there.",
                 TILE_XY(ptile), terrain_rule_name(pterrain),
-                terrain_number(pterrain), city_name(tile_city(ptile)),
+                terrain_number(pterrain), city_name_get(tile_city(ptile)),
                 tile_city(ptile)->id);
 
   ptile->terrain = pterrain;

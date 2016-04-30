@@ -1150,7 +1150,7 @@ void real_menus_update(void)
           fc_snprintf(cBuf, sizeof(cBuf),
                       _("%s With %s ( %d one time bonus + %d trade ) (R)"),
                       action_get_ui_name(ACTION_TRADE_ROUTE),
-                      city_name(pHomecity),
+                      city_name_get(pHomecity),
                       revenue,
                       trade_between_cities(pHomecity, pCity));
         } else {
@@ -1158,7 +1158,7 @@ void real_menus_update(void)
           fc_snprintf(cBuf, sizeof(cBuf),
                       _("%s Of %s ( %d one time bonus ) (R)"),
                       action_get_ui_name(ACTION_MARKETPLACE),
-                      city_name(pHomecity),
+                      city_name_get(pHomecity),
                       revenue);
         }
         copy_chars_to_string16(pOrder_Trade_Button->info_label, cBuf);

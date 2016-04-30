@@ -794,7 +794,7 @@ struct city *city_from_wonder(const struct player *pplayer,
     return NULL;
   }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   if (is_server()) {
     /* On client side, this info is not always known. */
     struct city *pcity = player_city_by_number(pplayer, city_id);
@@ -810,13 +810,13 @@ struct city *city_from_wonder(const struct player *pplayer,
                 "%s (nb %d), the city %s (nb %d) doesn't have this wonder.",
                 player_name(pplayer), player_number(pplayer),
                 improvement_rule_name(pimprove),
-                improvement_number(pimprove), city_name(pcity), pcity->id);
+                improvement_number(pimprove), city_name_get(pcity), pcity->id);
       return NULL;
     }
 
     return pcity;
   }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   return player_city_by_number(pplayer, city_id);
 }

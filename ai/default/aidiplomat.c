@@ -144,7 +144,7 @@ void dai_choose_diplomat_defensive(struct ai_type *ait,
     if (ut) {
        log_base(LOG_DIPLOMAT_BUILD, 
                 "A defensive diplomat will be built in city %s.",
-                city_name(pcity));
+                city_name_get(pcity));
        choice->want = 16000; /* diplomat more important than soldiers */
        city_data->urgency = 1;
        choice->type = CT_DEFENDER;
@@ -154,7 +154,7 @@ void dai_choose_diplomat_defensive(struct ai_type *ait,
       /* We don't know diplomats yet... */
       log_base(LOG_DIPLOMAT_BUILD,
                "A defensive diplomat is wanted badly in city %s.",
-               city_name(pcity));
+               city_name_get(pcity));
       ut = get_role_unit(UTYF_DIPLOMAT, 0);
       if (ut) {
         struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
@@ -282,9 +282,9 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
         log_base(LOG_DIPLOMAT_BUILD,
                  "A diplomat desired in %s to establish an embassy with %s "
                  "in %s",
-                 city_name(pcity),
+                 city_name_get(pcity),
                  player_name(city_owner(acity)),
-                 city_name(acity));
+                 city_name_get(acity));
         want = 99;
     }
     if (want > choice->want) {
@@ -292,10 +292,10 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
                "%s, %s: %s is desired with want %d to spy in %s (incite "
                "want %d cost %d gold %d, tech theft want %d, ttd %d)",
                player_name(pplayer),
-               city_name(pcity),
+               city_name_get(pcity),
                utype_rule_name(ut),
                want,
-               city_name(acity),
+               city_name_get(acity),
                gain_incite,
                incite_cost,
                pplayer->economic.gold - expenses,
@@ -370,14 +370,14 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
 
-#define T(my_act, my_val)                                                 \
-  if (action_prob_possible(action_prob_vs_city(punit, my_act, ctarget))) {\
-    log_base(LOG_DIPLOMAT, "%s %s[%d] does " #my_act " at %s",      \
-             nation_rule_name(nation_of_unit(punit)),               \
-             unit_rule_name(punit), punit->id, city_name(ctarget)); \
-    handle_unit_do_action(pplayer, punit->id,                             \
-                          ctarget->id, my_val, my_act);                   \
-    return;                                                         \
+#define T(my_act, my_val)                                                  \
+  if (action_prob_possible(action_prob_vs_city(punit, my_act, ctarget))) { \
+    log_base(LOG_DIPLOMAT, "%s %s[%d] does " #my_act " at %s",             \
+             nation_rule_name(nation_of_unit(punit)),                      \
+             unit_rule_name(punit), punit->id, city_name_get(ctarget));    \
+    handle_unit_do_action(pplayer, punit->id,                              \
+                          ctarget->id, my_val, my_act);                    \
+    return;                                                                \
   }
 
   T(ACTION_ESTABLISH_EMBASSY, 0);
@@ -402,7 +402,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     }
   } else {
     UNIT_LOG(LOG_DIPLOMAT, punit, "We have already stolen from %s!",
-             city_name(ctarget));
+             city_name_get(ctarget));
   }
 
   incite_cost = city_incite_cost(pplayer, ctarget);
@@ -412,7 +412,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     T(ACTION_SPY_INCITE_CITY, 0);
   } else {
     UNIT_LOG(LOG_DIPLOMAT, punit, "%s too expensive!",
-             city_name(ctarget));
+             city_name_get(ctarget));
   }
 
   if (!pplayers_at_war(pplayer, tplayer)) {
@@ -441,7 +441,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   /* This can happen for a number of odd and esoteric reasons  */
   UNIT_LOG(LOG_DIPLOMAT, punit,
            "decides to stand idle outside enemy city %s!",
-           city_name(ctarget));
+           city_name_get(ctarget));
   dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
 }
 
@@ -778,7 +778,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
         && (city_data->diplomat_threat
             || city_data->urgency > 0)) {
       UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
-               city_name(pcity), city_data->urgency);
+               city_name_get(pcity), city_data->urgency);
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL); /* abort mission */
       def_ai_unit_data(punit, ait)->done = TRUE;
       pf_map_destroy(pfm);
@@ -847,7 +847,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
                != NULL) {
       task = AIUNIT_DEFEND_HOME;
       UNIT_LOG(LOG_DIPLOMAT, punit, "going to defend %s",
-               city_name(ctarget));
+               city_name_get(ctarget));
     } else if ((ctarget = find_closest_city(unit_tile(punit), NULL, pplayer,
                                             TRUE, FALSE, FALSE, TRUE, FALSE,
                                             NULL))
@@ -886,8 +886,9 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
       /* Check if we can do something with our destination now. */
       if (unit_data->task == AIUNIT_ATTACK) {
         int dist  = real_map_distance(unit_tile(punit), punit->goto_tile);
+
         UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s",
-                 dist, ctarget ? city_name(ctarget) : "(none)");
+                 dist, ctarget ? city_name_get(ctarget) : "(none)");
         if (dist <= 1) {
           /* Do our stuff */
           dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);

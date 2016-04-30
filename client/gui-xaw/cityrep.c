@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -606,11 +606,15 @@ void real_city_report_update_city(struct city *pcity)
       char new_city_line[MAX_LEN_CITY_TEXT];
 
       XtVaGetValues(city_list, XtNnumberStrings, &n, XtNlist, &list, NULL);
-      if (0 != strcmp(city_name(pcity), list[i])) {
-	break;
+      if (0 != strcmp(city_name_get(pcity), list[i])) {
+        break;
       }
       get_city_text(pcity, new_city_line, sizeof(new_city_line));
-      if(strcmp(new_city_line, list[i])==0) return; /* no change */
+
+      if (strcmp(new_city_line, list[i]) == 0) {
+        return; /* no change */
+      }
+
       fc_strlcpy(list[i], new_city_line, MAX_LEN_CITY_TEXT);
 
       /* It seems really inefficient to regenerate the whole list just to

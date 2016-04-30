@@ -167,7 +167,7 @@ void real_bodyguard_log(struct ai_type *ait, const char *file,
     index_to_map_pos(&charge_x, &charge_y, tile_index(city_tile(pcity)));
     id = pcity->id;
     type = "cityguard";
-    s = city_name(pcity);
+    s = city_name_get(pcity);
   }
   /* else perhaps the charge died */
 

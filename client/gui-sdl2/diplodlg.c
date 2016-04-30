@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -751,20 +751,20 @@ static struct ADVANCED_DLG *popup_diplomatic_objects(struct player *pPlayer0,
       qsort(city_list_ptrs, i, sizeof(struct city *), city_name_compare);
 
       for (j = 0; j < i; j++) {
-	fc_snprintf(cBuf, sizeof(cBuf), "  %s", city_name(city_list_ptrs[j]));
+        fc_snprintf(cBuf, sizeof(cBuf), "  %s", city_name_get(city_list_ptrs[j]));
 
         pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
-                             (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                            (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
         pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
-	width = MAX(width, pBuf->size.w);
-	height = MAX(height, pBuf->size.h);
+        width = MAX(width, pBuf->size.w);
+        height = MAX(height, pBuf->size.h);
         pBuf->data.cont = pCont;
-	pBuf->action = cities_callback;
-	set_wstate(pBuf, FC_WS_NORMAL);
-	/* MAX_ID is unigned short type range and city id must be in this range */
+        pBuf->action = cities_callback;
+        set_wstate(pBuf, FC_WS_NORMAL);
+        /* MAX_ID is unigned short type range and city id must be in this range */
         fc_assert(city_list_ptrs[j]->id <= MAX_ID);
         add_to_gui_list(MAX_ID - city_list_ptrs[j]->id, pBuf);
-	count++;
+        count++;
       }
     }
     FC_FREE(city_list_ptrs);

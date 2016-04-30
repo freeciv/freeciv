@@ -293,7 +293,7 @@ static void real_info_city_report_dialog_update(void)
   pLast = pbuf;
   count = 0;
   city_list_iterate(client.conn.playing->cities, pCity) {
-    pstr = create_utf8_from_char(city_name(pCity), adj_font(12));
+    pstr = create_utf8_from_char(city_name_get(pCity), adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
     pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
                             (WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));

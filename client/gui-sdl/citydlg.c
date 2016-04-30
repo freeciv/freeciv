@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,13 +11,13 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
                           citydlg.c  -  description
                              -------------------
     begin                : Wed Sep 04 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- **********************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -1694,22 +1694,23 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     char *tmp = convert_to_chars(pEdit->string16->text);
-  
-    if(tmp) {
-      if(strcmp(tmp, city_name(pCityDlg->pCity))) {
+
+    if (tmp) {
+      if (strcmp(tmp, city_name_get(pCityDlg->pCity))) {
         SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
         city_rename(pCityDlg->pCity, tmp);
       }
-      
+
       FC_FREE(tmp);
     } else {
       /* empty input -> restore previous content */
-      copy_chars_to_string16(pEdit->string16, city_name(pCityDlg->pCity));
+      copy_chars_to_string16(pEdit->string16, city_name_get(pCityDlg->pCity));
       widget_redraw(pEdit);
       widget_mark_dirty(pEdit);
       flush_dirty();
-    }  
-  } 
+    }
+  }
+
   return -1;
 }
 
@@ -1720,17 +1721,17 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
 /**************************************************************************
   Refresh (update) the city names for the dialog
 **************************************************************************/
-static void refresh_city_names(struct city *pCity)
+static void refresh_city_names(struct city *pcity)
 {
   if (pCityDlg->pCity_Name_Edit) {
     char name[MAX_LEN_NAME];
-    
+
     convertcopy_to_chars(name, MAX_LEN_NAME,
-			    pCityDlg->pCity_Name_Edit->string16->text);
-    if ((strcmp(city_name(pCity), name) != 0)
-      || (SDL_Client_Flags & CF_CHANGED_CITY_NAME)) {
-      copy_chars_to_string16(pCityDlg->pCity_Name_Edit->string16, city_name(pCity));
-      rebuild_citydlg_title_str(pCityDlg->pEndCityWidgetList, pCity);
+                         pCityDlg->pCity_Name_Edit->string16->text);
+    if ((strcmp(city_name_get(pcity), name) != 0)
+        || (SDL_Client_Flags & CF_CHANGED_CITY_NAME)) {
+      copy_chars_to_string16(pCityDlg->pCity_Name_Edit->string16, city_name_get(pcity));
+      rebuild_citydlg_title_str(pCityDlg->pEndCityWidgetList, pcity);
       SDL_Client_Flags &= ~CF_CHANGED_CITY_NAME;
     }
   }
@@ -1983,13 +1984,12 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
       step += pCity->trade_value[i];
 
       if ((pTradeCity = game_city_by_number(pCity->trade[i]))) {
-	fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", city_name(pTradeCity),
-		    pCity->trade_value[i]);
+        fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", city_name_get(pTradeCity),
+                    pCity->trade_value[i]);
       } else {
-	fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", _("Unknown"),
-		    pCity->trade_value[i]);
+        fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", _("Unknown"),
+                    pCity->trade_value[i]);
       }
-
 
       copy_chars_to_string16(pStr, cBuf);
 
@@ -3564,14 +3564,14 @@ static void rebuild_imprm_list(struct city *pCity)
   Recreate citydialog title.
 **************************************************************************/
 static void rebuild_citydlg_title_str(struct widget *pWindow,
-				      struct city *pCity)
+                                      struct city *pCity)
 {
   char cBuf[512];
 
   fc_snprintf(cBuf, sizeof(cBuf),
-	      _("City of %s (Population %s citizens)"),
-	      city_name(pCity),
-	      population_to_text(city_population(pCity)));
+              _("City of %s (Population %s citizens)"),
+              city_name_get(pCity),
+              population_to_text(city_population(pCity)));
 
   if (city_unhappy(pCity)) {
     fc_strlcat(cBuf, _(" - DISORDER"), sizeof(cBuf));
@@ -3814,9 +3814,9 @@ void real_city_dialog_popup(struct city *pCity)
   pBuf->mod = KMOD_LSHIFT;
   add_to_gui_list(ID_CITY_DLG_NEXT_BUTTON, pBuf);
   /* -------- */
-  
-  pBuf = create_edit_from_chars(NULL, pWindow->dst, city_name(pCity),
-                              adj_font(10), adj_size(200), WF_RESTORE_BACKGROUND);
+
+  pBuf = create_edit_from_chars(NULL, pWindow->dst, city_name_get(pCity),
+                                adj_font(10), adj_size(200), WF_RESTORE_BACKGROUND);
   pBuf->action = new_name_city_dlg_callback;
   pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(2);

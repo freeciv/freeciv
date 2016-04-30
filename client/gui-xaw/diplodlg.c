@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -315,20 +315,20 @@ static int fill_diplomacy_city_menu(Widget popupmenu,
   } city_list_iterate_end;
 
   qsort(city_list_ptrs, i, sizeof(struct city*), city_name_compare);
-  
-  for(j=0; j<i; j++) {
-    Widget entry=
-      XtVaCreateManagedWidget(city_name(city_list_ptrs[j]), smeBSBObjectClass, 
-			      popupmenu, NULL);
+
+  for (j = 0; j < i; j++) {
+    Widget entry =
+      XtVaCreateManagedWidget(city_name_get(city_list_ptrs[j]), smeBSBObjectClass,
+                              popupmenu, NULL);
     XtAddCallback(entry, XtNcallback, diplomacy_dialog_city_callback,
-		  INT_TO_XTPOINTER((player_number(plr0) << 24) |
-				   (player_number(plr1) << 16) |
-				   city_list_ptrs[j]->id));
+                  INT_TO_XTPOINTER((player_number(plr0) << 24) |
+                                   (player_number(plr1) << 16) |
+                                   city_list_ptrs[j]->id));
   }
   free(city_list_ptrs);
+
   return i;
 }
-
 
 /****************************************************************
 ...

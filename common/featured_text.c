@@ -431,7 +431,7 @@ static bool text_tag_initv(struct text_tag *ptag, enum text_tag_type type,
             return FALSE;
           }
           ptag->link.id = pcity->id;
-          sz_strlcpy(ptag->link.name, city_name(pcity));
+          sz_strlcpy(ptag->link.name, city_name_get(pcity));
         }
         return TRUE;
       case TLT_TILE:
@@ -505,7 +505,7 @@ static size_t text_tag_start_sequence(const struct text_tag *ptag,
           if (pcity) {
             ret += fc_snprintf(buf + ret, len - ret,
                                " id=%d name=\"%s\"",
-                               pcity->id, city_name(pcity));
+                               pcity->id, city_name_get(pcity));
           } else {
             ret += fc_snprintf(buf + ret, len - ret,
                                " id=%d", ptag->link.id);
@@ -590,7 +590,7 @@ static size_t text_tag_replace_text(const struct text_tag *ptag,
          * use the current city name which is usually not complete,
          * a dumb string using the city id. */
         if (NULL != pcity && NULL != city_tile(pcity)) {
-          return fc_snprintf(buf, len, "%s", city_name(pcity));
+          return fc_snprintf(buf, len, "%s", city_name_get(pcity));
         }
       }
       break;
@@ -1066,7 +1066,7 @@ const char *city_link(const struct city *pcity)
   fc_snprintf(buf, sizeof(buf), "%c%s tgt=\"%s\" id=%d name=\"%s\" %c%c",
               SEQ_START, text_tag_type_short_name(TTT_LINK),
               text_link_type_name(TLT_CITY), pcity->id,
-              city_name(pcity), SEQ_END, SEQ_STOP);
+              city_name_get(pcity), SEQ_END, SEQ_STOP);
   return buf;
 }
 
@@ -1083,7 +1083,7 @@ const char *city_tile_link(const struct city *pcity)
 
   fc_snprintf(buf, sizeof(buf), "%c%s tgt=\"%s\" x=%d y=%d%c%s%c%c%s%c",
               SEQ_START, tag_name, text_link_type_name(TLT_TILE),
-              TILE_XY(city_tile(pcity)), SEQ_STOP, city_name(pcity),
+              TILE_XY(city_tile(pcity)), SEQ_STOP, city_name_get(pcity),
               SEQ_START, SEQ_END, tag_name, SEQ_STOP);
   return buf;
 }

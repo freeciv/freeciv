@@ -997,21 +997,21 @@ static bool aiferry_find_interested_city(struct ai_type *ait,
       int turns = city_production_turns_to_build(pcity, TRUE);
 
       UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s (%d, %d) looks promising...", 
-               city_name(pcity), TILE_XY(pcity->tile));
+               city_name_get(pcity), TILE_XY(pcity->tile));
 
       if (pos.turn > turns
           && VUT_UTYPE == pcity->production.kind
           && utype_has_role(pcity->production.value.utype, L_FERRYBOAT)) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
                  "will finish building its own ferry too soon",
-                 city_name(pcity));
+                 city_name_get(pcity));
         continue;
       }
 
       if (turns >= turns_horizon) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
                  "has just started building",
-                 city_name(pcity));
+                 city_name_get(pcity));
         continue;
       }
 
@@ -1021,7 +1021,7 @@ static bool aiferry_find_interested_city(struct ai_type *ait,
 
           UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
                    "has another ferry",
-                   city_name(pcity));
+                   city_name_get(pcity));
 	  really_needed = FALSE;
 	  break;
 	}
@@ -1030,7 +1030,7 @@ static bool aiferry_find_interested_city(struct ai_type *ait,
       if (really_needed) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, "will go to %s unless we "
                  "find something better",
-                 city_name(pcity));
+                 city_name_get(pcity));
 	pferry->goto_tile = pos.tile;
         turns_horizon = turns;
         needed = TRUE;
@@ -1067,7 +1067,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
   if (punit->hp < unit_type_get(punit)->hp 
       && (pcity = tile_city(unit_tile(punit)))) {
     UNIT_LOG(LOGLEVEL_FERRY, punit, "waiting in %s to recover hitpoints", 
-             city_name(pcity));
+             city_name_get(pcity));
     def_ai_unit_data(punit, ait)->done = TRUE;
     return;
   }

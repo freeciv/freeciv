@@ -1015,7 +1015,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                     " the production of %s in %s."),
                   unit_link(pdiplomat),
                   prod,
-                  city_name(pcity));
+                  city_name_get(pcity));
     notify_player(cplayer, city_tile(pcity),
                   E_ENEMY_DIPLOMAT_SABOTAGE, ftc_server,
                   _("The production of %s was destroyed in %s,"

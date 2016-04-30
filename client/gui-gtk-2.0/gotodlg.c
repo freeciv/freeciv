@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -305,7 +305,7 @@ static bool list_store_append_player_cities(GtkListStore *store,
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,
                        GD_COL_CITY_ID, pcity->id,
-                       GD_COL_CITY_NAME, city_name(pcity),
+                       GD_COL_CITY_NAME, city_name_get(pcity),
                        GD_COL_FLAG, pixbuf,
                        GD_COL_NATION, nation,
                        /* GD_COL_AIRLIFT is populated later */
@@ -380,9 +380,9 @@ static void update_source_label(void)
                /* TRANS: goto/airlift dialog. "Paris (airlift: 2/4)".
                 * A set of these appear in an "and"-separated list. */
                _("%s (airlift: %s)"),
-               city_name(cities[i].city), air_text);
+               city_name_get(cities[i].city), air_text);
     } else {
-      astr_add(&strs[i], "%s", city_name(cities[i].city));
+      astr_add(&strs[i], "%s", city_name_get(cities[i].city));
     }
     descriptions[i] = astr_str(&strs[i]);
     unit_list_destroy(cities[i].units);

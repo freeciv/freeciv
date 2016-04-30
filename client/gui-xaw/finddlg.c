@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -163,7 +163,7 @@ void update_find_dialog(Widget search_list)
   
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      *(city_name_ptrs+j++)=fc_strdup(city_name(pcity));
+      *(city_name_ptrs+j++)=fc_strdup(city_name_get(pcity));
     } city_list_iterate_end;
   } players_iterate_end;
   
@@ -172,7 +172,6 @@ void update_find_dialog(Widget search_list)
     XawListChange(search_list, city_name_ptrs, ncities_total, 0, True);
   }
 }
-
 
 /**************************************************************************
 ...

@@ -332,7 +332,7 @@ void update_intel_dialog(struct player *p)
                   ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
                   government_name_for_player(p),
                   /* TRANS: "unknown" location */
-                  NULL != pCapital ? city_name(pCapital) : _("(unknown)"),
+                  NULL != pCapital ? city_name_get(pCapital) : _("(unknown)"),
                   p->economic.gold, p->economic.tax,
                   p->economic.science, p->economic.luxury);
       break;
@@ -345,7 +345,7 @@ void update_intel_dialog(struct player *p)
                   ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
                   government_name_for_player(p),
                   /* TRANS: "unknown" location */
-                  NULL != pCapital ? city_name(pCapital) : _("(unknown)"),
+                  NULL != pCapital ? city_name_get(pCapital) : _("(unknown)"),
                   p->economic.gold, p->economic.tax, p->economic.science,
                   p->economic.luxury,
                   research_advance_name_translation(research,

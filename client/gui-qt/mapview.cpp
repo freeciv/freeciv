@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1684,7 +1684,7 @@ void unit_label::uupdate(unit_list *punits)
   if (pcity != NULL && unit_list_size(punits) == 1) {
     /* TRANS: unitX from cityZ */
     unit_label1 = QString(_("%1 from %2"))
-                   .arg(get_unit_info_label_text1(punits), city_name(pcity));
+                  .arg(get_unit_info_label_text1(punits), city_name_get(pcity));
   }
   /* TRANS: HP - hit points */
   unit_label2 = QString(_("%1 HP:%2/%3")).arg(unit_activity_text(

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -10,13 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-/**********************************************************************
+/***********************************************************************
                           wldlg.c  -  description
                              -------------------
     begin                : Wed Sep 18 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- **********************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -1049,7 +1049,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     pEditor->stock = pCity->shield_stock;
     worklist_copy(&pEditor->worklist_copy, &pCity->worklist);
     fc_snprintf(pEditor->worklist_name, sizeof(pEditor->worklist_name),
-                "%s worklist", city_name(pCity));
+                "%s worklist", city_name_get(pCity));
   } else if (gwl != NULL) {
     pEditor->pCity = NULL;
     pEditor->global_worklist_id = global_worklist_id(gwl);
@@ -1083,7 +1083,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
   /* ---------------- */
   if (pCity) {
-    fc_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name(pCity));
+    fc_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name_get(pCity));
     external_entries = 1; /* Current production */
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), "%s", global_worklist_name(gwl));

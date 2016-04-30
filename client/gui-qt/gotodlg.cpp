@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -258,7 +258,7 @@ void goto_dialog::fill_tab(player *pplayer)
       item = new QTableWidgetItem;
       switch (j) {
       case 0:
-        str = city_name(pcity);
+        str = city_name_get(pcity);
         break;
       case 1:
         sprite = get_nation_flag_sprite(tileset, nation_of_player(pplayer));

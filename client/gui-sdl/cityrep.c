@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -281,11 +281,11 @@ static void real_info_city_report_dialog_update(void)
   pLast = pBuf;
   count = 0; 
   city_list_iterate(client.conn.playing->cities, pCity) {
-    
-    pStr = create_str16_from_char(city_name(pCity), adj_font(12));
+
+    pStr = create_str16_from_char(city_name_get(pCity), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-			(WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
+                            (WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
 
     if (city_unhappy(pCity)) {
       pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);

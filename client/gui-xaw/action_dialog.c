@@ -768,7 +768,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
     fc_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
-		city_name(pcity));
+                city_name_get(pcity));
     popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			 diplomat_incite_no_callback, 0, 0, NULL);
   } else if (cost <= client_player()->economic.gold) {
@@ -877,13 +877,13 @@ void popup_action_selection(struct unit *actor_unit,
     astr_set(&text,
              _("Your %s from %s reaches the city of %s.\nWhat now?"),
              unit_name_translation(actor_unit),
-             city_name(actor_homecity),
-             city_name(target_city));
+             city_name_get(actor_homecity),
+             city_name_get(target_city));
   } else if (target_city) {
     astr_set(&text,
              _("Your %s has arrived at %s.\nWhat is your command?"),
              unit_name_translation(actor_unit),
-             city_name(target_city));
+             city_name_get(target_city));
   } else {
     astr_set(&text,
              /* TRANS: %s is a unit name, e.g., Diplomat, Spy */

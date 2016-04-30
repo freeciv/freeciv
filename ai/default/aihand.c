@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -652,7 +652,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
       struct cm_result *cmr = cm_result_new(pcity);
 
       if (def_ai_city_data(pcity, ait)->celebrate == TRUE) {
-        log_base(LOGLEVEL_TAX, "setting %s to celebrate", city_name(pcity));
+        log_base(LOGLEVEL_TAX, "setting %s to celebrate", city_name_get(pcity));
         cm_query_result(pcity, &cmp, cmr);
         if (cmr->found_a_valid) {
           apply_cmresult_to_city(pcity, cmr);

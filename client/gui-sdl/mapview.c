@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,13 +11,13 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
                           mapview.c  -  description
                              -------------------
     begin                : Aug 10 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- *********************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -621,11 +621,11 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 			{Q_("?city:Neutral"), Q_("?city:Hostile"),
 			  Q_("?city:Neutral"), Q_("?city:Peaceful"),
 			  Q_("?city:Friendly"), Q_("?city:Mysterious")};
-			  
+
 	    cat_snprintf(buffer, sizeof(buffer),
-			 _("\nCity of %s"),
-			 city_name(pCity));
-                          
+                         _("\nCity of %s"),
+                         city_name_get(pCity));
+
 #if 0       
             /* This has hardcoded assumption that EFT_LAND_REGEN is always
              * provided by *building* named *Barracks*. Similar assumptions for
@@ -798,7 +798,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                       (vetname != NULL ? vetname : ""),
                       unit_activity_text(aunit),
                       aunit->hp, pUType->hp,
-                      pHome_City ? city_name(pHome_City) : Q_("?homecity:None"));
+                      pHome_City ? city_name_get(pHome_City) : Q_("?homecity:None"));
 
 	  pBuf_Surf = create_surf(tileset_full_tile_width(tileset),
                                   tileset_full_tile_height(tileset), SDL_SWSURFACE);
