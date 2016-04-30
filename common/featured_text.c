@@ -454,7 +454,7 @@ static bool text_tag_initv(struct text_tag *ptag, enum text_tag_type type,
             return FALSE;
           }
           ptag->link.id = punit->id;
-          sz_strlcpy(ptag->link.name, unit_rule_name(punit));
+          sz_strlcpy(ptag->link.name, unit_name_translation(punit));
         }
         return TRUE;
       };
@@ -532,7 +532,7 @@ static size_t text_tag_start_sequence(const struct text_tag *ptag,
           if (punit) {
             ret += fc_snprintf(buf + ret, len - ret,
                                " id=%d name=\"%s\"",
-                               punit->id, unit_rule_name(punit));
+                               punit->id, unit_name_translation(punit));
           } else {
             ret += fc_snprintf(buf + ret, len - ret,
                                " id=%d", ptag->link.id);
@@ -1113,12 +1113,10 @@ const char *unit_link(const struct unit *punit)
 {
   static char buf[MAX_LEN_LINK];
 
-  /* We use the rule name of the unit, it will be translated in every
-   * local sides in the function text_tag_replace_text(). */
   fc_snprintf(buf, sizeof(buf), "%c%s tgt=\"%s\" id=%d name=\"%s\" %c%c",
               SEQ_START, text_tag_type_short_name(TTT_LINK),
               text_link_type_name(TLT_UNIT), punit->id,
-              unit_rule_name(punit), SEQ_END, SEQ_STOP);
+              unit_name_translation(punit), SEQ_END, SEQ_STOP);
   return buf;
 }
 
