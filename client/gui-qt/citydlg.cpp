@@ -1219,10 +1219,10 @@ void city_dialog::city_rename()
 {
   bool ok;
   QString text = QInputDialog::getText(this,
-                                     _("Rename City"),
-                                     _("What should we rename the city to?"),
-                                     QLineEdit::Normal,
-                                     city_name(pcity), &ok);
+                                       _("Rename City"),
+                                       _("What should we rename the city to?"),
+                                       QLineEdit::Normal,
+                                       city_name_get(pcity), &ok);
 
   if (ok && !text.isEmpty()) {
     ::city_rename(pcity, text.toLocal8Bit().data());
@@ -2483,10 +2483,10 @@ void city_dialog::save_worklist()
   struct global_worklist *gw;
   bool ok;
   QString text = QInputDialog::getText(this,
-                                      _("Save current worklist"),
-                                      _("What should we name new worklist?"),
-                                      QLineEdit::Normal,
-                                      _("New worklist"), &ok);
+                                       _("Save current worklist"),
+                                       _("What should we name new worklist?"),
+                                       QLineEdit::Normal,
+                                       _("New worklist"), &ok);
 
   if (ok && !text.isEmpty()) {
     gw = global_worklist_new(text.toLocal8Bit().data());
@@ -2502,29 +2502,28 @@ void city_dialog::update_title()
 {
   QString buf;
 
-  lcity_name->setText(QString(city_name(pcity)));
-  pcity_name->setText(QString(city_name(pcity)));
+  lcity_name->setText(QString(city_name_get(pcity)));
+  pcity_name->setText(QString(city_name_get(pcity)));
   if (city_unhappy(pcity)) {
     /* TRANS: city dialog title */
-    buf = QString(_("%1 - %2 citizens - DISORDER")).arg(city_name(pcity),
+    buf = QString(_("%1 - %2 citizens - DISORDER")).arg(city_name_get(pcity),
                                  population_to_text(city_population(pcity)));
   } else if (city_celebrating(pcity)) {
     /* TRANS: city dialog title */
-    buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name(pcity),
+    buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name_get(pcity),
                                  population_to_text(city_population(pcity)));
   } else if (city_happy(pcity)) {
     /* TRANS: city dialog title */
-    buf = QString(_("%1 - %2 citizens - happy")).arg(city_name(pcity),
+    buf = QString(_("%1 - %2 citizens - happy")).arg(city_name_get(pcity),
                                  population_to_text(city_population(pcity)));
   } else {
     /* TRANS: city dialog title */
-    buf = QString(_("%1 - %2 citizens")).arg(city_name(pcity),
+    buf = QString(_("%1 - %2 citizens")).arg(city_name_get(pcity),
                                  population_to_text(city_population(pcity)));
   }
 
   setWindowTitle(buf);
 }
-
 
 /**************************************************************************
   Pop up (or bring to the front) a dialog for the given city.  It may or

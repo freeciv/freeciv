@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -519,7 +519,7 @@ void set_city_production(struct city *pcity);
 
 /* properties */
 
-const char *city_name(const struct city *pcity);
+const char *city_name_get(const struct city *pcity);
 struct player *city_owner(const struct city *pcity);
 struct tile *city_tile(const struct city *pcity);
 

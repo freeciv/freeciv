@@ -1302,7 +1302,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->map_canvas_store_unscaled
     = gdk_pixmap_new(root_window, canvas_width, canvas_height, -1);
 
-  pdialog->shell = gtk_dialog_new_with_buttons(city_name(pcity),
+  pdialog->shell = gtk_dialog_new_with_buttons(city_name_get(pcity),
 	NULL,
   	0,
 	NULL);
@@ -1456,29 +1456,28 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
   if (city_unhappy(pdialog->pcity)) {
     /* TRANS: city dialog title */
     buf = g_strdup_printf(_("<b>%s</b> - %s citizens - DISORDER"),
-			  city_name(pdialog->pcity),
-			  population_to_text(city_population(pdialog->pcity)));
+                          city_name_get(pdialog->pcity),
+                          population_to_text(city_population(pdialog->pcity)));
   } else if (city_celebrating(pdialog->pcity)) {
     /* TRANS: city dialog title */
     buf = g_strdup_printf(_("<b>%s</b> - %s citizens - celebrating"),
-			  city_name(pdialog->pcity),
-			  population_to_text(city_population(pdialog->pcity)));
+                          city_name_get(pdialog->pcity),
+                          population_to_text(city_population(pdialog->pcity)));
   } else if (city_happy(pdialog->pcity)) {
     /* TRANS: city dialog title */
     buf = g_strdup_printf(_("<b>%s</b> - %s citizens - happy"),
-			  city_name(pdialog->pcity),
-			  population_to_text(city_population(pdialog->pcity)));
+                          city_name_get(pdialog->pcity),
+                          population_to_text(city_population(pdialog->pcity)));
   } else {
     /* TRANS: city dialog title */
     buf = g_strdup_printf(_("<b>%s</b> - %s citizens"),
-			  city_name(pdialog->pcity),
-			  population_to_text(city_population(pdialog->pcity)));
-
+                          city_name_get(pdialog->pcity),
+                          population_to_text(city_population(pdialog->pcity)));
   }
 
   now = gtk_label_get_text(GTK_LABEL(pdialog->name_label));
   if (strcmp(now, buf) != 0) {
-    gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name(pdialog->pcity));
+    gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name_get(pdialog->pcity));
     gtk_label_set_markup(GTK_LABEL(pdialog->name_label), buf);
   }
 
@@ -2774,17 +2773,17 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
 /****************************************************************
   Called when Rename button pressed
 *****************************************************************/
-static void rename_callback(GtkWidget * w, gpointer data)
+static void rename_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
 
   pdialog = (struct city_dialog *) data;
 
   pdialog->rename_shell = input_dialog_create(GTK_WINDOW(pdialog->shell),
-                                              /*"shellrenamecity" */
+                                              /* "shellrenamecity" */
                                               _("Rename City"),
                                               _("What should we rename the city to?"),
-                                              city_name(pdialog->pcity),
+                                              city_name_get(pdialog->pcity),
                                               rename_popup_callback, pdialog);
 }
 

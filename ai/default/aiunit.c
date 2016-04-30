@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -204,7 +204,7 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
       return;
     }
     UNIT_LOG(LOG_DEBUG, transported, "airlifted to defend %s",
-             city_name(most_needed));
+             city_name_get(most_needed));
     handle_unit_do_action(pplayer, transported->id, most_needed->id,
                           0, "", ACTION_AIRLIFT);
   } while (TRUE);
@@ -803,7 +803,7 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
 
   UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "%s(), best_def=%d, type=%s (%d, %d)",
            __FUNCTION__, best_def * 100 / toughness,
-           (NULL != *acity ? city_name(*acity)
+           (NULL != *acity ? city_name_get(*acity)
             : (NULL != *aunit ? unit_rule_name(*aunit) : "")),
            (NULL != *acity ? index_to_map_pos_x(tile_index(city_tile(*acity)))
             : (NULL != *aunit ?
@@ -955,7 +955,7 @@ static void dai_military_defend(struct ai_type *ait, struct player *pplayer,
                            RAMPAGE_FREE_CITY_OR_BETTER)) {
     /* ... we survived */
     if (pcity) {
-      UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", city_name(pcity));
+      UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", city_name_get(pcity));
       if (same_pos(unit_tile(punit), pcity->tile)) {
         UNIT_LOG(LOG_DEBUG, punit, "go defend successful");
         def_ai_unit_data(punit, ait)->done = TRUE;
@@ -1450,7 +1450,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                  "%s(): with boat %s@(%d, %d) -> %s@(%d, %d)"
                  " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
                  __FUNCTION__, unit_rule_name(ferryboat),
-                 TILE_XY(unit_tile(ferryboat)), city_name(acity),
+                 TILE_XY(unit_tile(ferryboat)), city_name_get(acity),
                  TILE_XY(atile), go_by_boat, move_time, want, best);
       }
 
@@ -1643,7 +1643,7 @@ static void dai_military_attack_barbarian(struct ai_type *ait,
                               only_continent, FALSE, FALSE, TRUE, NULL))) {
     if (can_unit_exist_at_tile(punit, unit_tile(punit))) {
       UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s",
-               city_name(pc));
+               city_name_get(pc));
       (void) dai_gothere(ait, pplayer, punit, pc->tile);
     } else {
       struct unit *ferry = NULL;
@@ -1669,8 +1669,8 @@ static void dai_military_attack_barbarian(struct ai_type *ait,
       }
 
       if (ferry) {
-	UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to conquer %s",
-		 city_name(pc));
+        UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to conquer %s",
+                 city_name_get(pc));
 	(void) aiferry_goto_amphibious(ait, ferry, punit, pc->tile);
       } else {
         /* This is not an error. Somebody else might be in charge
@@ -1898,7 +1898,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
              nation_rule_name(nation_of_unit(punit)),
              unit_rule_name(punit), punit->id, TILE_XY(unit_tile(punit)),
              dai_unit_task_rule_name(unit_data->task),
-             help_wonder ? "help a wonder" : "trade", city_name(dest_city),
+             help_wonder ? "help a wonder" : "trade", city_name_get(dest_city),
              required_boat ? "with a boat" : "");
     if (required_boat) {
       /* to trade with boat */
@@ -1941,7 +1941,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                unit_rule_name(punit),
                punit->id,
                TILE_XY(unit_tile(punit)),
-               city_name(dest_city));
+               city_name_get(dest_city));
       handle_unit_do_action(pplayer, punit->id, dest_city->id,
                             0, "", ACTION_HELP_WONDER);
     } else if (is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
@@ -1951,7 +1951,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                unit_rule_name(punit),
                punit->id,
                TILE_XY(unit_tile(punit)),
-               city_name(dest_city));
+               city_name_get(dest_city));
       handle_unit_do_action(pplayer, punit->id, dest_city->id,
                             0, "", ACTION_TRADE_ROUTE);
     } else if (is_action_enabled_unit_on_city(ACTION_MARKETPLACE,
@@ -1962,7 +1962,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                unit_rule_name(punit),
                punit->id,
                TILE_XY(unit_tile(punit)),
-               city_name(dest_city));
+               city_name_get(dest_city));
       handle_unit_do_action(pplayer, punit->id, dest_city->id,
                             0, "", ACTION_MARKETPLACE);
     } else {
@@ -1980,7 +1980,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                unit_rule_name(punit),
                punit->id,
                TILE_XY(unit_tile(punit)),
-               city_name(dest_city));
+               city_name_get(dest_city));
     }
   }
 }
@@ -1999,9 +1999,9 @@ static void caravan_optimize_callback(const struct caravan_result *result,
            unit_rule_name(caravan),
            caravan->id,
            TILE_XY(unit_tile(caravan)),
-           city_name(result->src),
+           city_name_get(result->src),
            result->help_wonder ? "wonder in" : "trade to",
-           city_name(result->dest),
+           city_name_get(result->dest),
            result->value);
 }
 
@@ -2328,7 +2328,7 @@ static void dai_manage_hitpoint_recovery(struct ai_type *ait,
     safe = find_nearest_safe_city(punit);
     if (safe) {
       UNIT_LOG(LOGLEVEL_RECOVERY, punit, "going to %s to recover",
-               city_name(safe));
+               city_name_get(safe));
       if (!dai_unit_goto(ait, punit, safe->tile)) {
         log_base(LOGLEVEL_RECOVERY, "died trying to hide and recover");
         return;

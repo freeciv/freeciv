@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -146,7 +146,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
     want /= MAX(dist, 1);
     CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 
              utype_rule_name(unit_type),
-             city_name(wonder_city),
+             city_name_get(wonder_city),
              want);
     if (want > choice->want) {
       /* This sets our tech want in cases where we cannot actually build

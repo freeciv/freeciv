@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -562,7 +562,8 @@ void menus_update(void)
 /****************************************************************************
   Update multipliers/policy dialog.
 ****************************************************************************/
-void multipliers_dialog_update(void) {
+void multipliers_dialog_update(void)
+{
   update_queue_add(UQ_CALLBACK(real_multipliers_dialog_update), NULL);
 }
 
@@ -571,18 +572,18 @@ void multipliers_dialog_update(void) {
 ****************************************************************************/
 static void cities_update_callback(void *data)
 {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define NEED_UPDATE(city_update, action)                                    \
   if (city_update & need_update) {                                          \
     action;                                                                 \
     need_update &= ~city_update;                                            \
   }
-#else  /* DEBUG */
+#else  /* FREECIV_DEBUG */
 #define NEED_UPDATE(city_update, action)                                    \
   if (city_update & need_update) {                                          \
     action;                                                                 \
   }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   cities_iterate(pcity) {
     enum city_updates need_update = pcity->client.need_updates;
@@ -598,13 +599,13 @@ static void cities_update_callback(void *data)
     NEED_UPDATE(CU_UPDATE_DIALOG, real_city_dialog_refresh(pcity));
     NEED_UPDATE(CU_POPUP_DIALOG, real_city_dialog_popup(pcity));
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     if (CU_NO_UPDATE != need_update) {
       log_error("Some city updates not handled "
                 "for city %s (id %d): %d left.",
-                city_name(pcity), pcity->id, need_update);
+                city_name_get(pcity), pcity->id, need_update);
     }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
   } cities_iterate_end;
 #undef NEED_UPDATE
 }

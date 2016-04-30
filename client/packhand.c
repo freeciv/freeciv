@@ -683,7 +683,7 @@ void handle_city_info(const struct packet_city_info *packet)
   if (city_size_get(pcity) != packet->size) {
     log_error("handle_city_info() "
               "%d citizens not equal %d city size in \"%s\".",
-              city_size_get(pcity), packet->size, city_name(pcity));
+              city_size_get(pcity), packet->size, city_name_get(pcity));
     city_size_set(pcity, packet->size);
   }
 
@@ -977,7 +977,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
   if (is_new) {
     log_debug("(%d,%d) creating city %d, %s %s", TILE_XY(pcenter),
               pcity->id, nation_rule_name(nation_of_city(pcity)),
-              city_name(pcity));
+              city_name_get(pcity));
   }
 
   editgui_notify_object_changed(OBJTYPE_CITY, pcity->id, FALSE);
@@ -1795,7 +1795,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit), TILE_XY(unit_tile(punit)),
               punit->id, punit->homecity,
-              (pcity ? city_name(pcity) : "(unknown)"));
+              (pcity ? city_name_get(pcity) : "(unknown)"));
 
     repaint_unit = !unit_transported(punit);
     agents_unit_new(punit);
@@ -2866,7 +2866,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
         city_list_prepend(invisible.cities, pwork);
 
         log_debug("(%d,%d) invisible city %d, %s",
-                  TILE_XY(ptile), pwork->id, city_name(pwork));
+                  TILE_XY(ptile), pwork->id, city_name_get(pwork));
       } else if (NULL == city_tile(pwork)) {
         /* old unseen city, or before city_info */
         if (NULL != powner && city_owner(pwork) != powner) {
@@ -2876,6 +2876,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
         }
       } else {
         int dist_sq = sq_map_distance(city_tile(pwork), ptile);
+
         if (dist_sq > city_map_radius_sq_get(pwork)) {
           /* This is probably enemy city which has grown in diameter since we
            * last saw it. We need city_radius_sq to be at least big enough so

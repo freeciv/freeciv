@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -358,24 +358,24 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
     city_list_iterate(pgiver->cities, pcity) {
       if (!is_capital(pcity)) {
-	city_list_ptrs[i] = pcity;
-	i++;
+        city_list_ptrs[i] = pcity;
+        i++;
       }
     } city_list_iterate_end;
 
     qsort(city_list_ptrs, i, sizeof(struct city *), city_name_compare);
-    
+
     menu = gtk_menu_new();
 
     for (j = 0; j < i; j++) {
-      item = gtk_menu_item_new_with_label(city_name(city_list_ptrs[j]));
+      item = gtk_menu_item_new_with_label(city_name_get(city_list_ptrs[j]));
 
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(item, "activate",
-		       G_CALLBACK(diplomacy_dialog_city_callback),
-			 GINT_TO_POINTER((player_number(pgiver) << 24) |
-					 (player_number(pother) << 16) |
-					 city_list_ptrs[j]->id));
+                       G_CALLBACK(diplomacy_dialog_city_callback),
+                       GINT_TO_POINTER((player_number(pgiver) << 24) |
+                                       (player_number(pother) << 16) |
+                                       city_list_ptrs[j]->id));
     }
     free(city_list_ptrs);
 

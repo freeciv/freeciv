@@ -1116,7 +1116,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
   if (city_owner(pcity) == unit_owner(punit)){
     log_verbose("Teleported %s %s from (%d,%d) to %s",
                 nation_rule_name(nation_of_unit(punit)),
-                unit_rule_name(punit), TILE_XY(src_tile), city_name(pcity));
+                unit_rule_name(punit), TILE_XY(src_tile), city_name_get(pcity));
     if (verbose) {
       notify_player(unit_owner(punit), city_tile(pcity),
                     E_UNIT_RELOCATED, ftc_server,
@@ -1257,7 +1257,7 @@ static void throw_units_from_illegal_cities(struct player *pplayer,
     }
   } unit_list_iterate_safe_end;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   /* Sanity check. */
   unit_list_iterate(pplayer->units, punit) {
     ptile = unit_tile(punit);
@@ -1267,11 +1267,11 @@ static void throw_units_from_illegal_cities(struct player *pplayer,
                   "Failed to throw %s %d from %s %d (%d, %d)",
                   unit_rule_name(punit),
                   punit->id,
-                  city_name(pcity),
+                  city_name_get(pcity),
                   pcity->id,
                   TILE_XY(ptile));
   } unit_list_iterate_end;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 }
 
 /**************************************************************************

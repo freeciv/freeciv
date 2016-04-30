@@ -4665,8 +4665,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
     if (NULL != pwork) {
       log_sg("[%s] city center of '%s' (%d,%d) [%d] is worked by '%s' "
-             "(%d,%d) [%d]; repairing ", citystr, city_name(pcity),
-             TILE_XY(city_tile(pcity)), city_size_get(pcity), city_name(pwork),
+             "(%d,%d) [%d]; repairing ", citystr, city_name_get(pcity),
+             TILE_XY(city_tile(pcity)), city_size_get(pcity), city_name_get(pwork),
              TILE_XY(city_tile(pwork)), city_size_get(pwork));
 
       tile_set_worked(city_tile(pcity), NULL); /* remove tile from pwork */
@@ -4674,7 +4674,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       auto_arrange_workers(pwork);
     } else {
       log_sg("[%s] city center of '%s' (%d,%d) [%d] is empty; repairing ",
-             citystr, city_name(pcity), TILE_XY(city_tile(pcity)),
+             citystr, city_name_get(pcity), TILE_XY(city_tile(pcity)),
              city_size_get(pcity));
     }
 
@@ -4687,7 +4687,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   if (0 != repair) {
     log_sg("[%s] size mismatch for '%s' (%d,%d): size [%d] != "
            "(workers [%d] - free worked tiles [%d]) + specialists [%d]",
-           citystr, city_name(pcity), TILE_XY(city_tile(pcity)), city_size_get(pcity),
+           citystr, city_name_get(pcity), TILE_XY(city_tile(pcity)), city_size_get(pcity),
            workers, FREE_WORKED_TILES, sp_count);
 
     /* repair pcity */
@@ -4731,14 +4731,14 @@ static void sg_load_player_city_citizens(struct loaddata *loading,
                                                player_slot_index(pslot));
       if (nationality > 0 && !player_slot_is_used(pslot)) {
         log_sg("Citizens of an invalid nation for %s (player slot %d)!",
-                city_name(pcity), player_slot_index(pslot));
+               city_name_get(pcity), player_slot_index(pslot));
         continue;
       }
 
       if (nationality != -1 && player_slot_is_used(pslot)) {
         sg_warn(nationality >= 0 && nationality <= MAX_CITY_SIZE,
                 "Invalid value for citizens of player %d in %s: %d.",
-                player_slot_index(pslot), city_name(pcity), nationality);
+                player_slot_index(pslot), city_name_get(pcity), nationality);
         citizens_nation_set(pcity, pslot, nationality);
       }
     } player_slots_iterate_end;
@@ -4751,7 +4751,7 @@ static void sg_load_player_city_citizens(struct loaddata *loading,
          * were saved. But something more serious must be going on if
          * citizens have been saved partially - if some of them are there. */
         log_sg("City size and number of citizens does not match in %s "
-               "(%d != %d)! Repairing ...", city_name(pcity),
+               "(%d != %d)! Repairing ...", city_name_get(pcity),
                city_size_get(pcity), size);
       }
       citizens_update(pcity, NULL);
@@ -4874,7 +4874,7 @@ static void sg_save_player_cities(struct savedata *saving,
                        "%s.turn_last_built", buf);
 
     /* for visual debugging, variable length strings together here */
-    secfile_insert_str(saving->file, city_name(pcity), "%s.name", buf);
+    secfile_insert_str(saving->file, city_name_get(pcity), "%s.name", buf);
 
     secfile_insert_str(saving->file, universal_type_rule_name(&pcity->production),
                        "%s.currently_building_kind", buf);

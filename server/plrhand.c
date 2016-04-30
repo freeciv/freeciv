@@ -2763,7 +2763,7 @@ struct player *civil_war(struct player *pplayer)
          * resolved stack conflicts for each city we would teleport the first
          * of the units we met since the other would have another owner. */
         if (transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE, FALSE)) {
-          log_verbose("%s declares allegiance to the %s.", city_name(pcity),
+          log_verbose("%s declares allegiance to the %s.", city_name_get(pcity),
                       nation_rule_name(nation_of_player(cplayer)));
           notify_player(pplayer, pcity->tile, E_CITY_LOST, ftc_server,
                         /* TRANS: <city> ... the Poles. */

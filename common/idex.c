@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**************************************************************************
+/***********************************************************************
    idex = ident index: a lookup table for quick mapping of unit and city
    id values to unit and city pointers.
 
@@ -23,7 +23,7 @@
 
    Note id values should probably be unsigned int: here leave as plain int
    so can use pointers to pcity->id etc.
-***************************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -91,8 +91,8 @@ void idex_register_city(struct city *pcity)
   city_hash_replace_full(idex_city_hash, pcity->id, pcity, NULL, &old);
   fc_assert_ret_msg(NULL == old,
                     "IDEX: city collision: new %d %p %s, old %d %p %s",
-                    pcity->id, (void *) pcity, city_name(pcity),
-                    old->id, (void *) old, city_name(old));
+                    pcity->id, (void *) pcity, city_name_get(pcity),
+                    old->id, (void *) old, city_name_get(old));
 }
 
 /**************************************************************************
@@ -121,11 +121,11 @@ void idex_unregister_city(struct city *pcity)
   city_hash_remove_full(idex_city_hash, pcity->id, NULL, &old);
   fc_assert_ret_msg(NULL != old,
                     "IDEX: city unreg missing: %d %p %s",
-                    pcity->id, (void *) pcity, city_name(pcity));
+                    pcity->id, (void *) pcity, city_name_get(pcity));
   fc_assert_ret_msg(old == pcity, "IDEX: city unreg mismatch: "
                     "unreg %d %p %s, old %d %p %s",
-                    pcity->id, (void *) pcity, city_name(pcity),
-                    old->id, (void *) old, city_name(old));
+                    pcity->id, (void *) pcity, city_name_get(pcity),
+                    old->id, (void *) old, city_name_get(old));
 }
 
 /**************************************************************************

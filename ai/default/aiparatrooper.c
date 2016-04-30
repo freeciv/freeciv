@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -92,8 +92,8 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
     acity = tile_city(best_tile);
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit, 
              "Choose to jump in order to protect allied city %s (%d %d). "
-	     "Benefit: %d",
-	     city_name(acity), TILE_XY(best_tile), best);
+             "Benefit: %d",
+             city_name_get(acity), TILE_XY(best_tile), best);
     return best_tile;
   }
 
@@ -120,7 +120,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
     acity = tile_city(best_tile);
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit, 
              "Choose to jump into enemy city %s (%d %d). Benefit: %d",
-	     city_name(acity), TILE_XY(best_tile), best);
+             city_name_get(acity), TILE_XY(best_tile), best);
     return best_tile;
   }
 
@@ -247,10 +247,10 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
     acity = find_nearest_safe_city(punit);
 
     if (acity) {
-      UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Going to %s", city_name(acity));
+      UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Going to %s", city_name_get(acity));
       if (!dai_unit_goto(ait, punit, acity->tile)) {
-	/* die or unsuccessfull move */
-	return;
+        /* die or unsuccessfull move */
+        return;
       }
     } else {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
@@ -401,7 +401,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
       choice->need_boat = FALSE;
       adv_choice_set_use(choice, "paratrooper");
       log_base(LOGLEVEL_PARATROOPER, "%s wants to build %s (want=%d)",
-               city_name(pcity), utype_rule_name(u_type), profit);
+               city_name_get(pcity), utype_rule_name(u_type), profit);
     }
   } unit_type_iterate_end;
 
@@ -412,7 +412,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
     plr_data->tech_want[tech_req] += 2;
     log_base(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
              "stimulating %s with %d (" ADV_WANT_PRINTF ") and req",
-             city_name(pcity),
+             city_name_get(pcity),
              player_name(pplayer),
              advance_rule_name(advance_by_number(tech_req)),
              2,

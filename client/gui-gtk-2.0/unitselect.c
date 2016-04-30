@@ -802,7 +802,7 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
 
   phome = game_city_by_number(punit->homecity);
   if (phome) {
-    fc_snprintf(buf2, sizeof(buf2), "%s", city_name(phome));
+    fc_snprintf(buf2, sizeof(buf2), "%s", city_name_get(phome));
   } else if (unit_owner(punit) == client_player()
              || client_is_global_observer()) {
     /* TRANS: used in place of unit home city name */
@@ -811,7 +811,7 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
     /* TRANS: used in place of unit home city name */
     sz_strlcpy(buf2, _("unknown"));
   }
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   /* Strings only used in debug builds, don't bother with i18n */
   fc_snprintf(buf, sizeof(buf), "%s [Unit ID %d]\n(%s)\nCoordinates: (%d,%d)",
               unit_name_translation(punit), punit->id, buf2,
@@ -824,11 +824,11 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
                    ptrans->id);
     }
   }
-#else /* DEBUG */
+#else /* FREECIV_DEBUG */
   /* TRANS: unit type and home city, e.g. "Transport\n(New Orleans)" */
   fc_snprintf(buf, sizeof(buf), _("%s\n(%s)"), unit_name_translation(punit),
               buf2);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   if (transported) {
     weight = PANGO_WEIGHT_NORMAL;

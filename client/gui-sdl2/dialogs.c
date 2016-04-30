@@ -1720,7 +1720,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     area.h += pBuf->next->size.h;
     /* ------------------ */
 
-    fc_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), city_name(pCity) );
+    fc_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), city_name_get(pCity));
 
     create_active_iconlabel(pBuf, pWindow->dst,
                             pstr, cBuf, zoom_to_city_callback);

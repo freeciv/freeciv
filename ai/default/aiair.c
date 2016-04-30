@@ -105,7 +105,7 @@ static bool dai_should_we_air_attack_tile(struct ai_type *ait,
       && !unit_can_take_over(punit)) {
     /* No units capable of occupying are invading */
     log_debug("Don't want to attack %s, although we could",
-              city_name(acity));
+              city_name_get(acity));
     return FALSE;
   }
 
@@ -418,7 +418,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
     } else if ((dst_tile = dai_find_strategic_airbase(ait, punit, &path))) {
       log_debug("%s will fly to (%i, %i) (%s) to fight there",
                 unit_rule_name(punit), TILE_XY(dst_tile),
-                tile_city(dst_tile) ? city_name(tile_city(dst_tile)) : "");
+                tile_city(dst_tile) ? city_name_get(tile_city(dst_tile)) : "");
       def_ai_unit_data(punit, ait)->done = TRUE; /* Wait for next turn */
       if (!adv_follow_path(punit, path, dst_tile)) {
         pf_path_destroy(path);
@@ -499,10 +499,10 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
         adv_choice_set_use(choice, "offensive air");
         want_something = TRUE;
         log_debug("%s wants to build %s (want=%d)",
-                  city_name(pcity), utype_rule_name(punittype), profit);
+                  city_name_get(pcity), utype_rule_name(punittype), profit);
       } else {
         log_debug("%s doesn't want to build %s (want=%d)",
-                  city_name(pcity), utype_rule_name(punittype), profit);
+                  city_name_get(pcity), utype_rule_name(punittype), profit);
       }
       unit_virtual_destroy(virtual_unit);
     }

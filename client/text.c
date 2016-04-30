@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -244,7 +244,7 @@ const char *popup_info_text(struct tile *ptile)
     if (NULL == client.conn.playing || owner == client.conn.playing) {
       /* TRANS: "City: <city name> | <username> (<nation + team>)" */
       astr_add_line(&str, _("City: %s | %s (%s)"),
-                    city_name(pcity), username, nation);
+                    city_name_get(pcity), username, nation);
     } else {
       struct player_diplstate *ds
         = player_diplstate_get(client_player(), owner);
@@ -256,7 +256,7 @@ const char *popup_info_text(struct tile *ptile)
         astr_add_line(&str, PL_("City: %s | %s (%s, %d turn cease-fire)",
                                 "City: %s | %s (%s, %d turn cease-fire)",
                                 turns),
-                      city_name(pcity), username, nation, turns);
+                      city_name_get(pcity), username, nation, turns);
       } else if (ds->type == DS_ARMISTICE) {
         int turns = ds->turns_left;
 
@@ -265,12 +265,12 @@ const char *popup_info_text(struct tile *ptile)
         astr_add_line(&str, PL_("City: %s | %s (%s, %d turn armistice)",
                                 "City: %s | %s (%s, %d turn armistice)",
                                 turns),
-                      city_name(pcity), username, nation, turns);
+                      city_name_get(pcity), username, nation, turns);
       } else {
         /* TRANS: "City: <city name> | <username>
          * (<nation + team>, <diplomatic state>)" */
         astr_add_line(&str, _("City: %s | %s (%s, %s)"),
-                      city_name(pcity), username, nation,
+                      city_name_get(pcity), username, nation,
                       diplo_city_adjectives[ds->type]);
       }
     }
@@ -311,17 +311,18 @@ const char *popup_info_text(struct tile *ptile)
       struct city *hcity = game_city_by_number(pfocus_unit->homecity);
 
       if (utype_can_do_action(unit_type_get(pfocus_unit), ACTION_TRADE_ROUTE)
-	  && can_cities_trade(hcity, pcity)
-	  && can_establish_trade_route(hcity, pcity)) {
+          && can_cities_trade(hcity, pcity)
+          && can_establish_trade_route(hcity, pcity)) {
 	/* TRANS: "Trade from Warsaw: 5" */
 	astr_add_line(&str, _("Trade from %s: %d"),
-		      city_name(hcity),
-		      trade_between_cities(hcity, pcity));
+                      city_name_get(hcity),
+                      trade_between_cities(hcity, pcity));
       }
     } unit_list_iterate_end;
   }
   {
     const char *infratext = get_infrastructure_text(ptile->extras);
+
     if (*infratext != '\0') {
       astr_add_line(&str, _("Infrastructure: %s"), infratext);
     }
@@ -349,7 +350,7 @@ const char *popup_info_text(struct tile *ptile)
         if (hcity != NULL) {
           /* TRANS: on own line immediately following \n, "from <city> |
            * <nationality> people" */
-          astr_add_line(&str, _("from %s | %s people"), city_name(hcity),
+          astr_add_line(&str, _("from %s | %s people"), city_name_get(hcity),
                         nation_adjective_for_player(unit_nationality(punit)));
         } else {
           /* TRANS: Nationality of the people comprising a unit, if
@@ -359,7 +360,7 @@ const char *popup_info_text(struct tile *ptile)
         }
       } else if (hcity != NULL) {
         /* TRANS: on own line immediately following \n, ... <city> */
-        astr_add_line(&str, _("from %s"), city_name(hcity));
+        astr_add_line(&str, _("from %s"), city_name_get(hcity));
       }
     } else if (NULL != owner) {
       struct player_diplstate *ds = player_diplstate_get(client_player(),
@@ -468,18 +469,18 @@ const char *get_nearest_city_text(struct city *pcity, int sq_dist)
   }
 
   astr_add(&str, (sq_dist >= FAR_CITY_SQUARE_DIST)
-                 /* TRANS: on own line immediately following \n, ... <city> */
-                 ? _("far from %s")
-                 : (sq_dist > 0)
-                   /* TRANS: on own line immediately following \n, ... <city> */
-                   ? _("near %s")
-                   : (sq_dist == 0)
-                     /* TRANS: on own line immediately following \n, ... <city> */
-                     ? _("in %s")
-                     : "%s",
-                 pcity
-                 ? city_name(pcity)
-                 : "");
+           /* TRANS: on own line immediately following \n, ... <city> */
+           ? _("far from %s")
+           : (sq_dist > 0)
+           /* TRANS: on own line immediately following \n, ... <city> */
+           ? _("near %s")
+           : (sq_dist == 0)
+           /* TRANS: on own line immediately following \n, ... <city> */
+           ? _("in %s")
+           : "%s",
+           pcity
+           ? city_name_get(pcity)
+           : "");
 
   return astr_str(&str);
 }
@@ -524,7 +525,7 @@ const char *unit_description(struct unit *punit)
 
   if (pcity) {
     /* TRANS: on own line immediately following \n, ... <city> */
-    astr_add_line(&str, _("from %s"), city_name(pcity));
+    astr_add_line(&str, _("from %s"), city_name_get(pcity));
   } else {
     astr_add(&str, "\n");
   }
@@ -1079,7 +1080,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
       }
     }
     if (pcity) {
-      astr_add_line(&str, "%s", city_name(pcity));
+      astr_add_line(&str, "%s", city_name_get(pcity));
     } else {
       astr_add_line(&str, " ");
     }

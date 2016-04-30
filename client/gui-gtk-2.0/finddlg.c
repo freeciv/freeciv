@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -142,16 +142,16 @@ static void update_find_dialog(GtkListStore *store)
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-	GValue value = { 0, };
+      GValue value = { 0, };
 
-	gtk_list_store_append(store, &it);
+      gtk_list_store_append(store, &it);
 
-	g_value_init(&value, G_TYPE_STRING);
-	g_value_set_static_string(&value, city_name(pcity));
-	gtk_list_store_set_value(store, &it, 0, &value);
-	g_value_unset(&value);
+      g_value_init(&value, G_TYPE_STRING);
+      g_value_set_static_string(&value, city_name_get(pcity));
+      gtk_list_store_set_value(store, &it, 0, &value);
+      g_value_unset(&value);
 
-	gtk_list_store_set(store, &it, 1, pcity, -1);
+      gtk_list_store_set(store, &it, 1, pcity, -1);
     } city_list_iterate_end;
   } players_iterate_end;
 }

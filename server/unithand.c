@@ -1048,14 +1048,14 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   /* TRANS: Settler ... Berlin */
                   _("%s can't do anything to %s. It is too big."),
                   unit_name_translation(punit),
-                  city_name(target_city));
+                  city_name_get(target_city));
     break;
   case ANEK_CITY_POP_LIMIT:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   /* TRANS: London ... Settlers */
                   _("%s needs an improvement to grow, so "
                     "%s cannot do anything to it."),
-                  city_name(target_city),
+                  city_name_get(target_city),
                   unit_name_translation(punit));
     break;
   case ANEK_CITY_NO_CAPACITY:
@@ -1063,7 +1063,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   /* TRANS: Paris ... Warriors (think: airlift) */
                   _("%s don't have enough capacity, so "
                     "%s cannot do anything."),
-                  city_name(expl->capacity_city),
+                  city_name_get(expl->capacity_city),
                   unit_name_translation(punit));
     break;
   case ANEK_ACTION_BLOCKS:
@@ -1427,7 +1427,7 @@ void illegal_action_msg(struct player *pplayer,
                   _("%s can't do %s to %s. It is too big."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  city_name(target_city));
+                  city_name_get(target_city));
     break;
   case ANEK_CITY_POP_LIMIT:
     notify_player(pplayer, unit_tile(actor),
@@ -1435,7 +1435,7 @@ void illegal_action_msg(struct player *pplayer,
                   /* TRANS: London ... Settlers ... Join City */
                   _("%s needs an improvement to grow, so "
                     "%s cannot do %s."),
-                  city_name(target_city),
+                  city_name_get(target_city),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action));
     break;
@@ -1444,7 +1444,7 @@ void illegal_action_msg(struct player *pplayer,
                   event, ftc_server,
                   /* TRANS: Paris ... Airlift to City ... Warriors */
                   _("%s has no capacity to %s %s."),
-                  city_name(expl->capacity_city),
+                  city_name_get(expl->capacity_city),
                   action_get_ui_name(stopped_action),
                   unit_name_translation(actor));
     break;
@@ -2401,10 +2401,10 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
 }
 
 /**************************************************************************
- This function assumes a certain level of consistency checking: There
- is no city under punit->(x,y), and that location is a valid one on
- which to build a city. It should only be called after a call to a
- function like test_unit_add_or_build_city, which does the checking.
+  This function assumes a certain level of consistency checking: There
+  is no city under punit->(x,y), and that location is a valid one on
+  which to build a city. It should only be called after a call to a
+  function like test_unit_add_or_build_city, which does the checking.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.

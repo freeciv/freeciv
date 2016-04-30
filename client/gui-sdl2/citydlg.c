@@ -1692,13 +1692,13 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (pEdit->string_utf8->text != NULL) {
-      if (strcmp(pEdit->string_utf8->text, city_name(pCityDlg->pCity))) {
+      if (strcmp(pEdit->string_utf8->text, city_name_get(pCityDlg->pCity))) {
         SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
         city_rename(pCityDlg->pCity, pEdit->string_utf8->text);
       }
     } else {
       /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pEdit->string_utf8, city_name(pCityDlg->pCity));
+      copy_chars_to_utf8_str(pEdit->string_utf8, city_name_get(pCityDlg->pCity));
       widget_redraw(pEdit);
       widget_mark_dirty(pEdit);
       flush_dirty();
@@ -1715,16 +1715,16 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
 /**************************************************************************
   Refresh (update) the city names for the dialog
 **************************************************************************/
-static void refresh_city_names(struct city *pCity)
+static void refresh_city_names(struct city *pcity)
 {
   if (pCityDlg->pCity_Name_Edit) {
     char name[MAX_LEN_NAME];
 
     fc_snprintf(name, MAX_LEN_NAME, "%s", pCityDlg->pCity_Name_Edit->string_utf8->text);
-    if ((strcmp(city_name(pCity), name) != 0)
+    if ((strcmp(city_name_get(pcity), name) != 0)
         || (SDL_Client_Flags & CF_CHANGED_CITY_NAME)) {
-      copy_chars_to_utf8_str(pCityDlg->pCity_Name_Edit->string_utf8, city_name(pCity));
-      rebuild_citydlg_title_str(pCityDlg->pEndCityWidgetList, pCity);
+      copy_chars_to_utf8_str(pCityDlg->pCity_Name_Edit->string_utf8, city_name_get(pcity));
+      rebuild_citydlg_title_str(pCityDlg->pEndCityWidgetList, pcity);
       SDL_Client_Flags &= ~CF_CHANGED_CITY_NAME;
     }
   }
@@ -1975,7 +1975,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     step += proute->value;
 
     if ((pTradeCity = game_city_by_number(proute->partner))) {
-      fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", city_name(pTradeCity),
+      fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", city_name_get(pTradeCity),
                   proute->value);
     } else {
       fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", _("Unknown"),
@@ -3542,7 +3542,7 @@ static void rebuild_citydlg_title_str(struct widget *pWindow,
 
   fc_snprintf(cbuf, sizeof(cbuf),
               _("City of %s (Population %s citizens)"),
-              city_name(pCity),
+              city_name_get(pCity),
               population_to_text(city_population(pCity)));
 
   if (city_unhappy(pCity)) {
@@ -3787,8 +3787,8 @@ void real_city_dialog_popup(struct city *pCity)
   add_to_gui_list(ID_CITY_DLG_NEXT_BUTTON, pBuf);
   /* -------- */
 
-  pBuf = create_edit_from_chars(NULL, pWindow->dst, city_name(pCity),
-                              adj_font(10), adj_size(200), WF_RESTORE_BACKGROUND);
+  pBuf = create_edit_from_chars(NULL, pWindow->dst, city_name_get(pCity),
+                                adj_font(10), adj_size(200), WF_RESTORE_BACKGROUND);
   pBuf->action = new_name_city_dlg_callback;
   pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(2);

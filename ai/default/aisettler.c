@@ -1111,7 +1111,7 @@ BUILD_CITY:
       UNIT_LOG(LOG_DEBUG, punit, "city want %d", result->result);
       if (tile_city(result->tile)) {
         UNIT_LOG(LOG_DEBUG, punit, "immigrates to %s (%d, %d)", 
-                 city_name(tile_city(result->tile)),
+                 city_name_get(tile_city(result->tile)),
                  TILE_XY(result->tile));
       } else {
         UNIT_LOG(LOG_DEBUG, punit, "makes city at (%d, %d)", 

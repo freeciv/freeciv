@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1964,15 +1964,15 @@ void show_city_descriptions(int canvas_base_x, int canvas_base_y,
       struct city *pcity = tile_city(ptile);
 
       show_city_desc(mapview.store, canvas_x, canvas_y,
-		     pcity, &width, &height);
-      log_debug("Drawing %s.", city_name(pcity));
+                     pcity, &width, &height);
+      log_debug("Drawing %s.", city_name_get(pcity));
 
       if (width > max_desc_width || height > max_desc_height) {
         /* The update was incomplete! We queue a new update. Note that
          * this is recursively queueing an update within a dequeuing of an
          * update. This is allowed specifically because of the code in
          * unqueue_mapview_updates. See that function for more. */
-        log_debug("Re-queuing %s.", city_name(pcity));
+        log_debug("Re-queuing %s.", city_name_get(pcity));
         update_city_description(pcity);
       }
       new_max_width = MAX(width, new_max_width);
@@ -2688,13 +2688,13 @@ void unqueue_mapview_updates(bool write_to_screen)
   below it. It does not take draw_city_names/draw_city_growth into account.
 **************************************************************************/
 void get_city_mapview_name_and_growth(struct city *pcity,
-				      char *name_buffer,
-				      size_t name_buffer_len,
-				      char *growth_buffer,
-				      size_t growth_buffer_len,
-				      enum color_std *growth_color)
+                                      char *name_buffer,
+                                      size_t name_buffer_len,
+                                      char *growth_buffer,
+                                      size_t growth_buffer_len,
+                                      enum color_std *growth_color)
 {
-  fc_strlcpy(name_buffer, city_name(pcity), name_buffer_len);
+  fc_strlcpy(name_buffer, city_name_get(pcity), name_buffer_len);
 
   if (NULL == client.conn.playing
       || city_owner(pcity) == client.conn.playing) {

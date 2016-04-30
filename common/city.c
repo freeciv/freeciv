@@ -446,12 +446,12 @@ void citylog_map_workers(enum log_level level, struct city *pcity)
                             ? (is_free_worked_index(cindex) ? 2 : 1) : 0;
   } city_map_iterate_end;
 
-  log_base(level, "[%s (%d)] workers map:", city_name(pcity), pcity->id);
+  log_base(level, "[%s (%d)] workers map:", city_name_get(pcity), pcity->id);
   citylog_map_data(level, city_map_radius_sq_get(pcity), city_map_data);
   FC_FREE(city_map_data);
 }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 /****************************************************************************
   Log the index of all tiles of the city map.
 *****************************************************************************/
@@ -498,7 +498,7 @@ static void citylog_map_radius_sq(enum log_level level)
   citylog_map_data(level, CITY_MAP_MAX_RADIUS_SQ, city_map_data);
   FC_FREE(city_map_data);
 }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 /**************************************************************************
   Fill the arrays city_map_index, city_map_xy and city_map_numtiles. This
@@ -1039,20 +1039,20 @@ void city_choose_build_default(struct city *pcity)
       }
 
       fc_assert_msg(found, "No production found for city %s!",
-                    city_name(pcity));
+                    city_name_get(pcity));
     }
   }
 }
 
-#ifndef city_name
+#ifndef city_name_get
 /**************************************************************************
   Return the name of the city.
 **************************************************************************/
-const char *city_name(const struct city *pcity)
+const char *city_name_get(const struct city *pcity)
 {
   return pcity->name;
 }
-#endif
+#endif /* city_name_get */
 
 /**************************************************************************
   Return the owner of the city.

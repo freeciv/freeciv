@@ -1,4 +1,4 @@
-/**********************************************************************0
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1814,7 +1814,7 @@ static struct cm_state *cm_state_init(struct city *pcity)
   int rates[3];
 
   log_base(LOG_CM_STATE, "creating cm_state for %s (size %d)",
-           city_name(pcity), city_size_get(pcity));
+           city_name_get(pcity), city_size_get(pcity));
 
   /* copy the arguments */
   state->pcity = pcity;
@@ -1966,7 +1966,7 @@ static void cm_find_best_solution(struct cm_state *state,
 
     if (loop_count > max_count) {
       log_error("Did not find a cm solution in %d iterations for %s.",
-                max_count, city_name(state->pcity));
+                max_count, city_name_get(state->pcity));
       result->aborted = TRUE;
       break;
     }
@@ -1985,8 +1985,8 @@ static void cm_find_best_solution(struct cm_state *state,
   solution.
  ***************************************************************************/
 void cm_query_result(struct city *pcity,
-		     const struct cm_parameter *param,
-		     struct cm_result *result)
+                     const struct cm_parameter *param,
+                     struct cm_result *result)
 {
   struct cm_state *state = cm_state_init(pcity);
 
@@ -2291,7 +2291,7 @@ void cm_print_city(const struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
 
-  log_test("cm_print_city(city %d=\"%s\")", pcity->id, city_name(pcity));
+  log_test("cm_print_city(city %d=\"%s\")", pcity->id, city_name_get(pcity));
   log_test("  size=%d, specialists=%s",
            city_size_get(pcity), specialists_string(pcity->specialists));
 

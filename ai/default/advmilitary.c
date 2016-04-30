@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -852,7 +852,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
                "+ %d for %s to defend %s",
                desire,
                utype_rule_name(punittype),
-               city_name(pcity));
+               city_name_get(pcity));
     }
   } simple_ai_unit_type_iterate_end;
 
@@ -1080,7 +1080,7 @@ static void process_attacker_want(struct ai_type *ait,
                    "+ " ADV_WANT_PRINTF " for %s vs %s(%d,%d)",
                    want,
                    utype_rule_name(punittype),
-                   (acity ? city_name(acity) : utype_rule_name(victim_unit_type)),
+                   (acity ? city_name_get(acity) : utype_rule_name(victim_unit_type)),
                    TILE_XY(ptile));
         } else if (want > best_choice->want) {
           struct impr_type *impr_req = punittype->need_improvement;
@@ -1278,10 +1278,10 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
     adv_free_choice(choice);
     choice = best_choice;
     CITY_LOG(LOG_DEBUG, pcity, "kill_something_with()"
-	     " %s has chosen attacker, %s, want=" ADV_WANT_PRINTF,
-	     city_name(pcity),
-	     utype_rule_name(best_choice->value.utype),
-	     best_choice->want);
+             " %s has chosen attacker, %s, want=" ADV_WANT_PRINTF,
+             city_name_get(pcity),
+             utype_rule_name(best_choice->value.utype),
+             best_choice->want);
 
     if (NULL != ferry_map && !ferryboat) { /* need a new ferry */
       /* We might need a new boat even if there are boats free,
@@ -1290,16 +1290,16 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
       dai_choose_role_unit(ait, pplayer, pcity, choice, CT_ATTACKER,
                            L_FERRYBOAT, choice->want, TRUE);
       if (dai_is_ferry_type(choice->value.utype, ait)) {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
         struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
         log_debug("kill_something_with() %s has chosen attacker ferry, "
                   "%s, want=" ADV_WANT_PRINTF ", %d of %d free",
-                  city_name(pcity),
+                  city_name_get(pcity),
                   utype_rule_name(choice->value.utype),
                   choice->want,
                   ai->stats.available_boats, ai->stats.boats);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
         adv_choice_set_use(choice, "attacker ferry");
       } /* else can not build ferries yet */

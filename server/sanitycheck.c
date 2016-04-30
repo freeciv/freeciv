@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@
 #define SANITY_CITY(_city, check)                                           \
   fc_assert_full(file, function, line, check, ,                             \
                  "(%4d, %4d) in \"%s\"[%d]", TILE_XY((_city)->tile),        \
-                 city_name(_city), city_size_get(_city))
+                 city_name_get(_city), city_size_get(_city))
 
 #define SANITY_TERRAIN(_tile, check)                                        \
   fc_assert_full(file, function, line, check, ,                             \
@@ -229,7 +229,7 @@ static bool check_city_good(struct city *pcity, const char *file,
     SANITY_FAIL("(----,----) city has no tile (skipping remaining tests), "
                 "at %s \"%s\"[%d]%s",
                 nation_rule_name(nation_of_player(pplayer)),
-                city_name(pcity), city_size_get(pcity),
+                city_name_get(pcity), city_size_get(pcity),
                 "{city center}");
     return FALSE;
   }
@@ -246,7 +246,7 @@ static bool check_city_good(struct city *pcity, const char *file,
                   TILE_XY(pcenter),
                   nation_rule_name(nation_of_player(tile_owner(pcenter))),
                   nation_rule_name(nation_of_player(pplayer)),
-                  city_name(pcity), city_size_get(pcity),
+                  city_name_get(pcity), city_size_get(pcity),
                   "{city center}");
     }
   }
@@ -324,10 +324,10 @@ static void check_city_size(struct city *pcity, const char *file,
   if (0 != delta) {
     SANITY_FAIL("(%4d,%4d) %d citizens not equal [size], "
                 "repairing \"%s\"[%d]", TILE_XY(pcity->tile),
-                citizen_count, city_name(pcity), city_size_get(pcity));
+                citizen_count, city_name_get(pcity), city_size_get(pcity));
 
     citylog_map_workers(LOG_DEBUG, pcity);
-    log_debug("[%s (%d)] specialists: %d", city_name(pcity), pcity->id,
+    log_debug("[%s (%d)] specialists: %d", city_name_get(pcity), pcity->id,
               city_specialists(pcity));
 
     city_repair_size(pcity, delta);

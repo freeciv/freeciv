@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -370,13 +370,13 @@ void report_top_five_cities(struct conn_list *dest)
                    /* TRANS:"The French City of Lyon (team 3) of size 18". */
                    _("%2d: The %s City of %s (%s) of size %d, "), i + 1,
                    nation_adjective_for_player(city_owner(size[i].city)),
-                   city_name(size[i].city), team_name,
+                   city_name_get(size[i].city), team_name,
                    city_size_get(size[i].city));
     } else {
       cat_snprintf(buffer, sizeof(buffer),
                    _("%2d: The %s City of %s of size %d, "), i + 1,
                    nation_adjective_for_player(city_owner(size[i].city)),
-                   city_name(size[i].city), city_size_get(size[i].city));
+                   city_name_get(size[i].city), city_size_get(size[i].city));
     }
 
     wonders = nr_wonders(size[i].city);
@@ -416,13 +416,13 @@ void report_wonders_of_the_world(struct conn_list *dest)
                        /* TRANS: "Colossus in Rhodes (Greek, team 2)". */
                        _("%s in %s (%s, %s)\n"),
                        city_improvement_name_translation(pcity, i),
-                       city_name(pcity),
+                       city_name_get(pcity),
                        nation_adjective_for_player(city_owner(pcity)),
                        team_name);
         } else {
           cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
                        city_improvement_name_translation(pcity, i),
-                       city_name(pcity),
+                       city_name_get(pcity),
                        nation_adjective_for_player(city_owner(pcity)));
         }
       } else if (great_wonder_is_destroyed(i)) {
@@ -447,12 +447,12 @@ void report_wonders_of_the_world(struct conn_list *dest)
               cat_snprintf(buffer, sizeof(buffer),
                            /* TRANS: "([...] (Roman, team 4))". */
                            _("(building %s in %s (%s, %s))\n"),
-                           improvement_name_translation(i), city_name(pcity),
+                           improvement_name_translation(i), city_name_get(pcity),
                            nation_adjective_for_player(pplayer), team_name);
             } else {
               cat_snprintf(buffer, sizeof(buffer),
                            _("(building %s in %s (%s))\n"),
-                           improvement_name_translation(i), city_name(pcity),
+                           improvement_name_translation(i), city_name_get(pcity),
                            nation_adjective_for_player(pplayer));
             }
           }

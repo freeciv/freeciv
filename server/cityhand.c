@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -144,7 +144,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
   city_radius_sq = city_map_radius_sq_get(pcity);
   if (!is_valid_city_coords(city_radius_sq, worker_x, worker_y)) {
     log_error("handle_city_make_specialist() invalid city map {%d,%d} "
-              "\"%s\".", worker_x, worker_y, city_name(pcity));
+              "\"%s\".", worker_x, worker_y, city_name_get(pcity));
     return;
   }
   pcenter = city_tile(pcity);
@@ -152,7 +152,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
   if (NULL == (ptile = city_map_to_tile(pcenter, city_radius_sq, worker_x,
                                         worker_y))) {
     log_error("handle_city_make_specialist() unavailable city map {%d,%d} "
-              "\"%s\".", worker_x, worker_y, city_name(pcity));
+              "\"%s\".", worker_x, worker_y, city_name_get(pcity));
     return;
   }
 
@@ -163,7 +163,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
     pcity->specialists[DEFAULT_SPECIALIST]++;
   } else {
     log_verbose("handle_city_make_specialist() not working {%d,%d} \"%s\".",
-                worker_x, worker_y, city_name(pcity));
+                worker_x, worker_y, city_name_get(pcity));
   }
 
   city_refresh(pcity);
@@ -192,7 +192,7 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 
   if (!is_valid_city_coords(city_radius_sq, worker_x, worker_y)) {
     log_error("handle_city_make_worker() invalid city map {%d,%d} "
-              "\"%s\".", worker_x, worker_y, city_name(pcity));
+              "\"%s\".", worker_x, worker_y, city_name_get(pcity));
     return;
   }
   pcenter = city_tile(pcity);
@@ -200,7 +200,7 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
   if (NULL == (ptile = city_map_to_tile(pcenter, city_radius_sq, worker_x,
                                         worker_y))) {
     log_error("handle_city_make_worker() unavailable city map {%d,%d} "
-              "\"%s\".", worker_x, worker_y, city_name(pcity));
+              "\"%s\".", worker_x, worker_y, city_name_get(pcity));
     return;
   }
 
@@ -212,19 +212,19 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 
   if (tile_worked(ptile) == pcity) {
     log_verbose("handle_city_make_worker() already working {%d,%d} \"%s\".",
-                worker_x, worker_y, city_name(pcity));
+                worker_x, worker_y, city_name_get(pcity));
     return;
   }
 
   if (0 == city_specialists(pcity)) {
     log_verbose("handle_city_make_worker() no specialists {%d,%d} \"%s\".",
-                worker_x, worker_y, city_name(pcity));
+                worker_x, worker_y, city_name_get(pcity));
     return;
   }
 
   if (!city_can_work_tile(pcity, ptile)) {
     log_verbose("handle_city_make_worker() cannot work here {%d,%d} \"%s\".",
-                worker_x, worker_y, city_name(pcity));
+                worker_x, worker_y, city_name_get(pcity));
     return;
   }
 
@@ -371,13 +371,13 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
                   /* TRANS: bought an unit. */
                   _("You bought %s in %s."),
                   utype_name_translation(pcity->production.value.utype),
-                  city_name(pcity));
+                  city_name_get(pcity));
   } else if (VUT_IMPROVEMENT == pcity->production.kind) {
     notify_player(pplayer, pcity->tile, E_IMP_BUY, ftc_server,
                   /* TRANS: bought an improvement .*/
                   _("You bought %s in %s."),
                   improvement_name_translation(pcity->production.value.building),
-                  city_name(pcity));
+                  city_name_get(pcity));
   }
 
   conn_list_do_buffer(pplayer->connections);

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -48,14 +48,13 @@
  Note the returned string may not be exactly the right length; that
  is handled later.
 *************************************************************************/
-
 static const char *cr_entry_cityname(const struct city *pcity,
-				     const void *data)
+                                     const void *data)
 {
   /* We used to truncate the name to 14 bytes.  This should not be needed
    * in any modern GUI library and may give an invalid string if a
    * multibyte character is clipped. */
-  return city_name(pcity);
+  return city_name_get(pcity);
 }
 
 /************************************************************************
@@ -72,9 +71,10 @@ static const char *cr_entry_nation(const struct city *pcity,
   allocated and its contents change when this function is called again.
 *************************************************************************/
 static const char *cr_entry_size(const struct city *pcity,
-				 const void *data)
+                                 const void *data)
 {
   static char buf[8];
+
   fc_snprintf(buf, sizeof(buf), "%2d", city_size_get(pcity));
   return buf;
 }
@@ -85,7 +85,7 @@ static const char *cr_entry_size(const struct city *pcity,
   this function is called again.
 *************************************************************************/
 static const char *cr_entry_hstate_concise(const struct city *pcity,
-					   const void *data)
+                                           const void *data)
 {
   static char buf[4];
   fc_snprintf(buf, sizeof(buf), "%s",
@@ -100,9 +100,10 @@ static const char *cr_entry_hstate_concise(const struct city *pcity,
   this function is called again.
 *************************************************************************/
 static const char *cr_entry_hstate_verbose(const struct city *pcity,
-					   const void *data)
+                                           const void *data)
 {
   static char buf[32];
+
   fc_snprintf(buf, sizeof(buf), "%s",
               (city_celebrating(pcity) ? Q_("?city_state:Celebrating")
                : (city_unhappy(pcity) ? Q_("?city_state:Disorder")
@@ -116,9 +117,10 @@ static const char *cr_entry_hstate_verbose(const struct city *pcity,
   this function is called again.
 *************************************************************************/
 static const char *cr_entry_workers(const struct city *pcity,
-				    const void *data)
+                                    const void *data)
 {
   static char buf[32];
+
   fc_snprintf(buf, sizeof(buf), "%d/%d/%d/%d",
               pcity->feel[CITIZEN_HAPPY][FEELING_FINAL],
               pcity->feel[CITIZEN_CONTENT][FEELING_FINAL],

@@ -368,7 +368,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     menu = gtk_menu_new();
 
     for (j = 0; j < i; j++) {
-      item = gtk_menu_item_new_with_label(city_name(city_list_ptrs[j]));
+      item = gtk_menu_item_new_with_label(city_name_get(city_list_ptrs[j]));
 
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(item, "activate",

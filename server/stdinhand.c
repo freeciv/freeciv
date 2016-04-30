@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2717,7 +2717,7 @@ static bool debug_command(struct connection *caller, char *str,
     if (pcity->server.debug) {
       pcity->server.debug = FALSE;
       cmd_reply(CMD_DEBUG, caller, C_OK, _("%s no longer debugged"),
-                city_name(pcity));
+                city_name_get(pcity));
     } else {
       pcity->server.debug = TRUE;
       CITY_LOG(LOG_NORMAL, pcity, "debugged");

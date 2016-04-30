@@ -521,7 +521,7 @@ static void try_summon_barbarians(void)
 
   dist = real_map_distance(ptile, pc->tile);
   log_debug("Closest city (to %d,%d) is %s (at %d,%d) distance %d.",
-            TILE_XY(ptile), city_name(pc), TILE_XY(pc->tile), dist);
+            TILE_XY(ptile), city_name_get(pc), TILE_XY(pc->tile), dist);
   if (dist > MAX_UNREST_DIST || dist < MIN_UNREST_DIST) {
     return;
   }

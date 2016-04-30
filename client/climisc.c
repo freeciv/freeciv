@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,9 +11,9 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/********************************************************************** 
-This module contains various general - mostly highlevel - functions
-used throughout the client.
+/*********************************************************************** 
+  This module contains various general - mostly highlevel - functions
+  used throughout the client.
 ***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
@@ -111,7 +111,7 @@ void client_remove_unit(struct unit *punit)
     }
 
     log_debug("map city %s, %s, (%d %d)",
-              city_name(pcity), nation_rule_name(nation_of_city(pcity)),
+              city_name_get(pcity), nation_rule_name(nation_of_city(pcity)),
               TILE_XY(city_tile(pcity)));
   }
 
@@ -120,7 +120,7 @@ void client_remove_unit(struct unit *punit)
     if (NULL != pcity) {
       refresh_city_dialog(pcity);
       log_debug("home city %s, %s, (%d %d)",
-                city_name(pcity), nation_rule_name(nation_of_city(pcity)),
+                city_name_get(pcity), nation_rule_name(nation_of_city(pcity)),
                 TILE_XY(city_tile(pcity)));
     }
   }
@@ -137,11 +137,11 @@ void client_remove_city(struct city *pcity)
   struct tile *ptile = city_tile(pcity);
   struct city old_city = *pcity;
 
-  log_debug("client_remove_city() %d, %s", pcity->id, city_name(pcity));
+  log_debug("client_remove_city() %d, %s", pcity->id, city_name_get(pcity));
 
   /* Explicitly remove all improvements, to properly remove any global effects
      and to handle the preservation of "destroyed" effects. */
-  effect_update=FALSE;
+  effect_update = FALSE;
 
   city_built_iterate(pcity, pimprove) {
     effect_update = TRUE;
@@ -236,7 +236,7 @@ const char *get_vision_status(const struct player *me,
 }
 
 /**************************************************************************
-Copy a string that describes the given clause into the return buffer.
+  Copy a string that describes the given clause into the return buffer.
 **************************************************************************/
 void client_diplomacy_clause_string(char *buf, int bufsiz,
 				    struct Clause *pclause)
@@ -254,7 +254,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     if (pcity) {
       fc_snprintf(buf, bufsiz, _("The %s give %s"),
                   nation_plural_for_player(pclause->from),
-                  city_name(pcity));
+                  city_name_get(pcity));
     } else {
       fc_snprintf(buf, bufsiz,_("The %s give an unknown city"),
                   nation_plural_for_player(pclause->from));

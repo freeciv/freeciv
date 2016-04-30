@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2001 - R. Falke
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -181,7 +181,7 @@ static bool apply_result_on_server(struct city *pcity,
   /* Do checks */
   if (city_size_get(pcity) != cm_result_citizens(result)) {
     log_error("apply_result_on_server(city %d=\"%s\") bad result!",
-              pcity->id, city_name(pcity));
+              pcity->id, city_name_get(pcity));
     cm_print_city(pcity);
     cm_print_result(result);
     return FALSE;
@@ -190,7 +190,7 @@ static bool apply_result_on_server(struct city *pcity,
   stats.apply_result_applied++;
 
   log_apply_result("apply_result_on_server(city %d=\"%s\")",
-                   pcity->id, city_name(pcity));
+                   pcity->id, city_name_get(pcity));
 
   connection_do_buffer(&client.conn);
 
@@ -299,15 +299,15 @@ static bool apply_result_on_server(struct city *pcity,
 
 #if SHOW_APPLY_RESULT_ON_SERVER_ERRORS
       log_error("apply_result_on_server(city %d=\"%s\") no match!",
-                pcity->id, city_name(pcity));
+                pcity->id, city_name_get(pcity));
 
       log_test("apply_result_on_server(city %d=\"%s\") have:",
-               pcity->id, city_name(pcity));
+               pcity->id, city_name_get(pcity));
       cm_print_city(pcity);
       cm_print_result(current_state);
 
       log_test("apply_result_on_server(city %d=\"%s\") want:",
-               pcity->id, city_name(pcity));
+               pcity->id, city_name_get(pcity));
       cm_print_result(result);
 #endif /* SHOW_APPLY_RESULT_ON_SERVER_ERRORS */
   }
@@ -361,11 +361,11 @@ static void handle_city(struct city *pcity)
   int i, city_id = pcity->id;
 
   log_handle_city("handle_city(city %d=\"%s\") pos=(%d,%d) owner=%s",
-                  pcity->id, city_name(pcity), TILE_XY(pcity->tile),
+                  pcity->id, city_name_get(pcity), TILE_XY(pcity->tile),
                   nation_rule_name(nation_of_city(pcity)));
 
   log_handle_city2("START handle city %d=\"%s\"",
-                   pcity->id, city_name(pcity));
+                   pcity->id, city_name_get(pcity));
 
   handled = FALSE;
   for (i = 0; i < 5; i++) {
@@ -421,7 +421,7 @@ static void handle_city(struct city *pcity)
     cma_release_city(pcity);
 
     log_error("handle_city() CMA: %s has changed multiple times.",
-              city_name(pcity));
+              city_name_get(pcity));
     /* TRANS: No full stop after the URL, could cause confusion. */
     log_error(_("Please report this message at %s"), BUG_URL);
   }
@@ -506,10 +506,10 @@ bool cma_apply_result(struct city *pcity, const struct cm_result *result)
   Put city under governor control
 *****************************************************************************/
 void cma_put_city_under_agent(struct city *pcity,
-			      const struct cm_parameter *const parameter)
+                              const struct cm_parameter *const parameter)
 {
   log_debug("cma_put_city_under_agent(city %d=\"%s\")",
-            pcity->id, city_name(pcity));
+            pcity->id, city_name_get(pcity));
 
   fc_assert_ret(city_owner(pcity) == client.conn.playing);
 

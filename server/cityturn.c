@@ -412,7 +412,7 @@ void auto_arrange_workers(struct city *pcity)
 
   if (city_refresh(pcity)) {
     log_error("%s radius changed when already arranged workers.",
-              city_name(pcity));
+              city_name_get(pcity));
     /* Can't do anything - don't want to enter infinite recursive loop
      * by trying to arrange workers more. */
   }
@@ -782,7 +782,7 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
                         "city_reduce_size() has remaining"
                         "%d of %d for \"%s\"[%d]",
                         loss_remain, pop_loss,
-                        city_name(pcity), city_size_get(pcity));
+                        city_name_get(pcity), city_size_get(pcity));
 
   /* Update cities that have trade routes with us */
   trade_partners_iterate(pcity, pcity2) {
@@ -814,7 +814,7 @@ void city_repair_size(struct city *pcity, int change)
 
     fc_assert_msg(0 == need,
                   "city_repair_size() has remaining %d of %d for \"%s\"[%d]",
-                  need, change, city_name(pcity), city_size_get(pcity));
+                  need, change, city_name_get(pcity), city_size_get(pcity));
   }
 }
 
@@ -2362,7 +2362,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     /* Log before signal emitting, so pointers are certainly valid */
     log_verbose("%s %s tried to build %s, which is not available.",
                 nation_rule_name(nation_of_city(pcity)),
-                city_name(pcity), utype_rule_name(utype));
+                city_name_get(pcity), utype_rule_name(utype));
     script_server_signal_emit("unit_cant_be_built", 3,
                               API_TYPE_UNIT_TYPE, utype,
                               API_TYPE_CITY, pcity,
@@ -2885,7 +2885,7 @@ static bool place_pollution(struct city *pcity, enum extra_cause cause)
     }
     k--;
   }
-  log_debug("pollution not placed: city: %s", city_name(pcity));
+  log_debug("pollution not placed: city: %s", city_name_get(pcity));
 
   return FALSE;
 }
@@ -3003,7 +3003,7 @@ static void define_orig_production_values(struct city *pcity)
   pcity->changed_from = pcity->production;
 
   log_debug("In %s, building %s.  Beg of Turn shields = %d",
-            city_name(pcity), universal_rule_name(&pcity->changed_from),
+            city_name_get(pcity), universal_rule_name(&pcity->changed_from),
             pcity->before_change_shields);
 }
 
@@ -3363,7 +3363,7 @@ static float city_migration_score(struct city *pcity)
   /* take into account effects */
   score *= (1.0 + get_city_bonus(pcity, EFT_MIGRATION_PCT) / 100.0);
 
-  log_debug("[M] %s score: %.3f", city_name(pcity), score);
+  log_debug("[M] %s score: %.3f", city_name_get(pcity), score);
 
   /* set migration score for the city */
   pcity->server.migration_score = score;
@@ -3641,12 +3641,12 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
   struct tile *ptile = city_tile(pcity);
   bool had_internal_effect = FALSE;
 
-  log_debug("%s at %s", disaster_rule_name(pdis), city_name(pcity));
+  log_debug("%s at %s", disaster_rule_name(pdis), city_name_get(pcity));
 
   notify_player(pplayer, ptile, E_DISASTER,
                 ftc_server,
                 /* TRANS: Disasters such as Earthquake */
-                _("%s was hit by %s."), city_name(pcity),
+                _("%s was hit by %s."), city_name_get(pcity),
                 disaster_name_translation(pdis));
 
   if (disaster_has_effect(pdis, DE_POLLUTION)) {
@@ -3825,7 +3825,7 @@ static void check_city_migrations_player(const struct player *pplayer)
     score_from = city_migration_score(pcity) * 3;
 
     log_debug("[M] T%d check city: %s score: %6.3f (%s)",
-              game.info.turn, city_name(pcity), score_from,
+              game.info.turn, city_name_get(pcity), score_from,
               player_name(pplayer));
 
     /* consider all cities within the maximal possible distance
@@ -3859,7 +3859,7 @@ static void check_city_migrations_player(const struct player *pplayer)
       score_tmp = city_migration_score(acity) * weight;
 
       log_debug("[M] T%d - compare city: %s (%s) dist: %d mgr_dist: %d "
-                "score: %6.3f", game.info.turn, city_name(acity),
+                "score: %6.3f", game.info.turn, city_name_get(acity),
                 player_name(city_owner(acity)), dist, mgr_dist, score_tmp);
 
       if (game.server.mgr_nationchance > 0 && city_owner(acity) == pplayer) {
@@ -3871,7 +3871,7 @@ static void check_city_migrations_player(const struct player *pplayer)
 
           log_debug("[M] T%d - best city (player): %s (%s) score: "
                     "%6.3f (> %6.3f)", game.info.turn,
-                    city_name(best_city_player), player_name(pplayer),
+                    city_name_get(best_city_player), player_name(pplayer),
                     best_city_player_score, score_from);
         }
       } else if (game.server.mgr_worldchance > 0
@@ -3892,7 +3892,7 @@ static void check_city_migrations_player(const struct player *pplayer)
 
           log_debug("[M] T%d - best city (world): %s (%s) score: "
                     "%6.3f (> %6.3f)", game.info.turn,
-                    city_name(best_city_world),
+                    city_name_get(best_city_world),
                     player_name(city_owner(best_city_world)),
                     best_city_world_score, score_from);
         }

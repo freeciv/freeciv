@@ -1060,7 +1060,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     pEditor->stock = pCity->shield_stock;
     worklist_copy(&pEditor->worklist_copy, &pCity->worklist);
     fc_snprintf(pEditor->worklist_name, sizeof(pEditor->worklist_name),
-                "%s worklist", city_name(pCity));
+                "%s worklist", city_name_get(pCity));
   } else if (gwl != NULL) {
     pEditor->pCity = NULL;
     pEditor->global_worklist_id = global_worklist_id(gwl);
@@ -1095,7 +1095,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
   /* ---------------- */
   if (pCity) {
-    fc_snprintf(cbuf, sizeof(cbuf), _("Worklist of\n%s"), city_name(pCity));
+    fc_snprintf(cbuf, sizeof(cbuf), _("Worklist of\n%s"), city_name_get(pCity));
     external_entries = 1; /* Current production */
   } else {
     fc_snprintf(cbuf, sizeof(cbuf), "%s", global_worklist_name(gwl));

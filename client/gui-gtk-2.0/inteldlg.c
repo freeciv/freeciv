@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -390,7 +390,7 @@ void update_intel_dialog(struct player *p)
         case LABEL_CAPITAL:
           pcity = player_capital(p);
           /* TRANS: "unknown" location */
-          buf = g_strdup((!pcity) ? _("(unknown)") : city_name(pcity));
+          buf = g_strdup((!pcity) ? _("(unknown)") : city_name_get(pcity));
           break;
         case LABEL_GOLD:
           buf = g_strdup_printf("%d", p->economic.gold);

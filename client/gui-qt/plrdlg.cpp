@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -448,7 +448,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     + QString("</b></td><td>") + QString(government_name_for_player(pplayer))
     + QString("</td></tr><tr><td><b>") + _("Capital:")
     + QString("</b></td><td>")
-    + QString(((!pcity) ? _("(unknown)") : city_name(pcity)))
+    + QString(((!pcity) ? _("(unknown)") : city_name_get(pcity)))
     + QString("</td></tr><tr><td><b>") + _("Gold:")
     + QString("</b></td><td>") + QString::number(pplayer->economic.gold)
     + QString("</td></tr><tr><td><b>") + _("Tax:")

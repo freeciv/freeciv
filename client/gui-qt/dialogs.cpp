@@ -1367,13 +1367,13 @@ void popup_action_selection(struct unit *actor_unit,
     astr_set(&text,
              _("Your %s from %s reaches the city of %s.\nWhat now?"),
              unit_name_translation(actor_unit),
-             city_name(actor_homecity),
-             city_name(target_city));
+             city_name_get(actor_homecity),
+             city_name_get(target_city));
   } else if (target_city) {
     astr_set(&text,
              _("Your %s has arrived at %s.\nWhat is your command?"),
              unit_name_translation(actor_unit),
-             city_name(target_city));
+             city_name_get(target_city));
   } else if (target_unit) {
     astr_set(&text,
              /* TRANS: Your Spy is ready to act against Roman Freight. */
@@ -2032,7 +2032,7 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
     QMessageBox incite_impossible;
 
     fc_snprintf(buf2, ARRAY_SIZE(buf2),
-                _("You can't incite a revolt in %s."), city_name(tcity));
+                _("You can't incite a revolt in %s."), city_name_get(tcity));
     incite_impossible.setText(QString(buf2));
     incite_impossible.exec();
   } else if (cost <= client_player()->economic.gold) {

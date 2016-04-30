@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ void real_city_log(const char *file, const char *function, int line,
 
   fc_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d] {%s} ",
               nation_rule_name(nation_of_city(pcity)),
-              city_name(pcity),
+              city_name_get(pcity),
               TILE_XY(pcity->tile), city_size_get(pcity),
               aibuf);
 

@@ -589,7 +589,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
     log_verbose("Changed homecity of %s %s to %s",
                 nation_rule_name(nation_of_player(from_player)),
                 unit_rule_name(punit),
-                city_name(tocity));
+                city_name_get(tocity));
     if (verbose) {
       notify_player(from_player, unit_tile(punit),
                     E_UNIT_RELOCATED, ftc_server,
@@ -635,7 +635,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 
     if (in_city) {
       log_verbose("Transferred %s in %s from %s to %s",
-                  unit_rule_name(punit), city_name(in_city),
+                  unit_rule_name(punit), city_name_get(in_city),
                   nation_rule_name(nation_of_player(from_player)),
                   nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
@@ -709,7 +709,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 {
   struct tile *ptile = pcity->tile;
   int saved_id = pcity->id;
-  const char *name = city_name(pcity);
+  const char *name = city_name_get(pcity);
 
   /* Transfer enemy units in the city to the new owner.
    * Only relevant if we are transferring to another player. */
@@ -1126,9 +1126,9 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
   ASSERT_VISION(new_vision);
 
-  sz_strlcpy(old_city_name, city_name(pcity));
+  sz_strlcpy(old_city_name, city_name_get(pcity));
   if (CNM_PLAYER_UNIQUE == game.server.allowed_city_names
-      && city_list_find_name(ptaker->cities, city_name(pcity))) {
+      && city_list_find_name(ptaker->cities, city_name_get(pcity))) {
     sz_strlcpy(pcity->name,
 	       city_name_suggestion(ptaker, pcenter));
     notify_player(ptaker, pcenter, E_BAD_COMMAND, ftc_server,
@@ -2150,7 +2150,7 @@ void send_player_cities(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     if (city_refresh(pcity)) {
       log_error("%s radius changed while sending to player.",
-                city_name(pcity));
+                city_name_get(pcity));
 
       /* Make sure that no workers in illegal position outside radius. */
       auto_arrange_workers(pcity);
@@ -2306,7 +2306,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->id = pcity->id;
   packet->owner = player_number(city_owner(pcity));
   packet->tile = tile_index(city_tile(pcity));
-  sz_strlcpy(packet->name, city_name(pcity));
+  sz_strlcpy(packet->name, city_name_get(pcity));
 
   packet->size = city_size_get(pcity);
   for (i = 0; i < FEELING_LAST; i++) {
@@ -2372,7 +2372,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
       /* In all builds have an error message shown. */
       log_error("City size %d, citizen count %d for %s",
-                packet->size, ppl, city_name(pcity));
+                packet->size, ppl, city_name_get(pcity));
 
       /* Try to fix */
       city_refresh(pcity);
@@ -2510,7 +2510,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
              && BV_ARE_EQUAL(pdcity->improvements, improvements)
              && vision_site_size_get(pdcity) == city_size_get(pcity)
              && vision_site_owner(pdcity) == city_owner(pcity)
-             && 0 == strcmp(pdcity->name, city_name(pcity))) {
+             && 0 == strcmp(pdcity->name, city_name_get(pcity))) {
     return FALSE;
   }
 
@@ -3116,12 +3116,12 @@ bool city_map_update_radius_sq(struct city *pcity)
     return FALSE;;
   }
 
-  log_debug("[%s (%d)] city_map_radius_sq: %d => %d", city_name(pcity),
+  log_debug("[%s (%d)] city_map_radius_sq: %d => %d", city_name_get(pcity),
             pcity->id, city_radius_sq_old, city_radius_sq_new);
 
   /* workers map before */
   log_debug("[%s (%d)] city size: %d; specialists: %d (before change)",
-            city_name(pcity), pcity->id, city_size_get(pcity),
+            city_name_get(pcity), pcity->id, city_size_get(pcity),
             city_specialists(pcity));
   citylog_map_workers(LOG_DEBUG, pcity);
 
@@ -3180,13 +3180,13 @@ bool city_map_update_radius_sq(struct city *pcity)
 
   notify_player(city_owner(pcity), city_tile(pcity), E_CITY_RADIUS_SQ,
                 ftc_server, _("The size of the city map of %s is %s."),
-                city_name(pcity),
+                city_name_get(pcity),
                 city_tiles_old < city_tiles_new ? _("increased")
                                                 : _("reduced"));
 
   /* workers map after */
   log_debug("[%s (%d)] city size: %d; specialists: %d (after change)",
-            city_name(pcity), pcity->id, city_size_get(pcity),
+            city_name_get(pcity), pcity->id, city_size_get(pcity),
             city_specialists(pcity));
   citylog_map_workers(LOG_DEBUG, pcity);
 

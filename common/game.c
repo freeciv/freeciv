@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -184,7 +184,7 @@ void game_remove_unit(struct unit *punit)
               TILE_XY(pcity->tile),
               punit->homecity,
               nation_rule_name(nation_of_city(pcity)),
-              city_name(pcity));
+              city_name_get(pcity));
   } else if (IDENTITY_NUMBER_ZERO == punit->homecity) {
     log_debug("game_remove_unit() at (%d,%d) unit %d, %s %s home %d",
               TILE_XY(unit_tile(punit)),
@@ -228,13 +228,13 @@ void game_remove_city(struct city *pcity)
   if (NULL == pcenter) {
     log_debug("game_remove_city() virtual city %d, %s",
               pcity->id,
-              city_name(pcity));
+              city_name_get(pcity));
   } else {
     log_debug("game_remove_city() at (%d,%d) city %d, %s %s",
               TILE_XY(pcenter),
               pcity->id,
               nation_rule_name(nation_of_player(powner)),
-              city_name(pcity));
+              city_name_get(pcity));
 
     city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
       if (tile_worked(ptile) == pcity) {

@@ -179,7 +179,7 @@ void popup_find_dialog(void)
 
   players_iterate(pPlayer) {
     city_list_iterate(pPlayer->cities, pCity) {
-      fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name(pCity),
+      fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name_get(pCity),
                   city_size_get(pCity));
 
       pstr = create_utf8_from_char(cBuf, adj_font(10));

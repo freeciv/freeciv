@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -646,7 +646,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
 	    cat_snprintf(buffer, sizeof(buffer),
                          _("\nCity of %s"),
-                         city_name(pCity));
+                         city_name_get(pCity));
 
 #if 0
             /* This has hardcoded assumption that EFT_LAND_REGEN is always
@@ -822,7 +822,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                       (vetname != NULL ? vetname : ""),
                       unit_activity_text(aunit),
                       aunit->hp, pUType->hp,
-                      pHome_City ? city_name(pHome_City) : Q_("?homecity:None"));
+                      pHome_City ? city_name_get(pHome_City) : Q_("?homecity:None"));
 
           buf_surf = create_surf(tileset_full_tile_width(tileset),
                                  tileset_full_tile_height(tileset), SDL_SWSURFACE);

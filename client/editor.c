@@ -1572,7 +1572,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
 
         pcity = tile_city(ptile);
         fc_snprintf(name, sizeof(name), "Copy of %s",
-                    city_name(pcity));
+                    city_name_get(pcity));
         vcity = create_city_virtual(city_owner(pcity), NULL, name);
         city_size_set(vcity, city_size_get(pcity));
         improvement_iterate(pimprove) {

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -326,7 +326,7 @@ void adv_city_worker_act_set(struct city *pcity, int city_tile_index,
   if (pcity->server.adv->act_cache_radius_sq
       != city_map_radius_sq_get(pcity)) {
     log_debug("update activity cache for %s: radius_sq changed from "
-              "%d to %d", city_name(pcity),
+              "%d to %d", city_name_get(pcity),
               pcity->server.adv->act_cache_radius_sq,
               city_map_radius_sq_get(pcity));
     adv_city_update(pcity);
@@ -369,7 +369,7 @@ void adv_city_worker_extra_set(struct city *pcity, int city_tile_index,
   if (pcity->server.adv->act_cache_radius_sq
       != city_map_radius_sq_get(pcity)) {
     log_debug("update activity cache for %s: radius_sq changed from "
-              "%d to %d", city_name(pcity),
+              "%d to %d", city_name_get(pcity),
               pcity->server.adv->act_cache_radius_sq,
               city_map_radius_sq_get(pcity));
     adv_city_update(pcity);
@@ -395,7 +395,7 @@ void adv_city_worker_rmextra_set(struct city *pcity, int city_tile_index,
   if (pcity->server.adv->act_cache_radius_sq
       != city_map_radius_sq_get(pcity)) {
     log_debug("update activity cache for %s: radius_sq changed from "
-              "%d to %d", city_name(pcity),
+              "%d to %d", city_name_get(pcity),
               pcity->server.adv->act_cache_radius_sq,
               city_map_radius_sq_get(pcity));
     adv_city_update(pcity);
