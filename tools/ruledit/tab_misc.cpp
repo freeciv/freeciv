@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QRadioButton>
 #include <QTableWidget>
 
 // utility
@@ -48,6 +49,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
 {
   QGridLayout *main_layout = new QGridLayout(this);
   QLabel *save_label;
+  QLabel *save_ver_label;
   QLabel *name_label;
   QLabel *version_label;
   QPushButton *save_button;
@@ -76,6 +78,11 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   savedir->setText("ruledit-tmp");
   savedir->setFocus();
   main_layout->addWidget(savedir, row++, 1);
+  save_ver_label = new QLabel(QString::fromUtf8(R__("Version suffix to directory name")));
+  save_ver_label->setParent(this);
+  main_layout->addWidget(save_ver_label, row, 0);
+  savedir_version = new QRadioButton(this);
+  main_layout->addWidget(savedir_version, row++, 1);
   save_button = new QPushButton(QString::fromUtf8(R__("Save now")), this);
   connect(save_button, SIGNAL(pressed()), this, SLOT(save_now()));
   main_layout->addWidget(save_button, row++, 1);
@@ -180,6 +187,7 @@ void tab_misc::refresh()
 void tab_misc::save_now()
 {
   char nameUTF8[MAX_LEN_NAME];
+  QString full_dir;
 
   ui->flush_widgets();
 
@@ -204,7 +212,13 @@ void tab_misc::save_now()
     }
   }
 
-  save_ruleset(savedir->text().toUtf8().data(), nameUTF8,
+  if (savedir_version->isChecked()) {
+    full_dir = savedir->text() + "-" + version->text();
+  } else {
+    full_dir = savedir->text();
+  }
+
+  save_ruleset(full_dir.toUtf8().data(), nameUTF8,
                &(ui->data));
 
   ui->display_msg(R__("Ruleset saved"));
