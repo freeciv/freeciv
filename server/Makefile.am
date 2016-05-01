@@ -18,6 +18,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/ai/classic \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/common/aicore \
+	-I$(top_srcdir)/common/networking \
 	-I$(top_srcdir)/common/scriptcore \
 	-I$(top_srcdir)/utility \
 	-I$(srcdir)/advisors \

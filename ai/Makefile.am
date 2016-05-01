@@ -15,6 +15,7 @@ module_dirs += threaded
 endif
 
 AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common \
+ -I$(top_srcdir)/common/networking \
  -I$(top_srcdir)/dependencies/tinycthread
 
 if AI_MODULES

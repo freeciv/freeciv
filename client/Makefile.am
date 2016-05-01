@@ -69,10 +69,14 @@ endif
 SUBDIRS = $(GUI_SUBDIRS) $(CLI_INCLUDE) agents luascript
 
 AM_CPPFLAGS = \
-	-I$(top_srcdir)/utility -I$(srcdir)/include \
-	-I$(top_srcdir)/common -I$(top_srcdir)/common/aicore \
+	-I$(top_srcdir)/utility \
+	-I$(srcdir)/include \
+	-I$(top_srcdir)/common \
+	-I$(top_srcdir)/common/aicore \
+	-I$(top_srcdir)/common/networking \
 	-I$(top_srcdir)/common/scriptcore \
-	-I$(srcdir)/luascript -I$(srcdir)/agents \
+	-I$(srcdir)/luascript \
+	-I$(srcdir)/agents \
 	$(CLIENT_CFLAGS) $(SOUND_CFLAGS) \
 	-I$(top_srcdir)/dependencies/cvercmp \
 	-I$(top_srcdir)/dependencies/tinycthread

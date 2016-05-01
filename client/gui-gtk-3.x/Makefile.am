@@ -1,10 +1,16 @@
 ## Process this file with automake to produce Makefile.in
 
 noinst_LTLIBRARIES = libgui-gtk3x.la
-AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include \
-	-I$(top_srcdir)/utility -I$(top_srcdir)/common \
-	-I$(top_srcdir)/common/aicore -I$(top_srcdir)/common/scriptcore \
-	-I$(srcdir)/../agents  -I$(srcdir)/../luascript \
+AM_CPPFLAGS = \
+	-I$(srcdir)/.. \
+	-I$(srcdir)/../include \
+	-I$(top_srcdir)/utility \
+	-I$(top_srcdir)/common \
+	-I$(top_srcdir)/common/aicore \
+	-I$(top_srcdir)/common/networking \
+	-I$(top_srcdir)/common/scriptcore \
+	-I$(srcdir)/../agents \
+	-I$(srcdir)/../luascript \
 	-I$(top_srcdir)/dependencies/tinycthread \
 	$(gui_gtk3x_cflags) $(SOUND_CFLAGS)
 

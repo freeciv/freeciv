@@ -1,10 +1,17 @@
 ## Process this file with automake to produce Makefile.in
 
 noinst_LTLIBRARIES = libgui-gtk2.la
-AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include \
-	-I$(top_srcdir)/utility -I$(top_srcdir)/common \
-	-I$(top_srcdir)/common/aicore -I$(top_srcdir)/common/scriptcore \
-	-I$(srcdir)/../agents  -I$(srcdir)/../luascript \
+AM_CPPFLAGS = \
+	-I. \
+	-I$(srcdir)/.. \
+	-I$(srcdir)/../include \
+	-I$(top_srcdir)/utility \
+	-I$(top_srcdir)/common \
+	-I$(top_srcdir)/common/aicore \
+	-I$(top_srcdir)/common/networking \
+	-I$(top_srcdir)/common/scriptcore \
+	-I$(srcdir)/../agents \
+	-I$(srcdir)/../luascript \
 	-I$(top_srcdir)/dependencies/tinycthread \
 	$(gui_gtk2_cflags) $(SOUND_CFLAGS)
 

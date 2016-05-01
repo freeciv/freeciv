@@ -1628,6 +1628,7 @@ AC_CONFIG_FILES([Makefile
           dependencies/tinycthread/Makefile
 	  common/Makefile
           common/aicore/Makefile
+          common/networking/Makefile
           common/scriptcore/Makefile
 	  ai/Makefile
           ai/default/Makefile

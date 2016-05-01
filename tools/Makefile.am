@@ -39,6 +39,7 @@ common_cppflags = \
 	-I$(top_srcdir)/dependencies/cvercmp \
 	-I$(top_srcdir)/utility \
 	-I$(top_srcdir)/common \
+	-I$(top_srcdir)/common/networking \
 	-I$(top_srcdir)/server \
 	-I$(top_srcdir)/client \
 	-I$(top_srcdir)/client/include \

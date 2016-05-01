@@ -2,7 +2,10 @@
 
 aimodule_LTLIBRARIES = fc_ai_stub.la
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common
+AM_CPPFLAGS = \
+	-I$(top_srcdir)/utility \
+	-I$(top_srcdir)/common \
+	-I$(top_srcdir)/common/networking
 
 fc_ai_stub_la_SOURCES = stubai.c
 

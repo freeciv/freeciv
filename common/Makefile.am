@@ -1,12 +1,13 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = aicore scriptcore
+SUBDIRS = aicore networking scriptcore
 
 lib_LTLIBRARIES = libfreeciv.la
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility \
 	-I$(srcdir)/aicore \
+	-I$(srcdir)/networking \
 	-I$(srcdir)/scriptcore \
 	-I$(top_srcdir)/dependencies/tinycthread \
 	$(MAPIMG_WAND_CFLAGS) $(JANSSON_CFLAGS)
@@ -34,15 +35,9 @@ libfreeciv_la_SOURCES = \
 		clientutils.h	\
 		combat.c	\
 		combat.h	\
-		connection.c	\
-		connection.h	\
 		culture.c	\
 		culture.h	\
 		dataio.h	\
-		dataio_json.c	\
-		dataio_json.h	\
-		dataio_raw.c	\
-		dataio_raw.h	\
 		diptreaty.c	\
 		diptreaty.h	\
 		disaster.c	\
@@ -82,12 +77,8 @@ libfreeciv_la_SOURCES = \
 		name_translation.h \
 		nation.c        \
 		nation.h        \
-		packets.c	\
-		packets.h	\
 		packets_gen.c	\
 		packets_gen.h	\
-		packets_json.h	\
-		packets_json.c	\
 		player.c	\
 		player.h	\
 		requirements.c	\
@@ -139,11 +130,13 @@ EXTRA_DIST = \
 libfreeciv_la_DEPENDENCIES = \
 	$(top_builddir)/utility/libcivutility.la \
 	$(top_builddir)/common/aicore/libaicore.la \
+	$(top_builddir)/common/networking/libfcivnetwork.la \
 	$(top_builddir)/common/scriptcore/libscriptcore.la
 
 libfreeciv_la_LIBADD = \
 	$(top_builddir)/utility/libcivutility.la \
 	$(top_builddir)/common/aicore/libaicore.la \
+	$(top_builddir)/common/networking/libfcivnetwork.la \
 	$(top_builddir)/common/scriptcore/libscriptcore.la \
 	$(COMMON_LIBS)
 
