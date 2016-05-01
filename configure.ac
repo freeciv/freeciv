@@ -252,14 +252,14 @@ if test x$ipv6 != xno ; then
   if test x$enable_ipv6 = xyes ; then
     AC_MSG_CHECKING([for AF_INET6])
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#ifdef FREECIV_HAVE_WINSOCK2
+#include <winsock2.h>
+#endif
 #ifdef FREECIV_HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
 #ifdef FREECIV_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-#endif
-#ifdef FREECIV_HAVE_WINSOCK2
-#include <winsock2.h>
 #endif]], [[return AF_INET6;]])], [AC_MSG_RESULT([yes])],
        [AC_MSG_RESULT([no])
         enable_ipv6=no])
