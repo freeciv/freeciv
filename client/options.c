@@ -5056,18 +5056,6 @@ static void save_cma_presets(struct section_file *file)
   }
 }
 
-#ifndef DIR_SEPARATOR
-#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
-  /* Win32, OS/2, DOS */
-# define DIR_SEPARATOR "\\"
-# define DIR_SEPARATOR_CHAR '\\'
-#else
-  /* Unix */
-# define DIR_SEPARATOR "/"
-# define DIR_SEPARATOR_CHAR '/'
-#endif
-#endif
-
 /* Old rc file name. */
 #define OLD_OPTION_FILE_NAME ".civclientrc"
 /* New rc file name. */

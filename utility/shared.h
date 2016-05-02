@@ -105,6 +105,30 @@ enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
     }									    \
   }
 
+#ifndef PATH_SEPARATOR
+#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
+  /* Win32, OS/2, DOS */
+# define PATH_SEPARATOR ";"
+#else
+  /* Unix */
+# define PATH_SEPARATOR ":"
+#endif
+#endif /* PATH_SEPARATOR */
+
+#ifndef DIR_SEPARATOR
+#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
+  /* Win32, OS/2, DOS */
+# define DIR_SEPARATOR "\\"
+# define DIR_SEPARATOR_CHAR '\\'
+#else
+  /* Unix */
+# define DIR_SEPARATOR "/"
+# define DIR_SEPARATOR_CHAR '/'
+#endif
+#endif /* DIR_SEPARATOR */
+
+#define PARENT_DIR_OPERATOR ".."
+
 char *create_centered_string(const char *s);
 
 char *get_option_malloc(const char *option_name,
