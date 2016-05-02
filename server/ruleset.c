@@ -2931,23 +2931,23 @@ static bool load_ruleset_terrain(struct section_file *file,
 
       sz_strlcpy(identifier,
                  secfile_lookup_str(file,"%s.identifier", rsection));
-      presource->identifier = identifier[0];
-      if (RESOURCE_NULL_IDENTIFIER == presource->identifier) {
+      presource->id_old_save = identifier[0];
+      if (RESOURCE_NULL_IDENTIFIER == presource->id_old_save) {
         ruleset_error(LOG_ERROR, "\"%s\" [%s] identifier missing value.",
                       filename, rsection);
         ok = FALSE;
         break;
       }
-      if (RESOURCE_NONE_IDENTIFIER == presource->identifier) {
+      if (RESOURCE_NONE_IDENTIFIER == presource->id_old_save) {
         ruleset_error(LOG_ERROR,
                       "\"%s\" [%s] cannot use '%c' as an identifier;"
                       " it is reserved.",
-                      filename, rsection, presource->identifier);
+                      filename, rsection, presource->id_old_save);
         ok = FALSE;
         break;
       }
       for (j = 0; j < i; j++) {
-        if (presource->identifier == resource_by_number(j)->identifier) {
+        if (presource->id_old_save == resource_by_number(j)->id_old_save) {
           ruleset_error(LOG_ERROR,
                         "\"%s\" [%s] has the same identifier as [%s].",
                         filename,

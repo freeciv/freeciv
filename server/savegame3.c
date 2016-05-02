@@ -1165,7 +1165,7 @@ static struct resource_type *char2resource(char c)
 ****************************************************************************/
 static char resource2char(const struct resource_type *presource)
 {
-  return presource ? presource->identifier : RESOURCE_NONE_IDENTIFIER;
+  return presource ? presource->id_old_save : RESOURCE_NONE_IDENTIFIER;
 }
 
 /****************************************************************************

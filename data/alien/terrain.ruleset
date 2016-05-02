@@ -540,6 +540,8 @@ Cities can work these tiles only when Thermal Module is known, and \
 city can never be located on Boiling Ocean.\
 ")
 
+; /* <-- avoid gettext warnings
+;
 ; The individual resource types, one per section.
 ; Roughly sorted by identifier.
 ; The actual tag used (the * in [resource_*]) must be unique for each resource,
@@ -548,12 +550,14 @@ city can never be located on Boiling Ocean.\
 ; Notes:
 ;
 ; extra                = name of the extra this resource section is part of
-; identifier           = single-character identifier used in savegames.  This
+; identifier           = single-character identifier used in old savegames. This
 ;                        must be unique for each resource, and changing it will
-;                        break savegame compatibility.
+;                        break loading those old savegames.
 ; food                 = increased food production
 ; shield               = increased shield production
 ; trade                = increased trade production
+;
+; */ <-- avoid gettext warnings
 
 [resource_resources]
 extra       = "Resources"

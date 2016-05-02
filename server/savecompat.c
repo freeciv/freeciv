@@ -249,6 +249,20 @@ struct extra_type *special_extra_get(int spe)
   return NULL;
 }
 
+/****************************************************************************
+  Return the resource type matching the identifier, or NULL when none matches.
+****************************************************************************/
+struct resource_type *resource_by_identifier(const char identifier)
+{
+  resource_type_iterate(presource) {
+    if (presource->id_old_save == identifier) {
+      return presource;
+    }
+  } resource_type_iterate_end;
+
+  return NULL;
+}
+
 /* =======================================================================
  * Compatibility functions for loading a game.
  * ======================================================================= */

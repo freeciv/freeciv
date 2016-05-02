@@ -360,20 +360,6 @@ struct resource_type *resource_by_number(const Resource_type_id type)
 }
 
 /****************************************************************************
-  Return the resource type matching the identifier, or NULL when none matches.
-****************************************************************************/
-struct resource_type *resource_by_identifier(const char identifier)
-{
-  resource_type_iterate(presource) {
-    if (presource->identifier == identifier) {
-      return presource;
-    }
-  } resource_type_iterate_end;
-
-  return NULL;
-}
-
-/****************************************************************************
   Return the resource type matching the name, or NULL when none matches.
 ****************************************************************************/
 struct resource_type *resource_by_rule_name(const char *name)

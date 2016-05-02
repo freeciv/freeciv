@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ enum special_river_move {
 struct resource_type {
   int item_number;
 
-  char identifier; /* Single-character identifier used in savegames. */
+  char id_old_save; /* Single-character identifier used in old savegames. */
 #define RESOURCE_NULL_IDENTIFIER '\0'
 #define RESOURCE_NONE_IDENTIFIER ' '
 
@@ -313,7 +313,6 @@ Resource_type_id resource_index(const struct resource_type *presource);
 Resource_type_id resource_number(const struct resource_type *presource);
 
 struct resource_type *resource_by_number(const Resource_type_id id);
-struct resource_type *resource_by_identifier(const char identifier);
 struct resource_type *resource_by_rule_name(const char *name);
 
 const char *resource_rule_name(const struct resource_type *presource);

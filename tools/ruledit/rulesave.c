@@ -1999,7 +1999,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       }
     } output_type_iterate_end;
 
-    identifier[0] = pres->identifier;
+    identifier[0] = pres->id_old_save;
     identifier[1] = '\0';
     secfile_insert_str(sfile, identifier, "%s.identifier", path);
   } resource_type_iterate_end;
