@@ -2622,7 +2622,7 @@ void unqueue_mapview_updates(bool write_to_screen)
     tile_updates[i] = NULL;
   }
 
-  if (map_exists()) {
+  if (!map_is_empty()) {
     if ((needed_updates & UPDATE_MAP_CANVAS_VISIBLE)
 	|| (needed_updates & UPDATE_CITY_DESCRIPTIONS)
         || (needed_updates & UPDATE_TILE_LABELS)) {
@@ -3132,7 +3132,7 @@ bool map_canvas_resized(int width, int height)
     canvas_set_zoom(mapview.tmp_store, map_zoom);
   }
 
-  if (map_exists() && can_client_change_view()) {
+  if (!map_is_empty() && can_client_change_view()) {
     if (tile_size_changed) {
       if (center_tile != NULL) {
         int x0, y0;

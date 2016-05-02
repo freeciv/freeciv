@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -428,7 +428,7 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
    * the map canvas, for instance, it gets called any time the mouse is
    * clicked. */
   gdk_window_get_pointer(map_canvas->window, &canvas_x, &canvas_y, NULL);
-  if (map_exists()
+  if (!map_is_empty()
       && canvas_x >= 0 && canvas_y >= 0
       && canvas_x < mapview.width && canvas_y < mapview.height) {
     control_mouse_cursor(canvas_pos_to_tile(canvas_x, canvas_y));

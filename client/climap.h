@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,10 +18,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
 #include "fc_types.h"           /* enum direction8, struct tile */
 #include "tile.h"               /* enum known_type */
-
-#define map_exists() (game.map.tiles != NULL)
 
 enum known_type client_tile_get_known(const struct tile *ptile);
 

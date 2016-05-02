@@ -402,7 +402,7 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 **************************************************************************/
 gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
 {
-  if (can_client_change_view() && map_exists() && !mapview_is_frozen()) {
+  if (can_client_change_view() && !map_is_empty() && !mapview_is_frozen()) {
     /* First we mark the area to be updated as dirty.  Then we unqueue
      * any pending updates, to make sure only the most up-to-date data
      * is written (otherwise drawing bugs happen when old data is copied

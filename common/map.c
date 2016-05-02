@@ -139,14 +139,14 @@ bv_extras get_tile_infrastructure_set(const struct tile *ptile,
 }
 
 /***************************************************************
-  Returns 1 if we are at a stage of the game where the map
+  Returns TRUE if we are at a stage of the game where the map
   has not yet been generated/loaded.
-  (To be precise, returns 1 if map_allocate() has not yet been
+  (To be precise, returns TRUE if map_allocate() has not yet been
   called.)
 ***************************************************************/
 bool map_is_empty(void)
 {
-  return !game.map.tiles;
+  return game.map.tiles == NULL;
 }
 
 /***************************************************************
