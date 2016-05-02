@@ -69,30 +69,6 @@
 
 #include "shared.h"
 
-#ifndef PATH_SEPARATOR
-#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
-  /* Win32, OS/2, DOS */
-# define PATH_SEPARATOR ";"
-#else
-  /* Unix */
-# define PATH_SEPARATOR ":"
-#endif
-#endif
-
-#ifndef DIR_SEPARATOR
-#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
-  /* Win32, OS/2, DOS */
-# define DIR_SEPARATOR "\\"
-# define DIR_SEPARATOR_CHAR '\\'
-#else
-  /* Unix */
-# define DIR_SEPARATOR "/"
-# define DIR_SEPARATOR_CHAR '/'
-#endif
-#endif
-
-#define PARENT_DIR_OPERATOR ".."
-
 /* If no default data path is defined use the default default one */
 #ifndef DEFAULT_DATA_PATH
 #define DEFAULT_DATA_PATH "." PATH_SEPARATOR \
