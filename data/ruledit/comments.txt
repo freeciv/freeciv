@@ -286,7 +286,7 @@ utypes = "\
 ;                 must not change, use this when renaming a unit after a\n\
 ;                 ruleset has been released.\n\
 ; graphic       = tag specifying preferred graphic\n\
-; graphic_alt	= tag for alternate garphic if preferred graphic is not\n\
+; graphic_alt	= tag for alternate graphic if preferred graphic is not\n\
 ;		  present; especially if preferred graphic is non-standard,\n\
 ;		  this should be a standard tag.  Otherwise can use eg \"-\"\n\
 ;		  for no alternate graphic.\n\
