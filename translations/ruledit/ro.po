@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2015-12-09 01:02+0200\n"
 "PO-Revision-Date: 2013-09-09 09:59+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
