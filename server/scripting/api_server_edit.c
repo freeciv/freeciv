@@ -326,13 +326,17 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
       research_pretty_name(presearch, research_name, sizeof(research_name));
 
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                    Q_("?fromscritp:You acquire %s."), adv_name);
+                    Q_("?fromscript:You acquire %s."), adv_name);
       notify_research(presearch, pplayer, E_TECH_GAIN, ftc_server,
-                      Q_("?fromscript:%s acquire %s and share this advance "
-                         "with you."),
+                      /* TRANS: "The Greeks ..." or "The members of
+                       * team Red ..." */
+                      Q_("?fromscript:The %s acquire %s and share this "
+                         "advance with you."),
                       nation_plural_for_player(pplayer), adv_name);
       notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
-                                Q_("?fromscript:%s acquire %s."),
+                                /* TRANS: "The Greeks ..." or "The members of
+                                 * team Red ..." */
+                                Q_("?fromscript:The %s acquire %s."),
                                 research_name, adv_name);
     }
 

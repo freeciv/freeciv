@@ -279,10 +279,12 @@ static void print_usage(void)
              _("Other gui-specific options are:\n"));
 
   fc_fprintf(stderr,
-             _("-r, --resolution MODE\tAssume given resolution screen\n"));
+             _("-r, --resolution WIDTHxHEIGHT\tAssume given resolution "
+               "screen\n"));
   fc_fprintf(stderr,
              /* TRANS: Keep word 'default' untranslated */
-             _("-z, --zoom LEVEL\tSet zoom level. Use value 'default' to reset.\n\n"));
+             _("-z, --zoom LEVEL\tSet zoom level; use value 'default' "
+               "to reset\n\n"));
 
   /* TRANS: No full stop after the URL, could cause confusion. */
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);

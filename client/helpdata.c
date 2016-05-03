@@ -2655,30 +2655,36 @@ static bool insert_requirement(char *buf, size_t bufsz,
       case REQ_RANGE_LOCAL:
         if (preq->present) {
           cat_snprintf(buf, bufsz,
+                       /* TRANS: tile property ("city centers", etc) */
                        Q_("?tileprop:Applies only to %s.\n"), tile_property);
         } else {
           cat_snprintf(buf, bufsz,
+                       /* TRANS: tile property ("city centers", etc) */
                        Q_("?tileprop:Does not apply to %s.\n"), tile_property);
         }
         return TRUE;
       case REQ_RANGE_CADJACENT:
         if (preq->present) {
-          cat_snprintf(buf, bufsz, _("Applies only to %s and "
-                                     "cardinally adjacent tiles.\n"),
+          /* TRANS: tile property ("city centers", etc) */
+          cat_snprintf(buf, bufsz, Q_("?tileprop:Applies only to %s and "
+                                      "cardinally adjacent tiles.\n"),
                        tile_property);
         } else {
-          cat_snprintf(buf, bufsz, _("Does not apply to %s or "
-                                     "cardinally adjacent tiles.\n"),
+          /* TRANS: tile property ("city centers", etc) */
+          cat_snprintf(buf, bufsz, Q_("?tileprop:Does not apply to %s or "
+                                      "cardinally adjacent tiles.\n"),
                        tile_property);
         }
         return TRUE;
       case REQ_RANGE_ADJACENT:
         if (preq->present) {
-          cat_snprintf(buf, bufsz, _("Applies only to %s and "
-                                     "adjacent tiles.\n"), tile_property);
+          /* TRANS: tile property ("city centers", etc) */
+          cat_snprintf(buf, bufsz, Q_("?tileprop:Applies only to %s and "
+                                      "adjacent tiles.\n"), tile_property);
         } else {
-          cat_snprintf(buf, bufsz, _("Does not apply to %s or "
-                                     "adjacent tiles.\n"), tile_property);
+          /* TRANS: tile property ("city centers", etc) */
+          cat_snprintf(buf, bufsz, Q_("?tileprop:Does not apply to %s or "
+                                      "adjacent tiles.\n"), tile_property);
         }
         return TRUE;
       case REQ_RANGE_CITY:
@@ -3485,6 +3491,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     }
     if (VUT_IMPROVEMENT == pobs->source.kind && pobs->present) {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: both %s are improvement names */
                    _("* The presence of %s in the city will make %s "
                      "obsolete.\n"),
                      improvement_name_translation(pobs->source.value.building),
@@ -3777,11 +3784,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, _("* Only barbarians may build this.\n"));
   }
   if (utype_has_flag(utype, UTYF_NEWCITY_GAMES_ONLY)) {
-    CATLSTR(buf, bufsz, _("* This may be built only in games where new cities are allowed.\n"));
+    CATLSTR(buf, bufsz, _("* Can only be built in games where new cities "
+                          "are allowed.\n"));
     if (game.scenario.prevent_new_cities) {
-      CATLSTR(buf, bufsz, _("  - New cities are not allowed in current game.\n"));
+      CATLSTR(buf, bufsz, _("  - New cities are not allowed in the current "
+                            "game.\n"));
     } else {
-      CATLSTR(buf, bufsz, _("  - New cities are allowed in current game.\n"));
+      CATLSTR(buf, bufsz, _("  - New cities are allowed in the current "
+                            "game.\n"));
     }
   }
   nations_iterate(pnation) {
@@ -4125,6 +4135,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     if (strvec_size(extras_vec) > 0) {
       strvec_to_and_list(extras_vec, &extras_and);
+      /* TRANS: list of extras separated by "and" */
       cat_snprintf(buf, bufsz, _("* Can clean %s from tiles.\n"),
                    astr_str(&extras_and));
       strvec_clear(extras_vec);
@@ -4138,6 +4149,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     if (strvec_size(extras_vec) > 0) {
       strvec_to_and_list(extras_vec, &extras_and);
+      /* TRANS: list of extras separated by "and" */
       cat_snprintf(buf, bufsz, _("* Can clean %s from tiles.\n"),
                    astr_str(&extras_and));
       strvec_clear(extras_vec);
@@ -4820,7 +4832,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
   if (is_extra_caused_by(pextra, EC_HUT)
       || (proad != NULL && road_has_flag(proad, RF_RIVER))) {
     CATLSTR(buf, bufsz,
-            _("* Placed by mapgenerator.\n"));
+            _("* Placed by map generator.\n"));
   }
 
   /* XXX Non-zero requirement vector is not a good test of whether
