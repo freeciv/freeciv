@@ -35,7 +35,8 @@ all: gtk3-installer gtk2-installer sdl2-installer qt-installer ruledit-installer
 gtk3x-installer:
 	make GUI=gtk3x FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3x
 
-buildable-win32: gtk3-installer ruledit-installer qt-installer gtk3x-installer
+# These are what can be built in current official environment version
+buildable-win32: gtk3-installer gtk3x-installer
 
 buildable-win64:
 
