@@ -1229,8 +1229,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   if (diplomat_was_caught(act_player, act_unit, tgt_city, tgt_player,
                           action_by_number(ACTION_SPY_STEAL_GOLD))) {
     notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
-                  _("Your %s was caught in an attempt"
-                    " of stealing gold!"),
+                  _("Your %s was caught attempting to steal gold!"),
                   unit_tile_link(act_unit));
     notify_player(tgt_player, tgt_tile, E_ENEMY_DIPLOMAT_FAILED,
                   ftc_server,
@@ -1279,10 +1278,10 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* Notify everyone involved. */
   notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_GOLD, ftc_server,
-                _("Your %s got you %d gold from %s."),
+                _("Your %s stole %d gold from %s."),
                 unit_link(act_unit), gold_give, tgt_city_link);
   notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
-                _("The %s are suspected of taking %d gold from %s."),
+                _("The %s are suspected of stealing %d gold from %s."),
                 nation_plural_for_player(act_player),
                 gold_take, tgt_city_link);
 

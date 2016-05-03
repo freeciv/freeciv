@@ -759,6 +759,7 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
 
   fc_assert_ret(valid_advance_by_number(tech));
   notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
+                            /* TRANS: technology loss */
                             _("The %s have lost %s."),
                             research_name,
                             research_advance_name_translation(presearch,
@@ -1189,10 +1190,9 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
                 advance_name,
                 nation_plural_for_player(victim));
   notify_research(presearch, pplayer, E_TECH_GAIN, ftc_server,
-                  _("You have acquired %s thanks to the %s "
-                    "theft against the %s"),
-                  advance_name,
+                  _("The %s stole %s from the %s and shared it with you."),
                   nation_plural_for_player(pplayer),
+                  advance_name,
                   nation_plural_for_player(victim));
 
   notify_player(victim, NULL, E_ENEMY_DIPLOMAT_THEFT, ftc_server,

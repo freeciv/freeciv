@@ -3670,7 +3670,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
           && pcity->size > 1)) {
     if (!city_reduce_size(pcity, 1, NULL, "disaster")) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    /* TRANS: "Industrial Accident destroys Bogota entirely" */
+                    /* TRANS: "Industrial Accident destroys Bogota entirely." */
                     _("%s destroys %s entirely."),
                     disaster_name_translation(pdis), city_link(pcity));
       pcity = NULL;

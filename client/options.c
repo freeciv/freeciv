@@ -1846,7 +1846,7 @@ static struct client_option client_options[] = {
                     "this from its default value unless you know what "
                     "you're doing."),
                  COC_NETWORK, GUI_STUB, DEFAULT_METASERVER_OPTION, NULL, 0),
-  GEN_BOOL_OPTION(heartbeat_enabled, N_("Send heartbeat messages to server."),
+  GEN_BOOL_OPTION(heartbeat_enabled, N_("Send heartbeat messages to server"),
                   N_("Regularly send empty heartbeat message to the server "
                      "to make sure that the connection is still up. This "
                      "can be useful if the client otherwise may sit for a "
@@ -2177,10 +2177,10 @@ static struct client_option client_options[] = {
                      "city's city dialog automatically."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(popup_actor_arrival, N_("Pop up caravan and spy actions"),
-                  N_("If this option is enabled, when a unit arrieves at "
+                  N_("If this option is enabled, when a unit arrives at "
                      "a city where it can perform an action like "
-                     "establishing a trade route, help build a wonder or "
-                     "establish an embassy, a window will pop up asking "
+                     "establishing a trade route, helping build a wonder, or "
+                     "establishing an embassy, a window will pop up asking "
                      "which action should be performed. "
                      "Disabling this option means you will have to do the "
                      "action manually by pressing either 'r' (for a trade "
@@ -3038,9 +3038,10 @@ static struct client_option client_options[] = {
                      "whole screen area for drawing."),
                   COC_INTERFACE, GUI_QT, FALSE, NULL),
   GEN_BOOL_OPTION(gui_qt_show_titlebar, N_("Show titlebar"),
-                  N_("If this option is set the client will show titlebar "
-                     "If disabled, then minimize/maximize/buttons will be "
-                     "placed on menubar." ),
+                  N_("If this option is set the client will show a titlebar. "
+                     "If disabled, then no titlebar will be shown, and "
+                     "minimize/maximize/etc buttons will be placed on the "
+                     "menu bar."),
                   COC_INTERFACE, GUI_QT, TRUE, NULL),
   GEN_FONT_OPTION(gui_qt_font_city_label, "city_label",
                   N_("City Label"),

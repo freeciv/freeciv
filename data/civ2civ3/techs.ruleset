@@ -559,7 +559,8 @@ graphic     = "a.miniaturization"
 graphic_alt = "-"
 helptext = _("\
 Allows Settlers, Migrants, Workers, Engineers and Transports to build \
-mines on deep ocean, required to get the bonus from Offshore Platforms.\
+oil platforms on deep ocean, required to get the bonus from \
+Offshore Platforms.\
 ")
 cost     = 480
 

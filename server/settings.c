@@ -509,8 +509,8 @@ static const struct sset_val_name *
 scoreloglevel_name(enum scorelog_level sl_level) 
 {
   switch (sl_level) {
-  NAME_CASE(SL_ALL, "ALL", N_("Scorelog all players, AI included"));
-  NAME_CASE(SL_HUMANS, "HUMANS", N_("Scorelog only human players"));
+  NAME_CASE(SL_ALL, "ALL",       N_("All players"));
+  NAME_CASE(SL_HUMANS, "HUMANS", N_("Human players only"));
   }
   return NULL;
 }
@@ -1509,7 +1509,7 @@ static struct setting settings[] = {
            ALLOW_NONE, ALLOW_BASIC,
            N_("Whether there's just one pole generated"),
            N_("If this setting is enabled, only one side of the map will have "
-              "pole. This setting has no effect if the map wraps both "
+              "a pole. This setting has no effect if the map wraps both "
               "directions."), NULL, NULL, MAP_DEFAULT_SINGLE_POLE)
 
   GEN_BOOL("alltemperate", game.map.server.alltemperate, 
@@ -1843,10 +1843,9 @@ static struct setting settings[] = {
   GEN_INT("diplgoldcost", game.server.diplgoldcost,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
           N_("Penalty when getting gold from treaty"),
-          N_("Gold transfer in diplomatic treaties suffer loss percentage "
-             "equal to this percentage. The sum of the treaty is what gets "
-             "subtracted from the one giving gold. Receiver gets the "
-             "penalty."),
+          N_("When transferring gold in diplomatic treaties, this percentage "
+             "of the agreed sum is lost to both parties; it is deducted from "
+             "the donor but not received by the recipient."),
           NULL, NULL, NULL,
           GAME_MIN_DIPLGOLDCOST, GAME_MAX_DIPLGOLDCOST, GAME_DEFAULT_DIPLGOLDCOST)
 
@@ -2801,8 +2800,8 @@ static struct setting settings[] = {
            SSET_META, SSET_INTERNAL, SSET_SITUATIONAL,
            ALLOW_HACK, ALLOW_HACK,
            N_("Scorelog level"),
-           N_("Whether scores are logged from all players, AI included, "
-              "or only from human players."), NULL, NULL, NULL,
+           N_("Whether scores are logged for all players including AIs, "
+              "or only for human players."), NULL, NULL, NULL,
            scoreloglevel_name, GAME_DEFAULT_SCORELOGLEVEL)
 
   GEN_STRING("scorefile", game.server.scorefile,

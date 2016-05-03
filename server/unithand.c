@@ -3142,9 +3142,8 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 
   case MR_NON_NATIVE_MOVE:
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
-                  _("%s cannot move here without a native path for %s"),
-                    unit_link(punit),
-                    uclass_name_translation(unit_class_get(punit)));
+                  _("Terrain is unsuitable for %s units."),
+                  uclass_name_translation(unit_class_get(punit)));
     break;
 
   default:
@@ -3594,12 +3593,15 @@ static bool do_unit_establish_trade(struct player *pplayer,
   case TBONUS_NONE:
     break;
   case TBONUS_GOLD:
+    /* TRANS: used as part of caravan revenue sentence. */
     bonus_str = _("gold");
     break;
   case TBONUS_SCIENCE:
+    /* TRANS: used as part of caravan revenue sentence. */
     bonus_str = _("research");
     break;
   case TBONUS_BOTH:
+    /* TRANS: used as part of caravan revenue sentence. */
     bonus_str = _("gold and research");
     break;
   }
