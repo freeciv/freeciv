@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2014-10-28 06:23+0100\n"
 "PO-Revision-Date: 2016-01-11 09:09+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
