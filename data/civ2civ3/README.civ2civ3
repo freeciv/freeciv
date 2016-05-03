@@ -65,9 +65,9 @@ CORE CHANGES:
   tiles worked in the newly created city.
 
 - Disabled national Trade Routes: it is still possible to create Trade
-  Routes, but only to foreign cities (max 2 per city). Caravans and
-  Freights can only travel on roads, rivers or ships. Halved the
-  revenues.
+  Routes, but only to foreign cities that you are not at war with.
+  Each city can support a maximum of 2 trade routes. Removed the one
+  time revenues. 
 
 - Every unit pays some kind of Upkeep cost. Under some governments, this
   upkeep is changed from Shields to Gold (similar to civ3).
@@ -579,8 +579,8 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
   Control that would affect the movements of enemy units.
 
 - Created a new unit class for Caravans and Freights ("Merchant") that
-  can only travel on roads, railroads, rivers or ships. They can only
-  establish Trade Routes to foreign cities. And they can be captured.
+  doesn't get the unlimited movement from Maglev, and can be captured.
+  They can only establish Trade Routes to foreign cities.
 
 - Land units can capture enemy Migrants (as slaves) and
   Caravans/Freights (as loot).
