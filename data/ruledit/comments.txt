@@ -488,3 +488,129 @@ utypes = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+terrains = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; The individual terrain types, one per section.\n\
+; Roughly sorted by identifier.\n\
+; The actual tag used (the * in [terrain_*]) must be unique for each terrain,\n\
+; and may be used in debug output when reading this file.\n\
+;\n\
+; Notes:\n\
+;\n\
+; name                 = translatable name as seen by user; if \"unused\", it is\n\
+;                        not used, but is included for conversion and/or the\n\
+;                        editor.\n\
+; rule_name            = (optional) name for savegames, rulesets etc; if not\n\
+;                        present, 'name' is used. Since the name used in\n\
+;                        savegames must not change, use this when renaming a\n\
+;                        terrain after a ruleset has been released.\n\
+; graphic              = preferred graphic; Tilespec [tile_*] section\n\
+;                        with 'tag' matching this will be used.\n\
+; graphic_alt          = alternate graphic. When no tilespec 'tag' matching\n\
+;                        preferred graphic is not found, this will be used.\n\
+;                        Otherwise may be \"-\"\n\
+; identifier           = single-character identifier used in savegames. This\n\
+;                        must be unique for each terrain.\n\
+; class                = Terrain class terrain belongs to: \"Land\" or \"Oceanic\"\n\
+; movement_cost        = in whole movement points, not move_fragments;\n\
+;                        typically 1 to 3\n\
+; defense_bonus        = percent added to defense; typically 0% to 200%\n\
+; food                 = normal food production\n\
+; shield               = normal shield production\n\
+; trade                = normal trade production\n\
+; resources            = list of possible resources on this terrain\n\
+; road_food_incr_pct   = percent of road food_incr applied to this terrain\n\
+; road_shield_incr_pct = percent of road shield_incr applied to this terrain\n\
+; road_trade_incr_pct  = percent of road trade_incr applied to this terrain\n\
+; base_time            = time to build bases; if 0, cannot build any bases.\n\
+;                        Nonzero values only affect extras with build_time 0.\n\
+; road_time            = time to build roads; if 0, cannot build any roads.\n\
+;                        Nonzero values only affect extras with build_time 0.\n\
+; irrigation_result    = result of irrigation; one of:\n\
+;                        \"no\"  -- cannot irrigate\n\
+;                        \"yes\" -- can irrigate\n\
+;                        terrain section -- irrigation changes to that terrain\n\
+; irrigation_food_incr = increment to food if tile is irrigated\n\
+; irrigation_time      = time to irrigate; if 0, cannot irrigate\n\
+;                        Nonzero values only affect extras with build_time 0.\n\
+; mining_result        = result of mining; one of:\n\
+;                        \"no\"  -- cannot mine\n\
+;                        \"yes\" -- can mine\n\
+;                        terrain section -- mining changes to that terrain\n\
+; mining_shield_incr   = increment to shields if tile is mined\n\
+; mining_time          = time to mine; if 0, cannot mine\n\
+;                        Nonzero values only affect extras with build_time 0.\n\
+; transform_result     = result of transformation; one of:\n\
+;                        \"no\"  -- cannot transform\n\
+;                        terrain section -- transformation changes to that\n\
+;                          terrain\n\
+; transform_time       = time to transform; if 0, cannot transform\n\
+; pillage_time         = time to pillage extra from the tile (0 = impossible)\n\
+;                        Nonzero values only affect extras with removal_time 0.\n\
+; clean_pollution_time = time to clean pollution (0 = impossible)\n\
+;                        Nonzero values only affect extras with removal_time 0.\n\
+; clean_fallout_time   = time to clean fallout (0 = impossible)\n\
+;                        Nonzero values only affect extras with removal_time 0.\n\
+; animal               = unit type that can appear as animal on the terrain\n\
+; warmer_wetter_result = result of global warming for wet terrains; one of:\n\
+;                        \"no\"  -- no change; does not count for warming\n\
+;                        \"yes\" -- no change; counts for warming\n\
+;                        terrain section -- warming changes to that terrain\n\
+; warmer_drier_result  = result of global warming for dry terrains;\n\
+;                        see warmer_wetter_result\n\
+; cooler_wetter_result = result of nuclear winter for wet terrains;\n\
+;                        see warmer_wetter_result\n\
+; cooler_drier_result  = result of nuclear winter for dry terrains;\n\
+;                        see warmer_wetter_result\n\
+; native_to            = List of unit classes that can move here\n\
+; flags                = General flags for this terrain. List taken from the\n\
+;                        following, and/or any user flags defined above:\n\
+;   - NoBarbs          = Barbarians will not be spawned here.\n\
+;   - NoCities         = Cities may not be built or found on this terrain.\n\
+;   - Starter          = Players will only be started on \"Starter\" terrain.\n\
+;                        (Currently this cannot be Oceanic terrain.)\n\
+;   - CanHaveRiver     = Set to 1 if this terrain can have river on it (the\n\
+;                        actual chance of river generation is controlled\n\
+;                        separately).\n\
+;   - UnsafeCoast      = This terrain does not provide a safe voyage for\n\
+;                        units with flag \"Trireme\"\n\
+;   - FreshWater       = This terrain is used for small bodies of water.\n\
+;                        If this becomes adjacent to non-FreshWater terrain,\n\
+;                        the whole contiguous FreshWater area will be flooded\n\
+;                        with the non-FreshWater terrain.\n\
+;   - NotGenerated     = Map generator never places this terrain type. It can\n\
+;                        be added from editor only, or by ingame events\n\
+;                        (lua scripting)\n\
+;   - NoZoc            = Units on this terrain are not generating or subject\n\
+;                        to zoc\n\
+;   - NoFortify        = Units cannot fortify on this terrain\n\
+;   - Frozen           = Frozen/polar terrain. For water tiles, Frozen terrain\n\
+;                        is generated near poles. Conversion between frozen\n\
+;                        and unfrozen terrain can be controlled with\n\
+;                        thaw_requirement/freeze_requirement, and Frozen\n\
+;                        terrain is shown differently on the overview map.\n\
+; property_*           = specific property % values used by mapgen. Most\n\
+;                        terrains will have 0 for most values. Properties\n\
+;                        other than ocean_depth are only used for land tiles.\n\
+;  - mountainous       = degree to which this terrain is mountainous\n\
+;  - green             = how much life this terrain has\n\
+;  - foliage           = how much thick undergrowth the terrain has\n\
+;  - tropical          = how \"tropical\" the terrain is (high temperature)\n\
+;  - temperate         = how \"temperate\" the terrain is (med temperature)\n\
+;  - cold              = how \"cold\" the terrain is (low temperature)\n\
+;  - frozen            = how \"frozen\" the terrain is (very low temperature)\n\
+;                        (does not necessarily have to have the \"Frozen\" flag)\n\
+;  - wet               = how \"wet\" the terrain is (moisture)\n\
+;  - dry               = how \"dry\" the terrain is (moisture)\n\
+;  - ocean_depth       = the depth of an ocean, as an average level\n\
+; color.r              = color of the terrain (red value)\n\
+; color.g              = color of the terrain (green value)\n\
+; color.b              = color of the terrain (blue value)\n\
+; helptext             = optional help text string; should escape all raw\n\
+;                        newlines so that xgettext parsing works\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

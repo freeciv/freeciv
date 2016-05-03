@@ -1835,6 +1835,8 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                        "parameters.ocean_resources");
   }
 
+  comment_terrains(sfile);
+
   sect_idx = 0;
   terrain_type_iterate(pterr) {
     char path[512];
