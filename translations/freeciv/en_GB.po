@@ -65,8 +65,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 00:24+0100\n"
-"PO-Revision-Date: 2016-04-21 00:35+0100\n"
+"POT-Creation-Date: 2016-05-01 12:08+0100\n"
+"PO-Revision-Date: 2016-05-01 12:09+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -12425,11 +12425,11 @@ msgstr "Start of turn %d"
 msgid "Welcome"
 msgstr "Welcome"
 
-#: client/packhand.c:2155
+#: client/packhand.c:2161
 msgid "AI mode is now ON."
 msgstr "AI mode is now ON."
 
-#: client/packhand.c:2157
+#: client/packhand.c:2163
 msgid "AI mode is now OFF."
 msgstr "AI mode is now OFF."
 
@@ -15586,10 +15586,13 @@ msgstr ""
 #: data/classic/buildings.ruleset:604 data/experimental/buildings.ruleset:653
 #: data/civ2civ3/buildings.ruleset:718 data/multiplayer/buildings.ruleset:592
 msgid ""
-"If the city with palace is in dangerous location, or making some more "
-"central city your capital would give better corruption distribution, you can "
-"move Palace by rebuilding it to an other city."
+"If the capital is in a dangerous location, or a more central capital would "
+"give a better corruption distribution, you can move your palace by "
+"rebuilding it in another city."
 msgstr ""
+"If the capital is in a dangerous location, or a more central capital would "
+"give a better corruption distribution, you can move your palace by "
+"rebuilding it in another city."
 
 #: data/civ1/buildings.ruleset:481 data/civ2/buildings.ruleset:605
 #: data/classic/buildings.ruleset:663 data/experimental/buildings.ruleset:712
@@ -34082,12 +34085,12 @@ msgstr "Didn't find optimal solution for team placement in %d iterations."
 msgid "No units placed for %s!"
 msgstr "No units placed for %s!"
 
-#: server/gamehand.c:934
+#: server/gamehand.c:938
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr ""
 "The turn timeout has exceeded its maximum value, fixing at its maximum."
 
-#: server/gamehand.c:942
+#: server/gamehand.c:946
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "The turn timeout is smaller than zero, fixing at zero."
 
@@ -34955,34 +34958,34 @@ msgstr ""
 "games, or it may indicate an invalid saved game file. Proceed at your own "
 "risk."
 
-#: server/savegame2.c:3504 server/savegame.c:4290 server/srv_main.c:2045
+#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2045
 #: server/srv_main.c:2050
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s has been added as %s level AI-controlled player (%s)."
 
-#: server/savegame2.c:3509 server/savegame.c:4295
+#: server/savegame2.c:3514 server/savegame.c:4295
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s has been added as human player."
 
-#: server/savegame2.c:3530 server/savegame.c:4350
+#: server/savegame2.c:3535 server/savegame.c:4350
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s had invalid researching technology."
 
-#: server/savegame2.c:3541 server/savegame.c:4361
+#: server/savegame2.c:3546 server/savegame.c:4361
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s had invalid technology goal."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3562 server/savegame.c:4379
+#: server/savegame2.c:3567 server/savegame.c:4379
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s had invalid nation; changing to %s."
 
-#: server/savegame2.c:6330 server/savegame.c:4564
+#: server/savegame2.c:6335 server/savegame.c:4564
 #, c-format
 msgid ""
 "The save game is wrong about what the closest relationship %s and %s have "
@@ -34991,7 +34994,7 @@ msgstr ""
 "The save game is wrong about what the closest relationship %s and %s have "
 "had is. Fixing."
 
-#: server/savegame2.c:6351
+#: server/savegame2.c:6356
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -35000,7 +35003,7 @@ msgstr ""
 "%s has multiple units of type %s though it should be possible to have only "
 "one."
 
-#: server/savegame2.c:6728
+#: server/savegame2.c:6733
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
@@ -40553,7 +40556,7 @@ msgstr[1] " (total %d repeats)"
 
 #. TRANS: first %s is URL, second is Curl error message
 #. * (not in Freeciv translation domain)
-#: utility/netfile.c:89
+#: utility/netfile.c:92
 #, c-format
 msgid "Failed to fetch %s: %s"
 msgstr "Failed to fetch %s: %s"
