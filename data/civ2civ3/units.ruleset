@@ -196,15 +196,15 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
 ;
 ; Below: The individual units, one per section.
 ;
-; The number can be variable, up to 200.  
-; However for the "official" rulesets, units should not be removed 
+; The number can be variable, up to 200.
+; However for the "official" rulesets, units should not be removed
 ; because that would break backward compatability with savegames.
 ;
 ; The order here matters: later units are considered "better" for
-; a given flag or role.  
+; a given flag or role.
 ;
-; The actual tag used (the * in [unit_*]) does not matter, except 
-; it must be unique within this file, and it may be used in debug 
+; The actual tag used (the * in [unit_*]) does not matter, except
+; it must be unique within this file, and it may be used in debug
 ; output when reading this file.
 ;
 ; ** Fields **
@@ -215,9 +215,9 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
 ;                 must not change, use this when renaming a unit after a
 ;                 ruleset has been released.
 ; graphic       = tag specifying preferred graphic
-; graphic_alt	= tag for alternate garphic if preferred graphic is not 
-;		  present; especially if preferred graphic is non-standard, 
-;		  this should be a standard tag.  Otherwise can use eg "-" 
+; graphic_alt	= tag for alternate graphic if preferred graphic is not
+;		  present; especially if preferred graphic is non-standard,
+;		  this should be a standard tag.  Otherwise can use eg "-"
 ;		  for no alternate graphic.
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start
