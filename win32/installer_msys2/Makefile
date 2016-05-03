@@ -32,7 +32,8 @@ DLLPATH_PREFIX=$(ARCHDIR)/bin/
 # by default build all installers
 all: gtk3-installer gtk2-installer sdl2-installer qt-installer ruledit-installer
 
-buildable-win32: gtk3-installer ruledit-installer qt-installer
+# These are what can be built in current official environment version
+buildable-win32: gtk3-installer
 
 buildable-win64:
 
