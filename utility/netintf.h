@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ extern "C" {
 
 #include <freeciv_config.h>
 
-/********************************************************************** 
+/***********************************************************************
   Common network interface.
 ***********************************************************************/
 
@@ -45,13 +45,6 @@ extern "C" {
 #ifdef FREECIV_HAVE_WS2TCPIP_H
 #include <ws2tcpip.h>
 #endif
-#ifdef FREECIV_HAVE_WINSOCK
-#ifdef FREECIV_HAVE_WINSOCK2
-#include <winsock2.h>
-#else  /* FREECIV_HAVE_WINSOCK2 */
-#include <winsock.h>
-#endif /* FREECIV_HAVE_WINSOCK2 */
-#endif /* FREECIV_HAVE_WINSOCK */
 
 /* utility */
 #include "ioz.h"

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
   This module contains replacements for functions which are not
   available on all platforms.  Where the functions are available
   natively, these are (mostly) just wrappers.
@@ -35,7 +35,7 @@
   The main disadvantage is remembering to use these "fc" functions on
   systems which have the functions natively.
 
-**********************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -79,13 +79,6 @@
 #ifdef FREECIV_HAVE_LIBZ
 #include <zlib.h>
 #endif
-#ifdef FREECIV_HAVE_WINSOCK
-#ifdef FREECIV_HAVE_WINSOCK2
-#include <winsock2.h>
-#else  /* FREECIV_HAVE_WINSOCK2 */
-#include <winsock.h>
-#endif /* FREECIV_HAVE_WINSOCK2 */
-#endif /* FREECIV_HAVE_WINSOCK */
 #ifdef WIN32_NATIVE
 #include <process.h>
 #include <windows.h>
