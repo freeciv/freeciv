@@ -179,7 +179,7 @@ name          = _("?unitclass:Merchant")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
-                "TerrainDefense", "TerrainSpeed", "Airliftable"
+                "ZOC", "TerrainDefense", "TerrainSpeed", "Airliftable"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
@@ -2395,11 +2395,10 @@ helptext      = _("\
 A Caravan carries goods or material for trading with other nations,\
  or to help build wonders in your own cities.\
 "), _("\
-Caravans can only travel on roads, railroads, rivers or ships.\
- (Caravans cannot take advantage of maglevs, but may travel on\
- the railroads that accompany them.)\
+Caravans cannot take advantage of maglevs, but may travel on\
+ the railroads that accompany them.\
 "), _("\
-A Caravan sent to a foreign city (even one owned by an enemy) can\
+A Caravan sent to a foreign city (one not owned by an enemy) can\
  establish a trade route. The route's ongoing revenue is doubled\
  if the two cities involved are on different continents. Each city\
  can support a maximum of two trade routes.\

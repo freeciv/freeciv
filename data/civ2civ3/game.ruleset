@@ -451,13 +451,6 @@ actor_reqs    =
       "UnitFlag", "TradeRoute", "Local", TRUE
     }
 
-[actionenabler_marketplace]
-action = "Enter Marketplace"
-actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "TradeRoute", "Local", TRUE
-    }
-
 [actionenabler_help_build_wonder]
 action = "Help Wonder"
 actor_reqs    =
@@ -884,16 +877,16 @@ cons_msg       = _("Your nation has achieved 10000 culture points!")
 [trade]
 settings =
   { "type",       "pct", "cancelling", "bonus"
-    "National",   0,     "Cancel",     "Both"
-    "NationalIC", 0,     "Cancel",     "Both"
-    "IN",         100,   "Cancel",     "Both"
-    "INIC",       200,   "Cancel",     "Both"
-    "Ally",       100,   "Cancel",     "Both"
-    "AllyIC",     200,   "Cancel",     "Both"
-    "Enemy",      100,   "Cancel",     "Both"
-    "EnemyIC",    200,   "Cancel",     "Both"
-    "Team",       100,   "Cancel",     "Both"
-    "TeamIC",     200,   "Cancel",     "Both"
+    "National",   0,     "Cancel",     "None"
+    "NationalIC", 0,     "Cancel",     "None"
+    "IN",         100,   "Cancel",     "None"
+    "INIC",       200,   "Cancel",     "None"
+    "Ally",       100,   "Cancel",     "None"
+    "AllyIC",     200,   "Cancel",     "None"
+    "Enemy",      0,     "Cancel",     "None"
+    "EnemyIC",    0,     "Cancel",     "None"
+    "Team",       100,   "Cancel",     "None"
+    "TeamIC",     200,   "Cancel",     "None"
   }
 
 ; /* <-- avoid gettext warnings

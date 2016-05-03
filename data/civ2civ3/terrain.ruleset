@@ -406,7 +406,7 @@ warmer_wetter_result = "Lake"
 warmer_drier_result  = "Tundra"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "NoBarbs", "NoCities", "CanHaveRiver", "Oil", "Frozen"
 property_frozen      = 100
 color.r              = 232
@@ -451,7 +451,7 @@ warmer_wetter_result = "Swamp"
 warmer_drier_result  = "no"
 cooler_wetter_result = "Tundra"
 cooler_drier_result  = "Tundra"
-native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "CanHaveRiver", "Oil"
 property_dry         = 100
 property_tropical    = 50
@@ -501,7 +501,7 @@ warmer_wetter_result = "Jungle"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "Starter", "CanHaveRiver", "NoPollution"
 property_cold        = 20
 property_wet         = 20
@@ -548,7 +548,7 @@ warmer_wetter_result = "Swamp"
 warmer_drier_result  = "Swamp"
 cooler_wetter_result = "Swamp"
 cooler_drier_result  = "Tundra"
-native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "Starter", "CanHaveRiver"
 property_green       = 50
 property_temperate   = 50
@@ -592,7 +592,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "Starter", "CanHaveRiver"
 property_green       = 50
 property_mountainous = 30
@@ -640,7 +640,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "Forest"
-native_to            = "Land", "Small Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Air", "Missile", "Helicopter"
 flags                = "CanHaveRiver", "NoPollution"
 property_foliage     = 50
 property_tropical    = 50
@@ -687,7 +687,7 @@ warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
-native_to            = "Land", "Small Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Air", "Missile", "Helicopter"
 flags                = "NoCities", "CanHaveRiver"
 property_mountainous = 70
 color.r              = 129
@@ -736,7 +736,7 @@ warmer_wetter_result = "Swamp"
 warmer_drier_result  = "Desert"
 cooler_wetter_result = "Desert"
 cooler_drier_result  = "Desert"
-native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "Starter", "CanHaveRiver"
 property_green       = 50
 property_temperate   = 50
@@ -781,7 +781,7 @@ warmer_wetter_result = "Desert"
 warmer_drier_result  = "no"
 cooler_wetter_result = "Tundra"
 cooler_drier_result  = "Desert"
-native_to            = "Land", "Small Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Air", "Missile", "Helicopter"
 flags                = "CanHaveRiver"
 property_wet         = 100
 property_tropical    = 10
@@ -829,7 +829,7 @@ warmer_wetter_result = "Swamp"
 warmer_drier_result  = "Swamp"
 cooler_wetter_result = "Glacier"
 cooler_drier_result  = "Desert"
-native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
+native_to            = "Land", "Small Land", "Merchant", "Big Land", "Air", "Missile", "Helicopter"
 flags                = "NoBarbs", "CanHaveRiver"
 property_cold        = 50
 color.r              = 188
@@ -1297,7 +1297,7 @@ reqs           =
     }
 build_time     = 2
 removal_time   = 0
-native_to      = "Land", "Small Land", "Big Land"
+native_to      = "Land", "Small Land", "Merchant", "Big Land"
 conflicts      = "Airstrip", "Airbase"
 hidden_by      = "Fortress"
 flags          = "NativeTile", "DiplomatDefense"
@@ -1332,7 +1332,7 @@ reqs           =
     }
 build_time     = 2
 removal_time   = 0
-native_to      = "Land", "Small Land", "Big Land"
+native_to      = "Land", "Small Land", "Merchant", "Big Land"
 conflicts      = "Airstrip", "Airbase"
 flags          = "NativeTile", "DiplomatDefense"
 helptext       = _("\
@@ -1502,11 +1502,9 @@ native_to      = "Land", "Small Land", "Big Land", "Merchant"
 hidden_by      = "Railroad", "Maglev"
 flags          = "NativeTile", "AutoOnCityCenter"
 helptext       = _("\
-Roads allow your land units to move more quickly, allow wheeled\
+Roads allow your land units to move more quickly, and allow wheeled\
  Big Land units such as Chariots and Catapults to travel through\
- otherwise difficult terrain (Mountains, Jungle, and Swamp), and\
- Merchant units (Caravans and Freight) can only travel on roads,\
- railroads, rivers or ships.\
+ otherwise difficult terrain (Mountains, Jungle, and Swamp).\
 "), _("\
 On some terrains, roads also provide a trade bonus.\
 "), _("\
@@ -1613,10 +1611,8 @@ Any land terrain type may have a River on it. A River adds 1\
  trade to the resources produced by that tile. It also increases a\
  tile's defense factor by 25%.\
 "), _("\
-Land units may move along rivers for faster travel (but not diagonally),\
- and Merchant units (Caravans and Freight) may require rivers to travel\
- along in the absence of roads. Triremes may also travel up rivers\
- (although later boats cannot).\
+Land units may move along rivers for faster travel (but not diagonally).\
+ Triremes may also travel up rivers (although later boats cannot).\
 "), _("\
 Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology. Fortresses and\
