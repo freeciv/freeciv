@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2016-02-07 03:26+0500\n"
 "PO-Revision-Date: 2016-02-07 02:41+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
