@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2016-04-14 12:13+0300\n"
-"PO-Revision-Date: 2016-04-14 13:27+0300\n"
+"POT-Creation-Date: 2016-05-03 12:12+0300\n"
+"PO-Revision-Date: 2016-05-03 15:21+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -9307,12 +9307,14 @@ msgstr "Estyy jos ruudulla on erityispiirre %s.\n"
 #: client/helpdata.c:720
 #, c-format
 msgid "?special:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr "Edellyttää erityispiirteen %s samalla tai sen rinnalla olevalla ruudulla.\n"
+msgstr ""
+"Edellyttää erityispiirteen %s samalla tai sen rinnalla olevalla ruudulla.\n"
 
 #: client/helpdata.c:725
 #, c-format
 msgid "?special:Prevented by %s on the tile or any cardinally adjacent tile.\n"
-msgstr "Estyy jos ruudulla tai sen rinnalla olevalla ruudulla on erityispiirre %s.\n"
+msgstr ""
+"Estyy jos ruudulla tai sen rinnalla olevalla ruudulla on erityispiirre %s.\n"
 
 #: client/helpdata.c:733
 #, c-format
@@ -9347,7 +9349,8 @@ msgstr "Estyy jos ruutu on maastotyyppiä %s.\n"
 #: client/helpdata.c:779
 #, c-format
 msgid "?terrain:Requires %s on the tile or a cardinally adjacent tile.\n"
-msgstr "Edellyttää ruudun tai sen rinnalla olevan ruudun olevan maastotyyppiä %s.\n"
+msgstr ""
+"Edellyttää ruudun tai sen rinnalla olevan ruudun olevan maastotyyppiä %s.\n"
 
 #: client/helpdata.c:784
 #, c-format
@@ -9585,7 +9588,8 @@ msgstr "Estyy jos ruutu on maastotyyppiä %s.\n"
 msgid ""
 "?terrainclass:Requires %s terrain on the tile or a cardinally adjacent "
 "tile.\n"
-msgstr "Edellyttää ruudun tai sen rinnalla olevan ruudun olevan maastotyyppiä %s.\n"
+msgstr ""
+"Edellyttää ruudun tai sen rinnalla olevan ruudun olevan maastotyyppiä %s.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1192
@@ -9639,7 +9643,9 @@ msgstr "Estyy, jos ruudun maastolla on \"%s\" ominaisuus.\n"
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile.\n"
-msgstr "Edellyttää että ruudun tai sen rinalla olevan ruudun maastolla on ominaisuus \"%s\".\n"
+msgstr ""
+"Edellyttää että ruudun tai sen rinalla olevan ruudun maastolla on ominaisuus "
+"\"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1267
@@ -9647,7 +9653,9 @@ msgstr "Edellyttää että ruudun tai sen rinalla olevan ruudun maastolla on omi
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile.\n"
-msgstr "Estyy jos ruudun tai sen rinnalla olevan ruudun maastolla on ominaisuus \"%s\".\n"
+msgstr ""
+"Estyy jos ruudun tai sen rinnalla olevan ruudun maastolla on ominaisuus \"%s"
+"\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1276
@@ -12538,11 +12546,11 @@ msgstr "Vuoron %d alku"
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: client/packhand.c:2155
+#: client/packhand.c:2161
 msgid "AI mode is now ON."
 msgstr "AI-tila on nyt PÄÄLLÄ."
 
-#: client/packhand.c:2157
+#: client/packhand.c:2163
 msgid "AI mode is now OFF."
 msgstr "AI-tila on nyt POIS PÄÄLTÄ."
 
@@ -15736,9 +15744,9 @@ msgstr ""
 #: data/classic/buildings.ruleset:604 data/experimental/buildings.ruleset:653
 #: data/civ2civ3/buildings.ruleset:718 data/multiplayer/buildings.ruleset:592
 msgid ""
-"If the city with palace is in dangerous location, or making some more "
-"central city your capital would give better corruption distribution, you can "
-"move Palace by rebuilding it to an other city."
+"If the capital is in a dangerous location, or a more central capital would "
+"give a better corruption distribution, you can move your palace by "
+"rebuilding it in another city."
 msgstr ""
 "Jos palatsisi sijaitsee vaaranalaisessa kaupungissa, tai pääkaupungin "
 "siirtäminen valtakuntasi keskeisempiin osiin olisi korruptionhallinnan "
@@ -18197,7 +18205,12 @@ msgid ""
 "river tile, or another tile with an irrigation system, must share an edge "
 "(not just a corner) with the target tile. Once irrigated, land remains so "
 "even if the water source is removed."
-msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin."
+msgstr ""
+"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
+"lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai "
+"jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun "
+"rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka "
+"vedenlähde poistettaisiin."
 
 #: data/civ1/units.ruleset:301 data/civ2/units.ruleset:307
 #: data/classic/units.ruleset:468 data/experimental/units.ruleset:487
@@ -20261,7 +20274,11 @@ msgid ""
 "resources produced by that tile.  It also increases a tile's defense factor "
 "by 50%.  Finally, land units may move along a River (but not diagonally) for "
 "fast travel."
-msgstr "Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 50%. Maavoimien yksiköt voivat kulkea jokea pitkin, mutta eivät kulmittain kahden jokiruudun välillä, tavallista nopeammin."
+msgstr ""
+"Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa "
+"kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 50%. "
+"Maavoimien yksiköt voivat kulkea jokea pitkin, mutta eivät kulmittain kahden "
+"jokiruudun välillä, tavallista nopeammin."
 
 #: data/civ2/units.ruleset:26 data/classic/units.ruleset:31
 #: data/experimental/units.ruleset:34 data/civ2civ3/units.ruleset:31
@@ -20315,7 +20332,15 @@ msgid ""
 "even if the water source is removed. When Refrigeration is known, irrigation "
 "systems can be upgraded to Farmland by irrigating them a second time; this "
 "provides more food to a city if it has a Supermarket."
-msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on supermarketti."
+msgstr ""
+"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
+"lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri- tai "
+"jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun "
+"rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka "
+"vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa "
+"voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi "
+"peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on "
+"supermarketti."
 
 #: data/civ2/units.ruleset:320
 msgid ""
@@ -21553,7 +21578,15 @@ msgid ""
 "remains so even if the water source is removed. When Refrigeration is known, "
 "irrigation systems can be upgraded to Farmland by irrigating them a second "
 "time; this provides more food to a city if it has a Supermarket."
-msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri-, järvi- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on Supermarketti."
+msgstr ""
+"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
+"lisää ruuantuotantoa ruudussa. Lähellä on oltava saatavilla vettä: meri-, "
+"järvi- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan "
+"ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna "
+"vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia "
+"kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä "
+"tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, "
+"joissa on Supermarketti."
 
 #: data/classic/units.ruleset:478 data/experimental/units.ruleset:497
 msgid ""
@@ -23519,7 +23552,15 @@ msgid ""
 "removed. When Refrigeration is known, irrigation systems can be upgraded to "
 "Farmland by irrigating them a second time; this provides more food to a city "
 "if it has a Supermarket."
-msgstr "Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto lisää ruuantuotantoa ruudussa. Mikäli sähköä ei tunneta, lähellä on oltava saatavilla vettä: meri-, järvi- tai jokiruutu taikka jo kasteltu ruutu on oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa tuottaa enemmän ruokaa kaupungeille, joissa on Supermarketti."
+msgstr ""
+"Sopiville maastotyypeille voidaan kaivaa kasteluverkosto. Kasteluverkosto "
+"lisää ruuantuotantoa ruudussa. Mikäli sähköä ei tunneta, lähellä on oltava "
+"saatavilla vettä: meri-, järvi- tai jokiruutu taikka jo kasteltu ruutu on "
+"oltava heti kohteena olevan ruudun rinnalla. Kun kasteluverkosto on "
+"kaivettu, ruutu pysyy kasteltuna vaikka vedenlähde poistettaisiin. "
+"Tunnettaessa kylmäsäilytysteknologia kasteltu maa voidaan muokata vielä "
+"uudelleen, jolloin se muuttuu vielä tuottavammaksi peltomaaksi. Peltomaa "
+"tuottaa enemmän ruokaa kaupungeille, joissa on Supermarketti."
 
 #: data/civ2civ3/units.ruleset:535
 msgid ""
@@ -31011,11 +31052,11 @@ msgstr "Tuntematon parametri '--' '%s'"
 msgid "Freeciv modpack installer (command line version)"
 msgstr "Muunnospaketin asennusohjelma (komentoriviversio)"
 
-#: tools/mpcli.c:151
+#: tools/mpcli.c:153
 msgid "Modpack installed successfully"
 msgstr "Muunnospaketti on asennettu onnistuneesti"
 
-#: tools/mpcli.c:153
+#: tools/mpcli.c:155
 #, c-format
 msgid "Modpack install failed: %s"
 msgstr "Muunnospaketin asennus epäonnistui: %s"
@@ -34438,11 +34479,11 @@ msgstr ""
 msgid "No units placed for %s!"
 msgstr "%s on jäänyt ilman sijoitettuja yksiköitä!"
 
-#: server/gamehand.c:934
+#: server/gamehand.c:938
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr "Vuoron aikaraja on liian suuri ja palautetaan maksimiarvoon"
 
-#: server/gamehand.c:942
+#: server/gamehand.c:946
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Vuoron aikaraja on nollaa pienempi ja muutetaan nollaksi."
 
@@ -35321,34 +35362,34 @@ msgstr ""
 "tallennettu peli on vanha, tai tiedosto voi olla viallinen. Jatka omalla "
 "vastuullasi."
 
-#: server/savegame2.c:3504 server/savegame.c:4290 server/srv_main.c:2045
+#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2045
 #: server/srv_main.c:2050
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
 
-#: server/savegame2.c:3509 server/savegame.c:4295
+#: server/savegame2.c:3514 server/savegame.c:4295
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s on lisätty tavalliseksi pelaajaksi."
 
-#: server/savegame2.c:3530 server/savegame.c:4350
+#: server/savegame2.c:3535 server/savegame.c:4350
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/savegame2.c:3541 server/savegame.c:4361
+#: server/savegame2.c:3546 server/savegame.c:4361
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3562 server/savegame.c:4379
+#: server/savegame2.c:3567 server/savegame.c:4379
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakuntaa ei kelpaa; vaihdetaan tilalle %s."
 
-#: server/savegame2.c:6330 server/savegame.c:4564
+#: server/savegame2.c:6335 server/savegame.c:4564
 #, c-format
 msgid ""
 "The save game is wrong about what the closest relationship %s and %s have "
@@ -35357,7 +35398,7 @@ msgstr ""
 "Talletuksessa on selkeästi väärä tieto siitä kuinka läheisiä %s ja %s ovat "
 "parhaimmillaan olleet. Korjaan ilmeisen virheen."
 
-#: server/savegame2.c:6351
+#: server/savegame2.c:6356
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -35366,7 +35407,7 @@ msgstr ""
 "%s omistaa monta %s yksikköä, vaikka sellaisia pitäisi voida olla vain yksi "
 "kullakin pelaajalla."
 
-#: server/savegame2.c:6728
+#: server/savegame2.c:6733
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
@@ -41025,7 +41066,7 @@ msgstr[1] " (yhteensä %d toistoa)"
 
 #. TRANS: first %s is URL, second is Curl error message
 #. * (not in Freeciv translation domain)
-#: utility/netfile.c:89
+#: utility/netfile.c:92
 #, c-format
 msgid "Failed to fetch %s: %s"
 msgstr "Virhe noudettaessa tiedostoa osoitteesta %s: %s"
@@ -41142,7 +41183,7 @@ msgstr[1] "sekuntia"
 #: utility/support.c:445
 #, c-format
 msgid "error %ld (failed FormatMessage)"
-msgstr "virhe %ld (FormatMessage epäonnistui)"
+msgstr "virhe %ld (FormatMessage() epäonnistui)"
 
 #: utility/support.c:458
 #, c-format
