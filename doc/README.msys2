@@ -35,15 +35,14 @@ using MSYS2 from http://msys2.github.io
 
  This chapter is about creating new msys2 build environment.
 
- If you want to reproduce more official freeciv builds, the
-environment used to make those builds is available for
-download from
-http://download.gna.org/freeciv/packages/windows/testing/cazfi/installer_msys2/envs/
- Current version is: freeciv-msys2-i686-20160222.7z
+ If you want to reproduce more official freeciv builds, the environment
+ used to make those builds is documented in the next chapter ("Premade environment"),
+ with listing of versions current at the time of this freeciv version.
 
 1) Install MSYS2 following the documentation on their homepage
 
-1.1) Download https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20160205.exe
+1.1) Download
+ https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20160205.exe
 
 1.2) Run it to install MSYS2 on 64bit build system
 
@@ -114,6 +113,38 @@ http://download.gna.org/freeciv/packages/windows/testing/cazfi/installer_msys2/e
  - Mixer support
  - Clients other than gtk3
  - MagickWand support
+
+
+ Premade environment
+====================================
+
+Premade msys2 environment is available for download from
+http://download.gna.org/freeciv/packages/windows/testing/cazfi/installer_msys2/envs/
+Current version is: msys2-freeciv-160425.7z
+
+It's based on
+https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20160205.exe
+
+Following packages have been installed:
+- make
+- gcc
+- gettext-devel
+- libsqlite-devel
+- pkg-config
+- libcurl-devel
+- libbz2-devel
+- liblzma-devel
+- icu-devel
+- tar
+- subversion
+- automake
+- libtool
+- autoconf
+- python
+- mingw-w64-i686-icu
+- mingw-w64-i686-libsqlite
+- mingw-w64-i686-gtk3
+- mingw-w64-i686-nsis
 
 
  Build
