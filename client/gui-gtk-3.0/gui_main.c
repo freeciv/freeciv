@@ -2072,6 +2072,9 @@ static void quit_dialog_response(GtkWidget *dialog, gint response)
 {
   gtk_widget_destroy(dialog);
   if (response == GTK_RESPONSE_YES) {
+    if (client.conn.used) {
+      disconnect_from_server();
+    }
     quit_gtk_main();
   }
 }

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1988,6 +1988,9 @@ static void quit_dialog_response(GtkWidget *dialog, gint response)
 {
   gtk_widget_destroy(dialog);
   if (response == GTK_RESPONSE_YES) {
+    if (client.conn.used) {
+      disconnect_from_server();
+    }
     quit_gtk_main();
   }
 }
