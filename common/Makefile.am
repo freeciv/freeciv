@@ -37,7 +37,6 @@ libfreeciv_la_SOURCES = \
 		combat.h	\
 		culture.c	\
 		culture.h	\
-		dataio.h	\
 		diptreaty.c	\
 		diptreaty.h	\
 		disaster.c	\

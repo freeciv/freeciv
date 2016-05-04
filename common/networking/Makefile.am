@@ -12,6 +12,7 @@ AM_CPPFLAGS = \
 libfcivnetwork_la_SOURCES = \
 	connection.c	\
 	connection.h	\
+	dataio.h	\
 	dataio_json.c	\
 	dataio_json.h	\
 	dataio_raw.c	\
