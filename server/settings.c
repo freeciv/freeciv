@@ -817,6 +817,7 @@ static bool generator_validate(int value, struct connection *caller,
 /****************************************************************************
   Verify the name for the score log file.
 ****************************************************************************/
+#ifndef FREECIV_WEB
 static bool scorefile_validate(const char *value, struct connection *caller,
                                char *reject_msg, size_t reject_msg_len)
 {
@@ -828,6 +829,7 @@ static bool scorefile_validate(const char *value, struct connection *caller,
 
   return TRUE;
 }
+#endif /* !FREECIV_WEB */
 
 /*************************************************************************
   Verify that a given demography string is valid. See
@@ -2804,6 +2806,7 @@ static struct setting settings[] = {
               "or only for human players."), NULL, NULL, NULL,
            scoreloglevel_name, GAME_DEFAULT_SCORELOGLEVEL)
 
+#ifndef FREECIV_WEB
   GEN_STRING("scorefile", game.server.scorefile,
              SSET_META, SSET_INTERNAL, SSET_SITUATIONAL,
              ALLOW_HACK, ALLOW_HACK,
@@ -2812,6 +2815,7 @@ static struct setting settings[] = {
              N_("The default name for the score log file is "
               "'freeciv-score.log'."),
              scorefile_validate, NULL, GAME_DEFAULT_SCOREFILE)
+#endif /* !FREECIV_WEB */
 
   GEN_INT("maxconnectionsperhost", game.server.maxconnectionsperhost,
           SSET_RULES_FLEXIBLE, SSET_NETWORK, SSET_RARE,
