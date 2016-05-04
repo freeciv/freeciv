@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -62,6 +62,7 @@ struct editinfobox {
 };
 
 void editgui_create_widgets(void);
+void editgui_free(void);
 struct editbar *editgui_get_editbar(void);
 struct editinfobox *editgui_get_editinfobox(void);
 

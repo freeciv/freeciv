@@ -1819,6 +1819,7 @@ void ui_main(int argc, char **argv)
   diplomacy_dialog_done();
   cma_fe_done();
   free_unit_table();
+  editgui_free();
   gtk_widget_destroy(toplevel_tabs);
   message_buffer = NULL; /* Result of destruction of everything */
   tileset_free_tiles(tileset);
