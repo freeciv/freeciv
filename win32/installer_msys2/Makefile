@@ -159,6 +159,7 @@ install-ruledit: install-ruledit-dir
 # install Freeciv environment
 
 COMMON_DLLS := \
+	libstdc++-6.dll \
 	libatk-1.0-0.dll \
 	libbz2-1.dll \
 	libcairo-2.dll \
@@ -221,7 +222,9 @@ DEFAULT_FCMP_DLLS := \
 	libexpat-1.dll \
 	libharfbuzz-0.dll \
 	libepoxy-0.dll \
-	libpangoft2-1.0-0.dll
+	libgraphite2.dll \
+	libpangoft2-1.0-0.dll \
+	libpcre-1.dll
 
 install-env-default-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(WINARCH)-$(GUI)
@@ -257,7 +260,6 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)
 
 QT_DLLS := \
-	libstdc++-6.dll \
 	libicuin56.dll \
 	libicuuc56.dll \
 	libicudt56.dll \
