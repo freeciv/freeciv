@@ -196,6 +196,7 @@ COMMON_DLLS := \
 	libicudt56.dll
 
 COMMON_MSYS_DLLS := \
+	stdc++-6.dll \
 	2.0.dll \
 	curl-4.dll \
 	idn-11.dll \
@@ -218,7 +219,9 @@ COMMON_MSYS_DLLS := \
 	iconv-2.dll \
 	intl-8.dll \
 	ssh2-1.dll \
-	lzma-5.dll
+	lzma-5.dll \
+	icuuc56.dll \
+	icudata56.dll
 
 install-env-common:
 	# add DLLs
@@ -231,7 +234,9 @@ DEFAULT_FCMP_DLLS := \
 	libexpat-1.dll \
 	libharfbuzz-0.dll \
 	libepoxy-0.dll \
-	libpangoft2-1.0-0.dll
+	libgraphite2.dll \
+	libpangoft2-1.0-0.dll \
+	libpcre-1.dll
 
 install-env-default-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(WINARCH)-$(GUI)
@@ -269,7 +274,6 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)
 
 QT_DLLS := \
-	libstdc++-6.dll \
 	libicuin56.dll \
 	libicuuc56.dll \
 	libicudt56.dll \
