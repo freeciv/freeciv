@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,6 +16,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
+
+#include <freeciv_config.h>
 
 #include <stdlib.h>		/* size_t */
 #include <string.h>		/* memset */
@@ -106,7 +108,7 @@ enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
   }
 
 #ifndef PATH_SEPARATOR
-#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
+#if defined(FREECIV_MS_WINDOWS) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
   /* Win32, OS/2, DOS */
 # define PATH_SEPARATOR ";"
 #else
@@ -116,7 +118,7 @@ enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 #endif /* PATH_SEPARATOR */
 
 #ifndef DIR_SEPARATOR
-#if defined(WIN32_NATIVE) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
+#if defined(FREECIV_MS_WINDOWS) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
   /* Win32, OS/2, DOS */
 # define DIR_SEPARATOR "\\"
 # define DIR_SEPARATOR_CHAR '\\'
