@@ -62,9 +62,9 @@
 #include "aiplayer.h"
 #include "aiunit.h"
 #include "aitools.h"
-#include "advmilitary.h"
+#include "daimilitary.h"
 
-#include "advdiplomacy.h"
+#include "daidiplomacy.h"
 
 #define LOG_DIPL LOG_DEBUG
 #define LOG_DIPL2 LOG_DEBUG

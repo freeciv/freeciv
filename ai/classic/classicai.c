@@ -24,9 +24,6 @@
 #include "autosettlers.h"
 
 /* ai/default */
-#include "advdiplomacy.h"
-#include "advdomestic.h"
-#include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"
 #include "aiferry.h"
@@ -36,6 +33,9 @@
 #include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daidiplomacy.h"
+#include "daidomestic.h"
+#include "daimilitary.h"
 
 #include "classicai.h"
 

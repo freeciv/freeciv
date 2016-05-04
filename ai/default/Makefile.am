@@ -14,12 +14,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/dependencies/tinycthread
 
 libdefaultai_la_SOURCES = \
-		advdomestic.c	\
-		advdomestic.h	\
-		advmilitary.c	\
-		advmilitary.h	\
-		advdiplomacy.c	\
-		advdiplomacy.h	\
 		aiair.c		\
 		aiair.h		\
 		aicity.c	\
@@ -50,8 +44,14 @@ libdefaultai_la_SOURCES = \
 		aiunit.h	\
 		aidiplomat.c	\
 		aidiplomat.h	\
+		daidiplomacy.c	\
+		daidiplomacy.h	\
+		daidomestic.c	\
+		daidomestic.h	\
 		daieffects.c	\
-		daieffects.h
+		daieffects.h	\
+		daimilitary.c	\
+		daimilitary.h
 
 
 libdefaultai_la_LIBADD = -lm

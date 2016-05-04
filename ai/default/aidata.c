@@ -28,13 +28,13 @@
 /* server/advisors */
 #include "advdata.h"
 
-/* ai */
-#include "advdiplomacy.h"
+/* ai/default */
 #include "aicity.h"
 #include "aiferry.h"
 #include "aiplayer.h"
 #include "aisettler.h"
 #include "aiunit.h"
+#include "daidiplomacy.h"
 #include "daieffects.h"
 
 #include "aidata.h"

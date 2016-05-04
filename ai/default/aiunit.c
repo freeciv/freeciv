@@ -65,7 +65,6 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "advmilitary.h"
 #include "aiair.h"
 #include "aicity.h"
 #include "aidata.h"
@@ -78,6 +77,7 @@
 #include "aiparatrooper.h"
 #include "aiplayer.h"
 #include "aitools.h"
+#include "daimilitary.h"
 
 #include "aiunit.h"
 
@@ -211,7 +211,7 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
 }
 
 /****************************************************************************
-  This is a much simplified form of assess_defense (see advmilitary.c),
+  This is a much simplified form of assess_defense (see daimilitary.c),
   but which doesn't use pcity->server.ai.wallvalue and just returns a boolean
   value.  This is for use with "foreign" cities, especially non-ai
   cities, where ai.wallvalue may be out of date or uninitialized --dwp

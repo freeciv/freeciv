@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__ADVMILITARY_H
-#define FC__ADVMILITARY_H
+#ifndef FC__DAIMILITARY_H
+#define FC__DAIMILITARY_H
 
 /* common */
 #include "fc_types.h"
@@ -23,7 +23,7 @@
 struct unit_type *dai_choose_defender_versus(struct city *pcity,
                                              struct unit *attacker);
 void military_advisor_choose_tech(struct player *pplayer,
-				  struct adv_choice *choice);
+                                  struct adv_choice *choice);
 struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
                                                  struct player *pplayer,
                                                  struct city *pcity);
@@ -40,4 +40,4 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
                                struct city *pcity, unsigned int danger,
                                struct adv_choice *choice);
 
-#endif  /* FC__ADVMILITARY_H */
+#endif  /* FC__DAIMILITARY_H */

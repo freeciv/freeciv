@@ -47,15 +47,13 @@
 
 /* server/advisors */
 #include "advdata.h"
+#include "advspace.h"
 #include "advtools.h"
 
 /* ai */
 #include "handicaps.h"
 
 /* ai/default */
-#include "advdiplomacy.h"
-#include "advmilitary.h"
-#include "advspace.h"
 #include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
@@ -63,6 +61,8 @@
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daidiplomacy.h"
+#include "daimilitary.h"
 
 #include "aihand.h"
 

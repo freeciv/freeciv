@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__ADVDIPLOMACY_H
-#define FC__ADVDIPLOMACY_H
+#ifndef FC__DAIDIPLOMACY_H
+#define FC__DAIDIPLOMACY_H
 
 #include "fc_types.h"
 
@@ -37,4 +37,4 @@ bool dai_on_war_footing(struct ai_type *ait, struct player *pplayer);
 void dai_diplomacy_first_contact(struct ai_type *ait, struct player *pplayer,
                                  struct player *aplayer);
 
-#endif /* FC__ADVDIPLOMACY_H */
+#endif /* FC__DAIDIPLOMACY_H */
