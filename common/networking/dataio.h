@@ -14,9 +14,8 @@
 #define FC__DATAIO_H
 
 /* This dataio.h header exist only as a interface to include.
- * Currently all the functionality, including the
- * #include of the dataio_raw.h, if needed, at
- * correct spot. */
+ * Currently dataio_raw.h has all the functionality, including the
+ * #include of the dataio_json.h at correct spot. */
 #include "dataio_raw.h"
 
 #endif  /* FC__DATAIO_H */
