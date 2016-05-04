@@ -1,7 +1,7 @@
 # List of source files containing translatable strings.
 # (Filenames are sorted alphabetically and relative to top-level directory.)
-ai/default/advdiplomacy.c
 ai/default/aicity.c
+ai/default/daidiplomacy.c
 ai/threaded/threadedai.c
 client/agents/cma_core.c
 client/agents/cma_fec.c
