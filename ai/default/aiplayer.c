@@ -25,7 +25,7 @@
 
 /* ai/default */
 #include "aidata.h"
-#include "advmilitary.h"
+#include "daimilitary.h"
 
 #include "aiplayer.h"
 

@@ -59,7 +59,6 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "advmilitary.h"
 #include "aidata.h"
 #include "aiferry.h"
 #include "aiguard.h"
@@ -67,6 +66,7 @@
 #include "aiplayer.h"
 #include "aitech.h"
 #include "aiunit.h"
+#include "daimilitary.h"
 
 #include "aitools.h"
 

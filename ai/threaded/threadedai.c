@@ -19,9 +19,6 @@
 #include "ai.h"
 
 /* default ai */
-#include "advdiplomacy.h"
-#include "advdomestic.h"
-#include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"
 #include "aiferry.h"
@@ -30,6 +27,9 @@
 #include "aiplayer.h"
 #include "aisettler.h"
 #include "aitools.h"
+#include "daidiplomacy.h"
+#include "daidomestic.h"
+#include "daimilitary.h"
 
 /* threaded ai */
 #include "taimsg.h"

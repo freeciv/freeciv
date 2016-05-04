@@ -51,9 +51,6 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "advdiplomacy.h"
-#include "advdomestic.h"
-#include "advmilitary.h"
 #include "aidata.h"
 #include "aihand.h"
 #include "ailog.h"
@@ -61,6 +58,9 @@
 #include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daidiplomacy.h"
+#include "daidomestic.h"
+#include "daimilitary.h"
 #include "daieffects.h"
 
 #include "aicity.h"
@@ -211,7 +211,7 @@ void dont_want_tech_obsoleting_impr(struct ai_type *ait,
 /**************************************************************************
   Choose a build for the barbarian player.
 
-  TODO: Move this into advmilitary.c
+  TODO: Move this into daimilitary.c
   TODO: It will be called for each city but doesn't depend on the city,
   maybe cache it?  Although barbarians don't normally have many cities, 
   so can be a bigger bother to cache it.

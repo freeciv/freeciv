@@ -66,7 +66,7 @@
 #include "aiunit.h"
 #include "daieffects.h"
 
-#include "advmilitary.h"
+#include "daimilitary.h"
 
 static unsigned int assess_danger(struct ai_type *ait, struct city *pcity);
 

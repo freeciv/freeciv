@@ -36,7 +36,6 @@
 #include "advdata.h"
 
 /* ai/default */
-#include "advmilitary.h"
 #include "aidata.h"
 #include "ailog.h"
 #include "aiplayer.h"
