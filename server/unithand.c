@@ -2526,6 +2526,62 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
     activity_target = extra_by_number(target_id);
   }
 
+#ifdef FREECIV_WEB
+  /* Web-client is not capable of selecting target, so we do it server side */
+  if (activity_target == NULL) {
+    struct unit *punit = player_unit_by_number(pplayer, unit_id);
+    bool required = TRUE;
+
+    if (punit == NULL) {
+      return;
+    }
+
+    if (activity == ACTIVITY_IRRIGATE) {
+      struct tile *ptile = unit_tile(punit);
+      struct terrain *pterrain = tile_terrain(ptile);
+
+      if (pterrain->irrigation_result != pterrain) {
+        required = FALSE;
+      } else {
+        activity_target = next_extra_for_tile(ptile, EC_IRRIGATION,
+                                              pplayer, punit);
+      }
+    } else if (activity == ACTIVITY_MINE) {
+      struct tile *ptile = unit_tile(punit);
+      struct terrain *pterrain = tile_terrain(ptile);
+
+      if (pterrain->mining_result != pterrain) {
+        required = FALSE;
+      } else {
+        activity_target = next_extra_for_tile(ptile, EC_MINE,
+                                              pplayer, punit);
+      }
+    } else if (activity == ACTIVITY_BASE) {
+      struct tile *ptile = unit_tile(punit);
+      struct base_type *pbase =
+        get_base_by_gui_type(BASE_GUI_FORTRESS, punit, ptile);
+
+      if (pbase != NULL) {
+        activity_target = base_extra_get(pbase);
+      }
+
+    } else if (activity == ACTIVITY_POLLUTION) {
+      activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
+                                           pplayer, punit);
+    } else if (activity == ACTIVITY_FALLOUT) {
+      activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANFALLOUT,
+                                           pplayer, punit);
+    } else {
+      required = FALSE;
+    }
+
+    if (activity_target == NULL && required) {
+      /* Nothing more we can do */
+      return;
+    }
+  }
+#endif /* FREECIV_WEB */
+
   handle_unit_change_activity_real(pplayer, unit_id, activity, activity_target);
 }
 
