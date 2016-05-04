@@ -189,7 +189,7 @@ slow_invasions = TRUE
 ; 2/3 move points will have attack power 2/3 of normal.
 ; If this is set to FALSE units will attack with full strength even if they
 ; have only fractional moves left.
-tired_attack = FALSE
+tired_attack = TRUE
 
 [actions]
 ; If force_trade_route is set to TRUE it is illegal for an actor unit to
