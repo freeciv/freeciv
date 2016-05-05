@@ -1973,7 +1973,7 @@ bool is_unit_near_a_friendly_city(const struct unit *punit)
   steps).
 **************************************************************************/
 bool is_friendly_city_near(const struct player *owner,
-			   const struct tile *ptile)
+                           const struct tile *ptile)
 {
   square_iterate(ptile, 3, ptile1) {
     struct city *pcity = tile_city(ptile1);
