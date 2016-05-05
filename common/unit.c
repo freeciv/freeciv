@@ -777,10 +777,6 @@ bool can_unit_do_activity_targeted(const struct unit *punit,
 /**************************************************************************
   Return TRUE if the unit can do the targeted activity at the given
   location.
-
-  Note that if you make changes here you should also change the code for
-  autosettlers in server/settler.c. The code there does not use this
-  function as it would be a major CPU hog.
 **************************************************************************/
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
