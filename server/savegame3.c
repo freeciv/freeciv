@@ -308,8 +308,6 @@ static void unit_ordering_apply(void);
 static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx);
 static char sg_extras_get(bv_extras extras, struct resource_type *presource,
                           const int *idx);
-static struct resource_type *char2resource(char c);
-static char resource2char(const struct resource_type *presource);
 static char num2char(unsigned int num);
 static int char2num(char ch);
 static struct terrain *char2terrain(char ch);
@@ -1145,27 +1143,6 @@ static char sg_extras_get(bv_extras extras, struct resource_type *presource,
   }
 
   return hex_chars[bin];
-}
-
-/****************************************************************************
-  Return the resource for the given identifier.
-****************************************************************************/
-static struct resource_type *char2resource(char c)
-{
-  /* speed common values */
-  if (c == RESOURCE_NULL_IDENTIFIER
-      || c == RESOURCE_NONE_IDENTIFIER) {
-    return NULL;
-  }
-  return resource_by_identifier(c);
-}
-
-/****************************************************************************
-  Return the identifier for the given resource.
-****************************************************************************/
-static char resource2char(const struct resource_type *presource)
-{
-  return presource ? presource->id_old_save : RESOURCE_NONE_IDENTIFIER;
 }
 
 /****************************************************************************
@@ -6029,12 +6006,6 @@ static void sg_load_player_vision(struct loaddata *loading,
                   = char2terrain(ch), loading->file,
                 "player%d.map_t%04d", plrno);
 
-  /* Load player map (resources). */
-  LOAD_MAP_CHAR(ch, ptile,
-                map_get_player_tile(ptile, plr)->resource
-                  = char2resource(ch), loading->file,
-                "player%d.map_res%04d", plrno);
-
   /* Load player map (extras). */
   halfbyte_iterate_extras(j, loading->extra.size) {
     LOAD_MAP_CHAR(ch, ptile,
@@ -6264,11 +6235,6 @@ static void sg_save_player_vision(struct savedata *saving,
   SAVE_MAP_CHAR(ptile,
                 terrain2char(map_get_player_tile(ptile, plr)->terrain),
                 saving->file, "player%d.map_t%04d", plrno);
-
-  /* Save the map (resources). */
-  SAVE_MAP_CHAR(ptile,
-                resource2char(map_get_player_tile(ptile, plr)->resource),
-                saving->file, "player%d.map_res%04d", plrno);
 
   if (game.server.foggedborders) {
     /* Save the map (borders). */
