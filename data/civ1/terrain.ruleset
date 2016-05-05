@@ -733,7 +733,7 @@ food        = 2
 ; reqs                    = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; gui_type                = how gui should handle this base.
-;                           Fortress/Airbase/Other
+;                           Value can be "Fortress", "Airbase", or "Other"
 ; build_time              = how long it takes a unit to build this base.
 ;                           Value of 0 (default) means that terrain-specific
 ;                           base_time is used instead.
@@ -748,9 +748,9 @@ food        = 2
 ; native_to               = List of unit classes that are considered to
 ;                           be inside the base when they are on same tile
 ; flags
-;   - "NoAggressive"      = Units inside are not considered aggressive
+;   - "NoAggressive"      = Units inside are not considered aggressive if there`s
+;                           friendly city within 3 tiles
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
-;   - "ClaimTerritory"    = Base will claim land ownership
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;   - "NativeTile"        = Native units consider tile native regardless of

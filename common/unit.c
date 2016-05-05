@@ -1821,9 +1821,9 @@ bool unit_being_aggressive(const struct unit *punit)
   if (tile_has_base_flag_for_unit(unit_tile(punit),
                                   unit_type(punit),
                                   BF_NOT_AGGRESSIVE)) {
-    return !is_unit_near_a_friendly_city (punit);
+    return !is_unit_near_a_friendly_city(punit);
   }
-  
+
   return TRUE;
 }
 
