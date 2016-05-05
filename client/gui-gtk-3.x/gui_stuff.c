@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -299,7 +299,6 @@ void setup_dialog(GtkWidget *shell, GtkWidget *parent)
     g_signal_connect_after(shell, "close", G_CALLBACK(close_callback), shell);
   }
 }
-
 
 /**************************************************************************
   Emit a dialog response.

@@ -327,6 +327,7 @@ static GtkWidget *create_multiplier_dialog(void)
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
   }
+  setup_dialog(shell, toplevel);
 
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
