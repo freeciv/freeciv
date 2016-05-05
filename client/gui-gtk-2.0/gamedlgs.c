@@ -1,4 +1,4 @@
-/********************************************************************** 
+/*********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -333,6 +333,7 @@ static GtkWidget *create_multiplier_dialog(void)
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
   }
+  setup_dialog(shell, toplevel);
 
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
