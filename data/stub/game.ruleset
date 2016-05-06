@@ -456,6 +456,5 @@ colorlist =
 
 set =
     { "name", "value", "lock"
-      "barbarians", "DISABLED", TRUE
       "startunits", "c", TRUE
     }

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "report.h"
+#include "rssanity.h"
 #include "settings.h"
 #include "srv_main.h"
 #include "stdinhand.h"
@@ -3926,6 +3927,8 @@ bool settings_ruleset(struct section_file *file, const char *section,
       setting_action(pset);
     } settings_iterate_end;
   }
+
+  autolock_settings();
 
   /* send game settings */
   send_server_settings(NULL);

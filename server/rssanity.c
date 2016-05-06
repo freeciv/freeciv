@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 
 /* server */
 #include "ruleset.h"
+#include "settings.h"
 
 #include "rssanity.h"
 
@@ -337,76 +338,69 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
 **************************************************************************/
 static bool rs_barbarian_units(void)
 {
-  if (num_role_units(L_BARBARIAN) == 0
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_ERROR, "No role barbarian units");
-    return FALSE;
-  }
-  if (num_role_units(L_BARBARIAN_LEADER) == 0
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_ERROR, "No role barbarian leader units");
-    return FALSE;
-  }
-  if (num_role_units(L_BARBARIAN_BUILD) == 0
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_ERROR, "No role barbarian build units");
-    return FALSE;
-  }
-  if (num_role_units(L_BARBARIAN_BOAT) == 0
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_ERROR, "No role barbarian ship units");
-    return FALSE;
-  } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
-    bool sea_capable = FALSE;
-    struct unit_type *u = get_role_unit(L_BARBARIAN_BOAT, 0);
-
-    terrain_type_iterate(pterr) {
-      if(is_ocean(pterr)
-         && BV_ISSET(pterr->native_to, uclass_index(utype_class(u)))) {
-        sea_capable = TRUE;
-        break;
-      }
-    } terrain_type_iterate_end;
-
-    if (!sea_capable) {
-      ruleset_error(LOG_ERROR,
-                    "Barbarian boat (%s) needs to be able to move at sea.",
-                    utype_rule_name(u));
+  if (num_role_units(L_BARBARIAN) > 0) {
+    if (num_role_units(L_BARBARIAN_LEADER) == 0) {
+      ruleset_error(LOG_ERROR, "No role barbarian leader units");
       return FALSE;
     }
-  }
-  if (num_role_units(L_BARBARIAN_SEA) == 0
-      && BARBS_DISABLED != game.server.barbarianrate) {
-    ruleset_error(LOG_ERROR, "No role sea raider barbarian units");
-    return FALSE;
-  }
+    if (num_role_units(L_BARBARIAN_BUILD) == 0) {
+      ruleset_error(LOG_ERROR, "No role barbarian build units");
+      return FALSE;
+    }
+    if (num_role_units(L_BARBARIAN_BOAT) == 0) {
+      ruleset_error(LOG_ERROR, "No role barbarian ship units");
+      return FALSE;
+    } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
+      bool sea_capable = FALSE;
+      struct unit_type *u = get_role_unit(L_BARBARIAN_BOAT, 0);
 
-  unit_type_iterate(ptype) {
-    if (utype_has_role(ptype, L_BARBARIAN_BOAT)) {
-      if (ptype->transport_capacity <= 1) {
+      terrain_type_iterate(pterr) {
+        if (is_ocean(pterr)
+            && BV_ISSET(pterr->native_to, uclass_index(utype_class(u)))) {
+          sea_capable = TRUE;
+          break;
+        }
+      } terrain_type_iterate_end;
+
+      if (!sea_capable) {
         ruleset_error(LOG_ERROR,
-                      "Barbarian boat %s has no capacity for both "
-                      "leader and at least one man.",
-                      utype_rule_name(ptype));
+                      "Barbarian boat (%s) needs to be able to move at sea.",
+                      utype_rule_name(u));
         return FALSE;
       }
-
-      unit_type_iterate(pbarb) {
-        if (utype_has_role(pbarb, L_BARBARIAN_SEA)
-            || utype_has_role(pbarb, L_BARBARIAN_SEA_TECH)
-            || utype_has_role(pbarb, L_BARBARIAN_LEADER)) {
-          if (!can_unit_type_transport(ptype, utype_class(pbarb))) {
-            ruleset_error(LOG_ERROR,
-                          "Barbarian boat %s cannot transport "
-                          "barbarian cargo %s.",
-                          utype_rule_name(ptype),
-                          utype_rule_name(pbarb));
-            return FALSE;
-          }
-        }
-      } unit_type_iterate_end;
     }
-  } unit_type_iterate_end;
+    if (num_role_units(L_BARBARIAN_SEA) == 0) {
+      ruleset_error(LOG_ERROR, "No role sea raider barbarian units");
+      return FALSE;
+    }
+
+    unit_type_iterate(ptype) {
+      if (utype_has_role(ptype, L_BARBARIAN_BOAT)) {
+        if (ptype->transport_capacity <= 1) {
+          ruleset_error(LOG_ERROR,
+                        "Barbarian boat %s has no capacity for both "
+                        "leader and at least one man.",
+                        utype_rule_name(ptype));
+          return FALSE;
+        }
+
+        unit_type_iterate(pbarb) {
+          if (utype_has_role(pbarb, L_BARBARIAN_SEA)
+              || utype_has_role(pbarb, L_BARBARIAN_SEA_TECH)
+              || utype_has_role(pbarb, L_BARBARIAN_LEADER)) {
+            if (!can_unit_type_transport(ptype, utype_class(pbarb))) {
+              ruleset_error(LOG_ERROR,
+                            "Barbarian boat %s cannot transport "
+                            "barbarian cargo %s.",
+                            utype_rule_name(ptype),
+                            utype_rule_name(pbarb));
+              return FALSE;
+            }
+          }
+        } unit_type_iterate_end;
+      }
+    } unit_type_iterate_end;
+  }
 
   return TRUE;
 }
@@ -1057,6 +1051,27 @@ bool autoadjust_ruleset_data(void)
       }
     } extra_type_by_cause_iterate_end;
   } extra_type_by_cause_iterate_end;
+
+  return ok;
+}
+
+/**************************************************************************
+  Set and lock settings that must have certain value.
+**************************************************************************/
+bool autolock_settings(void)
+{
+  bool ok = TRUE;
+
+  if (num_role_units(L_BARBARIAN) == 0) {
+    struct setting *pset = setting_by_name("barbarians");
+
+    log_normal(_("Disabling barbarians in lack of suitable unit types."));
+    setting_lock_set(pset, FALSE);
+    if (!setting_enum_set(pset, "DISABLED", NULL, NULL, 0)) {
+      ok = FALSE;
+    }
+    setting_lock_set(pset, TRUE);
+  }
 
   return ok;
 }
