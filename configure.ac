@@ -400,18 +400,20 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   fi
 done
 
+AC_ARG_WITH([zoom],
+  [AS_HELP_STRING([--with-zoom], [expose experimental/WIP zoom support on gtk3-client to user])],
+  [AC_DEFINE([GTK3_ZOOM_ENABLED], [1], [Experimental zoom functionality exposed to user])])
+
 AC_ARG_WITH([xaw],
-  AS_HELP_STRING([--with-xaw], [use the Xaw widget set for the xaw client]),
-WITH_XAW=1
-)
+  [AS_HELP_STRING([--with-xaw], [use the Xaw widget set for the xaw client])],
+  [WITH_XAW=1])
 
 AC_ARG_WITH([xaw3d],
-  AS_HELP_STRING([--with-xaw3d], [use the Xaw3d widget set for the xaw client]),
-WITH_XAW3D=1
-)
+  [AS_HELP_STRING([--with-xaw3d], [use the Xaw3d widget set for the xaw client])],
+  [WITH_XAW3D=1])
 
 if test "x$WITH_XAW" != "x" && test "x$WITH_XAW3D" != "x" ; then
-  AC_MSG_ERROR(Cannot use both --with-xaw and --with-xaw3d at the same time)
+  AC_MSG_ERROR([Cannot use both --with-xaw and --with-xaw3d at the same time])
 fi
 
 AC_ARG_ENABLE([svnrev],
