@@ -449,6 +449,10 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   fi
 done
 
+AC_ARG_WITH([zoom],
+  [AS_HELP_STRING([--with-zoom], [expose experimental/WIP zoom support on gtk3-clients to user])],
+  [AC_DEFINE([GTK3_ZOOM_ENABLED], [1], [Experimental zoom functionality exposed to user])])
+
 AC_ARG_ENABLE([svnrev],
   AS_HELP_STRING([--enable-svnrev], [get svn revision to version information]),
 [case "${enableval}" in

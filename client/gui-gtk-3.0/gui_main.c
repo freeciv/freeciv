@@ -281,10 +281,15 @@ static void print_usage(void)
   fc_fprintf(stderr,
              _("-r, --resolution WIDTHxHEIGHT\tAssume given resolution "
                "screen\n"));
+
+#ifdef GTK3_ZOOM_ENABLED
   fc_fprintf(stderr,
              /* TRANS: Keep word 'default' untranslated */
              _("-z, --zoom LEVEL\tSet zoom level; use value 'default' "
                "to reset\n\n"));
+#else
+  fc_fprintf(stderr, "\n");
+#endif /* GTK3_ZOOM_ENABLED */
 
   /* TRANS: No full stop after the URL, could cause confusion. */
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
@@ -304,6 +309,8 @@ static void parse_options(int argc, char **argv)
     if (is_option("--help", argv[i])) {
       print_usage();
       exit(EXIT_SUCCESS);
+
+#ifdef GTK3_ZOOM_ENABLED
     } else if ((option = get_option_malloc("--zoom", argv, &i, argc))) {
       char *endptr;
 
@@ -313,6 +320,8 @@ static void parse_options(int argc, char **argv)
       } else {
         gui_options.zoom_set = FALSE;
       }
+#endif /* GTK3_ZOOM_ENABLED */
+
     } else if ((option = get_option_malloc("--resolution", argv, &i, argc))) {
       if (!string_to_video_mode(option, &vmode)) {
         fc_fprintf(stderr, _("Illegal video mode '%s'"), option);
