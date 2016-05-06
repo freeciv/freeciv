@@ -349,17 +349,17 @@ struct sprite *client_research_sprite(void)
 {
   if (NULL != client.conn.playing && can_client_change_view()) {
     const struct research *presearch = research_get(client_player());
-    int index = 0;
+    int idx = 0;
 
     if (A_UNSET != presearch->researching) {
-      index = (NUM_TILES_PROGRESS * presearch->bulbs_researched
-               / (presearch->client.researching_cost + 1));
+      idx = (NUM_TILES_PROGRESS * presearch->bulbs_researched
+             / (presearch->client.researching_cost + 1));
     }
 
     /* This clipping can be necessary since we can end up with excess
      * research */
-    index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-    return get_indicator_sprite(tileset, INDICATOR_BULB, index);
+    idx = CLIP(0, idx, NUM_TILES_PROGRESS - 1);
+    return get_indicator_sprite(tileset, INDICATOR_BULB, idx);
   } else {
     return get_indicator_sprite(tileset, INDICATOR_BULB, 0);
   }
@@ -370,15 +370,16 @@ struct sprite *client_research_sprite(void)
 **************************************************************************/
 struct sprite *client_warming_sprite(void)
 {
-  int index;
+  int idx;
+
   if (can_client_change_view()) {
     /* Highest sprite kicks in at about 25% risk */
-    global_warming_scaled(&index, NULL, (NUM_TILES_PROGRESS-1)*4);
-    index = CLIP(0, index, NUM_TILES_PROGRESS-1);
+    global_warming_scaled(&idx, NULL, (NUM_TILES_PROGRESS-1)*4);
+    idx = CLIP(0, idx, NUM_TILES_PROGRESS-1);
   } else {
-    index = 0;
+    idx = 0;
   }
-  return get_indicator_sprite(tileset, INDICATOR_WARMING, index);
+  return get_indicator_sprite(tileset, INDICATOR_WARMING, idx);
 }
 
 /**************************************************************************
@@ -386,15 +387,16 @@ struct sprite *client_warming_sprite(void)
 **************************************************************************/
 struct sprite *client_cooling_sprite(void)
 {
-  int index;
+  int idx;
+
   if (can_client_change_view()) {
     /* Highest sprite kicks in at about 25% risk */
-    nuclear_winter_scaled(&index, NULL, (NUM_TILES_PROGRESS-1)*4);
-    index = CLIP(0, index, NUM_TILES_PROGRESS-1);
+    nuclear_winter_scaled(&idx, NULL, (NUM_TILES_PROGRESS-1)*4);
+    idx = CLIP(0, idx, NUM_TILES_PROGRESS-1);
   } else {
-    index = 0;
+    idx = 0;
   }
-  return get_indicator_sprite(tileset, INDICATOR_COOLING, index);
+  return get_indicator_sprite(tileset, INDICATOR_COOLING, idx);
 }
 
 /**************************************************************************

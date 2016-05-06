@@ -2042,7 +2042,7 @@ bool show_unit_orders(struct unit *punit)
     int i;
 
     for (i = 0; i < punit->orders.length; i++) {
-      int index = (punit->orders.index + i) % punit->orders.length;
+      int idx = (punit->orders.index + i) % punit->orders.length;
       struct unit_order *order;
 
       if (punit->orders.index + i >= punit->orders.length
@@ -2050,7 +2050,7 @@ bool show_unit_orders(struct unit *punit)
 	break;
       }
 
-      order = &punit->orders.list[index];
+      order = &punit->orders.list[idx];
 
       switch (order->order) {
       case ORDER_MOVE:
@@ -2206,7 +2206,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   Note: Works only for adjacent-tile moves.
 **************************************************************************/
 void move_unit_map_canvas(struct unit *punit,
-			  struct tile *src_tile, int dx, int dy)
+                          struct tile *src_tile, int dx, int dy)
 {
   static struct timer *anim_timer = NULL;
   struct tile *dest_tile;

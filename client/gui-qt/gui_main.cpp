@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -427,7 +427,8 @@ void qtg_editgui_popdown_all()
 /****************************************************************************
   Stub for editor function
 ****************************************************************************/
-void qtg_editgui_notify_object_changed(int objtype, int object_id, bool remove)
+void qtg_editgui_notify_object_changed(int objtype, int object_id,
+                                       bool removal)
 {}
 
 /****************************************************************************

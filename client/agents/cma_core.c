@@ -106,8 +106,8 @@ static bool fc_results_are_equal(const struct cm_result *result1,
     T(specialists[sp]);
   } specialist_type_iterate_end;
 
-  output_type_iterate(stat) {
-    T(surplus[stat]);
+  output_type_iterate(ot) {
+    T(surplus[ot]);
   } output_type_iterate_end;
 
   fc_assert_ret_val(result1->city_radius_sq == result2->city_radius_sq,
@@ -195,10 +195,10 @@ static bool apply_result_on_server(struct city *pcity,
   connection_do_buffer(&client.conn);
 
   /* Remove all surplus workers */
-  city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, index,
+  city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, idx,
                                      x, y) {
     if (tile_worked(ptile) == pcity
-        && !result->worker_positions[index]) {
+        && !result->worker_positions[idx]) {
       log_apply_result("Removing worker at {%d,%d}.", x, y);
 
       last_request_id =
@@ -231,10 +231,10 @@ static bool apply_result_on_server(struct city *pcity,
   /* Set workers */
   /* FIXME: This code assumes that any toggled worker will turn into a
    * DEFAULT_SPECIALIST! */
-  city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, index,
+  city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, idx,
                                      x, y) {
     if (NULL == tile_worked(ptile)
-     && result->worker_positions[index]) {
+     && result->worker_positions[idx]) {
       log_apply_result("Putting worker at {%d,%d}.", x, y);
       fc_assert_action(city_can_work_tile(pcity, ptile), break);
 

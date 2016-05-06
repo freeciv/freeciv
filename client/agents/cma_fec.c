@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2001 - R. Falke
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,10 +11,10 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**************************************************************************
+/***********************************************************************
  This is the common file for all front-end (Front End Common) for the
  citizen management agent (CMA).
-**************************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -103,7 +103,7 @@ void cmafec_free(void)
  Sets the front-end parameter.
 **************************************************************************/
 void cmafec_set_fe_parameter(struct city *pcity,
-			     const struct cm_parameter *const parameter)
+                             const struct cm_parameter *const parameter)
 {
   cma_set_parameter(ATTR_CITY_CMAFE_PARAMETER, pcity->id, parameter);
 }
@@ -150,13 +150,13 @@ void cmafec_preset_add(const char *descr_name, struct cm_parameter *pparam)
 /**************************************************************************
  Removes a preset.
 **************************************************************************/
-void cmafec_preset_remove(int index)
+void cmafec_preset_remove(int idx)
 {
   struct cma_preset *ppreset;
 
-  fc_assert_ret(index >= 0 && index < cmafec_preset_num());
+  fc_assert_ret(idx >= 0 && idx < cmafec_preset_num());
 
-  ppreset = preset_list_get(preset_list, index);
+  ppreset = preset_list_get(preset_list, idx);
   preset_list_remove(preset_list, ppreset);
 
   free(ppreset->descr);
@@ -166,26 +166,26 @@ void cmafec_preset_remove(int index)
 /**************************************************************************
  Returns the indexed preset's description.
 **************************************************************************/
-char *cmafec_preset_get_descr(int index)
+char *cmafec_preset_get_descr(int idx)
 {
   struct cma_preset *ppreset;
 
-  fc_assert_ret_val(index >= 0 && index < cmafec_preset_num(), NULL);
+  fc_assert_ret_val(idx >= 0 && idx < cmafec_preset_num(), NULL);
 
-  ppreset = preset_list_get(preset_list, index);
+  ppreset = preset_list_get(preset_list, idx);
   return ppreset->descr;
 }
 
 /**************************************************************************
  Returns the indexed preset's parameter.
 **************************************************************************/
-const struct cm_parameter *cmafec_preset_get_parameter(int index)
+const struct cm_parameter *cmafec_preset_get_parameter(int idx)
 {
   struct cma_preset *ppreset;
 
-  fc_assert_ret_val(index >= 0 && index < cmafec_preset_num(), NULL);
+  fc_assert_ret_val(idx >= 0 && idx < cmafec_preset_num(), NULL);
 
-  ppreset = preset_list_get(preset_list, index);
+  ppreset = preset_list_get(preset_list, idx);
   return &ppreset->parameter;
 }
 
@@ -194,7 +194,7 @@ const struct cm_parameter *cmafec_preset_get_parameter(int index)
  parameter. Returns -1 if no preset could be found.
 **************************************************************************/
 int cmafec_preset_get_index_of_parameter(const struct cm_parameter
-					 *const parameter)
+                                         *const parameter)
 {
   int i;
 
@@ -234,14 +234,14 @@ const char *cmafec_get_short_descr_of_city(const struct city *pcity)
  preset could be found.
 **************************************************************************/
 const char *cmafec_get_short_descr(const struct cm_parameter *const
-				   parameter)
+                                   parameter)
 {
-  int index = cmafec_preset_get_index_of_parameter(parameter);
+  int idx = cmafec_preset_get_index_of_parameter(parameter);
 
-  if (index == -1) {
+  if (idx == -1) {
     return _("custom");
   } else {
-    return cmafec_preset_get_descr(index);
+    return cmafec_preset_get_descr(idx);
   }
 }
 

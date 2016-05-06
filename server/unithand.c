@@ -708,20 +708,20 @@ static void explain_why_no_action_enabled(struct unit *punit,
                                           const struct unit *target_unit)
 {
   struct player *pplayer = unit_owner(punit);
-  struct ane_expl *expl = expl_act_not_enabl(punit, ACTION_ANY,
-                                             target_tile,
-                                             target_city, target_unit);
+  struct ane_expl *explnat = expl_act_not_enabl(punit, ACTION_ANY,
+                                                target_tile,
+                                                target_city, target_unit);
 
-  switch (expl->kind) {
+  switch (explnat->kind) {
   case ANEK_BAD_TERRAIN_ACT:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot act from %s."),
-                  terrain_name_translation(expl->no_act_terrain));
+                  terrain_name_translation(explnat->no_act_terrain));
     break;
   case ANEK_BAD_TERRAIN_TGT:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot act against %s."),
-                  terrain_name_translation(expl->no_act_terrain));
+                  terrain_name_translation(explnat->no_act_terrain));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -737,7 +737,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("You must declare war on %s first.  Try using "
                     "the Nations report (F3)."),
-                  player_name(expl->no_war_with));
+                  player_name(explnat->no_war_with));
     break;
   case ANEK_LOW_MP:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -749,7 +749,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
     break;
   }
 
-  free(expl);
+  free(explnat);
 }
 
 /**************************************************************************
