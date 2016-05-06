@@ -192,6 +192,15 @@ Problems
   audio support, or avoid installing any SDL2 packages to your
   msys2 environment.
 
+
+ TODO
+====================================
+
+- Sqlite3 based authentication support was disabled without
+  removing any dll's from the installer packages. If sqlite is
+  not restored in near future, please review what related dlls
+  are packaged.
+
 ====================================
 
 Instructions used with msys1 below. These need to be updated:
