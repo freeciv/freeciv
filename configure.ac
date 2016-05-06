@@ -221,7 +221,7 @@ AC_ARG_ENABLE([ipv6],
 [case "${enableval}" in
   yes|no|test) ipv6=${enableval} ;;
   *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ipv6) ;;
-esac], [ipv6=test])
+esac], [ipv6=yes])
 if test x$ipv6 != xno ; then
   if test "x$have_getaddrinfo" = "xyes" ; then
     enable_ipv6=yes
@@ -265,7 +265,7 @@ if test x$ipv6 != xno ; then
         enable_ipv6=no])
   fi
   if test x$enable_ipv6 = xno && test x$ipv6 = xyes ; then
-    AC_MSG_ERROR([Cannot enable IPv6 functionality])
+    AC_MSG_ERROR([Cannot enable IPv6 functionality. If you want to allow build without IPv6, try --enable-ipv6=test or --disable-ipv6])
   fi
   if test x$enable_ipv6 = xyes ; then
     AC_DEFINE([FREECIV_IPV6_SUPPORT], [1], [IPv6 Support built in])
