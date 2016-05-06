@@ -1,7 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS = ruleutil
+
 if RULEDIT
-SUBDIRS = ruledit
+SUBDIRS += ruledit
 endif
 
 MOCCMD=@MOCCMD@

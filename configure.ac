@@ -1653,6 +1653,7 @@ AC_CONFIG_FILES([Makefile
 	  server/scripting/Makefile
           tools/Makefile
           tools/ruledit/Makefile
+          tools/ruleutil/Makefile
           gen_headers/Makefile
           translations/Makefile
 	  translations/core/Makefile.in

@@ -18,6 +18,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/common/networking \
 	-I$(top_srcdir)/server \
+	-I$(top_srcdir)/tools/ruleutil \
 	-I$(top_srcdir)/dependencies/tinycthread
 
 freeciv_ruledit_CXXFLAGS = $(ruledit_cxxflags)
@@ -33,8 +34,6 @@ MOC_FILES = \
             meta_tab_unit.cpp
 
 freeciv_ruledit_SOURCES =	\
-		comments.c	\
-		comments.h	\
 		edit_utype.cpp	\
 		edit_utype.h	\
 		tab_building.cpp \
@@ -53,8 +52,6 @@ freeciv_ruledit_SOURCES =	\
 		ruledit.h	\
 		ruledit_qt.cpp	\
 		ruledit_qt.h	\
-		rulesave.c	\
-		rulesave.h	\
 		validity.c	\
 		validity.h
 
@@ -64,6 +61,7 @@ freeciv_ruledit_LDADD = \
  $(ruledit_libs) \
  $(top_builddir)/server/libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
+ $(top_builddir)/tools/ruleutil/libfcruleutil.la \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
 
 CLEANFILES = $(MOC_FILES)
