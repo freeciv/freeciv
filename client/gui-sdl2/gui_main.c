@@ -1128,7 +1128,7 @@ void editgui_popdown_all(void)
 /****************************************************************************
   Stub for editor function
 ****************************************************************************/
-void editgui_notify_object_changed(int objtype, int object_id, bool remove)
+void editgui_notify_object_changed(int objtype, int object_id, bool removal)
 {}
 
 /****************************************************************************

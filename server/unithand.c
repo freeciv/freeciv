@@ -940,15 +940,15 @@ static void explain_why_no_action_enabled(struct unit *punit,
                                           const struct unit *target_unit)
 {
   struct player *pplayer = unit_owner(punit);
-  struct ane_expl *expl = expl_act_not_enabl(punit, ACTION_ANY,
-                                             target_tile,
-                                             target_city, target_unit);
+  struct ane_expl *explnat = expl_act_not_enabl(punit, ACTION_ANY,
+                                                target_tile,
+                                                target_city, target_unit);
 
-  switch (expl->kind) {
+  switch (explnat->kind) {
   case ANEK_ACTOR_UNIT:
     /* This shouldn't happen unless the client is buggy given the current
      * users. */
-    fc_assert_msg(expl->kind != ANEK_ACTOR_UNIT,
+    fc_assert_msg(explnat->kind != ANEK_ACTOR_UNIT,
                   "Asked to explain why a non actor can't act.");
 
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -958,7 +958,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
     /* This shouldn't happen at the moment. Only specific action checks
      * will trigger bad target checks. This is a reply to a question about
      * any action. */
-    fc_assert(expl->kind != ANEK_BAD_TARGET);
+    fc_assert(explnat->kind != ANEK_BAD_TARGET);
 
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Your %s found no suitable target."),
@@ -967,12 +967,12 @@ static void explain_why_no_action_enabled(struct unit *punit,
   case ANEK_BAD_TERRAIN_ACT:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot act from %s."),
-                  terrain_name_translation(expl->no_act_terrain));
+                  terrain_name_translation(explnat->no_act_terrain));
     break;
   case ANEK_BAD_TERRAIN_TGT:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot act against %s."),
-                  terrain_name_translation(expl->no_act_terrain));
+                  terrain_name_translation(explnat->no_act_terrain));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1005,7 +1005,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("You must declare war on %s first.  Try using "
                     "the Nations report (F3)."),
-                  player_name(expl->no_war_with));
+                  player_name(explnat->no_war_with));
     break;
   case ANEK_DOMESTIC:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1063,13 +1063,13 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   /* TRANS: Paris ... Warriors (think: airlift) */
                   _("%s don't have enough capacity, so "
                     "%s cannot do anything."),
-                  city_name_get(expl->capacity_city),
+                  city_name_get(explnat->capacity_city),
                   unit_name_translation(punit));
     break;
   case ANEK_ACTION_BLOCKS:
     /* If an action blocked another action the blocking action must be
      * possible. */
-    fc_assert(expl->kind != ANEK_ACTION_BLOCKS);
+    fc_assert(explnat->kind != ANEK_ACTION_BLOCKS);
     /* Fall through to unknown cause. */
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1077,7 +1077,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
     break;
   }
 
-  free(expl);
+  free(explnat);
 }
 
 /**************************************************************************

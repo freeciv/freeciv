@@ -1214,17 +1214,17 @@ static void dai_share(struct ai_type *ait, struct player *pplayer,
   /* Only share techs with team mates */
   if (presearch != aresearch
       && players_on_same_team(pplayer, aplayer)) {
-    advance_index_iterate(A_FIRST, index) {
-      if (research_invention_state(presearch, index) != TECH_KNOWN
-          && research_invention_state(aresearch, index) == TECH_KNOWN
-          && research_invention_gettable(presearch, index,
+    advance_index_iterate(A_FIRST, idx) {
+      if (research_invention_state(presearch, idx) != TECH_KNOWN
+          && research_invention_state(aresearch, idx) == TECH_KNOWN
+          && research_invention_gettable(presearch, idx,
                                          game.info.tech_trade_allow_holes)) {
-       dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, TRUE, index);
-      } else if (research_invention_state(presearch, index) == TECH_KNOWN
-                 && research_invention_state(aresearch, index) != TECH_KNOWN
-                 && research_invention_gettable(aresearch, index,
-                        game.info.tech_trade_allow_holes)) {
-        dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, FALSE, index);
+       dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, TRUE, idx);
+      } else if (research_invention_state(presearch, idx) == TECH_KNOWN
+                 && research_invention_state(aresearch, idx) != TECH_KNOWN
+                 && research_invention_gettable(aresearch, idx,
+                                                game.info.tech_trade_allow_holes)) {
+        dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, FALSE, idx);
       }
     } advance_index_iterate_end;
   }

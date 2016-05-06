@@ -471,9 +471,9 @@ void editgui_notify_object_created(int tag, int id)
 /****************************************************************************
   Call editgui_notify_object_changed callback
 ****************************************************************************/
-void editgui_notify_object_changed(int objtype, int object_id, bool remove)
+void editgui_notify_object_changed(int objtype, int object_id, bool removal)
 {
-  funcs.editgui_notify_object_changed(objtype, object_id, remove);
+  funcs.editgui_notify_object_changed(objtype, object_id, removal);
 }
 
 /****************************************************************************

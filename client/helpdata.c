@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,10 +11,10 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/****************************************************************
+/***********************************************************************
  This module is for generic handling of help data, independent
  of gui considerations.
-*****************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -3216,7 +3216,7 @@ void boot_help_texts(void)
             {
               int desc_len;
               int len;
-              const char *ts_name = tileset_name(tileset);
+              const char *ts_name = tileset_name_get(tileset);
               const char *version = tileset_version(tileset);
               const char *summary = tileset_summary(tileset);
               const char *description = tileset_description(tileset);
@@ -5100,19 +5100,20 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                   "-------------------------\n"));;
       }
       terrain_type_iterate(t) {
-        int time = road ? terrain_extra_build_time(t, ACTIVITY_GEN_ROAD, pextra)
-                          : terrain_extra_build_time(t, ACTIVITY_BASE, pextra);
+        int turns = road ? terrain_extra_build_time(t, ACTIVITY_GEN_ROAD, pextra)
+                           : terrain_extra_build_time(t, ACTIVITY_BASE, pextra);
         const char *bonus_text
           = road ? helptext_road_bonus_str(t, proad) : NULL;
-        if (time > 0 || bonus_text) {
+        if (turns > 0 || bonus_text) {
           const char *terrain = terrain_name_translation(t);
+
           cat_snprintf(buf, bufsz,
                        "%s%*s ", terrain,
                        MAX(0, 12 - (int)get_internal_string_length(terrain)),
                        "");
           if (do_time) {
-            if (time > 0) {
-              cat_snprintf(buf, bufsz, "%3d      ", time);
+            if (turns > 0) {
+              cat_snprintf(buf, bufsz, "%3d      ", turns);
             } else {
               CATLSTR(buf, bufsz, "  -      ");
             }

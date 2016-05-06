@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/********************************************************************** 
+/*********************************************************************** 
   Reading and using the tilespec files, which describe
   the files and contents of tilesets.
 ***********************************************************************/
@@ -322,15 +322,15 @@ struct sprite *get_nation_flag_sprite(const struct tileset *t,
 				      const struct nation_type *nation);
 struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech);
 struct sprite *get_building_sprite(const struct tileset *t,
-				   struct impr_type *pimprove);
+                                   struct impr_type *pimprove);
 struct sprite *get_government_sprite(const struct tileset *t,
-				     const struct government *gov);
+                                     const struct government *gov);
 struct sprite *get_unittype_sprite(const struct tileset *t,
-				   const struct unit_type *punittype,
+                                   const struct unit_type *punittype,
                                    enum direction8 facing,
                                    bool icon);
 struct sprite *get_sample_city_sprite(const struct tileset *t,
-				      int city_style);
+                                      int style_idx);
 struct sprite *get_arrow_sprite(const struct tileset *t,
 				enum arrow_type arrow);
 struct sprite *get_tax_sprite(const struct tileset *t, Output_type_id otype);
@@ -403,7 +403,7 @@ bool tileset_use_hard_coded_fog(const struct tileset *t);
 #define TS_TOPO_HEX      (1 << 1)
 #define TS_TOPO_ISOHEX   (TS_TOPO_ISO + TS_TOPO_HEX)
 
-const char *tileset_name(struct tileset *t);
+const char *tileset_name_get(struct tileset *t);
 const char *tileset_version(struct tileset *t);
 const char *tileset_summary(struct tileset *t);
 const char *tileset_description(struct tileset *t);

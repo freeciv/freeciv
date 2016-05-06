@@ -2306,14 +2306,14 @@ static const char *cardinal_index_str(const struct tileset *t, int idx)
   Do the same thing as cardinal_str, except including all valid directions.
   The returned string is a pointer to static memory.
 ****************************************************************************/
-static char *valid_index_str(const struct tileset *t, int index)
+static char *valid_index_str(const struct tileset *t, int idx)
 {
   static char c[64];
   int i;
 
   c[0] = '\0';
   for (i = 0; i < t->num_valid_tileset_dirs; i++) {
-    int value = (index >> i) & 1;
+    int value = (idx >> i) & 1;
 
     cat_snprintf(c, sizeof(c), "%s%d",
 		 dir_get_tileset_name(t->valid_tileset_dirs[i]), value);
@@ -4146,14 +4146,14 @@ static int fill_road_corner_sprites(const struct tileset *t,
       int cw = (i + 1) % t->num_valid_tileset_dirs;
       int ccw
 	= (i + t->num_valid_tileset_dirs - 1) % t->num_valid_tileset_dirs;
-      enum direction8 dir_cw = t->valid_tileset_dirs[cw];
-      enum direction8 dir_ccw = t->valid_tileset_dirs[ccw];
+      enum direction8 cwdir = t->valid_tileset_dirs[cw];
+      enum direction8 ccwdir = t->valid_tileset_dirs[ccw];
 
       if (t->sprites.extras[extra_idx].u.road.corner[dir]
-	  && (road_near[dir_cw] && road_near[dir_ccw]
-	      && !(hider_near[dir_cw] && hider_near[dir_ccw]))
-	  && !(road && road_near[dir] && !(hider && hider_near[dir]))) {
-	ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.corner[dir]);
+          && (road_near[cwdir] && road_near[ccwdir]
+              && !(hider_near[cwdir] && hider_near[ccwdir]))
+          && !(road && road_near[dir] && !(hider && hider_near[dir]))) {
+        ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.corner[dir]);
       }
     }
   }
@@ -4422,9 +4422,9 @@ static int fill_irrigation_sprite_array(const struct tileset *t,
           } extra_type_list_iterate_end;
 
           if (!hidden) {
-            int index = get_irrigation_index(t, pextra, textras_near);
+            int idx = get_irrigation_index(t, pextra, textras_near);
 
-            ADD_SPRITE_SIMPLE(t->sprites.extras[eidx].u.cardinals[index]);
+            ADD_SPRITE_SIMPLE(t->sprites.extras[eidx].u.cardinals[idx]);
           }
         }
       }
@@ -4473,12 +4473,12 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
 
     if (!citymode && pcity->client.colored) {
       /* Add citymap overlay for a city. */
-      int index = pcity->client.color_index % NUM_CITY_COLORS;
+      int idx = pcity->client.color_index % NUM_CITY_COLORS;
 
       if (NULL != pwork && pwork == pcity) {
-        ADD_SPRITE_SIMPLE(t->sprites.city.worked_tile_overlay.p[index]);
+        ADD_SPRITE_SIMPLE(t->sprites.city.worked_tile_overlay.p[idx]);
       } else if (city_can_work_tile(pcity, ptile)) {
-        ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[index]);
+        ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[idx]);
       }
     } else if (NULL != pwork && pwork == pcity
                && (citymode || gui_options.draw_city_output)) {
@@ -4499,9 +4499,9 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
     }
   } else if (psettler && psettler->client.colored) {
     /* Add citymap overlay for a unit. */
-    int index = psettler->client.color_index % NUM_CITY_COLORS;
+    int idx = psettler->client.color_index % NUM_CITY_COLORS;
 
-    ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[index]);
+    ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[idx]);
   }
 
   return sprs - saved_sprs;
@@ -4542,7 +4542,7 @@ static int fill_terrain_sprite_blending(const struct tileset *t,
     }
 
     ADD_SPRITE(t->sprites.drawing[terrain_index(other)]->blend[dir], TRUE,
-	       offsets[dir][0], offsets[dir][1]);
+               offsets[dir][0], offsets[dir][1]);
   }
 
   return sprs - saved_sprs;
@@ -6010,16 +6010,16 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
   Return a "sample" sprite for this city style.
 **************************************************************************/
 struct sprite *get_sample_city_sprite(const struct tileset *t,
-				      int city_style)
+                                      int style_idx)
 {
   int num_thresholds =
-    t->sprites.city.tile->styles[city_style].land_num_thresholds;
+    t->sprites.city.tile->styles[style_idx].land_num_thresholds;
 
   if (num_thresholds == 0) {
     return NULL;
   } else {
-    return (t->sprites.city.tile->styles[city_style]
-	    .land_thresholds[num_thresholds - 1].sprite);
+    return (t->sprites.city.tile->styles[style_idx]
+            .land_thresholds[num_thresholds - 1].sprite);
   }
 }
 
@@ -6624,7 +6624,7 @@ bool tileset_is_fully_loaded(void)
 /****************************************************************************
   Return tileset name
 ****************************************************************************/
-const char *tileset_name(struct tileset *t)
+const char *tileset_name_get(struct tileset *t)
 {
   return t->given_name;
 }

@@ -109,7 +109,7 @@ void qtg_set_city_names_font_sizes(int my_city_names_font_size,
 
 void qtg_editgui_refresh();
 void qtg_editgui_notify_object_created(int tag, int id);
-void qtg_editgui_notify_object_changed(int objtype, int object_id, bool remove);
+void qtg_editgui_notify_object_changed(int objtype, int object_id, bool removal);
 void qtg_editgui_popup_properties(const struct tile_list *tiles, int objtype);
 void qtg_editgui_tileset_changed();
 void qtg_editgui_popdown_all();

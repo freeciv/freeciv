@@ -4685,7 +4685,7 @@ void handle_edit_startpos(const struct packet_edit_startpos *packet)
   }
 
   /* Handle. */
-  if (packet->remove) {
+  if (packet->removal) {
     changed = map_startpos_remove(ptile);
   } else {
     if (NULL != map_startpos_get(ptile)) {
@@ -4699,7 +4699,7 @@ void handle_edit_startpos(const struct packet_edit_startpos *packet)
   /* Notify. */
   if (changed && can_client_change_view()) {
     refresh_tile_mapcanvas(ptile, TRUE, FALSE);
-    if (packet->remove) {
+    if (packet->removal) {
       editgui_notify_object_changed(OBJTYPE_STARTPOS,
                                     packet->id, TRUE);
     } else {

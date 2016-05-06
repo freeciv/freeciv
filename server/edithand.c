@@ -119,7 +119,7 @@ void edithand_send_initial_packets(struct conn_list *dest)
   /* Send map start positions. */
   map_startpos_iterate(psp) {
     startpos.id = tile_index(startpos_tile(psp));
-    startpos.remove = FALSE;
+    startpos.removal = FALSE;
     startpos.tag = 0;
 
     startpos_pack(psp, &startpos_full);
@@ -1271,7 +1271,7 @@ void handle_edit_startpos(struct connection *pconn,
   }
 
   /* Handle. */
-  if (packet->remove) {
+  if (packet->removal) {
     changed = map_startpos_remove(ptile);
   } else {
     if (NULL != map_startpos_get(ptile)) {

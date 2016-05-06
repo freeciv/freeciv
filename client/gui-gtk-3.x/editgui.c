@@ -1934,7 +1934,7 @@ void editgui_popdown_all(void)
   Currently this is used to notify the property editor that some object
   has been removed or some property value has changed at the server.
 ****************************************************************************/
-void editgui_notify_object_changed(int objtype, int object_id, bool remove)
+void editgui_notify_object_changed(int objtype, int object_id, bool removal)
 {
   struct property_editor *pe;
 
@@ -1943,7 +1943,7 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
   }
 
   pe = editprop_get_property_editor();
-  property_editor_handle_object_changed(pe, objtype, object_id, remove);
+  property_editor_handle_object_changed(pe, objtype, object_id, removal);
 }
 
 /****************************************************************************

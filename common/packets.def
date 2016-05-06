@@ -2004,13 +2004,13 @@ end
 PACKET_EDIT_TILE_EXTRA = 202; cs, handle-per-conn, dsend
   TILE tile; key
   EXTRA extra_type_id;
-  BOOL remove;
+  BOOL removal;
   UINT8 size;
 end
 
 PACKET_EDIT_STARTPOS = 204; cs, sc, dsend, handle-per-conn, handle-via-packet, no-delta
   TILE id;
-  BOOL remove;
+  BOOL removal;
   SINT32 tag;
 end
 

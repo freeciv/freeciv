@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -156,7 +156,7 @@ struct tileset *tileset;
 /**************************************************************************
   Client stub
 **************************************************************************/
-const char *tileset_name(struct tileset *t)
+const char *tileset_name_get(struct tileset *t)
 {
   return NULL;
 }
