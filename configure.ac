@@ -691,7 +691,12 @@ dnl check profiling
 FC_GPROF
 
 AC_C99_VARIADIC_MACROS
-AC_C99_VARIABLE_ARRAYS
+
+AC_C_VARARRAYS
+if test "x$ac_cv_c_vararrays" != "xyes" ; then
+  AC_MSG_ERROR([A compiler supporting C99 variable arrays is required])
+fi
+
 AC_C99_INITIALIZERS
 AC_C99_STDINT_H
 
