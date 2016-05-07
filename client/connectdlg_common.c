@@ -196,20 +196,22 @@ bool client_start_server(void)
 #else /* HAVE_USABLE_FORK || WIN32_NATIVE */
   char buf[512];
   int connect_tries = 0;
+  char savesdir[MAX_LEN_PATH];
+  char scensdir[MAX_LEN_PATH];
+  char *storage;
+
 #if !defined(HAVE_USABLE_FORK)
-  /* Above also implies that this is WIN32_NATIVE ->
+  /* Above also implies that this is FREECIV_MS_WINDOWS ->
    * Win32 that can't use fork() */
   STARTUPINFO si;
   PROCESS_INFORMATION pi;
 
-  char savesdir[MAX_LEN_PATH];
-  char scensdir[MAX_LEN_PATH];
   char options[512];
   char *depr;
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   char cmdline1[512];
   char cmdline2[512];
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
   char cmdline3[512];
   char cmdline4[512];
   char logcmdline[512];
@@ -246,6 +248,14 @@ bool client_start_server(void)
     return FALSE;
   }
 
+  storage = freeciv_storage_dir();
+  if (storage == NULL) {
+    output_window_append(ftc_client, _("Cannot find freeciv storage directory"));
+    output_window_append(ftc_client,
+                         _("You'll have to start server manually. Sorry..."));
+    return FALSE;
+  }
+
 #ifdef HAVE_USABLE_FORK
   {
     int argc = 0;
@@ -258,6 +268,8 @@ bool client_start_server(void)
 
     /* Set up the command-line parameters. */
     fc_snprintf(port_buf, sizeof(port_buf), "%d", internal_server_port);
+    fc_snprintf(savesdir, sizeof(savesdir), "%s" DIR_SEPARATOR "saves", storage);
+    fc_snprintf(scensdir, sizeof(scensdir), "%s" DIR_SEPARATOR "scenarios", storage);
     argv[argc++] = "freeciv-server";
     argv[argc++] = "-p";
     argv[argc++] = port_buf;
@@ -267,9 +279,9 @@ bool client_start_server(void)
     argv[argc++] = "1";
     argv[argc++] = "-e";
     argv[argc++] = "--saves";
-    argv[argc++] = "~/.freeciv/saves";
+    argv[argc++] = savesdir;
     argv[argc++] = "--scenarios";
-    argv[argc++] = "~/.freeciv/scenarios";
+    argv[argc++] = scensdir;
     argv[argc++] = "-A";
     argv[argc++] = "none";
     if (logfile) {
@@ -404,10 +416,10 @@ bool client_start_server(void)
     free(savefile_in_local_encoding);
   }
 
-  interpret_tilde(savesdir, sizeof(savesdir), "~/.freeciv/saves");
+  fc_snprintf(savesdir, sizeof(savesdir), "%s" DIR_SEPARATOR "saves", storage);
   internal_to_local_string_buffer(savesdir, savescmdline, sizeof(savescmdline));
 
-  interpret_tilde(scensdir, sizeof(scensdir), "~/.freeciv/scenarios");
+  fc_snprintf(scensdir, sizeof(scensdir), "%s" DIR_SEPARATOR "scenarios", storage);
   internal_to_local_string_buffer(scensdir, scenscmdline, sizeof(scenscmdline));
 
   if (are_deprecation_warnings_enabled()) {
