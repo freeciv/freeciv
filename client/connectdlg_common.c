@@ -206,10 +206,10 @@ bool client_start_server(void)
   char scensdir[MAX_LEN_PATH];
   char options[512];
   char *depr;
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   char cmdline1[512];
   char cmdline2[512];
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
   char cmdline3[512];
   char cmdline4[512];
   char logcmdline[512];
@@ -267,9 +267,9 @@ bool client_start_server(void)
     argv[argc++] = "1";
     argv[argc++] = "-e";
     argv[argc++] = "--saves";
-    argv[argc++] = "~/.freeciv/saves";
+    argv[argc++] = "~" DIR_SEPARATOR ".freeciv "DIR_SEPARATOR "saves";
     argv[argc++] = "--scenarios";
-    argv[argc++] = "~/.freeciv/scenarios";
+    argv[argc++] = "~" DIR_SEPARATOR ".freeciv "DIR_SEPARATOR "scenarios";
     argv[argc++] = "-A";
     argv[argc++] = "none";
     if (logfile) {
@@ -404,10 +404,12 @@ bool client_start_server(void)
     free(savefile_in_local_encoding);
   }
 
-  interpret_tilde(savesdir, sizeof(savesdir), "~/.freeciv/saves");
+  interpret_tilde(savesdir, sizeof(savesdir),
+                  "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR "saves");
   internal_to_local_string_buffer(savesdir, savescmdline, sizeof(savescmdline));
 
-  interpret_tilde(scensdir, sizeof(scensdir), "~/.freeciv/scenarios");
+  interpret_tilde(scensdir, sizeof(scensdir),
+                  "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR "scenarios");
   internal_to_local_string_buffer(scensdir, scenscmdline, sizeof(scenscmdline));
 
   if (are_deprecation_warnings_enabled()) {
@@ -571,7 +573,7 @@ void send_client_wants_hack(const char *filename)
 
     /* get the full filename path */
     interpret_tilde(challenge_fullname, sizeof(challenge_fullname),
-		    "~/.freeciv/");
+                    "~/.freeciv/");
     make_dir(challenge_fullname);
 
     sz_strlcat(challenge_fullname, filename);
