@@ -175,7 +175,7 @@ somehow. Some options are:
  Current default is 0x0600 (Vista).
 
 
-Problems
+ Problems
 ====================================
 
 - Freeciv linked against readline in msys2 does not work.
@@ -192,6 +192,9 @@ Problems
   audio support, or avoid installing any SDL2 packages to your
   msys2 environment.
 
+- Checking if files are bzip2 compressed crashes freeciv.
+  Disable bzip2 support with --without-libbz2
+
 
  TODO
 ====================================
@@ -199,7 +202,12 @@ Problems
 - Sqlite3 based authentication support was disabled without
   removing any dll's from the installer packages. If sqlite is
   not restored in near future, please review what related dlls
-  are packaged.
+  are packaged and could be removed.
+
+- Bzip2 based compression support was disabled without
+  removing any dll's from the installer packages.
+  Please review what related dlls are packaged and could be
+  removed.
 
 ====================================
 
