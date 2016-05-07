@@ -807,7 +807,7 @@ int tile_move_cost_ptrs(const struct unit *punit,
   cost = tile_terrain(t2)->movement_cost * SINGLE_MOVE;
   ri = restrict_infra(pplayer, t1, t2);
 
-  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+  extra_type_list_iterate(pclass->cache.bonus_roads, pextra) {
     struct road_type *proad = extra_road_get(pextra);
 
     /* We check the destination tile first, as that's
@@ -815,18 +815,14 @@ int tile_move_cost_ptrs(const struct unit *punit,
      * If can avoid inner loop about integrating roads
      * completely if the destination road has too high cost. */
 
-    if (road_provides_move_bonus(proad)
-        && cost > proad->move_cost
+    if (cost > proad->move_cost
         && (!ri || road_has_flag(proad, RF_UNRESTRICTED_INFRA))
-        && tile_has_extra(t2, pextra)
-        && (!pclass
-            || is_native_extra_to_uclass(pextra, pclass))) {
+        && tile_has_extra(t2, pextra)) {
       extra_type_list_iterate(proad->integrators, iextra) {
         /* We have no unrestricted infra related check here,
          * destination road is the one that counts. */
         if (tile_has_extra(t1, iextra)
-            && (!pclass
-                || is_native_extra_to_uclass(iextra, pclass))) {
+            && is_native_extra_to_uclass(iextra, pclass)) {
           if (proad->move_mode == RMM_FAST_ALWAYS) {
             cost = proad->move_cost;
           } else {
@@ -866,7 +862,7 @@ int tile_move_cost_ptrs(const struct unit *punit,
         }
       } extra_type_list_iterate_end;
     }
-  } extra_type_by_cause_iterate_end;
+  } extra_type_list_iterate_end;
 
   /* UTYF_IGTER units have a maximum move cost per step. */
   if (utype_has_flag(punittype, UTYF_IGTER) && MOVE_COST_IGTER < cost) {
