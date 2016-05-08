@@ -569,7 +569,14 @@ const char *utype_values_translation(const struct unit_type *punittype);
 
 /* General unit type flag and role routines */
 bool unit_has_type_flag(const struct unit *punit, enum unit_type_flag_id flag);
-bool utype_has_flag(const struct unit_type *punittype, int flag);
+
+/**************************************************************************
+  Return whether the given unit type has the flag.
+**************************************************************************/
+static inline bool utype_has_flag(const struct unit_type *punittype, int flag)
+{
+  return BV_ISSET(punittype->flags, flag);
+}
 
 bool unit_has_type_role(const struct unit *punit, enum unit_role_id role);
 bool utype_has_role(const struct unit_type *punittype, int role);
@@ -652,8 +659,14 @@ struct unit_class *unit_class_by_rule_name(const char *s);
 const char *uclass_rule_name(const struct unit_class *pclass);
 const char *uclass_name_translation(const struct unit_class *pclass);
 
-bool uclass_has_flag(const struct unit_class *punitclass,
-                     enum unit_class_flag_id flag);
+/**************************************************************************
+  Return whether the given unit class has the flag.
+**************************************************************************/
+static inline bool uclass_has_flag(const struct unit_class *punitclass,
+                                   enum unit_class_flag_id flag)
+{
+  return BV_ISSET(punitclass->flags, flag);
+}
 
 void user_unit_class_flags_init(void);
 void set_user_unit_class_flag_name(enum unit_class_flag_id id,

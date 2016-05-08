@@ -180,25 +180,6 @@ int utype_happy_cost(const struct unit_type *ut,
 }
 
 /**************************************************************************
-  Return whether the given unit class has the flag.
-**************************************************************************/
-bool uclass_has_flag(const struct unit_class *punitclass,
-                     enum unit_class_flag_id flag)
-{
-  fc_assert_ret_val(unit_class_flag_id_is_valid(flag), FALSE);
-  return BV_ISSET(punitclass->flags, flag);
-}
-
-/**************************************************************************
-  Return whether the given unit type has the flag.
-**************************************************************************/
-bool utype_has_flag(const struct unit_type *punittype, int flag)
-{
-  fc_assert_ret_val(unit_type_flag_id_is_valid(flag), FALSE);
-  return BV_ISSET(punittype->flags, flag);
-}
-
-/**************************************************************************
   Return whether the unit has the given flag.
 **************************************************************************/
 bool unit_has_type_flag(const struct unit *punit, enum unit_type_flag_id flag)
