@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -3000,6 +3000,12 @@ static void update_scenario_page(void)
       int current_ver = MAJOR_VERSION * 1000000 + MINOR_VERSION * 10000;
 
       fcver = secfile_lookup_int_default(sf, 0, "scenario.game_version");
+      if (fcver < 30000) {
+        /* Pre-3.0 versions stored version number without emergency version
+         * part in the end. To get comparable version number stored,
+         * multiply by 100. */
+        fcver *= 100;
+      }
       fcver -= (fcver % 10000); /* Patch level does not affect compatibility */
       sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
       sdescription = secfile_lookup_str_default(sf, NULL,
