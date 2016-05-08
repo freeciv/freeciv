@@ -573,7 +573,7 @@ void send_client_wants_hack(const char *filename)
 
     /* get the full filename path */
     interpret_tilde(challenge_fullname, sizeof(challenge_fullname),
-                    "~/.freeciv/");
+                    "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR);
     make_dir(challenge_fullname);
 
     sz_strlcat(challenge_fullname, filename);
