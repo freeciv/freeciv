@@ -1478,39 +1478,54 @@ void military_advisor_choose_build(struct ai_type *ait,
               || (city_data->grave_danger == 0 
                   && pplayer->economic.gold > impr_buy_gold_cost(pimprove, pcity->shield_stock)))
           && ai_fuzzy(pplayer, TRUE)) {
-        /* NB: great wall is under domestic */
-        choice->value.building = pimprove;
-        /* building_want is hacked by assess_danger */
-        choice->want = pcity->server.adv->building_want[wall_id];
-        if (urgency == 0 && choice->want > 100) {
-          choice->want = 100;
+        if (pcity->server.adv->building_want[wall_id] > 0) {
+          /* NB: great wall is under domestic */
+          choice->value.building = pimprove;
+          /* building_want is hacked by assess_danger */
+          choice->want = pcity->server.adv->building_want[wall_id];
+          if (urgency == 0 && choice->want > 100) {
+            choice->want = 100;
+          }
+          choice->type = CT_BUILDING;
+          CITY_LOG(LOG_DEBUG, pcity,
+                   "m_a_c_d wants defense building with " ADV_WANT_PRINTF,
+                   choice->want);
+        } else {
+          build_walls = FALSE;
         }
-        choice->type = CT_BUILDING;
-        CITY_LOG(LOG_DEBUG, pcity,
-                 "m_a_c_d wants defense building with " ADV_WANT_PRINTF,
-                 choice->want);
-      } else if ((danger > 0 && num_defenders <= urgency) || martial_value > 0) {
+      } else {
+        build_walls = FALSE;
+      }
+      if ((danger > 0 && num_defenders <= urgency) || martial_value > 0) {
+        struct adv_choice uchoice;
+
+        adv_init_choice(&uchoice);
+
         /* Consider building defensive units */
-        if (dai_process_defender_want(ait, pplayer, pcity, danger, choice)) {
+        if (dai_process_defender_want(ait, pplayer, pcity, danger, &uchoice)) {
           /* Potential defender found */
           if (urgency == 0
-              && choice->value.utype->defense_strength == 1) {
+              && uchoice.value.utype->defense_strength == 1) {
             /* FIXME: check other reqs (unit class?) */
             if (get_city_bonus(pcity, EFT_HP_REGEN) > 0) {
               /* unlikely */
-              choice->want = MIN(49, danger);
+              uchoice.want = MIN(49, danger);
             } else {
-              choice->want = MIN(25, danger);
+              uchoice.want = MIN(25, danger);
             }
           } else {
             choice->want = danger;
           }
 
-          choice->want += martial_value;
+          uchoice.want += martial_value;
 
           CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire " ADV_WANT_PRINTF,
                    utype_rule_name(choice->value.utype),
                    choice->want);
+
+          if (!build_walls || uchoice.want > choice->want) {
+            *choice = uchoice;
+          }
         } else {
           CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d cannot select defender");
         }
