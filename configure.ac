@@ -739,7 +739,7 @@ case "$host_os" in
     HOST_PATH_SEPARATOR=";"
     HOST_DIR_SEPARATOR="\\"
 
-    FREECIV_STORAGE_DIR=$(echo $FREECIV_STORAGE_DIR | $SED 's,/,\\\\\\\\,g')
+    FREECIV_STORAGE_DIR=$(echo $FREECIV_STORAGE_DIR | $SED 's,/,\\\\,g')
 
     AC_DEFINE([FREECIV_SOCKET_ZERO_NOT_STDIN], [1], [Mingw-specific setting - stdin])
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw])
