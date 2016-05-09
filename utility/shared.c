@@ -1557,6 +1557,51 @@ char *setup_langname(void)
   return langname;
 }
 
+#ifdef FREECIV_ENABLE_NLS
+/***************************************************************************
+  Update autocap behavior to match current language.
+***************************************************************************/
+static void autocap_update(void)
+{
+  char *autocap_opt_in[] = { "fi", NULL };
+  int i;
+  bool ac_enabled = FALSE;
+
+  char *lang = getenv("LANG");
+
+  if (lang != NULL && lang[0] != '\0' && lang[1] != '\0') {
+    for (i = 0; autocap_opt_in[i] != NULL && !ac_enabled; i++) {
+      if (lang[0] == autocap_opt_in[i][0]
+          && lang[1] == autocap_opt_in[i][1]) {
+        ac_enabled = TRUE;
+        break;
+      }
+    }
+  }
+
+  capitalization_opt_in(ac_enabled);
+}
+#endif /* FREECIV_ENABLE_NLS */
+
+/***************************************************************************
+  Switch to specified LANG
+***************************************************************************/
+void switch_lang(const char *lang)
+{
+#ifdef FREECIV_ENABLE_NLS
+  setenv("LANG", lang, TRUE);
+
+  (void) setlocale(LC_ALL, "");
+  (void) bindtextdomain("freeciv-core", get_locale_dir());
+
+  autocap_update();
+
+  log_normal("LANG set to %s", lang);
+#else  /* FREECIV_ENABLE_NLS */
+  fc_assert(FALSE);
+#endif /* FREECIV_ENABLE_NLS */
+}
+
 /***************************************************************************
   Setup for Native Language Support, if configured to use it.
   (Call this only once, or it may leak memory.)
@@ -1612,23 +1657,7 @@ void init_nls(void)
     grouping_sep = fc_strdup(lc->thousands_sep);
   }
 
-  {
-    char *autocap_opt_in[] = { "fi", NULL };
-    int i;
-    bool ac_enabled = FALSE;
-
-    char *lang = getenv("LANG");
-
-    if (lang != NULL && lang[0] != '\0' && lang[1] != '\0') {
-      for (i = 0; autocap_opt_in[i] != NULL && !ac_enabled; i++) {
-        if (lang[0] == autocap_opt_in[i][0]
-            && lang[1] == autocap_opt_in[i][1]) {
-          ac_enabled = TRUE;
-          capitalization_opt_in();
-        }
-      }
-    }
-  }
+  autocap_update();
 
 #endif /* ENABLE_NLS */
 }

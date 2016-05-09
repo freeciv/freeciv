@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 
 static bool autocap = FALSE;
 
-/**********************************************************************
+/***********************************************************************
 Some strings are ambiguous for translation.  For example, "Game" is
 something you play (like Freeciv!) or animals that can be hunted.
 To distinguish strings for translation, we qualify them with a prefix
@@ -86,9 +86,9 @@ void free_capitalized(char *str)
 /**********************************************************************
   Translation opts in to automatic capitalization features.
 ***********************************************************************/
-void capitalization_opt_in(void)
+void capitalization_opt_in(bool opt_in)
 {
-  autocap = TRUE;
+  autocap = opt_in;
 }
 
 /**********************************************************************

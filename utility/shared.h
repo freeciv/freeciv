@@ -207,6 +207,7 @@ void free_fileinfo_data(void);
 void init_nls(void);
 void free_nls(void);
 char *setup_langname(void);
+void switch_lang(const char *lang);
 
 void dont_run_as_root(const char *argv0, const char *fallback);
 

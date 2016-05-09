@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ extern "C" {
 const char *skip_intl_qualifier_prefix(const char *str);
 char *capitalized_string(const char *str);
 void free_capitalized(char *str);
-void capitalization_opt_in(void);
+void capitalization_opt_in(bool opt_in);
 bool is_capitalization_enabled(void);
 
 const char *get_locale_dir(void);
