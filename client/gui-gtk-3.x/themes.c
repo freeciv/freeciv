@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -108,9 +108,9 @@ char **get_gui_specific_themes_directories(int *count)
 
   /* Freeciv-specific GTK3x themes directories */
   strvec_iterate(data_dirs, dir_name) {
-    char buf[strlen(dir_name) + strlen("/themes/gui-gtk-3.0") + 1];
+    char buf[strlen(dir_name) + strlen("/themes/gui-gtk-3.x") + 1];
 
-    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-3.0", dir_name);
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-3.x", dir_name);
 
     directories[(*count)++] = fc_strdup(buf);
   } strvec_iterate_end;
