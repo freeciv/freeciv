@@ -148,7 +148,7 @@ module edit {
     @ give_tech (lua_State *L, Player *pplayer, Tech_Type *ptech,
                  int cost, bool notify, const char *reason);
   bool api_edit_trait_mod_set
-    @ trait_mod (lua_State *L, Player *pplayer, const char *trait_name,
+    @ trait_mod (lua_State *L, Player *pplayer, const char *tname,
                  const int mod);
   bool api_edit_unleash_barbarians
     @ unleash_barbarians (lua_State *L, Tile *ptile);
@@ -368,20 +368,20 @@ $]
 /* Additions to common Player module. */
 module Player {
   int api_methods_player_trait
-    @ trait (lua_State *L, Player *pplayer, const char *trait_name);
+    @ trait (lua_State *L, Player *pplayer, const char *tname);
   int api_methods_player_trait_base
-    @ trait_base (lua_State *L, Player *pplayer, const char *trait_name);
+    @ trait_base (lua_State *L, Player *pplayer, const char *tname);
   int api_methods_player_trait_current_mod
-    @ trait_current_mod (lua_State *L, Player *pplayer, const char *trait_name);
+    @ trait_current_mod (lua_State *L, Player *pplayer, const char *tname);
 }
 
 /* Additions to common Nation_Type module. */
 module Nation_Type {
   int api_methods_nation_trait_min
-    @ trait_min (lua_State *L, Nation_Type *pnation, const char *trait_name);
+    @ trait_min (lua_State *L, Nation_Type *pnation, const char *tname);
   int api_methods_nation_trait_max
-    @ trait_max (lua_State *L, Nation_Type *pnation, const char *trait_name);
+    @ trait_max (lua_State *L, Nation_Type *pnation, const char *tname);
   int api_methods_nation_trait_default
     @ trait_default (lua_State *L, Nation_Type *pnation,
-                     const char *trait_name);
+                     const char *tname);
 }

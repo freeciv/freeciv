@@ -903,7 +903,7 @@ static void illegal_action(struct player *pplayer,
                            const struct city *target_city,
                            const struct unit *target_unit)
 {
-  struct ane_expl *expl;
+  struct ane_expl *explnat;
 
   /* The mistake may have a cost. */
   actor->moves_left = MAX(0, actor->moves_left
@@ -922,16 +922,16 @@ static void illegal_action(struct player *pplayer,
   send_unit_info(NULL, actor);
 
   /* Explain why the action was illegal. */
-  expl = expl_act_not_enabl(actor, stopped_action,
-                            target_tile, target_city, target_unit);
-  switch (expl->kind) {
+  explnat = expl_act_not_enabl(actor, stopped_action,
+                               target_tile, target_city, target_unit);
+  switch (explnat->kind) {
   case ANEK_BAD_TERRAIN_ACT:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   _("Your %s can't do %s from %s."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  terrain_name_translation(expl->no_act_terrain));
+                  terrain_name_translation(explnat->no_act_terrain));
     break;
   case ANEK_BAD_TERRAIN_TGT:
     notify_player(pplayer, unit_tile(actor),
@@ -939,7 +939,7 @@ static void illegal_action(struct player *pplayer,
                   _("Your %s can't do %s to %s."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  terrain_name_translation(expl->no_act_terrain));
+                  terrain_name_translation(explnat->no_act_terrain));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(actor),
@@ -962,7 +962,7 @@ static void illegal_action(struct player *pplayer,
                     " aren't at war with %s."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  player_name(expl->no_war_with));
+                  player_name(explnat->no_war_with));
     break;
   case ANEK_LOW_MP:
     notify_player(pplayer, unit_tile(actor),
@@ -980,7 +980,7 @@ static void illegal_action(struct player *pplayer,
     break;
   }
 
-  free(expl);
+  free(explnat);
 }
 
 /**************************************************************************

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2007 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -116,29 +116,29 @@ void make_random_hmap(int smooth)
 
   All (x0,y0) and (x1,y1) are in native coordinates.
 **************************************************************************/
-static void gen5rec(int step, int x0, int y0, int x1, int y1)
+static void gen5rec(int step, int xl, int yt, int xr, int yb)
 {
   int val[2][2];
-  int x1wrap = x1; /* to wrap correctly */ 
-  int y1wrap = y1; 
+  int x1wrap = xr; /* to wrap correctly */ 
+  int y1wrap = yb; 
 
   /* All x and y values are native. */
 
-  if (((y1 - y0 <= 0) || (x1 - x0 <= 0)) 
-      || ((y1 - y0 == 1) && (x1 - x0 == 1))) {
+  if (((yb - yt <= 0) || (xr - xl <= 0)) 
+      || ((yb - yt == 1) && (xr - xl == 1))) {
     return;
   }
 
-  if (x1 == game.map.xsize) {
+  if (xr == game.map.xsize) {
     x1wrap = 0;
   }
-  if (y1 == game.map.ysize) {
+  if (yb == game.map.ysize) {
     y1wrap = 0;
   }
 
-  val[0][0] = hmap(native_pos_to_tile(x0, y0));
-  val[0][1] = hmap(native_pos_to_tile(x0, y1wrap));
-  val[1][0] = hmap(native_pos_to_tile(x1wrap, y0));
+  val[0][0] = hmap(native_pos_to_tile(xl, yt));
+  val[0][1] = hmap(native_pos_to_tile(xl, y1wrap));
+  val[1][0] = hmap(native_pos_to_tile(x1wrap, yt));
   val[1][1] = hmap(native_pos_to_tile(x1wrap, y1wrap));
 
   /* set midpoints of sides to avg of side's vertices plus a random factor */
@@ -150,34 +150,34 @@ static void gen5rec(int step, int x0, int y0, int x1, int y1)
       /* possibly flatten poles, or possibly not (even at map edge) */	\
       hmap(ptile) = (V) * (100 - game.map.server.flatpoles) / 100;	\
     } else if (near_singularity(ptile)					\
-        || hmap(ptile) != 0) {						\
+               || hmap(ptile) != 0) {					\
       /* do nothing */							\
     } else {								\
       hmap(ptile) = (V);						\
     }									\
   }
 
-  set_midpoints((x0 + x1) / 2, y0,
+  set_midpoints((xl + xr) / 2, yt,
                 (val[0][0] + val[1][0]) / 2 + (int)fc_rand(step) - step / 2);
-  set_midpoints((x0 + x1) / 2,  y1wrap,
+  set_midpoints((xl + xr) / 2,  y1wrap,
                 (val[0][1] + val[1][1]) / 2 + (int)fc_rand(step) - step / 2);
-  set_midpoints(x0, (y0 + y1)/2,
+  set_midpoints(xl, (yt + yb)/2,
                 (val[0][0] + val[0][1]) / 2 + (int)fc_rand(step) - step / 2);
-  set_midpoints(x1wrap,  (y0 + y1) / 2,
+  set_midpoints(x1wrap,  (yt + yb) / 2,
                 (val[1][0] + val[1][1]) / 2 + (int)fc_rand(step) - step / 2);
 
   /* set middle to average of midpoints plus a random factor, if not set */
-  set_midpoints((x0 + x1) / 2, (y0 + y1) / 2,
+  set_midpoints((xl + xr) / 2, (yt + yb) / 2,
                 ((val[0][0] + val[0][1] + val[1][0] + val[1][1]) / 4
                  + (int)fc_rand(step) - step / 2));
 
 #undef set_midpoints
 
   /* now call recursively on the four subrectangles */
-  gen5rec(2 * step / 3, x0, y0, (x1 + x0) / 2, (y1 + y0) / 2);
-  gen5rec(2 * step / 3, x0, (y1 + y0) / 2, (x1 + x0) / 2, y1);
-  gen5rec(2 * step / 3, (x1 + x0) / 2, y0, x1, (y1 + y0) / 2);
-  gen5rec(2 * step / 3, (x1 + x0) / 2, (y1 + y0) / 2, x1, y1);
+  gen5rec(2 * step / 3, xl, yt, (xr + xl) / 2, (yb + yt) / 2);
+  gen5rec(2 * step / 3, xl, (yb + yt) / 2, (xr + xl) / 2, yt);
+  gen5rec(2 * step / 3, (xr + xl) / 2, yt, xr, (yb + yt) / 2);
+  gen5rec(2 * step / 3, (xr + xl) / 2, (yb + yt) / 2, xr, yb);
 }
 
 /**************************************************************************
