@@ -6872,7 +6872,7 @@ msgstr "Käytä kerran"
 #: client/gui-qt/pages.cpp:128
 #, c-format
 msgid "%s%s, Qt client"
-msgstr "%s%s, Qt-käyttöliittymä."
+msgstr "%s%s, Qt-käyttöliittymä"
 
 #. TRANS: "commit: [modified] <git commit id>"
 #: client/gui-qt/pages.cpp:138 tools/mpcli.c:137
@@ -34107,7 +34107,7 @@ msgstr "%s on aiheuttanut selkkauksen lahjoessaan yksikköäsi %s."
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr ""
-"Olet aiheuttanut selkkauksen varastaessasi teknologiaa - %s raivostuivat."
+"Olet aiheuttanut selkkauksen varastaessasi teknologiaa - %s raivostui."
 
 #: server/diplomats.c:1428
 #, c-format
@@ -35387,7 +35387,7 @@ msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 #: server/savegame2.c:3567 server/savegame.c:4379
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr "%s johtama kansakuntaa ei kelpaa; vaihdetaan tilalle %s."
+msgstr "%s johtama kansakunta ei kelpaa; vaihdetaan tilalle %s."
 
 #: server/savegame2.c:6335 server/savegame.c:4564
 #, c-format
