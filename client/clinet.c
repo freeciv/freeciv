@@ -270,12 +270,12 @@ int connect_to_server(const char *username, const char *hostname, int port,
 /**************************************************************************
   Called after a connection is completed (e.g., in try_to_connect).
 **************************************************************************/
-void make_connection(int socket, const char *username)
+void make_connection(int sock, const char *username)
 {
   struct packet_server_join_req req;
 
   connection_common_init(&client.conn);
-  client.conn.sock = socket;
+  client.conn.sock = sock;
   client.conn.client.last_request_id_used = 0;
   client.conn.client.last_processed_request_id_seen = 0;
   client.conn.client.request_id_of_currently_handled_packet = 0;

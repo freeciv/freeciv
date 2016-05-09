@@ -1500,7 +1500,7 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
                                           sec_name, ++j)) {
         struct small_sprite *ss;
         int row, column;
-        int x1, y1;
+        int xr, yb;
         const char **tags;
         size_t num_tags;
         int hot_x, hot_y;
@@ -1523,14 +1523,14 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
         /* there must be at least 1 because of the while(): */
         fc_assert_action(num_tags > 0, continue);
 
-        x1 = x_top_left + (dx + pixel_border_x) * column;
-        y1 = y_top_left + (dy + pixel_border_y) * row;
+        xr = x_top_left + (dx + pixel_border_x) * column;
+        yb = y_top_left + (dy + pixel_border_y) * row;
 
         ss = fc_malloc(sizeof(*ss));
         ss->ref_count = 0;
         ss->file = NULL;
-        ss->x = x1;
-        ss->y = y1;
+        ss->x = xr;
+        ss->y = yb;
         ss->width = dx;
         ss->height = dy;
         ss->sf = sf;
@@ -6158,11 +6158,13 @@ struct sprite *get_attention_crosshair_sprite(const struct tileset *t)
 ****************************************************************************/
 struct sprite *get_indicator_sprite(const struct tileset *t,
                                     enum indicator_type indicator,
-                                    int index)
+                                    int idx)
 {
-  index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
+  idx = CLIP(0, idx, NUM_TILES_PROGRESS - 1);
+
   fc_assert_ret_val(indicator >= 0 && indicator < INDICATOR_COUNT, NULL);
-  return t->sprites.indicator[indicator][index];
+
+  return t->sprites.indicator[indicator][idx];
 }
 
 /****************************************************************************
@@ -6405,7 +6407,7 @@ int fill_basic_road_sprite_array(const struct tileset *t,
                                  const struct extra_type *pextra)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  int index;
+  int idx;
   int i;
   enum extrastyle_id extrastyle;
 
@@ -6413,29 +6415,29 @@ int fill_basic_road_sprite_array(const struct tileset *t,
     return 0;
   }
 
-  index = extra_index(pextra);
+  idx = extra_index(pextra);
 
-  if (!(0 <= index && index < game.control.num_extra_types)) {
+  if (!(0 <= idx && idx < game.control.num_extra_types)) {
     return 0;
   }
 
-  extrastyle = t->sprites.extras[index].extrastyle;
+  extrastyle = t->sprites.extras[idx].extrastyle;
 
   if (extrastyle == ESTYLE_RIVER) {
-    ADD_SPRITE_SIMPLE(t->sprites.extras[index].u.road.ru.rivers.spec[0]);
+    ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[0]);
   } else {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       if (!t->valid_tileset_dirs[i]) {
         continue;
       }
       if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE) {
-        ADD_SPRITE_SIMPLE(t->sprites.extras[index].u.road.ru.dir[i]);
+        ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.dir[i]);
       } else if (extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
         if ((i % 2) == 0) {
-          ADD_SPRITE_SIMPLE(t->sprites.extras[index].u.road.ru.combo.even[1 << (i / 2)]);
+          ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.combo.even[1 << (i / 2)]);
         }
       } else if (extrastyle == ESTYLE_ROAD_ALL_COMBINED) {
-        ADD_SPRITE_SIMPLE(t->sprites.extras[index].u.road.ru.total[1 << i]);
+        ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.total[1 << i]);
       }
     }
   }
@@ -6453,15 +6455,15 @@ int fill_basic_base_sprite_array(const struct tileset *t,
                                  const struct extra_type *pextra)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  int index;
+  int idx;
 
   if (!t || !sprs || !pextra) {
     return 0;
   }
 
-  index = extra_index(pextra);
+  idx = extra_index(pextra);
 
-  if (!(0 <= index && index < game.control.num_extra_types)) {
+  if (!(0 <= idx && idx < game.control.num_extra_types)) {
     return 0;
   }
 
@@ -6472,9 +6474,9 @@ int fill_basic_base_sprite_array(const struct tileset *t,
 } while (0)
 
   /* Corresponds to LAYER_SPECIAL{1,2,3} order. */
-  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[index].u.bmf.background);
-  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[index].u.bmf.middleground);
-  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[index].u.bmf.foreground);
+  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.background);
+  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.middleground);
+  ADD_SPRITE_IF_NOT_NULL(t->sprites.extras[idx].u.bmf.foreground);
 
 #undef ADD_SPRITE_IF_NOT_NULL
 

@@ -2638,22 +2638,22 @@ void unqueue_mapview_updates(bool write_to_screen)
       for (i = 0; i < TILE_UPDATE_COUNT; i++) {
         if (my_tile_updates[i]) {
           tile_list_iterate(my_tile_updates[i], ptile) {
-            float x0, y0;
-            int x1, y1;
+            float xl, yt;
+            int xr, yb;
 
-	    (void) tile_to_canvas_pos(&x0, &y0, ptile);
+	    (void) tile_to_canvas_pos(&xl, &yt, ptile);
 
-	    x0 += area[i].dx;
-	    y0 += area[i].dy;
-	    x1 = x0 + area[i].w;
-	    y1 = y0 + area[i].h;
+	    xl += area[i].dx;
+	    yt += area[i].dy;
+	    xr = xl + area[i].w;
+	    yb = yt + area[i].h;
 
-	    if (x1 > 0 && x0 < mapview.width
-		&& y1 > 0 && y0 < mapview.height) {
-	      min_x = MIN(min_x, x0);
-	      min_y = MIN(min_y, y0);
-	      max_x = MAX(max_x, x1);
-	      max_y = MAX(max_y, y1);
+	    if (xr > 0 && xl < mapview.width
+		&& yb > 0 && yt < mapview.height) {
+	      min_x = MIN(min_x, xl);
+	      min_y = MIN(min_y, yt);
+	      max_x = MAX(max_x, xr);
+	      max_y = MAX(max_y, yb);
 	    }
 
 	    /* FIXME: These overview updates should be batched as well.

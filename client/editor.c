@@ -824,37 +824,37 @@ void editor_mouse_button_release(int canvas_x, int canvas_y,
 ****************************************************************************/
 static void editor_resize_selection_rectangle(int canvas_x, int canvas_y)
 {
-  int x1, y1, x2, y2;
+  int xl, yt, xr, yb;
 
   if (editor->selrect_start_x <= canvas_x) {
-    x1 = editor->selrect_start_x;
-    x2 = canvas_x;
+    xl = editor->selrect_start_x;
+    xr = canvas_x;
   } else {
-    x1 = canvas_x;
-    x2 = editor->selrect_start_x;
+    xl = canvas_x;
+    xr = editor->selrect_start_x;
   }
 
   if (editor->selrect_start_y <= canvas_y) {
-    y1 = editor->selrect_start_y;
-    y2 = canvas_y;
+    yt = editor->selrect_start_y;
+    yb = canvas_y;
   } else {
-    y1 = canvas_y;
-    y2 = editor->selrect_start_y;
+    yt = canvas_y;
+    yb = editor->selrect_start_y;
   }
 
   /* Erase the previously drawn rectangle. */
   editor_draw_selrect();
 
-  if (x1 == x2 || y1 == y2) {
+  if (xl == xr || yt == yb) {
     editor->selrect_width = 0;
     editor->selrect_height = 0;
     return;
   }
 
-  editor->selrect_x = x1;
-  editor->selrect_y = y1;
-  editor->selrect_width = x2 - x1;
-  editor->selrect_height = y2 - y1;
+  editor->selrect_x = xl;
+  editor->selrect_y = yt;
+  editor->selrect_width = xr - xl;
+  editor->selrect_height = yb - yt;
 
   editor_draw_selrect();
 }

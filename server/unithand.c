@@ -1250,12 +1250,12 @@ void illegal_action_msg(struct player *pplayer,
                         const struct city *target_city,
                         const struct unit *target_unit)
 {
-  struct ane_expl *expl;
+  struct ane_expl *explnat;
 
   /* Explain why the action was illegal. */
-  expl = expl_act_not_enabl(actor, stopped_action,
-                            target_tile, target_city, target_unit);
-  switch (expl->kind) {
+  explnat = expl_act_not_enabl(actor, stopped_action,
+                               target_tile, target_city, target_unit);
+  switch (explnat->kind) {
   case ANEK_ACTOR_UNIT:
     {
       struct astring astr = ASTRING_INIT;
@@ -1292,7 +1292,7 @@ void illegal_action_msg(struct player *pplayer,
                   _("Your %s can't do %s from %s."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  terrain_name_translation(expl->no_act_terrain));
+                  terrain_name_translation(explnat->no_act_terrain));
     break;
   case ANEK_BAD_TERRAIN_TGT:
     notify_player(pplayer, unit_tile(actor),
@@ -1300,7 +1300,7 @@ void illegal_action_msg(struct player *pplayer,
                   _("Your %s can't do %s to %s."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  terrain_name_translation(expl->no_act_terrain));
+                  terrain_name_translation(explnat->no_act_terrain));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(actor),
@@ -1351,7 +1351,7 @@ void illegal_action_msg(struct player *pplayer,
                     " aren't at war with %s."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  player_name(expl->no_war_with));
+                  player_name(explnat->no_war_with));
     break;
   case ANEK_DOMESTIC:
     notify_player(pplayer, unit_tile(actor),
@@ -1444,7 +1444,7 @@ void illegal_action_msg(struct player *pplayer,
                   event, ftc_server,
                   /* TRANS: Paris ... Airlift to City ... Warriors */
                   _("%s has no capacity to %s %s."),
-                  city_name_get(expl->capacity_city),
+                  city_name_get(explnat->capacity_city),
                   action_get_ui_name(stopped_action),
                   unit_name_translation(actor));
     break;
@@ -1455,7 +1455,7 @@ void illegal_action_msg(struct player *pplayer,
                   _("Your %s can't do %s when %s is legal."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
-                  action_get_ui_name(expl->blocker->id));
+                  action_get_ui_name(explnat->blocker->id));
     break;
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(actor),
@@ -1466,7 +1466,7 @@ void illegal_action_msg(struct player *pplayer,
     break;
   }
 
-  free(expl);
+  free(explnat);
 }
 
 /**************************************************************************

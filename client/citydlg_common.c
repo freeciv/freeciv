@@ -757,23 +757,23 @@ void get_city_dialog_culture_text(const struct city *pcity,
   happiness).  "citizens" should be an array large enough to hold all
   citizens (use MAX_CITY_SIZE to be on the safe side).
 **************************************************************************/
-int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
+int get_city_citizen_types(struct city *pcity, enum citizen_feeling idx,
                            enum citizen_category *categories)
 {
   int i = 0, n;
 
-  fc_assert(index >= 0 && index < FEELING_LAST);
+  fc_assert(idx >= 0 && idx < FEELING_LAST);
 
-  for (n = 0; n < pcity->feel[CITIZEN_HAPPY][index]; n++, i++) {
+  for (n = 0; n < pcity->feel[CITIZEN_HAPPY][idx]; n++, i++) {
     categories[i] = CITIZEN_HAPPY;
   }
-  for (n = 0; n < pcity->feel[CITIZEN_CONTENT][index]; n++, i++) {
+  for (n = 0; n < pcity->feel[CITIZEN_CONTENT][idx]; n++, i++) {
     categories[i] = CITIZEN_CONTENT;
   }
-  for (n = 0; n < pcity->feel[CITIZEN_UNHAPPY][index]; n++, i++) {
+  for (n = 0; n < pcity->feel[CITIZEN_UNHAPPY][idx]; n++, i++) {
     categories[i] = CITIZEN_UNHAPPY;
   }
-  for (n = 0; n < pcity->feel[CITIZEN_ANGRY][index]; n++, i++) {
+  for (n = 0; n < pcity->feel[CITIZEN_ANGRY][idx]; n++, i++) {
     categories[i] = CITIZEN_ANGRY;
   }
 
