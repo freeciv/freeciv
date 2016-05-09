@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class tab_building : public QWidget
   private:
     ruledit_gui *ui;
     void update_bldg_info(struct impr_type *pimpr);
-    void initialize_new_bldg(struct impr_type *pimpr);
+    bool initialize_new_bldg(struct impr_type *pimpr);
 
     QLineEdit *name;
     QLineEdit *rname;
