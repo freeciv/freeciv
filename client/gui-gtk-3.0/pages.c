@@ -62,6 +62,7 @@
 
 static GtkWidget *scenario_description;
 static GtkWidget *scenario_filename;
+static GtkWidget *scenario_version;
 
 static GtkListStore *load_store, *scenario_store, *meta_store, *lan_store; 
 
@@ -2936,21 +2937,39 @@ static void scenario_list_callback(void)
   GtkTextBuffer *buffer;
   char *description;
   char *filename;
+  int ver;
+  char vername[50];
 
   if (gtk_tree_selection_get_selected(scenario_selection, NULL, &it)) {
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
 		       2, &description, -1);
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
 		       1, &filename, -1);
+    gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
+		       3, &ver, -1);
     filename = skip_to_basename(filename);
+    if (ver > 0) {
+      int maj;
+      int min;
+
+      maj = ver / 1000000;
+      ver %= 1000000;
+      min = ver / 10000;
+      fc_snprintf(vername, sizeof(vername), "%d.%d", maj, min);
+    } else {
+      /* TRANS: Old scenario format version */
+      fc_snprintf(vername, sizeof(vername), _("pre-2.6"));
+    }
   } else {
     description = "";
     filename = "";
+    vername[0] = '\0';
   }
 
   buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(scenario_description));
   gtk_text_buffer_set_text(buffer, description, -1);
   gtk_label_set_text(GTK_LABEL(scenario_filename), filename);
+  gtk_label_set_text(GTK_LABEL(scenario_version), vername);
 }
 
 /**************************************************************************
@@ -3084,7 +3103,7 @@ static void update_scenario_page(void)
 GtkWidget *create_scenario_page(void)
 {
   GtkWidget *vbox, *hbox, *sbox, *bbox, *filenamebox, *descbox;
-
+  GtkWidget *versionbox, *vertext;
   GtkWidget *button, *label, *view, *sw, *text;
   GtkCellRenderer *rend;
 
@@ -3174,12 +3193,27 @@ GtkWidget *create_scenario_page(void)
   gtk_container_add(GTK_CONTAINER(filenamebox), text);
   gtk_container_add(GTK_CONTAINER(filenamebox), scenario_filename);
 
+  /* TRANS: Scenario format version */
+  vertext = gtk_label_new(_("Format:"));
+  scenario_version = gtk_label_new("");
+  gtk_widget_set_halign(scenario_version, GTK_ALIGN_START);
+  gtk_widget_set_valign(scenario_version, GTK_ALIGN_CENTER);
+  gtk_label_set_selectable(GTK_LABEL(scenario_version), TRUE);
+
+  versionbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 12);
+  g_object_set(versionbox, "margin", 5, NULL);
+
+  gtk_container_add(GTK_CONTAINER(versionbox), vertext);
+  gtk_container_add(GTK_CONTAINER(versionbox), scenario_version);
+
   descbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(descbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(descbox), 6);
   gtk_container_add(GTK_CONTAINER(descbox), sw);
   gtk_container_add(GTK_CONTAINER(descbox), filenamebox);
+  gtk_container_add(GTK_CONTAINER(descbox), versionbox);
   gtk_grid_attach(GTK_GRID(sbox), descbox, 1, 0, 1, 1);
 
   bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);

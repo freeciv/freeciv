@@ -62,6 +62,7 @@
 
 static GtkWidget *scenario_description;
 static GtkWidget *scenario_filename;
+static GtkWidget *scenario_version;
 
 static GtkListStore *load_store, *scenario_store, *meta_store, *lan_store; 
 
@@ -2866,21 +2867,39 @@ static void scenario_list_callback(void)
   GtkTextBuffer *buffer;
   char *description;
   char *filename;
+  int ver;
+  char vername[50];
 
   if (gtk_tree_selection_get_selected(scenario_selection, NULL, &it)) {
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
 		       2, &description, -1);
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
 		       1, &filename, -1);
+    gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
+                       3, &ver, -1);
     filename = skip_to_basename(filename);
+    if (ver > 0) {
+      int maj;
+      int min;
+
+      maj = ver / 1000000;
+      ver %= 1000000;
+      min = ver / 10000;
+      fc_snprintf(vername, sizeof(vername), "%d.%d", maj, min);
+    } else {
+      /* TRANS: Old scenario format version */
+      fc_snprintf(vername, sizeof(vername), _("pre-2.6"));
+    }
   } else {
     description = "";
     filename = "";
+    vername[0] = '\0';
   }
 
   buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(scenario_description));
   gtk_text_buffer_set_text(buffer, description, -1);
   gtk_label_set_text(GTK_LABEL(scenario_filename), filename);
+  gtk_label_set_text(GTK_LABEL(scenario_version), vername);
 }
 
 /**************************************************************************
@@ -3014,7 +3033,7 @@ static void update_scenario_page(void)
 GtkWidget *create_scenario_page(void)
 {
   GtkWidget *vbox, *hbox, *sbox, *bbox, *filenamebox, *descbox;
-
+  GtkWidget *versionbox, *vertext;
   GtkWidget *align, *button, *label, *view, *sw, *text;
   GtkCellRenderer *rend;
 
@@ -3091,9 +3110,21 @@ GtkWidget *create_scenario_page(void)
   gtk_box_pack_start(GTK_BOX(filenamebox), text, FALSE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(filenamebox), scenario_filename, FALSE, TRUE, 0);
 
+  /* TRANS: Scenario format version */
+  vertext = gtk_label_new(_("Format:"));
+  scenario_version = gtk_label_new("");
+  gtk_misc_set_alignment(GTK_MISC(scenario_version), 0.0, 0.5);
+  gtk_label_set_selectable(GTK_LABEL(scenario_version), TRUE);
+
+  versionbox = gtk_hbox_new(FALSE, 12);
+
+  gtk_box_pack_start(GTK_BOX(versionbox), vertext, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(versionbox), scenario_version, FALSE, TRUE, 0);
+
   descbox = gtk_vbox_new(FALSE, 6);
   gtk_box_pack_start(GTK_BOX(descbox), sw, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(descbox), filenamebox, FALSE, FALSE, 5);
+  gtk_box_pack_start(GTK_BOX(descbox), versionbox, FALSE, FALSE, 5);
   gtk_container_add(GTK_CONTAINER(align), descbox);
 
   bbox = gtk_hbutton_box_new();
