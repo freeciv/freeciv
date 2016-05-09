@@ -73,7 +73,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(WINARCH)-$(GUI)
 	# configure
-	cd build-$(WINARCH)-$(GUI); ../../../configure CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(GUI) --with-followtag="win32-S3_0" --without-readline --disable-sdl-mixer --disable-nls --without-libbz2 --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
+	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(GUI) --with-followtag="win32-S3_0" --without-readline --disable-sdl-mixer --disable-nls --without-libbz2 --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(WINARCH)-$(GUI)
 	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
@@ -83,7 +83,7 @@ build-freeciv-ruledit:
 	# create build directory
 	mkdir -p build-$(WINARCH)-ruledit
 	# configure
-	cd build-$(WINARCH)-ruledit; ../../../configure CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit --with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib
+	cd build-$(WINARCH)-ruledit; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit --with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib
 	# make
 	make -C build-$(WINARCH)-ruledit
 	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
