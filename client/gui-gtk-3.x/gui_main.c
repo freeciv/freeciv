@@ -463,7 +463,23 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
 
     default:
       break;
-    };
+    }
+  } else if (!(ev->state & GDK_CONTROL_MASK)) {
+    switch (ev->keyval) {
+
+#ifdef GTK3_ZOOM_ENABLED
+    case GDK_KEY_plus:
+      zoom_step_up();
+      return TRUE;
+
+    case GDK_KEY_minus:
+      zoom_step_down();
+      return TRUE;
+#endif /* GTK3_ZOOM_ENABLED */
+
+    default:
+      break;
+    }
   }
 
   /* Return here if observer */
