@@ -219,9 +219,14 @@ void tab_unit::edit_now()
 /**************************************************************************
   Initialize new tech for use.
 **************************************************************************/
-void tab_unit::initialize_new_utype(struct unit_type *ptype)
+bool tab_unit::initialize_new_utype(struct unit_type *ptype)
 {
-  name_set(&(ptype->name), "None", "None");
+  if (unit_type_by_rule_name("New Unit") != nullptr) {
+    return false;
+  }
+
+  name_set(&(ptype->name), 0, "New Unit");
+  return true;
 }
 
 /**************************************************************************
@@ -231,27 +236,34 @@ void tab_unit::add_now()
 {
   struct unit_type *new_utype;
 
-  /* Try to reuse freed utype slot */
+  // Try to reuse freed utype slot
   unit_type_iterate(ptype) {
     if (ptype->disabled) {
-      ptype->disabled = false;
-      initialize_new_utype(ptype);
-      update_utype_info(ptype);
-      refresh();
+      if (initialize_new_utype(ptype)) {
+        ptype->disabled = false;
+        update_utype_info(ptype);
+        refresh();
+      }
       return;
     }
   } unit_type_iterate_end;
 
-  /* Try to add completely new unit type */
+  // Try to add completely new unit type
   if (game.control.num_unit_types >= U_LAST) {
     return;
   }
 
-  new_utype = utype_by_number(game.control.num_unit_types++);
-  initialize_new_utype(new_utype);
-  update_utype_info(new_utype);
+  // num_unit_types must be big enough to hold new unit or
+  // utype_by_number() fails.
+  game.control.num_unit_types++;
+  new_utype = utype_by_number(game.control.num_unit_types - 1);
+  if (initialize_new_utype(new_utype)) {
+    update_utype_info(new_utype);
 
-  refresh();
+    refresh();
+  } else {
+    game.control.num_unit_types--; // Restore
+  }
 }
 
 /**************************************************************************

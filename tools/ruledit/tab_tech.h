@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ class tab_tech : public QWidget
     ruledit_gui *ui;
     void update_tech_info(struct advance *adv);
     QMenu *prepare_req_button(QToolButton *button, enum tech_req rn);
-    void initialize_new_tech(struct advance *padv);
+    bool initialize_new_tech(struct advance *padv);
 
     QLineEdit *name;
     QLineEdit *rname;

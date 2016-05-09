@@ -204,7 +204,7 @@ void tab_tech::update_tech_info(struct advance *adv)
 {
   selected = adv;
 
-  if (selected != 0) {
+  if (selected != nullptr) {
     QString dispn = QString::fromUtf8(untranslated_name(&(adv->name)));
     QString rulen = QString::fromUtf8(rule_name_get(&(adv->name)));
 
@@ -218,7 +218,7 @@ void tab_tech::update_tech_info(struct advance *adv)
       same_name->setChecked(false);
       name->setEnabled(true);
     }
-    
+
     req1_button->setText(tech_name(adv->require[AR_ONE]));
     req2_button->setText(tech_name(adv->require[AR_TWO]));
     root_req_button->setText(tech_name(adv->require[AR_ROOT]));
@@ -367,14 +367,20 @@ void tab_tech::delete_now()
 /**************************************************************************
   Initialize new tech for use.
 **************************************************************************/
-void tab_tech::initialize_new_tech(struct advance *padv)
+bool tab_tech::initialize_new_tech(struct advance *padv)
 {
   struct advance *none = advance_by_number(A_NONE);
+
+  if (advance_by_rule_name("New Tech") != nullptr) {
+    return false;
+  }
 
   padv->require[AR_ONE] = none;
   padv->require[AR_TWO] = none;
   padv->require[AR_ROOT] = none;
-  name_set(&(padv->name), "None", "None");
+  name_set(&(padv->name), 0, "New Tech");
+
+  return true;
 }
 
 /**************************************************************************
@@ -384,25 +390,32 @@ void tab_tech::add_now()
 {
   struct advance *new_adv;
 
-  /* Try to reuse freed tech slot */
+  // Try to reuse freed tech slot
   advance_iterate(A_FIRST, padv) {
     if (padv->require[AR_ONE] == A_NEVER) {
-      initialize_new_tech(padv);
-      update_tech_info(padv);
-      refresh();
+      if (initialize_new_tech(padv)) {
+        update_tech_info(padv);
+        refresh();
+      }
       return;
     }
   } advance_iterate_end;
 
-  /* Try to add completely new tech */
+  // Try to add completely new tech
   if (game.control.num_tech_types >= A_LAST) {
     return;
   }
 
-  new_adv = advance_by_number(game.control.num_tech_types++);
-  initialize_new_tech(new_adv);
-  update_tech_info(new_adv);
-  refresh();
+  // num_tech_types must be big enough to hold new tech or
+  // advance_by_number() fails.
+  game.control.num_tech_types++;
+  new_adv = advance_by_number(game.control.num_tech_types - 1);
+  if (initialize_new_tech(new_adv)) {
+    update_tech_info(new_adv);
+    refresh();
+  } else{
+    game.control.num_tech_types--; // Restore
+  }
 }
 
 /**************************************************************************

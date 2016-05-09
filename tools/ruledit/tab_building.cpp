@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -201,9 +201,14 @@ void tab_building::delete_now()
 /**************************************************************************
   Initialize new tech for use.
 **************************************************************************/
-void tab_building::initialize_new_bldg(struct impr_type *pimpr)
+bool tab_building::initialize_new_bldg(struct impr_type *pimpr)
 {
-  name_set(&(pimpr->name), "None", "None");
+  if (improvement_by_rule_name("New Building") != nullptr) {
+    return false;
+  }
+
+  name_set(&(pimpr->name), 0, "New Building");
+  return true;
 }
 
 /**************************************************************************
@@ -213,27 +218,34 @@ void tab_building::add_now2()
 {
   struct impr_type *new_bldg;
 
-  /* Try to reuse freed building slot */
+  // Try to reuse freed building slot
   improvement_iterate(pimpr) {
     if (pimpr->disabled) {
-      pimpr->disabled = false;
-      initialize_new_bldg(pimpr);
-      update_bldg_info(pimpr);
-      refresh();
+      if (initialize_new_bldg(pimpr)) {
+        pimpr->disabled = false;
+        update_bldg_info(pimpr);
+        refresh();
+      }
       return;
     }
   } improvement_iterate_end;
 
-  /* Try to add completely new building */
+  // Try to add completely new building
   if (game.control.num_impr_types >= B_LAST) {
     return;
   }
 
-  new_bldg = improvement_by_number(game.control.num_impr_types++);
-  initialize_new_bldg(new_bldg);
-  update_bldg_info(new_bldg);
+  // num_impr_types must be big enough to hold new building or
+  // improvement_by_number() fails.
+  game.control.num_impr_types++;
+  new_bldg = improvement_by_number(game.control.num_impr_types - 1);
+  if (initialize_new_bldg(new_bldg)) {
+    update_bldg_info(new_bldg);
 
-  refresh();
+    refresh();
+  } else {
+    game.control.num_impr_types--; // Restore
+  }
 }
 
 /**************************************************************************
