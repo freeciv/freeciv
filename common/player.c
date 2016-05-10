@@ -1233,13 +1233,14 @@ const char *love_text(const int love)
 bool pplayers_at_war(const struct player *pplayer,
                      const struct player *pplayer2)
 {
-  enum diplstate_type ds = player_diplstate_get(pplayer, pplayer2)->type;
+  enum diplstate_type ds;
+
   if (pplayer == pplayer2) {
     return FALSE;
   }
-  if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
-    return TRUE;
-  }
+
+  ds = player_diplstate_get(pplayer, pplayer2)->type;
+
   return ds == DS_WAR || ds == DS_NO_CONTACT;
 }
 
@@ -1259,10 +1260,6 @@ bool pplayers_allied(const struct player *pplayer,
     return TRUE;
   }
 
-  if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
-    return FALSE;
-  }
-
   ds = player_diplstate_get(pplayer, pplayer2)->type;
 
   return (ds == DS_ALLIANCE || ds == DS_TEAM);
@@ -1279,9 +1276,6 @@ bool pplayers_in_peace(const struct player *pplayer,
   if (pplayer == pplayer2) {
     return TRUE;
   }
-  if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
-    return FALSE;
-  }
 
   return (ds == DS_PEACE || ds == DS_ALLIANCE
           || ds == DS_ARMISTICE || ds == DS_TEAM);
@@ -1291,31 +1285,30 @@ bool pplayers_in_peace(const struct player *pplayer,
   Returns TRUE if players can't enter each others' territory.
 ****************************************************************************/
 bool players_non_invade(const struct player *pplayer1,
-			const struct player *pplayer2)
+                        const struct player *pplayer2)
 {
   if (pplayer1 == pplayer2 || !pplayer1 || !pplayer2) {
     return FALSE;
   }
-  if (is_barbarian(pplayer1) || is_barbarian(pplayer2)) {
-    /* Likely an unnecessary test. */
-    return FALSE;
-  }
+
   return player_diplstate_get(pplayer1, pplayer2)->type == DS_PEACE;
 }
 
 /***************************************************************
-  Returns true iff players have peace or cease-fire.
+  Returns true iff players have peace, cease-fire, or
+  armistice.
 ***************************************************************/
 bool pplayers_non_attack(const struct player *pplayer,
                          const struct player *pplayer2)
 {
-  enum diplstate_type ds = player_diplstate_get(pplayer, pplayer2)->type;
+  enum diplstate_type ds;
+
   if (pplayer == pplayer2) {
     return FALSE;
   }
-  if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
-    return FALSE;
-  }
+
+  ds = player_diplstate_get(pplayer, pplayer2)->type;
+
   return (ds == DS_PEACE || ds == DS_CEASEFIRE || ds == DS_ARMISTICE);
 }
 
@@ -1340,11 +1333,11 @@ bool gives_shared_vision(const struct player *me, const struct player *them)
   Return TRUE iff the two diplstates are equal.
 **************************************************************************/
 bool are_diplstates_equal(const struct player_diplstate *pds1,
-			  const struct player_diplstate *pds2)
+                          const struct player_diplstate *pds2)
 {
   return (pds1->type == pds2->type && pds1->turns_left == pds2->turns_left
-	  && pds1->has_reason_to_cancel == pds2->has_reason_to_cancel
-	  && pds1->contact_turns_left == pds2->contact_turns_left);
+          && pds1->has_reason_to_cancel == pds2->has_reason_to_cancel
+          && pds1->contact_turns_left == pds2->contact_turns_left);
 }
 
 /**************************************************************************
