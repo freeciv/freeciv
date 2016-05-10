@@ -10,7 +10,7 @@ MOCCMD=@MOCCMD@
 
 include $(top_srcdir)/bootstrap/Makerules.mk
 
-bin_PROGRAMS = 
+bin_PROGRAMS = freeciv-ruleup
 
 if SERVER
 if CLIENT
@@ -45,6 +45,7 @@ common_cppflags = \
 	-I$(top_srcdir)/server \
 	-I$(top_srcdir)/client \
 	-I$(top_srcdir)/client/include \
+	-I$(top_srcdir)/tools/ruleutil \
 	-I$(top_srcdir)/dependencies/tinycthread
 
 AM_CPPFLAGS = $(common_cppflags)
@@ -80,6 +81,15 @@ appdatafile_DATA += \
 endif
 
 endif
+
+freeciv_ruleup_SOURCES =	\
+		ruleup.c
+
+freeciv_ruleup_LDADD = \
+ $(top_builddir)/server/libfreeciv-srv.la \
+ $(top_builddir)/common/libfreeciv.la \
+ $(top_builddir)/tools/ruleutil/libfcruleutil.la \
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
 
 if FCMANUAL
 freeciv_manual_SOURCES = \
