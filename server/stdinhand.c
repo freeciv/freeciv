@@ -2806,12 +2806,47 @@ static bool debug_command(struct connection *caller, char *str,
 }
 
 /******************************************************************
+  Helper to validate an argument referring to a server setting.
+  Sends error message and returns NULL on failure.
+******************************************************************/
+static struct setting *validate_setting_arg(enum command_id cmd,
+                                            struct connection *caller,
+                                            char *arg)
+{
+  int opt = lookup_option(arg);
+
+  if (opt < 0) {
+    switch (opt) {
+    case LOOKUP_OPTION_NO_RESULT:
+    case LOOKUP_OPTION_LEVEL_NAME:
+      cmd_reply(cmd, caller, C_SYNTAX, _("Option '%s' not recognized."), arg);
+      break;
+    case LOOKUP_OPTION_AMBIGUOUS:
+      cmd_reply(cmd, caller, C_SYNTAX, _("Ambiguous option name."));
+      break;
+    case LOOKUP_OPTION_RULESETDIR:
+      cmd_reply(cmd, caller, C_SYNTAX,
+                /* TRANS: 'rulesetdir' is the command. Do not translate. */
+                _("Use the '%srulesetdir' command to change the ruleset "
+                  "directory."), caller ? "/" : "");
+      break;
+    default:
+      fc_assert(opt >= LOOKUP_OPTION_RULESETDIR);
+      break;
+    }
+    return NULL;
+  }
+
+  return setting_by_number(opt);
+}
+
+/******************************************************************
   Handle set command
 ******************************************************************/
 static bool set_command(struct connection *caller, char *str, bool check)
 {
   char *args[2];
-  int val, cmd, nargs;
+  int val, nargs;
   struct setting *pset;
   bool do_update;
   char reject_msg[256] = "";
@@ -2827,31 +2862,12 @@ static bool set_command(struct connection *caller, char *str, bool check)
     goto cleanup;
   }
 
-  cmd = lookup_option(args[0]);
-  if (cmd < 0) {
-    switch (cmd) {
-    case LOOKUP_OPTION_NO_RESULT:
-    case LOOKUP_OPTION_LEVEL_NAME:
-      cmd_reply(CMD_SET, caller, C_SYNTAX,
-                _("Option '%s' not recognized."), args[0]);
-      break;
-    case LOOKUP_OPTION_AMBIGUOUS:
-      cmd_reply(CMD_SET, caller, C_SYNTAX, _("Ambiguous option name."));
-      break;
-    case LOOKUP_OPTION_RULESETDIR:
-      cmd_reply(CMD_SET, caller, C_SYNTAX,
-                /* TRANS: 'rulesetdir' is the command. Do not translate. */
-                _("Use the '%srulesetdir' command to change the ruleset "
-                  "directory."), caller ? "/" : "");
-      break;
-    default:
-      fc_assert_ret_val(cmd >= LOOKUP_OPTION_RULESETDIR, FALSE);
-      break;
-    }
+  pset = validate_setting_arg(CMD_SET, caller, args[0]);
+
+  if (!pset) {
+    /* Reason already reported. */
     goto cleanup;
   }
-
-  pset = setting_by_number(cmd);
 
   if (!setting_is_changeable(pset, caller, reject_msg, sizeof(reject_msg))
       && !check) {
@@ -4569,27 +4585,26 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
 **************************************************************************/
 static bool default_command(struct connection *caller, char *arg, bool check)
 {
-  int cmd;
   struct setting *pset;
   char reject_msg[256] = "";
 
-  cmd = lookup_option(arg);
+  pset = validate_setting_arg(CMD_DEFAULT, caller, arg);
 
-  if (cmd <= 0) {
-    cmd_reply(CMD_DEFAULT, caller, C_FAIL, _("Unknown option %s"), arg);
+  if (!pset) {
+    /* Reason already reported. */
+    return FALSE;
   }
 
-  pset = setting_by_number(cmd);
-
   if (!setting_is_changeable(pset, caller, reject_msg, sizeof(reject_msg))) {
-    cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+    cmd_reply(CMD_DEFAULT, caller, C_FAIL, "%s", reject_msg);
 
     return FALSE;
   }
 
   if (!check) {
     setting_set_to_default(pset);
-    cmd_reply(CMD_DEFAULT, caller, C_OK, _("Setting %s set to default value."), arg);
+    cmd_reply(CMD_DEFAULT, caller, C_OK,
+              _("Option '%s' reset to default value."), arg);
   }
 
   return TRUE;
