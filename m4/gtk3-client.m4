@@ -7,9 +7,9 @@ AC_DEFUN([FC_GTK3_CLIENT],
 [
   if test "x$gui_gtk3" = "xyes" || test "x$client" = "xauto" ||
      test "x$client" = "xall" ; then
-    PKG_CHECK_MODULES([GTK3], [gtk+-3.0 >= 3.8.0],
+    PKG_CHECK_MODULES([GTK3], [gtk+-3.0 >= 3.10.0],
       [
-        GTK3_CFLAGS="$GTK3_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_8 -DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_8"
+        GTK3_CFLAGS="$GTK3_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_8 -DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_10"
         GTK3_CFLAGS="$GTK3_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_36 -DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_36"
         gui_gtk3=yes
         if test "x$client" = "xauto" ; then
