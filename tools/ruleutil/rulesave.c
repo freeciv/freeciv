@@ -2011,6 +2011,8 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile, terrain_control.gui_type_base1,
                      "extraui.ui_name_base_airbase");
 
+  comment_extras(sfile);
+
   sect_idx = 0;
   extra_type_iterate(pextra) {
     char path[512];

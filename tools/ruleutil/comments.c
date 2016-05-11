@@ -31,6 +31,7 @@ static struct {
   char *uclasses;
   char *utypes;
   char *terrains;
+  char *extras;
 } comments_storage;
 
 /**************************************************************************
@@ -60,6 +61,7 @@ bool comments_load(void)
   comments_storage.uclasses = fc_strdup(secfile_lookup_str(comment_file, "typedoc.uclasses"));
   comments_storage.utypes = fc_strdup(secfile_lookup_str(comment_file, "typedoc.utypes"));
   comments_storage.terrains = fc_strdup(secfile_lookup_str(comment_file, "typedoc.terrains"));
+  comments_storage.extras = fc_strdup(secfile_lookup_str(comment_file, "typedoc.extras"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -151,4 +153,12 @@ void comment_utypes(struct section_file *sfile)
 void comment_terrains(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.terrains, "Terrains");
+}
+
+/**************************************************************************
+  Write extras header.
+**************************************************************************/
+void comment_extras(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.extras, "Extras");
 }

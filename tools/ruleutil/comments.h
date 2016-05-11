@@ -31,6 +31,7 @@ void comment_policies(struct section_file *sfile);
 void comment_uclasses(struct section_file *sfile);
 void comment_utypes(struct section_file *sfile);
 void comment_terrains(struct section_file *sfile);
+void comment_extras(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

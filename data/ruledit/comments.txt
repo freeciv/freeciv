@@ -614,3 +614,103 @@ terrains = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+extras = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Each extra, including bases, roads, and resource, must have a section here.\n\
+; Bases, roads, and resources have additional sections for their specific features.\n\
+;\n\
+;\n\
+; Extra types:\n\
+;\n\
+; name                    = translatable name as seen by user\n\
+; rule_name               = (optional) name for savegames, rulesets etc; if not\n\
+;                           present, 'name' is used. Since the name used in\n\
+;                           savegames must not change, use this when renaming\n\
+;                           an extra after a ruleset has been released.\n\
+; category                = How UI should categorize this extra. One of\n\
+;                           \"Infra\", \"Natural\", \"Nuisance\", \"Resource\", or \"Bonus\"\n\
+; causes                  = events that can create extra type.\n\
+;                           \"Irrigation\", \"Mine\", \"Hut\", \"Pollution\", \"Fallout\",\n\
+;                           \"Base\", \"Road\", \"Resource\", or \"Appear\"\n\
+; rmcauses                = events that can remove extra type.\n\
+;                           \"CleanPollution\", \"CleanFallout\", \"Pillage\", or\n\
+;                           \"Disappear\"\n\
+; graphic                 = tag specifying preferred graphic\n\
+; graphic_alt             = tag for alternate graphic if preferred graphic is\n\
+;                           not present. Can use eg \"-\" for no alternate\n\
+;                           graphic\n\
+; activity_gfx            = tag specifying graphic for unit building extra\n\
+;                           (can be \"none\")\n\
+; act_gfx_alt             = tag for alternative graphic for unit building extra\n\
+; act_gfx_alt2            = tag for second alternative graphic for unit building extra\n\
+; rmact_gfx               = tag specifying graphic for unit removing extra\n\
+;                           (can be \"none\")\n\
+; rmact_gfx_alt           = tag for alternative graphic for unit removing extra\n\
+; reqs                    = requirements to build the extra (see effects.ruleset\n\
+;                           and README.effects for help on requirements)\n\
+; rmreqs                  = requirements to remove the extra\n\
+; appearance_reqs         = spontaneous appearance requirements\n\
+; disappearance_reqs      = spontaneous disappearance requirements\n\
+; buildable               = Can extra be built? Defaults to TRUE\n\
+; build_time              = how long it takes a unit to build this extra.\n\
+;                           Value of 0 (default) means that terrain- and\n\
+;                           build activity specific time is used instead.\n\
+; build_time_factor       = This setting take effect only if build_time is 0.\n\
+;                           Terrain and activity specific build time will be\n\
+;                           multiplied by this value (default 1)\n\
+; removal_time            = how long it takes a unit to remove this extra.\n\
+;                           Value of 0 (default) means that terrain- and\n\
+;                           removal activity specific time is used instead.\n\
+; removal_time_factor     = This setting take effect only if removal_time is 0.\n\
+;                           Terrain and activity specific removal time will be\n\
+;                           multiplied by this value (default 1)\n\
+; defense_bonus           = Percent added to defense when tile has the extra\n\
+;                           (default none)\n\
+; appearance_chance       = If extra has cause \"Appear\" and other requirements\n\
+;                           for its appearance are fulfilled, this tells how big\n\
+;                           chance it has to appear each turn. The chance is 1/10000\n\
+;                           times this value.\n\
+; disappearance_chance    = If extra has rmcause \"Disappear\" and other requirements\n\
+;                           for its disappearance are fulfilled, this tells how big\n\
+;                           chance it has to disappear each turn. The chance is 1/10000\n\
+;                           times this value.\n\
+; native_to               = List of unit classes that are considered to\n\
+;                           be inside the extra when they are on same tile\n\
+; conflicts               = List of extras that cannot be on the same tile.\n\
+;                           Bases with non-zero border_sq automatically conflict\n\
+;                           with each other.\n\
+; hidden_by               = List of extra types that will make this extra\n\
+;                           type not to show on UI if both present.\n\
+; flags\n\
+;   - \"NativeTile\"        = Native units consider tile native regardless of\n\
+;                           terrain\n\
+;   - \"Refuel\"            = Native units can use tile as refuel point\n\
+;   - \"TerrChangeRemoves\" = Extra gets removed when ever terrain changes even\n\
+;                           if target terrain could support it\n\
+;   - \"AlwaysOnCityCenter\" = City center tiles always have this extra type\n\
+;                           regardless of its other requirements\n\
+;   - \"AutoOnCityCenter\"  = City center tiles will automatically have this\n\
+;                           extra type if the player can build it\n\
+;   - \"ConnectLand\"       = Road style gfx on Oceanic tiles are drawn to\n\
+;                           connect to adjacent Land tiles even if they have\n\
+;                           no extra. This affects appearance only\n\
+;   - \"GlobalWarming\"     = Instances of this extra on map count towards\n\
+;                           Global Warming\n\
+;   - \"NuclearWinter\"     = Instances of this extra on map count towards\n\
+;                           Nuclear Winter\n\
+;   - \"ShowFlag\"          = Draw owner's flag\n\
+;   - \"NaturalDefense\"    = Extra's defense bonus will be counted to \"Natural\"\n\
+;                           defense layer. The defense bonus of all the extras\n\
+;                           located at the tile, native to defending unit,\n\
+;                           is calculated as a 1 + sum of bonuses from the extras\n\
+;                           on the default \"Fortification\" defense layer multiplied\n\
+;                           by the 1 + sum of bonuses from the extras on the\n\
+;                           \"Natural\" layer.\n\
+; helptext                = optional help text string; should escape all raw\n\
+;                           newlines so that xgettext parsing works\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
