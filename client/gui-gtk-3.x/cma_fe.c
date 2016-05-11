@@ -176,7 +176,7 @@ static void help_callback(GtkWidget *w, gpointer data)
   Cell data function for cma dialog 
 **************************************************************************/
 static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
-			   GtkTreeModel *model, GtkTreeIter *it, gpointer data)
+                           GtkTreeModel *model, GtkTreeIter *it, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   char *s1;
@@ -190,7 +190,7 @@ static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
     return;
   }
   path = gtk_tree_model_get_path(model, it);
-  i1 = gtk_tree_path_get_indices(path) [0];
+  i1 = gtk_tree_path_get_indices(path)[0];
   gtk_tree_path_free(path);
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
@@ -199,13 +199,13 @@ static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
 
   if (!strcmp(s1, s2) && i1 == i2) {
     g_object_set(G_OBJECT(cell), "style", PANGO_STYLE_ITALIC,
-		 "weight", PANGO_WEIGHT_BOLD, NULL);
+                 "weight", PANGO_WEIGHT_BOLD, NULL);
   } else {
     g_object_set(G_OBJECT(cell), "style", PANGO_STYLE_NORMAL,
-		 "weight", PANGO_WEIGHT_NORMAL, NULL);
+                 "weight", PANGO_WEIGHT_NORMAL, NULL);
   }
 
-  free(s1);
+  g_free(s1);
 }
 
 /**************************************************************************
