@@ -276,6 +276,9 @@ ui_name_bombard = _("%sBombard%s")
 ; /* TRANS: Explode _Nuclear (100% chance of success). */
 ui_name_explode_nuclear = _("Explode %sNuclear%s")
 
+; /* TRANS: Destroy _City (100% chance of success). */
+ui_name_destroy_city = _("Destroy %sCity%s")
+
 ; /* TRANS: Set _Home City (100% chance of success). */
 ui_name_home_city = _("Set %sHome City%s")
 
@@ -617,6 +620,31 @@ action = "Explode Nuclear"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Nuclear", "Local", TRUE
+    }
+
+; The GameLoss unit requirement makes sending units on a suicide mission to
+; capture and destroy cities deep inside enemy terrain national suicide.
+; The risk of moving a GameLoss unit to the target city increases the cost
+; of the action. Rationalization for the requirement: the physical presence
+; of the Leader makes it easier to comply with the order to destroy the
+; city. (See the "orders by phone" Milgram experiment variation)
+;
+; The domestic city requirement forces the player to invade a city before
+; he can destroy it. If this limit is weakened by allowing the destruction
+; of undefended (MaxUnitsOnTile) foreign cities during war it will lead to
+; situations where a player can destroy a city but is unable to occupy it.
+; Rationalization: the resistance must be crushed before the destruction.
+;
+; TODO: create an international incident (set the Casus_Belli_Success
+; effect value to 1000) if "Destroy City" still is overpowered.
+[actionenabler_scorched_earth]
+action = "Destroy City"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "GameLoss",      "Local", TRUE
+      "DiplRel",      "Is foreign",    "Local", FALSE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
     }
 
 [actionenabler_change_home_city]
