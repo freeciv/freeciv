@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -82,6 +82,7 @@ void create_line_at_mouse_pos(void)
 {
   QPoint global_pos, local_pos;
   int x, y;
+
   global_pos = QCursor::pos();
   local_pos = gui()->mapview_wdg->mapFromGlobal(global_pos);
   x = local_pos.x();
