@@ -19,7 +19,7 @@ extern "C" {
 
 bool autoadjust_ruleset_data(void);
 bool autolock_settings(void);
-bool sanity_check_ruleset_data(void);
+bool sanity_check_ruleset_data(bool ignore_retired);
 
 #ifdef __cplusplus
 }

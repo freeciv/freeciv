@@ -540,7 +540,7 @@ static bool sanity_check_boolean_effects(void)
 
   Returns TRUE iff everything ok.
 **************************************************************************/
-bool sanity_check_ruleset_data(void)
+bool sanity_check_ruleset_data(bool ignore_retired)
 {
   int num_utypes;
   int i;
@@ -855,6 +855,11 @@ bool sanity_check_ruleset_data(void)
   extra_type_by_cause_iterate(EC_BASE, pextra) {
     int bfi;
     struct base_type *pbase = extra_base_get(pextra);
+
+    if (ignore_retired) {
+      /* Base flags haven't been updated yet. */
+      break;
+    }
 
     for (bfi = 0; bfi < BF_COUNT; bfi++) {
       if (!base_flag_is_retired(bfi)) {
