@@ -120,6 +120,8 @@ enum ane_kind {
   ANEK_CITY_POP_LIMIT,
   /* Explanation: the specified city don't have the needed capacity. */
   ANEK_CITY_NO_CAPACITY,
+  /* Explanation: the target tile is unknown. */
+  ANEK_TGT_TILE_UNKNOWN,
   /* Explanation: the action is blocked by another action. */
   ANEK_ACTION_BLOCKS,
   /* Explanation not detected. */
@@ -910,6 +912,10 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   } else if (action_id == ACTION_FOUND_CITY
              && action_custom == CB_NO_MIN_DIST) {
     explnat->kind = ANEK_CITY_TOO_CLOSE_TGT;
+  } else if (action_id == ACTION_PARADROP
+             && target_tile
+             && !map_is_known(target_tile, unit_owner(punit))) {
+    explnat->kind = ANEK_TGT_TILE_UNKNOWN;
   } else if ((game.scenario.prevent_new_cities
               && utype_can_do_action(unit_type_get(punit), ACTION_FOUND_CITY))
              && (action_id == ACTION_FOUND_CITY
@@ -1064,6 +1070,12 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("%s don't have enough capacity, so "
                     "%s cannot do anything."),
                   city_name_get(explnat->capacity_city),
+                  unit_name_translation(punit));
+    break;
+  case ANEK_TGT_TILE_UNKNOWN:
+    notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
+                  /* TRANS: Paratroopers ... */
+                  _("%s can't do anything to an unknown target tile."),
                   unit_name_translation(punit));
     break;
   case ANEK_ACTION_BLOCKS:
@@ -1447,6 +1459,14 @@ void illegal_action_msg(struct player *pplayer,
                   city_name_get(explnat->capacity_city),
                   action_get_ui_name(stopped_action),
                   unit_name_translation(actor));
+    break;
+  case ANEK_TGT_TILE_UNKNOWN:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  /* TRANS: Paratroopers ... Drop Paratrooper */
+                  _("%s can't do %s to an unknown tile."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action));
     break;
   case ANEK_ACTION_BLOCKS:
     notify_player(pplayer, unit_tile(actor),
