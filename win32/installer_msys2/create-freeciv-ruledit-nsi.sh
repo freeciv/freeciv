@@ -29,7 +29,7 @@ SetCompressor /SOLID lzma
 ;General
 
 Name "Freeciv Ruleset Editor \${VERSION}"
-OutFile "Output/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-setup.exe"
+OutFile "Output/\${APPNAME}-\${VERSION}-msys2-\${WIN_ARCH}-setup.exe"
 
 ;Variables
 
