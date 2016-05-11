@@ -608,6 +608,7 @@ actor_reqs    =
       "DiplRel",       "Team",           "Local", FALSE
       "DiplRel",       "Alliance",       "Local", FALSE
       "DiplRel",       "War",            "Local", FALSE
+      "MinMoveFrags",  "1",              "Local", TRUE
     }
 target_reqs    =
     { "type",          "name",           "range", "present"
