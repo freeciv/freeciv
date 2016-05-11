@@ -399,6 +399,7 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 ;                           on the default "Fortification" defense layer multiplied
 ;                           by the 1 + sum of bonuses from the extras on the
 ;                           "Natural" layer.
+;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
@@ -489,7 +490,6 @@ rmact_gfx_alt  = "-"
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive if there`s
 ;                           friendly city within 3 tiles
-;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ;
 ; */ <-- avoid gettext warnings
 

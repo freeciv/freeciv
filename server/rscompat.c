@@ -827,6 +827,8 @@ void rscompat_postprocess(struct rscompat_info *info)
       /* DiplomatDefense has moved to the ruleset as an extra user flag. */
       { BF_RETIRED_DIPLOMAT_DEFENSE,
           extra_flag_id_by_name("DiplomatDefense", fc_strcasecmp) },
+      /* NoStackDeath is now an extra flag. */
+      { BF_RETIRED_NO_STACK_DEATH, EF_NO_STACK_DEATH },
     };
 
     extra_type_by_cause_iterate(EC_BASE, pextra) {

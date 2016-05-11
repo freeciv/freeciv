@@ -5017,13 +5017,13 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* Can be cleaned by units.\n"));
   }
+  if (game.info.killstack
+      && extra_has_flag(pextra, EF_NO_STACK_DEATH)) {
+    CATLSTR(buf, bufsz,
+            _("* Defeat of one unit does not cause death of all other units "
+              "on this tile.\n"));
+  }
   if (pbase != NULL) {
-    if (game.info.killstack
-        && base_has_flag(pbase, BF_NO_STACK_DEATH)) {
-      CATLSTR(buf, bufsz,
-              _("* Defeat of one unit does not cause death of all other units "
-                "on this tile.\n"));
-    }
     if (territory_claiming_base(pbase)) {
       CATLSTR(buf, bufsz,
               _("* Extends national borders of the building nation.\n"));

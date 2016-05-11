@@ -709,6 +709,7 @@ extras = "\
 ;                           on the default \"Fortification\" defense layer multiplied\n\
 ;                           by the 1 + sum of bonuses from the extras on the\n\
 ;                           \"Natural\" layer.\n\
+;   - \"NoStackDeath\"      = Units inside do not die all at once when attacked\n\
 ; helptext                = optional help text string; should escape all raw\n\
 ;                           newlines so that xgettext parsing works\n\
 ;\n\

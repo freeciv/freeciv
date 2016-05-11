@@ -78,8 +78,8 @@ bool is_base_flag_near_tile(const struct tile *ptile, enum base_flag_id flag)
 ***************************************************************************/
 bool base_flag_is_retired(enum base_flag_id flag)
 {
-  /* All base flags after BF_RETIRED_DIPLOMAT_DEFENSE are retired. */
-  return flag >= BF_RETIRED_DIPLOMAT_DEFENSE;
+  /* All base flags after BF_RETIRED_NO_STACK_DEATH are retired. */
+  return flag >= BF_RETIRED_NO_STACK_DEATH;
 }
 
 /****************************************************************************

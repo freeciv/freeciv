@@ -744,7 +744,7 @@ struct unit *get_attacker(const struct unit *defender,
 bool is_stack_vulnerable(const struct tile *ptile)
 {
   return (game.info.killstack
-          && !tile_has_base_flag(ptile, BF_NO_STACK_DEATH)
+          && !tile_has_extra_flag(ptile, EF_NO_STACK_DEATH)
           && NULL == tile_city(ptile));
 }
 
