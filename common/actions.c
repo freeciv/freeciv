@@ -1309,7 +1309,7 @@ action_probability action_prob_vs_unit(const struct unit* actor_unit,
 **************************************************************************/
 bool action_prob_possible(action_probability probability)
 {
-  return ACTPROB_IMPOSSIBLE != probability;
+  return ACTPROB_IMPOSSIBLE != probability && ACTPROB_NA != probability;
 }
 
 /**************************************************************************
