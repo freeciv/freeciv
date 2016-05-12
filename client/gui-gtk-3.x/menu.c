@@ -2314,8 +2314,7 @@ void real_menus_update(void)
 
   if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
     menus_rename("BUILD_CITY",
-                 action_prepare_ui_name(ACTION_HELP_WONDER,
-                                        "", ACTPROB_NA, NULL));
+                 action_get_ui_name(ACTION_HELP_WONDER));
   } else {
     bool city_on_tile = FALSE;
 
@@ -2331,20 +2330,17 @@ void real_menus_update(void)
     if (city_on_tile && units_can_do_action(punits, ACTION_JOIN_CITY,
                                             TRUE)) {
       menus_rename("BUILD_CITY",
-                   action_prepare_ui_name(ACTION_JOIN_CITY,
-                                          "", ACTPROB_NA, NULL));
+                   action_get_ui_name(ACTION_JOIN_CITY));
     } else {
       /* refresh default order */
       menus_rename("BUILD_CITY",
-                   action_prepare_ui_name(ACTION_FOUND_CITY,
-                                          "", ACTPROB_NA, NULL));
+                   action_get_ui_name(ACTION_FOUND_CITY));
     }
   }
 
   if (units_can_do_action(punits, ACTION_TRADE_ROUTE, TRUE)) {
     menus_rename("BUILD_ROAD",
-                 action_prepare_ui_name(ACTION_TRADE_ROUTE,
-                                        "", ACTPROB_NA, NULL));
+                 action_get_ui_name(ACTION_TRADE_ROUTE));
   } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
     char road_item[500];
     struct extra_type *pextra = NULL;
