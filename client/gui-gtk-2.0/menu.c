@@ -2302,8 +2302,7 @@ void real_menus_update(void)
 
   if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
     menus_rename(unit_group, "BUILD_CITY",
-                 action_prepare_ui_name(ACTION_HELP_WONDER,
-                                        "_", ACTPROB_NA, NULL));
+                 action_get_ui_name_mnemonic(ACTION_HELP_WONDER, "_"));
   } else {
     bool city_on_tile = FALSE;
 
@@ -2326,8 +2325,7 @@ void real_menus_update(void)
 
   if (units_can_do_action(punits, ACTION_TRADE_ROUTE, TRUE)) {
     menus_rename(unit_group, "BUILD_ROAD",
-                 action_prepare_ui_name(ACTION_TRADE_ROUTE,
-                                        "_", ACTPROB_NA, NULL));
+                 action_get_ui_name_mnemonic(ACTION_TRADE_ROUTE, "_"));
   } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
     char road_item[500];
     struct extra_type *pextra = NULL;
