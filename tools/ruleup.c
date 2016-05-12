@@ -90,7 +90,7 @@ int main(int argc, char **argv)
   enum log_level loglevel = LOG_NORMAL;
 
   /* Load win32 post-crash debugger */
-#ifdef FREECIV_MS_WINOWS
+#ifdef FREECIV_MSWINDOWS
 # ifndef FREECIV_NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
 #  ifdef FREECIV_DEBUG
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
 #  endif /* FREECIV_DEBUG */
   }
 # endif /* FREECIV_NDEBUG */
-#endif /* FREECIV_MS_WINDOWS */
+#endif /* FREECIV_MSWINDOWS */
 
   init_nls();
 
