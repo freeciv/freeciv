@@ -268,10 +268,7 @@ void building_advisor(struct player *pplayer)
 }
 
 /**************************************************************************
-  Choose improvement we like most and put it into ai_choice.
-
- "I prefer the ai_choice as a return value; gcc prefers it as an arg" 
-  -- Syela 
+  Choose improvement we like most and put it into adv_choice.
 **************************************************************************/
 void building_advisor_choose(struct city *pcity, struct adv_choice *choice)
 {
