@@ -486,6 +486,15 @@ const char *action_get_ui_name(int action_id)
 }
 
 /**************************************************************************
+  Get the action name with a mnemonic ready to display in the UI.
+**************************************************************************/
+const char *action_get_ui_name_mnemonic(int action_id,
+                                        const char* mnemonic)
+{
+  return action_prepare_ui_name(action_id, mnemonic, ACTPROB_NA, NULL);
+}
+
+/**************************************************************************
   Get the UI name ready to show the action in the UI. It is possible to
   add a client specific mnemonic. Success probability information is
   interpreted and added to the text. A custom text can be inserted before
