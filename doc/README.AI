@@ -70,7 +70,7 @@ The long-term goals for Freeciv AI development are
 WANT CALCULATIONS
 =================
 
-Build calculations are expressed through a structure called ai_choice. 
+Build calculations are expressed through a structure called adv_choice. 
 This has a variable called "want", which determines how much the AI 
 wants whatever item is pointed to by choice->type. choice->want is
 
