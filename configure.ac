@@ -739,6 +739,7 @@ case "$host_os" in
     HOST_PATH_SEPARATOR=";"
     HOST_DIR_SEPARATOR="\\"
 
+    FREECIV_STORAGE_DIR_ESC=$(echo $FREECIV_STORAGE_DIR | $SED 's,/,\\\\\\\\,g')
     FREECIV_STORAGE_DIR=$(echo $FREECIV_STORAGE_DIR | $SED 's,/,\\\\,g')
 
     AC_DEFINE([FREECIV_SOCKET_ZERO_NOT_STDIN], [1], [Mingw-specific setting - stdin])
@@ -1372,15 +1373,15 @@ dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 
 if test x"$MINGW" = xyes; then
-  DEFAULT_SAVE_PATH=".;$FREECIV_STORAGE_DIR\\\\\\\\saves"
+  DEFAULT_SAVE_PATH=".;${FREECIV_STORAGE_DIR_ESC}\\\\\\\\saves"
   if test x$crosser = xyes ; then
-    FC_CONF_PATH="../etc/freeciv"
-    DEFAULT_DATA_PATH=".;data;$FREECIV_STORAGE_DIR/$DATASUBDIR;$datadir/freeciv;../share/freeciv"
-    DEFAULT_SCENARIO_PATH=".;data/scenarios;$FREECIV_STORAGE_DIR/$DATASUBDIR/scenarios;$FREECIV_STORAGE_DIR/scenarios;$datadir/freeciv/scenarios;../share/freeciv/scenarios"
+    FC_CONF_PATH="..\\\\\\\\etc\\\\\\\\freeciv"
+    DEFAULT_DATA_PATH=".;data;${FREECIV_STORAGE_DIR_ESC}\\\\\\\\$DATASUBDIR;$datadir\\\\\\\\freeciv;..\\\\\\\\share\\\\\\\\freeciv"
+    DEFAULT_SCENARIO_PATH=".;data\\\\\\\\scenarios;${FREECIV_STORAGE_DIR_ESC}\\\\\\\\$DATASUBDIR\\\\\\\\scenarios;${FREECIV_STORAGE_DIR_ESC}\\\\\\\\scenarios;$datadir\\\\\\\\freeciv\\\\\\\\scenarios;..\\\\\\\\share\\\\\\\\freeciv\\\\\\\\scenarios"
   else
     FC_CONF_PATH="etc\\\\\\\\freeciv"
-    DEFAULT_DATA_PATH=".;data;$FREECIV_STORAGE_DIR\\\\\\\\$DATASUBDIR;$datadir\\\\\\\\freeciv"
-    DEFAULT_SCENARIO_PATH=".;data\\\\\\\\scenarios;$FREECIV_STORAGE_DIR\\\\\\\\$DATASUBDIR\\\\\\\\scenarios;$FREECIV_STORAGE_DIR\\\\\\\\scenarios;$datadir\\\\\\\\freeciv\\\\\\\\scenarios"
+    DEFAULT_DATA_PATH=".;data;${FREECIV_STORAGE_DIR_ESC}\\\\\\\\$DATASUBDIR;$datadir\\\\\\\\freeciv"
+    DEFAULT_SCENARIO_PATH=".;data\\\\\\\\scenarios;${FREECIV_STORAGE_DIR_ESC}\\\\\\\\$DATASUBDIR\\\\\\\\scenarios;${FREECIV_STORAGE_DIR_ESC}\\\\\\\\scenarios;$datadir\\\\\\\\freeciv\\\\\\\\scenarios"
   fi
 else
   FC_CONF_PATH="$sysconfdir/freeciv"
