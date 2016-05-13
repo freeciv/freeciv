@@ -1131,7 +1131,8 @@ void handle_unit_get_actions(struct connection *pc,
   if (!target_tile || !actor_unit || !actor_player
       || actor_unit->owner != actor_player) {
     action_iterate(act) {
-      probabilities[act] = 0;
+      /* No probability can exist when the request is invalid. */
+      probabilities[act] = ACTPROB_NA;
     } action_iterate_end;
 
     dsend_packet_unit_actions(pc, actor_unit_id,
@@ -1166,7 +1167,7 @@ void handle_unit_get_actions(struct connection *pc,
   action_iterate(act) {
     if (action_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
-      probabilities[act] = ACTPROB_IMPOSSIBLE;
+      probabilities[act] = ACTPROB_NA;
       continue;
     }
 
