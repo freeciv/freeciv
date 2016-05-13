@@ -66,7 +66,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2016-05-01 12:08+0100\n"
-"PO-Revision-Date: 2016-05-01 12:09+0100\n"
+"PO-Revision-Date: 2016-05-13 20:24+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -2550,6 +2550,8 @@ msgstr "Available Wonders"
 msgid "Total Buy Cost: %d"
 msgstr "Total Buy Cost: %d"
 
+# HACK: translate README.cma as README.governor to "fix"
+# https://gna.org/bugs/?24650 without breaking string freeze. Remove soon!
 #: client/gui-gtk-2.0/cma_fe.c:256 client/gui-gtk-3.0/cma_fe.c:266
 #: client/gui-xaw/cma_fe.c:83
 msgid ""
@@ -2561,7 +2563,7 @@ msgstr ""
 "For information on\n"
 "the citizen governor and governor presets,\n"
 "including sample presets,\n"
-"see README.cma."
+"see README.governor."
 
 #: client/gui-gtk-2.0/cma_fe.c:271 client/gui-gtk-3.0/cma_fe.c:281
 msgid "Prese_ts:"
@@ -27638,6 +27640,8 @@ msgstr ""
 "Use 'Game' --> 'Options' --> 'Save Settings' to store your presets "
 "permanently."
 
+# HACK: translate README.cma as README.governor to "fix"
+# https://gna.org/bugs/?24650 without breaking string freeze. Remove soon!
 #: data/helpdata.txt:1804
 msgid ""
 "But beware! If you use the governor for some of your cities, you will "
@@ -27650,7 +27654,7 @@ msgstr ""
 "encounter some difficulties with managing cities nearby, by hand. It's best "
 "to manage all cities on an island either by hand or by governor. Read more "
 "hints, some background information, and some preset examples in the file "
-"README.cma, included with Freeciv."
+"README.governor, included with Freeciv."
 
 #: data/helpdata.txt:1814
 msgid ""
