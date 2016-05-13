@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-01-03 07:22+0100\n"
 "PO-Revision-Date: 2016-01-11 13:25+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
@@ -622,8 +622,8 @@ msgstr "Obsolète"
 #: client/citydlg_common.c:383 client/citydlg_common.c:393
 #: client/gui-sdl/repodlgs.c:2047 client/gui-sdl/wldlg.c:1372
 #: client/gui-sdl/wldlg.c:1380 client/gui-sdl2/repodlgs.c:2058
-#: client/gui-sdl2/wldlg.c:1376 client/gui-sdl2/wldlg.c:1384
-#: common/events.c:93 common/events.c:166
+#: client/gui-sdl2/wldlg.c:1376 client/gui-sdl2/wldlg.c:1384 common/events.c:93
+#: common/events.c:166
 msgid "Built"
 msgstr "Construit"
 
@@ -3351,10 +3351,9 @@ msgstr "Recherche"
 #: client/gui-gtk-2.0/editprop.c:4334 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4358 client/gui-gtk-3.0/repodlgs.c:1279
 #: client/gui-qt/citydlg.cpp:1017 client/gui-qt/repodlgs.cpp:457
-#: common/city.c:86 data/civ1/terrain.ruleset:638
-#: data/civ2/terrain.ruleset:644 data/classic/terrain.ruleset:824
-#: data/experimental/terrain.ruleset:800 data/civ2civ3/terrain.ruleset:824
-#: data/multiplayer/terrain.ruleset:798
+#: common/city.c:86 data/civ1/terrain.ruleset:638 data/civ2/terrain.ruleset:644
+#: data/classic/terrain.ruleset:824 data/experimental/terrain.ruleset:800
+#: data/civ2civ3/terrain.ruleset:824 data/multiplayer/terrain.ruleset:798
 msgid "Gold"
 msgstr "Or"
 
@@ -3627,8 +3626,7 @@ msgid "Clear links"
 msgstr "Effacer les liens"
 
 #: client/gui-gtk-2.0/gui_main.c:1969 client/gui-gtk-3.0/gui_main.c:1998
-#: client/gui-qt/gui_main.cpp:417 tools/mpgui_gtk2.c:106
-#: tools/mpgui_gtk3.c:106
+#: client/gui-qt/gui_main.cpp:417 tools/mpgui_gtk2.c:106 tools/mpgui_gtk3.c:106
 msgid "Are you sure you want to quit?"
 msgstr "Voulez-vous vraiment quitter?"
 
@@ -4146,8 +4144,7 @@ msgid "_Demographics"
 msgstr "_Démographie"
 
 #: client/gui-gtk-2.0/menu.c:1440 client/gui-gtk-3.0/menu.c:1441
-#: client/gui-xaw/menu.c:248 client/include/helpdlg_g.h:32
-#: data/helpdata.txt:82
+#: client/gui-xaw/menu.c:248 client/include/helpdlg_g.h:32 data/helpdata.txt:82
 msgid "Strategy and Tactics"
 msgstr "Stratégie et Tactiques"
 
@@ -8160,7 +8157,8 @@ msgstr "load_gfxfile: impossible de charger le fichier de graphisme %s !"
 msgid ""
 "No gui-sdl theme was found. For instructions on how to get one, please visit "
 "%s"
-msgstr "Aucun thème sdl détecté. Pour savoir comment en obtenir un, consultez %s"
+msgstr ""
+"Aucun thème sdl détecté. Pour savoir comment en obtenir un, consultez %s"
 
 #: client/gui-sdl/themespec.c:345 client/gui-sdl2/themespec.c:350
 msgid "No usable default theme found, aborting!"
@@ -8741,8 +8739,7 @@ msgid "Tools"
 msgstr "Outils"
 
 #. TRANS: "Overview" topic in built-in help
-#: client/gui-xaw/menu.c:247 client/include/helpdlg_g.h:31
-#: data/helpdata.txt:43
+#: client/gui-xaw/menu.c:247 client/include/helpdlg_g.h:31 data/helpdata.txt:43
 msgid "?help:Overview"
 msgstr "Aperçu global"
 
@@ -10723,7 +10720,9 @@ msgstr "Ce type d'unité à ses propres niveaux de vétérans :"
 #: client/helpdata.c:3932
 #, c-format
 msgid "Starting now, researching %s would need %d bulbs."
-msgstr "En commençant maintenant, la recherche de %s demanderait %d points de recherche."
+msgstr ""
+"En commençant maintenant, la recherche de %s demanderait %d points de "
+"recherche."
 
 #: client/helpdata.c:3937
 #, c-format
@@ -10733,8 +10732,12 @@ msgid ""
 msgid_plural ""
 "To reach %s you need to obtain %d other technologies first. The whole "
 "project will require %d bulbs to complete."
-msgstr[0] "Afin d'obtenir %s, nous devons auparavant obtenir %d autre technologie. L'ensemble du projet demandera %d points de recherche."
-msgstr[1] "Afin d'obtenir %s, nous devons auparavant obtenir %d autres technologies. L'ensemble du projet demandera %d points de recherche."
+msgstr[0] ""
+"Afin d'obtenir %s, nous devons auparavant obtenir %d autre technologie. "
+"L'ensemble du projet demandera %d points de recherche."
+msgstr[1] ""
+"Afin d'obtenir %s, nous devons auparavant obtenir %d autres technologies. "
+"L'ensemble du projet demandera %d points de recherche."
 
 #: client/helpdata.c:3949
 msgid "You cannot research this technology."
@@ -11144,7 +11147,9 @@ msgid ""
 msgid_plural ""
 "* When you have %d cities, the first unhappy citizen will appear in each "
 "city due to civilization size.\n"
-msgstr[0] "* Le premier citoyen mécontent dans chaque ville dû à la taille de la civilisation apparaît quand vous avez %d ville.\n"
+msgstr[0] ""
+"* Le premier citoyen mécontent dans chaque ville dû à la taille de la "
+"civilisation apparaît quand vous avez %d ville.\n"
 msgstr[1] ""
 "* Le premier citoyen mécontent dans chaque ville dû à la taille de la "
 "civilisation apparaît quand vous avez %d villes.\n"
@@ -15883,7 +15888,11 @@ msgid ""
 "Nuclear units. A Nuclear unit attacking a city with SDI Defense, or "
 "attacking a unit (or deliberately exploded) within range, is shot down and "
 "simply has no effect."
-msgstr "Protège une ville et ses environs (jusqu'à 2 cases) des attaques nucléaires. Une unité nucléaire attaquant une ville avec une Défense SDI ou une unité (ou qui explose délibérément) à portée, sera détruite et donc n'aura pas d'effet."
+msgstr ""
+"Protège une ville et ses environs (jusqu'à 2 cases) des attaques nucléaires. "
+"Une unité nucléaire attaquant une ville avec une Défense SDI ou une unité "
+"(ou qui explose délibérément) à portée, sera détruite et donc n'aura pas "
+"d'effet."
 
 #: data/civ1/buildings.ruleset:581 data/civ2/buildings.ruleset:832
 #: data/classic/buildings.ruleset:897 data/experimental/buildings.ruleset:956
@@ -15910,9 +15919,8 @@ msgstr ""
 #: data/classic/buildings.ruleset:918 data/classic/buildings.ruleset:954
 #: data/classic/buildings.ruleset:981 data/experimental/buildings.ruleset:977
 #: data/experimental/buildings.ruleset:1013
-#: data/experimental/buildings.ruleset:1040
-#: data/civ2civ3/buildings.ruleset:980 data/civ2civ3/buildings.ruleset:1019
-#: data/civ2civ3/buildings.ruleset:1049
+#: data/experimental/buildings.ruleset:1040 data/civ2civ3/buildings.ruleset:980
+#: data/civ2civ3/buildings.ruleset:1019 data/civ2civ3/buildings.ruleset:1049
 msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
@@ -15987,10 +15995,8 @@ msgstr ""
 
 # AR
 #: data/civ1/buildings.ruleset:668 data/civ2/buildings.ruleset:992
-#: data/classic/buildings.ruleset:1062
-#: data/experimental/buildings.ruleset:1124
-#: data/civ2civ3/buildings.ruleset:1136
-#: data/multiplayer/buildings.ruleset:1043
+#: data/classic/buildings.ruleset:1062 data/experimental/buildings.ruleset:1124
+#: data/civ2civ3/buildings.ruleset:1136 data/multiplayer/buildings.ruleset:1043
 msgid "Temple"
 msgstr "Temple"
 
@@ -16013,10 +16019,9 @@ msgstr "Un Temple protège la vlle des volcans."
 #: data/civ1/buildings.ruleset:694 data/civ1/techs.ruleset:584
 #: data/civ2/buildings.ruleset:1016 data/civ2/techs.ruleset:751
 #: data/classic/buildings.ruleset:1086 data/classic/techs.ruleset:757
-#: data/experimental/buildings.ruleset:1150
-#: data/experimental/techs.ruleset:835 data/civ2civ3/buildings.ruleset:1160
-#: data/civ2civ3/techs.ruleset:845 data/multiplayer/buildings.ruleset:1067
-#: data/multiplayer/techs.ruleset:763
+#: data/experimental/buildings.ruleset:1150 data/experimental/techs.ruleset:835
+#: data/civ2civ3/buildings.ruleset:1160 data/civ2civ3/techs.ruleset:845
+#: data/multiplayer/buildings.ruleset:1067 data/multiplayer/techs.ruleset:763
 msgid "University"
 msgstr "Université"
 
@@ -16030,10 +16035,8 @@ msgstr ""
 "recherche scientifique d'une ville."
 
 #: data/civ1/buildings.ruleset:718 data/civ2/buildings.ruleset:1040
-#: data/classic/buildings.ruleset:1110
-#: data/experimental/buildings.ruleset:1175
-#: data/civ2civ3/buildings.ruleset:1190
-#: data/multiplayer/buildings.ruleset:1091
+#: data/classic/buildings.ruleset:1110 data/experimental/buildings.ruleset:1175
+#: data/civ2civ3/buildings.ruleset:1190 data/multiplayer/buildings.ruleset:1091
 msgid "Apollo Program"
 msgstr "Programme Apollo"
 
@@ -16051,18 +16054,14 @@ msgstr ""
 "ait acquit les technologies nécessaires)."
 
 #: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1087
-#: data/classic/buildings.ruleset:1157
-#: data/experimental/buildings.ruleset:1222
-#: data/civ2civ3/buildings.ruleset:1239
-#: data/multiplayer/buildings.ruleset:1136
+#: data/classic/buildings.ruleset:1157 data/experimental/buildings.ruleset:1222
+#: data/civ2civ3/buildings.ruleset:1239 data/multiplayer/buildings.ruleset:1136
 msgid "Colossus"
 msgstr "Colosse"
 
 #: data/civ1/buildings.ruleset:758 data/civ2/buildings.ruleset:1104
-#: data/classic/buildings.ruleset:1174
-#: data/experimental/buildings.ruleset:1239
-#: data/civ2civ3/buildings.ruleset:1256
-#: data/multiplayer/buildings.ruleset:1153
+#: data/classic/buildings.ruleset:1174 data/experimental/buildings.ruleset:1239
+#: data/civ2civ3/buildings.ruleset:1256 data/multiplayer/buildings.ruleset:1153
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -16071,10 +16070,8 @@ msgstr ""
 "ressource de commerce en plus (pour les cases produisant déjà du commerce)."
 
 #: data/civ1/buildings.ruleset:764 data/civ2/buildings.ruleset:1110
-#: data/classic/buildings.ruleset:1180
-#: data/experimental/buildings.ruleset:1245
-#: data/civ2civ3/buildings.ruleset:1262
-#: data/multiplayer/buildings.ruleset:1159
+#: data/classic/buildings.ruleset:1180 data/experimental/buildings.ruleset:1245
+#: data/civ2civ3/buildings.ruleset:1262 data/multiplayer/buildings.ruleset:1159
 msgid "Copernicus' Observatory"
 msgstr "Observatoire de Copernic"
 
@@ -16085,10 +16082,8 @@ msgstr ""
 "Accroît la recherche scientifique de 50% dans la ville où il a été construit."
 
 #: data/civ1/buildings.ruleset:787 data/civ2/buildings.ruleset:1132
-#: data/classic/buildings.ruleset:1202
-#: data/experimental/buildings.ruleset:1267
-#: data/civ2civ3/buildings.ruleset:1286
-#: data/multiplayer/buildings.ruleset:1181
+#: data/classic/buildings.ruleset:1202 data/experimental/buildings.ruleset:1267
+#: data/civ2civ3/buildings.ruleset:1286 data/multiplayer/buildings.ruleset:1181
 msgid "Cure For Cancer"
 msgstr "Guérison du cancer"
 
@@ -16102,16 +16097,13 @@ msgstr ""
 "cause des activités militaires)."
 
 #: data/civ1/buildings.ruleset:810 data/civ2/buildings.ruleset:1155
-#: data/classic/buildings.ruleset:1228
-#: data/experimental/buildings.ruleset:1293
-#: data/civ2civ3/buildings.ruleset:1312
-#: data/multiplayer/buildings.ruleset:1207
+#: data/classic/buildings.ruleset:1228 data/experimental/buildings.ruleset:1293
+#: data/civ2civ3/buildings.ruleset:1312 data/multiplayer/buildings.ruleset:1207
 msgid "Darwin's Voyage"
 msgstr "Voyage de Darwin"
 
 #: data/civ1/buildings.ruleset:826 data/civ2/buildings.ruleset:1171
-#: data/classic/buildings.ruleset:1244
-#: data/experimental/buildings.ruleset:1309
+#: data/classic/buildings.ruleset:1244 data/experimental/buildings.ruleset:1309
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -16122,16 +16114,13 @@ msgstr ""
 "immédiatement deux découvertes."
 
 #: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:1201
-#: data/classic/buildings.ruleset:1274
-#: data/experimental/buildings.ruleset:1339
-#: data/civ2civ3/buildings.ruleset:1360
-#: data/multiplayer/buildings.ruleset:1252
+#: data/classic/buildings.ruleset:1274 data/experimental/buildings.ruleset:1339
+#: data/civ2civ3/buildings.ruleset:1360 data/multiplayer/buildings.ruleset:1252
 msgid "Great Library"
 msgstr "Grande Bibliothèque"
 
 #: data/civ1/buildings.ruleset:850 data/civ2/buildings.ruleset:1218
-#: data/classic/buildings.ruleset:1291
-#: data/experimental/buildings.ruleset:1356
+#: data/classic/buildings.ruleset:1291 data/experimental/buildings.ruleset:1356
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -16140,24 +16129,19 @@ msgstr ""
 "découvertes qu'au moins deux autres équipes ont déjà obtenues."
 
 #: data/civ1/buildings.ruleset:856 data/civ2/buildings.ruleset:1224
-#: data/classic/buildings.ruleset:1297
-#: data/experimental/buildings.ruleset:1362
-#: data/civ2civ3/buildings.ruleset:1384
-#: data/multiplayer/buildings.ruleset:1274
+#: data/classic/buildings.ruleset:1297 data/experimental/buildings.ruleset:1362
+#: data/civ2civ3/buildings.ruleset:1384 data/multiplayer/buildings.ruleset:1274
 msgid "Great Wall"
 msgstr "Grande Muraille"
 
 #: data/civ1/buildings.ruleset:873 data/civ2/buildings.ruleset:1241
-#: data/classic/buildings.ruleset:1314
-#: data/experimental/buildings.ruleset:1379
+#: data/classic/buildings.ruleset:1314 data/experimental/buildings.ruleset:1379
 msgid "Works as a City Wall in all your cities."
 msgstr "Équivaut à avoir des remparts dans toutes les villes."
 
 #: data/civ1/buildings.ruleset:880 data/civ2/buildings.ruleset:1248
-#: data/classic/buildings.ruleset:1322
-#: data/experimental/buildings.ruleset:1387
-#: data/civ2civ3/buildings.ruleset:1410
-#: data/multiplayer/buildings.ruleset:1296
+#: data/classic/buildings.ruleset:1322 data/experimental/buildings.ruleset:1387
+#: data/civ2civ3/buildings.ruleset:1410 data/multiplayer/buildings.ruleset:1296
 msgid "Hanging Gardens"
 msgstr "Jardins Suspendus"
 
@@ -16174,10 +16158,8 @@ msgstr ""
 "mécontents à cause des activités militaires), les rendant satisfaits."
 
 #: data/civ1/buildings.ruleset:905 data/civ2/buildings.ruleset:1275
-#: data/classic/buildings.ruleset:1349
-#: data/experimental/buildings.ruleset:1414
-#: data/civ2civ3/buildings.ruleset:1433
-#: data/multiplayer/buildings.ruleset:1322
+#: data/classic/buildings.ruleset:1349 data/experimental/buildings.ruleset:1414
+#: data/civ2civ3/buildings.ruleset:1433 data/multiplayer/buildings.ruleset:1322
 msgid "Hoover Dam"
 msgstr "Barrage Hoover"
 
@@ -16192,16 +16174,13 @@ msgstr ""
 "effets des Usines et des Fabriques)."
 
 #: data/civ1/buildings.ruleset:929 data/civ2/buildings.ruleset:1297
-#: data/classic/buildings.ruleset:1372
-#: data/experimental/buildings.ruleset:1437
-#: data/civ2civ3/buildings.ruleset:1459
-#: data/multiplayer/buildings.ruleset:1346
+#: data/classic/buildings.ruleset:1372 data/experimental/buildings.ruleset:1437
+#: data/civ2civ3/buildings.ruleset:1459 data/multiplayer/buildings.ruleset:1346
 msgid "Isaac Newton's College"
 msgstr "Collège Isaac Newton"
 
 #: data/civ1/buildings.ruleset:947 data/civ2/buildings.ruleset:1314
-#: data/classic/buildings.ruleset:1197
-#: data/experimental/buildings.ruleset:1262
+#: data/classic/buildings.ruleset:1197 data/experimental/buildings.ruleset:1262
 #: data/multiplayer/buildings.ruleset:1176
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
@@ -16209,10 +16188,8 @@ msgstr ""
 "Accroît la recherche scientifique de 100% dans la ville où il est construit."
 
 #: data/civ1/buildings.ruleset:952 data/civ2/buildings.ruleset:1319
-#: data/classic/buildings.ruleset:1395
-#: data/experimental/buildings.ruleset:1460
-#: data/civ2civ3/buildings.ruleset:1484
-#: data/multiplayer/buildings.ruleset:1369
+#: data/classic/buildings.ruleset:1395 data/experimental/buildings.ruleset:1460
+#: data/civ2civ3/buildings.ruleset:1484 data/multiplayer/buildings.ruleset:1369
 msgid "J.S. Bach's Cathedral"
 msgstr "Cathédrale J.S. Bach"
 
@@ -16227,10 +16204,8 @@ msgstr ""
 "citoyens mécontents à cause des activités militaires)."
 
 #: data/civ1/buildings.ruleset:975 data/civ2/buildings.ruleset:1386
-#: data/classic/buildings.ruleset:1462
-#: data/experimental/buildings.ruleset:1527
-#: data/civ2civ3/buildings.ruleset:1551
-#: data/multiplayer/buildings.ruleset:1436
+#: data/classic/buildings.ruleset:1462 data/experimental/buildings.ruleset:1527
+#: data/civ2civ3/buildings.ruleset:1551 data/multiplayer/buildings.ruleset:1436
 msgid "Lighthouse"
 msgstr "Phare"
 
@@ -16239,10 +16214,8 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Donne à chaque unité marine 1 points de mouvement supplémentaire."
 
 #: data/civ1/buildings.ruleset:997 data/civ2/buildings.ruleset:1409
-#: data/classic/buildings.ruleset:1486
-#: data/experimental/buildings.ruleset:1551
-#: data/civ2civ3/buildings.ruleset:1575
-#: data/multiplayer/buildings.ruleset:1459
+#: data/classic/buildings.ruleset:1486 data/experimental/buildings.ruleset:1551
+#: data/civ2civ3/buildings.ruleset:1575 data/multiplayer/buildings.ruleset:1459
 msgid "Magellan's Expedition"
 msgstr "Expédition de Magellan"
 
@@ -16251,18 +16224,14 @@ msgid "Gives all sea units 1 additional movement point."
 msgstr "Donne à chaque unité marine un déplacement en plus."
 
 #: data/civ1/buildings.ruleset:1018 data/civ2/buildings.ruleset:1430
-#: data/classic/buildings.ruleset:1508
-#: data/experimental/buildings.ruleset:1573
-#: data/civ2civ3/buildings.ruleset:1600
-#: data/multiplayer/buildings.ruleset:1483
+#: data/classic/buildings.ruleset:1508 data/experimental/buildings.ruleset:1573
+#: data/civ2civ3/buildings.ruleset:1600 data/multiplayer/buildings.ruleset:1483
 msgid "Manhattan Project"
 msgstr "Projet Manhattan"
 
 #: data/civ1/buildings.ruleset:1038 data/civ2/buildings.ruleset:1472
-#: data/classic/buildings.ruleset:1550
-#: data/experimental/buildings.ruleset:1615
-#: data/civ2civ3/buildings.ruleset:1642
-#: data/multiplayer/buildings.ruleset:1526
+#: data/classic/buildings.ruleset:1550 data/experimental/buildings.ruleset:1615
+#: data/civ2civ3/buildings.ruleset:1642 data/multiplayer/buildings.ruleset:1526
 msgid "Michelangelo's Chapel"
 msgstr "Chapelle Michel-Ange"
 
@@ -16271,8 +16240,7 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Double les effets des cathédrales dans chaque ville."
 
 #: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1499
-#: data/classic/buildings.ruleset:1577
-#: data/experimental/buildings.ruleset:1642
+#: data/classic/buildings.ruleset:1577 data/experimental/buildings.ruleset:1642
 #: data/multiplayer/buildings.ruleset:1553
 msgid "Oracle"
 msgstr "Oracle"
@@ -16286,10 +16254,8 @@ msgstr ""
 "rendus mécontents à cause des activités militaires."
 
 #: data/civ1/buildings.ruleset:1083 data/civ2/buildings.ruleset:1522
-#: data/classic/buildings.ruleset:1601
-#: data/experimental/buildings.ruleset:1666
-#: data/civ2civ3/buildings.ruleset:1738
-#: data/multiplayer/buildings.ruleset:1577
+#: data/classic/buildings.ruleset:1601 data/experimental/buildings.ruleset:1666
+#: data/civ2civ3/buildings.ruleset:1738 data/multiplayer/buildings.ruleset:1577
 msgid "Pyramids"
 msgstr "Pyramides"
 
@@ -16307,8 +16273,7 @@ msgstr ""
 "transition."
 
 #: data/civ1/buildings.ruleset:1107 data/civ2/buildings.ruleset:1543
-#: data/classic/buildings.ruleset:1625
-#: data/experimental/buildings.ruleset:1690
+#: data/classic/buildings.ruleset:1625 data/experimental/buildings.ruleset:1690
 msgid "SETI Program"
 msgstr "Programme SETI"
 
@@ -16318,16 +16283,13 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Augmente la production de science dans chaque ville de 50%."
 
 #: data/civ1/buildings.ruleset:1129 data/civ2/buildings.ruleset:1566
-#: data/classic/buildings.ruleset:1647
-#: data/experimental/buildings.ruleset:1712
-#: data/civ2civ3/buildings.ruleset:1788
-#: data/multiplayer/buildings.ruleset:1623
+#: data/classic/buildings.ruleset:1647 data/experimental/buildings.ruleset:1712
+#: data/civ2civ3/buildings.ruleset:1788 data/multiplayer/buildings.ruleset:1623
 msgid "Shakespeare's Theater"
 msgstr "Théâtre Shakespeare"
 
 #: data/civ1/buildings.ruleset:1147 data/civ2/buildings.ruleset:1583
-#: data/classic/buildings.ruleset:1664
-#: data/experimental/buildings.ruleset:1729
+#: data/classic/buildings.ruleset:1664 data/experimental/buildings.ruleset:1729
 #: data/multiplayer/buildings.ruleset:1640
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -16338,18 +16300,14 @@ msgstr ""
 "activités militaires."
 
 #: data/civ1/buildings.ruleset:1153 data/civ2/buildings.ruleset:1637
-#: data/classic/buildings.ruleset:1718
-#: data/experimental/buildings.ruleset:1783
-#: data/civ2civ3/buildings.ruleset:1861
-#: data/multiplayer/buildings.ruleset:1693
+#: data/classic/buildings.ruleset:1718 data/experimental/buildings.ruleset:1783
+#: data/civ2civ3/buildings.ruleset:1861 data/multiplayer/buildings.ruleset:1693
 msgid "United Nations"
 msgstr "Nations Unies"
 
 #: data/civ1/buildings.ruleset:1181 data/civ2/buildings.ruleset:1666
-#: data/classic/buildings.ruleset:1747
-#: data/experimental/buildings.ruleset:1812
-#: data/civ2civ3/buildings.ruleset:1894
-#: data/multiplayer/buildings.ruleset:1716
+#: data/classic/buildings.ruleset:1747 data/experimental/buildings.ruleset:1812
+#: data/civ2civ3/buildings.ruleset:1894 data/multiplayer/buildings.ruleset:1716
 msgid "Women's Suffrage"
 msgstr "Vote des femmes"
 
@@ -16567,16 +16525,13 @@ msgid "Team 3"
 msgstr "Équipe 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59
-#: data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59
-#: data/multiplayer/governments.ruleset:59
+#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
+#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Anarchie"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64
-#: data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:82
 #: data/multiplayer/governments.ruleset:64
 #, c-format
@@ -16584,8 +16539,7 @@ msgid "Warlord %s"
 msgstr "Seigneur de guerre %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65
-#: data/experimental/governments.ruleset:67
+#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
 #: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:83
 #: data/multiplayer/governments.ruleset:65
 #, c-format
@@ -16593,10 +16547,8 @@ msgid "Warlady %s"
 msgstr "Seigneuresse de guerre %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67
-#: data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67
-#: data/multiplayer/governments.ruleset:67
+#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -16618,34 +16570,27 @@ msgstr ""
 "un peu plus de mécontentement."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80
-#: data/experimental/governments.ruleset:84
-#: data/civ2civ3/governments.ruleset:93
-#: data/multiplayer/governments.ruleset:80
+#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
+#: data/civ2civ3/governments.ruleset:93 data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Despotisme"
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86
-#: data/experimental/governments.ruleset:90
-#: data/civ2civ3/governments.ruleset:98
-#: data/multiplayer/governments.ruleset:86
+#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
+#: data/civ2civ3/governments.ruleset:98 data/multiplayer/governments.ruleset:86
 #, c-format
 msgid "Chief %s"
 msgstr "Chef %s"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87
-#: data/experimental/governments.ruleset:91
-#: data/civ2civ3/governments.ruleset:99
-#: data/multiplayer/governments.ruleset:87
+#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
+#: data/civ2civ3/governments.ruleset:99 data/multiplayer/governments.ruleset:87
 #, c-format
 msgid "?female:Chief %s"
 msgstr "Cheftaine %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/classic/governments.ruleset:89
-#: data/experimental/governments.ruleset:93
+#: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:101
 #: data/multiplayer/governments.ruleset:89
 msgid ""
@@ -18497,7 +18442,13 @@ msgid ""
 "or river tile, or another tile with an irrigation system, must share an edge "
 "(not just a corner) with the target tile. Once irrigated, land remains so "
 "even if the water source is removed."
-msgstr "Sur les terrains qui le supportent, ils peuvent construire un système d'irrigation pour produire de la nourriture supplémentaire chaque tour. Ceci nécessite une source d'eau proche : une case d'Océan ou de Rivière ou tout autre case dotée d'un système d'irrigation doit avoir un côté (et pas seulement un coin) en commun avec la case ciblée. Une fois irriguée, la terre le restera même si la source d'eau disparait."
+msgstr ""
+"Sur les terrains qui le supportent, ils peuvent construire un système "
+"d'irrigation pour produire de la nourriture supplémentaire chaque tour. Ceci "
+"nécessite une source d'eau proche : une case d'Océan ou de Rivière ou tout "
+"autre case dotée d'un système d'irrigation doit avoir un côté (et pas "
+"seulement un coin) en commun avec la case ciblée. Une fois irriguée, la "
+"terre le restera même si la source d'eau disparait."
 
 #: data/civ1/units.ruleset:294 data/civ2/units.ruleset:299
 msgid ""
@@ -19559,7 +19510,12 @@ msgid ""
 "attacking a unit (or deliberately exploded) within range, is shot down and "
 "simply has no effect. Also, doubles defense for units in the city against "
 "non-nuclear missiles."
-msgstr "Protège une ville et ses environs (jusqu'à 2 cases) des attaques nucléaires. Un unité nucléaire attaquant une ville avec une Défense SDI ou une unité (ou explosant délibérément) à portée sera détruite et donc n'aura pas d'effet. De plus, une Défense SDI double la défense des unités dans la ville contre les missiles non-nucléaires."
+msgstr ""
+"Protège une ville et ses environs (jusqu'à 2 cases) des attaques nucléaires. "
+"Un unité nucléaire attaquant une ville avec une Défense SDI ou une unité (ou "
+"explosant délibérément) à portée sera détruite et donc n'aura pas d'effet. "
+"De plus, une Défense SDI double la défense des unités dans la ville contre "
+"les missiles non-nucléaires."
 
 #: data/civ2/buildings.ruleset:779 data/classic/buildings.ruleset:838
 #: data/experimental/buildings.ruleset:897 data/civ2civ3/buildings.ruleset:896
@@ -19633,8 +19589,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:968 data/classic/buildings.ruleset:1038
 #: data/experimental/buildings.ruleset:1100
-#: data/civ2civ3/buildings.ruleset:1112
-#: data/multiplayer/buildings.ruleset:1019
+#: data/civ2civ3/buildings.ruleset:1112 data/multiplayer/buildings.ruleset:1019
 msgid "Supermarket"
 msgstr "Supermarché"
 
@@ -19667,8 +19622,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1065 data/classic/buildings.ruleset:1135
 #: data/experimental/buildings.ruleset:1200
-#: data/civ2civ3/buildings.ruleset:1215
-#: data/multiplayer/buildings.ruleset:1114
+#: data/civ2civ3/buildings.ruleset:1215 data/multiplayer/buildings.ruleset:1114
 msgid "A.Smith's Trading Co."
 msgstr "Société de commerce de A. Smith"
 
@@ -19682,8 +19636,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1178 data/classic/buildings.ruleset:1251
 #: data/experimental/buildings.ruleset:1316
-#: data/civ2civ3/buildings.ruleset:1336
-#: data/multiplayer/buildings.ruleset:1229
+#: data/civ2civ3/buildings.ruleset:1336 data/multiplayer/buildings.ruleset:1229
 msgid "Eiffel Tower"
 msgstr "Tour Eiffel"
 
@@ -19733,8 +19686,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1341 data/classic/buildings.ruleset:1417
 #: data/experimental/buildings.ruleset:1482
-#: data/civ2civ3/buildings.ruleset:1506
-#: data/multiplayer/buildings.ruleset:1391
+#: data/civ2civ3/buildings.ruleset:1506 data/multiplayer/buildings.ruleset:1391
 msgid "King Richard's Crusade"
 msgstr "Croisade du roi Richard"
 
@@ -19750,8 +19702,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1364 data/classic/buildings.ruleset:1440
 #: data/experimental/buildings.ruleset:1505
-#: data/civ2civ3/buildings.ruleset:1529
-#: data/multiplayer/buildings.ruleset:1414
+#: data/civ2civ3/buildings.ruleset:1529 data/multiplayer/buildings.ruleset:1414
 msgid "Leonardo's Workshop"
 msgstr "Atelier de Léonard"
 
@@ -19775,8 +19726,7 @@ msgstr "Donne à chaque unité marine 2 déplacements de plus."
 
 #: data/civ2/buildings.ruleset:1450 data/classic/buildings.ruleset:1528
 #: data/experimental/buildings.ruleset:1593
-#: data/civ2civ3/buildings.ruleset:1620
-#: data/multiplayer/buildings.ruleset:1503
+#: data/civ2civ3/buildings.ruleset:1620 data/multiplayer/buildings.ruleset:1503
 msgid "Marco Polo's Embassy"
 msgstr "Ambassade de Marco Polo"
 
@@ -19820,15 +19770,13 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1589 data/classic/buildings.ruleset:1670
 #: data/experimental/buildings.ruleset:1735
-#: data/civ2civ3/buildings.ruleset:1812
-#: data/multiplayer/buildings.ruleset:1646
+#: data/civ2civ3/buildings.ruleset:1812 data/multiplayer/buildings.ruleset:1646
 msgid "Statue of Liberty"
 msgstr "Statue de la Liberté"
 
 #: data/civ2/buildings.ruleset:1612 data/classic/buildings.ruleset:1693
 #: data/experimental/buildings.ruleset:1758
-#: data/civ2civ3/buildings.ruleset:1836
-#: data/multiplayer/buildings.ruleset:1669
+#: data/civ2civ3/buildings.ruleset:1836 data/multiplayer/buildings.ruleset:1669
 msgid "Sun Tzu's War Academy"
 msgstr "École de guerre Sun Tzu"
 
@@ -20398,7 +20346,9 @@ msgstr "Donne un mouvement de plus aux unités maritimes."
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
-msgstr "De grands philosophes du monde entier rejoignent votre civilisation : vous obtenez immédiatement une avancée."
+msgstr ""
+"De grands philosophes du monde entier rejoignent votre civilisation : vous "
+"obtenez immédiatement une avancée."
 
 #: data/civ2/techs.ruleset:564 data/classic/techs.ruleset:569
 #: data/experimental/techs.ruleset:626 data/civ2civ3/techs.ruleset:631
@@ -20589,8 +20539,7 @@ msgid "Airbase"
 msgstr "Base aérienne"
 
 #: data/civ2/terrain.ruleset:1049 data/classic/terrain.ruleset:1270
-#: data/experimental/terrain.ruleset:1246
-#: data/multiplayer/terrain.ruleset:1244
+#: data/experimental/terrain.ruleset:1246 data/multiplayer/terrain.ruleset:1244
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -20688,7 +20637,16 @@ msgid ""
 "even if the water source is removed. When Refrigeration is known, irrigation "
 "systems can be upgraded to Farmland by irrigating them a second time; this "
 "provides more food to a city if it has a Supermarket."
-msgstr "Sur les terrains qui le supportent, ils peuvent construire un système d'irrigation pour produire de la nourriture supplémentaire chaque tour. Ceci nécessite une source d'eau à proximité : une case d'océan ou de rivière, ou une autre case dotée d'un système d'irrigation, doit avoir un côté (et pas seulement un angle) en commun avec la case ciblée. Une fois irriguée, la terre le restera même si la source d'eau disparait. Quand la technologie Réfrigération est connue, les systèmes d'irrigation peuvent être améliorés en des Champs en les irriguant une seconde fois ; ceci fournit plus de nourriture à une ville si elle dispose d'un Supermarché."
+msgstr ""
+"Sur les terrains qui le supportent, ils peuvent construire un système "
+"d'irrigation pour produire de la nourriture supplémentaire chaque tour. Ceci "
+"nécessite une source d'eau à proximité : une case d'océan ou de rivière, ou "
+"une autre case dotée d'un système d'irrigation, doit avoir un côté (et pas "
+"seulement un angle) en commun avec la case ciblée. Une fois irriguée, la "
+"terre le restera même si la source d'eau disparait. Quand la technologie "
+"Réfrigération est connue, les systèmes d'irrigation peuvent être améliorés "
+"en des Champs en les irriguant une seconde fois ; ceci fournit plus de "
+"nourriture à une ville si elle dispose d'un Supermarché."
 
 #: data/civ2/units.ruleset:309
 msgid "Settlers can also build roads, railroads, fortresses, or airbases."
@@ -21562,8 +21520,7 @@ msgstr ""
 "usine a un bonus de production de 150% et élimine toute la pollution générée "
 "par la production de cette ville."
 
-#: data/classic/buildings.ruleset:1078
-#: data/experimental/buildings.ruleset:1140
+#: data/classic/buildings.ruleset:1078 data/experimental/buildings.ruleset:1140
 #: data/multiplayer/buildings.ruleset:1059
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -21575,8 +21532,7 @@ msgstr ""
 "satisfaits. Cela n'a aucun effet sur les citoyens rendus mécontents à cause "
 "des activités militaires."
 
-#: data/classic/buildings.ruleset:1104
-#: data/experimental/buildings.ruleset:1168
+#: data/classic/buildings.ruleset:1104 data/experimental/buildings.ruleset:1168
 #: data/multiplayer/buildings.ruleset:1085
 #, no-c-format
 msgid ""
@@ -21586,8 +21542,7 @@ msgstr ""
 "Après la construction d'une bibliothèque, une Université augmente de 250% la "
 "recherche scientifique d'une ville."
 
-#: data/classic/buildings.ruleset:1151
-#: data/experimental/buildings.ruleset:1216
+#: data/classic/buildings.ruleset:1151 data/experimental/buildings.ruleset:1216
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -21595,8 +21550,7 @@ msgstr ""
 "Les bâtiments qui ont normalement un coût d'entretien de 1 sont entretenus "
 "gratuitement pour toutes les villes."
 
-#: data/classic/buildings.ruleset:1218
-#: data/experimental/buildings.ruleset:1283
+#: data/classic/buildings.ruleset:1218 data/experimental/buildings.ruleset:1283
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity). It "
@@ -21607,8 +21561,7 @@ msgstr ""
 "mécontents à cause des activités militaires). Elle réduit encore le risque "
 "de maladie dans la ville."
 
-#: data/classic/buildings.ruleset:1268
-#: data/experimental/buildings.ruleset:1333
+#: data/classic/buildings.ruleset:1268 data/experimental/buildings.ruleset:1333
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -21617,8 +21570,7 @@ msgstr ""
 "vous possédez cette merveille.  La réputation est récupérée deux fois plus "
 "vite qu'elle le serait autrement."
 
-#: data/classic/buildings.ruleset:1389
-#: data/experimental/buildings.ruleset:1454
+#: data/classic/buildings.ruleset:1389 data/experimental/buildings.ruleset:1454
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -21627,8 +21579,7 @@ msgstr ""
 "Accroît la recherche scientifique de 100% dans chaque ville équipée d'une "
 "université."
 
-#: data/classic/buildings.ruleset:1480
-#: data/experimental/buildings.ruleset:1545
+#: data/classic/buildings.ruleset:1480 data/experimental/buildings.ruleset:1545
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -21636,13 +21587,11 @@ msgstr ""
 "Donne à chaque unité navale 1 point de mouvement supplémentaire. Rend chaque "
 "nouvelle unité marine vétérane (pour toutes les villes)."
 
-#: data/classic/buildings.ruleset:1503
-#: data/experimental/buildings.ruleset:1568
+#: data/classic/buildings.ruleset:1503 data/experimental/buildings.ruleset:1568
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Donne à chaque unité marine 2 points de mouvement supplémentaires."
 
-#: data/classic/buildings.ruleset:1594
-#: data/experimental/buildings.ruleset:1659
+#: data/classic/buildings.ruleset:1594 data/experimental/buildings.ruleset:1659
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -21651,8 +21600,7 @@ msgstr ""
 "villes qui possède un Temple. Cela n'a aucun effet sur les citoyens rendus "
 "mécontents à cause des activités militaires."
 
-#: data/classic/buildings.ruleset:1618
-#: data/experimental/buildings.ruleset:1683
+#: data/classic/buildings.ruleset:1618 data/experimental/buildings.ruleset:1683
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -21663,16 +21611,14 @@ msgstr ""
 "sera réduite de 25%. Cela aide les villes à grandir plus rapidement et à "
 "mieux résister aux famines. Effet cumulatif avec les greniers."
 
-#: data/classic/buildings.ruleset:1642
-#: data/experimental/buildings.ruleset:1707
+#: data/classic/buildings.ruleset:1642 data/experimental/buildings.ruleset:1707
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Augmente la production de science de 100% dans chaque ville avec un "
 "laboratoire de recherche. "
 
-#: data/classic/buildings.ruleset:1710
-#: data/experimental/buildings.ruleset:1775
+#: data/classic/buildings.ruleset:1710 data/experimental/buildings.ruleset:1775
 #: data/civ2civ3/buildings.ruleset:1853
 msgid ""
 "All your new military land units start with an additional veteran level "
@@ -21685,17 +21631,13 @@ msgstr ""
 "avec les deux, les unités sont créées aguerries). La probabilité pour qu'une "
 "unité gagne un niveau de vétérance après une bataille augmente de moitié."
 
-#: data/classic/buildings.ruleset:1776
-#: data/experimental/buildings.ruleset:1841
-#: data/civ2civ3/buildings.ruleset:1920
-#: data/multiplayer/buildings.ruleset:1742
+#: data/classic/buildings.ruleset:1776 data/experimental/buildings.ruleset:1841
+#: data/civ2civ3/buildings.ruleset:1920 data/multiplayer/buildings.ruleset:1742
 msgid "Coinage"
 msgstr "Capitalisation"
 
-#: data/classic/buildings.ruleset:1799
-#: data/experimental/buildings.ruleset:1864
-#: data/civ2civ3/buildings.ruleset:1943
-#: data/multiplayer/buildings.ruleset:1757
+#: data/classic/buildings.ruleset:1799 data/experimental/buildings.ruleset:1864
+#: data/civ2civ3/buildings.ruleset:1943 data/multiplayer/buildings.ruleset:1757
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -21880,7 +21822,12 @@ msgid ""
 "remaining in a fortress for a whole turn without moving recovers a quarter "
 "of its hit points. With Invention, fortresses gain watchtowers from which "
 "units can see further afield."
-msgstr "Les forteresses améliorent la défense des unités terrestres. Entre autres effets, une unité terrestre qui reste sans bouger dans une forteresse pendant un tour complet récupère un quart de ses points de vie. Avec Invention, les forteresses gagnent des tours de guet, à partir desquelles les unités peuvent voir des territoires plus lointains."
+msgstr ""
+"Les forteresses améliorent la défense des unités terrestres. Entre autres "
+"effets, une unité terrestre qui reste sans bouger dans une forteresse "
+"pendant un tour complet récupère un quart de ses points de vie. Avec "
+"Invention, les forteresses gagnent des tours de guet, à partir desquelles "
+"les unités peuvent voir des territoires plus lointains."
 
 #: data/classic/terrain.ruleset:1276 data/experimental/terrain.ruleset:1252
 #: data/civ2civ3/terrain.ruleset:1342 data/multiplayer/terrain.ruleset:1250
@@ -21979,7 +21926,16 @@ msgid ""
 "remains so even if the water source is removed. When Refrigeration is known, "
 "irrigation systems can be upgraded to Farmland by irrigating them a second "
 "time; this provides more food to a city if it has a Supermarket."
-msgstr "Sur les terrains qui le supportent, ils peuvent construire un système d'irrigation pour produire de la nourriture supplémentaire chaque tour. Ceci nécessite une source d'eau à proximité : une case d'océan, de lac ou de rivière ou tout autre case dotée d'un système d'irrigation, qui doit avoir un côté (et pas un coin) en commun avec la case ciblée. Une fois irriguée, la terre le restera même si la source d'eau disparait. Quand la Réfrigération est connue, les systèmes d'irrigation peuvent être améliorés en des Champs en les irriguant une seconde fois ; ceci fournit plus de nourriture à une ville si elle est dotée d'un Supermarché."
+msgstr ""
+"Sur les terrains qui le supportent, ils peuvent construire un système "
+"d'irrigation pour produire de la nourriture supplémentaire chaque tour. Ceci "
+"nécessite une source d'eau à proximité : une case d'océan, de lac ou de "
+"rivière ou tout autre case dotée d'un système d'irrigation, qui doit avoir "
+"un côté (et pas un coin) en commun avec la case ciblée. Une fois irriguée, "
+"la terre le restera même si la source d'eau disparait. Quand la "
+"Réfrigération est connue, les systèmes d'irrigation peuvent être améliorés "
+"en des Champs en les irriguant une seconde fois ; ceci fournit plus de "
+"nourriture à une ville si elle est dotée d'un Supermarché."
 
 #: data/classic/units.ruleset:464 data/experimental/units.ruleset:483
 #: data/civ2civ3/units.ruleset:524 data/multiplayer/units.ruleset:464
@@ -21987,7 +21943,11 @@ msgid ""
 "Workers can build mines on some types of terrain, which increases the number "
 "of production points produced by that tile. However, it is not possible to "
 "have an irrigation system and a mine on the same tile."
-msgstr "Les Travailleurs peuvent creuser des mines sur certains types de terrain, ce qui accroît le nombre de points de production fournis par cette case. Cependant, il est impossible d'avoir un système d'irrigation et une mine sur la même case."
+msgstr ""
+"Les Travailleurs peuvent creuser des mines sur certains types de terrain, ce "
+"qui accroît le nombre de points de production fournis par cette case. "
+"Cependant, il est impossible d'avoir un système d'irrigation et une mine sur "
+"la même case."
 
 #: data/classic/units.ruleset:474
 msgid ""
@@ -22500,7 +22460,10 @@ msgid ""
 "Increases the luxury and tax output in a city by an additional 50%.  The "
 "total bonus is 100% if there are Marketplace and Bank together in the same "
 "city."
-msgstr "Augmente de 50% supplémentaires les productions de luxe et de taxe d'une ville. Le bonus total est de 100% s'il y à la fois un Maché et une Banque dans la même ville."
+msgstr ""
+"Augmente de 50% supplémentaires les productions de luxe et de taxe d'une "
+"ville. Le bonus total est de 100% s'il y à la fois un Maché et une Banque "
+"dans la même ville."
 
 #: data/civ2civ3/buildings.ruleset:287
 msgid ""
@@ -22522,7 +22485,12 @@ msgid ""
 "against aircraft, helicopter, missile and sea units. City Walls also prevent "
 "the loss of population which occurs when a defending unit is destroyed by a "
 "land unit."
-msgstr "Les Remparts facilitent la défense de la ville. Ils doublent la défense des unités présentes dans la ville contre les unités terrestres. Ils sont sans effet contre les avions, les hélicoptères, les missiles ou les unités maritimes. Les remparts empêchent également la perte de population lorsqu'une unité de la ville est détruite par une unité terrestre."
+msgstr ""
+"Les Remparts facilitent la défense de la ville. Ils doublent la défense des "
+"unités présentes dans la ville contre les unités terrestres. Ils sont sans "
+"effet contre les avions, les hélicoptères, les missiles ou les unités "
+"maritimes. Les remparts empêchent également la perte de population "
+"lorsqu'une unité de la ville est détruite par une unité terrestre."
 
 #: data/civ2civ3/buildings.ruleset:345 data/multiplayer/buildings.ruleset:90
 msgid "Amphitheater"
@@ -22535,7 +22503,11 @@ msgid ""
 "waste) by 50%. In your capital, corruption and production waste is "
 "eliminated. A Granary together with a Courthouse in a city will eliminate "
 "food waste."
-msgstr "Réduit toutes les formes de pertes dans une ville (corruption, gaspillage de production et nourriture gâchée). Dans votre capitale, la corruption et le gaspillage sont éliminés. Un Grenier associé à un Tribunal dans une même ville éliminera le gâchis de nourriture."
+msgstr ""
+"Réduit toutes les formes de pertes dans une ville (corruption, gaspillage de "
+"production et nourriture gâchée). Dans votre capitale, la corruption et le "
+"gaspillage sont éliminés. Un Grenier associé à un Tribunal dans une même "
+"ville éliminera le gâchis de nourriture."
 
 #: data/civ2civ3/buildings.ruleset:393
 msgid ""
@@ -22572,7 +22544,10 @@ msgstr ""
 msgid ""
 "Granary also halves the waste of food caused by distance to Palace.  "
 "Together with a Courthouse, it eliminates completely the waste of food."
-msgstr "Le Grenier diminue également de moitié le gâchis de nourriture due à la distance au Palais. Associé à un Tribunal, il élimine complètement le gâchis de nourriture."
+msgstr ""
+"Le Grenier diminue également de moitié le gâchis de nourriture due à la "
+"distance au Palais. Associé à un Tribunal, il élimine complètement le gâchis "
+"de nourriture."
 
 #: data/civ2civ3/buildings.ruleset:494 data/civ2civ3/buildings.ruleset:625
 #, no-c-format
@@ -22603,7 +22578,9 @@ msgstr ""
 msgid ""
 "Increases the science output in a city by 50% (by 100% if the Great Library "
 "wonder was built by any player)."
-msgstr "Augmente la production de science d'une ville de 50% (de 100% si la Grande Bibliothèque a été construite par un joueur)."
+msgstr ""
+"Augmente la production de science d'une ville de 50% (de 100% si la Grande "
+"Bibliothèque a été construite par un joueur)."
 
 #: data/civ2civ3/buildings.ruleset:572
 msgid "Reduces the pollution generated by the population in a city by 50%."
@@ -22614,7 +22591,9 @@ msgstr "Réduit la pollution générée par la population dans une ville de 50%.
 msgid ""
 "Increases the shield production in a city by an additional 25%.  The bonus "
 "is 50% if there is any Power Plant in the same city."
-msgstr "Augmente la production dans une ville de 25% supplémentaires. Le bonus est de 50% s'il y a une Centrale quelconque dans la même ville."
+msgstr ""
+"Augmente la production dans une ville de 25% supplémentaires. Le bonus est "
+"de 50% s'il y a une Centrale quelconque dans la même ville."
 
 #: data/civ2civ3/buildings.ruleset:601
 #, no-c-format
@@ -22654,7 +22633,9 @@ msgstr ""
 msgid ""
 "Offshore Platforms also increase the pollution caused by the population of "
 "the city (+25%)."
-msgstr "Les Plateformes Offshore augmentent également la pollution générée par la population de la ville (+25%)."
+msgstr ""
+"Les Plateformes Offshore augmentent également la pollution générée par la "
+"population de la ville (+25%)."
 
 #: data/civ2civ3/buildings.ruleset:689
 #, no-c-format
@@ -22664,7 +22645,12 @@ msgid ""
 "how far away from the capital they are. On top of this, corruption and "
 "production waste in your capital itself is half of what it would otherwise "
 "be."
-msgstr "Fait d'une ville la capitale et le centre de votre gouvernement. Les pertes (corruption, gaspillage de production et gâchis de nourriture) dans les autres villes est souvent liée à leur distance par rapport à la capitale. De plus, la corruption et le gaspillage dans votre capitale elle-même sont moitié moindres de ce qu'ils seraient sinon."
+msgstr ""
+"Fait d'une ville la capitale et le centre de votre gouvernement. Les pertes "
+"(corruption, gaspillage de production et gâchis de nourriture) dans les "
+"autres villes est souvent liée à leur distance par rapport à la capitale. De "
+"plus, la corruption et le gaspillage dans votre capitale elle-même sont "
+"moitié moindres de ce qu'ils seraient sinon."
 
 #: data/civ2civ3/buildings.ruleset:695
 msgid ""
@@ -22719,14 +22705,18 @@ msgstr ""
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 50%."
-msgstr "Construire une Usine de recyclage réduit de 50% la pollution générée par la production dans une ville."
+msgstr ""
+"Construire une Usine de recyclage réduit de 50% la pollution générée par la "
+"production dans une ville."
 
 #: data/civ2civ3/buildings.ruleset:835
 #, no-c-format
 msgid ""
 "Increases the science output in a city by an additional 50% (by 100% if the "
 "Internet wonder was built by any player)."
-msgstr "Augmente la production de science d'une ville de 50% supplémentaires (de 100% si la merveille Internet a été construite par un joueur)."
+msgstr ""
+"Augmente la production de science d'une ville de 50% supplémentaires (de "
+"100% si la merveille Internet a été construite par un joueur)."
 
 #: data/civ2civ3/buildings.ruleset:840
 #, no-c-format
@@ -22734,13 +22724,19 @@ msgid ""
 "The total bonus is 150% if a Library, a University and a Research Lab are "
 "all present in the same city. (300% if Great Library, Isaac Newton's "
 "College, and Internet were already built.)"
-msgstr "Le bonus total est de 150% si une Bibliothèque, une Université et un Laboratoire de Recherche sont présents simultanément dans la même ville (300% si la Grande Librairie, le Collège d'Isaac Newton et Internet ont déjà été construits)."
+msgstr ""
+"Le bonus total est de 150% si une Bibliothèque, une Université et un "
+"Laboratoire de Recherche sont présents simultanément dans la même ville "
+"(300% si la Grande Librairie, le Collège d'Isaac Newton et Internet ont déjà "
+"été construits)."
 
 #: data/civ2civ3/buildings.ruleset:863
 msgid ""
 "Doubles the defense of all units inside the city when attacked by aircrafts "
 "(including helicopters)."
-msgstr "Double la défense de toute unité à l'intérieur de la ville lorsqu'elle est attaquée par une unité aérienne (y compris les hélicoptères)."
+msgstr ""
+"Double la défense de toute unité à l'intérieur de la ville lorsqu'elle est "
+"attaquée par une unité aérienne (y compris les hélicoptères)."
 
 #: data/civ2civ3/buildings.ruleset:885
 msgid ""
@@ -22762,7 +22758,10 @@ msgid ""
 "Allows a city to grow larger than size 16.  Pre-requirement is an Aqueduct "
 "for a city to grow larger than size 8.  The Sewer System further reduces the "
 "chance of a plague (-30%)."
-msgstr "Permet à une ville de dépasser une taille de 16. Un aqueduc est d'abord requis pour qu'une ville dépasse une taille de 8. Les Égouts diminuent encore les risques d'épidémie (-30%)."
+msgstr ""
+"Permet à une ville de dépasser une taille de 16. Un aqueduc est d'abord "
+"requis pour qu'une ville dépasse une taille de 8. Les Égouts diminuent "
+"encore les risques d'épidémie (-30%)."
 
 #: data/civ2civ3/buildings.ruleset:939
 #, no-c-format
@@ -22821,14 +22820,20 @@ msgstr ""
 msgid ""
 "Super Highways also increase the pollution caused by the population of the "
 "city (+25%)."
-msgstr "Les Autoroutes augmentent également la pollution générée par la population de la ville (+25%)."
+msgstr ""
+"Les Autoroutes augmentent également la pollution générée par la population "
+"de la ville (+25%)."
 
 #: data/civ2civ3/buildings.ruleset:1152
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
 "effect.  With both Mysticism and the Temple of Artemis, 4 citizens are made "
 "content.  Does not affect citizens made unhappy by military activity."
-msgstr "Rend satisfait un habitant mécontent. Le Mysticisme double cet effet. Avec à la fois le Mysticisme et le Temple d'Artémis, 4 habitants sont rendus satisfaits. Cela n'a aucun effet sur les citoyens rendus mécontents à cause des activités militaires."
+msgstr ""
+"Rend satisfait un habitant mécontent. Le Mysticisme double cet effet. Avec à "
+"la fois le Mysticisme et le Temple d'Artémis, 4 habitants sont rendus "
+"satisfaits. Cela n'a aucun effet sur les citoyens rendus mécontents à cause "
+"des activités militaires."
 
 #: data/civ2civ3/buildings.ruleset:1178
 #, no-c-format
@@ -22845,7 +22850,10 @@ msgid ""
 "The total bonus is 100% if a Library and a University are present together "
 "in the same city (200% if Great Library and Isaac Newton's College were "
 "already built.)"
-msgstr "Le bonus total est de 100% si une Bibliothèque et une Université sont présentes simulatanément dans la même ville (200% si la Grande Bibliothèque et le Collège d'Isaac Newton ont déjà été construits)."
+msgstr ""
+"Le bonus total est de 100% si une Bibliothèque et une Université sont "
+"présentes simulatanément dans la même ville (200% si la Grande Bibliothèque "
+"et le Collège d'Isaac Newton ont déjà été construits)."
 
 #: data/civ2civ3/buildings.ruleset:1206
 msgid ""
@@ -22876,7 +22884,9 @@ msgstr ""
 msgid ""
 "Each worked tile in the city where this wonder is built produces one extra "
 "science bulb."
-msgstr "Chaque case travaillée autour de la ville qui a construit cette merveille produit un point de recherche supplémentaire."
+msgstr ""
+"Chaque case travaillée autour de la ville qui a construit cette merveille "
+"produit un point de recherche supplémentaire."
 
 #: data/civ2civ3/buildings.ruleset:1303
 #, no-c-format
@@ -22884,7 +22894,10 @@ msgid ""
 "This stunning technological achievement makes one content citizen happy in "
 "each of your cities (2 extra luxury per city).  It further reduces the "
 "possibility for an illness in the city (-10%)."
-msgstr "Cette réussite technologique sensationnelle rend heureux un habitant satisfait dans chacune de vos villes (2 points de luxe supplémentaires par ville). Elle réduit encore le risque de maladie dans la ville (-10%)."
+msgstr ""
+"Cette réussite technologique sensationnelle rend heureux un habitant "
+"satisfait dans chacune de vos villes (2 points de luxe supplémentaires par "
+"ville). Elle réduit encore le risque de maladie dans la ville (-10%)."
 
 #: data/civ2civ3/buildings.ruleset:1328
 msgid ""
@@ -22914,7 +22927,10 @@ msgid ""
 "Gives an immediate technology advance.  And 4 extra science bulbs in the "
 "city where it is built.  It also doubles the effect of Libraries for every "
 "nation."
-msgstr "Donne une avancée technologique immédiate. Ajoute 4 points de recherche supplémentaires à la ville où il a été construit. Double également l'effet des Bibilothèques pour toutes les nations."
+msgstr ""
+"Donne une avancée technologique immédiate. Ajoute 4 points de recherche "
+"supplémentaires à la ville où il a été construit. Double également l'effet "
+"des Bibilothèques pour toutes les nations."
 
 #: data/civ2civ3/buildings.ruleset:1402
 #, no-c-format
@@ -22937,7 +22953,11 @@ msgid ""
 "Works as if you had a Hydro Plant in the city where it is placed, and "
 "reduces the pollution caused by Hydro Plants in all your cities to the same "
 "level as Solar Plants (-25% pollution)."
-msgstr "Fonctionne comme si vous aviez une Centrale Hydroélectrique dans la ville où il est placé, et réduit la pollution causée par les Centrales Hydroélectriques dans toutes vos villes au même niveau que celui des Centrales Solaires (-25% de pollution)."
+msgstr ""
+"Fonctionne comme si vous aviez une Centrale Hydroélectrique dans la ville où "
+"il est placé, et réduit la pollution causée par les Centrales "
+"Hydroélectriques dans toutes vos villes au même niveau que celui des "
+"Centrales Solaires (-25% de pollution)."
 
 #: data/civ2civ3/buildings.ruleset:1477
 #, no-c-format
@@ -22953,7 +22973,9 @@ msgstr ""
 #: data/civ2civ3/buildings.ruleset:1500
 msgid ""
 "Makes one content citizen happy in every city (2 extra luxury per city)."
-msgstr "Rend heureux un citoyen satisfaits dans chaque ville (2 biens de luxe supplémentaires par ville)."
+msgstr ""
+"Rend heureux un citoyen satisfaits dans chaque ville (2 biens de luxe "
+"supplémentaires par ville)."
 
 #: data/civ2civ3/buildings.ruleset:1523
 msgid ""
@@ -22985,7 +23007,10 @@ msgid ""
 "Doubles the effect of Cathedrals.  This makes 3 additional unhappy citizens "
 "content in each city; however, it does not affect citizens made unhappy by "
 "military activity."
-msgstr "Double l'effet des cathédrales. Ceci rend satisfaits 3 citoyens mécontents supplémentaires dans chaque ville. Cependant, cela n'a aucun effet sur les citoyens rendus mécontents à cause des activités militaires."
+msgstr ""
+"Double l'effet des cathédrales. Ceci rend satisfaits 3 citoyens mécontents "
+"supplémentaires dans chaque ville. Cependant, cela n'a aucun effet sur les "
+"citoyens rendus mécontents à cause des activités militaires."
 
 #: data/civ2civ3/buildings.ruleset:1666
 msgid "Mausoleum of Mausolos"
@@ -22996,7 +23021,10 @@ msgid ""
 "Makes one unhappy citizen content in every city with Walls,  and one "
 "additional unhappy citizen content in every city with Courthouse.  Also, no "
 "one of your cities can be incited to revolt."
-msgstr "Rend satisfait 1 citoyen mécontent dans chaque ville avec des Remparts, et 1 supplémentaire dans chaque la ville avec un Tribunal. De plus, aucune de vos villes ne peut être incitée à la révolte."
+msgstr ""
+"Rend satisfait 1 citoyen mécontent dans chaque ville avec des Remparts, et 1 "
+"supplémentaire dans chaque la ville avec un Tribunal. De plus, aucune de vos "
+"villes ne peut être incitée à la révolte."
 
 #: data/civ2civ3/buildings.ruleset:1690
 msgid "Statue of Zeus"
@@ -23019,7 +23047,10 @@ msgstr "Temple d'Artémis"
 msgid ""
 "Makes 2 additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
-msgstr "Rend satisfaits deux citoyens mécontents supplémentaires dans chacune de vos villes qui possède un Temple. Cela n'a aucun effet sur les citoyens rendus mécontents à cause des activités militaires."
+msgstr ""
+"Rend satisfaits deux citoyens mécontents supplémentaires dans chacune de vos "
+"villes qui possède un Temple. Cela n'a aucun effet sur les citoyens rendus "
+"mécontents à cause des activités militaires."
 
 #: data/civ2civ3/buildings.ruleset:1756
 #, no-c-format
@@ -23028,7 +23059,11 @@ msgid ""
 "generating some shield produces one extra shield resource.  Under Despotism "
 "or Tribal governments, the Pyramids cancel the penalty from worked tiles "
 "with output greater than 2."
-msgstr "Chaque case autour de la ville qui a construit cette merveille et qui genère déjà de la production en génèrera une supplémentaire. Sous les gouvernements Despotique et Tribal, les Pyramides annulent la pénalité des cases travaillées qui produisent plus de 2."
+msgstr ""
+"Chaque case autour de la ville qui a construit cette merveille et qui genère "
+"déjà de la production en génèrera une supplémentaire. Sous les gouvernements "
+"Despotique et Tribal, les Pyramides annulent la pénalité des cases "
+"travaillées qui produisent plus de 2."
 
 #: data/civ2civ3/buildings.ruleset:1764
 msgid "Internet"
@@ -23048,7 +23083,10 @@ msgid ""
 "Gives 1 additional luxury to every city, and 6 luxuries to the city where it "
 "is located.  It also increases to 3 the output of Elvis specialists for "
 "every nation."
-msgstr "Donne 1 point de luxe supplémentaire dans chaque ville, et de 6 dans la ville où il a été construit. Il augmente aussi à 3 l'efficacité des Artistes de chaque nation."
+msgstr ""
+"Donne 1 point de luxe supplémentaire dans chaque ville, et de 6 dans la "
+"ville où il a été construit. Il augmente aussi à 3 l'efficacité des Artistes "
+"de chaque nation."
 
 #: data/civ2civ3/buildings.ruleset:1828
 msgid ""
@@ -23056,7 +23094,11 @@ msgid ""
 "researched by your civilization, and without the transition period of "
 "Anarchy.  It also allows to break any diplomatic agreement, even when your "
 "government has a senate."
-msgstr "Vous permet de choisir n'importe quel gouvernement, y compris ceux qui n'ont pas encore été trouvés par votre civilisation et ce, sans la période transitoire d'Anarchie. Permet aussi de rompre tout accord diplomatique, même si votre gouvernement comporte un sénat."
+msgstr ""
+"Vous permet de choisir n'importe quel gouvernement, y compris ceux qui n'ont "
+"pas encore été trouvés par votre civilisation et ce, sans la période "
+"transitoire d'Anarchie. Permet aussi de rompre tout accord diplomatique, "
+"même si votre gouvernement comporte un sénat."
 
 #: data/civ2civ3/buildings.ruleset:1877
 msgid ""
@@ -23076,7 +23118,10 @@ msgid ""
 "It neutralises the unhappiness caused by one aggressively deployed military "
 "unit per city.  Under Democracy government, it halves the unhappiness caused "
 "by military units."
-msgstr "Neutralise le mécontentement dû à 1 unité militaire déployée agressivement par ville. Sous une Démocracie, diminue de moitié le mécontentement causé par les unités militaires."
+msgstr ""
+"Neutralise le mécontentement dû à 1 unité militaire déployée agressivement "
+"par ville. Sous une Démocracie, diminue de moitié le mécontentement causé "
+"par les unités militaires."
 
 #: data/civ2civ3/game.ruleset:18
 msgid "Civ2Civ3 ruleset"
@@ -23096,11 +23141,14 @@ msgid ""
 msgstr ""
 "Vous jouez à Freeciv avec les règles civ2civ3:\n"
 "\n"
-"La manière de jouer ressemble plus à civ3, tout en conservant le système de combats de civ2.\n"
+"La manière de jouer ressemble plus à civ3, tout en conservant le système de "
+"combats de civ2.\n"
 "\n"
-"Adapté pour le jeu solo, avec des IA moins agressives au début, mais plus difficiles à la fin.\n"
+"Adapté pour le jeu solo, avec des IA moins agressives au début, mais plus "
+"difficiles à la fin.\n"
 "\n"
-"La description détaillée des différences avec les règles du jeu classique sont disponibles dans le fichier README.ruleset_civ2civ3."
+"La description détaillée des différences avec les règles du jeu classique "
+"sont disponibles dans le fichier README.ruleset_civ2civ3."
 
 #: data/civ2civ3/governments.ruleset:77
 msgid "Tribal"
@@ -23110,7 +23158,9 @@ msgstr "Tribal"
 msgid ""
 "Under Tribal, you are part ruler of your people.  Your control over your "
 "citizens is maintained largely by the spiritual counsel."
-msgstr "Sous un régime tribal, vous dirigez partiellement votre peuple. Votre contrôle sur la population est largement maintenu par le conseil spirituel."
+msgstr ""
+"Sous un régime tribal, vous dirigez partiellement votre peuple. Votre "
+"contrôle sur la population est largement maintenu par le conseil spirituel."
 
 #: data/civ2civ3/governments.ruleset:157
 msgid ""
@@ -23175,7 +23225,9 @@ msgstr "Permet le déplacement des unités nucléaires."
 msgid ""
 "Allows irrigation without adjacent water, improves the effect of "
 "Amphitheatres, and increases city vision radius."
-msgstr "Permet l'irrigation sans case d'eau adjacente, Augmente l'effet des amphithéâtres, et augmente le rayon de vision des villes."
+msgstr ""
+"Permet l'irrigation sans case d'eau adjacente, Augmente l'effet des "
+"amphithéâtres, et augmente le rayon de vision des villes."
 
 #: data/civ2civ3/techs.ruleset:352
 msgid "Makes it possible for Engineers to transform terrains."
@@ -23204,12 +23256,15 @@ msgstr "Double le déplacement des unités nucléaires."
 
 #: data/civ2civ3/techs.ruleset:775
 msgid "Allows Settlers, Workers and Engineers to build maglevs."
-msgstr "Permet aux Colons, Travailleurs et Ingénieurs de construire des maglevs."
+msgstr ""
+"Permet aux Colons, Travailleurs et Ingénieurs de construire des maglevs."
 
 #: data/civ2civ3/techs.ruleset:794
 msgid ""
 "Decreases one-time the Corruption of trade caused by distance to Capital."
-msgstr "Diminue une fois la Corruption du commerce causé par la distance à la capitale."
+msgstr ""
+"Diminue une fois la Corruption du commerce causé par la distance à la "
+"capitale."
 
 #: data/civ2civ3/techs.ruleset:841
 msgid "Decreases one-time the Waste of shields caused by distance to Capital."
@@ -23237,7 +23292,10 @@ msgid ""
 "Forts are fast-built fortifications providing some defense to land units. "
 "The construction of fortresses can begin only after the underlaying fort is "
 "completed."
-msgstr "Les forts sont des fortifications bâties rapidement qui fournissent une défense aux unités terrestres. La construction d'une forteresse ne peut commencer que lorsque le fort sous-jacent est terminé."
+msgstr ""
+"Les forts sont des fortifications bâties rapidement qui fournissent une "
+"défense aux unités terrestres. La construction d'une forteresse ne peut "
+"commencer que lorsque le fort sous-jacent est terminé."
 
 #: data/civ2civ3/terrain.ruleset:1279
 msgid "Airstrip"
@@ -23263,7 +23321,13 @@ msgid ""
 "against enemy air units. An air unit remaining in an airbase for a whole "
 "turn without moving recovers a quarter of its hit points. Air units in an "
 "airbase may be attacked by land units."
-msgstr "Les bases aériennes permettent aux unités aériennes de se poser et de refaire le plein, et améliorent leur défense contre les unités aériennes ennemies. Une unité aérienne qui reste immobile dans une base aérienne pendant un tour complet récupère un quart de ses points de vie. Les unités aériennes dans une base aérienne peuvent être attaquées par des unités terrestres."
+msgstr ""
+"Les bases aériennes permettent aux unités aériennes de se poser et de "
+"refaire le plein, et améliorent leur défense contre les unités aériennes "
+"ennemies. Une unité aérienne qui reste immobile dans une base aérienne "
+"pendant un tour complet récupère un quart de ses points de vie. Les unités "
+"aériennes dans une base aérienne peuvent être attaquées par des unités "
+"terrestres."
 
 #: data/civ2civ3/terrain.ruleset:1410
 msgid ""
@@ -23361,7 +23425,10 @@ msgid ""
 "Migrants can be used to transfer population to other cities, but may not "
 "found new cities. They can also perform the same terrain alterations as "
 "Settlers."
-msgstr "Les Saisonniers peuvent être utilisés pour transférer de la population vers d'autres villes, mais ne peuvent pas fonder de nouvelles villes. Ils peuvent également réaliser les mêmes altérations de terrain que les Colons."
+msgstr ""
+"Les Saisonniers peuvent être utilisés pour transférer de la population vers "
+"d'autres villes, mais ne peuvent pas fonder de nouvelles villes. Ils peuvent "
+"également réaliser les mêmes altérations de terrain que les Colons."
 
 #: data/civ2civ3/units.ruleset:513
 msgid ""
@@ -23374,7 +23441,18 @@ msgid ""
 "removed. When Refrigeration is known, irrigation systems can be upgraded to "
 "Farmland by irrigating them a second time; this provides more food to a city "
 "if it has a Supermarket."
-msgstr "Sur les terrains qui le supportent, ils peuvent construire un système d'irrigation pour produire de la nourritre supplémentaire à chaque tour. Sans la connaissance de l'Électricité, ceci nécessite une source d'eau à proximité : une case d'océan, de lac ou de rivière ou tout autre case dotée d'un système d'irrigation, qui doit avoir un côté (et pas seulement un coin) en commun avec la case ciblée. Une fois que l'Électricité est connue, les systèmes d'irrigation peuvent être construits sans source d'eau. Une fois irriguée, la terre le restera même si la source d'eau disparait. Quand la Réfrigération est connue, les système d'irrigation peuvent être améliorés en Champs en irriguant une seconde fois ; ceci fournit plus de nourriture à une ville dotée d'un Supermarché."
+msgstr ""
+"Sur les terrains qui le supportent, ils peuvent construire un système "
+"d'irrigation pour produire de la nourritre supplémentaire à chaque tour. "
+"Sans la connaissance de l'Électricité, ceci nécessite une source d'eau à "
+"proximité : une case d'océan, de lac ou de rivière ou tout autre case dotée "
+"d'un système d'irrigation, qui doit avoir un côté (et pas seulement un coin) "
+"en commun avec la case ciblée. Une fois que l'Électricité est connue, les "
+"systèmes d'irrigation peuvent être construits sans source d'eau. Une fois "
+"irriguée, la terre le restera même si la source d'eau disparait. Quand la "
+"Réfrigération est connue, les système d'irrigation peuvent être améliorés en "
+"Champs en irriguant une seconde fois ; ceci fournit plus de nourriture à une "
+"ville dotée d'un Supermarché."
 
 #: data/civ2civ3/units.ruleset:528
 msgid ""
@@ -23417,7 +23495,14 @@ msgid ""
 "even Ocean into Swamp in some circumstances (when on board an ocean-going "
 "vessel, on a tile surrounded by sufficient existing land). See the Terrain "
 "Alterations section for more details."
-msgstr "Avec la connaissance de la Fusion Atomique, les Ingénieurs peuvent aussi réaliser des transformations de terrain plus radicales que les Travailleurs, les Colons et les Saisonniers avec l'ordre \"Transformer\". Ceci comprend par exemple la conversion de la Toundra en Plaines, ou même de l'Océan en Marécages dans certaines circonstances (quand ils sont sur un bateau, et sur une case déjà entourée de suffisemment de terres). Voir la section sur les Altérations de Terrain pour plus de détails."
+msgstr ""
+"Avec la connaissance de la Fusion Atomique, les Ingénieurs peuvent aussi "
+"réaliser des transformations de terrain plus radicales que les Travailleurs, "
+"les Colons et les Saisonniers avec l'ordre \"Transformer\". Ceci comprend "
+"par exemple la conversion de la Toundra en Plaines, ou même de l'Océan en "
+"Marécages dans certaines circonstances (quand ils sont sur un bateau, et sur "
+"une case déjà entourée de suffisemment de terres). Voir la section sur les "
+"Altérations de Terrain pour plus de détails."
 
 #: data/civ2civ3/units.ruleset:673
 msgid "Archers fight with bows and arrows and have a good offensive value."
@@ -23472,7 +23557,9 @@ msgstr ""
 #: data/civ2civ3/units.ruleset:1710
 msgid ""
 "The Frigate is a strong offensive ship, but it can not transport any unit."
-msgstr "La Frégate est un navire de guerre fortement offensif, mais qui ne peut pas transporter d'unité."
+msgstr ""
+"La Frégate est un navire de guerre fortement offensif, mais qui ne peut pas "
+"transporter d'unité."
 
 #: data/civ2civ3/units.ruleset:1742
 msgid "The Ironclad is an armored ship, more sturdy than the Frigate."
@@ -23482,20 +23569,28 @@ msgstr "Le Patrouilleur est un navire armé plus robuste que la Frégate."
 msgid ""
 "An improved Ironclad, with better move rate and vision. Equiped with anti-"
 "submarine weapons."
-msgstr "Un Patrouilleur amélioré, plus rapide et avec une meilleure vision, équipé avec des armes anti-sous-marins"
+msgstr ""
+"Un Patrouilleur amélioré, plus rapide et avec une meilleure vision, équipé "
+"avec des armes anti-sous-marins"
 
 #: data/civ2civ3/units.ruleset:1781
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports and Submarines."
-msgstr "CONSEIL : Une unité très rapide, très utile pour éliminer les Transports et les Sous-Marins ennemis."
+msgstr ""
+"CONSEIL : Une unité très rapide, très utile pour éliminer les Transports et "
+"les Sous-Marins ennemis."
 
 #: data/civ2civ3/units.ruleset:2056
 msgid ""
 "You can start building Nuclear units when you have the required advance, and "
 "the Manhattan Project wonder has been built by any player.  You need "
 "Advanced Flight or Rocketry to start using them."
-msgstr "Vous pouvez commencer à contrsuire des unités nucléaires lorsque vous possédez l'avancée nécessaire, et que la merveille Projet Manhattan a été construite par l'un des joueurs. Il vous faut Vol Avancé ou Fabrication de Fusée pour commencer à les utiliser."
+msgstr ""
+"Vous pouvez commencer à contrsuire des unités nucléaires lorsque vous "
+"possédez l'avancée nécessaire, et que la merveille Projet Manhattan a été "
+"construite par l'un des joueurs. Il vous faut Vol Avancé ou Fabrication de "
+"Fusée pour commencer à les utiliser."
 
 #: data/civ2civ3/units.ruleset:2187
 msgid ""
@@ -23517,20 +23612,29 @@ msgstr ""
 msgid ""
 "A Caravan carries goods or material for trading with foreign countries,  or "
 "to help build wonders in your own cities."
-msgstr "Une Caravane transporte des biens et du matériel pour commercer avec des villes étrangères, ou pour aider à la construction de merveilles dans vos propres villes."
+msgstr ""
+"Une Caravane transporte des biens et du matériel pour commercer avec des "
+"villes étrangères, ou pour aider à la construction de merveilles dans vos "
+"propres villes."
 
 #: data/civ2civ3/units.ruleset:2291
 msgid ""
 "Caravans can only travel on roads, railroads, rivers or ships, and are not "
 "affected by movement modifiers."
-msgstr "Les Caravanes ne peuvent se déplacer que sur les routes, les chemins de fer, les rivières et les bateaux, et ne sont pas affectées par les modificateurs de mouvement."
+msgstr ""
+"Les Caravanes ne peuvent se déplacer que sur les routes, les chemins de fer, "
+"les rivières et les bateaux, et ne sont pas affectées par les modificateurs "
+"de mouvement."
 
 #: data/civ2civ3/units.ruleset:2294
 msgid ""
 "Caravans can establish trade routes with the cities of other nations (even "
 "your enemies). A trade route's ongoing revenue is doubled if the two cities "
 "involved are on different continents."
-msgstr "Les caravanes peuvent établir des routes commerciales avec les villes d'autres nations (même ennemies). Le revenu continu d'une route commerciale est doublé si les deux villes concernées sont sur des continents différents."
+msgstr ""
+"Les caravanes peuvent établir des routes commerciales avec les villes "
+"d'autres nations (même ennemies). Le revenu continu d'une route commerciale "
+"est doublé si les deux villes concernées sont sur des continents différents."
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
@@ -24369,7 +24473,16 @@ msgid ""
 "Spy sparks a diplomatic incident, the only way to dissolve a pact in this "
 "situation is to dissolve your government.  The details of pacts are "
 "described in the Diplomacy section."
-msgstr "    Les pactes affectent où vos unités peuvent se déplacer et ce qu'elles peuvent faire, et un pacte avec une nation peut affecter vos relations avec les autres. Sous un gouvernement autoritaire comme la Monarchie, vous pouvez rompre un pacte à n'importe quel moment, mais les gouvernements représentatifs (République et Démocratie) possèdent un sénat qui bloquera l'annulation injustifiée d'un traité ; à moins qu'un Diplomate ou qu'un Espion étranger ne cause un incident diplomatique, le seul moyen de rompre un pacte est de dissoudre votre gouvernement. Les détails des pactes sont décrits dans la section Diplomatie."
+msgstr ""
+"    Les pactes affectent où vos unités peuvent se déplacer et ce qu'elles "
+"peuvent faire, et un pacte avec une nation peut affecter vos relations avec "
+"les autres. Sous un gouvernement autoritaire comme la Monarchie, vous pouvez "
+"rompre un pacte à n'importe quel moment, mais les gouvernements "
+"représentatifs (République et Démocratie) possèdent un sénat qui bloquera "
+"l'annulation injustifiée d'un traité ; à moins qu'un Diplomate ou qu'un "
+"Espion étranger ne cause un incident diplomatique, le seul moyen de rompre "
+"un pacte est de dissoudre votre gouvernement. Les détails des pactes sont "
+"décrits dans la section Diplomatie."
 
 #: data/helpdata.txt:235
 msgid "    A couple of notes:"
@@ -24385,7 +24498,12 @@ msgid ""
 "technology unless you have an embassy, and if you can't see a city on your "
 "map, then you can't request it.  Of course, the owner of that city can still "
 "give it to you, in which case the area around the city is shown on your map."
-msgstr "   - Vous ne pouvez pas requérir quelque chose que vous ne connaissez pas ; donc vous ne pouvez pas réclamer une technologie si vous d'avez pas d'ambassade, ni une ville que vous ne voyez pas sur votre carte. Bien sûr, le propriétaire de la ville peut toujours vous l'offrir ; dans ce cas, l'aire autour de la ville sera révélée sur votre carte."
+msgstr ""
+"   - Vous ne pouvez pas requérir quelque chose que vous ne connaissez pas ; "
+"donc vous ne pouvez pas réclamer une technologie si vous d'avez pas "
+"d'ambassade, ni une ville que vous ne voyez pas sur votre carte. Bien sûr, "
+"le propriétaire de la ville peut toujours vous l'offrir ; dans ce cas, "
+"l'aire autour de la ville sera révélée sur votre carte."
 
 #: data/helpdata.txt:246
 msgid ""
@@ -24689,7 +24807,15 @@ msgid ""
 "irrigated to convert it into a Plain, you cannot convert it back into a "
 "Forest by pillaging -- to do so, you would have to convert the tile again "
 "with a Settler, Worker, or Engineer."
-msgstr "Beaucoup d'unités - dans les règles classiques, toutes les unités terrestres - ont aussi la capacité de détruire les altérations de terrain, par le pillage. Le pillage détruit une altération de terrain par tour et par unité. Les transformations de terrain ne peuvent être défaites par le pillage. Par exemple, dans les règles du jeu classiques, si vous avez irrigué une case de Forêt pour la convertir en Plaines, le pillage ne la reconvertira pas en Forêt. Pour cela, vous devrez convertir la case à nouveau avec un Colon, un Travailleur ou un Ingénieur."
+msgstr ""
+"Beaucoup d'unités - dans les règles classiques, toutes les unités terrestres "
+"- ont aussi la capacité de détruire les altérations de terrain, par le "
+"pillage. Le pillage détruit une altération de terrain par tour et par unité. "
+"Les transformations de terrain ne peuvent être défaites par le pillage. Par "
+"exemple, dans les règles du jeu classiques, si vous avez irrigué une case de "
+"Forêt pour la convertir en Plaines, le pillage ne la reconvertira pas en "
+"Forêt. Pour cela, vous devrez convertir la case à nouveau avec un Colon, un "
+"Travailleur ou un Ingénieur."
 
 #: data/helpdata.txt:394
 msgid ""
@@ -24745,7 +24871,14 @@ msgid ""
 "ownership unless the city does (or is destroyed). However, the ownership of "
 "land that is out of range of any city can change depending on factors such "
 "as the relative size of nearby nations' cities."
-msgstr "Fonder une ville établit une revendication sur une zone de terre située autour de la ville. Une fois revendiquée, une case qui peut être directement travaillée par une ville ne peut changer de propriétaire à moins que la ville n'en change (ou qu'elle disparaisse). Cependant, le propriétaire de la terre qui se trouve à portée de la ville peut changer, en fonction de facteurs tels que la taille de la ville relative à celles des nations environnantes."
+msgstr ""
+"Fonder une ville établit une revendication sur une zone de terre située "
+"autour de la ville. Une fois revendiquée, une case qui peut être directement "
+"travaillée par une ville ne peut changer de propriétaire à moins que la "
+"ville n'en change (ou qu'elle disparaisse). Cependant, le propriétaire de la "
+"terre qui se trouve à portée de la ville peut changer, en fonction de "
+"facteurs tels que la taille de la ville relative à celles des nations "
+"environnantes."
 
 #: data/helpdata.txt:434
 msgid ""
@@ -25094,7 +25227,11 @@ msgid ""
 "science from selling its trade goods at the destination city. The initial "
 "revenue depends on the trade already produced by the two cities involved and "
 "their distance apart."
-msgstr "La civilisation d'origine de l'unité gagne immédiatement un revenu en or et en science en vendant ses biens commerciaux dans la ville de destination. Le revenu initial dépend du commerce déjà produit par les deux villes impliquées et de leur distance."
+msgstr ""
+"La civilisation d'origine de l'unité gagne immédiatement un revenu en or et "
+"en science en vendant ses biens commerciaux dans la ville de destination. Le "
+"revenu initial dépend du commerce déjà produit par les deux villes "
+"impliquées et de leur distance."
 
 #: data/helpdata.txt:599
 msgid ""
@@ -25105,7 +25242,15 @@ msgid ""
 "above. If a trade route ever becomes unsustainable -- for instance, if war "
 "breaks out in a ruleset where enemies cannot trade -- it may be permanently "
 "canceled."
-msgstr "La route commerciale établie profite aux deux villes (celle d'origine, et celle de destination) équitablement en générant des points de commerce pour chacune d'entre elles chaque tour. L'apport continu en commerce augmente avec la taille de chaque ville et avec la distance qui les sépare, et peut aussi dépendre des facteurs mentionnés ci-dessus. Si une route commerciale devient intenable (par exemple, si la guerre éclate avec des règles du jeu qui ne permettent pas de commerce entre des ennemis), elle peut être annulée de façon permanente."
+msgstr ""
+"La route commerciale établie profite aux deux villes (celle d'origine, et "
+"celle de destination) équitablement en générant des points de commerce pour "
+"chacune d'entre elles chaque tour. L'apport continu en commerce augmente "
+"avec la taille de chaque ville et avec la distance qui les sépare, et peut "
+"aussi dépendre des facteurs mentionnés ci-dessus. Si une route commerciale "
+"devient intenable (par exemple, si la guerre éclate avec des règles du jeu "
+"qui ne permettent pas de commerce entre des ennemis), elle peut être annulée "
+"de façon permanente."
 
 #: data/helpdata.txt:607
 msgid ""
@@ -25218,7 +25363,21 @@ msgid ""
 "systems built-in), although this may not be used as a basis for irrigating "
 "other tiles; and is developed with roads (because cities come with "
 "transportation built-in). Other rulesets may differ in detail."
-msgstr "La section sur les Terrains décrit comment le rendement de chaque case est affecté par le terrain, la présence de ressources spéciales comme le gibier ou les minéraux et les améliorations comme les routes, les irrigations et les mines. Notez que la case sur laquelle la ville se trouve (le centre-ville) est exploitée gracieusement, sans avoir recours aux citoyens. Cette case peut aussi recevoir d'autres bonus. Dans les règles du jeu standard, elle produit toujours au moins un point de nourriture et un point de production, quel que soit le terrain. Elle reçoit également les avantages que le terrain offre avec le système d'irrigation (parce que les villes possèdent des systèmes hydrauliques intégrés), bien que celui-ci ne puisse pas servir de source pour les autres cases. Les centres-villes sont aussi automatiquement équipés de routes (parce que les villes possèdent des systèmes de transports intégrés). D'autres règles du jeu peuvent être légèrement différentes."
+msgstr ""
+"La section sur les Terrains décrit comment le rendement de chaque case est "
+"affecté par le terrain, la présence de ressources spéciales comme le gibier "
+"ou les minéraux et les améliorations comme les routes, les irrigations et "
+"les mines. Notez que la case sur laquelle la ville se trouve (le centre-"
+"ville) est exploitée gracieusement, sans avoir recours aux citoyens. Cette "
+"case peut aussi recevoir d'autres bonus. Dans les règles du jeu standard, "
+"elle produit toujours au moins un point de nourriture et un point de "
+"production, quel que soit le terrain. Elle reçoit également les avantages "
+"que le terrain offre avec le système d'irrigation (parce que les villes "
+"possèdent des systèmes hydrauliques intégrés), bien que celui-ci ne puisse "
+"pas servir de source pour les autres cases. Les centres-villes sont aussi "
+"automatiquement équipés de routes (parce que les villes possèdent des "
+"systèmes de transports intégrés). D'autres règles du jeu peuvent être "
+"légèrement différentes."
 
 #: data/helpdata.txt:665
 msgid ""
@@ -26114,7 +26273,12 @@ msgid ""
 "the attacker was a missile). (Bombardment, in rulesets which have it, works "
 "rather differently: the attacker sustains no damage, and the defender cannot "
 "be completely destroyed.)"
-msgstr "Dans un combat standard, quand une unité en attaque une autre, soit c'est l'attaquant qui sera détruit, soit c'est le défenseur -- jamais les deux (sauf si l'attaquant était un missile). Le bombardement, dans les règles du jeu qui le supportent, fonctionne assez différemment : l'attaquant ne subit aucun dégâts, et le défenseur ne peut pas être complètement détruit."
+msgstr ""
+"Dans un combat standard, quand une unité en attaque une autre, soit c'est "
+"l'attaquant qui sera détruit, soit c'est le défenseur -- jamais les deux "
+"(sauf si l'attaquant était un missile). Le bombardement, dans les règles du "
+"jeu qui le supportent, fonctionne assez différemment : l'attaquant ne subit "
+"aucun dégâts, et le défenseur ne peut pas être complètement détruit."
 
 #: data/helpdata.txt:1105
 msgid "The outcome of combat depends on several factors, including chance."
@@ -26321,7 +26485,11 @@ msgid ""
 "level. In the classic ruleset, if the winner's civilization has the Sun "
 "Tzu's War Academy (and if it isn't obsolete), the chance is increased by "
 "half."
-msgstr "Quelle qu'elle soit, l'unité qui survit au combat a une chance de gagner un niveau de vétérance. Dans les règles du jeu standard, si la civilisation victorieuse possède l'Académie de Guerre de Sun Tzu (et si elle n'est pas obsolète), la chance de promotion est augmentée de moitié."
+msgstr ""
+"Quelle qu'elle soit, l'unité qui survit au combat a une chance de gagner un "
+"niveau de vétérance. Dans les règles du jeu standard, si la civilisation "
+"victorieuse possède l'Académie de Guerre de Sun Tzu (et si elle n'est pas "
+"obsolète), la chance de promotion est augmentée de moitié."
 
 #: data/helpdata.txt:1196
 msgid ""
@@ -27043,10 +27211,12 @@ msgstr ""
 "  e : Construit une bas(e) aérienne (unités de base aérienne)\n"
 "  f : (f)ortifier l'unité (unités militaires)\n"
 "  f : Construire une (f)orteresse (colons/travailleurs)\n"
-"  g : Aller à : déplace l'unité (puis clic-gauche pour choisir la destination)\n"
+"  g : Aller à : déplace l'unité (puis clic-gauche pour choisir la "
+"destination)\n"
 "  g : Ajouter un point d'itinéraire (en mode \"aller à\")\n"
 "  G : Retourner à la ville amicale la plus proche\n"
-"  h : C(h)anger la ville de rattachement (en la ville de localisation actuelle)\n"
+"  h : C(h)anger la ville de rattachement (en la ville de localisation "
+"actuelle)\n"
 "  i : (i)rriguer la case ou convertir le terrain (colons/travailleurs)\n"
 "  I : Connecter les (I)rrigations jusqu'à destination\n"
 "  I : Ajouter un point d'itinéraire (en connectant les (I)rrigations)\n"
@@ -27061,7 +27231,8 @@ msgstr ""
 "  p : Nettoyer la (p)ollution  (colons/ingénieurs)\n"
 "  p : (p)arachuter (parachutistes)\n"
 "  P : (P)iller les améliorations de la case\n"
-"  q : Faire patrouiller une unité (clic-gauche pour choisir l'autre point terminal)\n"
+"  q : Faire patrouiller une unité (clic-gauche pour choisir l'autre point "
+"terminal)\n"
 "  q : Ajouter un point d'itinéraire (en mode patrouille)\n"
 "  r : Construire une (r)oute/voie ferrée (colons/ingénieurs)\n"
 "  r : Établir une (r)oute commerciale (caravanes)\n"
@@ -28312,7 +28483,9 @@ msgstr ""
 msgid ""
 "Settlers can also perform the same terrain alterations as Workers, except "
 "for building airbases."
-msgstr "Les Colons peuvent également effectuer les mêmes altérations de terrain que les Travailleurs, à l'exception de la construction de bases aériennes."
+msgstr ""
+"Les Colons peuvent également effectuer les mêmes altérations de terrain que "
+"les Travailleurs, à l'exception de la construction de bases aériennes."
 
 #: data/multiplayer/units.ruleset:413
 msgid ""
@@ -35240,7 +35413,9 @@ msgstr "%s avait un but technologique invalide."
 msgid ""
 "Saved game uses the ancient \"classic\" terrain ruleset, and is no longer "
 "supported."
-msgstr "La partie sauvegardée utilise les anciennes règles du jeu \"classiques\" sur les terrains, qui ne sont plus supportées."
+msgstr ""
+"La partie sauvegardée utilise les anciennes règles du jeu \"classiques\" sur "
+"les terrains, qui ne sont plus supportées."
 
 #: server/savegame.c:3078
 #, c-format
@@ -38472,7 +38647,9 @@ msgstr "Un joueur vivant de ce nom existe déjà."
 #: server/stdinhand.c:807
 #, c-format
 msgid "Can't create player, requested nation %s not in current nationset."
-msgstr "Impossible de créer le joueur, la nation demandée %s n'est pas dans la liste des nations courante."
+msgstr ""
+"Impossible de créer le joueur, la nation demandée %s n'est pas dans la liste "
+"des nations courante."
 
 #: server/stdinhand.c:815
 #, c-format
@@ -40140,7 +40317,9 @@ msgstr ""
 msgid ""
 "Great scientists from all the world join your civilization: you get an "
 "immediate advance."
-msgstr "De grands philosophes du monde entier rejoignent votre civilisation ; vous obtenez immédiatement une avancée."
+msgstr ""
+"De grands philosophes du monde entier rejoignent votre civilisation ; vous "
+"obtenez immédiatement une avancée."
 
 #: server/techtools.c:602
 #, c-format
