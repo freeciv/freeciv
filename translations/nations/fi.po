@@ -1,5 +1,5 @@
 # Finnish translation for Freeciv
-# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014
+# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014, 2016
 # Sini Ruohomaa <sini.ruohomaa@iki.fi>,
 # Markus Linnakangas <markus.linnakangas@luukku.com>,
 # Pekka Pessi <nospam@pessi.fi>,
@@ -2992,11 +2992,11 @@ msgstr ""
 
 #: data/nation/burgundian.ruleset:3
 msgid "Burgundian"
-msgstr "burgundien"
+msgstr "burgundilaisten"
 
 #: data/nation/burgundian.ruleset:4
 msgid "?plural:Burgundians"
-msgstr "burgundit"
+msgstr "burgundilaiset"
 
 #: data/nation/burgundian.ruleset:6
 msgid ""
@@ -3037,12 +3037,10 @@ msgid "?female:Chancellor %s"
 msgstr "Kansleri %s"
 
 #: data/nation/burgundic.ruleset:3
-#, fuzzy
 msgid "Burgundic"
 msgstr "burgundien"
 
 #: data/nation/burgundic.ruleset:4
-#, fuzzy
 msgid "?plural:Burgunds"
 msgstr "burgundit"
 
@@ -3311,14 +3309,12 @@ msgid "?female:Admiral %s"
 msgstr "Amiraali %s"
 
 #: data/nation/carantanian.ruleset:3
-#, fuzzy
 msgid "Carantanian"
-msgstr "karthagolaisten"
+msgstr "karantanialaisten"
 
 #: data/nation/carantanian.ruleset:4
-#, fuzzy
 msgid "?plural:Carantanians"
-msgstr "karthagolaiset"
+msgstr "karantanialaiset"
 
 #: data/nation/carantanian.ruleset:6
 msgid ""
@@ -4432,14 +4428,12 @@ msgid "Prophetess %s"
 msgstr "Profeetta %s"
 
 #: data/nation/dacian.ruleset:3
-#, fuzzy
 msgid "Dacian"
-msgstr "traakialaisten"
+msgstr "daakialaisten"
 
 #: data/nation/dacian.ruleset:4
-#, fuzzy
 msgid "?plural:Dacians"
-msgstr "traakialaiset"
+msgstr "daakialaiset"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -5108,12 +5102,11 @@ msgstr "Kapteeni %s"
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
-msgstr ""
+msgstr "formosalaisten"
 
 #: data/nation/formosan.ruleset:4
-#, fuzzy
 msgid "?plural:Formosans"
-msgstr "normannit"
+msgstr "formosalaiset"
 
 #: data/nation/formosan.ruleset:7
 #, no-c-format
@@ -5424,12 +5417,11 @@ msgstr ""
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
-msgstr ""
+msgstr "gepidien"
 
 #: data/nation/gepid.ruleset:4
-#, fuzzy
 msgid "?plural:Gepids"
-msgstr "nepalilaiset"
+msgstr "gepidit"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -6520,14 +6512,12 @@ msgid "?female:Judge %s"
 msgstr "Tuomari %s"
 
 #: data/nation/italiangreek.ruleset:3
-#, fuzzy
 msgid "Italian Greek"
-msgstr "italialaisten"
+msgstr "Italian kreikkalaisten"
 
 #: data/nation/italiangreek.ruleset:4
-#, fuzzy
 msgid "?plural:Italian Greeks"
-msgstr "italialaiset"
+msgstr "Italian kreikkalaiset"
 
 #: data/nation/italiangreek.ruleset:6
 msgid ""
@@ -6897,12 +6887,11 @@ msgstr "Tarkaani %s"
 
 #: data/nation/khoisan.ruleset:3
 msgid "Khoisan"
-msgstr ""
+msgstr "khoisanien"
 
 #: data/nation/khoisan.ruleset:4
-#, fuzzy
 msgid "?plural:Khoisan"
-msgstr "korealaiset"
+msgstr "khoisanit"
 
 #: data/nation/khoisan.ruleset:6
 msgid ""
@@ -6995,12 +6984,11 @@ msgstr ""
 
 #: data/nation/komi.ruleset:3
 msgid "Komi"
-msgstr ""
+msgstr "komien"
 
 #: data/nation/komi.ruleset:4
-#, fuzzy
 msgid "?plural:Komi"
-msgstr "boijit"
+msgstr "komit"
 
 #: data/nation/komi.ruleset:6
 msgid ""
@@ -7102,14 +7090,12 @@ msgstr ""
 "valtaa pitävät kurdit."
 
 #: data/nation/kushan.ruleset:3
-#, fuzzy
 msgid "Kushan"
-msgstr "ašantien"
+msgstr "kušanien"
 
 #: data/nation/kushan.ruleset:4
-#, fuzzy
 msgid "?plural:Kushans"
-msgstr "shanit"
+msgstr "kušanit"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -7178,12 +7164,11 @@ msgstr ""
 
 #: data/nation/langobardic.ruleset:3
 msgid "Langobardic"
-msgstr ""
+msgstr "langobardien"
 
 #: data/nation/langobardic.ruleset:4
-#, fuzzy
 msgid "?plural:Langobards"
-msgstr "savoijilaiset"
+msgstr "langobardit"
 
 #: data/nation/langobardic.ruleset:6
 msgid ""
@@ -7463,14 +7448,12 @@ msgstr ""
 "yhteydessä vuonna 1719."
 
 #: data/nation/ligurian.ruleset:3
-#, fuzzy
 msgid "Ligurian"
-msgstr "liberialaisten"
+msgstr "liguurien"
 
 #: data/nation/ligurian.ruleset:4
-#, fuzzy
 msgid "?plural:Ligurians"
-msgstr "liburnialaiset"
+msgstr "liguurit"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -7623,12 +7606,11 @@ msgstr ""
 
 #: data/nation/lycian.ruleset:3
 msgid "Lycian"
-msgstr ""
+msgstr "lyykialaisten"
 
 #: data/nation/lycian.ruleset:4
-#, fuzzy
 msgid "?plural:Lycians"
-msgstr "libyalaiset"
+msgstr "lyykialaiset"
 
 #: data/nation/lycian.ruleset:6
 msgid ""
@@ -8029,14 +8011,12 @@ msgid "?female:High Brahmin %s"
 msgstr "Ylibramiini %s"
 
 #: data/nation/marshallese.ruleset:3
-#, fuzzy
 msgid "Marshallese"
-msgstr "singaleesien"
+msgstr "marshallinsaarelaisten"
 
 #: data/nation/marshallese.ruleset:4
-#, fuzzy
 msgid "?plural:Marshallese"
-msgstr "maltalaiset"
+msgstr "marshallinsaarelaiset"
 
 #: data/nation/marshallese.ruleset:6
 msgid ""
@@ -9037,12 +9017,11 @@ msgstr ""
 
 #: data/nation/novgorodian.ruleset:3
 msgid "Novgorodian"
-msgstr ""
+msgstr "novgorodilaisten"
 
 #: data/nation/novgorodian.ruleset:4
-#, fuzzy
 msgid "?plural:Novgorodians"
-msgstr "nigerialaiset"
+msgstr "novgorodilaiset"
 
 #: data/nation/novgorodian.ruleset:6
 msgid ""
@@ -10077,12 +10056,11 @@ msgstr ""
 
 #: data/nation/rusyn.ruleset:3
 msgid "Rusyn"
-msgstr ""
+msgstr "ruteenien"
 
 #: data/nation/rusyn.ruleset:4
-#, fuzzy
 msgid "?plural:Rusyns"
-msgstr "venäläiset"
+msgstr "ruteenit"
 
 #: data/nation/rusyn.ruleset:6
 msgid ""
@@ -10096,12 +10074,11 @@ msgstr ""
 
 #: data/nation/ruthenian.ruleset:3
 msgid "Kievan Rus'"
-msgstr ""
+msgstr "Kiovan venäläisten"
 
 #: data/nation/ruthenian.ruleset:4
-#, fuzzy
 msgid "?plural:Kievan Rus'"
-msgstr "kenialaiset"
+msgstr "Kiovan venäläiset"
 
 #: data/nation/ruthenian.ruleset:7
 msgid ""
@@ -12186,14 +12163,12 @@ msgid "?female:Secretary-General %s"
 msgstr "Pääsihteeri %s"
 
 #: data/nation/urartian.ruleset:3
-#, fuzzy
 msgid "Urartian"
-msgstr "marsilaisten"
+msgstr "urartulaisten"
 
 #: data/nation/urartian.ruleset:4
-#, fuzzy
 msgid "?plural:Urartians"
-msgstr "marsilaiset"
+msgstr "urartulaiset"
 
 #: data/nation/urartian.ruleset:6
 msgid ""
