@@ -3323,9 +3323,9 @@ msgstr "Inventions"
 
 #: client/gui-gtk-2.0/editprop.c:4163 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4187 client/gui-gtk-3.0/repodlgs.c:1278
-#: common/city.c:85 data/civ1/terrain.ruleset:611
-#: data/civ2/terrain.ruleset:625 data/default/terrain.ruleset:739
-#: data/experimental/terrain.ruleset:741 data/multiplayer/terrain.ruleset:739
+#: common/city.c:85 data/civ1/terrain.ruleset:611 data/civ2/terrain.ruleset:625
+#: data/default/terrain.ruleset:739 data/experimental/terrain.ruleset:741
+#: data/multiplayer/terrain.ruleset:739
 msgid "Gold"
 msgstr "Or"
 
@@ -4083,14 +4083,12 @@ msgstr "_Démographie"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1364 client/gui-gtk-3.0/menu.c:1364
-#: client/gui-xaw/menu.c:248 client/include/helpdlg_g.h:27
-#: data/helpdata.txt:40
+#: client/gui-xaw/menu.c:248 client/include/helpdlg_g.h:27 data/helpdata.txt:40
 msgid "?help:Overview"
 msgstr "Aperçu global"
 
 #: client/gui-gtk-2.0/menu.c:1366 client/gui-gtk-3.0/menu.c:1366
-#: client/gui-xaw/menu.c:249 client/include/helpdlg_g.h:28
-#: data/helpdata.txt:73
+#: client/gui-xaw/menu.c:249 client/include/helpdlg_g.h:28 data/helpdata.txt:73
 msgid "Strategy and Tactics"
 msgstr "Stratégie et Tactiques"
 
@@ -4119,8 +4117,8 @@ msgid "Zones of Control"
 msgstr "Zones de Contrôle"
 
 #: client/gui-gtk-2.0/menu.c:1384 client/gui-gtk-3.0/menu.c:1384
-#: client/gui-xaw/menu.c:258 client/include/helpdlg_g.h:46
-#: data/Freeciv.in:2045 data/helpdata.txt:1361
+#: client/gui-xaw/menu.c:258 client/include/helpdlg_g.h:46 data/Freeciv.in:2045
+#: data/helpdata.txt:1361
 msgid "Government"
 msgstr "Gouvernement"
 
@@ -5612,11 +5610,10 @@ msgstr "Non"
 #: client/gui-xaw/cityrep.c:668 client/gui-xaw/cma_fe.c:332
 #: client/gui-xaw/cma_fe.c:522 client/gui-xaw/cma_fe.c:794
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:96
-#: client/gui-xaw/optiondlg.c:354 client/gui-xaw/wldlg.c:1211
-#: client/text.c:700 data/Freeciv.in:1511 data/Freeciv.in:2233
-#: data/Freeciv.in:2247 data/Freeciv.in:2266 data/Freeciv.in:2447
-#: data/Freeciv.in:2471 data/Freeciv.in:2490 data/Freeciv.in:2501
-#: data/Freeciv.in:2520
+#: client/gui-xaw/optiondlg.c:354 client/gui-xaw/wldlg.c:1211 client/text.c:700
+#: data/Freeciv.in:1511 data/Freeciv.in:2233 data/Freeciv.in:2247
+#: data/Freeciv.in:2266 data/Freeciv.in:2447 data/Freeciv.in:2471
+#: data/Freeciv.in:2490 data/Freeciv.in:2501 data/Freeciv.in:2520
 msgid "Yes"
 msgstr "Oui"
 
@@ -13661,9 +13658,8 @@ msgstr ""
 #: data/civ1/buildings.ruleset:628 data/civ1/techs.ruleset:574
 #: data/civ2/buildings.ruleset:938 data/civ2/techs.ruleset:741
 #: data/default/buildings.ruleset:1009 data/default/techs.ruleset:745
-#: data/experimental/buildings.ruleset:1066
-#: data/experimental/techs.ruleset:747 data/multiplayer/buildings.ruleset:990
-#: data/multiplayer/techs.ruleset:753
+#: data/experimental/buildings.ruleset:1066 data/experimental/techs.ruleset:747
+#: data/multiplayer/buildings.ruleset:990 data/multiplayer/techs.ruleset:753
 msgid "University"
 msgstr "Université"
 
@@ -13677,8 +13673,7 @@ msgstr ""
 "recherche scientifique d'une ville."
 
 #: data/civ1/buildings.ruleset:650 data/civ2/buildings.ruleset:960
-#: data/default/buildings.ruleset:1031
-#: data/experimental/buildings.ruleset:1088
+#: data/default/buildings.ruleset:1031 data/experimental/buildings.ruleset:1088
 #: data/multiplayer/buildings.ruleset:1012
 msgid "Apollo Program"
 msgstr "Programme Apollo"
@@ -13697,15 +13692,13 @@ msgstr ""
 "ait acquit les technologies nécessaires)."
 
 #: data/civ1/buildings.ruleset:671 data/civ2/buildings.ruleset:1003
-#: data/default/buildings.ruleset:1074
-#: data/experimental/buildings.ruleset:1131
+#: data/default/buildings.ruleset:1074 data/experimental/buildings.ruleset:1131
 #: data/multiplayer/buildings.ruleset:1053
 msgid "Colossus"
 msgstr "Colosse"
 
 #: data/civ1/buildings.ruleset:685 data/civ2/buildings.ruleset:1017
-#: data/default/buildings.ruleset:1088
-#: data/experimental/buildings.ruleset:1145
+#: data/default/buildings.ruleset:1088 data/experimental/buildings.ruleset:1145
 #: data/multiplayer/buildings.ruleset:1067
 msgid ""
 "Each tile around the city where this wonder is built that is already "
@@ -13715,8 +13708,7 @@ msgstr ""
 "ressource de commerce en plus (pour les cases produisant déjà du commerce)."
 
 #: data/civ1/buildings.ruleset:691 data/civ2/buildings.ruleset:1023
-#: data/default/buildings.ruleset:1094
-#: data/experimental/buildings.ruleset:1151
+#: data/default/buildings.ruleset:1094 data/experimental/buildings.ruleset:1151
 #: data/multiplayer/buildings.ruleset:1073
 msgid "Copernicus' Observatory"
 msgstr "Observatoire de Copernic"
@@ -13728,8 +13720,7 @@ msgstr ""
 "Accroît la recherche scientifique de 50% dans la ville où il a été construit."
 
 #: data/civ1/buildings.ruleset:711 data/civ2/buildings.ruleset:1043
-#: data/default/buildings.ruleset:1114
-#: data/experimental/buildings.ruleset:1171
+#: data/default/buildings.ruleset:1114 data/experimental/buildings.ruleset:1171
 #: data/multiplayer/buildings.ruleset:1093
 msgid "Cure For Cancer"
 msgstr "Guérison du cancer"
@@ -13744,15 +13735,13 @@ msgstr ""
 "cause des activités militaires)."
 
 #: data/civ1/buildings.ruleset:732 data/civ2/buildings.ruleset:1064
-#: data/default/buildings.ruleset:1138
-#: data/experimental/buildings.ruleset:1195
+#: data/default/buildings.ruleset:1138 data/experimental/buildings.ruleset:1195
 #: data/multiplayer/buildings.ruleset:1117
 msgid "Darwin's Voyage"
 msgstr "Voyage de Darwin"
 
 #: data/civ1/buildings.ruleset:746 data/civ2/buildings.ruleset:1078
-#: data/default/buildings.ruleset:1152
-#: data/experimental/buildings.ruleset:1209
+#: data/default/buildings.ruleset:1152 data/experimental/buildings.ruleset:1209
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -13763,15 +13752,13 @@ msgstr ""
 "immédiatement deux découvertes."
 
 #: data/civ1/buildings.ruleset:753 data/civ2/buildings.ruleset:1106
-#: data/default/buildings.ruleset:1180
-#: data/experimental/buildings.ruleset:1237
+#: data/default/buildings.ruleset:1180 data/experimental/buildings.ruleset:1237
 #: data/multiplayer/buildings.ruleset:1158
 msgid "Great Library"
 msgstr "Grande Bibliothèque"
 
 #: data/civ1/buildings.ruleset:767 data/civ2/buildings.ruleset:1120
-#: data/default/buildings.ruleset:1194
-#: data/experimental/buildings.ruleset:1251
+#: data/default/buildings.ruleset:1194 data/experimental/buildings.ruleset:1251
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -13780,21 +13767,18 @@ msgstr ""
 "découvertes qu'au moins deux autres équipes ont déjà obtenues."
 
 #: data/civ1/buildings.ruleset:773 data/civ2/buildings.ruleset:1126
-#: data/default/buildings.ruleset:1200
-#: data/experimental/buildings.ruleset:1257
+#: data/default/buildings.ruleset:1200 data/experimental/buildings.ruleset:1257
 #: data/multiplayer/buildings.ruleset:1178
 msgid "Great Wall"
 msgstr "Grande Muraille"
 
 #: data/civ1/buildings.ruleset:787 data/civ2/buildings.ruleset:1140
-#: data/default/buildings.ruleset:1214
-#: data/experimental/buildings.ruleset:1271
+#: data/default/buildings.ruleset:1214 data/experimental/buildings.ruleset:1271
 msgid "Works as a City Wall in all your cities."
 msgstr "Équivaut à avoir des remparts dans toutes les villes."
 
 #: data/civ1/buildings.ruleset:794 data/civ2/buildings.ruleset:1147
-#: data/default/buildings.ruleset:1222
-#: data/experimental/buildings.ruleset:1279
+#: data/default/buildings.ruleset:1222 data/experimental/buildings.ruleset:1279
 #: data/multiplayer/buildings.ruleset:1197
 msgid "Hanging Gardens"
 msgstr "Jardins Suspendus"
@@ -13812,8 +13796,7 @@ msgstr ""
 "mécontent à cause des activités militaires), les rendant contents."
 
 #: data/civ1/buildings.ruleset:816 data/civ2/buildings.ruleset:1171
-#: data/default/buildings.ruleset:1246
-#: data/experimental/buildings.ruleset:1303
+#: data/default/buildings.ruleset:1246 data/experimental/buildings.ruleset:1303
 #: data/multiplayer/buildings.ruleset:1220
 msgid "Hoover Dam"
 msgstr "Barrage Hoover"
@@ -13829,15 +13812,13 @@ msgstr ""
 "effets des Usines et des Fabriques)."
 
 #: data/civ1/buildings.ruleset:838 data/civ2/buildings.ruleset:1191
-#: data/default/buildings.ruleset:1267
-#: data/experimental/buildings.ruleset:1324
+#: data/default/buildings.ruleset:1267 data/experimental/buildings.ruleset:1324
 #: data/multiplayer/buildings.ruleset:1242
 msgid "Isaac Newton's College"
 msgstr "Collège Isaac Newton"
 
 #: data/civ1/buildings.ruleset:853 data/civ2/buildings.ruleset:1206
-#: data/default/buildings.ruleset:1109
-#: data/experimental/buildings.ruleset:1166
+#: data/default/buildings.ruleset:1109 data/experimental/buildings.ruleset:1166
 #: data/multiplayer/buildings.ruleset:1088
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
@@ -13845,8 +13826,7 @@ msgstr ""
 "Accroît la recherche scientifique de 100% dans la ville où il est construit."
 
 #: data/civ1/buildings.ruleset:858 data/civ2/buildings.ruleset:1211
-#: data/default/buildings.ruleset:1288
-#: data/experimental/buildings.ruleset:1345
+#: data/default/buildings.ruleset:1288 data/experimental/buildings.ruleset:1345
 #: data/multiplayer/buildings.ruleset:1263
 msgid "J.S. Bach's Cathedral"
 msgstr "Cathédrale J.S. Bach"
@@ -13862,8 +13842,7 @@ msgstr ""
 "citoyens mécontents à cause des activités militaires)."
 
 #: data/civ1/buildings.ruleset:879 data/civ2/buildings.ruleset:1270
-#: data/default/buildings.ruleset:1347
-#: data/experimental/buildings.ruleset:1404
+#: data/default/buildings.ruleset:1347 data/experimental/buildings.ruleset:1404
 #: data/multiplayer/buildings.ruleset:1322
 msgid "Lighthouse"
 msgstr "Phare"
@@ -13873,8 +13852,7 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Donne à chaque unité marine 1 points de mouvement supplémentaire."
 
 #: data/civ1/buildings.ruleset:898 data/civ2/buildings.ruleset:1290
-#: data/default/buildings.ruleset:1368
-#: data/experimental/buildings.ruleset:1425
+#: data/default/buildings.ruleset:1368 data/experimental/buildings.ruleset:1425
 #: data/multiplayer/buildings.ruleset:1342
 msgid "Magellan's Expedition"
 msgstr "Expédition de Magellan"
@@ -13884,15 +13862,13 @@ msgid "Gives all sea units 1 additional movement point."
 msgstr "Donne à chaque unité marine un déplacement en plus."
 
 #: data/civ1/buildings.ruleset:917 data/civ2/buildings.ruleset:1309
-#: data/default/buildings.ruleset:1388
-#: data/experimental/buildings.ruleset:1445
+#: data/default/buildings.ruleset:1388 data/experimental/buildings.ruleset:1445
 #: data/multiplayer/buildings.ruleset:1363
 msgid "Manhattan Project"
 msgstr "Projet Manhattan"
 
 #: data/civ1/buildings.ruleset:935 data/civ2/buildings.ruleset:1346
-#: data/default/buildings.ruleset:1425
-#: data/experimental/buildings.ruleset:1482
+#: data/default/buildings.ruleset:1425 data/experimental/buildings.ruleset:1482
 #: data/multiplayer/buildings.ruleset:1402
 msgid "Michelangelo's Chapel"
 msgstr "Chapelle Michel-Ange"
@@ -13902,8 +13878,7 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Double les effets des cathédrales dans chaque ville."
 
 #: data/civ1/buildings.ruleset:954 data/civ2/buildings.ruleset:1371
-#: data/default/buildings.ruleset:1450
-#: data/experimental/buildings.ruleset:1507
+#: data/default/buildings.ruleset:1450 data/experimental/buildings.ruleset:1507
 #: data/multiplayer/buildings.ruleset:1427
 msgid "Oracle"
 msgstr "Oracle"
@@ -13917,8 +13892,7 @@ msgstr ""
 "citoyens rendus mécontent à cause des activités militaires."
 
 #: data/civ1/buildings.ruleset:974 data/civ2/buildings.ruleset:1391
-#: data/default/buildings.ruleset:1471
-#: data/experimental/buildings.ruleset:1528
+#: data/default/buildings.ruleset:1471 data/experimental/buildings.ruleset:1528
 #: data/multiplayer/buildings.ruleset:1448
 msgid "Pyramids"
 msgstr "Pyramides"
@@ -13937,8 +13911,7 @@ msgstr ""
 "transition."
 
 #: data/civ1/buildings.ruleset:995 data/civ2/buildings.ruleset:1410
-#: data/default/buildings.ruleset:1493
-#: data/experimental/buildings.ruleset:1550
+#: data/default/buildings.ruleset:1493 data/experimental/buildings.ruleset:1550
 msgid "SETI Program"
 msgstr "Programme SETI"
 
@@ -13948,15 +13921,13 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Augmente la production de science dans chaque ville de 50%."
 
 #: data/civ1/buildings.ruleset:1015 data/civ2/buildings.ruleset:1431
-#: data/default/buildings.ruleset:1513
-#: data/experimental/buildings.ruleset:1570
+#: data/default/buildings.ruleset:1513 data/experimental/buildings.ruleset:1570
 #: data/multiplayer/buildings.ruleset:1490
 msgid "Shakespeare's Theater"
 msgstr "Théâtre Shakespeare"
 
 #: data/civ1/buildings.ruleset:1030 data/civ2/buildings.ruleset:1446
-#: data/default/buildings.ruleset:1528
-#: data/experimental/buildings.ruleset:1585
+#: data/default/buildings.ruleset:1528 data/experimental/buildings.ruleset:1585
 #: data/multiplayer/buildings.ruleset:1505
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -13967,15 +13938,13 @@ msgstr ""
 "activités militaires."
 
 #: data/civ1/buildings.ruleset:1036 data/civ2/buildings.ruleset:1495
-#: data/default/buildings.ruleset:1576
-#: data/experimental/buildings.ruleset:1633
+#: data/default/buildings.ruleset:1576 data/experimental/buildings.ruleset:1633
 #: data/multiplayer/buildings.ruleset:1552
 msgid "United Nations"
 msgstr "Nations Unies"
 
 #: data/civ1/buildings.ruleset:1062 data/civ2/buildings.ruleset:1522
-#: data/default/buildings.ruleset:1603
-#: data/experimental/buildings.ruleset:1660
+#: data/default/buildings.ruleset:1603 data/experimental/buildings.ruleset:1660
 #: data/multiplayer/buildings.ruleset:1573
 msgid "Women's Suffrage"
 msgstr "Vote des femmes"
@@ -14136,31 +14105,27 @@ msgid "Team 3"
 msgstr "Équipe 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/default/governments.ruleset:59
-#: data/experimental/governments.ruleset:61
+#: data/default/governments.ruleset:59 data/experimental/governments.ruleset:61
 #: data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Anarchie"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/default/governments.ruleset:64
-#: data/experimental/governments.ruleset:66
+#: data/default/governments.ruleset:64 data/experimental/governments.ruleset:66
 #: data/multiplayer/governments.ruleset:64
 #, c-format
 msgid "Warlord %s"
 msgstr "Seigneur de guerre %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/default/governments.ruleset:65
-#: data/experimental/governments.ruleset:67
+#: data/default/governments.ruleset:65 data/experimental/governments.ruleset:67
 #: data/multiplayer/governments.ruleset:65
 #, c-format
 msgid "Warlady %s"
 msgstr "Seigneuresse de guerre %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/default/governments.ruleset:67
-#: data/experimental/governments.ruleset:69
+#: data/default/governments.ruleset:67 data/experimental/governments.ruleset:69
 #: data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
@@ -14183,31 +14148,27 @@ msgstr ""
 "un peu plus de mécontentement."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/default/governments.ruleset:80
-#: data/experimental/governments.ruleset:84
+#: data/default/governments.ruleset:80 data/experimental/governments.ruleset:84
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Despotisme"
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/default/governments.ruleset:86
-#: data/experimental/governments.ruleset:90
+#: data/default/governments.ruleset:86 data/experimental/governments.ruleset:90
 #: data/multiplayer/governments.ruleset:86
 #, c-format
 msgid "Chief %s"
 msgstr "Chef %s"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/default/governments.ruleset:87
-#: data/experimental/governments.ruleset:91
+#: data/default/governments.ruleset:87 data/experimental/governments.ruleset:91
 #: data/multiplayer/governments.ruleset:87
 #, c-format
 msgid "?female:Chief %s"
 msgstr "Cheftaine %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/default/governments.ruleset:89
-#: data/experimental/governments.ruleset:93
+#: data/default/governments.ruleset:89 data/experimental/governments.ruleset:93
 #: data/multiplayer/governments.ruleset:89
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
@@ -14229,8 +14190,8 @@ msgstr ""
 #: data/civ2/governments.ruleset:97 data/civ2/techs.ruleset:478
 #: data/default/governments.ruleset:100 data/default/techs.ruleset:482
 #: data/experimental/governments.ruleset:104
-#: data/experimental/techs.ruleset:484
-#: data/multiplayer/governments.ruleset:100 data/multiplayer/techs.ruleset:491
+#: data/experimental/techs.ruleset:484 data/multiplayer/governments.ruleset:100
+#: data/multiplayer/techs.ruleset:491
 msgid "Monarchy"
 msgstr "Monarchie"
 
@@ -14274,8 +14235,8 @@ msgstr ""
 #: data/civ2/governments.ruleset:119 data/civ2/techs.ruleset:170
 #: data/default/governments.ruleset:122 data/default/techs.ruleset:181
 #: data/experimental/governments.ruleset:126
-#: data/experimental/techs.ruleset:183
-#: data/multiplayer/governments.ruleset:122 data/multiplayer/techs.ruleset:181
+#: data/experimental/techs.ruleset:183 data/multiplayer/governments.ruleset:122
+#: data/multiplayer/techs.ruleset:181
 msgid "Communism"
 msgstr "Communisme"
 
@@ -14371,8 +14332,8 @@ msgstr ""
 #: data/civ2/governments.ruleset:193 data/civ2/techs.ruleset:212
 #: data/default/governments.ruleset:168 data/default/techs.ruleset:223
 #: data/experimental/governments.ruleset:172
-#: data/experimental/techs.ruleset:225
-#: data/multiplayer/governments.ruleset:168 data/multiplayer/techs.ruleset:223
+#: data/experimental/techs.ruleset:225 data/multiplayer/governments.ruleset:168
+#: data/multiplayer/techs.ruleset:223
 msgid "Democracy"
 msgstr "Démocratie"
 
@@ -16721,8 +16682,7 @@ msgstr ""
 
 # AR
 #: data/civ2/buildings.ruleset:42 data/default/buildings.ruleset:75
-#: data/experimental/buildings.ruleset:77
-#: data/multiplayer/buildings.ruleset:74
+#: data/experimental/buildings.ruleset:77 data/multiplayer/buildings.ruleset:74
 msgid ""
 "Allows a city to produce veteran air units (including helicopters).  Also, "
 "damaged air units (again, including helicopters) which stay in town for one "
@@ -16734,8 +16694,7 @@ msgstr ""
 "se déplacer sont totalement réparées."
 
 #: data/civ2/buildings.ruleset:46 data/default/buildings.ruleset:79
-#: data/experimental/buildings.ruleset:81
-#: data/multiplayer/buildings.ruleset:78
+#: data/experimental/buildings.ruleset:81 data/multiplayer/buildings.ruleset:78
 msgid ""
 "Two cities with Airports can airlift one unit per turn.  Airlifting "
 "instantly transports the unit from one city to another and will use all of "
@@ -18808,8 +18767,7 @@ msgstr ""
 "usine a un bonus de production de 150% et élimine toute la pollution générée "
 "par la production de cette ville."
 
-#: data/default/buildings.ruleset:1001
-#: data/experimental/buildings.ruleset:1056
+#: data/default/buildings.ruleset:1001 data/experimental/buildings.ruleset:1056
 #: data/multiplayer/buildings.ruleset:982
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -18821,8 +18779,7 @@ msgstr ""
 "contents. Cela n'a aucun effet sur les citoyens rendus mécontent à cause des "
 "activités militaires."
 
-#: data/default/buildings.ruleset:1025
-#: data/experimental/buildings.ruleset:1082
+#: data/default/buildings.ruleset:1025 data/experimental/buildings.ruleset:1082
 #: data/multiplayer/buildings.ruleset:1006
 #, no-c-format
 msgid ""
@@ -18832,8 +18789,7 @@ msgstr ""
 "Après la construction d'une bibliothèque, une Université augmente de 250% la "
 "recherche scientifique d'une ville."
 
-#: data/default/buildings.ruleset:1068
-#: data/experimental/buildings.ruleset:1125
+#: data/default/buildings.ruleset:1068 data/experimental/buildings.ruleset:1125
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -18841,8 +18797,7 @@ msgstr ""
 "Les bâtiments qui ont normalement un coût d'entretien de 1 sont entretenus "
 "gratuitement pour toutes les villes."
 
-#: data/default/buildings.ruleset:1128
-#: data/experimental/buildings.ruleset:1185
+#: data/default/buildings.ruleset:1128 data/experimental/buildings.ruleset:1185
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity). It "
@@ -18853,8 +18808,7 @@ msgstr ""
 "à cause des activités militaires). Elle réduit encore le risque de maladie "
 "dans la ville."
 
-#: data/default/buildings.ruleset:1174
-#: data/experimental/buildings.ruleset:1231
+#: data/default/buildings.ruleset:1174 data/experimental/buildings.ruleset:1231
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -18863,8 +18817,7 @@ msgstr ""
 "vous possédez cette merveille.  La réputation est récupérée deux fois plus "
 "vite qu'elle le serait autrement."
 
-#: data/default/buildings.ruleset:1282
-#: data/experimental/buildings.ruleset:1339
+#: data/default/buildings.ruleset:1282 data/experimental/buildings.ruleset:1339
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -18873,8 +18826,7 @@ msgstr ""
 "Accroît la recherche scientifique de 100% dans chaque ville équipée d'une "
 "université."
 
-#: data/default/buildings.ruleset:1362
-#: data/experimental/buildings.ruleset:1419
+#: data/default/buildings.ruleset:1362 data/experimental/buildings.ruleset:1419
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -18882,13 +18834,11 @@ msgstr ""
 "Donne à chaque unité navale 1 point de mouvement supplémentaire. Rend chaque "
 "nouvelle unité marine vétérane (pour toutes les villes)."
 
-#: data/default/buildings.ruleset:1383
-#: data/experimental/buildings.ruleset:1440
+#: data/default/buildings.ruleset:1383 data/experimental/buildings.ruleset:1440
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Donne à chaque unité marine 2 points de mouvement supplémentaires."
 
-#: data/default/buildings.ruleset:1464
-#: data/experimental/buildings.ruleset:1521
+#: data/default/buildings.ruleset:1464 data/experimental/buildings.ruleset:1521
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -18898,8 +18848,7 @@ msgstr ""
 "Cela n'a aucun effet sur les citoyens rendus mécontent à cause des activités "
 "militaires."
 
-#: data/default/buildings.ruleset:1486
-#: data/experimental/buildings.ruleset:1543
+#: data/default/buildings.ruleset:1486 data/experimental/buildings.ruleset:1543
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -18910,16 +18859,14 @@ msgstr ""
 "sera réduite de 25%. Cela aide les villes à grandir plus rapidement et à "
 "mieux résister aux famines. Effet cumulatif avec les greniers."
 
-#: data/default/buildings.ruleset:1508
-#: data/experimental/buildings.ruleset:1565
+#: data/default/buildings.ruleset:1508 data/experimental/buildings.ruleset:1565
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Augmente la production de science de 100% dans chaque ville avec un "
 "laboratoire de recherche. "
 
-#: data/default/buildings.ruleset:1569
-#: data/experimental/buildings.ruleset:1626
+#: data/default/buildings.ruleset:1569 data/experimental/buildings.ruleset:1626
 msgid ""
 "All your new military land units start at the first veteran level. The "
 "chance of a land unit getting the next veteran level after a battle "
@@ -18929,14 +18876,12 @@ msgstr ""
 "vétéran. Les chances pour une unité d'atteindre le prochain niveau de "
 "vétérance après une bataille augmentent de moitié."
 
-#: data/default/buildings.ruleset:1630
-#: data/experimental/buildings.ruleset:1687
+#: data/default/buildings.ruleset:1630 data/experimental/buildings.ruleset:1687
 #: data/multiplayer/buildings.ruleset:1597
 msgid "Coinage"
 msgstr "Capitalisation"
 
-#: data/default/buildings.ruleset:1651
-#: data/experimental/buildings.ruleset:1708
+#: data/default/buildings.ruleset:1651 data/experimental/buildings.ruleset:1708
 #: data/multiplayer/buildings.ruleset:1610
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
@@ -25337,8 +25282,7 @@ msgstr "Bailli %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34
-#: data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
