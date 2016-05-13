@@ -456,7 +456,7 @@ struct fc_sockaddr_list *net_lookup_service(const char *name, int port,
 *************************************************************************/
 bool fc_inet_aton(const char *cp, struct in_addr *inp, bool addr_none_ok)
 {
-#ifdef IPV6_SUPPORT
+#ifdef FREECIV_IPV6_SUPPORT
   /* Use inet_pton() */
   if (!inet_pton(AF_INET, cp, &inp->s_addr)) {
     return FALSE;
