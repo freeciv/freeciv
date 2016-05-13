@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2670,7 +2670,8 @@ static GType objprop_get_gtype(const struct objprop *op)
   case VALTYPE_INT:
     return G_TYPE_INT;
   case VALTYPE_BOOL:
-    return G_TYPE_BOOLEAN;
+    /* We want to show it as translated string, not as untranslated G_TYPE_BOOLEAN */
+    return G_TYPE_STRING;
   case VALTYPE_STRING:
   case VALTYPE_BUILT_ARRAY:
   case VALTYPE_INVENTIONS_ARRAY:
@@ -5259,7 +5260,8 @@ static bool property_page_set_store_value(struct property_page *pp,
     gtk_list_store_set(store, iter, col_id, pv->data.v_int, -1);
     break;
   case VALTYPE_BOOL:
-    gtk_list_store_set(store, iter, col_id, pv->data.v_bool, -1);
+    /* Set as translated string, not as untranslated G_TYPE_BOOLEAN */
+    gtk_list_store_set(store, iter, col_id, propval_as_string(pv), -1);
     break;
   case VALTYPE_STRING:
     if (fc_strlcpy(buf, pv->data.v_string, 28) >= 28) {
