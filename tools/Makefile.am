@@ -29,6 +29,9 @@ endif
 if MODINST_GTK3
 bin_PROGRAMS += freeciv-mp-gtk3
 endif
+if MODINST_GTK3X
+bin_PROGRAMS += freeciv-mp-gtk3x
+endif
 if MODINST_QT
 bin_PROGRAMS += freeciv-mp-qt
 endif
@@ -161,6 +164,28 @@ freeciv_mp_gtk3_LDADD = \
 		$(top_builddir)/common/libfreeciv.la \
 		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
 		$(mp_gtk3_libs) \
+		$(MPICON)
+endif
+
+if MODINST_GTK3X
+freeciv_mp_gtk3x_CPPFLAGS = $(common_cppflags) $(mp_gtk3x_cflags) -DGTK3XMP
+
+# For the time being gtk3 gui sources are ok in respect to gtk3x
+# requirements - there's no deprecated functions used.
+# The only difference is in the name the binary prints out - that's what
+# -DGTK3XMP in the freeciv_mp_gtk3x_CPPFLAGS is for.
+# Instead of maintaining two files, use the same one until there
+# comes real reason to make them differ.
+freeciv_mp_gtk3x_SOURCES = mpgui_gtk3.c
+
+freeciv_mp_gtk3x_LDFLAGS = $(mp_gtk3x_ldflags)
+
+freeciv_mp_gtk3x_LDADD = \
+		libfcmp.la \
+		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
+		$(top_builddir)/common/libfreeciv.la \
+		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
+		$(mp_gtk3x_libs) \
 		$(MPICON)
 endif
 

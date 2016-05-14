@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -602,19 +602,25 @@ int main(int argc, char *argv[])
 
     gtk_widget_realize(toplevel);
     gtk_widget_set_name(toplevel, "Freeciv-modpack");
+#ifndef GTK3XMP
     gtk_window_set_title(GTK_WINDOW(toplevel),
                          _("Freeciv modpack installer (gtk3)"));
+#else  /* GTK3XMP */
+    gtk_window_set_title(GTK_WINDOW(toplevel),
+                         _("Freeciv modpack installer (gtk3x)"));
+#endif /* GTK3XMP */
 
     /* Keep the icon of the executable on Windows */
-#ifndef WIN32_NATIVE
+#ifndef FREECIV_MSWINDOWS
     {
       /* Unlike main client, this only works if installed. Ignore any
        * errors loading the icon. */
       GError *err;
+
       (void) gtk_window_set_icon_from_file(GTK_WINDOW(toplevel), MPICON_PATH,
                                            &err);
     }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
     g_signal_connect(toplevel, "delete_event",
                      G_CALLBACK(quit_dialog_callback), NULL);
