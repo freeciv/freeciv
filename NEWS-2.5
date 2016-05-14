@@ -1,10 +1,211 @@
 ========================
-Welcome to Freeciv 2.5.3
+Welcome to Freeciv 2.5.4
 ========================
 
 The changes in the 2.5.x series are summarised below.
 For changes prior to 2.5, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.5.3 to 2.5.4
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.4>)
+
+   2.5.4 is a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * When a city reduces in size causing its borders to shrink, avoid
+       messages like "City size 6, citizen count 7 for Porto Alegre" and
+       nearby cities' citizens being gratuitously rearranged. GNA#24194
+     * Founding a city on a tile occupied by a fortress could lead to
+       incorrect borders. GNA#23436
+     * The tutorial scenario now mentions boats, and warns about
+       killstack. GNAPATCH#2911
+     * In the civ2civ3 ruleset, 'happyborders' is now enabled by default.
+       GNAPATCH#7080
+     * In the experimental ruleset, some effects mistakenly did not apply
+       to Big Land units (only to Land units):
+          + Sun Tzu bonuses and Fortress defense bonuses now apply to Big
+            Land units. GNA#24539
+          + City Walls and Great Wall are now effective against Big Land
+            units. GNA#24522
+     * Transported units were never upgraded by Leonardo's Workshop. Now
+       they can be upgraded, provided that their current transport could
+       carry the resulting unit. GNA#24368
+     * When restoring from a savegame, the full map was revealed to dead
+       players regardless of whether the 'revealmap' option included
+       'DEAD'. (Now dead players see nothing at all after a reload in this
+       situation, since their final view of the map is not currently
+       included in savegames.) GNA#21296
+     * Fix a possible server crash at turn change. GNA#24283
+     * Fix possible outdated city information in the client after
+       cancellation of a trade route involving that city. GNA#23708
+     * Some messages mentioning units could fail to localize the unit
+       name. GNA#24608
+     * When a 2.5.1 or older client received a report (history, wonders of
+       the world, top 5 cities etc) from a 2.5.2 or newer server, it could
+       contain parts of other reports. GNA#24494
+     * Starting the client or server with the --file or -f option could
+       sometimes fail if the full save file name was given, with its
+       extension (e.g., -f foo.sav.bz2). GNA#23872
+     * At game start, the map label "Highest Peak" is now placed as
+       intended, alongside "Scorched Spot" etc. GNA#24436
+
+Changes affecting other rulesets / modders
+
+     * The rule that units transporting other units cannot be paradropped
+       is now enforced. GNA#24392
+     * Large values for illness_base_factor, _pollution_factor, or
+       _trade_infection (above 255) were not correctly sent to the client.
+       The client would display the wrong illness values, although the
+       correct values would be used for gameplay. Both client and server
+       must be upgraded to benefit from this fix. GNA#24607
+     * In hex tilesets, river outlet sprites for horizontal/vertical sides
+       (road.river_outlet_{ne,sw}) are now used if present. This may
+       affect the display of existing tilesets (for instance, it affects
+       the supplied hex2t tileset). GNAPATCH#6351
+     * Using the editor, changing the ruleset, and entering the editor
+       again could leave editor tools in a funny state. GNA#24577
+     * Rulesets with ocean cities could encounter trouble if the server
+       printed debug messages about them, which can happen either with
+       --debug 4 in an --enable-debug build, or when targetted logging is
+       enabled with the /debug command. GNA#24405
+     * Extra sanity checking when loading rulesets. GNAPATCH#6833
+       GNA#24459
+
+General
+
+     * Fix possible bad handling of failure to open a bzip2-compressed
+       file. GNAPATCH#7024
+     * Fixed various warnings about unused entries when loading game
+       files. GNA#24219 GNAPATCH#7020
+     * Some changes to the Windows build, including using Winsock2 for
+       networking. This is not known to have user-visible consequences.
+       GNAPATCH#6533 GNA#24387 GNAPATCH#7139
+     * Minor memory leak fixes. GNA#24287 GNAPATCH#7015 GNA#24564
+       GNA#24600
+     * Some optimizations for speed. GNAPATCH#6934 GNAPATCH#6992
+       GNAPATCH#7126 GNAPATCH#7147 GNAPATCH#7149
+     * Various internal changes which should only affect developers.
+       GNAPATCH#6677 GNA#24322 GNAPATCH#6760 GNA#24331 GNA#24332 GNA#24284
+       GNAPATCH#6842 GNA#24350 GNA#24251 GNAPATCH#6873 GNAPATCH#6866
+       GNA#24378 GNAPATCH#6898 GNAPATCH#6906 GNAPATCH#6929 GNAPATCH#7004
+       GNA#24483 GNAPATCH#7130 GNA#24599 GNAPATCH#7135 GNA#19047
+
+AI
+
+     * When AI switched to a war footing, cities could be left building
+       workers/settlers forever, based on a desire remembered from
+       peacetime. GNA#24404
+     * Barbarians never finished pillaging tile improvements. Now there is
+       a chance that they do. GNA#23305
+     * If an AI player wanted an ally to declare war on an enemy, it was
+       much less patient if that ally was an AI than if it was a human.
+       Now AI and human allies are treated the same. GNAPATCH#7035
+     * In rare circumstances, an AI settler could report a "Failed to
+       build city" message to the console. GNA#24094
+     * AIs can now consider diplomacy with barbarian players (but the
+       default AI will now not attempt diplomacy with players with the
+       No_Diplomacy effect, so there's no change in behavior with supplied
+       rulesets and AIs). GNA#24282 GNAPATCH#6825
+
+Clients
+
+     * Setting a server option to a string value containing a space didn't
+       work. GNA#24346
+     * Fix a possible crash when starting a server, on Unix. GNA#24450
+     * Fix a crash or corruption of saved colors upon opening the client
+       settings dialog for the second time. GNA#24351 GNA#23961
+     * A client log level specified with -d is now passed on to any
+       spawned server, rather than the server logging with a fixed level
+       of 3 (verbose). GNA#21540
+     * Fix a rare assertion failure when the map is revealed at game end.
+       GNA#24562
+     * In games with 'phasemode' set for alternating movement, move the
+       client's notion of when the turn changes to after other player's
+       moves. GNA#24167
+     * (Qt) It was not possible to request more than 99 gold in a
+       diplomatic treaty. GNA#24425
+     * (Qt) The Players dialog would often forget its selection. GNA#24369
+     * (Qt) In the chat line, typing characters that clashed with menu
+       shortcuts (for instance Alt+C for Polish 'ć') was impossible.
+       GNA#24380
+     * (Qt) Fix some menu items being enabled when they shouldn't be.
+       GNA#24396
+     * (SDL) Added item to Options menu to launch built-in help. GNA#17167
+     * (Gtk) Fix a crash when drawing the city dialog on some platforms.
+       GNA#24647
+     * (Gtk3) The background image in the default theme no longer crawls
+       around when windows are resized. This may also speed up drawing.
+       GNAPATCH#6964
+     * (Gtk3) Fix warning on console when detaching the lower part of the
+       window. GNA#24474
+     * (Gtk3) Fix possible console warnings related to the vote bar.
+       GNA#24353
+
+Tools
+
+     * The modpack installers were not treating an HTTP 404 Not Found as
+       an error; instead they would create the target file containing the
+       error message from the web server. GNA#24518 GNA#24603
+     * The modpack installers now support the --debug option to diagnose
+       errors. GNAPATCH#7060 GNA#24572
+     * Cosmetic tweak to freeciv-mp-cli output format. GNAPATCH#7113
+
+Help / Documentation
+
+     * Documented some limitations of SDI Defense (it is ineffective
+       against weapons owned by yourself, teammates, or allies). GNA#23916
+     * Miscellaneous other improvements to in-game text and user
+       documentation. GNA#23757 GNA#24205 GNA#24206 GNA#24337
+       GNAPATCH#6787 GNAPATCH#6901 GNAPATCH#6927 GNAPATCH#6951 GNA#24115
+       GNA#24431 GNAPATCH#7011 GNAPATCH#7170
+     * Miscellaneous changes to developer/ruleset docs. GNA#24393
+       GNA#24239 GNAPATCH#6924 GNA#24400 GNAPATCH#6981 GNAPATCH#6989
+       GNA#24602 GNAPATCH#7145 GNAPATCH#7161 GNAPATCH#7184 GNAPATCH#7205
+     * Invisible changes to assist localization. GNAPATCH#6893 GNA#24442
+       GNA#24660
+
+Translations
+
+     * Updated translations:
+          + Complete translations: French, British English, Spanish.
+          + Incomplete translations: Finnish (100% core, 89% nations).
+     * Automatic language selection on a Norwegian Nynorsk version of
+       Windows gave US English translations. Now it uses the Bokmål
+       translation (the only one available) on any Norwegian version of
+       Windows. GNA#24480
+
+Build/portability
+
+     * Builds made with assertions disabled (NDEBUG defined) could fail to
+       load savegames properly. GNA#23965 GNA#24571
+     * Suppress some warnings from GCC 6. GNAPATCH#7156
+     * Fix various compiler warnings. The Freeciv core code is
+       warning-clean with Clang (3.5 to 3.8+) and GCC5/6. GNAPATCH#6759
+       GNA#24289
+     * Fix a possible failure to enable IPv6 where available. GNA#24274
+     * Fix a possible attempt to build with IPv6 where some necessary
+       functions were not available. GNA#24295
+     * configure could fail for lack of the gthread library, when that
+       library would only be needed for the optional freeciv-mp-gtk2/3.
+       GNA#24077
+     * Fix trouble with configure's Qt detection on Mac OS X. GNA#24567
+     * Fix harmless build warning "ar: `u' modifier ignored since `D' is
+       the default (see `U')" with recent binutils. GNA#23840
+     * Make configure --enable-client with no argument work. GNA#24471
+     * make src-check was failing on some platforms. GNA#24574
+     * Various fixes for building for Windows. GNA#24263 GNA#24291
+       GNA#24293 GNA#24292 GNAPATCH#6869
+     * Enable building with recent Gtk3, which has deprecated GtkMisc.
+       GNA#24398 GNA#24432
+     * Re-running autogen.sh from the release tarball could lead to a
+       broken tree with bits of two incompatible versions of libtool.
+       GNAPATCH#6861
 
 
 CHANGES FROM 2.5.2 to 2.5.3
