@@ -64,8 +64,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2016-05-01 12:08+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-14 11:27+0100\n"
 "PO-Revision-Date: 2016-05-13 20:24+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
@@ -834,10 +834,10 @@ msgid "City Name"
 msgstr "City Name"
 
 #: client/cityrepdata.c:641 client/gui-gtk-2.0/citizensinfo.c:65
-#: client/gui-gtk-2.0/editprop.c:3484 client/gui-gtk-2.0/editprop.c:4270
+#: client/gui-gtk-2.0/editprop.c:3485 client/gui-gtk-2.0/editprop.c:4271
 #: client/gui-gtk-2.0/gotodlg.c:213 client/gui-gtk-2.0/pages.c:1326
 #: client/gui-gtk-2.0/pages.c:2695 client/gui-gtk-3.0/citizensinfo.c:65
-#: client/gui-gtk-3.0/editprop.c:3515 client/gui-gtk-3.0/editprop.c:4300
+#: client/gui-gtk-3.0/editprop.c:3516 client/gui-gtk-3.0/editprop.c:4301
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1404
 #: client/gui-gtk-3.0/pages.c:2757 client/gui-qt/citydlg.cpp:1767
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
@@ -852,8 +852,8 @@ msgid "?size [short]:Sz"
 msgstr "?size [short]:Sz"
 
 #: client/cityrepdata.c:643 client/gui-gtk-2.0/editgui.c:1312
-#: client/gui-gtk-2.0/editprop.c:4253 client/gui-gtk-3.0/editgui.c:1362
-#: client/gui-gtk-3.0/editprop.c:4283
+#: client/gui-gtk-2.0/editprop.c:4254 client/gui-gtk-3.0/editgui.c:1362
+#: client/gui-gtk-3.0/editprop.c:4284
 msgid "Size"
 msgstr "Size"
 
@@ -1591,8 +1591,8 @@ msgstr "Didn't find a route to the destination!"
 msgid "Oh my! You seem to have no capital!"
 msgstr "Oh my! You seem to have no capital!"
 
-#: client/editor.c:167 client/gui-gtk-2.0/editprop.c:4156
-#: client/gui-gtk-2.0/menu.c:1404 client/gui-gtk-3.0/editprop.c:4187
+#: client/editor.c:167 client/gui-gtk-2.0/editprop.c:4157
+#: client/gui-gtk-2.0/menu.c:1404 client/gui-gtk-3.0/editprop.c:4188
 #: client/gui-gtk-3.0/menu.c:1392 client/gui-xaw/menu.c:150
 #: client/gui-xaw/menu.c:246 client/include/helpdlg_g.h:48
 #: data/helpdata.txt:289 tools/civmanual.c:306
@@ -1638,9 +1638,9 @@ msgstr ""
 "Select special type: shift+s or right-click here."
 
 #: client/editor.c:179 common/terrain.c:1032 common/unit.c:786
-#: data/civ1/terrain.ruleset:870 data/civ2/terrain.ruleset:986
-#: data/classic/terrain.ruleset:1198 data/experimental/terrain.ruleset:1173
-#: data/civ2civ3/terrain.ruleset:1223 data/multiplayer/terrain.ruleset:1177
+#: data/civ1/terrain.ruleset:870 data/civ2/terrain.ruleset:987
+#: data/classic/terrain.ruleset:1199 data/experimental/terrain.ruleset:1174
+#: data/civ2civ3/terrain.ruleset:1224 data/multiplayer/terrain.ruleset:1178
 msgid "Road"
 msgstr "Road"
 
@@ -1699,8 +1699,8 @@ msgstr ""
 "Create city.\n"
 "Shortcut: c"
 
-#: client/editor.c:193 client/gui-gtk-2.0/editprop.c:4192
-#: client/gui-gtk-3.0/editprop.c:4222 client/plrdlg_common.c:316
+#: client/editor.c:193 client/gui-gtk-2.0/editprop.c:4193
+#: client/gui-gtk-3.0/editprop.c:4223 client/plrdlg_common.c:316
 msgid "Vision"
 msgstr "Vision"
 
@@ -1944,10 +1944,10 @@ msgstr "Chat tools"
 msgid "#"
 msgstr "#"
 
-#: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3515
-#: client/gui-gtk-2.0/editprop.c:3527 client/gui-gtk-2.0/pages.c:2693
-#: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3546
-#: client/gui-gtk-3.0/editprop.c:3558 client/gui-gtk-3.0/pages.c:2755
+#: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3516
+#: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2693
+#: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
+#: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2755
 #: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:549
 #: client/plrdlg_common.c:306
 msgid "Flag"
@@ -2272,7 +2272,7 @@ msgstr "U_pgrade unit"
 #: client/gui-sdl/diplomat_dialog.c:1423 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1950 client/gui-xaw/diplomat_dialog.c:116
 #: client/gui-xaw/diplomat_dialog.c:662 client/gui-xaw/repodlgs.c:1010
-#: client/text.c:1347 common/unit.c:2223
+#: client/text.c:1347 common/unit.c:2219
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -3265,8 +3265,8 @@ msgstr "%d known"
 msgid "%d present"
 msgstr "%d present"
 
-#: client/gui-gtk-2.0/editprop.c:927 client/gui-gtk-2.0/editprop.c:3709
-#: client/gui-gtk-3.0/editprop.c:927 client/gui-gtk-3.0/editprop.c:3740
+#: client/gui-gtk-2.0/editprop.c:927 client/gui-gtk-2.0/editprop.c:3710
+#: client/gui-gtk-3.0/editprop.c:927 client/gui-gtk-3.0/editprop.c:3741
 #: client/gui-qt/dialogs.cpp:292 data/civ1/nations.ruleset:58
 #: data/civ2/nations.ruleset:60
 msgid "All nations"
@@ -3296,13 +3296,13 @@ msgstr "(never)"
 msgid "(destroyed)"
 msgstr "(destroyed)"
 
-#: client/gui-gtk-2.0/editprop.c:3377 client/gui-gtk-3.0/editprop.c:3402
+#: client/gui-gtk-2.0/editprop.c:3378 client/gui-gtk-3.0/editprop.c:3403
 #: client/gui-qt/cityrep.cpp:477 client/gui-qt/menu.cpp:454
 #: data/Freeciv.in:2046
 msgid "?verb:View"
 msgstr "?verb:View"
 
-#: client/gui-gtk-2.0/editprop.c:3379 client/gui-gtk-3.0/editprop.c:3404
+#: client/gui-gtk-2.0/editprop.c:3380 client/gui-gtk-3.0/editprop.c:3405
 #: data/Freeciv.in:2013
 msgid "Edit"
 msgstr "Edit"
@@ -3311,32 +3311,32 @@ msgstr "Edit"
 #. TRANS: As in "this building is present".
 #. TRANS: As in "this tile special is present".
 #. TRANS: As in "this building is present".
-#: client/gui-gtk-2.0/editprop.c:3473 client/gui-gtk-2.0/editprop.c:3498
-#: client/gui-gtk-3.0/editprop.c:3504 client/gui-gtk-3.0/editprop.c:3529
+#: client/gui-gtk-2.0/editprop.c:3474 client/gui-gtk-2.0/editprop.c:3499
+#: client/gui-gtk-3.0/editprop.c:3505 client/gui-gtk-3.0/editprop.c:3530
 msgid "Present"
 msgstr "Present"
 
-#: client/gui-gtk-2.0/editprop.c:3475 client/gui-gtk-2.0/editprop.c:3482
-#: client/gui-gtk-2.0/editprop.c:3500 client/gui-gtk-2.0/editprop.c:3513
-#: client/gui-gtk-2.0/editprop.c:3525 client/gui-gtk-2.0/editprop.c:3537
-#: client/gui-gtk-2.0/editprop.c:4221 client/gui-gtk-2.0/editprop.c:4249
-#: client/gui-gtk-3.0/editprop.c:3506 client/gui-gtk-3.0/editprop.c:3513
-#: client/gui-gtk-3.0/editprop.c:3531 client/gui-gtk-3.0/editprop.c:3544
-#: client/gui-gtk-3.0/editprop.c:3556 client/gui-gtk-3.0/editprop.c:3568
-#: client/gui-gtk-3.0/editprop.c:4251 client/gui-gtk-3.0/editprop.c:4279
+#: client/gui-gtk-2.0/editprop.c:3476 client/gui-gtk-2.0/editprop.c:3483
+#: client/gui-gtk-2.0/editprop.c:3501 client/gui-gtk-2.0/editprop.c:3514
+#: client/gui-gtk-2.0/editprop.c:3526 client/gui-gtk-2.0/editprop.c:3538
+#: client/gui-gtk-2.0/editprop.c:4222 client/gui-gtk-2.0/editprop.c:4250
+#: client/gui-gtk-3.0/editprop.c:3507 client/gui-gtk-3.0/editprop.c:3514
+#: client/gui-gtk-3.0/editprop.c:3532 client/gui-gtk-3.0/editprop.c:3545
+#: client/gui-gtk-3.0/editprop.c:3557 client/gui-gtk-3.0/editprop.c:3569
+#: client/gui-gtk-3.0/editprop.c:4252 client/gui-gtk-3.0/editprop.c:4280
 msgid "ID"
 msgstr "ID"
 
-#: client/gui-gtk-2.0/editprop.c:3477 client/gui-gtk-2.0/editprop.c:3486
-#: client/gui-gtk-2.0/editprop.c:3502 client/gui-gtk-2.0/editprop.c:3517
-#: client/gui-gtk-2.0/editprop.c:3529 client/gui-gtk-2.0/editprop.c:3539
-#: client/gui-gtk-2.0/editprop.c:4243 client/gui-gtk-2.0/editprop.c:4264
+#: client/gui-gtk-2.0/editprop.c:3478 client/gui-gtk-2.0/editprop.c:3487
+#: client/gui-gtk-2.0/editprop.c:3503 client/gui-gtk-2.0/editprop.c:3518
+#: client/gui-gtk-2.0/editprop.c:3530 client/gui-gtk-2.0/editprop.c:3540
+#: client/gui-gtk-2.0/editprop.c:4244 client/gui-gtk-2.0/editprop.c:4265
 #: client/gui-gtk-2.0/pages.c:1323 client/gui-gtk-2.0/pages.c:2683
-#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3508
-#: client/gui-gtk-3.0/editprop.c:3517 client/gui-gtk-3.0/editprop.c:3533
-#: client/gui-gtk-3.0/editprop.c:3548 client/gui-gtk-3.0/editprop.c:3560
-#: client/gui-gtk-3.0/editprop.c:3570 client/gui-gtk-3.0/editprop.c:4273
-#: client/gui-gtk-3.0/editprop.c:4294 client/gui-gtk-3.0/pages.c:1401
+#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3509
+#: client/gui-gtk-3.0/editprop.c:3518 client/gui-gtk-3.0/editprop.c:3534
+#: client/gui-gtk-3.0/editprop.c:3549 client/gui-gtk-3.0/editprop.c:3561
+#: client/gui-gtk-3.0/editprop.c:3571 client/gui-gtk-3.0/editprop.c:4274
+#: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1401
 #: client/gui-gtk-3.0/pages.c:2745 client/gui-gtk-3.0/wldlg.c:1001
 #: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:548 data/Freeciv.in:97
 #: tools/civmanual.c:424 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
@@ -3345,96 +3345,96 @@ msgid "Name"
 msgstr "Name"
 
 #. TRANS: As in "this invention is known".
-#: client/gui-gtk-2.0/editprop.c:3488 client/gui-gtk-2.0/editprop.c:3535
-#: client/gui-gtk-3.0/editprop.c:3519 client/gui-gtk-3.0/editprop.c:3566
+#: client/gui-gtk-2.0/editprop.c:3489 client/gui-gtk-2.0/editprop.c:3536
+#: client/gui-gtk-3.0/editprop.c:3520 client/gui-gtk-3.0/editprop.c:3567
 msgid "Known"
 msgstr "Known"
 
 #. TRANS: As in "the turn when this building was built".
-#: client/gui-gtk-2.0/editprop.c:3505 client/gui-gtk-3.0/editprop.c:3536
+#: client/gui-gtk-2.0/editprop.c:3506 client/gui-gtk-3.0/editprop.c:3537
 msgid "Turn Built"
 msgstr "Turn Built"
 
 #. TRANS: As in "the player has set this nation".
-#: client/gui-gtk-2.0/editprop.c:3511 client/gui-gtk-2.0/editprop.c:3523
-#: client/gui-gtk-3.0/editprop.c:3542 client/gui-gtk-3.0/editprop.c:3554
+#: client/gui-gtk-2.0/editprop.c:3512 client/gui-gtk-2.0/editprop.c:3524
+#: client/gui-gtk-3.0/editprop.c:3543 client/gui-gtk-3.0/editprop.c:3555
 msgid "Set"
 msgstr "Set"
 
-#: client/gui-gtk-2.0/editprop.c:4154 client/gui-gtk-2.0/editprop.c:4201
-#: client/gui-gtk-2.0/editprop.c:4213 client/gui-gtk-2.0/editprop.c:4241
-#: client/gui-gtk-3.0/editprop.c:4185 client/gui-gtk-3.0/editprop.c:4231
-#: client/gui-gtk-3.0/editprop.c:4243 client/gui-gtk-3.0/editprop.c:4271
+#: client/gui-gtk-2.0/editprop.c:4155 client/gui-gtk-2.0/editprop.c:4202
+#: client/gui-gtk-2.0/editprop.c:4214 client/gui-gtk-2.0/editprop.c:4242
+#: client/gui-gtk-3.0/editprop.c:4186 client/gui-gtk-3.0/editprop.c:4232
+#: client/gui-gtk-3.0/editprop.c:4244 client/gui-gtk-3.0/editprop.c:4272
 msgid "Image"
 msgstr "Image"
 
-#: client/gui-gtk-2.0/editprop.c:4158 client/gui-gtk-3.0/editprop.c:4189
+#: client/gui-gtk-2.0/editprop.c:4159 client/gui-gtk-3.0/editprop.c:4190
 msgid "Resource"
 msgstr "Resource"
 
-#: client/gui-gtk-2.0/editprop.c:4160 client/gui-gtk-3.0/editprop.c:4191
+#: client/gui-gtk-2.0/editprop.c:4161 client/gui-gtk-3.0/editprop.c:4192
 msgid "Index"
 msgstr "Index"
 
-#: client/gui-gtk-2.0/editprop.c:4162 client/gui-gtk-3.0/editprop.c:4193
+#: client/gui-gtk-2.0/editprop.c:4163 client/gui-gtk-3.0/editprop.c:4194
 msgid "?coordinate:X"
 msgstr "?coordinate:X"
 
-#: client/gui-gtk-2.0/editprop.c:4164 client/gui-gtk-3.0/editprop.c:4195
+#: client/gui-gtk-2.0/editprop.c:4165 client/gui-gtk-3.0/editprop.c:4196
 msgid "?coordinate:Y"
 msgstr "?coordinate:Y"
 
 #. TRANS: The coordinate X in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
-#: client/gui-gtk-2.0/editprop.c:4168 client/gui-gtk-3.0/editprop.c:4199
+#: client/gui-gtk-2.0/editprop.c:4169 client/gui-gtk-3.0/editprop.c:4200
 msgid "NAT X"
 msgstr "NAT X"
 
 #. TRANS: The coordinate Y in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
-#: client/gui-gtk-2.0/editprop.c:4172 client/gui-gtk-3.0/editprop.c:4203
+#: client/gui-gtk-2.0/editprop.c:4173 client/gui-gtk-3.0/editprop.c:4204
 msgid "NAT Y"
 msgstr "NAT Y"
 
-#: client/gui-gtk-2.0/editprop.c:4174 client/gui-gtk-3.0/editprop.c:4205
+#: client/gui-gtk-2.0/editprop.c:4175 client/gui-gtk-3.0/editprop.c:4206
 msgid "Continent"
 msgstr "Continent"
 
-#: client/gui-gtk-2.0/editprop.c:4176 client/gui-gtk-2.0/editprop.c:4203
-#: client/gui-gtk-2.0/editprop.c:4223 client/gui-gtk-2.0/editprop.c:4251
-#: client/gui-gtk-3.0/editprop.c:4207 client/gui-gtk-3.0/editprop.c:4233
-#: client/gui-gtk-3.0/editprop.c:4253 client/gui-gtk-3.0/editprop.c:4281
+#: client/gui-gtk-2.0/editprop.c:4177 client/gui-gtk-2.0/editprop.c:4204
+#: client/gui-gtk-2.0/editprop.c:4224 client/gui-gtk-2.0/editprop.c:4252
+#: client/gui-gtk-3.0/editprop.c:4208 client/gui-gtk-3.0/editprop.c:4234
+#: client/gui-gtk-3.0/editprop.c:4254 client/gui-gtk-3.0/editprop.c:4282
 msgid "?coordinates:X,Y"
 msgstr "?coordinates:X,Y"
 
-#: client/gui-gtk-2.0/editprop.c:4178 client/gui-gtk-3.0/editprop.c:4209
+#: client/gui-gtk-2.0/editprop.c:4179 client/gui-gtk-3.0/editprop.c:4210
 #: client/gui-xaw/menu.c:156
 msgid "Specials"
 msgstr "Specials"
 
-#: client/gui-gtk-2.0/editprop.c:4180 client/gui-gtk-3.0/editprop.c:4211
+#: client/gui-gtk-2.0/editprop.c:4181 client/gui-gtk-3.0/editprop.c:4212
 #: client/include/helpdlg_g.h:47
 msgid "Roads"
 msgstr "Roads"
 
-#: client/gui-gtk-2.0/editprop.c:4182 client/gui-gtk-3.0/editprop.c:4213
+#: client/gui-gtk-2.0/editprop.c:4183 client/gui-gtk-3.0/editprop.c:4214
 #: client/gui-xaw/menu.c:155
 msgid "Bases"
 msgstr "Bases"
 
-#: client/gui-gtk-2.0/editprop.c:4185 client/gui-gtk-2.0/editprop.c:4216
-#: client/gui-gtk-2.0/editprop.c:4246 client/gui-gtk-2.0/editprop.c:4267
-#: client/gui-gtk-3.0/editprop.c:4216 client/gui-gtk-3.0/editprop.c:4246
-#: client/gui-gtk-3.0/editprop.c:4276 client/gui-gtk-3.0/editprop.c:4297
+#: client/gui-gtk-2.0/editprop.c:4186 client/gui-gtk-2.0/editprop.c:4217
+#: client/gui-gtk-2.0/editprop.c:4247 client/gui-gtk-2.0/editprop.c:4268
+#: client/gui-gtk-3.0/editprop.c:4217 client/gui-gtk-3.0/editprop.c:4247
+#: client/gui-gtk-3.0/editprop.c:4277 client/gui-gtk-3.0/editprop.c:4298
 msgid "Address"
 msgstr "Address"
 
 #. TRANS: Tile property "Label" label in editor
-#: client/gui-gtk-2.0/editprop.c:4196 client/gui-gtk-3.0/editprop.c:4226
+#: client/gui-gtk-2.0/editprop.c:4197 client/gui-gtk-3.0/editprop.c:4227
 msgid "?property:Label"
 msgstr "?property:Label"
 
-#: client/gui-gtk-2.0/editprop.c:4205 client/gui-gtk-3.0/editprop.c:4235
+#: client/gui-gtk-2.0/editprop.c:4206 client/gui-gtk-3.0/editprop.c:4236
 msgid "Exclude Nations"
 msgstr "Exclude Nations"
 
@@ -3442,73 +3442,73 @@ msgstr "Exclude Nations"
 #. TRANS: Nations report action
 #. TRANS: Nations report title
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/editprop.c:4207 client/gui-gtk-2.0/plrdlg.c:411
-#: client/gui-gtk-3.0/editprop.c:4237 client/gui-gtk-3.0/plrdlg.c:418
+#: client/gui-gtk-2.0/editprop.c:4208 client/gui-gtk-2.0/plrdlg.c:411
+#: client/gui-gtk-3.0/editprop.c:4238 client/gui-gtk-3.0/plrdlg.c:418
 #: client/gui-sdl/mapctrl.c:1591 client/gui-sdl/plrdlg.c:617
 #: client/gui-xaw/menu.c:222 data/Freeciv.in:3240 data/Freeciv.in:3241
 msgid "Nations"
 msgstr "Nations"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:4219 client/gui-gtk-2.0/pages.c:1324
+#: client/gui-gtk-2.0/editprop.c:4220 client/gui-gtk-2.0/pages.c:1324
 #: client/gui-gtk-2.0/repodlgs.c:758 client/gui-gtk-2.0/wldlg.c:998
-#: client/gui-gtk-3.0/editprop.c:4249 client/gui-gtk-3.0/pages.c:1402
+#: client/gui-gtk-3.0/editprop.c:4250 client/gui-gtk-3.0/pages.c:1402
 #: client/gui-gtk-3.0/repodlgs.c:786 client/gui-gtk-3.0/wldlg.c:1001
 #: client/gui-qt/pages.cpp:283 client/gui-qt/repodlgs.cpp:1053
 msgid "Type"
 msgstr "Type"
 
-#: client/gui-gtk-2.0/editprop.c:4225 client/gui-gtk-3.0/editprop.c:4255
+#: client/gui-gtk-2.0/editprop.c:4226 client/gui-gtk-3.0/editprop.c:4256
 msgid "Moves Left"
 msgstr "Moves Left"
 
-#: client/gui-gtk-2.0/editprop.c:4227 client/gui-gtk-3.0/editprop.c:4257
+#: client/gui-gtk-2.0/editprop.c:4228 client/gui-gtk-3.0/editprop.c:4258
 msgid "Fuel"
 msgstr "Fuel"
 
-#: client/gui-gtk-2.0/editprop.c:4229 client/gui-gtk-3.0/editprop.c:4259
+#: client/gui-gtk-2.0/editprop.c:4230 client/gui-gtk-3.0/editprop.c:4260
 msgid "Moved"
 msgstr "Moved"
 
-#: client/gui-gtk-2.0/editprop.c:4231 client/gui-gtk-3.0/editprop.c:4261
+#: client/gui-gtk-2.0/editprop.c:4232 client/gui-gtk-3.0/editprop.c:4262
 msgid "Done Moving"
 msgstr "Done Moving"
 
 #. TRANS: HP = Hit Points of a unit.
-#: client/gui-gtk-2.0/editprop.c:4234 client/gui-gtk-3.0/editprop.c:4264
+#: client/gui-gtk-2.0/editprop.c:4235 client/gui-gtk-3.0/editprop.c:4265
 msgid "HP"
 msgstr "HP"
 
-#: client/gui-gtk-2.0/editprop.c:4236 client/gui-gtk-3.0/editprop.c:4266
+#: client/gui-gtk-2.0/editprop.c:4237 client/gui-gtk-3.0/editprop.c:4267
 msgid "Veteran"
 msgstr "Veteran"
 
-#: client/gui-gtk-2.0/editprop.c:4255 client/gui-gtk-3.0/citydlg.c:1151
-#: client/gui-gtk-3.0/editprop.c:4285 client/gui-qt/cityrep.cpp:709
+#: client/gui-gtk-2.0/editprop.c:4256 client/gui-gtk-3.0/citydlg.c:1151
+#: client/gui-gtk-3.0/editprop.c:4286 client/gui-qt/cityrep.cpp:709
 msgid "Buildings"
 msgstr "Buildings"
 
-#: client/gui-gtk-2.0/editprop.c:4257 client/gui-gtk-3.0/editprop.c:4287
+#: client/gui-gtk-2.0/editprop.c:4258 client/gui-gtk-3.0/editprop.c:4288
 msgid "Food Stock"
 msgstr "Food Stock"
 
-#: client/gui-gtk-2.0/editprop.c:4259 client/gui-gtk-3.0/editprop.c:4289
+#: client/gui-gtk-2.0/editprop.c:4260 client/gui-gtk-3.0/editprop.c:4290
 msgid "Shield Stock"
 msgstr "Shield Stock"
 
-#: client/gui-gtk-2.0/editprop.c:4272 client/gui-gtk-3.0/editprop.c:4302
+#: client/gui-gtk-2.0/editprop.c:4273 client/gui-gtk-3.0/editprop.c:4303
 msgid "Inventions"
 msgstr "Inventions"
 
-#: client/gui-gtk-2.0/editprop.c:4274 client/gui-gtk-2.0/gamedlgs.c:287
-#: client/gui-gtk-3.0/editprop.c:4304 client/gui-gtk-3.0/gamedlgs.c:297
+#: client/gui-gtk-2.0/editprop.c:4275 client/gui-gtk-2.0/gamedlgs.c:287
+#: client/gui-gtk-3.0/editprop.c:4305 client/gui-gtk-3.0/gamedlgs.c:297
 #: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:94
 #: common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "Science"
 
-#: client/gui-gtk-2.0/editprop.c:4276 client/gui-gtk-2.0/repodlgs.c:1246
-#: client/gui-gtk-3.0/editprop.c:4306 client/gui-gtk-3.0/repodlgs.c:1281
+#: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
+#: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
 #: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:681
 #: common/city.c:86 data/civ1/terrain.ruleset:637
 #: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
@@ -3517,36 +3517,36 @@ msgstr "Science"
 msgid "Gold"
 msgstr "Gold"
 
-#: client/gui-gtk-2.0/editprop.c:4281 client/gui-gtk-3.0/editprop.c:4311
+#: client/gui-gtk-2.0/editprop.c:4282 client/gui-gtk-3.0/editprop.c:4312
 msgid "Year"
 msgstr "Year"
 
-#: client/gui-gtk-2.0/editprop.c:4283 client/gui-gtk-3.0/editprop.c:4313
+#: client/gui-gtk-2.0/editprop.c:4284 client/gui-gtk-3.0/editprop.c:4314
 #: tools/modinst.h:41
 msgid "Scenario"
 msgstr "Scenario"
 
-#: client/gui-gtk-2.0/editprop.c:4285 client/gui-gtk-3.0/editprop.c:4315
+#: client/gui-gtk-2.0/editprop.c:4286 client/gui-gtk-3.0/editprop.c:4316
 msgid "Scenario Name"
 msgstr "Scenario Name"
 
-#: client/gui-gtk-2.0/editprop.c:4287 client/gui-gtk-3.0/editprop.c:4317
+#: client/gui-gtk-2.0/editprop.c:4288 client/gui-gtk-3.0/editprop.c:4318
 msgid "Scenario Description"
 msgstr "Scenario Description"
 
-#: client/gui-gtk-2.0/editprop.c:4290 client/gui-gtk-3.0/editprop.c:4320
+#: client/gui-gtk-2.0/editprop.c:4291 client/gui-gtk-3.0/editprop.c:4321
 msgid "Save Players"
 msgstr "Save Players"
 
-#: client/gui-gtk-2.0/editprop.c:4292 client/gui-gtk-3.0/editprop.c:4322
+#: client/gui-gtk-2.0/editprop.c:4293 client/gui-gtk-3.0/editprop.c:4323
 msgid "Nation Start Positions"
 msgstr "Nation Start Positions"
 
-#: client/gui-gtk-2.0/editprop.c:4569 client/gui-gtk-3.0/editprop.c:4619
+#: client/gui-gtk-2.0/editprop.c:4570 client/gui-gtk-3.0/editprop.c:4620
 msgid "Destroy"
 msgstr "Destroy"
 
-#: client/gui-gtk-2.0/editprop.c:4574 client/gui-gtk-3.0/editprop.c:4622
+#: client/gui-gtk-2.0/editprop.c:4575 client/gui-gtk-3.0/editprop.c:4623
 msgid ""
 "Pressing this button will send a request to the server to destroy (i.e. "
 "erase) the objects selected in the object list."
@@ -3554,11 +3554,11 @@ msgstr ""
 "Pressing this button will send a request to the server to destroy (i.e. "
 "erase) the objects selected in the object list."
 
-#: client/gui-gtk-2.0/editprop.c:4585 client/gui-gtk-3.0/editprop.c:4602
+#: client/gui-gtk-2.0/editprop.c:4586 client/gui-gtk-3.0/editprop.c:4603
 msgid "Create"
 msgstr "Create"
 
-#: client/gui-gtk-2.0/editprop.c:4590 client/gui-gtk-3.0/editprop.c:4605
+#: client/gui-gtk-2.0/editprop.c:4591 client/gui-gtk-3.0/editprop.c:4606
 msgid ""
 "Pressing this button will create a new object of the same type as the "
 "current property page and add it to the page. The specific type and count of "
@@ -3572,16 +3572,16 @@ msgstr ""
 
 #. TRANS: %s is a type of object that can be edited, such as "Tile",
 #. * "Unit", "Start Position", etc.
-#: client/gui-gtk-2.0/editprop.c:4641 client/gui-gtk-3.0/editprop.c:4680
+#: client/gui-gtk-2.0/editprop.c:4642 client/gui-gtk-3.0/editprop.c:4681
 #, c-format
 msgid "%s Properties"
 msgstr "%s Properties"
 
-#: client/gui-gtk-2.0/editprop.c:4680 client/gui-gtk-3.0/editprop.c:4721
+#: client/gui-gtk-2.0/editprop.c:4681 client/gui-gtk-3.0/editprop.c:4722
 msgid "Filter:"
 msgstr "Filter:"
 
-#: client/gui-gtk-2.0/editprop.c:4685 client/gui-gtk-3.0/editprop.c:4726
+#: client/gui-gtk-2.0/editprop.c:4686 client/gui-gtk-3.0/editprop.c:4727
 msgid ""
 "Enter a filter string to limit which properties are shown. The filter is one "
 "or more text patterns separated by | (\"or\") or & (\"and\"). The symbol & "
@@ -3593,7 +3593,7 @@ msgstr ""
 "has higher precedence than |. A pattern may also be negated by prefixing it "
 "with !."
 
-#: client/gui-gtk-2.0/editprop.c:4699 client/gui-gtk-3.0/editprop.c:4751
+#: client/gui-gtk-2.0/editprop.c:4700 client/gui-gtk-3.0/editprop.c:4752
 msgid ""
 "Pressing this button will send all modified properties of the objects "
 "selected in the object list to the server. Modified properties' names are "
@@ -3603,7 +3603,7 @@ msgstr ""
 "selected in the object list to the server. Modified properties' names are "
 "shown in red in the properties panel."
 
-#: client/gui-gtk-2.0/editprop.c:4710 client/gui-gtk-3.0/editprop.c:4741
+#: client/gui-gtk-2.0/editprop.c:4711 client/gui-gtk-3.0/editprop.c:4742
 msgid ""
 "Pressing this button will reset all modified properties of the selected "
 "objects to their current values (the values they have on the server)."
@@ -3611,22 +3611,22 @@ msgstr ""
 "Pressing this button will reset all modified properties of the selected "
 "objects to their current values (the values they have on the server)."
 
-#: client/gui-gtk-2.0/editprop.c:5865 client/gui-gtk-3.0/editprop.c:5912
+#: client/gui-gtk-2.0/editprop.c:5867 client/gui-gtk-3.0/editprop.c:5914
 msgid "Property Editor"
 msgstr "Property Editor"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
-#: client/gui-gtk-2.0/editprop.c:6243 client/gui-gtk-3.0/editprop.c:6290
+#: client/gui-gtk-2.0/editprop.c:6245 client/gui-gtk-3.0/editprop.c:6292
 msgid "Seen (Main)"
 msgstr "Seen (Main)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
-#: client/gui-gtk-2.0/editprop.c:6246 client/gui-gtk-3.0/editprop.c:6293
+#: client/gui-gtk-2.0/editprop.c:6248 client/gui-gtk-3.0/editprop.c:6295
 msgid "Seen (Invis)"
 msgstr "Seen (Invis)"
 
-#: client/gui-gtk-2.0/editprop.c:6252 client/gui-gtk-2.0/pages.c:667
-#: client/gui-gtk-3.0/editprop.c:6299 client/gui-gtk-3.0/pages.c:736
+#: client/gui-gtk-2.0/editprop.c:6254 client/gui-gtk-2.0/pages.c:667
+#: client/gui-gtk-3.0/editprop.c:6301 client/gui-gtk-3.0/pages.c:736
 #: client/gui-qt/pages.cpp:760 client/gui-sdl/citydlg.c:1987
 #: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:800
 msgid "Unknown"
@@ -14851,16 +14851,16 @@ msgstr "Transform"
 msgid "Base"
 msgstr "Base"
 
-#: common/unit.c:1521 common/unit.c:1526
+#: common/unit.c:1517 common/unit.c:1522
 msgid "Moves"
 msgstr "Moves"
 
-#: common/unit.c:1633
+#: common/unit.c:1629
 msgid "Food/Shield/Gold:"
 msgstr "Food/Shield/Gold:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2233
+#: common/unit.c:2229
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -14875,13 +14875,13 @@ msgstr[1] ""
 "Upgrade %s to %s for %d gold?\n"
 "%s"
 
-#: common/unit.c:2242
+#: common/unit.c:2238
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Sorry, cannot upgrade %s (yet)."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2248
+#: common/unit.c:2244
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -14896,23 +14896,23 @@ msgstr[1] ""
 "Upgrading %s to %s costs %d gold.\n"
 "%s"
 
-#: common/unit.c:2258
+#: common/unit.c:2254
 msgid "You can only upgrade units in your cities."
 msgstr "You can only upgrade units in your cities."
 
-#: common/unit.c:2262
+#: common/unit.c:2258
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "Upgrading this %s would strand units it transports."
 
-#: common/unit.c:2267
+#: common/unit.c:2263
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 
-#: common/unit.c:2274
+#: common/unit.c:2270
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
@@ -17922,9 +17922,9 @@ msgstr "Resources"
 msgid "Seals"
 msgstr "Seals"
 
-#: data/civ1/terrain.ruleset:769 data/civ2/terrain.ruleset:861
-#: data/classic/terrain.ruleset:1030 data/experimental/terrain.ruleset:1006
-#: data/civ2civ3/terrain.ruleset:1044 data/multiplayer/terrain.ruleset:1004
+#: data/civ1/terrain.ruleset:769 data/civ2/terrain.ruleset:862
+#: data/classic/terrain.ruleset:1031 data/experimental/terrain.ruleset:1007
+#: data/civ2civ3/terrain.ruleset:1045 data/multiplayer/terrain.ruleset:1005
 msgid "Fortress"
 msgstr "Fortress"
 
@@ -17932,8 +17932,8 @@ msgstr "Fortress"
 msgid "Fortresses improve defense for land units."
 msgstr "Fortresses improve defence for land units."
 
-#: data/civ1/terrain.ruleset:892 data/civ2/terrain.ruleset:1008
-#: data/classic/terrain.ruleset:1220 data/multiplayer/terrain.ruleset:1199
+#: data/civ1/terrain.ruleset:892 data/civ2/terrain.ruleset:1009
+#: data/classic/terrain.ruleset:1221 data/multiplayer/terrain.ruleset:1200
 msgid ""
 "Roads allow your land units to move more quickly, and on some terrain, also "
 "provide a trade bonus."
@@ -17941,7 +17941,7 @@ msgstr ""
 "Roads allow your land units to move more quickly, and on some terrain, also "
 "provide a trade bonus."
 
-#: data/civ1/terrain.ruleset:895 data/civ2/terrain.ruleset:1011
+#: data/civ1/terrain.ruleset:895 data/civ2/terrain.ruleset:1012
 msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads, and are an exception to this "
@@ -17951,14 +17951,14 @@ msgstr ""
 "centre tiles automatically get roads, and are an exception to this "
 "requirement."
 
-#: data/civ1/terrain.ruleset:902 data/civ2/terrain.ruleset:1018
-#: data/classic/terrain.ruleset:1230 data/experimental/terrain.ruleset:1207
-#: data/civ2civ3/terrain.ruleset:1261 data/multiplayer/terrain.ruleset:1209
+#: data/civ1/terrain.ruleset:902 data/civ2/terrain.ruleset:1019
+#: data/classic/terrain.ruleset:1231 data/experimental/terrain.ruleset:1208
+#: data/civ2civ3/terrain.ruleset:1262 data/multiplayer/terrain.ruleset:1210
 msgid "Railroad"
 msgstr "Railway"
 
-#: data/civ1/terrain.ruleset:925 data/civ2/terrain.ruleset:1041
-#: data/classic/terrain.ruleset:1253 data/multiplayer/terrain.ruleset:1232
+#: data/civ1/terrain.ruleset:925 data/civ2/terrain.ruleset:1042
+#: data/classic/terrain.ruleset:1254 data/multiplayer/terrain.ruleset:1233
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units expend no movement points when moving along a railroad; you "
@@ -17978,9 +17978,9 @@ msgstr ""
 "tile. A tile whose road is upgraded to a railway retains any trade bonus "
 "from the road as well."
 
-#: data/civ1/terrain.ruleset:933 data/civ2/terrain.ruleset:1049
-#: data/classic/terrain.ruleset:1261 data/experimental/terrain.ruleset:1239
-#: data/civ2civ3/terrain.ruleset:1293 data/multiplayer/terrain.ruleset:1240
+#: data/civ1/terrain.ruleset:933 data/civ2/terrain.ruleset:1050
+#: data/classic/terrain.ruleset:1262 data/experimental/terrain.ruleset:1240
+#: data/civ2civ3/terrain.ruleset:1294 data/multiplayer/terrain.ruleset:1241
 msgid ""
 "City center tiles with roads are automatically upgraded to railroads when "
 "you learn the Railroad technology."
@@ -17988,9 +17988,9 @@ msgstr ""
 "City centre tiles with roads are automatically upgraded to railways when you "
 "learn the Railway technology."
 
-#: data/civ1/terrain.ruleset:939 data/civ2/terrain.ruleset:1055
-#: data/classic/terrain.ruleset:1267 data/experimental/terrain.ruleset:1281
-#: data/civ2civ3/terrain.ruleset:1299 data/multiplayer/terrain.ruleset:1246
+#: data/civ1/terrain.ruleset:939 data/civ2/terrain.ruleset:1056
+#: data/classic/terrain.ruleset:1268 data/experimental/terrain.ruleset:1282
+#: data/civ2civ3/terrain.ruleset:1300 data/multiplayer/terrain.ruleset:1247
 msgid "River"
 msgstr "River"
 
@@ -17998,8 +17998,8 @@ msgstr "River"
 msgid "Any land terrain type may have a River on it."
 msgstr "Any land terrain type may have a River on it."
 
-#: data/civ1/terrain.ruleset:954 data/civ2/terrain.ruleset:1074
-#: data/classic/terrain.ruleset:1294 data/multiplayer/terrain.ruleset:1265
+#: data/civ1/terrain.ruleset:954 data/civ2/terrain.ruleset:1075
+#: data/classic/terrain.ruleset:1295 data/multiplayer/terrain.ruleset:1266
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology."
@@ -20086,7 +20086,7 @@ msgstr "Whales"
 msgid "Wine"
 msgstr "Wine"
 
-#: data/civ2/terrain.ruleset:878
+#: data/civ2/terrain.ruleset:879
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -20096,17 +20096,17 @@ msgstr ""
 "remaining in a fortress for a whole turn without moving recovers a quarter "
 "of its hit points."
 
-#: data/civ2/terrain.ruleset:885 data/civ2/units.ruleset:24
-#: data/classic/terrain.ruleset:1056 data/classic/units.ruleset:29
-#: data/experimental/terrain.ruleset:1032 data/experimental/units.ruleset:32
-#: data/civ2civ3/terrain.ruleset:1072 data/civ2civ3/units.ruleset:29
-#: data/multiplayer/terrain.ruleset:1030 data/multiplayer/units.ruleset:29
+#: data/civ2/terrain.ruleset:886 data/civ2/units.ruleset:24
+#: data/classic/terrain.ruleset:1057 data/classic/units.ruleset:29
+#: data/experimental/terrain.ruleset:1033 data/experimental/units.ruleset:32
+#: data/civ2civ3/terrain.ruleset:1073 data/civ2civ3/units.ruleset:29
+#: data/multiplayer/terrain.ruleset:1031 data/multiplayer/units.ruleset:29
 msgid "Airbase"
 msgstr "Airbase"
 
-#: data/civ2/terrain.ruleset:901 data/classic/terrain.ruleset:1072
-#: data/experimental/terrain.ruleset:1048
-#: data/multiplayer/terrain.ruleset:1046
+#: data/civ2/terrain.ruleset:902 data/classic/terrain.ruleset:1073
+#: data/experimental/terrain.ruleset:1049
+#: data/multiplayer/terrain.ruleset:1047
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -20114,9 +20114,9 @@ msgstr ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
 
-#: data/civ2/terrain.ruleset:1045 data/classic/terrain.ruleset:1257
-#: data/experimental/terrain.ruleset:1235 data/civ2civ3/terrain.ruleset:1289
-#: data/multiplayer/terrain.ruleset:1236
+#: data/civ2/terrain.ruleset:1046 data/classic/terrain.ruleset:1258
+#: data/experimental/terrain.ruleset:1236 data/civ2civ3/terrain.ruleset:1290
+#: data/multiplayer/terrain.ruleset:1237
 msgid ""
 "A railroad also increases any shield resources produced by a tile. A tile "
 "whose road is upgraded to a railroad retains any trade bonus from the road "
@@ -20126,8 +20126,8 @@ msgstr ""
 "whose road is upgraded to a railway retains any trade bonus from the road as "
 "well."
 
-#: data/civ2/terrain.ruleset:1069 data/classic/terrain.ruleset:1289
-#: data/multiplayer/terrain.ruleset:1260
+#: data/civ2/terrain.ruleset:1070 data/classic/terrain.ruleset:1290
+#: data/multiplayer/terrain.ruleset:1261
 msgid ""
 "Any land terrain type may have a River on it.  A River adds 1 trade to the "
 "resources produced by that tile.  It also increases a tile's defense factor "
@@ -21319,8 +21319,8 @@ msgstr ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
 
-#: data/classic/terrain.ruleset:1048 data/experimental/terrain.ruleset:1024
-#: data/multiplayer/terrain.ruleset:1022
+#: data/classic/terrain.ruleset:1049 data/experimental/terrain.ruleset:1025
+#: data/multiplayer/terrain.ruleset:1023
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -21332,23 +21332,23 @@ msgstr ""
 "of its hit points. With Invention, fortresses gain watchtowers from which "
 "land units can see further afield."
 
-#: data/classic/terrain.ruleset:1078 data/experimental/terrain.ruleset:1054
-#: data/civ2civ3/terrain.ruleset:1100 data/multiplayer/terrain.ruleset:1056
+#: data/classic/terrain.ruleset:1079 data/experimental/terrain.ruleset:1055
+#: data/civ2civ3/terrain.ruleset:1101 data/multiplayer/terrain.ruleset:1057
 msgid "Buoy"
 msgstr "Buoy"
 
-#: data/classic/terrain.ruleset:1094 data/experimental/terrain.ruleset:1070
-#: data/civ2civ3/terrain.ruleset:1116
+#: data/classic/terrain.ruleset:1095 data/experimental/terrain.ruleset:1071
+#: data/civ2civ3/terrain.ruleset:1117
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr "Buoys may be built in the ocean (by units on a sea-going vessel)."
 
-#: data/classic/terrain.ruleset:1099 data/experimental/terrain.ruleset:1075
-#: data/civ2civ3/terrain.ruleset:1124 data/multiplayer/terrain.ruleset:1078
+#: data/classic/terrain.ruleset:1100 data/experimental/terrain.ruleset:1076
+#: data/civ2civ3/terrain.ruleset:1125 data/multiplayer/terrain.ruleset:1079
 msgid "Ruins"
 msgstr "Ruins"
 
-#: data/classic/terrain.ruleset:1112 data/experimental/terrain.ruleset:1088
-#: data/civ2civ3/terrain.ruleset:1137 data/multiplayer/terrain.ruleset:1091
+#: data/classic/terrain.ruleset:1113 data/experimental/terrain.ruleset:1089
+#: data/civ2civ3/terrain.ruleset:1138 data/multiplayer/terrain.ruleset:1092
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -21356,8 +21356,8 @@ msgstr ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
 
-#: data/classic/terrain.ruleset:1223 data/experimental/terrain.ruleset:1200
-#: data/civ2civ3/terrain.ruleset:1254 data/multiplayer/terrain.ruleset:1202
+#: data/classic/terrain.ruleset:1224 data/experimental/terrain.ruleset:1201
+#: data/civ2civ3/terrain.ruleset:1255 data/multiplayer/terrain.ruleset:1203
 msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads (unless they are on a river tile and "
@@ -21742,7 +21742,7 @@ msgid ""
 msgstr ""
 "Allows Settlers, Workers and Engineers to upgrade railways with maglev."
 
-#: data/experimental/terrain.ruleset:1195
+#: data/experimental/terrain.ruleset:1196
 msgid ""
 "Roads allow your land units to move more quickly, and allow heavy Big Land "
 "units such as Catapults and Freight to travel through otherwise difficult "
@@ -21754,7 +21754,7 @@ msgstr ""
 "terrain such as Mountains and Forest. On some terrain, roads also provide a "
 "trade bonus."
 
-#: data/experimental/terrain.ruleset:1231 data/civ2civ3/terrain.ruleset:1285
+#: data/experimental/terrain.ruleset:1232 data/civ2civ3/terrain.ruleset:1286
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units travel considerably faster along railroads than along roads."
@@ -21762,11 +21762,11 @@ msgstr ""
 "Once you learn the Railway technology, you may upgrade your roads to "
 "railways. Units travel considerably faster along railways than along roads."
 
-#: data/experimental/terrain.ruleset:1245
+#: data/experimental/terrain.ruleset:1246
 msgid "Maglev"
 msgstr "Maglev"
 
-#: data/experimental/terrain.ruleset:1267
+#: data/experimental/terrain.ruleset:1268
 msgid ""
 "With sufficient technology, you may build magnetic levitation systems along "
 "your railroad routes. Land units expend no movement points when riding a "
@@ -21776,7 +21776,7 @@ msgstr ""
 "your railway routes. Land units expend no movement points when riding a "
 "maglev; you may ride indefinitely. (As may your enemies!)"
 
-#: data/experimental/terrain.ruleset:1271
+#: data/experimental/terrain.ruleset:1272
 msgid ""
 "Your regular railroads are still used to carry heavy Big Land units for "
 "which the maglev system is unsuitable, and they continue to provide "
@@ -21786,7 +21786,7 @@ msgstr ""
 "the maglev system is unsuitable, and they continue to provide production and "
 "trade bonuses."
 
-#: data/experimental/terrain.ruleset:1275
+#: data/experimental/terrain.ruleset:1276
 msgid ""
 "City center tiles with railroads are automatically upgraded to maglev when "
 "you learn about Superconductors."
@@ -21794,7 +21794,7 @@ msgstr ""
 "City centre tiles with railways are automatically upgraded to maglev when "
 "you learn about Superconductors."
 
-#: data/experimental/terrain.ruleset:1295
+#: data/experimental/terrain.ruleset:1296
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
 "resources produced by that tile. It also increases a tile's defense factor "
@@ -21804,7 +21804,7 @@ msgstr ""
 "resources produced by that tile. It also increases a tile's defence factor "
 "by 50%."
 
-#: data/experimental/terrain.ruleset:1299
+#: data/experimental/terrain.ruleset:1300
 msgid ""
 "Land units may move along rivers for faster travel (but not diagonally), and "
 "heavy Big Land units such as Catapults and Freight may travel along them "
@@ -21816,7 +21816,7 @@ msgstr ""
 "through otherwise difficult terrain. Triremes may also travel up rivers "
 "(although later boats cannot)."
 
-#: data/experimental/terrain.ruleset:1304
+#: data/experimental/terrain.ruleset:1305
 msgid ""
 "Roads, railroads, and maglev can only be built on River tiles if your "
 "civilization has learned Bridge Building technology."
@@ -23223,7 +23223,7 @@ msgstr ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic. Big Land units may not move in swamps without a road."
 
-#: data/civ2civ3/terrain.ruleset:1064
+#: data/civ2civ3/terrain.ruleset:1065
 msgid ""
 "Units in a fortress receive double defense against land units and boats. Any "
 "kind of land unit remaining in a fortress for a whole turn without moving "
@@ -23235,7 +23235,7 @@ msgstr ""
 "recovers a quarter of its hit points. With Astronomy, fortresses gain "
 "watchtowers from which units can see further afield."
 
-#: data/civ2civ3/terrain.ruleset:1091
+#: data/civ2civ3/terrain.ruleset:1092
 msgid ""
 "Airbases allow your air units to land and refuel. Units in an airbase "
 "receive double defense against enemy air units. An air unit remaining in an "
@@ -23247,7 +23247,7 @@ msgstr ""
 "airbase for a whole turn without moving recovers a quarter of its hit "
 "points. Air units in an airbase may be attacked by land units."
 
-#: data/civ2civ3/terrain.ruleset:1118
+#: data/civ2civ3/terrain.ruleset:1119
 msgid ""
 "As well as granting vision, a buoy in deep ocean yields a shield resource to "
 "cities with an Offshore Platform."
@@ -23255,7 +23255,7 @@ msgstr ""
 "As well as granting vision, a buoy in deep ocean yields a shield resource to "
 "cities with an Offshore Platform."
 
-#: data/civ2civ3/terrain.ruleset:1246
+#: data/civ2civ3/terrain.ruleset:1247
 msgid ""
 "Roads allow your land units to move more quickly, allow wheeled Big Land "
 "units such as Chariots and Catapults to travel through otherwise difficult "
@@ -23267,11 +23267,11 @@ msgstr ""
 "terrain (Mountains, Jungle, and Swamp), and Merchant units (Caravans and "
 "Freight) can only travel on roads, railways, rivers or ships."
 
-#: data/civ2civ3/terrain.ruleset:1252
+#: data/civ2civ3/terrain.ruleset:1253
 msgid "On some terrains, roads also provide a trade bonus."
 msgstr "On some terrains, roads also provide a trade bonus."
 
-#: data/civ2civ3/terrain.ruleset:1314
+#: data/civ2civ3/terrain.ruleset:1315
 #, no-c-format
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
@@ -23282,7 +23282,7 @@ msgstr ""
 "resources produced by that tile. It also increases a tile's defence factor "
 "by 25%."
 
-#: data/civ2civ3/terrain.ruleset:1318
+#: data/civ2civ3/terrain.ruleset:1319
 msgid ""
 "Land units may move along rivers for faster travel (but not diagonally), and "
 "Merchant units (Caravans and Freight) may require rivers to travel along in "
@@ -23294,7 +23294,7 @@ msgstr ""
 "the absence of roads. Triremes may also travel up rivers (although later "
 "boats cannot)."
 
-#: data/civ2civ3/terrain.ruleset:1323
+#: data/civ2civ3/terrain.ruleset:1324
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology. Fortresses and Airbases cannot be "
@@ -23304,7 +23304,7 @@ msgstr ""
 "learned Bridge Building technology. Fortresses and Airbases cannot be built "
 "on River tiles."
 
-#: data/civ2civ3/terrain.ruleset:1327
+#: data/civ2civ3/terrain.ruleset:1328
 msgid ""
 "Cities built on or next to rivers incur a small risk of flooding, which will "
 "destroy stored food."
@@ -28499,7 +28499,7 @@ msgid ""
 msgstr ""
 "This technology is only acquired the first time you build Darwin's Voyage."
 
-#: data/multiplayer/terrain.ruleset:1073
+#: data/multiplayer/terrain.ruleset:1074
 msgid "Buoys cannot be built in the multiplayer ruleset."
 msgstr "Buoys cannot be built in the multiplayer ruleset."
 

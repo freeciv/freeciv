@@ -28,8 +28,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2016-05-03 12:12+0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-14 11:27+0100\n"
 "PO-Revision-Date: 2016-05-10 17:11+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
@@ -806,10 +806,10 @@ msgid "City Name"
 msgstr "Kaupungin nimi"
 
 #: client/cityrepdata.c:641 client/gui-gtk-2.0/citizensinfo.c:65
-#: client/gui-gtk-2.0/editprop.c:3484 client/gui-gtk-2.0/editprop.c:4270
+#: client/gui-gtk-2.0/editprop.c:3485 client/gui-gtk-2.0/editprop.c:4271
 #: client/gui-gtk-2.0/gotodlg.c:213 client/gui-gtk-2.0/pages.c:1326
 #: client/gui-gtk-2.0/pages.c:2695 client/gui-gtk-3.0/citizensinfo.c:65
-#: client/gui-gtk-3.0/editprop.c:3515 client/gui-gtk-3.0/editprop.c:4300
+#: client/gui-gtk-3.0/editprop.c:3516 client/gui-gtk-3.0/editprop.c:4301
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1404
 #: client/gui-gtk-3.0/pages.c:2757 client/gui-qt/citydlg.cpp:1767
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
@@ -824,8 +824,8 @@ msgid "?size [short]:Sz"
 msgstr "Koko"
 
 #: client/cityrepdata.c:643 client/gui-gtk-2.0/editgui.c:1312
-#: client/gui-gtk-2.0/editprop.c:4253 client/gui-gtk-3.0/editgui.c:1362
-#: client/gui-gtk-3.0/editprop.c:4283
+#: client/gui-gtk-2.0/editprop.c:4254 client/gui-gtk-3.0/editgui.c:1362
+#: client/gui-gtk-3.0/editprop.c:4284
 msgid "Size"
 msgstr "Koko"
 
@@ -1572,8 +1572,8 @@ msgstr "Kohteeseen ei löytynyt käyttökelpoista reittiä!"
 msgid "Oh my! You seem to have no capital!"
 msgstr "Katsohan mokomaa, sinulla ei näköjään ole pääkaupunkia!"
 
-#: client/editor.c:167 client/gui-gtk-2.0/editprop.c:4156
-#: client/gui-gtk-2.0/menu.c:1404 client/gui-gtk-3.0/editprop.c:4187
+#: client/editor.c:167 client/gui-gtk-2.0/editprop.c:4157
+#: client/gui-gtk-2.0/menu.c:1404 client/gui-gtk-3.0/editprop.c:4188
 #: client/gui-gtk-3.0/menu.c:1392 client/gui-xaw/menu.c:150
 #: client/gui-xaw/menu.c:246 client/include/helpdlg_g.h:48
 #: data/helpdata.txt:289 tools/civmanual.c:306
@@ -1619,9 +1619,9 @@ msgstr ""
 "Valitse erityispiirre: vaihto+s tai hiiren oikea nappi."
 
 #: client/editor.c:179 common/terrain.c:1032 common/unit.c:786
-#: data/civ1/terrain.ruleset:870 data/civ2/terrain.ruleset:986
-#: data/classic/terrain.ruleset:1198 data/experimental/terrain.ruleset:1173
-#: data/civ2civ3/terrain.ruleset:1223 data/multiplayer/terrain.ruleset:1177
+#: data/civ1/terrain.ruleset:870 data/civ2/terrain.ruleset:987
+#: data/classic/terrain.ruleset:1199 data/experimental/terrain.ruleset:1174
+#: data/civ2civ3/terrain.ruleset:1224 data/multiplayer/terrain.ruleset:1178
 msgid "Road"
 msgstr "tie"
 
@@ -1680,8 +1680,8 @@ msgstr ""
 "Luo kaupunki.\n"
 "Pikanäppäin: c"
 
-#: client/editor.c:193 client/gui-gtk-2.0/editprop.c:4192
-#: client/gui-gtk-3.0/editprop.c:4222 client/plrdlg_common.c:316
+#: client/editor.c:193 client/gui-gtk-2.0/editprop.c:4193
+#: client/gui-gtk-3.0/editprop.c:4223 client/plrdlg_common.c:316
 msgid "Vision"
 msgstr "Näkymä"
 
@@ -1926,10 +1926,10 @@ msgstr "Keskustelutyökalut"
 msgid "#"
 msgstr "#"
 
-#: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3515
-#: client/gui-gtk-2.0/editprop.c:3527 client/gui-gtk-2.0/pages.c:2693
-#: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3546
-#: client/gui-gtk-3.0/editprop.c:3558 client/gui-gtk-3.0/pages.c:2755
+#: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3516
+#: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2693
+#: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
+#: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2755
 #: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:549
 #: client/plrdlg_common.c:306
 msgid "Flag"
@@ -2254,7 +2254,7 @@ msgstr "A_janmukaista yksikkö"
 #: client/gui-sdl/diplomat_dialog.c:1423 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1950 client/gui-xaw/diplomat_dialog.c:116
 #: client/gui-xaw/diplomat_dialog.c:662 client/gui-xaw/repodlgs.c:1010
-#: client/text.c:1347 common/unit.c:2223
+#: client/text.c:1347 common/unit.c:2219
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -3249,8 +3249,8 @@ msgstr "%d tunnettu"
 msgid "%d present"
 msgstr "%d ruudulla"
 
-#: client/gui-gtk-2.0/editprop.c:927 client/gui-gtk-2.0/editprop.c:3709
-#: client/gui-gtk-3.0/editprop.c:927 client/gui-gtk-3.0/editprop.c:3740
+#: client/gui-gtk-2.0/editprop.c:927 client/gui-gtk-2.0/editprop.c:3710
+#: client/gui-gtk-3.0/editprop.c:927 client/gui-gtk-3.0/editprop.c:3741
 #: client/gui-qt/dialogs.cpp:292 data/civ1/nations.ruleset:58
 #: data/civ2/nations.ruleset:60
 msgid "All nations"
@@ -3280,13 +3280,13 @@ msgstr "(ei koskaan)"
 msgid "(destroyed)"
 msgstr "(tuhoutunut)"
 
-#: client/gui-gtk-2.0/editprop.c:3377 client/gui-gtk-3.0/editprop.c:3402
+#: client/gui-gtk-2.0/editprop.c:3378 client/gui-gtk-3.0/editprop.c:3403
 #: client/gui-qt/cityrep.cpp:477 client/gui-qt/menu.cpp:454
 #: data/Freeciv.in:2046
 msgid "?verb:View"
 msgstr "Näytä"
 
-#: client/gui-gtk-2.0/editprop.c:3379 client/gui-gtk-3.0/editprop.c:3404
+#: client/gui-gtk-2.0/editprop.c:3380 client/gui-gtk-3.0/editprop.c:3405
 #: data/Freeciv.in:2013
 msgid "Edit"
 msgstr "Muuta"
@@ -3295,32 +3295,32 @@ msgstr "Muuta"
 #. TRANS: As in "this building is present".
 #. TRANS: As in "this tile special is present".
 #. TRANS: As in "this building is present".
-#: client/gui-gtk-2.0/editprop.c:3473 client/gui-gtk-2.0/editprop.c:3498
-#: client/gui-gtk-3.0/editprop.c:3504 client/gui-gtk-3.0/editprop.c:3529
+#: client/gui-gtk-2.0/editprop.c:3474 client/gui-gtk-2.0/editprop.c:3499
+#: client/gui-gtk-3.0/editprop.c:3505 client/gui-gtk-3.0/editprop.c:3530
 msgid "Present"
 msgstr "On"
 
-#: client/gui-gtk-2.0/editprop.c:3475 client/gui-gtk-2.0/editprop.c:3482
-#: client/gui-gtk-2.0/editprop.c:3500 client/gui-gtk-2.0/editprop.c:3513
-#: client/gui-gtk-2.0/editprop.c:3525 client/gui-gtk-2.0/editprop.c:3537
-#: client/gui-gtk-2.0/editprop.c:4221 client/gui-gtk-2.0/editprop.c:4249
-#: client/gui-gtk-3.0/editprop.c:3506 client/gui-gtk-3.0/editprop.c:3513
-#: client/gui-gtk-3.0/editprop.c:3531 client/gui-gtk-3.0/editprop.c:3544
-#: client/gui-gtk-3.0/editprop.c:3556 client/gui-gtk-3.0/editprop.c:3568
-#: client/gui-gtk-3.0/editprop.c:4251 client/gui-gtk-3.0/editprop.c:4279
+#: client/gui-gtk-2.0/editprop.c:3476 client/gui-gtk-2.0/editprop.c:3483
+#: client/gui-gtk-2.0/editprop.c:3501 client/gui-gtk-2.0/editprop.c:3514
+#: client/gui-gtk-2.0/editprop.c:3526 client/gui-gtk-2.0/editprop.c:3538
+#: client/gui-gtk-2.0/editprop.c:4222 client/gui-gtk-2.0/editprop.c:4250
+#: client/gui-gtk-3.0/editprop.c:3507 client/gui-gtk-3.0/editprop.c:3514
+#: client/gui-gtk-3.0/editprop.c:3532 client/gui-gtk-3.0/editprop.c:3545
+#: client/gui-gtk-3.0/editprop.c:3557 client/gui-gtk-3.0/editprop.c:3569
+#: client/gui-gtk-3.0/editprop.c:4252 client/gui-gtk-3.0/editprop.c:4280
 msgid "ID"
 msgstr "ID"
 
-#: client/gui-gtk-2.0/editprop.c:3477 client/gui-gtk-2.0/editprop.c:3486
-#: client/gui-gtk-2.0/editprop.c:3502 client/gui-gtk-2.0/editprop.c:3517
-#: client/gui-gtk-2.0/editprop.c:3529 client/gui-gtk-2.0/editprop.c:3539
-#: client/gui-gtk-2.0/editprop.c:4243 client/gui-gtk-2.0/editprop.c:4264
+#: client/gui-gtk-2.0/editprop.c:3478 client/gui-gtk-2.0/editprop.c:3487
+#: client/gui-gtk-2.0/editprop.c:3503 client/gui-gtk-2.0/editprop.c:3518
+#: client/gui-gtk-2.0/editprop.c:3530 client/gui-gtk-2.0/editprop.c:3540
+#: client/gui-gtk-2.0/editprop.c:4244 client/gui-gtk-2.0/editprop.c:4265
 #: client/gui-gtk-2.0/pages.c:1323 client/gui-gtk-2.0/pages.c:2683
-#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3508
-#: client/gui-gtk-3.0/editprop.c:3517 client/gui-gtk-3.0/editprop.c:3533
-#: client/gui-gtk-3.0/editprop.c:3548 client/gui-gtk-3.0/editprop.c:3560
-#: client/gui-gtk-3.0/editprop.c:3570 client/gui-gtk-3.0/editprop.c:4273
-#: client/gui-gtk-3.0/editprop.c:4294 client/gui-gtk-3.0/pages.c:1401
+#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3509
+#: client/gui-gtk-3.0/editprop.c:3518 client/gui-gtk-3.0/editprop.c:3534
+#: client/gui-gtk-3.0/editprop.c:3549 client/gui-gtk-3.0/editprop.c:3561
+#: client/gui-gtk-3.0/editprop.c:3571 client/gui-gtk-3.0/editprop.c:4274
+#: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1401
 #: client/gui-gtk-3.0/pages.c:2745 client/gui-gtk-3.0/wldlg.c:1001
 #: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:548 data/Freeciv.in:97
 #: tools/civmanual.c:424 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
@@ -3329,97 +3329,97 @@ msgid "Name"
 msgstr "Nimi"
 
 #. TRANS: As in "this invention is known".
-#: client/gui-gtk-2.0/editprop.c:3488 client/gui-gtk-2.0/editprop.c:3535
-#: client/gui-gtk-3.0/editprop.c:3519 client/gui-gtk-3.0/editprop.c:3566
+#: client/gui-gtk-2.0/editprop.c:3489 client/gui-gtk-2.0/editprop.c:3536
+#: client/gui-gtk-3.0/editprop.c:3520 client/gui-gtk-3.0/editprop.c:3567
 msgid "Known"
 msgstr "Tunnetaan"
 
 #. TRANS: As in "the turn when this building was built".
-#: client/gui-gtk-2.0/editprop.c:3505 client/gui-gtk-3.0/editprop.c:3536
+#: client/gui-gtk-2.0/editprop.c:3506 client/gui-gtk-3.0/editprop.c:3537
 msgid "Turn Built"
 msgstr "Vuoro, jona rakennettu"
 
 # *** The three first ones are states, this and a few next are imperative. ***
 #. TRANS: As in "the player has set this nation".
-#: client/gui-gtk-2.0/editprop.c:3511 client/gui-gtk-2.0/editprop.c:3523
-#: client/gui-gtk-3.0/editprop.c:3542 client/gui-gtk-3.0/editprop.c:3554
+#: client/gui-gtk-2.0/editprop.c:3512 client/gui-gtk-2.0/editprop.c:3524
+#: client/gui-gtk-3.0/editprop.c:3543 client/gui-gtk-3.0/editprop.c:3555
 msgid "Set"
 msgstr "Asetettu"
 
-#: client/gui-gtk-2.0/editprop.c:4154 client/gui-gtk-2.0/editprop.c:4201
-#: client/gui-gtk-2.0/editprop.c:4213 client/gui-gtk-2.0/editprop.c:4241
-#: client/gui-gtk-3.0/editprop.c:4185 client/gui-gtk-3.0/editprop.c:4231
-#: client/gui-gtk-3.0/editprop.c:4243 client/gui-gtk-3.0/editprop.c:4271
+#: client/gui-gtk-2.0/editprop.c:4155 client/gui-gtk-2.0/editprop.c:4202
+#: client/gui-gtk-2.0/editprop.c:4214 client/gui-gtk-2.0/editprop.c:4242
+#: client/gui-gtk-3.0/editprop.c:4186 client/gui-gtk-3.0/editprop.c:4232
+#: client/gui-gtk-3.0/editprop.c:4244 client/gui-gtk-3.0/editprop.c:4272
 msgid "Image"
 msgstr "Kuva"
 
-#: client/gui-gtk-2.0/editprop.c:4158 client/gui-gtk-3.0/editprop.c:4189
+#: client/gui-gtk-2.0/editprop.c:4159 client/gui-gtk-3.0/editprop.c:4190
 msgid "Resource"
 msgstr "Luonnonvara"
 
-#: client/gui-gtk-2.0/editprop.c:4160 client/gui-gtk-3.0/editprop.c:4191
+#: client/gui-gtk-2.0/editprop.c:4161 client/gui-gtk-3.0/editprop.c:4192
 msgid "Index"
 msgstr "Indeksi"
 
-#: client/gui-gtk-2.0/editprop.c:4162 client/gui-gtk-3.0/editprop.c:4193
+#: client/gui-gtk-2.0/editprop.c:4163 client/gui-gtk-3.0/editprop.c:4194
 msgid "?coordinate:X"
 msgstr "X"
 
-#: client/gui-gtk-2.0/editprop.c:4164 client/gui-gtk-3.0/editprop.c:4195
+#: client/gui-gtk-2.0/editprop.c:4165 client/gui-gtk-3.0/editprop.c:4196
 msgid "?coordinate:Y"
 msgstr "Y"
 
 #. TRANS: The coordinate X in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
-#: client/gui-gtk-2.0/editprop.c:4168 client/gui-gtk-3.0/editprop.c:4199
+#: client/gui-gtk-2.0/editprop.c:4169 client/gui-gtk-3.0/editprop.c:4200
 msgid "NAT X"
 msgstr "LAS X"
 
 #. TRANS: The coordinate Y in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
-#: client/gui-gtk-2.0/editprop.c:4172 client/gui-gtk-3.0/editprop.c:4203
+#: client/gui-gtk-2.0/editprop.c:4173 client/gui-gtk-3.0/editprop.c:4204
 msgid "NAT Y"
 msgstr "LAS Y"
 
-#: client/gui-gtk-2.0/editprop.c:4174 client/gui-gtk-3.0/editprop.c:4205
+#: client/gui-gtk-2.0/editprop.c:4175 client/gui-gtk-3.0/editprop.c:4206
 msgid "Continent"
 msgstr "Manner"
 
-#: client/gui-gtk-2.0/editprop.c:4176 client/gui-gtk-2.0/editprop.c:4203
-#: client/gui-gtk-2.0/editprop.c:4223 client/gui-gtk-2.0/editprop.c:4251
-#: client/gui-gtk-3.0/editprop.c:4207 client/gui-gtk-3.0/editprop.c:4233
-#: client/gui-gtk-3.0/editprop.c:4253 client/gui-gtk-3.0/editprop.c:4281
+#: client/gui-gtk-2.0/editprop.c:4177 client/gui-gtk-2.0/editprop.c:4204
+#: client/gui-gtk-2.0/editprop.c:4224 client/gui-gtk-2.0/editprop.c:4252
+#: client/gui-gtk-3.0/editprop.c:4208 client/gui-gtk-3.0/editprop.c:4234
+#: client/gui-gtk-3.0/editprop.c:4254 client/gui-gtk-3.0/editprop.c:4282
 msgid "?coordinates:X,Y"
 msgstr "X,Y"
 
-#: client/gui-gtk-2.0/editprop.c:4178 client/gui-gtk-3.0/editprop.c:4209
+#: client/gui-gtk-2.0/editprop.c:4179 client/gui-gtk-3.0/editprop.c:4210
 #: client/gui-xaw/menu.c:156
 msgid "Specials"
 msgstr "Erityispiirteet"
 
-#: client/gui-gtk-2.0/editprop.c:4180 client/gui-gtk-3.0/editprop.c:4211
+#: client/gui-gtk-2.0/editprop.c:4181 client/gui-gtk-3.0/editprop.c:4212
 #: client/include/helpdlg_g.h:47
 msgid "Roads"
 msgstr "tiet"
 
-#: client/gui-gtk-2.0/editprop.c:4182 client/gui-gtk-3.0/editprop.c:4213
+#: client/gui-gtk-2.0/editprop.c:4183 client/gui-gtk-3.0/editprop.c:4214
 #: client/gui-xaw/menu.c:155
 msgid "Bases"
 msgstr "Tukikohdat"
 
-#: client/gui-gtk-2.0/editprop.c:4185 client/gui-gtk-2.0/editprop.c:4216
-#: client/gui-gtk-2.0/editprop.c:4246 client/gui-gtk-2.0/editprop.c:4267
-#: client/gui-gtk-3.0/editprop.c:4216 client/gui-gtk-3.0/editprop.c:4246
-#: client/gui-gtk-3.0/editprop.c:4276 client/gui-gtk-3.0/editprop.c:4297
+#: client/gui-gtk-2.0/editprop.c:4186 client/gui-gtk-2.0/editprop.c:4217
+#: client/gui-gtk-2.0/editprop.c:4247 client/gui-gtk-2.0/editprop.c:4268
+#: client/gui-gtk-3.0/editprop.c:4217 client/gui-gtk-3.0/editprop.c:4247
+#: client/gui-gtk-3.0/editprop.c:4277 client/gui-gtk-3.0/editprop.c:4298
 msgid "Address"
 msgstr "Osoite"
 
 #. TRANS: Tile property "Label" label in editor
-#: client/gui-gtk-2.0/editprop.c:4196 client/gui-gtk-3.0/editprop.c:4226
+#: client/gui-gtk-2.0/editprop.c:4197 client/gui-gtk-3.0/editprop.c:4227
 msgid "?property:Label"
 msgstr "Merkki"
 
-#: client/gui-gtk-2.0/editprop.c:4205 client/gui-gtk-3.0/editprop.c:4235
+#: client/gui-gtk-2.0/editprop.c:4206 client/gui-gtk-3.0/editprop.c:4236
 msgid "Exclude Nations"
 msgstr "Vältä kansakuntia"
 
@@ -3427,111 +3427,112 @@ msgstr "Vältä kansakuntia"
 #. TRANS: Nations report action
 #. TRANS: Nations report title
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/editprop.c:4207 client/gui-gtk-2.0/plrdlg.c:411
-#: client/gui-gtk-3.0/editprop.c:4237 client/gui-gtk-3.0/plrdlg.c:418
+#: client/gui-gtk-2.0/editprop.c:4208 client/gui-gtk-2.0/plrdlg.c:411
+#: client/gui-gtk-3.0/editprop.c:4238 client/gui-gtk-3.0/plrdlg.c:418
 #: client/gui-sdl/mapctrl.c:1591 client/gui-sdl/plrdlg.c:617
 #: client/gui-xaw/menu.c:222 data/Freeciv.in:3240 data/Freeciv.in:3241
 msgid "Nations"
 msgstr "Kansakunnat"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:4219 client/gui-gtk-2.0/pages.c:1324
+#: client/gui-gtk-2.0/editprop.c:4220 client/gui-gtk-2.0/pages.c:1324
 #: client/gui-gtk-2.0/repodlgs.c:758 client/gui-gtk-2.0/wldlg.c:998
-#: client/gui-gtk-3.0/editprop.c:4249 client/gui-gtk-3.0/pages.c:1402
+#: client/gui-gtk-3.0/editprop.c:4250 client/gui-gtk-3.0/pages.c:1402
 #: client/gui-gtk-3.0/repodlgs.c:786 client/gui-gtk-3.0/wldlg.c:1001
 #: client/gui-qt/pages.cpp:283 client/gui-qt/repodlgs.cpp:1053
 msgid "Type"
 msgstr "Tyyppi"
 
-#: client/gui-gtk-2.0/editprop.c:4225 client/gui-gtk-3.0/editprop.c:4255
+#: client/gui-gtk-2.0/editprop.c:4226 client/gui-gtk-3.0/editprop.c:4256
 msgid "Moves Left"
 msgstr "Siirtoja jäljellä"
 
-#: client/gui-gtk-2.0/editprop.c:4227 client/gui-gtk-3.0/editprop.c:4257
+#: client/gui-gtk-2.0/editprop.c:4228 client/gui-gtk-3.0/editprop.c:4258
 msgid "Fuel"
 msgstr "Polttoainetta"
 
 # *** '(s/he/it) moves' ***
-#: client/gui-gtk-2.0/editprop.c:4229 client/gui-gtk-3.0/editprop.c:4259
+#: client/gui-gtk-2.0/editprop.c:4230 client/gui-gtk-3.0/editprop.c:4260
 msgid "Moved"
 msgstr "Liikkunut"
 
-#: client/gui-gtk-2.0/editprop.c:4231 client/gui-gtk-3.0/editprop.c:4261
+#: client/gui-gtk-2.0/editprop.c:4232 client/gui-gtk-3.0/editprop.c:4262
 msgid "Done Moving"
 msgstr "Liikkuminen valmis"
 
 #. TRANS: HP = Hit Points of a unit.
-#: client/gui-gtk-2.0/editprop.c:4234 client/gui-gtk-3.0/editprop.c:4264
+#: client/gui-gtk-2.0/editprop.c:4235 client/gui-gtk-3.0/editprop.c:4265
 msgid "HP"
 msgstr "VP"
 
-#: client/gui-gtk-2.0/editprop.c:4236 client/gui-gtk-3.0/editprop.c:4266
+#: client/gui-gtk-2.0/editprop.c:4237 client/gui-gtk-3.0/editprop.c:4267
 msgid "Veteran"
 msgstr "Konkari"
 
-#: client/gui-gtk-2.0/editprop.c:4255 client/gui-gtk-3.0/citydlg.c:1151
-#: client/gui-gtk-3.0/editprop.c:4285 client/gui-qt/cityrep.cpp:709
+#: client/gui-gtk-2.0/editprop.c:4256 client/gui-gtk-3.0/citydlg.c:1151
+#: client/gui-gtk-3.0/editprop.c:4286 client/gui-qt/cityrep.cpp:709
 msgid "Buildings"
 msgstr "Rakennukset"
 
-#: client/gui-gtk-2.0/editprop.c:4257 client/gui-gtk-3.0/editprop.c:4287
+#: client/gui-gtk-2.0/editprop.c:4258 client/gui-gtk-3.0/editprop.c:4288
 msgid "Food Stock"
 msgstr "Ruokavarasto"
 
-#: client/gui-gtk-2.0/editprop.c:4259 client/gui-gtk-3.0/editprop.c:4289
+#: client/gui-gtk-2.0/editprop.c:4260 client/gui-gtk-3.0/editprop.c:4290
 msgid "Shield Stock"
 msgstr "Tuotantovaranto"
 
-#: client/gui-gtk-2.0/editprop.c:4272 client/gui-gtk-3.0/editprop.c:4302
+#: client/gui-gtk-2.0/editprop.c:4273 client/gui-gtk-3.0/editprop.c:4303
 msgid "Inventions"
 msgstr "Keksinnöt"
 
-#: client/gui-gtk-2.0/editprop.c:4274 client/gui-gtk-2.0/gamedlgs.c:287
-#: client/gui-gtk-3.0/editprop.c:4304 client/gui-gtk-3.0/gamedlgs.c:297
+#: client/gui-gtk-2.0/editprop.c:4275 client/gui-gtk-2.0/gamedlgs.c:287
+#: client/gui-gtk-3.0/editprop.c:4305 client/gui-gtk-3.0/gamedlgs.c:297
 #: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:94
 #: common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "tiede"
 
-#: client/gui-gtk-2.0/editprop.c:4276 client/gui-gtk-2.0/repodlgs.c:1246
-#: client/gui-gtk-3.0/editprop.c:4306 client/gui-gtk-3.0/repodlgs.c:1281
+#: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
+#: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
 #: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:681
-#: common/city.c:86 data/civ1/terrain.ruleset:637 data/civ2/terrain.ruleset:631
-#: data/classic/terrain.ruleset:800 data/experimental/terrain.ruleset:776
-#: data/civ2civ3/terrain.ruleset:814 data/multiplayer/terrain.ruleset:774
+#: common/city.c:86 data/civ1/terrain.ruleset:637
+#: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
+#: data/experimental/terrain.ruleset:776 data/civ2civ3/terrain.ruleset:814
+#: data/multiplayer/terrain.ruleset:774
 msgid "Gold"
 msgstr "kultaa"
 
-#: client/gui-gtk-2.0/editprop.c:4281 client/gui-gtk-3.0/editprop.c:4311
+#: client/gui-gtk-2.0/editprop.c:4282 client/gui-gtk-3.0/editprop.c:4312
 msgid "Year"
 msgstr "Vuosi"
 
-#: client/gui-gtk-2.0/editprop.c:4283 client/gui-gtk-3.0/editprop.c:4313
+#: client/gui-gtk-2.0/editprop.c:4284 client/gui-gtk-3.0/editprop.c:4314
 #: tools/modinst.h:41
 msgid "Scenario"
 msgstr "Skenaario"
 
-#: client/gui-gtk-2.0/editprop.c:4285 client/gui-gtk-3.0/editprop.c:4315
+#: client/gui-gtk-2.0/editprop.c:4286 client/gui-gtk-3.0/editprop.c:4316
 msgid "Scenario Name"
 msgstr "Skenaarion nimi"
 
-#: client/gui-gtk-2.0/editprop.c:4287 client/gui-gtk-3.0/editprop.c:4317
+#: client/gui-gtk-2.0/editprop.c:4288 client/gui-gtk-3.0/editprop.c:4318
 msgid "Scenario Description"
 msgstr "Skenaarion kuvaus"
 
-#: client/gui-gtk-2.0/editprop.c:4290 client/gui-gtk-3.0/editprop.c:4320
+#: client/gui-gtk-2.0/editprop.c:4291 client/gui-gtk-3.0/editprop.c:4321
 msgid "Save Players"
 msgstr "Tallenna pelaajat"
 
-#: client/gui-gtk-2.0/editprop.c:4292 client/gui-gtk-3.0/editprop.c:4322
+#: client/gui-gtk-2.0/editprop.c:4293 client/gui-gtk-3.0/editprop.c:4323
 msgid "Nation Start Positions"
 msgstr "Aloituspaikat"
 
-#: client/gui-gtk-2.0/editprop.c:4569 client/gui-gtk-3.0/editprop.c:4619
+#: client/gui-gtk-2.0/editprop.c:4570 client/gui-gtk-3.0/editprop.c:4620
 msgid "Destroy"
 msgstr "Tuhoa"
 
-#: client/gui-gtk-2.0/editprop.c:4574 client/gui-gtk-3.0/editprop.c:4622
+#: client/gui-gtk-2.0/editprop.c:4575 client/gui-gtk-3.0/editprop.c:4623
 msgid ""
 "Pressing this button will send a request to the server to destroy (i.e. "
 "erase) the objects selected in the object list."
@@ -3539,11 +3540,11 @@ msgstr ""
 "Tämän napin painaminen lähettää palvelimelle pyynnön tuhota (l. poistaa) "
 "objektiliastalta valitut objektit."
 
-#: client/gui-gtk-2.0/editprop.c:4585 client/gui-gtk-3.0/editprop.c:4602
+#: client/gui-gtk-2.0/editprop.c:4586 client/gui-gtk-3.0/editprop.c:4603
 msgid "Create"
 msgstr "Luo"
 
-#: client/gui-gtk-2.0/editprop.c:4590 client/gui-gtk-3.0/editprop.c:4605
+#: client/gui-gtk-2.0/editprop.c:4591 client/gui-gtk-3.0/editprop.c:4606
 msgid ""
 "Pressing this button will create a new object of the same type as the "
 "current property page and add it to the page. The specific type and count of "
@@ -3558,16 +3559,16 @@ msgstr ""
 
 #. TRANS: %s is a type of object that can be edited, such as "Tile",
 #. * "Unit", "Start Position", etc.
-#: client/gui-gtk-2.0/editprop.c:4641 client/gui-gtk-3.0/editprop.c:4680
+#: client/gui-gtk-2.0/editprop.c:4642 client/gui-gtk-3.0/editprop.c:4681
 #, c-format
 msgid "%s Properties"
 msgstr "%s ominaisuudet"
 
-#: client/gui-gtk-2.0/editprop.c:4680 client/gui-gtk-3.0/editprop.c:4721
+#: client/gui-gtk-2.0/editprop.c:4681 client/gui-gtk-3.0/editprop.c:4722
 msgid "Filter:"
 msgstr "Suodata:"
 
-#: client/gui-gtk-2.0/editprop.c:4685 client/gui-gtk-3.0/editprop.c:4726
+#: client/gui-gtk-2.0/editprop.c:4686 client/gui-gtk-3.0/editprop.c:4727
 msgid ""
 "Enter a filter string to limit which properties are shown. The filter is one "
 "or more text patterns separated by | (\"or\") or & (\"and\"). The symbol & "
@@ -3579,7 +3580,7 @@ msgstr ""
 "Symbolilla & on korkeampi sitovuus kuin |:lla. Hakulausekkeen voi myös "
 "muuttaa käänteiseksi lisäämällä sen alkuun !."
 
-#: client/gui-gtk-2.0/editprop.c:4699 client/gui-gtk-3.0/editprop.c:4751
+#: client/gui-gtk-2.0/editprop.c:4700 client/gui-gtk-3.0/editprop.c:4752
 msgid ""
 "Pressing this button will send all modified properties of the objects "
 "selected in the object list to the server. Modified properties' names are "
@@ -3589,7 +3590,7 @@ msgstr ""
 "muokatut ominaisuudet palvelimelle. Muokattujen ominaisuuksien nimet näkyvät "
 "punaisina ominaisuusnäkymässä."
 
-#: client/gui-gtk-2.0/editprop.c:4710 client/gui-gtk-3.0/editprop.c:4741
+#: client/gui-gtk-2.0/editprop.c:4711 client/gui-gtk-3.0/editprop.c:4742
 msgid ""
 "Pressing this button will reset all modified properties of the selected "
 "objects to their current values (the values they have on the server)."
@@ -3597,22 +3598,22 @@ msgstr ""
 "Tämän napin painaminen palauttaa kaikki valittujen objektien muokatut "
 "ominaisuudet nykyisiin, palvelimelle tallennettuihin arvoihinsa."
 
-#: client/gui-gtk-2.0/editprop.c:5865 client/gui-gtk-3.0/editprop.c:5912
+#: client/gui-gtk-2.0/editprop.c:5867 client/gui-gtk-3.0/editprop.c:5914
 msgid "Property Editor"
 msgstr "Ominaisuuksien muokkaus"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
-#: client/gui-gtk-2.0/editprop.c:6243 client/gui-gtk-3.0/editprop.c:6290
+#: client/gui-gtk-2.0/editprop.c:6245 client/gui-gtk-3.0/editprop.c:6292
 msgid "Seen (Main)"
 msgstr "Nähty (Pää)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
-#: client/gui-gtk-2.0/editprop.c:6246 client/gui-gtk-3.0/editprop.c:6293
+#: client/gui-gtk-2.0/editprop.c:6248 client/gui-gtk-3.0/editprop.c:6295
 msgid "Seen (Invis)"
 msgstr "Nähty (Näkymätön)"
 
-#: client/gui-gtk-2.0/editprop.c:6252 client/gui-gtk-2.0/pages.c:667
-#: client/gui-gtk-3.0/editprop.c:6299 client/gui-gtk-3.0/pages.c:736
+#: client/gui-gtk-2.0/editprop.c:6254 client/gui-gtk-2.0/pages.c:667
+#: client/gui-gtk-3.0/editprop.c:6301 client/gui-gtk-3.0/pages.c:736
 #: client/gui-qt/pages.cpp:760 client/gui-sdl/citydlg.c:1987
 #: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:800
 msgid "Unknown"
@@ -4309,12 +4310,14 @@ msgstr "_Tilastotietoa"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1400 client/gui-gtk-3.0/menu.c:1388
-#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30 data/helpdata.txt:43
+#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30
+#: data/helpdata.txt:43
 msgid "?help:Overview"
 msgstr "Yhteenveto"
 
 #: client/gui-gtk-2.0/menu.c:1402 client/gui-gtk-3.0/menu.c:1390
-#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31 data/helpdata.txt:82
+#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31
+#: data/helpdata.txt:82
 msgid "Strategy and Tactics"
 msgstr "Strategia ja taktiikka"
 
@@ -15005,16 +15008,16 @@ msgid "Base"
 msgstr "Tukikohta"
 
 # *** '(s/he/it) moves' ***
-#: common/unit.c:1521 common/unit.c:1526
+#: common/unit.c:1517 common/unit.c:1522
 msgid "Moves"
 msgstr "Liikkuu"
 
-#: common/unit.c:1633
+#: common/unit.c:1629
 msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2233
+#: common/unit.c:2229
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -15029,13 +15032,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:2242
+#: common/unit.c:2238
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2248
+#: common/unit.c:2244
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -15050,24 +15053,24 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:2258
+#: common/unit.c:2254
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2262
+#: common/unit.c:2258
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2267
+#: common/unit.c:2263
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei tulisi toimeen tällaisessa maastossa."
 
-#: common/unit.c:2274
+#: common/unit.c:2270
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
@@ -15936,9 +15939,10 @@ msgstr ""
 #: data/civ1/buildings.ruleset:658 data/civ1/techs.ruleset:591
 #: data/civ2/buildings.ruleset:942 data/civ2/techs.ruleset:756
 #: data/classic/buildings.ruleset:1016 data/classic/techs.ruleset:765
-#: data/experimental/buildings.ruleset:1070 data/experimental/techs.ruleset:846
-#: data/civ2civ3/buildings.ruleset:1150 data/civ2civ3/techs.ruleset:871
-#: data/multiplayer/buildings.ruleset:994 data/multiplayer/techs.ruleset:770
+#: data/experimental/buildings.ruleset:1070
+#: data/experimental/techs.ruleset:846 data/civ2civ3/buildings.ruleset:1150
+#: data/civ2civ3/techs.ruleset:871 data/multiplayer/buildings.ruleset:994
+#: data/multiplayer/techs.ruleset:770
 msgid "University"
 msgstr "Yliopisto"
 
@@ -15950,8 +15954,10 @@ msgid ""
 msgstr "Yhdessä Kirjaston kanssa lisää tutkimuspanosta kaupungissa 100%."
 
 #: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:964
-#: data/classic/buildings.ruleset:1038 data/experimental/buildings.ruleset:1092
-#: data/civ2civ3/buildings.ruleset:1178 data/multiplayer/buildings.ruleset:1016
+#: data/classic/buildings.ruleset:1038
+#: data/experimental/buildings.ruleset:1092
+#: data/civ2civ3/buildings.ruleset:1178
+#: data/multiplayer/buildings.ruleset:1016
 msgid "Apollo Program"
 msgstr "Apollo-ohjelma"
 
@@ -15968,14 +15974,18 @@ msgstr ""
 "teknologiatasonsa riittää siihen)."
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1007
-#: data/classic/buildings.ruleset:1081 data/experimental/buildings.ruleset:1135
-#: data/civ2civ3/buildings.ruleset:1232 data/multiplayer/buildings.ruleset:1057
+#: data/classic/buildings.ruleset:1081
+#: data/experimental/buildings.ruleset:1135
+#: data/civ2civ3/buildings.ruleset:1232
+#: data/multiplayer/buildings.ruleset:1057
 msgid "Colossus"
 msgstr "Kolossipatsas"
 
 #: data/civ1/buildings.ruleset:715 data/civ2/buildings.ruleset:1021
-#: data/classic/buildings.ruleset:1095 data/experimental/buildings.ruleset:1149
-#: data/civ2civ3/buildings.ruleset:1246 data/multiplayer/buildings.ruleset:1071
+#: data/classic/buildings.ruleset:1095
+#: data/experimental/buildings.ruleset:1149
+#: data/civ2civ3/buildings.ruleset:1246
+#: data/multiplayer/buildings.ruleset:1071
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -15984,8 +15994,10 @@ msgstr ""
 "tuottavat yhden yksikön enemmän kauppaa."
 
 #: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:1027
-#: data/classic/buildings.ruleset:1101 data/experimental/buildings.ruleset:1155
-#: data/civ2civ3/buildings.ruleset:1252 data/multiplayer/buildings.ruleset:1077
+#: data/classic/buildings.ruleset:1101
+#: data/experimental/buildings.ruleset:1155
+#: data/civ2civ3/buildings.ruleset:1252
+#: data/multiplayer/buildings.ruleset:1077
 msgid "Copernicus' Observatory"
 msgstr "Kopernikuksen observatorio"
 
@@ -15995,8 +16007,10 @@ msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Lisää tutkimuspanosta kaupungissaan 50%."
 
 #: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1047
-#: data/classic/buildings.ruleset:1121 data/experimental/buildings.ruleset:1175
-#: data/civ2civ3/buildings.ruleset:1272 data/multiplayer/buildings.ruleset:1097
+#: data/classic/buildings.ruleset:1121
+#: data/experimental/buildings.ruleset:1175
+#: data/civ2civ3/buildings.ruleset:1272
+#: data/multiplayer/buildings.ruleset:1097
 msgid "Cure For Cancer"
 msgstr "Syövän parannus"
 
@@ -16010,13 +16024,16 @@ msgstr ""
 "tyytymättömyys johtuu sotatoimista."
 
 #: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1068
-#: data/classic/buildings.ruleset:1145 data/experimental/buildings.ruleset:1199
-#: data/civ2civ3/buildings.ruleset:1296 data/multiplayer/buildings.ruleset:1121
+#: data/classic/buildings.ruleset:1145
+#: data/experimental/buildings.ruleset:1199
+#: data/civ2civ3/buildings.ruleset:1296
+#: data/multiplayer/buildings.ruleset:1121
 msgid "Darwin's Voyage"
 msgstr "Darwinin tutkimusretket"
 
 #: data/civ1/buildings.ruleset:776 data/civ2/buildings.ruleset:1082
-#: data/classic/buildings.ruleset:1159 data/experimental/buildings.ruleset:1213
+#: data/classic/buildings.ruleset:1159
+#: data/experimental/buildings.ruleset:1213
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -16026,13 +16043,16 @@ msgstr ""
 "mahtiin. Antaa kaksi teknologista edistysaskelta välittömästi."
 
 #: data/civ1/buildings.ruleset:783 data/civ2/buildings.ruleset:1110
-#: data/classic/buildings.ruleset:1187 data/experimental/buildings.ruleset:1241
-#: data/civ2civ3/buildings.ruleset:1342 data/multiplayer/buildings.ruleset:1162
+#: data/classic/buildings.ruleset:1187
+#: data/experimental/buildings.ruleset:1241
+#: data/civ2civ3/buildings.ruleset:1342
+#: data/multiplayer/buildings.ruleset:1162
 msgid "Great Library"
 msgstr "Suuri kirjasto"
 
 #: data/civ1/buildings.ruleset:797 data/civ2/buildings.ruleset:1124
-#: data/classic/buildings.ruleset:1201 data/experimental/buildings.ruleset:1255
+#: data/classic/buildings.ruleset:1201
+#: data/experimental/buildings.ruleset:1255
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -16042,19 +16062,24 @@ msgstr ""
 "saavuttanut."
 
 #: data/civ1/buildings.ruleset:803 data/civ2/buildings.ruleset:1130
-#: data/classic/buildings.ruleset:1207 data/experimental/buildings.ruleset:1261
-#: data/civ2civ3/buildings.ruleset:1366 data/multiplayer/buildings.ruleset:1182
+#: data/classic/buildings.ruleset:1207
+#: data/experimental/buildings.ruleset:1261
+#: data/civ2civ3/buildings.ruleset:1366
+#: data/multiplayer/buildings.ruleset:1182
 msgid "Great Wall"
 msgstr "Suuri muuri"
 
 #: data/civ1/buildings.ruleset:817 data/civ2/buildings.ruleset:1144
-#: data/classic/buildings.ruleset:1221 data/experimental/buildings.ruleset:1275
+#: data/classic/buildings.ruleset:1221
+#: data/experimental/buildings.ruleset:1275
 msgid "Works as a City Wall in all your cities."
 msgstr "Vaikuttaa ikään kuin kaikissa kaupungeissasi olisi kaupunginmuuri."
 
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:1151
-#: data/classic/buildings.ruleset:1229 data/experimental/buildings.ruleset:1283
-#: data/civ2civ3/buildings.ruleset:1389 data/multiplayer/buildings.ruleset:1201
+#: data/classic/buildings.ruleset:1229
+#: data/experimental/buildings.ruleset:1283
+#: data/civ2civ3/buildings.ruleset:1389
+#: data/multiplayer/buildings.ruleset:1201
 msgid "Hanging Gardens"
 msgstr "Riippuvat puutarhat"
 
@@ -16072,8 +16097,10 @@ msgstr ""
 "koskee myös sotatoimista johtuvaa tyytymättömyyttä.)"
 
 #: data/civ1/buildings.ruleset:846 data/civ2/buildings.ruleset:1175
-#: data/classic/buildings.ruleset:1253 data/experimental/buildings.ruleset:1307
-#: data/civ2civ3/buildings.ruleset:1411 data/multiplayer/buildings.ruleset:1224
+#: data/classic/buildings.ruleset:1253
+#: data/experimental/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1411
+#: data/multiplayer/buildings.ruleset:1224
 msgid "Hoover Dam"
 msgstr "Hooverin pato"
 
@@ -16088,21 +16115,26 @@ msgstr ""
 "teollisuuskompleksien tuotantoa)."
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:1195
-#: data/classic/buildings.ruleset:1274 data/experimental/buildings.ruleset:1328
-#: data/civ2civ3/buildings.ruleset:1435 data/multiplayer/buildings.ruleset:1246
+#: data/classic/buildings.ruleset:1274
+#: data/experimental/buildings.ruleset:1328
+#: data/civ2civ3/buildings.ruleset:1435
+#: data/multiplayer/buildings.ruleset:1246
 msgid "Isaac Newton's College"
 msgstr "Isaac Newtonin akatemia"
 
 #: data/civ1/buildings.ruleset:883 data/civ2/buildings.ruleset:1210
-#: data/classic/buildings.ruleset:1116 data/experimental/buildings.ruleset:1170
+#: data/classic/buildings.ruleset:1116
+#: data/experimental/buildings.ruleset:1170
 #: data/multiplayer/buildings.ruleset:1092
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Lisää tutkimuspanosta kaupungissaan 100%."
 
 #: data/civ1/buildings.ruleset:888 data/civ2/buildings.ruleset:1215
-#: data/classic/buildings.ruleset:1295 data/experimental/buildings.ruleset:1349
-#: data/civ2civ3/buildings.ruleset:1459 data/multiplayer/buildings.ruleset:1267
+#: data/classic/buildings.ruleset:1295
+#: data/experimental/buildings.ruleset:1349
+#: data/civ2civ3/buildings.ruleset:1459
+#: data/multiplayer/buildings.ruleset:1267
 msgid "J.S. Bach's Cathedral"
 msgstr "J.S. Bachin katedraali"
 
@@ -16117,8 +16149,10 @@ msgstr ""
 "koskee myös asukkaita, joiden tyytymättömyys johtuu sotilastoimista."
 
 #: data/civ1/buildings.ruleset:909 data/civ2/buildings.ruleset:1274
-#: data/classic/buildings.ruleset:1354 data/experimental/buildings.ruleset:1408
-#: data/civ2civ3/buildings.ruleset:1522 data/multiplayer/buildings.ruleset:1326
+#: data/classic/buildings.ruleset:1354
+#: data/experimental/buildings.ruleset:1408
+#: data/civ2civ3/buildings.ruleset:1522
+#: data/multiplayer/buildings.ruleset:1326
 msgid "Lighthouse"
 msgstr "Majakka"
 
@@ -16127,8 +16161,10 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Antaa kaikille merivoimien yksiköille yhden ylimääräisen liikepisteen."
 
 #: data/civ1/buildings.ruleset:928 data/civ2/buildings.ruleset:1294
-#: data/classic/buildings.ruleset:1375 data/experimental/buildings.ruleset:1429
-#: data/civ2civ3/buildings.ruleset:1544 data/multiplayer/buildings.ruleset:1346
+#: data/classic/buildings.ruleset:1375
+#: data/experimental/buildings.ruleset:1429
+#: data/civ2civ3/buildings.ruleset:1544
+#: data/multiplayer/buildings.ruleset:1346
 msgid "Magellan's Expedition"
 msgstr "Magalhaesin tutkimusmatka"
 
@@ -16137,14 +16173,18 @@ msgid "Gives all sea units 1 additional movement point."
 msgstr "Antaa kaikille merivoimien yksiköille yhden ylimääräisen liikepisteen."
 
 #: data/civ1/buildings.ruleset:947 data/civ2/buildings.ruleset:1313
-#: data/classic/buildings.ruleset:1395 data/experimental/buildings.ruleset:1449
-#: data/civ2civ3/buildings.ruleset:1566 data/multiplayer/buildings.ruleset:1368
+#: data/classic/buildings.ruleset:1395
+#: data/experimental/buildings.ruleset:1449
+#: data/civ2civ3/buildings.ruleset:1566
+#: data/multiplayer/buildings.ruleset:1368
 msgid "Manhattan Project"
 msgstr "Manhattan-projekti"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1350
-#: data/classic/buildings.ruleset:1432 data/experimental/buildings.ruleset:1486
-#: data/civ2civ3/buildings.ruleset:1606 data/multiplayer/buildings.ruleset:1407
+#: data/classic/buildings.ruleset:1432
+#: data/experimental/buildings.ruleset:1486
+#: data/civ2civ3/buildings.ruleset:1606
+#: data/multiplayer/buildings.ruleset:1407
 msgid "Michelangelo's Chapel"
 msgstr "Sikstiiniläiskappeli"
 
@@ -16153,7 +16193,8 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Kaksinkertaistaa tuomiokirkkojen vaikutuksen kaikissa kaupungeissa."
 
 #: data/civ1/buildings.ruleset:984 data/civ2/buildings.ruleset:1375
-#: data/classic/buildings.ruleset:1457 data/experimental/buildings.ruleset:1511
+#: data/classic/buildings.ruleset:1457
+#: data/experimental/buildings.ruleset:1511
 #: data/multiplayer/buildings.ruleset:1432
 msgid "Oracle"
 msgstr "Oraakkeli"
@@ -16167,8 +16208,10 @@ msgstr ""
 "ulotu sotatoimista aiheutuvaan tyytymättömyyteen."
 
 #: data/civ1/buildings.ruleset:1004 data/civ2/buildings.ruleset:1395
-#: data/classic/buildings.ruleset:1478 data/experimental/buildings.ruleset:1532
-#: data/civ2civ3/buildings.ruleset:1693 data/multiplayer/buildings.ruleset:1453
+#: data/classic/buildings.ruleset:1478
+#: data/experimental/buildings.ruleset:1532
+#: data/civ2civ3/buildings.ruleset:1693
+#: data/multiplayer/buildings.ruleset:1453
 msgid "Pyramids"
 msgstr "Pyramidi"
 
@@ -16185,7 +16228,8 @@ msgstr ""
 "ja vaihtaa niiden kesken ilman välikauden anarkiaa."
 
 #: data/civ1/buildings.ruleset:1025 data/civ2/buildings.ruleset:1414
-#: data/classic/buildings.ruleset:1500 data/experimental/buildings.ruleset:1554
+#: data/classic/buildings.ruleset:1500
+#: data/experimental/buildings.ruleset:1554
 msgid "SETI Program"
 msgstr "SETI-ohjelma"
 
@@ -16195,13 +16239,16 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Lisää tutkimuspanosta kaikissa kaupungeissa 50%."
 
 #: data/civ1/buildings.ruleset:1045 data/civ2/buildings.ruleset:1435
-#: data/classic/buildings.ruleset:1520 data/experimental/buildings.ruleset:1574
-#: data/civ2civ3/buildings.ruleset:1741 data/multiplayer/buildings.ruleset:1495
+#: data/classic/buildings.ruleset:1520
+#: data/experimental/buildings.ruleset:1574
+#: data/civ2civ3/buildings.ruleset:1741
+#: data/multiplayer/buildings.ruleset:1495
 msgid "Shakespeare's Theater"
 msgstr "Shakespearen teatteri"
 
 #: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1450
-#: data/classic/buildings.ruleset:1535 data/experimental/buildings.ruleset:1589
+#: data/classic/buildings.ruleset:1535
+#: data/experimental/buildings.ruleset:1589
 #: data/multiplayer/buildings.ruleset:1510
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -16211,14 +16258,18 @@ msgstr ""
 "mukaanlukien sotatoimien takia tyytymättömät asukkaat."
 
 #: data/civ1/buildings.ruleset:1066 data/civ2/buildings.ruleset:1499
-#: data/classic/buildings.ruleset:1584 data/experimental/buildings.ruleset:1638
-#: data/civ2civ3/buildings.ruleset:1809 data/multiplayer/buildings.ruleset:1558
+#: data/classic/buildings.ruleset:1584
+#: data/experimental/buildings.ruleset:1638
+#: data/civ2civ3/buildings.ruleset:1809
+#: data/multiplayer/buildings.ruleset:1558
 msgid "United Nations"
 msgstr "Yhdistyneet Kansakunnat"
 
 #: data/civ1/buildings.ruleset:1092 data/civ2/buildings.ruleset:1526
-#: data/classic/buildings.ruleset:1611 data/experimental/buildings.ruleset:1665
-#: data/civ2civ3/buildings.ruleset:1837 data/multiplayer/buildings.ruleset:1579
+#: data/classic/buildings.ruleset:1611
+#: data/experimental/buildings.ruleset:1665
+#: data/civ2civ3/buildings.ruleset:1837
+#: data/multiplayer/buildings.ruleset:1579
 msgid "Women's Suffrage"
 msgstr "Naisasialiike"
 
@@ -16405,13 +16456,16 @@ msgid "Team 3"
 msgstr "Joukkue 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
+#: data/classic/governments.ruleset:59
+#: data/experimental/governments.ruleset:61
+#: data/civ2civ3/governments.ruleset:59
+#: data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Anarkia"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64
+#: data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:95
 #: data/multiplayer/governments.ruleset:64
 #, c-format
@@ -16419,7 +16473,8 @@ msgid "Warlord %s"
 msgstr "Sotapäällikkö %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
+#: data/classic/governments.ruleset:65
+#: data/experimental/governments.ruleset:67
 #: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:96
 #: data/multiplayer/governments.ruleset:65
 #, c-format
@@ -16427,8 +16482,10 @@ msgid "Warlady %s"
 msgstr "Sotapäällikkö %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
+#: data/classic/governments.ruleset:67
+#: data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67
+#: data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -16450,14 +16507,16 @@ msgstr ""
 "tyytymättömyys on yleisempää."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
+#: data/classic/governments.ruleset:80
+#: data/experimental/governments.ruleset:84
 #: data/civ2civ3/governments.ruleset:124
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Yksinvalta"
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
+#: data/classic/governments.ruleset:86
+#: data/experimental/governments.ruleset:90
 #: data/civ2civ3/governments.ruleset:129
 #: data/multiplayer/governments.ruleset:86
 #, c-format
@@ -16465,7 +16524,8 @@ msgid "Chief %s"
 msgstr "Päällikkö %s"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
+#: data/classic/governments.ruleset:87
+#: data/experimental/governments.ruleset:91
 #: data/civ2civ3/governments.ruleset:130
 #: data/multiplayer/governments.ruleset:87
 #, c-format
@@ -16473,7 +16533,8 @@ msgid "?female:Chief %s"
 msgstr "Päällikkö %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
+#: data/classic/governments.ruleset:89
+#: data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:132
 #: data/multiplayer/governments.ruleset:89
 msgid ""
@@ -18032,9 +18093,9 @@ msgstr "luonnonvaroja"
 msgid "Seals"
 msgstr "hylkeitä"
 
-#: data/civ1/terrain.ruleset:769 data/civ2/terrain.ruleset:861
-#: data/classic/terrain.ruleset:1030 data/experimental/terrain.ruleset:1006
-#: data/civ2civ3/terrain.ruleset:1044 data/multiplayer/terrain.ruleset:1004
+#: data/civ1/terrain.ruleset:769 data/civ2/terrain.ruleset:862
+#: data/classic/terrain.ruleset:1031 data/experimental/terrain.ruleset:1007
+#: data/civ2civ3/terrain.ruleset:1045 data/multiplayer/terrain.ruleset:1005
 msgid "Fortress"
 msgstr "linnoitus"
 
@@ -18042,8 +18103,8 @@ msgstr "linnoitus"
 msgid "Fortresses improve defense for land units."
 msgstr "Linnoitukset kohentavat maavoimien yksiköiden puolustuskykyä."
 
-#: data/civ1/terrain.ruleset:892 data/civ2/terrain.ruleset:1008
-#: data/classic/terrain.ruleset:1220 data/multiplayer/terrain.ruleset:1199
+#: data/civ1/terrain.ruleset:892 data/civ2/terrain.ruleset:1009
+#: data/classic/terrain.ruleset:1221 data/multiplayer/terrain.ruleset:1200
 msgid ""
 "Roads allow your land units to move more quickly, and on some terrain, also "
 "provide a trade bonus."
@@ -18051,7 +18112,7 @@ msgstr ""
 "Tiet mahdollistavat maayksiköille nopeamman etenemisen ja joillakin "
 "maastotyypeillä ne myös antavat kauppabonuksen."
 
-#: data/civ1/terrain.ruleset:895 data/civ2/terrain.ruleset:1011
+#: data/civ1/terrain.ruleset:895 data/civ2/terrain.ruleset:1012
 msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads, and are an exception to this "
@@ -18061,14 +18122,14 @@ msgstr ""
 "Kaupungin keskusruudut saavat aina tiet automaattisesti, jopa silloin kun "
 "sillanrakennusta ei tunneta."
 
-#: data/civ1/terrain.ruleset:902 data/civ2/terrain.ruleset:1018
-#: data/classic/terrain.ruleset:1230 data/experimental/terrain.ruleset:1207
-#: data/civ2civ3/terrain.ruleset:1261 data/multiplayer/terrain.ruleset:1209
+#: data/civ1/terrain.ruleset:902 data/civ2/terrain.ruleset:1019
+#: data/classic/terrain.ruleset:1231 data/experimental/terrain.ruleset:1208
+#: data/civ2civ3/terrain.ruleset:1262 data/multiplayer/terrain.ruleset:1210
 msgid "Railroad"
 msgstr "rautatie"
 
-#: data/civ1/terrain.ruleset:925 data/civ2/terrain.ruleset:1041
-#: data/classic/terrain.ruleset:1253 data/multiplayer/terrain.ruleset:1232
+#: data/civ1/terrain.ruleset:925 data/civ2/terrain.ruleset:1042
+#: data/classic/terrain.ruleset:1254 data/multiplayer/terrain.ruleset:1233
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units expend no movement points when moving along a railroad; you "
@@ -18088,9 +18149,9 @@ msgstr ""
 "rautatie tavallisen tien päälle, myös tien mahdollisesti tarjoamat "
 "kauppabonukset säilyvät."
 
-#: data/civ1/terrain.ruleset:933 data/civ2/terrain.ruleset:1049
-#: data/classic/terrain.ruleset:1261 data/experimental/terrain.ruleset:1239
-#: data/civ2civ3/terrain.ruleset:1293 data/multiplayer/terrain.ruleset:1240
+#: data/civ1/terrain.ruleset:933 data/civ2/terrain.ruleset:1050
+#: data/classic/terrain.ruleset:1262 data/experimental/terrain.ruleset:1240
+#: data/civ2civ3/terrain.ruleset:1294 data/multiplayer/terrain.ruleset:1241
 msgid ""
 "City center tiles with roads are automatically upgraded to railroads when "
 "you learn the Railroad technology."
@@ -18098,9 +18159,9 @@ msgstr ""
 "Kaupunkien keskusruudut, joissa on jo tie, saavat rautatiet automaattisesti "
 "kun rautatieteknologia opitaan."
 
-#: data/civ1/terrain.ruleset:939 data/civ2/terrain.ruleset:1055
-#: data/classic/terrain.ruleset:1267 data/experimental/terrain.ruleset:1281
-#: data/civ2civ3/terrain.ruleset:1299 data/multiplayer/terrain.ruleset:1246
+#: data/civ1/terrain.ruleset:939 data/civ2/terrain.ruleset:1056
+#: data/classic/terrain.ruleset:1268 data/experimental/terrain.ruleset:1282
+#: data/civ2civ3/terrain.ruleset:1300 data/multiplayer/terrain.ruleset:1247
 msgid "River"
 msgstr "joki"
 
@@ -18108,8 +18169,8 @@ msgstr "joki"
 msgid "Any land terrain type may have a River on it."
 msgstr "Jokia voi esiintyä millä hyvänsä maaruudulla."
 
-#: data/civ1/terrain.ruleset:954 data/civ2/terrain.ruleset:1074
-#: data/classic/terrain.ruleset:1294 data/multiplayer/terrain.ruleset:1265
+#: data/civ1/terrain.ruleset:954 data/civ2/terrain.ruleset:1075
+#: data/classic/terrain.ruleset:1295 data/multiplayer/terrain.ruleset:1266
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology."
@@ -19296,8 +19357,8 @@ msgstr ""
 "aurinkovoimala yhdessä lisäävät tuotantoa 150%."
 
 #: data/civ2/buildings.ruleset:853 data/classic/buildings.ruleset:925
-#: data/experimental/buildings.ruleset:974 data/civ2civ3/buildings.ruleset:1054
-#: data/multiplayer/buildings.ruleset:905
+#: data/experimental/buildings.ruleset:974
+#: data/civ2civ3/buildings.ruleset:1054 data/multiplayer/buildings.ruleset:905
 msgid "Stock Exchange"
 msgstr "Pörssi"
 
@@ -19315,8 +19376,8 @@ msgstr ""
 "kaupungissa 150%."
 
 #: data/civ2/buildings.ruleset:877 data/classic/buildings.ruleset:949
-#: data/experimental/buildings.ruleset:998 data/civ2civ3/buildings.ruleset:1078
-#: data/multiplayer/buildings.ruleset:929
+#: data/experimental/buildings.ruleset:998
+#: data/civ2civ3/buildings.ruleset:1078 data/multiplayer/buildings.ruleset:929
 msgid "Super Highways"
 msgstr "Moottoritie"
 
@@ -19362,7 +19423,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:987 data/classic/buildings.ruleset:1061
 #: data/experimental/buildings.ruleset:1115
-#: data/civ2civ3/buildings.ruleset:1206 data/multiplayer/buildings.ruleset:1037
+#: data/civ2civ3/buildings.ruleset:1206
+#: data/multiplayer/buildings.ruleset:1037
 msgid "A.Smith's Trading Co."
 msgstr "A. Smithin kauppakomppania"
 
@@ -19377,7 +19439,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1089 data/classic/buildings.ruleset:1166
 #: data/experimental/buildings.ruleset:1220
-#: data/civ2civ3/buildings.ruleset:1320 data/multiplayer/buildings.ruleset:1141
+#: data/civ2civ3/buildings.ruleset:1320
+#: data/multiplayer/buildings.ruleset:1141
 msgid "Eiffel Tower"
 msgstr "Eiffel-torni"
 
@@ -19426,7 +19489,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1235 data/classic/buildings.ruleset:1315
 #: data/experimental/buildings.ruleset:1369
-#: data/civ2civ3/buildings.ruleset:1479 data/multiplayer/buildings.ruleset:1287
+#: data/civ2civ3/buildings.ruleset:1479
+#: data/multiplayer/buildings.ruleset:1287
 msgid "King Richard's Crusade"
 msgstr "Ristiretki"
 
@@ -19442,7 +19506,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1255 data/classic/buildings.ruleset:1335
 #: data/experimental/buildings.ruleset:1389
-#: data/civ2civ3/buildings.ruleset:1503 data/multiplayer/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1503
+#: data/multiplayer/buildings.ruleset:1307
 msgid "Leonardo's Workshop"
 msgstr "Leonardon työpaja"
 
@@ -19467,7 +19532,8 @@ msgstr "Kaikki merivoimien yksiköt saavat 2 ylimääräistä liikepistettä."
 
 #: data/civ2/buildings.ruleset:1331 data/classic/buildings.ruleset:1413
 #: data/experimental/buildings.ruleset:1467
-#: data/civ2civ3/buildings.ruleset:1584 data/multiplayer/buildings.ruleset:1386
+#: data/civ2civ3/buildings.ruleset:1584
+#: data/multiplayer/buildings.ruleset:1386
 msgid "Marco Polo's Embassy"
 msgstr "Marco Polon lähetystö"
 
@@ -19511,13 +19577,15 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1456 data/classic/buildings.ruleset:1541
 #: data/experimental/buildings.ruleset:1595
-#: data/civ2civ3/buildings.ruleset:1765 data/multiplayer/buildings.ruleset:1516
+#: data/civ2civ3/buildings.ruleset:1765
+#: data/multiplayer/buildings.ruleset:1516
 msgid "Statue of Liberty"
 msgstr "Vapaudenpatsas"
 
 #: data/civ2/buildings.ruleset:1477 data/classic/buildings.ruleset:1562
 #: data/experimental/buildings.ruleset:1616
-#: data/civ2civ3/buildings.ruleset:1788 data/multiplayer/buildings.ruleset:1537
+#: data/civ2civ3/buildings.ruleset:1788
+#: data/multiplayer/buildings.ruleset:1537
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzun sotakorkeakoulu"
 
@@ -20229,7 +20297,7 @@ msgstr "valaita"
 msgid "Wine"
 msgstr "viiniköynnöksiä"
 
-#: data/civ2/terrain.ruleset:878
+#: data/civ2/terrain.ruleset:879
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -20239,16 +20307,17 @@ msgstr ""
 "Muiden vaikutusten ohessa linnoituksessa vuoron ajan liikkumatta elpyvä "
 "maavoimien yksikkö saa takaisin neljäsosan voimapisteistään."
 
-#: data/civ2/terrain.ruleset:885 data/civ2/units.ruleset:24
-#: data/classic/terrain.ruleset:1056 data/classic/units.ruleset:29
-#: data/experimental/terrain.ruleset:1032 data/experimental/units.ruleset:32
-#: data/civ2civ3/terrain.ruleset:1072 data/civ2civ3/units.ruleset:29
-#: data/multiplayer/terrain.ruleset:1030 data/multiplayer/units.ruleset:29
+#: data/civ2/terrain.ruleset:886 data/civ2/units.ruleset:24
+#: data/classic/terrain.ruleset:1057 data/classic/units.ruleset:29
+#: data/experimental/terrain.ruleset:1033 data/experimental/units.ruleset:32
+#: data/civ2civ3/terrain.ruleset:1073 data/civ2civ3/units.ruleset:29
+#: data/multiplayer/terrain.ruleset:1031 data/multiplayer/units.ruleset:29
 msgid "Airbase"
 msgstr "lentotukikohta"
 
-#: data/civ2/terrain.ruleset:901 data/classic/terrain.ruleset:1072
-#: data/experimental/terrain.ruleset:1048 data/multiplayer/terrain.ruleset:1046
+#: data/civ2/terrain.ruleset:902 data/classic/terrain.ruleset:1073
+#: data/experimental/terrain.ruleset:1049
+#: data/multiplayer/terrain.ruleset:1047
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -20257,9 +20326,9 @@ msgstr ""
 "laskeutumispaikkoina. Maavoimien yksiköt voivat hyökätä lentotukikohtaan "
 "laskeutuneiden ilmavoimien yksiköiden kimppuun."
 
-#: data/civ2/terrain.ruleset:1045 data/classic/terrain.ruleset:1257
-#: data/experimental/terrain.ruleset:1235 data/civ2civ3/terrain.ruleset:1289
-#: data/multiplayer/terrain.ruleset:1236
+#: data/civ2/terrain.ruleset:1046 data/classic/terrain.ruleset:1258
+#: data/experimental/terrain.ruleset:1236 data/civ2civ3/terrain.ruleset:1290
+#: data/multiplayer/terrain.ruleset:1237
 msgid ""
 "A railroad also increases any shield resources produced by a tile. A tile "
 "whose road is upgraded to a railroad retains any trade bonus from the road "
@@ -20268,8 +20337,8 @@ msgstr ""
 "Rautatie lisää ruudun tuotantoa. Myös jo ennen rautatietä rakennetun tien "
 "mahdollisesti kauppaan tarjoamat bonukset säilyvät."
 
-#: data/civ2/terrain.ruleset:1069 data/classic/terrain.ruleset:1289
-#: data/multiplayer/terrain.ruleset:1260
+#: data/civ2/terrain.ruleset:1070 data/classic/terrain.ruleset:1290
+#: data/multiplayer/terrain.ruleset:1261
 msgid ""
 "Any land terrain type may have a River on it.  A River adds 1 trade to the "
 "resources produced by that tile.  It also increases a tile's defense factor "
@@ -21218,7 +21287,8 @@ msgstr ""
 "yhdessä kasvattavat tuotantoa 150% ja eliminoivat täysin päästöt kaupungin "
 "tuotannosta."
 
-#: data/classic/buildings.ruleset:1008 data/experimental/buildings.ruleset:1060
+#: data/classic/buildings.ruleset:1008
+#: data/experimental/buildings.ruleset:1060
 #: data/multiplayer/buildings.ruleset:986
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -21230,7 +21300,8 @@ msgstr ""
 "kanssa neljä asukasta muuttuu tyytyväiseksi. Vaikutus ei ulotu asukkaisiin, "
 "joiden tyytymättömyys johtuu sotatoimista."
 
-#: data/classic/buildings.ruleset:1032 data/experimental/buildings.ruleset:1086
+#: data/classic/buildings.ruleset:1032
+#: data/experimental/buildings.ruleset:1086
 #: data/multiplayer/buildings.ruleset:1010
 #, no-c-format
 msgid ""
@@ -21239,7 +21310,8 @@ msgid ""
 msgstr ""
 "Yliopisto yhdessä Kirjaston kanssa lisää tutkimuspanosta kaupungissa 250%"
 
-#: data/classic/buildings.ruleset:1075 data/experimental/buildings.ruleset:1129
+#: data/classic/buildings.ruleset:1075
+#: data/experimental/buildings.ruleset:1129
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -21248,7 +21320,8 @@ msgstr ""
 "perusparannusten, joiden normaali ylläpitokustannus on 1, ylläpito on "
 "ilmaista. Koskee pelaajan kaikkia kaupunkeja."
 
-#: data/classic/buildings.ruleset:1135 data/experimental/buildings.ruleset:1189
+#: data/classic/buildings.ruleset:1135
+#: data/experimental/buildings.ruleset:1189
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity). It "
@@ -21258,7 +21331,8 @@ msgstr ""
 "rauhalliseksi kaikissa kaupungeissa (mukaanlukien sotatoimien takia "
 "tyytymättömät asukkaat). Vähentää kulkutautien riskiä kaupungissaan."
 
-#: data/classic/buildings.ruleset:1181 data/experimental/buildings.ruleset:1235
+#: data/classic/buildings.ruleset:1181
+#: data/experimental/buildings.ruleset:1235
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -21266,7 +21340,8 @@ msgstr ""
 "Maineesi muiden kansojen keskuudessa ja näiden hyväntahtoisuus palautuvat "
 "kaksi kertaa tavallista nopeammin."
 
-#: data/classic/buildings.ruleset:1289 data/experimental/buildings.ruleset:1343
+#: data/classic/buildings.ruleset:1289
+#: data/experimental/buildings.ruleset:1343
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -21275,7 +21350,8 @@ msgstr ""
 "Lisää tutkimuspanosta 100%:lla jokaisessa hallitsemassasi kaupungissa, jossa "
 "on Yliopisto."
 
-#: data/classic/buildings.ruleset:1369 data/experimental/buildings.ruleset:1423
+#: data/classic/buildings.ruleset:1369
+#: data/experimental/buildings.ruleset:1423
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -21284,11 +21360,13 @@ msgstr ""
 "Kaikista uusista merivoimien yksiköistä (kaikissa kaupungeissa) tulee "
 "konkareita."
 
-#: data/classic/buildings.ruleset:1390 data/experimental/buildings.ruleset:1444
+#: data/classic/buildings.ruleset:1390
+#: data/experimental/buildings.ruleset:1444
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Kaikki laivastoyksiköt saavat 2 ylimääräistä liikepistettä."
 
-#: data/classic/buildings.ruleset:1471 data/experimental/buildings.ruleset:1525
+#: data/classic/buildings.ruleset:1471
+#: data/experimental/buildings.ruleset:1525
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -21297,7 +21375,8 @@ msgstr ""
 "jokaisessa kaupungissa, jossa on temppeli. Vaikutus ei ulotu sotatoimista "
 "aiheutuvaan tyytymättömyyteen."
 
-#: data/classic/buildings.ruleset:1493 data/experimental/buildings.ruleset:1547
+#: data/classic/buildings.ruleset:1493
+#: data/experimental/buildings.ruleset:1547
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -21308,13 +21387,15 @@ msgstr ""
 "Tämä auttaa kaupunkia kasvamaan nopeammin ja sietämään nälänhätää paremmin. "
 "Vaikutus kumuloituu Viljasiilon vaikutusten kanssa."
 
-#: data/classic/buildings.ruleset:1515 data/experimental/buildings.ruleset:1569
+#: data/classic/buildings.ruleset:1515
+#: data/experimental/buildings.ruleset:1569
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Lisää tutkimuspanosta 100% kaikissa kaupungeissa, joissa on Tutkimuslaitos."
 
-#: data/classic/buildings.ruleset:1576 data/experimental/buildings.ruleset:1630
+#: data/classic/buildings.ruleset:1576
+#: data/experimental/buildings.ruleset:1630
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
@@ -21326,13 +21407,17 @@ msgstr ""
 "yksiköiden aloittavan karaistuneina. Todennäköisyys sille, että yksikkösi "
 "ylenee taistelun jälkeen lisääntyy puolella."
 
-#: data/classic/buildings.ruleset:1638 data/experimental/buildings.ruleset:1692
-#: data/civ2civ3/buildings.ruleset:1859 data/multiplayer/buildings.ruleset:1603
+#: data/classic/buildings.ruleset:1638
+#: data/experimental/buildings.ruleset:1692
+#: data/civ2civ3/buildings.ruleset:1859
+#: data/multiplayer/buildings.ruleset:1603
 msgid "Coinage"
 msgstr "Kotiuta tulot"
 
-#: data/classic/buildings.ruleset:1659 data/experimental/buildings.ruleset:1713
-#: data/civ2civ3/buildings.ruleset:1880 data/multiplayer/buildings.ruleset:1616
+#: data/classic/buildings.ruleset:1659
+#: data/experimental/buildings.ruleset:1713
+#: data/civ2civ3/buildings.ruleset:1880
+#: data/multiplayer/buildings.ruleset:1616
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -21474,8 +21559,8 @@ msgstr ""
 "merikelpoiset alukset (muut laivat paitsi Kaleerit) voivat matkustaa niitä "
 "pitkin."
 
-#: data/classic/terrain.ruleset:1048 data/experimental/terrain.ruleset:1024
-#: data/multiplayer/terrain.ruleset:1022
+#: data/classic/terrain.ruleset:1049 data/experimental/terrain.ruleset:1025
+#: data/multiplayer/terrain.ruleset:1023
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -21488,24 +21573,24 @@ msgstr ""
 "Keksintöteknologian myötä maayksiköiden näkökenttä laajenee linnoitusten "
 "vartiotorneista käsin."
 
-#: data/classic/terrain.ruleset:1078 data/experimental/terrain.ruleset:1054
-#: data/civ2civ3/terrain.ruleset:1100 data/multiplayer/terrain.ruleset:1056
+#: data/classic/terrain.ruleset:1079 data/experimental/terrain.ruleset:1055
+#: data/civ2civ3/terrain.ruleset:1101 data/multiplayer/terrain.ruleset:1057
 msgid "Buoy"
 msgstr "poiju"
 
-#: data/classic/terrain.ruleset:1094 data/experimental/terrain.ruleset:1070
-#: data/civ2civ3/terrain.ruleset:1116
+#: data/classic/terrain.ruleset:1095 data/experimental/terrain.ruleset:1071
+#: data/civ2civ3/terrain.ruleset:1117
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr ""
 "Poijuja voi rakentaa merelle (käyttäen laivojen kuljettamia yksiköitä)."
 
-#: data/classic/terrain.ruleset:1099 data/experimental/terrain.ruleset:1075
-#: data/civ2civ3/terrain.ruleset:1124 data/multiplayer/terrain.ruleset:1078
+#: data/classic/terrain.ruleset:1100 data/experimental/terrain.ruleset:1076
+#: data/civ2civ3/terrain.ruleset:1125 data/multiplayer/terrain.ruleset:1079
 msgid "Ruins"
 msgstr "rauniot"
 
-#: data/classic/terrain.ruleset:1112 data/experimental/terrain.ruleset:1088
-#: data/civ2civ3/terrain.ruleset:1137 data/multiplayer/terrain.ruleset:1091
+#: data/classic/terrain.ruleset:1113 data/experimental/terrain.ruleset:1089
+#: data/civ2civ3/terrain.ruleset:1138 data/multiplayer/terrain.ruleset:1092
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -21513,8 +21598,8 @@ msgstr ""
 "Rauniot ovat tuhotun tai hylätyn kaupungin jäänteitä. Niillä ei ole "
 "vaikutusta peliin."
 
-#: data/classic/terrain.ruleset:1223 data/experimental/terrain.ruleset:1200
-#: data/civ2civ3/terrain.ruleset:1254 data/multiplayer/terrain.ruleset:1202
+#: data/classic/terrain.ruleset:1224 data/experimental/terrain.ruleset:1201
+#: data/civ2civ3/terrain.ruleset:1255 data/multiplayer/terrain.ruleset:1203
 msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads (unless they are on a river tile and "
@@ -21910,7 +21995,7 @@ msgstr ""
 "Sallii uudisraivaajien, työläisten ja teknikoiden rakentaa maglevit "
 "ruutuihin, joissa on jo rautatie."
 
-#: data/experimental/terrain.ruleset:1195
+#: data/experimental/terrain.ruleset:1196
 msgid ""
 "Roads allow your land units to move more quickly, and allow heavy Big Land "
 "units such as Catapults and Freight to travel through otherwise difficult "
@@ -21922,7 +22007,7 @@ msgstr ""
 "kulkukelvottomassa maastossa, kuten vuorilla tai metsässä. Joillakin "
 "maastotyypeillä tiet antavat myös kauppabonuksen."
 
-#: data/experimental/terrain.ruleset:1231 data/civ2civ3/terrain.ruleset:1285
+#: data/experimental/terrain.ruleset:1232 data/civ2civ3/terrain.ruleset:1286
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units travel considerably faster along railroads than along roads."
@@ -21931,11 +22016,11 @@ msgstr ""
 "rautatiet. Liikkuminen rautatietä pitkin on huomattavasti nopeampaa kuin "
 "tietä pitkin."
 
-#: data/experimental/terrain.ruleset:1245
+#: data/experimental/terrain.ruleset:1246
 msgid "Maglev"
 msgstr "Maglev"
 
-#: data/experimental/terrain.ruleset:1267
+#: data/experimental/terrain.ruleset:1268
 msgid ""
 "With sufficient technology, you may build magnetic levitation systems along "
 "your railroad routes. Land units expend no movement points when riding a "
@@ -21946,7 +22031,7 @@ msgstr ""
 "liikepisteitä kulkiessaan maglevillä, niitä pitkin voi liikkua rajattomasti "
 "(pätee myös niitä käyttäviin vihollisiin!)"
 
-#: data/experimental/terrain.ruleset:1271
+#: data/experimental/terrain.ruleset:1272
 msgid ""
 "Your regular railroads are still used to carry heavy Big Land units for "
 "which the maglev system is unsuitable, and they continue to provide "
@@ -21957,7 +22042,7 @@ msgstr ""
 "tavallisia rautateitä käyttäen. Rautatiet jatkavat myös tuotanto- ja "
 "kauppabonustensa tarjoamisen."
 
-#: data/experimental/terrain.ruleset:1275
+#: data/experimental/terrain.ruleset:1276
 msgid ""
 "City center tiles with railroads are automatically upgraded to maglev when "
 "you learn about Superconductors."
@@ -21965,7 +22050,7 @@ msgstr ""
 "Kaupunkien keskusruudut, joissa on jo rautatie, saavat maglevit "
 "automaattisesti kun suprajohteet teknologia opitaan."
 
-#: data/experimental/terrain.ruleset:1295
+#: data/experimental/terrain.ruleset:1296
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
 "resources produced by that tile. It also increases a tile's defense factor "
@@ -21974,7 +22059,7 @@ msgstr ""
 "Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa "
 "kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 50%."
 
-#: data/experimental/terrain.ruleset:1299
+#: data/experimental/terrain.ruleset:1300
 msgid ""
 "Land units may move along rivers for faster travel (but not diagonally), and "
 "heavy Big Land units such as Catapults and Freight may travel along them "
@@ -21987,7 +22072,7 @@ msgstr ""
 "kulkukelvotonta. Kaleerit, toisin kuin myöhemmät alukset, voivat myös kulkea "
 "jokia pitkin."
 
-#: data/experimental/terrain.ruleset:1304
+#: data/experimental/terrain.ruleset:1305
 msgid ""
 "Roads, railroads, and maglev can only be built on River tiles if your "
 "civilization has learned Bridge Building technology."
@@ -23413,7 +23498,7 @@ msgstr ""
 "Suot ovat liian märkiä tuottoisaan viljelyyn. Järeät maayksiköt eivät voi "
 "liikkua tiettömällä suolla."
 
-#: data/civ2civ3/terrain.ruleset:1064
+#: data/civ2civ3/terrain.ruleset:1065
 msgid ""
 "Units in a fortress receive double defense against land units and boats. Any "
 "kind of land unit remaining in a fortress for a whole turn without moving "
@@ -23426,7 +23511,7 @@ msgstr ""
 "myötä linnoitukset saavat vartiotornit, jotka mahdollistavat sisällä olevien "
 "yksiköiden nähdä kauemmaksi."
 
-#: data/civ2civ3/terrain.ruleset:1091
+#: data/civ2civ3/terrain.ruleset:1092
 msgid ""
 "Airbases allow your air units to land and refuel. Units in an airbase "
 "receive double defense against enemy air units. An air unit remaining in an "
@@ -23440,7 +23525,7 @@ msgstr ""
 "takaisin. Lentotukikohtaan laskeutuneiden ilmayksiköiden kimppuun on "
 "mahdollista hyökätä maayksiköillä."
 
-#: data/civ2civ3/terrain.ruleset:1118
+#: data/civ2civ3/terrain.ruleset:1119
 msgid ""
 "As well as granting vision, a buoy in deep ocean yields a shield resource to "
 "cities with an Offshore Platform."
@@ -23448,7 +23533,7 @@ msgstr ""
 "Näkökyvyn tarjoamisen lisäksi syvän meren ruudussa oleva poiju lisää ruudun "
 "tuotantoa yhdellä, mikäli sitä käyttävässä kaupungissa on porauslautta."
 
-#: data/civ2civ3/terrain.ruleset:1246
+#: data/civ2civ3/terrain.ruleset:1247
 msgid ""
 "Roads allow your land units to move more quickly, allow wheeled Big Land "
 "units such as Chariots and Catapults to travel through otherwise difficult "
@@ -23461,11 +23546,11 @@ msgstr ""
 "viidakossa tai suolla. Kaupankäyntiyksiköt (karavaanit ja rekat) voivat "
 "kulkea ainoastaan teitä, rautateitä tai jokia pitkin tai laivan kyydissä."
 
-#: data/civ2civ3/terrain.ruleset:1252
+#: data/civ2civ3/terrain.ruleset:1253
 msgid "On some terrains, roads also provide a trade bonus."
 msgstr "Joillakin maastotyypeillä tiet antavat bonuksen myös kauppaan."
 
-#: data/civ2civ3/terrain.ruleset:1314
+#: data/civ2civ3/terrain.ruleset:1315
 #, no-c-format
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
@@ -23475,7 +23560,7 @@ msgstr ""
 "Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa "
 "kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 25%."
 
-#: data/civ2civ3/terrain.ruleset:1318
+#: data/civ2civ3/terrain.ruleset:1319
 msgid ""
 "Land units may move along rivers for faster travel (but not diagonally), and "
 "Merchant units (Caravans and Freight) may require rivers to travel along in "
@@ -23487,7 +23572,7 @@ msgstr ""
 "kulkea jokea pitkin. Kaleerit, toisin kuin myöhemmät alukset, voivat myös "
 "kulkea jokia pitkin."
 
-#: data/civ2civ3/terrain.ruleset:1323
+#: data/civ2civ3/terrain.ruleset:1324
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology. Fortresses and Airbases cannot be "
@@ -23497,7 +23582,7 @@ msgstr ""
 "sivilisaatiosi on oppinut sillanrakennustaidon. Linnoituksia ja "
 "lentotukikohtia ei voida rakentaa jokiruutuihin."
 
-#: data/civ2civ3/terrain.ruleset:1327
+#: data/civ2civ3/terrain.ruleset:1328
 msgid ""
 "Cities built on or next to rivers incur a small risk of flooding, which will "
 "destroy stored food."
@@ -28780,7 +28865,7 @@ msgstr ""
 "Saavutat tämän teknologian vain kun ensi kerran rakennat Darwinin "
 "tutkimusretket."
 
-#: data/multiplayer/terrain.ruleset:1073
+#: data/multiplayer/terrain.ruleset:1074
 msgid "Buoys cannot be built in the multiplayer ruleset."
 msgstr "Tämä sääntökokoelma ei mahdollista poijujen rakentamista."
 
@@ -34107,8 +34192,7 @@ msgstr "%s on aiheuttanut selkkauksen lahjoessaan yksikköäsi %s."
 #: server/diplomats.c:1424
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
-msgstr ""
-"Olet aiheuttanut selkkauksen varastaessasi teknologiaa - %s raivostui."
+msgstr "Olet aiheuttanut selkkauksen varastaessasi teknologiaa - %s raivostui."
 
 #: server/diplomats.c:1428
 #, c-format

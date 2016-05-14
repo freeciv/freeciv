@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-09 00:32+0200\n"
+"POT-Creation-Date: 2016-05-14 11:27+0100\n"
 "PO-Revision-Date: 2016-05-10 12:55+0200\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
 "Language-Team: Spanish <>\n"
@@ -799,10 +799,10 @@ msgid "City Name"
 msgstr "Nombre de la Ciudad"
 
 #: client/cityrepdata.c:641 client/gui-gtk-2.0/citizensinfo.c:65
-#: client/gui-gtk-2.0/editprop.c:3484 client/gui-gtk-2.0/editprop.c:4270
+#: client/gui-gtk-2.0/editprop.c:3485 client/gui-gtk-2.0/editprop.c:4271
 #: client/gui-gtk-2.0/gotodlg.c:213 client/gui-gtk-2.0/pages.c:1326
 #: client/gui-gtk-2.0/pages.c:2695 client/gui-gtk-3.0/citizensinfo.c:65
-#: client/gui-gtk-3.0/editprop.c:3515 client/gui-gtk-3.0/editprop.c:4300
+#: client/gui-gtk-3.0/editprop.c:3516 client/gui-gtk-3.0/editprop.c:4301
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1404
 #: client/gui-gtk-3.0/pages.c:2757 client/gui-qt/citydlg.cpp:1767
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
@@ -817,8 +817,8 @@ msgid "?size [short]:Sz"
 msgstr "Tm"
 
 #: client/cityrepdata.c:643 client/gui-gtk-2.0/editgui.c:1312
-#: client/gui-gtk-2.0/editprop.c:4253 client/gui-gtk-3.0/editgui.c:1362
-#: client/gui-gtk-3.0/editprop.c:4283
+#: client/gui-gtk-2.0/editprop.c:4254 client/gui-gtk-3.0/editgui.c:1362
+#: client/gui-gtk-3.0/editprop.c:4284
 msgid "Size"
 msgstr "Tamaño"
 
@@ -1566,8 +1566,8 @@ msgstr "¡No hay una ruta hacia el destino!"
 msgid "Oh my! You seem to have no capital!"
 msgstr "¡Vaya! ¡Parece que no tienes capital!"
 
-#: client/editor.c:167 client/gui-gtk-2.0/editprop.c:4156
-#: client/gui-gtk-2.0/menu.c:1404 client/gui-gtk-3.0/editprop.c:4187
+#: client/editor.c:167 client/gui-gtk-2.0/editprop.c:4157
+#: client/gui-gtk-2.0/menu.c:1404 client/gui-gtk-3.0/editprop.c:4188
 #: client/gui-gtk-3.0/menu.c:1392 client/gui-xaw/menu.c:150
 #: client/gui-xaw/menu.c:246 client/include/helpdlg_g.h:48
 #: data/helpdata.txt:289 tools/civmanual.c:306
@@ -1674,8 +1674,8 @@ msgstr ""
 "Crear ciudad.\n"
 "Acceso directo: c"
 
-#: client/editor.c:193 client/gui-gtk-2.0/editprop.c:4192
-#: client/gui-gtk-3.0/editprop.c:4222 client/plrdlg_common.c:316
+#: client/editor.c:193 client/gui-gtk-2.0/editprop.c:4193
+#: client/gui-gtk-3.0/editprop.c:4223 client/plrdlg_common.c:316
 msgid "Vision"
 msgstr "Visión"
 
@@ -1920,10 +1920,10 @@ msgstr "Herr. de chat"
 msgid "#"
 msgstr "#"
 
-#: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3515
-#: client/gui-gtk-2.0/editprop.c:3527 client/gui-gtk-2.0/pages.c:2693
-#: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3546
-#: client/gui-gtk-3.0/editprop.c:3558 client/gui-gtk-3.0/pages.c:2755
+#: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3516
+#: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2693
+#: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
+#: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2755
 #: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:549
 #: client/plrdlg_common.c:306
 msgid "Flag"
@@ -3240,8 +3240,8 @@ msgstr "%d conocidas"
 msgid "%d present"
 msgstr "%d presentes"
 
-#: client/gui-gtk-2.0/editprop.c:927 client/gui-gtk-2.0/editprop.c:3709
-#: client/gui-gtk-3.0/editprop.c:927 client/gui-gtk-3.0/editprop.c:3740
+#: client/gui-gtk-2.0/editprop.c:927 client/gui-gtk-2.0/editprop.c:3710
+#: client/gui-gtk-3.0/editprop.c:927 client/gui-gtk-3.0/editprop.c:3741
 #: client/gui-qt/dialogs.cpp:292 data/civ1/nations.ruleset:58
 #: data/civ2/nations.ruleset:60
 msgid "All nations"
@@ -3271,13 +3271,13 @@ msgstr "(nunca)"
 msgid "(destroyed)"
 msgstr "(destruida)"
 
-#: client/gui-gtk-2.0/editprop.c:3377 client/gui-gtk-3.0/editprop.c:3402
+#: client/gui-gtk-2.0/editprop.c:3378 client/gui-gtk-3.0/editprop.c:3403
 #: client/gui-qt/cityrep.cpp:477 client/gui-qt/menu.cpp:454
 #: data/Freeciv.in:2046
 msgid "?verb:View"
 msgstr "Ver"
 
-#: client/gui-gtk-2.0/editprop.c:3379 client/gui-gtk-3.0/editprop.c:3404
+#: client/gui-gtk-2.0/editprop.c:3380 client/gui-gtk-3.0/editprop.c:3405
 #: data/Freeciv.in:2013
 msgid "Edit"
 msgstr "Editar"
@@ -3286,32 +3286,32 @@ msgstr "Editar"
 #. TRANS: As in "this building is present".
 #. TRANS: As in "this tile special is present".
 #. TRANS: As in "this building is present".
-#: client/gui-gtk-2.0/editprop.c:3473 client/gui-gtk-2.0/editprop.c:3498
-#: client/gui-gtk-3.0/editprop.c:3504 client/gui-gtk-3.0/editprop.c:3529
+#: client/gui-gtk-2.0/editprop.c:3474 client/gui-gtk-2.0/editprop.c:3499
+#: client/gui-gtk-3.0/editprop.c:3505 client/gui-gtk-3.0/editprop.c:3530
 msgid "Present"
 msgstr "Presente"
 
-#: client/gui-gtk-2.0/editprop.c:3475 client/gui-gtk-2.0/editprop.c:3482
-#: client/gui-gtk-2.0/editprop.c:3500 client/gui-gtk-2.0/editprop.c:3513
-#: client/gui-gtk-2.0/editprop.c:3525 client/gui-gtk-2.0/editprop.c:3537
-#: client/gui-gtk-2.0/editprop.c:4221 client/gui-gtk-2.0/editprop.c:4249
-#: client/gui-gtk-3.0/editprop.c:3506 client/gui-gtk-3.0/editprop.c:3513
-#: client/gui-gtk-3.0/editprop.c:3531 client/gui-gtk-3.0/editprop.c:3544
-#: client/gui-gtk-3.0/editprop.c:3556 client/gui-gtk-3.0/editprop.c:3568
-#: client/gui-gtk-3.0/editprop.c:4251 client/gui-gtk-3.0/editprop.c:4279
+#: client/gui-gtk-2.0/editprop.c:3476 client/gui-gtk-2.0/editprop.c:3483
+#: client/gui-gtk-2.0/editprop.c:3501 client/gui-gtk-2.0/editprop.c:3514
+#: client/gui-gtk-2.0/editprop.c:3526 client/gui-gtk-2.0/editprop.c:3538
+#: client/gui-gtk-2.0/editprop.c:4222 client/gui-gtk-2.0/editprop.c:4250
+#: client/gui-gtk-3.0/editprop.c:3507 client/gui-gtk-3.0/editprop.c:3514
+#: client/gui-gtk-3.0/editprop.c:3532 client/gui-gtk-3.0/editprop.c:3545
+#: client/gui-gtk-3.0/editprop.c:3557 client/gui-gtk-3.0/editprop.c:3569
+#: client/gui-gtk-3.0/editprop.c:4252 client/gui-gtk-3.0/editprop.c:4280
 msgid "ID"
 msgstr "ID"
 
-#: client/gui-gtk-2.0/editprop.c:3477 client/gui-gtk-2.0/editprop.c:3486
-#: client/gui-gtk-2.0/editprop.c:3502 client/gui-gtk-2.0/editprop.c:3517
-#: client/gui-gtk-2.0/editprop.c:3529 client/gui-gtk-2.0/editprop.c:3539
-#: client/gui-gtk-2.0/editprop.c:4243 client/gui-gtk-2.0/editprop.c:4264
+#: client/gui-gtk-2.0/editprop.c:3478 client/gui-gtk-2.0/editprop.c:3487
+#: client/gui-gtk-2.0/editprop.c:3503 client/gui-gtk-2.0/editprop.c:3518
+#: client/gui-gtk-2.0/editprop.c:3530 client/gui-gtk-2.0/editprop.c:3540
+#: client/gui-gtk-2.0/editprop.c:4244 client/gui-gtk-2.0/editprop.c:4265
 #: client/gui-gtk-2.0/pages.c:1323 client/gui-gtk-2.0/pages.c:2683
-#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3508
-#: client/gui-gtk-3.0/editprop.c:3517 client/gui-gtk-3.0/editprop.c:3533
-#: client/gui-gtk-3.0/editprop.c:3548 client/gui-gtk-3.0/editprop.c:3560
-#: client/gui-gtk-3.0/editprop.c:3570 client/gui-gtk-3.0/editprop.c:4273
-#: client/gui-gtk-3.0/editprop.c:4294 client/gui-gtk-3.0/pages.c:1401
+#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3509
+#: client/gui-gtk-3.0/editprop.c:3518 client/gui-gtk-3.0/editprop.c:3534
+#: client/gui-gtk-3.0/editprop.c:3549 client/gui-gtk-3.0/editprop.c:3561
+#: client/gui-gtk-3.0/editprop.c:3571 client/gui-gtk-3.0/editprop.c:4274
+#: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1401
 #: client/gui-gtk-3.0/pages.c:2745 client/gui-gtk-3.0/wldlg.c:1001
 #: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:548 data/Freeciv.in:97
 #: tools/civmanual.c:424 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
@@ -3320,96 +3320,96 @@ msgid "Name"
 msgstr "Nombre"
 
 #. TRANS: As in "this invention is known".
-#: client/gui-gtk-2.0/editprop.c:3488 client/gui-gtk-2.0/editprop.c:3535
-#: client/gui-gtk-3.0/editprop.c:3519 client/gui-gtk-3.0/editprop.c:3566
+#: client/gui-gtk-2.0/editprop.c:3489 client/gui-gtk-2.0/editprop.c:3536
+#: client/gui-gtk-3.0/editprop.c:3520 client/gui-gtk-3.0/editprop.c:3567
 msgid "Known"
 msgstr "Conocido"
 
 #. TRANS: As in "the turn when this building was built".
-#: client/gui-gtk-2.0/editprop.c:3505 client/gui-gtk-3.0/editprop.c:3536
+#: client/gui-gtk-2.0/editprop.c:3506 client/gui-gtk-3.0/editprop.c:3537
 msgid "Turn Built"
 msgstr "Turno construido"
 
 #. TRANS: As in "the player has set this nation".
-#: client/gui-gtk-2.0/editprop.c:3511 client/gui-gtk-2.0/editprop.c:3523
-#: client/gui-gtk-3.0/editprop.c:3542 client/gui-gtk-3.0/editprop.c:3554
+#: client/gui-gtk-2.0/editprop.c:3512 client/gui-gtk-2.0/editprop.c:3524
+#: client/gui-gtk-3.0/editprop.c:3543 client/gui-gtk-3.0/editprop.c:3555
 msgid "Set"
 msgstr "Asignar"
 
-#: client/gui-gtk-2.0/editprop.c:4154 client/gui-gtk-2.0/editprop.c:4201
-#: client/gui-gtk-2.0/editprop.c:4213 client/gui-gtk-2.0/editprop.c:4241
-#: client/gui-gtk-3.0/editprop.c:4185 client/gui-gtk-3.0/editprop.c:4231
-#: client/gui-gtk-3.0/editprop.c:4243 client/gui-gtk-3.0/editprop.c:4271
+#: client/gui-gtk-2.0/editprop.c:4155 client/gui-gtk-2.0/editprop.c:4202
+#: client/gui-gtk-2.0/editprop.c:4214 client/gui-gtk-2.0/editprop.c:4242
+#: client/gui-gtk-3.0/editprop.c:4186 client/gui-gtk-3.0/editprop.c:4232
+#: client/gui-gtk-3.0/editprop.c:4244 client/gui-gtk-3.0/editprop.c:4272
 msgid "Image"
 msgstr "Imagen"
 
-#: client/gui-gtk-2.0/editprop.c:4158 client/gui-gtk-3.0/editprop.c:4189
+#: client/gui-gtk-2.0/editprop.c:4159 client/gui-gtk-3.0/editprop.c:4190
 msgid "Resource"
 msgstr "Recurso"
 
-#: client/gui-gtk-2.0/editprop.c:4160 client/gui-gtk-3.0/editprop.c:4191
+#: client/gui-gtk-2.0/editprop.c:4161 client/gui-gtk-3.0/editprop.c:4192
 msgid "Index"
 msgstr "Índice"
 
-#: client/gui-gtk-2.0/editprop.c:4162 client/gui-gtk-3.0/editprop.c:4193
+#: client/gui-gtk-2.0/editprop.c:4163 client/gui-gtk-3.0/editprop.c:4194
 msgid "?coordinate:X"
 msgstr "X"
 
-#: client/gui-gtk-2.0/editprop.c:4164 client/gui-gtk-3.0/editprop.c:4195
+#: client/gui-gtk-2.0/editprop.c:4165 client/gui-gtk-3.0/editprop.c:4196
 msgid "?coordinate:Y"
 msgstr "Y"
 
 #. TRANS: The coordinate X in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
-#: client/gui-gtk-2.0/editprop.c:4168 client/gui-gtk-3.0/editprop.c:4199
+#: client/gui-gtk-2.0/editprop.c:4169 client/gui-gtk-3.0/editprop.c:4200
 msgid "NAT X"
 msgstr "NAT X"
 
 #. TRANS: The coordinate Y in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
-#: client/gui-gtk-2.0/editprop.c:4172 client/gui-gtk-3.0/editprop.c:4203
+#: client/gui-gtk-2.0/editprop.c:4173 client/gui-gtk-3.0/editprop.c:4204
 msgid "NAT Y"
 msgstr "NAT Y"
 
-#: client/gui-gtk-2.0/editprop.c:4174 client/gui-gtk-3.0/editprop.c:4205
+#: client/gui-gtk-2.0/editprop.c:4175 client/gui-gtk-3.0/editprop.c:4206
 msgid "Continent"
 msgstr "Continente"
 
-#: client/gui-gtk-2.0/editprop.c:4176 client/gui-gtk-2.0/editprop.c:4203
-#: client/gui-gtk-2.0/editprop.c:4223 client/gui-gtk-2.0/editprop.c:4251
-#: client/gui-gtk-3.0/editprop.c:4207 client/gui-gtk-3.0/editprop.c:4233
-#: client/gui-gtk-3.0/editprop.c:4253 client/gui-gtk-3.0/editprop.c:4281
+#: client/gui-gtk-2.0/editprop.c:4177 client/gui-gtk-2.0/editprop.c:4204
+#: client/gui-gtk-2.0/editprop.c:4224 client/gui-gtk-2.0/editprop.c:4252
+#: client/gui-gtk-3.0/editprop.c:4208 client/gui-gtk-3.0/editprop.c:4234
+#: client/gui-gtk-3.0/editprop.c:4254 client/gui-gtk-3.0/editprop.c:4282
 msgid "?coordinates:X,Y"
 msgstr "X,Y"
 
-#: client/gui-gtk-2.0/editprop.c:4178 client/gui-gtk-3.0/editprop.c:4209
+#: client/gui-gtk-2.0/editprop.c:4179 client/gui-gtk-3.0/editprop.c:4210
 #: client/gui-xaw/menu.c:156
 msgid "Specials"
 msgstr "Especiales"
 
-#: client/gui-gtk-2.0/editprop.c:4180 client/gui-gtk-3.0/editprop.c:4211
+#: client/gui-gtk-2.0/editprop.c:4181 client/gui-gtk-3.0/editprop.c:4212
 #: client/include/helpdlg_g.h:47
 msgid "Roads"
 msgstr "Caminos"
 
-#: client/gui-gtk-2.0/editprop.c:4182 client/gui-gtk-3.0/editprop.c:4213
+#: client/gui-gtk-2.0/editprop.c:4183 client/gui-gtk-3.0/editprop.c:4214
 #: client/gui-xaw/menu.c:155
 msgid "Bases"
 msgstr "Bases"
 
-#: client/gui-gtk-2.0/editprop.c:4185 client/gui-gtk-2.0/editprop.c:4216
-#: client/gui-gtk-2.0/editprop.c:4246 client/gui-gtk-2.0/editprop.c:4267
-#: client/gui-gtk-3.0/editprop.c:4216 client/gui-gtk-3.0/editprop.c:4246
-#: client/gui-gtk-3.0/editprop.c:4276 client/gui-gtk-3.0/editprop.c:4297
+#: client/gui-gtk-2.0/editprop.c:4186 client/gui-gtk-2.0/editprop.c:4217
+#: client/gui-gtk-2.0/editprop.c:4247 client/gui-gtk-2.0/editprop.c:4268
+#: client/gui-gtk-3.0/editprop.c:4217 client/gui-gtk-3.0/editprop.c:4247
+#: client/gui-gtk-3.0/editprop.c:4277 client/gui-gtk-3.0/editprop.c:4298
 msgid "Address"
 msgstr "Dirección"
 
 #. TRANS: Tile property "Label" label in editor
-#: client/gui-gtk-2.0/editprop.c:4196 client/gui-gtk-3.0/editprop.c:4226
+#: client/gui-gtk-2.0/editprop.c:4197 client/gui-gtk-3.0/editprop.c:4227
 msgid "?property:Label"
 msgstr "Etiqueta"
 
-#: client/gui-gtk-2.0/editprop.c:4205 client/gui-gtk-3.0/editprop.c:4235
+#: client/gui-gtk-2.0/editprop.c:4206 client/gui-gtk-3.0/editprop.c:4236
 msgid "Exclude Nations"
 msgstr "Excluir Naciones"
 
@@ -3417,73 +3417,73 @@ msgstr "Excluir Naciones"
 #. TRANS: Nations report action
 #. TRANS: Nations report title
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/editprop.c:4207 client/gui-gtk-2.0/plrdlg.c:411
-#: client/gui-gtk-3.0/editprop.c:4237 client/gui-gtk-3.0/plrdlg.c:418
+#: client/gui-gtk-2.0/editprop.c:4208 client/gui-gtk-2.0/plrdlg.c:411
+#: client/gui-gtk-3.0/editprop.c:4238 client/gui-gtk-3.0/plrdlg.c:418
 #: client/gui-sdl/mapctrl.c:1591 client/gui-sdl/plrdlg.c:617
 #: client/gui-xaw/menu.c:222 data/Freeciv.in:3240 data/Freeciv.in:3241
 msgid "Nations"
 msgstr "Naciones"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:4219 client/gui-gtk-2.0/pages.c:1324
+#: client/gui-gtk-2.0/editprop.c:4220 client/gui-gtk-2.0/pages.c:1324
 #: client/gui-gtk-2.0/repodlgs.c:758 client/gui-gtk-2.0/wldlg.c:998
-#: client/gui-gtk-3.0/editprop.c:4249 client/gui-gtk-3.0/pages.c:1402
+#: client/gui-gtk-3.0/editprop.c:4250 client/gui-gtk-3.0/pages.c:1402
 #: client/gui-gtk-3.0/repodlgs.c:786 client/gui-gtk-3.0/wldlg.c:1001
 #: client/gui-qt/pages.cpp:283 client/gui-qt/repodlgs.cpp:1053
 msgid "Type"
 msgstr "Tipo"
 
-#: client/gui-gtk-2.0/editprop.c:4225 client/gui-gtk-3.0/editprop.c:4255
+#: client/gui-gtk-2.0/editprop.c:4226 client/gui-gtk-3.0/editprop.c:4256
 msgid "Moves Left"
 msgstr "Movimientos restantes"
 
-#: client/gui-gtk-2.0/editprop.c:4227 client/gui-gtk-3.0/editprop.c:4257
+#: client/gui-gtk-2.0/editprop.c:4228 client/gui-gtk-3.0/editprop.c:4258
 msgid "Fuel"
 msgstr "Combustible"
 
-#: client/gui-gtk-2.0/editprop.c:4229 client/gui-gtk-3.0/editprop.c:4259
+#: client/gui-gtk-2.0/editprop.c:4230 client/gui-gtk-3.0/editprop.c:4260
 msgid "Moved"
 msgstr "Movido"
 
-#: client/gui-gtk-2.0/editprop.c:4231 client/gui-gtk-3.0/editprop.c:4261
+#: client/gui-gtk-2.0/editprop.c:4232 client/gui-gtk-3.0/editprop.c:4262
 msgid "Done Moving"
 msgstr "Finalizado movimiento"
 
 #. TRANS: HP = Hit Points of a unit.
-#: client/gui-gtk-2.0/editprop.c:4234 client/gui-gtk-3.0/editprop.c:4264
+#: client/gui-gtk-2.0/editprop.c:4235 client/gui-gtk-3.0/editprop.c:4265
 msgid "HP"
 msgstr "PV"
 
-#: client/gui-gtk-2.0/editprop.c:4236 client/gui-gtk-3.0/editprop.c:4266
+#: client/gui-gtk-2.0/editprop.c:4237 client/gui-gtk-3.0/editprop.c:4267
 msgid "Veteran"
 msgstr "Veterano"
 
-#: client/gui-gtk-2.0/editprop.c:4255 client/gui-gtk-3.0/citydlg.c:1151
-#: client/gui-gtk-3.0/editprop.c:4285 client/gui-qt/cityrep.cpp:709
+#: client/gui-gtk-2.0/editprop.c:4256 client/gui-gtk-3.0/citydlg.c:1151
+#: client/gui-gtk-3.0/editprop.c:4286 client/gui-qt/cityrep.cpp:709
 msgid "Buildings"
 msgstr "Instalaciones"
 
-#: client/gui-gtk-2.0/editprop.c:4257 client/gui-gtk-3.0/editprop.c:4287
+#: client/gui-gtk-2.0/editprop.c:4258 client/gui-gtk-3.0/editprop.c:4288
 msgid "Food Stock"
 msgstr "Granero"
 
-#: client/gui-gtk-2.0/editprop.c:4259 client/gui-gtk-3.0/editprop.c:4289
+#: client/gui-gtk-2.0/editprop.c:4260 client/gui-gtk-3.0/editprop.c:4290
 msgid "Shield Stock"
 msgstr "Producción"
 
-#: client/gui-gtk-2.0/editprop.c:4272 client/gui-gtk-3.0/editprop.c:4302
+#: client/gui-gtk-2.0/editprop.c:4273 client/gui-gtk-3.0/editprop.c:4303
 msgid "Inventions"
 msgstr "Invenciones"
 
-#: client/gui-gtk-2.0/editprop.c:4274 client/gui-gtk-2.0/gamedlgs.c:287
-#: client/gui-gtk-3.0/editprop.c:4304 client/gui-gtk-3.0/gamedlgs.c:297
+#: client/gui-gtk-2.0/editprop.c:4275 client/gui-gtk-2.0/gamedlgs.c:287
+#: client/gui-gtk-3.0/editprop.c:4305 client/gui-gtk-3.0/gamedlgs.c:297
 #: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:94
 #: common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "Ciencia"
 
-#: client/gui-gtk-2.0/editprop.c:4276 client/gui-gtk-2.0/repodlgs.c:1246
-#: client/gui-gtk-3.0/editprop.c:4306 client/gui-gtk-3.0/repodlgs.c:1281
+#: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
+#: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
 #: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:681
 #: common/city.c:86 data/civ1/terrain.ruleset:637
 #: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
@@ -3492,36 +3492,36 @@ msgstr "Ciencia"
 msgid "Gold"
 msgstr "Oro"
 
-#: client/gui-gtk-2.0/editprop.c:4281 client/gui-gtk-3.0/editprop.c:4311
+#: client/gui-gtk-2.0/editprop.c:4282 client/gui-gtk-3.0/editprop.c:4312
 msgid "Year"
 msgstr "Año"
 
-#: client/gui-gtk-2.0/editprop.c:4283 client/gui-gtk-3.0/editprop.c:4313
+#: client/gui-gtk-2.0/editprop.c:4284 client/gui-gtk-3.0/editprop.c:4314
 #: tools/modinst.h:41
 msgid "Scenario"
 msgstr "Escenario"
 
-#: client/gui-gtk-2.0/editprop.c:4285 client/gui-gtk-3.0/editprop.c:4315
+#: client/gui-gtk-2.0/editprop.c:4286 client/gui-gtk-3.0/editprop.c:4316
 msgid "Scenario Name"
 msgstr "Nombre del Escenario"
 
-#: client/gui-gtk-2.0/editprop.c:4287 client/gui-gtk-3.0/editprop.c:4317
+#: client/gui-gtk-2.0/editprop.c:4288 client/gui-gtk-3.0/editprop.c:4318
 msgid "Scenario Description"
 msgstr "Descripción del Escenario"
 
-#: client/gui-gtk-2.0/editprop.c:4290 client/gui-gtk-3.0/editprop.c:4320
+#: client/gui-gtk-2.0/editprop.c:4291 client/gui-gtk-3.0/editprop.c:4321
 msgid "Save Players"
 msgstr "Guardar Jugadores"
 
-#: client/gui-gtk-2.0/editprop.c:4292 client/gui-gtk-3.0/editprop.c:4322
+#: client/gui-gtk-2.0/editprop.c:4293 client/gui-gtk-3.0/editprop.c:4323
 msgid "Nation Start Positions"
 msgstr "Posiciones de Inicio de Naciones"
 
-#: client/gui-gtk-2.0/editprop.c:4569 client/gui-gtk-3.0/editprop.c:4619
+#: client/gui-gtk-2.0/editprop.c:4570 client/gui-gtk-3.0/editprop.c:4620
 msgid "Destroy"
 msgstr "Destruir"
 
-#: client/gui-gtk-2.0/editprop.c:4574 client/gui-gtk-3.0/editprop.c:4622
+#: client/gui-gtk-2.0/editprop.c:4575 client/gui-gtk-3.0/editprop.c:4623
 msgid ""
 "Pressing this button will send a request to the server to destroy (i.e. "
 "erase) the objects selected in the object list."
@@ -3529,11 +3529,11 @@ msgstr ""
 "Al pulsar este botón, se enviará una solicitud al servidor para destruir (es "
 "decir,borrar) los objetos seleccionados en la lista de objetos."
 
-#: client/gui-gtk-2.0/editprop.c:4585 client/gui-gtk-3.0/editprop.c:4602
+#: client/gui-gtk-2.0/editprop.c:4586 client/gui-gtk-3.0/editprop.c:4603
 msgid "Create"
 msgstr "Crear"
 
-#: client/gui-gtk-2.0/editprop.c:4590 client/gui-gtk-3.0/editprop.c:4605
+#: client/gui-gtk-2.0/editprop.c:4591 client/gui-gtk-3.0/editprop.c:4606
 msgid ""
 "Pressing this button will create a new object of the same type as the "
 "current property page and add it to the page. The specific type and count of "
@@ -3548,16 +3548,16 @@ msgstr ""
 
 #. TRANS: %s is a type of object that can be edited, such as "Tile",
 #. * "Unit", "Start Position", etc.
-#: client/gui-gtk-2.0/editprop.c:4641 client/gui-gtk-3.0/editprop.c:4680
+#: client/gui-gtk-2.0/editprop.c:4642 client/gui-gtk-3.0/editprop.c:4681
 #, c-format
 msgid "%s Properties"
 msgstr "Propiedades %s"
 
-#: client/gui-gtk-2.0/editprop.c:4680 client/gui-gtk-3.0/editprop.c:4721
+#: client/gui-gtk-2.0/editprop.c:4681 client/gui-gtk-3.0/editprop.c:4722
 msgid "Filter:"
 msgstr "Filtro:"
 
-#: client/gui-gtk-2.0/editprop.c:4685 client/gui-gtk-3.0/editprop.c:4726
+#: client/gui-gtk-2.0/editprop.c:4686 client/gui-gtk-3.0/editprop.c:4727
 msgid ""
 "Enter a filter string to limit which properties are shown. The filter is one "
 "or more text patterns separated by | (\"or\") or & (\"and\"). The symbol & "
@@ -3569,7 +3569,7 @@ msgstr ""
 "& (\"y\"). El símbolo & tiene mayor precedencia que |. Un patrón también "
 "puede ser negado prefijándolo con !."
 
-#: client/gui-gtk-2.0/editprop.c:4699 client/gui-gtk-3.0/editprop.c:4751
+#: client/gui-gtk-2.0/editprop.c:4700 client/gui-gtk-3.0/editprop.c:4752
 msgid ""
 "Pressing this button will send all modified properties of the objects "
 "selected in the object list to the server. Modified properties' names are "
@@ -3579,7 +3579,7 @@ msgstr ""
 "objetos seleccionados en la lista de objetos al servidor. Los nombres de "
 "propiedades modificadas se muestran en rojo en el panel de propiedades."
 
-#: client/gui-gtk-2.0/editprop.c:4710 client/gui-gtk-3.0/editprop.c:4741
+#: client/gui-gtk-2.0/editprop.c:4711 client/gui-gtk-3.0/editprop.c:4742
 msgid ""
 "Pressing this button will reset all modified properties of the selected "
 "objects to their current values (the values they have on the server)."
@@ -3588,22 +3588,22 @@ msgstr ""
 "los objetos seleccionados a sus valores actuales (los valores que están en "
 "el servidor)."
 
-#: client/gui-gtk-2.0/editprop.c:5865 client/gui-gtk-3.0/editprop.c:5912
+#: client/gui-gtk-2.0/editprop.c:5867 client/gui-gtk-3.0/editprop.c:5914
 msgid "Property Editor"
 msgstr "Editor de Propiedades"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
-#: client/gui-gtk-2.0/editprop.c:6243 client/gui-gtk-3.0/editprop.c:6290
+#: client/gui-gtk-2.0/editprop.c:6245 client/gui-gtk-3.0/editprop.c:6292
 msgid "Seen (Main)"
 msgstr "Vistos (Pral)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
-#: client/gui-gtk-2.0/editprop.c:6246 client/gui-gtk-3.0/editprop.c:6293
+#: client/gui-gtk-2.0/editprop.c:6248 client/gui-gtk-3.0/editprop.c:6295
 msgid "Seen (Invis)"
 msgstr "Vistos (Invis)"
 
-#: client/gui-gtk-2.0/editprop.c:6252 client/gui-gtk-2.0/pages.c:667
-#: client/gui-gtk-3.0/editprop.c:6299 client/gui-gtk-3.0/pages.c:736
+#: client/gui-gtk-2.0/editprop.c:6254 client/gui-gtk-2.0/pages.c:667
+#: client/gui-gtk-3.0/editprop.c:6301 client/gui-gtk-3.0/pages.c:736
 #: client/gui-qt/pages.cpp:760 client/gui-sdl/citydlg.c:1987
 #: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:800
 msgid "Unknown"
@@ -21842,11 +21842,9 @@ msgstr ""
 "La mayoría de estas acciones tienen probabilidades de fracasar. Además, "
 "cualquier Diplomático o Espía enemigo en la ciudad se opondrá a las acciones "
 "hostiles, al igual que el Líder enemigo en las partidas con líderes; en este "
-"caso, "
-"tu unidad o la unidad defensora morirán (si vas contra el Líder siempre vas a "
-"morir). "
-"Si la unidad defensora muere, tu pierdes un punto de movimiento y lo puedes "
-"volver a intentar de nuevo."
+"caso, tu unidad o la unidad defensora morirán (si vas contra el Líder "
+"siempre vas a morir). Si la unidad defensora muere, tu pierdes un punto de "
+"movimiento y lo puedes volver a intentar de nuevo."
 
 #: data/classic/units.ruleset:2052 data/experimental/units.ruleset:2078
 #: data/multiplayer/units.ruleset:2150
@@ -22606,11 +22604,9 @@ msgstr ""
 "Protege una ciudad y sus alrededores (hasta 2 casillas de distancia) de los "
 "ataques de unidades nucleares. Una Unidad Nuclear que no sea tuya o de un "
 "aliado que ataca una ciudad con Defensa SDI, o atacar a una unidad (o se "
-"detonó "
-"deliberadamente ) dentro del rango, es derribada y simplemente no tiene "
-"efecto. "
-"Además, duplica la defensa de las unidades en la ciudad contra los misiles no "
-"nucleares."
+"detonó deliberadamente ) dentro del rango, es derribada y simplemente no "
+"tiene efecto. Además, duplica la defensa de las unidades en la ciudad contra "
+"los misiles no nucleares."
 
 #: data/civ2civ3/buildings.ruleset:918
 #, no-c-format
@@ -24999,8 +24995,7 @@ msgid ""
 "described in the Diplomacy section."
 msgstr ""
 "    Los pactos afectan a donde pueden ir tus unidades y lo que pueden hacer, "
-"y "
-"un pacto con una nación puede afectar a tus relaciones con los demás. Bajo "
+"y un pacto con una nación puede afectar a tus relaciones con los demás. Bajo "
 "los regímenes autoritarios como la monarquía se puede romper un pacto en "
 "cualquier momento, pero los gobiernos representativos (República y "
 "Democracia) tienen un Senado que puede bloquear la cancelación no provocada "
@@ -25789,8 +25784,7 @@ msgstr ""
 "y ciencia por la venta de sus productos comerciales en la ciudad de destino. "
 "El ingreso inicial depende del comercio ya producido por las dos ciudades en "
 "cuestión y su distancia. La civilización destino descubre acerca de la "
-"ubicación "
-"de la ciudad de origen, si no se conoce."
+"ubicación de la ciudad de origen, si no se conoce."
 
 #: data/helpdata.txt:617
 msgid ""
@@ -25808,13 +25802,10 @@ msgstr ""
 "cada ciudad y turno. La cantidad de comercio recurrente aumenta con el "
 "tamaño de cada ciudad y la distancia entre ellas, y también puede depender "
 "de los factores mencionados anteriormente. La relación comercial también le "
-"da a cada civilización inteligencia limitada y sostenida sobre la otra ciudad "
-"asociada. "
-"Si una ruta comercial se vuelve insostenible - por ejemplo, si tu adquieres "
-"ambas "
-"ciudades en un conjunto de reglas sin comercio interno - puede ser cancelada "
-"de forma "
-"permanente."
+"da a cada civilización inteligencia limitada y sostenida sobre la otra "
+"ciudad asociada. Si una ruta comercial se vuelve insostenible - por ejemplo, "
+"si tu adquieres ambas ciudades en un conjunto de reglas sin comercio interno "
+"- puede ser cancelada de forma permanente."
 
 #: data/helpdata.txt:627
 msgid ""
@@ -30496,7 +30487,8 @@ msgstr ""
 "de tareas del informe de producción de la ventana de la ciudad. Haz clic en\n"
 "el cuartel, a continuación, haz clic en Cambiar para comenzar su "
 "construcción.\n"
-"Luego, haga doble clic sobre una unidad militar para añadirla a la lista de \n"
+"Luego, haga doble clic sobre una unidad militar para añadirla a la lista "
+"de \n"
 "tareas. Tan pronto como el cuartel se complete, la ciudad cambiará\n"
 "automáticamente a la producción de la unidad."
 
@@ -30784,7 +30776,8 @@ msgstr ""
 "otras unidades a través del agua, lo que te permite explorar y colonizar\n"
 "nuevos territorios. Puedes cargar las unidades de tierra en tu barco de dos\n"
 "maneras diferentes. Cuando tu barco y la unidad que deseas transportar\n"
-"están en la misma ciudad, selecciona esta última y presiona L para cargarla;\n"
+"están en la misma ciudad, selecciona esta última y presiona L para "
+"cargarla;\n"
 "o si el barco se encuentra junto a una casilla terrestre, puedes mover\n"
 "la unidad desde allí hacia el barco. Cuando quieres desembarcar la unidad,\n"
 "selecciona la unidad transportada y pulsa U, o muévela a una casilla "
