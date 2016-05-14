@@ -1208,7 +1208,7 @@ void handle_new_year(int year, int fragments, int turn)
   game.info.year = year;
   game.info.fragment_count = fragments;
   /*
-   * The turn was increased in handle_before_new_year()
+   * The turn was increased in handle_end_turn()
    */
   fc_assert(game.info.turn == turn);
   update_info_label();
@@ -1343,7 +1343,7 @@ void handle_end_turn(void)
   /*
    * The local idea of the game.info.turn is increased here since the
    * client will get unit updates (reset of move points for example)
-   * between handle_before_new_year() and handle_new_year(). These
+   * between handle_end_turn() and handle_new_year(). These
    * unit updates will look like they did take place in the old turn
    * which is incorrect. If we get the authoritative information about
    * the game.info.turn in handle_new_year() we will check it.
