@@ -115,6 +115,7 @@ struct unit_class {
     struct base_type_list *refuel_bases;
     struct base_type_list *native_tile_bases;
     struct road_type_list *native_tile_roads;
+    struct road_type_list *bonus_roads;
   } cache;
 };
 

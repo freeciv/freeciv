@@ -1149,6 +1149,7 @@ void unit_classes_init(void)
     unit_classes[i].cache.refuel_bases = NULL;
     unit_classes[i].cache.native_tile_bases = NULL;
     unit_classes[i].cache.native_tile_roads = NULL;
+    unit_classes[i].cache.bonus_roads = NULL;
   }
 }
 
@@ -1171,6 +1172,10 @@ void unit_classes_free(void)
     if (unit_classes[i].cache.native_tile_roads != NULL) {
       road_type_list_destroy(unit_classes[i].cache.native_tile_roads);
       unit_classes[i].cache.native_tile_roads = NULL;
+    }
+    if (unit_classes[i].cache.bonus_roads != NULL) {
+      road_type_list_destroy(unit_classes[i].cache.bonus_roads);
+      unit_classes[i].cache.bonus_roads = NULL;
     }
   }
 }
@@ -1344,6 +1349,7 @@ void set_unit_class_caches(struct unit_class *pclass)
   pclass->cache.refuel_bases = base_type_list_new();
   pclass->cache.native_tile_bases = base_type_list_new();
   pclass->cache.native_tile_roads = road_type_list_new();
+  pclass->cache.bonus_roads = road_type_list_new();
 
   base_type_iterate(pbase) {
     if (is_native_base_to_uclass(pbase, pclass)) {
@@ -1355,9 +1361,13 @@ void set_unit_class_caches(struct unit_class *pclass)
   } base_type_iterate_end;
 
   road_type_iterate(proad) {
-    if (is_native_road_to_uclass(proad, pclass)
-        && road_has_flag(proad, RF_NATIVE_TILE)) {
-      road_type_list_append(pclass->cache.native_tile_roads, proad);
+    if (is_native_road_to_uclass(proad, pclass)) {
+      if (road_has_flag(proad, RF_NATIVE_TILE)) {
+        road_type_list_append(pclass->cache.native_tile_roads, proad);
+      }
+      if (proad->move_mode != RMM_NO_BONUS) {
+        road_type_list_append(pclass->cache.bonus_roads, proad);
+      }
     }
   } road_type_iterate_end;
 }
