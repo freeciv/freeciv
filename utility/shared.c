@@ -1589,7 +1589,16 @@ static void autocap_update(void)
 void switch_lang(const char *lang)
 {
 #ifdef FREECIV_ENABLE_NLS
+#ifdef HAVE_SETENV
   setenv("LANG", lang, TRUE);
+#else  /* HAVE_SETENV */
+  if (lang != NULL) {
+    static char envstr[40];
+
+    fc_snprintf(envstr, sizeof(envstr), "LANG=%s", lang);
+    putenv(envstr);
+  }
+#endif /* HAVE_SETENV */
 
   (void) setlocale(LC_ALL, "");
   (void) bindtextdomain("freeciv-core", get_locale_dir());
