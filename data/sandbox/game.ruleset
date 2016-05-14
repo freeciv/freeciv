@@ -709,7 +709,7 @@ colorlist =
 ; freeciv game settings for sandbox ruleset
 ;
 set =
-    { "name", "value", "locked"
+    { "name", "value", "lock"
       ; For forward compatibility reasons, we don't want Pirate nation to ever get created
       ; to the savegames.
       "barbarians", "DISABLED", TRUE
