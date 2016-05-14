@@ -2170,7 +2170,7 @@ static struct setting settings[] = {
 
   GEN_INT("revolen", game.server.revolution_length,
           SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
-          N_("Length in turns of revolution"),
+          N_("Length of revolution"),
           N_("When changing governments, a period of anarchy will occur. "
              "Value of this setting, used the way 'revolentype' setting "
              "dictates, defines the length of the anarchy."),
