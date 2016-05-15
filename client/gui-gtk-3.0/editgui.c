@@ -825,6 +825,19 @@ static void clear_tool_store(GtkListStore *store)
 }
 
 /****************************************************************************
+  Clears all stores from the editbar.
+****************************************************************************/
+static void clear_tool_stores(struct editbar *eb)
+{
+  clear_tool_store(eb->tool_selectors[ETT_TERRAIN]->store);
+  clear_tool_store(eb->tool_selectors[ETT_TERRAIN_RESOURCE]->store);
+  clear_tool_store(eb->tool_selectors[ETT_TERRAIN_SPECIAL]->store);
+  clear_tool_store(eb->tool_selectors[ETT_ROAD]->store);
+  clear_tool_store(eb->tool_selectors[ETT_MILITARY_BASE]->store);
+  clear_tool_store(eb->tool_selectors[ETT_UNIT]->store);
+}
+
+/****************************************************************************
   Reload all tool value data from the tileset for the given toolbar.
 ****************************************************************************/
 static void editbar_reload_tileset(struct editbar *eb)
@@ -839,11 +852,12 @@ static void editbar_reload_tileset(struct editbar *eb)
     return;
   }
 
+  clear_tool_stores(eb);
+
   /* Reload terrains. */
 
   tvs = eb->tool_selectors[ETT_TERRAIN];
   store = tvs->store;
-  clear_tool_store(store);
 
   terrain_type_iterate(pterrain) {
     gtk_list_store_append(store, &iter);
@@ -863,7 +877,6 @@ static void editbar_reload_tileset(struct editbar *eb)
 
   tvs = eb->tool_selectors[ETT_TERRAIN_RESOURCE];
   store = tvs->store;
-  clear_tool_store(store);
 
   resource_type_iterate(presource) {
     gtk_list_store_append(store, &iter);
@@ -889,7 +902,6 @@ static void editbar_reload_tileset(struct editbar *eb)
 
   tvs = eb->tool_selectors[ETT_TERRAIN_SPECIAL];
   store = tvs->store;
-  clear_tool_store(store);
 
   tile_special_type_iterate(special) {
     gtk_list_store_append(store, &iter);
@@ -912,7 +924,6 @@ static void editbar_reload_tileset(struct editbar *eb)
 
   tvs = eb->tool_selectors[ETT_ROAD];
   store = tvs->store;
-  clear_tool_store(store);
 
   road_type_iterate(proad) {
     int id;
@@ -935,7 +946,6 @@ static void editbar_reload_tileset(struct editbar *eb)
 
   tvs = eb->tool_selectors[ETT_MILITARY_BASE];
   store = tvs->store;
-  clear_tool_store(store);
 
   base_type_iterate(pbase) {
     int id;
@@ -959,7 +969,6 @@ static void editbar_reload_tileset(struct editbar *eb)
 
   tvs = eb->tool_selectors[ETT_UNIT];
   store = tvs->store;
-  clear_tool_store(store);
 
   unit_type_iterate(putype) {
     gtk_list_store_append(store, &iter);
@@ -1926,6 +1935,16 @@ void editgui_create_widgets(void)
   if (editor_infobox == NULL) {
     editor_infobox = editinfobox_create();
   }
+}
+
+/****************************************************************************
+  Free everything allocated for the editgui.
+****************************************************************************/
+void editgui_free(void)
+{
+  struct editbar *eb = editgui_get_editbar();
+
+  clear_tool_stores(eb);
 }
 
 /****************************************************************************
