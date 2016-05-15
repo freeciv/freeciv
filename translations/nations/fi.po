@@ -1991,11 +1991,11 @@ msgstr "Nabob %s"
 
 #: data/nation/barbadian.ruleset:3
 msgid "Barbadian"
-msgstr "barbadoslaiset"
+msgstr "barbadoslaisten"
 
 #: data/nation/barbadian.ruleset:4
 msgid "?plural:Barbadians"
-msgstr "barbadoslaisten"
+msgstr "barbadoslaiset"
 
 #: data/nation/barbadian.ruleset:6
 msgid ""
@@ -4032,7 +4032,7 @@ msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:3
 msgid "Brazzaville-Congolese"
-msgstr "brazzavillenkongolaiset"
+msgstr "brazzavillenkongolaisten"
 
 #: data/nation/congolesebrazzaville.ruleset:4
 msgid "?plural:Brazzaville-Congolese"
@@ -5371,11 +5371,11 @@ msgstr "Mansa %s"
 
 #: data/nation/genoese.ruleset:3
 msgid "Genoese"
-msgstr ""
+msgstr "genovalaisten"
 
 #: data/nation/genoese.ruleset:4
 msgid "?plural:Genoese"
-msgstr ""
+msgstr "genovalaiset"
 
 #: data/nation/genoese.ruleset:6
 msgid ""
@@ -5561,11 +5561,11 @@ msgstr "Ghana %s"
 
 #: data/nation/ghaznavid.ruleset:3
 msgid "Ghaznavid"
-msgstr ""
+msgstr "ghaznavidien"
 
 #: data/nation/ghaznavid.ruleset:4
 msgid "?plural:Ghaznavids"
-msgstr ""
+msgstr "ghaznavidit"
 
 #: data/nation/ghaznavid.ruleset:6
 msgid ""
@@ -6047,11 +6047,11 @@ msgstr ""
 
 #: data/nation/hephthalite.ruleset:3
 msgid "Hephthalite"
-msgstr ""
+msgstr "hefthaliittien"
 
 #: data/nation/hephthalite.ruleset:4
 msgid "?plural:Hephthalites"
-msgstr ""
+msgstr "hefthaliitit"
 
 #: data/nation/hephthalite.ruleset:6
 msgid ""
@@ -6561,11 +6561,11 @@ msgstr ""
 
 #: data/nation/jaffna.ruleset:3
 msgid "Jaffna"
-msgstr "jaffnalaiset"
+msgstr "jaffnalaisten"
 
 #: data/nation/jaffna.ruleset:4
 msgid "?plural:Jaffnas"
-msgstr "jaffnalaisten"
+msgstr "jaffnalaiset"
 
 # Successful southern rival. Translate that.
 #: data/nation/jaffna.ruleset:7
@@ -6777,11 +6777,11 @@ msgstr ""
 
 #: data/nation/kashubian.ruleset:3
 msgid "Kashubian"
-msgstr ""
+msgstr "kašubien"
 
 #: data/nation/kashubian.ruleset:4
 msgid "?plural:Kashubians"
-msgstr ""
+msgstr "kašubit"
 
 #: data/nation/kashubian.ruleset:6
 msgid ""
@@ -7572,11 +7572,11 @@ msgstr ""
 
 #: data/nation/luwian.ruleset:3
 msgid "Luwian"
-msgstr ""
+msgstr "luuvilaisten"
 
 #: data/nation/luwian.ruleset:4
 msgid "?plural:Luwians"
-msgstr ""
+msgstr "luuvilaiset"
 
 #: data/nation/luwian.ruleset:6
 msgid ""
@@ -9611,11 +9611,11 @@ msgstr ""
 
 #: data/nation/parthian.ruleset:3
 msgid "Parthian"
-msgstr ""
+msgstr "parthialaisten"
 
 #: data/nation/parthian.ruleset:4
 msgid "?plural:Parthians"
-msgstr ""
+msgstr "parthialaiset"
 
 #: data/nation/parthian.ruleset:6
 msgid ""
@@ -9708,11 +9708,11 @@ msgstr ""
 
 #: data/nation/phrygian.ruleset:3
 msgid "Phrygian"
-msgstr ""
+msgstr "fryygialaisten"
 
 #: data/nation/phrygian.ruleset:4
 msgid "?plural:Phrygians"
-msgstr ""
+msgstr "fryygialaiset"
 
 #: data/nation/phrygian.ruleset:6
 msgid ""
@@ -9910,11 +9910,11 @@ msgstr ""
 
 #: data/nation/rapanui.ruleset:3
 msgid "Rapa Nui"
-msgstr ""
+msgstr "rapanuiden"
 
 #: data/nation/rapanui.ruleset:4
 msgid "?plural:Rapa Nui"
-msgstr ""
+msgstr "rapanuit"
 
 #: data/nation/rapanui.ruleset:6
 msgid ""
@@ -12767,11 +12767,11 @@ msgstr ""
 
 #: data/nation/xiongnu.ruleset:3
 msgid "Xiongnu"
-msgstr ""
+msgstr "xiongnuiden"
 
 #: data/nation/xiongnu.ruleset:4
 msgid "?plural:Xiongnu"
-msgstr ""
+msgstr "xiongnut"
 
 #: data/nation/xiongnu.ruleset:6
 msgid ""
