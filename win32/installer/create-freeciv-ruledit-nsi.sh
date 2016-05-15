@@ -250,7 +250,7 @@ EOF
   echo "    StrCpy \$DefaultLanguageCode \"en_US\""
   echo "  \${EndIf}"
 
-  cat ../../bootstrap/langstat_freeciv.txt |
+  cat ../../bootstrap/langstat_ruledit.txt |
   while read -r code prct name
   do
     echo "  \${If} \$LangName == \"$name ($code) $prct\""
