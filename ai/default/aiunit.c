@@ -2260,7 +2260,7 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
       parameter.ignore_transit_time = TRUE;
     }
     if (tired_of_waiting_boat) {
-      parameter.allow_foreign_trade = FALSE;
+      parameter.allow_foreign_trade = FTL_NATIONAL_ONLY;
       parameter.ignore_transit_time = FALSE;
     }
     caravan_find_best_destination(punit, &parameter, &result, !has_handicap(pplayer, H_MAP));
