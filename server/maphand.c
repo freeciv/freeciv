@@ -1913,21 +1913,22 @@ static void map_claim_border_ownership(struct tile *ptile,
 {
   struct player *ploser = tile_owner(ptile);
 
-  if (BORDERS_SEE_INSIDE == game.info.borders
-      || BORDERS_EXPAND == game.info.borders
-      || (powner && powner->server.border_vision)) {
-    if (ploser != powner) {
-      if (ploser) {
-        const v_radius_t radius_sq = V_RADIUS(-1, 0);
+  if ((ploser != powner && ploser != NULL)
+      && (BORDERS_SEE_INSIDE == game.info.borders
+          || BORDERS_EXPAND == game.info.borders
+          || ploser->server.border_vision)) {
+    const v_radius_t radius_sq = V_RADIUS(-1, 0);
 
-        shared_vision_change_seen(ploser, ptile, radius_sq, FALSE);
-      }
-      if (powner) {
-        const v_radius_t radius_sq = V_RADIUS(1, 0);
+    shared_vision_change_seen(ploser, ptile, radius_sq, FALSE);
+  }
 
-        shared_vision_change_seen(powner, ptile, radius_sq, TRUE);
-      }
-    }
+  if (powner != NULL
+      && (BORDERS_SEE_INSIDE == game.info.borders
+          || BORDERS_EXPAND == game.info.borders
+          || powner->server.border_vision)) {
+    const v_radius_t radius_sq = V_RADIUS(1, 0);
+
+    shared_vision_change_seen(powner, ptile, radius_sq, TRUE);
   }
 
   tile_set_owner(ptile, powner, psource);
