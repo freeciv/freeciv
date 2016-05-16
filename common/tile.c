@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -891,14 +891,6 @@ bool tile_has_any_bases(const struct tile *ptile)
     return FALSE;
   }
   return BV_ISSET_ANY(ptile->bases);
-}
-
-/****************************************************************************
-  Returns TRUE if the given tile has a road of given type on it.
-****************************************************************************/
-bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
-{
-  return BV_ISSET(ptile->roads, road_index(proad));
 }
 
 /****************************************************************************

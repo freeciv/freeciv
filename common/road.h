@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -130,8 +130,11 @@ int count_river_type_near_tile(const struct tile *ptile,
 
 bool road_has_flag(const struct road_type *proad, enum road_flag_id flag);
 
-bool is_native_road_to_uclass(const struct road_type *proad,
-                              const struct unit_class *pclass);
+static inline bool is_native_road_to_uclass(const struct road_type *proad,
+                                            const struct unit_class *pclass)
+{
+  return BV_ISSET(proad->native_to, uclass_index(pclass));
+}
 
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile);
 bool can_build_road(const struct road_type *proad,

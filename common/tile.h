@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -141,7 +141,15 @@ int tile_extras_defense_bonus(const struct tile *ptile,
 int tile_extras_class_defense_bonus(const struct tile *ptile,
                                     const struct unit_class *pclass);
 
-bool tile_has_road(const struct tile *ptile, const struct road_type *proad);
+/****************************************************************************
+  Returns TRUE if the given tile has a road of given type on it.
+****************************************************************************/
+static inline bool tile_has_road(const struct tile *ptile,
+                                 const struct road_type *proad)
+{
+  return BV_ISSET(ptile->roads, road_index(proad));
+}
+
 void tile_add_road(struct tile *ptile, const struct road_type *proad);
 void tile_remove_road(struct tile *ptile, const struct road_type *proad);
 int tile_roads_output_incr(const struct tile *ptile, enum output_type_id o);
