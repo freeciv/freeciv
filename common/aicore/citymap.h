@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - Per I. Mathisen
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,9 +13,16 @@
 #ifndef FC__CITYMAP_H
 #define FC__CITYMAP_H
 
-#include "fc_types.h"
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
-#include "support.h"            /* bool type */
+
+/* utility */
+#include "support.h" /* bool type */
+
+/* common */
+#include "fc_types.h"
 
 void citymap_turn_init(struct player *pplayer);
 void citymap_reserve_city_spot(struct tile *ptile, int id);
@@ -25,5 +32,9 @@ int citymap_read(struct tile *ptile);
 bool citymap_is_reserved(struct tile *ptile);
 
 void citymap_free(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__CITYMAP_H */

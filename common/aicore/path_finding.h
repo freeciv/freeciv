@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -12,6 +12,11 @@
 ***********************************************************************/
 #ifndef FC__PATH_FINDING_H
 #define FC__PATH_FINDING_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 
 /* utility */
 #include "log.h"        /* enum log_level */
@@ -544,6 +549,7 @@ if (COND_from_start || pf_map_iterate((ARG_pfm))) {                         \
   struct tile *NAME_tile;                                                   \
   do {                                                                      \
     NAME_tile = pf_map_iter(_MY_pf_map_);
+
 #define pf_map_tiles_iterate_end                                            \
   } while (pf_map_iterate(_MY_pf_map_));                                    \
 }
@@ -565,8 +571,9 @@ if (COND_from_start || pf_map_iterate((ARG_pfm))) {                         \
   struct tile *NAME_tile;                                                   \
   int NAME_cost;                                                            \
   do {                                                                      \
-    NAME_tile = pf_map_iter(_MY_pf_map_);                              \
+    NAME_tile = pf_map_iter(_MY_pf_map_);                                   \
     NAME_cost = pf_map_iter_move_cost(_MY_pf_map_);
+
 #define pf_map_move_costs_iterate_end                                       \
   } while (pf_map_iterate(_MY_pf_map_));                                    \
 }
@@ -586,6 +593,7 @@ if (COND_from_start || pf_map_iterate((ARG_pfm))) {                         \
   struct pf_position NAME_pos;                                              \
   do {                                                                      \
     pf_map_iter_position(_MY_pf_map_, &NAME_pos);
+
 #define pf_map_positions_iterate_end                                        \
   } while (pf_map_iterate(_MY_pf_map_));                                    \
 }
@@ -605,8 +613,13 @@ if (COND_from_start || pf_map_iterate((ARG_pfm))) {                         \
   struct pf_path *NAME_path;\
   do {\
     NAME_path = pf_map_iter_path(_MY_pf_map_);
+
 #define pf_map_paths_iterate_end                                            \
   } while (pf_map_iterate(_MY_pf_map_));                                    \
 }
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__PATH_FINDING_H */
