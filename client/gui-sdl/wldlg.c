@@ -121,36 +121,36 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
     struct city *pCity = pEditor->pCity;
 
     /* remove duplicate entry of impv./wonder target from worklist */
-    for(i = 0; i < worklist_length(&pEditor->worklist_copy); i++) {
-  
-      if(VUT_IMPROVEMENT == pEditor->worklist_copy.entries[i].kind) {
-        for(j = i + 1; j < worklist_length(&pEditor->worklist_copy); j++) {
+    for (i = 0; i < worklist_length(&pEditor->worklist_copy); i++) {
+
+      if (VUT_IMPROVEMENT == pEditor->worklist_copy.entries[i].kind) {
+        for (j = i + 1; j < worklist_length(&pEditor->worklist_copy); j++) {
           if (VUT_IMPROVEMENT == pEditor->worklist_copy.entries[j].kind
-           && pEditor->worklist_copy.entries[i].value.building ==
-              pEditor->worklist_copy.entries[j].value.building) {
+              && pEditor->worklist_copy.entries[i].value.building ==
+                 pEditor->worklist_copy.entries[j].value.building) {
             worklist_remove(&pEditor->worklist_copy, j);
           }
         }
       }
     }
-    
-    if(pCity) {
+
+    if (pCity) {
       /* remove duplicate entry of currently building impv./wonder from worklist */
-      if(VUT_IMPROVEMENT == pEditor->currently_building.kind) {
-        for(i = 0; i < worklist_length(&pEditor->worklist_copy); i++) {
+      if (VUT_IMPROVEMENT == pEditor->currently_building.kind) {
+        for (i = 0; i < worklist_length(&pEditor->worklist_copy); i++) {
           if (VUT_IMPROVEMENT == pEditor->worklist_copy.entries[i].kind
-           && pEditor->worklist_copy.entries[i].value.building ==
-              pEditor->currently_building.value.building) {
-              worklist_remove(&pEditor->worklist_copy, i);
+              && pEditor->worklist_copy.entries[i].value.building ==
+                 pEditor->currently_building.value.building) {
+            worklist_remove(&pEditor->worklist_copy, i);
           }
         }
       }
-      
+
       /* change production */
-      if(!are_universals_equal(&pCity->production, &pEditor->currently_building)) {
-        city_change_production(pCity, pEditor->currently_building);
+      if (!are_universals_equal(&pCity->production, &pEditor->currently_building)) {
+        city_change_production(pCity, &pEditor->currently_building);
       }
-      
+
       /* commit new city worklist */
       city_set_worklist(pCity, &pEditor->worklist_copy);
     } else {
@@ -207,35 +207,35 @@ static void add_target_to_worklist(struct widget *pTarget)
   set_wstate(pTarget, FC_WS_SELLECTED);
   widget_redraw(pTarget);
   widget_flush(pTarget);
-  
-  /* Deny adding currently building Impr/Wonder Target */ 
+
+  /* Deny adding currently building Impr/Wonder Target */
   if (pEditor->pCity
       && VUT_IMPROVEMENT == prod.kind
       && are_universals_equal(&prod, &pEditor->currently_building)) {
     return;
   }
-  
+
   if (worklist_length(&pEditor->worklist_copy) >= MAX_LEN_WORKLIST - 1) {
     return;   
-    }
-    
-  for(i = 0; i < worklist_length(&pEditor->worklist_copy); i++) {
+  }
+
+  for (i = 0; i < worklist_length(&pEditor->worklist_copy); i++) {
     if (VUT_IMPROVEMENT == prod.kind
-     && are_universals_equal(&prod, &pEditor->worklist_copy.entries[i])) {
-    return;
+        && are_universals_equal(&prod, &pEditor->worklist_copy.entries[i])) {
+      return;
     }
   }
-    
-  worklist_append(&pEditor->worklist_copy, prod);
-  
+
+  worklist_append(&pEditor->worklist_copy, &prod);
+
   /* create widget entry */
-  if(VUT_UTYPE == prod.kind) {
+  if (VUT_UTYPE == prod.kind) {
     pStr = create_str16_from_char(utype_name_translation(prod.value.utype), adj_font(10));
   } else {
     pStr = create_str16_from_char(city_improvement_name_translation(pEditor->pCity, prod.value.building),
-                                                                adj_font(10));
+                                  adj_font(10));
   }
-  
+
   pStr->style |= SF_CENTER;
   pBuf = create_iconlabel(NULL, pTarget->dst, pStr,
 				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
@@ -292,20 +292,20 @@ static void add_target_to_worklist(struct widget *pTarget)
  * This is needed by calculation of change production shields penalty.
  * [similar to are_universals_equal()]
  */
-static bool are_the_same_class(const struct universal one,
-			       const struct universal two)
+static bool are_the_same_class(const struct universal *one,
+                               const struct universal *two)
 {
-  if (one.kind != two.kind) {
+  if (one->kind != two->kind) {
     return FALSE;
   }
-  if (VUT_UTYPE == one.kind) {
-    return one.value.utype == two.value.utype;
+  if (VUT_UTYPE == one->kind) {
+    return one->value.utype == two->value.utype;
   }
-  if (VUT_IMPROVEMENT == one.kind) {
-    if (is_wonder(one.value.building)) {
-      return is_wonder(two.value.building);
+  if (VUT_IMPROVEMENT == one->kind) {
+    if (is_wonder(one->value.building)) {
+      return is_wonder(two->value.building);
     }
-    return (one.value.building == two.value.building);
+    return (one->value.building == two->value.building);
   }
   return FALSE;
 }
@@ -314,21 +314,20 @@ static bool are_the_same_class(const struct universal one,
  * Change production in editor shell, callculate production shields penalty and
  * refresh production progress label
  */
-static void change_production(struct universal prod)
+static void change_production(struct universal *prod)
 {
-    
-  if(!are_the_same_class(pEditor->currently_building, prod)) {
-    if(pEditor->stock != pEditor->pCity->shield_stock) {
-      if(are_the_same_class(pEditor->pCity->production, prod)) {
-	pEditor->stock = pEditor->pCity->shield_stock;
+  if (!are_the_same_class(&pEditor->currently_building, prod)) {
+    if (pEditor->stock != pEditor->pCity->shield_stock) {
+      if (are_the_same_class(&pEditor->pCity->production, prod)) {
+        pEditor->stock = pEditor->pCity->shield_stock;
       }
     } else {
       pEditor->stock =
-	  city_change_production_penalty(pEditor->pCity, prod);
-    }	  	  
+        city_change_production_penalty(pEditor->pCity, prod);
+    }
   }
-      
-  pEditor->currently_building = prod;
+
+  pEditor->currently_building = *prod;
   refresh_production_label(pEditor->stock);
 
   return;
@@ -346,35 +345,35 @@ static void add_target_to_production(struct widget *pTarget)
 {
   int dummy;
   struct universal prod;
+
   fc_assert_ret(pTarget != NULL);
-  
+
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
   widget_redraw(pTarget);
   widget_flush(pTarget);
 
   prod = cid_decode(MAX_ID - pTarget->ID);
-  
+
   /* check if we change to the same target */
-  if(are_universals_equal(&prod, &pEditor->currently_building)) {
+  if (are_universals_equal(&prod, &pEditor->currently_building)) {
     /* comit changes and exit - double click detection */
     ok_worklist_editor_callback(NULL);
     return;
   }
-  
-  change_production(prod);
-  
+
+  change_production(&prod);
+
   /* change Production Text Label in Worklist Widget list */
   copy_chars_to_string16(pEditor->pWork->pEndActiveWidgetList->string16,
-  	get_production_name(pEditor->pCity, prod, &dummy));
-  
+                         get_production_name(pEditor->pCity, prod, &dummy));
+
   pEditor->pWork->pEndActiveWidgetList->ID = MAX_ID - cid_encode(prod);
-    
+
   widget_redraw(pEditor->pWork->pEndActiveWidgetList);
   widget_mark_dirty(pEditor->pWork->pEndActiveWidgetList);
-  
-  flush_dirty();    
-  
+
+  flush_dirty();
 }
 
 /* Get Help Info about target */
@@ -462,15 +461,16 @@ static void remove_item_from_worklist(struct widget *pItem)
   } else {
     /* change productions to first worklist element */
     struct widget *pBuf = pItem->prev;
-    change_production(pEditor->worklist_copy.entries[0]);
+
+    change_production(&pEditor->worklist_copy.entries[0]);
     worklist_advance(&pEditor->worklist_copy);
     del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
     FC_FREE(pBuf->data.ptr);
-    if(pBuf != pEditor->pWork->pBeginActiveWidgetList) {
-      do{
+    if (pBuf != pEditor->pWork->pBeginActiveWidgetList) {
+      do {
         pBuf = pBuf->prev;
         *((int *)pBuf->data.ptr) = *((int *)pBuf->data.ptr) - 1;
-      } while(pBuf != pEditor->pWork->pBeginActiveWidgetList);
+      } while (pBuf != pEditor->pWork->pBeginActiveWidgetList);
     }
   }
 
@@ -537,7 +537,7 @@ static void swap_item_down_from_worklist(struct widget *pItem)
     changed = TRUE;  
   } else {
     /* first item was clicked -> change production */
-    change_production(pEditor->worklist_copy.entries[0]);
+    change_production(&pEditor->worklist_copy.entries[0]);
     pEditor->worklist_copy.entries[0] = cid_decode(MAX_ID - ID);
       changed = TRUE;
     }
@@ -594,7 +594,7 @@ static void swap_item_up_from_worklist(struct widget *pItem)
   } else {
     /* second item was clicked -> change production ... */
     tmp = pEditor->currently_building;
-    change_production(pEditor->worklist_copy.entries[0]);
+    change_production(&pEditor->worklist_copy.entries[0]);
     pEditor->worklist_copy.entries[0] = tmp;    
       
     changed = TRUE;
@@ -665,16 +665,16 @@ static void add_global_worklist(struct widget *pWidget)
 
   firstfree = worklist_length(&pEditor->worklist_copy);
   /* copy global worklist to city worklist */
-  for(count = 0 ; count < worklist_length(pWorkList); count++) {
-    
+  for (count = 0 ; count < worklist_length(pWorkList); count++) {
+
     /* global worklist can have targets unavilable in current state of game
        then we must remove those targets from new city worklist */
-    if(!can_city_build_later(pEditor->pCity, pWorkList->entries[count])) {
-      continue;  
+    if (!can_city_build_later(pEditor->pCity, &pWorkList->entries[count])) {
+      continue;
     }
-    
-    worklist_append(&pEditor->worklist_copy, pWorkList->entries[count]);
-    
+
+    worklist_append(&pEditor->worklist_copy, &pWorkList->entries[count]);
+
     /* create widget */      
     if(VUT_UTYPE == pWorkList->entries[count].kind) {
       pBuf = create_iconlabel(NULL, pWidget->dst,
@@ -740,34 +740,34 @@ static void set_global_worklist(struct widget *pWidget)
 
   /* clear tmp worklist */
   worklist_init(&wl);
-  
+
   wl_count = 0;
   /* copy global worklist to city worklist */
-  for(count = 0; count < worklist_length(pWorkList); count++) {
-    
+  for (count = 0; count < worklist_length(pWorkList); count++) {
+
     /* global worklist can have targets unavilable in current state of game
        then we must remove those targets from new city worklist */
-    if(!can_city_build_later(pEditor->pCity, pWorkList->entries[count])) {
-      continue;  
+    if (!can_city_build_later(pEditor->pCity, &pWorkList->entries[count])) {
+      continue;
     }
-    
+
     wl.entries[wl_count] = pWorkList->entries[count];
     wl_count++;
   }
   /* --------------------------------- */
-  
-  if(!worklist_is_empty(&wl)) {
+
+  if (!worklist_is_empty(&wl)) {
     /* free old widget list */
-    if(pBuf != pEditor->pWork->pBeginActiveWidgetList) {
+    if (pBuf != pEditor->pWork->pBeginActiveWidgetList) {
       pBuf = pBuf->prev;
-      if(pBuf != pEditor->pWork->pBeginActiveWidgetList) {
+      if (pBuf != pEditor->pWork->pBeginActiveWidgetList) {
         do {
           pBuf = pBuf->prev;
           del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pBuf->next);
-        } while(pBuf != pEditor->pWork->pBeginActiveWidgetList);
+        } while (pBuf != pEditor->pWork->pBeginActiveWidgetList);
       }
       del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pBuf);
-    }  
+    }
     /* --------------------------------- */
     
     worklist_copy(&pEditor->worklist_copy, &wl);
@@ -922,7 +922,7 @@ static void refresh_production_label(int stock)
   } else {
     if (stock < cost) {
       turns = city_turns_to_build(pEditor->pCity,
-                                  pEditor->currently_building, TRUE);
+                                  &pEditor->currently_building, TRUE);
       if (turns == 999) {
         fc_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
       } else {
@@ -1406,52 +1406,55 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       } else {
         state = NULL;
       }
-  
-      if(pCity) {
-        if(!improvement_has_flag(pImprove, IF_GOLD)) {
-          turns = city_turns_to_build(pCity, cid_production(cid_encode_building(pImprove)), TRUE);
-            
+
+      if (pCity) {
+        if (!improvement_has_flag(pImprove, IF_GOLD)) {
+          struct universal univ = cid_production(cid_encode_building(pImprove));
+
+          turns = city_turns_to_build(pCity, &univ, TRUE);
+
           if (turns == FC_INFINITY) {
-	    if(state) {
+            if (state) {
               fc_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d/%d %s\n%s"),
-			  state, pCity->shield_stock,
-			  impr_build_shield_cost(pImprove),
-			  PL_("shield", "shields",
-			      impr_build_shield_cost(pImprove)),
-			  _("never"));
-	    } else {
-	      fc_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%s"),
-			  pCity->shield_stock, impr_build_shield_cost(pImprove),
-			  PL_("shield","shields",
-			      impr_build_shield_cost(pImprove)), _("never"));
-	    }	  
+                          state, pCity->shield_stock,
+                          impr_build_shield_cost(pImprove),
+                          PL_("shield", "shields",
+                              impr_build_shield_cost(pImprove)),
+                          _("never"));
+            } else {
+              fc_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%s"),
+                          pCity->shield_stock, impr_build_shield_cost(pImprove),
+                          PL_("shield","shields",
+                              impr_build_shield_cost(pImprove)), _("never"));
+            }
           } else {
             if (state) {
-	      fc_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d/%d %s\n%d %s"),
-			  state, pCity->shield_stock,
-			  impr_build_shield_cost(pImprove),
-			  PL_("shield","shields",
-			      impr_build_shield_cost(pImprove)),
-			  turns, PL_("turn", "turns", turns));
+              fc_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d/%d %s\n%d %s"),
+                          state, pCity->shield_stock,
+                          impr_build_shield_cost(pImprove),
+                          PL_("shield","shields",
+                              impr_build_shield_cost(pImprove)),
+                          turns, PL_("turn", "turns", turns));
             } else {
-	      fc_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%d %s"),
-			  pCity->shield_stock, impr_build_shield_cost(pImprove),
-			  PL_("shield","shields",
-			      impr_build_shield_cost(pImprove)),
-			  turns, PL_("turn", "turns", turns));
+              fc_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%d %s"),
+                          pCity->shield_stock, impr_build_shield_cost(pImprove),
+                          PL_("shield","shields",
+                              impr_build_shield_cost(pImprove)),
+                          turns, PL_("turn", "turns", turns));
             }
           }
         } else {
           /* capitalization */
           int gold = MAX(0, pCity->surplus[O_SHIELD]);
+
           fc_snprintf(cBuf, sizeof(cBuf), PL_("%d gold per turn",
                                               "%d gold per turn", gold),
                       gold);
         }
       } else {
         /* non city mode */
-        if(!improvement_has_flag(pImprove, IF_GOLD)) {
-          if(state) {
+        if (!improvement_has_flag(pImprove, IF_GOLD)) {
+          if (state) {
             fc_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d %s"),
 			state, impr_build_shield_cost(pImprove),
 			PL_("shield","shields",
@@ -1539,33 +1542,36 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
   
       if (pCity) {
-        turns = city_turns_to_build(pCity, cid_production(cid_encode_unit(un)), TRUE);
+        struct universal univ;
+
+        univ = cid_production(cid_encode_unit(un));
+        turns = city_turns_to_build(pCity, &univ, TRUE);
         if (turns == FC_INFINITY) {
           fc_snprintf(cBuf, sizeof(cBuf),
-		    _("(%d/%d/%s)\n%d/%d %s\nnever"),
-		    pUnit->attack_strength,
-                    pUnit->defense_strength,
-                    move_points_text(pUnit->move_rate, TRUE),
-		    pCity->shield_stock, utype_build_shield_cost(un),
-	  	    PL_("shield","shields", utype_build_shield_cost(un)));
+                      _("(%d/%d/%s)\n%d/%d %s\nnever"),
+                      pUnit->attack_strength,
+                      pUnit->defense_strength,
+                      move_points_text(pUnit->move_rate, TRUE),
+                      pCity->shield_stock, utype_build_shield_cost(un),
+                      PL_("shield","shields", utype_build_shield_cost(un)));
         } else {
           fc_snprintf(cBuf, sizeof(cBuf),
-		    _("(%d/%d/%s)\n%d/%d %s\n%d %s"),
-		    pUnit->attack_strength,
-                    pUnit->defense_strength,
-                    move_points_text(pUnit->move_rate, TRUE),
-		    pCity->shield_stock, utype_build_shield_cost(un), 
-	  	    PL_("shield","shields", utype_build_shield_cost(un)),
-		    turns, PL_("turn", "turns", turns));
+                      _("(%d/%d/%s)\n%d/%d %s\n%d %s"),
+                      pUnit->attack_strength,
+                      pUnit->defense_strength,
+                      move_points_text(pUnit->move_rate, TRUE),
+                      pCity->shield_stock, utype_build_shield_cost(un), 
+                      PL_("shield","shields", utype_build_shield_cost(un)),
+                      turns, PL_("turn", "turns", turns));
         }
       } else {
         fc_snprintf(cBuf, sizeof(cBuf),
-		    _("(%d/%d/%s)\n%d %s"),
-		    pUnit->attack_strength,
+                    _("(%d/%d/%s)\n%d %s"),
+                    pUnit->attack_strength,
                     pUnit->defense_strength,
                     move_points_text(pUnit->move_rate, TRUE),
-		    utype_build_shield_cost(un),
-		    PL_("shield","shields", utype_build_shield_cost(un)));
+                    utype_build_shield_cost(un),
+                    PL_("shield","shields", utype_build_shield_cost(un)));
       }
 
       copy_chars_to_string16(pStr, cBuf);

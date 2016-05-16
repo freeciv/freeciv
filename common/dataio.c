@@ -925,6 +925,7 @@ bool dio_get_worklist(struct data_in *din, struct worklist *pwl)
   for (i = 0; i < length; i++) {
     int identifier;
     int kind;
+    struct universal univ;
 
     if (!dio_get_uint8(din, &kind)
         || !dio_get_uint8(din, &identifier)) {
@@ -935,7 +936,8 @@ bool dio_get_worklist(struct data_in *din, struct worklist *pwl)
     /*
      * FIXME: the value returned by universal_by_number() should be checked!
      */
-    worklist_append(pwl, universal_by_number(kind, identifier));
+    univ = universal_by_number(kind, identifier);
+    worklist_append(pwl, &univ);
   }
 
   return TRUE;

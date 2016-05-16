@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -144,7 +144,7 @@ void worklist_remove(struct worklist *pwl, int idx)
   the unit/building to be produced; is_unit specifies whether it's a unit or
   a building.  Returns TRUE if successful.
 ****************************************************************************/
-bool worklist_append(struct worklist *pwl, struct universal prod)
+bool worklist_append(struct worklist *pwl, const struct universal *prod)
 {
   int next_index = worklist_length(pwl);
 
@@ -152,7 +152,7 @@ bool worklist_append(struct worklist *pwl, struct universal prod)
     return FALSE;
   }
 
-  pwl->entries[next_index] = prod;
+  pwl->entries[next_index] = *prod;
   pwl->length++;
 
   return TRUE;
@@ -164,8 +164,8 @@ bool worklist_append(struct worklist *pwl, struct universal prod)
   be produced; is_unit tells whether it's a unit or building.  Returns TRUE
   if successful.
 ****************************************************************************/
-bool worklist_insert(struct worklist *pwl,
-		     struct universal prod, int idx)
+bool worklist_insert(struct worklist *pwl, const struct universal *prod,
+                     int idx)
 {
   int new_len = MIN(pwl->length + 1, MAX_LEN_WORKLIST), i;
 
@@ -179,8 +179,8 @@ bool worklist_insert(struct worklist *pwl,
   for (i = new_len - 2; i >= idx; i--) {
     pwl->entries[i + 1] = pwl->entries[i];
   }
-  
-  pwl->entries[idx] = prod;
+
+  pwl->entries[idx] = *prod;
   pwl->length = new_len;
 
   return TRUE;
@@ -190,7 +190,7 @@ bool worklist_insert(struct worklist *pwl,
   Return TRUE iff the two worklists are equal.
 **************************************************************************/
 bool are_worklists_equal(const struct worklist *wlist1,
-			 const struct worklist *wlist2)
+                         const struct worklist *wlist2)
 {
   int i;
 

@@ -2060,27 +2060,27 @@ void disband_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
 
 /****************************************************************
-...
+  Production change callback
 *****************************************************************/
 static void change_to_callback(Widget w, XtPointer client_data,
-			       XtPointer call_data)
+                               XtPointer call_data)
 {
   struct city_dialog *pdialog;
   XawListReturnStruct *ret;
 
-  pdialog=(struct city_dialog *)client_data;
+  pdialog = (struct city_dialog *)client_data;
 
-  ret=XawListShowCurrent(pdialog->change_list);
+  ret = XawListShowCurrent(pdialog->change_list);
 
   if (ret->list_index != XAW_LIST_NONE) {
     struct universal target =
       universal_by_number((ret->list_index >= pdialog->change_list_num_improvements)
-			     ? VUT_UTYPE : VUT_IMPROVEMENT,
-			     pdialog->change_list_ids[ret->list_index]);
+                          ? VUT_UTYPE : VUT_IMPROVEMENT,
+                          pdialog->change_list_ids[ret->list_index]);
 
-    city_change_production(pdialog->pcity, target);
+    city_change_production(pdialog->pcity, &target);
   }
-  
+
   XtDestroyWidget(XtParent(XtParent(w)));
   XtSetSensitive(pdialog->shell, TRUE);
 }
@@ -2230,19 +2230,18 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   n = 0;
   improvement_iterate(pimprove) {
-    if(can_city_build_improvement_now(pdialog->pcity, pimprove)) {
+    if (can_city_build_improvement_now(pdialog->pcity, pimprove)) {
       production.kind = VUT_IMPROVEMENT;
       production.value.building = pimprove;
       get_city_dialog_production_full(pdialog->change_list_names[n],
                                       sizeof(pdialog->change_list_names[n]),
-                                      production, pdialog->pcity);
-      pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
+                                      &production, pdialog->pcity);
+      pdialog->change_list_names_ptrs[n] = pdialog->change_list_names[n];
       pdialog->change_list_ids[n++] = improvement_number(pimprove);
     }
   } improvement_iterate_end;
-  
-  pdialog->change_list_num_improvements=n;
 
+  pdialog->change_list_num_improvements = n;
 
   unit_type_iterate(punittype) {
     if (can_city_build_unit_now(pdialog->pcity, punittype)) {
@@ -2250,16 +2249,16 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
       production.value.utype = punittype;
       get_city_dialog_production_full(pdialog->change_list_names[n],
                                       sizeof(pdialog->change_list_names[n]),
-                                      production, pdialog->pcity);
-      pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
+                                      &production, pdialog->pcity);
+      pdialog->change_list_names_ptrs[n] = pdialog->change_list_names[n];
       pdialog->change_list_ids[n++] = utype_number(punittype);
     }
   } unit_type_iterate_end;
-  
-  pdialog->change_list_names_ptrs[n]=0;
+
+  pdialog->change_list_names_ptrs[n] = 0;
 
   XawListChange(pdialog->change_list, pdialog->change_list_names_ptrs, 
-		0, 0, False);
+                0, 0, False);
   /* force refresh of viewport so the scrollbar is added.
    * Buggy sun athena requires this */
   XtVaSetValues(cview, XtNforceBars, True, NULL);

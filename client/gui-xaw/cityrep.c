@@ -381,19 +381,19 @@ void city_list_callback(Widget w, XtPointer client_data,
 ...
 *****************************************************************/
 void city_change_callback(Widget w, XtPointer client_data, 
-			 XtPointer call_data)
+                          XtPointer call_data)
 {
-  XawListReturnStruct *ret=XawListShowCurrent(city_list);
+  XawListReturnStruct *ret = XawListShowCurrent(city_list);
   struct city *pcity;
   struct universal production;
 
-  if(ret->list_index!=XAW_LIST_NONE && 
-     (pcity=cities_in_list[ret->list_index])) {
+  if (ret->list_index != XAW_LIST_NONE
+      && (pcity=cities_in_list[ret->list_index])) {
     cid my_cid = (cid) XTPOINTER_TO_INT(client_data);
-      
+
     production = cid_decode(my_cid);
 
-    city_change_production(pcity, production);
+    city_change_production(pcity, &production);
   }
 }
 
@@ -1039,23 +1039,25 @@ static void chgall_to_list_callback (Widget w, XtPointer client_data,
 /**************************************************************************
 ...
 **************************************************************************/
-
 static void chgall_change_command_callback (Widget w, XtPointer client_data,
-					    XtPointer call_data)
+                                            XtPointer call_data)
 {
   struct chgall_data *state = (struct chgall_data *)client_data;
+  struct universal fr;
+  struct universal to;
 
   chgall_update_widgets_state (state);
 
-  if (!(state->may_change))
-    {
-      return;
-    }
+  if (!(state->may_change)) {
+    return;
+  }
 
-  client_change_all(cid_decode(state->fr_cids[state->fr_index]),
-		    cid_decode(state->to_cids[state->to_index]));
+  fr = cid_decode(state->fr_cids[state->fr_index]);
+  to = cid_decode(state->to_cids[state->to_index]);
 
-  XtDestroyWidget (state->w.shell);
+  client_change_all(&fr, &to);
+
+  XtDestroyWidget(state->w.shell);
 }
 
 /**************************************************************************

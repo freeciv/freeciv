@@ -2175,8 +2175,8 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
     }
   }
 
-  if ((unit_data->task == AIUNIT_TRADE || 
-       unit_data->task == AIUNIT_WONDER)) {
+  if ((unit_data->task == AIUNIT_TRADE
+       || unit_data->task == AIUNIT_WONDER)) {
     /* we are moving to our destination */
     /* we check to see if our current goal is feasible */
     struct city *city_dest = tile_city(punit->goto_tile);

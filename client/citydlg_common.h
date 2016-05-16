@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,10 +20,12 @@ extern "C" {
 
 #include <stddef.h>		/* size_t */
 
+/* utility */
 #include "support.h"            /* bool type */
-#include "fc_types.h"
 
+/* common */
 #include "city.h"
+#include "fc_types.h"
 
 struct canvas;
 struct worklist;
@@ -43,10 +45,10 @@ char *city_production_cost_str(const struct city *pcity);
 void get_city_dialog_production(struct city *pcity,
                                 char *buffer, size_t buffer_len);
 void get_city_dialog_production_full(char *buffer, size_t buffer_len,
-                                     struct universal target,
+                                     struct universal *target,
                                      struct city *pcity);
 void get_city_dialog_production_row(char *buf[], size_t column_size,
-                                    struct universal target,
+                                    struct universal *target,
                                     struct city *pcity);
 
 void get_city_dialog_output_text(const struct city *pcity,
@@ -65,12 +67,12 @@ void city_rotate_specialist(struct city *pcity, int citizen_index);
 
 void activate_all_units(struct tile *ptile);
 
-int city_change_production(struct city *pcity, struct universal target);
+int city_change_production(struct city *pcity, struct universal *target);
 int city_set_worklist(struct city *pcity, const struct worklist *pworklist);
 void city_worklist_commit(struct city *pcity, struct worklist *pwl);
 
 bool city_queue_insert(struct city *pcity, int position,
-                       struct universal target);
+                       struct universal *target);
 bool city_queue_clear(struct city *pcity);
 bool city_queue_insert_worklist(struct city *pcity, int position,
                                 const struct worklist *worklist);

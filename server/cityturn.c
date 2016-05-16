@@ -1038,7 +1038,7 @@ static bool worklist_change_build_target(struct player *pplayer,
     }
 
     if (worklist_peek_ith(pwl, &target, i)) {
-      success = can_city_build_now(pcity, target);
+      success = can_city_build_now(pcity, &target);
     } else {
       success = FALSE;
     }
@@ -1887,7 +1887,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 
   if (success) {
     /* All okay.  Switch targets. */
-    change_build_target(pplayer, pcity, target, E_WORKLIST);
+    change_build_target(pplayer, pcity, &target, E_WORKLIST);
 
     /* i is the index immediately _after_ the item we're changing to.
        Remove the (i-1)th item from the worklist. */

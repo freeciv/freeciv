@@ -793,9 +793,9 @@ int city_production_buy_gold_cost(const struct city *pcity)
  production in the city.  GUI Independent.
 **************************************************************************/
 int city_production_turns_to_build(const struct city *pcity,
-				   bool include_shield_stock)
+                                   bool include_shield_stock)
 {
-  return city_turns_to_build(pcity, pcity->production, include_shield_stock);
+  return city_turns_to_build(pcity, &pcity->production, include_shield_stock);
 }
 
 /**************************************************************************
@@ -929,13 +929,13 @@ bool can_city_build_unit_later(const struct city *pcity,
   unit or improvement. This considers obsolete targets still buildable.
 **************************************************************************/
 bool can_city_build_direct(const struct city *pcity,
-			   struct universal target)
+                           const struct universal *target)
 {
-  switch (target.kind) {
+  switch (target->kind) {
   case VUT_UTYPE:
-    return can_city_build_unit_direct(pcity, target.value.utype);
+    return can_city_build_unit_direct(pcity, target->value.utype);
   case VUT_IMPROVEMENT:
-    return can_city_build_improvement_direct(pcity, target.value.building);
+    return can_city_build_improvement_direct(pcity, target->value.building);
   default:
     break;
   };
@@ -947,13 +947,13 @@ bool can_city_build_direct(const struct city *pcity,
   unit or improvement. This considers obsolete targets no longer buildable.
 **************************************************************************/
 bool can_city_build_now(const struct city *pcity,
-			struct universal target)
+                        const struct universal *target)
 {
-  switch (target.kind) {
+  switch (target->kind) {
   case VUT_UTYPE:
-    return can_city_build_unit_now(pcity, target.value.utype);
+    return can_city_build_unit_now(pcity, target->value.utype);
   case VUT_IMPROVEMENT:
-    return can_city_build_improvement_now(pcity, target.value.building);
+    return can_city_build_improvement_now(pcity, target->value.building);
   default:
     break;
   };
@@ -964,13 +964,13 @@ bool can_city_build_now(const struct city *pcity,
   Returns whether city can ever build given target, unit or improvement. 
 **************************************************************************/
 bool can_city_build_later(const struct city *pcity,
-			  struct universal target)
+                          const struct universal *target)
 {
-  switch (target.kind) {
+  switch (target->kind) {
   case VUT_UTYPE:
-    return can_city_build_unit_later(pcity, target.value.utype);
+    return can_city_build_unit_later(pcity, target->value.utype);
   case VUT_IMPROVEMENT:
-    return can_city_build_improvement_later(pcity, target.value.building);
+    return can_city_build_improvement_later(pcity, target->value.building);
   default:
     break;
   };
@@ -1621,7 +1621,7 @@ const char *city_style_rule_name(const int style)
  original improvement class of this turn, restore lost production.
 **************************************************************************/
 int city_change_production_penalty(const struct city *pcity,
-				   struct universal target)
+                                   const struct universal *target)
 {
   int shield_stock_after_adjustment;
   enum production_class_type orig_class;
@@ -1644,9 +1644,9 @@ int city_change_production_penalty(const struct city *pcity,
     break;
   };
 
-  switch (target.kind) {
+  switch (target->kind) {
   case VUT_IMPROVEMENT:
-    if (is_wonder(target.value.building)) {
+    if (is_wonder(target->value.building)) {
       new_class = PCT_WONDER;
     } else {
       new_class = PCT_NORMAL_IMPROVEMENT;
@@ -1662,7 +1662,7 @@ int city_change_production_penalty(const struct city *pcity,
 
   /* Changing production is penalized under certain circumstances. */
   if (orig_class == new_class
-   || orig_class == PCT_LAST) {
+      || orig_class == PCT_LAST) {
     /* There's never a penalty for building something of the same class. */
     unpenalized_shields = pcity->before_change_shields;
   } else if (city_built_last_turn(pcity)) {
@@ -1670,7 +1670,7 @@ int city_change_production_penalty(const struct city *pcity,
      * you change production on the very next turn.  But you can only use
      * up to the city's surplus amount of shields in this way. */
     unpenalized_shields = MIN(pcity->last_turns_shield_surplus,
-			      pcity->before_change_shields);
+                              pcity->before_change_shields);
     penalized_shields = pcity->before_change_shields - unpenalized_shields;
   } else {
     /* Penalize 50% of the production. */
@@ -1697,20 +1697,20 @@ int city_change_production_penalty(const struct city *pcity,
 
 /**************************************************************************
  Calculates the turns which are needed to build the requested
- improvement in the city.  GUI Independent.
+ improvement in the city. GUI Independent.
 **************************************************************************/
 int city_turns_to_build(const struct city *pcity,
-			struct universal target,
-			bool include_shield_stock)
+                        const struct universal *target,
+                        bool include_shield_stock)
 {
   int city_shield_surplus = pcity->surplus[O_SHIELD];
   int city_shield_stock = include_shield_stock ?
       city_change_production_penalty(pcity, target) : 0;
-  int cost = universal_build_shield_cost(&target);
+  int cost = universal_build_shield_cost(target);
 
-  if (target.kind == VUT_IMPROVEMENT
-      && is_great_wonder(target.value.building)
-      && !great_wonder_is_available(target.value.building)) {
+  if (target->kind == VUT_IMPROVEMENT
+      && is_great_wonder(target->value.building)
+      && !great_wonder_is_available(target->value.building)) {
     return FC_INFINITY;
   }
 

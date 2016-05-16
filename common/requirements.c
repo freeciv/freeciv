@@ -56,7 +56,7 @@ static universal_found universal_found_function[VUT_COUNT] = {NULL};
   FIXME: ensure that every caller checks error return!
 **************************************************************************/
 struct universal universal_by_rule_name(const char *kind,
-					const char *value)
+                                        const char *value)
 {
   struct universal source;
 
@@ -307,7 +307,7 @@ struct universal universal_by_rule_name(const char *kind,
   FIXME: ensure that every caller checks error return!
 **************************************************************************/
 struct universal universal_by_number(const enum universals_n kind,
-				     const int value)
+                                     const int value)
 {
   struct universal source;
 

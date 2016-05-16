@@ -130,9 +130,9 @@ bool is_req_in_vec(const struct requirement *req,
 int universal_number(const struct universal *source);
 
 struct universal universal_by_number(const enum universals_n kind,
-				     const int value);
+                                     const int value);
 struct universal universal_by_rule_name(const char *kind,
-					const char *value);
+                                        const char *value);
 void universal_extraction(const struct universal *source,
 			  int *kind, int *value);
 

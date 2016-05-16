@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -451,13 +451,13 @@ void clipboard_paste_production(struct city *pcity)
 static void clipboard_send_production_packet(struct city *pcity)
 {
   if (are_universals_equal(&pcity->production, &clipboard)
-      || !can_city_build_now(pcity, clipboard)) {
+      || !can_city_build_now(pcity, &clipboard)) {
     return;
   }
 
   dsend_packet_city_change(&client.conn, pcity->id,
-			   clipboard.kind,
-			   universal_number(&clipboard));
+                           clipboard.kind,
+                           universal_number(&clipboard));
 }
 
 /**************************************************************************

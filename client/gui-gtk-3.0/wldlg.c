@@ -570,10 +570,11 @@ static void change_callback(GtkWidget *w, gpointer data)
 
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
     gint id;
+    struct universal univ;
 
     gtk_tree_model_get(model, &it, 0, &id, -1);
-
-    city_change_production(ptr->pcity, cid_production(id));
+    univ = cid_production(id);
+    city_change_production(ptr->pcity, &univ);
   }
 }
 
@@ -936,8 +937,8 @@ static gboolean dst_dnd_callback(GtkWidget *w, GdkDragContext *context,
   Render worklist cell
 *****************************************************************/
 static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
-			     GtkTreeModel *model, GtkTreeIter *it,
-			     gpointer data)
+                             GtkTreeModel *model, GtkTreeIter *it,
+                             gpointer data)
 {
   gint id;
   struct universal target;
@@ -968,8 +969,8 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
     struct city **pcity = data;
     gint column;
     char *row[4];
-    char  buf[4][64];
-    guint   i;
+    char buf[4][64];
+    guint i;
     gboolean useless;
 
     for (i = 0; i < ARRAY_SIZE(row); i++) {
@@ -977,10 +978,10 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
     }
     column = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(rend), "column"));
 
-    get_city_dialog_production_row(row, sizeof(buf[0]), target, *pcity);
+    get_city_dialog_production_row(row, sizeof(buf[0]), &target, *pcity);
     g_object_set(rend, "text", row[column], NULL);
 
-    if (NULL != *pcity  &&  VUT_IMPROVEMENT == target.kind) {
+    if (NULL != *pcity && VUT_IMPROVEMENT == target.kind) {
       useless = is_improvement_redundant(*pcity, target.value.building);
       /* Mark building redundant if we are really certain that there is
        * no use for it. */
@@ -1242,7 +1243,7 @@ GtkWidget *create_worklist(void)
   button = gtk_button_new_with_mnemonic(_("Change Prod_uction"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
-		   G_CALLBACK(change_callback), ptr);
+                   G_CALLBACK(change_callback), ptr);
   ptr->change_cmd = button;
   gtk_widget_set_sensitive(ptr->change_cmd, FALSE);
 
@@ -1455,6 +1456,7 @@ static void commit_worklist(struct worklist_data *ptr)
   if (gtk_tree_model_get_iter_first(model, &it)) {
     do {
       gint id;
+      struct universal univ;
 
       /* oops, the player has a worklist longer than what we can store. */
       if (i >= MAX_LEN_WORKLIST) {
@@ -1462,8 +1464,8 @@ static void commit_worklist(struct worklist_data *ptr)
       }
 
       gtk_tree_model_get(model, &it, 0, &id, -1);
-
-      worklist_append(&queue, cid_production(id));
+      univ = cid_production(id);
+      worklist_append(&queue, &univ);
 
       i++;
     } while (gtk_tree_model_iter_next(model, &it));

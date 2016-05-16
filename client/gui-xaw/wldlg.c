@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -811,25 +811,29 @@ void insert_into_worklist(struct worklist_dialog *pdialog,
      the list of available targets is okay for this city, but a global
      worklist may try to insert an odd-ball unit or target. */
   if (pdialog->pcity
-      && !can_city_build_later(pdialog->pcity, target)) {
+      && !can_city_build_later(pdialog->pcity, &target)) {
     /* Nope, this city can't build this target, ever.  Don't put it into
        the worklist. */
     return;
   }
 
   /* Find the first free element in the worklist */
-  for (first_free = 0; first_free < MAX_LEN_WORKLIST; first_free++)
-    if (pdialog->worklist_ids[first_free] == WORKLIST_END)
+  for (first_free = 0; first_free < MAX_LEN_WORKLIST; first_free++) {
+    if (pdialog->worklist_ids[first_free] == WORKLIST_END) {
       break;
+    }
+  }
 
-  if (first_free >= MAX_LEN_WORKLIST-1)
+  if (first_free >= MAX_LEN_WORKLIST-1) {
     /* No room left in the worklist! (remember, we need to keep space
        open for the WORKLIST_END sentinel.) */
     return;
+  }
 
-  if (first_free < before && before != MAX_LEN_WORKLIST)
+  if (first_free < before && before != MAX_LEN_WORKLIST) {
     /* True weirdness. */
     return;
+  }
 
   if (before < MAX_LEN_WORKLIST) {
     /* Slide all the later elements in the worklist down. */
@@ -1068,24 +1072,24 @@ void worklist_ok_callback(Widget w, XtPointer client_data, XtPointer call_data)
   struct worklist wl;
   struct universal production;
   int i;
-  
-  pdialog=(struct worklist_dialog *)client_data;
-  
-  /* Fill in this worklist with the parameters set in the worklist 
+
+  pdialog = (struct worklist_dialog *)client_data;
+
+  /* Fill in this worklist with the parameters set in the worklist
      dialog. */
   worklist_init(&wl);
-  
+
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     if (pdialog->worklist_ids[i] == WORKLIST_END) {
       continue;
     } else if (pdialog->worklist_ids[i] >= B_LAST) {
       production.kind = VUT_UTYPE;
       production.value.utype = utype_by_number(pdialog->worklist_ids[i] - B_LAST);
-      worklist_append(&wl, production);
+      worklist_append(&wl, &production);
     } else if (pdialog->worklist_ids[i] >= 0) {
       production.kind = VUT_IMPROVEMENT;
       production.value.building = improvement_by_number(pdialog->worklist_ids[i]);
-      worklist_append(&wl, production);
+      worklist_append(&wl, &production);
     } else {
       continue;
     }
