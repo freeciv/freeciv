@@ -2179,8 +2179,8 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
     }
   }
 
-  if ((unit_data->task == AIUNIT_TRADE || 
-       unit_data->task == AIUNIT_WONDER)) {
+  if ((unit_data->task == AIUNIT_TRADE
+       || unit_data->task == AIUNIT_WONDER)) {
     /* we are moving to our destination */
     /* we check to see if our current goal is feasible */
     struct city *city_dest = tile_city(punit->goto_tile);
@@ -2192,7 +2192,7 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
                  && can_establish_trade_route(homecity, city_dest)))
         || (unit_data->task == AIUNIT_WONDER
             /* Helping the (new) production is illegal. */
-            && !city_production_gets_caravan_shields(city_dest->production))
+            && !city_production_gets_caravan_shields(&city_dest->production))
         || (unit_data->task == AIUNIT_TRADE
             && real_map_distance(city_dest->tile, unit_tile(punit)) <= 1
             && !(is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,

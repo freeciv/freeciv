@@ -1221,7 +1221,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
     /* Set production to something valid for pplayer, if not.
      * (previously allowed building obsolete units.) */
-    if (!can_city_build_now(pcity, pcity->production)) {
+    if (!can_city_build_now(pcity, &pcity->production)) {
       advisor_choose_build(ptaker, pcity);
     }
 
@@ -2826,22 +2826,22 @@ void city_units_upkeep(const struct city *pcity)
   Change the build target.
 **************************************************************************/
 void change_build_target(struct player *pplayer, struct city *pcity,
-			 struct universal target,
-			 enum event_type event)
+                         struct universal *target,
+                         enum event_type event)
 {
   const char *name;
   const char *source;
 
   /* If the city is already building this thing, don't do anything */
-  if (are_universals_equal(&pcity->production, &target)) {
+  if (are_universals_equal(&pcity->production, target)) {
     return;
   }
 
   /* Is the city no longer building a wonder? */
   if (VUT_IMPROVEMENT == pcity->production.kind
-   && is_great_wonder(pcity->production.value.building)
-   && event != E_IMP_AUTO
-   && event != E_WORKLIST) {
+      && is_great_wonder(pcity->production.value.building)
+      && event != E_IMP_AUTO
+      && event != E_WORKLIST) {
     /* If the build target is changed because of an advisor's suggestion or
        because the worklist advances, then the wonder was completed -- 
        don't announce that the player has *stopped* building that wonder. 
@@ -2858,7 +2858,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   pcity->shield_stock = city_change_production_penalty(pcity, target);
 
   /* Change build target. */
-  pcity->production = target;
+  pcity->production = *target;
 
   /* What's the name of the target? */
   name = city_production_name_translation(pcity);
@@ -2875,20 +2875,20 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   /* FIXME: this may give bad grammar when translated if the 'source'
    * string can have multiple values. */
   notify_player(pplayer, city_tile(pcity), event, ftc_server,
-		/* TRANS: "<city> is building <production><source>." */
-		_("%s is building %s%s."),
-		city_link(pcity),
-		name, source);
+                /* TRANS: "<city> is building <production><source>." */
+                _("%s is building %s%s."),
+                city_link(pcity),
+                name, source);
 
   /* If the city is building a wonder, tell the rest of the world
      about it. */
   if (VUT_IMPROVEMENT == pcity->production.kind
-   && is_great_wonder(pcity->production.value.building)) {
+      && is_great_wonder(pcity->production.value.building)) {
     notify_player(NULL, city_tile(pcity), E_WONDER_STARTED, ftc_server,
-		  _("The %s have started building The %s in %s."),
-		  nation_plural_for_player(pplayer),
-		  name,
-		  city_link(pcity));
+                  _("The %s have started building The %s in %s."),
+                  nation_plural_for_player(pplayer),
+                  name,
+                  city_link(pcity));
   }
 }
 

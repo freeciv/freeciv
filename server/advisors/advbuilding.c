@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -320,20 +320,20 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
       .value = {.building = choice.value.building}
     };
 
-    change_build_target(pplayer, pcity, target, E_IMP_AUTO);
+    change_build_target(pplayer, pcity, &target, E_IMP_AUTO);
     return;
   }
 
   /* Build the first thing we can think of (except a new palace). */
   improvement_iterate(pimprove) {
     if (can_city_build_improvement_now(pcity, pimprove)
-	&& !building_has_effect(pimprove, EFT_CAPITAL_CITY)) {
+        && !building_has_effect(pimprove, EFT_CAPITAL_CITY)) {
       struct universal target = {
         .kind = VUT_IMPROVEMENT,
         .value = {.building = pimprove}
       };
 
-      change_build_target(pplayer, pcity, target, E_IMP_AUTO);
+      change_build_target(pplayer, pcity, &target, E_IMP_AUTO);
       return;
     }
   } improvement_iterate_end;

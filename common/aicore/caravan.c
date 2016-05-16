@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -371,14 +371,15 @@ static double trade_benefit(const struct player *caravan_owner,
  ***************************************************************************/
 static double wonder_benefit(const struct unit *caravan, int arrival_time,
                              const struct city *dest,
-                             const struct caravan_parameter *param) {
+                             const struct caravan_parameter *param)
+{
   int costwithout, costwith;
   int shields_at_arrival;
 
   if (!param->consider_wonders
       /* TODO: Should helping an ally to build be considered when legal? */
       || unit_owner(caravan) != city_owner(dest)
-      || !city_production_gets_caravan_shields(dest->production)
+      || !city_production_gets_caravan_shields(&dest->production)
       /* TODO: Should helping to build a unit be considered when legal? */
       || VUT_UTYPE == dest->production.kind
       /* TODO: Should helping to build an improvement be considered when

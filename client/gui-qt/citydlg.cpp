@@ -2350,8 +2350,11 @@ void city_dialog::production_changed(int index)
   QVariant qvar;
 
   if (can_client_issue_orders()) {
+    struct universal univ;
+
     id = qvar.toInt();
-    city_change_production(pcity, cid_production(id));
+    univ = cid_production(id);
+    city_change_production(pcity, &univ);
   }
 }
 
@@ -2428,7 +2431,7 @@ void city_dialog::worklist_up()
   city_get_queue(pcity, &queue);
   worklist_peek_ith(&queue, target, selected_row_p);
   worklist_remove(&queue, selected_row_p);
-  worklist_insert(&queue, *target, selected_row_p - 1);
+  worklist_insert(&queue, target, selected_row_p - 1);
   city_set_queue(pcity, &queue);
   index = p_table_p->model()->index(selected_row_p - 1, 0);
   p_table_p->setCurrentIndex(index);
@@ -2467,7 +2470,7 @@ void city_dialog::worklist_down()
   city_get_queue(pcity, &queue);
   worklist_peek_ith(&queue, target, selected_row_p);
   worklist_remove(&queue, selected_row_p);
-  worklist_insert(&queue, *target, selected_row_p + 1);
+  worklist_insert(&queue, target, selected_row_p + 1);
   city_set_queue(pcity, &queue);
   index = p_table_p->model()->index(selected_row_p + 1, 0);
   p_table_p->setCurrentIndex(index);
@@ -2986,9 +2989,9 @@ void city_production_model::populate()
   struct universal *renegade;
   int item, targets_used;
   QString str;
-
   QFont f = QApplication::font();
   QFontMetrics fm(f);
+
   sh.setY(fm.height() * 2);
   sh.setX(0);
 
@@ -3000,7 +3003,7 @@ void city_production_model::populate()
   name_and_sort_items(targets, targets_used, items, false, mcity);
 
   for (item = 0; item < targets_used; item++) {
-    if (future_t || can_city_build_now(mcity, items[item].item)) {
+    if (future_t || can_city_build_now(mcity, &items[item].item)) {
       renegade = new universal(items[item].item);
       /* renagade deleted in production_item destructor */
       pi = new production_item(renegade, this);
@@ -3169,7 +3172,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
     city_get_queue(pw_city, &queue);
     switch (when_change) {
     case 0: /* Change current target */
-      city_change_production(pw_city, *target);
+      city_change_production(pw_city, target);
       if (city_can_buy(pw_city) && buy_it) {
         city_buy_production(pw_city);
       }
@@ -3179,7 +3182,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
         curr_selection = 0;
       }
       worklist_remove(&queue, curr_selection);
-      worklist_insert(&queue, *target, curr_selection);
+      worklist_insert(&queue, target, curr_selection);
       city_set_queue(pw_city, &queue);
       break;
     case 2:                 /* Insert before */
@@ -3188,7 +3191,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
       }
       curr_selection--;
       curr_selection = qMax(0, curr_selection);
-      worklist_insert(&queue, *target, curr_selection);
+      worklist_insert(&queue, target, curr_selection);
       city_set_queue(pw_city, &queue);
       break;
     case 3:                 /* Insert after */
@@ -3196,11 +3199,11 @@ void production_widget::prod_selected(const QItemSelection &sl,
         curr_selection = 0;
       }
       curr_selection++;
-      worklist_insert(&queue, *target, curr_selection);
+      worklist_insert(&queue, target, curr_selection);
       city_set_queue(pw_city, &queue);
       break;
     case 4:                 /* Add last */
-      city_queue_insert(pw_city, -1, *target);
+      city_queue_insert(pw_city, -1, target);
       break;
     default:
       break;

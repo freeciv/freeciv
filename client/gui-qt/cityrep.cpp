@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,11 +21,11 @@
 #include <QMessageBox>
 
 // gui-qt
-#include "qtg_cxxside.h"
 #include "cityrep.h"
+#include "qtg_cxxside.h"
 
 static bool can_city_sell_universal(const struct city *pcity,
-                                    struct universal target);
+                                    const struct universal *target);
 
 /***************************************************************************
   Overriden compare for sorting items
@@ -562,7 +562,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (city_building_present(iter_city, target)) {
+          if (city_building_present(iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -571,7 +571,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (city_building_present(iter_city, target)) {
+          if (city_building_present(iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -580,7 +580,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (city_unit_supported(iter_city, target)) {
+          if (city_unit_supported(iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -589,7 +589,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (city_unit_present(iter_city, target)) {
+          if (city_unit_present(iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -598,7 +598,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (can_city_build_now(iter_city, target)) {
+          if (can_city_build_now(iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -607,7 +607,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (can_city_build_now(iter_city, target)) {
+          if (can_city_build_now(iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -616,7 +616,7 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (can_city_build_now(iter_city, target)) {
+          if (can_city_build_now(iter_city, &target)) {
             select_city(iter_city);
           }
           break;
@@ -627,20 +627,20 @@ void city_widget::display_list_menu(const QPoint &)
     } city_list_iterate_end;
 
     foreach (pcity, selected_cities) {
-      if (NULL != pcity) {
+      if (nullptr != pcity) {
         switch (m_state) {
         case CHANGE_PROD_NOW:
-          city_change_production(pcity, target);
+          city_change_production(pcity, &target);
           break;
         case CHANGE_PROD_NEXT:
-          city_queue_insert(pcity, 1, target);
+          city_queue_insert(pcity, 1, &target);
           break;
         case CHANGE_PROD_BEF_LAST:
           city_queue_insert(pcity, worklist_length(&pcity->worklist), 
-                            target);
+                            &target);
           break;
         case CHANGE_PROD_LAST:
-          city_queue_insert(pcity, -1, target);
+          city_queue_insert(pcity, -1, &target);
           break;
         case SELL:
           building = target.value.building;
@@ -1008,7 +1008,6 @@ void city_widget::gen_production_labels(city_widget::menu_labels what,
                                         TestCityFunc test_func,
                                         bool global)
 {
-
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   int i, item, targets_used;
@@ -1048,8 +1047,9 @@ void city_widget::gen_production_labels(city_widget::menu_labels what,
   for (item = 0; item < targets_used; item++) {
     struct universal target = items[item].item;
     char txt[256];
+
     str.clear();
-    get_city_dialog_production_row(row, sizeof(buf[0]), target, NULL);
+    get_city_dialog_production_row(row, sizeof(buf[0]), &target, NULL);
     fc_snprintf(txt, ARRAY_SIZE(txt), "%s ", row[0]);
     str = str + QString(txt);
     list.insert(str, cid_encode(target));
@@ -1235,10 +1235,10 @@ void city_report::update_city(struct city *pcity)
   Same as can_city_sell_building(), but with universal argument.
 *****************************************************************/
 static bool can_city_sell_universal(const struct city *pcity,
-                                    struct universal target)
+                                    const struct universal *target)
 {
-  return (target.kind == VUT_IMPROVEMENT
-          && can_city_sell_building(pcity, target.value.building));
+  return (target->kind == VUT_IMPROVEMENT
+          && can_city_sell_building(pcity, target->value.building));
 }
 
 

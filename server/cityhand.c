@@ -441,7 +441,7 @@ void handle_city_refresh(struct player *pplayer, int city_id)
   Handle request to change current production.
 **************************************************************************/
 void handle_city_change(struct player *pplayer, int city_id,
-			int production_kind, int production_value)
+                        int production_kind, int production_value)
 {
   struct universal prod;
   struct city *pcity = player_city_by_number(pplayer, city_id);
@@ -470,7 +470,7 @@ void handle_city_change(struct player *pplayer, int city_id,
     return;
   }
 
-  if (!can_city_build_now(pcity, prod)) {
+  if (!can_city_build_now(pcity, &prod)) {
     return;
   }
   if (!city_can_change_build(pcity)) {
@@ -479,7 +479,7 @@ void handle_city_change(struct player *pplayer, int city_id,
     return;
   }
 
-  change_build_target(pplayer, pcity, prod, E_CITY_PRODUCTION_CHANGED);
+  change_build_target(pplayer, pcity, &prod, E_CITY_PRODUCTION_CHANGED);
 
   city_refresh(pcity);
   sanity_check_city(pcity);

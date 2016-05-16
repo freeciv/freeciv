@@ -563,11 +563,11 @@ bool can_city_build_unit_now(const struct city *pcity,
 			     const struct unit_type *punittype);
 
 bool can_city_build_direct(const struct city *pcity,
-			   struct universal target);
+                           const struct universal *target);
 bool can_city_build_later(const struct city *pcity,
-			  struct universal target);
+                          const struct universal *target);
 bool can_city_build_now(const struct city *pcity,
-			struct universal target);
+                        const struct universal *target);
 
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type);
@@ -584,16 +584,16 @@ bool city_production_build_units(const struct city *pcity,
 int city_production_buy_gold_cost(const struct city *pcity);
 
 bool city_production_has_flag(const struct city *pcity,
-			      enum impr_flag_id flag);
+                              enum impr_flag_id flag);
 int city_production_turns_to_build(const struct city *pcity,
-				   bool include_shield_stock);
+                                   bool include_shield_stock);
 
-bool city_production_gets_caravan_shields(const struct universal tgt);
+bool city_production_gets_caravan_shields(const struct universal *tgt);
 
 int city_change_production_penalty(const struct city *pcity,
-				   struct universal target);
+                                   const struct universal *target);
 int city_turns_to_build(const struct city *pcity,
-			struct universal target,
+                        const struct universal *target,
                         bool include_shield_stock);
 int city_turns_to_grow(const struct city *pcity);
 bool city_can_grow_to(const struct city *pcity, int pop_size);

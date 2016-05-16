@@ -1110,9 +1110,11 @@ static void target_drag_data_received(GtkWidget *w,
 
     if (gtk_tree_model_get_iter(model, &it, path)) {
       cid id;
+      struct universal univ;
 
       gtk_tree_model_get(model, &it, 0, &id, -1);
-      city_change_production(pdialog->pcity, cid_production(id));
+      univ = cid_production(id);
+      city_change_production(pdialog->pcity, &univ);
       gtk_drag_finish(context, TRUE, FALSE, time);
     }
     gtk_tree_path_free(path);
@@ -1980,7 +1982,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     name_and_sort_items(targets, targets_used, items, FALSE, pcity);
 
     for (item = 0; item < targets_used; item++) {
-      if (can_city_build_now(pcity, items[item].item)) {
+      if (can_city_build_now(pcity, &items[item].item)) {
         const char* name;
         struct sprite* sprite;
         GdkPixbuf *pix;
@@ -3063,12 +3065,15 @@ static void change_production_callback(GtkComboBox *combo,
                                        struct city_dialog *pdialog)
 {
   GtkTreeIter iter;
-  cid id;
 
   if (can_client_issue_orders()
       && gtk_combo_box_get_active_iter(combo, &iter)) {
+    cid id;
+    struct universal univ;
+
     gtk_tree_model_get(gtk_combo_box_get_model(combo), &iter, 2, &id, -1);
-    city_change_production(pdialog->pcity, cid_production(id));
+    univ = cid_production(id);
+    city_change_production(pdialog->pcity, &univ);
   }
 }
 

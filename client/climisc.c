@@ -159,10 +159,10 @@ void client_remove_city(struct city *pcity)
 }
 
 /**************************************************************************
-Change all cities building X to building Y, if possible.  X and Y
-could be improvements or units. X and Y are compound ids.
+  Change all cities building X to building Y, if possible.  X and Y
+  could be improvements or units. X and Y are compound ids.
 **************************************************************************/
-void client_change_all(struct universal from, struct universal to)
+void client_change_all(struct universal *from, struct universal *to)
 {
   if (!can_client_issue_orders()) {
     return;
@@ -170,16 +170,16 @@ void client_change_all(struct universal from, struct universal to)
 
   create_event(NULL, E_CITY_PRODUCTION_CHANGED, ftc_client,
                _("Changing production of every %s into %s."),
-               VUT_UTYPE == from.kind
-               ? utype_name_translation(from.value.utype)
-               : improvement_name_translation(from.value.building),
-               VUT_UTYPE == to.kind
-               ? utype_name_translation(to.value.utype)
-               : improvement_name_translation(to.value.building));
+               VUT_UTYPE == from->kind
+               ? utype_name_translation(from->value.utype)
+               : improvement_name_translation(from->value.building),
+               VUT_UTYPE == to->kind
+               ? utype_name_translation(to->value.utype)
+               : improvement_name_translation(to->value.building));
 
   connection_do_buffer(&client.conn);
   city_list_iterate (client.conn.playing->cities, pcity) {
-    if (are_universals_equal(&pcity->production, &from)
+    if (are_universals_equal(&pcity->production, from)
         && can_city_build_now(pcity, to)) {
       city_change_production(pcity, to);
     }
@@ -534,10 +534,10 @@ struct universal cid_decode(cid id)
   production type (returns FALSE if the production is a building).
 ****************************************************************************/
 bool city_unit_supported(const struct city *pcity,
-			 struct universal target)
+                         const struct universal *target)
 {
-  if (VUT_UTYPE == target.kind) {
-    struct unit_type *tvtype = target.value.utype;
+  if (VUT_UTYPE == target->kind) {
+    struct unit_type *tvtype = target->value.utype;
 
     unit_list_iterate(pcity->units_supported, punit) {
       if (unit_type_get(punit) == tvtype) {
@@ -553,14 +553,14 @@ bool city_unit_supported(const struct city *pcity,
   production type (returns FALSE if the production is a building).
 ****************************************************************************/
 bool city_unit_present(const struct city *pcity,
-		       struct universal target)
+                       const struct universal *target)
 {
-  if (VUT_UTYPE == target.kind) {
-    struct unit_type *tvtype = target.value.utype;
+  if (VUT_UTYPE == target->kind) {
+    struct unit_type *tvtype = target->value.utype;
 
     unit_list_iterate(pcity->tile->units, punit) {
       if (unit_type_get(punit) == tvtype) {
-	return TRUE;
+        return TRUE;
       }
     }
     unit_list_iterate_end;
@@ -572,10 +572,10 @@ bool city_unit_present(const struct city *pcity,
   A TestCityFunc to tell whether the item is a building and is present.
 ****************************************************************************/
 bool city_building_present(const struct city *pcity,
-			   struct universal target)
+                           const struct universal *target)
 {
-  return VUT_IMPROVEMENT == target.kind
-      && city_has_building(pcity, target.value.building);
+  return VUT_IMPROVEMENT == target->kind
+    && city_has_building(pcity, target->value.building);
 }
 
 /**************************************************************************
@@ -675,15 +675,15 @@ void name_and_sort_items(struct universal *targets, int num_targets,
   FIXME: this should probably take a pplayer argument.
 **************************************************************************/
 int collect_production_targets(struct universal *targets,
-			       struct city **selected_cities,
-			       int num_selected_cities, bool append_units,
-			       bool append_wonders, bool change_prod,
-			       TestCityFunc test_func)
+                               struct city **selected_cities,
+                               int num_selected_cities, bool append_units,
+                               bool append_wonders, bool change_prod,
+                               TestCityFunc test_func)
 {
   cid first = append_units ? B_LAST : 0;
   cid last = (append_units
-	      ? utype_count() + B_LAST
-	      : improvement_count());
+              ? utype_count() + B_LAST
+              : improvement_count());
   cid id;
   int items_used = 0;
 
@@ -698,18 +698,18 @@ int collect_production_targets(struct universal *targets,
     if (!change_prod) {
       if (client_has_player()) {
         city_list_iterate(client_player()->cities, pcity) {
-          append |= test_func(pcity, cid_decode(id));
+          append |= test_func(pcity, &target);
         } city_list_iterate_end;
       } else {
         cities_iterate(pcity) {
-          append |= test_func(pcity, cid_decode(id));
+          append |= test_func(pcity, &target);
         } cities_iterate_end;
       }
     } else {
       int i;
 
       for (i = 0; i < num_selected_cities; i++) {
-	append |= test_func(selected_cities[i], cid_decode(id));
+        append |= test_func(selected_cities[i], &target);
       }
     }
 

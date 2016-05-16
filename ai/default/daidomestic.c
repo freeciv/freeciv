@@ -66,11 +66,11 @@
 
 
 /***************************************************************************
- * Evaluate the need for units (like caravans) that aid wonder construction.
- * If another city is building wonder and needs help but pplayer is not
- * advanced enough to build caravans, the corresponding tech will be 
- * stimulated.
- ***************************************************************************/
+  Evaluate the need for units (like caravans) that aid wonder construction.
+  If another city is building wonder and needs help but pplayer is not
+  advanced enough to build caravans, the corresponding tech will be 
+  stimulated.
+****************************************************************************/
 static void dai_choose_help_wonder(struct ai_type *ait,
                                    struct city *pcity,
                                    struct adv_choice *choice,
@@ -79,7 +79,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   struct player *pplayer = city_owner(pcity);
   Continent_id continent = tile_continent(pcity->tile);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
-  /* Total count of caravans available or already being built 
+  /* Total count of caravans available or already being built
    * on this continent */
   int caravans = 0;
   /* The type of the caravan */
@@ -94,7 +94,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   if (pcity == wonder_city 
       || wonder_city == NULL
       || city_data->distance_to_wonder_city <= 0
-      || !city_production_gets_caravan_shields(wonder_city->production)
+      || !city_production_gets_caravan_shields(&wonder_city->production)
       /* TODO: Should helping to build a unit be considered when legal? */
       || VUT_UTYPE == wonder_city->production.kind
       /* TODO: Should helping to build an improvement be considered when

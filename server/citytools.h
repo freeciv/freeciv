@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -75,10 +75,10 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove);
 void city_units_upkeep(const struct city *pcity);
 
 bool is_production_equal(const struct universal *one,
-			 const struct universal *two);
+                         const struct universal *two);
 void change_build_target(struct player *pplayer, struct city *pcity,
-			 struct universal target,
-			 enum event_type event);
+                         struct universal *target,
+                         enum event_type event);
 
 bool is_allowed_city_name(struct player *pplayer, const char *cityname,
 			  char *error_buf, size_t bufsz);
