@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -12,6 +12,11 @@
 ***********************************************************************/
 #ifndef FC__CARAVAN_H
 #define FC__CARAVAN_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 
 /* utility */
 #include "log.h"                /* enum log_level */
@@ -135,7 +140,7 @@ void caravan_parameter_log_real(const struct caravan_parameter *parameter,
   }
 
 void caravan_result_init_zero(struct caravan_result *result);
-int caravan_result_compare(const struct caravan_result *a, 
+int caravan_result_compare(const struct caravan_result *a,
                            const struct caravan_result *b);
 
 void caravan_evaluate(const struct unit *caravan, const struct city *dest,
@@ -149,5 +154,9 @@ void caravan_find_best_destination(const struct unit *caravan,
 void caravan_optimize_allpairs(const struct unit *caravan,
                                const struct caravan_parameter *parameter,
                                struct caravan_result *result, bool omniscient);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__CARAVAN_H */
