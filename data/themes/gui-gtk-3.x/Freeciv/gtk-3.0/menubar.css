@@ -20,8 +20,8 @@
   color : #404040;
 }
 
-.menubar:insensitive,
-.menubar:insensitive *
+.menubar:disabled,
+.menubar:disabled *
 {
   color : #b2b2b2;
 }

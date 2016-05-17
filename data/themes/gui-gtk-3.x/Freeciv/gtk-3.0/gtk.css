@@ -54,7 +54,7 @@
   background-color: #e7d6b0;
 }
 
-:insensitive {
+:disabled {
   color: #9d9d9d;
   /* background-color: #0000FF; */
   /* background-color: #626262; */
@@ -107,7 +107,7 @@
   border-image-repeat: stretch;
 }
 
-.button:insensitive {
+.button:disabled {
   border-width: 3px;
   border-image-source: url("Buttons/button-insensitive.png");
   border-image-repeat: stretch;
@@ -119,50 +119,50 @@
 .button:backdrop,
 .button:focus,
 .button:focus:active,
-.button:insensitive,
-.button:prelight {
+.button:disabled,
+.button:hover {
   background-image: none;
   background-color: #e7d6b0;
 }
 
 .check,
 .check row:selected,
-.check row:selected:focused {
+.check row:selected:focus {
   background-image: url("Check-Radio/check1.png");
   background-size: cover;
 }
 
-.check:insensitive,
-.check row:selected:insensitive,
-.check row:selected:focused:insensitive {
+.check:disabled,
+.check row:selected:disabled,
+.check row:selected:focus:disabled {
   background-image: url("Check-Radio/check3.png");
   background-size: cover;
 }
 
 .check:active,
 .check row:selected:active,
-.check row:selected:focused:active {
+.check row:selected:focus:active {
   background-image: url("Check-Radio/check4.png");
   background-size: cover;
 }
 
 .radio,
 .radio row:selected,
-.radio row:selected:focused {
+.radio row:selected:focus {
   background-image: url("Check-Radio/option1.png");
   background-size: cover;
 }
 
-.radio:insensitive,
-.radio row:selected:insensitive,
-.radio row:selected:focused:insensitive {
+.radio:disabled,
+.radio row:selected:disabled,
+.radio row:selected:focus:disabled {
   background-image: url("Check-Radio/option3.png");
   background-size: cover;
 }
 
 .radio:active,
 .radio row:selected:active,
-.radio row:selected:focused:active {
+.radio row:selected:focus:active {
   background-image: url("Check-Radio/option4.png");
   background-size: cover;
 }
@@ -240,7 +240,7 @@ column-header .button:hover {
   background-clip: border-box;
 }
 
-column-header .button:insensitive {
+column-header .button:disabled {
   background-image: url("ListHeaders/list_header-insens.png");
   background-size: cover;
   background-clip: border-box;
