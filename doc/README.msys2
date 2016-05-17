@@ -142,7 +142,7 @@ Following packages have been installed:
 - autoconf
 - python
 - mingw-w64-i686-icu
-- mingw-w64-i686-libsqlite
+- mingw-w64-i686-sqlite3
 - mingw-w64-i686-gtk3
 - mingw-w64-i686-nsis
 
