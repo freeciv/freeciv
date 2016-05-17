@@ -1716,6 +1716,13 @@ msgid ""
 "Gradually they lost power and political importance and eventually the Avars "
 "blended with Slavic peoples."
 msgstr ""
+"Muinaiset avaarit olivat Aasiasta Eurooppaan saapuneita paimentolaiskansoja. "
+"Heidän yleisin kielensä oli oletettavasti muinaisbulgaria joka "
+"kuului eteläturkkilaiseen eli oguz-kieliryhmään, mutta heidän todellinen "
+"alkuperänsä on epäselvä. On mahdollista että he kuuluivat aikaisemmin "
+"rouran- tai hefthaliitti-ryhmiin. Asetuttuaan Pannoniaan he alistivat "
+"paikalliset slaavikansat valtaansa. Vähitellen heidän valtansa ja "
+"vaikutuksensa hävisi ja he sulautuivat slaaveihin."
 
 #: data/nation/avar.ruleset:32 data/nation/azeri.ruleset:35
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
@@ -1807,7 +1814,7 @@ msgstr ""
 "Azerit ovat Azerbaidžanin kansa. Nykyisen Azerbaidžanin alueella nousi ja "
 "kaatui joukko erilaisia kaukasuslaisia antiikin ajan valtakuntia. Vuonna "
 "1813 Azerbaidžan liitettiin osaksi Venäjän keisarikuntaa, jonka jälkeen se "
-"itsenäistyi lyhyeksi ajaksi 1918-1920 - historian ensimmäiseksi "
+"itsenäistyi lyhyeksi ajaksi 1918-1920 – historian ensimmäiseksi "
 "muslimitasavallaksi. Puna-armeijan joukkojen saavuttua Azerbaidžanista tuli "
 "osa Neuvostoliittoa tämän hajoamiseen 1991 asti."
 
@@ -2225,6 +2232,14 @@ msgid ""
 "legions but eventually succumbed to the Romans. The modern country of "
 "Belgium derives its name from the Belgae."
 msgstr ""
+"Belgit olivat muinainen kelttiheimo joka asutti aluetta josta myöhemmin "
+"muodostui Rooman provinssi Gallia Belgica. Heidän alkuperänsä oli ehkä "
+"sekoitus kelttiläistä ja germaanista, koska he olivat saapuneet Galliaan "
+"Rein-joen takaa ja heillä vaikutti olleen germaanisia piirteitä, mutta "
+"heidän johtajiensa nimet olivat gallialaisia. Julius Caesarin tiedetään "
+"sanoneen belgejä kaikkein rohkeimmiksi Gallian asukkaiksi. He vastustivat "
+"sitkeästi Caesarin legioonia, mutta lopulta joutuivat alistumaan Rooman "
+"valtaan. Nykyinen Belgian valtio johtaa nimensä belgeistä."
 
 #: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
 #: data/nation/helvetian.ruleset:29
@@ -2600,6 +2615,8 @@ msgid ""
 "Central Europe and Northern Italy. The names of both Bohemia and Bavaria "
 "probably derive from this people."
 msgstr ""
+"Boijit olivat muinainen kelttiheimo joka asutti Keski-Eurooppaa ja pohjoista "
+"Italiaa. Sekä Böömin että Baijerin nimet luultavasti johtuvat boijeista."
 
 #: data/nation/bolivian.ruleset:3
 msgid "Bolivian"
@@ -3138,6 +3155,14 @@ msgid ""
 "half-million Buryats in the world as well as the center of Buddhism in "
 "Russia."
 msgstr ""
+"Mongolien historiankirjoitusten mukaan burjaatit olivat Baikaljärven "
+"ympäristön metsissä asuneita mongolikansoja. Vuonna 1207 heidät alisti "
+"valtaansa Jochi, Tsingis-Kaanin vanhin poika. Kun burjaattien kotimaa "
+"liitettiin Venäjään vuosien 1689 ja 1728 sopimuksissa, he erosivat "
+"poliittisesti muista mongoleista ja heille kehittyi erillinen "
+"kansallisidentiteetti. Nykyään suurin osa maailman noin puolesta miljoonasta "
+"burjaatista asuu Burjatian tasavallassa, joka on myös Venäjän "
+"buddhalaisuuden keskus."
 
 #: data/nation/californian.ruleset:3
 msgid "Californian"
@@ -3254,6 +3279,17 @@ msgid ""
 "fierce resistance. They rebelled during the Incan civil war and sided with "
 "the Spanish during their conquest of the Inca empire."
 msgstr ""
+"Kanarit olivat muinainen eteläamerikkalainen sivilisaatio alueilla jotka "
+"nykyään kuuluvat Ecuadorin valtioon. Heidän olemassaoloansa voidaan "
+"jäljittää 500-luvulta alkaen. He olivat yksi harvoista Andien kulttuureista "
+"joka ei palvonut aurinkoa. Kanarin kieli oli luultavasti sukua Perun "
+"mochica-kielelle, mutta Espanjan valloituksen aikaan kanarit olivat pääosin "
+"vaihtaneet kielekseen ketsuan. Kanarit muodostivat löyhän yhteenliittymän "
+"tärkeimpänä hallintokaupunkinaan Guapdondelig, joka tunnetaan nykyään Azuayn "
+"provinssin pääkaupunkina nimeltään Cuenca. Inkat alistivat heidät ankaran "
+"vastustuksen jälkeen valtaansa 1400-luvun lopussa. He kapinoivat inkojen "
+"sisällissodassa ja liittoutuivat espanjalaisten kanssa näiden valloittaessa "
+"Inkavaltiota."
 
 #: data/nation/cantonese.ruleset:3
 msgid "Cantonese"
@@ -3275,6 +3311,15 @@ msgid ""
 "incorporated into Han Dynasty China. Cantonese is the second most spoken "
 "Chinese language after Mandarin."
 msgstr ""
+"Kantoninkiinalaiset ovat kiinalaisia joiden alkuperä on eteläisen Kiinan "
+"Guangdongin (Kanton) provinssissa. Heitä arvioidaan olevan noin 70 "
+"miljoonaa. Kantoninkiinalaiset tunnetaan musiikista ja ruuasta. Heidän "
+"vaikutuksensa on huomattava Kiinan ulkopuolisissa kiinalaisyhteisöissä "
+"ympäri maailman. He myös muodostavat pääosan Hong Kongin ja Macaon "
+"autonomisista erityisalueista. 100-luvulla eaa kantonilaisten johtama "
+"Nanyue-kuningaskunta hallitsi suurinta osaa eteläistä Kiinaa ja Vietnamia. "
+"Vuonna 111 eaa Nanyue liitettiin Kiinan Han-dynastiaan. Kantoninkiina on "
+"toiseksi puhutuin kiinan kieli, heti mandariinikiinan jälkeen."
 
 #: data/nation/capeverdean.ruleset:3
 msgid "Cape Verdean"
@@ -3619,11 +3664,11 @@ msgstr ""
 
 #: data/nation/chiapanec.ruleset:3
 msgid "Chiapanec"
-msgstr ""
+msgstr "chiapaslaisten"
 
 #: data/nation/chiapanec.ruleset:4
 msgid "?plural:Chiapanecs"
-msgstr ""
+msgstr "chiapaslaiset"
 
 #: data/nation/chiapanec.ruleset:6
 msgid ""
@@ -3638,11 +3683,11 @@ msgstr ""
 
 #: data/nation/chickasaw.ruleset:3
 msgid "Chickasaw"
-msgstr ""
+msgstr "chickasawien"
 
 #: data/nation/chickasaw.ruleset:4
 msgid "?plural:Chickasaws"
-msgstr ""
+msgstr "chickasawit"
 
 #: data/nation/chickasaw.ruleset:6
 msgid ""
@@ -3651,6 +3696,11 @@ msgid ""
 "of first contact with Europeans. The name \"Mississippi\" itself originates "
 "from a Chickasaw word meaning \"Without Source.\""
 msgstr ""
+"Eurooppalaisten ja chickasawien kohdattua ensimmäisen kerran, chickasawit "
+"asuttivat pääasiassa nykyisen Yhdysvaltojen Mississippin osavaltion "
+"pohjoisosia. Osavaltion nimi \"Mississippi\" tuleekin chickasawin kielisestä "
+"sanasta joka tarkoittaa \"ilman lähdettä\". Chickasawit muodostavat yhden "
+"niin sanotuista viidestä sivistyneestä heimosta."
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -4330,17 +4380,23 @@ msgstr ""
 
 #: data/nation/cuyavian.ruleset:3
 msgid "Cuyavian"
-msgstr ""
+msgstr "kujavien"
 
 #: data/nation/cuyavian.ruleset:4
 msgid "?plural:Cuyavians"
-msgstr ""
+msgstr "kujavit"
 
+# Markus (mlinnaka): I think the English description is incorrect regarding
+# Masovia being to the west and Greater poland to the east of Cuyavia. Finnish
+# translation is more correct than original.
 #: data/nation/cuyavian.ruleset:6
 msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
 "West by Masovia, on the East by Greater Poland and on the North by Pomerania."
 msgstr ""
+"Kujavia (Kujawy) on historiallinen alue keskisessä pohjois-Puolassa, "
+"naapurinaan idässä Masovia, lännessä Suurpuola (Wielkopolska) ja pohjoisessa "
+"Pomerania."
 
 #: data/nation/cypriot.ruleset:3
 msgid "Cypriot"
@@ -4362,11 +4418,11 @@ msgstr ""
 
 #: data/nation/cyrenaican.ruleset:3
 msgid "Cyrenaican"
-msgstr ""
+msgstr "kyrenaikalaisten"
 
 #: data/nation/cyrenaican.ruleset:4
 msgid "?plural:Cyrenaicans"
-msgstr ""
+msgstr "kyrenaikalaiset"
 
 #: data/nation/cyrenaican.ruleset:6
 msgid ""
@@ -5222,11 +5278,11 @@ msgstr ""
 
 #: data/nation/fulani.ruleset:3
 msgid "Fulani"
-msgstr ""
+msgstr "fulbejen"
 
 #: data/nation/fulani.ruleset:4
 msgid "?plural:Fulani"
-msgstr ""
+msgstr "fulbet"
 
 #: data/nation/fulani.ruleset:6
 msgid ""
@@ -6703,11 +6759,11 @@ msgstr ""
 
 #: data/nation/karabakhi.ruleset:3
 msgid "Karabakhi"
-msgstr ""
+msgstr "karabahilaisten"
 
 #: data/nation/karabakhi.ruleset:4
 msgid "?plural:Karabakhis"
-msgstr ""
+msgstr "karabahilaiset"
 
 #: data/nation/karabakhi.ruleset:6
 msgid ""
@@ -7041,11 +7097,11 @@ msgstr ""
 
 #: data/nation/kuna.ruleset:3
 msgid "Kuna"
-msgstr ""
+msgstr "kunien"
 
 #: data/nation/kuna.ruleset:4
 msgid "?plural:Kunas"
-msgstr ""
+msgstr "kunat"
 
 #: data/nation/kuna.ruleset:6
 msgid ""
@@ -8152,11 +8208,11 @@ msgstr "%s sâhanšâh"
 
 #: data/nation/messapian.ruleset:3
 msgid "Messapian"
-msgstr ""
+msgstr "messapialaisten"
 
 #: data/nation/messapian.ruleset:4
 msgid "?plural:Messapians"
-msgstr ""
+msgstr "messapialaiset"
 
 #: data/nation/messapian.ruleset:6
 msgid ""
@@ -8164,6 +8220,9 @@ msgid ""
 "Apulia, the south-eastern peninsula of Italy, before being absorbed by the "
 "Romans."
 msgstr ""
+"Messapialaiset olivat indoeurooppalainen heimo joka asutti muinaisina "
+"aikoina Apuliaa, Italian kaakkoista niemeä, ennen kuin sulautuivat "
+"roomalaisiin."
 
 #. TRANS: The second letter in "Metis" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -9656,11 +9715,11 @@ msgstr ""
 
 #: data/nation/pelasgian.ruleset:3
 msgid "Pelasgian"
-msgstr ""
+msgstr "pelasgien"
 
 #: data/nation/pelasgian.ruleset:4
 msgid "?plural:Pelasgians"
-msgstr ""
+msgstr "pelasgit"
 
 #: data/nation/pelasgian.ruleset:6
 msgid ""
@@ -9924,6 +9983,12 @@ msgid ""
 "destroyed due to internal conflicts; in 1888 the island was annexed by "
 "Chile. Their script Rongorongo has never been deciphered."
 msgstr ""
+"Rapanuit ovat Pääsiäissaaren alkuperäisiä polynesialaisia asukkaita. "
+"He ovat asuttaneet saarta jo 900-luvun lopusta. He ovat kuuluisia "
+"rakentamistaan isoista moai-patsaista. Heidän muinainen sivilisaationsa "
+"tuhoutui rapanuiden sisäisiin konflikteihin. Chile liitti vuonna 1888 saaren "
+"itseensä. Rapanuiden vanhaa rongorongo-kirjoitusta ei nykyään osata "
+"tulkita."
 
 #. TRANS: The fourth letter in "Raramuri" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
@@ -10193,11 +10258,11 @@ msgstr ""
 
 #: data/nation/saka.ruleset:3
 msgid "Saka"
-msgstr ""
+msgstr "sakojen"
 
 #: data/nation/saka.ruleset:4
 msgid "?plural:Saka"
-msgstr ""
+msgstr "sakat"
 
 #: data/nation/saka.ruleset:6
 msgid ""
@@ -11681,11 +11746,11 @@ msgstr ""
 
 #: data/nation/thuringian.ruleset:3
 msgid "Thuringian"
-msgstr ""
+msgstr "thüringiläisten"
 
 #: data/nation/thuringian.ruleset:4
 msgid "?plural:Thuringians"
-msgstr ""
+msgstr "thüringiläiset"
 
 #: data/nation/thuringian.ruleset:6
 msgid ""
@@ -12296,11 +12361,11 @@ msgstr ""
 
 #: data/nation/vedic.ruleset:3
 msgid "Vedic"
-msgstr ""
+msgstr "muinaisintialaisten"
 
 #: data/nation/vedic.ruleset:4
 msgid "?plural:Vedics"
-msgstr ""
+msgstr "muinaisintialaiset"
 
 #: data/nation/vedic.ruleset:6
 msgid ""
@@ -12556,11 +12621,11 @@ msgstr ""
 # Todnäk volgan bulgaarit
 #: data/nation/volgabulgar.ruleset:3
 msgid "Volga Bulgar"
-msgstr ""
+msgstr "volganbulgaarien"
 
 #: data/nation/volgabulgar.ruleset:4
 msgid "?plural:Volga Bulgars"
-msgstr ""
+msgstr "volganbulgaarit"
 
 #: data/nation/volgabulgar.ruleset:6
 msgid ""
@@ -12783,6 +12848,13 @@ msgid ""
 "of the Xiongnu was known as Xianbei, while another group of the Xiongnu "
 "emigrated to the west."
 msgstr ""
+"Xiongnut, joita on kutsuttu myös aasialaisiksi hunneiksi, olivat muinainen "
+"sekalaista alkuperää olevien heimojen yhteenliittymä. Heidän kieltänsä ei "
+"tunneta - se saattoi kuulua altailaiseen tai jeniseiläiseen kielikuntaan. "
+"Xiongnut loivat vahvan valtion itäisen keski-Aasian tasangoille, muodostaen "
+"vakavan uhan Kiinalle. 100-luvulta eteenpäin pohjoista osaa xiongnujen "
+"kansasta kutsuttiin nimellä xianbeit, toisen xiongnujen ryhmän muuttaessa "
+"länteen."
 
 # TODO: unco
 #: data/nation/yakut.ruleset:3
