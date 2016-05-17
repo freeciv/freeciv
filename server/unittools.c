@@ -4202,7 +4202,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       tgt_id = -1;
 
       /* Assume impossible until told otherwise. */
-      prob = 0;
+      prob = ACTPROB_IMPOSSIBLE;
 
       switch (action_get_target_kind(order.action)) {
       case ATK_UNITS:
