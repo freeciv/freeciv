@@ -4234,8 +4234,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
       case ATK_COUNT:
         log_error("Invalid action target kind");
 
-        /* Makes the check below abort and cancel the orders */
-        prob = 0;
+        /* The check below will abort and cancel the orders because prob
+         * was initialized to impossible above this switch statement. */
 
         break;
       }
