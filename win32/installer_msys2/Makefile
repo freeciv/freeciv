@@ -244,6 +244,8 @@ install-env-default-fcmp: install-env-common
 	# add additional GTK+3 files
 	mkdir -p install-$(WINARCH)-$(GUI)/etc
 	cp -R $(ARCHDIR)/etc/gtk-3.0 install-$(WINARCH)-$(GUI)/etc/
+	mkdir -p install-$(WINARCH)-$(GUI)/share/icons
+	cp -R $(ARCHDIR)/share/icons/Adwaita install-$(WINARCH)-$(GUI)/share/icons/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
 	cp -R $(ARCHDIR)/lib/gtk-3.0/* install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
 	cp -R $(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
