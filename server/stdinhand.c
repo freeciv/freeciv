@@ -5673,8 +5673,12 @@ bool start_command(struct connection *caller, bool check, bool notify)
      * players have died */
     if (game.info.is_new_game
         && human_players < game.server.min_players) {
-      start_cmd_reply(caller, notify,
-                      _("Not enough human players; game will not start."));
+      char buf[512] = "";
+
+      fc_snprintf(buf, sizeof(buf),
+                  _("Not enough human players ('minplayers' server setting has value %d); game will not start."),
+                  game.server.min_players);
+      start_cmd_reply(caller, notify, buf);
       return FALSE;
     } else if (player_count() < 1) {
       /* At least one player required */
