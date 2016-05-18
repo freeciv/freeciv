@@ -38,6 +38,7 @@ dist_noinst_DATA = \
 		installer_msys2/freeciv-gtk3x.cmd		\
 		installer_msys2/freeciv-mp-gtk2.cmd		\
 		installer_msys2/freeciv-mp-gtk3.cmd		\
+		installer_msys2/freeciv-mp-gtk3x.cmd		\
 		installer_msys2/freeciv-mp-qt.cmd		\
 		installer_msys2/freeciv-qt.cmd			\
 		installer_msys2/freeciv-sdl2.cmd		\
