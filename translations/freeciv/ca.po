@@ -6,13 +6,13 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2015.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-14 11:27+0100\n"
-"PO-Revision-Date: 2015-12-22 19:53+0100\n"
+"PO-Revision-Date: 2016-05-22 18:29+0200\n"
 "Last-Translator: \n"
 "Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
 "Language: ca\n"
@@ -547,14 +547,11 @@ msgstr ""
 
 #: client/chatline_common.c:183
 msgid "See the \"Copying\" item on the Help menu."
-msgstr " Consulta el punt \"Llicència\" en el menú d'ajuda."
+msgstr "Vegeu el punt \"Llicència\" en el menú d'ajuda."
 
 #: client/chatline_common.c:186
-#, fuzzy
 msgid "See COPYING file distributed with this program."
-msgstr ""
-"Vegeu el fitxer COPYING, que es distribueix amb Freeciv per al text complet "
-"de la llicència."
+msgstr "Vegeu el fitxer COPYING, que es distribueix amb aquest programa."
 
 #: client/chatline_common.c:189
 msgid "Now ... Go give 'em hell!"
@@ -4973,7 +4970,6 @@ msgstr "Estat"
 #: client/gui-gtk-2.0/pages.c:1153 client/gui-gtk-2.0/pages.c:1196
 #: client/gui-gtk-3.0/pages.c:1233 client/gui-gtk-3.0/pages.c:1278
 #: client/gui-qt/pages.cpp:281 client/gui-sdl/connectdlg.c:330
-#, fuzzy
 msgid "?count:Players"
 msgstr "Jugadors"
 
@@ -5176,9 +5172,8 @@ msgstr "Nivell de _Dificultat dels IA:"
 
 #: client/gui-gtk-2.0/pages.c:2658 client/gui-gtk-3.0/pages.c:2718
 #: client/gui-qt/fc_client.cpp:865
-#, fuzzy
 msgid "Ruleset:"
-msgstr "Joc de regles"
+msgstr "Joc de regles:"
 
 #: client/gui-gtk-2.0/pages.c:2666 client/gui-gtk-3.0/pages.c:2725
 msgid "_More Game Options..."
@@ -5762,9 +5757,8 @@ msgid "Migrating options from gtk2 to gtk3 client"
 msgstr "Migrant les opcions del client gtk2 al gtk3"
 
 #: client/gui-gtk-3.0/pages.c:946
-#, fuzzy
 msgid "New Pass_word:"
-msgstr "Contra_senya:"
+msgstr "Nova Contra_senya:"
 
 #: client/gui-qt/chatline.cpp:65
 msgid "Allies only"
@@ -6777,9 +6771,8 @@ msgstr "Taxes..."
 #. TRANS: Also menu item, but 'headers' should be good enough.
 #: client/gui-qt/menu.cpp:795 client/gui-qt/pages.cpp:1278
 #: client/gui-qt/plrdlg.cpp:641 client/gui-sdl/plrdlg.c:337
-#, fuzzy
 msgid "?header:Players"
-msgstr "Jugadors Morts"
+msgstr "Jugadors"
 
 #: client/gui-qt/menu.cpp:815 client/gui-xaw/menu.c:229
 msgid "Top Five Cities"
@@ -6809,9 +6802,8 @@ msgid "Drop Paratrooper"
 msgstr "Llançar Paracaigudista"
 
 #: client/gui-qt/menu.cpp:1216
-#, fuzzy
 msgid "Auto Worker"
-msgstr "Auto Explorar"
+msgstr "Treballador Automàtic"
 
 #: client/gui-qt/menu.cpp:2044
 msgid "Save Games"
@@ -8148,9 +8140,8 @@ msgid "Save Local Options"
 msgstr "Desar Opcions Locals"
 
 #: client/gui-sdl/optiondlg.c:855
-#, fuzzy
 msgid "Help Browser"
-msgstr "Visor d'Ajuda de Freeciv"
+msgstr "Visor d'Ajuda"
 
 #: client/gui-sdl/optiondlg.c:866
 msgid "Leave Game"
@@ -12517,9 +12508,8 @@ msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr "No s'ha trobat el fitxer d'opcions '%s', es carrega de '%s'."
 
 #: client/options.c:5179
-#, fuzzy
 msgid "Didn't find the option file. Creating a new one."
-msgstr "No s'ha trobat el fitxer d'opcions."
+msgstr "No s'ha trobat el fitxer d'opcions. Se'n crea un de nou."
 
 #: client/options.c:5195 client/options.c:5333
 #, c-format
@@ -15060,13 +15050,13 @@ msgstr ""
 "aquest lloc."
 
 #: common/unit.c:2270
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
 "could not transport."
 msgstr ""
-"Millorar aquest %s tindria com a resultat un %s, que no pot sobreviure en "
-"aquest lloc."
+"Millorar aquest %s tindria com a resultat un %s, que el seu transport actual, "
+"%s, no podria dur."
 
 #: common/unittype.c:444
 #, c-format
@@ -15747,6 +15737,9 @@ msgid ""
 "give a better corruption distribution, you can move your palace by "
 "rebuilding it in another city."
 msgstr ""
+"Si la capital és un un lloc perillós, o si una capital més centrada donaria "
+"una distribució millor de la corrupció, pots traslladar el palau "
+"reconstruint-lo en una altra ciutat."
 
 #: data/civ1/buildings.ruleset:481 data/civ2/buildings.ruleset:605
 #: data/classic/buildings.ruleset:663 data/experimental/buildings.ruleset:712
@@ -15792,7 +15785,6 @@ msgid "SDI Defense"
 msgstr "Defensa SDI"
 
 #: data/civ1/buildings.ruleset:544
-#, fuzzy
 msgid ""
 "Protects a city and its environs (up to 2 tiles away) from attacks by enemy "
 "Nuclear units. A Nuclear unit not owned by you or an ally which attacks a "
@@ -15800,7 +15792,8 @@ msgid ""
 "within range, is shot down and simply has no effect."
 msgstr ""
 "Protegeix una ciutat i els seus voltants (fins a dues caselles enllà) "
-"d'atacs de Míssils Nuclears. Una unitat Nuclear que ataqui una ciutat amb "
+"d'atacs de Míssils Nuclears enemics. Una unitat Nuclear que no sigui teva ni "
+"d'un aliat i ataqui una ciutat amb "
 "Defensa SDI, o que ataqui una unitat (o que es faci explotar expressament) "
 "dins del seu radi d'acció, és abatuda i senzillament no té cap efecte."
 
@@ -19316,7 +19309,6 @@ msgstr ""
 #: data/civ2/buildings.ruleset:712 data/classic/buildings.ruleset:775
 #: data/experimental/buildings.ruleset:824
 #: data/multiplayer/buildings.ruleset:757
-#, fuzzy
 msgid ""
 "Protects a city and its environs (up to 2 tiles away) from attacks by enemy "
 "Nuclear units. A Nuclear unit not owned by you or an ally which attacks a "
@@ -19325,7 +19317,8 @@ msgid ""
 "for units in the city against non-nuclear missiles."
 msgstr ""
 "Protegeix una ciutat i els seus voltants (fins a dues caselles enllà) "
-"d'atacs de Míssils Nuclears. Una unitat Nuclear que ataqui una ciutat amb "
+"d'atacs de Míssils Nuclears enemics. Una unitat Nuclear que no sigui teva ni "
+"d'un aliat, i ataqui una ciutat amb "
 "Defensa SDI, o que ataqui una unitat (o que es faci explotar expressament) "
 "dins del seu radi d'acció, és abatuda i senzillament no té cap efecte. A "
 "més, duplica la capacitat defensiva de les unitats de la ciutat contra "
@@ -21808,7 +21801,6 @@ msgstr "ambaixador"
 
 #: data/classic/units.ruleset:2007 data/experimental/units.ruleset:2033
 #: data/civ2civ3/units.ruleset:2196 data/multiplayer/units.ruleset:2105
-#, fuzzy
 msgid ""
 "Diplomats can also perform a number of actions in another player's city, "
 "although each Diplomat may attempt only one action. Most of these actions "
@@ -21822,7 +21814,9 @@ msgstr ""
 "d'un altre jugador, encara que cada Diplomàtic pot intentar només una acció. "
 "La majoria d'aquestes accions tenen una probabilitat de fracàs. A més, "
 "qualsevol Diplomàtic o Espia enemic que estigui a la ciutat s'oposarà a les "
-"accions hostils; en aquest cas, o la teva unitat o la defensiva moriran. Si "
+"accions hostils, igual que el Líder enemic en partides amb líders; en aquest "
+"cas, o la teva unitat o la defensiva moriran (si t'enfrontes amb el Líder "
+"sempre mors tu). Si "
 "la unitat defensiva mor, perds un punt de moviment i ho pots tornar a "
 "intentar."
 
@@ -22575,7 +22569,6 @@ msgstr ""
 "quan es defensen contra avions (inclosos helicòpters)."
 
 #: data/civ2civ3/buildings.ruleset:892
-#, fuzzy
 msgid ""
 "Protects a city and its environs (up to 2 tiles away) from attacks by enemy "
 "Nuclear units. A Nuclear unit not owned by you or an ally which attacks a "
@@ -22585,7 +22578,8 @@ msgid ""
 "conventional missiles."
 msgstr ""
 "Protegeix una ciutat i els seus voltants (fins a dues caselles enllà) "
-"d'atacs de Míssils Nuclears. Una unitat Nuclear que ataqui una ciutat amb "
+"d'atacs de Míssils Nuclears enemics. Una unitat Nuclear que no sigui teva ni "
+"d'un aliat i ataqui una ciutat amb "
 "Defensa SDI, o que ataqui una unitat (o que es faci explotar expressament) "
 "dins del seu radi d'acció, és abatuda i senzillament no té cap efecte. A "
 "més, duplica la força defensiva intrínseca de les unitats de la ciutat quan "
@@ -24947,7 +24941,6 @@ msgstr ""
 "venda."
 
 #: data/helpdata.txt:225
-#, fuzzy
 msgid ""
 "    Pacts affect where your units can go and what they can do, and a pact "
 "with one nation can affect your relations with others.  Under authoritarian "
@@ -24976,7 +24969,6 @@ msgid "   - You can't give away your capital."
 msgstr "   - No pots donar la teva capital."
 
 #: data/helpdata.txt:239
-#, fuzzy
 msgid ""
 "   - You can only request property that you know about; so you can't request "
 "technology unless you have an embassy, and if you can't see a city on your "
@@ -24988,7 +24980,7 @@ msgstr ""
 "tecnologia si no tens una ambaixada, i si no pots veure una ciutat al teu "
 "mapa, no pots demanar-la. Evidentment, el propietari de la ciutat pot donar-"
 "te-la igualment; en aquest cas, l'àrea del voltant de la ciutat es mostra al "
-"teu mapa."
+"teu mapa abans que acceptis el tractat."
 
 #: data/helpdata.txt:246
 msgid ""
@@ -25728,7 +25720,6 @@ msgstr ""
 "l'havia produïda originalment) i el destí."
 
 #: data/helpdata.txt:611
-#, fuzzy
 msgid ""
 "The origin civilization of the unit gains immediate revenue in gold and "
 "science from selling its trade goods at the destination city. The initial "
@@ -25738,12 +25729,12 @@ msgid ""
 msgstr ""
 "La civilització origen de la unitat obté una renda immediata en or i ciència "
 "en vendre els seus béns comercials a la ciutat de destinació. La renda "
-"inicial depèn del comerç que ja es produeixi per les dues ciutats implicades "
-"i de la distància que les separa. Alguns avenços fan que el transport sigui "
-"més fàcil i redueixen aquest primer pagament."
+"inicial depèn del comerç que ja s'estigui produint per les dues ciutats "
+"implicades "
+"i de la distància que les separa. La civilització destí aprèn la ubicació de "
+"la ciutat origen, si encara no era coneguda."
 
 #: data/helpdata.txt:617
-#, fuzzy
 msgid ""
 "The ongoing trade route that is established benefits both its origin and "
 "destination cities equally by generating trade points for each city every "
@@ -25758,7 +25749,9 @@ msgstr ""
 "com la de destí de manera igual generant punts de comerç per a cada ciutat a "
 "cada torn. La quantitat d'aquest comerç continu augmenta amb la mida de cada "
 "ciutat i la distància entre elles, i també pot dependre dels factors "
-"mencionats abans. Si una ruta comercial esdevé insostenible -- per exemple, "
+"mencionats abans. La relació comercial també dóna a cada civilització "
+"intel·ligència contínua, tot i que limitada, sobre la ciutat corresponsal. Si "
+"una ruta comercial esdevé insostenible -- per exemple, "
 "si adquireixes les dues ciutats en un joc de regles sense comerç domèstic -- "
 "es pot cancel·lar de forma permanent."
 
@@ -28478,6 +28471,10 @@ msgid ""
 "(including source) freely, but see the the full license text below for full "
 "details."
 msgstr ""
+"Freeciv es publica sota la Llicència Pública General GNU (versió 2 o, a "
+"discreció, qualsevol de posterior). Resumint, pots copiar aquest programa "
+"(inclòs el codi font) lliurement, però vegeu el text complet de la llicència "
+"per als detalls complets."
 
 #. TRANS: followed by a URL
 #: data/helpdata.txt:2290
@@ -30263,12 +30260,12 @@ msgid "Tutorial"
 msgstr "Aprenentatge"
 
 #: data/scenarios/tutorial.sav:5
-#, fuzzy
 msgid ""
 "Play this tutorial scenario to get an introduction to Freeciv. This is "
 "intended for single-player games."
 msgstr ""
-"Juga amb aquest escenari d'aprenentatge per introduir-te en el Freeciv."
+"Juga amb aquest escenari d'aprenentatge per introduir-te en el Freeciv. Està "
+"pensat per a partides d'un sol jugador."
 
 #: data/scenarios/tutorial.sav:77
 msgid ""
@@ -30293,6 +30290,13 @@ msgid ""
 "it's often a good idea to spread units out, avoiding 'stacks' of units\n"
 "like this, particularly on land."
 msgstr ""
+"Fora d'una ciutat, d'una fortalesa o d'una base aèria, si una 'pila' "
+"d'unitats\n"
+"en una única casella és atacada, la unitat més forta defensa; i si aquesta\n"
+"unitat és derrotada, TOTES les unitats de la casella moren. Per tant, és\n"
+"sovint bona idea repartir les unitats, evitant 'piles' d'unitats com "
+"aquesta,\n"
+"sobretot en terra ferma."
 
 #: data/scenarios/tutorial.sav:117
 msgid ""
@@ -30351,7 +30355,6 @@ msgstr ""
 "colons en aquesta ciutat."
 
 #: data/scenarios/tutorial.sav:133
-#, fuzzy
 msgid ""
 "You have built your third city!  Your civilization seems to be\n"
 "thriving.  It might be time to think about a military.  Pick one of\n"
@@ -30370,17 +30373,17 @@ msgstr ""
 "Has construït la teva tercera ciutat! La teva civilització sembla \n"
 "que prospera. Ja va sent hora de pensar en un exèrcit. Tria una\n"
 "de les teves ciutats que tingui una bona producció, i converteix-la\n"
-"en una base militar. Primer que res construeix-hi una Caserna, i després\n"
+"en un centre militar. Primer que res construeix-hi una Caserna, i després\n"
 "passa a construir una unitat militar. Tria la millor unitat que tinguis \n"
 "disponible per a construir- al començament només podràs triar \n"
 "Guerrers, però de seguida tindràs moltes més opcions. \n"
 "\n"
 "Ara podria ser un bon moment per a començar a fer anar la funció\n"
 "de llista de treball que hi ha a la part de producció del diàleg de ciutat.\n"
-"Polsa en Caserna, després polsa en Canviar per a començar a \n"
+"Clica en Caserna, després clica en Canviar per a començar a \n"
 "construir-la. Després fes doble clic a sobre d'una unitat militar per a \n"
 "afegir-la a la llista. Tan aviat s'acabi de construir la Caserna, la \n"
-"ciutat començarà a construir la unitat. "
+"ciutat canviarà automàticament a produir la unitat. "
 
 #: data/scenarios/tutorial.sav:136
 msgid ""
@@ -30453,7 +30456,6 @@ msgstr ""
 "instantània la producció."
 
 #: data/scenarios/tutorial.sav:155
-#, fuzzy
 msgid ""
 "Your city has grown again!  Now with three citizens you have\n"
 "a fair amount of choice over where the city should focus its\n"
@@ -30484,7 +30486,7 @@ msgstr ""
 "Clica al damunt d'una casella on es treballi per treure'n el ciutadà.\n"
 "Després, clica al damunt d'una casella on no es treballi per posar-hi\n"
 "un ciutadà. Pots col·locar-ne fins a tres, és clar. La resta de\n"
-"ciutadans són tots especialistes - ara mateix tots són artistes que\n"
+"ciutadans són tots especialistes - per defecte tots són artistes que\n"
 "proporcionen només luxe (cosa que no serà útil fins més endavant)."
 
 #: data/scenarios/tutorial.sav:159
@@ -30641,6 +30643,17 @@ msgid ""
 "boat.  When you want to disembark, select the transported unit and\n"
 "press U, or move it onto a land tile."
 msgstr ""
+"Has construit la teva primera unitat marítima. Aquestes unitats poden\n"
+"transportar altres unitats per l'aigua, permetent d'explorar i colonitzar "
+"noves\n"
+"terres. Pots carregar unitats terrestres a la barca de dues maneres.\n"
+"Quan la barca i la unitat que vols transportar són a la mateixa ciutat, "
+"selecciona\n"
+"aquesta última, i prem L per carregar la unitat; o si la barca és adjacent a "
+"una\n"
+"casella de terra, pots moure la unitat des d'allà cap a la barca. Quan vols\n"
+"desembarcar, selecciona la unitat transportada i prem U, o mou-la cap a una\n"
+"casella de terra."
 
 #: data/scenarios/tutorial.sav:228
 msgid ""
@@ -31495,9 +31508,9 @@ msgstr "Entrar contrasenya per a %s:"
 
 #. TRANS: Try not to make the translation much longer than the original.
 #: server/auth.c:140
-#, fuzzy
 msgid "First time login. Set a new password and confirm it."
-msgstr "Entrar una contrasenya nova (i recordar-la)."
+msgstr ""
+"Login per primera vegada. Introdueix una contrasenya nova i confirma-la."
 
 #: server/auth.c:145
 msgid "This server allows only preregistered users. Sorry."
@@ -41310,9 +41323,9 @@ msgstr[1] " (en total %d cops)"
 #. TRANS: first %s is URL, second is Curl error message
 #. * (not in Freeciv translation domain)
 #: utility/netfile.c:92
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to fetch %s: %s"
-msgstr "No s'ha pogut agafar %s"
+msgstr "No s'ha pogut agafar %s: %s"
 
 #: utility/netfile.c:166
 #, c-format
