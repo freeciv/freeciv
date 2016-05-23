@@ -2104,7 +2104,10 @@ static struct setting settings[] = {
            N_("National borders"),
            N_("If this is not disabled, then any land tiles around a "
               "city or border claiming Extra (like the classic ruleset's "
-              "Fortress base) will be owned by that nation."),
+              "Fortress base) will be owned by that nation. "
+              "SEE_INSIDE and EXPAND makes everything inside a player's "
+              "borders visible at once. ENABLED will, in some rulesets, "
+              "grant the same visibility if certain conditions are met."),
            NULL, NULL, NULL, borders_name, GAME_DEFAULT_BORDERS)
 
   GEN_ENUM("happyborders", game.info.happyborders,
