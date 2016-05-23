@@ -463,7 +463,9 @@ static int create_advances_list(struct player *pplayer,
   Dimension width1, width2; 
   int j;
 
-  static const char *advances_can_steal[A_LAST+1]; 
+  static const char *advances_can_steal[A_LAST+1];
+
+  struct unit *actor_unit = game_unit_by_number(diplomat_id);
 
   spy_tech_shell =
     I_T(XtVaCreatePopupShell("spystealtechpopup", 
@@ -524,7 +526,7 @@ static int create_advances_list(struct player *pplayer,
       static struct astring str = ASTRING_INIT;
       /* TRANS: %s is a unit name, e.g., Spy */
       astr_set(&str, _("At %s's Discretion"),
-               unit_name_translation(game_unit_by_number(diplomat_id)));
+               unit_name_translation(actor_unit));
       advances_can_steal[j] = astr_str(&str);
       advance_type[j++] = A_UNSET;
     }
@@ -556,6 +558,8 @@ static int create_improvements_list(struct player *pplayer,
   int j;
 
   static const char *improvements_can_sabotage[B_LAST+1]; 
+
+  struct unit *actor_unit = game_unit_by_number(diplomat_id);
   
   spy_sabotage_shell =
     I_T(XtVaCreatePopupShell("spysabotageimprovementspopup", 
@@ -615,7 +619,7 @@ static int create_improvements_list(struct player *pplayer,
     static struct astring str = ASTRING_INIT;
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&str, _("At %s's Discretion"),
-             unit_name_translation(game_unit_by_number(diplomat_id)));
+             unit_name_translation(actor_unit));
     improvements_can_sabotage[j] = astr_str(&str);
     improvement_type[j++] = B_LAST;
   } else {
