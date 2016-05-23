@@ -1743,6 +1743,7 @@ static void spy_steal(QVariant data1, QVariant data2)
   pfcn_void func;
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
+  struct unit *actor_unit = game_unit_by_number(diplomat_id);
   struct city *pvcity = game_city_by_number(diplomat_target_id);
   struct player *pvictim = NULL;
   choice_dialog *cd;
@@ -1786,7 +1787,7 @@ static void spy_steal(QVariant data1, QVariant data2)
 
     if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
       astr_set(&stra, _("At %s's Discretion"),
-               unit_name_translation(game_unit_by_number(diplomat_id)));
+               unit_name_translation(actor_unit));
       func = spy_steal_something;
       str = astr_str(&stra);
       cd->add_item(str, func, qv1, A_UNSET);
@@ -2207,7 +2208,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity)
 
   if (action_prob_possible(follow_up_act_probs[ACTION_SPY_SABOTAGE_CITY])) {
     astr_set(&stra, _("At %s's Discretion"),
-             unit_name_translation(game_unit_by_number(diplomat_id)));
+             unit_name_translation(actor));
     func = spy_sabotage;
     str = astr_str(&stra);
     cd->add_item(str, func, qv1, B_LAST);

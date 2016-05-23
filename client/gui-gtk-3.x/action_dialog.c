@@ -657,6 +657,8 @@ static void create_advances_list(struct player *pplayer,
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
 
+  struct unit *actor_unit = game_unit_by_number(args->actor_unit_id);
+
   spy_tech_shell = gtk_dialog_new_with_buttons(_("Steal Technology"),
                                                NULL, 0,
                                                _("Cancel"), GTK_RESPONSE_CANCEL,
@@ -741,8 +743,7 @@ static void create_advances_list(struct player *pplayer,
         struct astring str = ASTRING_INIT;
         /* TRANS: %s is a unit name, e.g., Spy */
         astr_set(&str, _("At %s's Discretion"),
-                 unit_name_translation(game_unit_by_number(
-                                         args->actor_unit_id)));
+                 unit_name_translation(actor_unit));
         g_value_set_string(&value, astr_str(&str));
         astr_free(&str);
       }
@@ -836,6 +837,8 @@ static void create_improvements_list(struct player *pplayer,
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
   GtkTreeIter it;
+
+  struct unit *actor_unit = game_unit_by_number(args->actor_unit_id);
   
   spy_sabotage_shell = gtk_dialog_new_with_buttons(_("Sabotage Improvements"),
                                                    NULL, 0,
@@ -912,7 +915,7 @@ static void create_improvements_list(struct player *pplayer,
 
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&str, _("At %s's Discretion"),
-             unit_name_translation(game_unit_by_number(args->actor_unit_id)));
+             unit_name_translation(actor_unit));
     gtk_list_store_set(store, &it, 0, astr_str(&str), 1, B_LAST, -1);
 
     astr_free(&str);

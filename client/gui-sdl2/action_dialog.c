@@ -482,6 +482,8 @@ static int spy_steal_popup(struct widget *pWidget)
   int tech, idx;
   SDL_Rect area;
 
+  struct unit *actor_unit = game_unit_by_number(id);
+
   is_more_user_input_needed = TRUE;
   popdown_diplomat_dialog();
 
@@ -617,14 +619,14 @@ static int spy_steal_popup(struct widget *pWidget)
 
   /* Get Spy tech to use for "At Spy's Discretion" -- this will have the
    * side effect of displaying the unit's icon */
-  tech = advance_number(unit_type_get(game_unit_by_number(id))->require_advance);
+  tech = advance_number(unit_type_get(actor_unit)->require_advance);
 
   if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
     struct astring str = ASTRING_INIT;
 
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&str, _("At %s's Discretion"),
-             unit_name_translation(game_unit_by_number(id)));
+             unit_name_translation(actor_unit));
     copy_chars_to_utf8_str(pstr, astr_str(&str));
     astr_free(&str);
 
