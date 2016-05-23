@@ -1663,6 +1663,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
     punit->client.focus_status = FOCUS_AVAIL;
     punit->client.transported_by = -1;
     punit->client.colored = FALSE;
+    punit->client.act_prob_cache = NULL;
   }
 
   return punit;
@@ -1697,6 +1698,10 @@ void unit_virtual_destroy(struct unit *punit)
 
   if (is_server() && punit->server.adv) {
     FC_FREE(punit->server.adv);
+  } else {
+    if (punit->client.act_prob_cache) {
+      FC_FREE(punit->client.act_prob_cache);
+    }
   }
 
   FC_FREE(punit);

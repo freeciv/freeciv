@@ -108,7 +108,6 @@ static bool is_race_dialog_open = false;
  * stored in the action selection dialog since it is closed before the
  * follow up question is asked. */
 static bool is_more_user_input_needed = FALSE;
-static action_probability follow_up_act_probs[ACTION_COUNT];
 
 /* Don't remove a unit's action decision want or move on to the next actor
  unit that wants a decision in the current unit selection. */
@@ -1287,6 +1286,19 @@ static void diplomat_queue_handle_primary(int actor_unit_id)
     /* The client isn't waiting for information for any unanswered follow
      * up questions. */
 
+    struct unit *actor_unit;
+
+    if ((actor_unit = game_unit_by_number(actor_unit_id))) {
+      /* The action selection dialog wasn't closed because the actor unit
+       * was lost. */
+
+      /* The probabilities didn't just disappear, right? */
+      fc_assert_action(actor_unit->client.act_prob_cache,
+                       client_unit_init_act_prob_cache(actor_unit));
+
+      FC_FREE(actor_unit->client.act_prob_cache);
+    }
+
      /* The action selection process is over, at least for now. */
     action_selection_no_longer_in_progress(actor_unit_id);
 
@@ -1527,8 +1539,9 @@ void popup_action_selection(struct unit *actor_unit,
   cd->show_me();
 
   /* Give follow up questions access to action probabilities. */
+  client_unit_init_act_prob_cache(actor_unit);
   action_iterate(act) {
-    follow_up_act_probs[act] = act_probs[act];
+    actor_unit->client.act_prob_cache[act] = act_probs[act];
   } action_iterate_end;
 
   astr_free(&title);
@@ -1785,7 +1798,8 @@ static void spy_steal(QVariant data1, QVariant data2)
       }
     } advance_index_iterate_end;
 
-    if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
+    if (action_prob_possible(
+          actor_unit->client.act_prob_cache[ACTION_SPY_STEAL_TECH])) {
       astr_set(&stra, _("At %s's Discretion"),
                unit_name_translation(actor_unit));
       func = spy_steal_something;
@@ -2206,7 +2220,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity)
     }
   } city_built_iterate_end;
 
-  if (action_prob_possible(follow_up_act_probs[ACTION_SPY_SABOTAGE_CITY])) {
+  if (action_prob_possible(
+        actor->client.act_prob_cache[ACTION_SPY_SABOTAGE_CITY])) {
     astr_set(&stra, _("At %s's Discretion"),
              unit_name_translation(actor));
     func = spy_sabotage;

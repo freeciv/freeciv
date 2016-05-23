@@ -1250,6 +1250,19 @@ bool can_units_act_against_own_tile(struct unit_list *punits)
   return FALSE;
 }
 
+/**************************************************************************
+  Initialize the action probability cache. Shouldn't be kept around
+  permanently. Its data is quickly outdated.
+**************************************************************************/
+void client_unit_init_act_prob_cache(struct unit *punit)
+{
+  /* A double init would cause a leak. */
+  fc_assert_ret(punit->client.act_prob_cache == NULL);
+
+  punit->client.act_prob_cache = (action_probability*)fc_malloc(
+        ACTION_COUNT * sizeof(*punit->client.act_prob_cache));
+}
+
 /****************************************************************************
   Determines which color type should be used for unit background.
   This is only guesswork based on unit properties. One should not

@@ -65,7 +65,6 @@ static int actor_unit_id;
 static int target_ids[ATK_COUNT];
 static bool is_more_user_input_needed = FALSE;
 static bool did_not_decide = FALSE;
-static action_probability follow_up_act_probs[ACTION_COUNT];
 
 static GtkWidget  *spy_tech_shell;
 
@@ -111,6 +110,19 @@ static void diplomat_queue_handle_primary(void)
   if (!is_more_user_input_needed) {
     /* The client isn't waiting for information for any unanswered follow
      * up questions. */
+
+    struct unit *actor_unit;
+
+    if ((actor_unit = game_unit_by_number(actor_unit_id))) {
+      /* The action selection dialog wasn't closed because the actor unit
+       * was lost. */
+
+      /* The probabilities didn't just disappear, right? */
+      fc_assert_action(actor_unit->client.act_prob_cache,
+                       client_unit_init_act_prob_cache(actor_unit));
+
+      FC_FREE(actor_unit->client.act_prob_cache);
+    }
 
     /* The action selection process is over, at least for now. */
     action_selection_no_longer_in_progress(actor_unit_id);
@@ -733,7 +745,8 @@ static void create_advances_list(struct player *pplayer,
       }
     } advance_index_iterate_end;
 
-    if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
+    if (action_prob_possible(
+          actor_unit->client.act_prob_cache[ACTION_SPY_STEAL_TECH])) {
       gtk_list_store_append(store, &it);
 
       g_value_init(&value, G_TYPE_STRING);
@@ -904,7 +917,7 @@ static void create_improvements_list(struct player *pplayer,
   } city_built_iterate_end;
 
   if (action_prob_possible(
-        follow_up_act_probs[ACTION_SPY_SABOTAGE_CITY])) {
+        actor_unit->client.act_prob_cache[ACTION_SPY_SABOTAGE_CITY])) {
     struct astring str = ASTRING_INIT;
 
     gtk_list_store_append(store, &it);
@@ -1484,8 +1497,9 @@ void popup_action_selection(struct unit *actor_unit,
                    G_CALLBACK(act_sel_close_callback), data);
 
   /* Give follow up questions access to action probabilities. */
+  client_unit_init_act_prob_cache(actor_unit);
   action_iterate(act) {
-    follow_up_act_probs[act] = act_probs[act];
+    actor_unit->client.act_prob_cache[act] = act_probs[act];
   } action_iterate_end;
 
   astr_free(&title);

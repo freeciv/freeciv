@@ -737,6 +737,51 @@ FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
 #define SPECENUM_COUNT ACT_DEC_COUNT
 #include "specenum_gen.h"
 
+/*
+ * Action probability
+ *
+ * An action probability is the probability that an action will be
+ * successfull under the given cicumstances. It goes from 0% to 100%.
+ * Alternatively it can signal a special case.
+ *
+ * Values from 0 up to and including 200 are to be understood as the chance
+ * of success measured in half percentag points. The value 3 indicates that
+ * the chance is 1.5%. The value 10 indicates that the chance is 5%. The
+ * probability may have been rounded to the nearest half percentage point.
+ *
+ * Values above 200 (100%) up to and including 255 are special cases. All
+ * special cases should be declared and documented below. A value in this
+ * range should be considered a bug if it isn't. If a special value for
+ * internal use is needed please avoid the range from and including 0 up
+ * to and including 255.
+ *
+ */
+typedef int action_probability;
+
+/*
+ * ACTPROB_IMPOSSIBLE is another way of saying that the probability is 0%.
+ */
+#define ACTPROB_IMPOSSIBLE 0
+
+/*
+ * The special value ACTPROB_NA indicates that no probability should exist.
+ */
+#define ACTPROB_NA 253
+
+/*
+ * The special value ACTPROB_NOT_IMPLEMENTED indicates that support
+ * for finding this probability currently is missing.
+ */
+#define ACTPROB_NOT_IMPLEMENTED 254
+
+/*
+ * The special value ACTPROB_NOT_KNOWN indicates that the player don't know
+ * enough to find out. It is caused by the probability depending on a rule
+ * that depends on game state the player don't have access to. It may be
+ * possible for the player to later gain access to this game state.
+ */
+#define ACTPROB_NOT_KNOWN 255
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

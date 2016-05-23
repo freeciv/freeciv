@@ -30,6 +30,7 @@
 
 /* client */
 #include "client_main.h"
+#include "climisc.h"
 #include "control.h"
 
 /* client/gui-sdl2 */
@@ -70,7 +71,6 @@ void popdown_bribe_dialog(void);
 static struct diplomat_dialog *pDiplomat_Dlg = NULL;
 static bool is_more_user_input_needed = FALSE;
 static bool did_not_decide = FALSE;
-static action_probability follow_up_act_probs[ACTION_COUNT];
 
 /**************************************************************************
   The action selection is done.
@@ -80,6 +80,19 @@ static void act_sel_done_primary(int actor_unit_id)
   if (!is_more_user_input_needed) {
     /* The client isn't waiting for information for any unanswered follow
      * up questions. */
+
+    struct unit *actor_unit;
+
+    if ((actor_unit = game_unit_by_number(actor_unit_id))) {
+      /* The action selection dialog wasn't closed because the actor unit
+       * was lost. */
+
+      /* The probabilities didn't just disappear, right? */
+      fc_assert_action(actor_unit->client.act_prob_cache,
+                       client_unit_init_act_prob_cache(actor_unit));
+
+      FC_FREE(actor_unit->client.act_prob_cache);
+    }
 
     /* The action selection process is over, at least for now. */
     action_selection_no_longer_in_progress(actor_unit_id);
@@ -560,7 +573,8 @@ static int spy_steal_popup(struct widget *pWidget)
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ------------------------- */
 
-  if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
+  if (action_prob_possible(
+        actor_unit->client.act_prob_cache[ACTION_SPY_STEAL_TECH])) {
      /* count + at Spy's Discretion */
     count++;
   }
@@ -621,7 +635,8 @@ static int spy_steal_popup(struct widget *pWidget)
    * side effect of displaying the unit's icon */
   tech = advance_number(unit_type_get(actor_unit)->require_advance);
 
-  if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
+  if (action_prob_possible(
+        actor_unit->client.act_prob_cache[ACTION_SPY_STEAL_TECH])) {
     struct astring str = ASTRING_INIT;
 
     /* TRANS: %s is a unit name, e.g., Spy */
@@ -1370,8 +1385,9 @@ void popup_action_selection(struct unit *actor_unit,
   widget_flush(pWindow);
 
   /* Give follow up questions access to action probabilities. */
+  client_unit_init_act_prob_cache(actor_unit);
   action_iterate(act) {
-    follow_up_act_probs[act] = act_probs[act];
+    actor_unit->client.act_prob_cache[act] = act_probs[act];
   } action_iterate_end;
 }
 
@@ -1588,7 +1604,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pBuf;
 
   if (n > 0 && action_prob_possible(
-        follow_up_act_probs[ACTION_SPY_SABOTAGE_CITY])) {
+        actor->client.act_prob_cache[ACTION_SPY_SABOTAGE_CITY])) {
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
 
@@ -1598,7 +1614,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   }
 
   if (action_prob_possible(
-        follow_up_act_probs[ACTION_SPY_SABOTAGE_CITY])) {
+        actor->client.act_prob_cache[ACTION_SPY_SABOTAGE_CITY])) {
     struct astring str = ASTRING_INIT;
 
     /* TRANS: %s is a unit name, e.g., Spy */
