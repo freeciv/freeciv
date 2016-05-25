@@ -942,8 +942,6 @@ food        = 2
 
 [resource_bonus]
 extra       = "Resources"
-graphic     = "ts.grassland_resources"
-graphic_alt = "-"
 identifier  = "r"
 shield      = 1
 # grassland.
