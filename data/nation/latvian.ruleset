@@ -15,12 +15,13 @@ leaders = {
  "Viestards",           "Male"
  "Tālibalds",           "Male"
  "Visvaldis",           "Male"
- "Kriðjānis Valdemārs", "Male"
+ "Krišjānis Valdemārs", "Male"
  "Jānis Balodis",       "Male"
- "Pçteris Radziòð",     "Male"
- "Jorìis Zemitāns",     "Male"
- "Jānis Èakste",        "Male"
+ "Pēteris Radziņš",     "Male"
+ "Jorģis Zemitāns",     "Male"
+ "Jānis Čakste",        "Male"
  "Kārlis Ulmanis",      "Male"
+ "Vaira Vīķe-Freiberga", "Female"
 }
 
 flag="latvia"
@@ -35,41 +36,41 @@ conflicts_with="austrian" ; Similar flags
 civilwar_nations = "estonian", "lithuanian", "curonian"
 
 cities =
- "Rîga (grassland, river, ocean)",
+ "Rīga (grassland, river, ocean)",
  "Daugavpils (grassland, river, !ocean)",
- "Liepâja (plains, forest, !river, ocean)",
+ "Liepāja (plains, forest, !river, ocean)",
  "Jelgava (plains, river, !ocean)",
  "Ventspils (river, ocean)",
- "Jûrmala (river, ocean)",
- "Rçzekne (grassland, !ocean)",
- "Beverîna (hills, !ocean)",
+ "Jūrmala (river, ocean)",
+ "Rēzekne (grassland, !ocean)",
+ "Beverīna (hills, !ocean)",
  "Jersika (grassland, river, !ocean)",
  "Koknese (forest, river, !ocean)",
- "Meþotne (forest, !ocean)",
- "Sçlpils (plains, forest)",
- "Tçrvete (forest, !ocean)",
+ "Mežotne (forest, !ocean)",
+ "Sēlpils (plains, forest)",
+ "Tērvete (forest, !ocean)",
  "Durbe (grassland, plains)",
- "Lielvârde (plains, river)",
+ "Lielvārde (plains, river)",
  "Aizkraukle (forest, river)",
- "Alûksne (grassland, !river)",
+ "Alūksne (grassland, !river)",
  "Balvi (forest, !ocean)",
  "Bauska (grassland, river)",
- "Cçsis (plains, river)",
+ "Cēsis (plains, river)",
  "Dobele (grassland, plains)",
  "Gulbene (grassland, !river)",
- "Jçkabpils (river)",
- "Krâslava (river)",
- "Kuldîga (grassland, river)",
- "Limbaþi",
+ "Jēkabpils (river)",
+ "Krāslava (river)",
+ "Kuldīga (grassland, river)",
+ "Limbaži",
  "Ludza",
  "Madona (forest, !river)",
  "Ogre (grassland, river)",
- "Preiïi",
+ "Preiļi",
  "Saldus",
  "Talsi",
  "Tukums (hills, !river)",
  "Valka (hills)",
- "Ainaþi (ocean)",
- "Rûjiena",
+ "Ainaži (ocean)",
+ "Rūjiena",
  "Sigulda (hills, river)",
  "Zilupe (river)"
