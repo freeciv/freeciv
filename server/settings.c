@@ -1809,19 +1809,18 @@ static struct setting settings[] = {
 
   GEN_INT("techlost_recv", game.server.techlost_recv,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
-          N_("Chance to lose an invention while receiving it"),
-          N_("If you receive an invention via a treaty, this setting "
-             "defines the chance that the invention is lost during the "
-             "transfer."),
+          N_("Chance to lose a technology while receiving it"),
+          N_("The chance that learning a technology by treaty or theft "
+             "will fail."),
           NULL, NULL, NULL, GAME_MIN_TECHLOST_RECV, GAME_MAX_TECHLOST_RECV,
           GAME_DEFAULT_TECHLOST_RECV)
 
   GEN_INT("techlost_donor", game.server.techlost_donor,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
-          N_("Chance to lose an invention while giving it"),
-          N_("If you give an invention via a treaty, this setting "
-             "defines the chance that the invention is lost for your "
-             "civilization during the transfer."),
+          N_("Chance to lose a technology while giving it"),
+          N_("The chance that your civilization will lose a technology if "
+             "you teach it to someone else by treaty, or if it is stolen "
+             "from you."),
           NULL, NULL, NULL, GAME_MIN_TECHLOST_DONOR, GAME_MAX_TECHLOST_DONOR,
           GAME_DEFAULT_TECHLOST_DONOR)
 
