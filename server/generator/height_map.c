@@ -175,7 +175,7 @@ static void gen5rec(int step, int xl, int yt, int xr, int yb)
 
   /* now call recursively on the four subrectangles */
   gen5rec(2 * step / 3, xl, yt, (xr + xl) / 2, (yb + yt) / 2);
-  gen5rec(2 * step / 3, xl, (yb + yt) / 2, (xr + xl) / 2, yt);
+  gen5rec(2 * step / 3, xl, (yb + yt) / 2, (xr + xl) / 2, yb);
   gen5rec(2 * step / 3, (xr + xl) / 2, yt, xr, (yb + yt) / 2);
   gen5rec(2 * step / 3, (xr + xl) / 2, (yb + yt) / 2, xr, yb);
 }
