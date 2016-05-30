@@ -3248,8 +3248,7 @@ struct city *create_city_virtual(struct player *pplayer,
   } output_type_iterate_end;
 
   pcity->turn_plague = -1; /* -1 = never */
-  pcity->did_buy = TRUE;   /* You cannot buy production same turn city is
-                            * founded. */
+  pcity->did_buy = FALSE;
   pcity->city_radius_sq = game.info.init_city_radius_sq;
   pcity->turn_founded = game.info.turn;
   pcity->turn_last_built = game.info.turn;
