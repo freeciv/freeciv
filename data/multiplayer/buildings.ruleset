@@ -135,7 +135,7 @@ helptext	= _("\
 Allows a city to grow larger than size 8.  A Sewer System is also\
  required for a city to grow larger than size 12.\
 ")
-; There's also an effect to reduce the chance of plague, but you have to
+; There is also an effect to reduce the chance of plague, but you have to
 ; enable illness in game.ruleset for that to be relevant.
 
 [building_bank]
@@ -848,7 +848,7 @@ helptext	= _("\
 Allows a city to grow larger than size 12.  An Aqueduct is first\
  required for a city to grow larger than size 8.\
 ")
-; There's also an effect to reduce the chance of plague, but you have to
+; There is also an effect to reduce the chance of plague, but you have to
 ; enable illness in game.ruleset for that to be relevant.
 
 [building_solar_plant]
