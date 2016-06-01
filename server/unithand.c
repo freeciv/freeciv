@@ -589,7 +589,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     }
     break;
   case ATK_SELF:
-    /* Can't declare war on it self. */
+    /* Can't declare war on itself. */
     return NULL;
     break;
   case ATK_COUNT:
@@ -747,7 +747,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       }
       break;
     case ATK_SELF:
-      /* A unit acting against it self. */
+      /* A unit acting against itself. */
       tgt_player = unit_owner(punit);
       break;
     case ATK_COUNT:

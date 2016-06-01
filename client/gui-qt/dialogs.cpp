@@ -155,7 +155,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_FOUND_CITY] = found_city;
   action_function[ACTION_NUKE] = nuke;
 
-  /* Unit acting with no target except it self. */
+  /* Unit acting with no target except itself. */
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
 
   return action_function;
@@ -1502,7 +1502,7 @@ void popup_action_selection(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  /* Unit acting against it self */
+  /* Unit acting against itself */
 
   /* Set the correct target for the following actions. */
   qv2 = cd->target_id[ATK_SELF];

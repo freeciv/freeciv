@@ -38,9 +38,9 @@ extern "C" {
 #define SPECENUM_VALUE2NAME N_("unit stacks")
 #define SPECENUM_VALUE3 ATK_TILE
 #define SPECENUM_VALUE3NAME N_("tiles")
-/* No target except the actor it self. */
+/* No target except the actor itself. */
 #define SPECENUM_VALUE4 ATK_SELF
-#define SPECENUM_VALUE4NAME N_("it self")
+#define SPECENUM_VALUE4NAME N_("itself")
 #define SPECENUM_COUNT ATK_COUNT
 #include "specenum_gen.h"
 

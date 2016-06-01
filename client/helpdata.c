@@ -4339,6 +4339,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     if (utype_can_do_action(utype, act)) {
       switch (act) {
       case ACTION_HELP_WONDER:
+        fc_assert(action_get_target_kind(act) != ATK_SELF);
         cat_snprintf(buf, bufsz,
                      /* TRANS: the first %s is the ruleset defined ui
                       * name of the "Help Wonder" action, the next %s is
@@ -4357,6 +4358,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype_build_shield_cost(utype));
         break;
       case ACTION_FOUND_CITY:
+        fc_assert(action_get_target_kind(act) != ATK_SELF);
         cat_snprintf(buf, bufsz,
                      /* TRANS: the first %s is the ruleset defined ui
                       * name of the "Found City" action, the next %s is
@@ -4381,6 +4383,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        "");
         break;
       case ACTION_JOIN_CITY:
+        fc_assert(action_get_target_kind(act) != ATK_SELF);
         cat_snprintf(buf, bufsz,
                      /* TRANS: the first %s is the ruleset defined ui
                       * name of the "Join City" action, the next %s is
@@ -4423,14 +4426,24 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         break;
       default:
         /* Generic action information. */
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: the first %s is the action's ruleset
-                      * defined ui name and the next %s is the name of
-                      * its target kind. */
-                     _("* Can do the action \'%s\' to some %s.\n"),
-                     action_get_ui_name(act),
-                     _(action_target_kind_name(
-                         action_get_target_kind(act))));
+        switch (action_get_target_kind(act)) {
+        case ATK_SELF:
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is the action's ruleset defined ui name */
+                       _("* Can do the action \'%s\'.\n"),
+                       action_get_ui_name(act));
+          break;
+        default:
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: the first %s is the action's ruleset
+                        * defined ui name and the next %s is the name of
+                        * its target kind. */
+                       _("* Can do the action \'%s\' to some %s.\n"),
+                       action_get_ui_name(act),
+                       _(action_target_kind_name(
+                           action_get_target_kind(act))));
+          break;
+        }
         break;
       }
     }

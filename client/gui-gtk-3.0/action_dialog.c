@@ -1227,7 +1227,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
   [ACTION_NUKE] = (GCallback)nuke_callback,
 
-  /* Unit acting with no target except it self. */
+  /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = (GCallback)disband_unit_callback,
 };
 
@@ -1456,7 +1456,7 @@ void popup_action_selection(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  /* Unit acting against it self. */
+  /* Unit acting against itself. */
 
   action_iterate(act) {
     if (action_get_actor_kind(act) == AAK_UNIT

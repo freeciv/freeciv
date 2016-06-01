@@ -302,7 +302,7 @@ static struct action *action_new(enum gen_action id,
   action->requires_details = requires_details;
   action->rare_pop_up = rare_pop_up;
 
-  /* The distance between the actor and him self is always 0. */
+  /* The distance between the actor and itself is always 0. */
   fc_assert(target_kind != ATK_SELF
             || (min_distance == 0 && max_distance == 0));
 
@@ -1924,7 +1924,7 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
 }
 
 /**************************************************************************
-  Returns TRUE if actor_unit can do wanted_action to it self as far as
+  Returns TRUE if actor_unit can do wanted_action to itself as far as
   action enablers are concerned.
 
   See note in is_action_enabled() for why the action still may be
@@ -2636,7 +2636,7 @@ action_probability action_prob_vs_tile(const struct unit* actor_unit,
 
 /**************************************************************************
   Get the actor unit's probability of successfully performing the chosen
-  action on it self.
+  action on itself.
 **************************************************************************/
 action_probability action_prob_self(const struct unit* actor_unit,
                                     const int action_id)
