@@ -37,36 +37,37 @@ extern "C" {
 #define SPECENUM_COUNT ATK_COUNT
 #include "specenum_gen.h"
 
-/* Used in the network protocol. */
+/* Values used in the network protocol. */
+/* Names used in file formats but not normally shown to users. */
 #define SPECENUM_NAME gen_action
 #define SPECENUM_VALUE0 ACTION_ESTABLISH_EMBASSY
-#define SPECENUM_VALUE0NAME N_("Establish Embassy")
+#define SPECENUM_VALUE0NAME "Establish Embassy"
 #define SPECENUM_VALUE1 ACTION_SPY_INVESTIGATE_CITY
-#define SPECENUM_VALUE1NAME N_("Investigate City")
+#define SPECENUM_VALUE1NAME "Investigate City"
 #define SPECENUM_VALUE2 ACTION_SPY_POISON
-#define SPECENUM_VALUE2NAME N_("Poison City")
+#define SPECENUM_VALUE2NAME "Poison City"
 #define SPECENUM_VALUE3 ACTION_SPY_STEAL_GOLD
-#define SPECENUM_VALUE3NAME N_("Steal Gold")
+#define SPECENUM_VALUE3NAME "Steal Gold"
 #define SPECENUM_VALUE4 ACTION_SPY_SABOTAGE_CITY
-#define SPECENUM_VALUE4NAME N_("Sabotage City")
+#define SPECENUM_VALUE4NAME "Sabotage City"
 #define SPECENUM_VALUE5 ACTION_SPY_TARGETED_SABOTAGE_CITY
-#define SPECENUM_VALUE5NAME N_("Targeted Sabotage City")
+#define SPECENUM_VALUE5NAME "Targeted Sabotage City"
 #define SPECENUM_VALUE6 ACTION_SPY_STEAL_TECH
-#define SPECENUM_VALUE6NAME N_("Steal Tech")
+#define SPECENUM_VALUE6NAME "Steal Tech"
 #define SPECENUM_VALUE7 ACTION_SPY_TARGETED_STEAL_TECH
-#define SPECENUM_VALUE7NAME N_("Targeted Steal Tech")
+#define SPECENUM_VALUE7NAME "Targeted Steal Tech"
 #define SPECENUM_VALUE8 ACTION_SPY_INCITE_CITY
-#define SPECENUM_VALUE8NAME N_("Incite City")
+#define SPECENUM_VALUE8NAME "Incite City"
 #define SPECENUM_VALUE9 ACTION_TRADE_ROUTE
-#define SPECENUM_VALUE9NAME N_("Establish Trade Route")
+#define SPECENUM_VALUE9NAME "Establish Trade Route"
 #define SPECENUM_VALUE10 ACTION_MARKETPLACE
-#define SPECENUM_VALUE10NAME N_("Enter Marketplace")
+#define SPECENUM_VALUE10NAME "Enter Marketplace"
 #define SPECENUM_VALUE11 ACTION_HELP_WONDER
-#define SPECENUM_VALUE11NAME N_("Help Wonder")
+#define SPECENUM_VALUE11NAME "Help Wonder"
 #define SPECENUM_VALUE12 ACTION_SPY_BRIBE_UNIT
-#define SPECENUM_VALUE12NAME N_("Bribe Unit")
+#define SPECENUM_VALUE12NAME "Bribe Unit"
 #define SPECENUM_VALUE13 ACTION_SPY_SABOTAGE_UNIT
-#define SPECENUM_VALUE13NAME N_("Sabotage Unit")
+#define SPECENUM_VALUE13NAME "Sabotage Unit"
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 
