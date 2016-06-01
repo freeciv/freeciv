@@ -44,66 +44,67 @@ extern "C" {
 #define SPECENUM_COUNT ATK_COUNT
 #include "specenum_gen.h"
 
-/* Used in the network protocol. */
+/* Values used in the network protocol. */
+/* Names used in file formats but not normally shown to users. */
 #define SPECENUM_NAME gen_action
 #define SPECENUM_VALUE0 ACTION_ESTABLISH_EMBASSY
-#define SPECENUM_VALUE0NAME N_("Establish Embassy")
+#define SPECENUM_VALUE0NAME "Establish Embassy"
 #define SPECENUM_VALUE1 ACTION_SPY_INVESTIGATE_CITY
-#define SPECENUM_VALUE1NAME N_("Investigate City")
+#define SPECENUM_VALUE1NAME "Investigate City"
 #define SPECENUM_VALUE2 ACTION_SPY_POISON
-#define SPECENUM_VALUE2NAME N_("Poison City")
+#define SPECENUM_VALUE2NAME "Poison City"
 #define SPECENUM_VALUE3 ACTION_SPY_STEAL_GOLD
-#define SPECENUM_VALUE3NAME N_("Steal Gold")
+#define SPECENUM_VALUE3NAME "Steal Gold"
 #define SPECENUM_VALUE4 ACTION_SPY_SABOTAGE_CITY
-#define SPECENUM_VALUE4NAME N_("Sabotage City")
+#define SPECENUM_VALUE4NAME "Sabotage City"
 #define SPECENUM_VALUE5 ACTION_SPY_TARGETED_SABOTAGE_CITY
-#define SPECENUM_VALUE5NAME N_("Targeted Sabotage City")
+#define SPECENUM_VALUE5NAME "Targeted Sabotage City"
 #define SPECENUM_VALUE6 ACTION_SPY_STEAL_TECH
-#define SPECENUM_VALUE6NAME N_("Steal Tech")
+#define SPECENUM_VALUE6NAME "Steal Tech"
 #define SPECENUM_VALUE7 ACTION_SPY_TARGETED_STEAL_TECH
-#define SPECENUM_VALUE7NAME N_("Targeted Steal Tech")
+#define SPECENUM_VALUE7NAME "Targeted Steal Tech"
 #define SPECENUM_VALUE8 ACTION_SPY_INCITE_CITY
-#define SPECENUM_VALUE8NAME N_("Incite City")
+#define SPECENUM_VALUE8NAME "Incite City"
 #define SPECENUM_VALUE9 ACTION_TRADE_ROUTE
-#define SPECENUM_VALUE9NAME N_("Establish Trade Route")
+#define SPECENUM_VALUE9NAME "Establish Trade Route"
 #define SPECENUM_VALUE10 ACTION_MARKETPLACE
-#define SPECENUM_VALUE10NAME N_("Enter Marketplace")
+#define SPECENUM_VALUE10NAME "Enter Marketplace"
 #define SPECENUM_VALUE11 ACTION_HELP_WONDER
-#define SPECENUM_VALUE11NAME N_("Help Wonder")
+#define SPECENUM_VALUE11NAME "Help Wonder"
 #define SPECENUM_VALUE12 ACTION_SPY_BRIBE_UNIT
-#define SPECENUM_VALUE12NAME N_("Bribe Unit")
+#define SPECENUM_VALUE12NAME "Bribe Unit"
 #define SPECENUM_VALUE13 ACTION_SPY_SABOTAGE_UNIT
-#define SPECENUM_VALUE13NAME N_("Sabotage Unit")
+#define SPECENUM_VALUE13NAME "Sabotage Unit"
 #define SPECENUM_VALUE14 ACTION_CAPTURE_UNITS
-#define SPECENUM_VALUE14NAME N_("Capture Units")
+#define SPECENUM_VALUE14NAME "Capture Units"
 #define SPECENUM_VALUE15 ACTION_FOUND_CITY
-#define SPECENUM_VALUE15NAME N_("Found City")
+#define SPECENUM_VALUE15NAME "Found City"
 #define SPECENUM_VALUE16 ACTION_JOIN_CITY
-#define SPECENUM_VALUE16NAME N_("Join City")
+#define SPECENUM_VALUE16NAME "Join City"
 #define SPECENUM_VALUE17 ACTION_STEAL_MAPS
-#define SPECENUM_VALUE17NAME N_("Steal Maps")
+#define SPECENUM_VALUE17NAME "Steal Maps"
 #define SPECENUM_VALUE18 ACTION_BOMBARD
-#define SPECENUM_VALUE18NAME N_("Bombard")
+#define SPECENUM_VALUE18NAME "Bombard"
 #define SPECENUM_VALUE19 ACTION_SPY_NUKE
-#define SPECENUM_VALUE19NAME N_("Suitcase Nuke")
+#define SPECENUM_VALUE19NAME "Suitcase Nuke"
 #define SPECENUM_VALUE20 ACTION_NUKE
-#define SPECENUM_VALUE20NAME N_("Explode Nuclear")
+#define SPECENUM_VALUE20NAME "Explode Nuclear"
 #define SPECENUM_VALUE21 ACTION_DESTROY_CITY
-#define SPECENUM_VALUE21NAME N_("Destroy City")
+#define SPECENUM_VALUE21NAME "Destroy City"
 #define SPECENUM_VALUE22 ACTION_EXPEL_UNIT
-#define SPECENUM_VALUE22NAME N_("Expel Unit")
+#define SPECENUM_VALUE22NAME "Expel Unit"
 #define SPECENUM_VALUE23 ACTION_RECYCLE_UNIT
-#define SPECENUM_VALUE23NAME N_("Recycle Unit")
+#define SPECENUM_VALUE23NAME "Recycle Unit"
 #define SPECENUM_VALUE24 ACTION_DISBAND_UNIT
-#define SPECENUM_VALUE24NAME N_("Disband Unit")
+#define SPECENUM_VALUE24NAME "Disband Unit"
 #define SPECENUM_VALUE25 ACTION_HOME_CITY
-#define SPECENUM_VALUE25NAME N_("Home City")
+#define SPECENUM_VALUE25NAME "Home City"
 #define SPECENUM_VALUE26 ACTION_UPGRADE_UNIT
-#define SPECENUM_VALUE26NAME N_("Upgrade Unit")
+#define SPECENUM_VALUE26NAME "Upgrade Unit"
 #define SPECENUM_VALUE27 ACTION_PARADROP
-#define SPECENUM_VALUE27NAME N_("Paradrop Unit")
+#define SPECENUM_VALUE27NAME "Paradrop Unit"
 #define SPECENUM_VALUE28 ACTION_AIRLIFT
-#define SPECENUM_VALUE28NAME N_("Airlift Unit")
+#define SPECENUM_VALUE28NAME "Airlift Unit"
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */
 #define SPECENUM_COUNT ACTION_COUNT
