@@ -782,6 +782,8 @@ extern struct civ_game game;
 #define RS_DEFAULT_FORCE_BOMBARD                 FALSE
 #define RS_DEFAULT_FORCE_EXPLODE_NUCLEAR         FALSE
 
+#define RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK     FALSE
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

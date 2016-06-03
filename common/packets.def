@@ -518,6 +518,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   PHASE phase;
   PHASE_MODE phase_mode;
   BOOL pillage_select;
+  BOOL poison_empties_food_stock;
   BOOL tech_steal_allow_holes;
   BOOL tech_trade_allow_holes;
   BOOL tech_trade_loss_allow_holes;

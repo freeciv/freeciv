@@ -131,6 +131,11 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
                   _("%s is suspected of poisoning the water supply of %s."),
                   player_name(pplayer), clink);
 
+    if (game.info.poison_empties_food_stock) {
+      /* The food was poisoned too. */
+      city_empty_food_stock(pcity);
+    }
+
     /* Update clients. */
     city_refresh (pcity);
     send_city_info(NULL, pcity);

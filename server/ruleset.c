@@ -5722,6 +5722,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                       RS_DEFAULT_FORCE_EXPLODE_NUCLEAR,
                                       "actions.force_explode_nuclear");
 
+      /* If the poison city action should empty the granary. */
+      /* TODO: empty granary and reduce population should become separate
+       * action effect flags when actions are generalized. */
+      game.info.poison_empties_food_stock
+        = secfile_lookup_bool_default(file,
+                                      RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
+                                      "actions.poison_empties_food_stock");
+
       text = secfile_lookup_str_default(file,
           /* TRANS: _Poison City (3% chance of success). */
           N_("%sPoison City%s"),

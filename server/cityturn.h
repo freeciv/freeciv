@@ -36,6 +36,8 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
                       struct player *destroyer, const char *reason);
 void city_repair_size(struct city *pcity, int change);
 
+bool city_empty_food_stock(struct city *pcity);
+
 void send_city_turn_notifications(struct connection *pconn);
 void update_city_activities(struct player *pplayer);
 int city_incite_cost(struct player *pplayer, struct city *pcity);

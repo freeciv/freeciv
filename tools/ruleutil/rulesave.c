@@ -922,6 +922,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_FORCE_EXPLODE_NUCLEAR,
                     "actions.force_explode_nuclear", NULL);
 
+  save_default_bool(sfile, game.info.poison_empties_food_stock,
+                    RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
+                    "actions.poison_empties_food_stock", NULL);
+
   secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_POISON)->ui_name,
                      "actions.ui_name_poison_city");

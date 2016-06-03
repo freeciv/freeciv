@@ -3633,6 +3633,29 @@ void check_city_migrations(void)
 }
 
 /**************************************************************************
+  Returns TRUE iff the city's food stock was emptied. Should empty the
+  food stock unless it already is empty.
+**************************************************************************/
+bool city_empty_food_stock(struct city *pcity) {
+  struct player *pplayer = city_owner(pcity);
+  struct tile *ptile = city_tile(pcity);
+
+  fc_assert_ret_val(pcity != NULL, FALSE);
+
+  if (pcity->food_stock > 0) {
+    pcity->food_stock = 0;
+
+    notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                  /* TRANS: %s is a city name */
+                  _("All stored food destroyed in %s."), city_link(pcity));
+
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
   Disaster has hit a city. Apply its effects.
 **************************************************************************/
 static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
@@ -3712,13 +3735,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
   }
 
   if (pcity && disaster_has_effect(pdis, DE_EMPTY_FOODSTOCK)) {
-    if (pcity->food_stock > 0) {
-      pcity->food_stock = 0;
-
-      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    /* TRANS: %s is a city name */
-                    _("All stored food destroyed in %s."), city_link(pcity));
-
+    if (city_empty_food_stock(pcity)) {
       had_internal_effect = TRUE;
     }
   }
