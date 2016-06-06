@@ -313,6 +313,7 @@ static struct action *action_new(enum gen_action id,
    * be defined seperatly from other action data. */
   action->ui_name[0] = '\0';
   action->quiet = FALSE;
+  BV_CLR_ALL(action->blocked_by);
 
   return action;
 }
@@ -437,6 +438,18 @@ bool action_distance_accepted(const struct action *action,
 
   return (distance >= action->min_distance
           && distance <= action->max_distance);
+}
+
+/**************************************************************************
+  Returns TRUE iff blocked will be illegal if blocker is legal.
+**************************************************************************/
+bool action_would_be_blocked_by(const struct action *blocked,
+                                const struct action *blocker)
+{
+  fc_assert_ret_val(blocked, FALSE);
+  fc_assert_ret_val(blocker, FALSE);
+
+  return BV_ISSET(blocked->blocked_by, action_number(blocker));
 }
 
 /**************************************************************************
@@ -751,50 +764,6 @@ tgt_city_local_utype(const struct city *target_city)
 }
 
 /**************************************************************************
-  Returns TRUE iff trade route establishing is forced and possible.
-**************************************************************************/
-static bool trade_route_blocks(const struct unit *actor_unit,
-                               const struct city *target_city)
-{
-  return (game.info.force_trade_route
-          && is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
-                                            actor_unit, target_city));
-}
-
-/**************************************************************************
-  Returns TRUE iff capture units is forced and possible.
-**************************************************************************/
-static bool capture_units_blocks(const struct unit *actor_unit,
-                                 const struct tile *target_tile)
-{
-  return (game.info.force_capture_units
-          && is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
-                                             actor_unit, target_tile));
-}
-
-/**************************************************************************
-  Returns TRUE iff bombardment is forced and possible.
-**************************************************************************/
-static bool bombard_blocks(const struct unit *actor_unit,
-                           const struct tile *target_tile)
-{
-  return (game.info.force_bombard
-          && is_action_enabled_unit_on_units(ACTION_BOMBARD,
-                                             actor_unit, target_tile));
-}
-
-/**************************************************************************
-  Returns TRUE iff explode nuclear is forced and possible.
-**************************************************************************/
-static bool explode_nuclear_blocks(const struct unit *actor_unit,
-                                   const struct tile *target_tile)
-{
-  return (game.info.force_explode_nuclear
-          && is_action_enabled_unit_on_tile(ACTION_NUKE,
-                                            actor_unit, target_tile));
-}
-
-/**************************************************************************
   Returns the action that blocks regular attacks or NULL if they aren't
   blocked.
 
@@ -807,99 +776,31 @@ static bool explode_nuclear_blocks(const struct unit *actor_unit,
 struct action *action_blocks_attack(const struct unit *actor_unit,
                                     const struct tile *target_tile)
 {
-  if (capture_units_blocks(actor_unit, target_tile)) {
+  if (game.info.force_capture_units
+       && is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
+                                          actor_unit, target_tile)) {
     /* Capture unit is possible.
      * The ruleset forbids regular attacks when it is. */
     return action_by_number(ACTION_CAPTURE_UNITS);
   }
 
-  if (bombard_blocks(actor_unit, target_tile)) {
+  if (game.info.force_bombard
+       && is_action_enabled_unit_on_units(ACTION_BOMBARD,
+                                          actor_unit, target_tile)) {
     /* Bomard units is possible.
      * The ruleset forbids regular attacks when it is. */
     return action_by_number(ACTION_BOMBARD);
   }
 
-  if (explode_nuclear_blocks(actor_unit, target_tile)) {
+  if (game.info.force_explode_nuclear
+      && is_action_enabled_unit_on_tile(ACTION_NUKE,
+                                        actor_unit, target_tile)) {
     /* Explode nuclear is possible.
      * The ruleset forbids regular attacks when it is. */
     return action_by_number(ACTION_NUKE);
   }
 
   /* Nothing is blocking a regular attack. */
-  return NULL;
-}
-
-/**************************************************************************
-  Returns TRUE iff Help Wonder blocks
-**************************************************************************/
-static bool help_wonder_blocks(const struct unit *actor_unit,
-                               const struct city *target_city)
-{
-  /* Hard code that Help Wonder blocks Recycle Unit. This must be done
-   * because caravan_shields makes it possible to avoid the consequences of
-   * choosing to do Recycle Unit rather than having it do Help Wonder.
-   *
-   * Explanation: Recycle Unit adds 50% of the shields used to produce the
-   * unit to the production of the city where it is located. Help Wonder
-   * adds 100%. If a unit that can do Help Wonder is recycled in a city
-   * and the production later is changed to something that can receive help
-   * from Help Wonder the remaining 50% of the shields are added. This can
-   * be done because the city remembers them in caravan_shields.
-   *
-   * If a unit that can do Help Wonder intentionally is recycled rather
-   * than making it do Help Wonder its shields will still be remembered.
-   * The target city that got 50% of the shields can therefore get 100% of
-   * them by changing its production. This trick makes the ability to
-   * select Recycle Unit when Help Wonder is legal pointless. */
-
-  return is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
-                                        actor_unit, target_city);
-}
-
-/**************************************************************************
-  Returns TRUE iff Recycle Unit blocks
-**************************************************************************/
-static bool recycle_unit_blocks(const struct unit *actor_unit,
-                                struct city *target_city)
-{
-  /* Recycle Unit is currently hard coded to block everything it can. */
-  return is_action_enabled_unit_on_city(ACTION_RECYCLE_UNIT,
-                                        actor_unit, target_city);
-}
-
-/**************************************************************************
-  Returns the action that blocks Disband Unit or NULL if Disband Unit
-  isn't blocked.
-
-  An action that can block disband blocks disband when it is forced and
-  possible.
-**************************************************************************/
-static struct action *action_blocks_disband(const struct unit *actor_unit)
-{
-  struct city *target_city;
-
-  /* Only a city at the current tile would have received production help
-   * from Help Wonder disband or Recycle Unit disband. */
-  target_city = tile_city(unit_tile(actor_unit));
-
-  if (target_city == NULL) {
-    /* No city to do Help Wonder or Recycle Unit to. */
-    return NULL;
-  }
-
-  if (help_wonder_blocks(actor_unit, target_city)) {
-    /* Help Wonder is possible.
-     * Freeciv forbids regular disband when it is. */
-    return action_by_number(ACTION_HELP_WONDER);
-  }
-
-  if (recycle_unit_blocks(actor_unit, target_city)) {
-    /* Recycle Unit is possible.
-     * Freeciv forbids regular disband when it is. */
-    return action_by_number(ACTION_RECYCLE_UNIT);
-  }
-
-  /* Nothing is blocking disbanding the unit. */
   return NULL;
 }
 
@@ -911,71 +812,86 @@ static struct action *action_blocks_disband(const struct unit *actor_unit)
 **************************************************************************/
 struct action *action_is_blocked_by(const int action_id,
                                     const struct unit *actor_unit,
-                                    const struct tile *target_tile,
-                                    const struct city *target_city,
+                                    const struct tile *target_tile_arg,
+                                    const struct city *target_city_arg,
                                     const struct unit *target_unit)
 {
-  /* TODO: Generalize. Give the ruleset more control. Maybe add a
-   * blocked_by action vector field to generalized actions when actions
-   * becomes generalized? */
+  /* Special case ATK_SELF so Help Wonder disband or Recycle Unit disband
+   * can block Disband Unit disband. */
 
-  switch (action_id) {
-  case ACTION_MARKETPLACE:
-    if (trade_route_blocks(actor_unit, target_city)) {
-      /* Establish Trade Route is possible.
-       * The ruleset forbids Enter Marketplace when it is. */
-      return action_by_number(ACTION_TRADE_ROUTE);
+  const struct tile *target_tile
+      = (action_get_target_kind(action_id) != ATK_SELF
+         ? target_tile_arg
+         : unit_tile(actor_unit));
+  const struct city *target_city
+      = (action_get_target_kind(action_id) != ATK_SELF
+         ? target_city_arg
+         : tile_city(unit_tile(actor_unit)));
+
+  action_iterate(blocker_id) {
+    fc_assert_action(action_get_actor_kind(blocker_id) == AAK_UNIT,
+                     continue);
+
+    if (!action_id_would_be_blocked_by(action_id, blocker_id)) {
+      /* It doesn't matter if it is legal. It won't block the action. */
+      continue;
     }
 
-    /* Not blocked. */
-    return NULL;
-    break;
-  case ACTION_BOMBARD:
-    if (capture_units_blocks(actor_unit, target_tile)) {
-      /* Capture unit is possible.
-       * The ruleset forbids bombard when it is. */
-      return action_by_number(ACTION_CAPTURE_UNITS);
+    switch (action_get_target_kind(blocker_id)) {
+    case ATK_CITY:
+      if (!target_city) {
+        /* Can't be enabled. No target. */
+        continue;
+      }
+      if (is_action_enabled_unit_on_city(blocker_id,
+                                         actor_unit, target_city)) {
+        return action_by_number(blocker_id);
+      }
+      break;
+    case ATK_UNIT:
+      if (!target_unit) {
+        /* Can't be enabled. No target. */
+        continue;
+      }
+      if (is_action_enabled_unit_on_unit(blocker_id,
+                                         actor_unit, target_unit)) {
+        return action_by_number(blocker_id);
+      }
+      break;
+    case ATK_UNITS:
+      if (!target_tile) {
+        /* Can't be enabled. No target. */
+        continue;
+      }
+      if (is_action_enabled_unit_on_units(blocker_id,
+                                          actor_unit, target_tile)) {
+        return action_by_number(blocker_id);
+      }
+      break;
+    case ATK_TILE:
+      if (!target_tile) {
+        /* Can't be enabled. No target. */
+        continue;
+      }
+      if (is_action_enabled_unit_on_tile(blocker_id,
+                                         actor_unit, target_tile)) {
+        return action_by_number(blocker_id);
+      }
+      break;
+    case ATK_SELF:
+      if (is_action_enabled_unit_on_self(blocker_id, actor_unit)) {
+        return action_by_number(blocker_id);
+      }
+      break;
+    case ATK_COUNT:
+      fc_assert_action(action_get_target_kind(blocker_id) != ATK_COUNT,
+                       continue);
+      break;
     }
+  } action_iterate_end;
 
-    /* Not blocked. */
-    return NULL;
-    break;
-  case ACTION_NUKE:
-    if (capture_units_blocks(actor_unit, target_tile)) {
-      /* Capture unit is possible.
-       * The ruleset forbids Explode Nuclear when it is. */
-      return action_by_number(ACTION_CAPTURE_UNITS);
-    }
-
-    if (bombard_blocks(actor_unit, target_tile)) {
-      /* Bombard units is possible.
-       * The ruleset forbids Explode Nuclear when it is. */
-      return action_by_number(ACTION_BOMBARD);
-    }
-
-    /* Not blocked. */
-    return NULL;
-    break;
-  case ACTION_RECYCLE_UNIT:
-    if (help_wonder_blocks(actor_unit, target_city)) {
-      /* Help Wonder is possible.
-       * Freeciv forbids Recycle Unit when it is.
-       * The current Freeciv code can't handle permitting Recycle Unit when
-       * Help Wonder is legal. See explanation in help_wonder_blocks(). */
-      return action_by_number(ACTION_HELP_WONDER);
-    }
-
-    /* Not blocked. */
-    return NULL;
-    break;
-  case ACTION_DISBAND_UNIT:
-    return action_blocks_disband(actor_unit);
-    break;
-  default:
-    /* Not able to be blocked. */
-    return NULL;
-    break;
-  }
+  /* Not blocked. */
+  return NULL;
 }
 
 /**************************************************************************

@@ -909,9 +909,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_SLOW_INVASIONS,
                     "global_unit_options.slow_invasions", NULL);
 
-  save_default_bool(sfile, game.info.force_trade_route,
+  save_default_bool(sfile,
+                    action_id_would_be_blocked_by(ACTION_MARKETPLACE,
+                                                  ACTION_TRADE_ROUTE),
                     RS_DEFAULT_FORCE_TRADE_ROUTE,
                     "actions.force_trade_route", NULL);
+  /* Sets the forced action in many actions' blocked_by */
   save_default_bool(sfile, game.info.force_capture_units,
                     RS_DEFAULT_FORCE_CAPTURE_UNITS,
                     "actions.force_capture_units", NULL);

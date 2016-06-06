@@ -5698,11 +5698,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     if (ok) {
       const char *text;
 
-      /* Forbid entering the marketplace when a trade route can be
-       * established. */
-      game.info.force_trade_route
-        = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_TRADE_ROUTE,
-                                      "actions.force_trade_route");
+      if (secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_TRADE_ROUTE,
+                                      "actions.force_trade_route")) {
+        /* Forbid entering the marketplace when a trade route can be
+         * established. */
+        BV_SET(action_by_number(ACTION_MARKETPLACE)->blocked_by,
+               ACTION_TRADE_ROUTE);
+      }
 
       /* Forbid bombarding, exploading nuclear or attacking when it is
        * legal to capture units. */
@@ -5710,11 +5712,23 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_CAPTURE_UNITS,
                                       "actions.force_capture_units");
 
+      if (game.info.force_capture_units) {
+        BV_SET(action_by_number(ACTION_BOMBARD)->blocked_by,
+               ACTION_CAPTURE_UNITS);
+        BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
+               ACTION_CAPTURE_UNITS);
+      }
+
       /* Forbid exploding nuclear or attacking when it is legal to
        * bombard. */
       game.info.force_bombard
         = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_BOMBARD,
                                       "actions.force_bombard");
+
+      if (game.info.force_bombard) {
+        BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
+               ACTION_BOMBARD);
+      }
 
       /* Forbid attacking when it is legal to do explode nuclear. */
       game.info.force_explode_nuclear
@@ -7093,6 +7107,7 @@ static void send_ruleset_actions(struct conn_list *dest)
     packet.id = act;
     sz_strlcpy(packet.ui_name, action_by_number(act)->ui_name);
     packet.quiet = action_by_number(act)->quiet;
+    packet.blocked_by = action_by_number(act)->blocked_by;
 
     lsend_packet_ruleset_action(dest, &packet);
   } action_iterate_end;

@@ -105,6 +105,7 @@ extern "C" {
 #define SPECENUM_VALUE27NAME "Paradrop Unit"
 #define SPECENUM_VALUE28 ACTION_AIRLIFT
 #define SPECENUM_VALUE28NAME "Airlift Unit"
+#define SPECENUM_BITVECTOR bv_actions
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */
 #define SPECENUM_COUNT ACTION_COUNT
@@ -163,6 +164,10 @@ struct action
   /* Suppress automatic help text generation about what enables and/or
    * disables this action. */
   bool quiet;
+
+  /* Actions that blocks this action. The action will be illegal if any
+   * bloking action is legal. */
+  bv_actions blocked_by;
 };
 
 struct action_enabler
@@ -293,6 +298,12 @@ bool action_distance_accepted(const struct action *action,
                               const int distance);
 #define action_id_distance_accepted(action_id, distance)                  \
   action_distance_accepted(action_by_number(action_id), distance)
+
+bool action_would_be_blocked_by(const struct action *blocked,
+                                const struct action *blocker);
+#define action_id_would_be_blocked_by(blocked_id, blocker_id)             \
+  action_would_be_blocked_by(action_by_number(blocked_id),                \
+                             action_by_number(blocker_id))
 
 int action_get_role(int action_id);
 

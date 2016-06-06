@@ -1057,6 +1057,57 @@ bool autoadjust_ruleset_data(void)
     } extra_type_by_cause_iterate_end;
   } extra_type_by_cause_iterate_end;
 
+  /* Hard coded action blocking. */
+  {
+    const struct {
+      const enum gen_action blocked;
+      const enum gen_action blocker;
+    } must_block[] = {
+      /* Hard code that Help Wonder blocks Recycle Unit. This must be done
+       * because caravan_shields makes it possible to avoid the
+       * consequences of choosing to do Recycle Unit rather than having it
+       * do Help Wonder.
+       *
+       * Explanation: Recycle Unit adds 50% of the shields used to produce
+       * the unit to the production of the city where it is located. Help
+       * Wonder adds 100%. If a unit that can do Help Wonder is recycled in
+       * a city and the production later is changed to something that can
+       * receive help from Help Wonder the remaining 50% of the shields are
+       * added. This can be done because the city remembers them in
+       * caravan_shields.
+       *
+       * If a unit that can do Help Wonder intentionally is recycled rather
+       * than making it do Help Wonder its shields will still be
+       * remembered. The target city that got 50% of the shields can
+       * therefore get 100% of them by changing its production. This trick
+       * makes the ability to select Recycle Unit when Help Wonder is legal
+       * pointless. */
+      { ACTION_RECYCLE_UNIT, ACTION_HELP_WONDER },
+
+      /* Allowing regular disband when ACTION_HELP_WONDER or
+       * ACTION_RECYCLE_UNIT is legal while ACTION_HELP_WONDER always
+       * blocks ACTION_RECYCLE_UNIT doesn't work well with the force_*
+       * semantics. Should move to the ruleset once it has blocked_by
+       * semantics. */
+      { ACTION_DISBAND_UNIT, ACTION_HELP_WONDER },
+      { ACTION_DISBAND_UNIT, ACTION_RECYCLE_UNIT },
+    };
+
+    int i;
+
+    for (i = 0; i < ARRAY_SIZE(must_block); i++) {
+      enum gen_action blocked = must_block[i].blocked;
+      enum gen_action blocker = must_block[i].blocker;
+
+      if (!action_id_would_be_blocked_by(blocked, blocker)) {
+        log_verbose("Autoblocking %s with %s",
+                    action_get_rule_name(blocked),
+                    action_get_rule_name(blocker));
+        BV_SET(action_by_number(blocked)->blocked_by, blocker);
+      }
+    }
+  }
+
   return ok;
 }
 

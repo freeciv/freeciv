@@ -257,6 +257,7 @@ type GOLD_UPKEEP_STYLE  = uint8(enum gold_upkeep_style)
 type TR_BONUS_TYPE      = uint8(enum traderoute_bonus_type)
 
 # typedefs for bit vectors
+type BV_ACTIONS         = bitvector(bv_actions)
 type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
 type BV_EXTRAS          = bitvector(bv_extras)
@@ -545,7 +546,8 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 first_timeout;
   BOOL tired_attack;
   UINT16 trademindist;
-  BOOL force_trade_route;
+  /* TODO: the force_* fields can be removed once regular attacks are
+   * action enabler controlled. */
   BOOL force_capture_units;
   BOOL force_bombard;
   BOOL force_explode_nuclear;
@@ -1712,6 +1714,7 @@ PACKET_RULESET_ACTION = 246; sc, lsend
 
   STRING ui_name[MAX_LEN_NAME];
   BOOL   quiet;
+  BV_ACTIONS blocked_by;
 end
 
 PACKET_RULESET_ACTION_ENABLER = 235; sc, lsend
