@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2015-Dec-17"
+options = "+Freeciv-tilespec-Devel-2016-Jun-07"
 
 ; A simple name for the tileset specified by this file:
 name = "Amplio"
@@ -77,6 +77,12 @@ tilelabel_offset_y = 15
 ; Font size (points) to use to draw city names and productions:
 city_names_font_size = 10
 city_productions_font_size = 8
+
+; For tilesets with oriented units, the directional sprite to use to
+; represent a unit type rather than a specific unit from the map
+; (e.g., in worklists, editor, and online help). If not specified, such
+; sprites will be oriented randomly.
+;unit_default_orientation = "s"
 
 ; These are special because they get freed and reloaded
 ; as required:

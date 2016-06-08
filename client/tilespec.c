@@ -76,7 +76,7 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2015-Dec-17 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2016-Jun-07 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -474,6 +474,8 @@ struct tileset {
   int max_upkeep_height;
 
   char *main_intro_filename;
+
+  enum direction8 unit_default_orientation;
 
   int city_names_font_size, city_productions_font_size;
 
@@ -927,6 +929,24 @@ static const char *dir_get_tileset_name(enum direction8 dir)
   }
   log_error("Wrong direction8 variant: %d.", dir);
   return "";
+}
+
+/****************************************************************************
+  Parse a direction name as a direction8.
+****************************************************************************/
+static enum direction8 dir_by_tileset_name(const char *str)
+{
+  enum direction8 dir;
+
+  for (dir = direction8_begin();
+       dir != direction8_end();
+       dir = direction8_next(dir)) {
+    if (strcmp(dir_get_tileset_name(dir), str) == 0) {
+      return dir;
+    }
+  }
+
+  return direction8_invalid();
 }
 
 /****************************************************************************
@@ -1959,6 +1979,27 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
 
   set_city_names_font_sizes(t->city_names_font_size,
                             t->city_productions_font_size);
+
+  c = secfile_lookup_str_default(file, NULL,
+                                 "tilespec.unit_default_orientation");
+  if (!c) {
+    t->unit_default_orientation = direction8_invalid();
+  } else {
+    dir = dir_by_tileset_name(c);
+
+    if (!direction8_is_valid(dir)) {
+      tileset_error(LOG_ERROR, "Tileset \"%s\": unknown "
+                    "unit_default_orientation \"%s\"", t->name, c);
+      goto ON_ERROR;
+    } else if (!is_valid_tileset_dir(t, dir)) {
+      tileset_error(LOG_ERROR, "Tileset \"%s\": unsuitable "
+                    "unit_default_orientation \"%s\" for this tileset",
+                    t->name, c);
+      goto ON_ERROR;
+    } else {
+      t->unit_default_orientation = dir;
+    }
+  }
 
   c = secfile_lookup_str(file, "tilespec.main_intro_file");
   t->main_intro_filename = tilespec_gfx_filename(c);
@@ -5993,8 +6034,11 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
   fc_assert_ret_val(NULL != punittype, NULL);
 
   if (!direction8_is_valid(facing) || !is_valid_dir(facing)) {
-    /* Fallback to using random orientation sprite. */
-    facing = rand_direction();
+    facing = t->unit_default_orientation;
+    if (!direction8_is_valid(facing)) {
+      /* Fallback to using random orientation sprite. */
+      facing = rand_direction();
+    }
   }
 
   if (t->sprites.units.icon[uidx]
