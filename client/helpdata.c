@@ -4338,6 +4338,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     if (utype_can_do_action(utype, act)) {
       const char *target_adjective;
+      const char const *blockers[ACTION_COUNT];
+      int i = 0;
 
       /* Generic action information. */
       cat_snprintf(buf, bufsz,
@@ -4430,6 +4432,35 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       default:
         /* No action specific details. */
         break;
+      }
+
+      action_iterate(blocker) {
+        if (!utype_can_do_action(utype, blocker)) {
+          /* Can't block since never legal. */
+          continue;
+        }
+
+        if (action_id_would_be_blocked_by(act, blocker)) {
+          char *quoted = fc_malloc(MAX_LEN_NAME);
+
+          fc_snprintf(quoted, MAX_LEN_NAME,
+                      /* TRANS: %s is an action that can block another. */
+                      _("\'%s\'"), action_get_ui_name(blocker));
+          blockers[i] = quoted;
+
+          i++;
+        }
+      } action_iterate_end;
+
+      if (i > 0) {
+        struct astring blist = ASTRING_INIT;
+
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a list of actions separated by "or". */
+                     _("  * can't be done if %s is legal.\n"),
+                     astr_build_or_list(&blist, blockers, i));
+
+        astr_free(&blist);
       }
     }
   } action_iterate_end;
