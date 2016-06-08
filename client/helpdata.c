@@ -4337,24 +4337,40 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     if (utype_can_do_action(utype, act)) {
+      const char *target_adjective;
+
       /* Generic action information. */
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is the action's ruleset defined ui name */
+                   _("* Can do the action \'%s\'.\n"),
+                   action_get_ui_name(act));
+
       switch (action_get_target_kind(act)) {
       case ATK_SELF:
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is the action's ruleset defined ui name */
-                     _("* Can do the action \'%s\'.\n"),
-                     action_get_ui_name(act));
+        /* No target. */
         break;
       default:
+        if (!can_utype_do_act_if_tgt_diplrel(utype, act,
+                                             DRO_FOREIGN, TRUE)) {
+          /* TRANS: describes the target of an action. */
+          target_adjective = _("domestic ");
+        } else if (!can_utype_do_act_if_tgt_diplrel(utype, act,
+                                                    DRO_FOREIGN, FALSE)) {
+          /* TRANS: describes the target of an action. */
+          target_adjective = _("foreign ");
+        } else {
+          /* Both foreign and domestic targets are acceptable. */
+          target_adjective = "";
+        }
+
         cat_snprintf(buf, bufsz,
-                     /* TRANS: the first %s is the action's ruleset
-                      * defined ui name and the next %s is the name of
-                      * its target kind. */
-                     _("* Can do the action \'%s\' to some %s.\n"),
-                     action_get_ui_name(act),
+                     /* TRANS: The first %s may be an adjective (that
+                      * includes a space). The next is the name of its
+                      * target kind. */
+                     _("  * is done to %s%s.\n"),
+                     target_adjective,
                      _(action_target_kind_name(
                          action_get_target_kind(act))));
-        break;
       }
 
       /* Custom action specific information. */
