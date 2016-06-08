@@ -4420,8 +4420,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case ACTION_PARADROP:
         cat_snprintf(buf, bufsz,
-                     _("* Can do the action \'%s\' from a friendly city "
-                       "or suitable base (range: %d tiles).\n"),
+                     _("* Can do the action \'%s\' (range: %d tiles).\n"),
                      action_get_ui_name(act), utype->paratroopers_range);
         break;
       default:

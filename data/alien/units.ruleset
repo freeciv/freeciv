@@ -32,7 +32,7 @@ flags =
     _("Cities")
     _("AddToCity")
     _("Infra"), _("Can build infrastructure.")
-    _("Paratroopers")
+    _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
   }
 
 ; Names for custom unit class flags. There can be up to 8 of these.
