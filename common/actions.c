@@ -1171,27 +1171,6 @@ is_action_possible(const enum gen_action wanted_action,
     return TRI_NO;
   }
 
-  if (wanted_action == ACTION_ESTABLISH_EMBASSY
-      || wanted_action == ACTION_SPY_INVESTIGATE_CITY
-      || wanted_action == ACTION_SPY_STEAL_GOLD
-      || wanted_action == ACTION_STEAL_MAPS
-      || wanted_action == ACTION_SPY_STEAL_TECH
-      || wanted_action == ACTION_SPY_TARGETED_STEAL_TECH
-      || wanted_action == ACTION_SPY_INCITE_CITY
-      || wanted_action == ACTION_SPY_BRIBE_UNIT
-      || wanted_action == ACTION_CAPTURE_UNITS) {
-    /* Why this is a hard requirement: There is currently no point in
-     * allowing the listed actions against domestic targets.
-     * (Possible counter argument: crazy hack involving the Lua callback
-     * action_started_callback() to use an action to do something else. */
-    /* Info leak: The actor player knows what targets he owns. */
-    /* TODO: Move this restriction to the ruleset as a part of false flag
-     * operation support. */
-    if (actor_player == target_player) {
-      return TRI_NO;
-    }
-  }
-
   /* Actor specific hard requirements. */
   out = action_hard_reqs_actor(wanted_action,
                                actor_player, actor_city, actor_building,

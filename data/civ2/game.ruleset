@@ -325,6 +325,7 @@ actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
       "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is foreign", "Local"
     }
 
 [actionenabler_investigate_city]
@@ -333,6 +334,7 @@ actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
       "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is foreign", "Local"
     }
 
 [actionenabler_poison_city]
@@ -366,6 +368,7 @@ actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
       "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is foreign", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -378,6 +381,7 @@ actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
       "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is foreign", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -392,6 +396,7 @@ actor_reqs    =
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
       "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Is foreign", "Local", TRUE
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -407,6 +412,7 @@ actor_reqs    =
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
       "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Is foreign", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"

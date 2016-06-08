@@ -17,6 +17,7 @@
 
 /* common */
 #include "achievements.h"
+#include "actions.h"
 #include "effects.h"
 #include "game.h"
 #include "government.h"
@@ -1107,6 +1108,38 @@ bool autoadjust_ruleset_data(void)
       }
     }
   }
+
+  /* Hard coded action enabler requirements. */
+  action_enablers_iterate(enabler) {
+    enum gen_action action = enabler->action;
+
+    if (action == ACTION_ESTABLISH_EMBASSY
+        || action == ACTION_SPY_INVESTIGATE_CITY
+        || action == ACTION_SPY_STEAL_GOLD
+        || action == ACTION_STEAL_MAPS
+        || action == ACTION_SPY_STEAL_TECH
+        || action == ACTION_SPY_TARGETED_STEAL_TECH
+        || action == ACTION_SPY_INCITE_CITY
+        || action == ACTION_SPY_BRIBE_UNIT
+        || action == ACTION_CAPTURE_UNITS) {
+      /* Why this is a hard requirement: There is currently no point in
+       * allowing the listed actions against domestic targets.
+       * (Possible counter argument: crazy hack involving the Lua callback
+       * action_started_callback() to use an action to do something else. */
+      /* TODO: Unhardcode as a part of false flag operation support. */
+
+      struct requirement req
+          = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                            FALSE, TRUE, TRUE, DRO_FOREIGN);
+
+      if (!is_req_in_vec(&req, &enabler->actor_reqs)) {
+        log_debug("Autorequiring that %s has a foreign target.",
+                  action_get_rule_name(action));
+
+        requirement_vector_append(&enabler->actor_reqs, req);
+      }
+    }
+  } action_enablers_iterate_end;
 
   return ok;
 }

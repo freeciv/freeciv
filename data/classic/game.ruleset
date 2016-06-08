@@ -329,6 +329,7 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is foreign", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -342,6 +343,7 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is foreign", "Local"
     }
 
 [actionenabler_poison_city]
@@ -365,6 +367,7 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is foreign", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -378,6 +381,7 @@ actor_reqs    =
       "UnitFlag", "Spy", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is foreign", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -393,6 +397,7 @@ actor_reqs    =
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Is foreign", "Local", TRUE
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -409,6 +414,7 @@ actor_reqs    =
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Is foreign", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
