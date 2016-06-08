@@ -4337,112 +4337,82 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     if (utype_can_do_action(utype, act)) {
+      /* Generic action information. */
+      switch (action_get_target_kind(act)) {
+      case ATK_SELF:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is the action's ruleset defined ui name */
+                     _("* Can do the action \'%s\'.\n"),
+                     action_get_ui_name(act));
+        break;
+      default:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: the first %s is the action's ruleset
+                      * defined ui name and the next %s is the name of
+                      * its target kind. */
+                     _("* Can do the action \'%s\' to some %s.\n"),
+                     action_get_ui_name(act),
+                     _(action_target_kind_name(
+                         action_get_target_kind(act))));
+        break;
+      }
+
+      /* Custom action specific information. */
       switch (act) {
       case ACTION_HELP_WONDER:
-        fc_assert(action_get_target_kind(act) != ATK_SELF);
         cat_snprintf(buf, bufsz,
-                     /* TRANS: the first %s is the ruleset defined ui
-                      * name of the "Help Wonder" action, the next %s is
-                      * the name of its target kind ("individual cities")
-                      * and the %d is the number of shields the unit can
+                     /* TRANS: the %d is the number of shields the unit can
                       * contribute. */
-                     _("* Can do the action \'%s\' to some %s"
-                       " (adds %d production).\n"),
-                     /* The action may have a ruleset defined ui name. */
-                     action_get_ui_name(act),
-                     /* Keep the style consistent with the help for the
-                      * other actions. */
-                     _(action_target_kind_name(
-                         action_get_target_kind(act))),
-                     /* The custom information. */
+                     _("  * adds %d production.\n"),
                      utype_build_shield_cost(utype));
         break;
       case ACTION_FOUND_CITY:
-        fc_assert(action_get_target_kind(act) != ATK_SELF);
+        if (game.scenario.prevent_new_cities) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: is talking about an action. */
+                       _("  * is disabled in the current game.\n"));
+        }
         cat_snprintf(buf, bufsz,
-                     /* TRANS: the first %s is the ruleset defined ui
-                      * name of the "Found City" action, the next %s is
-                      * the name of its target kind ("tiles"), the %d
-                      * is initial population and the third %s is if city
-                      * founding is disabled in the current game. */
-                     PL_("* Can do the action \'%s\' to some %s (initial"
-                         " population %d).%s\n",
-                         "* Can do the action \'%s\' to some %s (initial"
-                         " population %d).%s\n",
+                     /* TRANS: the %d is initial population. */
+                     PL_("  * initial population: %d.\n",
+                         "  * initial population: %d.\n",
                          utype->city_size),
-                     /* The action may have a ruleset defined ui name. */
-                     action_get_ui_name(act),
-                     /* Keep the style consistent with the help for the
-                      * other actions. */
-                     _(action_target_kind_name(
-                         action_get_target_kind(act))),
-                     /* Custom information. */
-                     utype->city_size,
-                     game.scenario.prevent_new_cities ?
-                       _(" (Disabled in the current game)") :
-                       "");
+                     utype->city_size);
         break;
       case ACTION_JOIN_CITY:
-        fc_assert(action_get_target_kind(act) != ATK_SELF);
         cat_snprintf(buf, bufsz,
-                     /* TRANS: the first %s is the ruleset defined ui
-                      * name of the "Join City" action, the next %s is
-                      * the name of its target kind ("individual cities")
-                      * the first %d is population and the last %d, the
-                      * value the plural is about, is the population
-                      * added. */
-                     PL_("* Can do the action \'%s\' to some %s of no"
-                         " more than size %d (adds %d population).\n",
-                         "* Can do the action \'%s\' to some %s of no"
-                         " more than size %d (adds %d population).\n",
+                     /* TRANS: the %d is population. */
+                     PL_("  * max target size: %d.\n",
+                         "  * max target size: %d.\n",
+                         game.info.add_to_size_limit - utype_pop_value(utype)),
+                     game.info.add_to_size_limit - utype_pop_value(utype));
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: the %d is the population added. */
+                     PL_("  * adds %d population.\n",
+                         "  * adds %d populatio).\n",
                          utype_pop_value(utype)),
-                     /* The action may have a ruleset defined ui name. */
-                     action_get_ui_name(act),
-                     /* Keep the style consistent with the help for the
-                                     * other actions. */
-                     _(action_target_kind_name(
-                         action_get_target_kind(act))),
-                     /* Custom information. */
-                     game.info.add_to_size_limit - utype_pop_value(utype),
                      utype_pop_value(utype));
         break;
       case ACTION_BOMBARD:
         cat_snprintf(buf, bufsz,
-                     _("* Can do the action \'%s\' (%d per turn)."
-                       " These attacks will only damage (never kill)"
+                     /* TRANS: %d is bombard rate. */
+                     _("  * %d per turn.\n"),
+                     utype->bombard_rate);
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: talking about bombard */
+                     _("  * These attacks will only damage (never kill)"
                        " defenders, but damage all"
                        " defenders on a tile, and have no risk for the"
-                       " attacker.\n"),
-                     /* The action may have a ruleset defined UI
-                                       * name. */
-                     action_get_ui_name(act),
-                     utype->bombard_rate);
+                       " attacker.\n"));
         break;
       case ACTION_PARADROP:
         cat_snprintf(buf, bufsz,
-                     _("* Can do the action \'%s\' (range: %d tiles).\n"),
-                     action_get_ui_name(act), utype->paratroopers_range);
+                     /* TRANS: how far the jump can be. */
+                     _("  * range: %d tiles.\n"),
+                     utype->paratroopers_range);
         break;
       default:
-        /* Generic action information. */
-        switch (action_get_target_kind(act)) {
-        case ATK_SELF:
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: %s is the action's ruleset defined ui name */
-                       _("* Can do the action \'%s\'.\n"),
-                       action_get_ui_name(act));
-          break;
-        default:
-          cat_snprintf(buf, bufsz,
-                       /* TRANS: the first %s is the action's ruleset
-                        * defined ui name and the next %s is the name of
-                        * its target kind. */
-                       _("* Can do the action \'%s\' to some %s.\n"),
-                       action_get_ui_name(act),
-                       _(action_target_kind_name(
-                           action_get_target_kind(act))));
-          break;
-        }
+        /* No action specific details. */
         break;
       }
     }
