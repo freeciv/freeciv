@@ -4,7 +4,7 @@ translation_domain="freeciv"
 
 name=_("Animal Kingdom")
 plural=_("?plural:Animals")
-groups="Core"
+groups="Core", "Barbarian"
 legend=_("Before civilization claimed the lands, ancient man had to \
 survive the wilderness with all kinds of dangerous animals.")
 
