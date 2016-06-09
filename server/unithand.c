@@ -3286,21 +3286,21 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * For tiles occupied by allied cities or units, keep moving if
    * move_do_not_act tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
-  if (utype_may_act_at_all(unit_type_get(punit))) {
+  if (!move_do_not_act
+      && utype_may_act_at_all(unit_type_get(punit))) {
     bool can_not_move = !unit_can_move_to_tile(punit, pdesttile, igzoc);
-    struct unit *tunit = action_tgt_unit(punit, pdesttile, can_not_move);
-    struct city *tcity = action_tgt_city(punit, pdesttile, can_not_move);
     struct tile *ttile = action_tgt_tile(punit, pdesttile, can_not_move);
 
     /* Consider to pop up the action selection dialog if a potential city,
      * unit or units target exists at the destination tile. A tile target
      * will only trigger the pop up if it may be legal. */
-    if ((0 < unit_list_size(pdesttile->units) || pcity || ttile)
-        && !(move_do_not_act
-             && may_non_act_move(punit, pcity, pdesttile, igzoc))) {
+    if ((0 < unit_list_size(pdesttile->units) || pcity || ttile)) {
       /* A target (unit or city) exists at the tile. If a target is an ally
        * it still looks like a target since move_do_not_act isn't set.
        * Assume that the intention is to do an action. */
+
+      struct unit *tunit = action_tgt_unit(punit, pdesttile, can_not_move);
+      struct city *tcity = action_tgt_city(punit, pdesttile, can_not_move);
 
       /* If a tcity or a tunit exists it must be possible to act against it
        * since action_tgt_city() or action_tgt_unit() wouldn't have
