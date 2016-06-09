@@ -2386,16 +2386,15 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * For tiles occupied by allied cities or units, keep moving if
    * move_do_not_act tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
-  if (utype_may_act_at_all(unit_type_get(punit))) {
-    struct unit *tunit = tgt_unit(punit, pdesttile);
-    struct city *tcity = tgt_city(punit, pdesttile);
-
-    if ((0 < unit_list_size(pdesttile->units) || pcity)
-        && !(move_do_not_act
-             && may_non_act_move(punit, pcity, pdesttile, igzoc))) {
+  if (!move_do_not_act
+      && utype_may_act_at_all(unit_type_get(punit))) {
+    if ((0 < unit_list_size(pdesttile->units) || pcity)) {
       /* A target (unit or city) exists at the tile. If a target is an ally
        * it still looks like a target since move_do_not_act isn't set.
        * Assume that the intention is to do an action. */
+
+      struct unit *tunit = tgt_unit(punit, pdesttile);
+      struct city *tcity = tgt_city(punit, pdesttile);
 
       /* If a tcity or a tunit exists it must be possible to act against it
        * since tgt_city() or tgt_unit() wouldn't have targeted it
