@@ -840,17 +840,20 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
   fc_assert_ret_val(is_tiles_adjacent(unit_tile(punit), ptile), TRUE);
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
+  /* FIXME: try the next action if the unit tried to do an illegal action.
+   * That would allow the AI to stop using the omniscient
+   * is_action_enabled_unit_on_*() functions. */
   if (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
                                       punit, ptile)) {
     /* Choose capture. */
     handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                           0, "", ACTION_CAPTURE_UNITS);
-  } if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
+  } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
                                         punit, ptile)) {
     /* Choose bombard. */
     handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                           0, "", ACTION_BOMBARD);
-  } if (is_action_enabled_unit_on_tile(ACTION_NUKE,
+  } else if (is_action_enabled_unit_on_tile(ACTION_NUKE,
                                        punit, ptile)) {
     /* Choose explode nuclear. */
     handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
