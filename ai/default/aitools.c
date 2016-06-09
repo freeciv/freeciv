@@ -839,7 +839,8 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
   fc_assert_ret_val(is_tiles_adjacent(unit_tile(punit), ptile), TRUE);
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
-  (void) unit_move_handling(punit, ptile, FALSE, FALSE, NULL);
+  /* Regular attack. */
+  (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
   alive = (game_unit_by_number(sanity) != NULL);
 
   if (alive && same_pos(ptile, unit_tile(punit))
@@ -921,6 +922,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 
   /* go */
   unit_activity_handling(punit, ACTIVITY_IDLE);
+  /* Move */
   (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
 
   /* handle the results */
