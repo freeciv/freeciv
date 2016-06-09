@@ -3117,7 +3117,8 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     int full_moves = unit_move_rate(punit);
 
     punit->moves_left = full_moves;
-    if (unit_move_handling(punit, def_tile, FALSE, FALSE, NULL)) {
+    /* Post attack occupy move. */
+    if (unit_move_handling(punit, def_tile, FALSE, TRUE, NULL)) {
       punit->moves_left = old_moves - (full_moves - punit->moves_left);
       if (punit->moves_left < 0) {
 	punit->moves_left = 0;
@@ -3240,14 +3241,18 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
   done in some special cases (moving barbarians out of initial hut).
   Should normally be FALSE.
 
-  'move_diplomat_city' is another special case which should normally be
-  FALSE.  If TRUE, try to move diplomat (or spy) into city (should be
-  allied) instead of telling client to popup diplomat/spy dialog.
+  'move_do_not_act' is another special case which should normally be
+  FALSE.  If TRUE any enabler controlled actions punit can perform to
+  pdesttile it self or something located at it will be ignored. If FALSE
+  the system will check if punit can perform any enabler controlled action
+  to pdesttile. If it can the player will be asked to choose what to do. If
+  it can't and punit is unable to move (or perform another non enabler
+  controlled action) to pdesttile the game will try to explain why.
 
   FIXME: This function needs a good cleaning.
 **************************************************************************/
 bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
-                        bool igzoc, bool move_diplomat_city,
+                        bool igzoc, bool move_do_not_act,
                         struct unit *embark_to)
 {
   struct player *pplayer = unit_owner(punit);
@@ -3279,7 +3284,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * If the AI has used a goto to send an actor to a target do not
    * pop up a dialog in the client.
    * For tiles occupied by allied cities or units, keep moving if
-   * move_diplomat_city tells us to, or if the unit is on goto and the tile
+   * move_do_not_act tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
   if (utype_may_act_at_all(unit_type_get(punit))) {
     bool can_not_move = !unit_can_move_to_tile(punit, pdesttile, igzoc);
@@ -3291,10 +3296,10 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
      * unit or units target exists at the destination tile. A tile target
      * will only trigger the pop up if it may be legal. */
     if ((0 < unit_list_size(pdesttile->units) || pcity || ttile)
-        && !(move_diplomat_city
+        && !(move_do_not_act
              && may_non_act_move(punit, pcity, pdesttile, igzoc))) {
       /* A target (unit or city) exists at the tile. If a target is an ally
-       * it still looks like a target since move_diplomat_city isn't set.
+       * it still looks like a target since move_do_not_act isn't set.
        * Assume that the intention is to do an action. */
 
       /* If a tcity or a tunit exists it must be possible to act against it
@@ -4121,7 +4126,8 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
   }
 
   if (moves) {
-    unit_move_handling(pcargo, ttile, FALSE, FALSE, ptrans);
+    /* Pre load move. */
+    unit_move_handling(pcargo, ttile, FALSE, TRUE, ptrans);
     return;
   }
 

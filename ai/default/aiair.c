@@ -412,7 +412,8 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
                                 punit->id, tile_index(dst_tile),
                                 0, "", ACTION_NUKE);
         } else {
-          (void) unit_move_handling(punit, dst_tile, TRUE, FALSE, NULL);
+          /* Regular attack. */
+          (void) unit_move_handling(punit, dst_tile, TRUE, TRUE, NULL);
         }
       }
     } else if ((dst_tile = dai_find_strategic_airbase(ait, punit, &path))) {

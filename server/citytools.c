@@ -1637,6 +1637,7 @@ void remove_city(struct city *pcity)
     adjc_iterate(pcenter, tile1) {
       if (!moved && is_native_tile(punittype, tile1)) {
         if (adv_could_unit_move_to_tile(punit, tile1) == 1) {
+          /* Move */
           moved = unit_move_handling(punit, tile1, FALSE, TRUE, NULL);
           if (moved) {
             notify_player(unit_owner(punit), tile1,

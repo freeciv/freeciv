@@ -149,6 +149,7 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
 
   /* go */
   unit_activity_handling(punit, ACTIVITY_IDLE);
+  /* Move */
   (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
 
   return TRUE;

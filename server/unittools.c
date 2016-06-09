@@ -3055,7 +3055,9 @@ static bool unit_survive_autoattack(struct unit *punit)
 #endif
 
       unit_activity_handling(penemy, ACTIVITY_IDLE);
-      (void) unit_move_handling(penemy, unit_tile(punit), FALSE, FALSE, NULL);
+      /* Attack */
+      (void) unit_move_handling(penemy, unit_tile(punit),
+                                FALSE, TRUE, NULL);
     } else {
 #ifdef REALLY_DEBUG_THIS
       log_test("!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",

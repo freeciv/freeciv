@@ -860,7 +860,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
                           0, "", ACTION_NUKE);
   } else {
     /* Regular attack. */
-    (void) unit_move_handling(punit, ptile, FALSE, FALSE, NULL);
+    (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
   }
   alive = (game_unit_by_number(sanity) != NULL);
 
@@ -943,6 +943,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 
   /* go */
   unit_activity_handling(punit, ACTIVITY_IDLE);
+  /* Move */
   (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
 
   /* handle the results */
