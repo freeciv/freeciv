@@ -1,7 +1,7 @@
 [nation_african]
 
 name=_("African")
-plural=_("?plural:African")
+plural=_("?plural:Africans")
 groups="Imaginary"
 legend=_("Africa: the cradle of humanity. It is the world's second largest\
  continent and also its second most populous.")
