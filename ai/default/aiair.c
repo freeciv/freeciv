@@ -393,28 +393,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
       /* We could use ai_military_findvictim here, but I don't trust it... */
       unit_activity_handling(punit, ACTIVITY_IDLE);
       if (is_tiles_adjacent(unit_tile(punit), dst_tile)) {
-        if (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
-                                            punit, dst_tile)) {
-          /* Choose capture. */
-          handle_unit_do_action(unit_owner(punit),
-                                punit->id, tile_index(dst_tile),
-                                0, "", ACTION_CAPTURE_UNITS);
-        } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
-                                                   punit, dst_tile)) {
-          /* Choose bombard. */
-          handle_unit_do_action(unit_owner(punit),
-                                punit->id, tile_index(dst_tile),
-                                0, "", ACTION_BOMBARD);
-        } else if (is_action_enabled_unit_on_tile(ACTION_NUKE,
-                                                  punit, dst_tile)) {
-          /* Choose explode nuclear. */
-          handle_unit_do_action(unit_owner(punit),
-                                punit->id, tile_index(dst_tile),
-                                0, "", ACTION_NUKE);
-        } else {
-          /* Regular attack. */
-          (void) unit_move_handling(punit, dst_tile, TRUE, TRUE, NULL);
-        }
+        dai_unit_attack(ait, punit, dst_tile);
       }
     } else if ((dst_tile = dai_find_strategic_airbase(ait, punit, &path))) {
       log_debug("%s will fly to (%i, %i) (%s) to fight there",
