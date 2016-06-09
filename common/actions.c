@@ -770,8 +770,8 @@ tgt_city_local_utype(const struct city *target_city)
   An action that can block regular attacks blocks them when the action is
   forced and possible.
 
-  TODO: Make regular attacks action enabler controlled and delete this
-  function.
+  TODO: Make regular attacks and city invasion action enabler controlled
+  and delete this function.
 **************************************************************************/
 struct action *action_blocks_attack(const struct unit *actor_unit,
                                     const struct tile *target_tile)
