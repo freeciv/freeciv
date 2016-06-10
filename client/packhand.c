@@ -4410,6 +4410,70 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
 }
 
 /**************************************************************************
+  Returns a possibly legal attack action iff it is the only interesting
+  action that currently is legal.
+**************************************************************************/
+static enum gen_action auto_attack_act(const action_probability *act_prob)
+{
+  enum gen_action attack_action = ACTION_COUNT;
+
+  action_iterate(act) {
+    if (action_prob_possible(act_prob[act])) {
+      switch ((enum gen_action)act) {
+      case ACTION_DISBAND_UNIT:
+        /* Not interesting. */
+        break;
+      case ACTION_CAPTURE_UNITS:
+      case ACTION_BOMBARD:
+      case ACTION_NUKE:
+        /* An attack. */
+        if (attack_action == ACTION_COUNT) {
+          /* No previous attack action found. */
+          attack_action = act;
+        } else {
+          /* More than one legal attack action found. */
+          return ACTION_COUNT;
+        }
+        break;
+      case ACTION_ESTABLISH_EMBASSY:
+      case ACTION_SPY_INVESTIGATE_CITY:
+      case ACTION_SPY_POISON:
+      case ACTION_SPY_STEAL_GOLD:
+      case ACTION_SPY_SABOTAGE_CITY:
+      case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+      case ACTION_SPY_STEAL_TECH:
+      case ACTION_SPY_TARGETED_STEAL_TECH:
+      case ACTION_SPY_INCITE_CITY:
+      case ACTION_TRADE_ROUTE:
+      case ACTION_MARKETPLACE:
+      case ACTION_HELP_WONDER:
+      case ACTION_SPY_BRIBE_UNIT:
+      case ACTION_SPY_SABOTAGE_UNIT:
+      case ACTION_FOUND_CITY:
+      case ACTION_JOIN_CITY:
+      case ACTION_STEAL_MAPS:
+      case ACTION_SPY_NUKE:
+      case ACTION_DESTROY_CITY:
+      case ACTION_EXPEL_UNIT:
+      case ACTION_RECYCLE_UNIT:
+      case ACTION_HOME_CITY:
+      case ACTION_UPGRADE_UNIT:
+      case ACTION_PARADROP:
+      case ACTION_AIRLIFT:
+        /* An intersting non attack action has been found. */
+        return ACTION_COUNT;
+        break;
+      case ACTION_COUNT:
+        fc_assert(act != ACTION_COUNT);
+        break;
+      }
+    }
+  } action_iterate_end;
+
+  return attack_action;
+}
+
+/**************************************************************************
   Handle reply to possible actions.
 
   Note that a reply to a foreground request (a reply where disturb_player
@@ -4442,10 +4506,38 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   if (valid && disturb_player) {
     /* The player can select an action and should be informed. */
 
-    /* Show the client specific action dialog */
-    popup_action_selection(actor_unit,
-                           target_city, target_unit, target_tile,
-                           act_prob);
+    enum gen_action auto_action;
+
+    if (gui_options.popup_attack_actions) {
+      /* Pop up the action selection dialog no matter what. */
+      auto_action = ACTION_COUNT;
+    } else {
+      /* Pop up the action selection dialog unless the only interesting
+       * action the unit may be able to do is an attack action. */
+      auto_action = auto_attack_act(act_prob);
+    }
+
+    if (auto_action != ACTION_COUNT) {
+      /* No interesting actions except a single attack action has been
+       * found. The player wants it performed without questions. */
+
+      /* Give the order. */
+      fc_assert(action_get_target_kind(auto_action) == ATK_TILE
+                || action_get_target_kind(auto_action) == ATK_UNITS);
+      request_do_action(auto_action,
+                        packet->actor_unit_id, packet->target_tile_id,
+                        0, "");
+
+      /* Clean up. */
+      action_selection_no_longer_in_progress(packet->actor_unit_id);
+      action_decision_clear_want(packet->actor_unit_id);
+      action_selection_next_in_focus(packet->actor_unit_id);
+    } else {
+      /* Show the client specific action dialog */
+      popup_action_selection(actor_unit,
+                             target_city, target_unit, target_tile,
+                             act_prob);
+    }
   } else if (disturb_player) {
     /* Nothing to do. */
     action_selection_no_longer_in_progress(packet->actor_unit_id);

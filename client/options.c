@@ -119,6 +119,7 @@ struct client_options gui_options = {
   .ask_city_name = TRUE,
   .popup_new_cities = TRUE,
   .popup_actor_arrival = TRUE,
+  .popup_attack_actions = TRUE,
   .keyboardless_goto = TRUE,
   .enable_cursor_changes = TRUE,
   .separate_unit_selection = FALSE,
@@ -2186,6 +2187,14 @@ static struct client_option client_options[] = {
                      "action manually by pressing either 'r' (for a trade "
                      "route), 'b' (for building a wonder) or 'd' (for a "
                      "spy action) when the unit is in the city."),
+                  COC_INTERFACE, GUI_STUB, TRUE, NULL),
+  GEN_BOOL_OPTION(popup_attack_actions, N_("Pop up attack questions"),
+                  N_("If this option is enabled, when a unit arrives at a "
+                     "target it can attack, a window will pop up asking "
+                     "which action should be performed even if an attack "
+                     "action is legal and no other interesting action are. "
+                     "This allows you to change you mind or to select an "
+                     "uninteresting action."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(enable_cursor_changes, N_("Enable cursor changing"),
                   N_("This option controls whether the client should "
