@@ -1139,6 +1139,22 @@ bool autoadjust_ruleset_data(void)
         requirement_vector_append(&enabler->actor_reqs, req);
       }
     }
+
+    if (action == ACTION_UPGRADE_UNIT) {
+      /* Why this is a hard requirement: Keep the old rules. Need to work
+       * out corner cases. */
+
+      struct requirement req
+          = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                            FALSE, FALSE, TRUE, DRO_FOREIGN);
+
+      if (!is_req_in_vec(&req, &enabler->actor_reqs)) {
+        log_debug("Autorequiring that %s has a domestic target.",
+                  action_get_rule_name(action));
+
+        requirement_vector_append(&enabler->actor_reqs, req);
+      }
+    }
   } action_enablers_iterate_end;
 
   return ok;
