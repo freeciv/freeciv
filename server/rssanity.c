@@ -887,8 +887,25 @@ bool sanity_check_ruleset_data(bool ignore_retired)
     }
   }
 
-  /* Action enablers */
+  /* Actions */
   action_iterate(act) {
+    struct action *paction = action_by_number(act);
+
+    action_iterate(blocker) {
+      if (BV_ISSET(paction->blocked_by, blocker)
+          && action_get_target_kind(blocker) == ATK_UNIT
+          && action_get_target_kind(act) != ATK_UNIT) {
+        /* Can't find an individual unit target to evaluate the blocking
+         * action against. (A tile may have more than one individual
+         * unit) */
+        ruleset_error(LOG_ERROR,
+                      "The action %s can't block %s.",
+                      action_get_rule_name(blocker),
+                      action_get_rule_name(act));
+        ok = FALSE;
+      }
+    } action_iterate_end;
+
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
       if (!sanity_check_req_vec(&(enabler->actor_reqs), TRUE, -1,
                                 "Action Enabler Actor Reqs")

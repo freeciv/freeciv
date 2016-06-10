@@ -805,6 +805,108 @@ struct action *action_blocks_attack(const struct unit *actor_unit,
 }
 
 /**************************************************************************
+  Returns the target tile for actions that may block the specified action.
+  This is needed because some actions can be blocked by an action with a
+  different target kind. The target tile could therefore be missing.
+
+  Example: The ATK_SELF action ACTION_DISBAND_UNIT can be blocked by the
+  ATK_CITY action ACTION_RECYCLE_UNIT.
+**************************************************************************/
+static const struct tile *
+blocked_find_target_tile(const int action_id,
+                         const struct unit *actor_unit,
+                         const struct tile *target_tile_arg,
+                         const struct city *target_city,
+                         const struct unit *target_unit)
+{
+  if (target_tile_arg != NULL) {
+    /* Trust the caller. */
+    return target_tile_arg;
+  }
+
+  switch (action_get_target_kind(action_id)) {
+  case ATK_CITY:
+    fc_assert_ret_val(target_city, NULL);
+    return city_tile(target_city);
+  case ATK_UNIT:
+    fc_assert_ret_val(target_unit, NULL);
+    return unit_tile(target_unit);
+  case ATK_UNITS:
+    fc_assert_ret_val(target_unit || target_tile_arg, NULL);
+    if (target_unit) {
+      return unit_tile(target_unit);
+    }
+    /* Fall through. */
+  case ATK_TILE:
+    fc_assert_ret_val(target_tile_arg, NULL);
+    return target_tile_arg;
+  case ATK_SELF:
+    fc_assert_ret_val(actor_unit, NULL);
+    return unit_tile(actor_unit);
+  case ATK_COUNT:
+    /* Handled below. */
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Bad action target kind %d for action %d",
+                action_get_target_kind(action_id), action_id);
+  return NULL;
+}
+
+/**************************************************************************
+  Returns the target city for actions that may block the specified action.
+  This is needed because some actions can be blocked by an action with a
+  different target kind. The target city argument could therefore be
+  missing.
+
+  Example: The ATK_SELF action ACTION_DISBAND_UNIT can be blocked by the
+  ATK_CITY action ACTION_RECYCLE_UNIT.
+**************************************************************************/
+static const struct city *
+blocked_find_target_city(const int action_id,
+                         const struct unit *actor_unit,
+                         const struct tile *target_tile,
+                         const struct city *target_city_arg,
+                         const struct unit *target_unit)
+{
+  if (target_city_arg != NULL) {
+    /* Trust the caller. */
+    return target_city_arg;
+  }
+
+  switch (action_get_target_kind(action_id)) {
+  case ATK_CITY:
+    fc_assert_ret_val(target_city_arg, NULL);
+    return target_city_arg;
+  case ATK_UNIT:
+    fc_assert_ret_val(target_unit, NULL);
+    fc_assert_ret_val(unit_tile(target_unit), NULL);
+    return tile_city(unit_tile(target_unit));
+  case ATK_UNITS:
+    fc_assert_ret_val(target_unit || target_tile, NULL);
+    if (target_unit) {
+      fc_assert_ret_val(unit_tile(target_unit), NULL);
+      return tile_city(unit_tile(target_unit));
+    }
+    /* Fall through. */
+  case ATK_TILE:
+    fc_assert_ret_val(target_tile, NULL);
+    return tile_city(target_tile);
+  case ATK_SELF:
+    fc_assert_ret_val(actor_unit, NULL);
+    fc_assert_ret_val(unit_tile(actor_unit), NULL);
+    return tile_city(unit_tile(actor_unit));
+  case ATK_COUNT:
+    /* Handled below. */
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Bad action target kind %d for action %d",
+                action_get_target_kind(action_id), action_id);
+  return NULL;
+}
+
+/**************************************************************************
   Returns the action that blocks the specified action or NULL if the
   specified action isn't blocked.
 
@@ -816,17 +918,14 @@ struct action *action_is_blocked_by(const int action_id,
                                     const struct city *target_city_arg,
                                     const struct unit *target_unit)
 {
-  /* Special case ATK_SELF so Help Wonder disband or Recycle Unit disband
-   * can block Disband Unit disband. */
+
 
   const struct tile *target_tile
-      = (action_get_target_kind(action_id) != ATK_SELF
-         ? target_tile_arg
-         : unit_tile(actor_unit));
+      = blocked_find_target_tile(action_id, actor_unit, target_tile_arg,
+                                 target_city_arg, target_unit);
   const struct city *target_city
-      = (action_get_target_kind(action_id) != ATK_SELF
-         ? target_city_arg
-         : tile_city(unit_tile(actor_unit)));
+      = blocked_find_target_city(action_id, actor_unit, target_tile,
+                                 target_city_arg, target_unit);
 
   action_iterate(blocker_id) {
     fc_assert_action(action_get_actor_kind(blocker_id) == AAK_UNIT,
