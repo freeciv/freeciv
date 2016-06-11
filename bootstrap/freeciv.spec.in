@@ -233,7 +233,7 @@ rm -fr %buildroot
 %defattr(644, root, root, 0755)
 %doc COPYING NEWS
 %doc doc/BUGS doc/HACKING doc/README
-%doc doc/README.AI doc/README.agents doc/README.attributes doc/README.cma
+%doc doc/README.AI doc/README.agents doc/README.attributes doc/README.governor
 %doc doc/README.delta doc/README.effects doc/README.ftwl
 #README.graphics and README.sound are included in client package
 %doc doc/README.scorelog doc/TODO
