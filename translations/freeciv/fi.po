@@ -28,9 +28,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-14 11:27+0100\n"
-"PO-Revision-Date: 2016-05-10 17:11+0300\n"
+"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
+"POT-Creation-Date: 2016-06-11 15:43+0300\n"
+"PO-Revision-Date: 2016-06-11 16:16+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -824,7 +824,7 @@ msgid "?size [short]:Sz"
 msgstr "Koko"
 
 #: client/cityrepdata.c:643 client/gui-gtk-2.0/editgui.c:1312
-#: client/gui-gtk-2.0/editprop.c:4254 client/gui-gtk-3.0/editgui.c:1362
+#: client/gui-gtk-2.0/editprop.c:4254 client/gui-gtk-3.0/editgui.c:1371
 #: client/gui-gtk-3.0/editprop.c:4284
 msgid "Size"
 msgstr "Koko"
@@ -2533,14 +2533,13 @@ msgstr "Rakennettavissa olevat ihmeet"
 msgid "Total Buy Cost: %d"
 msgstr "Ostohinnat yhteensä: %d"
 
-# Suomennoksen README.governor on oikea tiedosto - alkukielisessä se on vielä korjaamatta.
 #: client/gui-gtk-2.0/cma_fe.c:256 client/gui-gtk-3.0/cma_fe.c:266
 #: client/gui-xaw/cma_fe.c:83
 msgid ""
 "For information on\n"
 "the citizen governor and governor presets,\n"
 "including sample presets,\n"
-"see README.cma."
+"see README.governor."
 msgstr ""
 "Saadaksesi lisätietoa\n"
 "käskynhaltijasta ja toimintamalleista\n"
@@ -3150,27 +3149,27 @@ msgstr ""
 msgid "Show the property editor."
 msgstr "Näytä ominaisuusmuokkain."
 
-#: client/gui-gtk-2.0/editgui.c:1064 client/gui-gtk-3.0/editgui.c:1096
+#: client/gui-gtk-2.0/editgui.c:1064 client/gui-gtk-3.0/editgui.c:1105
 msgid "Select Tool Value"
 msgstr "Valitse työkalun arvo"
 
-#: client/gui-gtk-2.0/editgui.c:1233 client/gui-gtk-3.0/editgui.c:1267
+#: client/gui-gtk-2.0/editgui.c:1233 client/gui-gtk-3.0/editgui.c:1276
 msgid "Editor Tool"
 msgstr "Muokkaustyökalu"
 
-#: client/gui-gtk-2.0/editgui.c:1246 client/gui-gtk-3.0/editgui.c:1284
+#: client/gui-gtk-2.0/editgui.c:1246 client/gui-gtk-3.0/editgui.c:1293
 msgid "Click to change value if applicable."
 msgstr "Napsauta muuttaaksesi arvoa, jos se on muutettavissa."
 
-#: client/gui-gtk-2.0/editgui.c:1273 client/gui-gtk-3.0/editgui.c:1317
+#: client/gui-gtk-2.0/editgui.c:1273 client/gui-gtk-3.0/editgui.c:1326
 msgid "Click to change tool mode."
 msgstr "Napsauta muuttaaksesi työkalun tilaa."
 
-#: client/gui-gtk-2.0/editgui.c:1287 client/gui-gtk-3.0/editgui.c:1334
+#: client/gui-gtk-2.0/editgui.c:1287 client/gui-gtk-3.0/editgui.c:1343
 msgid "Mode"
 msgstr "Tila"
 
-#: client/gui-gtk-2.0/editgui.c:1303 client/gui-gtk-3.0/editgui.c:1353
+#: client/gui-gtk-2.0/editgui.c:1303 client/gui-gtk-3.0/editgui.c:1362
 msgid ""
 "Use this to change the \"size\" parameter for the tool. This parameter "
 "controls for example the half-width of the square of tiles that will be "
@@ -3180,7 +3179,7 @@ msgstr ""
 "esimerkiksi työkalun vaikutuksen säteen (neliön sivun puolikkaan) tai "
 "luotavan kaupungin koon."
 
-#: client/gui-gtk-2.0/editgui.c:1320 client/gui-gtk-3.0/editgui.c:1371
+#: client/gui-gtk-2.0/editgui.c:1320 client/gui-gtk-3.0/editgui.c:1380
 msgid ""
 "Use this to change the tool's \"count\" parameter. This controls for example "
 "how many units are placed at once with the unit tool."
@@ -3189,13 +3188,13 @@ msgstr ""
 "esimerkiksi siihen, montako yksikköä sijoitetaan kerralla yksikkötyökalulla."
 
 #: client/gui-gtk-2.0/editgui.c:1328 client/gui-gtk-2.0/repodlgs.c:764
-#: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1379
+#: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1388
 #: client/gui-gtk-3.0/repodlgs.c:792 client/gui-gtk-3.0/unitselect.c:97
 #: client/gui-qt/repodlgs.cpp:1054
 msgid "Count"
 msgstr "Lukumäärä"
 
-#: client/gui-gtk-2.0/editgui.c:1355 client/gui-gtk-3.0/editgui.c:1405
+#: client/gui-gtk-2.0/editgui.c:1355 client/gui-gtk-3.0/editgui.c:1414
 msgid ""
 "Use this to change the \"applied player\" tool parameter. This controls for "
 "example under which player units and cities are created."
@@ -3496,10 +3495,9 @@ msgstr "tiede"
 #: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
 #: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:681
-#: common/city.c:86 data/civ1/terrain.ruleset:637
-#: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
-#: data/experimental/terrain.ruleset:776 data/civ2civ3/terrain.ruleset:814
-#: data/multiplayer/terrain.ruleset:774
+#: common/city.c:86 data/civ1/terrain.ruleset:637 data/civ2/terrain.ruleset:631
+#: data/classic/terrain.ruleset:800 data/experimental/terrain.ruleset:776
+#: data/civ2civ3/terrain.ruleset:814 data/multiplayer/terrain.ruleset:774
 msgid "Gold"
 msgstr "kultaa"
 
@@ -3778,7 +3776,7 @@ msgstr "Vain liittolaiset"
 msgid "Clear links"
 msgstr "Poista linkkimerkinnät"
 
-#: client/gui-gtk-2.0/gui_main.c:2087 client/gui-gtk-3.0/gui_main.c:2133
+#: client/gui-gtk-2.0/gui_main.c:2090 client/gui-gtk-3.0/gui_main.c:2137
 #: client/gui-qt/gui_main.cpp:458
 msgid "Are you sure you want to quit?"
 msgstr "Haluatko todella lopettaa?"
@@ -4310,14 +4308,12 @@ msgstr "_Tilastotietoa"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1400 client/gui-gtk-3.0/menu.c:1388
-#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30
-#: data/helpdata.txt:43
+#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30 data/helpdata.txt:43
 msgid "?help:Overview"
 msgstr "Yhteenveto"
 
 #: client/gui-gtk-2.0/menu.c:1402 client/gui-gtk-3.0/menu.c:1390
-#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31
-#: data/helpdata.txt:82
+#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31 data/helpdata.txt:82
 msgid "Strategy and Tactics"
 msgstr "Strategia ja taktiikka"
 
@@ -8277,7 +8273,7 @@ msgid "R.I.P."
 msgstr "R.I.P."
 
 #: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:311
-#: server/stdinhand.c:3507 server/stdinhand.c:6303
+#: server/stdinhand.c:3507 server/stdinhand.c:6307
 msgid "AI"
 msgstr "AI"
 
@@ -15079,237 +15075,237 @@ msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei olisi sitä kuljettavan yksikön, %3$s, "
 "kuljetettavissa."
 
-#: common/unittype.c:444
+#: common/unittype.c:425
 #, c-format
 msgid "%s or similar units"
 msgstr "%s tai vastaavat yksiköt"
 
-#: common/unittype.c:447
+#: common/unittype.c:428
 #, c-format
 msgid "%s and similar units"
 msgstr "%s ja vastaavat yksiköt"
 
 #. TRANS: this and following strings are 'unit type flags', which may rarely
 #. * be presented to the player in ruleset help text
-#: common/unittype.h:134
+#: common/unittype.h:135
 msgid "?unitflag:TradeRoute"
 msgstr "Kauppareitin perustaja"
 
-#: common/unittype.h:136
+#: common/unittype.h:137
 msgid "?unitflag:HelpWonder"
 msgstr "Ihmeenrakentaja"
 
 #. TRANS: unit type flag (rarely shown): "ignore zones of control"
-#: common/unittype.h:139
+#: common/unittype.h:140
 msgid "?unitflag:IgZOC"
 msgstr "Valvonta-alueista välittämätön"
 
-#: common/unittype.h:141
+#: common/unittype.h:142
 msgid "?unitflag:NonMil"
 msgstr "Ei sotilaallinen"
 
 #. TRANS: unit type flag (rarely shown): "ignore terrain"
-#: common/unittype.h:144
+#: common/unittype.h:145
 msgid "?unitflag:IgTer"
 msgstr "Maastosta välittämätön"
 
-#: common/unittype.h:146
+#: common/unittype.h:147
 msgid "?unitflag:OneAttack"
 msgstr "Yksi hyökkäys"
 
-#: common/unittype.h:150
+#: common/unittype.h:151
 msgid "?unitflag:IgWall"
 msgstr "Puolustusbonuksista välittämätön"
 
-#: common/unittype.h:152
+#: common/unittype.h:153
 msgid "?unitflag:FieldUnit"
 msgstr "Kenttäyksikkö"
 
-#: common/unittype.h:154
+#: common/unittype.h:155
 msgid "?unitflag:Marines"
 msgstr "Laivasta hyökkääjä"
 
-#: common/unittype.h:157
+#: common/unittype.h:158
 msgid "?unitflag:Partial_Invis"
 msgstr "Osittain näkymätön"
 
-#: common/unittype.h:160 common/unittype.h:340
+#: common/unittype.h:161 common/unittype.h:341
 msgid "?unitflag:Settlers"
 msgstr "Työläinen"
 
-#: common/unittype.h:162 common/unittype.h:346
+#: common/unittype.h:163 common/unittype.h:347
 msgid "?unitflag:Diplomat"
 msgstr "Diplomaatti"
 
-#: common/unittype.h:165
+#: common/unittype.h:166
 msgid "?unitflag:Trireme"
 msgstr "Soutulaiva"
 
-#: common/unittype.h:168
+#: common/unittype.h:169
 msgid "?unitflag:Nuclear"
 msgstr "Ydinase"
 
-#: common/unittype.h:171
+#: common/unittype.h:172
 msgid "?unitflag:Spy"
 msgstr "Vakooja"
 
-#: common/unittype.h:173
+#: common/unittype.h:174
 msgid "?unitflag:Paratroopers"
 msgstr "Laskuvarjojoukko"
 
-#: common/unittype.h:176 common/unittype.h:337
+#: common/unittype.h:177 common/unittype.h:338
 msgid "?unitflag:Cities"
 msgstr "Kaupunginperustaja"
 
-#: common/unittype.h:179
+#: common/unittype.h:180
 msgid "?unitflag:Only_Native_Attack"
 msgstr "Hyökkää vain minne voisi myös kulkea"
 
-#: common/unittype.h:182
+#: common/unittype.h:183
 msgid "?unitflag:AddToCity"
 msgstr "Kaupungin kasvattaja"
 
-#: common/unittype.h:185
+#: common/unittype.h:186
 msgid "?unitflag:Fanatic"
 msgstr "Fanaattinen"
 
-#: common/unittype.h:188 common/unittype.h:343
+#: common/unittype.h:189 common/unittype.h:344
 msgid "?unitflag:GameLoss"
 msgstr "Pelin ratkaiseva"
 
-#: common/unittype.h:191
+#: common/unittype.h:192
 msgid "?unitflag:Unique"
 msgstr "Ainutlaatuinen"
 
-#: common/unittype.h:194
+#: common/unittype.h:195
 msgid "?unitflag:Unbribable"
 msgstr "Lahjomaton"
 
-#: common/unittype.h:197
+#: common/unittype.h:198
 msgid "?unitflag:Undisbandable"
 msgstr "Ei poistettavissa"
 
-#: common/unittype.h:200
+#: common/unittype.h:201
 msgid "?unitflag:SuperSpy"
 msgstr "Supervakooja"
 
-#: common/unittype.h:203
+#: common/unittype.h:204
 msgid "?unitflag:NoHome"
 msgstr "Koditon"
 
-#: common/unittype.h:206
+#: common/unittype.h:207
 msgid "?unitflag:NoVeteran"
 msgstr "Ei ylennettävä"
 
-#: common/unittype.h:209
+#: common/unittype.h:210
 msgid "?unitflag:Bombarder"
 msgstr "Pommittaja"
 
-#: common/unittype.h:212
+#: common/unittype.h:213
 msgid "?unitflag:CityBuster"
 msgstr "Kaupungintuhoaja"
 
-#: common/unittype.h:215
+#: common/unittype.h:216
 msgid "?unitflag:NoBuild"
 msgstr "Ei rakennettavissa"
 
-#: common/unittype.h:219
+#: common/unittype.h:220
 msgid "?unitflag:BadWallAttacker"
 msgstr "Huono hyökkäämään muureja vastaan"
 
-#: common/unittype.h:222
+#: common/unittype.h:223
 msgid "?unitflag:BadCityDefender"
 msgstr "Huono kaupungin puolustaja"
 
-#: common/unittype.h:225
+#: common/unittype.h:226
 msgid "?unitflag:BarbarianOnly"
 msgstr "Vain barbaareille"
 
-#: common/unittype.h:228
+#: common/unittype.h:229
 msgid "?unitflag:Shield2Gold"
 msgstr "Tuotantoylläpito kultaylläpidoksi"
 
-#: common/unittype.h:231
+#: common/unittype.h:232
 msgid "?unitflag:Capturable"
 msgstr "Vangittava"
 
-#: common/unittype.h:234
+#: common/unittype.h:235
 msgid "?unitflag:Capturer"
 msgstr "Vangitsija"
 
-#: common/unittype.h:283
+#: common/unittype.h:284
 msgid "?unitflag:FirstBuild"
 msgstr "Ensimmäinen rakennettava"
 
-#: common/unittype.h:286
+#: common/unittype.h:287
 msgid "?unitflag:Explorer"
 msgstr "Kartoittaja"
 
-#: common/unittype.h:289
+#: common/unittype.h:290
 msgid "?unitflag:Hut"
 msgstr "Majasta löytyvä"
 
-#: common/unittype.h:292
+#: common/unittype.h:293
 msgid "?unitflag:HutTech"
 msgstr "Majasta löytyvä kun tekniikka tunnetaan"
 
-#: common/unittype.h:295
+#: common/unittype.h:296
 msgid "?unitflag:Partisan"
 msgstr "Sissiryhmä"
 
-#: common/unittype.h:298
+#: common/unittype.h:299
 msgid "?unitflag:DefendOk"
 msgstr "Ok puolustaja"
 
-#: common/unittype.h:301
+#: common/unittype.h:302
 msgid "?unitflag:DefendGood"
 msgstr "Hyvä puolustaja"
 
-#: common/unittype.h:304
+#: common/unittype.h:305
 msgid "?unitflag:AttackFast"
 msgstr "Nopea hyökkääjä"
 
-#: common/unittype.h:307
+#: common/unittype.h:308
 msgid "?unitflag:AttackStrong"
 msgstr "Vahva hyökkääjä"
 
-#: common/unittype.h:310
+#: common/unittype.h:311
 msgid "?unitflag:FerryBoat"
 msgstr "Kuljetusalus"
 
-#: common/unittype.h:313
+#: common/unittype.h:314
 msgid "?unitflag:Barbarian"
 msgstr "Barbaari"
 
-#: common/unittype.h:316
+#: common/unittype.h:317
 msgid "?unitflag:BarbarianTech"
 msgstr "Teknologian mahdollistama barbaari"
 
-#: common/unittype.h:319
+#: common/unittype.h:320
 msgid "?unitflag:BarbarianBoat"
 msgstr "Barbaarialus"
 
-#: common/unittype.h:322
+#: common/unittype.h:323
 msgid "?unitflag:BarbarianBuild"
 msgstr "Barbaarien rakennettava"
 
-#: common/unittype.h:325
+#: common/unittype.h:326
 msgid "?unitflag:BarbarianBuildTech"
 msgstr "Teknologian mahdollistama barbaarien rakennettava"
 
-#: common/unittype.h:328
+#: common/unittype.h:329
 msgid "?unitflag:BarbarianLeader"
 msgstr "Barbaarijohtaja"
 
-#: common/unittype.h:331
+#: common/unittype.h:332
 msgid "?unitflag:BarbarianSea"
 msgstr "Meribarbaari"
 
-#: common/unittype.h:334
+#: common/unittype.h:335
 msgid "?unitflag:BarbarianSeaTech"
 msgstr "Teknologian mahdollistama meribarbaari"
 
-#: common/unittype.h:349
+#: common/unittype.h:350
 msgid "?unitflag:Hunter"
 msgstr "Metsästäjä"
 
@@ -15939,10 +15935,9 @@ msgstr ""
 #: data/civ1/buildings.ruleset:658 data/civ1/techs.ruleset:591
 #: data/civ2/buildings.ruleset:942 data/civ2/techs.ruleset:756
 #: data/classic/buildings.ruleset:1016 data/classic/techs.ruleset:765
-#: data/experimental/buildings.ruleset:1070
-#: data/experimental/techs.ruleset:846 data/civ2civ3/buildings.ruleset:1150
-#: data/civ2civ3/techs.ruleset:871 data/multiplayer/buildings.ruleset:994
-#: data/multiplayer/techs.ruleset:770
+#: data/experimental/buildings.ruleset:1070 data/experimental/techs.ruleset:846
+#: data/civ2civ3/buildings.ruleset:1150 data/civ2civ3/techs.ruleset:871
+#: data/multiplayer/buildings.ruleset:994 data/multiplayer/techs.ruleset:770
 msgid "University"
 msgstr "Yliopisto"
 
@@ -15954,10 +15949,8 @@ msgid ""
 msgstr "Yhdessä Kirjaston kanssa lisää tutkimuspanosta kaupungissa 100%."
 
 #: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:964
-#: data/classic/buildings.ruleset:1038
-#: data/experimental/buildings.ruleset:1092
-#: data/civ2civ3/buildings.ruleset:1178
-#: data/multiplayer/buildings.ruleset:1016
+#: data/classic/buildings.ruleset:1038 data/experimental/buildings.ruleset:1092
+#: data/civ2civ3/buildings.ruleset:1178 data/multiplayer/buildings.ruleset:1016
 msgid "Apollo Program"
 msgstr "Apollo-ohjelma"
 
@@ -15974,18 +15967,14 @@ msgstr ""
 "teknologiatasonsa riittää siihen)."
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1007
-#: data/classic/buildings.ruleset:1081
-#: data/experimental/buildings.ruleset:1135
-#: data/civ2civ3/buildings.ruleset:1232
-#: data/multiplayer/buildings.ruleset:1057
+#: data/classic/buildings.ruleset:1081 data/experimental/buildings.ruleset:1135
+#: data/civ2civ3/buildings.ruleset:1232 data/multiplayer/buildings.ruleset:1057
 msgid "Colossus"
 msgstr "Kolossipatsas"
 
 #: data/civ1/buildings.ruleset:715 data/civ2/buildings.ruleset:1021
-#: data/classic/buildings.ruleset:1095
-#: data/experimental/buildings.ruleset:1149
-#: data/civ2civ3/buildings.ruleset:1246
-#: data/multiplayer/buildings.ruleset:1071
+#: data/classic/buildings.ruleset:1095 data/experimental/buildings.ruleset:1149
+#: data/civ2civ3/buildings.ruleset:1246 data/multiplayer/buildings.ruleset:1071
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -15994,10 +15983,8 @@ msgstr ""
 "tuottavat yhden yksikön enemmän kauppaa."
 
 #: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:1027
-#: data/classic/buildings.ruleset:1101
-#: data/experimental/buildings.ruleset:1155
-#: data/civ2civ3/buildings.ruleset:1252
-#: data/multiplayer/buildings.ruleset:1077
+#: data/classic/buildings.ruleset:1101 data/experimental/buildings.ruleset:1155
+#: data/civ2civ3/buildings.ruleset:1252 data/multiplayer/buildings.ruleset:1077
 msgid "Copernicus' Observatory"
 msgstr "Kopernikuksen observatorio"
 
@@ -16007,14 +15994,13 @@ msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Lisää tutkimuspanosta kaupungissaan 50%."
 
 #: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1047
-#: data/classic/buildings.ruleset:1121
-#: data/experimental/buildings.ruleset:1175
-#: data/civ2civ3/buildings.ruleset:1272
-#: data/multiplayer/buildings.ruleset:1097
+#: data/classic/buildings.ruleset:1121 data/experimental/buildings.ruleset:1175
+#: data/civ2civ3/buildings.ruleset:1272 data/multiplayer/buildings.ruleset:1097
 msgid "Cure For Cancer"
 msgstr "Syövän parannus"
 
 #: data/civ1/buildings.ruleset:755 data/civ2/buildings.ruleset:1061
+#: data/classic/buildings.ruleset:1135
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity)."
@@ -16024,16 +16010,13 @@ msgstr ""
 "tyytymättömyys johtuu sotatoimista."
 
 #: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1068
-#: data/classic/buildings.ruleset:1145
-#: data/experimental/buildings.ruleset:1199
-#: data/civ2civ3/buildings.ruleset:1296
-#: data/multiplayer/buildings.ruleset:1121
+#: data/classic/buildings.ruleset:1145 data/experimental/buildings.ruleset:1199
+#: data/civ2civ3/buildings.ruleset:1296 data/multiplayer/buildings.ruleset:1121
 msgid "Darwin's Voyage"
 msgstr "Darwinin tutkimusretket"
 
 #: data/civ1/buildings.ruleset:776 data/civ2/buildings.ruleset:1082
-#: data/classic/buildings.ruleset:1159
-#: data/experimental/buildings.ruleset:1213
+#: data/classic/buildings.ruleset:1159 data/experimental/buildings.ruleset:1213
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -16043,16 +16026,13 @@ msgstr ""
 "mahtiin. Antaa kaksi teknologista edistysaskelta välittömästi."
 
 #: data/civ1/buildings.ruleset:783 data/civ2/buildings.ruleset:1110
-#: data/classic/buildings.ruleset:1187
-#: data/experimental/buildings.ruleset:1241
-#: data/civ2civ3/buildings.ruleset:1342
-#: data/multiplayer/buildings.ruleset:1162
+#: data/classic/buildings.ruleset:1187 data/experimental/buildings.ruleset:1241
+#: data/civ2civ3/buildings.ruleset:1342 data/multiplayer/buildings.ruleset:1162
 msgid "Great Library"
 msgstr "Suuri kirjasto"
 
 #: data/civ1/buildings.ruleset:797 data/civ2/buildings.ruleset:1124
-#: data/classic/buildings.ruleset:1201
-#: data/experimental/buildings.ruleset:1255
+#: data/classic/buildings.ruleset:1201 data/experimental/buildings.ruleset:1255
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -16062,24 +16042,19 @@ msgstr ""
 "saavuttanut."
 
 #: data/civ1/buildings.ruleset:803 data/civ2/buildings.ruleset:1130
-#: data/classic/buildings.ruleset:1207
-#: data/experimental/buildings.ruleset:1261
-#: data/civ2civ3/buildings.ruleset:1366
-#: data/multiplayer/buildings.ruleset:1182
+#: data/classic/buildings.ruleset:1207 data/experimental/buildings.ruleset:1261
+#: data/civ2civ3/buildings.ruleset:1366 data/multiplayer/buildings.ruleset:1182
 msgid "Great Wall"
 msgstr "Suuri muuri"
 
 #: data/civ1/buildings.ruleset:817 data/civ2/buildings.ruleset:1144
-#: data/classic/buildings.ruleset:1221
-#: data/experimental/buildings.ruleset:1275
+#: data/classic/buildings.ruleset:1221 data/experimental/buildings.ruleset:1275
 msgid "Works as a City Wall in all your cities."
 msgstr "Vaikuttaa ikään kuin kaikissa kaupungeissasi olisi kaupunginmuuri."
 
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:1151
-#: data/classic/buildings.ruleset:1229
-#: data/experimental/buildings.ruleset:1283
-#: data/civ2civ3/buildings.ruleset:1389
-#: data/multiplayer/buildings.ruleset:1201
+#: data/classic/buildings.ruleset:1229 data/experimental/buildings.ruleset:1283
+#: data/civ2civ3/buildings.ruleset:1389 data/multiplayer/buildings.ruleset:1201
 msgid "Hanging Gardens"
 msgstr "Riippuvat puutarhat"
 
@@ -16097,10 +16072,8 @@ msgstr ""
 "koskee myös sotatoimista johtuvaa tyytymättömyyttä.)"
 
 #: data/civ1/buildings.ruleset:846 data/civ2/buildings.ruleset:1175
-#: data/classic/buildings.ruleset:1253
-#: data/experimental/buildings.ruleset:1307
-#: data/civ2civ3/buildings.ruleset:1411
-#: data/multiplayer/buildings.ruleset:1224
+#: data/classic/buildings.ruleset:1253 data/experimental/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1411 data/multiplayer/buildings.ruleset:1224
 msgid "Hoover Dam"
 msgstr "Hooverin pato"
 
@@ -16115,26 +16088,21 @@ msgstr ""
 "teollisuuskompleksien tuotantoa)."
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:1195
-#: data/classic/buildings.ruleset:1274
-#: data/experimental/buildings.ruleset:1328
-#: data/civ2civ3/buildings.ruleset:1435
-#: data/multiplayer/buildings.ruleset:1246
+#: data/classic/buildings.ruleset:1274 data/experimental/buildings.ruleset:1328
+#: data/civ2civ3/buildings.ruleset:1435 data/multiplayer/buildings.ruleset:1246
 msgid "Isaac Newton's College"
 msgstr "Isaac Newtonin akatemia"
 
 #: data/civ1/buildings.ruleset:883 data/civ2/buildings.ruleset:1210
-#: data/classic/buildings.ruleset:1116
-#: data/experimental/buildings.ruleset:1170
+#: data/classic/buildings.ruleset:1116 data/experimental/buildings.ruleset:1170
 #: data/multiplayer/buildings.ruleset:1092
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Lisää tutkimuspanosta kaupungissaan 100%."
 
 #: data/civ1/buildings.ruleset:888 data/civ2/buildings.ruleset:1215
-#: data/classic/buildings.ruleset:1295
-#: data/experimental/buildings.ruleset:1349
-#: data/civ2civ3/buildings.ruleset:1459
-#: data/multiplayer/buildings.ruleset:1267
+#: data/classic/buildings.ruleset:1295 data/experimental/buildings.ruleset:1349
+#: data/civ2civ3/buildings.ruleset:1459 data/multiplayer/buildings.ruleset:1267
 msgid "J.S. Bach's Cathedral"
 msgstr "J.S. Bachin katedraali"
 
@@ -16149,10 +16117,8 @@ msgstr ""
 "koskee myös asukkaita, joiden tyytymättömyys johtuu sotilastoimista."
 
 #: data/civ1/buildings.ruleset:909 data/civ2/buildings.ruleset:1274
-#: data/classic/buildings.ruleset:1354
-#: data/experimental/buildings.ruleset:1408
-#: data/civ2civ3/buildings.ruleset:1522
-#: data/multiplayer/buildings.ruleset:1326
+#: data/classic/buildings.ruleset:1354 data/experimental/buildings.ruleset:1408
+#: data/civ2civ3/buildings.ruleset:1522 data/multiplayer/buildings.ruleset:1326
 msgid "Lighthouse"
 msgstr "Majakka"
 
@@ -16161,10 +16127,8 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Antaa kaikille merivoimien yksiköille yhden ylimääräisen liikepisteen."
 
 #: data/civ1/buildings.ruleset:928 data/civ2/buildings.ruleset:1294
-#: data/classic/buildings.ruleset:1375
-#: data/experimental/buildings.ruleset:1429
-#: data/civ2civ3/buildings.ruleset:1544
-#: data/multiplayer/buildings.ruleset:1346
+#: data/classic/buildings.ruleset:1375 data/experimental/buildings.ruleset:1429
+#: data/civ2civ3/buildings.ruleset:1544 data/multiplayer/buildings.ruleset:1346
 msgid "Magellan's Expedition"
 msgstr "Magalhaesin tutkimusmatka"
 
@@ -16173,18 +16137,14 @@ msgid "Gives all sea units 1 additional movement point."
 msgstr "Antaa kaikille merivoimien yksiköille yhden ylimääräisen liikepisteen."
 
 #: data/civ1/buildings.ruleset:947 data/civ2/buildings.ruleset:1313
-#: data/classic/buildings.ruleset:1395
-#: data/experimental/buildings.ruleset:1449
-#: data/civ2civ3/buildings.ruleset:1566
-#: data/multiplayer/buildings.ruleset:1368
+#: data/classic/buildings.ruleset:1395 data/experimental/buildings.ruleset:1449
+#: data/civ2civ3/buildings.ruleset:1566 data/multiplayer/buildings.ruleset:1368
 msgid "Manhattan Project"
 msgstr "Manhattan-projekti"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1350
-#: data/classic/buildings.ruleset:1432
-#: data/experimental/buildings.ruleset:1486
-#: data/civ2civ3/buildings.ruleset:1606
-#: data/multiplayer/buildings.ruleset:1407
+#: data/classic/buildings.ruleset:1432 data/experimental/buildings.ruleset:1486
+#: data/civ2civ3/buildings.ruleset:1606 data/multiplayer/buildings.ruleset:1407
 msgid "Michelangelo's Chapel"
 msgstr "Sikstiiniläiskappeli"
 
@@ -16193,8 +16153,7 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Kaksinkertaistaa tuomiokirkkojen vaikutuksen kaikissa kaupungeissa."
 
 #: data/civ1/buildings.ruleset:984 data/civ2/buildings.ruleset:1375
-#: data/classic/buildings.ruleset:1457
-#: data/experimental/buildings.ruleset:1511
+#: data/classic/buildings.ruleset:1457 data/experimental/buildings.ruleset:1511
 #: data/multiplayer/buildings.ruleset:1432
 msgid "Oracle"
 msgstr "Oraakkeli"
@@ -16208,10 +16167,8 @@ msgstr ""
 "ulotu sotatoimista aiheutuvaan tyytymättömyyteen."
 
 #: data/civ1/buildings.ruleset:1004 data/civ2/buildings.ruleset:1395
-#: data/classic/buildings.ruleset:1478
-#: data/experimental/buildings.ruleset:1532
-#: data/civ2civ3/buildings.ruleset:1693
-#: data/multiplayer/buildings.ruleset:1453
+#: data/classic/buildings.ruleset:1478 data/experimental/buildings.ruleset:1532
+#: data/civ2civ3/buildings.ruleset:1693 data/multiplayer/buildings.ruleset:1453
 msgid "Pyramids"
 msgstr "Pyramidi"
 
@@ -16228,8 +16185,7 @@ msgstr ""
 "ja vaihtaa niiden kesken ilman välikauden anarkiaa."
 
 #: data/civ1/buildings.ruleset:1025 data/civ2/buildings.ruleset:1414
-#: data/classic/buildings.ruleset:1500
-#: data/experimental/buildings.ruleset:1554
+#: data/classic/buildings.ruleset:1500 data/experimental/buildings.ruleset:1554
 msgid "SETI Program"
 msgstr "SETI-ohjelma"
 
@@ -16239,16 +16195,13 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Lisää tutkimuspanosta kaikissa kaupungeissa 50%."
 
 #: data/civ1/buildings.ruleset:1045 data/civ2/buildings.ruleset:1435
-#: data/classic/buildings.ruleset:1520
-#: data/experimental/buildings.ruleset:1574
-#: data/civ2civ3/buildings.ruleset:1741
-#: data/multiplayer/buildings.ruleset:1495
+#: data/classic/buildings.ruleset:1520 data/experimental/buildings.ruleset:1574
+#: data/civ2civ3/buildings.ruleset:1741 data/multiplayer/buildings.ruleset:1495
 msgid "Shakespeare's Theater"
 msgstr "Shakespearen teatteri"
 
 #: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1450
-#: data/classic/buildings.ruleset:1535
-#: data/experimental/buildings.ruleset:1589
+#: data/classic/buildings.ruleset:1535 data/experimental/buildings.ruleset:1589
 #: data/multiplayer/buildings.ruleset:1510
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -16258,18 +16211,14 @@ msgstr ""
 "mukaanlukien sotatoimien takia tyytymättömät asukkaat."
 
 #: data/civ1/buildings.ruleset:1066 data/civ2/buildings.ruleset:1499
-#: data/classic/buildings.ruleset:1584
-#: data/experimental/buildings.ruleset:1638
-#: data/civ2civ3/buildings.ruleset:1809
-#: data/multiplayer/buildings.ruleset:1558
+#: data/classic/buildings.ruleset:1584 data/experimental/buildings.ruleset:1638
+#: data/civ2civ3/buildings.ruleset:1809 data/multiplayer/buildings.ruleset:1558
 msgid "United Nations"
 msgstr "Yhdistyneet Kansakunnat"
 
 #: data/civ1/buildings.ruleset:1092 data/civ2/buildings.ruleset:1526
-#: data/classic/buildings.ruleset:1611
-#: data/experimental/buildings.ruleset:1665
-#: data/civ2civ3/buildings.ruleset:1837
-#: data/multiplayer/buildings.ruleset:1579
+#: data/classic/buildings.ruleset:1611 data/experimental/buildings.ruleset:1665
+#: data/civ2civ3/buildings.ruleset:1837 data/multiplayer/buildings.ruleset:1579
 msgid "Women's Suffrage"
 msgstr "Naisasialiike"
 
@@ -16405,12 +16354,12 @@ msgstr ""
 " · Yksiköillä ei ole voimapisteitä. Jos ne voittavat taistelun, ne pysyvät "
 "täysissä voimissa.\n"
 
-#: data/civ1/game.ruleset:215 data/classic/game.ruleset:243
+#: data/civ1/game.ruleset:215 data/classic/game.ruleset:245
 #: data/experimental/game.ruleset:249 data/civ2civ3/game.ruleset:251
 msgid "Earthquake"
 msgstr "Maanjäristys"
 
-#: data/civ1/game.ruleset:233 data/classic/game.ruleset:253
+#: data/civ1/game.ruleset:233 data/classic/game.ruleset:255
 #: data/experimental/game.ruleset:254 data/civ2civ3/game.ruleset:269
 msgid "Fire"
 msgstr "Tuli"
@@ -16423,7 +16372,7 @@ msgstr "Tulva"
 msgid "Piracy"
 msgstr "Piratismi"
 
-#: data/civ1/game.ruleset:264 data/classic/game.ruleset:248
+#: data/civ1/game.ruleset:264
 msgid "Plague"
 msgstr "Rutto"
 
@@ -16432,40 +16381,37 @@ msgid "Volcano"
 msgstr "Tulivuorenpurkaus"
 
 #: data/civ1/game.ruleset:359 data/civ2/game.ruleset:308
-#: data/classic/game.ruleset:339 data/experimental/game.ruleset:331
+#: data/classic/game.ruleset:341 data/experimental/game.ruleset:331
 #: data/civ2civ3/game.ruleset:359
 msgid "Team 0"
 msgstr "Joukkue 0"
 
 #: data/civ1/game.ruleset:360 data/civ2/game.ruleset:309
-#: data/classic/game.ruleset:340 data/experimental/game.ruleset:332
+#: data/classic/game.ruleset:342 data/experimental/game.ruleset:332
 #: data/civ2civ3/game.ruleset:360
 msgid "Team 1"
 msgstr "Joukkue 1"
 
 #: data/civ1/game.ruleset:361 data/civ2/game.ruleset:310
-#: data/classic/game.ruleset:341 data/experimental/game.ruleset:333
+#: data/classic/game.ruleset:343 data/experimental/game.ruleset:333
 #: data/civ2civ3/game.ruleset:361
 msgid "Team 2"
 msgstr "Joukkue 2"
 
 #: data/civ1/game.ruleset:362 data/civ2/game.ruleset:311
-#: data/classic/game.ruleset:342 data/experimental/game.ruleset:334
+#: data/classic/game.ruleset:344 data/experimental/game.ruleset:334
 #: data/civ2civ3/game.ruleset:362
 msgid "Team 3"
 msgstr "Joukkue 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59
-#: data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59
-#: data/multiplayer/governments.ruleset:59
+#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
+#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Anarkia"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64
-#: data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:95
 #: data/multiplayer/governments.ruleset:64
 #, c-format
@@ -16473,8 +16419,7 @@ msgid "Warlord %s"
 msgstr "Sotapäällikkö %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65
-#: data/experimental/governments.ruleset:67
+#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
 #: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:96
 #: data/multiplayer/governments.ruleset:65
 #, c-format
@@ -16482,10 +16427,8 @@ msgid "Warlady %s"
 msgstr "Sotapäällikkö %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67
-#: data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67
-#: data/multiplayer/governments.ruleset:67
+#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -16507,16 +16450,14 @@ msgstr ""
 "tyytymättömyys on yleisempää."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80
-#: data/experimental/governments.ruleset:84
+#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
 #: data/civ2civ3/governments.ruleset:124
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Yksinvalta"
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86
-#: data/experimental/governments.ruleset:90
+#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
 #: data/civ2civ3/governments.ruleset:129
 #: data/multiplayer/governments.ruleset:86
 #, c-format
@@ -16524,8 +16465,7 @@ msgid "Chief %s"
 msgstr "Päällikkö %s"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87
-#: data/experimental/governments.ruleset:91
+#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
 #: data/civ2civ3/governments.ruleset:130
 #: data/multiplayer/governments.ruleset:87
 #, c-format
@@ -16533,8 +16473,7 @@ msgid "?female:Chief %s"
 msgstr "Päällikkö %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/classic/governments.ruleset:89
-#: data/experimental/governments.ruleset:93
+#: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:132
 #: data/multiplayer/governments.ruleset:89
 msgid ""
@@ -17419,7 +17358,7 @@ msgstr "Suuri päällikkö %s"
 
 #: data/civ1/nations.ruleset:1471 data/civ2/nations.ruleset:2038
 #: data/nation/barbarian.ruleset:5 server/stdinhand.c:3505
-#: server/stdinhand.c:6301
+#: server/stdinhand.c:6305
 msgid "Barbarian"
 msgstr "barbaarien"
 
@@ -19033,7 +18972,8 @@ msgstr ""
 "Siirrettävä yksikkö menettää kaikki liikepisteensä. Yksiköllä on oltava "
 "liikepisteitä jäljellä voidakseen tulla siirretyksi."
 
-#: data/civ2/buildings.ruleset:68
+#: data/civ2/buildings.ruleset:68 data/classic/buildings.ruleset:101
+#: data/multiplayer/buildings.ruleset:125
 msgid ""
 "Allows a city to grow larger than size 8.  A Sewer System is also required "
 "for a city to grow larger than size 12."
@@ -19329,7 +19269,8 @@ msgstr ""
 msgid "Sewer System"
 msgstr "Viemäriverkosto"
 
-#: data/civ2/buildings.ruleset:738
+#: data/civ2/buildings.ruleset:738 data/classic/buildings.ruleset:801
+#: data/multiplayer/buildings.ruleset:781
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
@@ -19357,8 +19298,8 @@ msgstr ""
 "aurinkovoimala yhdessä lisäävät tuotantoa 150%."
 
 #: data/civ2/buildings.ruleset:853 data/classic/buildings.ruleset:925
-#: data/experimental/buildings.ruleset:974
-#: data/civ2civ3/buildings.ruleset:1054 data/multiplayer/buildings.ruleset:905
+#: data/experimental/buildings.ruleset:974 data/civ2civ3/buildings.ruleset:1054
+#: data/multiplayer/buildings.ruleset:905
 msgid "Stock Exchange"
 msgstr "Pörssi"
 
@@ -19376,8 +19317,8 @@ msgstr ""
 "kaupungissa 150%."
 
 #: data/civ2/buildings.ruleset:877 data/classic/buildings.ruleset:949
-#: data/experimental/buildings.ruleset:998
-#: data/civ2civ3/buildings.ruleset:1078 data/multiplayer/buildings.ruleset:929
+#: data/experimental/buildings.ruleset:998 data/civ2civ3/buildings.ruleset:1078
+#: data/multiplayer/buildings.ruleset:929
 msgid "Super Highways"
 msgstr "Moottoritie"
 
@@ -19423,8 +19364,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:987 data/classic/buildings.ruleset:1061
 #: data/experimental/buildings.ruleset:1115
-#: data/civ2civ3/buildings.ruleset:1206
-#: data/multiplayer/buildings.ruleset:1037
+#: data/civ2civ3/buildings.ruleset:1206 data/multiplayer/buildings.ruleset:1037
 msgid "A.Smith's Trading Co."
 msgstr "A. Smithin kauppakomppania"
 
@@ -19439,8 +19379,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1089 data/classic/buildings.ruleset:1166
 #: data/experimental/buildings.ruleset:1220
-#: data/civ2civ3/buildings.ruleset:1320
-#: data/multiplayer/buildings.ruleset:1141
+#: data/civ2civ3/buildings.ruleset:1320 data/multiplayer/buildings.ruleset:1141
 msgid "Eiffel Tower"
 msgstr "Eiffel-torni"
 
@@ -19489,8 +19428,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1235 data/classic/buildings.ruleset:1315
 #: data/experimental/buildings.ruleset:1369
-#: data/civ2civ3/buildings.ruleset:1479
-#: data/multiplayer/buildings.ruleset:1287
+#: data/civ2civ3/buildings.ruleset:1479 data/multiplayer/buildings.ruleset:1287
 msgid "King Richard's Crusade"
 msgstr "Ristiretki"
 
@@ -19506,8 +19444,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1255 data/classic/buildings.ruleset:1335
 #: data/experimental/buildings.ruleset:1389
-#: data/civ2civ3/buildings.ruleset:1503
-#: data/multiplayer/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1503 data/multiplayer/buildings.ruleset:1307
 msgid "Leonardo's Workshop"
 msgstr "Leonardon työpaja"
 
@@ -19532,8 +19469,7 @@ msgstr "Kaikki merivoimien yksiköt saavat 2 ylimääräistä liikepistettä."
 
 #: data/civ2/buildings.ruleset:1331 data/classic/buildings.ruleset:1413
 #: data/experimental/buildings.ruleset:1467
-#: data/civ2civ3/buildings.ruleset:1584
-#: data/multiplayer/buildings.ruleset:1386
+#: data/civ2civ3/buildings.ruleset:1584 data/multiplayer/buildings.ruleset:1386
 msgid "Marco Polo's Embassy"
 msgstr "Marco Polon lähetystö"
 
@@ -19577,15 +19513,13 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1456 data/classic/buildings.ruleset:1541
 #: data/experimental/buildings.ruleset:1595
-#: data/civ2civ3/buildings.ruleset:1765
-#: data/multiplayer/buildings.ruleset:1516
+#: data/civ2civ3/buildings.ruleset:1765 data/multiplayer/buildings.ruleset:1516
 msgid "Statue of Liberty"
 msgstr "Vapaudenpatsas"
 
 #: data/civ2/buildings.ruleset:1477 data/classic/buildings.ruleset:1562
 #: data/experimental/buildings.ruleset:1616
-#: data/civ2civ3/buildings.ruleset:1788
-#: data/multiplayer/buildings.ruleset:1537
+#: data/civ2civ3/buildings.ruleset:1788 data/multiplayer/buildings.ruleset:1537
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzun sotakorkeakoulu"
 
@@ -20316,8 +20250,7 @@ msgid "Airbase"
 msgstr "lentotukikohta"
 
 #: data/civ2/terrain.ruleset:902 data/classic/terrain.ruleset:1073
-#: data/experimental/terrain.ruleset:1049
-#: data/multiplayer/terrain.ruleset:1047
+#: data/experimental/terrain.ruleset:1049 data/multiplayer/terrain.ruleset:1047
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -20921,24 +20854,19 @@ msgid ""
 "A Spy can also be used to:\n"
 " - sabotage an enemy unit (reducing its hit points to half), if it is alone "
 "on a tile and the players are at war;\n"
-" - poison the water supply of an enemy city (reducing the population by one "
-"and emptying the granary);\n"
+" - poison the water supply of an enemy city (reducing the population by "
+"one);\n"
 " - steal specific technology (with a reduced chance of success);\n"
 " - steal further technologies from a city which has already been stolen from "
 "(although cities become more resistant each time they are stolen from);\n"
 " - sabotage predetermined city targets (with a reduced chance of success)."
 msgstr ""
 "Vakoojaa voidaan käyttää lisäksi:\n"
-"- vihollisyksikön sabotoimiseen (jolloin sen voimapisteet putoavat puoleen) "
-"jos yksikkö on yksin ruudussa ja pelaajat ovat sodassa keskenään\n"
-"- viholliskaupungin vesivarastojen myrkyttämiseen (jolloin väkiluku pienenee "
-"yhdellä ja ruokavarasto tyhjenee)\n"
-"- halutun teknologian varastamiseen (tosin todennäköisyys onnistua on "
-"pienempi)\n"
-"- useampien teknologioiden varastamiseen samasta kaupungista (vaikkakin joka "
-"kerta todennäköisyys onnistua pienee)\n"
-"- halutun kohteen sabotoimiseen kaupungissa (tosin todennäköisyys onnistua "
-"on pienempi)."
+"- vihollisyksikön sabotoimiseen (jolloin sen voimapisteet putoavat puoleen) jos yksikkö on yksin ruudussa ja pelaajat ovat sodassa keskenään\n"
+"- viholliskaupungin vesivarastojen myrkyttämiseen (jolloin väkiluku pienenee yhdellä)\n"
+"- halutun teknologian varastamiseen (tosin todennäköisyys onnistua on pienempi)\n"
+"- useampien teknologioiden varastamiseen samasta kaupungista (vaikkakin joka kerta todennäköisyys onnistua pienee)\n"
+"- halutun kohteen sabotoimiseen kaupungissa (tosin todennäköisyys onnistua on pienempi)."
 
 #: data/civ2/units.ruleset:2020 data/classic/units.ruleset:2117
 #: data/experimental/units.ruleset:2143 data/civ2civ3/units.ruleset:2308
@@ -21112,16 +21040,6 @@ msgstr "Oseanialaiset"
 msgid "?nationgroup:Imaginary"
 msgstr "Kuvitteelliset"
 
-#: data/classic/buildings.ruleset:101 data/multiplayer/buildings.ruleset:125
-msgid ""
-"Allows a city to grow larger than size 8 and reduces the chance of plague "
-"within the city. A Sewer System is required for a city to grow larger than "
-"size 12."
-msgstr ""
-"Sallii kaupungin kasvaa kokoa 8 suuremmaksi ja vähentää ruton riskiä "
-"kaupungissa. Jotta kaupunki voisi kasvaa kokoa 12 suuremmaksi, tarvitaan "
-"lisäksi Viemäriverkosto."
-
 #: data/classic/buildings.ruleset:290 data/experimental/buildings.ruleset:295
 #: data/civ2civ3/buildings.ruleset:377 data/multiplayer/buildings.ruleset:104
 msgid ""
@@ -21256,16 +21174,6 @@ msgstr ""
 "200%. Tutkimuslaitos yhdessä Kirjaston ja Yliopiston kanssa lisää "
 "tutkimuspanosta 450%."
 
-#: data/classic/buildings.ruleset:801 data/experimental/buildings.ruleset:850
-#: data/multiplayer/buildings.ruleset:781
-msgid ""
-"Allows a city to grow larger than size 12. Pre-requirement is an Aqueduct "
-"for a city to grow larger than size 8. The Sewer System further reduces the "
-"chance of a plague."
-msgstr ""
-"Sallii kaupungin kasvaa 12 suuremmaksi. Vaatii vesijohtoverkoston joka "
-"sallii kasvun 8 suuremmaksi. Vähentää edelleen ruton riskiä."
-
 #: data/classic/buildings.ruleset:825 data/experimental/buildings.ruleset:874
 #: data/multiplayer/buildings.ruleset:805
 #, no-c-format
@@ -21287,8 +21195,7 @@ msgstr ""
 "yhdessä kasvattavat tuotantoa 150% ja eliminoivat täysin päästöt kaupungin "
 "tuotannosta."
 
-#: data/classic/buildings.ruleset:1008
-#: data/experimental/buildings.ruleset:1060
+#: data/classic/buildings.ruleset:1008 data/experimental/buildings.ruleset:1060
 #: data/multiplayer/buildings.ruleset:986
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -21300,8 +21207,7 @@ msgstr ""
 "kanssa neljä asukasta muuttuu tyytyväiseksi. Vaikutus ei ulotu asukkaisiin, "
 "joiden tyytymättömyys johtuu sotatoimista."
 
-#: data/classic/buildings.ruleset:1032
-#: data/experimental/buildings.ruleset:1086
+#: data/classic/buildings.ruleset:1032 data/experimental/buildings.ruleset:1086
 #: data/multiplayer/buildings.ruleset:1010
 #, no-c-format
 msgid ""
@@ -21310,8 +21216,7 @@ msgid ""
 msgstr ""
 "Yliopisto yhdessä Kirjaston kanssa lisää tutkimuspanosta kaupungissa 250%"
 
-#: data/classic/buildings.ruleset:1075
-#: data/experimental/buildings.ruleset:1129
+#: data/classic/buildings.ruleset:1075 data/experimental/buildings.ruleset:1129
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -21320,19 +21225,7 @@ msgstr ""
 "perusparannusten, joiden normaali ylläpitokustannus on 1, ylläpito on "
 "ilmaista. Koskee pelaajan kaikkia kaupunkeja."
 
-#: data/classic/buildings.ruleset:1135
-#: data/experimental/buildings.ruleset:1189
-msgid ""
-"This stunning technological achievement makes one unhappy citizen content in "
-"each of your cities (including citizens unhappy about military activity). It "
-"further reduces the possibility for an illness in the city."
-msgstr ""
-"Tämä ällistyttävä lääketieteen saavutus muuttaa yhden tyytymättömän asukkaan "
-"rauhalliseksi kaikissa kaupungeissa (mukaanlukien sotatoimien takia "
-"tyytymättömät asukkaat). Vähentää kulkutautien riskiä kaupungissaan."
-
-#: data/classic/buildings.ruleset:1181
-#: data/experimental/buildings.ruleset:1235
+#: data/classic/buildings.ruleset:1181 data/experimental/buildings.ruleset:1235
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -21340,8 +21233,7 @@ msgstr ""
 "Maineesi muiden kansojen keskuudessa ja näiden hyväntahtoisuus palautuvat "
 "kaksi kertaa tavallista nopeammin."
 
-#: data/classic/buildings.ruleset:1289
-#: data/experimental/buildings.ruleset:1343
+#: data/classic/buildings.ruleset:1289 data/experimental/buildings.ruleset:1343
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -21350,8 +21242,7 @@ msgstr ""
 "Lisää tutkimuspanosta 100%:lla jokaisessa hallitsemassasi kaupungissa, jossa "
 "on Yliopisto."
 
-#: data/classic/buildings.ruleset:1369
-#: data/experimental/buildings.ruleset:1423
+#: data/classic/buildings.ruleset:1369 data/experimental/buildings.ruleset:1423
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -21360,13 +21251,11 @@ msgstr ""
 "Kaikista uusista merivoimien yksiköistä (kaikissa kaupungeissa) tulee "
 "konkareita."
 
-#: data/classic/buildings.ruleset:1390
-#: data/experimental/buildings.ruleset:1444
+#: data/classic/buildings.ruleset:1390 data/experimental/buildings.ruleset:1444
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Kaikki laivastoyksiköt saavat 2 ylimääräistä liikepistettä."
 
-#: data/classic/buildings.ruleset:1471
-#: data/experimental/buildings.ruleset:1525
+#: data/classic/buildings.ruleset:1471 data/experimental/buildings.ruleset:1525
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -21375,8 +21264,7 @@ msgstr ""
 "jokaisessa kaupungissa, jossa on temppeli. Vaikutus ei ulotu sotatoimista "
 "aiheutuvaan tyytymättömyyteen."
 
-#: data/classic/buildings.ruleset:1493
-#: data/experimental/buildings.ruleset:1547
+#: data/classic/buildings.ruleset:1493 data/experimental/buildings.ruleset:1547
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -21387,15 +21275,13 @@ msgstr ""
 "Tämä auttaa kaupunkia kasvamaan nopeammin ja sietämään nälänhätää paremmin. "
 "Vaikutus kumuloituu Viljasiilon vaikutusten kanssa."
 
-#: data/classic/buildings.ruleset:1515
-#: data/experimental/buildings.ruleset:1569
+#: data/classic/buildings.ruleset:1515 data/experimental/buildings.ruleset:1569
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Lisää tutkimuspanosta 100% kaikissa kaupungeissa, joissa on Tutkimuslaitos."
 
-#: data/classic/buildings.ruleset:1576
-#: data/experimental/buildings.ruleset:1630
+#: data/classic/buildings.ruleset:1576 data/experimental/buildings.ruleset:1630
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
@@ -21407,17 +21293,13 @@ msgstr ""
 "yksiköiden aloittavan karaistuneina. Todennäköisyys sille, että yksikkösi "
 "ylenee taistelun jälkeen lisääntyy puolella."
 
-#: data/classic/buildings.ruleset:1638
-#: data/experimental/buildings.ruleset:1692
-#: data/civ2civ3/buildings.ruleset:1859
-#: data/multiplayer/buildings.ruleset:1603
+#: data/classic/buildings.ruleset:1638 data/experimental/buildings.ruleset:1692
+#: data/civ2civ3/buildings.ruleset:1859 data/multiplayer/buildings.ruleset:1603
 msgid "Coinage"
 msgstr "Kotiuta tulot"
 
-#: data/classic/buildings.ruleset:1659
-#: data/experimental/buildings.ruleset:1713
-#: data/civ2civ3/buildings.ruleset:1880
-#: data/multiplayer/buildings.ruleset:1616
+#: data/classic/buildings.ruleset:1659 data/experimental/buildings.ruleset:1713
+#: data/civ2civ3/buildings.ruleset:1880 data/multiplayer/buildings.ruleset:1616
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -21455,18 +21337,22 @@ msgid "You are playing with classic Freeciv rules for single player games."
 msgstr "Pelaat Freeciviä yksinpelin perinteisillä säännöillä."
 
 #. TRANS: year label (Common Era)
-#: data/classic/game.ruleset:220 data/experimental/game.ruleset:226
-#: data/civ2civ3/game.ruleset:228 data/multiplayer/game.ruleset:224
+#: data/classic/game.ruleset:222 data/experimental/game.ruleset:226
+#: data/civ2civ3/game.ruleset:228 data/multiplayer/game.ruleset:226
 msgid "CE"
 msgstr "jaa."
 
 #. TRANS: year label (Before Common Era)
-#: data/classic/game.ruleset:222 data/experimental/game.ruleset:228
-#: data/civ2civ3/game.ruleset:230 data/multiplayer/game.ruleset:226
+#: data/classic/game.ruleset:224 data/experimental/game.ruleset:228
+#: data/civ2civ3/game.ruleset:230 data/multiplayer/game.ruleset:228
 msgid "BCE"
 msgstr "eaa."
 
-#: data/classic/game.ruleset:258 data/civ2civ3/game.ruleset:278
+#: data/classic/game.ruleset:250
+msgid "Pestilence"
+msgstr "Kulkutauti"
+
+#: data/classic/game.ruleset:260 data/civ2civ3/game.ruleset:278
 msgid "Nuclear Accident"
 msgstr "Ydinonnettomuus"
 
@@ -21964,9 +21850,28 @@ msgstr ""
 "Jos suurkaupungissa (kaupungin koko > 30) on sekä Joukkoliikenne että "
 "Moottoritie, kaupungin säde kasvaa entisestään."
 
+#: data/experimental/buildings.ruleset:850
+msgid ""
+"Allows a city to grow larger than size 12. Pre-requirement is an Aqueduct "
+"for a city to grow larger than size 8. The Sewer System further reduces the "
+"chance of a plague."
+msgstr ""
+"Sallii kaupungin kasvaa 12 suuremmaksi. Vaatii vesijohtoverkoston joka "
+"sallii kasvun 8 suuremmaksi. Vähentää edelleen ruton riskiä."
+
 #: data/experimental/buildings.ruleset:1065
 msgid "The work of the priests also reduces the effect of plague in the city."
 msgstr "Pappien toiminta helpottaa ruton vaikutusta kaupungissa."
+
+#: data/experimental/buildings.ruleset:1189
+msgid ""
+"This stunning technological achievement makes one unhappy citizen content in "
+"each of your cities (including citizens unhappy about military activity). It "
+"further reduces the possibility for an illness in the city."
+msgstr ""
+"Tämä ällistyttävä lääketieteen saavutus muuttaa yhden tyytymättömän asukkaan "
+"rauhalliseksi kaikissa kaupungeissa (mukaanlukien sotatoimien takia "
+"tyytymättömät asukkaat). Vähentää kulkutautien riskiä kaupungissaan."
 
 #: data/experimental/game.ruleset:21
 msgid "Experimental ruleset"
@@ -28010,12 +27915,8 @@ msgid ""
 "encounter some difficulties with managing cities nearby, by hand. It's best "
 "to manage all cities on an island either by hand or by governor. Read more "
 "hints, some background information, and some preset examples in the file "
-"README.cma, included with Freeciv."
-msgstr ""
-"Varo! Jos käytät käskynhaltijaa joissakin kaupungeissa, läheisten kaupunkien "
-"käsinhallinta hankaloituu. On paras hallita joko käsin tai käskynhaltijalla "
-"kaikkia saman saaren kaupunkeja. Lisää vihjeitä, taustatietoa ja esimerkkejä "
-"on Freecivin mukana tulevassa ohjetiedostossa 'README.cma'."
+"README.governor, included with Freeciv."
+msgstr "Varo! Jos käytät käskynhaltijaa joissakin kaupungeissa, läheisten kaupunkien käsinhallinta hankaloituu. On paras hallita joko käsin tai käskynhaltijalla kaikkia saman saaren kaupunkeja. Lisää vihjeitä, taustatietoa ja esimerkkejä on Freecivin mukana tulevassa ohjetiedostossa 'README.governor'."
 
 #: data/helpdata.txt:1814
 msgid ""
@@ -28650,163 +28551,163 @@ msgstr ""
 #. TRANS: With this and other color team names, uniqueness is more
 #. TRANS: important than precise translation. To see the colors, start a
 #. TRANS: multiplayer game with 32 players and look at the Nations report.
-#: data/multiplayer/game.ruleset:325
+#: data/multiplayer/game.ruleset:327
 msgid "?team name:Red"
 msgstr "Punaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:327
+#: data/multiplayer/game.ruleset:329
 msgid "?team name:Yellow"
 msgstr "Keltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:329
+#: data/multiplayer/game.ruleset:331
 msgid "?team name:Blue"
 msgstr "Siniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:331
+#: data/multiplayer/game.ruleset:333
 msgid "?team name:Purple"
 msgstr "Purppurat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:333
+#: data/multiplayer/game.ruleset:335
 msgid "?team name:Orange"
 msgstr "Oranssit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:335
+#: data/multiplayer/game.ruleset:337
 msgid "?team name:Magenta"
 msgstr "Magentat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:337
+#: data/multiplayer/game.ruleset:339
 msgid "?team name:Cornflower"
 msgstr "Ruiskaunokinsiniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:339
+#: data/multiplayer/game.ruleset:341
 msgid "?team name:Emerald"
 msgstr "Smaragdinvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:341
+#: data/multiplayer/game.ruleset:343
 msgid "?team name:Salmon"
 msgstr "Lohenpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:343
+#: data/multiplayer/game.ruleset:345
 msgid "?team name:Green"
 msgstr "Vihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:345
+#: data/multiplayer/game.ruleset:347
 msgid "?team name:Burgundy"
 msgstr "Burgundinpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:347
+#: data/multiplayer/game.ruleset:349
 msgid "?team name:Pink"
 msgstr "Pinkit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:349
+#: data/multiplayer/game.ruleset:351
 msgid "?team name:Silver"
 msgstr "Hopeanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:351
+#: data/multiplayer/game.ruleset:353
 msgid "?team name:Heliotrope"
 msgstr "Auringonkeltaiset"
 
 # Ei jumalauta
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:353
+#: data/multiplayer/game.ruleset:355
 msgid "?team name:Fuchsia"
 msgstr "Fuksiat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:355
+#: data/multiplayer/game.ruleset:357
 msgid "?team name:Azure"
 msgstr "Taivaansiniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:357
+#: data/multiplayer/game.ruleset:359
 msgid "?team name:Gold"
 msgstr "Kullanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:359
+#: data/multiplayer/game.ruleset:361
 msgid "?team name:Khaki"
 msgstr "Khakinruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:361
+#: data/multiplayer/game.ruleset:363
 msgid "?team name:Butter"
 msgstr "Voinkeltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:363
+#: data/multiplayer/game.ruleset:365
 msgid "?team name:Mint"
 msgstr "Mintunvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:365
+#: data/multiplayer/game.ruleset:367
 msgid "?team name:Lime"
 msgstr "Limetinvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:367
+#: data/multiplayer/game.ruleset:369
 msgid "?team name:Peach"
 msgstr "Persikanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:369
+#: data/multiplayer/game.ruleset:371
 msgid "?team name:Vermilion"
 msgstr "Oranssinpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:371
+#: data/multiplayer/game.ruleset:373
 msgid "?team name:Puce"
 msgstr "Punaisenruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:373
+#: data/multiplayer/game.ruleset:375
 msgid "?team name:Mustard"
 msgstr "Sinapinkeltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:375
+#: data/multiplayer/game.ruleset:377
 msgid "?team name:Aubergine"
 msgstr "Munakoisonvioletit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:377
+#: data/multiplayer/game.ruleset:379
 msgid "?team name:Brown"
 msgstr "Ruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:379
+#: data/multiplayer/game.ruleset:381
 msgid "?team name:Pumpkin"
 msgstr "Kurpitsanoranssit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:381
+#: data/multiplayer/game.ruleset:383
 msgid "?team name:Turquoise"
 msgstr "Turkoosit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:383
+#: data/multiplayer/game.ruleset:385
 msgid "?team name:Crimson"
 msgstr "Crimsoninpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:385
+#: data/multiplayer/game.ruleset:387
 msgid "?team name:Lavender"
 msgstr "Laventelit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:387
+#: data/multiplayer/game.ruleset:389
 msgid "?team name:Cream"
 msgstr "Kermanväriset"
 
@@ -30955,10 +30856,8 @@ msgid "Manual file %s successfully written."
 msgstr "Ohjetiedosto %s kirjoitettu onnistuneesti."
 
 #: tools/civmanual.c:513
-msgid "Multiple rulesets requested. Only one ruleset at time supported"
-msgstr ""
-"Useita sääntökokoelmia pyydetty. Vain yhtä sääntökokoelmaa voidaan tukea "
-"kerrallaan"
+msgid "Multiple rulesets requested. Only one ruleset at time supported.\n"
+msgstr "Useita sääntökokoelmia pyydetty. Vain yhtä sääntökokoelmaa voidaan tukea kerrallaan\n"
 
 #: tools/civmanual.c:601 server/civserver.c:391
 msgid "Use FILE as logfile"
@@ -34961,36 +34860,41 @@ msgstr "Huonosti nimetty pelaaja"
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Olet kohdannut %s, joita hallitsee %s."
 
-#: server/plrhand.c:2561
+#: server/plrhand.c:2562
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 "%s kansakunta ei voi vajota sisällissotaan - pelissä on liikaa pelaajia"
 
-#: server/plrhand.c:2567
+#: server/plrhand.c:2568
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr ""
 "%s eivät voi vajota sisällissotaan - sopivia kansakuntia ei ole saatavilla"
 
-#: server/plrhand.c:2597
+#: server/plrhand.c:2602
+#, c-format
+msgid "Could not throw %s into civil war - no available cities"
+msgstr "%s eivät voi vajota sisällissotaan - ei ole sopivia kaupunkeja"
+
+#: server/plrhand.c:2635
 msgid "Your nation is thrust into civil war."
 msgstr "Kansakunnassasi syttyy sisällissota."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2601
+#: server/plrhand.c:2639
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s on kapinajohtaja, jota %s seuraavat."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2627
+#: server/plrhand.c:2661
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s irtautuu emämaasta; nyt %s hallitsevat sitä."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2649
+#: server/plrhand.c:2684
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -34999,7 +34903,7 @@ msgstr[1] "Sisällissota jakaa %s kahtia; %s hallitsevat nyt %d kaupunkia."
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:2791
+#: server/plrhand.c:2826
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -35008,14 +34912,14 @@ msgstr ""
 "Käyttäjä '%s' saa nykyasetuksilla ottaa pelaajasi haltuunsa kun olet poissa. "
 "Voit estää tämän komennolla '/delegate cancel'."
 
-#: server/plrhand.c:2803
+#: server/plrhand.c:2838
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Pelaajan '%s' hallinta on delegoitu sinulle."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:2812
+#: server/plrhand.c:2847
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Käytä komentoa '/delegate take <pelaaja>' ottaaksesi haltuun pelaaja jonka "
@@ -36672,34 +36576,28 @@ msgstr ""
 "ei tapahdu jos olet juuri tehnyt uuden edistysaskeleen tällä vuorolla."
 
 #: server/settings.c:1582
-msgid "Chance to lose an invention while receiving it"
-msgstr "Mahdollisuus menettää sopimusteitse saatava edistysaskel"
+msgid "Chance to lose a technology while receiving it"
+msgstr "Mahdollisuus menettää saatava teknologia"
 
 #: server/settings.c:1583
-msgid ""
-"If you receive an invention via a treaty, this setting defines the chance "
-"that the invention is lost during the transfer."
-msgstr ""
-"Asetus määrittelee todennäköisyyden, jolla voit menettää edistysaskeleen "
-"jonka saat valtiosopimuksen mukaan toiselta kansakunnalta."
+msgid "The chance that learning a technology by treaty or theft will fail."
+msgstr "Mahdollisuus that sopimusteitse tai varastamalla saatavan teknologian oppiminen epäonnistuu."
+
+#: server/settings.c:1590
+msgid "Chance to lose a technology while giving it"
+msgstr "Mahdollisuus menettää teknologia pois annettaessa"
 
 #: server/settings.c:1591
-msgid "Chance to lose an invention while giving it"
-msgstr "Mahdollisuus menettää edistysaskel antaessasi sen"
-
-#: server/settings.c:1592
 msgid ""
-"If you give an invention via a treaty, this setting defines the chance that "
-"the invention is lost for your civilization during the transfer."
-msgstr ""
-"Asetus määrittelee todennäköisyyden, jolla voit menettää edistysaskeleen, "
-"jonka annat valtiosopimuksen mukaan toiselle kansakunnalle."
+"The chance that your civilization will lose a technology if you teach it to "
+"someone else by treaty, or if it is stolen from you."
+msgstr "Mahdollisuus että teknologian alkuperäinen tuntija menettää sen opettaessaan sen toiselle pelaajalle, tai toisen pelaajan varastaessa sen."
 
-#: server/settings.c:1600
+#: server/settings.c:1599
 msgid "Team pooled research"
 msgstr "Joukkueen tutkimuksen yhdistäminen"
 
-#: server/settings.c:1601
+#: server/settings.c:1600
 msgid ""
 "If this setting is turned on, then the team mates will share the science "
 "research. Else, every player of the team will have to make its own."
@@ -36707,11 +36605,11 @@ msgstr ""
 "Jos asetus on käytössä, joukkueen jäsenet jakavat tutkimustulokset. Muutoin "
 "jokaisen jäsenen pitää erikseen saavuttaa edistyaskeleet."
 
-#: server/settings.c:1608
+#: server/settings.c:1607
 msgid "Penalty when getting tech or gold from treaty"
 msgstr "Sopimusteitse saadun teknologian tai kullan menetys"
 
-#: server/settings.c:1609
+#: server/settings.c:1608
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -36724,11 +36622,11 @@ msgstr ""
 "jos asetus ei ole 0. Samaa asetusta käytetään saadessasi kultaa "
 "diplomaattisten sopimusten seurauksena."
 
-#: server/settings.c:1619
+#: server/settings.c:1618
 msgid "Penalty when getting tech from conquering"
 msgstr "Prosentuaalinen menetys valloituksen kautta saadun teknologian takia"
 
-#: server/settings.c:1620
+#: server/settings.c:1619
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -36738,13 +36636,13 @@ msgstr ""
 "näin monta prosenttia uuden edistysaskeleen vaatimista tutkimuspisteistä - "
 "voit siis päätyä pakkasen puolelle tutkimuspisteissäsi, jos arvo ei ole 0."
 
-#: server/settings.c:1630
+#: server/settings.c:1629
 msgid "Penalty when getting a free tech"
 msgstr "Prosentuaalinen menetys ilmaisen teknologian saamisen takia"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1633
+#: server/settings.c:1632
 msgid ""
 "For each technology you gain \"for free\" (other than covered by 'diplcost' "
 "or 'conquercost': for instance, from huts or from Great Library effects), "
@@ -36758,13 +36656,13 @@ msgstr ""
 "näin monta prosenttia uuden edistysaskeleen vaatimista tutkimuspisteistä – "
 "voit siis päätyä pakkasen puolelle tutkimuspisteissäsi."
 
-#: server/settings.c:1644
+#: server/settings.c:1643
 msgid "Research point debt threshold for losing tech"
 msgstr ""
 "Kuinka paljon tutkimuspisteet saavat olla alle nollan ennen kuin teknologia "
 "menetetään"
 
-#: server/settings.c:1645
+#: server/settings.c:1644
 msgid ""
 "When you have negative research points, and your shortfall is greater than "
 "this percentage of the cost of your current research, you forget a "
@@ -36777,12 +36675,12 @@ msgstr ""
 "tunnettu teknologia menetetään.\n"
 "Arvo '-1' poistaa teknologioiden menettämisen kokonaan käytöstä."
 
-#: server/settings.c:1656
+#: server/settings.c:1655
 msgid "Research points restored after losing a tech"
 msgstr ""
 "Paljonko tutkimuspisteitä palautetaan teknologian menettämisen yhteydessä"
 
-#: server/settings.c:1657
+#: server/settings.c:1656
 msgid ""
 "When you lose a technology due to a negative research balance (see "
 "'techlossforgiveness'), this percentage of its research cost is credited to "
@@ -36796,11 +36694,11 @@ msgstr ""
 "Arvo '-1' aiheuttaa tutkimuspisteiden määrän palauttamisen aina arvoon 0, "
 "riippumatta siitä kuinka paljon vajausta oli."
 
-#: server/settings.c:1669
+#: server/settings.c:1668
 msgid "Food required for a city to grow"
 msgstr "Kaupungin kasvuun tarvittava ruokamäärä"
 
-#: server/settings.c:1670
+#: server/settings.c:1669
 msgid ""
 "This is the base amount of food required to grow a city. This value is "
 "multiplied by another factor that comes from the ruleset and is dependent on "
@@ -36809,11 +36707,11 @@ msgstr ""
 "Tämä on kaupungin kasvuun tarvittava perusruokamäärä. Se kerrotaan "
 "sääntökokoelman määräämällä tekijällä, joka riippuu kaupungin koosta."
 
-#: server/settings.c:1678
+#: server/settings.c:1677
 msgid "Percentage food lost when city can't grow"
 msgstr "Prosentuaalinen ruokavarojen menetys kun kaupunki ei voi kasvaa"
 
-#: server/settings.c:1679
+#: server/settings.c:1678
 msgid ""
 "If a city would expand, but it can't because it lacks some prerequisite "
 "(traditionally an Aqueduct or Sewer System), this is the base percentage of "
@@ -36825,11 +36723,11 @@ msgstr ""
 "ruokavaroistaan kierroksessa; sääntökokoelmasta riippuen kaupungissa olevat "
 "rakennukset tai muut tekijät saattavat vaikuttaa lopulliseen prosenttiin."
 
-#: server/settings.c:1689
+#: server/settings.c:1688
 msgid "Multiplier percentage for production costs"
 msgstr "Tuotantohinnan kerroin"
 
-#: server/settings.c:1690
+#: server/settings.c:1689
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
@@ -36838,13 +36736,13 @@ msgstr ""
 "tuottaa. Perushinnat kerrotaan tällä arvolla (tulkittuna "
 "prosenttiyksiköiksi)."
 
-#: server/settings.c:1704
+#: server/settings.c:1703
 msgid "Minimum city size to get full trade"
 msgstr "Kaupungin minimikoko kaupan maksimoinniksi"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1707
+#: server/settings.c:1706
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
 "100% (no trade at all) for sizes up to 'notradesize', and decreases "
@@ -36856,13 +36754,13 @@ msgstr ""
 "lievenee asteettain 0 %:iin (ei lainkaan leikkuria tavanomaista korruptiota "
 "lukuunottamatta) kokoon 'fulltradesize' asti. Katso myös 'notradesize'."
 
-#: server/settings.c:1717
+#: server/settings.c:1716
 msgid "Maximum size of a city without trade"
 msgstr "Kaupattoman kaupungin maksimikoko"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1720
+#: server/settings.c:1719
 msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
 "amount. The produced trade increases gradually for cities larger than "
@@ -36872,11 +36770,11 @@ msgstr ""
 "lisääntyy vähitellen kunnes saavutetaan 'fulltradesize', täyden kaupan "
 "tuottava koko. Katso myös 'fulltradesize'."
 
-#: server/settings.c:1729
+#: server/settings.c:1728
 msgid "Minimum distance between cities"
 msgstr "Kaupunkien välinen minimietäisyys"
 
-#: server/settings.c:1730
+#: server/settings.c:1729
 msgid ""
 "When a player attempts to found a new city, it is prevented if the distance "
 "from any existing city is less than this setting. For example, when this "
@@ -36889,42 +36787,42 @@ msgstr ""
 "vähintään 2 tyhjää ruutua joka suunnassa. Asetuksen arvo 1 poistaa "
 "rajoituksen, jolloin kaupunkeja voi perustaa jopa vierekkäisiin ruutuihin."
 
-#: server/settings.c:1742
+#: server/settings.c:1741
 msgid "Technology trading"
 msgstr "Teknologian vaihto"
 
-#: server/settings.c:1743
+#: server/settings.c:1742
 msgid ""
 "If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
 "Jos asetus ei ole käytössä, diplomatiadialogissa ei voi siirtää "
 "teknologioita kansakunnalta toiselle."
 
-#: server/settings.c:1749
+#: server/settings.c:1748
 msgid "Gold trading"
 msgstr "Kullan vaihto"
 
-#: server/settings.c:1750
+#: server/settings.c:1749
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr ""
 "Jos asetus ei ole käytössä, diplomatiadialogissa ei voi siirtää kultaa "
 "kansakunnalta toiselle."
 
-#: server/settings.c:1756
+#: server/settings.c:1755
 msgid "City trading"
 msgstr "Kaupunkien vaihto"
 
-#: server/settings.c:1757
+#: server/settings.c:1756
 msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr ""
 "Jos asetus ei ole käytössä, diplomatiadialogissa ei voi siirtää kaupunkeja "
 "kansakunnalta toiselle."
 
-#: server/settings.c:1763
+#: server/settings.c:1762
 msgid "Minimum distance for trade routes"
 msgstr "Kauppareittien perustamiseksi tarvittava minimietäisyys"
 
-#: server/settings.c:1764
+#: server/settings.c:1763
 msgid ""
 "In order for two cities in the same civilization to establish a trade route, "
 "they must be at least this far apart on the map. For square grids, the "
@@ -36936,11 +36834,11 @@ msgstr ""
 "Neliöruuduilla välimatka lasketaan \"taksimiehen geometrialla\", toisin "
 "sanoen, laskemalla yhteen kaupunkien välimatka x- ja y- akselien suunnassa."
 
-#: server/settings.c:1774
+#: server/settings.c:1773
 msgid "Number of turns between rapture effect"
 msgstr "Vuorojen määrä hurmion vaikutusten välillä"
 
-#: server/settings.c:1775
+#: server/settings.c:1774
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
@@ -36948,11 +36846,11 @@ msgstr ""
 "Asettaa vuorojen määrän, joiden välein hurmiossa oleva kaupunki kasvaa. Jos "
 "arvo on n, kaupunki kasvaa juhlittuaan n+1 vuoroa."
 
-#: server/settings.c:1784
+#: server/settings.c:1783
 msgid "Frequency of disasters"
 msgstr "Onnettomuuksien esiintymistiheys"
 
-#: server/settings.c:1785
+#: server/settings.c:1784
 msgid ""
 "Affects how often random disasters happen to cities, if any are defined by "
 "the ruleset. The relative frequency of disaster types is set by the ruleset. "
@@ -36964,11 +36862,11 @@ msgstr ""
 "on asetettu sääntökokoelmassa. Arvo '0' poistaa onnettomuudet kokonaan "
 "käytöstä."
 
-#: server/settings.c:1795
+#: server/settings.c:1794
 msgid "Chance for conquered building destruction"
 msgstr "Valloitetun rakennuksen tuhoutumisriski"
 
-#: server/settings.c:1796
+#: server/settings.c:1795
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
@@ -36976,11 +36874,11 @@ msgstr ""
 "Kun pelaaja valloittaa kaupungin, kullakin kaupungin rakennuksista on näin "
 "monen prosentin todennäköisyys tuhoutua."
 
-#: server/settings.c:1802
+#: server/settings.c:1801
 msgid "Chance of moving into tile after attack"
 msgstr "Todennäköisyys ruutuun liikkumiselle hyökkäyksen jälkeen"
 
-#: server/settings.c:1803
+#: server/settings.c:1802
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -36994,11 +36892,11 @@ msgstr ""
 "yksiköitä jäljellä ruudussa). Jos arvo on 0:n ja 100:n välillä, se tulkitaan "
 "maa-alueen \"valtaamisen\" prosentuaaliseksi todennäköisyydeksi."
 
-#: server/settings.c:1814
+#: server/settings.c:1813
 msgid "Turn on/off server-side autoattack"
 msgstr "Aseta palvelinpään automaattihyökkäys päälle/pois päältä"
 
-#: server/settings.c:1815
+#: server/settings.c:1814
 msgid ""
 "If set to on, units with moves left will automatically consider attacking "
 "enemy units that move adjacent to them."
@@ -37007,11 +36905,11 @@ msgstr ""
 "harkitsevat automaattisesti niiden viereen liikkuvien vihollisyksiköiden "
 "kimppuun hyökkäämistä."
 
-#: server/settings.c:1821
+#: server/settings.c:1820
 msgid "Do all units in tile die with defender"
 msgstr "Kuolevatko kaikki ruudun yksiköt puolustajan mukana"
 
-#: server/settings.c:1822
+#: server/settings.c:1821
 msgid ""
 "If this is enabled, each time a defender unit loses in combat, and is not "
 "inside a city or suitable base, all units in the same tile are destroyed "
@@ -37023,11 +36921,11 @@ msgstr ""
 "kerralla. Jos tätä ei ole asetettu, vain puolustustaistelun käynyt yksikkö "
 "tuhoutuu."
 
-#: server/settings.c:1830
+#: server/settings.c:1829
 msgid "Reduce city population after attack"
 msgstr "Vähennä kaupungin väestöä hyökkäyksen jälkeen"
 
-#: server/settings.c:1831
+#: server/settings.c:1830
 msgid ""
 "This flag indicates whether a city's population is reduced after a "
 "successful attack by an enemy unit. If this is disabled, population is never "
@@ -37038,11 +36936,11 @@ msgstr ""
 "Vaikka tämä olisikin päällä, vain tietyt yksiköt aiheuttavat väestön "
 "vähentymistä onnistuttuaan hyökkäyksessä."
 
-#: server/settings.c:1839
+#: server/settings.c:1838
 msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr "Tapa hitaasti yksiköt joilla ei ole kotikaupunkia"
 
-#: server/settings.c:1840
+#: server/settings.c:1839
 msgid ""
 "If greater than 0, then every unit without a homecity will lose hitpoints "
 "each turn. The number of hitpoints lost is given by 'killunhomed' percent of "
@@ -37055,17 +36953,16 @@ msgstr ""
 "maksimivoimapisteistä. Joka vuorolla menetetään ainakin yksi voimapiste "
 "kunnes yksikkö tuhoutuu."
 
-#: server/settings.c:1850
+#: server/settings.c:1849
 msgid "National borders"
 msgstr "Valtioiden rajat"
 
-#: server/settings.c:1851
+#: server/settings.c:1850
 msgid ""
-"If this is not disabled, then any land tiles around a fortress or city will "
-"be owned by that nation."
-msgstr ""
-"Jos asetus on käytössä, kaikki maaruudut linnoituksen tai kaupungin "
-"ympärillä kuuluvat kansakunnalle."
+"If this is not disabled, then any land tiles around a city or border "
+"claiming Extra (like the classic ruleset's Fortress base) will be owned by "
+"that nation."
+msgstr "Jos asetus on käytössä, kaikki maaruudut kaupungin tai maata valtaavan tukikohdan (kuten klassisten sääntöjen linnoituksen) ympärillä kuuluvat kansakunnalle."
 
 #: server/settings.c:1858
 msgid "Units inside borders cause no unhappiness"
@@ -38833,7 +38730,7 @@ msgstr "Asetus: %s – %s"
 msgid "Option: %s"
 msgstr "Asetus: %s"
 
-#: server/stdinhand.c:1762 server/stdinhand.c:5971
+#: server/stdinhand.c:1762 server/stdinhand.c:5975
 msgid "Description:"
 msgstr "Kuvaus:"
 
@@ -39374,7 +39271,7 @@ msgstr "%2$s siirsi kansakunnan pelaajalle %1$s."
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s hallitsee nyt pelaajaa %s (%s, %s)."
 
-#: server/stdinhand.c:3508 server/stdinhand.c:6305
+#: server/stdinhand.c:3508 server/stdinhand.c:6309
 msgid "Human"
 msgstr "ihminen"
 
@@ -39457,7 +39354,7 @@ msgid "Failed loading rulesets from directory \"%s\", using \"%s\""
 msgstr ""
 "Sääntökokoelman lataaminen hakemistosta \"%s\" epäonnistui, käytössä \"%s\""
 
-#: server/stdinhand.c:3901 server/stdinhand.c:3937 server/stdinhand.c:6221
+#: server/stdinhand.c:3901 server/stdinhand.c:3937 server/stdinhand.c:6225
 msgid "That would be rather silly, since you are not a player."
 msgstr "Se olisi aika hölmöä, koska et ole yksi pelaajista."
 
@@ -39471,7 +39368,7 @@ msgstr "%s. Katso /help ignore"
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr "Lisäsin mallin %s kohtaan %d huomiotta jätettävien listallesi."
 
-#: server/stdinhand.c:3946 server/stdinhand.c:6226
+#: server/stdinhand.c:3946 server/stdinhand.c:6230
 msgid "Your ignore list is empty."
 msgstr "Huomiotta jätettävien listasi on tyhjä."
 
@@ -39929,15 +39826,18 @@ msgstr "Freecivin database-skripti on deaktivoitu käännösvaiheessa."
 msgid "Ambiguous fcdb command."
 msgstr "Epäselvä fcdb-komento."
 
-#: server/stdinhand.c:5674
-msgid "Not enough human players; game will not start."
-msgstr "Pelaajia ei ole tarpeeksi, peliä ei aloiteta."
+#: server/stdinhand.c:5676
+#, c-format
+msgid ""
+"Not enough human players ('minplayers' server setting has value %d); game "
+"will not start."
+msgstr "Pelaajia ei ole tarpeeksi (palvelimen asetuksella 'minplayers' on arvo %d), peliä ei aloiteta."
 
-#: server/stdinhand.c:5679
+#: server/stdinhand.c:5683
 msgid "No players; game will not start."
 msgstr "Pelaajia ei ole, peliä ei aloiteta."
 
-#: server/stdinhand.c:5684
+#: server/stdinhand.c:5688
 msgid ""
 "Not enough nations in the current nation set for all players; game will not "
 "start. (See 'nationset' setting.)"
@@ -39945,16 +39845,16 @@ msgstr ""
 "Pelaajille ei ole tarpeeksi kansakuntia käytössä olevassa kansavalikoimassa, "
 "peliä ei aloiteta. (Tarkista 'nationset' palvelinasetus.)"
 
-#: server/stdinhand.c:5689
+#: server/stdinhand.c:5693
 msgid "Not enough nations for all players; game will not start."
 msgstr "Pelaajille ei ole tarpeeksi kansakuntia, peliä ei aloiteta."
 
-#: server/stdinhand.c:5700
+#: server/stdinhand.c:5704
 msgid "All players are ready; starting game."
 msgstr "Kaikki pelaajat ovat valmiina; peli alkaa."
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:5716
+#: server/stdinhand.c:5720
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
@@ -39963,35 +39863,35 @@ msgstr ""
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:5723
+#: server/stdinhand.c:5727
 msgid "Cannot start the game: it is already running."
 msgstr "En voi aloittaa peliä: se on jo käynnissä."
 
-#: server/stdinhand.c:5754
+#: server/stdinhand.c:5758
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Katkaisen yhteyden %s."
 
-#: server/stdinhand.c:5755
+#: server/stdinhand.c:5759
 msgid "connection cut"
 msgstr "yhteys katkaistu"
 
-#: server/stdinhand.c:5843
+#: server/stdinhand.c:5847
 msgid "You may not kick yourself."
 msgstr "Et voi laittaa itseäsi jäähylle."
 
-#: server/stdinhand.c:5866
+#: server/stdinhand.c:5870
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
 msgstr "Komentoa ei voi käyttää ellei palvelimelle ole %d eri yhteyttä."
 
-#: server/stdinhand.c:5892
+#: server/stdinhand.c:5896
 msgid "kicked"
 msgstr "jäähy"
 
-#: server/stdinhand.c:5908
+#: server/stdinhand.c:5912
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -40031,179 +39931,179 @@ msgstr ""
 "  quit   -  poistu ohjelmasta"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:5945
+#: server/stdinhand.c:5949
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "Komento: %s – %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:5951
+#: server/stdinhand.c:5955
 #, c-format
 msgid "Command: %s"
 msgstr "Komento: %s"
 
-#: server/stdinhand.c:5956
+#: server/stdinhand.c:5960
 msgid "Synopsis: "
 msgstr "Yhteenveto: "
 
-#: server/stdinhand.c:5965
+#: server/stdinhand.c:5969
 #, c-format
 msgid "Level: %s"
 msgstr "Taso: %s"
 
-#: server/stdinhand.c:5989
+#: server/stdinhand.c:5993
 msgid "The following server commands are available:"
 msgstr "Seuraavat palvelinkomennot ovat saatavilla:"
 
-#: server/stdinhand.c:6050
+#: server/stdinhand.c:6054
 #, c-format
 msgid "Possible matches: %s"
 msgstr "Mahdollisesti täsmääviä: %s"
 
-#: server/stdinhand.c:6112
+#: server/stdinhand.c:6116
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Argumentti '%s' ei ole yksiselitteinen."
 
-#: server/stdinhand.c:6119
+#: server/stdinhand.c:6123
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Argumentille '%s' ei löytynyt vastinetta."
 
-#: server/stdinhand.c:6160
+#: server/stdinhand.c:6164
 msgid "List of connections to server:"
 msgstr "Lista yhteyksistä palvelimeen:"
 
-#: server/stdinhand.c:6164
+#: server/stdinhand.c:6168
 msgid "<no connections>"
 msgstr "<ei yhteyksiä>"
 
-#: server/stdinhand.c:6185
+#: server/stdinhand.c:6189
 msgid "List of all delegations:"
 msgstr "Delegointien luettelo:"
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6197
+#: server/stdinhand.c:6201
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr "%s delegoi pelaajan '%s' hallinnan käyttäjälle %s%s."
 
-#: server/stdinhand.c:6199
+#: server/stdinhand.c:6203
 msgid " (active)"
 msgstr " (aktiivinen)"
 
-#: server/stdinhand.c:6205
+#: server/stdinhand.c:6209
 msgid "No delegations defined."
 msgstr "Ei delegointeja."
 
-#: server/stdinhand.c:6230
+#: server/stdinhand.c:6234
 msgid "Your ignore list:"
 msgstr "Huomiotta jätettävien listasi:"
 
-#: server/stdinhand.c:6246
+#: server/stdinhand.c:6250
 msgid "List of players:"
 msgstr "Pelaajaluettelo:"
 
-#: server/stdinhand.c:6250 server/stdinhand.c:6454
+#: server/stdinhand.c:6254 server/stdinhand.c:6458
 msgid "<no players>"
 msgstr "<ei pelaajia>"
 
-#: server/stdinhand.c:6280
+#: server/stdinhand.c:6284
 #, c-format
 msgid ", user %s"
 msgstr ", käyttäjä %s"
 
-#: server/stdinhand.c:6284
+#: server/stdinhand.c:6288
 msgid ", ready"
 msgstr ", valmis"
 
-#: server/stdinhand.c:6288
+#: server/stdinhand.c:6292
 msgid ", not ready"
 msgstr ", ei valmis"
 
-#: server/stdinhand.c:6294
+#: server/stdinhand.c:6298
 msgid ", Dead"
 msgstr ", kuollut"
 
-#: server/stdinhand.c:6308
+#: server/stdinhand.c:6312
 #, c-format
 msgid ", %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:6309
+#: server/stdinhand.c:6313
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", vaikeusaste %s"
 
-#: server/stdinhand.c:6315
+#: server/stdinhand.c:6319
 #, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] ", %d yhteys:"
 msgstr[1] ", %d yhteyttä:"
 
-#: server/stdinhand.c:6322
+#: server/stdinhand.c:6326
 #, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "%s, yhteys %s (komentotaso %s), puskurikoko = %d kb"
 
-#: server/stdinhand.c:6327
+#: server/stdinhand.c:6331
 msgid " (observer mode)"
 msgstr " (tarkkailija)"
 
-#: server/stdinhand.c:6344
+#: server/stdinhand.c:6348
 msgid "List of scenarios available:"
 msgstr "Saatavilla olevat skenaariot:"
 
 #. TRANS: don't translate text between ''
-#: server/stdinhand.c:6365
+#: server/stdinhand.c:6369
 msgid "List of nation sets available for 'nationset' option:"
 msgstr "Asetukselle 'nationset' mahdollisten kansavalikoimien lista:"
 
 #. TRANS: nation set description; %d refers to number of playable
 #. * nations in set
-#: server/stdinhand.c:6379
+#: server/stdinhand.c:6383
 #, c-format
 msgid " %-10s  %s (%d playable)"
 msgid_plural " %-10s  %s (%d playable)"
 msgstr[0] " %-10s  %s (%d pelattava)"
 msgstr[1] " %-10s  %s (%d pelattavaa)"
 
-#: server/stdinhand.c:6402
+#: server/stdinhand.c:6406
 msgid "List of teams:"
 msgstr "Joukkueluettelo:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6412
+#: server/stdinhand.c:6416
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d pelaaja"
 msgstr[1] "%2d : '%s' : %d pelaajaa"
 
-#: server/stdinhand.c:6433
+#: server/stdinhand.c:6437
 msgid "No map image definitions."
 msgstr "Kartan määrittely puuttuu."
 
-#: server/stdinhand.c:6435
+#: server/stdinhand.c:6439
 msgid "List of map image definitions:"
 msgstr "Luettelo karttakuvien määrittelyistä:"
 
-#: server/stdinhand.c:6440
+#: server/stdinhand.c:6444
 #, c-format
 msgid "[%2d] %s"
 msgstr "[%2d] %s"
 
-#: server/stdinhand.c:6451
+#: server/stdinhand.c:6455
 msgid "List of player colors:"
 msgstr "Luettelo pelaajien väreistä:"
 
-#: server/stdinhand.c:6457
+#: server/stdinhand.c:6461
 #, c-format
 msgid "%s (user %s): [%s]"
 msgstr "%s (käyttäjä %s): [%s]"
 
-#: server/stdinhand.c:6516
+#: server/stdinhand.c:6520
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Kelvoton parametri komennolle 'list': '%s'. Ks. '%shelp list'."
@@ -41274,6 +41174,29 @@ msgstr "virhe %ld (FormatMessage() epäonnistui)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#~ msgid ""
+#~ "Allows a city to grow larger than size 8 and reduces the chance of plague "
+#~ "within the city. A Sewer System is required for a city to grow larger "
+#~ "than size 12."
+#~ msgstr ""
+#~ "Sallii kaupungin kasvaa kokoa 8 suuremmaksi ja vähentää ruton riskiä "
+#~ "kaupungissa. Jotta kaupunki voisi kasvaa kokoa 12 suuremmaksi, tarvitaan "
+#~ "lisäksi Viemäriverkosto."
+
+#~ msgid ""
+#~ "If you receive an invention via a treaty, this setting defines the chance "
+#~ "that the invention is lost during the transfer."
+#~ msgstr ""
+#~ "Asetus määrittelee todennäköisyyden, jolla voit menettää edistysaskeleen "
+#~ "jonka saat valtiosopimuksen mukaan toiselta kansakunnalta."
+
+#~ msgid ""
+#~ "If you give an invention via a treaty, this setting defines the chance "
+#~ "that the invention is lost for your civilization during the transfer."
+#~ msgstr ""
+#~ "Asetus määrittelee todennäköisyyden, jolla voit menettää edistysaskeleen, "
+#~ "jonka annat valtiosopimuksen mukaan toiselle kansakunnalle."
 
 #~ msgid "Ruleset _Version:"
 #~ msgstr "Sääntökokoelman _nimi:"
