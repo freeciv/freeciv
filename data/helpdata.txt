@@ -1803,7 +1803,7 @@ But beware! If you use the governor for some of your cities, you will \
 encounter some difficulties with managing cities nearby, by hand. \
 It's best to manage all cities on an island either by hand or by \
 governor. Read more hints, some background information, and some \
-preset examples in the file README.cma, included with Freeciv.\
+preset examples in the file README.governor, included with Freeciv.\
 ")
 
 [help_chatline]
