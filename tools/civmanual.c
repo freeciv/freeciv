@@ -652,9 +652,8 @@ int main(int argc, char **argv)
                srvarg.fatal_assertions);
   /* logging available after this point */
 
-  /* Imitate a server - this is needed for as some function only work if this
-   * is set. */
-  i_am_server();
+  /* Get common code to treat us as a tool. */
+  i_am_tool();
 
   /* Initialize game with default values */
   game_init();

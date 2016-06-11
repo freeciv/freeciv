@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -285,6 +285,10 @@ struct civ_game {
 bool is_server(void);
 void i_am_server(void);
 void i_am_client(void);
+static inline void i_am_tool(void)
+{
+  i_am_server(); /* No difference between a tool and server at the moment */
+}
 
 void game_init(void);
 void game_map_init(void);

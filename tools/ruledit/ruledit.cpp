@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 /* ANSI */
 #include <stdlib.h>
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MS_WINDOWS
 #include <windows.h>
 #endif
 
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
     game.info.aifill = 0;
 
     game_init();
-    i_am_server();
+    i_am_tool();
 
     if (comments_load()) {
 

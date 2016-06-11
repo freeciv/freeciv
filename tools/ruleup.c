@@ -112,7 +112,7 @@ int main(int argc, char **argv)
   settings_init(FALSE);
 
   game_init();
-  i_am_server();
+  i_am_tool();
 
   rup_parse_cmdline(argc, argv);
 
