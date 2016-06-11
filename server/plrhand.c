@@ -2692,6 +2692,7 @@ struct player *civil_war(struct player *pplayer)
   int i, j;
   struct player *cplayer;
   struct city *capital;
+  struct city_list *defector_candidates;
 
   /* It is possible that this function gets called after pplayer
    * died. Player pointers are safe even after death. */
@@ -2712,6 +2713,43 @@ struct player *civil_war(struct player *pplayer)
     return NULL;
   }
 
+  /* It doesn't make sense to try to split an empire of 1 city.
+   * This should have been enforced by civil_war_possible(). */
+  fc_assert_ret_val(city_list_size(pplayer->cities) > 1, NULL);
+
+  defector_candidates = city_list_new();
+  city_list_iterate(pplayer->cities, pcity) {
+    bool gameloss_present = FALSE;
+
+    /* Capital (probably new capital) won't defect */
+    if (is_capital(pcity)) {
+      continue;
+    }
+
+    /* City hosting victim's GameLoss unit won't defect */
+    unit_list_iterate(city_tile(pcity)->units, punit) {
+      if (unit_owner(punit) == pplayer
+          && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
+        gameloss_present = TRUE;
+        break;
+      }
+    } unit_list_iterate_end;
+    if (gameloss_present) {
+      continue;
+    }
+
+    city_list_append(defector_candidates, pcity);
+  } city_list_iterate_end;
+
+  if (city_list_size(defector_candidates) == 0) {
+    log_verbose(_("Could not throw %s into civil war - no available cities"),
+                nation_plural_for_player(pplayer));
+    city_list_destroy(defector_candidates);
+    return NULL;
+  }
+
+  /* We're definitely going to create a new rebel player. */
+
   if (normal_player_count() == game.server.max_players) {
     /* 'maxplayers' must be increased to allow for a new player. */
 
@@ -2719,7 +2757,7 @@ struct player *civil_war(struct player *pplayer)
     fc_assert_ret_val(game.server.max_players < MAX_NUM_PLAYERS, NULL);
 
     game.server.max_players++;
-    log_debug("Increase 'maxplayers' to allow the creation of a new player "
+    log_debug("Increased 'maxplayers' to allow the creation of a new player "
               "due to civil war.");
   }
 
@@ -2745,42 +2783,39 @@ struct player *civil_war(struct player *pplayer)
                 player_name(cplayer),
                 nation_plural_for_player(cplayer));
 
-  j = city_list_size(pplayer->cities);	    /* number left to process */
-  /* It doesn't make sense to try to split an empire of 1 city.
-   * This should have been enforced by civil_war_possible(). */
-  fc_assert(j >= 2);
-  /* Number to try to flip; ensure that at least one non-capital city is
+  j = city_list_size(defector_candidates);  /* number left to process */
+  /* Number to try to flip; ensure that at least one eligible city is
    * flipped */
-  i = MAX(city_list_size(pplayer->cities)/2,
-          1 + (player_capital(pplayer) != NULL));
-  city_list_iterate_safe(pplayer->cities, pcity) {
-    if (!is_capital(pcity)) {
-      if (i >= j || (i > 0 && fc_rand(2) == 1)) {
-        /* Transfer city and units supported by this city to the new owner.
-         * We do NOT resolve stack conflicts here, but rather later.
-         * Reason: if we have a transporter from one city which is carrying
-         * a unit from another city, and both cities join the rebellion. We
-         * resolved stack conflicts for each city we would teleport the first
-         * of the units we met since the other would have another owner. */
-        if (transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE, FALSE)) {
-          log_verbose("%s declares allegiance to the %s.", city_name_get(pcity),
-                      nation_rule_name(nation_of_player(cplayer)));
-          notify_player(pplayer, pcity->tile, E_CITY_LOST, ftc_server,
-                        /* TRANS: <city> ... the Poles. */
-                        _("%s declares allegiance to the %s."),
-                        city_link(pcity),
-                        nation_plural_for_player(cplayer));
-          script_server_signal_emit("city_transferred", 4,
-                                  API_TYPE_CITY, pcity,
-                                  API_TYPE_PLAYER, pplayer,
-                                  API_TYPE_PLAYER, cplayer,
-                                  API_TYPE_STRING, "civil_war");
-        }
-        i--;
+  i = MAX(j/2, 1);
+  city_list_iterate(defector_candidates, pcity) {
+    fc_assert_action(!is_capital(pcity), continue);
+    if (i >= j || (i > 0 && fc_rand(2) == 1)) {
+      /* Transfer city and units supported by this city to the new owner.
+       * We do NOT resolve stack conflicts here, but rather later.
+       * Reason: if we have a transporter from one city which is carrying
+       * a unit from another city, and both cities join the rebellion. If we
+       * resolved stack conflicts for each city we would teleport the first
+       * of the units we met since the other would have another owner. */
+      if (transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE, FALSE)) {
+        log_verbose("%s declares allegiance to the %s.", city_name_get(pcity),
+                    nation_rule_name(nation_of_player(cplayer)));
+        notify_player(pplayer, pcity->tile, E_CITY_LOST, ftc_server,
+                      /* TRANS: <city> ... the Poles. */
+                      _("%s declares allegiance to the %s."),
+                      city_link(pcity),
+                      nation_plural_for_player(cplayer));
+        script_server_signal_emit("city_transferred", 4,
+                                API_TYPE_CITY, pcity,
+                                API_TYPE_PLAYER, pplayer,
+                                API_TYPE_PLAYER, cplayer,
+                                API_TYPE_STRING, "civil_war");
       }
+      i--;
     }
     j--;
-  } city_list_iterate_safe_end;
+  } city_list_iterate_end;
+
+  city_list_destroy(defector_candidates);
 
   resolve_unit_stacks(pplayer, cplayer, FALSE);
 
