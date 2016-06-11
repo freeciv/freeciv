@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -114,11 +114,6 @@ const bv_extras *tile_extras_safe(const struct tile *ptile);
 const bv_extras *tile_extras_null(void);
 static inline const bv_extras *tile_extras(const struct tile *ptile)
 {
-  /* With this NULL check this function is actually same as tile_extras_safe().
-   * We may remove the check later when callers that need _safe(), do so. */
-  if (ptile == NULL) {
-    return tile_extras_null();
-  }
   return &(ptile->extras);
 }
 
