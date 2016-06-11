@@ -5901,7 +5901,7 @@ void options_save(option_save_log_callback log_cb)
 
   /* Directory name */
   strncpy(dir_name, name, sizeof(dir_name));
-  for (i = strlen(dir_name) - 1 ; dir_name[i] != '/' && i >= 0; i--) {
+  for (i = strlen(dir_name) - 1 ; dir_name[i] != DIR_SEPARATOR_CHAR && i >= 0; i--) {
     /* Nothing */
   }
   if (i > 0) {
