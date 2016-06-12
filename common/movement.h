@@ -64,11 +64,23 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
 
 bool is_native_tile(const struct unit_type *punittype,
                     const struct tile *ptile);
-bool is_native_tile_to_class(const struct unit_class *punitclass,
-                             const struct tile *ptile);
+
 bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain,
                         const bv_extras *extras);
+
+/****************************************************************************
+  Check if this tile is native to given unit class.
+
+  See is_native_to_class()
+****************************************************************************/
+static inline bool is_native_tile_to_class(const struct unit_class *punitclass,
+                                           const struct tile *ptile)
+{
+  return is_native_to_class(punitclass, tile_terrain(ptile),
+                            tile_extras(ptile));
+}
+
 bool is_native_move(const struct unit_class *punitclass,
                     const struct tile *src_tile,
                     const struct tile *dst_tile);
