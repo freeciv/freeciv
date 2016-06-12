@@ -270,19 +270,6 @@ bool is_native_tile(const struct unit_type *punittype,
                             tile_extras(ptile));
 }
 
-
-/****************************************************************************
-  This tile is native to unit class.
-
-  See is_native_to_class()
-****************************************************************************/
-bool is_native_tile_to_class(const struct unit_class *punitclass,
-                             const struct tile *ptile)
-{
-  return is_native_to_class(punitclass, tile_terrain(ptile),
-                            tile_extras(ptile));
-}
-
 /****************************************************************************
   This terrain is native to unit class. Units that require fuel dont survive
   even on native terrain.
