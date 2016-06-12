@@ -5714,7 +5714,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
       }
       start_game();
       return TRUE;
-    } else if (NULL == caller->playing || !caller->playing->is_connected) {
+    } else if (NULL == caller->playing || caller->observer) {
       /* A detached or observer player can't do /start. */
       return TRUE;
     } else {
