@@ -185,6 +185,7 @@ static bool do_unit_change_homecity(struct unit *punit,
 static bool do_unit_upgrade(struct player *pplayer,
                             struct unit *punit, struct city *pcity,
                             enum action_requester ordered_by);
+static bool do_attack(struct unit *actor_unit, struct tile *target_tile);
 
 /**************************************************************************
  Upgrade all units of a given type.
@@ -3181,6 +3182,29 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 }
 
 /**************************************************************************
+  Do a "regular" attack.
+
+  This function assumes the attack is legal. The calling function should
+  have already made all necessary checks.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_attack(struct unit *actor_unit, struct tile *target_tile)
+{
+  struct unit *victim;
+
+  victim = get_defender(actor_unit, target_tile);
+
+  if (victim) {
+    unit_attack_handling(actor_unit, victim);
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+/**************************************************************************
   see also aiunit could_unit_move_to_tile()
 **************************************************************************/
 static bool can_unit_move_to_tile_with_notify(struct unit *punit,
@@ -3453,10 +3477,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     }
 
     /* The attack is legal wrt the alliances */
-    victim = get_defender(punit, pdesttile);
 
-    if (victim) {
-      unit_attack_handling(punit, victim);
+    if (do_attack(punit, pdesttile)) {
       return TRUE;
     } else {
       fc_assert_ret_val(is_enemy_city_tile(pdesttile, pplayer) != NULL,
