@@ -1387,10 +1387,14 @@ void handle_unit_do_action(struct player *pplayer,
 }
 
 /**************************************************************************
-  Transfer a unit from one homecity to another. This new homecity must
-  be valid for this unit.
+  Transfer a unit from one city (and possibly player) to another.
+  If 'rehome' is not set, only change the player which owns the unit
+  (the new owner is new_pcity's owner). Otherwise the new unit will be
+  given a homecity, even if it was homeless before.
+  This new homecity must be valid for this unit.
 **************************************************************************/
-void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
+void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
+                                   bool rehome)
 {
   struct city *old_pcity = game_city_by_number(punit->homecity);
   struct player *old_owner = unit_owner(punit);
@@ -1400,6 +1404,10 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
    * be safe with current implementation, but it is not meant to
    * be used that way. */
   fc_assert_ret(new_pcity != old_pcity);
+
+  /* If 'rehome' is not set, this function should only be used to change
+   * which player owns the unit */
+  fc_assert_ret(rehome || new_owner != old_owner);
 
   if (old_owner != new_owner) {
     struct city *pcity = tile_city(punit->tile);
@@ -1412,11 +1420,11 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
 
     if (pcity != NULL
         && !can_player_see_units_in_city(old_owner, pcity)) {
-      /* Special case when city is being transfered. At this point city
+      /* Special case when city is being transferred. At this point city
        * itself has changed owner, so it's enemy city now that old owner
-       * cannot see inside. All the normal methods of removing transfered
+       * cannot see inside. All the normal methods of removing transferred
        * unit from previous owner's client think that there's no need to
-       * remove unit as client should't have it in first place. */
+       * remove unit as client shouldn't have it in first place. */
       unit_goes_out_of_sight(old_owner, punit);
     }
 
@@ -1434,23 +1442,27 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
     unit_refresh_vision(punit);
   }
 
-  /* Remove from old city first and add to new city only after that.
-   * This is more robust in case old_city == new_city (currently
-   * prohibited by fc_assert in the beginning of the function).
-   */
-  if (old_pcity) {
-    /* Even if unit is dead, we have to unlink unit pointer (punit). */
-    unit_list_remove(old_pcity->units_supported, punit);
+  if (rehome) {
+    fc_assert(!unit_has_type_flag(punit, UTYF_NOHOME));
+
+    /* Remove from old city first and add to new city only after that.
+     * This is more robust in case old_city == new_city (currently
+     * prohibited by fc_assert in the beginning of the function).
+     */
+    if (old_pcity) {
+      /* Even if unit is dead, we have to unlink unit pointer (punit). */
+      unit_list_remove(old_pcity->units_supported, punit);
+      /* update unit upkeep */
+      city_units_upkeep(old_pcity);
+    }
+
+    unit_list_prepend(new_pcity->units_supported, punit);
+
     /* update unit upkeep */
-    city_units_upkeep(old_pcity);
+    city_units_upkeep(new_pcity);
+
+    punit->homecity = new_pcity->id;
   }
-
-  unit_list_prepend(new_pcity->units_supported, punit);
-
-  /* update unit upkeep */
-  city_units_upkeep(new_pcity);
-
-  punit->homecity = new_pcity->id;
 
   if (!can_unit_continue_current_activity(punit)) {
     /* This is mainly for cases where unit owner changes to one not knowing
@@ -1490,7 +1502,7 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
   }
 
   if (pcity && can_unit_change_homecity_to(punit, pcity)) {
-    unit_change_homecity_handling(punit, pcity);
+    unit_change_homecity_handling(punit, pcity, TRUE);
   }
 }
 
