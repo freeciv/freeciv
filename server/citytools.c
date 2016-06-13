@@ -571,21 +571,26 @@ int do_make_unit_veteran(struct city *pcity,
 }
 
 /*********************************************************************
-  Change home city of a unit with verbose output.
+  Change player that owns a unit and, if appropriate, its home city,
+  with verbose output.
+  If 'rehome' is not set, only change the player which owns the unit
+  (the new owner is new_pcity's owner). Otherwise the new unit will be
+  given a homecity, even if it was homeless before.
 ***********************************************************************/
 static void transfer_unit(struct unit *punit, struct city *tocity,
-			  bool verbose)
+                          bool rehome, bool verbose)
 {
   struct player *from_player = unit_owner(punit);
   struct player *to_player = city_owner(tocity);
 
-  /* Transfering a dying GameLoss unit as part of the loot for
+  /* Transferring a dying GameLoss unit as part of the loot for
    * killing it caused gna bug #23676. */
   fc_assert_ret_msg(!punit->server.dying,
                     "Tried to transfer the dying unit %d.",
                     punit->id);
 
   if (from_player == to_player) {
+    fc_assert_ret(rehome);
     log_verbose("Changed homecity of %s %s to %s",
                 nation_rule_name(nation_of_player(from_player)),
                 unit_rule_name(punit),
@@ -681,21 +686,22 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 
     maybe_make_contact(utile, to_player);
   }
-  unit_change_homecity_handling(punit, tocity);
+  unit_change_homecity_handling(punit, tocity, rehome);
 }
 
 /*********************************************************************
- Units in a bought city are transferred to the new owner, units 
+ When a city is transferred (bought, incited, disbanded, civil war):
+ Units in a transferred city are transferred to the new owner; units 
  supported by the city, but held in other cities are updated to
  reflect those cities as their new homecity.  Units supported 
- by the bought city, that are not in a city square may be deleted.
+ by the transferred city that are not in a city tile may be deleted.
 
  - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
 
-pplayer: The player recieving the units if they are not disbanded and
+pplayer: The player receiving the units if they are not disbanded and
          are not in a city
 pvictim: The owner of the city the units are transferred from.
-units:   A list of units to be transferred, typically a cities unit list.
+units:   A list of units to be transferred, typically a city's unit list.
 pcity:   Default city the units are transferred to.
 exclude_city: The units cannot be transferred to this city.
 kill_outside: Units outside this range are deleted. -1 means no units
@@ -726,20 +732,28 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
          * the dying unit isn't a good idea. The remaining death handling
          * code will try to read from it.
          *
-         * Transfering a dying GameLoss unit as part of the loot for
+         * Transferring a dying GameLoss unit as part of the loot for
          * killing it caused gna bug #23676. */
         continue;
       }
 
       /* Don't transfer units already owned by new city-owner --wegge */
       if (unit_owner(vunit) == pvictim) {
+        /* Determine whether unit was homeless. If it was, we don't give
+         * it a homecity, only change ownership.
+         * We have to search the transferred city's former units because
+         * the unit may have been made only temporarily homeless during
+         * city transfer. */
+        bool homeless = (vunit->homecity == 0)
+          && !unit_list_search(units, vunit);
+
         /* vunit may die during transfer_unit().
          * unit_list_remove() is still safe using vunit pointer, as
          * pointer is not used for dereferencing, only as value.
          * Not sure if it would be safe to unlink first and transfer only
          * after that. Not sure if it is correct to unlink at all in
          * some cases, depending which list 'units' points to. */
-	transfer_unit(vunit, pcity, verbose);
+	transfer_unit(vunit, pcity, !homeless, verbose);
 	unit_list_remove(units, vunit);
       } else if (!pplayers_allied(pplayer, unit_owner(vunit))) {
         /* the owner of vunit is allied to pvictim but not to pplayer */
@@ -769,13 +783,14 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     if (new_home_city && new_home_city != exclude_city
 	&& city_owner(new_home_city) == unit_owner(vunit)) {
       /* unit is in another city: make that the new homecity,
-	 unless that city is actually the same city (happens if disbanding) */
-      transfer_unit(vunit, new_home_city, verbose);
+       * unless that city is actually the same city (happens if disbanding)
+       * Unit had a homecity since it was supported, so rehome. */
+      transfer_unit(vunit, new_home_city, TRUE, verbose);
     } else if ((kill_outside == -1
                 || real_map_distance(unit_tile(vunit), ptile) <= kill_outside)
                && saved_id) {
       /* else transfer to specified city. */
-      transfer_unit(vunit, pcity, verbose);
+      transfer_unit(vunit, pcity, TRUE, verbose);
       if (unit_tile(vunit) == ptile && !pplayers_allied(pplayer, pvictim)) {
         /* Unit is inside city being transferred, bounce it */
         bounce_unit(vunit, TRUE);
@@ -1619,7 +1634,7 @@ void remove_city(struct city *pcity)
 	&& new_home_city != pcity
         && city_owner(new_home_city) == powner
         && !punit->server.dying) {
-      transfer_unit(punit, new_home_city, TRUE);
+      transfer_unit(punit, new_home_city, TRUE, TRUE);
     }
   } unit_list_iterate_safe_end;
 
