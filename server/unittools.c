@@ -3055,9 +3055,23 @@ static bool unit_survive_autoattack(struct unit *punit)
 #endif
 
       unit_activity_handling(penemy, ACTIVITY_IDLE);
-      /* Attack */
-      (void) unit_move_handling(penemy, unit_tile(punit),
-                                FALSE, TRUE, NULL);
+      if (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
+                                          penemy, unit_tile(punit))) {
+        /* Choose capture. */
+        handle_unit_do_action(unit_owner(penemy),
+                              penemy->id, tile_index(unit_tile(punit)),
+                              0, "", ACTION_CAPTURE_UNITS);
+      } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
+                                                 penemy, unit_tile(punit))) {
+        /* Choose bombard. */
+        handle_unit_do_action(unit_owner(penemy),
+                              penemy->id, tile_index(unit_tile(punit)),
+                              0, "", ACTION_BOMBARD);
+      } else {
+        /* Attack */
+        (void) unit_move_handling(penemy, unit_tile(punit),
+                                  FALSE, TRUE, NULL);
+      }
     } else {
 #ifdef REALLY_DEBUG_THIS
       log_test("!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
