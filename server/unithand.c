@@ -110,6 +110,8 @@ enum ane_kind {
   ANEK_TGT_IS_CLAIMED,
   /* Explanation: can't be done to unclaimed target tiles. */
   ANEK_TGT_IS_UNCLAIMED,
+  /* Explanation: actor can't reach unit at target. */
+  ANEK_TGT_UNREACHABLE,
   /* Explanation: the action is disabled in this scenario. */
   ANEK_SCENARIO_DISABLED,
   /* Explanation: too close to a city. */
@@ -766,6 +768,14 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   case ACTION_AIRLIFT:
     action_custom = test_unit_can_airlift_to(NULL, punit, target_city);
     break;
+  case ACTION_NUKE:
+    if (target_tile != unit_tile(punit)) {
+      /* unit_attack_units_at_tile_result() matters for neighbor tiles. */
+      action_custom = unit_attack_units_at_tile_result(punit, target_tile);
+    } else {
+      action_custom = ATT_OK;
+    }
+    break;
   default:
     action_custom = 0;
     break;
@@ -901,6 +911,28 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                        city_size_get(target_city)
                                        + unit_pop_value(punit))))) {
     explnat->kind = ANEK_CITY_POP_LIMIT;
+  } else if (action_id == ACTION_NUKE
+             && action_custom != ATT_OK) {
+    switch (action_custom) {
+    case ATT_NON_ATTACK:
+      explnat->kind = ANEK_ACTOR_UNIT;
+      break;
+    case ATT_UNREACHABLE:
+      explnat->kind = ANEK_TGT_UNREACHABLE;
+      break;
+    case ATT_NONNATIVE_SRC:
+      explnat->kind = ANEK_BAD_TERRAIN_ACT;
+      explnat->no_act_terrain = tile_terrain(unit_tile(punit));
+      break;
+    case ATT_NONNATIVE_DST:
+      explnat->kind = ANEK_BAD_TERRAIN_TGT;
+      explnat->no_act_terrain = tile_terrain(target_tile);
+      break;
+    default:
+      fc_assert(action_custom != ATT_OK);
+      explnat->kind = ANEK_UNKNOWN;
+      break;
+    }
   } else if (action_id == ACTION_AIRLIFT
              && action_custom == AR_SRC_NO_FLIGHTS) {
     explnat->kind = ANEK_CITY_NO_CAPACITY;
@@ -1076,6 +1108,12 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
                   /* TRANS: Paratroopers ... */
                   _("%s can't do anything to an unknown target tile."),
+                  unit_name_translation(punit));
+    break;
+  case ANEK_TGT_UNREACHABLE:
+    notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
+                  _("%s can't do anything since there is an unreachable "
+                    "unit."),
                   unit_name_translation(punit));
     break;
   case ANEK_ACTION_BLOCKS:
@@ -1466,6 +1504,14 @@ void illegal_action_msg(struct player *pplayer,
                   event, ftc_server,
                   /* TRANS: Paratroopers ... Drop Paratrooper */
                   _("%s can't do %s to an unknown tile."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action));
+    break;
+  case ANEK_TGT_UNREACHABLE:
+    notify_player(pplayer, target_tile,
+                  event, ftc_server,
+                  _("Your %s can't do %s there since there's an "
+                    "unreachable unit."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action));
     break;
