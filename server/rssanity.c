@@ -1172,6 +1172,23 @@ bool autoadjust_ruleset_data(void)
         requirement_vector_append(&enabler->actor_reqs, req);
       }
     }
+
+    if (action == ACTION_HOME_CITY) {
+      /* Why this is a hard requirement: Preserve semantics of NoHome
+       * flag. Need to replace other uses in game engine before this can
+       * be demoted to a regular unit flag. */
+
+      struct requirement req
+          = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                            FALSE, FALSE, TRUE, UTYF_NOHOME);
+
+      if (!is_req_in_vec(&req, &enabler->actor_reqs)) {
+        log_debug("Autorequiring that %s can't be done to NoHome units.",
+                  action_get_rule_name(action));
+
+        requirement_vector_append(&enabler->actor_reqs, req);
+      }
+    }
   } action_enablers_iterate_end;
 
   return ok;
