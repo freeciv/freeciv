@@ -402,7 +402,7 @@ start) and Federation (available with Economics).
   receives all them).
 
 - Spies built under Communism or Federation will start at the first
-  veteran level. Federation grants +1 Luxury per city.
+  veteran level. Federation grants +3 Luxury per city.
 
 - Under Communism you do not pay upkeep for buildings that cost 1 Gold.
   Communism cancels the bonus from Mysticism and Theology (to Temples
@@ -512,6 +512,10 @@ BUILDINGS:
 - Aqueduct is cheaper near rivers or lakes. Sewer System is needed to
   grow larger than pop 16 (instead of 12). Each one reduces the chances
   of illness by -30%.
+
+- Created a new building: Ecclesiastical Palace (available with
+  Theology), that acts as a second center of government that lowers
+  corruption and waste.
 
 - Courthouse: Make_Content = 1, and reduces to half any kind of waste
   (Trade, Shields or Food).
@@ -896,7 +900,7 @@ Changes:
   classes).
 - Wonders become obsolete by techs researched by the owner (not affected
   by the researches of other players).
-- A little boost to Federation (+1 Luxury per city, so it is easier to
+- A little boost to Federation (+3 Luxury per city, so it is easier to
   celebrate), and Fundamentalism (-50% to science, instead of total
   science output halved).
 - The bonus to defense moved to cities with pop>8 (instead of pop>=8),
