@@ -1624,7 +1624,7 @@ reqs    =
 
 [effect_lux_federation]
 type    = "Output_Add_Tile"
-value   = 1
+value   = 3
 reqs    =
     { "type", "name", "range"
       "Gov", "Federation", "Player"
@@ -2476,6 +2476,75 @@ value	= 1
 reqs	=
     { "type", "name", "range"
       "Building", "Palace", "City"
+    }
+
+[effect_ecclesiastical_palace]
+type    = "Output_Waste_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "OutputType", "Trade", "Local", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_1]
+type    = "Output_Waste_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "OutputType", "Shield", "local", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_2]
+type    = "Spy_Resistant"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_gov_center]
+type    = "Gov_Center"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_despotism]
+type    = "Output_Bonus"
+value   = 75
+reqs    =
+    { "type", "name", "range", "present"
+      "Gov", "Despotism", "Player", TRUE
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "OutputType", "Gold", "Local", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_monarchy]
+type    = "Output_Bonus"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Gov", "Monarchy", "Player", TRUE
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "OutputType", "Gold", "Local", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_culture]
+type    = "History"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "Building", "Palace", "City", FALSE
     }
 
 [effect_police_station]

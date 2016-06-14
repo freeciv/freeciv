@@ -741,10 +741,6 @@ of the city.\
 name		= _("Palace")
 genus		= "SmallWonder"
 flags		= "SaveSmallWonder"
-reqs	=
-    { "type", "name", "range"
-      "Tech", "Masonry", "Player"
-    }
 graphic	= "b.palace"
 graphic_alt	= "-"
 obsolete_by	=
@@ -777,6 +773,43 @@ results in losing whatever spaceship you might have.\
 If the capital is in a dangerous location, or a more central capital\
  would give a better corruption distribution, you can move your palace\
  by rebuilding it in another city.\
+"),
+; /* xgettext:no-c-format */
+_("\
+Under Despotism the city containing the palace gains a +75% \
+gold bonus, and under Monarchy a +50% gold bonus.\
+")
+
+[building_ecclesiastical_palace]
+name		= _("Ecclesiastical Palace")
+genus		= "SmallWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Theology", "Player"
+    }
+graphic	= "b.ecclesiastical_palace"
+graphic_alt	= "b.palace"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 140
+upkeep		= 0
+sabotage	= 0
+sound		= "b_palace"
+sound_alt	= "b_generic"
+helptext	= _("\
+Makes a city the ecclesiastical capital, that acts as a second center \
+of government.\
+"), _("\
+Waste in other cities (corruption, production waste, and food waste) \
+is related to how far away from the nearest capital they are. On top of \
+this, corruption and production waste in the capital itself is half \
+of what it would otherwise be (and a Courthouse will eliminate it \
+entirely).\
+"), _("\
+The city where this palace is located cannot be incited to revolt, \
+and enjoys a bonus when enemy agents try to evade your own agents \
+stationed in the city, or sabotage your buildings.\
 "),
 ; /* xgettext:no-c-format */
 _("\
