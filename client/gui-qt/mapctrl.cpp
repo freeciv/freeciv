@@ -159,6 +159,7 @@ void map_view::keyPressEvent(QKeyEvent * event)
       key_unit_move(DIR8_SOUTHWEST);
       return;
     case Qt::Key_5:
+    case Qt::Key_Clear:
       key_recall_previous_focus_unit();
       return;
     case Qt::Key_Escape:
