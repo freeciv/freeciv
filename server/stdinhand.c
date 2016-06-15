@@ -5699,7 +5699,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
       return FALSE;
     } else if (strlen(game.server.start_units) == 0 && !game.server.start_city) {
       start_cmd_reply(caller, notify,
-                      _("Neither 'startcity' nor 'startunits' setting give "
+                      _("Neither 'startcity' nor 'startunits' setting gives "
                         "players anything to start game with; game will "
                         "not start."));
       return FALSE;

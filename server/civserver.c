@@ -395,8 +395,8 @@ int main(int argc, char *argv[])
                 _("Set ADDR as metaserver address"));
 #ifdef FREECIV_WEB
     cmdhelp_add(help, "t",
-                /* TRANS: "Type" is exactly what user must type, do not translate. */
-                _("Type TYPE"),
+                /* TRANS: "type" is exactly what user must type, do not translate. */
+                _("type TYPE"),
                 _("Set TYPE as server type in metaserver"));
 #endif /* FREECIV_WEB */
     cmdhelp_add(help, "p",

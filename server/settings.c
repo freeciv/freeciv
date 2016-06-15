@@ -965,7 +965,7 @@ static bool startunits_callback(const char *value,
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The first starting unit must be native to at "
                         "least one \"Starter\" terrain. "
-                        " Try \"help startunits\"."));
+                        "Try \"help startunits\"."));
     return FALSE;
   }
 

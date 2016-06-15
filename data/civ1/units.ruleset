@@ -799,7 +799,7 @@ roles         = "AttackStrongStartUnit"
 helptext      = _("\
 The artillery is an upgraded cannon with improved\
  defensive as well as offensive capabilities.\
- They can shoot over city walls, ignoring their effect.\
+ It can shoot over city walls, ignoring their effect.\
 ")
 
 [unit_fighter]

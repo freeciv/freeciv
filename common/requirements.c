@@ -3412,7 +3412,7 @@ const char *universal_name_translation(const struct universal *psource,
     case USP_LIVABLE_TILE:
       cat_snprintf(buf, bufsz,
                    /* TRANS: unit state. (appears in strings like
-                    * "Missile+Needs transport") */
+                    * "Missile+On native tile") */
                    _("On native tile"));
       break;
     case USP_DOMESTIC_TILE:

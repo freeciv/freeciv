@@ -989,6 +989,7 @@ static void begin_turn(bool is_new_turn)
         if (unit_can_be_retired(punit)
             && fc_rand(100) < get_unit_bonus(punit, EFT_RETIRE_PCT)) {
           notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
+                        /* TRANS: %s is a unit type */
                         _("%s retired!"), unit_tile_link(punit));
           wipe_unit(punit, ULR_RETIRED, NULL);
           continue;
