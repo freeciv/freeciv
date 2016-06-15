@@ -1468,65 +1468,71 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_PLAYER:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires that your diplomatic relationship to at "
-                       "least one other living player is %s.\n"),
+                     /* TRANS: in this and following strings, '%s' can be one
+                      * of a wide range of relationships; e.g., 'Peace',
+                      * 'Never met', 'Is foreign', 'Hosts embassy',
+                      * 'Provided Casus Belli' */
+                     _("Requires that you have the relationship '%s' with at "
+                       "least one other living player.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Requires that no diplomatic relationship you have "
-                       "to any living player is %s.\n"),
+                     _("Requires that you do not have the relationship '%s' "
+                       "with any living player.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
     case REQ_RANGE_TEAM:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires that somebody on your team has %s "
-                       "diplomatic relationship to another living player.\n"),
+                     _("Requires that somebody on your team has the "
+                       "relationship '%s' with at least one other living "
+                       "player.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Requires that nobody on your team has %s "
-                       "diplomatic relationship to another living player.\n"),
+                     _("Requires that nobody on your team has the "
+                       "relationship '%s' with any living player.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires that somebody in your alliance has %s "
-                       "diplomatic relationship to another living player.\n"),
+                     _("Requires that somebody in your alliance has the "
+                       "relationship '%s' with at least one other living "
+                       "player.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Requires that nobody in your alliance has %s "
-                       "diplomatic relationship to another living player.\n"),
+                     _("Requires that nobody in your alliance has the "
+                       "relationship '%s' with any living player.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
     case REQ_RANGE_WORLD:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires the diplomatic relationship %s between two "
-                       "living players.\n"),
+                     _("Requires the relationship '%s' between two living "
+                       "players.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Requires the absence of the diplomatic "
-                       "relationship %s between any living players.\n"),
+                     _("Requires that no two living players have the "
+                       "relationship '%s'.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires that your diplomatic relationship to the "
-                       "other player is %s.\n"),
+                     _("Requires that you have the relationship '%s' with the "
+                       "other player.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Requires that your diplomatic relationship to the "
-                       "other player isn't %s.\n"),
+                     _("Requires that you do not have the relationship '%s' "
+                       "with the other player.\n"),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;

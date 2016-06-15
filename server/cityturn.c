@@ -1555,8 +1555,11 @@ static bool worklist_change_build_target(struct player *pplayer,
               if (preq->present) {
                 notify_player(pplayer, city_tile(pcity),
                               E_CITY_CANTBUILD, ftc_server,
+                              /* TRANS: '%s' is a wide range of relationships;
+                               * e.g., 'Peace', 'Never met', 'Is foreign',
+                               * 'Hosts embassy', 'Provided Casus Belli' */
                               _("%s can't build %s from the worklist; "
-                                "the diplomatic relationship %s is required."
+                                "the relationship '%s' is required."
                                 "  Postponing..."),
                               city_link(pcity),
                               city_improvement_name_translation(pcity,
@@ -1571,7 +1574,7 @@ static bool worklist_change_build_target(struct player *pplayer,
                 notify_player(pplayer, city_tile(pcity),
                               E_CITY_CANTBUILD, ftc_server,
                               _("%s can't build %s from the worklist; "
-                                "the diplomatic relationship %s is prohibited."
+                                "the relationship '%s' is prohibited."
                                 "  Postponing..."),
                               city_link(pcity),
                               city_improvement_name_translation(pcity,
