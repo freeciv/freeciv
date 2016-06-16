@@ -1016,6 +1016,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile,
                      action_by_number(ACTION_AIRLIFT)->ui_name,
                      "actions.ui_airlift_unit");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_ATTACK)->ui_name,
+                     "actions.ui_name_attack");
 
   i = 0;
   action_iterate(act) {

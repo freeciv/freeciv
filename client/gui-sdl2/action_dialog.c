@@ -941,6 +941,23 @@ static int nuke_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Attack"
+*****************************************************************/
+static int attack_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_ATTACK,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/****************************************************************
   User clicked "Disband Unit"
 *****************************************************************/
 static int disband_unit_callback(struct widget *pWidget)
@@ -1044,6 +1061,7 @@ static const act_func af_map[ACTION_COUNT] = {
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = found_city_callback,
   [ACTION_NUKE] = nuke_callback,
+  [ACTION_ATTACK] = attack_callback,
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = disband_unit_callback,
@@ -1315,8 +1333,7 @@ void popup_action_selection(struct unit *actor_unit,
   } action_iterate_end;
 
   /* ---------- */
-  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)
-      || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))) {
+  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
     create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("Keep moving"),
                             diplomat_keep_moving_callback);

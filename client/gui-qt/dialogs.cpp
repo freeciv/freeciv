@@ -88,6 +88,7 @@ static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
+static void attack(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
@@ -154,6 +155,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   /* Unit acting against a tile. */
   action_function[ACTION_FOUND_CITY] = found_city;
   action_function[ACTION_NUKE] = nuke;
+  action_function[ACTION_ATTACK] = attack;
 
   /* Unit acting with no target except itself. */
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
@@ -1518,8 +1520,7 @@ void popup_action_selection(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)
-      || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))) {
+  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
     qv2 = target_tile->index;
 
     func = diplomat_keep_moving;
@@ -1727,6 +1728,21 @@ static void nuke(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != index_to_tile(diplomat_target_id)) {
     request_do_action(ACTION_NUKE,
+                      diplomat_id, diplomat_target_id, 0, "");
+  }
+}
+
+/**************************************************************************
+  Action "Attack" for choice dialog
+**************************************************************************/
+static void attack(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != index_to_tile(diplomat_target_id)) {
+    request_do_action(ACTION_ATTACK,
                       diplomat_id, diplomat_target_id, 0, "");
   }
 }

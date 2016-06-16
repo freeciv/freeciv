@@ -4426,6 +4426,7 @@ static enum gen_action auto_attack_act(const action_probability *act_prob)
       case ACTION_CAPTURE_UNITS:
       case ACTION_BOMBARD:
       case ACTION_NUKE:
+      case ACTION_ATTACK:
         /* An attack. */
         if (attack_action == ACTION_COUNT) {
           /* No previous attack action found. */

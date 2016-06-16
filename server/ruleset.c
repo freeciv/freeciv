@@ -5717,6 +5717,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                ACTION_CAPTURE_UNITS);
         BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
                ACTION_CAPTURE_UNITS);
+        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+               ACTION_CAPTURE_UNITS);
       }
 
       /* Forbid exploding nuclear or attacking when it is legal to
@@ -5728,6 +5730,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       if (game.info.force_bombard) {
         BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
                ACTION_BOMBARD);
+        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+               ACTION_BOMBARD);
       }
 
       /* Forbid attacking when it is legal to do explode nuclear. */
@@ -5735,6 +5739,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         = secfile_lookup_bool_default(file,
                                       RS_DEFAULT_FORCE_EXPLODE_NUCLEAR,
                                       "actions.force_explode_nuclear");
+
+      if (game.info.force_explode_nuclear) {
+        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+               ACTION_NUKE);
+      }
 
       /* If the poison city action should empty the granary. */
       /* TODO: empty granary and reduce population should become separate
@@ -5946,6 +5955,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           N_("%sAirlift to City%s"),
           "actions.ui_airlift_unit");
       sz_strlcpy(action_by_number(ACTION_AIRLIFT)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Attack (100% chance of success). */
+          N_("%sAttack%s"),
+          "actions.ui_name_attack");
+      sz_strlcpy(action_by_number(ACTION_ATTACK)->ui_name,
                  text);
 
       /* The quiet (don't auto generate help for) property of all actions

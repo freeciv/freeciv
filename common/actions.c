@@ -24,6 +24,7 @@
 #include "combat.h"
 #include "game.h"
 #include "map.h"
+#include "movement.h"
 #include "unit.h"
 #include "research.h"
 #include "tile.h"
@@ -202,6 +203,14 @@ void actions_init(void)
       action_new(ACTION_AIRLIFT, ATK_CITY,
                  FALSE, FALSE, TRUE,
                  1, MAP_MAX_LINEAR_SIZE);
+  actions[ACTION_ATTACK] =
+      action_new(ACTION_ATTACK,
+                 /* FIXME: Target is actually City and, depending on the
+                  * unreachable_protects setting, each unit at the target
+                  * tile (Units) or any unit at the target tile. */
+                 ATK_TILE,
+                 TRUE, FALSE, FALSE,
+                 1, 1);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -770,8 +779,8 @@ tgt_city_local_utype(const struct city *target_city)
   An action that can block regular attacks blocks them when the action is
   forced and possible.
 
-  TODO: Make regular attacks and city invasion action enabler controlled
-  and delete this function.
+  TODO: Make city invasion action enabler controlled and delete this
+  function.
 **************************************************************************/
 struct action *action_blocks_attack(const struct unit *actor_unit,
                                     const struct tile *target_tile)
@@ -798,6 +807,12 @@ struct action *action_blocks_attack(const struct unit *actor_unit,
     /* Explode nuclear is possible.
      * The ruleset forbids regular attacks when it is. */
     return action_by_number(ACTION_NUKE);
+  }
+
+  if (is_action_enabled_unit_on_tile(ACTION_ATTACK,
+                                     actor_unit, target_tile)) {
+    /* Regular attack is possible so can't occupy city. */
+    return action_by_number(ACTION_ATTACK);
   }
 
   /* Nothing is blocking a regular attack. */
@@ -1033,6 +1048,13 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
     }
     break;
 
+  case ACTION_ATTACK:
+    if (actor_unittype->attack_strength <= 0) {
+      /* Reason: Can't attack without strength. */
+      return FALSE;
+    }
+    break;
+
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_SPY_POISON:
@@ -1135,6 +1157,15 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
       return TRI_NO;
     }
 
+    break;
+
+  case ACTION_ATTACK:
+    /* Reason: Keep the old marines rules. */
+    /* Info leak: The player knows if his unit is at a native tile. */
+    if (!is_native_tile(actor_unittype, actor_tile)
+        && !can_attack_from_non_native(actor_unittype)) {
+      return TRI_NO;
+    }
     break;
 
   case ACTION_ESTABLISH_EMBASSY:
@@ -1595,6 +1626,18 @@ is_action_possible(const enum gen_action wanted_action,
       return TRI_NO;
     }
 
+    break;
+
+  case ACTION_ATTACK:
+    /* Reason: must have a unit to attack. */
+    if (unit_list_size(target_tile->units) <= 0) {
+      return TRI_NO;
+    }
+
+    /* Reason: Keep the old rules. */
+    if (!can_unit_attack_tile(actor_unit, target_tile)) {
+      return TRI_NO;
+    }
     break;
 
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -2380,6 +2423,9 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_AIRLIFT:
+    /* TODO */
+    break;
+  case ACTION_ATTACK:
     /* TODO */
     break;
   case ACTION_COUNT:

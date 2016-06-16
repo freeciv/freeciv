@@ -184,6 +184,23 @@ static void nuke_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected "Attack" from the choice dialog
+*****************************************************************/
+static void attack_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(args->target_tile_id)) {
+    request_do_action(ACTION_ATTACK, args->actor_unit_id,
+                      args->target_tile_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected join city from caravan dialog
 *****************************************************************/
 static void join_city_callback(GtkWidget *w, gpointer data)
@@ -1216,6 +1233,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
   [ACTION_NUKE] = (GCallback)nuke_callback,
+  [ACTION_ATTACK] = (GCallback)attack_callback,
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = (GCallback)disband_unit_callback,
@@ -1459,8 +1477,7 @@ void popup_action_selection(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)
-      || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))) {
+  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
     action_button_map[BUTTON_MOVE] =
         choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("_Keep moving"),

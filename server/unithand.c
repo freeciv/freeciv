@@ -493,30 +493,6 @@ static bool do_expel_unit(struct player *pplayer,
 }
 
 /**************************************************************************
-  Returns TRUE iff, from the point of view of the owner of the actor unit,
-  it looks like the actor unit may be able to perform a non action
-  enabler controlled action against a unit or city on the target_tile by
-  "moving" to it.
-**************************************************************************/
-static bool may_non_act_move(struct unit *actor_unit,
-                             struct city *target_city,
-                             struct tile *target_tile,
-                             bool igzoc)
-{
-  if (unit_can_move_to_tile(actor_unit, target_tile, igzoc)) {
-    /* Move. Includes occupying a foreign city. */
-    return TRUE;
-  }
-
-  if (can_unit_attack_tile(actor_unit, target_tile)) {
-    /* Attack. Includes nuking. */
-    return TRUE;
-  }
-
-  return FALSE;
-}
-
-/**************************************************************************
   Returns the first player that may enable the specified action if war is
   declared.
 
@@ -777,6 +753,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       action_custom = ATT_OK;
     }
     break;
+  case ACTION_ATTACK:
+    action_custom = unit_attack_units_at_tile_result(punit, target_tile);
+    break;
   default:
     action_custom = 0;
     break;
@@ -912,7 +891,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                        city_size_get(target_city)
                                        + unit_pop_value(punit))))) {
     explnat->kind = ANEK_CITY_POP_LIMIT;
-  } else if (action_id == ACTION_NUKE
+  } else if ((action_id == ACTION_NUKE
+              || action_id == ACTION_ATTACK)
              && action_custom != ATT_OK) {
     switch (action_custom) {
     case ATT_NON_ATTACK:
@@ -2230,6 +2210,20 @@ bool unit_perform_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_ATTACK:
+    if (target_tile) {
+      if (is_action_enabled_unit_on_tile(action_type,
+                                         actor_unit, target_tile)) {
+        ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
+
+        return do_attack(actor_unit, target_tile);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       NULL, target_tile, NULL, NULL,
+                       requester);
+      }
+    }
+    break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
               "invalid action.",
@@ -3404,7 +3398,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
         /* The move wasn't done because the unit wanted the player to
          * decide what to do. */
         return FALSE;
-      } else if (!may_non_act_move(punit, pcity, pdesttile, igzoc)) {
+      } else if (!unit_can_move_to_tile(punit, pdesttile, igzoc)) {
         /* No action can be done. No regular move can be done. Attack isn't
          * possible. Try to explain it to the player. */
         explain_why_no_action_enabled(punit, pdesttile, pcity,
@@ -3419,10 +3413,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
   /*** Phase 3: Is it attack? ***/
 
-  if (is_non_allied_unit_tile(pdesttile, pplayer)
-      || is_non_allied_city_tile(pdesttile, pplayer)) {
+  if (is_non_allied_city_tile(pdesttile, pplayer)) {
     struct unit *victim = NULL;
-    enum unit_attack_result ua_result;
     struct action *blocker;
 
     if ((blocker = action_blocks_attack(punit, pdesttile))) {
@@ -3452,47 +3444,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       return FALSE;
     }
 
-    /* Depending on 'unreachableprotects' setting, must be physically able
-     * to attack EVERY unit there or must be physically able to attack SOME
-     * unit there */
-    ua_result = unit_attack_units_at_tile_result(punit, pdesttile);
-    if (NULL == pcity && ua_result != ATT_OK) {
-      struct tile *src_tile = unit_tile(punit);
-
-      switch (ua_result) {
-      case ATT_NON_ATTACK:
-        notify_player(pplayer, src_tile, E_BAD_COMMAND, ftc_server,
-                      _("%s is not an attack unit."), unit_name_translation(punit));
-        break;
-      case ATT_UNREACHABLE:
-        notify_player(pplayer, src_tile, E_BAD_COMMAND, ftc_server,
-                      _("You can't attack there since there's an unreachable unit."));
-        break;
-      case ATT_NONNATIVE_SRC:
-        notify_player(pplayer, src_tile, E_BAD_COMMAND, ftc_server,
-                      _("%s can't launch attack from %s."),
-                        unit_name_translation(punit),
-                        terrain_name_translation(tile_terrain(src_tile)));
-        break;
-      case ATT_NONNATIVE_DST:
-        notify_player(pplayer, src_tile, E_BAD_COMMAND, ftc_server,
-                      _("%s can't attack to %s."),
-                        unit_name_translation(punit),
-                        terrain_name_translation(tile_terrain(pdesttile)));
-        break;
-      case ATT_OK:
-        fc_assert(ua_result != ATT_OK);
-        break;
-      }
-
-      return FALSE;
-    }
-
     /* The attack is legal wrt the alliances */
 
-    if (do_attack(punit, pdesttile)) {
-      return TRUE;
-    } else {
+    if (!is_non_allied_unit_tile(pdesttile, pplayer)) {
       fc_assert_ret_val(is_enemy_city_tile(pdesttile, pplayer) != NULL,
                         TRUE);
 
@@ -4500,6 +4454,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_DISBAND_UNIT:
       case ACTION_HOME_CITY:
       case ACTION_UPGRADE_UNIT:
+      case ACTION_ATTACK:
         /* No validation required. */
         break;
       case ACTION_PARADROP:

@@ -858,8 +858,13 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose explode nuclear. */
     handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                           0, "", ACTION_NUKE);
+  } else if (is_action_enabled_unit_on_tile(ACTION_ATTACK,
+                                            punit, ptile)) {
+    /* Choose regular attack. */
+    handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                          0, "", ACTION_ATTACK);
   } else {
-    /* Regular attack, Occupy City or other move. */
+    /* Occupy City or other move. */
     (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
   }
   alive = (game_unit_by_number(sanity) != NULL);

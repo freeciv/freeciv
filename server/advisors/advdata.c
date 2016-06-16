@@ -839,6 +839,7 @@ void adv_best_government(struct player *pplayer)
           }
 
           switch((enum gen_action)act) {
+          case ACTION_ATTACK:
           case ACTION_SPY_INCITE_CITY:
             bonus += 4;
             break;

@@ -3067,10 +3067,12 @@ static bool unit_survive_autoattack(struct unit *punit)
         handle_unit_do_action(unit_owner(penemy),
                               penemy->id, tile_index(unit_tile(punit)),
                               0, "", ACTION_BOMBARD);
-      } else {
-        /* Attack */
-        (void) unit_move_handling(penemy, unit_tile(punit),
-                                  FALSE, TRUE, NULL);
+      } else if (is_action_enabled_unit_on_tile(ACTION_ATTACK,
+                                                penemy, unit_tile(punit))) {
+        /* Choose regular attack. */
+        handle_unit_do_action(unit_owner(penemy),
+                              penemy->id, tile_index(unit_tile(punit)),
+                              0, "", ACTION_ATTACK);
       }
     } else {
 #ifdef REALLY_DEBUG_THIS

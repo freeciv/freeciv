@@ -340,6 +340,30 @@ Actions done by a unit against a tile
  * the actor unit isn't transporting another unit
  * the target tile is known (doesn't have to be seen) by the actor
 
+"Attack"
+ * UI name can be set using ui_name_attack
+ * if force_capture_units is true "Capture Units" must be impossible
+ * if force_bombard is true "Bombard" must be impossible
+ * if force_explode_nuclear is true "Explode Nuclear" must be impossible
+ * the actor must be on the tile next to the target.
+ * the actor's attack must be above 0
+ * the actor can't have the "NonMil" unit type flag
+ * the actor must be on a native tile, have the "Marines" unit type flag or
+   have the "AttFromNonNative" unit class flag.
+ * the actor must be native to the target tile unless it has the
+   "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
+   type flag.
+ * the target tile has at least one enemy unit.
+ * the target tile has no non enemy units.
+ * the target tile has no non enemy city.
+ * one or all (unreachable_protects) non transported units at the target
+   tile must be reachable. A unit is reachable if any of the following is
+   true:
+   - it doesn't have the "Unreachable" unit class flag
+   - it is listed in the actor unit's targets
+   - it is in a city
+   - it is on a tile with a native Extra
+
 Actions done by a unit to it self
 =================================
 "Disband Unit" - Disband the unit. Gives nothing in return.
