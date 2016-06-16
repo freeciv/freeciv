@@ -71,6 +71,15 @@ freeciv fork project, you can build freeciv using it by giving
 configure option --with-project-definition=<file.project>
 
 ----------------------------------------------------------------------
+Configure time version number adjustment
+----------------------------------------
+
+The version label part of the version number can be set via
+configure time environment variable FREECIV_LABEL_FORCE.
+If the variable contains tag "<base>", that gets replaced with the
+label that would be used if FREECIV_LABEL_FORCE was not set at all.
+
+----------------------------------------------------------------------
 Announcement of new versions
 ----------------------------
 As of 2.4, the Freeciv client displays the latest available version if
