@@ -1303,10 +1303,15 @@ bool players_non_invade(const struct player *pplayer1,
   if (pplayer1 == pplayer2 || !pplayer1 || !pplayer2) {
     return FALSE;
   }
+
   if (is_barbarian(pplayer1) || is_barbarian(pplayer2)) {
     /* Likely an unnecessary test. */
     return FALSE;
   }
+
+  /* Movement during armistice is allowed so that player can withdraw
+     units deeper inside opponent territory. */
+
   return player_diplstate_get(pplayer1, pplayer2)->type == DS_PEACE;
 }
 
