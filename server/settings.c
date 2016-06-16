@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1899,7 +1899,7 @@ static struct setting settings[] = {
               "individual players in order from a list defined by the "
               "ruleset.\n"
               "- \"Per-player, random\" (PLR_RANDOM): colors are assigned "
-              "to invididual players randomly from the set defined by the "
+              "to individual players randomly from the set defined by the "
               "ruleset.\n"
               "- \"Set manually\" (PLR_SET): colors can be set with the "
               "'playercolor' command before the game starts; these are not "
