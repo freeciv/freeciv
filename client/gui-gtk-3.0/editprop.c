@@ -2271,7 +2271,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       sz_strlcpy(packet->scenario_name, pgame->scenario.name);
       sz_strlcpy(packet->scenario_desc, pgame->scenario.description);
       packet->scenario_players = pgame->scenario.players;
-      /* TODO: Set more packet fields. */
+      packet->startpos_nations = pgame->scenario.startpos_nations;
     }
     return;
 
