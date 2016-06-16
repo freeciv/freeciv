@@ -2341,8 +2341,11 @@ static void objbind_pack_current_values(struct objbind *ob,
       sz_strlcpy(packet->scenario_name, pgame->scenario.name);
       sz_strlcpy(packet->scenario_authors, pgame->scenario.authors);
       sz_strlcpy(pd.game.desc->scenario_desc, pgame->scenario_desc.description);
+      packet->scenario_random = pgame->scenario.save_random;
       packet->scenario_players = pgame->scenario.players;
-      /* TODO: Set more packet fields. */
+      packet->startpos_nations = pgame->scenario.startpos_nations;
+      packet->prevent_new_cities = pgame->scenario.prevent_new_cities;
+      packet->lake_flooding = pgame->scenario.lake_flooding;
     }
     return;
 
