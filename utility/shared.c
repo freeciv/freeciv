@@ -1275,7 +1275,7 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
     return astr_str(&realfile);
   }
 
-#ifdef WIN32_NATIVE
+#ifndef DIR_SEPARATOR_IS_DEFAULT
   for (i = 0; filename[i] != '\0'; i++) {
     if (filename[i] == '/') {
       fnbuf[i] = DIR_SEPARATOR_CHAR;
@@ -1284,7 +1284,7 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
     }
   }
   fnbuf[i] = '\0';
-#endif /* WIN32_NATIVE */
+#endif /* DIR_SEPARATOR_IS_DEFAULT */
 
   strvec_iterate(dirs, dirname) {
     struct stat buf;    /* see if we can open the file or directory */

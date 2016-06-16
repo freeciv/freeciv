@@ -124,6 +124,7 @@ enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 # define DIR_SEPARATOR_CHAR '\\'
 #else
   /* Unix */
+# define DIR_SEPARATOR_IS_DEFAULT
 # define DIR_SEPARATOR "/"
 # define DIR_SEPARATOR_CHAR '/'
 #endif
