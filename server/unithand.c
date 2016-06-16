@@ -4434,19 +4434,19 @@ void handle_unit_orders(struct player *pplayer,
         return;
       }
 
+      if (action_by_number(packet->action[i])->max_distance == 0
+          && map_untrusted_dir_is_valid(packet->dir[i])) {
+        /* Actor must be on the target tile. */
+        log_error("handle_unit_orders() can't do %s to a neighbor tile. "
+                  "Sent in order number %d from %s to unit number %d.",
+                  action_get_rule_name(packet->action[i]), i,
+                  player_name(pplayer), packet->unit_id);
+
+        return;
+      }
+
       /* Validate individual actions. */
       switch ((enum gen_action) packet->action[i]) {
-      case ACTION_FOUND_CITY:
-        if (map_untrusted_dir_is_valid(packet->dir[i])) {
-          /* Actor must be on the target tile. */
-          log_error("handle_unit_orders() can't do %s to a neighbor tile. "
-                    "Sent in order number %d from %s to unit number %d.",
-                    action_get_rule_name(packet->action[i]), i,
-                    player_name(pplayer), packet->unit_id);
-
-          return;
-        }
-        break;
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
         /* Sabotage target is production (-1) or a building. */
         if (!(packet->target[i] - 1 == -1
@@ -4488,6 +4488,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_SPY_BRIBE_UNIT:
       case ACTION_SPY_SABOTAGE_UNIT:
       case ACTION_CAPTURE_UNITS:
+      case ACTION_FOUND_CITY:
       case ACTION_JOIN_CITY:
       case ACTION_STEAL_MAPS:
       case ACTION_BOMBARD:
