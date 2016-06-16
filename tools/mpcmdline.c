@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -131,7 +131,7 @@ int fcmp_parse_cmdline(int argc, char *argv[])
     } else {
       static char pfx_buf[500];
 
-      snprintf(pfx_buf, sizeof(pfx_buf), "%s/.freeciv", home);
+      snprintf(pfx_buf, sizeof(pfx_buf), "%s" DIR_SEPARATOR ".freeciv", home);
       fcmp.inst_prefix = pfx_buf;
     }
   }
