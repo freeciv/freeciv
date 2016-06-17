@@ -1135,7 +1135,7 @@ static void package_player_info(struct player *plr,
       packet->color_green = preferred->g;
       packet->color_blue = preferred->b;
     } else {
-      fc_assert(!game_was_started());
+      fc_assert(game.info.turn < 1);
       packet->color_valid = FALSE;
       /* Client shouldn't use these dummy values */
       packet->color_red = 0;
