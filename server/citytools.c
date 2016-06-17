@@ -2808,7 +2808,9 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   /* Manage the city change-production penalty.
      (May penalize, restore or do nothing to the shield_stock.) */
-  pcity->shield_stock = city_change_production_penalty(pcity, target);
+  if (!pplayer->ai_controlled || ai_handicap(pplayer, H_AWAY)) {
+    pcity->shield_stock = city_change_production_penalty(pcity, target);
+  }
 
   /* Change build target. */
   pcity->production = target;
