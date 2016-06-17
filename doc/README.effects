@@ -576,3 +576,12 @@ specified number of units are present on a single tile.
 Hint: By using negation ("not present") it is possible to check if a tile
 has more than the given numbers. It is possible to combine a negated and a
 non negated requirement to specify a range.
+
+The UnitState requirement type
+------------------------------
+"Transported" is fulfilled if the unit is transported by another unit.
+"Transporting" is fulfilled if the unit is transporting another unit.
+"OnLivableTile" is fulfilled if the unit is on a tile where it can exist
+                outside of a transport.
+"OnDomesticTile" is fulfilled if the unit is on a tile owned by its player.
+"HasHomeCity" is fulfilled if the unit has a home city.
