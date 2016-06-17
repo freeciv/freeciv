@@ -533,7 +533,7 @@ Requirement is                            fulfilled when the tile is
 "DiplRel", "Is foreign", "Local", FALSE | yes      | no        | no
 
 The MaxUnitsOnTile requirement type
-----------------------------
+-----------------------------------
 Check the number of units present on a tile. Is true if no more than the
 specified number of units are present on a single tile.
 
