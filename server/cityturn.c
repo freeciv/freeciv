@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -223,12 +223,17 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
   city_built_iterate(pcity, pimprove) {
     if (improvement_obsolete(pplayer, pimprove)
      && can_city_sell_building(pcity, pimprove)) {
+      int sgold;
+
       do_sell_building(pplayer, pcity, pimprove);
+      sgold = impr_sell_gold(pimprove);
       notify_player(pplayer, city_tile(pcity), E_IMP_SOLD, ftc_server,
-                    _("%s is selling %s (obsolete) for %d."),
+                    PL_("%s is selling %s (obsolete) for %d.",
+                        "%s is selling %s (obsolete) for %d.",
+                        sgold),
                     city_link(pcity),
-                    improvement_name_translation(pimprove), 
-                    impr_sell_gold(pimprove));
+                    improvement_name_translation(pimprove),
+                    sgold);
       sold = TRUE;
     }
   } city_built_iterate_end;
