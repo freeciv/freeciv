@@ -4193,9 +4193,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, UTYF_PARATROOPERS)) {
     cat_snprintf(buf, bufsz,
-		 _("* Can be paradropped from a friendly city or suitable base"
-		   " (range: %d tiles).\n"),
-		 utype->paratroopers_range);
+                 PL_("* Can be paradropped from a friendly city or suitable "
+                      "base (range: %d tile).\n",
+                     "* Can be paradropped from a friendly city or suitable "
+                      "base (range: %d tiles).\n",
+                     utype->paratroopers_range),
+                 utype->paratroopers_range);
   }
   if (!uclass_has_flag(utype_class(utype), UCF_MISSILE)
       && utype_has_flag(utype, UTYF_ONEATTACK)) {
