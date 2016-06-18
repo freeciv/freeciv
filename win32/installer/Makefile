@@ -304,9 +304,11 @@ clean-build-ruledit:
 
 clean-install-common:
 	rm -rf install-$(GUI)
+	./cleanup_checkout.sh ../..
 
 clean-install-ruledit:
 	rm -rf install-ruledit
+	./cleanup_checkout.sh ../..
 
 clean-installer-common:
 	rm -f Output/Freeciv-*-$(GUI)-setup.exe
