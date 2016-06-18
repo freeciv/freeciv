@@ -82,14 +82,15 @@ static DIO_GET_CONV_FUN get_conv_callback = get_conv;
   fc_assert(!(_test_));                                   \
   if (_test_) {                                           \
     _action_                                              \
+    log_error(_format_, ## __VA_ARGS__);                  \
   }
-#else
+#else  /* FIELD_RANGE_ASSERT */
 #define FIELD_RANGE_TEST(_test_, _action_, _format_, ...) \
   if (_test_) {                                           \
     _action_                                              \
     log_error(_format_, ## __VA_ARGS__);                  \
   }
-#endif
+#endif /* FIELD_RANGE_ASSERT */
 
 /**************************************************************************
   Sets string conversion callback to be used when putting text.
