@@ -356,9 +356,9 @@ enum object_property_ids {
   OPID_PLAYER_NATION,
   OPID_PLAYER_GOV,
   OPID_PLAYER_AGE,
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   OPID_PLAYER_ADDRESS,
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
   OPID_PLAYER_INVENTIONS,
   OPID_PLAYER_SCIENCE,
   OPID_PLAYER_GOLD,
@@ -372,7 +372,8 @@ enum object_property_ids {
   OPID_GAME_SCENARIO_PLAYERS,
   OPID_GAME_STARTPOS_NATIONS,
   OPID_GAME_PREVENT_CITIES,
-  OPID_GAME_LAKE_FLOODING
+  OPID_GAME_LAKE_FLOODING,
+  OPID_GAME_HAVE_RESOURCES
 };
 
 enum object_property_flags {
@@ -1840,6 +1841,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_GAME_LAKE_FLOODING:
         pv->data.v_bool = pgame->scenario.lake_flooding;
         break;
+      case OPID_GAME_HAVE_RESOURCES:
+        pv->data.v_bool = pgame->scenario.have_resources;
+        break;
       default:
         log_error("%s(): Unhandled request for value of property %d "
                   "(%s) from object of type \"%s\".", __FUNCTION__,
@@ -2342,6 +2346,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       packet->startpos_nations = pgame->scenario.startpos_nations;
       packet->prevent_new_cities = pgame->scenario.prevent_new_cities;
       packet->lake_flooding = pgame->scenario.lake_flooding;
+      packet->have_resources = pgame->scenario.have_resources;
     }
     return;
 
@@ -2594,6 +2599,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_GAME_LAKE_FLOODING:
         packet->lake_flooding = pv->data.v_bool;
+        return;
+      case OPID_GAME_HAVE_RESOURCES:
+        packet->have_resources = pv->data.v_bool;
         return;
       default:
         break;
@@ -3040,6 +3048,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_GAME_STARTPOS_NATIONS:
   case OPID_GAME_PREVENT_CITIES:
   case OPID_GAME_LAKE_FLOODING:
+  case OPID_GAME_HAVE_RESOURCES:
     button = gtk_check_button_new();
     g_signal_connect(button, "toggled",
         G_CALLBACK(objprop_widget_toggle_button_changed), op);
@@ -3254,6 +3263,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_GAME_STARTPOS_NATIONS:
   case OPID_GAME_PREVENT_CITIES:
   case OPID_GAME_LAKE_FLOODING:
+  case OPID_GAME_HAVE_RESOURCES:
     button = objprop_get_child_widget(op, "checkbutton");
     disable_gobject_callback(G_OBJECT(button),
         G_CALLBACK(objprop_widget_toggle_button_changed));
@@ -4483,6 +4493,8 @@ static void property_page_setup_objprops(struct property_page *pp)
     ADDPROP(OPID_GAME_PREVENT_CITIES, _("Prevent New Cities"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     ADDPROP(OPID_GAME_LAKE_FLOODING, _("Saltwater Flooding Lakes"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
+    ADDPROP(OPID_GAME_HAVE_RESOURCES, _("Do not regenerate resources"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     return;
 

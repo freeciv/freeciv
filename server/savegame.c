@@ -1133,7 +1133,8 @@ static void map_load_known(struct section_file *file,
     } whole_map_iterate_end;
     FC_FREE(known);
   }
-  game.map.server.have_resources = TRUE;
+
+  game.scenario.have_resources = TRUE;
 }
 
 /*****************************************************************************

@@ -1886,6 +1886,7 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   BOOL   save_random;
   BOOL   prevent_new_cities;
   BOOL   lake_flooding;
+  BOOL   have_resources;
   BOOL   handmade;
   BOOL   allow_ai_type_fallback;
 end
@@ -2132,6 +2133,7 @@ PACKET_EDIT_GAME = 218; cs, handle-per-conn, handle-via-packet
   BOOL startpos_nations;
   BOOL prevent_new_cities;
   BOOL lake_flooding;
+  BOOL have_resources;
 end
 
 PACKET_EDIT_SCENARIO_DESC = 253; cs, handle-per-conn

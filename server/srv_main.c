@@ -2940,7 +2940,7 @@ static void srv_ready(void)
         /* One should never set this to false in scenario map that had resources
          * placed. We are safe side here as map generation is retried only if this is
          * not scenario map at all. */
-        game.map.server.have_resources = FALSE;
+        game.scenario.have_resources = FALSE;
 
         /* Remove old information already present in tiles */
         map_free();

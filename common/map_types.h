@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -95,7 +95,6 @@ struct civ_map {
       int temperature;
       int wetness;
       int steepness;
-      bool have_resources;
       bool ocean_resources;         /* Resources in the middle of the ocean */
       bool have_huts;
       enum team_placement team_placement;

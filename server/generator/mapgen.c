@@ -1361,7 +1361,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   }
 
   /* some scenarios already provide specials */
-  if (!game.map.server.have_resources) {
+  if (!game.scenario.have_resources) {
     add_resources(game.map.server.riches);
   }
 
@@ -1565,7 +1565,7 @@ static void add_resources(int prob)
     }
   } whole_map_iterate_end;
 
-  game.map.server.have_resources = TRUE;
+  game.scenario.have_resources = TRUE;
 }
 
 /**************************************************************************
@@ -3691,7 +3691,8 @@ static bool map_generate_fair_islands(void)
       }
     }
   } whole_map_iterate_end;
-  game.map.server.have_resources = TRUE;
+
+  game.scenario.have_resources = TRUE;
   game.map.server.have_huts = TRUE;
 
   fair_map_destroy(pmap);

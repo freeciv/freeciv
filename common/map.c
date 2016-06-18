@@ -187,7 +187,6 @@ void map_init(void)
     game.map.server.single_pole = MAP_DEFAULT_SINGLE_POLE;
     game.map.server.alltemperate = MAP_DEFAULT_ALLTEMPERATE;
     game.map.server.temperature = MAP_DEFAULT_TEMPERATURE;
-    game.map.server.have_resources = FALSE;
     game.map.server.have_huts = FALSE;
     game.map.server.team_placement = MAP_DEFAULT_TEAM_PLACEMENT;
   }

@@ -2875,7 +2875,7 @@ static void sg_save_map(struct savedata *saving)
   sg_save_map_tiles(saving);
   sg_save_map_startpos(saving);
   sg_save_map_tiles_extras(saving);
-  if (game.map.server.have_resources) {
+  if (game.scenario.have_resources) {
     sg_save_savefile_options(saving, " specials");
     sg_save_map_tiles_resources(saving);
   }
@@ -3079,7 +3079,7 @@ static void sg_load_map_tiles_resources(struct loaddata *loading)
     }
   } whole_map_iterate_end;
 
-  game.map.server.have_resources = TRUE;
+  game.scenario.have_resources = TRUE;
 }
 
 /****************************************************************************
