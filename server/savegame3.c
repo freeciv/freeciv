@@ -2381,7 +2381,7 @@ static void sg_load_map(struct loaddata *loading)
    *   2) when map is actually generated, it re-initialize this to FALSE. */
   game.map.server.have_huts
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_huts");
-  game.map.server.have_resources
+  game.scenario.have_resources
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_resources");
 
   if (S_S_INITIAL == loading->server_state
@@ -2426,7 +2426,7 @@ static void sg_save_map(struct savedata *saving)
 
   if (saving->scenario) {
     secfile_insert_bool(saving->file, game.map.server.have_huts, "map.have_huts");
-    secfile_insert_bool(saving->file, game.map.server.have_resources, "map.have_resources");
+    secfile_insert_bool(saving->file, game.scenario.have_resources, "map.have_resources");
   } else {
     secfile_insert_bool(saving->file, TRUE, "map.have_huts");
     secfile_insert_bool(saving->file, TRUE, "map.have_resources");
@@ -2533,7 +2533,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
 
   if (S_S_INITIAL != loading->server_state
       || MAPGEN_SCENARIO != game.map.server.generator
-      || game.map.server.have_resources) {
+      || game.scenario.have_resources) {
     whole_map_iterate(ptile) {
       extra_type_by_cause_iterate(EC_RESOURCE, pres) {
         if (tile_has_extra(ptile, pres)) {
