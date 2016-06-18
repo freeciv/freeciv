@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -5140,7 +5140,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
   static int last_minors[] = {
     0,  /* There was no 0.x releases */
     14, /* 1.14 */
-    6   /* 2.6 */
+    7   /* 2.7 */
   };
 
 #if MINOR_VERSION >= 90
