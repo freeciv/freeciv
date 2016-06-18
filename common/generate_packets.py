@@ -52,7 +52,7 @@ def write_disclaimer(f):
  /****************************************************************************
  *                       THIS FILE WAS GENERATED                             *
  * Script: common/generate_packets.py                                        *
- * Input:  common/packets.def                                                *
+ * Input:  common/networking/packets.def                                     *
  *                       DO NOT CHANGE THIS FILE                             *
  ****************************************************************************/
 
@@ -1851,7 +1851,7 @@ def main():
     ### parsing input
     src_dir=os.path.dirname(sys.argv[0])
     src_root=src_dir+"/.."
-    input_name=src_dir+"/packets.def"
+    input_name=src_dir+"/networking/packets.def"
     ### We call this variable target_root instead of build_root
     ### to avoid confusion as we are not building to builddir in
     ### automake sense.

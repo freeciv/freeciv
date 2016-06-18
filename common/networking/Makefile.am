@@ -21,3 +21,6 @@ libfcivnetwork_la_SOURCES = \
 	packets.h	\
 	packets_json.h	\
 	packets_json.c
+
+EXTRA_DIST = \
+	packets.def

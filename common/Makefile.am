@@ -123,7 +123,6 @@ libfreeciv_la_SOURCES = \
 		worklist.h
 
 EXTRA_DIST = \
-		packets.def	\
 		generate_packets.py
 
 libfreeciv_la_DEPENDENCIES = \
@@ -151,7 +150,7 @@ BUILT_SOURCES = packets_gen.c packets_gen.h
 # have to resolve conflicts (since there could then be 2 copies).
 packets_gen.h packets_gen.c: packets_generate
 .INTERMEDIATE: packets_generate
-packets_generate: packets.def generate_packets.py
+packets_generate: networking/packets.def generate_packets.py
 	cd $(srcdir) && ./generate_packets.py
 	touch packets_generate
 
