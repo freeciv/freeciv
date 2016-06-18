@@ -27,6 +27,7 @@ dist_noinst_DATA = \
 		installer/freeciv-ruledit.cmd		\
 		installer/Freeciv.url			\
 		installer/Makefile			\
+		installer/cleanup_checkout.sh		\
 		installer_msys2/licenses/COPYING.installer	\
 		installer_msys2/create-freeciv-gtk-qt-nsi.sh	\
 		installer_msys2/create-freeciv-gtk2-nsi.sh	\
@@ -45,6 +46,7 @@ dist_noinst_DATA = \
 		installer_msys2/freeciv-ruledit.cmd		\
 		installer_msys2/Freeciv.url			\
 		installer_msys2/Makefile			\
+		installer_msys2/cleanup_checkout.sh		\
 		installer_msys2/win_arch.sh
 
 if MINGW
