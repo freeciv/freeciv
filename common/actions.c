@@ -2426,7 +2426,13 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_ATTACK:
-    /* TODO */
+    {
+      struct unit *defender_unit = get_defender(actor_unit,
+                                                target_tile);
+      double unconverted = unit_win_chance(actor_unit, defender_unit);
+
+      chance = (int)((double)200 * unconverted);
+    }
     break;
   case ACTION_COUNT:
     fc_assert(FALSE);
