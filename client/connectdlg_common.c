@@ -267,9 +267,9 @@ bool client_start_server(void)
     argv[argc++] = "1";
     argv[argc++] = "-e";
     argv[argc++] = "--saves";
-    argv[argc++] = "~" DIR_SEPARATOR ".freeciv "DIR_SEPARATOR "saves";
+    argv[argc++] = "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR "saves";
     argv[argc++] = "--scenarios";
-    argv[argc++] = "~" DIR_SEPARATOR ".freeciv "DIR_SEPARATOR "scenarios";
+    argv[argc++] = "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR "scenarios";
     argv[argc++] = "-A";
     argv[argc++] = "none";
     if (logfile) {
