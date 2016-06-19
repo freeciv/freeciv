@@ -30,7 +30,7 @@ something you play (like Freeciv!) or animals that can be hunted.
 To distinguish strings for translation, we qualify them with a prefix
 string of the form "?qualifier:".  So, the above two cases might be:
   "Game"           -- when used as meaning something you play
-  "?animals:Game"  -- when used as animales to be hunted
+  "?animals:Game"  -- when used as animals to be hunted
 Notice that only the second is qualified; the first is processed in
 the normal gettext() manner (as at most one ambiguous string can be).
 
