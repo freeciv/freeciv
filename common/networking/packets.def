@@ -1665,7 +1665,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT8 id;
   UINT8 first_reqs_count;
   REQUIREMENT first_reqs[MAX_NUM_REQS:first_reqs_count];
-  SINT8 move_cost; # not MOVEFRAGS because -1 is valid
+  SINT16 move_cost; # not MOVEFRAGS because -1 is valid
   MOVE_MODE move_mode;
   UINT16 tile_incr_const[O_LAST];
   UINT16 tile_incr[O_LAST];
