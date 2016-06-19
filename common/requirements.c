@@ -2458,6 +2458,10 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
     return BOOL_TO_TRISTATE(0 < get_transporter_occupancy(target_unit));
   case USP_HAS_HOME_CITY:
     return BOOL_TO_TRISTATE(target_unit->homecity > 0);
+  case USP_NATIVE_TILE:
+    return BOOL_TO_TRISTATE(
+        is_native_tile(unit_type_get(target_unit), unit_tile(target_unit)));
+    break;
   case USP_COUNT:
     fc_assert_msg(uprop != USP_COUNT, "Invalid unit state property.");
     /* Invalid property is unknowable. */
@@ -3428,6 +3432,12 @@ const char *universal_name_translation(const struct universal *psource,
     case USP_HAS_HOME_CITY:
       /* TRANS: unit state. (appears in strings like "Missile+Has a home city") */
       cat_snprintf(buf, bufsz, _("Has a home city"));
+      break;
+    case USP_NATIVE_TILE:
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: unit state. (appears in strings like
+                    * "Missile+On native tile") */
+                   _("On native tile"));
       break;
     case USP_COUNT:
       fc_assert_msg(psource->value.unit_state != USP_COUNT,

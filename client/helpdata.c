@@ -1744,6 +1744,15 @@ static bool insert_requirement(char *buf, size_t bufsz,
                          _("Requires that the unit is homeless.\n"));
           }
           return TRUE;
+        case USP_NATIVE_TILE:
+          if (preq->present) {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit is on native tile.\n"));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit isn't on native tile.\n"));
+          }
+          return TRUE;
         case USP_COUNT:
           fc_assert_msg(preq->source.value.unit_state != USP_COUNT,
                         "Invalid unit state property.");

@@ -92,7 +92,7 @@ TerrainClass is either "Land" or "Oceanic".
 CityTile is either "Center" (city center) or "Claimed" (owned).
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
-UnitState is "Transported", "Transporting", "OnLivableTile",
+UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
 "OnDomesticTile" or "HasHomeCity".
 MinMoveFargs is the minimum move fragments the unit must have left.
 
@@ -581,6 +581,9 @@ The UnitState requirement type
 ------------------------------
 "Transported" is fulfilled if the unit is transported by another unit.
 "Transporting" is fulfilled if the unit is transporting another unit.
+"OnNativeTile" is fulfilled if the unit is on a tile with native terrain or
+               with a native Extra. Doesn't care about details like cities
+               and safe tiles.
 "OnLivableTile" is fulfilled if the unit is on a tile where it can exist
                 outside of a transport.
 "OnDomesticTile" is fulfilled if the unit is on a tile owned by its player.

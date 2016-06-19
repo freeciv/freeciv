@@ -691,6 +691,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   struct player *tgt_player = NULL;
   struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
+  bool on_native = is_native_tile(unit_type_get(punit), unit_tile(punit));
   int action_custom;
 
   if (action_id == ACTION_ANY) {
@@ -772,6 +773,14 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       || (can_exist
           && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                            USP_LIVABLE_TILE, TRUE))) {
+    explnat->kind = ANEK_BAD_TERRAIN_ACT;
+    explnat->no_act_terrain = tile_terrain(unit_tile(punit));
+  } else if ((!on_native
+       && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+                                        USP_NATIVE_TILE, FALSE))
+      || (on_native
+          && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+                                           USP_NATIVE_TILE, TRUE))) {
     explnat->kind = ANEK_BAD_TERRAIN_ACT;
     explnat->no_act_terrain = tile_terrain(unit_tile(punit));
   } else if (punit

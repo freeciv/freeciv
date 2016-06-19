@@ -236,6 +236,7 @@ static bool is_req_knowable(const struct player *pow_player,
     case USP_LIVABLE_TILE:
     case USP_DOMESTIC_TILE:
     case USP_TRANSPORTING:
+    case USP_NATIVE_TILE:
       /* Known if the unit is seen by the player. */
       return target_unit && can_player_see_unit(pow_player, target_unit);
     case USP_HAS_HOME_CITY:
