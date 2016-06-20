@@ -290,13 +290,62 @@ research_advance_name_translation(const struct research *presearch,
 }
 
 /**************************************************************************
-  Returns TRUE iff researching the given tech is allowed according to its
-  research_reqs.
+  Returns TRUE iff the requirement vector may become active against the
+  given target.
+
+  If may become active if all unchangeable requirements are active.
+**************************************************************************/
+static bool reqs_may_activate(const struct player *target_player,
+                              const struct player *other_player,
+                              const struct city *target_city,
+                              const struct impr_type *target_building,
+                              const struct tile *target_tile,
+                              const struct unit *target_unit,
+                              const struct unit_type *target_unittype,
+                              const struct output_type *target_output,
+                              const struct specialist *target_specialist,
+                              const struct action *target_action,
+                              const struct requirement_vector *reqs,
+                              const enum   req_problem_type prob_type)
+{
+  requirement_vector_iterate(reqs, preq) {
+    if (is_req_unchanging(preq)
+        && !is_req_active(target_player, other_player, target_city,
+                          target_building, target_tile,
+                          target_unit, target_unittype,
+                          target_output, target_specialist, target_action,
+                          preq, prob_type)) {
+      return FALSE;
+    }
+  } requirement_vector_iterate_end;
+  return TRUE;
+}
+
+/**************************************************************************
+  Evaluates the legality of starting to research this tech according to
+  reqs_eval() and the tech's research_reqs. Returns TRUE iff legal.
+
+  The reqs_eval() argument evaluates the requirements. One variant may
+  check the current situation while another may check potential future
+  situations.
 
   Helper for research_update().
 **************************************************************************/
-static bool research_is_allowed(const struct research *presearch,
-                                Tech_type_id tech)
+static bool
+research_allowed(const struct research *presearch,
+                 Tech_type_id tech,
+                 bool (*reqs_eval)(const struct player *tplr,
+                                   const struct player *oplr,
+                                   const struct city *tcity,
+                                   const struct impr_type *tbld,
+                                   const struct tile *ttile,
+                                   const struct unit *tunit,
+                                   const struct unit_type *tutype,
+                                   const struct output_type *top,
+                                   const struct specialist *tspe,
+                                   const struct action *tact,
+                                   const struct requirement_vector *reqs,
+                                   const enum   req_problem_type ptype))
 {
   struct advance *adv;
 
@@ -308,8 +357,8 @@ static bool research_is_allowed(const struct research *presearch,
   }
 
   research_players_iterate(presearch, pplayer) {
-    if (are_reqs_active(pplayer, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                        NULL, NULL, &(adv->research_reqs), RPT_CERTAIN)) {
+    if (reqs_eval(pplayer, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                  NULL, NULL, &(adv->research_reqs), RPT_CERTAIN)) {
       /* It is enough that one player that shares research is allowed to
        * research it.
        * Reasoning: Imagine a tech with that requires a nation in the
@@ -323,6 +372,24 @@ static bool research_is_allowed(const struct research *presearch,
 
   return FALSE;
 }
+
+/**************************************************************************
+  Returns TRUE iff researching the given tech is allowed according to its
+  research_reqs.
+
+  Helper for research_update().
+**************************************************************************/
+#define research_is_allowed(presearch, tech)                              \
+  research_allowed(presearch, tech, are_reqs_active)
+
+/**************************************************************************
+  Returns TRUE iff researching the given tech may become allowed according
+  to its research_reqs.
+
+  Helper for research_get_reachable_rreqs().
+**************************************************************************/
+#define research_may_become_allowed(presearch, tech)                      \
+  research_allowed(presearch, tech, reqs_may_activate)
 
 /****************************************************************************
   Returns TRUE iff the given tech is ever reachable by the players sharing
@@ -354,11 +421,10 @@ static bool research_get_reachable_rreqs(const struct research *presearch,
       continue;
     }
 
-    if (!research_is_allowed(presearch, techs[i])) {
-      /* It is currently illegal to start researching this tech. Since
-       * only unchanging requirements are allowed the situation will
-       * continue. Since it isn't already known and can't be researched
-       * it must be unreachable. */
+    if (!research_may_become_allowed(presearch, techs[i])) {
+      /* It will always be illegal to start researching this tech because
+       * of unchanging requirements. Since it isn't already known and can't
+       * be researched it must be unreachable. */
       return FALSE;
     }
 
