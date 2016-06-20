@@ -116,76 +116,8 @@ static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
 
 static char *expand_dir(char *tok_in, bool ok_to_free);
 
-/***************************************************************
-  Take a string containing multiple lines and create a copy where
-  each line is padded to the length of the longest line and centered.
-  We do not cope with tabs etc.  Note that we're assuming that the
-  last line does _not_ end with a newline.  The caller should
-  free() the result.
-
-  FIXME: This is only used in the Xaw client, and so probably does
-  not belong in common.
-***************************************************************/
-char *create_centered_string(const char *s)
-{
-  /* Points to the part of the source that we're looking at. */
-  const char *cp;
-
-  /* Points to the beginning of the line in the source that we're
-   * looking at. */
-  const char *cp0;
-
-  /* Points to the result. */
-  char *r;
-
-  /* Points to the part of the result that we're filling in right
-     now. */
-  char *rn;
-
-  int i;
-
-  int maxlen = 0;
-  int curlen = 0;
-  int nlines = 1;
-
-  for(cp=s; *cp != '\0'; cp++) {
-    if(*cp!='\n')
-      curlen++;
-    else {
-      if(maxlen<curlen)
-	maxlen=curlen;
-      curlen=0;
-      nlines++;
-    }
-  }
-  if(maxlen<curlen)
-    maxlen=curlen;
-
-  r=rn=fc_malloc(nlines*(maxlen+1));
-
-  curlen=0;
-  for(cp0=cp=s; *cp != '\0'; cp++) {
-    if(*cp!='\n')
-      curlen++;
-    else {
-      for(i=0; i<(maxlen-curlen)/2; i++)
-	*rn++=' ';
-      memcpy(rn, cp0, curlen);
-      rn+=curlen;
-      *rn++='\n';
-      curlen=0;
-      cp0=cp+1;
-    }
-  }
-  for(i=0; i<(maxlen-curlen)/2; i++)
-    *rn++=' ';
-  strcpy(rn, cp0);
-
-  return r;
-}
-
 /**************************************************************************
-  return a char * to the parameter of the option or NULL.
+  Return a char* to the parameter of the option or NULL.
   *i can be increased to get next string in the array argv[].
   It is an error for the option to exist but be an empty string.
   This doesn't use log_*() because it is used before logging is set up.
