@@ -148,7 +148,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
   sz_strlcpy(barbarians->username, _(ANON_USER_NAME));
   barbarians->unassigned_user = TRUE;
   barbarians->is_connected = FALSE;
-  barbarians->government = nation->init_government;
+  barbarians->government = init_government_of_nation(nation);
   fc_assert(barbarians->revolution_finishes < 0);
   barbarians->server.got_first_city = FALSE;
   barbarians->economic.gold = 100;

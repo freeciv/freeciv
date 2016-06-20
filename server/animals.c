@@ -120,7 +120,7 @@ void create_animals(void)
   sz_strlcpy(plr->username, _(ANON_USER_NAME));
   plr->unassigned_user = TRUE;
   plr->is_connected = FALSE;
-  plr->government = anination->init_government;
+  plr->government = init_government_of_nation(anination);
   plr->economic.gold = 100;
 
   plr->phase_done = TRUE;

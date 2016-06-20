@@ -3915,7 +3915,7 @@ static bool load_ruleset_nations(struct section_file *file)
     free(vec);
   }
 
-  game.server.default_government = NULL;
+  game.default_government = NULL;
 
   ruleset_load_traits(game.server.default_traits, file, "default_traits", "");
   for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
@@ -3994,7 +3994,9 @@ static bool load_ruleset_nations(struct section_file *file)
      * specified once so not vulnerable to typos, and may usefully be set in
      * a specific ruleset to a gov not explicitly known by the nation set. */
     if (sval != NULL) {
-      game.server.default_government = government_by_rule_name(sval);
+      game.default_government = government_by_rule_name(sval);
+      game.info.default_government_id
+        = government_number(game.default_government);
     }
 
     sec = secfile_sections_by_name_prefix(file, NATION_SET_SECTION_PREFIX);
@@ -4439,26 +4441,28 @@ static bool load_ruleset_nations(struct section_file *file)
       }
       fc_strlcat(tmp, sec_name, 200);
       fc_strlcat(tmp, ".init_government", 200);
-      pnation->init_government = lookup_government(file, tmp, filename,
-                                                   game.server.default_government);
-      /* init_government has to be in this specific ruleset, not just
-       * allowed_govs */
-      if (pnation->init_government == NULL) {
-        ok = FALSE;
-        break;
-      }
-      /* ...but if a list of govs has been specified, enforce that this
-       * nation's init_government is on the list. */
-      if (game.server.ruledit.allowed_govs != NULL
-          && !is_on_allowed_list(government_rule_name(pnation->init_government),
-                                 game.server.ruledit.allowed_govs,
-                                 game.server.ruledit.ag_count)) {
-        ruleset_error(LOG_ERROR,
-                      "Nation %s: init_government \"%s\" not allowed.",
-                      nation_rule_name(pnation),
-                      government_rule_name(pnation->init_government));
-        ok = FALSE;
-        break;
+      if (secfile_entry_by_path(file, tmp)) {
+        pnation->init_government = lookup_government(file, tmp, filename,
+                                                     NULL);
+        /* If specified, init_government has to be in this specific ruleset,
+         * not just allowed_govs */
+        if (pnation->init_government == NULL) {
+          ok = FALSE;
+          break;
+        }
+        /* ...but if a list of govs has been specified, enforce that this
+         * nation's init_government is on the list. */
+        if (game.server.ruledit.allowed_govs != NULL
+            && !is_on_allowed_list(government_rule_name(pnation->init_government),
+                                   game.server.ruledit.allowed_govs,
+                                   game.server.ruledit.ag_count)) {
+          ruleset_error(LOG_ERROR,
+                        "Nation %s: init_government \"%s\" not allowed.",
+                        nation_rule_name(pnation),
+                        government_rule_name(pnation->init_government));
+          ok = FALSE;
+          break;
+        }
       }
 
       /* Read default city names. */
@@ -6655,7 +6659,8 @@ static void send_ruleset_nations(struct conn_list *dest)
     } nation_group_list_iterate_end;
     packet.ngroups = i;
 
-    packet.init_government_id = government_number(n->init_government);
+    packet.init_government_id = n->init_government
+      ? government_number(n->init_government) : government_count();
     fc_assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
     for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
       packet.init_techs[i] = n->init_techs[i];

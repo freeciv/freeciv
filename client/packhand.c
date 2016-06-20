@@ -2011,6 +2011,8 @@ void handle_game_info(const struct packet_game_info *pinfo)
   VALIDATE(granary_num_inis,	MAX_GRANARY_INIS,	"granary entries");
 #undef VALIDATE
 
+  game.default_government =
+    government_by_number(game.info.default_government_id);
   game.government_during_revolution =
     government_by_number(game.info.government_during_revolution_id);
 
@@ -3912,6 +3914,7 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
     }
   }
 
+  /* init_government may be NULL */
   pnation->init_government = government_by_number(packet->init_government_id);
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
     pnation->init_techs[i] = packet->init_techs[i];

@@ -951,7 +951,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   sz_strlcpy(pplayer->username, _(ANON_USER_NAME));
   pplayer->unassigned_user = TRUE;
   pplayer->is_connected = FALSE;
-  pplayer->government = pnation->init_government;
+  pplayer->government = init_government_of_nation(pnation);
   pplayer->server.got_first_city = FALSE;
 
   pplayer->economic.gold = 0;

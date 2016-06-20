@@ -5775,18 +5775,30 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
     .kind = VUT_NATION,
     .value = {.nation = pnation}
   };
+  bool print_break = TRUE;
+#define PRINT_BREAK() do { \
+    if (print_break) { \
+      if (buf[0] != '\0') { \
+        CATLSTR(buf, bufsz, "\n\n"); \
+      } \
+      print_break = FALSE; \
+    } \
+  } while(0)
 
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
   if (pnation->legend[0] != '\0') {
     /* Client side legend is stored already translated */
-    sprintf(buf, "%s\n\n", pnation->legend);
+    cat_snprintf(buf, bufsz, "%s", pnation->legend);
   }
   
-  cat_snprintf(buf, bufsz,
-               _("Initial government is %s.\n"),
-               government_name_translation(pnation->init_government));
+  if (pnation->init_government) {
+    PRINT_BREAK();
+    cat_snprintf(buf, bufsz,
+                 _("Initial government is %s.\n"),
+                 government_name_translation(pnation->init_government));
+  }
   if (pnation->init_techs[0] != A_LAST) {
     const char *tech_names[MAX_NUM_TECH_LIST];
     int i;
@@ -5799,6 +5811,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
         advance_name_translation(advance_by_number(pnation->init_techs[i]));
     }
     astr_build_and_list(&list, tech_names, i);
+    PRINT_BREAK();
     if (game.rgame.global_init_techs[0] != A_LAST) {
       cat_snprintf(buf, bufsz,
                    /* TRANS: %s is an and-separated list of techs */
@@ -5860,6 +5873,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
       for (i = 0; i < n; i++) {
         astr_free(&utype_names[i]);
       }
+      PRINT_BREAK();
       cat_snprintf(buf, bufsz,
                    /* TRANS: %s is an and-separated list of unit types
                     * possibly with counts. Plurality is in total number of
@@ -5883,6 +5897,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
           improvement_by_number(pnation->init_buildings[i]));
     }
     astr_build_and_list(&list, impr_names, i);
+    PRINT_BREAK();
     if (game.rgame.global_init_buildings[0] != B_LAST) {
       cat_snprintf(buf, bufsz,
                    /* TRANS: %s is an and-separated list of improvements */
@@ -5907,4 +5922,5 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
     }
     CATLSTR(buf, bufsz, user_text);
   }
+#undef PRINT_BREAK
 }

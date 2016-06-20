@@ -1317,7 +1317,7 @@ static bool save_nation(struct section_file *sfile, struct nation_type *pnat,
   save_building_list(sfile, pnat->init_buildings, path, "init_buildings");
   save_unit_list(sfile, pnat->init_units, path, "init_units");
 
-  if (pnat->init_government != game.server.default_government) {
+  if (pnat->init_government) {
     secfile_insert_str(sfile, government_rule_name(pnat->init_government),
                        "%s.init_government", path);
   }
@@ -1444,8 +1444,8 @@ static bool save_nations_ruleset(const char *filename, const char *name,
                            "compatibility.allowed_styles");
   }
 
-  if (game.server.default_government != NULL) {
-    secfile_insert_str(sfile, government_rule_name(game.server.default_government),
+  if (game.default_government != NULL) {
+    secfile_insert_str(sfile, government_rule_name(game.default_government),
                        "compatibility.default_government");
   }
 

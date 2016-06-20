@@ -582,7 +582,7 @@ bool sanity_check_ruleset_data(void)
     }
   } advance_iterate_end;
 
-  if (game.server.default_government == game.government_during_revolution) {
+  if (game.default_government == game.government_during_revolution) {
     ruleset_error(LOG_ERROR,
                   "The government form %s reserved for revolution handling has been set as "
                   "default_government.",

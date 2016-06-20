@@ -477,6 +477,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   GOLD gold;
   GOLD_UPKEEP_STYLE gold_upkeep_style;
   REVOLENTYPE revolentype;
+  GOVERNMENT default_government_id;
   GOVERNMENT government_during_revolution_id;
   UINT8 granary_food_inc;
   UINT8 granary_food_ini[MAX_GRANARY_INIS];

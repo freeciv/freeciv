@@ -894,8 +894,8 @@ enum rfc_status create_command_newcomer(const char *name,
   server_player_init(pplayer, TRUE, TRUE);
 
   player_nation_defaults(pplayer, pnation, FALSE);
-  pplayer->government = pnation->init_government;
-  pplayer->target_government = pnation->init_government;
+  pplayer->government = pplayer->target_government =
+    init_government_of_nation(pnation);
   /* Find a color for the new player. */
   assign_player_colors();
 
