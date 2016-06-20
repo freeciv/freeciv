@@ -2098,17 +2098,19 @@ void refresh_dumb_city(struct city *pcity)
 static void broadcast_city_info(struct city *pcity)
 {
   struct packet_city_info packet;
+  struct packet_web_city_info_addition web_packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = city_owner(pcity);
   struct traderoute_packet_list *routes = traderoute_packet_list_new();
 
   /* Send to everyone who can see the city. */
-  package_city(pcity, &packet, routes, FALSE);
+  package_city(pcity, &packet, &web_packet, routes, FALSE);
   players_iterate(pplayer) {
     if (can_player_see_city_internals(pplayer, pcity)) {
       if (!send_city_suppressed || pplayer != powner) {
         update_dumb_city(powner, pcity);
         lsend_packet_city_info(powner->connections, &packet, FALSE);
+        web_lsend_packet(city_info_addition, powner->connections, &web_packet, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
           lsend_packet_traderoute_info(powner->connections, route_packet);
         } traderoute_packet_list_iterate_end;
@@ -2128,6 +2130,7 @@ static void broadcast_city_info(struct city *pcity)
   conn_list_iterate(game.est_connections, pconn) {
     if (conn_is_global_observer(pconn)) {
       send_packet_city_info(pconn, &packet, FALSE);
+      web_send_packet(city_info_addition, pconn, &web_packet, FALSE);
     }
   } conn_list_iterate_end;
 
@@ -2237,6 +2240,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 			    struct city *pcity, struct tile *ptile)
 {
   struct packet_city_info packet;
+  struct packet_web_city_info_addition web_packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = NULL;
   struct traderoute_packet_list *routes = NULL;
@@ -2255,8 +2259,9 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 
       /* send all info to the owner */
       update_dumb_city(powner, pcity);
-      package_city(pcity, &packet, routes, FALSE);
+      package_city(pcity, &packet, &web_packet, routes, FALSE);
       lsend_packet_city_info(dest, &packet, FALSE);
+      web_lsend_packet(city_info_addition, dest, &web_packet, FALSE);
       traderoute_packet_list_iterate(routes, route_packet) {
         lsend_packet_traderoute_info(dest, route_packet);
       } traderoute_packet_list_iterate_end;
@@ -2278,8 +2283,9 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       if (pcity) {
         routes = traderoute_packet_list_new();
 
-	package_city(pcity, &packet, routes, FALSE);   /* should be dumb_city info? */
+	package_city(pcity, &packet, &web_packet, routes, FALSE);   /* should be dumb_city info? */
         lsend_packet_city_info(dest, &packet, FALSE);
+        web_lsend_packet(city_info_addition, dest, &web_packet, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
           lsend_packet_traderoute_info(dest, route_packet);
         } traderoute_packet_list_iterate_end;
@@ -2316,6 +2322,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   Fill city info packet with information about given city.
 **************************************************************************/
 void package_city(struct city *pcity, struct packet_city_info *packet,
+                  struct packet_web_city_info_addition *web_packet,
                   struct traderoute_packet_list *routes,
 		  bool dipl_invest)
 {
@@ -2399,7 +2406,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
       /* And repackage */
       recursion = TRUE;
-      package_city(pcity, packet, routes, dipl_invest);
+      package_city(pcity, packet, web_packet, routes, dipl_invest);
       recursion = FALSE;
 
       return;
@@ -2473,6 +2480,12 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
       BV_SET(packet->improvements, improvement_index(pimprove));
     }
   } improvement_iterate_end;
+
+#ifdef FREECIV_WEB
+  web_packet->granary_size = city_granary_size(city_size_get(pcity));
+  web_packet->granary_turns = city_turns_to_grow(pcity);
+  web_packet->buy_gold_cost = city_production_buy_gold_cost(pcity);
+#endif /* FREECIV_WEB */
 }
 
 /**************************************************************************

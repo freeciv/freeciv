@@ -882,6 +882,16 @@ void handle_city_info(const struct packet_city_info *packet)
 }
 
 /****************************************************************************
+  This is packet that only the web-client needs. Regular client has no use
+  for it.
+  TODO: Do not generate code calling this in C-client.
+****************************************************************************/
+void handle_web_city_info_addition(int granary_size, int granary_turns,
+                                   int buy_gold_cost)
+{
+}
+
+/****************************************************************************
   A helper function for handling city-info and city-short-info packets.
   Naturally, both require many of the same operations to be done on the
   data.

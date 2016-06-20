@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,6 +20,10 @@ extern "C" {
 struct connection;
 struct data_in;
 
+/* utility */
+#include "shared.h"		/* MAX_LEN_ADDR */
+
+/* common */
 #include "connection.h"		/* struct connection, MAX_LEN_* */
 #include "diptreaty.h"
 #include "effects.h"
@@ -27,7 +31,6 @@ struct data_in;
 #include "improvement.h"	/* bv_imprs */
 #include "player.h"
 #include "requirements.h"
-#include "shared.h"		/* MAX_LEN_ADDR */
 #include "spaceship.h"
 #include "team.h"
 #include "tile.h"
@@ -38,7 +41,17 @@ struct data_in;
 
 /* Used in network protocol. */
 #define MAX_LEN_MSG             1536
-#define MAX_LEN_ROUTE		2000	  /* MAX_LEN_PACKET/2 - header */
+#define MAX_LEN_ROUTE		2000	  /* MAX_LEN_PACKET / 2 - header */
+
+#ifdef FREECIV_WEB
+#define web_send_packet(packetname, ...) \
+  send_packet_web_ ##packetname( __VA_ARGS__ )
+#define web_lsend_packet(packetname, ...) \
+  lsend_packet_web_ ##packetname( __VA_ARGS__ )
+#else  /* FREECIV_WEB */
+#define web_send_packet(packetname, ...)
+#define web_lsend_packet(packetname, ...)
+#endif /* FREECIV_WEB */
 
 /* The size of opaque (void *) data sent in the network packet.  To avoid
  * fragmentation issues, this SHOULD NOT be larger than the standard

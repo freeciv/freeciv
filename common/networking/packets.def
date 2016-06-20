@@ -2192,3 +2192,12 @@ end
 PACKET_PLAY_MUSIC = 245; sc, lsend
   STRING tag[MAX_LEN_NAME];
 end
+
+/*************** Webclient specific packets ****************/
+/* Use range 256:511 for these                             */
+
+PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_INFO)
+  UINT16 granary_size;
+  TURN granary_turns;
+  UINT16 buy_gold_cost;
+end
