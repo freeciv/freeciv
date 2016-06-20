@@ -33,6 +33,7 @@
 #include "unittype.h"
 
 /* server */
+#include "rssanity.h"
 #include "ruleset.h"
 
 #include "rscompat.h"
@@ -868,6 +869,14 @@ void rscompat_postprocess(struct rscompat_info *info)
 
   /* Upgrade existing effects. */
   iterate_effect_cache(effect_list_compat_cb, info);
+
+  /* The ruleset may need adjustments it didn't need before compatibility
+   * post processing.
+   *
+   * If this isn't done a user of ruleset compatibility that ends up using
+   * the rules risks bad rules. A user that saves the ruleset rather than
+   * using it risks an unexpected change on the next load and save. */
+  autoadjust_ruleset_data();
 }
 
 /**************************************************************************
