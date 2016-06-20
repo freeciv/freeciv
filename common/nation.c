@@ -648,6 +648,21 @@ void nations_free(void)
 }
 
 /****************************************************************************
+  Returns initial government type for this nation.
+  Always returns non-NULL -- nation-specific government or failing that
+  ruleset default government.
+****************************************************************************/
+struct government *init_government_of_nation(const struct nation_type *pnation)
+{
+  NATION_CHECK(pnation, return game.default_government);
+  if (pnation->init_government) {
+    return pnation->init_government;
+  } else {
+    return game.default_government;
+  }
+}
+
+/****************************************************************************
   Returns nation's style.
 ****************************************************************************/
 struct nation_style *style_of_nation(const struct nation_type *pnation)

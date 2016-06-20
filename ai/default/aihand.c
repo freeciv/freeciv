@@ -716,7 +716,7 @@ static void dai_manage_government(struct ai_type *ait, struct player *pplayer)
     struct nation_type *pnation = nation_of_player(pplayer);
     struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
-    if (government_of_player(pplayer) == pnation->init_government) {
+    if (government_of_player(pplayer) == init_government_of_nation(pnation)) {
       /* Default government is the crappy one we start in (like Despotism).
        * We want something better pretty soon! */
       want += 25 * game.info.turn;

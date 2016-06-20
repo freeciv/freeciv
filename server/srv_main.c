@@ -2781,7 +2781,7 @@ static void final_ruleset_adjustments(void)
   players_iterate(pplayer) {
     struct nation_type *pnation = nation_of_player(pplayer);
 
-    pplayer->government = pnation->init_government;
+    pplayer->government = init_government_of_nation(pnation);
 
     if (pnation->init_government == game.government_during_revolution) {
       /* If we do not do this, an assertion will trigger. This enables us to

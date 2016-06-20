@@ -88,6 +88,7 @@ struct civ_game {
   struct packet_calendar_info calendar;
   struct packet_timeout_info tinfo;
 
+  struct government *default_government; /* may be overridden by nation */
   struct government *government_during_revolution;
 
   struct conn_list *all_connections;   /* including not yet established */
@@ -256,7 +257,6 @@ struct civ_game {
       } mutexes;
 
       struct trait_limits default_traits[TRAIT_COUNT];
-      struct government *default_government;
 
       struct {
         char *description_file;

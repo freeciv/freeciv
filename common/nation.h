@@ -120,7 +120,7 @@ struct nation_type {
   /* (Only used in the client for documentation purposes.) */
   int init_techs[MAX_NUM_TECH_LIST];
   int init_buildings[MAX_NUM_BUILDING_LIST];
-  struct government *init_government;
+  struct government *init_government; /* use game default_government if NULL */
   struct unit_type *init_units[MAX_NUM_UNIT_LIST];
 
   union {
@@ -198,6 +198,8 @@ const char *nation_adjective_translation(const struct nation_type *pnation);
 const char *nation_adjective_for_player(const struct player *pplayer);
 const char *nation_plural_translation(const struct nation_type *pnation);
 const char *nation_plural_for_player(const struct player *pplayer);
+
+struct government *init_government_of_nation(const struct nation_type *pnation);
 
 struct nation_style *style_of_nation(const struct nation_type *pnation);
 
