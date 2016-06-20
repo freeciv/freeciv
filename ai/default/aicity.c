@@ -308,56 +308,34 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
   }
 
   if (city_data->choice.want != 0) {
+    struct universal build_new;
+
     ADV_CHOICE_ASSERT(city_data->choice);
 
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire " ADV_WANT_PRINTF ".",
 	     dai_choice_rule_name(&city_data->choice),
 	     city_data->choice.want);
-    
-    /* FIXME: parallel to citytools change_build_target() */
-    if (VUT_IMPROVEMENT == pcity->production.kind
-     && is_great_wonder(pcity->production.value.building)
-     && (CT_BUILDING != city_data->choice.type
-         || city_data->choice.value.building
-            != pcity->production.value.building)) {
-      notify_player(NULL, pcity->tile, E_WONDER_STOPPED, ftc_server,
-		    _("The %s have stopped building The %s in %s."),
-		    nation_plural_for_player(pplayer),
-		    city_production_name_translation(pcity),
-                    city_link(pcity));
-    }
-    if (CT_BUILDING == city_data->choice.type
-      && is_great_wonder(city_data->choice.value.building)
-      && (VUT_IMPROVEMENT != pcity->production.kind
-          || pcity->production.value.building
-             != city_data->choice.value.building)) {
-      notify_player(NULL, pcity->tile, E_WONDER_STARTED, ftc_server,
-		    _("The %s have started building The %s in %s."),
-		    nation_plural_for_player(city_owner(pcity)),
-		    city_improvement_name_translation(pcity,
-                      city_data->choice.value.building),
-                    city_link(pcity));
-    }
 
     switch (city_data->choice.type) {
     case CT_CIVILIAN:
     case CT_ATTACKER:
     case CT_DEFENDER:
-      pcity->production.kind = VUT_UTYPE;
-      pcity->production.value.utype = city_data->choice.value.utype;
+      build_new.kind = VUT_UTYPE;
+      build_new.value.utype = city_data->choice.value.utype;
       break;
     case CT_BUILDING:
-      pcity->production.kind = VUT_IMPROVEMENT;
-      pcity->production.value.building 
-        = city_data->choice.value.building;
+      build_new.kind = VUT_IMPROVEMENT;
+      build_new.value.building = city_data->choice.value.building;
       break;
     case CT_NONE:
-      pcity->production.kind = VUT_NONE;
+      build_new.kind = VUT_NONE;
       break;
     case CT_LAST:
-      pcity->production.kind = universals_n_invalid();
+      build_new.kind = universals_n_invalid();
       break;
     };
+
+    change_build_target(pplayer, pcity, &build_new, E_CITY_PRODUCTION_CHANGED);
   }
 }
 
