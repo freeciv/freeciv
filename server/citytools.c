@@ -83,6 +83,9 @@
 /* ai */
 #include "handicaps.h"
 
+/* ai */
+#include "handicaps.h"
+
 #include "citytools.h"
 
 
