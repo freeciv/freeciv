@@ -423,7 +423,8 @@ int revolution_length(struct government *gov, struct player *plr)
 /**************************************************************************
   Called by the client or AI to change government.
 **************************************************************************/
-void handle_player_change_government(struct player *pplayer, int government)
+void handle_player_change_government(struct player *pplayer,
+                                     Government_type_id government)
 {
   int turns;
   struct government *gov = government_by_number(government);

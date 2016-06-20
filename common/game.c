@@ -304,7 +304,7 @@ static void game_defaults(void)
   game.info.global_warming   = GAME_DEFAULT_GLOBAL_WARMING;
   game.info.gold             = GAME_DEFAULT_GOLD;
   game.info.revolentype      = GAME_DEFAULT_REVOLENTYPE;
-  game.info.government_during_revolution_id = G_MAGIC; /* flag */
+  game.info.government_during_revolution_id = G_LAST;
   game.info.happyborders     = GAME_DEFAULT_HAPPYBORDERS;
   game.info.heating          = 0;
   game.info.is_edit_mode     = FALSE;

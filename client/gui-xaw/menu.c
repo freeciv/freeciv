@@ -137,7 +137,7 @@ static struct MenuEntry government_menu_entries[]={
 
 /* One entry for every government, appended to the government menu. */
 static int num_government_entries = 0;
-static Widget government_widgets[G_MAGIC];
+static Widget government_widgets[G_LAST];
 
 static struct MenuEntry view_menu_entries[]={
     { { N_("Map Grid"), 0             }, "ctl-g", MENU_VIEW_SHOW_MAP_GRID, 0 },

@@ -40,15 +40,17 @@ struct ruler_title;     /* Opaque type. */
                           NAME_rule_title)
 #define ruler_titles_iterate_end HASH_DATA_ITERATE_END
 
-#define G_MAGIC (127)		/* magic constant */
-
-/* special values for free_* fields -- SKi */
-#define G_CITY_SIZE_FREE          G_MAGIC
+/* G_LAST is a value guaranteed to be larger than any valid
+ * Government_type_id. It defines the maximum number of governments
+ * (so can also be used to size static arrays indexed by governments);
+ * it is sometimes used as a sentinel value (but not in the network
+ * protocol, which generally uses government_count()). */
+#define G_LAST (127)
 
 /* This is struct government itself.  All information about a form of
  * government is contained inhere. -- SKi */
 struct government {
-  int item_number;
+  Government_type_id item_number;
   struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -65,11 +67,11 @@ struct government {
 
 
 /* General government accessor functions. */
-int government_count(void);
-int government_index(const struct government *pgovern);
-int government_number(const struct government *pgovern);
+Government_type_id government_count(void);
+Government_type_id government_index(const struct government *pgovern);
+Government_type_id government_number(const struct government *pgovern);
 
-struct government *government_by_number(const int gov);
+struct government *government_by_number(const Government_type_id gov);
 struct government *government_of_player(const struct player *pplayer);
 struct government *government_of_city(const struct city *pcity);
 

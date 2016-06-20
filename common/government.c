@@ -67,7 +67,7 @@ struct government *government_by_rule_name(const char *name)
 /**************************************************************************
   Return the number of governments.
 **************************************************************************/
-int government_count(void)
+Government_type_id government_count(void)
 {
   return game.control.government_count;
 }
@@ -78,7 +78,7 @@ int government_count(void)
   Currently same as government_number(), paired with government_count()
   indicates use as an array index.
 **************************************************************************/
-int government_index(const struct government *pgovern)
+Government_type_id government_index(const struct government *pgovern)
 {
   fc_assert_ret_val(NULL != pgovern, -1);
   return pgovern - governments;
@@ -87,7 +87,7 @@ int government_index(const struct government *pgovern)
 /**************************************************************************
   Return the government index.
 **************************************************************************/
-int government_number(const struct government *pgovern)
+Government_type_id government_number(const struct government *pgovern)
 {
   fc_assert_ret_val(NULL != pgovern, -1);
   return pgovern->item_number;
@@ -99,7 +99,7 @@ int government_number(const struct government *pgovern)
   This function returns NULL for an out-of-range index (some callers
   rely on this).
 ****************************************************************************/
-struct government *government_by_number(const int gov)
+struct government *government_by_number(const Government_type_id gov)
 {
   if (gov < 0 || gov >= game.control.government_count) {
     return NULL;
