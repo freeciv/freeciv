@@ -766,7 +766,7 @@ static int get_specialists(const struct player *pplayer)
 ****************************************************************************/
 static int get_gov(const struct player *pplayer)
 {
-  return government_number(government_of_player(pplayer));
+  return (int) government_number(government_of_player(pplayer));
 }
 
 /****************************************************************************

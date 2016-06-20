@@ -232,7 +232,7 @@ struct named_sprites {
 
   struct sprite *tech[A_LAST];
   struct sprite *building[B_LAST];
-  struct sprite *government[G_MAGIC];
+  struct sprite *government[G_LAST];
 
   struct {
     struct sprite *icon[U_LAST];

@@ -3479,12 +3479,9 @@ static bool load_government_names(struct section_file *file,
   if (NULL == sec || 0 == (nval = section_list_size(sec))) {
     ruleset_error(LOG_ERROR, "\"%s\": No governments?!?", filename);
     ok = FALSE;
-  } else if (nval > G_MAGIC) {
-    /* upper limit is really about 255 for 8-bit id values, but
-       use G_MAGIC elsewhere as a sanity check, and should be plenty
-       big enough --dwp */
+  } else if (nval > G_LAST) {
     ruleset_error(LOG_ERROR, "\"%s\": Too many governments (%d, max %d)",
-                  filename, nval, G_MAGIC);
+                  filename, nval, G_LAST);
     ok = FALSE;
   }
 

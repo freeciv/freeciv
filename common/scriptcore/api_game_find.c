@@ -132,7 +132,7 @@ Tile *api_find_tile_by_index(lua_State *L, int tindex)
 }
 
 /*****************************************************************************
-  Return the government with the given government_id index.
+  Return the government with the given Government_type_id index.
 *****************************************************************************/
 Government *api_find_government(lua_State *L, int government_id)
 {

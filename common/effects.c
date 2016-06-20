@@ -115,7 +115,7 @@ static struct {
     /* This cache shows for each building, which effects it provides. */
     struct effect_list *buildings[B_LAST];
     /* Same for governments */
-    struct effect_list *govs[G_MAGIC];
+    struct effect_list *govs[G_LAST];
     /* ...advances... */
     struct effect_list *advances[A_LAST];
   } reqs;
