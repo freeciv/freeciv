@@ -64,7 +64,7 @@ char *capitalized_string(const char *str)
   int len = strlen(str);
   char *result = fc_malloc(len + 1);
 
-  fc_strlcpy(result, str, len);
+  fc_strlcpy(result, str, len + 1);
 
   if (autocap) {
     if ((unsigned char) result[0] < 128) {
