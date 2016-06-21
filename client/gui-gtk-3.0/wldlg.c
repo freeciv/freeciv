@@ -952,7 +952,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 
     if (VUT_UTYPE == target.kind) {
       sprite = sprite_scale(get_unittype_sprite(tileset, target.value.utype,
-                                                DIR8_SOUTH, TRUE),
+                                                direction8_invalid(), TRUE),
                             max_unit_width, max_unit_height);
 
     } else {

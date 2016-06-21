@@ -237,6 +237,7 @@ struct named_sprites {
   struct {
     struct sprite *icon[U_LAST];
     struct sprite *facing[U_LAST][DIR8_MAGIC_MAX]; 
+    unsigned int default_dir_seed[U_LAST];
   } units;
 
   struct sprite *resource[MAX_NUM_RESOURCES];
@@ -3217,6 +3218,12 @@ bool static tileset_setup_unit_type_from_tag(struct tileset *t,
     return FALSE;
   }
 
+  /* Fix a random orientation for displaying unit type in help etc.
+   * We don't necessarily know the map topology yet, so choose a seed
+   * that can be used to pick a valid direction later (24 is lcm(6,8)).
+   * See get_unittype_sprite(). */
+  t->sprites.units.default_dir_seed[uidx] = fc_rand(24);
+
   return TRUE;
 
 #undef LOAD_FACING_SPRITE
@@ -6015,8 +6022,21 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
   fc_assert_ret_val(NULL != punittype, NULL);
 
   if (!direction8_is_valid(facing) || !is_valid_dir(facing)) {
-    /* Fallback to using random orientation sprite. */
-    facing = rand_direction();
+    /* Fallback to random orientation sprite.
+     * The randomness was fixed at tileset load time for stability
+     * (in tileset_setup_unit_type_from_tag()); here we need to adapt
+     * that to the map topology (which is now known).
+     * default_dir_seed was set to give uniform distribution for either
+     * 6 or 8 valid directions.
+     * Thus this direction is stable for a given unit type unless the
+     * map topology changes. */
+    unsigned int dir_index;
+
+    fc_assert_ret_val(game.map.num_valid_dirs > 0, NULL);
+    dir_index
+      = t->sprites.units.default_dir_seed[uidx] % game.map.num_valid_dirs;
+    facing = game.map.valid_dirs[dir_index];
+    fc_assert_ret_val(is_valid_dir(facing), NULL);
   }
 
   if (t->sprites.units.icon[uidx]

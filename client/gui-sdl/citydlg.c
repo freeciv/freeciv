@@ -3216,7 +3216,7 @@ static void redraw_city_dialog(struct city *pCity)
     copy_chars_to_string16(pStr, utype_name_translation(pUnitType));
     pBuf = create_text_surf_from_str16(pStr);
     
-    pBuf2 = get_unittype_surface(pUnitType, DIR8_EAST);
+    pBuf2 = get_unittype_surface(pUnitType, direction8_invalid());
     pBuf2 = zoomSurface(pBuf2, DEFAULT_ZOOM * ((float)32 / pBuf2->h), DEFAULT_ZOOM * ((float)32 / pBuf2->h), 1);
 
     /* blit unit icon */
