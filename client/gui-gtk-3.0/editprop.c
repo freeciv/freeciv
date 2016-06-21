@@ -4534,7 +4534,7 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     ADDPROP(OPID_GAME_LAKE_FLOODING, _("Saltwater Flooding Lakes"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    ADDPROP(OPID_GAME_HAVE_RESOURCES, _("Do not regenerate resources"),
+    ADDPROP(OPID_GAME_HAVE_RESOURCES, _("Save Resources"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     return;
 
