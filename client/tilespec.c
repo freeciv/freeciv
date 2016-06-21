@@ -5547,7 +5547,7 @@ int fill_sprite_array(struct tileset *t,
       }
 
       sprs += fill_unit_sprite_array(t, sprs, punit, stacked, backdrop);
-    } else if (putype != NULL) {
+    } else if (putype != NULL && layer == LAYER_UNIT) {
       /* Only the sprite for the unit type. */
       sprs += fill_unit_type_sprite_array(t, sprs, putype,
                                           direction8_invalid());
