@@ -162,7 +162,8 @@ void research_diagram::create_tooltip_help()
             if (advance_number(unit->require_advance) != node->tech) {
               continue;
             }
-            sprite = get_unittype_sprite(tileset, unit, DIR8_SOUTH, TRUE);
+            sprite = get_unittype_sprite(tileset, unit,
+                                         direction8_invalid(), TRUE);
             get_sprite_dimensions(sprite, &swidth, &sheight);
             rttp = new req_tooltip_help();
             rttp->rect = QRect(icon_startx, starty + text_h + 4
