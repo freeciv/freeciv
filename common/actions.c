@@ -307,7 +307,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
   }
 
   /* How to interpret action probabilities like prob is documented in
-   * actions.h */
+   * fc_types.h */
   switch (prob) {
   case ACTPROB_NOT_KNOWN:
     /* Unknown because the player don't have the required knowledge to
