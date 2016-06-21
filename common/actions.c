@@ -543,7 +543,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
                           "Invalid action",
                           "Invalid action %d", action_id);
 
-    /* and no custom text will be insterted */
+    /* and no custom text will be inserted */
     fc_assert(custom == NULL || custom[0] == '\0');
 
     /* Make the best of what is known */
