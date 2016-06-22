@@ -3079,6 +3079,7 @@ static void sg_load_map_tiles_resources(struct loaddata *loading)
     }
   } whole_map_iterate_end;
 
+  game.map.server.have_resources = TRUE;
   game.scenario.have_resources = TRUE;
 }
 
