@@ -256,7 +256,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
-                              const action_probability *act_prob)
+                              const action_probability *act_probs)
 {
   /* TODO: port me. */
 }

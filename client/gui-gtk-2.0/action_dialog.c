@@ -1022,7 +1022,7 @@ static const GCallback af_map[ACTION_COUNT] = {
 *******************************************************************/
 static void action_entry(GtkWidget *shl,
                          int action_id,
-                         const action_probability *action_probabilities,
+                         const action_probability *act_probs,
                          const gchar *custom,
                          struct action_data *handler_args)
 {
@@ -1031,7 +1031,7 @@ static void action_entry(GtkWidget *shl,
 
   if (action_id == ACTION_SPY_SABOTAGE_CITY
       && action_prob_possible(
-        action_probabilities[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
+        act_probs[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
     /* The player can select Sabotage City from the target selection dialog
      * of Targeted Sabotage City. */
     return;
@@ -1039,23 +1039,23 @@ static void action_entry(GtkWidget *shl,
 
   if (action_id == ACTION_SPY_STEAL_TECH
       && action_prob_possible(
-        action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH])) {
+        act_probs[ACTION_SPY_TARGETED_STEAL_TECH])) {
     /* The player can select Steal Tech from the target selection dialog of
      * Targeted Steal Tech. */
     return;
   }
 
   /* Don't show disabled actions. */
-  if (!action_prob_possible(action_probabilities[action_id])) {
+  if (!action_prob_possible(act_probs[action_id])) {
     return;
   }
 
   label = action_prepare_ui_name(action_id, "_",
-                                 action_probabilities[action_id],
+                                 act_probs[action_id],
                                  custom);
 
   tooltip = action_get_tool_tip(action_id,
-                                action_probabilities[action_id]);
+                                act_probs[action_id]);
 
   action_button_map[action_id] = choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, label, af_map[action_id], handler_args,
@@ -1067,7 +1067,7 @@ static void action_entry(GtkWidget *shl,
 *******************************************************************/
 static void action_entry_update(GtkWidget *shl,
                                 int action_id,
-                                const action_probability *act_prob,
+                                const action_probability *act_probs,
                                 const gchar *custom,
                                 struct action_data *handler_args)
 {
@@ -1078,14 +1078,14 @@ static void action_entry_update(GtkWidget *shl,
    * An action that became possible again must be reenabled. */
   choice_dialog_button_set_sensitive(act_sel_dialog,
       action_button_map[action_id],
-      action_prob_possible(act_prob[action_id]));
+      action_prob_possible(act_probs[action_id]));
 
   /* The probability may have changed. */
   label = action_prepare_ui_name(action_id, "_",
-                                 act_prob[action_id], custom);
+                                 act_probs[action_id], custom);
 
   tooltip = action_get_tool_tip(action_id,
-                                act_prob[action_id]);
+                                act_probs[action_id]);
 
   choice_dialog_button_set_label(act_sel_dialog,
                                  action_button_map[action_id],
@@ -1301,7 +1301,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
-                              const action_probability *act_prob)
+                              const action_probability *act_probs)
 {
   struct action_data *data;
 
@@ -1331,7 +1331,7 @@ void action_selection_refresh(struct unit *actor_unit,
       continue;
     }
 
-    if (action_prob_possible(act_prob[act])
+    if (action_prob_possible(act_probs[act])
         && act == ACTION_HELP_WONDER) {
       /* Add information about how far along the wonder is. */
       custom = city_prod_remaining(target_city);
@@ -1341,10 +1341,10 @@ void action_selection_refresh(struct unit *actor_unit,
 
     if (BUTTON_NOT_THERE == action_button_map[act]) {
       /* Add the button (unless its probability is 0). */
-      action_entry(act_sel_dialog, act, act_prob, custom, data);
+      action_entry(act_sel_dialog, act, act_probs, custom, data);
     } else {
       /* Update the existing button. */
-      action_entry_update(act_sel_dialog, act, act_prob, custom, data);
+      action_entry_update(act_sel_dialog, act, act_probs, custom, data);
     }
   } action_iterate_end;
 

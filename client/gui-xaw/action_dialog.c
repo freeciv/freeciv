@@ -835,17 +835,17 @@ static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
   Control the display of an action
 **************************************************************************/
 static void action_entry(Widget w, int action_id,
-                         const action_probability *action_probabilities)
+                         const action_probability *act_probs)
 {
   Arg arglist[1];
 
-  if (!action_prob_possible(action_probabilities[action_id])) {
+  if (!action_prob_possible(act_probs[action_id])) {
     XtSetSensitive(w, FALSE);
   }
 
   XtSetArg(arglist[0], "label",
            action_prepare_ui_name(action_id, "",
-                                  action_probabilities[action_id], NULL));
+                                  act_probs[action_id], NULL));
   XtSetValues(w, arglist, XtNumber(arglist));
 }
 
@@ -1033,7 +1033,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
-                              const action_probability *act_prob)
+                              const action_probability *act_probs)
 {
   /* TODO: port me. */
 }

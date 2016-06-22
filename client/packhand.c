@@ -4195,7 +4195,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   struct city *target_city = game_city_by_number(packet->target_city_id);
   struct unit *target_unit = game_unit_by_number(packet->target_unit_id);
 
-  const action_probability *act_prob = packet->action_probabilities;
+  const action_probability *act_probs = packet->action_probabilities;
 
   bool disturb_player = packet->disturb_player;
   bool valid = FALSE;
@@ -4204,7 +4204,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   if (actor_unit && target_tile && (target_city || target_unit)) {
     /* At least one action must be possible */
     action_iterate(act) {
-      if (action_prob_possible(act_prob[act])) {
+      if (action_prob_possible(act_probs[act])) {
         valid = TRUE;
         break;
       }
@@ -4217,7 +4217,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
     /* Show the client specific action dialog */
     popup_action_selection(actor_unit,
                            target_city, target_unit, target_tile,
-                           act_prob);
+                           act_probs);
   } else if (disturb_player) {
     /* Nothing to do. */
     action_selection_no_longer_in_progress(packet->actor_unit_id);
@@ -4230,7 +4230,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
       /* The situation may have changed. */
       action_selection_refresh(actor_unit,
                                target_city, target_unit, target_tile,
-                               act_prob);
+                               act_probs);
     }
   }
 }
