@@ -272,6 +272,7 @@ server/maphand.c
 server/meta.c
 server/plrhand.c
 server/report.c
+server/rssanity.c
 server/ruleset.c
 server/sanitycheck.c
 server/savecompat.c
@@ -289,6 +290,7 @@ server/unithand.c
 server/unittools.c
 server/voting.c
 utility/astring.c
+utility/fc_cmdline.c
 utility/fciconv.c
 utility/inputfile.c
 utility/log.c
