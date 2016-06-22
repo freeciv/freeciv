@@ -27,12 +27,12 @@
 /* utility */
 #include "astring.h"
 #include "bitvector.h"
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "registry.h"
-#include "shared.h"
 #include "support.h"            /* fc__attribute, bool type, etc. */
 #include "timing.h"
 

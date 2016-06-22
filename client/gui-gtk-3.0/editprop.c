@@ -22,6 +22,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "fc_cmdline.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"

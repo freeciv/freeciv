@@ -16,9 +16,9 @@
 #endif
 
 /* utility */
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
-#include "shared.h"
 #include "support.h"
 
 /* common */

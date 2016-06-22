@@ -18,11 +18,11 @@
 #include <stdlib.h>
 
 /* utility */
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
-#include "shared.h"
 
 /* common */
 #include "version.h"

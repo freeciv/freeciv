@@ -20,6 +20,7 @@
 #endif
 
 /* utility */
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "registry.h"
 #include "string_vector.h"

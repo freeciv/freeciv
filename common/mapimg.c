@@ -24,10 +24,10 @@
 /* utility */
 #include "astring.h"
 #include "bitvector.h"
+#include "fc_cmdline.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
-#include "shared.h"
 #include "string_vector.h"
 #include "timing.h"
 

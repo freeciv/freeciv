@@ -25,6 +25,7 @@
 #endif
 
 /* utility */
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
