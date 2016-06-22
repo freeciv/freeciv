@@ -54,6 +54,11 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist);
 
+#ifndef FREECIV_NDEBUG
+static inline bool action_prob_is_signal(action_probability probability);
+static inline bool action_prob_not_relevant(action_probability probability);
+#endif /* FREECIV_NDEBUG */
+
 /**************************************************************************
   Initialize the actions and the action enablers.
 **************************************************************************/
@@ -288,7 +293,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
     /* Could be a client who haven't gotten the ruleset yet */
 
     /* so there shouldn't be any action probability to show */
-    fc_assert(prob == ACTPROB_NA);
+    fc_assert(action_prob_not_relevant(prob));
 
     /* but the action should be valid */
     fc_assert_ret_val_msg(action_id_is_valid(action_id),
@@ -331,7 +336,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
     /* ACTPROB_IMPOSSIBLE is a 0% probability of success */
   default:
     /* Should be in the range 0 (0%) to 200 (100%) */
-    fc_assert_msg(prob < 201,
+    fc_assert_msg(!action_prob_is_signal(prob),
                   "Diplomat action probability out of range");
 
     /* TRANS: the probability that a diplomat action will succeed. */
@@ -1311,6 +1316,26 @@ bool action_prob_possible(action_probability probability)
 {
   return ACTPROB_IMPOSSIBLE != probability && ACTPROB_NA != probability;
 }
+
+#ifndef FREECIV_NDEBUG
+/**************************************************************************
+  Returns TRUE iff the given action probability represents the lack of
+  an action probability.
+**************************************************************************/
+static inline bool action_prob_not_relevant(action_probability probability)
+{
+  return ACTPROB_NA == probability;
+}
+
+/**************************************************************************
+  Returns TRUE iff the given action probability represents a special
+  signal value rather than a regular action probability value.
+**************************************************************************/
+static inline bool action_prob_is_signal(action_probability probability)
+{
+  return probability < 0 && probability > 200;
+}
+#endif /* FREECIV_NDEBUG */
 
 /**************************************************************************
   Will a player with the government gov be immune to the action act?
