@@ -1614,8 +1614,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
                                GTK_WIDGET(pdialog->next_command), 2);
 
-  if (NULL == client.conn.playing
-      || city_owner(pcity) != client.conn.playing) {
+  if (city_owner(pcity) != client.conn.playing) {
     gtk_widget_set_sensitive(GTK_WIDGET(pdialog->prev_command), FALSE);
     gtk_widget_set_sensitive(GTK_WIDGET(pdialog->next_command), FALSE);
   }
@@ -1630,10 +1629,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 		   G_CALLBACK(close_callback), pdialog);
 
   g_signal_connect(pdialog->prev_command, "clicked",
-		   G_CALLBACK(switch_city_callback), pdialog);
+                   G_CALLBACK(switch_city_callback), pdialog);
 
   g_signal_connect(pdialog->next_command, "clicked",
-		   G_CALLBACK(switch_city_callback), pdialog);
+                   G_CALLBACK(switch_city_callback), pdialog);
 
   /* some other things we gotta do */
 
@@ -3356,7 +3355,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   int i, j, dir, size;
   struct city *new_pcity = NULL;
 
-  if (NULL == client.conn.playing) {
+  if (client_is_global_observer()) {
     return;
   }
 
