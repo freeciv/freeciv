@@ -27,12 +27,12 @@
 
 /* utility */
 #include "capability.h"
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "registry.h"
-#include "shared.h"
 #include "support.h"
 
 /* common */

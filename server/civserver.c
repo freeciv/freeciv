@@ -40,10 +40,10 @@
 
 /* utility */
 #include "deprecations.h"
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
-#include "shared.h"
 #include "support.h"
 #include "timing.h"
 

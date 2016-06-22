@@ -34,6 +34,7 @@
 #include "dataio.h"
 #include "deprecations.h"
 #include "fcbacktrace.h"
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"

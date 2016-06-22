@@ -37,6 +37,7 @@
 #include <QScrollBar>
 
 // utility
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "log.h"
 

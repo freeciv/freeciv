@@ -18,6 +18,7 @@
 #include <stdio.h>
 
 /* utility */
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "log.h"
 
