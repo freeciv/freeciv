@@ -2384,6 +2384,8 @@ static void sg_load_map(struct loaddata *loading)
   game.scenario.have_resources
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_resources");
 
+  game.map.server.have_resources = game.scenario.have_resources;
+
   if (S_S_INITIAL == loading->server_state
       && MAPGEN_SCENARIO == game.map.server.generator) {
     /* Generator MAPGEN_SCENARIO is used;

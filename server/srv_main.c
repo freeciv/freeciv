@@ -2896,10 +2896,7 @@ static void srv_ready(void)
            * +2 */
           log_normal(_("Attempt %d/%d"), i + 2, max);
         }
-        /* One should never set this to false in scenario map that had resources
-         * placed. We are safe side here as map generation is retried only if this is
-         * not scenario map at all. */
-        game.scenario.have_resources = FALSE;
+        game.map.server.have_resources = FALSE;
 
         /* Remove old information already present in tiles */
         map_free();

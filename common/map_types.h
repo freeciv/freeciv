@@ -97,6 +97,7 @@ struct civ_map {
       int steepness;
       bool ocean_resources;         /* Resources in the middle of the ocean */
       bool have_huts;
+      bool have_resources;
       enum team_placement team_placement;
     } server;
 
