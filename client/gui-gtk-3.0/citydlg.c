@@ -1599,17 +1599,16 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
                    G_CALLBACK(citydlg_response_callback), pdialog);
 
   pdialog->prev_command = gtk_stockbutton_new(GTK_STOCK_GO_BACK,
-	_("_Prev city"));
+                                              _("_Prev city"));
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
-			       pdialog->prev_command, 1);
+                               pdialog->prev_command, 1);
 
   pdialog->next_command = gtk_stockbutton_new(GTK_STOCK_GO_FORWARD,
-	_("_Next city"));
+                                              _("_Next city"));
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
-			       pdialog->next_command, 2);
+                               pdialog->next_command, 2);
   
-  if (NULL == client.conn.playing
-      || city_owner(pcity) != client.conn.playing) {
+  if (city_owner(pcity) != client.conn.playing) {
     gtk_widget_set_sensitive(pdialog->prev_command, FALSE);
     gtk_widget_set_sensitive(pdialog->next_command, FALSE);
   }
@@ -1624,10 +1623,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 		   G_CALLBACK(close_callback), pdialog);
 
   g_signal_connect(pdialog->prev_command, "clicked",
-		   G_CALLBACK(switch_city_callback), pdialog);
+                   G_CALLBACK(switch_city_callback), pdialog);
 
   g_signal_connect(pdialog->next_command, "clicked",
-		   G_CALLBACK(switch_city_callback), pdialog);
+                   G_CALLBACK(switch_city_callback), pdialog);
 
   /* some other things we gotta do */
 
@@ -2239,45 +2238,42 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 }
 
 /****************************************************************
- updates the sensitivity of the the prev and next buttons.
- this does not need pdialog as a parameter, since it iterates
- over all the open dialogs.
- note: we still need the sensitivity code in create_city_dialog()
- for the spied dialogs.
+  Updates the sensitivity of the the prev and next buttons.
+  this does not need pdialog as a parameter, since it iterates
+  over all the open dialogs.
+  note: we still need the sensitivity code in create_city_dialog()
+  for the spied dialogs.
 *****************************************************************/
 static void city_dialog_update_prev_next(void)
 {
   int count = 0;
   int city_number;
 
-  if (NULL != client.conn.playing) {
-    city_number = city_list_size(client.conn.playing->cities);
-  } else {
-    city_number = FC_INFINITY; /* ? */
+  if (client_is_global_observer()) {
+    return; /* Keep them insensitive as initially set */
   }
+
+  city_number = city_list_size(client.conn.playing->cities);
 
   /* the first time, we see if all the city dialogs are open */
-
   dialog_list_iterate(dialog_list, pdialog) {
-    if (city_owner(pdialog->pcity) == client.conn.playing)
+    if (city_owner(pdialog->pcity) == client.conn.playing) {
       count++;
-  }
-  dialog_list_iterate_end;
+    }
+  } dialog_list_iterate_end;
 
   if (count == city_number) {	/* all are open, shouldn't prev/next */
     dialog_list_iterate(dialog_list, pdialog) {
       gtk_widget_set_sensitive(pdialog->prev_command, FALSE);
       gtk_widget_set_sensitive(pdialog->next_command, FALSE);
-    }
-    dialog_list_iterate_end;
+    } dialog_list_iterate_end;
   } else {
     dialog_list_iterate(dialog_list, pdialog) {
       if (city_owner(pdialog->pcity) == client.conn.playing) {
 	gtk_widget_set_sensitive(pdialog->prev_command, TRUE);
 	gtk_widget_set_sensitive(pdialog->next_command, TRUE);
       }
-    }
-    dialog_list_iterate_end;
+    } dialog_list_iterate_end;
   }
 }
 
@@ -3318,7 +3314,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   int i, j, dir, size;
   struct city *new_pcity = NULL;
 
-  if (NULL == client.conn.playing) {
+  if (client_is_global_observer()) {
     return;
   }
 
