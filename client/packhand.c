@@ -4427,12 +4427,12 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
   Returns a possibly legal attack action iff it is the only interesting
   action that currently is legal.
 **************************************************************************/
-static enum gen_action auto_attack_act(const action_probability *act_prob)
+static enum gen_action auto_attack_act(const action_probability *act_probs)
 {
   enum gen_action attack_action = ACTION_COUNT;
 
   action_iterate(act) {
-    if (action_prob_possible(act_prob[act])) {
+    if (action_prob_possible(act_probs[act])) {
       switch ((enum gen_action)act) {
       case ACTION_DISBAND_UNIT:
         /* Not interesting. */
@@ -4502,7 +4502,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   struct city *target_city = game_city_by_number(packet->target_city_id);
   struct unit *target_unit = game_unit_by_number(packet->target_unit_id);
 
-  const action_probability *act_prob = packet->action_probabilities;
+  const action_probability *act_probs = packet->action_probabilities;
 
   bool disturb_player = packet->disturb_player;
   bool valid = FALSE;
@@ -4511,7 +4511,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   if (actor_unit && (target_tile || target_city || target_unit)) {
     /* At least one action must be possible */
     action_iterate(act) {
-      if (action_prob_possible(act_prob[act])) {
+      if (action_prob_possible(act_probs[act])) {
         valid = TRUE;
         break;
       }
@@ -4529,7 +4529,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
     } else {
       /* Pop up the action selection dialog unless the only interesting
        * action the unit may be able to do is an attack action. */
-      auto_action = auto_attack_act(act_prob);
+      auto_action = auto_attack_act(act_probs);
     }
 
     if (auto_action != ACTION_COUNT) {
@@ -4551,7 +4551,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
       /* Show the client specific action dialog */
       popup_action_selection(actor_unit,
                              target_city, target_unit, target_tile,
-                             act_prob);
+                             act_probs);
     }
   } else if (disturb_player) {
     /* Nothing to do. */
@@ -4565,7 +4565,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
       /* The situation may have changed. */
       action_selection_refresh(actor_unit,
                                target_city, target_unit, target_tile,
-                               act_prob);
+                               act_probs);
     }
   }
 }

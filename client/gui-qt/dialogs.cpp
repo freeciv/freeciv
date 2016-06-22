@@ -96,7 +96,7 @@ static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
                          gen_action act,
-                         const action_probability *action_probabilities,
+                         const action_probability *act_probs,
                          QString custom,
                          QVariant data1, QVariant data2);
 
@@ -1554,7 +1554,7 @@ void popup_action_selection(struct unit *actor_unit,
 **********************************************************************/
 static void action_entry(choice_dialog *cd,
                          gen_action act,
-                         const action_probability *action_probabilities,
+                         const action_probability *act_probs,
                          QString custom,
                          QVariant data1, QVariant data2)
 {
@@ -1563,7 +1563,7 @@ static void action_entry(choice_dialog *cd,
 
   if (act == ACTION_SPY_SABOTAGE_CITY
       && action_prob_possible(
-        action_probabilities[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
+        act_probs[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
     /* The player can select Sabotage City from the target selection dialog
      * of Targeted Sabotage City. */
     return;
@@ -1571,7 +1571,7 @@ static void action_entry(choice_dialog *cd,
 
   if (act == ACTION_SPY_STEAL_TECH
       && action_prob_possible(
-        action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH])) {
+        act_probs[ACTION_SPY_TARGETED_STEAL_TECH])) {
     /* The player can select Steal Tech from the target selection dialog of
      * Targeted Steal Tech. */
     return;
@@ -1584,17 +1584,17 @@ static void action_entry(choice_dialog *cd,
   }
 
   /* Don't show disabled actions. */
-  if (!action_prob_possible(action_probabilities[act])) {
+  if (!action_prob_possible(act_probs[act])) {
     return;
   }
 
   title = QString(action_prepare_ui_name(act, "&",
-                                         action_probabilities[act],
+                                         act_probs[act],
                                          custom != "" ?
                                              custom.toUtf8().data() :
                                              NULL));
 
-  tool_tip = QString(action_get_tool_tip(act, action_probabilities[act]));
+  tool_tip = QString(action_get_tool_tip(act, act_probs[act]));
 
   cd->add_item(title, af_map[act], data1, data2, tool_tip, act);
 }
@@ -1604,7 +1604,7 @@ static void action_entry(choice_dialog *cd,
 **********************************************************************/
 static void action_entry_update(QPushButton *button,
                                 gen_action act,
-                                const action_probability *act_prob,
+                                const action_probability *act_probs,
                                 QString custom,
                                 QVariant data1, QVariant data2)
 {
@@ -1613,16 +1613,16 @@ static void action_entry_update(QPushButton *button,
 
   /* An action that just became impossible has its button disabled.
    * An action that became possible again must be reenabled. */
-  button->setEnabled(action_prob_possible(act_prob[act]));
+  button->setEnabled(action_prob_possible(act_probs[act]));
 
   /* The probability may have changed. */
   title = QString(action_prepare_ui_name(act, "&",
-                                         act_prob[act],
+                                         act_probs[act],
                                          custom != "" ?
                                              custom.toUtf8().data() :
                                              NULL));
 
-  tool_tip = QString(action_get_tool_tip(act, act_prob[act]));
+  tool_tip = QString(action_get_tool_tip(act, act_probs[act]));
 
   button->setText(title);
   button->setToolTip(tool_tip);
@@ -2464,7 +2464,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
-                              const action_probability *act_prob)
+                              const action_probability *act_probs)
 {
   choice_dialog *asd;
   Choice_dialog_button *keep_moving_button;
@@ -2508,7 +2508,7 @@ void action_selection_refresh(struct unit *actor_unit,
       continue;
     }
 
-    if (action_prob_possible(act_prob[act])
+    if (action_prob_possible(act_probs[act])
         && act == ACTION_HELP_WONDER) {
       /* Add information about how far along the wonder is. */
       custom = city_prod_remaining(target_city);
@@ -2522,7 +2522,7 @@ void action_selection_refresh(struct unit *actor_unit,
       if (target_unit != NULL) {
         qv2 = target_unit->id;
       } else {
-        fc_assert_msg(!action_prob_possible(act_prob[act])
+        fc_assert_msg(!action_prob_possible(act_probs[act])
                       || target_unit != NULL,
                       "Action enabled against non existing unit!");
 
@@ -2533,7 +2533,7 @@ void action_selection_refresh(struct unit *actor_unit,
       if (target_city != NULL) {
         qv2 = target_city->id;
       } else {
-        fc_assert_msg(!action_prob_possible(act_prob[act])
+        fc_assert_msg(!action_prob_possible(act_probs[act])
                       || target_city != NULL,
                       "Action enabled against non existing city!");
 
@@ -2545,7 +2545,7 @@ void action_selection_refresh(struct unit *actor_unit,
       if (target_tile != NULL) {
         qv2 = tile_index(target_tile);
       } else {
-        fc_assert_msg(!action_prob_possible(act_prob[act])
+        fc_assert_msg(!action_prob_possible(act_probs[act])
                       || target_tile != NULL,
                       "Action enabled against all units on "
                       "non existing tile!");
@@ -2565,11 +2565,11 @@ void action_selection_refresh(struct unit *actor_unit,
     if (asd->get_identified_button(act)) {
       /* Update the existing button. */
       action_entry_update(asd->get_identified_button(act),
-                          (enum gen_action)act, act_prob, custom,
+                          (enum gen_action)act, act_probs, custom,
                           qv1, qv2);
     } else {
       /* Add the button (unless its probability is 0). */
-      action_entry(asd, (enum gen_action)act, act_prob, custom,
+      action_entry(asd, (enum gen_action)act, act_probs, custom,
                    qv1, qv2);
     }
   } action_iterate_end;
