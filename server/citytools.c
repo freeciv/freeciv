@@ -2828,18 +2828,25 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   name = city_production_name_translation(pcity);
 
   switch (event) {
-    case E_WORKLIST: source = _(" from the worklist"); break;
-/* Should we give the AI auto code credit?
-    case E_IMP_AUTO: source = _(" as suggested by the AI advisor"); break;
-*/
-    default: source = ""; break;
+    case E_WORKLIST:
+      /* TRANS: Possible 'source' of the production change. */
+      source = _(" from the worklist");
+      break;
+    case E_IMP_AUTO:
+      /* TRANS: Possible 'source' of the production change. */
+      source = _(" as suggested by the advisor");
+      break;
+    default:
+      source = "";
+      break;
   }
 
   /* Tell the player what's up. */
   /* FIXME: this may give bad grammar when translated if the 'source'
    * string can have multiple values. */
   notify_player(pplayer, city_tile(pcity), event, ftc_server,
-                /* TRANS: "<city> is building <production><source>." */
+                /* TRANS: "<city> is building <production><source>."
+                 * 'source' might be an empty string. */
                 _("%s is building %s%s."),
                 city_link(pcity),
                 name, source);
