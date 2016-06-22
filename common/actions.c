@@ -2626,7 +2626,7 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
       fc_assert_msg(prob_unit <= 200, "Invalid probability %d", prob_unit);
 
       if (200 < prob_all) {
-        /* Special values dominate regual values. */
+        /* Special values dominate regular values. */
         continue;
       }
 
