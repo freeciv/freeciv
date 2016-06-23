@@ -382,6 +382,11 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
 /* Reasoning about actions */
 bool action_immune_government(struct government *gov, int act);
 
+bool action_blocked_by_situation_act(struct action *action,
+                                     const struct requirement *situation);
+#define action_id_blocked_by_situation_act(action_id, situation)          \
+  action_blocked_by_situation_act(action_by_number(action_id), situation)
+
 bool is_action_possible_on_city(const enum gen_action action_id,
                                 const struct player *actor_player,
                                 const struct city* target_city);
