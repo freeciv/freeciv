@@ -32,6 +32,9 @@ static struct {
   char *utypes;
   char *terrains;
   char *extras;
+  char *styles;
+  char *citystyles;
+  char *musicstyles;
 } comments_storage;
 
 /**************************************************************************
@@ -62,6 +65,9 @@ bool comments_load(void)
   comments_storage.utypes = fc_strdup(secfile_lookup_str(comment_file, "typedoc.utypes"));
   comments_storage.terrains = fc_strdup(secfile_lookup_str(comment_file, "typedoc.terrains"));
   comments_storage.extras = fc_strdup(secfile_lookup_str(comment_file, "typedoc.extras"));
+  comments_storage.styles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.styles"));
+  comments_storage.citystyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.citystyles"));
+  comments_storage.musicstyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.musicstyles"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -161,4 +167,28 @@ void comment_terrains(struct section_file *sfile)
 void comment_extras(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.extras, "Extras");
+}
+
+/**************************************************************************
+  Write styles header.
+**************************************************************************/
+void comment_styles(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.styles, "Styles");
+}
+
+/**************************************************************************
+  Write city styles header.
+**************************************************************************/
+void comment_citystyles(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.citystyles, "City Styles");
+}
+
+/**************************************************************************
+  Write music styles header.
+**************************************************************************/
+void comment_musicstyles(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.musicstyles, "Music Styles");
 }

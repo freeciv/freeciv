@@ -715,3 +715,53 @@ extras = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+styles = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Nation styles\n\
+;\n\
+; name          = translatable name as seen by user\n\
+; rule_name     = (optional) name for rulesets; if not\n\
+;                 present, 'name' is used.\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
+citystyles = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; City styles define the way cities are drawn\n\
+;\n\
+; name             = translatable name as seen by user\n\
+; rule_name        = (optional) name for savegames, rulesets etc; if not\n\
+;                    present, 'name' is used. Since the name used in savegames\n\
+;                    must not change, use this when renaming a city style after a\n\
+;                    ruleset has been released.\n\
+; graphic          = group of tiles to use, see cities spec for\n\
+;                    more info on city tiles\n\
+; citizens_graphic = group of citizens tiles to use, see citizens/small\n\
+;                    spec for more info on citizens tiles\n\
+; reqs             = requirements for this city style (see README.effects)\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
+musicstyles = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Music styles\n\
+;\n\
+; Order is important. The last one for which activation requirements\n\
+; are fulfilled is the one that plays.\n\
+;\n\
+; music_peaceful = Music to play when nation in peaceful mood\n\
+; music_combat   = Music to play when nation in combat mood\n\
+; reqs		 = requirements to activate the style (see effects.ruleset\n\
+;		   and README.effects for help on requirements)\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

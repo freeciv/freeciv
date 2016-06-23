@@ -32,6 +32,9 @@ void comment_uclasses(struct section_file *sfile);
 void comment_utypes(struct section_file *sfile);
 void comment_terrains(struct section_file *sfile);
 void comment_extras(struct section_file *sfile);
+void comment_styles(struct section_file *sfile);
+void comment_citystyles(struct section_file *sfile);
+void comment_musicstyles(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

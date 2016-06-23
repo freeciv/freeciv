@@ -452,6 +452,8 @@ static bool save_styles_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  comment_styles(sfile);
+
   sect_idx = 0;
   styles_iterate(pstyle) {
     char path[512];
@@ -460,6 +462,8 @@ static bool save_styles_ruleset(const char *filename, const char *name)
 
     save_name_translation(sfile, &(pstyle->name), path);
   } styles_iterate_end;
+
+  comment_citystyles(sfile);
 
   sect_idx = 0;
   for (i = 0; i < game.control.styles_count; i++) {
@@ -482,6 +486,8 @@ static bool save_styles_ruleset(const char *filename, const char *name)
 
     save_reqs_vector(sfile, &(city_styles[i].reqs), path, "reqs");
   }
+
+  comment_musicstyles(sfile);
 
   sect_idx = 0;
   music_styles_iterate(pmus) {
