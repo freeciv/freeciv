@@ -20,7 +20,7 @@
 /* ANSI */
 #include <stdlib.h>
 
-#ifdef FREECIV_MS_WINDOWS
+#ifdef FREECIV_MSWINDOWS
 #include <windows.h>
 #endif
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
   int ui_options;
 
   /* Load win32 post-crash debugger */
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 # ifndef FREECIV_NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
 #  ifdef FREECIV_DEBUG
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 #  endif /* FREECIV_DEBUG */
   }
 # endif /* FREECIV_NDEBUG */
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
   init_nls();
 
