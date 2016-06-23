@@ -3719,15 +3719,15 @@ static bool do_unit_establish_trade(struct player *pplayer,
     break;
   case TBONUS_GOLD:
     /* TRANS: used as part of caravan revenue sentence. */
-    bonus_str = _("gold");
+    bonus_str = Q_("?tradebonustype:gold");
     break;
   case TBONUS_SCIENCE:
     /* TRANS: used as part of caravan revenue sentence. */
-    bonus_str = _("research");
+    bonus_str = Q_("?tradebonustype:research");
     break;
   case TBONUS_BOTH:
     /* TRANS: used as part of caravan revenue sentence. */
-    bonus_str = _("gold and research");
+    bonus_str = Q_("?tradebonustype:gold and research");
     break;
   }
 
