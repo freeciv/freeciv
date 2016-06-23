@@ -2026,16 +2026,16 @@ void choose_build_target(struct player *pplayer, struct city *pcity)
     /* We can build a unit again unless it's unique or we have lost the tech. */
     if (!utype_has_flag(pcity->production.value.utype, UTYF_UNIQUE)
         && can_city_build_unit_now(pcity, pcity->production.value.utype)) {
-      log_debug("%s repeats building %s", city_name_get(pcity),
-                utype_rule_name(pcity->production.value.utype));
+      log_base(LOG_BUILD_TARGET, "%s repeats building %s", city_name_get(pcity),
+               utype_rule_name(pcity->production.value.utype));
       return;
     }
     break;
   case VUT_IMPROVEMENT:
     if (can_city_build_improvement_now(pcity, pcity->production.value.building)) {
       /* We can build space and coinage again, and possibly others. */
-      log_debug("%s repeats building %s", city_name_get(pcity),
-                improvement_rule_name(pcity->production.value.building));
+      log_base(LOG_BUILD_TARGET, "%s repeats building %s", city_name_get(pcity),
+               improvement_rule_name(pcity->production.value.building));
       return;
     }
     break;

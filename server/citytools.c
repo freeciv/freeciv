@@ -2914,6 +2914,9 @@ void change_build_target(struct player *pplayer, struct city *pcity,
       break;
   }
 
+  log_base(LOG_BUILD_TARGET, "%s started building %s%s.",
+           city_name_get(pcity), name, source);
+
   /* Tell the player what's up. */
   /* FIXME: this may give bad grammar when translated if the 'source'
    * string can have multiple values. */

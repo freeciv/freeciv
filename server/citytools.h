@@ -18,6 +18,8 @@
 #include "packets.h"
 #include "unitlist.h"
 
+#define LOG_BUILD_TARGET LOG_DEBUG
+
 #define SPECLIST_TAG traderoute_packet
 #define SPECLIST_TYPE struct packet_traderoute_info
 #include "speclist.h"
