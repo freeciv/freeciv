@@ -204,8 +204,9 @@ force_explode_nuclear = FALSE
 
 ; What each action should be called when showing them to the player.
 ; The first %s should be before the mnemonic of the action.
-; The second %s marks were extra details should be insterted.
+; The second %s marks where extra details should be inserted.
 
+; ui_name_xxx = _("%s%s")
 
 ; /* <-- avoid gettext warnings
 ;
