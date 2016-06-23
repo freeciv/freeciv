@@ -592,6 +592,12 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     enabler->action = ACTION_HOME_CITY;
 
+    /* The actor unit can't have the unit type flag NoHome. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                              FALSE, FALSE, TRUE,
+                                              UTYF_NOHOME));
+
     /* The actor unit has a home city. (This is a feature since being
      * homeless is a big benefit. Unless the killunhomed setting is above
      * 0.) */
@@ -611,6 +617,11 @@ void rscompat_postprocess(struct rscompat_info *info)
     enabler = action_enabler_new();
 
     enabler->action = ACTION_UPGRADE_UNIT;
+
+    /* The target city must be domestic. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           FALSE, TRUE, "Is foreign"));
 
     action_enabler_add(enabler);
 
@@ -704,6 +715,26 @@ void rscompat_postprocess(struct rscompat_info *info)
                                   req_from_str("BuildingGenus", "Local", FALSE,
                                                TRUE, TRUE, "SmallWonder"));
 
+      }
+
+      if (ae->action == ACTION_ESTABLISH_EMBASSY
+          || ae->action == ACTION_SPY_INVESTIGATE_CITY
+          || ae->action == ACTION_SPY_STEAL_GOLD
+          || ae->action == ACTION_STEAL_MAPS
+          || ae->action == ACTION_SPY_STEAL_TECH
+          || ae->action == ACTION_SPY_TARGETED_STEAL_TECH
+          || ae->action == ACTION_SPY_INCITE_CITY
+          || ae->action == ACTION_SPY_BRIBE_UNIT) {
+        /* The rule that the target must be foreign used to be implicit. It
+         * must now be explicitly stated in the ruleset. */
+
+        struct requirement req
+            = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                              FALSE, TRUE, TRUE, DRO_FOREIGN);
+
+        if (!is_req_in_vec(&req, &ae->actor_reqs)) {
+          requirement_vector_append(&ae->actor_reqs, req);
+        }
       }
     } action_enablers_iterate_end;
   }

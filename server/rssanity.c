@@ -949,6 +949,94 @@ bool sanity_check_ruleset_data(bool ignore_retired)
         }
       } requirement_vector_iterate_end;
     } action_enabler_list_iterate_end;
+
+    if (!ignore_retired) {
+      /* Support for letting the following hard requirements be implicit
+       * were retired in Freeciv 3.0. Make sure that the opposite of each
+       * hard action requirement blocks all its action enablers. */
+
+      if (act == ACTION_ESTABLISH_EMBASSY
+          || act == ACTION_SPY_INVESTIGATE_CITY
+          || act == ACTION_SPY_STEAL_GOLD
+          || act == ACTION_STEAL_MAPS
+          || act == ACTION_SPY_STEAL_TECH
+          || act == ACTION_SPY_TARGETED_STEAL_TECH
+          || act == ACTION_SPY_INCITE_CITY
+          || act == ACTION_SPY_BRIBE_UNIT
+          || act == ACTION_CAPTURE_UNITS) {
+        /* Why this is a hard requirement: There is currently no point in
+         * allowing the listed actions against domestic targets.
+         * (Possible counter argument: crazy hack involving the Lua
+         * callback action_started_callback() to use an action to do
+         * something else. */
+        /* TODO: Unhardcode as a part of false flag operation support. */
+
+        struct requirement domestic_tgt
+            = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                              FALSE, FALSE, TRUE, DRO_FOREIGN);
+
+        if (!action_id_blocked_by_situation_act(act, &domestic_tgt)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require a "
+                        "foreign target.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+
+      if (act == ACTION_UPGRADE_UNIT) {
+        /* Why this is a hard requirement: Keep the old rules. Need to work
+         * out corner cases. */
+
+        struct requirement foreign_tgt
+            = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                              FALSE, TRUE, TRUE, DRO_FOREIGN);
+
+        if (!action_id_blocked_by_situation_act(act, &foreign_tgt)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require a "
+                        "domestic target.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+
+      if (act == ACTION_HOME_CITY) {
+        /* Why this is a hard requirement: Preserve semantics of NoHome
+         * flag. Need to replace other uses in game engine before this can
+         * be demoted to a regular unit flag. */
+
+        struct requirement nohome_flag
+            = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                              FALSE, TRUE, TRUE, UTYF_NOHOME);
+
+        if (!action_id_blocked_by_situation_act(act, &nohome_flag)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require that "
+                        "the actor doesn't have the NoHome utype flag.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+
+      if (act == ACTION_ATTACK) {
+        /* Why this is a hard requirement: Preserve semantics of NonMil
+         * flag. Need to replace other uses in game engine before this can
+         * be demoted to a regular unit flag. */
+
+        struct requirement nonmil_flag
+            = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                              FALSE, TRUE, TRUE, UTYF_CIVILIAN);
+
+        if (!action_id_blocked_by_situation_act(act, &nonmil_flag)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require that "
+                        "the actor doesn't have the NonMil utype flag.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+    }
   } action_iterate_end;
 
   /* There must be basic city style for each nation style to start with */
@@ -1125,88 +1213,6 @@ bool autoadjust_ruleset_data(void)
       }
     }
   }
-
-  /* Hard coded action enabler requirements. */
-  action_enablers_iterate(enabler) {
-    enum gen_action action = enabler->action;
-
-    if (action == ACTION_ESTABLISH_EMBASSY
-        || action == ACTION_SPY_INVESTIGATE_CITY
-        || action == ACTION_SPY_STEAL_GOLD
-        || action == ACTION_STEAL_MAPS
-        || action == ACTION_SPY_STEAL_TECH
-        || action == ACTION_SPY_TARGETED_STEAL_TECH
-        || action == ACTION_SPY_INCITE_CITY
-        || action == ACTION_SPY_BRIBE_UNIT
-        || action == ACTION_CAPTURE_UNITS) {
-      /* Why this is a hard requirement: There is currently no point in
-       * allowing the listed actions against domestic targets.
-       * (Possible counter argument: crazy hack involving the Lua callback
-       * action_started_callback() to use an action to do something else. */
-      /* TODO: Unhardcode as a part of false flag operation support. */
-
-      struct requirement req
-          = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
-                            FALSE, TRUE, TRUE, DRO_FOREIGN);
-
-      if (!is_req_in_vec(&req, &enabler->actor_reqs)) {
-        log_debug("Autorequiring that %s has a foreign target.",
-                  action_get_rule_name(action));
-
-        requirement_vector_append(&enabler->actor_reqs, req);
-      }
-    }
-
-    if (action == ACTION_UPGRADE_UNIT) {
-      /* Why this is a hard requirement: Keep the old rules. Need to work
-       * out corner cases. */
-
-      struct requirement req
-          = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
-                            FALSE, FALSE, TRUE, DRO_FOREIGN);
-
-      if (!is_req_in_vec(&req, &enabler->actor_reqs)) {
-        log_debug("Autorequiring that %s has a domestic target.",
-                  action_get_rule_name(action));
-
-        requirement_vector_append(&enabler->actor_reqs, req);
-      }
-    }
-
-    if (action == ACTION_HOME_CITY) {
-      /* Why this is a hard requirement: Preserve semantics of NoHome
-       * flag. Need to replace other uses in game engine before this can
-       * be demoted to a regular unit flag. */
-
-      struct requirement req
-          = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
-                            FALSE, FALSE, TRUE, UTYF_NOHOME);
-
-      if (!is_req_in_vec(&req, &enabler->actor_reqs)) {
-        log_debug("Autorequiring that %s can't be done to NoHome units.",
-                  action_get_rule_name(action));
-
-        requirement_vector_append(&enabler->actor_reqs, req);
-      }
-    }
-
-    if (action == ACTION_ATTACK) {
-      /* Why this is a hard requirement: Preserve semantics of NonMil
-       * flag. Need to replace other uses in game engine before this can
-       * be demoted to a regular unit flag. */
-
-      struct requirement req
-          = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
-                            FALSE, FALSE, TRUE, UTYF_CIVILIAN);
-
-      if (!is_req_in_vec(&req, &enabler->actor_reqs)) {
-        log_debug("Autorequiring that %s can't be done to NonMil units.",
-                  action_get_rule_name(action));
-
-        requirement_vector_append(&enabler->actor_reqs, req);
-      }
-    }
-  } action_enablers_iterate_end;
 
   return ok;
 }
