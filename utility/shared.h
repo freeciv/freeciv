@@ -119,7 +119,12 @@ enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 #endif /* PATH_SEPARATOR */
 
 #ifndef DIR_SEPARATOR
-#if defined(FREECIV_MSWINDOWS) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
+#if defined(CROSSER)
+  /* crosser based build */
+# define DIR_SEPARATOR_IS_DEFAULT
+# define DIR_SEPARATOR "/"
+# define DIR_SEPARATOR_CHAR '/'
+#elif defined(FREECIV_MSWINDOWS) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
   /* Win32, OS/2, DOS */
 # define DIR_SEPARATOR "\\"
 # define DIR_SEPARATOR_CHAR '\\'
