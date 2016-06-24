@@ -515,6 +515,7 @@ static bool manual_command(void)
                 : Q_("?tech:None"));
         fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);
       } improvement_iterate_end;
+      fprintf(doc, "</table>");
       break;
 
     case MANUAL_GOVS:
