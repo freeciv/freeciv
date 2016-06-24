@@ -445,7 +445,7 @@ static struct command commands[] = {
   {"timeoutincrease", ALLOW_CTRL, 
    /* TRANS: translate text between <> only */
    N_("timeoutincrease <turn> <turninc> <value> <valuemult>"), 
-   N_("See \"help timeoutincrease\"."),
+   N_("See \"/help timeoutincrease\"."),
    N_("Every <turn> turns, add <value> to timeout timer, then add <turninc> "
       "to <turn> and multiply <value> by <valuemult>. Use this command in "
       "concert with the option \"timeout\". Defaults are 0 0 0 1"), NULL,

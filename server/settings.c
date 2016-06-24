@@ -697,7 +697,7 @@ static bool demography_callback(const char *value,
   } else {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("Demography string validation failed at character: "
-                        "'%c'. Try \"help demography\"."), value[error]);
+                        "'%c'. Try \"/help demography\"."), value[error]);
     return FALSE;
   }
 }
@@ -739,7 +739,7 @@ static bool allowtake_callback(const char *value,
     /* Looks like the character was invalid. */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("Allowed take string validation failed at "
-                        "character: '%c'. Try \"help allowtake\"."),
+                        "character: '%c'. Try \"/help allowtake\"."),
                       value[i]);
     return FALSE;
   }
@@ -778,7 +778,7 @@ static bool startunits_callback(const char *value,
     /* Looks like the character was invalid. */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("Starting units string validation failed at "
-                        "character '%c'. Try \"help startunits\"."),
+                        "character '%c'. Try \"/help startunits\"."),
                       value[i]);
     return FALSE;
   }
