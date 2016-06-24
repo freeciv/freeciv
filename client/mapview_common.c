@@ -3135,11 +3135,11 @@ bool map_canvas_resized(int width, int height)
   if (!map_is_empty() && can_client_change_view()) {
     if (tile_size_changed) {
       if (center_tile != NULL) {
-        int x0, y0;
+        int x_left, y_top;
         float gui_x, gui_y;
 
-        index_to_map_pos(&x0, &y0, tile_index(center_tile));
-        map_to_gui_pos(tileset, &gui_x, &gui_y, x0, y0);
+        index_to_map_pos(&x_left, &y_top, tile_index(center_tile));
+        map_to_gui_pos(tileset, &gui_x, &gui_y, x_left, y_top);
 
         /* Put the center pixel of the tile at the exact center of the mapview. */
         gui_x -= (mapview.width - tileset_tile_width(tileset) * map_zoom) / 2;
@@ -3374,7 +3374,7 @@ static void link_mark_draw(const struct link_mark *pmark)
   int xd = width / 20, yd = height / 20;
   int xlen = width / 3, ylen = height / 3;
   float canvas_x, canvas_y;
-  int x0, x1, y0, y1;
+  int x_left, x_right, y_top, y_bottom;
   struct tile *ptile = link_mark_tile(pmark);
   struct color *pcolor = link_mark_color(pmark);
 
@@ -3382,22 +3382,22 @@ static void link_mark_draw(const struct link_mark *pmark)
     return;
   }
 
-  x0 = canvas_x + xd;
-  x1 = canvas_x + width - xd;
-  y0 = canvas_y + yd;
-  y1 = canvas_y + height - yd;
+  x_left = canvas_x + xd;
+  x_right = canvas_x + width - xd;
+  y_top = canvas_y + yd;
+  y_bottom = canvas_y + height - yd;
 
-  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x0, y0, xlen, 0);
-  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x0, y0, 0, ylen);
+  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_left, y_top, xlen, 0);
+  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_left, y_top, 0, ylen);
   
-  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x1, y0, -xlen, 0);
-  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x1, y0, 0, ylen);
+  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_right, y_top, -xlen, 0);
+  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_right, y_bottom, 0, ylen);
   
-  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x0, y1, xlen, 0);
-  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x0, y1, 0, -ylen);
+  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_left, y_bottom, xlen, 0);
+  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_left, y_bottom, 0, -ylen);
   
-  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x1, y1, -xlen, 0);
-  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x1, y1, 0, -ylen);
+  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_right, y_bottom, -xlen, 0);
+  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_right, y_bottom, 0, -ylen);
 }
 
 /********************************************************************** 

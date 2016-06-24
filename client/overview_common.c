@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -208,15 +208,15 @@ static void redraw_overview(void)
   {
     struct canvas *src = gui_options.overview.map;
     struct canvas *dst = gui_options.overview.window;
-    int x0 = gui_options.overview.map_x0 * OVERVIEW_TILE_SIZE;
-    int y0 = gui_options.overview.map_y0 * OVERVIEW_TILE_SIZE;
-    int ix = gui_options.overview.width - x0;
-    int iy = gui_options.overview.height - y0;
+    int x_left = gui_options.overview.map_x0 * OVERVIEW_TILE_SIZE;
+    int y_top = gui_options.overview.map_y0 * OVERVIEW_TILE_SIZE;
+    int ix = gui_options.overview.width - x_left;
+    int iy = gui_options.overview.height - y_top;
 
-    canvas_copy(dst, src, 0, 0, ix, iy, x0, y0);
-    canvas_copy(dst, src, 0, y0, ix, 0, x0, iy);
-    canvas_copy(dst, src, x0, 0, 0, iy, ix, y0);
-    canvas_copy(dst, src, x0, y0, 0, 0, ix, iy);
+    canvas_copy(dst, src, 0, 0, ix, iy, x_left, y_top);
+    canvas_copy(dst, src, 0, y_top, ix, 0, x_left, iy);
+    canvas_copy(dst, src, x_left, 0, 0, iy, ix, y_top);
+    canvas_copy(dst, src, x_left, y_top, 0, 0, ix, iy);
   }
 
   gui_to_overview_pos(tileset, &x[0], &y[0],

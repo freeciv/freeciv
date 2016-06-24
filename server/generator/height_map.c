@@ -211,7 +211,7 @@ void make_pseudofractal1_hmap(int extra_div)
 
   int xmax = game.map.xsize - (xnowrap ? 1 : 0);
   int ymax = game.map.ysize - (ynowrap ? 1 : 0);
-  int xn, yn;
+  int x_current, y_current;
   /* just need something > log(max(xsize, ysize)) for the recursion */
   int step = game.map.xsize + game.map.ysize; 
   /* edges are avoided more strongly as this increases */
@@ -223,9 +223,9 @@ void make_pseudofractal1_hmap(int extra_div)
   INITIALIZE_ARRAY(height_map, MAP_INDEX_SIZE, 0);
 
   /* set initial points */
-  for (xn = 0; xn < xdiv2; xn++) {
-    for (yn = 0; yn < ydiv2; yn++) {
-      do_in_map_pos(ptile, (xn * xmax / xdiv), (yn * ymax / ydiv)) {
+  for (x_current = 0; x_current < xdiv2; x_current++) {
+    for (y_current = 0; y_current < ydiv2; y_current++) {
+      do_in_map_pos(ptile, (x_current * xmax / xdiv), (y_current * ymax / ydiv)) {
         /* set initial points */
         hmap(ptile) = fc_rand(2 * step) - (2 * step) / 2;
 
@@ -243,10 +243,10 @@ void make_pseudofractal1_hmap(int extra_div)
   }
 
   /* calculate recursively on each block */
-  for (xn = 0; xn < xdiv; xn++) {
-    for (yn = 0; yn < ydiv; yn++) {
-      gen5rec(step, xn * xmax / xdiv, yn * ymax / ydiv, 
-	      (xn + 1) * xmax / xdiv, (yn + 1) * ymax / ydiv);
+  for (x_current = 0; x_current < xdiv; x_current++) {
+    for (y_current = 0; y_current < ydiv; y_current++) {
+      gen5rec(step, x_current * xmax / xdiv, y_current * ymax / ydiv, 
+	      (x_current + 1) * xmax / xdiv, (y_current + 1) * ymax / ydiv);
     }
   }
 
