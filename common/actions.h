@@ -184,6 +184,13 @@ action_probability action_prob_vs_unit(const struct unit* actor,
 
 bool action_prob_possible(action_probability probability);
 
+/* Special action probability values. Documented in fc_types.h's
+ * definition of action_probability. */
+#define ACTPROB_IMPOSSIBLE 0
+#define ACTPROB_NA 253
+#define ACTPROB_NOT_IMPLEMENTED 254
+#define ACTPROB_NOT_KNOWN 255
+
 /* Reasoning about actions */
 bool action_immune_government(struct government *gov, int act);
 
