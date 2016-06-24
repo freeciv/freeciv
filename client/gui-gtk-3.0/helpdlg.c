@@ -744,14 +744,11 @@ static void create_help_page(enum help_page_type type)
 **************************************************************************/
 static void set_help_tile_from_sprite(struct sprite *spr)
 {
-  GdkPixbuf *pix;
-
   if (spr == NULL) {
     return;
   }
 
-  pix = sprite_get_pixbuf(spr);
-  gtk_image_set_from_pixbuf(GTK_IMAGE(help_tile), pix);
+  gtk_image_set_from_surface(GTK_IMAGE(help_tile), spr->surface);
   gtk_widget_show(help_tile);
 }
 

@@ -1092,9 +1092,9 @@ static void setup_widgets(void)
   GtkWidget *button, *view, *vgrid, *right_vbox = NULL;
   int i;
   char buf[256];
+  struct sprite *spr;
   GtkWidget *notebook, *statusbar;
   GtkWidget *dtach_lowbox = NULL;
-  GdkPixbuf *pb;
 
   message_buffer = gtk_text_buffer_new(NULL);
 
@@ -1269,8 +1269,6 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(ebox), table2);
   
   for (i = 0; i < 10; i++) {
-    struct sprite *spr;
-
     ebox = gtk_event_box_new();
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
     gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
@@ -1281,25 +1279,27 @@ static void setup_widgets(void)
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
     spr = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
-    pb = sprite_get_pixbuf(spr);
-    econ_label[i] = gtk_image_new_from_pixbuf(pb);
-    g_object_unref(pb);
+    econ_label[i] = gtk_image_new_from_surface(spr->surface);
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
 
   /* science, environmental, govt, timeout */
-  pb = sprite_get_pixbuf(client_research_sprite());
-  bulb_label = gtk_image_new_from_pixbuf(pb);
-  g_object_unref(pb);
-  pb = sprite_get_pixbuf(client_warming_sprite());
-  sun_label = gtk_image_new_from_pixbuf(pb);
-  g_object_unref(pb);
-  pb = sprite_get_pixbuf(client_cooling_sprite());
-  flake_label = gtk_image_new_from_pixbuf(pb);
-  g_object_unref(pb);
-  pb = sprite_get_pixbuf(client_government_sprite());
-  government_label = gtk_image_new_from_pixbuf(pb);
-  g_object_unref(pb);
+  spr = client_research_sprite();
+  if (spr != NULL) {
+    bulb_label = gtk_image_new_from_surface(spr->surface);
+  }
+  spr = client_warming_sprite();
+  if (spr != NULL) {
+    sun_label = gtk_image_new_from_surface(spr->surface);
+  }
+  spr = client_cooling_sprite();
+  if (spr != NULL) {
+    flake_label = gtk_image_new_from_surface(spr->surface);
+  }
+  spr = client_government_sprite();
+  if (spr != NULL) {
+    government_label = gtk_image_new_from_surface(spr->surface);
+  }
 
   for (i = 0; i < 4; i++) {
     GtkWidget *w;

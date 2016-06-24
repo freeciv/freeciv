@@ -54,7 +54,6 @@ struct happiness_dialog {
   GtkWidget *shell;
   GtkWidget *cityname_label;
   cairo_surface_t *feeling_surfaces[NUM_HAPPINESS_MODIFIERS];
-  GtkWidget *feeling_images[NUM_HAPPINESS_MODIFIERS];
   GtkWidget *happiness_ebox[NUM_HAPPINESS_MODIFIERS];
   GtkWidget *happiness_label[NUM_HAPPINESS_MODIFIERS];
   GtkWidget *close;
@@ -226,7 +225,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
   gtk_container_add(GTK_CONTAINER(pdialog->cityname_label), table);
 
   for (i = 0; i < NUM_HAPPINESS_MODIFIERS; i++) {
-    GdkPixbuf *pb;
+    GtkWidget *img;
 
     /* set spacing between lines of citizens*/
 
@@ -250,12 +249,10 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 
     pdialog->feeling_surfaces[i] = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
                                                               FEELING_WIDTH, FEELING_HEIGHT);
-    pb = surface_get_pixbuf(pdialog->feeling_surfaces[i], FEELING_WIDTH, FEELING_HEIGHT);
-    pdialog->feeling_images[i] = gtk_image_new_from_pixbuf(pb);
-    g_object_unref(pb);
-    gtk_container_add(GTK_CONTAINER(ebox), pdialog->feeling_images[i]);
-    gtk_widget_set_halign(pdialog->feeling_images[i], GTK_ALIGN_START);
-    gtk_widget_set_valign(pdialog->feeling_images[i], GTK_ALIGN_START);
+    img = gtk_image_new_from_surface(pdialog->feeling_surfaces[i]);
+    gtk_container_add(GTK_CONTAINER(ebox), img);
+    gtk_widget_set_halign(img, GTK_ALIGN_START);
+    gtk_widget_set_valign(img, GTK_ALIGN_START);
 
     gtk_grid_attach(GTK_GRID(table), ebox, 1, i, 1, 1);
   }
@@ -309,13 +306,7 @@ void refresh_happiness_dialog(struct city *pcity)
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
 
   for (i = 0; i < FEELING_LAST; i++) {
-    GdkPixbuf *pb;
-
     refresh_feeling_surface(pdialog->feeling_surfaces[i], pdialog->pcity, i);
-
-    pb = surface_get_pixbuf(pdialog->feeling_surfaces[i], FEELING_WIDTH, FEELING_HEIGHT);
-    gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->feeling_images[i]), pb);
-    g_object_unref(pb);
   }
 }
 

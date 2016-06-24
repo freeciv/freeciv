@@ -1482,7 +1482,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   GtkWidget *vbox, *hbox, *cbox, *ebox;
   int citizen_bar_width;
   int citizen_bar_height;
-  GdkPixbuf *pb;
 
   if (!city_dialogs_have_been_initialised) {
     initialize_city_dialogs();
@@ -1550,9 +1549,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   pdialog->citizen_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
                                                         citizen_bar_width, citizen_bar_height);
-  pb = surface_get_pixbuf(pdialog->citizen_surface, citizen_bar_width, citizen_bar_height);
-  pdialog->citizen_images = gtk_image_new_from_pixbuf(pb);
-  g_object_unref(pb);
+  pdialog->citizen_images = gtk_image_new_from_surface(pdialog->citizen_surface);
 
   gtk_widget_add_events(pdialog->citizen_images, GDK_BUTTON_PRESS_MASK);
   gtk_widget_set_margin_left(pdialog->citizen_images, 2);
@@ -1704,11 +1701,9 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   enum citizen_category categories[MAX_CITY_SIZE];
   int i, width;
-  int citizen_bar_width;
   int citizen_bar_height;
   struct city *pcity = pdialog->pcity;
   int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
-  GdkPixbuf *pb;
   cairo_t *cr;
 
   /* If there is not enough space we stack the icons. We draw from left to */
@@ -1726,7 +1721,6 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   pdialog->cwidth = width;
 
   /* overview page */
-  citizen_bar_width = (num_citizens - 1) * width + tileset_small_sprite_width(tileset) + 2;
   citizen_bar_height = tileset_small_sprite_height(tileset);
 
   cr = cairo_create(pdialog->citizen_surface);
@@ -1740,10 +1734,6 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   }
 
   cairo_destroy(cr);
-
-  pb = surface_get_pixbuf(pdialog->citizen_surface, citizen_bar_width, citizen_bar_height);
-  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->citizen_images), pb);
-  g_object_unref(pb);
 }
 
 /****************************************************************

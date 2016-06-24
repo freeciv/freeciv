@@ -628,7 +628,6 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   GtkWidget *label, *sw, *view, *image, *spin;
   GtkWidget *menubar, *menuitem, *menu, *notebook;
   struct sprite *flag_spr;
-  GdkPixbuf *pb;
   GtkListStore *store;
   GtkCellRenderer *rend;
   int i;
@@ -712,9 +711,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   /* Our flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr0));
 
-  pb = sprite_get_pixbuf(flag_spr);
-  image = gtk_image_new_from_pixbuf(pb);
-  g_object_unref(pb);
+  image = gtk_image_new_from_surface(flag_spr->surface);
   gtk_container_add(GTK_CONTAINER(hbox), image);
 
   /* Our name. */
@@ -799,9 +796,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   /* Their flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr1));
 
-  pb = sprite_get_pixbuf(flag_spr);
-  image = gtk_image_new_from_pixbuf(pb);
-  g_object_unref(pb);
+  image = gtk_image_new_from_surface(flag_spr->surface);
   gtk_container_add(GTK_CONTAINER(hbox), image);
 
   /* Their name. */

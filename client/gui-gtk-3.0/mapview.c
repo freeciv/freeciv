@@ -164,30 +164,21 @@ void update_info_label(void)
 
     for (; d < client.conn.playing->economic.luxury /10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_LUXURY);
-      GdkPixbuf *pb;
 
-      pb = sprite_get_pixbuf(spr);
-      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]), pb);
-      g_object_unref(pb);
+      gtk_image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
     }
 
     for (; d < (client.conn.playing->economic.science
 		+ client.conn.playing->economic.luxury) / 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_SCIENCE);
-      GdkPixbuf *pb;
 
-      pb = sprite_get_pixbuf(spr);
-      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]), pb);
-      g_object_unref(pb);
+      gtk_image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
     }
 
     for (; d < 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_GOLD);
-      GdkPixbuf *pb;
 
-      pb = sprite_get_pixbuf(spr);
-      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]), pb);
-      g_object_unref(pb);
+      gtk_image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
     }
   }
 
@@ -281,20 +272,10 @@ GdkPixbuf *get_thumb_pixbuf(int onoff)
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                          struct sprite *flake, struct sprite *gov)
 {
-  GdkPixbuf *pb;
-
-  pb = sprite_get_pixbuf(bulb);
-  gtk_image_set_from_pixbuf(GTK_IMAGE(bulb_label), pb);
-  g_object_unref(pb);
-  pb = sprite_get_pixbuf(sol);
-  gtk_image_set_from_pixbuf(GTK_IMAGE(sun_label), pb);
-  g_object_unref(pb);
-  pb = sprite_get_pixbuf(flake);
-  gtk_image_set_from_pixbuf(GTK_IMAGE(flake_label), pb);
-  g_object_unref(pb);
-  pb = sprite_get_pixbuf(gov);
-  gtk_image_set_from_pixbuf(GTK_IMAGE(government_label), pb);
-  g_object_unref(pb);
+  gtk_image_set_from_surface(GTK_IMAGE(bulb_label), bulb->surface);
+  gtk_image_set_from_surface(GTK_IMAGE(sun_label), sol->surface);
+  gtk_image_set_from_surface(GTK_IMAGE(flake_label), flake->surface);
+  gtk_image_set_from_surface(GTK_IMAGE(government_label), gov->surface);
 }
 
 /****************************************************************************
@@ -506,7 +487,6 @@ void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
                                   int *upkeep_cost, int happy_cost)
 {
   struct canvas store = FC_STATIC_CANVAS_INIT;
-  GdkPixbuf *pb;
   int width = tileset_full_tile_width(tileset);
 
   store.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
@@ -517,9 +497,7 @@ void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
   put_unit_city_overlays(punit, &store, 0, tileset_unit_layout_offset_y(tileset),
                          upkeep_cost, happy_cost);
 
-  pb = surface_get_pixbuf(store.surface, width, height);
-  gtk_image_set_from_pixbuf(p, pb);
-  g_object_unref(pb);
+  gtk_image_set_from_surface(p, store.surface);
   cairo_surface_destroy(store.surface);
 }
 
