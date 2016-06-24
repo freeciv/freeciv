@@ -70,6 +70,8 @@
 #include "meta.h"
 
 static bool server_is_open = FALSE;
+static bool persistent_meta_connection = FALSE;
+static int meta_retry_wait = 0;
 
 static char meta_patches[256] = "";
 static char meta_message[256] = "";
@@ -197,10 +199,15 @@ char *meta_addr_port(void)
 *************************************************************************/
 static void metaserver_failed(void)
 {
-  con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
-  con_flush();
+  if (!persistent_meta_connection) {
+    con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
+    con_flush();
 
-  server_close_meta();
+    server_close_meta();
+  } else {
+    con_puts(C_METAERROR, _("Metaserver connection currently failing."));
+    meta_retry_wait = 1;
+  }
 }
 
 /****************************************************************************
@@ -424,12 +431,13 @@ static bool send_to_metaserver(enum meta_flag flag)
 void server_close_meta(void)
 {
   server_is_open = FALSE;
+  persistent_meta_connection = FALSE;
 }
 
 /*************************************************************************
- lookup the correct address for the metaserver.
+  Lookup the correct address for the metaserver.
 *************************************************************************/
-bool server_open_meta(void)
+bool server_open_meta(bool persistent)
 {
   if (meta_patches[0] == '\0') {
     set_meta_patches_string(default_meta_patches_string());
@@ -439,12 +447,14 @@ bool server_open_meta(void)
   }
 
   server_is_open = TRUE;
+  persistent_meta_connection = persistent;
+  meta_retry_wait = 0;
 
   return TRUE;
 }
 
 /**************************************************************************
- are we sending info to the metaserver?
+  Are we sending info to the metaserver?
 **************************************************************************/
 bool is_metaserver_open(void)
 {
@@ -461,6 +471,15 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
 
   if (!server_is_open) {
     return FALSE;
+  }
+
+  /* Persistent connection temporary failures handling */
+  if (meta_retry_wait > 0) {
+    if (meta_retry_wait++ > 5) {
+      meta_retry_wait = 0;
+    } else {
+      return FALSE;
+    }
   }
 
   /* if we're bidding farewell, ignore all timers */

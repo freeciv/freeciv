@@ -2574,7 +2574,7 @@ static void srv_prepare(void)
   if (!(srvarg.metaserver_no_send)) {
     log_normal(_("Sending info to metaserver <%s>."), meta_addr_port());
     /* Open socket for meta server */
-    if (!server_open_meta()
+    if (!server_open_meta(FALSE)
         || !send_server_info_to_metaserver(META_INFO)) {
       con_write(C_FAIL, _("Not starting without explicitly requested metaserver connection."));
       exit(EXIT_FAILURE);

@@ -480,9 +480,10 @@ static void cmd_reply_no_such_conn(enum command_id cmd,
 /**************************************************************************
   Start sending game info to metaserver.
 **************************************************************************/
-static void open_metaserver_connection(struct connection *caller)
+static void open_metaserver_connection(struct connection *caller,
+                                       bool persistent)
 {
-  server_open_meta();
+  server_open_meta(persistent);
   if (send_server_info_to_metaserver(META_INFO)) {
     cmd_reply(CMD_METACONN, caller, C_OK,
               _("Open metaserver connection to [%s]."),
@@ -509,8 +510,10 @@ static void close_metaserver_connection(struct connection *caller)
 static bool metaconnection_command(struct connection *caller, char *arg, 
                                    bool check)
 {
-  if ((*arg == '\0') ||
-      (0 == strcmp (arg, "?"))) {
+  bool persistent = FALSE;
+
+  if ((*arg == '\0')
+      || (!strcmp(arg, "?"))) {
     if (is_metaserver_open()) {
       cmd_reply(CMD_METACONN, caller, C_COMMENT,
                 _("Metaserver connection is open."));
@@ -518,31 +521,40 @@ static bool metaconnection_command(struct connection *caller, char *arg,
       cmd_reply(CMD_METACONN, caller, C_COMMENT,
                 _("Metaserver connection is closed."));
     }
-  } else if (0 == fc_strcasecmp(arg, "u")
-             || 0 == fc_strcasecmp(arg, "up")) {
+    return TRUE;
+  }
+
+  if (!fc_strcasecmp(arg, "p")
+      || !fc_strcasecmp(arg, "persistent")) {
+    persistent = TRUE;
+  }
+
+  if (persistent
+      || !fc_strcasecmp(arg, "u")
+      || !fc_strcasecmp(arg, "up")) {
     if (!is_metaserver_open()) {
       if (!check) {
-        open_metaserver_connection(caller);
+        open_metaserver_connection(caller, persistent);
       }
     } else {
       cmd_reply(CMD_METACONN, caller, C_METAERROR,
-		_("Metaserver connection is already open."));
+                _("Metaserver connection is already open."));
       return FALSE;
     }
-  } else if (0 == fc_strcasecmp(arg, "d")
-             || 0 == fc_strcasecmp(arg, "down")) {
+  } else if (!fc_strcasecmp(arg, "d")
+             || !fc_strcasecmp(arg, "down")) {
     if (is_metaserver_open()) {
       if (!check) {
         close_metaserver_connection(caller);
       }
     } else {
       cmd_reply(CMD_METACONN, caller, C_METAERROR,
-		_("Metaserver connection is already closed."));
+                _("Metaserver connection is already closed."));
       return FALSE;
     }
   } else {
     cmd_reply(CMD_METACONN, caller, C_METAERROR,
-	      _("Argument must be 'u', 'up', 'd', 'down', or '?'."));
+              _("Argument must be 'u', 'up', 'd', 'down', 'p', 'persistent', or '?'."));
     return FALSE;
   }
   return TRUE;
