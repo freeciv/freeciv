@@ -471,7 +471,7 @@ static struct command commands[] = {
       "cancelvote <vote number>\n"
       "cancelvote all\n"),
    /* TRANS: "vote" as a process */
-   N_("Cancel a running vote.\n"),
+   N_("Cancel a running vote."),
    /* TRANS: "vote" as a process */
    N_("With no arguments this command removes your own vote. If you have "
       "an admin access level, you can cancel any vote by vote number, or "
