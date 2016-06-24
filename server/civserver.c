@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -225,12 +225,12 @@ int main(int argc, char *argv[])
       srvarg.ranklog_filename = option; /* Never freed. */
     } else if (is_option("--nometa", argv[inx])) {
       fc_fprintf(stderr, _("Warning: the %s option is obsolete.  "
-			   "Use -m to enable the metaserver.\n"), argv[inx]);
+                           "Use -m to enable the metaserver.\n"), argv[inx]);
       showhelp = TRUE;
     } else if (is_option("--meta", argv[inx])) {
       srvarg.metaserver_no_send = FALSE;
     } else if ((option = get_option_malloc("--Metaserver",
-					 argv, &inx, argc))) {
+                                           argv, &inx, argc))) {
       sz_strlcpy(srvarg.metaserver_addr, option);
       free(option);
       srvarg.metaserver_no_send = FALSE;      /* --Metaserver implies --meta */

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ void set_user_meta_message_string(const char *string);
 char *meta_addr_port(void);
 
 void server_close_meta(void);
-bool server_open_meta(void);
+bool server_open_meta(bool persistent);
 bool is_metaserver_open(void);
 
 bool send_server_info_to_metaserver(enum meta_flag flag);

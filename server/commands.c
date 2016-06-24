@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -266,7 +266,8 @@ static struct command commands[] = {
    N_("Control metaserver connection."),
    N_("'metaconnection ?' reports on the status of the connection to metaserver. "
       "'metaconnection down' or 'metac d' brings the metaserver connection down. "
-      "'metaconnection up' or 'metac u' brings the metaserver connection up."),
+      "'metaconnection up' or 'metac u' brings the metaserver connection up. "
+      "'metaconnection persistent' or 'metac p' is like 'up', but keeps trying after failures. "),
    NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
