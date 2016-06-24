@@ -1333,7 +1333,7 @@ static inline bool action_prob_not_relevant(action_probability probability)
 **************************************************************************/
 static inline bool action_prob_is_signal(action_probability probability)
 {
-  return probability < 0 && probability > 200;
+  return probability < 0 || probability > 200;
 }
 #endif /* FREECIV_NDEBUG */
 
