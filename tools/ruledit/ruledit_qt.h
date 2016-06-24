@@ -1,4 +1,4 @@
-/********************************************************************** 
+/*********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ class QStackedLayout;
 
 class requirers_dlg;
 class tab_building;
+class tab_good;
 class tab_misc;
 class tab_tech;
 class tab_unit;
@@ -74,6 +75,7 @@ class ruledit_gui : public QObject
     tab_misc *misc;
     tab_tech *tech;
     tab_unit *unit;
+    tab_good *good;
     tab_nation *nation;
 
   private slots:

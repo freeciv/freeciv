@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@
 #include "requirers_dlg.h"
 #include "ruledit.h"
 #include "tab_building.h"
+#include "tab_good.h"
 #include "tab_misc.h"
 #include "tab_nation.h"
 #include "tab_tech.h"
@@ -172,6 +173,8 @@ void ruledit_gui::setup(QWidget *central_in)
   stack->addTab(bldg, QString::fromUtf8(R__("Buildings")));
   unit = new tab_unit(this);
   stack->addTab(unit, QString::fromUtf8(R__("Units")));
+  good = new tab_good(this);
+  stack->addTab(good, QString::fromUtf8(R__("Goods")));
   nation = new tab_nation(this);
   stack->addTab(nation, QString::fromUtf8(R__("Nations")));
 
@@ -214,6 +217,7 @@ void ruledit_gui::launch_now()
     nation->refresh();
     tech->refresh();
     unit->refresh();
+    good->refresh();
     main_layout->setCurrentIndex(1);
   } else {
     display_msg(R__("Ruleset loading failed!"));

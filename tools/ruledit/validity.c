@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -209,6 +209,20 @@ bool is_utype_needed(struct unit_type *ptype, requirers_cb cb,
                      void *data)
 {
   struct universal uni = { .value.utype = ptype, .kind = VUT_UTYPE };
+  bool needed = FALSE;
+
+  needed |= is_universal_needed(&uni, cb, data);
+
+  return needed;
+}
+
+/**************************************************************************
+  Check if anything in ruleset needs unit type
+**************************************************************************/
+bool is_good_needed(struct goods_type *pgood, requirers_cb cb,
+                    void *data)
+{
+  struct universal uni = { .value.good = pgood, .kind = VUT_GOOD };
   bool needed = FALSE;
 
   needed |= is_universal_needed(&uni, cb, data);

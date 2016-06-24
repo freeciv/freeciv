@@ -410,6 +410,7 @@ void goods_init(void)
     goods[i].id = i;
 
     requirement_vector_init(&(goods[i].reqs));
+    goods[i].disabled = FALSE;
   }
 }
 

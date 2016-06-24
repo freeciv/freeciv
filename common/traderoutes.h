@@ -156,6 +156,7 @@ struct goods_type
 {
   int id;
   struct name_translation name;
+  bool disabled; /* Does not really exist - hole in goods array */
 
   struct requirement_vector reqs;
 };
