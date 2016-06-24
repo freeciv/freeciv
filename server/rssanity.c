@@ -781,6 +781,16 @@ bool sanity_check_ruleset_data(bool ignore_retired)
     }
   } disaster_type_iterate_end;
 
+  /* Goods */
+  goods_type_iterate(pgood) {
+    if (!sanity_check_req_vec(&pgood->reqs, TRUE, -1,
+                              goods_rule_name(pgood))) {
+      ruleset_error(LOG_ERROR,
+                    "Goods have conflicting or invalid requirements!");
+      ok = FALSE;
+    }
+  } goods_type_iterate_end;
+
   /* Buildings */
   improvement_iterate(pimprove) {
     if (!sanity_check_req_vec(&pimprove->reqs, TRUE, -1,
