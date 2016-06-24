@@ -1182,7 +1182,15 @@ static void end_turn(void)
 
   if (game.server.migration) {
     log_debug("Season of migrations");
-    check_city_migrations();
+    if (check_city_migrations()) {
+      /* Make sure everyone has updated information about BOTH ends of the
+       * migration movements. */
+      players_iterate(plr) {
+        city_list_iterate(plr->cities, pcity) {
+          send_city_info(NULL, pcity);
+        } city_list_iterate_end;
+      } players_iterate_end;
+    }
   }
 
   check_disasters();
