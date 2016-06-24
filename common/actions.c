@@ -54,10 +54,10 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist);
 
-#ifndef FREECIV_NDEBUG
 static inline bool action_prob_is_signal(action_probability probability);
 static inline bool action_prob_not_relevant(action_probability probability);
-#endif /* FREECIV_NDEBUG */
+static inline bool action_prob_unknown(action_probability probability);
+static inline bool action_prob_not_impl(action_probability probability);
 
 /**************************************************************************
   Initialize the actions and the action enablers.
@@ -313,37 +313,24 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
 
   /* How to interpret action probabilities like prob is documented in
    * fc_types.h */
-  switch (prob) {
-  case ACTPROB_NOT_KNOWN:
-    /* Unknown because the player don't have the required knowledge to
-     * determine the probability of success for this action. */
+  if (action_prob_is_signal(prob)) {
+    if (action_prob_unknown(prob)) {
+      /* Unknown because the player don't have the required knowledge to
+       * determine the probability of success for this action. */
 
-    /* TRANS: the chance of a diplomat action succeeding is unknown. */
-    probtxt = _("?%");
+      /* TRANS: the chance of a diplomat action succeeding is unknown. */
+      probtxt = _("?%");
+    } else {
+      fc_assert(action_prob_not_impl(prob)
+                || action_prob_not_relevant(prob));
 
-    break;
-  case ACTPROB_NOT_IMPLEMENTED:
-    /* Unknown because of missing server support. */
-    probtxt = NULL;
-
-    break;
-  case ACTPROB_NA:
-    /* Should not exist */
-    probtxt = NULL;
-
-    break;
-  case ACTPROB_IMPOSSIBLE:
-    /* ACTPROB_IMPOSSIBLE is a 0% probability of success */
-  default:
-    /* Should be in the range 0 (0%) to 200 (100%) */
-    fc_assert_msg(!action_prob_is_signal(prob),
-                  "Diplomat action probability out of range");
-
-    /* TRANS: the probability that a diplomat action will succeed. */
+      /* Unknown because of missing server support or should not exits. */
+      probtxt = NULL;
+    }
+  } else {
+    /* TRANS: the probability that an action will succeed. */
     astr_set(&chance, _("%.1f%%"), (double)prob / 2);
     probtxt = astr_str(&chance);
-
-    break;
   }
 
   /* Format the info part of the action's UI name. */
@@ -378,25 +365,23 @@ const char *action_get_tool_tip(const int action_id,
 {
   static struct astring tool_tip = ASTRING_INIT;
 
-  switch (act_prob) {
-  case ACTPROB_NOT_KNOWN:
-    /* Missing in game knowledge. An in game action can change this. */
-    astr_set(&tool_tip,
-             _("Starting to do this may currently be impossible."));
-    break;
-  case ACTPROB_NOT_IMPLEMENTED:
-    /* Missing server support. No in game action will change this. */
-    astr_clear(&tool_tip);
-    break;
-  default:
-    {
-      /* The unit is 0.5% chance of success. */
-      const double converted = (double)act_prob / 2.0;
+  if (action_prob_is_signal(act_prob)) {
+    if (action_prob_unknown(act_prob)) {
+      /* Missing in game knowledge. An in game action can change this. */
+      astr_set(&tool_tip,
+               _("Starting to do this may currently be impossible."));
+    } else {
+      fc_assert(action_prob_not_impl(act_prob));
 
-      astr_set(&tool_tip, _("The probability of success is %.1f%%."),
-               converted);
+      /* Missing server support. No in game action will change this. */
+      astr_clear(&tool_tip);
     }
-    break;
+  } else {
+    /* The unit is 0.5% chance of success. */
+    const double converted = (double)act_prob / 2.0;
+
+    astr_set(&tool_tip, _("The probability of success is %.1f%%."),
+             converted);
   }
 
   return astr_str(&tool_tip);
@@ -1317,7 +1302,6 @@ bool action_prob_possible(action_probability probability)
   return ACTPROB_IMPOSSIBLE != probability && ACTPROB_NA != probability;
 }
 
-#ifndef FREECIV_NDEBUG
 /**************************************************************************
   Returns TRUE iff the given action probability represents the lack of
   an action probability.
@@ -1328,6 +1312,28 @@ static inline bool action_prob_not_relevant(action_probability probability)
 }
 
 /**************************************************************************
+  Returns TRUE iff the given action probability represents that support
+  for finding this action probability currently is missing from Freeciv.
+**************************************************************************/
+static inline bool action_prob_not_impl(action_probability probability)
+{
+  return ACTPROB_NOT_IMPLEMENTED == probability;
+}
+
+/**************************************************************************
+  Returns TRUE iff the given action probability represents that the player
+  currently doesn't have enough information to find the real value.
+
+ It is caused by the probability depending on a rule that depends on game
+ state the player don't have access to. It may be possible for the player
+ to later gain access to this game state.
+**************************************************************************/
+static inline bool action_prob_unknown(action_probability probability)
+{
+  return ACTPROB_NOT_KNOWN == probability;
+}
+
+/**************************************************************************
   Returns TRUE iff the given action probability represents a special
   signal value rather than a regular action probability value.
 **************************************************************************/
@@ -1335,7 +1341,6 @@ static inline bool action_prob_is_signal(action_probability probability)
 {
   return probability < 0 || probability > 200;
 }
-#endif /* FREECIV_NDEBUG */
 
 /**************************************************************************
   Will a player with the government gov be immune to the action act?
