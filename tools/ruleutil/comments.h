@@ -35,6 +35,7 @@ void comment_extras(struct section_file *sfile);
 void comment_styles(struct section_file *sfile);
 void comment_citystyles(struct section_file *sfile);
 void comment_musicstyles(struct section_file *sfile);
+void comment_effects(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

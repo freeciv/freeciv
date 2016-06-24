@@ -765,3 +765,21 @@ musicstyles = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+effects = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Effects\n\
+;\n\
+; type                    = What the effect does. Values of multiple active effects\n\
+;                           of the same type get summed for the total.\n\
+;                           See README.effects for list of possible types\n\
+; value                   = Value added for the effect type when this effect is active,\n\
+;                           i.e., all requirements are fulfilled\n\
+; multiplier              = Name of the policy that gives a multiplier for effect's value\n\
+; reqs                    = Requirements for the effect to be active.\n\
+;                           See README.effects for help on requirements\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

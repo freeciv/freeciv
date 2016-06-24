@@ -35,6 +35,7 @@ static struct {
   char *styles;
   char *citystyles;
   char *musicstyles;
+  char *effects;
 } comments_storage;
 
 /**************************************************************************
@@ -68,6 +69,7 @@ bool comments_load(void)
   comments_storage.styles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.styles"));
   comments_storage.citystyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.citystyles"));
   comments_storage.musicstyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.musicstyles"));
+  comments_storage.effects = fc_strdup(secfile_lookup_str(comment_file, "typedoc.effects"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -191,4 +193,12 @@ void comment_citystyles(struct section_file *sfile)
 void comment_musicstyles(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.musicstyles, "Music Styles");
+}
+
+/**************************************************************************
+  Write effects header.
+**************************************************************************/
+void comment_effects(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.effects, "Effects");
 }

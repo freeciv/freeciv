@@ -717,6 +717,8 @@ static bool save_effects_ruleset(const char *filename, const char *name)
   data.idx = 0;
   data.sfile = sfile;
 
+  comment_effects(sfile);
+
   if (!iterate_effect_cache(effect_save, &data)) {
     return FALSE;
   }
