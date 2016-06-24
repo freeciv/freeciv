@@ -318,7 +318,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
       /* Unknown because the player don't have the required knowledge to
        * determine the probability of success for this action. */
 
-      /* TRANS: the chance of a diplomat action succeeding is unknown. */
+      /* TRANS: the chance of an action succeeding is unknown. */
       probtxt = _("?%");
     } else {
       fc_assert(action_prob_not_impl(prob)
