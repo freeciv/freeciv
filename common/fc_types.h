@@ -758,32 +758,20 @@ FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
  * internal use is needed please avoid the range from and including 0 up
  * to and including 255.
  *
+ * 0   ACTPROB_IMPOSSIBLE is another way of saying that the probability
+ *     is 0%. It isn't really a special value since it is in range.
+ *
+ * 253 ACTPROB_NA indicates that no probability should exist.
+ *
+ * 254 ACTPROB_NOT_IMPLEMENTED indicates that support for finding this
+ *     probability currently is missing.
+ *
+ * 255 ACTPROB_NOT_KNOWN indicates that the player don't know enough to
+ *     find out. It is caused by the probability depending on a rule that
+ *     depends on game state the player don't have access to. It may be
+ *     possible for the player to later gain access to this game state.
  */
 typedef int action_probability;
-
-/*
- * ACTPROB_IMPOSSIBLE is another way of saying that the probability is 0%.
- */
-#define ACTPROB_IMPOSSIBLE 0
-
-/*
- * The special value ACTPROB_NA indicates that no probability should exist.
- */
-#define ACTPROB_NA 253
-
-/*
- * The special value ACTPROB_NOT_IMPLEMENTED indicates that support
- * for finding this probability currently is missing.
- */
-#define ACTPROB_NOT_IMPLEMENTED 254
-
-/*
- * The special value ACTPROB_NOT_KNOWN indicates that the player don't know
- * enough to find out. It is caused by the probability depending on a rule
- * that depends on game state the player don't have access to. It may be
- * possible for the player to later gain access to this game state.
- */
-#define ACTPROB_NOT_KNOWN 255
 
 #ifdef __cplusplus
 }
