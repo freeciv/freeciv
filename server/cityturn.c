@@ -144,7 +144,7 @@ static bool city_illness_check(const struct city * pcity);
 static float city_migration_score(struct city *pcity);
 static bool do_city_migration(struct city *pcity_from,
                               struct city *pcity_to);
-static void check_city_migrations_player(const struct player *pplayer);
+static bool check_city_migrations_player(const struct player *pplayer);
 
 /**************************************************************************
   Updates unit upkeeps and city internal cached data. Returns whether
@@ -3040,7 +3040,7 @@ void nullify_prechange_production(struct city *pcity)
 }
 
 /**************************************************************************
- Called every turn, at end of turn, for every city.
+  Called every turn, at end of turn, for every city.
 **************************************************************************/
 static void update_city_activity(struct city *pcity)
 {
@@ -3622,17 +3622,21 @@ static bool do_city_migration(struct city *pcity_from,
 
   'game.server.mgr_worldchance' gives the chance for migration between all
   nations.
+
+  Returns TRUE iff there has been INTERNATIONAL migration.
 **************************************************************************/
-void check_city_migrations(void)
+bool check_city_migrations(void)
 {
+  bool internat = FALSE;
+
   if (!game.server.migration) {
-    return;
+    return FALSE;
   }
 
   if (game.server.mgr_turninterval <= 0
       || (game.server.mgr_worldchance <= 0
           && game.server.mgr_nationchance <= 0)) {
-    return;
+    return FALSE;
   }
 
   /* check for migration */
@@ -3641,8 +3645,12 @@ void check_city_migrations(void)
       continue;
     }
 
-    check_city_migrations_player(pplayer);
+    if (check_city_migrations_player(pplayer)) {
+      internat = TRUE;
+    }
   } players_iterate_end;
+
+  return internat;
 }
 
 /**************************************************************************
@@ -3819,13 +3827,14 @@ void check_disasters(void)
   * if a city is found check the distance
   * compare the migration score
 **************************************************************************/
-static void check_city_migrations_player(const struct player *pplayer)
+static bool check_city_migrations_player(const struct player *pplayer)
 {
   char city_link_text[MAX_LEN_LINK];
   float best_city_player_score, best_city_world_score;
   struct city *best_city_player, *best_city_world, *acity;
   float score_from, score_tmp, weight;
   int dist, mgr_dist;
+  bool internat = FALSE;
 
   /* check for each city
    * city_list_iterate_safe_end must be used because we could
@@ -3951,6 +3960,7 @@ static void check_city_migrations_player(const struct player *pplayer)
       /* second, do the migration between all nations */
       if (fc_rand(100) >= game.server.mgr_worldchance) {
         const char *nname;
+
         nname = nation_adjective_for_player(city_owner(best_city_world));
         /* no migration */
         /* N.B.: city_link always returns the same pointer. */
@@ -3962,12 +3972,15 @@ static void check_city_migrations_player(const struct player *pplayer)
                       city_link_text, city_link(best_city_world), nname);
       } else {
         do_city_migration(pcity, best_city_world);
+        internat = TRUE;
       }
 
       /* stop here */
       continue;
     }
   } city_list_iterate_safe_end;
+
+  return internat;
 }
 
 /**************************************************************************

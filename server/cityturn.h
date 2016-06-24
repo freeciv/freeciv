@@ -48,7 +48,7 @@ void choose_build_target(struct player *pplayer, struct city *pcity);
 
 void nullify_prechange_production(struct city *pcity);
 
-void check_city_migrations(void);
+bool check_city_migrations(void);
 
 void check_disasters(void);
 

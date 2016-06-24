@@ -2195,8 +2195,9 @@ void send_city_info(struct player *dest, struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
 
-  if (S_S_RUNNING != server_state() && S_S_OVER != server_state())
+  if (S_S_RUNNING != server_state() && S_S_OVER != server_state()) {
     return;
+  }
 
   if (dest == powner && send_city_suppressed) {
     return;
