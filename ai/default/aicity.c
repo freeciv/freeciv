@@ -1706,13 +1706,13 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
      * by applying various adjustments */
 
     /* Would it mean losing shields? */
-    if ((VUT_UTYPE == pcity->production.kind 
-        || (is_wonder(pcity->production.value.building)
-          && !is_wonder(pimprove))
-        || (!is_wonder(pcity->production.value.building)
-          && is_wonder(pimprove)))
-     && pcity->turn_last_built != game.info.turn) {
-      v -= (pcity->shield_stock / 2) * (SHIELD_WEIGHTING / 2);
+    if ((VUT_UTYPE == pcity->production.kind
+         || (is_wonder(pcity->production.value.building)
+             && !is_wonder(pimprove))
+         || (!is_wonder(pcity->production.value.building)
+             && is_wonder(pimprove)))
+        && pcity->turn_last_built != game.info.turn) {
+      v -= pcity->shield_stock * SHIELD_WEIGHTING / 10;
     }
 
     /* Reduce want if building gets obsoleted soon */
