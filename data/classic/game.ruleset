@@ -19,7 +19,7 @@ format_version=10
 [ruledit]
 
 ; Which file to read description in from.
-;description_file = ""
+;description_file = "classic/README.classic"
 
 [about]
 ; Ruleset name
@@ -36,7 +36,7 @@ These were the default rules until Freeciv 2.6.\
 
 ; Detailed description
 ; When updating this, update also desciption_file in [ruledit] section to match
-; description = ""
+description = *classic/README.classic*
 
 [options]
 global_init_techs=""

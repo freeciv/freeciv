@@ -14,6 +14,7 @@ pkgdata_DATA =			\
 	styles.ruleset		\
 	techs.ruleset		\
 	terrain.ruleset		\
-	units.ruleset
+	units.ruleset		\
+	README.classic
 
 EXTRA_DIST = $(pkgdata_DATA)
