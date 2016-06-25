@@ -275,7 +275,7 @@ int main(int argc, char *argv[])
 #ifdef HAVE_FCDB
     } else if ((option = get_option_malloc("--Database", argv, &inx, argc))) {
       srvarg.fcdb_enabled = TRUE;
-      srvarg.fcdb_conf = option;
+      srvarg.fcdb_conf = option; /* Never freed */
     } else if (is_option("--auth", argv[inx])) {
       srvarg.auth_enabled = TRUE;
     } else if (is_option("--Guests", argv[inx])) {

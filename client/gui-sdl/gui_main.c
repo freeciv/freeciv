@@ -184,14 +184,14 @@ static void print_usage(const char *argv0)
 }
 
 /**************************************************************************
- search for command line options. right now, it's just help
- semi-useless until we have options that aren't the same across all clients.
+  Search for command line options. right now, it's just help
+  semi-useless until we have options that aren't the same across all clients.
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
   int i = 1;
   char *option = NULL;
-    
+
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage(argv[0]);
@@ -203,6 +203,7 @@ static void parse_options(int argc, char **argv)
       SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
       sz_strlcpy(gui_sdl_default_theme_name, option);
+      free(option);
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       exit(EXIT_FAILURE);

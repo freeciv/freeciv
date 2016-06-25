@@ -47,7 +47,7 @@ int fcmp_parse_cmdline(int argc, char *argv[])
   int i = 1;
   bool ui_separator = FALSE;
   int ui_options = 0;
-  const char *option = NULL;
+  char *option = NULL;
   enum log_level loglevel = LOG_NORMAL;
 
   while (i < argc) {
@@ -107,6 +107,7 @@ int fcmp_parse_cmdline(int argc, char *argv[])
         fc_fprintf(stderr, _("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
+      free(option);
     } else if (is_option("--version", argv[i])) {
       fc_fprintf(stderr, "%s \n", freeciv_name_version());
 
