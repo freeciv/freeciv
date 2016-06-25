@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ struct server_arguments {
   /* metaserver information */
   bool metaserver_no_send;
   char metaserver_addr[256];
+  bool metaconnection_persistent;
   char identity_name[256];
   unsigned short int metaserver_port;
   /* address this server is to listen on (NULL => INADDR_ANY) */
