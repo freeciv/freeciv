@@ -1446,11 +1446,6 @@ void handle_edit_game(struct connection *pc,
     changed = TRUE;
   }
 
-  if (packet->have_resources != game.scenario.have_resources) {
-    game.scenario.have_resources = packet->have_resources;
-    changed = TRUE;
-  }
-
   if (changed) {
     send_scenario_info(NULL);
     send_game_info(NULL);
