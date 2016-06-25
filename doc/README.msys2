@@ -68,6 +68,7 @@ using MSYS2 from http://msys2.github.io
  - gcc
  - libsqlite-devel
  - libiconv-devel
+ - libreadline-devel
  - pkg-config
  - libbz2-devel
  - libcurl-devel
@@ -90,10 +91,15 @@ using MSYS2 from http://msys2.github.io
 
 2.1.2) Arch-specific packages needed for building freeciv
 
-2.1.2.1) For building gtk3-client
+2.1.2.1) Arch-specific packages for building common parts
+ - mingw-w64-i686-bzip2 / mingw-w64-x64_64-bzip2
+ - mingw-w64-i686-readline / mingw-w64-x86_64-readline
+ - mingw-w64-i686-SDL2_mixer / mingw-w64-x86_64-SDL2_mixer
+
+2.1.2.2) Arch-specific packages for building gtk3-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
-2.1.2.2) For buildind Qt-client and/or Ruledit
+2.1.2.3) Arch-specific packages for buildind Qt-client and/or Ruledit
  - mingw-w64-i686-qt5 / mingw-w64-x86_64-qt5
 
 2.2) Packaged needed for building installer package
@@ -116,7 +122,7 @@ using MSYS2 from http://msys2.github.io
 
 Premade msys2 environment is available for download from
 http://download.gna.org/freeciv/packages/windows/testing/cazfi/installer_msys2/envs/
-Current version is: msys2-freeciv-160425.7z
+Current version is: msys2-freeciv-160618.7z
 
 It's based on
 https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20160205.exe
@@ -131,8 +137,11 @@ Following packages have been installed:
 - libbz2-devel
 - liblzma-devel
 - icu-devel
+- libreadline-devel
 - tar
 - subversion
+- patch
+- wget
 - automake
 - libtool
 - autoconf
@@ -141,6 +150,9 @@ Following packages have been installed:
 - mingw-w64-i686-sqlite3
 - mingw-w64-i686-gtk3
 - mingw-w64-i686-nsis
+- mingw-w64-i686-bzip2
+- mingw-w64-i686-readline
+- mingw-w64-i686-SDL2_mixer
 
 
  Build
