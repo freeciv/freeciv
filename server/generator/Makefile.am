@@ -16,6 +16,8 @@ libgenerator_la_SOURCES = \
 	mapgen_topology.h \
 	utilities.c \
 	utilities.h \
+	fracture_map.c \
+	fracture_map.h \
 	height_map.c \
 	height_map.h \
 	startpos.c \

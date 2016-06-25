@@ -42,7 +42,8 @@ enum map_generator {
   MAPGEN_RANDOM,
   MAPGEN_FRACTAL,
   MAPGEN_ISLAND,
-  MAPGEN_FAIR
+  MAPGEN_FAIR,
+  MAPGEN_FRACTURE
 };
 
 enum map_startpos {

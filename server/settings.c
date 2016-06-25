@@ -253,6 +253,7 @@ static const struct sset_val_name *generator_name(int generator)
   NAME_CASE(MAPGEN_FRACTAL, "FRACTAL", N_("Pseudo-fractal height"));
   NAME_CASE(MAPGEN_ISLAND, "ISLAND", N_("Island-based"));
   NAME_CASE(MAPGEN_FAIR, "FAIR", N_("Fair islands"));
+  NAME_CASE(MAPGEN_FRACTURE, "FRACTURE", N_("Fracture map"));
   }
   return NULL;
 }
@@ -1417,6 +1418,9 @@ static struct setting settings[] = {
               "each player gets their own island.\n"
               "- \"Fair islands\" (FAIR): generates the exact copy of the "
               "same island for every player or every team.\n"
+              "- \"Fracture map\" (FRACTURE): generates maps from a fracture "
+              "patttern. Tends to place hills and mountains along the edges "
+              "of the continents.\n"
               "If the requested generator is incompatible with other server "
               "settings, the server may fall back to another generator."),
            NULL, generator_validate, NULL, generator_name, MAP_DEFAULT_GENERATOR)

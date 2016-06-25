@@ -35,6 +35,7 @@
 #include "road.h"
 
 /* server/generator */
+#include "fracture_map.h"
 #include "height_map.h"
 #include "mapgen_topology.h"
 #include "startpos.h"
@@ -1126,7 +1127,11 @@ static void make_land(void)
 
   create_placed_map(); /* here it means land terrains to be placed */
   set_all_ocean_tiles_placed();
-  make_relief(); /* base relief on map */
+  if (MAPGEN_FRACTURE == game.map.server.generator) {
+    make_fracture_relief();
+  } else {
+    make_relief(); /* base relief on map */
+  }
   make_terrains(); /* place all exept mountains and hill */
   destroy_placed_map();
 
@@ -1334,9 +1339,15 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
                               ? player_count() / 4 : 0)));
     }
 
+    if (MAPGEN_FRACTURE == game.map.server.generator) {
+      make_fracture_map();
+    }
+
     /* if hmap only generator make anything else */
     if (MAPGEN_RANDOM == game.map.server.generator
-        || MAPGEN_FRACTAL == game.map.server.generator) {
+        || MAPGEN_FRACTAL == game.map.server.generator
+        || MAPGEN_FRACTURE == game.map.server.generator) {
+
       make_land();
       free(height_map);
       height_map = NULL;
@@ -1385,6 +1396,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
                     "start positions!");
     case MAPGEN_SCENARIO:
     case MAPGEN_RANDOM:
+    case MAPGEN_FRACTURE:
       mode = game.map.server.startpos;
       break;
     case MAPGEN_FRACTAL:
