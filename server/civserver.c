@@ -223,6 +223,10 @@ int main(int argc, char *argv[])
 #endif /* FREECIV_NDEBUG */
     } else if ((option = get_option_malloc("--Ranklog", argv, &inx, argc))) {
       srvarg.ranklog_filename = option; /* Never freed. */
+    } else if (is_option("--keep", argv[inx])) {
+      srvarg.metaconnection_persistent = TRUE;
+      /* Implies --meta */
+      srvarg.metaserver_no_send = FALSE;
     } else if (is_option("--nometa", argv[inx])) {
       fc_fprintf(stderr, _("Warning: the %s option is obsolete.  "
                            "Use -m to enable the metaserver.\n"), argv[inx]);
@@ -399,6 +403,8 @@ int main(int argc, char *argv[])
                 _("type TYPE"),
                 _("Set TYPE as server type in metaserver"));
 #endif /* FREECIV_WEB */
+    cmdhelp_add(help, "k", "keep",
+                _("Keep updating game information on metaserver even if has failed in the past")),
     cmdhelp_add(help, "p",
                 /* TRANS: "port" is exactly what user must type, do not translate. */
                 _("port PORT"),

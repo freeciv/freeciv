@@ -23,6 +23,7 @@ freeciv-server \- The server for the Freeciv game
 [ \-f|\-\-file \fIfilename\fP ] \
 [ \-h|\-\-help ] \
 [ \-i|\-\-identity \fIaddress\fP ] \
+[ \-k|\-\-keep ] \
 [ \-l|\-\-log \fIfilename\fP ] \
 [ \-M|\-\-Metaserver \fIaddress\fP ] \
 [ \-m|\-\-meta ] \
@@ -187,6 +188,12 @@ servers can publish their presence. Freeciv clients consult the metaserver to
 offer users a selection of games to join. By default the standard Freeciv 
 metaserver is used. You may specify an alternate metaserver with the \fI\-M\fP
 option.
+.TP
+.BI "\-k, \-\-keep"
+Usually freeciv server stops sending updates to the metaserver, when there's
+problems on the connection once. With this option it keeps on trying to send
+further updates even after it has failed to send updated status once.
+This option implies \fI\-m\fP option.
 .TP
 .BI "\-N, \-\-Newusers"
 Allow new users to login and be registered in the players base if authentication
