@@ -240,6 +240,7 @@ void srv_init(void)
 
   srvarg.metaserver_no_send = DEFAULT_META_SERVER_NO_SEND;
   sz_strlcpy(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR);
+  srvarg.metaconnection_persistent = FALSE;
   srvarg.identity_name[0] = '\0';
   srvarg.serverid[0] = '\0';
 
@@ -2743,7 +2744,7 @@ static void srv_prepare(void)
   if (!(srvarg.metaserver_no_send)) {
     log_normal(_("Sending info to metaserver <%s>."), meta_addr_port());
     /* Open socket for meta server */
-    if (!server_open_meta(FALSE)
+    if (!server_open_meta(srvarg.metaconnection_persistent)
         || !send_server_info_to_metaserver(META_INFO)) {
       con_write(C_FAIL, _("Not starting without explicitly requested metaserver connection."));
       exit(EXIT_FAILURE);
