@@ -3399,7 +3399,7 @@ static void link_mark_draw(const struct link_mark *pmark)
   canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_left, y_top, 0, ylen);
   
   canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_right, y_top, -xlen, 0);
-  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_right, y_bottom, 0, ylen);
+  canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_right, y_top, 0, ylen);
   
   canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_left, y_bottom, xlen, 0);
   canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_left, y_bottom, 0, -ylen);
