@@ -34,7 +34,7 @@
 #include "terrain.h"
 
 static struct terrain civ_terrains[MAX_NUM_TERRAINS];
-static struct resource_type *civ_resources[MAX_RESOURCE_TYPES];
+static struct extra_type *civ_resources[MAX_RESOURCE_TYPES];
 static struct user_flag user_terrain_flags[MAX_NUM_USER_TER_FLAGS];
 
 /****************************************************************************
@@ -239,9 +239,9 @@ const char *terrain_rule_name(const struct terrain *pterrain)
   Check for resource in terrain resources list.
 ****************************************************************************/
 bool terrain_has_resource(const struct terrain *pterrain,
-                          const struct resource_type *presource)
+                          const struct extra_type *presource)
 {
-  struct resource_type **r = pterrain->resources;
+  struct extra_type **r = pterrain->resources;
 
   while (NULL != *r) {
     if (*r == presource) {
@@ -267,7 +267,7 @@ struct resource_type *resource_type_init(struct extra_type *pextra, int idx)
   presource->self = pextra;
 
   /* Save also to the old array, to be removed in the future. */
-  civ_resources[idx] = presource;
+  civ_resources[idx] = pextra;
 
   return presource;
 }
@@ -299,7 +299,7 @@ struct extra_type *resource_extra_get(const struct resource_type *presource)
 /**************************************************************************
   Return the first item of resources.
 **************************************************************************/
-struct resource_type *resource_array_first(void)
+struct extra_type *resource_array_first(void)
 {
   return civ_resources[0];
 }
@@ -307,7 +307,7 @@ struct resource_type *resource_array_first(void)
 /**************************************************************************
   Return the last item of resources.
 **************************************************************************/
-const struct resource_type *resource_array_last(void)
+const struct extra_type *resource_array_last(void)
 {
   return civ_resources[game.control.num_resource_types - 1];
 }
@@ -329,7 +329,7 @@ Resource_type_id resource_count(void)
   FIXME: Get rid of this. _index() makes no sense when they are not
   in an array.
 **************************************************************************/
-Resource_type_id resource_index(const struct resource_type *presource)
+Resource_type_id resource_index(const struct extra_type *presource)
 {
   fc_assert_ret_val(NULL != presource, -1);
 
@@ -341,16 +341,17 @@ Resource_type_id resource_index(const struct resource_type *presource)
 /**************************************************************************
   Return the resource index.
 **************************************************************************/
-Resource_type_id resource_number(const struct resource_type *presource)
+Resource_type_id resource_number(const struct extra_type *presource)
 {
   fc_assert_ret_val(NULL != presource, -1);
-  return presource->item_number;
+
+  return presource->data.resource->item_number;
 }
 
 /****************************************************************************
   Return the resource for the given resource index.
 ****************************************************************************/
-struct resource_type *resource_by_number(const Resource_type_id type)
+struct extra_type *resource_by_number(const Resource_type_id type)
 {
   if (type < 0 || type >= game.control.num_resource_types) {
     /* This isn't an error; some callers depend on it. */
@@ -362,12 +363,12 @@ struct resource_type *resource_by_number(const Resource_type_id type)
 /****************************************************************************
   Return the resource type matching the name, or NULL when none matches.
 ****************************************************************************/
-struct resource_type *resource_by_rule_name(const char *name)
+struct extra_type *resource_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
   resource_type_iterate(presource) {
-    if (0 == fc_strcasecmp(resource_rule_name(presource), qname)) {
+    if (0 == fc_strcasecmp(extra_rule_name(presource), qname)) {
       return presource;
     }
   } resource_type_iterate_end;
@@ -505,7 +506,7 @@ int count_terrain_property_near_tile(const struct tile *ptile,
   Returns TRUE iff any cardinally adjacent tile contains the given resource.
 ****************************************************************************/
 bool is_resource_card_near(const struct tile *ptile,
-                           const struct resource_type *pres,
+                           const struct extra_type *pres,
                            bool check_self)
 {
   if (!pres) {
@@ -525,7 +526,7 @@ bool is_resource_card_near(const struct tile *ptile,
   Returns TRUE iff any adjacent tile contains the given resource.
 ****************************************************************************/
 bool is_resource_near_tile(const struct tile *ptile,
-                           const struct resource_type *pres,
+                           const struct extra_type *pres,
                            bool check_self)
 {
   if (!pres) {

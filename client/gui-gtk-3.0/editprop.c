@@ -1495,10 +1495,10 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         break;
       case OPID_TILE_RESOURCE:
         {
-          const struct resource_type *presource = tile_resource(ptile);
+          const struct extra_type *presource = tile_resource(ptile);
 
           if (NULL != presource) {
-            pv->data.v_const_string = resource_name_translation(presource);
+            pv->data.v_const_string = extra_name_translation(presource);
           } else {
             pv->data.v_const_string = "";
           }

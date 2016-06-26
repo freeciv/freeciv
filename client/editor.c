@@ -1604,7 +1604,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
 static void fill_tile_edit_packet(struct packet_edit_tile *packet,
                                   const struct tile *ptile)
 {
-  const struct resource_type *presource;
+  const struct extra_type *presource;
   const struct terrain *pterrain;
 
   if (!packet || !ptile) {

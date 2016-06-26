@@ -850,11 +850,11 @@ static struct strvec *lookup_strvec(struct section_file *file,
 /**************************************************************************
   Look up the resource section name and return its pointer.
 **************************************************************************/
-static struct resource_type *lookup_resource(const char *filename,
-                                             const char *name,
-                                             const char *jsection)
+static struct extra_type *lookup_resource(const char *filename,
+                                          const char *name,
+                                          const char *jsection)
 {
-  struct resource_type *pres;
+  struct extra_type *pres;
 
   pres = resource_by_rule_name(name);
 
@@ -2924,30 +2924,31 @@ static bool load_ruleset_terrain(struct section_file *file,
       const char *rsection = &resource_sections[i * MAX_SECTION_LABEL];
 
       output_type_iterate (o) {
-        presource->output[o] =
+        presource->data.resource->output[o] =
 	  secfile_lookup_int_default(file, 0, "%s.%s", rsection,
                                      get_output_identifier(o));
       } output_type_iterate_end;
 
       sz_strlcpy(identifier,
                  secfile_lookup_str(file,"%s.identifier", rsection));
-      presource->id_old_save = identifier[0];
-      if (RESOURCE_NULL_IDENTIFIER == presource->id_old_save) {
+      presource->data.resource->id_old_save = identifier[0];
+      if (RESOURCE_NULL_IDENTIFIER == presource->data.resource->id_old_save) {
         ruleset_error(LOG_ERROR, "\"%s\" [%s] identifier missing value.",
                       filename, rsection);
         ok = FALSE;
         break;
       }
-      if (RESOURCE_NONE_IDENTIFIER == presource->id_old_save) {
+      if (RESOURCE_NONE_IDENTIFIER == presource->data.resource->id_old_save) {
         ruleset_error(LOG_ERROR,
                       "\"%s\" [%s] cannot use '%c' as an identifier;"
                       " it is reserved.",
-                      filename, rsection, presource->id_old_save);
+                      filename, rsection, presource->data.resource->id_old_save);
         ok = FALSE;
         break;
       }
       for (j = 0; j < i; j++) {
-        if (presource->id_old_save == resource_by_number(j)->id_old_save) {
+        if (presource->data.resource->id_old_save
+            == resource_by_number(j)->data.resource->id_old_save) {
           ruleset_error(LOG_ERROR,
                         "\"%s\" [%s] has the same identifier as [%s].",
                         filename,
@@ -6796,7 +6797,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
   }
 
   terrain_type_iterate(pterrain) {
-    struct resource_type **r;
+    struct extra_type **r;
 
     packet.id = terrain_number(pterrain);
     packet.tclass = pterrain->tclass;
@@ -6866,12 +6867,12 @@ static void send_ruleset_resources(struct conn_list *dest)
 {
   struct packet_ruleset_resource packet;
 
-  resource_type_iterate (presource) {
+  resource_type_iterate(presource) {
     packet.id = resource_number(presource);
-    packet.extra = extra_index(resource_extra_get(presource));
+    packet.extra = extra_index(presource);
 
     output_type_iterate(o) {
-      packet.output[o] = presource->output[o];
+      packet.output[o] = presource->data.resource->output[o];
     } output_type_iterate_end;
 
     lsend_packet_ruleset_resource(dest, &packet);

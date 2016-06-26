@@ -1185,15 +1185,15 @@ static void help_update_terrain(const struct help_item *pitem,
 
     buf[0] = '\0';
     if (*(pterrain->resources)) {
-      struct resource_type **r;
+      struct extra_type **r;
 
       for (r = pterrain->resources; *r; r++) {
         /* TRANS: " Whales (2/1/2)," */
         sprintf (buf + strlen (buf), " %s (%d/%d/%d),",
-                 resource_name_translation(*r),
-                 pterrain->output[O_FOOD]   + (*r)->output[O_FOOD],
-                 pterrain->output[O_SHIELD] + (*r)->output[O_SHIELD],
-                 pterrain->output[O_TRADE]  + (*r)->output[O_TRADE]);
+                 extra_name_translation(*r),
+                 pterrain->output[O_FOOD]   + (*r)->data.resource->output[O_FOOD],
+                 pterrain->output[O_SHIELD] + (*r)->data.resource->output[O_SHIELD],
+                 pterrain->output[O_TRADE]  + (*r)->data.resource->output[O_TRADE]);
       }
       buf[strlen (buf) - 1] = '.';
     } else {

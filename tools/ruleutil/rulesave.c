@@ -1904,7 +1904,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       const char *resource_names[r];
 
       for (r = 0; pterr->resources[r] != NULL; r++) {
-        resource_names[r] = resource_rule_name(pterr->resources[r]);
+        resource_names[r] = extra_rule_name(pterr->resources[r]);
       }
 
       secfile_insert_str_vec(sfile, resource_names, r,
@@ -2016,17 +2016,17 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     fc_snprintf(path, sizeof(path), "resource_%d", sect_idx++);
 
-    secfile_insert_str(sfile, extra_rule_name(resource_extra_get(pres)),
+    secfile_insert_str(sfile, extra_rule_name(pres),
                        "%s.extra", path);
 
     output_type_iterate(o) {
-      if (pres->output[o] != 0) {
-        secfile_insert_int(sfile, pres->output[o], "%s.%s",
+      if (pres->data.resource->output[o] != 0) {
+        secfile_insert_int(sfile, pres->data.resource->output[o], "%s.%s",
                            path, get_output_identifier(o));
       }
     } output_type_iterate_end;
 
-    identifier[0] = pres->id_old_save;
+    identifier[0] = pres->data.resource->id_old_save;
     identifier[1] = '\0';
     secfile_insert_str(sfile, identifier, "%s.identifier", path);
   } resource_type_iterate_end;

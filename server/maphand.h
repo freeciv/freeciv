@@ -28,7 +28,7 @@ struct conn_list;
 
 struct player_tile {
   struct vision_site *site;		/* NULL for no vision site */
-  struct resource_type *resource;       /* NULL for no resource */
+  struct extra_type *resource;          /* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   struct player *owner; 		/* NULL for unowned */
   struct player *extras_owner;

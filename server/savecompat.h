@@ -167,7 +167,7 @@ enum tile_special_type special_by_rule_name(const char *name);
 const char *special_rule_name(enum tile_special_type type);
 struct extra_type *special_extra_get(int spe);
 
-struct resource_type *resource_by_identifier(const char identifier);
+struct extra_type *resource_by_identifier(const char identifier);
 
 enum ai_level ai_level_convert(int old_level);
 enum barbarian_type barb_type_convert(int old_type);

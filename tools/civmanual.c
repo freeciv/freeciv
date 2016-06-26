@@ -381,7 +381,7 @@ static bool manual_command(void)
       } extra_type_by_cause_iterate_end;
       fprintf(doc, "</tr>\n\n");
       terrain_type_iterate(pterrain) {
-        struct resource_type **r;
+        struct extra_type **r;
 
         if (0 == strlen(terrain_rule_name(pterrain))) {
           /* Must be a disabled piece of terrain */
@@ -398,11 +398,11 @@ static bool manual_command(void)
         for (r = pterrain->resources; *r; r++) {
           fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>"
                   "<td align=\"right\">%d/%d/%d</td></tr>\n",
-                  (*r)->self->graphic_str,
-                  resource_name_translation(*r),
-                  (*r)->output[O_FOOD],
-                  (*r)->output[O_SHIELD],
-                  (*r)->output[O_TRADE]);
+                  (*r)->graphic_str,
+                  extra_name_translation(*r),
+                  (*r)->data.resource->output[O_FOOD],
+                  (*r)->data.resource->output[O_SHIELD],
+                  (*r)->data.resource->output[O_TRADE]);
         }
         fprintf(doc, "</table></td>\n");
 

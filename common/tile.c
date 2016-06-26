@@ -146,9 +146,9 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
   if (ptile->resource != NULL) {
     if (NULL != pterrain
         && terrain_has_resource(pterrain, ptile->resource)) {
-      BV_SET(ptile->extras, extra_index(ptile->resource->self));
+      BV_SET(ptile->extras, extra_index(ptile->resource));
     } else {
-      BV_CLR(ptile->extras, extra_index(ptile->resource->self));
+      BV_CLR(ptile->extras, extra_index(ptile->resource));
     }
   }
 }
@@ -373,18 +373,18 @@ const struct resource_type *tile_resource(const struct tile *ptile)
 /****************************************************************************
   Set the given resource at the specified tile.
 ****************************************************************************/
-void tile_set_resource(struct tile *ptile, struct resource_type *presource)
+void tile_set_resource(struct tile *ptile, struct extra_type *presource)
 {
   if (presource == ptile->resource) {
     return; /* No change */
   }
 
   if (ptile->resource != NULL) {
-    tile_remove_extra(ptile, ptile->resource->self);
+    tile_remove_extra(ptile, ptile->resource);
   }
   if (presource != NULL) {
     if (ptile->terrain && terrain_has_resource(ptile->terrain, presource)) {
-      tile_add_extra(ptile, presource->self);
+      tile_add_extra(ptile, presource);
     }
   }
 
@@ -794,7 +794,7 @@ const char *tile_get_info_text(const struct tile *ptile,
       sz_strlcat(s, " ");
     }
     cat_snprintf(s, sizeof(s), "(%s)",
-                 resource_name_translation(ptile->resource));
+                 extra_name_translation(ptile->resource));
   }
   if (linebreaks & TILE_LB_RESOURCE_POLL) {
     /* New linebreak requested */

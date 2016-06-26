@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@
 
 static help_dialog *help_dlg = NULL;
 canvas *terrain_canvas(struct terrain *terrain,
-                       const struct resource_type *resource,
+                       const struct extra_type *resource,
                        enum extra_cause cause);
 /**************************************************************************
   Popup the help dialog to get help on the given string topic.  Note
@@ -797,7 +797,7 @@ void help_widget::set_topic_tech(const help_item *topic,
   Creates a terrain image on the given canvas.
 ****************************************************************************/
 canvas *terrain_canvas(struct terrain *terrain,
-                       const struct resource_type *resource = NULL,
+                       const struct extra_type *resource = NULL,
                        enum extra_cause cause = EC_COUNT)
 {
   struct canvas *canvas;
@@ -830,7 +830,7 @@ canvas *terrain_canvas(struct terrain *terrain,
   }
 
   if (resource != NULL) {
-    sprite = get_resource_sprite(tileset, resource);
+    sprite = get_resource_sprite(tileset, extra_resource_get(resource));
     canvas_put_sprite(canvas, 0, canvas_y, sprite, 0, 0, width, height);
   }
 
@@ -976,18 +976,18 @@ void help_widget::set_topic_terrain(const help_item *topic,
     vbox = new QVBoxLayout(panel);
 
     if (*(pterrain->resources)) {
-      struct resource_type **r;
+      struct extra_type **r;
 
       for (r = pterrain->resources; *r; r++) {
         canvas = terrain_canvas(pterrain, *r);
         vbox->addLayout(create_terrain_widget(
-          resource_name_translation(*r),
+          extra_name_translation(*r),
           canvas,
           // TRANS: %1 food, %2 shields, %3 trade
           QString(_("Tile output becomes %1, %2, %3."))
-            .arg(pterrain->output[O_FOOD]   + (*r)->output[O_FOOD])
-            .arg(pterrain->output[O_SHIELD] + (*r)->output[O_SHIELD])
-            .arg(pterrain->output[O_TRADE]  + (*r)->output[O_TRADE]),
+            .arg(pterrain->output[O_FOOD]   + (*r)->data.resource->output[O_FOOD])
+            .arg(pterrain->output[O_SHIELD] + (*r)->data.resource->output[O_SHIELD])
+            .arg(pterrain->output[O_TRADE]  + (*r)->data.resource->output[O_TRADE]),
           // TRANS: Tooltip decorating strings like "1, 2, 3".
           _("Output (Food, Shields, Trade) of a tile where the resource is "
             "present.")));

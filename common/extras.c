@@ -506,12 +506,9 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile)
 {
   struct terrain *pterr = tile_terrain(ptile);
-  struct resource_type *pres = extra_resource_get(pextra);
 
-  if (pres != NULL) {
-    if (!terrain_has_resource(pterr, pres)) {
-      return FALSE;
-    }
+  if (terrain_has_resource(pterr, pextra)) {
+    return TRUE;
   }
 
   if (is_extra_caused_by(pextra, EC_IRRIGATION)

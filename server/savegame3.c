@@ -306,7 +306,7 @@ static void worklist_save(struct section_file *file,
 static void unit_ordering_calc(void);
 static void unit_ordering_apply(void);
 static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx);
-static char sg_extras_get(bv_extras extras, struct resource_type *presource,
+static char sg_extras_get(bv_extras extras, struct extra_type *presource,
                           const int *idx);
 static char num2char(unsigned int num);
 static int char2num(char ch);
@@ -1119,7 +1119,7 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx)
   Extras are packed in four to a character in hex notation. 'index'
   specifies which set of extras are included in this character.
 ****************************************************************************/
-static char sg_extras_get(bv_extras extras, struct resource_type *presource,
+static char sg_extras_get(bv_extras extras, struct extra_type *presource,
                           const int *idx)
 {
   int i, bin = 0;
@@ -1135,9 +1135,8 @@ static char sg_extras_get(bv_extras extras, struct resource_type *presource,
         /* An invalid resource, a resource that can't exist at the tile's
          * current terrain, isn't in the bit extra vector. Save it so it
          * can return if the tile's terrain changes to something it can
-         * exits on. */
-        || (extra_by_number(extra)->data.resource != NULL
-            && extra_by_number(extra)->data.resource == presource)) {
+         * exist on. */
+        || extra_by_number(extra) == presource) {
       bin |= (1 << i);
     }
   }
@@ -2539,7 +2538,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
     whole_map_iterate(ptile) {
       extra_type_by_cause_iterate(EC_RESOURCE, pres) {
         if (tile_has_extra(ptile, pres)) {
-          tile_set_resource(ptile, pres->data.resource);
+          tile_set_resource(ptile, pres);
 
           if (!terrain_has_resource(ptile->terrain, ptile->resource)) {
             BV_CLR(ptile->extras, extra_index(pres));

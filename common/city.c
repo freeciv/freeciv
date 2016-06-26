@@ -1222,7 +1222,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
 
   prod = pterrain->output[otype];
   if (tile_resource_is_valid(ptile)) {
-    prod += tile_resource(ptile)->output[otype];
+    prod += tile_resource(ptile)->data.resource->output[otype];
   }
 
   if (pcity != NULL) {

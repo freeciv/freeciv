@@ -1564,7 +1564,7 @@ static void add_resources(int prob)
     if (!is_ocean(pterrain) || near_safe_tiles(ptile)
         || game.map.server.ocean_resources) {
       int i = 0;
-      struct resource_type **r;
+      struct extra_type **r;
 
       for (r = pterrain->resources; *r; r++) {
         /* This is a standard way to get a random element from the
@@ -2502,7 +2502,7 @@ enum fair_tile_flag {
 struct fair_tile {
   enum fair_tile_flag flags;
   struct terrain *pterrain;
-  struct resource_type *presource;
+  struct extra_type *presource;
   bv_extras extras;
   int startpos_team_id;
 };
@@ -2938,7 +2938,7 @@ fair_map_place_island_team(struct fair_tile *ptarget, int tx, int ty,
 static void fair_map_make_resources(struct fair_tile *pmap)
 {
   struct fair_tile *pftile, *pftile2;
-  struct resource_type **r;
+  struct extra_type **r;
   int i, j;
 
   for (i = 0; i < MAP_INDEX_SIZE; i++) {
@@ -2983,7 +2983,7 @@ static void fair_map_make_resources(struct fair_tile *pmap)
         }
       }
 
-      BV_SET(pftile->extras, extra_index(pftile->presource->self));
+      BV_SET(pftile->extras, extra_index(pftile->presource));
     }
   }
 }

@@ -2815,7 +2815,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   bool tile_changed = FALSE;
   struct player *powner = player_by_number(packet->owner);
   struct player *eowner = player_by_number(packet->extras_owner);
-  struct resource_type *presource = resource_by_number(packet->resource);
+  struct extra_type *presource = resource_by_number(packet->resource);
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = index_to_tile(packet->tile);
 
