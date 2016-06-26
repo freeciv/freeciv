@@ -565,7 +565,7 @@ bool tile_extra_apply(struct tile *ptile, struct extra_type *tgt)
   extra_type_iterate(pextra) {
     if (tile_has_extra(ptile, pextra)
         && !can_extras_coexist(pextra, tgt)) {
-      tile_remove_extra(ptile, pextra);
+      tile_destroy_extra(ptile, pextra);
     }
   } extra_type_iterate_end;
 
