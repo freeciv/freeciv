@@ -620,14 +620,15 @@ skip_year_0 = FALSE
 
 ; How many fragments each year has. Value 0 disables year advancement by fragment
 ; accumulation.
-fragments = 0
+fragments = 4
 
 ; Calendar fragment names. If name is missing, only a fragment number +1 (so human readable
 ; numbers begin from 1 and not 0) is shown.
 
-;fragment_name0 = "Jan"
-;fragment_name1 = "Feb"
-; ...
+fragment_name0 = _("Q1")
+fragment_name1 = _("Q2")
+fragment_name2 = _("Q3")
+fragment_name3 = _("Q4")
 
 ; What labels are used of positive and negative years.
 positive_label = _("GE")
