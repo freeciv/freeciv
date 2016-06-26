@@ -9,7 +9,7 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "December 10th 2011"
+.TH FREECIV 6 "June 25th 2016"
 .SH NAME
 freeciv-gtk2, freeciv-gtk3, freeciv-sdl2, freeciv-qt \
 \- The clients for the Freeciv game
@@ -34,11 +34,15 @@ freeciv-gtk2, freeciv-gtk3, freeciv-sdl2, freeciv-qt \
 [ \-\- \fIclient-specific-parameters\fP ]
 
 .B freeciv-gtk2
-and
+accept the standard Gtk parameters following \fB\-\-\fP; see the Gtk
+documentation. It also accepts
+.B [ \-h|\-\-help ]
+
 .B freeciv-gtk3
 accept the standard Gtk parameters following \fB\-\-\fP; see the Gtk
-documentation. They also accept
-.B [ \-h|\-\-help ]
+documentation. It also accepts
+.B [ \-g|\-\-gtk-warnings ] \
+[ \-h|\-\-help ]
 
 .B freeciv-qt
 accept the standard Qt parameters following \fB\-\-\fP; see the Qt
