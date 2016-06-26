@@ -382,7 +382,7 @@ static bool add_recursive_bases(struct tile *ptile, struct base_type *pbase,
     return FALSE;
   }
 
-  tile_add_base(ptile, pbase);
+  create_base(ptile, pbase, NULL);
 
   return TRUE;
 }
