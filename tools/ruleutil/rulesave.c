@@ -1043,6 +1043,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  comment_enablers(sfile);
   sect_idx = 0;
   action_enablers_iterate(pae) {
     char path[512];
@@ -1129,6 +1130,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
   /* TODO: Team names */
 
+  comment_disasters(sfile);
+
   sect_idx = 0;
   disaster_type_iterate(pd) {
     char path[512];
@@ -1158,6 +1161,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
                              "%s.effects", path);
     }
   } disaster_type_iterate_end;
+
+  comment_achievements(sfile);
 
   sect_idx = 0;
   achievements_iterate(pach) {
@@ -1207,7 +1212,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   }
 
   /* Goods */
-  set_count = 0;
+  comment_goods(sfile);
+
+  sect_idx = 0;
   goods_type_iterate(pgood) {
     char path[512];
 

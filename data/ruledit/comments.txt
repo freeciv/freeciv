@@ -783,3 +783,86 @@ effects = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+disasters = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Disaster types:\n\
+;\n\
+; name                    = translatable name as seen by user\n\
+; reqs                    = requirements for disaster to happen (see effects.ruleset\n\
+;                           and README.effects for help on requirements)\n\
+; frequency               = how likely disaster is to occur\n\
+; effects\n\
+;   - \"DestroyBuilding\"   = Random building is destroyed\n\
+;   - \"ReducePopulation\"  = Reduce city size by one unless it's already 1\n\
+;   - \"ReducePopDestroy\"  = Reduce city size by one, possibly destroying the city\n\
+;   - \"EmptyFoodStock\"    = Remove all food from food stock\n\
+;   - \"EmptyProdStock\"    = Destroy current production\n\
+;   - \"Pollution\"         = One tile surrounding city polluted\n\
+;   - \"Fallout\"           = One tile surrounding city polluted with fallout\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
+achievements = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Achievement types:\n\
+;\n\
+; name                    = translatable name as seen by user\n\
+; rule_name               = (optional) name for savegames, rulesets etc; if not\n\
+;                           present, 'name' is used. Since the name used in\n\
+;                           savegames must not change, use this when renaming a\n\
+;                           achievement after a ruleset has been released.\n\
+; type                    = What event grants the achievement to player.\n\
+;                           See README.achievements for list of these types.\n\
+; unique                  = If TRUE, only first one reaching the achievement will\n\
+;                           get it. Defaults to TRUE.\n\
+; value                   = Value to reach. Exact meaning of this depends on\n\
+;                           achievement type.\n\
+; culture                 = Amount of culture granted to player who gets achievement\n\
+;                           granted.\n\
+; first_msg               = Message shown to first player gaining the achievement\n\
+; cons_msg                = Message shown to consecutive players gaining the achievement\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
+goods = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Goods types:\n\
+;\n\
+; name                    = translatable name as seen by user\n\
+; rule_name               = (optional) name for savegames, rulesets etc; if not\n\
+;                           present, 'name' is used. Since the name used in\n\
+;                           savegames must not change, use this when renaming\n\
+;                           an good after a ruleset has been released.\n\
+; reqs                    = requirements for a city to provide goods (see effects.ruleset\n\
+;                           and README.effects for help on requirements)\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
+enablers = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Action enablers:\n\
+;\n\
+; action               = the action to enable.\n\
+; actor_reqs           = requirements that apply to the actor.\n\
+; target_reqs          = requirements that apply to the target.\n\
+;\n\
+; README.actions lists the possible actions and their hard coded\n\
+; requirements.\n\
+;\n\
+; An action enabler is active when its actor_reqs AND its target_reqs are\n\
+; satisfied.\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

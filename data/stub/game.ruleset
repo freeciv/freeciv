@@ -224,15 +224,15 @@ force_explode_nuclear = FALSE
 ;
 ; */ <-- avoid gettext warnings
 
+; No enabled actions
+; [actionenabler_embassy]
+; action = "Establish Embassy"
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
 ; Can make the help text less redundant when you document it your self.
 ;quiet_actions = "Targeted Sabotage City", "Targeted Steal Tech"
-
-; No enabled actions
-; [actionenabler_embassy]
-; action = "Establish Embassy"
 
 [borders]
 ; Base border radius from city.
@@ -431,7 +431,7 @@ settings =
 
 ; /* <-- avoid gettext warnings
 ;
-; Goods
+; Goods types:
 ;
 ; name                    = translatable name as seen by user
 ; rule_name               = (optional) name for savegames, rulesets etc; if not

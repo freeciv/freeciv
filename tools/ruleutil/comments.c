@@ -36,6 +36,10 @@ static struct {
   char *citystyles;
   char *musicstyles;
   char *effects;
+  char *disasters;
+  char *achievements;
+  char *goods;
+  char *enablers;
 } comments_storage;
 
 /**************************************************************************
@@ -70,6 +74,11 @@ bool comments_load(void)
   comments_storage.citystyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.citystyles"));
   comments_storage.musicstyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.musicstyles"));
   comments_storage.effects = fc_strdup(secfile_lookup_str(comment_file, "typedoc.effects"));
+  comments_storage.disasters = fc_strdup(secfile_lookup_str(comment_file, "typedoc.disasters"));
+  comments_storage.achievements = fc_strdup(secfile_lookup_str(comment_file,
+                                                               "typedoc.achievements"));
+  comments_storage.goods = fc_strdup(secfile_lookup_str(comment_file, "typedoc.goods"));
+  comments_storage.enablers = fc_strdup(secfile_lookup_str(comment_file, "typedoc.enablers"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -201,4 +210,36 @@ void comment_musicstyles(struct section_file *sfile)
 void comment_effects(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.effects, "Effects");
+}
+
+/**************************************************************************
+  Write disasters header.
+**************************************************************************/
+void comment_disasters(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.disasters, "Disasters");
+}
+
+/**************************************************************************
+  Write achievements header.
+**************************************************************************/
+void comment_achievements(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.achievements, "Achievements");
+}
+
+/**************************************************************************
+  Write goods header.
+**************************************************************************/
+void comment_goods(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.goods, "Goods");
+}
+
+/**************************************************************************
+  Write action enablers header.
+**************************************************************************/
+void comment_enablers(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.enablers, "Action Enablers");
 }
