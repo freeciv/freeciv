@@ -303,7 +303,7 @@ struct tile_cache; /* defined and only used within city.c */
 struct adv_city; /* defined in ./server/advisors/infracache.h */
 
 struct city {
-  char name[MAX_LEN_NAME];
+  char name[MAX_LEN_CITYNAME];
   struct tile *tile; /* May be NULL, should check! */
   struct player *owner; /* Cannot be NULL. */
   struct player *original; /* Cannot be NULL. */

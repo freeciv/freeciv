@@ -2861,12 +2861,12 @@ void handle_tile_info(const struct packet_tile_info *packet)
   }
 
   if (NULL == tile_worked(ptile)
-   || tile_worked(ptile)->id != packet->worked) {
+      || tile_worked(ptile)->id != packet->worked) {
     if (IDENTITY_NUMBER_ZERO != packet->worked) {
       struct city *pwork = game_city_by_number(packet->worked);
 
       if (NULL == pwork) {
-        char named[MAX_LEN_NAME];
+        char named[MAX_LEN_CITYNAME];
 
         /* new unseen city, or before city_info */
         fc_snprintf(named, sizeof(named), "%06u", packet->worked);

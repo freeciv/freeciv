@@ -538,12 +538,12 @@ const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 
   /* Not found in rulesets, make a default name. */
   {
-    static char tempname[MAX_LEN_NAME];
+    static char tempname[MAX_LEN_CITYNAME];
     int i;
 
     log_debug("City name not found in rulesets.");
     for (i = 1; i <= map_num_tiles(); i++ ) {
-      fc_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
+      fc_snprintf(tempname, MAX_LEN_CITYNAME, _("City no. %d"), i);
       if (NULL == game_city_by_name(tempname)) {
         return tempname;
       }
@@ -1060,7 +1060,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 		   int kill_outside, bool transfer_unit_verbose,
 		   bool resolve_stack, bool raze, bool build_free)
 {
-  char old_city_name[MAX_LEN_NAME];
+  char old_city_name[MAX_LEN_CITYNAME];
   bv_imprs had_small_wonders;
   struct vision *old_vision, *new_vision;
   struct unit_list *old_city_units = unit_list_new();

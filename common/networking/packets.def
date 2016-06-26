@@ -699,7 +699,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
 
   BV_IMPRS improvements;
   BV_CITY_OPTIONS city_options;
-  ESTRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_CITYNAME];
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
@@ -719,7 +719,7 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
   SINT8 city_image;
 
   BV_IMPRS improvements;
-  ESTRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_CITYNAME];
 end
 
 PACKET_TRADEROUTE_INFO = 249; sc, lsend, handle-via-packet
@@ -768,7 +768,7 @@ end
 
 PACKET_CITY_RENAME = 40; cs, dsend
   CITY city_id;
-  ESTRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_CITYNAME];
 end
 
 PACKET_CITY_OPTIONS_REQ = 41; cs, dsend
@@ -792,7 +792,7 @@ end
 
 PACKET_CITY_NAME_SUGGESTION_INFO = 44; sc, dsend, lsend
   UNIT unit_id;
-  ESTRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_CITYNAME];
 end
 
 PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
@@ -2088,7 +2088,7 @@ end
 
 PACKET_EDIT_CITY = 213; cs, handle-per-conn, handle-via-packet
   CITY id; key
-  ESTRING name[MAX_LEN_NAME];
+  ESTRING name[MAX_LEN_CITYNAME];
   PLAYER owner;
   PLAYER original;
   UINT8 size;

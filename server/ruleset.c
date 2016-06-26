@@ -107,6 +107,7 @@
 #define MULTIPLIER_SECTION_PREFIX "multiplier_"
 
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, NULL))
+#define check_cityname(name) (check_strlen(name, MAX_LEN_CITYNAME, NULL))
 
 /* avoid re-reading files */
 static const char name_too_long[] = "Name \"%s\" too long; truncating.";
@@ -3973,14 +3974,14 @@ static bool load_city_name_list(struct section_file *file,
 
     /* Build the nation_city. */
     remove_leading_trailing_spaces(city_name);
-    if (check_name(city_name)) {
+    if (check_cityname(city_name)) {
       /* The ruleset contains a name that is too long. This shouldn't
        * happen - if it does, the author should get immediate feedback. */
       ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city name \"%s\" "
                     "is too long.", secfile_name(file),
                     secfile_str1, secfile_str2, city_name);
       ok = FALSE;
-      city_name[MAX_LEN_NAME - 1] = '\0';
+      city_name[MAX_LEN_CITYNAME - 1] = '\0';
     }
     pncity = nation_city_new(pnation, city_name);
 
