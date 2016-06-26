@@ -1419,7 +1419,7 @@ static struct setting settings[] = {
               "- \"Fair islands\" (FAIR): generates the exact copy of the "
               "same island for every player or every team.\n"
               "- \"Fracture map\" (FRACTURE): generates maps from a fracture "
-              "patttern. Tends to place hills and mountains along the edges "
+              "pattern. Tends to place hills and mountains along the edges "
               "of the continents.\n"
               "If the requested generator is incompatible with other server "
               "settings, the server may fall back to another generator."),
