@@ -2199,10 +2199,10 @@ void vision_clear_sight(struct vision *vision)
 }
 
 /****************************************************************************
-  Create base to tile.
+  Create extra to tile.
 ****************************************************************************/
-void create_base(struct tile *ptile, struct extra_type *pextra,
-                 struct player *pplayer)
+void create_extra(struct tile *ptile, struct extra_type *pextra,
+                  struct player *pplayer)
 {
   bool extras_removed = FALSE;
 
@@ -2216,55 +2216,32 @@ void create_base(struct tile *ptile, struct extra_type *pextra,
 
   tile_add_extra(ptile, pextra);
 
-  /* Watchtower might become effective
-   * FIXME: Reqs on other specials will not be updated immediately. */
+  /* Watchtower might become effective. */
   unit_list_refresh_vision(ptile->units);
 
-  /* Claim bases on tile */
-  if (pplayer) {
-    struct player *old_owner = extra_owner(ptile);
+  if (pextra->data.base != NULL) {
+    /* Claim bases on tile */
+    if (pplayer) {
+      struct player *old_owner = extra_owner(ptile);
 
-    /* Created base from NULL -> pplayer */
-    map_claim_base(ptile, pextra, pplayer, NULL);
+      /* Created base from NULL -> pplayer */
+      map_claim_base(ptile, pextra, pplayer, NULL);
 
-    if (old_owner != pplayer) {
-      /* Existing bases from old_owner -> pplayer */
-      extra_type_by_cause_iterate(EC_BASE, oldbase) {
-        if (oldbase != pextra) {
-          map_claim_base(ptile, oldbase, pplayer, old_owner);
-        }
-      } extra_type_by_cause_iterate_end;
+      if (old_owner != pplayer) {
+        /* Existing bases from old_owner -> pplayer */
+        extra_type_by_cause_iterate(EC_BASE, oldbase) {
+          if (oldbase != pextra) {
+            map_claim_base(ptile, oldbase, pplayer, old_owner);
+          }
+        } extra_type_by_cause_iterate_end;
 
-      ptile->extras_owner = pplayer;
+        ptile->extras_owner = pplayer;
+      }
+    } else {
+      /* Player who already owns bases on tile claims new base */
+      map_claim_base(ptile, pextra, extra_owner(ptile), NULL);
     }
-  } else {
-    /* Player who already owns bases on tile claims new base */
-    map_claim_base(ptile, pextra, extra_owner(ptile), NULL);
   }
-
-  if (extras_removed) {
-    /* Maybe conflicting extra that was removed was the only thing
-     * making tile native to some unit. */
-    bounce_units_on_terrain_change(ptile);
-  }
-}
-
-/****************************************************************************
-  Create road to tile.
-****************************************************************************/
-void create_road(struct tile *ptile, struct extra_type *pextra)
-{
-  bool extras_removed = FALSE;
-
-  extra_type_iterate(old_extra) {
-    if (tile_has_extra(ptile, old_extra)
-        && !can_extras_coexist(old_extra, pextra)) {
-      tile_remove_extra(ptile, old_extra);
-      extras_removed = TRUE;
-    }
-  } extra_type_iterate_end;
-
-  tile_add_extra(ptile, pextra);
 
   if (extras_removed) {
     /* Maybe conflicting extra that was removed was the only thing

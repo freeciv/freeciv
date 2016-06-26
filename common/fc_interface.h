@@ -30,6 +30,8 @@ struct extra_type;
 
 /* The existence of each function should be checked in interface_init()! */
 struct functions {
+  void (*create_extra)(struct tile *ptile, struct extra_type *pextra,
+                       struct player *pplayer);
   void (*destroy_extra)(struct tile *ptile, struct extra_type *pextra);
   /* Returns iff the player 'pplayer' has the vision in the layer
      'vision' at tile given by 'ptile'. */
