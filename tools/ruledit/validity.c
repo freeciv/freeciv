@@ -120,6 +120,13 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
     }
   } extra_type_iterate_end;
 
+  goods_type_iterate(pgood) {
+    if (universal_in_req_vec(uni, &pgood->reqs)) {
+      cb(goods_rule_name(pgood), data);
+      needed = TRUE;
+    }
+  } goods_type_iterate_end;
+
   action_iterate(act) {
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
       if (universal_in_req_vec(uni, &(enabler->actor_reqs))
