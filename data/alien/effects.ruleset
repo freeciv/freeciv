@@ -690,7 +690,7 @@ reqs	=
     }
 
 [effect_calendar_base]
-type    = "Turn_Years"
+type    = "Turn_Fragments"
 value   = 1
 
 [effect_tech_cost_base]
