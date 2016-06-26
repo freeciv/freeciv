@@ -123,7 +123,6 @@ module edit {
                    const char *name);
   void api_edit_create_extra
     @ create_extra (lua_State *L, Tile *ptile, const char *name);
-  /* Deprecated; use edit.create_extra() */
   void api_edit_create_base
     @ create_base (lua_State *L, Tile *ptile, const char *name,
                    Player *pplayer);
@@ -202,11 +201,10 @@ function create_city(player, tile, name)
   edit.create_city (player, tile, name)
 end
 
--- Deprecated; use edit.create_extra()
+-- Deprecated; use edit.create_base()
 function create_base(tile, name, player)
   -- Out-of-namespace since 2.4
-  -- edit.create_base() -> edit.create_extra() since 2.6
-  log.deprecation_warning("create_base()", "edit.create_extra()",
+  log.deprecation_warning("create_base()", "edit.create_base()",
                           "2.4");
   edit.create_base(tile, name, player)
 end
@@ -333,10 +331,7 @@ function Tile:create_extra(name)
   edit.create_extra(self, name)
 end
 
--- Deprecated; use Tile:create_extra()
 function Tile:create_base(name, player)
-  log.deprecation_warning("Tile:create_base()", "Tile:create_extra()",
-                          "2.6");
   edit.create_base(self, name, player)
 end
 
