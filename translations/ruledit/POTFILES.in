@@ -4,8 +4,10 @@ tools/ruledit/requirers_dlg.cpp
 tools/ruledit/ruledit.cpp
 tools/ruledit/ruledit_qt.cpp
 tools/ruledit/tab_building.cpp
+tools/ruledit/tab_good.cpp
 tools/ruledit/tab_misc.cpp
 tools/ruledit/tab_nation.cpp
 tools/ruledit/tab_tech.cpp
 tools/ruledit/tab_unit.cpp
+tools/ruledit/req_edit.cpp
 tools/ruledit/validity.c
