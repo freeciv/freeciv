@@ -4665,8 +4665,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       city[i] = (tile
                  && (NULL == powner || NULL == client.conn.playing
                      || powner == client.conn.playing)
-                 && (NULL == client.conn.playing
-                     || player_in_city_map(client.conn.playing, tile)));
+                 && player_in_city_map(client.conn.playing, tile));
       if (city[i]) {
 	if (citymode) {
 	  /* In citymode, we only draw worked tiles for this city - other

@@ -1040,7 +1040,8 @@ bool player_in_city_map(const struct player *pplayer,
   city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, ptile, ptile1) {
     struct city *pcity = tile_city(ptile1);
 
-    if (pcity && city_owner(pcity) == pplayer
+    if (pcity
+        && (pplayer == NULL || city_owner(pcity) == pplayer)
         && city_map_radius_sq_get(pcity) >= sq_map_distance(ptile,
                                                             ptile1)) {
       return TRUE;
