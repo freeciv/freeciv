@@ -458,6 +458,19 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
 }
 
 /****************************************************************************
+  Create extra to tile.
+****************************************************************************/
+static void tile_create_extra(struct tile *ptile, struct extra_type *pextra)
+{
+  if (fc_funcs->create_extra != NULL) {
+    /* Assume callback calls tile_add_extra() itself. */
+    fc_funcs->create_extra(ptile, pextra, NULL);
+  } else {
+    tile_add_extra(ptile, pextra);
+  }
+}
+
+/****************************************************************************
   Destroy extra from tile.
 ****************************************************************************/
 static void tile_destroy_extra(struct tile *ptile, struct extra_type *pextra)
@@ -512,7 +525,7 @@ static bool add_recursive_extras(struct tile *ptile, struct extra_type *pextra,
     return FALSE;
   }
 
-  tile_add_extra(ptile, pextra);
+  tile_create_extra(ptile, pextra);
 
   return TRUE;
 }
