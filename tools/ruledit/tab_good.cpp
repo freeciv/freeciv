@@ -33,6 +33,7 @@
 #include "improvement.h"
 
 // ruledit
+#include "req_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "validity.h"
@@ -49,6 +50,7 @@ tab_good::tab_good(ruledit_gui *ui_in) : QWidget()
   QLabel *label;
   QPushButton *add_button;
   QPushButton *delete_button;
+  QPushButton *reqs_button;
 
   ui = ui_in;
   selected = 0;
@@ -78,6 +80,11 @@ tab_good::tab_good(ruledit_gui *ui_in) : QWidget()
   good_layout->addWidget(label, 1, 0);
   good_layout->addWidget(same_name, 1, 1);
   good_layout->addWidget(name, 1, 2);
+
+  reqs_button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
+  connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
+  good_layout->addWidget(reqs_button, 2, 2);
+  show_experimental(reqs_button);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Good")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
@@ -257,5 +264,18 @@ void tab_good::same_name_toggle(bool checked)
   name->setEnabled(!checked);
   if (checked) {
     name->setText(rname->text());
+  }
+}
+
+/**************************************************************************
+  User wants to edit reqs
+**************************************************************************/
+void tab_good::edit_reqs()
+{
+  if (selected != nullptr) {
+    req_edit *redit = new req_edit(ui, goods_rule_name(selected),
+                                   &selected->reqs);
+
+    redit->show();
   }
 }

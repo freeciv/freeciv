@@ -25,6 +25,7 @@ freeciv_ruledit_CXXFLAGS = $(ruledit_cxxflags)
 
 MOC_FILES = \
             meta_edit_utype.cpp \
+	    meta_req_edit.cpp	\
             meta_requirers_dlg.cpp \
             meta_ruledit_qt.cpp \
             meta_tab_misc.cpp	\
@@ -49,6 +50,8 @@ freeciv_ruledit_SOURCES =	\
 		tab_tech.h	\
                 tab_unit.cpp	\
 		tab_unit.h	\
+		req_edit.cpp	\
+		req_edit.h	\
 		requirers_dlg.cpp \
 		requirers_dlg.h	\
 		ruledit.cpp	\
