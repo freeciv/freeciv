@@ -278,26 +278,49 @@ static void print_usage(const char *argv0)
              _("This client accepts the standard Gtk command-line options\n"
                "after '--'. See the Gtk documentation.\n\n"));
 
+  fc_fprintf(stderr,
+             _("Other gui-specific options are:\n"));
+
+  fc_fprintf(stderr,
+             _("-g, --gtk-warnings\tLet gtk+ to print warnings\n\n"));
+
   /* TRANS: No full stop after the URL, could cause confusion. */
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
 }
 
 /**************************************************************************
- search for command line options. right now, it's just help
- semi-useless until we have options that aren't the same across all clients.
+  Dummy gtk error printer
+**************************************************************************/
+static void log_gtk_warns(const gchar *log_domain, GLogLevelFlags log_level,
+                          const gchar *message,
+                          gpointer user_data)
+{
+  log_verbose("%s", message);
+}
+
+/**************************************************************************
+  Search for command line options. right now, it's just help
+  semi-useless until we have options that aren't the same across all clients.
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
   int i = 1;
+  bool gtk_warns_enabled = FALSE;
 
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage(argv[0]);
       exit(EXIT_SUCCESS);
+    } else if (is_option("--gtk-warnings", argv[i])) {
+      gtk_warns_enabled = TRUE;
     }
     /* Can't check against unknown options, as those might be gtk options */
 
     i++;
+  }
+
+  if (!gtk_warns_enabled) {
+    g_log_set_handler("Gtk", G_LOG_LEVEL_WARNING, log_gtk_warns, NULL);
   }
 }
 
