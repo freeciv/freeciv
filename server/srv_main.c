@@ -2496,10 +2496,11 @@ static void announce_player(struct player *pplayer)
 **************************************************************************/
 static void srv_running(void)
 {
-  int save_counter = 0, i;
+  int i;
   bool is_new_turn = game.info.is_new_game;
   bool skip_mapimg = !game.info.is_new_game; /* Do not overwrite start-of-turn image */
   bool need_send_pending_events = !game.info.is_new_game;
+  int save_counter = game.info.is_new_game ? 1 : 0;
 
   /* We may as well reset is_new_game now. */
   game.info.is_new_game = FALSE;
