@@ -73,6 +73,7 @@ static void modinst_quit(void)
   save_install_info_lists(&fcmp);
 
   fcmp_deinit();
+  cmdline_option_values_free();
 
   exit(EXIT_SUCCESS);
 }
@@ -633,6 +634,7 @@ int main(int argc, char *argv[])
   }
 
   fcmp_deinit();
+  cmdline_option_values_free();
 
   return EXIT_SUCCESS;
 }

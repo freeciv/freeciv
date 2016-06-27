@@ -192,8 +192,9 @@ static void parse_options(int argc, char **argv)
     } else if (is_option("--eventthread", argv[i])) {
       /* init events in other thread ( only linux and BeOS ) */  
       SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
-    } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--theme", argv, &i, argc, FALSE))) {
       sz_strlcpy(gui_options.gui_sdl_default_theme_name, option);
+      free(option);
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       exit(EXIT_FAILURE);

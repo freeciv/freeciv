@@ -46,6 +46,7 @@
 #include "astring.h"
 #include "bitvector.h"
 #include "capability.h"
+#include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -53,7 +54,6 @@
 #include "netintf.h"
 #include "rand.h"
 #include "registry.h"
-#include "shared.h"
 #include "support.h"
 #include "timing.h"
 
@@ -1662,6 +1662,7 @@ void server_quit(void)
   free_libfreeciv();
   free_nls();
   con_log_close();
+  cmdline_option_values_free();
   exit(EXIT_SUCCESS);
 }
 

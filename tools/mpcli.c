@@ -160,6 +160,7 @@ int main(int argc, char *argv[])
   }
 
   fcmp_deinit();
+  cmdline_option_values_free();
 
   return EXIT_SUCCESS;
 }

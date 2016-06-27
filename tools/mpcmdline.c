@@ -47,7 +47,7 @@ int fcmp_parse_cmdline(int argc, char *argv[])
   int i = 1;
   bool ui_separator = FALSE;
   int ui_options = 0;
-  const char *option = NULL;
+  char *option = NULL;
   enum log_level loglevel = LOG_NORMAL;
 
   while (i < argc) {
@@ -93,13 +93,13 @@ int fcmp_parse_cmdline(int argc, char *argv[])
       cmdhelp_destroy(help);
 
       exit(EXIT_SUCCESS);
-    } else if ((option = get_option_malloc("--List", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--List", argv, &i, argc, TRUE))) {
       fcmp.list_url = option;
-    } else if ((option = get_option_malloc("--prefix", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--prefix", argv, &i, argc, TRUE))) {
       fcmp.inst_prefix = option;
-    } else if ((option = get_option_malloc("--install", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--install", argv, &i, argc, TRUE))) {
       fcmp.autoinstall = option;
-    } else if ((option = get_option_malloc("--debug", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--debug", argv, &i, argc, FALSE))) {
       if (!log_parse_level_str(option, &loglevel)) {
         fc_fprintf(stderr,
                    _("Invalid debug level \"%s\" specified with --debug "
@@ -107,6 +107,7 @@ int fcmp_parse_cmdline(int argc, char *argv[])
         fc_fprintf(stderr, _("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
+      free(option);
     } else if (is_option("--version", argv[i])) {
       fc_fprintf(stderr, "%s \n", freeciv_name_version());
 

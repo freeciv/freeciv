@@ -193,8 +193,9 @@ static void parse_options(int argc, char **argv)
       exit(EXIT_SUCCESS);
     } else if (is_option("--fullscreen", argv[i])) {
       gui_options.gui_sdl2_fullscreen = TRUE;
-    } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--theme", argv, &i, argc, FALSE))) {
       sz_strlcpy(gui_options.gui_sdl2_default_theme_name, option);
+      free(option);
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       exit(EXIT_FAILURE);

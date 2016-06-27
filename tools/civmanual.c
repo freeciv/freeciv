@@ -564,11 +564,10 @@ int main(int argc, char **argv)
   /* parse command-line arguments... */
   inx = 1;
   while (inx < argc) {
-    if ((option = get_option_malloc("--ruleset", argv, &inx, argc))) {
+    if ((option = get_option_malloc("--ruleset", argv, &inx, argc, TRUE))) {
       if (ruleset != NULL) {
         fc_fprintf(stderr, _("Multiple rulesets requested. Only one "
                              "ruleset at a time is supported.\n"));
-        free(option);
       } else {
         ruleset = option;
       }
@@ -577,8 +576,8 @@ int main(int argc, char **argv)
       break;
     } else if (is_option("--version", argv[inx])) {
       showvers = TRUE;
-    } else if ((option = get_option_malloc("--log", argv, &inx, argc))) {
-      srvarg.log_filename = option; /* Never freed. */
+    } else if ((option = get_option_malloc("--log", argv, &inx, argc, TRUE))) {
+      srvarg.log_filename = option;
 #ifndef FREECIV_NDEBUG
     } else if (is_option("--Fatal", argv[inx])) {
       if (inx + 1 >= argc || '-' == argv[inx + 1][0]) {
@@ -592,7 +591,7 @@ int main(int argc, char **argv)
         showhelp = TRUE;
       }
 #endif /* FREECIV_NDEBUG */
-    } else if ((option = get_option_malloc("--debug", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--debug", argv, &inx, argc, FALSE))) {
       if (!log_parse_level_str(option, &srvarg.loglevel)) {
         showhelp = TRUE;
         break;
@@ -681,6 +680,7 @@ int main(int argc, char **argv)
   registry_module_close();
   free_libfreeciv();
   free_nls();
+  cmdline_option_values_free();
 
   return retval;
 }

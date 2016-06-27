@@ -110,9 +110,7 @@ int main(int argc, char **argv)
   free_nls();
 
   /* Clean up command line arguments. */
-  if (reargs.ruleset) {
-    FC_FREE(reargs.ruleset);
-  }
+  cmdline_option_values_free();
 
   return EXIT_SUCCESS;
 }
@@ -153,7 +151,7 @@ static int re_parse_cmdline(int argc, char *argv[])
       fc_fprintf(stderr, "%s \n", freeciv_name_version());
 
       exit(EXIT_SUCCESS);
-    } else if ((option = get_option_malloc("--ruleset", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--ruleset", argv, &i, argc, true))) {
       if (reargs.ruleset) {
         fc_fprintf(stderr, R__("Can only edit one ruleset at a time.\n"));
       } else {
