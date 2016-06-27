@@ -1212,6 +1212,34 @@ Later in the game, helicopters may also enter villages, but overflight \
 by other aircraft will cause the villagers to take fright and disband.\
 ")
 
+[extra_hermit]
+name             = _("Hermit's Place")
+rule_name        = "Hermit"
+category         = "Bonus"
+causes           = "Appear"
+;rmcauses         = ""
+graphic          = "tx.hermit"
+graphic_alt      = "tx.village"
+activity_gfx     = "None"
+act_gfx_alt      = "-"
+rmact_gfx        = "None"
+rmact_gfx_alt    = "-"
+appearance_reqs  =
+    { "type", "name", "range", "present"
+      "TerrainClass", "Land", "Local", TRUE
+      "MinYear", "1000", "World", FALSE
+      "CityTile", "Center", "Local", FALSE
+      "Extra", "Hut", "Local", FALSE
+    }
+appearance_chance = 1
+helptext = _("\
+One can explore Hermit's Places once the philosopher has abandoned them. In most \
+cases one can learn some of the wisdom of the former inhabitant, with the cost \
+of 20% of the normal price. \
+After year 1000 there's no more such individuals figuring entire technologies \
+out in the solitude. \
+")
+
 [extra_farmland]
 name           = _("Farmland")
 category       = "Infra"

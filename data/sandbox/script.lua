@@ -24,6 +24,24 @@ end
 
 signal.connect("city_destroyed", "city_destroyed_callback")
 
+-- Unit enters Hermit's Nest
+function hermit_nest(unit)
+  if unit.tile:has_extra("Hermit") then
+    local chance = random(0, 5)
+
+    notify.event(unit.owner, unit.tile, E.SCRIPT,
+                 _("You found Hermit's Place."))
+
+    if chance <= 3 then
+      local tech = unit.owner:give_technology(nil, 20, "hut")
+    end
+
+    return false
+  end
+end
+
+signal.connect("hut_enter", "hermit_nest")
+
 -- Add random labels to the map.
 function place_map_labels()
   local mountains = 0
