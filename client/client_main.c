@@ -469,8 +469,8 @@ int client_main(int argc, char *argv[])
     } else if (is_option("--Hackless", argv[i])) {
       hackless = TRUE;
 #endif /* FREECIV_DEBUG */
-    } else if ((option = get_option_malloc("--log", argv, &i, argc))) {
-      logfile = option; /* never free()d */
+    } else if ((option = get_option_malloc("--log", argv, &i, argc, TRUE))) {
+      logfile = option;
 #ifndef FREECIV_NDEBUG
     } else if (is_option("--Fatal", argv[i])) {
       if (i + 1 >= argc || '-' == argv[i + 1][0]) {
@@ -484,27 +484,27 @@ int client_main(int argc, char *argv[])
         exit(EXIT_FAILURE);
       }
 #endif /* FREECIV_NDEBUG */
-    } else  if ((option = get_option_malloc("--read", argv, &i, argc))) {
-      scriptfile = option; /* never free()d */
-    } else if ((option = get_option_malloc("--file", argv, &i, argc))) {
-      savefile = option; /* never free()d */
+    } else  if ((option = get_option_malloc("--read", argv, &i, argc, TRUE))) {
+      scriptfile = option;
+    } else if ((option = get_option_malloc("--file", argv, &i, argc, TRUE))) {
+      savefile = option;
       auto_spawn = TRUE;
-    } else if ((option = get_option_malloc("--name", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--name", argv, &i, argc, FALSE))) {
       sz_strlcpy(user_name, option);
       free(option);
-    } else if ((option = get_option_malloc("--Meta", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--Meta", argv, &i, argc, FALSE))) {
       sz_strlcpy(metaserver, option);
       free(option);
-    } else if ((option = get_option_malloc("--Sound", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--Sound", argv, &i, argc, FALSE))) {
       sz_strlcpy(sound_set_name, option);
       free(option);
-    } else if ((option = get_option_malloc("--music", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--music", argv, &i, argc, FALSE))) {
       sz_strlcpy(music_set_name, option);
       free(option);
-    } else if ((option = get_option_malloc("--Plugin", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--Plugin", argv, &i, argc, FALSE))) {
       sz_strlcpy(sound_plugin_name, option);
       free(option);
-    } else if ((option = get_option_malloc("--port",argv,&i,argc))) {
+    } else if ((option = get_option_malloc("--port", argv, &i, argc, FALSE))) {
       if (!str_to_int(option, &server_port)) {
         fc_fprintf(stderr,
                    _("Invalid port \"%s\" specified with --port option.\n"),
@@ -513,12 +513,12 @@ int client_main(int argc, char *argv[])
         exit(EXIT_FAILURE);
       }
       free(option);
-    } else if ((option = get_option_malloc("--server", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--server", argv, &i, argc, FALSE))) {
       sz_strlcpy(server_host, option);
       free(option);
     } else if (is_option("--autoconnect", argv[i])) {
       auto_connect = TRUE;
-    } else if ((option = get_option_malloc("--debug", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--debug", argv, &i, argc, FALSE))) {
       if (!log_parse_level_str(option, &loglevel)) {
         fc_fprintf(stderr,
                    _("Invalid debug level \"%s\" specified with --debug "
@@ -527,10 +527,10 @@ int client_main(int argc, char *argv[])
         exit(EXIT_FAILURE);
       }
       free(option);
-    } else if ((option = get_option_malloc("--tiles", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--tiles", argv, &i, argc, FALSE))) {
       sz_strlcpy(forced_tileset_name, option);
       free(option);
-    } else if ((option = get_option_malloc("--Announce", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--Announce", argv, &i, argc, FALSE))) {
       if (!strcasecmp(option, "ipv4")) {
         announce = ANNOUNCE_IPV4;
       } else if (!strcasecmp(option, "none")) {
@@ -731,6 +731,7 @@ void client_exit(void)
 
   backtrace_deinit();
   log_close();
+  cmdline_option_values_free();
 
   exit(EXIT_SUCCESS);
 }

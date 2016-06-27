@@ -27,6 +27,17 @@
 
 #include "fc_cmdline.h"
 
+/* get 'struct cmdline_value_list' and related functions: */
+#define SPECLIST_TAG cmdline_value
+#define SPECLIST_TYPE char
+#include "speclist.h"
+
+#define cmdline_value_list_iterate(vallist, pvalue) \
+    TYPED_LIST_ITERATE(char *, vallist, pvalue)
+#define cmdline_value_list_iterate_end LIST_ITERATE_END
+
+static struct cmdline_value_list *cmdline_values = NULL;
+
 /**************************************************************************
   Return a char* to the parameter of the option or NULL.
   *i can be increased to get next string in the array argv[].
@@ -37,14 +48,20 @@
   string is in the internal encoding.
 **************************************************************************/
 char *get_option_malloc(const char *option_name,
-                        char **argv, int *i, int argc)
+                        char **argv, int *i, int argc,
+                        bool gc)
 {
   int len = strlen(option_name);
+
+  if (gc && cmdline_values == NULL) {
+    cmdline_values = cmdline_value_list_new();
+  }
 
   if (strcmp(option_name, argv[*i]) == 0
       || (strncmp(option_name, argv[*i], len) == 0 && argv[*i][len] == '=')
       || strncmp(option_name + 1, argv[*i], 2) == 0) {
     char *opt = argv[*i] + (argv[*i][1] != '-' ? 0 : len);
+    char *ret;
 
     if (*opt == '=') {
       opt++;
@@ -62,10 +79,30 @@ char *get_option_malloc(const char *option_name,
      }
    }
 
-   return local_to_internal_string_malloc(opt);
+    ret = local_to_internal_string_malloc(opt);
+
+    if (gc) {
+      cmdline_value_list_append(cmdline_values, ret);
+    }
+
+    return ret;
  }
 
   return NULL;
+}
+
+/***************************************************************
+  Free memory allocated for commandline option values.
+***************************************************************/
+void cmdline_option_values_free(void)
+{
+  if (cmdline_values != NULL) {
+    cmdline_value_list_iterate(cmdline_values, pval) {
+      free(pval);
+    } cmdline_value_list_iterate_end;
+
+    cmdline_value_list_destroy(cmdline_values);
+  }
 }
 
 /***************************************************************

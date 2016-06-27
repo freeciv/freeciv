@@ -200,14 +200,15 @@ int main(int argc, char *argv[])
   /* FIXME: and that are? */
   inx = 1;
   while (inx < argc) {
-    if ((option = get_option_malloc("--file", argv, &inx, argc))) {
+    if ((option = get_option_malloc("--file", argv, &inx, argc,
+                                    FALSE))) {
       sz_strlcpy(srvarg.load_filename, option);
       free(option);
     } else if (is_option("--help", argv[inx])) {
       showhelp = TRUE;
       break;
-    } else if ((option = get_option_malloc("--log", argv, &inx, argc))) {
-      srvarg.log_filename = option; /* Never freed. */
+    } else if ((option = get_option_malloc("--log", argv, &inx, argc, TRUE))) {
+      srvarg.log_filename = option;
 #ifndef FREECIV_NDEBUG
     } else if (is_option("--Fatal", argv[inx])) {
       if (inx + 1 >= argc || '-' == argv[inx + 1][0]) {
@@ -221,8 +222,8 @@ int main(int argc, char *argv[])
         showhelp = TRUE;
       }
 #endif /* FREECIV_NDEBUG */
-    } else if ((option = get_option_malloc("--Ranklog", argv, &inx, argc))) {
-      srvarg.ranklog_filename = option; /* Never freed. */
+    } else if ((option = get_option_malloc("--Ranklog", argv, &inx, argc, TRUE))) {
+      srvarg.ranklog_filename = option;
     } else if (is_option("--keep", argv[inx])) {
       srvarg.metaconnection_persistent = TRUE;
       /* Implies --meta */
@@ -234,31 +235,32 @@ int main(int argc, char *argv[])
     } else if (is_option("--meta", argv[inx])) {
       srvarg.metaserver_no_send = FALSE;
     } else if ((option = get_option_malloc("--Metaserver",
-                                           argv, &inx, argc))) {
+                                           argv, &inx, argc, FALSE))) {
       sz_strlcpy(srvarg.metaserver_addr, option);
       free(option);
       srvarg.metaserver_no_send = FALSE;      /* --Metaserver implies --meta */
     } else if ((option = get_option_malloc("--identity",
-					   argv, &inx, argc))) {
+                                           argv, &inx, argc, FALSE))) {
       sz_strlcpy(srvarg.identity_name, option);
       free(option);
-    } else if ((option = get_option_malloc("--port", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--port", argv, &inx, argc, FALSE))) {
       if (!str_to_int(option, &srvarg.port)) {
         showhelp = TRUE;
         break;
       }
       free(option);
-    } else if ((option = get_option_malloc("--bind", argv, &inx, argc))) {
-      srvarg.bind_addr = option; /* Never freed. */
-    } else if ((option = get_option_malloc("--Bind-meta", argv, &inx, argc))) {
-      srvarg.bind_meta_addr = option; /* Never freed. */
+    } else if ((option = get_option_malloc("--bind", argv, &inx, argc, TRUE))) {
+      srvarg.bind_addr = option;
+    } else if ((option = get_option_malloc("--Bind-meta", argv, &inx, argc, TRUE))) {
+      srvarg.bind_meta_addr = option;
 #ifdef FREECIV_WEB
-    } else if ((option = get_option_malloc("--type", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--type", argv, &inx, argc, FALSE))) {
       sz_strlcpy(game.server.meta_info.type, option);
+      free(option);
 #endif /* FREECIV_WEB */
-    } else if ((option = get_option_malloc("--read", argv, &inx, argc)))
-      srvarg.script_filename = option; /* Never freed. */
-    else if ((option = get_option_malloc("--quitidle", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--read", argv, &inx, argc, TRUE)))
+      srvarg.script_filename = option;
+    else if ((option = get_option_malloc("--quitidle", argv, &inx, argc, FALSE))) {
       if (!str_to_int(option, &srvarg.quitidle)) {
         showhelp = TRUE;
         break;
@@ -266,14 +268,14 @@ int main(int argc, char *argv[])
       free(option);
     } else if (is_option("--exit-on-end", argv[inx])) {
       srvarg.exit_on_end = TRUE;
-    } else if ((option = get_option_malloc("--debug", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--debug", argv, &inx, argc, FALSE))) {
       if (!log_parse_level_str(option, &srvarg.loglevel)) {
         showhelp = TRUE;
         break;
       }
       free(option);
 #ifdef HAVE_FCDB
-    } else if ((option = get_option_malloc("--Database", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--Database", argv, &inx, argc, TRUE))) {
       srvarg.fcdb_enabled = TRUE;
       srvarg.fcdb_conf = option;
     } else if (is_option("--auth", argv[inx])) {
@@ -283,16 +285,16 @@ int main(int argc, char *argv[])
     } else if (is_option("--Newusers", argv[inx])) {
       srvarg.auth_allow_newusers = TRUE;
 #endif /* HAVE_FCDB */
-    } else if ((option = get_option_malloc("--Serverid", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--Serverid", argv, &inx, argc, FALSE))) {
       sz_strlcpy(srvarg.serverid, option);
       free(option);
-    } else if ((option = get_option_malloc("--saves", argv, &inx, argc))) {
-      srvarg.saves_pathname = option; /* Never freed. */
-    } else if ((option = get_option_malloc("--scenarios", argv, &inx, argc))) {
-      srvarg.scenarios_pathname = option; /* Never freed */
+    } else if ((option = get_option_malloc("--saves", argv, &inx, argc, TRUE))) {
+      srvarg.saves_pathname = option;
+    } else if ((option = get_option_malloc("--scenarios", argv, &inx, argc, TRUE))) {
+      srvarg.scenarios_pathname = option;
     } else if (is_option("--version", argv[inx])) {
       showvers = TRUE;
-    } else if ((option = get_option_malloc("--Announce", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--Announce", argv, &inx, argc, FALSE))) {
       if (!strcasecmp(option, "ipv4")) {
         srvarg.announce = ANNOUNCE_IPV4;
       } else if(!strcasecmp(option, "none")) {
@@ -308,7 +310,7 @@ int main(int argc, char *argv[])
     } else if (is_option("--warnings", argv[inx])) {
       deprecation_warnings_enable();
 #ifdef AI_MODULES
-    } else if ((option = get_option_malloc("--LoadAI", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--LoadAI", argv, &inx, argc, FALSE))) {
       if (!load_ai_module(option)) {
         fc_fprintf(stderr, _("Failed to load AI module \"%s\"\n"), option);
         exit(EXIT_FAILURE);

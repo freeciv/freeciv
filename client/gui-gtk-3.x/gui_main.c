@@ -314,7 +314,7 @@ static void parse_options(int argc, char **argv)
       exit(EXIT_SUCCESS);
 
 #ifdef GTK3_ZOOM_ENABLED
-    } else if ((option = get_option_malloc("--zoom", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--zoom", argv, &i, argc, FALSE))) {
       char *endptr;
 
       if (strcmp("default", option)) {
@@ -323,13 +323,15 @@ static void parse_options(int argc, char **argv)
       } else {
         gui_options.zoom_set = FALSE;
       }
+      free(option);
 #endif /* GTK3_ZOOM_ENABLED */
 
-    } else if ((option = get_option_malloc("--resolution", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--resolution", argv, &i, argc, FALSE))) {
       if (!string_to_video_mode(option, &vmode)) {
         fc_fprintf(stderr, _("Illegal video mode '%s'"), option);
         exit(EXIT_FAILURE);
       }
+      free(option);
     }
     /* Can't check against unknown options, as those might be gtk options */
     /* TODO: gtk+ is about to drop its commandline options anyway,

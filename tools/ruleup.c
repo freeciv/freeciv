@@ -65,17 +65,19 @@ static void rup_parse_cmdline(int argc, char *argv[])
       cmdhelp_display(help, TRUE, FALSE, TRUE);
       cmdhelp_destroy(help);
 
+      cmdline_option_values_free();
+
       exit(EXIT_SUCCESS);
-    } else if ((option = get_option_malloc("--ruleset", argv, &i, argc))) {
+    } else if ((option = get_option_malloc("--ruleset", argv, &i, argc, TRUE))) {
       if (rs_selected != NULL) {
         fc_fprintf(stderr,
                    _("Multiple rulesets requested. Only one ruleset at time supported.\n"));
-        free(option);
       } else {
         rs_selected = option;
       }
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
+      cmdline_option_values_free();
       exit(EXIT_FAILURE);
     }
 
@@ -146,6 +148,7 @@ int main(int argc, char **argv)
   log_close();
   free_libfreeciv();
   free_nls();
+  cmdline_option_values_free();
 
   return EXIT_SUCCESS;
 }
