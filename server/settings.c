@@ -2797,7 +2797,11 @@ static struct setting settings[] = {
 
   GEN_BOOL("scorelog", game.server.scorelog,
            SSET_META, SSET_INTERNAL, SSET_SITUATIONAL,
+#ifdef FREECIV_WEB
+           ALLOW_NONE, ALLOW_CTRL,
+#else /* FREECIV_WEB */
            ALLOW_HACK, ALLOW_HACK,
+#endif /* FREECIV_WEB */
            N_("Whether to log player statistics"),
            /* TRANS: The string between single quotes is a setting name and
             * should not be translated. */
