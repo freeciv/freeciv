@@ -375,12 +375,17 @@ action_probability action_prob_self(const struct unit *actor,
 
 bool action_prob_possible(action_probability probability);
 
+action_probability action_prob_new_impossible(void);
+action_probability action_prob_new_not_relevant(void);
+action_probability action_prob_new_not_impl(void);
+action_probability action_prob_new_unknown(void);
+
 /* Special action probability values. Documented in fc_types.h's
  * definition of action_probability. */
-#define ACTPROB_IMPOSSIBLE 0
-#define ACTPROB_NA 253
-#define ACTPROB_NOT_IMPLEMENTED 254
-#define ACTPROB_NOT_KNOWN 255
+#define ACTPROB_IMPOSSIBLE action_prob_new_impossible()
+#define ACTPROB_NA action_prob_new_not_relevant()
+#define ACTPROB_NOT_IMPLEMENTED action_prob_new_not_impl()
+#define ACTPROB_NOT_KNOWN action_prob_new_unknown()
 
 bool
 action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,

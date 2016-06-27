@@ -2714,6 +2714,38 @@ action_probability action_prob_self(const struct unit* actor_unit,
 }
 
 /**************************************************************************
+  Returns the impossible action probability.
+**************************************************************************/
+action_probability action_prob_new_impossible(void)
+{
+  return 0;
+}
+
+/**************************************************************************
+  Returns the n/a action probability.
+**************************************************************************/
+action_probability action_prob_new_not_relevant(void)
+{
+  return 253;
+}
+
+/**************************************************************************
+  Returns the "not implemented" action probability.
+**************************************************************************/
+action_probability action_prob_new_not_impl(void)
+{
+  return 254;
+}
+
+/**************************************************************************
+  Returns the "user don't know" action probability.
+**************************************************************************/
+action_probability action_prob_new_unknown(void)
+{
+  return 255;
+}
+
+/**************************************************************************
   Returns TRUE iff the given action probability belongs to an action that
   may be possible.
 **************************************************************************/
