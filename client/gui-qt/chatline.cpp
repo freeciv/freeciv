@@ -35,7 +35,7 @@
 #include "chatline.h"
 
 static bool is_plain_public_message(QString s);
-static QString replace_html(QString str);
+static QString replace_signs(QString str);
 /***************************************************************************
   Constructor for chatwdg
 ***************************************************************************/
@@ -302,6 +302,39 @@ void chatwdg::make_link(struct tile *ptile)
 }
 
 /***************************************************************************
+  increases tag start or stop if there are converted sings < and > by 
+  replace signs function
+***************************************************************************/
+int increase_tags(QString str, int i)
+{
+  int j = 0;
+  int k, l, m;
+  int count = 0;
+
+  j = 0;
+  while (1) {
+    m = str.indexOf("&gt;", j);
+    l = str.indexOf("&lt;", j);
+    if ( m != -1 && l != -1) {
+      k = qMin(m, l);
+    } else if (l == -1 && m != -1) {
+      k = m;
+    } else if (l != -1 && m == -1) {
+      k = l;
+    } else {
+      k = -1;
+    }
+    if (i <= k || k == -1) {
+      break;
+    }
+    i = i + 3;
+    j = k + 3;
+    count++;
+  }
+  return count * 3;
+}
+
+/***************************************************************************
   Applies tags to text
 ***************************************************************************/
 QString apply_tags(QString str, const struct text_tag_list *tags,
@@ -318,18 +351,18 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
     return str;
   }
   text_tag_list_iterate(tags, ptag) {
-
-
     if ((text_tag_stop_offset(ptag) == FT_OFFSET_UNSET)) {
       stop = qba.count();
     } else {
       stop = text_tag_stop_offset(ptag);
+      stop = stop + increase_tags(str, stop);
     }
 
     if ((text_tag_start_offset(ptag) == FT_OFFSET_UNSET)) {
       start = 0;
     } else {
       start = text_tag_start_offset(ptag);
+      start = start + increase_tags(str, start);
     }
     switch (text_tag_type(ptag)) {
     case TTT_BOLD:
@@ -413,61 +446,32 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
 }
 
 /**************************************************************************
-  Replace HTML tags first or it will be cut
-  Replace <player>
-  Replace <(player)>
+  Replace signs < and > with &lt; and &gt; or they would be treated
+  as html
 **************************************************************************/
-static QString replace_html(QString str)
+static QString replace_signs(QString str)
 {
   QString s, s2;
+  QStringList allowed_tags;
   int i, j;
-  conn_list_iterate(game.all_connections, pconn){
-    s = pconn->username;
-    s = "<(" + s + ")>";
-    if (str.contains(s)) {
-      s2 = "([" + QString(pconn->username) + ")]";
-      str = str.replace(s, s2);
-      break;
-    }
-    s = pconn->username;
-    s = "<" + s + ">";
-    if (str.contains(s)) {
-      s2 = "[" + QString(pconn->username) + "]";
-      str = str.replace(s, s2);
-    }
-  } conn_list_iterate_end;
-  players_iterate(pplayer) {
-    s = pplayer->name;
-    s = "(<" + s + ">)";
-    if (str.contains(s)) {
-      s2 = "([" + QString(pplayer->name) + ")]";
-      str = str.replace(s, s2);
-      break;
-    }
-    s = pplayer->name;
-    s = "<" + s + ">";
-    if (str.contains(s)) {
-      s2 = "[" + QString(pplayer->name) + "]";
-      str = str.replace(s, s2);
-    }
-  } players_iterate_end;
-  /* replace all <X...> where X is uppercase letter
-   * with [X ....], its definitely message from server
-   * not html tag */
+
   j = 0;
   while (1) {
-    QChar c;
     i = str.indexOf('<', j);
-    j = str.indexOf('>', i);
-    if (i + 1 >= str.length() || i == -1 || j == -1) {
+    if (i == -1) {
       break;
     }
-    c = str.at(i + 1);
-    if (c.isUpper()) {
-      str.replace(i, 1 , '[');
-      str.replace(j, 1 , ']');
+   str.replace(i, 1 , "&lt;");
+   j++;
+  }
+  j = 0;
+  while (1) {
+    i = str.indexOf('>', j);
+    if (i == -1) {
+      break;
     }
-    j++;
+   str.replace(i, 1 , "&gt;");
+   j++;
   }
   return str;
 }
@@ -536,7 +540,7 @@ void qtg_real_output_window_append(const char *astring,
   gui()->set_status_bar(str);
   gui()->update_completer();
 
-  str = replace_html(str);
+  str = replace_signs(str);
   wakeup = gui_options.gui_qt_wakeup_text;
 
   /* Format wakeup string if needed */
