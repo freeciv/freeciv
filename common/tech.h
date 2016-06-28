@@ -214,6 +214,15 @@ const struct advance *advance_array_last(void);
   }									\
 }
 
+#define advance_active_iterate(_p)                                      \
+  advance_iterate(A_FIRST, _p) {                                         \
+    if (_p->require[AR_ONE] != A_NEVER) {
+
+#define advance_active_iterate_end                                      \
+    }                                                                   \
+  } advance_iterate_end;
+
+
 /* Advance requirements iterator. */
 struct advance_req_iter;
 

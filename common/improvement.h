@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -202,6 +202,14 @@ const struct impr_type *improvement_array_last(void);
     }									\
   }									\
 }
+
+#define improvement_active_iterate(_p)                                  \
+  improvement_iterate(_p) {                                             \
+    if (!_p->disabled) {
+
+#define improvement_active_iterate_end                                  \
+    }                                                                   \
+  } improvement_iterate_end;
 
 #ifdef __cplusplus
 }

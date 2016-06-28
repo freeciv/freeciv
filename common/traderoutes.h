@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -187,6 +187,14 @@ bool city_receives_goods(const struct city *pcity,
 #define goods_type_iterate_end                       \
   }                                                  \
 }
+
+#define goods_active_type_iterate(_p)                         \
+  goods_type_iterate(_p) {                                    \
+    if (!_p->disabled) {
+
+#define goods_active_type_iterate_end                         \
+    }                                                         \
+  } goods_type_iterate_end;
 
 #ifdef __cplusplus
 }
