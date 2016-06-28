@@ -1508,6 +1508,7 @@ PACKET_RULESET_UNIT_CLASS = 152; sc, lsend
   UINT16 min_speed_new; add-cap(extended_move_rate)
   UINT8 hp_loss_pct;
   UINT8 hut_behavior;
+  UINT16 non_native_def_pct; add-cap(nonnatdef)
   BV_UCLASS_FLAGS flags;
 end
 

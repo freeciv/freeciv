@@ -3014,9 +3014,14 @@ void handle_ruleset_unit_class(const struct packet_ruleset_unit_class *p)
   } else {
     c->min_speed = p->min_speed_old;
   }
-  c->hp_loss_pct = p->hp_loss_pct;
-  c->hut_behavior = p->hut_behavior;
-  c->flags       = p->flags;
+  c->hp_loss_pct        = p->hp_loss_pct;
+  c->hut_behavior       = p->hut_behavior;
+  if (has_capability("nonnatdef", client.conn.capability)) {
+    c->non_native_def_pct = p->non_native_def_pct;
+  } else {
+    c->non_native_def_pct = 100; /* Sensible default */
+  }
+  c->flags              = p->flags;
 }
 
 /****************************************************************************

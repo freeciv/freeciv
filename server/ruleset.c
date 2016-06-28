@@ -5225,6 +5225,7 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     packet.min_speed_old = packet.min_speed_new = c->min_speed;
     packet.hp_loss_pct = c->hp_loss_pct;
     packet.hut_behavior = c->hut_behavior;
+    packet.non_native_def_pct = c->non_native_def_pct;
     packet.flags = c->flags;
 
     lsend_packet_ruleset_unit_class(dest, &packet);
