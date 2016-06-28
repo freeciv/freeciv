@@ -6,7 +6,7 @@
 #
 #  #define PRINTF(msg, ...) (printf(msg, __VA_ARGS__)
 #
-AC_DEFUN([AC_C99_VARIADIC_MACROS],
+AC_DEFUN([FC_C99_VARIADIC_MACROS],
 [
   dnl Check for variadic macros
   AC_CACHE_CHECK([for C99 variadic macros],
@@ -31,7 +31,7 @@ AC_DEFUN([AC_C99_VARIADIC_MACROS],
 # which are not supported by many compilers.  It is best to avoid this
 # problem by writing these using nesting.  The above case becomes
 #   struct { struct { int b; } a; } = {.a = {.b = 5}}
-AC_DEFUN([AC_C99_INITIALIZERS],
+AC_DEFUN([FC_C99_INITIALIZERS],
 [
   dnl Check for C99 initializers
   AC_CACHE_CHECK([for C99 initializers],
@@ -52,7 +52,7 @@ AC_DEFUN([AC_C99_INITIALIZERS],
 ])
 
 # Check C99-style stdint.h (required)
-AC_DEFUN([AC_C99_STDINT_H],
+AC_DEFUN([FC_C99_STDINT_H],
 [
   AC_CHECK_HEADERS([stdint.h])
   dnl Check for C99 stdint.h
