@@ -5937,6 +5937,7 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     packet.min_speed = c->min_speed;
     packet.hp_loss_pct = c->hp_loss_pct;
     packet.hut_behavior = c->hut_behavior;
+    packet.non_native_def_pct = c->non_native_def_pct;
     packet.flags = c->flags;
 
     PACKET_STRVEC_COMPUTE(packet.helptext, c->helptext);
