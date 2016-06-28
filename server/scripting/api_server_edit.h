@@ -53,6 +53,8 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
 bool api_edit_trait_mod_set(lua_State *L, Player *pplayer,
                             const char *tname, const int mod);
 
+void api_edit_create_owned_extra(lua_State *L, Tile *ptile, const char *name,
+                                 struct player *pplayer);
 void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name);
 void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
                           struct player *pplayer);

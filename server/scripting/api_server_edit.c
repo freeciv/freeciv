@@ -368,9 +368,10 @@ bool api_edit_trait_mod_set(lua_State *L, Player *pplayer,
 }
 
 /*****************************************************************************
-  Create a new extra.
+  Create a new owned extra.
 *****************************************************************************/
-void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name)
+void api_edit_create_owned_extra(lua_State *L, Tile *ptile, const char *name,
+                                 Player *pplayer)
 {
   struct extra_type *pextra;
 
@@ -384,9 +385,17 @@ void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name)
   pextra = extra_type_by_rule_name(name);
 
   if (pextra) {
-    create_extra(ptile, pextra, NULL);
+    create_extra(ptile, pextra, pplayer);
     update_tile_knowledge(ptile);
   }
+}
+
+/*****************************************************************************
+  Create a new extra.
+*****************************************************************************/
+void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name)
+{
+  api_edit_create_owned_extra(L, ptile, name, NULL);
 }
 
 /*****************************************************************************
@@ -395,21 +404,7 @@ void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name)
 void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
                           Player *pplayer)
 {
-  struct extra_type *pextra;
-
-  LUASCRIPT_CHECK_STATE(L);
-  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
-
-  if (!name) {
-    return;
-  }
-
-  pextra = extra_type_by_rule_name(name);
-
-  if (pextra != NULL && is_extra_caused_by(pextra, EC_BASE)) {
-    create_extra(ptile, pextra, pplayer);
-    update_tile_knowledge(ptile);
-  }
+  api_edit_create_owned_extra(L, ptile, name, pplayer);
 }
 
 /*****************************************************************************
@@ -417,7 +412,7 @@ void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
 *****************************************************************************/
 void api_edit_create_road(lua_State *L, Tile *ptile, const char *name)
 {
-  api_edit_create_extra(L, ptile, name);
+  api_edit_create_owned_extra(L, ptile, name, NULL);
 }
 
 /*****************************************************************************

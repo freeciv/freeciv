@@ -121,9 +121,12 @@ module edit {
   void api_edit_create_city
     @ create_city (lua_State *L, Player *pplayer, Tile *ptile,
                    const char *name);
+  void api_edit_create_owned_extra
+    @ create_owned_extra (lua_State *L, Tile *ptile,
+                          const char *name, Player *pplayer);
   void api_edit_create_extra
     @ create_extra (lua_State *L, Tile *ptile, const char *name);
-  /* Deprecated; use edit.create_extra() */
+  /* Deprecated; use edit.create_owned_extra() */
   void api_edit_create_base
     @ create_base (lua_State *L, Tile *ptile, const char *name,
                    Player *pplayer);
@@ -202,11 +205,11 @@ function create_city(player, tile, name)
   edit.create_city (player, tile, name)
 end
 
--- Deprecated; use edit.create_extra()
+-- Deprecated; use edit.create_owned_extra()
 function create_base(tile, name, player)
   -- Out-of-namespace since 2.4
-  -- edit.create_base() -> edit.create_extra() since 2.6
-  log.deprecation_warning("create_base()", "edit.create_extra()",
+  -- edit.create_base() -> edit.create_owned_extra() since 3.0
+  log.deprecation_warning("create_base()", "edit.create_owned_extra()",
                           "2.4");
   edit.create_base(tile, name, player)
 end
@@ -329,14 +332,18 @@ function Unit:move(moveto, movecost)
 end
 
 -- Server functions for Tile module
+function Tile:create_owned_extra(name, player)
+  edit.create_owned_extra(self, name, player)
+end
+
 function Tile:create_extra(name)
   edit.create_extra(self, name)
 end
 
 -- Deprecated; use Tile:create_extra()
 function Tile:create_base(name, player)
-  log.deprecation_warning("Tile:create_base()", "Tile:create_extra()",
-                          "2.6");
+  log.deprecation_warning("Tile:create_base()", "Tile:create_owned_extra()",
+                          "3.0");
   edit.create_base(self, name, player)
 end
 
