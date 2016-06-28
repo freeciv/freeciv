@@ -1,0 +1,67 @@
+===============
+Sandbox Ruleset
+===============
+
+History
+-------
+
+Sandbox ruleset started out as a copy of civ2civ3 ruleset, that is
+the freeciv's default ruleset starting from freeciv version 3.0.
+The former ruleset for testing unusual features of the freeciv engine
+was called 'Experimental' and based on classic ruleset that was
+the default ruleset earlier. As the default ruleset changed, we felt
+the need to base also the testing ruleset to the new default.
+
+
+Main features relative to civ2civ3 ruleset
+------------------------------------------
+
+Nuke Upkeep:
+If nuke upkeep cannot be paid, they explode in place.
+
+Airlifting:
+Light weight units can be airlifted once Flight is known. Medium weight
+units can be airlifted once Advanced Flight is known. Heavy weight units
+can be airlifted once Fusion Power is known.
+To airlift heavy and medium weight units an airport is required both in
+the source and in the destination city.
+Cities that know Flight can airlift one light weight unit per turn. An
+Airport allows a city to airlift one more unit per turn.
+
+Map Stealing:
+Spies can steal other player's world map
+
+Border Vision:
+Border Vision is gained mid-game once Electricity is known
+
+Allied Wonder Building:
+One can help allies to build wonder.
+
+Destroy City:
+Leader unit can destroy domestic cities.
+
+Unit Expulsion:
+Foreign units can be expelled from the territory of a player.
+
+Paradropping:
+It's impossible for green Paratroopers to land on Forest and Jungle
+tiles. Veteran, hardened and elite Paratroopers can still do it.
+
+Unit Disbanding:
+A unit can be Disbandable, Undisbandable or ConsensusUndisbandable. The
+consensus among the player's bureaucracy is that ConsensusUndisbandable
+units never should be disbanded (or recycled). Under some governments it
+has the power to enforce its will.
+The unit types Battleship and Carrier are ConsensusUndisbandable. Both unit
+types gets an Easter Egg in their ruleset comments: a reference to a news
+paper article indicating that ConsensusUndisbandable isn't a completely
+fictional concept.
+
+Single Barbarian Nation:
+All barbarians belong to the same barbarian nation. There's no separate
+Pirates and (land) Barbarians.
+
+Hermit's Place:
+Hermit's places are spontaneously, during game, appearing bonus extras
+that can grant techs to units exploring them. See its Help entry under
+Terrains for more information.

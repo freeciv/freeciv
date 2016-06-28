@@ -19,7 +19,7 @@ format_version=10
 [ruledit]
 
 ; Which file to read description in from.
-;description_file = "sandbox/README.sandbox"
+description_file = "sandbox/README.sandbox"
 
 [about]
 ; Ruleset name
@@ -40,7 +40,7 @@ This ruleset was originally based on current default ruleset, civ2civ3.\
 
 ; Detailed description
 ; When updating this, update also desciption_file in [ruledit] section to match
-;description = *sandbox/README.sandbox*
+description = *sandbox/README.sandbox*
 
 [options]
 global_init_techs=""
