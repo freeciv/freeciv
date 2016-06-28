@@ -1218,7 +1218,7 @@ double real_timer_callback(void)
 bool can_client_control(void)
 {
   return (NULL != client.conn.playing
-	  && !client_is_observer());
+          && !client_is_observer());
 }
 
 /**************************************************************************
