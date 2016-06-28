@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include <math.h> /* ceil */
+
 /* utility */
 #include "astring.h"
 
@@ -2423,7 +2425,9 @@ action_prob(const enum gen_action wanted_action,
       if (can_player_see_unit(actor_player, defender_unit)) {
         double unconverted = unit_win_chance(actor_unit, defender_unit);
 
-        chance = (int)((double)200 * unconverted);
+        /* Action is seen as disabled by anyone that relies on action
+         * probability if it is rounded down to 0%. */
+        chance = ceil((double)200 * unconverted);
       } else if (known == TRI_YES) {
         known = TRI_MAYBE;
       }
