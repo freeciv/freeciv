@@ -1169,13 +1169,17 @@ static void compat_load_020600(struct loaddata *loading)
       if (closest == DS_NO_CONTACT
           && (current == DS_PEACE
               || current == DS_ALLIANCE)) {
+        const char *name1 = secfile_lookup_str_default(loading->file, "",
+                                                       "player%d.name", plrno);
+        const char *name2 = secfile_lookup_str_default(loading->file, "",
+                                                       "player%d.name", i);
         /* The current relationship is closer than what the save game
          * claims is the closes relationship ever. */
 
         log_sg(_("The save game is wrong about what the closest"
-                 " relationship player %d and player %d have had is."
+                 " relationship %s (player %d) and %s (player %d) have had is."
                  " Fixing it..."),
-               plrno, i);
+               name1, plrno, name2, i);
 
         secfile_replace_int(loading->file, current, "%s.max_state", buf);
       }
