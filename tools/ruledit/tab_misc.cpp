@@ -218,29 +218,23 @@ void tab_misc::refresh_stats()
   stats->item(row++, 1)->setText(QString::number(game.control.resource_count));
 
   count = 0;
-  advance_iterate(A_FIRST, padv) {
-    if (padv->require[AR_ONE] != A_NEVER) {
-      count++;
-    }
-  } advance_iterate_end;
+  advance_active_iterate(padv) {
+    count++;
+  } advance_active_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
   stats->item(row++, 1)->setText(QString::number(game.control.num_unit_classes));
 
   count = 0;
-  unit_type_iterate(ptype) {
-    if (!ptype->disabled) {
-      count++;
-    }
-  } unit_type_iterate_end;
+  unit_active_type_iterate(ptype) {
+    count++;
+  } unit_active_type_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
   count = 0;
-  improvement_iterate(pimpr) {
-    if (!pimpr->disabled) {
-      count++;
-    }
-  } improvement_iterate_end;
+  improvement_active_iterate(pimpr) {
+    count++;
+  } improvement_active_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
   // Second column

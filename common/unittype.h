@@ -725,6 +725,15 @@ const struct unit_type *unit_type_array_last(void);
   }									\
 }
 
+#define unit_active_type_iterate(_p)                                    \
+  unit_type_iterate(_p) {                                               \
+    if (!_p->disabled) {
+
+#define unit_active_type_iterate_end                                    \
+    }                                                                   \
+  } unit_type_iterate_end;
+
+
 void *utype_ai_data(const struct unit_type *ptype, const struct ai_type *ai);
 void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
                        void *data);
