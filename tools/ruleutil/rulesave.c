@@ -577,6 +577,8 @@ static bool save_cities_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  comment_specialists(sfile);
+
   sect_idx = 0;
   specialist_type_iterate(sp) {
     struct specialist *s = specialist_by_number(sp);

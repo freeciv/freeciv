@@ -40,6 +40,7 @@ static struct {
   char *achievements;
   char *goods;
   char *enablers;
+  char *specialists;
 } comments_storage;
 
 /**************************************************************************
@@ -79,6 +80,7 @@ bool comments_load(void)
                                                                "typedoc.achievements"));
   comments_storage.goods = fc_strdup(secfile_lookup_str(comment_file, "typedoc.goods"));
   comments_storage.enablers = fc_strdup(secfile_lookup_str(comment_file, "typedoc.enablers"));
+  comments_storage.specialists = fc_strdup(secfile_lookup_str(comment_file, "typedoc.specialists"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -242,4 +244,12 @@ void comment_goods(struct section_file *sfile)
 void comment_enablers(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.enablers, "Action Enablers");
+}
+
+/**************************************************************************
+  Write specialists header.
+**************************************************************************/
+void comment_specialists(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.specialists, "Specialists");
 }
