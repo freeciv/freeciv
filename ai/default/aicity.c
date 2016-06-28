@@ -394,8 +394,11 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
         int cost = unit_upgrade_price(pplayer, old_type, punittype);
         int real_limit = limit;
 
-        /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
-        if (unit_has_type_flag(punit, UTYF_TRIREME)) {
+        /* Sinking Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
+        /* FIXME: This assumes rules to be quite close to civ/2.
+         * Of the supplied rulesets those are the only ones with
+         * UTYF_COAST unit, but... */
+        if (unit_has_type_flag(punit, UTYF_COAST)) {
           real_limit = expenses;
         }
         if (pplayer->economic.gold - cost > real_limit) {

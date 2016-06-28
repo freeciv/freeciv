@@ -77,7 +77,7 @@ struct adv_data {
     /* Counts of specific types of units. */
     struct {
       /* Unit-flag counts. */
-      int triremes, missiles, paratroopers, airliftable;
+      int coast_strict, missiles, paratroopers, airliftable;
 
       int byclass[UCL_LAST];
 

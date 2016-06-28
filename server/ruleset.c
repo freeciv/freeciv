@@ -431,6 +431,9 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       type = rscompat_req_type_name_3_0(type, range,
                                         survives, present, quiet,
                                         name);
+      if (!fc_strcasecmp(type, universals_n_name(VUT_UTFLAG))) {
+        name = rscompat_utype_flag_name_3_0(compat, name);
+      }
     }
 
     req = req_from_str(type, range, survives, present, quiet, name);
@@ -458,7 +461,8 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 /**************************************************************************
   Load combat bonus list
 **************************************************************************/
-static bool lookup_cbonus_list(struct combat_bonus_list *list,
+static bool lookup_cbonus_list(struct rscompat_info *compat,
+                               struct combat_bonus_list *list,
                                struct section_file *file,
                                const char *sec,
                                const char *sub)
@@ -475,7 +479,8 @@ static bool lookup_cbonus_list(struct combat_bonus_list *list,
     struct combat_bonus *bonus = fc_malloc(sizeof(*bonus));
     const char *type;
 
-    bonus->flag = unit_type_flag_id_by_name(flag, fc_strcasecmp);
+    bonus->flag = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_0(compat, flag),
+                                            fc_strcasecmp);
     if (!unit_type_flag_id_is_valid(bonus->flag)) {
       log_error("\"%s\": unknown flag name \"%s\" in '%s.%s'.",
                 filename, flag, sec, sub);
@@ -1371,7 +1376,8 @@ static bool load_unit_names(struct section_file *file,
     const char *helptxt = secfile_lookup_str_default(file, NULL, "control.flags%d.helptxt",
                                                      i);
 
-    if (unit_type_flag_id_by_name(flag, fc_strcasecmp)
+    if (unit_type_flag_id_by_name(rscompat_utype_flag_name_3_0(compat, flag),
+                                  fc_strcasecmp)
         != unit_type_flag_id_invalid()) {
       ruleset_error(LOG_ERROR, "\"%s\": Duplicate unit flag name '%s'",
                     filename, flag);
@@ -1696,7 +1702,8 @@ static bool load_ruleset_units(struct section_file *file,
         ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
         if (!unit_class_flag_id_is_valid(ival)) {
           ok = FALSE;
-          ival = unit_type_flag_id_by_name(sval, fc_strcasecmp);
+          ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_0(compat, sval),
+                                           fc_strcasecmp);
           if (unit_type_flag_id_is_valid(ival)) {
             ruleset_error(LOG_ERROR,
                           "\"%s\" unit_class \"%s\": unit_type flag \"%s\"!",
@@ -1865,7 +1872,7 @@ static bool load_ruleset_units(struct section_file *file,
         break;
       }
 
-      lookup_cbonus_list(u->bonuses, file, sec_name, "bonuses");
+      lookup_cbonus_list(compat, u->bonuses, file, sec_name, "bonuses");
 
       output_type_iterate(o) {
         u->upkeep[o] = secfile_lookup_int_default(file, 0, "%s.uk_%s",
@@ -2009,7 +2016,8 @@ static bool load_ruleset_units(struct section_file *file,
         if (0 == strcmp(sval, "")) {
           continue;
         }
-        ival = unit_type_flag_id_by_name(sval, fc_strcasecmp);
+        ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_0(compat, sval),
+                                         fc_strcasecmp);
         if (!unit_type_flag_id_is_valid(ival)) {
           ok = FALSE;
           ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);

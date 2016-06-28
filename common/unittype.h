@@ -196,19 +196,18 @@ struct unit_class {
 #define SPECENUM_VALUE9NAME N_("?unitflag:Settlers")
 #define SPECENUM_VALUE10 UTYF_DIPLOMAT
 #define SPECENUM_VALUE10NAME N_("?unitflag:Diplomat")
-/* Trireme must stay close to the coast */
-#define SPECENUM_VALUE11 UTYF_TRIREME
-#define SPECENUM_VALUE11NAME N_("?unitflag:Trireme")
+/* Can't leave the coast */
+#define SPECENUM_VALUE11 UTYF_COAST_STRICT
+#define SPECENUM_VALUE11NAME N_("?unitflag:CoastStrict")
+/* Can 'refuel' at coast - meaningless if fuel value not set */
+#define SPECENUM_VALUE12 UTYF_COAST
+#define SPECENUM_VALUE12NAME N_("?unitflag:Coast")
 /* upkeep can switch from shield to gold */
-#define SPECENUM_VALUE12 UTYF_SHIELD2GOLD
-#define SPECENUM_VALUE12NAME N_("?unitflag:Shield2Gold")
+#define SPECENUM_VALUE13 UTYF_SHIELD2GOLD
+#define SPECENUM_VALUE13NAME N_("?unitflag:Shield2Gold")
 /* Enhanced spy abilities */
-#define SPECENUM_VALUE13 UTYF_SPY
-#define SPECENUM_VALUE13NAME N_("?unitflag:Spy")
-/* Want to add a new unit flag without having to renumber user flags and
- * unit roles? Use this slot. */
-#define SPECENUM_VALUE14 UTYF_RESERVED_1
-#define SPECENUM_VALUE14NAME "_Reserved_"
+#define SPECENUM_VALUE14 UTYF_SPY
+#define SPECENUM_VALUE14NAME N_("?unitflag:Spy")
 /* Cannot attack vs non-native tiles even if class can */
 #define SPECENUM_VALUE15 UTYF_ONLY_NATIVE_ATTACK
 #define SPECENUM_VALUE15NAME N_("?unitflag:Only_Native_Attack")

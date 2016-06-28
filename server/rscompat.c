@@ -999,3 +999,18 @@ const char *rscompat_req_type_name_3_0(const char *old_type,
 
   return old_type;
 }
+
+/**************************************************************************
+  Replace deprecated unit type flag names with currently valid ones.
+**************************************************************************/
+const char *rscompat_utype_flag_name_3_0(struct rscompat_info *compat,
+                                         const char *old_type)
+{
+  if (compat->compat_mode) {
+    if (!fc_strcasecmp("Trireme", old_type)) {
+      return "CoastStrict";
+    }
+  }
+
+  return old_type;
+}

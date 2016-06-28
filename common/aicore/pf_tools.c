@@ -224,7 +224,7 @@ pf_get_move_scope(const struct tile *ptile,
   struct city *pcity = tile_city(ptile);
 
   if ((is_native_tile_to_class(uclass, ptile)
-       && (!utype_has_flag(param->utype, UTYF_TRIREME)
+       && (!utype_has_flag(param->utype, UTYF_COAST_STRICT)
            || is_safe_ocean(ptile)))) {
     scope |= PF_MS_NATIVE;
   }
@@ -556,6 +556,10 @@ static bool is_possible_base_fuel(const struct tile *ptile,
       return TRUE;
     }
   } extra_type_list_iterate_end;
+
+  if (utype_has_flag(param->utype, UTYF_COAST)) {
+    return is_safe_ocean(ptile);
+  }
 
   if (tile_known == TILE_KNOWN_UNSEEN) {
     /* Cannot see units */

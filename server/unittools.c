@@ -1400,10 +1400,17 @@ void give_allied_visibility(struct player *pplayer,
 **************************************************************************/
 bool is_unit_being_refueled(const struct unit *punit)
 {
-  return (unit_transported(punit)           /* Carrier */
-          || tile_city(unit_tile(punit))              /* City    */
-          || tile_has_refuel_extra(unit_tile(punit),
-                                   unit_type_get(punit))); /* Airbase */
+  if (unit_transported(punit)           /* Carrier */
+      || tile_city(unit_tile(punit))              /* City    */
+      || tile_has_refuel_extra(unit_tile(punit),
+                               unit_type_get(punit))) { /* Airbase */
+    return TRUE;
+  }
+  if (unit_has_type_flag(punit, UTYF_COAST)) {
+    return is_safe_ocean(unit_tile(punit));
+  }
+
+  return FALSE;
 }
 
 /**************************************************************************

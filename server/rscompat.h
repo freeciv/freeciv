@@ -53,6 +53,8 @@ struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile,
 const char *rscompat_req_type_name_3_0(const char *type, const char *range,
                                        bool survives, bool present,
                                        bool quiet, const char *value);
+const char *rscompat_utype_flag_name_3_0(struct rscompat_info *info,
+                                         const char *old_type);
 
 #ifdef __cplusplus
 }

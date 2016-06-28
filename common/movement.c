@@ -239,8 +239,8 @@ bool can_exist_at_tile(const struct unit_type *utype,
     return TRUE;
   }
 
-  /* A trireme unit cannot exist in an ocean tile without access to land. */
-  if (utype_has_flag(utype, UTYF_TRIREME) && !is_safe_ocean(ptile)) {
+  /* UTYF_COAST_STRICT unit cannot exist in an ocean tile without access to land. */
+  if (utype_has_flag(utype, UTYF_COAST_STRICT) && !is_safe_ocean(ptile)) {
     return FALSE;
   }
 
@@ -641,7 +641,7 @@ unit_move_to_tile_test(const struct unit *punit,
   }
 
   /* 11) */
-  if (utype_has_flag(punittype, UTYF_TRIREME) && !is_safe_ocean(dst_tile)) {
+  if (utype_has_flag(punittype, UTYF_COAST_STRICT) && !is_safe_ocean(dst_tile)) {
     return MR_TRIREME;
   }
 

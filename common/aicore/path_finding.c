@@ -3541,7 +3541,7 @@ struct pf_reverse_map {
 /* Here goes all unit type flags which affect the move rules handled by
  * the reverse map. */
 static const enum unit_type_flag_id signifiant_flags[] = {
-  UTYF_IGTER, UTYF_CIVILIAN, UTYF_TRIREME
+  UTYF_IGTER, UTYF_CIVILIAN, UTYF_COAST_STRICT
 };
 static const size_t signifiant_flags_num = ARRAY_SIZE(signifiant_flags);
 

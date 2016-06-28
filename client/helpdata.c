@@ -3697,6 +3697,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   bool has_vet_levels;
   int flagid;
   struct unit_class *pclass;
+  int fuel;
 
   fc_assert_ret_val(NULL != buf && 0 < bufsz && NULL != user_text, NULL);
 
@@ -4022,7 +4023,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       } /* else, no restricted cargo exists; keep quiet */
     }
   }
-  if (utype_has_flag(utype, UTYF_TRIREME)) {
+  if (utype_has_flag(utype, UTYF_COAST_STRICT)) {
     CATLSTR(buf, bufsz, _("* Must stay next to coast.\n"));
   }
   {
@@ -4313,7 +4314,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                    uclass_name_translation(target));
     }
   } unit_class_iterate_end;
-  if (utype_fuel(utype)) {
+
+  fuel = utype_fuel(utype);
+  if (fuel > 0) {
     const char *types[utype_count()];
     int i = 0;
 
@@ -4324,24 +4327,54 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     } unit_type_iterate_end;
 
     if (0 == i) {
-     cat_snprintf(buf, bufsz,
-                   PL_("* Unit has to be in a city or a base"
-                       " after %d turn.\n",
-                       "* Unit has to be in a city or a base"
-                       " after %d turns.\n",
-                       utype_fuel(utype)),
-                  utype_fuel(utype));
+      if (utype_has_flag(utype, UTYF_COAST)) {
+        if (fuel == 1) {
+          cat_snprintf(buf, bufsz,
+                       _("* Unit has to end each turn next to coast or"
+                         " in a city or a base.\n"));
+        } else {
+          cat_snprintf(buf, bufsz,
+                       /* Pluralization for the benefit of languages with
+                        * duals etc */
+                       /* TRANS: Never called for 'turns = 1' case */
+                       PL_("* Unit has to be next to coast, in a city or a base"
+                           " after %d turn.\n",
+                           "* Unit has to be next to coast, in a city or a base"
+                           " after %d turns.\n",
+                           fuel),
+                     fuel);
+        }
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("* Unit has to be in a city or a base"
+                         " after %d turn.\n",
+                         "* Unit has to be in a city or a base"
+                         " after %d turns.\n",
+                         fuel),
+                     fuel);
+      }
     } else {
       struct astring list = ASTRING_INIT;
 
-      cat_snprintf(buf, bufsz,
-                   /* TRANS: %s is a list of unit types separated by "or" */
-                   PL_("* Unit has to be in a city, a base, or on a %s"
-                       " after %d turn.\n",
-                       "* Unit has to be in a city, a base, or on a %s"
-                       " after %d turns.\n",
-                       utype_fuel(utype)),
-                   astr_build_or_list(&list, types, i), utype_fuel(utype));
+      if (utype_has_flag(utype, UTYF_COAST)) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a list of unit types separated by "or" */
+                     PL_("* Unit has to be next to coast, in a city, a base, or on a %s"
+                         " after %d turn.\n",
+                         "* Unit has to be next to coast, in a city, a base, or on a %s"
+                         " after %d turns.\n",
+                         fuel),
+                     astr_build_or_list(&list, types, i), fuel);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a list of unit types separated by "or" */
+                     PL_("* Unit has to be in a city, a base, or on a %s"
+                         " after %d turn.\n",
+                         "* Unit has to be in a city, a base, or on a %s"
+                         " after %d turns.\n",
+                         fuel),
+                     astr_build_or_list(&list, types, i), fuel);
+      }
       astr_free(&list);
     }
   }

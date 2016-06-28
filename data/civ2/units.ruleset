@@ -218,6 +218,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; fuel          = Number of turns unit can spend outside refuel points.
 ;                 If more time passes without unit refueling over turn change,
 ;                 they are lost. If this is zero, unit has no need to refuel
+;                 Units with "Coast" flag set consider any tile next to coast
+;                 refuel point
 ; uk_*          = upkeep costs, these are used as base values in the game
 ; cargo         = Unit classes this unit can transport
 ; city_size     = Initial size of the cities built by 'Found City' type units
@@ -1459,7 +1461,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "Trireme", "BadCityDefender"
+flags         = "CoastStrict", "BadCityDefender"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\

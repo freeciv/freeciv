@@ -212,8 +212,8 @@ static void count_my_units(struct player *pplayer)
 
     adv->stats.units.byclass[uclass_index(pclass)]++;
 
-    if (unit_has_type_flag(punit, UTYF_TRIREME)) {
-      adv->stats.units.triremes++;
+    if (unit_has_type_flag(punit, UTYF_COAST_STRICT)) {
+      adv->stats.units.coast_strict++;
     }
     if (uclass_has_flag(pclass, UCF_MISSILE)) {
       adv->stats.units.missiles++;
