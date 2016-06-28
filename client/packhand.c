@@ -3221,10 +3221,11 @@ void handle_ruleset_unit_class(const struct packet_ruleset_unit_class *p)
   fc_assert_ret_msg(NULL != c, "Bad unit_class %d.", p->id);
 
   names_set(&c->name, NULL, p->name, p->rule_name);
-  c->min_speed   = p->min_speed;
-  c->hp_loss_pct = p->hp_loss_pct;
-  c->hut_behavior = p->hut_behavior;
-  c->flags       = p->flags;
+  c->min_speed          = p->min_speed;
+  c->hp_loss_pct        = p->hp_loss_pct;
+  c->hut_behavior       = p->hut_behavior;
+  c->non_native_def_pct = p->non_native_def_pct;
+  c->flags              = p->flags;
 
   PACKET_STRVEC_EXTRACT(c->helptext, p->helptext);
 }
