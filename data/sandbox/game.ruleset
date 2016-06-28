@@ -18,7 +18,7 @@ options="+Freeciv-2.6-ruleset"
 [ruledit]
 
 ; Which file to read description in from.
-;description_file = "sandbox/README.sandbox"
+description_file = "sandbox/README.sandbox"
 
 [about]
 ; Ruleset name
@@ -40,7 +40,7 @@ to become default ruleset in the future.\
 
 ; Detailed description
 ; When updating this, update also desciption_file in [ruledit] section to match
-;description = *sandbox/README.sandbox*
+description = *sandbox/README.sandbox*
 
 [options]
 global_init_techs=""
