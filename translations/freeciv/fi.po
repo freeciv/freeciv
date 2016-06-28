@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-26 23:33+0300\n"
-"PO-Revision-Date: 2016-06-26 23:44+0300\n"
+"POT-Creation-Date: 2016-06-28 22:31+0300\n"
+"PO-Revision-Date: 2016-06-28 22:34+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -414,7 +414,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:426 client/gui-sdl/mapview.c:158
-#: server/console.c:71 server/srv_main.c:2755 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2778 utility/log.c:516
 #: utility/netintf.c:97 utility/registry_ini.c:745
 #, c-format
 msgid "Please report this message at %s"
@@ -808,10 +808,10 @@ msgstr "Kaupungin nimi"
 #: client/cityrepdata.c:641 client/gui-gtk-2.0/citizensinfo.c:65
 #: client/gui-gtk-2.0/editprop.c:3485 client/gui-gtk-2.0/editprop.c:4271
 #: client/gui-gtk-2.0/gotodlg.c:213 client/gui-gtk-2.0/pages.c:1326
-#: client/gui-gtk-2.0/pages.c:2695 client/gui-gtk-3.0/citizensinfo.c:65
+#: client/gui-gtk-2.0/pages.c:2709 client/gui-gtk-3.0/citizensinfo.c:65
 #: client/gui-gtk-3.0/editprop.c:3516 client/gui-gtk-3.0/editprop.c:4301
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1404
-#: client/gui-gtk-3.0/pages.c:2757 client/gui-qt/citydlg.cpp:1767
+#: client/gui-gtk-3.0/pages.c:2771 client/gui-qt/citydlg.cpp:1767
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
 #: client/gui-qt/pages.cpp:549 client/gui-qt/plrdlg.cpp:442
 #: client/gui-qt/repodlgs.cpp:1402 client/gui-sdl/repodlgs.c:2079
@@ -1861,7 +1861,7 @@ msgid "This unit isn't known!"
 msgstr "Kyseistä yksikköä ei tunneta!"
 
 #: client/gui-gtk-2.0/chatline.c:967 client/gui-gtk-3.0/chatline.c:950
-#: client/gui-qt/chatline.cpp:562 client/gui-xaw/chatline.c:121
+#: client/gui-qt/chatline.cpp:566 client/gui-xaw/chatline.c:121
 msgid "Cleared output window."
 msgstr "Tulostusikkuna tyhjennetty."
 
@@ -1927,9 +1927,9 @@ msgid "#"
 msgstr "#"
 
 #: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3516
-#: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2693
+#: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2707
 #: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
-#: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2755
+#: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2769
 #: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:549
 #: client/plrdlg_common.c:306
 msgid "Flag"
@@ -3314,13 +3314,13 @@ msgstr "ID"
 #: client/gui-gtk-2.0/editprop.c:3503 client/gui-gtk-2.0/editprop.c:3518
 #: client/gui-gtk-2.0/editprop.c:3530 client/gui-gtk-2.0/editprop.c:3540
 #: client/gui-gtk-2.0/editprop.c:4244 client/gui-gtk-2.0/editprop.c:4265
-#: client/gui-gtk-2.0/pages.c:1323 client/gui-gtk-2.0/pages.c:2683
+#: client/gui-gtk-2.0/pages.c:1323 client/gui-gtk-2.0/pages.c:2697
 #: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3509
 #: client/gui-gtk-3.0/editprop.c:3518 client/gui-gtk-3.0/editprop.c:3534
 #: client/gui-gtk-3.0/editprop.c:3549 client/gui-gtk-3.0/editprop.c:3561
 #: client/gui-gtk-3.0/editprop.c:3571 client/gui-gtk-3.0/editprop.c:4274
 #: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1401
-#: client/gui-gtk-3.0/pages.c:2745 client/gui-gtk-3.0/wldlg.c:1001
+#: client/gui-gtk-3.0/pages.c:2759 client/gui-gtk-3.0/wldlg.c:1001
 #: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:548 data/Freeciv.in:97
 #: tools/civmanual.c:424 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
 #: tools/mpgui_qt.cpp:217
@@ -3794,44 +3794,44 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: client/gui-gtk-2.0/happiness.c:195 client/gui-gtk-3.0/happiness.c:199
+#: client/gui-gtk-2.0/happiness.c:195 client/gui-gtk-3.0/happiness.c:202
 #: client/gui-qt/citydlg.cpp:967
 msgid "Cities:"
 msgstr "Kaupungit:"
 
-#: client/gui-gtk-2.0/happiness.c:196 client/gui-gtk-3.0/happiness.c:200
+#: client/gui-gtk-2.0/happiness.c:196 client/gui-gtk-3.0/happiness.c:203
 #: client/gui-qt/citydlg.cpp:967
 msgid "Luxuries:"
 msgstr "Luksus:"
 
-#: client/gui-gtk-2.0/happiness.c:197 client/gui-gtk-3.0/happiness.c:201
+#: client/gui-gtk-2.0/happiness.c:197 client/gui-gtk-3.0/happiness.c:204
 #: client/gui-qt/citydlg.cpp:967
 msgid "Buildings:"
 msgstr "Rakennukset:"
 
-#: client/gui-gtk-2.0/happiness.c:198 client/gui-gtk-3.0/happiness.c:202
+#: client/gui-gtk-2.0/happiness.c:198 client/gui-gtk-3.0/happiness.c:205
 #: client/gui-qt/citydlg.cpp:968
 msgid "Nationality:"
 msgstr "Kansallisuus:"
 
-#: client/gui-gtk-2.0/happiness.c:199 client/gui-gtk-3.0/happiness.c:203
+#: client/gui-gtk-2.0/happiness.c:199 client/gui-gtk-3.0/happiness.c:206
 #: client/gui-qt/citydlg.cpp:968
 msgid "Units:"
 msgstr "Yksiköt:"
 
-#: client/gui-gtk-2.0/happiness.c:200 client/gui-gtk-3.0/happiness.c:204
+#: client/gui-gtk-2.0/happiness.c:200 client/gui-gtk-3.0/happiness.c:207
 #: client/gui-qt/citydlg.cpp:968
 msgid "Wonders:"
 msgstr "Ihmeet:"
 
-#: client/gui-gtk-2.0/happiness.c:209 client/gui-gtk-3.0/happiness.c:215
+#: client/gui-gtk-2.0/happiness.c:209 client/gui-gtk-3.0/happiness.c:218
 #: client/gui-qt/citydlg.cpp:682 client/gui-qt/citydlg.cpp:955
 #: client/gui-sdl/citydlg.c:2057 client/gui-sdl/citydlg.c:3689
 msgid "Happiness"
 msgstr "Onnellisuus"
 
 #. TRANS: the width of this text defines the width of the city dialog.
-#: client/gui-gtk-2.0/happiness.c:256 client/gui-gtk-3.0/happiness.c:257
+#: client/gui-gtk-2.0/happiness.c:256
 msgid "Additional information is available via left click on the citizens."
 msgstr "Lisätietoa saa napauttamalla asukkaita hiiren vasemmalla napilla."
 
@@ -4160,7 +4160,7 @@ msgstr ""
 "Kaunis näkymän rajoitus toimii vain täysväritilassa. Poistetaan käytöstä."
 
 #: client/gui-gtk-2.0/menu.c:115 client/gui-gtk-3.0/menu.c:115
-#: client/gui-qt/fc_client.cpp:694 client/gui-qt/menu.cpp:422
+#: client/gui-qt/fc_client.cpp:696 client/gui-qt/menu.cpp:422
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Muokkaa paikallisia asetuksia"
@@ -4546,8 +4546,8 @@ msgstr "Näkymättömän alueen hämärrys päälle/pois"
 msgid "Game/Scenario Properties"
 msgstr "Pelin/skenaarion ominaisuudet"
 
-#: client/gui-gtk-2.0/menu.c:1555 client/gui-gtk-2.0/pages.c:3293
-#: client/gui-gtk-3.0/menu.c:1543 client/gui-gtk-3.0/pages.c:3379
+#: client/gui-gtk-2.0/menu.c:1555 client/gui-gtk-2.0/pages.c:3307
+#: client/gui-gtk-3.0/menu.c:1543 client/gui-gtk-3.0/pages.c:3393
 msgid "Save Scenario"
 msgstr "Tallenna skenaario"
 
@@ -4966,9 +4966,9 @@ msgstr "Y_hdistä pelialueelle"
 msgid "Select Location to Save"
 msgstr "Valitse sijainti johon tallennetaan"
 
-#: client/gui-gtk-2.0/pages.c:531 client/gui-gtk-2.0/pages.c:2892
-#: client/gui-gtk-2.0/pages.c:3093 client/gui-gtk-3.0/pages.c:589
-#: client/gui-gtk-3.0/pages.c:2962 client/gui-gtk-3.0/pages.c:3179
+#: client/gui-gtk-2.0/pages.c:531 client/gui-gtk-2.0/pages.c:2906
+#: client/gui-gtk-2.0/pages.c:3107 client/gui-gtk-3.0/pages.c:589
+#: client/gui-gtk-3.0/pages.c:2976 client/gui-gtk-3.0/pages.c:3193
 #: client/gui-qt/pages.cpp:453 client/gui-qt/pages.cpp:511
 msgid "_Browse..."
 msgstr "_Selaa..."
@@ -5090,7 +5090,7 @@ msgid "Toggle player ready"
 msgstr "Vaihda pelaajan valmiustilaa"
 
 #: client/gui-gtk-2.0/pages.c:1761 client/gui-gtk-3.0/pages.c:1826
-#: client/gui-qt/pages.cpp:1583
+#: client/gui-qt/pages.cpp:1595
 msgid "Pick nation"
 msgstr "Valitse kansakunta"
 
@@ -5099,7 +5099,7 @@ msgid "Observe this player"
 msgstr "Tarkkaile tätä pelaajaa"
 
 #: client/gui-gtk-2.0/pages.c:1776 client/gui-gtk-3.0/pages.c:1841
-#: client/gui-qt/pages.cpp:1573
+#: client/gui-qt/pages.cpp:1585
 msgid "Take this player"
 msgstr "Ota tämä pelaaja"
 
@@ -5108,12 +5108,12 @@ msgid "Cut connection"
 msgstr "Katkaise yhteys"
 
 #: client/gui-gtk-2.0/pages.c:1799 client/gui-gtk-3.0/pages.c:1864
-#: client/gui-qt/pages.cpp:1645
+#: client/gui-qt/pages.cpp:1657
 msgid "Aitoggle player"
 msgstr "Vaihda pelaaja AI-hallintaan/hallinnasta"
 
 #: client/gui-gtk-2.0/pages.c:1807 client/gui-gtk-3.0/pages.c:1872
-#: client/gui-qt/pages.cpp:1565
+#: client/gui-qt/pages.cpp:1577
 msgid "Remove player"
 msgstr "Poista pelaaja"
 
@@ -5129,74 +5129,74 @@ msgstr "Anna tason %s pääsy"
 msgid "Put on %s"
 msgstr "Liitä joukkueeseen %s"
 
-#: client/gui-gtk-2.0/pages.c:2135 client/gui-gtk-3.0/pages.c:2200
+#: client/gui-gtk-2.0/pages.c:2137 client/gui-gtk-3.0/pages.c:2202
 msgid "Not _ready"
 msgstr "_Ei valmis"
 
-#: client/gui-gtk-2.0/pages.c:2146 client/gui-gtk-2.0/pages.c:2762
-#: client/gui-gtk-3.0/pages.c:2211 client/gui-gtk-3.0/pages.c:2826
+#: client/gui-gtk-2.0/pages.c:2148 client/gui-gtk-2.0/pages.c:2776
+#: client/gui-gtk-3.0/pages.c:2213 client/gui-gtk-3.0/pages.c:2840
 msgid "_Ready"
 msgstr "_Valmis"
 
-#: client/gui-gtk-2.0/pages.c:2150 client/gui-gtk-2.0/pages.c:2154
-#: client/gui-gtk-3.0/pages.c:2215 client/gui-gtk-3.0/pages.c:2219
+#: client/gui-gtk-2.0/pages.c:2152 client/gui-gtk-2.0/pages.c:2156
+#: client/gui-gtk-3.0/pages.c:2217 client/gui-gtk-3.0/pages.c:2221
 msgid "_Start"
 msgstr "_Aloita"
 
-#: client/gui-gtk-2.0/pages.c:2162 client/gui-gtk-3.0/pages.c:2227
+#: client/gui-gtk-2.0/pages.c:2176 client/gui-gtk-3.0/pages.c:2241
 #, c-format
 msgid "_Take %s"
 msgstr "_Hallitse pelaajaa %s"
 
-#: client/gui-gtk-2.0/pages.c:2166 client/gui-gtk-2.0/pages.c:2752
-#: client/gui-gtk-3.0/pages.c:2231 client/gui-gtk-3.0/pages.c:2816
+#: client/gui-gtk-2.0/pages.c:2180 client/gui-gtk-2.0/pages.c:2766
+#: client/gui-gtk-3.0/pages.c:2245 client/gui-gtk-3.0/pages.c:2830
 msgid "Pick _Nation"
 msgstr "Valitse ka_nsakunta"
 
-#: client/gui-gtk-2.0/pages.c:2169 client/gui-gtk-3.0/pages.c:2234
+#: client/gui-gtk-2.0/pages.c:2183 client/gui-gtk-3.0/pages.c:2248
 msgid "_Take a Player"
 msgstr "Hallitse pelaajaa"
 
-#: client/gui-gtk-2.0/pages.c:2177 client/gui-gtk-3.0/pages.c:2242
+#: client/gui-gtk-2.0/pages.c:2191 client/gui-gtk-3.0/pages.c:2256
 #, c-format
 msgid "_Observe %s"
 msgstr "Tarkkaile pelaajaa %s"
 
-#: client/gui-gtk-2.0/pages.c:2182 client/gui-gtk-2.0/pages.c:2757
-#: client/gui-gtk-3.0/pages.c:2247 client/gui-gtk-3.0/pages.c:2821
+#: client/gui-gtk-2.0/pages.c:2196 client/gui-gtk-2.0/pages.c:2771
+#: client/gui-gtk-3.0/pages.c:2261 client/gui-gtk-3.0/pages.c:2835
 msgid "_Observe"
 msgstr "_Tarkkaile"
 
-#: client/gui-gtk-2.0/pages.c:2185 client/gui-gtk-3.0/pages.c:2250
+#: client/gui-gtk-2.0/pages.c:2199 client/gui-gtk-3.0/pages.c:2264
 msgid "Do not _observe"
 msgstr "Älä _tarkkaile"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/pages.c:2315 client/gui-gtk-3.0/pages.c:2380
+#: client/gui-gtk-2.0/pages.c:2329 client/gui-gtk-3.0/pages.c:2394
 #: client/gui-xaw/pages.c:248
 #, c-format
 msgid "<%s AI>"
 msgstr "<%s AI>"
 
-#: client/gui-gtk-2.0/pages.c:2327 client/gui-gtk-3.0/pages.c:2392
+#: client/gui-gtk-2.0/pages.c:2341 client/gui-gtk-3.0/pages.c:2406
 #: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1311
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "Satunnainen"
 
-#: client/gui-gtk-2.0/pages.c:2401 client/gui-gtk-2.0/pages.c:2458
-#: client/gui-gtk-3.0/pages.c:2466 client/gui-gtk-3.0/pages.c:2523
+#: client/gui-gtk-2.0/pages.c:2415 client/gui-gtk-2.0/pages.c:2472
+#: client/gui-gtk-3.0/pages.c:2480 client/gui-gtk-3.0/pages.c:2537
 #: client/gui-qt/pages.cpp:1382 client/gui-qt/pages.cpp:1412
 msgid "Observer"
 msgstr "Tarkkailija"
 
-#: client/gui-gtk-2.0/pages.c:2483 client/gui-gtk-3.0/pages.c:2548
+#: client/gui-gtk-2.0/pages.c:2497 client/gui-gtk-3.0/pages.c:2562
 #: client/gui-qt/pages.cpp:1429
 msgid "Detached"
 msgstr "Irrotettu"
 
 #. TRANS: Keep individual lines short
-#: client/gui-gtk-2.0/pages.c:2607 client/gui-gtk-3.0/pages.c:2677
+#: client/gui-gtk-2.0/pages.c:2621 client/gui-gtk-3.0/pages.c:2691
 msgid ""
 "Number of _Players\n"
 "(including AI):"
@@ -5204,96 +5204,96 @@ msgstr ""
 "Pelaajamäärä,\n"
 "mukaanlukien AI-pelaajat:"
 
-#: client/gui-gtk-2.0/pages.c:2632 client/gui-gtk-3.0/pages.c:2703
+#: client/gui-gtk-2.0/pages.c:2646 client/gui-gtk-3.0/pages.c:2717
 msgid "AI Skill _Level:"
 msgstr "AI:n vaikeus_taso:"
 
-#: client/gui-gtk-2.0/pages.c:2658 client/gui-gtk-3.0/pages.c:2718
-#: client/gui-qt/fc_client.cpp:865
+#: client/gui-gtk-2.0/pages.c:2672 client/gui-gtk-3.0/pages.c:2732
+#: client/gui-qt/fc_client.cpp:867
 msgid "Ruleset:"
 msgstr "Sääntökokoelma:"
 
-#: client/gui-gtk-2.0/pages.c:2666 client/gui-gtk-3.0/pages.c:2725
+#: client/gui-gtk-2.0/pages.c:2680 client/gui-gtk-3.0/pages.c:2739
 msgid "_More Game Options..."
 msgstr "_Enemmän peliasetuksia..."
 
 # (Guess... 17 Jan 09)
-#: client/gui-gtk-2.0/pages.c:2685 client/gui-gtk-3.0/pages.c:2747
+#: client/gui-gtk-2.0/pages.c:2699 client/gui-gtk-3.0/pages.c:2761
 msgid "Record"
 msgstr "Ennätys"
 
-#: client/gui-gtk-2.0/pages.c:2687 client/gui-gtk-3.0/pages.c:2749
+#: client/gui-gtk-2.0/pages.c:2701 client/gui-gtk-3.0/pages.c:2763
 msgid "Rating"
 msgstr "Luokitus"
 
-#: client/gui-gtk-2.0/pages.c:2689 client/gui-gtk-2.0/unitselect.c:473
-#: client/gui-gtk-3.0/pages.c:2751 client/gui-gtk-3.0/unitselect.c:475
+#: client/gui-gtk-2.0/pages.c:2703 client/gui-gtk-2.0/unitselect.c:473
+#: client/gui-gtk-3.0/pages.c:2765 client/gui-gtk-3.0/unitselect.c:475
 #: client/gui-qt/pages.cpp:548 client/gui-qt/pages.cpp:1485
 #: tools/mpgui_gtk2.c:267 tools/mpgui_gtk3.c:265 tools/mpgui_qt_worker.cpp:52
 msgid "Ready"
 msgstr "Valmis"
 
-#: client/gui-gtk-2.0/pages.c:2691 client/gui-gtk-3.0/pages.c:2753
+#: client/gui-gtk-2.0/pages.c:2705 client/gui-gtk-3.0/pages.c:2767
 msgid "?player:Leader"
 msgstr "Hallitsija"
 
-#: client/gui-gtk-2.0/pages.c:2697 client/gui-gtk-3.0/pages.c:2759
+#: client/gui-gtk-2.0/pages.c:2711 client/gui-gtk-3.0/pages.c:2773
 #: client/gui-qt/pages.cpp:549 client/plrdlg_common.c:310
 msgid "Team"
 msgstr "Joukkue"
 
-#: client/gui-gtk-2.0/pages.c:2816 client/gui-gtk-3.0/pages.c:2880
+#: client/gui-gtk-2.0/pages.c:2830 client/gui-gtk-3.0/pages.c:2894
 #: client/gui-qt/pages.cpp:426 client/gui-sdl/chatline.c:197
 msgid "Choose Saved Game to Load"
 msgstr "Valitse ladattava peli"
 
-#: client/gui-gtk-2.0/pages.c:2872 client/gui-gtk-3.0/pages.c:2941
+#: client/gui-gtk-2.0/pages.c:2886 client/gui-gtk-3.0/pages.c:2955
 msgid "Choose Saved Game to _Load:"
 msgstr "Valitse _ladattava peli:"
 
-#: client/gui-gtk-2.0/pages.c:2959 client/gui-gtk-3.0/pages.c:3029
+#: client/gui-gtk-2.0/pages.c:2973 client/gui-gtk-3.0/pages.c:3043
 #: client/gui-qt/pages.cpp:487
 msgid "Choose a Scenario"
 msgstr "Valitse skenaario"
 
-#: client/gui-gtk-2.0/pages.c:3040 client/gui-gtk-3.0/pages.c:3120
+#: client/gui-gtk-2.0/pages.c:3054 client/gui-gtk-3.0/pages.c:3134
 msgid "Choose a _Scenario:"
 msgstr "Valitse _skenaario"
 
-#: client/gui-gtk-2.0/pages.c:3073 client/gui-gtk-3.0/pages.c:3153
+#: client/gui-gtk-2.0/pages.c:3087 client/gui-gtk-3.0/pages.c:3167
 msgid "Filename:"
 msgstr "Tiedostonimi:"
 
-#: client/gui-gtk-2.0/pages.c:3258 client/gui-gtk-3.0/pages.c:3344
+#: client/gui-gtk-2.0/pages.c:3272 client/gui-gtk-3.0/pages.c:3358
 #: client/gui-qt/menu.cpp:436 client/gui-sdl/optiondlg.c:845
 msgid "Save Game"
 msgstr "Tallenna peli"
 
-#: client/gui-gtk-2.0/pages.c:3258 client/gui-gtk-3.0/pages.c:3344
+#: client/gui-gtk-2.0/pages.c:3272 client/gui-gtk-3.0/pages.c:3358
 msgid "Saved _Games:"
 msgstr "Tallennetut _pelit:"
 
-#: client/gui-gtk-2.0/pages.c:3259 client/gui-gtk-3.0/pages.c:3345
+#: client/gui-gtk-2.0/pages.c:3273 client/gui-gtk-3.0/pages.c:3359
 msgid "Save _Filename:"
 msgstr "Tallenna _tiedostoon:"
 
-#: client/gui-gtk-2.0/pages.c:3293 client/gui-gtk-3.0/pages.c:3379
+#: client/gui-gtk-2.0/pages.c:3307 client/gui-gtk-3.0/pages.c:3393
 msgid "Saved Sce_narios:"
 msgstr "Tallennetut ske_naariot:"
 
-#: client/gui-gtk-2.0/pages.c:3294 client/gui-gtk-3.0/pages.c:3380
+#: client/gui-gtk-2.0/pages.c:3308 client/gui-gtk-3.0/pages.c:3394
 msgid "Save Sc_enario:"
 msgstr "Tallenna sk_enaario"
 
-#: client/gui-gtk-2.0/pages.c:3322 client/gui-gtk-3.0/pages.c:3408
+#: client/gui-gtk-2.0/pages.c:3336 client/gui-gtk-3.0/pages.c:3422
 msgid "Save Map Image"
 msgstr "Tallenna karttakuva"
 
-#: client/gui-gtk-2.0/pages.c:3322 client/gui-gtk-3.0/pages.c:3408
+#: client/gui-gtk-2.0/pages.c:3336 client/gui-gtk-3.0/pages.c:3422
 msgid "Saved Map _Images:"
 msgstr "Tallennetut karttakuvat:"
 
-#: client/gui-gtk-2.0/pages.c:3323 client/gui-gtk-3.0/pages.c:3409
+#: client/gui-gtk-2.0/pages.c:3337 client/gui-gtk-3.0/pages.c:3423
 msgid "Save _Map Images:"
 msgstr "Tallenna karttakuvat:"
 
@@ -5803,12 +5803,19 @@ msgstr "Muut tälle käyttöliittymällä ainutlaatuiset optiot ovat:\n"
 msgid ""
 "-g, --gtk-warnings\tLet gtk+ to print warnings\n"
 "\n"
-msgstr "-g --gtk-warnings\tAnna gtk+:n huolehtia varoitustensa tulostamisesta\n\n"
+msgstr ""
+"-g --gtk-warnings\tAnna gtk+:n huolehtia varoitustensa tulostamisesta\n"
+"\n"
 
 #: client/gui-gtk-3.0/gui_main.c:1649
 msgid "Migrating options from gtk2 to gtk3 client"
 msgstr ""
 "Kopioin gtk2-asiakasohjelman asetuksia gtk3-asiakasohjelman asetuksiksi."
+
+#: client/gui-gtk-3.0/happiness.c:262
+#, c-format
+msgid "Additional information is available%svia left click on the citizens."
+msgstr "Lisätietoa saa napauttamalla asukkaita%shiiren vasemmalla napilla."
 
 #: client/gui-gtk-3.0/pages.c:946
 msgid "New Pass_word:"
@@ -6354,11 +6361,11 @@ msgid "Don't Observe"
 msgstr "Älä tarkkaile"
 
 #: client/gui-qt/fc_client.cpp:487 client/gui-qt/pages.cpp:578
-#: client/gui-qt/pages.cpp:1467 client/gui-qt/pages.cpp:1556
+#: client/gui-qt/pages.cpp:1467 client/gui-qt/pages.cpp:1568
 msgid "Observe"
 msgstr "Tarkkaile"
 
-#: client/gui-qt/fc_client.cpp:863
+#: client/gui-qt/fc_client.cpp:865
 msgid ""
 "Number of Players\n"
 "(including AI):"
@@ -6366,15 +6373,15 @@ msgstr ""
 "Pelaajamäärä,\n"
 "mukaanlukien AI-pelaajat:"
 
-#: client/gui-qt/fc_client.cpp:864
+#: client/gui-qt/fc_client.cpp:866
 msgid "AI Skill Level:"
 msgstr "AI:n vaikeustaso:"
 
-#: client/gui-qt/fc_client.cpp:888
+#: client/gui-qt/fc_client.cpp:890
 msgid "More Game Options"
 msgstr "Enemmän peliasetuksia..."
 
-#: client/gui-qt/fc_client.cpp:939
+#: client/gui-qt/fc_client.cpp:941
 msgid "Set server options"
 msgstr "Muuta palvelimen asetuksia."
 
@@ -6987,11 +6994,11 @@ msgstr "Yleiset tarkkailijat"
 msgid "Not ready"
 msgstr "Ei valmis"
 
-#: client/gui-qt/pages.cpp:1598
+#: client/gui-qt/pages.cpp:1610
 msgid "Set difficulty"
 msgstr "Aseta vaikeusaste"
 
-#: client/gui-qt/pages.cpp:1621
+#: client/gui-qt/pages.cpp:1633
 msgid "Put on team"
 msgstr "Liitä joukkueeseen"
 
@@ -32273,7 +32280,9 @@ msgstr "Aseta ADDR metapalvelimen osoitteeksi"
 #: server/civserver.c:403
 msgid ""
 "Keep updating game information on metaserver even if has failed in the past"
-msgstr "Jatka päivitysten lähettämistä metapalvelimelle vaikka se olisikin epäonnistunut aiemmin"
+msgstr ""
+"Jatka päivitysten lähettämistä metapalvelimelle vaikka se olisikin "
+"epäonnistunut aiemmin"
 
 # *** "Expect client-connections to port.." ***
 #: server/civserver.c:407
@@ -32738,7 +32747,8 @@ msgstr ""
 "'metaconnection ?' näyttää välityspalvelinyhteyden tilan.\n"
 "'metaconnection down' tai 'metac d' katkaisee yhteyden metapalvelimeen.\n"
 "'metaconnection up' tai 'metac u' ottaa yhteyden metapalvelimeen.\n"
-"'metaconnection persistent' tai 'metac p' on sama kuin 'up', mutta ei välitä epäonnistuneista lähetyksistä."
+"'metaconnection persistent' tai 'metac p' on sama kuin 'up', mutta ei välitä "
+"epäonnistuneista lähetyksistä."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:276
@@ -35374,15 +35384,15 @@ msgstr "Yksiköitä menetetty\n"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "En löytänyt lukukelpoista \"%s.%s\"-sääntökokoelmatiedostoa."
 
-#: server/ruleset.c:6036
+#: server/ruleset.c:6037
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr "Sääntökokoelmaa ei voitu ladata. Pidetään edellinen käytössä."
 
-#: server/ruleset.c:6054
+#: server/ruleset.c:6055
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr "Sääntökokoelmaa ei voitu ladata. Palataan oletuskokoelmaan."
 
-#: server/ruleset.c:6094
+#: server/ruleset.c:6095
 msgid "Loading rulesets."
 msgstr "Lataan sääntökokoelmaa."
 
@@ -35397,8 +35407,8 @@ msgstr ""
 "tallennettu peli on vanha, tai tiedosto voi olla viallinen. Jatka omalla "
 "vastuullasi."
 
-#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2054
-#: server/srv_main.c:2059
+#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2077
+#: server/srv_main.c:2082
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
@@ -38191,71 +38201,71 @@ msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "%s pääkaupungin myötä menetettiin avaruusaluskin!"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
-#: server/srv_main.c:334 server/srv_main.c:462
+#: server/srv_main.c:336 server/srv_main.c:464
 #, c-format
 msgid "?winners:, the %s"
 msgstr ", %s"
 
 #. TRANS: Beginning of the winners list ("the French")
-#: server/srv_main.c:338 server/srv_main.c:457
+#: server/srv_main.c:340 server/srv_main.c:459
 #, c-format
 msgid "?winners:the %s"
 msgstr "%s"
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:348
+#: server/srv_main.c:350
 #, c-format
 msgid "Scenario victory to %s."
 msgstr "%s on voittanut skenaarion."
 
-#: server/srv_main.c:377 server/stdinhand.c:4442
+#: server/srv_main.c:379 server/stdinhand.c:4442
 msgid "Game is over."
 msgstr "Peli on päättynyt."
 
-#: server/srv_main.c:411 server/srv_main.c:547
+#: server/srv_main.c:413 server/srv_main.c:549
 #, c-format
 msgid "Team victory to %s."
 msgstr "Joukkue %s voitti."
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:469
+#: server/srv_main.c:471
 #, c-format
 msgid "Allied victory to %s."
 msgstr "Liittoutuneet pelaajat voittivat: %s."
 
-#: server/srv_main.c:496 server/srv_main.c:556
+#: server/srv_main.c:498 server/srv_main.c:558
 #, c-format
 msgid "Game ended in victory for %s."
 msgstr "Peli päättyi, %s voitti."
 
-#: server/srv_main.c:507
+#: server/srv_main.c:509
 msgid "Game ended as the turn limit was exceeded."
 msgstr "Peli päättyi vuororajan tultua vastaan."
 
-#: server/srv_main.c:518
+#: server/srv_main.c:520
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "%s avaruusalus on laskeutunut Alpha Centauriin."
 
-#: server/srv_main.c:673 server/srv_main.c:684
+#: server/srv_main.c:675 server/srv_main.c:686
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr "%s lakkautettu rauhansopimuksen perusteella – %s arvostavat."
 
-#: server/srv_main.c:732
+#: server/srv_main.c:734
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr ""
 "%s aiheuttaa huolta: kansalaiset muistuttavat tulitauon päättyvän pian."
 
-#: server/srv_main.c:741 server/srv_main.c:746
+#: server/srv_main.c:743 server/srv_main.c:748
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
 "%s ilmoittaa, että tulitauko on päättynyt. Sinä ja %s olette nyt sodassa."
 
-#: server/srv_main.c:776
+#: server/srv_main.c:778
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -38264,53 +38274,53 @@ msgstr ""
 "%s ja %s ovat nyt sodassa tulitauon päätyttyä. Purat liittosi molempien "
 "kanssa."
 
-#: server/srv_main.c:1098
+#: server/srv_main.c:1100
 msgid "Automatically placed spaceship parts that were still not placed."
 msgstr ""
 "Automaattisesti asetettu paikalleen avaruusaluksen osat, joita ei oltu vielä "
 "kiinnitetty."
 
-#: server/srv_main.c:1326 server/srv_main.c:1329
+#: server/srv_main.c:1328 server/srv_main.c:1331
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr "Pakkaustyyppiä %d ei tueta"
 
-#: server/srv_main.c:1359
+#: server/srv_main.c:1361
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Pelin tallennus tiedostoon %s epäonnistui"
 
-#: server/srv_main.c:1362
+#: server/srv_main.c:1364
 #, c-format
 msgid "Game saved as %s"
 msgstr "Peli tallennettu tiedostoon %s"
 
-#: server/srv_main.c:1418
+#: server/srv_main.c:1420
 msgid "The game is already running."
 msgstr "Peli on jo käynnissä."
 
-#: server/srv_main.c:1426
+#: server/srv_main.c:1428
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s menetti control-komentotason pelin alkaessa. Käytä äänestystä tästä "
 "eteenpäin."
 
-#: server/srv_main.c:1433
+#: server/srv_main.c:1435
 msgid "Starting game."
 msgstr "Aloitan pelin."
 
-#: server/srv_main.c:1533
+#: server/srv_main.c:1535
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "tuntemattoman raporttityypin pyyntö (tyyppi %d)"
 
-#: server/srv_main.c:1622
+#: server/srv_main.c:1625
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Varoitus: hylättiin vanha asiakasohjelma %s"
 
-#: server/srv_main.c:1632
+#: server/srv_main.c:1635
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -38318,52 +38328,52 @@ msgstr ""
 "Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi vähintään "
 "Freeciv-versioon 2.2."
 
-#: server/srv_main.c:1690
+#: server/srv_main.c:1693
 msgid "You are not allowed to edit."
 msgstr "Sinulla ei ole tarvittavia oikeuksia muokkaamiseen."
 
-#: server/srv_main.c:1892
+#: server/srv_main.c:1899
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Kansakunta (%s) ei ole käyttäjän valittavissa."
 
-#: server/srv_main.c:1898
+#: server/srv_main.c:1905
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Kansakunta (%s) on jo käytössä."
 
 # Johndoe on suomalaisten hallitsija Tarja Halonen.
-#: server/srv_main.c:1914
+#: server/srv_main.c:1921
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s on %s hallitsija %s."
 
-#: server/srv_main.c:1968
+#: server/srv_main.c:1991
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Odotetaan pelin alkamista: %d / %d pelaajaa valmiina aloittamaan."
 
-#: server/srv_main.c:1994
+#: server/srv_main.c:2017
 msgid "requested more than 'maxplayers' setting"
 msgstr "pyydetty määrä ole enemmän kuin 'maxplayers' asetus sallii"
 
-#: server/srv_main.c:2001
+#: server/srv_main.c:2024
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "käytössä olevassa kansavalikoimassa ei ole riittävästi kansakuntia (kokeile "
 "muuttaa 'nationset' asetusta)"
 
-#: server/srv_main.c:2004
+#: server/srv_main.c:2027
 msgid "not enough playable nations"
 msgstr "Kansakuntia ei ole riittävästi."
 
-#: server/srv_main.c:2347 server/srv_main.c:2351
+#: server/srv_main.c:2370 server/srv_main.c:2374
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s sai johtaakseen %s."
 
-#: server/srv_main.c:2515
+#: server/srv_main.c:2538
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -38371,34 +38381,34 @@ msgstr ""
 "Tämä civ-palvelinohjelma tukee käyttäjien kirjautumista (autentikaatiota), "
 "mutta se ei ole tällä hetkellä käytössä."
 
-#: server/srv_main.c:2584
+#: server/srv_main.c:2607
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Lähetän tietoa metapalvelimelle <%s>"
 
-#: server/srv_main.c:2588
+#: server/srv_main.c:2611
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 
-#: server/srv_main.c:2611
+#: server/srv_main.c:2634
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:2720
+#: server/srv_main.c:2743
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:2753
+#: server/srv_main.c:2776
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:2776 server/srv_main.c:2780
+#: server/srv_main.c:2799 server/srv_main.c:2803
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:2974
+#: server/srv_main.c:2997
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
@@ -38490,7 +38500,8 @@ msgstr "Yhteys metapalvelimeen on jo katkaistu."
 
 #: server/stdinhand.c:557
 msgid "Argument must be 'u', 'up', 'd', 'down', 'p', 'persistent', or '?'."
-msgstr "Argumentin tulee olla 'u', 'up', 'd', 'down', 'p', 'persistent' tai '?'."
+msgstr ""
+"Argumentin tulee olla 'u', 'up', 'd', 'down', 'p', 'persistent' tai '?'."
 
 #: server/stdinhand.c:578
 #, c-format
