@@ -1,6 +1,49 @@
-diff -Nurd -X.diff_ignore freeciv/dependencies/lua-5.2/src/luaconf.h freeciv/dependencies/lua-5.2/src/luaconf.h
---- freeciv/dependencies/lua-5.2/src/luaconf.h	2013-04-19 01:52:45.162360681 +0300
-+++ freeciv/dependencies/lua-5.2/src/luaconf.h	2013-04-19 01:57:26.310354514 +0300
+diff -Nurd lua-5.2/freeciv_lua.patch lua-5.2/freeciv_lua.patch
+--- lua-5.2/freeciv_lua.patch	2016-06-25 01:25:58.950034475 +0300
++++ lua-5.2/freeciv_lua.patch	2016-06-25 01:30:46.753551478 +0300
+@@ -1,27 +0,0 @@
+-diff -Nurd -X.diff_ignore freeciv/dependencies/lua-5.2/src/luaconf.h freeciv/dependencies/lua-5.2/src/luaconf.h
+---- freeciv/dependencies/lua-5.2/src/luaconf.h	2013-04-19 01:52:45.162360681 +0300
+-+++ freeciv/dependencies/lua-5.2/src/luaconf.h	2013-04-19 01:57:26.310354514 +0300
+-@@ -11,6 +11,7 @@
+- #include <limits.h>
+- #include <stddef.h>
+- 
+-+#include "localluaconf.h"
+- 
+- /*
+- ** ==================================================================
+-@@ -43,7 +44,6 @@
+- #if defined(LUA_USE_LINUX)
+- #define LUA_USE_POSIX
+- #define LUA_USE_DLOPEN		/* needs an extra library: -ldl */
+--#define LUA_USE_READLINE	/* needs some extra libraries */
+- #define LUA_USE_STRTODHEX	/* assume 'strtod' handles hex formats */
+- #define LUA_USE_AFORMAT		/* assume 'printf' handles 'aA' specifiers */
+- #define LUA_USE_LONGLONG	/* assume support for long long */
+-@@ -52,7 +52,6 @@
+- #if defined(LUA_USE_MACOSX)
+- #define LUA_USE_POSIX
+- #define LUA_USE_DLOPEN		/* does not need -ldl */
+--#define LUA_USE_READLINE	/* needs an extra library: -lreadline */
+- #define LUA_USE_STRTODHEX	/* assume 'strtod' handles hex formats */
+- #define LUA_USE_AFORMAT		/* assume 'printf' handles 'aA' specifiers */
+- #define LUA_USE_LONGLONG	/* assume support for long long */
+diff -Nurd lua-5.2/src/liolib.c lua-5.2/src/liolib.c
+--- lua-5.2/src/liolib.c	2016-06-25 01:25:58.970034443 +0300
++++ lua-5.2/src/liolib.c	2016-06-25 01:29:07.605721751 +0300
+@@ -86,7 +86,7 @@
+ 
+ #if !defined(lua_fseek)	&& !defined(LUA_ANSI)	/* { */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_SEEKO)	/* { */
+ 
+ #define l_fseek(f,o,w)		fseeko(f,o,w)
+ #define l_ftell(f)		ftello(f)
+diff -Nurd lua-5.2/src/luaconf.h lua-5.2/src/luaconf.h
+--- lua-5.2/src/luaconf.h	2016-06-25 01:26:42.313964121 +0300
++++ lua-5.2/src/luaconf.h	2015-03-21 20:01:35.286587205 +0200
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>

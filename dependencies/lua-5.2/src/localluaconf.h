@@ -32,6 +32,9 @@
 #if defined(HAVE__LONGJMP) && defined(HAVE__SETJMP)
 #define LUA_USE_ULONGJMP
 #endif
+#if defined(HAVE_FSEEKO)
+#define LUA_USE_FSEEKO
+#endif
 
 #ifdef HAVE_LIBREADLINE
 #define LUA_USE_READLINE

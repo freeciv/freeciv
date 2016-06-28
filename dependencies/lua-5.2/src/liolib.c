@@ -86,7 +86,7 @@
 
 #if !defined(lua_fseek)	&& !defined(LUA_ANSI)	/* { */
 
-#if defined(LUA_USE_POSIX)	/* { */
+#if defined(LUA_USE_SEEKO)	/* { */
 
 #define l_fseek(f,o,w)		fseeko(f,o,w)
 #define l_ftell(f)		ftello(f)
