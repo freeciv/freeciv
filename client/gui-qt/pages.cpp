@@ -1505,7 +1505,19 @@ void fc_client::update_buttons()
     }
   } else {
     text = _("Start");
-    sensitive = false;
+    if (can_client_access_hack()) {
+      sensitive = true;
+      players_iterate(plr) {
+        if (is_human(plr)) {
+          /* There's human controlled player(s) in game, so it's their
+           * job to start the game. */
+          sensitive = false;
+          break;
+        }
+      } players_iterate_end;
+    } else {
+      sensitive = false;
+    }
   }
   li = pages_layout[PAGE_START]->itemAtPosition(5, 7);
   pb = qobject_cast<QPushButton *>(li->widget());

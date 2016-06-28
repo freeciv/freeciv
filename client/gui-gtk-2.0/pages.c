@@ -2063,6 +2063,8 @@ static void ready_button_callback(GtkWidget *w, gpointer data)
     dsend_packet_player_ready(&client.conn,
                               player_number(client_player()),
                               !client_player()->is_ready);
+  } else {
+    dsend_packet_player_ready(&client.conn, 0, TRUE);
   }
 }
 
@@ -2141,7 +2143,19 @@ static void update_start_page_buttons(void)
     }
   } else {
     text = _("_Start");
-    sensitive = FALSE;
+    if (can_client_access_hack()) {
+      sensitive = TRUE;
+      players_iterate(plr) {
+        if (is_human(plr)) {
+          /* There's human controlled player(s) in game, so it's their
+           * job to start the game. */
+          sensitive = FALSE;
+          break;
+        }
+      } players_iterate_end;
+    } else {
+      sensitive = FALSE;
+    }
   }
   gtk_stockbutton_set_label(ready_button, text);
   gtk_widget_set_sensitive(ready_button, sensitive);

@@ -500,6 +500,8 @@ void fc_client::slot_pregame_start()
     dsend_packet_player_ready(&client.conn,
                               player_number(client_player()),
                               !client_player()->is_ready);
+  } else {
+    dsend_packet_player_ready(&client.conn, 0, TRUE);
   }
 }
 

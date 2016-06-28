@@ -160,6 +160,8 @@ static struct player *mapimg_server_tile_unit(const struct tile *ptile,
 static int mapimg_server_plrcolor_count(void);
 static struct rgbcolor *mapimg_server_plrcolor_get(int i);
 
+static void handle_observer_ready(struct connection *pconn);
+
 /* command-line arguments to server */
 struct server_arguments srvarg;
 
@@ -1724,16 +1726,17 @@ static bool is_client_edit_packet(int type)
 }
 
 /**************************************************************************
-Returns 0 if connection should be closed (because the clients was
-rejected). Returns 1 else.
+  Returns FALSE if connection should be closed (because the clients was
+  rejected). Returns TRUE else.
 **************************************************************************/
 bool server_packet_input(struct connection *pconn, void *packet, int type)
 {
   struct player *pplayer;
 
   /* a NULL packet can be returned from receive_packet_goto_route() */
-  if (!packet)
+  if (!packet) {
     return TRUE;
+  }
 
   /* 
    * Old pre-delta clients (before 2003-11-28) send a
@@ -1798,7 +1801,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
               packet_name(type), type, conn_description(pconn));
     return TRUE;
   }
-  
+
   /* valid packets from established connections but non-players */
   if (type == PACKET_CHAT_MSG_REQ
       || type == PACKET_SINGLE_WANT_HACK_REQ
@@ -1829,6 +1832,10 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   pplayer = pconn->playing;
 
   if (NULL == pplayer || pconn->observer) {
+    if (type == PACKET_PLAYER_READY && pconn->observer) {
+      handle_observer_ready(pconn);
+      return TRUE;
+    }
     /* don't support these yet */
     log_error("Received packet %s(%d) from non-player connection %s.",
               packet_name(type), type, conn_description(pconn));
@@ -2054,6 +2061,22 @@ void handle_nation_select_req(struct connection *pc, int player_no,
 
   (void) player_set_nation(pplayer, new_nation);
   send_player_info_c(pplayer, game.est_connections);
+}
+
+/****************************************************************************
+  Handle a player-ready packet from global observer.
+****************************************************************************/
+static void handle_observer_ready(struct connection *pconn)
+{
+  if (pconn->access_level == ALLOW_HACK) {
+    players_iterate(plr) {
+      if (is_human(plr)) {
+        return;
+      }
+    } players_iterate_end;
+
+    start_command(NULL, FALSE, TRUE);
+  }
 }
 
 /****************************************************************************
