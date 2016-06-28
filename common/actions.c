@@ -2418,10 +2418,15 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_ATTACK:
     {
       struct unit *defender_unit = get_defender(actor_unit,
-                                                target_tile);
-      double unconverted = unit_win_chance(actor_unit, defender_unit);
+                                   target_tile);
 
-      chance = (int)((double)200 * unconverted);
+      if (can_player_see_unit(actor_player, defender_unit)) {
+        double unconverted = unit_win_chance(actor_unit, defender_unit);
+
+        chance = (int)((double)200 * unconverted);
+      } else if (known == TRI_YES) {
+        known = TRI_MAYBE;
+      }
     }
     break;
   case ACTION_COUNT:
