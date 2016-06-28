@@ -1300,7 +1300,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
                                  GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(right), pdialog->happiness.widget);
   gtk_container_add(GTK_CONTAINER(pdialog->happiness.widget),
-                    get_top_happiness_display(pdialog->pcity));
+                    get_top_happiness_display(pdialog->pcity, low_citydlg));
 
   /* show page */
   gtk_widget_show_all(page);
@@ -3379,7 +3379,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
                       citizens_dialog_display(pdialog->pcity));
   }
   gtk_container_add(GTK_CONTAINER(pdialog->happiness.widget),
-                    get_top_happiness_display(pdialog->pcity));
+                    get_top_happiness_display(pdialog->pcity, low_citydlg));
   if (!client_is_observer()) {
     fc_assert(pdialog->cma_editor != NULL);
     pdialog->cma_editor->pcity = new_pcity;
