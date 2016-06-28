@@ -102,7 +102,7 @@
 
 #if !defined(l_fseek)		/* { */
 
-#if defined(LUA_USE_POSIX)	/* { */
+#if defined(LUA_USE_FSEEKO)	/* { */
 
 #include <sys/types.h>
 

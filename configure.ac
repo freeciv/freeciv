@@ -1346,6 +1346,7 @@ dnl Checks for library functions.
 AC_FUNC_FORK
 AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
+AC_FUNC_FSEEKO
 
 dnl Windows vsnprintf doesn't support argument reordering (see PR#12932)
 if test "x$MINGW" != "xyes"; then
