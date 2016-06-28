@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -69,7 +69,8 @@ struct happiness_dialog {
 
 static struct dialog_list *dialog_list;
 static struct happiness_dialog *get_happiness_dialog(struct city *pcity);
-static struct happiness_dialog *create_happiness_dialog(struct city *pcity);
+static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
+                                                        bool low_dlg);
 static gboolean show_happiness_popup(GtkWidget *w,
                                      GdkEventButton *ev,
                                      gpointer data);
@@ -189,11 +190,13 @@ static gboolean show_happiness_button_release(GtkWidget *w,
 /**************************************************************************
   Create the happiness notebook page.
 **************************************************************************/
-static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
+static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
+                                                        bool low_dlg)
 {
   int i;
   struct happiness_dialog *pdialog;
   GtkWidget *ebox, *label, *table;
+  char buf[700];
 
   static const char *happiness_label_str[NUM_HAPPINESS_MODIFIERS] = {
     N_("Cities:"),
@@ -257,9 +260,12 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
     gtk_grid_attach(GTK_GRID(table), ebox, 1, i, 1, 1);
   }
 
-  /* TRANS: the width of this text defines the width of the city dialog. */
-  label = gtk_label_new(_("Additional information is available via left "
-                          "click on the citizens."));
+  /* TRANS: the width of this text defines the width of the city dialog.
+   *        '%s' is either space or newline depending on screen real estate. */
+  fc_snprintf(buf, sizeof(buf),
+              _("Additional information is available%svia left "
+                "click on the citizens."), low_dlg ? "\n" : " ");
+  label = gtk_label_new(buf);
   gtk_widget_set_name(label, "city_label");
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
@@ -339,7 +345,7 @@ void close_happiness_dialog(struct city *pcity)
 /**************************************************************************
   Create happiness dialog and get its widget
 **************************************************************************/
-GtkWidget *get_top_happiness_display(struct city *pcity)
+GtkWidget *get_top_happiness_display(struct city *pcity, bool low_dlg)
 {
-  return create_happiness_dialog(pcity)->shell;
+  return create_happiness_dialog(pcity, low_dlg)->shell;
 }

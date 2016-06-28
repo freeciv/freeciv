@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,8 +20,9 @@
 
 void happiness_dialog_init(void);
 void happiness_dialog_done(void);
-GtkWidget *get_top_happiness_display(struct city *pcity);
+GtkWidget *get_top_happiness_display(struct city *pcity,
+                                     bool low_dlg);
 void close_happiness_dialog(struct city *pcity);
 void refresh_happiness_dialog(struct city *pcity);
 
-#endif				/* FC__HAPPINESS_H */
+#endif /* FC__HAPPINESS_H */
