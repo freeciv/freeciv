@@ -690,9 +690,10 @@ actor_reqs    =
 [actionenabler_paradrop_not_forest_base]
 action = "Paradrop Unit"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Paratroopers", "Local"
-      "ExtraFlag", "ParadropFrom", "Local"
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Paratroopers", "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "ExtraFlag", "ParadropFrom", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -702,18 +703,20 @@ target_reqs    =
 [actionenabler_paradrop_veteran_base]
 action = "Paradrop Unit"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Paratroopers", "Local"
-      "MinVeteran", 1, "Local"
-      "ExtraFlag", "ParadropFrom", "Local"
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Paratroopers", "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "MinVeteran", 1,             "Local", TRUE
+      "ExtraFlag", "ParadropFrom", "Local", TRUE
     }
 
 [actionenabler_paradrop_not_forest_city]
 action = "Paradrop Unit"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Paratroopers", "Local"
-      "CityTile", "Center", "Local"
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Paratroopers", "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -723,10 +726,11 @@ target_reqs    =
 [actionenabler_paradrop_veteran_city]
 action = "Paradrop Unit"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Paratroopers", "Local"
-      "MinVeteran", 1, "Local"
-      "CityTile", "Center", "Local"
+    { "type",       "name",         "range", "present"
+      "UnitFlag",   "Paratroopers", "Local", TRUE
+      "UnitState",  "Transporting", "Local", FALSE
+      "MinVeteran", 1,              "Local", TRUE
+      "CityTile",   "Center",       "Local", TRUE
     }
 
 [actionenabler_upgrade_unit]
@@ -739,19 +743,21 @@ actor_reqs    =
 [actionenabler_airlift_light_unit]
 action = "Airlift Unit"
 actor_reqs    =
-    { "type",          "name",        "range"
-      "UnitClassFlag", "LightWeight", "Local"
-      "MinMoveFrags",  "1",           "Local"
+    { "type",          "name",         "range", "present"
+      "UnitClassFlag", "LightWeight",  "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
     }
 
 [actionenabler_airlift_medium_unit]
 action = "Airlift Unit"
 actor_reqs    =
-    { "type",          "name",            "range"
-      "UnitClassFlag", "MediumWeight",    "Local"
-      "Tech",          "Advanced Flight", "Player"
-      "Building",      "Airport",         "City"
-      "MinMoveFrags",  "1",               "Local"
+    { "type",          "name",            "range",  "present"
+      "UnitClassFlag", "MediumWeight",    "Local",  TRUE
+      "UnitState",     "Transporting",    "Local",  FALSE
+      "Tech",          "Advanced Flight", "Player", TRUE
+      "Building",      "Airport",         "City",   TRUE
+      "MinMoveFrags",  "1",               "Local",  TRUE
     }
 target_reqs    =
     { "type",     "name",    "range"
@@ -761,11 +767,12 @@ target_reqs    =
 [actionenabler_airlift_heavy_unit]
 action = "Airlift Unit"
 actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitClassFlag", "HeavyWeight",  "Local"
-      "Tech",          "Fusion Power", "Player"
-      "Building",      "Airport",      "City"
-      "MinMoveFrags",  "1",            "Local"
+    { "type",          "name",         "range",  "present"
+      "UnitClassFlag", "HeavyWeight",  "Local",  TRUE
+      "UnitState",     "Transporting", "Local",  FALSE
+      "Tech",          "Fusion Power", "Player", TRUE
+      "Building",      "Airport",      "City",   TRUE
+      "MinMoveFrags",  "1",            "Local",  TRUE
     }
 target_reqs    =
     { "type",     "name",    "range"

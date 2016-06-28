@@ -876,10 +876,6 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTING, TRUE)) {
     explnat->kind = ANEK_IS_TRANSPORTING;
-  } else if ((action_id == ACTION_PARADROP || action_id == ACTION_AIRLIFT)
-             && 0 < get_transporter_occupancy(punit)) {
-    /* Hard action requirement. */
-    explnat->kind = ANEK_IS_TRANSPORTING;
   } else if (!(0 < get_transporter_occupancy(punit))
              && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
                                               USP_TRANSPORTING, FALSE)) {

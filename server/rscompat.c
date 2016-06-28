@@ -636,6 +636,13 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, TRUE, "Paratroopers"));
 
+    /* The actor unit isn't transporting another unit. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UNITSTATE,
+                                              REQ_RANGE_LOCAL,
+                                              FALSE, FALSE, TRUE,
+                                              USP_TRANSPORTING));
+
     /* The actor unit must be inside a city. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("CityTile", "Local", FALSE,
@@ -651,6 +658,13 @@ void rscompat_postprocess(struct rscompat_info *info)
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, TRUE, "Paratroopers"));
+
+    /* The actor unit isn't transporting another unit. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UNITSTATE,
+                                              REQ_RANGE_LOCAL,
+                                              FALSE, FALSE, TRUE,
+                                              USP_TRANSPORTING));
 
     /* The actor unit must be in an extra it can paradrop from. */
     requirement_vector_append(&enabler->actor_reqs,
@@ -669,6 +683,13 @@ void rscompat_postprocess(struct rscompat_info *info)
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitClassFlag", "Local", FALSE,
                                            TRUE, TRUE, "Airliftable"));
+
+    /* The actor unit isn't transporting another unit. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UNITSTATE,
+                                              REQ_RANGE_LOCAL,
+                                              FALSE, FALSE, TRUE,
+                                              USP_TRANSPORTING));
 
     /* The actor unit must have moves left. */
     requirement_vector_append(&enabler->actor_reqs,

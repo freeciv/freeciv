@@ -1046,6 +1046,26 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ok = FALSE;
         }
       }
+
+      if (act == ACTION_PARADROP
+          || act == ACTION_AIRLIFT) {
+        /* Why this is a hard requirement: Assumed in the code. Corner case
+         * where diplomacy prevents a transported unit to go to the target
+         * tile. The paradrop code doesn't check if transported units can
+         * coexist with the target tile city and units. */
+
+        struct requirement transporting
+            = req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                              FALSE, TRUE, TRUE, USP_TRANSPORTING);
+
+        if (!action_id_blocked_by_situation_act(act, &transporting)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require that "
+                        "the actor isn't transporting another unit.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
     }
   } action_iterate_end;
 
