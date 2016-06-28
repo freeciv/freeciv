@@ -313,10 +313,6 @@ Resource_type_id resource_index(const struct extra_type *presource);
 Resource_type_id resource_number(const struct extra_type *presource);
 
 struct extra_type *resource_by_number(const Resource_type_id id);
-struct extra_type *resource_by_rule_name(const char *name);
-
-const char *resource_rule_name(const struct resource_type *presource);
-const char *resource_name_translation(const struct resource_type *presource);
 
 /* Special helper functions */
 const char *get_infrastructure_text(bv_extras extras);

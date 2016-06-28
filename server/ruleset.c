@@ -857,7 +857,7 @@ static struct extra_type *lookup_resource(const char *filename,
 {
   struct extra_type *pres;
 
-  pres = resource_by_rule_name(name);
+  pres = extra_type_by_rule_name(name);
 
   if (pres == NULL) {
     ruleset_error(LOG_ERROR,

@@ -361,40 +361,6 @@ struct extra_type *resource_by_number(const Resource_type_id type)
 }
 
 /****************************************************************************
-  Return the resource type matching the name, or NULL when none matches.
-****************************************************************************/
-struct extra_type *resource_by_rule_name(const char *name)
-{
-  const char *qname = Qn_(name);
-
-  resource_type_iterate(presource) {
-    if (0 == fc_strcasecmp(extra_rule_name(presource), qname)) {
-      return presource;
-    }
-  } resource_type_iterate_end;
-
-  return NULL;
-}
-
-/****************************************************************************
-  Return the (translated) name of the resource.
-  You don't have to free the return pointer.
-****************************************************************************/
-const char *resource_name_translation(const struct resource_type *presource)
-{
-  return name_translation_get(&(resource_extra_get(presource)->name));
-}
-
-/**************************************************************************
-  Return the (untranslated) rule name of the resource.
-  You don't have to free the return pointer.
-**************************************************************************/
-const char *resource_rule_name(const struct resource_type *presource)
-{
-  return rule_name_get(&(resource_extra_get(presource)->name));
-}
-
-/****************************************************************************
   This iterator behaves like adjc_iterate or cardinal_adjc_iterate depending
   on the value of card_only.
 ****************************************************************************/
