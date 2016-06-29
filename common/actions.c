@@ -1082,7 +1082,7 @@ action_prob(const enum gen_action wanted_action,
             const struct specialist *target_specialist)
 {
   int known;
-  int chance;
+  action_probability chance;
 
   const struct unit_type *actor_unittype;
   const struct unit_type *target_unittype;
