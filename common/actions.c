@@ -2133,7 +2133,7 @@ static action_probability ap_dipl_battle_win(const struct unit *pattacker,
   if (unit_has_type_flag(pattacker, UTYF_SUPERSPY)) {
     /* An attacking UTYF_SUPERSPY will defeat every possible defender
      * except another UTYF_SUPERSPY. */
-    return 200;
+    return ACTPROB_CERTAIN;
   }
 
   /* Base chance is 50% */
@@ -2216,7 +2216,7 @@ static action_probability ap_diplomat_battle(const struct unit *pattacker,
   } unit_list_iterate_end;
 
   /* No diplomatic battle will occur. */
-  return 200;
+  return ACTPROB_CERTAIN;
 }
 
 /**************************************************************************
@@ -2322,7 +2322,7 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_ESTABLISH_EMBASSY:
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_SPY_STEAL_TECH:
     /* Do the victim have anything worth taking? */
@@ -2342,38 +2342,38 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
     /* There is no risk that the city won't get investigated. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_TRADE_ROUTE:
     /* TODO */
     break;
   case ACTION_MARKETPLACE:
     /* Possible when not blocked by is_action_possible() */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_HELP_WONDER:
     /* Possible when not blocked by is_action_possible() */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_CAPTURE_UNITS:
     /* No battle is fought first. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_EXPEL_UNIT:
     /* No battle is fought first. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_BOMBARD:
     /* No battle is fought first. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_FOUND_CITY:
     /* Possible when not blocked by is_action_possible() */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_JOIN_CITY:
     /* Possible when not blocked by is_action_possible() */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_SPY_NUKE:
     /* TODO */
@@ -2383,23 +2383,23 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_DESTROY_CITY:
     /* No battle is fought first. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_RECYCLE_UNIT:
     /* No battle is fought first. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_DISBAND_UNIT:
     /* No battle is fought first. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_HOME_CITY:
     /* No battle is fought first. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_UPGRADE_UNIT:
     /* No battle is fought first. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_PARADROP:
     /* TODO */
@@ -2578,7 +2578,7 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  prob_all = 200;
+  prob_all = ACTPROB_CERTAIN;
   unit_list_iterate(target_tile->units, target_unit) {
     action_probability prob_unit;
 
@@ -2721,6 +2721,14 @@ action_probability action_prob_self(const struct unit* actor_unit,
 action_probability action_prob_new_impossible(void)
 {
   return 0;
+}
+
+/**************************************************************************
+  Returns the certain action probability.
+**************************************************************************/
+action_probability action_prob_new_certain(void)
+{
+  return 200;
 }
 
 /**************************************************************************

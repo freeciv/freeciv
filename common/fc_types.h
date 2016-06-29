@@ -762,6 +762,9 @@ FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
  * 0   ACTPROB_IMPOSSIBLE is another way of saying that the probability
  *     is 0%. It isn't really a special value since it is in range.
  *
+ * 200 ACTPROB_CERTAIN is another way of saying that the probability
+ *     is 100%. It isn't really a special value since it is in range.
+ *
  * 253 ACTPROB_NA indicates that no probability should exist.
  *
  * 254 ACTPROB_NOT_IMPLEMENTED indicates that support for finding this
