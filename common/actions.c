@@ -2247,7 +2247,7 @@ action_prob(const enum gen_action wanted_action,
             const struct specialist *target_specialist)
 {
   int known;
-  int chance;
+  action_probability chance;
 
   const struct unit_type *actor_unittype;
   const struct unit_type *target_unittype;
@@ -2548,7 +2548,7 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
                                         const int action_id,
                                         const struct tile* target_tile)
 {
-  int prob_all;
+  action_probability prob_all;
   struct tile *actor_tile = unit_tile(actor_unit);
 
   if (actor_unit == NULL || target_tile == NULL
@@ -2580,16 +2580,18 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
 
   prob_all = 200;
   unit_list_iterate(target_tile->units, target_unit) {
-    int prob_unit = action_prob(action_id,
-                                unit_owner(actor_unit),
-                                tile_city(actor_tile),
-                                NULL, actor_tile, actor_unit, NULL,
-                                NULL, NULL,
-                                unit_owner(target_unit),
-                                tile_city(unit_tile(target_unit)), NULL,
-                                unit_tile(target_unit),
-                                target_unit, NULL,
-                                NULL, NULL);
+    action_probability prob_unit;
+
+    prob_unit = action_prob(action_id,
+                            unit_owner(actor_unit),
+                            tile_city(actor_tile),
+                            NULL, actor_tile, actor_unit, NULL,
+                            NULL, NULL,
+                            unit_owner(target_unit),
+                            tile_city(unit_tile(target_unit)), NULL,
+                            unit_tile(target_unit),
+                            target_unit, NULL,
+                            NULL, NULL);
 
     if (!action_prob_possible(prob_unit)) {
       /* One unit makes it impossible for all units. */
