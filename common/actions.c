@@ -971,7 +971,7 @@ static action_probability ap_dipl_battle_win(const struct unit *pattacker,
   if (unit_has_type_flag(pattacker, UTYF_SUPERSPY)) {
     /* An attacking UTYF_SUPERSPY will defeat every possible defender
      * except another UTYF_SUPERSPY. */
-    return 200;
+    return ACTPROB_CERTAIN;
   }
 
   /* Base chance is 50% */
@@ -1053,7 +1053,7 @@ static action_probability ap_diplomat_battle(const struct unit *pattacker,
   } unit_list_iterate_end;
 
   /* No diplomatic battle will occur. */
-  return 200;
+  return ACTPROB_CERTAIN;
 }
 
 /**************************************************************************
@@ -1149,7 +1149,7 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_ESTABLISH_EMBASSY:
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_SPY_STEAL_TECH:
     /* Do the victim have anything worth taking? */
@@ -1169,18 +1169,18 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
     /* There is no risk that the city won't get investigated. */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_TRADE_ROUTE:
     /* TODO */
     break;
   case ACTION_MARKETPLACE:
     /* Possible when not blocked by is_action_possible() */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_HELP_WONDER:
     /* Possible when not blocked by is_action_possible() */
-    chance = 200;
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
     fc_assert(FALSE);
@@ -1299,6 +1299,14 @@ action_probability action_prob_vs_unit(const struct unit* actor_unit,
 action_probability action_prob_new_impossible(void)
 {
   return 0;
+}
+
+/**************************************************************************
+  Returns the certain action probability.
+**************************************************************************/
+action_probability action_prob_new_certain(void)
+{
+  return 200;
 }
 
 /**************************************************************************

@@ -188,10 +188,12 @@ action_probability action_prob_new_impossible(void);
 action_probability action_prob_new_not_relevant(void);
 action_probability action_prob_new_not_impl(void);
 action_probability action_prob_new_unknown(void);
+action_probability action_prob_new_certain(void);
 
 /* Special action probability values. Documented in fc_types.h's
  * definition of action_probability. */
 #define ACTPROB_IMPOSSIBLE action_prob_new_impossible()
+#define ACTPROB_CERTAIN action_prob_new_certain()
 #define ACTPROB_NA action_prob_new_not_relevant()
 #define ACTPROB_NOT_IMPLEMENTED action_prob_new_not_impl()
 #define ACTPROB_NOT_KNOWN action_prob_new_unknown()
