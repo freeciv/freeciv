@@ -1857,9 +1857,7 @@ static void sg_load_game(struct loaddata *loading)
 
   if (!ai_level_is_valid(game.info.skill_level)) {
     game.info.skill_level
-      = ai_level_convert(secfile_lookup_int_default(loading->file,
-                                                    GAME_HARDCODED_DEFAULT_SKILL_LEVEL,
-                                                    "game.skill_level"));
+      = ai_level_convert(GAME_HARDCODED_DEFAULT_SKILL_LEVEL);
   }
   game.info.phase_mode
     = secfile_lookup_int_default(loading->file, GAME_DEFAULT_PHASE_MODE,
