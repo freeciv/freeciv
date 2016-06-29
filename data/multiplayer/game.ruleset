@@ -909,5 +909,6 @@ set =
       "techpenalty", 0, FALSE
       "startunits", "cccwwwxxxx", FALSE
       "specials", 350, FALSE
-      "borders", "DISABLED", FALSE
+      "borders", "SEE_INSIDE", FALSE
+      "foggedborders", TRUE, FALSE
     }
