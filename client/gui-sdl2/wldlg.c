@@ -300,35 +300,33 @@ static void add_target_to_worklist(struct widget *pTarget)
   This is needed by calculation of change production shields penalty.
   [similar to are_universals_equal()]
 **************************************************************************/
-static bool are_the_same_class(const struct universal *one,
-                               const struct universal *two)
+static bool are_prods_same_class(const struct universal *one,
+                                 const struct universal *two)
 {
   if (one->kind != two->kind) {
     return FALSE;
   }
-  if (VUT_UTYPE == one->kind) {
-    return one->value.utype == two->value.utype;
-  }
+
   if (VUT_IMPROVEMENT == one->kind) {
     if (is_wonder(one->value.building)) {
       return is_wonder(two->value.building);
+    } else {
+      return !is_wonder(two->value.building);
     }
-
-    return (one->value.building == two->value.building);
   }
 
   return FALSE;
 }
 
 /**************************************************************************
-  Change production in editor shell, callculate production shields penalty and
+  Change production in editor shell, calculate production shields penalty and
   refresh production progress label
 **************************************************************************/
 static void change_production(struct universal *prod)
 {
-  if (!are_the_same_class(&pEditor->currently_building, prod)) {
+  if (!are_prods_same_class(&pEditor->currently_building, prod)) {
     if (pEditor->stock != pEditor->pCity->shield_stock) {
-      if (are_the_same_class(&pEditor->pCity->production, prod)) {
+      if (are_prods_same_class(&pEditor->pCity->production, prod)) {
         pEditor->stock = pEditor->pCity->shield_stock;
       }
     } else {
