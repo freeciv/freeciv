@@ -42,13 +42,13 @@ libcivutility_la_SOURCES = \
 		iterator.h	\
 		log.c		\
 		log.h		\
+		mem.c           \
+		mem.h		\
 		net_types.h	\
 		netfile.c	\
 		netfile.h	\
 		netintf.c	\
 		netintf.h	\
-		mem.c           \
-		mem.h		\
 		rand.c		\
 		rand.h		\
 		registry.c	\
