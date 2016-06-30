@@ -741,7 +741,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_ESTABLISH_EMBASSY
           || ae->action == ACTION_SPY_INVESTIGATE_CITY
           || ae->action == ACTION_SPY_STEAL_GOLD
-          || ae->action == ACTION_STEAL_MAPS
           || ae->action == ACTION_SPY_STEAL_TECH
           || ae->action == ACTION_SPY_TARGETED_STEAL_TECH
           || ae->action == ACTION_SPY_INCITE_CITY
