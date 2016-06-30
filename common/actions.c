@@ -133,7 +133,7 @@ void actions_free(void)
 
     action_enabler_list_destroy(action_enablers_by_action[act]);
 
-    free(actions[act]);
+    FC_FREE(actions[act]);
   } action_iterate_end;
 }
 
