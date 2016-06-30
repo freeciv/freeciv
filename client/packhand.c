@@ -3933,6 +3933,9 @@ void handle_ruleset_action(const struct packet_ruleset_action *p)
 
   sz_strlcpy(act->ui_name, p->ui_name);
   act->quiet = p->quiet;
+
+  act->min_distance = p->min_distance;
+  act->max_distance = p->max_distance;
   act->blocked_by = p->blocked_by;
 }
 

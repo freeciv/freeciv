@@ -7135,6 +7135,9 @@ static void send_ruleset_actions(struct conn_list *dest)
     packet.id = act;
     sz_strlcpy(packet.ui_name, action_by_number(act)->ui_name);
     packet.quiet = action_by_number(act)->quiet;
+
+    packet.min_distance = action_by_number(act)->min_distance;
+    packet.max_distance = action_by_number(act)->max_distance;
     packet.blocked_by = action_by_number(act)->blocked_by;
 
     lsend_packet_ruleset_action(dest, &packet);
