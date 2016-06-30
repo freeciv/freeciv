@@ -1202,6 +1202,8 @@ void handle_unit_get_actions(struct connection *pc,
   struct unit *target_unit;
   struct city *target_city;
 
+  bool is_same_tile;
+
   /* No potentially legal action is known yet. If none is found the player
    * should get an explanation. */
   bool at_least_one_action = FALSE;
@@ -1248,6 +1250,9 @@ void handle_unit_get_actions(struct connection *pc,
     target_city = game_city_by_number(target_city_id_client);
   }
 
+  /* Is the actor asking about actions against his own tile? */
+  is_same_tile = unit_tile(actor_unit) == target_tile;
+
   /* Find out what can be done to the targets. */
 
   /* Set the probability for the actions. */
@@ -1270,7 +1275,9 @@ void handle_unit_get_actions(struct connection *pc,
     } else if (target_tile && action_get_target_kind(act) == ATK_TILE) {
       probabilities[act] = action_prob_vs_tile(actor_unit, act,
                                                target_tile);
-    } else if (action_get_target_kind(act) == ATK_SELF) {
+    } else if (is_same_tile && action_get_target_kind(act) == ATK_SELF) {
+      /* Don't bother with self targeted actions unless the actor is asking
+       * about what can be done to its own tile. */
       probabilities[act] = action_prob_self(actor_unit, act);
     } else {
       probabilities[act] = ACTPROB_IMPOSSIBLE;
