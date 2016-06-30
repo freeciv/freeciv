@@ -23,3 +23,6 @@ Barbarians:
 Barbarians have been completely disabled from the sandbox ruleset
 in preparation to make them to use new barbarians model that will
 be introduced in freeciv-3.0.
+
+Sea Units on Harbour:
+Sea Units on Harbour defend with 1/4 of their usual defense value.
