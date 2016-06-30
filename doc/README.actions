@@ -40,20 +40,22 @@ Example
 [actionenabler_veil_the_threat_of_terror]
 action = "Incite City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "DiplRel", "Has Casus Belli", "Local", TRUE
+    { "type",    "name",                 "range", "present"
+      "DiplRel", "Has Casus Belli",      "Local", TRUE
       "DiplRel", "Provided Casus Belli", "Local", FALSE
+      "DiplRel", "Is foreign",           "Local", TRUE
     }
 
 [actionenabler_go_bind_your_sons_to_exile]
 action = "Incite City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "Tech", "Flight", "Player", TRUE
+    { "type",    "name",       "range",  "present"
+      "Tech",    "Flight",     "Player", TRUE
+      "DiplRel", "Is foreign", "Local",  TRUE
     }
 target_reqs    =
-    { "type",   "name", "range", "present"
-      "Tech", "Writing", "Player", False
+    { "type",   "name",    "range",  "present"
+      "Tech",   "Writing", "Player", False
     }
 
 Above are two action enablers. They both enable the action "Incite City". If
@@ -145,8 +147,16 @@ end
 
 signal.connect("action_started_unit_city", "action_started_callback")
 
-Actions and their hard coded requirements
-=========================================
+Actions and their hard requirements
+===================================
+Freeciv can only allow a player to perform an action when the action's hard
+requirements are fulfilled. Some, but not all, hard requirements can be
+expressed in an action enabler. Putting them there makes it clearer what the
+rule actually is. Parts of Freeciv reasons about action enablers. Examples
+are self contradicting rule detection and the help system. Including the
+hard requirements rules in each enabler of its action is therefore
+obligatory for some hard requirements. Those hard requirements are marked
+with an exclamation mark (!).
 
 Actions done by a unit against a city
 =====================================
@@ -154,12 +164,12 @@ Actions done by a unit against a city
  * UI name can be set using ui_name_establish_embassy
  * actor can't have a real embassy to the target player
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be foreign.
+ * target must be foreign. (!)
 
 "Investigate City" - Look at the city dialog of a foreign city
  * UI name can be set using ui_name_investigate_city
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be foreign.
+ * target must be foreign. (!)
 
 "Sabotage City" - Destroy a building or the production in the target city.
  * UI name can be set using ui_name_sabotage_city
@@ -176,28 +186,28 @@ Actions done by a unit against a city
 "Steal Tech" - Steal a random tech from the targets owner.
  * UI name can be set using ui_name_steal_tech
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be foreign.
+ * target must be foreign. (!)
 
 "Targeted Steal Tech" - Targeted version of the above.
  * UI name can be set using ui_name_targeted_steal_tech
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be foreign.
+ * target must be foreign. (!)
 
 "Incite City" - Pay the target city to join the actors owners side.
  * UI name can be set using ui_name_incite_city
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be foreign.
+ * target must be foreign. (!)
 
 "Steal Gold" - Steal some gold from the owner of the target city.
  * UI name can be set using ui_name_steal_gold
  * the targets owner must have more than 0 gold.
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be foreign.
+ * target must be foreign. (!)
 
 "Steal Maps" - Steal parts of the owner of the target city's map.
  * UI name can be set using ui_name_steal_maps
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be foreign.
+ * target must be foreign. (!)
 
 "Suitcase Nuke" - Cause a nuclear explosion in the target city.
  * UI name can be set using ui_name_suitcase_nuke
@@ -248,7 +258,7 @@ Actions done by a unit against a city
 "Home City" - Set target city as the actor unit's new home city
  * UI name can be set using ui_name_home_city
  * actor must be on the same tile as the target
- * actor must not have the "NoHome" unit type flag.
+ * actor must not have the "NoHome" unit type flag. (!)
  * can't set existing home city as new home city
 
 "Upgrade Unit" - Upgrade the actor unit using the target's facilities.
@@ -260,11 +270,11 @@ Actions done by a unit against a city
    location.
  * actor unit's upgraded form must have room for its current cargo.
  * target player must be able to build the unit upgraded to
- * target city must be domestic.
+ * target city must be domestic. (!)
 
 "Airlift Unit" - Airlift actor unit to target city.
  * UI name can be set using ui_airlift_unit
- * the actor unit isn't transporting another unit
+ * the actor unit isn't transporting another unit (!)
  * the actor unit isn't inside the target city
  * the actor unit can exist in the target city (outside a transport)
  * the actor unit is in a city
@@ -284,7 +294,7 @@ Actions done by a unit against another unit
 "Bribe Unit" - Make the target unit join the actors owners side.
  * UI name can be set using ui_name_bribe_unit
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be foreign.
+ * target must be foreign. (!)
  * target must be visible for the actor.
 
 "Expel Unit" - Expel the target unit to its owner's capital.
@@ -298,7 +308,7 @@ Actions done by a unit against all units at a tile
 "Capture Units" - steal the target units.
  * UI name can be set using ui_name_capture_units
  * actor must be on a tile next to the target.
- * target must be foreign.
+ * target must be foreign. (!)
 
 "Bombard" - bombard the units (and city) at the tile without killing them.
  * UI name can be set using ui_name_bombard
@@ -336,7 +346,7 @@ Actions done by a unit against a tile
  * the distance between actor and target is paratroopers_range or less
  * the actor unit hasn't paradropped this turn
  * the actor unit has paratroopers_mr_req moves left
- * the actor unit isn't transporting another unit
+ * the actor unit isn't transporting another unit (!)
  * the target tile is known (doesn't have to be seen) by the actor
 
 "Attack"
@@ -346,7 +356,7 @@ Actions done by a unit against a tile
  * if force_explode_nuclear is true "Explode Nuclear" must be impossible
  * the actor must be on the tile next to the target.
  * the actor's attack must be above 0
- * the actor can't have the "NonMil" unit type flag
+ * the actor can't have the "NonMil" unit type flag (!)
  * the actor must be on a native tile, have the "Marines" unit type flag or
    have the "AttFromNonNative" unit class flag.
  * the actor must be native to the target tile unless it has the
