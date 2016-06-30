@@ -1715,7 +1715,11 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
          || (!is_wonder(pcity->production.value.building)
              && is_wonder(pimprove)))
         && pcity->turn_last_built != game.info.turn) {
-      v -= pcity->shield_stock * SHIELD_WEIGHTING / 10;
+      if (has_handicap(pplayer, H_PRODCHGPEN)) {
+        v -= pcity->shield_stock * SHIELD_WEIGHTING / 4;
+      } else {
+        v -= pcity->shield_stock * SHIELD_WEIGHTING / 15;
+      }
     }
 
     /* Reduce want if building gets obsoleted soon */

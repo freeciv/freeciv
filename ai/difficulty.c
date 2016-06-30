@@ -64,6 +64,7 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
      BV_SET(handicap, H_TARGETS);
      BV_SET(handicap, H_HUTS);
      BV_SET(handicap, H_REVOLUTION);
+     BV_SET(handicap, H_PRODCHGPEN);
      break;
    case AI_LEVEL_NOVICE:
    case AI_LEVEL_HANDICAPPED:
@@ -80,6 +81,7 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
      BV_SET(handicap, H_DANGER);
      BV_SET(handicap, H_CEASEFIRE);
      BV_SET(handicap, H_NOBRIBE_WF);
+     BV_SET(handicap, H_PRODCHGPEN);
      break;
    case AI_LEVEL_EASY:
      BV_SET(handicap, H_RATES);
@@ -104,11 +106,11 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
      BV_SET(handicap, H_NOBRIBE_WF);
      break;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
    case AI_LEVEL_EXPERIMENTAL:
      BV_SET(handicap, H_EXPERIMENTAL);
      break;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
    case AI_LEVEL_CHEATING:
      BV_SET(handicap, H_RATES);
