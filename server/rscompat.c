@@ -536,6 +536,11 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("MinMoveFrags", "Local", FALSE,
                                            TRUE, TRUE, "1"));
 
+    /* Must be at war with each target unit. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                              FALSE, TRUE, TRUE, DS_WAR));
+
     /* The target can't be on an ocean tile. */
     requirement_vector_append(&enabler->target_reqs,
                               req_from_str("TerrainClass", "Local", FALSE,

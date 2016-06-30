@@ -1503,11 +1503,6 @@ is_action_possible(const enum gen_action wanted_action,
     break;
 
   case ACTION_BOMBARD:
-    /* TODO: Move to the ruleset. */
-    if (!pplayers_at_war(unit_owner(target_unit), actor_player)) {
-      return TRI_NO;
-    }
-
     /* FIXME: Target of Bombard should be city and units. */
     if (tile_city(target_tile)
         && !pplayers_at_war(city_owner(tile_city(target_tile)),

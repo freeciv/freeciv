@@ -439,10 +439,11 @@ target_reqs    =
 [actionenabler_bombard]
 action = "Bombard"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Bombarder", "Local", TRUE
-      "UnitState", "Transported", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",         "name",        "range", "present"
+      "UnitFlag",     "Bombarder",   "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+      "MinMoveFrags", "1",           "Local", TRUE
+      "DiplRel",      "War",         "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"

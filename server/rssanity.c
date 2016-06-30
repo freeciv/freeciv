@@ -994,6 +994,29 @@ bool sanity_check_ruleset_data(bool ignore_retired)
         }
       }
 
+      if (act == ACTION_BOMBARD) {
+        /* Why this is a hard requirement: there is a hard requirement that
+         * the actor player is at war with the owner of any city on the
+         * target tile. It can't move to the ruleset as long as Bombard is
+         * targeted at unit stacks only. Having the same requirement
+         * against each unit in the stack as against any city at the tile
+         * ensures compatibility with any future solution that allows the
+         * requirement against any city on the target tile to move to the
+         * ruleset. */
+
+        struct requirement domestic_tgt
+            = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                              FALSE, FALSE, TRUE, DS_WAR);
+
+        if (!action_id_blocked_by_situation_act(act, &domestic_tgt)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require a "
+                        "target the actor is at war with.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+
       if (act == ACTION_UPGRADE_UNIT) {
         /* Why this is a hard requirement: Keep the old rules. Need to work
          * out corner cases. */

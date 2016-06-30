@@ -316,8 +316,7 @@ Actions done by a unit against all units at a tile
  * actor must have a bombard_rate > 0
  * actor must be on a tile next to the target.
  * target can't be in a city the actor player isn't at war with.
- * target must be foreign.
- * target owner must be at war with actor.
+ * target owner must be at war with actor. (!)
 
 Actions done by a unit against a tile
 =====================================
