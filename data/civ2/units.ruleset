@@ -1455,13 +1455,13 @@ firepower     = 1
 move_rate     = 3
 vision_radius_sq = 2
 transport_cap = 2
-fuel          = 0
+fuel          = 1
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "CoastStrict", "BadCityDefender"
+flags         = "Coast", "BadCityDefender"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
