@@ -12,10 +12,12 @@ WINARCH=$(shell ./win_arch.sh)
 
 ifeq ($(WINARCH),win64)
 ARCHDIR=/mingw64
-GCCDLL=libgcc_s_seh-1.dll
+LIBGCCDLL=libgcc_s_seh-1.dll
+GCCDLL=gcc_s-seh-1.dll
 else
 ARCHDIR=/mingw32
-GCCDLL=libgcc_s_dw2-1.dll
+LIBGCCDLL=libgcc_s_dw2-1.dll
+GCCDLL=gcc_s-1.dll
 endif
 
 ifeq ($(MIN_WIN_VER),)
@@ -168,7 +170,7 @@ COMMON_DLLS := \
 	libffi-6.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
-	$(GCCDLL) \
+	$(LIBGCCDLL) \
 	libgdk_pixbuf-2.0-0.dll \
 	libgio-2.0-0.dll \
 	libglib-2.0-0.dll \
@@ -193,7 +195,7 @@ COMMON_MSYS_DLLS := \
 	idn-11.dll \
 	sqlite3-0.dll \
 	ssl-1.0.0.dll \
-	gcc_s-1.dll \
+	$(GCCDLL) \
 	z.dll \
 	bz2-1.dll \
 	crypto-1.0.0.dll \
@@ -299,7 +301,7 @@ RULEDIT_DLLS := \
 	libffi-6.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
-	$(GCCDLL) \
+	$(LIBGCCDLL) \
 	libglib-2.0-0.dll \
 	libgdk_pixbuf-2.0-0.dll \
 	libgio-2.0-0.dll \
@@ -321,7 +323,7 @@ RULEDIT_MSYS_DLLS := \
 	idn-11.dll \
 	sqlite3-0.dll \
 	ssl-1.0.0.dll \
-	gcc_s-1.dll \
+	$(GCCDLL) \
 	z.dll \
 	bz2-1.dll \
 	crypto-1.0.0.dll \
