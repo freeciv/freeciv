@@ -1159,7 +1159,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Native"
-flags         = "Trireme"
+flags         = "CoastStrict"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
   This vessel allows coastal travel, but not on Boiling Seas.\
