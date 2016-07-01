@@ -644,6 +644,8 @@ char *freeciv_storage_dir(void)
     strcpy(storage_dir_freeciv, FREECIV_STORAGE_DIR);
 
     storage_dir_freeciv = expand_dir(storage_dir_freeciv, TRUE);
+
+    log_verbose(_("Storage dir is \"%s\"."), storage_dir_freeciv);
   }
 
   return storage_dir_freeciv;
