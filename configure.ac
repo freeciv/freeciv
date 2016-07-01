@@ -1282,6 +1282,13 @@ AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
                 getline _strcoll stricoll _stricoll strcasecoll \
                 backtrace])
 
+dnl Possible "-Wmissing-declarations" and "-Werror" will prune out
+dnl cases where we should not use _mkdir() even if it's possible to link against it
+fc_save_CPPFLAGS="$CPPFLAGS"
+CPPFLAGS="$CPPFLAGS -Werror $EXTRA_DEBUG_CFLAGS"
+AC_CHECK_FUNCS([_mkdir])
+CPPFLAGS="$fc_save_CPPFLAGS"
+
 AC_MSG_CHECKING(for working gettimeofday)
   FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE([HAVE_GETTIMEOFDAY], [1],
 	[Define if the gettimeofday function works and is sane.]),)

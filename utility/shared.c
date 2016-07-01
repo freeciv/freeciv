@@ -1755,12 +1755,23 @@ bool make_dir(const char *pathname)
     }
 
 #ifdef WIN32_NATIVE
-    char *path_in_local_encoding = internal_to_local_string_malloc(path);
-    _mkdir(path_in_local_encoding);
-    free(path_in_local_encoding);
-#else
+#ifdef HAVE__MKDIR
+    /* Prefer _mkdir() in Windows even if mkdir() would seem to be available -
+     * chances are that it's wrong kind of mkdir().
+     * TODO: Make a configure check for mkdir() that also makes sure that it
+     *       takes two parameters, and prefer such proper mkdir() here. */
+    {
+      char *path_in_local_encoding = internal_to_local_string_malloc(path);
+
+      _mkdir(path_in_local_encoding);
+      free(path_in_local_encoding);
+    }
+#else  /* HAVE__MKDIR */
     mkdir(path, 0755);
-#endif
+#endif /* HAVE__MKDIR */
+#else  /* WIN32_NATIVE */
+    mkdir(path, 0755);
+#endif /* WIN32_NATIVE */
 
     if (dir) {
       *dir = DIR_SEPARATOR_CHAR;
