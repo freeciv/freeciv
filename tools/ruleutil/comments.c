@@ -41,6 +41,9 @@ static struct {
   char *goods;
   char *enablers;
   char *specialists;
+  char *nations;
+  char *nationgroups;
+  char *nationsets;
 } comments_storage;
 
 /**************************************************************************
@@ -81,6 +84,10 @@ bool comments_load(void)
   comments_storage.goods = fc_strdup(secfile_lookup_str(comment_file, "typedoc.goods"));
   comments_storage.enablers = fc_strdup(secfile_lookup_str(comment_file, "typedoc.enablers"));
   comments_storage.specialists = fc_strdup(secfile_lookup_str(comment_file, "typedoc.specialists"));
+  comments_storage.nations = fc_strdup(secfile_lookup_str(comment_file, "typedoc.nations"));
+  comments_storage.nationgroups = fc_strdup(secfile_lookup_str(comment_file,
+                                                               "typedoc.nationgroups"));
+  comments_storage.nationsets = fc_strdup(secfile_lookup_str(comment_file, "typedoc.nationsets"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -253,3 +260,28 @@ void comment_specialists(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.specialists, "Specialists");
 }
+
+/**************************************************************************
+  Write nations header.
+**************************************************************************/
+void comment_nations(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.nations, "Nations");
+}
+
+/**************************************************************************
+  Write nationgroups header.
+**************************************************************************/
+void comment_nationgroups(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.nationgroups, "Nationgroups");
+}
+
+/**************************************************************************
+  Write nationsets header.
+**************************************************************************/
+void comment_nationsets(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.nationsets, "Nationsets");
+}
+

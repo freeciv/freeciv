@@ -41,6 +41,9 @@ void comment_achievements(struct section_file *sfile);
 void comment_goods(struct section_file *sfile);
 void comment_enablers(struct section_file *sfile);
 void comment_specialists(struct section_file *sfile);
+void comment_nationsets(struct section_file *sfile);
+void comment_nationgroups(struct section_file *sfile);
+void comment_nations(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

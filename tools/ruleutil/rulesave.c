@@ -1645,6 +1645,8 @@ static bool save_nations_ruleset(const char *filename, const char *name,
     if (game.server.ruledit.embedded_nations != NULL) {
       int sect_idx;
 
+      comment_nations(sfile);
+
       for (sect_idx = 0; sect_idx < game.server.ruledit.embedded_nations_count;
            sect_idx++) {
         struct nation_type *pnat
@@ -1661,6 +1663,8 @@ static bool save_nations_ruleset(const char *filename, const char *name,
   } else {
     int sect_idx = 0;
 
+    comment_nationsets(sfile);
+
     nation_sets_iterate(pset) {
       char path[512];
 
@@ -1672,6 +1676,8 @@ static bool save_nations_ruleset(const char *filename, const char *name,
       secfile_insert_str(sfile, nation_set_rule_name(pset), "%s.rule_name", path);
       secfile_insert_str(sfile, nation_set_description(pset), "%s.description", path);
     } nation_sets_iterate_end;
+
+    comment_nationgroups(sfile);
 
     sect_idx = 0;
     nation_groups_iterate(pgroup) {
@@ -1686,6 +1692,8 @@ static bool save_nations_ruleset(const char *filename, const char *name,
         secfile_insert_bool(sfile, pgroup->hidden, "%s.hidden", path);
       }
     } nation_groups_iterate_end;
+
+    comment_nations(sfile);
 
     sect_idx = 0;
     nations_iterate(pnat) {

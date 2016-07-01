@@ -905,3 +905,46 @@ specialists = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+nations = "\
+\n\
+; See doc/README.nations for information on how to\n\
+; create nation rulesets, including style guidelines.\n\
+"
+
+nationgroups = "\
+\n\
+; Descriptions of nation groups\n\
+; These are more cosmetic than sets; they affect the \"pick nation\" dialog,\n\
+; random nation selection, and possibly ruleset behaviour.\n\
+; It`s OK to not define any nation groups at all.\n\
+; name          = name of the group (used adjectivally)\n\
+; hidden        = TRUE to not include this group in the \"pick nation\" dialog\n\
+;                 (for instance if it`s for use in a NationGroup requirement).\n\
+;                 Default FALSE.\n\
+; match         = How much the AI will try to select a nation in the same\n\
+;                 group\n\
+"
+
+nationsets = "\
+\n\
+; Descriptions of nation sets\n\
+; These are self-contained subsets of the available nations; one of these\n\
+; can be chosen in pregame with the \"nationset\" option. No nations\n\
+; outside the selected subset will be used.\n\
+; The first set defined is the one that is used by default. It is mandatory\n\
+; to have at least one, but if there is only one, it will be kept out of\n\
+; the user`s way.\n\
+; name          = Translatable name of the set presented in the UI.\n\
+; rule_name     = Unique persistent name; this is also visible to users as\n\
+;                 the value of the \"nationset\" server option, and presented\n\
+;                 in \"/list nationsets\". It should thus be short, in lower\n\
+;                 case, and not contain spaces or punctuation.\n\
+;                 The same saved \"nationset\" setting may be used for multiple\n\
+;                 rulesets, so if your custom ruleset has any set which\n\
+;                 contains all of its nations, it is useful to give it a\n\
+;                 rule_name of \"all\" so that users can specify that they\n\
+;                 always want the choice of all available nations by\n\
+;                 default.\n\
+; description   = Optional short user description of this set.\n\
+"
