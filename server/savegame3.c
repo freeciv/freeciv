@@ -674,62 +674,62 @@ static enum unit_orders char2order(char order)
     return ORDER_FULL_MP;
   case 'b':
   case 'B':
-#ifdef FREECIV_DEV_SAVE_COMPAT
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
     /* Will be upgraded with sg_order_to_action(). */
     return ORDER_OLD_BUILD_CITY;
-#else /* FREECIV_DEV_SAVE_COMPAT */
+#else /* FREECIV_DEV_SAVE_COMPAT_3_0 */
     /* This order isn't supposed to show up in version 3 save games. */
     log_error("Corrupt save game: build city ordered the old way.");
 
     return ORDER_LAST;
-#endif /* FREECIV_DEV_SAVE_COMPAT */
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
   case 'a':
   case 'A':
     return ORDER_ACTIVITY;
   case 'd':
   case 'D':
-#ifdef FREECIV_DEV_SAVE_COMPAT
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
     /* Will be upgraded with sg_order_to_action(). */
     return ORDER_OLD_DISBAND;
-#else /* FREECIV_DEV_SAVE_COMPAT */
+#else /* FREECIV_DEV_SAVE_COMPAT_3_0 */
     /* This order isn't supposed to show up in version 3 save games. */
     log_error("Corrupt save game: disband unit ordered the old way.");
 
     return ORDER_LAST;
-#endif /* FREECIV_DEV_SAVE_COMPAT */
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
   case 'u':
   case 'U':
-#ifdef FREECIV_DEV_SAVE_COMPAT
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
     /* Will be upgraded with sg_order_to_action(). */
     return ORDER_OLD_BUILD_WONDER;
-#else /* FREECIV_DEV_SAVE_COMPAT */
+#else /* FREECIV_DEV_SAVE_COMPAT_3_0 */
     /* This order isn't supposed to show up in version 3 save games. */
     log_error("Corrupt save game: help build wonder ordered the old way.");
 
     return ORDER_LAST;
-#endif /* FREECIV_DEV_SAVE_COMPAT */
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
   case 't':
   case 'T':
-#ifdef FREECIV_DEV_SAVE_COMPAT
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
     /* Will be upgraded with sg_order_to_action(). */
     return ORDER_OLD_TRADE_ROUTE;
-#else /* FREECIV_DEV_SAVE_COMPAT */
+#else /* FREECIV_DEV_SAVE_COMPAT_3_0 */
     /* This order isn't supposed to show up in version 3 save games. */
     log_error("Corrupt save game: trade route ordered the old way.");
 
     return ORDER_LAST;
-#endif /* FREECIV_DEV_SAVE_COMPAT */
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
   case 'h':
   case 'H':
-#ifdef FREECIV_DEV_SAVE_COMPAT
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
     /* Will be upgraded with sg_order_to_action(). */
     return ORDER_OLD_HOMECITY;
-#else /* FREECIV_DEV_SAVE_COMPAT */
+#else /* FREECIV_DEV_SAVE_COMPAT_3_0 */
     /* This order isn't supposed to show up in version 3 save games. */
     log_error("Corrupt save game: change home city ordered the old way.");
 
     return ORDER_LAST;
-#endif /* FREECIV_DEV_SAVE_COMPAT */
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
   case 'x':
   case 'X':
     return ORDER_ACTION_MOVE;
@@ -5373,9 +5373,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
         int order_tgt;
 
         if (orders_unitstr[j] == '\0' || dir_unitstr[j] == '\0'
-#ifndef FREECIV_DEV_SAVE_COMPAT
+#ifndef FREECIV_DEV_SAVE_COMPAT_3_0
             || action_unitstr[j] == '\0'
-#endif /* FREECIV_DEV_SAVE_COMPAT */
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
             || act_unitstr[j] == '\0') {
           log_sg("Invalid unit orders.");
           free_unit_orders(punit);
@@ -5386,15 +5386,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order->activity = char2activity(act_unitstr[j]);
 
         order->action = (
-#ifdef FREECIV_DEV_SAVE_COMPAT
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
                          action_unitstr[0] == '\0'
                          ||
-#endif /* FREECIV_DEV_SAVE_COMPAT */
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
                          action_unitstr[j] == '?'
                          ? ACTION_COUNT
                          : char2num(action_unitstr[j]));
 
-#ifdef FREECIV_DEV_SAVE_COMPAT
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
         if (order->order != ORDER_PERFORM_ACTION
             && order->action == ACTION_COUNT) {
           /* This order may have been replaced by the perform action
@@ -5409,7 +5409,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
             order->order = ORDER_PERFORM_ACTION;
           }
         }
-#endif /* FREECIV_DEV_SAVE_COMPAT */
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
 
         if (order->order == ORDER_LAST
             || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))

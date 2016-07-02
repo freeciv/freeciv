@@ -133,7 +133,7 @@ void sg_load_compat(struct loaddata *loading)
 
   loading->version = secfile_lookup_int_default(loading->file, -1,
                                                 "savefile.version");
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   sg_failure_ret(0 < loading->version, "Invalid savefile format version (%d).",
                  loading->version);
   if (loading->version > compat[compat_current].version) {
@@ -142,11 +142,11 @@ void sg_load_compat(struct loaddata *loading)
               "Trying to load the game nevertheless ...", loading->version,
               compat[compat_current].version);
   }
-#else
+#else  /* FREECIV_DEBUG */
   sg_failure_ret(0 < loading->version
                  && loading->version <= compat[compat_current].version,
                  "Unknown savefile format version (%d).", loading->version);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 
   for (i = 0; i < compat_num; i++) {
@@ -1309,7 +1309,7 @@ static void compat_load_030000(struct loaddata *loading)
   secfile_replace_int(loading->file, num_settings, "settings.set_count");
 }
 
-#ifdef FREECIV_DEV_SAVE_COMPAT
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
 static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
@@ -1333,17 +1333,21 @@ static int char2num(char ch)
 
   return pch - num_chars;
 }
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
 
 /****************************************************************************
   Translate savegame secfile data from earlier development version format
   to current one.
 ****************************************************************************/
+#ifdef FREECIV_DEV_SAVE_COMPAT
 static void compat_load_dev(struct loaddata *loading)
 {
-  bool randsaved;
   int game_version;
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
+  bool randsaved;
   size_t diplstate_type_size;
   int num_settings;
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1364,6 +1368,7 @@ static void compat_load_dev(struct loaddata *loading)
     game_version *= 100;
   }
 
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
   if (game_version < 2910000) {
     /* Early 3.0 development version save. */
   
@@ -1690,6 +1695,7 @@ static void compat_load_dev(struct loaddata *loading)
       }
     } player_slots_iterate_end;
   }
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 

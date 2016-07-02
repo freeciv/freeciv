@@ -323,7 +323,9 @@ AC_ARG_ENABLE([dev-save-compat],
   [dev_save_compat=$IS_DEVEL_VERSION])
 AS_IF([test $dev_save_compat != 0],
       [AC_DEFINE([FREECIV_DEV_SAVE_COMPAT], [1],
-                 [Development version save game compatibility])])
+                 [Development version save game compatibility])
+       AC_DEFINE([FREECIV_DEV_SAVE_COMPAT_3_0], [1],
+                 [Development version save game compatibility - 3.0 development])])
 
 dnl set default values
 mapimg_all=auto
