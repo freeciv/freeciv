@@ -1803,7 +1803,7 @@ static void sg_load_ruledata(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_game(struct loaddata *loading)
 {
-  const char *string;
+  const char *str;
   const char *level;
   int i;
 
@@ -1811,18 +1811,18 @@ static void sg_load_game(struct loaddata *loading)
   sg_check_ret();
 
   /* Load server state. */
-  string = secfile_lookup_str_default(loading->file, "S_S_INITIAL",
-                                      "game.server_state");
-  loading->server_state = server_states_by_name(string, strcmp);
+  str = secfile_lookup_str_default(loading->file, "S_S_INITIAL",
+                                   "game.server_state");
+  loading->server_state = server_states_by_name(str, strcmp);
   if (!server_states_is_valid(loading->server_state)) {
     /* Don't take any risk! */
     loading->server_state = S_S_INITIAL;
   }
 
-  string = secfile_lookup_str_default(loading->file,
-                                      default_meta_patches_string(),
-                                      "game.meta_patches");
-  set_meta_patches_string(string);
+  str = secfile_lookup_str_default(loading->file,
+                                   default_meta_patches_string(),
+                                   "game.meta_patches");
+  set_meta_patches_string(str);
 
   if (0 == strcmp(DEFAULT_META_SERVER_ADDR, srvarg.metaserver_addr)) {
     /* Do not overwrite this if the user requested a specific metaserver
@@ -1911,18 +1911,18 @@ static void sg_load_game(struct loaddata *loading)
     = secfile_lookup_int_default(loading->file, 0, "game.coolinglevel");
 
   /* Global advances. */
-  string = secfile_lookup_str_default(loading->file, NULL,
-                                      "game.global_advances");
-  if (string != NULL) {
-    sg_failure_ret(strlen(string) == loading->technology.size,
+  str = secfile_lookup_str_default(loading->file, NULL,
+                                   "game.global_advances");
+  if (str != NULL) {
+    sg_failure_ret(strlen(str) == loading->technology.size,
                    "Invalid length of 'game.global_advances' (%lu ~= %lu).",
-                   (unsigned long) strlen(string),
+                   (unsigned long) strlen(str),
                    (unsigned long) loading->technology.size);
     for (i = 0; i < loading->technology.size; i++) {
-      sg_failure_ret(string[i] == '1' || string[i] == '0',
+      sg_failure_ret(str[i] == '1' || str[i] == '0',
                      "Undefined value '%c' within 'game.global_advances'.",
-                     string[i]);
-      if (string[i] == '1') {
+                     str[i]);
+      if (str[i] == '1') {
         struct advance *padvance =
             advance_by_rule_name(loading->technology.order[i]);
 
@@ -2079,7 +2079,7 @@ static void sg_load_random(struct loaddata *loading)
   sg_check_ret();
 
   if (secfile_lookup_bool_default(loading->file, FALSE, "random.saved")) {
-    const char *string;
+    const char *str;
     int i;
 
     sg_failure_ret(secfile_lookup_int(loading->file, &loading->rstate.j,
@@ -2090,9 +2090,9 @@ static void sg_load_random(struct loaddata *loading)
                                       "random.index_X"), "%s", secfile_error());
 
     for (i = 0; i < 8; i++) {
-      string = secfile_lookup_str(loading->file, "random.table%d",i);
-      sg_failure_ret(NULL != string, "%s", secfile_error());
-      sscanf(string, "%8x %8x %8x %8x %8x %8x %8x", &loading->rstate.v[7*i],
+      str = secfile_lookup_str(loading->file, "random.table%d",i);
+      sg_failure_ret(NULL != str, "%s", secfile_error());
+      sscanf(str, "%8x %8x %8x %8x %8x %8x %8x", &loading->rstate.v[7*i],
              &loading->rstate.v[7*i+1], &loading->rstate.v[7*i+2],
              &loading->rstate.v[7*i+3], &loading->rstate.v[7*i+4],
              &loading->rstate.v[7*i+5], &loading->rstate.v[7*i+6]);
@@ -3086,7 +3086,7 @@ static void sg_save_map_known(struct savedata *saving)
 static void sg_load_players_basic(struct loaddata *loading)
 {
   int i, k, nplayers;
-  const char *string;
+  const char *str;
   bool shuffle_loaded = TRUE;
 
   /* Check status and return if not OK (sg_success != TRUE). */
@@ -3099,19 +3099,19 @@ static void sg_load_players_basic(struct loaddata *loading)
   }
 
   /* Load destroyed wonders: */
-  string = secfile_lookup_str(loading->file,
+  str = secfile_lookup_str(loading->file,
                               "players.destroyed_wonders");
-  sg_failure_ret(string != NULL, "%s", secfile_error());
-  sg_failure_ret(strlen(string) == loading->improvement.size,
+  sg_failure_ret(str != NULL, "%s", secfile_error());
+  sg_failure_ret(strlen(str) == loading->improvement.size,
                  "Invalid length for 'players.destroyed_wonders' "
-                 "(%lu ~= %lu)", (unsigned long) strlen(string),
+                 "(%lu ~= %lu)", (unsigned long) strlen(str),
                  (unsigned long) loading->improvement.size);
   for (k = 0; k < loading->improvement.size; k++) {
-    sg_failure_ret(string[k] == '1' || string[k] == '0',
+    sg_failure_ret(str[k] == '1' || str[k] == '0',
                    "Undefined value '%c' within "
-                   "'players.destroyed_wonders'.", string[k]);
+                   "'players.destroyed_wonders'.", str[k]);
 
-    if (string[k] == '1') {
+    if (str[k] == '1') {
       struct impr_type *pimprove =
           improvement_by_rule_name(loading->improvement.order[k]);
       if (pimprove) {
@@ -3142,9 +3142,9 @@ static void sg_load_players_basic(struct loaddata *loading)
     }
 
     /* Get player AI type. */
-    string = secfile_lookup_str(loading->file, "player%d.ai_type",
-                                player_slot_index(pslot));
-    sg_failure_ret(string != NULL, "%s", secfile_error());
+    str = secfile_lookup_str(loading->file, "player%d.ai_type",
+                             player_slot_index(pslot));
+    sg_failure_ret(str != NULL, "%s", secfile_error());
 
     /* Get player color */
     if (!rgbcolor_load(loading->file, &prgbcolor, "player%d.color",
@@ -3161,9 +3161,9 @@ static void sg_load_players_basic(struct loaddata *loading)
     }
 
     /* Create player. */
-    pplayer = server_create_player(player_slot_index(pslot), string,
+    pplayer = server_create_player(player_slot_index(pslot), str,
                                    prgbcolor, game.scenario.allow_ai_type_fallback);
-    sg_failure_ret(pplayer != NULL, "Invalid AI type: '%s'!", string);
+    sg_failure_ret(pplayer != NULL, "Invalid AI type: '%s'!", str);
 
     server_player_init(pplayer, FALSE, FALSE);
 
@@ -3552,7 +3552,7 @@ static void sg_load_player_main(struct loaddata *loading,
 {
   const char **slist;
   int i, plrno = player_number(plr);
-  const char *string;
+  const char *str;
   struct government *gov;
   const char *level;
   const char *barb_str;
@@ -3563,9 +3563,9 @@ static void sg_load_player_main(struct loaddata *loading,
   sg_check_ret();
 
   /* Basic player data. */
-  string = secfile_lookup_str(loading->file, "player%d.name", plrno);
-  sg_failure_ret(string != NULL, "%s", secfile_error());
-  server_player_set_name(plr, string);
+  str = secfile_lookup_str(loading->file, "player%d.name", plrno);
+  sg_failure_ret(str != NULL, "%s", secfile_error());
+  server_player_set_name(plr, str);
   sz_strlcpy(plr->username,
              secfile_lookup_str_default(loading->file, "",
                                         "player%d.username", plrno));
@@ -3579,12 +3579,12 @@ static void sg_load_player_main(struct loaddata *loading,
   sg_failure_ret(secfile_lookup_bool(loading->file, &plr->unassigned_ranked,
                                      "player%d.unassigned_ranked", plrno),
                  "%s", secfile_error());
-  string = secfile_lookup_str_default(loading->file, "",
-                                      "player%d.delegation_username",
-                                      plrno);
+  str = secfile_lookup_str_default(loading->file, "",
+                                   "player%d.delegation_username",
+                                   plrno);
   /* Defaults to no delegation. */
-  if (strlen(string)) {
-    player_delegation_set(plr, string);
+  if (strlen(str)) {
+    player_delegation_set(plr, str);
   }
 
   /* Player flags */
@@ -3599,25 +3599,25 @@ static void sg_load_player_main(struct loaddata *loading,
   free(slist);
 
   /* Nation */
-  string = secfile_lookup_str(loading->file, "player%d.nation", plrno);
-  player_set_nation(plr, nation_by_rule_name(string));
+  str = secfile_lookup_str(loading->file, "player%d.nation", plrno);
+  player_set_nation(plr, nation_by_rule_name(str));
   if (plr->nation != NULL) {
     ai_traits_init(plr);
   }
 
   /* Government */
-  string = secfile_lookup_str(loading->file, "player%d.government_name",
-                              plrno);
-  gov = government_by_rule_name(string);
+  str = secfile_lookup_str(loading->file, "player%d.government_name",
+                           plrno);
+  gov = government_by_rule_name(str);
   sg_failure_ret(gov != NULL, "Player%d: unsupported government \"%s\".",
-                 plrno, string);
+                 plrno, str);
   plr->government = gov;
 
   /* Target government */
-  string = secfile_lookup_str(loading->file,
-                              "player%d.target_government_name", plrno);
-  if (string) {
-    plr->target_government = government_by_rule_name(string);
+  str = secfile_lookup_str(loading->file,
+                           "player%d.target_government_name", plrno);
+  if (str != NULL) {
+    plr->target_government = government_by_rule_name(str);
   } else {
     plr->target_government = NULL;
   }
@@ -3732,14 +3732,14 @@ static void sg_load_player_main(struct loaddata *loading,
   {
     struct nation_style *style;
 
-    string = secfile_lookup_str(loading->file, "player%d.style_by_name", plrno);
+    str = secfile_lookup_str(loading->file, "player%d.style_by_name", plrno);
 
-    sg_failure_ret(string != NULL, "%s", secfile_error());
-    style = style_by_rule_name(string);
+    sg_failure_ret(str != NULL, "%s", secfile_error());
+    style = style_by_rule_name(str);
     if (style == NULL) {
       style = style_by_number(0);
       log_sg("Player%d: unsupported city_style_name \"%s\". "
-             "Changed to \"%s\".", plrno, string, style_rule_name(style));
+             "Changed to \"%s\".", plrno, str, style_rule_name(style));
     }
     plr->style = style;
   }
@@ -3982,20 +3982,20 @@ static void sg_load_player_main(struct loaddata *loading,
   }
 
   /* Load lost wonder data. */
-  string = secfile_lookup_str(loading->file, "player%d.lost_wonders", plrno);
+  str = secfile_lookup_str(loading->file, "player%d.lost_wonders", plrno);
   /* If not present, probably an old savegame; nothing to be done */
-  if (string) {
+  if (str != NULL) {
     int k;
-    sg_failure_ret(strlen(string) == loading->improvement.size,
+    sg_failure_ret(strlen(str) == loading->improvement.size,
                    "Invalid length for 'player%d.lost_wonders' "
-                   "(%lu ~= %lu)", plrno, (unsigned long) strlen(string),
+                   "(%lu ~= %lu)", plrno, (unsigned long) strlen(str),
                    (unsigned long) loading->improvement.size);
     for (k = 0; k < loading->improvement.size; k++) {
-      sg_failure_ret(string[k] == '1' || string[k] == '0',
+      sg_failure_ret(str[k] == '1' || str[k] == '0',
                      "Undefined value '%c' within "
-                     "'player%d.lost_wonders'.", plrno, string[k]);
+                     "'player%d.lost_wonders'.", plrno, str[k]);
 
-      if (string[k] == '1') {
+      if (str[k] == '1') {
         struct impr_type *pimprove =
             improvement_by_rule_name(loading->improvement.order[k]);
         if (pimprove) {
@@ -4424,7 +4424,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                 struct city *pcity, const char *citystr)
 {
   struct player *past;
-  const char *kind, *name, *string;
+  const char *kind, *name, *str;
   int id, i, repair, sp_count = 0, workers = 0, value;
   int nat_x, nat_y;
   citizens size;
@@ -4590,18 +4590,18 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   }
 
   /* Load city improvements. */
-  string = secfile_lookup_str(loading->file, "%s.improvements", citystr);
-  sg_warn_ret_val(string != NULL, FALSE, "%s", secfile_error());
-  sg_warn_ret_val(strlen(string) == loading->improvement.size, FALSE,
+  str = secfile_lookup_str(loading->file, "%s.improvements", citystr);
+  sg_warn_ret_val(str != NULL, FALSE, "%s", secfile_error());
+  sg_warn_ret_val(strlen(str) == loading->improvement.size, FALSE,
                   "Invalid length of '%s.improvements' (%lu ~= %lu).",
-                  citystr, (unsigned long) strlen(string),
+                  citystr, (unsigned long) strlen(str),
                   (unsigned long) loading->improvement.size);
   for (i = 0; i < loading->improvement.size; i++) {
-    sg_warn_ret_val(string[i] == '1' || string[i] == '0', FALSE,
+    sg_warn_ret_val(str[i] == '1' || str[i] == '0', FALSE,
                    "Undefined value '%c' within '%s.improvements'.",
-                   string[i], citystr)
+                   str[i], citystr)
 
-    if (string[i] == '1') {
+    if (str[i] == '1') {
       struct impr_type *pimprove =
           improvement_by_rule_name(loading->improvement.order[i]);
       if (pimprove) {
@@ -6121,7 +6121,7 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
                                        struct vision_site *pdcity,
                                        const char *citystr)
 {
-  const char *string;
+  const char *str;
   int i, id, size;
   citizens city_size;
   int nat_x, nat_y;
@@ -6160,18 +6160,18 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
 
   /* Initialise list of improvements */
   BV_CLR_ALL(pdcity->improvements);
-  string = secfile_lookup_str(loading->file, "%s.improvements", citystr);
-  sg_warn_ret_val(string != NULL, FALSE, "%s", secfile_error());
-  sg_warn_ret_val(strlen(string) == loading->improvement.size, FALSE,
+  str = secfile_lookup_str(loading->file, "%s.improvements", citystr);
+  sg_warn_ret_val(str != NULL, FALSE, "%s", secfile_error());
+  sg_warn_ret_val(strlen(str) == loading->improvement.size, FALSE,
                   "Invalid length of '%s.improvements' (%lu ~= %lu).",
-                  citystr, (unsigned long) strlen(string),
+                  citystr, (unsigned long) strlen(str),
                   (unsigned long) loading->improvement.size);
   for (i = 0; i < loading->improvement.size; i++) {
-    sg_warn_ret_val(string[i] == '1' || string[i] == '0', FALSE,
+    sg_warn_ret_val(str[i] == '1' || str[i] == '0', FALSE,
                     "Undefined value '%c' within '%s.improvements'.",
-                    string[i], citystr)
+                    str[i], citystr)
 
-    if (string[i] == '1') {
+    if (str[i] == '1') {
       struct impr_type *pimprove =
           improvement_by_rule_name(loading->improvement.order[i]);
       if (pimprove) {
@@ -6382,7 +6382,7 @@ static void sg_load_researches(struct loaddata *loading)
   struct research *presearch;
   int count;
   int number;
-  const char *string;
+  const char *str;
   int i, j;
 
   /* Check status and return if not OK (sg_success != TRUE). */
@@ -6431,19 +6431,18 @@ static void sg_load_researches(struct loaddata *loading)
                                        "research.r%d.got_tech", i),
                    "%s", secfile_error());
 
-    string = secfile_lookup_str(loading->file, "research.r%d.done",
-                                i);
-    sg_failure_ret(string != NULL, "%s", secfile_error());
-    sg_failure_ret(strlen(string) == loading->technology.size,
+    str = secfile_lookup_str(loading->file, "research.r%d.done", i);
+    sg_failure_ret(str != NULL, "%s", secfile_error());
+    sg_failure_ret(strlen(str) == loading->technology.size,
                    "Invalid length of 'research.r%d.done' (%lu ~= %lu).",
-                   i, (unsigned long) strlen(string),
+                   i, (unsigned long) strlen(str),
                    (unsigned long) loading->technology.size);
     for (j = 0; j < loading->technology.size; j++) {
-      sg_failure_ret(string[j] == '1' || string[j] == '0',
+      sg_failure_ret(str[j] == '1' || str[j] == '0',
                      "Undefined value '%c' within 'research.r%d.done'.",
-                     string[j], i);
+                     str[j], i);
 
-      if (string[j] == '1') {
+      if (str[j] == '1') {
         struct advance *padvance =
             advance_by_rule_name(loading->technology.order[j]);
 
