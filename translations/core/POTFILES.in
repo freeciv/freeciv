@@ -247,6 +247,15 @@ data/classic/styles.ruleset
 data/classic/techs.ruleset
 data/classic/terrain.ruleset
 data/classic/units.ruleset
+data/sandbox/buildings.ruleset
+data/sandbox/cities.ruleset
+data/sandbox/game.ruleset
+data/sandbox/governments.ruleset
+data/sandbox/script.lua
+data/sandbox/styles.ruleset
+data/sandbox/techs.ruleset
+data/sandbox/terrain.ruleset
+data/sandbox/units.ruleset
 data/experimental/buildings.ruleset
 data/experimental/cities.ruleset
 data/experimental/game.ruleset
