@@ -40,7 +40,7 @@ gtk3x-installer:
 # These are what can be built in current official environment version
 buildable-win32: gtk3-installer gtk3x-installer
 
-buildable-win64:
+buildable-win64: gtk3-installer gtk3x-installer
 
 # See comments on 'snapshot' target why this wrapping is needed
 buildable: buildable-$(WINARCH)
