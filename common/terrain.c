@@ -34,7 +34,6 @@
 #include "terrain.h"
 
 static struct terrain civ_terrains[MAX_NUM_TERRAINS];
-static struct extra_type *civ_resources[MAX_RESOURCE_TYPES];
 static struct user_flag user_terrain_flags[MAX_NUM_USER_TER_FLAGS];
 
 /****************************************************************************
@@ -255,7 +254,7 @@ bool terrain_has_resource(const struct terrain *pterrain,
 /****************************************************************************
   Initialize resource_type structure.
 ****************************************************************************/
-struct resource_type *resource_type_init(struct extra_type *pextra, int idx)
+struct resource_type *resource_type_init(struct extra_type *pextra)
 {
   struct resource_type *presource;
 
@@ -263,11 +262,7 @@ struct resource_type *resource_type_init(struct extra_type *pextra, int idx)
 
   pextra->data.resource = presource;
 
-  presource->item_number = idx;
   presource->self = pextra;
-
-  /* Save also to the old array, to be removed in the future. */
-  civ_resources[idx] = pextra;
 
   return presource;
 }
@@ -277,15 +272,7 @@ struct resource_type *resource_type_init(struct extra_type *pextra, int idx)
 ****************************************************************************/
 void resource_types_free(void)
 {
-  int i;
-
-  /* Resource structure itself is freed as part of extras destruction.
-   * here we just make sure no dangling pointers are left to old
-   * civ_resources[] */
-
-  for (i = 0; i < MAX_RESOURCE_TYPES; i++) {
-    civ_resources[i] = NULL;
-  }
+  /* Resource structure itself is freed as part of extras destruction. */
 }
 
 /**************************************************************************
@@ -294,70 +281,6 @@ void resource_types_free(void)
 struct extra_type *resource_extra_get(const struct resource_type *presource)
 {
   return presource->self;
-}
-
-/**************************************************************************
-  Return the first item of resources.
-**************************************************************************/
-struct extra_type *resource_array_first(void)
-{
-  return civ_resources[0];
-}
-
-/**************************************************************************
-  Return the last item of resources.
-**************************************************************************/
-const struct extra_type *resource_array_last(void)
-{
-  return civ_resources[game.control.num_resource_types - 1];
-}
-
-/**************************************************************************
-  Return the resource count.
-**************************************************************************/
-Resource_type_id resource_count(void)
-{
-  return game.control.num_resource_types;
-}
-
-/**************************************************************************
-  Return the resource index.
-
-  Currently same as resource_number(), paired with resource_count()
-  indicates use as an array index.
-
-  FIXME: Get rid of this. _index() makes no sense when they are not
-  in an array.
-**************************************************************************/
-Resource_type_id resource_index(const struct extra_type *presource)
-{
-  fc_assert_ret_val(NULL != presource, -1);
-
-  /* FIXME: */
-  /* return presource - resources; */
-  return resource_number(presource);
-}
-
-/**************************************************************************
-  Return the resource index.
-**************************************************************************/
-Resource_type_id resource_number(const struct extra_type *presource)
-{
-  fc_assert_ret_val(NULL != presource, -1);
-
-  return presource->data.resource->item_number;
-}
-
-/****************************************************************************
-  Return the resource for the given resource index.
-****************************************************************************/
-struct extra_type *resource_by_number(const Resource_type_id type)
-{
-  if (type < 0 || type >= game.control.num_resource_types) {
-    /* This isn't an error; some callers depend on it. */
-    return NULL;
-  }
-  return civ_resources[type];
 }
 
 /****************************************************************************

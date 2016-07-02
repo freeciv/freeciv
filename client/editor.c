@@ -368,12 +368,13 @@ bool editor_tool_is_usable(enum editor_tool_type ett)
   case ETT_ROAD:
     return road_count() > 0;
   case ETT_TERRAIN_RESOURCE:
-    return resource_count() > 0;
+    return game.control.num_resource_types > 0;
   case ETT_UNIT:
     return utype_count() > 0;
   default:
     break;
   }
+
   return TRUE;
 }
 
@@ -1615,8 +1616,8 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
 
   presource = tile_resource(ptile);
   packet->resource = presource
-                     ? resource_number(presource)
-                     : resource_count();
+                     ? extra_number(presource)
+                     : extra_count();
 
   pterrain = tile_terrain(ptile);
   packet->terrain = pterrain

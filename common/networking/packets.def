@@ -1917,8 +1917,7 @@ PACKET_RULESET_EFFECT = 175; sc, lsend
 end
 
 PACKET_RULESET_RESOURCE = 177; sc, lsend
-  RESOURCE id;
-  UINT8 extra;
+  UINT8 id;
 
   UINT8 output[O_LAST];
 end

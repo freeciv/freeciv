@@ -2020,7 +2020,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
   } terrain_type_iterate_end;
 
   sect_idx = 0;
-  resource_type_iterate(pres) {
+  extra_type_by_cause_iterate(EC_RESOURCE, pres) {
     char path[512];
     char identifier[2];
 
@@ -2039,7 +2039,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     identifier[0] = pres->data.resource->id_old_save;
     identifier[1] = '\0';
     secfile_insert_str(sfile, identifier, "%s.identifier", path);
-  } resource_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   secfile_insert_str(sfile, terrain_control.gui_type_base0,
                      "extraui.ui_name_base_fortress");

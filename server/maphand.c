@@ -509,8 +509,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                       ? terrain_number(tile_terrain(ptile))
                       : terrain_count();
       info.resource = (NULL != tile_resource(ptile))
-                       ? resource_number(tile_resource(ptile))
-                       : resource_count();
+                       ? extra_number(tile_resource(ptile))
+                       : extra_count();
 
       info.extras = ptile->extras;
 
@@ -541,8 +541,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                       ? terrain_number(plrtile->terrain)
                       : terrain_count();
       info.resource = (NULL != plrtile->resource)
-                       ? resource_number(plrtile->resource)
-                       : resource_count();
+                       ? extra_number(plrtile->resource)
+                       : extra_count();
 
       info.extras = plrtile->extras;
 
@@ -562,7 +562,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.worked = IDENTITY_NUMBER_ZERO;
 
       info.terrain = terrain_count();
-      info.resource = resource_count();
+      info.resource = extra_count();
 
       BV_CLR_ALL(info.extras);
 

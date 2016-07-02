@@ -2815,7 +2815,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   bool tile_changed = FALSE;
   struct player *powner = player_by_number(packet->owner);
   struct player *eowner = player_by_number(packet->extras_owner);
-  struct extra_type *presource = resource_by_number(packet->resource);
+  struct extra_type *presource = extra_by_number(packet->resource);
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = index_to_tile(packet->tile);
 
@@ -3626,7 +3626,7 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
   pterrain->resources = fc_calloc(p->num_resources + 1,
                                   sizeof(*pterrain->resources));
   for (j = 0; j < p->num_resources; j++) {
-    pterrain->resources[j] = resource_by_number(p->resources[j]);
+    pterrain->resources[j] = extra_by_number(p->resources[j]);
     if (!pterrain->resources[j]) {
       log_error("handle_ruleset_terrain() "
                 "Mismatched resource %d for terrain \"%s\".",
@@ -3700,13 +3700,12 @@ void handle_ruleset_resource(const struct packet_ruleset_resource *p)
 {
   struct resource_type *presource;
 
-  if (p->id < 0 || p->id > MAX_RESOURCE_TYPES
-      || p->extra < 0 || p->extra > MAX_EXTRA_TYPES) {
+  if (p->id < 0 || p->id > MAX_EXTRA_TYPES) {
     log_error("Bad resource %d.", p->id);
     return;
   }
 
-  presource = resource_type_init(extra_by_number(p->extra), p->id);
+  presource = resource_type_init(extra_by_number(p->id));
 
   output_type_iterate(o) {
     presource->output[o] = p->output[o];

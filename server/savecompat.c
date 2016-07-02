@@ -254,11 +254,11 @@ struct extra_type *special_extra_get(int spe)
 ****************************************************************************/
 struct extra_type *resource_by_identifier(const char identifier)
 {
-  resource_type_iterate(presource) {
+  extra_type_by_cause_iterate(EC_RESOURCE, presource) {
     if (presource->data.resource->id_old_save == identifier) {
       return presource;
     }
-  } resource_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   return NULL;
 }

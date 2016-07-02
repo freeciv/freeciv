@@ -2592,7 +2592,7 @@ static bool load_terrain_names(struct section_file *file,
         pextra = extra_type_by_rule_name(resource_name);
 
         if (pextra != NULL) {
-          resource_type_init(pextra, idx);
+          resource_type_init(pextra);
           section_strlcpy(&resource_sections[idx * MAX_SECTION_LABEL], sec_name);
         } else {
           ruleset_error(LOG_ERROR,
@@ -2925,57 +2925,6 @@ static bool load_ruleset_terrain(struct section_file *file,
   }
 
   if (ok) {
-    /* resource details */
-
-    resource_type_iterate(presource) {
-      char identifier[MAX_LEN_NAME];
-      const int i = resource_index(presource);
-      const char *rsection = &resource_sections[i * MAX_SECTION_LABEL];
-
-      output_type_iterate (o) {
-        presource->data.resource->output[o] =
-	  secfile_lookup_int_default(file, 0, "%s.%s", rsection,
-                                     get_output_identifier(o));
-      } output_type_iterate_end;
-
-      sz_strlcpy(identifier,
-                 secfile_lookup_str(file,"%s.identifier", rsection));
-      presource->data.resource->id_old_save = identifier[0];
-      if (RESOURCE_NULL_IDENTIFIER == presource->data.resource->id_old_save) {
-        ruleset_error(LOG_ERROR, "\"%s\" [%s] identifier missing value.",
-                      filename, rsection);
-        ok = FALSE;
-        break;
-      }
-      if (RESOURCE_NONE_IDENTIFIER == presource->data.resource->id_old_save) {
-        ruleset_error(LOG_ERROR,
-                      "\"%s\" [%s] cannot use '%c' as an identifier;"
-                      " it is reserved.",
-                      filename, rsection, presource->data.resource->id_old_save);
-        ok = FALSE;
-        break;
-      }
-      for (j = 0; j < i; j++) {
-        if (presource->data.resource->id_old_save
-            == resource_by_number(j)->data.resource->id_old_save) {
-          ruleset_error(LOG_ERROR,
-                        "\"%s\" [%s] has the same identifier as [%s].",
-                        filename,
-                        rsection,
-                        &resource_sections[j * MAX_SECTION_LABEL]);
-          ok = FALSE;
-          break;
-        }
-      }
-
-      if (!ok) {
-        break;
-      }
-
-    } resource_type_iterate_end;
-  }
-
-  if (ok) {
     /* extra details */
     extra_type_iterate(pextra) {
       BV_CLR_ALL(pextra->conflicts);
@@ -3243,6 +3192,58 @@ static bool load_ruleset_terrain(struct section_file *file,
         pextra->helptext = lookup_strvec(file, section, "helptext");
       }
     } extra_type_iterate_end;
+  }
+
+  if (ok) {
+    int i = 0;
+    /* resource details */
+
+    extra_type_by_cause_iterate(EC_RESOURCE, presource) {
+      char identifier[MAX_LEN_NAME];
+      const char *rsection = &resource_sections[i * MAX_SECTION_LABEL];
+
+      output_type_iterate (o) {
+        presource->data.resource->output[o] =
+	  secfile_lookup_int_default(file, 0, "%s.%s", rsection,
+                                     get_output_identifier(o));
+      } output_type_iterate_end;
+
+      sz_strlcpy(identifier,
+                 secfile_lookup_str(file,"%s.identifier", rsection));
+      presource->data.resource->id_old_save = identifier[0];
+      if (RESOURCE_NULL_IDENTIFIER == presource->data.resource->id_old_save) {
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] identifier missing value.",
+                      filename, rsection);
+        ok = FALSE;
+        break;
+      }
+      if (RESOURCE_NONE_IDENTIFIER == presource->data.resource->id_old_save) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" [%s] cannot use '%c' as an identifier;"
+                      " it is reserved.",
+                      filename, rsection, presource->data.resource->id_old_save);
+        ok = FALSE;
+        break;
+      }
+      extra_type_by_cause_iterate(EC_RESOURCE, pres2) {
+        if (presource->data.resource->id_old_save == pres2->data.resource->id_old_save
+            && presource != pres2) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" [%s] has the same identifier as [%s].",
+                        filename,
+                        rsection,
+                        extra_rule_name(pres2));
+          ok = FALSE;
+          break;
+        }
+      } extra_type_by_cause_iterate_end;
+
+      if (!ok) {
+        break;
+      }
+
+      i++;
+    } extra_type_by_cause_iterate_end;
   }
 
   if (ok) {
@@ -6827,7 +6828,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
     packet.num_resources = 0;
     for (r = pterrain->resources; *r; r++) {
-      packet.resources[packet.num_resources++] = resource_number(*r);
+      packet.resources[packet.num_resources++] = extra_number(*r);
     }
 
     output_type_iterate(o) {
@@ -6877,16 +6878,15 @@ static void send_ruleset_resources(struct conn_list *dest)
 {
   struct packet_ruleset_resource packet;
 
-  resource_type_iterate(presource) {
-    packet.id = resource_number(presource);
-    packet.extra = extra_index(presource);
+  extra_type_by_cause_iterate(EC_RESOURCE, presource) {
+    packet.id = extra_index(presource);
 
     output_type_iterate(o) {
       packet.output[o] = presource->data.resource->output[o];
     } output_type_iterate_end;
 
     lsend_packet_ruleset_resource(dest, &packet);
-  } resource_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 }
 
 /**************************************************************************

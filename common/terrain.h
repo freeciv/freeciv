@@ -41,7 +41,6 @@ enum special_river_move {
 /* === */
 
 struct resource_type {
-  int item_number;
 
   char id_old_save; /* Single-character identifier used in old savegames. */
 #define RESOURCE_NULL_IDENTIFIER '\0'
@@ -302,17 +301,10 @@ bool is_resource_near_tile(const struct tile *ptile,
                            const struct extra_type *pres,
                            bool check_self);
 
-struct resource_type *resource_type_init(struct extra_type *pextra, int idx);
+struct resource_type *resource_type_init(struct extra_type *pextra);
 void resource_types_free(void);
 
 struct extra_type *resource_extra_get(const struct resource_type *presource);
-
-/* General resource accessor functions. */
-Resource_type_id resource_count(void);
-Resource_type_id resource_index(const struct extra_type *presource);
-Resource_type_id resource_number(const struct extra_type *presource);
-
-struct extra_type *resource_by_number(const Resource_type_id id);
 
 /* Special helper functions */
 const char *get_infrastructure_text(bv_extras extras);
@@ -338,20 +330,6 @@ int count_terrain_class_near_tile(const struct tile *ptile,
 /* Functions to deal with possible terrain alterations. */
 bool terrain_can_support_alteration(const struct terrain *pterrain,
                                     enum terrain_alteration talter);
-
-/* Initialization and iteration */
-struct extra_type *resource_array_first(void);
-const struct extra_type *resource_array_last(void);
-
-#define resource_type_iterate(_p)					\
-{									\
-  int _ri_##p;                                                          \
-  for (_ri_##p = 0; _ri_##p < game.control.num_resource_types; _ri_##p++) { \
-    struct extra_type *_p = resource_by_number(_ri_##p);
-
-#define resource_type_iterate_end					\
-  }									\
-}
 
 /* Initialization and iteration */
 void terrains_init(void);
