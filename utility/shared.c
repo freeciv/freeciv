@@ -567,7 +567,7 @@ char *user_home_dir(void)
       log_verbose("HOME is %s", home_dir_user);
     } else {
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 
       /* some documentation at:
        * http://justcheckingonall.wordpress.com/2008/05/16/find-shell-folders-win32/
@@ -585,13 +585,18 @@ char *user_home_dir(void)
           home_dir_user = local_to_internal_string_malloc(home_dir_in_local_encoding);
           free(home_dir_in_local_encoding);
 
+#ifdef DIR_SEPARATOR_IS_DEFAULT
           /* replace backslashes with forward slashes */
-          char *c;
-          for (c = home_dir_user; *c != 0; c++) {
-            if (*c == '\\') {
-              *c = '/';
+          {
+            char *c;
+
+            for (c = home_dir_user; *c != 0; c++) {
+              if (*c == '\\') {
+                *c = DIR_SEPARATOR_CHAR;
+              }
             }
           }
+#endif /* DIR_SEPARATOR_IS_DEFAULT */
         } else {
           free(home_dir_in_local_encoding);
           home_dir_user = NULL;
@@ -609,10 +614,10 @@ char *user_home_dir(void)
         log_error("Could not find home directory "
                   "(SHGetSpecialFolderLocation() failed).");
       }
-#else  /* WIN32_NATIVE */
+#else  /* FREECIV_MSWINDOWS */
       log_error("Could not find home directory (HOME is not set).");
       home_dir_user = NULL;
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
     }
   }
 
