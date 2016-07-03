@@ -122,10 +122,18 @@ using MSYS2 from http://msys2.github.io
 
 Premade msys2 environment is available for download from
 http://download.gna.org/freeciv/packages/windows/testing/cazfi/installer_msys2/envs/
-Current version is: msys2-freeciv-160618.7z
 
-It's based on
+Current versions are
+
+win32:
+------
+msys2-freeciv-160627.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20160205.exe
+Replace <arch> with 'i686' in package names below
+
+win64:
+------
+Not available at the moment
 
 Following packages have been installed:
 - make
@@ -146,13 +154,13 @@ Following packages have been installed:
 - libtool
 - autoconf
 - python
-- mingw-w64-i686-icu
-- mingw-w64-i686-sqlite3
-- mingw-w64-i686-gtk3
-- mingw-w64-i686-nsis
-- mingw-w64-i686-bzip2
-- mingw-w64-i686-readline
-- mingw-w64-i686-SDL2_mixer
+- mingw-w64-<arch>-icu
+- mingw-w64-<arch>-sqlite3
+- mingw-w64-<arch>-gtk3
+- mingw-w64-<arch>-nsis
+- mingw-w64-<arch>-bzip2
+- mingw-w64-<arch>-readline
+- mingw-w64-<arch>-SDL2_mixer
 
 
  Build
