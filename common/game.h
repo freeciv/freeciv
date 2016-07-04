@@ -272,6 +272,7 @@ struct civ_game {
         const char **allowed_styles;
         char **nc_astyles;
         size_t as_count;
+        int named_teams;
       } ruledit;
     } server;
   };

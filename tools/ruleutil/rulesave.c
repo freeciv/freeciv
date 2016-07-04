@@ -741,6 +741,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   const char *style_names[32]; /* FIXME: Should determine max length automatically.
                                 * currently it's 3 (bits 0,1, and 2) so there's plenty of
                                 * safety margin here. */
+  const char *tnames[game.server.ruledit.named_teams];
   enum trade_route_type trt;
   int i;
   enum gen_action quiet_actions[ACTION_COUNT];
@@ -1130,7 +1131,16 @@ static bool save_game_ruleset(const char *filename, const char *name)
     rgbcolor_save(sfile, pcol, "playercolors.colorlist%d", col_idx++);
   } rgbcolor_list_iterate_end;
 
-  /* TODO: Team names */
+
+  if (game.server.ruledit.named_teams > 0) {
+    for (i = 0; i < game.server.ruledit.named_teams; i++) {
+      tnames[i] = team_slot_rule_name(team_slot_by_number(i));
+    }
+
+    secfile_insert_str_vec(sfile, tnames,
+                           game.server.ruledit.named_teams,
+                           "teams.names");
+  }
 
   comment_disasters(sfile);
 

@@ -6295,6 +6295,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     if (team_slot_count() < teams) {
       teams = team_slot_count();
     }
+    game.server.ruledit.named_teams = teams;
     for (i = 0; i < teams; i++) {
       team_slot_set_defined_name(team_slot_by_number(i), svec[i]);
     }
