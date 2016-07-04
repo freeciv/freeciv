@@ -373,7 +373,7 @@ action_probability action_prob_vs_tile(const struct unit *actor,
 action_probability action_prob_self(const struct unit *actor,
                                     const int action_id);
 
-bool action_prob_possible(action_probability probability);
+bool action_prob_possible(const action_probability probability);
 
 action_probability action_prob_new_impossible(void);
 action_probability action_prob_new_not_relevant(void);
