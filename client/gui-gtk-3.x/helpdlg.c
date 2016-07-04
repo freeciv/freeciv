@@ -962,7 +962,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 
   create_help_page(HELP_TECH);
 
-  if (padvance  &&  !is_future_tech(i = advance_number(padvance))) {
+  if (padvance && !is_future_tech(i = advance_number(padvance))) {
     GtkTextBuffer *txt;
     size_t len;
 

@@ -1733,6 +1733,18 @@ static bool save_techs_ruleset(const char *filename, const char *name)
     }
   }
 
+  if (game.info.tech_classes > 0) {
+    int ci;
+    const char *class_names[game.info.tech_classes];
+
+    for (ci = 0; ci < game.info.tech_classes; ci++) {
+      class_names[ci] = game.info.tech_class_names[ci];
+    }
+
+    secfile_insert_str_vec(sfile, class_names, ci,
+                           "classes.names");
+  }
+
   comment_techs(sfile);
 
   sect_idx = 0;
@@ -1746,6 +1758,11 @@ static bool save_techs_ruleset(const char *filename, const char *name)
       fc_snprintf(path, sizeof(path), "advance_%d", sect_idx++);
 
       save_name_translation(sfile, &(pa->name), path);
+
+      if (game.info.tech_classes > 0) {
+        secfile_insert_str(sfile, game.info.tech_class_names[pa->tclass],
+                           "%s.class", path);
+      }
 
       save_tech_ref(sfile, pa->require[AR_ONE], path, "req1");
       save_tech_ref(sfile, pa->require[AR_TWO], path, "req2");

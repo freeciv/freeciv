@@ -377,6 +377,7 @@ void techs_init(void)
   for (i = 0; i < ARRAY_SIZE(advances); i++) {
     advances[i].item_number = i;
     advances[i].cost = -1;
+    advances[i].tclass = 0;
 
     requirement_vector_init(&(advances[i].research_reqs));
   }

@@ -4640,6 +4640,11 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   if (NULL != pplayer) {
     const struct research *presearch = research_get(pplayer);
 
+    if (game.info.tech_classes > 0) {
+      cat_snprintf(buf, bufsz, _("Belongs to tech class %s.\n\n"),
+                   Q_(game.info.tech_class_names[vap->tclass]));
+    }
+
     if (research_invention_state(presearch, i) != TECH_KNOWN) {
       if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
         int bulbs = research_total_bulbs_required(presearch, i, FALSE);

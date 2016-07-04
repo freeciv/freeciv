@@ -485,6 +485,8 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT16 global_advance_count;
   BOOL global_advances[A_LAST]; diff
   BOOL global_warming;
+  UINT8 tech_classes;
+  STRING tech_class_names[255:tech_classes][MAX_LEN_NAME];
   UINT32 globalwarming;
   GOLD gold;
   GOLD_UPKEEP_STYLE gold_upkeep_style;
@@ -1406,6 +1408,7 @@ PACKET_RULESET_TECH = 144; sc, lsend
   TECH root_req;
   UINT8 research_reqs_count;
   REQUIREMENT research_reqs[MAX_NUM_REQS:research_reqs_count];
+  UINT8 tclass;
   BOOL removed;
   BV_TECH_FLAGS flags;
   UFLOAT10x3 cost;

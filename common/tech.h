@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -119,6 +119,7 @@ struct advance {
   struct name_translation name;
   char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
+  int tclass;
 
   struct advance *require[AR_SIZE];
 
