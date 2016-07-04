@@ -182,7 +182,7 @@ action_probability action_prob_vs_unit(const struct unit* actor,
                                        const int action_id,
                                        const struct unit* victim);
 
-bool action_prob_possible(action_probability probability);
+bool action_prob_possible(const action_probability probability);
 
 action_probability action_prob_new_impossible(void);
 action_probability action_prob_new_not_relevant(void);

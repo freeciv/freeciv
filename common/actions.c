@@ -54,10 +54,14 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist);
 
-static inline bool action_prob_is_signal(action_probability probability);
-static inline bool action_prob_not_relevant(action_probability probability);
-static inline bool action_prob_unknown(action_probability probability);
-static inline bool action_prob_not_impl(action_probability probability);
+static inline bool
+action_prob_is_signal(const action_probability probability);
+static inline bool
+action_prob_not_relevant(const action_probability probability);
+static inline bool
+action_prob_unknown(const action_probability probability);
+static inline bool
+action_prob_not_impl(const action_probability probability);
 
 /**************************************************************************
   Initialize the actions and the action enablers.
@@ -1337,7 +1341,7 @@ action_probability action_prob_new_unknown(void)
   Returns TRUE iff the given action probability belongs to an action that
   may be possible.
 **************************************************************************/
-bool action_prob_possible(action_probability probability)
+bool action_prob_possible(const action_probability probability)
 {
   return ACTPROB_IMPOSSIBLE != probability && ACTPROB_NA != probability;
 }
@@ -1346,7 +1350,8 @@ bool action_prob_possible(action_probability probability)
   Returns TRUE iff the given action probability represents the lack of
   an action probability.
 **************************************************************************/
-static inline bool action_prob_not_relevant(action_probability probability)
+static inline bool
+action_prob_not_relevant(const action_probability probability)
 {
   return ACTPROB_NA == probability;
 }
@@ -1355,7 +1360,8 @@ static inline bool action_prob_not_relevant(action_probability probability)
   Returns TRUE iff the given action probability represents that support
   for finding this action probability currently is missing from Freeciv.
 **************************************************************************/
-static inline bool action_prob_not_impl(action_probability probability)
+static inline bool
+action_prob_not_impl(const action_probability probability)
 {
   return ACTPROB_NOT_IMPLEMENTED == probability;
 }
@@ -1368,7 +1374,8 @@ static inline bool action_prob_not_impl(action_probability probability)
  state the player don't have access to. It may be possible for the player
  to later gain access to this game state.
 **************************************************************************/
-static inline bool action_prob_unknown(action_probability probability)
+static inline bool
+action_prob_unknown(const action_probability probability)
 {
   return ACTPROB_NOT_KNOWN == probability;
 }
@@ -1377,7 +1384,8 @@ static inline bool action_prob_unknown(action_probability probability)
   Returns TRUE iff the given action probability represents a special
   signal value rather than a regular action probability value.
 **************************************************************************/
-static inline bool action_prob_is_signal(action_probability probability)
+static inline bool
+action_prob_is_signal(const action_probability probability)
 {
   return probability < 0 || probability > 200;
 }
