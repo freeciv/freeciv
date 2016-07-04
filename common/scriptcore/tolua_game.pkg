@@ -118,6 +118,12 @@ module game {
   /* Deprecated. Use current_turn() to get the real turn number */
   int api_methods_game_turn_deprecated
     @ turn (lua_State *L);
+
+  const char *api_methods_game_rulesetdir
+    @ rulesetdir (lua_State *L);
+
+  const char *api_methods_game_ruleset_name
+    @ ruleset_name (lua_State *L);
 }
 
 /* Module Player. */

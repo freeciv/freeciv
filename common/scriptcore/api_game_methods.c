@@ -70,6 +70,22 @@ int api_methods_game_turn_deprecated(lua_State *L)
 }
 
 /*****************************************************************************
+  Return name of the current ruleset.
+*****************************************************************************/
+const char *api_methods_game_rulesetdir(lua_State *L)
+{
+  return game.server.rulesetdir;
+}
+
+/*****************************************************************************
+  Return name of the current ruleset.
+*****************************************************************************/
+const char *api_methods_game_ruleset_name(lua_State *L)
+{
+  return game.control.name;
+}
+
+/*****************************************************************************
   Return TRUE if pbuilding is a wonder.
 *****************************************************************************/
 bool api_methods_building_type_is_wonder(lua_State *L,
