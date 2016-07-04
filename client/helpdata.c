@@ -5007,7 +5007,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
 
   if (is_extra_caused_by(pextra, EC_APPEARANCE)) {
     CATLSTR(buf, bufsz,
-            _(" * May appear spontaneously.\n"));
+            _("* May appear spontaneously.\n"));
   }
 
   /* XXX Non-zero requirement vector is not a good test of whether
