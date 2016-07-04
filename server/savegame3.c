@@ -1859,12 +1859,29 @@ static void sg_load_game(struct loaddata *loading)
     game.info.skill_level
       = ai_level_convert(GAME_HARDCODED_DEFAULT_SKILL_LEVEL);
   }
-  game.info.phase_mode
-    = secfile_lookup_int_default(loading->file, GAME_DEFAULT_PHASE_MODE,
-                                 "game.phase_mode");
-  game.server.phase_mode_stored
-    = secfile_lookup_int_default(loading->file, GAME_DEFAULT_PHASE_MODE,
-                                 "game.phase_mode_stored");
+  str  = secfile_lookup_str_default(loading->file, NULL,
+                                    "game.phase_mode");
+  if (str != NULL) {
+    game.info.phase_mode = phase_mode_type_by_name(str, fc_strcasecmp);
+    if (!phase_mode_type_is_valid(game.info.phase_mode)) {
+      log_error("Illegal phase mode \"%s\"", str);
+      game.info.phase_mode = GAME_DEFAULT_PHASE_MODE;
+    }
+  } else {
+    log_error("Phase mode missing");
+  }
+
+  str  = secfile_lookup_str_default(loading->file, NULL,
+                                    "game.phase_mode_stored");
+  if (str != NULL) {
+    game.server.phase_mode_stored = phase_mode_type_by_name(str, fc_strcasecmp);
+    if (!phase_mode_type_is_valid(game.server.phase_mode_stored)) {
+      log_error("Illegal stored phase mode \"%s\"", str);
+      game.server.phase_mode_stored = GAME_DEFAULT_PHASE_MODE;
+    }
+  } else {
+    log_error("Stored phase mode missing");
+  }
   game.info.phase
     = secfile_lookup_int_default(loading->file, 0,
                                  "game.phase");
@@ -1992,9 +2009,11 @@ static void sg_save_game(struct savedata *saving)
 
   secfile_insert_str(saving->file, ai_level_name(game.info.skill_level),
                      "game.level");
-  secfile_insert_int(saving->file, game.info.phase_mode,
+  secfile_insert_str(saving->file,
+                     phase_mode_type_name(game.info.phase_mode),
                      "game.phase_mode");
-  secfile_insert_int(saving->file, game.server.phase_mode_stored,
+  secfile_insert_str(saving->file,
+                     phase_mode_type_name(game.server.phase_mode_stored),
                      "game.phase_mode_stored");
   secfile_insert_int(saving->file, game.info.phase,
                      "game.phase");

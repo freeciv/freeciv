@@ -1346,6 +1346,7 @@ static void compat_load_dev(struct loaddata *loading)
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_0
   bool randsaved;
   size_t diplstate_type_size;
+  struct entry *convert_entry;
   int num_settings;
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
 
@@ -1636,6 +1637,26 @@ static void compat_load_dev(struct loaddata *loading)
                        "settings.set%d.gamestart", num_settings);
     num_settings++;
   }
+
+  convert_entry = secfile_entry_lookup(loading->file, "game.phase_mode");
+  if (convert_entry != NULL && entry_type(convert_entry) == ENTRY_INT) {
+    int nval;
+
+    entry_int_get(convert_entry, &nval);
+
+    secfile_replace_str(loading->file, phase_mode_type_name(nval),
+                        "game.phase_mode");
+  }
+  convert_entry = secfile_entry_lookup(loading->file, "game.phase_mode_stored");
+  if (convert_entry != NULL && entry_type(convert_entry) == ENTRY_INT) {
+    int nval;
+
+    entry_int_get(convert_entry, &nval);
+
+    secfile_replace_str(loading->file, phase_mode_type_name(nval),
+                        "game.phase_mode_stored");
+  }
+  
 
   secfile_replace_int(loading->file, num_settings, "settings.set_count");
 
