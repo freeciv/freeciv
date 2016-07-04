@@ -1071,7 +1071,7 @@ static const act_func af_map[ACTION_COUNT] = {
   Add an entry for an action in the action choice dialog.
 **************************************************************************/
 static void action_entry(const enum gen_action act,
-                         const int *action_probabilities,
+                         const action_probability *act_probs,
                          const char *custom,
                          struct unit *act_unit,
                          struct tile *tgt_tile,
@@ -1086,7 +1086,7 @@ static void action_entry(const enum gen_action act,
 
   if (act == ACTION_SPY_SABOTAGE_CITY
       && action_prob_possible(
-        action_probabilities[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
+        act_probs[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
     /* The player can select Sabotage City from the target selection dialog
      * of Targeted Sabotage City. */
     return;
@@ -1094,7 +1094,7 @@ static void action_entry(const enum gen_action act,
 
   if (act == ACTION_SPY_STEAL_TECH
       && action_prob_possible(
-        action_probabilities[ACTION_SPY_TARGETED_STEAL_TECH])) {
+        act_probs[ACTION_SPY_TARGETED_STEAL_TECH])) {
     /* The player can select Steal Tech from the target selection dialog of
      * Targeted Steal Tech. */
     return;
@@ -1107,12 +1107,12 @@ static void action_entry(const enum gen_action act,
   }
 
   /* Don't show disabled actions */
-  if (!action_prob_possible(action_probabilities[act])) {
+  if (!action_prob_possible(act_probs[act])) {
     return;
   }
 
   ui_name = action_prepare_ui_name(act, "",
-                                   action_probabilities[act], custom);
+                                   act_probs[act], custom);
 
   create_active_iconlabel(pBuf, pWindow->dst, pstr,
                           ui_name, af_map[act]);
