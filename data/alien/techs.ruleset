@@ -152,7 +152,7 @@ req2        = "Mining"
 flags       = ""
 graphic     = "a.brute_force"
 graphic_alt = "-"
-helptext    = _("It's time to make more powerfull weapons than ever before.")
+helptext    = _("It's time to make more powerful weapons than ever before.")
 
 [advance_city_defense]
 name        = _("City Defense")
