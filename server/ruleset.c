@@ -3102,7 +3102,8 @@ static bool load_ruleset_terrain(struct section_file *file,
         }
         requirement_vector_copy(&pextra->disappearance_reqs, reqs);
 
-        pextra->buildable = secfile_lookup_bool_default(file, TRUE,
+        pextra->buildable = secfile_lookup_bool_default(file,
+                                                        is_extra_caused_by_worker_action(pextra),
                                                         "%s.buildable", section);
 
         pextra->build_time = 0; /* default */
