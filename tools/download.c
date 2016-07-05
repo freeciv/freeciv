@@ -228,6 +228,8 @@ static const char *download_modpack_recursive(const char *URL,
         const char *msg;
         char dep_URL_full[2048];
 
+        log_debug("Dependency modpack \"%s\" needed.", dep_name);
+
         if (mcb != NULL) {
           mcb(_("Download dependency modpack"));
         }
@@ -337,6 +339,7 @@ static const char *download_modpack_recursive(const char *URL,
         /* Nothing */
       }
       local_name[i] = '\0';
+      log_debug("Create directory \"%s\"", local_name);
       if (!make_dir(local_name)) {
         secfile_destroy(control);
         return _("Cannot create required directories");
@@ -351,7 +354,7 @@ static const char *download_modpack_recursive(const char *URL,
       }
 
       fc_snprintf(fileURL, sizeof(fileURL), "%s/%s", baseURL, src_name);
-      log_debug("%s", fileURL);
+      log_debug("Download \"%s\" as \"%s\".", fileURL, local_name);
       if (!netfile_download_file(fileURL, local_name, nf_cb, mcb)) {
         if (mcb != NULL) {
           char buf[2048];
