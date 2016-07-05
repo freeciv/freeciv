@@ -631,63 +631,65 @@ char *user_home_dir(void)
 #else  /* AMIGA */
 
   if (home_dir == NULL) {
-    char *env = getenv("HOME");
-
-    if (env) {
-      home_dir = fc_strdup(env);
-      log_verbose("HOME is %s", home_dir);
-    } else {
-
 #ifdef FREECIV_MSWINDOWS
 
-      /* some documentation at:
-       * http://justcheckingonall.wordpress.com/2008/05/16/find-shell-folders-win32/
-       * http://archives.seul.org/or/cvs/Oct-2004/msg00082.html */
+    /* some documentation at:
+     * http://justcheckingonall.wordpress.com/2008/05/16/find-shell-folders-win32/
+     * http://archives.seul.org/or/cvs/Oct-2004/msg00082.html */
 
-      LPITEMIDLIST pidl;
-      LPMALLOC pMalloc;
+    LPITEMIDLIST pidl;
+    LPMALLOC pMalloc;
 
-      if (SUCCEEDED(SHGetSpecialFolderLocation(NULL, CSIDL_APPDATA, &pidl))) {
-        char *home_dir_in_local_encoding = fc_malloc(PATH_MAX);
+    if (SUCCEEDED(SHGetSpecialFolderLocation(NULL, CSIDL_APPDATA, &pidl))) {
+      char *home_dir_in_local_encoding = fc_malloc(PATH_MAX);
 
-        if (SUCCEEDED(SHGetPathFromIDList(pidl, home_dir_in_local_encoding))) {
-          /* convert to internal encoding */
-          home_dir = local_to_internal_string_malloc(home_dir_in_local_encoding);
-          free(home_dir_in_local_encoding);
+      if (SUCCEEDED(SHGetPathFromIDList(pidl, home_dir_in_local_encoding))) {
+        /* convert to internal encoding */
+        home_dir = local_to_internal_string_malloc(home_dir_in_local_encoding);
+        free(home_dir_in_local_encoding);
 
 #ifdef DIR_SEPARATOR_IS_DEFAULT
-          /* replace backslashes with forward slashes */
-          {
-            char *c;
+        /* replace backslashes with forward slashes */
+        {
+          char *c;
 
-            for (c = home_dir; *c != 0; c++) {
-              if (*c == '\\') {
-                *c = DIR_SEPARATOR_CHAR;
-              }
+          for (c = home_dir; *c != 0; c++) {
+            if (*c == '\\') {
+              *c = DIR_SEPARATOR_CHAR;
             }
           }
+        }
 #endif /* DIR_SEPARATOR_IS_DEFAULT */
-        } else {
-          free(home_dir_in_local_encoding);
-          home_dir = NULL;
-          log_error("Could not find home directory "
-                    "(SHGetPathFromIDList() failed).");
-        }
-
-        SHGetMalloc(&pMalloc);
-        if (pMalloc) {
-          pMalloc->lpVtbl->Free(pMalloc, pidl);
-          pMalloc->lpVtbl->Release(pMalloc);
-        }
-
       } else {
+        free(home_dir_in_local_encoding);
+        home_dir = NULL;
         log_error("Could not find home directory "
-                  "(SHGetSpecialFolderLocation() failed).");
+                  "(SHGetPathFromIDList() failed).");
       }
-#else  /* FREECIV_MSWINDOWS */
-      log_error("Could not find home directory (HOME is not set).");
-      home_dir = NULL;
+
+      SHGetMalloc(&pMalloc);
+      if (pMalloc) {
+        pMalloc->lpVtbl->Free(pMalloc, pidl);
+        pMalloc->lpVtbl->Release(pMalloc);
+      }
+
+    } else {
+      log_error("Could not find home directory "
+                "(SHGetSpecialFolderLocation() failed).");
+    }
+
+    if (home_dir == NULL)
 #endif /* FREECIV_MSWINDOWS */
+    {
+      char *env = getenv("HOME");
+
+      if (env) {
+        home_dir = fc_strdup(env);
+        log_verbose("HOME is %s", home_dir);
+      } else {
+        log_error("Could not find home directory (HOME is not set).");
+        home_dir = NULL;
+      }
     }
   }
 
