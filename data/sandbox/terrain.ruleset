@@ -1465,7 +1465,7 @@ Buoys may be built in the ocean (by units on a sea-going vessel).\
 [extra_ruins]
 name           = _("Ruins")
 category       = "Bonus"
-causes         = "Base"
+;causes         = ""
 rmcauses       = "Pillage"
 graphic        = "base.ruins"
 graphic_alt    = "-"
@@ -1938,10 +1938,6 @@ flags          = "NoAggressive"
 extra          = "Buoy"
 gui_type       = "Fortress"
 vision_main_sq = 5
-
-[base_ruins]
-extra          = "Ruins"
-gui_type       = "Other"
 
 ; /* <-- avoid gettext warnings
 ;
