@@ -5,6 +5,7 @@
 ## it's in the list below.
 ## It should also install it automatically when running autogen.sh.
 EXTRA_DIST =	freeciv.project		\
+		snapshot.project	\
 		fcgui.in		\
 		fcser.in		\
 		fcruledit.in		\
