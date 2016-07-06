@@ -541,6 +541,7 @@ AC_ARG_ENABLE([ai-static],
 
 ai_mod_static_classic=no
 ai_mod_static_threaded=no
+ai_mod_static_threxpr=no
 
 for module in $(echo $static_modules | $SED 's/,/ /g') ; do
   if test "x$module" = "xclassic" ; then
@@ -553,6 +554,11 @@ for module in $(echo $static_modules | $SED 's/,/ /g') ; do
     ai_mod_default_needed=yes
     AC_DEFINE([AI_MOD_STATIC_THREADED], [1],
               [threaded ai module statically linked])
+  elif test "x$module" = "xthrexpr" ; then
+    ai_mod_static_threxpr=yes
+    ai_mod_default_needed=yes
+    AC_DEFINE([AI_MOD_STATIC_THREXPR], [1],
+              [experimental threads ai module statically linked])
   else
     AC_MSG_ERROR([bad value ${module} for --enable-ai-static])
   fi
@@ -565,6 +571,8 @@ AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
 [test "x$ai_mod_static_classic" = "xyes" || test "x$enable_aimodules" != "xyes"])
 AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
 [test "x$ai_mod_static_threaded" = "xyes"])
+AM_CONDITIONAL([AI_MOD_STATIC_THREXPR],
+[test "x$ai_mod_static_threxpr" = "xyes"])
 
 AC_ARG_WITH([default-ai],
   AS_HELP_STRING([--with-default-ai], [default ai type [first static]]),
@@ -587,6 +595,9 @@ if test "x$ai_mod_static_classic" = "xyes" ; then
   fc_ai_last=$fc_ai_last+1
 fi
 if test "x$ai_mod_static_threaded" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_threxpr" = "xyes" ; then
   fc_ai_last=$fc_ai_last+1
 fi
 if test "x$enable_aimodules" = "xyes" ; then
@@ -1715,6 +1726,7 @@ AC_CONFIG_FILES([Makefile
           ai/classic/Makefile
           ai/stub/Makefile
           ai/threaded/Makefile
+          ai/threxpr/Makefile
 	  tests/Makefile
   	  win32/Makefile
 	  client/Makefile

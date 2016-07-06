@@ -14,6 +14,10 @@ if AI_MOD_STATIC_THREADED
 module_dirs += threaded
 endif
 
+if AI_MOD_STATIC_THREXPR
+module_dirs += threxpr
+endif
+
 AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common \
  -I$(top_srcdir)/common/networking \
  -I$(top_srcdir)/dependencies/tinycthread
@@ -25,6 +29,9 @@ endif
 if EXP_AI_MODULES
 if !AI_MOD_STATIC_THREADED
 module_dirs += threaded
+endif
+if !AI_MOD_STATIC_THREXPR
+module_dirs += threxpr
 endif
 module_dirs += stub
 else
