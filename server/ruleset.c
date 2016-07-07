@@ -549,8 +549,8 @@ static bool lookup_tech(struct section_file *file,
 
 /**************************************************************************
  Lookup a string prefix.entry in the file and return the corresponding
- improvement pointer.  If (!required), return B_NEVER for match "None" or
- can't match.  If (required), die when can't match.
+ improvement pointer. Return B_NEVER for match "None" or
+ can't match.
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
@@ -603,9 +603,11 @@ static bool lookup_unit_list(struct section_file *file, const char *prefix,
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
   if (nval == 0) {
-    ruleset_error(LOG_ERROR, "\"%s\": missing string vector %s.%s",
-                  filename, prefix, entry);
-    return FALSE;
+    /* 'No vector' is considered same as empty vector */
+    if (slist != NULL) {
+      free(slist);
+    }
+    return TRUE;
   }
   if (nval > MAX_NUM_UNIT_LIST) {
     ruleset_error(LOG_ERROR,
