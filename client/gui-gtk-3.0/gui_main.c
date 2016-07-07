@@ -282,7 +282,8 @@ static void print_usage(void)
              _("Other gui-specific options are:\n"));
 
   fc_fprintf(stderr,
-             _("-g, --gtk-warnings\tLet gtk+ to print warnings\n"));
+             _("-g, --gtk-warnings\tAllow Gtk+ to print warnings "
+               "to console\n"));
 
   fc_fprintf(stderr,
              _("-r, --resolution WIDTHxHEIGHT\tAssume given resolution "

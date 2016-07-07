@@ -2059,7 +2059,7 @@ static struct setting settings[] = {
            SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("National borders"),
            N_("If this is not disabled, then any land tiles around a "
-              "city or border claiming Extra (like the classic ruleset's "
+              "city or border-claiming extra (like the classic ruleset's "
               "Fortress base) will be owned by that nation."),
            NULL, NULL, NULL, borders_name, GAME_DEFAULT_BORDERS)
 

@@ -34,18 +34,18 @@ freeciv-gtk2, freeciv-gtk3, freeciv-sdl, freeciv-sdl2, freeciv-qt, freeciv-xaw \
 [ \-\- \fIclient-specific-parameters\fP ]
 
 .B freeciv-gtk2
-accept the standard Gtk parameters following \fB\-\-\fP; see the Gtk
+accepts the standard Gtk parameters following \fB\-\-\fP; see the Gtk
 documentation. It also accepts
 .B [ \-h|\-\-help ]
 
 .B freeciv-gtk3
-accept the standard Gtk parameters following \fB\-\-\fP; see the Gtk
+accepts the standard Gtk parameters following \fB\-\-\fP; see the Gtk
 documentation. It also accepts
 .B [ \-g|\-\-gtk-warnings ] \
 [ \-h|\-\-help ]
 
 .B freeciv-qt
-accept the standard Qt parameters following \fB\-\-\fP; see the Qt
+accepts the standard Qt parameters following \fB\-\-\fP; see the Qt
 documentation. It also accepts
 .B [ \-h|\-\-help ]
 
