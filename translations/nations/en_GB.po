@@ -5,7 +5,7 @@
 # ...
 # Daniel Markstedt <himasaram@spray.se>, 2009.
 # "TimR" (timr@gna), 2010.
-# Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>, 2010-2014.
+# Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>, 2010-2016.
 #
 # This file aims to provide a translation for every string, even those that
 # are identical (previously it only included msgstrs that were different).
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-14 11:28+0100\n"
-"PO-Revision-Date: 2014-07-17 10:09+0100\n"
+"POT-Creation-Date: 2016-07-07 01:47+0100\n"
+"PO-Revision-Date: 2016-07-07 01:48+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -531,8 +531,8 @@ msgid "African"
 msgstr "African"
 
 #: data/nation/african.ruleset:4
-msgid "?plural:African"
-msgstr "?plural:African"
+msgid "?plural:Africans"
+msgstr "?plural:Africans"
 
 #: data/nation/african.ruleset:6
 msgid ""
