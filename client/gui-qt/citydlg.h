@@ -177,6 +177,8 @@ private:
   int cutted_height;
   int delta_x;
   int delta_y;
+private slots:
+  void context_menu(QPoint point);
 };
 
 /****************************************************************************

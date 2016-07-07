@@ -24,6 +24,7 @@
 #include <QRadioButton>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QWidgetAction>
 
 // utility
 #include "support.h"
@@ -554,6 +555,9 @@ city_map::city_map(QWidget *parent): QWidget(parent)
   delta_x = 0;
   delta_y = 0;
   setMinimumSize(300, 300);
+  setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+          this, SLOT(context_menu(const QPoint &)));
 }
 
 /****************************************************************************
@@ -626,7 +630,7 @@ void city_map::mousePressEvent(QMouseEvent *event)
 {
   int canvas_x, canvas_y, city_x, city_y;
 
-  if (!can_client_issue_orders()) {
+  if (!can_client_issue_orders() || event->button() != Qt::LeftButton) {
     return;
   }
 
@@ -635,6 +639,96 @@ void city_map::mousePressEvent(QMouseEvent *event)
   if (canvas_to_city_pos(&city_x, &city_y, city_map_radius_sq_get(mcity),
                          canvas_x, canvas_y)) {
     city_toggle_worker(mcity, city_x, city_y);
+  }
+}
+
+/****************************************************************************
+  Context menu for setting worker tasks
+****************************************************************************/
+void city_map::context_menu(QPoint point)
+{
+  int canvas_x, canvas_y, city_x, city_y;
+  QAction *act;
+  QAction con_clear(_("Clear"), this);
+  QAction con_irrig(_("Irrigate"), this);
+  QAction con_mine(_("Mine"), this);
+  QAction con_road(_("Road"), this);
+  QAction con_trfrm(_("Transform"), this);
+  QMenu con_menu(this);
+  QWidgetAction *wid_act;
+  struct packet_worker_task task;
+  struct terrain *pterr;
+  struct tile *ptile;
+  struct universal for_terr;
+  struct worker_task *ptask;
+
+  if (!can_client_issue_orders()) {
+    return;
+  }
+  canvas_x = point.x() + delta_x;
+  canvas_y = point.y() + delta_y;
+
+  if (!canvas_to_city_pos(&city_x, &city_y, city_map_radius_sq_get(mcity),
+                          canvas_x, canvas_y)) {
+    return;
+  }
+  ptile = city_map_to_tile(mcity->tile, city_map_radius_sq_get(mcity),
+                           city_x, city_y);
+  task.city_id = mcity->id;
+  pterr = tile_terrain(ptile);
+  for_terr.kind = VUT_TERRAIN;
+  for_terr.value.terrain = pterr;
+  ptask = worker_task_list_get(mcity->task_reqs, 0);
+
+  wid_act = new QWidgetAction(this);
+  wid_act->setDefaultWidget(new QLabel(_("Autosettler activity:")));
+  con_menu.addAction(wid_act);
+
+  if ((pterr->mining_result == pterr
+       && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0)
+      || (pterr->mining_result != pterr && pterr->mining_result != NULL
+          && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0)) {
+    con_menu.addAction(&con_mine);
+  }
+  if ((pterr->irrigation_result == pterr
+       && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0)
+      || (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
+          && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0)) {
+    con_menu.addAction(&con_irrig);
+  }
+  if (pterr->transform_result != pterr && pterr->transform_result != NULL
+      && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+    con_menu.addAction(&con_trfrm);
+  }
+  if (next_extra_for_tile(ptile, EC_ROAD, city_owner(mcity), NULL) != NULL) {
+    con_menu.addAction(&con_road);
+  }
+  if (ptask != NULL) {
+    con_menu.addAction(&con_clear);
+  }
+
+  act = con_menu.exec(mapToGlobal(point));
+  if (act) {
+    if (act == &con_mine) {
+      task.activity = ACTIVITY_MINE;
+    }
+    if (act == &con_irrig) {
+      task.activity = ACTIVITY_IRRIGATE;
+    }
+    if (act == &con_trfrm) {
+      task.activity = ACTIVITY_TRANSFORM;
+    }
+    task.tgt = -1;
+    task.want = 100;
+    if (act == &con_road) {
+      enum extra_cause cause = activity_to_extra_cause(ACTIVITY_GEN_ROAD);
+      struct extra_type *tgt;
+      tgt = next_extra_for_tile(ptile, cause, city_owner(mcity), NULL);
+      task.tgt = extra_index(tgt);
+      task.activity = ACTIVITY_GEN_ROAD;
+    }
+    task.tile_id = ptile->index;
+    send_packet_worker_task(&client.conn, &task);
   }
 }
 
