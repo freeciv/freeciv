@@ -406,7 +406,8 @@ int main(int argc, char *argv[])
                 _("Set TYPE as server type in metaserver"));
 #endif /* FREECIV_WEB */
     cmdhelp_add(help, "k", "keep",
-                _("Keep updating game information on metaserver even if has failed in the past")),
+                _("Keep updating game information on metaserver even after "
+                  "failure")),
     cmdhelp_add(help, "p",
                 /* TRANS: "port" is exactly what user must type, do not translate. */
                 _("port PORT"),

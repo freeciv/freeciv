@@ -2106,7 +2106,7 @@ static struct setting settings[] = {
            ALLOW_NONE, ALLOW_BASIC,
            N_("National borders"),
            N_("If this is not disabled, then any land tiles around a "
-              "city or border claiming Extra (like the classic ruleset's "
+              "city or border-claiming extra (like the classic ruleset's "
               "Fortress base) will be owned by that nation. "
               "SEE_INSIDE and EXPAND makes everything inside a player's "
               "borders visible at once. ENABLED will, in some rulesets, "
