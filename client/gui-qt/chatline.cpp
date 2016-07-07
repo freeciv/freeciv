@@ -33,7 +33,7 @@
 
 #include "chatline.h"
 
-static bool gui_qt_allied_chat_only = false;
+static bool gui_qt_allied_chat_only = true;
 static bool is_plain_public_message(QString s);
 static QString replace_signs(QString str);
 /***************************************************************************
