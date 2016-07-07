@@ -59,6 +59,368 @@
 extern QApplication *qapp;
 
 /**************************************************************************
+  Constructor for trade city used to trade calculation
+**************************************************************************/
+trade_city::trade_city(struct city *pcity)
+{
+  city = pcity;
+  tile = nullptr;
+  trade_num = 0;
+  poss_trade_num = 0;
+
+}
+
+/**************************************************************************
+  Constructor for trade calculator
+**************************************************************************/
+trade_generator::trade_generator()
+{
+  hover_city = false;
+}
+
+/**************************************************************************
+  Adds all cities to trade generator
+**************************************************************************/
+void trade_generator::add_all_cities()
+{
+  int i, s;
+  struct city *pcity;
+  clear_trade_planing();
+  s = city_list_size(client.conn.playing->cities);
+  if (s == 0) {
+    return;
+  }
+  for (i = 0; i < s; i++) {
+    pcity = city_list_get(client.conn.playing->cities, i);
+    add_city(pcity);
+  }
+}
+
+/**************************************************************************
+  Clears genrated routes, virtual cities, cities
+**************************************************************************/
+void trade_generator::clear_trade_planing()
+{
+  struct city *pcity;
+  struct trade_city *tc;
+  foreach(pcity, virtual_cities) {
+    destroy_city_virtual(pcity);
+  }
+  virtual_cities.clear();
+  foreach(tc, cities) {
+    delete tc;
+  }
+  cities.clear();
+  lines.clear();
+  gui()->mapview_wdg->repaint();
+}
+
+
+/**************************************************************************
+  Adds single city to trade generator
+**************************************************************************/
+void trade_generator::add_city(struct city *pcity)
+{
+  trade_city *tc = new trade_city(pcity);
+  cities.append(tc);
+  gui()->infotab->chtwdg->append(QString(_("Adding city %1 to trade planning"))
+                                 .arg(tc->city->name));
+}
+
+/**************************************************************************
+  Adds/removes tile to trade generator
+**************************************************************************/
+void trade_generator::add_tile(struct tile *ptile)
+{
+  struct city *pcity;
+  trade_city *tc;
+
+  pcity = tile_city(ptile);
+
+  foreach (tc, cities) {
+    if (pcity != nullptr) {
+      if (tc->city == pcity) {
+        remove_city(pcity);
+        return;
+      }
+    }
+    if (tc->city->tile == ptile) {
+      remove_virtual_city(ptile);
+      return;
+    }
+  }
+
+  if (pcity != nullptr) {
+    add_city(pcity);
+    return;
+  }
+
+  pcity = create_city_virtual(client_player(), ptile, "Virtual");
+  add_city(pcity);
+  virtual_cities.append(pcity);
+}
+
+/**************************************************************************
+  Removes single city from trade generator
+**************************************************************************/
+void trade_generator::remove_city(struct city* pcity)
+{
+  trade_city *tc;
+
+  foreach (tc, cities) {
+    if (tc->city->tile == pcity->tile) {
+      cities.removeAll(tc);
+      gui()->infotab->chtwdg->append(
+        QString(_("Removing city %1 from trade planning"))
+        .arg(tc->city->name));
+      return;
+    }
+  }
+}
+
+/**************************************************************************
+  Removes virtual city from trade generator
+**************************************************************************/
+void trade_generator::remove_virtual_city(tile *ptile)
+{
+  struct city *c;
+  trade_city *tc;
+
+  foreach (c, virtual_cities) {
+    if (c->tile == ptile) {
+        virtual_cities.removeAll(c);
+        gui()->infotab->chtwdg->append(
+          QString(_("Removing city %1 from trade planning")).arg(c->name));
+    }
+  }
+
+  foreach (tc, cities) {
+    if (tc->city->tile == ptile) {
+        cities.removeAll(tc);
+        return;
+    }
+  }
+}
+
+
+/**************************************************************************
+  Finds trade routes to establish
+**************************************************************************/
+void trade_generator::calculate()
+{
+  trade_city *tc;
+  trade_city *ttc;
+
+  lines.clear();
+  foreach (tc, cities) {
+    tc->pos_cities.clear();
+    tc->new_tr_cities.clear();
+    tc->curr_tr_cities.clear();
+  }
+  foreach (tc, cities) {
+    tc->trade_num = city_num_trade_routes(tc->city);
+    tc->poss_trade_num = 0;
+    tc->pos_cities.clear();
+    tc->new_tr_cities.clear();
+    tc->curr_tr_cities.clear();
+    tc->done = false;
+    foreach (ttc, cities) {
+      if (have_cities_trade_route(tc->city, ttc->city) == false
+          && can_establish_trade_route(tc->city, ttc->city)) {
+        tc->poss_trade_num++;
+        tc->pos_cities.append(ttc->city);
+      }
+      tc->over_max = tc->trade_num + tc->poss_trade_num
+                     - max_trade_routes(tc->city);
+    }
+  }
+
+  find_certain_routes();
+  discard();
+  find_certain_routes();
+
+  foreach (tc, cities) {
+    if (!tc->done) {
+      char text[1024];
+      fc_snprintf(text, sizeof(text),
+                  PL_("City %s - 1 free trade route.",
+                      "City %s - %d free trade routes.",
+                      max_trade_routes(tc->city) - tc->trade_num),
+                  city_link(tc->city),
+                  max_trade_routes(tc->city) - tc->trade_num);
+      output_window_append(ftc_client, text);
+    }
+  }
+
+  gui()->mapview_wdg->repaint();
+}
+
+/**************************************************************************
+  Finds highest number of trade routes over maximum for all cities,
+  skips given city
+**************************************************************************/
+int trade_generator::find_over_max(struct city *pcity = nullptr)
+{
+  trade_city *tc;
+  int max = 0;
+
+  foreach (tc, cities) {
+    if (pcity != tc->city) {
+      max = qMax(max, tc->over_max);
+    }
+  }
+  return max;
+}
+
+/**************************************************************************
+  Finds city with highest trade routes possible
+**************************************************************************/
+trade_city* trade_generator::find_most_free()
+{
+  trade_city *tc;
+  trade_city *rc = nullptr;
+  int max = 0;
+
+  foreach (tc, cities) {
+    if (max < tc->over_max) {
+      max = tc->over_max;
+      rc = tc;
+    }
+  }
+  return rc;
+}
+
+/**************************************************************************
+  Drops all possible trade routes.
+**************************************************************************/
+void trade_generator::discard()
+{
+  trade_city *tc;
+  int j = 5;
+
+  for (int i = j; i > -j; i--) {
+    while ((tc = find_most_free())) {
+      if (discard_one(tc) == false) {
+        if (discard_any(tc, i) == false) {
+          break;
+        }
+      }
+    }
+  }
+}
+
+/**************************************************************************
+  Drops trade routes between given cities
+**************************************************************************/
+void trade_generator::discard_trade(trade_city* tc, trade_city* ttc)
+{
+  tc->pos_cities.removeOne(ttc->city);
+  ttc->pos_cities.removeOne(tc->city);
+  tc->poss_trade_num--;
+  ttc->poss_trade_num--;
+  tc->over_max--;
+  ttc->over_max--;
+  check_if_done(tc, ttc);
+}
+
+/**************************************************************************
+  Drops one trade route for given city if possible
+**************************************************************************/
+bool trade_generator::discard_one(trade_city* tc)
+{
+  int best = 0;
+  int current_candidate = 0;
+  int best_id;
+  trade_city *ttc;
+
+  for (int i = cities.size() - 1 ; i >= 0; i--) {
+    ttc = cities.at(i);
+    current_candidate = ttc->over_max;
+    if (current_candidate > best) {
+      best_id = i;
+    }
+  }
+  if (best == 0) {
+    return false;
+  }
+
+  ttc = cities.at(best_id);
+  discard_trade(tc, ttc);
+  return true;
+}
+
+/**************************************************************************
+  Drops all trade routes for given city
+**************************************************************************/
+bool trade_generator::discard_any(trade_city* tc, int freeroutes)
+{
+  trade_city *ttc;
+
+  for (int i = cities.size() - 1 ; i >= 0; i--) {
+    ttc = cities.at(i);
+    if (tc->pos_cities.contains(ttc->city)
+        && ttc->pos_cities.contains(tc->city)
+        && ttc->over_max > freeroutes) {
+      discard_trade(tc, ttc);
+      return true;
+    }
+  }
+  return false;
+}
+
+/**************************************************************************
+  Adds routes for cities which can only have maximum possible trade routes
+**************************************************************************/
+void trade_generator::find_certain_routes()
+{
+  trade_city *tc;
+  trade_city *ttc;
+
+  foreach (tc, cities) {
+    if (tc->done || tc->over_max > 0) {
+      continue;
+    }
+    foreach (ttc, cities) {
+      if (ttc->done || ttc->over_max > 0
+          || tc == ttc || tc->done || tc->over_max > 0) {
+        continue;
+      }
+      if (tc->pos_cities.contains(ttc->city)
+          && ttc->pos_cities.contains(tc->city)) {
+        struct qtiles gilles;
+        tc->pos_cities.removeOne(ttc->city);
+        ttc->pos_cities.removeOne(tc->city);
+        tc->poss_trade_num--;
+        ttc->poss_trade_num--;
+        tc->new_tr_cities.append(ttc->city);
+        ttc->new_tr_cities.append(ttc->city);
+        tc->trade_num++;
+        ttc->trade_num++;
+        tc->over_max--;
+        ttc->over_max--;
+        check_if_done(tc, ttc);
+        gilles.t1 = tc->city->tile;
+        gilles.t2 = ttc->city->tile;
+        lines.append(gilles);
+      }
+    }
+  }
+}
+
+/**************************************************************************
+  Marks cities with full trade routes to finish searching
+**************************************************************************/
+void trade_generator::check_if_done(trade_city* tc1, trade_city* tc2)
+{
+  if (tc1->trade_num == max_trade_routes(tc1->city)) {
+    tc1->done = true;
+  }
+  if (tc2->trade_num == max_trade_routes(tc2->city)) {
+    tc2->done = true;
+  }
+}
+
+/**************************************************************************
   Constructor for units used in delayed orders
 **************************************************************************/
 qfc_units_list::qfc_units_list()
@@ -1047,6 +1409,15 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Clear Orders"));
   act->setShortcut(QKeySequence(tr("ctrl+shift+c")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_orders_clear()));
+  act = menu->addAction(_("Add all cities to trade planning"));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_trade_add_all()));
+  act = menu->addAction(_("Calculate trade planning"));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_calculate()));
+  act = menu->addAction(_("Add/Remove City"));
+  act->setShortcut(QKeySequence(tr("ctrl+t")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_trade_city()));
+  act = menu->addAction(_("Clear Trade Planning"));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_clear_trade()));
 
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
@@ -1956,6 +2327,38 @@ void mr_menu::slot_orders_clear()
 }
 
 /***************************************************************************
+  Adds one city to trade planning
+***************************************************************************/
+void mr_menu::slot_trade_city()
+{
+  gui()->trade_gen.hover_city = true;
+}
+/***************************************************************************
+  Adds all cities to trade planning
+***************************************************************************/
+void mr_menu::slot_trade_add_all()
+{
+  gui()->trade_gen.add_all_cities();
+}
+
+/***************************************************************************
+  Trade calculation slot
+***************************************************************************/
+void mr_menu::slot_calculate()
+{
+  gui()->trade_gen.calculate();
+}
+
+/**************************************************************************
+  Slot for clearing trade routes
+**************************************************************************/
+void mr_menu::slot_clear_trade()
+{
+  gui()->trade_gen.clear_trade_planing();
+}
+
+
+/***************************************************************************
   Delayed goto
 ***************************************************************************/
 void mr_menu::slot_delayed_goto()
@@ -2406,6 +2809,13 @@ void mr_menu::slot_traveler()
   send_report_request(REPORT_WONDERS_OF_THE_WORLD);
 }
 
+/****************************************************************
+  Action "Calculate trade routes"
+*****************************************************************/
+void mr_menu::calc_trade_routes()
+{
+  gui()->trade_gen.calculate();
+}
 
 /****************************************************************
   Action "TAX RATES"

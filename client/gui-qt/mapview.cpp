@@ -42,6 +42,7 @@
 #include "text.h"
 
 // gui-qt
+#include "colors.h"
 #include "qtg_cxxside.h"
 #include "mapview.h"
 
@@ -66,6 +67,117 @@ bool is_point_in_area(int x, int y, int px, int py, int pxe, int pye)
   return false;
 }
 
+/**************************************************************************
+  Draws calculated trade routes
+**************************************************************************/
+void draw_calculated_trade_routes(QPainter *painter)
+{
+  int dx, dy;
+  float w, h;
+  float x1, y1, x2, y2;
+  bool ret;
+  qtiles qgilles;
+  struct city *pcity;
+  struct color *pcolor;
+  trade_city *tc;
+  QPen pen;
+
+  if (!gui_options.draw_city_trade_routes || !can_client_control()
+      || gui()->trade_gen.cities.empty()) {
+    return;
+  }
+  pcolor = get_color(tileset, COLOR_MAPVIEW_TRADE_ROUTES_NO_BUILT);
+  /* Draw calculated trade routes */
+  foreach (qgilles, gui()->trade_gen.lines) {
+    base_map_distance_vector(&dx, &dy, TILE_XY(qgilles.t1),
+                             TILE_XY(qgilles.t2));
+    map_to_gui_vector(tileset, 1.0, &w, &h, dx, dy);
+
+    tile_to_canvas_pos(&x1, &y1, qgilles.t1);
+    tile_to_canvas_pos(&x2, &y2, qgilles.t2);
+
+    /* Dont draw if route was already established */
+    if (tile_city(qgilles.t1) && tile_city(qgilles.t2)
+        && have_cities_trade_route(tile_city(qgilles.t1),
+                                   tile_city(qgilles.t2))) {
+        continue;
+    }
+
+    pen.setColor(pcolor->qcolor);
+    pen.setStyle(Qt::DashLine);
+    pen.setDashOffset(4);
+    pen.setWidth(1);
+    painter->setPen(pen);
+    if (x2 - x1 == w && y2 - y1 == h) {
+      painter->drawLine(x1 + tileset_tile_width(tileset) / 2,
+                        y1 + tileset_tile_height(tileset) / 2,
+                        x1 + tileset_tile_width(tileset) / 2 + w,
+                        y1 + tileset_tile_height(tileset) / 2 + h);
+      continue;
+    }
+    painter->drawLine(x2 + tileset_tile_width(tileset) / 2,
+                      y2 + tileset_tile_height(tileset) / 2,
+                      x2 + tileset_tile_width(tileset) / 2 - w,
+                      y2 + tileset_tile_height(tileset) / 2 - h);
+  }
+  /* Draw virtual cities */
+  foreach (pcity, gui()->trade_gen.virtual_cities) {
+    float canvas_x, canvas_y;
+    if (pcity->tile != nullptr
+        && tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile)) {
+      painter->drawPixmap(static_cast<int>(canvas_x),
+                          static_cast<int>(canvas_y),
+                          *get_attention_crosshair_sprite(tileset)->pm);
+    }
+  }
+  /* Find units which might be going to establish trade */
+  pcolor = get_color(tileset, COLOR_MAPVIEW_TRADE_ROUTES_SOME_BUILT);
+  unit_list_iterate(client_player()->units, punit) {
+    struct tile *stile;
+    struct tile *ttile;
+    if (unit_can_do_action(punit, ACTION_TRADE_ROUTE)) {
+      if (!unit_has_orders(punit)) {
+        continue;
+      }
+      pcity = game_city_by_number(punit->homecity);
+      stile = pcity->tile;
+      ttile = punit->goto_tile;
+      if (tile_city(ttile) == nullptr) {
+        continue;
+      }
+      ret = true;
+      foreach (tc, gui()->trade_gen.cities) {
+        if ((tc->city == pcity && tc->new_tr_cities.contains(tile_city(ttile)))) {
+          ret = false;
+        }
+      }
+      if (ret == true) {
+        continue;
+      }
+      base_map_distance_vector(&dx, &dy, TILE_XY(stile), TILE_XY(ttile));
+      map_to_gui_vector(tileset, 1.0, &w, &h, dx, dy);
+      tile_to_canvas_pos(&x1, &y1, stile);
+      tile_to_canvas_pos(&x2, &y2, ttile);
+
+      pen.setColor(pcolor->qcolor);
+      pen.setStyle(Qt::DashLine);
+      pen.setDashOffset(4);
+      pen.setWidth(1);
+      painter->setPen(pen);
+      if (x2 - x1 == w && y2 - y1 == h) {
+        painter->drawLine(x1 + tileset_tile_width(tileset) / 2,
+                          y1 + tileset_tile_height(tileset) / 2,
+                          x1 + tileset_tile_width(tileset) / 2 + w,
+                          y1 + tileset_tile_height(tileset) / 2 + h);
+        continue;
+      }
+      painter->drawLine(x2 + tileset_tile_width(tileset) / 2,
+                        y2 + tileset_tile_height(tileset) / 2,
+                        x2 + tileset_tile_width(tileset) / 2 - w,
+                        y2 + tileset_tile_height(tileset) / 2 - h);
+    }
+  } unit_list_iterate_end;
+}
 
 /**************************************************************************
   Constructor for idle callbacks
@@ -187,6 +299,7 @@ void map_view::paint(QPainter *painter, QPaintEvent *event)
 {
   painter->drawPixmap(event->rect(), mapview.store->map_pixmap,
                       event->rect());
+  draw_calculated_trade_routes(painter);
 }
 
 /**************************************************************************

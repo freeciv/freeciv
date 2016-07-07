@@ -236,6 +236,26 @@ void map_view::mousePressEvent(QMouseEvent *event)
 
   /* Left Button */
   if (event->button() == Qt::LeftButton
+      && gui()->trade_gen.hover_city == true) {
+    ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+    gui()->menu_bar->set_tile_for_order(ptile);
+    gui()->trade_gen.hover_city = false;
+    gui()->trade_gen.add_tile(ptile);
+    gui()->mapview_wdg->repaint();
+    return;
+  }
+  if (event->button() == Qt::LeftButton
+      && gui()->menu_bar->delayed_order == true) {
+    ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+    gui()->menu_bar->set_tile_for_order(ptile);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
+    exit_goto_state();
+    gui()->menu_bar->delayed_order = false;
+    return;
+  }
+
+  if (event->button() == Qt::LeftButton
       && gui()->menu_bar->delayed_order == false) {
     if (ctrl && shft && pcity) {
       pw = new production_widget(this, pcity, false, 0, 0, true, true);
@@ -256,15 +276,6 @@ void map_view::mousePressEvent(QMouseEvent *event)
     } else {
       action_button_pressed(event->pos().x(), event->pos().y(), SELECT_POPUP);
     }
-  }
-  if (event->button() == Qt::LeftButton
-      && gui()->menu_bar->delayed_order == true) {
-      ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
-      gui()->menu_bar->set_tile_for_order(ptile);
-      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL,
-                      EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
-      exit_goto_state();
-      gui()->menu_bar->delayed_order = false;
   }
 
   /* Middle Button */
