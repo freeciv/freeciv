@@ -1322,6 +1322,7 @@ static bool worklist_change_build_target(struct player *pplayer,
                * since we'll never be able to meet this req... */
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
+                            /* TRANS: last %s is a date */
                             _("%s can't build %s from the worklist; "
                               "only available from %s.  Postponing..."),
                             city_link(pcity),

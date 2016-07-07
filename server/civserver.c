@@ -400,7 +400,8 @@ int main(int argc, char *argv[])
                 _("Metaserver ADDR"),
                 _("Set ADDR as metaserver address"));
     cmdhelp_add(help, "k", "keep",
-                _("Keep updating game information on metaserver even if has failed in the past")),
+                _("Keep updating game information on metaserver even after "
+                  "failure")),
     cmdhelp_add(help, "p",
                 /* TRANS: "port" is exactly what user must type, do not translate. */
                 _("port PORT"),

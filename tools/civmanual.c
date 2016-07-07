@@ -511,7 +511,8 @@ int main(int argc, char **argv)
   while (inx < argc) {
     if ((option = get_option_malloc("--ruleset", argv, &inx, argc))) {
       if (ruleset != NULL) {
-        fc_fprintf(stderr, _("Multiple rulesets requested. Only one ruleset at time supported.\n"));
+        fc_fprintf(stderr, _("Multiple rulesets requested. Only one "
+                             "ruleset at a time is supported.\n"));
         free(option);
       } else {
         ruleset = option;

@@ -282,7 +282,8 @@ static void print_usage(const char *argv0)
              _("Other gui-specific options are:\n"));
 
   fc_fprintf(stderr,
-             _("-g, --gtk-warnings\tLet gtk+ to print warnings\n\n"));
+             _("-g, --gtk-warnings\tAllow Gtk+ to print warnings "
+               "to console\n\n"));
 
   /* TRANS: No full stop after the URL, could cause confusion. */
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
