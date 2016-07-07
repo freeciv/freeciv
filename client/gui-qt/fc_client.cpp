@@ -157,6 +157,7 @@ void fc_client::init()
   pages[PAGE_NETWORK]->setVisible(false);
 
   // PAGE_GAME
+  gui_options.gui_qt_allied_chat_only = true;
   path = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
   if (path.isEmpty() == false) {
     QSettings::setPath(QSettings::NativeFormat, QSettings::UserScope, path);
