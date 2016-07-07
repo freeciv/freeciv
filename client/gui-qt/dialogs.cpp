@@ -516,6 +516,7 @@ void races_dialog::nation_selected(const QItemSelection &selected,
   helptext_nation(buf, sizeof(buf), nation_by_number(selected_nation), NULL);
   description->setText(buf);
   leader_name->clear();
+  leader_name->addItem(client.conn.playing->name, true);
   nation_leader_list_iterate(nation_leaders(nation_by_number
                                             (selected_nation)), pleader) {
     str = QString::fromUtf8(nation_leader_name(pleader));
@@ -609,7 +610,8 @@ void races_dialog::ok_pressed()
                                  selected_nation, selected_sex,
                                  leader_name->currentText().toUtf8().data(),
                                  selected_style);
-  delete this;
+  close();
+  deleteLater();
 }
 
 /***************************************************************************
