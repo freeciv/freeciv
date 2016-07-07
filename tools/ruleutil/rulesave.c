@@ -1770,8 +1770,10 @@ static bool save_techs_ruleset(const char *filename, const char *name)
       save_name_translation(sfile, &(pa->name), path);
 
       if (game.info.tech_classes > 0) {
-        secfile_insert_str(sfile, game.info.tech_class_names[pa->tclass],
-                           "%s.class", path);
+        if (pa->tclass != NULL) {
+          secfile_insert_str(sfile, tech_class_rule_name(pa->tclass),
+                             "%s.class", path);
+        }
       }
 
       save_tech_ref(sfile, pa->require[AR_ONE], path, "req1");

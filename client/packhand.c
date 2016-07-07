@@ -3421,7 +3421,11 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
   i = 0;
 
   fc_assert(game.info.tech_classes == 0 || p->tclass < game.info.tech_classes);
-  a->tclass = p->tclass;
+  if (p->tclass >= 0) {
+    a->tclass = tech_class_by_number(p->tclass);
+  } else {
+    a->tclass = NULL;
+  }
 
   /* The tech requirements req1 and req2 are send inside research_reqs
    * since they too are required to be fulfilled before the tech can be

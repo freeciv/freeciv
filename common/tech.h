@@ -114,12 +114,17 @@ enum tech_req {
   AR_SIZE
 };
 
+struct tech_class {
+  int idx;
+  struct name_translation name;
+};
+
 struct advance {
   Tech_type_id item_number;
   struct name_translation name;
   char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
-  int tclass;
+  struct tech_class *tclass;
 
   struct advance *require[AR_SIZE];
 
@@ -164,6 +169,12 @@ struct advance *advance_by_translated_name(const char *name);
 
 const char *advance_rule_name(const struct advance *padvance);
 const char *advance_name_translation(const struct advance *padvance);
+
+void tech_classes_init(void);
+struct tech_class *tech_class_by_number(const int idx);
+const char *tech_class_name_translation(const struct tech_class *ptclass);
+const char *tech_class_rule_name(const struct tech_class *ptclass);
+struct tech_class *tech_class_by_rule_name(const char *name);
 
 void user_tech_flags_init(void);
 void user_tech_flags_free(void);

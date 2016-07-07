@@ -542,6 +542,7 @@ void game_ruleset_init(void)
   user_unit_type_flags_init();
   user_terrain_flags_init();
   user_extra_flags_init();
+  tech_classes_init();
   user_tech_flags_init();
   multipliers_init();
 

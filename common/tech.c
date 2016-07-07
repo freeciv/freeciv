@@ -49,6 +49,8 @@ struct advance_req_iter {
  */
 struct advance advances[A_ARRAY_SIZE];
 
+struct tech_class tech_classes[MAX_NUM_TECH_CLASSES];
+
 static struct user_flag user_tech_flags[MAX_NUM_USER_TECH_FLAGS];
 
 /**************************************************************************
@@ -273,6 +275,68 @@ const char *advance_name_translation(const struct advance *padvance)
 const char *advance_rule_name(const struct advance *padvance)
 {
   return rule_name_get(&padvance->name);
+}
+
+/**************************************************************************
+  Initialize tech classes
+**************************************************************************/
+void tech_classes_init(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_TECH_CLASSES; i++) {
+    tech_classes[i].idx = i;
+  }
+}
+
+/**************************************************************************
+  Return the tech_class for the given index.
+**************************************************************************/
+struct tech_class *tech_class_by_number(const int idx)
+{
+  if (idx < 0 || idx >= game.info.tech_classes) {
+    return NULL;
+  }
+
+  return &tech_classes[idx];
+}
+
+/**************************************************************************
+  Return the (translated) name of the given tech_class
+  You must not free the return pointer.
+**************************************************************************/
+const char *tech_class_name_translation(const struct tech_class *ptclass)
+{
+  return name_translation_get(&ptclass->name);
+}
+
+/****************************************************************************
+  Return the (untranslated) rule name of tech_class
+  You must not free the return pointer.
+****************************************************************************/
+const char *tech_class_rule_name(const struct tech_class *ptclass)
+{
+  return rule_name_get(&ptclass->name);
+}
+
+/**************************************************************************
+ Does a linear search of tech_classes[].name.vernacular
+ Returns NULL when none match.
+**************************************************************************/
+struct tech_class *tech_class_by_rule_name(const char *name)
+{
+  const char *qname = Qn_(name);
+  int i;
+
+  for (i = 0; i < game.info.tech_classes; i++) {
+    struct tech_class *ptclass = tech_class_by_number(i);
+
+    if (!fc_strcasecmp(tech_class_rule_name(ptclass), qname)) {
+      return ptclass;
+    }
+  }
+
+  return NULL;
 }
 
 /**************************************************************************

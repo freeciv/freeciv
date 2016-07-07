@@ -1198,7 +1198,7 @@ static bool load_ruleset_techs(struct section_file *file,
   } else {
     game.info.tech_classes = nval;
     for (i = 0; i < nval; i++) {
-      strncpy(game.info.tech_class_names[i], slist[i], MAX_LEN_NAME - 1);
+      names_set(&(tech_class_by_number(i)->name), "freeciv", slist[i], slist[i]);
     }
     free(slist);
   }
@@ -1237,29 +1237,22 @@ static bool load_ruleset_techs(struct section_file *file,
     }
 
     if (game.info.tech_classes == 0) {
-      a->tclass = 0;
+      a->tclass = NULL;
     } else {
       const char *classname;
 
       classname = lookup_string(file, sec_name, "class");
       if (classname != NULL) {
-        int ci;
-
         classname = Q_(classname);
-        for (ci = 0; ci < game.info.tech_classes; ci++) {
-          if (!strcasecmp(classname, game.info.tech_class_names[ci])) {
-            a->tclass = ci;
-            break;
-          }
-        }
-        if (ci == game.info.tech_classes) {
+        a->tclass = tech_class_by_rule_name(classname);
+        if (a->tclass == NULL) {
           ruleset_error(LOG_ERROR, "\"%s\" [%s] \"%s\": Uknown tech class \"%s\".",
                         filename, sec_name, rule_name_get(&a->name), classname);
           ok = FALSE;
           break;
         }
       } else {
-        a->tclass = 0; /* Default */
+        a->tclass = NULL; /* Default */
       }
     }
 
@@ -6724,7 +6717,11 @@ static void send_ruleset_techs(struct conn_list *dest)
   advance_iterate(A_FIRST, a) {
     packet.id = advance_number(a);
     packet.removed = !valid_advance(a);
-    packet.tclass = a->tclass;
+    if (a->tclass == NULL) {
+      packet.tclass = -1;
+    } else {
+      packet.tclass = a->tclass->idx;
+    }
     sz_strlcpy(packet.name, untranslated_name(&a->name));
     sz_strlcpy(packet.rule_name, rule_name_get(&a->name));
     sz_strlcpy(packet.graphic_str, a->graphic_str);

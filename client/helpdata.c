@@ -4641,8 +4641,13 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     const struct research *presearch = research_get(pplayer);
 
     if (game.info.tech_classes > 0) {
-      cat_snprintf(buf, bufsz, _("Belongs to tech class %s.\n\n"),
-                   Q_(game.info.tech_class_names[vap->tclass]));
+      if (vap->tclass == NULL) {
+        cat_snprintf(buf, bufsz, _("Belongs to the default tech class (%s).\n\n"),
+                     Q_(game.info.tech_class_names[0]));
+      } else {
+        cat_snprintf(buf, bufsz, _("Belongs to tech class %s.\n\n"),
+                     Q_(game.info.tech_class_names[vap->tclass->idx]));
+      }
     }
 
     if (research_invention_state(presearch, i) != TECH_KNOWN) {
