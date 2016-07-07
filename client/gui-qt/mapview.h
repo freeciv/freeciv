@@ -83,6 +83,7 @@ const char *const close_button[] = {
 };
 
 bool is_point_in_area(int x, int y, int px, int py, int pxe, int pye);
+void draw_calculated_trade_routes(QPainter *painter);
 
 /**************************************************************************
   Struct used for idle callback to execute some callbacks later

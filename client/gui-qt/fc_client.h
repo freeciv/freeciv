@@ -249,6 +249,7 @@ public:
   QCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
   pregame_options *pr_options;
   fc_settings qt_settings;
+  trade_generator trade_gen;
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
   void remove_repo_dlg(QString str);

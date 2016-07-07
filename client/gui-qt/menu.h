@@ -81,6 +81,9 @@ enum delay_order{
   D_FORT
 };
 
+/**************************************************************************
+  Class representing one unit for delayed goto
+**************************************************************************/
 class qfc_delayed_unit_item
 {
 public:
@@ -94,6 +97,9 @@ public:
   struct tile *ptile;
 };
 
+/**************************************************************************
+  Class holding unit list for delayed goto
+**************************************************************************/
 class qfc_units_list
 {
 public:
@@ -122,6 +128,68 @@ public:
   bool full_hp;
   bool full_hp_mp;
 };
+
+/**************************************************************************
+  Helper item for trade calculation
+***************************************************************************/
+class trade_city
+{
+public:
+  trade_city(struct city *pcity);
+
+  bool done;
+  int over_max;
+  int poss_trade_num;
+  int trade_num; // already created + generated
+  QList<struct city *> curr_tr_cities;
+  QList<struct city *> new_tr_cities;
+  QList<struct city *> pos_cities;
+  struct city *city;
+  struct tile *tile;
+
+};
+
+/**************************************************************************
+  Struct of 2 tiles, used for drawing trade routes
+***************************************************************************/
+struct qtiles
+{
+  struct tile *t1;
+  struct tile *t2;
+};
+
+/**************************************************************************
+  Class trade generator, used for calulating possible trade routes
+***************************************************************************/
+class trade_generator
+{
+public:
+  trade_generator();
+
+  bool hover_city;
+  QList<qtiles> lines;
+  QList<struct city *> virtual_cities;
+  QList<trade_city*> cities;
+
+  void add_all_cities();
+  void add_city(struct city *pcity);
+  void add_tile(struct tile *ptile);
+  void calculate();
+  void clear_trade_planing();
+  void remove_city(struct city *pcity);
+  void remove_virtual_city(struct tile *ptile);
+
+private:
+  bool discard_any(trade_city *tc, int freeroutes);
+  bool discard_one(trade_city *tc);
+  int find_over_max(struct city *pcity);
+  trade_city* find_most_free();
+  void check_if_done(trade_city *tc1, trade_city *tc2);
+  void discard();
+  void discard_trade(trade_city *tc1, trade_city *tc2);
+  void find_certain_routes();
+};
+
 
 /**************************************************************************
   Custom dialog to show information
@@ -271,9 +339,14 @@ private slots:
   void slot_orders_clear();
   void slot_execute_orders();
   void slot_delayed_goto();
+  void slot_trade_add_all();
+  void slot_trade_city();
+  void slot_calculate();
+  void slot_clear_trade();
 
   /*used by civilization menu */
   void slot_show_map();
+  void calc_trade_routes();
   void slot_popup_tax_rates();
   void slot_show_eco_report();
   void slot_show_units_report();
