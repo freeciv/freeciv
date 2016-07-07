@@ -42,9 +42,12 @@ using MSYS2 from http://msys2.github.io
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
+ https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20160205.exe
+ for win32 or
  https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20160205.exe
+ for win64
 
-1.2) Run it to install MSYS2 on 64bit build system
+1.2) Run it to install MSYS2 on build system
 
 1.3) Launch msys2_shell to update packages
 > update-core
@@ -127,13 +130,16 @@ Current versions are
 
 win32:
 ------
-msys2-freeciv-160627.7z, based on
+msys2-freeciv-win32-160627.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20160205.exe
 Replace <arch> with 'i686' in package names below
 
 win64:
 ------
-Not available at the moment
+msys2-freeciv-win64-160627.7z, based on
+https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20160205.exe
+Replace <arch> with 'x86_64' in package names below
+
 
 Following packages have been installed:
 - make
