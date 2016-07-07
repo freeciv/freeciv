@@ -803,6 +803,16 @@ colorlist =
       255, 250, 205
     }
 
+[teams]
+; freeciv optional team names definition.
+;
+; names =
+;  _("Team 0"),
+; _("Team 1"),
+; _("Team 2"),
+; _("Team 3"),
+; etc...
+
 [settings]
 ; freeciv game settings for the alien ruleset
 set =
