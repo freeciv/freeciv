@@ -42,6 +42,10 @@ bool fc_ai_threaded_setup(struct ai_type *ai);
 bool fc_ai_threxpr_setup(struct ai_type *ai);
 #endif
 
+#ifdef AI_MOD_STATIC_STUB
+bool fc_ai_stub_setup(struct ai_type *ai);
+#endif
+
 static struct ai_type *default_ai = NULL;
 
 #ifdef AI_MODULES
@@ -129,7 +133,7 @@ bool load_ai_module(const char *modname)
 void ai_init(void)
 {
   bool failure = FALSE;
-#if !defined(AI_MODULES) || defined(AI_MOD_STATIC_CLASSIC) || defined(AI_MOD_STATIC_THREADED) || defined(AI_MOD_STATIC_THREXPR)
+#if !defined(AI_MODULES) || defined(AI_MOD_STATIC_CLASSIC) || defined(AI_MOD_STATIC_THREADED) || defined(AI_MOD_STATIC_THREXPR) || defined(AI_MOD_STATIC_STUB)
   /* First !defined(AI_MODULES) case is for default ai support. */
   struct ai_type *ai;
 #endif
@@ -192,6 +196,17 @@ void ai_init(void)
     }
   }
 #endif /* AI_MOD_STATIC_THREXPR */
+
+#ifdef AI_MOD_STATIC_STUB
+  ai = ai_type_alloc();
+  if (ai != NULL) {
+    init_ai(ai);
+    if (!fc_ai_stub_setup(ai)) {
+      log_error(_("Failed to setup \"%s\" AI module"), "stub");
+      ai_type_dealloc();
+    }
+  }
+#endif /* AI_MOD_STATIC_STUB */
 
   default_ai = ai_type_by_name(AI_MOD_DEFAULT);
 #ifdef AI_MODULES

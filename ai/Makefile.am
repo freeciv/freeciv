@@ -18,6 +18,10 @@ if AI_MOD_STATIC_THREXPR
 module_dirs += threxpr
 endif
 
+if AI_MOD_STATIC_STUB
+module_dirs += stub
+endif
+
 AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common \
  -I$(top_srcdir)/common/networking \
  -I$(top_srcdir)/dependencies/tinycthread
@@ -33,7 +37,9 @@ endif
 if !AI_MOD_STATIC_THREXPR
 module_dirs += threxpr
 endif
+if !AI_MOD_STATIC_STUB
 module_dirs += stub
+endif
 else
 # AI module loading supported, but experimental modules not built
 endif

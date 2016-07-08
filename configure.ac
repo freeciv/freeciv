@@ -542,6 +542,7 @@ AC_ARG_ENABLE([ai-static],
 ai_mod_static_classic=no
 ai_mod_static_threaded=no
 ai_mod_static_threxpr=no
+ai_mod_static_stub=no
 
 for module in $(echo $static_modules | $SED 's/,/ /g') ; do
   if test "x$module" = "xclassic" ; then
@@ -559,6 +560,10 @@ for module in $(echo $static_modules | $SED 's/,/ /g') ; do
     ai_mod_default_needed=yes
     AC_DEFINE([AI_MOD_STATIC_THREXPR], [1],
               [experimental threads ai module statically linked])
+  elif test "x$module" = "xstub" ; then
+    ai_mod_static_stub=yes
+    AC_DEFINE([AI_MOD_STATIC_STUB], [1],
+              [stub ai module statically linked])
   else
     AC_MSG_ERROR([bad value ${module} for --enable-ai-static])
   fi
@@ -573,6 +578,8 @@ AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
 [test "x$ai_mod_static_threaded" = "xyes"])
 AM_CONDITIONAL([AI_MOD_STATIC_THREXPR],
 [test "x$ai_mod_static_threxpr" = "xyes"])
+AM_CONDITIONAL([AI_MOD_STATIC_STUB],
+[test "x$ai_mod_static_stub" = "xyes"])
 
 AC_ARG_WITH([default-ai],
   AS_HELP_STRING([--with-default-ai], [default ai type [first static]]),
@@ -598,6 +605,9 @@ if test "x$ai_mod_static_threaded" = "xyes" ; then
   fc_ai_last=$fc_ai_last+1
 fi
 if test "x$ai_mod_static_threxpr" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_stub" = "xyes" ; then
   fc_ai_last=$fc_ai_last+1
 fi
 if test "x$enable_aimodules" = "xyes" ; then
