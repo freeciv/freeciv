@@ -134,6 +134,9 @@ endif
 if AI_MOD_STATIC_THREADED
 da_libs += $(top_builddir)/ai/threaded/libthreadedai.la
 endif
+if AI_MOD_STATIC_STUB
+da_libs += $(top_builddir)/ai/stub/libstubai.la
+endif
 
 # These files are not generated to builddir, but to srcdir */
 MAINTAINERCLEANFILES = \

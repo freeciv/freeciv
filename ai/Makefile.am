@@ -14,6 +14,10 @@ if AI_MOD_STATIC_THREADED
 module_dirs += threaded
 endif
 
+if AI_MOD_STATIC_STUB
+module_dirs += stub
+endif
+
 AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common
 
 if AI_MODULES
@@ -24,7 +28,9 @@ if EXP_AI_MODULES
 if !AI_MOD_STATIC_THREADED
 module_dirs += threaded
 endif
+if !AI_MOD_STATIC_STUB
 module_dirs += stub
+endif
 else
 # AI module loading supported, but experimental modules not built
 endif
