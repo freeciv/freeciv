@@ -2048,6 +2048,8 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
   } terrain_type_iterate_end;
 
+  comment_resources(sfile);
+
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_RESOURCE, pres) {
     char path[512];
@@ -2222,6 +2224,8 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
   } extra_type_iterate_end;
 
+  comment_bases(sfile);
+
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_BASE, pextra) {
     char path[512];
@@ -2257,6 +2261,8 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                              "%s.flags", path);
     }
   } extra_type_by_cause_iterate_end;
+
+  comment_roads(sfile);
 
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_ROAD, pextra) {

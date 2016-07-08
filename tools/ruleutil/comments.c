@@ -31,7 +31,10 @@ static struct {
   char *uclasses;
   char *utypes;
   char *terrains;
+  char *resources;
   char *extras;
+  char *bases;
+  char *roads;
   char *styles;
   char *citystyles;
   char *musicstyles;
@@ -73,7 +76,10 @@ bool comments_load(void)
   comments_storage.uclasses = fc_strdup(secfile_lookup_str(comment_file, "typedoc.uclasses"));
   comments_storage.utypes = fc_strdup(secfile_lookup_str(comment_file, "typedoc.utypes"));
   comments_storage.terrains = fc_strdup(secfile_lookup_str(comment_file, "typedoc.terrains"));
+  comments_storage.resources = fc_strdup(secfile_lookup_str(comment_file, "typedoc.resources"));
   comments_storage.extras = fc_strdup(secfile_lookup_str(comment_file, "typedoc.extras"));
+  comments_storage.bases = fc_strdup(secfile_lookup_str(comment_file, "typedoc.bases"));
+  comments_storage.roads = fc_strdup(secfile_lookup_str(comment_file, "typedoc.roads"));
   comments_storage.styles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.styles"));
   comments_storage.citystyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.citystyles"));
   comments_storage.musicstyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.musicstyles"));
@@ -182,11 +188,35 @@ void comment_terrains(struct section_file *sfile)
 }
 
 /**************************************************************************
+  Write resources header.
+**************************************************************************/
+void comment_resources(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.resources, "Resources");
+}
+
+/**************************************************************************
   Write extras header.
 **************************************************************************/
 void comment_extras(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.extras, "Extras");
+}
+
+/**************************************************************************
+  Write bases header.
+**************************************************************************/
+void comment_bases(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.bases, "Bases");
+}
+
+/**************************************************************************
+  Write roads header.
+**************************************************************************/
+void comment_roads(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.roads, "Roads");
 }
 
 /**************************************************************************

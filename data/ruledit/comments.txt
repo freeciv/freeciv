@@ -619,6 +619,28 @@ terrains = "\
 ; */ <-- avoid gettext warnings\n\
 "
 
+resources = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Resource types:\n\
+;\n\
+; The actual tag used (the * in [resource_*]) must be unique for each resource,\n\
+; and may be used in debug output when reading this file.\n\
+;\n\
+; Notes:\n\
+;\n\
+; extra                = name of the extra this resource section is part of\n\
+; identifier           = single-character identifier used in old savegames. This\n\
+;                        must be unique for each resource, and changing it will\n\
+;                        break loading those old savegames.\n\
+; food                 = increased food production\n\
+; shield               = increased shield production\n\
+; trade                = increased trade production\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
 extras = "\
 \n\
 ; /* <-- avoid gettext warnings\n\
@@ -718,6 +740,85 @@ extras = "\
 ;   - \"NoStackDeath\"      = Units inside do not die all at once when attacked\n\
 ; helptext                = optional help text string; should escape all raw\n\
 ;                           newlines so that xgettext parsing works\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
+bases = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Base types:\n\
+;\n\
+; extra                   = name of the extra this base section is part of\n\
+; gui_type                = How gui should handle this base.\n\
+;                           Value can be \"Fortress\", \"Airbase\", or \"Other\"\n\
+; border_sq               = Base will claim land ownership up to this radius,\n\
+;                           -1 to disable. If enabled, base cannot exist in city tile.\n\
+; vision_main_sq          = Base will have main layer vision to this radius\n\
+; vision_invis_sq         = Base will have invisible layer vision to this radius\n\
+; flags\n\
+;   - \"NoAggressive\"      = Units inside are not considered aggressive if there`s\n\
+;                           friendly city within 3 tiles\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
+roads = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Road types:\n\
+;\n\
+; extra                   = name of the extra this road section is part of\n\
+; first_reqs              = additional requirements to build the first part of\n\
+;                           the road, when none of the adjacent tiles have any\n\
+;                           integrating roads (see effects.ruleset and\n\
+;                           README.effects for help on requirements)\n\
+; move_cost               = how much movement it takes to travel\n\
+;                           via this road (in fractional move points, as\n\
+;                           defined by move_fragments).\n\
+;                           -1 means that road provides no speed bonus.\n\
+; move_mode               = how movement costs are applied\n\
+;   - \"Cardinal\"   = Road cost applies only on cardinal moves\n\
+;   - \"Relaxed\"    = Road cost is normal for cardinal, double for diagonal moves\n\
+;   - \"FastAlways\" = Road cost applies always between two tiles with the roads\n\
+;                    (default)\n\
+; food_incr_const         = food production added to tile regardless of terrain\n\
+; shield_incr_const       = shield production added to tile regardless of\n\
+;                           terrain\n\
+; trade_incr_const        = trade production added to tile regardless of\n\
+;                           terrain\n\
+; food_incr               = food production added to tile; multiplied by\n\
+;                           terrain-specific road_food_incr_pct\n\
+; shield_incr             = shield production added to tile; multiplied by\n\
+;                           terrain-specific road_shield_incr_pct\n\
+; trade_incr              = trade production added to tile; multiplied by\n\
+;                           terrain-specific road_trade_incr_pct\n\
+; food_bonus              = percent added to food production\n\
+; shield_bonus            = percent added to shield production\n\
+; trade_bonus             = percent added to trade production\n\
+;   In summary, output bonuses from roads are given by the formula:\n\
+;   (base_prod + roads.incr_const + roads.incr*terrain.incr_pct) * roads.bonus\n\
+; compat_special          = what kind of pre-2.5 special this road corresponds\n\
+;                           to, if any: \"Road\", \"Railroad\", \"River\", or \"None\".\n\
+;                           Used for UI and loading old savegames\n\
+; integrates              = list of road types that are suitable next steps\n\
+;                           for travel from this road type\n\
+; flags\n\
+;   - \"RequiresBridge\"    = Technology with \"Bridge\" flag needed to build this\n\
+;                           road on the same tile as another road with\n\
+;                           \"PreventsOtherRoads\" flag (usually rivers)\n\
+;   - \"PreventsOtherRoads\" = Prevents \"RequiresBridge\" roads being built on\n\
+;                           the same tile as this one without appropriate tech\n\
+;   - \"River\"             = Automatically generated by map generator, always\n\
+;                           flowing from land tiles to ocean\n\
+;   - \"UnrestrictedInfra\" = Use of the enemy owned road is not restricted\n\
+;                           even if server setting 'restrictinfra' is set\n\
+;   - \"JumpFrom\"          = Move to a tile nativity providing \"JumpTo\"\n\
+;                           road is considered native\n\
+;   - \"JumpTo\"            = Move from a tile nativity providing \"JumpFrom\"\n\
+;                           road is considered native\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
