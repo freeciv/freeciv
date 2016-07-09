@@ -3420,7 +3420,7 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
 
   i = 0;
 
-  fc_assert(game.info.tech_classes == 0 || p->tclass < game.info.tech_classes);
+  fc_assert(game.control.num_tech_classes == 0 || p->tclass < game.control.num_tech_classes);
   if (p->tclass >= 0) {
     a->tclass = tech_class_by_number(p->tclass);
   } else {

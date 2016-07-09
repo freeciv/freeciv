@@ -286,6 +286,7 @@ void tech_classes_init(void)
 
   for (i = 0; i < MAX_NUM_TECH_CLASSES; i++) {
     tech_classes[i].idx = i;
+    tech_classes[i].disabled = FALSE;
   }
 }
 
@@ -294,7 +295,7 @@ void tech_classes_init(void)
 **************************************************************************/
 struct tech_class *tech_class_by_number(const int idx)
 {
-  if (idx < 0 || idx >= game.info.tech_classes) {
+  if (idx < 0 || idx >= game.control.num_tech_classes) {
     return NULL;
   }
 
@@ -328,7 +329,7 @@ struct tech_class *tech_class_by_rule_name(const char *name)
   const char *qname = Qn_(name);
   int i;
 
-  for (i = 0; i < game.info.tech_classes; i++) {
+  for (i = 0; i < game.control.num_tech_classes; i++) {
     struct tech_class *ptclass = tech_class_by_number(i);
 
     if (!fc_strcasecmp(tech_class_rule_name(ptclass), qname)) {

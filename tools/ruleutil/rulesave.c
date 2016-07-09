@@ -1743,12 +1743,12 @@ static bool save_techs_ruleset(const char *filename, const char *name)
     }
   }
 
-  if (game.info.tech_classes > 0) {
+  if (game.control.num_tech_classes > 0) {
     int ci;
-    const char *class_names[game.info.tech_classes];
+    const char *class_names[game.control.num_tech_classes];
 
-    for (ci = 0; ci < game.info.tech_classes; ci++) {
-      class_names[ci] = game.info.tech_class_names[ci];
+    for (ci = 0; ci < game.control.num_tech_classes; ci++) {
+      class_names[ci] = tech_class_rule_name(tech_class_by_number(ci));
     }
 
     secfile_insert_str_vec(sfile, class_names, ci,
@@ -1769,7 +1769,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
 
       save_name_translation(sfile, &(pa->name), path);
 
-      if (game.info.tech_classes > 0) {
+      if (game.control.num_tech_classes > 0) {
         if (pa->tclass != NULL) {
           secfile_insert_str(sfile, tech_class_rule_name(pa->tclass),
                              "%s.class", path);

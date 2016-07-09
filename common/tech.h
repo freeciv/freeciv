@@ -117,6 +117,7 @@ enum tech_req {
 struct tech_class {
   int idx;
   struct name_translation name;
+  bool disabled;
 };
 
 struct advance {
@@ -175,6 +176,24 @@ struct tech_class *tech_class_by_number(const int idx);
 const char *tech_class_name_translation(const struct tech_class *ptclass);
 const char *tech_class_rule_name(const struct tech_class *ptclass);
 struct tech_class *tech_class_by_rule_name(const char *name);
+
+#define tech_class_iterate(_p)                                \
+{                                                             \
+  int _i_##_p;                                                \
+  for (_i_##_p = 0; _i_##_p < game.control.num_tech_classes; _i_##_p++) {  \
+    struct tech_class *_p = tech_class_by_number(_i_##_p);
+
+#define tech_class_iterate_end                    \
+  }                                               \
+}
+
+#define tech_class_active_iterate(_p)                                  \
+  tech_class_iterate(_p) {                                             \
+    if (!_p->disabled) {
+
+#define tech_class_active_iterate_end                                  \
+    }                                                                  \
+  } tech_class_iterate_end;
 
 void user_tech_flags_init(void);
 void user_tech_flags_free(void);

@@ -485,8 +485,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT16 global_advance_count;
   BOOL global_advances[A_LAST]; diff
   BOOL global_warming;
-  UINT8 tech_classes;
-  STRING tech_class_names[255:tech_classes][MAX_LEN_NAME];
   UINT32 globalwarming;
   GOLD gold;
   GOLD_UPKEEP_STYLE gold_upkeep_style;
@@ -1775,6 +1773,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_unit_classes;
   UINT16 num_unit_types;
   UINT16 num_impr_types;
+  UINT16 num_tech_classes;
   UINT16 num_tech_types;
   UINT16 num_extra_types;
   UINT16 num_base_types;

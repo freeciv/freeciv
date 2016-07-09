@@ -1196,9 +1196,9 @@ static bool load_ruleset_techs(struct section_file *file,
 
   slist = secfile_lookup_str_vec(file, &nval, "classes.names");
   if (slist == NULL) {
-    game.info.tech_classes = 0;
+    game.control.num_tech_classes = 0;
   } else {
-    game.info.tech_classes = nval;
+    game.control.num_tech_classes = nval;
     for (i = 0; i < nval; i++) {
       names_set(&(tech_class_by_number(i)->name), "freeciv", slist[i], slist[i]);
     }
@@ -1238,7 +1238,7 @@ static bool load_ruleset_techs(struct section_file *file,
       break;
     }
 
-    if (game.info.tech_classes == 0) {
+    if (game.control.num_tech_classes == 0) {
       a->tclass = NULL;
     } else {
       const char *classname;
