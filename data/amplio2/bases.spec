@@ -30,7 +30,7 @@ tiles = { "row", "column", "tag"
  0,  4, "base.fortress_bg"
  1,  0, "base.airstrip_mg"
  1,  1, "base.buoy_mg"
- 1,  2, "base.ruins_mg"
+ 1,  2, "extra.ruins_mg"
  1,  3, "base.outpost_fg"
  1,  4, "base.outpost_bg"
 }

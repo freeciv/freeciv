@@ -285,7 +285,7 @@ styles =
       "base.airfield", "3Layer"
       "base.airbase",  "3layer"
       "base.buoy",     "3layer"
-      "base.ruins",    "3layer"
+      "extra.ruins",   "3layer"
       "ts.gold",       "Single1"
       "ts.iron",       "Single1"
       "ts.tundra_game", "Single1"

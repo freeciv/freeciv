@@ -241,7 +241,7 @@ styles =
       "tx.village",    "Single1"
       "base.fortress", "3Layer"
       "base.airbase",  "3Layer"
-      "base.ruins",    "3Layer"
+      "extra.ruins",   "3Layer"
       "ts.gold",       "Single1"
       "ts.iron",       "Single1"
       "ts.tundra_game", "Single1"

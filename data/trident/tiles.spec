@@ -496,7 +496,7 @@ tiles = { "row", "column", "tag"
 
 ; Bases
  16,  6, "base.buoy_mg"
- 16,  7, "base.ruins_mg"
+ 16,  7, "extra.ruins_mg"
  16,  8, "tx.village"
  16,  9, "base.airstrip_mg"
  16, 10, "base.airbase_mg"
