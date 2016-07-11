@@ -250,6 +250,7 @@ void fc_client::create_network_page(void)
 {
   QHeaderView *header;
   QLabel *connect_msg;
+  QLabel *lan_label;
   QPushButton *network_button;
 
   pages_layout[PAGE_NETWORK] = new QGridLayout;
@@ -269,7 +270,6 @@ void fc_client::create_network_page(void)
 
   connect_password_edit->setDisabled(true);
   connect_confirm_password_edit->setDisabled(true);
-  connect_tab_widget = new QTabWidget;
   connect_lan = new QWidget;
   connect_metaserver = new QWidget;
   lan_widget = new QTableWidget;
@@ -300,11 +300,13 @@ void fc_client::create_network_page(void)
   lan_widget->setProperty("showGrid", "false");
   lan_widget->setProperty("selectionBehavior", "SelectRows");
   lan_widget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  lan_widget->setSelectionMode(QAbstractItemView::SingleSelection);
 
   wan_widget->setHorizontalHeaderLabels(servers_list);
   wan_widget->setProperty("showGrid", "false");
   wan_widget->setProperty("selectionBehavior", "SelectRows");
   wan_widget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  wan_widget->setSelectionMode(QAbstractItemView::SingleSelection);
 
   connect(wan_widget->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
@@ -369,13 +371,14 @@ void fc_client::create_network_page(void)
 
   connect_lan->setLayout(page_network_lan_layout);
   connect_metaserver->setLayout(page_network_wan_layout);
-  page_network_lan_layout->addWidget(lan_widget, 1);
+  page_network_lan_layout->addWidget(lan_widget, 0);
   page_network_wan_layout->addWidget(wan_widget, 1);
-  page_network_layout->addWidget(connect_tab_widget, 1);
-  connect_tab_widget->addTab(connect_lan, _("LAN"));
-  connect_tab_widget->addTab(connect_metaserver, _("NETWORK"));
-  connect(connect_tab_widget, SIGNAL(currentChanged(int)),
-         this, SLOT(network_tab_changed(int)));
+  lan_label = new QLabel(_("Internet servers:"));
+  page_network_layout->addWidget(lan_label, 1);
+  page_network_layout->addWidget(wan_widget, 10);
+  lan_label = new QLabel(_("Local servers:"));
+  page_network_layout->addWidget(lan_label, 1);
+  page_network_layout->addWidget(lan_widget, 1);
   page_network_grid_layout->setColumnStretch(3, 4);
   pages_layout[PAGE_NETWORK]->addLayout(page_network_layout, 1, 1);
   pages_layout[PAGE_NETWORK]->addLayout(page_network_grid_layout, 2, 1);
@@ -829,24 +832,6 @@ void server_scan_error(struct server_scan *scan, const char *message)
   }
 }
 
-/***************************************************************************
-  Tab in network page has been changed.
-  Force current selection change to emit signal.
-***************************************************************************/
-void fc_client::network_tab_changed(int index)
-{
-  QWidget *w;
-  QHBoxLayout *l;
-  QTableWidget *tw;
-  int i;
-
-  w = connect_tab_widget->currentWidget();
-  l = qobject_cast<QHBoxLayout *>(w->layout());
-  tw = qobject_cast<QTableWidget *>(l->itemAt(0)->widget());
-  i = tw->currentRow();
-  tw->clearSelection();
-  tw->selectRow(i);
-}
 
 /**************************************************************************
   Free the server scans.
@@ -998,9 +983,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
   QStringList sl;
   QModelIndex index;
   QTableWidgetItem *item;
-  QWidget *w;
-  QHBoxLayout *l;
-  QTableWidget *tw;
+  QItemSelectionModel *tw;
   QVariant qvar;
   int k, col, n;
   client_pages i = current_page();
@@ -1018,13 +1001,14 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     index = indexes.at(1);
     connect_port_edit->setText(index.data().toString());
 
-    w = connect_tab_widget->currentWidget();
-    l = qobject_cast<QHBoxLayout *>(w->layout());
-    tw = qobject_cast<QTableWidget *>(l->itemAt(0)->widget());
+    tw = qobject_cast<QItemSelectionModel *>(sender());
 
-    if (tw == lan_widget) {
-      return;
+    if (tw == lan_widget->selectionModel()) {
+      wan_widget->clearSelection();
+    } else {
+      lan_widget->clearSelection();
     }
+
     srvrs = server_scan_get_list(meta_scan);
     if (!holding_srv_list_mutex) {
       fc_allocate_mutex(&srvrs->mutex);

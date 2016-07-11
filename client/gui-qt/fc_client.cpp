@@ -72,7 +72,6 @@ fc_client::fc_client() : QMainWindow()
   button_box = NULL;
   server_notifier = NULL;
   chat_line = NULL;
-  connect_tab_widget = NULL;
   lan_widget = NULL;
   wan_widget = NULL;
   info_widget = NULL;
@@ -155,8 +154,6 @@ void fc_client::init()
   // PAGE_NETWORK
   pages[PAGE_NETWORK] = new QWidget(central_wdg);
   create_network_page();
-  meta_scan_timer = new QTimer;
-  lan_scan_timer = new QTimer;
   pages[PAGE_NETWORK]->setVisible(false);
 
   // PAGE_GAME
