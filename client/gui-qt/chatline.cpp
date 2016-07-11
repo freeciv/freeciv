@@ -19,6 +19,9 @@
 #include <QScrollBar>
 #include <QStyleFactory>
 
+// common
+#include "chat.h"
+
 // client
 #include "audio.h"
 #include "climisc.h"      /* for write_chatline_content */
@@ -186,7 +189,8 @@ void chatwdg::send()
   if (chat_line->text() != "") {
     if (client_state() >= C_S_RUNNING && gui_options.gui_qt_allied_chat_only
         && is_plain_public_message(chat_line->text())) {
-      send_chat(QString(". %1")
+      send_chat(QString("%1 %2")
+                  .arg(CHAT_ALLIES_PREFIX)
                   .arg(chat_line->text().toUtf8().data()).toUtf8().data());
     } else {
       send_chat(chat_line->text().toUtf8().data());
@@ -426,24 +430,21 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
 **************************************************************************/
 static bool is_plain_public_message(QString s)
 {
-  const char ALLIES_CHAT_PREFIX = '.';
-  const char SERVER_COMMAND_PREFIX = '/';
-  const char MESSAGE_PREFIX = ':';
   QString s1, str;
   int i;
 
   str = s.trimmed();
   if (str.at(0) == SERVER_COMMAND_PREFIX
-      || str.at(0) == ALLIES_CHAT_PREFIX
-      || str.at(0) == MESSAGE_PREFIX) {
+      || str.at(0) == CHAT_ALLIES_PREFIX
+      || str.at(0) == CHAT_DIRECT_PREFIX) {
     return false;
   }
 
   /* Search for private message */
-  if (!str.contains(':')) {
+  if (!str.contains(CHAT_DIRECT_PREFIX)) {
     return true;
   }
-  i = str.indexOf(':');
+  i = str.indexOf(CHAT_DIRECT_PREFIX);
   str = str.left(i);
 
   /* Compare all players and connections looking for match */
