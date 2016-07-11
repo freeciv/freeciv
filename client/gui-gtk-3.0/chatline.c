@@ -30,6 +30,7 @@
 #include "support.h"
 
 /* common */
+#include "chat.h"
 #include "featured_text.h"
 #include "game.h"
 #include "packets.h"
@@ -95,16 +96,11 @@ bool inputline_is_visible(void)
 **************************************************************************/
 static bool is_plain_public_message(const char *s)
 {
-  /* FIXME: These prefix definitions are duplicated in the server. */
-  const char ALLIES_CHAT_PREFIX = '.';
-  const char SERVER_COMMAND_PREFIX = '/';
-  const char MESSAGE_PREFIX = ':';
-
   const char *p;
 
   /* If it is a server command or an explicit ally
    * message, then it is not a public message. */
-  if (s[0] == SERVER_COMMAND_PREFIX || s[0] == ALLIES_CHAT_PREFIX) {
+  if (s[0] == SERVER_COMMAND_PREFIX || s[0] == CHAT_ALLIES_PREFIX) {
     return FALSE;
   }
 
@@ -129,7 +125,7 @@ static bool is_plain_public_message(const char *s)
   while (p != NULL && *p != '\0') {
     if (fc_isspace(*p)) {
       return TRUE;
-    } else if (*p == MESSAGE_PREFIX) {
+    } else if (*p == CHAT_DIRECT_PREFIX) {
       return FALSE;
     }
     p++;

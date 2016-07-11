@@ -13,8 +13,6 @@
 #ifndef FC__HANDCHAT_H
 #define FC__HANDCHAT_H
 
-#define ALLIESCHAT_COMMAND_PREFIX '.'
-
 struct connection;
 
 void handle_chat_msg_req(struct connection *pc, const char *message);

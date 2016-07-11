@@ -14,15 +14,13 @@
 #define FC__STDINHAND_H
 
 /* common */
+#include "chat.h"               /* SERVER_COMMAND_PREFIX */
 #include "connection.h"         /* enum cmdlevel */
 #include "fc_types.h"
 
 /* server */
 #include "commands.h"
 #include "console.h"
-
-#define SERVER_COMMAND_PREFIX '/'
-  /* the character to mark chatlines as server commands */
 
 void stdinhand_init(void);
 void stdinhand_turn(void);

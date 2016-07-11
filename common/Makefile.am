@@ -25,6 +25,7 @@ libfreeciv_la_SOURCES = \
 		calendar.h	\
 		capstr.c	\
 		capstr.h	\
+		chat.h		\
 		citizens.c	\
 		citizens.h	\
 		city.c		\
