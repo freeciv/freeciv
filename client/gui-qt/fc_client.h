@@ -259,7 +259,6 @@ private slots:
 
   void server_input(int sock);
   void chat();
-  void quit();
   void closing();
   void slot_lan_scan();
   void slot_meta_scan();
@@ -283,6 +282,7 @@ public slots:
   void switch_page(int i);
   void popup_client_options();
   void update_info_label();
+  void quit();
 
 protected slots:
 
