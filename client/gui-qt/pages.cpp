@@ -1149,6 +1149,7 @@ void fc_client::handle_authentication_req(enum authentication_type type,
                                           const char *message)
 {
   set_status_bar(QString::fromUtf8(message));
+  destroy_server_scans();
 
   switch (type) {
   case AUTH_NEWUSER_FIRST:
