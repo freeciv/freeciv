@@ -98,62 +98,66 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   stats->setItem(1, 0, item);
   item = new QTableWidgetItem("-");
   stats->setItem(1, 1, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Techs")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Tech Classes")));
   stats->setItem(2, 0, item);
   item = new QTableWidgetItem("-");
   stats->setItem(2, 1, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Unit Classes")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Techs")));
   stats->setItem(3, 0, item);
   item = new QTableWidgetItem("-");
   stats->setItem(3, 1, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Unit Types")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Unit Classes")));
   stats->setItem(4, 0, item);
   item = new QTableWidgetItem("-");
   stats->setItem(4, 1, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Buildings")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Unit Types")));
   stats->setItem(5, 0, item);
   item = new QTableWidgetItem("-");
   stats->setItem(5, 1, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Nations")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Buildings")));
   stats->setItem(0, 3, item);
   item = new QTableWidgetItem("-");
   stats->setItem(0, 4, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Styles")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Nations")));
   stats->setItem(1, 3, item);
   item = new QTableWidgetItem("-");
   stats->setItem(1, 4, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Specialists")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Styles")));
   stats->setItem(2, 3, item);
   item = new QTableWidgetItem("-");
   stats->setItem(2, 4, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Governments")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Specialists")));
   stats->setItem(3, 3, item);
   item = new QTableWidgetItem("-");
   stats->setItem(3, 4, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Disasters")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Governments")));
   stats->setItem(4, 3, item);
   item = new QTableWidgetItem("-");
   stats->setItem(4, 4, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Achievements")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Disasters")));
   stats->setItem(5, 3, item);
   item = new QTableWidgetItem("-");
   stats->setItem(5, 4, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Extras")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Achievements")));
   stats->setItem(0, 6, item);
   item = new QTableWidgetItem("-");
   stats->setItem(0, 7, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Bases")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Extras")));
   stats->setItem(1, 6, item);
   item = new QTableWidgetItem("-");
   stats->setItem(1, 7, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Roads")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Bases")));
   stats->setItem(2, 6, item);
   item = new QTableWidgetItem("-");
   stats->setItem(2, 7, item);
-  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Goods")));
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Roads")));
   stats->setItem(3, 6, item);
   item = new QTableWidgetItem("-");
   stats->setItem(3, 7, item);
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Goods")));
+  stats->setItem(4, 6, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(4, 7, item);
   stats->verticalHeader()->setVisible(false);
   stats->horizontalHeader()->setVisible(false);
   stats->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -236,6 +240,12 @@ void tab_misc::refresh_stats()
   stats->item(row++, 1)->setText(QString::number(game.control.num_resource_types));
 
   count = 0;
+  tech_class_active_iterate(ptclass) {
+    count++;
+  } tech_class_active_iterate_end;
+  stats->item(row++, 1)->setText(QString::number(count));
+
+  count = 0;
   advance_active_iterate(padv) {
     count++;
   } advance_active_iterate_end;
@@ -249,23 +259,23 @@ void tab_misc::refresh_stats()
   } unit_active_type_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
+  // Second column
+  row = 0;
   count = 0;
   improvement_active_iterate(pimpr) {
     count++;
   } improvement_active_iterate_end;
-  stats->item(row++, 1)->setText(QString::number(count));
+  stats->item(row++, 4)->setText(QString::number(count));
 
-  // Second column
-  row = 0;
   stats->item(row++, 4)->setText(QString::number(game.control.nation_count));
   stats->item(row++, 4)->setText(QString::number(game.control.styles_count));
   stats->item(row++, 4)->setText(QString::number(game.control.num_specialist_types));
   stats->item(row++, 4)->setText(QString::number(game.control.government_count));
   stats->item(row++, 4)->setText(QString::number(game.control.num_disaster_types));
-  stats->item(row++, 4)->setText(QString::number(game.control.num_achievement_types));
 
   // Third column
   row = 0;
+  stats->item(row++, 7)->setText(QString::number(game.control.num_achievement_types));
   stats->item(row++, 7)->setText(QString::number(game.control.num_extra_types));
   stats->item(row++, 7)->setText(QString::number(game.control.num_base_types));
   stats->item(row++, 7)->setText(QString::number(game.control.num_road_types));
