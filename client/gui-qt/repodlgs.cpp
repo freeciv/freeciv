@@ -1069,11 +1069,11 @@ eco_report::eco_report(): QWidget()
   header = eco_widget->horizontalHeader();
   header->setSectionResizeMode(1, QHeaderView::Stretch);
   header->setStretchLastSection(true);
-  disband_button->setText(_("_Disband"));
+  disband_button->setText(_("Disband"));
   disband_button->setEnabled(false);
-  sell_button->setText(_("Sell _All"));
+  sell_button->setText(_("Sell All"));
   sell_button->setEnabled(false);
-  sell_redun_button->setText(_("Sell _Redundant"));
+  sell_redun_button->setText(_("Sell Redundant"));
   sell_redun_button->setEnabled(false);
   eco_layout->addWidget(eco_widget, 1, 0, 5, 5);
   eco_layout->addWidget(disband_button, 0, 0, 1, 1);

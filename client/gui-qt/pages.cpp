@@ -453,7 +453,7 @@ void fc_client::create_load_page()
           SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
 
   but = new QPushButton;
-  but->setText(_("_Browse..."));
+  but->setText(_("Browse..."));
   but->setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
   connect(but, SIGNAL(clicked()), this, SLOT(browse_saves()));
   pages_layout[PAGE_LOAD]->addWidget (but, 1, 0);
@@ -511,7 +511,7 @@ void fc_client::create_scenario_page()
           SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
 
   but = new QPushButton;
-  but->setText(_("_Browse..."));
+  but->setText(_("Browse..."));
   but->setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
   connect(but, SIGNAL(clicked()), this, SLOT(browse_scenarios()));
   pages_layout[PAGE_SCENARIO]->addWidget (but, 4, 0);
