@@ -180,8 +180,6 @@ class fc_client : public QMainWindow
 
   QLineEdit *chat_line;
 
-  QTabWidget *connect_tab_widget;
-
   QTableWidget* lan_widget;
   QTableWidget* wan_widget;
   QTableWidget* info_widget;
@@ -280,7 +278,6 @@ private slots:
   void browse_saves();
   void browse_scenarios();
   void clear_status_bar();
-  void network_tab_changed(int index);
 
 public slots:
   void switch_page(int i);
