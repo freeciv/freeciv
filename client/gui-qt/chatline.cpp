@@ -35,7 +35,6 @@
 
 static bool gui_qt_allied_chat_only = true;
 static bool is_plain_public_message(QString s);
-static QString replace_signs(QString str);
 /***************************************************************************
   Constructor for chatwdg
 ***************************************************************************/
@@ -301,38 +300,6 @@ void chatwdg::make_link(struct tile *ptile)
   chat_line->setFocus();
 }
 
-/***************************************************************************
-  increases tag start or stop if there are converted sings < and > by 
-  replace signs function
-***************************************************************************/
-int increase_tags(QString str, int i)
-{
-  int j = 0;
-  int k, l, m;
-  int count = 0;
-
-  j = 0;
-  while (1) {
-    m = str.indexOf("&gt;", j);
-    l = str.indexOf("&lt;", j);
-    if ( m != -1 && l != -1) {
-      k = qMin(m, l);
-    } else if (l == -1 && m != -1) {
-      k = m;
-    } else if (l != -1 && m == -1) {
-      k = l;
-    } else {
-      k = -1;
-    }
-    if (i <= k || k == -1) {
-      break;
-    }
-    i = i + 3;
-    j = k + 3;
-    count++;
-  }
-  return count * 3;
-}
 
 /***************************************************************************
   Applies tags to text
@@ -340,29 +307,26 @@ int increase_tags(QString str, int i)
 QString apply_tags(QString str, const struct text_tag_list *tags,
                    bool colors_change)
 {
-  QByteArray qba;
-  int start, stop;
+  int start, stop, last_i;
   QString str_col;
   QString color;
+  QString final_string;
   QColor qc;
   QMultiMap <int, QString> mm;
-  qba = str.toUtf8();
   if (tags == NULL) {
     return str;
   }
   text_tag_list_iterate(tags, ptag) {
     if ((text_tag_stop_offset(ptag) == FT_OFFSET_UNSET)) {
-      stop = qba.count();
+      stop = str.count();
     } else {
       stop = text_tag_stop_offset(ptag);
-      stop = stop + increase_tags(str, stop);
     }
 
     if ((text_tag_start_offset(ptag) == FT_OFFSET_UNSET)) {
       start = 0;
     } else {
       start = text_tag_start_offset(ptag);
-      start = start + increase_tags(str, start);
     }
     switch (text_tag_type(ptag)) {
     case TTT_BOLD:
@@ -437,44 +401,24 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
   } text_tag_list_iterate_end;
 
   /* insert html starting from last items */
+  last_i = str.count();
   QMultiMap<int, QString>::const_iterator i = mm.constEnd();
   while (i != mm.constBegin()) {
     --i;
-    qba.insert(i.key(), i.value());
+    if (i.key() < last_i) {
+      final_string = final_string.prepend(str.mid(i.key(), last_i - i.key())
+                                             .toHtmlEscaped());
+    }
+    last_i = i.key();
+    final_string = final_string.prepend(i.value());
   }
-  return QString(qba);
+  if (last_i == str.count()) {
+    return str;
+  }
+
+  return final_string;
 }
 
-/**************************************************************************
-  Replace signs < and > with &lt; and &gt; or they would be treated
-  as html
-**************************************************************************/
-static QString replace_signs(QString str)
-{
-  QString s, s2;
-  QStringList allowed_tags;
-  int i, j;
-
-  j = 0;
-  while (1) {
-    i = str.indexOf('<', j);
-    if (i == -1) {
-      break;
-    }
-   str.replace(i, 1 , "&lt;");
-   j++;
-  }
-  j = 0;
-  while (1) {
-    i = str.indexOf('>', j);
-    if (i == -1) {
-      break;
-    }
-   str.replace(i, 1 , "&gt;");
-   j++;
-  }
-  return str;
-}
 
 /**************************************************************************
   Helper function to determine if a given client input line is intended as
@@ -539,7 +483,6 @@ void qtg_real_output_window_append(const char *astring,
   gui()->set_status_bar(str);
   gui()->update_completer();
 
-  str = replace_signs(str);
   gui()->append_output_window(apply_tags(str, tags, false));
   if (gui()->infotab != NULL) {
     gui()->infotab->chtwdg->append(apply_tags(str, tags, true));
