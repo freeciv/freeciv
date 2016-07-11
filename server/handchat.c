@@ -26,6 +26,7 @@
 #include "support.h"
 
 /* common */
+#include "chat.h"
 #include "game.h"
 #include "packets.h"
 #include "player.h"
@@ -336,7 +337,7 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
      but confusing choice: even before this feature existed,
      novice players were trying /who, /nick etc.
      So consider this an incentive for IRC support,
-     or change it in stdinhand.h - rp
+     or change it in chat.h - rp
   */
   if (real_message[0] == SERVER_COMMAND_PREFIX) {
     /* pass it to the command parser, which will chop the prefix off */
@@ -345,7 +346,7 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
   }
 
   /* Send to allies command */
-  if (real_message[0] == ALLIESCHAT_COMMAND_PREFIX) {
+  if (real_message[0] == CHAT_ALLIES_PREFIX) {
     /* this won't work if we aren't attached to a player */
     if (NULL == pconn->playing && !pconn->observer) {
       notify_conn(pconn->self, NULL, E_CHAT_ERROR, ftc_server,
@@ -384,7 +385,7 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
      else complain (might be a typo-ed intended private message)
   */
   
-  cp = strchr(real_message, ':');
+  cp = strchr(real_message, CHAT_DIRECT_PREFIX);
 
   if (cp && (cp != &real_message[0])) {
     enum m_pre_result match_result_player, match_result_conn;
@@ -396,7 +397,7 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
     (void) fc_strlcpy(name, real_message, MIN(sizeof(name),
                                               cp - real_message + 1));
 
-    double_colon = (*(cp+1) == ':');
+    double_colon = (*(cp+1) == CHAT_DIRECT_PREFIX);
     if (double_colon) {
       conn_dest = conn_by_user_prefix(name, &match_result_conn);
       if (match_result_conn == M_PRE_AMBIGUOUS) {

@@ -19,6 +19,7 @@ libfreeciv_la_SOURCES = \
 		borders.h	\
 		capstr.c	\
 		capstr.h	\
+		chat.h		\
 		citizens.c	\
 		citizens.h	\
 		city.c		\
