@@ -469,7 +469,7 @@ void put_unit_image(struct unit *punit, GtkImage *p)
   GdkPixbuf *pixbuf;
   struct sprite *spr;
 
-  spr = get_unittype_sprite(tileset, unit_type_get(punit), punit->facing, FALSE);
+  spr = get_unittype_sprite(tileset, unit_type_get(punit), punit->facing);
   pixbuf = sprite_get_pixbuf(spr);
 
   gtk_image_set_from_pixbuf(p, pixbuf);

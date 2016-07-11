@@ -245,7 +245,7 @@ static inline SDL_Surface *get_building_surface(struct impr_type *pimprove)
 static inline SDL_Surface *get_unittype_surface(const struct unit_type *punittype,
                                                 enum direction8 facing)
 {
-  return GET_SURF(get_unittype_sprite(tileset, punittype, facing, TRUE));
+  return GET_SURF(get_unittype_sprite(tileset, punittype, facing));
 }
 
 static inline SDL_Surface *get_tax_surface(Output_type_id otype)

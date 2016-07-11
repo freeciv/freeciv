@@ -162,7 +162,7 @@ void research_diagram::create_tooltip_help()
             if (advance_number(unit->require_advance) != node->tech) {
               continue;
             }
-            sprite = get_unittype_sprite(tileset, unit, DIR8_SOUTH, TRUE);
+            sprite = get_unittype_sprite(tileset, unit, direction8_invalid());
             get_sprite_dimensions(sprite, &swidth, &sheight);
             rttp = new req_tooltip_help();
             rttp->rect = QRect(icon_startx, starty + text_h + 4
@@ -820,8 +820,7 @@ void units_report::update_report()
         unit_item->setText(utype_name_translation(utype));
         qvar = utype_id;
         unit_item->setData(Qt::UserRole, qvar);
-        sprite = get_unittype_sprite(tileset, utype, direction8_invalid(),
-                                     true);
+        sprite = get_unittype_sprite(tileset, utype, direction8_invalid());
         if (sprite != NULL) {
           pix = sprite->pm;
           pix_scaled = pix->scaledToHeight(h);
@@ -1185,8 +1184,7 @@ void eco_report::update_report()
     cid id;
 
     pix = NULL;
-    sprite = get_unittype_sprite(tileset, putype,
-                                       direction8_invalid(), true);
+    sprite = get_unittype_sprite(tileset, putype, direction8_invalid());
     if (sprite != NULL){
       pix = sprite->pm;
     }

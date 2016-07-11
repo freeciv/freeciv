@@ -4013,7 +4013,7 @@ static int fill_unit_type_sprite_array(const struct tileset *t,
                                        enum direction8 facing)
 {
   struct drawn_sprite *save_sprs = sprs;
-  struct sprite *uspr = get_unittype_sprite(t, putype, facing, FALSE);
+  struct sprite *uspr = get_unittype_sprite(t, putype, facing);
 
   ADD_SPRITE(uspr, TRUE,
              FULL_TILE_X_OFFSET + t->unit_offset_x,
@@ -6040,13 +6040,15 @@ struct sprite *get_government_sprite(const struct tileset *t,
 
 /****************************************************************************
   Return the sprite for the unit type (the base "unit" sprite).
+  If 'facing' is direction8_invalid(), will use an unoriented sprite or
+  a default orientation.
 ****************************************************************************/
 struct sprite *get_unittype_sprite(const struct tileset *t,
                                    const struct unit_type *punittype,
-                                   enum direction8 facing,
-                                   bool icon)
+                                   enum direction8 facing)
 {
   int uidx = utype_index(punittype);
+  bool icon = !direction8_is_valid(facing);
 
   fc_assert_ret_val(NULL != punittype, NULL);
 

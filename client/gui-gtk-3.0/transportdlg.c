@@ -154,8 +154,7 @@ bool request_transport(struct unit *cargo, struct tile *ptile)
   lbl = gtk_label_new(_("Looking for transport:"));
   gtk_grid_attach(GTK_GRID(box), lbl, 0, 0, 1, 1);
 
-  spr = get_unittype_sprite(tileset, cargo_type,
-                            direction8_invalid(), TRUE);
+  spr = get_unittype_sprite(tileset, cargo_type, direction8_invalid());
   if (spr != NULL) {
     icon = gtk_image_new_from_pixbuf(sprite_get_pixbuf(spr));
   } else {
@@ -195,8 +194,7 @@ bool request_transport(struct unit *cargo, struct tile *ptile)
                      G_CALLBACK(transport_radio_destroyed), cbdata);
     gtk_grid_attach(GTK_GRID(box), radio, 0, tcount, 1, 1);
 
-    spr = get_unittype_sprite(tileset, trans_type,
-                              direction8_invalid(), TRUE);
+    spr = get_unittype_sprite(tileset, trans_type, direction8_invalid());
     if (spr != NULL) {
       icon = gtk_image_new_from_pixbuf(sprite_get_pixbuf(spr));
     } else {

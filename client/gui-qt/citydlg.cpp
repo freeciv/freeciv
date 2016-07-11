@@ -2256,7 +2256,7 @@ void city_dialog::update_building()
 
   if (VUT_UTYPE == pcity->production.kind) {
     sprite = get_unittype_sprite(tileset, pcity->production.value.utype,
-                                 direction8_invalid(), true);
+                                 direction8_invalid());
   } else {
 
     sprite = get_building_sprite(tileset, pcity->production.value.building);
@@ -2398,7 +2398,7 @@ void city_dialog::update_improvements()
       str = utype_values_translation(target.value.utype);
       cost = utype_build_shield_cost(target.value.utype);
       sprite = get_unittype_sprite(tileset, target.value.utype,
-                                   direction8_invalid(), true);
+                                   direction8_invalid());
     } else {
       str = city_improvement_name_translation(pcity, target.value.building);
       sprite = get_building_sprite(tileset, target.value.building);
@@ -2911,7 +2911,7 @@ void city_production_delegate::paint(QPainter *painter,
       is_flying = true;
     }
     sprite = get_unittype_sprite(tileset, target->value.utype,
-                                 direction8_invalid(), true);
+                                 direction8_invalid());
   } else {
     is_unit = false;
     name = improvement_name_translation(target->value.building);

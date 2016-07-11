@@ -482,7 +482,7 @@ void put_unit_image(struct unit *punit, GtkImage *p)
 {
   struct sprite *spr;
 
-  spr = get_unittype_sprite(tileset, unit_type_get(punit), punit->facing, FALSE);
+  spr = get_unittype_sprite(tileset, unit_type_get(punit), punit->facing);
 
   gtk_image_set_from_surface(p, spr->surface);
 }
