@@ -3186,17 +3186,35 @@ struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
 }
 
 /**********************************************************************
-  Helper function to load sprite for one unit orientation
+  Helper function to load sprite for one unit orientation.
+  Returns FALSE if a needed sprite was not found.
 ***********************************************************************/
 static bool tileset_setup_unit_direction(struct tileset *t,
                                          int uidx,
                                          const char *base_str,
-                                         enum direction8 dir,
-                                         const char *dirsuffix)
+                                         enum direction8 dir)
 {
   char buf[2048];
+  enum direction8 loaddir = dir;
 
-  fc_snprintf(buf, sizeof(buf), "%s_%s", base_str, dirsuffix);
+  /*
+   * There may be more orientations available in this tileset than are
+   * needed, if an oriented unit set has been re-used between tilesets.
+   * Don't bother loading unused ones.
+   */
+  if (!is_valid_tileset_dir(t, dir)) {
+    /* Instead we copy a nearby valid dir's sprite, so we're not caught
+     * out in case this tileset is used with an incompatible topology,
+     * although it'll be ugly. */
+    do {
+      loaddir = dir_cw(loaddir);
+      /* This loop _should_ terminate... */
+      fc_assert_ret_val(loaddir != dir, FALSE);
+    } while (!is_valid_tileset_dir(t, loaddir));
+  }
+
+  fc_snprintf(buf, sizeof(buf), "%s_%s", base_str,
+              dir_get_tileset_name(loaddir));
 
   /* We don't use _alt graphics here, as that could lead to loading
    * real icon gfx, but alternative orientation gfx. Tileset author
@@ -3220,19 +3238,19 @@ bool static tileset_setup_unit_type_from_tag(struct tileset *t,
 
   t->sprites.units.icon[uidx] = load_sprite(t, tag);
 
-#define LOAD_FACING_SPRITE(dir, dname)                           \
-  if (!tileset_setup_unit_direction(t, uidx, tag, dir, dname)) { \
-    facing_sprites = FALSE;                                      \
+#define LOAD_FACING_SPRITE(dir)                                      \
+  if (!tileset_setup_unit_direction(t, uidx, tag, dir)) {            \
+    facing_sprites = FALSE;                                          \
   }
 
-  LOAD_FACING_SPRITE(DIR8_NORTHWEST, "nw");
-  LOAD_FACING_SPRITE(DIR8_NORTH, "n");
-  LOAD_FACING_SPRITE(DIR8_NORTHEAST, "ne");
-  LOAD_FACING_SPRITE(DIR8_WEST, "w");
-  LOAD_FACING_SPRITE(DIR8_EAST, "e");
-  LOAD_FACING_SPRITE(DIR8_SOUTHWEST, "sw");
-  LOAD_FACING_SPRITE(DIR8_SOUTH, "s");
-  LOAD_FACING_SPRITE(DIR8_SOUTHEAST, "se");
+  LOAD_FACING_SPRITE(DIR8_NORTHWEST);
+  LOAD_FACING_SPRITE(DIR8_NORTH);
+  LOAD_FACING_SPRITE(DIR8_NORTHEAST);
+  LOAD_FACING_SPRITE(DIR8_WEST);
+  LOAD_FACING_SPRITE(DIR8_EAST);
+  LOAD_FACING_SPRITE(DIR8_SOUTHWEST);
+  LOAD_FACING_SPRITE(DIR8_SOUTH);
+  LOAD_FACING_SPRITE(DIR8_SOUTHEAST);
 
   if (!facing_sprites && t->sprites.units.icon[uidx] == NULL) {
     /* Neither icon gfx or orientation sprites */
