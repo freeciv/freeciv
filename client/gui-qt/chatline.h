@@ -31,7 +31,6 @@ class QPushButton;
 
 QString apply_tags(QString str, const struct text_tag_list *tags,
                    bool colors_change);
-int increase_tags(QString str, int i);
 /***************************************************************************
   Class for chat widget
 ***************************************************************************/
