@@ -1809,22 +1809,27 @@ preset examples in the file README.governor, included with Freeciv.\
 [help_chatline]
 name = _("Chatline")
 text = _("\
-The client has a primitive chat interface.  The lines you type \
-are sent to all players, except:\
+The client has a primitive chat interface. The lines you type are \
+sent to all players, or only to your allies if the client is configured \
+for that, except:\
 "), _("\
   - Messages starting with '/' are interpreted as server commands \
 and executed, if you have the required access level.\
 "), _("\
   - Messages starting with 'John:' are private messages to 'John'. \
-Names can be abbreviated. The server looks for players named 'John' \
-and if that fails tries to match a username beginning with 'John' (like \
-'Johnathan').\
+Names can be abbreviated, or surrounded with double-quotes if they \
+have spaces. The server looks for players named 'John' and if that \
+fails tries to match a username beginning with 'John' (like 'Johnathan').\
 "), _("\
   - Messages starting with 'John::' are private messages as above, but \
-will match only users (not players) named 'John'.  'Johnathan' will \
-still match.\
+will match only users (not players) named 'John'. A user name 'Johnathan' \
+will still be matched.\
 "), _("\
-  - Messages starting with '.' will be sent only to all your allies.\
+  - Messages starting with ':' will be sent to everyone (even if your \
+client is configured to send only to allies by default).\
+"), _("\
+  - Messages starting with '.' will be sent only to all your allies (or, \
+if you're a global observer, only to other global observers).\
 "), _("\
 Featured text (GTK):\n\
 ====================\n\
