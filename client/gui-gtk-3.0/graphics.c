@@ -92,27 +92,6 @@ void load_cursors(void)
 }
 
 /***************************************************************************
-  Put unit sprite to canvas
-***************************************************************************/
-void create_overlay_unit(struct canvas *pcanvas, struct unit_type *punittype,
-                         enum direction8 facing)
-{
-  int x1, x2, y1, y2;
-  int width, height;
-  struct sprite *sprite = get_unittype_sprite(tileset, punittype,
-                                              facing, TRUE);
-
-  sprite_get_bounding_box(sprite, &x1, &y1, &x2, &y2);
-  get_sprite_dimensions(sprite, &width, &height);
-
-  /* Finally, put a picture of the unit in the tile */
-  canvas_put_sprite(pcanvas, 0, 0, sprite, 
-      (x2 + x1 - width) / 2, (y1 + y2 - height) / 2, 
-      tileset_full_tile_width(tileset) - (x2 + x1 - width) / 2, 
-      tileset_full_tile_height(tileset) - (y1 + y2 - height) / 2);
-}
-
-/***************************************************************************
   This function is so that packhand.c can be gui-independent, and
   not have to deal with Sprites itself.
 ***************************************************************************/
