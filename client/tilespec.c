@@ -1983,6 +1983,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
   c = secfile_lookup_str_default(file, NULL,
                                  "tilespec.unit_default_orientation");
   if (!c) {
+    /* This is valid, but tileset must specify icon for every unit */
     t->unit_default_orientation = direction8_invalid();
   } else {
     dir = dir_by_tileset_name(c);
@@ -1991,12 +1992,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
       tileset_error(LOG_ERROR, "Tileset \"%s\": unknown "
                     "unit_default_orientation \"%s\"", t->name, c);
       goto ON_ERROR;
-    } else if (!is_valid_tileset_dir(t, dir)) {
-      tileset_error(LOG_ERROR, "Tileset \"%s\": unsuitable "
-                    "unit_default_orientation \"%s\" for this tileset",
-                    t->name, c);
-      goto ON_ERROR;
     } else {
+      /* Default orientation is allowed to not be a valid one for the
+       * tileset */
       t->unit_default_orientation = dir;
     }
   }
@@ -3192,7 +3190,8 @@ struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
 static bool tileset_setup_unit_direction(struct tileset *t,
                                          int uidx,
                                          const char *base_str,
-                                         enum direction8 dir)
+                                         enum direction8 dir,
+                                         bool has_icon)
 {
   char buf[2048];
   enum direction8 loaddir = dir;
@@ -3200,9 +3199,12 @@ static bool tileset_setup_unit_direction(struct tileset *t,
   /*
    * There may be more orientations available in this tileset than are
    * needed, if an oriented unit set has been re-used between tilesets.
-   * Don't bother loading unused ones.
+   *
+   * Don't bother loading unused ones, unless they might be used by
+   * unit_default_orientation (logic here mirrors get_unittype_sprite()).
    */
-  if (!is_valid_tileset_dir(t, dir)) {
+  if (!(dir == t->unit_default_orientation && !has_icon)
+      && !is_valid_tileset_dir(t, dir)) {
     /* Instead we copy a nearby valid dir's sprite, so we're not caught
      * out in case this tileset is used with an incompatible topology,
      * although it'll be ugly. */
@@ -3234,12 +3236,13 @@ static bool tileset_setup_unit_direction(struct tileset *t,
 bool static tileset_setup_unit_type_from_tag(struct tileset *t,
                                              int uidx, const char *tag)
 {
-  bool facing_sprites = TRUE;
+  bool has_icon, facing_sprites = TRUE;
 
   t->sprites.units.icon[uidx] = load_sprite(t, tag);
+  has_icon = t->sprites.units.icon[uidx] != NULL;
 
 #define LOAD_FACING_SPRITE(dir)                                      \
-  if (!tileset_setup_unit_direction(t, uidx, tag, dir)) {            \
+  if (!tileset_setup_unit_direction(t, uidx, tag, dir, has_icon)) {  \
     facing_sprites = FALSE;                                          \
   }
 
@@ -3252,7 +3255,7 @@ bool static tileset_setup_unit_type_from_tag(struct tileset *t,
   LOAD_FACING_SPRITE(DIR8_SOUTH);
   LOAD_FACING_SPRITE(DIR8_SOUTHEAST);
 
-  if (!facing_sprites && t->sprites.units.icon[uidx] == NULL) {
+  if (!has_icon && !facing_sprites) {
     /* Neither icon gfx or orientation sprites */
     return FALSE;
   }
@@ -3274,6 +3277,20 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
       && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt)) {
     tileset_error(LOG_FATAL, _("Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."),
                   utype_rule_name(ut), ut->graphic_str, ut->graphic_alt);
+  }
+
+  if (!t->sprites.units.icon[uidx]) {
+    if (!direction8_is_valid(t->unit_default_orientation)) {
+      tileset_error(LOG_FATAL, "Unit type %s has no unoriented sprite and "
+                               "tileset has no unit_default_orientation.",
+                    utype_rule_name(ut));
+    } else {
+      /* We're guaranteed to have an oriented sprite corresponding to
+       * unit_default_orientation, because tileset_setup_unit_type_from_tag()
+       * checked for this. */
+      fc_assert(t->sprites.units.facing[uidx][t->unit_default_orientation]
+                != NULL);
+    }
   }
 }
 
@@ -6054,17 +6071,19 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
 
   if (!direction8_is_valid(facing) || !is_valid_dir(facing)) {
     facing = t->unit_default_orientation;
-    if (!direction8_is_valid(facing)) {
-      /* Fallback to using random orientation sprite. */
-      facing = rand_direction();
-    }
+    /* May not have been specified, but it only matters if we don't
+     * turn out to have an icon sprite */
   }
 
   if (t->sprites.units.icon[uidx]
       && (icon || t->sprites.units.facing[uidx][facing] == NULL)) {
-    /* Has icon sprite */
+    /* Has icon sprite, and we prefer to (or must) use it */
     return t->sprites.units.icon[uidx];
   } else {
+    /* We should have a valid orientation by now. Failure to have either
+     * an icon sprite or default orientation should have been caught at
+     * tileset load. */
+    fc_assert_ret_val(direction8_is_valid(facing), NULL);
     return t->sprites.units.facing[uidx][facing];
   }
 }

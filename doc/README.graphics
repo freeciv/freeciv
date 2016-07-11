@@ -78,6 +78,8 @@ options include:
   city_names_font       : an X font string
   city_productions_font : an X font string
   main_intro_file       : GFX file for the intro graphics
+  unit_default_orientation : Specifies a direction to use for unit types in
+                          worklists etc. See "Unit Sprites" below.
 
   String vectors
   --------------
@@ -503,3 +505,31 @@ sprites.
     An appropriate sprite will be chosen depending on which adjacent tiles
     also have farmland/irrigation. If any of these sprites are not present,
     the default sprite will be used as a fallback.
+
+  Unit Sprites
+  ------------
+
+    Units sprites can be either unoriented or oriented, in which case the
+    sprite that is displayed depends on the direction the unit is facing (it
+    turns when it moves or fights).
+
+    Unoriented sprites are specified as 'u.phalanx'. Oriented sprites have
+    a direction suffix: 'u.phalanx_s', 'u.phalanx_nw' and so on.
+    For each unit type, either an unoriented sprite or a full set of
+    the oriented sprites needed for the tileset topology must be provided
+    (you can also provide both, see below).
+
+    The game sometimes needs to draw a sprite for a unit type that doesn't
+    correspond to a specific unit, so is not facing a particular direction.
+    There are several options for oriented tilesets:
+
+     - If the unit_default_orientation is specified for the tileset, the
+       game will by default use that directional sprite. (The direction
+       doesn't have to be a valid one for the tileset.)
+
+     - Specific unit types may override this by providing an unoriented
+       sprite as well as the oriented ones; this doesn't have to be
+       distinct, so it can point to one of the oriented sprites, allowing
+       choice of the best orientation for each individual unit type.
+       If unit_default_orientation is not specified, an unoriented sprite
+       must be specified for *every* unit.
