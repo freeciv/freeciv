@@ -588,10 +588,10 @@ void dio_put_requirement_json(struct json_data_out *dout,
   /* Create the requirement object. */
   json_t *requirement = json_object();
 
-  /* Read the requirment values. */
+  /* Read the requirement values. */
   req_get_values(preq, &kind, &range, &survives, &present, &quiet, &value);
 
-  /* Write the requirement values to the fields of the requirment
+  /* Write the requirement values to the fields of the requirement
    * object. */
   json_object_set(requirement, "kind", json_integer(kind));
   json_object_set(requirement, "value", json_integer(value));

@@ -1206,7 +1206,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   pointless.
 
   When adding a new hard requirement here:
-   * explain why it is a hard requirment in a comment.
+   * explain why it is a hard requirement in a comment.
    * remember that this is called from action_prob(). Should information
      the player don't have access to be used in a test it must check if
      the evaluation can see the thing being tested.
