@@ -445,11 +445,11 @@ action_enablers_for_action(enum gen_action action)
   This is done by checking the action's hard requirements. Hard requirements
   must be TRUE before an action can be done. The reason why is usually that
   code dealing with the action assumes that the requirements are true. A
-  requirement may also end up here if it can't be expressed in a requirment
+  requirement may also end up here if it can't be expressed in a requirement
   vector or if its abstence makes the action pointless.
 
   When adding a new hard requirement here:
-   * explain why it is a hard requirment in a comment.
+   * explain why it is a hard requirement in a comment.
    * remember that this is called from action_prob(). Should information
      the player don't have access to be used in a test it must check if
      this evaluation is omniscient.
