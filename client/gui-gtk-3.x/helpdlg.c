@@ -910,7 +910,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_widget_show(help_text_sw);
 
     set_help_tile_from_sprite(get_unittype_sprite(tileset, utype,
-                                                  direction8_invalid());
+                                                  direction8_invalid()));
   } else {
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][1]), "0");
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][4]), "0");
