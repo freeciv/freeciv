@@ -699,11 +699,11 @@ FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
  * Action probability
  *
  * An action probability is the probability that an action will be
- * successfull under the given cicumstances. It goes from 0% to 100%.
+ * successful under the given circumstances. It goes from 0% to 100%.
  * Alternatively it can signal a special case.
  *
  * Values from 0 up to and including 200 are to be understood as the chance
- * of success measured in half percentag points. The value 3 indicates that
+ * of success measured in half percentage points. The value 3 indicates that
  * the chance is 1.5%. The value 10 indicates that the chance is 5%. The
  * probability may have been rounded to the nearest half percentage point.
  *
