@@ -873,13 +873,13 @@ static void action_entry(const enum gen_action act,
   possible).
 **************************************************************************/
 static const char *action_custom_text(const int action_id,
-                                      const action_probability act_prob,
+                                      const action_probability prob,
                                       const struct city *actor_homecity,
                                       const struct city *target_city)
 {
   static struct astring custom = ASTRING_INIT;
 
-  if (!action_prob_possible(act_prob)) {
+  if (!action_prob_possible(prob)) {
     /* No info since impossible. */
     return NULL;
   }

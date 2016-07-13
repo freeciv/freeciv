@@ -158,7 +158,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
                                    const action_probability prob,
                                    const char *custom);
 const char *action_get_tool_tip(const int action_id,
-                                const action_probability act_prob);
+                                const action_probability prob);
 
 struct action_enabler_list *
 action_enablers_for_action(enum gen_action action);
