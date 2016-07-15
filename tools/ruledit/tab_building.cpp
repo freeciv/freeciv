@@ -173,7 +173,8 @@ void tab_building::name_given()
     improvement_iterate(pimpr) {
       if (pimpr != selected && !pimpr->disabled) {
         if (!strcmp(improvement_rule_name(pimpr), rname->text().toUtf8().data())) {
-          ui->display_msg(R__("Building with that rule name already exist!"));
+          ui->display_msg(R__("A building with that rule name already "
+                              "exists!"));
           return;
         }
       }

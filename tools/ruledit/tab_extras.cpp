@@ -174,7 +174,7 @@ void tab_extras::name_given()
     extra_type_iterate(pextra) {
       if (pextra != selected && !pextra->disabled) {
         if (!strcmp(extra_rule_name(pextra), rname->text().toUtf8().data())) {
-          ui->display_msg(R__("Extra with that rule name already exist!"));
+          ui->display_msg(R__("An extra with that rule name already exists!"));
           return;
         }
       }

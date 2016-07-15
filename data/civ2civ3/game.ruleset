@@ -29,6 +29,8 @@ name = _("Civ2Civ3 ruleset")
 ;version = ""
 
 ; Summary of the ruleset
+; /* TRANS: In the client, this is displayed alongside the contents of
+;    README.civ2civ3, which are not localized. */
 summary = _("\
 You are playing Freeciv with civ2civ3 rules:\
 \n\n\

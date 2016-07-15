@@ -334,7 +334,7 @@ void tab_tech::name_given()
       if (padv != selected
           && padv->require[AR_ONE] != A_NEVER) {
         if (!strcmp(advance_rule_name(padv), rname->text().toUtf8().data())) {
-          ui->display_msg(R__("Tech with that rule name already exist!"));
+          ui->display_msg(R__("A tech with that rule name already exists!"));
           return;
         }
       }

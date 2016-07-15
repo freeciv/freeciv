@@ -2181,7 +2181,7 @@ static struct client_option client_options[] = {
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(auto_center_on_automated, N_("Show automated units"),
                   N_("Disable this option if you do not want to see "
-                     "automated units autocentered and animated"),
+                     "automated units autocentered and animated."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(auto_center_on_combat, N_("Auto center on combat"),
                   N_("Set this option to have any combat be centered "
@@ -3307,16 +3307,16 @@ static struct client_option client_options[] = {
                   "Sans Serif,10,-1,5,50,1,0,0,0,0", font_changed_callback),
   GEN_BOOL_OPTION(gui_qt_show_preview, N_("Show savegame information"),
                   N_("If this option is set the client will show "
-                      "information and map preview about current savegame "),
+                     "information and map preview of current savegame."),
                   COC_GRAPHICS, GUI_QT, TRUE, NULL),
   GEN_BOOL_OPTION(gui_qt_sidebar_left, N_("Sidebar position"),
-                  N_("If this option is set sidebar will be on left, "
-                      "otherwise it will on right side of map"),
+                  N_("If this option is set, the sidebar will be to the left "
+                     "of the map, otherwise to the right."),
                   COC_INTERFACE, GUI_QT, TRUE, NULL),
   GEN_STR_OPTION(gui_qt_wakeup_text,
                  N_("Wake up sequence"),
-                 N_("String which will trigger sound in pregame page, "
-                    "%1 stands for nick"),
+                 N_("String which will trigger sound in pregame page; "
+                    "%1 stands for username."),
                  COC_INTERFACE, GUI_QT, "Wake up %1", NULL, 0)
 
 };
