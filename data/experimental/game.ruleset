@@ -31,6 +31,8 @@ name = _("Experimental ruleset")
 ;version = ""
 
 ; Summary of the ruleset
+; /* TRANS: In the client, this is displayed alongside the contents of
+;    README.experimental, which are not localized. */
 summary = _("\
 You are playing with the experimental ruleset. This showcases new or \
 unusual features available in Freeciv without regard for strict game \
@@ -606,7 +608,9 @@ first_msg      = _("You're the first one to have mapped the entire world!")
 cons_msg       = _("You have mapped the entire world!")
 
 [achievement_map_known_20p]
-name           = _("Map Known 20 pct")
+; /* xgettext:no-c-format */
+name           = _("Map Known 20%")
+rule_name      = "Map Known 20 pct"
 type           = "Map_Known"
 value          = 20
 ; /* xgettext:no-c-format */

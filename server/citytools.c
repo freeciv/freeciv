@@ -2816,11 +2816,13 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   switch (event) {
     case E_WORKLIST:
-      /* TRANS: Possible 'source' of the production change. */
+      /* TRANS: Possible 'source' of the production change
+       * (in "<city> is building ..." sentence). */
       source = _(" from the worklist");
       break;
     case E_IMP_AUTO:
-      /* TRANS: Possible 'source' of the production change. */
+      /* TRANS: Possible 'source' of the production change
+       * (in "<city> is building ..." sentence). */
       source = _(" as suggested by the advisor");
       break;
     default:
@@ -2833,7 +2835,8 @@ void change_build_target(struct player *pplayer, struct city *pcity,
    * string can have multiple values. */
   notify_player(pplayer, city_tile(pcity), event, ftc_server,
                 /* TRANS: "<city> is building <production><source>."
-                 * 'source' might be an empty string. */
+                 * 'source' might be an empty string, or a clause like
+                 * " from the worklist". */
                 _("%s is building %s%s."),
                 city_link(pcity),
                 name, source);

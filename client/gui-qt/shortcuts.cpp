@@ -90,7 +90,7 @@ fc_shortcut default_shortcuts[] = {
   {SC_HIDE_WORKERS, 0, Qt::RightButton,
     Qt::ShiftModifier | Qt::AltModifier, _("Show/hide workers") },
   {SC_SHOW_UNITS, Qt::Key_Space, Qt::AllButtons, Qt::ControlModifier,
-    _("Units selection(for tile under mouse position)") },
+    _("Units selection (for tile under mouse position)") },
   {SC_TRADE_ROUTES, Qt::Key_D, Qt::AllButtons, Qt::ControlModifier,
     _("City Traderoutes") },
   {SC_CITY_PROD, Qt::Key_P, Qt::AllButtons, Qt::ControlModifier,
@@ -151,15 +151,15 @@ fc_shortcut default_shortcuts[] = {
   {SC_RELOAD_TILESET, Qt::Key_F6, Qt::AllButtons, Qt::ControlModifier
     | Qt::ShiftModifier, _("Reload tileset") },
   {SC_SHOW_FULLBAR, Qt::Key_F, Qt::AllButtons, Qt::ControlModifier,
-    _("Toggle city full bar visiblity") },
+    _("Toggle city full bar visibility") },
   {SC_ZOOM_IN, Qt::Key_Plus, Qt::AllButtons, Qt::NoModifier,
     _("Reload zoomed in tileset") },
   {SC_ZOOM_OUT, Qt::Key_Minus, Qt::AllButtons, Qt::NoModifier,
     _("Reload zoomed out tileset") },
   {SC_LOAD_LUA, Qt::Key_J, Qt::AllButtons, Qt::ControlModifier
-    | Qt::ShiftModifier, _("Load lua script") },
+    | Qt::ShiftModifier, _("Load Lua script") },
   {SC_RELOAD_LUA, Qt::Key_K, Qt::AllButtons, Qt::ControlModifier
-    | Qt::ShiftModifier, _("Load last loaded lua script") },
+    | Qt::ShiftModifier, _("Load last loaded Lua script") },
   {SC_ZOOM_RESET, Qt::Key_Backspace, Qt::AllButtons, Qt::ControlModifier,
     _("Reload tileset with default scale") }
 };

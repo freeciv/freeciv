@@ -30,6 +30,8 @@ name = _("Alien World")
 ;version = ""
 
 ; Summary of the ruleset
+; /* TRANS: In the client, this is displayed alongside the contents of
+;    README.alien, which are not localized. */
 summary = _("\
 One of the design goals of this ruleset was that it has to \
 provide gameplay different from standard rules. Do not assume that any rules \

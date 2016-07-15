@@ -2957,7 +2957,7 @@ void mr_menu::tileset_custom_load()
   layout = new QVBoxLayout;
   dialog->setWindowTitle(_("Available tilesets"));
   label = new QLabel;
-  label->setText(_("Some tilesets might be not compatible with current"
+  label->setText(_("Some tilesets might not be compatible with current"
                    " map topology!"));
   layout->addWidget(label);
 
@@ -3108,7 +3108,7 @@ void mr_menu::save_image()
   saved.setStandardButtons(QMessageBox::Ok);
   saved.setDefaultButton(QMessageBox::Cancel);
   if (map_saved) {
-    saved.set_text_title("Image saved as:\n" + img_name, _("Succeess"));
+    saved.set_text_title("Image saved as:\n" + img_name, _("Success"));
   } else {
     saved.set_text_title(_("Failed to save image of the map"), _("Error"));
   }

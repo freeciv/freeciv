@@ -1147,6 +1147,7 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
                   unit_tile_link(act_unit));
     notify_player(tgt_player, tgt_tile, E_ENEMY_DIPLOMAT_FAILED,
                   ftc_server,
+                  /* TRANS: nation, unit, city */
                   _("You caught %s %s attempting"
                     " to steal your gold in %s!"),
                   nation_adjective_for_player(act_player),
@@ -1188,10 +1189,12 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* Notify everyone involved. */
   notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_GOLD, ftc_server,
+                /* TRANS: unit, gold, city */
                 PL_("Your %s stole %d gold from %s.",
                     "Your %s stole %d gold from %s.", gold_give),
                 unit_link(act_unit), gold_give, tgt_city_link);
   notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
+                /* TRANS: nation, gold, city */
                 PL_("The %s are suspected of stealing %d gold from %s.",
                     "The %s are suspected of stealing %d gold from %s.",
                     gold_take),

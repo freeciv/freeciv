@@ -28,6 +28,8 @@ name = _("Sandbox ruleset")
 ;version = ""
 
 ; Summary of the ruleset
+; /* TRANS: In the client, this is displayed alongside the contents of
+;    README.sandbox, which are not localized. */
 summary = _("\
 You are playing Freeciv with sandbox ruleset. This showcases new or \
 unusual features available in Freeciv without regard for strict game \

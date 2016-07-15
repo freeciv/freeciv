@@ -970,7 +970,8 @@ bool autolock_settings(void)
   if (num_role_units(L_BARBARIAN) == 0) {
     struct setting *pset = setting_by_name("barbarians");
 
-    log_normal(_("Disabling barbarians in lack of suitable unit types."));
+    log_normal(_("Disabling 'barbarians' setting for lack of suitable "
+                 "unit types."));
     setting_lock_set(pset, FALSE);
     if (!setting_enum_set(pset, "DISABLED", NULL, NULL, 0)) {
       ok = FALSE;

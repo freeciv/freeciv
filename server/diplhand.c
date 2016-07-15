@@ -461,9 +461,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                                  sizeof(research_name));
             notify_research(presearch, pdest, E_TECH_GAIN, ftc_server,
                             _("You have acquired %s thanks to the %s "
-                              "diplomacy with the %s."),
+                              "treaty with the %s."),
                             advance_name,
-                            nation_plural_for_player(pdest),
+                            nation_adjective_for_player(pdest),
                             nation_plural_for_player(pgiver));
             notify_research_embassies
                 (presearch, pgiver, E_TECH_EMBASSY, ftc_server,

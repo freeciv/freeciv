@@ -1360,7 +1360,8 @@ conflicts      = "Airstrip", "Airbase"
 flags          = "NativeTile"
 helptext       = _("\
 Fortresses are more permanent forts; construction on them can only begin \
-once the underlying fort is complete; and cannot be built on River tiles.\
+once the underlying fort is complete. Forts on River tiles cannot be \
+upgraded to Fortresses.\
 "),
 ; /* xgettext:no-c-format */
 _("\
@@ -1442,8 +1443,8 @@ conflicts      = "Fort", "Fortress"
 flags          = "Refuel"
 helptext       = _("\
 Airbases are more permanent airstrips; construction on them can only \
-begin once the underlying airstrip is complete; and cannot be built on \
-River tiles.\
+begin once the underlying airstrip is complete. Airstrips on River tiles \
+cannot be upgraded to Airbases.\
 "),
 ; /* xgettext:no-c-format */
 _("\
