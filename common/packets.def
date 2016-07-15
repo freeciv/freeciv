@@ -1077,7 +1077,7 @@ PACKET_UNIT_ACTIONS = 90; sc, dsend
 
   BOOL disturb_player;
 
-  /* How to interpret action probabilities is documented in actions.h */
+  /* How to interpret action probabilities is documented in fc_types.h */
   ACT_PROB action_probabilities[ACTION_COUNT];
 end
 
