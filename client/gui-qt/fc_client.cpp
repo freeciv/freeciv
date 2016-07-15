@@ -582,15 +582,15 @@ void fc_client::read_settings()
 {
   QSettings s(QSettings::IniFormat, QSettings::UserScope, 
               "freeciv-qt-client");
-  if (s.contains("InfoTab-xsize")) {
-    qt_settings.infotab_width = s.value("InfoTab-xsize").toInt();
+  if (s.contains("Chat-xsize")) {
+    qt_settings.chat_width = s.value("Chat-xsize").toInt();
   } else {
-    qt_settings.infotab_width = 95;
+    qt_settings.chat_width = 33;
   }
-  if (s.contains("InfoTab-ysize")) {
-    qt_settings.infotab_height = s.value("InfoTab-ysize").toInt();
+  if (s.contains("Chat-ysize")) {
+    qt_settings.chat_height = s.value("Chat-ysize").toInt();
   } else {
-    qt_settings.infotab_height = 29;
+    qt_settings.chat_height = 33;
   }
   qt_settings.player_repo_sort_col = -1;
   qt_settings.city_repo_sort_col = -1;
@@ -604,8 +604,8 @@ void fc_client::write_settings()
 {
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
               "freeciv-qt-client");
-  s.setValue("InfoTab-xsize", qt_settings.infotab_width);
-  s.setValue("InfoTab-ysize", qt_settings.infotab_height);
+  s.setValue("Chat-xsize", qt_settings.chat_width);
+  s.setValue("Chat-ysize", qt_settings.chat_height);
 }
 
 /****************************************************************************

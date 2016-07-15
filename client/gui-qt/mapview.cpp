@@ -402,10 +402,11 @@ void map_view::resizeEvent(QResizeEvent *event)
     map_canvas_resized(size.width(), size.height());
     gui()->infotab->resize(((size.width()
                              - gui()->end_turn_rect->sizeHint().width())
-                             * gui()->qt_settings.infotab_width) / 100,
+                             * gui()->qt_settings.chat_width) / 100,
                              (size.height()
-                             * gui()->qt_settings.infotab_height) / 100);
+                             * gui()->qt_settings.chat_height) / 100);
     gui()->infotab->move(0 , size.height() - gui()->infotab->height());
+    gui()->infotab->restore_chat();
     gui()->unitinfo_wdg->move(width() - gui()->unitinfo_wdg->width(), 0);
     gui()->end_turn_rect->end_turn_update();
     delta = size - gui()->end_turn_rect->size();

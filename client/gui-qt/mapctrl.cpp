@@ -164,6 +164,16 @@ void map_view::keyPressEvent(QKeyEvent * event)
       return;
     case Qt::Key_Escape:
       key_cancel_action();
+      if (gui()->infotab->chat_maximized == true) {
+        gui()->infotab->restore_chat();
+      }
+      return;
+    case Qt::Key_Enter:
+    case Qt::Key_Return:
+      if (gui()->infotab->chat_maximized == false) {
+        gui()->infotab->maximize_chat();
+        gui()->infotab->chtwdg->chat_line->setFocus();
+      }
       return;
     case Qt::Key_Space:
       if (is_ctrl) {
@@ -297,6 +307,10 @@ void map_view::mousePressEvent(QMouseEvent *event)
     return;
   }
 
+  if (event->button() == Qt::LeftButton
+      && gui()->infotab->chat_maximized == true) {
+        gui()->infotab->restore_chat();
+  }
   if (event->button() == Qt::LeftButton
       && gui()->menu_bar->delayed_order == false) {
     if (ctrl && shft && pcity) {

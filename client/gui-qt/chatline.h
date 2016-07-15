@@ -44,6 +44,8 @@ public:
   void make_link(struct tile *ptile);
   void update_font();
   void update_widgets();
+  int default_size(int lines);
+  void scroll_to_bottom();
 private slots:
   void send();
   void state_changed(int state);
