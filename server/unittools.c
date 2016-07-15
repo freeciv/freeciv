@@ -3465,6 +3465,10 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
     punit->done_moving = TRUE;
   }
 
+  /* No longer relevant. */
+  punit->action_decision_tile = NULL;
+  punit->action_decision_want = ACT_DEC_NOTHING;
+
   /* Claim ownership of fortress? */
   bowner = extra_owner(pdesttile);
   if ((bowner == NULL || pplayers_at_war(bowner, pplayer))
