@@ -163,7 +163,7 @@ void tab_terrains::name_given()
     terrain_type_iterate(pterr) {
       if (pterr != selected && !pterr->disabled) {
         if (!strcmp(terrain_rule_name(pterr), rname->text().toUtf8().data())) {
-          ui->display_msg(R__("Terrain with that rule name already exist!"));
+          ui->display_msg(R__("A terrain with that rule name already exists!"));
           return;
         }
       }

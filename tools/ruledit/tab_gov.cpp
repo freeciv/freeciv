@@ -167,7 +167,8 @@ void tab_gov::name_given()
     governments_iterate(pgov) {
       if (pgov != selected && !pgov->disabled) {
         if (!strcmp(government_rule_name(pgov), rname->text().toUtf8().data())) {
-          ui->display_msg(R__("Government with that rule name already exist!"));
+          ui->display_msg(R__("A government with that rule name already "
+                              "exists!"));
           return;
         }
       }

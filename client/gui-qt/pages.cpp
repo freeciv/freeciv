@@ -455,7 +455,7 @@ void fc_client::clear_status_bar()
 void fc_client::create_loading_page()
 {
   pages_layout[PAGE_GAME + 1] = new QGridLayout;
-  QLabel *label = new QLabel(_("Loading ..."));
+  QLabel *label = new QLabel(_("Loading..."));
   pages_layout[PAGE_GAME + 1]->addWidget(label, 0, 0, 1, 1,
                                          Qt::AlignHCenter);
 }
@@ -709,7 +709,7 @@ void fc_client::create_game_page()
   sidebar_wdg = new fc_sidebar();
 
   sw_map = new fc_sidewidget(fc_icons::instance()->get_pixmap("view"),
-                             _("View"), "MAP", side_show_map);
+                             Q_("?noun:View"), "MAP", side_show_map);
   sw_tax = new fc_sidewidget(nullptr, nullptr, "", side_rates_wdg, SW_TAX);
   sw_indicators = new fc_sidewidget(nullptr, nullptr, "", side_show_map,
                                     SW_INDICATORS);

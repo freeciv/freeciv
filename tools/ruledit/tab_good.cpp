@@ -168,7 +168,7 @@ void tab_good::name_given()
     goods_type_iterate(pgood) {
       if (pgood != selected && !pgood->disabled) {
         if (!strcmp(goods_rule_name(pgood), rname->text().toUtf8().data())) {
-          ui->display_msg(R__("Good with that rule name already exist!"));
+          ui->display_msg(R__("A good with that rule name already exists!"));
           return;
         }
       }

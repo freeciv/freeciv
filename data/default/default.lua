@@ -201,7 +201,7 @@ signal.connect("city_transferred", "_deflua_make_partisans_callback")
 function _deflua_harmless_disaster_message(disaster, city, had_internal_effect)
   if not had_internal_effect then
     notify.event(city.owner, city.tile, E.DISASTER,
-        _("We survived the disaster without serious damages."))
+        _("We survived the disaster without serious damage."))
   end
 end
 
