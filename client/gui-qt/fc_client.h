@@ -248,6 +248,7 @@ public:
   pregame_options *pr_options;
   fc_settings qt_settings;
   trade_generator trade_gen;
+  qfc_rally_list rallies;
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
   void remove_repo_dlg(QString str);

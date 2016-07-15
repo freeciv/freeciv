@@ -244,6 +244,48 @@ void map_view::mousePressEvent(QMouseEvent *event)
     gui()->mapview_wdg->repaint();
     return;
   }
+  /* Rally point - select city */
+  if (event->button() == Qt::LeftButton
+      && gui()->rallies.hover_city == true) {
+    char text[1024];
+    ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+    if (tile_city(ptile)) {
+      gui()->rallies.hover_city = false;
+      gui()->rallies.hover_tile = true;
+      gui()->rallies.rally_city = tile_city(ptile);
+
+      if (gui()->rallies.clear(tile_city(ptile))) {
+        fc_snprintf(text, sizeof(text),
+                  _("Rally point cleared for city %s"),
+                  city_link(tile_city(ptile)));
+        output_window_append(ftc_client, text);
+        gui()->rallies.hover_tile = false;
+        return;
+      }
+      fc_snprintf(text, sizeof(text),
+                  _("Selected city %s. Now choose rally point."),
+                  city_link(tile_city(ptile)));
+      output_window_append(ftc_client, text);
+    } else {
+      output_window_append(ftc_client, _("No city selected. Aborted"));
+    }
+    return;
+  }
+  /* Rally point - select tile */
+  if (event->button() == Qt::LeftButton
+      && gui()->rallies.hover_tile == true) {
+    char text[1024];
+    qfc_rally *rally = new qfc_rally;
+    rally->ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+    rally->pcity = gui()->rallies.rally_city;
+    fc_snprintf(text, sizeof(text),
+                _("Tile %s set as rally point from city %s."),
+                tile_link(ptile), city_link(rally->pcity));
+    gui()->rallies.hover_tile = false;
+    gui()->rallies.add(rally);
+    output_window_append(ftc_client, text);
+    return;
+  }
   if (event->button() == Qt::LeftButton
       && gui()->menu_bar->delayed_order == true) {
     ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
