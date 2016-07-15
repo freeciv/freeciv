@@ -501,6 +501,44 @@ bool dio_get_requirement_json(json_t *json_packet,
 }
 
 /**************************************************************************
+  De-serialize an action probability.
+**************************************************************************/
+bool dio_get_action_probability_json(json_t *json_packet,
+                                     const struct plocation *location,
+                                     struct act_prob *prob)
+{
+  struct plocation ap_field;
+
+  /* Find the action probability object. */
+  json_t *action_probability = plocation_read_data(json_packet, location);
+  if (!action_probability) {
+    log_error("ERROR: Unable to get action probability from location: %s",
+              plocation_name(location));
+    return FALSE;
+  }
+
+  /* Find the action probability object fields and translate their
+   * values. */
+  ap_field = *plocation_field_new("min");
+  if (!dio_get_uint8_json(action_probability, &ap_field, &prob->min)) {
+    log_error("ERROR: Unable to get part of action probability "
+              "from location: %s",
+              plocation_name(location));
+    return FALSE;
+  }
+
+  ap_field.name = "max";
+  if (!dio_get_uint8_json(action_probability, &ap_field, &prob->max)) {
+    log_error("ERROR: Unable to get part of action probability "
+              "from location: %s",
+              plocation_name(location));
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Create an empty field array.
 **************************************************************************/
 void dio_put_farray_json(struct json_data_out *dout,
@@ -677,6 +715,25 @@ void dio_put_requirement_json(struct json_data_out *dout,
 
   /* Put the requirement object in the packet. */
   plocation_write_data(dout->json, location, requirement);
+}
+
+/**************************************************************************
+  Serialize an action probability.
+**************************************************************************/
+void dio_put_action_probability_json(struct json_data_out *dout,
+                                     const struct plocation *location,
+                                     const struct act_prob *prob)
+{
+  /* Create the action probability object. */
+  json_t *action_probability = json_object();
+
+  /* Write the action probability values to the fields of the action
+   * probability object. */
+  json_object_set(action_probability, "min", json_integer(prob->min));
+  json_object_set(action_probability, "max", json_integer(prob->max));
+
+  /* Put the action probability object in the packet. */
+  plocation_write_data(dout->json, location, action_probability);
 }
 
 /**************************************************************************

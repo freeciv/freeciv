@@ -750,37 +750,46 @@ FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
  * Action probability
  *
  * An action probability is the probability that an action will be
- * successful under the given circumstances. It goes from 0% to 100%.
+ * successful under the given circumstances. It is an interval that
+ * includes the end points. An end point goes from 0% to 100%.
  * Alternatively it can signal a special case.
  *
- * Values from 0 up to and including 200 are to be understood as the chance
- * of success measured in half percentage points. The value 3 indicates that
- * the chance is 1.5%. The value 10 indicates that the chance is 5%. The
- * probability may have been rounded to the nearest half percentage point.
+ * End point values from 0 up to and including 200 should be understood as
+ * the chance of success measured in half percentage points. In other words:
+ * The value 3 indicates that the chance is 1.5%. The value 10 indicates
+ * that the chance is 5%. The probability of a minimum may be rounded down
+ * to the nearest half percentage point. The probability of a maximum may
+ * be rounded up to the nearest half percentage point.
  *
- * Values above 200 (100%) up to and including 255 are special cases. All
- * special cases should be declared and documented below. A value in this
- * range should be considered a bug if it isn't. If a special value for
+ * Values with a higher minimum than maximum are special case values. All
+ * special cases should be declared and documented below. An undocumented
+ * value in this range should be considered a bug. If a special value for
  * internal use is needed please avoid the range from and including 0 up
  * to and including 255.
  *
- * 0   ACTPROB_IMPOSSIBLE is another way of saying that the probability
- *     is 0%. It isn't really a special value since it is in range.
+ * [0, 0]     ACTPROB_IMPOSSIBLE is another way of saying that the
+ *            probability is 0%. It isn't really a special value since it
+ *            is in range.
  *
- * 200 ACTPROB_CERTAIN is another way of saying that the probability
- *     is 100%. It isn't really a special value since it is in range.
+ * [200, 200] ACTPROB_CERTAIN is another way of saying that the probability
+ *            is 100%. It isn't really a special value since it is in range.
  *
- * 253 ACTPROB_NA indicates that no probability should exist.
+ * [253, 0]   ACTPROB_NA indicates that no probability should exist.
  *
- * 254 ACTPROB_NOT_IMPLEMENTED indicates that support for finding this
- *     probability currently is missing.
+ * [254, 0]   ACTPROB_NOT_IMPLEMENTED indicates that support for finding
+ *            this probability currently is missing.
  *
- * 255 ACTPROB_NOT_KNOWN indicates that the player don't know enough to
- *     find out. It is caused by the probability depending on a rule that
- *     depends on game state the player don't have access to. It may be
- *     possible for the player to later gain access to this game state.
+ * [0, 200]   ACTPROB_NOT_KNOWN indicates that the player don't know enough
+ *            to find out. It is caused by the probability depending on a
+ *            rule that depends on game state the player don't have access
+ *            to. It may be possible for the player to later gain access to
+ *            this game state. It isn't really a special value since it is
+ *            in range.
  */
-typedef int action_probability;
+struct act_prob {
+  int min;
+  int max;
+};
 
 #ifdef __cplusplus
 }

@@ -3921,7 +3921,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
   struct tile *dst_tile;
   struct city *tgt_city;
   struct unit *tgt_unit;
-  action_probability prob;
+  struct act_prob prob;
   int tgt_id;
   bool performed;
   const char *name;

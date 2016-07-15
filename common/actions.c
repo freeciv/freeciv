@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-#include <math.h> /* ceil */
+#include <math.h> /* ceil, floor */
 
 /* utility */
 #include "astring.h"
@@ -63,13 +63,13 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct specialist *target_specialist);
 
 static inline bool
-action_prob_is_signal(const action_probability probability);
+action_prob_is_signal(const struct act_prob probability);
 static inline bool
-action_prob_not_relevant(const action_probability probability);
+action_prob_not_relevant(const struct act_prob probability);
 static inline bool
-action_prob_unknown(const action_probability probability);
+action_prob_unknown(const struct act_prob probability);
 static inline bool
-action_prob_not_impl(const action_probability probability);
+action_prob_not_impl(const struct act_prob probability);
 
 /**************************************************************************
   Initialize the actions and the action enablers.
@@ -534,7 +534,7 @@ const char *action_get_ui_name_mnemonic(int action_id,
   the probability information.
 **************************************************************************/
 const char *action_prepare_ui_name(int action_id, const char* mnemonic,
-                                   const action_probability prob,
+                                   const struct act_prob prob,
                                    const char* custom)
 {
   static struct astring str = ASTRING_INIT;
@@ -568,22 +568,24 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
   /* How to interpret action probabilities like prob is documented in
    * fc_types.h */
   if (action_prob_is_signal(prob)) {
-    if (action_prob_unknown(prob)) {
-      /* Unknown because the player don't have the required knowledge to
-       * determine the probability of success for this action. */
+    fc_assert(action_prob_not_impl(prob)
+              || action_prob_not_relevant(prob));
 
-      /* TRANS: the chance of an action succeeding is unknown. */
-      probtxt = _("?%");
-    } else {
-      fc_assert(action_prob_not_impl(prob)
-                || action_prob_not_relevant(prob));
-
-      /* Unknown because of missing server support or should not exits. */
-      probtxt = NULL;
-    }
+    /* Unknown because of missing server support or should not exits. */
+    probtxt = NULL;
   } else {
-    /* TRANS: the probability that an action will succeed. */
-    astr_set(&chance, _("%.1f%%"), (double)prob / 2);
+    if (prob.min == prob.max) {
+      /* Only one probability in range. */
+
+      /* TRANS: the probability that an action will succeed. Given in
+       * percentage. Resolution is 0.5%. */
+      astr_set(&chance, _("%.1f%%"), (double)prob.max / 2);
+    } else {
+      /* TRANS: the interval (end points included) where the probability of
+       * the action's success is. Given in percentage. Resolution is 0.5%. */
+      astr_set(&chance, _("[%.1f%%, %.1f%%]"),
+               (double)prob.min / 2, (double)prob.max / 2);
+    }
     probtxt = astr_str(&chance);
   }
 
@@ -615,27 +617,31 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
   Suitable for a tool tip for the button that starts it.
 **************************************************************************/
 const char *action_get_tool_tip(const int action_id,
-                                const action_probability prob)
+                                const struct act_prob prob)
 {
   static struct astring tool_tip = ASTRING_INIT;
 
   if (action_prob_is_signal(prob)) {
-    if (action_prob_unknown(prob)) {
-      /* Missing in game knowledge. An in game action can change this. */
-      astr_set(&tool_tip,
-               _("Starting to do this may currently be impossible."));
-    } else {
-      fc_assert(action_prob_not_impl(prob));
+    fc_assert(action_prob_not_impl(prob));
 
-      /* Missing server support. No in game action will change this. */
-      astr_clear(&tool_tip);
-    }
-  } else {
-    /* The unit is 0.5% chance of success. */
-    const double converted = (double)prob / 2.0;
-
+    /* Missing server support. No in game action will change this. */
+    astr_clear(&tool_tip);
+  } else if (action_prob_unknown(prob)) {
+    /* Missing in game knowledge. An in game action can change this. */
+    astr_set(&tool_tip,
+             _("Starting to do this may currently be impossible."));
+  } else if (prob.min == prob.max) {
+    /* TRANS: action probability of success. Given in percentage.
+     * Resolution is 0.5%. */
     astr_set(&tool_tip, _("The probability of success is %.1f%%."),
-             converted);
+             (double)prob.max / 2.0);
+  } else {
+    astr_set(&tool_tip,
+             /* TRANS: action probability range (min to max). Given in
+              * percentage. Resolution is 0.5%. */
+             _("The probability of success is %.1f%%, %.1f%% or somewhere"
+               " in between."),
+             (double)prob.min / 2.0, (double)prob.max / 2.0);
   }
 
   return astr_str(&tool_tip);
@@ -2118,11 +2124,12 @@ tech_can_be_stolen(const struct player *actor_player,
 
   See diplomat_success_vs_defender() in server/diplomats.c
 **************************************************************************/
-static action_probability ap_dipl_battle_win(const struct unit *pattacker,
-                                             const struct unit *pdefender)
+static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
+                                          const struct unit *pdefender)
 {
   /* Keep unconverted until the end to avoid scaling each step */
   int chance;
+  struct act_prob out;
 
   /* Superspy always win */
   if (unit_has_type_flag(pdefender, UTYF_SUPERSPY)) {
@@ -2178,7 +2185,10 @@ static action_probability ap_dipl_battle_win(const struct unit *pattacker,
   }
 
   /* Convert to action probability */
-  return chance * 2;
+  out.min = chance * 2;
+  out.max = chance * 2;
+
+  return out;
 }
 
 /**************************************************************************
@@ -2186,8 +2196,8 @@ static action_probability ap_dipl_battle_win(const struct unit *pattacker,
 
   See diplomat_infiltrate_tile() in server/diplomats.c
 **************************************************************************/
-static action_probability ap_diplomat_battle(const struct unit *pattacker,
-                                             const struct unit *pvictim)
+static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
+                                          const struct unit *pvictim)
 {
   unit_list_iterate(unit_tile(pvictim)->units, punit) {
     if (unit_owner(punit) == unit_owner(pattacker)) {
@@ -2226,7 +2236,7 @@ static action_probability ap_diplomat_battle(const struct unit *pattacker,
   player has and is willing to spend the money. This is so the player can
   figure out what his odds are before deciding to get the extra money.
 **************************************************************************/
-static action_probability
+static struct act_prob
 action_prob(const enum gen_action wanted_action,
             const struct player *actor_player,
             const struct city *actor_city,
@@ -2246,7 +2256,7 @@ action_prob(const enum gen_action wanted_action,
             const struct specialist *target_specialist)
 {
   int known;
-  action_probability chance;
+  struct act_prob chance;
 
   const struct unit_type *actor_unittype;
   const struct unit_type *target_unittype;
@@ -2408,15 +2418,13 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_ATTACK:
     {
-      struct unit *defender_unit = get_defender(actor_unit,
-                                   target_tile);
+      struct unit *defender_unit = get_defender(actor_unit, target_tile);
 
       if (can_player_see_unit(actor_player, defender_unit)) {
         double unconverted = unit_win_chance(actor_unit, defender_unit);
 
-        /* Action is seen as disabled by anyone that relies on action
-         * probability if it is rounded down to 0%. */
-        chance = ceil((double)200 * unconverted);
+        chance.min = floor((double)200 * unconverted);
+        chance.max = ceil((double)200 * unconverted);
       } else if (known == TRI_YES) {
         known = TRI_MAYBE;
       }
@@ -2447,9 +2455,9 @@ action_prob(const enum gen_action wanted_action,
   Get the actor unit's probability of successfully performing the chosen
   action on the target city.
 **************************************************************************/
-action_probability action_prob_vs_city(const struct unit* actor_unit,
-                                       const int action_id,
-                                       const struct city* target_city)
+struct act_prob action_prob_vs_city(const struct unit* actor_unit,
+                                    const int action_id,
+                                    const struct city* target_city)
 {
   struct tile *actor_tile = unit_tile(actor_unit);
   struct impr_type *target_building;
@@ -2497,9 +2505,9 @@ action_probability action_prob_vs_city(const struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on the target unit.
 **************************************************************************/
-action_probability action_prob_vs_unit(const struct unit* actor_unit,
-                                       const int action_id,
-                                       const struct unit* target_unit)
+struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
+                                    const int action_id,
+                                    const struct unit* target_unit)
 {
   struct tile *actor_tile = unit_tile(actor_unit);
 
@@ -2543,11 +2551,11 @@ action_probability action_prob_vs_unit(const struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on all units at the target tile.
 **************************************************************************/
-action_probability action_prob_vs_units(const struct unit* actor_unit,
-                                        const int action_id,
-                                        const struct tile* target_tile)
+struct act_prob action_prob_vs_units(const struct unit* actor_unit,
+                                     const int action_id,
+                                     const struct tile* target_tile)
 {
-  action_probability prob_all;
+  struct act_prob prob_all;
   struct tile *actor_tile = unit_tile(actor_unit);
 
   if (actor_unit == NULL || target_tile == NULL
@@ -2579,7 +2587,7 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
 
   prob_all = ACTPROB_CERTAIN;
   unit_list_iterate(target_tile->units, target_unit) {
-    action_probability prob_unit;
+    struct act_prob prob_unit;
 
     prob_unit = action_prob(action_id,
                             unit_owner(actor_unit),
@@ -2595,22 +2603,13 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
     if (!action_prob_possible(prob_unit)) {
       /* One unit makes it impossible for all units. */
       return ACTPROB_IMPOSSIBLE;
-    } else if (action_prob_is_signal(prob_unit)) {
-      if (action_prob_not_impl(prob_unit)) {
-        /* Not implemented dominates all except impossible. */
-        prob_all = ACTPROB_NOT_IMPLEMENTED;
-      } else {
-        fc_assert(action_prob_unknown(prob_unit));
-
-        if (!action_prob_not_impl(prob_all)) {
-          /* Not known dominates all except not implemented and
-           * impossible. */
-          prob_all = ACTPROB_NOT_KNOWN;
-        }
-      }
+    } else if (action_prob_not_impl(prob_unit)) {
+      /* Not implemented dominates all except impossible. */
+      prob_all = ACTPROB_NOT_IMPLEMENTED;
     } else {
       fc_assert_msg(!action_prob_is_signal(prob_unit),
-                    "Invalid probability %d", prob_unit);
+                    "Invalid probability [%d, %d]",
+                    prob_unit.min, prob_unit.max);
 
       if (action_prob_is_signal(prob_all)) {
         /* Special values dominate regular values. */
@@ -2619,7 +2618,8 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
 
       /* Probability against all target units considered until this moment
        * and the probability against this target unit. */
-      prob_all = (prob_all * prob_unit) / 200;
+      prob_all.min = (prob_all.min * prob_unit.min) / 200;
+      prob_all.max = (prob_all.max * prob_unit.max) / 200;
       break;
     }
   } unit_list_iterate_end;
@@ -2632,9 +2632,9 @@ action_probability action_prob_vs_units(const struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on the target tile.
 **************************************************************************/
-action_probability action_prob_vs_tile(const struct unit* actor_unit,
-                                       const int action_id,
-                                       const struct tile* target_tile)
+struct act_prob action_prob_vs_tile(const struct unit* actor_unit,
+                                    const int action_id,
+                                    const struct tile* target_tile)
 {
   struct tile *actor_tile = unit_tile(actor_unit);
 
@@ -2676,8 +2676,8 @@ action_probability action_prob_vs_tile(const struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on itself.
 **************************************************************************/
-action_probability action_prob_self(const struct unit* actor_unit,
-                                    const int action_id)
+struct act_prob action_prob_self(const struct unit* actor_unit,
+                                 const int action_id)
 {
   struct tile *actor_tile = unit_tile(actor_unit);
 
@@ -2717,50 +2717,61 @@ action_probability action_prob_self(const struct unit* actor_unit,
 /**************************************************************************
   Returns the impossible action probability.
 **************************************************************************/
-action_probability action_prob_new_impossible(void)
+struct act_prob action_prob_new_impossible(void)
 {
-  return 0;
+  struct act_prob out = { 0, 0 };
+
+  return out;
 }
 
 /**************************************************************************
   Returns the certain action probability.
 **************************************************************************/
-action_probability action_prob_new_certain(void)
+struct act_prob action_prob_new_certain(void)
 {
-  return 200;
+  struct act_prob out = { 200, 200 };
+
+  return out;
 }
 
 /**************************************************************************
   Returns the n/a action probability.
 **************************************************************************/
-action_probability action_prob_new_not_relevant(void)
+struct act_prob action_prob_new_not_relevant(void)
 {
-  return 253;
+  struct act_prob out = { 253, 0};
+
+  return out;
 }
 
 /**************************************************************************
   Returns the "not implemented" action probability.
 **************************************************************************/
-action_probability action_prob_new_not_impl(void)
+struct act_prob action_prob_new_not_impl(void)
 {
-  return 254;
+  struct act_prob out = { 254, 0 };
+
+  return out;
 }
 
 /**************************************************************************
   Returns the "user don't know" action probability.
 **************************************************************************/
-action_probability action_prob_new_unknown(void)
+struct act_prob action_prob_new_unknown(void)
 {
-  return 255;
+  struct act_prob out = { 0, 200 };
+
+  return out;
 }
 
 /**************************************************************************
   Returns TRUE iff the given action probability belongs to an action that
   may be possible.
 **************************************************************************/
-bool action_prob_possible(const action_probability probability)
+bool action_prob_possible(const struct act_prob probability)
 {
-  return ACTPROB_IMPOSSIBLE != probability && ACTPROB_NA != probability;
+  return (0 < probability.max
+          || action_prob_not_impl(probability));
 }
 
 /**************************************************************************
@@ -2768,9 +2779,9 @@ bool action_prob_possible(const action_probability probability)
   an action probability.
 **************************************************************************/
 static inline bool
-action_prob_not_relevant(const action_probability probability)
+action_prob_not_relevant(const struct act_prob probability)
 {
-  return ACTPROB_NA == probability;
+  return probability.min == 253 && probability.max == 0;
 }
 
 /**************************************************************************
@@ -2778,9 +2789,9 @@ action_prob_not_relevant(const action_probability probability)
   for finding this action probability currently is missing from Freeciv.
 **************************************************************************/
 static inline bool
-action_prob_not_impl(const action_probability probability)
+action_prob_not_impl(const struct act_prob probability)
 {
-  return ACTPROB_NOT_IMPLEMENTED == probability;
+  return probability.min == 254 && probability.max == 0;
 }
 
 /**************************************************************************
@@ -2792,9 +2803,9 @@ action_prob_not_impl(const action_probability probability)
  to later gain access to this game state.
 **************************************************************************/
 static inline bool
-action_prob_unknown(const action_probability probability)
+action_prob_unknown(const struct act_prob probability)
 {
-  return ACTPROB_NOT_KNOWN == probability;
+  return probability.min == 0 && probability.max == 200;
 }
 
 /**************************************************************************
@@ -2802,9 +2813,18 @@ action_prob_unknown(const action_probability probability)
   signal value rather than a regular action probability value.
 **************************************************************************/
 static inline bool
-action_prob_is_signal(const action_probability probability)
+action_prob_is_signal(const struct act_prob probability)
 {
-  return probability < 0 || probability > 200;
+  return probability.max < probability.min;
+}
+
+/**************************************************************************
+  Returns TRUE iff ap1 and ap2 are equal.
+**************************************************************************/
+bool are_action_probabilitys_equal(const struct act_prob *ap1,
+                                   const struct act_prob *ap2)
+{
+  return ap1->min == ap2->min && ap1->max == ap2->max;
 }
 
 /**************************************************************************

@@ -314,10 +314,10 @@ const char *action_get_ui_name(int action_id);
 const char *action_get_ui_name_mnemonic(int action_id,
                                         const char* mnemonic);
 const char *action_prepare_ui_name(int action_id, const char* mnemonic,
-                                   const action_probability prob,
+                                   const struct act_prob prob,
                                    const char *custom);
 const char *action_get_tool_tip(const int action_id,
-                                const action_probability prob);
+                                const struct act_prob prob);
 
 struct action_enabler_list *
 action_enablers_for_action(enum gen_action action);
@@ -354,35 +354,38 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
 bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                                     const struct unit *actor_unit);
 
-action_probability action_prob_vs_city(const struct unit* actor,
-                                       const int action_id,
-                                       const struct city* victim);
+struct act_prob action_prob_vs_city(const struct unit* actor,
+                                    const int action_id,
+                                    const struct city* victim);
 
-action_probability action_prob_vs_unit(const struct unit* actor,
-                                       const int action_id,
-                                       const struct unit* victim);
+struct act_prob action_prob_vs_unit(const struct unit* actor,
+                                    const int action_id,
+                                    const struct unit* victim);
 
-action_probability action_prob_vs_units(const struct unit* actor,
-                                        const int action_id,
-                                        const struct tile* victims);
+struct act_prob action_prob_vs_units(const struct unit* actor,
+                                     const int action_id,
+                                     const struct tile* victims);
 
-action_probability action_prob_vs_tile(const struct unit *actor,
-                                       const int action_id,
-                                       const struct tile *victims);
+struct act_prob action_prob_vs_tile(const struct unit *actor,
+                                    const int action_id,
+                                    const struct tile *victims);
 
-action_probability action_prob_self(const struct unit *actor,
-                                    const int action_id);
+struct act_prob action_prob_self(const struct unit *actor,
+                                 const int action_id);
 
-bool action_prob_possible(const action_probability probability);
+bool action_prob_possible(const struct act_prob probability);
 
-action_probability action_prob_new_impossible(void);
-action_probability action_prob_new_not_relevant(void);
-action_probability action_prob_new_not_impl(void);
-action_probability action_prob_new_unknown(void);
-action_probability action_prob_new_certain(void);
+bool are_action_probabilitys_equal(const struct act_prob *ap1,
+                                   const struct act_prob *ap2);
+
+struct act_prob action_prob_new_impossible(void);
+struct act_prob action_prob_new_not_relevant(void);
+struct act_prob action_prob_new_not_impl(void);
+struct act_prob action_prob_new_unknown(void);
+struct act_prob action_prob_new_certain(void);
 
 /* Special action probability values. Documented in fc_types.h's
- * definition of action_probability. */
+ * definition of struct act_prob. */
 #define ACTPROB_IMPOSSIBLE action_prob_new_impossible()
 #define ACTPROB_CERTAIN action_prob_new_certain()
 #define ACTPROB_NA action_prob_new_not_relevant()

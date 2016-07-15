@@ -80,6 +80,9 @@ bool dio_get_worklist_json(json_t *json_packet,
 bool dio_get_requirement_json(json_t *json_packet,
                               const struct plocation *location,
                               struct requirement *preq);
+bool dio_get_action_probability_json(json_t *json_packet,
+                                     const struct plocation *location,
+                                     struct act_prob *prob);
 
 bool dio_get_uint8_vec8_json(json_t *json_packet,
                              const struct plocation *location,
@@ -153,6 +156,9 @@ void dio_put_worklist_json(struct json_data_out *dout,
 void dio_put_requirement_json(struct json_data_out *dout,
                               const struct plocation *location,
                               const struct requirement *preq);
+void dio_put_action_probability_json(struct json_data_out *dout,
+                                     const struct plocation *location,
+                                     const struct act_prob *prob);
 
 void dio_put_uint8_vec8_json(struct json_data_out *dout,
                              const struct plocation *location,

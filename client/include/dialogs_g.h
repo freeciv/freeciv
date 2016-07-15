@@ -50,7 +50,7 @@ GUI_FUNC_PROTO(void, races_update_pickable, bool nationset_change)
 GUI_FUNC_PROTO(void, popup_action_selection, struct unit *actor_unit,
                struct city *target_city, struct unit *target_unit,
                struct tile *target_tile,
-               const action_probability *act_probs)
+               const struct act_prob *act_probs)
 GUI_FUNC_PROTO(int, action_selection_actor_unit, void)
 GUI_FUNC_PROTO(int, action_selection_target_city, void)
 GUI_FUNC_PROTO(int, action_selection_target_unit, void)
@@ -58,7 +58,7 @@ GUI_FUNC_PROTO(void, action_selection_close, void)
 GUI_FUNC_PROTO(void, action_selection_refresh, struct unit *actor_unit,
                struct city *target_city, struct unit *target_unit,
                struct tile *target_tile,
-               const action_probability *act_probs)
+               const struct act_prob *act_probs)
 GUI_FUNC_PROTO(void, popup_incite_dialog, struct unit *actor,
                struct city *pcity, int cost)
 GUI_FUNC_PROTO(void, popup_bribe_dialog, struct unit *actor,

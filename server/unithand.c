@@ -1197,7 +1197,7 @@ void handle_unit_get_actions(struct connection *pc,
   struct player *actor_player;
   struct unit *actor_unit;
   struct tile *target_tile;
-  action_probability probabilities[ACTION_COUNT];
+  struct act_prob probabilities[ACTION_COUNT];
 
   struct unit *target_unit;
   struct city *target_city;

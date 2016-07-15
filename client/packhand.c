@@ -4437,7 +4437,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
   Returns a possibly legal attack action iff it is the only interesting
   action that currently is legal.
 **************************************************************************/
-static enum gen_action auto_attack_act(const action_probability *act_probs)
+static enum gen_action auto_attack_act(const struct act_prob *act_probs)
 {
   enum gen_action attack_action = ACTION_COUNT;
 
@@ -4512,7 +4512,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   struct city *target_city = game_city_by_number(packet->target_city_id);
   struct unit *target_unit = game_unit_by_number(packet->target_unit_id);
 
-  const action_probability *act_probs = packet->action_probabilities;
+  const struct act_prob *act_probs = packet->action_probabilities;
 
   bool disturb_player = packet->disturb_player;
   bool valid = FALSE;
