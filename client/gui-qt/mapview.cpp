@@ -332,6 +332,10 @@ void resize_widget::mouseMoveEvent(QMouseEvent * event)
 {
   QPoint qp, np;
 
+  if (gui()->infotab->locked) {
+    return;
+  }
+
   qp = event->globalPos();
   np.setX(qp.x() - point.x());
   np.setY(qp.y() - point.y());
@@ -411,6 +415,7 @@ minimap_view::minimap_view(QWidget *parent) : fcwidget()
   cw->put_to_corner();
   pix = new QPixmap;
   scale_factor = 1.0;
+  locked = false;
 }
 
 /**************************************************************************
@@ -763,6 +768,9 @@ void minimap_view::mousePressEvent(QMouseEvent * event)
 **************************************************************************/
 void minimap_view::mouseMoveEvent(QMouseEvent* event)
 {
+  if (locked) {
+    return;
+  }
   if (event->buttons() & Qt::LeftButton) {
     move(event->globalPos() - cursor);
     setCursor(Qt::SizeAllCursor);

@@ -60,16 +60,21 @@ info_tab::info_tab(QWidget *parent)
     "QPushButton {border: noborder;}");
 
   layout = new QGridLayout;
+  locked = false;
   msg_button = new right_click_button;
   msg_button->setText(_("Messages"));
   chat_button = new right_click_button;
   chat_button->setText(_("Chat"));
   hide_button = new QPushButton(
                     style()->standardIcon(QStyle::SP_ArrowDown), "");
+  lock_button = new QPushButton(
+                    style()->standardIcon(QStyle::SP_TitleBarShadeButton), "");
+  lock_button->setToolTip(_("Locks/unlocks interface"));
 
   layout->addWidget(hide_button, 1, 0, 1, 1);
   layout->addWidget(msg_button, 1, 1, 1, 4);
-  layout->addWidget(chat_button, 1, 5, 1, 5);
+  layout->addWidget(chat_button, 1, 5, 1, 4);
+  layout->addWidget(lock_button, 1, 9, 1, 1);
   msgwdg = new messagewdg(this);
   layout->addWidget(msgwdg, 0, 0, 1, 5);
   layout->setRowStretch(0, 10);
@@ -91,6 +96,7 @@ info_tab::info_tab(QWidget *parent)
   connect(chat_button, SIGNAL(clicked()), SLOT(activate_chat()));
   connect(msg_button, SIGNAL(right_clicked()), SLOT(on_right_clicked()));
   connect(chat_button, SIGNAL(right_clicked()), SLOT(on_right_clicked()));
+  connect(lock_button, SIGNAL(clicked()), SLOT(lock()));
   resx = false;
   resy = false;
   chat_stretch = 5;
@@ -143,6 +149,9 @@ void info_tab::paintEvent(QPaintEvent *event)
 ***************************************************************************/
 void info_tab::mousePressEvent(QMouseEvent * event)
 {
+  if (locked) {
+    return;
+  }
   if (event->button() == Qt::LeftButton) {
     cursor = event->globalPos() - geometry().topLeft();
     if (event->y() > 0 && event->y() < 5){
@@ -178,6 +187,9 @@ void info_tab::mouseReleaseEvent(QMouseEvent* event)
 **************************************************************************/
 void info_tab::mouseMoveEvent(QMouseEvent *event)
 {
+  if (locked) {
+    return;
+  }
   if ((event->buttons() & Qt::LeftButton) && resize_mode && resy) {
     resize(width(), gui()->mapview_wdg->height()
            - event->globalPos().y() + cursor.y());
@@ -204,11 +216,11 @@ void info_tab::change_layout()
 {
   if (layout_changed) {
     layout->addWidget(hide_button, 1, 0, 1, 1);
-    layout->addWidget(chat_button, 1, 5, 1, 5);
+    layout->addWidget(chat_button, 1, 5, 1, 4);
     layout_changed =  false;
   } else {
     layout->addWidget(hide_button, 1, 5, 1, 1);
-    layout->addWidget(chat_button, 1, 6, 1, 4);
+    layout->addWidget(chat_button, 1, 6, 1, 3);
     layout_changed =  true;
   }
 }
@@ -221,6 +233,9 @@ void info_tab::activate_chat()
 {
   int i;
 
+  if (locked) {
+    return;
+  }
   if (hidden_state) {
     hidden_mess = true;
     hidden_chat = false;
@@ -248,6 +263,9 @@ void info_tab::activate_chat()
 ***************************************************************************/
 void info_tab::hide_chat(bool hyde)
 {
+  if (locked) {
+    return;
+  }
   if (hyde == true) {
     chtwdg->hide();
     chat_button->hide();
@@ -268,6 +286,9 @@ void info_tab::hide_chat(bool hyde)
 ***************************************************************************/
 void info_tab::hide_messages(bool hyde)
 {
+  if (locked) {
+    return;
+  }
   if (hyde == true) {
     msgwdg->hide();
     msg_button->hide();
@@ -290,6 +311,24 @@ void info_tab::hide_messages(bool hyde)
 }
 
 /***************************************************************************
+  Locks/unlocks interface
+***************************************************************************/
+void info_tab::lock()
+{
+  locked = !locked;
+  if (gui()->minimapview_wdg) {
+    gui()->minimapview_wdg->locked = locked;
+  }
+
+  if (locked) {
+    lock_button->setIcon(style()->standardIcon(QStyle::SP_TitleBarUnshadeButton));
+  } else  {
+    lock_button->setIcon(style()->standardIcon(QStyle::SP_TitleBarShadeButton));
+  }
+}
+
+
+/***************************************************************************
   Messages button was pressed.
   Changes stretch value for messages (increases messages width)
 ***************************************************************************/
@@ -297,6 +336,9 @@ void info_tab::activate_msg()
 {
   int i;
 
+  if (locked) {
+    return;
+  }
   if (hidden_state) {
     hidden_chat = true;
     hidden_mess = false;

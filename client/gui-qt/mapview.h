@@ -214,6 +214,7 @@ public:
   virtual void update_menu();
   void update_image();
   void reset();
+  bool locked;
 
 protected:
   void paintEvent(QPaintEvent * event);

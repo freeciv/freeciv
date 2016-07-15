@@ -83,6 +83,7 @@ public:
   void hide_chat(bool hyde);
   void hide_messages(bool hyde);
   bool hidden_chat;
+  bool locked;
   bool hidden_mess;
   int whats_hidden;
 private:
@@ -91,6 +92,7 @@ private:
   QPoint cursor;
   right_click_button *chat_button;
   QPushButton *hide_button;
+  QPushButton *lock_button;
   right_click_button *msg_button;
   QSize last_size;
   bool hidden_state;
@@ -102,6 +104,7 @@ private:
   int msg_stretch;
 public slots:
   void hide_me();
+  void lock();
 private slots:
   void activate_msg();
   void activate_chat();
