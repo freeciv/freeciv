@@ -968,16 +968,8 @@ void mr_menu::setup_menus()
   minimap_status->setCheckable(true);
   minimap_status->setShortcut(QKeySequence(tr("ctrl+m")));
   minimap_status->setChecked(true);
-  connect(minimap_status, SIGNAL(triggered()), this, 
+  connect(minimap_status, SIGNAL(triggered()), this,
           SLOT(slot_minimap_view()));
-  messages_status = menu->addAction(_("Messages"));
-  messages_status->setCheckable(true);
-  messages_status->setChecked(true);
-  connect(messages_status, SIGNAL(triggered()), this, SLOT(slot_show_messages()));
-  chat_status = menu->addAction(_("Chat"));
-  chat_status->setCheckable(true);
-  chat_status->setChecked(true);
-  connect(chat_status, SIGNAL(triggered()), this, SLOT(slot_show_chat()));
   menu->addSeparator();
   act = menu->addAction(_("City Outlines"));
   act->setShortcut(QKeySequence(tr("Ctrl+y")));
@@ -2422,51 +2414,6 @@ void mr_menu::slot_fullscreen()
   gui_options.gui_qt_fullscreen = !gui_options.gui_qt_fullscreen;
 }
 
-/***************************************************************************
-  Action "SHOW CHAT"
-***************************************************************************/
-void mr_menu::slot_show_chat()
-{
-  if (gui()->infotab->hidden_mess && !gui()->infotab->hidden_chat) {
-    gui()->infotab->hide_chat(true);
-    gui()->infotab->hide_me();
-    return;
-  }
-  if (gui()->infotab->hidden_mess && gui()->infotab->hidden_chat) {
-    gui()->infotab->hide_me();
-    gui()->infotab->hide_messages(true);
-    gui()->infotab->hide_chat(false);
-    return;
-  }
-  if (!gui()->infotab->hidden_chat) {
-    gui()->infotab->hide_chat(true);
-  } else {
-    gui()->infotab->hide_chat(false);
-  }
-}
-
-/***************************************************************************
-  Action "SHOW MESSAGES"
-***************************************************************************/
-void mr_menu::slot_show_messages()
-{
-  if (!gui()->infotab->hidden_mess && gui()->infotab->hidden_chat) {
-    gui()->infotab->hide_messages(true);
-    gui()->infotab->hide_me();
-    return;
-  }
-  if (gui()->infotab->hidden_mess && gui()->infotab->hidden_chat) {
-    gui()->infotab->hide_me();
-    gui()->infotab->hide_messages(false);
-    gui()->infotab->hide_chat(true);
-    return;
-  }
-  if (!gui()->infotab->hidden_mess) {
-    gui()->infotab->hide_messages(true);
-  } else {
-    gui()->infotab->hide_messages(false);
-  }
-}
 /****************************************************************
   Action "VIEW/HIDE MINIMAP"
 *****************************************************************/

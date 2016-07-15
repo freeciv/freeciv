@@ -389,8 +389,6 @@ private slots:
   void slot_achievements();
   void slot_top_five();
   void slot_traveler();
-  void slot_show_chat();
-  void slot_show_messages();
 
 private:
   void unit_select(struct unit_list *punits, 

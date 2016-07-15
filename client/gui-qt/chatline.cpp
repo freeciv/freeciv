@@ -43,9 +43,7 @@ static bool is_plain_public_message(QString s);
 ***************************************************************************/
 chatwdg::chatwdg(QWidget *parent)
 {
-  QVBoxLayout *vb;
-  QHBoxLayout *hl;
-  QSpacerItem *si;
+  QGridLayout *gl;
   setStyle(QStyleFactory::create("fusion"));
   setStyleSheet("QTextEdit {background-color: transparent;}"
     "QTextEdit {color: #cdcead;}"
@@ -63,22 +61,23 @@ chatwdg::chatwdg(QWidget *parent)
     "QCheckBox {color: #5d4e4d;}");
 
   setParent(parent);
-  si = new QSpacerItem(0,0,QSizePolicy::Expanding);
-  cb = new QCheckBox(_("Allies only"));
+  cb = new QCheckBox("");
+  cb->setToolTip(_("Allies only"));
   cb->setChecked(gui_options.gui_qt_allied_chat_only);
-  vb = new QVBoxLayout;
-  hl = new QHBoxLayout;
+  gl = new QGridLayout;
   chat_line = new QLineEdit;
   chat_output = new QTextBrowser;
-  remove_links = new QPushButton(_("Clear links"));
+  remove_links = new QPushButton("");
+  remove_links->setIcon(style()->standardPixmap(QStyle::SP_DialogCancelButton));
+  remove_links->setToolTip(_("Clear links"));
   remove_links->setStyleSheet("QPushButton {color: #5d4e4d;}");
-  vb->addWidget(chat_output);
-  hl->addWidget(cb);
-  hl->addItem(si);
-  hl->addWidget(remove_links);
-  vb->addLayout(hl);
-  vb->addWidget(chat_line);
-  setLayout(vb);
+  gl->setVerticalSpacing(0);
+  gl->addWidget(chat_output,0 , 0, 1 ,3);
+  gl->addWidget(chat_line,1, 0);
+  gl->addWidget(cb,1,1);
+  gl->addWidget(remove_links,1,2);
+  gl->setContentsMargins(0, 0, 0, 0);
+  setLayout(gl);
   chat_output->setReadOnly(true);
   chat_line->setReadOnly(false);
   chat_line->setVisible(true);
@@ -106,6 +105,17 @@ void chatwdg::state_changed(int state)
     gui_options.gui_qt_allied_chat_only = false;
   }
 }
+
+
+/***************************************************************************
+  Scrolls chat to bottom
+***************************************************************************/
+void chatwdg::scroll_to_bottom()
+{
+   chat_output->verticalScrollBar()->setSliderPosition(
+                                 chat_output->verticalScrollBar()->maximum());
+}
+
 
 /***************************************************************************
   User clicked clear links button
@@ -251,6 +261,10 @@ bool chatwdg::eventFilter(QObject *obj, QEvent *event)
         }
         return true;
       }
+      if (keyEvent->key() == Qt::Key_Escape) {
+        gui()->infotab->restore_chat();
+        gui()->mapview_wdg->setFocus();
+      }
     }
     if (event->type() == QEvent::ShortcutOverride) {
       event->setAccepted(true);
@@ -283,6 +297,20 @@ void chatwdg::update_widgets()
     remove_links->show();
   }
 }
+
+/***************************************************************************
+  Sets chat to show only X(lines) lines
+***************************************************************************/
+int chatwdg::default_size(int lines)
+{
+  int size;
+  QFontMetrics fm(*gui()->fc_fonts.get_font("gui_qt_font_chatline"));
+  size = 2 * chat_output->frameWidth() + lines * fm.lineSpacing()
+         + chat_line->size().height() + 4;
+
+  return size;
+}
+
 
 /***************************************************************************
   Makes link to tile/unit or city
