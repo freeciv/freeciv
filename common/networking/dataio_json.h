@@ -75,7 +75,7 @@ bool dio_get_building_list_json(json_t *json_packet,
                                 const struct plocation *location,
                                 int *dest);
 bool dio_get_worklist_json(json_t *json_packet,
-                           const struct plocation *location,
+                           struct plocation *location,
                            struct worklist *pwl);
 bool dio_get_requirement_json(json_t *json_packet,
                               const struct plocation *location,
@@ -148,7 +148,7 @@ void dio_put_building_list_json(struct json_data_out *dout,
                                 const struct plocation *location,
                                 const int *value);
 void dio_put_worklist_json(struct json_data_out *dout,
-                           const struct plocation *location,
+                           struct plocation *location,
                            const struct worklist *pwl);
 void dio_put_requirement_json(struct json_data_out *dout,
                               const struct plocation *location,

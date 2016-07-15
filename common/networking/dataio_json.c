@@ -222,10 +222,31 @@ void dio_put_building_list_json(struct json_data_out *dout,
   Insert worklist information.
 **************************************************************************/
 void dio_put_worklist_json(struct json_data_out *dout,
-                           const struct plocation *location,
+                           struct plocation *location,
                            const struct worklist *pwl)
 {
-  /* TODO: implement */
+  int i;
+  const int size = worklist_length(pwl);
+
+  /* Must create the array before instertion. */
+  dio_put_farray_json(dout, location, size);
+
+  location->sub_location = plocation_elem_new(0);
+
+  for (i = 0; i < size; i++) {
+    const struct universal *pcp = &(pwl->entries[i]);
+    json_t *universal = json_object();
+
+    location->sub_location->number = i;
+
+    json_object_set(universal, "kind", json_integer(pcp->kind));
+    json_object_set(universal, "value",
+                    json_integer(universal_number(pcp)));
+
+    plocation_write_data(dout->json, location, universal);
+  }
+
+  FC_FREE(location->sub_location);
 }
 
 /**************************************************************************
@@ -329,10 +350,62 @@ bool dio_get_building_list_json(json_t *json_packet,
   Receive worklist information.
 **************************************************************************/
 bool dio_get_worklist_json(json_t *json_packet,
-                           const struct plocation *location,
+                           struct plocation *location,
                            struct worklist *pwl)
 {
-  /* TODO: implement */
+  int i, length;
+
+  const json_t *wlist = plocation_read_data(json_packet, location);
+
+  worklist_init(pwl);
+
+  if (!json_is_array(wlist)) {
+    log_packet("Not a worklist");
+    return FALSE;
+  }
+
+  /* Safe. Checked that it was an array above. */
+  length = json_array_size(wlist);
+
+  /* A worklist is an array... */
+  location->sub_location = plocation_elem_new(0);
+
+  /* ... of universal objects. */
+  location->sub_location->sub_location = plocation_field_new("kind");
+
+  for (i = 0; i < length; i++) {
+    int value;
+    int kind;
+    struct universal univ;
+
+    location->sub_location->number = i;
+
+    location->sub_location->sub_location->name = "kind";
+    if (!dio_get_uint8_json(json_packet, location, &kind)) {
+      log_packet("Corrupt worklist element kind");
+      FC_FREE(location->sub_location->sub_location);
+      FC_FREE(location->sub_location);
+      return FALSE;
+    }
+
+    location->sub_location->sub_location->name = "value";
+    if (!dio_get_uint8_json(json_packet, location, &value)) {
+      log_packet("Corrupt worklist element value");
+      FC_FREE(location->sub_location->sub_location);
+      FC_FREE(location->sub_location);
+      return FALSE;
+    }
+
+    /*
+     * FIXME: the value returned by universal_by_number() should be checked!
+     */
+    univ = universal_by_number(kind, value);
+    worklist_append(pwl, &univ);
+  }
+
+  FC_FREE(location->sub_location->sub_location);
+  FC_FREE(location->sub_location);
+
   return TRUE;
 }
 
