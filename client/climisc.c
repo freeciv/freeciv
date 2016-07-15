@@ -1339,7 +1339,7 @@ void client_unit_init_act_prob_cache(struct unit *punit)
   /* A double init would cause a leak. */
   fc_assert_ret(punit->client.act_prob_cache == NULL);
 
-  punit->client.act_prob_cache = (action_probability*)fc_malloc(
+  punit->client.act_prob_cache = (struct act_prob*)fc_malloc(
         ACTION_COUNT * sizeof(*punit->client.act_prob_cache));
 }
 

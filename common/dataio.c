@@ -996,6 +996,36 @@ bool dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
 }
 
 /**************************************************************************
+  De-serialize an action probability.
+**************************************************************************/
+bool dio_get_action_probability(struct data_in *din,
+                                struct act_prob *aprob)
+{
+  int min, max;
+
+  if (!dio_get_uint8(din, &min)
+      || !dio_get_uint8(din, &max)) {
+    log_packet("Got a bad action probability");
+    return FALSE;
+  }
+
+  aprob->min = min;
+  aprob->max = max;
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Serialize an action probability.
+**************************************************************************/
+void dio_put_action_probability(struct data_out *dout,
+                                const struct act_prob *aprob)
+{
+  dio_put_uint8(dout, aprob->min);
+  dio_put_uint8(dout, aprob->max);
+}
+
+/**************************************************************************
   De-serialize a requirement.
 **************************************************************************/
 bool dio_get_requirement(struct data_in *din, struct requirement *preq)

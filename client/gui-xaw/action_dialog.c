@@ -835,7 +835,7 @@ static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
   Control the display of an action
 **************************************************************************/
 static void action_entry(Widget w, int action_id,
-                         const action_probability *act_probs)
+                         const struct act_prob *act_probs)
 {
   Arg arglist[1];
 
@@ -857,7 +857,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
                             struct tile *target_tile,
-                            const action_probability *act_probs)
+                            const struct act_prob *act_probs)
 {
   struct astring text = ASTRING_INIT;
 
@@ -1033,7 +1033,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
-                              const action_probability *act_probs)
+                              const struct act_prob *act_probs)
 {
   /* TODO: port me. */
 }

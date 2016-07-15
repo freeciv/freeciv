@@ -1032,7 +1032,7 @@ static const GCallback af_map[ACTION_COUNT] = {
 *******************************************************************/
 static void action_entry(GtkWidget *shl,
                          int action_id,
-                         const action_probability *act_probs,
+                         const struct act_prob *act_probs,
                          const gchar *custom,
                          struct action_data *handler_args)
 {
@@ -1077,7 +1077,7 @@ static void action_entry(GtkWidget *shl,
 *******************************************************************/
 static void action_entry_update(GtkWidget *shl,
                                 int action_id,
-                                const action_probability *act_probs,
+                                const struct act_prob *act_probs,
                                 const gchar *custom,
                                 struct action_data *handler_args)
 {
@@ -1113,7 +1113,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
                             struct tile *target_tile,
-                            const action_probability *act_probs)
+                            const struct act_prob *act_probs)
 {
   GtkWidget *shl;
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
@@ -1311,7 +1311,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
-                              const action_probability *act_probs)
+                              const struct act_prob *act_probs)
 {
   struct action_data *data;
 

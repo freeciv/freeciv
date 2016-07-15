@@ -4196,7 +4196,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   struct city *target_city = game_city_by_number(packet->target_city_id);
   struct unit *target_unit = game_unit_by_number(packet->target_unit_id);
 
-  const action_probability *act_probs = packet->action_probabilities;
+  const struct act_prob *act_probs = packet->action_probabilities;
 
   bool disturb_player = packet->disturb_player;
   bool valid = FALSE;

@@ -810,7 +810,7 @@ static const act_func af_map[ACTION_COUNT] = {
   Add an entry for an action in the action choice dialog.
 **************************************************************************/
 static void action_entry(const enum gen_action act,
-                         const action_probability *act_probs,
+                         const struct act_prob *act_probs,
                          const char *custom,
                          struct unit *act_unit,
                          struct city *tgt_city,
@@ -873,7 +873,7 @@ static void action_entry(const enum gen_action act,
   possible).
 **************************************************************************/
 static const char *action_custom_text(const int action_id,
-                                      const action_probability prob,
+                                      const struct act_prob prob,
                                       const struct city *actor_homecity,
                                       const struct city *target_city)
 {
@@ -927,7 +927,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
                             struct tile *target_tile,
-                            const action_probability *act_probs)
+                            const struct act_prob *act_probs)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   utf8_str *pstr;
@@ -1147,7 +1147,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
-                              const action_probability *act_probs)
+                              const struct act_prob *act_probs)
 {
   /* TODO: port me. */
 }

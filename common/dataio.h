@@ -22,6 +22,7 @@ extern "C" {
 
 struct worklist;
 struct requirement;
+struct act_prob;
 
 struct data_in {
   const void *src;
@@ -108,6 +109,9 @@ bool dio_get_worklist(struct data_in *din, struct worklist *pwl)
     fc__attribute((nonnull (2)));
 bool dio_get_requirement(struct data_in *din, struct requirement *preq)
     fc__attribute((nonnull (2)));
+bool dio_get_action_probability(struct data_in *din,
+                                struct act_prob *aprob)
+    fc__attribute((nonnull (2)));
 
 bool dio_get_uint8_vec8(struct data_in *din, int **values, int stop_value)
     fc__attribute((nonnull (2)));
@@ -144,6 +148,8 @@ void dio_put_unit_list(struct data_out *dout, const int *value);
 void dio_put_building_list(struct data_out *dout, const int *value);
 void dio_put_worklist(struct data_out *dout, const struct worklist *pwl);
 void dio_put_requirement(struct data_out *dout, const struct requirement *preq);
+void dio_put_action_probability(struct data_out *dout,
+                                const struct act_prob *aprob);
 
 void dio_put_uint8_vec8(struct data_out *dout, int *values, int stop_value);
 void dio_put_uint16_vec8(struct data_out *dout, int *values, int stop_value);

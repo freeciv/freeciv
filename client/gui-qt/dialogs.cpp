@@ -83,7 +83,7 @@ static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
                          gen_action act,
-                         const action_probability *act_probs,
+                         const struct act_prob *act_probs,
                          QString custom,
                          QVariant data1, QVariant data2);
 
@@ -1291,7 +1291,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
                             struct tile *target_tile,
-                            const action_probability *act_probs)
+                            const struct act_prob *act_probs)
 {
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
   QVariant qv1, qv2;
@@ -1431,7 +1431,7 @@ void popup_action_selection(struct unit *actor_unit,
 **********************************************************************/
 static void action_entry(choice_dialog *cd,
                          gen_action act,
-                         const action_probability *act_probs,
+                         const struct act_prob *act_probs,
                          QString custom,
                          QVariant data1, QVariant data2)
 {
@@ -1475,7 +1475,7 @@ static void action_entry(choice_dialog *cd,
 **********************************************************************/
 static void action_entry_update(QPushButton *button,
                                 gen_action act,
-                                const action_probability *act_probs,
+                                const struct act_prob *act_probs,
                                 QString custom,
                                 QVariant data1, QVariant data2)
 {
@@ -2186,7 +2186,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
-                              const action_probability *act_probs)
+                              const struct act_prob *act_probs)
 {
   choice_dialog *asd;
   Choice_dialog_button *keep_moving_button;

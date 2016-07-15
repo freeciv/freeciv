@@ -193,7 +193,7 @@ struct unit {
       bool asking_city_name;
 
       /* Used in a follow up question about a selected action. */
-      action_probability *act_prob_cache;
+      struct act_prob *act_prob_cache;
     } client;
 
     struct {
