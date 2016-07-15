@@ -34,6 +34,8 @@ class QPushButton;
 class QSignalMapper;
 class QScrollArea;
 
+void qt_start_turn();
+
 /** used for indicating menu about current option - for renaming
  * and enabling, disabling */
 enum munit {
@@ -80,6 +82,34 @@ enum delay_order{
   D_NUKE,
   D_PARADROP,
   D_FORT
+};
+
+/**************************************************************************
+  Struct holding rally point for city
+**************************************************************************/
+struct qfc_rally
+{
+  struct city *pcity;
+  struct tile *ptile;
+};
+
+/**************************************************************************
+  Class holding city list for rally points
+**************************************************************************/
+class qfc_rally_list
+{
+public:
+  qfc_rally_list() {
+    hover_tile = false;
+    hover_city = false;
+  };
+  void add(qfc_rally* rally);
+  bool clear(struct city *rcity);
+  QList<qfc_rally*> rally_list;
+  void run();
+  bool hover_tile;
+  bool hover_city;
+  struct city *rally_city;
 };
 
 /**************************************************************************
@@ -371,6 +401,7 @@ private slots:
   void slot_trade_city();
   void slot_calculate();
   void slot_clear_trade();
+  void slot_rally();
 
   /*used by civilization menu */
   void slot_show_map();

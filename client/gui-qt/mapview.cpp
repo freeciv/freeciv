@@ -55,6 +55,7 @@ extern QApplication *qapp;
 #define MAX_DIRTY_RECTS 20
 static int num_dirty_rects = 0;
 static QRect dirty_rects[MAX_DIRTY_RECTS];
+static int last_turn = 0;
 
 /**************************************************************************
   Check if point x, y is in area (px -> pxe, py - pye)
@@ -1502,6 +1503,10 @@ void qtg_update_timeout_label(void)
 {
   gui()->game_info_label->set_time_info(get_timeout_label_text());
   gui()->game_info_label->resize(gui()->game_info_label->sizeHint());
+  if (last_turn != game.info.turn) {
+    qt_start_turn();
+  }
+  last_turn = game.info.turn;
 }
 
 /****************************************************************************
