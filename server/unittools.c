@@ -397,8 +397,8 @@ void player_restore_units(struct player *pplayer)
        * killed; notify player here */
       if (!punit->homecity && 0 < game.server.killunhomed) {
         notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC,
-                      ftc_server, "Your %s has run out of hit points "
-                                  "because it has no supporting homecity.",
+                      ftc_server, _("Your %s has run out of hit points "
+                                    "because it was not supported by a city."),
                       unit_tile_link(punit));
       } else {
         notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
