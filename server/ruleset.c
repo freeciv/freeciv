@@ -169,6 +169,7 @@ static bool load_ruleset_effects(struct section_file *file,
 static bool load_ruleset_game(struct section_file *file, bool act,
                               struct rscompat_info *compat);
 
+static void send_ruleset_tech_classes(struct conn_list *dest);
 static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_unit_classes(struct conn_list *dest);
 static void send_ruleset_units(struct conn_list *dest);
@@ -6682,6 +6683,21 @@ static void send_ruleset_specialists(struct conn_list *dest)
     lsend_packet_ruleset_specialist(dest, &packet);
   } specialist_type_iterate_end;
 }
+/**************************************************************************
+  Send the techs class information to the specified connections.
+**************************************************************************/
+static void send_ruleset_tech_classes(struct conn_list *dest)
+{
+  struct packet_ruleset_tech_class packet;
+
+  tech_class_iterate(ptclass) {
+    packet.id = ptclass->idx;
+    sz_strlcpy(packet.name, untranslated_name(&ptclass->name));
+    sz_strlcpy(packet.rule_name, rule_name_get(&ptclass->name));
+
+    lsend_packet_ruleset_tech_class(dest, &packet);
+  } tech_class_iterate_end;
+}
 
 /**************************************************************************
   Send the techs ruleset information (all individual advances) to the
@@ -6720,7 +6736,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     packet.id = advance_number(a);
     packet.removed = !valid_advance(a);
     if (a->tclass == NULL) {
-      packet.tclass = -1;
+      packet.tclass = 0;
     } else {
       packet.tclass = a->tclass->idx;
     }
@@ -7889,6 +7905,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_actions(dest);
   send_ruleset_action_enablers(dest);
   send_ruleset_action_auto_performers(dest);
+  send_ruleset_tech_classes(dest);
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);
   send_ruleset_unit_classes(dest);

@@ -3470,6 +3470,18 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
 }
 
 /****************************************************************************
+  Packet ruleset_tech_class handler.
+****************************************************************************/
+void handle_ruleset_tech_class(const struct packet_ruleset_tech_class *p)
+{
+  struct tech_class *ptclass = tech_class_by_number(p->id);
+
+  fc_assert_ret_msg(NULL != ptclass, "Bad tech_class %d.", p->id);
+
+  names_set(&ptclass->name, NULL, p->name, p->rule_name);
+}
+
+/****************************************************************************
   Packet ruleset_tech_flag handler.
 ****************************************************************************/
 void handle_ruleset_tech_flag(const struct packet_ruleset_tech_flag *p)
