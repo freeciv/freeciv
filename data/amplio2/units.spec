@@ -40,10 +40,11 @@ gfx = "amplio2/units"
 
 [grid_main]
 
-x_top_left = 0
-y_top_left = 0
+x_top_left = 1
+y_top_left = 1
 dx = 64
 dy = 48
+pixel_border = 1
 
 tiles = { "row", "column", "tag"
 				; Scenario League tags in brackets
@@ -103,6 +104,6 @@ tiles = { "row", "column", "tag"
   2, 15, "u.leader"		; [GB]
   2, 16, "u.barbarian_leader"	; FiftyNine
   2, 17, "u.migrants"		; Eleazar
-;  3, 15, "u.train"		; Eleazar
+;  2, 19, "u.train"		; Eleazar
 
 }

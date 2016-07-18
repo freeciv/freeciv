@@ -19,8 +19,8 @@ gfx = "amplio2/activities"
 
 x_top_left = 1
 y_top_left = 1
-dx = 96
-dy = 48
+dx = 28
+dy = 24
 pixel_border = 1
 
 tiles = { "row", "column", "tag"
@@ -43,21 +43,15 @@ tiles = { "row", "column", "tag"
   2, 3, "unit.patrol"
   2, 4, "unit.pillage"
 
-  3, 0, "unit.connect"
-  3, 1, "unit.auto_attack",
-         "unit.auto_settler"
-  3, 2, "unit.stack"
-  3, 3, "unit.loaded"
+  3, 0, "unit.irrigate"
+  3, 1, "unit.plant"
+  3, 2, "unit.transform"
+  3, 3, "unit.pollution"
+  3, 4, "unit.fallout"
 
-  4, 0, "unit.irrigate"
-  4, 1, "unit.plant"
-  4, 2, "unit.transform"
-  4, 3, "unit.pollution"
-  4, 4, "unit.fallout"
-
-  5, 0, "unit.goto"
-  5, 1, "unit.convert"
-  5, 2, "unit.auto_explore"
+  4, 0, "unit.goto"
+  4, 1, "unit.convert"
+  4, 2, "unit.auto_explore"
 
 
 }
