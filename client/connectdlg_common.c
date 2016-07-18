@@ -1,15 +1,15 @@
-/**********************************************************************
+/***********************************************************************
 Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and / or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
    any later version.
 
-   This program is distributed in the hope that it will be useful, 
+   This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/ 
+***********************************************************************/
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
@@ -85,6 +85,7 @@ static pid_t server_pid = -1;
 HANDLE server_process = INVALID_HANDLE_VALUE;
 HANDLE loghandle = INVALID_HANDLE_VALUE;
 #endif
+bool server_quitting = FALSE;
 
 static char challenge_fullname[MAX_LEN_PATH];
 static bool client_has_hack = FALSE;
@@ -121,6 +122,9 @@ then:
 **************************************************************************/
 bool is_server_running(void)
 {
+  if (server_quitting) {
+    return FALSE;
+  }
 #ifdef HAVE_USABLE_FORK
   return (server_pid > 0);
 #elif WIN32_NATIVE
@@ -147,6 +151,32 @@ bool can_client_access_hack(void)
 ****************************************************************************/
 void client_kill_server(bool force)
 {
+#ifdef HAVE_USABLE_FORK
+  if (server_quitting && server_pid > 0) {
+    /* Already asked to /quit.
+     * If it didn't do that, kill it. */
+    if (waitpid(server_pid, NULL, WUNTRACED) <= 0) {
+      kill(server_pid, SIGTERM);
+      waitpid(server_pid, NULL, WUNTRACED);
+    }
+    server_pid = -1;
+    server_quitting = FALSE;
+  }
+#elif WIN32_NATIVE
+  if (server_quitting && server_process != INVALID_HANDLE_VALUE) {
+    /* Already asked to /quit.
+     * If it didn't do that, kill it. */
+    TerminateProcess(server_process, 0);
+    CloseHandle(server_process);
+    if (loghandle != INVALID_HANDLE_VALUE) {
+      CloseHandle(loghandle);
+    }
+    server_process = INVALID_HANDLE_VALUE;
+    loghandle = INVALID_HANDLE_VALUE;
+    server_quitting = FALSE;
+  }
+#endif /* WIN32_NATIVE || HAVE_USABLE_FORK */
+
   if (is_server_running()) {
     if (client.conn.used && client_has_hack) {
       /* This does a "soft" shutdown of the server by sending a /quit.
@@ -162,12 +192,7 @@ void client_kill_server(bool force)
        * it could potentially be called when we're connected to an unowned
        * server.  In this case we don't want to kill it. */
       send_chat("/quit");
-#ifdef HAVE_USABLE_FORK
-      server_pid = -1;
-#elif WIN32_NATIVE
-      server_process = INVALID_HANDLE_VALUE;
-      loghandle = INVALID_HANDLE_VALUE;
-#endif
+      server_quitting = TRUE;
     } else if (force) {
       /* Either we already disconnected, or we didn't get control of the
        * server. In either case, the only thing to do is a "hard" kill of
@@ -175,7 +200,7 @@ void client_kill_server(bool force)
 #ifdef HAVE_USABLE_FORK
       kill(server_pid, SIGTERM);
       waitpid(server_pid, NULL, WUNTRACED);
-      server_pid = -1; 
+      server_pid = -1;
 #elif WIN32_NATIVE
       TerminateProcess(server_process, 0);
       CloseHandle(server_process);
@@ -185,6 +210,7 @@ void client_kill_server(bool force)
       server_process = INVALID_HANDLE_VALUE;
       loghandle = INVALID_HANDLE_VALUE;
 #endif /* WIN32_NATIVE || HAVE_USABLE_FORK */
+      server_quitting = FALSE;
     }
   }
   client_has_hack = FALSE;
@@ -310,6 +336,7 @@ bool client_start_server(void)
     }
 
     server_pid = fork();
+    server_quitting = FALSE;
 
     if (server_pid == 0) {
       int fd;
