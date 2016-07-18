@@ -59,8 +59,6 @@ action_prob_is_signal(const struct act_prob probability);
 static inline bool
 action_prob_not_relevant(const struct act_prob probability);
 static inline bool
-action_prob_unknown(const struct act_prob probability);
-static inline bool
 action_prob_not_impl(const struct act_prob probability);
 
 /**************************************************************************
@@ -376,10 +374,6 @@ const char *action_get_tool_tip(const int action_id,
 
     /* Missing server support. No in game action will change this. */
     astr_clear(&tool_tip);
-  } else if (action_prob_unknown(prob)) {
-    /* Missing in game knowledge. An in game action can change this. */
-    astr_set(&tool_tip,
-             _("Starting to do this may currently be impossible."));
   } else if (prob.min == prob.max) {
     /* TRANS: action probability of success. Given in percentage.
      * Resolution is 0.5%. */
@@ -1385,20 +1379,6 @@ static inline bool
 action_prob_not_impl(const struct act_prob probability)
 {
   return probability.min == 254 && probability.max == 0;
-}
-
-/**************************************************************************
-  Returns TRUE iff the given action probability represents that the player
-  currently doesn't have enough information to find the real value.
-
- It is caused by the probability depending on a rule that depends on game
- state the player don't have access to. It may be possible for the player
- to later gain access to this game state.
-**************************************************************************/
-static inline bool
-action_prob_unknown(const struct act_prob probability)
-{
-  return probability.min == 0 && probability.max == 200;
 }
 
 /**************************************************************************
