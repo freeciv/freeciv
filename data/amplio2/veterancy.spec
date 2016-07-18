@@ -44,6 +44,7 @@ x_top_left = 0
 y_top_left = 0
 dx = 64
 dy = 48
+pixel_border = 1
 
 tiles = { "row", "column", "tag"
 
@@ -59,6 +60,7 @@ tiles = { "row", "column", "tag"
   0, 7, "unit.vet_8"
   0, 8, "unit.vet_9"
 
-  0, 9, "unit.lowfuel"
-  0, 9, "unit.tired"
+  0,  9, "unit.tired"
+  0, 10, "unit.lowfuel"
+;  0, 11, "unit.lowfuel" unused low fuel variant
 }

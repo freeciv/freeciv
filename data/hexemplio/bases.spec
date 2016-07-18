@@ -4,7 +4,7 @@
 ; specified in cities.ruleset file and the index only defines the read order
 ; of the images. The definitions are read starting with index 0 till the first
 ; missing value The index is checked against the city bonus of effect
-; EFT_CITY_IMG and the resulting image is used to draw the city on the tile.
+; EFT_CITY_IMAGE and the resulting image is used to draw the city on the tile.
 ;
 ; Obviously the first tile must be 'style_name'_city_0 and the sizes must be
 ; in ascending order. There must also be a 'style_name'_wall_0 tile used to
@@ -42,9 +42,9 @@ pixel_border = 1
 
 tiles = { "row", "column", "tag"
 
-; 2,  3, "cd.occupied"
-; 2,  3, "cd.city"
-; 2,  3, "cd.city_wall"
+ 2,  3, "cd.occupied"
+ 2,  3, "cd.city"
+ 2,  3, "cd.city_wall"
 
 ; used by all city styles
 
@@ -60,17 +60,17 @@ tiles = { "row", "column", "tag"
  1,  3, "base.fortress_fg"
  0,  3, "base.fortress_bg"
 
-; 2,  0, "city.disorder"
+ 2,  0, "city.disorder"
  2,  1, "base.buoy_mg"
  2,  2, "base.ruins_mg"
-; 2,  3, "city.european_occupied_0"
-; 2,  3, "city.classical_occupied_0"
-; 2,  3, "city.asian_occupied_0"
-; 2,  3, "city.tropical_occupied_0"
-; 2,  3, "city.celtic_occupied_0"
-; 2,  3, "city.babylonian_occupied_0"
-; 2,  3, "city.industrial_occupied_0"
-; 2,  3, "city.electricage_occupied_0"
-; 2,  3, "city.modern_occupied_0"
-; 2,  3, "city.postmodern_occupied_0"
+ 2,  3, "city.european_occupied_0"
+ 2,  3, "city.classical_occupied_0"
+ 2,  3, "city.asian_occupied_0"
+ 2,  3, "city.tropical_occupied_0"
+ 2,  3, "city.celtic_occupied_0"
+ 2,  3, "city.babylonian_occupied_0"
+ 2,  3, "city.industrial_occupied_0"
+ 2,  3, "city.electricage_occupied_0"
+ 2,  3, "city.modern_occupied_0"
+ 2,  3, "city.postmodern_occupied_0"
 }
