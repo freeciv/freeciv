@@ -156,8 +156,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-14 11:28+0100\n"
-"PO-Revision-Date: 2015-03-02 11:39+0900\n"
+"POT-Creation-Date: 2016-07-16 16:36+0900\n"
+"PO-Revision-Date: 2016-07-16 16:36+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "Language: ja\n"
@@ -165,8 +165,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.7.4\n"
-"X-Poedit-Basepath: G:\\Desktop\\freeciv-2.4.3\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: ../freeciv-2.5.4\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -185,8 +186,8 @@ msgid ""
 msgstr ""
 "アブハズ人の祖先は有史以前より西コーカサスに暮らしていました。独立してもすぐ"
 "新たな支配者に征服されることの繰り返しで，ギリシア，ローマ，ビザンツ，トル"
-"コ，グルジア，ロシアと宗主国が変わっていきました。現在アブハジアは事実上の独"
-"立共和国ですが，国際的に承認しているのは一部の国に限られます。"
+"コ，ジョージア，ロシアと宗主国が変わっていきました。現在アブハジアは事実上の"
+"独立共和国ですが，国際的に承認しているのは一部の国に限られます。"
 
 #: data/nation/abkhaz.ruleset:24 data/nation/acehnese.ruleset:29
 #: data/nation/bashkir.ruleset:27 data/nation/chechen.ruleset:31
@@ -434,7 +435,7 @@ msgstr "%s首相"
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
 #, fuzzy, c-format
 msgid "Premiere %s"
-msgstr "   %sあり。"
+msgstr "%s首相"
 
 #: data/nation/acadian.ruleset:32 data/nation/germanbelgian.ruleset:27
 #: data/nation/paraguayan.ruleset:38 data/nation/sammarinese.ruleset:25
@@ -701,7 +702,7 @@ msgid "African"
 msgstr "アフリカ人"
 
 #: data/nation/african.ruleset:4
-msgid "?plural:African"
+msgid "?plural:Africans"
 msgstr "アフリカ人"
 
 #: data/nation/african.ruleset:6
@@ -1161,8 +1162,7 @@ msgstr "代官 %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34
-#: data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1182,13 +1182,13 @@ msgstr "代官 %s"
 #: data/nation/panamanian.ruleset:30 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
 #: data/nation/savoyard.ruleset:32 data/nation/saxon.ruleset:22
-#: data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
-#: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
-#: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/yucatecan.ruleset:31 data/nation/zimbabwean.ruleset:26
+#: data/nation/schleswig-holsteinian.ruleset:27 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:19 data/nation/thuringian.ruleset:43
+#: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/vincentian.ruleset:25
+#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
+#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:31
+#: data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr " %s司教"
@@ -1361,6 +1361,16 @@ msgid ""
 "Anhalt finally ceased to exist when the allies decided to merge it with the "
 "former Prussian Province of Saxony to form the state of Saxony-Anhalt."
 msgstr ""
+"アンハルト公国はかつてドイツ帝国を構成した国々の一つで，現在のドイツ中部，エ"
+"ルベ川とザーレ川が合流する地域に位置していました。1212年にザクセン公ベルンハ"
+"ルト3世が没し，相続に伴ってザクセン公国からアンハルト伯領を分割したことでその"
+"歴史が始まりました。しかし所領の分割相続がたびたび行われたため，同族の国々が"
+"並び立つ時代が長く続きました。16世紀にアンハルト諸国は統一されたものの再度分"
+"裂し，1863年に再統一されました。1218年にアンハルト伯(Graf)は侯爵(Fürst)とな"
+"り，1806年には公爵(Herzog)となりました。1871年にドイツ帝国の構成国となったも"
+"のの，1918年のドイツ革命に伴ってアンハルト公は退位し，アンハルトはヴァイマル"
+"共和国アンハルト自由州となりました。第二次世界大戦後，アンハルトはその全域が"
+"ザクセン=アンハルト州に統合されました。"
 
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
@@ -3840,14 +3850,14 @@ msgstr ""
 
 #: data/nation/chiapanec.ruleset:3
 msgid "Chiapanec"
-msgstr ""
+msgstr "チアパネク族"
 
 # was "中国民族"
 # 漢民族ってのはあるけど、中国民族ってのはないかなあと。
 # 民族が国を作るのか、国が民族を作るのか。(clefs)
 #: data/nation/chiapanec.ruleset:4
 msgid "?plural:Chiapanecs"
-msgstr ""
+msgstr "チアパネク族"
 
 #: data/nation/chiapanec.ruleset:6
 msgid ""
@@ -4023,11 +4033,11 @@ msgstr ""
 
 #: data/nation/chrobatian.ruleset:3
 msgid "Chrobatian"
-msgstr ""
+msgstr "白クロアチア族"
 
 #: data/nation/chrobatian.ruleset:4
 msgid "?plural:Chrobatians"
-msgstr ""
+msgstr "白クロアチア族"
 
 #: data/nation/chrobatian.ruleset:6
 msgid ""
@@ -4265,11 +4275,11 @@ msgstr " %s議長"
 # "南部人"でもいいんだけど (clefs)
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr "南部同盟人"
+msgstr "南部連合"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
-msgstr "南部同盟人"
+msgstr "南部連合"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -4615,6 +4625,8 @@ msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
 "West by Masovia, on the East by Greater Poland and on the North by Pomerania."
 msgstr ""
+"クヤヴィはポーランド中北部の歴史的名称です。東側はヴィエルコポルスカ，西側は"
+"マゾフシェ，北側はポモージェと隣接しています。"
 
 #: data/nation/cypriot.ruleset:3
 msgid "Cypriot"
@@ -5562,6 +5574,12 @@ msgid ""
 "and Austria. The Friulian language is closely related to the Romansh "
 "language spoken in Switzerland."
 msgstr ""
+"フリウリ地方は現在のイタリア北東部に位置し，オーストリアおよびスロベニアと隣"
+"接しています。ランゴバルド王国，次いでフランク王国の支配を経て，11世紀からは"
+"アクイレイア総大司教領の一部となりました。15世紀にアクイレイア総大司教はハン"
+"ガリー王国と手を結びヴェネツィア共和国を挟撃しましたが，逆にフリウリ地方のほ"
+"とんどを失う結果に終わりました。この地方で用いられるフリウリ語は，スイスで用"
+"いられるロマンシュ語と関連があり，共にレト・ロマンス語群に分類されています。"
 
 #: data/nation/fulani.ruleset:3
 msgid "Fulani"
@@ -5763,18 +5781,18 @@ msgstr "ドガレッサ %s"
 # clefs
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
-msgstr "グルジア人"
+msgstr "ジョージア人"
 
 #: data/nation/georgian.ruleset:4
 msgid "?plural:Georgians"
-msgstr "グルジア人"
+msgstr "ジョージア人"
 
 #: data/nation/georgian.ruleset:6
 msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s CE."
 msgstr ""
-"グルジア人は，300年代にキリスト教を受け入れた最初の諸民族のうちの一つです。"
+"ジョージア人は，300年代にキリスト教を受け入れた最初の諸民族のうちの一つです。"
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
@@ -5827,11 +5845,11 @@ msgstr "偉大な戦士 %s"
 
 #: data/nation/germanbelgian.ruleset:3
 msgid "German Belgian"
-msgstr ""
+msgstr "ドイツ語共同体"
 
 #: data/nation/germanbelgian.ruleset:4
 msgid "?plural:German Belgians"
-msgstr ""
+msgstr "ドイツ語共同体"
 
 #: data/nation/germanbelgian.ruleset:6
 msgid ""
@@ -5890,8 +5908,9 @@ msgstr ""
 "にクワメ・ンクルマはガーナの独立を宣言しました。"
 
 #: data/nation/ghana.ruleset:3
+#, fuzzy
 msgid "Ghana"
-msgstr ""
+msgstr "ガーナ %s"
 
 #: data/nation/ghana.ruleset:4
 msgid "?plural:Ghana"
@@ -6388,9 +6407,8 @@ msgid ""
 "The Hellenic Republic - also known as Greece - was created when the Hellenic "
 "people gained independence from the Ottoman Empire in 1832."
 msgstr ""
-"エリニキ共和国――通称ギリシャ――は1832年にギリシャ人がオスマン帝国から独立を獲"
-"得して設立されました。[訳註:古代ギリシア人と区別しての現在のギリシャ人を別の"
-"nationとして設定したということのようです]"
+"ギリシャ独立戦争の結果，1832年にコンスタンティノープル条約が締結され，ギリ"
+"シャの人々はオスマン帝国からの独立を正式に認められました。"
 
 #: data/nation/helvetian.ruleset:3
 msgid "Helvetian"
@@ -6687,11 +6705,11 @@ msgid ""
 "the east, and settled Messapia across the Adriatic Sea. Illyrian kingdoms "
 "were independent for centuries, until conquered by the Roman Republic."
 msgstr ""
-"イリュリア人はインドヨーロッパ語族に属し，紀元前1000年以前にバルカン半島の西"
-"部に出現しました。北はダルマチア，南はコルシカ島や前史エピラスのアンブラキア"
-"湾を含み，東はダルダニアのトラキア人と混淆し，アドリア海を渡ってメッサピアに"
-"入植しました。イリュリアの諸王国は数世紀にわたって独立を保ちましたが，ローマ"
-"共和国によって征服されました。"
+"イリュリア人はインド・ヨーロッパ語族に属し，紀元前1000年以前にバルカン半島の"
+"西部に出現しました。北はダルマチア，南はコルシカ島や前史エピラスのアンブラキ"
+"ア湾を含み，東はダルダニアのトラキア人と混淆し，アドリア海を渡ってメッサピア"
+"に入植しました。イリュリアの諸王国は数世紀にわたって独立を保ちましたが，ロー"
+"マ共和国によって征服されました。"
 
 # clefs
 # ほとんどの場合は「ヨーロッパ」でいいのだけれど，nationとしての
@@ -6952,11 +6970,14 @@ msgid "?plural:Jaffnas"
 msgstr "ジャフナ人"
 
 #: data/nation/jaffna.ruleset:7
+#, fuzzy
 msgid ""
 "The Jaffna Kingdom was a medieval Tamil kingdom based in the north of Sri "
 "Lanka. It was a successful southern rival to the Chola Empire on the Indian "
 "mainland."
 msgstr ""
+"ジャフナ王国は13世紀から17世紀にかけて，スリランカ北部を支配したタミル系国家"
+"です。"
 
 #: data/nation/jamaican.ruleset:3
 msgid "Jamaican"
@@ -7477,11 +7498,11 @@ msgstr ""
 
 #: data/nation/kushan.ruleset:3
 msgid "Kushan"
-msgstr ""
+msgstr "クシャン族"
 
 #: data/nation/kushan.ruleset:4
 msgid "?plural:Kushans"
-msgstr ""
+msgstr "クシャン族"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -7859,6 +7880,11 @@ msgid ""
 "Italy and Southern France. Their language is of uncertain origin, perhaps "
 "Para-Celtic or Pre-Indo-European."
 msgstr ""
+"リグリア人はガリアの先住民族で，現在のフランス南部からイタリア北西部にかけて"
+"暮らしていました。多くの部族に分かれており，勇猛な戦士として知られました。彼"
+"らが用いた古代リグリア語について分かっていることはほとんどありませんが，イン"
+"ド・ヨーロッパ語族に属すると考えられています。彼らの名は今でもイタリアのリグ"
+"リア州やリグリア海などに残っています。"
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
 #, fuzzy, c-format
@@ -8587,7 +8613,7 @@ msgid ""
 "Apulia, the south-eastern peninsula of Italy, before being absorbed by the "
 "Romans."
 msgstr ""
-"メサピ人はイタリア半島南東部，現在のプッリャ州に定住していた民族で，インド·"
+"メサピ人はイタリア半島南東部，現在のプッリャ州に定住していた民族で，インド・"
 "ヨーロッパ語族に属するメサピ語を話していました。後に古代ローマに征服されまし"
 "た。"
 
@@ -9521,6 +9547,11 @@ msgid ""
 "from the Baltic Sea to the Ural Mountains. It existed between the 12th and "
 "15th centuries and was centered on the city of Novgorod."
 msgstr ""
+"ロシア連邦有数の古都であるノヴゴロドは，北西部に流れるヴォルホフ川の河岸に位"
+"置します。古くから商工業が発達し，12世紀には都市国家ノヴゴロド共和国として独"
+"立，ウラル山脈に達する広大な領域を支配しました。産出された毛皮や木材はバルト"
+"海と黒海，さらに地中海を結ぶ水上交易路を使って輸出され，莫大な富をもたらしま"
+"した。ノヴゴロド共和国は1478年，モスクワ大公国によって併合され消滅しました。"
 
 #: data/nation/nubian.ruleset:3
 msgid "Nubian"
@@ -10227,6 +10258,11 @@ msgid ""
 "still unknown about them, but it is probable they were of pre-Indo-European "
 "origin."
 msgstr ""
+"ペラスゴイ人，またはペラスギア人はギリシャの先住民族です。古代ギリシア人たち"
+"の祖先にあたる人々か，あるいは彼らより先んじてエーゲ海周辺に暮らしていた人々"
+"をいいます。ペラスゴイ人に関して分かっていることはほとんどありません。用いた"
+"言語は先印欧語の一つなのか，それともインド・ヨーロッパ語族に属するものかにつ"
+"いても諸説あります。"
 
 #: data/nation/peruvian.ruleset:3
 msgid "Peruvian"
@@ -10625,11 +10661,11 @@ msgstr "最高指導者 %s"
 
 #: data/nation/romansh.ruleset:3
 msgid "Romansh"
-msgstr ""
+msgstr "ロマンシュ人"
 
 #: data/nation/romansh.ruleset:4
 msgid "?plural:Romansh"
-msgstr ""
+msgstr "ロマンシュ人"
 
 #: data/nation/romansh.ruleset:6
 msgid ""
@@ -10662,11 +10698,11 @@ msgstr ""
 
 #: data/nation/ruthenian.ruleset:3
 msgid "Kievan Rus'"
-msgstr ""
+msgstr "ルーシ人"
 
 #: data/nation/ruthenian.ruleset:4
 msgid "?plural:Kievan Rus'"
-msgstr ""
+msgstr "ルーシ人"
 
 #: data/nation/ruthenian.ruleset:7
 msgid ""
@@ -10675,9 +10711,13 @@ msgid ""
 "Rus' succumbed to a Mongol invasion. The Rus' were the precursors of the "
 "modern East Slavic nations."
 msgstr ""
-"キエフ・ルーシは中世のスラブ系君主制国家です。ノヴゴロドのオレグがキエフを占"
-"領した後にその地を首都としました。13世紀にルーシはモンゴルの侵攻に敗れまし"
-"た。ルー氏は現代の東スラブ諸国の前身にあたります。"
+"キエフ大公国（またはキエフ・ルーシ）は，9世紀から13世紀にかけて東ヨーロッパに"
+"栄えたスラブ系君主国です。リューリクの死後，後継者であるノヴゴロド公オレグが"
+"キエフを占領し，この地を首都と定めました。11世紀後半から内紛が目立ち始め，さ"
+"らに1236年からはモンゴル帝国による攻撃が本格化しました。1240年にキエフは包囲"
+"された末に陥落，キエフ大公国は滅亡しました。これ以降200年以上にわたって，モン"
+"ゴル人による支配が続きました（タタールの軛）。現代の東スラブ諸国共通の祖国で"
+"あるともいえます。"
 
 #: data/nation/rwandan.ruleset:3
 msgid "Rwandan"
@@ -10798,11 +10838,11 @@ msgstr ""
 
 #: data/nation/salishan.ruleset:3
 msgid "Salishan"
-msgstr ""
+msgstr "サリシュ族"
 
 #: data/nation/salishan.ruleset:4
 msgid "?plural:Salishans"
-msgstr ""
+msgstr "サリシュ族"
 
 #: data/nation/salishan.ruleset:6
 msgid ""
@@ -10902,14 +10942,12 @@ msgid "?female:Captain-Regent %s"
 msgstr "執政 %s"
 
 #: data/nation/samnite.ruleset:3
-#, fuzzy
 msgid "Samnite"
-msgstr "サーミ人"
+msgstr "サムニウム人"
 
 #: data/nation/samnite.ruleset:4
-#, fuzzy
 msgid "?plural:Samnites"
-msgstr "アホム人"
+msgstr "サムニウム人"
 
 #: data/nation/samnite.ruleset:6
 msgid ""
@@ -11166,11 +11204,11 @@ msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:3
 msgid "Scottish Gaelic"
-msgstr ""
+msgstr "スコットランド・ゲール人"
 
 #: data/nation/scottishgaelic.ruleset:4
 msgid "?plural:Scottish Gaels"
-msgstr ""
+msgstr "スコットランド・ゲール人"
 
 #: data/nation/scottishgaelic.ruleset:6
 msgid ""
@@ -13070,11 +13108,11 @@ msgstr ""
 
 #: data/nation/vedic.ruleset:3
 msgid "Vedic"
-msgstr ""
+msgstr "古代インド人"
 
 #: data/nation/vedic.ruleset:4
 msgid "?plural:Vedics"
-msgstr ""
+msgstr "古代インド人"
 
 # clefs
 #: data/nation/vedic.ruleset:6
@@ -13299,13 +13337,11 @@ msgstr ""
 "た。紀元711年のことです。"
 
 #: data/nation/vistulan.ruleset:3
-#, fuzzy
 msgid "Vistulan"
 msgstr "ヴィスワ族"
 
 # Daniel
 #: data/nation/vistulan.ruleset:4
-#, fuzzy
 msgid "?plural:Vistulans"
 msgstr "ヴィスワ族"
 
