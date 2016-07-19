@@ -1,26 +1,43 @@
 ===================
-Freeciv Version 2.2
+Freeciv Version 2.6
 ===================
 
 Bienvenue à Freeciv !
 
-Cette archive contient Freeciv, un clone libre de Civilization pour X,
-principalement sous Unix. Il permet les parties multijoueurs locales ou
-à travers un réseau, et inclut une IA qui donne du fil à retordre à la
-plupart des joueurs.
+Cette archive contient Freeciv, un jeu libre ressemblant à
+Civilisation, principalement pour X sous Unix. Il permet les parties
+multijoueurs locales ou à travers un réseau, et inclut une IA qui
+donne du fil à retordre à la plupart des gens.
 
-Le but de Freeciv est d'avoir des règles compatibles avec Civilization
+Le but de Freeciv est d'avoir des règles compatibles avec Civilisation
 II [tm], publié par Sid Meier et Microprose [tm]. Quelques règles
-diffèrent (lorsque nous avons jugé que c'était plus logique), et il y a
-beaucoup de paramètres réglables pour permettre la personnalisation des
-parties.
+diffèrent lorsque nous avons jugé que c'était plus logique, et il y a
+beaucoup de paramètres réglables pour permettre la personnalisation
+des parties.
 
-Freeciv a été implémenté totalement indépendamment de Civilization ;
-vous n'avez pas besoin de posséder Civilization pour jouer à Freeciv.
+Freeciv a été implémenté totalement indépendamment de Civilisation ;
+vous n'avez pas besoin de posséder Civilisation pour jouer à Freeciv.
 
-Bien que les graphismes ne soient pas aussi soignés que ceux de
-Civilization II, les règles sont très complètes et notre code réseau et
-multijoueurs est excellent.
+
+Traductions :
+=============
+
+Vous pouvez trouver le document original de ce fichier ainsi que ses
+traductions dans d'autres langues et d'autres parties de la
+documentation de Freeciv aux endroits suivants :
+
+        Anglais (original)      ./doc
+        Français (ce document)  ./doc/fr
+        Catalan                 ./doc/ca
+        Hollandais              ./doc/nl
+        Allemand                ./doc/de
+        Italien                 ./doc/it
+        Japonais                ./doc/ja
+        Suédois                 ./doc/sv
+
+Même s'il n'y a pas de traduction pour votre langue, le jeu lui-même
+peut la supporter. Merci de se reporter au paragraphe "Localisation"
+ci-dessous. 
 
 
 Site web :
@@ -28,21 +45,34 @@ Site web :
 
 Le site web de Freeciv se trouve à cette adresse :
 
-  http://www.freeciv.org/
+  site officiel : http://www.freeciv.org/
+  site français : http://fr.freeciv.wikia.com/wiki/Accueil
 
-Nous vous invitons à le visiter. Vous pourrez y connaître les dernières
+Nous vous invitons à les visiter. Vous pourrez y connaître les dernières
 nouvelles concernant Freeciv, télécharger les dernières versions et
 patches, trouver des informations à propos des listes de diffusion et
 consulter le métaserveur Freeciv, qui répertorie des parties du monde
 entier.
 
 
-Licence:
-========
+Licence :
+=========
 
-Freeciv est distribué sous la GNU GPL. En bref, vous pouvez copier ce
-programme (y compris ses sources) librement. Tous les détails se
-trouvent dans le fichier COPYING.
+Freeciv est distribué sous la GNU General Public License (version 2
+ou, à votre discrétion, toute version ultérieure). En bref, vous
+pouvez copier ce programme (y compris ses sources) librement, mais
+voyez tous les détails qui se trouvent dans le fichier COPYING.
+
+Certains éléments qui ont été utilisés pour préparer les graphismes du
+jeu (dans le sous-répertoire 'data'), comme les modèles 3D utilisés
+pour préparer les images bitmap, ne sont pas distribués avec le code
+source principal à cause de leur taille. Ils ne sont pas nécessaires
+pour construire Freeciv à partir des sources, puisque les graphiques
+dérivés (manuellement) sont aussi inclus dans la distribution. Ces
+éléments sont disponibles dans la distribution séparée
+'graphics-materials' (par exemple :
+freeciv-2.4.0-graphics-materials.tar.bz2) ou à partir du système de
+version de configuration (subversion).
 
 
 Compilation et installation :
@@ -52,132 +82,185 @@ Merci de lire attentivement le fichier INSTALL.fr pour savoir comment
 compiler et installer Freeciv sur votre machine.
 
 
+Freeciv est modulaire :
+=======================
+
+Freeciv est en fait plusieurs programmes, un serveur et un ou
+plusieurs clients. Quand un jeu est en cours, il y aura un programme
+serveur en fonctionnement, et autant de programmes client qu'il y a de
+joueurs humains. Le serveur n'utilise pas d'IHM, mais les clients le
+font. Il y a plusieurs variantes de clients :
+
+freeciv-gtk2 : Celui-ci utilise les librairies GTK+ 2. Pour
+  l'installer, se référer à la section 1a du document INSTALL.fr.
+  Ce client a été remplacé par freeciv-gtk3, mais existe encore pour
+  servir à ceux qui ne peuvent pas passer à gtk3.
+
+freeciv-gtk3 : Celui-ci utilise les librairies GTK+ 3. Pour
+  l'installer, se référer à la section 1b du document INSTALL.fr.
+  Ce client est mieux supporté et plus développé que les autres. En
+  tant que tel, il est considéré comme étant l'interface par défaut
+  dans tout le reste de ce document.
+
+freeciv-qt : Celui-ci utilise la librairie Qt. Le développement de ce
+  client a récemment atteint un état où il est considéré comme
+  généralement utilisable, mais il lui manque encore un certain nombre
+  de fonctionnalités des clients gtk.
+
+freeciv-sdl : Celui-ci utilise les librairies Simple DirectMedia Layer
+  version 1.2. Ce client n'est plus maintenu, mais il est utilisable.
+
+freeciv-sdl2 : Celui-ci utilise les librairies Simple DirectMedia Layer
+  version 2. Ce client va remplacer freeciv-sdl dans le futur.
+
+freeciv-xaw : Celui-ci utilise le système X Window avec son interface
+  Athena Widget.
+  Ce client, quelque peu minimaliste comparé aux autres, n'est plus
+  maintenu actuellement.
+
+
 Commencer une partie:
 =====================
-
-Freeciv se compose en fait de deux programmes : un serveur et un
-client. Lorsqu'une partie est en cours, il y a un programme serveur qui
-tourne, et autant de programmes clients que de joueurs humains. Le
-serveur, au contraire des clients, n'a pas besoin de X.
 
   NOTE :
   Les exemples suivants partent du principe que Freeciv a été installé
   sur votre système, et que le répertoire contenant les programmes
-  "civclient" et "civserver" est dans votre PATH. Si Freeciv n'est pas
-  installé, vous pouvez utiliser les programmes "civ" et "ser", qui se
-  trouvent dans le répertoire racine de Freeciv. Ils s'utilisent
-  exactement de la même façon que "civclient" et "civserver".
+  "freeciv-gtk3" et "freeciv-server" est dans votre PATH. Si Freeciv
+  n'est pas installé, vous pouvez utiliser les programmes "fcgui" et
+  "fcser", qui se trouvent dans le répertoire racine de Freeciv. Ils
+  s'utilisent exactement de la même façon que "freeciv-gtk3" et
+  "freeciv-server".
 
 
-Jouer à Freeciv implique de lancer le serveur, puis le(s) client(s) et de
-créer la ou les IA. Ensuite, vous devez lancer la partie depuis le
-serveur. Voici les étapes :
+Lancer à Freeciv implique de lancer le serveur, puis le(s) client(s)
+et IA, puis de dire au serveur de lancer la partie. Voici les étapes :
 
 
 Serveur :
 
   Pour lancer le serveur :
 
-  |  % civserver
+  |  % freeciv-server
 
   Ou pour la liste des options en ligne de commande :
 
-  |  % civserver --help
+  |  % freeciv-server --help
 
   Une fois que le serveur est lancé, une invite doit apparaître :
-  |  Pour obtenir une aide sommaire, tapez 'help'.
+  
+  |  Pour obtenir une aide sommaire, tapez "help".
   |  >
   
-  [ si ce message n'est pas en Français, et que vous voulez absolument
-  jouer dans notre langue, positionnez la variable d'environnement LANG
-  à "fr". Pour plus de détails, consultez le fichier INSTALL.fr ]
+  [ NdT : si ce message n'est pas en Français, et que vous voulez
+  absolument jouer dans notre langue, positionnez la variable
+  d'environnement LANG à "fr". Pour plus de détails, consultez le
+  fichier INSTALL.fr ]
 
+  En tapant la commande 'help', vous pouvez voir ceci :
 
-  En tapant la commande 'help', vous pouvez donc voir ceci :
   |  > help
   |  Bienvenue - ceci est le texte d'aide introductif du serveur Freeciv.
-  |
-  |  Les commandes et les options sont deux concepts importants pour le 
-  |  serveur.
-  |  Les commandes, comme 'help', sont utilisées pour interagir avec le
-  |  serveur. Certaines commandes prennent un ou plusieurs arguments, séparés
-  |  par des espaces. Dans la plupart des cas, les commands et les arguments
-  |  des commandes peuvent être abrégés. Les options sont des paramètres qui
-  |  contrôlent le serveur.
-  |
-  |  Pour savoir comment obtenir plus d'informations sur les commandes et
+  |  
+  |  Les commandes et les options sont deux concepts importants pour le
+  |  serveur. Les commandes, comme 'help', sont utilisées pour interagir
+  |  avec le serveur. Certaines commandes prennent un ou plusieurs
+  |  arguments, séparés par des espaces. Dans la plupart des cas, les
+  |  commandes et les arguments des commandes peuvent être abrégés. Les
+  |  options sont des paramètres qui contrôlent la façon dont fonctionne
+  |  le serveur.
+  |  
+  |  Pour savoir comment obtenir plus d'information sur les commandes et
   |  les options, utilisez 'help help'.
-  |
-  |  Pour l'impatient, les commandes principales pour commencer sont :
-  |  show  - pour voir les options actuelles
-  |  set   - pour régler des options
-  |  start - pour lancer la partie une fois que les joueurs sont connectés
-  |  save  - pour sauver la partie en cours
-  |  quit  - pour quitter
-  |  >
+  |  
+  |  Pour les impatients, les commandes principales pour commencer sont :
+  |    show  - pour voir les options actuelles
+  |    set   - pour régler des options
+  |    start - pour lancer la partie une fois que les joueurs sont connectés
+  |    save  - pour sauver la partie en cours
+  |    quit  - pour quitter
+  |  > 
 
-  Si vous le désirez, vous pouvez utiliser la commande 'set' pour régler
-  certaines options de la partie. Vous pouvez obtenir une liste des
-  options grâce à la commande 'show', et une description détaillée de
-  chacune avec 'help <nom-de-l'option>'.
+  Si vous le désirez, vous pouvez utiliser la commande 'set' pour
+  régler certaines options de la partie. Vous pouvez obtenir une liste
+  des options grâce à la commande 'show', et une description détaillée
+  de chacune avec la commande 'help <nom-de-l'option>'.
 
   Par exemple :
-  |  > help xsize
-  |  Option : xsize  -  Largeur en cases de la carte
+  
+  |  > help size
+  |  Option : size  -  Taille de la carte (en milliers de cases)
+  |  Description :
+  |    Cette valeur est utilisée pour déterminer les dimensions de la
+  |    carte.
+  |      size = 4 est une carte normale de 4000 cases (défaut)
+  |      size = 20 est une carte énorme de 20000 cases
+  |    Pour que cette option soit prise en compte, l'option "Définition de
+  |    la taille de la carte" ('Mapsize') doit être positionnée à "Nombre
+  |    de cases" (FULLSIZE).
   |  État : modifiable
-  |  Valeur : 80, Minimum : 40, Défaut : 80, Maximum : 200
-
+  |  Valeur : 4, Minimum : 0, Défaut : 4, Maximum : 2048
+  
   Et :
-  |  > set xsize 100
-  |  > set ysize 80
+  
+  |  > set size 8
 
-  En faisant ceci, la carte aura une taille deux fois plus grande que
-  celle, par défaut, de 80x50.
+  Ceci rendra la carte deux fois plus grande que celle par défaut.
 
 Client :
 
   À présent, tous les joueurs humains devraient se connecter en lançant
   le client Freeciv :
 
-  |  % civclient
+  |  % freeciv-gtk3
 
   Ceci part du principe que le serveur tourne sur la même
-  machine. Sinon, vous pouvez le spécifier en ligne de commande à l'aide
-  de l'option '--server' ou le saisir dans la première boîte de dialogue
-  lorsque le client est lancé.
+  machine. Sinon, vous pouvez soit le spécifier en ligne de commande à
+  l'aide de l'option '--server' ou le saisir dans la première boîte de
+  dialogue lorsque le client est lancé.
 
   Par exemple, supposons que le serveur tourne sur une machine
   différente appelée 'neptune'. Dans ce cas, les joueurs rejoignent la
   partie avec une commande de ce style :
 
-  |  % civclient --server neptune
+  |  % freeciv-gtk3 --server neptune
 
   Si vous êtes le seul joueur humain, un seul client a besoin d'être
   lancé. Vous pouvez lancer le client "en tâche de fond" de la manière
-  standard sous Unix en ajoutant un "&" à la suite de "civclient" :
+  standard sous Unix en ajoutant un "&" à la fin :
 
-  |  % civclient &
+  |  % freeciv-gtk3 &
 
   Une autre option du client que vous devriez apprécier est '--tiles',
-  qui peut être utilisée pour choisir des "tilesets" différents
+  qui peut être utilisée pour choisir des "jeux de tuiles" différents
   (c'est-à-dire des graphismes différents pour le terrain, les unités,
-  etc). La distribution fournit deux tilesets principaux, appelés
-  "trident" et "engels" et deux variantes, "trident_shields" et
-  "engels_shields". Dans cette distribution, "trident" est le tileset
-  par défaut (dans certaines distributions précédentes, c'était
-  "engels"). Les deux tilesets principaux ont des styles graphiques
-  différents ; vous pouvez préférer l'un ou l'autre. Les variantes
-  "_shields" utilisent des drapeaux de la forme de boucliers, plus
-  petits. Les tiles trident sont petites, et peuvent donc être plus
-  adaptées si vous avez un petit écran. Prenez vous-même une décision en
-  les essayant toutes. Pour tester le tileset engels : lancez le client
-  ainsi :
+  etc). La distribution fournit 8 tilesets principaux :
+  - amplio2 : un jeu de tuiles isométriques avec des tuiles plus
+    grandes et plus détaillées.
+  - isotrident : un jeu de tuiles isométriques semblable en forme à
+    celui de Civilisation II.
 
-  |  % civclient --tiles engels
+  - cimpletoon : amplio2 avec des unités alternatives qui montrent
+    leur orientation.
+  - trident : un jeu de tuiles dans le style de Civilisation I avec
+    des tuiles de 30×30.
+  - hexemplio : un jeu de tuiles isométriques hexagonales avec des
+    tuiles plus grandes dérivé d'amplio2.
+  - toonhex : jeu de tuile qui combine les tuiles hexemplio avec les
+    unités cimpletoon.
+  - isophex : un jeu de tuiles isométriques hexagonales.
+  - hex2t : un jeu de tuiles hexagonal en vue de dessus.
+  
+  Dans cette édition, le jeu de tuiles amplio2 est celui par
+  défaut. Pour en essayer un autre, par exemple, le jeu de tuiles
+  trident, lancez le client ainsi :
 
-  D'autres tilesets sont disponibles sur le site ftp.
+  |  % freeciv-gtk3 --tiles trident
 
-  Les clients peuvent être autorisés à utiliser des commandes du
+  D'autres jeux de tuiles sont disponibles sur :
+                 http://www.freeciv.org/wiki/Tilesets
+
+
+  Les clients peuvent être autorisés à émettre des commandes au
   serveur. Pour les autoriser à n'utiliser que des commandes
   "d'information", tapez ce qui suit à l'invite du serveur :
 
@@ -185,7 +268,6 @@ Client :
 
   Les clients peuvent à présent utiliser '/help', '/list', '/show
   settlers', etc.
-
 
 Joueurs IA :
 
@@ -208,15 +290,15 @@ Joueurs IA :
   Ceci créera un joueur IA appelé TueurdHumains.
 
   Des nations sont assignées aux joueurs IA après que tous les joueurs
-  humains aient choisi les leurs, mais vous pouvez choisir une nation
+  humains ont choisi les leurs, mais vous pouvez choisir une nation
   particulière pour un joueur IA en utilisant le nom normal pour le chef
   de cette nation. Par exemple, pour jouer contre des Romains contrôlés
   par l'IA, utilisez la commande du serveur suivante :
 
   |  > create César
 
-  Note : ceci n'est qu'un préférence. Si aucun joueur humain ne choisit
-  de jouer les Romains, alors cette IA les prendra.
+  Notez que ceci n'est qu'un préférence. Si aucun joueur humain ne
+  choisit de jouer les Romains, alors cette IA les prendra.
 
 Serveur :
 
@@ -228,34 +310,43 @@ Serveur :
 
 Et la partie est lancée !
 
+  NOTE : Dans cette version de Freeciv, les clients GTK, Qt et SDL ont
+  la capacité de lancer automatiquement un session serveur quand
+  l'utilisateur sélectionne "Démarrer une nouvelle partie" dans le
+  menu principal. Ceci réduit les étapes nécessaires pour commencer à
+  jouer à Freeciv. D'un autre côté, cela signifie que, si le client
+  plante pour une raison quelconque ou devient inaccessible, la
+  session serveur de Freeciv sera également perdue. De ce fait, lancer
+  une session serveur séparée et s'y connecter avec le client est
+  généralement la méthode recommandée.
+
 
 Annoncer la partie :
 ====================
 
-Si vous ne voulez pas limiter la concurrence à vos amis ou aux joueurs
+Si vous ne voulez pas limiter vos opposants à vos amis ou aux joueurs
 IA, visitez le métaserveur Freeciv :
 
   http://meta.freeciv.org/
 
-C'est une liste de serveurs Freeciv. Pour que votre propre serveur
-s'y annonce lui-même, lancez civserver avec l'option '--meta', ou '-m'.
+C'est une liste de serveurs Freeciv. Pour que votre propre serveur s'y
+annonce lui-même, lancez freeciv-server avec l'option '--meta', ou
+juste '-m'.
 
-Remarques :
+Avertissements :
 
- 1) Étant donnée l'inclusion de nouvelles fonctionnalités, des versions
-    différentes du client et du serveur sont souvent
-    incompatibles. Toutes les incompatibilités ne peuvent pas être
-    repérées et rapportées facilement. Par exemple, si un client de
-    version 1.8.0 (ou plus récente) essaie de se connecter à un serveur
-    1.7.2 : le client semble se connecter, mais il ne reçoit jamais
-    aucun message du serveur.
+ 1) Étant donnée l'inclusion de nouvelles fonctionnalités, des
+    versions différentes du client et du serveur sont souvent
+    incompatibles. La version 2.5.0 est par exemple incompatible avec
+    toute version 2.4.x ou plus ancienne.
 
  2) Si le bouton Métaserveur dans la boîte de dialogue de connexion ne
-    fonctionne pas, vérifiez si votre fournisser d'accès utilise un
-    proxy WWW et signalez-le au client à l'aide de la variable
-    d'environnement $http_proxy. Ainsi, si le proxy est
-    proxy.monfournisseur.com, sur le port 8888, positionnez $http_proxy
-    à http://proxy.monfournisseur.com:8888/ avant de lancer le client.
+    fonctionne pas, vérifiez si votre fournisseur d'accès Internet
+    force l'utilisation d'un proxy WWW et faites en sorte que
+    freeciv-gtk3 l'utilise à l'aide de la variable d'environnement
+    http_proxy. Ainsi, si le proxy est proxy.monfournisseur.com, sur
+    le port 8888, positionnez http_proxy à
+    http://proxy.monfournisseur.com:8888/ avant de lancer le client.
 
  3) Parfois, il n'y a pas de partie sur le métaserveur. Ceci peut venir
     du fait que le métaserveur a changé d'hôte et que les anciennes
@@ -266,26 +357,27 @@ Remarques :
     une vous-même !
 
 
-Jouer :
-=======
+Jouer au jeu :
+==============
 
 La partie peut être sauvée à n'importe quel moment en utilisant la
-commande 'save' du serveur :
+commande 'save' du serveur, ainsi :
 
   |  > save mapartie.sav
 
 Si votre serveur est compilé avec le support de la compression et que
-l'option 'compress' du serveur a une autre valeur que 0 (zéro), alors le
-fichier peut être compressé et sauvé sous un nom comme
-'mapartie.sav.gz'.
+l'option 'compresstype' du serveur a une autre valeur que PLAIN, alors
+le fichier enregistré peut être compressé et appelé 'mapartie.sav.gz',
+'mapartie.sav.bz2' ou 'mapartie.sav.xz' en fonction de l'option.
 
-Le client Freeciv fonctionne pour une partie de Civilization en
-multijoueurs de la façon qu'on peut espérer. C'est à dire que les
+Le client Freeciv fonctionne à peu près comme on peut s'y attendre
+pour une partie de civilisation multijoueurs, c'est-à-dire que les
 joueurs humains se déplacent tous en même temps, puis tous les joueurs
 IA se déplacent lorsque tous les joueurs humains ont terminé leur
-tour. Il y a une valeur de timeout pour les tours, qui est par défaut de
-0 seconde (pas de timeout). L'administrateur du serveur peut modifier
-cette valeur à n'importe quel moment grâce à la commande 'set'.
+tour. Il y a une valeur de timeout (expiration) pour les tours, qui
+est par défaut de 0 seconde (pas de timeout). L'administrateur du
+serveur peut modifier cette valeur à n'importe quel moment grâce à la
+commande 'set'.
 
 Jetez un oeil au système d'aide en ligne. Les trois boutons de la souris
 sont utilisés, et documentés dans l'aide.
@@ -293,115 +385,130 @@ sont utilisés, et documentés dans l'aide.
 Les joueurs peuvent appuyer sur la touche 'Entrée' pour annoncer la fin
 de leur tour, ou simplement cliquer sur le bouton 'Fin du tour'.
 
-Utilisez la boîte de dialogue 'Joueurs' pour savoir qui a annoncé la fin
-de son tour, et qui vous attendez ("Hé ! Tu t'es endormi ou quoi ?" ;-) ).
+Utilisez la boîte de dialogue 'Joueurs' pour savoir qui a annoncé la
+fin de son tour, et qui vous attendez ("Hé gars, tu t'es endormi ou
+quoi ? ;-)").
 
 Utilisez la ligne de saisie en bas de la fenêtre pour envoyer des
 messages aux autres joueurs.
 
-Vous pouvez envoyer un message à un seul joueur (par exemple 'pascal') :
+Vous pouvez envoyer un message à un seul joueur (par exemple 'pierre')
+ainsi :
 
-  |  pascal: enlève ce char *maintenant* !
+  |  pierre: enlève ce char *MAINTENANT* !
 
 Le serveur est suffisamment intelligent pour "compléter" les
-noms. Ainsi, si vous avez tapez "pas:", il cherchera un nom de joueur
-qui commence par 'pas'.
+noms. Ainsi, si vous avez tapez "pi:", il cherchera un nom de joueur
+qui contient la partie du nom que vous avez tapée.
 
-Sur les serveurs récents (version 1.8.1 ou plus récente, ainsi que
-quelques versions de développement 1.8.0), vous pouvez exécuter des
-commandes du serveur depuis la ligne de saisie du client en les
-préfixant de '/' :
+Vous pouvez envoyer un message à tous vos alliés en le préfixant avec
+la lettre '.' (oui, c'est un point).
+
+Vous pouvez exécuter des commandes du serveur depuis la ligne de
+saisie du client :
 
   |  /list
   |  /set settlers 4
   |  /save mapartie.sav
 
-L'administrateur du serveur vous laissera probablement uniquement lancer
-des commandes "d'information". Ceci vient en partie de considérations
-liées à la sécurité. Imaginez un joueur qui essaye :
+L'administrateur du serveur vous laissera probablement uniquement
+lancer des commandes d'information. Ceci vient en partie du fait que
+laisser les clients utiliser toutes les commandes serveur a des
+implications au niveau de la sécurité. Imaginez un joueur qui essaye :
 
   |  /save /etc/passwd
 
 Bien sûr, le serveur ne devrait pas être lancé avec les privilèges du
 super-utilisateur pour réduire ce genre de risques.
 
-Si vous débutez et désirez avoir une idée de stratégies possibles,
-consultez le "Freeciv playing HOWTO", dans le fichier HOWTOPLAY.fr.
+Si vous débutez juste et désirez avoir une idée de stratégies
+possibles, consultez le "Freeciv playing HOWTO", dans le fichier
+HOWTOPLAY.fr.
 
 Pour avoir beaucoup plus de renseignements à propos du client, du
 serveur et des concepts et règles du jeu, consultez le manuel de Freeciv
 disponible sur le site web :
 
-  http://www.freeciv.org/wiki-fr/Manuel
+  http://fr.freeciv.wikia.com/wiki/Manuel
 
 
 Fin de la partie :
 ==================
 
-Il y a trois façons de terminer une partie :
+Il y a quatre façons de terminer une partie :
 
-1) Il ne reste q'une seule nation.
-2) L'année de fin est atteinte.
+1) Il ne reste que des vainqueurs en jeu
+   1a) Si l'option du serveur 'alliedvictory' est activée : toutes les
+       nations restantes, sauf celles qui se sont avouées vaincues
+       (/surrender) sont alliées ou dans la même équipe.
+   1b) Si l'option du serveur 'alliedvictory' est désactivée : une
+       seule nation ou équipe reste, ou tous les autres joueurs de
+       toutes les autres équipes ont abandonné la partie (/surrender).
+2) L'année de fin (/show endturn) est atteinte.
 3) Un joueur construit et lance un vaisseau spatial qui atteint Alpha
    du Centaure le premier.
+4) L'administrateur du serveur utilise la commande /endgame.   
 
-Un tableau des scores sera montré dans tous les cas. Truc :
+Un tableau des scores sera montré dans tous les cas. Indication :
 l'administrateur du serveur peut changer l'année de fin pendant que la
-partie est en cours en modifiant l'option 'end-year'. C'est utile
+partie est en cours en modifiant l'option 'endturn'. C'est utile
 lorsque l'on connaît déjà le vainqueur et que l'on veut pas avoir à
-supporter la phase ennuyeuse de "nettoyage".
+supporter la phase ennuyeuse du "nettoyage".
 
 
 Chargement des parties :
 ========================
 
-Vous pouvez charger une partie sauvée en utilisant l'option '-f' du
+Vous pouvez charger une partie sauvegardée en utilisant l'option '-f' du
 serveur :
 
-  |  % civserver -f notresauvegarde2001.sav
+  |  % freeciv-server -f notresauvegarde2001.sav
 
-Ou, si le fichier de sauvegarde est compressé :
+Ou, si le fichier de sauvegarde a été créé par un serveur qui l'a
+compressé :
 
-  |  % civserver -f notresauvegarde2001.sav.gz
+  |  % freeciv-server -f notresauvegarde2001.sav.gz
 
 À présent, les joueurs peuvent rejoindre la partie :
 
-  |  % civclient -n Alexandre
+  |  % freeciv-gtk3 -n Alexandre
 
-Remarquez que l'on peut préciser le nom du joueur avec l'option '-n'. Il
-est primordial que les joueurs utilisent le même nom que lorsque la
-partie était en cours, s'ils veulent pouvoir la rejoindre.
+Remarquez la façon dont on précise le nom du joueur avec l'option
+'-n'. Il est primordial que les joueurs utilisent le même nom que
+lorsque la partie était en cours, s'ils veulent pouvoir la rejoindre.
 
 La partie peut ensuite être redémarrée avec la commande 'start', comme
 d'habitude.
 
 
-Autodémarrage du serveur :
-==========================
-
-Lorsque le nombre maximum de joueurs s'est connecté, le serveur démarre
-automatiquement. Le nombre maximum de joueurs peut être réglé avec
-l'option 'maxplayers'.
-
-
 Localisation :
 ==============
 
-Freeciv supporte un certain nombre de langues (dont le Français ;) ).
+Freeciv supporte un certain nombre de langues (dont le Français !).
 
-Vous pouvez choisir quel langue vous souhaitez en précisant une
-"locale". Chaque locale a un nom standard (par exemple, 'fr' pour
-Français). Si vous avez installé Freeciv, vous pouvez choisir une locale
-en positionnant la variable d'environnement LANG correctement, avant de
-lancer civserver et civclient.
+Vous pouvez choisir quelle langue vous souhaitez utiliser en précisant
+une "locale". Chaque locale a un nom standard (par exemple, 'fr' pour
+Français). Si vous avez installé Freeciv, vous pouvez choisir une
+locale en positionnant la variable d'environnement LANG correctement,
+avant de lancer freeciv-server et freeciv-gtk3.
 
-Par exemple, pour utiliser la localisation française :
+Par exemple, pour utiliser la localisation française, il vous faudrait
+faire :
 
   export LANG; LANG=fr   (avec un shell Bourne (sh)),
 ou
   setenv LANG fr         (avec le shell C (csh)).
 
 (Vous pouvez faire ceci dans votre .profile ou votre .login)
+
+Parfois, il y a un conflit entre l'implémentation de la locale de la
+bibliothèque et la résolution interne de la locale. Il est souvent
+possible de contourner les problèmes avec un descripteur plus détaillé :
+
+  LANG=fr_FR.UTF-8
+
+Nous serions intéressés d'en savoir plus sur de tels problèmes. Merci
+de les rapporter en tant que bogues (voir le fichier BUGS.fr).
 
 
 Journal :
@@ -412,17 +519,18 @@ a cinq catégories de messages : "fatal", "erreur" (error), "normal",
 "verbeux" (verbose) et "deboguage" (debug).
 
 Par défaut, les messages fatals, d'erreur et normaux sont affichés sur
-la sortie standard à l'endroit où le client et le serveur ont été
+la sortie standard à l'endroit où le client ou le serveur ont été
 lancés. Vous pouvez rediriger les messages vers un fichier au lieu de
-l'écran avec l'option en ligne de commande "--log fichier" (ou "-l
-fichier").
+l'écran avec les options en ligne de commande "--log fichier" ou "-l
+fichier".
 
 Vous pouvez modifier le niveau des messages affichés avec "--debug
-niveau" ou "-d niveau" (ou "-de level" pour le client Xaw, car "-d" est
-ambigu : "-debug" et "-display"), où "niveau" vaut 0, 1, 2 ou 3. 0
-correspond aux messages fatals uniquement ; 1 montre les messages fatals
-et les messages d'erreur ; 2 les messages fatals, d'erreur et normaux
-(défaut) ; et 3 montre tous les messages.
+niveau" ou "-d niveau" (ou "-de level" pour le client Xaw, car "-d"
+est ambigu entre "-debug" et "-display"), où "niveau" vaut 0, 1, 2 ou
+3. 0 correspond aux messages fatals uniquement ; 1 montre les messages
+fatals et les messages d'erreur ; 2 les messages fatals, d'erreur et
+normaux (défaut) ; et 3 montre tous les messages fatals, d'erreur,
+normaux et verbeux.
 
 Si vous avez compilé Freeciv en définissant DEBUG (vous pouvez
 facilement le faire en lançant ./configure avec --enable-debug), vous
@@ -430,7 +538,7 @@ pouvez avoir les messages de niveau "deboguage" en réglant le niveau à
 4. De plus, il est possible de contrôler le niveau des messages de
 déboguage (mais pas les autres) par fichier et par ligne. Pour ce faire,
 utilisez "--debug 4:chaîne1:chaîne2" (autant de chaînes que vous voulez,
-séparées par des virgules) et tous les noms de fichiers sources qui
+séparées par des deux points) et tous les noms de fichiers sources qui
 contiennent ces sous-chaînes seront activés, tandis que tous les autres
 seront supprimés. Pour contrôler les lignes, utilisez : "--debug
 4:chaîne1,min,max" et, pour les fichiers qui correspondent à chaîne1,
@@ -440,20 +548,20 @@ fichier.
 
 Exemple :
 
-  |  % civserver -l mon.log -d 3
+  |  % freeciv-server -l mon.log -d 3
 
 Ceci met tous les messages de log du serveur dans le fichier "mon.log",
 y compris les messages de niveau verbeux.
 
 Exemple:
 
-  |  % civclient --debug 0
+  |  % freeciv-gtk3 --debug 0
 
 Ceci supprime tous les messages de log non fatals du client.
 
 Exemple:
 
-  |  % civserver -d 4:log:civserver,120,500:autoattack
+  |  % freeciv-server -d 4:log:civserver,120,500:autoattack
 
 Ceci active tous les messages pour le serveur, et les messages de
 déboguage pour certains modules. Notez que "log" s'applique autant à
@@ -466,7 +574,7 @@ Bogues :
 ========
 
 Vous avez trouvé un bogue ? Prévenez-nous, afin que nous puissions le
-corriger. Consultez le fichier BUGS pour avoir une liste des bogues
+corriger. Consultez le fichier BUGS.fr pour avoir une liste des bogues
 connus dans cette distribution, ainsi que des renseignements pour
 signaler de nouveaux bogues.
 
@@ -474,66 +582,39 @@ signaler de nouveaux bogues.
 Listes de diffusion :
 =====================
 
-Nous maintenons 6 listes de diffusion :
+Nous maintenons 4 listes de diffusion :
 
-  freeciv          Discussions générales.
-  freeciv-announce Annonces d'intérêt général.
-		   C'est une liste en "lecture seule", avec des messages
-		   peu fréquents. En d'autres termes, vous ne pouvez que
-		   la lire, et pas y écrire. Les annonces qui y sont
-		   envoyées le sont aussi sur freeciv.
-  freeciv-dev      Développement de Freeciv.
-  freeciv-data     Développement du répertoire "data".
-		   Discussions sur les règles, les tiles, etc.
-  freeciv-java     Développement du client Freeciv en Java.
-  freeciv-cvs      Annonces de changements sur le CVS.
-		   C'est une liste en "lecture seule", diffusant des
-		   messages automatisés. En d'autres termes, vous ne
-		   pouvez que la lire, et pas y écrire.
-
+  freeciv-announce : Annonces d'intérêt général.
+    C'est une liste en "lecture seule", avec des messages peu
+		fréquents. En d'autres termes, vous ne pouvez que la lire, et pas
+		y écrire. 
+  freeciv-i18n : Traduction de Freeciv.
+    Toutes les discussions concernant la traduction du code, de la
+    documentation et du site Web de Freeciv dans les autres langues
+    que l'anglais.
+  freeciv-dev : Développement de Freeciv.
+  freeciv-commits : Notifications des changements au dépôt SVN.
+    C'est une liste en "lecture seule", diffusant des messages
+    automatisés. En d'autres termes, vous ne pouvez que la lire, et
+    pas y écrire.
+    
 Toutes ces listes sont publiques et chacun est le bienvenu pour s'y
-inscrire.
+inscrire. Seuls les mainteneurs peuvent poster sur les listes
+-announce et -commits.
+
+Les listes sont hébergées sur gna.org. Pour plus d'information, pour
+rejoindre ou se retirer de ces listes, allez sur :
+http://gna.org/mail/?group=freeciv 
 
 
-Pour s'inscrire (ou se désinscrire) à ces listes, procédez comme suit :
+Internet Relay Chat (IRC)
+=========================
 
-  1. Envoyez un e-mail à <listar@freeciv.org>.
-  2. Laissez le sujet vide.
-  3. Dans le corps de l'e-mail, mettez un des messages suivants :
-      Pour vous inscrire :
-        subscribe freeciv
-        subscribe freeciv-announce
-        subscribe freeciv-dev
-        subscribe freeciv-data
-        subscribe freeciv-java
-        subscribe freeciv-cvs
-      Pour vous désinscrire :
-        unsubscribe freeciv
-        unsubscribe freeciv-announce
-        unsubscribe freeciv-dev
-        unsubscribe freeciv-data
-        unsubscribe freeciv-java
-        unsubscribe freeciv-cvs
+Plusieurs joueurs et développeurs traînent sur les canaux #freeciv et
+#freeciv-dev sur le réseau freenode. Essayez de vous vous connecter
+sur le serveur : 
 
-Pour envoyer un e-mail sur les listes, adressez-le à :
-
-  Pour freeciv, il doit être envoyé à <freeciv@freeciv.org>.
-  Pour freeciv-dev, il doit être envoyé à <freeciv-dev@freeciv.org>.  
-  Pour freeciv-data, il doit être envoyé à <freeciv-data@freeciv.org>.
-  Pour freeciv-java, il doit être envoyé à <freeciv-java@freeciv.org>.
-
-En plus de tout ceci, vous pouvez participer à la liste des traducteurs
-français de Freeciv à l'adresse suivante : freeciv-fr@egroups.fr La
-chasse aux bogues de traduction et aux mauvaises traductions est ouverte
-toute l'année et à tous, et les beta-tests sont rarement désagréables :-)
-
-
-Nouvelles versions :
-====================
-
-Nous sortons une nouvelle version de Freeciv environ tous les trois
-mois. Consultez le site web de Freeciv de temps en temps pour voir si
-une version plus récente est sortie !
+        irc.freenode.net
 
 
 Et pour conclure :
@@ -541,4 +622,4 @@ Et pour conclure :
 
 Amusez-vous bien et envoyez les en enfer !
 
-				   -- L'équipe de Freeciv
+                        -- L'équipe de Freeciv
