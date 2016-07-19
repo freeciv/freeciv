@@ -10,13 +10,13 @@
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
 # Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2005.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
-# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
+# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-14 11:28+0100\n"
-"PO-Revision-Date: 2015-03-17 01:44+0100\n"
+"POT-Creation-Date: 2016-07-19 12:08+0200\n"
+"PO-Revision-Date: 2016-07-19 12:09+0200\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
 "Language-Team: Spanish <>\n"
 "Language: es_ES\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -531,7 +531,7 @@ msgid "African"
 msgstr "Africano"
 
 #: data/nation/african.ruleset:4
-msgid "?plural:African"
+msgid "?plural:Africans"
 msgstr "Africanos"
 
 #: data/nation/african.ruleset:6
@@ -11928,7 +11928,8 @@ msgid ""
 "Moshoeshoe I. Today, there are about 2 million Sotho in the Kingdom of "
 "Lesotho and almost twice that number in South Africa."
 msgstr ""
-"Un pueblo bantú en el sur de África; los antepasados ​​de los Basotho llegaron "
+"Un pueblo bantú en el sur de África; los antepasados ​​de los Basotho "
+"llegaron "
 "por primera vez a la región a finales del primer milenio. Los Basotho "
 "formaron un sistema político unificado en el siglo 19 bajo el reinado de "
 "Moshoeshoe I. Hoy en día, hay cerca de 2 millones Sotho en el Reino de "
