@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-31 05:53+0200\n"
-"PO-Revision-Date: 2015-02-01 17:41+0100\n"
+"POT-Creation-Date: 2016-06-15 06:07+0200\n"
+"PO-Revision-Date: 2016-06-15 07:22+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -532,7 +532,7 @@ msgid "African"
 msgstr "Africain"
 
 #: data/nation/african.ruleset:4
-msgid "?plural:African"
+msgid "?plural:Africans"
 msgstr "Africains"
 
 #: data/nation/african.ruleset:6
