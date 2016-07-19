@@ -92,7 +92,7 @@ city_productions_font_size = 10
 ; represent a unit type rather than a specific unit from the map
 ; (e.g., in worklists, editor, and online help). Does not have to be a
 ; valid direction for the tileset.
-;unit_default_orientation = "s"
+unit_default_orientation = "s"
 
 ; These are special because they get freed and reloaded
 ; as required:
