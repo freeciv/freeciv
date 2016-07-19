@@ -65,8 +65,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-15 09:15+0100\n"
-"PO-Revision-Date: 2016-07-15 09:18+0100\n"
+"POT-Creation-Date: 2016-07-19 10:14+0100\n"
+"PO-Revision-Date: 2016-07-19 10:16+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -1531,34 +1531,34 @@ msgstr ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %f second(s) for "
 "%d times"
 
-#: client/connectdlg_common.c:237
+#: client/connectdlg_common.c:263
 msgid "Starting local server..."
 msgstr "Starting local server..."
 
-#: client/connectdlg_common.c:248 client/connectdlg_common.c:455
+#: client/connectdlg_common.c:274 client/connectdlg_common.c:482
 msgid "Couldn't start the server."
 msgstr "Couldn't start the server."
 
-#: client/connectdlg_common.c:250 client/connectdlg_common.c:457
-#: client/connectdlg_common.c:496
+#: client/connectdlg_common.c:276 client/connectdlg_common.c:484
+#: client/connectdlg_common.c:523
 msgid "You'll have to start one manually. Sorry..."
 msgstr "You'll have to start one manually. Sorry..."
 
-#: client/connectdlg_common.c:492
+#: client/connectdlg_common.c:519
 msgid "Couldn't connect to the server."
 msgstr "Couldn't connect to the server."
 
-#: client/connectdlg_common.c:494
+#: client/connectdlg_common.c:521
 msgid "We probably couldn't start it from here."
 msgstr "We probably couldn't start it from here."
 
-#: client/connectdlg_common.c:608
+#: client/connectdlg_common.c:635
 msgid ""
 "Established control over the server. You have command access level 'hack'."
 msgstr ""
 "Established control over the server. You have command access level 'hack'."
 
-#: client/connectdlg_common.c:614
+#: client/connectdlg_common.c:641
 msgid ""
 "Failed to obtain the required access level to take control of the server. "
 "Attempting to shut down server."
@@ -40164,6 +40164,13 @@ msgstr "The %s established a trade route between their city %s and %s."
 #, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "%s was upgraded for free to %s."
+
+#: server/unittools.c:392
+#, c-format
+msgid ""
+"Your %s has run out of hit points because it was not supported by a city."
+msgstr ""
+"Your %s has run out of hit points because it was not supported by a city."
 
 #: server/unittools.c:397
 #, c-format
