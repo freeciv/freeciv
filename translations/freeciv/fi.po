@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-19 10:14+0100\n"
-"PO-Revision-Date: 2016-07-08 22:04+0300\n"
+"PO-Revision-Date: 2016-07-19 21:24+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -6309,7 +6309,7 @@ msgid "Help build Wonder (%1 remaining)"
 msgstr "Auta ihmeen rakentamisessa (%d jäljellä)"
 
 #: client/gui-qt/dialogs.cpp:2057
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Tileset problem, it's probably incompatible with the ruleset:\n"
 "%s\n"
@@ -6317,12 +6317,12 @@ msgid ""
 msgstr ""
 "Kuvitusongelma, se on todennäköisesti epäyhteensopiva sääntökokoelman "
 "kanssa:\n"
-"%s"
+"%s\n"
+"Poistutaan ohjelmasta."
 
 #: client/gui-qt/dialogs.cpp:2061
-#, fuzzy
 msgid "Tileset error"
-msgstr "Kuvitus"
+msgstr "Kuvitusvirhe"
 
 #. TRANS: MP = Movement points
 #: client/gui-qt/dialogs.cpp:2234
@@ -6962,23 +6962,20 @@ msgid "Confirm Password"
 msgstr "Vahvista salasana:"
 
 #: client/gui-qt/pages.cpp:376
-#, fuzzy
 msgid "Internet servers:"
-msgstr "Internet-metapalvelin"
+msgstr "Internet-palvelimet:"
 
 #: client/gui-qt/pages.cpp:379
-#, fuzzy
 msgid "Local servers:"
-msgstr "Yleiset tarkkailijat"
+msgstr "Paikalliset palvelimet:"
 
 #: client/gui-qt/pages.cpp:429
 msgid "Date"
 msgstr "Talletuspäivä"
 
 #: client/gui-qt/pages.cpp:456 client/gui-qt/pages.cpp:514
-#, fuzzy
 msgid "Browse..."
-msgstr "_Selaa..."
+msgstr "Selaa..."
 
 #: client/gui-qt/pages.cpp:528
 msgid "Load Scenario"
@@ -28059,14 +28056,14 @@ msgstr ""
 "on Freecivin mukana tulevassa ohjetiedostossa 'README.governor'."
 
 #: data/helpdata.txt:1814
-#, fuzzy
 msgid ""
 "The client has a primitive chat interface. The lines you type are sent to "
 "all players, or only to your allies if the client is configured for that, "
 "except:"
 msgstr ""
-"Ohjelmassa on yksinkertainen keskustelukanava. Rivit, jotka kirjoitat, "
-"lähetetään kaikille pelaajille, paitsi:"
+"Ohjelmassa on yksinkertainen keskustelukanava. Kirjoittamasi rivit lähetetään "
+"kaikille pelaajille, tai vain liittolaisillesi jos asiakasohjelma on siten "
+"asetettu, paitsi:"
 
 #: data/helpdata.txt:1818
 msgid ""
@@ -28077,7 +28074,6 @@ msgstr ""
 "suoritetaan, mikäli sinulla on riittävän korkea komentotaso."
 
 #: data/helpdata.txt:1821
-#, fuzzy
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated, or surrounded with double-quotes if they have spaces. The "
@@ -28085,12 +28081,12 @@ msgid ""
 "username beginning with 'John' (like 'Johnathan')."
 msgstr ""
 " – 'Erkki:'-alkuiset viestit ovat yksityisviestejä 'Erkille'. Nimet voi "
-"lyhentää. Palvelin etsii Erkki-nimisiä pelaajia mutta jos heitä ei löydy, se "
-"yrittää löytää vastineen Erkki-alkuisista käyttäjänimistä (kuten esimerkiksi "
+"lyhentää. Ne voi myös ympäröidä lainausmerkeillä jos niissä on välilyöntejä. "
+"Palvelin etsii Erkki-nimisiä pelaajia mutta jos heitä ei löydy, se yrittää "
+"löytää vastineen Erkki-alkuisista käyttäjänimistä (kuten esimerkiksi "
 "'Erkkinen')."
 
 #: data/helpdata.txt:1826
-#, fuzzy
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'. A user name 'Johnathan' will "
@@ -28098,21 +28094,23 @@ msgid ""
 msgstr ""
 " – Rivit, jotka alkavat esim. 'Erkki::' ovat yksityisiä viestejä kuten yllä, "
 "mutta täsmäävät vain käyttäjiin (ei pelaajiin), joiden nimi on 'Erkki'. "
-"Nimiä voi yhä lyhentää, esim. 'Erkki-Jooseppi' täsmää."
+"Nimiä voi yhä lyhentää, esim. käyttäjä 'Erkki-Jooseppi' täsmää."
 
 #: data/helpdata.txt:1830
-#, fuzzy
 msgid ""
 "  - Messages starting with ':' will be sent to everyone (even if your client "
 "is configured to send only to allies by default)."
-msgstr " – '.'-alkuiset viestit lähetetään vain kaikille liittolaisillesi."
+msgstr ""
+" – ':'-alkuiset viestit lähetetään kaikille (jopa silloin kun asiakasohjelma "
+"on asetettu lähettämään oletuksena vain liittolaisillesi)."
 
 #: data/helpdata.txt:1833
-#, fuzzy
 msgid ""
 "  - Messages starting with '.' will be sent only to all your allies (or, if "
 "you're a global observer, only to other global observers)."
-msgstr " – '.'-alkuiset viestit lähetetään vain kaikille liittolaisillesi."
+msgstr ""
+" – '.'-alkuiset viestit lähetetään vain kaikille liittolaisillesi (tai, jos "
+"olet globaali tarkkailija, vain toisille globaaleille tarkkailijoille)."
 
 #: data/helpdata.txt:1836
 msgid ""
@@ -40756,10 +40754,12 @@ msgid "%s was upgraded for free to %s."
 msgstr "%s on ajanmukaistettu kustannuksetta yksiköksi %s."
 
 #: server/unittools.c:392
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s has run out of hit points because it was not supported by a city."
-msgstr "Yksikkösi %s voimapisteet loppuivat."
+msgstr ""
+"Yksikkösi %s voimapisteet loppuivat, koska sillä ei ollut ylläpitävää "
+"kaupunkia."
 
 #: server/unittools.c:397
 #, c-format
