@@ -27,6 +27,24 @@
 #include "research.h"
 #include "tile.h"
 
+/* Values used to interpret action probabilities.
+ *
+ * Action probabilities are sent over the network. A change in a value here
+ * will therefore change the network protocol.
+ *
+ * A change in a value here should also update the action probability
+ * format documentation in fc_types.h */
+/* The lowest possible probability value (0%) */
+#define ACTPROB_VAL_MIN 0
+/* The highest possible probability value (100%) */
+#define ACTPROB_VAL_MAX 200
+/* A probability increase of 1% corresponds to this increase. */
+#define ACTPROB_VAL_1_PCT (ACTPROB_VAL_MAX / 100)
+/* Action probability doesn't apply when min is this. */
+#define ACTPROB_VAL_NA 253
+/* Action probability unsupported when min is this. */
+#define ACTPROB_VAL_NOT_IMPL 254
+
 static struct action *actions[ACTION_COUNT];
 static bool actions_initialized = FALSE;
 
@@ -327,12 +345,13 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
 
       /* TRANS: the probability that an action will succeed. Given in
        * percentage. Resolution is 0.5%. */
-      astr_set(&chance, _("%.1f%%"), (double)prob.max / 2);
+      astr_set(&chance, _("%.1f%%"), (double)prob.max / ACTPROB_VAL_1_PCT);
     } else {
       /* TRANS: the interval (end points included) where the probability of
        * the action's success is. Given in percentage. Resolution is 0.5%. */
       astr_set(&chance, _("[%.1f%%, %.1f%%]"),
-               (double)prob.min / 2, (double)prob.max / 2);
+               (double)prob.min / ACTPROB_VAL_1_PCT,
+               (double)prob.max / ACTPROB_VAL_1_PCT);
     }
     probtxt = astr_str(&chance);
   }
@@ -378,14 +397,15 @@ const char *action_get_tool_tip(const int action_id,
     /* TRANS: action probability of success. Given in percentage.
      * Resolution is 0.5%. */
     astr_set(&tool_tip, _("The probability of success is %.1f%%."),
-             (double)prob.max / 2.0);
+             (double)prob.max / ACTPROB_VAL_1_PCT);
   } else {
     astr_set(&tool_tip,
              /* TRANS: action probability range (min to max). Given in
               * percentage. Resolution is 0.5%. */
              _("The probability of success is %.1f%%, %.1f%% or somewhere"
                " in between."),
-             (double)prob.min / 2.0, (double)prob.max / 2.0);
+             (double)prob.min / ACTPROB_VAL_1_PCT,
+             (double)prob.max / ACTPROB_VAL_1_PCT);
   }
 
   return astr_str(&tool_tip);
@@ -1021,8 +1041,8 @@ static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
   }
 
   /* Convert to action probability */
-  out.min = chance * 2;
-  out.max = chance * 2;
+  out.min = chance * ACTPROB_VAL_1_PCT;
+  out.max = chance * ACTPROB_VAL_1_PCT;
 
   return out;
 }
@@ -1306,7 +1326,7 @@ struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
 **************************************************************************/
 struct act_prob action_prob_new_impossible(void)
 {
-  struct act_prob out = { 0, 0 };
+  struct act_prob out = { ACTPROB_VAL_MIN, ACTPROB_VAL_MIN };
 
   return out;
 }
@@ -1316,7 +1336,7 @@ struct act_prob action_prob_new_impossible(void)
 **************************************************************************/
 struct act_prob action_prob_new_certain(void)
 {
-  struct act_prob out = { 200, 200 };
+  struct act_prob out = { ACTPROB_VAL_MAX, ACTPROB_VAL_MAX };
 
   return out;
 }
@@ -1326,7 +1346,7 @@ struct act_prob action_prob_new_certain(void)
 **************************************************************************/
 struct act_prob action_prob_new_not_relevant(void)
 {
-  struct act_prob out = { 253, 0};
+  struct act_prob out = { ACTPROB_VAL_NA, ACTPROB_VAL_MIN};
 
   return out;
 }
@@ -1336,7 +1356,7 @@ struct act_prob action_prob_new_not_relevant(void)
 **************************************************************************/
 struct act_prob action_prob_new_not_impl(void)
 {
-  struct act_prob out = { 254, 0 };
+  struct act_prob out = { ACTPROB_VAL_NOT_IMPL, ACTPROB_VAL_MIN };
 
   return out;
 }
@@ -1346,7 +1366,7 @@ struct act_prob action_prob_new_not_impl(void)
 **************************************************************************/
 struct act_prob action_prob_new_unknown(void)
 {
-  struct act_prob out = { 0, 200 };
+  struct act_prob out = { ACTPROB_VAL_MIN, ACTPROB_VAL_MAX };
 
   return out;
 }
@@ -1357,7 +1377,7 @@ struct act_prob action_prob_new_unknown(void)
 **************************************************************************/
 bool action_prob_possible(const struct act_prob probability)
 {
-  return (0 < probability.max
+  return (ACTPROB_VAL_MIN < probability.max
           || action_prob_not_impl(probability));
 }
 
@@ -1368,7 +1388,8 @@ bool action_prob_possible(const struct act_prob probability)
 static inline bool
 action_prob_not_relevant(const struct act_prob probability)
 {
-  return probability.min == 253 && probability.max == 0;
+  return probability.min == ACTPROB_VAL_NA
+         && probability.max == ACTPROB_VAL_MIN;
 }
 
 /**************************************************************************
@@ -1378,7 +1399,8 @@ action_prob_not_relevant(const struct act_prob probability)
 static inline bool
 action_prob_not_impl(const struct act_prob probability)
 {
-  return probability.min == 254 && probability.max == 0;
+  return probability.min == ACTPROB_VAL_NOT_IMPL
+         && probability.max == ACTPROB_VAL_MIN;
 }
 
 /**************************************************************************
