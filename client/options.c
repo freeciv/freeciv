@@ -235,6 +235,8 @@ bool gui_sdl_do_cursor_animation = TRUE;
 bool gui_sdl_use_color_cursors = TRUE;
 
 /* gui-qt client specific options. */
+
+char gui_qt_default_theme_name[512] = "Fusion";
 char gui_qt_font_city_label[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
 char gui_qt_font_notify_label[512] = "Monospace,8,-1,5,75,0,0,0,0,0";
 char gui_qt_font_spaceship_label[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
@@ -1776,6 +1778,11 @@ static struct client_option client_options[] = {
                       N_("By changing this option you change the "
                          "active theme."),
                       COC_GRAPHICS, GUI_SDL, FC_SDL_DEFAULT_THEME_NAME,
+                      get_themes_list, theme_reread_callback),
+  GEN_STR_LIST_OPTION(gui_qt_default_theme_name, N_("Theme"),
+                      N_("By changing this option you change the "
+                         "active theme."),
+                      COC_GRAPHICS, GUI_QT, NULL,
                       get_themes_list, theme_reread_callback),
 
   /* It's important to give empty string instead of NULL as as default

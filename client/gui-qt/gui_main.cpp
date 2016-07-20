@@ -35,6 +35,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QStyleFactory>
 
 // utility
 #include "fciconv.h"
@@ -63,6 +64,7 @@ const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = false;
 
 static QPixmap *unit_pixmap;
+extern char gui_qt_default_theme_name[512];
 
 void reset_unit_table(void);
 static void populate_unit_pixmap_table(void);
@@ -156,6 +158,7 @@ void qtg_ui_main(int argc, char *argv[])
     qpm = get_icon_sprite(tileset, ICON_FREECIV)->pm;
     app_icon = ::QIcon(*qpm);
     qapp->setWindowIcon(app_icon);
+    qapp->setStyle(QStyleFactory::create(gui_qt_default_theme_name));
     freeciv_qt = new fc_client();
     freeciv_qt->main(qapp);
   }
