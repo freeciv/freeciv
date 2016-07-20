@@ -14,6 +14,10 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QApplication>
+#include <QStyleFactory>
+
 /* utility */
 #include "mem.h"
 
@@ -26,12 +30,14 @@
 /* client/include */
 #include "themes_g.h"
 
+extern QApplication *qapp;
+
 /*****************************************************************************
-  Loads a gtk theme directory/theme_name
+  Loads a qt theme directory/theme_name
 *****************************************************************************/
 void qtg_gui_load_theme(const char *directory, const char *theme_name)
 {
-  /* Nothing */
+  qapp->setStyle(QStyleFactory::create(theme_name));
 }
 
 /*****************************************************************************
@@ -39,7 +45,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void qtg_gui_clear_theme()
 {
-  /* Nothing */
+  qapp->setStyle(QStyleFactory::create("Fusion"));
 }
 
 /*****************************************************************************
@@ -50,9 +56,10 @@ void qtg_gui_clear_theme()
 *****************************************************************************/
 char **qtg_get_gui_specific_themes_directories(int *count)
 {
-  *count = 0;
-  
-  return (char **) fc_malloc(sizeof(char*) * 0);
+  const char **array = new const char *[1];
+  *count = 1;
+  array[0] = "qt";
+  return const_cast<char**>(array);
 }
 
 /*****************************************************************************
@@ -62,6 +69,22 @@ char **qtg_get_gui_specific_themes_directories(int *count)
 *****************************************************************************/
 char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
 {
-  *count = 0;
-  return (char **) fc_malloc(sizeof(char*) * 0);
+  QStringList sl;
+  char **array;
+  char *data;
+  QByteArray qba;;
+  QString str;
+
+  sl = QStyleFactory::keys();
+  array = new char *[sl.count()];
+  *count = sl.count();
+
+  for (int i = 0; i < *count; i++) {
+    qba = sl[i].toLocal8Bit();
+    data = new char[sl[i].toLocal8Bit().count() + 1];
+    strcpy(data, sl[i].toLocal8Bit().data());
+    array[i] = data;
+  }
+
+  return array;
 }

@@ -273,6 +273,7 @@ struct client_options gui_options = {
 
 /* gui-qt client specific options. */
   .gui_qt_fullscreen = FALSE,
+  .gui_qt_default_theme_name = "Fusion",
   .gui_qt_font_city_label = "Monospace,8,-1,5,50,0,0,0,0,0",
   .gui_qt_font_default = "Sans Serif,10,-1,5,75,0,0,0,0,0",
   .gui_qt_font_notify_label = "Monospace,8,-1,5,75,0,0,0,0,0",
@@ -1863,6 +1864,11 @@ static struct client_option client_options[] = {
                       N_("By changing this option you change the "
                          "active theme."),
                       COC_GRAPHICS, GUI_SDL2, FC_SDL2_DEFAULT_THEME_NAME,
+                      get_themes_list, theme_reread_callback, 0),
+  GEN_STR_LIST_OPTION(gui_qt_default_theme_name, N_("Theme"),
+                      N_("By changing this option you change the "
+                         "active theme."),
+                      COC_GRAPHICS, GUI_QT, NULL,
                       get_themes_list, theme_reread_callback, 0),
 
   /* It's important to give empty string instead of NULL as as default
