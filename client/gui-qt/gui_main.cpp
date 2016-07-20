@@ -38,6 +38,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QStyleFactory>
 
 // utility
 #include "fc_cmdline.h"
@@ -174,7 +175,7 @@ void qtg_ui_main(int argc, char *argv[])
     qpm = get_icon_sprite(tileset, ICON_FREECIV)->pm;
     app_icon = ::QIcon(*qpm);
     qapp->setWindowIcon(app_icon);
-
+    qapp->setStyle(QStyleFactory::create(gui_options.gui_qt_default_theme_name));
     if (!gui_options.gui_qt_migrated_from_2_5) {
       migrate_options_from_2_5();
     }
