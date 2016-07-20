@@ -57,6 +57,7 @@
 #include "menu.h"
 
 extern QApplication *qapp;
+static bool has_player_unit_type(Unit_type_id utype);
 
 /**************************************************************************
   New turn callback
@@ -533,6 +534,7 @@ void real_menus_update(void)
   if (C_S_RUNNING == client_state()) {
     gui()->menuBar()->setVisible(true);
     gui()->menu_bar->menus_sensitive();
+    gui()->menu_bar->update_airlift_menu();
     gov_menu::update_all();
   } else {
     gui()->menuBar()->setVisible(false);
@@ -916,6 +918,8 @@ void mr_menu::setup_menus()
   QAction *act;
   QMenu *pr;
   delayed_order = false;
+  airlift_type_id = 0;
+  quick_airlifting = false;
 
   /* Game Menu */
   menu = this->addMenu(_("Game"));
@@ -972,7 +976,6 @@ void mr_menu::setup_menus()
           SLOT(slot_minimap_view()));
   menu->addSeparator();
   act = menu->addAction(_("City Outlines"));
-  act->setShortcut(QKeySequence(tr("Ctrl+y")));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_outlines);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_outlines()));
@@ -1299,6 +1302,11 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Set/Unset rally point"));
   act->setShortcut(QKeySequence(tr("shift+s")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_rally()));
+  act = menu->addAction(_("Quick Airlift"));
+  act->setShortcut(QKeySequence(tr("ctrl+y")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_quickairlift()));
+  airlift_type = new QActionGroup(this);
+  airlift_menu = menu->addMenu(_("Unit type for quickairlifting"));
 
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
@@ -1481,6 +1489,36 @@ void mr_menu::set_tile_for_order(tile *ptile)
     units_list.unit_list.at(units_list.unit_list.count() - i -1)->ptile = ptile;
   }
 }
+
+/****************************************************************************
+  Updates airlift menu
+****************************************************************************/
+void mr_menu::update_airlift_menu()
+{
+  Unit_type_id utype_id;
+  QAction *act;
+
+  airlift_menu->clear();
+  unit_type_iterate(utype) {
+    utype_id = utype_index(utype);
+
+    if (!can_player_build_unit_now(client.conn.playing, utype)
+        || utype_move_type(utype) != UMT_LAND
+        || utype_has_flag(utype, UTYF_NOBUILD)) {
+      continue;
+    }
+    if (!can_player_build_unit_now(client.conn.playing, utype)
+        && !has_player_unit_type(utype_id)) {
+      continue;
+    }
+    act = airlift_menu->addAction(utype_name_translation(utype));
+    act->setCheckable(true);
+    act->setData(utype_id);
+    connect(act, SIGNAL(triggered()), this, SLOT(slot_quickairlift_set()));
+    airlift_type->addAction(act);
+  } unit_type_iterate_end;
+}
+
 
 
 /****************************************************************************
@@ -2235,6 +2273,28 @@ void mr_menu::slot_clear_trade()
 }
 
 
+/**************************************************************************
+  Slot for setting quick airlift
+**************************************************************************/
+void mr_menu::slot_quickairlift_set()
+{
+  QVariant v;
+  QAction *act;
+
+  act = qobject_cast<QAction *>(sender());
+  v = act->data();
+  airlift_type_id = v.toInt();
+}
+
+/**************************************************************************
+  Slot for quick airlifting
+**************************************************************************/
+void mr_menu::slot_quickairlift()
+{
+  quick_airlifting = true;
+}
+
+
 /***************************************************************************
   Delayed goto
 ***************************************************************************/
@@ -2765,4 +2825,38 @@ void mr_menu::back_to_menu()
   } else {
     disconnect_from_server();
   }
+}
+
+/***************************************************************************
+  Returns true if player has any unit of unit_type
+***************************************************************************/
+bool has_player_unit_type(Unit_type_id utype)
+{
+  unit_list_iterate(client.conn.playing->units, punit) {
+    if (utype_number(punit->utype) == utype) {
+      return true;
+    }
+  } unit_list_iterate_end;
+
+  return false;
+}
+
+
+/***************************************************************************
+  Airlift unit type to city acity from each city
+***************************************************************************/
+void multiairlift(struct city *acity, Unit_type_id ut)
+{
+  struct tile *ptile;
+  city_list_iterate(client.conn.playing->cities, pcity) {
+    if (get_city_bonus(pcity, EFT_AIRLIFT) > 0) {
+      ptile = city_tile(pcity);
+      unit_list_iterate(ptile->units, punit) {
+        if (punit->utype == utype_by_number(ut)) {
+          request_unit_airlift(punit, acity);
+          break;
+        }
+      } unit_list_iterate_end;
+    }
+  } city_list_iterate_end;
 }
