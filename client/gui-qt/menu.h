@@ -112,6 +112,8 @@ public:
   struct city *rally_city;
 };
 
+void multiairlift(struct city *acity, Unit_type_id ut);
+
 /**************************************************************************
   Class representing one unit for delayed goto
 **************************************************************************/
@@ -299,8 +301,10 @@ class mr_menu : public QMenuBar
   Q_OBJECT
   QMenu *menu;
   QMenu *filter_menu;
+  QMenu *airlift_menu;
   QActionGroup *filter_act;
-  QActionGroup *filter_any;;
+  QActionGroup *filter_any;
+  QActionGroup *airlift_type;
   QHash<munit, QAction*> menu_list;
   unit_filter u_filter;
   qfc_units_list units_list;
@@ -308,11 +312,14 @@ public:
   mr_menu();
   void setup_menus();
   void menus_sensitive();
+  void update_airlift_menu();
   void set_tile_for_order(struct tile *ptile);
   QAction *minimap_status;
   QAction *chat_status;
   QAction *messages_status;
   bool delayed_order;
+  bool quick_airlifting;
+  Unit_type_id airlift_type_id;
 private slots:
   /* game menu */
   void local_options();
@@ -402,6 +409,8 @@ private slots:
   void slot_calculate();
   void slot_clear_trade();
   void slot_rally();
+  void slot_quickairlift_set();
+  void slot_quickairlift();
 
   /*used by civilization menu */
   void slot_show_map();

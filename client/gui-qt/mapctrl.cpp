@@ -312,6 +312,17 @@ void map_view::mousePressEvent(QMouseEvent *event)
         gui()->infotab->restore_chat();
   }
   if (event->button() == Qt::LeftButton
+      && gui()->menu_bar->quick_airlifting == true) {
+    ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+    if (tile_city(ptile)) {
+      multiairlift(tile_city(ptile), gui()->menu_bar->airlift_type_id);
+    } else {
+      output_window_append(ftc_client, "No city selected for airlift");
+    }
+    gui()->menu_bar->quick_airlifting = false;
+    return;
+  }
+  if (event->button() == Qt::LeftButton
       && gui()->menu_bar->delayed_order == false) {
     if (ctrl && shft && pcity) {
       pw = new production_widget(this, pcity, false, 0, 0, true, true);
