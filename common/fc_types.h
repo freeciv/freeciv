@@ -684,7 +684,7 @@ FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME action_decision
-/* Don't want the player to decide what action to take. */
+/* Doesn't need the player to decide what action to take. */
 #define SPECENUM_VALUE0 ACT_DEC_NOTHING
 #define SPECENUM_VALUE0NAME N_("nothing")
 /* Wants a decision because of something done to the actor. */
