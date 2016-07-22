@@ -1564,7 +1564,7 @@ void fc_client::start_page_menu(QPoint pos)
       sp = "\"" + splayer + "\"";
       if (me != splayer) {
         str = QString(_("Observe"));
-        action = new QAction(str, start_players);
+        action = new QAction(str, start_players_tree);
         str = "/observe " + sp;
         connect(action, SIGNAL(triggered()), player_menu_mapper,
                 SLOT(map()));
@@ -1573,7 +1573,7 @@ void fc_client::start_page_menu(QPoint pos)
 
         if (ALLOW_CTRL <= client.conn.access_level) {
           str = QString(_("Remove player"));
-          action = new QAction(str, start_players);
+          action = new QAction(str, start_players_tree);
           str = "/remove " + sp;
           connect(action, SIGNAL(triggered()), player_menu_mapper,
                   SLOT(map()));
@@ -1581,7 +1581,7 @@ void fc_client::start_page_menu(QPoint pos)
           menu.addAction(action);
         }
         str = QString(_("Take this player"));
-        action = new QAction(str, start_players);
+        action = new QAction(str, start_players_tree);
         str = "/take " + sp;
         connect(action, SIGNAL(triggered()), player_menu_mapper,
                 SLOT(map()));
@@ -1591,7 +1591,7 @@ void fc_client::start_page_menu(QPoint pos)
 
       if (can_conn_edit_players_nation(&client.conn, pplayer)) {
         str = QString(_("Pick nation"));
-        action = new QAction(str, start_players);
+        action = new QAction(str, start_players_tree);
         str = "PICK:" + QString(player_name(pplayer));  /* PICK is a key */
         connect(action, SIGNAL(triggered()), player_menu_mapper,
                 SLOT(map()));
@@ -1612,7 +1612,7 @@ void fc_client::start_page_menu(QPoint pos)
             if (is_settable_ai_level(static_cast < ai_level > (level))) {
               level_name = ai_level_translated_name(static_cast < ai_level > (level));
               level_cmd = ai_level_cmd(static_cast < ai_level > (level));
-              action = new QAction(QString(level_name), start_players);
+              action = new QAction(QString(level_name), start_players_tree);
               str = "/" + QString(level_cmd) + " " + sp;
               connect(action, SIGNAL(triggered()), player_menu_mapper,
                       SLOT(map()));
@@ -1641,7 +1641,7 @@ void fc_client::start_page_menu(QPoint pos)
             need_empty_team = false;
           }
           str = team_slot_name_translation(tslot);
-          action = new QAction(str, start_players);
+          action = new QAction(str, start_players_tree);
           str = "/team" + sp + " \"" + QString(team_slot_rule_name(tslot))
               + "\"";
           connect(action, SIGNAL(triggered()),
@@ -1653,7 +1653,7 @@ void fc_client::start_page_menu(QPoint pos)
 
       if (ALLOW_CTRL <= client.conn.access_level && NULL != pplayer) {
         str = QString(_("Aitoggle player"));
-        action = new QAction(str, start_players);
+        action = new QAction(str, start_players_tree);
         str = "/aitoggle " + sp;
         connect(action, SIGNAL(triggered()), player_menu_mapper,
                 SLOT(map()));
