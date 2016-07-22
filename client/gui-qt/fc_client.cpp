@@ -17,6 +17,7 @@
 
 // Qt
 #include <QApplication>
+#include <QFormLayout>
 #include <QCompleter>
 #include <QMainWindow>
 #include <QLineEdit>
@@ -912,15 +913,11 @@ void fc_game_tab_widget::change_color(int index, QColor col)
 ****************************************************************************/
 void pregame_options::init()
 {
-  QGridLayout *layout;
-  QLabel *l1, *l2, *l3;
+  QFormLayout *layout;
   QPushButton *but;
   int level;
 
-  l1 = new QLabel(_("Number of Players\n(including AI):"));
-  l2 = new QLabel(_("AI Skill Level:"));
-  l3 = new QLabel(_("Ruleset:"));
-  layout = new QGridLayout(this);
+  layout = new QFormLayout(this);
   max_players = new QSpinBox(this);
   ailevel = new QComboBox(this);
   cruleset = new QComboBox(this);
@@ -947,13 +944,12 @@ void pregame_options::init()
   but->setIcon(fc_icons::instance()->get_icon("preferences-other"));
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(popup_server_options()));
-  layout->addWidget(l1, 0, 1);
-  layout->addWidget(l2, 1, 1);
-  layout->addWidget(l3, 2, 1);
-  layout->addWidget(max_players, 0, 2);
-  layout->addWidget(ailevel, 1, 2);
-  layout->addWidget(cruleset, 2, 2);
-  layout->addWidget(but, 3, 1);
+
+  layout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
+  layout->addRow(_("Number of Players (including AI):"), max_players);
+  layout->addRow(_("AI Skill Level:"), ailevel);
+  layout->addRow(_("Ruleset"), cruleset);
+  layout->addWidget(but);
   setLayout(layout);
 }
 
