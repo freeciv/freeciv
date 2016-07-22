@@ -58,21 +58,7 @@ void qtg_real_set_client_page(enum client_pages page)
 ****************************************************************************/
 void qtg_set_rulesets(int num_rulesets, char **rulesets)
 {
-  int i;
-  int def_idx = -1;
-
-  gui()->pr_options->cruleset->clear();
-  gui()->pr_options->cruleset->blockSignals(true);
-  for (i = 0; i < num_rulesets; i++){
-    gui()->pr_options->cruleset->addItem(rulesets[i], i);
-    if (!strcmp("default", rulesets[i])) {
-      def_idx = i;
-    }
-  }
-
-  /* HACK: server should tell us the current ruleset. */
-  gui()->pr_options->cruleset->setCurrentIndex(def_idx);
-  gui()->pr_options->cruleset->blockSignals(false);
+  gui()->pr_options->set_rulesets(num_rulesets, rulesets);
 }
 
 /**************************************************************************
@@ -1268,9 +1254,7 @@ void fc_client::update_start_page()
   players_iterate(pplayer) {
     i++;
   } players_iterate_end;
-  gui()->pr_options->max_players->blockSignals(true);
-  gui()->pr_options->max_players->setValue(i);
-  gui()->pr_options->max_players->blockSignals(false);
+  gui()->pr_options->set_aifill(i);
   /**
    * Inserts playing players, observing custom players, and AI )
    */

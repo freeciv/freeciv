@@ -954,6 +954,39 @@ void pregame_options::init()
 }
 
 /****************************************************************************
+  Update the ruleset list
+****************************************************************************/
+void pregame_options::set_rulesets(int num_rulesets, char **rulesets)
+{
+  int i;
+  int def_idx = -1;
+
+  cruleset->clear();
+  cruleset->blockSignals(true);
+  for (i = 0; i < num_rulesets; i++){
+    cruleset->addItem(rulesets[i], i);
+    if (!strcmp("default", rulesets[i])) {
+      def_idx = i;
+    }
+  }
+
+  /* HACK: server should tell us the current ruleset. */
+  cruleset->setCurrentIndex(def_idx);
+  cruleset->blockSignals(false);
+}
+
+/****************************************************************************
+  Sets the value of the "aifill" option. Doesn't send the new value to the
+  server
+****************************************************************************/
+void pregame_options::set_aifill(int aifill)
+{
+  max_players->blockSignals(true);
+  max_players->setValue(aifill);
+  max_players->blockSignals(false);
+}
+
+/****************************************************************************
   Slot for changing aifill value
 ****************************************************************************/
 void pregame_options::max_players_change(int i)

@@ -335,11 +335,14 @@ class pregame_options : public QWidget
 {
   Q_OBJECT
   QComboBox *ailevel;
+  QComboBox *cruleset;
+  QSpinBox *max_players;
 public:
   pregame_options() {};
   void init();
-  QComboBox *cruleset;
-  QSpinBox *max_players;
+
+  void set_rulesets(int num_rulesets, char **rulesets);
+  void set_aifill(int aifill);
 private slots:
   void max_players_change(int i);
   void ailevel_change(int i);

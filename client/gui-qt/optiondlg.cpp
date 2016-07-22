@@ -876,7 +876,7 @@ void option_gui_update(struct option *poption)
       update_nationset_combo();
     }
     if (strcmp(option_name(poption), "aifill") == 0) {
-      gui()->pr_options->max_players->setValue(option_int_get(poption));
+      gui()->pr_options->set_aifill(option_int_get(poption));
     }
   }
 }
