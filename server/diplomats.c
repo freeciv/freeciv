@@ -352,9 +352,6 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 /******************************************************************************
   Sabotage an enemy unit.
 
-  - Can't sabotage a unit if:
-    - It's not the only unit on the square
-      (this is handled outside this function).
   - If successful, reduces hit points by half of those remaining.
 
   - The saboteur may be captured and executed, or escape to its home town.
@@ -445,8 +442,6 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   
   - Can't bribe a unit if:
     - Player doesn't have enough gold.
-    - It's not the only unit on the square
-      (this is handled outside this function).
   - Otherwise, the unit will be bribed.
 
   - A successful briber will try to move onto the victim's square.
