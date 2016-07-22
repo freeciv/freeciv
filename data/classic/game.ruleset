@@ -19,7 +19,7 @@ format_version=10
 [ruledit]
 
 ; Which file to read description in from.
-;description_file = "classic/README.classic"
+description_file = "classic/README.classic"
 
 [about]
 ; Ruleset name
