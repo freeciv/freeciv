@@ -45,7 +45,7 @@
 #ifdef HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
 #endif
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 #include <windows.h>	/* GetTempPath */
 #endif
 
@@ -295,7 +295,7 @@ void sockaddr_debug(union fc_sockaddr *addr, enum log_level lvl)
 ***************************************************************************/
 int sockaddr_size(union fc_sockaddr *addr)
 {
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   return sizeof(*addr);
 #else
 #ifdef FREECIV_IPV6_SUPPORT
@@ -312,7 +312,7 @@ int sockaddr_size(union fc_sockaddr *addr)
 
     return 0;
   }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 }
 
 /***************************************************************************
@@ -499,7 +499,7 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
     char tmp[4096];
     int n;
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
     /* tmpfile() in mingw attempts to make a temp file in the root directory
      * of the current drive, which we may not have write access to. */
     {
@@ -510,11 +510,11 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 
       fp = fc_fopen(filename, "w+b");
     }
-#else  /* WIN32_NATIVE */
+#else  /* FREECIV_MSWINDOWS */
 
     fp = tmpfile();
 
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
     if (fp == NULL) {
       return NULL;

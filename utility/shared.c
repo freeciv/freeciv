@@ -41,14 +41,14 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 #include <windows.h>
 #include <lmcons.h>	/* UNLEN */
 #include <shlobj.h>
 #ifdef HAVE_DIRECT_H
 #include <direct.h>
 #endif /* HAVE_DIRECT_H */
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
 /* utility */
 #include "astring.h"
@@ -712,8 +712,8 @@ char *user_username(char *buf, size_t bufsz)
   }
 #endif /* HAVE_GETPWUID */
 
-#ifdef WIN32_NATIVE
-  /* On win32 the GetUserName function will give us the login name. */
+#ifdef FREECIV_MSWINDOWS
+  /* On windows the GetUserName function will give us the login name. */
   {
     char name[UNLEN + 1];
     DWORD length = sizeof(name);
@@ -726,7 +726,7 @@ char *user_username(char *buf, size_t bufsz)
       }
     }
   }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
 #ifdef ALWAYS_ROOT
   fc_strlcpy(buf, "name", bufsz);
@@ -1040,12 +1040,12 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
 ***************************************************************************/
 const char *fileinfoname(const struct strvec *dirs, const char *filename)
 {
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   char fnbuf[strlen(filename) + 1];
   int i;
-#else  /* WIN32_NATIVE */
+#else  /* FREECIV_MSWINDOWS */
   const char *fnbuf = filename;
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
   if (NULL == dirs) {
     return NULL;
@@ -1232,7 +1232,7 @@ char *setup_langname(void)
 #ifdef ENABLE_NLS
   langname = getenv("LANG");
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   /* set LANG by hand if it is not set */
   if (!langname) {
     switch (PRIMARYLANGID(GetUserDefaultLangID())) {
@@ -1343,7 +1343,7 @@ char *setup_langname(void)
       putenv(envstr);
     }
   }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 #endif /* ENABLE_NLS */
 
   return langname;
@@ -1418,9 +1418,9 @@ void init_nls(void)
 
 #ifdef ENABLE_NLS
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   setup_langname(); /* Makes sure LANG env variable has been set */
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
   (void) setlocale(LC_ALL, "");
   (void) bindtextdomain("freeciv-core", get_locale_dir());
@@ -1722,7 +1722,7 @@ bool make_dir(const char *pathname)
       *dir = 0;
     }
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 #ifdef HAVE__MKDIR
     /* Prefer _mkdir() in Windows even if mkdir() would seem to be available -
      * chances are that it's wrong kind of mkdir().
@@ -1737,9 +1737,9 @@ bool make_dir(const char *pathname)
 #else  /* HAVE__MKDIR */
     mkdir(path, 0755);
 #endif /* HAVE__MKDIR */
-#else  /* WIN32_NATIVE */
+#else  /* FREECIV_MSWINDOWS */
     mkdir(path, 0755);
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
     if (dir) {
       *dir = DIR_SEPARATOR_CHAR;
@@ -1760,15 +1760,15 @@ bool path_is_absolute(const char *filename)
     return FALSE;
   }
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   if (strchr(filename, ':')) {
     return TRUE;
   }
-#else  /* WIN32_NATIVE */
+#else  /* FREECIV_MSWINDOWS */
   if (filename[0] == '/') {
     return TRUE;
   }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
   return FALSE;
 }

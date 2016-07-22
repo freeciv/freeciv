@@ -79,10 +79,10 @@
 #ifdef FREECIV_HAVE_LIBZ
 #include <zlib.h>
 #endif
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 #include <process.h>
 #include <windows.h>
-#endif
+#endif /* FREECIV_MSWINDOWS */
 #ifdef HAVE_STRINGS_H
 #  include <strings.h>
 #endif
@@ -424,16 +424,17 @@ int fc_stricoll(const char *str0, const char *str1)
 ****************************************************************/
 FILE *fc_fopen(const char *filename, const char *opentype)
 {
-#ifdef WIN32_NATIVE
-	FILE *result;
-	char *filename_in_local_encoding =
-	     internal_to_local_string_malloc(filename);
-	result = fopen(filename_in_local_encoding, opentype);
-	free(filename_in_local_encoding);
-	return result;
-#else  /* WIN32_NATIVE */
-	return fopen(filename, opentype);
-#endif /* WIN32_NATIVE */
+#ifdef FREECIV_MSWINDOWS
+  FILE *result;
+  char *filename_in_local_encoding =
+    internal_to_local_string_malloc(filename);
+
+  result = fopen(filename_in_local_encoding, opentype);
+  free(filename_in_local_encoding);
+  return result;
+#else  /* FREECIV_MSWINDOWS */
+  return fopen(filename, opentype);
+#endif /* FREECIV_MSWINDOWS */
 }
 
 /*****************************************************************
@@ -443,16 +444,17 @@ FILE *fc_fopen(const char *filename, const char *opentype)
 #ifdef FREECIV_HAVE_LIBZ
 gzFile fc_gzopen(const char *filename, const char *opentype)
 {
-#ifdef WIN32_NATIVE
-	gzFile result;
-	char *filename_in_local_encoding =
-	     internal_to_local_string_malloc(filename);
-	result = gzopen(filename_in_local_encoding, opentype);
-	free(filename_in_local_encoding);
-	return result;
-#else  /* WIN32_NATIVE */
-	return gzopen(filename, opentype);
-#endif /* WIN32_NATIVE */
+#ifdef FREECIV_MSWINDOWS
+  gzFile result;
+  char *filename_in_local_encoding =
+    internal_to_local_string_malloc(filename);
+
+  result = gzopen(filename_in_local_encoding, opentype);
+  free(filename_in_local_encoding);
+  return result;
+#else  /* FREECIV_MSWINDOWS */
+  return gzopen(filename, opentype);
+#endif /* FREECIV_MSWINDOWS */
 }
 #endif /* FREECIV_HAVE_LIBZ */
 
@@ -462,16 +464,17 @@ gzFile fc_gzopen(const char *filename, const char *opentype)
 ******************************************************************/
 DIR *fc_opendir(const char *dir_to_open)
 {
-#ifdef WIN32_NATIVE
-	DIR *result;
-	char *dirname_in_local_encoding =
-	     internal_to_local_string_malloc(dir_to_open);
-	result = opendir(dirname_in_local_encoding);
-	free(dirname_in_local_encoding);
-	return result;
-#else  /* WIN32_NATIVE */
-	return opendir(dir_to_open);
-#endif /* WIN32_NATIVE */
+#ifdef FREECIV_MSWINDOWS
+  DIR *result;
+  char *dirname_in_local_encoding =
+    internal_to_local_string_malloc(dir_to_open);
+
+  result = opendir(dirname_in_local_encoding);
+  free(dirname_in_local_encoding);
+  return result;
+#else  /* FREECIV_MSWINDOWS */
+  return opendir(dir_to_open);
+#endif /* FREECIV_MSWINDOWS */
 }
 
 /*****************************************************************
@@ -480,16 +483,17 @@ DIR *fc_opendir(const char *dir_to_open)
 *****************************************************************/
 int fc_remove(const char *filename)
 {
-#ifdef WIN32_NATIVE
-	int result;
-	char *filename_in_local_encoding =
-	     internal_to_local_string_malloc(filename);
-	result = remove(filename_in_local_encoding);
-	free(filename_in_local_encoding);
-	return result;
-#else  /* WIN32_NATIVE */
-	return remove(filename);
-#endif /* WIN32_NATIVE */
+#ifdef FREECIV_MSWINDOWS
+  int result;
+  char *filename_in_local_encoding =
+    internal_to_local_string_malloc(filename);
+
+  result = remove(filename_in_local_encoding);
+  free(filename_in_local_encoding);
+  return result;
+#else  /* FREECIV_MSWINDOWS */
+  return remove(filename);
+#endif /* FREECIV_MSWINDOWS */
 }
 
 /*****************************************************************
@@ -498,16 +502,17 @@ int fc_remove(const char *filename)
 *****************************************************************/
 int fc_stat(const char *filename, struct stat *buf)
 {
-#ifdef WIN32_NATIVE
-	int result;
-	char *filename_in_local_encoding =
-	     internal_to_local_string_malloc(filename);
-	result = stat(filename_in_local_encoding, buf);
-	free(filename_in_local_encoding);
-	return result;
-#else  /* WIN32_NATIVE */
-	return stat(filename, buf);
-#endif /* WIN32_NATIVE */
+#ifdef FREECIV_MSWINDOWS
+  int result;
+  char *filename_in_local_encoding =
+    internal_to_local_string_malloc(filename);
+
+  result = stat(filename_in_local_encoding, buf);
+  free(filename_in_local_encoding);
+  return result;
+#else  /* FREECIV_MSWINDOWS */
+  return stat(filename, buf);
+#endif /* FREECIV_MSWINDOWS */
 }
 
 /***************************************************************
@@ -515,11 +520,11 @@ int fc_stat(const char *filename, struct stat *buf)
 ***************************************************************/
 fc_errno fc_get_errno(void)
 {
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   return GetLastError();
-#else
+#else  /* FREECIV_MSWINDOWS */
   return errno;
-#endif
+#endif /* FREECIV_MSWINDOWS */
 }
 
 /***************************************************************
@@ -532,7 +537,7 @@ fc_errno fc_get_errno(void)
 ***************************************************************/
 const char *fc_strerror(fc_errno err)
 {
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   static char buf[256];
 
   if (!FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -541,7 +546,7 @@ const char *fc_strerror(fc_errno err)
 		_("error %ld (failed FormatMessage)"), err);
   }
   return buf;
-#else  /* WIN32_NATIVE */
+#else  /* FREECIV_MSWINDOWS */
 #ifdef HAVE_STRERROR
   static char buf[256];
 
@@ -554,9 +559,8 @@ const char *fc_strerror(fc_errno err)
 	      _("error %d (compiled without strerror)"), err);
   return buf;
 #endif /* HAVE_STRERROR */
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 }
-
 
 /***************************************************************
   Suspend execution for the specified number of microseconds.
@@ -571,21 +575,25 @@ void fc_usleep(unsigned long usec)
 #else  /* HAVE_SNOOZE */
 #ifdef GENERATING_MAC
   EventRecord the_event;	/* dummy - always be a null event */
+
   usec /= 16666;		/* microseconds to 1/60th seconds */
-  if (usec < 1) usec = 1;
-  /* suposed to give other application processor time for the mac */
+  if (usec < 1) {
+    usec = 1;
+  }
+  /* supposed to give other application processor time for the mac */
   WaitNextEvent(0, &the_event, usec, 0L);
 #else  /* GENERATING_MAC */
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   Sleep(usec / 1000);
-#else  /* WIN32_NATIVE */
+#else  /* FREECIV_MSWINDOWS */
   struct timeval tv;
-  tv.tv_sec=0;
-  tv.tv_usec=usec;
+
+  tv.tv_sec = 0;
+  tv.tv_usec = usec;
   /* FIXME: an interrupt can cause an EINTR return here.  In that case we
    * need to have another select call. */
   fc_select(0, NULL, NULL, NULL, &tv);
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 #endif /* GENERATING_MAC */
 #endif /* HAVE_SNOOZE */
 #endif /* HAVE_USLEEP */
@@ -938,7 +946,7 @@ static char console_buf[CONSOLE_BUF_SIZE + 1];
 
 /**********************************************************************/
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 static HANDLE console_thread = INVALID_HANDLE_VALUE;
 
 static DWORD WINAPI thread_proc(LPVOID arg)
@@ -953,14 +961,14 @@ static DWORD WINAPI thread_proc(LPVOID arg)
 
   return 0;
 }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
 /**********************************************************************
   Initialize console I/O in case FREECIV_SOCKET_ZERO_NOT_STDIN.
 ***********************************************************************/
 void fc_init_console(void)
 {
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   DWORD threadid;
 
   if (console_thread != INVALID_HANDLE_VALUE) {
@@ -969,7 +977,7 @@ void fc_init_console(void)
 
   console_buf[0] = '\0';
   console_thread = (HANDLE) CreateThread(NULL, 0, thread_proc, NULL, 0, &threadid);
-#else  /* WIN32_NATIVE */
+#else  /* FREECIV_MSWINDOWS */
   static bool initialized = FALSE;
 
   if (!initialized) {
@@ -978,7 +986,7 @@ void fc_init_console(void)
     fc_nonblock(fileno(stdin));
 #endif
   }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 }
 
 /**********************************************************************
@@ -990,7 +998,7 @@ void fc_init_console(void)
 ***********************************************************************/
 char *fc_read_console(void)
 {
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   if (WaitForSingleObject(console_thread, 0) == WAIT_OBJECT_0) {
     CloseHandle(console_thread);
     console_thread = INVALID_HANDLE_VALUE;
@@ -999,7 +1007,7 @@ char *fc_read_console(void)
   }
 
   return NULL;
-#else  /* WIN32_NATIVE */
+#else  /* FREECIV_MSWINDOWS */
   if (!feof(stdin)) {    /* input from server operator */
     static char *bufptr = console_buf;
 
@@ -1021,7 +1029,7 @@ char *fc_read_console(void)
   }
 
   return NULL;
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 }
 
 #endif /* FREECIV_SOCKET_ZERO_NOT_STDIN */
