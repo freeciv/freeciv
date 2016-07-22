@@ -73,7 +73,6 @@ fc_client::fc_client() : QMainWindow()
   info_widget = NULL;
   saves_load = NULL;
   scenarios_load = NULL;
-  start_players = NULL;
   meta_scan_timer = NULL;
   lan_scan_timer = NULL;
   status_bar = NULL;

@@ -185,7 +185,6 @@ class fc_client : public QMainWindow
   QTableWidget* info_widget;
   QTableWidget* saves_load;
   QTableWidget* scenarios_load;
-  QTableWidget* start_players;
   QTreeWidget* start_players_tree;
 
   QTimer* meta_scan_timer;
