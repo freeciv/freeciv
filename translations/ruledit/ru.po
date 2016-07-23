@@ -7,16 +7,16 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2015.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2015, 2016.
 #
 #  Email all translators at: <freeciv.ru@freelists.org>
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv-2.6\n"
+"Project-Id-Version: Freeciv Ruledit 2.6\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2015-12-09 01:02+0200\n"
-"PO-Revision-Date: 2015-02-20 17:26+0500\n"
+"POT-Creation-Date: 2016-07-23 23:53+0500\n"
+"PO-Revision-Date: 2016-07-23 23:58+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
@@ -39,30 +39,28 @@ msgstr "Закрыть"
 msgid "Needed by %s"
 msgstr "Требуется для %s"
 
-#: tools/ruledit/ruledit.cpp:132
+#: tools/ruledit/ruledit.cpp:137
 msgid "Print a summary of the options"
 msgstr "Выдать список возможных ключей командной строки"
 
-#: tools/ruledit/ruledit.cpp:134
+#: tools/ruledit/ruledit.cpp:139
 msgid "Print the version number"
 msgstr "Вывести номер версии"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:137
+#: tools/ruledit/ruledit.cpp:142
 msgid "ruleset RULESET"
-msgstr ""
+msgstr "ruleset НАБОРПРАВИЛ"
 
-#: tools/ruledit/ruledit.cpp:138
-#, fuzzy
-#| msgid "Give ruleset to use as starting point."
+#: tools/ruledit/ruledit.cpp:143
 msgid "Ruleset to use as the starting point."
-msgstr "Набор правил, от которого будем отталкиваться."
+msgstr "Набор правил, который будет стартовым."
 
-#: tools/ruledit/ruledit.cpp:151
+#: tools/ruledit/ruledit.cpp:156
 msgid "Can only edit one ruleset at a time.\n"
-msgstr ""
+msgstr "В одно время можно редактировать только один набор правил.\n"
 
-#: tools/ruledit/ruledit.cpp:158
+#: tools/ruledit/ruledit.cpp:163
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неопознанный параметр: \"%s\"\n"
@@ -78,11 +76,11 @@ msgid ""
 "commit: %s"
 msgstr ""
 "%s%s\n"
-"commit: %s"
+"ревизия: %s"
 
 #: tools/ruledit/ruledit_qt.cpp:144
 msgid "Give ruleset to use as starting point."
-msgstr "Набор правил, от которого будем отталкиваться."
+msgstr "Выберите набор правил, который будет стартовым."
 
 #: tools/ruledit/ruledit_qt.cpp:156
 msgid "Start editing"
@@ -90,7 +88,7 @@ msgstr "Начать редактирование"
 
 #: tools/ruledit/ruledit_qt.cpp:166
 msgid "Misc"
-msgstr "Разное"
+msgstr "Параметры"
 
 #: tools/ruledit/ruledit_qt.cpp:168
 msgid "Tech"
@@ -122,37 +120,37 @@ msgstr "Ошибка загрузки набора правил!"
 
 #: tools/ruledit/ruledit_qt.cpp:275
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "Вы действительно хотите выйти?"
 
 #: tools/ruledit/ruledit_qt.cpp:279
 msgid "Quit?"
-msgstr ""
+msgstr "Выйти?"
 
-#: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
-#: tools/ruledit/tab_unit.cpp:62
-msgid "Name"
-msgstr "Название"
-
-#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
-#: tools/ruledit/tab_unit.cpp:70
+#: tools/ruledit/tab_building.cpp:63 tools/ruledit/tab_tech.cpp:63
+#: tools/ruledit/tab_unit.cpp:63
 msgid "Rule Name"
 msgstr "Название Правила"
 
-#: tools/ruledit/tab_building.cpp:78
+#: tools/ruledit/tab_building.cpp:71 tools/ruledit/tab_tech.cpp:71
+#: tools/ruledit/tab_unit.cpp:71
+msgid "Name"
+msgstr "Название"
+
+#: tools/ruledit/tab_building.cpp:82
 msgid "Add Building"
 msgstr "Добавить Здание"
 
-#: tools/ruledit/tab_building.cpp:83
+#: tools/ruledit/tab_building.cpp:87
 msgid "Remove this Building"
 msgstr "Удалить это Здание"
 
-#: tools/ruledit/tab_building.cpp:148
+#: tools/ruledit/tab_building.cpp:164
 msgid "Building with that rule name already exist!"
 msgstr "Здание с этим названием правила уже существует!"
 
 #: tools/ruledit/tab_misc.cpp:62
 msgid "Ruleset name"
-msgstr "Имя набора правил"
+msgstr "Название набора правил"
 
 #: tools/ruledit/tab_misc.cpp:67
 msgid "Ruleset version"
@@ -167,92 +165,62 @@ msgid "Save now"
 msgstr "Сохранить"
 
 #: tools/ruledit/tab_misc.cpp:86
-#, fuzzy
-#| msgid "Terrains"
 msgid "?stat:Terrains"
-msgstr "Рельефы"
+msgstr "Типы рельефа"
 
 #: tools/ruledit/tab_misc.cpp:90
-#, fuzzy
-#| msgid "Resources"
 msgid "?stat:Resources"
 msgstr "Ресурсы"
 
 #: tools/ruledit/tab_misc.cpp:94
-#, fuzzy
-#| msgid "Techs"
 msgid "?stat:Techs"
-msgstr "Открытия"
+msgstr "Технологии"
 
 #: tools/ruledit/tab_misc.cpp:98
-#, fuzzy
-#| msgid "Unit Classes"
 msgid "?stat:Unit Classes"
-msgstr "Классы Соединений"
+msgstr "Классы соединений"
 
 #: tools/ruledit/tab_misc.cpp:102
-#, fuzzy
-#| msgid "Unit Types"
 msgid "?stat:Unit Types"
-msgstr "Типы Соединений"
+msgstr "Типы соединений"
 
 #: tools/ruledit/tab_misc.cpp:106
-#, fuzzy
-#| msgid "Buildings"
 msgid "?stat:Buildings"
 msgstr "Здания"
 
 #: tools/ruledit/tab_misc.cpp:110
-#, fuzzy
-#| msgid "Nations"
 msgid "?stat:Nations"
 msgstr "Народы"
 
 #: tools/ruledit/tab_misc.cpp:114
-#, fuzzy
-#| msgid "Styles"
 msgid "?stat:Styles"
 msgstr "Стили"
 
 #: tools/ruledit/tab_misc.cpp:118
-#, fuzzy
-#| msgid "Specialists"
 msgid "?stat:Specialists"
 msgstr "Специалисты"
 
 #: tools/ruledit/tab_misc.cpp:122
-#, fuzzy
-#| msgid "Governments"
 msgid "?stat:Governments"
-msgstr "Формы правления"
+msgstr "Формы Правления"
 
 #: tools/ruledit/tab_misc.cpp:126
-#, fuzzy
-#| msgid "Disasters"
 msgid "?stat:Disasters"
 msgstr "Бедствия"
 
 #: tools/ruledit/tab_misc.cpp:130
-#, fuzzy
-#| msgid "Achievements"
 msgid "?stat:Achievements"
 msgstr "Достижения"
 
 #: tools/ruledit/tab_misc.cpp:134
-#, fuzzy
-#| msgid "Extras"
 msgid "?stat:Extras"
 msgstr "Сооружения"
 
 #: tools/ruledit/tab_misc.cpp:138
-#, fuzzy
-#| msgid "Bases"
 msgid "?stat:Bases"
 msgstr "Базы"
 
 #: tools/ruledit/tab_misc.cpp:142
-#, fuzzy
-#| msgid "Roads"
 msgid "?stat:Roads"
 msgstr "Дороги"
 
@@ -270,47 +238,47 @@ msgstr "Использовать набор народов"
 
 #: tools/ruledit/tab_nation.cpp:53
 msgid "Nationlist"
-msgstr "Наборы Народов"
+msgstr "Набор Народов"
 
-#: tools/ruledit/tab_tech.cpp:78
+#: tools/ruledit/tab_tech.cpp:82
 msgid "Req1"
 msgstr "Требует (Req1)"
 
-#: tools/ruledit/tab_tech.cpp:87
+#: tools/ruledit/tab_tech.cpp:91
 msgid "Req2"
 msgstr "Требует (Req2)"
 
-#: tools/ruledit/tab_tech.cpp:95
+#: tools/ruledit/tab_tech.cpp:99
 msgid "Root Req"
 msgstr "Базовое требование (Root Req)"
 
-#: tools/ruledit/tab_tech.cpp:104
+#: tools/ruledit/tab_tech.cpp:108
 msgid "Add tech"
 msgstr "Добавить технологию"
 
-#: tools/ruledit/tab_tech.cpp:109
+#: tools/ruledit/tab_tech.cpp:113
 msgid "Remove this tech"
 msgstr "Удалить эту технологию"
 
-#: tools/ruledit/tab_tech.cpp:189
+#: tools/ruledit/tab_tech.cpp:194
 msgid "Never"
 msgstr "Никогда"
 
-#: tools/ruledit/tab_tech.cpp:311
+#: tools/ruledit/tab_tech.cpp:330
 msgid "Tech with that rule name already exist!"
 msgstr "Технология с этим названием правила уже существует!"
 
-#: tools/ruledit/tab_unit.cpp:78
+#: tools/ruledit/tab_unit.cpp:82
 msgid "Add Unit"
 msgstr "Добавить Соединение"
 
-#: tools/ruledit/tab_unit.cpp:83
+#: tools/ruledit/tab_unit.cpp:87
 msgid "Remove this Unit"
 msgstr "Удалить это Соединение"
 
-#: tools/ruledit/tab_unit.cpp:148
+#: tools/ruledit/tab_unit.cpp:164
 msgid "Unit type with that rule name already exist!"
-msgstr "Тип соединения с этим названием правила уже существует!"
+msgstr "Соединение с этим названием правила уже существует!"
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
