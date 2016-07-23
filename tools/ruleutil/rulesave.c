@@ -1743,17 +1743,16 @@ static bool save_techs_ruleset(const char *filename, const char *name)
     }
   }
 
-  if (game.control.num_tech_classes > 0) {
-    int ci;
-    const char *class_names[game.control.num_tech_classes];
+  comment_tech_classes(sfile);
 
-    for (ci = 0; ci < game.control.num_tech_classes; ci++) {
-      class_names[ci] = tech_class_rule_name(tech_class_by_number(ci));
-    }
+  sect_idx = 0;
+  tech_class_iterate(ptclass) {
+    char path[512];
 
-    secfile_insert_str_vec(sfile, class_names, ci,
-                           "classes.names");
-  }
+    fc_snprintf(path, sizeof(path), "techclass_%d", sect_idx++);
+
+    save_name_translation(sfile, &(ptclass->name), path);
+  } tech_class_iterate_end;
 
   comment_techs(sfile);
 

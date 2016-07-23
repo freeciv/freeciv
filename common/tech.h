@@ -173,6 +173,7 @@ const char *advance_name_translation(const struct advance *padvance);
 
 void tech_classes_init(void);
 struct tech_class *tech_class_by_number(const int idx);
+#define tech_class_index(_ptclass_) (_ptclass_)->idx
 const char *tech_class_name_translation(const struct tech_class *ptclass);
 const char *tech_class_rule_name(const struct tech_class *ptclass);
 struct tech_class *tech_class_by_rule_name(const char *name);

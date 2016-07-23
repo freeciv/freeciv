@@ -66,6 +66,22 @@ buildings = "\
 ; */ <-- avoid gettext warnings\n\
 "
 
+tech_classes = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Tech classes:\n\
+;\n\
+; First one is the default one.\n\
+; If there is none, tech classes feature is disabled\n\
+;\n\
+; name                    = translatable name as seen by user\n\
+; rule_name               = (optional) name for rulesets etc; if not\n\
+;                           present, 'name' is used.\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
 techs = "\
 \n\
 ; /* <-- avoid gettext warnings\n\

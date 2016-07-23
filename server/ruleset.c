@@ -83,6 +83,7 @@
 #define SCRIPT_SUFFIX "lua"
 
 #define ADVANCE_SECTION_PREFIX "advance_"
+#define TECH_CLASS_SECTION_PREFIX "techclass_"
 #define BUILDING_SECTION_PREFIX "building_"
 #define CITYSTYLE_SECTION_PREFIX "citystyle_"
 #define MUSICSTYLE_SECTION_PREFIX "musicstyle_"
@@ -1145,10 +1146,44 @@ static bool load_tech_names(struct section_file *file,
   }
 
   if (ok) {
+    size_t nval;
+
     for (; i < MAX_NUM_USER_TECH_FLAGS; i++) {
       set_user_tech_flag_name(TECH_USER_1 + i, NULL, NULL);
     }
 
+    /* Tech classes */
+    sec = secfile_sections_by_name_prefix(file, TECH_CLASS_SECTION_PREFIX);
+
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_NUM_TECH_CLASSES) {
+      int num = nval; /* No "size_t" to printf */
+
+      ruleset_error(LOG_ERROR,
+                    "\"%s\": Too many tech classes (%d, max %d)",
+                    filename, num, MAX_NUM_TECH_CLASSES);
+      section_list_destroy(sec);
+      ok = FALSE;
+    } else {
+      game.control.num_tech_classes = nval;
+    }
+
+    if (ok) {
+      tech_class_iterate(ptclass) {
+        const char *sec_name
+          = section_name(section_list_get(sec, tech_class_index(ptclass)));
+
+        if (!ruleset_load_names(&ptclass->name, NULL, file, sec_name)) {
+          ruleset_error(LOG_ERROR, "\"%s\": Cannot load tech class names",
+                        filename);
+          ok = FALSE;
+          break;
+        }
+      } tech_class_iterate_end;
+    }
+  }
+
+  if (ok) {
     /* The techs: */
     sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
     if (NULL == sec || 0 == (num_techs = section_list_size(sec))) {
@@ -1194,17 +1229,6 @@ static bool load_ruleset_techs(struct section_file *file,
   struct advance *a_none = advance_by_number(A_NONE);
   const char *filename = secfile_name(file);
   bool ok = TRUE;
-
-  slist = secfile_lookup_str_vec(file, &nval, "classes.names");
-  if (slist == NULL) {
-    game.control.num_tech_classes = 0;
-  } else {
-    game.control.num_tech_classes = nval;
-    for (i = 0; i < nval; i++) {
-      names_set(&(tech_class_by_number(i)->name), "freeciv", slist[i], slist[i]);
-    }
-    free(slist);
-  }
 
   sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
 

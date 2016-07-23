@@ -22,10 +22,21 @@ format_version=10
 ;  { "name", "helptxt"
 ;  }
 
-; Names of the tech classes. Leave empty to have no tech classes.
+; /* <-- avoid gettext warnings
+;
+; Tech classes:
+;
 ; First one is the default one.
-[classes]
-; names =
+; If there is none, tech classes feature is disabled
+;
+; name                    = translatable name as seen by user
+; rule_name               = (optional) name for rulesets etc; if not
+;                           present, 'name' is used.
+;
+; */ <-- avoid gettext warnings
+
+;[techclass_default]
+;name =
 
 ; /* <-- avoid gettext warnings
 ;
