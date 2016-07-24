@@ -320,6 +320,8 @@ struct sprite *get_city_flag_sprite(const struct tileset *t,
 				    const struct city *pcity);
 struct sprite *get_nation_flag_sprite(const struct tileset *t,
 				      const struct nation_type *nation);
+struct sprite *get_nation_shield_sprite(const struct tileset *t,
+                                        const struct nation_type *nation);
 struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech);
 struct sprite *get_building_sprite(const struct tileset *t,
                                    struct impr_type *pimprove);
