@@ -914,14 +914,20 @@ void fc_game_tab_widget::change_color(int index, QColor col)
 void pregame_options::init()
 {
   QFormLayout *layout;
+  QHBoxLayout *hbox = nullptr;
   QPushButton *but;
   int level;
 
   layout = new QFormLayout(this);
+  nation = new QPushButton(this);
   max_players = new QSpinBox(this);
   ailevel = new QComboBox(this);
   cruleset = new QComboBox(this);
   max_players->setRange(1, MAX_NUM_PLAYERS);
+
+  // Text and icon set by update_buttons()
+  connect(nation, &QPushButton::clicked,
+          this, &pregame_options::pick_nation);
 
   for (level = 0; level < AI_LEVEL_COUNT; level++) {
     if (is_settable_ai_level(static_cast<ai_level>(level))) {
@@ -946,11 +952,17 @@ void pregame_options::init()
                    SLOT(popup_server_options()));
 
   layout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
-  layout->addRow(_("Number of Players (including AI):"), max_players);
-  layout->addRow(_("AI Skill Level:"), ailevel);
-  layout->addRow(_("Ruleset"), cruleset);
+  layout->addRow(_("Nation:"), nation);
+  layout->addRow(_("Rules:"), cruleset);
+
+  hbox = new QHBoxLayout();
+  hbox->addWidget(max_players);
+  hbox->addWidget(ailevel);
+  layout->addRow(_("Players:"), hbox);
   layout->addWidget(but);
   setLayout(layout);
+
+  update_buttons();
 }
 
 /****************************************************************************
@@ -987,6 +999,30 @@ void pregame_options::set_aifill(int aifill)
 }
 
 /****************************************************************************
+  Updates the buttons whenever the game state has changed
+****************************************************************************/
+void pregame_options::update_buttons()
+{
+  struct sprite *psprite = nullptr;
+  QPixmap *pixmap = nullptr;
+  const struct player *pplayer = client_player();
+
+  // Update the "Select Nation" button
+  if (pplayer != nullptr) {
+    if (pplayer->nation != nullptr) {
+      nation->setText(nation_adjective_for_player(pplayer));
+      psprite = get_nation_shield_sprite(tileset, pplayer->nation);
+      pixmap = psprite->pm;
+      nation->setIconSize(pixmap->size());
+      nation->setIcon(QIcon(*pixmap));
+    } else {
+      nation->setText(_("Random"));
+      nation->setIcon(fc_icons::instance()->get_icon("flush-random"));
+    }
+  }
+}
+
+/****************************************************************************
   Slot for changing aifill value
 ****************************************************************************/
 void pregame_options::max_players_change(int i)
@@ -1015,6 +1051,14 @@ void pregame_options::ruleset_change(int i)
   if (!cruleset->currentText().isEmpty()) {
     set_ruleset(cruleset->currentText().toLocal8Bit().data());
   }
+}
+
+/****************************************************************************
+  Slot for picking a nation
+****************************************************************************/
+void pregame_options::pick_nation()
+{
+  popup_races_dialog(client_player());
 }
 
 /****************************************************************************
