@@ -2387,6 +2387,9 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
       && !unit_has_orders(punit)
       && punit->activity != ACTIVITY_GOTO
       && punit->activity != ACTIVITY_SENTRY
+      && ((gui_options.auto_center_on_automated == TRUE
+           && punit->ai_controlled == TRUE)
+          || (punit->ai_controlled == FALSE))
       && !tile_visible_and_not_on_border_mapcanvas(dst_tile)) {
     center_tile_mapcanvas(dst_tile);
   }
@@ -2409,7 +2412,10 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
      * the tile without the unit (because it was unlinked above). */
     refresh_unit_mapcanvas(punit, src_tile, TRUE, FALSE);
 
-    if (do_animation) {
+    if (gui_options.auto_center_on_automated == FALSE
+        && punit->ai_controlled == TRUE) {
+      /* Dont animate automatic units */
+    } else if (do_animation) {
       int dx, dy;
 
       /* For the duration of the animation the unit exists at neither
