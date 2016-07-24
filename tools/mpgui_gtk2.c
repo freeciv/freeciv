@@ -601,7 +601,7 @@ int main(int argc, char *argv[])
                          _("Freeciv modpack installer (gtk2)"));
 
     /* Keep the icon of the executable on Windows */
-#ifndef WIN32_NATIVE
+#ifndef FREECIV_MSWINDOWS
     {
       /* Unlike main client, this only works if installed. Ignore any
        * errors loading the icon. */
@@ -609,7 +609,7 @@ int main(int argc, char *argv[])
       (void) gtk_window_set_icon_from_file(GTK_WINDOW(toplevel), MPICON_PATH,
                                            &err);
     }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
     g_signal_connect(toplevel, "delete_event",
                      G_CALLBACK(quit_dialog_callback), NULL);

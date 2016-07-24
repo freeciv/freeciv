@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ struct sample {
 /* Sounds don't sound good on Windows unless the buffer size is 4k,
  * but this seems to cause strange behaviour on other systems,
  * such as a delay before playing the sound. */
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 const size_t buf_size = 4096;
 #else
 const size_t buf_size = 1024;

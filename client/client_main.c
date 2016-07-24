@@ -17,7 +17,7 @@
 
 #include "fc_prehdrs.h"
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 #include <windows.h>	/* LoadLibrary() */
 #endif
 
@@ -325,7 +325,7 @@ int client_main(int argc, char *argv[])
   int aii;
 
   /* Load win32 post-crash debugger */
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 # ifndef FREECIV_NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
 #  ifdef FREECIV_DEBUG
@@ -333,7 +333,7 @@ int client_main(int argc, char *argv[])
 #  endif /* FREECIV_DEBUG */
   }
 # endif /* FREECIV_NDEBUG */
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
   i_am_client(); /* Tell to libfreeciv that we are client */
 

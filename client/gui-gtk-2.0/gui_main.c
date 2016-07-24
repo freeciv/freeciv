@@ -1672,7 +1672,7 @@ void ui_main(int argc, char **argv)
   tileset_load_tiles(tileset);
 
   /* keep the icon of the executable on Windows (see PR#36491) */
-#ifndef WIN32_NATIVE
+#ifndef FREECIV_MSWINDOWS
   /* Only call this after tileset_load_tiles is called. */
   gtk_window_set_icon(GTK_WINDOW(toplevel),
 		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV)));
@@ -1960,7 +1960,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
 **************************************************************************/
 void add_net_input(int sock)
 {
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   srv_channel = g_io_channel_win32_new_socket(sock);
 #else
   srv_channel = g_io_channel_unix_new(sock);

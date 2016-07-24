@@ -34,7 +34,7 @@
 #include <Dialogs.h>
 #endif
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 #include <windows.h>
 #endif
 

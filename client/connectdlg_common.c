@@ -1,6 +1,6 @@
-/**********************************************************************
-Freeciv - Copyright (C) 2004 - The Freeciv Project
-   This program is free software; you can redistribute it and / or modify
+/***********************************************************************
+ Freeciv - Copyright (C) 2004 - The Freeciv Project
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
    any later version.
@@ -9,7 +9,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/ 
+***********************************************************************/
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
@@ -22,7 +22,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <string.h>
 #include <time.h>
 
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 #include <windows.h>
 #endif
 
@@ -67,8 +67,8 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #define WAIT_BETWEEN_TRIES 100000 /* usecs */ 
 #define NUMBER_OF_TRIES 500
 
-#if defined(HAVE_WORKING_FORK) && !defined(WIN32_NATIVE)
-/* We are yet to see WIN32_NATIVE setup where even HAVE_WORKING_FORK would
+#if defined(HAVE_WORKING_FORK) && !defined(FREECIV_MSWINDOWS)
+/* We are yet to see FREECIV_MSWINDOWS setup where even HAVE_WORKING_FORK would
  * mean fork() that actually works for us. */
 #define HAVE_USABLE_FORK
 #endif
@@ -216,10 +216,10 @@ void client_kill_server(bool force)
 *****************************************************************/
 bool client_start_server(void)
 {
-#if !defined(HAVE_USABLE_FORK) && !defined(WIN32_NATIVE)
+#if !defined(HAVE_USABLE_FORK) && !defined(FREECIV_MSWINDOWS)
   /* Can't do much without fork */
   return FALSE;
-#else /* HAVE_USABLE_FORK || WIN32_NATIVE */
+#else /* HAVE_USABLE_FORK || FREECIV_MSWINDOWS */
   char buf[512];
   int connect_tries = 0;
   char savesdir[MAX_LEN_PATH];
@@ -245,7 +245,7 @@ bool client_start_server(void)
   char savefilecmdline[512];
   char savescmdline[512];
   char scenscmdline[512];
-#endif /* !HAVE_USABLE_FORK -> WIN32_NATIVE */
+#endif /* !HAVE_USABLE_FORK -> FREECIV_MSWINDOWS */
 
 #ifdef FREECIV_IPV6_SUPPORT
   enum fc_addr_family family = FC_ADDR_ANY;
@@ -396,7 +396,7 @@ bool client_start_server(void)
     } 
   }
 #else /* HAVE_USABLE_FORK */
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
   if (logfile) {
     loghandle = CreateFile(logfile, GENERIC_WRITE,
                            FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -503,7 +503,7 @@ bool client_start_server(void)
 
   server_process = pi.hProcess;
 
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 #endif /* HAVE_USABLE_FORK */
 
   /* a reasonable number of tries */ 
@@ -511,11 +511,11 @@ bool client_start_server(void)
                            buf, sizeof(buf)) == -1) {
     fc_usleep(WAIT_BETWEEN_TRIES);
 #ifdef HAVE_USABLE_FORK
-#ifndef WIN32_NATIVE
+#ifndef FREECIV_MSWINDOWS
     if (waitpid(server_pid, NULL, WNOHANG) != 0) {
       break;
     }
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 #endif /* HAVE_USABLE_FORK */
     if (connect_tries++ > NUMBER_OF_TRIES) {
       log_error("Last error from connect attempts: '%s'", buf);
@@ -572,7 +572,7 @@ bool client_start_server(void)
   }
 
   return TRUE;
-#endif /* HAVE_USABLE_FORK || WIN32_NATIVE */
+#endif /* HAVE_USABLE_FORK || FREECIV_MSWINDOWS */
 }
 
 /*************************************************************************

@@ -454,12 +454,12 @@ int blit_entire_src(SDL_Surface * pSrc, SDL_Surface * pDest,
   return alphablit(pSrc, NULL, pDest, &dest_rect, 255);
 }
 
-/*
- * this is center main application window function
- * currently it work only for X but problem is that such 
- * functions will be needed by others enviroments.
- * ( for X it's make by settings "SDL_VIDEO_CENTERED" enviroment )
- */
+/**************************************************************************
+  This is center main application window function
+  currently it work only for X but problem is that such
+  functions will be needed by others enviroments.
+  ( for X it's make by settings "SDL_VIDEO_CENTERED" enviroment )
+**************************************************************************/
 int center_main_window_on_screen(void)
 {
 #if 0
@@ -468,12 +468,12 @@ int center_main_window_on_screen(void)
   SDL_VERSION(&myinfo.version);
   if (SDL_GetWMInfo(&myinfo) > 0)
   {
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 
     /* Port ME - Write center window code with WinAPI instructions */
 
     return 0;
-#else /* WIN32_NATIVE */
+#else /* FREECIV_MSWINDOWS */
 
 #if 0
     /* this code is for X and is only example what should be write to other
@@ -489,7 +489,7 @@ int center_main_window_on_screen(void)
     myinfo.info.x11.unlock_func();
 #endif /* 0 */
     return 0;
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
   }
   return -1;
 #endif /* 0 */

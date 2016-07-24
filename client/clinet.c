@@ -492,7 +492,7 @@ double try_to_autoconnect(void)
 {
   char errbuf[512];
   static int count = 0;
-#ifndef WIN32_NATIVE
+#ifndef FREECIV_MSWINDOWS
   static int warning_shown = 0;
 #endif
 
@@ -514,7 +514,7 @@ double try_to_autoconnect(void)
     /* Don't call me again */
     autoconnecting = FALSE;
     return FC_INFINITY;
-#ifndef WIN32_NATIVE
+#ifndef FREECIV_MSWINDOWS
   /* See PR#4042 for more info on issues with try_to_connect() and errno. */
   case ECONNREFUSED:		/* Server not available (yet) */
     if (!warning_shown) {
@@ -525,7 +525,7 @@ double try_to_autoconnect(void)
     }
     /* Try again in 0.5 seconds */
     return 0.001 * AUTOCONNECT_INTERVAL;
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
   default:			/* All other errors are fatal */
     log_fatal(_("Error contacting server \"%s\" at port %d "
                 "as \"%s\":\n %s\n"),
