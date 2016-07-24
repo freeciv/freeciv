@@ -240,7 +240,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       popup_unit_disband_dlg(pUnit, FALSE);
       break;
     case ID_UNIT_ORDER_DIPLOMAT_DLG:
-      key_unit_diplomat_actions();
+      key_unit_action_select();
       break;
     case ID_UNIT_ORDER_NUKE:
       key_unit_nuke();

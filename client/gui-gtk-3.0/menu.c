@@ -1709,7 +1709,7 @@ static void do_pillage_callback(GtkMenuItem *action, gpointer data)
 *****************************************************************/
 static void diplomat_action_callback(GtkMenuItem *action, gpointer data)
 {
-  key_unit_diplomat_actions();
+  key_unit_action_select();
 }
 
 /****************************************************************
