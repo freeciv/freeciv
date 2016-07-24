@@ -1748,15 +1748,16 @@ static void sg_load_savefile(struct loaddata *loading)
     sg_failure_ret(loading->base.size != 0,
                    "Failed to load bases order: %s",
                    secfile_error());
-    sg_failure_ret(!(game.control.num_base_types < loading->base.size),
-                   "Number of bases defined by the ruleset (= %d) are "
-                   "lower than the number in the savefile (= %d).",
-                   game.control.num_base_types, (int)loading->base.size);
     /* make sure that the size of the array is divisible by 4 */
     nmod = 4 * ((loading->base.size + 3) / 4);
     loading->base.order = fc_calloc(nmod, sizeof(*loading->base.order));
     for (j = 0; j < loading->base.size; j++) {
       struct extra_type *pextra = extra_type_by_rule_name(modname[j]);
+
+      sg_failure_ret(pextra != NULL
+                     || game.control.num_base_types >= loading->base.size,
+                     "Unknown base type %s in savefile.",
+                     modname[j]);
 
       if (pextra != NULL) {
         loading->base.order[j] = extra_base_get(pextra);
