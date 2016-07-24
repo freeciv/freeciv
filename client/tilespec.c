@@ -6027,6 +6027,15 @@ struct sprite *get_nation_flag_sprite(const struct tileset *t,
 }
 
 /**************************************************************************
+  Return the shield sprite for the nation.
+**************************************************************************/
+struct sprite *get_nation_shield_sprite(const struct tileset *t,
+                                        const struct nation_type *pnation)
+{
+  return t->sprites.nation_shield.p[nation_index(pnation)];
+}
+
+/**************************************************************************
   Return the sprite for the technology/advance.
 **************************************************************************/
 struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech)
