@@ -129,6 +129,7 @@ struct client_options
   int smooth_combat_step_msec;
   bool ai_manual_turn_done;
   bool auto_center_on_unit;
+  bool auto_center_on_automated;
   bool auto_center_on_combat;
   bool auto_center_each_turn;
   bool wakeup_focus;

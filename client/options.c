@@ -108,6 +108,7 @@ struct client_options gui_options = {
   .smooth_combat_step_msec = 10,
   .ai_manual_turn_done = TRUE,
   .auto_center_on_unit = TRUE,
+  .auto_center_on_automated = TRUE,
   .auto_center_on_combat = FALSE,
   .auto_center_each_turn = TRUE,
   .wakeup_focus = TRUE,
@@ -2136,6 +2137,10 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(auto_center_on_unit, N_("Auto center on units"),
                   N_("Set this option to have the active unit centered "
                      "automatically when the unit focus changes."),
+                  COC_INTERFACE, GUI_STUB, TRUE, NULL),
+  GEN_BOOL_OPTION(auto_center_on_automated, N_("Show automated units"),
+                  N_("Disable this option if you do not want to see "
+                     "automated units autocentered and animated"),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(auto_center_on_combat, N_("Auto center on combat"),
                   N_("Set this option to have any combat be centered "
