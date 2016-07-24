@@ -1500,6 +1500,8 @@ void fc_client::update_buttons()
 
   sensitive = game.info.is_new_game;
   pr_options->setEnabled(sensitive);
+
+  gui()->pr_options->update_buttons();
 }
 
 /***************************************************************************
