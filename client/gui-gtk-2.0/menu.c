@@ -1260,7 +1260,7 @@ static void do_pillage_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void diplomat_action_callback(GtkAction *action, gpointer data)
 {
-  key_unit_diplomat_actions();
+  key_unit_action_select();
 }
 
 /****************************************************************

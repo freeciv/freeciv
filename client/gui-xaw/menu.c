@@ -900,7 +900,7 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     key_unit_trade_route();
     break;
   case MENU_ORDER_DIPLOMAT_DLG:
-    key_unit_diplomat_actions();
+    key_unit_action_select();
     break;
   case MENU_ORDER_NUKE:
     key_unit_nuke();

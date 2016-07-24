@@ -510,7 +510,7 @@ static void xaw_key_unit_connect_irrigate(Widget w, XEvent *event, String *argv,
 static void xaw_key_unit_diplomat_spy_action(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(is_menu_item_active(MENU_ORDER, MENU_ORDER_DIPLOMAT_DLG))
-    key_unit_diplomat_actions();
+    key_unit_action_select();
 }
 
 static void xaw_key_unit_convert(Widget w, XEvent *event, String *argv, Cardinal *argc)

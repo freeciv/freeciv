@@ -2138,7 +2138,7 @@ void mr_menu::slot_explode_nuclear()
 ***************************************************************************/
 void mr_menu::slot_action()
 {
-  key_unit_diplomat_actions();
+  key_unit_action_select();
 }
 
 

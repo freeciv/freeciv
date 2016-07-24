@@ -2907,7 +2907,7 @@ void key_unit_connect(enum unit_activity activity,
 /**************************************************************************
   Handle user 'diplomatic actions' input
 **************************************************************************/
-void key_unit_diplomat_actions(void)
+void key_unit_action_select(void)
 {
   struct tile *ptile;
 
