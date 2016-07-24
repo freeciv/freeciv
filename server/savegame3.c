@@ -3482,8 +3482,11 @@ static void sg_load_players(struct loaddata *loading)
     unit_list_iterate(pplayer->units, punit) {
       if (!can_unit_continue_current_activity(punit)) {
         log_sg("Unit doing illegal activity in savegame!");
-        log_sg("Activity: %s, Target: %s", unit_activity_name(punit->activity),
-               extra_rule_name(punit->activity_target));
+        log_sg("Activity: %s, Target: %s",
+               unit_activity_name(punit->activity),
+               punit->activity_target ? extra_rule_name(
+                                          punit->activity_target)
+                                      : "missing");
         punit->activity = ACTIVITY_IDLE;
       }
     } unit_list_iterate_end;
