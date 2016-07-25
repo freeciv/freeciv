@@ -181,7 +181,7 @@ void real_meswin_dialog_update(void)
             if (create) {
               add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf, pWindow, FALSE,
                                                         area.x, area.y);
-               create = FALSE;
+              create = FALSE;
             } else {
               add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf,
                                                         pMsg_Dlg->pBeginActiveWidgetList,
@@ -221,7 +221,7 @@ void real_meswin_dialog_update(void)
             add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf,
                                                       pWindow, FALSE,
                                                       area.x, area.y);
-             create = FALSE;
+            create = FALSE;
           } else {
             add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf,
                                                       pMsg_Dlg->pBeginActiveWidgetList,
@@ -265,8 +265,6 @@ void meswin_dialog_popup(bool raise)
 
   pMsg_Dlg->pEndWidgetList = pWindow;
   pMsg_Dlg->pBeginWidgetList = pWindow;
-
-/*  area = pWindow->area;*/
 
   /* create scrollbar */
   create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
