@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,12 +31,19 @@ struct message {
   struct text_tag_list *tags;
   struct tile *tile;
   enum event_type event;
-  bool location_ok, city_ok, visited;
+  bool location_ok;
+  bool city_ok;
+  bool visited;
+  int turn;
+  int phase;
 };
 
-void meswin_clear(void);
+#define MESWIN_CLEAR_ALL (-1)
+
+void meswin_clear_older(int turn, int phase);
 void meswin_add(const char *message, const struct text_tag_list *tags,
-                       struct tile *ptile, enum event_type event);
+                struct tile *ptile, enum event_type event,
+                int turn, int phase);
 
 const struct message *meswin_get_message(int message_index);
 int meswin_get_num_messages(void);

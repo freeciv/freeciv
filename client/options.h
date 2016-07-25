@@ -135,6 +135,7 @@ struct client_options
   bool wakeup_focus;
   bool goto_into_unknown;
   bool center_when_popup_city;
+  bool show_previous_turn_messages;
   bool concise_city_production;
   bool auto_turn_done;
   bool meta_accelerators;

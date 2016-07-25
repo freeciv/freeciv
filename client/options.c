@@ -114,6 +114,7 @@ struct client_options gui_options = {
   .wakeup_focus = TRUE,
   .goto_into_unknown = TRUE,
   .center_when_popup_city = TRUE,
+  .show_previous_turn_messages = TRUE,
   .concise_city_production = FALSE,
   .auto_turn_done = FALSE,
   .meta_accelerators = TRUE,
@@ -2171,6 +2172,11 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(center_when_popup_city, N_("Center map when popup city"),
                   N_("Setting this option makes the mapview center on a "
                      "city when its city dialog is popped up."),
+                  COC_INTERFACE, GUI_STUB, TRUE, NULL),
+  GEN_BOOL_OPTION(show_previous_turn_messages, N_("Show messages from previous turn"),
+                  N_("Message Window shows messages also from previous turn. "
+                     "This makes sure you don't miss messages received in the end of "
+                     "the turn, just before the window gets cleared."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(concise_city_production, N_("Concise city production"),
                   N_("Set this option to make the city production (as shown "

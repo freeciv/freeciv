@@ -398,7 +398,8 @@ void real_output_window_append(const char *astring,
 
     add_to_chat_list(buffer, n);
   } else {
-    meswin_add(astring, tags, NULL, E_CHAT_MSG);
+    meswin_add(astring, tags, NULL, E_CHAT_MSG,
+               game.info.turn, game.info.phase);
   }
 }
 

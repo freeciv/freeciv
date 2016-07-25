@@ -1261,7 +1261,7 @@ void handle_end_phase(void)
 {
   /* Messagewindow will contain events happened since our own phase ended,
    * so player of the first phase and last phase are in equal situation. */
-  meswin_clear();
+  meswin_clear_older(game.info.turn, game.info.phase);
 }
 
 /**************************************************************************
