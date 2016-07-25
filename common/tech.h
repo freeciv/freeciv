@@ -118,6 +118,7 @@ struct tech_class {
   int idx;
   struct name_translation name;
   bool disabled;
+  int cost_pct;
 };
 
 struct advance {

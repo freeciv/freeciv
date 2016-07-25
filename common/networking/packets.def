@@ -1424,6 +1424,7 @@ PACKET_RULESET_TECH_CLASS = 9; sc, lsend
   UINT16 id;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
+  UINT16 cost_pct;
 end
 
 PACKET_RULESET_TECH_FLAG = 234; sc, lsend

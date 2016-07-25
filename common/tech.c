@@ -214,6 +214,7 @@ void techs_precalc_data(void)
 
   advance_iterate(A_FIRST, padvance) {
     int num_reqs = 0;
+    bool min_req = TRUE;
 
     advance_req_iterate(padvance, preq) {
       (void) preq; /* Compiler wants us to do something with 'preq'. */
@@ -227,7 +228,8 @@ void techs_precalc_data(void)
       break;
     case TECH_COST_CLASSIC_PRESET:
       if (-1 != padvance->cost) {
-        continue;
+        min_req = FALSE;
+        break;
       }
       /* No break. */
     case TECH_COST_CLASSIC:
@@ -236,7 +238,8 @@ void techs_precalc_data(void)
       break;
     case TECH_COST_EXPERIMENTAL_PRESET:
       if (-1 != padvance->cost) {
-        continue;
+        min_req = FALSE;
+        break;
       }
       /* No break. */
     case TECH_COST_EXPERIMENTAL:
@@ -245,8 +248,13 @@ void techs_precalc_data(void)
       break;
     }
 
-    if (padvance->cost < game.info.base_tech_cost) {
+    if (min_req && padvance->cost < game.info.base_tech_cost) {
       padvance->cost = game.info.base_tech_cost;
+    }
+
+    /* Class cost */
+    if (padvance->tclass != NULL) {
+      padvance->cost = padvance->cost * padvance->tclass->cost_pct / 100;
     }
   } advance_iterate_end;
 }

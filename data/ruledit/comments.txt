@@ -78,6 +78,8 @@ tech_classes = "\
 ; name                    = translatable name as seen by user\n\
 ; rule_name               = (optional) name for rulesets etc; if not\n\
 ;                           present, 'name' is used.\n\
+; cost_pct                = how much techs of the class cost compared\n\
+;                           to normal. Default is 100%.\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "

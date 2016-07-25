@@ -3479,6 +3479,7 @@ void handle_ruleset_tech_class(const struct packet_ruleset_tech_class *p)
   fc_assert_ret_msg(NULL != ptclass, "Bad tech_class %d.", p->id);
 
   names_set(&ptclass->name, NULL, p->name, p->rule_name);
+  ptclass->cost_pct = p->cost_pct;
 }
 
 /****************************************************************************

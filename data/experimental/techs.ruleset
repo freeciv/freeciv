@@ -34,6 +34,8 @@ format_version=10
 ; name                    = translatable name as seen by user
 ; rule_name               = (optional) name for rulesets etc; if not
 ;                           present, 'name' is used.
+; cost_pct                = how much techs of the class cost compared
+;                           to normal. Default is 100%.
 ;
 ; */ <-- avoid gettext warnings
 

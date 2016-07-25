@@ -1230,6 +1230,18 @@ static bool load_ruleset_techs(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
+  sec = secfile_sections_by_name_prefix(file, TECH_CLASS_SECTION_PREFIX);
+
+  i = 0;
+  tech_class_iterate(ptclass) {
+    const char *sec_name = section_name(section_list_get(sec, i));
+
+    ptclass->cost_pct = secfile_lookup_int_default(file, 100, "%s.%s",
+                                                   sec_name, "cost_pct");
+
+    i++;
+  } tech_class_iterate_end;
+
   sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
 
   i = 0;
@@ -1327,7 +1339,7 @@ static bool load_ruleset_techs(struct section_file *file,
     a->cost = secfile_lookup_int_default(file, -1, "%s.%s",
                                          sec_name, "cost");
     a->num_reqs = 0;
-    
+
     i++;
   } advance_iterate_end;
 
@@ -6718,6 +6730,7 @@ static void send_ruleset_tech_classes(struct conn_list *dest)
     packet.id = ptclass->idx;
     sz_strlcpy(packet.name, untranslated_name(&ptclass->name));
     sz_strlcpy(packet.rule_name, rule_name_get(&ptclass->name));
+    packet.cost_pct = ptclass->cost_pct;
 
     lsend_packet_ruleset_tech_class(dest, &packet);
   } tech_class_iterate_end;
