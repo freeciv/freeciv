@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -336,6 +336,10 @@ static void show_main_page(void)
               &line_color);
 
   set_output_window_text(_("SDL2-client welcomes you..."));
+
+#if IS_BETA_VERSION
+  set_output_window_text(beta_message());
+#endif /* IS_BETA_VERSION */
 
   rev_ver = fc_git_revision();
   if (rev_ver != NULL) {

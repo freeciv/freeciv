@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -307,24 +307,28 @@ static void show_main_page(void)
   group_set_area(pWidget, pWindow->prev, area);
 
   setup_vertical_widgets_position(1, area.x, area.y, area.w, h, pWidget, pWindow->prev);
-  
+
   area.h = h * 2;
   SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
-  
+
   widget_set_position(pWindow,
                       (Main.screen->w - pWindow->size.w) - adj_size(20),
                       (Main.screen->h - pWindow->size.h) - adj_size(20));
 
   draw_intro_gfx();
-  
+
   redraw_group(pStartMenu->pBeginWidgetList, pStartMenu->pEndWidgetList, FALSE);
 
   putline(pWindow->dst->surface,
           area.x, area.y + (h * 2 - 1),
           area.x + area.w - 1, area.y + (h * 2 - 1),
           line_color);
-  
+
   set_output_window_text(_("SDLClient welcomes you..."));
+
+#if IS_BETA_VERSION
+  set_output_window_text(beta_message());
+#endif /* IS_BETA_VERSION */
 
   rev_ver = fc_git_revision();
   if (rev_ver != NULL) {
@@ -341,9 +345,12 @@ static void show_main_page(void)
   flush_all();
 }
 
+/**************************************************************************
+  Close start menu
+**************************************************************************/
 static void popdown_start_menu()
 {
-  if(pStartMenu) {
+  if (pStartMenu) {
     popdown_window_group_dialog(pStartMenu->pBeginWidgetList,
                                 pStartMenu->pEndWidgetList);
     FC_FREE(pStartMenu);
