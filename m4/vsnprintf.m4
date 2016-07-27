@@ -1,5 +1,5 @@
 
-dnl @synopsis AC_FUNC_VSNPRINTF
+dnl @synopsis FC_FUNC_VSNPRINTF
 dnl
 dnl Check whether there is a reasonably sane vsnprintf() function installed.
 dnl "Reasonably sane" in this context means never clobbering memory beyond
@@ -9,9 +9,9 @@ dnl
 dnl @version $Id$
 dnl @author Gaute Strokkenes <gs234@cam.ac.uk>
 dnl
-AC_DEFUN([AC_FUNC_VSNPRINTF],
-[AC_CACHE_CHECK(for working vsnprintf,
-  ac_cv_func_working_vsnprintf,
+AC_DEFUN([FC_FUNC_VSNPRINTF],
+[AC_CACHE_CHECK([for working vsnprintf],
+  [ac_cv_func_working_vsnprintf],
 [AC_RUN_IFELSE([AC_LANG_SOURCE([[#include <stdio.h>
 #include <stdarg.h>
 
@@ -63,4 +63,4 @@ if test $ac_cv_func_working_vsnprintf = yes; then
             [Define if you have a version of the 'vsnprintf' function
              that honours the size argument and has a proper return value.])
 fi
-])# AC_FUNC_VSNPRINTF
+])# FC_FUNC_VSNPRINTF

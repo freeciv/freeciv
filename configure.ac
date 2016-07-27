@@ -1373,7 +1373,9 @@ AC_FUNC_FSEEKO
 
 dnl Windows vsnprintf doesn't support argument reordering (see PR#12932)
 if test "x$MINGW" != "xyes"; then
-AC_FUNC_VSNPRINTF
+dnl The use of both FC_FUNC_VSNPRINTF and AC_CHECK_FUNCS(vsnprintf) is
+dnl deliberate.
+FC_FUNC_VSNPRINTF
 AC_CHECK_FUNCS([vsnprintf])
 fi
 
@@ -1410,9 +1412,6 @@ fi
 if test $ac_cv_func_bind = no; then
   AC_CHECK_LIB(bind, gethostbyaddr, LIBS="-lbind $LIBS")
 fi
-
-dnl The use of both AC_FUNC_VSNPRINTF and AC_CHECK_FUNCS(vsnprintf) is
-dnl deliberate.
 
 dnl Windows fdopen does not work with sockets.
 if test "x$MINGW" != "xyes"; then
