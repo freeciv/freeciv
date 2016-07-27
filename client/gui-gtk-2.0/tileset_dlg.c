@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -62,11 +62,11 @@ void popup_tileset_suggestion_dialog(void)
   gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_YES);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dialog), TRUE);
 
-  sprintf(buf,
-          _("Modpack suggests using %s tileset.\n"
-            "It might not work with other tilesets.\n"
-            "You are currently using tileset %s."),
-          game.control.prefered_tileset, tileset_get_name(tileset));
+  fc_snprintf(buf, sizeof(buf),
+              _("Modpack suggests using %s tileset.\n"
+                "It might not work with other tilesets.\n"
+                "You are currently using tileset %s."),
+              game.control.prefered_tileset, tileset_get_name(tileset));
 
   label = gtk_label_new(buf);
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), label);

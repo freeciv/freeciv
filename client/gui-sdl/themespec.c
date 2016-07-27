@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
   Functions for handling the themespec files which describe
   the files and contents of themes.
   original author: David Pfitzner <dwp@mso.anu.edu.au>
@@ -449,7 +449,8 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
   /* Try out all supported file extensions to find one that works. */
   while ((gfx_fileext = *gfx_fileexts++)) {
     const char *real_full_name;
-    char full_name[strlen(gfx_filename) + strlen(gfx_fileext) + 2];
+    char full_name[strlen(gfx_filename) + strlen(".")
+                   + strlen(gfx_fileext) + 1];
 
     sprintf(full_name, "%s.%s", gfx_filename, gfx_fileext);
     if ((real_full_name = fileinfoname(get_data_dirs(), full_name))) {
@@ -670,13 +671,13 @@ char *themespec_gfx_filename(const char *gfx_filename)
   const char  *gfx_current_fileext;
   const char **gfx_fileexts = gfx_fileextensions();
 
-  while((gfx_current_fileext = *gfx_fileexts++))
-  {
-    char *full_name =
-       fc_malloc(strlen(gfx_filename) + strlen(gfx_current_fileext) + 2);
+  while ((gfx_current_fileext = *gfx_fileexts++)) {
     const char *real_full_name;
+    char *full_name =
+      fc_malloc(strlen(gfx_filename) + strlen(".")
+                + strlen(gfx_current_fileext) + 1);
 
-    sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
+    sprintf(full_name, "%s.%s", gfx_filename, gfx_current_fileext);
 
     real_full_name = fileinfoname(get_data_dirs(), full_name);
     FC_FREE(full_name);
@@ -687,6 +688,7 @@ char *themespec_gfx_filename(const char *gfx_filename)
 
   log_fatal("Couldn't find a supported gfx file extension for \"%s\".",
             gfx_filename);
+
   exit(EXIT_FAILURE);
   return NULL;
 }
