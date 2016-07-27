@@ -2,10 +2,6 @@
  MSYS2 Windows Installer build notes
 ====================================
 
-MSYS2 support is still Work In Progress!
-These are the notes so far, not yet documentation of working
-build.
-
 This document is about building Freeciv Windows Installer packages
 using MSYS2 from http://msys2.github.io
 
@@ -13,6 +9,8 @@ using MSYS2 from http://msys2.github.io
  Status
 ====================================
 
+- Msys1, not msys2, is still the official freeciv Windows Installer
+  build method
 - With very specific configure options (see Problems) and msys2 package
   selection freeciv can be built
 - Buildable clients are gtk3 and Qt
@@ -84,7 +82,7 @@ using MSYS2 from http://msys2.github.io
  - tar
 
 2.1.1.3) Arch independent packages needed for building freeciv from svn checkout
- These are needed in addition to the ones alwaysneeded for building freeciv.
+ These are needed in addition to the ones always needed for building freeciv.
 
  - subversion
  - automake
@@ -187,6 +185,7 @@ somehow. Some options are:
      - gtk3
      - qt
   - "ruledit-installer"
+  - "snapshot", if your freeciv sources are in svn checkout directory
 
  You can also set minimum Windows version targeted. While setting this
  to an older version allows those Windows versions to run the created
@@ -194,7 +193,7 @@ somehow. Some options are:
  newer Windows versions could otherwise have.
  The version is set via MIN_WIN_VER variable. For values to use, see
  list in: https://msdn.microsoft.com/en-us/library/6sehtctf.aspx
- Current default is 0x0600 (Vista).
+ Current default is 0x0600 (Windows Vista).
 
 
 
@@ -231,29 +230,3 @@ somehow. Some options are:
   removing any dll's from the installer packages.
   Please review what related dlls are packaged and could be
   removed.
-
-====================================
-
-Instructions used with msys1 below. These need to be updated:
-- pacman used instead of hg
-- has two (win32 and win64) environments instead of just one
-- distribution method of official freeciv environments not decided,
-  currently using what ever versions upstream currently has
-
-
- Usage:
-
- 1. download and extract the MinGW build environment from
-    http://download.gna.org/freeciv/packages/windows/gnuwin32/
-    Current version is gnuwin32-2015-02-25.
- 2. double click on "gnuwin32/msys.bat"
- 3. install the development packages:
-    $ hg qpush -a
- 4. close current session and restart msys.bat. This is required
-    for PATH to be set correctly after development packages
-    installation.
- 5. change into the Freeciv directory where this Makefile resides
-    $ cd <path_to_freeciv_source>/win32/installer
- 6. run make
-    $ make
- 7. find the installer executables in the 'Output' directory
