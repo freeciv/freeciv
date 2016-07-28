@@ -781,10 +781,12 @@ int generate_save_name(const char *format, char *buf, int buflen,
   struct cf_sequence sequences[] = {
     cf_str_seq('R', (reason == NULL) ? "auto" : reason),
     cf_str_seq('S', year_suffix()),
-    cf_int_seq('T', game.info.turn),
-    cf_int_seq('Y', game.info.year),
+    { 0 }, { 0 }, /* Works for both gcc and tcc */
     cf_end()
   };
+
+  cf_int_seq('T', game.info.turn, &sequences[2]);
+  cf_int_seq('Y', game.info.year, &sequences[3]);
 
   fc_vsnprintcf(buf, buflen, format, sequences, -1);
 
