@@ -472,6 +472,8 @@ void fc_client::create_scenario_page()
   scenarios_load = new QTableWidget;
   scenarios_view = new QTextEdit;
   scenarios_text = new QLabel;
+  scenarios_text->setTextFormat(Qt::RichText);
+  scenarios_text->setWordWrap(true);
   QStringList sav;
   sav << _("Choose a Scenario");
   scenarios_load->setRowCount(0);
@@ -1103,21 +1105,33 @@ void fc_client::update_scenarios_page(void)
     if ((sf = secfile_load_section(pfile->fullname, "scenario", TRUE))
         && secfile_lookup_bool_default(sf, TRUE, "scenario.is_scenario")) {
 
-      const char *sname, *sdescription;
+      const char *sname, *sdescription, *sauthors;
       QTableWidgetItem *item;
       QString str = QString(pfile->name);
+      QString st;
       QStringList sl;
 
       sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
       sdescription = secfile_lookup_str_default(sf, NULL,
                                               "scenario.description");
+      sauthors = secfile_lookup_str_default(sf, NULL,
+                                              "scenario.authors");
       item = new QTableWidgetItem();
       scenarios_load->insertRow(row);
       item->setText(pfile->name);
-      sl << (sname && strlen(sname) ? Q_(sname) : pfile->name)
+      if (sauthors) {
+        st = QString("\n") + QString("<b>") + _("Authors: ")
+             + QString("</b>") + QString(sauthors);
+      } else {
+        st = "";
+      }
+      sl << "<b>"
+         + QString(sname && strlen(sname) ? Q_(sname) : pfile->name)
+         + "</b>"
          << pfile->fullname
-         << (NULL != sdescription && '\0' != sdescription[0]
-             ? Q_(sdescription) : "");
+         << QString(NULL != sdescription && '\0' != sdescription[0]
+                    ? Q_(sdescription) : "") + st;
+      sl.replaceInStrings("\n", "<br>");
       item->setData(Qt::UserRole, sl);
       scenarios_load->setItem(row, 0, item);
       row++;
