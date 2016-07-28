@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-19 10:14+0100\n"
-"PO-Revision-Date: 2016-07-19 21:24+0300\n"
+"PO-Revision-Date: 2016-07-28 19:43+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -3135,7 +3135,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editgui.c:239 client/gui-gtk-3.0/editgui.c:239
 msgid "Global Observer"
-msgstr "Maailmanlaajuinen tarkkailija"
+msgstr "Koko pelin tarkkailija"
 
 #: client/gui-gtk-2.0/editgui.c:581 client/gui-gtk-3.0/editgui.c:585
 msgid ""
@@ -3143,7 +3143,7 @@ msgid ""
 "different players, or even as a global observer."
 msgstr ""
 "Muuta pelaajanäkökulmaa. Käytä tätä muokataksesi maailmaa eri pelaajien "
-"näkökannalta tai maailmanlaajuisena tarkkailijana."
+"näkökannalta tai koko pelin tarkkailijana."
 
 #: client/gui-gtk-2.0/editgui.c:593 client/gui-gtk-3.0/editgui.c:597
 msgid "Show the property editor."
@@ -6318,7 +6318,7 @@ msgstr ""
 "Kuvitusongelma, se on todennäköisesti epäyhteensopiva sääntökokoelman "
 "kanssa:\n"
 "%s\n"
-"Poistutaan ohjelmasta."
+"Ohjelma suljetaan."
 
 #: client/gui-qt/dialogs.cpp:2061
 msgid "Tileset error"
@@ -6890,7 +6890,7 @@ msgstr "Tallennetut pelit"
 
 #: client/gui-qt/messagewin.cpp:72
 msgid "Locks/unlocks interface"
-msgstr ""
+msgstr "Lukitsee/avaa käyttöliittymän"
 
 #: client/gui-qt/optiondlg.cpp:85
 msgid "... read more in help"
@@ -7012,7 +7012,7 @@ msgstr "Avaa skenaario"
 
 #: client/gui-qt/pages.cpp:1382
 msgid "Global observers"
-msgstr "Yleiset tarkkailijat"
+msgstr "Koko pelin tarkkailijat"
 
 #: client/gui-qt/pages.cpp:1459
 msgid "Not ready"
@@ -28109,8 +28109,8 @@ msgid ""
 "  - Messages starting with '.' will be sent only to all your allies (or, if "
 "you're a global observer, only to other global observers)."
 msgstr ""
-" – '.'-alkuiset viestit lähetetään vain kaikille liittolaisillesi (tai, jos "
-"olet globaali tarkkailija, vain toisille globaaleille tarkkailijoille)."
+" – '.'-alkuiset viestit lähetetään vain kaikille liittolaisillesi (tai jos "
+"olet koko pelin tarkkailija, vain toisille koko pelin tarkkailijoille)."
 
 #: data/helpdata.txt:1836
 msgid ""
@@ -32938,8 +32938,8 @@ msgstr ""
 "Vain konsoli- ja 'hack'-komentotason yhteyksiltä voi pakottaa toisen "
 "yhteyden tarkkailemaan pelaajaa, muutoin ainoastaan parametri [pelaajan "
 "nimi] on sallittu. Jos pelaajan nimeä ei anneta, annettu yhteys yhdistetään "
-"globaaliin tarkkailijaan. Parametrilla 'allowtake' voidaan hallita, mitä "
-"pelaajia voidaan tarkkailla ja millä ehdoilla."
+"\"globaaliin\" koko pelin tarkkailijaan. Parametrilla 'allowtake' voidaan "
+"hallita, mitä pelaajia voidaan tarkkailla ja millä ehdoilla."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:315
@@ -37663,7 +37663,7 @@ msgstr ""
 "Asetus ei vaikuta takautuvasti, se pätee vain sen muuttamisen jälkeen "
 "annettuihin 'take'- ja 'observe'-komentoihin. Merkit ja niiden merkitykset "
 "ovat:\n"
-"    o,O = yleinen tarkkailija\n"
+"    o,O = koko pelin tarkkailija\n"
 "    b   = barbaaripelaajat\n"
 "    d   = kuolleet pelaajat\n"
 "    a,A = tekoälypelaajat\n"
@@ -39923,7 +39923,7 @@ msgstr "%s (tarkkailija)"
 
 #: server/stdinhand.c:5246
 msgid "global observer"
-msgstr "maailmanlaajuinen tarkkailija"
+msgstr "koko pelin tarkkailija"
 
 #. TRANS: in place of player name or "global observer"
 #: server/stdinhand.c:5249
