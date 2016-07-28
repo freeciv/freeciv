@@ -236,7 +236,9 @@ bool client_start_server(void)
   char *depr;
 #ifdef FREECIV_DEBUG
   char cmdline1[512];
+#ifndef FREECIV_WEB
   char cmdline2[512];
+#endif /* FREECIV_WEB */
 #endif /* FREECIV_DEBUG */
   char cmdline3[512];
   char cmdline4[512];
@@ -296,7 +298,11 @@ bool client_start_server(void)
     fc_snprintf(port_buf, sizeof(port_buf), "%d", internal_server_port);
     fc_snprintf(savesdir, sizeof(savesdir), "%s" DIR_SEPARATOR "saves", storage);
     fc_snprintf(scensdir, sizeof(scensdir), "%s" DIR_SEPARATOR "scenarios", storage);
+#ifdef FREECIV_WEB
+    argv[argc++] = "freeciv-web";
+#else  /* FREECIV_WEB */
     argv[argc++] = "freeciv-server";
+#endif /* FREECIV_WEB */
     argv[argc++] = "-p";
     argv[argc++] = port_buf;
     argv[argc++] = "--bind";
@@ -379,15 +385,24 @@ bool client_start_server(void)
       }
 
       /* these won't return on success */
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
       /* Search under current directory (what ever that happens to be)
        * only in debug builds. This allows running freeciv directly from build
        * tree, but could be considered security risk in release builds. */
+#ifdef FREECIV_WEB
+      execvp("./server/freeciv-web", argv);
+#else  /* FREECIV_WEB */
       execvp("./fcser", argv);
       execvp("./server/freeciv-server", argv);
-#endif /* DEBUG */
+#endif /* FREECIV_WEB */
+#endif /* FREECIV_DEBUG */
+#ifdef FREECIV_WEB
+      execvp(BINDIR "/freeciv-web", argv);
+      execvp("freeciv-web", argv);
+#else  /* FREECIV_WEB */
       execvp(BINDIR "/freeciv-server", argv);
       execvp("freeciv-server", argv);
+#endif /* FREECIV_WEB */
 
       /* This line is only reached if freeciv-server cannot be started, 
        * so we kill the forked process.
@@ -460,26 +475,40 @@ bool client_start_server(void)
               "--scenarios \"%s\" -A none %s",
               internal_server_port, logcmdline, scriptcmdline, savefilecmdline,
               savescmdline, scenscmdline, depr);
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
+#ifdef FREECIV_WEB
+  fc_snprintf(cmdline1, sizeof(cmdline1),
+              "./server/freeciv-web %s", options);
+#else  /* FREECIV_WEB */
   fc_snprintf(cmdline1, sizeof(cmdline1), "./fcser %s", options);
   fc_snprintf(cmdline2, sizeof(cmdline2),
               "./server/freeciv-server %s", options);
-#endif /* DEBUG */
+#endif /* FREECIV_WEB */
+#endif /* FREECIV_DEBUG */
+#ifdef FREECIV_WEB
+  fc_snprintf(cmdline3, sizeof(cmdline2),
+              BINDIR "/freeciv-web %s", options);
+  fc_snprintf(cmdline4, sizeof(cmdline3),
+              "freeciv-web %s", options);
+#else  /* FREECIV_WEB */
   fc_snprintf(cmdline3, sizeof(cmdline3),
               BINDIR "/freeciv-server %s", options);
   fc_snprintf(cmdline4, sizeof(cmdline4),
               "freeciv-server %s", options);
+#endif /* FREECIV_WEB */
 
   if (
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
       !CreateProcess(NULL, cmdline1, NULL, NULL, TRUE,
                      DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
                      NULL, NULL, &si, &pi)
+#ifndef FREECIV_WEB
       && !CreateProcess(NULL, cmdline2, NULL, NULL, TRUE,
                         DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
                         NULL, NULL, &si, &pi)
+#endif /* FREECIV_WEB */
       &&
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
       !CreateProcess(NULL, cmdline3, NULL, NULL, TRUE,
                      DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
                      NULL, NULL, &si, &pi)
@@ -487,10 +516,10 @@ bool client_start_server(void)
                         DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
                         NULL, NULL, &si, &pi)) {
     log_error("Failed to start server process.");
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     log_verbose("Tried with commandline: '%s'", cmdline1);
     log_verbose("Tried with commandline: '%s'", cmdline2);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
     log_verbose("Tried with commandline: '%s'", cmdline3);
     log_verbose("Tried with commandline: '%s'", cmdline4);
     output_window_append(ftc_client, _("Couldn't start the server."));
