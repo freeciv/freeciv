@@ -95,7 +95,6 @@ end
 
 -- TODO:
 -- Hint to check science after building 1st city?
--- Words for first military unit?
 -- Hint to build workers?
 
 function turn_callback(turn, year)
@@ -270,7 +269,13 @@ _("You have built a settler unit.  Settlers are best used to build \nnew cities,
 _("Your second Settlers should also be used to build a new city.\nNotice how when you move the Settlers away from your existing cities\nan outline is drawn around them.  This shows the area that would be\ncovered by a city built at this location; it fits in with the outline\nalready on the map view that shows which tiles are covered by your\nexisting cities.  Generally when building new cities you want to make\nsure that all tiles are covered by at least one city, but after that\nit is best that your cities overlap as little as possible.  Spreading\nout cities properly gives each city access to more resources, allowing\nthem to grow to larger sizes."))
     end
     settlersbuilt = settlersbuilt + 1
-  elseif has_unit_type_name(unit, 'Trireme')
+  elseif not unit.utype:has_flag('NonMil') and milbuilt == 0 then
+    notify.event(unit.owner, unit.tile, E.SCRIPT,
+_("You have built your first military unit!  Military units have two\nbasic purposes: attack and defense.  Each unit has an attack strength\nand a defense strength.  While a Warriors is a measly 1/1, a Phalanx\nis a much stronger defender with 2 defense (1/2).  A Catapult is a good\nattacking unit because it has 6 attack (6/1).\n\nUsually it is a good idea to keep one or two defenders in each city.\nImportant cities like your capital may deserve extra protection.  Units\nbuilt in one city may be sent to another city to defend (press the G\nkey to enter goto mode to move units easily over distances).  If you\nare at war, however, you may wish to move your unit toward an enemy\ncity to attack.  Be careful not to lose it though!"))
+    milbuilt = milbuilt + 1
+  end
+  -- The first military unit _could_ also be a boat...
+  if has_unit_type_name(unit, 'Trireme')
     or has_unit_type_name(unit, 'Caravel')
     or has_unit_type_name(unit, 'Frigate')
     or has_unit_type_name(unit, 'Galleon')
@@ -293,6 +298,7 @@ press U, or move it onto a land tile."))
 end
 settlersbuilt = 0
 boatsbuilt = 0
+milbuilt = 0
 signal.connect('unit_built', 'unit_built_callback')
 
 function building_built_callback(building, city)
@@ -316,14 +322,9 @@ function unit_cant_be_built_callback(unittype, city, reason)
     notify.event(city.owner, city.tile, E.SCRIPT,
 _("Your city cannot build a settler.  Settlers take two units of\npopulation to build, so a city of size one or two cannot build one without\ndisbanding the city.\n\nTo remedy this, you need to adjust the citizens in the city to\nprovide more food so as to grow the city faster.  Cities that\ndo not have much food should not try to build settlers.  When\nfounding a new city, make sure it is built on terrain that provides\nenough food - grassland is best; plains or hills are almost as good."))
     nosettlermsg = true
-  elseif not unittype:has_flag('NonMil') and not nomilmsg then
-notify.event(city.owner, city.tile, E.SCRIPT,
-_("You have built your first military unit!  Military units have two\nbasic purposes: attack and defense.  Each unit has an attack strength\nand a defense strength.  While a Warriors is a measly 1/1, a Phalanx\nis a much stronger defender with 2 defense (1/2).  A Catapult is a good\nattacking unit because it has 6 attack (6/1).\n\nUsually it is a good idea to keep one or two defenders in each city.\nImportant cities like your capital may deserve extra protection.  Units\nbuilt in one city may be sent to another city to defend (press the G\nkey to enter goto mode to move units easily over distances).  If you\nare at war, however, you may wish to move your unit toward an enemy\ncity to attack.  Be careful not to lose it though!"))
-    nomilmsg = true
   end
 end
 nosettlermsg = false
-nomilmsg = false
 signal.connect('unit_cant_be_built', 'unit_cant_be_built_callback')
 
 function tech_researched_callback(tech, player, reason)
