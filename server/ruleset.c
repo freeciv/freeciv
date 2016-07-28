@@ -228,7 +228,7 @@ static const char *valid_ruleset_filename(const char *subdir,
 
   fc_assert_ret_val(subdir && name && extension, NULL);
 
-  fc_snprintf(filename, sizeof(filename), "%s/%s.%s",
+  fc_snprintf(filename, sizeof(filename), "%s" DIR_SEPARATOR "%s.%s",
               subdir, name, extension);
   log_verbose("Trying \"%s\".", filename);
   dfilename = fileinfoname(get_data_dirs(), filename);
@@ -236,7 +236,7 @@ static const char *valid_ruleset_filename(const char *subdir,
     return dfilename;
   }
 
-  fc_snprintf(filename, sizeof(filename), "default/%s.%s", name, extension);
+  fc_snprintf(filename, sizeof(filename), "default" DIR_SEPARATOR "%s.%s", name, extension);
   log_verbose("Trying \"%s\": default ruleset directory.", filename);
   dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
