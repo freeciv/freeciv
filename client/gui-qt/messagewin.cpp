@@ -235,7 +235,7 @@ void messagewdg::item_selected(const QItemSelection &sl,
                                const QItemSelection &ds)
 {
   const struct message *pmsg;
-  int i;
+  int i, j;
   QFont f;
   QModelIndex index;
   QModelIndexList indexes = sl.indexes();
@@ -261,6 +261,11 @@ void messagewdg::item_selected(const QItemSelection &sl,
     }
     if (QApplication::mouseButtons() == Qt::RightButton && pmsg->city_ok) {
       meswin_popup_city(i);
+    }
+    if (QApplication::mouseButtons() == Qt::RightButton
+        && pmsg->event == E_DIPLOMACY) {
+      j = gui()->gimme_index_of("DDI");
+      gui()->game_tab_widget->setCurrentIndex(j);
     }
   }
   mesg_table->clearSelection();
