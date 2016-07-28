@@ -462,7 +462,7 @@ void fc_client::create_load_page()
   but->setText(_("Cancel"));
   but->setIcon(QApplication::style()->standardIcon(
                                       QStyle::SP_DialogCancelButton));
-  connect(but, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
+  connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
   switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_LOAD]->addWidget(but, 1, 2);
 
@@ -520,7 +520,7 @@ void fc_client::create_scenario_page()
   but->setText(_("Cancel"));
   but->setIcon(QApplication::style()->standardIcon(
                                         QStyle::SP_DialogCancelButton));
-  connect(but, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
+  connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
   switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 3);
 
