@@ -486,6 +486,9 @@ void popup_quit_dialog()
     return;
     break;
   case QMessageBox::Ok:
+    if (client.conn.used) {
+      disconnect_from_server();
+    }
     gui()->write_settings();
     qapp->quit();
     break;
