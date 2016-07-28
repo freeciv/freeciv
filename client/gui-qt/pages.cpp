@@ -545,7 +545,8 @@ void fc_client::create_start_page()
 
   pr_options->init();
   player_widget_list << _("Name") << _("Ready") << Q_("?player:Leader")
-                     << _("Flag") << _("Border") << _("Nation") << _("Team");
+                     << _("Flag") << _("Border") << _("Nation") << _("Team")
+                     << _("Host");
 
 
   start_players_tree->setColumnCount(player_widget_list.count());
@@ -1256,7 +1257,7 @@ void fc_client::update_start_page()
   int conn_num, i;
   QVariant qvar, qvar2;
   bool is_ready;
-  QString nation, leader, team, str;
+  QString host, nation, leader, team, str;
   QPixmap *pixmap;
   QPainter p;
   struct sprite *psprite;
@@ -1291,12 +1292,14 @@ void fc_client::update_start_page()
    */
 
   players_iterate(pplayer) {
+    host = "";
     if (!player_has_flag(pplayer, PLRF_SCENARIO_RESERVED)) {
       item = new QTreeWidgetItem();
       conn_id = -1;
       conn_list_iterate(pplayer->connections, pconn) {
         if (pconn->playing == pplayer && !pconn->observer) {
           conn_id = pconn->id;
+          host = pconn->addr;
           break;
         }
       } conn_list_iterate_end;
@@ -1328,7 +1331,7 @@ void fc_client::update_start_page()
         team = "";
       }
 
-      for (int col = 0; col < 7; col++) {
+      for (int col = 0; col < 8; col++) {
         switch (col) {
         case 0:
           str = pplayer->username;
@@ -1383,6 +1386,11 @@ void fc_client::update_start_page()
         case 6:
           item->setText(col, team);
           break;
+        case 7:
+          item->setText(col, host);
+          break;
+        default:
+          break;
         }
       }
 
@@ -1397,6 +1405,7 @@ void fc_client::update_start_page()
         item_r = new QTreeWidgetItem();
         item_r->setText(0, pconn->username);
         item_r->setText(5, _("Observer"));
+        item_r->setText(7, pconn->addr);
         recursed_items.append(item_r);
         item->addChildren(recursed_items);
       } conn_list_iterate_end;
@@ -1421,13 +1430,16 @@ void fc_client::update_start_page()
       continue;
     }
     item = new QTreeWidgetItem();
-    for (int col = 0; col < 6; col++) {
+    for (int col = 0; col < 8; col++) {
       switch (col) {
       case 0:
         item->setText(col, pconn->username);
         break;
       case 5:
         item->setText(col, _("Observer"));
+        break;
+      case 7:
+        item->setText(col, pconn->addr);
         break;
       default:
         break;
@@ -1454,6 +1466,7 @@ void fc_client::update_start_page()
     }
     item = new QTreeWidgetItem();
     item->setText(0, pconn->username);
+    item->setText(7, pconn->addr);
     items.append(item);
   } conn_list_iterate_end;
 
