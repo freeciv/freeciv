@@ -1977,7 +1977,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-; ConsensusUndisbandable historical article: "Airplanes Sink a Battleship?
+; Consensus historical article: "Airplanes Sink a Battleship?
 ; No, Sir! Declares President" Chicago Daily Tribune, Feb. 26, 1938.
 flags         = "BadCityDefender", "Consensus"
 roles         = "DefendOk", "DefendOkStartUnit"
@@ -2046,7 +2046,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Air", "Missile", "Helicopter"
-; ConsensusUndisbandable historical article: Julian Borger. "Wake-up call"
+; Consensus historical article: Julian Borger. "Wake-up call"
 ; The Guardian, Sep. 6, 2002.
 flags         = "BadCityDefender", "HasNoZOC", "Consensus"
 roles         = "DefendGood", "DefendGoodStartUnit"
