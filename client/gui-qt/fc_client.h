@@ -173,6 +173,8 @@ class fc_client : public QMainWindow
 
   QPushButton *button;
   QPushButton *obs_button;
+  QPushButton *start_button;
+  QPushButton *nation_button;
 
   QDialogButtonBox* button_box;
 

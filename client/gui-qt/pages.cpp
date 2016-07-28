@@ -21,6 +21,7 @@
 #include <QFileDialog>
 #include <QHeaderView>
 #include <QLineEdit>
+#include <QSplitter>
 #include <QTableWidget>
 #include <QTextEdit>
 #include <QTreeWidget>
@@ -526,8 +527,15 @@ void fc_client::create_scenario_page()
 void fc_client::create_start_page()
 {
   QPushButton *but;
+  QSplitter *splitter;
+  QGridLayout *up_layout;
+  QGridLayout *down_layout;
+  QWidget *up_widget;
+  QWidget *down_widget;
   QStringList player_widget_list;
   pages_layout[PAGE_START] = new QGridLayout;
+  up_layout = new QGridLayout;
+  down_layout = new QGridLayout;
   start_players_tree = new QTreeWidget;
   pr_options = new pregame_options();
   chat_line = new QLineEdit;
@@ -551,37 +559,46 @@ void fc_client::create_start_page()
           SIGNAL(customContextMenuRequested(const QPoint&)),
           SLOT(start_page_menu(QPoint)));
 
-  pages_layout[PAGE_START]->addWidget(start_players_tree, 0, 0, 3, 6);
-  pages_layout[PAGE_START]->addWidget(pr_options, 0, 6, 3, 2);
+  up_layout->addWidget(start_players_tree, 0, 0, 3, 6);
+  up_layout->addWidget(pr_options, 0, 6, 3, 2);
   but = new QPushButton;
   but->setText(_("Disconnect"));
   but->setIcon(style()->standardPixmap(QStyle::SP_DialogCancelButton));
   QObject::connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
-  pages_layout[PAGE_START]->addWidget(but, 5, 4);
-  but = new QPushButton;
-  but->setText(_("Pick Nation"));
-  but->setIcon(fc_icons::instance()->get_icon("flag"));
-  pages_layout[PAGE_START]->addWidget(but, 5, 5);
-  QObject::connect(but, SIGNAL(clicked()), this,
+  down_layout->addWidget(but, 5, 4);
+  nation_button = new QPushButton;
+  nation_button->setText(_("Pick Nation"));
+  nation_button->setIcon(fc_icons::instance()->get_icon("flag"));
+  down_layout->addWidget(nation_button, 5, 5);
+  QObject::connect(nation_button, SIGNAL(clicked()), this,
                    SLOT(slot_pick_nation()));
 
   obs_button = new QPushButton;
   obs_button->setText(_("Observe"));
   obs_button->setIcon(fc_icons::instance()->get_icon("meeting-observer"));
-  pages_layout[PAGE_START]->addWidget(obs_button, 5, 6);
+  down_layout->addWidget(obs_button, 5, 6);
   QObject::connect(obs_button, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_observe()));
-  but = new QPushButton;
-  but->setText(_("Start"));
-  but->setIcon(style()->standardPixmap(QStyle::SP_DialogOkButton));
-  pages_layout[PAGE_START]->addWidget(but, 5, 7);
-  QObject::connect(but, SIGNAL(clicked()), this,
+  start_button = new QPushButton;
+  start_button->setText(_("Start"));
+  start_button->setIcon(style()->standardPixmap(QStyle::SP_DialogOkButton));
+  down_layout->addWidget(start_button, 5, 7);
+  QObject::connect(start_button, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_start()));
   pre_vote = new pregamevote;
 
-  pages_layout[PAGE_START]->addWidget(pre_vote, 4, 0, 1, 4);
-  pages_layout[PAGE_START]->addWidget(chat_line, 5, 0, 1, 4);
-  pages_layout[PAGE_START]->addWidget(output_window, 3, 0, 1, 8);
+  down_layout->addWidget(pre_vote, 4, 0, 1, 4);
+  down_layout->addWidget(chat_line, 5, 0, 1, 4);
+  down_layout->addWidget(output_window, 3, 0, 1, 8);
+  splitter = new QSplitter;
+  up_widget = new QWidget();
+  down_widget = new QWidget();
+  up_widget->setLayout(up_layout);
+  down_widget->setLayout(down_layout);
+  splitter->addWidget(up_widget);
+  splitter->addWidget(down_widget);
+  splitter->setOrientation(Qt::Vertical);
+  pages_layout[PAGE_START]->addWidget(splitter);
   connect(chat_line, SIGNAL(returnPressed()), this, SLOT(chat()));
 
 }
@@ -1454,8 +1471,6 @@ void fc_client::update_buttons()
 {
   bool sensitive;
   QString text;
-  QLayoutItem *li;
-  QPushButton *pb;
 
   /* Observe button */
   if (client_is_observer() || client_is_global_observer()) {
@@ -1502,16 +1517,11 @@ void fc_client::update_buttons()
       sensitive = false;
     }
   }
-  li = pages_layout[PAGE_START]->itemAtPosition(5, 7);
-  pb = qobject_cast<QPushButton *>(li->widget());
-  pb->setEnabled(sensitive);
-  pb->setText(text);
+  start_button->setText(text);
 
   /* Nation button */
   sensitive = game.info.is_new_game && can_client_control();
-  li = pages_layout[PAGE_START]->itemAtPosition(5, 5);
-  pb = qobject_cast<QPushButton *>(li->widget());
-  pb->setEnabled(sensitive);
+  nation_button->setEnabled(sensitive);
 
   sensitive = game.info.is_new_game;
   pr_options->setEnabled(sensitive);
