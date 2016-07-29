@@ -202,6 +202,8 @@ coders installed the generator option.
   Use the map editor to change a map.)
 - FAIR is the most fair of all generators for the multiplayer games.
   It gives all users or teams identical islands.
+- FRACTURE generates maps from a fracture pattern. It tends to place
+  hills and mountains along the edges of the continents.
 
 Below the generator option there is the startpos option. This setting
 determines how many players are placed on the same continent. Each
