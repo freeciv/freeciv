@@ -2134,7 +2134,7 @@ void mr_menu::slot_explode_nuclear()
 }
 
 /***************************************************************************
-  Diplomat/Spy action
+  Do... the selected action
 ***************************************************************************/
 void mr_menu::slot_action()
 {
