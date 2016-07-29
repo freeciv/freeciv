@@ -1023,11 +1023,13 @@ ui_name_base_airbase = _("?gui_type:Build Airbase")
 ;                           not present. Can use eg "-" for no alternate
 ;                           graphic
 ; activity_gfx            = tag specifying graphic for unit building extra
-;                           (can be "none")
+;                           This can be "None" to indicate that graphic sprite
+;                           is not needed.
 ; act_gfx_alt             = tag for alternative graphic for unit building extra
 ; act_gfx_alt2            = tag for second alternative graphic for unit building extra
 ; rmact_gfx               = tag specifying graphic for unit removing extra
-;                           (can be "none")
+;                           This can be "None" to indicate that graphic sprite
+;                           is not needed.
 ; rmact_gfx_alt           = tag for alternative graphic for unit removing extra
 ; reqs                    = requirements to build the extra (see effects.ruleset
 ;                           and README.effects for help on requirements)
