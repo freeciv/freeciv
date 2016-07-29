@@ -194,8 +194,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;w_womens_suffrage = ""
 
 
-; This list contains all events up to E_ACHIEVEMENT
-; and at least some of the later ones (E_DEPRECATION_WARNING)
+; This list contains all events up to E_DEPRECATION_WARNING
 ; (as numbered in common/events.h), in the sorted order.
 ; Alphabetical sorting is based on these tag names,
 ; as the message names and contents change. {was}
