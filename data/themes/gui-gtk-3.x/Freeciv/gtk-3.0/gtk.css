@@ -1,23 +1,24 @@
 * {
-  -GtkWidget-interior-focus: true;
-  -GtkWidget-focus-padding: 0;
-  -GtkButton-default-border: 1;
-  -GtkButton-default-outside-border: 2;
+  -GtkWidget-outline-style: auto;
+  -GtkButton-margin: 1;
+  -GtkButton-padding: 2;
  
-  -GtkRange-trough-border: 1;
-  -GtkRange-slider-width: 15;
-  -GtkRange-stepper-size: 15;
+  -GtkRange-margin: 1;
+  -GtkRange-min-width: 15;
+  -GtkRange-min-height: 15;
  
-  -GtkScale-slider-length: 11;
-  -GtkRange-slider-width: 21;
+  -GtkScale-min-width: 11;
+  -GtkScale-min-height: 21;
 
-  -GtkPaned-handle-size: 6;
-  -GtkScrollbar-min-slider-length: 50;
-  -GtkCheckButton-indicator-size: 12;
-  -GtkCheckButton-indicator-spacing: 3;
+  -GtkPaned-width: 6;
+  -GtkScrollbar-min-width: 50;
+  -GtkScrollbar-min-height: 50;
+  -GtkCheckButton-min-width: 12;
+  -GtkCheckButton-min-height: 12;
+  -GtkCheckButton-margin: 3;
   -GtkMenuBar-internal-padding: 1;
-  -GtkStatusbar-shadow-type: none;
-  -GtkSpinButton-shadow-type: none;
+  -GtkStatusbar-text-shadow: none;
+  -GtkSpinButton-text-shadow: none;
 
   padding: 2px;
 
@@ -78,7 +79,7 @@
   background-image: url("Shadows/text-entry.png");
   /* background-repeat: repeat; */
   background-size: cover;
-  -GtkWidget-interior-focus: false;
+  -Gtkwidget-outline-width: 0;
   color: #635b48;
   background-color: #e7d6b0;
 }
