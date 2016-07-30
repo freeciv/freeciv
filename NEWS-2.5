@@ -1,10 +1,170 @@
 ========================
-Welcome to Freeciv 2.5.4
+Welcome to Freeciv 2.5.5
 ========================
 
 The changes in the 2.5.x series are summarised below.
 For changes prior to 2.5, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.5.4 to 2.5.5
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.5>)
+
+   2.5.5 is a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * A city containing a Leader unit will now never defect in a civil
+       war. Previously this could cause the rebels to end up with both
+       Leaders. GNA#24724
+     * Units without a home city are no longer forced to acquire a home
+       city when transferred to another player. GNA#24746
+     * Barbarians no longer spawn in Lake terrain in all rulesets which
+       have it. GNA#24458
+     * Bug fix: it was impossible to change production in a city after
+       disbanding a unit there the same turn the city was built. GNA#24714
+     * The win chance of a boat in a city defending against attack was
+       erroneously displayed as 0%. GNA#24799 (A new client connecting to
+       an old server running a custom ruleset may still display an
+       incorrect defense value, this time too optimistic.)
+     * The client's display of city population could be out of date after
+       international migration. GNA#24464
+     * The 'Plague' random disaster in the classic ruleset has been
+       renamed to 'Pestilence' to avoid confusion with the unrelated game
+       concept of plague. GNA#24688 Other text changed to mitigate this
+       confusion. GNA#24689
+     * Bug fixes and improvements to Latvian, African, and Texan nations.
+       GNA#24670 GNAPATCH#7240 GNA#24726
+     * Correct descriptions of server options 'techlost_recv' and
+       'techlost_donor' to make clear that they apply to technology theft
+       as well as trading. GNA#24609
+     * Bug fix: a non-zero 'techlevel' setting (or a ruleset which grants
+       initial techs) along with certain 'plrcolormode' settings could
+       give a (harmless) assertion failure at game start. GNA#24614
+     * Bug fix: a player observer can no longer cause the game to start on
+       behalf of a player. GNA#24678
+
+Changes affecting other rulesets / modders
+
+     * Adding a base in the editor was not taking care of side-effects,
+       such as removing conflicting bases on the same tile, granting
+       vision and borders, etc. GNA#23106
+     * In the editor, the "Nation Start Positions" property could be
+       disabled when changing other values on the Game tab of the property
+       editor. GNA#24627
+
+Changes affecting server operators
+
+     * New 'persistent' metaserver connection mode, where one failure to
+       talk to the metaserver does not prevent future attempts. Enabled
+       with the '--keep' server option or the '/metaconnection persistent'
+       server command. GNAPATCH#7300
+
+General
+
+     * Minor memory leak fixes. GNA#24634 GNA#24468
+     * Some optimizations for speed. GNAPATCH#7176 GNAPATCH#7202
+       GNAPATCH#7189
+     * Various internal changes which should only affect developers.
+       GNAPATCH#7206 GNA#24669 GNA#24636 GNA#24651 GNAPATCH#7433
+       GNAPATCH#7432
+
+AI
+
+     * AI players could occasionally be subject to the penalty for
+       changing production type. They are supposed to always be immune to
+       this penalty. GNA#24760
+
+Clients
+
+     * It's now possible to create an all-AI game from the client, by
+       becoming an observer and starting the game. (You also need to set
+       'minplayers' to 0 and set a turn timeout.) GNAPATCH#7334
+     * Fix drawing artifacts with oriented tilesets such as Cimpletoon:
+          + A unit could be drawn with two superimposed random
+            orientations. This showed up in the Gtk unit select dialog and
+            the Qt help. GNA#24772
+          + Unit orientation in these circumstances could change randomly
+            on redraws. GNA#24771
+     * Fixes to disconnecting from servers and cleaning up spawned
+       servers. In particular, the Gtk and Qt clients now disconnect
+       cleanly from the server when you quit the client. GNA#24629
+       GNA#24872 GNA#24823
+     * For global observers, fixed display of city map outline and grid
+       coloring. GNA#24791
+     * Fixed a potential buffer overflow in some clients in the presence
+       of extremely long tileset or soundset names. GNA#24877
+     * (Gtk) Make Prev/Next City buttons insensitive for global observers,
+       since they do nothing. GNA#24059
+     * (Gtk3) On very small screens, the balance between happiness and
+       nationality areas in the city dialog has been improved. GNA#24265
+     * (Gtk3) Silence Gtk warnings on console by default with newer Gtk3
+       versions; this is necessary as it's not possible to construct a
+       theme which works across the full range of Gtk3 versions we support
+       without warnings. They can be re-enabled with
+       freeciv-gtk3 -- --gtk-warnings.
+     * (Qt) Simplified the network page, so that local and Internet
+       servers are on the same page. GNAPATCH#7392 Scans for local servers
+       are now stopped once a connection is chosen. GNA#24833
+     * (Qt) There's now a button to lock the messages and chat window
+       geometry, so that a mis-click doesn't accidentally disarrange them.
+       GNAPATCH#7467
+     * (Qt) The '5' key on the numeric keypad now selects the previous
+       unit, as in the Gtk clients. GNA#24516
+     * (Qt) Allied chat (chat messages are sent only to allies, not all
+       players) is now the default. GNAPATCH#7368
+     * (Qt) The default leader name defaults to the player name (often the
+       system user name) rather than a leader name from a selected nation.
+       GNAPATCH#7367
+     * (Qt) Added an option to change the theme. GNAPATCH#7471
+     * (Qt) The '<', '>', and '&' characters are now handled correctly in
+       chat; they are no longer interpreted as HTML. GNAPATCH#7263
+       GNA#24829
+     * (Qt) When there's a problem loading a tileset, an error message
+       explaining it is now displayed. GNA#24832
+     * (SDL) The display of shields in the city dialog immediately after
+       changing production could be overly pessimistic. GNA#24807
+
+Tools
+
+     * Minor fix to freeciv-manual tool's output. GNA#24778
+     * Minor fix to modpack installer's error reporting. GNA#24637
+
+Help / Documentation
+
+     * The 'Chatline' help is now more comprehensive. GNA#24841
+     * The tutorial scenario now has a message for when you build your
+       first military unit. GNA#24874
+     * Miscellaneous other improvements to in-game text and user
+       documentation. GNAPATCH#7119 GNA#24682 GNA#24720 GNA#24650
+       GNA#24753 GNA#24784 GNAPATCH#7303 GNA#24828 GNA#24838 GNA#24858
+     * Miscellaneous changes to developer/ruleset docs. GNAPATCH#7384
+     * Invisible changes to assist localization. GNAPATCH#6908
+
+Translations
+
+     * Updated translations:
+          + Complete translations: Catalan, French, British English,
+            Spanish, Russian.
+          + Incomplete translations: Finnish (100% core, 92% nations),
+            Japanese (94% core, 95.4% nations).
+     * When localized into Finnish, the last character was stripped or
+       corrupted in all messages. GNA#24754
+
+Build/portability
+
+     * Package builders can now override the version label used with
+       FREECIV_LABEL_FORCE. GNAPATCH#7196 GNAPATCH#7217
+     * 'nonnull-compare' warnings from GCC 6 are now silenced. GNA#23810
+     * The included Lua now uses fseeko() instead of fseek() where
+       available. This is unlikely to make a difference in practice.
+       GNAPATCH#7322
+     * Update some of the libraries shipped with the Windows packages.
+       GNA#24321
 
 
 CHANGES FROM 2.5.3 to 2.5.4
