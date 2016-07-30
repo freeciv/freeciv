@@ -1902,9 +1902,9 @@ GtkWidget *setup_menus(GtkWidget *window)
     g_error_free(error);
   }
 
-#ifndef DEBUG
+#ifndef FREECIV_DEBUG
   menus_set_visible(get_safe_group(), "RELOAD_TILESET", FALSE, FALSE);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   return menubar;
 }

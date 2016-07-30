@@ -2086,11 +2086,11 @@ void shuffle_players(void)
   /* randomize it */
   array_shuffle(shuffled_order, n);
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   for (i = 0; i < n; i++) {
     log_debug("shuffled_order[%d] = %d", i, shuffled_order[i]);
   }
-#endif
+#endif /* FREECIV_DEBUG */
 }
 
 /**************************************************************************

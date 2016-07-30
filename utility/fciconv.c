@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003-2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -116,14 +116,14 @@ void init_character_encodings(const char *my_internal_encoding,
     }
   }
 
-#ifdef ENABLE_NLS
+#ifdef FREECIV_ENABLE_NLS
   bind_textdomain_codeset("freeciv-core", internal_encoding);
 #endif
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   fprintf(stderr, "Encodings: Data=%s, Local=%s, Internal=%s\n",
           data_encoding, local_encoding, internal_encoding);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 #else  /* HAVE_ICONV */
    /* log_* may not work at this point. */

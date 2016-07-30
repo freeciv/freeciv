@@ -196,13 +196,13 @@ static void create_goto_dialog(void)
   /* Set the mnemonic in the frame label to focus the city list */
   gtk_label_set_mnemonic_widget(GTK_LABEL(label), view);
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(_("Id"), rend,
     "text", GD_COL_CITY_ID, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   gtk_tree_view_column_set_sort_column_id(col, GD_COL_CITY_ID);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(_("City"), rend,

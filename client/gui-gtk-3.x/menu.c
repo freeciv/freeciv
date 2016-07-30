@@ -78,11 +78,11 @@ static void menu_entry_set_active(const char *key,
                                   gboolean is_active);
 static void menu_entry_set_sensitive(const char *key,
                                      gboolean is_sensitive);
-#ifndef DEBUG
+#ifndef FREECIV_DEBUG
 static void menu_entry_set_visible(const char *key,
                                    gboolean is_visible,
                                    gboolean is_sensitive);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 static void view_menu_update_sensitivity(void);
 
@@ -1930,9 +1930,9 @@ GtkWidget *setup_menus(GtkWidget *window)
     gtk_widget_show_all(menubar);
   }
 
-#ifndef DEBUG
+#ifndef FREECIV_DEBUG
   menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   return menubar;
 }
@@ -1997,7 +1997,7 @@ static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
 /****************************************************************
   Sets an action visible.
 *****************************************************************/
-#ifndef DEBUG
+#ifndef FREECIV_DEBUG
 static void menu_entry_set_visible(const char *key,
                                    gboolean is_visible,
                                    gboolean is_sensitive)
@@ -2009,7 +2009,7 @@ static void menu_entry_set_visible(const char *key,
     gtk_widget_set_sensitive(item, is_sensitive);
   }
 }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 /****************************************************************
   Renames an action.

@@ -1739,11 +1739,11 @@ enum ai_level ai_level_convert(int old_level)
   case 8:
     return AI_LEVEL_CHEATING;
   case 10:
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     return AI_LEVEL_EXPERIMENTAL;
-#else  /* DEBUG */
+#else  /* FREECIV_DEBUG */
     return AI_LEVEL_HARD;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
   }
 
   return ai_level_invalid();

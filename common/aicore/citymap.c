@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - Per I. Mathisen
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -119,11 +119,11 @@ void citymap_free(void)
 **************************************************************************/
 void citymap_reserve_city_spot(struct tile *ptile, int id)
 {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_citymap("id %d reserving (%d, %d), was %d", 
               id, TILE_XY(ptile), citymap[tile_index(ptile)]);
   fc_assert_ret(0 <= citymap[tile_index(ptile)]);
-#endif
+#endif /* FREECIV_DEBUG */
 
   /* Tiles will now be "reserved" by actual workers, so free excess
    * reservations. Also mark tiles for city overlapping, or 'crowding'.
@@ -160,7 +160,7 @@ void citymap_free_city_spot(struct tile *ptile, int id)
 **************************************************************************/
 void citymap_reserve_tile(struct tile *ptile, int id)
 {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   fc_assert_ret(!citymap_is_reserved(ptile));
 #endif
 

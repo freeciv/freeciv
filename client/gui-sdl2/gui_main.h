@@ -34,8 +34,6 @@
 /* enable this to adjust sizes for 320x240 resolution */
 /* #define SMALL_SCREEN */
 
-/* #define DEBUG_SDL */
-
 /* SDL client Flags */
 #define CF_NONE				0
 #define CF_ORDERS_WIDGETS_CREATED	(1<<0)

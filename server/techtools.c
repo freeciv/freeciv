@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -253,11 +253,11 @@ package_research_info(struct packet_research_info *packet,
   } advance_index_iterate_end;
   packet->inventions[advance_count()] = '\0';
   packet->tech_goal = presearch->tech_goal;
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_verbose("Research nb %d inventions: %s",
               research_number(presearch),
               packet->inventions);
-#endif
+#endif /* FREECIV_DEBUG */
 }
 
 /****************************************************************************

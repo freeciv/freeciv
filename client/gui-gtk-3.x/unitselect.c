@@ -76,7 +76,7 @@ enum usdlg_row_types {
   #define USDLG_COLUMNS_SHOW    USDLG_COLUMNS_DEBUG
 #else
   #define USDLG_COLUMNS_SHOW    USDLG_COLUMNS_DEFAULT
-#endif /* DEBUG */
+#endif /* DEBUG_USDLG */
 
 enum usdlg_column_types usdlg_col_types[USDLG_COLUMNS_ALL] = {
   COL_PIXBUF, /* Unit */

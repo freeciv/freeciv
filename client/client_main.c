@@ -157,7 +157,7 @@ bool waiting_for_end_turn = FALSE;
  */
 static bool server_busy = FALSE;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 bool hackless = FALSE;
 #endif
 
@@ -406,10 +406,10 @@ int client_main(int argc, char *argv[])
                   _("Load saved game FILE"));
       cmdhelp_add(help, "h", "help",
                   _("Print a summary of the options"));
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
       cmdhelp_add(help, "H", "Hackless",
                   _("Do not request hack access to local, but not spawned, server"));
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
       cmdhelp_add(help, "l",
                   /* TRANS: "log" is exactly what user must type, do not translate. */
                   _("log FILE"),

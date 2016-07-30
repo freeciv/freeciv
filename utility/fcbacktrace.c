@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #include "fcbacktrace.h"
 
 /* We don't want backtrace-spam to testmatic logs */
-#if defined(DEBUG) && defined(HAVE_BACKTRACE) && !defined(FREECIV_TESTMATIC)
+#if defined(FREECIV_DEBUG) && defined(HAVE_BACKTRACE) && !defined(FREECIV_TESTMATIC)
 #define BACKTRACE_ACTIVE 1
 #endif
 

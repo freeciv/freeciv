@@ -145,9 +145,9 @@ static int fuzzy_of_skill_level(enum ai_level level)
   case AI_LEVEL_NORMAL:
   case AI_LEVEL_HARD:
   case AI_LEVEL_CHEATING:
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   case AI_LEVEL_EXPERIMENTAL:
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
     return 0;
   case AI_LEVEL_COUNT:
     fc_assert(level != AI_LEVEL_COUNT);
@@ -178,9 +178,9 @@ static int science_cost_of_skill_level(enum ai_level level)
   case AI_LEVEL_NORMAL:
   case AI_LEVEL_HARD:
   case AI_LEVEL_CHEATING:
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   case AI_LEVEL_EXPERIMENTAL:
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
     return 100;
   case AI_LEVEL_COUNT:
     fc_assert(level != AI_LEVEL_COUNT);
@@ -209,9 +209,9 @@ static int expansionism_of_skill_level(enum ai_level level)
   case AI_LEVEL_NORMAL:
   case AI_LEVEL_HARD:
   case AI_LEVEL_CHEATING:
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   case AI_LEVEL_EXPERIMENTAL:
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
     return 100;
   case AI_LEVEL_COUNT:
     fc_assert(level != AI_LEVEL_COUNT);

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@
 void distribute(int number, int groups, int *ratios, int *result)
 {
   int i, sum = 0, rest[groups], max_groups[groups], max_count, max;
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   const int original_number = number;
 #endif
 
@@ -109,12 +109,12 @@ void distribute(int number, int groups, int *ratios, int *result)
     }
   }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   number = original_number;
   for (i = 0; i < groups; i++) {
     fc_assert(result[i] >= 0);
     number -= result[i];
   }
   fc_assert(number == 0);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 }

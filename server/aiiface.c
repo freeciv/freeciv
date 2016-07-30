@@ -144,7 +144,7 @@ void ai_init(void)
   }
   if (!failure) {
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     /* First search ai modules under directory ai/<module> under
        current directory. This allows us to run freeciv without
        installing it. */
@@ -157,7 +157,7 @@ void ai_init(void)
       fc_snprintf(buf, sizeof(buf), "ai/%s", moduledirs[i]);
       lt_dladdsearchdir(buf);
     }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
     /* Then search ai modules from their installation directory. */
     lt_dladdsearchdir(AI_MODULEDIR);

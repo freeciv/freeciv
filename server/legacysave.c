@@ -4116,7 +4116,7 @@ static void game_load_internal(struct section_file *file)
 
     /* Free worked tiles map */
     if (worked_tiles != NULL) {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
       /* check the entire map for unused worked tiles */
       whole_map_iterate(ptile) {
         if (worked_tiles[ptile->index] != -1) {
@@ -4124,7 +4124,7 @@ static void game_load_internal(struct section_file *file)
                     worked_tiles[ptile->index], TILE_XY(ptile));
         }
       } whole_map_iterate_end;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
       FC_FREE(worked_tiles);
     }
 

@@ -340,7 +340,7 @@ void handle_server_join_reply(bool you_can_join, const char *message,
     send_packet_client_info(&client.conn, &client_info);
 
     /* we could always use hack, verify we're local */
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     if (!hackless || is_server_running())
 #endif
     {
@@ -2407,7 +2407,7 @@ void handle_research_info(const struct packet_research_info *packet)
   int gained_techs_num = 0, i;
   enum tech_state newstate, oldstate;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_verbose("Research nb %d inventions: %s",
               packet->id,
               packet->inventions);
@@ -3537,7 +3537,7 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
   sz_strlcpy(b->soundtag, p->soundtag);
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   if (p->id == improvement_count() - 1) {
     improvement_iterate(bdbg) {
       log_debug("Improvement: %s...", improvement_rule_name(bdbg));
@@ -3551,7 +3551,7 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
       }
     } improvement_iterate_end;
   }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   tileset_setup_impr_type(tileset, b);
 }

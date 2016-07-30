@@ -111,7 +111,7 @@ bool city_to_canvas_pos(float *canvas_x, float *canvas_y, int city_x,
 bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
                         int canvas_x, int canvas_y)
 {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   int orig_canvas_x = canvas_x, orig_canvas_y = canvas_y;
 #endif
   const int width = get_citydlg_canvas_width();

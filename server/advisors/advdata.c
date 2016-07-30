@@ -592,7 +592,7 @@ struct adv_data *adv_data_get(struct player *pplayer, bool *caller_closes)
        encountered. Since we are probably going to trust that to be enough
        instead of making intrusive fixes for actual bug in stable branch,
        do not assert for non-debug builds of stable versions. */
-#if defined(DEBUG) || defined(IS_DEVEL_VERSION)
+#if defined(FREECIV_DEBUG) || defined(IS_DEVEL_VERSION)
   fc_assert(caller_closes != NULL || adv->phase_is_initialized);
 #endif
 

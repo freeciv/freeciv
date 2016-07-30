@@ -817,7 +817,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     }
   } unit_list_iterate_safe_end;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   unit_list_iterate(pcity->units_supported, punit) {
     if (punit->server.dying) {
       /* Leave the dying alone. */
@@ -827,7 +827,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     fc_assert(punit->homecity == pcity->id);
     fc_assert(unit_owner(punit) == pplayer);
   } unit_list_iterate_end;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 }
 
 /****************************************************************************

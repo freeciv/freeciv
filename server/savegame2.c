@@ -2521,7 +2521,7 @@ static void sg_load_players_basic(struct loaddata *loading)
                        "Invalid player shuffle data!");
       }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
       log_debug("[load shuffle] player_count() = %d", player_count());
       player_slots_iterate(pslot) {
         int plrid = player_slot_index(pslot);
@@ -2529,7 +2529,7 @@ static void sg_load_players_basic(struct loaddata *loading)
                   plrid, shuffled_players[plrid], plrid,
                   shuffled_player_set[plrid] ? "is used" : "-");
       } player_slots_iterate_end;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
       /* Set shuffle list from savegame. */
       set_shuffled_players(shuffled_players);
@@ -5049,7 +5049,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
   } players_iterate_end;
 
   /* Check worked tiles map */
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   if (loading->worked_tiles != NULL) {
     /* check the entire map for unused worked tiles */
     whole_map_iterate(ptile) {
@@ -5059,7 +5059,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
       }
     } whole_map_iterate_end;
   }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   /* Check researching technologies and goals. */
   researches_iterate(presearch) {

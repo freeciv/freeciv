@@ -52,7 +52,7 @@ static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
 /****************************************************************************
   Runs action if the nation is not valid.
 ****************************************************************************/
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define NATION_CHECK(pnation, action)                                       \
     fc_assert_action(nation_check(pnation,                                  \
                                   log_do_output_for_level(LOG_ERROR),       \
@@ -94,9 +94,9 @@ static inline bool nation_check(const struct nation_type *pnation,
   return TRUE;
 }
 
-#else  /* DEBUG */
+#else  /* FREECIV_DEBUG */
 #define NATION_CHECK(pnation, action) /* Do Nothing. */
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 /****************************************************************************
   Returns the nation that has the given (translated) plural noun.

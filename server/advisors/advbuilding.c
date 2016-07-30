@@ -159,7 +159,7 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
     }
   } improvement_iterate_end;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   /* This logging is relatively expensive, so activate only if necessary */
   city_list_iterate(pplayer->cities, pcity) {
     improvement_iterate(pimprove) {
@@ -170,7 +170,7 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
       }
     } improvement_iterate_end;
   } city_list_iterate_end;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 }
 
 /************************************************************************** 

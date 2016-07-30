@@ -144,14 +144,14 @@ static void tile_data_cache_destroy(struct tile_data_cache *ptdc);
 struct ai_settler {
   struct tile_data_cache_hash *tdc_hash;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   struct {
     int hit;
     int old;
     int miss;
     int save;
   } cache;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 };
 
 struct cityresult {
@@ -514,19 +514,19 @@ static const struct tile_data_cache *tdc_plr_get(struct ai_type *ait,
   tile_data_cache_hash_lookup(ai->settler->tdc_hash, tindex, &ptdc);
 
   if (!ptdc) {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     ai->settler->cache.miss++;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
     return NULL;
   } else if (ptdc->turn != game.info.turn) {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     ai->settler->cache.old++;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
     return NULL;
   } else {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     ai->settler->cache.hit++;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
     return ptdc;
   }
 }
@@ -544,9 +544,9 @@ static void tdc_plr_set(struct ai_type *ait, struct player *plr, int tindex,
   fc_assert_ret(ai->settler->tdc_hash != NULL);
   fc_assert_ret(ptdc != NULL);
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     ai->settler->cache.save++;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   tile_data_cache_hash_replace(ai->settler->tdc_hash, tindex, ptdc);
 }
@@ -997,12 +997,12 @@ void dai_auto_settler_init(struct ai_plr *ai)
   ai->settler = fc_calloc(1, sizeof(*ai->settler));
   ai->settler->tdc_hash = tile_data_cache_hash_new();
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   ai->settler->cache.hit = 0;
   ai->settler->cache.old = 0;
   ai->settler->cache.miss = 0;
   ai->settler->cache.save = 0;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 }
 
 /**************************************************************************
@@ -1192,7 +1192,7 @@ void dai_auto_settler_reset(struct ai_type *ait, struct player *pplayer)
   fc_assert_ret(ai->settler != NULL);
   fc_assert_ret(ai->settler->tdc_hash != NULL);
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_debug("[aisettler cache for %s] save: %d, miss: %d, old: %d, hit: %d",
             player_name(pplayer), ai->settler->cache.save,
             ai->settler->cache.miss, ai->settler->cache.old,
@@ -1202,7 +1202,7 @@ void dai_auto_settler_reset(struct ai_type *ait, struct player *pplayer)
   ai->settler->cache.old = 0;
   ai->settler->cache.miss = 0;
   ai->settler->cache.save = 0;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   tile_data_cache_hash_clear(ai->settler->tdc_hash);
 }

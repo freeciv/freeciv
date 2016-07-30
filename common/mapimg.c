@@ -1321,7 +1321,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
   struct img *pimg;
   char mapimgfile[MAX_LEN_PATH];
   bool ret = TRUE;
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   struct timer *timer_cpu, *timer_user;
 #endif
 
@@ -1348,12 +1348,12 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
     return TRUE;
   }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   timer_cpu = timer_new(TIMER_CPU, TIMER_ACTIVE);
   timer_start(timer_cpu);
   timer_user = timer_new(TIMER_USER, TIMER_ACTIVE);
   timer_start(timer_user);
-#endif
+#endif /* FREECIV_DEBUG */
 
   /* create map */
   switch (pmapdef->player.show) {
@@ -1402,14 +1402,14 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
     break;
   }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_debug("Image generation time: %g seconds (%g apparent)",
             timer_read_seconds(timer_cpu),
             timer_read_seconds(timer_user));
 
   timer_destroy(timer_cpu);
   timer_destroy(timer_user);
-#endif
+#endif /* FREECIV_DEBUG */
 
   return ret;
 }
@@ -1692,7 +1692,7 @@ static void mapimg_log(const char *file, const char *function, int line,
   fc_vsnprintf(error_buffer, sizeof(error_buffer), format, args);
   va_end(args);
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_debug("In %s() [%s:%d]: %s", function, file, line, error_buffer);
 #endif
 }

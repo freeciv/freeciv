@@ -49,11 +49,11 @@
 #undef CITY_DEBUGGING
 
 static char *citylog_map_line(int y, int city_radius_sq, int *city_map_data);
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 /* only used for debugging */
 static void citylog_map_index(enum log_level level);
 static void citylog_map_radius_sq(enum log_level level);
-#endif
+#endif /* FREECIV_DEBUG */
 
 /* Get city tile informations using the city tile index. */
 static struct iter_index *city_map_index = NULL;
@@ -562,7 +562,7 @@ void generate_city_map_indices(void)
     city_map_xy[city_x][city_y] = i;
   }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   citylog_map_radius_sq(LOG_DEBUG);
   citylog_map_index(LOG_DEBUG);
 
@@ -578,7 +578,7 @@ void generate_city_map_indices(void)
               city_map_index[i].dx, city_map_index[i].dy, city_x, city_y,
               city_map_index[i].dist, city_map_xy[city_x][city_y]);
   }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   cm_init_citymap();
 }
@@ -2195,7 +2195,7 @@ static inline void get_worked_tile_output(const struct city *pcity,
          * it by default. */
         fc_assert(city_tile_cache_get_output(pcity, city_tile_index, o)
                   == city_tile_output(pcity, ptile, is_celebrating, o));
-#endif
+#endif /* CITY_DEBUGGING */
         output[o] += city_tile_cache_get_output(pcity, city_tile_index, o);
       } output_type_iterate_end;
     }

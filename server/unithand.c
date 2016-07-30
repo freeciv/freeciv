@@ -4639,12 +4639,12 @@ void handle_unit_orders(struct player *pplayer,
     punit->goto_tile = NULL;
   }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_debug("Orders for unit %d: length:%d", packet->unit_id, length);
   for (i = 0; i < length; i++) {
     log_debug("  %d,%s", packet->orders[i], dir_get_name(packet->dir[i]));
   }
-#endif
+#endif /* FREECIV_DEBUG */
 
   if (!is_player_phase(unit_owner(punit), game.info.phase)
       || execute_orders(punit, TRUE)) {

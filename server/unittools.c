@@ -1632,11 +1632,11 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
   /* The unit is doomed. */
   punit->server.dying = TRUE;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   unit_list_iterate(ptile->units, pcargo) {
     fc_assert(unit_transport_get(pcargo) != punit);
   } unit_list_iterate_end;
-#endif
+#endif /* FREECIV_DEBUG */
 
   CALL_PLR_AI_FUNC(unit_lost, pplayer, punit);
 

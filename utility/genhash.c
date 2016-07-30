@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -139,12 +139,11 @@ char *genhash_str_copy_func(const char *vkey)
 ****************************************************************************/
 void genhash_str_free_func(char *vkey)
 {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   fc_assert_ret(NULL != vkey);
 #endif
   free(vkey);
 }
-
 
 /****************************************************************************
   Calculate a "reasonable" number of buckets for a given number of entries.

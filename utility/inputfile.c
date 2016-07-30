@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -190,12 +190,14 @@ static bool inf_sanity_check(struct inputfile *inf)
                     || TRUE == inf->at_eof, FALSE);
   fc_assert_ret_val(FALSE == inf->in_string
                     || TRUE == inf->in_string, FALSE);
-#ifdef DEBUG
+
+#ifdef FREECIV_DEBUG
   fc_assert_ret_val(0 <= inf->string_start_line, FALSE);
   if (inf->included_from && !inf_sanity_check(inf->included_from)) {
     return FALSE;
   }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
+
   return TRUE;
 }
 

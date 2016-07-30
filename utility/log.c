@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,16 +44,16 @@ static log_prefix_fn log_prefix = NULL;
 
 static fc_mutex logfile_mutex;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 static const enum log_level max_level = LOG_DEBUG;
 #else
 static const enum log_level max_level = LOG_VERBOSE;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 static enum log_level fc_log_level = LOG_NORMAL;
 static int fc_fatal_assertions = -1;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 struct log_fileinfo {
   char *name;
   enum log_level level;
@@ -62,7 +62,7 @@ struct log_fileinfo {
 };
 static int log_num_files = 0;
 static struct log_fileinfo *log_files = NULL;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 static char *log_level_names[] = {
   "Fatal", "Error", "Normal", "Verbose", "Debug", NULL
@@ -91,12 +91,12 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   int level;
   int ln;
   int first_len = -1;
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   const char *tok;
   int i;
   char *dupled;
   bool ret = TRUE;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   c = level_str;
   n = 0;
@@ -129,17 +129,18 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
     } else {
       fc_fprintf(stderr, _("Bad log level %d in \"%s\".\n"),
                  level, level_str);
-#ifndef DEBUG
+#ifndef FREECIV_DEBUG
       if (level == max_level + 1) {
-        fc_fprintf(stderr, _("Freeciv must be compiled with the DEBUG flag"
-                             " to use debug level %d.\n"), max_level + 1);
+        fc_fprintf(stderr,
+                   _("Freeciv must be compiled with the FREECIV_DEBUG flag "
+                     "to use debug level %d.\n"), max_level + 1);
       }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
       return FALSE;
     }
   }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   c = level_str;
   level = -1;
   if (first_len > 0) {
@@ -224,11 +225,12 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
 out:
   free(dupled);
   return ret;
-#else  /* DEBUG */
-  fc_fprintf(stderr, _("Freeciv must be compiled with the DEBUG flag "
-                       "to use advanced log levels based on files.\n"));
+#else  /* FREECIV_DEBUG */
+  fc_fprintf(stderr,
+             _("Freeciv must be compiled with the FREECIV_DEBUG flag "
+               "to use advanced log levels based on files.\n"));
   return FALSE;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 }
 
 /**************************************************************************
@@ -331,7 +333,7 @@ const char *log_level_name(enum log_level lvl)
   return log_level_names[lvl];
 }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 /**************************************************************************
   Returns wether we should do an output for this level, in this file,
   at this line.
@@ -352,7 +354,7 @@ bool log_do_output_for_level_at_location(enum log_level level,
   }
   return (fc_log_level >= level);
 }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 /*****************************************************************************
   Unconditionally print a simple string.

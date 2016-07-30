@@ -82,7 +82,7 @@
 /* Logging in find_ferry functions */
 #define LOGLEVEL_FINDFERRY LOG_DEBUG
 /* Extra consistency checks */
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define LOGLEVEL_FERRY_STATS LOG_NORMAL
 #endif
 

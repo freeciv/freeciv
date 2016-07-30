@@ -542,7 +542,7 @@ const char *unit_description(struct unit *punit)
 
   astr_add_line(&str, "%s",
 		get_nearest_city_text(pcity_near, pcity_near_dist));
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   astr_add_line(&str, "Unit ID: %d", punit->id);
 #endif
 
@@ -1177,13 +1177,13 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
   }
 
   /* Line 5/6. Debug text. */
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   if (count == 1) {
     astr_add_line(&str, "(Unit ID %d)", unit_list_get(punits, 0)->id);
   } else {
     astr_add_line(&str, " ");
   }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   return astr_str(&str);
 }

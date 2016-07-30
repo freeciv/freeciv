@@ -80,7 +80,7 @@
 #ifdef DEBUG_TIMERS
 #define GATHER_TIME_STATS
 #endif
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define CM_DEBUG
 #endif
 

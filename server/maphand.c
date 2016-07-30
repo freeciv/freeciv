@@ -643,14 +643,14 @@ void map_vision_update(struct player *pplayer, struct tile *ptile,
     }
   } vision_layer_iterate_end;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_debug("Updating vision at (%d, %d) in a radius of %d.",
             TILE_XY(ptile), max_radius);
   vision_layer_iterate(v) {
     log_debug("  vision layer %d is changing from %d to %d.",
               v, old_radius_sq[v], new_radius_sq[v]);
   } vision_layer_iterate_end;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   buffer_shared_vision(pplayer);
   circle_dxyr_iterate(ptile, max_radius, tile1, dx, dy, dr) {
@@ -872,7 +872,7 @@ void map_change_seen(struct player *pplayer,
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
   bool revealing_tile = FALSE;
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_debug("%s() for player %s (nb %d) at (%d, %d).",
             __FUNCTION__, player_name(pplayer), player_number(pplayer),
             TILE_XY(ptile));
@@ -880,7 +880,7 @@ void map_change_seen(struct player *pplayer,
     log_debug("  vision layer %d is changing from %d to %d.",
               v, plrtile->seen_count[v], plrtile->seen_count[v] + change[v]);
   } vision_layer_iterate_end;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
   /* Removes units out of vision. First, check V_INVIS layer because
    * we must remove all units before fog of war because clients expect

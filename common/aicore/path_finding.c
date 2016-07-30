@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@
 #include "specpq.h"
 #define INITIAL_QUEUE_SIZE 100
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 /* Extra checks for debugging. */
 #define PF_DEBUG
 #endif

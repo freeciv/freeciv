@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -106,7 +106,7 @@ static void con_update_prompt(void)
   console_prompt_is_showing = TRUE;
 }
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 /************************************************************************
   Prefix for log messages saved to file. At the moment the turn and the
   current date and time are used.
@@ -131,7 +131,7 @@ static const char *log_prefix(void)
 
   return buf;
 }
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 /************************************************************************
   Deprecation warning callback to send event to clients.
@@ -147,13 +147,13 @@ static void depr_warn_callback(const char *msg)
 void con_log_init(const char *log_filename, enum log_level level,
                   int fatal_assertions)
 {
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   log_init(log_filename, level, con_handle_log, log_prefix,
            fatal_assertions);
 #else
   log_init(log_filename, level, con_handle_log, NULL,
            fatal_assertions);
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
   backtrace_init();
   deprecation_warn_cb_set(depr_warn_callback);
 }
