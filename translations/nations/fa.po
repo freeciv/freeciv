@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-14 11:28+0100\n"
+"POT-Creation-Date: 2016-07-30 12:10+0100\n"
 "PO-Revision-Date: 2013-09-09 10:52+0300\n"
 "Last-Translator: Arman Ordookhani <arman_o71@Yahoo.com>\n"
 "Language-Team: Farsi(Persian)\n"
@@ -501,7 +501,7 @@ msgstr "آفریقایی"
 
 #: data/nation/african.ruleset:4
 #, fuzzy
-msgid "?plural:African"
+msgid "?plural:Africans"
 msgstr "آمریکایی‌ها"
 
 #: data/nation/african.ruleset:6

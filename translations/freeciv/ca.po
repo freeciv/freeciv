@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-28 15:58+0200\n"
+"POT-Creation-Date: 2016-07-30 12:09+0100\n"
 "PO-Revision-Date: 2016-07-28 16:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
@@ -28199,10 +28199,9 @@ msgid ""
 "username beginning with 'John' (like 'Johnathan')."
 msgstr ""
 "  - Els missatges que comencen per 'John:' són missatges privats a 'John'. "
-"Els noms es poden abreujar, o tancar entre cometes dobles si tenen espais. El "
-"servidor busca jugadors que s'anomenin 'John' "
-"i si això falla, intenta trobar un nom d'usuari que comenci per 'John' (com "
-"ara 'Johnathan')."
+"Els noms es poden abreujar, o tancar entre cometes dobles si tenen espais. "
+"El servidor busca jugadors que s'anomenin 'John' i si això falla, intenta "
+"trobar un nom d'usuari que comenci per 'John' (com ara 'Johnathan')."
 
 #: data/helpdata.txt:1826
 msgid ""
@@ -28211,8 +28210,8 @@ msgid ""
 "still be matched."
 msgstr ""
 "  - Els missatges. que comencen amb 'John::' són missatges privats com "
-"abans, però només aniran a usuaris (no jugadors) que s'anomenin 'John'.  "
-"Un usuari que es digui 'Johnathan' també el rebria."
+"abans, però només aniran a usuaris (no jugadors) que s'anomenin 'John'.  Un "
+"usuari que es digui 'Johnathan' també el rebria."
 
 #: data/helpdata.txt:1830
 msgid ""
@@ -28228,7 +28227,8 @@ msgid ""
 "you're a global observer, only to other global observers)."
 msgstr ""
 "  - Els missatges que comencin per '.' només s'enviaran a tots els teus "
-"aliats (o, si ets un observador global, només als altres observadors globals)."
+"aliats (o, si ets un observador global, només als altres observadors "
+"globals)."
 
 #: data/helpdata.txt:1836
 msgid ""
@@ -30320,7 +30320,7 @@ msgstr ""
 "Juga amb aquest escenari d'aprenentatge per introduir-te en el Freeciv. Està "
 "pensat per a partides d'un sol jugador."
 
-#: data/scenarios/tutorial.sav:77
+#: data/scenarios/tutorial.sav:76
 msgid ""
 "Welcome to Freeciv.  You lead a civilization.  Your\n"
 "task is to conquer the world!  You should start by\n"
@@ -30335,7 +30335,7 @@ msgstr ""
 "bon lloc on fundar una ciutat. Fes servir el teclat\n"
 "numèric per fer moure les unitats."
 
-#: data/scenarios/tutorial.sav:98
+#: data/scenarios/tutorial.sav:97
 msgid ""
 "Outside of a city, or a fortress or airbase, if a 'stack' of units\n"
 "on a single tile is attacked, the strongest unit defends; and if that\n"
@@ -30351,7 +30351,7 @@ msgstr ""
 "aquesta,\n"
 "sobretot en terra ferma."
 
-#: data/scenarios/tutorial.sav:117
+#: data/scenarios/tutorial.sav:116
 msgid ""
 "This looks like a good place to build a city.  The next time this\n"
 "unit gets a chance to move, press (b) to found a city.\n"
@@ -30368,7 +30368,7 @@ msgstr ""
 "l'aigua. El menjar és el recurs més important de qualsevol ciutat.\n"
 "Els prats i les planes proporcionen molt menjar."
 
-#: data/scenarios/tutorial.sav:127
+#: data/scenarios/tutorial.sav:126
 msgid ""
 "Now you have built your first city.  The city window should have\n"
 "opened automatically; if not click on the city to open it.  Cities are\n"
@@ -30395,7 +30395,7 @@ msgstr ""
 "la finestra de la ciutat. Si tot va bé, la ciutat hauria de mostrar la \n"
 "producció dels colons a la vista del mapa."
 
-#: data/scenarios/tutorial.sav:130
+#: data/scenarios/tutorial.sav:129
 msgid ""
 "Congratulations, you have founded your second city.  This city will\n"
 "behave almost exactly like the first one - it will be slightly different\n"
@@ -30407,7 +30407,7 @@ msgstr ""
 "a causa del terreny que l'envolta. També hauries de construir \n"
 "colons en aquesta ciutat."
 
-#: data/scenarios/tutorial.sav:133
+#: data/scenarios/tutorial.sav:132
 msgid ""
 "You have built your third city!  Your civilization seems to be\n"
 "thriving.  It might be time to think about a military.  Pick one of\n"
@@ -30438,7 +30438,7 @@ msgstr ""
 "afegir-la a la llista. Tan aviat s'acabi de construir la Caserna, la \n"
 "ciutat canviarà automàticament a produir la unitat. "
 
-#: data/scenarios/tutorial.sav:136
+#: data/scenarios/tutorial.sav:135
 msgid ""
 "Another city!  You are really getting the hang of this.  You\n"
 "probably have a pretty good idea what to do with new cities by\n"
@@ -30463,7 +30463,7 @@ msgstr ""
 "a la ciutat, i quant trigarà a construir-ho; també mostra quant trigarà\n"
 "la ciutat a créixer."
 
-#: data/scenarios/tutorial.sav:139
+#: data/scenarios/tutorial.sav:138
 msgid ""
 "As the number of cities in your empire grows, it becomes harder to\n"
 "manage individual cities.  This is where the Cities report becomes\n"
@@ -30485,7 +30485,7 @@ msgstr ""
 "aspectes d'una ciutat des d'aquest informe. Però l'objectiu d'aquesta\n"
 "guia no és mostrar tota la potència del informe de Ciutats."
 
-#: data/scenarios/tutorial.sav:151
+#: data/scenarios/tutorial.sav:150
 msgid ""
 "Your city has grown!  As a city grows, more citizens become\n"
 "available that can be put to work in the fields or dedicated as\n"
@@ -30508,7 +30508,7 @@ msgstr ""
 "de Compra. Això gasta or (si en tens prou) per completar de forma\n"
 "instantània la producció."
 
-#: data/scenarios/tutorial.sav:155
+#: data/scenarios/tutorial.sav:154
 msgid ""
 "Your city has grown again!  Now with three citizens you have\n"
 "a fair amount of choice over where the city should focus its\n"
@@ -30542,7 +30542,7 @@ msgstr ""
 "ciutadans són tots especialistes - per defecte tots són artistes que\n"
 "proporcionen només luxe (cosa que no serà útil fins més endavant)."
 
-#: data/scenarios/tutorial.sav:159
+#: data/scenarios/tutorial.sav:158
 #, c-format
 msgid ""
 "Now your city has grown to size five.  As cities get larger unrest\n"
@@ -30576,7 +30576,7 @@ msgstr ""
 "mercat multiplica el benefici d'aquest pas en proporcionar +50%% de\n"
 "luxes per la ciutat."
 
-#: data/scenarios/tutorial.sav:163
+#: data/scenarios/tutorial.sav:162
 msgid ""
 "Finally you have grown a city to size eight.  A size eight city can\n"
 "provide substantial output provided you have enough luxuries to keep\n"
@@ -30594,7 +30594,7 @@ msgstr ""
 "teva ciutat ha de continuar creixent, n'hauries de començar a fer\n"
 "un aviat. L'aqüeducte requereix la tecnologia de Construcció."
 
-#: data/scenarios/tutorial.sav:167
+#: data/scenarios/tutorial.sav:166
 msgid ""
 "You have grown a city to size twelve.  To grow\n"
 "it larger, however, you will need to build a Sewer System.  This\n"
@@ -30604,7 +30604,7 @@ msgstr ""
 "més gran, però, et caldrà construir un Clavegueram.\n"
 "Això requereix la tecnologia de Sanejament."
 
-#: data/scenarios/tutorial.sav:171
+#: data/scenarios/tutorial.sav:170
 msgid ""
 "Congratulations, you have grown a city to size 13.  A city this\n"
 "large can provide a tremendous amount of output if properly upgraded.\n"
@@ -30630,7 +30630,7 @@ msgstr ""
 "també donaran prou rendes taxables (or) com per permetre't de\n"
 "comprar alguns edificis per accelerar la seva producció."
 
-#: data/scenarios/tutorial.sav:191
+#: data/scenarios/tutorial.sav:190
 msgid ""
 "You have built a settler unit.  Settlers are best used to build \n"
 "new cities, so as to expand your civilization.  Move your settler\n"
@@ -30660,7 +30660,7 @@ msgstr ""
 "són gaire útils per ciutats petites. Mira l'ajuda sobre Terreny per\n"
 "a més informació sobre les especificacions del terreny."
 
-#: data/scenarios/tutorial.sav:194
+#: data/scenarios/tutorial.sav:193
 msgid ""
 "Your second Settlers should also be used to build a new city.\n"
 "Notice how when you move the Settlers away from your existing cities\n"
@@ -30685,77 +30685,7 @@ msgstr ""
 "sigui possible. Si es reparteixen les ciutats de manera apropiada, cada\n"
 "ciutat tindrà accés a més recursos, permetent que creixin més."
 
-#: data/scenarios/tutorial.sav:206
-msgid ""
-"You have built your first waterborne unit.  These can transport\n"
-"other units across water, allowing you to explore and settle new\n"
-"lands.  You can load land units onto your boat in one of two ways.\n"
-"When your boat and the unit you want to transport are in the same\n"
-"city, select the latter and press L to load the unit; or if the boat\n"
-"is adjacent to a land tile, you can move the unit from there onto the\n"
-"boat.  When you want to disembark, select the transported unit and\n"
-"press U, or move it onto a land tile."
-msgstr ""
-"Has construit la teva primera unitat marítima. Aquestes unitats poden\n"
-"transportar altres unitats per l'aigua, permetent d'explorar i colonitzar "
-"noves\n"
-"terres. Pots carregar unitats terrestres a la barca de dues maneres.\n"
-"Quan la barca i la unitat que vols transportar són a la mateixa ciutat, "
-"selecciona\n"
-"aquesta última, i prem L per carregar la unitat; o si la barca és adjacent a "
-"una\n"
-"casella de terra, pots moure la unitat des d'allà cap a la barca. Quan vols\n"
-"desembarcar, selecciona la unitat transportada i prem U, o mou-la cap a una\n"
-"casella de terra."
-
-#: data/scenarios/tutorial.sav:228
-msgid ""
-"You have built a Barracks.  This building will make any military\n"
-"units you build start out as veterans.  Veteran units are stronger\n"
-"than inexperienced (green) troops, and will survive longer in\n"
-"combat.  See the help on City Improvements for more information\n"
-"about this and other buildings.\n"
-"\n"
-"You probably want to start building a military unit in the city\n"
-"that built the Barracks.  A barracks are a significant investment\n"
-"and have a small upkeep as well, so it is not a good idea to let\n"
-"them go to waste."
-msgstr ""
-"Has construït una Caserna. Aquest edifici farà que totes les unitats \n"
-"militars que construeixis surtin veteranes. Les unitats veteranes són\n"
-"més fortes que les tropes novelles, inexpertes, i sobreviuran més temps\n"
-"en combat. Mira l'ajuda sobre Millores de la Ciutat per obtenir més\n"
-"informació sobre aquest edifici i d'altres.\n"
-"\n"
-"Probablement voldràs començar construint una unitat militar a la \n"
-"ciutat que ha construït la Caserna. Una Caserna és una inversió\n"
-"considerable i també té un petit cost de manteniment, per tant val\n"
-"la pena aprofitar-la."
-
-#: data/scenarios/tutorial.sav:241
-msgid ""
-"Your city cannot build a settler.  Settlers take one unit of\n"
-"population to build, so a city of size one cannot build one without\n"
-"disbanding the city.\n"
-"\n"
-"To remedy this, you need to adjust the citizens in the city to\n"
-"provide more food so as to grow the city faster.  Cities that\n"
-"do not have much food should not try to build settlers.  When\n"
-"founding a new city, make sure it is built on terrain that provides\n"
-"enough food - grassland is best; plains or hills are almost as good."
-msgstr ""
-"La teva ciutat no pot construir Colons. Els Colons gasten una\n"
-"unitat de població en construir-se. Per tant, una ciutat de mida\n"
-"u no en pot construir sense desmantellar la ciutat\n"
-"\n"
-"Per posar remei a això, cal que recol·loquis els ciutadans per a\n"
-"que produeixin més menjar i que la ciutat creixi més ràpid. Les\n"
-"ciutats que no tenen gaire menjar val més que no produeixin Colons.\n"
-"Quan fundis una nova ciutat assegura't que el terreny dóna\n"
-"prou menjar - prats és el millor; planes i turons són gairebé igual\n"
-"de bons."
-
-#: data/scenarios/tutorial.sav:245
+#: data/scenarios/tutorial.sav:198
 msgid ""
 "You have built your first military unit!  Military units have two\n"
 "basic purposes: attack and defense.  Each unit has an attack strength\n"
@@ -30784,7 +30714,77 @@ msgstr ""
 "en guerra, de totes maneres, pots voler moure la unitat cap a una ciutat\n"
 "enemiga per atacar-la. Però vés amb compte de no perdre-la!"
 
-#: data/scenarios/tutorial.sav:259
+#: data/scenarios/tutorial.sav:211
+msgid ""
+"You have built your first waterborne unit.  These can transport\n"
+"other units across water, allowing you to explore and settle new\n"
+"lands.  You can load land units onto your boat in one of two ways.\n"
+"When your boat and the unit you want to transport are in the same\n"
+"city, select the latter and press L to load the unit; or if the boat\n"
+"is adjacent to a land tile, you can move the unit from there onto the\n"
+"boat.  When you want to disembark, select the transported unit and\n"
+"press U, or move it onto a land tile."
+msgstr ""
+"Has construit la teva primera unitat marítima. Aquestes unitats poden\n"
+"transportar altres unitats per l'aigua, permetent d'explorar i colonitzar "
+"noves\n"
+"terres. Pots carregar unitats terrestres a la barca de dues maneres.\n"
+"Quan la barca i la unitat que vols transportar són a la mateixa ciutat, "
+"selecciona\n"
+"aquesta última, i prem L per carregar la unitat; o si la barca és adjacent a "
+"una\n"
+"casella de terra, pots moure la unitat des d'allà cap a la barca. Quan vols\n"
+"desembarcar, selecciona la unitat transportada i prem U, o mou-la cap a una\n"
+"casella de terra."
+
+#: data/scenarios/tutorial.sav:234
+msgid ""
+"You have built a Barracks.  This building will make any military\n"
+"units you build start out as veterans.  Veteran units are stronger\n"
+"than inexperienced (green) troops, and will survive longer in\n"
+"combat.  See the help on City Improvements for more information\n"
+"about this and other buildings.\n"
+"\n"
+"You probably want to start building a military unit in the city\n"
+"that built the Barracks.  A barracks are a significant investment\n"
+"and have a small upkeep as well, so it is not a good idea to let\n"
+"them go to waste."
+msgstr ""
+"Has construït una Caserna. Aquest edifici farà que totes les unitats \n"
+"militars que construeixis surtin veteranes. Les unitats veteranes són\n"
+"més fortes que les tropes novelles, inexpertes, i sobreviuran més temps\n"
+"en combat. Mira l'ajuda sobre Millores de la Ciutat per obtenir més\n"
+"informació sobre aquest edifici i d'altres.\n"
+"\n"
+"Probablement voldràs començar construint una unitat militar a la \n"
+"ciutat que ha construït la Caserna. Una Caserna és una inversió\n"
+"considerable i també té un petit cost de manteniment, per tant val\n"
+"la pena aprofitar-la."
+
+#: data/scenarios/tutorial.sav:247
+msgid ""
+"Your city cannot build a settler.  Settlers take one unit of\n"
+"population to build, so a city of size one cannot build one without\n"
+"disbanding the city.\n"
+"\n"
+"To remedy this, you need to adjust the citizens in the city to\n"
+"provide more food so as to grow the city faster.  Cities that\n"
+"do not have much food should not try to build settlers.  When\n"
+"founding a new city, make sure it is built on terrain that provides\n"
+"enough food - grassland is best; plains or hills are almost as good."
+msgstr ""
+"La teva ciutat no pot construir Colons. Els Colons gasten una\n"
+"unitat de població en construir-se. Per tant, una ciutat de mida\n"
+"u no en pot construir sense desmantellar la ciutat\n"
+"\n"
+"Per posar remei a això, cal que recol·loquis els ciutadans per a\n"
+"que produeixin més menjar i que la ciutat creixi més ràpid. Les\n"
+"ciutats que no tenen gaire menjar val més que no produeixin Colons.\n"
+"Quan fundis una nova ciutat assegura't que el terreny dóna\n"
+"prou menjar - prats és el millor; planes i turons són gairebé igual\n"
+"de bons."
+
+#: data/scenarios/tutorial.sav:260
 msgid ""
 "You have researched your first technology!  Technological advances\n"
 "are an integral concept in Freeciv.  As you increase your technology\n"
@@ -30823,7 +30823,7 @@ msgstr ""
 "Quan hagis acabat de tafanejar-hi, clica a la pestanya de Vista (F1)\n"
 "per tornar al mapa."
 
-#: data/scenarios/tutorial.sav:262
+#: data/scenarios/tutorial.sav:263
 msgid ""
 "Now you have researched your second technology.  Go back into the\n"
 "Research report (F6) and take a quick look at your progress.  If you\n"
@@ -30852,7 +30852,7 @@ msgstr ""
 "tecnològic et permetrà despreocupar-te de triar una nova fita a\n"
 "investigar cada vegada que acabis d'investigar una tecnologia."
 
-#: data/scenarios/tutorial.sav:265
+#: data/scenarios/tutorial.sav:266
 msgid ""
 "You have successfully completed research into The Republic.  This\n"
 "technology is particularly useful because it allows a new form of\n"
@@ -30886,7 +30886,7 @@ msgstr ""
 "de govern notablement millor que el Despotisme; per tant, la inversió\n"
 "valdrà la pena en poc temps."
 
-#: data/scenarios/tutorial.sav:278
+#: data/scenarios/tutorial.sav:279
 msgid ""
 "Your unit has found a Hut.  These are small villages scattered across\n"
 "the landscape.  When a unit enters one, several things may happen.  The\n"
@@ -30908,7 +30908,7 @@ msgstr ""
 "mataran la teva unitat instantàniament. En general, és beneficiós\n"
 "cercar-les i entrar-hi tan aviat com puguis. "
 
-#: data/scenarios/tutorial.sav:285
+#: data/scenarios/tutorial.sav:286
 msgid "Loading tutorial events."
 msgstr "Carregant esdeveniments d'aprenentatge."
 
@@ -32550,8 +32550,8 @@ msgstr "Fixar ADR com a adreça del metaservidor"
 #: server/civserver.c:403
 msgid "Keep updating game information on metaserver even after failure"
 msgstr ""
-"Continuar actualitzant la informació de la partida al metaservidor fins i tot "
-"quan ha fallat"
+"Continuar actualitzant la informació de la partida al metaservidor fins i "
+"tot quan ha fallat"
 
 #: server/civserver.c:408
 msgid "Listen for clients on port PORT"
@@ -33007,11 +33007,11 @@ msgid ""
 "'metaconnection persistent' or 'metac p' is like 'up', but keeps trying "
 "after failures. "
 msgstr ""
-"'metaconnection ?' informa de l'estat de la connexió amb el "
-"metaservidor. 'metaconnection down' o 'metac d' talla la connexió amb el "
-"metaservidor. 'metaconnection up' o 'metac u' aixeca la connexió amb el "
-"metaservidor. 'metaconnection persistent' o 'metac p' és com 'up', però ho va "
-"reintentant en cas de fallades."
+"'metaconnection ?' informa de l'estat de la connexió amb el metaservidor. "
+"'metaconnection down' o 'metac d' talla la connexió amb el metaservidor. "
+"'metaconnection up' o 'metac u' aixeca la connexió amb el metaservidor. "
+"'metaconnection persistent' o 'metac p' és com 'up', però ho va reintentant "
+"en cas de fallades."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:276
@@ -34829,8 +34829,8 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "small. Setting map size to the minimal size %d."
 msgstr ""
-"La mida de mapa calculada per %d caselles (de terra) per jugador i %d jugador"
-"(s) és massa petita. Es deixa la mida de mapa al mínim de %d."
+"La mida de mapa calculada per %d caselles (de terra) per jugador i %d "
+"jugador(s) és massa petita. Es deixa la mida de mapa al mínim de %d."
 
 #: server/generator/mapgen_topology.c:320
 #, c-format
@@ -34838,14 +34838,14 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "large. Setting map size to the maximal size %d."
 msgstr ""
-"La mida de mapa calculada per %d caselles (de terra) per jugador i %d jugador"
-"(s) és massa gran. Es deixa la mida de mapa al màxim de %d."
+"La mida de mapa calculada per %d caselles (de terra) per jugador i %d "
+"jugador(s) és massa gran. Es deixa la mida de mapa al màxim de %d."
 
 #: server/generator/mapgen_topology.c:326
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
-"(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d "
+"player(s))."
 msgstr ""
 "Es posa la mida de mapa a %d (aprox. %d caselles (de terra) per cadascun "
 "dels %d jugador(s))."
@@ -36926,8 +36926,8 @@ msgid ""
 "The chance that your civilization will lose a technology if you teach it to "
 "someone else by treaty, or if it is stolen from you."
 msgstr ""
-"La probabilitat que la teva civilització perdi una tecnologia si l'ensenyes a "
-"algú altre per un tractat, o si te la roben."
+"La probabilitat que la teva civilització perdi una tecnologia si l'ensenyes "
+"a algú altre per un tractat, o si te la roben."
 
 #: server/settings.c:1599
 msgid "Team pooled research"

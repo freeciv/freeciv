@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-14 11:28+0100\n"
+"POT-Creation-Date: 2016-07-30 12:10+0100\n"
 "PO-Revision-Date: 2015-06-30 23:26+0200\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
@@ -531,7 +531,8 @@ msgid "African"
 msgstr "afrikanisch"
 
 #: data/nation/african.ruleset:4
-msgid "?plural:African"
+#, fuzzy
+msgid "?plural:Africans"
 msgstr "Afrikaner"
 
 #: data/nation/african.ruleset:6

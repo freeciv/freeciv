@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-14 11:28+0100\n"
+"POT-Creation-Date: 2016-07-30 12:10+0100\n"
 "PO-Revision-Date: 2013-09-09 10:52+0300\n"
 "Last-Translator: Sungdae\n"
 "Language-Team: Korean language team\n"
@@ -516,7 +516,8 @@ msgid "African"
 msgstr "아프리카"
 
 #: data/nation/african.ruleset:4
-msgid "?plural:African"
+#, fuzzy
+msgid "?plural:Africans"
 msgstr "아프리칸인"
 
 #: data/nation/african.ruleset:6
