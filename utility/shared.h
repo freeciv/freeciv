@@ -254,7 +254,7 @@ int fc_vsnprintcf(char *buf, size_t buf_len, const char *format,
 static inline struct cf_sequence cf_bool_seq(char letter, bool value);
 static inline struct cf_sequence cf_trans_bool_seq(char letter, bool value);
 static inline struct cf_sequence cf_char_seq(char letter, char value);
-static inline struct cf_sequence cf_int_seq(char letter, int value);
+static inline void cf_int_seq(char letter, int value, struct cf_sequence *out);
 static inline struct cf_sequence cf_hexa_seq(char letter, int value);
 static inline struct cf_sequence cf_float_seq(char letter, float value);
 static inline struct cf_sequence cf_ptr_seq(char letter, const void *value);
@@ -333,15 +333,11 @@ static inline struct cf_sequence cf_char_seq(char letter, char value)
 /****************************************************************************
   Build an argument for fc_snprintcf() of integer type (%d).
 ****************************************************************************/
-static inline struct cf_sequence cf_int_seq(char letter, int value)
+static inline void cf_int_seq(char letter, int value, struct cf_sequence *out)
 {
-  struct cf_sequence sequence;
-
-  sequence.type = CF_INTEGER;
-  sequence.letter = letter;
-  sequence.int_value = value;
-
-  return sequence;
+  out->type = CF_INTEGER;
+  out->letter = letter;
+  out->int_value = value;
 }
 
 /****************************************************************************
