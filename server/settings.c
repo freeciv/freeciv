@@ -1216,8 +1216,8 @@ static bool plrcol_validate(int value, struct connection *caller,
                  _default)                                                  \
   {name, sclass, to_client, short_help, extra_help, NULL, SSET_BOOL,        \
       scateg, slevel,                                                       \
-      {.boolean = {&value, _default, func_validate, bool_name,              \
-                   FALSE}}, func_action, FALSE},
+      .boolean = {&value, _default, func_validate, bool_name,               \
+                   FALSE}, func_action, FALSE},
 
 #define GEN_INT(name, value, sclass, scateg, slevel, to_client,         \
                 short_help, extra_help, func_help,                      \
@@ -1225,8 +1225,8 @@ static bool plrcol_validate(int value, struct connection *caller,
                 _min, _max, _default)                                   \
   {name, sclass, to_client, short_help, extra_help, func_help, SSET_INT, \
       scateg, slevel,                                                   \
-      {.integer = {(int *) &value, _default, _min, _max, func_validate, \
-                   0}},                                                 \
+      .integer = {(int *) &value, _default, _min, _max, func_validate,  \
+                   0},                                                  \
       func_action, FALSE},
 
 #define GEN_STRING(name, value, sclass, scateg, slevel, to_client,      \
@@ -1234,7 +1234,7 @@ static bool plrcol_validate(int value, struct connection *caller,
                    _default)                                            \
   {name, sclass, to_client, short_help, extra_help, NULL, SSET_STRING,  \
       scateg, slevel,                                                   \
-      {.string = {value, _default, sizeof(value), func_validate, ""}},  \
+      .string = {value, _default, sizeof(value), func_validate, ""},    \
       func_action, FALSE},
 
 #define GEN_ENUM(name, value, sclass, scateg, slevel, to_client,            \
@@ -1242,17 +1242,17 @@ static bool plrcol_validate(int value, struct connection *caller,
                  func_action, func_name, _default)                          \
   { name, sclass, to_client, short_help, extra_help, func_help, SSET_ENUM,  \
       scateg, slevel,                                                       \
-      { .enumerator = {  &value, sizeof(value), _default,                   \
-                         func_validate,                                     \
-       (val_name_func_t) func_name, 0 }}, func_action, FALSE},
+       .enumerator = {  &value, sizeof(value), _default,                    \
+                        func_validate,                                      \
+       (val_name_func_t) func_name, 0 }, func_action, FALSE},
 
 #define GEN_BITWISE(name, value, sclass, scateg, slevel, to_client,         \
                    short_help, extra_help, func_validate, func_action,      \
                    func_name, _default)                                     \
   { name, sclass, to_client, short_help, extra_help, NULL, SSET_BITWISE,    \
     scateg, slevel,                                                         \
-     { .bitwise = { (unsigned *) (void *) &value, _default, func_validate,  \
-       func_name, 0 }}, func_action, FALSE},
+      .bitwise = { (unsigned *) (void *) &value, _default, func_validate,   \
+       func_name, 0 }, func_action, FALSE},
 
 /* game settings */
 static struct setting settings[] = {
