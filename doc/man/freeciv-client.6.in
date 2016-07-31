@@ -42,7 +42,8 @@ documentation. It also accepts
 accepts the standard Gtk parameters following \fB\-\-\fP; see the Gtk
 documentation. It also accepts
 .B [ \-g|\-\-gtk-warnings ] \
-[ \-h|\-\-help ]
+[ \-h|\-\-help ] \
+[ \-r|\-\-resolution \fIWIDTHxHEIGHT\fP ]
 
 .B freeciv-qt
 accepts the standard Qt parameters following \fB\-\-\fP; see the Qt
@@ -218,14 +219,18 @@ Initializes the event subsystem in other thread.  Only available for the
 \fBfreeciv-sdl\fP client under Linux or BeOS.
 .TP
 .BI "\-\- \-f, \-\- \-\-fullscreen"
-Starts the client in full screen mode.  Only implemented in the
+Starts the client in full screen mode. Only implemented in the
 \fBfreeciv-sdl\fP and \fBfreeciv-sdl2\fP client.
 .TP
 .BI "\-\- \-h, \-\- \-\-help"
 Print the client-specific parameter help.
 .TP
+.BI "\-\- \-r \fIWIDTHxHEIGHT\fP, \-\- \-\-resolution \fIWIDTHxHEIGHT\fP"
+Behave as if screen resolution were WIDTHxHEIGHT. Only implemented in the
+\fBfreeciv-gtk3\fP client.
+.TP
 .BI "\-\- \-t \fItheme\fP, \-\- \-\-theme \fItheme\fP"
-Use a particular GUI theme.  Only implemented in the \fBfreeciv-sdl\fP and
+Use a particular GUI theme. Only implemented in the \fBfreeciv-sdl\fP and
 \fBfreeciv-sdl2\fP clients.
 .SH "EXAMPLES"
 .TP
