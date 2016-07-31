@@ -93,6 +93,8 @@ libgui_gtk3x_la_SOURCES = \
 	tileset_dlg.c	\
 	transportdlg.c	\
 	transportdlg.h	\
+	unitselunitdlg.c	\
+	unitselunitdlg.h	\
 	unitselect.h	\
 	unitselect.c	\
 	voteinfo_bar.c	\
