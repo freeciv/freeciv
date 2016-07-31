@@ -46,14 +46,16 @@
 /* client/gui-gtk-3.0 */
 #include "citydlg.h"
 #include "dialogs.h"
+#include "unitselunitdlg.h"
 #include "wldlg.h"
 
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_COUNT
-#define BUTTON_LOCATION BUTTON_MOVE + 1
-#define BUTTON_WAIT BUTTON_MOVE + 2
-#define BUTTON_CANCEL BUTTON_MOVE + 3
-#define BUTTON_COUNT BUTTON_MOVE + 4
+#define BUTTON_NEW_UNIT_TGT BUTTON_MOVE + 1
+#define BUTTON_LOCATION BUTTON_MOVE + 2
+#define BUTTON_WAIT BUTTON_MOVE + 3
+#define BUTTON_CANCEL BUTTON_MOVE + 4
+#define BUTTON_COUNT BUTTON_MOVE + 5
 
 #define BUTTON_NOT_THERE -1
 
@@ -65,6 +67,7 @@ static int actor_unit_id;
 static int target_ids[ATK_COUNT];
 static bool is_more_user_input_needed = FALSE;
 static bool did_not_decide = FALSE;
+static bool action_selection_restart = FALSE;
 
 static GtkWidget  *spy_tech_shell;
 
@@ -124,8 +127,15 @@ static void diplomat_queue_handle_primary(void)
       FC_FREE(actor_unit->client.act_prob_cache);
     }
 
-    /* The action selection process is over, at least for now. */
-    action_selection_no_longer_in_progress(actor_unit_id);
+    if (action_selection_restart) {
+      /* The action selection dialog was closed but only so it can be
+       * redrawn with fresh data. */
+
+      action_selection_restart = FALSE;
+    } else {
+      /* The action selection process is over, at least for now. */
+      action_selection_no_longer_in_progress(actor_unit_id);
+    }
 
     if (did_not_decide) {
       /* The action selection dialog was closed but the player didn't
@@ -1126,6 +1136,78 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
                    act_data(actor->id, pcity->id, 0, 0, cost));
 }
 
+/**************************************************************************
+  Callback from the unit target selection dialog.
+**************************************************************************/
+static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
+{
+  int act_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg), "actor"));
+
+  if (arg == GTK_RESPONSE_YES) {
+    struct unit *actor = game_unit_by_number(act_id);
+
+    if (actor != NULL) {
+      int tgt_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg),
+                                                     "target"));
+      struct unit *tgt_unit = game_unit_by_number(tgt_id);
+      struct tile *tgt_tile = g_object_get_data(G_OBJECT(dlg), "tile");
+
+      if (tgt_unit == NULL) {
+        /* Make the action dialog pop up again. */
+        dsend_packet_unit_get_actions(&client.conn,
+                                      actor->id,
+                                      /* Let the server choose the target
+                                       * unit. */
+                                      IDENTITY_NUMBER_ZERO,
+                                      /* Let the server choose the target
+                                       * city. */
+                                      IDENTITY_NUMBER_ZERO,
+                                      tgt_tile->index,
+                                      TRUE);
+      } else {
+        dsend_packet_unit_get_actions(&client.conn,
+                                      actor->id,
+                                      tgt_id,
+                                      /* Let the server choose the target
+                                       * city. */
+                                      IDENTITY_NUMBER_ZERO,
+                                      tgt_tile->index,
+                                      TRUE);
+      }
+    }
+  } else {
+    /* Dialog canceled. This ends the action selection process. */
+    action_selection_no_longer_in_progress(act_id);
+  }
+
+  gtk_widget_destroy(dlg);
+}
+
+/**************************************************************************
+  Callback from action selection dialog for "Change unit target".
+**************************************************************************/
+static void act_sel_new_unit_tgt_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  struct unit *punit;
+  struct tile *ptile;
+
+  if ((punit = game_unit_by_number(args->actor_unit_id))
+      && (ptile = index_to_tile(args->target_tile_id))) {
+    select_tgt_unit(punit, ptile, ptile->units,
+                    _("Target unit selection"),
+                    _("Looking for target unit:"),
+                    _("Units at tile:"),
+                    _("Select"),
+                    G_CALLBACK(tgt_unit_change_callback));
+  }
+
+  did_not_decide = TRUE;
+  action_selection_restart = TRUE;
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
 
 /**************************************************************************
   Callback from action selection dialog for "Show Location".
@@ -1493,6 +1575,15 @@ void popup_action_selection(struct unit *actor_unit,
     choice_dialog_add(shl, _("_Keep moving"),
                       (GCallback)diplomat_keep_moving_callback,
                       data, FALSE, NULL);
+  }
+
+  if (target_unit != NULL
+      && unit_list_size(target_tile->units) > 1) {
+    action_button_map[BUTTON_NEW_UNIT_TGT] =
+        choice_dialog_get_number_of_buttons(shl);
+    choice_dialog_add(shl, _("Change unit target"),
+                      (GCallback)act_sel_new_unit_tgt_callback,
+                      data, TRUE, NULL);
   }
 
   action_button_map[BUTTON_LOCATION] =
