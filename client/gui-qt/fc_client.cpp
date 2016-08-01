@@ -432,6 +432,7 @@ void fc_client::chat()
   send_chat(chat_line->text().toUtf8().data());
   chat_history.prepend(chat_line->text());
   chat_line->clear();
+  history_pos = -1;
 }
 
 /****************************************************************************
