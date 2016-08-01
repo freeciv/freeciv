@@ -498,30 +498,21 @@ static void notice_processor (void *arg, const char *message) {
 
 /*
 ** Connects to a data source.
-** This driver provides two ways to connect to a data source:
-** (1) giving the connection parameters as a set of pairs separated
-**     by whitespaces in a string (first method parameter)
-** (2) giving one string for each connection parameter, said
-**     datasource, username, password, host and port.
 */
 static int env_connect (lua_State *L) {
 	const char *sourcename = luaL_checkstring(L, 2);
+	const char *username = luaL_optstring(L, 3, NULL);
+	const char *password = luaL_optstring(L, 4, NULL);
+	const char *pghost = luaL_optstring(L, 5, NULL);
+	const char *pgport = luaL_optstring(L, 6, NULL);
 	PGconn *conn;
 	getenvironment (L);	/* validate environment */
-	if ((lua_gettop (L) == 2) && (strchr (sourcename, '=') != NULL))
-		conn = PQconnectdb (sourcename);
-	else {
-		const char *username = luaL_optstring(L, 3, NULL);
-		const char *password = luaL_optstring(L, 4, NULL);
-		const char *pghost = luaL_optstring(L, 5, NULL);
-		const char *pgport = luaL_optstring(L, 6, NULL);
+	conn = PQsetdbLogin(pghost, pgport, NULL, NULL, sourcename, username, password);
 
-		conn = PQsetdbLogin(pghost, pgport, NULL, NULL,
-			sourcename, username, password);
-	}
-
-	if (PQstatus(conn) == CONNECTION_BAD)
+	if (PQstatus(conn) == CONNECTION_BAD) {
+		PQfinish(conn);
 		return luasql_failmsg(L, "error connecting to database. PostgreSQL: ", PQerrorMessage(conn));
+	}
 	PQsetNoticeProcessor(conn, notice_processor, NULL);
 	return create_connection(L, 1, conn);
 }
