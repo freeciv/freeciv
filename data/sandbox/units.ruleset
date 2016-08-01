@@ -1978,8 +1978,10 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
+; /* <-- avoid gettext warnings
 ; Consensus historical article: "Airplanes Sink a Battleship?
 ; No, Sir! Declares President" Chicago Daily Tribune, Feb. 26, 1938.
+; */ <-- avoid gettext warnings
 flags         = "BadCityDefender", "Consensus"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
