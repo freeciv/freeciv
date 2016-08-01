@@ -361,10 +361,11 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "MediumWeight"
 ;		  the same time; barbarians cannot use this at present
 ; "GameLoss"	= losing one of these units means you lose the game, but it
 ;		  is produced without homecity and upkeep
-; "Undisbandable" = this unit is protected. It will not drown and will not
-;		  disband due to lack of shields to upkeep it in homecity;
-;		  if not given enough food to upkeep it, homecity will shrink
-;		  every turn it cannot do so, however
+; "EvacuateFirst" = the game will try to rescue units with this flag before
+;                 it tries to rescue units without it when their transport
+;                 is destroyed. Think of the Birkenhead drill ("women and
+;                 children first"). Replace "women and children" with
+;                 "units with the EvacuateFirst unit type flag".
 ; "SuperSpy"	= this unit always wins diplomatic contests, that is, unless
 ;		  it encounters another SuperSpy, in which case defender wins;
 ;		  can also be used on non-diplomat units, in which case it can
@@ -2524,7 +2525,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "IgZOC", "NonMil", "NoBuild", "NoHome", "SuperSpy", 
-                "Undisbandable", "Unbribable", "GameLoss", "Unique"
+                "EvacuateFirst", "Unbribable", "GameLoss", "Unique"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -2562,7 +2563,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "IgZOC", "NonMil", "Unbribable",
-                "Undisbandable", "SuperSpy", "NoHome", "NoBuild"
+                "EvacuateFirst", "SuperSpy", "NoHome", "NoBuild"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0

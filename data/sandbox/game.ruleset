@@ -526,7 +526,7 @@ target_reqs    =
 action = "Recycle Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "UnitFlag", "Undisbandable", "Local", FALSE
+      "UnitFlag", "EvacuateFirst", "Local", FALSE
       "UnitFlag", "Consensus",     "Local", FALSE
     }
 
@@ -534,7 +534,7 @@ actor_reqs    =
 action = "Recycle Unit"
 actor_reqs    =
     { "type",     "name",          "range",  "present"
-      "UnitFlag", "Undisbandable", "Local",  FALSE
+      "UnitFlag", "EvacuateFirst", "Local",  FALSE
       "UnitFlag", "Consensus",     "Local",  TRUE
       "Gov",      "Communism",     "Player", FALSE
       "Gov",      "Democracy",     "Player", FALSE
@@ -545,7 +545,7 @@ actor_reqs    =
 action = "Disband Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "UnitFlag", "Undisbandable", "Local", FALSE
+      "UnitFlag", "EvacuateFirst", "Local", FALSE
       "UnitFlag", "Consensus",     "Local", FALSE
     }
 
@@ -553,7 +553,7 @@ actor_reqs    =
 action = "Disband Unit"
 actor_reqs    =
     { "type",     "name",          "range",  "present"
-      "UnitFlag", "Undisbandable", "Local",  FALSE
+      "UnitFlag", "EvacuateFirst", "Local",  FALSE
       "UnitFlag", "Consensus",     "Local",  TRUE
       "Gov",      "Communism",     "Player", FALSE
       "Gov",      "Democracy",     "Player", FALSE

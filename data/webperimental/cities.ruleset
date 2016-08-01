@@ -112,16 +112,16 @@ partisans_pct = 0               ; percentage of own nationality to inspire parti
 ; X_wipe       - wipe the unit if it survived performing the actions listed
 ;                above.
 
-food_protected    = "Undisbandable"
+food_protected    = "EvacuateFirst"
 ; food_unit_act   =
 food_wipe         = TRUE
 
 ; TODO: Should missing gold upkeep really be able to kill units with the
-; Undisbandable unit type flag?
+; EvacuateFirst unit type flag?
 ; gold_protected  =
 ; gold_unit_act   =
 gold_wipe         = TRUE
 
-shield_protected  = "Undisbandable"
+shield_protected  = "EvacuateFirst"
 shield_unit_act   = "Help Wonder", "Recycle Unit", "Disband Unit"
 shield_wipe       = FALSE

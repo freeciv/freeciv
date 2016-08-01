@@ -1858,13 +1858,14 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   if (unit_list_size(helpless) > 0) {
     struct unit_list *remaining = unit_list_new();
 
-    /* Grant priority to undisbandable and gameloss units. */
+    /* Grant priority to gameloss units and units with the EvacuateFirst
+     * unit type flag. */
     unit_list_iterate_safe(helpless, pcargo) {
-      if (unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE)
+      if (unit_has_type_flag(pcargo, UTYF_EVAC_FIRST)
           || unit_has_type_flag(pcargo, UTYF_GAMELOSS)) {
         if (!try_to_save_unit(pcargo, putype_save, TRUE,
                               unit_has_type_flag(pcargo,
-                                                 UTYF_UNDISBANDABLE))) {
+                                                 UTYF_EVAC_FIRST))) {
           unit_list_prepend(unsaved, pcargo);
         }
       } else {
@@ -1887,13 +1888,14 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   if (unit_list_size(imperiled) > 0) {
     struct unit_list *remaining = unit_list_new();
 
-    /* Grant priority to undisbandable and gameloss units. */
+    /* Grant priority to gameloss units and units with the EvacuateFirst
+     * unit type flag. */
     unit_list_iterate_safe(imperiled, pcargo) {
-      if (unit_has_type_flag(pcargo, UTYF_UNDISBANDABLE)
+      if (unit_has_type_flag(pcargo, UTYF_EVAC_FIRST)
           || unit_has_type_flag(pcargo, UTYF_GAMELOSS)) {
         if (!try_to_save_unit(pcargo, putype_save, FALSE,
                               unit_has_type_flag(pcargo,
-                                                 UTYF_UNDISBANDABLE))) {
+                                                 UTYF_EVAC_FIRST))) {
           unit_list_prepend(unsaved, pcargo);
         }
       } else {

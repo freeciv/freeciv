@@ -352,11 +352,11 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* Can't pay food upkeep! */
     auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_FOOD);
 
-    /* The actor unit can't have the unit type flag Undisbandable. */
+    /* The actor unit can't have the unit type flag EvacuateFirst. */
     requirement_vector_append(&auto_perf->reqs,
                               req_from_str("UnitFlag", "Local",
                                            FALSE, FALSE, TRUE,
-                                           "Undisbandable"));
+                                           "EvacuateFirst"));
 
     game.info.muuk_food_wipe = TRUE;
 
@@ -364,17 +364,17 @@ void rscompat_postprocess(struct rscompat_info *info)
     auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_GOLD);
 
     /* TODO: Should missing gold upkeep really be able to kill units with
-     * the Undisbandable unit type flag? */
+     * the EvacuateFirst unit type flag? */
     game.info.muuk_gold_wipe = TRUE;
 
     /* Can't pay shield upkeep! */
     auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_SHIELD);
 
-    /* The actor unit can't have the unit type flag Undisbandable. */
+    /* The actor unit can't have the unit type flag EvacuateFirst. */
     requirement_vector_append(&auto_perf->reqs,
                               req_from_str("UnitFlag", "Local",
                                            FALSE, FALSE, TRUE,
-                                           "Undisbandable"));
+                                           "EvacuateFirst"));
 
     /* Only disbanding because of missing shield upkeep will try to disband
      * via a forced action. */
@@ -568,11 +568,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     enabler->action = ACTION_RECYCLE_UNIT;
 
-    /* The actor unit can't have the unit type flag Undisbandable. */
+    /* The actor unit can't have the unit type flag EvacuateFirst. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local",
                                            FALSE, FALSE, TRUE,
-                                           "Undisbandable"));
+                                           "EvacuateFirst"));
 
     action_enabler_add(enabler);
 
@@ -583,11 +583,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     enabler->action = ACTION_DISBAND_UNIT;
 
-    /* The actor unit can't have the unit type flag Undisbandable. */
+    /* The actor unit can't have the unit type flag EvacuateFirst. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local",
                                            FALSE, FALSE, TRUE,
-                                           "Undisbandable"));
+                                           "EvacuateFirst"));
 
     action_enabler_add(enabler);
 
@@ -1013,6 +1013,10 @@ const char *rscompat_utype_flag_name_3_0(struct rscompat_info *compat,
   if (compat->compat_mode) {
     if (!fc_strcasecmp("Trireme", old_type)) {
       return "CoastStrict";
+    }
+
+    if (!fc_strcasecmp("Undisbandable", old_type)) {
+      return "EvacuateFirst";
     }
   }
 

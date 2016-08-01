@@ -220,9 +220,11 @@ struct unit_class {
 /* A player can only have one unit of this type */
 #define SPECENUM_VALUE18 UTYF_UNIQUE
 #define SPECENUM_VALUE18NAME N_("?unitflag:Unique")
-/* Cannot be disbanded, won't easily go away */
-#define SPECENUM_VALUE19 UTYF_UNDISBANDABLE
-#define SPECENUM_VALUE19NAME N_("?unitflag:Undisbandable")
+/* When a transport containing this unit disappears the game will try to
+ * rescue units with this flag before it tries to rescue units without
+ * it. */
+#define SPECENUM_VALUE19 UTYF_EVAC_FIRST
+#define SPECENUM_VALUE19NAME N_("?unitflag:EvacuateFirst")
 /* Always wins diplomatic contests */
 #define SPECENUM_VALUE20 UTYF_SUPERSPY
 #define SPECENUM_VALUE20NAME N_("?unitflag:SuperSpy")

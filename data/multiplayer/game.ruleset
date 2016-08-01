@@ -469,14 +469,14 @@ target_reqs    =
 action = "Recycle Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "UnitFlag", "Undisbandable", "Local", FALSE
+      "UnitFlag", "EvacuateFirst", "Local", FALSE
     }
 
 [actionenabler_disband_unit]
 action = "Disband Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "UnitFlag", "Undisbandable", "Local", FALSE
+      "UnitFlag", "EvacuateFirst", "Local", FALSE
     }
 
 [actionenabler_build_city_pioneer]
