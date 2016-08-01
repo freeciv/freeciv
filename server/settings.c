@@ -940,7 +940,7 @@ static bool unitwaittime_callback(int value, struct connection *caller,
 }
 
 /*************************************************************************
-  Topology setting validation callback.
+  Mapsize setting validation callback.
 *************************************************************************/
 static bool mapsize_callback(int value, struct connection *caller,
                              char *reject_msg, size_t reject_msg_len)
