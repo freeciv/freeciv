@@ -62,7 +62,7 @@ extern void popdown_science_report();
 extern void popdown_city_report();
 extern void popdown_endgame_report();
 
-static void diplomat_keep_moving(QVariant data1, QVariant data2);
+static void act_sel_keep_moving(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
 static void spy_request_sabotage_list(QVariant data1, QVariant data2);
 static void spy_sabotage(QVariant data1, QVariant data2);
@@ -1525,7 +1525,7 @@ void popup_action_selection(struct unit *actor_unit,
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
     qv2 = target_tile->index;
 
-    func = diplomat_keep_moving;
+    func = act_sel_keep_moving;
     cd->add_item(QString(_("Keep moving")), func, qv1, qv2,
                  "", BUTTON_MOVE);
   }
@@ -2025,9 +2025,9 @@ static void diplomat_incite(QVariant data1, QVariant data2)
 }
 
 /***************************************************************************
-  Action keep moving with diplomat for choice dialog
+  Action keep moving with actor unit for choice dialog
 ***************************************************************************/
-static void diplomat_keep_moving(QVariant data1, QVariant data2)
+static void act_sel_keep_moving(QVariant data1, QVariant data2)
 {
   struct unit *punit;
   struct tile *ptile;

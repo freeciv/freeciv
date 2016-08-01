@@ -761,11 +761,11 @@ static int diplomat_incite_callback(struct widget *pWidget)
 }
 
 /********************************************************************
-  Callback from diplomat/spy dialog for "keep moving".
+  Callback from action selection dialog for "keep moving".
   (This should only occur when entering a tile with an allied city
   or an allied unit.)
 *********************************************************************/
-static int diplomat_keep_moving_callback(struct widget *pWidget)
+static int act_sel_keep_moving_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *punit;
@@ -1336,7 +1336,7 @@ void popup_action_selection(struct unit *actor_unit,
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
     create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("Keep moving"),
-                            diplomat_keep_moving_callback);
+                            act_sel_keep_moving_callback);
 
     pBuf->data.tile = target_tile;
 
