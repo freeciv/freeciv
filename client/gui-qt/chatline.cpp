@@ -315,14 +315,16 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
   QString str_col;
   QString color;
   QString final_string;
+  QByteArray qba;
   QColor qc;
   QMultiMap <int, QString> mm;
   if (tags == NULL) {
     return str;
   }
+  qba = str.toLocal8Bit().data();
   text_tag_list_iterate(tags, ptag) {
     if ((text_tag_stop_offset(ptag) == FT_OFFSET_UNSET)) {
-      stop = str.count();
+      stop = qba.count();
     } else {
       stop = text_tag_stop_offset(ptag);
     }
@@ -410,7 +412,8 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
   while (i != mm.constBegin()) {
     --i;
     if (i.key() < last_i) {
-      final_string = final_string.prepend(str.mid(i.key(), last_i - i.key())
+      final_string = final_string.prepend(QString(qba.mid(i.key(),
+                                                          last_i - i.key()))
                                              .toHtmlEscaped());
     }
     last_i = i.key();
