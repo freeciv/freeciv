@@ -798,11 +798,11 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
 
 
 /**************************************************************************
-  Callback from diplomat/spy dialog for "keep moving".
+  Callback from action selection dialog for "keep moving".
   (This should only occur when entering a tile that has an allied city or
   an allied unit.)
 **************************************************************************/
-static void diplomat_keep_moving_callback(Widget w,
+static void act_sel_keep_moving_callback(Widget w,
                                           XtPointer client_data,
                                           XtPointer call_data)
 {
@@ -911,7 +911,7 @@ void popup_action_selection(struct unit *actor_unit,
                            diplomat_bribe_callback, 0, 0,
                            spy_sabotage_unit_callback, 0, 0,
                            spy_steal_gold_callback, 0, 0,
-                           diplomat_keep_moving_callback, target_tile, 1,
+                           act_sel_keep_moving_callback, target_tile, 1,
                            diplomat_cancel_callback, 0, 0,
                            NULL);
 

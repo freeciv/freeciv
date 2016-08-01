@@ -929,11 +929,11 @@ static void act_sel_location_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-  Callback from diplomat/spy dialog for "keep moving".
+  Callback from action selection dialog for "keep moving".
   (This should only occur when entering a tile that has an allied city or
   an allied unit.)
 **************************************************************************/
-static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
+static void act_sel_keep_moving_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
@@ -1210,7 +1210,7 @@ void popup_action_selection(struct unit *actor_unit,
     action_button_map[BUTTON_MOVE] =
         choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("_Keep moving"),
-                      (GCallback)diplomat_keep_moving_callback,
+                      (GCallback)act_sel_keep_moving_callback,
                       data, FALSE, NULL);
   }
 
