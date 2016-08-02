@@ -44,6 +44,26 @@
 static struct server_scan *meta_scan, *lan_scan;
 static bool holding_srv_list_mutex = false;
 static enum connection_state connection_status;
+static struct terrain *char2terrain(char ch);
+
+/****************************************************************************
+  Helper function for drawing map of savegames. Converts stored map char in
+  savefile to proper terrain.
+****************************************************************************/
+static struct terrain *char2terrain(char ch)
+{
+  if (ch == TERRAIN_UNKNOWN_IDENTIFIER) {
+    return T_UNKNOWN;
+  }
+  terrain_type_iterate(pterrain) {
+    if (pterrain->identifier_load == ch) {
+      return pterrain;
+    }
+  } terrain_type_iterate_end;
+  return nullptr;
+}
+
+
 /**************************************************************************
   Sets the "page" that the client should show.  See also pages_g.h.
 **************************************************************************/
@@ -409,15 +429,30 @@ void fc_client::create_load_page()
 {
   pages_layout[PAGE_LOAD] = new QGridLayout;
   QPushButton *but;
+  QHeaderView *header;
+  QLabel *lbl_show_preview;
+  QWidget *wdg;
+  QHBoxLayout *hbox;
 
   saves_load = new QTableWidget;
-
+  wdg = new QWidget;
+  hbox = new QHBoxLayout;
   QStringList sav;
+  lbl_show_preview = new QLabel(_("Show preview"));
   sav << _("Choose Saved Game to Load") << _("Date");
-
-  saves_load->setRowCount (0);
-  saves_load->setColumnCount (sav.count());
-  saves_load->setHorizontalHeaderLabels (sav);
+  load_pix = new QLabel;
+  load_save_text = new QLabel;
+  load_save_text->setTextFormat(Qt::RichText);
+  load_save_text->setWordWrap(true);
+  show_preview = new QCheckBox;
+  show_preview->setChecked(gui_options.gui_qt_show_preview);
+  saves_load->setAlternatingRowColors(true);
+  saves_load->setRowCount(0);
+  saves_load->setColumnCount(sav.count());
+  saves_load->setHorizontalHeaderLabels(sav);
+  hbox->addWidget(show_preview);
+  hbox->addWidget(lbl_show_preview, Qt::AlignLeft);
+  wdg->setLayout(hbox);
 
   saves_load->setProperty("showGrid", "false");
   saves_load->setProperty("selectionBehavior", "SelectRows");
@@ -425,11 +460,6 @@ void fc_client::create_load_page()
   saves_load->setSelectionMode(QAbstractItemView::SingleSelection);
   saves_load->verticalHeader()->setVisible(false);
 
-  connect(saves_load->selectionModel(),
-          SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
-          SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
-
-  QHeaderView *header;
   header = saves_load->horizontalHeader();
   header->setSectionResizeMode(0, QHeaderView::Stretch);
   header->setStretchLastSection(true);
@@ -438,12 +468,17 @@ void fc_client::create_load_page()
   connect(saves_load->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
           SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
+  connect(show_preview, SIGNAL(stateChanged(int)), this, 
+          SLOT(state_preview(int)));
+  pages_layout[PAGE_LOAD]->addWidget(wdg, 1, 0);
+  pages_layout[PAGE_LOAD]->addWidget(load_save_text, 2, 0, 1, 2);
+  pages_layout[PAGE_LOAD]->addWidget(load_pix, 2, 3, 1, 1);
 
   but = new QPushButton;
   but->setText(_("Browse..."));
   but->setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
   connect(but, SIGNAL(clicked()), this, SLOT(browse_saves()));
-  pages_layout[PAGE_LOAD]->addWidget (but, 1, 0);
+  pages_layout[PAGE_LOAD]->addWidget (but, 3, 0);
 
   but = new QPushButton;
   but->setText(_("Cancel"));
@@ -451,14 +486,17 @@ void fc_client::create_load_page()
                                       QStyle::SP_DialogCancelButton));
   connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
   switch_page_mapper->setMapping(but, PAGE_MAIN);
-  pages_layout[PAGE_LOAD]->addWidget(but, 1, 2);
+  pages_layout[PAGE_LOAD]->addWidget(but, 3, 2);
 
   but = new QPushButton;
   but->setText(_("Load"));
   but->setIcon(QApplication::style()->standardIcon(
                                       QStyle::SP_DialogOkButton));
   connect(but, SIGNAL(clicked()), this, SLOT(start_from_save()));
-  pages_layout[PAGE_LOAD]->addWidget(but, 1, 3);
+  pages_layout[PAGE_LOAD]->addWidget(but, 3, 3);
+  pages_layout[PAGE_LOAD]->setColumnStretch(3, 10);
+  pages_layout[PAGE_LOAD]->setColumnStretch(2, 10);
+  pages_layout[PAGE_LOAD]->setColumnStretch(0, 10);
 
 }
 
@@ -702,6 +740,23 @@ void fc_client::browse_saves(void)
   if (current_file.isEmpty() ==  false) {
     start_from_save();
   }
+}
+
+/***************************************************************************
+  State of preview has been changed
+***************************************************************************/
+void fc_client::state_preview(int new_state)
+{
+ QItemSelection slctn;
+ if (show_preview->checkState() == Qt::Unchecked) {
+   gui_options.gui_qt_show_preview = false;
+ } else {
+   gui_options.gui_qt_show_preview = true;
+ }
+ slctn = saves_load->selectionModel()->selection();
+ saves_load->selectionModel()->clearSelection();
+ saves_load->selectionModel()->select(slctn, QItemSelectionModel::Rows
+                                    | QItemSelectionModel::SelectCurrent);
 }
 
 /***************************************************************************
@@ -991,9 +1046,14 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
   QTableWidgetItem *item;
   QItemSelectionModel *tw;
   QVariant qvar;
-  int k, col, n;
+  QString str_pixmap;
+
   client_pages i = current_page();
+  const char *terr_name;
   const struct server *pserver = NULL;
+  int ii = 0;
+  int k, col, n, nat_y, nat_x;
+  struct section_file *sf;
   struct srv_list *srvrs;
 
   if (indexes.isEmpty()) {
@@ -1069,6 +1129,147 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     index = indexes.at(0);
     qvar = index.data(Qt::UserRole);
     current_file = qvar.toString();
+    if (show_preview->checkState() == Qt::Unchecked) {
+      load_pix->setPixmap(*(new QPixmap));
+      load_save_text->setText("");
+      break;
+    }
+    if ((sf = secfile_load_section(current_file.toLocal8Bit().data(),
+                                   "game", TRUE))) {
+      const char *sname;
+      bool sbool;
+      int integer;
+      QString final_str;
+      QString pl_str = nullptr;
+      int num_players = 0;
+      int curr_player = 0;
+
+      integer = secfile_lookup_int_default(sf, -1, "game.turn");
+      if (integer >= 0) {
+        final_str = QString("<b>") + _("Turn") + ":</b> "
+                    + QString::number(integer) + "<br>";
+      }
+      if ((sf = secfile_load_section(current_file.toLocal8Bit().data(),
+                                     "players", TRUE))) {
+        integer = secfile_lookup_int_default(sf, -1, "players.nplayers");
+        if (integer >= 0) {
+          final_str = final_str + "<b>" + _("Players") + ":</b>" + " "
+                      + QString::number(integer) + "<br>";
+        }
+        num_players = integer;
+      }
+      for (int i = 0; i < num_players; i++) {
+        pl_str = QString("player") + QString::number(i);
+        if ((sf = secfile_load_section(current_file.toLocal8Bit().data(),
+                                       pl_str.toLocal8Bit().data(), true))) {
+          if ((sbool = secfile_lookup_bool_default(sf, true,
+                                       "player%d.unassigned_user",
+                                       i)) == false) {
+              curr_player = i;
+              break;
+          }
+        }
+      }
+      /* Break case (and return) if no human player found */
+      if (pl_str == nullptr) {
+        load_save_text->setText(final_str);
+        break;
+      }
+
+      /* Information about human player */
+      if ((sf = secfile_load_section(current_file.toLocal8Bit().data(),
+                                     pl_str.toLocal8Bit().data(), true))) {
+        sname = secfile_lookup_str_default(sf, nullptr, "player%d.nation",
+                                           curr_player);
+        if (sname) {
+          final_str = final_str + "<b>" + _("Nation") + ":</b> "
+                      + QString(sname) + "<br>";
+        }
+        integer = secfile_lookup_int_default(sf, -1, "player%d.ncities",
+                                             curr_player);
+        if (integer >= 0) {
+          final_str = final_str + "<b>" + _("Cities") + ":</b> "
+                      + QString::number(integer) + "<br>";
+        }
+        integer = secfile_lookup_int_default(sf, -1, "player%d.nunits",
+                                             curr_player);
+        if (integer >= 0) {
+          final_str = final_str + "<b>" + _("Units") + ":</b> "
+                      + QString::number(integer) + "<br>";
+        }
+        integer = secfile_lookup_int_default(sf, -1, "player%d.gold",
+                                             curr_player);
+        if (integer >= 0) {
+          final_str = final_str + "<b>" + _("Gold") + ":</b> "
+                      + QString::number(integer) + "<br>";
+        }
+        nat_x = 0;
+        for (nat_y = 0; nat_y > -1; nat_y++) {
+          const char *line = secfile_lookup_str_default(sf, nullptr,
+                                                        "player%d.map_t%04d",
+                                                        curr_player, nat_y);
+          if (line == nullptr) {
+            break;
+          }
+          nat_x = strlen(line);
+          str_pixmap = str_pixmap + line;
+        }
+
+        /* Reset terrain information */
+        terrain_type_iterate(pterr) {
+          pterr->identifier_load = '\0';
+        } terrain_type_iterate_end;
+
+        /* Load possible terrains and their identifiers (chars) */
+        if ((sf = secfile_load_section(current_file.toLocal8Bit().data(),
+                                       "savefile", true)))
+          while ((terr_name = secfile_lookup_str_default(sf, NULL,
+                                 "savefile.terrident%d.name", ii)) != NULL) {
+            struct terrain *pterr = terrain_by_rule_name(terr_name);
+            if (pterr != NULL) {
+              const char *iptr = secfile_lookup_str_default(sf, NULL,
+                                      "savefile.terrident%d.identifier", ii);
+              pterr->identifier_load = *iptr;
+            }
+            ii++;
+          }
+
+        /* Create image */
+        QImage img(nat_x, nat_y, QImage::Format_ARGB32_Premultiplied);
+        img.fill(Qt::black);
+        for (int a = 0 ; a < nat_x; a++) {
+          for (int b = 0; b < nat_y; b++) {
+            struct terrain *tr;
+            struct rgbcolor *rgb;
+            tr = char2terrain(str_pixmap.at(b * nat_x + a).toLatin1());
+            if (tr != nullptr) {
+              rgb = tr->rgb;
+              QColor col;
+              col.setRgb(rgb->r, rgb->g, rgb->b);
+              img.setPixel(a, b, col.rgb());
+            }
+          }
+        }
+        if (img.width() > 1) {
+          load_pix->setPixmap(QPixmap::fromImage(img).scaledToHeight(200));
+        } else {
+          load_pix->setPixmap(*(new QPixmap));
+        }
+
+        if ((sf = secfile_load_section(current_file.toLocal8Bit().data(),
+                                       "research", TRUE))) {
+          sname = secfile_lookup_str_default(sf, nullptr,
+                                             "research.r%d.now_name",
+                                             curr_player);
+          if (sname) {
+            final_str = final_str + "<b>" + _("Researching") + ":</b> "
+                        + QString(sname);
+          }
+        }
+      }
+      load_save_text->setText(final_str);
+    }
+    break;
   default:
     break;
   }
@@ -1087,6 +1288,7 @@ void fc_client::update_load_page(void)
   files = fileinfolist_infix(get_save_dirs(), ".sav", FALSE);
   saves_load->clearContents();
   saves_load->setRowCount(0);
+  show_preview->setChecked(gui_options.gui_qt_show_preview);
   fileinfo_list_iterate(files, pfile) {
     QTableWidgetItem *item;
     item = new QTableWidgetItem();
