@@ -99,3 +99,40 @@ AC_CACHE_CHECK([whether preprocessor token concenation works],
     AC_MSG_ERROR([A preprocessor supporting token concenation is required])
   fi
 ])
+
+# Whether C99-style initializers of a struct can, or even must, be
+# within braces.
+# Sets macros INIT_BRACE_BEGIN and INIT_BRACE_END accordingly.
+#
+AC_DEFUN([FC_C99_INITIALIZER_BRACES],
+[
+AC_CACHE_CHECK([can struct initializers be within braces],
+  [ac_cv_c99_initializer_braces],
+  [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],
+    [[
+struct outer
+{
+  int v1;
+  int v2;
+  union
+  {
+    int v3;
+    struct
+    {
+      int v4;
+      int v5;
+    } inner;
+  };
+};
+
+  struct outer init_me = { 1, 2, { .inner = { 3, 4 }}}
+]])],
+  [ac_cv_c99_initializer_braces=yes], [ac_cv_c99_initializer_braces=no])])
+  if test "x${ac_cv_c99_initializer_braces}" = "xyes" ; then
+    AC_DEFINE([INIT_BRACE_BEGIN], [{], [Beginning of C99 structure initializer])
+    AC_DEFINE([INIT_BRACE_END], [}], [End of C99 structure initializer])
+  else
+    AC_DEFINE([INIT_BRACE_BEGIN], [], [Beginning of C99 structure initializer])
+    AC_DEFINE([INIT_BRACE_END], [], [End of C99 structure initializer])
+  fi
+])
