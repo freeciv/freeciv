@@ -1463,33 +1463,33 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(ORDER_TRADEROUTE, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_road()));
 
-  menu = this->addMenu(_("Multiplayer"));
-  act = menu->addAction(_("Delayed Goto"));
+  multiplayer_menu = this->addMenu(_("Multiplayer"));
+  act = multiplayer_menu->addAction(_("Delayed Goto"));
   act->setShortcut(QKeySequence(tr("z")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_delayed_goto()));
-  act = menu->addAction(_("Delayed Orders Execute"));
+  act = multiplayer_menu->addAction(_("Delayed Orders Execute"));
   act->setShortcut(QKeySequence(tr("ctrl+z")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_execute_orders()));
-  act = menu->addAction(_("Clear Orders"));
+  act = multiplayer_menu->addAction(_("Clear Orders"));
   act->setShortcut(QKeySequence(tr("ctrl+shift+c")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_orders_clear()));
-  act = menu->addAction(_("Add all cities to trade planning"));
+  act = multiplayer_menu->addAction(_("Add all cities to trade planning"));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_trade_add_all()));
-  act = menu->addAction(_("Calculate trade planning"));
+  act = multiplayer_menu->addAction(_("Calculate trade planning"));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_calculate()));
-  act = menu->addAction(_("Add/Remove City"));
+  act = multiplayer_menu->addAction(_("Add/Remove City"));
   act->setShortcut(QKeySequence(tr("ctrl+t")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_trade_city()));
-  act = menu->addAction(_("Clear Trade Planning"));
+  act = multiplayer_menu->addAction(_("Clear Trade Planning"));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_clear_trade()));
-  act = menu->addAction(_("Set/Unset rally point"));
+  act = multiplayer_menu->addAction(_("Set/Unset rally point"));
   act->setShortcut(QKeySequence(tr("shift+s")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_rally()));
-  act = menu->addAction(_("Quick Airlift"));
+  act = multiplayer_menu->addAction(_("Quick Airlift"));
   act->setShortcut(QKeySequence(tr("ctrl+y")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_quickairlift()));
   airlift_type = new QActionGroup(this);
-  airlift_menu = menu->addMenu(_("Unit type for quickairlifting"));
+  airlift_menu = multiplayer_menu->addMenu(_("Unit type for quickairlifting"));
 
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
@@ -1682,6 +1682,9 @@ void mr_menu::update_airlift_menu()
   QAction *act;
 
   airlift_menu->clear();
+  if (client_is_observer()) {
+    return;
+  }
   unit_type_iterate(utype) {
     utype_id = utype_index(utype);
 
@@ -1732,6 +1735,12 @@ void mr_menu::menus_sensitive()
   /** Disable first all sensitive menus */
   foreach(QAction * a, menu_list) {
     a->setEnabled(false);
+  }
+
+  if (client_is_observer()) {
+    multiplayer_menu->setDisabled(true);
+  } else {
+    multiplayer_menu->setDisabled(false);
   }
 
   /* Non unit menus */

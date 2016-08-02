@@ -302,6 +302,7 @@ class mr_menu : public QMenuBar
   QMenu *menu;
   QMenu *filter_menu;
   QMenu *airlift_menu;
+  QMenu *multiplayer_menu;
   QActionGroup *filter_act;
   QActionGroup *filter_any;
   QActionGroup *airlift_type;
