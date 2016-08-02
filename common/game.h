@@ -587,7 +587,7 @@ extern struct civ_game game;
 #define GAME_DEFAULT_AUTOATTACK      FALSE
 
 #ifdef FREECIV_WEB
-#define GAME_DEFAULT_RULESETDIR      "fcweb"
+#define GAME_DEFAULT_RULESETDIR      "classic"
 #else  /* FREECIV_WEB */
 #define GAME_DEFAULT_RULESETDIR      "civ2civ3"
 #endif /* FREECIV_WEB */
