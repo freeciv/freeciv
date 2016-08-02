@@ -127,7 +127,7 @@
   } while(FALSE);
 #endif /* FREECIV_NDEBUG */
 
-static void dai_sell_obsolete_buildings(struct city *pcity);
+static void dai_city_sell_noncritical(struct city *pcity, bool redundant_only);
 static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
                                    struct city *pcity);
 
@@ -761,9 +761,35 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
       /* Fix critical shortages or unhappiness */
       resolve_city_emergency(ait, pplayer, pcity);
     }
-    dai_sell_obsolete_buildings(pcity);
+    dai_city_sell_noncritical(pcity, TRUE);
     sync_cities();
   } city_list_iterate_end;
+  if (pplayer->economic.tax >= 30 /* Otherwise expect it to increase tax */
+      && player_get_expected_income(pplayer) < -(pplayer->economic.gold)) {
+    int count = city_list_size(pplayer->cities);
+    struct city *sellers[count + 1];
+    int i;
+
+    /* Randomized order */
+    i = 0;
+    city_list_iterate(pplayer->cities, pcity) {
+      sellers[i++] = pcity;
+    } city_list_iterate_end;
+    for (i = 0; i < count; i++) {
+      int replace = fc_rand(count);
+      struct city *tmp;
+
+      tmp = sellers[i];
+      sellers[i] = sellers[replace];
+      sellers[replace] = tmp;
+    }
+
+    i = 0;
+    while (player_get_expected_income(pplayer) < -(pplayer->economic.gold)
+           && i < count) {
+      dai_city_sell_noncritical(sellers[i++], FALSE);
+    }
+  }
   TIMING_LOG(AIT_EMERGENCY, TIMER_STOP);
 
   TIMING_LOG(AIT_BUILDINGS, TIMER_START);
@@ -844,18 +870,20 @@ static bool building_crucial(const struct player *plr,
 }
 
 /**************************************************************************
-  Sell an obsolete building if there are any in the city.
+  Sell an noncritical building if there are any in the city.
 **************************************************************************/
-static void dai_sell_obsolete_buildings(struct city *pcity)
+static void dai_city_sell_noncritical(struct city *pcity,
+                                      bool redundant_only)
 {
   struct player *pplayer = city_owner(pcity);
 
   city_built_iterate(pcity, pimprove) {
     if (can_city_sell_building(pcity, pimprove)
-        && !building_crucial(pplayer, pimprove, pcity)) {
+        && !building_crucial(pplayer, pimprove, pcity)
+        && (!redundant_only || is_improvement_redundant(pcity, pimprove))) {
       do_sell_building(pplayer, pcity, pimprove);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD, ftc_server,
-                    _("%s is selling %s (not needed) for %d."),
+                    _("%s is selling %s for %d."),
                     city_link(pcity),
                     improvement_name_translation(pimprove),
                     impr_sell_gold(pimprove));
