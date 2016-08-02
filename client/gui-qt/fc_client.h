@@ -164,6 +164,9 @@ class fc_client : public QMainWindow
   QTextEdit *output_window;
   QTextEdit *scenarios_view;
   QLabel *scenarios_text;
+  QLabel *load_save_text;
+  QLabel *load_pix;
+  QCheckBox *show_preview;
 
   QLineEdit *connect_host_edit;
   QLineEdit *connect_port_edit;
@@ -279,6 +282,7 @@ private slots:
   void browse_saves();
   void browse_scenarios();
   void clear_status_bar();
+  void state_preview(int);
 
 public slots:
   void switch_page(int i);

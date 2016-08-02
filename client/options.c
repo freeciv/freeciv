@@ -311,6 +311,7 @@ struct client_options gui_options = {
 
 /* gui-qt client specific options. */
   .gui_qt_fullscreen = FALSE,
+  .gui_qt_show_preview = TRUE,
   .gui_qt_default_theme_name = "Fusion",
   .gui_qt_font_city_label = "Monospace,8,-1,5,50,0,0,0,0,0",
   .gui_qt_font_default = "Sans Serif,10,-1,5,75,0,0,0,0,0",
@@ -3158,6 +3159,10 @@ static struct client_option client_options[] = {
                      "in the Research report."),
                   COC_FONT, GUI_QT,
                   "Sans Serif,10,-1,5,50,1,0,0,0,0", NULL),
+  GEN_BOOL_OPTION(gui_qt_show_preview, N_("Show savegame information"),
+                  N_("If this option is set the client will show "
+                      "information and map preview about current savegame "),
+                  COC_GRAPHICS, GUI_QT, TRUE, NULL),
   GEN_STR_OPTION(gui_qt_wakeup_text,
                  N_("Wake up sequence"),
                  N_("String which will trigger sound in pregame page, "
