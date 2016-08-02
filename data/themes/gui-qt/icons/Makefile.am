@@ -4,10 +4,12 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-qt/icons
 
 pkgdata_DATA =          	\
+	ai.png			\
 	flag.png     		\
 	go-down.png  		\
 	go-up.png        	\
 	help-donate.png  	\
+	human.png		\
 	list-add.png		\
 	meeting-observer.png	\
 	preferences-other.png

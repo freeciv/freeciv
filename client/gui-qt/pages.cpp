@@ -1541,6 +1541,9 @@ void fc_client::update_start_page()
           if (is_ai(pplayer)) {
             str = str + " <" + (ai_level_translated_name(pplayer->ai_common.skill_level))
               + ">";
+            item->setIcon(col, fc_icons::instance()->get_icon("ai"));
+          } else {
+            item->setIcon(col, fc_icons::instance()->get_icon("human"));
           }
 
           item->setText(col, str);
