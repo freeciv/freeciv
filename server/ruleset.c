@@ -3743,35 +3743,43 @@ static bool load_ruleset_nations(struct section_file *file)
    * a specific ruleset to a gov not explicitly known by the nation set. */
   if (sval != NULL) {
     default_government = government_by_rule_name(sval);
+    if (default_government == NULL) {
+      ruleset_error(LOG_ERROR,
+                    "Tried to set unknown government type \"%s\" as default_government!",
+                    sval);
+      ok = FALSE;
+    }
   }
 
-  sec = secfile_sections_by_name_prefix(file, NATION_SET_SECTION_PREFIX);
-  if (sec) {
-    section_list_iterate(sec, psection) {
-      const char *set_name, *set_rule_name, *set_description;
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, NATION_SET_SECTION_PREFIX);
+    if (sec) {
+      section_list_iterate(sec, psection) {
+        const char *set_name, *set_rule_name, *set_description;
 
-      set_name = secfile_lookup_str(file, "%s.name", section_name(psection));
-      set_rule_name =
-        secfile_lookup_str(file, "%s.rule_name", section_name(psection));
-      set_description = secfile_lookup_str_default(file, "", "%s.description",
-                                                   section_name(psection));
-      if (NULL == set_name || NULL == set_rule_name) {
-        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
-        ok = FALSE;
-        break;
-      }
-      if (nation_set_new(set_name, set_rule_name, set_description) == NULL) {
-        ok = FALSE;
-        break;
-      }
-    } section_list_iterate_end;
-    section_list_destroy(sec);
-    sec = NULL;
-  } else {
-    ruleset_error(LOG_ERROR,
-                  "At least one nation set [" NATION_SET_SECTION_PREFIX "_*] "
-                  "must be defined.");
-    ok = FALSE;
+        set_name = secfile_lookup_str(file, "%s.name", section_name(psection));
+        set_rule_name =
+          secfile_lookup_str(file, "%s.rule_name", section_name(psection));
+        set_description = secfile_lookup_str_default(file, "", "%s.description",
+                                                     section_name(psection));
+        if (NULL == set_name || NULL == set_rule_name) {
+          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+          ok = FALSE;
+          break;
+        }
+        if (nation_set_new(set_name, set_rule_name, set_description) == NULL) {
+          ok = FALSE;
+          break;
+        }
+      } section_list_iterate_end;
+      section_list_destroy(sec);
+      sec = NULL;
+    } else {
+      ruleset_error(LOG_ERROR,
+                    "At least one nation set [" NATION_SET_SECTION_PREFIX "_*] "
+                    "must be defined.");
+      ok = FALSE;
+    }
   }
 
   if (ok) {
