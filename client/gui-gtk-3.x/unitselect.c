@@ -761,6 +761,28 @@ static void usdlg_tab_append_activity(GtkTreeStore *store,
                      -1);
 }
 
+/**************************************************************************
+  Get an unit selection list item suitable image of the specified unit.
+
+  Caller is responsible for getting rid of the returned image after use.
+**************************************************************************/
+GdkPixbuf *usdlg_get_unit_image(const struct unit *punit)
+{
+  GdkPixbuf *out;
+  struct canvas canvas_store = FC_STATIC_CANVAS_INIT;
+
+  canvas_store.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
+      tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+
+  put_unit(punit, &canvas_store, 1.0, 0, 0);
+  out = surface_get_pixbuf(canvas_store.surface,
+                           tileset_full_tile_width(tileset),
+                           tileset_full_tile_height(tileset));
+  cairo_surface_destroy(canvas_store.surface);
+
+  return out;
+}
+
 /*****************************************************************************
   Append units (recursively).
 *****************************************************************************/
@@ -789,17 +811,7 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
   gtk_tree_store_append(GTK_TREE_STORE(store), it, parent);
 
   /* Unit gfx */
-  {
-    struct canvas canvas_store = FC_STATIC_CANVAS_INIT;
-
-    canvas_store.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-        tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
-
-    put_unit(punit, &canvas_store, 1.0, 0, 0);
-    pix = surface_get_pixbuf(canvas_store.surface, tileset_full_tile_width(tileset),
-        tileset_full_tile_height(tileset));
-    cairo_surface_destroy(canvas_store.surface);
-  }
+  pix = usdlg_get_unit_image(punit);
 
   phome = game_city_by_number(punit->homecity);
   if (phome) {

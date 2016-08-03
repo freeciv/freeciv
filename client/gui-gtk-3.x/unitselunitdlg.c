@@ -33,6 +33,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "sprite.h"
+#include "unitselect.h"
 
 #include "unitselunitdlg.h"
 
@@ -127,6 +128,8 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
 
   tcount = 0;
   unit_list_iterate(potential_tgt_units, ptgt) {
+    GdkPixbuf *tubuf;
+
     struct unit_type *tgt_type = unit_type_get(ptgt);
     struct unit_sel_unit_cb_data *cbdata
             = fc_malloc(sizeof(struct unit_sel_unit_cb_data));
@@ -145,9 +148,10 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
                      G_CALLBACK(unit_sel_unit_destroyed), cbdata);
     gtk_grid_attach(GTK_GRID(box), radio, 0, tcount, 1, 1);
 
-    spr = get_unittype_sprite(tileset, tgt_type, direction8_invalid());
-    if (spr != NULL) {
-      icon = gtk_image_new_from_pixbuf(sprite_get_pixbuf(spr));
+    tubuf = usdlg_get_unit_image(ptgt);
+    if (tubuf != NULL) {
+      icon = gtk_image_new_from_pixbuf(tubuf);
+      g_object_unref(tubuf);
     } else {
       icon = gtk_image_new();
     }
