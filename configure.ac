@@ -395,6 +395,10 @@ esac], [fcweb=false])
 
 FC_WEB_CLIENT
 
+AS_IF([test "x$fcweb" = "xtrue"],
+      AC_SUBST([SRVBIN], [freeciv-web]),
+      AC_SUBST([SRVBIN], [freeciv-server]))
+
 FC_TESTMATIC
 
 dnl no:   Do not compile client.
