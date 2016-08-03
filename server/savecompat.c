@@ -1567,6 +1567,24 @@ static void compat_load_dev(struct loaddata *loading)
 
   /* Since version number bump to 2.91.99 */
 
+#ifdef FREECIV_WEB
+  {
+    /* Freeciv-web has replaced fcweb with classic. Only done for
+     * Freeciv-web because a regular Freeciv server build that encounters a
+     * fcweb savegame may have a ruleset names fcweb installed locally. */
+
+    const char *ruleset;
+
+    ruleset = secfile_lookup_str_default(loading->file,
+                                         GAME_DEFAULT_RULESETDIR,
+                                         "savefile.rulesetdir");
+
+    if (strcmp("fcweb", ruleset) == 0) {
+      secfile_replace_str(loading->file, "classic", "savefile.rulesetdir");
+    }
+  }
+#endif /* FREECIV_WEB */
+
   /* Idle turns */
   player_slots_iterate(pslot) {
     int plrno = player_slot_index(pslot);
