@@ -592,7 +592,12 @@ FC_STATIC_ASSERT((long unsigned) MAP_MAX_SIZE * 1000
 #define MAP_MIN_LINEAR_SIZE      16
 
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
+#ifdef FREECIV_WEB
+/* Freeciv-web doesn't support isometric maps yet. */
+#define MAP_DEFAULT_TOPO         TF_WRAPX
+#else /* FREECIV_WEB */
 #define MAP_DEFAULT_TOPO         (TF_WRAPX|TF_ISO)
+#endif /* FREECIV_WEB */
 
 #define MAP_DEFAULT_SEED         0
 #define MAP_MIN_SEED             0
