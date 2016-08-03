@@ -51,7 +51,7 @@ AUDIO_SDL_FILES=$(ALL_AUDIO_SDL_FILES)
 endif
 
 if MINGW
-CLIENTICON=../win32/clienticon.o
+CLIENTICON=../windows/clienticon.o
 endif
 
 EXTRA_DIST= $(ALL_AUDIO_SDL_FILES)

@@ -1742,7 +1742,7 @@ AC_CONFIG_FILES([Makefile
           ai/threaded/Makefile
           ai/threxpr/Makefile
 	  tests/Makefile
-  	  win32/Makefile
+  	  windows/Makefile
 	  client/Makefile
 	  client/agents/Makefile
 	  client/include/Makefile

@@ -25,7 +25,7 @@ else
 DSUBDIRS =
 endif
 
-SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) translations doc tools gen_headers lua bootstrap
+SUBDIRS = $(DSUBDIRS) dependencies utility common tests windows $(SSUBDIRS) $(CSUBDIRS) translations doc tools gen_headers lua bootstrap
 
 ## Automake should distribute config.rpath automatically - and new
 ## versions probably do. We still support versions that do not, so
