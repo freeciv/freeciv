@@ -77,7 +77,7 @@ const struct ft_color ftc_server        = FT_COLOR("#8B0000",   NULL);
 const struct ft_color ftc_client        = FT_COLOR("#EF7F00",   NULL);
 const struct ft_color ftc_editor        = FT_COLOR("#0000FF",   NULL);
 const struct ft_color ftc_command       = FT_COLOR("#006400",   NULL);
-const struct ft_color ftc_changed       = FT_COLOR("#FF0000",   NULL);
+      struct ft_color ftc_changed       = FT_COLOR("#FF0000",   NULL);
 const struct ft_color ftc_server_prompt = FT_COLOR("#FF0000",   "#BEBEBE");
 const struct ft_color ftc_player_lost   = FT_COLOR("#FFFFFF",   "#000000");
 const struct ft_color ftc_game_start    = FT_COLOR("#00FF00",   "#115511");
@@ -399,7 +399,7 @@ static bool text_tag_initv(struct text_tag *ptag, enum text_tag_type type,
     return TRUE;
   case TTT_COLOR:
     {
-      struct ft_color color = va_arg(args, struct ft_color);
+      const struct ft_color color = va_arg(args, struct ft_color);
 
       if ((NULL == color.foreground || '\0' == color.foreground[0])
           && (NULL == color.background || '\0' == color.background[0])) {
