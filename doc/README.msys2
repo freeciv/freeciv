@@ -128,13 +128,13 @@ Current versions are
 
 win32:
 ------
-msys2-freeciv-win32-160627.7z, based on
+msys2-freeciv-win32-160801.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20160205.exe
 Replace <arch> with 'i686' in package names below
 
 win64:
 ------
-msys2-freeciv-win64-160627.7z, based on
+msys2-freeciv-win64-160801.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20160205.exe
 Replace <arch> with 'x86_64' in package names below
 

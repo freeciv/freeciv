@@ -11,11 +11,11 @@
 WINARCH=$(shell ./win_arch.sh)
 
 ifeq ($(WINARCH),win64)
-ARCHDIR=/mingw64
+ARCHDIR=mingw64
 LIBGCCDLL=libgcc_s_seh-1.dll
 GCCDLL=gcc_s-seh-1.dll
 else
-ARCHDIR=/mingw32
+ARCHDIR=mingw32
 LIBGCCDLL=libgcc_s_dw2-1.dll
 GCCDLL=gcc_s-1.dll
 endif
@@ -25,7 +25,7 @@ MIN_WIN_VER=0x0600
 endif
 
 # msys2 has dlls in...
-DLLPATH_PREFIX=$(ARCHDIR)/bin/
+DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 #
 # Make rules
@@ -52,7 +52,7 @@ sdl2-installer:
 	make GUI=sdl2 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
 
 qt-installer:
-	make GUI=qt FCMP=qt EXTRA_CONFIG="--with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt
+	make GUI=qt FCMP=qt EXTRA_CONFIG="--with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt
 
 ruledit-installer:
 	make wrap-ruledit
@@ -82,7 +82,7 @@ build-freeciv-ruledit:
 	# create build directory
 	mkdir -p build-$(WINARCH)-ruledit
 	# configure
-	cd build-$(WINARCH)-ruledit; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --without-libbz2 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit --with-qt5-includes=$(ARCHDIR)/include --with-qt5-libs=$(ARCHDIR)/lib $(EXTRA_CONFIG)
+	cd build-$(WINARCH)-ruledit; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --without-libbz2 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
 	# make
 	make -C build-$(WINARCH)-ruledit
 	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
@@ -102,18 +102,18 @@ install-freeciv-common:
 	# make install
 	make -C build-$(WINARCH)-$(GUI) DESTDIR=`pwd`/install-$(WINARCH)-$(GUI) install
 	# reorder directory layout
-	mv install-$(WINARCH)-$(GUI)/usr/local/bin/* install-$(WINARCH)-$(GUI)/
-	mv install-$(WINARCH)-$(GUI)/usr/local/etc install-$(WINARCH)-$(GUI)/
-	mv install-$(WINARCH)-$(GUI)/usr/local/share/freeciv install-$(WINARCH)-$(GUI)/data
+	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/bin/* install-$(WINARCH)-$(GUI)/
+	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/etc install-$(WINARCH)-$(GUI)/
+	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/share/freeciv install-$(WINARCH)-$(GUI)/data
 	mkdir -p install-$(WINARCH)-$(GUI)/share
-	mv install-$(WINARCH)-$(GUI)/usr/local/share/locale install-$(WINARCH)-$(GUI)/share/
-	mv install-$(WINARCH)-$(GUI)/usr/local/share/doc install-$(WINARCH)-$(GUI)/doc
+	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
+	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/share/doc install-$(WINARCH)-$(GUI)/doc
 	mkdir -p install-$(WINARCH)-$(GUI)/debuginfo
 	cp build-$(WINARCH)-$(GUI)/gen_headers/fc_config.h install-$(WINARCH)-$(GUI)/debuginfo
 	mkdir -p install-$(WINARCH)-$(GUI)/doc/freeciv/installer
 	cp licenses/COPYING.installer install-$(WINARCH)-$(GUI)/doc/freeciv/installer/
 	# delete unneeded files
-	rm -r install-$(WINARCH)-$(GUI)/usr
+	rm -r install-$(WINARCH)-$(GUI)/$(ARCHDIR)
 	# strip 'freeciv-manual' and 'freeciv-mp-<gui>' executables
 	strip install-$(WINARCH)-$(GUI)/freeciv-m*
 	# add start menu files
@@ -142,18 +142,18 @@ install-ruledit-dir:
 
 install-ruledit: install-ruledit-dir
 	# make install
-	make -C build-$(WINARCH)-ruledit DESTDIR=`pwd`/install-$(WINARCH)-ruledit install
+	make -C build-$(WINARCH)-ruledit DESTDIR=`pwd`/install-$(WINARCH)-ruledit/ install
 	# reorder directory layout
-	mv install-$(WINARCH)-ruledit/usr/local/bin/* install-$(WINARCH)-ruledit/
-	mv install-$(WINARCH)-ruledit/usr/local/share/freeciv install-$(WINARCH)-ruledit/data
-	mv install-$(WINARCH)-ruledit/usr/local/share/locale install-$(WINARCH)-ruledit/share/
-	mv install-$(WINARCH)-ruledit/usr/local/share/doc install-$(WINARCH)-ruledit/doc
+	mv install-$(WINARCH)-ruledit/$(ARCHDIR)/bin/* install-$(WINARCH)-ruledit/
+	mv install-$(WINARCH)-ruledit/$(ARCHDIR)/share/freeciv install-$(WINARCH)-ruledit/data
+	mv install-$(WINARCH)-ruledit/$(ARCHDIR)/share/locale install-$(WINARCH)-ruledit/share/
+	mv install-$(WINARCH)-ruledit/$(ARCHDIR)/share/doc install-$(WINARCH)-ruledit/doc
 	mkdir -p install-$(WINARCH)-ruledit/debuginfo
 	cp build-$(WINARCH)-ruledit/gen_headers/fc_config.h install-$(WINARCH)-ruledit/debuginfo
 	mkdir -p install-$(WINARCH)-ruledit/doc/freeciv/installer
 	cp licenses/COPYING.installer install-$(WINARCH)-ruledit/doc/freeciv/installer/
 	# delete unneeded files
-	rm -r install-$(WINARCH)-ruledit/usr
+	rm -r install-$(WINARCH)-ruledit/$(ARCHDIR)
 	# strip 'freeciv-ruledit' executable
 	strip install-$(WINARCH)-ruledit/freeciv-ruledit.exe
 	# add start menu files
@@ -216,8 +216,8 @@ COMMON_MSYS_DLLS := \
 
 install-env-common:
 	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(WINARCH)-$(GUI)
-	cp -R $(addprefix /bin/msys-, $(COMMON_MSYS_DLLS)) install-$(WINARCH)-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(WINARCH)-$(GUI)/
+	cp -R $(addprefix /bin/msys-, $(COMMON_MSYS_DLLS)) install-$(WINARCH)-$(GUI)/
 
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
@@ -230,15 +230,15 @@ DEFAULT_FCMP_DLLS := \
 	libpcre-1.dll
 
 install-env-default-fcmp: install-env-common
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(WINARCH)-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
 	# add additional GTK+3 files
 	mkdir -p install-$(WINARCH)-$(GUI)/etc
-	cp -R $(ARCHDIR)/etc/gtk-3.0 install-$(WINARCH)-$(GUI)/etc/
+	cp -R /$(ARCHDIR)/etc/gtk-3.0 install-$(WINARCH)-$(GUI)/etc/
 	mkdir -p install-$(WINARCH)-$(GUI)/share/icons
-	cp -R $(ARCHDIR)/share/icons/Adwaita install-$(WINARCH)-$(GUI)/share/icons/
+	cp -R /$(ARCHDIR)/share/icons/Adwaita install-$(WINARCH)-$(GUI)/share/icons/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
-	cp -R $(ARCHDIR)/lib/gtk-3.0/* install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
-	cp -R $(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
+	cp -R /$(ARCHDIR)/lib/gtk-3.0/* install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
+	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
 install-env-gtk3: install-env-default-fcmp
@@ -249,13 +249,13 @@ GTK2_DLLS := \
 
 install-env-gtk2: install-env-common
 	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK2_DLLS)) install-$(WINARCH)-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK2_DLLS)) install-$(WINARCH)-$(GUI)/
 	# add additional GTK+2 files
 	mkdir -p install-$(WINARCH)-$(GUI)/etc
 	cp -R /etc/gtk-2.0 install-$(WINARCH)-$(GUI)/etc/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
 	cp -R /lib/gtk-2.0/2.10.0 install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
-	cp -R $(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
+	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
 
 SDL2_DLLS := \
@@ -266,7 +266,7 @@ SDL2_DLLS := \
 
 install-env-sdl2: install-env-default-fcmp
 	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT_DLLS := \
 	libicuin57.dll \
@@ -277,23 +277,26 @@ QT_DLLS := \
 	libsqlite3-0.dll \
 	Qt5Core.dll \
 	Qt5Gui.dll \
-	Qt5Widgets.dll
+	Qt5Widgets.dll \
+	libgraphite2.dll \
+	libpcre-1.dll
 
 QT_MSYS_DLLS := \
 	stdc++-6.dll
 
 install-env-qt: install-env-common
 	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-$(WINARCH)-$(GUI)
-	cp -R $(addprefix /bin/msys-, $(QT_MSYS_DLLS)) install-$(WINARCH)-$(GUI)
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-$(WINARCH)-$(GUI)/
+	cp -R $(addprefix /bin/msys-, $(QT_MSYS_DLLS)) install-$(WINARCH)-$(GUI)/
 	# add additional Qt files
-	cp -R $(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-$(GUI)/
-	cp -R $(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
+	cp -R /$(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-$(GUI)/
+	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
 # TODO: Clean out unnecessary ones. These are just copies of COMMON_DLLS and
 #       COMMON_MSYS_DLLS with most obviously unnecessary things left out.
 RULEDIT_DLLS := \
+        libstdc++-6.dll \
 	libatk-1.0-0.dll \
 	libbz2-1.dll \
 	libcairo-2.dll \
@@ -315,7 +318,9 @@ RULEDIT_DLLS := \
 	libpng16-16.dll \
 	libxml2-2.dll \
 	zlib1.dll \
-	libwinpthread-1.dll
+	libwinpthread-1.dll \
+	libgraphite2.dll \
+	libpcre-1.dll
 
 RULEDIT_MSYS_DLLS := \
 	2.0.dll \
@@ -344,12 +349,12 @@ RULEDIT_MSYS_DLLS := \
 
 install-env-ruledit:
 	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_DLLS)) install-$(WINARCH)-ruledit
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-$(WINARCH)-ruledit
-	cp -R $(addprefix /bin/msys-, $(RULEDIT_MSYS_DLLS)) install-$(WINARCH)-ruledit
-	cp -R $(addprefix /bin/msys-, $(QT_MSYS_DLLS)) install-$(WINARCH)-ruledit
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_DLLS)) install-$(WINARCH)-ruledit/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-$(WINARCH)-ruledit/
+	cp -R $(addprefix /bin/msys-, $(RULEDIT_MSYS_DLLS)) install-$(WINARCH)-ruledit/
+	cp -R $(addprefix /bin/msys-, $(QT_MSYS_DLLS)) install-$(WINARCH)-ruledit/
 	# add additional Qt files
-	cp -R $(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-ruledit/
+	cp -R /$(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-ruledit/
 	cp -R /usr/share/locale install-$(WINARCH)-ruledit/share/
 	find install-$(WINARCH)-ruledit/share/locale -type f -not -name "freeciv-ruledit.mo" -delete
 
