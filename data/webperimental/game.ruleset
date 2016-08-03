@@ -1059,7 +1059,7 @@ colorlist =
 set =
   { "name", "value", "lock"
     "autosaves", "", TRUE
-    "topology", "WRAPX", TRUE
+    "topology", "WRAPX", FALSE
     "nationset", "all", TRUE
     "compresstype", "xz", TRUE
     "traitdistribution", "EVEN", FALSE
