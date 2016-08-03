@@ -3997,10 +3997,19 @@ static bool load_ruleset_nations(struct section_file *file)
      * a specific ruleset to a gov not explicitly known by the nation set. */
     if (sval != NULL) {
       game.default_government = government_by_rule_name(sval);
-      game.info.default_government_id
-        = government_number(game.default_government);
+      if (game.default_government == NULL) {
+        ruleset_error(LOG_ERROR,
+                      "Tried to set unknown government type \"%s\" as default_government!",
+                      sval);
+        ok = FALSE;
+      } else {
+        game.info.default_government_id
+          = government_number(game.default_government);
+      }
     }
+  }
 
+  if (ok) {
     sec = secfile_sections_by_name_prefix(file, NATION_SET_SECTION_PREFIX);
     if (sec) {
       section_list_iterate(sec, psection) {
