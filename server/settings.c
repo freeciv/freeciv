@@ -1210,6 +1210,22 @@ static bool topology_callback(unsigned value, struct connection *caller,
     return FALSE;
   }
 
+#ifdef FREECIV_WEB
+  /* Remember to update the help text too if Freeciv-web gets the ability
+   * to display other map topologies. */
+  if ((value & (TF_WRAPY)) != 0
+      /* Are you removing this because Freeciv-web gained the ability to
+       * display isometric maps? Why don't you remove the Freeciv-web
+       * specific MAP_DEFAULT_TOPO too? */
+      || (value & (TF_ISO)) != 0
+      || (value & (TF_HEX)) != 0) {
+    /* The Freeciv-web client can't display these topologies yet. */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Freeciv-web doesn't support this topology."));
+    return FALSE;
+  }
+#endif /* FREECIV_WEB */
+
   return TRUE;
 }
 
@@ -1374,6 +1390,12 @@ static struct setting settings[] = {
   GEN_BITWISE("topology", game.map.topology_id, SSET_MAP_SIZE,
               SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
               N_("Map topology index"),
+#ifdef FREECIV_WEB
+              /* TRANS: Freeciv-web version of the help text. */
+              N_("Freeciv maps are always two-dimensional. They may wrap "
+                 "at the east-west directions to form a flat map or a "
+                 "cylinder.\n"),
+#else /* FREECIV_WEB */
               /* TRANS: do not edit the ugly ASCII art */
               N_("Freeciv maps are always two-dimensional. They may wrap at "
                  "the north-south and east-west directions to form a flat "
@@ -1395,6 +1417,7 @@ static struct setting settings[] = {
                  "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
                  "   \\/\\/\\/\\/\\/\\/"
                  "             \\_/ \\_/ \\_/ \\_/ \\_/\n"),
+#endif /* FREECIV_WEB */
               topology_callback, topology_action, topology_name, MAP_DEFAULT_TOPO)
 
   GEN_ENUM("generator", game.map.server.generator,
