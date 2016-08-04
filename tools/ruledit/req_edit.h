@@ -20,7 +20,7 @@
 
 // Qt
 #include <QDialog>
-#include <QTextEdit>
+#include <QListWidget>
 
 class ruledit_gui;
 
@@ -29,19 +29,24 @@ class req_edit : public QDialog
   Q_OBJECT
 
   public:
-  explicit req_edit(ruledit_gui *ui_in, QString target,
-                    const struct requirement_vector *preqs);
-    void clear(const char *title);
+    explicit req_edit(ruledit_gui *ui_in, QString target,
+                      struct requirement_vector *preqs);
+    void refresh();
     void add(const char *msg);
 
   private:
     ruledit_gui *ui;
 
-    QTextEdit *area;
+    QListWidget *req_list;
+    struct requirement_vector *req_vector;
+
+    struct requirement *selected;
 
   private slots:
+    void select_req();
+    void add_now();
+    void delete_now();
     void close_now();
 };
-
 
 #endif // FC__REQ_EDIT_H

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -78,15 +78,15 @@ struct requirement {
 
 /* General requirement functions. */
 struct requirement req_from_str(const char *type, const char *range,
-				bool survives, bool present, bool quiet,
-				const char *value);
+                                bool survives, bool present, bool quiet,
+                                const char *value);
 const char *req_to_fstring(const struct requirement *req);
 
 void req_get_values(const struct requirement *req, int *type,
-		    int *range, bool *survives, bool *present, bool *quiet,
-		    int *value);
+                    int *range, bool *survives, bool *present, bool *quiet,
+                    int *value);
 struct requirement req_from_values(int type, int range,
-				   bool survives, bool present, bool quiet,
+                                   bool survives, bool present, bool quiet,
                                    int value);
 
 bool are_requirements_equal(const struct requirement *req1,
