@@ -172,7 +172,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
    * tile (with the hut) earlier: */
   extra_type_by_cause_iterate(EC_HUT, pextra) {
     if (tile_has_extra(ptile, pextra)) {
-      tile_remove_extra(ptile, pextra);
+      tile_extra_rm_apply(ptile, pextra);
       hut_present = TRUE;
     }
   } extra_type_by_cause_iterate_end;

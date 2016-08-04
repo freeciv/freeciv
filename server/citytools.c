@@ -1785,7 +1785,7 @@ void remove_city(struct city *pcity)
   extra_type_iterate(pextra) {
     if (tile_has_extra(pcenter, pextra)
         && !is_native_tile_to_extra(pextra, pcenter)) {
-      tile_remove_extra(pcenter, pextra);
+      tile_extra_rm_apply(pcenter, pextra);
     }
   } extra_type_iterate_end;
 

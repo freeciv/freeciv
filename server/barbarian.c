@@ -552,7 +552,7 @@ static void try_summon_barbarians(void)
   /* Remove huts in place of uprising */
   extra_type_by_cause_iterate(EC_HUT, pextra) {
     if (tile_has_extra(utile, pextra)) {
-      tile_remove_extra(utile, pextra);
+      tile_extra_rm_apply(utile, pextra);
       hut_present = TRUE;
     }
   } extra_type_by_cause_iterate_end;

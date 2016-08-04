@@ -1392,7 +1392,7 @@ static void end_turn(void)
       if (tile_has_extra(ptile, pextra)
           && fc_rand(10000) < pextra->disappearance_chance
           && can_extra_disappear(pextra, ptile)) {
-        tile_remove_extra(ptile, pextra);
+        tile_extra_rm_apply(ptile, pextra);
 
         update_tile_knowledge(ptile);
 
@@ -1423,7 +1423,7 @@ static void end_turn(void)
           && fc_rand(10000) < pextra->appearance_chance
           && can_extra_appear(pextra, ptile)) {
 
-        tile_add_extra(ptile, pextra);
+        tile_extra_apply(ptile, pextra);
 
         update_tile_knowledge(ptile);
 
