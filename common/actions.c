@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2013 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1126,7 +1126,8 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
                        const struct unit_type *actor_unittype,
                        const struct output_type *actor_output,
                        const struct specialist *actor_specialist,
-                       const bool omniscient)
+                       const bool omniscient,
+                       const struct city *homecity)
 {
   if (!action_actor_utype_hard_reqs_ok(wanted_action, actor_unittype)) {
     /* Info leak: The actor player knows the type of his unit. */
@@ -1142,7 +1143,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
      * city. The Freeciv code assumes this applies to Enter Marketplace
      * too. */
     /* Info leak: The actor player knowns his unit's home city. */
-    if (!game_city_by_number(actor_unit->homecity)) {
+    if (homecity == NULL) {
       return TRI_NO;
     }
 
@@ -1249,7 +1250,8 @@ is_action_possible(const enum gen_action wanted_action,
                    const struct unit_type *target_unittype,
                    const struct output_type *target_output,
                    const struct specialist *target_specialist,
-                   const bool omniscient)
+                   const bool omniscient,
+                   const struct city *homecity)
 {
   bool can_see_tgt_unit;
   bool can_see_tgt_tile;
@@ -1312,7 +1314,7 @@ is_action_possible(const enum gen_action wanted_action,
                                actor_player, actor_city, actor_building,
                                actor_tile, actor_unit, actor_unittype,
                                actor_output, actor_specialist,
-                               omniscient);
+                               omniscient, homecity);
 
   if (out == TRI_NO) {
     /* Illegal because of a hard actor requirement. */
@@ -1383,25 +1385,21 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_TRADE_ROUTE:
   case ACTION_MARKETPLACE:
     {
-      const struct city *actor_homecity;
-
-      actor_homecity = game_city_by_number(actor_unit->homecity);
-
       /* Checked in action_hard_reqs_actor() */
-      fc_assert_ret_val(actor_homecity != NULL, TRI_NO);
+      fc_assert_ret_val(homecity != NULL, TRI_NO);
 
       /* Can't establish a trade route or enter the market place if the
        * cities can't trade at all. */
       /* TODO: Should this restriction (and the above restriction that the
        * actor unit must have a home city) be kept for Enter Marketplace? */
-      if (!can_cities_trade(actor_homecity, target_city)) {
+      if (!can_cities_trade(homecity, target_city)) {
         return TRI_NO;
       }
 
       /* There are more restrictions on establishing a trade route than on
        * entering the market place. */
-      if (wanted_action == ACTION_TRADE_ROUTE &&
-          !can_establish_trade_route(actor_homecity, target_city)) {
+      if (wanted_action == ACTION_TRADE_ROUTE
+          && !can_establish_trade_route(homecity, target_city)) {
         return TRI_NO;
       }
     }
@@ -1571,7 +1569,7 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_HOME_CITY:
     /* Reason: can't change to what is. */
     /* Info leak: The player knows his unit's current home city. */
-    if (actor_unit->homecity == target_city->id) {
+    if (homecity->id == target_city->id) {
       /* This is already the unit's home city. */
       return TRI_NO;
     }
@@ -1718,7 +1716,8 @@ static bool is_action_enabled(const enum gen_action wanted_action,
                               const struct unit *target_unit,
 			      const struct unit_type *target_unittype,
 			      const struct output_type *target_output,
-			      const struct specialist *target_specialist)
+			      const struct specialist *target_specialist,
+                              const struct city *homecity)
 {
   enum fc_tristate possible;
 
@@ -1731,7 +1730,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
                                 target_building, target_tile,
                                 target_unit, target_unittype,
                                 target_output, target_specialist,
-                                TRUE);
+                                TRUE, homecity);
 
   if (possible != TRI_YES) {
     /* This context is omniscient. Should be yes or no. */
@@ -1769,6 +1768,22 @@ static bool is_action_enabled(const enum gen_action wanted_action,
 bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city)
+{
+  return is_action_enabled_unit_on_city_full(wanted_action, actor_unit,
+                                             target_city,
+                                             game_city_by_number(actor_unit->homecity));
+}
+
+/**************************************************************************
+  Returns TRUE if actor_unit can do wanted_action to target_city as far as
+  action enablers are concerned.
+
+  See note in is_action_enabled for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
+                                         const struct unit *actor_unit,
+                                         const struct city *target_city,
+                                         const struct city *homecity)
 {
   struct tile *actor_tile = unit_tile(actor_unit);
   struct impr_type *target_building;
@@ -1808,7 +1823,7 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                            NULL, NULL,
                            city_owner(target_city), target_city,
                            target_building, city_tile(target_city),
-                           NULL, target_utype, NULL, NULL);
+                           NULL, target_utype, NULL, NULL, homecity);
 }
 
 /**************************************************************************
@@ -1856,7 +1871,8 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                            tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit),
                            target_unit, unit_type_get(target_unit),
-                           NULL, NULL);
+                           NULL, NULL,
+                           game_city_by_number(actor_unit->homecity));
 }
 
 /**************************************************************************
@@ -1870,6 +1886,7 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
                                      const struct tile *target_tile)
 {
   struct tile *actor_tile = unit_tile(actor_unit);
+  struct city *homecity;
 
   if (actor_unit == NULL || target_tile == NULL
       || unit_list_size(target_tile->units) == 0) {
@@ -1896,6 +1913,8 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
     return FALSE;
   }
 
+  homecity = game_city_by_number(actor_unit->homecity);
+
   unit_list_iterate(target_tile->units, target_unit) {
     if (!is_action_enabled(wanted_action,
                            unit_owner(actor_unit), tile_city(actor_tile),
@@ -1906,7 +1925,7 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
                            tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit),
                            target_unit, unit_type_get(target_unit),
-                           NULL, NULL)) {
+                           NULL, NULL, homecity)) {
       /* One unit makes it impossible for all units. */
       return FALSE;
     }
@@ -1958,7 +1977,8 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            tile_owner(target_tile), NULL, NULL,
-                           target_tile, NULL, NULL, NULL, NULL);
+                           target_tile, NULL, NULL, NULL, NULL,
+                           game_city_by_number(actor_unit->homecity));
 }
 
 /**************************************************************************
@@ -2002,7 +2022,8 @@ bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                            NULL, actor_tile,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
-                           NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+                           NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                           game_city_by_number(actor_unit->homecity));
 }
 
 /**************************************************************************
@@ -2271,9 +2292,9 @@ action_prob(const enum gen_action wanted_action,
 {
   int known;
   struct act_prob chance;
-
   const struct unit_type *actor_unittype;
   const struct unit_type *target_unittype;
+  const struct city *homecity;
 
   if (actor_unittype_p == NULL && actor_unit != NULL) {
     actor_unittype = unit_type_get(actor_unit);
@@ -2287,6 +2308,12 @@ action_prob(const enum gen_action wanted_action,
     target_unittype = target_unittype_p;
   }
 
+  if (actor_unit != NULL) {
+    homecity = game_city_by_number(actor_unit->homecity);
+  } else {
+    homecity = NULL;
+  }
+
   known = is_action_possible(wanted_action,
                              actor_player, actor_city,
                              actor_building, actor_tile,
@@ -2296,7 +2323,7 @@ action_prob(const enum gen_action wanted_action,
                              target_building, target_tile,
                              target_unit, target_unittype,
                              target_output, target_specialist,
-                             FALSE);
+                             FALSE, homecity);
 
   if (known == TRI_NO) {
     /* The action enablers are irrelevant since the action it self is
@@ -2918,7 +2945,7 @@ bool is_action_possible_on_city(const enum gen_action action_id,
   is provided.
 **************************************************************************/
 bool action_maybe_possible_actor_unit(const int action_id,
-                                      const struct unit* actor_unit)
+                                      const struct unit *actor_unit)
 {
   const struct player *actor_player = unit_owner(actor_unit);
   const struct tile *actor_tile = unit_tile(actor_unit);
@@ -2937,7 +2964,8 @@ bool action_maybe_possible_actor_unit(const int action_id,
   result = action_hard_reqs_actor(action_id,
                                   actor_player, actor_city, NULL,
                                   actor_tile, actor_unit, actor_unittype,
-                                  NULL, NULL, FALSE);
+                                  NULL, NULL, FALSE,
+                                  game_city_by_number(actor_unit->homecity));
 
   if (result == TRI_NO) {
     /* The hard requirements aren't fulfilled. */

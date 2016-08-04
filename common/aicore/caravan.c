@@ -485,12 +485,15 @@ static bool get_discounted_reward(const struct unit *caravan,
      * theoretically possible case. (More than one city is rare.) The
      * computations are therefore worth it. */
 
-    if (!(is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
-                                         caravan, dest)
-          || is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
-                                            caravan, dest)
-          || is_action_enabled_unit_on_city(ACTION_MARKETPLACE,
-                                            caravan, dest))) {
+    if (!(is_action_enabled_unit_on_city_full(ACTION_HELP_WONDER,
+                                              caravan, dest,
+                                              src)
+          || is_action_enabled_unit_on_city_full(ACTION_TRADE_ROUTE,
+                                                 caravan, dest,
+                                                 src)
+          || is_action_enabled_unit_on_city_full(ACTION_MARKETPLACE,
+                                                 caravan, dest,
+                                                 src))) {
       /* No caravan action is possible against this target. */
       caravan_result_init_zero(result);
       return FALSE;
