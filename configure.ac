@@ -538,90 +538,6 @@ if test $enable_aimodules = yes ; then
 fi
 AM_CONDITIONAL(EXP_AI_MODULES, test "x$exp_aimodules" = "xyes")
 
-AC_ARG_ENABLE([ai-static],
-  AS_HELP_STRING([--enable-ai-static], [statically link listed modules to server]),
-[static_modules="${enableval}"],
-[static_modules="classic"])
-
-ai_mod_static_classic=no
-ai_mod_static_threaded=no
-ai_mod_static_threxpr=no
-ai_mod_static_stub=no
-
-for module in $(echo $static_modules | $SED 's/,/ /g') ; do
-  if test "x$module" = "xclassic" ; then
-    ai_mod_static_classic=yes
-    ai_mod_default_needed=yes
-    AC_DEFINE([AI_MOD_STATIC_CLASSIC], [1],
-              [classic ai module statically linked])
-  elif test "x$module" = "xthreaded" ; then
-    ai_mod_static_threaded=yes
-    ai_mod_default_needed=yes
-    AC_DEFINE([AI_MOD_STATIC_THREADED], [1],
-              [threaded ai module statically linked])
-  elif test "x$module" = "xthrexpr" ; then
-    ai_mod_static_threxpr=yes
-    ai_mod_default_needed=yes
-    AC_DEFINE([AI_MOD_STATIC_THREXPR], [1],
-              [experimental threads ai module statically linked])
-  elif test "x$module" = "xstub" ; then
-    ai_mod_static_stub=yes
-    AC_DEFINE([AI_MOD_STATIC_STUB], [1],
-              [stub ai module statically linked])
-  else
-    AC_MSG_ERROR([bad value ${module} for --enable-ai-static])
-  fi
-  if test "x$default_ai_set" = "x" ; then
-    dnl Make first static module default ai type
-    default_ai_set="${module}"
-  fi
-done
-AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
-[test "x$ai_mod_static_classic" = "xyes" || test "x$enable_aimodules" != "xyes"])
-AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
-[test "x$ai_mod_static_threaded" = "xyes"])
-AM_CONDITIONAL([AI_MOD_STATIC_THREXPR],
-[test "x$ai_mod_static_threxpr" = "xyes"])
-AM_CONDITIONAL([AI_MOD_STATIC_STUB],
-[test "x$ai_mod_static_stub" = "xyes"])
-
-AC_ARG_WITH([default-ai],
-  AS_HELP_STRING([--with-default-ai], [default ai type [first static]]),
-  [default_ai_set="${withval}"],
-  [])
-
-AC_ARG_WITH([ai-lib],
-  AS_HELP_STRING([--with-ai-lib], [build in default AI code [if needed]]),
-  [ai_mod_default_needed=yes], [])
-
-AM_CONDITIONAL([AI_MOD_DEFAULT_NEEDED],
-[test  "x${ai_mod_default_needed}" = "xyes" || test "x${default_ai_set}" = "x"])
-
-if test "x${default_ai_set}" = "x" ; then
-  default_ai_set="classic"
-fi
-
-fc_ai_last=0
-if test "x$ai_mod_static_classic" = "xyes" ; then
-  fc_ai_last=$fc_ai_last+1
-fi
-if test "x$ai_mod_static_threaded" = "xyes" ; then
-  fc_ai_last=$fc_ai_last+1
-fi
-if test "x$ai_mod_static_threxpr" = "xyes" ; then
-  fc_ai_last=$fc_ai_last+1
-fi
-if test "x$ai_mod_static_stub" = "xyes" ; then
-  fc_ai_last=$fc_ai_last+1
-fi
-if test "x$enable_aimodules" = "xyes" ; then
-  dnl Dynamic modules allowed, give slots for them
-  fc_ai_last=$fc_ai_last+3
-fi
-AC_DEFINE_UNQUOTED([FREECIV_AI_MOD_LAST], [(${fc_ai_last})], [Max number of AI modules])
-
-AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type name])
-
 dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC
@@ -945,6 +861,94 @@ fi
 if test "x$thread_cond" != "xtrue" ; then
   feature_thr_cond=missing
 fi
+
+AC_ARG_ENABLE([ai-static],
+  AS_HELP_STRING([--enable-ai-static], [statically link listed modules to server]),
+[static_modules="${enableval}"],
+[if test "x$thread_cond" = "xtrue" ; then
+  static_modules="classic,threaded"
+else
+  static_modules="classic"
+fi])
+
+ai_mod_static_classic=no
+ai_mod_static_threaded=no
+ai_mod_static_threxpr=no
+ai_mod_static_stub=no
+
+for module in $(echo $static_modules | $SED 's/,/ /g') ; do
+  if test "x$module" = "xclassic" ; then
+    ai_mod_static_classic=yes
+    ai_mod_default_needed=yes
+    AC_DEFINE([AI_MOD_STATIC_CLASSIC], [1],
+              [classic ai module statically linked])
+  elif test "x$module" = "xthreaded" ; then
+    ai_mod_static_threaded=yes
+    ai_mod_default_needed=yes
+    AC_DEFINE([AI_MOD_STATIC_THREADED], [1],
+              [threaded ai module statically linked])
+  elif test "x$module" = "xthrexpr" ; then
+    ai_mod_static_threxpr=yes
+    ai_mod_default_needed=yes
+    AC_DEFINE([AI_MOD_STATIC_THREXPR], [1],
+              [experimental threads ai module statically linked])
+  elif test "x$module" = "xstub" ; then
+    ai_mod_static_stub=yes
+    AC_DEFINE([AI_MOD_STATIC_STUB], [1],
+              [stub ai module statically linked])
+  else
+    AC_MSG_ERROR([bad value ${module} for --enable-ai-static])
+  fi
+  if test "x$default_ai_set" = "x" ; then
+    dnl Make first static module default ai type
+    default_ai_set="${module}"
+  fi
+done
+AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
+[test "x$ai_mod_static_classic" = "xyes" || test "x$enable_aimodules" != "xyes"])
+AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
+[test "x$ai_mod_static_threaded" = "xyes"])
+AM_CONDITIONAL([AI_MOD_STATIC_THREXPR],
+[test "x$ai_mod_static_threxpr" = "xyes"])
+AM_CONDITIONAL([AI_MOD_STATIC_STUB],
+[test "x$ai_mod_static_stub" = "xyes"])
+
+AC_ARG_WITH([default-ai],
+  AS_HELP_STRING([--with-default-ai], [default ai type [first static]]),
+  [default_ai_set="${withval}"],
+  [])
+
+AC_ARG_WITH([ai-lib],
+  AS_HELP_STRING([--with-ai-lib], [build in default AI code [if needed]]),
+  [ai_mod_default_needed=yes], [])
+
+AM_CONDITIONAL([AI_MOD_DEFAULT_NEEDED],
+[test  "x${ai_mod_default_needed}" = "xyes" || test "x${default_ai_set}" = "x"])
+
+if test "x${default_ai_set}" = "x" ; then
+  default_ai_set="classic"
+fi
+
+fc_ai_last=0
+if test "x$ai_mod_static_classic" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_threaded" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_threxpr" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_stub" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$enable_aimodules" = "xyes" ; then
+  dnl Dynamic modules allowed, give slots for them
+  fc_ai_last=$fc_ai_last+3
+fi
+AC_DEFINE_UNQUOTED([FREECIV_AI_MOD_LAST], [(${fc_ai_last})], [Max number of AI modules])
+
+AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type name])
 
 dnl Check and choose clients
 if test "x$client" != "xno"; then
