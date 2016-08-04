@@ -422,7 +422,7 @@ static void get_discounted_reward(const struct unit *caravan,
   double discount = parameter->discount;
   struct player *pplayer_src = city_owner(src);
   struct player *pplayer_dest = city_owner(dest);
-  
+
   /* if no foreign trade is allowed, just quit. */
   if (!parameter->allow_foreign_trade && pplayer_src != pplayer_dest) {
     caravan_result_init_zero(result);
@@ -436,13 +436,17 @@ static void get_discounted_reward(const struct unit *caravan,
       return;
     }
   }
-  
+
   trade = trade_benefit(pplayer_src, src, dest, parameter);
   windfall = windfall_benefit(src, dest, parameter);
-  wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
-  /* we want to aid for wonder building */
-  wonder *= 2;
-  
+  if (pplayer_src == pplayer_dest) {
+    wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
+    /* we want to aid for wonder building */
+    wonder *= 2;
+  } else {
+    wonder = 0;
+  }
+
   if (parameter->horizon == FC_INFINITY) {
     trade = perpetuity(trade, discount);
   } else {
@@ -452,7 +456,7 @@ static void get_discounted_reward(const struct unit *caravan,
   windfall = presentvalue(windfall, arrival_time, discount);
   wonder = presentvalue(wonder, arrival_time, discount);
 
-  if(trade + windfall >= wonder) {
+  if (trade + windfall >= wonder) {
     result->value = trade + windfall;
     result->help_wonder = FALSE;
   } else {
