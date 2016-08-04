@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2013 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -169,6 +169,11 @@ void action_enabler_add(struct action_enabler *enabler);
 bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city);
+
+bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
+                                         const struct unit *actor_unit,
+                                         const struct city *target_city,
+                                         const struct city *homecity);
 
 bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
