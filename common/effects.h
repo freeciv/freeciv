@@ -283,6 +283,8 @@ extern "C" {
 #define SPECENUM_VALUE110NAME "Action_Odds_Pct"
 #define SPECENUM_VALUE111 EFT_BORDER_VISION
 #define SPECENUM_VALUE111NAME "Border_Vision"
+#define SPECENUM_VALUE112 EFT_STEALINGS_IGNORE
+#define SPECENUM_VALUE112NAME "Stealings_Ignore"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

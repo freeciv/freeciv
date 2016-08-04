@@ -605,6 +605,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   struct research *presearch, *cresearch;
   struct player *cplayer;
   int count;
+  int bonus;
+  int times;
   Tech_type_id tech_stolen;
 
   /* We have to check arguments. They are sent to us by a client,
@@ -627,7 +629,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     /* Can't choose target. Will steal a random tech. */
     technology = A_UNSET;
   }
-  
+
   /* Targeted technology should be a ruleset defined tech,
    * "At Spy's Discretion" (A_UNSET) or a future tech (A_FUTURE). */
   if (technology == A_NONE
@@ -669,10 +671,21 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("steal-tech: infiltrated");
 
+  bonus = get_unit_bonus(pdiplomat, EFT_STEALINGS_IGNORE);
+  if (bonus < 0) {
+    /* Negative effect value means infinite bonus */
+    times = 0;
+  } else {
+    times = pcity->server.steal - bonus;
+    if (times < 0) {
+      times = 0;
+    }
+  }
+
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   /* (Twice as difficult if target is specified.) */
   /* (If already stolen from, impossible for Diplomats and harder for Spies.) */
-  if (pcity->server.steal > 0 && !unit_has_type_flag(pdiplomat, UTYF_SPY)) {
+  if (times > 0 && !unit_has_type_flag(pdiplomat, UTYF_SPY)) {
     /* Already stolen from: Diplomat always fails! */
     count = 1;
     log_debug("steal-tech: difficulty: impossible");
@@ -683,17 +696,17 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       /* Targeted steal tech is more difficult. */
       count++;
     }
-    count += pcity->server.steal;
+    count += times;
     log_debug("steal-tech: difficulty: %d", count);
     /* Determine success or failure. */
     while (count > 0) {
-      if (fc_rand (100) >= game.server.diplchance) {
+      if (fc_rand(100) >= game.server.diplchance) {
         break;
       }
       count--;
     }
   }
-  
+
   if (count > 0) {
     if (pcity->server.steal > 0 && !unit_has_type_flag(pdiplomat, UTYF_SPY)) {
       notify_player(pplayer, city_tile(pcity),
@@ -721,7 +734,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                               city_tile(pcity), city_link(pcity));
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
     return FALSE;
-  } 
+  }
 
   tech_stolen = steal_a_tech(pplayer, cplayer, technology);
 

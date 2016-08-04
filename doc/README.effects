@@ -288,6 +288,14 @@ chance to fail. Also in diplomatic combat defending diplomatic units in cities
 will get an AMOUNT percent bonus. All Spy_Resistant's are summed before being 
 applied.
 
+Stealings_Ignore
+    When determining how difficult it is to steal a tech from enemy, AMOUNT
+previous times tech has been stolen from the city is ignored. Negative amount
+means that number of times tech has already been stolen from target city does
+not affect current attempt at all. With this effect it's possible to allow
+diplomats to steal tech multiple times from the same city, or make it easier
+for spies.
+
 Move_Bonus
     Add amount movement to units. Use UnitClass' requirement with range of 
 'Local' to give it a specific class of units only.
