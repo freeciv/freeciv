@@ -840,7 +840,7 @@ static void update_unit_activity(struct unit *punit)
                                                   NULL, punit);
     }
     if (total_activity_done(ptile, ACTIVITY_POLLUTION, punit->activity_target)) {
-      tile_remove_extra(ptile, punit->activity_target);
+      destroy_extra(ptile, punit->activity_target);
       unit_activity_done = TRUE;
     }
     break;
@@ -853,7 +853,7 @@ static void update_unit_activity(struct unit *punit)
                                                   NULL, punit);
     }
     if (total_activity_done(ptile, ACTIVITY_FALLOUT, punit->activity_target)) {
-      tile_remove_extra(ptile, punit->activity_target);
+      destroy_extra(ptile, punit->activity_target);
       unit_activity_done = TRUE;
     }
     break;
@@ -2840,7 +2840,7 @@ static void unit_enter_hut(struct unit *punit)
     if (tile_has_extra(ptile, pextra)) {
       pplayer->server.huts++;
 
-      tile_remove_extra(ptile, pextra);
+      destroy_extra(ptile, pextra);
       update_tile_knowledge(unit_tile(punit));
 
       if (behavior == HUT_FRIGHTEN) {

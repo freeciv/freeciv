@@ -1174,7 +1174,7 @@ static void remove_tiny_islands(void)
       extra_type_by_cause_iterate(EC_ROAD, priver) {
         if (tile_has_extra(ptile, priver)
             && road_has_flag(extra_road_get(priver), RF_RIVER)) {
-          tile_remove_extra(ptile, priver);
+          tile_extra_rm_apply(ptile, priver);
         }
       } extra_type_by_cause_iterate_end;
       tile_set_continent(ptile, 0);
