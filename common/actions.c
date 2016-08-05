@@ -194,7 +194,7 @@ void actions_init(void)
                  0, 1);
   actions[ACTION_DESTROY_CITY] =
       action_new(ACTION_DESTROY_CITY, ATK_CITY,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_EXPEL_UNIT] =
       action_new(ACTION_EXPEL_UNIT, ATK_UNIT,
