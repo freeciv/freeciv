@@ -53,6 +53,7 @@ before contact.\n\
 - A player that knows Electricity has no fog of war inside his borders.\n\
 - Foot soldiers can peacefully expel foreign civilian units from your terrain.\n\
 - It is possible to establish an embassy while inside a ship.\n\
+- The Leader unit has been added to the default startunits.\n\
 - The Leader unit can destroy a domestic city. (Be careful when you scorch \
 the earth. If your Leader dies you lose he game.)\n\
 - Labels the year using AD/BC.\n\
@@ -1064,4 +1065,5 @@ set =
     "compresstype", "xz", TRUE
     "traitdistribution", "EVEN", FALSE
     "maxplayers", 32, TRUE
+    "startunits", "ccwwxk", FALSE
   }
