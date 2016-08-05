@@ -72,7 +72,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(WINARCH)-$(GUI)
 	# configure
-	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(GUI) --with-followtag="win32-S2_6" --without-readline --disable-sdl-mixer --without-libbz2 --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
+	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(GUI) --with-followtag="win32-S2_6" --without-readline --disable-sdl-mixer --without-libbz2 --enable-fcdb=sqlite3 --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(WINARCH)-$(GUI)
 	make -C build-$(WINARCH)-$(GUI)/translations/freeciv update-po
@@ -187,7 +187,8 @@ COMMON_DLLS := \
 	libpng16-16.dll \
 	libxml2-2.dll \
 	zlib1.dll \
-	libwinpthread-1.dll
+	libwinpthread-1.dll \
+	libsqlite3-0.dll
 
 COMMON_MSYS_DLLS := \
 	2.0.dll \

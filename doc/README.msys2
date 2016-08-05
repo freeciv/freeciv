@@ -204,11 +204,6 @@ somehow. Some options are:
   Either avoid installing libreadline-devel package to your msys2
   environment at all, or configure freeciv with --without-readline
 
-- Build fails if Native Language Support and sqlite3 user
-  authentication database are enabled simultaneously.
-  Use configure option --disable-nls to build without
-  Native Language Support, if you use --enable-fcdb=sqlite3
-
 - Linking against SDL2, including audio support for any client,
   fails. Use configure option --disable-sdl-mixer to build without
   audio support, or avoid installing any SDL2 packages to your
@@ -220,11 +215,6 @@ somehow. Some options are:
 
  TODO
 ====================================
-
-- Sqlite3 based authentication support was disabled without
-  removing any dll's from the installer packages. If sqlite is
-  not restored in near future, please review what related dlls
-  are packaged and could be removed.
 
 - Bzip2 based compression support was disabled without
   removing any dll's from the installer packages.
