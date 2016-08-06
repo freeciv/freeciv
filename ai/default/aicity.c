@@ -734,12 +734,19 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   struct player *pplayer = city_owner(pcity);
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
-  struct unit_type *utype
-           = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
+  struct unit_type *utype;
   Continent_id place = tile_continent(pcenter);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
+  struct dai_private_data *private = (struct dai_private_data *)ait->private;
+
+  if (!private->contemplace_workers) {
+    /* AI type uses custom method to set worker want and type. */
+    return;
+  }
 
   city_data->settler_want = 0; /* Make sure old want does not stay if we don't want now */
+
+  utype = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
 
   if (utype == NULL) {
     log_debug("No UTYF_SETTLERS role unit available");
@@ -801,6 +808,8 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   fc_assert(want >= 0);
 
   city_data->settler_want = want;
+  city_data->settler_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
+                                                             TC_LAND);
 }
 
 /**************************************************************************

@@ -46,7 +46,7 @@ enum texai_abort_msg_class
   TEXAI_ABORT_NONE
 };
 
-static enum texai_abort_msg_class texai_check_messages(void);
+static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait);
 
 struct texai_thr
 {
@@ -73,6 +73,7 @@ void texai_init_threading(void)
 static void texai_thread_start(void *arg)
 {
   bool finished = FALSE;
+  struct ai_type *texai = arg;
 
   log_debug("New AI thread launched");
 
@@ -81,7 +82,7 @@ static void texai_thread_start(void *arg)
   while (!finished) {
     fc_thread_cond_wait(&exthrai.msgs_to.thr_cond, &exthrai.msgs_to.mutex);
 
-    if (texai_check_messages() <= TEXAI_ABORT_EXIT) {
+    if (texai_check_messages(texai) <= TEXAI_ABORT_EXIT) {
       finished = TRUE;
     }
   }
@@ -93,7 +94,7 @@ static void texai_thread_start(void *arg)
 /**************************************************************************
   Handle messages from message queue.
 **************************************************************************/
-static enum texai_abort_msg_class texai_check_messages(void)
+static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
 {
   enum texai_abort_msg_class ret_abort= TEXAI_ABORT_NONE;
 
@@ -117,14 +118,15 @@ static enum texai_abort_msg_class texai_check_messages(void)
       /* Use _safe iterate in case the main thread
        * destroyes cities while we are iterating through these. */
       city_list_iterate_safe(msg->plr->cities, pcity) {
-        texai_city_worker_requests_create(msg->plr, pcity);
+        texai_city_worker_requests_create(ait, msg->plr, pcity);
+        texai_city_worker_wants(ait, msg->plr, pcity);
 
         /* Release mutex for a second in case main thread
          * wants to do something to city list. */
         fc_release_mutex(&game.server.mutexes.city_list);
 
         /* Recursive message check in case phase is finished. */
-        new_abort = texai_check_messages();
+        new_abort = texai_check_messages(ait);
         fc_allocate_mutex(&game.server.mutexes.city_list);
         if (new_abort < TEXAI_ABORT_NONE) {
           break;
@@ -196,7 +198,7 @@ void texai_control_gained(struct ai_type *ait, struct player *pplayer)
 {
   exthrai.num_players++;
 
-  log_debug("%s now under threaded AI (%d)", pplayer->name,
+  log_debug("%s now under threxp AI (%d)", pplayer->name,
             exthrai.num_players);
 
   if (!exthrai.thread_running) {
@@ -207,7 +209,7 @@ void texai_control_gained(struct ai_type *ait, struct player *pplayer)
  
     fc_thread_cond_init(&exthrai.msgs_to.thr_cond);
     fc_init_mutex(&exthrai.msgs_to.mutex);
-    fc_thread_start(&exthrai.ait, texai_thread_start, NULL);
+    fc_thread_start(&exthrai.ait, texai_thread_start, ait);
   }
 }
 

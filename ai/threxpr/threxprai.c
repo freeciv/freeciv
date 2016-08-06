@@ -32,6 +32,7 @@
 #include "daimilitary.h"
 
 /* threxpr ai */
+#include "texaicity.h"
 #include "texaimsg.h"
 #include "texaiplayer.h"
 
@@ -170,7 +171,7 @@ static void texwai_phase_finished(struct player *pplayer)
 static void texwai_city_alloc(struct city *pcity)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_city_alloc, pcity);
+  TEXAI_DFUNC(texai_city_alloc, pcity);
 }
 
 /**************************************************************************
@@ -179,7 +180,7 @@ static void texwai_city_alloc(struct city *pcity)
 static void texwai_city_free(struct city *pcity)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_city_free, pcity);
+  TEXAI_DFUNC(texai_city_free, pcity);
 }
 
 /**************************************************************************
@@ -549,6 +550,8 @@ const char *fc_ai_threxpr_capstr(void)
 **************************************************************************/
 bool fc_ai_threxpr_setup(struct ai_type *ai)
 {
+  struct dai_private_data *private;
+
   if (!has_thread_cond_impl()) {
     log_error(_("This Freeciv compilation has no full threads "
                 "implementation, threxpr ai cannot be used."));
@@ -556,6 +559,10 @@ bool fc_ai_threxpr_setup(struct ai_type *ai)
   }
 
   strncpy(ai->name, "threxpr", sizeof(ai->name));
+
+  private = fc_malloc(sizeof(struct dai_private_data));
+  private->contemplace_workers = FALSE; /* We use custom code to set worker want and type */
+  ai->private = private;
 
   texai_init_self(ai);
 

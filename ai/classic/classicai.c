@@ -569,9 +569,15 @@ static void cai_consider_wonder_city(struct city *pcity, bool *result)
 **************************************************************************/
 bool fc_ai_classic_setup(struct ai_type *ai)
 {
+  struct dai_private_data *private;
+
   classic_ai_set_self(ai);
 
   strncpy(ai->name, "classic", sizeof(ai->name));
+
+  private = fc_malloc(sizeof(struct dai_private_data));
+  private->contemplace_workers = TRUE;
+  ai->private = private;
 
   /* ai->funcs.game_start = NULL; */
   /* ai->funcs.game_free = NULL; */

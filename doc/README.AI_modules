@@ -116,6 +116,11 @@ it in for custom ai types to use by passing configure option --with-ai-lib
 6. Callback interface ChangeLog
 -------------------------------
 
+New in Freeciv 3.0:
+-------------------
+- Added 'private' pointer for ai module to store data of its own
+
+
 New in Freeciv 2.6:
 -------------------
 - Renamed enum danger_consideration as enum override_bool

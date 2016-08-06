@@ -453,8 +453,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
   struct adv_choice *choice = adv_new_choice();
 
   /* Find out desire for workers (terrain improvers) */
-  settler_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
-                                                  TC_LAND);
+  settler_type = city_data->settler_type;
 
   /* The worker want is calculated in aicity.c called from
    * dai_manage_cities.  The expand value is the % that the AI should

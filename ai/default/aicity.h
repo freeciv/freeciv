@@ -65,6 +65,7 @@ struct ai_city {
   int founder_turn;             /* only recalculate every Nth turn */
   int founder_want;
   int settler_want;
+  struct unit_type *settler_type;
 };
 
 void dai_manage_cities(struct ai_type *ait, struct player *pplayer);

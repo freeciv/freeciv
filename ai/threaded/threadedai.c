@@ -536,6 +536,8 @@ const char *fc_ai_threaded_capstr(void)
 **************************************************************************/
 bool fc_ai_threaded_setup(struct ai_type *ai)
 {
+  struct dai_private_data *private;
+
   if (!has_thread_cond_impl()) {
     log_error(_("This Freeciv compilation has no full threads "
                 "implementation, threaded ai cannot be used."));
@@ -543,6 +545,10 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
   }
 
   strncpy(ai->name, "threaded", sizeof(ai->name));
+
+  private = fc_malloc(sizeof(struct dai_private_data));
+  private->contemplace_workers = TRUE;
+  ai->private = private;
 
   tai_init_self(ai);
 

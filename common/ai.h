@@ -24,7 +24,7 @@ extern "C" {
  * structure below. When changing mandatory capability part, check that
  * there's enough reserved_xx pointers in the end of the structure for
  * taking to use without need to bump mandatory capability again. */
-#define FC_AI_MOD_CAPSTR "+Freeciv-3.0-ai-module-2016.Feb.09"
+#define FC_AI_MOD_CAPSTR "+Freeciv-3.0-ai-module-2016.Aug.05"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -51,6 +51,8 @@ enum incident_type {
 struct ai_type
 {
   char name[MAX_LEN_NAME];
+
+  void *private;
 
   struct {
     /* Called for every AI type when game starts. Game is not necessarily new one,
