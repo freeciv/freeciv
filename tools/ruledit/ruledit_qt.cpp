@@ -60,12 +60,10 @@ bool ruledit_qt_setup(int argc, char **argv)
 {
   ruledit_main *main_window;
   QWidget *central;
-  const QString title = QString::fromUtf8(R__("Freeciv Ruleset Editor"));
 
   qapp = new QApplication(argc, argv);
   central = new QWidget;
   main_window = new ruledit_main(qapp, central);
-  main_window->setWindowTitle(title);
 
   gui = new ruledit_gui;
   gui->setup(central);
@@ -270,8 +268,12 @@ void ruledit_gui::flush_widgets()
 **************************************************************************/
 ruledit_main::ruledit_main(QApplication *qapp_in, QWidget *central_in) : QMainWindow()
 {
+  const QString title = QString::fromUtf8(R__("Freeciv Ruleset Editor"));
+
   qapp = qapp_in;
   central = central_in;
+
+  setWindowTitle(title);
 }
 
 /**************************************************************************
