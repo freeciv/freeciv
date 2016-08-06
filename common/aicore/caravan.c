@@ -464,6 +464,9 @@ static bool get_discounted_reward(const struct unit *caravan,
   double discount = parameter->discount;
   struct player *pplayer_src = city_owner(src);
   struct player *pplayer_dest = city_owner(dest);
+  bool consider_wonder;
+  bool consider_trade;
+  bool consider_windfall;
 
   /* if no foreign trade is allowed, just quit. */
   if (!does_foreign_trade_param_allow(parameter, pplayer_src, pplayer_dest)) {
@@ -479,42 +482,64 @@ static bool get_discounted_reward(const struct unit *caravan,
      * theoretically possible case. (More than one city is rare.) The
      * computations are therefore worth it. */
 
-    if (!(is_action_enabled_unit_on_city_full(ACTION_HELP_WONDER,
-                                              caravan, dest,
-                                              src)
-          || is_action_enabled_unit_on_city_full(ACTION_TRADE_ROUTE,
-                                                 caravan, dest,
-                                                 src)
-          || is_action_enabled_unit_on_city_full(ACTION_MARKETPLACE,
-                                                 caravan, dest,
-                                                 src))) {
+    consider_wonder = is_action_enabled_unit_on_city_full(ACTION_HELP_WONDER,
+                                                          caravan, dest,
+                                                          src);
+    consider_trade = is_action_enabled_unit_on_city_full(ACTION_TRADE_ROUTE,
+                                                         caravan, dest,
+                                                         src);
+    consider_windfall = is_action_enabled_unit_on_city_full(ACTION_MARKETPLACE,
+                                                            caravan, dest,
+                                                            src);
+    if (!consider_wonder && !consider_trade && !consider_windfall) {
       /* No caravan action is possible against this target. */
       caravan_result_init_zero(result);
       return FALSE;
     }
+  } else {
+    consider_wonder = parameter->consider_wonders;
+    consider_trade = parameter->consider_trade;
+    consider_windfall = parameter->consider_windfall;
   }
 
   trade = trade_benefit(pplayer_src, src, dest, parameter);
   windfall = windfall_benefit(caravan, src, dest, parameter);
-  wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
-  /* we want to aid for wonder building */
-  wonder *= 2;
-  
-  if (parameter->horizon == FC_INFINITY) {
-    trade = perpetuity(trade, discount);
-  } else {
-    trade = annuity(trade, parameter->horizon - arrival_time, discount);
-  }
-  trade = presentvalue(trade, arrival_time, discount);
-  windfall = presentvalue(windfall, arrival_time, discount);
-  wonder = presentvalue(wonder, arrival_time, discount);
+  if (consider_wonder) {
+    wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
+    /* we want to aid for wonder building */
+    wonder *= 2;
 
-  if (trade + windfall >= wonder) {
+    wonder = presentvalue(wonder, arrival_time, discount);
+  } else {
+    wonder = -1.0;
+  }
+
+  if (consider_trade) {
+    if (parameter->horizon == FC_INFINITY) {
+      trade = perpetuity(trade, discount);
+    } else {
+      trade = annuity(trade, parameter->horizon - arrival_time, discount);
+    }
+    trade = presentvalue(trade, arrival_time, discount);
+  } else {
+    trade = 0.0;
+  }
+
+  if (consider_windfall) {
+    windfall = presentvalue(windfall, arrival_time, discount);
+  } else {
+    windfall = 0.0;
+  }
+
+  if (consider_trade && trade + windfall >= wonder) {
     result->value = trade + windfall;
     result->help_wonder = FALSE;
-  } else {
+  } else if (consider_wonder) {
     result->value = wonder;
     result->help_wonder = TRUE;
+  } else {
+    caravan_result_init_zero(result);
+    return FALSE;
   }
 
   if (parameter->callback) {
