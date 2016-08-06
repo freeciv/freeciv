@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
   char *option = NULL;
 
   /* Load win32 post-crash debugger */
-#ifdef WIN32_NATIVE
+#ifdef FREECIV_MSWINDOWS
 # ifndef FREECIV_NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
 #  ifdef FREECIV_DEBUG
@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
 #  endif /* FREECIV_DEBUG */
   }
 # endif /* FREECIV_NDEBUG */
-#endif /* WIN32_NATIVE */
+#endif /* FREECIV_MSWINDOWS */
 
 #ifdef USE_INTERRUPT_HANDLERS
   if (SIG_ERR == signal(SIGINT, signal_handler)) {
