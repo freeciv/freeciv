@@ -3297,13 +3297,27 @@ static bool load_ruleset_terrain(struct section_file *file,
         ok = FALSE;
         break;
       }
+
+      if (!ok) {
+        break;
+      }
+
+      i++;
+    } extra_type_by_cause_iterate_end;
+  }
+
+  if (ok) {
+    /* This can't be part of previous loop as we don't want random data from previous
+     * ruleset to play havoc on us when we have only some resource identifiers loaded
+     * from the new ruleset. */
+    extra_type_by_cause_iterate(EC_RESOURCE, pres) {
       extra_type_by_cause_iterate(EC_RESOURCE, pres2) {
-        if (presource->data.resource->id_old_save == pres2->data.resource->id_old_save
-            && presource != pres2) {
+        if (pres->data.resource->id_old_save == pres2->data.resource->id_old_save
+            && pres != pres2) {
           ruleset_error(LOG_ERROR,
                         "\"%s\" [%s] has the same identifier as [%s].",
                         filename,
-                        rsection,
+                        extra_rule_name(pres),
                         extra_rule_name(pres2));
           ok = FALSE;
           break;
@@ -3313,8 +3327,6 @@ static bool load_ruleset_terrain(struct section_file *file,
       if (!ok) {
         break;
       }
-
-      i++;
     } extra_type_by_cause_iterate_end;
   }
 
