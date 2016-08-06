@@ -1059,7 +1059,6 @@ colorlist =
 ; freeciv game settings for the experimental freeciv-web ruleset
 set =
   { "name", "value", "lock"
-    "autosaves", "", TRUE
     "topology", "WRAPX", FALSE
     "nationset", "all", TRUE
     "traitdistribution", "EVEN", FALSE
