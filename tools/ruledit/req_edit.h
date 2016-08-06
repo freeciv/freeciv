@@ -21,6 +21,7 @@
 // Qt
 #include <QDialog>
 #include <QListWidget>
+#include <QToolButton>
 
 class ruledit_gui;
 
@@ -42,11 +43,18 @@ class req_edit : public QDialog
 
     struct requirement *selected;
 
+    QToolButton *edit_type_button;
+    QToolButton *edit_range_button;
+
   private slots:
     void select_req();
+    void fill_active();
     void add_now();
     void delete_now();
     void close_now();
+
+    void req_type_menu(QAction *action);
+    void req_range_menu(QAction *action);
 };
 
 #endif // FC__REQ_EDIT_H

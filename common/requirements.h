@@ -55,6 +55,16 @@ extern "C" {
 #define SPECENUM_COUNT REQ_RANGE_COUNT /* keep this last */
 #include "specenum_gen.h"
 
+#define req_range_iterate(_range_) \
+  {                                \
+    enum req_range _range_;        \
+    for (_range_ = REQ_RANGE_LOCAL ; _range_ < REQ_RANGE_COUNT ; \
+         _range_ = (enum req_range)(_range_ + 1)) {
+
+#define req_range_iterate_end \
+    }                         \
+  }
+
 /* A requirement. This requirement is basically a conditional; it may or
  * may not be active on a target.  If it is active then something happens.
  * For instance units and buildings have requirements to be built, techs
@@ -129,6 +139,7 @@ bool is_req_in_vec(const struct requirement *req,
                    const struct requirement_vector *vec);
 
 /* General universal functions. */
+void universal_value_init(struct universal *src);
 int universal_number(const struct universal *source);
 
 struct universal universal_by_number(const enum universals_n kind,
@@ -152,6 +163,15 @@ void universal_found_functions_init(void);
 bool universal_fulfills_requirement(bool check_necessary,
                                     const struct requirement_vector *reqs,
                                     const struct universal *source);
+
+#define universals_iterate(_univ_) \
+  {                                \
+    enum universals_n _univ_;      \
+    for (_univ_ = VUT_NONE; _univ_ < VUT_COUNT; _univ_ = (enum universals_n)(_univ_ + 1)) {
+
+#define universals_iterate_end \
+    }                          \
+  }
 
 /* Accessors to determine if a universal fulfills a requirement vector.
  * When adding an additional accessor, be sure to add the appropriate

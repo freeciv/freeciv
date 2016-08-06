@@ -17,6 +17,8 @@
 
 // Qt
 #include <QGridLayout>
+#include <QLabel>
+#include <QMenu>
 #include <QPushButton>
 
 // utility
@@ -38,9 +40,12 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
 {
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *reqedit_layout = new QGridLayout();
+  QHBoxLayout *active_layout = new QHBoxLayout();
   QPushButton *close_button;
   QPushButton *add_button;
   QPushButton *delete_button;
+  QMenu *menu;
+  QLabel *lbl;
 
   ui = ui_in;
   selected = nullptr;
@@ -50,6 +55,34 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
 
   connect(req_list, SIGNAL(itemSelectionChanged()), this, SLOT(select_req()));
   main_layout->addWidget(req_list);
+
+  lbl = new QLabel(R__("Type:"));
+  active_layout->addWidget(lbl, 0, 0);
+  edit_type_button = new QToolButton();
+  menu = new QMenu();
+  edit_type_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  edit_type_button->setPopupMode(QToolButton::MenuButtonPopup);
+  connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(req_type_menu(QAction *)));
+  edit_type_button->setMenu(menu);
+  universals_iterate(univ_id) {
+    menu->addAction(universals_n_name(univ_id));
+  } universals_iterate_end;
+  active_layout->addWidget(edit_type_button, 1, 0);
+
+  lbl = new QLabel(R__("Range:"));
+  active_layout->addWidget(lbl, 2, 0);
+  edit_range_button = new QToolButton();
+  menu = new QMenu();
+  edit_range_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  edit_range_button->setPopupMode(QToolButton::MenuButtonPopup);
+  connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(req_range_menu(QAction *)));
+  edit_range_button->setMenu(menu);
+  req_range_iterate(range_id) {
+    menu->addAction(req_range_name(range_id));
+  } req_range_iterate_end;
+  active_layout->addWidget(edit_range_button, 3, 0);
+
+  main_layout->addLayout(active_layout);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Requirement")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
@@ -92,6 +125,8 @@ void req_edit::refresh()
       req_list->insertItem(i++, item);
     }
   } requirement_vector_iterate_end;
+
+  fill_active();
 }
 
 /**************************************************************************
@@ -112,9 +147,52 @@ void req_edit::select_req()
   requirement_vector_iterate(req_vector, preq) {
     if (req_list->item(i++)->isSelected()) {
       selected = preq;
-      break;
+      fill_active();
+      return;
     }
   } requirement_vector_iterate_end;
+}
+
+/**************************************************************************
+  Fill active menus from selected req.
+**************************************************************************/
+void req_edit::fill_active()
+{
+  if (selected != nullptr) {
+    edit_type_button->setText(universals_n_name(selected->source.kind));
+    edit_range_button->setText(req_range_name(selected->range));
+  }
+}
+
+/**************************************************************************
+  User selected type for the requirement.
+**************************************************************************/
+void req_edit::req_type_menu(QAction *action)
+{
+  enum universals_n univ = universals_n_by_name(action->text().toUtf8().data(),
+                                                fc_strcasecmp);
+
+  if (selected != nullptr) {
+    selected->source.kind = univ;
+    universal_value_init(&selected->source);
+  }
+
+  refresh();
+}
+
+/**************************************************************************
+  User selected range for the requirement.
+**************************************************************************/
+void req_edit::req_range_menu(QAction *action)
+{
+  enum req_range range = req_range_by_name(action->text().toUtf8().data(),
+                                           fc_strcasecmp);
+
+  if (selected != nullptr) {
+    selected->range = range;
+  }
+
+  refresh();
 }
 
 /**************************************************************************
