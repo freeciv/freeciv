@@ -1062,7 +1062,6 @@ set =
     "autosaves", "", TRUE
     "topology", "WRAPX", FALSE
     "nationset", "all", TRUE
-    "compresstype", "xz", TRUE
     "traitdistribution", "EVEN", FALSE
     "maxplayers", 32, TRUE
     "startunits", "ccwwxk", FALSE
