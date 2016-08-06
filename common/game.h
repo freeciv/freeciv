@@ -600,7 +600,11 @@ extern struct civ_game game;
 #define GAME_MIN_SAVEFREQUENCY       2
 #define GAME_MAX_SAVEFREQUENCY       1440
 
+#ifdef FREECIV_WEB
+#define GAME_DEFAULT_AUTOSAVES       0
+#else  /* FREECIV_WEB */
 #define GAME_DEFAULT_AUTOSAVES       (1 << AS_TURN | 1 << AS_GAME_OVER | 1 << AS_QUITIDLE | 1 << AS_INTERRUPT)
+#endif /* FREECIV_WEB */
 
 #define GAME_DEFAULT_THREADED_SAVE   FALSE
 
