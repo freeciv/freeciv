@@ -4,7 +4,7 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT([Freeciv], m4_esyscmd([./fc_version | tr -d '\n']),
         [http://gna.org/projects/freeciv/],
         [freeciv], [http://www.freeciv.org/])
-AC_PREREQ(2.64)
+AC_PREREQ(2.65)
 
 dnl Initialize with some random file to ensure the source is here.
 AC_CONFIG_SRCDIR([common/game.c])
