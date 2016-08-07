@@ -1571,7 +1571,7 @@ static void compat_load_dev(struct loaddata *loading)
 #ifdef FREECIV_WEB
     /* Freeciv-web has replaced fcweb with classic. Only done for
      * Freeciv-web because a regular Freeciv server build that encounters a
-     * fcweb savegame may have a ruleset names fcweb installed locally. */
+     * fcweb savegame may have a ruleset named fcweb installed locally. */
 
     const char *ruleset;
 
