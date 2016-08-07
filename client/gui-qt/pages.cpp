@@ -955,6 +955,7 @@ void fc_client::start_scenario()
 {
   if (!is_server_running()){
     client_start_server();
+    send_chat("/detach");
   }
   send_chat_printf("/load %s", current_file.toLocal8Bit().data());
   switch_page(PAGE_START);
@@ -967,6 +968,7 @@ void fc_client::start_from_save()
 {
   if (!is_server_running()){
     client_start_server();
+    send_chat("/detach");
   }
   send_chat_printf("/load %s", current_file.toLocal8Bit().data());
   switch_page(PAGE_START);
