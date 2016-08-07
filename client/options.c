@@ -502,9 +502,9 @@ struct option {
   .poptset = optset,                                                        \
   .type = spec_type,                                                        \
   .common_vtable = &common_table,                                           \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .spec_table_var = &spec_table                                           \
-  },                                                                        \
+  INIT_BRACE_END,                                                           \
   .changed_callback = changed_cb,                                           \
   .callback_data = cb_data,                                                 \
   .gui_data = NULL                                                          \
@@ -1452,12 +1452,12 @@ struct client_option {
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
   .specific = ospec,                                                        \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .boolean = {                                                            \
       .pvalue = &gui_options.oname,                                         \
       .def = odef,                                                          \
     }                                                                       \
-  },                                                                        \
+  INIT_BRACE_END                                                            \
 }
 
 /*
@@ -1488,14 +1488,14 @@ struct client_option {
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
   .specific = ospec,                                                        \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .integer = {                                                            \
       .pvalue = &gui_options.oname,                                         \
       .def = odef,                                                          \
       .min = omin,                                                          \
       .max = omax                                                           \
     }                                                                       \
-  },                                                                        \
+  INIT_BRACE_END                                                            \
 }
 
 /*
@@ -1526,14 +1526,14 @@ struct client_option {
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
   .specific = ospec,                                                        \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .string = {                                                             \
       .pvalue = gui_options.oname,                                          \
       .size = sizeof(gui_options.oname),                                    \
       .def = odef,                                                          \
       .val_accessor = NULL                                                  \
     }                                                                       \
-  },                                                                        \
+  INIT_BRACE_END                                                            \
 }
 
 /*
@@ -1567,14 +1567,14 @@ struct client_option {
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
   .specific = ospec,                                                        \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .string = {                                                             \
       .pvalue = gui_options.oname,                                          \
       .size = sizeof(gui_options.oname),                                    \
       .def = odef,                                                          \
       .val_accessor = oacc                                                  \
     }                                                                       \
-  },                                                                        \
+  INIT_BRACE_END                                                            \
 }
 
 /*
@@ -1604,7 +1604,7 @@ struct client_option {
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
   .specific = ospec,                                                        \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .enumerator = {                                                         \
       .pvalue = (int *) &gui_options.oname,                                 \
       .def = odef,                                                          \
@@ -1612,7 +1612,7 @@ struct client_option {
       .pretty_names  = NULL,                                                \
       .name_accessor = oacc                                                 \
     }                                                                       \
-  },                                                                        \
+  INIT_BRACE_END                                                            \
 }
 
 /*
@@ -1643,7 +1643,7 @@ struct client_option {
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
   .specific = ospec,                                                        \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .bitwise = {                                                            \
       .pvalue = &gui_options.oname,                                         \
       .def = odef,                                                          \
@@ -1651,7 +1651,7 @@ struct client_option {
       .pretty_names  = NULL,                                                \
       .name_accessor = oacc                                                 \
     }                                                                       \
-  },                                                                        \
+  INIT_BRACE_END                                                            \
 }
 
 /*
@@ -1683,14 +1683,14 @@ struct client_option {
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
   .specific = ospec,                                                        \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .font = {                                                               \
       .pvalue = gui_options.oname,                                          \
       .size = sizeof(gui_options.oname),                                    \
       .def = odef,                                                          \
       .target = otgt,                                                       \
     }                                                                       \
-  },                                                                        \
+  INIT_BRACE_END                                                            \
 }
 
 /*
@@ -1720,12 +1720,12 @@ struct client_option {
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
   .specific = ospec,                                                        \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .color = {                                                              \
       .pvalue = &gui_options.oname,                                         \
       .def = FT_COLOR(odef_fg, odef_bg)                                     \
     }                                                                       \
-  },                                                                        \
+  INIT_BRACE_END                                                            \
 }
 
 /*
@@ -1756,12 +1756,12 @@ struct client_option {
   .help_text = ohelp,                                                       \
   .category = ocat,                                                         \
   .specific = ospec,                                                        \
-  {                                                                         \
+  INIT_BRACE_BEGIN                                                          \
     .video_mode = {                                                         \
       .pvalue = &gui_options.oname,                                         \
       .def = VIDEO_MODE(odef_width, odef_height)                            \
     }                                                                       \
-  },                                                                        \
+  INIT_BRACE_END                                                            \
 }
 
 /****************************************************************************
