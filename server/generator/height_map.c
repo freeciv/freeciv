@@ -39,14 +39,14 @@ static float hmap_pole_factor(struct tile *ptile)
   if (near_singularity(ptile)) {
     /* Map edge near pole: clamp to what linear ramp would give us at pole
      * (maybe greater than 0) */
-    factor = (100 - game.map.server.flatpoles) / 100.0;
-  } else if (game.map.server.flatpoles > 0) {
+    factor = (100 - wld.map.server.flatpoles) / 100.0;
+  } else if (wld.map.server.flatpoles > 0) {
     /* Linear ramp down from 100% at 2.5*ICE_BASE_LEVEL to (100-flatpoles) %
      * at the poles */
     factor = 1 - ((1 - (map_colatitude(ptile) / (2.5 * ICE_BASE_LEVEL)))
-                  * game.map.server.flatpoles / 100);
+                  * wld.map.server.flatpoles / 100);
   }
-  if (game.map.server.separatepoles
+  if (wld.map.server.separatepoles
       && map_colatitude(ptile) >= 2 * ICE_BASE_LEVEL) {
     /* A band of low height to try to separate the pole (this function is
      * only assumed to be called <= 2.5*ICE_BASE_LEVEL) */
@@ -129,10 +129,10 @@ static void gen5rec(int step, int xl, int yt, int xr, int yb)
     return;
   }
 
-  if (xr == game.map.xsize) {
+  if (xr == wld.map.xsize) {
     x1wrap = 0;
   }
-  if (yb == game.map.ysize) {
+  if (yb == wld.map.ysize) {
     y1wrap = 0;
   }
 
@@ -148,7 +148,7 @@ static void gen5rec(int step, int xl, int yt, int xr, int yb)
     struct tile *ptile = native_pos_to_tile((X), (Y));			\
     if (map_colatitude(ptile) <= ICE_BASE_LEVEL/2) {			\
       /* possibly flatten poles, or possibly not (even at map edge) */	\
-      hmap(ptile) = (V) * (100 - game.map.server.flatpoles) / 100;	\
+      hmap(ptile) = (V) * (100 - wld.map.server.flatpoles) / 100;	\
     } else if (near_singularity(ptile)					\
                || hmap(ptile) != 0) {					\
       /* do nothing */							\
@@ -209,13 +209,13 @@ void make_pseudofractal1_hmap(int extra_div)
   int xdiv2 = xdiv + (xnowrap ? 1 : 0);
   int ydiv2 = ydiv + (ynowrap ? 1 : 0);
 
-  int xmax = game.map.xsize - (xnowrap ? 1 : 0);
-  int ymax = game.map.ysize - (ynowrap ? 1 : 0);
+  int xmax = wld.map.xsize - (xnowrap ? 1 : 0);
+  int ymax = wld.map.ysize - (ynowrap ? 1 : 0);
   int x_current, y_current;
   /* just need something > log(max(xsize, ysize)) for the recursion */
-  int step = game.map.xsize + game.map.ysize; 
+  int step = wld.map.xsize + wld.map.ysize; 
   /* edges are avoided more strongly as this increases */
-  int avoidedge = (100 - game.map.server.landpercent) * step / 100 + step / 3; 
+  int avoidedge = (100 - wld.map.server.landpercent) * step / 100 + step / 3; 
 
   height_map = fc_malloc(sizeof(*height_map) * MAP_INDEX_SIZE);
 
@@ -236,7 +236,7 @@ void make_pseudofractal1_hmap(int extra_div)
 
 	if (map_colatitude(ptile) <= ICE_BASE_LEVEL / 2 ) {
 	  /* separate poles and avoid too much land at poles */
-          hmap(ptile) -= fc_rand(avoidedge * game.map.server.flatpoles / 100);
+          hmap(ptile) -= fc_rand(avoidedge * wld.map.server.flatpoles / 100);
 	}
       } do_in_map_pos_end;
     }

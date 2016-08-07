@@ -31,9 +31,9 @@ extern "C" {
 /* common */
 #include "connection.h"		/* struct conn_list */
 #include "fc_types.h"
-#include "map_types.h"
 #include "player.h"
 #include "packets.h"
+#include "world_object.h"
 
 enum debug_globals {
   DEBUG_FERRIES,
@@ -105,8 +105,6 @@ struct civ_game {
     int global_init_techs[MAX_NUM_TECH_LIST];
     int global_init_buildings[MAX_NUM_BUILDING_LIST];
   } rgame;
-
-  struct civ_map map;
 
   union {
     struct {
@@ -322,6 +320,7 @@ void user_flag_free(struct user_flag *flag);
 int current_turn_timeout(void);
 
 extern struct civ_game game;
+extern struct world wld;
 
 #define GAME_DEFAULT_SEED        0
 #define GAME_MIN_SEED            0

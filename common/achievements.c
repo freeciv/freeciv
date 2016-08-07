@@ -287,11 +287,11 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     return pplayer->score.literacy >= ach->value;
   case ACHIEVEMENT_LAND_AHOY:
     {
-      bool seen[game.map.num_continents];
+      bool seen[wld.map.num_continents];
       int i;
       int count = 0;
 
-      for (i = 0; i < game.map.num_continents; i++) {
+      for (i = 0; i < wld.map.num_continents; i++) {
         seen[i] = FALSE;
       }
 

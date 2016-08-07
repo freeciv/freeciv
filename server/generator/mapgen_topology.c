@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - Marcelo J. Burda
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ int map_colatitude(const struct tile *ptile)
 
   fc_assert_ret_val(ptile != NULL, MAX_COLATITUDE / 2);
 
-  if (game.map.server.alltemperate) {
+  if (wld.map.server.alltemperate) {
     /* An all-temperate map has "average" temperature everywhere.
      *
      * TODO: perhaps there should be a random temperature variation. */
@@ -52,7 +52,7 @@ int map_colatitude(const struct tile *ptile)
 
   index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
   do_in_natural_pos(ntl_x, ntl_y, tile_x, tile_y) {
-    if (game.map.server.single_pole) {
+    if (wld.map.server.single_pole) {
       if (!current_topo_has_flag(TF_WRAPY)) {
         /* Partial planetary map.  A polar zone is placed
          * at the top and the equator is at the bottom. */
@@ -217,14 +217,14 @@ static void set_sizes(double size, int Xratio, int Yratio)
 	   / (float)(Xratio * Yratio * iso * even * even)) + 0.49;
 
   /* Now build xsize and ysize value as described above. */
-  game.map.xsize = Xratio * i_size * even;
-  game.map.ysize = Yratio * i_size * even * iso;
+  wld.map.xsize = Xratio * i_size * even;
+  wld.map.ysize = Yratio * i_size * even * iso;
 
   /* Now make sure the size isn't too large for this ratio or the overall map
    * size (MAP_INDEX_SIZE) is larger than the maximal allowed size
    * (MAP_MAX_SIZE * 1000). If it is then decrease the size and try again. */
-  if (game.map.xsize > MAP_MAX_LINEAR_SIZE
-      || game.map.ysize > MAP_MAX_LINEAR_SIZE
+  if (wld.map.xsize > MAP_MAX_LINEAR_SIZE
+      || wld.map.ysize > MAP_MAX_LINEAR_SIZE
       || MAP_INDEX_SIZE > MAP_MAX_SIZE * 1000) {
     fc_assert(size > 100.0);
     set_sizes(size - 100.0, Xratio, Yratio);
@@ -233,19 +233,19 @@ static void set_sizes(double size, int Xratio, int Yratio)
 
   /* If the ratio is too big for some topology the simplest way to avoid
    * this error is to set the maximum size smaller for all topologies! */
-  if (game.map.server.size * 1000 > size + 900.0) {
+  if (wld.map.server.size * 1000 > size + 900.0) {
     /* Warning when size is set uselessly big */ 
     log_error("Requested size of %d is too big for this topology.",
-              game.map.server.size);
+              wld.map.server.size);
   }
 
   /* xsize and ysize must be between MAP_MIN_LINEAR_SIZE and
    * MAP_MAX_LINEAR_SIZE. */
-  game.map.xsize = CLIP(MAP_MIN_LINEAR_SIZE, game.map.xsize, MAP_MAX_LINEAR_SIZE);
-  game.map.ysize = CLIP(MAP_MIN_LINEAR_SIZE, game.map.ysize, MAP_MAX_LINEAR_SIZE);
+  wld.map.xsize = CLIP(MAP_MIN_LINEAR_SIZE, wld.map.xsize, MAP_MAX_LINEAR_SIZE);
+  wld.map.ysize = CLIP(MAP_MIN_LINEAR_SIZE, wld.map.ysize, MAP_MAX_LINEAR_SIZE);
 
   log_normal(_("Creating a map of size %d x %d = %d tiles (%d requested)."),
-             game.map.xsize, game.map.ysize, game.map.xsize * game.map.ysize,
+             wld.map.xsize, wld.map.ysize, wld.map.xsize * wld.map.ysize,
              (int) size);
 }
 
@@ -295,39 +295,39 @@ void generator_init_topology(bool autosize)
   if (autosize) {
     int x_ratio, y_ratio;
 
-    switch (game.map.server.mapsize) {
+    switch (wld.map.server.mapsize) {
     case MAPSIZE_XYSIZE:
-      game.map.server.size = (float)(game.map.xsize * game.map.ysize) / 1000.0 + 0.5;
-      game.map.server.tilesperplayer = ((map_num_tiles() * game.map.server.landpercent)
+      wld.map.server.size = (float)(wld.map.xsize * wld.map.ysize) / 1000.0 + 0.5;
+      wld.map.server.tilesperplayer = ((map_num_tiles() * wld.map.server.landpercent)
                                    / (player_count() * 100));
       log_normal(_("Creating a map of size %d x %d = %d tiles (map size: "
-                   "%d)."), game.map.xsize, game.map.ysize, game.map.xsize * game.map.ysize,
-                 game.map.server.size);
+                   "%d)."), wld.map.xsize, wld.map.ysize, wld.map.xsize * wld.map.ysize,
+                 wld.map.server.size);
       break;
 
     case MAPSIZE_PLAYER:
-      map_size = ((double) (player_count() * game.map.server.tilesperplayer * 100)
-                  / game.map.server.landpercent);
+      map_size = ((double) (player_count() * wld.map.server.tilesperplayer * 100)
+                  / wld.map.server.landpercent);
 
       if (map_size < MAP_MIN_SIZE * 1000) {
-        game.map.server.size = MAP_MIN_SIZE;
+        wld.map.server.size = MAP_MIN_SIZE;
         map_size = MAP_MIN_SIZE * 1000;
         log_normal(_("Map size calculated for %d (land) tiles per player "
                      "and %d player(s) too small. Setting map size to the "
-                     "minimal size %d."), game.map.server.tilesperplayer,
-                   player_count(), game.map.server.size);
+                     "minimal size %d."), wld.map.server.tilesperplayer,
+                   player_count(), wld.map.server.size);
       } else if (map_size > MAP_MAX_SIZE * 1000) {
-        game.map.server.size = MAP_MAX_SIZE;
+        wld.map.server.size = MAP_MAX_SIZE;
         map_size = MAP_MAX_SIZE * 1000;
         log_normal(_("Map size calculated for %d (land) tiles per player "
                      "and %d player(s) too large. Setting map size to the "
-                     "maximal size %d."), game.map.server.tilesperplayer,
-                   player_count(), game.map.server.size);
+                     "maximal size %d."), wld.map.server.tilesperplayer,
+                   player_count(), wld.map.server.size);
       } else {
-        game.map.server.size = (double) map_size / 1000.0 + 0.5;
+        wld.map.server.size = (double) map_size / 1000.0 + 0.5;
         log_normal(_("Setting map size to %d (approx. %d (land) tiles for "
-                     "each of the %d player(s))."), game.map.server.size,
-                   game.map.server.tilesperplayer, player_count());
+                     "each of the %d player(s))."), wld.map.server.size,
+                   wld.map.server.tilesperplayer, player_count());
       }
       get_ratios(&x_ratio, &y_ratio);
       set_sizes(map_size, x_ratio, y_ratio);
@@ -336,14 +336,14 @@ void generator_init_topology(bool autosize)
     case MAPSIZE_FULLSIZE:
       /* Set map.xsize and map.ysize based on map.size. */
       get_ratios(&x_ratio, &y_ratio);
-      set_sizes(game.map.server.size * 1000, x_ratio, y_ratio);
-      game.map.server.tilesperplayer = ((map_num_tiles() * game.map.server.landpercent)
+      set_sizes(wld.map.server.size * 1000, x_ratio, y_ratio);
+      wld.map.server.tilesperplayer = ((map_num_tiles() * wld.map.server.landpercent)
                                    / (player_count() * 100));
       break;
     }
   } else {
-    game.map.server.size = (double) map_num_tiles() / 1000.0 + 0.5;
-    game.map.server.tilesperplayer = ((map_num_tiles() * game.map.server.landpercent)
+    wld.map.server.size = (double) map_num_tiles() / 1000.0 + 0.5;
+    wld.map.server.tilesperplayer = ((map_num_tiles() * wld.map.server.landpercent)
                                  / (player_count() * 100));
   }
 
@@ -356,7 +356,7 @@ void generator_init_topology(bool autosize)
    *   5% for little maps
    *   2% for big ones, if map.server.temperature == 50
    * exept if separate poles is set */
-  if (game.map.server.separatepoles) {
+  if (wld.map.server.separatepoles) {
     /* with separatepoles option strip poles are useless */
     ice_base_colatitude =
         (MAX(0, 100 * COLD_LEVEL / 3 - 1 *  MAX_COLATITUDE)
@@ -369,15 +369,15 @@ void generator_init_topology(bool autosize)
   }
 
   /* correction for single pole (Flat Earth) */
-  if (game.map.server.single_pole) {
+  if (wld.map.server.single_pole) {
     if (!current_topo_has_flag(TF_WRAPY) || !current_topo_has_flag(TF_WRAPX)) {
       ice_base_colatitude /= 2;
     }
   }
 
-  if (game.map.server.huts_absolute >= 0) {
-    game.map.server.huts = game.map.server.huts_absolute * 1000 / map_num_tiles();
-    game.map.server.huts_absolute = -1;
+  if (wld.map.server.huts_absolute >= 0) {
+    wld.map.server.huts = wld.map.server.huts_absolute * 1000 / map_num_tiles();
+    wld.map.server.huts_absolute = -1;
   }
 
   map_init_topology();

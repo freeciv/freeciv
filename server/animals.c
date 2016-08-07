@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - 2004 The Freeciv Project Team 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ void create_animals(void)
   struct research *presearch;
   int i;
 
-  if (game.map.server.animals <= 0) {
+  if (wld.map.server.animals <= 0) {
     return;
   }
 
@@ -148,7 +148,7 @@ void create_animals(void)
    * about invalid team. */
   send_research_info(presearch, NULL);
 
-  for (i = 0; i < game.map.xsize * game.map.ysize * game.map.server.animals / 1000; i++) {
+  for (i = 0; i < wld.map.xsize * wld.map.ysize * wld.map.server.animals / 1000; i++) {
     place_animal(plr);
   }
 }

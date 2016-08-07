@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ static int likely_native(struct tile *ptile,
     }
   } adjc_dir_iterate_end;
 
-  return 50 + (50 / game.map.num_valid_dirs * (native - foreign));
+  return 50 + (50 / wld.map.num_valid_dirs * (native - foreign));
 }
 
 /**************************************************************************

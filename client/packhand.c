@@ -1968,7 +1968,7 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
 ****************************************************************************/
 void handle_set_topology(int topology_id)
 {
-  game.map.topology_id = topology_id;
+  wld.map.topology_id = topology_id;
 
   if (forced_tileset_name[0] == '\0'
       && !tileset_map_topo_compatible(topology_id, tileset)) {
@@ -1992,14 +1992,14 @@ void handle_map_info(int xsize, int ysize, int topology_id)
     map_free();
   }
 
-  game.map.xsize = xsize;
-  game.map.ysize = ysize;
+  wld.map.xsize = xsize;
+  wld.map.ysize = ysize;
 
   if (!tileset_map_topo_compatible(topology_id, tileset)) {
     tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
   }
 
-  game.map.topology_id = topology_id;
+  wld.map.topology_id = topology_id;
 
   map_init_topology();
   map_allocate();
@@ -2968,7 +2968,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   }
 
   ptile->continent = packet->continent;
-  game.map.num_continents = MAX(ptile->continent, game.map.num_continents);
+  wld.map.num_continents = MAX(ptile->continent, wld.map.num_continents);
 
   if (packet->label[0] == '\0') {
     if (ptile->label != NULL) {

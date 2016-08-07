@@ -728,7 +728,7 @@ static void update_environmental_upset(enum environment_upset_type type,
   } else {
     *accum -= *level;
     if (fc_rand((map_num_tiles() + 19) / 20) <= *accum) {
-      upset_action_fn((game.map.xsize / 10) + (game.map.ysize / 10) + ((*accum) * 5));
+      upset_action_fn((wld.map.xsize / 10) + (wld.map.ysize / 10) + ((*accum) * 5));
       *accum = 0;
       *level += (map_num_tiles() + 999) / 1000;
     }
@@ -2868,7 +2868,7 @@ static void srv_ready(void)
    * call map_fractal_generate anyway to make the specials, huts and
    * continent numbers. */
   if (map_is_empty()
-      || (MAPGEN_SCENARIO == game.map.server.generator
+      || (MAPGEN_SCENARIO == wld.map.server.generator
           && game.info.is_new_game)) {
     struct {
       const char *name;
@@ -2882,8 +2882,8 @@ static void srv_ready(void)
     int i;
     /* If a specific seed has been requested, there's no point retrying,
      * as the map will be the same every time. */
-    bool retry_ok = (game.map.server.seed_setting == 0
-                     && game.map.server.generator != MAPGEN_SCENARIO);
+    bool retry_ok = (wld.map.server.seed_setting == 0
+                     && wld.map.server.generator != MAPGEN_SCENARIO);
     int max = retry_ok ? 3 : 1;
     bool created = FALSE;
     struct unit_type *utype = NULL;
@@ -2919,7 +2919,7 @@ static void srv_ready(void)
 
         /* If we're retrying, seed_setting==0, which will yield a new map
          * next time */
-        fc_assert(game.map.server.seed_setting == 0);
+        fc_assert(wld.map.server.seed_setting == 0);
         if (i == 0) {
           /* We will retry only if max attempts allow it */
           log_normal(_("Failed to create suitable map, retrying with another mapseed."));
@@ -2930,7 +2930,7 @@ static void srv_ready(void)
            * +2 */
           log_normal(_("Attempt %d/%d"), i + 2, max);
         }
-        game.map.server.have_resources = FALSE;
+        wld.map.server.have_resources = FALSE;
 
         /* Remove old information already present in tiles */
         map_free();
@@ -2962,7 +2962,7 @@ static void srv_ready(void)
       exit(EXIT_FAILURE);
     }
 
-    if (game.map.server.generator != MAPGEN_SCENARIO) {
+    if (wld.map.server.generator != MAPGEN_SCENARIO) {
       script_server_signal_emit("map_generated", 0);
     }
 

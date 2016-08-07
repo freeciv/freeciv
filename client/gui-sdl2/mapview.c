@@ -1104,17 +1104,17 @@ void get_overview_area_dimensions(int *width, int *height)
   int xfact = MAP_IS_ISOMETRIC ? 2 : 1;
   int shift = (MAP_IS_ISOMETRIC && !current_topo_has_flag(TF_WRAPX)) ? -1 : 0;
 
-  OVERVIEW_TILE_SIZE = MIN((DEFAULT_OVERVIEW_W - 1) / (game.map.xsize * xfact),
-                           (DEFAULT_OVERVIEW_H - 1) / game.map.ysize) + 1;
+  OVERVIEW_TILE_SIZE = MIN((DEFAULT_OVERVIEW_W - 1) / (wld.map.xsize * xfact),
+                           (DEFAULT_OVERVIEW_H - 1) / wld.map.ysize) + 1;
 
   do {
-    *height = OVERVIEW_TILE_HEIGHT * game.map.ysize;
+    *height = OVERVIEW_TILE_HEIGHT * wld.map.ysize;
     if (*height < DEFAULT_OVERVIEW_H) {
       OVERVIEW_TILE_SIZE++;
     }
   } while (*height < DEFAULT_OVERVIEW_H);
 
-  *width = OVERVIEW_TILE_WIDTH * game.map.xsize + shift * OVERVIEW_TILE_SIZE;
+  *width = OVERVIEW_TILE_WIDTH * wld.map.xsize + shift * OVERVIEW_TILE_SIZE;
 
   OVERVIEW_TILE_SIZE = overview_tile_size_bak;
 }

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - Marcelo J. Burda
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,6 +13,7 @@
 #ifndef FC__TEMPERATURE_MAP_H
 #define FC__TEMPERATURE_MAP_H
 
+/* utility */
 #include "support.h"            /* bool type */
 
 /*

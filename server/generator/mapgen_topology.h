@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ int get_sqsize(void);
 
 /* Size safe Unit of colatitude. 0 is not allowed due to possibility of
  * division by 0 in mapgen.c */ 
-#define L_UNIT MAX(1, game.map.server.size * MAX_COLATITUDE / (30 * get_sqsize()))
+#define L_UNIT MAX(1, wld.map.server.size * MAX_COLATITUDE / (30 * get_sqsize()))
 
 /* define the 3 regions of a Earth like map:
      0           - COLD_LV:        cold region
@@ -34,14 +34,14 @@ int get_sqsize(void);
    and a dry region, this last one can ovelap others
    DRY_MIN_LEVEL- DRY_MAX_LEVEL */
 #define COLD_LEVEL                                                           \
-   (MAX(0, MAX_COLATITUDE * (60*7 - game.map.server.temperature * 6 ) / 700))
+   (MAX(0, MAX_COLATITUDE * (60*7 - wld.map.server.temperature * 6 ) / 700))
 #define TROPICAL_LEVEL                                                       \
    (MIN(MAX_COLATITUDE * 9 /10,                                              \
-    MAX_COLATITUDE * (143*7 - game.map.server.temperature * 10) / 700))
+    MAX_COLATITUDE * (143*7 - wld.map.server.temperature * 10) / 700))
 #define DRY_MIN_LEVEL                                                        \
-   (MAX_COLATITUDE * (7300 - game.map.server.temperature * 18 ) / 10000)
+   (MAX_COLATITUDE * (7300 - wld.map.server.temperature * 18 ) / 10000)
 #define DRY_MAX_LEVEL                                                        \
-   (MAX_COLATITUDE * (7300 + game.map.server.temperature * 17 ) / 10000)
+   (MAX_COLATITUDE * (7300 + wld.map.server.temperature * 17 ) / 10000)
 
 /* used to create the poles and for separating them.  In a
  * mercator projection map we don't want the poles to be too big. */

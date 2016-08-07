@@ -55,30 +55,7 @@
 #include "game.h"
 
 struct civ_game game;
-
-/*
-struct player_score {
-  int happy;
-  int content;
-  int unhappy;
-  int angry;
-  int taxmen;
-  int scientists;
-  int elvis;
-  int wonders;
-  int techs;
-  int landarea;
-  int settledarea;
-  int population;
-  int cities;
-  int units;
-  int pollution;
-  int literacy;
-  int bnp;
-  int mfg;
-  int spaceship;
-};
-*/
+struct world wld;
 
 bool am_i_server = FALSE;
 

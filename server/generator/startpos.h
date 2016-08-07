@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,4 +16,4 @@
 bool create_start_positions(enum map_startpos mode,
                             struct unit_type *initial_unit);
 
-#endif
+#endif /* FC_STARTPOS_H */

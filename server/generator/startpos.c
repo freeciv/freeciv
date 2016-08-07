@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - 2004 The Freeciv Project Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -259,12 +259,12 @@ static void initialize_isle_data(void)
 {
   int nr;
 
-  islands = fc_malloc((game.map.num_continents + 1) * sizeof(*islands));
-  islands_index = fc_malloc((game.map.num_continents + 1)
+  islands = fc_malloc((wld.map.num_continents + 1) * sizeof(*islands));
+  islands_index = fc_malloc((wld.map.num_continents + 1)
                             * sizeof(*islands_index));
 
   /* islands[0] is unused. */
-  for (nr = 1; nr <= game.map.num_continents; nr++) {
+  for (nr = 1; nr <= wld.map.num_continents; nr++) {
     islands[nr].id = nr;
     islands[nr].size = get_continent_size(nr);
     islands[nr].goodies = 0;
@@ -308,7 +308,7 @@ bool create_start_positions(enum map_startpos mode,
   bool failure = FALSE;
   bool is_tmap = temperature_is_initialized();
 
-  if (game.map.num_continents < 1) {
+  if (wld.map.num_continents < 1) {
     /* Currently we can only place starters on land terrain, so fail
      * immediately if there isn't any on the map. */
     log_verbose("Map has no land, so cannot assign start positions!");
@@ -379,19 +379,19 @@ bool create_start_positions(enum map_startpos mode,
  
   /* Sort the islands so the best ones come first.  Note that islands[0] is
    * unused so we just skip it. */
-  qsort(islands + 1, game.map.num_continents,
+  qsort(islands + 1, wld.map.num_continents,
         sizeof(*islands), compare_islands);
 
   /* If we can't place starters according to the first choice, change the
    * choice. */
   if (MAPSTARTPOS_SINGLE == mode
-      && game.map.num_continents < player_count() + 3) {
+      && wld.map.num_continents < player_count() + 3) {
     log_verbose("Not enough continents; falling back to startpos=2or3");
     mode = MAPSTARTPOS_2or3;
   }
 
   if (MAPSTARTPOS_2or3 == mode
-      && game.map.num_continents < player_count() / 2 + 4) {
+      && wld.map.num_continents < player_count() / 2 + 4) {
     log_verbose("Not enough continents; falling back to startpos=VARIABLE");
     mode = MAPSTARTPOS_VARIABLE;
   }
@@ -414,7 +414,7 @@ bool create_start_positions(enum map_startpos mode,
     int nr, to_place = player_count(), first = 1;
 
     /* inizialize islands_index */
-    for (nr = 1; nr <= game.map.num_continents; nr++) {
+    for (nr = 1; nr <= wld.map.num_continents; nr++) {
       islands_index[islands[nr].id] = nr;
     }
 
@@ -427,7 +427,7 @@ bool create_start_positions(enum map_startpos mode,
       int num_islands = (MAPSTARTPOS_SINGLE == mode
                          ? player_count() : player_count() / 2);
 
-      for (nr = 1; nr <= 1 + game.map.num_continents - num_islands; nr++) {
+      for (nr = 1; nr <= 1 + wld.map.num_continents - num_islands; nr++) {
 	if (islands[nr + num_islands - 1].goodies < min_goodies_per_player) {
 	  break;
 	}
@@ -448,7 +448,7 @@ bool create_start_positions(enum map_startpos mode,
       islands[1].total = to_place;
       to_place = 0;
     }
-    for (nr = 1; nr <= game.map.num_continents; nr++) {
+    for (nr = 1; nr <= wld.map.num_continents; nr++) {
       if (MAPSTARTPOS_SINGLE == mode && 0 < to_place && nr >= first) {
         islands[nr].starters = 1;
         islands[nr].total = 1;
@@ -471,7 +471,7 @@ bool create_start_positions(enum map_startpos mode,
   data.min_value = 900;
   data.initial_unit = initial_unit;
   sum = 0;
-  for (k = 1; k <= game.map.num_continents; k++) {
+  for (k = 1; k <= wld.map.num_continents; k++) {
     sum += islands[islands_index[k]].starters;
     if (islands[islands_index[k]].starters != 0) {
       log_verbose("starters on isle %i", k);

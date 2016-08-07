@@ -293,11 +293,11 @@ struct extra_type *resource_extra_get(const struct resource_type *presource)
   int _tile##_count;							\
 									\
   if (card_only) {							\
-    _tile##_list = game.map.cardinal_dirs;				\
-    _tile##_count = game.map.num_cardinal_dirs;				\
+    _tile##_list = wld.map.cardinal_dirs;				\
+    _tile##_count = wld.map.num_cardinal_dirs;				\
   } else {								\
-    _tile##_list = game.map.valid_dirs;					\
-    _tile##_count = game.map.num_valid_dirs;				\
+    _tile##_list = wld.map.valid_dirs;					\
+    _tile##_count = wld.map.num_valid_dirs;				\
   }									\
   adjc_dirlist_iterate(center_tile, _tile, _tile##_dir,			\
                        _tile##_list, _tile##_count) {

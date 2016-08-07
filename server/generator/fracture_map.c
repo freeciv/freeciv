@@ -62,44 +62,44 @@ void make_fracture_map(void)
   /* Calculate the mountain level.  map.server.mountains specifies the
    * percentage of land that is turned into hills and mountains. */
   hmap_mountain_level = (((hmap_max_level - hmap_shore_level)
-                          * (100 - game.map.server.steepness))
+                          * (100 - wld.map.server.steepness))
                          / 100 + hmap_shore_level);
 
   /* For larger maps, increase the number of landmasses - makes the map more interesting */
   num_landmass = 20 + 15 * get_sqsize();
-  landmass = (map_landmass *)fc_malloc((game.map.xsize / 2 + game.map.ysize / 2 + num_landmass) * sizeof(map_landmass));
-  fracture_points = (map_point *)fc_malloc((game.map.xsize / 2 + game.map.ysize / 2 + num_landmass) * sizeof(map_point));
+  landmass = (map_landmass *)fc_malloc((wld.map.xsize / 2 + wld.map.ysize / 2 + num_landmass) * sizeof(map_landmass));
+  fracture_points = (map_point *)fc_malloc((wld.map.xsize / 2 + wld.map.ysize / 2 + num_landmass) * sizeof(map_point));
   height_map = fc_malloc(sizeof(*height_map) * MAP_INDEX_SIZE);
 
   /* Setup a whole bunch of landmasses along the view bordere. These will be sunken
      to create ocean terrain.*/
   nn = 0;
-  for (x = 3; x < game.map.xsize; x += 5, nn++) {
+  for (x = 3; x < wld.map.xsize; x += 5, nn++) {
     fracture_points[nn].x = x;
     fracture_points[nn].y = 3;
   }
-  for (x = 3; x < game.map.xsize; x += 5, nn++) {
+  for (x = 3; x < wld.map.xsize; x += 5, nn++) {
     fracture_points[nn].x = x;
-    fracture_points[nn].y = game.map.ysize - 3;
+    fracture_points[nn].y = wld.map.ysize - 3;
   }
-  for (y = 3; y < game.map.ysize; y += 5, nn++) {
+  for (y = 3; y < wld.map.ysize; y += 5, nn++) {
     fracture_points[nn].x = 3;
     fracture_points[nn].y = y;
   }
-  for (y = 3; y < game.map.ysize; y += 5, nn++) {
-    fracture_points[nn].x = game.map.xsize - 3;
+  for (y = 3; y < wld.map.ysize; y += 5, nn++) {
+    fracture_points[nn].x = wld.map.xsize - 3;
     fracture_points[nn].y = y;
   }
 
   /* pick remaining points randomly */
   mm = nn;
   for (; nn < mm + num_landmass; nn++) {
-    fracture_points[nn].x = fc_rand(game.map.xsize - 6) + 3;
-    fracture_points[nn].y = fc_rand(game.map.ysize - 6) + 3;
+    fracture_points[nn].x = fc_rand(wld.map.xsize - 6) + 3;
+    fracture_points[nn].y = fc_rand(wld.map.ysize - 6) + 3;
   }
   for (nn = 0; nn < mm + num_landmass; nn++) {
-    landmass[nn].minX = game.map.xsize-1;
-    landmass[nn].minY = game.map.ysize-1;
+    landmass[nn].minX = wld.map.xsize-1;
+    landmass[nn].minY = wld.map.ysize-1;
     landmass[nn].maxX = 0;
     landmass[nn].maxY = 0;
     x = fracture_points[nn].x;
@@ -119,7 +119,7 @@ void make_fracture_map(void)
 
   /* Assign cells to landmass. Gradually expand the radius of the 
      fracture point. */
-  for (rad = 1; rad < (game.map.xsize >> 1); rad++) {
+  for (rad = 1; rad < (wld.map.xsize >> 1); rad++) {
     for (nn = 0; nn < mm + num_landmass; nn++) {
       circle_bresenham(fracture_points[nn].x, fracture_points[nn].y, rad, nn+1);
     }
@@ -190,28 +190,28 @@ static void fmfill(int x, int y, int c, int r)
   struct tile *ptileX1Y1;
 
   if (x < 0) {
-    x = game.map.xsize+x;
-  } else if (x > game.map.xsize) {
-    x = x-game.map.xsize;
+    x = wld.map.xsize+x;
+  } else if (x > wld.map.xsize) {
+    x = x-wld.map.xsize;
   }
   x1 = x - 1;
   if (x1 < 0) {
-    x1 = game.map.xsize - 1;
+    x1 = wld.map.xsize - 1;
   }
   x2 = x + 1;
-  if (x2 >= game.map.xsize) {
+  if (x2 >= wld.map.xsize) {
     x2 = 0;
   }
   y1 = y - 1;
   if (y1 < 0) {
-    y1 = game.map.ysize - 1;
+    y1 = wld.map.ysize - 1;
   }
   y2 = y + 1;
-  if (y2 >= game.map.ysize) {
+  if (y2 >= wld.map.ysize) {
     y2 = 0;
   }
 
-  if (y >= 0 && y < game.map.ysize) {
+  if (y >= 0 && y < wld.map.ysize) {
     ptileXY = native_pos_to_tile(x,y);
     ptileX2Y = native_pos_to_tile(x2,y);
     ptileX1Y = native_pos_to_tile(x1,y);
@@ -337,7 +337,7 @@ void make_fracture_relief(void)
      map steepness setting.
      The iteration limit is a failsafe to prevent the iteration from taking forever.
   */
-  for (iter = 0; total_mtns < (landarea * game.map.server.steepness) / 100 && iter < 50;
+  for (iter = 0; total_mtns < (landarea * wld.map.server.steepness) / 100 && iter < 50;
        iter++) {
     whole_map_iterate(ptile) {
       if (not_placed(ptile) && hmap(ptile) > hmap_shore_level) {  /* place on land only */
@@ -354,7 +354,7 @@ void make_fracture_relief(void)
           map_set_placed(ptile);
         }
       }
-      if (total_mtns >= landarea * game.map.server.steepness / 100) {
+      if (total_mtns >= landarea * wld.map.server.steepness / 100) {
         break;
       }
     } whole_map_iterate_end;

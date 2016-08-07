@@ -804,7 +804,7 @@ static void compat_load_020600(struct loaddata *loading)
           }
 
           /* Store old-style absolute value. */
-          game.map.server.huts_absolute = hcount;
+          wld.map.server.huts_absolute = hcount;
         }
       }
 

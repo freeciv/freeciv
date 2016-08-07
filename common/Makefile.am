@@ -121,7 +121,8 @@ libfreeciv_la_SOURCES = \
 		workertask.c	\
 		workertask.h	\
 		worklist.c	\
-		worklist.h
+		worklist.h	\
+		world_object.h
 
 EXTRA_DIST = \
 		generate_packets.py

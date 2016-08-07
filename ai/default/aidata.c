@@ -308,8 +308,8 @@ struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer,
     *caller_closes = FALSE;
   }
 
-  if (ai->last_num_continents != game.map.num_continents
-      || ai->last_num_oceans != game.map.num_oceans) {
+  if (ai->last_num_continents != wld.map.num_continents
+      || ai->last_num_oceans != wld.map.num_oceans) {
     /* We have discovered more continents, recalculate! */
 
     /* See adv_data_get() */

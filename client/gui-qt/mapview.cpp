@@ -583,7 +583,7 @@ static void gui_to_overview(int *ovr_x, int *ovr_y, int gui_x, int gui_y)
   }
 
   if (MAP_IS_ISOMETRIC) {
-    ntl_y = map_x + map_y - game.map.xsize;
+    ntl_y = map_x + map_y - wld.map.xsize;
     ntl_x = 2 * map_x - ntl_y;
   } else {
     ntl_x = map_x;
@@ -1739,8 +1739,8 @@ void overview_size_changed(void)
   gui()->minimapview_wdg->resize(0, 0);
   gui()->minimapview_wdg->resize(gui()->end_turn_rect->width(),
                                  gui()->end_turn_rect->width()
-                                 * (static_cast<float>(game.map.xsize)
-                                 / game.map.ysize));
+                                 * (static_cast<float>(wld.map.xsize)
+                                 / wld.map.ysize));
 }
 
 /**************************************************************************

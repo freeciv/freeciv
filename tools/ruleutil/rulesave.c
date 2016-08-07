@@ -1893,7 +1893,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     secfile_insert_bool(sfile, TRUE,
                         "parameters.pythagorean_diagonal");
   }
-  if (game.map.server.ocean_resources) {
+  if (wld.map.server.ocean_resources) {
     secfile_insert_bool(sfile, TRUE,
                        "parameters.ocean_resources");
   }

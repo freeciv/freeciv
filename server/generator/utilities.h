@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - Marcelo J. Burda
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
 	     (bool (*)(const struct tile *ptile, const void *data) )NULL)
 void smooth_int_map(int *int_map, bool zeroes_at_edges);
 
-/* placed_map tool*/
+/* placed_map tool */
 void create_placed_map(void);
 void destroy_placed_map(void);
 void map_set_placed(struct tile *ptile);
@@ -114,7 +114,5 @@ bool not_placed(const struct tile *ptile);
 bool placed_map_is_initialized(void);
 void set_all_ocean_tiles_placed(void) ;
 void set_placed_near_pos(struct tile *ptile, int dist);
-
-
 
 #endif  /* FC__UTILITIES_H */

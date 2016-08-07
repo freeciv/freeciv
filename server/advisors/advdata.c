@@ -275,8 +275,8 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   /*** Threats ***/
 
-  adv->num_continents    = game.map.num_continents;
-  adv->num_oceans        = game.map.num_oceans;
+  adv->num_continents    = wld.map.num_continents;
+  adv->num_oceans        = wld.map.num_oceans;
   adv->threats.continent = fc_calloc(adv->num_continents + 1, sizeof(bool));
   adv->threats.invasions = FALSE;
   adv->threats.nuclear   = 0; /* none */
@@ -600,8 +600,8 @@ struct adv_data *adv_data_get(struct player *pplayer, bool *caller_closes)
     *caller_closes = FALSE;
   }
 
-  if (adv->num_continents != game.map.num_continents
-      || adv->num_oceans != game.map.num_oceans) {
+  if (adv->num_continents != wld.map.num_continents
+      || adv->num_oceans != wld.map.num_oceans) {
     /* we discovered more continents, recalculate! */
 
     if (adv->phase_is_initialized) {

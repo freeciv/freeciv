@@ -1310,7 +1310,7 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
     return;
   }
 
-  if (!tileset_map_topo_compatible(game.map.topology_id, tileset)) {
+  if (!tileset_map_topo_compatible(wld.map.topology_id, tileset)) {
     tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
   }
 
@@ -1372,7 +1372,7 @@ void tilespec_reread_callback(struct option *poption)
   enum client_states state = client_state();
 
   if ((state == C_S_RUNNING || state == C_S_OVER)
-      && option_get_cb_data(poption) != (game.map.topology_id & (TF_ISO | TF_HEX))) {
+      && option_get_cb_data(poption) != (wld.map.topology_id & (TF_ISO | TF_HEX))) {
     /* Changed option was not for current topology */
     return;
   }

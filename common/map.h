@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ static const bool C_PERCENT = TRUE;
 
 #define MAP_IS_ISOMETRIC (CURRENT_TOPOLOGY & (TF_ISO + TF_HEX))
 
-#define CURRENT_TOPOLOGY (game.map.topology_id)
+#define CURRENT_TOPOLOGY (wld.map.topology_id)
 
 #define topo_has_flag(topo, flag) (((topo) & (flag)) != 0)
 #define current_topo_has_flag(flag) topo_has_flag((CURRENT_TOPOLOGY), (flag))
@@ -124,13 +124,13 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 
 
 /* Number of index coordinates (for sanity checks and allocations) */
-#define MAP_INDEX_SIZE (game.map.xsize * game.map.ysize)
+#define MAP_INDEX_SIZE (wld.map.xsize * wld.map.ysize)
 
 #ifdef FREECIV_DEBUG
 #define CHECK_MAP_POS(x,y) \
   fc_assert(is_normal_map_pos((x),(y)))
 #define CHECK_NATIVE_POS(x, y) \
-  fc_assert((x) >= 0 && (x) < game.map.xsize && (y) >= 0 && (y) < game.map.ysize)
+  fc_assert((x) >= 0 && (x) < wld.map.xsize && (y) >= 0 && (y) < wld.map.ysize)
 #define CHECK_INDEX(mindex) \
   fc_assert((mindex) >= 0 && (mindex) < MAP_INDEX_SIZE)
 #else  /* FREECIV_DEBUG */
@@ -140,7 +140,7 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 #endif /* FREECIV_DEBUG */
 
 #define native_pos_to_index_nocheck(nat_x, nat_y)                            \
-  ((nat_x) + (nat_y) * game.map.xsize)
+  ((nat_x) + (nat_y) * wld.map.xsize)
 #define native_pos_to_index(nat_x, nat_y)                                    \
   (CHECK_NATIVE_POS((nat_x), (nat_y)),                                       \
    native_pos_to_index_nocheck(nat_x, nat_y))
@@ -148,32 +148,32 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
   (*(pnat_x) = index_to_native_pos_x(mindex),                                \
    *(pnat_y) = index_to_native_pos_y(mindex))
 #define index_to_native_pos_x(mindex)                                        \
-  ((mindex) % game.map.xsize) 
+  ((mindex) % wld.map.xsize) 
 #define index_to_native_pos_y(mindex)                                        \
-  ((mindex) / game.map.xsize)
+  ((mindex) / wld.map.xsize)
 
 /* Obscure math.  See explanation in doc/HACKING. */
 #define NATIVE_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                     \
   (MAP_IS_ISOMETRIC							    \
    ? (*(pmap_x) = ((nat_y) + ((nat_y) & 1)) / 2 + (nat_x),                  \
-      *(pmap_y) = (nat_y) - *(pmap_x) + game.map.xsize)                     \
+      *(pmap_y) = (nat_y) - *(pmap_x) + wld.map.xsize)                      \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
 #define MAP_TO_NATIVE_POS(pnat_x, pnat_y, map_x, map_y)                     \
   (MAP_IS_ISOMETRIC							    \
-   ? (*(pnat_y) = (map_x) + (map_y) - game.map.xsize,                       \
+   ? (*(pnat_y) = (map_x) + (map_y) - wld.map.xsize,                        \
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
 #define NATURAL_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                    \
   (MAP_IS_ISOMETRIC							    \
    ? (*(pmap_x) = ((nat_y) + (nat_x)) / 2,                                  \
-      *(pmap_y) = (nat_y) - *(pmap_x) + game.map.xsize)                     \
+      *(pmap_y) = (nat_y) - *(pmap_x) + wld.map.xsize)                      \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
 #define MAP_TO_NATURAL_POS(pnat_x, pnat_y, map_x, map_y)                    \
   (MAP_IS_ISOMETRIC							    \
-   ? (*(pnat_y) = (map_x) + (map_y) - game.map.xsize,                       \
+   ? (*(pnat_y) = (map_x) + (map_y) - wld.map.xsize,                        \
       *(pnat_x) = 2 * (map_x) - *(pnat_y))                                  \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
@@ -209,12 +209,12 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 }
 
 /* Width and height of the map, in native coordinates. */
-#define NATIVE_WIDTH game.map.xsize
-#define NATIVE_HEIGHT game.map.ysize
+#define NATIVE_WIDTH wld.map.xsize
+#define NATIVE_HEIGHT wld.map.ysize
 
 /* Width and height of the map, in natural coordinates. */
-#define NATURAL_WIDTH (MAP_IS_ISOMETRIC ? 2 * game.map.xsize : game.map.xsize)
-#define NATURAL_HEIGHT game.map.ysize
+#define NATURAL_WIDTH (MAP_IS_ISOMETRIC ? 2 * wld.map.xsize : wld.map.xsize)
+#define NATURAL_HEIGHT wld.map.ysize
 
 static inline int map_pos_to_index(int map_x, int map_y);
 
@@ -324,13 +324,13 @@ extern struct terrain_misc terrain_control;
   int _tile##_index = 0;						    \
   index_to_map_pos(&_start##_x, &_start##_y, tile_index(_tile##_start));    \
   for (;								    \
-       _tile##_index < game.map.num_iterate_outwards_indices;		    \
+       _tile##_index < wld.map.num_iterate_outwards_indices;		    \
        _tile##_index++) { 						    \
-    if (game.map.iterate_outwards_indices[_tile##_index].dist > _tile##_max) {   \
+    if (wld.map.iterate_outwards_indices[_tile##_index].dist > _tile##_max) {   \
       break;								    \
     }									    \
-    _x = game.map.iterate_outwards_indices[_tile##_index].dx;		    \
-    _y = game.map.iterate_outwards_indices[_tile##_index].dy;		    \
+    _x = wld.map.iterate_outwards_indices[_tile##_index].dx;		    \
+    _y = wld.map.iterate_outwards_indices[_tile##_index].dy;		    \
     _tile##_x = _x + _start##_x;                                            \
     _tile##_y = _y + _start##_y;                                            \
     _tile = map_pos_to_tile(_tile##_x, _tile##_y);                          \
@@ -416,14 +416,14 @@ extern struct terrain_misc terrain_control;
 /* As adjc_iterate() but also set direction8 iterator variable dir_itr */
 #define adjc_dir_iterate(center_tile, itr_tile, dir_itr)		    \
   adjc_dirlist_iterate(center_tile, itr_tile, dir_itr,			    \
-		       game.map.valid_dirs, game.map.num_valid_dirs)
+		       wld.map.valid_dirs, wld.map.num_valid_dirs)
 
 #define adjc_dir_iterate_end adjc_dirlist_iterate_end
 
 /* Only set direction8 dir_itr (not tile) */
 #define adjc_dir_base_iterate(center_tile, dir_itr)                            \
   adjc_dirlist_base_iterate(center_tile, dir_itr,                              \
-                            game.map.valid_dirs, game.map.num_valid_dirs)
+                            wld.map.valid_dirs, wld.map.num_valid_dirs)
 
 #define adjc_dir_base_iterate_end                                              \
   adjc_dirlist_base_iterate_end
@@ -433,21 +433,21 @@ extern struct terrain_misc terrain_control;
  * position.  The order of positions is unspecified. */
 #define cardinal_adjc_iterate(center_tile, itr_tile)			    \
   adjc_dirlist_iterate(center_tile, itr_tile, _dir_itr##center_tile,	    \
-		       game.map.cardinal_dirs, game.map.num_cardinal_dirs)
+		       wld.map.cardinal_dirs, wld.map.num_cardinal_dirs)
 
 #define cardinal_adjc_iterate_end adjc_dirlist_iterate_end
 
 /* As cardinal_adjc_iterate but also set direction8 variable dir_itr */
 #define cardinal_adjc_dir_iterate(center_tile, itr_tile, dir_itr)	    \
   adjc_dirlist_iterate(center_tile, itr_tile, dir_itr,			    \
-		       game.map.cardinal_dirs, game.map.num_cardinal_dirs)
+		       wld.map.cardinal_dirs, wld.map.num_cardinal_dirs)
 
 #define cardinal_adjc_dir_iterate_end adjc_dirlist_iterate_end
 
 /* Only set direction8 dir_itr (not tile) */
 #define cardinal_adjc_dir_base_iterate(center_tile, dir_itr)                   \
   adjc_dirlist_base_iterate(center_tile, dir_itr,                              \
-                            game.map.cardinal_dirs, game.map.num_cardinal_dirs)
+                            wld.map.cardinal_dirs, wld.map.num_cardinal_dirs)
 
 #define cardinal_adjc_dir_base_iterate_end                                     \
   adjc_dirlist_base_iterate_end
@@ -528,7 +528,7 @@ extern struct terrain_misc terrain_control;
   for (;								    \
        _tile##_index < MAP_INDEX_SIZE;					    \
        _tile##_index++) {						    \
-    _tile = game.map.tiles + _tile##_index;
+    _tile = wld.map.tiles + _tile##_index;
 
 #define whole_map_iterate_end						    \
   }									    \
@@ -700,8 +700,8 @@ static inline bool is_border_tile(const struct tile *ptile, int dist)
 
   return (nat_x < xdist 
           || nat_y < ydist
-          || nat_x >= game.map.xsize - xdist
-          || nat_y >= game.map.ysize - ydist);
+          || nat_x >= wld.map.xsize - xdist
+          || nat_y >= wld.map.ysize - ydist);
 }
 
 enum direction8 rand_direction(void);

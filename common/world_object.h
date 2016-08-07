@@ -10,30 +10,23 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifndef FC__WORLD_OBJECT_H
+#define FC__WORLD_OBJECT_H
 
-#ifndef FC__BARBARIAN_H
-#define FC__BARBARIAN_H
-
-/* utility */
-#include "support.h"            /* bool type */
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /* common */
-#include "fc_types.h"
+#include "map_types.h"
 
-#define MIN_UNREST_DIST   5
-#define MAX_UNREST_DIST   8
+struct world
+{
+  struct civ_map map;
+};
 
-#define UPRISE_CIV_SIZE  10
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
-#define MAP_FACTOR     2000  /* adjust this to get a good uprising frequency */
-
-#define BARBARIAN_MIN_LIFESPAN 5
-
-bool unleash_barbarians(struct tile *ptile);
-void summon_barbarians(void);
-bool is_land_barbarian(struct player *pplayer);
-bool is_sea_barbarian(struct player *pplayer);
-
-struct player *create_barbarian_player(enum barbarian_type type);
-
-#endif  /* FC__BARBARIAN_H */
+#endif  /* FC__WORLD_OBJECT_H */

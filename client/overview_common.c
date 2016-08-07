@@ -454,7 +454,7 @@ void calculate_overview_dimensions(void)
   /* Clip half tile left and right.  See comment in map_to_overview_pos. */
   int shift = (MAP_IS_ISOMETRIC && !current_topo_has_flag(TF_WRAPX)) ? -1 : 0;
 
-  if (recursion > 0 || game.map.xsize <= 0 || game.map.ysize <= 0) {
+  if (recursion > 0 || wld.map.xsize <= 0 || wld.map.ysize <= 0) {
     return;
   }
   recursion++;
@@ -467,16 +467,16 @@ void calculate_overview_dimensions(void)
    *
    * It rounds up since this gives good results with the default settings.
    * It may need tweaking if the panel resizes itself. */
-  OVERVIEW_TILE_SIZE = MIN((w - 1) / (game.map.xsize * xfact) + 1,
-                           (h - 1) / game.map.ysize + 1);
+  OVERVIEW_TILE_SIZE = MIN((w - 1) / (wld.map.xsize * xfact) + 1,
+                           (h - 1) / wld.map.ysize + 1);
   OVERVIEW_TILE_SIZE = MAX(OVERVIEW_TILE_SIZE, 1);
 
-  log_debug("Map size %d,%d - area size %d,%d - scale: %d", game.map.xsize,
-            game.map.ysize, w, h, OVERVIEW_TILE_SIZE);
+  log_debug("Map size %d,%d - area size %d,%d - scale: %d", wld.map.xsize,
+            wld.map.ysize, w, h, OVERVIEW_TILE_SIZE);
 
   gui_options.overview.width
-    = OVERVIEW_TILE_WIDTH * game.map.xsize + shift * OVERVIEW_TILE_SIZE; 
-  gui_options.overview.height = OVERVIEW_TILE_HEIGHT * game.map.ysize;
+    = OVERVIEW_TILE_WIDTH * wld.map.xsize + shift * OVERVIEW_TILE_SIZE; 
+  gui_options.overview.height = OVERVIEW_TILE_HEIGHT * wld.map.ysize;
 
   if (gui_options.overview.map) {
     canvas_free(gui_options.overview.map);

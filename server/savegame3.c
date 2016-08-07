@@ -165,11 +165,11 @@ extern bool sg_success;
  */
 #define SAVE_MAP_CHAR(ptile, GET_XY_CHAR, secfile, secpath, ...)            \
 {                                                                           \
-  char _line[game.map.xsize + 1];                                           \
+  char _line[wld.map.xsize + 1];                                            \
   int _nat_x, _nat_y;                                                       \
                                                                             \
-  for (_nat_y = 0; _nat_y < game.map.ysize; _nat_y++) {                     \
-    for (_nat_x = 0; _nat_x < game.map.xsize; _nat_x++) {                   \
+  for (_nat_y = 0; _nat_y < wld.map.ysize; _nat_y++) {                      \
+    for (_nat_x = 0; _nat_x < wld.map.xsize; _nat_x++) {                    \
       struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);              \
       fc_assert_action(ptile != NULL, continue);                            \
       _line[_nat_x] = (GET_XY_CHAR);                                        \
@@ -178,7 +178,7 @@ extern bool sg_success;
                      "(%d, %d) for path %s: '%c' (%d)", _nat_x, _nat_y,     \
                      secpath, _line[_nat_x], _line[_nat_x]);                \
     }                                                                       \
-    _line[game.map.xsize] = '\0';                                           \
+    _line[wld.map.xsize] = '\0';                                            \
     secfile_insert_str(secfile, _line, secpath, ## __VA_ARGS__, _nat_y);    \
   }                                                                         \
 }
@@ -214,7 +214,7 @@ extern bool sg_success;
 {                                                                           \
   int _nat_x, _nat_y;                                                       \
   bool _printed_warning = FALSE;                                            \
-  for (_nat_y = 0; _nat_y < game.map.ysize; _nat_y++) {                     \
+  for (_nat_y = 0; _nat_y < wld.map.ysize; _nat_y++) {                      \
     const char *_line = secfile_lookup_str(secfile, secpath,                \
                                            ## __VA_ARGS__, _nat_y);         \
     if (NULL == _line) {                                                    \
@@ -223,15 +223,15 @@ extern bool sg_success;
       log_verbose("Line not found='%s'", buf);                              \
       _printed_warning = TRUE;                                              \
       continue;                                                             \
-    } else if (strlen(_line) != game.map.xsize) {                           \
+    } else if (strlen(_line) != wld.map.xsize) {                            \
       char buf[64];                                                         \
       fc_snprintf(buf, sizeof(buf), secpath, ## __VA_ARGS__, _nat_y);       \
       log_verbose("Line too short (expected %d got %lu)='%s'",              \
-                  game.map.xsize, (unsigned long) strlen(_line), buf);      \
+                  wld.map.xsize, (unsigned long) strlen(_line), buf);       \
       _printed_warning = TRUE;                                              \
       continue;                                                             \
     }                                                                       \
-    for (_nat_x = 0; _nat_x < game.map.xsize; _nat_x++) {                   \
+    for (_nat_x = 0; _nat_x < wld.map.xsize; _nat_x++) {                    \
       const char ch = _line[_nat_x];                                        \
       struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);              \
       (SET_XY_CHAR);                                                        \
@@ -1107,7 +1107,7 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx)
       continue;
     }
     if ((bin & (1 << i))
-        && (game.map.server.have_huts || !is_extra_caused_by(pextra, EC_HUT))) {
+        && (wld.map.server.have_huts || !is_extra_caused_by(pextra, EC_HUT))) {
       BV_SET(*extras, extra_index(pextra));
     }
   }
@@ -2363,18 +2363,18 @@ static void sg_load_settings(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_settings(struct savedata *saving)
 {
-  enum map_generator real_generator = game.map.server.generator;
+  enum map_generator real_generator = wld.map.server.generator;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
   if (saving->scenario) {
-    game.map.server.generator = MAPGEN_SCENARIO; /* We want a scenario. */
+    wld.map.server.generator = MAPGEN_SCENARIO; /* We want a scenario. */
   }
 
   settings_game_save(saving->file, "settings");
   /* Restore real map generator. */
-  game.map.server.generator = real_generator;
+  wld.map.server.generator = real_generator;
 
   /* Add all compatibility settings here. */
 }
@@ -2395,15 +2395,15 @@ static void sg_load_map(struct loaddata *loading)
    * We rely on that
    *   1) scenario maps have it explicitly right.
    *   2) when map is actually generated, it re-initialize this to FALSE. */
-  game.map.server.have_huts
+  wld.map.server.have_huts
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_huts");
   game.scenario.have_resources
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_resources");
 
-  game.map.server.have_resources = game.scenario.have_resources;
+  wld.map.server.have_resources = game.scenario.have_resources;
 
   if (S_S_INITIAL == loading->server_state
-      && MAPGEN_SCENARIO == game.map.server.generator) {
+      && MAPGEN_SCENARIO == wld.map.server.generator) {
     /* Generator MAPGEN_SCENARIO is used;
      * this map was done with the map editor. */
 
@@ -2443,8 +2443,10 @@ static void sg_save_map(struct savedata *saving)
   }
 
   if (saving->scenario) {
-    secfile_insert_bool(saving->file, game.map.server.have_huts, "map.have_huts");
-    secfile_insert_bool(saving->file, game.scenario.have_resources, "map.have_resources");
+    secfile_insert_bool(saving->file, wld.map.server.have_huts,
+                        "map.have_huts");
+    secfile_insert_bool(saving->file, game.scenario.have_resources,
+                        "map.have_resources");
   } else {
     secfile_insert_bool(saving->file, TRUE, "map.have_huts");
     secfile_insert_bool(saving->file, TRUE, "map.have_resources");
@@ -2454,8 +2456,8 @@ static void sg_save_map(struct savedata *saving)
    * Do not save it if it's 0 (not known);
    * this confuses people reading this 'document' less than
    * saving 0. */
-  if (game.map.server.seed) {
-    secfile_insert_int(saving->file, game.map.server.seed,
+  if (wld.map.server.seed) {
+    secfile_insert_int(saving->file, wld.map.server.seed,
                        "map.random_seed");
   }
 
@@ -2550,7 +2552,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
   } halfbyte_iterate_extras_end;
 
   if (S_S_INITIAL != loading->server_state
-      || MAPGEN_SCENARIO != game.map.server.generator
+      || MAPGEN_SCENARIO != wld.map.server.generator
       || game.scenario.have_resources) {
     whole_map_iterate(ptile) {
       extra_type_by_cause_iterate(EC_RESOURCE, pres) {
@@ -2753,7 +2755,7 @@ static void sg_load_map_owner(struct loaddata *loading)
   }
 
   /* Owner and ownership source are stored as plain numbers */
-  for (y = 0; y < game.map.ysize; y++) {
+  for (y = 0; y < wld.map.ysize; y++) {
     const char *buffer1 = secfile_lookup_str(loading->file,
                                              "map.owner%04d", y);
     const char *buffer2 = secfile_lookup_str(loading->file,
@@ -2768,7 +2770,7 @@ static void sg_load_map_owner(struct loaddata *loading)
     sg_failure_ret(buffer2 != NULL, "%s", secfile_error());
     sg_failure_ret(buffer3 != NULL, "%s", secfile_error());
 
-    for (x = 0; x < game.map.xsize; x++) {
+    for (x = 0; x < wld.map.xsize; x++) {
       char token1[TOKEN_SIZE];
       char token2[TOKEN_SIZE];
       char token3[TOKEN_SIZE];
@@ -2831,11 +2833,11 @@ static void sg_save_map_owner(struct savedata *saving)
   }
 
   /* Store owner and ownership source as plain numbers. */
-  for (y = 0; y < game.map.ysize; y++) {
-    char line[game.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < wld.map.ysize; y++) {
+    char line[wld.map.xsize * TOKEN_SIZE];
 
     line[0] = '\0';
-    for (x = 0; x < game.map.xsize; x++) {
+    for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(x, y);
 
@@ -2846,18 +2848,18 @@ static void sg_save_map_owner(struct savedata *saving)
                     player_number(tile_owner(ptile)));
       }
       strcat(line, token);
-      if (x + 1 < game.map.xsize) {
+      if (x + 1 < wld.map.xsize) {
         strcat(line, ",");
       }
     }
     secfile_insert_str(saving->file, line, "map.owner%04d", y);
   }
 
-  for (y = 0; y < game.map.ysize; y++) {
-    char line[game.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < wld.map.ysize; y++) {
+    char line[wld.map.xsize * TOKEN_SIZE];
 
     line[0] = '\0';
-    for (x = 0; x < game.map.xsize; x++) {
+    for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(x, y);
 
@@ -2867,18 +2869,18 @@ static void sg_save_map_owner(struct savedata *saving)
         fc_snprintf(token, sizeof(token), "%d", tile_index(ptile->claimer));
       }
       strcat(line, token);
-      if (x + 1 < game.map.xsize) {
+      if (x + 1 < wld.map.xsize) {
         strcat(line, ",");
       }
     }
     secfile_insert_str(saving->file, line, "map.source%04d", y);
   }
 
-  for (y = 0; y < game.map.ysize; y++) {
-    char line[game.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < wld.map.ysize; y++) {
+    char line[wld.map.xsize * TOKEN_SIZE];
 
     line[0] = '\0';
-    for (x = 0; x < game.map.xsize; x++) {
+    for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(x, y);
 
@@ -2889,7 +2891,7 @@ static void sg_save_map_owner(struct savedata *saving)
                     player_number(extra_owner(ptile)));
       }
       strcat(line, token);
-      if (x + 1 < game.map.xsize) {
+      if (x + 1 < wld.map.xsize) {
         strcat(line, ",");
       }
     }
@@ -2913,14 +2915,14 @@ static void sg_load_map_worked(struct loaddata *loading)
   loading->worked_tiles = fc_malloc(MAP_INDEX_SIZE *
                                     sizeof(*loading->worked_tiles));
 
-  for (y = 0; y < game.map.ysize; y++) {
+  for (y = 0; y < wld.map.ysize; y++) {
     const char *buffer = secfile_lookup_str(loading->file, "map.worked%04d",
                                             y);
     const char *ptr = buffer;
 
     sg_failure_ret(NULL != buffer,
                    "Savegame corrupt - map line %d not found.", y);
-    for (x = 0; x < game.map.xsize; x++) {
+    for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
       int number;
       struct tile *ptile = native_pos_to_tile(x, y);
@@ -2957,11 +2959,11 @@ static void sg_save_map_worked(struct savedata *saving)
   }
 
   /* additionally save the tiles worked by the cities */
-  for (y = 0; y < game.map.ysize; y++) {
-    char line[game.map.xsize * TOKEN_SIZE];
+  for (y = 0; y < wld.map.ysize; y++) {
+    char line[wld.map.xsize * TOKEN_SIZE];
 
     line[0] = '\0';
-    for (x = 0; x < game.map.xsize; x++) {
+    for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(x, y);
       struct city *pcity = tile_worked(ptile);
@@ -2972,7 +2974,7 @@ static void sg_save_map_worked(struct savedata *saving)
         fc_snprintf(token, sizeof(token), "%d", pcity->id);
       }
       strcat(line, token);
-      if (x < game.map.xsize) {
+      if (x < wld.map.xsize) {
         strcat(line, ",");
       }
     }
@@ -6039,7 +6041,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     /* Load player map (border). */
     int x, y;
 
-    for (y = 0; y < game.map.ysize; y++) {
+    for (y = 0; y < wld.map.ysize; y++) {
       const char *buffer
         = secfile_lookup_str(loading->file, "player%d.map_owner%04d",
                              plrno, y);
@@ -6051,7 +6053,7 @@ static void sg_load_player_vision(struct loaddata *loading,
 
       sg_failure_ret(NULL != buffer,
                     "Savegame corrupt - map line %d not found.", y);
-      for (x = 0; x < game.map.xsize; x++) {
+      for (x = 0; x < wld.map.xsize; x++) {
         char token[TOKEN_SIZE];
         char token2[TOKEN_SIZE];
         int number;
@@ -6261,11 +6263,11 @@ static void sg_save_player_vision(struct savedata *saving,
     /* Save the map (borders). */
     int x, y;
 
-    for (y = 0; y < game.map.ysize; y++) {
-      char line[game.map.xsize * TOKEN_SIZE];
+    for (y = 0; y < wld.map.ysize; y++) {
+      char line[wld.map.xsize * TOKEN_SIZE];
 
       line[0] = '\0';
-      for (x = 0; x < game.map.xsize; x++) {
+      for (x = 0; x < wld.map.xsize; x++) {
         char token[TOKEN_SIZE];
         struct tile *ptile = native_pos_to_tile(x, y);
         struct player_tile *plrtile = map_get_player_tile(ptile, plr);
@@ -6277,7 +6279,7 @@ static void sg_save_player_vision(struct savedata *saving,
                       player_number(plrtile->owner));
         }
         strcat(line, token);
-        if (x < game.map.xsize) {
+        if (x < wld.map.xsize) {
           strcat(line, ",");
         }
       }
@@ -6285,11 +6287,11 @@ static void sg_save_player_vision(struct savedata *saving,
                          plrno, y);
     }
 
-    for (y = 0; y < game.map.ysize; y++) {
-      char line[game.map.xsize * TOKEN_SIZE];
+    for (y = 0; y < wld.map.ysize; y++) {
+      char line[wld.map.xsize * TOKEN_SIZE];
 
       line[0] = '\0';
-      for (x = 0; x < game.map.xsize; x++) {
+      for (x = 0; x < wld.map.xsize; x++) {
         char token[TOKEN_SIZE];
         struct tile *ptile = native_pos_to_tile(x, y);
         struct player_tile *plrtile = map_get_player_tile(ptile, plr);
@@ -6301,7 +6303,7 @@ static void sg_save_player_vision(struct savedata *saving,
                       player_number(plrtile->extras_owner));
         }
         strcat(line, token);
-        if (x < game.map.xsize) {
+        if (x < wld.map.xsize) {
           strcat(line, ",");
         }
       }
