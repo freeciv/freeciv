@@ -480,32 +480,21 @@ static bool get_discounted_reward(const struct unit *caravan,
     return FALSE;
   }
 
-  /* Make sure that the caravan gets a new target in cases were the old
-   * target turned out to be of no use because of action enablers. */
-  if (real_map_distance(dest->tile, unit_tile(caravan)) <= 1) {
-    /* The caravan is close enought to its target to do a full check.
-     * A caravan can be close enough to max 9 cities in the worst
-     * theoretically possible case. (More than one city is rare.) The
-     * computations are therefore worth it. */
+  consider_wonder = parameter->consider_wonders
+    && is_action_enabled_unit_on_city_full(ACTION_HELP_WONDER,
+                                           caravan, dest, src);
+  consider_trade = parameter->consider_trade
+    && is_action_enabled_unit_on_city_full(ACTION_TRADE_ROUTE,
+                                           caravan, dest, src);
+  consider_windfall = parameter->consider_windfall
+    && is_action_enabled_unit_on_city_full(ACTION_MARKETPLACE,
+                                           caravan, dest, src);
 
-    consider_wonder = is_action_enabled_unit_on_city_full(ACTION_HELP_WONDER,
-                                                          caravan, dest,
-                                                          src);
-    consider_trade = is_action_enabled_unit_on_city_full(ACTION_TRADE_ROUTE,
-                                                         caravan, dest,
-                                                         src);
-    consider_windfall = is_action_enabled_unit_on_city_full(ACTION_MARKETPLACE,
-                                                            caravan, dest,
-                                                            src);
-    if (!consider_wonder && !consider_trade && !consider_windfall) {
-      /* No caravan action is possible against this target. */
-      caravan_result_init_zero(result);
-      return FALSE;
-    }
-  } else {
-    consider_wonder = parameter->consider_wonders;
-    consider_trade = parameter->consider_trade;
-    consider_windfall = parameter->consider_windfall;
+  if (!consider_wonder && !consider_trade && !consider_windfall) {
+    /* No caravan action is possible against this target. */
+    caravan_result_init_zero(result);
+
+    return FALSE;
   }
 
   trade = trade_benefit(pplayer_src, src, dest, parameter);
