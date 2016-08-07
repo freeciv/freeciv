@@ -170,7 +170,7 @@ static int write_socket_data(struct connection *pc,
 
   for (start=0; buf->ndata-start>limit;) {
     fd_set writefs, exceptfs;
-    struct timeval tv;
+    fc_timeval tv;
 
     FC_FD_ZERO(&writefs);
     FC_FD_ZERO(&exceptfs);

@@ -84,9 +84,11 @@ union fc_sockaddr {
     TYPED_LIST_ITERATE(union fc_sockaddr, sockaddrlist, paddr)
 #define fc_sockaddr_list_iterate_end  LIST_ITERATE_END
 
+typedef struct timeval fc_timeval;
+
 int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
 int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
-              struct timeval *timeout);
+              fc_timeval *timeout);
 int fc_readsocket(int sock, void *buf, size_t size);
 int fc_writesocket(int sock, const void *buf, size_t size);
 void fc_closesocket(int sock);

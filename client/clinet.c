@@ -340,7 +340,7 @@ static int read_from_connection(struct connection *pc, bool block)
     bool have_data_for_server = (pc->used && pc->send_buffer
                                  && 0 < pc->send_buffer->ndata);
     int n;
-    struct timeval tv;
+    fc_timeval tv;
 
     tv.tv_sec = 0;
     tv.tv_usec = 0;
