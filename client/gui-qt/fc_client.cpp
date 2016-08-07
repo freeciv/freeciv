@@ -304,7 +304,6 @@ void fc_client::switch_page(int new_pg)
   case PAGE_GAME:
     if (gui_options.gui_qt_show_titlebar == false) {
       setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
-      showMaximized();
     }
     gui()->infotab->chtwdg->update_widgets();
     status_bar->setVisible(false);
@@ -312,10 +311,6 @@ void fc_client::switch_page(int new_pg)
     if (gui_options.gui_qt_fullscreen){
       gui()->showFullScreen();
       gui()->mapview_wdg->showFullScreen();
-    } else {
-      if (!isMaximized()) {
-        showMaximized();
-      }
     }
     menuBar()->setVisible(true);
     mapview_wdg->setFocus();
