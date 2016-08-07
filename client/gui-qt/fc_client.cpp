@@ -311,10 +311,6 @@ void fc_client::switch_page(int new_pg)
     if (fullscreen_mode){
       gui()->showFullScreen();
       gui()->mapview_wdg->showFullScreen();
-    } else {
-      if (!isMaximized()) {
-        showMaximized();
-      }
     }
     menuBar()->setVisible(true);
     mapview_wdg->setFocus();
