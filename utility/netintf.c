@@ -123,19 +123,19 @@ int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
   Wait for a number of sockets to change status
 **************************************************************/
 int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
-              struct timeval *timeout)
+              fc_timeval *timeout)
 {
   int result;
-  
+
   result = select(n, readfds, writefds, exceptfds, timeout);
-  
+
 #ifdef HAVE_WINSOCK
   if (result == -1) {
     set_socket_errno();
   }
 #endif /* HAVE_WINSOCK */
 
-  return result;       
+  return result;
 }
 
 /***************************************************************

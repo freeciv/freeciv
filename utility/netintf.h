@@ -118,9 +118,11 @@ enum fc_addr_family {
   FC_ADDR_ANY
 };
 
+typedef struct timeval fc_timeval;
+
 int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
 int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
-              struct timeval *timeout);
+              fc_timeval *timeout);
 int fc_readsocket(int sock, void *buf, size_t size);
 int fc_writesocket(int sock, const void *buf, size_t size);
 void fc_closesocket(int sock);

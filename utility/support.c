@@ -483,9 +483,10 @@ void fc_usleep(unsigned long usec)
 #ifdef WIN32_NATIVE
   Sleep(usec / 1000);
 #else  /* WIN32_NATIVE */
-  struct timeval tv;
-  tv.tv_sec=0;
-  tv.tv_usec=usec;
+  fc_timeval tv;
+
+  tv.tv_sec = 0;
+  tv.tv_usec = usec;
   /* FIXME: an interrupt can cause an EINTR return here.  In that case we
    * need to have another select call. */
   fc_select(0, NULL, NULL, NULL, &tv);

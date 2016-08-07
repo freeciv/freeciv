@@ -524,7 +524,7 @@ Uint16 gui_event_loop(void *pData,
         Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent, void *pData))
 {
   Uint16 ID;
-  static struct timeval tv;
+  static fc_timeval tv;
   static fd_set civfdset;
   Uint32 t_current, t_last_unit_anim, t_last_map_scrolling;
   Uint32 real_timer_next_call;
@@ -538,45 +538,45 @@ Uint16 gui_event_loop(void *pData,
     /* net check with 10ms delay event loop */
     if ((net_socket >= 0) || (ggz_socket >= 0)) {
       FD_ZERO(&civfdset);
-      
+
       if (net_socket >= 0) {
         FD_SET(net_socket, &civfdset);
       }
       if (ggz_socket >= 0) {
         FD_SET(ggz_socket, &civfdset);
       }
-      
+
       tv.tv_sec = 0;
-      tv.tv_usec = 10000;/* 10ms*/
-    
+      tv.tv_usec = 10000; /* 10ms*/
+
       result = fc_select(MAX(net_socket, ggz_socket) + 1, &civfdset, NULL, NULL, &tv);
       if (result < 0) {
         if (errno != EINTR) {
-	  break;
+          break;
         } else {
-	  continue;
+          continue;
         }
       } else {
         if (result > 0) {
-	  if ((net_socket >= 0) && FD_ISSET(net_socket, &civfdset)) {
-	    SDL_PushEvent(pNet_User_Event);
-	  }
-	  if ((ggz_socket >= 0) && FD_ISSET(ggz_socket, &civfdset)) {
-	    SDL_PushEvent(pGGZ_User_Event);
-	  }
-	}
+          if ((net_socket >= 0) && FD_ISSET(net_socket, &civfdset)) {
+            SDL_PushEvent(pNet_User_Event);
+          }
+          if ((ggz_socket >= 0) && FD_ISSET(ggz_socket, &civfdset)) {
+            SDL_PushEvent(pGGZ_User_Event);
+          }
+        }
       }
     } else { /* if connection is not establish */
       SDL_Delay(10);
     }
     /* ========================================= */
-    
+
     t_current = SDL_GetTicks();
-    
+
     if (t_current > real_timer_next_call) {
       real_timer_next_call = t_current + (real_timer_callback() * 1000);
     }
-    
+
     if ((t_current - t_last_unit_anim) > UNITS_TIMER_INTERVAL) {
       if (autoconnect) {
         widget_info_counter++;
@@ -584,7 +584,7 @@ Uint16 gui_event_loop(void *pData,
       } else {
         SDL_PushEvent(pAnim_User_Event);
       }
-            
+
       t_last_unit_anim = SDL_GetTicks();
     }
 
@@ -596,20 +596,20 @@ Uint16 gui_event_loop(void *pData,
     } else {
       t_last_map_scrolling = SDL_GetTicks();
     }
-    
+
     if (widget_info_counter > 0) {
       SDL_PushEvent(pInfo_User_Event);
       widget_info_counter = 0;
     }
-    
+
     /* ========================================= */
-    
+
     if (loop_action) {
       loop_action(pData);
     }
-    
+
     /* ========================================= */
-    
+
     while (SDL_PollEvent(&Main.event) == 1) {
 
       switch (Main.event.type) {
