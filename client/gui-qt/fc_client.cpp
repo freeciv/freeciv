@@ -421,7 +421,9 @@ void fc_client::remove_server_source()
 ****************************************************************************/
 void fc_client::server_input(int sock)
 {
+  server_notifier->setEnabled(false);
   input_from_server(sock);
+  server_notifier->setEnabled(true);
 }
 
 /****************************************************************************
