@@ -168,9 +168,9 @@ void qtg_canvas_put_rectangle(struct canvas *pcanvas,
   if (width == 1 && height == 1) {
     p.drawPoint(canvas_x, canvas_y);
   } else if (width == 1) {
-    p.drawLine(canvas_x, canvas_y, canvas_x, canvas_y + height);
+    p.drawLine(canvas_x, canvas_y, canvas_x, canvas_y + height -1);
   } else if (height == 1) {
-    p.drawLine(canvas_x, canvas_y, canvas_x + width, canvas_y);
+    p.drawLine(canvas_x, canvas_y, canvas_x + width - 1, canvas_y);
   } else {
     p.drawRect(canvas_x, canvas_y, width, height);
   }
