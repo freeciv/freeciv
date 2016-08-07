@@ -530,7 +530,7 @@ Uint16 gui_event_loop(void *pData,
                                                      void *pData))
 {
   Uint16 ID;
-  static struct timeval tv;
+  static fc_timeval tv;
   static fd_set civfdset;
   Uint32 t_current, t_last_unit_anim, t_last_map_scrolling;
   Uint32 real_timer_next_call;
@@ -549,21 +549,21 @@ Uint16 gui_event_loop(void *pData,
       }
 
       tv.tv_sec = 0;
-      tv.tv_usec = 10000;/* 10ms*/
-    
+      tv.tv_usec = 10000; /* 10ms*/
+
       result = fc_select(net_socket + 1, &civfdset, NULL, NULL, &tv);
       if (result < 0) {
         if (errno != EINTR) {
-	  break;
+          break;
         } else {
-	  continue;
+          continue;
         }
       } else {
         if (result > 0) {
-	  if ((net_socket >= 0) && FD_ISSET(net_socket, &civfdset)) {
-	    SDL_PushEvent(pNet_User_Event);
-	  }
-	}
+          if ((net_socket >= 0) && FD_ISSET(net_socket, &civfdset)) {
+            SDL_PushEvent(pNet_User_Event);
+          }
+        }
       }
     } else { /* if connection is not establish */
       SDL_Delay(10);

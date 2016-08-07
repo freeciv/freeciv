@@ -353,30 +353,32 @@ void flush_packets(void)
   int i;
   int max_desc;
   fd_set writefs, exceptfs;
-  struct timeval tv;
+  fc_timeval tv;
   time_t start;
 
   (void) time(&start);
 
   for(;;) {
     tv.tv_sec = (game.server.netwait - (time(NULL) - start));
-    tv.tv_usec=0;
+    tv.tv_usec = 0;
 
-    if (tv.tv_sec < 0)
+    if (tv.tv_sec < 0) {
       return;
+    }
 
     FC_FD_ZERO(&writefs);
     FC_FD_ZERO(&exceptfs);
-    max_desc=-1;
+    max_desc = -1;
 
-    for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
+    for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
       struct connection *pconn = &connections[i];
+
       if (pconn->used
           && !pconn->server.is_closing
           && 0 < pconn->send_buffer->ndata) {
 	FD_SET(pconn->sock, &writefs);
 	FD_SET(pconn->sock, &exceptfs);
-	max_desc=MAX(pconn->sock, max_desc);
+	max_desc = MAX(pconn->sock, max_desc);
       }
     }
 
@@ -384,14 +386,15 @@ void flush_packets(void)
       return;
     }
 
-    if(fc_select(max_desc+1, NULL, &writefs, &exceptfs, &tv)<=0) {
+    if (fc_select(max_desc + 1, NULL, &writefs, &exceptfs, &tv) <= 0) {
       return;
     }
 
-    for(i=0; i<MAX_NUM_CONNECTIONS; i++) {   /* check for freaky players */
+    for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {   /* check for freaky players */
       struct connection *pconn = &connections[i];
+
       if (pconn->used && !pconn->server.is_closing) {
-        if(FD_ISSET(pconn->sock, &exceptfs)) {
+        if (FD_ISSET(pconn->sock, &exceptfs)) {
           log_verbose("connection (%s) cut due to exception data",
                       conn_description(pconn));
           connection_close_server(pconn, _("network exception"));

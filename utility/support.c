@@ -586,7 +586,7 @@ void fc_usleep(unsigned long usec)
 #ifdef FREECIV_MSWINDOWS
   Sleep(usec / 1000);
 #else  /* FREECIV_MSWINDOWS */
-  struct timeval tv;
+  fc_timeval tv;
 
   tv.tv_sec = 0;
   tv.tv_usec = usec;
