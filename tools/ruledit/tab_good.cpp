@@ -112,7 +112,8 @@ void tab_good::refresh()
 
   goods_type_iterate(pgood) {
     if (!pgood->disabled) {
-      QListWidgetItem *item = new QListWidgetItem(goods_rule_name(pgood));
+      QListWidgetItem *item =
+        new QListWidgetItem(QString::fromUtf8(goods_rule_name(pgood)));
 
       good_list->insertItem(goods_index(pgood), item);
     }
@@ -273,7 +274,7 @@ void tab_good::same_name_toggle(bool checked)
 void tab_good::edit_reqs()
 {
   if (selected != nullptr) {
-    req_edit *redit = new req_edit(ui, goods_rule_name(selected),
+    req_edit *redit = new req_edit(ui, QString::fromUtf8(goods_rule_name(selected)),
                                    &selected->reqs);
 
     redit->show();
