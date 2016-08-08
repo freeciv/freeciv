@@ -990,7 +990,7 @@ static bool endturn_callback(int value, struct connection *caller,
 }
 
 /*************************************************************************
-  Verify that a given maxplayers string is valid.
+  Verify that a given maxplayers is valid.
 *************************************************************************/
 static bool maxplayers_callback(int value, struct connection *caller,
                                 char *reject_msg, size_t reject_msg_len)
