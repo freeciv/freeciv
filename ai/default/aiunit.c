@@ -2920,7 +2920,11 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
 
     alive = dai_unit_goto(ait, leader, safest_tile);
     if (alive) {
-      fc_assert(!same_pos(unit_tile(leader), leader_tile));
+      if (same_pos(unit_tile(leader), leader_tile)) {
+        /* Didn't move. No point to retry. */
+        pf_map_destroy(pfm);
+        return;
+      }
       leader_tile = unit_tile(leader);
     }
   } while (alive && 0 < leader->moves_left);
