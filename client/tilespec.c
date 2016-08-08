@@ -5123,39 +5123,47 @@ static int fill_goto_sprite_array(const struct tileset *t,
 ****************************************************************************/
 static bool is_extra_drawing_enabled(struct extra_type *pextra)
 {
+  bool no_disable = TRUE; /* Draw if matches no cause */
+
   if (is_extra_caused_by(pextra, EC_IRRIGATION)) {
-    if (!gui_options.draw_irrigation) {
-      return FALSE;
+    if (gui_options.draw_irrigation) {
+      return TRUE;
     }
+    no_disable = FALSE;
   }
   if (is_extra_caused_by(pextra, EC_POLLUTION)
       || is_extra_caused_by(pextra, EC_FALLOUT)) {
-    if (!gui_options.draw_pollution) {
-      return FALSE;
+    if (gui_options.draw_pollution) {
+      return TRUE;
     }
+    no_disable = FALSE;
   }
   if (is_extra_caused_by(pextra, EC_MINE)) {
-    if (!gui_options.draw_mines) {
-      return FALSE;
+    if (gui_options.draw_mines) {
+      return TRUE;
     }
+    no_disable = FALSE;
   }
   if (is_extra_caused_by(pextra, EC_HUT)) {
-    if (!gui_options.draw_huts) {
-      return FALSE;
+    if (gui_options.draw_huts) {
+      return TRUE;
     }
+    no_disable = FALSE;
   }
   if (is_extra_caused_by(pextra, EC_BASE)) {
-    if (!gui_options.draw_fortress_airbase) {
-      return FALSE;
+    if (gui_options.draw_fortress_airbase) {
+      return TRUE;
     }
+    no_disable = FALSE;
   }
   if (is_extra_caused_by(pextra, EC_ROAD)) {
-    if (!gui_options.draw_roads_rails) {
-      return FALSE;
+    if (gui_options.draw_roads_rails) {
+      return TRUE;
     }
+    no_disable = FALSE;
   }
 
-  return TRUE;
+  return no_disable;
 }
 
 /****************************************************************************
