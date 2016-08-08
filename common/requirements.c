@@ -48,27 +48,6 @@ typedef enum item_found (*universal_found)(const struct requirement *,
                                            const struct universal *);
 static universal_found universal_found_function[VUT_COUNT] = {NULL};
 
-/************************************************************************
-  Initialize universal value with a value suitable for the kind.
-************************************************************************/
-void universal_value_init(struct universal *src)
-{
-  /* TODO: Implement really */
-  switch (src->kind) {
-  case VUT_NONE:
-    /* Value of None should never be used */
-    break;
-  case VUT_ADVANCE:
-    src->value.advance = advance_by_number(A_NONE);
-    break;
-  case VUT_GOVERNMENT:
-    src->value.govern = game.government_during_revolution;
-    break;
-  default:
-    src->value.advance = NULL;
-  }
-}
-
 /**************************************************************************
   Parse requirement type (kind) and value strings into a universal
   structure.  Passing in a NULL type is considered VUT_NONE (not an error).

@@ -139,7 +139,6 @@ bool is_req_in_vec(const struct requirement *req,
                    const struct requirement_vector *vec);
 
 /* General universal functions. */
-void universal_value_init(struct universal *src);
 int universal_number(const struct universal *source);
 
 struct universal universal_by_number(const enum universals_n kind,

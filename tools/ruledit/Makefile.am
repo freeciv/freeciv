@@ -58,6 +58,8 @@ freeciv_ruledit_SOURCES =	\
 		ruledit.h	\
 		ruledit_qt.cpp	\
 		ruledit_qt.h	\
+		univ_value.c	\
+		univ_value.h	\
 		validity.c	\
 		validity.h
 

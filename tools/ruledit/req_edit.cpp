@@ -29,6 +29,7 @@
 
 // ruledit
 #include "ruledit.h"
+#include "univ_value.h"
 
 #include "req_edit.h"
 
@@ -65,7 +66,12 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(req_type_menu(QAction *)));
   edit_type_button->setMenu(menu);
   universals_iterate(univ_id) {
-    menu->addAction(universals_n_name(univ_id));
+    struct universal dummy;
+
+    dummy.kind = univ_id;
+    if (universal_value_initial(&dummy)) {
+      menu->addAction(universals_n_name(univ_id));
+    }
   } universals_iterate_end;
   active_layout->addWidget(edit_type_button, 1, 0);
 
@@ -174,7 +180,7 @@ void req_edit::req_type_menu(QAction *action)
 
   if (selected != nullptr) {
     selected->source.kind = univ;
-    universal_value_init(&selected->source);
+    universal_value_initial(&selected->source);
   }
 
   refresh();
