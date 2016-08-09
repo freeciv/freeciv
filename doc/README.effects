@@ -449,8 +449,8 @@ Output_Waste
 with any output type, use an OutputType requirement to specify which.
 
 Output_Waste_By_Distance
-    For each tile in real distance that a city is from your capital, it gets 
-amount of extra waste.
+    For each tile in real distance that a city is from nearest
+Government Center, it gets amount of extra waste.
 
 Output_Penalty_Tile
     When a tile yields more output than amount, it gets a penalty of -1.
