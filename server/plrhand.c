@@ -195,6 +195,7 @@ void kill_player(struct player *pplayer)
   if (barbarians) {
     /* Moving victim's palace around is a waste of time, as they're dead */
     bool palace = game.server.savepalace;
+
     game.server.savepalace = FALSE;
 
     log_verbose("Barbarians take the empire of %s", pplayer->name);

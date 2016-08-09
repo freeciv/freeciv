@@ -5994,8 +5994,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     }
   }
 
-  if (!plr->is_alive
-      || -1 == total_ncities
+  if (-1 == total_ncities
       || FALSE == game.info.fogofwar
       || !secfile_lookup_bool_default(loading->file, TRUE,
                                       "game.save_private_map")) {
@@ -6246,11 +6245,6 @@ static void sg_save_player_vision(struct savedata *saving,
 
   if (!game.info.fogofwar || !game.server.save_options.save_private_map) {
     /* The player can see all, there's no reason to save the private map. */
-    return;
-  }
-
-  if (!plr->is_alive) {
-    /* Nothing to save. */
     return;
   }
 
