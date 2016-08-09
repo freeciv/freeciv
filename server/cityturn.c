@@ -910,10 +910,10 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
   } city_tile_iterate_skip_free_worked_end;
 
   if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
-      && is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
+      && is_city_option_set(pcity, CITYO_SCIENCE_SPECIALISTS)) {
     pcity->specialists[best_specialist(O_SCIENCE, pcity)]++;
   } else if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
-	     && is_city_option_set(pcity, CITYO_NEW_TAXMAN)) {
+	     && is_city_option_set(pcity, CITYO_GOLD_SPECIALISTS)) {
     pcity->specialists[best_specialist(O_GOLD, pcity)]++;
   } else {
     pcity->specialists[DEFAULT_SPECIALIST]++; /* or else city is !sane */

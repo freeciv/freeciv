@@ -1339,10 +1339,10 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   GSList *group;
   const char *tab_title = _("_Settings");
 
-  static const char *new_citizens_label[] = {
-    N_("Entertainers"),
-    N_("Scientists"),
-    N_("Taxmen")
+  static const char *new_citizens_output_label[] = {
+    N_("Luxury"),
+    N_("Science"),
+    N_("Gold")
   };
 
   static const char *disband_label = N_("Disband if build settler at size 1");
@@ -1374,7 +1374,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   /* new_citizens radio */
-  frame = gtk_frame_new(_("New citizens are"));
+  frame = gtk_frame_new(_("New citizens produce"));
   gtk_grid_attach(GTK_GRID(page), frame, 0, 0, 1, 1);
   gtk_size_group_add_widget(size, frame);
 
@@ -1383,12 +1383,12 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
                                  GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(frame), vbox2);
 
-  intl_slist(ARRAY_SIZE(new_citizens_label), new_citizens_label,
+  intl_slist(ARRAY_SIZE(new_citizens_output_label), new_citizens_output_label,
              &new_citizens_label_done);
 
   group = NULL;
-  for (i = 0; i < ARRAY_SIZE(new_citizens_label); i++) {
-    button = gtk_radio_button_new_with_mnemonic(group, new_citizens_label[i]);
+  for (i = 0; i < ARRAY_SIZE(new_citizens_output_label); i++) {
+    button = gtk_radio_button_new_with_mnemonic(group, new_citizens_output_label[i]);
     pdialog->misc.new_citizens_radio[i] = button;
     gtk_container_add(GTK_CONTAINER(vbox2), button);
     g_signal_connect(button, "toggled",
@@ -3213,7 +3213,7 @@ static void misc_whichtab_callback(GtkWidget * w, gpointer data)
 }
 
 /**************************************************************************
-City options callbacks
+  City options callbacks
 **************************************************************************/
 static void cityopt_callback(GtkWidget * w, gpointer data)
 {
@@ -3234,10 +3234,10 @@ static void cityopt_callback(GtkWidget * w, gpointer data)
       BV_SET(new_options, CITYO_DISBAND);
     }
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[1]))) {
-      BV_SET(new_options, CITYO_NEW_EINSTEIN);
+      BV_SET(new_options, CITYO_SCIENCE_SPECIALISTS);
     }
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[2]))) {
-      BV_SET(new_options, CITYO_NEW_TAXMAN);
+      BV_SET(new_options, CITYO_GOLD_SPECIALISTS);
     }
 
     dsend_packet_city_options_req(&client.conn, pcity->id,new_options);
@@ -3255,17 +3255,17 @@ static void set_cityopt_values(struct city_dialog *pdialog)
   pdialog->misc.block_signal = 1;
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->misc.disband_on_settler),
-			       is_city_option_set(pcity, CITYO_DISBAND));
+                               is_city_option_set(pcity, CITYO_DISBAND));
 
-  if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
+  if (is_city_option_set(pcity, CITYO_SCIENCE_SPECIALISTS)) {
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
-				 (pdialog->misc.new_citizens_radio[1]), TRUE);
-  } else if (is_city_option_set(pcity, CITYO_NEW_TAXMAN)) {
+                                 (pdialog->misc.new_citizens_radio[1]), TRUE);
+  } else if (is_city_option_set(pcity, CITYO_GOLD_SPECIALISTS)) {
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
-				 (pdialog->misc.new_citizens_radio[2]), TRUE);
+                                 (pdialog->misc.new_citizens_radio[2]), TRUE);
   } else {
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
-				 (pdialog->misc.new_citizens_radio[0]), TRUE);
+                                 (pdialog->misc.new_citizens_radio[0]), TRUE);
   }
   pdialog->misc.block_signal = 0;
 }

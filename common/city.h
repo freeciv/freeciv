@@ -41,7 +41,7 @@ enum production_class_type {
 /* Various city options.  These are stored by the server and can be
  * toggled by the user.  Each one defaults to off.  Adding new ones
  * will break network compatibility. If you want to reorder or remove
- * an option remeber to load the city option order from the savegame.
+ * an option remember to load the city option order from the savegame.
  * It is stored in savefile.city_options_vector
  *
  * Used in the network protocol.
@@ -51,10 +51,10 @@ enum production_class_type {
 #define SPECENUM_VALUE0 CITYO_DISBAND
 #define SPECENUM_VALUE0NAME "Disband"
 /* If new citizens are science specialists */
-#define SPECENUM_VALUE1 CITYO_NEW_EINSTEIN
+#define SPECENUM_VALUE1 CITYO_SCIENCE_SPECIALISTS
 #define SPECENUM_VALUE1NAME "New_Einstein"
 /* If new citizens are gold specialists */
-#define SPECENUM_VALUE2 CITYO_NEW_TAXMAN
+#define SPECENUM_VALUE2 CITYO_GOLD_SPECIALISTS
 #define SPECENUM_VALUE2NAME "New_Taxman"
 #define SPECENUM_COUNT CITYO_LAST
 #define SPECENUM_BITVECTOR bv_city_options

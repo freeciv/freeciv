@@ -882,7 +882,6 @@ static int happy_city_dlg_callback(struct widget *pButton)
 static int misc_panel_city_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-/*  int new = pCityDlg->pCity->city_options & 0xff; */
     bv_city_options new_options = pCityDlg->pCity->city_options;
 
     switch (MAX_ID - pWidget->ID) {
@@ -894,15 +893,15 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
       }
       break;
     case 0x20:
-      if (BV_ISSET(new_options, CITYO_NEW_EINSTEIN)) {
-        BV_CLR(new_options, CITYO_NEW_EINSTEIN);
+      if (BV_ISSET(new_options, CITYO_SCIENCE_SPECIALISTS)) {
+        BV_CLR(new_options, CITYO_SCIENCE_SPECIALISTS);
       } else {
-        BV_SET(new_options, CITYO_NEW_EINSTEIN);
+        BV_SET(new_options, CITYO_SCIENCE_SPECIALISTS);
       }
-      if (BV_ISSET(new_options, CITYO_NEW_TAXMAN)) {
-        BV_CLR(new_options, CITYO_NEW_TAXMAN);
+      if (BV_ISSET(new_options, CITYO_GOLD_SPECIALISTS)) {
+        BV_CLR(new_options, CITYO_GOLD_SPECIALISTS);
       } else {
-        BV_SET(new_options, CITYO_NEW_TAXMAN);
+        BV_SET(new_options, CITYO_GOLD_SPECIALISTS);
       }
 
       pWidget->theme2 = get_tax_surface(O_GOLD);
@@ -911,18 +910,18 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
       widget_flush(pWidget);
       break;
     case 0x40:
-      BV_CLR(new_options, CITYO_NEW_EINSTEIN);
-      BV_CLR(new_options, CITYO_NEW_TAXMAN);
+      BV_CLR(new_options, CITYO_SCIENCE_SPECIALISTS);
+      BV_CLR(new_options, CITYO_GOLD_SPECIALISTS);
       pWidget->theme2 = get_tax_surface(O_LUXURY);
       pWidget->ID = MAX_ID - 0x60;
       widget_redraw(pWidget);
       widget_flush(pWidget);
       break;
     case 0x60:
-      if (BV_ISSET(new_options, CITYO_NEW_EINSTEIN)) {
-        BV_CLR(new_options, CITYO_NEW_EINSTEIN);
+      if (BV_ISSET(new_options, CITYO_SCIENCE_SPECIALISTS)) {
+        BV_CLR(new_options, CITYO_SCIENCE_SPECIALISTS);
       } else {
-        BV_SET(new_options, CITYO_NEW_EINSTEIN);
+        BV_SET(new_options, CITYO_SCIENCE_SPECIALISTS);
       }
 
       pWidget->theme2 = get_tax_surface(O_SCIENCE);
@@ -969,16 +968,16 @@ static void create_city_options_widget_list(struct city *pCity)
 
   /* ----- */
 
-  fc_snprintf(cBuf, sizeof(cBuf), "%s:", _("New citizens are"));
+  fc_snprintf(cBuf, sizeof(cBuf), "%s:", _("New citizens produce"));
   pstr = create_utf8_from_char(cBuf, adj_font(11));
   pstr->style |= SF_CENTER;
 
-  if (BV_ISSET(pCity->city_options, CITYO_NEW_EINSTEIN)) {
+  if (BV_ISSET(pCity->city_options, CITYO_SCIENCE_SPECIALISTS)) {
     pSurf = get_tax_surface(O_SCIENCE);
     pBuf = create_icon_button(pSurf, pWindow->dst, pstr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME2);
     add_to_gui_list(MAX_ID - 0x20, pBuf);
   } else {
-    if (BV_ISSET(pCity->city_options, CITYO_NEW_TAXMAN)) {
+    if (BV_ISSET(pCity->city_options, CITYO_GOLD_SPECIALISTS)) {
       pSurf = get_tax_surface(O_GOLD);
       pBuf = create_icon_button(pSurf, pWindow->dst,
                                 pstr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME2);

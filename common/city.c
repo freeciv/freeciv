@@ -3124,7 +3124,7 @@ citizens city_specialists(const struct city *pcity)
   specialists usable by pcity will be considered.
 ****************************************************************************/
 Specialist_type_id best_specialist(Output_type_id otype,
-				   const struct city *pcity)
+                                   const struct city *pcity)
 {
   int best = DEFAULT_SPECIALIST;
   int val = get_specialist_output(pcity, best, otype);
