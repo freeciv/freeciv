@@ -58,7 +58,7 @@ void clear_output_window(void)
 /**************************************************************************
   Got version message from metaserver thread.
 **************************************************************************/
-void gui_version_message(char *vertext)
+void gui_version_message(const char *vertext)
 {
   output_window_append(ftc_client, vertext);
 }

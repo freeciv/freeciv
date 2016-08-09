@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -114,6 +114,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   struct section_file *file;
   int nservers, i, j;
   const char *latest_ver;
+  const char *comment;
 
   /* This call closes f. */
   if (!(file = secfile_from_stream(f, TRUE))) {
@@ -121,13 +122,14 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   }
 
   latest_ver = secfile_lookup_str_default(file, NULL, "versions." FOLLOWTAG);
+  comment = secfile_lookup_str_default(file, NULL, "version_comments." FOLLOWTAG);
 
   if (latest_ver != NULL) {
     const char *my_comparable = fc_comparable_version();
     char vertext[2048];
 
-    log_verbose("Metaserver says latest '%s' version is '%s'; we have '%s'",
-                FOLLOWTAG, latest_ver, my_comparable);
+    log_verbose("Metaserver says latest '" FOLLOWTAG "' version is '%s'; we have '%s'",
+                latest_ver, my_comparable);
     if (cvercmp_greater(latest_ver, my_comparable)) {
       const char *const followtag = "?vertag:" FOLLOWTAG;
       fc_snprintf(vertext, sizeof(vertext),
@@ -136,13 +138,20 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                    * '?vertag:') */
                   _("Latest %s release of Freeciv is %s, this is %s."),
                   Q_(followtag), latest_ver, my_comparable);
-    } else {
+
+      version_message(vertext);
+    } else if (comment == NULL) {
       fc_snprintf(vertext, sizeof(vertext),
                   _("There is no newer %s release of Freeciv available."),
                   FOLLOWTAG);
-    }
 
-    version_message(vertext);
+      version_message(vertext);
+    }
+  }
+
+  if (comment != NULL) {
+    log_verbose("Mesaserver comment about '" FOLLOWTAG "': %s", comment);
+    version_message(comment);
   }
 
   server_list = server_list_new();

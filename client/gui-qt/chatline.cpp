@@ -558,7 +558,7 @@ void clear_output_window(void)
 /**************************************************************************
   Got version message from metaserver thread.
 **************************************************************************/
-void qtg_version_message(char *vertext)
+void qtg_version_message(const char *vertext)
 {
   /* FIXME - this will crash at some point - event will come 
    * later with non existent pointer
