@@ -45,6 +45,7 @@ struct server_arguments {
   char *script_filename;
   char *saves_pathname;
   char *scenarios_pathname;
+  char *ruleset;
   char serverid[256];
   /* quit if there no players after a given time interval */
   int quitidle;

@@ -292,6 +292,8 @@ int main(int argc, char *argv[])
       srvarg.saves_pathname = option;
     } else if ((option = get_option_malloc("--scenarios", argv, &inx, argc, TRUE))) {
       srvarg.scenarios_pathname = option;
+    } else if ((option = get_option_malloc("--ruleset", argv, &inx, argc, TRUE))) {
+      srvarg.ruleset = option;
     } else if (is_option("--version", argv[inx])) {
       showvers = TRUE;
     } else if ((option = get_option_malloc("--Announce", argv, &inx, argc, FALSE))) {
@@ -438,6 +440,10 @@ int main(int argc, char *argv[])
                 /* TRANS: "Ranklog" is exactly what user must type, do not translate. */
                 _("Ranklog FILE"),
                 _("Use FILE as ranking logfile"));
+    cmdhelp_add(help, NULL,
+                /* TRANS: "ruleset" is exactly what user must type, do not translate. */
+                _("ruleset RULESET"),
+                _("Load ruleset RULESET"));
 #ifdef AI_MODULES
     cmdhelp_add(help, "L",
                 /* TRANS: "LoadAI" is exactly what user must type, do not translate. */

@@ -264,6 +264,7 @@ void srv_init(void)
   srvarg.script_filename = NULL;
   srvarg.saves_pathname = "";
   srvarg.scenarios_pathname = "";
+  srvarg.ruleset = NULL;
 
   srvarg.quitidle = 0;
 
@@ -2755,6 +2756,17 @@ static void srv_prepare(void)
     }
   }
 #endif /* HAVE_FCDB */
+
+  if (srvarg.ruleset != NULL) {
+    const char *testfilename;
+
+    testfilename = fileinfoname(get_data_dirs(), srvarg.ruleset);
+    if (testfilename == NULL) {
+      log_fatal(_("Ruleset directory \"%s\" not found"), srvarg.ruleset);
+      exit(EXIT_FAILURE);
+    }
+    sz_strlcpy(game.server.rulesetdir, srvarg.ruleset);
+  }
 
   /* load a saved game */
   if ('\0' == srvarg.load_filename[0]
