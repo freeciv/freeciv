@@ -6184,7 +6184,7 @@ static void menu_music_enable_callback(struct option *poption)
 {
   if (client_state() != C_S_RUNNING) {
     if (gui_options.sound_enable_menu_music) {
-      start_menu_music("music_start", NULL);
+      start_menu_music("music_menu", NULL);
     } else {
       stop_menu_music();
     }
