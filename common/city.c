@@ -3019,10 +3019,6 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
                           * possible size penalty */
   int waste_level = get_city_output_bonus(pcity, get_output_type(otype),
                                           EFT_OUTPUT_WASTE);
-  int waste_by_dist = get_city_output_bonus(pcity, get_output_type(otype),
-                                            EFT_OUTPUT_WASTE_BY_DISTANCE);
-  int waste_pct = get_city_output_bonus(pcity, get_output_type(otype), 
-                                        EFT_OUTPUT_WASTE_PCT);
   bool waste_all = FALSE;
 
   if (otype == O_TRADE) {
@@ -3049,39 +3045,46 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
 
   /* Distance-based waste.
    * Don't bother calculating if there's nothing left to lose. */
-  if (waste_by_dist > 0 && total_eft > 0) {
-    const struct city *gov_center = NULL;
-    int min_dist = FC_INFINITY;
+  if (total_eft > 0) {
+    int waste_by_dist = get_city_output_bonus(pcity, get_output_type(otype),
+                                              EFT_OUTPUT_WASTE_BY_DISTANCE);
+    if (waste_by_dist > 0) {
+      const struct city *gov_center = NULL;
+      int min_dist = FC_INFINITY;
 
-    /* Check the special case that city itself is gov center
-     * before expensive iteration through all cities. */
-    if (is_gov_center(pcity)) {
-      gov_center = pcity;
-      min_dist = 0;
-    } else {
-      city_list_iterate(city_owner(pcity)->cities, gc) {
-        /* Do not recheck current city */
-        if (gc != pcity && is_gov_center(gc)) {
-          int dist = real_map_distance(gc->tile, pcity->tile);
+      /* Check the special case that city itself is gov center
+       * before expensive iteration through all cities. */
+      if (is_gov_center(pcity)) {
+        gov_center = pcity;
+        min_dist = 0;
+      } else {
+        city_list_iterate(city_owner(pcity)->cities, gc) {
+          /* Do not recheck current city */
+          if (gc != pcity && is_gov_center(gc)) {
+            int dist = real_map_distance(gc->tile, pcity->tile);
 
-          if (dist < min_dist) {
-            gov_center = gc;
-            min_dist = dist;
+            if (dist < min_dist) {
+              gov_center = gc;
+              min_dist = dist;
+            }
           }
-        }
-      } city_list_iterate_end;
-    }
+        } city_list_iterate_end;
+      }
 
-    if (gov_center == NULL) {
-      waste_all = TRUE; /* no gov center - no income */
-    } else {
-      waste_level += waste_by_dist * min_dist;
+      if (gov_center == NULL) {
+        waste_all = TRUE; /* no gov center - no income */
+      } else {
+        waste_level += waste_by_dist * min_dist;
+      }
     }
   }
 
   if (waste_all) {
     penalty_waste = total_eft;
   } else {
+    int waste_pct = get_city_output_bonus(pcity, get_output_type(otype),
+                                          EFT_OUTPUT_WASTE_PCT);
+
     /* corruption/waste calculated only for the actually produced amount */
     if (waste_level > 0) {
       penalty_waste = total_eft * waste_level / 100;
