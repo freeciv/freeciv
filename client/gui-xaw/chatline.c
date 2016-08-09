@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,14 +23,20 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/AsciiText.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
-#include "packets.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
+#include "packets.h"
+
+/* client */
 #include "climisc.h"
+
+/* client/gui-xaw */
 #include "gui_main.h"
 #include "gui_stuff.h"
 
@@ -124,7 +130,7 @@ void clear_output_window(void)
 /**************************************************************************
   Got version message from metaserver thread.
 **************************************************************************/
-void version_message(char *vertext)
+void version_message(const char *vertext)
 {
   output_window_append(ftc_client, vertext);
 }

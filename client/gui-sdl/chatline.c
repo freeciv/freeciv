@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -893,7 +893,7 @@ bool popdown_conn_list_dialog(void)
 /**************************************************************************
   Got version message from metaserver thread.
 **************************************************************************/
-void version_message(char *vertext)
+void version_message(const char *vertext)
 {
   output_window_append(ftc_client, vertext);
 }

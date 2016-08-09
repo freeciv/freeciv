@@ -1479,7 +1479,7 @@ static gboolean version_message_main_thread(gpointer user_data)
 /**************************************************************************
   Got version message from metaserver thread.
 **************************************************************************/
-void version_message(char *vertext)
+void version_message(const char *vertext)
 {
   int len = strlen(vertext) + 1;
   char *persistent = fc_malloc(len);

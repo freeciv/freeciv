@@ -70,7 +70,7 @@ void ui_exit(void)
 /**************************************************************************
   Call version_message callback
 **************************************************************************/
-void version_message(char *vertext)
+void version_message(const char *vertext)
 {
   funcs.version_message(vertext);
 }
