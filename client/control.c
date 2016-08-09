@@ -3009,7 +3009,7 @@ void key_unit_connect(enum unit_activity activity,
 }
 
 /**************************************************************************
-  Handle user 'diplomatic actions' input
+  Handle user 'Do...' input
 **************************************************************************/
 void key_unit_action_select(void)
 {
