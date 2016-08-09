@@ -137,14 +137,14 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   if (build_points_left(wonder_city) 
       > utype_build_shield_cost(unit_type) * caravans) {
     struct impr_type *wonder = wonder_city->production.value.building;
-    int want = wonder_city->server.adv->building_want[improvement_index(wonder)];
+    adv_want want = wonder_city->server.adv->building_want[improvement_index(wonder)];
     int dist = city_data->distance_to_wonder_city /
                unit_type->move_rate;
 
     fc_assert_ret(VUT_IMPROVEMENT == wonder_city->production.kind);
 
     want /= MAX(dist, 1);
-    CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 
+    CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with " ADV_WANT_PRINTF, 
              utype_rule_name(unit_type),
              city_name_get(wonder_city),
              want);
@@ -178,7 +178,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 {
   struct player *pplayer = city_owner(pcity);
   struct unit_type *unit_type;
-  int want;
+  adv_want want;
   int income, bonus;
   int trade_routes;
   int max_routes;
@@ -407,7 +407,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   want -= utype_build_shield_cost(unit_type) * SHIELD_WEIGHTING / 150;
 
   CITY_LOG(LOG_DEBUG, pcity,
-           "want for trade route unit is %d (expected initial income %d)",
+           "want for trade route unit is " ADV_WANT_PRINTF " (expected initial income %d)",
            want,
            income);
 
@@ -448,7 +448,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
   /* Unit type with certain role */
   struct unit_type *settler_type;
   struct unit_type *founder_type;
-  int settler_want, founder_want;
+  adv_want settler_want, founder_want;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct adv_choice *choice = adv_new_choice();
 
@@ -470,7 +470,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(settler_type,
                                                     pplayer, O_FOOD)) {
     if (settler_want > 0) {
-      CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion %d", 
+      CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion " ADV_WANT_PRINTF, 
                settler_want);
       dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
                            UTYF_SETTLERS, settler_want, FALSE);
@@ -511,7 +511,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
                                                        pplayer, O_FOOD)) {
 
       if (founder_want > choice->want) {
-        CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d",
+        CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion " ADV_WANT_PRINTF,
                  founder_want);
         dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
                              action_get_role(ACTION_FOUND_CITY),
@@ -525,8 +525,8 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
          * if they are blockaded or in inland seas. */
         struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
-        CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
-                 " for a new boat (%d of %d free)",
+        CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion " ADV_WANT_PRINTF
+                 "and asks for a new boat (%d of %d free)",
                  -founder_want, ai->stats.available_boats, ai->stats.boats);
 
         /* First fill choice with founder information */
