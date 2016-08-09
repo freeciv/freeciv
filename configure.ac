@@ -535,12 +535,12 @@ AM_CONDITIONAL([AI_MOD_STATIC_STUB],
 [test "x$ai_mod_static_stub" = "xyes"])
 
 AC_ARG_WITH([default-ai],
-  AS_HELP_STRING([--with-default-ai], [default ai type [first static]]),
+  AS_HELP_STRING([--with-default-ai], [default ai type [first_static]]),
   [default_ai_set="${withval}"],
   [])
 
 AC_ARG_WITH([ai-lib],
-  AS_HELP_STRING([--with-ai-lib], [build in default AI code [if needed]]),
+  AS_HELP_STRING([--with-ai-lib], [build in default AI code [if_needed]]),
   [ai_mod_default_needed=yes], [])
 
 AM_CONDITIONAL([AI_MOD_DEFAULT_NEEDED],
@@ -769,7 +769,7 @@ fi
 
 dnl Check for bzip2 compression
 AC_ARG_WITH([libbz2],
-  AS_HELP_STRING([--with-libbz2], [support bzip2 compressed files [if possible]]),
+  AS_HELP_STRING([--with-libbz2], [support bzip2 compressed files [if_possible]]),
 [WITH_BZ2="${withval}"],
 [WITH_BZ2="test"])
 
@@ -789,7 +789,7 @@ fi
 
 dnl Check for xz compression
 AC_ARG_WITH([liblzma],
-  AS_HELP_STRING([--with-liblzma], [support xz compressed files [if possible]]),
+  AS_HELP_STRING([--with-liblzma], [support xz compressed files [if_possible]]),
 [WITH_XZ="${withval}"],
 [WITH_XZ="test"])
 
@@ -1445,7 +1445,7 @@ if test x$enable_fcdb = xyes ; then
 fi
 
 AC_ARG_ENABLE([sys-tolua-cmd],
-  AS_HELP_STRING([--enable-sys-tolua-cmd], [use tolua command from build system instead of one from freeciv tree [true when cross-compiling]]),
+  AS_HELP_STRING([--enable-sys-tolua-cmd], [use tolua command from build system instead of one from freeciv tree [true_when_cross-compiling]]),
 [case "${enableval}" in
   yes)
     sys_tolua_cmd=true ;;
