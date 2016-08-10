@@ -130,7 +130,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
                 "Non existence of wonder helper unit not caught");
 
   /* Check if wonder needs a little help. */
-  if (build_points_left(wonder_city) 
+  if (build_points_left(wonder_city)
       > utype_build_shield_cost(unit_type) * caravans) {
     struct impr_type *wonder = wonder_city->production.value.building;
     int want = wonder_city->server.adv->building_want[improvement_index(wonder)];
@@ -177,6 +177,8 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   int want;
   int income, bonus;
   int trade_routes;
+  int caravan_units;
+  int unassigned_caravans;
   int max_routes;
   Continent_id continent = tile_continent(pcity->tile);
   bool dest_city_found = FALSE;
@@ -278,8 +280,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   unit_type = best_role_unit(pcity, action_get_role(ACTION_TRADE_ROUTE));
 
   if (!unit_type) {
-    /* Can't establish trade route yet. What about entering a market
-     * place? */
+    /* Can't establish trade route yet. What about entering a marketplace? */
     /* TODO: Should a future unit capable of establishing trade routes be
      * prioritized above a present unit capable of entering a market place?
      * In that case this should be below the check for a future unit
@@ -295,7 +296,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 
   if (!unit_type) {
     /* We'll never be able to establish a trade route. Consider a unit that
-     * can enter the market place in stead to stimulate science. */
+     * can enter the marketplace in stead to stimulate science. */
     unit_type = get_role_unit(action_get_role(ACTION_MARKETPLACE), 0);
   }
 
@@ -304,13 +305,16 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 
   trade_routes = city_num_trade_routes(pcity);
   /* Count also caravans enroute to establish traderoutes */
+  caravan_units = 0;
   unit_list_iterate(pcity->units_supported, punit) {
     if (unit_can_do_action(punit, ACTION_TRADE_ROUTE)) {
-      trade_routes++;
+      caravan_units++;
     }
   } unit_list_iterate_end;
 
   max_routes = max_trade_routes(pcity);
+  unassigned_caravans = caravan_units - (max_routes - trade_routes);
+  trade_routes += caravan_units;
 
   /* We consider only initial benefit from establishing trade route.
    * We may actually get only initial benefit if both cities already
@@ -376,7 +380,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   if (pplayer->economic.science < 50 && trade_routes < max_routes
       && utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)) {
     want *=
-      (6 - pplayer->economic.science/10) * (6 - pplayer->economic.science/10);
+      (6 - pplayer->economic.science / 10) * (6 - pplayer->economic.science / 10);
   }
 
   if (trade_routes == 0 && max_routes > 0
@@ -390,6 +394,13 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   }
 
   want -= utype_build_shield_cost(unit_type) * SHIELD_WEIGHTING / 150;
+
+  /* Don't pile too many of them */
+  if (unassigned_caravans * 10 > want && want > 0) {
+    want = 1;
+  } else {
+    want -= unassigned_caravans * 10; /* Don't pile too many of them */
+  }
 
   CITY_LOG(LOG_DEBUG, pcity,
            "want for trade route unit is %d (expected initial income %d)",
