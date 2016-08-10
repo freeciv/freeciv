@@ -967,9 +967,12 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
     break;
   case HOVER_NONE:
   case HOVER_PARADROP:
+  case HOVER_ACT_SEL_TGT:
     fc_assert_msg(hover_state != HOVER_NONE, "Goto with HOVER_NONE?");
     fc_assert_msg(hover_state != HOVER_PARADROP,
                   "Goto with HOVER_PARADROP?");
+    fc_assert_msg(hover_state != HOVER_ACT_SEL_TGT,
+                  "Goto with HOVER_ACT_SEL_TGT?");
     break;
   };
 }

@@ -1261,6 +1261,10 @@ void control_mouse_cursor(struct tile *ptile)
     /* FIXME: check for invalid tiles. */
     mouse_cursor_type = CURSOR_PARADROP;
     break;
+  case HOVER_ACT_SEL_TGT:
+    /* Select a tile to target / find targets on. */
+    mouse_cursor_type = CURSOR_SELECT;
+    break;
   };
 
   update_mouse_cursor(mouse_cursor_type);
@@ -2622,6 +2626,22 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 }
 
 /**************************************************************************
+  An action selection dialog for the selected units against the specified
+  tile is wanted.
+**************************************************************************/
+static void do_unit_act_sel_vs(struct tile *ptile)
+{
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (utype_may_act_at_all(unit_type_get(punit))) {
+      /* Have the server record that an action decision is wanted for
+       * this unit against this tile. */
+      dsend_packet_unit_sscs_set(&client.conn, punit->id,
+                                 USSDT_QUEUE, tile_index(ptile));
+    }
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
  Handles everything when the user clicked a tile
 **************************************************************************/
 void do_map_click(struct tile *ptile, enum quickselect_type qtype)
@@ -2648,6 +2668,9 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     case HOVER_PATROL:
       do_unit_patrol_to(ptile);
       break;	
+    case HOVER_ACT_SEL_TGT:
+      do_unit_act_sel_vs(ptile);
+      break;
     }
 
     set_hover_state(NULL, HOVER_NONE,
@@ -2905,6 +2928,7 @@ void key_cancel_action(void)
     }
     /* else fall through: */
   case HOVER_PARADROP:
+  case HOVER_ACT_SEL_TGT:
     set_hover_state(NULL, HOVER_NONE,
                     ACTIVITY_LAST, NULL,
                     EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
@@ -3029,6 +3053,18 @@ void key_unit_action_select(void)
                                  USSDT_QUEUE, tile_index(ptile));
     }
   } unit_list_iterate_end;
+}
+
+/**************************************************************************
+  Have the user select what action the unit(s) in focus should perform to
+  the targets at the tile the user will specify by clicking on it.
+**************************************************************************/
+void key_unit_action_select_tgt(void)
+{
+  struct unit_list *punits = get_units_in_focus();
+
+  set_hover_state(punits, HOVER_ACT_SEL_TGT, ACTIVITY_LAST, NULL,
+                  EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
 }
 
 /**************************************************************************
