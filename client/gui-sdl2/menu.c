@@ -240,7 +240,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       popup_unit_disband_dlg(pUnit, FALSE);
       break;
     case ID_UNIT_ORDER_DIPLOMAT_DLG:
-      key_unit_action_select();
+      key_unit_action_select_tgt();
       break;
     case ID_UNIT_ORDER_NUKE:
       key_unit_nuke();
@@ -439,7 +439,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_NUKE, pBuf);
   /* --------- */
 
-  /* Act against own tile. */
+  /* Act against the specified tile. */
   /* TRANS: Button to bring up the action selection dialog. */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Do..."), "D");
   pBuf = create_themeicon(current_theme->OSpy_Icon, Main.gui,
@@ -1400,7 +1400,7 @@ void real_menus_update(void)
         }
       }
 
-     if (can_unit_act_against_own_tile(pUnit)) {
+     if (unit_can_do_action(pUnit, ACTION_ANY)) {
        local_show(ID_UNIT_ORDER_DIPLOMAT_DLG);
       } else {
        local_hide(ID_UNIT_ORDER_DIPLOMAT_DLG);
