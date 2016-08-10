@@ -18,6 +18,9 @@ summary = _("Small hex tiles")
 ; TODO: add more overall information fields on tiles, 
 ; eg, authors, colors, etc.
 
+; What is the primary ruleset this tileset is meant for.
+;for_ruleset = ""
+
 ; Basic tile sizes:
 normal_tile_width  = 40
 normal_tile_height = 72

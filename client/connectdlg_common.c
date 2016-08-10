@@ -225,6 +225,7 @@ bool client_start_server(void)
   char savesdir[MAX_LEN_PATH];
   char scensdir[MAX_LEN_PATH];
   char *storage;
+  char *ruleset;
 
 #if !defined(HAVE_USABLE_FORK)
   /* Above also implies that this is FREECIV_MSWINDOWS ->
@@ -232,8 +233,9 @@ bool client_start_server(void)
   STARTUPINFO si;
   PROCESS_INFORMATION pi;
 
-  char options[512];
+  char options[1024];
   char *depr;
+  char rsparam[256];
 #ifdef FREECIV_DEBUG
   char cmdline1[512];
 #ifndef FREECIV_WEB
@@ -284,10 +286,12 @@ bool client_start_server(void)
     return FALSE;
   }
 
+  ruleset = tileset_what_ruleset(tileset);
+
 #ifdef HAVE_USABLE_FORK
   {
     int argc = 0;
-    const int max_nargs = 23;
+    const int max_nargs = 25;
     char *argv[max_nargs + 1];
     char port_buf[32];
     char dbg_lvl_buf[32]; /* Do not move this inside the block where it gets filled,
@@ -335,6 +339,10 @@ bool client_start_server(void)
     }
     if (are_deprecation_warnings_enabled()) {
       argv[argc++] = "--warnings";
+    }
+    if (ruleset != NULL) {
+      argv[argc++] = "--ruleset";
+      argv[argc++] = ruleset;
     }
     argv[argc] = NULL;
     fc_assert(argc <= max_nargs);
@@ -469,12 +477,17 @@ bool client_start_server(void)
   } else {
     depr = "";
   }
+  if (ruleset != NULL) {
+    fc_snprintf(rsparam, sizeof(rsparam), " --ruleset %s", ruleset);
+  } else {
+    rsparam[0] = '\0';
+  }
 
   fc_snprintf(options, sizeof(options),
               "-p %d --bind localhost -q 1 -e%s%s%s --saves \"%s\" "
-              "--scenarios \"%s\" -A none %s",
+              "--scenarios \"%s\" -A none %s%s",
               internal_server_port, logcmdline, scriptcmdline, savefilecmdline,
-              savescmdline, scenscmdline, depr);
+              savescmdline, scenscmdline, rsparam, depr);
 #ifdef FREECIV_DEBUG
 #ifdef FREECIV_WEB
   fc_snprintf(cmdline1, sizeof(cmdline1),

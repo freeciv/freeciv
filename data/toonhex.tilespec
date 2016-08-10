@@ -21,6 +21,9 @@ summary = _("Tileset combining Hexemplio's terrains and Cimpletoon's units with 
 ; TODO: add more overall information fields on tiles, 
 ; eg, authors, colors, etc.
 
+; What is the primary ruleset this tileset is meant for.
+;for_ruleset = ""
+
 ; Basic tile sizes:
 normal_tile_width  = 126
 normal_tile_height = 64

@@ -462,6 +462,8 @@ struct tileset {
   char *summary;
   char *description;
 
+  char *for_ruleset;
+
   enum ts_type type;
   int hex_width, hex_height;
   int ts_topo_idx;
@@ -1168,6 +1170,10 @@ static void tileset_free_toplevel(struct tileset *t)
     free(t->description);
     t->description = NULL;
   }
+  if (t->for_ruleset != NULL) {
+    free(t->for_ruleset);
+    t->for_ruleset = NULL;
+  }
 }
 
 /**************************************************************************
@@ -1771,6 +1777,13 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
       free(t->description);
       t->description = NULL;
     }
+  }
+
+  tstr = secfile_lookup_str_default(file, NULL, "tilespec.for_ruleset");
+  if (tstr != NULL) {
+    t->for_ruleset = fc_strdup(tstr);
+  } else {
+    t->for_ruleset = NULL;
   }
 
   sz_strlcpy(t->name, tileset_name);
@@ -6754,6 +6767,14 @@ const char *tileset_summary(struct tileset *t)
 const char *tileset_description(struct tileset *t)
 {
   return t->description;
+}
+
+/****************************************************************************
+  Return what ruleset this tileset is primarily meant for
+****************************************************************************/
+char *tileset_what_ruleset(struct tileset *t)
+{
+  return t->for_ruleset;
 }
 
 /****************************************************************************
