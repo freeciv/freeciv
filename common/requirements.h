@@ -145,6 +145,7 @@ struct universal universal_by_number(const enum universals_n kind,
 				     const int value);
 struct universal universal_by_rule_name(const char *kind,
 					const char *value);
+void universal_value_from_str(struct universal *source, const char *value);
 void universal_extraction(const struct universal *source,
 			  int *kind, int *value);
 

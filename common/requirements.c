@@ -56,7 +56,7 @@ static universal_found universal_found_function[VUT_COUNT] = {NULL};
   FIXME: ensure that every caller checks error return!
 **************************************************************************/
 struct universal universal_by_rule_name(const char *kind,
-					const char *value)
+                                        const char *value)
 {
   struct universal source;
 
@@ -65,248 +65,259 @@ struct universal universal_by_rule_name(const char *kind,
     return source;
   }
 
+  universal_value_from_str(&source, value);
+
+  return source;
+}
+
+/**************************************************************************
+  Parse requirement value strings into a universal
+  structure.
+**************************************************************************/
+void universal_value_from_str(struct universal *source, const char *value)
+{
   /* Finally scan the value string based on the type of the source. */
-  switch (source.kind) {
+  switch (source->kind) {
   case VUT_NONE:
-    return source;
+    return;
   case VUT_ADVANCE:
-    source.value.advance = advance_by_rule_name(value);
-    if (source.value.advance != NULL) {
-      return source;
+    source->value.advance = advance_by_rule_name(value);
+    if (source->value.advance != NULL) {
+      return;
     }
     break;
   case VUT_TECHFLAG:
-    source.value.techflag
+    source->value.techflag
       = tech_flag_id_by_name(value, fc_strcasecmp);
-    if (tech_flag_id_is_valid(source.value.techflag)) {
-      return source;
+    if (tech_flag_id_is_valid(source->value.techflag)) {
+      return;
     }
     break;
   case VUT_GOVERNMENT:
-    source.value.govern = government_by_rule_name(value);
-    if (source.value.govern != NULL) {
-      return source;
+    source->value.govern = government_by_rule_name(value);
+    if (source->value.govern != NULL) {
+      return;
     }
     break;
   case VUT_ACHIEVEMENT:
-    source.value.achievement = achievement_by_rule_name(value);
-    if (source.value.achievement != NULL) {
-      return source;
+    source->value.achievement = achievement_by_rule_name(value);
+    if (source->value.achievement != NULL) {
+      return;
     }
     break;
   case VUT_STYLE:
-    source.value.style = style_by_rule_name(value);
-    if (source.value.style != NULL) {
-      return source;
+    source->value.style = style_by_rule_name(value);
+    if (source->value.style != NULL) {
+      return;
     }
     break;
   case VUT_IMPROVEMENT:
-    source.value.building = improvement_by_rule_name(value);
-    if (source.value.building != NULL) {
-      return source;
+    source->value.building = improvement_by_rule_name(value);
+    if (source->value.building != NULL) {
+      return;
     }
     break;
   case VUT_IMPR_GENUS:
-    source.value.impr_genus = impr_genus_id_by_name(value, fc_strcasecmp);
-    if (impr_genus_id_is_valid(source.value.impr_genus)) {
-      return source;
+    source->value.impr_genus = impr_genus_id_by_name(value, fc_strcasecmp);
+    if (impr_genus_id_is_valid(source->value.impr_genus)) {
+      return;
     }
     break;
   case VUT_EXTRA:
-    source.value.extra = extra_type_by_rule_name(value);
-    if (source.value.extra != NULL) {
-      return source;
+    source->value.extra = extra_type_by_rule_name(value);
+    if (source->value.extra != NULL) {
+      return;
     }
     break;
   case VUT_GOOD:
-    source.value.good = goods_by_rule_name(value);
-    if (source.value.good != NULL) {
-      return source;
+    source->value.good = goods_by_rule_name(value);
+    if (source->value.good != NULL) {
+      return;
     }
     break;
   case VUT_TERRAIN:
-    source.value.terrain = terrain_by_rule_name(value);
-    if (source.value.terrain != T_UNKNOWN) {
-      return source;
+    source->value.terrain = terrain_by_rule_name(value);
+    if (source->value.terrain != T_UNKNOWN) {
+      return;
     }
     break;
   case VUT_TERRFLAG:
-    source.value.terrainflag
+    source->value.terrainflag
       = terrain_flag_id_by_name(value, fc_strcasecmp);
-    if (terrain_flag_id_is_valid(source.value.terrainflag)) {
-      return source;
+    if (terrain_flag_id_is_valid(source->value.terrainflag)) {
+      return;
     }
     break;
   case VUT_NATION:
-    source.value.nation = nation_by_rule_name(value);
-    if (source.value.nation != NO_NATION_SELECTED) {
-      return source;
+    source->value.nation = nation_by_rule_name(value);
+    if (source->value.nation != NO_NATION_SELECTED) {
+      return;
     }
     break;
   case VUT_NATIONGROUP:
-    source.value.nationgroup = nation_group_by_rule_name(value);
-    if (source.value.nationgroup != NULL) {
-      return source;
+    source->value.nationgroup = nation_group_by_rule_name(value);
+    if (source->value.nationgroup != NULL) {
+      return;
     }
     break;
   case VUT_NATIONALITY:
-    source.value.nationality = nation_by_rule_name(value);
-    if (source.value.nationality != NO_NATION_SELECTED) {
-      return source;
+    source->value.nationality = nation_by_rule_name(value);
+    if (source->value.nationality != NO_NATION_SELECTED) {
+      return;
     }
     break;
   case VUT_DIPLREL:
-    source.value.diplrel = diplrel_by_rule_name(value);
-    if (source.value.diplrel != diplrel_other_invalid()) {
-      return source;
+    source->value.diplrel = diplrel_by_rule_name(value);
+    if (source->value.diplrel != diplrel_other_invalid()) {
+      return;
     }
     break;
   case VUT_UTYPE:
-    source.value.utype = unit_type_by_rule_name(value);
-    if (source.value.utype) {
-      return source;
+    source->value.utype = unit_type_by_rule_name(value);
+    if (source->value.utype) {
+      return;
     }
     break;
   case VUT_UTFLAG:
-    source.value.unitflag = unit_type_flag_id_by_name(value, fc_strcasecmp);
-    if (unit_type_flag_id_is_valid(source.value.unitflag)) {
-      return source;
+    source->value.unitflag = unit_type_flag_id_by_name(value, fc_strcasecmp);
+    if (unit_type_flag_id_is_valid(source->value.unitflag)) {
+      return;
     }
     break;
   case VUT_UCLASS:
-    source.value.uclass = unit_class_by_rule_name(value);
-    if (source.value.uclass) {
-      return source;
+    source->value.uclass = unit_class_by_rule_name(value);
+    if (source->value.uclass) {
+      return;
     }
     break;
   case VUT_UCFLAG:
-    source.value.unitclassflag
+    source->value.unitclassflag
       = unit_class_flag_id_by_name(value, fc_strcasecmp);
-    if (unit_class_flag_id_is_valid(source.value.unitclassflag)) {
-      return source;
+    if (unit_class_flag_id_is_valid(source->value.unitclassflag)) {
+      return;
     }
     break;
   case VUT_MINVETERAN:
-    source.value.minveteran = atoi(value);
-    if (source.value.minveteran > 0) {
-      return source;
+    source->value.minveteran = atoi(value);
+    if (source->value.minveteran > 0) {
+      return;
     }
     break;
   case VUT_UNITSTATE:
-    source.value.unit_state = ustate_prop_by_name(value, fc_strcasecmp);
-    if (ustate_prop_is_valid(source.value.unit_state)) {
-      return source;
+    source->value.unit_state = ustate_prop_by_name(value, fc_strcasecmp);
+    if (ustate_prop_is_valid(source->value.unit_state)) {
+      return;
     }
     break;
   case VUT_MINMOVES:
-    source.value.minmoves = atoi(value);
-    if (source.value.minmoves > 0) {
-      return source;
+    source->value.minmoves = atoi(value);
+    if (source->value.minmoves > 0) {
+      return;
     }
     break;
   case VUT_MINHP:
-    source.value.min_hit_points = atoi(value);
-    if (source.value.min_hit_points > 0) {
-      return source;
+    source->value.min_hit_points = atoi(value);
+    if (source->value.min_hit_points > 0) {
+      return;
     }
     break;
   case VUT_AGE:
-    source.value.age = atoi(value);
-    if (source.value.age > 0) {
-      return source;
+    source->value.age = atoi(value);
+    if (source->value.age > 0) {
+      return;
     }
     break;
   case VUT_MINTECHS:
-    source.value.min_techs = atoi(value);
-    if (source.value.min_techs > 0) {
-      return source;
+    source->value.min_techs = atoi(value);
+    if (source->value.min_techs > 0) {
+      return;
     }
   case VUT_ACTION:
-    source.value.action = action_by_rule_name(value);
-    if (source.value.action != NULL) {
-      return source;
+    source->value.action = action_by_rule_name(value);
+    if (source->value.action != NULL) {
+      return;
     }
     break;
   case VUT_OTYPE:
-    source.value.outputtype = output_type_by_identifier(value);
-    if (source.value.outputtype != O_LAST) {
-      return source;
+    source->value.outputtype = output_type_by_identifier(value);
+    if (source->value.outputtype != O_LAST) {
+      return;
     }
     break;
   case VUT_SPECIALIST:
-    source.value.specialist = specialist_by_rule_name(value);
-    if (source.value.specialist) {
-      return source;
+    source->value.specialist = specialist_by_rule_name(value);
+    if (source->value.specialist) {
+      return;
     }
   case VUT_MINSIZE:
-    source.value.minsize = atoi(value);
-    if (source.value.minsize > 0) {
-      return source;
+    source->value.minsize = atoi(value);
+    if (source->value.minsize > 0) {
+      return;
     }
     break;
   case VUT_MINCULTURE:
-    source.value.minculture = atoi(value);
-    if (source.value.minculture > 0) {
-      return source;
+    source->value.minculture = atoi(value);
+    if (source->value.minculture > 0) {
+      return;
     }
     break;
   case VUT_AI_LEVEL:
-    source.value.ai_level = ai_level_by_name(value, fc_strcasecmp);
-    if (ai_level_is_valid(source.value.ai_level)) {
-      return source;
+    source->value.ai_level = ai_level_by_name(value, fc_strcasecmp);
+    if (ai_level_is_valid(source->value.ai_level)) {
+      return;
     }
     break;
   case VUT_MAXTILEUNITS:
-    source.value.max_tile_units = atoi(value);
-    if (0 <= source.value.max_tile_units) {
-      return source;
+    source->value.max_tile_units = atoi(value);
+    if (0 <= source->value.max_tile_units) {
+      return;
     }
     break;
   case VUT_TERRAINCLASS:
-    source.value.terrainclass
+    source->value.terrainclass
       = terrain_class_by_name(value, fc_strcasecmp);
-    if (terrain_class_is_valid(source.value.terrainclass)) {
-      return source;
+    if (terrain_class_is_valid(source->value.terrainclass)) {
+      return;
     }
     break;
   case VUT_BASEFLAG:
-    source.value.baseflag = base_flag_id_by_name(value, fc_strcasecmp);
-    if (base_flag_id_is_valid(source.value.baseflag)) {
-      return source;
+    source->value.baseflag = base_flag_id_by_name(value, fc_strcasecmp);
+    if (base_flag_id_is_valid(source->value.baseflag)) {
+      return;
     }
     break;
   case VUT_ROADFLAG:
-    source.value.roadflag = road_flag_id_by_name(value, fc_strcasecmp);
-    if (road_flag_id_is_valid(source.value.roadflag)) {
-      return source;
+    source->value.roadflag = road_flag_id_by_name(value, fc_strcasecmp);
+    if (road_flag_id_is_valid(source->value.roadflag)) {
+      return;
     }
     break;
   case VUT_EXTRAFLAG:
-    source.value.extraflag = extra_flag_id_by_name(value, fc_strcasecmp);
-    if (extra_flag_id_is_valid(source.value.extraflag)) {
-      return source;
+    source->value.extraflag = extra_flag_id_by_name(value, fc_strcasecmp);
+    if (extra_flag_id_is_valid(source->value.extraflag)) {
+      return;
     }
     break;
   case VUT_MINYEAR:
-    source.value.minyear = atoi(value);
-    return source;
+    source->value.minyear = atoi(value);
+    return;
   case VUT_TOPO:
-    source.value.topo_property = topo_flag_by_name(value, fc_strcasecmp);
-    if (topo_flag_is_valid(source.value.topo_property)) {
-      return source;
+    source->value.topo_property = topo_flag_by_name(value, fc_strcasecmp);
+    if (topo_flag_is_valid(source->value.topo_property)) {
+      return;
     }
     break;
   case VUT_TERRAINALTER:
-    source.value.terrainalter
+    source->value.terrainalter
       = terrain_alteration_by_name(value, fc_strcasecmp);
-    if (terrain_alteration_is_valid(source.value.terrainalter)) {
-      return source;
+    if (terrain_alteration_is_valid(source->value.terrainalter)) {
+      return;
     }
     break;
   case VUT_CITYTILE:
-    source.value.citytile = citytile_type_by_name(value, fc_strcasecmp);
-    if (source.value.citytile != CITYT_LAST) {
-      return source;
+    source->value.citytile = citytile_type_by_name(value, fc_strcasecmp);
+    if (source->value.citytile != CITYT_LAST) {
+      return;
     }
     break;
   case VUT_COUNT:
@@ -314,8 +325,7 @@ struct universal universal_by_rule_name(const char *kind,
   }
 
   /* If we reach here there's been an error. */
-  source.kind = universals_n_invalid();
-  return source;
+  source->kind = universals_n_invalid();
 }
 
 /**************************************************************************
