@@ -521,6 +521,7 @@ bool get_turn_done_button_state(void)
 {
   return (can_client_issue_orders()
           && is_human(client.conn.playing)
+          && client.conn.playing->is_alive
           && !client.conn.playing->phase_done
           && !is_server_busy()
           && is_player_phase(client.conn.playing, game.info.phase)
