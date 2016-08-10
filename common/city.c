@@ -3048,6 +3048,8 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
   if (total_eft > 0) {
     int waste_by_dist = get_city_output_bonus(pcity, get_output_type(otype),
                                               EFT_OUTPUT_WASTE_BY_DISTANCE);
+    int waste_by_rel_dist = get_city_output_bonus(pcity, get_output_type(otype),
+                                                  EFT_OUTPUT_WASTE_BY_REL_DISTANCE);
     if (waste_by_dist > 0) {
       const struct city *gov_center = NULL;
       int min_dist = FC_INFINITY;
@@ -3075,6 +3077,9 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
         waste_all = TRUE; /* no gov center - no income */
       } else {
         waste_level += waste_by_dist * min_dist;
+        if (waste_by_rel_dist > 0) {
+          waste_level += waste_by_rel_dist * min_dist / MAX(wld.map.xsize, wld.map.ysize);
+        }
       }
     }
   }

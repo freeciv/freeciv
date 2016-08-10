@@ -181,6 +181,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_OUTPUT_PER_TILE:
   case EFT_OUTPUT_WASTE:
   case EFT_OUTPUT_WASTE_BY_DISTANCE:
+  case EFT_OUTPUT_WASTE_BY_REL_DISTANCE:
   case EFT_OUTPUT_WASTE_PCT:
   case EFT_SPECIALIST_OUTPUT:
   case EFT_ENEMY_CITIZEN_UNHAPPY_PCT:
