@@ -958,6 +958,23 @@ static int attack_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Paradrop Unit"
+*****************************************************************/
+static int paradrop_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_PARADROP,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/****************************************************************
   User clicked "Disband Unit"
 *****************************************************************/
 static int disband_unit_callback(struct widget *pWidget)
@@ -984,6 +1001,27 @@ static int home_city_callback(struct widget *pWidget)
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
       request_do_action(ACTION_HOME_CITY,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0, "");
+    }
+
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/****************************************************************
+  User clicked "Airlift Unit"
+*****************************************************************/
+static int airlift_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])
+        && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
+      request_do_action(ACTION_AIRLIFT,
                         pDiplomat_Dlg->actor_unit_id,
                         pDiplomat_Dlg->target_ids[ATK_CITY],
                         0, "");
@@ -1048,6 +1086,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_DESTROY_CITY] = destroy_city_callback,
   [ACTION_RECYCLE_UNIT] = unit_recycle_callback,
   [ACTION_HOME_CITY] = home_city_callback,
+  [ACTION_AIRLIFT] = airlift_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,
@@ -1061,6 +1100,7 @@ static const act_func af_map[ACTION_COUNT] = {
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = found_city_callback,
   [ACTION_NUKE] = nuke_callback,
+  [ACTION_PARADROP] = paradrop_callback,
   [ACTION_ATTACK] = attack_callback,
 
   /* Unit acting with no target except itself. */
