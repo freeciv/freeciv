@@ -251,6 +251,9 @@ void update_unit_info_label(struct unit_list *punitlist)
     case HOVER_PARADROP:
       XDefineCursor(display, XtWindow(map_canvas), cursors[CURSOR_PARADROP]);
       break;
+    case HOVER_ACT_SEL_TGT:
+      XDefineCursor(display, XtWindow(map_canvas), cursors[CURSOR_SELECT]);
+      break;
     }
   } else {
     xaw_set_label(unit_info_label, "");

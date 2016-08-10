@@ -28,7 +28,8 @@ enum cursor_hover_state {
   HOVER_NUKE,
   HOVER_PARADROP,
   HOVER_CONNECT,
-  HOVER_PATROL
+  HOVER_PATROL,
+  HOVER_ACT_SEL_TGT
 };
 
 /* Selecting unit from a stack without popup. */
@@ -228,6 +229,7 @@ void key_unit_build_wonder(void);
 void key_unit_connect(enum unit_activity activity,
                       struct extra_type *tgt);
 void key_unit_action_select(void);
+void key_unit_action_select_tgt(void);
 void key_unit_convert(void);
 void key_unit_done(void);
 void key_unit_fallout(void);
