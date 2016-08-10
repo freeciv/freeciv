@@ -1744,7 +1744,15 @@ static void unit_lost_with_transport(const struct player *pplayer,
                 _("%s lost when %s was lost."),
                 unit_tile_link(pcargo),
                 utype_name_translation(ptransport));
-  wipe_unit_full(pcargo, TRUE, ULR_TRANSPORT_LOST, killer);
+  /* Unit is not transported any more at this point, but it has jumped
+   * off the transport and drowns outside. So it must be removed from
+   * all clients.
+   * However, we don't know if given client has received ANY updates
+   * about the swimming unit, and we can't remove it if it's not there
+   * in the first place -> we send it once here just to be sure it's
+   * there. */
+  send_unit_info(NULL, pcargo);
+  wipe_unit_full(pcargo, FALSE, ULR_TRANSPORT_LOST, killer);
 }
 
 /****************************************************************************
@@ -1791,7 +1799,11 @@ static void wipe_unit_full(struct unit *punit, bool transported,
       }
 
       /* Could use unit_transport_unload_send here, but that would
-       * call send_unit_info for the transporter unnecessarily. */
+       * call send_unit_info for the transporter unnecessarily.
+       * Note that this means that unit might to get seen briefly
+       * by clients other than owner's, for example as a result of
+       * update of homecity common to this cargo and some other
+       * destroyed unit. */
       unit_transport_unload(pcargo);
       if (pcargo->activity == ACTIVITY_SENTRY) {
         /* Activate sentried units - like planes on a disbanded carrier.
