@@ -3058,10 +3058,27 @@ void key_unit_action_select(void)
 /**************************************************************************
   Have the user select what action the unit(s) in focus should perform to
   the targets at the tile the user will specify by clicking on it.
+
+  Will stop asking for a target tile and have each actor unit act against
+  its own tile if called twice.
 **************************************************************************/
 void key_unit_action_select_tgt(void)
 {
   struct unit_list *punits = get_units_in_focus();
+
+  if (hover_state == HOVER_ACT_SEL_TGT) {
+    /* The 2nd key press means that the actor should target its own
+     * tile. */
+    key_unit_action_select();
+
+    /* Target tile selected. Clean up hover state. */
+    set_hover_state(NULL, HOVER_NONE,
+                    ACTIVITY_LAST, NULL,
+                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
+    update_unit_info_label(punits);
+
+    return;
+  }
 
   set_hover_state(punits, HOVER_ACT_SEL_TGT, ACTIVITY_LAST, NULL,
                   EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
