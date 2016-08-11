@@ -2694,6 +2694,10 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
                     "is greater than the unit's range (%i)."),
                   distance, range);
     return FALSE;
+  } else if (distance < 1) {
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                  _("Already here."));
+    return FALSE;
   }
 
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
