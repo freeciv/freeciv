@@ -915,7 +915,7 @@ bool city_change_size(struct city *pcity, citizens size,
 {
   int change = size - city_size_get(pcity);
 
-  fc_assert_ret_val(size >= 0 && size <= MAX_CITY_SIZE, TRUE);
+  fc_assert_ret_val(size <= MAX_CITY_SIZE, TRUE);
 
   if (change != 0 && reason != NULL) {
     script_server_signal_emit("city_size_change", 3,
