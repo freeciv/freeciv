@@ -173,7 +173,8 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
 bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
                                          const struct unit *actor_unit,
                                          const struct city *target_city,
-                                         const struct city *homecity);
+                                         const struct city *homecity,
+                                         bool ignore_dist);
 
 bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
