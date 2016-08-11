@@ -66,6 +66,7 @@ the earth. If your Leader dies you lose he game.)\n\
 in the source and in the destination city.\n\
 - Cities that know Flight can airlift one (light weight) unit per turn. An \
 Airport allows a city to airlift one more unit per turn.\n\
+- Default minimum distance between cities is 3.\n\
 \n\
 This ruleset is still in development. If playing it makes you think that \
 a rule should change go to the Freeciv-web board at \
@@ -1066,4 +1067,5 @@ set =
     "maxplayers", 32, TRUE
     "startunits", "ccwwxk", FALSE
     "killstack", "disabled", FALSE
+    "citymindist", 3, FALSE
   }
