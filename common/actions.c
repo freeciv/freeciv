@@ -1251,7 +1251,8 @@ is_action_possible(const enum gen_action wanted_action,
                    const struct output_type *target_output,
                    const struct specialist *target_specialist,
                    const bool omniscient,
-                   const struct city *homecity)
+                   const struct city *homecity,
+                   bool ignore_dist)
 {
   bool can_see_tgt_unit;
   bool can_see_tgt_tile;
@@ -1283,14 +1284,13 @@ is_action_possible(const enum gen_action wanted_action,
                       || plr_sees_tile(actor_player, target_tile));
 
   /* Info leak: The player knows where his unit is. */
-  if (action_get_target_kind(wanted_action) != ATK_SELF) {
-    if (!action_id_distance_accepted(wanted_action,
-                                    real_map_distance(actor_tile,
-                                                      target_tile))) {
-      /* The distance between the actor and the target isn't inside the
-       * action's accepted range. */
-      return TRI_NO;
-    }
+  if (!ignore_dist && action_get_target_kind(wanted_action) != ATK_SELF
+      && !action_id_distance_accepted(wanted_action,
+                                      real_map_distance(actor_tile,
+                                                        target_tile))) {
+    /* The distance between the actor and the target isn't inside the
+     * action's accepted range. */
+    return TRI_NO;
   }
 
   if (action_get_target_kind(wanted_action) == ATK_UNIT) {
@@ -1717,7 +1717,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
 			      const struct unit_type *target_unittype,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist,
-                              const struct city *homecity)
+                              const struct city *homecity, bool ignore_dist)
 {
   enum fc_tristate possible;
 
@@ -1730,7 +1730,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
                                 target_building, target_tile,
                                 target_unit, target_unittype,
                                 target_output, target_specialist,
-                                TRUE, homecity);
+                                TRUE, homecity, ignore_dist);
 
   if (possible != TRI_YES) {
     /* This context is omniscient. Should be yes or no. */
@@ -1771,7 +1771,8 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
 {
   return is_action_enabled_unit_on_city_full(wanted_action, actor_unit,
                                              target_city,
-                                             game_city_by_number(actor_unit->homecity));
+                                             game_city_by_number(actor_unit->homecity),
+                                             FALSE);
 }
 
 /**************************************************************************
@@ -1783,7 +1784,8 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
 bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
                                          const struct unit *actor_unit,
                                          const struct city *target_city,
-                                         const struct city *homecity)
+                                         const struct city *homecity,
+                                         bool ignore_dist)
 {
   struct tile *actor_tile = unit_tile(actor_unit);
   struct impr_type *target_building;
@@ -1823,7 +1825,8 @@ bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
                            NULL, NULL,
                            city_owner(target_city), target_city,
                            target_building, city_tile(target_city),
-                           NULL, target_utype, NULL, NULL, homecity);
+                           NULL, target_utype, NULL, NULL, homecity,
+                           ignore_dist);
 }
 
 /**************************************************************************
@@ -1872,7 +1875,8 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                            unit_tile(target_unit),
                            target_unit, unit_type_get(target_unit),
                            NULL, NULL,
-                           game_city_by_number(actor_unit->homecity));
+                           game_city_by_number(actor_unit->homecity),
+                           FALSE);
 }
 
 /**************************************************************************
@@ -1925,7 +1929,7 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
                            tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit),
                            target_unit, unit_type_get(target_unit),
-                           NULL, NULL, homecity)) {
+                           NULL, NULL, homecity, FALSE)) {
       /* One unit makes it impossible for all units. */
       return FALSE;
     }
@@ -1978,7 +1982,8 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                            NULL, NULL,
                            tile_owner(target_tile), NULL, NULL,
                            target_tile, NULL, NULL, NULL, NULL,
-                           game_city_by_number(actor_unit->homecity));
+                           game_city_by_number(actor_unit->homecity),
+                           FALSE);
 }
 
 /**************************************************************************
@@ -2023,7 +2028,7 @@ bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                           game_city_by_number(actor_unit->homecity));
+                           game_city_by_number(actor_unit->homecity), FALSE);
 }
 
 /**************************************************************************
@@ -2323,7 +2328,7 @@ action_prob(const enum gen_action wanted_action,
                              target_building, target_tile,
                              target_unit, target_unittype,
                              target_output, target_specialist,
-                             FALSE, homecity);
+                             FALSE, homecity, FALSE);
 
   if (known == TRI_NO) {
     /* The action enablers are irrelevant since the action it self is
