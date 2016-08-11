@@ -1584,7 +1584,7 @@ Unit Orders:\n\
   b: (b)uild city  (settler units)\n\
   b: help (b)uild wonder  (caravan units)\n\
   B: go to and (B)uild city on target tile  (settler units)\n\
-  d: (d)o an action to a target on this tile.\n\
+  d: (d)o an action to the selected tile (press twice to target own tile)\n\
   D: (D)isband unit\n\
   E: build airbas(e)  (airbase units)\n\
   f: (f)ortify unit  (military units)\n\
