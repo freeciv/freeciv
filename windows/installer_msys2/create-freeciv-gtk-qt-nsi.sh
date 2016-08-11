@@ -169,7 +169,7 @@ SectionGroup "Additional languages (translation %)"
 EOF
 
 cat ../../bootstrap/langstat_core.txt |
-sort -k 2 |
+sort -k 1 |
 while read -r code prct name
 do
 if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
@@ -229,7 +229,7 @@ Start Menu shortcut properties."
 EOF
 
   cat ../../bootstrap/langstat_core.txt |
-  sort -k 2 |
+  sort -k 1 |
   while read -r code prct name
   do
   if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
