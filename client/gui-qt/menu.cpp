@@ -1917,7 +1917,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case ORDER_DIPLOMAT_DLG:
-        if (can_units_act_against_own_tile(punits)) {
+        if (units_can_do_action(punits, ACTION_ANY, TRUE)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2147,7 +2147,7 @@ void mr_menu::slot_explode_nuclear()
 ***************************************************************************/
 void mr_menu::slot_action()
 {
-  key_unit_action_select();
+  key_unit_action_select_tgt();
 }
 
 
