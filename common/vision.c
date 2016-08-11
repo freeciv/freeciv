@@ -134,7 +134,6 @@ citizens vision_site_size_get(const struct vision_site *psite)
 void vision_site_size_set(struct vision_site *psite, citizens size)
 {
   fc_assert_ret(psite != NULL);
-  fc_assert_ret(size <= MAX_CITY_SIZE);
 
   psite->size = size;
 }
