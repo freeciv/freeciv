@@ -2336,7 +2336,6 @@ static void citizen_base_mood(struct city *pcity)
    * specialists or angry are unhappy. This is changed by luxuries and 
    * buildings later. */
   *unhappy = (size - spes - *content - *angry);
-  fc_assert_action(*unhappy >= 0, *unhappy = 0);
 
   /* No one is born happy. */
   *happy = 0;
