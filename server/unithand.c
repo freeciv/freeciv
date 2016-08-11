@@ -110,6 +110,10 @@ enum ane_kind {
   ANEK_TGT_IS_CLAIMED,
   /* Explanation: can't be done to unclaimed target tiles. */
   ANEK_TGT_IS_UNCLAIMED,
+  /* Explanation: can't be done because target is too near. */
+  ANEK_DISTANCE_NEAR,
+  /* Explanation: can't be done because target is too far away. */
+  ANEK_DISTANCE_FAR,
   /* Explanation: actor can't reach unit at target. */
   ANEK_TGT_UNREACHABLE,
   /* Explanation: the action is disabled in this scenario. */
@@ -147,6 +151,9 @@ struct ane_expl {
 
     /* The action that blocks the action. */
     struct action *blocker;
+
+    /* The required distance. */
+    int distance;
   };
 };
 
@@ -942,6 +949,34 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                              CITYT_CLAIMED,
                                              FALSE)) {
     explnat->kind = ANEK_TGT_IS_UNCLAIMED;
+  } else if (action_id_is_valid(action_id) && punit
+             && ((target_tile
+                  && real_map_distance(unit_tile(punit), target_tile)
+                      > action_by_number(action_id)->max_distance)
+                 || (target_city
+                     && real_map_distance(unit_tile(punit),
+                                          city_tile(target_city))
+                        > action_by_number(action_id)->max_distance)
+                 || (target_unit
+                     && real_map_distance(unit_tile(punit),
+                                          unit_tile(target_unit))
+                        > action_by_number(action_id)->max_distance))) {
+    explnat->kind = ANEK_DISTANCE_FAR;
+    explnat->distance = action_by_number(action_id)->max_distance;
+  } else if (action_id_is_valid(action_id) && punit
+             && ((target_tile
+                  && real_map_distance(unit_tile(punit), target_tile)
+                      < action_by_number(action_id)->min_distance)
+                 || (target_city
+                     && real_map_distance(unit_tile(punit),
+                                          city_tile(target_city))
+                        < action_by_number(action_id)->min_distance)
+                 || (target_unit
+                     && real_map_distance(unit_tile(punit),
+                                          unit_tile(target_unit))
+                        < action_by_number(action_id)->min_distance))) {
+    explnat->kind = ANEK_DISTANCE_NEAR;
+    explnat->distance = action_by_number(action_id)->min_distance;
   } else if (target_city
              && (action_id == ACTION_JOIN_CITY
                  && action_actor_utype_hard_reqs_ok(ACTION_JOIN_CITY,
@@ -1121,6 +1156,14 @@ static void explain_why_no_action_enabled(struct unit *punit,
   case ANEK_TGT_IS_UNCLAIMED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit cannot act against unclaimed tiles."));
+    break;
+  case ANEK_DISTANCE_NEAR:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit is to near its target to act."));
+    break;
+  case ANEK_DISTANCE_FAR:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit is to far away from its target to act."));
     break;
   case ANEK_SCENARIO_DISABLED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1511,6 +1554,26 @@ void illegal_action_msg(struct player *pplayer,
                   event, ftc_server,
                   _("Your %s can't do %s to unclaimed tiles."),
                   unit_name_translation(actor),
+                  action_get_ui_name(stopped_action));
+    break;
+  case ANEK_DISTANCE_NEAR:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  PL_("Your %s must be at least %d tile away to do %s.",
+                      "Your %s must be at least %d tiles away to do %s.",
+                      explnat->distance),
+                  unit_name_translation(actor),
+                  explnat->distance,
+                  action_get_ui_name(stopped_action));
+    break;
+  case ANEK_DISTANCE_FAR:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  PL_("Your %s can't be more than %d tile away to do %s.",
+                      "Your %s can't be more than %d tiles away to do %s.",
+                      explnat->distance),
+                  unit_name_translation(actor),
+                  explnat->distance,
                   action_get_ui_name(stopped_action));
     break;
   case ANEK_SCENARIO_DISABLED:
