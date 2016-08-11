@@ -342,7 +342,7 @@ Actions done by a unit against a tile
 
 "Paradrop Unit"
  * UI name can be set using ui_paradrop_unit
- * the distance between actor and target is paratroopers_range or less
+ * the distance between actor and target is from 1 to paratroopers_range
  * the actor unit hasn't paradropped this turn
  * the actor unit has paratroopers_mr_req moves left
  * the actor unit isn't transporting another unit (!)
