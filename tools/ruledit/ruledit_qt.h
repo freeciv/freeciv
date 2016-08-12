@@ -1,4 +1,4 @@
-/*********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -82,9 +82,7 @@ class ruledit_gui : public QObject
     void launch_now();
 };
 
-bool ruledit_qt_setup(int argc, char **argv);
-int ruledit_qt_run();
-void ruledit_qt_close();
+int ruledit_qt_run(int argc, char **argv);
 void ruledit_qt_display_requirers(const char *msg, void *data);
 
 #endif // FC__RULEDIT_QT_H

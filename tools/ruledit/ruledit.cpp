@@ -101,10 +101,7 @@ int main(int argc, char **argv)
     i_am_tool();
 
     if (comments_load()) {
-
-      ruledit_qt_setup(ui_options, argv);
-      ruledit_qt_run();
-      ruledit_qt_close();
+      ruledit_qt_run(ui_options, argv);
 
       comments_free();
     } else {

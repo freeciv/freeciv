@@ -54,12 +54,13 @@ static ruledit_gui *gui;
 static QApplication *qapp;
 
 /**************************************************************************
-  Setup ruledit-qt gui.
+  Run ruledit-qt gui.
 **************************************************************************/
-bool ruledit_qt_setup(int argc, char **argv)
+int ruledit_qt_run(int argc, char **argv)
 {
   ruledit_main *main_window;
   QWidget *central;
+  int ret;
 
   qapp = new QApplication(argc, argv);
   central = new QWidget;
@@ -70,24 +71,12 @@ bool ruledit_qt_setup(int argc, char **argv)
   main_window->setCentralWidget(central);
   main_window->setVisible(true);
 
-  return true;
-}
+  ret = qapp->exec();
 
-/**************************************************************************
-  Execute ruledit-qt gui.
-**************************************************************************/
-int ruledit_qt_run()
-{
-  return qapp->exec();
-}
-
-/**************************************************************************
-  Close ruledit-qt gui.
-**************************************************************************/
-void ruledit_qt_close()
-{
   delete gui;
   delete qapp;
+
+  return ret;
 }
 
 /**************************************************************************
