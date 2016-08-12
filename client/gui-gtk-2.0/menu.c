@@ -1260,7 +1260,7 @@ static void do_pillage_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void diplomat_action_callback(GtkAction *action, gpointer data)
 {
-  key_unit_action_select();
+  key_unit_action_select_tgt();
 }
 
 /****************************************************************
@@ -2296,7 +2296,7 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "CONNECT_IRRIGATION", conn_possible);
 
   menus_set_sensitive(unit_group, "DIPLOMAT_ACTION",
-                      can_units_act_against_own_tile(punits));
+                      units_can_do_action(punits, ACTION_ANY, TRUE));
   menus_set_sensitive(unit_group, "EXPLODE_NUKE",
                       units_have_type_flag(punits, UTYF_NUCLEAR, TRUE));
 
