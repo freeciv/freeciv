@@ -99,9 +99,7 @@ int main(int argc, char **argv)
     game_init();
     i_am_server();
 
-    ruledit_qt_setup(ui_options, argv);
-    ruledit_qt_run();
-    ruledit_qt_close();
+    ruledit_qt_run(ui_options, argv);
   }
 
   registry_module_close();
