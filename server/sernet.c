@@ -497,7 +497,7 @@ enum server_events server_sniff_all_input(void)
   int max_desc;
   bool excepting;
   fd_set readfs, writefs, exceptfs;
-  struct timeval tv;
+  fc_timeval tv;
 #ifdef FREECIV_SOCKET_ZERO_NOT_STDIN
   char *bufptr;
 #endif
@@ -1439,7 +1439,7 @@ static void send_ping_times_to_all(void)
 static void get_lanserver_announcement(void)
 {
   fd_set readfs, exceptfs;
-  struct timeval tv;
+  fc_timeval tv;
   char msgbuf[128];
   struct data_in din;
   int type;
