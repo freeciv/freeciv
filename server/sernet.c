@@ -498,7 +498,7 @@ enum server_events server_sniff_all_input(void)
   int max_desc;
   bool excepting;
   fd_set readfs, writefs, exceptfs;
-  struct timeval tv;
+  fc_timeval tv;
 #ifdef SOCKET_ZERO_ISNT_STDIN
   char *bufptr;    
 #endif
@@ -1427,7 +1427,7 @@ static void get_lanserver_announcement(void)
   struct data_in din;
   int type;
   fd_set readfs, exceptfs;
-  struct timeval tv;
+  fc_timeval tv;
 
   if (with_ggz) {
     return;
