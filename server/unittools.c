@@ -3859,20 +3859,6 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 }
 
 /**************************************************************************
-  Returns TRUE iff punit currently don't have enough move fragments to
-  perform the specified action but will have it next turn.
-**************************************************************************/
-static bool should_wait_for_mp(struct unit *punit, int action_id)
-{
-  return !utype_may_act_move_frags(unit_type_get(punit),
-                                   action_id,
-                                   punit->moves_left)
-      && utype_may_act_move_frags(unit_type_get(punit),
-                                  action_id,
-                                  unit_move_rate(punit));
-}
-
-/**************************************************************************
   Returns the action id corresponding to the specified order id.
 **************************************************************************/
 static int order_to_action(struct unit *punit, enum unit_orders order)
@@ -3994,7 +3980,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       break;
     case ORDER_BUILD_WONDER:
     case ORDER_TRADE_ROUTE:
-      if (should_wait_for_mp(punit, order_to_action(punit, order.order))) {
+      if (action_mp_full_makes_legal(punit, order_to_action(punit, order.order))) {
         log_debug("  stopping. Not enough move points this turn");
         return TRUE;
       }

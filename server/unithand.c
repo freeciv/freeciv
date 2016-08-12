@@ -582,23 +582,6 @@ static struct player *need_war_player(const struct unit *actor,
 }
 
 /**************************************************************************
-  Returns TRUE if the specified action can't be done now but would have
-  been legal if the unit had full movement.
-**************************************************************************/
-static bool need_full_mp(const struct unit *actor, const int action_id)
-{
-  fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
-
-  /* Check if full movement points may enable the specified action. */
-  return !utype_may_act_move_frags(unit_type_get(actor),
-                                   action_id,
-                                   actor->moves_left)
-      && utype_may_act_move_frags(unit_type_get(actor),
-                                  action_id,
-                                  unit_move_rate(actor));
-}
-
-/**************************************************************************
   Returns TRUE iff the specified terrain type blocks the specified action.
 
   If the "action" is ACTION_ANY all actions are checked.
@@ -689,7 +672,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                 target_unit))) {
     explnat->kind = ANEK_NO_WAR;
     explnat->no_war_with = must_war_player;
-  } else if (need_full_mp(punit, action_id)) {
+  } else if (action_mp_full_makes_legal(punit, action_id)) {
     explnat->kind = ANEK_LOW_MP;
   } else {
     explnat->kind = ANEK_UNKNOWN;

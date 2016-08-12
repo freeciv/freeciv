@@ -214,6 +214,9 @@ bool is_action_possible_on_city(const enum gen_action action_id,
                                 const struct player *actor_player,
                                 const struct city* target_city);
 
+bool action_mp_full_makes_legal(const struct unit *actor,
+                                const int action_id);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

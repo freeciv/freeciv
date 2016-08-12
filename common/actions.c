@@ -23,6 +23,7 @@
 #include "city.h"
 #include "game.h"
 #include "map.h"
+#include "movement.h"
 #include "unit.h"
 #include "research.h"
 #include "tile.h"
@@ -1514,4 +1515,22 @@ bool is_action_possible_on_city(const enum gen_action action_id,
                             city_owner(target_city), target_city, NULL,
                             city_tile(target_city), NULL, NULL,
                             NULL, NULL);
+}
+
+/**************************************************************************
+  Returns TRUE if the specified action can't be done now but would have
+  been legal if the unit had full movement.
+**************************************************************************/
+bool action_mp_full_makes_legal(const struct unit *actor,
+                                const int action_id)
+{
+  fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
+
+  /* Check if full movement points may enable the specified action. */
+  return !utype_may_act_move_frags(unit_type_get(actor),
+                                   action_id,
+                                   actor->moves_left)
+      && utype_may_act_move_frags(unit_type_get(actor),
+                                  action_id,
+                                  unit_move_rate(actor));
 }
