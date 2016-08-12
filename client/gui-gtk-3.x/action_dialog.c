@@ -194,6 +194,23 @@ static void nuke_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected "Paradrop Unit" from the choice dialog
+*****************************************************************/
+static void paradrop_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(args->target_tile_id)) {
+    request_do_action(ACTION_PARADROP, args->actor_unit_id,
+                      args->target_tile_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected "Attack" from the choice dialog
 *****************************************************************/
 static void attack_callback(GtkWidget *w, gpointer data)
@@ -302,6 +319,23 @@ static void home_city_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_HOME_CITY, args->actor_unit_id,
+                      args->target_city_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
+  User selected "Airlift Unit" from choice dialog.
+*****************************************************************/
+static void airlift_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_AIRLIFT, args->actor_unit_id,
                       args->target_city_id, 0, "");
   }
 
@@ -1306,6 +1340,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_DESTROY_CITY] = (GCallback)destroy_city_callback,
   [ACTION_RECYCLE_UNIT] = (GCallback)recycle_unit_callback,
   [ACTION_HOME_CITY] = (GCallback)home_city_callback,
+  [ACTION_AIRLIFT] = (GCallback)airlift_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
@@ -1319,6 +1354,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
   [ACTION_NUKE] = (GCallback)nuke_callback,
+  [ACTION_PARADROP] = (GCallback)paradrop_callback,
   [ACTION_ATTACK] = (GCallback)attack_callback,
 
   /* Unit acting with no target except itself. */
