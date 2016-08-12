@@ -1210,47 +1210,6 @@ bool can_units_do_connect(struct unit_list *punits,
 }
 
 /**************************************************************************
-  Returns TRUE if the unit can do a generalized action against its own
-  tile. May contain false positives.
-**************************************************************************/
-bool can_unit_act_against_own_tile(struct unit *act_unit)
-{
-  if (!utype_may_act_at_all(unit_type_get(act_unit))) {
-    /* Not an actor unit. */
-    return FALSE;
-  }
-
-  action_iterate(act) {
-    if (action_maybe_possible_actor_unit(act, act_unit)) {
-      /* May be able to act. */
-      return TRUE;
-    }
-  } action_iterate_end;
-
-  /* No action against any kind of target possible. */
-  return FALSE;
-}
-
-/**************************************************************************
-  Returns TRUE if any of the units in the provided list can do a
-  generalized action against a target at its own tile.
-**************************************************************************/
-bool can_units_act_against_own_tile(struct unit_list *punits)
-{
-  unit_list_iterate(punits, punit) {
-    /* Can't return unless TRUE. Another unit may be able to act against a
-     * target at its won tile. */
-    if (can_unit_act_against_own_tile(punit)) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  /* No unit in the list were able to act against a target located at its
-   * own tile. */
-  return FALSE;
-}
-
-/**************************************************************************
   Initialize the action probability cache. Shouldn't be kept around
   permanently. Its data is quickly outdated.
 **************************************************************************/
