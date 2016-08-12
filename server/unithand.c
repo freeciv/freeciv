@@ -72,68 +72,6 @@
 
 #include "unithand.h"
 
-/* A category of reasons why an action isn't enabled. */
-enum ane_kind {
-  /* Explanation: wrong actor unit. */
-  ANEK_ACTOR_UNIT,
-  /* Explanation: the action is redundant vs this target. */
-  ANEK_BAD_TARGET,
-  /* Explanation: bad actor terrain. */
-  ANEK_BAD_TERRAIN_ACT,
-  /* Explanation: bad target terrain. */
-  ANEK_BAD_TERRAIN_TGT,
-  /* Explanation: being transported. */
-  ANEK_IS_TRANSPORTED,
-  /* Explanation: not being transported. */
-  ANEK_IS_NOT_TRANSPORTED,
-  /* Explanation: transports a cargo unit. */
-  ANEK_IS_TRANSPORTING,
-  /* Explanation: doesn't transport a cargo unit. */
-  ANEK_IS_NOT_TRANSPORTING,
-  /* Explanation: actor unit has a home city. */
-  ANEK_ACTOR_HAS_HOME_CITY,
-  /* Explanation: actor unit has no a home city. */
-  ANEK_ACTOR_HAS_NO_HOME_CITY,
-  /* Explanation: must declare war first. */
-  ANEK_NO_WAR,
-  /* Explanation: can't be done to domestic targets. */
-  ANEK_DOMESTIC,
-  /* Explanation: can't be done to foreign targets. */
-  ANEK_FOREIGN,
-  /* Explanation: not enough MP left. */
-  ANEK_LOW_MP,
-  /* Explanation: can't be done to city centers. */
-  ANEK_IS_CITY_CENTER,
-  /* Explanation: can't be done to non city centers. */
-  ANEK_IS_NOT_CITY_CENTER,
-  /* Explanation: can't be done to claimed target tiles. */
-  ANEK_TGT_IS_CLAIMED,
-  /* Explanation: can't be done to unclaimed target tiles. */
-  ANEK_TGT_IS_UNCLAIMED,
-  /* Explanation: can't be done because target is too near. */
-  ANEK_DISTANCE_NEAR,
-  /* Explanation: can't be done because target is too far away. */
-  ANEK_DISTANCE_FAR,
-  /* Explanation: actor can't reach unit at target. */
-  ANEK_TGT_UNREACHABLE,
-  /* Explanation: the action is disabled in this scenario. */
-  ANEK_SCENARIO_DISABLED,
-  /* Explanation: too close to a city. */
-  ANEK_CITY_TOO_CLOSE_TGT,
-  /* Explanation: the target city is too big. */
-  ANEK_CITY_TOO_BIG,
-  /* Explanation: the target city's population limit banned the action. */
-  ANEK_CITY_POP_LIMIT,
-  /* Explanation: the specified city don't have the needed capacity. */
-  ANEK_CITY_NO_CAPACITY,
-  /* Explanation: the target tile is unknown. */
-  ANEK_TGT_TILE_UNKNOWN,
-  /* Explanation: the action is blocked by another action. */
-  ANEK_ACTION_BLOCKS,
-  /* Explanation not detected. */
-  ANEK_UNKNOWN,
-};
-
 /* An explanation why an action isn't enabled. */
 struct ane_expl {
   /* The kind of reason why an action isn't enabled. */
@@ -1038,6 +976,25 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   }
 
   return explnat;
+}
+
+/**************************************************************************
+  Give the reason kind why an action isn't enabled.
+**************************************************************************/
+enum ane_kind action_not_enabled_reason(struct unit *punit,
+                                        enum gen_action action_id,
+                                        const struct tile *target_tile,
+                                        const struct city *target_city,
+                                        const struct unit *target_unit)
+{
+  struct ane_expl *explnat = expl_act_not_enabl(punit, action_id,
+                                                target_tile,
+                                                target_city, target_unit);
+  enum ane_kind out = explnat->kind;
+
+  free(explnat);
+
+  return out;
 }
 
 /**************************************************************************
