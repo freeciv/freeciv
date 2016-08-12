@@ -529,6 +529,13 @@ enum client_pages get_client_page(void)
   }
 }
 
+/****************************************************************************
+  Returns whether there's page switching already in progress.
+****************************************************************************/
+bool update_queue_is_switching_page(void)
+{
+  return update_queue_has_callback(set_client_page_callback);
+}
 
 /****************************************************************************
   Update the menus.
