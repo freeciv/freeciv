@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,13 +11,13 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
                           mapctrl.c  -  description
                              -------------------
     begin                : Thu Sep 05 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- **********************************************************************/
+***********************************************************************/
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
@@ -36,6 +36,7 @@
 #include "client_main.h"
 #include "climisc.h"
 #include "overview_common.h"
+#include "update_queue.h"
 
 /* client/gui-sdl */
 #include "citydlg.h"
@@ -2720,7 +2721,8 @@ void popdown_newcity_dialog(void)
 **************************************************************************/
 void set_turn_done_button_state(bool state)
 {
-  if (PAGE_GAME == get_current_client_page()) {
+  if (PAGE_GAME == get_current_client_page()
+      && !update_queue_is_switching_page()) {
     if (state) {
       set_wstate(pNew_Turn_Button, FC_WS_NORMAL);
     } else {
