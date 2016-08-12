@@ -946,6 +946,11 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                         > action_by_number(action_id)->max_distance))) {
     explnat->kind = ANEK_DISTANCE_FAR;
     explnat->distance = action_by_number(action_id)->max_distance;
+  } else if (action_id == ACTION_PARADROP && punit && target_tile
+             && real_map_distance(unit_tile(punit), target_tile)
+                > unit_type_get(punit)->paratroopers_range) {
+    explnat->kind = ANEK_DISTANCE_FAR;
+    explnat->distance = unit_type_get(punit)->paratroopers_range;
   } else if (action_id_is_valid(action_id) && punit
              && ((target_tile
                   && real_map_distance(unit_tile(punit), target_tile)

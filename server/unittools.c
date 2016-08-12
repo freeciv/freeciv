@@ -2713,17 +2713,6 @@ void do_explore(struct unit *punit)
 bool do_paradrop(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
-  int range, distance;
-
-  range = unit_type_get(punit)->paratroopers_range;
-  distance = real_map_distance(unit_tile(punit), ptile);
-  if (distance > range) {
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("The distance to the target (%i) "
-                    "is greater than the unit's range (%i)."),
-                  distance, range);
-    return FALSE;
-  }
 
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
     if (!can_unit_exist_at_tile(punit, ptile)
