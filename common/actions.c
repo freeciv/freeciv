@@ -1569,7 +1569,7 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_HOME_CITY:
     /* Reason: can't change to what is. */
     /* Info leak: The player knows his unit's current home city. */
-    if (homecity->id == target_city->id) {
+    if (homecity != NULL && homecity->id == target_city->id) {
       /* This is already the unit's home city. */
       return TRI_NO;
     }
