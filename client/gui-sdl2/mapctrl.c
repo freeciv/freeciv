@@ -42,6 +42,7 @@
 #include "client_main.h"
 #include "climisc.h"
 #include "overview_common.h"
+#include "update_queue.h"
 
 /* client/gui-sdl2 */
 #include "citydlg.h"
@@ -2913,7 +2914,8 @@ void popdown_newcity_dialog(void)
 **************************************************************************/
 void set_turn_done_button_state(bool state)
 {
-  if (PAGE_GAME == get_current_client_page()) {
+  if (PAGE_GAME == get_current_client_page()
+      && !update_queue_is_switching_page()) {
     if (state) {
       set_wstate(pNew_Turn_Button, FC_WS_NORMAL);
     } else {

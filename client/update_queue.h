@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -59,6 +59,8 @@ void update_queue_connect_processing_finished_full(int request_id,
                                                    void *data,
                                                    uq_free_fn_t
                                                    free_data_func);
+
+bool update_queue_is_switching_page(void);
 
 #ifdef __cplusplus
 }
