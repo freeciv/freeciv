@@ -3000,6 +3000,24 @@ bool action_maybe_possible_actor_unit(const int action_id,
 }
 
 /**************************************************************************
+  Returns TRUE if the specified action can't be done now but would have
+  been legal if the unit had full movement.
+**************************************************************************/
+bool action_mp_full_makes_legal(const struct unit *actor,
+                                const int action_id)
+{
+  fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
+
+  /* Check if full movement points may enable the specified action. */
+  return !utype_may_act_move_frags(unit_type_get(actor),
+                                   action_id,
+                                   actor->moves_left)
+      && utype_may_act_move_frags(unit_type_get(actor),
+                                  action_id,
+                                  unit_move_rate(actor));
+}
+
+/**************************************************************************
   Returns action auto performer rule slot number num so it can be filled.
 **************************************************************************/
 struct action_auto_perf *action_auto_perf_slot_number(const int num)

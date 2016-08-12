@@ -3900,20 +3900,6 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 }
 
 /**************************************************************************
-  Returns TRUE iff punit currently don't have enough move fragments to
-  perform the specified action but will have it next turn.
-**************************************************************************/
-static bool should_wait_for_mp(struct unit *punit, int action_id)
-{
-  return !utype_may_act_move_frags(unit_type_get(punit),
-                                   action_id,
-                                   punit->moves_left)
-      && utype_may_act_move_frags(unit_type_get(punit),
-                                  action_id,
-                                  unit_move_rate(punit));
-}
-
-/**************************************************************************
   Returns TRUE iff it is reasonable to assume that the player is wathing
   the unit.
 
@@ -4013,7 +3999,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
       break;
     case ORDER_PERFORM_ACTION:
-      if (should_wait_for_mp(punit, order.action)) {
+      if (action_mp_full_makes_legal(punit, order.action)) {
         log_debug("  stopping. Not enough move points this turn");
         return TRUE;
       }

@@ -417,6 +417,9 @@ bool is_action_possible_on_city(const enum gen_action action_id,
 bool action_maybe_possible_actor_unit(const int wanted_action,
                                       const struct unit* actor_unit);
 
+bool action_mp_full_makes_legal(const struct unit *actor,
+                                const int action_id);
+
 /* Action auto performers */
 const struct action_auto_perf *action_auto_perf_by_number(const int num);
 struct action_auto_perf *action_auto_perf_slot_number(const int num);
