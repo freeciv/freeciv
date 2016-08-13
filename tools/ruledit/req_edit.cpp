@@ -18,6 +18,7 @@
 // Qt
 #include <QGridLayout>
 #include <QLabel>
+#include <QLineEdit>
 #include <QMenu>
 #include <QPushButton>
 
@@ -75,8 +76,23 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   } universals_iterate_end;
   active_layout->addWidget(edit_type_button, 1, 0);
 
-  lbl = new QLabel(R__("Range:"));
+  lbl = new QLabel(R__("Value:"));
   active_layout->addWidget(lbl, 2, 0);
+  edit_value_enum_button = new QToolButton();
+  edit_value_enum_menu = new QMenu();
+  edit_value_enum_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  edit_value_enum_button->setPopupMode(QToolButton::MenuButtonPopup);
+  connect(edit_value_enum_menu, SIGNAL(triggered(QAction *)),
+          this, SLOT(univ_value_enum_menu(QAction *)));
+  edit_value_enum_button->setMenu(edit_value_enum_menu);
+  edit_value_enum_menu->setVisible(false);
+  active_layout->addWidget(edit_value_enum_button, 3, 0);
+  edit_value_nbr_field = new QLineEdit();
+  edit_value_nbr_field->setVisible(false);
+  active_layout->addWidget(edit_value_nbr_field, 4,0 );
+
+  lbl = new QLabel(R__("Range:"));
+  active_layout->addWidget(lbl, 5, 0);
   edit_range_button = new QToolButton();
   menu = new QMenu();
   edit_range_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
@@ -86,7 +102,7 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   req_range_iterate(range_id) {
     menu->addAction(req_range_name(range_id));
   } req_range_iterate_end;
-  active_layout->addWidget(edit_range_button, 3, 0);
+  active_layout->addWidget(edit_range_button, 6, 0);
 
   main_layout->addLayout(active_layout);
 
@@ -129,6 +145,9 @@ void req_edit::refresh()
       universal_name_translation(&preq->source, buf, sizeof(buf));
       item = new QListWidgetItem(QString::fromUtf8(buf));
       req_list->insertItem(i++, item);
+      if (selected == preq) {
+        item->setSelected(true);
+      }
     }
   } requirement_vector_iterate_end;
 
@@ -159,13 +178,47 @@ void req_edit::select_req()
   } requirement_vector_iterate_end;
 }
 
+struct uvb_data
+{
+  QLineEdit *number;
+  QToolButton *enum_button;
+  QMenu *menu;
+};
+
+/**************************************************************************
+  Callback for filling menu values
+**************************************************************************/
+static void universal_value_cb(const char *value, bool current, void *cbdata)
+{
+  struct uvb_data *data = (struct uvb_data *)cbdata;
+  
+  if (value == NULL) {
+    data->number->setVisible(true);
+  } else {
+    data->enum_button->setVisible(true);
+    data->menu->addAction(value);
+    if (current) {
+      data->enum_button->setText(value);
+    }
+  }
+}
+
 /**************************************************************************
   Fill active menus from selected req.
 **************************************************************************/
 void req_edit::fill_active()
 {
   if (selected != nullptr) {
+    struct uvb_data data;
+
     edit_type_button->setText(universals_n_name(selected->source.kind));
+    data.number = edit_value_nbr_field;
+    data.enum_button = edit_value_enum_button;
+    data.menu = edit_value_enum_menu;
+    edit_value_enum_menu->clear();
+    edit_value_enum_button->setVisible(false);
+    edit_value_nbr_field->setVisible(false);
+    universal_kind_values(&selected->source, universal_value_cb, &data);
     edit_range_button->setText(req_range_name(selected->range));
   }
 }
@@ -202,6 +255,18 @@ void req_edit::req_range_menu(QAction *action)
 }
 
 /**************************************************************************
+  User selected value for the requirement.
+**************************************************************************/
+void req_edit::univ_value_enum_menu(QAction *action)
+{
+  if (selected != nullptr) {
+    universal_value_from_str(&selected->source, action->text().toUtf8().data());
+
+    refresh();
+  }
+}
+
+/**************************************************************************
   User requested new requirement
 **************************************************************************/
 void req_edit::add_now()
@@ -233,6 +298,8 @@ void req_edit::delete_now()
     } requirement_vector_iterate_end;
 
     requirement_vector_reserve(req_vector, end);
+
+    selected = nullptr;
 
     refresh();
   }

@@ -44,6 +44,9 @@ class req_edit : public QDialog
     struct requirement *selected;
 
     QToolButton *edit_type_button;
+    QToolButton *edit_value_enum_button;
+    QMenu *edit_value_enum_menu;
+    QLineEdit *edit_value_nbr_field;
     QToolButton *edit_range_button;
 
   private slots:
@@ -55,6 +58,7 @@ class req_edit : public QDialog
 
     void req_type_menu(QAction *action);
     void req_range_menu(QAction *action);
+    void univ_value_enum_menu(QAction *action);
 };
 
 #endif // FC__REQ_EDIT_H

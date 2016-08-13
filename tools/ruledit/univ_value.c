@@ -201,3 +201,27 @@ bool universal_value_initial(struct universal *src)
 
   return FALSE;
 }
+
+/************************************************************************
+  Call cb for each value possible for the universal kind.
+************************************************************************/
+void universal_kind_values(struct universal *univ,
+                           univ_kind_values_cb cb, void *data)
+{
+  switch (univ->kind) {
+  case VUT_NONE:
+    break;
+  case VUT_ADVANCE:
+    advance_active_iterate(padv) {
+      cb(advance_rule_name(padv), univ->value.advance == padv, data);
+    } advance_active_iterate_end;
+    break;
+#ifdef INTEGER_UNIV_VALUES
+  case VUT_MINSIZE:
+    cb(NULL, data);
+    break;
+#endif
+  default:
+    break;
+  }
+}

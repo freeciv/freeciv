@@ -17,7 +17,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+typedef void (*univ_kind_values_cb)(const char *value, bool current, void *data);
+
 bool universal_value_initial(struct universal *src);
+void universal_kind_values(struct universal *univ, univ_kind_values_cb cb, void *data);
 
 #ifdef __cplusplus
 }
