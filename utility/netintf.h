@@ -84,7 +84,11 @@ union fc_sockaddr {
     TYPED_LIST_ITERATE(union fc_sockaddr, sockaddrlist, paddr)
 #define fc_sockaddr_list_iterate_end  LIST_ITERATE_END
 
+#ifdef FREECIV_MSWINDOWS
+typedef TIMEVAL fc_timeval;
+#else  /* FREECIV_MSWINDOWS */
 typedef struct timeval fc_timeval;
+#endif /* FREECIV_MSWINDOWS */
 
 int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
 int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
