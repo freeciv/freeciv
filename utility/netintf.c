@@ -228,7 +228,12 @@ void fc_nonblock(int sockfd)
 {
 #ifdef NONBLOCKING_SOCKETS
 #ifdef HAVE_WINSOCK
-  unsigned long b = 1;
+#ifdef __LP64__
+  unsigned b = 1;
+#else  /* __LP64__ */
+  u_long b = 1;
+#endif /* __LP64__ */
+
   ioctlsocket(sockfd, FIONBIO, &b);
 #else  /* HAVE_WINSOCK */
 #ifdef HAVE_FCNTL
