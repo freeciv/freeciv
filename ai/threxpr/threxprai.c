@@ -93,7 +93,7 @@ static void texwai_player_save(struct player *pplayer,
                                struct section_file *file, int plrno)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_player_save, "teai", pplayer, file, plrno);
+  TEXAI_DFUNC(dai_player_save, "texai", pplayer, file, plrno);
 }
 
 /**************************************************************************
@@ -104,7 +104,7 @@ static void texwai_player_load(struct player *pplayer,
                                int plrno)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_player_load, "teai", pplayer, file, plrno);
+  TEXAI_DFUNC(dai_player_load, "texai", pplayer, file, plrno);
 }
 
 /**************************************************************************
@@ -190,7 +190,7 @@ static void texwai_city_save(struct section_file *file,
                              const struct city *pcity, const char *citystr)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_city_save, "teai", file, pcity, citystr);
+  TEXAI_DFUNC(dai_city_save, "texai", file, pcity, citystr);
 }
 
 /**************************************************************************
@@ -200,7 +200,7 @@ static void texwai_city_load(const struct section_file *file,
                              struct city *pcity, const char *citystr)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_city_load, "teai", file, pcity, citystr);
+  TEXAI_DFUNC(dai_city_load, "texai", file, pcity, citystr);
 }
 
 /**************************************************************************
@@ -354,7 +354,7 @@ static void texwai_unit_save(struct section_file *file,
                              const struct unit *punit, const char *unitstr)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_unit_save, "teai", file, punit, unitstr);
+  TEXAI_DFUNC(dai_unit_save, "texai", file, punit, unitstr);
 }
 
 /**************************************************************************
@@ -364,7 +364,7 @@ static void texwai_unit_load(const struct section_file *file,
                              struct unit *punit, const char *unitstr)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_unit_load, "teai", file, punit, unitstr);
+  TEXAI_DFUNC(dai_unit_load, "texai", file, punit, unitstr);
 }
 
 /**************************************************************************
