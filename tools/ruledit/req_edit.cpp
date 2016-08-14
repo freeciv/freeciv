@@ -170,7 +170,9 @@ void req_edit::select_req()
   int i = 0;
 
   requirement_vector_iterate(req_vector, preq) {
-    if (req_list->item(i++)->isSelected()) {
+    QListWidgetItem *item = req_list->item(i++);
+
+    if (item != nullptr && item->isSelected()) {
       selected = preq;
       fill_active();
       return;
