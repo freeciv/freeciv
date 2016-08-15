@@ -344,6 +344,10 @@ void rscompat_postprocess(struct rscompat_info *info)
     return;
   }
 
+  /* Upgrade existing effects. Done before new effects are added to prevent
+   * the new effects from being upgraded by accident. */
+  iterate_effect_cache(effect_list_compat_cb, info);
+
   if (info->ver_cities < 10) {
     struct action_auto_perf *auto_perf;
 
@@ -922,9 +926,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       }
     } extra_type_by_cause_iterate_end;
   }
-
-  /* Upgrade existing effects. */
-  iterate_effect_cache(effect_list_compat_cb, info);
 
   /* The ruleset may need adjustments it didn't need before compatibility
    * post processing.
