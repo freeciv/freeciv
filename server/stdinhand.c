@@ -3680,9 +3680,9 @@ bool load_command(struct connection *caller, const char *filename, bool check,
   /* attempt to parse the file */
 
   if (!(file = secfile_load(arg, FALSE))) {
+    log_error("Error loading savefile '%s': %s", arg, secfile_error());
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Could not load savefile: %s"),
               arg);
-    log_debug("Error loading savefile '%s':\n%s", arg, secfile_error());
     dlsend_packet_game_load(game.est_connections, TRUE, arg);
     return FALSE;
   }
