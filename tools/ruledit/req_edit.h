@@ -59,6 +59,7 @@ class req_edit : public QDialog
     void req_type_menu(QAction *action);
     void req_range_menu(QAction *action);
     void univ_value_enum_menu(QAction *action);
+    void univ_value_edit();
 };
 
 #endif // FC__REQ_EDIT_H

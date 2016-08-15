@@ -89,6 +89,7 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   active_layout->addWidget(edit_value_enum_button, 3, 0);
   edit_value_nbr_field = new QLineEdit();
   edit_value_nbr_field->setVisible(false);
+  connect(edit_value_nbr_field, SIGNAL(returnPressed()), this, SLOT(univ_value_edit()));
   active_layout->addWidget(edit_value_nbr_field, 4,0 );
 
   lbl = new QLabel(R__("Range:"));
@@ -185,6 +186,7 @@ struct uvb_data
   QLineEdit *number;
   QToolButton *enum_button;
   QMenu *menu;
+  struct universal *univ;
 };
 
 /**************************************************************************
@@ -195,6 +197,10 @@ static void universal_value_cb(const char *value, bool current, void *cbdata)
   struct uvb_data *data = (struct uvb_data *)cbdata;
   
   if (value == NULL) {
+    int kind, val;
+
+    universal_extraction(data->univ, &kind, &val);
+    data->number->setText(QString::number(val));
     data->number->setVisible(true);
   } else {
     data->enum_button->setVisible(true);
@@ -217,6 +223,7 @@ void req_edit::fill_active()
     data.number = edit_value_nbr_field;
     data.enum_button = edit_value_enum_button;
     data.menu = edit_value_enum_menu;
+    data.univ = &selected->source;
     edit_value_enum_menu->clear();
     edit_value_enum_button->setVisible(false);
     edit_value_nbr_field->setVisible(false);
@@ -263,6 +270,19 @@ void req_edit::univ_value_enum_menu(QAction *action)
 {
   if (selected != nullptr) {
     universal_value_from_str(&selected->source, action->text().toUtf8().data());
+
+    refresh();
+  }
+}
+
+/**************************************************************************
+  User entered numerical requirement value.
+**************************************************************************/
+void req_edit::univ_value_edit()
+{
+  if (selected != nullptr) {
+    universal_value_from_str(&selected->source,
+                             edit_value_nbr_field->text().toUtf8().data());
 
     refresh();
   }

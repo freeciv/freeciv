@@ -216,11 +216,20 @@ void universal_kind_values(struct universal *univ,
       cb(advance_rule_name(padv), univ->value.advance == padv, data);
     } advance_active_iterate_end;
     break;
-#ifdef INTEGER_UNIV_VALUES
   case VUT_MINSIZE:
-    cb(NULL, data);
+  case VUT_MINYEAR:
+  case VUT_MAXTILEUNITS:
+  case VUT_MINCULTURE:
+  case VUT_MINMOVES:
+  case VUT_MINVETERAN:
+  case VUT_MINHP:
+  case VUT_AGE:
+  case VUT_MINTECHS:
+    cb(NULL, FALSE, data);
     break;
-#endif
+  case VUT_COUNT:
+    fc_assert(univ->kind != VUT_COUNT);
+    break;
   default:
     break;
   }
