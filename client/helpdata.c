@@ -5829,6 +5829,12 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           }
         }
         break;
+      case EFT_OUTPUT_WASTE_BY_REL_DISTANCE:
+        /* Semi-arbitrary scaling to get likely ruleset values in roughly
+         * the same range as WASTE_BY_DISTANCE */
+        /* FIXME: use different wording? */
+        net_value = (net_value + 39) / 40; /* round up */
+        /* fall through to: */
       case EFT_OUTPUT_WASTE_BY_DISTANCE:
         if (world_value_valid) {
           if (net_value >= 3) {

@@ -3049,7 +3049,7 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
                                               EFT_OUTPUT_WASTE_BY_DISTANCE);
     int waste_by_rel_dist = get_city_output_bonus(pcity, get_output_type(otype),
                                                   EFT_OUTPUT_WASTE_BY_REL_DISTANCE);
-    if (waste_by_dist > 0) {
+    if (waste_by_dist > 0 || waste_by_rel_dist > 0) {
       const struct city *gov_center = NULL;
       int min_dist = FC_INFINITY;
 
