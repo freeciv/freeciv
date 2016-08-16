@@ -2491,6 +2491,8 @@ veteran_move_bonus = 0
 roles         = "KingStartUnit"
 helptext      = _("\
 This is you. If you lose this unit, you lose the game. So don't.\
+"), _("\
+Won't unleash barbarians from huts.\
 ")
 
 [unit_barbarian_leader]
