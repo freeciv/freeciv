@@ -214,7 +214,8 @@ static struct {
   GEN_EV(E_DEPRECATION_WARNING, E_S_XYZZY,	N_("Deprecated Modpack syntax warnings")),
   GEN_EV(E_SPONTANEOUS_EXTRA,   E_S_XYZZY,      N_("Extra Appears or Disappears")),
   GEN_EV(E_UNIT_ILLEGAL_ACTION, E_S_UNIT,       N_("Unit Illegal Action")),
-  GEN_EV(E_UNIT_ESCAPED, E_S_UNIT,       N_("Unit escaped"))
+  GEN_EV(E_UNIT_ESCAPED,        E_S_UNIT,       N_("Unit escaped")),
+  GEN_EV(E_BEGINNER_HELP,       E_S_XYZZY,      N_("Help for beginners")),
   /* The sound system also generates "e_game_quit", although there's no
    * corresponding identifier E_GAME_QUIT. */
 };

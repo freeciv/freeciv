@@ -202,6 +202,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;e_ai_debug = ""
 ;e_anarchy = ""
 e_bad_command = "stdsounds/illegal.ogg" ; [fcol]
+;e_beginner_help = ""
 ;e_broadcast_report = ""
 ;e_caravan_action = ""
 ;e_chat_error = ""

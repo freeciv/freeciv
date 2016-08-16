@@ -3080,6 +3080,12 @@ void key_unit_action_select_tgt(void)
     return;
   }
 
+  create_event(unit_tile(unit_list_get(punits, 0)), E_BEGINNER_HELP,
+               ftc_client,
+               /* TRANS: "Do..." action selection dialog target. */
+               _("Click on a tile to act against it. "
+                 "Press 'd' again to act against own tile."));
+
   set_hover_state(punits, HOVER_ACT_SEL_TGT, ACTIVITY_LAST, NULL,
                   EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
 }

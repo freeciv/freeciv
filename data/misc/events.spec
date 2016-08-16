@@ -159,6 +159,7 @@ tiles = { "row", "column", "tag"
   4, 15, "e_log_fatal"
   4, 15, "e_chat_error"
   4, 16, "e_bad_command"
+  4, 14, "e_beginner_help"  ; PLACEHOLDER
 
   4, 17,  "e_game_start"
   4, 18,  "e_next_year"

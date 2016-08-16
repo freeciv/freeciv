@@ -162,6 +162,8 @@ extern "C" {
 #define SPECENUM_VALUE124 E_UNIT_ACTION_FAILED
 #define SPECENUM_VALUE125 E_UNIT_ESCAPED
 #define SPECENUM_VALUE126 E_DEPRECATION_WARNING
+/* Used for messages about things experienced players already know. */
+#define SPECENUM_VALUE127 E_BEGINNER_HELP
 /*
  * Note: If you add a new event, make sure you make a similar change
  * to the events array in "common/events.c" using GEN_EV, to
