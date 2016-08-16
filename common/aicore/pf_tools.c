@@ -843,6 +843,11 @@ static void pft_fill_overlap_param(struct pf_parameter *parameter,
   } else {
     parameter->get_zoc = NULL;
   }
+
+  if (!parameter->get_moves_left_req && utype_fuel(punittype)) {
+    /* Unit needs fuel */
+    parameter->get_moves_left_req = get_fuel_moves_left_req;
+  }
 }
 
 /**********************************************************************
@@ -893,7 +898,11 @@ static void pft_fill_attack_param(struct pf_parameter *parameter,
 
   /* It is too complicated to work with danger here */
   parameter->is_pos_dangerous = NULL;
-  parameter->get_moves_left_req = NULL;
+
+  if (!parameter->get_moves_left_req && utype_fuel(punittype)) {
+    /* Unit needs fuel */
+    parameter->get_moves_left_req = get_fuel_moves_left_req;
+  }
 }
 
 /**********************************************************************
@@ -979,7 +988,13 @@ void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
   } else {
     parameter->combined.is_pos_dangerous = NULL;
   }
-  parameter->combined.get_moves_left_req = NULL;
+  if (parameter->sea.get_moves_left_req != NULL) {
+    parameter->combined.get_moves_left_req = parameter->sea.get_moves_left_req;
+  } else if (parameter->land.get_moves_left_req != NULL) {
+    parameter->combined.get_moves_left_req = parameter->land.get_moves_left_req;
+  } else {
+    parameter->combined.get_moves_left_req = NULL;
+  }
   parameter->combined.get_action = NULL;
   parameter->combined.is_action_possible = NULL;
 
