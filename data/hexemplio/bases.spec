@@ -4,7 +4,7 @@
 ; specified in cities.ruleset file and the index only defines the read order
 ; of the images. The definitions are read starting with index 0 till the first
 ; missing value The index is checked against the city bonus of effect
-; EFT_CITY_IMAGE and the resulting image is used to draw the city on the tile.
+; 'City_Image' and the resulting image is used to draw the city on the tile.
 ;
 ; Obviously the first tile must be 'style_name'_city_0 and the sizes must be
 ; in ascending order. There must also be a 'style_name'_wall_0 tile used to
@@ -21,12 +21,10 @@ options = "+Freeciv-2.6-spec"
 [info]
 
 artists = "
-    Jerzy Klek <jekl@altavista.net>
-    european style based on trident tileset by
-    Tatu Rissanen <tatu.rissanen@hut.fi>
-    Eleazar (buoy)
-    Vincent Croisier <vincent.croisier@advalvas.be> (ruins)
-    GriffonSpade
+    Hogne Håskjold <hogne@freeciv.org>[HH]
+    Eleazar [El](buoy)
+    Vincent Croisier <vincent.croisier@advalvas.be>[VC] (ruins)
+    GriffonSpade [GS]
 "
 
 [file]
@@ -37,40 +35,41 @@ gfx = "hexemplio/bases"
 x_top_left = 1
 y_top_left = 1
 dx = 126
-dy = 128
+dy = 96
 pixel_border = 1
 
 tiles = { "row", "column", "tag"
 
- 2,  3, "cd.occupied"
- 2,  3, "cd.city"
- 2,  3, "cd.city_wall"
-
-; used by all city styles
-
- 0,  0, "base.airstrip_mg"
+;[HH][GS]
+ 0,  0, "base.airstrip_mg"			
  1,  0, "tx.airstrip_full"
-
+;[HH][GS]
  0,  1, "base.airbase_mg"
  1,  1, "tx.airbase_full"
-
+;[HH][GS]
  1,  2, "base.outpost_fg"
  0,  2, "base.outpost_bg"
-
+;[HH]
  1,  3, "base.fortress_fg"
  0,  3, "base.fortress_bg"
-
- 2,  0, "city.disorder"
- 2,  1, "base.buoy_mg"
- 2,  2, "base.ruins_mg"
- 2,  3, "city.european_occupied_0"
- 2,  3, "city.classical_occupied_0"
- 2,  3, "city.asian_occupied_0"
- 2,  3, "city.tropical_occupied_0"
- 2,  3, "city.celtic_occupied_0"
- 2,  3, "city.babylonian_occupied_0"
- 2,  3, "city.industrial_occupied_0"
- 2,  3, "city.electricage_occupied_0"
- 2,  3, "city.modern_occupied_0"
- 2,  3, "city.postmodern_occupied_0"
+;[HH]
+ 0,  4, "city.disorder"
+;[El]
+ 1,  4, "base.buoy_mg"
+;[VC]
+ 0,  5, "base.ruins_mg"
+;[HH]
+; 1,  5, "cd.occupied"
+; 1,  5, "cd.city"
+; 1,  5, "cd.city_wall"
+ 1,  5, "city.european_occupied_0"
+ 1,  5, "city.classical_occupied_0"
+ 1,  5, "city.asian_occupied_0"
+ 1,  5, "city.tropical_occupied_0"
+ 1,  5, "city.celtic_occupied_0"
+ 1,  5, "city.babylonian_occupied_0"
+ 1,  5, "city.industrial_occupied_0"
+ 1,  5, "city.electricage_occupied_0"
+ 1,  5, "city.modern_occupied_0"
+ 1,  5, "city.postmodern_occupied_0"
 }
