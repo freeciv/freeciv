@@ -2384,9 +2384,15 @@ struct video_mode *resolution_request_get(void)
 **************************************************************************/
 void adjust_default_options(void)
 {
-  if (screen_height() <= 480) {
-    /* Freeciv is practically unusable outside fullscreen mode in so
-     * small display */
-    gui_options.gui_gtk3_fullscreen = TRUE;
+  int scr_height = screen_height();
+
+  if (scr_height > 0) {
+    /* Adjust these options only if we do know the screen height. */
+
+    if (scr_height <= 480) {
+      /* Freeciv is practically unusable outside fullscreen mode in so
+       * small display */
+      gui_options.gui_gtk3_fullscreen = TRUE;
+    }
   }
 }
