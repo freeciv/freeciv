@@ -21,6 +21,7 @@
 #include "effects.h"
 #include "game.h"
 #include "government.h"
+#include "map.h"
 #include "movement.h"
 #include "player.h"
 #include "road.h"
@@ -900,6 +901,27 @@ bool sanity_check_ruleset_data(bool ignore_retired)
   /* Actions */
   action_iterate(act) {
     struct action *paction = action_by_number(act);
+
+    if (paction->min_distance < 0) {
+      ruleset_error(LOG_ERROR, "Action %s: negative min distance (%d).",
+                    action_get_rule_name(act), paction->min_distance);
+      ok = FALSE;
+    }
+
+    if (paction->max_distance > MAP_MAX_LINEAR_SIZE) {
+      ruleset_error(LOG_ERROR, "Action %s: max distance is %d. "
+                    "A map can't be that big.",
+                    action_get_rule_name(act), paction->max_distance);
+      ok = FALSE;
+    }
+
+    if (paction->min_distance > paction->max_distance) {
+      ruleset_error(LOG_ERROR,
+                    "Action %s: min distance is %d but max distance is %d.",
+                    action_get_rule_name(act),
+                    paction->min_distance, paction->max_distance);
+      ok = FALSE;
+    }
 
     action_iterate(blocker) {
       if (BV_ISSET(paction->blocked_by, blocker)
