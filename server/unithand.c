@@ -2896,7 +2896,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
          * defenders when bombarding */
       }
 
-      unit_versus_unit(punit, pdefender, TRUE, &att_hp, &def_hp);
+      unit_bombs_unit(punit, pdefender, &att_hp, &def_hp);
 
       see_combat(punit, pdefender);
 
@@ -3129,7 +3129,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 
   old_unit_vet = punit->veteran;
   old_defender_vet = pdefender->veteran;
-  unit_versus_unit(punit, pdefender, FALSE, &att_hp, &def_hp);
+  unit_versus_unit(punit, pdefender, &att_hp, &def_hp);
 
   if ((att_hp <= 0 || uclass_has_flag(unit_class_get(punit), UCF_MISSILE))
       && unit_transported(punit)) {
