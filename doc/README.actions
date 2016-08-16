@@ -314,7 +314,8 @@ Actions done by a unit against all units at a tile
  * UI name can be set using ui_name_bombard
  * if force_capture_units is true "Capture Units" must be impossible
  * actor must have a bombard_rate > 0
- * actor must be on a tile next to the target.
+ * actor must be on a tile next to the target or, if bombard_max_range
+   allows it, futher away.
  * target can't be in a city the actor player isn't at war with.
  * target owner must be at war with actor. (!)
 

@@ -791,6 +791,7 @@ extern struct world wld;
 #define RS_DEFAULT_FORCE_EXPLODE_NUCLEAR         FALSE
 
 #define RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK     FALSE
+#define RS_DEFAULT_BOMBARD_MAX_RANGE             1
 
 #ifdef __cplusplus
 }

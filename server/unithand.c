@@ -2888,7 +2888,6 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
 
       adj = base_get_direction_for_step(punit->tile, pdefender->tile, &facing);
 
-      fc_assert(adj);
       if (adj) {
         punit->facing = facing;
 

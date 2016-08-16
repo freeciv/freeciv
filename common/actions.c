@@ -181,7 +181,9 @@ void actions_init(void)
                  /* A single domestic unit at the target tile will make the
                   * action illegal. It must therefore be performed from
                   * another tile. */
-                 1, 1);
+                 1,
+                 /* Overwritten by the ruleset's bombard_max_range */
+                 1);
   actions[ACTION_SPY_NUKE] =
       action_new(ACTION_SPY_NUKE, ATK_CITY,
                  TRUE, FALSE, FALSE,

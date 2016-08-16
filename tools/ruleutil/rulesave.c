@@ -940,6 +940,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                     "actions.poison_empties_food_stock", NULL);
 
+  save_default_int(sfile, action_by_number(ACTION_BOMBARD)->max_distance,
+                    RS_DEFAULT_BOMBARD_MAX_RANGE,
+                    "actions.bombard_max_range", NULL);
+
   secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_POISON)->ui_name,
                      "actions.ui_name_poison_city");

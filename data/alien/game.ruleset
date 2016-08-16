@@ -215,6 +215,9 @@ force_explode_nuclear = FALSE
 ; will empty the food stock.
 poison_empties_food_stock = FALSE
 
+; How far away targets of "Bombard" is allowed to be.
+bombard_max_range = 1
+
 ; What each action should be called when showing them to the player.
 ; The first %s should be before the mnemonic of the action.
 ; The second %s marks where extra details should be inserted.

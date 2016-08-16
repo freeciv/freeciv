@@ -5858,6 +5858,12 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                       RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                                       "actions.poison_empties_food_stock");
 
+      /* Allow setting max distance for bombardment before generalized
+       * actions. */
+      action_by_number(ACTION_BOMBARD)->max_distance
+          = secfile_lookup_int_default(file, RS_DEFAULT_BOMBARD_MAX_RANGE,
+                                       "actions.bombard_max_range");
+
       text = secfile_lookup_str_default(file,
           /* TRANS: _Poison City (3% chance of success). */
           N_("%sPoison City%s"),
