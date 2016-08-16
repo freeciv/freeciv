@@ -57,6 +57,9 @@ before contact.\n\
 - The Leader unit has been added to the default startunits.\n\
 - The Leader unit can destroy a domestic city. (Be careful when you scorch \
 the earth. If your Leader dies you lose he game.)\n\
+- Killing an enemy Leader gives you a few of his cities, some of his gold \
+and some of his knowledge. Not all his cities will follow you. Some will \
+rather turn barbarian.\n\
 - Labels the year using AD/BC.\n\
 - All units can be airlifted:\n\
   - Light weight units can be airlifted once Flight is known.\n\
@@ -155,7 +158,7 @@ civil_war_enabled        = TRUE
 ;                control.
 ; "Loot"       - Player who killed the gameloss unit gets loot:
 ;                Partial map, gold, techs, cities
-gameloss_style           = ""
+gameloss_style           = "Barbarians", "Loot"
 
 ; Whether units may safely paradrop to transport on non-native terrain
 paradrop_to_transport    = FALSE
