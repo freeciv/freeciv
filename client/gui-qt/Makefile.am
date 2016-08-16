@@ -64,6 +64,7 @@ libgui_qt_la_SOURCES = \
 	helpdlg.h	\
 	inteldlg.cpp	\
 	inteldlg.h	\
+	listener.h	\
 	luaconsole.cpp	\
 	luaconsole.h	\
 	mapctrl.cpp	\
