@@ -324,10 +324,10 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  /* Build the first thing we can think of (except a new palace). */
+  /* Build the first thing we can think of (except moving small wonder). */
   improvement_iterate(pimprove) {
     if (can_city_build_improvement_now(pcity, pimprove)
-        && !building_has_effect(pimprove, EFT_CAPITAL_CITY)) {
+        && pimprove->genus != IG_SMALL_WONDER) {
       struct universal target = {
         .kind = VUT_IMPROVEMENT,
         .value = {.building = pimprove}
