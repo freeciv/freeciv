@@ -14,6 +14,9 @@
 #ifndef FC__GUI_MAIN_H
 #define FC__GUI_MAIN_H
 
+class QApplication;
+
 void popup_quit_dialog();
+QApplication *current_app();
 
 #endif /* FC__GUI_MAIN_H */

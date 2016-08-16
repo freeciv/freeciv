@@ -23,6 +23,7 @@ extern "C" {
 }
 
 //Qt
+#include <QEvent>
 #include <QTextBrowser>
 #include <QLineEdit>
 #include <QCheckBox>
@@ -58,6 +59,14 @@ private:
   QPushButton *remove_links;
   QCheckBox *cb;
 
+};
+
+class version_message_event : public QEvent
+{
+  QString message;
+public:
+  explicit version_message_event(const QString &message);
+  QString get_message() const { return message; }
 };
 
 #endif                        /* FC__CHATLINE_H */

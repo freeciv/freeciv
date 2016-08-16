@@ -194,6 +194,7 @@ public:
   unit_label *unitinfo_wdg;
   void add_server_source(int);
   void remove_server_source();
+  bool event(QEvent *event);
 
   enum client_pages current_page();
 

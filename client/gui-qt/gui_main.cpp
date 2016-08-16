@@ -81,6 +81,14 @@ class fc_client *gui()
 }
 
 /****************************************************************************
+  Return QApplication instance
+****************************************************************************/
+class QApplication *current_app()
+{
+  return qapp;
+}
+
+/****************************************************************************
   Called by the tileset code to set the font size that should be used to
   draw the city names and productions.
 ****************************************************************************/

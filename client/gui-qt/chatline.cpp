@@ -16,6 +16,7 @@
 #endif
 
 //Qt
+#include <QApplication>
 #include <QScrollBar>
 #include <QStyleFactory>
 
@@ -32,6 +33,7 @@
 // gui-qt
 #include "colors.h"
 #include "fc_client.h"
+#include "gui_main.h"
 #include "qtg_cxxside.h"
 
 #include "chatline.h"
@@ -515,12 +517,17 @@ void clear_output_window(void)
 }
 
 /**************************************************************************
+  Version message event constructor.
+**************************************************************************/
+version_message_event::version_message_event(const QString &message) :
+  QEvent(QEvent::User),
+  message(message)
+{}
+
+/**************************************************************************
   Got version message from metaserver thread.
 **************************************************************************/
 void qtg_version_message(char *vertext)
 {
-  /* FIXME - this will crash at some point - event will come 
-   * later with non existent pointer
-  output_window_append(ftc_client, vertext);
-  */
+  current_app()->postEvent(gui(), new version_message_event(vertext));
 }
