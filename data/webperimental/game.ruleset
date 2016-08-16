@@ -54,6 +54,7 @@ before contact.\n\
 - A player that knows Electricity has no fog of war inside his borders.\n\
 - Foot soldiers can peacefully expel foreign civilian units from your terrain.\n\
 - It is possible to establish an embassy while inside a ship.\n\
+- The startunits are by default spread over the map.\n\
 - The Leader unit has been added to the default startunits.\n\
 - The Leader unit can destroy a domestic city. (Be careful when you scorch \
 the earth. If your Leader dies you lose he game.)\n\
@@ -1092,4 +1093,5 @@ set =
     "killstack", "disabled", FALSE
     "citymindist", 3, FALSE
     "generator", "FAIR", FALSE
+    "dispersion", 2, FALSE
   }
