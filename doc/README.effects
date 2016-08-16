@@ -283,10 +283,12 @@ Buildings which have this effect should probably not be given any other
 effects.
 
 Spy_Resistant
-    If a spy specifies a target for sabotage, then she has an AMOUNT percent 
-chance to fail. Also in diplomatic combat defending diplomatic units in cities 
-will get an AMOUNT percent bonus. All Spy_Resistant's are summed before being 
-applied.
+    In diplomatic combat defending diplomatic units will get an AMOUNT
+percent bonus. All Spy_Resistant's are summed before being applied.
+
+Building_Saboteur_Resistant
+    If a spy specifies a target for sabotage, then she has an AMOUNT
+percent chance to fail.
 
 Stealings_Ignore
     When determining how difficult it is to steal a tech from enemy, AMOUNT

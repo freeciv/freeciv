@@ -62,6 +62,14 @@ reqs    =
       "Nation", "Secret Society", "Player"
     }
 
+[effect_secret_society_spy_resistance_sabotage]
+type    = "Building_Saboteur_Resistant"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "Nation", "Secret Society", "Player"
+    }
+
 [effect_secret_society_veteran_spies]
 type    = "Veteran_Build"
 value   = 1

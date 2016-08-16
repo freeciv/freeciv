@@ -395,6 +395,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     }
     break;
   case EFT_SPY_RESISTANT:
+  case EFT_SABOTEUR_RESISTANT:
     /* Uhm, problem: City Wall has -50% here!! */
     break;
   case EFT_MOVE_BONUS:

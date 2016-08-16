@@ -1284,6 +1284,14 @@ reqs	=
       "Building", "Palace", "City"
     }
 
+[effect_palace_2_sabotage]
+type    = "Building_Saboteur_Resistant"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
 [effect_palace_3]
 type    = "Capital_City"
 value	= 1

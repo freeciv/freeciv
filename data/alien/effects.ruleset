@@ -981,6 +981,14 @@ reqs    =
     "Tech", "Personal Contact", "Player"
   }
 
+[effect_personal_contact_sabotage]
+type    = "Building_Saboteur_Resistant"
+value   = 40
+reqs    =
+  { "type", "name", "range"
+    "Tech", "Personal Contact", "Player"
+  }
+
 [effect_square_map_city_radius]
 type  = "City_Radius_Sq"
 value = 1

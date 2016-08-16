@@ -318,6 +318,14 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
       contacts->type = EFT_HAVE_CONTACTS;
     }
 
+    if (peffect->type == EFT_SPY_RESISTANT) {
+      /* Create "Building_Saboteur_Resistant" effect matching each
+       * "Spy_Resistant" */
+      struct effect *contacts = effect_copy(peffect);
+
+      contacts->type = EFT_SABOTEUR_RESISTANT;
+    }
+
     if (peffect->type == EFT_ILLEGAL_ACTION_MOVE_COST) {
       /* Founding and joining a city became action enabler controlled in
        * Freeciv 3.0. Old hard coded rules had no punishment for trying to

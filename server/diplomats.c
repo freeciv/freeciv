@@ -1119,7 +1119,8 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * City Walls, then there is a 50% chance of getting caught.
      */
     vulnerability -= (vulnerability
-		      * get_city_bonus(pcity, EFT_SPY_RESISTANT) / 100);
+                      * get_city_bonus(pcity, EFT_SABOTEUR_RESISTANT)
+                      / 100);
 
     if (fc_rand(100) >= vulnerability) {
       /* Caught! */
