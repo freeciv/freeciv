@@ -72,6 +72,12 @@ Airport allows a city to airlift one more unit per turn.\n\
 - Default minimum distance between cities is 3.\n\
 - Default map generator is `Fair islands`. It generates identical start \
 position islands for all players.\n\
+- The Howitzer and the Battleship can bombard.\n\
+  - bombardment may hurt all units at the target tile.\n\
+  - bombardment can't kill a unit.\n\
+  - bombardment can kill population in a city.\n\
+  - webperimental's bombardment can target unit stacks 3 tiles away.\n\
+  - webperimental's bombardment doesn't replace regular attack.\n\
 \n\
 This ruleset is still in development. If playing it makes you think that \
 a rule should change go to the Freeciv-web board at \
@@ -257,7 +263,7 @@ force_explode_nuclear = TRUE
 poison_empties_food_stock = FALSE
 
 ; How far away targets of "Bombard" is allowed to be.
-bombard_max_range = 1
+bombard_max_range = 3
 
 ; What each action should be called when showing them to the player.
 ; The first %s should be before the mnemonic of the action.
@@ -693,6 +699,15 @@ action = "Explode Nuclear"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Nuclear", "Local", TRUE
+    }
+
+[actionenabler_bombard]
+action = "Bombard"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitFlag",     "Bombarder",   "Local", TRUE
+      "MinMoveFrags", "1",           "Local", TRUE
+      "DiplRel",      "War",         "Local", TRUE
     }
 
 [actionenabler_attack]
