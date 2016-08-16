@@ -1605,8 +1605,9 @@ is_action_possible(const enum gen_action wanted_action,
     /* Reason: Keep paratroopers_range working. */
     /* Info leak: The player knows the location of the actor and of the
      * target tile. */
-    if (unit_type_get(actor_unit)->paratroopers_range
-        < real_map_distance(actor_tile, target_tile)) {
+    if (!ignore_dist
+        && (unit_type_get(actor_unit)->paratroopers_range
+            < real_map_distance(actor_tile, target_tile))) {
       return TRI_NO;
     }
 
