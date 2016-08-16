@@ -876,21 +876,11 @@ void fc_client::update_server_list(enum server_scan_type sstype,
 **************************************************************************/
 void server_scan_error(struct server_scan *scan, const char *message)
 {
-  output_window_append(ftc_client, message);
+  qtg_version_message(message);
   log_error("%s", message);
 
-  switch (server_scan_get_type(scan)) {
-  case SERVER_SCAN_LOCAL:
-    server_scan_finish(lan_scan);
-    lan_scan = NULL;
-    break;
-  case SERVER_SCAN_GLOBAL:
-    server_scan_finish(meta_scan);
-    meta_scan = NULL;
-    break;
-  case SERVER_SCAN_LAST:
-    break;
-  }
+  /* Main thread will finalize the scan later (or even concurrently) -
+   * do not do anything here to cause double free or raze condition. */
 }
 
 
