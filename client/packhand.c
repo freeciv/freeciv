@@ -228,6 +228,11 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   } else {
     punit->client.transported_by = -1;
   }
+  if (packet->carrying >= 0) {
+    punit->carrying = goods_by_number(packet->carrying);
+  } else {
+    punit->carrying = NULL;
+  }
 
   punit->battlegroup = packet->battlegroup;
   punit->has_orders = packet->has_orders;

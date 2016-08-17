@@ -952,6 +952,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
+  SINT8 carrying;
   MOVEFRAGS movesleft;
   UINT8 hp, fuel;
   /* UINT16 size for activity_count assumed in checks in ruleset.c */

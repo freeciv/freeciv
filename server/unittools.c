@@ -1537,14 +1537,28 @@ struct unit *create_unit(struct player *pplayer, struct tile *ptile,
 }
 
 /**************************************************************************
+  Set carried goods for unit.
+**************************************************************************/
+void unit_get_goods(struct unit *punit)
+{
+  if (punit->homecity != 0) {
+    struct city *home = game_city_by_number(punit->homecity);
+
+    if (home != NULL) {
+      punit->carrying = goods_from_city_to_unit(home, punit);
+    }
+  }
+}
+
+/**************************************************************************
   Creates a unit, and set it's initial values, and put it into the right 
   lists.
   If moves_left is less than zero, unit will get max moves.
 **************************************************************************/
 struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
-			      struct unit_type *type, int veteran_level, 
+                              struct unit_type *type, int veteran_level, 
                               int homecity_id, int moves_left, int hp_left,
-			      struct unit *ptrans)
+                              struct unit *ptrans)
 {
   struct unit *punit = unit_virtual_create(pplayer, NULL, type, veteran_level);
   struct city *pcity;
@@ -1609,6 +1623,8 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   /* The unit may have changed the available tiles in nearby cities. */
   city_map_update_tile_now(ptile);
   sync_cities();
+
+  unit_get_goods(punit);
 
   CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
 
@@ -2437,6 +2453,11 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   } else {
     packet->transported = TRUE;
     packet->transported_by = unit_transport_get(punit)->id;
+  }
+  if (punit->carrying != NULL) {
+    packet->carrying = goods_index(punit->carrying);
+  } else {
+    packet->carrying = -1;
   }
   packet->occupied = (get_transporter_occupancy(punit) > 0);
   packet->battlegroup = punit->battlegroup;

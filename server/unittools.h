@@ -166,4 +166,6 @@ bool unit_can_be_retired(struct unit *punit);
 
 void unit_activities_cancel_all_illegal(const struct tile *ptile);
 
+void unit_get_goods(struct unit *punit);
+
 #endif  /* FC__UNITTOOLS_H */

@@ -1628,6 +1628,8 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   punit->transporter = NULL;
   punit->transporting = unit_list_new();
 
+  punit->carrying = NULL;
+
   set_unit_activity(punit, ACTIVITY_IDLE);
   punit->battlegroup = BATTLEGROUP_NONE;
   punit->has_orders = FALSE;

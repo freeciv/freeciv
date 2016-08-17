@@ -2414,6 +2414,8 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
     send_city_info(old_owner, old_pcity);
   }
 
+  unit_get_goods(punit);
+
   fc_assert(unit_owner(punit) == city_owner(new_pcity));
 }
 
@@ -3692,7 +3694,15 @@ static bool do_unit_establish_trade(struct player *pplayer,
                     " a trade route because it has no home city."),
                   unit_link(punit));
     return FALSE;
-   
+  }
+
+  goods = punit->carrying;
+  if (goods == NULL) {
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("Sorry, your %s cannot establish"
+                    " a trade route because it's not carrying any goods."),
+                  unit_link(punit));
+    return FALSE;
   }
 
   sz_strlcpy(homecity_link, city_link(pcity_homecity));
@@ -3806,7 +3816,6 @@ static bool do_unit_establish_trade(struct player *pplayer,
 
   conn_list_do_buffer(pplayer->connections);
 
-  goods = goods_for_new_route(pcity_homecity, pcity_dest);
   goods_str = goods_name_translation(goods);
 
   if (bonus_str != NULL) {

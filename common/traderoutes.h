@@ -173,8 +173,9 @@ const char *goods_name_translation(struct goods_type *pgood);
 const char *goods_rule_name(struct goods_type *pgood);
 struct goods_type *goods_by_rule_name(const char *name);
 
-bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood);
-struct goods_type *goods_for_new_route(struct city *src, struct city *dest);
+bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood,
+                           struct unit *punit);
+struct goods_type *goods_from_city_to_unit(struct city *src, struct unit *punit);
 bool city_receives_goods(const struct city *pcity,
                          const struct goods_type *pgood);
 

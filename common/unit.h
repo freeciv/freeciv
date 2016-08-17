@@ -159,6 +159,8 @@ struct unit {
   struct unit *transporter;   /* This unit is transported by ... */
   struct unit_list *transporting; /* This unit transports ... */
 
+  struct goods_type *carrying;
+
   /* The battlegroup ID: defined by the client but stored by the server. */
 #define MAX_NUM_BATTLEGROUPS (4)
 #define BATTLEGROUP_NONE (-1)

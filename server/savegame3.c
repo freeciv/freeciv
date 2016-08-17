@@ -5061,6 +5061,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   enum tile_special_type cfspe;
   int natnbr;
   int unconverted;
+  const char *str;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
                                      unitstr), FALSE, "%s", secfile_error());
@@ -5312,6 +5313,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
   punit->paradropped
     = secfile_lookup_bool_default(loading->file, FALSE,
                                   "%s.paradropped", unitstr);
+  str = secfile_lookup_str_default(loading->file, "", "%s.carrying", unitstr);
+  if (str[0] != '\0') {
+    punit->carrying = goods_by_rule_name(str);
+  }
 
   /* The transport status (punit->transported_by) is loaded in
    * sg_player_units_transport(). */
@@ -5697,6 +5702,12 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_int(saving->file, unit_transport_get(punit)
                                      ? unit_transport_get(punit)->id : -1,
                        "%s.transported_by", buf);
+    if (punit->carrying != NULL) {
+      secfile_insert_str(saving->file, goods_rule_name(punit->carrying),
+                         "%s.carrying", buf);
+    } else {
+      secfile_insert_str(saving->file, "", "%s.carrying", buf);
+    }
 
     secfile_insert_int(saving->file, punit->action_decision_want,
                        "%s.action_decision", buf);
