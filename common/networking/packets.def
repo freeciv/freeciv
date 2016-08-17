@@ -483,6 +483,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 forced_luxury;
   UINT8 forced_science;
   UINT8 fulltradesize;
+  UINT8 trade_world_rel_pct;
   /* True if at least one civilization has researched a tech */
   UINT16 global_advance_count;
   BOOL global_advances[A_LAST]; diff

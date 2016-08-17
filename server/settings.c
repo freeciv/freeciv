@@ -2000,6 +2000,20 @@ static struct setting settings[] = {
           GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE,
           GAME_DEFAULT_NOTRADESIZE)
 
+  GEN_INT("tradeworldrelpct", game.info.trade_world_rel_pct,
+          SSET_RULES, SSET_ECONOMICS, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+          N_("How largely trade distance is relative to world size"),
+          /* TRANS: The strings between single quotes are setting names and
+           * shouldn't be translated. */
+          N_("When determining trade between cities, the distance factor "
+             "can be partly or fully relative to world size. This setting "
+             "determines how big percentage of the bonus calculation is "
+             "relative to world size, and how much only absolute distance "
+             "matters."),
+          NULL, NULL, NULL,
+          GAME_MIN_TRADEWORLDRELPCT, GAME_MAX_TRADEWORLDRELPCT,
+          GAME_DEFAULT_TRADEWORLDRELPCT)
+
   GEN_INT("citymindist", game.info.citymindist,
           SSET_RULES, SSET_SOCIOLOGY, SSET_SITUATIONAL,
           ALLOW_NONE, ALLOW_BASIC,
