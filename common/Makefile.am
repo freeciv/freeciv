@@ -81,6 +81,8 @@ libfreeciv_la_SOURCES = \
 		packets_gen.h	\
 		player.c	\
 		player.h	\
+		reqtext.c	\
+		reqtext.h	\
 		requirements.c	\
 		requirements.h	\
 		research.c	\
