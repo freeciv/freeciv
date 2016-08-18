@@ -18,6 +18,7 @@
 /* common */
 #include "achievements.h"
 #include "game.h"
+#include "government.h"
 #include "requirements.h"
 #include "specialist.h"
 #include "tech.h"
@@ -33,7 +34,6 @@
 ************************************************************************/
 bool universal_value_initial(struct universal *src)
 {
-  /* TODO: Implement really */
   switch (src->kind) {
   case VUT_NONE:
     /* Value of None should never be used */
@@ -215,6 +215,11 @@ void universal_kind_values(struct universal *univ,
     advance_active_iterate(padv) {
       cb(advance_rule_name(padv), univ->value.advance == padv, data);
     } advance_active_iterate_end;
+    break;
+  case VUT_GOVERNMENT:
+    governments_active_iterate(pgov) {
+      cb(government_rule_name(pgov), univ->value.govern == pgov, data);
+    } governments_active_iterate_end;
     break;
   case VUT_MINSIZE:
   case VUT_MINYEAR:

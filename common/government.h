@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@ struct ruler_title;     /* Opaque type. */
 struct government {
   Government_type_id item_number;
   struct name_translation name;
+  bool disabled;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   struct requirement_vector reqs;
@@ -118,6 +119,14 @@ struct iterator *government_iter_init(struct government_iter *it);
   generic_iterate(struct government_iter, struct government *,              \
                   NAME_pgov, government_iter_sizeof, government_iter_init)
 #define governments_iterate_end generic_iterate_end
+
+#define governments_active_iterate(_p)                                  \
+  governments_iterate(_p) {                                             \
+    if (!_p->disabled) {
+
+#define governments_active_iterate_end                                  \
+    }                                                                   \
+  } governments_iterate_end;
 
 #ifdef __cplusplus
 }

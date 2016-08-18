@@ -31,6 +31,7 @@
 
 // common
 #include "game.h"
+#include "government.h"
 
 // server
 #include "rssanity.h"
@@ -270,7 +271,13 @@ void tab_misc::refresh_stats()
   stats->item(row++, 4)->setText(QString::number(game.control.nation_count));
   stats->item(row++, 4)->setText(QString::number(game.control.styles_count));
   stats->item(row++, 4)->setText(QString::number(game.control.num_specialist_types));
-  stats->item(row++, 4)->setText(QString::number(game.control.government_count));
+
+  count = 0;
+  governments_active_iterate(pgov) {
+    count++;
+  } governments_active_iterate_end;
+  stats->item(row++, 4)->setText(QString::number(count));
+
   stats->item(row++, 4)->setText(QString::number(game.control.num_disaster_types));
 
   // Third column
