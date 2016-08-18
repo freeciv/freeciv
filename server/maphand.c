@@ -82,6 +82,9 @@ static inline int map_get_own_seen(const struct player *pplayer,
                                    const struct tile *ptile,
                                    enum vision_layer vlayer);
 
+static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
+                               struct player *pplayer);
+
 /**************************************************************************
 Used only in global_warming() and nuclear_winter() below.
 **************************************************************************/
@@ -1748,6 +1751,7 @@ void fix_tile_on_terrain_change(struct tile *ptile,
 void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 {
   struct terrain *newter = tile_terrain(ptile);
+  struct tile *claimer;
 
   /* Check if new terrain is a freshwater terrain next to non-freshwater.
    * In that case, the new terrain is *changed*. */
@@ -1795,6 +1799,13 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
   if (need_to_reassign_continents(oldter, newter)) {
     assign_continent_numbers();
     send_all_known_tiles(NULL);
+  }
+
+  claimer = tile_claimer(ptile);
+  if (claimer != NULL && is_ocean_tile(ptile)) {
+    if (!is_claimable_ocean(ptile, claimer, tile_owner(ptile))) {
+      map_clear_border(ptile);
+    }
   }
 
   sanity_check_tile(ptile);
