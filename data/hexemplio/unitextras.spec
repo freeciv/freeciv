@@ -61,51 +61,6 @@ tiles = { "row", "column", "tag"
 ;  2, 3, "unit.lowfuel"
   2, 4, "unit.lowfuel"
   2, 5, "unit.connect"
-  2, 6, "unit.auto_attack",
-        "unit.auto_settler"
-
-; Unit activity letters: unit commands
-
-  3, 0, "unit.fortified"
-  3, 1, "unit.fortifying"
-  3, 2, "unit.auto_explore"
-  3, 3, "unit.sentry"
-  3, 4, "unit.goto"
-  3, 5, "unit.patrol"
-  3, 6, "unit.convert"
-
-; Unit activity letters: tile commands
-
-  4, 0, "unit.rest"
-  4, 1, "unit.irrigate"
-  4, 2, "unit.plant"
-  4, 3, "unit.transform"
-  4, 4, "unit.pillage"
-  4, 5, "unit.pollution"
-  4, 6, "unit.fallout"
-  4, 7, "unit.farm"
-
-; Unit Activities: roads
-
-  5, 0, "unit.road"
-  5, 1, "unit.rail"
-  5, 2, "unit.pave"
-  5, 3, "unit.maglev"
-
-; Unit activities: bases
-
-  5,  4, "unit.outpost"
-  5,  5, "unit.fortress"
-  5,  6, "unit.airstrip"
-  5,  7, "unit.airbase"
-  5,  8, "unit.buoy"
-
-; Unit activities: other extras
-
-  6,  0, "unit.irrigation"
-  6,  1, "unit.farmland"
-  6,  2, "unit.mine"
-  6,  3, "unit.oil_mine"
-  6,  4, "unit.oil_rig"
-
+  2, 6, "unit.auto_attack"
+  2, 6, "unit.auto_settler"
 }
