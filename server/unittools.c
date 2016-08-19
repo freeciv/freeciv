@@ -1544,7 +1544,7 @@ void unit_get_goods(struct unit *punit)
   if (punit->homecity != 0) {
     struct city *home = game_city_by_number(punit->homecity);
 
-    if (home != NULL) {
+    if (home != NULL && game.info.goods_selection == GSM_LEAVING) {
       punit->carrying = goods_from_city_to_unit(home, punit);
     }
   }

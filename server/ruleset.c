@@ -6528,6 +6528,19 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   }
 
   if (ok) {
+    const char *str = secfile_lookup_str_default(file, "Leaving", "trade.goods_selection");
+
+    game.info.goods_selection = goods_selection_method_by_name(str, fc_strcasecmp);
+
+    if (!goods_selection_method_is_valid(game.info.goods_selection)) {
+      ruleset_error(LOG_ERROR,
+                    "\"%s\" goods selection method \"%s\" unknown.",
+                    filename, str);
+      ok = FALSE;
+    }
+  }
+
+  if (ok) {
     sec = secfile_sections_by_name_prefix(file, GOODS_SECTION_PREFIX);
 
     goods_type_iterate(pgood) {

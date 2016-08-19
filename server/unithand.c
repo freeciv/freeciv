@@ -3696,7 +3696,11 @@ static bool do_unit_establish_trade(struct player *pplayer,
     return FALSE;
   }
 
-  goods = punit->carrying;
+  if (game.info.goods_selection == GSM_ARRIVAL) {
+    goods =  goods_from_city_to_unit(pcity_homecity, punit);
+  } else {
+    goods = punit->carrying;
+  }
   if (goods == NULL) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Sorry, your %s cannot establish"

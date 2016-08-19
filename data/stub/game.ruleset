@@ -432,6 +432,11 @@ settings =
     "TeamIC",     0, "Cancel", "None"
   }
 
+; When are goods for the trade route chosen.
+; "Leaving" - Goods to carry are assigned to unit when it's built, or it changes homecity
+; "Arrival" - Goods are chosen when trade route is established, when unit arrives to destination
+goods_selection = "Leaving"
+
 ; /* <-- avoid gettext warnings
 ;
 ; Goods types:

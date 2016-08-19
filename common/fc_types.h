@@ -811,6 +811,14 @@ enum road_compat { ROCO_ROAD, ROCO_RAILROAD, ROCO_RIVER, ROCO_NONE };
  */
 #define MAX_TRADE_ROUTES        5
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME goods_selection_method
+#define SPECENUM_VALUE0 GSM_LEAVING
+#define SPECENUM_VALUE0NAME "Leaving"
+#define SPECENUM_VALUE1 GSM_ARRIVAL
+#define SPECENUM_VALUE1NAME "Arrival"
+#include "specenum_gen.h"
+
 enum victory_condition_type
 {
   VC_SPACERACE = 0,

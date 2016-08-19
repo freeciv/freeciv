@@ -258,6 +258,7 @@ type TECH_COST_STYLE    = uint8(enum tech_cost_style)
 type TECH_LEAKAGE_STYLE = uint8(enum tech_leakage_style)
 type GOLD_UPKEEP_STYLE  = uint8(enum gold_upkeep_style)
 type TR_BONUS_TYPE      = uint8(enum traderoute_bonus_type)
+type GOODS_SELECTION    = uint8(enum goods_selection_method)
 
 # typedefs for bit vectors
 type BV_ACTIONS         = bitvector(bv_actions)
@@ -484,6 +485,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 forced_science;
   UINT8 fulltradesize;
   UINT8 trade_world_rel_pct;
+  GOODS_SELECTION goods_selection;
   /* True if at least one civilization has researched a tech */
   UINT16 global_advance_count;
   BOOL global_advances[A_LAST]; diff
