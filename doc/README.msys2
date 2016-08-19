@@ -13,9 +13,9 @@ using MSYS2 from http://msys2.github.io
   build method
 - With very specific configure options (see Problems) and msys2 package
   selection freeciv can be built
-- Buildable clients are gtk3 and Qt
+- Buildable clients are gtk3, gtk2, and Qt
 - Audio support cannot be built in
-- Both server and gtk3-client launch ok, Qt client does not
+- Both server, gtk3-client, and gtk2-client launch ok, Qt client does not
 - Most Installers cannot be built
 - Buildable Installers:
   - Ruledit
@@ -105,6 +105,9 @@ using MSYS2 from http://msys2.github.io
 2.1.2.3) Arch-specific packages for buildind Qt-client and/or Ruledit
  - mingw-w64-i686-qt5 / mingw-w64-x86_64-qt5
 
+2.1.2.4) Arch-specific packages for building gtk2-client
+ - mingw-w64-i686-gtk2 / mingw-w64-x86_64-gtk2
+
 2.2) Packaged needed for building installer package
  These are needed in addition to above ones used in the
  building step already.
@@ -116,7 +119,7 @@ using MSYS2 from http://msys2.github.io
 
 2.3) Packages TODO:
  - Mixer support
- - Clients other than gtk3
+ - Clients other than gtk3 and gtk2
  - MagickWand support
 
 
@@ -185,6 +188,7 @@ somehow. Some options are:
   Target can be:
   - "<gui>-installer", where <gui> is
      - gtk3
+     - gtk2
      - qt
   - "ruledit-installer"
   - "snapshot", if your freeciv sources are in svn checkout directory

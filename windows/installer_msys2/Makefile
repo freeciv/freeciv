@@ -260,16 +260,20 @@ install-env-gtk3: install-env-default-fcmp
 
 GTK2_DLLS := \
 	libgdk-win32-2.0-0.dll \
-	libgtk-win32-2.0-0.dll
+	libgtk-win32-2.0-0.dll \
+	libexpat-1.dll \
+	libharfbuzz-0.dll \
+	libpangoft2-1.0-0.dll \
+	libpcre-1.dll
 
 install-env-gtk2: install-env-common
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK2_DLLS)) install-$(WINARCH)-$(GUI)/
 	# add additional GTK+2 files
 	mkdir -p install-$(WINARCH)-$(GUI)/etc
-	cp -R /etc/gtk-2.0 install-$(WINARCH)-$(GUI)/etc/
+	cp -R /$(ARCHDIR)/etc/gtk-2.0 install-$(WINARCH)-$(GUI)/etc/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
-	cp -R /lib/gtk-2.0/2.10.0 install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
+	cp -R /$(ARCHDIR)/lib/gtk-2.0/2.10.0 install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
 
