@@ -79,6 +79,7 @@ position islands for all players.\n\
   - bombardment can kill population in a city.\n\
   - webperimental's bombardment can target unit stacks 3 tiles away.\n\
   - webperimental's bombardment doesn't replace regular attack.\n\
+- The Battleship is weak against Bomber planes.\n\
 \n\
 This ruleset is still in development. If playing it makes you think that \
 a rule should change go to the Freeciv-web board at \

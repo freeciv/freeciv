@@ -33,6 +33,7 @@ flags =
     _("MediumWeight"), _("Airliftable from Airport after you learn Advanced Flight.")
     _("HeavyWeight"), _("Airliftable from Airport after you learn Fusion Power.")
     _("Bombarder")
+    _("Ostfriesland"), _("Defends very badly against Bomber planes.")
     _("Airbase")
     _("Transform")
     _("AirAttacker"), _("Very bad at attacking AEGIS.")
@@ -1373,6 +1374,10 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+bonuses       =
+   { "flag", "type", "value"
+     "Ostfriesland", "DefenseDivider", 1
+   }
 flags         = "FieldUnit", "OneAttack", "AirAttacker", "HasNoZOC",
                   "MediumWeight"
 roles         = ""
@@ -1482,6 +1487,10 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+bonuses       =
+   { "flag", "type", "value"
+     "Ostfriesland", "DefenseDivider", 1
+   }
 flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirAttacker",
                 "HasNoZOC", "MediumWeight"
 roles         = ""
@@ -1785,7 +1794,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "BadCityDefender", "HeavyWeight", "Bombarder"
+flags         = "BadCityDefender", "HeavyWeight", "Bombarder", "Ostfriesland"
 bombard_rate  = 10
 roles         = ""
 helptext      = _("\
