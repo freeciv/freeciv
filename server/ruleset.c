@@ -6547,6 +6547,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       int id = goods_index(pgood);
       const char *sec_name = section_name(section_list_get(sec, id));
       struct requirement_vector *reqs;
+      const char **slist;
+      int j;
 
       reqs = lookup_req_list(file, compat, sec_name, "reqs", goods_rule_name(pgood));
       if (reqs == NULL) {
@@ -6554,6 +6556,26 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         break;
       }
       requirement_vector_copy(&pgood->reqs, reqs);
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
+      BV_CLR_ALL(pgood->flags);
+      for (j = 0; j < nval; j++) {
+        enum goods_flag_id flag;
+
+        sval = slist[j];
+        flag = goods_flag_id_by_name(sval, fc_strcasecmp);
+        if (!goods_flag_id_is_valid(flag)) {
+          ruleset_error(LOG_ERROR, "\"%s\" good \"%s\": unknown flag \"%s\".",
+                        filename,
+                        goods_rule_name(pgood),
+                        sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(pgood->flags, flag);
+        }
+      }
+      free(slist);
     } goods_type_iterate_end;
   }
 
@@ -7201,6 +7223,8 @@ static void send_ruleset_goods(struct conn_list *dest)
       packet.reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
+
+    packet.flags = g->flags;
 
     lsend_packet_ruleset_goods(dest, &packet);
   } goods_type_iterate_end;

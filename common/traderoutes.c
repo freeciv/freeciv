@@ -504,6 +504,14 @@ struct goods_type *goods_by_rule_name(const char *name)
 }
 
 /****************************************************************************
+  Check if goods has given flag
+****************************************************************************/
+bool goods_has_flag(const struct goods_type *pgood, enum goods_flag_id flag)
+{
+  return BV_ISSET(pgood->flags, flag);
+}
+
+/****************************************************************************
   Can the city provide goods.
 ****************************************************************************/
 bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood,

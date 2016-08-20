@@ -152,6 +152,14 @@ do {                                                        \
   } trade_routes_iterate_end;                               \
 } while (FALSE);
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME goods_flag_id
+#define SPECENUM_VALUE0 GF_BIDIRECTIONAL
+#define SPECENUM_VALUE0NAME "Bidirectional"
+#define SPECENUM_COUNT GF_COUNT
+#define SPECENUM_BITVECTOR bv_goods_flags
+#include "specenum_gen.h"
+
 struct goods_type
 {
   int id;
@@ -159,6 +167,8 @@ struct goods_type
   bool disabled; /* Does not really exist - hole in goods array */
 
   struct requirement_vector reqs;
+
+  bv_goods_flags flags;
 };
 
 void goods_init(void);
@@ -172,6 +182,8 @@ struct goods_type *goods_by_number(Goods_type_id id);
 const char *goods_name_translation(struct goods_type *pgood);
 const char *goods_rule_name(struct goods_type *pgood);
 struct goods_type *goods_by_rule_name(const char *name);
+
+bool goods_has_flag(const struct goods_type *pgood, enum goods_flag_id flag);
 
 bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood,
                            struct unit *punit);

@@ -3864,7 +3864,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   }
 
   if (can_establish) {
-    struct trade_route *proute;
+    struct trade_route *proute_from, *proute_to;
     struct city_list *cities_out_of_home;
     struct city_list *cities_out_of_dest;
 
@@ -3914,17 +3914,23 @@ static bool do_unit_establish_trade(struct player *pplayer,
     } trade_route_list_iterate_end;
 
     /* Actually create the new trade route */
-    proute = fc_malloc(sizeof(struct trade_route));
-    proute->partner = pcity_dest->id;
-    proute->dir = RDIR_FROM;
-    proute->goods = goods;
-    trade_route_list_append(pcity_homecity->routes, proute);
+    proute_from = fc_malloc(sizeof(struct trade_route));
+    proute_from->partner = pcity_dest->id;
+    proute_from->goods = goods;
 
-    proute = fc_malloc(sizeof(struct trade_route));
-    proute->partner = pcity_homecity->id;
-    proute->dir = RDIR_TO;
-    proute->goods = goods;
-    trade_route_list_append(pcity_dest->routes, proute);
+    proute_to = fc_malloc(sizeof(struct trade_route));
+    proute_to->partner = pcity_homecity->id;
+    proute_to->goods = goods;
+
+    if (goods_has_flag(goods, GF_BIDIRECTIONAL)) {
+      proute_from->dir = RDIR_BIDIRECTIONAL;
+      proute_to->dir = RDIR_BIDIRECTIONAL;
+    } else {
+      proute_from->dir = RDIR_FROM;
+      proute_to->dir = RDIR_TO;
+    }
+    trade_route_list_append(pcity_homecity->routes, proute_from);
+    trade_route_list_append(pcity_dest->routes, proute_to);
 
     /* Refresh the cities. */
     city_refresh(pcity_homecity);

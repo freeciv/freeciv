@@ -264,6 +264,7 @@ type GOODS_SELECTION    = uint8(enum goods_selection_method)
 type BV_ACTIONS         = bitvector(bv_actions)
 type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
+type BV_GOODS_FLAGS     = bitvector(bv_goods_flags)
 type BV_EXTRAS          = bitvector(bv_extras)
 type BV_BASES           = bitvector(bv_bases)
 type BV_ROADS           = bitvector(bv_roads)
@@ -1697,6 +1698,7 @@ PACKET_RULESET_GOODS = 248; sc, lsend
   STRING rule_name[MAX_LEN_NAME];
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
+  BV_GOODS_FLAGS flags;
 end
 
 PACKET_RULESET_DISASTER = 224; sc, lsend
