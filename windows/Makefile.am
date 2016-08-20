@@ -7,25 +7,6 @@ dist_noinst_DATA = \
 		clienticon.rc 	\
 		mpicon.rc	\
 		servericon.rc	\
-		installer/licenses/COPYING.installer	\
-		installer/create-freeciv-gtk-qt-nsi.sh	\
-		installer/create-freeciv-gtk2-nsi.sh	\
-		installer/create-freeciv-gtk3-nsi.sh	\
-		installer/create-freeciv-qt-nsi.sh	\
-		installer/create-freeciv-sdl2-nsi.sh	\
-		installer/create-freeciv-ruledit-nsi.sh	\
-		installer/freeciv-gtk2.cmd		\
-		installer/freeciv-gtk3.cmd		\
-		installer/freeciv-mp-gtk2.cmd		\
-		installer/freeciv-mp-gtk3.cmd		\
-		installer/freeciv-mp-qt.cmd		\
-		installer/freeciv-qt.cmd		\
-		installer/freeciv-sdl2.cmd		\
-		installer/freeciv-server.cmd		\
-		installer/freeciv-ruledit.cmd		\
-		installer/Freeciv.url			\
-		installer/Makefile			\
-		installer/cleanup_checkout.sh		\
 		installer_msys2/licenses/COPYING.installer	\
 		installer_msys2/create-freeciv-gtk-qt-nsi.sh	\
 		installer_msys2/create-freeciv-gtk2-nsi.sh	\
