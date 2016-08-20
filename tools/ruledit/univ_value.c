@@ -221,6 +221,41 @@ void universal_kind_values(struct universal *univ,
       cb(government_rule_name(pgov), univ->value.govern == pgov, data);
     } governments_active_iterate_end;
     break;
+  case VUT_IMPROVEMENT:
+    improvement_active_iterate(pimpr) {
+      cb(improvement_rule_name(pimpr), univ->value.building == pimpr, data);
+    } improvement_active_iterate_end;
+    break;
+  case VUT_TERRAIN:
+  case VUT_NATION:
+  case VUT_UTYPE:
+  case VUT_UTFLAG:
+  case VUT_UCLASS:
+  case VUT_UCFLAG:
+  case VUT_OTYPE:
+  case VUT_SPECIALIST:
+  case VUT_AI_LEVEL:
+  case VUT_TERRAINCLASS:
+  case VUT_TERRAINALTER:
+  case VUT_CITYTILE:
+  case VUT_GOOD:
+  case VUT_TERRFLAG:
+  case VUT_NATIONALITY:
+  case VUT_BASEFLAG:
+  case VUT_ROADFLAG:
+  case VUT_EXTRA:
+  case VUT_TECHFLAG:
+  case VUT_ACHIEVEMENT:
+  case VUT_DIPLREL:
+  case VUT_STYLE:
+  case VUT_UNITSTATE:
+  case VUT_NATIONGROUP:
+  case VUT_TOPO:
+  case VUT_IMPR_GENUS:
+  case VUT_ACTION:
+  case VUT_EXTRAFLAG:
+    /* Not yet implemented */
+    break;
   case VUT_MINSIZE:
   case VUT_MINYEAR:
   case VUT_MAXTILEUNITS:
@@ -234,8 +269,6 @@ void universal_kind_values(struct universal *univ,
     break;
   case VUT_COUNT:
     fc_assert(univ->kind != VUT_COUNT);
-    break;
-  default:
     break;
   }
 }
