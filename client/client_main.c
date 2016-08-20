@@ -161,6 +161,8 @@ static bool server_busy = FALSE;
 bool hackless = FALSE;
 #endif
 
+static bool client_quitting = FALSE;
+
 /**************************************************************************
   Convert a text string from the internal to the data encoding, when it
   is written to the network.
@@ -846,8 +848,10 @@ void set_client_state(enum client_states newstate)
   if (oldstate == C_S_RUNNING && newstate != C_S_PREPARING) {
     stop_style_music();
 
-    /* Back to menu */
-    start_menu_music("music_menu", NULL);
+    if (!is_client_quitting()) {
+      /* Back to menu */
+      start_menu_music("music_menu", NULL);
+    }
   }
 
   civclient_state = newstate;
@@ -1446,4 +1450,20 @@ static struct rgbcolor *mapimg_client_plrcolor_get(int i)
   } players_iterate_end;
 
   return NULL;
+}
+
+/****************************************************************************
+  Is the client marked as one going down?
+****************************************************************************/
+bool is_client_quitting(void)
+{
+  return client_quitting;
+}
+
+/****************************************************************************
+  Mark client as one going to quit as soon as possible,
+****************************************************************************/
+void start_quitting(void)
+{
+  client_quitting = TRUE;
 }

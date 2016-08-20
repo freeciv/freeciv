@@ -1583,12 +1583,12 @@ void ui_main(int argc, char **argv)
   gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
 
   g_signal_connect(toplevel, "delete_event",
-      G_CALLBACK(quit_dialog_callback), NULL);
+                   G_CALLBACK(quit_dialog_callback), NULL);
 
   /* Disable GTK+ cursor key focus movement */
   sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
   g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
-				       0, 0, 0, 0);
+                                       0, 0, 0, 0);
   g_signal_connect(toplevel, "focus", G_CALLBACK(toplevel_focus), NULL);
 
 
@@ -1625,17 +1625,17 @@ void ui_main(int argc, char **argv)
   thick_line_gc = gdk_gc_new(root_window);
   border_line_gc = gdk_gc_new(root_window);
   gdk_gc_set_line_attributes(thin_line_gc, 1,
-			     GDK_LINE_SOLID,
-			     GDK_CAP_NOT_LAST,
-			     GDK_JOIN_MITER);
+                             GDK_LINE_SOLID,
+                             GDK_CAP_NOT_LAST,
+                             GDK_JOIN_MITER);
   gdk_gc_set_line_attributes(thick_line_gc, 2,
-			     GDK_LINE_SOLID,
-			     GDK_CAP_NOT_LAST,
-			     GDK_JOIN_MITER);
+                             GDK_LINE_SOLID,
+                             GDK_CAP_NOT_LAST,
+                             GDK_JOIN_MITER);
   gdk_gc_set_line_attributes(border_line_gc, BORDER_WIDTH,
-			     GDK_LINE_ON_OFF_DASH,
-			     GDK_CAP_NOT_LAST,
-			     GDK_JOIN_MITER);
+                             GDK_LINE_ON_OFF_DASH,
+                             GDK_CAP_NOT_LAST,
+                             GDK_JOIN_MITER);
 
   fill_tile_gc = gdk_gc_new(root_window);
   gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
@@ -1652,7 +1652,7 @@ void ui_main(int argc, char **argv)
 
   {
     GdkColor pixel;
-    
+
     mask_bitmap = gdk_pixmap_new(root_window, 1, 1, 1);
 
     mask_fg_gc = gdk_gc_new(mask_bitmap);
@@ -1696,13 +1696,14 @@ void ui_main(int argc, char **argv)
 
   /* assumes toplevel showing */
   set_client_state(C_S_DISCONNECTED);
-  
+
   /* assumes client_state is set */
   timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
   gui_up = TRUE;
   gtk_main();
   gui_up = FALSE;
+  start_quitting();
 
   destroy_server_scans();
   free_mapcanvas_and_overview();

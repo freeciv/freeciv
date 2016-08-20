@@ -1759,16 +1759,16 @@ void ui_main(int argc, char **argv)
   if (GUI_GTK_OPTION(fullscreen)) {
     gtk_window_fullscreen(GTK_WINDOW(toplevel));
   }
-  
+
   gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
 
   g_signal_connect(toplevel, "delete_event",
-      G_CALLBACK(quit_dialog_callback), NULL);
+                   G_CALLBACK(quit_dialog_callback), NULL);
 
   /* Disable GTK+ cursor key focus movement */
   sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
   g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
-				       0, 0, 0, 0);
+                                       0, 0, 0, 0);
   g_signal_connect(toplevel, "focus", G_CALLBACK(toplevel_focus), NULL);
 
 
@@ -1831,13 +1831,14 @@ void ui_main(int argc, char **argv)
 
   /* assumes toplevel showing */
   set_client_state(C_S_DISCONNECTED);
-  
+
   /* assumes client_state is set */
   timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
   gui_up = TRUE;
   gtk_main();
   gui_up = FALSE;
+  start_quitting();
 
   destroy_server_scans();
   free_mapcanvas_and_overview();
