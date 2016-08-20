@@ -111,6 +111,10 @@ void gui_ui_main(int argc, char *argv[])
 
   /* PORTME */
   fc_fprintf(stderr, "Freeciv rules!\n");
+
+  /* Main loop here */
+
+  start_quitting();
 }
 
 /****************************************************************************
