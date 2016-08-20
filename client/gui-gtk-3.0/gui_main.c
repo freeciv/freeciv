@@ -1804,6 +1804,7 @@ void ui_main(int argc, char **argv)
   gui_up = TRUE;
   gtk_main();
   gui_up = FALSE;
+  start_quitting();
 
   destroy_server_scans();
   free_mapcanvas_and_overview();

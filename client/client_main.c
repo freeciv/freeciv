@@ -160,6 +160,8 @@ bool waiting_for_end_turn = FALSE;
  */
 static bool server_busy = FALSE;
 
+static bool client_quitting = FALSE;
+
 /**************************************************************************
   Convert a text string from the internal to the data encoding, when it
   is written to the network.
@@ -795,8 +797,10 @@ void set_client_state(enum client_states newstate)
   }
 
   if (oldstate == C_S_RUNNING && newstate != C_S_PREPARING) {
-    /* Back to menu */
-    audio_play_music("music_start", NULL);
+    if (!is_client_quitting()) {
+      /* Back to menu */
+      audio_play_music("music_start", NULL);
+    }
   }
 
   civclient_state = newstate;
@@ -1346,4 +1350,20 @@ int client_current_turn_timeout(void)
   }
 
   return game.info.timeout;
+}
+
+/****************************************************************************
+  Is the client marked as one going down?
+****************************************************************************/
+bool is_client_quitting(void)
+{
+  return client_quitting;
+}
+
+/****************************************************************************
+  Mark client as one going to quit as soon as possible,
+****************************************************************************/
+void start_quitting(void)
+{
+  client_quitting = TRUE;
 }

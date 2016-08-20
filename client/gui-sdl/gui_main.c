@@ -1070,9 +1070,9 @@ void ui_main(int argc, char *argv[])
 
   /* Main game loop */
   gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler,
-  		 main_mouse_button_down_handler, main_mouse_button_up_handler,
-		 main_mouse_motion_handler);
-                 
+                 main_mouse_button_down_handler, main_mouse_button_up_handler,
+                 main_mouse_motion_handler);
+  start_quitting();
 }
 
 /**************************************************************************

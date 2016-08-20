@@ -334,7 +334,7 @@ void ui_main(int argc, char *argv[])
 
   /* include later - pain to see the warning at every run */
   XtSetLanguageProc(NULL, NULL, NULL);
-  
+
   toplevel = XtVaAppInitialize(
 	       &app_context,               /* Application context */
 	       "Freeciv",                  /* application class name */
@@ -355,7 +355,7 @@ void ui_main(int argc, char *argv[])
 /*  XSynchronize(display, 1); 
   XSetErrorHandler(myerr);*/
 
-  if(appResources.version==NULL)  {
+  if (appResources.version == NULL)  {
     log_fatal(_("No version number in resources."));
     log_fatal(_("You probably have an old (circa V1.0)"
                 " Freeciv resource file somewhere."));
@@ -364,7 +364,7 @@ void ui_main(int argc, char *argv[])
 
   /* TODO: Use capabilities here instead of version numbers */
   if (0 != strncmp(appResources.version, VERSION_STRING,
-		   strlen(appResources.version))) {
+                   strlen(appResources.version))) {
     log_fatal(_("Game version does not match Resource version."));
     log_fatal(_("Game version: %s - Resource version: %s"),
               VERSION_STRING, appResources.version);
@@ -372,19 +372,19 @@ void ui_main(int argc, char *argv[])
                 " in /usr/lib/X11/app-defaults"));
     exit(EXIT_FAILURE);
   }
-  
-  if(!appResources.gotAppDefFile) {
+
+  if (!appResources.gotAppDefFile) {
     log_normal(_("Using fallback resources - which is OK"));
   }
 
   display = XtDisplay(toplevel);
-  screen_number=XScreenNumberOfScreen(XtScreen(toplevel));
-  display_depth=DefaultDepth(display, screen_number);
-  root_window=DefaultRootWindow(display);
+  screen_number = XScreenNumberOfScreen(XtScreen(toplevel));
+  display_depth = DefaultDepth(display, screen_number);
+  root_window = DefaultRootWindow(display);
 
-  display_color_type=get_visual(); 
-  
-  if(display_color_type!=COLOR_DISPLAY) {
+  display_color_type = get_visual();
+
+  if (display_color_type != COLOR_DISPLAY) {
     log_fatal(_("Only color displays are supported for now..."));
     /*    exit(EXIT_FAILURE); */
   }
@@ -419,8 +419,8 @@ void ui_main(int argc, char *argv[])
     values.foreground = get_color(tileset, COLOR_MAPVIEW_CITYTEXT)->color.pixel;
     values.background = get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color.pixel;
     font_gc= XCreateGC(display, root_window, 
-		       GCForeground|GCBackground|GCGraphicsExposures, 
-		       &values);
+                       GCForeground|GCBackground|GCGraphicsExposures, 
+                       &values);
 
     prod_font_set = XCreateFontSet(display, city_productions_font_name,
 	&missing_charset_list_return,
@@ -438,8 +438,8 @@ void ui_main(int argc, char *argv[])
     values.foreground = get_color(tileset, COLOR_MAPVIEW_CITYTEXT)->color.pixel;
     values.background = get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color.pixel;
     prod_font_gc= XCreateGC(display, root_window,
-			    GCForeground|GCBackground|GCGraphicsExposures,
-			    &values);
+                            GCForeground|GCBackground|GCGraphicsExposures,
+                            &values);
 
     values.line_width = BORDER_WIDTH;
     values.line_style = LineOnOffDash;
@@ -447,33 +447,33 @@ void ui_main(int argc, char *argv[])
     values.join_style = JoinMiter;
     values.fill_style = FillSolid;
     border_line_gc = XCreateGC(display, root_window,
-			       GCGraphicsExposures|GCLineWidth|GCLineStyle
-			       |GCCapStyle|GCJoinStyle|GCFillStyle, &values);
+                               GCGraphicsExposures|GCLineWidth|GCLineStyle
+                               |GCCapStyle|GCJoinStyle|GCFillStyle, &values);
 
     values.foreground = 0;
     values.background = 0;
     fill_bg_gc= XCreateGC(display, root_window, 
-			  GCForeground|GCBackground|GCGraphicsExposures,
-			  &values);
+                          GCForeground|GCBackground|GCGraphicsExposures,
+                          &values);
 
-    values.fill_style=FillStippled;
-    fill_tile_gc= XCreateGC(display, root_window, 
-    			    GCForeground|GCBackground|GCFillStyle|GCGraphicsExposures,
-			    &values);
+    values.fill_style = FillStippled;
+    fill_tile_gc = XCreateGC(display, root_window, 
+                             GCForeground|GCBackground|GCFillStyle|GCGraphicsExposures,
+                             &values);
   }
 
   {
-    char d1[]={0x03,0x0c,0x03,0x0c};
-    char d2[]={0x08,0x02,0x08,0x02};
+    char d1[] = {0x03,0x0c,0x03,0x0c};
+    char d2[] = {0x08,0x02,0x08,0x02};
     gray50 = XCreateBitmapFromData(display, root_window, d1, 4, 4);
     gray25 = XCreateBitmapFromData(display, root_window, d2, 4, 4);
   }
-  
+
   /* 135 below is rough value (could be more intelligent) --dwp */
   num_units_below = 135 / tileset_full_tile_width(tileset);
-  num_units_below = MIN(num_units_below,MAX_NUM_UNITS_BELOW);
-  num_units_below = MAX(num_units_below,1);
-  
+  num_units_below = MIN(num_units_below, MAX_NUM_UNITS_BELOW);
+  num_units_below = MAX(num_units_below, 1);
+
   /* do setup_widgets before loading the rest of graphics to ensure that
      setup_widgets() has enough colors available:  (on 256-colour systems)
   */
@@ -494,15 +494,15 @@ void ui_main(int argc, char *argv[])
 
   /* Do this outside setup_widgets() so after tiles are loaded */
   fill_econ_label_pixmaps();
-		
-  XtAddCallback(map_horizontal_scrollbar, XtNjumpProc, 
-		scrollbar_jump_callback, NULL);
-  XtAddCallback(map_vertical_scrollbar, XtNjumpProc, 
-		scrollbar_jump_callback, NULL);
-  XtAddCallback(map_horizontal_scrollbar, XtNscrollProc, 
-		scrollbar_scroll_callback, NULL);
-  XtAddCallback(map_vertical_scrollbar, XtNscrollProc, 
-		scrollbar_scroll_callback, NULL);
+
+  XtAddCallback(map_horizontal_scrollbar, XtNjumpProc,
+                scrollbar_jump_callback, NULL);
+  XtAddCallback(map_vertical_scrollbar, XtNjumpProc,
+                scrollbar_jump_callback, NULL);
+  XtAddCallback(map_horizontal_scrollbar, XtNscrollProc,
+                scrollbar_scroll_callback, NULL);
+  XtAddCallback(map_vertical_scrollbar, XtNscrollProc,
+                scrollbar_scroll_callback, NULL);
   XtAddCallback(turn_done_button, XtNcallback, end_turn_callback, NULL);
 
   XtAppAddWorkProc(app_context, toplevel_work_proc, NULL);
@@ -510,16 +510,16 @@ void ui_main(int argc, char *argv[])
   XtRealizeWidget(toplevel);
 
   x_interval_id = XtAppAddTimeOut(app_context, TIMER_INTERVAL,
-				  timer_callback, NULL);
+                                  timer_callback, NULL);
 
   init_mapcanvas_and_overview();
 
   fill_unit_below_pixmaps();
 
   set_indicator_icons(client_research_sprite(),
-		      client_warming_sprite(),
-		      client_cooling_sprite(),
-		      client_government_sprite());
+                      client_warming_sprite(),
+                      client_cooling_sprite(),
+                      client_government_sprite());
 
   wm_delete_window = XInternAtom(XtDisplay(toplevel), "WM_DELETE_WINDOW", 0);
   XSetWMProtocols(display, XtWindow(toplevel), &wm_delete_window, 1);
@@ -537,6 +537,8 @@ void ui_main(int argc, char *argv[])
   }
 
   XtAppMainLoop(app_context);
+
+  start_quitting();
 }
 
 /**************************************************************************
@@ -544,7 +546,6 @@ void ui_main(int argc, char *argv[])
 **************************************************************************/
 void ui_exit()
 {
-
 }
 
 /**************************************************************************
