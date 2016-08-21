@@ -231,7 +231,7 @@ void actions_init(void)
   actions[ACTION_AIRLIFT] =
       action_new(ACTION_AIRLIFT, ATK_CITY,
                  FALSE, FALSE, TRUE,
-                 1, MAP_MAX_LINEAR_SIZE);
+                 1, MAP_DISTANCE_MAX);
   actions[ACTION_ATTACK] =
       action_new(ACTION_ATTACK,
                  /* FIXME: Target is actually City and, depending on the

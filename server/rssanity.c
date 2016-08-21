@@ -908,7 +908,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
       ok = FALSE;
     }
 
-    if (paction->max_distance > MAP_MAX_LINEAR_SIZE) {
+    if (paction->max_distance > MAP_DISTANCE_MAX) {
       ruleset_error(LOG_ERROR, "Action %s: max distance is %d. "
                     "A map can't be that big.",
                     action_get_rule_name(act), paction->max_distance);

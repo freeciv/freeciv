@@ -591,6 +591,11 @@ FC_STATIC_ASSERT((long unsigned) MAP_MAX_SIZE * 1000
 #define MAP_MAX_LINEAR_SIZE      (MAP_MAX_SIZE * 1000 / MAP_MIN_LINEAR_SIZE)
 #define MAP_MIN_LINEAR_SIZE      16
 
+/* The distance between two points at a map shouldn't be larger than this.
+Adds MAP_MIN_LINEAR_SIZE because hex topologies forbids certain diagonal
+moves. Includes MAP_MAX_LINEAR_SIZE because a map can be non wrapping. */
+#define MAP_DISTANCE_MAX (MAP_MAX_LINEAR_SIZE + MAP_MIN_LINEAR_SIZE)
+
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
 #ifdef FREECIV_WEB
 /* Freeciv-web doesn't support isometric maps yet. */
