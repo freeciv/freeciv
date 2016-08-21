@@ -227,11 +227,11 @@ void actions_init(void)
   actions[ACTION_PARADROP] =
       action_new(ACTION_PARADROP, ATK_TILE,
                  FALSE, FALSE, TRUE,
-                 1, MAP_DISTANCE_MAX);
+                 1, ACTION_DISTANCE_MAX);
   actions[ACTION_AIRLIFT] =
       action_new(ACTION_AIRLIFT, ATK_CITY,
                  FALSE, FALSE, TRUE,
-                 1, MAP_DISTANCE_MAX);
+                 1, ACTION_DISTANCE_MAX);
   actions[ACTION_ATTACK] =
       action_new(ACTION_ATTACK,
                  /* FIXME: Target is actually City and, depending on the
@@ -475,7 +475,8 @@ bool action_distance_accepted(const struct action *action,
   fc_assert_ret_val(action, FALSE);
 
   return (distance >= action->min_distance
-          && distance <= action->max_distance);
+          && (distance <= action->max_distance
+              || action->max_distance == ACTION_DISTANCE_UNLIMITED));
 }
 
 /**************************************************************************

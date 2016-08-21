@@ -131,6 +131,11 @@ extern "C" {
 #define SPECENUM_COUNT ACT_REQ_COUNT
 #include "specenum_gen.h"
 
+/* No action max distance to target limit. */
+#define ACTION_DISTANCE_UNLIMITED (MAP_DISTANCE_MAX + 1)
+/* No action max distance can be bigger than this. */
+#define ACTION_DISTANCE_MAX ACTION_DISTANCE_UNLIMITED
+
 struct action
 {
   enum gen_action id;

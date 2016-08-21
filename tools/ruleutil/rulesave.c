@@ -940,9 +940,15 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                     "actions.poison_empties_food_stock", NULL);
 
-  save_default_int(sfile, action_by_number(ACTION_BOMBARD)->max_distance,
-                    RS_DEFAULT_BOMBARD_MAX_RANGE,
-                    "actions.bombard_max_range", NULL);
+  if (action_by_number(ACTION_BOMBARD)->max_distance
+      == ACTION_DISTANCE_UNLIMITED) {
+    secfile_insert_str(sfile, RS_ACTION_NO_MAX_DISTANCE,
+                       "actions.bombard_max_range");
+  } else {
+    save_default_int(sfile, action_by_number(ACTION_BOMBARD)->max_distance,
+                     RS_DEFAULT_BOMBARD_MAX_RANGE,
+                     "actions.bombard_max_range", NULL);
+  }
 
   secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_POISON)->ui_name,

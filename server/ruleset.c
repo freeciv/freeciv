@@ -5860,9 +5860,42 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
       /* Allow setting max distance for bombardment before generalized
        * actions. */
-      action_by_number(ACTION_BOMBARD)->max_distance
-          = secfile_lookup_int_default(file, RS_DEFAULT_BOMBARD_MAX_RANGE,
-                                       "actions.bombard_max_range");
+      {
+        struct entry *pentry;
+        int max_range;
+
+        pentry = secfile_entry_lookup(file, "actions.bombard_max_range");
+
+        if (!pentry) {
+          max_range = RS_DEFAULT_BOMBARD_MAX_RANGE;
+        } else {
+          switch (entry_type(pentry)) {
+          case ENTRY_INT:
+            if (entry_int_get(pentry, &max_range)) {
+              break;
+            }
+            /* Fall through to error handling. */
+          case ENTRY_STR:
+            {
+              const char *custom;
+
+              if (entry_str_get(pentry, &custom)
+                  && !fc_strcasecmp(custom, RS_ACTION_NO_MAX_DISTANCE)) {
+                max_range = ACTION_DISTANCE_UNLIMITED;
+                break;
+              }
+            }
+            /* Fall through to error handling. */
+          default:
+            ruleset_error(LOG_ERROR, "Bad actions.bombard_max_range");
+            ok = FALSE;
+            max_range = RS_DEFAULT_BOMBARD_MAX_RANGE;
+            break;
+          }
+        }
+
+        action_by_number(ACTION_BOMBARD)->max_distance = max_range;
+      }
 
       text = secfile_lookup_str_default(file,
           /* TRANS: _Poison City (3% chance of success). */
