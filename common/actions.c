@@ -227,7 +227,7 @@ void actions_init(void)
   actions[ACTION_PARADROP] =
       action_new(ACTION_PARADROP, ATK_TILE,
                  FALSE, FALSE, TRUE,
-                 1, UNIT_MAX_PARADROP_RANGE);
+                 1, MAP_DISTANCE_MAX);
   actions[ACTION_AIRLIFT] =
       action_new(ACTION_AIRLIFT, ATK_CITY,
                  FALSE, FALSE, TRUE,
