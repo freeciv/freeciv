@@ -2394,6 +2394,9 @@ void adjust_default_options(void)
       /* Freeciv is practically unusable outside fullscreen mode in so
        * small display */
       gui_options.gui_gtk3_fullscreen = TRUE;
+    } else if (scr_height >= 1024) {
+      /* This is no small display */
+      gui_options.gui_gtk3_small_display_layout = FALSE;
     }
   }
 }
