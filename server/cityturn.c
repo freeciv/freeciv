@@ -890,8 +890,6 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
 bool city_change_size(struct city *pcity, citizens size,
                       struct player *nationality)
 {
-  fc_assert_ret_val(size <= MAX_CITY_SIZE, TRUE);
-
   if (size > city_size_get(pcity)) {
     /* Increase city size until size reached, or increase fails */
     while (size > city_size_get(pcity)
