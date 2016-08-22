@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ extern "C" {
 /* modinst */
 #include "modinst.h"
 
-#define MODPACK_SUFFIX ".modpack"
+#define MODPACKDL_SUFFIX ".mpdl"
 
 #define MODPACK_CAPSTR "+Freeciv-modpack-Devel-2016.Feb.05"
 #define MODLIST_CAPSTR "+Freeciv-modlist-Devel-2016.Feb.05"

@@ -104,12 +104,13 @@ static const char *download_modpack_recursive(const char *URL,
     return _("No URL given");
   }
 
-  if (strlen(URL) < strlen(MODPACK_SUFFIX)
-      || strcmp(URL + strlen(URL) - strlen(MODPACK_SUFFIX), MODPACK_SUFFIX)) {
+  if (strlen(URL) < strlen(MODPACKDL_SUFFIX)
+      || strcmp(URL + strlen(URL) - strlen(MODPACKDL_SUFFIX),
+                MODPACKDL_SUFFIX)) {
     return _("This does not look like modpack URL");
   }
 
-  for (start_idx = strlen(URL) - strlen(MODPACK_SUFFIX);
+  for (start_idx = strlen(URL) - strlen(MODPACKDL_SUFFIX);
        start_idx > 0 && URL[start_idx - 1] != '/';
        start_idx--) {
     /* Nothing */
