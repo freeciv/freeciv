@@ -973,7 +973,7 @@ goods = "\
 ; reqs                    = requirements for a city to provide goods (see effects.ruleset\n\
 ;                           and README.effects for help on requirements)\n\
 ; flags\n\
-;   - \"Bidirectional\"     = Traderoute carrying the goods does not have "from" and "to"\n\
+;   - \"Bidirectional\"     = Traderoute carrying the goods does not have \"from\" and \"to\"\n\
 ;                           ends, but both ends are considered the same.\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
