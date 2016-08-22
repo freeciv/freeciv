@@ -227,8 +227,20 @@ void universal_kind_values(struct universal *univ,
     } improvement_active_iterate_end;
     break;
   case VUT_TERRAIN:
+    terrain_active_iterate(pterr) {
+      cb(terrain_rule_name(pterr), univ->value.terrain == pterr, data);
+    } terrain_active_iterate_end;
+    break;
   case VUT_NATION:
+    nations_iterate(pnat) {
+      cb(nation_rule_name(pnat), univ->value.nation == pnat, data);
+    } nations_iterate_end;
+    break;
   case VUT_UTYPE:
+    unit_active_type_iterate(putype) {
+      cb(utype_rule_name(putype), univ->value.utype == putype, data);
+    } unit_active_type_iterate_end;
+    break;
   case VUT_UTFLAG:
   case VUT_UCLASS:
   case VUT_UCFLAG:
