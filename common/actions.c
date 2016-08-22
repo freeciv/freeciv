@@ -1003,7 +1003,7 @@ tech_can_be_stolen(const struct player *actor_player,
   See diplomat_success_vs_defender() in server/diplomats.c
 **************************************************************************/
 static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
-                                             const struct unit *pdefender)
+                                          const struct unit *pdefender)
 {
   struct city *pcity;
 
@@ -1045,7 +1045,12 @@ static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
     chance += vatt->power_fact - vdef->power_fact;
   }
 
-  /* City and base defense bonus */
+  /* City and base defense bonuses */
+  if (tile_has_base_flag_for_unit(pdefender->tile, unit_type_get(pdefender),
+                                  BF_DIPLOMAT_DEFENSE)) {
+    chance -= chance * 25 / 100;
+  }
+
   pcity = tile_city(pdefender->tile);
   if (pcity) {
     if (!is_effect_val_known(EFT_SPY_RESISTANT, unit_owner(pattacker),
@@ -1056,11 +1061,6 @@ static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
 
     chance -= chance * get_city_bonus(tile_city(pdefender->tile),
                                       EFT_SPY_RESISTANT) / 100;
-  } else {
-    if (tile_has_base_flag_for_unit(pdefender->tile, unit_type_get(pdefender),
-                                    BF_DIPLOMAT_DEFENSE)) {
-      chance -= chance * 25 / 100;
-    }
   }
 
   /* Convert to action probability */

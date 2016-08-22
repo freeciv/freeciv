@@ -1267,16 +1267,16 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
     chance += vatt->power_fact - vdef->power_fact;
   }
 
+  /* Reduce the chance of an attack if BF_DIPLOMAT_DEFENSE is active. */
+  if (tile_has_base_flag_for_unit(pdefender_tile, unit_type_get(pdefender),
+                                  BF_DIPLOMAT_DEFENSE)) {
+    chance -= chance * 25 / 100; /* 25% penalty */
+  }
+
   if (tile_city(pdefender_tile)) {
     /* Reduce the chance of an attack by EFT_SPY_RESISTANT percent. */
     chance -= chance * get_city_bonus(tile_city(pdefender_tile),
                                       EFT_SPY_RESISTANT) / 100;
-  } else {
-    /* Reduce the chance of an attack if BF_DIPLOMAT_DEFENSE is active. */
-    if (tile_has_base_flag_for_unit(pdefender_tile, unit_type_get(pdefender),
-                                    BF_DIPLOMAT_DEFENSE)) {
-      chance -= chance * 25 / 100; /* 25% penalty */
-    }
   }
 
   return (int)fc_rand(100) < chance;
