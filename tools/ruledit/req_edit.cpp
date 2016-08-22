@@ -26,6 +26,7 @@
 #include "fcintl.h"
 
 // common
+#include "reqtext.h"
 #include "requirements.h"
 
 // ruledit
@@ -143,7 +144,10 @@ void req_edit::refresh()
       char buf[512];
       QListWidgetItem *item;
 
-      universal_name_translation(&preq->source, buf, sizeof(buf));
+      buf[0] = '\0';
+      if (!req_text_insert(buf, sizeof(buf), NULL, preq)) {
+        universal_name_translation(&preq->source, buf, sizeof(buf));
+      }
       item = new QListWidgetItem(QString::fromUtf8(buf));
       req_list->insertItem(i++, item);
       if (selected == preq) {
