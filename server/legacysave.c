@@ -3535,7 +3535,7 @@ static void game_load_internal(struct section_file *file)
     game.info.angrycitizen =
       secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN, "game.angrycitizen");
     {
-      /* Backwards compatibility. Prior to 2.4, citymindist==0 meant to take
+      /* Backwards compatibility. Prior to 2.4, citymindist == 0 meant to take
        * it from ruleset min_dist_bw_cities, but that no longer exists. */
       int citymindist =
         secfile_lookup_int_default(file, GAME_DEFAULT_CITYMINDIST,
@@ -3586,8 +3586,8 @@ static void game_load_internal(struct section_file *file)
     }
 
     /* Diplomacy. */
-    game.info.diplomacy = secfile_lookup_int_default(file, GAME_DEFAULT_DIPLOMACY, 
-                                                "game.diplomacy");
+    game.info.diplomacy = secfile_lookup_int_default(file, GAME_DEFAULT_DIPLOMACY,
+                                                     "game.diplomacy");
 
     sz_strlcpy(game.server.save_name,
                secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
@@ -3635,20 +3635,20 @@ static void game_load_internal(struct section_file *file)
                                   "game.restrictinfra");
     game.server.contactturns =
       secfile_lookup_int_default(file, GAME_DEFAULT_CONTACTTURNS,
-				 "game.contactturns");
-  
-    if(has_capability("diplchance_percent", savefile_options)) {
+                                 "game.contactturns");
+
+    if (has_capability("diplchance_percent", savefile_options)) {
       game.server.diplchance = secfile_lookup_int_default(file, game.server.diplchance,
-						   "game.diplchance");
+                                                          "game.diplchance");
     } else {
       game.server.diplchance = secfile_lookup_int_default(file, 3, /* old default */
-						   "game.diplchance");
+                                                          "game.diplchance");
       if (game.server.diplchance < 2) {
-	game.server.diplchance = GAME_MAX_DIPLCHANCE;
+        game.server.diplchance = GAME_MAX_DIPLCHANCE;
       } else if (game.server.diplchance > 10) {
-	game.server.diplchance = GAME_MIN_DIPLCHANCE;
+        game.server.diplchance = GAME_MIN_DIPLCHANCE;
       } else {
-	game.server.diplchance = 100 - (10 * (game.server.diplchance - 1));
+        game.server.diplchance = 100 - (10 * (game.server.diplchance - 1));
       }
     }
 

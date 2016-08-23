@@ -369,7 +369,7 @@ while(<>) {
     if ( m(^\"(.*)\"$) ) {
         if ($state==S_DOING_MSGID) {
     	    push @amsgid, $1;
-        } elsif($state==S_DOING_MSGSTR) {
+        } elsif ($state==S_DOING_MSGSTR) {
     	    push @amsgstr, $1;
         } else {
 	    die "Looking at string $_ in bad state $state,";

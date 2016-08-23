@@ -411,15 +411,18 @@ bool dai_unit_goto_constrained(struct ai_type *ait, struct unit *punit,
      * to stay here. For example, to refuel.*/
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: already there!");
     send_unit_info(NULL, punit);
+
     return TRUE;
   } else if (!goto_is_sane(punit, ptile)) {
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: 'insane' goto!");
     punit->activity = ACTIVITY_IDLE;
     send_unit_info(NULL, punit);
+
     return TRUE;
-  } else if(punit->moves_left == 0) {
+  } else if (punit->moves_left == 0) {
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: no moves left!");
     send_unit_info(NULL, punit);
+
     return TRUE;
   }
 

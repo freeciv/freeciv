@@ -927,10 +927,11 @@ void boot_help_texts(void)
       paras = secfile_lookup_str_vec(sf, &npara, "%s.text", sec_name);
 
       long_buffer[0] = '\0';
-      for (i=0; i<npara; i++) {
+      for (i = 0; i < npara; i++) {
         bool inserted;
         const char *para = paras[i];
-        if(strncmp(para, "$", 1)==0) {
+
+        if (strncmp(para, "$", 1) == 0) {
           inserted =
             insert_generated_text(long_buffer, sizeof(long_buffer), para+1);
         } else {
@@ -1011,11 +1012,12 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
   check_help_nodes_init();
   idx = 0;
   help_list_iterate(help_nodes, ptmp) {
-    char *p=ptmp->topic;
+    char *p = ptmp->topic;
+
     while (*p == ' ') {
       p++;
     }
-    if(strcmp(name, p)==0 && (htype==HELP_ANY || htype==ptmp->type)) {
+    if (strcmp(name, p) == 0 && (htype == HELP_ANY || htype == ptmp->type)) {
       pitem = ptmp;
       break;
     }
@@ -1023,12 +1025,12 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
   }
   help_list_iterate_end;
   
-  if(!pitem) {
+  if (!pitem) {
     idx = -1;
     vitem.topic = vtopic;
     sz_strlcpy(vtopic, name);
     vitem.text = vtext;
-    if(htype==HELP_ANY || htype==HELP_TEXT) {
+    if (htype == HELP_ANY || htype == HELP_TEXT) {
       fc_snprintf(vtext, sizeof(vtext),
 		  _("Sorry, no help topic for %s.\n"), vitem.topic);
       vitem.type = HELP_TEXT;

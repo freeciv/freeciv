@@ -3042,7 +3042,7 @@ static void redraw_city_dialog(struct city *pCity)
     if (pCity->food_stock + pCity->surplus[O_FOOD] > cost) {
       count = cost;
     } else {
-      if(pCity->surplus[O_FOOD] < 0) {
+      if (pCity->surplus[O_FOOD] < 0) {
         count = pCity->food_stock;
       } else {
 	count = pCity->food_stock + pCity->surplus[O_FOOD];

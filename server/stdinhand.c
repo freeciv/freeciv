@@ -1766,7 +1766,7 @@ static void show_help_option_list(struct connection *caller,
   cmd_reply(help_cmd, caller, C_COMMENT,
 	    _("Explanations are available for the following server options:"));
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
-  if(!caller && con_get_style()) {
+  if (!caller && con_get_style()) {
     settings_iterate(SSET_ALL, pset) {
       cmd_reply(help_cmd, caller, C_COMMENT, "%s", setting_name(pset));
     } settings_iterate_end
@@ -6007,34 +6007,35 @@ static void show_help_command(struct connection *caller,
  help_cmd is the command the player used.
 **************************************************************************/
 static void show_help_command_list(struct connection *caller,
-				  enum command_id help_cmd)
+                                   enum command_id help_cmd)
 {
   enum command_id i;
-  
+
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
   cmd_reply(help_cmd, caller, C_COMMENT,
-	    _("The following server commands are available:"));
+            _("The following server commands are available:"));
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
-  if(!caller && con_get_style()) {
-    for (i=0; i<CMD_NUM; i++) {
+  if (!caller && con_get_style()) {
+    for (i = 0; i < CMD_NUM; i++) {
       cmd_reply(help_cmd, caller, C_COMMENT, "%s", command_name_by_number(i));
     }
   } else {
     char buf[MAX_LEN_CONSOLE_LINE];
     int j;
-    
+
     buf[0] = '\0';
     for (i=0, j=0; i<CMD_NUM; i++) {
       if (may_use(caller, i)) {
-	cat_snprintf(buf, sizeof(buf), "%-19s", command_name_by_number(i));
-	if((++j % 4) == 0) {
-	  cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
-	  buf[0] = '\0';
-	}
+        cat_snprintf(buf, sizeof(buf), "%-19s", command_name_by_number(i));
+        if ((++j % 4) == 0) {
+          cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
+          buf[0] = '\0';
+        }
       }
     }
-    if (buf[0] != '\0')
+    if (buf[0] != '\0') {
       cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
+    }
   }
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
 }

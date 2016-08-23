@@ -314,7 +314,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
       clear = TRUE;
     }
 
-    if(print) {
+    if (print) {
       int i, sum = 0;
 #define log_ll log_debug
 

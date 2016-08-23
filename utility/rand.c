@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -92,9 +92,9 @@ RANDOM_TYPE fc_rand_debug(RANDOM_TYPE size, const char *called_as,
   } else {
     /* size == 0 || size == 1 */
 
-    /* 
+    /*
      * These assignments are only here to make the compiler
-     * happy. Since each usage is guarded with a if(size>1).
+     * happy. Since each usage is guarded with a if (size > 1).
      */
     max = MAX_UINT32;
     divisor = 1;
@@ -102,7 +102,7 @@ RANDOM_TYPE fc_rand_debug(RANDOM_TYPE size, const char *called_as,
 
   do {
     new_rand = (rand_state.v[rand_state.j]
-		+ rand_state.v[rand_state.k]) & MAX_UINT32;
+                + rand_state.v[rand_state.k]) & MAX_UINT32;
 
     rand_state.x = (rand_state.x +1) % 56;
     rand_state.j = (rand_state.j +1) % 56;

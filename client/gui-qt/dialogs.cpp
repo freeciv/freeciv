@@ -905,8 +905,9 @@ void popdown_races_dialog(void)
 **************************************************************************/
 void unit_select_dialog_popup(struct tile *ptile)
 {
-  if(ptile != NULL && (unit_list_size(ptile->units) > 1
-      || (unit_list_size(ptile->units) == 1 && tile_city(ptile)))) {
+  if (ptile != NULL
+      && (unit_list_size(ptile->units) > 1
+          || (unit_list_size(ptile->units) == 1 && tile_city(ptile)))) {
     gui()->toggle_unit_sel_widget(ptile);
   }
 }

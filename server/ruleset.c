@@ -1765,9 +1765,9 @@ static bool load_ruleset_units(struct section_file *file,
 
       BV_CLR_ALL(uc->flags);
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
-      for(j = 0; j < nval; j++) {
+      for (j = 0; j < nval; j++) {
         sval = slist[j];
-        if(strcmp(sval,"") == 0) {
+        if (strcmp(sval, "") == 0) {
           continue;
         }
         ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);

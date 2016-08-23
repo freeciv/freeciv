@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -119,22 +119,23 @@ void refresh_spaceship_dialog(struct player *pplayer)
   struct spaceship_dialog *pdialog;
   struct player_spaceship *pship;
 
-  if(!(pdialog=get_spaceship_dialog(pplayer)))
+  if (!(pdialog = get_spaceship_dialog(pplayer))) {
     return;
+  }
 
-  pship=&(pdialog->pplayer->spaceship);
+  pship = &(pdialog->pplayer->spaceship);
 
   if (victory_enabled(VC_SPACERACE)
       && pplayer == client.conn.playing
       && pship->state == SSHIP_STARTED
       && pship->success_rate > 0.0) {
     gui_dialog_set_response_sensitive(pdialog->shell,
-	GTK_RESPONSE_ACCEPT, TRUE);
+                                      GTK_RESPONSE_ACCEPT, TRUE);
   } else {
     gui_dialog_set_response_sensitive(pdialog->shell,
-	GTK_RESPONSE_ACCEPT, FALSE);
+                                      GTK_RESPONSE_ACCEPT, FALSE);
   }
-  
+
   spaceship_dialog_update_info(pdialog);
   spaceship_dialog_update_image(pdialog);
 }
@@ -145,37 +146,38 @@ popup the dialog 10% inside the main-window
 void popup_spaceship_dialog(struct player *pplayer)
 {
   struct spaceship_dialog *pdialog;
-  
-  if(!(pdialog=get_spaceship_dialog(pplayer)))
-    pdialog=create_spaceship_dialog(pplayer);
+
+  if (!(pdialog = get_spaceship_dialog(pplayer))) {
+    pdialog = create_spaceship_dialog(pplayer);
+  }
 
   gui_dialog_raise(pdialog->shell);
 }
 
 /****************************************************************
-popdown the dialog 
+  Popdown the dialog 
 *****************************************************************/
 void popdown_spaceship_dialog(struct player *pplayer)
 {
   struct spaceship_dialog *pdialog;
-  
-  if((pdialog=get_spaceship_dialog(pplayer)))
+
+  if ((pdialog = get_spaceship_dialog(pplayer))) {
     gui_dialog_destroy(pdialog->shell);
+  }
 }
-
-
 
 /****************************************************************
   Spaceship dialog canvas got exposed
 *****************************************************************/
 static gboolean spaceship_image_canvas_expose(GtkWidget *widget,
-					      GdkEventExpose *ev,
-					      gpointer data)
+                                              GdkEventExpose *ev,
+                                              gpointer data)
 {
   struct spaceship_dialog *pdialog;
-  
-  pdialog=(struct spaceship_dialog *)data;
+
+  pdialog = (struct spaceship_dialog *)data;
   spaceship_dialog_update_image(pdialog);
+
   return TRUE;
 }
 
@@ -185,7 +187,7 @@ static gboolean spaceship_image_canvas_expose(GtkWidget *widget,
 static void spaceship_destroy_callback(GtkWidget *w, gpointer data)
 {
   struct spaceship_dialog *pdialog = (struct spaceship_dialog *)data;
-  
+
   dialog_list_remove(dialog_list, pdialog);
 
   free(pdialog);
@@ -199,9 +201,7 @@ static void spaceship_response(struct gui_dialog *dlg, int response,
 {
   switch (response) {
   case GTK_RESPONSE_ACCEPT:
-    {
-      send_packet_spaceship_launch(&client.conn);
-    }
+    send_packet_spaceship_launch(&client.conn);
     break;
 
   default:
@@ -209,7 +209,7 @@ static void spaceship_response(struct gui_dialog *dlg, int response,
     break;
   }
 }
-  
+
 /****************************************************************
   Create new spaceship dialog
 *****************************************************************/
@@ -218,29 +218,29 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   struct spaceship_dialog *pdialog;
   GtkWidget *hbox, *frame;
   int w, h;
-  
-  pdialog=fc_malloc(sizeof(struct spaceship_dialog));
-  pdialog->pplayer=pplayer;
+
+  pdialog = fc_malloc(sizeof(struct spaceship_dialog));
+  pdialog->pplayer = pplayer;
 
   gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
   gui_dialog_set_title(pdialog->shell, player_name(pplayer));
 
   gui_dialog_add_button(pdialog->shell,
-      _("_Launch"), GTK_RESPONSE_ACCEPT);
+                        _("_Launch"), GTK_RESPONSE_ACCEPT);
   gui_dialog_add_button(pdialog->shell,
-      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+                        GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
   g_signal_connect(pdialog->shell->vbox, "destroy",
-		   G_CALLBACK(spaceship_destroy_callback), pdialog);
+                   G_CALLBACK(spaceship_destroy_callback), pdialog);
   gui_dialog_response_set_callback(pdialog->shell, spaceship_response);
 
-  hbox=gtk_hbox_new(FALSE, 5);
+  hbox = gtk_hbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(pdialog->shell->vbox), hbox, FALSE, FALSE, 0);
 
-  frame=gtk_frame_new(NULL);
+  frame = gtk_frame_new(NULL);
   gtk_box_pack_start(GTK_BOX(hbox), frame, FALSE, FALSE, 0);
 
-  pdialog->image_canvas=gtk_drawing_area_new();
+  pdialog->image_canvas = gtk_drawing_area_new();
   GTK_WIDGET_SET_FLAGS(pdialog->image_canvas, GTK_CAN_FOCUS);
   get_spaceship_dimensions(&w, &h);
   gtk_widget_set_size_request(pdialog->image_canvas, w, h);
@@ -248,9 +248,9 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_widget_set_events(pdialog->image_canvas, GDK_EXPOSURE_MASK);
   gtk_container_add(GTK_CONTAINER(frame), pdialog->image_canvas);
   gtk_widget_realize(pdialog->image_canvas);
-  
+
   g_signal_connect(pdialog->image_canvas, "expose_event",
-		   G_CALLBACK(spaceship_image_canvas_expose), pdialog);
+                   G_CALLBACK(spaceship_image_canvas_expose), pdialog);
 
   pdialog->info_label = gtk_label_new(get_spaceship_descr(NULL));
 
@@ -277,7 +277,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 {
   gtk_label_set_text(GTK_LABEL(pdialog->info_label),
-		     get_spaceship_descr(&pdialog->pplayer->spaceship));
+                     get_spaceship_descr(&pdialog->pplayer->spaceship));
 }
 
 /****************************************************************
@@ -287,7 +287,7 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 {
   struct canvas store = {.type = CANVAS_PIXMAP,
-			 .v = {.pixmap = pdialog->image_canvas->window}};
+                         .v = {.pixmap = pdialog->image_canvas->window}};
 
   put_spaceship(&store, 0, 0, pdialog->pplayer);
 }

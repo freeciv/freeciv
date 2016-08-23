@@ -1129,10 +1129,12 @@ void city_widget::display_header_menu(const QPoint &)
 ***************************************************************************/
 void city_widget::hide_columns()
 {
-  for (int col = 0; col < list_model->columnCount(); col++) {
-   if(!list_model->hide_data(col).toBool()){
-    setColumnHidden(col, !isColumnHidden(col));
-   }
+  int col;
+
+  for (col = 0; col < list_model->columnCount(); col++) {
+    if (!list_model->hide_data(col).toBool()){
+      setColumnHidden(col, !isColumnHidden(col));
+    }
   }
 }
 

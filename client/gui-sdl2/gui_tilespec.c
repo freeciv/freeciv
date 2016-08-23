@@ -483,7 +483,7 @@ void draw_intro_gfx(void)
 {
   SDL_Surface *pIntro = theme_get_background(theme, BACKGROUND_MAINPAGE);
 
-  if(pIntro->w != main_window_width()) {
+  if (pIntro->w != main_window_width()) {
     SDL_Surface *pTmp = ResizeSurface(pIntro, main_window_width(), main_window_height(), 1);
 
     FREESURFACE(pIntro);

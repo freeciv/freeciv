@@ -31,9 +31,10 @@ AC_RUN_IFELSE([AC_LANG_SOURCE([[
 
 static void handle_readline_input_callback(char *line) {
 /* Generally taken from freeciv-1.11.4/server/sernet.c. */
-  if(line) {
-    if(*line)
+  if (line) {
+    if (*line) {
       add_history(line);
+    }
     /* printf(line); */
   }
 }

@@ -724,7 +724,7 @@ void unit_focus_advance(void)
     if (!candidate) {
       /* Try for "waiting" units. */
       unit_list_iterate(client.conn.playing->units, punit) {
-        if(punit->client.focus_status == FOCUS_WAIT) {
+        if (punit->client.focus_status == FOCUS_WAIT) {
           punit->client.focus_status = FOCUS_AVAIL;
         }
       } unit_list_iterate_end;
@@ -803,16 +803,20 @@ struct unit *find_visible_unit(struct tile *ptile)
 
   /* If a unit is attacking we should show that on top */
   if (punit_attacking && same_pos(unit_tile(punit_attacking), ptile)) {
-    unit_list_iterate(ptile->units, punit)
-      if(punit == punit_attacking) return punit;
-    unit_list_iterate_end;
+    unit_list_iterate(ptile->units, punit) {
+      if (punit == punit_attacking) {
+        return punit;
+      }
+    } unit_list_iterate_end;
   }
 
   /* If a unit is defending we should show that on top */
   if (punit_defending && same_pos(unit_tile(punit_defending), ptile)) {
-    unit_list_iterate(ptile->units, punit)
-      if(punit == punit_defending) return punit;
-    unit_list_iterate_end;
+    unit_list_iterate(ptile->units, punit) {
+      if (punit == punit_defending) {
+        return punit;
+      }
+    } unit_list_iterate_end;
   }
 
   /* If the unit in focus is at this tile, show that on top */
@@ -2097,9 +2101,10 @@ void request_unit_patrol(void)
 *****************************************************************/
 void request_unit_sentry(struct unit *punit)
 {
-  if(punit->activity!=ACTIVITY_SENTRY &&
-     can_unit_do_activity(punit, ACTIVITY_SENTRY))
+  if (punit->activity != ACTIVITY_SENTRY
+      && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
     request_new_unit_activity(punit, ACTIVITY_SENTRY);
+  }
 }
 
 /****************************************************************
@@ -2107,9 +2112,10 @@ void request_unit_sentry(struct unit *punit)
 *****************************************************************/
 void request_unit_fortify(struct unit *punit)
 {
-  if(punit->activity!=ACTIVITY_FORTIFYING &&
-     can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
+  if (punit->activity != ACTIVITY_FORTIFYING
+      && can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
     request_new_unit_activity(punit, ACTIVITY_FORTIFYING);
+  }
 }
 
 /**************************************************************************
@@ -2707,7 +2713,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     struct unit *punit = unit_list_get(ptile->units, 0);
 
     if (unit_owner(punit) == client.conn.playing) {
-      if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+      if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
         maybe_goto = gui_options.keyboardless_goto;
 	if (qtype == SELECT_APPEND) {
 	  unit_focus_add(punit);
@@ -2719,8 +2725,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       /* Don't hide the unit in the city. */
       unit_select_dialog_popup(ptile);
     }
-  }
-  else if(unit_list_size(ptile->units) > 0) {
+  } else if (unit_list_size(ptile->units) > 0) {
     /* The stack list is always popped up, even if it includes enemy units.
      * If the server doesn't want the player to know about them it shouldn't
      * tell him!  The previous behavior would only pop up the stack if you

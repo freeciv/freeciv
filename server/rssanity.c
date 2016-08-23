@@ -432,8 +432,8 @@ static bool rs_common_units(void)
     struct unit_type *u = get_role_unit(L_FERRYBOAT, 0);
 
     terrain_type_iterate(pterr) {
-      if(is_ocean(pterr)
-         && BV_ISSET(pterr->native_to, uclass_index(utype_class(u)))) {
+      if (is_ocean(pterr)
+          && BV_ISSET(pterr->native_to, uclass_index(utype_class(u)))) {
         sea_capable = TRUE;
         break;
       }

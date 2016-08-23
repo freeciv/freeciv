@@ -291,7 +291,7 @@ static void city_model_fill(GtkListStore *store,
 ****************************************************************/
 void city_report_dialog_popup(bool raise)
 {
-  if(!city_dialog_shell) {
+  if (!city_dialog_shell) {
     city_dialog_shell_is_modal = FALSE;
     
     create_city_report_dialog(FALSE);

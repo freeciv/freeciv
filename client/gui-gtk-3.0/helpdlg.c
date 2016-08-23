@@ -159,7 +159,7 @@ static void set_title_topic(char *topic)
 *****************************************************************/
 void popdown_help_dialog(void)
 {
-  if(help_dialog_shell) {
+  if (help_dialog_shell) {
     gtk_widget_destroy(help_dialog_shell);
   }
 }

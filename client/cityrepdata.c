@@ -891,7 +891,7 @@ static void init_datum_number(struct datum *dat, float val)
 **********************************************************************/
 static void free_datum(struct datum *dat)
 {
-  if(!dat->is_numeric) {
+  if (!dat->is_numeric) {
     free(dat->val.string_value);
   }
 }
@@ -904,8 +904,8 @@ static void free_datum(struct datum *dat)
 **********************************************************************/
 static int datum_compare(const struct datum *a, const struct datum *b)
 {
-  if(a->is_numeric == b->is_numeric) {
-    if(a->is_numeric) {
+  if (a->is_numeric == b->is_numeric) {
+    if (a->is_numeric) {
       if (a->val.numeric_value == b->val.numeric_value) {
         return 0;
       } else if (a->val.numeric_value < b->val.numeric_value) {
@@ -919,11 +919,11 @@ static int datum_compare(const struct datum *a, const struct datum *b)
       return strcmp(a->val.string_value, b->val.string_value);
     }
   } else {
-    if(a->is_numeric) {
+    if (a->is_numeric) {
       return -1;
-  } else {
+    } else {
       return 1;
-  }
+    }
   }
 }
 
@@ -940,7 +940,7 @@ static int data_compare(const struct datum_vector *a,
   for(i = 0; i < n; i++) {
     int cmp = datum_compare(&a->p[i], &b->p[i]);
 
-    if(cmp != 0) {
+    if (cmp != 0) {
       return cmp;
     }
   }
@@ -974,7 +974,7 @@ static void split_string(struct datum_vector *data, const char *str)
          it (unless it's empty), then add the number we just parsed */
       struct datum d;
 
-      if(str != string_start) {
+      if (str != string_start) {
         init_datum_string(&d, string_start, str);
         datum_vector_append(data, d);
       }
@@ -988,7 +988,7 @@ static void split_string(struct datum_vector *data, const char *str)
   }
 
   /* if we have anything leftover then it's a string */
-  if(str != string_start) {
+  if (str != string_start) {
     struct datum d;
 
     init_datum_string(&d, string_start, str);

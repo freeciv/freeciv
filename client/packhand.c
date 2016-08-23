@@ -924,10 +924,11 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
     }
 
     players_iterate(pp) {
-      unit_list_iterate(pp->units, punit) 
-	if(punit->homecity==pcity->id)
-	  unit_list_prepend(pcity->units_supported, punit);
-      unit_list_iterate_end;
+      unit_list_iterate(pp->units, punit) { 
+	if (punit->homecity == pcity->id) {
+          unit_list_prepend(pcity->units_supported, punit);
+        }
+      } unit_list_iterate_end;
     } players_iterate_end;
 
     pcity->client.first_citizen_index = fc_rand(MAX_NUM_CITIZEN_SPRITES);

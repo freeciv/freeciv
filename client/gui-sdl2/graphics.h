@@ -84,7 +84,7 @@
 #define DUFFS_LOOP_DOUBLE2(pixel_copy_increment,			\
 				double_pixel_copy_increment, width)	\
 { int n, w = width;							\
-	if( w & 1 ) {							\
+	if ( w & 1 ) {							\
 	    pixel_copy_increment;					\
 	    w--;							\
 	}								\
@@ -103,11 +103,11 @@
 				double_pixel_copy_increment,		\
 				quatro_pixel_copy_increment, width)	\
 { int n, w = width;							\
-        if(w & 1) {							\
+        if (w & 1) {							\
 	  pixel_copy_increment;						\
 	  w--;								\
 	}								\
-	if(w & 2) {							\
+	if (w & 2) {							\
 	  double_pixel_copy_increment;					\
 	  w -= 2;							\
 	}								\
@@ -131,11 +131,11 @@
 #define DUFFS_LOOP_DOUBLE2(pixel_copy_increment,			\
 			 double_pixel_copy_increment, width)		\
 { int n = width;							\
-    if( n & 1 ) {							\
+    if ( n & 1 ) {							\
 	pixel_copy_increment;						\
 	n--;								\
     }									\
-    for(; n > 0; --n) {   						\
+    for (; n > 0; --n) {   						\
 	double_pixel_copy_increment;					\
         n--;								\
     }									\
@@ -146,15 +146,15 @@
 				double_pixel_copy_increment,		\
 				quatro_pixel_copy_increment, width)	\
 { int n = width;							\
-        if(n & 1) {							\
+        if (n & 1) {							\
 	  pixel_copy_increment;						\
 	  n--;								\
 	}								\
-	if(n & 2) {							\
+	if (n & 2) {							\
 	  double_pixel_copy_increment;					\
 	  n -= 2;							\
 	}								\
-	for(; n > 0; --n) {   						\
+	for (; n > 0; --n) {   						\
 	  quatro_pixel_copy_increment;					\
 	  n -= 3;							\
         }								\

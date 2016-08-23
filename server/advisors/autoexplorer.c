@@ -231,7 +231,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
 
       desirable += (native * SAME_TER_SCORE + (100 - native) * DIFF_TER_SCORE);
     } else {
-      if(is_tiles_adjacent(ptile, ptile1)) {
+      if (is_tiles_adjacent(ptile, ptile1)) {
 	/* we don't value staying offshore from land,
 	 * only adjacent. Otherwise destroyers do the wrong thing. */
 	desirable += (native * KNOWN_SAME_TER_SCORE

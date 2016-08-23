@@ -145,13 +145,13 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   always return a valid unit.
 **************************************************************************/
 struct unit_type *find_a_unit_type(enum unit_role_id role,
-				   enum unit_role_id role_tech)
+                                   enum unit_role_id role_tech)
 {
   struct unit_type *which[U_LAST];
-  int i, num=0;
+  int i, num = 0;
 
   if (role_tech != -1) {
-    for(i=0; i<num_role_units(role_tech); i++) {
+    for (i = 0; i < num_role_units(role_tech); i++) {
       struct unit_type *iunit = get_role_unit(role_tech, i);
       const int minplayers = 2;
       int players = 0;
@@ -169,8 +169,8 @@ struct unit_type *find_a_unit_type(enum unit_role_id role,
       }
     }
   }
-  if(num==0) {
-    for(i=0; i<num_role_units(role); i++) {
+  if (num == 0) {
+    for (i = 0; i < num_role_units(role); i++) {
       which[num++] = get_role_unit(role, i);
     }
   }
@@ -2168,7 +2168,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   }
 
   /* barbarian leader ransom hack */
-  if( is_barbarian(pvictim) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
+  if (is_barbarian(pvictim) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
       && (unit_list_size(unit_tile(punit)->units) == 1)
       && uclass_has_flag(unit_class_get(pkiller), UCF_COLLECT_RANSOM)) {
     /* Occupying units can collect ransom if leader is alone in the tile */

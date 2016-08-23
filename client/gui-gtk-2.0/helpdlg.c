@@ -158,7 +158,7 @@ static void set_title_topic(char *topic)
 *****************************************************************/
 void popdown_help_dialog(void)
 {
-  if(help_dialog_shell) {
+  if (help_dialog_shell) {
     gtk_widget_destroy(help_dialog_shell);
   }
 }
@@ -168,7 +168,7 @@ void popdown_help_dialog(void)
 *****************************************************************/
 void popup_help_dialog_typed(const char *item, enum help_page_type htype)
 {
-  if(!help_dialog_shell) {
+  if (!help_dialog_shell) {
     create_help_dialog();
     gtk_set_relative_position(toplevel, help_dialog_shell, 10, 10);
   }

@@ -1806,8 +1806,7 @@ void set_unit_icons_more_arrow(bool onoff)
   if (onoff && !showing) {
     gtk_widget_show(more_arrow_pixmap_button);
     showing = TRUE;
-  }
-  else if(!onoff && showing) {
+  } else if (!onoff && showing) {
     gtk_widget_hide(more_arrow_pixmap_button);
     showing = FALSE;
   }
@@ -1887,7 +1886,7 @@ static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpoin
 **************************************************************************/
 static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
-  if(ev->button == 1) {
+  if (ev->button == 1) {
     GtkWidget *p;
 
     p = gtk_window_new(GTK_WINDOW_POPUP);
@@ -1896,18 +1895,19 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
     gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", p,
-		   "GtkLabel::label", get_info_label_text_popup(),
-				   "GtkWidget::visible", TRUE,
-        			   NULL);
+                   "GtkLabel::label", get_info_label_text_popup(),
+                   "GtkWidget::visible", TRUE,
+                   NULL);
     gtk_widget_show(p);
 
     gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
-		     NULL, NULL, ev->time);
+                     NULL, NULL, ev->time);
     gtk_grab_add(p);
 
     g_signal_connect_after(p, "button_release_event",
                            G_CALLBACK(show_info_button_release), NULL);
   }
+
   return TRUE;
 }
 

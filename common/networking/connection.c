@@ -197,8 +197,8 @@ static int write_socket_data(struct connection *pc,
     if (FD_ISSET(pc->sock, &writefs)) {
       nblock=MIN(buf->ndata-start, MAX_LEN_PACKET);
       log_debug("trying to write %d limit=%d", nblock, limit);
-      if((nput=fc_writesocket(pc->sock, 
-			      (const char *)buf->data+start, nblock)) == -1) {
+      if ((nput = fc_writesocket(pc->sock, 
+                                 (const char *)buf->data+start, nblock)) == -1) {
 #ifdef NONBLOCKING_SOCKETS
 	if (errno == EWOULDBLOCK || errno == EAGAIN) {
 	  break;
@@ -226,11 +226,11 @@ static int write_socket_data(struct connection *pc,
 **************************************************************************/
 void flush_connection_send_buffer_all(struct connection *pc)
 {
-  if(pc && pc->used && pc->send_buffer->ndata > 0) {
+  if (pc && pc->used && pc->send_buffer->ndata > 0) {
     write_socket_data(pc, pc->send_buffer, 0);
     if (pc->notify_of_writable_data) {
       pc->notify_of_writable_data(pc, pc->send_buffer
-				  && pc->send_buffer->ndata > 0);
+                                  && pc->send_buffer->ndata > 0);
     }
   }
 }
@@ -241,11 +241,11 @@ void flush_connection_send_buffer_all(struct connection *pc)
 #ifndef FREECIV_JSON_CONNECTION
 static void flush_connection_send_buffer_packets(struct connection *pc)
 {
-  if(pc && pc->used && pc->send_buffer->ndata >= MAX_LEN_PACKET) {
+  if (pc && pc->used && pc->send_buffer->ndata >= MAX_LEN_PACKET) {
     write_socket_data(pc, pc->send_buffer, MAX_LEN_PACKET-1);
     if (pc->notify_of_writable_data) {
       pc->notify_of_writable_data(pc, pc->send_buffer
-				  && pc->send_buffer->ndata > 0);
+                                  && pc->send_buffer->ndata > 0);
     }
   }
 }

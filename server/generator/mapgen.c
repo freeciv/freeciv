@@ -2356,14 +2356,14 @@ static void mapgenerator3(void)
   if (islandmass < 2) {
     islandmass = 2;
   }
-  if(islandmass > maxmassdiv6 * 6) {
+  if (islandmass > maxmassdiv6 * 6) {
     islandmass = maxmassdiv6 * 6;/* !PS: let's try this */
   }
 
   initworld(pstate);
 
-  while (pstate->isleindex - 2 <= bigislands && checkmass > islandmass &&
-         ++j < 500) {
+  while (pstate->isleindex - 2 <= bigislands && checkmass > islandmass
+         && ++j < 500) {
     make_island(islandmass, 1, pstate, DMSIS);
   }
 

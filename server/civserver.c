@@ -300,8 +300,8 @@ int main(int argc, char *argv[])
     } else if ((option = get_option_malloc("--Announce", argv, &inx, argc, FALSE))) {
       if (!strcasecmp(option, "ipv4")) {
         srvarg.announce = ANNOUNCE_IPV4;
-      } else if(!strcasecmp(option, "none")) {
-        srvarg.announce= ANNOUNCE_NONE;
+      } else if (!strcasecmp(option, "none")) {
+        srvarg.announce = ANNOUNCE_NONE;
 #ifdef FREECIV_IPV6_SUPPORT
       } else if (!strcasecmp(option, "ipv6")) {
         srvarg.announce = ANNOUNCE_IPV6;

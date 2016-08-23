@@ -1313,7 +1313,7 @@ void real_menus_update(void)
 
       if (can_unit_do_autosettlers(pUnit)) {
         if (unit_has_type_flag(pUnit, UTYF_SETTLERS)) {
-          if(pOrder_Automate_Unit_Button->theme != current_theme->OAutoSett_Icon) {
+          if (pOrder_Automate_Unit_Button->theme != current_theme->OAutoSett_Icon) {
             fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Settler"), "A");
             pOrder_Automate_Unit_Button->theme = current_theme->OAutoSett_Icon;
             copy_chars_to_utf8_str(pOrder_Automate_Unit_Button->info_label,

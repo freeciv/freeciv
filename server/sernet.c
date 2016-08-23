@@ -358,7 +358,7 @@ void flush_packets(void)
 
   (void) time(&start);
 
-  for(;;) {
+  for (;;) {
     tv.tv_sec = (game.server.netwait - (time(NULL) - start));
     tv.tv_usec = 0;
 
@@ -376,9 +376,9 @@ void flush_packets(void)
       if (pconn->used
           && !pconn->server.is_closing
           && 0 < pconn->send_buffer->ndata) {
-	FD_SET(pconn->sock, &writefs);
-	FD_SET(pconn->sock, &exceptfs);
-	max_desc = MAX(pconn->sock, max_desc);
+        FD_SET(pconn->sock, &writefs);
+        FD_SET(pconn->sock, &exceptfs);
+        max_desc = MAX(pconn->sock, max_desc);
       }
     }
 
@@ -399,13 +399,13 @@ void flush_packets(void)
                       conn_description(pconn));
           connection_close_server(pconn, _("network exception"));
         } else {
-	  if(pconn->send_buffer && pconn->send_buffer->ndata > 0) {
-	    if(FD_ISSET(pconn->sock, &writefs)) {
-	      flush_connection_send_buffer_all(pconn);
-	    } else {
-	      cut_lagging_connection(pconn);
-	    }
-	  }
+          if (pconn->send_buffer && pconn->send_buffer->ndata > 0) {
+            if (FD_ISSET(pconn->sock, &writefs)) {
+              flush_connection_send_buffer_all(pconn);
+            } else {
+              cut_lagging_connection(pconn);
+            }
+          }
         }
       }
     }

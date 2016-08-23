@@ -257,29 +257,24 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     /* <SHIFT> + <CONTROL> + LMB : Adjust workers. */
     if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_CONTROL_MASK)) {
       adjust_workers_button_pressed(ev->x, ev->y);
-    }
-    /* <CONTROL> + LMB : Quickselect a sea unit. */
-    else if (ev->state & GDK_CONTROL_MASK) {
+    } else if (ev->state & GDK_CONTROL_MASK) {
+      /* <CONTROL> + LMB : Quickselect a sea unit. */
       action_button_pressed(ev->x, ev->y, SELECT_SEA);
-    }
-    /* <SHIFT> + LMB: Append focus unit. */
-    else if (ptile && (ev->state & GDK_SHIFT_MASK)) {
+    } else if (ptile && (ev->state & GDK_SHIFT_MASK)) {
+      /* <SHIFT> + LMB: Append focus unit. */
       action_button_pressed(ev->x, ev->y, SELECT_APPEND);
-    }
-    /* <ALT> + LMB: popit (same as middle-click) */
-    /* FIXME: we need a general mechanism for letting freeciv work with
-     * 1- or 2-button mice. */
-    else if (ptile && (ev->state & GDK_MOD1_MASK)) {
+    } else if (ptile && (ev->state & GDK_MOD1_MASK)) {
+      /* <ALT> + LMB: popit (same as middle-click) */
+      /* FIXME: we need a general mechanism for letting freeciv work with
+       * 1- or 2-button mice. */
       popit(ev, ptile);
-    }
-    /* LMB in Area Selection mode. */
-    else if(tiles_hilited_cities) {
+    } else if (tiles_hilited_cities) {
+      /* LMB in Area Selection mode. */
       if (ptile) {
         toggle_tile_hilite(ptile);
       }
-    }
-    /* Plain LMB click. */
-    else {
+    } else {
+      /* Plain LMB click. */
       action_button_pressed(ev->x, ev->y, SELECT_POPUP);
     }
     break;
@@ -289,9 +284,8 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     /* <CONTROL> + MMB: Wake up sentries. */
     if (ev->state & GDK_CONTROL_MASK) {
       wakeup_button_pressed(ev->x, ev->y);
-    }
-    /* Plain Middle click. */
-    else if (ptile) {
+    } else if (ptile) {
+      /* Plain Middle click. */
       popit(ev, ptile);
     }
     break;
@@ -303,29 +297,26 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     if (ptile && (ev->state & GDK_MOD1_MASK)
         && (ev->state & GDK_CONTROL_MASK)) {
       inputline_make_chat_link(ptile, (ev->state & GDK_SHIFT_MASK) != 0);
-    }
-    /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
-    else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_MOD1_MASK)) {
+    } else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_MOD1_MASK)) {
+      /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
       key_city_overlay(ev->x, ev->y);
-    }
-    /* <SHIFT + CONTROL> + RMB: Paste Production. */
-    else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_CONTROL_MASK)
-             && pcity != NULL) {
+    } else if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_CONTROL_MASK)
+               && pcity != NULL) {
+      /* <SHIFT + CONTROL> + RMB: Paste Production. */
       clipboard_paste_production(pcity);
       cancel_tile_hiliting();
-    }
-    /* <SHIFT> + RMB on city/unit: Copy Production. */
-    /* If nothing to copy, fall through to rectangle selection. */
-    else if (ev->state & GDK_SHIFT_MASK
-             && clipboard_copy_production(ptile)) {
+    } else if (ev->state & GDK_SHIFT_MASK
+               && clipboard_copy_production(ptile)) {
+      /* <SHIFT> + RMB on city/unit: Copy Production. */
+      /* If nothing to copy, fall through to rectangle selection. */
+
       /* Already done the copy */
-    }
-    /* <CONTROL> + RMB : Quickselect a land unit. */
-    else if (ev->state & GDK_CONTROL_MASK) {
+    } else if (ev->state & GDK_CONTROL_MASK) {
+      /* <CONTROL> + RMB : Quickselect a land unit. */
       action_button_pressed(ev->x, ev->y, SELECT_LAND);
-    }
-    /* Plain RMB click. Area selection. */
-    else {
+    } else {
+      /* Plain RMB click. Area selection. */
+
       /*  A foolproof user will depress button on canvas,
        *  release it on another widget, and return to canvas
        *  to find rectangle still active.
@@ -345,7 +336,6 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
   default:
     break;
   }
-
 
   return TRUE;
 }
