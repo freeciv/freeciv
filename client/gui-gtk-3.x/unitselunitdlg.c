@@ -130,7 +130,6 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   unit_list_iterate(potential_tgt_units, ptgt) {
     GdkPixbuf *tubuf;
 
-    struct unit_type *tgt_type = unit_type_get(ptgt);
     struct unit_sel_unit_cb_data *cbdata
             = fc_malloc(sizeof(struct unit_sel_unit_cb_data));
 
@@ -157,7 +156,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
     }
     gtk_grid_attach(GTK_GRID(box), icon, 1, tcount, 1, 1);
 
-    lbl = gtk_label_new(utype_name_translation(tgt_type));
+    lbl = gtk_label_new(usdlg_get_unit_descr(ptgt));
     gtk_grid_attach(GTK_GRID(box), lbl, 2, tcount, 1, 1);
 
     tcount++;

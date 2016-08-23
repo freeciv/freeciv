@@ -783,35 +783,15 @@ GdkPixbuf *usdlg_get_unit_image(const struct unit *punit)
   return out;
 }
 
-/*****************************************************************************
-  Append units (recursively).
-*****************************************************************************/
-static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
-                                   enum unit_select_location_mode loc,
-                                   enum unit_activity act,
-                                   const struct unit *punit,
-                                   bool transported, GtkTreeIter *it,
-                                   GtkTreeIter *parent)
+/**************************************************************************
+  Get an unit selection list item suitable description of the specified
+  unit.
+**************************************************************************/
+const char *usdlg_get_unit_descr(const struct unit *punit)
 {
-  char buf[248] = "", buf2[248] = "";
-  GdkPixbuf *pix;
+  static char buf[248] = "";
+  char buf2[248] = "";
   struct city *phome;
-  enum usdlg_row_types row = ROW_UNIT;
-  int style = PANGO_STYLE_NORMAL;
-  int weight = PANGO_WEIGHT_NORMAL;
-  GtkTreeStore *store;
-
-  fc_assert_ret(pdialog != NULL);
-  fc_assert_ret(punit != NULL);
-
-  store = pdialog->tabs[loc].store;
-
-
-  /* Add this item. */
-  gtk_tree_store_append(GTK_TREE_STORE(store), it, parent);
-
-  /* Unit gfx */
-  pix = usdlg_get_unit_image(punit);
 
   phome = game_city_by_number(punit->homecity);
   if (phome) {
@@ -843,6 +823,40 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
               buf2);
 #endif /* FREECIV_DEBUG */
 
+  return buf;
+}
+
+/*****************************************************************************
+  Append units (recursively).
+*****************************************************************************/
+static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
+                                   enum unit_select_location_mode loc,
+                                   enum unit_activity act,
+                                   const struct unit *punit,
+                                   bool transported, GtkTreeIter *it,
+                                   GtkTreeIter *parent)
+{
+  const char *text;
+  GdkPixbuf *pix;
+  enum usdlg_row_types row = ROW_UNIT;
+  int style = PANGO_STYLE_NORMAL;
+  int weight = PANGO_WEIGHT_NORMAL;
+  GtkTreeStore *store;
+
+  fc_assert_ret(pdialog != NULL);
+  fc_assert_ret(punit != NULL);
+
+  store = pdialog->tabs[loc].store;
+
+
+  /* Add this item. */
+  gtk_tree_store_append(GTK_TREE_STORE(store), it, parent);
+
+  /* Unit gfx */
+  pix = usdlg_get_unit_image(punit);
+
+  text = usdlg_get_unit_descr(punit);
+
   if (transported) {
     weight = PANGO_WEIGHT_NORMAL;
     style = PANGO_STYLE_ITALIC;
@@ -852,7 +866,7 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
   /* Add it to the tree. */
   gtk_tree_store_set(GTK_TREE_STORE(store), it,
                      0, pix,                            /* Unit pixmap */
-                     1, buf,                            /* Text */
+                     1, text,                           /* Text */
                      2, 1,                              /* Number of units */
                      3, utype_index(unit_type_get(punit)), /* Unit type ID */
                      4, punit->id,                      /* Unit ID */
