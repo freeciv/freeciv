@@ -72,7 +72,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(WINARCH)-$(GUI)
 	# configure
-	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(GUI) --with-followtag="win32-S2_6" --without-readline --disable-sdl-mixer --without-libbz2 --enable-fcdb=sqlite3 --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
+	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(GUI) --with-followtag="win32-S2_6" --without-readline --disable-sdl-mixer --without-libbz2 --enable-fcdb=sqlite3 --with-sqlite3-prefix=/$(ARCHDIR) --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(WINARCH)-$(GUI)
 	make -C build-$(WINARCH)-$(GUI)/translations/freeciv update-po
@@ -163,6 +163,19 @@ install-ruledit: install-ruledit-dir
 
 COMMON_DLLS := \
 	libstdc++-6.dll \
+	libeay32.dll \
+	ssleay32.dll \
+	libidn-11.dll \
+	libnghttp2-14.dll \
+	librtmp-1.dll \
+	libssh2-1.dll \
+	libcurl-4.dll \
+	libgmp-10.dll \
+	libgnutls-30.dll \
+	libhogweed-4-2.dll \
+	libnettle-6-2.dll \
+	libp11-kit-0.dll \
+	libtasn1-6.dll \
 	libatk-1.0-0.dll \
 	libbz2-1.dll \
 	libcairo-2.dll \
@@ -190,35 +203,9 @@ COMMON_DLLS := \
 	libwinpthread-1.dll \
 	libsqlite3-0.dll
 
-COMMON_MSYS_DLLS := \
-	2.0.dll \
-	curl-4.dll \
-	idn-11.dll \
-	sqlite3-0.dll \
-	ssl-1.0.0.dll \
-	$(GCCDLL) \
-	z.dll \
-	bz2-1.dll \
-	crypto-1.0.0.dll \
-	gssapi-3.dll \
-	heimntlm-0.dll \
-	krb5-26.dll \
-	asn1-8.dll \
-	com_err-1.dll \
-	roken-18.dll \
-	crypt-0.dll \
-	wind-0.dll \
-	hx509-5.dll \
-	heimbase-1.dll \
-	iconv-2.dll \
-	intl-8.dll \
-	ssh2-1.dll \
-	lzma-5.dll
-
 install-env-common:
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(WINARCH)-$(GUI)/
-	cp -R $(addprefix /bin/msys-, $(COMMON_MSYS_DLLS)) install-$(WINARCH)-$(GUI)/
 
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
@@ -302,6 +289,9 @@ install-env-qt: install-env-common
 #       COMMON_MSYS_DLLS with most obviously unnecessary things left out.
 RULEDIT_DLLS := \
         libstdc++-6.dll \
+	libidn-11.dll \
+	libssh2-1.dll \
+	libcurl-4.dll \
 	libatk-1.0-0.dll \
 	libbz2-1.dll \
 	libcairo-2.dll \
@@ -329,8 +319,6 @@ RULEDIT_DLLS := \
 
 RULEDIT_MSYS_DLLS := \
 	2.0.dll \
-	curl-4.dll \
-	idn-11.dll \
 	sqlite3-0.dll \
 	ssl-1.0.0.dll \
 	$(GCCDLL) \
@@ -349,7 +337,6 @@ RULEDIT_MSYS_DLLS := \
 	heimbase-1.dll \
 	iconv-2.dll \
 	intl-8.dll \
-	ssh2-1.dll \
 	lzma-5.dll
 
 install-env-ruledit:

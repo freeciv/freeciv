@@ -14,6 +14,7 @@ using MSYS2 from http://msys2.github.io
 - With very specific configure options (see Problems) and msys2 package
   selection freeciv can be built
 - Buildable clients are gtk3, gtk2, and Qt
+  - Official pre-made msys2 environment supports only gtk3-client build
 - Audio support cannot be built in
 - Both server, gtk3-client, and gtk2-client launch ok, Qt client does not
 - Most Installers cannot be built
@@ -66,19 +67,11 @@ using MSYS2 from http://msys2.github.io
 
  - make
  - gettext
- - gcc
- - libsqlite-devel
- - libiconv-devel
- - libreadline-devel
  - pkg-config
- - libbz2-devel
- - libcurl-devel
- - liblzma-devel
 
 2.1.1.2) Arch independent packages needed for getting and extracting freeciv
  source tarball
 
- - wget
  - tar
 
 2.1.1.3) Arch independent packages needed for building freeciv from svn checkout
@@ -93,6 +86,8 @@ using MSYS2 from http://msys2.github.io
 2.1.2) Arch-specific packages needed for building freeciv
 
 2.1.2.1) Arch-specific packages for building common parts
+ - mingw-w64-i686-gcc / mingw-w64-x86_64-gcc
+ - mingw-w64-i686-curl / mingw-w64-x86_64-curl
  - mingw-w64-i686-bzip2 / mingw-w64-x64_64-bzip2
  - mingw-w64-i686-readline / mingw-w64-x86_64-readline
  - mingw-w64-i686-SDL2_mixer / mingw-w64-x86_64-SDL2_mixer
@@ -131,37 +126,31 @@ Current versions are
 
 win32:
 ------
-msys2-freeciv-win32-160801.7z, based on
+msys2-freeciv-win32-160821.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20160205.exe
 Replace <arch> with 'i686' in package names below
 
 win64:
 ------
-msys2-freeciv-win64-160801.7z, based on
+msys2-freeciv-win64-160821.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20160205.exe
 Replace <arch> with 'x86_64' in package names below
 
 
 Following packages have been installed:
 - make
-- gcc
-- gettext-devel
-- libsqlite-devel
 - pkg-config
-- libcurl-devel
-- libbz2-devel
-- liblzma-devel
-- icu-devel
-- libreadline-devel
 - tar
 - subversion
 - patch
-- wget
+- nano
 - automake
 - libtool
 - autoconf
 - python
+- mingw-w64-<arch>-gcc
 - mingw-w64-<arch>-icu
+- mingw-w64-<arch>-curl
 - mingw-w64-<arch>-sqlite3
 - mingw-w64-<arch>-gtk3
 - mingw-w64-<arch>-nsis
@@ -205,8 +194,7 @@ somehow. Some options are:
 ====================================
 
 - Freeciv linked against readline in msys2 does not work.
-  Either avoid installing libreadline-devel package to your msys2
-  environment at all, or configure freeciv with --without-readline
+  Configure freeciv with --without-readline
 
 - Linking against SDL2, including audio support for any client,
   fails. Use configure option --disable-sdl-mixer to build without
@@ -224,3 +212,13 @@ somehow. Some options are:
   removing any dll's from the installer packages.
   Please review what related dlls are packaged and could be
   removed.
+
+- Audio support via SDL2_mixer
+
+- Qt program installers; qt-client and ruledit
+
+- sdl2-client installer
+
+- Both win32 and win64 packages built from a single build environment
+
+- Readline support
