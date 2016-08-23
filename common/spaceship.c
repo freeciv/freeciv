@@ -49,7 +49,7 @@ const struct sship_part_info structurals_info[NUM_SS_STRUCTURALS] = {
   {21,  5, 24},
   {21, 23, 25},
   {23,  5, 26},
-  {23, 23, 28},
+  {23, 23, 27},
   { 5,  9, 20},
   { 5, 19, 21}
 };
