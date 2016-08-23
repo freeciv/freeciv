@@ -224,12 +224,25 @@ bool is_utype_needed(struct unit_type *ptype, requirers_cb cb,
 }
 
 /**************************************************************************
-  Check if anything in ruleset needs unit type
+  Check if anything in ruleset needs goods type
 **************************************************************************/
 bool is_good_needed(struct goods_type *pgood, requirers_cb cb,
                     void *data)
 {
   struct universal uni = { .value.good = pgood, .kind = VUT_GOOD };
+  bool needed = FALSE;
+
+  needed |= is_universal_needed(&uni, cb, data);
+
+  return needed;
+}
+
+/**************************************************************************
+  Check if anything in ruleset needs government
+**************************************************************************/
+bool is_government_needed(struct government *pgov, requirers_cb cb, void *data)
+{
+  struct universal uni = { .value.govern = pgov, .kind = VUT_GOVERNMENT };
   bool needed = FALSE;
 
   needed |= is_universal_needed(&uni, cb, data);

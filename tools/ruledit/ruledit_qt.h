@@ -30,6 +30,7 @@ class QStackedLayout;
 class requirers_dlg;
 class tab_building;
 class tab_good;
+class tab_gov;
 class tab_misc;
 class tab_tech;
 class tab_unit;
@@ -76,6 +77,7 @@ class ruledit_gui : public QObject
     tab_tech *tech;
     tab_unit *unit;
     tab_good *good;
+    tab_gov *gov;
     tab_nation *nation;
 
   private slots:

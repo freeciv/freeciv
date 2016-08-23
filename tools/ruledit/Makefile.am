@@ -33,6 +33,7 @@ MOC_FILES = \
             meta_tab_tech.cpp	\
             meta_tab_building.cpp \
 	    meta_tab_good.cpp	\
+	    meta_tab_gov.cpp	\
             meta_tab_unit.cpp
 
 freeciv_ruledit_SOURCES =	\
@@ -42,6 +43,8 @@ freeciv_ruledit_SOURCES =	\
 		tab_building.h	\
 		tab_good.cpp	\
 		tab_good.h	\
+		tab_gov.cpp	\
+		tab_gov.h	\
 		tab_misc.cpp	\
 		tab_misc.h	\
 		tab_nation.cpp	\
