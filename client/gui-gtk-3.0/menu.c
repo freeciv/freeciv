@@ -462,6 +462,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(unit_done_callback), MGROUP_UNIT },
   { "UNIT_GOTO", N_("Go to"), GDK_KEY_g, 0,
     G_CALLBACK(unit_goto_callback), MGROUP_UNIT },
+  { "MENU_GOTO_AND", N_("Go to and..."), 0, 0, NULL, MGROUP_UNIT },
   { "UNIT_GOTO_CITY", N_("Go to/Airlift to City"), GDK_KEY_t, 0,
     G_CALLBACK(unit_goto_city_callback), MGROUP_UNIT },
   { "UNIT_RETURN", N_("Return to Nearest City"), GDK_KEY_g, GDK_SHIFT_MASK,
@@ -1383,6 +1384,23 @@ static void unit_goto_callback(GtkMenuItem *item, gpointer data)
   key_unit_goto();
 }
 
+/**************************************************************************
+  Activate the goto system with an action to perform once there.
+**************************************************************************/
+static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
+{
+  struct action *action = data;
+
+  /* This menu doesn't support specifying a detailed target (think
+   * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
+   * action order. */
+  fc_assert_ret_msg(!action_requires_details(action->id),
+                    "Underspecified target for %s.",
+                    action_get_ui_name(action->id));
+
+  request_unit_goto(ORDER_PERFORM_ACTION, action->id, EXTRA_NONE);
+}
+
 /****************************************************************
   Item "UNIT_GOTO_CITY" callback.
 *****************************************************************/
@@ -2213,6 +2231,38 @@ void real_menus_update(void)
     g_list_free(list);
   }
 
+  /* Set Go to and... action visibility. */
+  if ((menu = find_menu("<MENU>/GOTO_AND"))) {
+    GList *list, *iter;
+    struct action *paction;
+
+    bool can_do_something = FALSE;
+
+    /* Enable a menu item if it is theoretically possible that one of the
+     * selected units can perform it. Checking if the action can be performed
+     * at the current tile is pointless since it should be performed at the
+     * target tile. */
+    list = gtk_container_get_children(GTK_CONTAINER(menu));
+    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
+      paction = g_object_get_data(G_OBJECT(iter->data), "end_action");
+      if (NULL != paction) {
+        if (units_can_do_action(get_units_in_focus(),
+                                paction->id, TRUE)) {
+          gtk_widget_set_visible(GTK_WIDGET(iter->data), TRUE);
+          gtk_widget_set_sensitive(GTK_WIDGET(iter->data), TRUE);
+          can_do_something = TRUE;
+        } else {
+          gtk_widget_set_visible(GTK_WIDGET(iter->data), FALSE);
+          gtk_widget_set_sensitive(GTK_WIDGET(iter->data), FALSE);
+        }
+      }
+    }
+    g_list_free(list);
+
+    /* Only sensitive if an action may be possible. */
+    menu_entry_set_sensitive("MENU_GOTO_AND", can_do_something);
+  }
+
   /* Enable the button for adding to a city in all cases, so we
    * get an eventual error message from the server if we try. */
   menu_entry_set_sensitive("BUILD_CITY",
@@ -2626,6 +2676,61 @@ void real_menus_init(void)
         gtk_widget_show(item);
       }
     } extra_type_by_cause_iterate_end;
+  }
+
+  /* Initialize the Go to and... actions. */
+  if ((menu = find_menu("<MENU>/GOTO_AND"))) {
+    GList *list, *iter;
+    GtkWidget *item;
+    int tgt_kind_group;
+
+    /* Remove previous action entries. */
+    list = gtk_container_get_children(GTK_CONTAINER(menu));
+    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
+      gtk_widget_destroy(GTK_WIDGET(iter->data));
+    }
+    g_list_free(list);
+
+    /* Add the new action entries grouped by target kind. */
+    for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
+      action_iterate(action_id) {
+        struct action *paction = action_by_number(action_id);
+
+        if (action_get_actor_kind(action_id) != AAK_UNIT) {
+          /* This action isn't performed by a unit. */
+          continue;
+        }
+
+        if (action_get_target_kind(action_id) != tgt_kind_group) {
+          /* Wrong group. */
+          continue;
+        }
+
+        if (action_requires_details(action_id)) {
+          /* This menu doesn't support specifying a detailed target (think
+           * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
+           * action order. */
+          continue;
+        }
+
+        if (action_by_number(action_id)->max_distance > 1) {
+          /* The order system doesn't support actions that can be done to a
+           * target that isn't at or next to the actor unit's tile.
+           *
+           * Full explanation in handle_unit_orders(). */
+          continue;
+        }
+
+        /* Create and add the menu item. It will be hidden or shown based on
+         * unit type.  */
+        item = gtk_menu_item_new_with_label(action_get_ui_name(action_id));
+        g_object_set_data(G_OBJECT(item), "end_action", paction);
+        g_signal_connect(item, "activate",
+                         G_CALLBACK(unit_goto_and_callback), paction);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        gtk_widget_show(item);
+      } action_iterate_end;
+    }
   }
 
   menu_entry_group_set_sensitive(MGROUP_SAFE, TRUE);
