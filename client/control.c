@@ -2055,6 +2055,11 @@ void request_unit_paradrop(struct unit_list *punits)
     }
   } unit_list_iterate_end;
   if (can) {
+    create_event(unit_tile(unit_list_get(punits, 0)), E_BEGINNER_HELP,
+                 ftc_client,
+                 /* TRANS: paradrop target tile. */
+                 _("Click on a tile to paradrop to it."));
+
     set_hover_state(punits, HOVER_PARADROP, ACTIVITY_LAST, NULL,
                     EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
     update_unit_info_label(punits);
