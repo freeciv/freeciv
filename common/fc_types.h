@@ -498,10 +498,6 @@ enum tile_special_type {
   S_OLD_RIVER
 };
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
 enum test_result {
   TR_SUCCESS,
   TR_OTHER_FAILURE,
@@ -530,5 +526,9 @@ enum road_compat { ROCO_ROAD, ROCO_RAILROAD, ROCO_RIVER, ROCO_NONE };
  * Changing this changes network protocol.
  */
 #define MAX_TRADE_ROUTES        5
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__FC_TYPES_H */
