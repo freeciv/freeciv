@@ -134,6 +134,7 @@ struct unit_class_list;
 struct unit_class {
   Unit_Class_id item_number;
   struct name_translation name;
+  bool disabled;
   enum unit_move_type move_type;
   int min_speed;           /* Minimum speed after damage and effects */
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
@@ -788,6 +789,14 @@ const struct unit_class *unit_class_array_last(void);
     }									\
   }									\
 }
+
+#define unit_active_class_iterate(_p)                                    \
+  unit_class_iterate(_p) {                                               \
+    if (!_p->disabled) {
+
+#define unit_active_class_iterate_end                                    \
+    }                                                                    \
+  } unit_class_iterate_end;
 
 #define SPECLIST_TAG unit_class
 #define SPECLIST_TYPE struct unit_class

@@ -2458,7 +2458,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
   comment_uclasses(sfile);
 
   sect_idx = 0;
-  unit_class_iterate(puc) {
+  unit_active_class_iterate(puc) {
     char path[512];
     char *hut_str = NULL;
     const char *flag_names[UCF_COUNT];
@@ -2506,7 +2506,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
     save_strvec(sfile, puc->helptext, path, "helptext");
 
-  } unit_class_iterate_end;
+  } unit_active_class_iterate_end;
 
   comment_utypes(sfile);
 

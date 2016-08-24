@@ -241,16 +241,28 @@ void universal_kind_values(struct universal *univ,
       cb(utype_rule_name(putype), univ->value.utype == putype, data);
     } unit_active_type_iterate_end;
     break;
-  case VUT_UTFLAG:
   case VUT_UCLASS:
-  case VUT_UCFLAG:
+    unit_active_class_iterate(pclass) {
+      cb(uclass_rule_name(pclass), univ->value.uclass == pclass, data);
+    } unit_active_class_iterate_end;
+    break;
   case VUT_OTYPE:
+    output_type_iterate(otype) {
+      cb(get_output_name(otype), univ->value.outputtype == otype, data);
+    } output_type_iterate_end;
+    break;
+  case VUT_GOOD:
+    goods_active_type_iterate(pgood) {
+      cb(goods_rule_name(pgood), univ->value.good == pgood, data);
+    } goods_active_type_iterate_end;
+    break;
+  case VUT_UTFLAG:
+  case VUT_UCFLAG:
   case VUT_SPECIALIST:
   case VUT_AI_LEVEL:
   case VUT_TERRAINCLASS:
   case VUT_TERRAINALTER:
   case VUT_CITYTILE:
-  case VUT_GOOD:
   case VUT_TERRFLAG:
   case VUT_NATIONALITY:
   case VUT_BASEFLAG:

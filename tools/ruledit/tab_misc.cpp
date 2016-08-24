@@ -257,7 +257,11 @@ void tab_misc::refresh_stats()
   } advance_active_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
-  stats->item(row++, 1)->setText(QString::number(game.control.num_unit_classes));
+  count = 0;
+  unit_active_class_iterate(pclass) {
+    count++;
+  } unit_active_class_iterate_end;
+  stats->item(row++, 1)->setText(QString::number(count));
 
   count = 0;
   unit_active_type_iterate(ptype) {

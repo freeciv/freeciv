@@ -1709,6 +1709,7 @@ void unit_classes_init(void)
     unit_classes[i].cache.bonus_roads = NULL;
     unit_classes[i].cache.subset_movers = NULL;
     unit_classes[i].helptext = NULL;
+    unit_classes[i].disabled = FALSE;
   }
 }
 
