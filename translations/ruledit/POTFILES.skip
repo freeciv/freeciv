@@ -3,6 +3,7 @@
 ai/default/aicity.c
 ai/default/daidiplomacy.c
 ai/threaded/threadedai.c
+ai/threxpr/threxprai.c
 client/agents/cma_core.c
 client/agents/cma_fec.c
 client/attribute.c
@@ -87,6 +88,7 @@ client/gui-gtk-3.0/theme_dlg.c
 client/gui-gtk-3.0/tileset_dlg.c
 client/gui-gtk-3.0/transportdlg.c
 client/gui-gtk-3.0/unitselect.c
+client/gui-gtk-3.0/unitselunitdlg.c
 client/gui-gtk-3.0/voteinfo_bar.c
 client/gui-gtk-3.0/wldlg.c
 client/gui-gtk-3.x/action_dialog.c
@@ -125,6 +127,7 @@ client/gui-gtk-3.x/theme_dlg.c
 client/gui-gtk-3.x/tileset_dlg.c
 client/gui-gtk-3.x/transportdlg.c
 client/gui-gtk-3.x/unitselect.c
+client/gui-gtk-3.x/unitselunitdlg.c
 client/gui-gtk-3.x/voteinfo_bar.c
 client/gui-gtk-3.x/wldlg.c
 client/gui-qt/chatline.cpp
@@ -236,6 +239,7 @@ common/mapimg.c
 common/player.c
 common/player.h
 common/research.c
+common/reqtext.c
 common/requirements.c
 common/team.c
 common/tech.c
