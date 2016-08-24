@@ -22,6 +22,8 @@ extern "C" {
 #include "chatline_g.h"
 }
 
+#include "listener.h"
+
 //Qt
 #include <QEvent>
 #include <QTextBrowser>
@@ -32,15 +34,28 @@ class QPushButton;
 
 QString apply_tags(QString str, const struct text_tag_list *tags,
                    bool colors_change);
+
+/***************************************************************************
+  Listener for chat. See listener<> for information about how to use it
+***************************************************************************/
+class chat_listener : public listener<chat_listener>
+{
+public:
+  virtual void chat_message_received(const QString &,
+                                     const struct text_tag_list *);
+
+  void send_chat_message(const QString &message);
+};
+
 /***************************************************************************
   Class for chat widget
 ***************************************************************************/
-class chatwdg : public QWidget
+class chatwdg : public QWidget, private chat_listener
 {
   Q_OBJECT
 public:
   chatwdg(QWidget *parent);
-  void append(QString str);
+  void append(const QString &str);
   QLineEdit *chat_line;
   void make_link(struct tile *ptile);
   void update_font();
@@ -57,6 +72,9 @@ protected:
   void paintEvent(QPaintEvent *event);
   bool eventFilter(QObject *obj, QEvent *event);
 private:
+  void chat_message_received(const QString &message,
+                             const struct text_tag_list *tags);
+
   QTextBrowser *chat_output;
   QPushButton *remove_links;
   QCheckBox *cb;

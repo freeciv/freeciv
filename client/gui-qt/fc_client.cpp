@@ -178,6 +178,7 @@ void fc_client::init()
                 this, SLOT(switch_page(int)));
   setVisible(true);
 
+  chat_listener::listen();
 }
 
 /****************************************************************************
@@ -227,13 +228,14 @@ void fc_client::closing()
   quitting = true;
 }
 
-
 /****************************************************************************
   Appends text to chat window
 ****************************************************************************/
-void fc_client::append_output_window(const QString &str)
+void fc_client::chat_message_received(const QString &message,
+                                      const struct text_tag_list *tags)
 {
   QTextCursor cursor;
+  QString str = apply_tags(message, tags, false);
 
   if (output_window != NULL) {
     output_window->append(str);
@@ -446,8 +448,7 @@ void fc_client::server_input(int sock)
 ****************************************************************************/
 void fc_client::chat()
 {
-  send_chat(chat_line->text().toUtf8().data());
-  chat_history.prepend(chat_line->text());
+  send_chat_message(chat_line->text());
   chat_line->clear();
   history_pos = -1;
 }

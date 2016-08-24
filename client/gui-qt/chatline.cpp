@@ -40,6 +40,83 @@
 #include "chatline.h"
 
 static bool is_plain_public_message(QString s);
+
+FC_CPP_DECLARE_LISTENER(chat_listener)
+
+/***************************************************************************
+  Called whenever a message is received. Default implementation does
+  nothing.
+***************************************************************************/
+void chat_listener::chat_message_received(const QString &,
+                                          const struct text_tag_list *)
+{}
+
+/***************************************************************************
+  Sends commands to server, but first searches for cutom keys, if it finds
+  then it makes custom action
+***************************************************************************/
+void chat_listener::send_chat_message(const QString &message)
+{
+  int index;
+  QString splayer, s;
+
+  /* FIXME
+   * Key == PICK: used for picking nation, it was put here cause those
+   * Qt slots are a bit limited ...I'm unable to pass custom player pointer
+   * or idk how to do that
+   */
+  s = message;
+  index = message.indexOf("PICK:");
+
+  if (index != -1) {
+    s = s.remove("PICK:");
+    /* now should be playername left in string */
+    players_iterate(pplayer) {
+      splayer = QString(pplayer->name);
+
+      if (!splayer.compare(s)) {
+        popup_races_dialog(pplayer);
+      }
+    } players_iterate_end;
+    return;
+  }
+
+  /*
+   * If client send commands to take ai, set /away to disable AI
+   */
+  if (message.startsWith("/take ")) {
+      s = s.remove("/take ");
+      players_iterate(pplayer) {
+      splayer = QString(pplayer->name);
+      splayer = "\"" + splayer + "\"";
+
+      if (!splayer.compare(s)) {
+        if (pplayer->ai_controlled) {
+          send_chat(message.toLocal8Bit());
+          send_chat("/away");
+          return;
+        }
+      }
+    } players_iterate_end;
+  }
+
+  /*
+   * Option to send to allies by default
+   */
+  gui()->chat_history.prepend(message);
+  if (!message.isEmpty()) {
+    if (client_state() >= C_S_RUNNING && gui_options.gui_qt_allied_chat_only
+        && is_plain_public_message(message)) {
+      send_chat((QString(CHAT_ALLIES_PREFIX)
+                 + " " + message).toLocal8Bit());
+    } else {
+      send_chat(message.toLocal8Bit());
+    }
+  }
+  // Empty messages aren't sent
+  // FIXME Inconsistent behavior: "." will send an empty message to allies
+}
+
 /***************************************************************************
   Constructor for chatwdg
 ***************************************************************************/
@@ -94,6 +171,8 @@ chatwdg::chatwdg(QWidget *parent)
   connect(remove_links, SIGNAL(clicked()), this, SLOT(rm_links()));
   connect(cb, SIGNAL(stateChanged(int)), this, SLOT(state_changed(int)));
   setMouseTracking(true);
+
+  chat_listener::listen();
 }
 
 /***************************************************************************
@@ -178,11 +257,19 @@ void chatwdg::anchor_clicked(const QUrl &link)
   }
 }
 
+/***************************************************************************
+  Adds news string to chatwdg (from chat_listener interface)
+***************************************************************************/
+void chatwdg::chat_message_received(const QString& message,
+                                    const struct text_tag_list *tags)
+{
+  append(apply_tags(message, tags, true));
+}
 
 /***************************************************************************
   Adds news string to chatwdg
 ***************************************************************************/
-void chatwdg::append(QString str)
+void chatwdg::append(const QString &str)
 {
   QTextCursor cursor;
 
@@ -197,17 +284,7 @@ void chatwdg::append(QString str)
 ***************************************************************************/
 void chatwdg::send()
 {
-  gui()->chat_history.prepend(chat_line->text());
-  if (chat_line->text() != "") {
-    if (client_state() >= C_S_RUNNING && gui_options.gui_qt_allied_chat_only
-        && is_plain_public_message(chat_line->text())) {
-      send_chat(QString("%1 %2")
-                  .arg(CHAT_ALLIES_PREFIX)
-                  .arg(chat_line->text().toUtf8().data()).toUtf8().data());
-    } else {
-      send_chat(chat_line->text().toUtf8().data());
-    }
-  }
+  send_chat_message(chat_line->text());
   chat_line->clear();
 }
 
@@ -530,10 +607,9 @@ void qtg_real_output_window_append(const char *astring,
       && !wakeup.isEmpty()) {
     audio_play_sound("e_player_wake", NULL);
   }
-  gui()->append_output_window(apply_tags(str, tags, false));
-  if (gui()->infotab != NULL) {
-    gui()->infotab->chtwdg->append(apply_tags(str, tags, true));
-  }
+
+  chat_listener::invoke(&chat_listener::chat_message_received,
+                        str, tags);
 }
 
 /**************************************************************************
