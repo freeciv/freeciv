@@ -829,6 +829,8 @@ if test "x$fctinycthr" = "xyes" ; then
 
   TINYCTHR_LIBS="\$(top_builddir)/dependencies/tinycthread/libtinycthread.la"
   AC_SUBST([TINYCTHR_LIBS])
+
+  AC_MSG_RESULT([tinycthread])
 fi
 
 if test x$crosser != xyes && test "x$thread_impl" = "xnone" ; then
