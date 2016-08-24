@@ -740,10 +740,6 @@ struct act_prob {
   int max;
 };
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
 enum test_result {
   TR_SUCCESS,
   TR_OTHER_FAILURE,
@@ -834,5 +830,9 @@ enum spaceship_place_type {
 
 typedef int adv_want;
 #define ADV_WANT_PRINTF "%d"
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__FC_TYPES_H */
