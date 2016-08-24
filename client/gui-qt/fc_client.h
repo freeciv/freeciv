@@ -149,7 +149,7 @@ public slots:
 };
 
 
-class fc_client : public QMainWindow
+class fc_client : public QMainWindow, private chat_listener
 {
   Q_OBJECT
   QWidget *main_wdg;
@@ -216,7 +216,6 @@ public:
 
   enum client_pages current_page();
 
-  void append_output_window(const QString &);
   void set_status_bar(QString str, int timeout = 2000);
   int add_game_tab(QWidget *widget, QString title);
   void rm_game_tab(int index); /* doesn't delete widget */
@@ -276,7 +275,6 @@ private slots:
   bool slot_close_widget(int index);
   void start_page_menu(QPoint);
   void slot_pick_nation();
-  void send_command_to_server(const QString &);
   void start_new_game();
   void start_scenario();
   void start_from_save();
@@ -296,6 +294,8 @@ protected slots:
   void slot_selection_changed(const QItemSelection&, const QItemSelection&);
 
 private:
+  void chat_message_received(const QString &message,
+                             const struct text_tag_list *tags);
 
   void create_main_page();
   void create_network_page();

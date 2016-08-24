@@ -1881,7 +1881,7 @@ void fc_client::start_page_menu(QPoint pos)
         menu.addAction(action);
       }
       connect(player_menu_mapper, SIGNAL(mapped(const QString &)),
-              this, SLOT(send_command_to_server(const QString &)));
+              this, SLOT(send_chat_message(const QString &)));
       menu.exec(global_pos);
       return;
     }
@@ -1895,57 +1895,4 @@ void fc_client::start_page_menu(QPoint pos)
 void fc_client::slot_pick_nation()
 {
   popup_races_dialog(client_player());
-}
-
-/***************************************************************************
-  Sends commands to server, but first searches for cutom keys, if it finds
-  then it makes custom action
-***************************************************************************/
-void fc_client::send_command_to_server(const QString &str)
-{
-  int index;
-  QString splayer, s;
-
-  /** Key == PICK: used for picking nation, it was put here cause those
-   *  Qt slots are a bit limited ...I'm unable to pass custom player pointer
-   *  or idk how to do that
-   */
-  s = str;
-  index = str.indexOf("PICK:");
-
-  if (index != -1) {
-    s = s.remove("PICK:");
-    /* now should be playername left in string */
-    players_iterate(pplayer) {
-      splayer = QString(pplayer->name);
-
-      if (!splayer.compare(s)) {
-        popup_races_dialog(pplayer);
-      }
-    } players_iterate_end;
-    return;
-  }
-
-  /**
-   * If client send commands to take ai, set /away to disable AI
-   */
-
-  index = str.indexOf("/take ");
-  if (index != -1) {
-      s = s.remove("/take ");
-      players_iterate(pplayer) {
-      splayer = QString(pplayer->name);
-      splayer = "\"" + splayer + "\"";
-
-      if (!splayer.compare(s)) {
-        if (is_ai(pplayer)) {
-          send_chat(str.toLocal8Bit().data());
-          send_chat("/away");
-          return;
-        }
-      }
-    } players_iterate_end;
-  }
-
-  send_chat(str.toLocal8Bit().data());
 }

@@ -98,7 +98,7 @@
   function invocation. Compilers should be able to inline calls to invoke(),
   leaving only the overhead of looping on all instances.
 
-  FIXME Implementation is not thread-safe. I don't know if it's needed.
+  @warning Implementation is not thread-safe.
 ***************************************************************************/
 template<class _type_>
 class listener
@@ -123,6 +123,9 @@ public:
 
   template<class _member_fct_, class _arg1_t_>
   static void invoke(_member_fct_ function, _arg1_t_ arg);
+
+  template<class _member_fct_, class _arg1_t_, class _arg2_t_>
+  static void invoke(_member_fct_ function, _arg1_t_ arg1, _arg2_t_ arg2);
 };
 
 /***************************************************************************
@@ -195,6 +198,28 @@ void listener<_type_>::invoke(_member_fct_ function, _arg1_t_ arg)
   typename std::set<type_t *>::iterator end = instances.end();
   for ( ; it != end; ++it) {
     ((*it)->*function)(arg);
+  }
+}
+
+/***************************************************************************
+  Invokes a member function on all instances of an listener type. Template
+  parameters are meant to be automatically deduced.
+
+  Two-parameters overload.
+
+  @param function The member function to call
+  @param arg1     The first argument to pass to the function
+  @param arg2     The second argument to pass to the function
+***************************************************************************/
+template<class _type_>
+template<class _member_fct_, class _arg1_t_, class _arg2_t_>
+void listener<_type_>::invoke(_member_fct_ function,
+                              _arg1_t_ arg1, _arg2_t_ arg2)
+{
+  typename std::set<type_t *>::iterator it = instances.begin();
+  typename std::set<type_t *>::iterator end = instances.end();
+  for ( ; it != end; ++it) {
+    ((*it)->*function)(arg1, arg2);
   }
 }
 
