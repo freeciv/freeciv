@@ -82,7 +82,7 @@ class help_widget : public QWidget
   void undo_layout();
 
   void show_info_panel();
-  void add_info_canvas(struct canvas *canvas, bool shadow = false);
+  void add_info_pixmap(QPixmap *pm, bool shadow = false);
   void add_info_label(const QString &text);
   void add_info_progress(const QString& label, int progress,
                          int min, int max,

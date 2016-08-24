@@ -59,8 +59,8 @@
 
 static help_dialog *help_dlg = NULL;
 canvas *terrain_canvas(struct terrain *terrain,
-                       const struct extra_type *resource,
-                       enum extra_cause cause);
+                       const struct extra_type *resource = NULL,
+                       enum extra_cause cause = EC_COUNT);
 /**************************************************************************
   Popup the help dialog to get help on the given string topic.  Note
   that the topic may appear in multiple sections of the help (it may
@@ -172,26 +172,104 @@ help_dialog::help_dialog(QWidget *parent) :
 **************************************************************************/
 void help_dialog::make_tree()
 {
-  QTreeWidgetItem *item;
-  int dep;
   char *title;
-  QHash<int, QTreeWidgetItem*> hash;
+  int dep;
+  int i;
+  QHash<int, QTreeWidgetItem *> hash;
+  QIcon *icon;
+  QTreeWidgetItem *item;
+  sprite *spite;
+  struct advance *padvance;
+  struct canvas *pcan;
+  struct extra_type *pextra;
+  struct government *gov;
+  struct impr_type *imp;
+  struct terrain *pterrain;
+  struct unit_type *f_type;
+  struct drawn_sprite sprs[80];
 
   help_items_iterate(pitem) {
     const char *s;
     int last;
     title = pitem->topic;
+
     for (s = pitem->topic; *s == ' '; s++) {
       /* nothing */
     }
+
     item = new QTreeWidgetItem(QStringList(title));
     topics_map[item] = pitem;
     dep = s - pitem->topic;
     hash.insert(dep, item);
+    icon = nullptr;
+
     if (dep == 0) {
       tree_wdg->addTopLevelItem(item);
     } else {
       last = dep - 1;
+      spite = nullptr;
+
+      switch (pitem->type) {
+      case HELP_EXTRA:
+        pextra = extra_type_by_translated_name(s);
+        fill_basic_extra_sprite_array(tileset, sprs, pextra);
+        icon = new QIcon(*sprs->sprite->pm);
+        break;
+
+      case HELP_GOVERNMENT:
+        gov = government_by_translated_name(s);
+        spite = get_government_sprite(tileset, gov);
+        if (spite) {
+          icon = new QIcon(*spite->pm);
+        }
+        break;
+
+      case HELP_IMPROVEMENT:
+      case HELP_WONDER:
+        imp = improvement_by_translated_name(s);
+        spite = get_building_sprite(tileset, imp);
+        if (spite) {
+          icon = new QIcon(*spite->pm);
+        }
+        break;
+
+      case HELP_TECH:
+        padvance  = advance_by_translated_name(s);
+        if (padvance && !is_future_tech(i = advance_number(padvance))) {
+          spite = get_tech_sprite(tileset, i);
+          if (spite) {
+            icon = new QIcon(*spite->pm);
+          }
+        }
+        break;
+
+      case HELP_TERRAIN:
+        pterrain = terrain_by_translated_name(s);
+        pcan = terrain_canvas(pterrain);
+        if (pcan) {
+          icon = new QIcon(pcan->map_pixmap);
+          delete pcan;
+        }
+        break;
+
+      case HELP_UNIT:
+        f_type = unit_type_by_translated_name(s);
+        if (f_type) {
+          spite = get_unittype_sprite(tileset, f_type, direction8_invalid());
+        }
+        if (spite) {
+          icon = new QIcon(*spite->pm);
+        }
+        break;
+
+      default:
+        break;
+      }
+
+      if (icon != nullptr) {
+        item->setIcon(0, *icon);
+      }
+
       hash.value(last)->addChild(item);
     }
   } help_items_iterate_end;
@@ -227,6 +305,10 @@ void help_dialog::item_changed(QTreeWidgetItem *item)
 **************************************************************************/
 void help_dialog::update_fonts()
 {
+  QFont *def_font;
+
+  def_font = gui()->fc_fonts.get_font("gui_qt_font_default");
+  tree_wdg->setFont(*def_font);
   help_wdg->update_fonts();
 }
 
@@ -407,13 +489,13 @@ void help_widget::show_info_panel()
 /****************************************************************************
   Adds a pixmap to the information panel.
 ****************************************************************************/
-void help_widget::add_info_canvas(struct canvas *canvas, bool shadow)
+void help_widget::add_info_pixmap(QPixmap *pm, bool shadow)
 {
   QLabel *label = new QLabel();
   QGraphicsDropShadowEffect *effect;
 
   label->setAlignment(Qt::AlignHCenter);
-  label->setPixmap(canvas->map_pixmap);
+  label->setPixmap(*pm);
 
   if (shadow) {
     effect = new QGraphicsDropShadowEffect(label);
@@ -529,9 +611,10 @@ void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
 ****************************************************************************/
 QString help_widget::link_me(const char *str, help_page_type hpt)
 {
+  QString s;
+  s = QString(str).replace(" ", "&nbsp;");
   return " <a href=" + QString::number(hpt)
-            + "," + QString(str) + ">"
-            + QString(str) + "</a> ";
+            + "," + s + ">" + s + "</a> ";
 }
 
 /****************************************************************************
@@ -560,24 +643,19 @@ void help_widget::anchor_clicked(const QString &link)
   int n;
   QString st;
   enum help_page_type type;
-  const char *s;
 
   sl = link.split(",");
   n = sl.at(0).toInt();
-  st = sl.at(1);
   type = static_cast<help_page_type>(n);
-  s = st.toLocal8Bit().data();
-  if (strcmp(s, REQ_LABEL_NEVER) != 0
-      && strcmp(s, skip_intl_qualifier_prefix(REQ_LABEL_NONE)) != 0
-      && strcmp(s, advance_name_translation(advance_by_number(A_NONE))) != 0) {
-    const struct help_item *pitem;
-    int idx;
+  st = sl.at(1);
+  st = st.replace("\u00A0", " ");
 
-    get_help_item_spec(s, type, &idx);
-    if (!(pitem = get_help_item_spec(s, type, &idx))) {
-      return;
-    }
-    set_topic(pitem);
+  if (strcmp(qPrintable(st), REQ_LABEL_NEVER) != 0
+      && strcmp(qPrintable(st),
+                skip_intl_qualifier_prefix(REQ_LABEL_NONE)) != 0
+      && strcmp(qPrintable(st),
+                advance_name_translation(advance_by_number(A_NONE))) != 0) {
+    popup_help_dialog_typed(qPrintable(st), type);
   }
 }
 
@@ -686,7 +764,7 @@ void help_widget::set_topic_unit(const help_item *topic,
              );
     canvas->map_pixmap.fill(Qt::transparent);
     put_unittype(utype, canvas, 1.0f, 0, 0);
-    add_info_canvas(canvas);
+    add_info_pixmap(&canvas->map_pixmap);
     qtg_canvas_free(canvas);
 
     add_info_progress(_("Attack:"), utype->attack_strength, 0,
@@ -760,14 +838,62 @@ void help_widget::set_topic_unit(const help_item *topic,
   Creates improvement help pages.
 **************************************************************************/
 void help_widget::set_topic_building(const help_item *topic,
-                                       const char *title)
+                                     const char *title)
 {
   char buffer[MAX_HELP_TEXT_SIZE];
+  struct sprite *spr;
   struct impr_type *itype = improvement_by_translated_name(title);
+  const char *req = skip_intl_qualifier_prefix(REQ_LABEL_NONE);
+  char req_buf[512];
+  QString str , s1, s2;
+
   if (itype) {
     helptext_building(buffer, sizeof(buffer), client.conn.playing,
                       topic->text, itype);
     text_browser->setText(buffer);
+    show_info_panel();
+    spr = get_building_sprite(tileset, itype);
+    if (spr) {
+      add_info_pixmap(spr->pm);
+    }
+    str = _("Cost:");
+    str = "<b>" + str + "</b>" + " "
+          + QString::number(impr_build_shield_cost(itype));
+    add_info_label(str);
+    if (!is_great_wonder(itype)) {
+      str = _("Upkeep:");
+      str = "<b>" + str + "</b>" + " "
+            + QString::number(itype->upkeep);
+      add_info_label(str);
+    }
+
+    requirement_vector_iterate(&itype->reqs, preq) {
+      if (!preq->present) {
+        continue;
+      }
+      req = universal_name_translation(&preq->source, req_buf, 
+                                       sizeof(req_buf));
+      break;
+    } requirement_vector_iterate_end;
+    s1 = QString(req);
+    str = _("Requirement:");
+    str = "<b>" + str + "</b>" + " " + s1;
+    add_info_label(str);
+
+    requirement_vector_iterate(&itype->obsolete_by, pobs) {
+      if (pobs->source.kind == VUT_ADVANCE) {
+        req = advance_name_translation(pobs->source.value.advance);
+        break;
+      }
+    } requirement_vector_iterate_end;
+
+    s2 = QString(req);
+    str = _("Obsolete by:");
+    str = "<b>" + str + "</b>" + " " + s2;
+    if (s1.compare(s2) != 0) {
+      add_info_label(str);
+    }
+    info_panel_done();
   } else {
     set_topic_other(topic, title);
   }
@@ -777,16 +903,105 @@ void help_widget::set_topic_building(const help_item *topic,
   Creates technology help pages.
 **************************************************************************/
 void help_widget::set_topic_tech(const help_item *topic,
-                                   const char *title)
+                                 const char *title)
 {
   char buffer[MAX_HELP_TEXT_SIZE];
+  struct sprite *spr;
+  QLabel *tb;
   struct advance *padvance = advance_by_translated_name(title);
+  QString str;
+
   if (padvance) {
     int n = advance_number(padvance);
     if (!is_future_tech(n)) {
+
+      show_info_panel();
+      spr = get_tech_sprite(tileset, n);
+      if (spr) {
+        add_info_pixmap(spr->pm);
+      }
+
+      governments_iterate(pgov) {
+        requirement_vector_iterate(&pgov->reqs, preq) {
+          if (VUT_ADVANCE == preq->source.kind
+              && preq->source.value.advance == padvance) {
+            tb = new QLabel(this);
+            tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+            tb->setTextFormat(Qt::RichText);
+            str = _("Allows");
+            str = "<b>" + str + "</b> "
+               + link_me(government_name_translation(pgov), HELP_GOVERNMENT);
+            tb->setText(str.trimmed());
+            tb->setFont(*gui()->fc_fonts.get_font("gui_qt_font_help_label"));
+            connect(tb, SIGNAL(linkActivated(const QString)),
+                    this, SLOT(anchor_clicked(const QString)));
+            info_layout->addWidget(tb);
+          }
+        } requirement_vector_iterate_end;
+      } governments_iterate_end;
+
+      improvement_iterate(pimprove) {
+        requirement_vector_iterate(&pimprove->reqs, preq) {
+          if (VUT_ADVANCE == preq->source.kind
+              && preq->source.value.advance == padvance) {
+            str = _("Allows");
+            str = "<b>" + str + "</b> "
+                  + link_me(improvement_name_translation(pimprove),
+                            is_great_wonder(pimprove) ? HELP_WONDER
+                             : HELP_IMPROVEMENT);
+            tb = new QLabel(this);
+            tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+            tb->setTextFormat(Qt::RichText);
+            tb->setText(str.trimmed());
+            tb->setFont(*gui()->fc_fonts.get_font("gui_qt_font_help_label"));
+            connect(tb, SIGNAL(linkActivated(const QString)),
+                    this, SLOT(anchor_clicked(const QString)));
+            info_layout->addWidget(tb);
+          }
+        } requirement_vector_iterate_end;
+
+        requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+          if (pobs->source.kind == VUT_ADVANCE
+              && pobs->source.value.advance == padvance) {
+            str = _("Obsoletes");
+            str = "<b>" + str + "</b> "
+                  + link_me(improvement_name_translation(pimprove),
+                            is_great_wonder(pimprove) ? HELP_WONDER
+                            : HELP_IMPROVEMENT);
+            tb = new QLabel(this);
+            tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+            tb->setTextFormat(Qt::RichText);
+            tb->setText(str.trimmed());
+            tb->setFont(*gui()->fc_fonts.get_font("gui_qt_font_help_label"));
+            connect(tb, SIGNAL(linkActivated(const QString)),
+                    this, SLOT(anchor_clicked(const QString)));
+            info_layout->addWidget(tb);
+          }
+        } requirement_vector_iterate_end;
+      } improvement_iterate_end;
+
+      unit_type_iterate(punittype) {
+        if (padvance != punittype->require_advance) {
+          continue;
+        }
+        str = _("Allows");
+        str = "<b>" + str + "</b> "
+              + link_me(utype_name_translation(punittype), HELP_UNIT);
+        tb = new QLabel(this);
+        tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+        tb->setTextFormat(Qt::RichText);
+        tb->setText(str.trimmed());
+        tb->setFont(*gui()->fc_fonts.get_font("gui_qt_font_help_label"));
+        connect(tb, SIGNAL(linkActivated(const QString)),
+                this, SLOT(anchor_clicked(const QString)));
+        info_layout->addWidget(tb);
+      } unit_type_iterate_end;
+
+      info_panel_done();
       helptext_advance(buffer, sizeof(buffer), client.conn.playing,
-                      topic->text, n);
+                       topic->text, n);
       text_browser->setText(buffer);
+
     }
   } else {
     set_topic_other(topic, title);
@@ -797,8 +1012,8 @@ void help_widget::set_topic_tech(const help_item *topic,
   Creates a terrain image on the given canvas.
 ****************************************************************************/
 canvas *terrain_canvas(struct terrain *terrain,
-                       const struct extra_type *resource = NULL,
-                       enum extra_cause cause = EC_COUNT)
+                       const struct extra_type *resource,
+                       enum extra_cause cause)
 {
   struct canvas *canvas;
   struct drawn_sprite sprs[80];
@@ -910,7 +1125,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     // Create terrain icon. Use shadow to help distinguish terrain.
     canvas = terrain_canvas(pterrain);
-    add_info_canvas(canvas, true);
+    add_info_pixmap(&canvas->map_pixmap, true);
     qtg_canvas_free(canvas);
 
     add_info_progress(_("Food:"), pterrain->output[O_FOOD],
