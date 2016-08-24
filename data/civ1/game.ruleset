@@ -765,7 +765,8 @@ goods_selection = "Arrival"
 ; */ <-- avoid gettext warnings
 
 [goods_good]
-name = _("Goods")
+name  = _("Goods")
+flags = "Bidirectional"
 
 [playercolors]
 background.r = 86
