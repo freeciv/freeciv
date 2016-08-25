@@ -3142,14 +3142,6 @@ GtkWidget *create_scenario_page(void)
   g_signal_connect(view, "row-activated",
                    G_CALLBACK(scenario_callback), NULL);
 
-  sbox = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(sbox), 12);
-  gtk_grid_set_row_homogeneous(GTK_GRID(sbox), TRUE);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(sbox), 2);
-  gtk_container_add(GTK_CONTAINER(vbox), sbox);
-
   label = g_object_new(GTK_TYPE_LABEL,
     "use-underline", TRUE,
     "mnemonic-widget", view,
@@ -3157,7 +3149,15 @@ GtkWidget *create_scenario_page(void)
     "xalign", 0.0,
     "yalign", 0.5,
     NULL);
-  gtk_container_add(GTK_CONTAINER(sbox), label);
+  gtk_container_add(GTK_CONTAINER(vbox), label);
+
+  sbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(sbox), 12);
+  gtk_grid_set_row_homogeneous(GTK_GRID(sbox), TRUE);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),
+                                 GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing(GTK_GRID(sbox), 2);
+  gtk_container_add(GTK_CONTAINER(vbox), sbox);
 
   hbox = gtk_grid_new();
   gtk_grid_set_column_homogeneous(GTK_GRID(hbox), TRUE);
