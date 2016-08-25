@@ -32,21 +32,14 @@
 // client
 #include "chatline_common.h"
 #include "client_main.h"
-#include "clinet.h"
-#include "mapview_common.h"
-#include "tilespec.h"
-
-// common
-#include "packets.h"
-
-// client
-#include "chatline_common.h"
-#include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "mapview_common.h"
 #include "servers.h"
 #include "tilespec.h"
+
+// common
+#include "packets.h"
 
 // gui-qt
 #include "canvas.h"
@@ -68,9 +61,7 @@ enum connection_state {
 };
 
 class MainWindow;
-class QCompleter;
 class QLabel;
-class QLineEdit;
 class QLineEdit;
 class QString;
 class QTableWidget;
@@ -183,7 +174,7 @@ class fc_client : public QMainWindow, private chat_listener
 
   QSocketNotifier *server_notifier;
 
-  QLineEdit *chat_line;
+  chat_input *chat_line;
 
   QTableWidget* lan_widget;
   QTableWidget* wan_widget;
@@ -226,14 +217,10 @@ public:
   void popup_tile_info(struct tile *ptile);
   void popdown_tile_info();
   void set_diplo_dialog(choice_dialog *widget);
-  void update_completer();
   void handle_authentication_req(enum authentication_type type,
                                  const char *message);
   choice_dialog *get_diplo_dialog();
 
-  QCompleter *chat_completer;
-  QStringList chat_history;
-  int history_pos;
   mr_idle mr_idler;
   fc_font fc_fonts;
   info_label *game_info_label;
@@ -263,7 +250,6 @@ public:
 private slots:
 
   void server_input(int sock);
-  void chat();
   void closing();
   void slot_lan_scan();
   void slot_meta_scan();
@@ -326,7 +312,6 @@ private:
 
 protected:
   void timerEvent(QTimerEvent *);
-  bool eventFilter(QObject *obj, QEvent *event);
   void closeEvent(QCloseEvent *event);
 
 signals:

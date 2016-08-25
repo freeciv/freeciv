@@ -17,6 +17,7 @@
 
 //Qt
 #include <QApplication>
+#include <QCompleter>
 #include <QScrollBar>
 #include <QStyleFactory>
 
@@ -42,6 +43,41 @@
 static bool is_plain_public_message(QString s);
 
 FC_CPP_DECLARE_LISTENER(chat_listener)
+QStringList chat_listener::history = QStringList();
+QStringList chat_listener::word_list = QStringList();
+
+/***************************************************************************
+  Updates the chat completion word list.
+***************************************************************************/
+void chat_listener::update_word_list()
+{
+  QString str;
+
+  conn_list_iterate(game.est_connections, pconn) {
+    if (pconn->playing) {
+      word_list << pconn->playing->name;
+      word_list << pconn->playing->username;
+    } else {
+      word_list << pconn->username;
+    }
+  } conn_list_iterate_end;
+
+  players_iterate (pplayer){
+    str = pplayer->name;
+    if (!word_list.contains(str)){
+      word_list << str;
+    }
+  } players_iterate_end
+
+  invoke(&chat_listener::chat_word_list_changed, word_list);
+}
+
+/***************************************************************************
+  Constructor.
+***************************************************************************/
+chat_listener::chat_listener() :
+    position(HISTORY_END)
+{}
 
 /***************************************************************************
   Called whenever a message is received. Default implementation does
@@ -52,8 +88,17 @@ void chat_listener::chat_message_received(const QString &,
 {}
 
 /***************************************************************************
-  Sends commands to server, but first searches for cutom keys, if it finds
-  then it makes custom action
+  Called whenever the completion word list changes. Default implementation
+  does nothing.
+***************************************************************************/
+void chat_listener::chat_word_list_changed(const QStringList &)
+{}
+
+/***************************************************************************
+  Sends commands to server, but first searches for custom keys, if it finds
+  then it makes custom action.
+
+  The history position is reset to HISTORY_END.
 ***************************************************************************/
 void chat_listener::send_chat_message(const QString &message)
 {
@@ -81,6 +126,9 @@ void chat_listener::send_chat_message(const QString &message)
     return;
   }
 
+  history << message;
+  reset_history_position();
+
   /*
    * If client send commands to take ai, set /away to disable AI
    */
@@ -103,7 +151,6 @@ void chat_listener::send_chat_message(const QString &message)
   /*
    * Option to send to allies by default
    */
-  gui()->chat_history.prepend(message);
   if (!message.isEmpty()) {
     if (client_state() >= C_S_RUNNING && gui_options.gui_qt_allied_chat_only
         && is_plain_public_message(message)) {
@@ -115,6 +162,101 @@ void chat_listener::send_chat_message(const QString &message)
   }
   // Empty messages aren't sent
   // FIXME Inconsistent behavior: "." will send an empty message to allies
+}
+
+/***************************************************************************
+  Goes back one position in history, and returns the message at the new
+  position.
+***************************************************************************/
+QString chat_listener::back_in_history()
+{
+  if (!history.empty() && position == HISTORY_END) {
+    position = history.size() - 1;
+  } else if (position > 0) {
+    position--;
+  }
+  return history.empty() ? "" : history.at(position);
+}
+
+/***************************************************************************
+  Goes forward one position in history, and returns the message at the new
+  position. An empty string is returned if the new position is HISTORY_END.
+***************************************************************************/
+QString chat_listener::forward_in_history()
+{
+  if (position == HISTORY_END) {
+    return "";
+  }
+  position++;
+  if (position >= history.size()) {
+    position = HISTORY_END;
+    return "";
+  } else {
+    return history.at(position);
+  }
+}
+
+/***************************************************************************
+  Go to the end of the history.
+***************************************************************************/
+void chat_listener::reset_history_position()
+{
+  position = HISTORY_END;
+}
+
+/***************************************************************************
+  Constructor
+***************************************************************************/
+chat_input::chat_input(QWidget *parent) :
+    QLineEdit(parent)
+{
+  connect(this, &QLineEdit::returnPressed, this, &chat_input::send);
+  chat_word_list_changed(current_word_list());
+  chat_listener::listen();
+}
+
+/***************************************************************************
+  Sends the content of the input box
+***************************************************************************/
+void chat_input::send()
+{
+  send_chat_message(text());
+  clear();
+}
+
+/***************************************************************************
+  Called whenever the completion word list changes.
+***************************************************************************/
+void chat_input::chat_word_list_changed(const QStringList &word_list)
+{
+  QCompleter *cmplt = completer();
+
+  if (cmplt != nullptr) {
+    delete cmplt;
+  }
+  cmplt = new QCompleter(word_list);
+  cmplt->setCaseSensitivity(Qt::CaseInsensitive);
+  cmplt->setCompletionMode(QCompleter::InlineCompletion);
+  setCompleter(cmplt);
+}
+
+/***************************************************************************
+  Event handler for chat_input, used for history
+***************************************************************************/
+bool chat_input::event(QEvent *event)
+{
+  if (event->type() == QEvent::KeyPress) {
+    QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+    switch (keyEvent->key()) {
+    case Qt::Key_Up:
+      setText(back_in_history());
+      return true;
+    case Qt::Key_Down:
+      setText(forward_in_history());
+      return true;
+    }
+  }
+  return QLineEdit::event(event);
 }
 
 /***************************************************************************
@@ -144,7 +286,7 @@ chatwdg::chatwdg(QWidget *parent)
   cb->setToolTip(_("Allies only"));
   cb->setChecked(gui_options.gui_qt_allied_chat_only);
   gl = new QGridLayout;
-  chat_line = new QLineEdit;
+  chat_line = new chat_input;
   chat_output = new QTextBrowser;
   remove_links = new QPushButton("");
   remove_links->setIcon(style()->standardPixmap(QStyle::SP_DialogCancelButton));
@@ -158,8 +300,6 @@ chatwdg::chatwdg(QWidget *parent)
   gl->setContentsMargins(0, 0, 0, 0);
   setLayout(gl);
   chat_output->setReadOnly(true);
-  chat_line->setReadOnly(false);
-  chat_line->setVisible(true);
   chat_line->installEventFilter(this);
   chat_output->setVisible(true);
   chat_output->setAcceptRichText(true);
@@ -167,7 +307,6 @@ chatwdg::chatwdg(QWidget *parent)
   chat_output->setReadOnly(true);
   connect(chat_output, SIGNAL(anchorClicked(const QUrl)),
           this, SLOT(anchor_clicked(const QUrl)));
-  connect(chat_line, SIGNAL(returnPressed()), this, SLOT(send()));
   connect(remove_links, SIGNAL(clicked()), this, SLOT(rm_links()));
   connect(cb, SIGNAL(stateChanged(int)), this, SLOT(state_changed(int)));
   setMouseTracking(true);
@@ -274,18 +413,8 @@ void chatwdg::append(const QString &str)
   QTextCursor cursor;
 
   chat_output->append(str);
-  chat_line->setCompleter(gui()->chat_completer);
   chat_output->verticalScrollBar()->setSliderPosition(
                               chat_output->verticalScrollBar()->maximum());
-}
-
-/***************************************************************************
-  Sends string from chat input to server
-***************************************************************************/
-void chatwdg::send()
-{
-  send_chat_message(chat_line->text());
-  chat_line->clear();
 }
 
 /***************************************************************************
@@ -314,35 +443,15 @@ void chatwdg::paintEvent(QPaintEvent *event)
 ***************************************************************************/
 bool chatwdg::eventFilter(QObject *obj, QEvent *event)
 {
+  QString message;
+
   if (obj == chat_line) {
     if (event->type() == QEvent::KeyPress) {
       QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-      if (keyEvent->key() == Qt::Key_Up) {
-        gui()->history_pos++;
-        gui()->history_pos = qMin(gui()->chat_history.count(), 
-                                  gui()->history_pos);
-        if (gui()->history_pos < gui()->chat_history.count()) {
-          chat_line->setText(gui()->chat_history.at(gui()->history_pos));
-        }
-        if (gui()->history_pos == gui()->chat_history.count()) {
-          chat_line->setText("");
-        }
-        return true;
-      } else if (keyEvent->key() == Qt::Key_Down) {
-        gui()->history_pos--;
-        gui()->history_pos = qMax(-1, gui()->history_pos);
-        if (gui()->history_pos < gui()->chat_history.count() 
-            && gui()->history_pos != -1) {
-          chat_line->setText(gui()->chat_history.at(gui()->history_pos));
-        }
-        if (gui()->history_pos == -1) {
-          chat_line->setText("");
-        }
-        return true;
-      }
       if (keyEvent->key() == Qt::Key_Escape) {
         gui()->infotab->restore_chat();
         gui()->mapview_wdg->setFocus();
+        return true;
       }
     }
     if (event->type() == QEvent::ShortcutOverride) {
@@ -593,7 +702,6 @@ void qtg_real_output_window_append(const char *astring,
 
   str = QString::fromUtf8(astring);
   gui()->set_status_bar(str);
-  gui()->update_completer();
 
   wakeup = gui_options.gui_qt_wakeup_text;
 
@@ -608,6 +716,7 @@ void qtg_real_output_window_append(const char *astring,
     audio_play_sound("e_player_wake", NULL);
   }
 
+  chat_listener::update_word_list();
   chat_listener::invoke(&chat_listener::chat_message_received,
                         str, tags);
 }
