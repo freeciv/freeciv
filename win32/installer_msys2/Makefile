@@ -273,25 +273,29 @@ QT_DLLS := \
 	libgraphite2.dll \
 	libpcre-1.dll
 
-QT_MSYS_DLLS := \
-	stdc++-6.dll
-
 install-env-qt: install-env-common
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-$(WINARCH)-$(GUI)/
-	cp -R $(addprefix /bin/msys-, $(QT_MSYS_DLLS)) install-$(WINARCH)-$(GUI)/
 	# add additional Qt files
 	cp -R /$(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-$(GUI)/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
-# TODO: Clean out unnecessary ones. These are just copies of COMMON_DLLS and
-#       COMMON_MSYS_DLLS with most obviously unnecessary things left out.
 RULEDIT_DLLS := \
         libstdc++-6.dll \
+	libeay32.dll \
+	ssleay32.dll \
 	libidn-11.dll \
+	libnghttp2-14.dll \
+	librtmp-1.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
+	libgmp-10.dll \
+	libgnutls-30.dll \
+	libhogweed-4-2.dll \
+	libnettle-6-2.dll \
+	libp11-kit-0.dll \
+	libtasn1-6.dll \
 	libatk-1.0-0.dll \
 	libbz2-1.dll \
 	libcairo-2.dll \
@@ -317,34 +321,10 @@ RULEDIT_DLLS := \
 	libgraphite2.dll \
 	libpcre-1.dll
 
-RULEDIT_MSYS_DLLS := \
-	2.0.dll \
-	sqlite3-0.dll \
-	ssl-1.0.0.dll \
-	$(GCCDLL) \
-	z.dll \
-	bz2-1.dll \
-	crypto-1.0.0.dll \
-	gssapi-3.dll \
-	heimntlm-0.dll \
-	krb5-26.dll \
-	asn1-8.dll \
-	com_err-1.dll \
-	roken-18.dll \
-	crypt-0.dll \
-	wind-0.dll \
-	hx509-5.dll \
-	heimbase-1.dll \
-	iconv-2.dll \
-	intl-8.dll \
-	lzma-5.dll
-
 install-env-ruledit:
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_DLLS)) install-$(WINARCH)-ruledit/
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT_DLLS)) install-$(WINARCH)-ruledit/
-	cp -R $(addprefix /bin/msys-, $(RULEDIT_MSYS_DLLS)) install-$(WINARCH)-ruledit/
-	cp -R $(addprefix /bin/msys-, $(QT_MSYS_DLLS)) install-$(WINARCH)-ruledit/
 	# add additional Qt files
 	cp -R /$(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-ruledit/
 	cp -R /usr/share/locale install-$(WINARCH)-ruledit/share/
