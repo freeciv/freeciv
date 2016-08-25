@@ -576,10 +576,9 @@ void fc_client::create_start_page()
   down_layout = new QGridLayout;
   start_players_tree = new QTreeWidget;
   pr_options = new pregame_options();
-  chat_line = new QLineEdit;
+  chat_line = new chat_input;
   output_window = new QTextEdit;
   output_window->setReadOnly(false);
-  chat_line->installEventFilter(this);
 
   pr_options->init();
   player_widget_list << _("Name") << _("Ready") << Q_("?player:Leader")
@@ -638,8 +637,6 @@ void fc_client::create_start_page()
   splitter->addWidget(down_widget);
   splitter->setOrientation(Qt::Vertical);
   pages_layout[PAGE_START]->addWidget(splitter);
-  connect(chat_line, SIGNAL(returnPressed()), this, SLOT(chat()));
-
 }
 
 /***************************************************************************

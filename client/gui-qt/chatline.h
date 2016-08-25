@@ -26,6 +26,7 @@ extern "C" {
 
 //Qt
 #include <QEvent>
+#include <QStringList>
 #include <QTextBrowser>
 #include <QLineEdit>
 #include <QCheckBox>
@@ -40,11 +41,52 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
 ***************************************************************************/
 class chat_listener : public listener<chat_listener>
 {
+  // History is shared among all instances...
+  static QStringList history;
+  // ...but each has its own position.
+  int position;
+
+  // Chat completion word list.
+  static QStringList word_list;
+
 public:
+  // Special value meaning "end of history".
+  static const int HISTORY_END = -1;
+
+  static void update_word_list();
+
+  explicit chat_listener();
+
   virtual void chat_message_received(const QString &,
                                      const struct text_tag_list *);
+  virtual void chat_word_list_changed(const QStringList &);
 
   void send_chat_message(const QString &message);
+
+  int position_in_history() { return position; }
+  QString back_in_history();
+  QString forward_in_history();
+  void reset_history_position();
+
+  QStringList current_word_list() { return word_list; }
+};
+
+/***************************************************************************
+  Chat input widget
+***************************************************************************/
+class chat_input : public QLineEdit, private chat_listener
+{
+  Q_OBJECT
+
+private slots:
+  void send();
+
+public:
+  explicit chat_input(QWidget *parent = nullptr);
+
+  virtual void chat_word_list_changed(const QStringList &);
+
+  bool event(QEvent *event);
 };
 
 /***************************************************************************
@@ -56,14 +98,13 @@ class chatwdg : public QWidget, private chat_listener
 public:
   chatwdg(QWidget *parent);
   void append(const QString &str);
-  QLineEdit *chat_line;
+  chat_input *chat_line;
   void make_link(struct tile *ptile);
   void update_font();
   void update_widgets();
   int default_size(int lines);
   void scroll_to_bottom();
 private slots:
-  void send();
   void state_changed(int state);
   void rm_links();
   void anchor_clicked(const QUrl &link);
