@@ -375,7 +375,7 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
   }
 
   sect_idx = 0;
-  improvement_iterate(pb) {
+  improvement_active_iterate(pb) {
     if (!pb->disabled) {
       char path[512];
       const char *flag_names[IF_COUNT];
@@ -423,7 +423,7 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
 
       save_strvec(sfile, pb->helptext, path, "helptext");
     }
-  } improvement_iterate_end;
+  } improvement_active_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
@@ -1546,7 +1546,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
   }
 
   sect_idx = 0;
-  advance_iterate(A_FIRST, pa) {
+  advance_active_iterate(pa) {
     if (pa->require[AR_ONE] != A_NEVER) {
       char path[512];
       const char *flag_names[TF_COUNT];
@@ -1589,7 +1589,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
       save_strvec(sfile, pa->helptext, path, "helptext");
     }
 
-  } advance_iterate_end;
+  } advance_active_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
@@ -2226,7 +2226,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
   } unit_class_iterate_end;
 
   sect_idx = 0;
-  unit_type_iterate(put) {
+  unit_active_type_iterate(put) {
     if (!put->disabled) {
       char path[512];
       const char *flag_names[UTYF_LAST_USER_FLAG + 1];
@@ -2356,7 +2356,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
       save_strvec(sfile, put->helptext, path, "helptext");
     }
-  } unit_type_iterate_end;
+  } unit_active_type_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
