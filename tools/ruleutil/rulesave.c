@@ -386,7 +386,7 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
   comment_buildings(sfile);
 
   sect_idx = 0;
-  improvement_iterate(pb) {
+  improvement_active_iterate(pb) {
     if (!pb->disabled) {
       char path[512];
       const char *flag_names[IF_COUNT];
@@ -434,7 +434,7 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
 
       save_strvec(sfile, pb->helptext, path, "helptext");
     }
-  } improvement_iterate_end;
+  } improvement_active_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
@@ -1237,7 +1237,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   comment_goods(sfile);
 
   sect_idx = 0;
-  goods_type_iterate(pgood) {
+  goods_active_type_iterate(pgood) {
     char path[512];
 
     fc_snprintf(path, sizeof(path), "goods_%d", sect_idx++);
@@ -1245,7 +1245,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
     save_name_translation(sfile, &(pgood->name), path);
 
     save_reqs_vector(sfile, &(pgood->reqs), path, "reqs");
-  } goods_type_iterate_end;
+  } goods_active_type_iterate_end;
 
   locks = FALSE;
   settings_iterate(SSET_ALL, pset) {
@@ -1313,7 +1313,7 @@ static bool save_governments_ruleset(const char *filename, const char *name)
   comment_govs(sfile);
 
   sect_idx = 0;
-  governments_iterate(pg) {
+  governments_active_iterate(pg) {
     char path[512];
     struct ruler_title *prtitle;
 
@@ -1351,7 +1351,7 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 
     save_strvec(sfile, pg->helptext, path, "helptext");
 
-  } governments_iterate_end;
+  } governments_active_iterate_end;
 
   comment_policies(sfile);
 
@@ -1767,7 +1767,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
   comment_techs(sfile);
 
   sect_idx = 0;
-  advance_iterate(A_FIRST, pa) {
+  advance_active_iterate(pa) {
     if (pa->require[AR_ONE] != A_NEVER) {
       char path[512];
       const char *flag_names[TF_COUNT];
@@ -1820,7 +1820,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
       save_strvec(sfile, pa->helptext, path, "helptext");
     }
 
-  } advance_iterate_end;
+  } advance_active_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
@@ -2511,7 +2511,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
   comment_utypes(sfile);
 
   sect_idx = 0;
-  unit_type_iterate(put) {
+  unit_active_type_iterate(put) {
     if (!put->disabled) {
       char path[512];
       const char *flag_names[UTYF_LAST_USER_FLAG + 1];
@@ -2641,7 +2641,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
       save_strvec(sfile, put->helptext, path, "helptext");
     }
-  } unit_type_iterate_end;
+  } unit_active_type_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
