@@ -1109,7 +1109,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     qvar = index.data(Qt::UserRole);
     sl = qvar.toStringList();
     scenarios_view->setText(sl.at(0));
-    if (sl.count() > 1){
+    if (sl.count() > 1) {
       scenarios_text->setText(sl.at(2));
       current_file = sl.at(1);
     }
@@ -1307,7 +1307,7 @@ void fc_client::update_scenarios_page(void)
   scenarios_text->setText("");
   scenarios_view->setText("");
 
-  files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
+  files = fileinfolist_infix(get_scenario_dirs(), ".sav", false);
   fileinfo_list_iterate(files, pfile) {
     struct section_file *sf;
 
@@ -1316,39 +1316,103 @@ void fc_client::update_scenarios_page(void)
 
       const char *sname, *sdescription, *sauthors;
       QTableWidgetItem *item;
+      QString format;
       QString str = QString(pfile->name);
       QString st;
       QStringList sl;
+      int fcver;
+      int current_ver = MAJOR_VERSION * 1000000 + MINOR_VERSION * 10000;
 
+      fcver = secfile_lookup_int_default(sf, 0, "scenario.game_version");
+      if (fcver < 30000) {
+        /* Pre-3.0 versions stored version number without emergency version
+         * part in the end. To get comparable version number stored,
+         * multiply by 100. */
+        fcver *= 100;
+      }
+      fcver -= (fcver % 10000); /* Patch level does not affect compatibility */
       sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
       sdescription = secfile_lookup_str_default(sf, NULL,
-                                              "scenario.description");
+                     "scenario.description");
       sauthors = secfile_lookup_str_default(sf, NULL,
-                                              "scenario.authors");
-      item = new QTableWidgetItem();
-      scenarios_load->insertRow(row);
-      item->setText(pfile->name);
-      if (sauthors) {
-        st = QString("\n") + QString("<b>") + _("Authors: ")
-             + QString("</b>") + QString(sauthors);
-      } else {
-        st = "";
+                                            "scenario.authors");
+      if (fcver <= current_ver) {
+        QString version;
+        bool add_item = true;
+        bool found = false;
+        QStringList sl;
+        int rows;
+        int found_ver;
+        int i;
+
+        if (fcver > 0) {
+          int maj;
+          int min;
+
+          maj = fcver / 1000000;
+          fcver %= 1000000;
+          min = fcver / 10000;
+          version = QString("%1.%2").arg(maj).arg(min);
+        } else {
+          /* TRANS: Unknown scenario format */
+          version = QString(_("pre-2.6"));
+        }
+
+        rows = scenarios_load->rowCount();
+        for (i = 0; i < rows; ++i) {
+          if (scenarios_load->item(i, 0)
+              && scenarios_load->item(i, 0)->text() == pfile->name) {
+            found = true;
+            item = scenarios_load->takeItem(i, 0);
+            break;
+          }
+        }
+
+        if (found == true) {
+          sl = item->data(Qt::UserRole).toStringList();
+          found_ver = sl.at(3).toInt();
+          if (found_ver < fcver) {
+            continue;
+          }
+          add_item = false;
+        }
+        if (add_item) {
+          item = new QTableWidgetItem();
+          scenarios_load->insertRow(row);
+        }
+        item->setText(QString(pfile->name));
+        format = QString("<br>") + QString(_("Format:")) + " "
+                 + version;
+        if (sauthors) {
+          st = QString("\n") + QString("<b>") + _("Authors: ")
+               + QString("</b>") + QString(sauthors);
+        } else {
+          st = "";
+        }
+        sl << "<b>"
+           + QString(sname && strlen(sname) ? Q_(sname) : pfile->name)
+           + "</b>"
+           << pfile->fullname
+           << QString(NULL != sdescription && '\0' != sdescription[0]
+                      ? Q_(sdescription) : "") + st + format
+           << QString::number(fcver);
+        sl.replaceInStrings("\n", "<br>");
+        item->setData(Qt::UserRole, sl);
+        if (add_item) {
+          scenarios_load->setItem(row, 0, item);
+          row++;
+        } else {
+          scenarios_load->setItem(i, 0, item);
+        }
       }
-      sl << "<b>"
-         + QString(sname && strlen(sname) ? Q_(sname) : pfile->name)
-         + "</b>"
-         << pfile->fullname
-         << QString(NULL != sdescription && '\0' != sdescription[0]
-                    ? Q_(sdescription) : "") + st;
-      sl.replaceInStrings("\n", "<br>");
-      item->setData(Qt::UserRole, sl);
-      scenarios_load->setItem(row, 0, item);
-      row++;
       secfile_destroy(sf);
     }
   } fileinfo_list_iterate_end;
   fileinfo_list_destroy(files);
+  scenarios_load->sortItems(0);
+  scenarios_load->update();
 }
+
 
 /**************************************************************************
   configure the dialog depending on what type of authentication request the
