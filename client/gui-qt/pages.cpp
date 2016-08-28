@@ -1966,7 +1966,7 @@ void fc_client::start_page_menu(QPoint pos)
         menu.addAction(action);
       }
       connect(player_menu_mapper, SIGNAL(mapped(const QString &)),
-              this, SLOT(send_chat_message(const QString &)));
+              this, SLOT(send_fake_chat_message(const QString &)));
       menu.exec(global_pos);
       return;
     }

@@ -239,6 +239,14 @@ void fc_client::closing()
 }
 
 /****************************************************************************
+  Slot to send fake chat messages. Do not use in new code.
+****************************************************************************/
+void fc_client::send_fake_chat_message(const QString &message)
+{
+  send_chat_message(message);
+}
+
+/****************************************************************************
   Appends text to chat window
 ****************************************************************************/
 void fc_client::chat_message_received(const QString &message,
