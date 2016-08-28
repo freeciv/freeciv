@@ -336,19 +336,19 @@ installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# create NSIS script
-	./create-freeciv-$(GUI)-nsi.sh install-$(WINARCH)-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(FREECIV_VERSION)-$(GUI).nsi
+	./create-freeciv-$(GUI)-nsi.sh install-$(WINARCH)-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 	# create installer executable
 	mkdir -p Output
-	makensis Freeciv-$(FREECIV_VERSION)-$(GUI).nsi
+	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
 installer-ruledit: clean-install-ruledit install-ruledit install-env-ruledit
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# create NSIS script
-	./create-freeciv-ruledit-nsi.sh install-$(WINARCH)-ruledit $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(FREECIV_VERSION)-ruledit.nsi
+	./create-freeciv-ruledit-nsi.sh install-$(WINARCH)-ruledit $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit.nsi
 	# create installer executable
 	mkdir -p Output
-	makensis Freeciv-$(FREECIV_VERSION)-ruledit.nsi
+	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit.nsi
 
 wrap-gtk3: build-freeciv-gtk3 installer-common
 
