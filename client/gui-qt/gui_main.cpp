@@ -74,6 +74,7 @@ static void apply_font(struct option *poption);
 static void apply_titlebar(struct option *poption);
 static void apply_city_font(struct option *poption);
 static void apply_help_font(struct option *poption);
+static void apply_sidebar(struct option *poption);
 
 /****************************************************************************
   Return fc_client instance
@@ -228,6 +229,8 @@ void qtg_options_extra_init()
                           apply_font);
   option_var_set_callback(gui_qt_show_titlebar,
                           apply_titlebar);
+    option_var_set_callback(gui_qt_sidebar_left,
+                          apply_sidebar);
 #undef option_var_set_callback
 }
 
@@ -405,6 +408,15 @@ static void apply_help_font(struct option *poption)
     update_help_fonts();
   }
 }
+
+/****************************************************************************
+  Change sidebar position
+****************************************************************************/
+void apply_sidebar(struct option *poption)
+{
+  gui()->update_sidebar_position();
+}
+
 
 /****************************************************************************
   Stub for editor function

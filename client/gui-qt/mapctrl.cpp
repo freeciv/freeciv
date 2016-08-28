@@ -42,6 +42,7 @@
 #include "citydlg.h"
 #include "qtg_cxxside.h"
 
+extern void side_disable_endturn(bool do_restore);
 
 /**************************************************************************
   Popup a dialog to ask for the name of a new city.  The given string
@@ -72,7 +73,7 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 **************************************************************************/
 void set_turn_done_button_state(bool state)
 {
-  gui()->end_turn_rect->set_turn_button_enabled(state);
+  side_disable_endturn(state);
 }
 
 /**************************************************************************

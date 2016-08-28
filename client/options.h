@@ -329,6 +329,7 @@ struct client_options
   bool gui_qt_fullscreen;
   bool gui_qt_show_preview;
   bool gui_qt_allied_chat_only;
+  bool gui_qt_sidebar_left;
   char gui_qt_default_theme_name[512];
   char gui_qt_font_city_label[512];
   char gui_qt_font_default[512];

@@ -35,9 +35,14 @@
 #include "fc_client.h"
 #include "gui_main.h"
 #include "optiondlg.h"
+#include "sidebar.h"
 #include "sprite.h"
 
 fc_icons* fc_icons::m_instance = 0;
+extern "C" {
+  bool get_turn_done_button_state();
+  void real_science_report_dialog_update(void);
+}
 
 /****************************************************************************
   Constructor
@@ -78,10 +83,9 @@ fc_client::fc_client() : QMainWindow()
   status_bar_label = NULL;
   menu_bar = NULL;
   mapview_wdg = NULL;
+  sidebar_wdg = nullptr;
   msgwdg = NULL;
   infotab = NULL;
-  game_info_label = NULL;
-  end_turn_rect = NULL;
   central_wdg = NULL;
   game_tab_widget = NULL;
   start_players_tree = NULL;
@@ -174,6 +178,7 @@ void fc_client::init()
                 this, SLOT(switch_page(int)));
   setVisible(true);
 
+  game_tab_widget->init();
   chat_listener::listen();
 }
 
@@ -302,6 +307,7 @@ void fc_client::switch_page(int new_pg)
     if (gui_options.gui_qt_show_titlebar == false) {
       setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
     }
+    showMaximized();
     gui()->infotab->chtwdg->update_widgets();
     status_bar->setVisible(false);
     gui()->infotab->chtwdg->update_font();
@@ -316,6 +322,8 @@ void fc_client::switch_page(int new_pg)
     update_info_label();
     minimapview_wdg->reset();
     overview_size_changed();
+    update_sidebar_tooltips();
+    real_science_report_dialog_update();
     break;
   case PAGE_SCENARIO:
     update_scenarios_page();
@@ -538,6 +546,10 @@ int fc_client::gimme_index_of(QString str)
 {
   int i;
   QWidget *w;
+
+  if (str == "MAP") {
+    return 0;
+  }
 
   w = opened_repo_dlgs.value(str);
   i = game_tab_widget->indexOf(w);
@@ -776,10 +788,18 @@ void fc_font::set_font(QString name, QFont *qf)
 /****************************************************************************
   Game tab widget constructor
 ****************************************************************************/
-fc_game_tab_widget::fc_game_tab_widget(): QTabWidget()
+fc_game_tab_widget::fc_game_tab_widget(): QStackedWidget()
 {
-  connect(this, SIGNAL(currentChanged(int)), SLOT(restore_label_color(int)));
 }
+
+/****************************************************************************
+  Init default settings for game_tab_widget
+****************************************************************************/
+void fc_game_tab_widget::init()
+{
+  connect(this, SIGNAL(currentChanged(int)), SLOT(current_changed(int)));
+}
+
 
 /****************************************************************************
   Icon provider constructor
@@ -821,6 +841,18 @@ QIcon fc_icons::get_icon(const QString &id)
 }
 
 /****************************************************************************
+  Returns pixmap by given name, pixmap needs to be deleted by someone else
+****************************************************************************/
+QPixmap* fc_icons::get_pixmap(const QString &id)
+{
+  QPixmap *pm;
+  pm = new QPixmap;
+  pm->load(fileinfoname(get_data_dirs(), QString("themes/gui-qt/icons/"
+                              + id + ".png").toLocal8Bit().data()));
+  return pm;
+}
+
+/****************************************************************************
   Returns path for icon
 ****************************************************************************/
 QString fc_icons::get_path(const QString &id)
@@ -832,19 +864,54 @@ QString fc_icons::get_path(const QString &id)
 
 
 /****************************************************************************
-  Restores black color of label
+  Resize event for all game tab widgets
 ****************************************************************************/
-void fc_game_tab_widget::restore_label_color(int index)
+void fc_game_tab_widget::resizeEvent(QResizeEvent* event)
 {
-  change_color(index, QColor(Qt::black));
+  QSize size;
+
+  size = event->size();
+  if (C_S_RUNNING <= client_state()) {
+    gui()->sidebar_wdg->resize_me(size.width(), size.height());
+    map_canvas_resized(size.width(), size.height());
+    gui()->infotab->resize((size.width()
+                             * gui()->qt_settings.chat_width) / 100,
+                             (size.height()
+                             * gui()->qt_settings.chat_height) / 100);
+    gui()->infotab->move(0 , size.height() - gui()->infotab->height());
+    gui()->infotab->restore_chat();
+    gui()->minimapview_wdg->move(size.width() -
+                                 gui()->minimapview_wdg->width() - 10,
+                                 size.height() -
+                                 gui()->minimapview_wdg->height() - 10);
+    gui()->x_vote->move(width() / 2 - gui()->x_vote->width() / 2, 0);
+    gui()->update_sidebar_tooltips();
+    side_disable_endturn(get_turn_done_button_state());
+  }
+  QWidget::resizeEvent(event);
 }
 
 /****************************************************************************
-  Changes color of tab widget's label
+  Tab has been changed
 ****************************************************************************/
-void fc_game_tab_widget::change_color(int index, QColor col)
+void fc_game_tab_widget::current_changed(int index)
 {
-  tabBar()->setTabTextColor(index, col);
+  QList<fc_sidewidget*> objs;
+  fc_sidewidget *sw;
+
+  if (gui()->is_closing()) {
+    return;
+  }
+  /* Set focus to map instead sidebar */
+  if (gui()->mapview_wdg && gui()->current_page() == PAGE_GAME
+     && index == 0) {
+    gui()->mapview_wdg->setFocus();
+  }
+  objs = gui()->sidebar_wdg->objects;
+
+  foreach(sw, objs) {
+    sw->update_final_pixmap();
+  }
 }
 
 /****************************************************************************

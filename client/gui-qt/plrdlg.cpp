@@ -646,7 +646,7 @@ plr_report::~plr_report()
 void plr_report::init()
 {
   gui()->gimme_place(this, "PLR");
-  index = gui()->add_game_tab(this, Q_("?header:Players"));
+  index = gui()->add_game_tab(this);
   gui()->game_tab_widget->setCurrentIndex(index);
 }
 
@@ -768,10 +768,10 @@ void popup_players_dialog(bool raise)
     plr_report *pr;
 
     i = gui()->gimme_index_of("PLR");
-    fc_assert(i != -1);
     w = gui()->game_tab_widget->widget(i);
     pr = reinterpret_cast<plr_report*>(w);
     gui()->game_tab_widget->setCurrentWidget(pr);
+    pr->update_report();
   }
 }
 
@@ -786,10 +786,11 @@ void real_players_dialog_update(void)
 
   if (gui()->is_repo_dlg_open("PLR")) {
     i = gui()->gimme_index_of("PLR");
-    fc_assert(i != -1);
-    w = gui()->game_tab_widget->widget(i);
-    pr = reinterpret_cast<plr_report *>(w);
-    pr->update_report();
+    if (gui()->game_tab_widget->currentIndex() == i) {
+      w = gui()->game_tab_widget->widget(i);
+      pr = reinterpret_cast<plr_report *>(w);
+      pr->update_report();
+    }
   }
 }
 

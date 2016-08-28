@@ -126,8 +126,7 @@ public:
 
 protected:
   void paintEvent(QPaintEvent *event);
-  void keyPressEvent(QKeyEvent * event);
-  void resizeEvent(QResizeEvent * event);
+  void keyPressEvent(QKeyEvent *event);
   void mousePressEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
@@ -207,168 +206,44 @@ protected:
 **************************************************************************/
 class minimap_view: public fcwidget
 {
-  Q_OBJECT 
+  Q_OBJECT
 public:
-  minimap_view(QWidget * parent);
+  minimap_view(QWidget *parent);
   ~minimap_view();
-  void paint(QPainter * painter, QPaintEvent * event);
+  void paint(QPainter *painter, QPaintEvent *event);
   virtual void update_menu();
   void update_image();
   void reset();
 
 protected:
-  void paintEvent(QPaintEvent * event);
-  void resizeEvent(QResizeEvent * event);
-  void mousePressEvent(QMouseEvent * event);
-  void mouseMoveEvent(QMouseEvent * event);
-  void mouseReleaseEvent(QMouseEvent * event);
-  void wheelEvent(QWheelEvent * event);
-  void moveEvent(QMoveEvent * event);
-  void showEvent(QShowEvent * event);
+  void paintEvent(QPaintEvent *event);
+  void resizeEvent(QResizeEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void mouseReleaseEvent(QMouseEvent *event);
+  void wheelEvent(QWheelEvent *event);
+  void moveEvent(QMoveEvent *event);
+  void showEvent(QShowEvent *event);
 
-private slots: 
+private slots:
   void zoom_in();
   void zoom_out();
 
 private:
-  void draw_viewport(QPainter * painter);
+  void draw_viewport(QPainter *painter);
   void scale(double factor);
   void scale_point(int &x, int &y);
   void unscale_point(int &x, int &y);
-  QBrush background;
-  QPoint cursor;
-  resize_widget *rw;
   close_widget *cw;
-  QPixmap *pix;
-  QPoint position;
-  float w_ratio, h_ratio;
   double scale_factor;
-};
-
-/****************************************************************************
-  Widget to display a sprite. Inherits QPushButton so it can have a drop-down
-  menu etc.
-****************************************************************************/
-class sprite_widget : public QPushButton
-{
-  Q_OBJECT
-  const QPixmap *pixmap;
-  int user_id;
-public:
-  sprite_widget(QWidget* parent = 0);
-  virtual ~sprite_widget();
-  void set_sprite(const struct sprite *sprite);
-  void set_user_id(int id);
-signals:
-  void button_clicked(Qt::MouseButton button, int id);
-  void wheel_rolled(int delta, int id);
-protected:
-  virtual void mouseReleaseEvent(QMouseEvent *ev);
-  virtual void paintEvent(QPaintEvent *ev);
-  virtual void wheelEvent(QWheelEvent *ev);
-};
-
-/**************************************************************************
-  Label which will trigger clicked signal on mouse click
-**************************************************************************/
-class clicked_label : public QLabel
-{
-  Q_OBJECT
-public:
-  explicit clicked_label(QWidget *parent = 0);
-signals:
-  void clicked();
-protected:
-  void mousePressEvent(QMouseEvent *e);
-};
-
-/**************************************************************************
-  Information label about civilization, turn, time etc
-**************************************************************************/
-class info_label : public fcwidget
-{
-  Q_OBJECT
-  QLabel *turn_info;
-  QLabel *eco_info;
-  QLabel *time_label;
-  QLabel *res_info;
-  QTimer *res_timer;
-  bool blink_state;
-  bool timer_active;
-public:
-  info_label(QWidget *parent);
-  virtual ~info_label();
-
-  void set_turn_info(const QString &info);
-  void set_time_info(const QString &info);
-  void set_eco_info(const QString &info);
-  void set_res_info(const QString &info);
-  void info_update();
-  void update_menu();
-private slots:
-  void blink();
-  void show_research_tab();
-};
-
-/**************************************************************************
-  End turn widget with government indicators and taxes
-**************************************************************************/
-class end_turn_area : public QFrame
-{
-  Q_OBJECT
-  QPushButton *etb_button;
-  int ascent_plus_descent;
-  sprite_widget *government_indicator;
-  sprite_widget *nuclear_indicator;
-  sprite_widget *pollution_indicator;
-  sprite_widget *research_indicator;
-  sprite_widget *tax_indicators[10];
-public:
-  end_turn_area(QWidget *parent);
-  void set_turn_button_enabled(bool enable);
-  void set_highlight_turn_button(bool highlight);
-  void set_indicator_icons(const struct sprite *bulb,
-                           const struct sprite *sol,
-                           const struct sprite *flake,
-                           const struct sprite *gov);
-  void update_tileset();
-  void end_turn_update();
-protected slots:
-  void change_tax_rate_wheel(int delta, int id);
-  void change_tax_rate_click(Qt::MouseButton button, int id);
-private:
-  void change_tax_rate(output_type_id type, int delta);
-};
-/**************************************************************************
-  Information label current unit
-**************************************************************************/
-class unit_label:public fcwidget 
-{
-  Q_OBJECT
-  QPixmap *pix;
-  QPixmap *arrow_pix;
-  QPixmap *tile_pix;
-  QFont *ufont;
-public:
-  unit_label(QWidget *parent);
-  void uupdate(unit_list *punits);
-  void update_arrow_pix();
-protected:
-  void paintEvent(QPaintEvent *event);
-  void mousePressEvent(QMouseEvent *event);
-  void mouseMoveEvent(QMouseEvent *event);
-  void paint(QPainter *painter, QPaintEvent *event);
-  void update_menu();
-private:
-  unit_list *ul_units;
+  float w_ratio, h_ratio;
   QBrush background;
-  QRect selection_area;
-  QString unit_label1, unit_label2;
-  bool highlight_pix;
-  bool one_unit;
-  bool no_units;
-  int w_width;
+  QPixmap *pix;
+  QPoint cursor;
+  QPoint position;
+  resize_widget *rw;
 };
+
 
 void mapview_freeze(void);
 void mapview_thaw(void);
