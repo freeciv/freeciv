@@ -23,6 +23,7 @@
 #include "qtg_cxxside.h"
 #include "colors.h"
 #include "diplodlg.h"
+#include "sidebar.h"
 
 typedef advance *p_advance;
 typedef city *p_city;
@@ -655,10 +656,23 @@ void diplo_wdg::update_wdg()
 }
 
 /****************************************************************************
+  Restores original nations pixmap
+****************************************************************************/
+void diplo_wdg::restore_pixmap()
+{
+  gui()->sw_diplo->set_pixmap(fc_icons::instance()->get_pixmap("nations"));
+  gui()->sw_diplo->resize_pixmap(gui()->sw_diplo->width(),
+                                 gui()->sw_diplo->height());
+  gui()->sw_diplo->set_custom_labels(QString());
+  gui()->sw_diplo->update_final_pixmap();
+}
+
+/****************************************************************************
   Button 'Accept treaty' has been clicked
 ****************************************************************************/
 void diplo_wdg::response_accept()
 {
+  restore_pixmap();
   dsend_packet_diplomacy_accept_treaty_req(&client.conn,
                                            player_number(treaty.plr0));
 }
@@ -668,6 +682,7 @@ void diplo_wdg::response_accept()
 ****************************************************************************/
 void diplo_wdg::response_cancel()
 {
+  restore_pixmap();
   dsend_packet_diplomacy_cancel_meeting_req(&client.conn,
                                             player_number(treaty.plr0));
 }
@@ -734,13 +749,8 @@ bool diplo_dlg::init(bool raise)
   }
   setAttribute(Qt::WA_DeleteOnClose);
   gui()->gimme_place(this, "DDI");
-  index = gui()->add_game_tab(this, _("Diplomacy"));
-
-  if (raise == false) {
-    gui()->game_tab_widget->change_color(index, Qt::red);
-  } else {
-    gui()->game_tab_widget->setCurrentIndex(index);
-  }
+  index = gui()->add_game_tab(this);
+  gui()->game_tab_widget->setCurrentIndex(index);
 
   return true;
 }
@@ -760,6 +770,7 @@ diplo_dlg::~diplo_dlg()
     dw->deleteLater();
   }
   gui()->remove_repo_dlg("DDI");
+  gui()->game_tab_widget->setCurrentIndex(0);
 }
 
 /****************************************************************************
@@ -835,12 +846,50 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 
   int i;
   diplo_dlg *dd;
+  QPainter p;
+  QPixmap *pix, *def_pix, *pix2, *pix3, *def_pix_del;
   QWidget *w;
   QWidget *fw;
 
-  if (client_is_observer()){
+  if (client_is_observer()) {
     return;
   }
+
+  if (gui()->current_page() != PAGE_GAME) {
+    gui()->switch_page(PAGE_GAME);
+  }
+
+  pix2 = new QPixmap();
+  def_pix_del = new QPixmap();
+  pix = get_nation_flag_sprite(tileset,
+                                  nation_of_player(player_by_number
+                                                   (counterpart)))->pm;
+  *pix2 = pix->scaledToWidth(gui()->sw_diplo->width() - 2,
+                             Qt::SmoothTransformation);
+  if (pix2->height() > gui()->sw_diplo->height()) {
+    *pix2 = pix->scaledToHeight(gui()->sw_diplo->height(),
+                             Qt::SmoothTransformation);
+  }
+  pix3 = new QPixmap(gui()->sw_diplo->width(), gui()->sw_diplo->height());
+  pix3->fill(Qt::transparent);
+  def_pix = fc_icons::instance()->get_pixmap("nations");
+  *def_pix_del = def_pix->scaled(gui()->sw_diplo->width(),
+                                 gui()->sw_diplo->height(),
+                                 Qt::IgnoreAspectRatio,
+                                 Qt::SmoothTransformation);
+  p.begin(pix3);
+  p.drawPixmap(1, 1, *pix2);
+  p.drawPixmap(0, 0, *def_pix_del);
+  p.end();
+  gui()->sw_diplo->set_pixmap(pix3);
+  gui()->sw_diplo->resize_pixmap(gui()->sw_diplo->width(),
+                                 gui()->sw_diplo->height());
+  gui()->sw_diplo->set_custom_labels(QString(nation_plural_for_player(
+                                            player_by_number(counterpart))));
+  gui()->sw_diplo->update_final_pixmap();
+  delete pix2;
+  delete def_pix_del;
+
   if (!gui()->is_repo_dlg_open("DDI")) {
     dd = new diplo_dlg(counterpart, initiated_from);
 
@@ -858,7 +907,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
   fw = dd->find_widget(counterpart);
   if (fw == NULL) {
     dd->add_widget(counterpart, initiated_from);
-    gui()->game_tab_widget->change_color(i, Qt::red);
+    gui()->game_tab_widget->setCurrentIndex(i);
   }
   dd->make_active(counterpart);
 

@@ -30,6 +30,7 @@ MOC_FILES = \
 	meta_messagewin.cpp	\
 	meta_chatline.cpp	\
 	meta_messagedlg.cpp	\
+	meta_sidebar.cpp	\
 	meta_voteinfo_bar.cpp	\
 	meta_gotodlg.cpp
 
@@ -89,6 +90,8 @@ libgui_qt_la_SOURCES = \
 	ratesdlg.h	\
 	repodlgs.cpp	\
 	repodlgs.h	\
+	sidebar.cpp	\
+	sidebar.h	\
 	spaceshipdlg.cpp \
 	spaceshipdlg.h	\
 	sprite.cpp	\

@@ -27,7 +27,7 @@
 #include <QMainWindow>
 #include <QMap>
 #include <QSpinBox>
-#include <QTabWidget>
+#include <QStackedWidget>
 
 // client
 #include "chatline_common.h"
@@ -73,8 +73,15 @@ class QApplication;
 class QTreeWidget;
 class QStatusBar;
 class QMainWindow;
+class fc_sidebar;
+class fc_sidewidget;
+class fc_sidetax;
 class pregame_options;
 
+
+/****************************************************************************
+  Class helping reading icons/pixmaps from themes/gui-qt/icons folder
+****************************************************************************/
 class fc_icons
 {
   Q_DISABLE_COPY(fc_icons);
@@ -82,25 +89,34 @@ class fc_icons
 private:
   explicit fc_icons();
   static fc_icons* m_instance;
+  QPixmapCache pix_cache;
 
 public:
   static fc_icons* instance();
   static void drop();
   QIcon get_icon(const QString& id);
+  QPixmap *get_pixmap(const QString& id);
   QString get_path(const QString& id);
 };
 
-
-class fc_game_tab_widget: public QTabWidget
+/****************************************************************************
+  Widget holding all game tabs
+****************************************************************************/
+class fc_game_tab_widget: public QStackedWidget
 {
   Q_OBJECT
 public:
   fc_game_tab_widget();
-  void change_color(int index, QColor col);
+  void init();
+protected:
+  void resizeEvent(QResizeEvent *event);
 private slots:
-  void restore_label_color(int index);
+  void current_changed(int index);
 };
 
+/****************************************************************************
+  Class helping to get font set in options
+****************************************************************************/
 class fc_font
 {
   QMap <QString, QFont *> font_map;
@@ -192,6 +208,10 @@ class fc_client : public QMainWindow, private chat_listener
   QLabel *status_bar_label;
   info_tile *info_tile_wdg;
   choice_dialog *opened_dialog;
+  fc_sidewidget *sw_map;
+  fc_sidewidget *sw_cities;
+  fc_sidewidget *sw_tax;
+  fc_sidewidget *sw_economy;
 
 public:
   fc_client();
@@ -199,8 +219,8 @@ public:
 
   void main(QApplication *);
   map_view *mapview_wdg;
+  fc_sidebar *sidebar_wdg;
   minimap_view *minimapview_wdg;
-  unit_label *unitinfo_wdg;
   void add_server_source(int);
   void remove_server_source();
   bool event(QEvent *event);
@@ -208,7 +228,7 @@ public:
   enum client_pages current_page();
 
   void set_status_bar(QString str, int timeout = 2000);
-  int add_game_tab(QWidget *widget, QString title);
+  int add_game_tab(QWidget *widget);
   void rm_game_tab(int index); /* doesn't delete widget */
   void update_start_page();
   void toggle_unit_sel_widget(struct tile *ptile);
@@ -220,11 +240,10 @@ public:
   void handle_authentication_req(enum authentication_type type,
                                  const char *message);
   choice_dialog *get_diplo_dialog();
+  void update_sidebar_position();
 
   mr_idle mr_idler;
   fc_font fc_fonts;
-  info_label *game_info_label;
-  end_turn_area *end_turn_rect;
   QWidget *central_wdg;
   mr_menu *menu_bar;
   fc_corner *corner_wid;
@@ -240,12 +259,18 @@ public:
   fc_settings qt_settings;
   trade_generator trade_gen;
   qfc_rally_list rallies;
+  fc_sidewidget *sw_cunit;
+  fc_sidewidget *sw_science;
+  fc_sidewidget *sw_endturn;
+  fc_sidewidget *sw_indicators;
+  fc_sidewidget *sw_diplo;
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
   void remove_repo_dlg(QString str);
   bool is_repo_dlg_open(QString str);
   void write_settings();
   bool is_closing();
+  void update_sidebar_tooltips();
 
 private slots:
 
@@ -258,7 +283,6 @@ private slots:
   void slot_pregame_observe();
   void slot_pregame_start();
   void update_network_lists();
-  bool slot_close_widget(int index);
   void start_page_menu(QPoint);
   void slot_pick_nation();
   void start_new_game();

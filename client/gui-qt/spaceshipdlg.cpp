@@ -69,7 +69,7 @@ void ss_report::init()
 {
   int index;
   gui()->gimme_place(this, "SPS");
-  index = gui()->add_game_tab(this, _("Spaceship"));
+  index = gui()->add_game_tab(this);
   gui()->game_tab_widget->setCurrentIndex(index);
   update_report();
 }

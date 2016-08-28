@@ -39,6 +39,7 @@
 // gui-qt
 #include "cityrep.h"
 #include "qtg_cxxside.h"
+#include "sidebar.h"
 
 #include "repodlgs.h"
 
@@ -437,12 +438,8 @@ science_report::~science_report()
 void science_report::init(bool raise)
 {
   gui()->gimme_place(this, "SCI");
-  index = gui()->add_game_tab(this, _("Research"));
-  if (raise == false) {
-    gui()->game_tab_widget->change_color(index, Qt::red);
-  } else {
-    gui()->game_tab_widget->setCurrentIndex(index);
-  }
+  index = gui()->add_game_tab(this);
+  gui()->game_tab_widget->setCurrentIndex(index);
   update_report();
 }
 
@@ -652,8 +649,37 @@ void science_report::goal_tech_changed(int changed_index)
 void real_science_report_dialog_update(void)
 {
   int i;
+  int percent;
   science_report *sci_rep;
+  bool blk = false;
   QWidget *w;
+  QString str;
+
+ if (NULL != client.conn.playing) {
+    struct research *research = research_get(client_player());
+  if (research->researching == A_UNSET) {
+      str = QString(_("none"));
+  } else if (research->client.researching_cost != 0) {
+    str = research_advance_name_translation(research,research->researching);
+    percent = 100 *research->bulbs_researched / research->client.researching_cost;
+    str = str + "\n (" + QString::number(percent) + "%)";
+  }
+  if (research->researching == A_UNSET && research->tech_goal == A_UNSET) {
+    blk = true;
+  }
+ } else {
+   str = " ";
+ }
+
+  if (blk == true) {
+    gui()->sw_science->keep_blinking = true;
+    gui()->sw_science->sblink();
+  } else {
+    gui()->sw_science->keep_blinking = false;
+    gui()->sw_science->set_custom_labels(str);
+    gui()->sw_science->update_final_pixmap();
+  }
+  gui()->update_sidebar_tooltips();
 
   if (gui()->is_repo_dlg_open("SCI")) {
     i = gui()->gimme_index_of("SCI");
@@ -737,7 +763,7 @@ void units_report::init()
 {
   curr_row = -1;
   gui()->gimme_place(this, "UNI");
-  index = gui()->add_game_tab(this, _("Units"));
+  index = gui()->add_game_tab(this);
   gui()->game_tab_widget->setCurrentIndex(index);
 }
 
@@ -1107,7 +1133,7 @@ void eco_report::init()
 {
   curr_row = -1;
   gui()->gimme_place(this, "ECO");
-  index = gui()->add_game_tab(this, _("Economy"));
+  index = gui()->add_game_tab(this);
   gui()->game_tab_widget->setCurrentIndex(index);
 }
 
@@ -1444,7 +1470,7 @@ endgame_report::~endgame_report()
 void endgame_report::init()
 {
   gui()->gimme_place(this, "END");
-  index = gui()->add_game_tab(this, _("Score"));
+  index = gui()->add_game_tab(this);
   gui()->game_tab_widget->setCurrentIndex(index);
 }
 
@@ -1505,16 +1531,12 @@ void science_report_dialog_popup(bool raise)
     sci_rep->init(raise);
   } else {
     i = gui()->gimme_index_of("SCI");
-    fc_assert(i != -1);
-    if (gui()->game_tab_widget->currentIndex() == i) {
-      return;
-    }
     w = gui()->game_tab_widget->widget(i);
     sci_rep = reinterpret_cast<science_report*>(w);
-    if (raise == false) {
-      gui()->game_tab_widget->change_color(i, Qt::red);
+    if (gui()->game_tab_widget->currentIndex() == i) {
+      sci_rep->redraw();
     } else {
-    gui()->game_tab_widget->setCurrentWidget(sci_rep);
+      gui()->game_tab_widget->setCurrentWidget(sci_rep);
     }
   }
 }
@@ -1530,11 +1552,13 @@ void real_economy_report_dialog_update(void)
 
   if (gui()->is_repo_dlg_open("ECO")) {
     i = gui()->gimme_index_of("ECO");
-    fc_assert(i != -1);
-    w = gui()->game_tab_widget->widget(i);
-    eco_rep = reinterpret_cast<eco_report*>(w);
-    eco_rep->update_report();
+    if (gui()->game_tab_widget->currentIndex() == i) {
+      w = gui()->game_tab_widget->widget(i);
+      eco_rep = reinterpret_cast<eco_report*>(w);
+      eco_rep->update_report();
+    }
   }
+  gui()->update_sidebar_tooltips();
 }
 
 /**************************************************************************
@@ -1550,12 +1574,12 @@ void economy_report_dialog_popup(bool raise)
     eco_rep = new eco_report;
     eco_rep->init();
     eco_rep->update_report();
-  }
-  else {
+  } else {
     i = gui()->gimme_index_of("ECO");
     fc_assert(i != -1);
     w = gui()->game_tab_widget->widget(i);
-    eco_rep = reinterpret_cast<eco_report*>(w);
+    eco_rep = reinterpret_cast<eco_report *>(w);
+    eco_rep->update_report();
     gui()->game_tab_widget->setCurrentWidget(eco_rep);
   }
 }
@@ -1571,10 +1595,11 @@ void real_units_report_dialog_update(void)
 
   if (gui()->is_repo_dlg_open("UNI")) {
     i = gui()->gimme_index_of("UNI");
-    fc_assert(i != -1);
-    w = gui()->game_tab_widget->widget(i);
-    units_rep = reinterpret_cast<units_report*>(w);
-    units_rep->update_report();
+    if (gui()->game_tab_widget->currentIndex() == i) {
+      w = gui()->game_tab_widget->widget(i);
+      units_rep = reinterpret_cast<units_report*>(w);
+      units_rep->update_report();
+    }
   }
 }
 
@@ -1596,6 +1621,7 @@ void units_report_dialog_popup(bool raise)
     fc_assert(i != -1);
     w = gui()->game_tab_widget->widget(i);
     ur = reinterpret_cast<units_report*>(w);
+    ur->update_report();
     gui()->game_tab_widget->setCurrentWidget(ur);
   }
 }
@@ -1652,10 +1678,11 @@ void science_report_dialog_redraw(void)
 
   if (gui()->is_repo_dlg_open("SCI")) {
     i = gui()->gimme_index_of("SCI");
-    fc_assert(i != -1);
-    w = gui()->game_tab_widget->widget(i);
-    sci_rep = reinterpret_cast<science_report*>(w);
-    sci_rep->redraw();
+    if (gui()->game_tab_widget->currentIndex() == i) {
+      w = gui()->game_tab_widget->widget(i);
+      sci_rep = reinterpret_cast<science_report*>(w);
+      sci_rep->redraw();
+    }
   }
 }
 

@@ -22,6 +22,7 @@
 #include <QHeaderView>
 #include <QLineEdit>
 #include <QSplitter>
+#include <QStackedWidget>
 #include <QTableWidget>
 #include <QTextEdit>
 #include <QTreeWidget>
@@ -38,13 +39,29 @@
 #include "colors.h"
 #include "dialogs.h"
 #include "pages.h"
+#include "plrdlg.h"
+#include "qtg_cxxside.h"
+#include "sidebar.h"
 #include "sprite.h"
 #include "voteinfo_bar.h"
+
+extern "C" {
+#include "repodlgs_g.h"
+#include "cityrep_g.h"
+const char *science_dialog_text(void);
+const char *get_bulb_tooltip(void);
+const char *get_global_warming_tooltip(void);
+const char *get_nuclear_winter_tooltip(void);
+const char *get_government_tooltip(void);
+const char *get_info_label_text_popup(void);
+const char *get_info_label_text(bool);
+}
 
 static struct server_scan *meta_scan, *lan_scan;
 static bool holding_srv_list_mutex = false;
 static enum connection_state connection_status;
 static struct terrain *char2terrain(char ch);
+
 
 /****************************************************************************
   Helper function for drawing map of savegames. Converts stored map char in
@@ -649,21 +666,51 @@ void fc_client::create_game_page()
   pages_layout[PAGE_GAME] = new QGridLayout;
   game_main_widget = new QWidget;
   game_layout = new QGridLayout;
-  game_tab_widget = new fc_game_tab_widget;
   game_layout->setContentsMargins(0, 0, 0, 0);
   game_layout->setSpacing(0);
-  game_tab_widget->setTabPosition(QTabWidget::South);
-  game_tab_widget->setDocumentMode(false);
   mapview_wdg = new map_view();
   mapview_wdg->setFocusPolicy(Qt::WheelFocus);
+  sidebar_wdg = new fc_sidebar();
+
+  sw_map = new fc_sidewidget(fc_icons::instance()->get_pixmap("view"),
+                             _("View"), "MAP", side_show_map);
+  sw_tax = new fc_sidewidget(nullptr, nullptr, "", side_rates_wdg, SW_TAX);
+  sw_indicators = new fc_sidewidget(nullptr, nullptr, "", side_show_map,
+                                    SW_INDICATORS);
+  sw_indicators->set_right_click(side_indicators_menu);
+  sw_cunit = new fc_sidewidget(nullptr, nullptr, "UNI",
+                               units_report_dialog_popup);
+  sw_cities = new fc_sidewidget(fc_icons::instance()->get_pixmap("cities"),
+                                _("Cities"), "CTS",
+                                city_report_dialog_popup);
+  sw_diplo = new fc_sidewidget(fc_icons::instance()->get_pixmap("nations"),
+                               _("Nations"), "PLR", popup_players_dialog);
+  sw_science = new fc_sidewidget(fc_icons::instance()->get_pixmap("research"),
+                                 _("Research"), "SCI",
+                                 science_report_dialog_popup);
+  sw_economy = new fc_sidewidget(fc_icons::instance()->get_pixmap("economy"),
+                                 _("Economy"), "ECO",
+                                 economy_report_dialog_popup);
+  sw_endturn = new fc_sidewidget(fc_icons::instance()->get_pixmap("endturn"),
+                                 _("Turn Done"), "", side_finish_turn);
+  sw_endturn->set_right_click(side_indicators_menu);
+  sw_cunit->set_right_click(side_center_unit);
+  sw_cunit->set_wheel_up(key_recall_previous_focus_unit);
+  sw_cunit->set_wheel_down(key_unit_wait);
+  sw_diplo->set_right_click(side_show_diplomacy_dialog);
+
+  sidebar_wdg->add_widget(sw_map);
+  sidebar_wdg->add_widget(sw_cunit);
+  sidebar_wdg->add_widget(sw_cities);
+  sidebar_wdg->add_widget(sw_diplo);
+  sidebar_wdg->add_widget(sw_science);
+  sidebar_wdg->add_widget(sw_economy);
+  sidebar_wdg->add_widget(sw_tax);
+  sidebar_wdg->add_widget(sw_indicators);
+  sidebar_wdg->add_widget(sw_endturn);
+
   minimapview_wdg = new minimap_view(mapview_wdg);
   minimapview_wdg->show();
-  unitinfo_wdg = new unit_label(mapview_wdg);
-  unitinfo_wdg->show();
-  game_info_label = new info_label(mapview_wdg);
-  game_info_label->show();
-  end_turn_rect =  new end_turn_area(mapview_wdg);
-  end_turn_rect->show();
   infotab = new info_tab(mapview_wdg);
   infotab->show();
   x_vote = new xvote(mapview_wdg);
@@ -673,46 +720,29 @@ void fc_client::create_game_page()
 
   game_layout->addWidget(mapview_wdg, 1, 0);
   game_main_widget->setLayout(game_layout);
-
+  game_tab_widget = new fc_game_tab_widget;
   game_tab_widget->setMinimumSize(600,400);
-  game_tab_widget->setTabsClosable(true);
-  add_game_tab(game_main_widget, Q_("?noun:View"));
-
-  QObject::connect(game_tab_widget, SIGNAL(tabCloseRequested(int)),
-                   SLOT(slot_close_widget(int)));
-
-  pages_layout[PAGE_GAME]->addWidget(game_tab_widget, 1, 0);
-}
-
-/***************************************************************************
-  Closes given widget on game tab view, returns if succeeded
-***************************************************************************/
-bool fc_client::slot_close_widget(int index)
-{
-  bool ret = false;
-
-  QWidget *w = game_tab_widget->widget(index);
-
-  /** we wont close map view
-   * even requested, Qt cannot set one of tab widgets
-   * without close button, only all or none */
-  if (w != game_main_widget) {
-    game_tab_widget->removeTab(index);
-    ret = w->close();
-    delete w;
+  add_game_tab(game_main_widget);
+  if (gui_options.gui_qt_sidebar_left) {
+    pages_layout[PAGE_GAME]->addWidget(sidebar_wdg, 1, 0);
   } else {
-    ret = false;
+    pages_layout[PAGE_GAME]->addWidget(sidebar_wdg, 1, 2);
   }
-
-  return ret;
+  pages_layout[PAGE_GAME]->addWidget(game_tab_widget, 1, 1);
+  pages_layout[PAGE_GAME]->setContentsMargins(0, 0, 0, 0);
+  pages_layout[PAGE_GAME]->setSpacing(0);
 }
 
 /***************************************************************************
   Inserts tab widget to game view page
 ***************************************************************************/
-int fc_client::add_game_tab(QWidget *widget, QString title)
+int fc_client::add_game_tab(QWidget *widget)
 {
-  return game_tab_widget->addTab(widget, title);
+  int i;
+
+  i = game_tab_widget->addWidget(widget);
+  game_tab_widget->setCurrentWidget(widget);
+  return i;
 }
 
 /***************************************************************************
@@ -720,7 +750,7 @@ int fc_client::add_game_tab(QWidget *widget, QString title)
 ***************************************************************************/
 void fc_client::rm_game_tab(int index)
 {
-  game_tab_widget->removeTab(index);
+  game_tab_widget->removeWidget(game_tab_widget->widget(index));
 }
 
 /***************************************************************************
@@ -1499,7 +1529,7 @@ void fc_client::slot_connect()
 
 /***************************************************************************
  Updates start page (start page = client connected to server, but game not
- started )
+ started)
 ***************************************************************************/
 void fc_client::update_start_page()
 {
@@ -1537,7 +1567,7 @@ void fc_client::update_start_page()
   } players_iterate_end;
   gui()->pr_options->set_aifill(i);
   /**
-   * Inserts playing players, observing custom players, and AI )
+   * Inserts playing players, observing custom players, and AI)
    */
 
   players_iterate(pplayer) {
@@ -1951,3 +1981,66 @@ void fc_client::slot_pick_nation()
 {
   popup_races_dialog(client_player());
 }
+
+
+/***************************************************************************
+  Updates sidebar tooltips
+***************************************************************************/
+void fc_client::update_sidebar_tooltips()
+{
+  QString str;
+  int max;
+  int entries_used, building_total, unit_total, tax;
+  char buf[256];
+
+  struct improvement_entry building_entries[B_LAST];
+  struct unit_entry unit_entries[U_LAST];
+
+  if (NULL != client.conn.playing) {
+    max = get_player_bonus(client.conn.playing, EFT_MAX_RATES);
+  } else {
+    max = 100;
+  }
+
+  if (client_is_global_observer() == false) {
+    sw_science->set_tooltip(science_dialog_text());
+    str = QString(nation_plural_for_player(client_player()));
+    str = str + '\n' + get_info_label_text(false);
+    sw_map->set_tooltip(str);
+    str = QString(_("Tax: %1% Science: %2% Luxury: %3%\n"))
+          .arg(client.conn.playing->economic.tax)
+          .arg(client.conn.playing->economic.luxury)
+          .arg(client.conn.playing->economic.science);
+
+    str += QString(_("%1 - max rate: %2%")).
+           arg(government_name_for_player(client.conn.playing),
+               QString::number(max));
+
+    get_economy_report_units_data(unit_entries, &entries_used, &unit_total);
+    get_economy_report_data(building_entries, &entries_used,
+                            &building_total, &tax);
+    fc_snprintf(buf, sizeof(buf), _("Income: %d    Total Costs: %d"),
+                tax, building_total + unit_total);
+    sw_economy->set_tooltip(buf);
+  } else {
+    sw_tax->set_tooltip("");
+    sw_science->set_tooltip("");
+    sw_map->set_tooltip("");
+    sw_economy->set_tooltip("");
+  }
+  sw_indicators->set_tooltip(QString(get_info_label_text_popup()));
+}
+
+/***************************************************************************
+  Update postion 
+***************************************************************************/
+void fc_client::update_sidebar_position()
+{
+  pages_layout[PAGE_GAME]->removeWidget(gui()->sidebar_wdg);
+  if (gui_options.gui_qt_sidebar_left) {
+    pages_layout[PAGE_GAME]->addWidget(sidebar_wdg, 1, 0);
+  } else {
+    pages_layout[PAGE_GAME]->addWidget(sidebar_wdg, 1, 2);
+  }
+}
+

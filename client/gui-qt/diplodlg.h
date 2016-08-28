@@ -82,6 +82,7 @@ private slots:
   void show_menu_p1();
   void show_menu_p2();
   void world_map_clause();
+  void restore_pixmap();
 
 protected:
   void closeEvent(QCloseEvent *event);
