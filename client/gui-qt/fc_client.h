@@ -274,7 +274,7 @@ public:
   void update_sidebar_tooltips();
 
 private slots:
-
+  void send_fake_chat_message(const QString &message);
   void server_input(int sock);
   void closing();
   void slot_lan_scan();
