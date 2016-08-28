@@ -60,23 +60,24 @@ enum connection_state {
   WAITING_TYPE
 };
 
+class fc_sidebar;
+class fc_sidetax;
+class fc_sidewidget;
 class MainWindow;
+class pregame_options;
+class QApplication;
+class QDialog;
 class QLabel;
 class QLineEdit;
+class QMainWindow;
+class QSocketNotifier;
+class QStackedLayout;
+class QStatusBar;
 class QString;
 class QTableWidget;
 class QTextEdit;
 class QTimer;
-class QSocketNotifier;
-class QDialog;
-class QApplication;
 class QTreeWidget;
-class QStatusBar;
-class QMainWindow;
-class fc_sidebar;
-class fc_sidewidget;
-class fc_sidetax;
-class pregame_options;
 
 
 /****************************************************************************
@@ -165,8 +166,8 @@ class fc_client : public QMainWindow, private chat_listener
   QWidget *connect_metaserver;
   QWidget *game_main_widget;
 
-  QGridLayout *central_layout;
   QGridLayout *pages_layout[PAGE_GAME + 1];
+  QStackedLayout *central_layout;
 
   QTextEdit *output_window;
   QTextEdit *scenarios_view;
@@ -314,7 +315,6 @@ private:
   void create_start_page();
   void create_game_page();
   bool chat_active_on_page(enum client_pages);
-  void show_children(const QLayout *layout, bool show);
   void destroy_server_scans (void);
   void update_server_list(enum server_scan_type sstype,
                           const struct server_list *list);

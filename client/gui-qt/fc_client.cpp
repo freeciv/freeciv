@@ -21,6 +21,7 @@
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QScrollBar>
+#include <QStackedLayout>
 #include <QStatusBar>
 #include <QTabBar>
 #include <QTextEdit>
@@ -113,8 +114,7 @@ void fc_client::init()
 {
   QString path;
   central_wdg = new QWidget;
-  central_layout = new QGridLayout;
-  central_layout->setContentsMargins(2, 2, 2, 2);
+  central_layout = new QStackedLayout;
 
   // General part not related to any single page
   fc_fonts.init_fonts();
@@ -163,14 +163,23 @@ void fc_client::init()
   pages[PAGE_GAME] = new QWidget(central_wdg);
   init_mapcanvas_and_overview();
   create_game_page();
-  pages[PAGE_GAME]->setVisible(false);
 
-  central_layout->addLayout(pages_layout[PAGE_MAIN], 1, 1);
-  central_layout->addLayout(pages_layout[PAGE_NETWORK], 1, 1);
-  central_layout->addLayout(pages_layout[PAGE_LOAD], 1, 1);
-  central_layout->addLayout(pages_layout[PAGE_SCENARIO], 1, 1);
-  central_layout->addLayout(pages_layout[PAGE_START], 1, 1);
-  central_layout->addLayout(pages_layout[PAGE_GAME], 1, 1);
+  pages_layout[PAGE_GAME]->setContentsMargins(0, 0, 0, 0);
+
+  pages[PAGE_MAIN]->setLayout(pages_layout[PAGE_MAIN]);
+  pages[PAGE_NETWORK]->setLayout(pages_layout[PAGE_NETWORK]);
+  pages[PAGE_LOAD]->setLayout(pages_layout[PAGE_LOAD]);
+  pages[PAGE_SCENARIO]->setLayout(pages_layout[PAGE_SCENARIO]);
+  pages[PAGE_START]->setLayout(pages_layout[PAGE_START]);
+  pages[PAGE_GAME]->setLayout(pages_layout[PAGE_GAME]);
+
+  central_layout->addWidget(pages[PAGE_MAIN]);
+  central_layout->addWidget(pages[PAGE_NETWORK]);
+  central_layout->addWidget(pages[PAGE_LOAD]);
+  central_layout->addWidget(pages[PAGE_SCENARIO]);
+  central_layout->addWidget(pages[PAGE_START]);
+  central_layout->addWidget(pages[PAGE_GAME]);
+
   central_wdg->setLayout(central_layout);
   setCentralWidget(central_wdg);
 
@@ -285,13 +294,7 @@ void fc_client::switch_page(int new_pg)
     status_bar->setVisible(true);
   }
 
-  for (int i = 0; i <= PAGE_GAME; i++) {
-    if (i == new_page) {
-      show_children(pages_layout[i], true);
-    } else {
-      show_children(pages_layout[i], false);
-    }
-  }
+  central_layout->setCurrentWidget(pages[new_pg]);
   page = new_page;
   switch (page) {
   case PAGE_MAIN:
@@ -480,29 +483,6 @@ void fc_client::slot_pregame_start()
   }
 }
 
-/****************************************************************************
-  Shows all widgets for given layout
-****************************************************************************/
-void fc_client::show_children(const QLayout* layout, bool show)
-{
-  QLayoutItem *item = NULL;
-  QWidget *widget = NULL;
-
-  if (layout) {
-    for (int i = 0; i < layout->count(); i++) {
-      item = layout->itemAt(i);
-      widget = item ? item->widget() : 0;
-
-      if (widget) {
-        widget->setVisible(show);
-      }
-
-      if (item->layout()) {
-        show_children(item->layout(), show);
-      }
-    }
-  }
-}
 
 /****************************************************************************
   Finds not used index on game_view_tab and returns it
