@@ -960,7 +960,7 @@ static void split_string(struct datum_vector *data, const char *str)
 
   datum_vector_init(data);
   string_start = str;
-  while(*str) {
+  while (*str) {
     char *endptr;
     float value;
 

@@ -57,7 +57,7 @@ do {						\
     pAdd_Dock->next->prev = pNew_Widget;	\
   }						\
   pAdd_Dock->next = pNew_Widget;		\
-} while(FALSE)
+} while (FALSE)
 
 static int (*baseclass_redraw)(struct widget *pwidget);
 

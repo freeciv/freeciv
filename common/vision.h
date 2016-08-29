@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ struct vision {
 #define ASSERT_VISION(v)						\
  do {									\
    fc_assert((v)->radius_sq[V_MAIN] >= (v)->radius_sq[V_INVIS]);	\
- } while(FALSE);
+ } while (FALSE);
 
 struct vision *vision_new(struct player *pplayer, struct tile *ptile);
 void vision_free(struct vision *vision);

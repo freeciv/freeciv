@@ -122,7 +122,7 @@ do {                                                        \
 
 #define trade_routes_iterate_end                            \
   } trade_route_list_iterate_end;                           \
-} while(FALSE)
+} while (FALSE)
 
 #define trade_routes_iterate_safe(c, proute)                \
 {                                                           \

@@ -69,7 +69,7 @@
     } else {                                                                \
       SANITY_TERRAIN(_tile, check);                                         \
     }                                                                       \
-  } while(0)
+  } while (FALSE)
 
 static void check_city_feelings(const struct city *pcity, const char *file,
                                 const char *function, int line);

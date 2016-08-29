@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,15 +30,15 @@ extern "C" {
  * and freeciv-specific processing occurs if it is NULL:
  * a log message, possibly cleanup, and ending with exit(1)
  */
-   
+
 #define fc_malloc(sz)      fc_real_malloc((sz), "malloc", \
-					  __FC_LINE__, __FILE__)
+                                          __FC_LINE__, __FILE__)
 #define fc_realloc(ptr,sz) fc_real_realloc((ptr), (sz), "realloc", \
-					   __FC_LINE__, __FILE__)
+                                           __FC_LINE__, __FILE__)
 #define fc_calloc(n,esz)   fc_real_calloc((n), (esz), "calloc", \
-					   __FC_LINE__, __FILE__)
-                                           
-#define FC_FREE(ptr)       do { free(ptr); (ptr) = NULL; } while(0)
+                                          __FC_LINE__, __FILE__)
+
+#define FC_FREE(ptr)       do { free(ptr); (ptr) = NULL; } while (FALSE)
 
 #define fc_strdup(str) real_fc_strdup((str), "strdup", __FC_LINE__, __FILE__)
 

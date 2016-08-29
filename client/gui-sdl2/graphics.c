@@ -980,7 +980,7 @@ static int __FillRectAlpha555(SDL_Surface *pSurface, SDL_Rect *pRect,
       y = pRect->h;
       end = pRect->w;
 
-      while( y--) {
+      while (y--) {
         DUFFS_LOOP8(
         {
           D = *pixel;
@@ -1598,7 +1598,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
           }
           pixel++;
           x++;
-        } while( --w > 0 );
+        } while (--w > 0);
         w = pSurface->w;
         x = 0;
         y++;
@@ -1626,7 +1626,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
           }
           pixel--;
           x--;
-        } while( --w > 0 );
+        } while (--w > 0);
         w = pSurface->w;
         x = w - 1;
         y--;
@@ -1658,7 +1658,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
           }
           pixel++;
           x++;
-        } while( --w > 0 );
+        } while (--w > 0);
         w = pSurface->w;
         x = 0;
         y++;
@@ -1686,7 +1686,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
           }
           pixel--;
           x--;
-        } while( --w > 0 );
+        } while (--w > 0);
         w = pSurface->w;
         x = w - 1;
         y--;
@@ -1724,7 +1724,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
           }
           pixel += 3;
           x++;
-        } while( --w > 0 );
+        } while (--w > 0);
         w = pSurface->w;
         x = 0;
         y++;
@@ -1757,7 +1757,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
           }
           pixel -= 3;
           x--;
-        } while( --w > 0 );
+        } while (--w > 0);
         w = pSurface->w;
         x = w - 1;
         y--;
@@ -1775,7 +1775,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
       y = 0;
       w = pSurface->w;
       h = pSurface->h;
-      while(h--) {
+      while (h--) {
         do {
           if (*pixel != colorkey) {
             if (minY > y) {
@@ -1789,7 +1789,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
           }
           pixel++;
           x++;
-        } while( --w > 0 );
+        } while (--w > 0);
         w = pSurface->w;
         x = 0;
         y++;
@@ -1817,7 +1817,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
           }
           pixel--;
           x--;
-        } while( --w > 0 );
+        } while (--w > 0);
         w = pSurface->w;
         x = w - 1;
         y--;

@@ -305,9 +305,9 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   log_base(LOGLEVEL_TAX, "%s [tax] trade=%d gold=%d expenses=%d",
            player_name(pplayer), trade, pplayer->economic.gold, expenses);
 
-  while(rates[AI_RATE_TAX] <= maxrate
-        && rates[AI_RATE_SCI] >= 0
-        && rates[AI_RATE_LUX] >= 0) {
+  while (rates[AI_RATE_TAX] <= maxrate
+         && rates[AI_RATE_SCI] >= 0
+         && rates[AI_RATE_LUX] >= 0) {
     bool refill_coffers = pplayer->economic.gold < dai_gold_reserve(pplayer);
     int balance_tax, balance_tax_min;
 
@@ -390,9 +390,9 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 
     /* Now find the minimum science tax with positive bulbs balance
      * Negative balance is acceptable if we have a lots of bulbs. */
-    while(rates[AI_RATE_SCI] <= maxrate
-          && rates[AI_RATE_TAX] >= 0
-          && rates[AI_RATE_LUX] >= 0) {
+    while (rates[AI_RATE_SCI] <= maxrate
+           && rates[AI_RATE_TAX] >= 0
+           && rates[AI_RATE_LUX] >= 0) {
       int balance_sci, balance_sci_min;
 
       distribute(trade, AI_RATE_COUNT, rates, result);

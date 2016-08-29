@@ -351,9 +351,11 @@ int compare_strings_strvec(const char *const *first,
 char *skip_leading_spaces(char *s)
 {
   fc_assert_ret_val(NULL != s, NULL);
-  while(*s != '\0' && fc_isspace(*s)) {
+
+  while (*s != '\0' && fc_isspace(*s)) {
     s++;
   }
+
   return s;
 }
 
@@ -388,7 +390,7 @@ void remove_trailing_spaces(char *s)
   len = strlen(s);
   if (len > 0) {
     t = s + len -1;
-    while(fc_isspace(*t)) {
+    while (fc_isspace(*t)) {
       *t = '\0';
       if (t == s) {
 	break;
@@ -416,8 +418,9 @@ static void remove_trailing_char(char *s, char trailing)
   char *t;
 
   fc_assert_ret(NULL != s);
+
   t = s + strlen(s) -1;
-  while(t>=s && (*t) == trailing) {
+  while (t>=s && (*t) == trailing) {
     *t = '\0';
     t--;
   }
@@ -820,7 +823,7 @@ static struct strvec *base_get_dirs(const char *dir_list)
     }
 
     tok = strtok(NULL, PATH_SEPARATOR);
-  } while(tok);
+  } while (tok);
 
   free(path);
   return dirs;

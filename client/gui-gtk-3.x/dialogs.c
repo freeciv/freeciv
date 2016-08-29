@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -750,7 +750,7 @@ void races_update_pickable(bool nationset_change)
       }
       i++;
       groupidx++;
-    } while(1);
+    } while (TRUE);
   } else {
     /* No tabs currently */
     groupidx = -1;

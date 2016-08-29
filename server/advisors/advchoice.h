@@ -82,7 +82,7 @@ static inline void adv_choice_copy(struct adv_choice *dest, struct adv_choice *s
         fc_assert(_uindex >= 0 && _uindex < utype_count());              \
       }                                                                  \
     }                                                                    \
-  } while(FALSE);
+  } while (FALSE);
 #endif /* FREECIV_NDEBUG */
 
 #endif /* FC__ADVCHOICE_H */

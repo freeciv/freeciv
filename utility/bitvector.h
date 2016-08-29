@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -74,12 +74,12 @@ void dbv_debug(struct dbv *pdbv);
   do {                                                                      \
     _BV_ASSERT(bv, bit);                                                    \
     (bv).vec[_BV_BYTE_INDEX(bit)] |= _BV_BITMASK(bit);                      \
-  } while(FALSE)
+  } while (FALSE)
 #define BV_CLR(bv, bit)                                                     \
   do {                                                                      \
     _BV_ASSERT(bv, bit);                                                    \
     (bv).vec[_BV_BYTE_INDEX(bit)] &= ~_BV_BITMASK(bit);                     \
-  } while(FALSE)
+  } while (FALSE)
 #define BV_SET_VAL(bv, bit, val)                                            \
   do {                                                                      \
     if (val) { BV_SET(bv, bit); } else { BV_CLR(bv, bit); }                 \
@@ -87,11 +87,11 @@ void dbv_debug(struct dbv *pdbv);
 #define BV_CLR_ALL(bv)                                                      \
   do {                                                                      \
      memset((bv).vec, 0, sizeof((bv).vec));                                 \
-  } while(FALSE)
+  } while (FALSE)
 #define BV_SET_ALL(bv)                                                      \
   do {                                                                      \
     memset((bv).vec, 0xff, sizeof((bv).vec));                               \
-  } while(FALSE)
+  } while (FALSE)
 
 bool bv_check_mask(const unsigned char *vec1, const unsigned char *vec2,
                    size_t size1, size_t size2);

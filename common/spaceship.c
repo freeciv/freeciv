@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -233,7 +233,7 @@ bool next_spaceship_component(struct player *pplayer,
        This loop should bottom out, because everything leads back to s0,
        and we made sure above that we do s0 first.
      */
-    while(!BV_ISSET(ship->structure, structurals_info[req].required)) {
+    while (!BV_ISSET(ship->structure, structurals_info[req].required)) {
       req = structurals_info[req].required;
     }
     fill->type = SSHIP_PLACE_STRUCTURAL;

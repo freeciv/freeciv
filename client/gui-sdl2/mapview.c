@@ -234,7 +234,7 @@ void flush_dirty(void)
     }
     screen_blit(Main.map, NULL, NULL, 255);
     if (Main.guis) {
-      while((j < Main.guis_count) && Main.guis[j]) {
+      while ((j < Main.guis_count) && Main.guis[j]) {
         SDL_Rect dst = Main.guis[j]->dest_rect;
 
         screen_blit(Main.guis[j++]->surface, NULL, &dst, 255);

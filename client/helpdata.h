@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ extern "C" {
 
 #include <stddef.h>		/* size_t */
 
+/* common */
 #include "improvement.h" 	/* Impr_type_id */
 
 #include "helpdlg_g.h"		/* enum help_page_type */
@@ -37,27 +38,27 @@ void free_help_texts(void);
 int num_help_items(void);
 const struct help_item *get_help_item(int pos);
 const struct help_item *get_help_item_spec(const char *name,
-					   enum help_page_type htype,
-					   int *pos);
+                                           enum help_page_type htype,
+                                           int *pos);
 void help_iter_start(void);
 const struct help_item *help_iter_next(void);
 
 char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
-			const char *user_text, struct impr_type *pimprove);
+                        const char *user_text, struct impr_type *pimprove);
 char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
-		    const char *user_text, struct unit_type *utype);
+                    const char *user_text, struct unit_type *utype);
 void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
-		      const char *user_text, int i);
+                      const char *user_text, int i);
 void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
-		      const char *user_text, struct terrain *pterrain);
+                      const char *user_text, struct terrain *pterrain);
 void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                     const char *user_text, struct extra_type *pextra);
 void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
                          const char *user_text, struct specialist *pspec);
 void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
-			 const char *user_text, struct government *gov);
+                         const char *user_text, struct government *gov);
 void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
-		     const char *user_text);
+                     const char *user_text);
 
 char *helptext_unit_upkeep_str(struct unit_type *punittype);
 const char *helptext_road_bonus_str(const struct terrain *pterrain,
@@ -66,7 +67,7 @@ const char *helptext_road_bonus_str(const struct terrain *pterrain,
 #define help_items_iterate(pitem) {       \
         const struct help_item *pitem;    \
         help_iter_start();                \
-        while((pitem=help_iter_next())) {   
+        while ((pitem = help_iter_next())) {   
 #define help_items_iterate_end }}
 
 #ifdef __cplusplus

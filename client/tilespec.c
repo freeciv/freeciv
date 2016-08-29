@@ -2479,7 +2479,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
     if (t->sprites.field == NULL) {                               \
       tileset_error(LOG_FATAL, _("Sprite for tag '%s' missing."), tag);    \
     }                                                             \
-  } while(FALSE)
+  } while (FALSE)
 
 /* Sets sprites.field to tag or (if tag isn't available) to alt */
 #define SET_SPRITE_ALT(field, tag, alt)					    \
@@ -2492,7 +2492,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
       tileset_error(LOG_FATAL, _("Sprite for tags '%s' and alternate '%s' are "  \
                                  "both missing."), tag, alt);               \
     }                                                                       \
-  } while(FALSE)
+  } while (FALSE)
 
 /* Sets sprites.field to tag, or NULL if not available */
 #define SET_SPRITE_OPT(field, tag) \

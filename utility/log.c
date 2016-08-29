@@ -213,7 +213,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
     pfile->name = fc_strdup(tok);
     i++;
     tok = strtok(NULL, ":");
-  } while(tok);
+  } while (tok);
 
   if (i != log_num_files) {
     fc_fprintf(stderr, _("Badly formed log level argument \"%s\".\n"),

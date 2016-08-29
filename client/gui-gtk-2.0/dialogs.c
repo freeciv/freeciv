@@ -744,7 +744,7 @@ void races_update_pickable(bool nationset_change)
       }
       i++;
       groupidx++;
-    } while(1);
+    } while (TRUE);
   } else {
     /* No tabs currently */
     groupidx = -1;

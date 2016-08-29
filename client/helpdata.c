@@ -3503,21 +3503,20 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
     return "";
   }
 
-
   buf[0] = '\0';
   output_type_iterate(o) {
     if (utype->upkeep[o] > 0) {
       /* TRANS: "2 Food" or ", 1 Shield" */
       cat_snprintf(buf, sizeof(buf), _("%s%d %s"),
-	      (any > 0 ? Q_("?blistmore:, ") : ""), utype->upkeep[o],
-	      get_output_name(o));
+                   (any > 0 ? Q_("?blistmore:, ") : ""), utype->upkeep[o],
+                   get_output_name(o));
       any++;
     }
   } output_type_iterate_end;
   if (utype->happy_cost > 0) {
     /* TRANS: "2 Unhappy" or ", 1 Unhappy" */
     cat_snprintf(buf, sizeof(buf), _("%s%d Unhappy"),
-	    (any > 0 ? Q_("?blistmore:, ") : ""), utype->happy_cost);
+                 (any > 0 ? Q_("?blistmore:, ") : ""), utype->happy_cost);
     any++;
   }
 
@@ -3532,7 +3531,7 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
   Returns nation legend and characteristics
 ****************************************************************************/
 void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
-		     const char *user_text)
+                     const char *user_text)
 {
   struct universal source = {
     .kind = VUT_NATION,
@@ -3546,7 +3545,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
       } \
       print_break = FALSE; \
     } \
-  } while(0)
+  } while (FALSE)
 
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
@@ -3555,7 +3554,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
     /* Client side legend is stored already translated */
     cat_snprintf(buf, bufsz, "%s", pnation->legend);
   }
-  
+
   if (pnation->init_government) {
     PRINT_BREAK();
     cat_snprintf(buf, bufsz,
@@ -3566,6 +3565,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
     const char *tech_names[MAX_NUM_TECH_LIST];
     int i;
     struct astring list = ASTRING_INIT;
+
     for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
       if (pnation->init_techs[i] == A_LAST) {
         break;
@@ -3591,6 +3591,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
     const struct unit_type *utypes[MAX_NUM_UNIT_LIST];
     int count[MAX_NUM_UNIT_LIST];
     int i, j, n = 0, total = 0;
+
     /* Count how many of each type there is. */
     for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
       if (!pnation->init_units[i]) {
@@ -3614,6 +3615,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
       /* Construct the list of unit types and counts. */
       struct astring utype_names[MAX_NUM_UNIT_LIST];
       struct astring list = ASTRING_INIT;
+
       for (i = 0; i < n; i++) {
         astr_init(&utype_names[i]);
         if (count[i] > 1) {
@@ -3628,6 +3630,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
       }
       {
         const char *utype_name_strs[MAX_NUM_UNIT_LIST];
+
         for (i = 0; i < n; i++) {
           utype_name_strs[i] = astr_str(&utype_names[i]);
         }
@@ -3651,6 +3654,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
     const char *impr_names[MAX_NUM_BUILDING_LIST];
     int i;
     struct astring list = ASTRING_INIT;
+
     for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
       if (pnation->init_buildings[i] == B_LAST) {
         break;
