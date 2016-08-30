@@ -28,7 +28,6 @@ msgid "*%s (AI)* First break alliance with %s, %s."
 msgstr "*%s (ШІ)* Для початку розірвіть альянс з %s, %s."
 
 #: ai/default/advdiplomacy.c:361
-#, fuzzy, c-format
 msgid ""
 "*%s (AI)* I would like to see you keep your distance from %s for some time, "
 "%s."
@@ -384,11 +383,12 @@ msgid ""
 msgstr "Ця збірка Freeciv не має впроваджених потоків, потоковий ШІ не використовується"
 
 #: client/agents/cma_core.c:388
-#, fuzzy, c-format
 msgid ""
 "The citizen governor can't fulfill the requirements for %s. Passing back "
 "control."
-msgstr "АКМ: Агент не може задовільнити вимоги для %s. Повертаю керування."
+msgstr ""
+"АКМ: Громадянський правитель не може задовільнити вимоги для %s."
+"Повертаю керування."
 
 #: client/agents/cma_core.c:397 client/agents/cma_core.c:417
 #, c-format
@@ -474,35 +474,30 @@ msgstr ""
 
 #: client/agents/cma_fec.c:427
 msgid "?cma:Very happy"
-msgstr "Максимум щастя"
+msgstr "?cma:перевага щастю"
 
 #: client/agents/cma_fec.c:428
-#, fuzzy
 msgid "?cma:Prefer food"
-msgstr "Максимум їжі"
+msgstr "?cma:перевага їжі"
 
 #: client/agents/cma_fec.c:429
-#, fuzzy
 msgid "?cma:Prefer production"
-msgstr "Максимум виробництва"
+msgstr "?cma:перевага виробництву"
 
 #: client/agents/cma_fec.c:430
-#, fuzzy
 msgid "?cma:Prefer gold"
-msgstr "Максимум золота"
+msgstr "?cma:перевага золоту"
 
 #: client/agents/cma_fec.c:431
-#, fuzzy
 msgid "?cma:Prefer science"
-msgstr "Максимум науки"
+msgstr "?cma:перевага науці"
 
 #: client/attribute.c:368
-#, fuzzy
 msgid ""
 "There has been a CMA error. Your citizen governor settings may be broken."
 msgstr ""
 "Сталася помилка громадського правителя.  Установки вашого громадського "
-"правителя можуть бути зіпсовані."
+"правителя напевно зіпсовані."
 
 #: client/attribute.c:372
 msgid "Old attributes detected and removed."
@@ -666,12 +661,11 @@ msgstr "(невідомий)"
 #: client/citydlg_common.c:479
 #, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr "%+4d : Торговий шлях з %s\n"
+msgstr "%+4d : Торговий шлях до %s\n"
 
 #: client/citydlg_common.c:488
-#, fuzzy, c-format
 msgid "%+4d : Building tithes\n"
-msgstr "Будують підрозділи"
+msgstr "%+4d : Будівельна десятина\n"
 
 #: client/citydlg_common.c:511
 #, c-format
@@ -679,28 +673,24 @@ msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr "%+4d : Приріст від %s (%+d%%)\n"
 
 #: client/citydlg_common.c:512
-#, fuzzy, c-format
 msgid "%+4d : Loss from %s (%+d%%)\n"
-msgstr "%+4d : Приріст від %s (%+d%%)\n"
+msgstr "%+4d : Втрата від %s (%+d%%)\n"
 
 #: client/citydlg_common.c:532
-#, fuzzy, c-format
 msgid "%+4d : Size penalty\n"
-msgstr "%+4d : Штраф\n"
+msgstr "%+4d : Штраф за розмір\n"
 
 #. TRANS: %s is normally empty, but becomes '?' if client is
 #. * uncertain about its accounting (should never happen)
 #: client/citydlg_common.c:549
-#, fuzzy, c-format
 msgid "%+4d : Waste%s\n"
 msgstr "%+4d : Втрати\n"
 
 #. TRANS: %s is normally empty, but becomes '?' if client is
 #. * uncertain about its accounting (should never happen)
 #: client/citydlg_common.c:554
-#, fuzzy, c-format
 msgid "%+4d : Corruption%s\n"
-msgstr "%+4d : Корумпованість\n"
+msgstr "%+4d : Корупція\n"
 
 #: client/citydlg_common.c:564
 #, c-format
@@ -715,9 +705,8 @@ msgstr "%+4d : Використано\n"
 #. TRANS: City output that we cannot explain.
 #. * Should never happen.
 #: client/citydlg_common.c:581
-#, fuzzy, c-format
 msgid "%+4d : (unknown)\n"
-msgstr "(невідомий)"
+msgstr "%+4d :(невідомий)\n"
 
 #: client/citydlg_common.c:585 client/citydlg_common.c:632
 #: client/citydlg_common.c:660
@@ -749,14 +738,12 @@ msgid "%+5.1f : Risk from pollution\n"
 msgstr "%+5.1f : Ризик від забруднення\n"
 
 #: client/citydlg_common.c:626
-#, fuzzy, c-format
 msgid "%+5.1f : Bonus from %s\n"
-msgstr "%+4d : Додача від %s (%+d%%)\n"
+msgstr "%+5.1f : Додача від %s\n"
 
 #: client/citydlg_common.c:627
-#, fuzzy, c-format
 msgid "%+5.1f : Risk from %s\n"
-msgstr "%+5.1f : Ризик від торгівлі\n"
+msgstr "%+5.1f : Ризик від %s\n"
 
 #: client/citydlg_common.c:633
 #, c-format
@@ -835,7 +822,6 @@ msgid "Celebrating/Peace/Disorder"
 msgstr "Святкування/Спокій/Заворушення"
 
 #: client/cityrepdata.c:647
-#, fuzzy
 msgid "Concise *=Celebrating, X=Disorder"
 msgstr "Стисло *=Святкування, X=Заворушення"
 
@@ -1248,7 +1234,6 @@ msgstr ""
 
 #. TRANS: "server" is exactly what user must type, do not translate.
 #: client/client_main.c:422
-#, fuzzy
 msgid "server HOST"
 msgstr ""
 
@@ -1259,7 +1244,6 @@ msgstr ""
 
 #. TRANS: "Sound" is exactly what user must type, do not translate.
 #: client/client_main.c:426
-#, fuzzy
 msgid "Sound FILE"
 msgstr ""
 
@@ -1406,7 +1390,7 @@ msgstr "%s дає свою мапу морів"
 
 #: client/climisc.c:278
 msgid "The parties agree on a cease-fire"
-msgstr "Сторони прийшли до перемир’я"
+msgstr "Сторони прийшли до замирення"
 
 #: client/climisc.c:281
 msgid "The parties agree on a peace"
@@ -1570,7 +1554,7 @@ msgstr "Не знайдено шляху до цілі!"
 
 #: client/control.c:2762
 msgid "Oh my! You seem to have no capital!"
-msgstr "Йой! Здається у Вас нема столиці!"
+msgstr "Йой! Здається в Вас нема столиці!"
 
 #: client/editor.c:167 client/gui-gtk-2.0/editprop.c:4157
 #: client/gui-gtk-2.0/menu.c:1404 client/gui-gtk-3.0/editprop.c:4188
@@ -1606,7 +1590,7 @@ msgstr ""
 
 #: client/editor.c:175
 msgid "Terrain Special"
-msgstr "Особливість місцевості"
+msgstr "Спецресурс місцевості"
 
 #: client/editor.c:177
 msgid ""
@@ -1614,9 +1598,9 @@ msgid ""
 "Shortcut: s\n"
 "Select special type: shift+s or right-click here."
 msgstr ""
-"Змінити особливості клітинки.\n"
+"Змінити спецресурси клітинки.\n"
 "Клавіша: s\n"
-"Вибрати тип особливості: shift+s або клацнути тут правою кнопкою."
+"Вибрати тип спецресурсу: shift+s або клацнути тут правою кнопкою."
 
 #: client/editor.c:179 common/terrain.c:1032 common/unit.c:786
 #: data/civ1/terrain.ruleset:870 data/civ2/terrain.ruleset:987
@@ -1626,15 +1610,14 @@ msgid "Road"
 msgstr "Дорога"
 
 #: client/editor.c:181
-#, fuzzy
 msgid ""
 "Modify roads on tile.\n"
 "Shortcut: p\n"
 "Select road type: shift+p or right-click here."
 msgstr ""
-"Змінити особливості клітинки.\n"
-"Клавіша: s\n"
-"Вибрати тип особливості: shift+s або клацнути тут правою кнопкою."
+"Змінитидороги на полі.\n"
+"Клавіша: p\n"
+"Вибрати тип дороги: shift+p або правий клік."
 
 #: client/editor.c:183
 msgid "Military Base"
@@ -1781,9 +1764,8 @@ msgstr[1] "%d клітинки скопійовано."
 msgstr[2] "%d клітинок скопійовано."
 
 #: client/ggzclient.c:100 server/ggzserver.c:266
-#, fuzzy
 msgid "Only the GGZ client must call freeciv-client in ggz mode!\n"
-msgstr "Тільки GGZ клієнт має запускати civclient у режимі ggz!\n"
+msgstr "Тільки GGZ клієнт має запускати freeciv-client у режимі ggz!\n"
 
 #: client/global_worklist.c:357
 msgid "(noname)"
@@ -2023,9 +2005,8 @@ msgid "City map"
 msgstr "Мапа міста"
 
 #: client/gui-gtk-2.0/citydlg.c:796 client/gui-gtk-3.0/citydlg.c:828
-#, fuzzy
 msgid "Press <b>ENTER</b> or double-click to sell an improvement."
-msgstr "Натисніть ENTER або двічі клікніть аби продати будівлю."
+msgstr "Натисніть <b>ENTER</b> або двічі клікніть аби продати будівлю."
 
 #: client/gui-gtk-2.0/citydlg.c:814 client/gui-gtk-2.0/citydlg.c:1003
 #: client/gui-gtk-2.0/citydlg.c:1696 client/gui-gtk-3.0/citydlg.c:903
@@ -2151,19 +2132,16 @@ msgstr "Наступне місто"
 
 #. TRANS: city dialog title
 #: client/gui-gtk-2.0/citydlg.c:1452 client/gui-gtk-3.0/citydlg.c:1644
-#, fuzzy, c-format
 msgid "<b>%s</b> - %s citizens - DISORDER"
 msgstr "<b>%s</b> - %s громадян - Заворушення"
 
 #. TRANS: city dialog title
 #: client/gui-gtk-2.0/citydlg.c:1457 client/gui-gtk-3.0/citydlg.c:1649
-#, fuzzy, c-format
 msgid "<b>%s</b> - %s citizens - celebrating"
-msgstr "<b>%s</b> -у  %s громадян - свято"
+msgstr "<b>%s</b> -у  %s громадян - святкують"
 
 #. TRANS: city dialog title
 #: client/gui-gtk-2.0/citydlg.c:1462 client/gui-gtk-3.0/citydlg.c:1654
-#, fuzzy, c-format
 msgid "<b>%s</b> - %s citizens - happy"
 msgstr "<b>%s</b> - %s громадян - щасливі"
 
@@ -2623,7 +2601,6 @@ msgstr "Йти до (_L)"
 
 #: client/gui-gtk-2.0/dialogs.c:211 client/gui-gtk-2.0/messagewin.c:358
 #: client/gui-gtk-3.0/dialogs.c:216 client/gui-gtk-3.0/messagewin.c:358
-#, fuzzy
 msgid "I_nspect City"
 msgstr "Перевірити місто (_C)"
 
@@ -2682,7 +2659,6 @@ msgstr "Виберіть націю"
 #. TRANS: nation set name followed by number of playable nations;
 #. * <b> and </b> are Pango markup and should be left alone
 #: client/gui-gtk-2.0/dialogs.c:939 client/gui-gtk-3.0/dialogs.c:953
-#, fuzzy, c-format
 msgid "<b>%s</b> (%d nation)"
 msgid_plural "<b>%s</b> (%d nations)"
 msgstr[0] "<b>%s</b> - %s громадян"
@@ -2690,7 +2666,6 @@ msgstr[1] "<b>%s</b> - %s громадян"
 msgstr[2] "<b>%s</b> - %s громадян"
 
 #: client/gui-gtk-2.0/dialogs.c:1006 client/gui-gtk-3.0/dialogs.c:1021
-#, fuzzy
 msgid "_Nation Set:"
 msgstr "Набір націй"
 
@@ -2811,34 +2786,32 @@ msgstr "Надіслати посольство"
 #: client/gui-qt/diplodlg.cpp:366 client/gui-sdl/diplodlg.c:497
 #: client/gui-xaw/diplodlg.c:546 common/player.c:1226
 msgid "?diplomatic_state:Cease-fire"
-msgstr "Замирення"
+msgstr "?diplomatic_state:Замирення"
 
 #: client/gui-gtk-2.0/diplodlg.c:425 client/gui-gtk-3.0/diplodlg.c:425
 #: client/gui-qt/diplodlg.cpp:372 client/gui-sdl/diplodlg.c:511
 #: client/gui-xaw/diplodlg.c:550 common/player.c:1227
 msgid "?diplomatic_state:Peace"
-msgstr "Мир"
+msgstr "?diplomatic_state:Мир"
 
 #: client/gui-gtk-2.0/diplodlg.c:431 client/gui-gtk-3.0/diplodlg.c:431
 #: client/gui-qt/diplodlg.cpp:378 client/gui-sdl/diplodlg.c:526
 #: client/gui-xaw/diplodlg.c:554 common/player.c:1228
 msgid "?diplomatic_state:Alliance"
-msgstr "Альянс"
+msgstr "?diplomatic_state:Союз"
 
 #: client/gui-gtk-2.0/diplodlg.c:437 client/gui-gtk-3.0/diplodlg.c:437
 msgid "_Pacts"
 msgstr "Угоди"
 
 #: client/gui-gtk-2.0/diplodlg.c:496 client/gui-gtk-3.0/diplodlg.c:497
-#, fuzzy
 msgid "Cancel _all meetings"
 msgstr "Скінчити всі зустрічі"
 
 #: client/gui-gtk-2.0/diplodlg.c:573 client/gui-gtk-2.0/diplodlg.c:641
 #: client/gui-gtk-3.0/diplodlg.c:574 client/gui-gtk-3.0/diplodlg.c:643
-#, fuzzy, c-format
 msgid "Diplomacy [%d]"
-msgstr "Дипломатія: %s"
+msgstr "Дипломатія [%d]"
 
 #: client/gui-gtk-2.0/diplodlg.c:651 client/gui-gtk-3.0/diplodlg.c:655
 #: client/gui-qt/diplodlg.cpp:183 client/gui-sdl/diplodlg.c:917
@@ -2974,9 +2947,8 @@ msgstr "Технології:"
 #: client/gui-qt/dialogs.cpp:1755 client/gui-sdl/diplomat_dialog.c:355
 #: client/gui-sdl/diplomat_dialog.c:957 client/gui-xaw/diplomat_dialog.c:424
 #: client/gui-xaw/diplomat_dialog.c:515
-#, fuzzy, c-format
 msgid "At %s's Discretion"
-msgstr "На вибір шпигуна"
+msgstr "На вибір %s'"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:475
 #: client/gui-gtk-3.0/diplomat_dialog.c:480 data/Freeciv.in:2403
@@ -3070,9 +3042,8 @@ msgstr[2] ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:775
 #: client/gui-gtk-3.0/diplomat_dialog.c:785 client/gui-qt/dialogs.cpp:1253
 #: client/gui-sdl/diplomat_dialog.c:577
-#, fuzzy, c-format
 msgid "Choose Your %s's Strategy"
-msgstr "Оберіть стратегію Вашого Шпигуна"
+msgstr "Оберіть стратегію Вашого %s"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:777
 #: client/gui-gtk-3.0/diplomat_dialog.c:787 client/gui-qt/dialogs.cpp:1255
@@ -3132,9 +3103,8 @@ msgstr "Індустріальний саботаж"
 #: client/gui-gtk-2.0/diplomat_dialog.c:851
 #: client/gui-gtk-3.0/diplomat_dialog.c:861 client/gui-qt/dialogs.cpp:1326
 #: client/gui-xaw/diplomat_dialog.c:809
-#, fuzzy, c-format
 msgid "Your %s is waiting for your command."
-msgstr "Шпигун чекає Вашої команди"
+msgstr "Ваш  %s чекає Вашого наказу"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:855
 #: client/gui-gtk-3.0/diplomat_dialog.c:865 client/gui-qt/dialogs.cpp:1328
@@ -3174,9 +3144,8 @@ msgid "Show the property editor."
 msgstr "Показати редактор властивостей."
 
 #: client/gui-gtk-2.0/editgui.c:1064 client/gui-gtk-3.0/editgui.c:1105
-#, fuzzy
 msgid "Select Tool Value"
-msgstr "Виберіть значення"
+msgstr "Виберіть значення для знаряддя"
 
 #: client/gui-gtk-2.0/editgui.c:1233 client/gui-gtk-3.0/editgui.c:1276
 msgid "Editor Tool"
@@ -3419,7 +3388,6 @@ msgstr "Спеціальне"
 
 #: client/gui-gtk-2.0/editprop.c:4181 client/gui-gtk-3.0/editprop.c:4212
 #: client/include/helpdlg_g.h:47
-#, fuzzy
 msgid "Roads"
 msgstr "Дороги"
 
@@ -3545,9 +3513,8 @@ msgid "Save Players"
 msgstr "Зберегти гравців"
 
 #: client/gui-gtk-2.0/editprop.c:4293 client/gui-gtk-3.0/editprop.c:4323
-#, fuzzy
 msgid "Nation Start Positions"
-msgstr "Початкове розташування"
+msgstr "Стартова позиція Народу"
 
 #: client/gui-gtk-2.0/editprop.c:4570 client/gui-gtk-3.0/editprop.c:4620
 msgid "Destroy"
@@ -3980,7 +3947,6 @@ msgstr "Додача (Ї/В/Т)"
 #: client/gui-xaw/helpdlg.c:825 client/gui-xaw/helpdlg.c:870
 #: client/gui-xaw/helpdlg.c:889 common/tech.c:1217 common/tech.c:1220
 #: tools/civmanual.c:460
-#, fuzzy
 msgid "?tech:None"
 msgstr "?tech:жодного"
 
@@ -4084,15 +4050,14 @@ msgstr "%d ОР"
 #: client/gui-gtk-2.0/helpdlg.c:1223 client/gui-gtk-2.0/helpdlg.c:1269
 #: client/gui-gtk-2.0/helpdlg.c:1281 client/gui-gtk-3.0/helpdlg.c:1251
 #: client/gui-gtk-3.0/helpdlg.c:1297 client/gui-gtk-3.0/helpdlg.c:1309
-#, fuzzy, c-format
+#: c-format
 msgid "Terrain specific"
 msgstr "Специфічне для місцевості"
 
 #. TRANS: No output bonus from a road
 #: client/gui-gtk-2.0/helpdlg.c:1290 client/gui-gtk-3.0/helpdlg.c:1318
-#, fuzzy
 msgid "?bonus:None"
-msgstr "Додаток:Нема: "
+msgstr "?bonus:Нема: "
 
 #: client/gui-gtk-2.0/inteldlg.c:48 client/gui-gtk-3.0/inteldlg.c:48
 #: client/gui-qt/plrdlg.cpp:444
@@ -4143,7 +4108,6 @@ msgid "Client Lua Console"
 msgstr "Клієнтська консоль Lua "
 
 #: client/gui-gtk-2.0/luaconsole.c:238 client/gui-gtk-3.0/luaconsole.c:245
-#, fuzzy
 msgid "Load Lua Script"
 msgstr "Загрузити скрипт Lua (_L)"
 
@@ -4163,18 +4127,15 @@ msgid "Time to forced turn change"
 msgstr "Час до примусової зміни ходу"
 
 #: client/gui-gtk-2.0/mapview.c:105 client/gui-gtk-3.0/mapview.c:107
-#, fuzzy
 msgid "Turn timeout disabled"
 msgstr "Таймаут кінця ходу заборонений"
 
 #: client/gui-gtk-2.0/mapview.c:183 client/gui-gtk-3.0/mapview.c:182
-#, fuzzy
 msgid "Shows your current luxury/science/tax rates; click to toggle them."
 msgstr ""
 "Показати Ваші поточні установки розкоші/науки/податків;клікніть аби змінити їх "
 
 #: client/gui-gtk-2.0/mapview.c:687
-#, fuzzy
 msgid "Better fog will only work in truecolor. Disabling it"
 msgstr "Краще щоб туман працював лише в truecolor. Відключаю його"
 
@@ -4264,9 +4225,8 @@ msgid "Save Map _Image"
 msgstr "Зберегти Зображення Мапи"
 
 #: client/gui-gtk-2.0/menu.c:1363 client/gui-gtk-3.0/menu.c:1351
-#, fuzzy
 msgid "Save _Map Image As..."
-msgstr "Зберегти гру як... (_A)"
+msgstr "Зберегти Зображення Мапи як... (_A)"
 
 #: client/gui-gtk-2.0/menu.c:1365 client/gui-gtk-3.0/menu.c:1353
 msgid "_Leave"
@@ -4463,7 +4423,6 @@ msgstr "Рідні клітинки"
 
 #: client/gui-gtk-2.0/menu.c:1474 client/gui-gtk-3.0/menu.c:1462
 #: client/gui-qt/menu.cpp:500
-#, fuzzy
 msgid "City Full Bar"
 msgstr "Повна смужка міста"
 
@@ -4476,15 +4435,13 @@ msgid "City G_rowth"
 msgstr "Ріст Міста"
 
 #: client/gui-gtk-2.0/menu.c:1480 client/gui-gtk-3.0/menu.c:1468
-#, fuzzy
 msgid "City _Production Levels"
-msgstr "Міське Виробництво"
+msgstr "Міські Рівні Виробництва"
 
 #: client/gui-gtk-2.0/menu.c:1483 client/gui-gtk-3.0/menu.c:1471
 #: client/gui-qt/menu.cpp:519
-#, fuzzy
 msgid "City Buy Cost"
-msgstr "Місто:Вартість покупки"
+msgstr "Вартість купівлі в місті"
 
 #: client/gui-gtk-2.0/menu.c:1485 client/gui-gtk-3.0/menu.c:1473
 msgid "City Tra_deroutes"
@@ -4897,7 +4854,6 @@ msgid "Refresh this option"
 msgstr "Оновити цю опцію"
 
 #: client/gui-gtk-2.0/optiondlg.c:203 client/gui-gtk-3.0/optiondlg.c:203
-#, fuzzy
 msgid "Reset this option"
 msgstr "Скинути цю опцію"
 
@@ -4911,7 +4867,6 @@ msgstr "Вибрати колір"
 
 #: client/gui-gtk-2.0/optiondlg.c:368 client/gui-gtk-3.0/optiondlg.c:370
 #: client/gui-qt/optiondlg.cpp:138
-#, fuzzy
 msgid "Reset"
 msgstr "Скинути"
 
@@ -4932,19 +4887,20 @@ msgstr "%s%s , %s клієнта."
 #. *         commit: [modified] <git commit id>
 #. *         gui-gtk-3.0 client"
 #: client/gui-gtk-2.0/pages.c:181 client/gui-gtk-3.0/pages.c:186
-#, fuzzy, c-format
 msgid ""
 "%s%s\n"
 "commit: %s\n"
 "%s client"
-msgstr "Це команда клієнта."
+msgstr ""
+"%s%s\n"
+"зробив: %s\n"
+"%s клієнт"
 
 #. TRANS: "version 2.6.0 (r25000), gui-gtk-2.0 client"
 #. TRANS: "version 2.6.0 (r25000), gui-gtk-3.0 client"
 #: client/gui-gtk-2.0/pages.c:187 client/gui-gtk-3.0/pages.c:192
-#, fuzzy, c-format
 msgid "%s%s (%s), %s client"
-msgstr "Це команда клієнта."
+msgstr "%s%s (%s), %s клієнт"
 
 #: client/gui-gtk-2.0/pages.c:261 client/gui-gtk-3.0/pages.c:318
 msgid "Start _New Game"
@@ -5011,7 +4967,6 @@ msgstr "Стан"
 #: client/gui-gtk-2.0/pages.c:1153 client/gui-gtk-2.0/pages.c:1196
 #: client/gui-gtk-3.0/pages.c:1233 client/gui-gtk-3.0/pages.c:1278
 #: client/gui-qt/pages.cpp:281 client/gui-sdl/connectdlg.c:330
-#, fuzzy
 msgid "?count:Players"
 msgstr "?count:Гравців"
 
@@ -5156,7 +5111,6 @@ msgid "Pick _Nation"
 msgstr "Вибрати націю (_N)"
 
 #: client/gui-gtk-2.0/pages.c:2183 client/gui-gtk-3.0/pages.c:2248
-#, fuzzy
 msgid "_Take a Player"
 msgstr "Взяти Гравця"
 
@@ -5200,14 +5154,13 @@ msgstr "Від'єднаний"
 
 #. TRANS: Keep individual lines short
 #: client/gui-gtk-2.0/pages.c:2621 client/gui-gtk-3.0/pages.c:2691
-#, fuzzy
 msgid ""
 "Number of _Players\n"
 "(including AI):"
-msgstr "Кількість г_равців (включно з  комп'ютерними):"
+msgstr "Кількість г_равців\n"
+"(включно з  комп'ютерними):"
 
 #: client/gui-gtk-2.0/pages.c:2646 client/gui-gtk-3.0/pages.c:2717
-#, fuzzy
 msgid "AI Skill _Level:"
 msgstr "Рівень ШІ:"
 
@@ -5280,12 +5233,10 @@ msgid "Save _Filename:"
 msgstr "Ім'я _файла збереження:"
 
 #: client/gui-gtk-2.0/pages.c:3307 client/gui-gtk-3.0/pages.c:3393
-#, fuzzy
 msgid "Saved Sce_narios:"
-msgstr "Зберегти сценарій"
+msgstr "Збережені сценарії"
 
 #: client/gui-gtk-2.0/pages.c:3308 client/gui-gtk-3.0/pages.c:3394
-#, fuzzy
 msgid "Save Sc_enario:"
 msgstr "Зберегти сценарій"
 
@@ -5298,7 +5249,6 @@ msgid "Saved Map _Images:"
 msgstr "Збережені зображення карти :"
 
 #: client/gui-gtk-2.0/pages.c:3337 client/gui-gtk-3.0/pages.c:3423
-#, fuzzy
 msgid "Save _Map Images:"
 msgstr "Зберегти зображення карти:"
 
@@ -5359,7 +5309,6 @@ msgid "Withdraw shared vision from the %s?"
 msgstr "Забрати спільне бачення в %s?"
 
 #: client/gui-gtk-2.0/plrdlg.c:833 client/gui-gtk-3.0/plrdlg.c:844
-#, fuzzy
 msgid "Withdraw Shared Vision"
 msgstr "Забрати бачення (_W)"
 
@@ -5476,7 +5425,6 @@ msgid "?Upgradable unit [short]:U"
 msgstr "?Модернізовний загін [short]:U"
 
 #: client/gui-gtk-2.0/repodlgs.c:1234 client/gui-gtk-3.0/repodlgs.c:1269
-#, fuzzy
 msgid "Upgradable"
 msgstr "Покращуваний"
 
@@ -5488,7 +5436,6 @@ msgid "In-Prog"
 msgstr "Вироб"
 
 #: client/gui-gtk-2.0/repodlgs.c:1239 client/gui-gtk-3.0/repodlgs.c:1274
-#, fuzzy
 msgid "In progress"
 msgstr "Виробляється"
 
@@ -5532,7 +5479,7 @@ msgstr "Загалом:"
 #: client/gui-gtk-2.0/repodlgs.c:1536 client/gui-gtk-3.0/repodlgs.c:1571
 #: client/gui-qt/repodlgs.cpp:983 client/gui-sdl/repodlgs.c:195
 #: client/gui-xaw/repodlgs.c:1017
-#, fuzzy, c-format
+#: c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "%s"
@@ -5541,13 +5488,13 @@ msgid_plural ""
 "%s"
 msgstr[0] ""
 "Покращити скільки можна %s до %s за %d гривень кожен?\n"
-"Бюджет складає %d гривень."
+"%s"
 msgstr[1] ""
 "Модернізувати скільки можна %s до %s за %d гривень кожен?\n"
-"Бюджет складає %d гривень."
+"%s"
 msgstr[2] ""
 "Оновити скільки можна %s до %s за %d гривень кожен?\n"
-"Бюджет складає %d гривень."
+"%s"
 
 #: client/gui-gtk-2.0/repodlgs.c:1637 client/gui-gtk-3.0/repodlgs.c:1677
 msgid "Find _Nearest"
@@ -5644,9 +5591,8 @@ msgstr "Модпак радить використати набір клітин
 "Зараз використовується набір %s."
 
 #: client/gui-gtk-2.0/unitselect.c:96 client/gui-gtk-3.0/unitselect.c:96
-#, fuzzy
 msgid "Description"
-msgstr "Опис:"
+msgstr "Опис"
 
 #: client/gui-gtk-2.0/unitselect.c:254 client/gui-gtk-3.0/unitselect.c:255
 #: client/gui-sdl/dialogs.c:1078
@@ -5654,17 +5600,14 @@ msgid "Unit selection"
 msgstr "Вибір підрозділу"
 
 #: client/gui-gtk-2.0/unitselect.c:274 client/gui-gtk-3.0/unitselect.c:272
-#, fuzzy
 msgid "_Tile"
 msgstr "Клітинка"
 
 #: client/gui-gtk-2.0/unitselect.c:275 client/gui-gtk-3.0/unitselect.c:273
-#, fuzzy
 msgid "C_ontinent"
 msgstr "Континент"
 
 #: client/gui-gtk-2.0/unitselect.c:276 client/gui-gtk-3.0/unitselect.c:274
-#, fuzzy
 msgid "_Land"
 msgstr "Земля"
 
@@ -5686,23 +5629,19 @@ msgid "Sentry"
 msgstr "Охороняє"
 
 #: client/gui-gtk-2.0/unitselect.c:504 client/gui-gtk-3.0/unitselect.c:506
-#, fuzzy
 msgid "_Deselect"
 msgstr "Відмінити Вибір (_S)"
 
 #: client/gui-gtk-2.0/unitselect.c:518 client/gui-gtk-3.0/unitselect.c:519
-#, fuzzy
 msgid "C_enter"
 msgstr "Центрувати"
 
 #: client/gui-gtk-2.0/unitselect.c:527 client/gui-gtk-3.0/unitselect.c:528
-#, fuzzy
 msgid "_Focus"
 msgstr "Фокусувати"
 
 #. TRANS: used in place of unit home city name
 #: client/gui-gtk-2.0/unitselect.c:809 client/gui-gtk-3.0/unitselect.c:810
-#, fuzzy
 msgid "no home city"
 msgstr "безхатьки"
 
@@ -5714,11 +5653,12 @@ msgstr "невідомий"
 
 #. TRANS: unit type and home city, e.g. "Transport\n(New Orleans)"
 #: client/gui-gtk-2.0/unitselect.c:829 client/gui-gtk-3.0/unitselect.c:830
-#, fuzzy, c-format
 msgid ""
 "%s\n"
 "(%s)"
-msgstr "%s %s (%s)"
+msgstr ""
+"%s\n"
+"(%s)"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:148 client/gui-gtk-3.0/voteinfo_bar.c:156
 msgid "_YES"
@@ -5752,9 +5692,8 @@ msgstr "[видалений]"
 
 #. TRANS: "Vote" as a process
 #: client/gui-gtk-2.0/voteinfo_bar.c:286 client/gui-gtk-3.0/voteinfo_bar.c:276
-#, fuzzy, c-format
 msgid "%sVote %d by %s: %s%s"
-msgstr "Нове голосування (номер %d) від %s: %s."
+msgstr "%sГолосування %d %s: %s%s"
 
 #: client/gui-gtk-2.0/wldlg.c:154 client/gui-gtk-3.0/wldlg.c:154
 msgid "new"
@@ -5853,7 +5792,6 @@ msgid "Disband unit"
 msgstr "Розпустити підрозділ"
 
 #: client/gui-qt/citydlg.cpp:210
-#, fuzzy
 msgid "Change homecity"
 msgstr "Змінити домівку"
 
@@ -7515,9 +7453,8 @@ msgid "Advanced Menu"
 msgstr "Розширене меню"
 
 #: client/gui-sdl/dialogs.c:1714
-#, fuzzy, c-format
 msgid "Zoom to : %s"
-msgstr "Придивитись до:"
+msgstr "Придивитись до: %s"
 
 #: client/gui-sdl/dialogs.c:1728 data/Freeciv.in:2098
 msgid "Change Production"
@@ -7544,14 +7481,12 @@ msgid "Paradrop here"
 msgstr "Парашутувати сюди"
 
 #: client/gui-sdl/dialogs.c:1868 client/gui-sdl/dialogs.c:1987
-#, fuzzy, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%s) %s"
-msgstr "Активувати %s (%d / %d) %s (%d,%d,%d) %s"
+msgstr "Активувати %s (%d / %d) %s (%d,%d,%s) %s"
 
 #: client/gui-sdl/dialogs.c:1886 client/gui-sdl/dialogs.c:2014
-#, fuzzy, c-format
 msgid "%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"
-msgstr "%s %s %s (А:%d З:%d Х:%d СВ:%d) ЗД:%d%%"
+msgstr "%s %s %s (А:%d З:%d Р:%d СВ:%d) ЗД:%d%%"
 
 #: client/gui-sdl/dialogs.c:1948 data/Freeciv.in:579
 msgid "Ready all"
@@ -8155,9 +8090,8 @@ msgid "Airlift to City"
 msgstr "Летіти до міста"
 
 #: client/gui-sdl/menu.c:568 client/gui-sdl/menu.c:587
-#, fuzzy, c-format
 msgid "Connect With %s (%s)"
-msgstr "З'єднати з"
+msgstr "З'єднати з %s (%s)"
 
 #: client/gui-sdl/menu.c:615 client/gui-sdl/menu.c:1324
 #: client/gui-xaw/menu.c:196
@@ -8195,9 +8129,8 @@ msgstr "Перетворити клітинку"
 #. TRANS: "Build Railroad (R) 3 turns"
 #: client/gui-sdl/menu.c:852 client/gui-sdl/menu.c:859
 #: client/gui-sdl/menu.c:1113
-#, fuzzy, c-format
 msgid "Build %s (%s) %d %s"
-msgstr "(будується %s у %s (%s, %s))"
+msgstr "(Будувати %s у %s (%s, %s))"
 
 #: client/gui-sdl/menu.c:881 client/gui-xaw/menu.c:208
 msgid "Help Build Wonder"
@@ -8214,9 +8147,8 @@ msgid "Trade With %s ( %d R&G bonus ) (R)"
 msgstr "Торгiвля з %s ( %d Д&Г приріст ) (R)"
 
 #: client/gui-sdl/menu.c:1161
-#, fuzzy
 msgid "Cut Down to"
-msgstr "Вирубати до %s."
+msgstr "Вирубати до"
 
 #: client/gui-sdl/menu.c:1167 client/gui-sdl/menu.c:1192
 msgid "Irrigate to"
@@ -8253,7 +8185,6 @@ msgid "Save Local Options"
 msgstr "Зберегти локальні опції"
 
 #: client/gui-sdl/optiondlg.c:855
-#, fuzzy
 msgid "Help Browser"
 msgstr "Переглядач допомоги Freeciv"
 
@@ -8275,21 +8206,19 @@ msgstr "Додати новий план робіт"
 
 #. TRANS: Freeciv 2.4.0
 #: client/gui-sdl/pages.c:156
-#, fuzzy, c-format
 msgid "Freeciv %s"
-msgstr "Freeciv"
+msgstr "Freeciv %s"
 
 #. TRANS: Freeciv 2.4.0 (r25000)
 #: client/gui-sdl/pages.c:159
-#, fuzzy, c-format
 msgid "Freeciv %s (%s)"
 msgstr "Freeciv версії %s (%s)"
 
 #. TRANS: gui-sdl client
 #: client/gui-sdl/pages.c:175
-#, fuzzy, c-format
+#: c-format
 msgid "%s client"
-msgstr "Це команда клієнта."
+msgstr "Клієнт %s"
 
 #: client/gui-sdl/pages.c:189
 msgid "Start New Game"
@@ -8621,34 +8550,34 @@ msgid "shields into gold"
 msgstr "щити в золото"
 
 #: client/gui-sdl/wldlg.c:1541
-#, fuzzy, c-format
+#: c-format
 msgid ""
 "(%d/%d/%s)\n"
 "%d/%d %s\n"
 "never"
 msgstr ""
-"(%d/%d/%d)\n"
+"(%d/%d/%s)\n"
 "%d/%d %s\n"
 "ніколи"
 
 #: client/gui-sdl/wldlg.c:1549
-#, fuzzy, c-format
+#: c-format
 msgid ""
 "(%d/%d/%s)\n"
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
-"(%d/%d/%d)\n"
+"(%d/%d/%s)\n"
 "%d/%d %s\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1559
-#, fuzzy, c-format
+#: c-format
 msgid ""
 "(%d/%d/%s)\n"
 "%d %s"
 msgstr ""
-"(%d/%d/%d)\n"
+"(%d/%d/%s)\n"
 "%d %s"
 
 #: client/gui-xaw/citydlg.c:225
@@ -8727,9 +8656,8 @@ msgstr ""
 "Загалом торгівля %d Торгівлі на рік\n"
 
 #: client/gui-xaw/citydlg.c:1838
-#, fuzzy, c-format
 msgid "%s - %s citizens  Governor: %s"
-msgstr "%s - %s городян%s"
+msgstr "%s - %s Управитель громадян:%s"
 
 #: client/gui-xaw/citydlg.c:2442
 msgid "Workers"
@@ -9109,7 +9037,6 @@ msgstr "Цей набір не має визначених ветеранськ�
 #. * "Freeciv version 2.3.0-beta1 (beta version)" (translated).
 #. * Second %s is client_string, e.g., "gui-gtk-2.0".
 #: client/helpdata.c:337
-#, fuzzy, c-format
 msgid "This is %s, %s client."
 msgstr "Це клієнт %s, %s ."
 
@@ -9143,13 +9070,11 @@ msgstr "Знання технології з флагом \"%s\" робить н
 
 #. TRANS: %s is a (translatable) tech flag.
 #: client/helpdata.c:426
-#, fuzzy, c-format
 msgid "Requires that some player knows a technology with the \"%s\" flag.\n"
 msgstr "Потребує, щоб якийсь гравець мав технологію %s.\n"
 
 #. TRANS: %s is a (translatable) tech flag.
 #: client/helpdata.c:432
-#, fuzzy, c-format
 msgid "Requires that no player knows any technology with the \"%s\" flag.\n"
 msgstr "Потребує, щоб якийсь гравець мав технологію %s.\n"
 
@@ -9159,7 +9084,6 @@ msgid "Requires the %s government.\n"
 msgstr "Потребує уряду %s.\n"
 
 #: client/helpdata.c:456
-#, fuzzy, c-format
 msgid "Not available under the %s government.\n"
 msgstr "Недоступне під урядом %s.\n"
 
@@ -9173,7 +9097,6 @@ msgstr "Потребує щоб %s був збудований і ще не за
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:478
-#, fuzzy, c-format
 msgid "Requires that %s was built at some point.\n"
 msgstr "Потребує в зведену будівлю %s.\n"
 
@@ -9185,19 +9108,16 @@ msgstr "Недоступне -  якщо %s взагалі був збудова
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:493
-#, fuzzy, c-format
 msgid "Prevented if %s has ever been built.\n"
 msgstr "Недоступне, якщо %s взагалі було збудовано.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:504
-#, fuzzy, c-format
 msgid "Requires %s to be owned by any player and not yet obsolete.\n"
 msgstr "Потребує щоб чудо %s належало якомусь гравцю і ще не застаріло.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:511
-#, fuzzy, c-format
 msgid "Requires %s to be owned by any player.\n"
 msgstr "Потребує щоб %s, було в будь-якого гравця.\n"
 
@@ -9223,49 +9143,41 @@ msgstr "Потребує щоб ви коли-небудь збудували ч
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:552
-#, fuzzy, c-format
 msgid "Requires you to have built %s at some point.\n"
 msgstr "Потребує чуда %s у Вашому володінні.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:560
-#, fuzzy, c-format
 msgid "Prevented if you have ever built %s, unless it would be obsolete.\n"
 msgstr "Недоступне, якщо ви колись звели %s, аж доки воно застаріє.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:567
-#, fuzzy, c-format
 msgid "Prevented if you have ever built %s.\n"
 msgstr "Недоступне, якщо ви колись звели %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:578
-#, fuzzy, c-format
 msgid "Requires you to own %s, which must not be obsolete.\n"
 msgstr "Потребує не застарілого чуда %s у Вашому володінні.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:585
-#, fuzzy, c-format
 msgid "Requires you to own %s.\n"
 msgstr "Потребує щоб ви володіли %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:593
-#, fuzzy, c-format
 msgid "Prevented if you own %s, unless it is obsolete.\n"
 msgstr "Недоступне, поки ви власник не застарілого %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:600
-#, fuzzy, c-format
 msgid "Prevented if you own %s.\n"
 msgstr "Недоступне поки володієте %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:616
-#, fuzzy, c-format
 msgid ""
 "Requires %s in one of your cities on the same continent, and not yet "
 "obsolete.\n"
@@ -9274,7 +9186,6 @@ msgstr "Потребує чуда %s в одному з міст на тому �
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:623
-#, fuzzy, c-format
 msgid "Requires %s in one of your cities on the same continent.\n"
 msgstr "Потребує %s в одному з ваших міст на тому ж континенті.\n"
 
@@ -10182,7 +10093,6 @@ msgid "* Ignores the effects of city walls.\n"
 msgstr "* Ігнорує Міські Стіни.\n"
 
 #: client/helpdata.c:2817
-#, fuzzy, c-format
 msgid ""
 "* Does bombard attacks (%d per turn). These attacks will only damage (never "
 "kill) defenders, but damage all defenders on a tile, and have no risk for "
@@ -10566,7 +10476,7 @@ msgstr "* Нещасність від чужоземних громадян че
 msgid ""
 "* No unhappiness from foreign citizens even when at war with their home "
 "state.\n"
-msgstr "* Жодної нещасності від від чужоземних громадян навіть під час війни"
+msgstr "* Жодної нещасності від чужоземних громадян навіть під час війни"
 "з їх батьківщиною.\n"
 
 #. TRANS: not pluralised as gettext doesn't support
@@ -10576,7 +10486,7 @@ msgstr "* Жодної нещасності від від чужоземних �
 msgid ""
 "* Each foreign citizen causes %.2g unhappiness in their city while you are "
 "at war with their home state.\n"
-msgstr "* Кожен громадянин іноземець спричиняє %.2g нещастя в місті де живуть, поки ви воюєте з державою їх походження.\n"
+msgstr "* Кожен громадянин іноземець спричиняє %.2g нещастя в місті де живе, поки ви воюєте з державою їх походження.\n"
 
 #: client/helpdata.c:3850
 msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
@@ -10597,14 +10507,13 @@ msgid_plural ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
 "by aggression.\n"
 msgstr[0] ""
-"* Кожне із Ваших міст уникатиме %d нещастя, окрім спричиненого агресією.\n"
+"* Кожне із Ваших міст уникатиме %d нещастя, крім спричиненого агресією.\n"
 msgstr[1] ""
-"* Кожне із Ваших міст уникатиме %d нещастя, окрім спричиненого агресією.\n"
+"* Кожне із Ваших міст уникатиме %d нещастя, крім спричиненого агресією.\n"
 msgstr[2] ""
-"* Кожне із Ваших міст уникатиме %d нещастя, окрім спричиненого агресією.\n"
+"* Кожне із Ваших міст уникатиме %d нещастя, крім спричиненого агресією.\n"
 
 #: client/helpdata.c:3872
-#, fuzzy, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including that caused by "
 "aggression.\n"
@@ -10633,12 +10542,12 @@ msgstr "* Ви не платите за утримання своїх підро
 #: client/helpdata.c:3899
 msgid "* You pay %.2g times normal %s upkeep for your units.\n"
 msgstr ""
-"* Ви платите в %.2g разибільше звичайного %s  за утримання загонів.\n"
+"* Ви платите в %.2g рази більше звичайного %s за утримання загонів.\n"
 
 #: client/helpdata.c:3904
 msgid "* You pay %.2g times normal upkeep for your units.\n"
 msgstr ""
-"* Ви платите в %d рази більше звичайного утримання ваших загонів.\n"
+"* Ви платите в %.2g рази більше звичайного утримання загонів.\n"
 
 #. TRANS: %s is the output type, like 'shield' or
 #. * 'gold'; pluralised in %d but there is currently
@@ -10649,25 +10558,24 @@ msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgid_plural ""
 "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr[0] ""
-"* Жодне з ваших міст не буде платити %d %s утримання підрозділа.\n"
+"* Жодне з ваших міст не буде платити %d %s утримання підрозділів.\n"
 msgstr[1] ""
-"* Жодне з ваших міст не буде платити %d %s утримання підрозділа.\n"
+"* Жодне з ваших міст не буде платити %d %s утримання підрозділів.\n"
 msgstr[2] ""
-"* Жодне з ваших міст не буде платити %d %s утримання підрозділа.\n"
+"* Жодне з ваших міст не буде платити %d %s утримання підрозділів.\n"
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
 #: client/helpdata.c:3928
-#, fuzzy, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgid_plural ""
 "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr[0] ""
-"* Жодне з ваших міст не буде платити %d %s утримання підрозділа.\n"
+"* Жодне з ваших міст не буде платити %d утримання підрозділів.\n"
 msgstr[1] ""
-"* Жодне з ваших міст не буде платити %d %s утримання підрозділа.\n"
+"* Жодне з ваших міст не буде платити %d утримання підрозділів.\n"
 msgstr[2] ""
-"* Жодне з ваших міст не буде платити %d %s утримання підрозділа.\n"
+"* Жодне з ваших міст не буде платити %d утримання підрозділів.\n"
 
 #: client/helpdata.c:3939
 #, c-format
@@ -10686,11 +10594,11 @@ msgstr[0] ""
 "* Можна мати до  %d міст, поки в кожному місті не з'явиться перший нещасний"
 "через розмір цивілізації городянин.\n"
 msgstr[1] ""
-"* У кожному місті з'явиться перший нещасний через розмір цивілізації "
-"городянин, коли Ви матимете %d міст.\n"
+"* Можна мати до  %d міст, поки в кожному місті не з'явиться перший нещасний"
+"через розмір цивілізації городянин.\n"
 msgstr[2] ""
-"* У кожному місті з'явиться перший нещасний через розмір цивілізації "
-"городянин, коли Ви матимете %d міст.\n"
+"* Можна мати до  %d міст, поки в кожному місті не з'явиться перший нещасний"
+"через розмір цивілізації городянин.\n"
 
 #: client/helpdata.c:3959
 msgid ""
@@ -10700,9 +10608,8 @@ msgid_plural ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities another unhappy citizen will appear.\n"
 msgstr[0] ""
-"* Після появи першого нещасного через розмір цивілізації городянина, зі "
-"збільшенням кількості міст на %d буде з'являтися ще один нещасний "
-"городянин .\n"
+"* Після першого нещасного через розмір цивілізації городянина,"
+"буде з'являтися ще один нещасний городянин, зі збільшенням кількості міст на %d.\n"
 msgstr[1] ""
 "* Після появи першого нещасного через розмір цивілізації городянина, зі "
 "збільшенням кількості міст на %d буде з'являтися ще один нещасний "
@@ -10732,17 +10639,20 @@ msgid ""
 msgid_plural ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Підрозділи можуть вводити воєнний стан. Кожен військовий загін у місті"
+"змусить %d нещасних стати задоволеними.\n"
+msgstr[1] "Підрозділи можуть вводити воєнний стан. Кожен військовий загін у місті"
+"змусить %d нещасного стати задоволеними.\n"
+msgstr[2] "Підрозділи можуть вводити воєнний стан. Кожен військовий загін у місті"
+"змусить %d нещасних стати задоволеними.\n"
 
 #: client/helpdata.c:3998
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "* Максимум %d загін в кожному з міст може спричиняти військовий стан.\n"
+msgstr[1] "* Максимум %d загони в кожному з міст можуть спричиняти військовий стан.\n"
+msgstr[2] "* Максимум %d загонів в кожному з міст можуть спричиняти військовий стан.\n"
 
 #: client/helpdata.c:4009
 msgid "* You may grow your cities by means of celebrations."
@@ -10761,70 +10671,68 @@ msgstr "* Ваші підрозділи не можна підкупити.\n"
 
 #: client/helpdata.c:4028
 msgid "* Your cities cannot be incited to revolt.\n"
-msgstr "* Ваші місто не можуть бути підбурені до революції.\n"
+msgstr "* Ваші міста неможливо підбурити до бунту.\n"
 
 #: client/helpdata.c:4035
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
 msgstr ""
-"* Уряд буде скинуто та встановиться анархія, якщо безлад у будь-якому місті "
+"* Уряд буде скинуто та встановиться анархія, якщо безлад в якомусь місті "
 "триватиме довше ніж два ходи підряд.\n"
 
 #: client/helpdata.c:4042
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr "* Мати такий сенат, що може попередити проголошення війни.\n"
+msgstr "* Є сенат, що може завадити проголошенню війни.\n"
 
 #: client/helpdata.c:4048
 msgid "* Allows partisans when cities are taken by the enemy.\n"
-msgstr "* Дозволяє створювати партизанів, коли міста захоплюються ворогом.\n"
+msgstr "* Коли міста захоплює ворог, з’являються партизани.\n"
 
 #: client/helpdata.c:4055
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr ""
-"* Будівлі, що звучайно допомагають проти нещасливих городян, замість будуть "
-"приносити гроші.\n"
+"* Будівлі, що зазвичай виправляють нещасних, натомість дають"
+"золото.\n"
 
 #. TRANS: %s is list of unit types separated by 'or'
 #: client/helpdata.c:4071
-#, fuzzy, c-format
 msgid "* Pays no upkeep for %s.\n"
-msgstr "* Не сплачує утримання за фанатиків.\n"
+msgstr "* Не платить за утримання %s.\n"
 
 #: client/helpdata.c:4079
 msgid "* Has no unhappy citizens.\n"
-msgstr "* Не має нещасливих городян.\n"
+msgstr "* Не має нещасних городян.\n"
 
 #. TRANS: %s is a unit class
 #: client/helpdata.c:4104
 #, c-format
 msgid "?unitclass:* New %s units will be veteran.\n"
-msgstr ""
+msgstr "?unitclass:* Нові загони %s будуть ветеранами.\n"
 
 #. TRANS: %s is a (translatable) unit type flag
 #: client/helpdata.c:4110
 #, c-format
 msgid "?unitflag:* New %s units will be veteran.\n"
-msgstr ""
+msgstr "?unitflag:* Нові загони %s будуть ветеранами.\n"
 
 #. TRANS: "* New Partisan units will have the rank
 #. * of elite."
 #: client/helpdata.c:4122
 #, c-format
 msgid "?unittype:* New %s units will have the rank of %s.\n"
-msgstr ""
+msgstr "?unittype:* Нові підрозділи %s матимуть звання %s.\n"
 
 #: client/helpdata.c:4131
 msgid "* New units will be veteran.\n"
-msgstr ""
+msgstr "* Нові загони будуть ветеранами.\n"
 
 #. TRANS: %s is list of output types, with 'or';
 #. * pluralised in %d but of course the output types
 #. * can't be pluralised; sorry
 #: client/helpdata.c:4141
-#, fuzzy, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
 "unless the city working it is celebrating."
@@ -10832,14 +10740,14 @@ msgid_plural ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
 "unless the city working it is celebrating."
 msgstr[0] ""
-"* Кожна працююча клітинка, яка дає більш ніж %d %s втратить 1 коли "
-"святкування відсутнє.\n"
+"* Кожна оброблена клітинка, яка дає більше %d %s втратить 1 коли "
+"місто не святкує."
 msgstr[1] ""
-"* Кожна працююча клітинка, яка дає більш ніж %d %s втратить 1 коли "
-"святкування відсутнє.\n"
+"* Кожна оброблена клітинка, яка дає більш ніж %d %s втратить 1 коли "
+"місто не святкує."
 msgstr[2] ""
-"* Кожна працююча клітинка, яка дає більш ніж %d %s втратить 1 коли "
-"святкування відсутнє.\n"
+"* Кожна оброблена клітинка, яка дає більш ніж %d %s втратить 1 коли "
+"місто не святкує."
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
@@ -10850,7 +10758,6 @@ msgstr " (Міста розміром до %d не святкуватимуть.
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:4161
-#, fuzzy, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
 "city working it is celebrating."
@@ -10858,51 +10765,50 @@ msgid_plural ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
 "city working it is celebrating."
 msgstr[0] ""
-"* Кожна працююча клітинка з не меньш ніж 1 %s отримає %d додаткових %s під "
-"час святкування.\n"
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s під "
+"час святкування."
 msgstr[1] ""
-"* Кожна працююча клітинка з не меньш ніж 1 %s отримає %d додаткових %s під "
-"час святкування.\n"
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s під "
+"час святкування."
 msgstr[2] ""
-"* Кожна працююча клітинка з не меньш ніж 1 %s отримає %d додаткових %s під "
-"час святкування.\n"
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s під "
+"час святкування."
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:4180
-#, fuzzy, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgid_plural ""
 "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr[0] ""
-"* Кожна працююча клітинка з не меньш ніж 1 %s отримає %d додаткових %s.\n"
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s.\n"
 msgstr[1] ""
-"* Кожна працююча клітинка з не меньш ніж 1 %s отримає %d додаткових %s.\n"
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s.\n"
 msgstr[2] ""
-"* Кожна працююча клітинка з не меньш ніж 1 %s отримає %d додаткових %s.\n"
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4191
 #, c-format
 msgid "* %s production is increased %d%%.\n"
-msgstr "* виробництво %s зросло %d%%.\n"
+msgstr "* виробництво %s виросло %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4199
 #, c-format
 msgid "* %s production will suffer massive losses.\n"
-msgstr "* виробництво %s зазнаватиме значних втрат.\n"
+msgstr "* виробництво %s зазнає значних втрат.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4204
 #, c-format
 msgid "* %s production will suffer some losses.\n"
-msgstr "* виробництво %s зазнаватиме деяких втрат.\n"
+msgstr "* виробництво %s зазнає деяких втрат.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4209
 #, c-format
 msgid "* %s production will suffer a small amount of losses.\n"
-msgstr "* виробництво %s зазнаватиме незначних втрат.\n"
+msgstr "* виробництво %s зазнає незначних втрат.\n"
 
 #: client/helpdata.c:4218
 msgid "* Increases the chance of plague within your cities.\n"
@@ -10916,19 +10822,19 @@ msgstr "* Зменшує ймовірність пошесті у ваших м�
 #: client/helpdata.c:4231
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
-msgstr "* втрати %s будуть швидко зростати з віддаленням від столиці.\n"
+msgstr "* З віддаленням від столиці будуть швидко зростати втрати %s .\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4237
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
-msgstr "* втрати %s будуть зростати з віддаленням від столиці.\n"
+msgstr "* З віддаленням від столиці будуть зростати втрати %s .\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4243
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
-msgstr "* втрати %s будуть поволі зростати з віддаленням від столиці.\n"
+msgstr "* З віддаленням від столиці будуть поволі зростати втрати %s.\n"
 
 #: client/helpdata.c:4252
 msgid "* Increases the chance of migration into your cities.\n"
@@ -10953,12 +10859,11 @@ msgstr "%s%d %s"
 #: client/helpdata.c:4310
 #, c-format
 msgid "%s%d Unhappy"
-msgstr "%s%d Нещасливих"
+msgstr "%s%d Нещасних"
 
 #: client/helpdata.c:4342
-#, fuzzy, c-format
 msgid "Initial government is %s.\n"
-msgstr "%s %s"
+msgstr "Початковий  уряд %s %s.\n"
 
 #. TRANS: %s is an and-separated list of techs
 #: client/helpdata.c:4359
@@ -10967,20 +10872,20 @@ msgid ""
 "Starts with knowledge of %s in addition to the standard starting "
 "technologies.\n"
 msgstr ""
+"Починає занючи %s на додачу до стандартних початкових технологій.\n"
 
 #. TRANS: %s is an and-separated list of techs
 #: client/helpdata.c:4364
-#, fuzzy, c-format
+#, c-format
 msgid "Starts with knowledge of %s.\n"
-msgstr "Ви отримали знання про %s."
+msgstr "Починає зі знанням %s.\n"
 
 #. TRANS: a unit type followed by a count. For instance,
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
 #: client/helpdata.c:4401
-#, fuzzy, c-format
 msgid "%s (%d)"
-msgstr "%s %s (%s)"
+msgstr "%s (%d)"
 
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
@@ -10989,9 +10894,9 @@ msgstr "%s %s (%s)"
 #, c-format
 msgid "Starts with the following additional unit: %s.\n"
 msgid_plural "Starts with the following additional units: %s.\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Починає з таким додатковим загоном %s.\n"
+msgstr[1] "Починає з такими додатковими загонами: %s.\n"
+msgstr[2] "Починає з такими додатковими загонами: %s.\n"
 
 #. TRANS: %s is an and-separated list of improvements
 #: client/helpdata.c:4443
@@ -10999,17 +10904,17 @@ msgstr[2] ""
 msgid ""
 "First city will get %s for free in addition to the standard improvements.\n"
 msgstr ""
+"На додачу до стандартних будівель перше місто отримає задурно %s.\n"
 
 #. TRANS: %s is an and-separated list of improvements
 #: client/helpdata.c:4448
 #, c-format
 msgid "First city will get %s for free.\n"
-msgstr ""
+msgstr "Перше місто отримає %s безоплатно.\n"
 
 #: client/luaconsole_common.c:111
-#, fuzzy
 msgid "This is the Client Lua Console."
-msgstr "Сторінка поточних установок"
+msgstr "Це клієнтська консоль Lua"
 
 #: client/mapctrl_common.c:397
 #, c-format
@@ -11064,8 +10969,8 @@ msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
-"Це є ім'я входу за замовчуванням, яке буде використовуватися у діалогах "
-"з'єднання або із параметром командної строки -a."
+"Це ім'я входу (логін) за замовчанням - воно використається в діалогах "
+"з'єднання або з параметром командного рядка -a."
 
 #: client/options.c:1729
 msgid "Server"
@@ -11076,8 +10981,8 @@ msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
-"Це є адреса серверу за замовчуванням, яка буде використовуватися у діалогах "
-"з'єднання або із параметром командної строки -a."
+"Це є адреса сервера за замовчанням, яка буде використовуватися в діалогах "
+"з'єднання або з параметром командного рядка -a."
 
 #: client/options.c:1735
 msgid "Server port"
@@ -11088,8 +10993,8 @@ msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
 msgstr ""
-"Це є порт серверу за замовчуванням, який буде використовуватися у діалогах "
-"з'єднання або із параметром командної строки -a."
+"Це порт серверу за замовчанням; буде використовуватися в діалогах "
+"з'єднання або з параметром командного ряда -a."
 
 #: client/options.c:1742
 msgid ""
@@ -11097,8 +11002,8 @@ msgid ""
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
 msgstr ""
-"Метасервер - це адреса, до якої клієнт під'єднується щоб дізнатися про ігри "
-"в інтернеті. Не слід змінювати його, якщо Ви не впевнені у тому, що робите."
+"Метасервер - це хост, до якого клієнт під'єднується щоб дізнатися про ігри "
+"в інтернеті. Не слід змінювати це значення, хіба Ви точно знаєте, що робите."
 
 #: client/options.c:1748 tools/modinst.h:43
 msgid "Soundset"
@@ -11109,7 +11014,7 @@ msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
 msgstr ""
-"Це набір звуків, що буде використаний.  Ця опція теж саме, що параметр "
+"Це набір звуків, що буде використаний.  Ця опція теж саме, що і параметр "
 "командної строки -S."
 
 #: client/options.c:1754
@@ -11123,17 +11028,16 @@ msgid ""
 "same as using the -P command-line option."
 msgstr ""
 "Якщо у вас проблеми зі звуком, спробуйте змінити звуковий додаток. Новий "
-"додаток не подіє доки не перезапустити Freeciv. Змінити його - це те саме, "
+"додаток не подіє до перезапуску Freeciv. Змінити його - це те саме, "
 "що скористатися параметром командного рядка -P."
 
 #: client/options.c:1761
-#, fuzzy
 msgid "The chat log file"
-msgstr "Технологія"
+msgstr "Файл журналу чату"
 
 #: client/options.c:1762
 msgid "The name of the chat log file."
-msgstr ""
+msgstr "Ім’яфайлу журналу чату"
 
 #: client/options.c:1767 client/options.c:1772 client/options.c:1777
 #: client/options.c:1782
@@ -11143,20 +11047,18 @@ msgstr "Тема"
 #: client/options.c:1768 client/options.c:1773 client/options.c:1778
 #: client/options.c:1783
 msgid "By changing this option you change the active theme."
-msgstr "Змінюючи цю опцію Ви змінюєте активну тему. "
+msgstr "Змінюючи цю опцію Ви міняєте активну тему. "
 
 #: client/options.c:1793 tools/modinst.h:37
-#, fuzzy
 msgid "Tileset"
-msgstr "Фон %s"
+msgstr "Набір клітинок"
 
 #: client/options.c:1794
-#, fuzzy
 msgid ""
 "By changing this option you change the active tileset.  This is the same as "
 "using the -t command-line parameter."
 msgstr ""
-"Змінюючи цю опцію Ви змінюєте активну тему. Також самого ефекту можна "
+"Змінюючи цю опцію Ви змінюєте поточний набір полів. Такого ж ефекту можна "
 "досягти за допомогою параметру командної строки -t."
 
 #: client/options.c:1800
@@ -11165,44 +11067,37 @@ msgstr "Малювати межі міста"
 
 #: client/options.c:1801
 msgid "Setting this option will draw a line at the city workable limit."
-msgstr ""
-"Якщо цю опцію встановлено, територія, на якій можуть працювати городяни, "
-"буде обведена лінією."
+msgstr "Якщо цю опцію встановлено, площа, яку можуть обробляти городяни буде обведена лінією."
 
 #: client/options.c:1805
 msgid "Draw city output"
-msgstr "Показувати міське виробництво"
+msgstr "Малювати міський видобуток"
 
 #: client/options.c:1806
-#, fuzzy
 msgid "Setting this option will draw city output for every citizen."
-msgstr ""
-"Якщо активовано, назва міста по замовчуванню буде буде визначатися "
-"відповідно до прилеглих земель."
+msgstr "Включення цієї опції, намалює видобуток міста для кожного городянина."
 
 #: client/options.c:1810
 msgid "Draw the map grid"
-msgstr "Показувати ґратку карти"
+msgstr "Малювати сітку карти"
 
 #: client/options.c:1811
 msgid "Setting this option will draw a grid over the map."
-msgstr "Якщо встановити цю опцію, на карті зображатиметься ґратка."
+msgstr "Включення опції, промалює сітку на карті."
 
 #: client/options.c:1814
-#, fuzzy
 msgid "Draw the city bar"
 msgstr "Малювати панель міста"
 
 #: client/options.c:1815
-#, fuzzy
 msgid ""
 "Setting this option will display a 'city bar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
 "and, optionally, production."
 msgstr ""
-"Якщо цю опцію включено, буде відображатися 'плашка міста', яка містить "
-"корисну інформацію про кожне місто. Якщо цю опцію відключено, то буде "
-"відображатися лише ім'я міста та, опціонально, інформація про виробництво."
+"Включена опція буде відображати 'плашку міста', що містить "
+"корисну інформацію про кожне місто. Якщо опція вимкнена, то буде "
+"відображатися лише назва міста та, вибірково, інформація про виробництво."
 
 #: client/options.c:1821
 msgid "Draw the city names"
@@ -11221,8 +11116,7 @@ msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
 msgstr ""
-"Якщо встановити цю опцію, буде показано, за скільки ходів міста зростуть або "
-"зменшать розмір."
+"Установка опції, покаже через скільки ходів міста виростуть чи зменшаться."
 
 #: client/options.c:1831
 msgid "Draw the city productions"
@@ -11233,19 +11127,19 @@ msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
 msgstr ""
-"Якщо встановити цю опцію, на карті буде показано, що міста наразі будують."
+"Включення опції покаже на карті що міста зараз будують."
 
 #: client/options.c:1836
 msgid "Draw the city buy costs"
-msgstr "Показувати вартість купівлі у місті"
+msgstr "Показати вартість купівлі в місті"
 
 #: client/options.c:1837
 msgid ""
 "Setting this option will draw how much gold is needed to buy the production "
 "of the cities."
 msgstr ""
-"Якщо встановити цю опцію, буде показано, скільки золота потрібно, щоб "
-"придбати те, що будується у містах."
+"Установка опції покаже скільки золота потрібно, щоб "
+"придбати те, що будується в містах."
 
 #: client/options.c:1841
 msgid "Draw the city trade routes"
@@ -11256,26 +11150,25 @@ msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
 msgstr ""
-"Якщо встановити цю опцію, буде показано лінії торгових шляхів між містами, "
-"які їх мають."
+"Встановлена опція, покаже лінії торгових шляхів між містами які їх мають."
 
 #: client/options.c:1846
 msgid "Draw the terrain"
-msgstr "Малювати територію"
+msgstr "Малювати місцевість"
 
 #: client/options.c:1847
 msgid "Setting this option will draw the terrain."
-msgstr "Якщо цю опцію ввімкнено, території відображатимуться."
+msgstr "Включення опції намалює рельєф і особливості місцевості."
 
 #: client/options.c:1850
 msgid "Draw the coast line"
-msgstr "Малювати лінію узбережжя"
+msgstr "Малювати узбережжя"
 
 #: client/options.c:1851
 msgid ""
 "Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
-"Якщо цю опцію ввімкнено, суша та океан розділятимуться намальованою лінією."
+"Вмикання опції намалює лінію розділу суші та океану."
 
 #: client/options.c:1855
 msgid "Draw the roads and the railroads"
@@ -11284,7 +11177,7 @@ msgstr "Малювати дороги та залізниці"
 #: client/options.c:1856
 msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
-"Якщо цю опцію ввімкнено, на карті відображатимуться дороги та залізниці."
+"Вмикання опції намалює на карті дороги та залізниці."
 
 #: client/options.c:1860
 msgid "Draw the irrigation"
@@ -11292,7 +11185,7 @@ msgstr "Малювати зрошення"
 
 #: client/options.c:1861
 msgid "Setting this option will draw the irrigation systems on the map."
-msgstr "Якщо цю опцію ввімкнено, на мапі відображатиметься зрошення."
+msgstr "Вмикання опції намалює на мапі системи зрошення."
 
 #: client/options.c:1865
 msgid "Draw the mines"
@@ -11300,7 +11193,7 @@ msgstr "Малювати шахти"
 
 #: client/options.c:1866
 msgid "Setting this option will draw the mines on the map."
-msgstr "Якщо цю опцію ввімкнено, на мапі відображатимуться шахти."
+msgstr "Вмикання опції намалює на мапі шахти."
 
 #: client/options.c:1869
 msgid "Draw the bases"
@@ -11308,7 +11201,7 @@ msgstr "Малювати бази"
 
 #: client/options.c:1870
 msgid "Setting this option will draw the bases on the map."
-msgstr "Якщо цю опцію ввімкнено, на мапі відображатимуться бази."
+msgstr "Вмикання опції намалює на мапі бази."
 
 #: client/options.c:1873
 msgid "Draw the specials"
@@ -11316,7 +11209,7 @@ msgstr "Показувати особливості"
 
 #: client/options.c:1874
 msgid "Setting this option will draw the specials on the map."
-msgstr "Встановлення цієї опції покаже особливості на мапі."
+msgstr "Встановлення цієї опції покаже спецресурси на мапі."
 
 #: client/options.c:1878
 msgid "Draw the pollution/nuclear fallout"
@@ -11324,7 +11217,7 @@ msgstr "Показувати забруднення/радіацію"
 
 #: client/options.c:1879
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
-msgstr "Якщо цю опцію включено, на мапі буде показано забруднення та радіацію."
+msgstr "Вмикання опції намалює на мапі забруднення та радіацію."
 
 #: client/options.c:1883
 msgid "Draw the cities"
@@ -11332,7 +11225,7 @@ msgstr "Малювати міста"
 
 #: client/options.c:1884
 msgid "Setting this option will draw the cities on the map."
-msgstr "Якщо цю опцію ввімкнено, на мапі відображатимуться міста."
+msgstr "Вмикання опції намалює на мапі міста."
 
 #: client/options.c:1887
 msgid "Draw the units"
@@ -11340,31 +11233,31 @@ msgstr "Малювати підрозділи"
 
 #: client/options.c:1888
 msgid "Setting this option will draw the units on the map."
-msgstr "Якщо цю опцію ввімкнено, на мапі відображатимуться підрозділи."
+msgstr "Вмикання опції намалює на мапі підрозділи."
 
 #: client/options.c:1892
 msgid "Solid unit background color"
-msgstr "Заповнення фону з'єднання"
+msgstr "Суцільний колір тла підрозділу"
 
 #: client/options.c:1893
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
 msgstr ""
-"Якщо цю опцію включено, підрозділи на огляді мапи будуть відображатися із "
-"кольором фону замість флагу."
+"Вмикання опції змусить підрозділи на карті відображатися з суцільним"
+"кольором тла замість прапора."
 
 #: client/options.c:1898
 msgid "Draw shield graphics for units"
-msgstr "Малювати іконку виробництва для підрозділів"
+msgstr "Малювати картинку щитів для підрозділів"
 
 #: client/options.c:1899
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
 msgstr ""
-"Якщо цю опцію включено, на підрозділах буде відображатися іконка виробництва "
-"на флазі. Якщо цю опцію відключено, буде відображатися повний флаг."
+"Вмикання опції намалює на підрозділах значок щита замість прапора."
+"Відключена опція відобразить повний прапор."
 
 #: client/options.c:1903
 msgid "Draw the units in focus"
@@ -11375,15 +11268,16 @@ msgid ""
 "Setting this option will cause the currently focused unit(s) to always be "
 "drawn, even if units are not otherwise being drawn (for instance if 'Draw "
 "the units' is unset)."
-msgstr ""
+msgstr "Вмикання опції намалює підрозділ(и) в фокусі, навіть якщо  "
+"вони не малюються іншим чином (до прикладу, коли 'Малювати підрозділи' виключена)"
 
 #: client/options.c:1910
 msgid "Draw the fog of war"
-msgstr "Показувати мару війни"
+msgstr "Показувати туман війни"
 
 #: client/options.c:1911
 msgid "Setting this option will draw the fog of war."
-msgstr "Якщо встановити цю опцію, буде показано мару війни."
+msgstr "Якщо встановити цю опцію, буде показано мряку війни."
 
 #: client/options.c:1914
 msgid "Draw the borders"
@@ -11391,19 +11285,20 @@ msgstr "Малювати кордони"
 
 #: client/options.c:1915
 msgid "Setting this option will draw the national borders."
-msgstr "Якщо встановити цю опцію, будуть показані кордони країн."
+msgstr "Вмикання опції намалює кордони країн."
 
 #: client/options.c:1918
-#, fuzzy
 msgid "Draw whether tiles are native to selected unit"
-msgstr "Малювати територію"
+msgstr "Малювати чи поля є рідними для вибраного загону"
 
 #: client/options.c:1920
 msgid ""
 "Setting this option will highlight tiles that the currently selected unit "
 "cannot enter unaided due to non-native terrain. (If multiple units are "
 "selected, only tiles that all of them can enter are indicated.)"
-msgstr ""
+msgstr "Вмикання опції підсвітить поля, на котрі вибраний загін не може зайти без "
+"допомоги через нерідну місцевість.(якщо вибрано кілька підрозділів, позначаються"
+"лише клітинки, на які можуть зайти всі разом)"
 
 #: client/options.c:1927
 msgid "Show dead players in Nations report"
@@ -11414,11 +11309,11 @@ msgid ""
 "This option controls whether defeated nations are shown on the Nations "
 "report page."
 msgstr ""
-"Ця опція визначає, чи відображатимуться переможені нації у звіті націй."
+"Ця опція визначає, чи показувати переможені нації у Звіті націй."
 
 #: client/options.c:1932
 msgid "Sound bell at new turn"
-msgstr "Звук на початку ходу"
+msgstr "Дзвінок на початку ходу"
 
 #: client/options.c:1933
 msgid ""
@@ -11426,62 +11321,62 @@ msgid ""
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
-"Якщо цю опцію включено, подія \"дзвоник\" буде генеруватися на початку "
-"кожного ходу.  Ви можете контролювати поведінку події  \"дзвоник\" за "
-"допомогю редагування опцій повідомленнь."
+"Включіть цю опцію, щоб подія \"дзвоник\" генерувалась на початку "
+"кожного ходу.  Ви можете контролювати поведінку події  \"дзвоник\" "
+"редагуванням опцій повідомленнь."
 
 #: client/options.c:1939
 msgid "Unit movement animation time (milliseconds)"
-msgstr "Час анімації ходу (у міллісекундах)"
+msgstr "Час анімації руху підрозділу (у міллісекундах)"
 
 #: client/options.c:1940
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
-"Ця опція контролює тривалість \"анімації\", коли підрозділ рухається на "
-"огляді мапи.  Встановіть до 0, щоб відключити анімацію зовсім."
+"Ця опція контролює тривалість \"анімації\", коли підрозділ рухається по"
+"карті. Виставте в 0, щоб відключити анімацію зовсім."
 
 #: client/options.c:1945
 msgid "Mapview recentering time (milliseconds)"
-msgstr "Час переміщення центру мапи (у мілісекундах)"
+msgstr "Час переміщення центру мапи (мілісекунди)"
 
 #: client/options.c:1946
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
-msgstr ""
+msgstr "" 
+"Коли вид карти центрується, карта гладко зсунеться на нову позіцію. Ця опція визначає"
+"наскільки довго триватиме це ковзання. Встановіть в 0, для повної заборони зсуву виду карти"
 
 #: client/options.c:1952
-#, fuzzy
 msgid "Combat animation step time (milliseconds)"
-msgstr "Час анімації ходу (у міллісекундах)"
+msgstr "Час кроку анімації бою (мілісекунди)"
 
 #: client/options.c:1953
-#, fuzzy
 msgid ""
 "This option controls the speed of combat animation between units on the "
 "mapview.  Set it to 0 to disable animation entirely."
 msgstr ""
-"Ця опція контролює тривалість \"анімації\", коли підрозділ рухається на "
-"огляді мапи.  Встановіть до 0, щоб відключити анімацію зовсім."
+"Ця опція визначає швидкість \"анімації\" бою між загонами на "
+"Виді мапи.  Встановіть в 0, щоб відключити анімацію зовсім."
 
 #: client/options.c:1958
 msgid "Show icons in the technology tree"
-msgstr "Показивати іконки у дереві технологій"
+msgstr "Показувати значки в дереві технологій"
 
 #: client/options.c:1959
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
 msgstr ""
-"Якщо цю опцію включено, дерево технологій буде містити іконки. Якщо цю опцію "
-"відключено, дерево технологій буде більш компактним."
+"Вмикання опції, покаже значки на дереві технологій."
+"Відключена - зробить дерево технологій компактнішим."
 
 #: client/options.c:1965
 msgid "Use curved lines in the technology tree"
-msgstr "Використовувати криві лінії у дереві технологій"
+msgstr "Криві лінії в дереві технологій"
 
 #: client/options.c:1966
 msgid ""
@@ -11489,8 +11384,8 @@ msgid ""
 "show technology relations. Turning this option off causes the lines to be "
 "drawn straight."
 msgstr ""
-"Якщо цю опцію включено, дерево технологій буде показувати зв'язки технологій "
-"кривими лініями. Якщо цю опцію відключено, лінії будуть прямими."
+"Вмикання опції, покаже кривими лініями взаємозв'язки технологій на дереві технологій  "
+"Відключена  - зробить лінії прямими."
 
 #: client/options.c:1973
 msgid "Color to highlight your player/user name"
@@ -11503,20 +11398,19 @@ msgid ""
 "highlight anything."
 msgstr ""
 "Якщо встановлено, то у нових повідомленнях чату Ваше ім’я гравця та "
-"користувача підсвічуватиметься фоном цього кольору. Якщо ж ні, то просто не "
+"користувача підсвічуватиметься тлом такого кольору. Якщо ні, то просто не "
 "підсвічуватиметься."
 
 #: client/options.c:1979
-#, fuzzy
 msgid "Manual Turn Done in AI mode"
-msgstr "Закінчувати хід вручну у комп'ютерному режимі"
+msgstr "Закінчувати хід вручну в режимі ШІ"
 
 #: client/options.c:1980
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr ""
-"Відключіть цю опцію, якщо Ви не бажаєте нажимати кнопку Хід Зроблено кожного "
+"Відключіть цю опцію, якщо Ви не хочете натискати кнопку Хід Зроблено кожного "
 "разу, коли спостерігаєте за ШІ-гравцем."
 
 #: client/options.c:1984
@@ -11528,8 +11422,8 @@ msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
-"Якщо цю опцію включено, активний підрозділ буде у центрі екрану автоматично, "
-"якщо фокус перейшов на інший підрозділ."
+"Якщо цю опцію включено, активний підрозділ буде в центрі екрану автоматично, "
+"коли фокус переключився."
 
 #: client/options.c:1988
 msgid "Auto center on combat"
@@ -11541,9 +11435,8 @@ msgid ""
 "this will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
-"Якщо цю опцію включено, будь-які бойові дії будуть у центрі екрану "
-"автоматично.  Якщо ця опція відключена, це зменьшить час між ходами, проте "
-"Ви можете не побачити бій взагалі."
+"Включіть опцію для автоцентрування екрану на битвах. Відключена опція"
+"зменьшить час між ходами, проте Ви повністю пропустите битви."
 
 #: client/options.c:1994
 msgid "Auto center on new turn"
@@ -11554,7 +11447,7 @@ msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
 msgstr ""
-"Встановіть цю опцію, щоб клієнт автоматично центрував карту на потрібному "
+"Встановіть цю опцію, щоб клієнт автоматично центрував карту на підходящому "
 "місці на початку кожного ходу."
 
 #: client/options.c:1999
@@ -11563,20 +11456,18 @@ msgstr "Фокусувати на активованих підрозділах"
 
 #: client/options.c:2000
 msgid "Set this option to have newly awoken units be focused automatically."
-msgstr ""
-"Якщо цю опцію включено, нові активовані підрозділи будуть отримувати фокус "
-"автоматично."
+msgstr "Включіть опцію , щоб свіжорозбуджені підрозділи отримали фокус автоматично."
 
 #: client/options.c:2003
 msgid "Keyboardless goto"
-msgstr "Рухатись без допомоги клавіатури"
+msgstr "Безклавіатурне ІтиДо"
 
 #: client/options.c:2004
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
-"Якщо встановлено цю опцію, дія йти до може бути викликана через лівий клік "
+"Якщо встановлено цю опцію, дія 'йти до' може бути викликана через лівий клік "
 "та утримання кнопки миші із наступним переміщенням миші до іншої клітини."
 
 #: client/options.c:2009
@@ -11605,9 +11496,8 @@ msgstr ""
 "діалог цього міста."
 
 #: client/options.c:2018
-#, fuzzy
 msgid "Concise city production"
-msgstr "Звіт по виробництву у місті"
+msgstr "Стисло по виробництву в місті"
 
 #: client/options.c:2019
 msgid ""
@@ -11684,13 +11574,12 @@ msgid "Select cities before units"
 msgstr "Вибирати міста перед підрозділами"
 
 #: client/options.c:2051
-#, fuzzy
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected. See the help on Controls."
 msgstr ""
 "Якщо цю опцію увімкнено, то коли у прямокутнику виділення присутні і міста, "
-"і підрозділи, вибрано буде лише міста."
+"і підрозділи, вибрано буде лише міста. Дивись допомогу з Управління"
 
 #: client/options.c:2056
 msgid "Clear unit orders on selection"
