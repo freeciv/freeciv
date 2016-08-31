@@ -672,6 +672,7 @@ void real_science_report_dialog_update(void)
 
   if (blk == true) {
     gui()->sw_science->keep_blinking = true;
+    gui()->sw_science->set_custom_labels(str);
     gui()->sw_science->sblink();
   } else {
     gui()->sw_science->keep_blinking = false;
