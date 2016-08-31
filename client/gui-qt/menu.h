@@ -74,6 +74,7 @@ enum munit {
   MIGRANT,
   GO_AND_BUILD_CITY,
   NOT_4_OBS,
+  MULTIPLIERS,
   SAVE
 };
 
@@ -417,6 +418,7 @@ private slots:
   void slot_show_map();
   void calc_trade_routes();
   void slot_popup_tax_rates();
+  void slot_popup_mult_rates();
   void slot_show_eco_report();
   void slot_show_units_report();
   void slot_show_nations();

@@ -1498,6 +1498,11 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(slot_popup_tax_rates()));
   menu->addSeparator();
 
+  act = menu->addAction(_("Policies..."));
+  menu_list.insertMulti(MULTIPLIERS, act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_popup_mult_rates()));
+  menu->addSeparator();
+
   menu->addMenu(new class gov_menu());
   menu->addSeparator();
 
@@ -1758,6 +1763,15 @@ void mr_menu::menus_sensitive()
         if (client_is_observer() == false) {
           i.value()->setEnabled(true);
         }
+        break;
+      case MULTIPLIERS:
+        if (client_is_observer() == false && multiplier_count() > 0) {
+          i.value()->setEnabled(true);
+          i.value()->setVisible(true);
+        } else {
+          i.value()->setVisible(false);
+        }
+        break;
       default:
         break;
       }
@@ -2920,6 +2934,14 @@ void mr_menu::calc_trade_routes()
 void mr_menu::slot_popup_tax_rates()
 {
   popup_rates_dialog();
+}
+
+/****************************************************************
+  Action "MULTIPLERS RATES"
+*****************************************************************/
+void mr_menu::slot_popup_mult_rates()
+{
+  popup_multiplier_dialog();
 }
 
 /****************************************************************

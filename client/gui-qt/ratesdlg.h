@@ -76,5 +76,26 @@ private slots:
   void slot_ok_button_pressed();
   void slot_cancel_button_pressed();
 };
- 
+
+/**************************************************************************
+ * Dialog used to change policies
+ *************************************************************************/
+class multipler_rates_dialog: public  QDialog
+{
+  Q_OBJECT
+
+public:
+  explicit multipler_rates_dialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
+private:
+  QList<QSlider*> slider_list;
+  QPushButton *cancel_button;
+  QPushButton *ok_button;
+private slots:
+  void slot_set_value(int i);
+  void slot_ok_button_pressed();
+  void slot_cancel_button_pressed();
+};
+
+void popup_multiplier_dialog(void);
+
 #endif /* FC__RATESDLG_H */

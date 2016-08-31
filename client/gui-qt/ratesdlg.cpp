@@ -15,12 +15,17 @@
 #include <fc_config.h>
 #endif
 
+// client
+#include "multipliers.h"
+
 // gui-qt
 #include "fc_client.h"
 #include "qtg_cxxside.h"
 
 #include "ratesdlg.h"
 
+static int scale_to_mult(const struct multiplier *pmul, int scale);
+static int mult_to_scale(const struct multiplier *pmul, int val);
 /**************************************************************************
   Dialog constructor for changing rates with sliders.
   Automatic destructor will clean qobjects, so there is no one
@@ -275,6 +280,124 @@ void tax_rates_dialog::slot_ok_button_pressed()
 }
 
 /**************************************************************************
+  Multipler rates dialog constructor
+**************************************************************************/
+multipler_rates_dialog::multipler_rates_dialog (QWidget *parent,
+                                                Qt::WindowFlags f)
+  : QDialog (parent)
+{
+  QGroupBox *group_box;
+  QHBoxLayout *some_layout;
+  QLabel *label;
+  QSlider *slider;
+  QString str;
+  QVBoxLayout *main_layout;
+  struct player *pplayer = client_player();
+
+  cancel_button = new QPushButton;
+  ok_button = new QPushButton;
+  setWindowTitle(_("Change governments modifiers"));
+  main_layout = new QVBoxLayout;
+
+  multipliers_iterate(pmul) {
+    QHBoxLayout *hb = new QHBoxLayout;
+    int val = player_multiplier_target_value(pplayer, pmul);
+    group_box = new QGroupBox(multiplier_name_translation(pmul));
+    slider = new QSlider(Qt::Horizontal, this);
+    slider->setMinimum(mult_to_scale(pmul, pmul->start));
+    slider->setMaximum(mult_to_scale(pmul, pmul->stop));
+    slider->setValue(val);
+    connect(slider, SIGNAL(valueChanged(int)),
+            SLOT(slot_set_value(int)));
+    slider_list.append(slider);
+    label = new QLabel(QString::number(val));
+    hb->addWidget(slider);
+    hb->addWidget(label);
+    group_box->setLayout(hb);
+    slider->setProperty("lab", QVariant::fromValue((void *) label));
+    main_layout->addWidget(group_box);
+
+  } multipliers_iterate_end;
+  some_layout = new QHBoxLayout;
+  cancel_button->setText(_("Cancel"));
+  ok_button->setText(_("Ok"));
+  connect(cancel_button, SIGNAL(pressed()),
+          SLOT(slot_cancel_button_pressed()));
+  connect(ok_button, SIGNAL(pressed()),
+          SLOT(slot_ok_button_pressed()));
+  some_layout->addWidget(cancel_button);
+  some_layout->addWidget(ok_button);
+  main_layout->addSpacing(20);
+  main_layout->addLayout(some_layout);
+  setLayout(main_layout);
+}
+
+/**************************************************************************
+  Slider value changed
+**************************************************************************/
+void multipler_rates_dialog::slot_set_value(int i)
+{
+  QSlider *qo;
+  QString str;
+  qo = (QSlider *) QObject::sender();
+  QString sender;
+  QVariant qvar;
+  QLabel *lab;
+
+  qvar = qo->property("lab");
+  lab =  reinterpret_cast<QLabel *>(qvar.value<void *>());
+  lab->setText(QString::number(qo->value()));
+}
+
+
+/***************************************************************************
+  Cancel pressed
+***************************************************************************/
+void multipler_rates_dialog::slot_cancel_button_pressed()
+{
+  close();
+  deleteLater();
+}
+
+/***************************************************************************
+  Ok pressed - send mulipliers value.
+***************************************************************************/
+void multipler_rates_dialog::slot_ok_button_pressed()
+{
+  int j = 0;
+  int value;
+  struct packet_player_multiplier mul;
+
+  multipliers_iterate(pmul) {
+    Multiplier_type_id i = multiplier_index(pmul);
+    value = slider_list.at(j)->value();
+    mul.multipliers[i] = scale_to_mult(pmul, value);
+    j++;
+  } multipliers_iterate_end;
+  mul.count = multiplier_count();
+  send_packet_player_multiplier(&client.conn, &mul);
+  close();
+  deleteLater();
+}
+
+
+/**************************************************************************
+  Convert real multiplier display value to scale value
+**************************************************************************/
+int mult_to_scale(const struct multiplier *pmul, int val)
+{
+  return (val - pmul->start) / pmul->step;
+}
+
+/**************************************************************************
+  Convert scale units to real multiplier display value
+**************************************************************************/
+int scale_to_mult(const struct multiplier *pmul, int scale)
+{
+  return scale * pmul->step + pmul->start;
+}
+
+/**************************************************************************
   Popup (or raise) the (tax/science/luxury) rates selection dialog.
 **************************************************************************/
 void popup_rates_dialog(void)
@@ -290,3 +413,17 @@ void real_multipliers_dialog_update(void)
 {
   /* PORTME */
 }
+
+/**************************************************************************
+  Popups multiplier dialog
+**************************************************************************/
+void popup_multiplier_dialog(void)
+{
+  multipler_rates_dialog* mrd;
+  if (!can_client_issue_orders()) {
+    return;
+  }
+  mrd = new multipler_rates_dialog(gui()->central_wdg);
+  mrd->show();
+}
+
