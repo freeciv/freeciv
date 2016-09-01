@@ -117,19 +117,6 @@ private slots:
 };
 
 /****************************************************************************
-  Class helping to get font set in options
-****************************************************************************/
-class fc_font
-{
-  QMap <QString, QFont *> font_map;
-public:
-  void set_font(QString name, QFont *qf);
-  QFont* get_font(QString name);
-  void init_fonts();
-  void release_fonts();
-};
-
-/****************************************************************************
   Some qt-specific options like size to save between restarts
 ****************************************************************************/
 struct fc_settings
@@ -247,7 +234,6 @@ public:
   void update_sidebar_position();
 
   mr_idle mr_idler;
-  fc_font fc_fonts;
   QWidget *central_wdg;
   mr_menu *menu_bar;
   fc_corner *corner_wid;

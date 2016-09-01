@@ -334,8 +334,6 @@ void option_dialog::set_font(struct option* poption, QString s)
   ql = s.split(",");
   qp->setText(ql[0] + " " + ql[1]);
   qp->setFont(*fp);
-
-  ::gui()->fc_fonts.set_font(QString(option_name(poption)), fp);
 }
 
 
