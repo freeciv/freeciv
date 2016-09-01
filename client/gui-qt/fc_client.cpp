@@ -119,7 +119,6 @@ void fc_client::init()
   central_layout = new QStackedLayout;
 
   // General part not related to any single page
-  fc_fonts.init_fonts();
   menu_bar = new mr_menu();
   corner_wid = new fc_corner(this);
   if (gui_options.gui_qt_show_titlebar == false) {
@@ -200,7 +199,6 @@ void fc_client::init()
 fc_client::~fc_client()
 {
   status_bar_queue.clear();
-  fc_fonts.release_fonts();
 }
 
 /****************************************************************************
@@ -719,70 +717,6 @@ void fc_corner::maximize()
 void fc_corner::minimize()
 {
   mw->showMinimized();
-}
-
-/****************************************************************************
-  Returns desired font
-****************************************************************************/
-QFont *fc_font::get_font(QString name)
-{
-  /**
-   * example: get_font("gui_qt_font_city_label")
-   */
-
-  if (font_map.contains(name)) {
-    return font_map.value(name);
-  } else {
-    return NULL;
-  }
-}
-
-/****************************************************************************
-  Initiazlizes fonts from client options
-****************************************************************************/
-void fc_font::init_fonts()
-{
-  QFont *f;
-  QString s;
-
-  /**
-   * default font names are:
-   * gui_qt_font_city_label
-   * gui_qt_font_notify_label and so on.
-   * (full list is in options.c in client dir)
-   */
-
-  options_iterate(client_optset, poption) {
-    if (option_type(poption) == OT_FONT) {
-      f = new QFont;
-      s = option_font_get(poption);
-      f->fromString(s);
-      s = option_name(poption);
-      set_font(s, f);
-    }
-  } options_iterate_end;
-}
-
-/****************************************************************************
-  Deletes all fonts
-****************************************************************************/
-void fc_font::release_fonts()
-{
-  foreach (QFont *f, font_map) {
-    delete f;
-  }
-}
-
-/****************************************************************************
-  Adds new font or overwrite old one
-****************************************************************************/
-void fc_font::set_font(QString name, QFont *qf)
-{
-  font_map.insert(name, qf);
-  /* Automatically set default font */
-  if (name == "gui_qt_font_default") {
-    QApplication::setFont(*qf);
-  }
 }
 
 /****************************************************************************

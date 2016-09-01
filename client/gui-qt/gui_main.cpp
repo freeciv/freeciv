@@ -343,23 +343,12 @@ void qtg_add_idle_callback(void (callback)(void *), void *data)
 static void apply_font(struct option *poption)
 {
   QFont font;
-  QFont *f;
-  QFont *remove_old;
   QString s;
 
   s = option_font_get(poption);
   font.fromString(s);
   s = option_name(poption);
   font_options_listener::set_font(s, font);
-  if (gui()) {
-    f = new QFont;
-    s = option_font_get(poption);
-    f->fromString(s);
-    s = option_name(poption);
-    remove_old = gui()->fc_fonts.get_font(s);
-    delete remove_old;
-    gui()->fc_fonts.set_font(s, f);
-  }
 }
 
 /****************************************************************************
