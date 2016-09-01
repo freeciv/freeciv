@@ -54,6 +54,7 @@
 
 // gui-qt
 #include "fc_client.h"
+#include "fonts.h"
 #include "gui_main.h"
 #include "helpdlg.h"
 #include "qtg_cxxside.h"
@@ -342,10 +343,15 @@ void qtg_add_idle_callback(void (callback)(void *), void *data)
 ****************************************************************************/
 static void apply_font(struct option *poption)
 {
+  QFont font;
   QFont *f;
   QFont *remove_old;
   QString s;
 
+  s = option_font_get(poption);
+  font.fromString(s);
+  s = option_name(poption);
+  font_options_listener::set_font(s, font);
   if (gui()) {
     f = new QFont;
     s = option_font_get(poption);
