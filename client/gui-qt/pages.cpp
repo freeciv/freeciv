@@ -133,10 +133,9 @@ void fc_client::create_main_page(void)
   QFontMetrics fm(f);
   int row = 0;
 #if IS_BETA_VERSION
-  QFont *fe = fc_fonts.get_font("gui_qt_font_beta_label");
   QPalette warn_color;
   QLabel *beta_label = new QLabel(beta_message());
-  beta_label->setFont(*fe);
+  new font_updater(beta_label, fonts::beta_label);
 #endif /* IS_BETA_VERSION */
 
   pages_layout[PAGE_MAIN] = new QGridLayout;

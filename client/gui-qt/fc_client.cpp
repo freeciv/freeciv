@@ -321,7 +321,6 @@ void fc_client::switch_page(int new_pg)
     showMaximized();
     gui()->infotab->chtwdg->update_widgets();
     status_bar->setVisible(false);
-    gui()->infotab->chtwdg->update_font();
     if (gui_options.gui_qt_fullscreen){
       gui()->showFullScreen();
       gui()->mapview_wdg->showFullScreen();
