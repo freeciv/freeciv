@@ -28,6 +28,7 @@ extern "C" {
 #include <QVariant>
 
 // gui-qt
+#include "fonts.h"
 #include "mapview.h"
 
 class QComboBox;
@@ -127,7 +128,7 @@ private:
  Widget around map view to display informations like demographics report,
  top 5 cities, traveler's report.
 ***************************************************************************/
-class notify_dialog:public fcwidget
+class notify_dialog:public fcwidget, private font_options_listener
 {
   Q_OBJECT
 public:
@@ -140,6 +141,7 @@ protected:
   void mouseMoveEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
 private:
+  void update_font(const QString &name, const QFont &font);
   void paintEvent(QPaintEvent *paint_event);
   void calc_size(int &x, int&y);
   close_widget *cw;
@@ -148,7 +150,7 @@ private:
   QString qcaption;
   QString qheadline;
   QStringList qlist;
-  QFont *small_font;
+  QFont small_font;
   QPoint cursor;
 };
 
@@ -157,7 +159,7 @@ private:
  TODO Add some simple scrollbars (just paint it during paint event,
  if 'more' is true->scroll visible and would depend on show_line
 ***************************************************************************/
-class unit_select: public fcwidget
+class unit_select: public fcwidget, private font_options_listener
 {
   Q_OBJECT
   QPixmap *pix;
@@ -165,8 +167,8 @@ class unit_select: public fcwidget
   QSize item_size; /** size of each pixmap of unit */
   QList<unit*> unit_list; /** storing units only for drawing, for rest units
                             * iterate utile->units */
-  QFont *ufont;
-  QFont *info_font;
+  QFont ufont;
+  QFont info_font;
   int row_count;
   close_widget *cw;
 public:
@@ -185,6 +187,8 @@ protected:
   void wheelEvent(QWheelEvent *event);
   void closeEvent(QCloseEvent *event);
 private:
+  void update_font(const QString &name, const QFont &font);
+
   bool more;
   int show_line;
   int highligh_num;

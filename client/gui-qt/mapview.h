@@ -148,10 +148,10 @@ private:
 /**************************************************************************
   Information label about clicked tile
 **************************************************************************/
-class info_tile: public QLabel
+class info_tile: public QLabel, private font_options_listener
 {
   Q_OBJECT
-  QFont *info_font;
+  QFont info_font;
 public:
   info_tile(struct tile *ptile, QWidget *parent = 0);
   struct tile *itile;
@@ -161,6 +161,7 @@ protected:
 private:
   QStringList str_list;
   void calc_size();
+  void update_font(const QString &name, const QFont &font);
 };
 
 /**************************************************************************

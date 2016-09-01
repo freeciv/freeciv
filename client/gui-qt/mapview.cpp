@@ -1305,7 +1305,7 @@ void mapview_thaw(void)
 info_tile::info_tile(struct tile *ptile, QWidget *parent): QLabel(parent)
 {
   setParent(parent);
-  info_font = gui()->fc_fonts.get_font("gui_qt_font_comment_label");
+  info_font = get_font(fonts::comment_label);
   itile = ptile;
   calc_size();
 }
@@ -1315,7 +1315,7 @@ info_tile::info_tile(struct tile *ptile, QWidget *parent): QLabel(parent)
 **************************************************************************/
 void info_tile::calc_size()
 {
-  QFontMetrics fm(*info_font);
+  QFontMetrics fm(info_font);
   QString str;
   int hh = tileset_tile_height(tileset);
   int fin_x;
@@ -1352,7 +1352,7 @@ void info_tile::calc_size()
 void info_tile::paint(QPainter *painter, QPaintEvent *event)
 {
   QPen pen;
-  QFontMetrics fm(*info_font);
+  QFontMetrics fm(info_font);
   int pos, h;
 
   h = fm.height();
@@ -1362,7 +1362,7 @@ void info_tile::paint(QPainter *painter, QPaintEvent *event)
   painter->setBrush(QColor(0, 0, 0, 205));
   painter->drawRect(0, 0, width(), height());
   painter->setPen(pen);
-  painter->setFont(*info_font);
+  painter->setFont(info_font);
   for (int i = 0; i < str_list.count(); i++) {
     painter->drawText(5, pos, str_list.at(i));
     pos = pos + 5 + h;
@@ -1379,4 +1379,16 @@ void info_tile::paintEvent(QPaintEvent *event)
   painter.begin(this);
   paint(&painter, event);
   painter.end();
+}
+
+/**************************************************************************
+  Updates fonts
+**************************************************************************/
+void info_tile::update_font(const QString &name, const QFont &font)
+{
+  if (name == fonts::comment_label) {
+    info_font = font;
+    calc_size();
+    update();
+  }
 }

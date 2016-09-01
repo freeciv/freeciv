@@ -605,7 +605,7 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
   qheadline = QString(headline);
   qlines = QString(lines);
   qlist = qlines.split("\n");
-  small_font =::gui()->fc_fonts.get_font("gui_qt_font_notify_label");
+  small_font = get_font(fonts::notify_label);
   x = 0;
   y = 0;
   calc_size(x, y);
@@ -614,6 +614,8 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
                                  x, y, x, y, 0);
   move(x, y);
   was_destroyed = false;
+
+  font_options_listener::listen();
 }
 
 /***************************************************************************
@@ -621,7 +623,7 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
 ***************************************************************************/
 void notify_dialog::calc_size(int &x, int &y)
 {
-  QFontMetrics fm(*small_font);
+  QFontMetrics fm(small_font);
   int i;
   QStringList str_list;
 
@@ -636,6 +638,15 @@ void notify_dialog::calc_size(int &x, int &y)
 }
 
 /***************************************************************************
+  Change the fonts when needed
+***************************************************************************/
+void notify_dialog::update_font(const QString &name, const QFont &font)
+{
+  // FIXME Updating fonts isn't practical because the size of the widget
+  // will change -> its position too.
+}
+
+/***************************************************************************
   Paint Event for notify dialog
 ***************************************************************************/
 void notify_dialog::paintEvent(QPaintEvent * paint_event)
@@ -643,14 +654,14 @@ void notify_dialog::paintEvent(QPaintEvent * paint_event)
   QPainter painter(this);
   QPainterPath path;
   QPen pen;
-  QFontMetrics fm(*small_font);
+  QFontMetrics fm(small_font);
   int i;
 
   pen.setWidth(1);
   pen.setColor(QColor(232, 255, 0));
   painter.setBrush(QColor(0, 0, 0, 175));
   painter.drawRect(0, 0, width(), height());
-  painter.setFont(*small_font);
+  painter.setFont(small_font);
   painter.setPen(pen);
   painter.drawText(10, fm.height() + 3, qcaption);
   painter.drawText(10, 2 * fm.height() + 6, qheadline);
@@ -2385,9 +2396,8 @@ unit_select::unit_select(tile *ptile, QWidget *parent)
   pix = NULL;
   show_line = 0;
   highligh_num = -1;
-  ufont = new QFont;
-  ufont->setItalic(true);
-  info_font = gui()->fc_fonts.get_font("gui_qt_font_notify_label");
+  ufont.setItalic(true);
+  info_font = get_font(fonts::notify_label);
   update_units();
   h_pix = NULL;
   create_pixmap();
@@ -2404,6 +2414,8 @@ unit_select::unit_select(tile *ptile, QWidget *parent)
   }
   move(final_p.x(), final_p.y() - height());
   setFocus();
+
+  font_options_listener::listen();
 }
 /****************************************************************
   Destructor for unit select
@@ -2412,7 +2424,6 @@ unit_select::~unit_select()
 {
     delete h_pix;
     delete pix;
-    delete ufont;
     delete cw;
 }
 
@@ -2431,7 +2442,7 @@ void unit_select::create_pixmap()
   int rate, f;
   int a;
   QPen pen;
-  QFontMetrics fm(*info_font);
+  QFontMetrics fm(info_font);
 
   if (pix != NULL) {
     delete pix;
@@ -2473,8 +2484,8 @@ void unit_select::create_pixmap()
   a = qMin(item_size.width() / 4, 12);
   x = 0, y = -item_size.height(), i = -1;
   p.begin(pix);
-  ufont->setPixelSize(a);
-  p.setFont(*ufont);
+  ufont.setPixelSize(a);
+  p.setFont(ufont);
   pen.setColor(QColor(232, 255, 0));
   p.setPen(pen);
 
@@ -2522,7 +2533,7 @@ void unit_select::mouseMoveEvent(QMouseEvent *event)
 {
   int a, b;
   int old_h;
-  QFontMetrics fm(*info_font);
+  QFontMetrics fm(info_font);
 
   old_h = highligh_num;
   highligh_num = -1;
@@ -2572,14 +2583,14 @@ void unit_select::mousePressEvent(QMouseEvent *event)
 *****************************************************************/
 void unit_select::paint(QPainter *painter, QPaintEvent *event)
 {
-  QFontMetrics fm(*info_font);
+  QFontMetrics fm(info_font);
   int h, i;
   int *f_size;
   QPen pen;
   QString str, str2;
   struct unit *punit;
-  int point_size = info_font->pointSize();
-  int pixel_size = info_font->pixelSize();
+  int point_size = info_font.pointSize();
+  int pixel_size = info_font.pixelSize();
 
   if (point_size < 0) {
     f_size = &pixel_size;
@@ -2598,11 +2609,11 @@ void unit_select::paint(QPainter *painter, QPaintEvent *event)
                 .arg(unit_list_size(utile->units));
   for (i = *f_size; i > 4; i--) {
     if (point_size < 0) {
-      info_font->setPixelSize(i);
+      info_font.setPixelSize(i);
     } else  {
-      info_font->setPointSize(i);
+      info_font.setPointSize(i);
     }
-    QFontMetrics qfm(*info_font);
+    QFontMetrics qfm(info_font);
     if (10 + qfm.width(str2) < width()) {
       break;
     }
@@ -2614,16 +2625,16 @@ void unit_select::paint(QPainter *painter, QPaintEvent *event)
     painter->drawPixmap(10, h + 3, *pix);
     pen.setColor(QColor(232, 255, 0));
     painter->setPen(pen);
-    painter->setFont(*info_font);
+    painter->setFont(info_font);
     painter->drawText(10, h, str);
     if (highligh_num != -1 && highligh_num < unit_list.count()) {
       painter->drawText(10, height() - 5, str2);
     }
   }
   if (point_size < 0) {
-    info_font->setPixelSize(*f_size);
+    info_font.setPixelSize(*f_size);
   } else {
-    info_font->setPointSize(*f_size);
+    info_font.setPointSize(*f_size);
   }
   cw->put_to_corner();
 }
@@ -2724,6 +2735,15 @@ void unit_select::keyPressEvent(QKeyEvent *event)
     destroy();
   }
   QWidget::keyPressEvent(event);
+}
+
+/***************************************************************************
+  Change the fonts when needed
+***************************************************************************/
+void unit_select::update_font(const QString& name, const QFont& font)
+{
+  // FIXME Updating fonts isn't practical because the size of the widget
+  // will change -> its position too.
 }
 
 /***************************************************************************

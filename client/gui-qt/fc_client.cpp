@@ -112,6 +112,8 @@ fc_client::fc_client() : QMainWindow()
 ****************************************************************************/
 void fc_client::init()
 {
+  QApplication::setFont(get_font(fonts::default_font));
+
   QString path;
   central_wdg = new QWidget;
   central_layout = new QStackedLayout;
@@ -189,6 +191,7 @@ void fc_client::init()
 
   game_tab_widget->init();
   chat_listener::listen();
+  font_options_listener::listen();
 }
 
 /****************************************************************************
@@ -259,6 +262,16 @@ void fc_client::chat_message_received(const QString &message,
     output_window->append(str);
     output_window->verticalScrollBar()->setSliderPosition(
                               output_window->verticalScrollBar()->maximum());
+  }
+}
+
+/****************************************************************************
+  Updates the application's default font when it changes
+****************************************************************************/
+void fc_client::update_font(const QString &name, const QFont &font)
+{
+  if (name == fonts::default_font) {
+    QApplication::setFont(font);
   }
 }
 
