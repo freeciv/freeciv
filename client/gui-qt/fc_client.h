@@ -45,6 +45,7 @@
 #include "canvas.h"
 #include "chatline.h"
 #include "dialogs.h"
+#include "fonts.h"
 #include "gotodlg.h"
 #include "mapview.h"
 #include "messagewin.h"
@@ -157,7 +158,9 @@ public slots:
 };
 
 
-class fc_client : public QMainWindow, private chat_listener
+class fc_client : public QMainWindow,
+                  private chat_listener,
+                  private font_options_listener
 {
   Q_OBJECT
   QWidget *main_wdg;
@@ -307,6 +310,7 @@ protected slots:
 private:
   void chat_message_received(const QString &message,
                              const struct text_tag_list *tags);
+  void update_font(const QString &name, const QFont &font);
 
   void create_main_page();
   void create_network_page();
