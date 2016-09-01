@@ -42,6 +42,9 @@ class QChecBox;
 // client
 #include "canvas.h"
 
+// gui-qt
+#include "fonts.h"
+
 // Qt
 #include <QProgressBar>
 #include <QTableWidget>
@@ -380,7 +383,6 @@ public:
   ~city_dialog();
   void setup_ui(struct city *qcity);
   void refresh();
-  void update_font();
   struct city *pcity;
 
 private:

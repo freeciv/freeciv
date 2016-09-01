@@ -22,6 +22,8 @@ extern "C" {
 #include "chatline_g.h"
 }
 
+// gui-qt
+#include "fonts.h"
 #include "listener.h"
 
 //Qt
@@ -100,7 +102,6 @@ public:
   void append(const QString &str);
   chat_input *chat_line;
   void make_link(struct tile *ptile);
-  void update_font();
   void update_widgets();
   int default_size(int lines);
   void scroll_to_bottom();

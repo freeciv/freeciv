@@ -73,8 +73,6 @@ void reset_unit_table(void);
 static void populate_unit_pixmap_table(void);
 static void apply_font(struct option *poption);
 static void apply_titlebar(struct option *poption);
-static void apply_city_font(struct option *poption);
-static void apply_help_font(struct option *poption);
 static void apply_sidebar(struct option *poption);
 
 /****************************************************************************
@@ -209,7 +207,6 @@ void qtg_options_extra_init()
   } else {                                                                  \
     log_error("Didn't find option %s!", #var);                              \
   }
-
   option_var_set_callback(gui_qt_font_city_names,
                           apply_font);
   option_var_set_callback(gui_qt_font_default,
@@ -219,13 +216,13 @@ void qtg_options_extra_init()
   option_var_set_callback(gui_qt_font_reqtree_text,
                           apply_font);
   option_var_set_callback(gui_qt_font_city_label,
-                          apply_city_font);
+                          apply_font);
   option_var_set_callback(gui_qt_font_help_label,
-                          apply_help_font);
+                          apply_font);
   option_var_set_callback(gui_qt_font_help_text,
-                          apply_help_font);
+                          apply_font);
   option_var_set_callback(gui_qt_font_help_title,
-                          apply_help_font);
+                          apply_font);
   option_var_set_callback(gui_qt_font_chatline,
                           apply_font);
   option_var_set_callback(gui_qt_show_titlebar,
@@ -360,8 +357,6 @@ static void apply_font(struct option *poption)
     remove_old = gui()->fc_fonts.get_font(s);
     delete remove_old;
     gui()->fc_fonts.set_font(s, f);
-    update_city_descriptions();
-    gui()->infotab->chtwdg->update_font();
   }
 }
 
@@ -395,34 +390,12 @@ void apply_titlebar(struct option *poption)
 }
 
 /****************************************************************************
-  Change the manual font
-****************************************************************************/
-static void apply_help_font(struct option *poption)
-{
-  QFont *f;
-  QFont *remove_old;
-  QString s;
-
-  if (gui()) {
-    f = new QFont;
-    s = option_font_get(poption);
-    f->fromString(s);
-    s = option_name(poption);
-    remove_old = gui()->fc_fonts.get_font(s);
-    delete remove_old;
-    gui()->fc_fonts.set_font(s, f);
-    update_help_fonts();
-  }
-}
-
-/****************************************************************************
   Change sidebar position
 ****************************************************************************/
 void apply_sidebar(struct option *poption)
 {
   gui()->update_sidebar_position();
 }
-
 
 /****************************************************************************
   Stub for editor function
@@ -511,27 +484,6 @@ void popup_quit_dialog()
     gui()->write_settings();
     qapp->quit();
     break;
-  }
-}
-
-/****************************************************************************
-  Changes city label font
-****************************************************************************/
-void apply_city_font(option *poption)
-{
-  QFont *f;
-  QFont *remove_old;
-  QString s;
-
-  if (gui() && qtg_get_current_client_page() == PAGE_GAME) {
-    f = new QFont;
-    s = option_font_get(poption);
-    f->fromString(s);
-    s = option_name(poption);
-    remove_old = gui()->fc_fonts.get_font(s);
-    delete remove_old;
-    gui()->fc_fonts.set_font(s, f);
-    qtg_popdown_all_city_dialogs();
   }
 }
 

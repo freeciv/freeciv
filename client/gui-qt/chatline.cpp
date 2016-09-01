@@ -303,6 +303,7 @@ chatwdg::chatwdg(QWidget *parent)
   chat_line->installEventFilter(this);
   chat_output->setVisible(true);
   chat_output->setAcceptRichText(true);
+  new font_updater(chat_output, fonts::chatline);
   chat_output->setOpenLinks(false);
   chat_output->setReadOnly(true);
   connect(chat_output, SIGNAL(anchorClicked(const QUrl)),
@@ -461,17 +462,6 @@ bool chatwdg::eventFilter(QObject *obj, QEvent *event)
   return QObject::eventFilter(obj, event);
 }
 
-
-/***************************************************************************
-  Updates font for chatwdg
-***************************************************************************/
-void chatwdg::update_font()
-{
-  QFont *qf;
-  qf = gui()->fc_fonts.get_font("gui_qt_font_chatline");
-  chat_output->setFont(*qf);
-}
-
 /***************************************************************************
   Hides allies and links button for local game
 ***************************************************************************/
@@ -492,7 +482,7 @@ void chatwdg::update_widgets()
 int chatwdg::default_size(int lines)
 {
   int size;
-  QFontMetrics fm(*gui()->fc_fonts.get_font("gui_qt_font_chatline"));
+  QFontMetrics fm(chat_output->font());
   size = 2 * chat_output->frameWidth() + lines * fm.lineSpacing()
          + chat_line->size().height() + 4;
 
