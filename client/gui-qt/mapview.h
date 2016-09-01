@@ -26,6 +26,9 @@ extern "C" {
 #include "mapview_g.h"
 }
 
+// gui-qt
+#include "fonts.h"
+
 // Qt
 #include <QHBoxLayout>
 #include <QLabel>
@@ -112,7 +115,7 @@ private:
 /**************************************************************************
   QWidget used for displaying map
 **************************************************************************/
-class map_view : public QWidget
+class map_view : public QWidget, private font_options_listener
 {
   Q_OBJECT
 public:
@@ -135,6 +138,8 @@ protected:
 private slots:
   void timer_event();
 private:
+  void update_font(const QString &name, const QFont &font);
+
   int cursor_frame;
   int cursor;
 

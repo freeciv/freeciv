@@ -226,6 +226,8 @@ map_view::map_view() : QWidget()
   timer->start(200);
   resize(0, 0);
   setMouseTracking(true);
+
+  font_options_listener::listen();
 }
 
 /**************************************************************************
@@ -265,6 +267,17 @@ void map_view::timer_event()
     cursor_frame = 0;
   }
   setCursor(*(gui()->fc_cursors[cursor][cursor_frame]));
+}
+
+/**************************************************************************
+  Updates fonts
+**************************************************************************/
+void map_view::update_font(const QString &name, const QFont &font)
+{
+  if (name == fonts::city_names ||
+      name == fonts::city_productions) {
+    update_map_canvas_visible();
+  }
 }
 
 /**************************************************************************
