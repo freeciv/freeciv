@@ -93,6 +93,8 @@ research_diagram::research_diagram(QWidget *parent): QWidget(parent)
   req = NULL;
   reset();
   setMouseTracking(true);
+
+  font_options_listener::listen();
 }
 
 /****************************************************************************
@@ -245,6 +247,15 @@ void research_diagram::reset()
   pcanvas->map_pixmap.fill(Qt::transparent);
 }
 
+/****************************************************************************
+  Updates the canvas when the font changes
+****************************************************************************/
+void research_diagram::font_changed(const QString &name, const QFont &)
+{
+  if (name == fonts::reqtree_text) {
+    update_reqtree();
+  }
+}
 
 /****************************************************************************
   Mouse handler for research_diagram

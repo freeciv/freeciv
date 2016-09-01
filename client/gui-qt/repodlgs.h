@@ -25,6 +25,9 @@ extern "C" {
 // client
 #include "climisc.h"
 
+// gui-qt
+#include "fonts.h"
+
 // Qt
 #include <QObject>
 #include <QWidget>
@@ -66,7 +69,8 @@ public:
 /****************************************************************************
   Custom widget representing research diagram in science_report
 ****************************************************************************/
-class research_diagram: public QWidget
+class research_diagram: public QWidget,
+                        private font_options_listener
 {
   Q_OBJECT
 
@@ -78,6 +82,7 @@ public:
   QSize size();
 
 private:
+  void font_changed(const QString &name, const QFont &font);
   void mousePressEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
   void paintEvent(QPaintEvent *event);
