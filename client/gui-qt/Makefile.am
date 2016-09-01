@@ -23,6 +23,7 @@ MOC_FILES = \
 	meta_optiondlg.cpp	\
 	meta_citydlg.cpp	\
 	meta_cityrep.cpp	\
+	meta_fonts.cpp		\
 	meta_helpdlg.cpp	\
 	meta_plrdlg.cpp		\
 	meta_diplodlg.cpp	\
@@ -53,6 +54,8 @@ libgui_qt_la_SOURCES = \
 	diplodlg.h	\
 	fc_client.cpp	\
 	fc_client.h	\
+	fonts.cpp	\
+	fonts.h		\
 	finddlg.cpp	\
 	finddlg.h	\
 	gotodlg.cpp	\
