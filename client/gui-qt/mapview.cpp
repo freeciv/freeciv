@@ -224,7 +224,6 @@ map_view::map_view() : QWidget()
   QTimer *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(timer_event()));
   timer->start(200);
-  resize(0, 0);
   setMouseTracking(true);
 
   font_options_listener::listen();
