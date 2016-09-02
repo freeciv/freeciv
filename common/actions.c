@@ -2616,8 +2616,7 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
   struct act_prob prob_all;
   struct tile *actor_tile = unit_tile(actor_unit);
 
-  if (actor_unit == NULL || target_tile == NULL
-      || unit_list_size(target_tile->units) == 0) {
+  if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
     return ACTPROB_IMPOSSIBLE;
   }
@@ -2640,6 +2639,18 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
 
   if (!unit_can_do_action(actor_unit, action_id)) {
     /* No point in continuing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  /* Do the player know if there are units at the tile? Must be done here
+   * since an empthy unseen tile will result in false. */
+  if (!can_player_see_hypotetic_units_at(unit_owner(actor_unit),
+                                         target_tile)) {
+    /* Invisible units at this tile can make the action legal or
+     * illegal. */
+    return ACTPROB_NOT_KNOWN;
+  } else if (unit_list_size(target_tile->units) == 0) {
+    /* Known empty tile. */
     return ACTPROB_IMPOSSIBLE;
   }
 
