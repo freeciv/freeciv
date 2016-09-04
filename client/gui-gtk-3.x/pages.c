@@ -61,6 +61,7 @@
 
 
 static GtkWidget *scenario_description;
+static GtkWidget *scenario_authors;
 static GtkWidget *scenario_filename;
 static GtkWidget *scenario_version;
 
@@ -2950,6 +2951,7 @@ static void scenario_list_callback(void)
   GtkTreeIter it;
   GtkTextBuffer *buffer;
   char *description;
+  char *authors;
   char *filename;
   int ver;
   char vername[50];
@@ -2958,9 +2960,11 @@ static void scenario_list_callback(void)
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
 		       2, &description, -1);
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
+		       3, &authors, -1);
+    gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
 		       1, &filename, -1);
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
-                       3, &ver, -1);
+                       4, &ver, -1);
     filename = skip_to_basename(filename);
     if (ver > 0) {
       int maj;
@@ -2976,12 +2980,15 @@ static void scenario_list_callback(void)
     }
   } else {
     description = "";
+    authors = "";
     filename = "";
     vername[0] = '\0';
   }
 
   buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(scenario_description));
   gtk_text_buffer_set_text(buffer, description, -1);
+  buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(scenario_authors));
+  gtk_text_buffer_set_text(buffer, authors, -1);
   gtk_label_set_text(GTK_LABEL(scenario_filename), filename);
   gtk_label_set_text(GTK_LABEL(scenario_version), vername);
 }
@@ -3028,7 +3035,7 @@ static void update_scenario_page(void)
 
     if ((sf = secfile_load_section(pfile->fullname, "scenario", TRUE))
         && secfile_lookup_bool_default(sf, TRUE, "scenario.is_scenario")) {
-      const char *sname, *sdescription;
+      const char *sname, *sdescription, *sauthors;
       int fcver;
       int current_ver = MAJOR_VERSION * 1000000 + MINOR_VERSION * 10000;
 
@@ -3043,6 +3050,7 @@ static void update_scenario_page(void)
       sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
       sdescription = secfile_lookup_str_default(sf, NULL,
                                                 "scenario.description");
+      sauthors = secfile_lookup_str_default(sf, NULL, "scenario.authors");
       log_debug("scenario file: %s from %s", sname, pfile->fullname);
 
       /* Ignore scenarios for newer freeciv versions than we are */
@@ -3065,7 +3073,7 @@ static void update_scenario_page(void)
               int existing;
 
               gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
-                                 3, &existing, -1);
+                                 4, &existing, -1);
               log_debug("Duplicate %s (%d vs %d)", sname, existing, fcver);
 
               if (existing > fcver) {
@@ -3080,7 +3088,9 @@ static void update_scenario_page(void)
                                    1, pfile->fullname,
                                    2, (NULL != sdescription && '\0' != sdescription[0]
                                        ? Q_(sdescription) : ""),
-                                   3, fcver,
+                                   3, (NULL != sauthors && sauthors[0] != '\0'
+                                       ? Q_(sauthors) : ""),
+                                   4, fcver,
                                    -1);
               } else {
                 /* Same version number -> list both */
@@ -3099,7 +3109,9 @@ static void update_scenario_page(void)
                              1, pfile->fullname,
                              2, (NULL != sdescription && '\0' != sdescription[0]
                                  ? Q_(sdescription) : ""),
-                             3, fcver,
+                             3, (NULL != sauthors && sauthors[0] != '\0'
+                                 ? Q_(sauthors) : ""),
+                             4, fcver,
                              -1);
         }
       }
@@ -3118,7 +3130,7 @@ GtkWidget *create_scenario_page(void)
 {
   GtkWidget *vbox, *hbox, *sbox, *bbox, *filenamebox, *descbox;
   GtkWidget *versionbox, *vertext;
-  GtkWidget *button, *label, *view, *sw, *text;
+  GtkWidget *button, *label, *view, *sw, *swa, *text;
   GtkCellRenderer *rend;
 
   vbox = gtk_grid_new();
@@ -3127,7 +3139,8 @@ GtkWidget *create_scenario_page(void)
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 18);
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
 
-  scenario_store = gtk_list_store_new(4, G_TYPE_STRING,
+  scenario_store = gtk_list_store_new(5, G_TYPE_STRING,
+                                         G_TYPE_STRING,
                                          G_TYPE_STRING,
                                          G_TYPE_STRING,
                                          G_TYPE_INT);
@@ -3194,6 +3207,21 @@ GtkWidget *create_scenario_page(void)
   				 GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), text);
 
+  text = gtk_text_view_new();
+  gtk_widget_set_hexpand(text, TRUE);
+  gtk_widget_set_vexpand(text, TRUE);
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
+  gtk_text_view_set_left_margin(GTK_TEXT_VIEW(text), 2);
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
+  scenario_authors = text;
+
+  swa = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(swa),
+                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(swa), GTK_POLICY_AUTOMATIC,
+                                 GTK_POLICY_AUTOMATIC);
+  gtk_container_add(GTK_CONTAINER(swa), text);
+
   text = gtk_label_new(_("Filename:"));
   scenario_filename = gtk_label_new("");
   gtk_widget_set_halign(scenario_filename, GTK_ALIGN_START);
@@ -3226,9 +3254,10 @@ GtkWidget *create_scenario_page(void)
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(descbox), 6);
   gtk_container_add(GTK_CONTAINER(descbox), sw);
+  gtk_container_add(GTK_CONTAINER(descbox), swa);
   gtk_container_add(GTK_CONTAINER(descbox), filenamebox);
   gtk_container_add(GTK_CONTAINER(descbox), versionbox);
-  gtk_grid_attach(GTK_GRID(sbox), descbox, 1, 0, 1, 1);
+  gtk_grid_attach(GTK_GRID(sbox), descbox, 1, 0, 1, 2);
 
   bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
