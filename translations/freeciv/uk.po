@@ -11755,6 +11755,11 @@ msgid ""
 "you will have to do the action manually by pressing either 'r' (for a trade "
 "route) or 'b' (for building a wonder) when the unit is in the city."
 msgstr ""
+"Якщо ця опція включена, коли каравани або такі ж загони прибувають до міста,"
+"де вони можуть встановити торговий шлях або помогти будувати чудо, вікно"
+"вирине, питаючи яку діюслід виконати. Вимкнута цю опція означатиме, що"
+"ви змушені будете робити це вручну натиснувши або 'r' (для торгового"
+"шляху) або 'b' (для побудови чуда) коли загін вже в місті."
 
 #: client/options.c:2044
 msgid "Enable cursor changing"
@@ -11912,116 +11917,101 @@ msgid "Units layer"
 msgstr "Шар підрозділів"
 
 #: client/options.c:2119
-#, fuzzy
 msgid "Enabling this will draw units on the overview."
-msgstr ""
-"Якщо активовано, назва міста по замовчуванню буде буде визначатися "
-"відповідно до прилеглих земель."
+msgstr "Якщо активовано, намалює загони на виді карти "
 
 #: client/options.c:2122
 msgid "Cities layer"
 msgstr "Шар міст"
 
 #: client/options.c:2123
-#, fuzzy
 msgid "Enabling this will draw cities on the overview."
-msgstr ""
-"Якщо активовано, назва міста по замовчуванню буде буде визначатися "
-"відповідно до прилеглих земель."
+msgstr "Включена, намалює міста на загальному огляді"
 
 #: client/options.c:2126
-#, fuzzy
 msgid "Overview fog of war"
-msgstr "Сторінка огляду міста"
+msgstr "Туман війни на огляді"
 
 #: client/options.c:2127
 #, fuzzy
 msgid "Enabling this will show fog of war on the overview."
-msgstr ""
-"Якщо активовано, назва міста по замовчуванню буде буде визначатися "
-"відповідно до прилеглих земель."
+msgstr "Включена, покаже туман війни на огляді"
 
 #: client/options.c:2133
 msgid "Image format"
-msgstr ""
+msgstr "Формат картинки"
 
 #: client/options.c:2134
 msgid "The image toolkit and file format used for map images."
-msgstr ""
+msgstr "Збірка інструментів (тулкіт) і формат для картинки карти"
 
 #: client/options.c:2139
 msgid "Zoom factor for map images"
-msgstr ""
+msgstr "Величина збільшення для картинок карти"
 
 #: client/options.c:2140
 msgid "The magnification used for map images."
-msgstr ""
+msgstr "Збільшення для зображень карт"
 
 #: client/options.c:2143
-#, fuzzy
 msgid "Show area within borders"
-msgstr "Малювати кордони"
+msgstr "Показувати площу в межах кордонів"
 
 #: client/options.c:2144
 msgid "If set, the territory of each nation is shown on the saved image."
-msgstr ""
+msgstr "Як увімкнуте, то територія кожної нації буде показана в збереженій картинці"
 
 #: client/options.c:2148
-#, fuzzy
 msgid "Show borders"
-msgstr "Немає наказів"
+msgstr "Показати кордони"
 
 #: client/options.c:2149
 msgid "If set, the border of each nation is shown on the saved image."
-msgstr ""
+msgstr "Включене покаже кордон кожної країни в збереженій картинці"
 
 #: client/options.c:2153
-#, fuzzy
 msgid "Show cities"
-msgstr "Усі міста"
+msgstr "Показати міста"
 
 #: client/options.c:2154
-#, fuzzy
 msgid "If set, cities are shown on the saved image."
-msgstr ""
-"Якщо активовано, назва міста по замовчуванню буде буде визначатися "
-"відповідно до прилеглих земель."
+msgstr "Виставлена, покаже міста на збереженому зображенні"
 
 #: client/options.c:2157
-#, fuzzy
 msgid "Show fog of war"
-msgstr "Сторінка огляду міста"
+msgstr "Показати мряку війни"
 
 #: client/options.c:2158
 msgid "If set, the extent of fog of war is shown on the saved image."
-msgstr ""
+msgstr "Виставлена, покаже всю протяжність тумана війни на збереженій картинці"
 
 #: client/options.c:2162
-#, fuzzy
 msgid "Show full terrain"
-msgstr "Малювати територію"
+msgstr "Показувати всю місцевість"
 
 #: client/options.c:2163
 msgid ""
 "If set, terrain relief is shown with different colors in the saved image; "
 "otherwise, only land and water are distinguished."
 msgstr ""
+"Виставлена, покаже весь рельєф місцевості різними кольорами на збереженому"
+"зображенні; інакше лише земля і вода будуть виокремлені"
 
 #: client/options.c:2169
-#, fuzzy
 msgid "If set, units are shown in the saved image."
-msgstr "Якщо цю опцію вимкнено, курсор завжди зображатиметься чорно-білим."
+msgstr "Як виставлена, - покаже підрозділи на збереженому зображенні"
 
 #: client/options.c:2172
-#, fuzzy
 msgid "Map image file name"
-msgstr "write <файл>"
+msgstr "Ім’я файлу зображення карти"
 
 #: client/options.c:2173
 msgid ""
 "The base part of the filename for saved map images. A string identifying the "
 "game turn and map options will be appended."
 msgstr ""
+"Основна частина назви файлу для збереженого зображення карти. Стрічка, що"
+"вказує хід гри і опціє карти, додасться"
 
 #: client/options.c:2179 client/options.c:2389
 msgid "Show map scrollbars"
@@ -12053,20 +12043,20 @@ msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
 msgstr ""
-"Відключення цього відключить іконки будівель та підрозділів у диалозі плана "
-"будівництва та вкладці виробництва діалога міста."
+"Відключення цього відключить значки будівель та підрозділів у діалозі плану "
+"будівництва та вкладці виробництва діалогу міста."
 
 #: client/options.c:2193 client/options.c:2403
 msgid "Enable status report tabs"
-msgstr "Дозволити вкладки звітів статуса"
+msgstr "Дозволити вкладки доповіді статусу"
 
 #: client/options.c:2194 client/options.c:2404
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
 msgstr ""
-"Якщо цю опцію активовано, диалогі звітів будуть на окремих вкладках, а не у "
-"вспливаючих діалогах."
+"Якщо цю опцію активовано, діалоги звітів будуть окремими вкладками, а не у "
+"виринаючих діалогах."
 
 #: client/options.c:2199
 msgid "Better fog-of-war drawing"
@@ -12077,8 +12067,8 @@ msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
 msgstr ""
-"Якщо це увімкнено, то використовується найкращий метод для відображення "
-"тумана війни. Це також само швидко, проте потребує удвічі більше пам'яти."
+"Якщо увімкнене, то використовується найкращий метод для відображення "
+"туману війни. Це так само швидко, проте потребує удвічі більше пам'яті."
 
 #: client/options.c:2206 client/options.c:2409
 msgid "Show time for each chat message"
@@ -12117,6 +12107,11 @@ msgid ""
 "respectively). This option will only take effect once the message window is "
 "closed and reopened."
 msgstr ""
+"Якщо ця опція включена, - буде відображено дві кнопки у вікні повідомлень:"
+"для дослідження міста та для переходу(Ітидо) до місця.Якщо цю опцію виключити"
+"ці кнопки не з’ялятимуться (ви все ще можете двічі клікнути лівою чи клікнути"
+"правою на рядку, щоб дослідити або перейти відповідно). Ця опція спрацює лише"
+"якщо вікно повідомлень закрити і перевідкрити."
 
 #: client/options.c:2229 client/options.c:2432
 msgid "Metaserver tab first in network page"
@@ -12127,10 +12122,13 @@ msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
 msgstr ""
+"Включена ця опція зробить що вкладка метасервера буде першою вкладкою" 
+"записника на сторінці мережі. Ця опція для задіяння після зміни потребує" 
+"перезапуску."
 
 #: client/options.c:2235 client/options.c:2438
 msgid "Plain chat messages are sent to allies only"
-msgstr ""
+msgstr "Прості повідомлення чату відправляються лише союзникам"
 
 #: client/options.c:2236 client/options.c:2439
 msgid ""
@@ -12141,10 +12139,15 @@ msgid ""
 "option can also be set using a toggle button beside the chat entry (only "
 "visible in multiplayer games)."
 msgstr ""
+"Коли ця опція включена прості повідомлення набрані в чат, під час гри, будуть"
+"відправлятися лише союзникам. Інакше проості повідомлення посилатимуться як"
+"публічні. Щоб відправити загальне повідомлення в чат, при включеній опції,"
+"передуйте повідомлення двокрапкою ':'. Цю опцію можна включити скориставшись"
+"кнопкою перемикання в елементі чату (видимий тільки в многогравцевих іграх)."
 
 #: client/options.c:2248 client/options.c:2451
 msgid "Messages and Chat reports location"
-msgstr ""
+msgstr "розміщення Повідомлень і звітів Чату"
 
 #. TRANS: The strings used in the UI for 'Split' etc are
 #. * tagged 'gui_gtk2/gtk3_message_chat_location'
@@ -12159,11 +12162,19 @@ msgid ""
 "'Merged' makes the Messages and Chat reports into tabs alongside the map and "
 "other reports; this allows a larger map view on small screens.\n"
 "This option requires a restart in order to take effect."
-msgstr ""
+msgstr "Визначає де з’являться Повідомлення і звіти Чату відносно головного"
+"виду, що містить карту.\n"
+"'Розділений' дозволяє бути там всім трьом одночасно, що чудесно для" 
+"многогравецьких ігор, та потребує великого вікна, для зручного користування.\n"
+"'Окремі' переносить Повідомлення і Чат в записник окремо від головного виду, "
+"так, що один з них завжди поруч від головного виду.\n"
+"'Злиті' кладе  звіти Повідомлення і Чат у вкладки біля карти та інших звітів"
+"це дає кращий і більший вид на картуна малих екранах.\n"
+"Ця опція вимагає перезапуску, щоб задіятись."
 
 #: client/options.c:2267 client/options.c:2470
 msgid "Arrange widgets for small displays"
-msgstr ""
+msgstr "Виставити віджети для малих екранів"
 
 #: client/options.c:2268 client/options.c:2471
 msgid ""
@@ -12173,29 +12184,34 @@ msgid ""
 "box will be extended over the entire left side of the window. This option "
 "requires a restart in order to take effect."
 msgstr ""
+"Будучи виставленою, ця опція впорядкує віджети головного вікна так"
+"що вони займуть найменше місця на екрані. Принаймні ліва панель, що містить"
+"Загальний огляд, статус гравця, і поле відомостей про загони розширяться на"
+"всю ліву сторону вікна. Ця опція вимагає перезапуску, щоб задіятись."
 
 #: client/options.c:2277 client/options.c:2480
 msgid "Mouse over the map widget selects it automatically"
-msgstr ""
+msgstr "Миша над віджетом карти вибирає його автоматом"
 
 #: client/options.c:2278 client/options.c:2481
-#, fuzzy
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse "
 "hovers over it."
 msgstr ""
-"Якщо цю опцію активовано, диалоги звітів будуть на окремих вкладках, а не у "
-"вспливаючих діалогах."
+"Якщо цю опцію активовано, мапа буде сфокусована, коли курсор миші проходить"
+"над нею"
 
 #: client/options.c:2282 client/options.c:2485
 msgid "Player or user name autocompletion"
-msgstr ""
+msgstr "Автодоповнення імені користувача си гравця"
 
 #: client/options.c:2283 client/options.c:2486
 msgid ""
 "If this option is turned on, the tabulation key will be used in the chatline "
 "to complete the word you are typing with the name of a player or a user."
 msgstr ""
+"Якщо ця опціє включена, клавіша табуляції може використовуватись в стрічці чату"
+"для автодоповнення, коли набиваєте імена граців чи користувачів."
 
 #: client/options.c:2288 client/options.c:2491
 msgid "Width of the city dialog"
@@ -12217,17 +12233,19 @@ msgstr ""
 
 #: client/options.c:2302 client/options.c:2505
 msgid "Popup tech help when gained"
-msgstr ""
+msgstr "Виринати поясненню по технології коли здобута"
 
 #: client/options.c:2303 client/options.c:2506
 msgid ""
 "Controls if tech help should be opened when new tech has been gained.\n"
 "'Ruleset' means that behavior suggested by current ruleset is used."
 msgstr ""
+"Визначає чи повинна довідка по технологіх відкриватися, коли знання здобуте.\n"
+"'Ruleset' означає, що поведінка визначається поточним набором правил."
 
 #: client/options.c:2310 client/options.c:2513 client/options.c:2611
 msgid "City Label"
-msgstr "Метка Міста"
+msgstr "Мітка Міста"
 
 #: client/options.c:2311 client/options.c:2514 client/options.c:2612
 msgid "This font is used to display the city labels on city dialogs."
@@ -12298,13 +12316,12 @@ msgid "Small Font"
 msgstr "Маленький Шрифт"
 
 #: client/options.c:2357 client/options.c:2560 client/options.c:2664
-#, fuzzy
 msgid ""
 "This font is used for any small font request.  For example, it is used for "
 "display the building lists in the city dialog, the Economy report or the "
 "Units report."
 msgstr ""
-"Цей шрифт використовується для всіх маленьких шрифтів. Наприклад, для списку "
+"Цей шрифт береться на всі запити на маленькі шрифти. Наприклад, для списку"
 "будівель у вікні міста, економічного звіту чи звіту про підрозділи."
 
 #: client/options.c:2364 client/options.c:2567 client/options.c:2671
@@ -12376,19 +12393,16 @@ msgid ""
 msgstr "Якщо цю опцію вимкнено, курсор завжди зображатиметься чорно-білим."
 
 #: client/options.c:2629
-#, fuzzy
 msgid "This font is used to display the help labels in the help window."
-msgstr "Цей шрифт використовується для заголовків довідки у вікні довідки."
+msgstr "Цей шрифт використовується для посилань довідки у вікні довідки."
 
 #: client/options.c:2646
-#, fuzzy
 msgid "Help Title"
-msgstr "Текст Допомоги"
+msgstr "Заголовок Допомоги"
 
 #: client/options.c:2647
-#, fuzzy
 msgid "This font is used to display the help title in the help window."
-msgstr "Цей шрифт використовується для посилань довідки у вікні довідки."
+msgstr "Цей шрифт використовується для заголовків довідки у вікні довідки."
 
 #: client/options.c:2766
 msgid "Graphics"
@@ -12396,9 +12410,8 @@ msgstr "Графіка"
 
 #. TRANS: Options section for overview map (mini-map)
 #: client/options.c:2769
-#, fuzzy
 msgid "?map:Overview"
-msgstr "Огляд"
+msgstr "?map:Огляд"
 
 #: client/options.c:2771
 msgid "Sound"
@@ -12409,9 +12422,8 @@ msgid "Interface"
 msgstr "Інтерфейс"
 
 #: client/options.c:2775
-#, fuzzy
 msgid "Map Image"
-msgstr "Зображення"
+msgstr "Зображення Карти"
 
 #: client/options.c:2777
 msgid "Network"
@@ -12436,14 +12448,13 @@ msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr "Не знайшовся файл опцій '%s', натомість завантажую з '%s'."
 
 #: client/options.c:5186
-#, fuzzy
 msgid "Didn't find the option file. Creating a new one."
-msgstr "Не знайшовся файл опцій."
+msgstr "Не знайшов файл опцій. Створюю новий."
 
 #: client/options.c:5202 client/options.c:5340
 #, c-format
 msgid "Save failed, cannot write to file %s"
-msgstr "Збереження не вдалося: не можу писати у файл %s"
+msgstr "Збереження не вдалося: не можу писати в файл %s"
 
 #: client/options.c:5204 client/options.c:5342
 #, c-format
@@ -12479,14 +12490,12 @@ msgid "Welcome"
 msgstr "Ласкаво просимо"
 
 #: client/packhand.c:2161
-#, fuzzy
 msgid "AI mode is now ON."
-msgstr "Комп'ютерні гравці тепер %s."
+msgstr "Режим ШІ Включений."
 
 #: client/packhand.c:2163
-#, fuzzy
 msgid "AI mode is now OFF."
-msgstr "Комп'ютерні гравці тепер %s."
+msgstr "режим ШІ Вимкнутий."
 
 #. TRANS: No connection
 #: client/plrdlg_common.c:243
@@ -12495,17 +12504,16 @@ msgstr ""
 
 #: client/plrdlg_common.c:247 client/plrdlg_common.c:256
 msgid "waiting"
-msgstr "очікує"
+msgstr "чекає"
 
 #. TRANS: Turnblocking & player not connected
 #: client/plrdlg_common.c:252
-#, fuzzy
 msgid "blocking"
-msgstr "блоковано"
+msgstr "блокує"
 
 #: client/plrdlg_common.c:304
 msgid "?Player:Name"
-msgstr "Ім'я"
+msgstr "?Player:Ім'я"
 
 #: client/plrdlg_common.c:305
 msgid "Username"
@@ -12530,11 +12538,11 @@ msgstr "Дип.Стан"
 
 #: client/plrdlg_common.c:318
 msgid "?Player_dlg:Host"
-msgstr "Сервер"
+msgstr "?Player_dlg:Хост"
 
 #: client/plrdlg_common.c:319
 msgid "?Player_dlg:Idle"
-msgstr "?Player_dlg:Очікування"
+msgstr "?Player_dlg:Чекає"
 
 #: client/plrdlg_common.c:320
 msgid "Ping"
@@ -12570,33 +12578,33 @@ msgstr "Жодного %s не розформовано."
 #: client/servers.c:145
 #, c-format
 msgid "Latest %s release of Freeciv is %s, this is %s."
-msgstr ""
+msgstr "Останній %s випуск Freeciv %s, цей %s"
 
 #: client/servers.c:149
 #, c-format
 msgid "There is no newer %s release of Freeciv available."
-msgstr ""
+msgstr "Немає новішого за %s випуску  Freeciv."
 
 #: client/servers.c:233
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to read the metaserver data from %s."
-msgstr "Не вдалося розпарсити дані метасарвера з http://%s."
+msgstr "Не вдалося прочитати дані метасервера з %s."
 
 #: client/servers.c:251
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to parse the metaserver data from %s:\n"
 "%s."
-msgstr "Не вдалося розпарсити дані метасарвера з http://%s."
+msgstr "Не вдалося розпарсити дані метасарвера з %s:\n."
+"%s."
 
 #: client/servers.c:282 utility/netfile.c:129
 msgid "Could not open temp file."
 msgstr "Не вдалося відкрити тимчасовий файл."
 
 #: client/servers.c:325 server/meta.c:245
-#, fuzzy
 msgid "Error connecting to metaserver"
-msgstr "Втрачено зв'язок з сервером."
+msgstr "Помилка зв’язку з метасервером."
 
 #: client/servers.c:424
 #, c-format
@@ -12604,6 +12612,8 @@ msgid ""
 "Opening socket to listen LAN announcements failed:\n"
 "%s"
 msgstr ""
+"Відкриття сокета для слухання оголошень LAN announcements не вдалося:\n"
+"%s"
 
 #: client/servers.c:464
 #, c-format
@@ -12659,7 +12669,7 @@ msgstr "Початкові координати: (%d, %d)"
 #: client/text.c:169
 #, c-format
 msgid "Terrain: %s"
-msgstr "Територія: %s"
+msgstr "Місцевість: %s"
 
 #: client/text.c:170
 #, c-format
@@ -12668,7 +12678,7 @@ msgstr "Їжа/Виробництво/Прибуток: %s"
 
 #: client/text.c:173
 msgid "Minor Tribe Village"
-msgstr "Хутір маленького роду"
+msgstr "Село малого племені"
 
 #: client/text.c:182
 msgid "Our territory"
@@ -12730,12 +12740,12 @@ msgstr[2] "Місто: %s | %s (%s, %d ходів ненапад)"
 #. TRANS:  "City: <city name> | <username>
 #. * (<nation + team>, <number> turn armistice)"
 #: client/text.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s | %s (%s, %d turn armistice)"
 msgid_plural "City: %s | %s (%s, %d turn armistice)"
-msgstr[0] "Місто: %s | %s (%s, %d хід ненапад)"
-msgstr[1] "Місто: %s | %s (%s, %d ходи ненапад)"
-msgstr[2] "Місто: %s | %s (%s, %d ходів ненапад)"
+msgstr[0] "Місто: %s | %s (%s, %d хід перемир’я)"
+msgstr[1] "Місто: %s | %s (%s, %d ходи перемир’я)"
+msgstr[2] "Місто: %s | %s (%s, %d ходів перемир’я)"
 
 #. TRANS: "City: <city name> | <username>
 #. * (<nation + team>, <diplomatic state>)"
@@ -12791,14 +12801,14 @@ msgstr "Підрозділ: %s | %s (%s)"
 #. TRANS: on own line immediately following \n, "from <city> |
 #. * <nationality> people"
 #: client/text.c:343
-#, fuzzy, c-format
+#, c-format
 msgid "from %s | %s people"
-msgstr "Народ %s"
+msgstr "від %s | народу %s"
 
 #. TRANS: Nationality of the people comprising a unit, if
 #. * different from owner.
 #: client/text.c:348 client/text.c:644 client/text.c:1209
-#, fuzzy, c-format
+#, c-format
 msgid "%s people"
 msgstr "Народ %s"
 
@@ -12806,7 +12816,7 @@ msgstr "Народ %s"
 #: client/text.c:353 client/text.c:636
 #, c-format
 msgid "from %s"
-msgstr "з %s"
+msgstr "від %s"
 
 #. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
 #. * <number> turn cease-fire)"
@@ -12821,12 +12831,12 @@ msgstr[2] "Підрозділ: %s | %s (%s, %d ходів ненапад)"
 #. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
 #. * <number> turn armistice)"
 #: client/text.c:373
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s | %s (%s, %d turn armistice)"
 msgid_plural "Unit: %s | %s (%s, %d turn armistice)"
-msgstr[0] "Підрозділ: %s | %s (%s, %d хід ненапад)"
-msgstr[1] "Підрозділ: %s | %s (%s, %d ходи ненапад)"
-msgstr[2] "Підрозділ: %s | %s (%s, %d ходів ненапад)"
+msgstr[0] "Підрозділ: %s | %s (%s, %d хід перемир’я)"
+msgstr[1] "Підрозділ: %s | %s (%s, %d ходи перемир’я)"
+msgstr[2] "Підрозділ: %s | %s (%s, %d ходів перемир’я)"
 
 #. TRANS: "Unit: <unit type> | <username> (<nation + team>,
 #. * <diplomatic state>)"
@@ -12844,19 +12854,19 @@ msgstr "Шансів на виграш: А:%d%% З:%d%%"
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
 #: client/text.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d"
-msgstr "А:%d З:%d СВ:%d З:%d/%d%s%s"
+msgstr "А:%d З:%d СВ:%d З:%d/%d"
 
 #: client/text.c:427
-#, fuzzy, c-format
+#, c-format
 msgid "Bribe cost: %d"
-msgstr "Ціна руху: %ld"
+msgstr "Ціна підкупу: %d"
 
 #: client/text.c:430
 #, c-format
 msgid "Estimated bribe cost: > %d"
-msgstr ""
+msgstr "Сподівана ціна підкупу: > %d"
 
 #. TRANS: "5 more" units on this tile
 #: client/text.c:437
@@ -12887,25 +12897,24 @@ msgid "Progress: no research"
 msgstr "Прогрес: не досліджується"
 
 #: client/text.c:842
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
-msgstr[0] "Швидкість досліджень: %d хід на технологію"
-msgstr[1] "Швидкість досліджень: %d ходи на технологію"
-msgstr[2] "Швидкість досліджень: %d ходів на технологію"
+msgstr[0] "Поступ: %d хід до прориву"
+msgstr[1] "Поступ: %d ходи до просування"
+msgstr[2] "Поступ: %d ходів до просування"
 
 #: client/text.c:849
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance loss"
 msgid_plural "Progress: %d turns/advance loss"
-msgstr[0] "Швидкість досліджень: %d хід на технологію"
-msgstr[1] "Швидкість досліджень: %d ходи на технологію"
-msgstr[2] "Швидкість досліджень: %d ходів на технологію"
+msgstr[0] "Поступ: %d хід до втрати технології"
+msgstr[1] "Поступ: %d ходи до втрати технології"
+msgstr[2] "Поступ: %d ходів до втрати технології"
 
 #: client/text.c:854
-#, fuzzy
 msgid "Progress: none"
-msgstr "Рахунки:"
+msgstr "Поступ: нема"
 
 #. TRANS: <perturn> bulbs/turn
 #: client/text.c:857 client/text.c:1450
@@ -12928,13 +12937,13 @@ msgstr[2] ", %d ламп/хід від команди"
 #: client/text.c:873
 #, c-format
 msgid "Bulbs produced per turn: %d"
-msgstr ""
+msgstr "Бульок за хід : %d"
 
 #. TRANS: keep leading space; appended to "Bulbs produced per turn: %d"
 #: client/text.c:875
 #, c-format
 msgid " (needed for technology upkeep: %d)"
-msgstr ""
+msgstr "(потрібно на утримання технологій: %d)"
 
 #: client/text.c:902
 #, c-format
