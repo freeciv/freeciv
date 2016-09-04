@@ -2827,6 +2827,7 @@ msgstr "Скінчити всі зустрічі"
 
 #: client/gui-gtk-2.0/diplodlg.c:573 client/gui-gtk-2.0/diplodlg.c:641
 #: client/gui-gtk-3.0/diplodlg.c:574 client/gui-gtk-3.0/diplodlg.c:643
+#, c-format
 msgid "Diplomacy [%d]"
 msgstr "Дипломатія [%d]"
 
@@ -3060,6 +3061,7 @@ msgstr[2] ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:775
 #: client/gui-gtk-3.0/diplomat_dialog.c:785 client/gui-qt/dialogs.cpp:1253
 #: client/gui-sdl/diplomat_dialog.c:577
+#, c-format
 msgid "Choose Your %s's Strategy"
 msgstr "Оберіть стратегію Вашого %s"
 
@@ -3121,8 +3123,9 @@ msgstr "Індустріальний саботаж"
 #: client/gui-gtk-2.0/diplomat_dialog.c:851
 #: client/gui-gtk-3.0/diplomat_dialog.c:861 client/gui-qt/dialogs.cpp:1326
 #: client/gui-xaw/diplomat_dialog.c:809
+#, c-format
 msgid "Your %s is waiting for your command."
-msgstr "Ваш  %s чекає Вашого наказу"
+msgstr "%s чекає Вашого наказу"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:855
 #: client/gui-gtk-3.0/diplomat_dialog.c:865 client/gui-qt/dialogs.cpp:1328
@@ -3701,7 +3704,7 @@ msgstr "Загонів не обрано"
 #. TRANS: goto/airlift dialog. "Paris (airlift: 2/4)".
 #. * A set of these appear in an "and"-separated list.
 #: client/gui-gtk-2.0/gotodlg.c:381 client/gui-gtk-3.0/gotodlg.c:385
-#. c-format
+#, c-format
 msgid "%s (airlift: %s)"
 msgstr "%s перенести повітрям: %s"
 
@@ -4068,7 +4071,7 @@ msgstr "%d ОР"
 #: client/gui-gtk-2.0/helpdlg.c:1223 client/gui-gtk-2.0/helpdlg.c:1269
 #: client/gui-gtk-2.0/helpdlg.c:1281 client/gui-gtk-3.0/helpdlg.c:1251
 #: client/gui-gtk-3.0/helpdlg.c:1297 client/gui-gtk-3.0/helpdlg.c:1309
-#: c-format
+#, c-format
 msgid "Terrain specific"
 msgstr "Специфічне для місцевості"
 
@@ -4761,8 +4764,9 @@ msgstr "Зореліт (_S)"
 #. TRANS: Connect with some road type (Road/Railroad)
 #: client/gui-gtk-2.0/menu.c:2052 client/gui-gtk-2.0/menu.c:2059
 #: client/gui-gtk-3.0/menu.c:2038 client/gui-gtk-3.0/menu.c:2045
+#, c-format
 msgid "Connect With %s"
-msgstr "З'єднати з"
+msgstr "З'єднати з %s"
 
 #: client/gui-gtk-2.0/menu.c:2214 client/gui-gtk-3.0/menu.c:2200
 msgid "Help _Build Wonder"
@@ -4780,6 +4784,7 @@ msgstr "Встановити торговий шлях"
 
 #. TRANS: Build road of specific type (Road/Railroad)
 #: client/gui-gtk-2.0/menu.c:2252 client/gui-gtk-3.0/menu.c:2238
+#, c-format
 msgid "Build %s"
 msgstr "Будувати %s"
 
@@ -4791,6 +4796,7 @@ msgstr "Покращити до %s (_a)"
 
 #. TRANS: %s is a unit type.
 #: client/gui-gtk-2.0/menu.c:2286 client/gui-gtk-3.0/menu.c:2272
+#, c-format
 msgid "C_onvert to %s"
 msgstr "Перетворити в %s"
 
@@ -4895,8 +4901,9 @@ msgstr "Компілюю список сценарію"
 #. TRANS: "version 2.6.0, gui-gtk-2.0 client"
 #. TRANS: "version 2.6.0, gui-gtk-3.0 client"
 #: client/gui-gtk-2.0/pages.c:175 client/gui-gtk-3.0/pages.c:180
+#, c-format
 msgid "%s%s, %s client"
-msgstr "%s%s , %s клієнта."
+msgstr "%s%s , %s клієнт."
 
 #. TRANS: "version 2.6.0
 #. *         commit: [modified] <git commit id>
@@ -4905,6 +4912,7 @@ msgstr "%s%s , %s клієнта."
 #. *         commit: [modified] <git commit id>
 #. *         gui-gtk-3.0 client"
 #: client/gui-gtk-2.0/pages.c:181 client/gui-gtk-3.0/pages.c:186
+#, c-format
 msgid ""
 "%s%s\n"
 "commit: %s\n"
@@ -4917,6 +4925,7 @@ msgstr ""
 #. TRANS: "version 2.6.0 (r25000), gui-gtk-2.0 client"
 #. TRANS: "version 2.6.0 (r25000), gui-gtk-3.0 client"
 #: client/gui-gtk-2.0/pages.c:187 client/gui-gtk-3.0/pages.c:192
+#, c-format
 msgid "%s%s (%s), %s client"
 msgstr "%s%s (%s), %s клієнт"
 
@@ -5102,6 +5111,7 @@ msgstr "Дати доступ %s"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1878 client/gui-gtk-3.0/pages.c:1943
+#, c-format
 msgid "Put on %s"
 msgstr "Помістити в %s"
 
@@ -5120,6 +5130,7 @@ msgid "_Start"
 msgstr "Старт (_S)"
 
 #: client/gui-gtk-2.0/pages.c:2176 client/gui-gtk-3.0/pages.c:2241
+#, c-format
 msgid "_Take %s"
 msgstr "Взяти %s"
 
@@ -5308,10 +5319,12 @@ msgstr "Переключити Режим ШІ"
 
 #. TRANS: %s is a diplomatic state: "Cancel Cease-fire"
 #: client/gui-gtk-2.0/plrdlg.c:792 client/gui-gtk-3.0/plrdlg.c:803
+#, c-format
 msgid "Cancel %s"
 msgstr "Скасувати %s"
 
 #: client/gui-gtk-2.0/plrdlg.c:795 client/gui-gtk-3.0/plrdlg.c:806
+#, c-format
 msgid "Really declare war on the %s?"
 msgstr "Дійсно проголосити ВІЙНУ %s?"
 
@@ -5323,6 +5336,7 @@ msgstr "Скасувати%s %s? Новийдипломатичний стан �
 
 #. TRANS: "...from the Belgians?"
 #: client/gui-gtk-2.0/plrdlg.c:829 client/gui-gtk-3.0/plrdlg.c:840
+#, c-format
 msgid "Withdraw shared vision from the %s?"
 msgstr "Забрати спільне бачення в %s?"
 
@@ -5497,7 +5511,7 @@ msgstr "Загалом:"
 #: client/gui-gtk-2.0/repodlgs.c:1536 client/gui-gtk-3.0/repodlgs.c:1571
 #: client/gui-qt/repodlgs.cpp:983 client/gui-sdl/repodlgs.c:195
 #: client/gui-xaw/repodlgs.c:1017
-#: c-format
+#, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "%s"
@@ -5710,6 +5724,7 @@ msgstr "[видалений]"
 
 #. TRANS: "Vote" as a process
 #: client/gui-gtk-2.0/voteinfo_bar.c:286 client/gui-gtk-3.0/voteinfo_bar.c:276
+#, c-format
 msgid "%sVote %d by %s: %s%s"
 msgstr "%sГолосування %d %s: %s%s"
 
@@ -5774,8 +5789,9 @@ msgid "Migrating options from gtk2 to gtk3 client"
 msgstr "Перехідні опції клієнта від gtk2 to gtk3"
 
 #: client/gui-gtk-3.0/happiness.c:262
+#, c-format
 msgid "Additional information is available%svia left click on the citizens."
-msgstr "Додаткова інформація отримується лівим клацанням по громадянах."
+msgstr "Додаткова інформація отримується %s лівим клацанням по громадянах."
 
 #: client/gui-gtk-3.0/pages.c:946
 msgid "New Pass_word:"
@@ -6005,17 +6021,13 @@ msgid "Buy ?"
 msgstr "Купити?"
 
 #: client/gui-qt/citydlg.cpp:2199
+#, c-format
 msgid "Buy %s for %d gold?"
 msgid_plural "Buy %s for %d gold?"
-msgstr[0] ""
-"Придбати %s за %d гривню?\n"
-"%s"
-msgstr[1] ""
-"Придбати %s за %d гривні?\n"
-"%s"
-msgstr[2] ""
-"Придбати %s за %d гривень?\n"
-"%s"
+msgstr[0] "Придбати %s за %d гривню?"
+msgstr[1] "Придбати %s за %d гривні?"
+msgstr[2] "Придбати %s за %d гривень?"
+
 
 #: client/gui-qt/citydlg.cpp:2478
 msgid "Save current worklist"
@@ -6077,6 +6089,7 @@ msgid "Cancel"
 msgstr "Скасувати"
 
 #: client/gui-qt/cityrep.cpp:485
+#, c-format
 msgid "Buy ( Cost: %d )"
 msgstr "Купити коштує: %d"
 
@@ -6159,6 +6172,7 @@ msgid "Inspect City"
 msgstr "Оглянути місто (_C)"
 
 #: client/gui-qt/dialogs.cpp:1191 client/gui-qt/dialogs.cpp:2000
+#, c-format
 msgid "Help build Wonder (%d remaining)"
 msgstr "Помогти будувати Диво (%d залишається)"
 
@@ -7049,10 +7063,12 @@ msgid "<b>%1 called a vote for:</b>"
 msgstr "<b>%1 віддав голос за :</b>"
 
 #: client/gui-sdl/caravan_dialog.c:140
+#, c-format
 msgid "Your %s has arrived at %s"
-msgstr "Ваш караван прибув до %s"
+msgstr "Ваш  %s прибув до %s"
 
 #: client/gui-sdl/caravan_dialog.c:166
+#, c-format
 msgid "Establish Trade route with %s ( %d R&G + %d trade )"
 msgstr "Встановити Торговий Шлях з %s ( %d R&G + %d trade )"
 
@@ -7443,12 +7459,14 @@ msgid "Next"
 msgstr "Наступне"
 
 #: client/gui-sdl/dialogs.c:1115
+#, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%s) %s"
-msgstr "Контактувати %s (%d / %d) %s(%d,%d,%d) %s"
+msgstr "Контактувати %s (%d / %d) %s(%d,%d,%s) %s"
 
 #: client/gui-sdl/dialogs.c:1126
+#, c-format
 msgid "%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"
-msgstr "%s %s %s(А:%d З:%d Х:%d СВ:%d) ЗД:%d%%"
+msgstr "%s %s %s(А:%d З:%d Х:%s СВ:%d) ЗД:%d%%"
 
 #. TRANS: "CtW" = "Chance to Win"
 #: client/gui-sdl/dialogs.c:1139 client/gui-sdl/dialogs.c:1899
@@ -7471,6 +7489,7 @@ msgid "Advanced Menu"
 msgstr "Розширене меню"
 
 #: client/gui-sdl/dialogs.c:1714
+#, c-format
 msgid "Zoom to : %s"
 msgstr "Придивитись до: %s"
 
@@ -7499,12 +7518,14 @@ msgid "Paradrop here"
 msgstr "Парашутувати сюди"
 
 #: client/gui-sdl/dialogs.c:1868 client/gui-sdl/dialogs.c:1987
+#, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%s) %s"
 msgstr "Активувати %s (%d / %d) %s (%d,%d,%s) %s"
 
 #: client/gui-sdl/dialogs.c:1886 client/gui-sdl/dialogs.c:2014
+#, c-format
 msgid "%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"
-msgstr "%s %s %s (А:%d З:%d Р:%d СВ:%d) ЗД:%d%%"
+msgstr "%s %s %s (А:%d З:%d Р:%s СВ:%d) ЗД:%d%%"
 
 #: client/gui-sdl/dialogs.c:1948 data/Freeciv.in:579
 msgid "Ready all"
@@ -7582,6 +7603,7 @@ msgstr ""
 "Ваші вказівки?"
 
 #: client/gui-sdl/diplodlg.c:1514
+#, c-format
 msgid ""
 "Ma'am!, the %s ambassador has arrived\n"
 "What are your wishes?"
@@ -7952,6 +7974,7 @@ msgstr[2] ""
 "територія %s (%d ходів припинення вогню)"
 
 #: client/gui-sdl/mapview.c:590
+#, c-format
 msgid ""
 "\n"
 "%s territory (%d turn armistice)"
@@ -8108,6 +8131,7 @@ msgid "Airlift to City"
 msgstr "Летіти до міста"
 
 #: client/gui-sdl/menu.c:568 client/gui-sdl/menu.c:587
+#, c-format
 msgid "Connect With %s (%s)"
 msgstr "З'єднати з %s (%s)"
 
@@ -8147,8 +8171,9 @@ msgstr "Перетворити клітинку"
 #. TRANS: "Build Railroad (R) 3 turns"
 #: client/gui-sdl/menu.c:852 client/gui-sdl/menu.c:859
 #: client/gui-sdl/menu.c:1113
+#, c-format
 msgid "Build %s (%s) %d %s"
-msgstr "(Будувати %s у %s (%s, %s))"
+msgstr "Будувати %s (%s) %d %s"
 
 #: client/gui-sdl/menu.c:881 client/gui-xaw/menu.c:208
 msgid "Help Build Wonder"
@@ -8224,11 +8249,13 @@ msgstr "Додати новий план робіт"
 
 #. TRANS: Freeciv 2.4.0
 #: client/gui-sdl/pages.c:156
+#, c-format
 msgid "Freeciv %s"
 msgstr "Freeciv %s"
 
 #. TRANS: Freeciv 2.4.0 (r25000)
 #: client/gui-sdl/pages.c:159
+#, c-format
 msgid "Freeciv %s (%s)"
 msgstr "Freeciv версії %s (%s)"
 
@@ -8259,6 +8286,7 @@ msgid "SDLClient welcomes you..."
 msgstr "Вас вітає SDLClient..."
 
 #: client/gui-sdl/pages.c:333 client/gui-xaw/gui_main.c:535
+#, c-format
 msgid "Commit: %s"
 msgstr "Відправити: %s"
 
@@ -8568,7 +8596,7 @@ msgid "shields into gold"
 msgstr "щити в золото"
 
 #: client/gui-sdl/wldlg.c:1541
-#: c-format
+#, c-format
 msgid ""
 "(%d/%d/%s)\n"
 "%d/%d %s\n"
@@ -8579,7 +8607,7 @@ msgstr ""
 "ніколи"
 
 #: client/gui-sdl/wldlg.c:1549
-#: c-format
+#, c-format
 msgid ""
 "(%d/%d/%s)\n"
 "%d/%d %s\n"
@@ -8590,7 +8618,7 @@ msgstr ""
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1559
-#: c-format
+#, c-format
 msgid ""
 "(%d/%d/%s)\n"
 "%d %s"
@@ -8674,6 +8702,7 @@ msgstr ""
 "Загалом торгівля %d Торгівлі на рік\n"
 
 #: client/gui-xaw/citydlg.c:1838
+#, c-format
 msgid "%s - %s citizens  Governor: %s"
 msgstr "%s - %s Управитель громадян:%s"
 
@@ -8806,6 +8835,7 @@ msgstr "Дає %s (з %s).\n"
 #. TRANS: Build cost for bases in help. "MP" = movement points
 #. TRANS: Build cost for roads in help. "MP" = movement points
 #: client/gui-xaw/helpdlg.c:1081 client/gui-xaw/helpdlg.c:1122
+#, c-format
 msgid "Build: %d MP\n"
 msgstr "Будувати %d Очок Руху\n"
 
@@ -9059,18 +9089,22 @@ msgid "This is %s, %s client."
 msgstr "Це клієнт %s, %s ."
 
 #: client/helpdata.c:369
+#, c-format
 msgid "Requires knowledge of the technology %s.\n"
 msgstr "Потребує знання технології %s.\n"
 
 #: client/helpdata.c:374
+#, c-format
 msgid "Prevented by knowledge of the technology %s.\n"
 msgstr "Потребує вивченої технології %s.\n"
 
 #: client/helpdata.c:382
+#, c-format
 msgid "Requires that someone has discovered the technology %s.\n"
 msgstr "Потребує, щоб хтось мав технологію %s.\n"
 
 #: client/helpdata.c:388
+#, c-format
 msgid "Requires that no-one has yet discovered the technology %s.\n"
 msgstr "Вимагає, аби ніхто не мав технології %s.\n"
 
@@ -9084,17 +9118,19 @@ msgstr "Вимагає знання технології з флагом \"%s\".
 #: client/helpdata.c:417
 #, c-format
 msgid "Prevented by knowledge of any technology with the \"%s\" flag.\n"
-msgstr "Знання технології з флагом \"%s\" робить недоступним.\n"
+msgstr "Недоступне знаттям технології з флагом \"%s\".\n"
 
 #. TRANS: %s is a (translatable) tech flag.
 #: client/helpdata.c:426
+#, c-format
 msgid "Requires that some player knows a technology with the \"%s\" flag.\n"
-msgstr "Потребує, щоб якийсь гравець мав технологію %s.\n"
+msgstr "Потребує, щоб якийсь гравець знав технологію з флагом %s.\n"
 
 #. TRANS: %s is a (translatable) tech flag.
 #: client/helpdata.c:432
+#, c-format
 msgid "Requires that no player knows any technology with the \"%s\" flag.\n"
-msgstr "Потребує, щоб якийсь гравець мав технологію %s.\n"
+msgstr "Потребує, щоб жоден гравець не мав технології з флагом \"%s\".\n"
 
 #: client/helpdata.c:453
 #, c-format
@@ -9102,6 +9138,7 @@ msgid "Requires the %s government.\n"
 msgstr "Потребує уряду %s.\n"
 
 #: client/helpdata.c:456
+#, c-format
 msgid "Not available under the %s government.\n"
 msgstr "Недоступне під урядом %s.\n"
 
@@ -9115,6 +9152,7 @@ msgstr "Потребує щоб %s був збудований і ще не за
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:478
+#, c-format
 msgid "Requires that %s was built at some point.\n"
 msgstr "Потребує в зведену будівлю %s.\n"
 
@@ -9126,16 +9164,19 @@ msgstr "Недоступне -  якщо %s взагалі був збудова
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:493
+#, c-format
 msgid "Prevented if %s has ever been built.\n"
 msgstr "Недоступне, якщо %s взагалі було збудовано.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:504
+#, c-format
 msgid "Requires %s to be owned by any player and not yet obsolete.\n"
 msgstr "Потребує щоб чудо %s належало якомусь гравцю і ще не застаріло.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:511
+#, c-format
 msgid "Requires %s to be owned by any player.\n"
 msgstr "Потребує щоб %s, було в будь-якого гравця.\n"
 
@@ -9148,6 +9189,7 @@ msgstr "Недотупно, якщо хоч який гравець володі
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:526
+#, c-format
 msgid "Prevented if %s is currently owned by any player.\n"
 msgstr "Заборонено якщо %s володіє хоч якийсь гравець.\n"
 
@@ -9161,41 +9203,49 @@ msgstr "Потребує щоб ви коли-небудь збудували ч
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:552
+#, c-format
 msgid "Requires you to have built %s at some point.\n"
 msgstr "Потребує чуда %s у Вашому володінні.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:560
+#, c-format
 msgid "Prevented if you have ever built %s, unless it would be obsolete.\n"
 msgstr "Недоступне, якщо ви колись звели %s, аж доки воно застаріє.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:567
+#, c-format
 msgid "Prevented if you have ever built %s.\n"
 msgstr "Недоступне, якщо ви колись звели %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:578
+#, c-format
 msgid "Requires you to own %s, which must not be obsolete.\n"
 msgstr "Потребує не застарілого чуда %s у Вашому володінні.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:585
+#, c-format
 msgid "Requires you to own %s.\n"
 msgstr "Потребує щоб ви володіли %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:593
+#, c-format
 msgid "Prevented if you own %s, unless it is obsolete.\n"
 msgstr "Недоступне, поки ви власник не застарілого %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:600
+#, c-format
 msgid "Prevented if you own %s.\n"
 msgstr "Недоступне поки володієте %s.\n"
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:616
+#, c-format
 msgid ""
 "Requires %s in one of your cities on the same continent, and not yet "
 "obsolete.\n"
@@ -9204,6 +9254,7 @@ msgstr "Потребує чуда %s в одному з міст на тому �
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:623
+#, c-format
 msgid "Requires %s in one of your cities on the same continent.\n"
 msgstr "Потребує %s в одному з ваших міст на тому ж континенті.\n"
 
@@ -9217,26 +9268,31 @@ msgstr "Недоступне, якщо %s в одному з ваших міст
 
 #. TRANS: %s is a wonder
 #: client/helpdata.c:639
+#, c-format
 msgid "Prevented if %s is in one of your cities on the same continent.\n"
 msgstr "Недоступне якщо %s вашому місті на тому ж континенті.\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:655
+#, c-format
 msgid "Requires %s in the city (and not yet obsolete).\n"
 msgstr "Потребує незастарілого  %s в вашому місті.\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:661
+#, c-format
 msgid "Requires %s in the city.\n"
 msgstr "Потребує %s в місті.\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:670
+#, c-format
 msgid "Prevented by %s in the city (unless it is obsolete).\n"
 msgstr "Недоступне %s в місті, хіба воно застаріє.\n"
 
 #. TRANS: %s is a building or wonder
 #: client/helpdata.c:677
+#, c-format
 msgid "Prevented by %s in the city.\n"
 msgstr "Недоступне через наявність %s в місті.\n"
 
@@ -9246,207 +9302,253 @@ msgid "Only applies to \"%s\" buildings.\n"
 msgstr "Стосується лише будівель \"%s\".\n"
 
 #: client/helpdata.c:691
+#, c-format
 msgid "Does not apply to \"%s\" buildings.\n"
 msgstr "Не стосується будівель \"%s\".\n"
 
 #: client/helpdata.c:709
+#, c-format
 msgid "?special:Requires %s on the tile.\n"
 msgstr "?special:Потребує %s на клітинці.\n"
 
 #: client/helpdata.c:713
+#, c-format
 msgid "?special:Prevented by %s on the tile.\n"
 msgstr "?special:Не допускає %s на клітинці.\n"
 
 #: client/helpdata.c:720
+#, c-format
 msgid "?special:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "?special:Потребує %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:725
+#, c-format
 msgid "?special:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr "?special: Недоступне через %s на цій або кардинально прилеглій клітинці.\n"
 
 #: client/helpdata.c:733
+#, c-format
 msgid "?special:Requires %s on the tile or an adjacent tile.\n"
 msgstr "?special:Потребує місцевість %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:738
+#, c-format
 msgid "?special:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "?special:Недоступне через %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:746
+#, c-format
 msgid "?special:Requires %s on a tile within the city radius.\n"
 msgstr "?special:Потребує %s на полі в межах радіусу міста.\n"
 
 #: client/helpdata.c:751
+#, c-format
 msgid "?special:Prevented by %s on any tile within the city radius.\n"
 msgstr "?special: Недоступне через %s на будь-якій клітинці в радіусі міста.\n"
 
 #: client/helpdata.c:769
+#, c-format
 msgid "?terrain:Requires %s on the tile.\n"
 msgstr "?terrain:Потребує %s на клітинці.\n"
 
 #: client/helpdata.c:772
+#, c-format
 msgid "?terrain:Prevented by %s on the tile.\n"
 msgstr "?terrain:Недоступне через %s на клітинці.\n"
 
 #: client/helpdata.c:779
+#, c-format
 msgid "?terrain:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "?terrain:Потребує територію %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:784
+#, c-format
 msgid "?terrain:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr "?terrain:Потребує територію %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:792
+#, c-format
 msgid "?terrain:Requires %s on the tile or an adjacent tile.\n"
 msgstr "?terrain:Потребує %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:797
+#, c-format
 msgid "?terrain:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "?terrain:Недоступне через %s на цьому чи прилеглому полі.\n"
 
 #: client/helpdata.c:805
+#, c-format
 msgid "?terrain:Requires %s on a tile within the city radius.\n"
 msgstr "?terrain:Потребує %s на полі в радіусі міста.\n"
 
 #: client/helpdata.c:810
+#, c-format
 msgid "?terrain:Prevented by %s on any tile within the city radius.\n"
 msgstr "?terrain: Недоступне через %s на полі в радіусі міста.\n"
 
 #: client/helpdata.c:829
+#, c-format
 msgid "?resource:Requires %s on the tile.\n"
 msgstr "?resource: Потребує %s на полі.\n"
 
 #: client/helpdata.c:833
+#, c-format
 msgid "?resource:Prevented by %s on the tile.\n"
 msgstr "?resource:Недоступне через %s на клітинці.\n"
 
 #: client/helpdata.c:840
+#, c-format
 msgid "?resource:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "?resource:Потребує %s на цьому або суцільно-прилеглій клітинці.\n"
 
 #: client/helpdata.c:845
+#, c-format
 msgid ""
 "?resource:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr "?resource: %s забороняє на цьому чи будь-якому суцільно-прилеглому полі.\n"
 
 #: client/helpdata.c:853
+#, c-format
 msgid "?resource:Requires %s on the tile or an adjacent tile.\n"
 msgstr "?ресурс:Потребує територію %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:858
+#, c-format
 msgid "?resource:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "?ресурс:Не допускає %s на цьому чи прилеглому полі.\n"
 
 #: client/helpdata.c:866
+#, c-format
 msgid "?resource:Requires %s on a tile within the city radius.\n"
 msgstr "?ресурс:Потребує в місті будівлю %s.\n"
 
 #: client/helpdata.c:871
+#, c-format
 msgid "?resource:Prevented by %s on any tile within the city radius.\n"
 msgstr "?resource: Недопустимий через %s на будь-якому полі в межах радіусу міста.\n"
 
 #. TRANS: "... playing as the Swedes."
 #: client/helpdata.c:891
+#, c-format
 msgid "Requires that you are playing as the %s.\n"
 msgstr "Вимагає, щоб ви грали %s.\n"
 
 #. TRANS: "... playing as the Turks."
 #: client/helpdata.c:896
+#, c-format
 msgid "Requires that you are not playing as the %s.\n"
 msgstr "Потребує, щоб ви не грали як %s.\n"
 
 #. TRANS: "Requires the Apaches to have ..."
 #: client/helpdata.c:905
+#, c-format
 msgid "Requires the %s to have been in the game.\n"
 msgstr "Потребує %s у грі.\n"
 
 #. TRANS: "Requires the Celts never to have ..."
 #: client/helpdata.c:910
+#, c-format
 msgid "Requires the %s never to have been in the game.\n"
 msgstr "Вимагає щоб %s ніколи не були в грі.\n"
 
 #. TRANS: "Requires the Belgians in the game."
 #: client/helpdata.c:918
+#, c-format
 msgid "Requires the %s in the game.\n"
 msgstr "Потребує %s у грі.\n"
 
 #. TRANS: "Requires that the Russians are not ...
 #: client/helpdata.c:923
+#, c-format
 msgid "Requires that the %s are not in the game.\n"
 msgstr "Вимагає щоб %s не були в грі.\n"
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
 #: client/helpdata.c:945
+#, c-format
 msgid "Requires at least one %s citizen in the city.\n"
 msgstr "Потребує хоча б одного %s городянина в місті.\n"
 
 #. TRANS: "... no Pirate citizens ..."
 #: client/helpdata.c:950
+#, c-format
 msgid "Requires that there are no %s citizens in the city.\n"
 msgstr "Вимагає, щоб не було жодного %s городянина в місті.\n"
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
 #: client/helpdata.c:972
+#, c-format
 msgid "?unit:Requires %s.\n"
 msgstr "?unit:Потребує %s.\n"
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
 #: client/helpdata.c:976
+#, c-format
 msgid "?unit:Does not apply to %s.\n"
 msgstr "?unit:Не стосується %s.\n"
 
 #. TRANS: %s is a list of unit types separated by "or".
 #: client/helpdata.c:1004
+#, c-format
 msgid "?ulist:Requires %s.\n"
 msgstr "?ulist:Потребує %s.\n"
 
 #. TRANS: %s is a list of unit types separated by "or".
 #: client/helpdata.c:1008
+#, c-format
 msgid "?ulist:Does not apply to %s.\n"
 msgstr "?ulist:Не стосується %s.\n"
 
 #. TRANS: %s is a single unit class (e.g., "Air").
 #: client/helpdata.c:1033
+#, c-format
 msgid "?uclass:Requires %s units.\n"
 msgstr "?uclass:Потребує %s підрозділів.\n"
 
 #. TRANS: %s is a single unit class (e.g., "Air").
 #: client/helpdata.c:1037
+#, c-format
 msgid "?uclass:Does not apply to %s units.\n"
 msgstr "?uclass: Не стосується підрозділів %s.\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
 #: client/helpdata.c:1071
+#, c-format
 msgid "?uclasslist:Requires %s units.\n"
 msgstr "?uclasslist:Потребує %s підрозділів.\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
 #: client/helpdata.c:1075
+#, c-format
 msgid "?uclasslist:Does not apply to %s units.\n"
 msgstr "?uclasslist: Не стосується підрозділів %s.\n"
 
 #. TRANS: "Applies only to Food."
 #: client/helpdata.c:1104
+#, c-format
 msgid "?output:Applies only to %s.\n"
 msgstr "?output:Стосується лише %s.\n"
 
 #. TRANS: "Does not apply to Food."
 #: client/helpdata.c:1108
+#, c-format
 msgid "?output:Does not apply to %s.\n"
 msgstr "?output: Не стосується %s.\n"
 
 #. TRANS: "Applies only to Scientists."
 #: client/helpdata.c:1119
+#, c-format
 msgid "?specialist:Applies only to %s.\n"
 msgstr "?specialist:Стосується лише %s.\n"
 
 #. TRANS: "Does not apply to Scientists."
 #: client/helpdata.c:1123
+#, c-format
 msgid "?specialist:Does not apply to %s.\n"
 msgstr "?specialist:Не стосується %s.\n"
 
 #: client/helpdata.c:1134
+#, c-format
 msgid "Requires a minimum city size of %d.\n"
 msgid_plural "Requires a minimum city size of %d.\n"
 msgstr[0] "Потребує мінімального розміру міста в %d.\n"
@@ -9454,6 +9556,7 @@ msgstr[1] "Вимагає щоб розмір міста був мінімум %
 msgstr[2] "Потребує розміру найменше %d.\n"
 
 #: client/helpdata.c:1140
+#, c-format
 msgid "Requires the city size to be less than %d.\n"
 msgid_plural "Requires the city size to be less than %d.\n"
 msgstr[0] "Вимагає розміру міста меншого за %d.\n"
@@ -9462,26 +9565,31 @@ msgstr[2] "Вимагає розміру міста меншого за %d.\n"
 
 #. TRANS: AI level (e.g., "Easy")
 #: client/helpdata.c:1154
+#, c-format
 msgid "Applies to %s AI players.\n"
 msgstr "Стосується %s гравців з ШІ.\n"
 
 #. TRANS: AI level (e.g., "Cheating")
 #: client/helpdata.c:1159
+#, c-format
 msgid "Does not apply to %s AI players.\n"
 msgstr "Не стосується гравців із ШІ  %s .\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1170
+#, c-format
 msgid "?terrainclass:Requires %s terrain on the tile.\n"
 msgstr "?terrainclass:Потребує територію %s на клітинці.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1176
+#, c-format
 msgid "?terrainclass:Prevented by %s terrain on the tile.\n"
 msgstr "?terrainclass:Недоступне через %s на цьому полі.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1185
+#, c-format
 msgid ""
 "?terrainclass:Requires %s terrain on the tile or a cardinally adjacent "
 "tile.\n"
@@ -9489,6 +9597,7 @@ msgstr "?terrainclass: Потребує місцевість %s на цій аб
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1192
+#, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any cardinally adjacent "
 "tile.\n"
@@ -9496,38 +9605,45 @@ msgstr "Недоступне через %s на цьому або інших с�
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1202
+#, c-format
 msgid "?terrainclass:Requires %s terrain on the tile or an adjacent tile.\n"
 msgstr "?terrainclass:Потребує місцевості %s на цій або прилеглій клітинці.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1209
+#, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any adjacent tile.\n"
 msgstr "Недоступне через місцевість %s на цій або прилеглій клітинці.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1219
+#, c-format
 msgid "?terrainclass:Requires %s terrain on a tile within the city radius.\n"
 msgstr "Потребує місцевості %s на клітинці.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1226
+#, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on any tile within the city radius.\n"
 msgstr "недоступне через місцевість %s на будь-якому полі в межах міста.\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1247
+#, c-format
 msgid "Requires terrain with the \"%s\" flag on the tile.\n"
 msgstr "Потребує місцевість з прапорцем %s на клітинці.\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1252
+#, c-format
 msgid "Prevented by terrain with the \"%s\" flag on the tile.\n"
 msgstr "Не допускається місцевістю з флагом %s на клітинці.\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1261
+#, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile.\n"
@@ -9535,6 +9651,7 @@ msgstr "Потребує місцевості з флагом %s на цій а�
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1267
+#, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile.\n"
@@ -9542,106 +9659,130 @@ msgstr "Недоступне через флаг %s місцевості на ц
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1276
+#, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or an adjacent tile.\n"
 msgstr "Потребує місцевості з прапорцем %s на цій або прилеглій клітинці.\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1282
+#, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any adjacent tile.\n"
 msgstr "Недоступне через флаг %s місцевості цього чи прилеглого поля.\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1291
+#, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on a tile within the city radius.\n"
 msgstr "Потребує місцевості з флагом %s на полі в межах міста (його радіусу).\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:1297
+#, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on any tile within the city "
 "radius.\n"
 msgstr "Недоступне через місцевість з флагом %s на одному з полів в межах радіусу міста.\n"
 
 #: client/helpdata.c:1316
+#, c-format
 msgid "?base:Requires %s on the tile.\n"
 msgstr "?base:Потребує %s на клітинці.\n"
 
 #: client/helpdata.c:1320
+#, c-format
 msgid "?base:Prevented by %s on the tile.\n"
 msgstr "?base:Недоступна через %s на клітинці.\n"
 
 #: client/helpdata.c:1327
+#, c-format
 msgid "?base:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "?base:Потребує місцевість %s на цьому чи суцільно-прилеглому полі.\n"
 
 #: client/helpdata.c:1332
+#, c-format
 msgid "?base:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr "?base:Недостпна через %s на цьому чи суцільно-прилеглому полі.\n"
 
 #: client/helpdata.c:1340
+#, c-format
 msgid "?base:Requires %s on the tile or an adjacent tile.\n"
 msgstr "?base:Потребує %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:1345
+#, c-format
 msgid "?base:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "?base:Недоступна через %s  на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:1353
+#, c-format
 msgid "?base:Requires %s on a tile within the city radius.\n"
 msgstr "?base:Вимагає %s на одному з полів в межах містах.\n"
 
 #: client/helpdata.c:1358
+#, c-format
 msgid "?base:Prevented by %s on any tile within the city radius.\n"
 msgstr "?base:Недостпне через %s на одному з полів в межах містах..\n"
 
 #: client/helpdata.c:1377
+#, c-format
 msgid "?road:Requires %s on the tile.\n"
 msgstr "?road:Потребує %s на клітинці.\n"
 
 #: client/helpdata.c:1381
+#, c-format
 msgid "?road:Prevented by %s on the tile.\n"
 msgstr "?road:Недоступна через %s на клітинці.\n"
 
 #: client/helpdata.c:1388
+#, c-format
 msgid "?road:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "?road:Потребує %s на цій або суцільно-прилеглій клітинці.\n"
 
 #: client/helpdata.c:1393
+#, c-format
 msgid "?road:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr "?road:Недоступна через %s на цій або суцільно-прилеглій клітинці.\n"
 
 #: client/helpdata.c:1401
+#, c-format
 msgid "?road:Requires %s on the tile or an adjacent tile.\n"
 msgstr "?road:Вимагає %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:1406
+#, c-format
 msgid "?road:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "?road:Недоступна через %s на цій або прилеглій клітинці.\n"
 
 #: client/helpdata.c:1414
+#, c-format
 msgid "?road:Requires %s on a tile within the city radius.\n"
 msgstr "?road:Потребує %s на одному з полів в межах міста.\n"
 
 #: client/helpdata.c:1419
+#, c-format
 msgid "?road:Prevented by %s on any tile within the city radius.\n"
 msgstr "?road:Не допускається через %s на одному з полів в межах міста.\n"
 
 #: client/helpdata.c:1439
+#, c-format
 msgid "Requires the game to have reached the year %s.\n"
-msgstr "Вимагає досягнення %d року.\n"
+msgstr "Вимагає досягнення %s року.\n"
 
 #: client/helpdata.c:1443
+#, c-format
 msgid "Requires that the game has not yet reached the year %s.\n"
-msgstr "Вимагає щоб гра ще не дійшла до %d року.\n"
+msgstr "Вимагає щоб гра ще не дійшла до %s року.\n"
 
 #: client/helpdata.c:1454
+#, c-format
 msgid "Requires terrain on which alteration %s is possible.\n"
 msgstr "Потребує місцевість, на якій можна зробити %s.\n"
 
 #: client/helpdata.c:1460
+#, c-format
 msgid "Prevented by terrain on which alteration %s can be made.\n"
 msgstr "Недопустима місцевістю, на якій можна зробити %s.\n"
 
@@ -9655,51 +9796,61 @@ msgstr "Не стосується центрів міст.\n"
 
 #. TRANS: First %s is a government name.
 #: client/helpdata.c:1602
+#, c-format
 msgid "?gov:* Allows %s (with %s but no %s)."
 msgstr "?gov:Дозволяє %s (з %s але не %s)."
 
 #. TRANS: First %s is a government name.
 #: client/helpdata.c:1604
+#, c-format
 msgid "?gov:* Allows %s (with %s)."
 msgstr "?gov:* Дозволяє %s (з %s)."
 
 #. TRANS: First %s is a government name.
 #: client/helpdata.c:1606
+#, c-format
 msgid "?gov:* Allows %s (absent %s)."
 msgstr "?gov:Дозволяє %s (за відсутності %s)."
 
 #. TRANS: %s is a government name.
 #: client/helpdata.c:1608
+#, c-format
 msgid "?gov:* Allows %s."
 msgstr "?gov:* Дозволяє %s."
 
 #. TRANS: %s is a government name.
 #: client/helpdata.c:1610
+#, c-format
 msgid "?gov:* Prevents %s."
 msgstr "?gov: Не дозволяє %s"
 
 #. TRANS: First %s is a building name.
 #: client/helpdata.c:1620
+#, c-format
 msgid "?improvement:* Allows %s (with %s but no %s)."
 msgstr "?improvement:Дозволяє %s (з %s але без %s)."
 
 #. TRANS: First %s is a building name.
 #: client/helpdata.c:1622
+#, c-format
 msgid "?improvement:* Allows %s (with %s)."
 msgstr "?improvement:* Дозволяє %s (з %s)."
 
 #. TRANS: First %s is a building name.
 #: client/helpdata.c:1624
+#, c-format
 msgid "?improvement:* Allows %s (absent %s)."
 msgstr "?improvement:Дозволяє %s (відсутній %s)."
 
 #. TRANS: %s is a building name.
 #: client/helpdata.c:1626
+#, c-format
 msgid "?improvement:* Allows %s."
 msgstr "?improvement: Дає: %s"
 
 #. TRANS: %s is a building name.
 #: client/helpdata.c:1628
+#, c-format
 msgid "?improvement:* Prevents %s."
 msgstr "?improvement: Запобігає %s"
 
@@ -9806,10 +9957,12 @@ msgid "  * Gets used up in making an attack.\n"
 msgstr "* Застосовується для нападу.\n"
 
 #: client/helpdata.c:2363
+#, no-c-format
 msgid "  * Gets a 50% defensive bonus while in cities.\n"
 msgstr "  * Збільшує захист на 50% поки в місті.\n"
 
 #: client/helpdata.c:2366
+#, no-c-format
 msgid "  * May fortify, granting a 50% defensive bonus when not in a city.\n"
 msgstr " * Може укріпитись, тоді збільшитьзахист на 50%, якщо не в  городі.\n"
 
@@ -9872,6 +10025,7 @@ msgstr "* Можна здобути перетворенням %s.\n"
 
 #. TRANS: %s is a unit type. "MP" = movement points.
 #: client/helpdata.c:2459
+#, c-format
 msgid "* May be converted into %s (takes %d MP).\n"
 msgid_plural "* May be converted into %s (takes %d MP).\n"
 msgstr[0] "* Може бути перетворено в %s (забирає %d ОР).\n"
@@ -9895,6 +10049,7 @@ msgid "?bullet:* "
 msgstr "?bullet:* "
 
 #: client/helpdata.c:2488
+#, c-format
 msgid "* Costs %d population to build.\n"
 msgid_plural "* Costs %d population to build.\n"
 msgstr[0] "* Коштує %d населення, щоб збудуватись.\n"
@@ -9982,6 +10137,7 @@ msgstr ""
 "виробництва.\n"
 
 #: client/helpdata.c:2668
+#, c-format
 msgid "* Can build new cities (initial population %d).\n"
 msgid_plural "* Can build new cities (initial population %d).\n"
 msgstr[0] "* Можуть засновувати міста (початкове населення %d).\n"
@@ -9990,6 +10146,7 @@ msgstr[2] "* Можуть засновувати міста (початкове 
 
 #. TRANS: Plural in "%d population", not "size %d".
 #: client/helpdata.c:2676
+#, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgid_plural "* Can add on %d population to cities of no more than size %d.\n"
 msgstr[0] "* Може додати %d населення до міст не більших за розмір %d.\n"
@@ -9998,6 +10155,7 @@ msgstr[2] "* Може додати %d населення до міст не бі
 
 #. TRANS: %s is list of extra types separated by ',' and 'and'
 #: client/helpdata.c:2697 client/helpdata.c:2743
+#, c-format
 msgid "* Can build %s on tiles.\n"
 msgstr "* Будують %s на клітинках.\n"
 
@@ -10111,6 +10269,7 @@ msgid "* Ignores the effects of city walls.\n"
 msgstr "* Ігнорує Міські Стіни.\n"
 
 #: client/helpdata.c:2817
+#, c-format
 msgid ""
 "* Does bombard attacks (%d per turn). These attacks will only damage (never "
 "kill) defenders, but damage all defenders on a tile, and have no risk for "
@@ -10216,6 +10375,7 @@ msgid "This type of unit has its own veteran levels:"
 msgstr "Цей тип загонів має власні ветеранські рівні"
 
 #: client/helpdata.c:2998
+#, c-format
 msgid "Starting now, researching %s would need %d bulb."
 msgid_plural "Starting now, researching %s would need %d bulbs."
 msgstr[0] "Відтепер, дослідження %s потребуватиме %d лампу."
@@ -10225,6 +10385,7 @@ msgstr[2] "Відтепер, дослідження %s потребуватим�
 #. TRANS: appended to another sentence. Preserve the
 #. * leading space.
 #: client/helpdata.c:3010
+#, c-format
 msgid " The whole project will require %d bulb to complete."
 msgid_plural " The whole project will require %d bulbs to complete."
 msgstr[0] ""
@@ -10236,6 +10397,7 @@ msgstr[2] ""
 
 #. TRANS: last %s is a sentence pluralized separately.
 #: client/helpdata.c:3016
+#, c-format
 msgid "To reach %s you need to obtain %d other technology first.%s"
 msgid_plural "To reach %s you need to obtain %d other technologies first.%s"
 msgstr[0] ""
@@ -10266,6 +10428,7 @@ msgid "* The %s start the game with knowledge of this technology.\n"
 msgstr "%s починають гру знаючи цю технологію.\n"
 
 #: client/helpdata.c:3081
+#, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr "* Перший гравець, що дослідить %s отримує негайне знання.\n"
 
@@ -10311,6 +10474,7 @@ msgstr "* Берегова лінія цієї місцевості є небе�
 
 #. TRANS: %s is a list of unit classes separated by "and".
 #: client/helpdata.c:3213 client/helpdata.c:3506
+#, c-format
 msgid "* Can be traveled by %s units.\n"
 msgstr "* Загони %s можуть подорожувати нею.\n"
 
@@ -10320,6 +10484,7 @@ msgstr "Вимоги до будівництва:\n"
 
 #. TRANS: %s is a list of unit classes separated by "and".
 #: client/helpdata.c:3354
+#, c-format
 msgid "* Native to %s units.\n"
 msgstr "Рідна для підрозділів %s.\n"
 
@@ -10343,6 +10508,7 @@ msgid ""
 msgstr "* Може бути захоплена такими загонами, якщо в стані війни з їх власником.\n"
 
 #: client/helpdata.c:3376 client/helpdata.c:3517
+#, c-format
 msgid "  * Such units get a %d%% defense bonus on this tile.\n"
 msgstr "  * Такі загони мають приріст захисту %d%% від місцевості.\n"
 
@@ -10507,6 +10673,7 @@ msgid ""
 msgstr "* Кожен громадянин іноземець спричиняє %.2g нещастя в місті де живе, поки ви воюєте з державою їх походження.\n"
 
 #: client/helpdata.c:3850
+#, c-format
 msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgid_plural ""
 "* Each of your cities will avoid %d unhappiness caused by units.\n"
@@ -10518,6 +10685,7 @@ msgstr[2] ""
 "* Кожне із Ваших міст уникатиме %d нещастя, спричиненого підрозділами.\n"
 
 #: client/helpdata.c:3861
+#, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
 "by aggression.\n"
@@ -10532,6 +10700,7 @@ msgstr[2] ""
 "* Кожне із Ваших міст уникатиме %d нещастя, крім спричиненого агресією.\n"
 
 #: client/helpdata.c:3872
+#, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including that caused by "
 "aggression.\n"
@@ -10548,6 +10717,7 @@ msgstr[2] ""
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
 #: client/helpdata.c:3887
+#, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "* Ви не платите %s утримання ваших підрозділів.\n"
 
@@ -10558,11 +10728,13 @@ msgstr "* Ви не платите за утримання своїх підро
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
 #: client/helpdata.c:3899
+#, c-format
 msgid "* You pay %.2g times normal %s upkeep for your units.\n"
 msgstr ""
 "* Ви платите в %.2g рази більше звичайного %s за утримання загонів.\n"
 
 #: client/helpdata.c:3904
+#, c-format
 msgid "* You pay %.2g times normal upkeep for your units.\n"
 msgstr ""
 "* Ви платите в %.2g рази більше звичайного утримання загонів.\n"
@@ -10572,6 +10744,7 @@ msgstr ""
 #. * no way to control the singular/plural name of the
 #. * output type; sorry
 #: client/helpdata.c:3919
+#, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgid_plural ""
 "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
@@ -10585,6 +10758,7 @@ msgstr[2] ""
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
 #: client/helpdata.c:3928
+#, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgid_plural ""
 "* Each of your cities will avoid paying %d upkeep for your units.\n"
@@ -10602,6 +10776,7 @@ msgstr ""
 "* Якщо Ви втратите столицю, імовірність громадянської війни буде %d%%.\n"
 
 #: client/helpdata.c:3947
+#, c-format
 msgid ""
 "* You can have %d city before an additional unhappy citizen appears in each "
 "city due to civilization size.\n"
@@ -10619,6 +10794,7 @@ msgstr[2] ""
 "через розмір цивілізації городянин.\n"
 
 #: client/helpdata.c:3959
+#, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional city another unhappy citizen will appear.\n"
@@ -10717,6 +10893,7 @@ msgstr ""
 
 #. TRANS: %s is list of unit types separated by 'or'
 #: client/helpdata.c:4071
+#, c-format
 msgid "* Pays no upkeep for %s.\n"
 msgstr "* Не платить за утримання %s.\n"
 
@@ -10751,6 +10928,7 @@ msgstr "* Нові загони будуть ветеранами.\n"
 #. * pluralised in %d but of course the output types
 #. * can't be pluralised; sorry
 #: client/helpdata.c:4141
+#, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
 "unless the city working it is celebrating."
@@ -10776,6 +10954,7 @@ msgstr " (Міста розміром до %d не святкуватимуть.
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:4161
+#, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
 "city working it is celebrating."
@@ -10783,26 +10962,27 @@ msgid_plural ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
 "city working it is celebrating."
 msgstr[0] ""
-"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s під "
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових під "
 "час святкування."
 msgstr[1] ""
-"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s під "
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових під "
 "час святкування."
 msgstr[2] ""
-"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s під "
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових під "
 "час святкування."
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:4180
+#, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgid_plural ""
 "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr[0] ""
-"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s.\n"
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових.\n"
 msgstr[1] ""
-"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s.\n"
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових.\n"
 msgstr[2] ""
-"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових %s.\n"
+"* Кожна оброблювана клітинка з хоча б 1 %s дасть %d додаткових.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4191
@@ -10880,8 +11060,9 @@ msgid "%s%d Unhappy"
 msgstr "%s%d Нещасних"
 
 #: client/helpdata.c:4342
+#, c-format
 msgid "Initial government is %s.\n"
-msgstr "Початковий  уряд %s %s.\n"
+msgstr "Початковий  уряд %s.\n"
 
 #. TRANS: %s is an and-separated list of techs
 #: client/helpdata.c:4359
@@ -10902,6 +11083,7 @@ msgstr "Починає зі знанням %s.\n"
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
 #: client/helpdata.c:4401
+#, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
@@ -37232,7 +37414,7 @@ msgstr "(сервер)"
 #: server/stdinhand.c:4446
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
-msgstr "Закінчую гру. Сервер перезапститься коли всі клієнти від'єднаються."
+msgstr "Закінчую гру. Сервер перезапуститься коли всі клієнти від'єднаються."
 
 #: server/stdinhand.c:4451
 msgid "Cannot end the game: no game running."
@@ -37577,6 +37759,7 @@ msgid "Ambiguous fcdb command."
 msgstr "Двозначна команда fcdb"
 
 #: server/stdinhand.c:5688
+#, c-format
 msgid ""
 "Not enough human players ('minplayers' server setting has value %d); game "
 "will not start."
@@ -38597,6 +38780,7 @@ msgstr ""
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" failed ..."
 #: server/voting.c:558
+#, c-format
 msgid ""
 "%s %d \"%s\" failed with %d against, %d for, %d abstentions and %d who did "
 "not vote."
@@ -38714,6 +38898,7 @@ msgstr ""
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
 #: utility/fciconv.c:210
+#, c-format
 msgid "Could not convert text from %s to %s: %s.\n"
 msgstr "Не вдалося конвертувати текст з %s до %s: %s.\n"
 
