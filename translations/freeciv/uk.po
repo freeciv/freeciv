@@ -13036,7 +13036,7 @@ msgstr "Чистий прубуток: %d"
 #: client/text.c:1060
 #, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr "Рівень податків: Гроші:%d%% Розкіш:%d%% Наука:%d%%"
+msgstr "Рівень податків: Золото:%d%% Розкіш:%d%% Наука:%d%%"
 
 #: client/text.c:1064
 #, c-format
@@ -13046,12 +13046,12 @@ msgstr "Досліджується %s: %s"
 #: client/text.c:1069
 #, c-format
 msgid "Bulbs per turn: %d - %d = %d"
-msgstr ""
+msgstr "Бульок за хід: %d - %d = %d"
 
 #: client/text.c:1073
 #, c-format
 msgid "Bulbs per turn: %d"
-msgstr ""
+msgstr "Бульок за хід: %d"
 
 #: client/text.c:1082
 #, c-format
@@ -13059,7 +13059,6 @@ msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "Можливість глобального потепління: %d%% (%+d%%/хід)"
 
 #: client/text.c:1085 client/text.c:1477
-#, fuzzy
 msgid "Global warming deactivated."
 msgstr "Глобальне потепління деактивовано."
 
@@ -13083,7 +13082,7 @@ msgstr[2] "%d загонів"
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:1158
 msgid "?goto:Unreachable"
-msgstr "Недосяжне"
+msgstr "?goto:Недосяжне"
 
 #: client/text.c:1160
 #, c-format
@@ -13142,21 +13141,23 @@ msgstr[2] "Модернізувати %d підрозділів"
 #. * "Treasury contains %d gold." So the whole thing reads
 #. * "Upgrade 13 units for 1000 gold?\nTreasury contains 2000 gold."
 #: client/text.c:1362
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s for %d gold?\n"
 "%s"
 msgid_plural ""
 "%s for %d gold?\n"
 "%s"
-msgstr[0] "Продати %s за %d гривень?"
-msgstr[1] "Продати %s за %d гривень?"
-msgstr[2] "Продати %s за %d гривень?"
+msgstr[0] "%s за %d золота?"
+"%s"
+msgstr[1] "%s за %d гривень?"
+"%s"
+msgstr[2] "%s за %d гривень?"
+"%s"
 
 #: client/text.c:1379
-#, fuzzy
 msgid "No units to disband!"
-msgstr "Немає підрозділів для модернізації!"
+msgstr "Немає підрозділів для розпуску!"
 
 #: client/text.c:1383 server/unithand.c:491
 #, c-format
@@ -13165,23 +13166,22 @@ msgstr "%s відмовляється розпускатися!"
 
 #. TRANS: %s is a unit type
 #: client/text.c:1388
-#, fuzzy, c-format
+#, c-format
 msgid "Disband %s?"
-msgstr "Розформувати підрозділи"
+msgstr "Розпустити %s?"
 
 #: client/text.c:1400
-#, fuzzy
 msgid "None of these units may be disbanded."
-msgstr "Жоден з цих підрозділів не підлягає модернізації."
+msgstr "Жоден з цих підрозділів не можна розпустити."
 
 #. TRANS: %d is never 0 or 1
 #: client/text.c:1404
-#, fuzzy, c-format
+#, c-format
 msgid "Disband %d unit?"
 msgid_plural "Disband %d units?"
-msgstr[0] "Розпустити підрозділ"
-msgstr[1] "Розпустити підрозділ"
-msgstr[2] "Розпустити підрозділ"
+msgstr[0] "Розпустити %d підрозділ"
+msgstr[1] "Розпустити %d підрозділи"
+msgstr[2] "Розпустити %d підрозділів"
 
 #: client/text.c:1421
 msgid "Shows your progress in researching the current technology."
@@ -13192,15 +13192,14 @@ msgid "no research target."
 msgstr "немає мети досліджень."
 
 #: client/text.c:1444
-#, fuzzy
 msgid "No progress"
-msgstr "Без стиснення"
+msgstr "Нема поступу"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:1453
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %d/%d (%s, %s)."
-msgstr "%s у %s (%s, %s)\n"
+msgstr "%s: %d/%d (%s, %s)."
 
 #: client/text.c:1481
 msgid "Shows the progress of global warming:"
@@ -13218,7 +13217,7 @@ msgstr "Вірогідність катастрофічного потеплін
 
 #: client/text.c:1505
 msgid "Shows the progress of nuclear winter:"
-msgstr "Показує розвиток ядерної зими:"
+msgstr "Показує поступ ядерної зими:"
 
 #: client/text.c:1506
 #, c-format
