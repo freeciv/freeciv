@@ -57,6 +57,7 @@ const char *get_info_label_text_popup(void);
 const char *get_info_label_text(bool);
 }
 
+extern void popup_shortcuts_dialog();
 static struct server_scan *meta_scan, *lan_scan;
 static bool holding_srv_list_mutex = false;
 static enum connection_state connection_status;

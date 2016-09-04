@@ -40,6 +40,7 @@
 // gui-qt
 #include "fc_client.h"
 #include "citydlg.h"
+#include "shortcuts.h"
 #include "qtg_cxxside.h"
 
 extern void side_disable_endturn(bool do_restore);
@@ -108,11 +109,9 @@ void update_rect_at_mouse_pos(void)
 **************************************************************************/
 void map_view::keyPressEvent(QKeyEvent * event)
 {
-  struct tile *ptile;
   QPoint local_pos;
   Qt::KeyboardModifiers key_mod = QApplication::keyboardModifiers();
   bool is_shift = key_mod.testFlag(Qt::ShiftModifier);
-  bool is_ctrl = key_mod.testFlag(Qt::ControlModifier);
 
   if (C_S_RUNNING == client_state()) {
     if (is_shift) {
@@ -176,90 +175,53 @@ void map_view::keyPressEvent(QKeyEvent * event)
         gui()->infotab->chtwdg->chat_line->setFocus();
       }
       return;
-    case Qt::Key_Space:
-      if (is_ctrl) {
-        local_pos = gui()->mapview_wdg->mapFromGlobal(QCursor::pos());
-        ptile = canvas_pos_to_tile(local_pos.x(), local_pos.y());
-        if (ptile != nullptr && unit_list_size(ptile->units) > 0) {
-          gui()->toggle_unit_sel_widget(ptile);
-        }
-      }
-      return;
     default:
       break;
     }
+    shortcut_pressed(event->key());
   }
 }
 
 /**************************************************************************
-  Mouse buttons handler for map_view
+  Pressed mouse or keyboard
 **************************************************************************/
-void map_view::mousePressEvent(QMouseEvent *event)
+void map_view::shortcut_pressed(int key)
 {
+  Qt::MouseButtons bt;
+  QPoint pos;
+  fc_shortcut *sc;
+  Qt::KeyboardModifiers md;
+  production_widget *pw;
   struct tile *ptile = nullptr;
   struct city *pcity = nullptr;
-  bool alt;
-  bool ctrl;
-  bool shft;
-  QPoint pos;
-  production_widget *pw;
 
-  alt = false;
-  ctrl = false;
-  shft = false;
+  md = QApplication::keyboardModifiers();
+  bt = QApplication::mouseButtons();
+  pos = mapFromGlobal(QCursor::pos());
 
-  if (event->modifiers() & Qt::AltModifier) {
-    alt = true;
-  }
-  if (event->modifiers() & Qt::ControlModifier) {
-    ctrl = true;
-  }
-  if (event->modifiers() & Qt::ShiftModifier) {
-    shft = true;
-  }
-  pos = gui()->mapview_wdg->mapFromGlobal(QCursor::pos());
   ptile = canvas_pos_to_tile(pos.x(), pos.y());
-  pcity = ptile ? tile_city(ptile) : NULL;
-
-  /* Right Mouse Button pressed */
-  if (event->button() == Qt::RightButton) {
-    if (alt && ctrl && ptile) {
-        gui()->infotab->chtwdg->make_link(ptile);
-      /* <SHIFT + CONTROL> + RMB: Paste Production. */
-    } else if (shft && ctrl && pcity != NULL) {
-      clipboard_paste_production(pcity);
-      /* <SHIFT> + RMB on city/unit: Copy Production. */
-    } else if (shft && clipboard_copy_production(ptile)) {
-      /* <CONTROL> + RMB : Quickselect a land unit. */
-    } else if (ctrl) {
-      action_button_pressed(event->pos().x(),event->pos().y(), SELECT_LAND);
-      /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
-    } else if (shft && alt) {
-      key_city_overlay(event->pos().x(), event->pos().y());
-    } else {
-      recenter_button_pressed(event->pos().x(), event->pos().y());
-    }
-  }
+  pcity = ptile ? tile_city(ptile) : nullptr;
 
   if (pcity && pcity->owner != client_player()) {
     pcity = nullptr;
   }
 
-  /* Left Button */
-  if (event->button() == Qt::LeftButton
+  /* Trade Generator - skip */
+  if (bt == Qt::LeftButton
       && gui()->trade_gen.hover_city == true) {
-    ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+    ptile = canvas_pos_to_tile(pos.x(), pos.y());
     gui()->menu_bar->set_tile_for_order(ptile);
     gui()->trade_gen.hover_city = false;
     gui()->trade_gen.add_tile(ptile);
     gui()->mapview_wdg->repaint();
     return;
   }
-  /* Rally point - select city */
-  if (event->button() == Qt::LeftButton
+
+  /* Rally point - select city - skip */
+  if (bt == Qt::LeftButton
       && gui()->rallies.hover_city == true) {
     char text[1024];
-    ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+    ptile = canvas_pos_to_tile(pos.x(), pos.y());
     if (tile_city(ptile)) {
       gui()->rallies.hover_city = false;
       gui()->rallies.hover_tile = true;
@@ -267,8 +229,8 @@ void map_view::mousePressEvent(QMouseEvent *event)
 
       if (gui()->rallies.clear(tile_city(ptile))) {
         fc_snprintf(text, sizeof(text),
-                  _("Rally point cleared for city %s"),
-                  city_link(tile_city(ptile)));
+                    _("Rally point cleared for city %s"),
+                    city_link(tile_city(ptile)));
         output_window_append(ftc_client, text);
         gui()->rallies.hover_tile = false;
         return;
@@ -282,12 +244,12 @@ void map_view::mousePressEvent(QMouseEvent *event)
     }
     return;
   }
-  /* Rally point - select tile */
-  if (event->button() == Qt::LeftButton
-      && gui()->rallies.hover_tile == true) {
+
+  /* Rally point - select tile  - skip */
+  if (bt == Qt::LeftButton && gui()->rallies.hover_tile == true) {
     char text[1024];
     qfc_rally *rally = new qfc_rally;
-    rally->ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+    rally->ptile = canvas_pos_to_tile(pos.x(), pos.y());
     rally->pcity = gui()->rallies.rally_city;
     fc_snprintf(text, sizeof(text),
                 _("Tile %s set as rally point from city %s."),
@@ -297,9 +259,9 @@ void map_view::mousePressEvent(QMouseEvent *event)
     output_window_append(ftc_client, text);
     return;
   }
-  if (event->button() == Qt::LeftButton
-      && gui()->menu_bar->delayed_order == true) {
-    ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+
+  if (bt == Qt::LeftButton && gui()->menu_bar->delayed_order == true) {
+    ptile = canvas_pos_to_tile(pos.x(), pos.y());
     gui()->menu_bar->set_tile_for_order(ptile);
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL,
                     EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
@@ -308,13 +270,11 @@ void map_view::mousePressEvent(QMouseEvent *event)
     return;
   }
 
-  if (event->button() == Qt::LeftButton
-      && gui()->infotab->chat_maximized == true) {
-        gui()->infotab->restore_chat();
+  if (bt == Qt::LeftButton  && gui()->infotab->chat_maximized == true) {
+    gui()->infotab->restore_chat();
   }
-  if (event->button() == Qt::LeftButton
-      && gui()->menu_bar->quick_airlifting == true) {
-    ptile = canvas_pos_to_tile(event->pos().x(), event->pos().y());
+  if (bt  == Qt::LeftButton && gui()->menu_bar->quick_airlifting == true) {
+    ptile = canvas_pos_to_tile(pos.x(), pos.y());
     if (tile_city(ptile)) {
       multiairlift(tile_city(ptile), gui()->menu_bar->airlift_type_id);
     } else {
@@ -323,51 +283,130 @@ void map_view::mousePressEvent(QMouseEvent *event)
     gui()->menu_bar->quick_airlifting = false;
     return;
   }
-  if (event->button() == Qt::LeftButton
-      && gui()->menu_bar->delayed_order == false) {
-    if (ctrl && shft && pcity) {
-      pw = new production_widget(this, pcity, false, 0, 0, true, true);
-      pw->show();
-    } else if (ctrl && pcity) {
+  /* Check configured shortcuts */
+  if (gui()->menu_bar->delayed_order == false) {
+    sc = fc_shortcuts::sc()->get_shortcut(SC_QUICK_SELECT);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
+        && pcity != nullptr) {
       pw = new production_widget(this, pcity, false, 0, 0, true);
       pw->show();
-      /* <SHIFT> + <CONTROL> + LMB : Adjust workers. */
-    } else if (shft && ctrl) {
-      adjust_workers_button_pressed(event->pos().x(), event->pos().y());
-      /* <CONTROL> + LMB : Quickselect a sea unit. */
-    } else if (ctrl) {
-      action_button_pressed(event->pos().x(), event->pos().y(), SELECT_SEA);
-      /* <SHIFT> + LMB: Append focus unit. */
-    } else if (ptile && shft) {
-      action_button_pressed(event->pos().x(), event->pos().y(),
-                            SELECT_APPEND);
-    } else {
-      action_button_pressed(event->pos().x(), event->pos().y(), SELECT_POPUP);
+      return;
+    }
+
+    sc = fc_shortcuts::sc()->get_shortcut(SC_SHOW_UNITS);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
+        && ptile != nullptr && unit_list_size(ptile->units) > 0) {
+      gui()->toggle_unit_sel_widget(ptile);
+      return;
+    }
+
+    sc = fc_shortcuts::sc()->get_shortcut(SC_COPY_PROD);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
+        && ptile != nullptr) {
+      clipboard_copy_production(ptile);
+      return;
+    }
+
+    sc = fc_shortcuts::sc()->get_shortcut(SC_PASTE_PROD);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
+        && pcity != nullptr) {
+      clipboard_paste_production(pcity);
+      return;
+    }
+
+    sc = fc_shortcuts::sc()->get_shortcut(SC_HIDE_WORKERS);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+      key_city_overlay(pos.x(), pos.y());
+      return;
+    }
+    sc = fc_shortcuts::sc()->get_shortcut(SC_MAKE_LINK);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
+        && ptile != nullptr) {
+      gui()->infotab->chtwdg->make_link(ptile);
+      return;
+    }
+
+
+    sc = fc_shortcuts::sc()->get_shortcut(SC_QUICK_BUY);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
+        && pcity != nullptr) {
+      pw = new production_widget(this, pcity, false, 0, 0, true, true);
+      pw->show();
+      return;
+    }
+    sc = fc_shortcuts::sc()->get_shortcut(SC_APPEND_FOCUS);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+      action_button_pressed(pos.x(), pos.y(), SELECT_APPEND);
+      return;
+    }
+    sc = fc_shortcuts::sc()->get_shortcut(SC_ADJUST_WORKERS);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+      adjust_workers_button_pressed(pos.x(), pos.y());
+      return;
     }
   }
 
-  /* Middle Button */
-  if (event->button() == Qt::MiddleButton) {
-    /* <CONTROL> + MMB: Wake up sentries. */
-    if (ctrl) {
-      wakeup_button_pressed(event->pos().x(), event->pos().y());
-    } else {
-      gui()->popup_tile_info(ptile);
-    }
+  sc = fc_shortcuts::sc()->get_shortcut(SC_SCROLL_MAP);
+  if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+    recenter_button_pressed(pos.x(), pos.y());
+    return;
+  }
+  sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
+  if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+    action_button_pressed(pos.x(), pos.y(), SELECT_POPUP);
+    return;
   }
 
+  sc = fc_shortcuts::sc()->get_shortcut(SC_POPUP_INFO);
+  if (((key && key == sc->key) || bt == sc->mouse)
+      && md == sc->mod && ptile != nullptr) {
+    gui()->popup_tile_info(ptile);
+    return;
+  }
+
+  sc = fc_shortcuts::sc()->get_shortcut(SC_WAKEUP_SENTRIES);
+  if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+    wakeup_button_pressed(pos.x(), pos.y());
+    return;
+  }
+}
+
+/**************************************************************************
+  Releasad mouse buttons
+**************************************************************************/
+void map_view::shortcut_released(Qt::MouseButton bt)
+{
+  QPoint pos;
+  fc_shortcut *sc;
+  Qt::KeyboardModifiers md;
+  md = QApplication::keyboardModifiers();
+  pos = mapFromGlobal(QCursor::pos());
+
+  sc = fc_shortcuts::sc()->get_shortcut(SC_POPUP_INFO);
+  if (bt == sc->mouse && md == sc->mod) {
+    gui()->popdown_tile_info();
+    return;
+  }
+
+  sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
+  if (bt == sc->mouse && md == sc->mod) {
+    release_goto_button(pos.x(), pos.y());
+    return;
+  }
+}
+/**************************************************************************
+  Mouse buttons handler for map_view
+**************************************************************************/
+void map_view::mousePressEvent(QMouseEvent *event)
+{
+  shortcut_pressed(0);
 }
 /**************************************************************************
   Mouse release event for map_view
 **************************************************************************/
 void map_view::mouseReleaseEvent(QMouseEvent *event)
 {
-  if (event->button() == Qt::MiddleButton) {
-    gui()->popdown_tile_info();
-  }
-  if (event->button() == Qt::LeftButton) {
-    release_goto_button(event->x(), event->y());
-  }
+  shortcut_released(event->button());
 }
 
 /**************************************************************************
