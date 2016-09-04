@@ -14348,258 +14348,302 @@ msgid ""
 " 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
 " 'zoom=1:map=t:show=none:format=magick|jpg'"
 msgstr ""
+"Ця команда визначає створення картинки карти. Аргументи:\n"
+"  define <mapdef> - задати картинку мапи; вертає числове <ід>\n"
+"  show <ід>|all   - перечислити означення картинок мап чи показати одне\n"
+"  create <id>|all - вручну зберегти картинку(и) для даного стану мапи\n"
+"  delete <id>|all - знищити визначення картинки карти\n"
+"  colortest       - створити тестове зображення показавши всі кольори\n"
+"\n"
+"Багато визначень можуть бути в дії одночасно. Означення <mapdef> складається"
+"з опцій розділених двокрапкою:\n"
+"\n"
+"option                 (default)  опис\n"
+"\n"
+"format=<[знаряддя|]формат> %-10s формат файлу \n"
+"show=<показати>            %-10s яких гравці показати\n"
+"  plrname=<ім’я>                 ім’я гравця\n"
+"  plrid=<ід>                     числове ід гравця\n"
+"  plrbv=<бітний вектор>          Див приклад; перший літерал = ід 0\n"
+"turns=<ходи>          %-10s зберігати картинку кожні <ходи> ходів\n"
+"                         (0=без автозбереження, зберігати - 'create')\n"
+"zoom=<збільшення>          %-10s множник приближення (1-5)\n"
+"map=<карта>              %-10s які шари карти малювати\n"
+"\n"
+"<[знаряддя|]формат> = взяти формат картинки <формат>, додатково"
+"вказати бібліотеку <знаряддя>. Такі бібліотеки знарядь і формати вбудовані"
+"при компіляції:\n"
+"%s\n"
+"\n"
+"<показати> визначає які гравці представлені і скільки всіх зображень "
+"зберігається цим визначенням:\n"
+"%s\n"
+"\n"
+"<карта> може містити один або більше таких шарів:\n"
+" - 'a' показувати місцевість в межах кордонів вказаних гравців\n"
+" - 'b' показувати кордони вказаних гравців\n"
+" - 'c' показувати міста вказаних гравців\n"
+" - 'f' показувати туман війни (тільки одно-гравцеві картинки)\n"
+" - 'k' показати знання єдиного гравця (тільки одно-гравцеві картинки)\n"
+" - 't' повний показ типів місцевості\n"
+" - 'u' показати загони вказаних гравців\n"
+"\n"
+"Приклади <mapdef>:\n"
+" 'zoom=1:map=tcub:show=all:format=ppm|ppm'\n"
+" 'zoom=2:map=tcub:show=each:format=png'\n"
+" 'zoom=1:map=tcub:show=plrname:plrname=Otto:format=gif'\n"
+" 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
+" 'zoom=1:map=t:show=none:format=magick|jpg'"
 
 #: common/mapimg.c:765
-#, fuzzy
 msgid "no map definition"
-msgstr "Визначення розміру карти"
+msgstr "нема визначення карти"
 
 #: common/mapimg.c:771
 #, c-format
 msgid "map definition string too long (max %d characters)"
-msgstr ""
+msgstr "стрічка визначення карти задовга (макс %d символів)"
 
 #: common/mapimg.c:777
 #, c-format
 msgid "maximum number of map definitions reached (%d)"
-msgstr ""
+msgstr "досягнуто максимуму числа означень мап (%d)"
 
 #: common/mapimg.c:785
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate of map image definition %d ('%s')"
-msgstr "Невірне ім'я '%s'"
+msgstr "повторення означення картики карти %d ('%s')"
 
 #: common/mapimg.c:806 common/mapimg.c:810
-#, fuzzy, c-format
+#, c-format
 msgid "unknown map option: '%s'"
-msgstr "Невідома опція '%s'."
+msgstr "Невідома опція карти: '%s'."
 
 #: common/mapimg.c:826
 #, c-format
 msgid "'show=%s' but no player name 'plrname'"
-msgstr ""
+msgstr "'show=%s', та нема гравця з іменем 'plrname'"
 
 #: common/mapimg.c:833
 #, c-format
 msgid "'show=%s' but no player id 'plrid'"
-msgstr ""
+msgstr "'show=%s', та нема ід гравця 'plrid'"
 
 #: common/mapimg.c:840
 #, c-format
 msgid "'show=%s' but no player bitvector 'plrbv'"
-msgstr ""
+msgstr "'show=%s', проте нема бітвектора гравця 'plrbv'"
 
 #: common/mapimg.c:993
-#, fuzzy, c-format
+#, c-format
 msgid "invalid character in bitvector: '%c' (%s)"
-msgstr "Невірне ім'я '%s'"
+msgstr "хибний символ у бітвекторі : '%c' (%s)"
 
 #: common/mapimg.c:1014
-#, fuzzy, c-format
+#, c-format
 msgid "'plrid' should be between 0 and %d"
-msgstr "Торговий шлях між %s і %s скасовано."
+msgstr "'plrid' має бути між 0 і %d"
 
 #: common/mapimg.c:1030
-#, fuzzy, c-format
+#, c-format
 msgid "player name too long: '%s' (max: %lu)"
-msgstr "Рядок надто довгий (максимальна довжина: %lu)."
+msgstr "Ім’я гравця надто довге: '%s'(макс: %lu)"
 
 #: common/mapimg.c:1060
 msgid "'turns' should be between 0 and 99"
-msgstr ""
+msgstr "'turns' має бути між 0 і 99"
 
 #: common/mapimg.c:1078
 msgid "'zoom' factor should be between 1 and 5"
-msgstr ""
+msgstr "'zoom' фактор має бути між 1 і 5"
 
 #: common/mapimg.c:1097
-#, fuzzy, c-format
+#, c-format
 msgid "invalid value for option '%s': '%s'"
-msgstr "Невірне ім'я '%s'"
+msgstr "Хибне значення для опції '%s': '%s'"
 
 #: common/mapimg.c:1121
 msgid "map definition not checked (game not started)"
-msgstr ""
+msgstr "означення карти не перевірене (гра не почалась)"
 
 #: common/mapimg.c:1125
-#, fuzzy, c-format
+#, c-format
 msgid "map definition deactivated: %s"
-msgstr "Ядерну зиму деактивовано."
+msgstr "означення мапи вимкнуте : %s"
 
 #: common/mapimg.c:1224
-#, fuzzy, c-format
+#, c-format
 msgid "Detailed information for map image definition %d\n"
-msgstr "Невірне ім'я '%s'"
+msgstr "Детальні відомості про визначення картинки мапи %d\n"
 
 #: common/mapimg.c:1227
-#, fuzzy, c-format
+#, c-format
 msgid "  - status:                   %s (%s)\n"
-msgstr "Загалом:                    %9d%9d%9d%9d"
+msgstr "  - статус:                   %s (%s)\n"
 
 #: common/mapimg.c:1230
-#, fuzzy, c-format
+#, c-format
 msgid "  - status:                   %s\n"
-msgstr "Загалом:                    %9d%9d%9d%9d"
+msgstr "  - статус:                   %s\n"
 
 #: common/mapimg.c:1233
 #, c-format
 msgid "  - file name string:         %s\n"
-msgstr ""
+msgstr "  - стрічка імені файлу:         %s\n"
 
 #: common/mapimg.c:1235
 #, c-format
 msgid "  - image toolkit:            %s\n"
-msgstr ""
+msgstr "  - бібліотека знарядь картинок: %s\n"
 
 #: common/mapimg.c:1237
 #, c-format
 msgid "  - image format:             %s\n"
-msgstr ""
+msgstr "  - формат зображення:		%s\n"
 
 #: common/mapimg.c:1239
 #, c-format
 msgid "  - zoom factor:              %d\n"
-msgstr ""
+msgstr "  збільшення в :		%d\n"
 
 #: common/mapimg.c:1241
-#, fuzzy, c-format
+#, c-format
 msgid "  - show area within borders: %s\n"
-msgstr "Малювати кордони"
+msgstr "показувати місцину в межах кордонів: %s\n"
 
 #: common/mapimg.c:1242 common/mapimg.c:1244 common/mapimg.c:1246
 #: common/mapimg.c:1248 common/mapimg.c:1250 common/mapimg.c:1254
-#, fuzzy
 msgid "yes"
-msgstr "Пов"
+msgstr "так"
 
 #: common/mapimg.c:1242 common/mapimg.c:1244 common/mapimg.c:1246
 #: common/mapimg.c:1248 common/mapimg.c:1250 common/mapimg.c:1254
-#, fuzzy
 msgid "no"
-msgstr "немає"
+msgstr "ні"
 
 #: common/mapimg.c:1243
 #, c-format
 msgid "  - show borders:             %s\n"
-msgstr ""
+msgstr "  - показати кордони:             %s\n"
 
 #: common/mapimg.c:1245
 #, c-format
 msgid "  - show cities:              %s\n"
-msgstr ""
+msgstr "  - показати міста:             %s\n"
 
 #: common/mapimg.c:1247
 #, c-format
 msgid "  - show fog of war:          %s\n"
-msgstr ""
+msgstr "  - показати туман війни:             %s\n"
 
 #: common/mapimg.c:1249
 #, c-format
 msgid "  - show player knowledge:    %s\n"
-msgstr ""
+msgstr "  - показати знання гравця:             %s\n"
 
 #: common/mapimg.c:1251
 #, c-format
 msgid "  - show terrain:             %s\n"
-msgstr ""
+msgstr "  - показати місцевість:             %s\n"
 
 #: common/mapimg.c:1252
 msgid "full"
-msgstr ""
+msgstr "повний"
 
 #: common/mapimg.c:1252
 msgid "basic"
-msgstr ""
+msgstr "основний"
 
 #: common/mapimg.c:1253
 #, c-format
 msgid "  - show units:               %s\n"
-msgstr ""
+msgstr "  - показати загони:             %s\n"
 
 #: common/mapimg.c:1255
 #, c-format
 msgid "  - players included:         %s"
-msgstr ""
+msgstr "  - включаючи гравців:             %s"
 
 #: common/mapimg.c:1265
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "  - player name:              %s"
-msgstr "Час перельоту:     невідомий"
+msgstr ""
+"\n"
+"  - ім’я гравця:              %s"
 
 #: common/mapimg.c:1269
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "  - player id:                %d"
 msgstr ""
 "\n"
-"Залізниця        %3d              "
+"  - ід гравця:                %d"
 
 #: common/mapimg.c:1273
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "  - players:                  %s"
-msgstr "Загалом:                    %9d%9d%9d%9d"
+msgstr ""
+"\n"
+"  - гравці:                  %s"
 
 #: common/mapimg.c:1328
-#, fuzzy
 msgid "map not yet created"
-msgstr ", не готове"
+msgstr "мапа ще не створена"
 
 #: common/mapimg.c:1336 common/mapimg.c:1564
 msgid "map definition not checked or error"
-msgstr ""
+msgstr "означення мапи не переврене або хибне"
 
 #: common/mapimg.c:1547
-#, fuzzy, c-format
+#, c-format
 msgid "no map definition with id %d"
-msgstr "Визначення розміру карти"
+msgstr "нема визначення карти з ід %d"
 
 #: common/mapimg.c:1653
-#, fuzzy, c-format
+#, c-format
 msgid "unknown player name: '%s'"
-msgstr "Ім'я гравця: %s"
+msgstr "невідоме ім'я гравця: %s"
 
 #: common/mapimg.c:1669
-#, fuzzy, c-format
+#, c-format
 msgid "invalid player id: %d"
-msgstr "Невірний діапазон : %d to %d."
+msgstr "хибний ід гравця: %d."
 
 #: common/mapimg.c:1854
 #, c-format
 msgid "Turn: %4d - Year: %10s"
-msgstr ""
+msgstr "Хід %4d - Рік: %10s"
 
 #: common/mapimg.c:2023
-#, fuzzy
 msgid "toolkit not defined"
-msgstr "(планів будівництва не визначено)"
+msgstr "бібліотека знарядь (тулкіт) не визначена"
 
 #: common/mapimg.c:2086 common/mapimg.c:2294
-#, fuzzy
 msgid "error generating the file name"
-msgstr "Визначення назви файла збереження"
+msgstr "помилка створення назви файла"
 
 #: common/mapimg.c:2260
-#, fuzzy, c-format
+#, c-format
 msgid "error saving map image '%s'"
-msgstr "Завантажую файл скрипта '%s'."
+msgstr "помилка збереження картинки мапи '%s'."
 
 #: common/mapimg.c:2288
 msgid "the ppm toolkit can only create images in the ppm format"
-msgstr ""
+msgstr "бібліотека знарядь ppm, може створювати картинки тільки в форматі ppm"
 
 #: common/mapimg.c:2300
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file: %s"
-msgstr "Не можу відкрити \"%s\"."
+msgstr "Не можу відкрити файл: %s"
 
 #: common/packets.c:422
 msgid "illegal packet size"
-msgstr ""
+msgstr "невірний розмір пакету"
 
 #: common/packets.c:445 common/packets.c:491
 msgid "decoding error"
@@ -14607,7 +14651,7 @@ msgstr "помилка декодування"
 
 #: common/packets.c:554
 msgid "incompatible packet contents"
-msgstr ""
+msgstr "несумісний вміст пакету"
 
 #: common/player.c:67
 msgid "Away"
@@ -14638,43 +14682,43 @@ msgstr "Експериментальний"
 #. "The Babylonians are respectful towards us"
 #: common/player.c:1192
 msgid "?attitude:Genocidal"
-msgstr "Геноцидальне"
+msgstr "Жаждуть крові"
 
 #: common/player.c:1194
 msgid "?attitude:Belligerent"
-msgstr "Войовниче"
+msgstr "Зловісноворожі"
 
 #: common/player.c:1196
 msgid "?attitude:Hostile"
-msgstr "Вороже"
+msgstr "Ворожі"
 
 #: common/player.c:1198
 msgid "?attitude:Uncooperative"
-msgstr "Недружнє"
+msgstr "Недружні"
 
 #: common/player.c:1200
 msgid "?attitude:Uneasy"
-msgstr "Складне"
+msgstr "Непривітні"
 
 #: common/player.c:1202
 msgid "?attitude:Neutral"
-msgstr "Нейтралітет"
+msgstr "Нейтральні"
 
 #: common/player.c:1204
 msgid "?attitude:Respectful"
-msgstr "Повага"
+msgstr "Шанобливі"
 
 #: common/player.c:1206
 msgid "?attitude:Helpful"
-msgstr "Взаємодопомога"
+msgstr "Люб’язні"
 
 #: common/player.c:1208
 msgid "?attitude:Enthusiastic"
-msgstr "Ентузіазм"
+msgstr "Прихильні"
 
 #: common/player.c:1210
 msgid "?attitude:Admiring"
-msgstr "Захоплення"
+msgstr "Піднесено-захоплені"
 
 #: common/player.c:1213
 msgid "?attitude:Worshipful"
@@ -14697,20 +14741,20 @@ msgid "?diplomatic_state:Team"
 msgstr "Команда"
 
 #: common/requirements.c:1958
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" tech"
-msgstr "%s земля"
+msgstr "%s тех"
 
 #: common/requirements.c:1983
-#, fuzzy, c-format
+#, c-format
 msgid "%s citizens"
-msgstr "%s городян%s"
+msgstr "%s городян"
 
 #. TRANS: Unit type flag
 #: common/requirements.c:1992
-#, fuzzy, c-format
+#, c-format
 msgid "?utflag:\"%s\" units"
-msgstr "\"%s\" підрозділів"
+msgstr "?utflag:\"%s\" підрозділів"
 
 #. TRANS: Unit class
 #: common/requirements.c:1999
@@ -14720,9 +14764,9 @@ msgstr "%s підрозділів"
 
 #. TRANS: Unit class flag
 #: common/requirements.c:2005
-#, fuzzy, c-format
+#, c-format
 msgid "?ucflag:\"%s\" units"
-msgstr "\"%s\" підрозділів"
+msgstr "?ucflag:\"%s\" загонів"
 
 #: common/requirements.c:2018
 #, c-format
@@ -14751,7 +14795,7 @@ msgstr "%s земля"
 #: common/requirements.c:2043
 #, c-format
 msgid "?road:%s"
-msgstr ""
+msgstr "?дорога:%s"
 
 #: common/requirements.c:2047
 #, c-format
@@ -14765,9 +14809,8 @@ msgid "%s possible"
 msgstr "%s можливо"
 
 #: common/requirements.c:2056
-#, fuzzy
 msgid "City center"
-msgstr "Клітинка з центром міста"
+msgstr "Центр міста"
 
 #: common/team.c:221
 #, c-format
@@ -14787,41 +14830,37 @@ msgstr "команда %d"
 #: common/tech.c:1069
 #, c-format
 msgid "Future Tech. %d"
-msgstr "Технологія майбутнього %d"
+msgstr "Технологія Майбутнього %d"
 
 #: common/tech.c:1223
 msgid "Future Tech."
-msgstr "Технологія майбутнього."
+msgstr "Технологія Майбутнього."
 
 #. TRANS: this and following strings are 'tech flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/tech.h:79
-#, fuzzy
 msgid "Bonus_Tech"
-msgstr "Технології (_T)"
+msgstr "Бонус_тех"
 
 #: common/tech.h:82
 msgid "Bridge"
-msgstr ""
+msgstr "Міст"
 
 #: common/tech.h:85
-#, fuzzy
 msgid "Population_Pollution_Inc"
-msgstr "Ліквідувати забруднення"
+msgstr "Забруднення_Населення_Збільш"
 
 #: common/tech.h:88 common/terrain.c:553 common/terrain.c:834
 msgid "Farmland"
 msgstr "Ферма"
 
 #: common/tech.h:91
-#, fuzzy
 msgid "Build_Airborne"
-msgstr "Будувати авіабазу"
+msgstr "Будувати_повітряних"
 
 #: common/tech.h:94
-#, fuzzy
 msgid "Claim_Ocean"
-msgstr "Океан"
+msgstr "Забрати_Океан"
 
 #: common/terrain.c:550 common/terrain.c:840 common/unit.c:764
 msgid "Mine"
@@ -14849,39 +14888,35 @@ msgstr "Океан"
 #. * be presented to the player in ruleset help text
 #: common/terrain.h:117
 msgid "NoBarbs"
-msgstr ""
+msgstr "БезВарварів"
 
 #: common/terrain.h:120
-#, fuzzy
 msgid "NoPollution"
-msgstr "Забруднення"
+msgstr "БезЗабруднення"
 
 #: common/terrain.h:123
-#, fuzzy
 msgid "NoCities"
-msgstr "Нема міст"
+msgstr "БезМіст"
 
 #: common/terrain.h:126
-#, fuzzy
 msgid "Starter"
-msgstr "Розпочато"
+msgstr "Починач"
 
 #: common/terrain.h:129
 msgid "CanHaveRiver"
-msgstr ""
+msgstr "МожеМатиРіку"
 
 #: common/terrain.h:132
 msgid "UnsafeCoast"
-msgstr ""
+msgstr "НебезпечнийБерег"
 
 #: common/terrain.h:135
 msgid "FreshWater"
-msgstr ""
+msgstr "СвіжаВода"
 
 #: common/terrain.h:138
-#, fuzzy
 msgid "NotGenerated"
-msgstr "Генерал"
+msgstr "НезГенерований"
 
 #: common/unit.c:768
 msgid "Fortifying"
@@ -14893,7 +14928,7 @@ msgstr "Перейти"
 
 #: common/unit.c:778
 msgid "Explore"
-msgstr "Вивчити"
+msgstr "Дослідити"
 
 #: common/unit.c:780 data/civ2/units.ruleset:25 data/classic/units.ruleset:30
 #: data/experimental/units.ruleset:33 data/civ2civ3/units.ruleset:30
@@ -14958,25 +14993,25 @@ msgstr[2] ""
 
 #: common/unit.c:2254
 msgid "You can only upgrade units in your cities."
-msgstr "Модернізація підрозділів можлива лише у Ваших містах."
+msgstr "Модернізація підрозділів можлива лише в містах."
 
 #: common/unit.c:2258
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
-msgstr "Модернізація %s вивантаже на берег транспортуємі підрозділи."
+msgstr "Модернізація %s вивантажить на берег транспортовані підрозділи."
 
 #: common/unit.c:2263
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
-msgstr "Модернізація %s вивантаже на берег транспортуємі підрозділи."
+msgstr "Модернізація %s матиме наслідком що %s не може вижити в цьому місці."
 
 #: common/unit.c:2270
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
 "could not transport."
-msgstr "Модернізація %s вивантаже на берег транспортуємі підрозділи."
+msgstr "Модернізація %s зробить %s котрий поточний перевізник %s не зможе перевозити."
 
 #: common/unittype.c:425
 #, c-format
@@ -14991,35 +15026,30 @@ msgstr "%s та подібні підрозділи"
 #. TRANS: this and following strings are 'unit type flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/unittype.h:135
-#, fuzzy
 msgid "?unitflag:TradeRoute"
-msgstr "Торгові шляхи"
+msgstr "?unitflag:ТорговийШляхи"
 
 #: common/unittype.h:137
-#, fuzzy
 msgid "?unitflag:HelpWonder"
-msgstr "Гелікоптерний"
+msgstr "?unitflag:ПомічЧуду"
 
 #. TRANS: unit type flag (rarely shown): "ignore zones of control"
 #: common/unittype.h:140
 msgid "?unitflag:IgZOC"
-msgstr ""
+msgstr "?unitflag:ІгЗК"
 
 #: common/unittype.h:142
-#, fuzzy
 msgid "?unitflag:NonMil"
-msgstr "Ракетний"
+msgstr "?unitflag:НеВійськ"
 
 #. TRANS: unit type flag (rarely shown): "ignore terrain"
 #: common/unittype.h:145
-#, fuzzy
 msgid "?unitflag:IgTer"
-msgstr "Морський"
+msgstr "?unitflag:ІгМіс"
 
 #: common/unittype.h:147
-#, fuzzy
 msgid "?unitflag:OneAttack"
-msgstr "Атака:"
+msgstr "?unitflag:ОднаАтака:"
 
 #: common/unittype.h:151
 #, fuzzy
