@@ -37,6 +37,9 @@ extern QApplication *qapp;
 *****************************************************************************/
 void qtg_gui_load_theme(const char *directory, const char *theme_name)
 {
+  if (QString(theme_name) == QString("Default")) {
+    return;
+  }
   qapp->setStyle(QStyleFactory::create(theme_name));
 }
 
@@ -75,7 +78,8 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
   QByteArray qba;;
   QString str;
 
-  sl = QStyleFactory::keys();
+  sl.append("Default");
+  sl = sl + QStyleFactory::keys();
   array = new char *[sl.count()];
   *count = sl.count();
 
