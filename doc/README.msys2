@@ -15,7 +15,6 @@ using MSYS2 from http://msys2.github.io
   selection freeciv can be built
 - Buildable clients are gtk3, gtk2, and Qt
   - Official pre-made msys2 environment supports only gtk3-client build
-- Audio support cannot be built in
 - Both server, gtk3-client, and gtk2-client launch ok, Qt client does not
 - Most Installers cannot be built
 - Buildable Installers:
@@ -196,11 +195,6 @@ somehow. Some options are:
 - Freeciv linked against readline in msys2 does not work.
   Configure freeciv with --without-readline
 
-- Linking against SDL2, including audio support for any client,
-  fails. Use configure option --disable-sdl-mixer to build without
-  audio support, or avoid installing any SDL2 packages to your
-  msys2 environment.
-
 - Checking if files are bzip2 compressed crashes freeciv.
   Disable bzip2 support with --without-libbz2
 
@@ -212,8 +206,6 @@ somehow. Some options are:
   removing any dll's from the installer packages.
   Please review what related dlls are packaged and could be
   removed.
-
-- Audio support via SDL2_mixer
 
 - Qt program installers; qt-client and ruledit
 
