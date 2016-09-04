@@ -13300,16 +13300,16 @@ msgstr "?хв/сек:%02dх %02dс"
 #: client/text.c:1627
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
-msgstr "?часів/хв:%02dч %02dх"
+msgstr "?год/хв:%02dг %02dх"
 
 #: client/text.c:1629
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
-msgstr "?днів/часів:%02dд %02dч"
+msgstr "?днів/годин:%02dд %02dг"
 
 #: client/text.c:1632
 msgid "?duration:overflow"
-msgstr "?тривалість:ніколи"
+msgstr "?тривалість:переповнення"
 
 #: client/text.c:1655
 #, c-format
@@ -13337,92 +13337,87 @@ msgid "Observer - %s"
 msgstr "Спостерігач - %s"
 
 #: client/text.c:1735
-#, fuzzy, c-format
+#, c-format
 msgid "Buildings: %s."
-msgstr "Будівлі:"
+msgstr "Будівлі: %s."
 
 #: client/text.c:1738
-#, fuzzy
 msgid "Buildings: None."
-msgstr "Будівлі:"
+msgstr "Будівлі: Жодних"
 
 #: client/text.c:1758
-#, fuzzy
 msgid "Nationality: "
 msgstr "Нація:"
 
 #: client/text.c:1771
-#, fuzzy, c-format
+#, c-format
 msgid "%d enemy nationalist"
 msgid_plural "%d enemy nationalists"
-msgstr[0] "%d нація"
-msgstr[1] "%d нації"
-msgstr[2] "%d націй"
+msgstr[0] "%d ворожий націоналіст"
+msgstr[1] "%d ворожі націоналісти"
+msgstr[2] "%d ворожий націоналіст"
 
 #: client/text.c:1777
-#, fuzzy
 msgid "None."
-msgstr "Нічого"
+msgstr "Нема."
 
 #: client/text.c:1780
-#, fuzzy
 msgid "Disabled."
 msgstr "Заборонено"
 
 #: client/text.c:1801
-#, fuzzy, c-format
+#, c-format
 msgid "Wonders: %s."
-msgstr "Диво: %s"
+msgstr "Чудес: %s"
 
 #: client/text.c:1804
-#, fuzzy
 msgid "Wonders: None."
-msgstr "Дива: "
+msgstr "Чудеса: Нема"
 
 #: client/text.c:1831
-#, fuzzy, c-format
+#, c-format
 msgid "Cities: %d total, but no penalty for empire size."
 msgid_plural "Cities: %d total, but no penalty for empire size."
-msgstr[0] "Міста: загалом %d, на %d більше ніж поріг у %d міст."
-msgstr[1] "Міста: загалом %d, на %d більше ніж поріг у %d міст."
-msgstr[2] "Міста: загалом %d, на %d більше ніж поріг у %d міст."
+msgstr[0] "Міста: всіх %d, але нема штрафу за розмір імперії."
+msgstr[1] "Міста: загалом %d, але нема штрафу за розмір імперії."
+msgstr[2] "Міста: загалом %d, але нема штрафу за розмір імперії."
 
 #. TRANS: %d is number of citizens
 #: client/text.c:1837 client/text.c:1911
-#, fuzzy, c-format
+#, c-format
 msgid "%d content per city."
 msgid_plural "%d content per city."
-msgstr[0] "%d нейтральних до штрафу "
-msgstr[1] "%d нейтральних до штрафу "
-msgstr[2] "%d нейтральних до штрафу "
+msgstr[0] "%d задоволений на місто."
+msgstr[1] "%d задоволені на місто."
+msgstr[2] "%d задоволених на місто."
 
 #. TRANS: sentence fragment, will have text appended
 #: client/text.c:1877
-#, fuzzy, c-format
+#, c-format
 msgid "Cities: %d total:"
 msgid_plural "Cities: %d total:"
-msgstr[0] "Звіт про міста"
-msgstr[1] "Звіт про міста"
-msgstr[2] "Звіт про міста"
+msgstr[0] "Міста: всього %d:"
+msgstr[1] "Міста: всього %d:"
+msgstr[2] "Міста: всього %d:"
 
 #. TRANS: appended to "Cities: %d total:"; preserve leading
 #. * space. Pluralized in "nearest threshold of %d cities".
 #: client/text.c:1884
-#, fuzzy, c-format
+#, c-format
 msgid " %d over nearest threshold of %d city."
 msgid_plural " %d over nearest threshold of %d cities."
-msgstr[0] "Міста: загалом %d, на %d більше ніж поріг у %d міст."
-msgstr[1] "Міста: загалом %d, на %d більше ніж поріг у %d міст."
-msgstr[2] "Міста: загалом %d, на %d більше ніж поріг у %d міст."
+msgstr[0] "на %d більше ніж поріг у %d міст."
+msgstr[1] "на %d більше ніж поріг у %d міст."
+msgstr[2] "на %d більше ніж поріг у %d міст."
 
 #. TRANS: Number of content [citizen(s)] ...
 #: client/text.c:1889
-#, fuzzy, c-format
+#, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
-msgstr[0] "%d нейтральних до штрафу "
-msgstr[1] "%d нейтральних до штрафу "
-msgstr[2] "%d нейтральних до штрафу "
+msgstr[0] "%d задоволений до штрафу "
+msgstr[1] "%d задоволені до штрафу "
+msgstr[2] "%d задоволених до штрафу "
 
 #: client/text.c:1893
 #, c-format
@@ -13433,12 +13428,12 @@ msgstr[1] "%d додаткових нещасних городян."
 msgstr[2] "%d додаткових нещасних городян."
 
 #: client/text.c:1898
-#, fuzzy, c-format
+#, c-format
 msgid "%d angry citizen."
 msgid_plural "%d angry citizens."
-msgstr[0] "%s городян%s"
-msgstr[1] "%s городян%s"
-msgstr[2] "%s городян%s"
+msgstr[0] "%d злий городянин"
+msgstr[1] "%d злі городяни"
+msgstr[2] "%d злих городян"
 
 #. TRANS: appended to "Cities: %d total:"; preserve leading
 #. * space.
@@ -13446,54 +13441,49 @@ msgstr[2] "%s городян%s"
 #, c-format
 msgid " not more than %d, so no empire size penalty."
 msgid_plural " not more than %d, so no empire size penalty."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "не більше ніж %d, тому без штрафу на розмір імперії."
+msgstr[1] "не більше ніж %d, тому без штрафу на розмір імперії."
+msgstr[2] "не більше ніж %d, тому без штрафу на розмір імперії."
 
 #: client/text.c:1917
 #, c-format
 msgid "With %d more city, another citizen will become unhappy."
 msgid_plural "With %d more cities, another citizen will become unhappy."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "З %d додатковим містом, ще один громадянин стає нещасним."
+msgstr[1] "З %d додатковими містами, ще один громадянин стає нещасним."
+msgstr[2] "З %d додатковими містами, ще один громадянин стає нещасним."
 
 #: client/text.c:1928
 #, c-format
 msgid "With %d more city, another citizen will become angry."
 msgid_plural "With %d more cities, another citizen will become angry."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "З %d додатковими містами, ще один громадянин стає злим."
+msgstr[1] "З %d додатковими містами, ще один громадянин стає злим."
+msgstr[2] "З %d додатковими містами, ще один громадянин стає злим."
 
 #: client/text.c:1938
-#, fuzzy
 msgid "More cities will not cause more unhappy citizens."
-msgstr "* Не має нещасливих городян.\n"
+msgstr "Більше міст не зроблять нещасними громадян."
 
 #: client/text.c:1959
 msgid "Unlimited martial law in effect."
 msgstr "Діє необмежений військовий стан."
 
 #: client/text.c:1961
-#, fuzzy, c-format
+#, c-format
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
-msgstr[0] ""
-"* Не військовий підрозділ (неможе атакувати; немає військового положення).\n"
-msgstr[1] ""
-"* Не військовий підрозділ (неможе атакувати; немає військового положення).\n"
-msgstr[2] ""
-"* Не військовий підрозділ (неможе атакувати; немає військового положення).\n"
+msgstr[0] "%d військовий загін спричинить воєнний стан."
+msgstr[1] "до %d військові загони спричинять воєнний стан."
+msgstr[2] "до %d військових загонів спричинять воєнний стан."
 
 #: client/text.c:1965
 #, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
-msgstr[0] ""
-"Кожен військовий підрозділ нейтралізує %d незадоволеного городянина."
-msgstr[1] "Кожен військовий підрозділ нейтралізує %d незадоволених городян."
-msgstr[2] "Кожен військовий підрозділ нейтралізує %d незадоволених городян."
+msgstr[0] "Кожен військовий загін робить %d нещасного городянина задоволеним."
+msgstr[1] "Кожен військовий підрозділ робить %d нещасних городян задоволеними."
+msgstr[2] "Кожен військовий підрозділ робить %d нещасних городян задоволеними."
 
 #: client/text.c:1972
 msgid "Military units in the field may cause unhappiness. "
@@ -13510,12 +13500,12 @@ msgstr "Розкіш: %d загалом."
 
 #: client/tilespec.c:1149
 msgid "No usable default tileset found, aborting!"
-msgstr "Не знайдено фонів по замовчуванню, перериваюся! "
+msgstr "Нема придатного набору полів за замовчанням, перериваюся! "
 
 #: client/tilespec.c:1181
-#, fuzzy, c-format
+#, c-format
 msgid "Loading tileset \"%s\"."
-msgstr "Завантажую правила"
+msgstr "Завантажую правила \"%s\"."
 
 #: client/tilespec.c:1355
 msgid "Incompatible tileset capabilities"
