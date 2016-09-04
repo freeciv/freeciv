@@ -13509,136 +13509,135 @@ msgstr "Завантажую правила \"%s\"."
 
 #: client/tilespec.c:1355
 msgid "Incompatible tileset capabilities"
-msgstr ""
+msgstr "Несумісні можливості набору полів"
 
 #: client/tilespec.c:1363
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load gfx file for the spec file \"%s\"."
-msgstr "Не можу завантажити gfx файл для spec файлу %s"
+msgstr "Не можу завантажити gfx файл для spec файлу \"%s\"."
 
 #: client/tilespec.c:1386
 #, c-format
 msgid "Specfile %s has incompatible capabilities"
-msgstr ""
+msgstr "Spec файл %s має несумісні можливості"
 
 #: client/tilespec.c:1551
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't find a supported gfx file extension for \"%s\"."
-msgstr "Не знайдено підтримуваного розширення файлу gfx для %s"
+msgstr "Не знайдено підтримуваного розширення файлу gfx для \"%s\"."
 
 #: client/tilespec.c:1672
-#, fuzzy
 msgid "Client does not support isometric tilesets."
-msgstr ""
-"Клієнт не підтримує ізометричні фони. Використовую фони по замовчуванню."
+msgstr "Клієнт не підтримує ізометричні набори полів."
 
 #: client/tilespec.c:1673 client/tilespec.c:1679
 msgid "Using default tileset instead."
-msgstr ""
+msgstr "Беру набір полів за замовчанням."
 
 #: client/tilespec.c:1678
-#, fuzzy
 msgid "Client does not support overhead view tilesets."
-msgstr "Клієнт не підтримує горішні фони. Використовую фони по замовчуванню."
+msgstr "Клієнт не підтримує набори клітин з верхнім видом."
+
 
 #: client/tilespec.c:1812
 #, c-format
 msgid "[layer%d] match_types: \"%s\" initial ('%c') is not unique."
-msgstr ""
+msgstr "[шар%d] match_types: \"%s\" початковий ('%c') не унікальний."
 
 #: client/tilespec.c:1824
 #, c-format
 msgid "No [%s] sections supported by tileset \"%s\"."
-msgstr ""
+msgstr "Жодна з секцій [%s] не підтримується набором клітин \"%s\"."
 
 #: client/tilespec.c:2165
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't load gfx file \"%s\" for sprite '%s'."
-msgstr "Не можу завантажити gfx файл для spec файлу %s"
+msgstr "Не можу завантажити gfx файл \"%s\" для спрайту %s."
 
 #: client/tilespec.c:2175
 #, c-format
 msgid "Sprite '%s' in file \"%s\" isn't within the image!"
-msgstr ""
+msgstr "Спрайт '%s' в файлі \"%s\" не на картинці!"
 
 #: client/tilespec.c:2244
 #, c-format
 msgid "Sprite for tag '%s' missing."
-msgstr ""
+msgstr "Пропущено спрайт для тегу '%s'."
 
 #: client/tilespec.c:2256
 #, c-format
 msgid "Sprite for tags '%s' and alternate '%s' are both missing."
-msgstr ""
+msgstr "Спрайти для тегів '%s' та запасного '%s', боа відсутні."
 
 #: client/tilespec.c:2306
-#, fuzzy, c-format
+#, c-format
 msgid "No graphics for specialist \"%s\"."
-msgstr "Ви проголосували за \"%s\""
+msgstr "Нема графіки для спеціаліста \"%s\"."
 
 #: client/tilespec.c:2331
-#, fuzzy, c-format
+#, c-format
 msgid "No graphics for citizen \"%s\"."
-msgstr "Ви проголосували за \"%s\""
+msgstr "Нема графіки для громадянина \"%s\"."
 
 #: client/tilespec.c:2628
 msgid "Missing necessary citybar.occupancy_N sprites."
-msgstr ""
+msgstr "Відстуні необхідні спрайти citybar.occupancy_N."
 
 #: client/tilespec.c:2727
 msgid "Missing overlay-color sprite colors.overlay_0."
-msgstr ""
+msgstr "Відсутні верхньо-шарові спрайти colors.overlay_0."
 
 #: client/tilespec.c:2813
 msgid "Sprite tx.darkness missing."
-msgstr ""
+msgstr "Спрайт tx.darkness відсутній."
 
 #: client/tilespec.c:2958
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
-msgstr ""
+msgstr "нема графічних тегів  \"%s\" чи \"%s\" для %s \"%s\"."
 
 #: client/tilespec.c:3043
 #, c-format
 msgid "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
-msgstr ""
+msgstr "Відстуній спрайт загону %s для тегів \"%s\" і запасний \"%s\"."
 
 #: client/tilespec.c:3113
-#, fuzzy, c-format
+#, c-format
 msgid "No roadstyle for \"%s\" or \"%s\"."
-msgstr "Ви проголосували за \"%s\""
+msgstr "Нема стилю дороги для \"%s\" чи \"%s\"."
 
 #: client/tilespec.c:3205
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot load river \"%s\" or \"%s\""
-msgstr "Не можу завантажити скриптовий файл '%s'."
+msgstr "Не можу загрузити річку \"%s\" або \"%s\""
 
 #: client/tilespec.c:3237 client/tilespec.c:3301
 #, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
+"Відсутній спрайт %s будівельної діяльності для тегів \"%s\" і запасного \"%s\"."
 
 #: client/tilespec.c:3292
 #, c-format
 msgid "No graphics for base \"%s\" at all!"
-msgstr ""
+msgstr "Зовсім нема графіки для бази \"%s\"!"
 
 #: client/tilespec.c:3326
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
-msgstr ""
+msgstr "Місцевість \"%s\": нема графічної клітигки \"%s\" або \"%s\"."
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
 #: client/tilespec.c:3361
-#, fuzzy, c-format
+#, c-format
 msgid "Missing base sprite for tag \"%s\"."
-msgstr "Відсутній аргумент для '%s'.\n"
+msgstr "Відсутній базовий спрайтдля тегу \"%s\"."
 
 #: client/tilespec.c:3621
 #, c-format
 msgid "Nation %s: no national flag."
-msgstr ""
+msgstr "Народ %s: нема національного прапора."
 
 #: client/tilespec.c:4809
 #, c-format
@@ -13646,6 +13645,8 @@ msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
+"Набір полів \"%s\" не підтримує шляхів ІтиДо, таких як %d. Шляхи не "
+"показані як хотілося б."
 
 #: client/tilespec.c:5179
 #, c-format
@@ -13653,34 +13654,36 @@ msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
 "displayed as expected."
 msgstr ""
+"Набір полів \"%s\" не підтримує великі розміри міст, таких як %d. Розміри не "
+"показані як хотілося б."
 
 #: client/tilespec.c:5254
 #, c-format
 msgid "City style \"%s\": no city graphics."
-msgstr ""
+msgstr "Стиль міст \"%s\": нема картинок для міст."
 
 #: client/tilespec.c:5258
 #, c-format
 msgid "City style \"%s\": no wall graphics."
-msgstr ""
+msgstr "Стиль міст \"%s\": нема картинок стін."
 
 #: client/tilespec.c:5262
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
-msgstr ""
+msgstr "Стиль міст \"%s\": нема картинок для зайнятості."
 
 #: common/ai.c:300
 #, c-format
 msgid "Too many AI modules. Max is %d."
-msgstr ""
+msgstr "Забагато модулів ШІ. Максимум %d."
 
 #: common/city.c:651
 msgid "?wonder:W"
-msgstr "W"
+msgstr "?wonder:Ч"
 
 #: common/city.c:653
 msgid "?destroyed:D"
-msgstr "D"
+msgstr "?destroyed:З"
 
 #: common/city.c:655
 msgid "?built:B"
@@ -13696,7 +13699,7 @@ msgstr "?зайве:*"
 
 #: common/connection.c:199 server/sernet.c:398 server/sernet.c:771
 msgid "network exception"
-msgstr "помилка мережі"
+msgstr "вийняток мережі"
 
 #: common/connection.c:213 server/sernet.c:344
 msgid "lagging connection"
@@ -13704,7 +13707,7 @@ msgstr "конект лагає"
 
 #: common/connection.c:275
 msgid "buffer overflow"
-msgstr "буфер переповнено"
+msgstr "переповнення буфера"
 
 #: common/connection.c:467
 #, c-format
@@ -13741,7 +13744,7 @@ msgstr "Нема типу шаблону"
 
 #: common/connection.c:891
 msgid "Missing pattern"
-msgstr "Нема шаблону"
+msgstr "Шаблон відсутній"
 
 #: common/effects.c:1125
 msgid "?req-list-separator:+"
@@ -13782,7 +13785,7 @@ msgstr "Глобальні: %s"
 #: common/events.c:58
 #, c-format
 msgid "Hut: %s"
-msgstr "Хутір: %s"
+msgstr "Хатка: %s"
 
 #: common/events.c:59
 #, c-format
@@ -13808,7 +13811,7 @@ msgstr "Голосування: %s"
 #: common/events.c:64
 #, c-format
 msgid "Wonder: %s"
-msgstr "Диво: %s"
+msgstr "Чудо: %s"
 
 #. TRANS: this and following strings are names for events which cause the
 #. * server to generate messages. They are used in configuring how the client
@@ -13832,7 +13835,7 @@ msgstr "Куплено"
 
 #: common/events.c:92
 msgid "Forced to Sell"
-msgstr "Вимушено продано"
+msgstr "Змушені продати"
 
 #: common/events.c:93
 msgid "New Improvement Selected"
@@ -13840,7 +13843,7 @@ msgstr "Нову будівлю обрано"
 
 #: common/events.c:94
 msgid "Sold"
-msgstr "Продати"
+msgstr "Продано"
 
 #: common/events.c:95
 msgid "Building Unavailable Item"
@@ -13860,27 +13863,27 @@ msgstr "Заворушення"
 
 #: common/events.c:99 data/civ1/game.ruleset:224
 msgid "Famine"
-msgstr "Голодомор"
+msgstr "Голод"
 
 #: common/events.c:100
 msgid "Famine Feared"
-msgstr "Голодомор наближується"
+msgstr "Боїмося Голоду"
 
 #: common/events.c:101
 msgid "Growth"
-msgstr "Зріст"
+msgstr "Ріст"
 
 #: common/events.c:102
 msgid "May Soon Grow"
-msgstr "Незабаром зросте"
+msgstr "Скоро Може Виросте"
 
 #: common/events.c:103
 msgid "Needs Aqueduct"
-msgstr "Потрібен водогін"
+msgstr "Потрібен Водогін"
 
 #: common/events.c:104
 msgid "Needs Aqueduct Being Built"
-msgstr "Потрібен водогін, будується"
+msgstr "Потрібен Водогін,вже будується"
 
 #: common/events.c:105 common/player.c:67
 msgid "Normal"
@@ -13892,7 +13895,7 @@ msgstr "Ядерна атака"
 
 #: common/events.c:107
 msgid "Released from citizen governor"
-msgstr "Звільнено від громадського губернатора"
+msgstr "Звільнено від громадського правителя"
 
 #: common/events.c:108
 msgid "Suggest Growth Throttling"
@@ -13900,7 +13903,7 @@ msgstr "Пропоную зменшити ріст"
 
 #: common/events.c:109
 msgid "Transfer"
-msgstr "Перемістити"
+msgstr "Передача"
 
 #: common/events.c:110
 msgid "Was Built"
@@ -13911,9 +13914,8 @@ msgid "Has Plague"
 msgstr "Має пошесть"
 
 #: common/events.c:112
-#, fuzzy
 msgid "City Map changed"
-msgstr "Виробництво міста"
+msgstr "Мапа міста змінилась"
 
 #: common/events.c:113
 msgid "Worklist Events"
@@ -13921,12 +13923,11 @@ msgstr "Події у плані будівництва"
 
 #: common/events.c:114
 msgid "Production changed"
-msgstr "Виробництво міста"
+msgstr "Виробництво помінялось"
 
 #: common/events.c:115
-#, fuzzy
 msgid "Disaster"
-msgstr "Екологічна катастрофа"
+msgstr "Лихо"
 
 #: common/events.c:116 common/events.c:125
 msgid "Bribe"
@@ -13946,7 +13947,7 @@ msgstr "Схибив"
 
 #: common/events.c:121 common/events.c:128
 msgid "Incite"
-msgstr "Спровокувати"
+msgstr "Підбурити"
 
 #: common/events.c:122 common/events.c:129
 msgid "Poison"
@@ -13954,11 +13955,11 @@ msgstr "Отруїти місто"
 
 #: common/events.c:124 common/events.c:131
 msgid "Theft"
-msgstr "Грабування"
+msgstr "Грабіж"
 
 #: common/events.c:132
 msgid "Eco-Disaster"
-msgstr "Екологічна катастрофа"
+msgstr "Екологічне Лихо"
 
 #: common/events.c:133
 msgid "Nuke Detonated"
@@ -13966,19 +13967,19 @@ msgstr "Підірвано атомну бомбу"
 
 #: common/events.c:134
 msgid "Barbarians in a Hut Roused"
-msgstr "Дикуни з хутора"
+msgstr "Дикуни з хутора повстали"
 
 #: common/events.c:135
 msgid "City Founded from Hut"
-msgstr "Місто засноване з хутора"
+msgstr "Місто засноване з Хатки"
 
 #: common/events.c:136
 msgid "Gold Found in Hut"
-msgstr "На хуторі знайдено гроші"
+msgstr "Знайшли золото в Хатці"
 
 #: common/events.c:137
 msgid "Killed by Barbarians in a Hut"
-msgstr "Вбито дикунами на хуторі"
+msgstr "Вбито дикунами в Хатці"
 
 #: common/events.c:138
 msgid "Mercenaries Found in Hut"
@@ -13998,11 +13999,11 @@ msgstr "Дикуни пощадили підрозділ"
 
 #: common/events.c:142
 msgid "Barbarian Uprising"
-msgstr "Дикунське вторгнення"
+msgstr "Дикунське Повстання"
 
 #: common/events.c:143
 msgid "Civil War"
-msgstr " Громадянська війна"
+msgstr "Громадянська війна"
 
 #: common/events.c:144
 msgid "Collapse to Anarchy"
@@ -14034,7 +14035,7 @@ msgstr "Події зорельота"
 
 #: common/events.c:152
 msgid "Alliance"
-msgstr "Альянс"
+msgstr "Союз"
 
 #: common/events.c:153
 msgid "Broken"
@@ -14058,11 +14059,11 @@ msgstr "Невдалий Напад"
 
 #: common/events.c:159
 msgid "Attack Succeeded"
-msgstr "Атака Вдала"
+msgstr "Вдалий Напад"
 
 #: common/events.c:162
 msgid "Defender Destroyed"
-msgstr "Захисника Знищено"
+msgstr "Захисника Знищили"
 
 #: common/events.c:163
 msgid "Defender Survived"
@@ -14090,7 +14091,7 @@ msgstr "Накази / події переміщення"
 
 #: common/events.c:169
 msgid "Built unit with population cost"
-msgstr ""
+msgstr "Збудований загін з вартістю населення"
 
 #. TRANS: "vote" as a process
 #: common/events.c:171 server/stdinhand.c:4245
@@ -14133,7 +14134,7 @@ msgstr "Налагоджувальні повідомлення ШІ "
 
 #: common/events.c:182
 msgid "Broadcast Report"
-msgstr "Загальнодоступний звіт"
+msgstr "Широкомовний звіт"
 
 #: common/events.c:183
 msgid "Caravan actions"
@@ -14165,7 +14166,7 @@ msgstr "Гру закінчено"
 
 #: common/events.c:190
 msgid "Game Started"
-msgstr "Гру розпочато"
+msgstr "Гра почалась"
 
 #: common/events.c:191
 msgid "Nation Selected"
@@ -14180,9 +14181,8 @@ msgid "Report"
 msgstr "Звіт"
 
 #: common/events.c:194
-#, fuzzy
 msgid "Server Aborting"
-msgstr "(сервер)"
+msgstr "Сервер переривається"
 
 #: common/events.c:195
 msgid "Server Problems"
@@ -14198,7 +14198,7 @@ msgstr "Налаштування сервера змінено"
 
 #: common/events.c:198
 msgid "Turn Bell"
-msgstr "Дзвоник"
+msgstr "Дзвоник Ходу"
 
 #: common/events.c:199
 msgid "Scenario/ruleset script message"
@@ -14210,7 +14210,7 @@ msgid "Year Advance"
 msgstr "Рік минув"
 
 #: common/fc_cmdhelp.c:110
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [option ...]\n"
 "Valid option are:\n"
@@ -14221,25 +14221,21 @@ msgstr ""
 #: common/fc_cmdhelp.c:127
 #, c-format
 msgid "Try \"%s -- --help\" for more."
-msgstr ""
+msgstr "Для додаткових спробуй \"%s -- --help\"."
 
 #: common/fc_cmdhelp.c:133
-#, fuzzy
 msgid "Pass any following options to the UI."
-msgstr ""
-"      --\t\tПередати будь яку наступну опцію до UI.\n"
-"\t\t\tСпробуйте \"%s -- --help\" для допомоги.\n"
+msgstr "Передати будь яку наступну опцію до UI."
 
 #. TRANS: year label (Anno Domini)
 #: common/game.h:618 data/civ1/game.ruleset:192 data/civ2/game.ruleset:207
 msgid "AD"
-msgstr "від Р. Х."
+msgstr "від Р.Х."
 
 #. TRANS: year label (Before Christ)
 #: common/game.h:620 data/civ1/game.ruleset:194 data/civ2/game.ruleset:209
-#, fuzzy
 msgid "BC"
-msgstr "до Р. Х."
+msgstr "до Р.Х."
 
 #: common/government.c:406
 #, c-format
@@ -14253,58 +14249,51 @@ msgstr "Пані %s"
 
 #: common/mapimg.c:297
 msgid "not checked"
-msgstr ""
+msgstr "не перевірено"
 
 #: common/mapimg.c:301
-#, fuzzy
 msgid "error"
-msgstr "Помилка вводу/виводу"
+msgstr "Помилка"
 
 #: common/mapimg.c:428
 msgid "Standard ppm files"
-msgstr ""
+msgstr "Стандартні файли ppm"
 
 #: common/mapimg.c:433
-#, fuzzy
 msgid "ImageMagick"
-msgstr "Зображення"
+msgstr "ImageMagick"
 
 #: common/mapimg.c:469
-#, fuzzy
 msgid "internal error"
 msgstr "Внутрішня помилка."
 
 #: common/mapimg.c:583
-#, fuzzy
 msgid "no players, only terrain"
-msgstr "<немає з'єднань>"
+msgstr "нема гравців, лише місцевість"
 
 #: common/mapimg.c:584
-#, fuzzy
 msgid "one image per player"
-msgstr "Клітинок на гравця"
+msgstr "одна картинка на гравця"
 
 #: common/mapimg.c:585
-#, fuzzy
 msgid "one image per human player"
-msgstr "Дозволено лише між гравцями-людьми"
+msgstr "одна картинка на гравця-людину"
 
 #: common/mapimg.c:586
-#, fuzzy
 msgid "all players on a single image"
-msgstr "Усі гравці на одному континенті"
+msgstr "Усі гравці на одній картинці"
 
 #: common/mapimg.c:587
 msgid "just the player named with 'plrname'"
-msgstr ""
+msgstr "просто гравець з іменем 'plrname'"
 
 #: common/mapimg.c:588
 msgid "just the player specified with 'plrid'"
-msgstr ""
+msgstr "просто гравець визначений 'plrid'"
 
 #: common/mapimg.c:589
 msgid "one image per player in 'plrbv'"
-msgstr ""
+msgstr "одна картинка на гравця в 'plrbv'"
 
 #. TRANS: This is help for a server command, so keywords like
 #. * "define" in the first column are server keywords that must not
