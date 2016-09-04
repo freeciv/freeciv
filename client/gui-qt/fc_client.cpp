@@ -100,6 +100,7 @@ fc_client::fc_client() : QMainWindow()
   x_vote = NULL;
   gtd = NULL;
   update_info_timer = nullptr;
+  game_layout = nullptr;
   for (int i = 0; i <= PAGE_GAME; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;
@@ -334,7 +335,7 @@ void fc_client::switch_page(int new_pg)
     status_bar->setVisible(false);
     if (gui_options.gui_qt_fullscreen){
       gui()->showFullScreen();
-      gui()->mapview_wdg->showFullScreen();
+      gui()->game_tab_widget->showFullScreen();
     }
     menuBar()->setVisible(true);
     mapview_wdg->setFocus();
@@ -667,6 +668,7 @@ void fc_client::create_cursors(void)
   }
 }
 
+
 /****************************************************************************
   Contructor for corner widget (used for menubar)
 ****************************************************************************/
@@ -796,33 +798,12 @@ QString fc_icons::get_path(const QString &id)
                               + id + ".png").toLocal8Bit().data());
 }
 
-
 /****************************************************************************
   Resize event for all game tab widgets
 ****************************************************************************/
-void fc_game_tab_widget::resizeEvent(QResizeEvent* event)
+void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
 {
-  QSize size;
-
-  size = event->size();
-  if (C_S_RUNNING <= client_state()) {
-    gui()->sidebar_wdg->resize_me(size.width(), size.height());
-    map_canvas_resized(size.width(), size.height());
-    gui()->infotab->resize((size.width()
-                             * gui()->qt_settings.chat_width) / 100,
-                             (size.height()
-                             * gui()->qt_settings.chat_height) / 100);
-    gui()->infotab->move(0 , size.height() - gui()->infotab->height());
-    gui()->infotab->restore_chat();
-    gui()->minimapview_wdg->move(size.width() -
-                                 gui()->minimapview_wdg->width() - 10,
-                                 size.height() -
-                                 gui()->minimapview_wdg->height() - 10);
-    gui()->x_vote->move(width() / 2 - gui()->x_vote->width() / 2, 0);
-    gui()->update_sidebar_tooltips();
-    side_disable_endturn(get_turn_done_button_state());
-  }
-  QWidget::resizeEvent(event);
+  event->setAccepted(true);
 }
 
 /****************************************************************************
@@ -836,16 +817,20 @@ void fc_game_tab_widget::current_changed(int index)
   if (gui()->is_closing()) {
     return;
   }
-  /* Set focus to map instead sidebar */
-  if (gui()->mapview_wdg && gui()->current_page() == PAGE_GAME
-     && index == 0) {
-    gui()->mapview_wdg->setFocus();
-  }
   objs = gui()->sidebar_wdg->objects;
 
   foreach(sw, objs) {
     sw->update_final_pixmap();
   }
+  currentWidget()->hide();
+  widget(index)->show();
+
+  /* Set focus to map instead sidebar */
+  if (gui()->mapview_wdg && gui()->current_page() == PAGE_GAME
+     && index == 0) {
+    gui()->mapview_wdg->setFocus();
+  }
+
 }
 
 /****************************************************************************

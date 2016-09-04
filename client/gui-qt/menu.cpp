@@ -58,6 +58,19 @@
 
 extern QApplication *qapp;
 static bool has_player_unit_type(Unit_type_id utype);
+static QString menu_style = "QMenuBar { background-color: #3A3A3A;}"
+    "QMenuBar::item { spacing: 3px; padding: 1px 4px; color: #FFFFFF;"
+    "background: transparent;border-radius: none}"
+    "QMenuBar::item:selected { color: #3399FF;"
+    "background: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 #111111, "
+    "stop:0.89 #111111 stop: 0.9 #3399FF,stop: 1 #3399FF); }"
+    "QMenuBar::item:pressed {background: #111111;}"
+    "QMenu {background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 "
+    "rgba(84, 85, 86, 225), stop:1 rgba(55, 55, 54, 255)) ;border:none;}"
+    "QMenu::item {color: #FFFFFF;padding: 3px 20px 3px 25px; ;border: 2px solid transparent;}"
+    "QMenu::item:disabled {color: #999999;}"
+    "QMenu::item:selected {color: #3399FF; background-color: "
+    "rgba(55, 55, 54, 255); border: 2px solid grey; border-radius: 9px;}";
 
 /**************************************************************************
   New turn callback
@@ -634,6 +647,8 @@ gov_menu::gov_menu(QWidget* parent) :
 {
   // Register ourselves to get updates for free.
   instances << this;
+  setStyleSheet(menu_style);
+  setAttribute(Qt::WA_TranslucentBackground);
 }
 
 /****************************************************************************
@@ -1081,6 +1096,7 @@ void mr_menu::unit_select(struct unit_list *punits,
 ****************************************************************************/
 mr_menu::mr_menu() : QMenuBar()
 {
+  setStyleSheet(menu_style);
 }
 
 /****************************************************************************
@@ -1092,6 +1108,9 @@ void mr_menu::setup_menus()
 {
   QAction *act;
   QMenu *pr;
+  QList<QMenu*> menus;
+  int i;
+
   delayed_order = false;
   airlift_type_id = 0;
   quick_airlifting = false;
@@ -1665,6 +1684,10 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
   signal_help_mapper->setMapping(act, HELP_ABOUT_ITEM);
 
+  menus = this->findChildren<QMenu*>();
+  for (i = 0; i < menus.count(); i++) {
+    menus[i]->setAttribute(Qt::WA_TranslucentBackground);
+  }
   this->setVisible(false);
 }
 
@@ -2686,9 +2709,11 @@ void mr_menu::slot_fullscreen()
 {
   if (!gui_options.gui_qt_fullscreen) {
     gui()->showFullScreen();
-    gui()->mapview_wdg->showFullScreen();
+    gui()->game_tab_widget->showFullScreen();
   } else {
+    // FIXME Doesnt return properly, probably something with sidebar
     gui()->showNormal();
+    gui()->game_tab_widget->showNormal();
   }
   gui_options.gui_qt_fullscreen = !gui_options.gui_qt_fullscreen;
 }
@@ -3087,3 +3112,4 @@ void multiairlift(struct city *acity, Unit_type_id ut)
     }
   } city_list_iterate_end;
 }
+

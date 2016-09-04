@@ -135,6 +135,7 @@ protected:
   void mouseMoveEvent(QMouseEvent *event);
   void focusOutEvent(QFocusEvent *event);
   void leaveEvent(QEvent *event);
+  void resizeEvent(QResizeEvent *event);
 private slots:
   void timer_event();
 private:
