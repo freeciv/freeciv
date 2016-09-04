@@ -17393,9 +17393,8 @@ msgstr "Будівництво мостів"
 #: data/civ1/techs.ruleset:114 data/civ2/techs.ruleset:122
 #: data/classic/techs.ruleset:136 data/experimental/techs.ruleset:145
 #: data/civ2civ3/techs.ruleset:146 data/multiplayer/techs.ruleset:136
-#, fuzzy
 msgid "Allows roads to be built on river tiles."
-msgstr "* Дозволяє %s будувати шляхи через ріки.\n"
+msgstr "Дозволяє будувати дороги на ріках."
 
 #: data/civ1/techs.ruleset:117 data/civ2/techs.ruleset:125
 #: data/classic/techs.ruleset:139 data/experimental/techs.ruleset:148
@@ -17471,13 +17470,13 @@ msgstr "Електрика"
 #: data/classic/techs.ruleset:262 data/experimental/techs.ruleset:284
 #: data/civ2civ3/techs.ruleset:292 data/multiplayer/techs.ruleset:262
 msgid "Electronics"
-msgstr "Електроника"
+msgstr "Електроніка"
 
 #: data/civ1/techs.ruleset:230 data/civ2/techs.ruleset:256
 #: data/classic/techs.ruleset:270 data/experimental/techs.ruleset:293
 #: data/civ2civ3/techs.ruleset:301 data/multiplayer/techs.ruleset:270
 msgid "Engineering"
-msgstr "Техніка"
+msgstr "Інженерна Справа"
 
 #: data/civ1/techs.ruleset:238 data/civ2/techs.ruleset:280
 #: data/classic/techs.ruleset:294 data/experimental/techs.ruleset:320
@@ -17556,7 +17555,7 @@ msgstr "Профспілка"
 #: data/classic/techs.ruleset:408 data/experimental/techs.ruleset:447
 #: data/civ2civ3/techs.ruleset:455 data/multiplayer/techs.ruleset:417
 msgid "Literacy"
-msgstr "Література"
+msgstr "Грамотність"
 
 #: data/civ1/techs.ruleset:335 data/civ2/techs.ruleset:417
 #: data/classic/techs.ruleset:424 data/experimental/techs.ruleset:465
@@ -17595,9 +17594,8 @@ msgid "Medicine"
 msgstr "Медицина"
 
 #: data/civ1/techs.ruleset:381
-#, fuzzy
 msgid "Eliminates the risk of population loss from plague in all your cities."
-msgstr "* Збільшує ймовірність пошесті у ваших містах.\n"
+msgstr "Знімає ризик втрати населення від пошесті у всіх ваших містах."
 
 #: data/civ1/techs.ruleset:385 data/civ2/techs.ruleset:465
 #: data/classic/techs.ruleset:473 data/experimental/techs.ruleset:518
@@ -17615,7 +17613,7 @@ msgstr "Містицизм"
 #: data/classic/techs.ruleset:519 data/experimental/techs.ruleset:570
 #: data/civ2civ3/techs.ruleset:583 data/multiplayer/techs.ruleset:527
 msgid "Improves the effect of Temples."
-msgstr "Збільшує ефективність Церков."
+msgstr "Збільшує ефективність Храмів."
 
 #: data/civ1/techs.ruleset:410 data/civ2/techs.ruleset:514
 #: data/classic/techs.ruleset:522 data/experimental/techs.ruleset:573
@@ -17627,7 +17625,7 @@ msgstr "Навігація"
 #: data/classic/techs.ruleset:530 data/experimental/techs.ruleset:582
 #: data/civ2civ3/techs.ruleset:596 data/multiplayer/techs.ruleset:538
 msgid "Nuclear Fission"
-msgstr "Атомна зброя"
+msgstr "Ядерний Розпад"
 
 #: data/civ1/techs.ruleset:426 data/civ2/techs.ruleset:530
 #: data/classic/techs.ruleset:538 data/experimental/techs.ruleset:591
@@ -17651,7 +17649,7 @@ msgstr "Фізика"
 #: data/classic/techs.ruleset:565 data/experimental/techs.ruleset:621
 #: data/civ2civ3/techs.ruleset:635 data/multiplayer/techs.ruleset:573
 msgid "Plastics"
-msgstr "Пласмаси"
+msgstr "Пластмаси"
 
 #: data/civ1/techs.ruleset:458 data/civ2/techs.ruleset:573
 #: data/classic/techs.ruleset:581 data/experimental/techs.ruleset:639
@@ -17662,26 +17660,24 @@ msgstr "Гончарство"
 #: data/civ1/techs.ruleset:466 data/civ2/techs.ruleset:590
 #: data/classic/techs.ruleset:598 data/experimental/techs.ruleset:657
 #: data/civ2civ3/techs.ruleset:672 data/multiplayer/techs.ruleset:606
-#, fuzzy
 msgid "?tech:Railroad"
 msgstr "Залізниця"
 
 #: data/civ1/techs.ruleset:472
-#, fuzzy
 msgid "Allows Settlers to upgrade roads to railroads."
-msgstr "* Дозволяє %s модернізувати Шляхи до Залізниць.\n"
+msgstr "Дозволяє Поселенцям модернізувати Дороги до Залізниць."
 
 #: data/civ1/techs.ruleset:479 data/civ2/techs.ruleset:603
 #: data/classic/techs.ruleset:611 data/experimental/techs.ruleset:671
 #: data/civ2civ3/techs.ruleset:691 data/multiplayer/techs.ruleset:617
 msgid "Recycling"
-msgstr "Утилізація"
+msgstr "Переробка"
 
 #: data/civ1/techs.ruleset:487 data/civ2/techs.ruleset:611
 #: data/classic/techs.ruleset:619 data/experimental/techs.ruleset:680
 #: data/civ2civ3/techs.ruleset:700 data/multiplayer/techs.ruleset:625
 msgid "Refining"
-msgstr "Рафінування"
+msgstr "Очистка"
 
 #: data/civ1/techs.ruleset:495
 msgid "Religion"
@@ -17691,7 +17687,7 @@ msgstr "Релігія"
 #: data/classic/techs.ruleset:635 data/experimental/techs.ruleset:698
 #: data/civ2civ3/techs.ruleset:718 data/multiplayer/techs.ruleset:641
 msgid "Robotics"
-msgstr "Робототехніка"
+msgstr "Роботика"
 
 #: data/civ1/techs.ruleset:511 data/civ2/techs.ruleset:635
 #: data/classic/techs.ruleset:643 data/experimental/techs.ruleset:707
@@ -17761,7 +17757,7 @@ msgstr "Океан"
 
 #: data/civ1/terrain.ruleset:211 data/civ2/terrain.ruleset:211
 msgid "Oceans cover much of the world."
-msgstr ""
+msgstr "Океани вкривають більшу частину світу."
 
 #: data/civ1/terrain.ruleset:213
 msgid ""
@@ -17769,17 +17765,19 @@ msgid ""
 "project are at risk from piracy, unless there is any kind of Barracks in the "
 "city."
 msgstr ""
+"В містах збудованих на узбережжі, запаси їжі і робіт поточного проекту"
+"загрожені ризиком піратства, поки в місті нема якогось виду казарм."
 
 #: data/civ1/terrain.ruleset:220
 msgid "Arctic"
-msgstr "Арктіка"
+msgstr "Арктика"
 
 #: data/civ1/terrain.ruleset:252
 msgid ""
 "Arctic tiles are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
 msgstr ""
-"Арктичні території знаходяться лише на крайньому півночі або півдні. Там "
+"Арктичні клітинки знаходяться лише на крайньому півночі або півдні. Там "
 "дуже холодно, і працювати там важко."
 
 #: data/civ1/terrain.ruleset:259 data/civ2/terrain.ruleset:255
@@ -17795,7 +17793,7 @@ msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
 msgstr ""
-"Пустелі це засушливі теріторії, що робить їх практично непридатними для "
+"Пустелі це засушливі місцини, що робить їх практично непридатними для "
 "сільського господарства та торгівлі."
 
 #: data/civ1/terrain.ruleset:298 data/civ2/terrain.ruleset:295
@@ -17808,7 +17806,9 @@ msgstr "Ліс"
 #: data/classic/terrain.ruleset:472 data/experimental/terrain.ruleset:462
 #: data/civ2civ3/terrain.ruleset:476 data/multiplayer/terrain.ruleset:460
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
-msgstr "Сільське господарство у лісах дещо проблематичне."
+msgstr ""
+"Ліси густо поросли деревами, тому Сільське господарство у лісах"
+"дещо проблематичне."
 
 #: data/civ1/terrain.ruleset:339 data/civ2/terrain.ruleset:336
 #: data/classic/terrain.ruleset:478 data/experimental/terrain.ruleset:468
@@ -17820,7 +17820,7 @@ msgstr "Степ"
 #: data/classic/terrain.ruleset:515 data/experimental/terrain.ruleset:503
 #: data/civ2civ3/terrain.ruleset:519 data/multiplayer/terrain.ruleset:501
 msgid "Grasslands afford exceptional agricultural opportunities."
-msgstr "Степи найкращі території для сільського господарства."
+msgstr "Степи дають вийняткові можливості для сільського господарства."
 
 #: data/civ1/terrain.ruleset:377 data/civ2/terrain.ruleset:374
 #: data/classic/terrain.ruleset:520 data/experimental/terrain.ruleset:508
@@ -17844,6 +17844,8 @@ msgid ""
 "destroy buildings in that city. There is no technology or improvement which "
 "can prevent this disaster."
 msgstr ""
+"Місто збудоване впритул до горбів ризикує потерпати від землетрусів, можуть "
+"знищувати будівлі. Нема технологій чи будівель, щоб запобігти цьому лиху."
 
 #: data/civ1/terrain.ruleset:420 data/civ2/terrain.ruleset:413
 #: data/classic/terrain.ruleset:563 data/experimental/terrain.ruleset:549
@@ -17856,7 +17858,7 @@ msgstr "Джунглі"
 #: data/multiplayer/terrain.ruleset:583
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr ""
-"Джунглі заполонена рослинами місцевість непридатна для сільського "
+"Джунглі  - заполонена рослинами місцевість непридатна для сільського "
 "господарства."
 
 #: data/civ1/terrain.ruleset:458 data/civ2/terrain.ruleset:453
@@ -17880,6 +17882,9 @@ msgid ""
 "Temple in the city instils sufficient respect for the forces of nature to "
 "prevent population loss."
 msgstr ""
+"Міста збудовані впритул до гір, ризикують від вулканічної діяльності."
+"Храм в місті внушає силам природи достатню повагу , і цим запобігає втраті"
+"населення."
 
 #: data/civ1/terrain.ruleset:499 data/civ2/terrain.ruleset:491
 #: data/classic/terrain.ruleset:649 data/experimental/terrain.ruleset:631
@@ -17909,7 +17914,7 @@ msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
 msgstr ""
-"Болота перенасищені водою, що робить їх непридатними для сільського "
+"Болота перенасичені водою, що робить їх непридатними для сільського "
 "господарства."
 
 #: data/civ1/terrain.ruleset:578 data/civ2/terrain.ruleset:572
@@ -17924,7 +17929,7 @@ msgstr "Тундра"
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
-"Тундра це холодні регіони - які пригодні для деякого сільського господарства "
+"Тундра це холодні регіони - які придатні для деякого сільського господарства "
 "та мабуть не більше."
 
 #: data/civ1/terrain.ruleset:645 data/civ2/terrain.ruleset:647
@@ -17959,7 +17964,7 @@ msgstr "Коні"
 #: data/classic/terrain.ruleset:891 data/experimental/terrain.ruleset:867
 #: data/civ2civ3/terrain.ruleset:905 data/multiplayer/terrain.ruleset:865
 msgid "Oasis"
-msgstr "Оазіс"
+msgstr "Оаза"
 
 #: data/civ1/terrain.ruleset:693 data/civ2/terrain.ruleset:794
 #: data/civ2/terrain.ruleset:802 data/classic/terrain.ruleset:971
