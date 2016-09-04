@@ -75,7 +75,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(WINARCH)-$(GUI)
 	# configure
-	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-project-definition=../../../bootstrap/snapshot.project --enable-client=$(GUI) --with-followtag="windows-S3_0" --with-tinycthread --without-readline --disable-sdl-mixer --without-libbz2 --enable-fcdb=sqlite3 --with-sqlite3-prefix=/$(ARCHDIR) --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
+	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-project-definition=../../../bootstrap/snapshot.project --enable-client=$(GUI) --with-followtag="windows-S3_0" --with-tinycthread --without-readline --without-libbz2 --enable-fcdb=sqlite3 --with-sqlite3-prefix=/$(ARCHDIR) --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(WINARCH)-$(GUI)
 	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
@@ -168,6 +168,21 @@ install-ruledit: install-ruledit-dir
 
 # install Freeciv environment
 
+SOUND_DLLS := \
+	SDL2.dll \
+	SDL2_mixer.dll \
+	libFLAC-8.dll \
+	libfluidsynth-1.dll \
+	libmad-0.dll \
+	libmodplug-1.dll \
+	libvorbis-0.dll \
+	libvorbisenc-2.dll \
+	libvorbisfile-3.dll \
+	libogg-0.dll \
+	libportaudio-2.dll \
+	libsndfile-1.dll \
+	libspeex-1.dll
+
 COMMON_DLLS := \
 	libstdc++-6.dll \
 	libeay32.dll \
@@ -210,7 +225,8 @@ COMMON_DLLS := \
 	libwinpthread-1.dll \
 	libicuuc57.dll \
 	libicudt57.dll \
-	libsqlite3-0.dll
+	libsqlite3-0.dll \
+	$(SOUND_DLLS)
 
 install-env-common:
 	# add DLLs
