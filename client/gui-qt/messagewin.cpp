@@ -199,7 +199,8 @@ messagewdg::messagewdg(QWidget *parent): QWidget(parent)
                 "QScrollBar::handle:vertical {background: #90A4FF;"
                 "min-height: 20px}"
                 "QTableWidget {background-color: transparent;}"
-                "QTableWidget::item:hover {background: #107511;}"
+                "QTableWidget::item:hover {color: #3399FF; background-color: "
+                "rgba(55, 55, 54, 225); border-radius: 9px;}"
                 "QTableCornerButton::section "
                 "{background-color: transparent;}");
   mesg_table = new QTableWidget;

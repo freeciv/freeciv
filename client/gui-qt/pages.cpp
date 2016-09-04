@@ -721,6 +721,7 @@ void fc_client::create_game_page()
   game_main_widget->setLayout(game_layout);
   game_tab_widget = new fc_game_tab_widget;
   game_tab_widget->setMinimumSize(600,400);
+  game_tab_widget->setContentsMargins(0, 0, 0, 0);
   add_game_tab(game_main_widget);
   if (gui_options.gui_qt_sidebar_left) {
     pages_layout[PAGE_GAME]->addWidget(sidebar_wdg, 1, 0);

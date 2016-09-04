@@ -280,6 +280,7 @@ void fc_sidewidget::wheelEvent(QWheelEvent *event)
   event->accept();
 }
 
+
 /***************************************************************************
   Blinks current sidebar widget
 ***************************************************************************/
@@ -433,6 +434,7 @@ fc_sidebar::fc_sidebar()
   layout = new QVBoxLayout;
   layout->setContentsMargins(0, 0, 0, 0);
   setLayout(layout);
+  setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 }
 
 /***************************************************************************
@@ -465,6 +467,7 @@ void fc_sidebar::paintEvent(QPaintEvent *event)
   painter.end();
 }
 
+
 /***************************************************************************
   Paints dark rectangle as background for sidebar
 ***************************************************************************/
@@ -478,13 +481,16 @@ void fc_sidebar::paint(QPainter *painter, QPaintEvent *event)
   Resize sidebar to take 100 pixels or 10% of given width, and all
   widgets inside sidebar
 **************************************************************************/
-void fc_sidebar::resize_me(int width, int height)
+void fc_sidebar::resize_me(int wdth, int hght)
 {
   int w, h, non_std, non_std_count;;
-  w = width / 10;
-  h = height;
+  w = wdth / 10;
+  h = hght;
   w = qMin(100, w);
-  setFixedSize(w, h);
+
+  if (qAbs(width() - w) > 2) {
+    setFixedWidth(w);
+  }
 
   if (sidebar_img) {
     delete sidebar_img;
@@ -507,12 +513,12 @@ void fc_sidebar::resize_me(int width, int height)
   }
 
   h = h - non_std;
-
+  h = h / (objects.count() - non_std_count) - 7;
   /* resize all standard sidewidgets */
   foreach (fc_sidewidget * sw,  objects) {
     if (sw->standard == SW_STD) {
-      sw->resize_pixmap(w, h / (objects.count() - non_std_count));
-      sw->setFixedSize(w, h / (objects.count() - non_std_count) - 2);
+      sw->resize_pixmap(w, h);
+      sw->setFixedSize(w, h);
       sw->update_final_pixmap();
     }
   }
