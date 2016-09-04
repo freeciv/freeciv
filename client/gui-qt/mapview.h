@@ -118,6 +118,8 @@ private:
 class map_view : public QWidget, private font_options_listener
 {
   Q_OBJECT
+  void shortcut_pressed(int key);
+  void shortcut_released(Qt::MouseButton mb);
 public:
   map_view();
   void paint(QPainter *painter, QPaintEvent *event);

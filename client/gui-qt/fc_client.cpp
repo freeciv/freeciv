@@ -44,6 +44,7 @@ extern "C" {
   bool get_turn_done_button_state();
   void real_science_report_dialog_update(void);
 }
+extern void write_shortcuts();
 
 /****************************************************************************
   Constructor
@@ -560,7 +561,7 @@ int fc_client::gimme_index_of(QString str)
 ****************************************************************************/
 void fc_client::read_settings()
 {
-  QSettings s(QSettings::IniFormat, QSettings::UserScope, 
+  QSettings s(QSettings::IniFormat, QSettings::UserScope,
               "freeciv-qt-client");
   if (s.contains("Chat-xsize")) {
     qt_settings.chat_width = s.value("Chat-xsize").toInt();
@@ -586,6 +587,7 @@ void fc_client::write_settings()
               "freeciv-qt-client");
   s.setValue("Chat-xsize", qt_settings.chat_width);
   s.setValue("Chat-ysize", qt_settings.chat_height);
+  write_shortcuts();
 }
 
 /****************************************************************************

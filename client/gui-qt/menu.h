@@ -298,6 +298,7 @@ public:
 private slots:
   /* game menu */
   void local_options();
+  void shortcut_options();
   void server_options();
   void messages_options();
   void save_options_now();

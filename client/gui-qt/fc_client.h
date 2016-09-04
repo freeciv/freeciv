@@ -61,6 +61,7 @@ enum connection_state {
   WAITING_TYPE
 };
 
+class fc_shortcut;
 class fc_sidebar;
 class fc_sidetax;
 class fc_sidewidget;

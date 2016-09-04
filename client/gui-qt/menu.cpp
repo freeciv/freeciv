@@ -51,6 +51,7 @@
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
+#include "shortcuts.h"
 #include "spaceshipdlg.h"
 #include "sprite.h"
 
@@ -950,6 +951,8 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(server_options()));
   act = menu->addAction(_("Messages"));
   connect(act, SIGNAL(triggered()), this, SLOT(messages_options()));
+  act = menu->addAction(_("Shortcuts"));
+  connect(act, SIGNAL(triggered()), this, SLOT(shortcut_options()));
   act = menu->addAction(_("Save Options Now"));
   act->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
   connect(act, SIGNAL(triggered()), this, SLOT(save_options_now()));
@@ -978,18 +981,21 @@ void mr_menu::setup_menus()
   /* View Menu */
   menu = this->addMenu(Q_("?verb:View"));
   act = menu->addAction(_("Center View"));
-  act->setShortcut(QKeySequence(tr("c")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_CENTER_VIEW))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_center_view()));
   menu->addSeparator();
   act = menu->addAction(_("Fullscreen"));
-  act->setShortcut(QKeySequence(tr("alt+return")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_FULLSCREEN))));
   act->setCheckable(true);
   act->setChecked(gui_options.gui_qt_fullscreen);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_fullscreen()));
   menu->addSeparator();
   minimap_status = menu->addAction(_("Minimap"));
   minimap_status->setCheckable(true);
-  minimap_status->setShortcut(QKeySequence(tr("ctrl+m")));
+  minimap_status->setShortcut(QKeySequence(shortcut_to_string(
+                             fc_shortcuts::sc()->get_shortcut(SC_MINIMAP))));
   minimap_status->setChecked(true);
   connect(minimap_status, SIGNAL(triggered()), this,
           SLOT(slot_minimap_view()));
@@ -1001,17 +1007,20 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("City Output"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_output);
-  act->setShortcut(QKeySequence(tr("ctrl+w")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_CITY_OUTPUT))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_output()));
   act = menu->addAction(_("Map Grid"));
-  act->setShortcut(QKeySequence(tr("ctrl+g")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_MAP_GRID))));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_map_grid);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_map_grid()));
   act = menu->addAction(_("National Borders"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_borders);
-  act->setShortcut(QKeySequence(tr("ctrl+b")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_NAT_BORDERS))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_borders()));
   act = menu->addAction(_("Native Tiles"));
   act->setCheckable(true);
@@ -1025,7 +1034,8 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("City Names"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_names);
-  act->setShortcut(QKeySequence(tr("ctrl+n")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_CITY_NAMES))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_names()));
   act = menu->addAction(_("City Growth"));
   act->setCheckable(true);
@@ -1035,7 +1045,8 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("City Production Levels"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_productions);
-  act->setShortcut(QKeySequence(tr("ctrl+p")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_CITY_PROD))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_production()));
   act = menu->addAction(_("City Buy Cost"));
   act->setCheckable(true);
@@ -1044,7 +1055,8 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("City Traderoutes"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_trade_routes);
-  act->setShortcut(QKeySequence(tr("ctrl+d")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_TRADE_ROUTES))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_traderoutes()));
 
   /* Select Menu */
@@ -1078,7 +1090,8 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(STANDARD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_wait()));
   act = menu->addAction(_("Done"));
-  act->setShortcut(QKeySequence(tr("space")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_DONE_MOVING))));
   menu_list.insertMulti(STANDARD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_done_moving()));
 
@@ -1155,18 +1168,21 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(GOTO_CITY, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_return_to_city()));
   act = menu->addAction(_("Go to/Airlift to City..."));
-  act->setShortcut(QKeySequence(tr("t")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_GOTOAIRLIFT))));
   menu_list.insertMulti(AIRLIFT, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_airlift()));
   menu->addSeparator();
   act = menu->addAction(_("Auto Explore"));
   menu_list.insertMulti(EXPLORE, act);
-  act->setShortcut(QKeySequence(tr("x")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_AUTOEXPLORE))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_explore()));
   act = menu->addAction(_("Patrol"));
   menu_list.insertMulti(STANDARD, act);
   act->setEnabled(false);
-  act->setShortcut(QKeySequence(tr("q")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_PATROL))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_patrol()));
   menu->addSeparator();
   act = menu->addAction(_("Sentry"));
@@ -1174,7 +1190,8 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(SENTRY, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_sentry()));
   act = menu->addAction(_("Unsentry All On Tile"));
-  act->setShortcut(QKeySequence(tr("shift+s")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_UNSENTRY_TILE))));
   menu_list.insertMulti(WAKEUP, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unsentry()));
   menu->addSeparator();
@@ -1193,10 +1210,12 @@ void mr_menu::setup_menus()
   menu->addSeparator();
   act = menu->addAction(_("Set Home City"));
   menu_list.insertMulti(HOMECITY, act);
-  act->setShortcut(QKeySequence(tr("h")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_SETHOME))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_set_home()));
   act = menu->addAction(_("Upgrade"));
-  act->setShortcut(QKeySequence(tr("shift+u")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_UPGRADE_UNIT))));
   menu_list.insertMulti(UPGRADE, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_upgrade()));
   act = menu->addAction(_("Convert"));
@@ -1230,7 +1249,8 @@ void mr_menu::setup_menus()
   /* TRANS: Menu item to bring up the action selection dialog. */
   act = menu->addAction(_("Do..."));
   menu_list.insertMulti(ORDER_DIPLOMAT_DLG, act);
-  act->setShortcut(QKeySequence(tr("d")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_DO))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_action()));
   act = menu->addAction(_("Explode Nuclear"));
   menu_list.insertMulti(NUKE, act);
@@ -2788,6 +2808,15 @@ void mr_menu::local_options()
 {
   gui()->popup_client_options();
 }
+
+/****************************************************************
+  Invoke dialog with shortcut options
+*****************************************************************/
+void mr_menu::shortcut_options()
+{
+  popup_shortcuts_dialog();
+}
+
 
 /****************************************************************
   Invoke dialog with server options
