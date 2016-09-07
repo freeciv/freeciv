@@ -1474,14 +1474,15 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
                     || (role >= L_LAST && role < MAX_UNIT_ROLES), NULL);
   fc_assert_ret_val(!first_init, NULL);
 
-  for(j=n_with_role[role]-1; j>=0; j--) {
+  for (j = n_with_role[role] - 1; j >= 0; j--) {
     u = with_role[role][j];
     if ((1 != utype_fuel(u) || uclass_has_flag(utype_class(u), UCF_MISSILE))
         && can_city_build_unit_now(pcity, u)) {
-      /* Allow fuel==1 units when pathfinding can handle them. */
+      /* Allow fuel == 1 units when pathfinding can handle them. */
       return u;
     }
   }
+
   return NULL;
 }
 
@@ -1492,7 +1493,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
   TODO: Cache the result per player?
 **************************************************************************/
 struct unit_type *best_role_unit_for_player(const struct player *pplayer,
-				       int role)
+                                            int role)
 {
   int j;
 
@@ -1501,7 +1502,7 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
                     || (role >= L_LAST && role < MAX_UNIT_ROLES), NULL);
   fc_assert_ret_val(!first_init, NULL);
 
-  for(j = n_with_role[role]-1; j >= 0; j--) {
+  for (j = n_with_role[role] - 1; j >= 0; j--) {
     struct unit_type *utype = with_role[role][j];
 
     if (can_player_build_unit_now(pplayer, utype)) {
@@ -1517,7 +1518,7 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
   Returns NULL if none match.  Used eg when placing starting units.
 **************************************************************************/
 struct unit_type *first_role_unit_for_player(const struct player *pplayer,
-					int role)
+                                             int role)
 {
   int j;
 
@@ -1526,7 +1527,7 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
                     || (role >= L_LAST && role < MAX_UNIT_ROLES), NULL);
   fc_assert_ret_val(!first_init, NULL);
 
-  for(j = 0; j < n_with_role[role]; j++) {
+  for (j = 0; j < n_with_role[role]; j++) {
     struct unit_type *utype = with_role[role][j];
 
     if (can_player_build_unit_now(pplayer, utype)) {

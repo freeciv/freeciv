@@ -1574,15 +1574,16 @@ enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
   }
 
   nmatches = 0;
-  for(i=0; i<n_names; i++) {
+  for (i = 0; i < n_names; i++) {
     const char *name = accessor_fn(i);
-    if (cmp_fn(name, prefix, len)==0) {
+
+    if (cmp_fn(name, prefix, len) == 0) {
       if (strlen(name) == len) {
-	*ind_result = i;
-	return M_PRE_EXACT;
+        *ind_result = i;
+        return M_PRE_EXACT;
       }
-      if (nmatches==0) {
-	*ind_result = i;	/* first match */
+      if (nmatches == 0) {
+        *ind_result = i;	/* first match */
       }
       if (matches != NULL && nmatches < max_matches) {
         matches[nmatches] = i;

@@ -600,7 +600,7 @@ static bool lookup_unit_list(struct section_file *file, const char *prefix,
   bool ok = TRUE;
 
   /* pre-fill with NULL: */
-  for(i = 0; i < MAX_NUM_UNIT_LIST; i++) {
+  for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
     output[i] = NULL;
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
@@ -2082,7 +2082,7 @@ static bool load_ruleset_units(struct section_file *file,
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags",
                                      section_name(section_list_get(sec, i)));
-      for(j = 0; j < nval; j++) {
+      for (j = 0; j < nval; j++) {
         sval = slist[j];
         if (0 == strcmp(sval, "")) {
           continue;

@@ -985,12 +985,12 @@ void update_unit_pix_label(struct unit_list *punitlist)
       set_unit_icons_more_arrow(TRUE);
     } else {
       set_unit_icons_more_arrow(FALSE);
-      for(; i < num_units_below; i++) {
+      for (; i < num_units_below; i++) {
 	set_unit_icon(i, NULL);
       }
     }
   } else {
-    for(i=-1; i<num_units_below; i++) {
+    for (i = -1; i < num_units_below; i++) {
       set_unit_icon(i, NULL);
     }
     set_unit_icons_more_arrow(FALSE);

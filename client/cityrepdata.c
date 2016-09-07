@@ -931,13 +931,13 @@ static int datum_compare(const struct datum *a, const struct datum *b)
   Compare two strings of data lexicographically.
 **********************************************************************/
 static int data_compare(const struct datum_vector *a, 
-    const struct datum_vector *b)
+                        const struct datum_vector *b)
 {
   int i, n;
 
   n = MIN(a->size, b->size);
 
-  for(i = 0; i < n; i++) {
+  for (i = 0; i < n; i++) {
     int cmp = datum_compare(&a->p[i], &b->p[i]);
 
     if (cmp != 0) {
@@ -949,7 +949,6 @@ static int data_compare(const struct datum_vector *a,
      If they have equal numbers, the two really are equal. */
   return a->size - b->size;
 }
-
 
 /**********************************************************************
   Split a string into a vector of datum.
@@ -1003,12 +1002,11 @@ static void free_data(struct datum_vector *data)
 {
   int i;
 
-  for(i = 0; i < data->size; i++) {
+  for (i = 0; i < data->size; i++) {
     free_datum(&data->p[i]);
   }
   datum_vector_free(data);
 }
-
 
 /**********************************************************************
   The real function: split the two strings, and compare them.

@@ -207,7 +207,7 @@ static void dai_barbarian_choose_build(struct player *pplayer,
   int i, bestattack = 0;
 
   /* Choose the best unit among the basic ones */
-  for(i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
+  for (i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
     struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD, i);
 
     if (iunit->attack_strength > bestattack
@@ -218,7 +218,7 @@ static void dai_barbarian_choose_build(struct player *pplayer,
   }
 
   /* Choose among those made available through other civ's research */
-  for(i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
+  for (i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
     struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
 
     if (iunit->attack_strength > bestattack

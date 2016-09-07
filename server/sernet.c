@@ -921,8 +921,11 @@ static const char *makeup_connection_name(int *id)
   static unsigned short i = 0;
   static char name[MAX_LEN_NAME];
 
-  for(;;) {
-    if (i==(unsigned short)-1) i++;              /* don't use 0 */
+  for (;;) {
+    if (i == (unsigned short) - 1) {
+      /* don't use 0 */
+      i++;
+    }
     fc_snprintf(name, sizeof(name), "c%u", (unsigned int)++i);
     if (NULL == player_by_name(name)
         && NULL == player_by_user(name)
@@ -933,7 +936,7 @@ static const char *makeup_connection_name(int *id)
     }
   }
 }
-  
+
 /********************************************************************
   Server accepts connection from client:
   Low level socket stuff, and basic-initialize the connection struct.
@@ -1025,15 +1028,17 @@ static int server_accept_connection(int sockfd)
   Returns 0 on success, -1 on failure (bad accept(), or too many
   connections).
 ********************************************************************/
-int server_make_connection(int new_sock, const char *client_addr, const char *client_ip)
+int server_make_connection(int new_sock, const char *client_addr,
+                           const char *client_ip)
 {
   struct timer *timer;
   int i;
 
   fc_nonblock(new_sock);
 
-  for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
+  for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
     struct connection *pconn = &connections[i];
+
     if (!pconn->used) {
       connection_common_init(pconn);
       pconn->sock = new_sock;
@@ -1080,8 +1085,8 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
 }
 
 /********************************************************************
- open server socket to be used to accept client connections
- and open a server socket for server LAN announcements.
+  Open server socket to be used to accept client connections
+  and open a server socket for server LAN announcements.
 ********************************************************************/
 int server_open_socket(void)
 {
@@ -1307,7 +1312,6 @@ int server_open_socket(void)
   return 0;
 }
 
-
 /********************************************************************
   Initialize connection related stuff. Attention: Logging is not
   available within this functions!
@@ -1320,8 +1324,9 @@ void init_connections(void)
   game.est_connections = conn_list_new();
   game.glob_observers = conn_list_new();
 
-  for(i=0; i<MAX_NUM_CONNECTIONS; i++) { 
+  for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
     struct connection *pconn = &connections[i];
+
     pconn->used = FALSE;
     pconn->self = conn_list_new();
     conn_list_prepend(pconn->self, pconn);
@@ -1329,9 +1334,12 @@ void init_connections(void)
 #if defined(__VMS)
   {
     unsigned long status;
+
     $DESCRIPTOR (tt_desc, "SYS$INPUT");
-    status = sys$assign(&tt_desc,&tt_chan,0,0);
-    if (!$VMS_STATUS_SUCCESS(status)) lib$stop(status);
+    status = sys$assign(&tt_desc, &tt_chan, 0, 0);
+    if (!$VMS_STATUS_SUCCESS(status)) {
+      lib$stop(status);
+    }
   }
 #endif /* VMS */
 }

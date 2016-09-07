@@ -1076,7 +1076,7 @@ int fc_break_lines(char *str, size_t desired_len)
     }
 
     /* find space and break: */
-    for(c = str + desired_len; c > str; c--) {
+    for (c = str + desired_len; c > str; c--) {
       if (fc_isspace(*c)) {
         *c = '\n';
         slen -= c + 1 - str;

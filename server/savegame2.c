@@ -239,7 +239,7 @@ extern bool sg_success;
 #define halfbyte_iterate_extras(e, num_extras_types)                        \
 {                                                                           \
   int e;                                                                    \
-  for(e = 0; 4 * e < (num_extras_types); e++) {
+  for (e = 0; 4 * e < (num_extras_types); e++) {
 
 #define halfbyte_iterate_extras_end                                         \
   }                                                                         \
@@ -249,7 +249,7 @@ extern bool sg_success;
 #define halfbyte_iterate_special(s, num_specials_types)                     \
 {                                                                           \
   enum tile_special_type s;                                                 \
-  for(s = 0; 4 * s < (num_specials_types); s++) {
+  for (s = 0; 4 * s < (num_specials_types); s++) {
 
 #define halfbyte_iterate_special_end                                        \
   }                                                                         \
@@ -259,7 +259,7 @@ extern bool sg_success;
 #define halfbyte_iterate_bases(b, num_bases_types)                          \
 {                                                                           \
   int b;                                                                    \
-  for(b = 0; 4 * b < (num_bases_types); b++) {
+  for (b = 0; 4 * b < (num_bases_types); b++) {
 
 #define halfbyte_iterate_bases_end                                          \
   }                                                                         \
@@ -269,7 +269,7 @@ extern bool sg_success;
 #define halfbyte_iterate_roads(r, num_roads_types)                          \
 {                                                                           \
   int r;                                                                    \
-  for(r = 0; 4 * r < (num_roads_types); r++) {
+  for (r = 0; 4 * r < (num_roads_types); r++) {
 
 #define halfbyte_iterate_roads_end                                          \
   }                                                                         \

@@ -474,7 +474,7 @@ static bool read_a_line(struct inputfile *inf)
    * At start of this loop, pos is index to trailing null
    * (or first position) in line.
    */
-  for(;;) {
+  for (;;) {
     ret = fz_fgets((char *) astr_str(line) + pos,
                    astr_capacity(line) - pos, inf->fp);
 

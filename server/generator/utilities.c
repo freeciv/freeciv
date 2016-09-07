@@ -159,7 +159,7 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
     } whole_map_iterate_filtered_end;
 
     /* create the linearize function as "incremental" frequencies */
-    for(i =  0; i < size; i++) {
+    for (i =  0; i < size; i++) {
       count += frequencies[i]; 
       frequencies[i] = (count * int_map_max) / total;
     }

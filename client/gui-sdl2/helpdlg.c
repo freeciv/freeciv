@@ -1443,7 +1443,7 @@ static void redraw_tech_tree_dlg(void)
       }
 
       pSub1 = NULL;
-      for(j = 0; j < 4 && pStore->pSub_Req[j]; j++) {
+      for (j = 0; j < 4 && pStore->pSub_Req[j]; j++) {
         if (MAX_ID - pStore->pSub_Req[j]->ID == advance_required(tech, AR_TWO)) {
           pSub1 = pStore->pSub_Req[j];
           break;
@@ -1834,7 +1834,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       }
     } else {
       if (sub_targets_count < 5) {
-        for(i = 0; i < MIN(sub_targets_count, 4); i++) {
+        for (i = 0; i < MIN(sub_targets_count, 4); i++) {
           pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w;
           if (i < 2) {
             pStore->pSub_Targets[i]->size.y = pTech->size.y - (pStore->pSub_Targets[i]->size.h + adj_size(5)) * ( 2 - i );

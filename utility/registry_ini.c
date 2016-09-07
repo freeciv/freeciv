@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -767,8 +767,8 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           /* write the column names, and calculate ncol: */
           ncol = 0;
           col_iter = save_iter;
-          for(; (col_pentry = entry_list_link_data(col_iter));
-              col_iter = entry_list_link_next(col_iter)) {
+          for (; (col_pentry = entry_list_link_data(col_iter));
+               col_iter = entry_list_link_next(col_iter)) {
             col_entry_name = entry_name(col_pentry);
             if (strncmp(col_entry_name, first, offset) != 0) {
               break;
@@ -1911,7 +1911,7 @@ bool *secfile_lookup_bool_vec(const struct section_file *secfile,
   }
 
   vec = fc_malloc(i * sizeof(bool));
-  for(i = 0; i < *dim; i++) {
+  for (i = 0; i < *dim; i++) {
     if (!secfile_lookup_bool(secfile, vec + i, "%s,%d", fullpath, (int) i)) {
       SECFILE_LOG(secfile, NULL,
                   "An error occurred when looking up to \"%s,%d\" entry.",
@@ -2058,7 +2058,7 @@ int *secfile_lookup_int_vec(const struct section_file *secfile,
   }
 
   vec = fc_malloc(i * sizeof(int));
-  for(i = 0; i < *dim; i++) {
+  for (i = 0; i < *dim; i++) {
     if (!secfile_lookup_int(secfile, vec + i, "%s,%d", fullpath, (int) i)) {
       SECFILE_LOG(secfile, NULL,
                   "An error occurred when looking up to \"%s,%d\" entry.",
@@ -2218,7 +2218,7 @@ const char **secfile_lookup_str_vec(const struct section_file *secfile,
   }
 
   vec = fc_malloc(i * sizeof(const char *));
-  for(i = 0; i < *dim; i++) {
+  for (i = 0; i < *dim; i++) {
     if (!(vec[i] = secfile_lookup_str(secfile, "%s,%d",
                                       fullpath, (int) i))) {
       SECFILE_LOG(secfile, NULL,
@@ -2357,7 +2357,7 @@ int *secfile_lookup_plain_enum_vec_full(const struct section_file *secfile,
   }
 
   vec = fc_malloc(i * sizeof(int));
-  for(i = 0; i < *dim; i++) {
+  for (i = 0; i < *dim; i++) {
     if (!secfile_lookup_plain_enum_full(secfile, vec + i, is_valid_fn,
                                         by_name_fn, "%s,%d",
                                         fullpath, (int) i)) {
@@ -2540,7 +2540,7 @@ int *secfile_lookup_bitwise_enum_vec_full(const struct section_file *secfile,
   }
 
   vec = fc_malloc(i * sizeof(int));
-  for(i = 0; i < *dim; i++) {
+  for (i = 0; i < *dim; i++) {
     if (!secfile_lookup_bitwise_enum_full(secfile, vec + i, is_valid_fn,
                                           by_name_fn, "%s,%d",
                                           fullpath, (int) i)) {
@@ -2549,6 +2549,7 @@ int *secfile_lookup_bitwise_enum_vec_full(const struct section_file *secfile,
                   fullpath, (int) i);
       free(vec);
       *dim = 0;
+
       return NULL;
     }
   }

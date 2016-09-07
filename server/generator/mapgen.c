@@ -1426,7 +1426,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       break;
     }
 
-    for(;;) {
+    for (;;) {
       bool success;
 
       success = create_start_positions(mode, initial_unit);

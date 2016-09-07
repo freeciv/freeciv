@@ -1534,11 +1534,11 @@ bool correct_black(SDL_Surface *pSrc)
     unlock_surf(pSrc);
   } else {
     if (pSrc->format->BitsPerPixel == 8 && pSrc->format->palette) {
-      for(x = 0; x < pSrc->format->palette->ncolors; x++) {
-        if (x != pSrc->format->colorkey &&
-            pSrc->format->palette->colors[x].r < 4 &&
-            pSrc->format->palette->colors[x].g < 4 &&
-            pSrc->format->palette->colors[x].b < 4) {
+      for (x = 0; x < pSrc->format->palette->ncolors; x++) {
+        if (x != pSrc->format->colorkey
+            && pSrc->format->palette->colors[x].r < 4
+            && pSrc->format->palette->colors[x].g < 4
+            && pSrc->format->palette->colors[x].b < 4) {
           pSrc->format->palette->colors[x].r = 4;
           pSrc->format->palette->colors[x].g = 4;
           pSrc->format->palette->colors[x].b = 4;

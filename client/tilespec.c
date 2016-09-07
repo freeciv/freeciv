@@ -2817,7 +2817,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
   SET_SPRITE_OPT(unit.action_decision_want, "unit.action_decision_want");
 
-  for(i=0; i<NUM_TILES_HP_BAR; i++) {
+  for (i = 0; i < NUM_TILES_HP_BAR; i++) {
     fc_snprintf(buffer, sizeof(buffer), "unit.hp_%d", i*10);
     SET_SPRITE(unit.hp_bar[i], buffer);
   }
@@ -2889,7 +2889,8 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     t->sprites.path.s[state].turns ## factor_name [i] =                     \
         t->sprites.path.s[GTS_MP_LEFT].turns ## factor_name [i];            \
   }
-  for(i=0; i<NUM_TILES_DIGITS; i++) {
+
+  for (i = 0; i < NUM_TILES_DIGITS; i++) {
     fc_snprintf(buffer, sizeof(buffer), "city.size_%d", i);
     SET_SPRITE(city.size[i], buffer);
     fc_snprintf(buffer2, sizeof(buffer2), "path.turns_%d", i);
@@ -2925,7 +2926,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   /* The rest are optional; we copy the previous sprite for unspecified ones */
   fc_strlcpy(buffer, "upkeep.unhappy", sizeof(buffer));
   SET_SPRITE(upkeep.unhappy[0], buffer);
-  for(i=1; i<MAX_NUM_UPKEEP_SPRITES; i++) {
+  for (i = 1; i < MAX_NUM_UPKEEP_SPRITES; i++) {
     fc_snprintf(buffer2, sizeof(buffer2), "upkeep.unhappy%d", i+1);
     if (sprite_exists(t, buffer2)) {
       SET_SPRITE(upkeep.unhappy[i], buffer2);
@@ -2938,7 +2939,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     fc_snprintf(buffer, sizeof(buffer),
                 "upkeep.%s", get_output_identifier(o));
     SET_SPRITE_OPT(upkeep.output[o][0], buffer);
-    for(i=1; i<MAX_NUM_UPKEEP_SPRITES; i++) {
+    for (i = 1; i < MAX_NUM_UPKEEP_SPRITES; i++) {
       fc_snprintf(buffer2, sizeof(buffer2),
                   "upkeep.%s%d", get_output_identifier(o), i+1);
       if (sprite_exists(t, buffer2)) {
@@ -3065,7 +3066,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     }
     break;
   case DARKNESS_CARD_FULL:
-    for(i = 1; i < t->num_index_cardinal; i++) {
+    for (i = 1; i < t->num_index_cardinal; i++) {
       fc_snprintf(buffer, sizeof(buffer), "tx.darkness_%s",
 		  cardinal_index_str(t, i));
       SET_SPRITE(tx.darkness[i], buffer);

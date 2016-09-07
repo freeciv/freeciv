@@ -206,7 +206,7 @@
 {									    \
   enum tile_special_type s;						    \
 									    \
-  for(s = 0; 4 * s < (num_specials_types); s++) {
+  for (s = 0; 4 * s < (num_specials_types); s++) {
 
 #define special_halfbyte_iterate_end					    \
   }									    \
@@ -217,7 +217,7 @@
 {									    \
   int b;                                                                    \
 									    \
-  for(b = 0; 4 * b < (num_bases_types); b++) {
+  for (b = 0; 4 * b < (num_bases_types); b++) {
 
 #define bases_halfbyte_iterate_end					    \
   }									    \
@@ -2577,12 +2577,12 @@ static void player_load_cities(struct player *plr, int plrno,
       int xy_min = CITY_MAP_MAX_RADIUS - CITY_MAP_OLD_RADIUS;
       int xy_max = CITY_MAP_MAX_RADIUS + CITY_MAP_OLD_RADIUS + 1;
       int x, y;
-      for(y = xy_min; y < xy_max; y++) {
+      for (y = xy_min; y < xy_max; y++) {
         if (!ok) {
           break;
         }
 
-        for(x = xy_min; x < xy_max; x++) {
+        for (x = xy_min; x < xy_max; x++) {
           if (ok) {
             ok = player_load_city_tile_S22(plrno, i, pcity, x, y, *p,
                                            &workers);
@@ -2877,7 +2877,7 @@ static void player_load_vision(struct player *plr, int plrno,
 
       /* This is needed when new bases has been added to ruleset, and
        * thus game.control.num_base_types is greater than, when game was saved. */
-      for(xi = 0; xi < wld.map.xsize; xi++) {
+      for (xi = 0; xi < wld.map.xsize; xi++) {
         zeroline[xi] = '0';
       }
       zeroline[xi]= '\0';

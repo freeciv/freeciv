@@ -249,7 +249,7 @@ extern bool sg_success;
 #define halfbyte_iterate_extras(e, num_extras_types)                        \
 {                                                                           \
   int e;                                                                    \
-  for(e = 0; 4 * e < (num_extras_types); e++) {
+  for (e = 0; 4 * e < (num_extras_types); e++) {
 
 #define halfbyte_iterate_extras_end                                         \
   }                                                                         \
