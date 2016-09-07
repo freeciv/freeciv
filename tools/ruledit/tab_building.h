@@ -53,6 +53,7 @@ class tab_building : public QWidget
     void add_now2();   // "2" in name to workaround segfault on program start. Due to compiler bug?
     void delete_now();
     void same_name_toggle(bool checked);
+    void edit_reqs();
 };
 
 

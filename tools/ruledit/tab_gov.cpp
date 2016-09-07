@@ -88,12 +88,12 @@ tab_gov::tab_gov(ruledit_gui *ui_in) : QWidget()
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Government")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  gov_layout->addWidget(add_button, 5, 0);
+  gov_layout->addWidget(add_button, 3, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Government")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  gov_layout->addWidget(delete_button, 5, 2);
+  gov_layout->addWidget(delete_button, 3, 2);
   show_experimental(delete_button);
 
   refresh();
