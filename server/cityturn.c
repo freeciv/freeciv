@@ -566,11 +566,23 @@ void update_city_activities(struct player *pplayer)
       trade_routes_iterate_safe(pcity, proute) {
         struct city *tcity = game_city_by_number(proute->partner);
 
-        if (tcity != NULL && !can_cities_trade(pcity, tcity)) {
-          enum trade_route_type type = cities_trade_route_type(pcity, tcity);
-          struct trade_route_settings *settings = trade_route_settings_by_type(type);
+        if (tcity != NULL) {
+          bool cancel = FALSE;
 
-          if (settings->cancelling == TRI_CANCEL) {
+          if (proute->dir != RDIR_FROM && goods_has_flag(proute->goods, GF_DEPLETES)
+              && !goods_can_be_provided(tcity, proute->goods, NULL)) {
+            cancel = TRUE;
+          }
+          if (!cancel && !can_cities_trade(pcity, tcity)) {
+            enum trade_route_type type = cities_trade_route_type(pcity, tcity);
+            struct trade_route_settings *settings = trade_route_settings_by_type(type);
+
+            if (settings->cancelling == TRI_CANCEL) {
+              cancel = TRUE;
+            }
+          }
+
+          if (cancel) {
             struct trade_route *back;
 
             back = remove_trade_route(pcity, proute, TRUE, FALSE);

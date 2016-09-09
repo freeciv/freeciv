@@ -973,8 +973,11 @@ goods = "\
 ; reqs                    = requirements for a city to provide goods (see effects.ruleset\n\
 ;                           and README.effects for help on requirements)\n\
 ; flags\n\
-;   - \"Bidirectional\"     = Traderoute carrying the goods does not have \"from\" and \"to\"\n\
+;   - \"Bidirectional\"     = Trade route carrying the goods does not have \"from\" and \"to\"\n\
 ;                           ends, but both ends are considered the same.\n\
+;   - \"Depletes\"          = Trade route gets cancelled when the source city cannot provide\n\
+;                           goods any more. Bidirectional routes gets cancelled if either\n\
+;                           one of the involved cities cannot provide goods.\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "

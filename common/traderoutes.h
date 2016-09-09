@@ -156,6 +156,8 @@ do {                                                        \
 #define SPECENUM_NAME goods_flag_id
 #define SPECENUM_VALUE0 GF_BIDIRECTIONAL
 #define SPECENUM_VALUE0NAME "Bidirectional"
+#define SPECENUM_VALUE1 GF_DEPLETES
+#define SPECENUM_VALUE1NAME "Depletes"
 #define SPECENUM_COUNT GF_COUNT
 #define SPECENUM_BITVECTOR bv_goods_flags
 #include "specenum_gen.h"

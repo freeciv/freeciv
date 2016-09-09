@@ -773,6 +773,12 @@ settings =
 ;                           an good after a ruleset has been released.
 ; reqs                    = requirements for a city to provide goods (see effects.ruleset
 ;                           and README.effects for help on requirements)
+; flags
+;   - "Bidirectional"     = Trade route carrying the goods does not have "from" and "to"
+;                           ends, but both ends are considered the same.
+;   - "Depletes"          = Trade route gets cancelled when the source city cannot provide
+;                           goods any more. Bidirectional routes gets cancelled if either
+;                           one of the involved cities cannot provide goods.
 ;
 ; */ <-- avoid gettext warnings
 
