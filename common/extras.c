@@ -66,6 +66,7 @@ void extras_init(void)
     extras[i].causes = 0;
     extras[i].rmcauses = 0;
     extras[i].helptext = NULL;
+    extras[i].disabled = FALSE;
   }
 }
 

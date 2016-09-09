@@ -82,6 +82,7 @@ struct extra_type
 {
   int id;
   struct name_translation name;
+  bool disabled;
   enum extra_category category;
   uint16_t causes;
   uint8_t rmcauses;
@@ -260,6 +261,14 @@ struct player *extra_owner(const struct tile *ptile);
 #define extra_type_iterate_end                    \
   }                                               \
 }
+
+#define extra_active_type_iterate(_p)                         \
+  extra_type_iterate(_p) {                                    \
+    if (!_p->disabled) {
+
+#define extra_active_type_iterate_end                         \
+    }                                                         \
+  } extra_type_iterate_end;
 
 #define extra_type_by_cause_iterate(_cause, _extra)                 \
 {                                                                   \

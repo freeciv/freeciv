@@ -236,6 +236,8 @@ void tab_misc::refresh_stats()
 {
   int row = 0;
   int count;
+  int base_count;
+  int road_count;
 
   count = 0;
   terrain_active_iterate(pterr) {
@@ -278,7 +280,13 @@ void tab_misc::refresh_stats()
   stats->item(row++, 4)->setText(QString::number(count));
 
   stats->item(row++, 4)->setText(QString::number(game.control.nation_count));
-  stats->item(row++, 4)->setText(QString::number(game.control.styles_count));
+
+  count = 0;
+  styles_active_iterate(pstyle) {
+    count++;
+  } styles_active_iterate_end;
+  stats->item(row++, 4)->setText(QString::number(count));
+
   stats->item(row++, 4)->setText(QString::number(game.control.num_specialist_types));
 
   count = 0;
@@ -292,9 +300,23 @@ void tab_misc::refresh_stats()
   // Third column
   row = 0;
   stats->item(row++, 7)->setText(QString::number(game.control.num_achievement_types));
-  stats->item(row++, 7)->setText(QString::number(game.control.num_extra_types));
-  stats->item(row++, 7)->setText(QString::number(game.control.num_base_types));
-  stats->item(row++, 7)->setText(QString::number(game.control.num_road_types));
+
+  count = 0;
+  base_count = 0;
+  road_count = 0;
+  extra_active_type_iterate(pextra) {
+    count++;
+    if (is_extra_caused_by(pextra, EC_BASE)) {
+      base_count++;
+    }
+    if (is_extra_caused_by(pextra, EC_ROAD)) {
+      road_count++;
+    }
+  } extra_active_type_iterate_end;
+  stats->item(row++, 7)->setText(QString::number(count));
+  stats->item(row++, 7)->setText(QString::number(base_count));
+  stats->item(row++, 7)->setText(QString::number(road_count));
+
   count = 0;
   goods_active_type_iterate(pg) {
     count++;

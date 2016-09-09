@@ -455,13 +455,13 @@ static bool save_styles_ruleset(const char *filename, const char *name)
   comment_styles(sfile);
 
   sect_idx = 0;
-  styles_iterate(pstyle) {
+  styles_active_iterate(pstyle) {
     char path[512];
 
     fc_snprintf(path, sizeof(path), "style_%d", sect_idx++);
 
     save_name_translation(sfile, &(pstyle->name), path);
-  } styles_iterate_end;
+  } styles_active_iterate_end;
 
   comment_citystyles(sfile);
 
@@ -2061,24 +2061,26 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_RESOURCE, pres) {
-    char path[512];
-    char identifier[2];
+    if (!pres->disabled) {
+      char path[512];
+      char identifier[2];
 
-    fc_snprintf(path, sizeof(path), "resource_%d", sect_idx++);
+      fc_snprintf(path, sizeof(path), "resource_%d", sect_idx++);
 
-    secfile_insert_str(sfile, extra_rule_name(pres),
-                       "%s.extra", path);
+      secfile_insert_str(sfile, extra_rule_name(pres),
+                         "%s.extra", path);
 
-    output_type_iterate(o) {
-      if (pres->data.resource->output[o] != 0) {
-        secfile_insert_int(sfile, pres->data.resource->output[o], "%s.%s",
-                           path, get_output_identifier(o));
-      }
-    } output_type_iterate_end;
+      output_type_iterate(o) {
+        if (pres->data.resource->output[o] != 0) {
+          secfile_insert_int(sfile, pres->data.resource->output[o], "%s.%s",
+                             path, get_output_identifier(o));
+        }
+      } output_type_iterate_end;
 
-    identifier[0] = pres->data.resource->id_old_save;
-    identifier[1] = '\0';
-    secfile_insert_str(sfile, identifier, "%s.identifier", path);
+      identifier[0] = pres->data.resource->id_old_save;
+      identifier[1] = '\0';
+      secfile_insert_str(sfile, identifier, "%s.identifier", path);
+    }
   } extra_type_by_cause_iterate_end;
 
   secfile_insert_str(sfile, terrain_control.gui_type_base0,
@@ -2089,7 +2091,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
   comment_extras(sfile);
 
   sect_idx = 0;
-  extra_type_iterate(pextra) {
+  extra_active_type_iterate(pextra) {
     char path[512];
     const char *flag_names[EF_COUNT];
     const char *cause_names[EC_COUNT];
@@ -2231,43 +2233,45 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     save_strvec(sfile, pextra->helptext, path, "helptext");
 
-  } extra_type_iterate_end;
+  } extra_active_type_iterate_end;
 
   comment_bases(sfile);
 
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_BASE, pextra) {
-    char path[512];
-    struct base_type *pbase = extra_base_get(pextra);
-    const char *flag_names[BF_COUNT];
-    int flagi;
-    int set_count;
+    if (!pextra->disabled) {
+      char path[512];
+      struct base_type *pbase = extra_base_get(pextra);
+      const char *flag_names[BF_COUNT];
+      int flagi;
+      int set_count;
 
-    fc_snprintf(path, sizeof(path), "base_%d", sect_idx++);
+      fc_snprintf(path, sizeof(path), "base_%d", sect_idx++);
 
-    secfile_insert_str(sfile, extra_rule_name(pextra),
-                       "%s.extra", path);
+      secfile_insert_str(sfile, extra_rule_name(pextra),
+                         "%s.extra", path);
 
-    secfile_insert_str(sfile, base_gui_type_name(pbase->gui_type),
-                       "%s.gui_type", path);
+      secfile_insert_str(sfile, base_gui_type_name(pbase->gui_type),
+                         "%s.gui_type", path);
 
-    if (pbase->border_sq >= 0) {
-      secfile_insert_int(sfile, pbase->border_sq, "%s.border_sq", path);
-    }
-    if (pbase->vision_main_sq >= 0) {
-      secfile_insert_int(sfile, pbase->vision_main_sq, "%s.vision_main_sq", path);
-    }
-
-    set_count = 0;
-    for (flagi = 0; flagi < BF_COUNT; flagi++) {
-      if (base_has_flag(pbase, flagi)) {
-        flag_names[set_count++] = base_flag_id_name(flagi);
+      if (pbase->border_sq >= 0) {
+        secfile_insert_int(sfile, pbase->border_sq, "%s.border_sq", path);
       }
-    }
+      if (pbase->vision_main_sq >= 0) {
+        secfile_insert_int(sfile, pbase->vision_main_sq, "%s.vision_main_sq", path);
+      }
 
-    if (set_count > 0) {
-      secfile_insert_str_vec(sfile, flag_names, set_count,
-                             "%s.flags", path);
+      set_count = 0;
+      for (flagi = 0; flagi < BF_COUNT; flagi++) {
+        if (base_has_flag(pbase, flagi)) {
+          flag_names[set_count++] = base_flag_id_name(flagi);
+        }
+      }
+
+      if (set_count > 0) {
+        secfile_insert_str_vec(sfile, flag_names, set_count,
+                               "%s.flags", path);
+      }
     }
   } extra_type_by_cause_iterate_end;
 
@@ -2275,64 +2279,66 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
-    struct road_type *proad = extra_road_get(pextra);
-    char path[512];
-    const char *flag_names[RF_COUNT];
-    int flagi;
-    int set_count;
+    if (!pextra->disabled) {
+      struct road_type *proad = extra_road_get(pextra);
+      char path[512];
+      const char *flag_names[RF_COUNT];
+      int flagi;
+      int set_count;
 
-    fc_snprintf(path, sizeof(path), "road_%d", sect_idx++);
+      fc_snprintf(path, sizeof(path), "road_%d", sect_idx++);
 
-    secfile_insert_str(sfile, extra_rule_name(pextra),
-                       "%s.extra", path);
+      secfile_insert_str(sfile, extra_rule_name(pextra),
+                         "%s.extra", path);
 
-    secfile_insert_int(sfile, proad->move_cost, "%s.move_cost", path);
+      secfile_insert_int(sfile, proad->move_cost, "%s.move_cost", path);
 
-    if (proad->move_mode != RMM_FAST_ALWAYS) {
-      secfile_insert_str(sfile, road_move_mode_name(proad->move_mode),
-                         "%s.move_mode", path);
-    }
-
-    output_type_iterate(o) {
-      if (proad->tile_incr_const[o] != 0) {
-        secfile_insert_int(sfile, proad->tile_incr_const[o],
-                           "%s.%s_incr_const", path, get_output_identifier(o));
+      if (proad->move_mode != RMM_FAST_ALWAYS) {
+        secfile_insert_str(sfile, road_move_mode_name(proad->move_mode),
+                           "%s.move_mode", path);
       }
-      if (proad->tile_incr[o] != 0) {
-        secfile_insert_int(sfile, proad->tile_incr[o],
-                           "%s.%s_incr", path, get_output_identifier(o));
-      }
-      if (proad->tile_bonus[o] != 0) {
-        secfile_insert_int(sfile, proad->tile_bonus[o],
-                           "%s.%s_bonus", path, get_output_identifier(o));
-      }
-    } output_type_iterate_end;
 
-    switch (proad->compat) {
-    case ROCO_ROAD:
-      secfile_insert_str(sfile, "Road", "%s.compat_special", path);
-      break;
-    case ROCO_RAILROAD:
-      secfile_insert_str(sfile, "Railroad", "%s.compat_special", path);
-      break;
-    case ROCO_RIVER:
-      secfile_insert_str(sfile, "River", "%s.compat_special", path);
-      break;
-    case ROCO_NONE:
-      secfile_insert_str(sfile, "None", "%s.compat_special", path);
-      break;
-    }
+      output_type_iterate(o) {
+        if (proad->tile_incr_const[o] != 0) {
+          secfile_insert_int(sfile, proad->tile_incr_const[o],
+                             "%s.%s_incr_const", path, get_output_identifier(o));
+        }
+        if (proad->tile_incr[o] != 0) {
+          secfile_insert_int(sfile, proad->tile_incr[o],
+                             "%s.%s_incr", path, get_output_identifier(o));
+        }
+        if (proad->tile_bonus[o] != 0) {
+          secfile_insert_int(sfile, proad->tile_bonus[o],
+                             "%s.%s_bonus", path, get_output_identifier(o));
+        }
+      } output_type_iterate_end;
 
-    set_count = 0;
-    for (flagi = 0; flagi < RF_COUNT; flagi++) {
-      if (road_has_flag(proad, flagi)) {
-        flag_names[set_count++] = road_flag_id_name(flagi);
+      switch (proad->compat) {
+      case ROCO_ROAD:
+        secfile_insert_str(sfile, "Road", "%s.compat_special", path);
+        break;
+      case ROCO_RAILROAD:
+        secfile_insert_str(sfile, "Railroad", "%s.compat_special", path);
+        break;
+      case ROCO_RIVER:
+        secfile_insert_str(sfile, "River", "%s.compat_special", path);
+        break;
+      case ROCO_NONE:
+        secfile_insert_str(sfile, "None", "%s.compat_special", path);
+        break;
       }
-    }
 
-    if (set_count > 0) {
-      secfile_insert_str_vec(sfile, flag_names, set_count,
-                             "%s.flags", path);
+      set_count = 0;
+      for (flagi = 0; flagi < RF_COUNT; flagi++) {
+        if (road_has_flag(proad, flagi)) {
+          flag_names[set_count++] = road_flag_id_name(flagi);
+        }
+      }
+
+      if (set_count > 0) {
+        secfile_insert_str_vec(sfile, flag_names, set_count,
+                               "%s.flags", path);
+      }
     }
   } extra_type_by_cause_iterate_end;
 

@@ -41,6 +41,7 @@ void styles_alloc(int count)
 
   for (i = 0; i < count; i++) {
     styles[i].id = i;
+    styles[i].disabled = FALSE;
   }
 }
 

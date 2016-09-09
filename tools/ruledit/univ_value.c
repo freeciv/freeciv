@@ -256,6 +256,21 @@ void universal_kind_values(struct universal *univ,
       cb(goods_rule_name(pgood), univ->value.good == pgood, data);
     } goods_active_type_iterate_end;
     break;
+  case VUT_NATIONALITY:
+    nations_iterate(pnat) {
+      cb(nation_rule_name(pnat), univ->value.nationality == pnat, data);
+    } nations_iterate_end;
+    break;
+  case VUT_EXTRA:
+    extra_active_type_iterate(pextra) {
+      cb(extra_rule_name(pextra), univ->value.extra == pextra, data);
+    } extra_active_type_iterate_end;
+    break;
+  case VUT_STYLE:
+    styles_active_iterate(pstyle) {
+      cb(style_rule_name(pstyle), univ->value.style == pstyle, data);
+    } styles_active_iterate_end;
+    break;
   case VUT_UTFLAG:
   case VUT_UCFLAG:
   case VUT_SPECIALIST:
@@ -264,14 +279,11 @@ void universal_kind_values(struct universal *univ,
   case VUT_TERRAINALTER:
   case VUT_CITYTILE:
   case VUT_TERRFLAG:
-  case VUT_NATIONALITY:
   case VUT_BASEFLAG:
   case VUT_ROADFLAG:
-  case VUT_EXTRA:
   case VUT_TECHFLAG:
   case VUT_ACHIEVEMENT:
   case VUT_DIPLREL:
-  case VUT_STYLE:
   case VUT_UNITSTATE:
   case VUT_NATIONGROUP:
   case VUT_TOPO:
@@ -289,6 +301,7 @@ void universal_kind_values(struct universal *univ,
   case VUT_MINHP:
   case VUT_AGE:
   case VUT_MINTECHS:
+    /* Requirement types having numerical value */
     cb(NULL, FALSE, data);
     break;
   case VUT_COUNT:

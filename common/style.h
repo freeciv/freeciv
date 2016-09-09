@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ struct nation_style
 {
   int id;
   struct name_translation name;
+  bool disabled;
 };
 
 struct music_style
@@ -51,6 +52,14 @@ struct nation_style *style_by_rule_name(const char *name);
 #define styles_iterate_end                               \
   }                                                      \
 }
+
+#define styles_active_iterate(_p)                         \
+  styles_iterate(_p) {                                    \
+    if (!_p->disabled) {
+
+#define styles_active_iterate_end                         \
+    }                                                     \
+  } styles_iterate_end;
 
 void music_styles_alloc(int count);
 void music_styles_free(void);
