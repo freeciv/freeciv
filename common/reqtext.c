@@ -33,17 +33,18 @@
 #include "reqtext.h"
 
 /****************************************************************
-  Append text for the requirement.  Something like
+  Append text for the requirement. Something like
 
     "Requires knowledge of the technology Communism.\n"
 
-  pplayer may be NULL.  Note that it must be updated everytime
+  pplayer may be NULL. Note that it must be updated everytime
   a new requirement type or range is defined.
 *****************************************************************/
 bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
-                     const struct requirement *preq)
+                     const struct requirement *preq,
+                     enum rt_verbosity verb)
 {
-  if (preq->quiet) {
+  if (preq->quiet && verb != VERB_ACTUAL) {
     return FALSE;
   }
 
@@ -2442,10 +2443,10 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     break;
   }
 
-  {
+  if (verb == VERB_DEFAULT) {
     char text[256];
 
-    log_error("%s requirement %s in range %d is not supported in helpdata.c.",
+    log_error("%s requirement %s in range %d is not supported in reqtext.c.",
               preq->present ? "Present" : "Absent",
               universal_name_translation(&preq->source, text, sizeof(text)),
               preq->range);

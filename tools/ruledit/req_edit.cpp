@@ -145,7 +145,7 @@ void req_edit::refresh()
       QListWidgetItem *item;
 
       buf[0] = '\0';
-      if (!req_text_insert(buf, sizeof(buf), NULL, preq)) {
+      if (!req_text_insert(buf, sizeof(buf), NULL, preq, VERB_ACTUAL)) {
         universal_name_translation(&preq->source, buf, sizeof(buf));
       }
       item = new QListWidgetItem(QString::fromUtf8(buf));
