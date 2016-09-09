@@ -195,17 +195,9 @@ somehow. Some options are:
 - Freeciv linked against readline in msys2 does not work.
   Configure freeciv with --without-readline
 
-- Checking if files are bzip2 compressed crashes freeciv.
-  Disable bzip2 support with --without-libbz2
-
 
  TODO
 ====================================
-
-- Bzip2 based compression support was disabled without
-  removing any dll's from the installer packages.
-  Please review what related dlls are packaged and could be
-  removed.
 
 - Qt program installers; qt-client and ruledit
 
