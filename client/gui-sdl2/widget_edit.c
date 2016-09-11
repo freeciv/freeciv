@@ -85,7 +85,7 @@ static int redraw_edit_chain(struct EDIT *pEdt)
 
   alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst->surface, &Dest, 255);
 
-  /* set start parametrs */
+  /* set start parameters */
   pInputChain_TMP = pEdt->pBeginTextChain;
   iStart_Mod_X = 0;
 
