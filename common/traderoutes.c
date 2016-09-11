@@ -327,8 +327,8 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
       && NULL != pc2 && NULL != pc2->tile) {
     int real_dist = real_map_distance(pc1->tile, pc2->tile);
     int weighted_distance
-      = (100 - game.info.trade_world_rel_pct) * real_dist
-        + game.info.trade_world_rel_pct * (real_dist * 40 / MAX(wld.map.xsize, wld.map.ysize));
+      = ((100 - game.info.trade_world_rel_pct) * real_dist
+         + game.info.trade_world_rel_pct * (real_dist * 40 / MAX(wld.map.xsize, wld.map.ysize))) / 100;
 
     bonus = weighted_distance
             + city_size_get(pc1) + city_size_get(pc2);
