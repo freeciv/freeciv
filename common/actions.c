@@ -227,11 +227,14 @@ void actions_init(void)
   actions[ACTION_PARADROP] =
       action_new(ACTION_PARADROP, ATK_TILE,
                  FALSE, FALSE, TRUE,
-                 1, ACTION_DISTANCE_MAX);
+                 1,
+                 /* Still limited by each unit type's paratroopers_range
+                  * field. */
+                 ACTION_DISTANCE_MAX);
   actions[ACTION_AIRLIFT] =
       action_new(ACTION_AIRLIFT, ATK_CITY,
                  FALSE, FALSE, TRUE,
-                 1, ACTION_DISTANCE_MAX);
+                 1, ACTION_DISTANCE_UNLIMITED);
   actions[ACTION_ATTACK] =
       action_new(ACTION_ATTACK,
                  /* FIXME: Target is actually City and, depending on the
