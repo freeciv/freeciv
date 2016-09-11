@@ -208,6 +208,8 @@ bool universal_value_initial(struct universal *src)
 void universal_kind_values(struct universal *univ,
                            univ_kind_values_cb cb, void *data)
 {
+  int i;
+
   switch (univ->kind) {
   case VUT_NONE:
     break;
@@ -271,11 +273,23 @@ void universal_kind_values(struct universal *univ,
       cb(style_rule_name(pstyle), univ->value.style == pstyle, data);
     } styles_active_iterate_end;
     break;
+  case VUT_AI_LEVEL:
+    for (i = 0; i < AI_LEVEL_COUNT; i++) {
+      cb(ai_level_name(i), univ->value.ai_level == i, data);
+    }
+    break;
+  case VUT_SPECIALIST:
+    specialist_active_type_iterate(pspe) {
+      cb(specialist_rule_name(pspe), univ->value.specialist == pspe, data);
+    } specialist_active_type_iterate_end;
+    break;
+  case VUT_TERRAINCLASS:
+    for (i = 0; i < TC_COUNT; i++) {
+      cb(terrain_class_name(i), univ->value.terrainclass == i, data);
+    }
+    break;
   case VUT_UTFLAG:
   case VUT_UCFLAG:
-  case VUT_SPECIALIST:
-  case VUT_AI_LEVEL:
-  case VUT_TERRAINCLASS:
   case VUT_TERRAINALTER:
   case VUT_CITYTILE:
   case VUT_TERRFLAG:

@@ -74,6 +74,7 @@ struct resource_type {
 #define SPECENUM_VALUE1 TC_OCEAN
 /* TRANS: terrain class: used adjectivally */
 #define SPECENUM_VALUE1NAME N_("Oceanic")
+#define SPECENUM_COUNT  TC_COUNT
 #include "specenum_gen.h"
 
 /* Types of alterations available to terrain.

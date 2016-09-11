@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ struct specialist {
   int item_number;
   struct name_translation name;
   struct name_translation abbreviation;
+  bool disabled;
 
   char graphic_alt[MAX_LEN_NAME];
 
@@ -61,7 +62,7 @@ const char *specialists_abbreviation_string(void);
 const char *specialists_string(const citizens *specialist_list);
 
 int get_specialist_output(const struct city *pcity,
-			  Specialist_type_id sp, Output_type_id otype);
+                          Specialist_type_id sp, Output_type_id otype);
 
 /* Initialization and iteration */
 void specialists_init(void);
@@ -77,6 +78,15 @@ void specialists_free(void);
 #define specialist_type_iterate_end                                         \
   }                                                                         \
 }
+
+#define specialist_active_type_iterate(_p)                                  \
+  specialist_type_iterate(_p##_) {                                          \
+    struct specialist *_p = specialist_by_number(_p##_);                    \
+    if (!_p->disabled) {
+
+#define specialist_active_type_iterate_end                                  \
+    }                                                                       \
+  } specialist_type_iterate_end;
 
 #ifdef __cplusplus
 }

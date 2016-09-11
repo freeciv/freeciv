@@ -32,6 +32,7 @@
 // common
 #include "game.h"
 #include "government.h"
+#include "specialist.h"
 
 // server
 #include "rssanity.h"
@@ -287,7 +288,11 @@ void tab_misc::refresh_stats()
   } styles_active_iterate_end;
   stats->item(row++, 4)->setText(QString::number(count));
 
-  stats->item(row++, 4)->setText(QString::number(game.control.num_specialist_types));
+  count = 0;
+  specialist_active_type_iterate(pspe) {
+    count++;
+  } specialist_active_type_iterate_end;
+  stats->item(row++, 4)->setText(QString::number(count));
 
   count = 0;
   governments_active_iterate(pgov) {
