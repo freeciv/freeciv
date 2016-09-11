@@ -71,7 +71,7 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 
   Graphic is taken from pVert_theme surface and blit to new created image.
 
-  hight depend of 'High' parametr.
+  height depend of 'High' parametr.
 
   Type of image depend of "state" parametr.
     state = 0 - normal
@@ -159,7 +159,7 @@ static int redraw_vert(struct widget *pVert)
 }
 
 /**************************************************************************
-  Create ( malloc ) VSrcrollBar Widget structure.
+  Create ( malloc ) VScrollBar Widget structure.
 
   Theme graphic is taken from pVert_theme surface;
 
@@ -167,7 +167,7 @@ static int redraw_vert(struct widget *pVert)
   ( width = 'pVert_theme->w' , high = 'high' ) and
   save this in: pWidget->size rectangle ( SDL_Rect )
 
-  function return pointer to allocated Widget.
+  Return pointer to created Widget.
 **************************************************************************/
 struct widget *create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDest,
                                Uint16 high, Uint32 flags)
@@ -207,11 +207,11 @@ int draw_vert(struct widget *pVert, Sint16 x, Sint16 y)
 
 /**************************************************************************
   Create background image for hscrollbars
-  then return	pointer to this image.
+  then return pointer to this image.
 
   Graphic is taken from pHoriz_theme surface and blit to new created image.
 
-  hight depend of 'Width' parametr.
+  height depend of 'Width' parametr.
 
   Type of image depend of "state" parametr.
     state = 0 - normal
@@ -298,15 +298,15 @@ static int redraw_horiz(struct widget *pHoriz)
 }
 
 /**************************************************************************
-  Create ( malloc ) VSrcrollBar Widget structure.
+  Create ( malloc ) HScrollBar Widget structure.
 
-  Theme graphic is taken from pVert_theme surface;
+  Theme graphic is taken from pHoriz_theme surface;
 
-  This function determinate future size of VScrollBar
+  This function determinate future size of HScrollBar
   ( width = 'pVert_theme->w' , high = 'high' ) and
   save this in: pWidget->size rectangle ( SDL_Rect )
 
-  function return pointer to allocated Widget.
+  Return pointer to created Widget.
 **************************************************************************/
 struct widget *create_horizontal(SDL_Surface *pHoriz_theme,
                                  struct gui_layer *pDest,
@@ -555,7 +555,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
   }
 
   if (create_scrollbar) {
-    /* create vsrollbar */
+    /* create vscrollbar */
     pBuf = create_vertical(current_theme->Vertic, pWindow->dst,
                            adj_size(10), WF_RESTORE_BACKGROUND);
 
@@ -577,11 +577,11 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
 }
 
 /**************************************************************************
-  Setup are for the vertical scrollbar.
+  Setup area for the vertical scrollbar.
 **************************************************************************/
 void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
                                    Sint16 start_x, Sint16 start_y,
-                                   Uint16 hight, bool swap_start_x)
+                                   Uint16 height, bool swap_start_x)
 {
   bool buttons_exist;
 
@@ -601,7 +601,7 @@ void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
     pScroll->min = start_y + pScroll->pUp_Left_Button->size.h;
     /* -------------------------- */
     /* down */
-    pScroll->pDown_Right_Button->size.y = start_y + hight -
+    pScroll->pDown_Right_Button->size.y = start_y + height -
       pScroll->pDown_Right_Button->size.h;
     if (swap_start_x) {
       pScroll->pDown_Right_Button->size.x = start_x -
@@ -630,9 +630,9 @@ void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
       }
     } else {
       pScroll->pScrollBar->size.y = start_y;
-      pScroll->pScrollBar->size.h = hight;
+      pScroll->pScrollBar->size.h = height;
       pScroll->min = start_y;
-      pScroll->max = start_y + hight;
+      pScroll->max = start_y + height;
     }
   }
 }
@@ -662,7 +662,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
 
     if (pBuf != pEndWidgetLIST) {
       /*
-       move pointers to positions and unhidde scrolled widgets
+       move pointers to positions and unhide scrolled widgets
        B = pBuf - new top
        T = pTmp - current top == pActiveWidgetLIST
        [B] [ ] [ ]
@@ -694,7 +694,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
        -----------
        [  ] [  ] [  ]
 
-       start from B0 and go downd list
+       start from B0 and go down list
        B0 = T0, B1 = T1, B2 = T2
        T0 = T3, T1 = T4, T2 = T5
        etc...
@@ -727,9 +727,9 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
           pTmp = pTmp->prev;
         } else {
           /*
-            unsymetric list support.
-            This is big problem becouse we can't take position from no exist
-            list memeber. We must put here some hypotetical positions
+            unsymmetric list support.
+            This is big problem because we can't take position from unexisting
+            list memeber. We must put here some hypothetical positions
 
             [B0] [B1] [B2]
             --------------
@@ -737,11 +737,11 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
 
           */
           if (active > 1) {
-            /* this work good if active > 1 but is buggy when active == 1 */
+            /* this works well if active > 1 but is buggy when active == 1 */
             pBuf->size.y += pBuf->size.h;
           } else {
-            /* this work good if active == 1 but may be broken if "next"
-               element have another "y" position */
+            /* this works well if active == 1 but may be broken if "next"
+               element has other "y" position */
             pBuf->size.y = pBuf->next->size.y;
           }
           pBuf->gfx = NULL;
@@ -777,7 +777,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
 
     if (!count && pBuf != pBeginWidgetLIST->prev) {
       /*
-       move pointers to positions and unhidde scrolled widgets
+       move pointers to positions and unhide scrolled widgets
        B = pBuf
        T = pTmp
        A - start (pActiveWidgetLIST)
@@ -798,7 +798,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       clear_wflag(pBuf, WF_HIDDEN);
 
       /*
-        Unsymetric list support.
+        Unsymmetric list support.
         correct pTmp and undraw empty fields
         B = pBuf
         T = pTmp
@@ -812,7 +812,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       */
       count = count_step;
       while (count) {
-        /* hack - clear area under no exist list members */
+        /* hack - clear area under unexisting list members */
         widget_undraw(pTmp);
         widget_mark_dirty(pTmp);
         FREESURFACE(pTmp->gfx);
@@ -1150,7 +1150,7 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
 /* ==================================================================== */
 
 /**************************************************************************
-  Add new widget to srolled list and set draw position of all changed widgets.
+  Add new widget to scrolled list and set draw position of all changed widgets.
   dir :
     TRUE - upper add => pAdd_Dock->next = pNew_Widget.
     FALSE - down add => pAdd_Dock->prev = pNew_Widget.
@@ -1326,7 +1326,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
         }
       } /* !last */
     } /* pDlg->pBeginActiveWidgetList */
-  } else {/* !seen */
+  } else { /* !seen */
     set_wflag(pNew_Widget, WF_HIDDEN);
   }
 
@@ -1350,7 +1350,8 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 }
 
 /**************************************************************************
-  Del widget from srolled list and set draw position of all changed widgets
+  Delete widget from scrolled list and set draw position of all changed
+  widgets.
   Don't free pDlg and pDlg->pScroll (if exist)
   It is full secure for multi widget list case.
 **************************************************************************/
@@ -1393,8 +1394,8 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
     struct widget *pLast;
     bool widget_found = FALSE;
 
-    /* this is always true becouse no-scrolbar case (active*step < count)
-       will be suported in other part of code (see "else" part) */
+    /* this is always true because no-scrolbar case (active*step < count)
+       will be supported in other part of code (see "else" part) */
     count = pDlg->pScroll->active * pDlg->pScroll->step;
 
     /* find last */
@@ -1426,7 +1427,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
         }
 
         /* if we haven't found it yet, look in the visible part and update the
-           positions of the other widgets */
+         * positions of the other widgets */
         if (!widget_found) {
           while (pBuf != pWidget) {
             pBuf->gfx = pBuf->prev->gfx;
@@ -1623,7 +1624,7 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
   }
 
   if (create_scrollbar) {
-    /* create vsrollbar */
+    /* create vscrollbar */
     pBuf = create_horizontal(current_theme->Horiz, pWindow->dst,
                              width, WF_RESTORE_BACKGROUND);
 
