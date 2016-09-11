@@ -71,9 +71,9 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 
   Graphic is taken from pVert_theme surface and blit to new created image.
 
-  height depend of 'High' parametr.
+  height depend of 'High' parameter.
 
-  Type of image depend of "state" parametr.
+  Type of image depend of "state" parameter.
     state = 0 - normal
     state = 1 - selected
     state = 2 - pressed
@@ -211,9 +211,9 @@ int draw_vert(struct widget *pVert, Sint16 x, Sint16 y)
 
   Graphic is taken from pHoriz_theme surface and blit to new created image.
 
-  height depend of 'Width' parametr.
+  height depend of 'Width' parameter.
 
-  Type of image depend of "state" parametr.
+  Type of image depend of "state" parameter.
     state = 0 - normal
     state = 1 - selected
     state = 2 - pressed

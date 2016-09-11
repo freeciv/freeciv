@@ -282,7 +282,7 @@ int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
 
   Graphic is take from pIcon_theme surface and blit to new created image.
 
-  Type of Icon depend of "state" parametr.
+  Type of Icon depend of "state" parameter.
     state = 0 - normal
     state = 1 - selected
     state = 2 - pressed
