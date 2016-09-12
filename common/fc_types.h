@@ -47,7 +47,7 @@ extern "C" {
 #define MAX_EXTRA_TYPES 128 /* Used in the network protocol. */
 #define MAX_BASE_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
 #define MAX_ROAD_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
-#define MAX_GOODS_TYPES 5
+#define MAX_GOODS_TYPES 25
 #define MAX_DISASTER_TYPES 10
 #define MAX_ACHIEVEMENT_TYPES 40
 #define MAX_NUM_ACTION_AUTO_PERFORMERS 3
