@@ -160,7 +160,7 @@ bool tile_has_river(const struct tile *tile);
 enum known_type tile_get_known(const struct tile *ptile,
 			      const struct player *pplayer);
 
-/* An arbitrary somewhat integer value.  Activity times are multiplied by
+/* A somewhat arbitrary integer value.  Activity times are multiplied by
  * this amount, and divided by them later before being used.  This may
  * help to avoid rounding errors; however it should probably be removed. */
 #define ACTIVITY_FACTOR 10
