@@ -35,7 +35,7 @@
 /****************************************************************
   Append text for the requirement. Something like
 
-    "Requires knowledge of the technology Communism.\n"
+    "Requires knowledge of the technology Communism."
 
   pplayer may be NULL. Note that it must be updated everytime
   a new requirement type or range is defined.
@@ -57,11 +57,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_PLAYER:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires knowledge of the technology %s.\n"),
+                     _("Requires knowledge of the technology %s."),
                      advance_name_translation(preq->source.value.advance));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by knowledge of the technology %s.\n"),
+                     _("Prevented by knowledge of the technology %s."),
                      advance_name_translation(preq->source.value.advance));
       }
       return TRUE;
@@ -69,12 +69,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires that a player on your team knows the "
-                       "technology %s.\n"),
+                       "technology %s."),
                      advance_name_translation(preq->source.value.advance));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented if any player on your team knows the "
-                       "technology %s.\n"),
+                       "technology %s."),
                      advance_name_translation(preq->source.value.advance));
       }
       return TRUE;
@@ -82,12 +82,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires that a player allied to you knows the "
-                       "technology %s.\n"),
+                       "technology %s."),
                      advance_name_translation(preq->source.value.advance));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented if any player allied to you knows the "
-                       "technology %s.\n"),
+                       "technology %s."),
                      advance_name_translation(preq->source.value.advance));
       }
       return TRUE;
@@ -96,24 +96,24 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         if (preq->present) {
           cat_snprintf(buf, bufsz,
                        _("Requires that someone has discovered the "
-                         "technology %s.\n"),
+                         "technology %s."),
                        advance_name_translation(preq->source.value.advance));
         } else {
           cat_snprintf(buf, bufsz,
                        _("Requires that no-one has yet discovered the "
-                        "technology %s.\n"),
+                        "technology %s."),
                        advance_name_translation(preq->source.value.advance));
         }
       } else {
         if (preq->present) {
           cat_snprintf(buf, bufsz,
                        _("Requires that some player knows the "
-                         "technology %s.\n"),
+                         "technology %s."),
                        advance_name_translation(preq->source.value.advance));
         } else {
           cat_snprintf(buf, bufsz,
                        _("Requires that no player knows the "
-                         "technology %s.\n"),
+                         "technology %s."),
                        advance_name_translation(preq->source.value.advance));
         }
       }
@@ -137,13 +137,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires knowledge of a technology with the "
-                       "\"%s\" flag.\n"),
+                       "\"%s\" flag."),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
                      _("Prevented by knowledge of any technology with the "
-                       "\"%s\" flag.\n"),
+                       "\"%s\" flag."),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       }
       return TRUE;
@@ -152,13 +152,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires that a player on your team knows "
-                       "a technology with the \"%s\" flag.\n"),
+                       "a technology with the \"%s\" flag."),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
                      _("Prevented if any player on your team knows "
-                       "any technology with the \"%s\" flag.\n"),
+                       "any technology with the \"%s\" flag."),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       }
       return TRUE;
@@ -167,13 +167,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires that a player allied to you knows "
-                       "a technology with the \"%s\" flag.\n"),
+                       "a technology with the \"%s\" flag."),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
                      _("Prevented if any player allied to you knows "
-                       "any technology with the \"%s\" flag.\n"),
+                       "any technology with the \"%s\" flag."),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       }
       return TRUE;
@@ -182,13 +182,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires that some player knows a technology "
-                       "with the \"%s\" flag.\n"),
+                       "with the \"%s\" flag."),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
                      _("Requires that no player knows any technology with "
-                       "the \"%s\" flag.\n"),
+                       "the \"%s\" flag."),
                      tech_flag_id_translated_name(preq->source.value.techflag));
       }
       return TRUE;
@@ -209,10 +209,10 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       break;
     }
     if (preq->present) {
-      cat_snprintf(buf, bufsz, _("Requires the %s government.\n"),
+      cat_snprintf(buf, bufsz, _("Requires the %s government."),
                    government_name_translation(preq->source.value.govern));
     } else {
-      cat_snprintf(buf, bufsz, _("Not available under the %s government.\n"),
+      cat_snprintf(buf, bufsz, _("Not available under the %s government."),
                    government_name_translation(preq->source.value.govern));
     }
     return TRUE;
@@ -221,44 +221,44 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
       if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Requires you to have achieved \"%s\".\n"),
+        cat_snprintf(buf, bufsz, _("Requires you to have achieved \"%s\"."),
                      achievement_name_translation(preq->source.value.achievement));
       } else {
         cat_snprintf(buf, bufsz, _("Not available once you have achieved "
-                                   "\"%s\".\n"),
+                                   "\"%s\"."),
                      achievement_name_translation(preq->source.value.achievement));
       }
       return TRUE;
     case REQ_RANGE_TEAM:
       if (preq->present) {
         cat_snprintf(buf, bufsz, _("Requires that at least one of your "
-                                   "team-mates has achieved \"%s\".\n"),
+                                   "team-mates has achieved \"%s\"."),
                      achievement_name_translation(preq->source.value.achievement));
       } else {
         cat_snprintf(buf, bufsz, _("Not available if any of your team-mates "
-                                   "has achieved \"%s\".\n"),
+                                   "has achieved \"%s\"."),
                      achievement_name_translation(preq->source.value.achievement));
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
       if (preq->present) {
         cat_snprintf(buf, bufsz, _("Requires that at least one of your allies "
-                                   "has achieved \"%s\".\n"),
+                                   "has achieved \"%s\"."),
                      achievement_name_translation(preq->source.value.achievement));
       } else {
         cat_snprintf(buf, bufsz, _("Not available if any of your allies has "
-                                   "achieved \"%s\".\n"),
+                                   "achieved \"%s\"."),
                      achievement_name_translation(preq->source.value.achievement));
       }
       return TRUE;
     case REQ_RANGE_WORLD:
       if (preq->present) {
         cat_snprintf(buf, bufsz, _("Requires that at least one player "
-                                   "has achieved \"%s\".\n"),
+                                   "has achieved \"%s\"."),
                      achievement_name_translation(preq->source.value.achievement));
       } else {
         cat_snprintf(buf, bufsz, _("Not available if any player has "
-                                   "achieved \"%s\".\n"),
+                                   "achieved \"%s\"."),
                      achievement_name_translation(preq->source.value.achievement));
       }
       return TRUE;
@@ -278,11 +278,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Applies to the \"%s\" action.\n"),
+        cat_snprintf(buf, bufsz, _("Applies to the \"%s\" action."),
                      action_name_translation(preq->source.value.action));
       } else {
         cat_snprintf(buf, bufsz, _("Doesn't apply to the \"%s\""
-                                   " action.\n"),
+                                   " action."),
                      action_name_translation(preq->source.value.action));
       }
       return TRUE;
@@ -296,11 +296,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Applies to \"%s\" buildings.\n"),
+        cat_snprintf(buf, bufsz, _("Applies to \"%s\" buildings."),
                      impr_genus_id_translated_name(
                        preq->source.value.impr_genus));
       } else {
-        cat_snprintf(buf, bufsz, _("Doesn't apply to \"%s\" buildings.\n"),
+        cat_snprintf(buf, bufsz, _("Doesn't apply to \"%s\" buildings."),
                      impr_genus_id_translated_name(
                        preq->source.value.impr_genus));
       }
@@ -322,13 +322,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            /* TRANS: %s is a wonder */
                            _("Requires that %s was built at some point, "
                              "and that it has not yet been rendered "
-                             "obsolete.\n"),
+                             "obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Requires that %s was built at some point.\n"),
+                           _("Requires that %s was built at some point."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -337,13 +337,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if %s has ever been built, "
-                             "unless it would be obsolete.\n"),
+                             "unless it would be obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Prevented if %s has ever been built.\n"),
+                           _("Prevented if %s has ever been built."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -355,13 +355,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires %s to be owned by any player "
-                             "and not yet obsolete.\n"),
+                             "and not yet obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Requires %s to be owned by any player.\n"),
+                           _("Requires %s to be owned by any player."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -370,14 +370,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if %s is currently owned by "
-                             "any player, unless it is obsolete.\n"),
+                             "any player, unless it is obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if %s is currently owned by "
-                             "any player.\n"),
+                             "any player."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -396,14 +396,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            /* TRANS: %s is a wonder */
                            _("Requires someone who is currently allied to "
                              "you to have built %s at some point, and for "
-                             "it not to have been rendered obsolete.\n"),
+                             "it not to have been rendered obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone who is currently allied to "
-                             "you to have built %s at some point.\n"),
+                             "you to have built %s at some point."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -413,14 +413,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone currently allied to you "
                              "has ever built %s, unless it would be "
-                             "obsolete.\n"),
+                             "obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone currently allied to you "
-                             "has ever built %s.\n"),
+                             "has ever built %s."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -433,13 +433,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            /* TRANS: %s is a wonder */
                            _("Requires someone allied to you to own %s, "
                              "and for it not to have been rendered "
-                             "obsolete.\n"),
+                             "obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Requires someone allied to you to own %s.\n"),
+                           _("Requires someone allied to you to own %s."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -448,13 +448,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone allied to you owns %s, "
-                             "unless it is obsolete.\n"),
+                             "unless it is obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Prevented if someone allied to you owns %s.\n"),
+                           _("Prevented if someone allied to you owns %s."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -473,14 +473,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            /* TRANS: %s is a wonder */
                            _("Requires someone on your team to have "
                              "built %s at some point, and for it not "
-                             "to have been rendered obsolete.\n"),
+                             "to have been rendered obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires someone on your team to have "
-                             "built %s at some point.\n"),
+                             "built %s at some point."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -489,14 +489,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone on your team has ever "
-                             "built %s, unless it would be obsolete.\n"),
+                             "built %s, unless it would be obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone on your team has ever "
-                             "built %s.\n"),
+                             "built %s."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -509,13 +509,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            /* TRANS: %s is a wonder */
                            _("Requires someone on your team to own %s, "
                              "and for it not to have been rendered "
-                             "obsolete.\n"),
+                             "obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Requires someone on your team to own %s.\n"),
+                           _("Requires someone on your team to own %s."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -524,13 +524,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if someone on your team owns %s, "
-                             "unless it is obsolete.\n"),
+                             "unless it is obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Prevented if someone on your team owns %s.\n"),
+                           _("Prevented if someone on your team owns %s."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -549,13 +549,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                            /* TRANS: %s is a wonder */
                            _("Requires you to have built %s at some point, "
                              "and for it not to have been rendered "
-                             "obsolete.\n"),
+                             "obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Requires you to have built %s at some point.\n"),
+                           _("Requires you to have built %s at some point."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -564,13 +564,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if you have ever built %s, "
-                             "unless it would be obsolete.\n"),
+                             "unless it would be obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Prevented if you have ever built %s.\n"),
+                           _("Prevented if you have ever built %s."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -582,13 +582,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Requires you to own %s, which must not "
-                             "be obsolete.\n"),
+                             "be obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Requires you to own %s.\n"),
+                           _("Requires you to own %s."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -597,13 +597,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
                            _("Prevented if you own %s, unless it is "
-                             "obsolete.\n"),
+                             "obsolete."),
                            improvement_name_translation
                            (preq->source.value.building));
             } else {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is a wonder */
-                           _("Prevented if you own %s.\n"),
+                           _("Prevented if you own %s."),
                            improvement_name_translation
                            (preq->source.value.building));
             }
@@ -620,14 +620,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is a wonder */
                          _("Requires %s in one of your cities on the same "
-                           "continent, and not yet obsolete.\n"),
+                           "continent, and not yet obsolete."),
                          improvement_name_translation
                          (preq->source.value.building));
           } else {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is a wonder */
                          _("Requires %s in one of your cities on the same "
-                           "continent.\n"),
+                           "continent."),
                          improvement_name_translation
                          (preq->source.value.building));
           }
@@ -636,14 +636,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is a wonder */
                          _("Prevented if %s is in one of your cities on the "
-                           "same continent, unless it is obsolete.\n"),
+                           "same continent, unless it is obsolete."),
                          improvement_name_translation
                          (preq->source.value.building));
           } else {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is a wonder */
                          _("Prevented if %s is in one of your cities on the "
-                           "same continent.\n"),
+                           "same continent."),
                          improvement_name_translation
                          (preq->source.value.building));
           }
@@ -659,13 +659,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
                        _("Requires %s in the city or a trade partner "
-                         "(and not yet obsolete).\n"),
+                         "(and not yet obsolete)."),
                        improvement_name_translation
                        (preq->source.value.building));
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
-                       _("Requires %s in the city or a trade partner.\n"),
+                       _("Requires %s in the city or a trade partner."),
                        improvement_name_translation
                        (preq->source.value.building));
         }
@@ -675,13 +675,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
                        _("Prevented by %s in the city or a trade partner "
-                         "(unless it is obsolete).\n"),
+                         "(unless it is obsolete)."),
                        improvement_name_translation
                        (preq->source.value.building));
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
-                       _("Prevented by %s in the city or a trade partner.\n"),
+                       _("Prevented by %s in the city or a trade partner."),
                        improvement_name_translation
                        (preq->source.value.building));
         }
@@ -693,13 +693,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
           /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
-                       _("Requires %s in the city (and not yet obsolete).\n"),
+                       _("Requires %s in the city (and not yet obsolete)."),
                        improvement_name_translation
                        (preq->source.value.building));
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
-                       _("Requires %s in the city.\n"),
+                       _("Requires %s in the city."),
                        improvement_name_translation
                        (preq->source.value.building));
         }
@@ -709,13 +709,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
                        _("Prevented by %s in the city (unless it is "
-                         "obsolete).\n"),
+                         "obsolete)."),
                        improvement_name_translation
                        (preq->source.value.building));
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is a building or wonder */
-                       _("Prevented by %s in the city.\n"),
+                       _("Prevented by %s in the city."),
                        improvement_name_translation
                        (preq->source.value.building));
         }
@@ -724,12 +724,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Only applies to \"%s\" buildings.\n"),
+                     _("Only applies to \"%s\" buildings."),
                      improvement_name_translation
                      (preq->source.value.building));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Does not apply to \"%s\" buildings.\n"),
+                     _("Does not apply to \"%s\" buildings."),
                      improvement_name_translation
                      (preq->source.value.building));
       }
@@ -747,11 +747,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     Q_("?extra:Requires %s on the tile.\n"),
+                     Q_("?extra:Requires %s on the tile."),
                      extra_name_translation(preq->source.value.extra));
       } else {
         cat_snprintf(buf, bufsz,
-                     Q_("?extra:Prevented by %s on the tile.\n"),
+                     Q_("?extra:Prevented by %s on the tile."),
                      extra_name_translation(preq->source.value.extra));
       }
       return TRUE;
@@ -759,12 +759,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Requires %s on the tile or a cardinally "
-                        "adjacent tile.\n"),
+                        "adjacent tile."),
                      extra_name_translation(preq->source.value.extra));
         } else {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Prevented by %s on the tile or any cardinally "
-                        "adjacent tile.\n"),
+                        "adjacent tile."),
                      extra_name_translation(preq->source.value.extra));
         }
       return TRUE;
@@ -772,12 +772,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Requires %s on the tile or an adjacent "
-                        "tile.\n"),
+                        "tile."),
                      extra_name_translation(preq->source.value.extra));
       } else {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Prevented by %s on the tile or any adjacent "
-                        "tile.\n"),
+                        "tile."),
                      extra_name_translation(preq->source.value.extra));
       }
       return TRUE;
@@ -785,12 +785,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Requires %s on a tile within the city "
-                        "radius.\n"),
+                        "radius."),
                      extra_name_translation(preq->source.value.extra));
       } else {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Prevented by %s on any tile within the city "
-                        "radius.\n"),
+                        "radius."),
                      extra_name_translation(preq->source.value.extra));
       }
       return TRUE;
@@ -798,12 +798,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Requires %s on a tile within the city "
-                        "radius, or the city radius of a trade partner.\n"),
+                        "radius, or the city radius of a trade partner."),
                      extra_name_translation(preq->source.value.extra));
       } else {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Prevented by %s on any tile within the city "
-                        "radius or the city radius of a trade partner.\n"),
+                        "radius or the city radius of a trade partner."),
                      extra_name_translation(preq->source.value.extra));
       }
       return TRUE;
@@ -822,10 +822,10 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     switch (preq->range) {
     case REQ_RANGE_CITY:
       if (preq->present) {
-        cat_snprintf(buf, bufsz, Q_("?good:Requires import of %s .\n"),
+        cat_snprintf(buf, bufsz, Q_("?good:Requires import of %s ."),
                      goods_name_translation(preq->source.value.good));
       } else {
-        cat_snprintf(buf, bufsz, Q_("?goods:Prevented by import of %s.\n"),
+        cat_snprintf(buf, bufsz, Q_("?goods:Prevented by import of %s."),
                      goods_name_translation(preq->source.value.good));
       }
       return TRUE;
@@ -848,10 +848,10 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       if (preq->present) {
-        cat_snprintf(buf, bufsz, Q_("?terrain:Requires %s on the tile.\n"),
+        cat_snprintf(buf, bufsz, Q_("?terrain:Requires %s on the tile."),
                      terrain_name_translation(preq->source.value.terrain));
       } else {
-        cat_snprintf(buf, bufsz, Q_("?terrain:Prevented by %s on the tile.\n"),
+        cat_snprintf(buf, bufsz, Q_("?terrain:Prevented by %s on the tile."),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
@@ -859,12 +859,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Requires %s on the tile or a cardinally "
-                        "adjacent tile.\n"),
+                        "adjacent tile."),
                      terrain_name_translation(preq->source.value.terrain));
       } else {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Prevented by %s on the tile or any "
-                        "cardinally adjacent tile.\n"),
+                        "cardinally adjacent tile."),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
@@ -872,12 +872,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Requires %s on the tile or an adjacent "
-                        "tile.\n"),
+                        "tile."),
                      terrain_name_translation(preq->source.value.terrain));
       } else {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Prevented by %s on the tile or any "
-                        "adjacent tile.\n"),
+                        "adjacent tile."),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
@@ -885,12 +885,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Requires %s on a tile within the city "
-                        "radius.\n"),
+                        "radius."),
                      terrain_name_translation(preq->source.value.terrain));
       } else {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Prevented by %s on any tile within the city "
-                        "radius.\n"),
+                        "radius."),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
@@ -898,12 +898,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Requires %s on a tile within the city "
-                        "radius, or the city radius of a trade partner.\n"),
+                        "radius, or the city radius of a trade partner."),
                      terrain_name_translation(preq->source.value.terrain));
       } else {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Prevented by %s on any tile within the city "
-                        "radius or the city radius of a trade partner.\n"),
+                        "radius or the city radius of a trade partner."),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
@@ -924,12 +924,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... playing as the Swedes." */
-                     _("Requires that you are playing as the %s.\n"),
+                     _("Requires that you are playing as the %s."),
                      nation_plural_translation(preq->source.value.nation));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... playing as the Turks." */
-                     _("Requires that you are not playing as the %s.\n"),
+                     _("Requires that you are not playing as the %s."),
                      nation_plural_translation(preq->source.value.nation));
       }
       return TRUE;
@@ -938,13 +938,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... same team as the Indonesians." */
                      _("Requires that you are on the same team as "
-                       "the %s.\n"),
+                       "the %s."),
                      nation_plural_translation(preq->source.value.nation));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... same team as the Greeks." */
                      _("Requires that you are not on the same team as "
-                       "the %s.\n"),
+                       "the %s."),
                      nation_plural_translation(preq->source.value.nation));
       }
       return TRUE;
@@ -952,12 +952,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... allied with the Koreans." */
-                     _("Requires that you are allied with the %s.\n"),
+                     _("Requires that you are allied with the %s."),
                      nation_plural_translation(preq->source.value.nation));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... allied with the Danes." */
-                     _("Requires that you are not allied with the %s.\n"),
+                     _("Requires that you are not allied with the %s."),
                      nation_plural_translation(preq->source.value.nation));
       }
       return TRUE;
@@ -966,25 +966,25 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         if (preq->present) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: "Requires the Apaches to have ..." */
-                       _("Requires the %s to have been in the game.\n"),
+                       _("Requires the %s to have been in the game."),
                        nation_plural_translation(preq->source.value.nation));
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: "Requires the Celts never to have ..." */
                        _("Requires the %s never to have been in the "
-                         "game.\n"),
+                         "game."),
                        nation_plural_translation(preq->source.value.nation));
         }
       } else {
         if (preq->present) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: "Requires the Belgians in the game." */
-                       _("Requires the %s in the game.\n"),
+                       _("Requires the %s in the game."),
                        nation_plural_translation(preq->source.value.nation));
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: "Requires that the Russians are not ... */
-                       _("Requires that the %s are not in the game.\n"),
+                       _("Requires that the %s are not in the game."),
                        nation_plural_translation(preq->source.value.nation));
         }
       }
@@ -1007,12 +1007,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "... playing African nation." */
-                     _("Requires that you are playing %s nation.\n"),
+                     _("Requires that you are playing %s nation."),
                      nation_group_name_translation(preq->source.value.nationgroup));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "... playing Imaginary nation." */
-                     _("Prevented if you are playing %s nation.\n"),
+                     _("Prevented if you are playing %s nation."),
                      nation_group_name_translation(preq->source.value.nationgroup));
       }
       return TRUE;
@@ -1020,12 +1020,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "Requires Medieval nation ..." */
-                     _("Requires %s nation on your team.\n"),
+                     _("Requires %s nation on your team."),
                      nation_group_name_translation(preq->source.value.nationgroup));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "Prevented by Medieval nation ..." */
-                     _("Prevented by %s nation on your team.\n"),
+                     _("Prevented by %s nation on your team."),
                      nation_group_name_translation(preq->source.value.nationgroup));
       }
       return TRUE;
@@ -1033,12 +1033,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "Requires Modern nation ..." */
-                     _("Requires %s nation in alliance with you.\n"),
+                     _("Requires %s nation in alliance with you."),
                      nation_group_name_translation(preq->source.value.nationgroup));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "Prevented by Modern nation ..." */
-                     _("Prevented if %s nation is in alliance with you.\n"),
+                     _("Prevented if %s nation is in alliance with you."),
                      nation_group_name_translation(preq->source.value.nationgroup));
       }
       return TRUE;
@@ -1046,12 +1046,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "Requires Asian nation ..." */
-                     _("Requires %s nation in the game.\n"),
+                     _("Requires %s nation in the game."),
                      nation_group_name_translation(preq->source.value.nationgroup));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "Prevented by Asian nation ..." */
-                     _("Prevented by %s nation in the game.\n"),
+                     _("Prevented by %s nation in the game."),
                      nation_group_name_translation(preq->source.value.nationgroup));
       }
       return TRUE;
@@ -1075,13 +1075,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz,
                    /* TRANS: "Requires that you are playing Asian style 
                     * nation." */
-                   _("Requires that you are playing %s style nation.\n"),
+                   _("Requires that you are playing %s style nation."),
                    style_name_translation(preq->source.value.style));
     } else {
       cat_snprintf(buf, bufsz,
                    /* TRANS: "Requires that you are not playing Classical
                     * style nation." */
-                   _("Requires that you are not playing %s style nation.\n"),
+                   _("Requires that you are not playing %s style nation."),
                    style_name_translation(preq->source.value.style));
     }
     return TRUE;
@@ -1093,13 +1093,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: "Requires at least one Barbarian citizen ..." */
                      _("Requires at least one %s citizen in the city or a "
-                       "trade partner.\n"),
+                       "trade partner."),
                      nation_adjective_translation(preq->source.value.nationality));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... no Pirate citizens ..." */
                      _("Requires that there are no %s citizens in "
-                       "the city or any trade partners.\n"),
+                       "the city or any trade partners."),
                      nation_adjective_translation(preq->source.value.nationality));
       }
       return TRUE;
@@ -1107,13 +1107,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "Requires at least one Barbarian citizen ..." */
-                     _("Requires at least one %s citizen in the city.\n"),
+                     _("Requires at least one %s citizen in the city."),
                      nation_adjective_translation(preq->source.value.nationality));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... no Pirate citizens ..." */
                      _("Requires that there are no %s citizens in "
-                       "the city.\n"),
+                       "the city."),
                      nation_adjective_translation(preq->source.value.nationality));
       }
       return TRUE;
@@ -1141,12 +1141,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                       * 'Never met', 'Is foreign', 'Hosts embassy',
                       * 'Provided Casus Belli' */
                      _("Requires that you have the relationship '%s' with at "
-                       "least one other living player.\n"),
+                       "least one other living player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Requires that you do not have the relationship '%s' "
-                       "with any living player.\n"),
+                       "with any living player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
@@ -1155,12 +1155,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      _("Requires that somebody on your team has the "
                        "relationship '%s' with at least one other living "
-                       "player.\n"),
+                       "player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Requires that nobody on your team has the "
-                       "relationship '%s' with any living player.\n"),
+                       "relationship '%s' with any living player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
@@ -1169,12 +1169,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      _("Requires that somebody in your alliance has the "
                        "relationship '%s' with at least one other living "
-                       "player.\n"),
+                       "player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Requires that nobody in your alliance has the "
-                       "relationship '%s' with any living player.\n"),
+                       "relationship '%s' with any living player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
@@ -1182,12 +1182,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires the relationship '%s' between two living "
-                       "players.\n"),
+                       "players."),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Requires that no two living players have the "
-                       "relationship '%s'.\n"),
+                       "relationship '%s'."),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
@@ -1195,12 +1195,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires that you have the relationship '%s' with the "
-                       "other player.\n"),
+                       "other player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Requires that you do not have the relationship '%s' "
-                       "with the other player.\n"),
+                       "with the other player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
@@ -1220,11 +1220,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         /* TRANS: %s is a single kind of unit (e.g., "Settlers"). */
-        cat_snprintf(buf, bufsz, Q_("?unit:Requires %s.\n"),
+        cat_snprintf(buf, bufsz, Q_("?unit:Requires %s."),
                      utype_name_translation(preq->source.value.utype));
       } else {
         /* TRANS: %s is a single kind of unit (e.g., "Settlers"). */
-        cat_snprintf(buf, bufsz, Q_("?unit:Does not apply to %s.\n"),
+        cat_snprintf(buf, bufsz, Q_("?unit:Does not apply to %s."),
                      utype_name_translation(preq->source.value.utype));
       }
       return TRUE;
@@ -1255,11 +1255,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                                     TRUE)) {
           if (preq->present) {
             /* TRANS: %s is a list of unit types separated by "or". */
-            cat_snprintf(buf, bufsz, Q_("?ulist:Requires %s.\n"),
+            cat_snprintf(buf, bufsz, Q_("?ulist:Requires %s."),
                          astr_str(&astr));
           } else {
             /* TRANS: %s is a list of unit types separated by "or". */
-            cat_snprintf(buf, bufsz, Q_("?ulist:Does not apply to %s.\n"),
+            cat_snprintf(buf, bufsz, Q_("?ulist:Does not apply to %s."),
                          astr_str(&astr));
           }
           astr_free(&astr);
@@ -1287,11 +1287,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         /* TRANS: %s is a single unit class (e.g., "Air"). */
-        cat_snprintf(buf, bufsz, Q_("?uclass:Requires %s units.\n"),
+        cat_snprintf(buf, bufsz, Q_("?uclass:Requires %s units."),
                      uclass_name_translation(preq->source.value.uclass));
       } else {
         /* TRANS: %s is a single unit class (e.g., "Air"). */
-        cat_snprintf(buf, bufsz, Q_("?uclass:Does not apply to %s units.\n"),
+        cat_snprintf(buf, bufsz, Q_("?uclass:Does not apply to %s units."),
                      uclass_name_translation(preq->source.value.uclass));
       }
       return TRUE;
@@ -1328,12 +1328,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case REQ_RANGE_LOCAL:
         if (preq->present) {
           /* TRANS: %s is a list of unit classes separated by "or". */
-          cat_snprintf(buf, bufsz, Q_("?uclasslist:Requires %s units.\n"),
+          cat_snprintf(buf, bufsz, Q_("?uclasslist:Requires %s units."),
                        astr_str(&list));
         } else { 
           /* TRANS: %s is a list of unit classes separated by "or". */
           cat_snprintf(buf, bufsz, Q_("?uclasslist:Does not apply to "
-                                      "%s units.\n"),
+                                      "%s units."),
                        astr_str(&list));
         }
         done = TRUE;
@@ -1366,59 +1366,59 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         case USP_TRANSPORTED:
           if (preq->present) {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit is transported.\n"));
+                         _("Requires that the unit is transported."));
           } else {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit isn't transported.\n"));
+                         _("Requires that the unit isn't transported."));
           }
           return TRUE;
         case USP_LIVABLE_TILE:
           if (preq->present) {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit is on livable tile.\n"));
+                         _("Requires that the unit is on livable tile."));
           } else {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit isn't on livable tile.\n"));
+                         _("Requires that the unit isn't on livable tile."));
           }
           return TRUE;
         case USP_DOMESTIC_TILE:
           if (preq->present) {
             cat_snprintf(buf, bufsz,
                          _("Requires that the unit is on a domestic "
-                           "tile.\n"));
+                           "tile."));
           } else {
             cat_snprintf(buf, bufsz,
                          _("Requires that the unit isn't on a domestic "
-                           "tile.\n"));
+                           "tile."));
           }
           return TRUE;
         case USP_TRANSPORTING:
           if (preq->present) {
             cat_snprintf(buf, bufsz,
                          _("Requires that the unit does transport one or "
-                           "more cargo units.\n"));
+                           "more cargo units."));
           } else {
             cat_snprintf(buf, bufsz,
                          _("Requires that the unit doesn't transport "
-                           "any cargo units.\n"));
+                           "any cargo units."));
           }
           return TRUE;
         case USP_HAS_HOME_CITY:
           if (preq->present) {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit has a home city.\n"));
+                         _("Requires that the unit has a home city."));
           } else {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit is homeless.\n"));
+                         _("Requires that the unit is homeless."));
           }
           return TRUE;
         case USP_NATIVE_TILE:
           if (preq->present) {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit is on native tile.\n"));
+                         _("Requires that the unit is on native tile."));
           } else {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit isn't on native tile.\n"));
+                         _("Requires that the unit isn't on native tile."));
           }
           return TRUE;
         case USP_COUNT:
@@ -1450,13 +1450,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz,
                        /* %s is numeric move points; it may have a
                         * fractional part ("1 1/3 MP"). */
-                       _("Requires that the unit has at least %s MP left.\n"),
+                       _("Requires that the unit has at least %s MP left."),
                        move_points_text(preq->source.value.minmoves, TRUE));
         } else {
           cat_snprintf(buf, bufsz,
                        /* %s is numeric move points; it may have a
                         * fractional part ("1 1/3 MP"). */
-                       _("Requires that the unit has less than %s MP left.\n"),
+                       _("Requires that the unit has less than %s MP left."),
                        move_points_text(preq->source.value.minmoves, TRUE));
         }
         return TRUE;
@@ -1484,14 +1484,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
      * potentially unit type dependent. */
     if (preq->present) {
       cat_snprintf(buf, bufsz,
-                   PL_("Requires a unit with at least %d veteran level.\n",
-                       "Requires a unit with at least %d veteran levels.\n",
+                   PL_("Requires a unit with at least %d veteran level.",
+                       "Requires a unit with at least %d veteran levels.",
                        preq->source.value.minveteran),
                    preq->source.value.minveteran);
     } else {
       cat_snprintf(buf, bufsz,
-                   PL_("Requires a unit with fewer than %d veteran level.\n",
-                       "Requires a unit with fewer than %d veteran levels.\n",
+                   PL_("Requires a unit with fewer than %d veteran level.",
+                       "Requires a unit with fewer than %d veteran levels.",
                        preq->source.value.minveteran),
                    preq->source.value.minveteran);
     }
@@ -1504,16 +1504,16 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires a unit with at least %d hit point left.\n",
-                         "Requires a unit with at least %d hit points left.\n",
+                     PL_("Requires a unit with at least %d hit point left.",
+                         "Requires a unit with at least %d hit points left.",
                          preq->source.value.min_hit_points),
                      preq->source.value.min_hit_points);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("Requires a unit with fewer than %d hit point "
-                         "left.\n",
+                         "left.",
                          "Requires a unit with fewer than %d hit points "
-                         "left.\n",
+                         "left.",
                          preq->source.value.min_hit_points),
                      preq->source.value.min_hit_points);
       }
@@ -1525,11 +1525,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     if (preq->present) {
       /* TRANS: "Applies only to Food." */
-      cat_snprintf(buf, bufsz, Q_("?output:Applies only to %s.\n"),
+      cat_snprintf(buf, bufsz, Q_("?output:Applies only to %s."),
                    get_output_name(preq->source.value.outputtype));
     } else {
       /* TRANS: "Does not apply to Food." */
-      cat_snprintf(buf, bufsz, Q_("?output:Does not apply to %s.\n"),
+      cat_snprintf(buf, bufsz, Q_("?output:Does not apply to %s."),
                    get_output_name(preq->source.value.outputtype));
     }
     return TRUE;
@@ -1540,11 +1540,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     if (preq->present) {
       /* TRANS: "Applies only to Scientists." */
-      cat_snprintf(buf, bufsz, Q_("?specialist:Applies only to %s.\n"),
+      cat_snprintf(buf, bufsz, Q_("?specialist:Applies only to %s."),
                    specialist_plural_translation(preq->source.value.specialist));
     } else {
       /* TRANS: "Does not apply to Scientists." */
-      cat_snprintf(buf, bufsz, Q_("?specialist:Does not apply to %s.\n"),
+      cat_snprintf(buf, bufsz, Q_("?specialist:Does not apply to %s."),
                    specialist_plural_translation(preq->source.value.specialist));
     }
     return TRUE;
@@ -1555,17 +1555,17 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires a minimum city size of %d for this "
-                         "city or a trade partner.\n",
+                         "city or a trade partner.",
                          "Requires a minimum city size of %d for this "
-                         "city or a trade partner.\n",
+                         "city or a trade partner.",
                          preq->source.value.minsize),
                      preq->source.value.minsize);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("Requires the city size to be less than %d "
-                         "for this city and all trade partners.\n",
+                         "for this city and all trade partners.",
                          "Requires the city size to be less than %d "
-                         "for this city and all trade partners.\n",
+                         "for this city and all trade partners.",
                          preq->source.value.minsize),
                      preq->source.value.minsize);
       }
@@ -1573,14 +1573,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CITY:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires a minimum city size of %d.\n",
-                         "Requires a minimum city size of %d.\n",
+                     PL_("Requires a minimum city size of %d.",
+                         "Requires a minimum city size of %d.",
                          preq->source.value.minsize),
                      preq->source.value.minsize);
       } else {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires the city size to be less than %d.\n",
-                         "Requires the city size to be less than %d.\n",
+                     PL_("Requires the city size to be less than %d.",
+                         "Requires the city size to be less than %d.",
                          preq->source.value.minsize),
                    preq->source.value.minsize);
       }
@@ -1603,16 +1603,16 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CITY:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires a minimum culture of %d in the city.\n",
-                         "Requires a minimum culture of %d in the city.\n",
+                     PL_("Requires a minimum culture of %d in the city.",
+                         "Requires a minimum culture of %d in the city.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("Requires the culture in the city to be less "
-                         "than %d.\n",
+                         "than %d.",
                          "Requires the culture in the city to be less "
-                         "than %d.\n",
+                         "than %d.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }
@@ -1621,17 +1621,17 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires a minimum culture of %d in this city or "
-                         "a trade partner.\n",
+                         "a trade partner.",
                          "Requires a minimum culture of %d in this city or "
-                         "a trade partner.\n",
+                         "a trade partner.",
                          preq->source.value.minculture),
                       preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("Requires the culture in this city and all trade "
-                         "partners to be less than %d.\n",
+                         "partners to be less than %d.",
                          "Requires the culture in this city and all trade "
-                         "partners to be less than %d.\n",
+                         "partners to be less than %d.",
                          preq->source.value.minculture),
                       preq->source.value.minculture);
       }
@@ -1640,17 +1640,17 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires your nation to have culture "
-                         "of at least %d.\n",
+                         "of at least %d.",
                          "Requires your nation to have culture "
-                         "of at least %d.\n",
+                         "of at least %d.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("Prevented if your nation has culture of "
-                         "%d or more.\n",
+                         "%d or more.",
                          "Prevented if your nation has culture of "
-                         "%d or more.\n",
+                         "%d or more.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }
@@ -1659,17 +1659,17 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires someone on your team to have culture of "
-                         "at least %d.\n",
+                         "at least %d.",
                          "Requires someone on your team to have culture of "
-                         "at least %d.\n",
+                         "at least %d.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("Prevented if anyone on your team has culture of "
-                         "%d or more.\n",
+                         "%d or more.",
                          "Prevented if anyone on your team has culture of "
-                         "%d or more.\n",
+                         "%d or more.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }
@@ -1678,17 +1678,17 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires someone in your current alliance to "
-                         "have culture of at least %d.\n",
+                         "have culture of at least %d.",
                          "Requires someone in your current alliance to "
-                         "have culture of at least %d.\n",
+                         "have culture of at least %d.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("Prevented if anyone in your current alliance has "
-                         "culture of %d or more.\n",
+                         "culture of %d or more.",
                          "Prevented if anyone in your current alliance has "
-                         "culture of %d or more.\n",
+                         "culture of %d or more.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }
@@ -1697,17 +1697,17 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires that some player has culture of at "
-                         "least %d.\n",
+                         "least %d.",
                          "Requires that some player has culture of at "
-                         "least %d.\n",
+                         "least %d.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("Requires that no player has culture of %d "
-                         "or more.\n",
+                         "or more.",
                          "Requires that no player has culture of %d "
-                         "or more.\n",
+                         "or more.",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }
@@ -1726,16 +1726,16 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_LOCAL:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("At most %d unit may be present on the tile.\n",
-                         "At most %d units may be present on the tile.\n",
+                     PL_("At most %d unit may be present on the tile.",
+                         "At most %d units may be present on the tile.",
                          preq->source.value.max_tile_units),
                      preq->source.value.max_tile_units);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("There must be more than %d unit present on "
-                         "the tile.\n",
+                         "the tile.",
                          "There must be more than %d units present on "
-                         "the tile.\n",
+                         "the tile.",
                          preq->source.value.max_tile_units),
                      preq->source.value.max_tile_units);
       }
@@ -1744,17 +1744,17 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("The tile or at least one cardinally adjacent tile "
-                         "must have %d unit or fewer.\n",
+                         "must have %d unit or fewer.",
                          "The tile or at least one cardinally adjacent tile "
-                         "must have %d units or fewer.\n",
+                         "must have %d units or fewer.",
                          preq->source.value.max_tile_units),
                      preq->source.value.max_tile_units);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("The tile and all cardinally adjacent tiles must "
-                         "have more than %d unit each.\n",
+                         "have more than %d unit each.",
                          "The tile and all cardinally adjacent tiles must "
-                         "have more than %d units each.\n",
+                         "have more than %d units each.",
                          preq->source.value.max_tile_units),
                      preq->source.value.max_tile_units);
       }
@@ -1763,17 +1763,17 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("The tile or at least one adjacent tile must have "
-                         "%d unit or fewer.\n",
+                         "%d unit or fewer.",
                          "The tile or at least one adjacent tile must have "
-                         "%d units or fewer.\n",
+                         "%d units or fewer.",
                          preq->source.value.max_tile_units),
                      preq->source.value.max_tile_units);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("The tile and all adjacent tiles must have more "
-                         "than %d unit each.\n",
+                         "than %d unit each.",
                          "The tile and all adjacent tiles must have more "
-                         "than %d units each.\n",
+                         "than %d units each.",
                          preq->source.value.max_tile_units),
                      preq->source.value.max_tile_units);
       }
@@ -1797,12 +1797,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     if (preq->present) {
       cat_snprintf(buf, bufsz,
                    /* TRANS: AI level (e.g., "Handicapped") */
-                   _("Applies to %s AI players.\n"),
+                   _("Applies to %s AI players."),
                    ai_level_translated_name(preq->source.value.ai_level));
     } else {
       cat_snprintf(buf, bufsz,
                    /* TRANS: AI level (e.g., "Cheating") */
-                   _("Does not apply to %s AI players.\n"),
+                   _("Does not apply to %s AI players."),
                    ai_level_translated_name(preq->source.value.ai_level));
     }
     return TRUE;
@@ -1813,13 +1813,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
-                     Q_("?terrainclass:Requires %s terrain on the tile.\n"),
+                     Q_("?terrainclass:Requires %s terrain on the tile."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
-                     Q_("?terrainclass:Prevented by %s terrain on the tile.\n"),
+                     Q_("?terrainclass:Prevented by %s terrain on the tile."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       }
@@ -1829,14 +1829,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
                      Q_("?terrainclass:Requires %s terrain on the tile or a "
-                        "cardinally adjacent tile.\n"),
+                        "cardinally adjacent tile."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
                      Q_("?terrainclass:Prevented by %s terrain on the tile or "
-                        "any cardinally adjacent tile.\n"),
+                        "any cardinally adjacent tile."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       }
@@ -1846,14 +1846,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
                      Q_("?terrainclass:Requires %s terrain on the tile or an "
-                        "adjacent tile.\n"),
+                        "adjacent tile."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
                      Q_("?terrainclass:Prevented by %s terrain on the tile or "
-                        "any adjacent tile.\n"),
+                        "any adjacent tile."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       }
@@ -1863,14 +1863,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
                      Q_("?terrainclass:Requires %s terrain on a tile within "
-                        "the city radius.\n"),
+                        "the city radius."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
                      Q_("?terrainclass:Prevented by %s terrain on any tile "
-                        "within the city radius.\n"),
+                        "within the city radius."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       }
@@ -1881,7 +1881,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      /* TRANS: %s is a terrain class */
                      Q_("?terrainclass:Requires %s terrain on a tile within "
                         "the city radius or the city radius of a trade "
-                        "partner.\n"),
+                        "partner."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       } else {
@@ -1889,7 +1889,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      /* TRANS: %s is a terrain class */
                      Q_("?terrainclass:Prevented by %s terrain on any tile "
                         "within the city radius or the city radius of a trade "
-                        "partner.\n"),
+                        "partner."),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       }
@@ -1911,13 +1911,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
-                     _("Requires terrain with the \"%s\" flag on the tile.\n"),
+                     _("Requires terrain with the \"%s\" flag on the tile."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on the "
-                       "tile.\n"),
+                       "tile."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
@@ -1926,13 +1926,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
                      _("Requires terrain with the \"%s\" flag on the "
-                       "tile or a cardinally adjacent tile.\n"),
+                       "tile or a cardinally adjacent tile."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on "
-                       "the tile or any cardinally adjacent tile.\n"),
+                       "the tile or any cardinally adjacent tile."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
@@ -1941,13 +1941,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
                      _("Requires terrain with the \"%s\" flag on the "
-                       "tile or an adjacent tile.\n"),
+                       "tile or an adjacent tile."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on "
-                       "the tile or any adjacent tile.\n"),
+                       "the tile or any adjacent tile."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
@@ -1956,13 +1956,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
                      _("Requires terrain with the \"%s\" flag on a tile "
-                       "within the city radius.\n"),
+                       "within the city radius."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on any tile "
-                       "within the city radius.\n"),
+                       "within the city radius."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
@@ -1972,14 +1972,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      /* TRANS: %s is a (translatable) terrain flag. */
                      _("Requires terrain with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of "
-                       "a trade partner.\n"),
+                       "a trade partner."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
                      _("Prevented by terrain with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of "
-                       "a trade partner.\n"),
+                       "a trade partner."),
                      terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
@@ -2000,13 +2000,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
-                     _("Requires a base with the \"%s\" flag on the tile.\n"),
+                     _("Requires a base with the \"%s\" flag on the tile."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on the "
-                       "tile.\n"),
+                       "tile."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
@@ -2015,13 +2015,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
                      _("Requires a base with the \"%s\" flag on the "
-                       "tile or a cardinally adjacent tile.\n"),
+                       "tile or a cardinally adjacent tile."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on "
-                       "the tile or any cardinally adjacent tile.\n"),
+                       "the tile or any cardinally adjacent tile."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
@@ -2030,13 +2030,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
                      _("Requires a base with the \"%s\" flag on the "
-                       "tile or an adjacent tile.\n"),
+                       "tile or an adjacent tile."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on "
-                       "the tile or any adjacent tile.\n"),
+                       "the tile or any adjacent tile."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
@@ -2045,13 +2045,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
                      _("Requires a base with the \"%s\" flag on a tile "
-                       "within the city radius.\n"),
+                       "within the city radius."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on any tile "
-                       "within the city radius.\n"),
+                       "within the city radius."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
@@ -2061,14 +2061,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      /* TRANS: %s is a (translatable) base flag. */
                      _("Requires a base with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of a "
-                       "trade partner.\n"),
+                       "trade partner."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
                      _("Prevented by a base with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of a "
-                       "trade partner.\n"),
+                       "trade partner."),
                      base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
@@ -2089,13 +2089,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
-                     _("Requires a road with the \"%s\" flag on the tile.\n"),
+                     _("Requires a road with the \"%s\" flag on the tile."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on the "
-                       "tile.\n"),
+                       "tile."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
@@ -2104,13 +2104,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
                      _("Requires a road with the \"%s\" flag on the "
-                       "tile or a cardinally adjacent tile.\n"),
+                       "tile or a cardinally adjacent tile."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on "
-                       "the tile or any cardinally adjacent tile.\n"),
+                       "the tile or any cardinally adjacent tile."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
@@ -2119,13 +2119,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
                      _("Requires a road with the \"%s\" flag on the "
-                       "tile or an adjacent tile.\n"),
+                       "tile or an adjacent tile."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on "
-                       "the tile or any adjacent tile.\n"),
+                       "the tile or any adjacent tile."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
@@ -2134,13 +2134,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
                      _("Requires a road with the \"%s\" flag on a tile "
-                       "within the city radius.\n"),
+                       "within the city radius."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on any tile "
-                       "within the city radius.\n"),
+                       "within the city radius."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
@@ -2150,14 +2150,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      /* TRANS: %s is a (translatable) road flag. */
                      _("Requires a road with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of a "
-                       "trade partner.\n"),
+                       "trade partner."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
                      _("Prevented by a road with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of a "
-                       "trade partner.\n"),
+                       "trade partner."),
                      road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
@@ -2178,13 +2178,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
-                     _("Requires an extra with the \"%s\" flag on the tile.\n"),
+                     _("Requires an extra with the \"%s\" flag on the tile."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
                      _("Prevented by an extra with the \"%s\" flag on the "
-                       "tile.\n"),
+                       "tile."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       }
       return TRUE;
@@ -2193,13 +2193,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
                      _("Requires an extra with the \"%s\" flag on the "
-                       "tile or a cardinally adjacent tile.\n"),
+                       "tile or a cardinally adjacent tile."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
                      _("Prevented by an extra with the \"%s\" flag on "
-                       "the tile or any cardinally adjacent tile.\n"),
+                       "the tile or any cardinally adjacent tile."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       }
       return TRUE;
@@ -2208,13 +2208,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
                      _("Requires an extra with the \"%s\" flag on the "
-                       "tile or an adjacent tile.\n"),
+                       "tile or an adjacent tile."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
                      _("Prevented by an extra with the \"%s\" flag on "
-                       "the tile or any adjacent tile.\n"),
+                       "the tile or any adjacent tile."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       }
       return TRUE;
@@ -2223,13 +2223,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
                      _("Requires an extra with the \"%s\" flag on a tile "
-                       "within the city radius.\n"),
+                       "within the city radius."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
                      _("Prevented by an extra with the \"%s\" flag on any tile "
-                       "within the city radius.\n"),
+                       "within the city radius."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       }
       return TRUE;
@@ -2239,14 +2239,14 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      /* TRANS: %s is a (translatable) extra flag. */
                      _("Requires an extra with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of a "
-                       "trade partner.\n"),
+                       "trade partner."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
                      _("Prevented by an extra with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of a "
-                       "trade partner.\n"),
+                       "trade partner."),
                      extra_flag_id_translated_name(preq->source.value.extraflag));
       }
       return TRUE;
@@ -2267,12 +2267,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     if (preq->present) {
       cat_snprintf(buf, bufsz,
-                   _("Requires the game to have reached the year %s.\n"),
+                   _("Requires the game to have reached the year %s."),
                    textyear(preq->source.value.minyear));
     } else {
       cat_snprintf(buf, bufsz,
                    _("Requires that the game has not yet reached the "
-                     "year %s.\n"),
+                     "year %s."),
                    textyear(preq->source.value.minyear));
     }
     return TRUE;
@@ -2283,11 +2283,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     if (preq->present) {
       cat_snprintf(buf, bufsz,
-                   _("Requires %s map.\n"),
+                   _("Requires %s map."),
                    _(topo_flag_name(preq->source.value.topo_property)));
     } else {
       cat_snprintf(buf, bufsz,
-                   _("Prevented on %s map.\n"),
+                   _("Prevented on %s map."),
                    _(topo_flag_name(preq->source.value.topo_property)));
     }
     return TRUE;
@@ -2295,11 +2295,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
   case VUT_AGE:
     if (preq->present) {
       cat_snprintf(buf, bufsz,
-                   _("Requires age of %d turns.\n"),
+                   _("Requires age of %d turns."),
                    preq->source.value.age);
     } else {
       cat_snprintf(buf, bufsz,
-                   _("Prevented if age is over %d turns.\n"),
+                   _("Prevented if age is over %d turns."),
                    preq->source.value.age);
     }
     return TRUE;
@@ -2309,22 +2309,22 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_WORLD:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires %d techs to be known in the world.\n"),
+                     _("Requires %d techs to be known in the world."),
                      preq->source.value.min_techs);
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented when %d techs are known in the world.\n"),
+                     _("Prevented when %d techs are known in the world."),
                      preq->source.value.min_techs);
       }
       return TRUE;
     case REQ_RANGE_PLAYER:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires player to knoe %d techs.\n"),
+                     _("Requires player to knoe %d techs."),
                      preq->source.value.min_techs);
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented when player knows %d techs.\n"),
+                     _("Prevented when player knows %d techs."),
                      preq->source.value.min_techs);
       }
       return TRUE;
@@ -2348,12 +2348,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires terrain on which alteration %s is "
-                       "possible.\n"),
+                       "possible."),
                      Q_(terrain_alteration_name(preq->source.value.terrainalter)));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by terrain on which alteration %s "
-                       "can be made.\n"),
+                       "can be made."),
                      Q_(terrain_alteration_name(preq->source.value.terrainalter)));
       }
       return TRUE;
@@ -2395,23 +2395,23 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         if (preq->present) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: tile property ("city centers", etc) */
-                       Q_("?tileprop:Applies only to %s.\n"), tile_property);
+                       Q_("?tileprop:Applies only to %s."), tile_property);
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: tile property ("city centers", etc) */
-                       Q_("?tileprop:Does not apply to %s.\n"), tile_property);
+                       Q_("?tileprop:Does not apply to %s."), tile_property);
         }
         return TRUE;
       case REQ_RANGE_CADJACENT:
         if (preq->present) {
           /* TRANS: tile property ("city centers", etc) */
           cat_snprintf(buf, bufsz, Q_("?tileprop:Applies only to %s and "
-                                      "cardinally adjacent tiles.\n"),
+                                      "cardinally adjacent tiles."),
                        tile_property);
         } else {
           /* TRANS: tile property ("city centers", etc) */
           cat_snprintf(buf, bufsz, Q_("?tileprop:Does not apply to %s or "
-                                      "cardinally adjacent tiles.\n"),
+                                      "cardinally adjacent tiles."),
                        tile_property);
         }
         return TRUE;
@@ -2419,11 +2419,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         if (preq->present) {
           /* TRANS: tile property ("city centers", etc) */
           cat_snprintf(buf, bufsz, Q_("?tileprop:Applies only to %s and "
-                                      "adjacent tiles.\n"), tile_property);
+                                      "adjacent tiles."), tile_property);
         } else {
           /* TRANS: tile property ("city centers", etc) */
           cat_snprintf(buf, bufsz, Q_("?tileprop:Does not apply to %s or "
-                                      "adjacent tiles.\n"), tile_property);
+                                      "adjacent tiles."), tile_property);
         }
         return TRUE;
       case REQ_RANGE_CITY:
@@ -2450,6 +2450,22 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
               preq->present ? "Present" : "Absent",
               universal_name_translation(&preq->source, text, sizeof(text)),
               preq->range);
+  }
+
+  return FALSE;
+}
+
+/****************************************************************
+  Append text for the requirement. Added line ends to a newline.
+*****************************************************************/
+bool req_text_insert_nl(char *buf, size_t bufsz, struct player *pplayer,
+                        const struct requirement *preq,
+                        enum rt_verbosity verb)
+{
+  if (req_text_insert(buf, bufsz, pplayer, preq, verb)) {
+    fc_strlcat(buf, "\n", bufsz);
+
+    return TRUE;
   }
 
   return FALSE;

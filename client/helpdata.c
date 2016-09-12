@@ -1119,7 +1119,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Add requirement text for improvement itself */
   requirement_vector_iterate(&pimprove->reqs, preq) {
-    if (req_text_insert(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -2273,7 +2273,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   if (requirement_vector_size(&vap->research_reqs) > 0) {
     CATLSTR(buf, bufsz, _("Requirements to research:\n"));
     requirement_vector_iterate(&vap->research_reqs, preq) {
-      (void) req_text_insert(buf, bufsz, pplayer, preq, VERB_DEFAULT);
+      (void) req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT);
     } requirement_vector_iterate_end;
     CATLSTR(buf, bufsz, "\n");
   }
@@ -2594,13 +2594,13 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
   }
 
   /* XXX Non-zero requirement vector is not a good test of whether
-   * req_text_insert() will give any output. */
+   * req_text_insert_nl() will give any output. */
   if (requirement_vector_size(&pextra->reqs) > 0) {
     if (pextra->buildable && is_extra_caused_by_worker_action(pextra)) {
       CATLSTR(buf, bufsz, _("Requirements to build:\n"));
     }
     requirement_vector_iterate(&pextra->reqs, preq) {
-      (void) req_text_insert(buf, bufsz, pplayer, preq, VERB_DEFAULT);
+      (void) req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT);
     } requirement_vector_iterate_end;
     CATLSTR(buf, bufsz, "\n");
   }
@@ -2816,7 +2816,7 @@ void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Requirements for this specialist. */
   requirement_vector_iterate(&pspec->reqs, preq) {
-    if (req_text_insert(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -2855,7 +2855,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Add requirement text for government itself */
   requirement_vector_iterate(&gov->reqs, preq) {
-    if (req_text_insert(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;

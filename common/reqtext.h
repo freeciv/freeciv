@@ -23,6 +23,10 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      const struct requirement *preq,
                      enum rt_verbosity verb);
 
+bool req_text_insert_nl(char *buf, size_t bufsz, struct player *pplayer,
+                        const struct requirement *preq,
+                        enum rt_verbosity verb);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
