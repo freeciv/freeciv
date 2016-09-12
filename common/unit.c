@@ -388,7 +388,7 @@ bool can_unit_change_homecity(const struct unit *punit)
   effects).  Usually this is just used for settlers but the value is also
   used for military units doing fortify/pillage activities.
 
-  The speed is multiplied by ACTIVITY_COUNT.
+  The speed is multiplied by ACTIVITY_FACTOR.
 **************************************************************************/
 int get_activity_rate(const struct unit *punit)
 {
@@ -406,7 +406,7 @@ int get_activity_rate(const struct unit *punit)
    * uninjured ones.  Note the value is never less than SINGLE_MOVE. */
   int move_rate = unit_type_get(punit)->move_rate;
 
-  /* All settler actions are multiplied by ACTIVITY_COUNT. */
+  /* All settler actions are multiplied by ACTIVITY_FACTOR. */
   return ACTIVITY_FACTOR
          * (float)vlevel->power_fact / 100
          * move_rate / SINGLE_MOVE;
@@ -416,7 +416,7 @@ int get_activity_rate(const struct unit *punit)
   Returns the amount of work a unit does (will do) on an activity this
   turn.  Units that have no MP do no work.
 
-  The speed is multiplied by ACTIVITY_COUNT.
+  The speed is multiplied by ACTIVITY_FACTOR.
 **************************************************************************/
 int get_activity_rate_this_turn(const struct unit *punit)
 {
