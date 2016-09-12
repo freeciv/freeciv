@@ -132,7 +132,7 @@ struct unit {
   enum unit_activity activity;
 
   /* The amount of work that has been done on the current activity.  This
-   * is counted in turns but is multiplied by ACTIVITY_COUNT (which allows
+   * is counted in turns but is multiplied by ACTIVITY_FACTOR (which allows
    * fractional values in some cases). */
   int activity_count;
 
