@@ -497,6 +497,11 @@ void mr_menu::setup_menus()
   act->setChecked(draw_borders);
   act->setShortcut(QKeySequence(tr("ctrl+b")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_borders()));
+  act = menu->addAction(_("Native Tiles"));
+  act->setCheckable(true);
+  act->setChecked(draw_native);
+  act->setShortcut(QKeySequence(tr("ctrl+shift+n")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_native_tiles()));
   act = menu->addAction(_("City Full Bar"));
   act->setCheckable(true);
   act->setChecked(draw_full_citybar);
@@ -1769,6 +1774,14 @@ void mr_menu::slot_minimap_view()
 void mr_menu::slot_borders()
 {
   key_map_borders_toggle();
+}
+
+/****************************************************************
+  Action "SHOW NATIVE TILES"
+*****************************************************************/
+void mr_menu::slot_native_tiles()
+{
+  key_map_native_toggle();
 }
 
 /***************************************************************************
