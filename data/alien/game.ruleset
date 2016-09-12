@@ -218,7 +218,7 @@ poison_empties_food_stock = FALSE
 ; The maximum distance from the actor unit to the target of the "Bombard"
 ; action. The value 1 means that the targets must be on a tile adjacent to
 ; the actor unit. The special value "unlimited" lifts the maximum distance
-; restriction. The maximum distance can't be smaller than the minimum
+; restriction. The maximum distance can`t be smaller than the minimum
 ; distance.
 bombard_max_range = 1
 
@@ -749,7 +749,7 @@ settings =
   }
 
 ; When are goods for the trade route chosen.
-; "Leaving" - Goods to carry are assigned to unit when it's built, or it changes homecity
+; "Leaving" - Goods to carry are assigned to unit when it`s built, or it changes homecity
 ; "Arrival" - Goods are chosen when trade route is established, when unit arrives to destination
 goods_selection = "Arrival"
 
