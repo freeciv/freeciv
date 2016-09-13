@@ -479,14 +479,14 @@ void get_city_dialog_output_text(const struct city *pcity,
                      name);
         break;
       case RDIR_FROM:
-        cat_snprintf(buf, bufsz, _("%+4d : Trading %s from %s\n"),
+        cat_snprintf(buf, bufsz, _("%+4d : Trading %s to %s\n"),
                      proute->value
                      * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
                      goods_name_translation(proute->goods),
                      name);
         break;
       case RDIR_TO:
-        cat_snprintf(buf, bufsz, _("%+4d : Trading %s to %s\n"),
+        cat_snprintf(buf, bufsz, _("%+4d : Trading %s from %s\n"),
                      proute->value
                      * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
                      goods_name_translation(proute->goods),
