@@ -179,10 +179,13 @@ struct action
 
 struct action_enabler
 {
+  bool disabled;
   enum gen_action action;
   struct requirement_vector actor_reqs;
   struct requirement_vector target_reqs;
 };
+
+#define enabler_get_action(_enabler_) action_by_number(_enabler_->action)
 
 #define SPECLIST_TAG action_enabler
 #define SPECLIST_TYPE struct action_enabler
@@ -204,7 +207,7 @@ struct action_enabler
 {                                                        \
   action_iterate(_act_) {                                \
     action_enabler_list_iterate(                         \
-      action_enablers_for_action(_act_), _enabler_) {
+      action_enablers_for_action((enum gen_action)_act_), _enabler_) {
 
 #define action_enablers_iterate_end                      \
     } action_enabler_list_iterate_end;                   \
