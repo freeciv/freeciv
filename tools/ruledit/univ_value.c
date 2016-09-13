@@ -289,13 +289,42 @@ void universal_kind_values(struct universal *univ,
     }
     break;
   case VUT_UTFLAG:
+    for (i = 0; i < UTYF_LAST_USER_FLAG; i++) {
+      cb(unit_type_flag_id_name(i), univ->value.unitflag == i, data);
+    }
+    break;
   case VUT_UCFLAG:
+    for (i = 0; i < UCF_COUNT; i++) {
+      cb(unit_class_flag_id_name(i), univ->value.unitclassflag == i, data);
+    }
+    break;
+  case VUT_TERRFLAG:
+    for (i = 0; i < TER_USER_LAST; i++) {
+      cb(terrain_flag_id_name(i), univ->value.terrainflag == i, data);
+    }
+    break;
+  case VUT_BASEFLAG:
+    for (i = 0; i < BF_COUNT; i++) {
+      cb(base_flag_id_name(i), univ->value.baseflag == i, data);
+    }
+    break;
+  case VUT_ROADFLAG:
+    for (i = 0; i < RF_COUNT; i++) {
+      cb(road_flag_id_name(i), univ->value.roadflag == i, data);
+    }
+    break;
+  case VUT_TECHFLAG:
+    for (i = 0; i < TF_COUNT; i++) {
+      cb(tech_flag_id_name(i), univ->value.techflag == i, data);
+    }
+    break;
+  case VUT_EXTRAFLAG:
+    for (i = 0; i < EF_COUNT; i++) {
+      cb(extra_flag_id_name(i), univ->value.extraflag == i, data);
+    }
+    break;
   case VUT_TERRAINALTER:
   case VUT_CITYTILE:
-  case VUT_TERRFLAG:
-  case VUT_BASEFLAG:
-  case VUT_ROADFLAG:
-  case VUT_TECHFLAG:
   case VUT_ACHIEVEMENT:
   case VUT_DIPLREL:
   case VUT_UNITSTATE:
@@ -303,7 +332,6 @@ void universal_kind_values(struct universal *univ,
   case VUT_TOPO:
   case VUT_IMPR_GENUS:
   case VUT_ACTION:
-  case VUT_EXTRAFLAG:
     /* Not yet implemented */
     break;
   case VUT_MINSIZE:
