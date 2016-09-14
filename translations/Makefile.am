@@ -2,4 +2,8 @@
 
 SUBDIRS = core nations ruledit
 
-EXTRA_DIST = Strings.txt stats.sh
+EXTRA_DIST = \
+	Strings.txt \
+	stats.sh \
+	generate_skips.sh \
+	global.skip
