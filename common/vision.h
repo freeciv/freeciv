@@ -118,7 +118,7 @@ struct vision_site {
   struct player *owner;  /* May be NULL, always check! */
 
   int identity;          /* city > IDENTITY_NUMBER_ZERO */
-  citizens size;         /* city size (0 <= size <= MAX_CITY_SIZE = 250) */
+  citizens size;         /* city size (0 <= size <= MAX_CITY_SIZE) */
 
   bool occupied;
   bool walls;
