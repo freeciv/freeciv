@@ -140,19 +140,24 @@ void req_edit::refresh()
   req_list->clear();
 
   requirement_vector_iterate(req_vector, preq) {
-    if (preq->present) {
-      char buf[512];
-      QListWidgetItem *item;
+    char buf[512];
+    QListWidgetItem *item;
 
-      buf[0] = '\0';
-      if (!req_text_insert(buf, sizeof(buf), NULL, preq, VERB_ACTUAL)) {
+    buf[0] = '\0';
+    if (!req_text_insert(buf, sizeof(buf), NULL, preq, VERB_ACTUAL)) {
+      if (preq->present) {
         universal_name_translation(&preq->source, buf, sizeof(buf));
+      } else {
+        char buf2[256];
+
+        universal_name_translation(&preq->source, buf2, sizeof(buf2));
+        fc_snprintf(buf, sizeof(buf), "%s prevents", buf2);
       }
-      item = new QListWidgetItem(QString::fromUtf8(buf));
-      req_list->insertItem(i++, item);
-      if (selected == preq) {
-        item->setSelected(true);
-      }
+    }
+    item = new QListWidgetItem(QString::fromUtf8(buf));
+    req_list->insertItem(i++, item);
+    if (selected == preq) {
+      item->setSelected(true);
     }
   } requirement_vector_iterate_end;
 
