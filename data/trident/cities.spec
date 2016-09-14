@@ -10,7 +10,7 @@
 ; in ascending order. There must also be a 'style_name'_wall_0 tile used to
 ; draw the wall and an occupied tile to indicate a military units in a city.
 ; The maximum number of images is only limited by the maximum size of a city
-; (currently MAX_CITY_SIZE = 250). The constant is defined in common/city.h.
+; (currently MAX_CITY_SIZE = 255).
 ;
 
 [spec]
