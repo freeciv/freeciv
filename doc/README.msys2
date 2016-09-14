@@ -13,7 +13,7 @@ using MSYS2 from http://msys2.github.io
   build method
 - With very specific configure options (see Problems) and msys2 package
   selection freeciv can be built
-- Buildable clients are gtk3, gtk2, and Qt
+- Buildable clients are gtk3, gtk2, sdl2, and Qt
   - Official pre-made msys2 environment supports only gtk3-client build
 - Both server, gtk3-client, and gtk2-client launch ok, Qt client does not
 - Most Installers cannot be built
@@ -101,6 +101,11 @@ using MSYS2 from http://msys2.github.io
 2.1.2.4) Arch-specific packages for building gtk2-client
  - mingw-w64-i686-gtk2 / mingw-w64-x86_64-gtk2
 
+2.1.2.5) Arch-specific packages for building sdl2-client
+ - mingw-w64-i686-SDL2_image / mingw-w64-x86_64-SDL2_image
+ - mingw-w64-i686-SDL2_ttf / mingw-w64-x86_64-SDL2_ttf
+ - mingw-w64-i686-SDL2_gfx / mingw-w64-x86_64-SDL2_gfx
+
 2.2) Packaged needed for building installer package
  These are needed in addition to above ones used in the
  building step already.
@@ -176,6 +181,7 @@ somehow. Some options are:
   - "<gui>-installer", where <gui> is
      - gtk3
      - gtk2
+     - sdl2
      - qt
   - "ruledit-installer"
   - "snapshot", if your freeciv sources are in svn checkout directory
