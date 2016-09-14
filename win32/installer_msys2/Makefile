@@ -124,13 +124,6 @@ install-freeciv-gtk3: install-freeciv-common
 install-freeciv-gtk2: install-freeciv-common
 
 install-freeciv-sdl2: install-freeciv-common
-	# add CJK fonts
-	cp /opt/fireflysung-1.3.0/fireflysung.ttf install-$(WINARCH)-sdl2/data/themes/gui-sdl2/human/
-	cp /opt/fireflysung-1.3.0/COPYRIGHT install-$(WINARCH)-sdl2/data/themes/gui-sdl2/human/COPYING.fireflysung
-	cp /opt/sazanami-20040629/sazanami-gothic.ttf install-$(WINARCH)-sdl2/data/themes/gui-sdl2/human/
-	cp /opt/sazanami-20040629/README install-$(WINARCH)-sdl2/data/themes/gui-sdl2/human/COPYING.sazanami
-	cp /opt/un-fonts/UnDotum.ttf install-$(WINARCH)-sdl2/data/themes/gui-sdl2/human/
-	cp /opt/un-fonts/COPYING install-$(WINARCH)-sdl2/data/themes/gui-sdl2/human/COPYING.UnDotum
 
 install-freeciv-qt: install-freeciv-common
 	# strip 'freeciv-ruledit' executable
@@ -267,10 +260,12 @@ install-env-gtk2: install-env-common
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
 
 SDL2_DLLS := \
-	libpng12-0.dll \
-	libSDL2_gfx-15.dll \
+	libSDL2_gfx-1-0-0.dll \
 	SDL2_image.dll \
-	SDL2_ttf.dll
+	SDL2_ttf.dll \
+	libjpeg-8.dll \
+	libtiff-5.dll \
+	libwebp-6.dll
 
 install-env-sdl2: install-env-default-fcmp
 	# add DLLs
