@@ -1250,9 +1250,21 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
                         0, city_name_suggestion(pplayer, ptile),
                         ACTION_FOUND_CITY);
   pcity = tile_city(ptile);
-  if (!pcity) {
-    log_error("%s: Failed to build city at (%d, %d)",
-              player_name(pplayer), TILE_XY(ptile));
+  if (!pcity && punit) {
+    enum ane_kind reason = action_not_enabled_reason(punit,
+                                                     ACTION_FOUND_CITY,
+                                                     ptile, NULL, NULL);
+
+    if (reason == ANEK_CITY_TOO_CLOSE_TGT) {
+      /* This is acceptable. A hut in the path to the tile may have created
+       * a city that now is too close. */
+      log_debug("%s: Failed to build city at (%d, %d)",
+                player_name(pplayer), TILE_XY(ptile));
+    } else {
+      /* The request was illegal to begin with. */
+      log_error("%s: Failed to build city at (%d, %d). Reason id: %d",
+                player_name(pplayer), TILE_XY(ptile), reason);
+    }
     return FALSE;
   }
 
