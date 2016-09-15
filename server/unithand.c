@@ -3502,7 +3502,12 @@ void handle_worker_task(struct player *pplayer,
     ptask->ptile = ptile;
     ptask->act = packet->activity;
     if (packet->tgt >= 0) {
-      ptask->tgt = extra_by_number(packet->tgt);
+      if (packet->tgt < MAX_EXTRA_TYPES) {
+        ptask->tgt = extra_by_number(packet->tgt);
+      } else {
+        log_debug("Illegal worker task target %d", packet->tgt);
+        ptask->tgt = NULL;
+      }
     } else {
       ptask->tgt = NULL;
     }
