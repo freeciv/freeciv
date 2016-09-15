@@ -1057,9 +1057,7 @@ static bool load_game_names(struct section_file *file,
 
   section_list_destroy(sec);
 
-  if (compat->ver_game < 10) {
-    rscompat_goods_3_0();
-  } else {
+  if (compat->ver_game >= 10) {
     if (ok) {
       sec = secfile_sections_by_name_prefix(file, GOODS_SECTION_PREFIX);
 
@@ -6574,42 +6572,46 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   }
 
   if (ok) {
-    sec = secfile_sections_by_name_prefix(file, GOODS_SECTION_PREFIX);
+    if (compat->ver_game < 10) {
+      rscompat_goods_3_0();
+    } else {
+      sec = secfile_sections_by_name_prefix(file, GOODS_SECTION_PREFIX);
 
-    goods_type_iterate(pgood) {
-      int id = goods_index(pgood);
-      const char *sec_name = section_name(section_list_get(sec, id));
-      struct requirement_vector *reqs;
-      const char **slist;
-      int j;
+      goods_type_iterate(pgood) {
+        int id = goods_index(pgood);
+        const char *sec_name = section_name(section_list_get(sec, id));
+        struct requirement_vector *reqs;
+        const char **slist;
+        int j;
 
-      reqs = lookup_req_list(file, compat, sec_name, "reqs", goods_rule_name(pgood));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&pgood->reqs, reqs);
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
-      BV_CLR_ALL(pgood->flags);
-      for (j = 0; j < nval; j++) {
-        enum goods_flag_id flag;
-
-        sval = slist[j];
-        flag = goods_flag_id_by_name(sval, fc_strcasecmp);
-        if (!goods_flag_id_is_valid(flag)) {
-          ruleset_error(LOG_ERROR, "\"%s\" good \"%s\": unknown flag \"%s\".",
-                        filename,
-                        goods_rule_name(pgood),
-                        sval);
+        reqs = lookup_req_list(file, compat, sec_name, "reqs", goods_rule_name(pgood));
+        if (reqs == NULL) {
           ok = FALSE;
           break;
-        } else {
-          BV_SET(pgood->flags, flag);
         }
-      }
-      free(slist);
-    } goods_type_iterate_end;
+        requirement_vector_copy(&pgood->reqs, reqs);
+
+        slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
+        BV_CLR_ALL(pgood->flags);
+        for (j = 0; j < nval; j++) {
+          enum goods_flag_id flag;
+
+          sval = slist[j];
+          flag = goods_flag_id_by_name(sval, fc_strcasecmp);
+          if (!goods_flag_id_is_valid(flag)) {
+            ruleset_error(LOG_ERROR, "\"%s\" good \"%s\": unknown flag \"%s\".",
+                          filename,
+                          goods_rule_name(pgood),
+                          sval);
+            ok = FALSE;
+            break;
+          } else {
+            BV_SET(pgood->flags, flag);
+          }
+        }
+        free(slist);
+      } goods_type_iterate_end;
+    }
   }
 
   /* secfile_check_unused() is not here, but only after also settings section
