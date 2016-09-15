@@ -2320,7 +2320,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_PLAYER:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires player to knoe %d techs."),
+                     _("Requires player to know %d techs."),
                      preq->source.value.min_techs);
       } else {
         cat_snprintf(buf, bufsz,
