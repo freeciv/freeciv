@@ -106,6 +106,16 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   } req_range_iterate_end;
   active_layout->addWidget(edit_range_button, 6, 0);
 
+  edit_present_button = new QToolButton();
+  menu = new QMenu();
+  edit_present_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  edit_present_button->setPopupMode(QToolButton::MenuButtonPopup);
+  connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(req_present_menu(QAction *)));
+  edit_present_button->setMenu(menu);
+  menu->addAction("Allows");
+  menu->addAction("Prevents");
+  active_layout->addWidget(edit_present_button, 7, 0);
+
   main_layout->addLayout(active_layout);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Requirement")), this);
@@ -238,6 +248,11 @@ void req_edit::fill_active()
     edit_value_nbr_field->setVisible(false);
     universal_kind_values(&selected->source, universal_value_cb, &data);
     edit_range_button->setText(req_range_name(selected->range));
+    if (selected->present) {
+      edit_present_button->setText("Allows");
+    } else {
+      edit_present_button->setText("Prevents");
+    }
   }
 }
 
@@ -267,6 +282,22 @@ void req_edit::req_range_menu(QAction *action)
 
   if (selected != nullptr) {
     selected->range = range;
+  }
+
+  refresh();
+}
+
+/**************************************************************************
+  User selected 'present' value for the requirement.
+**************************************************************************/
+void req_edit::req_present_menu(QAction *action)
+{
+  if (selected != nullptr) {
+    if (action->text() == "Prevents") {
+      selected->present = FALSE;
+    } else {
+      selected->present = TRUE;
+    }
   }
 
   refresh();
