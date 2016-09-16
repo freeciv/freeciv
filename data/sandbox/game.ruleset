@@ -1041,8 +1041,67 @@ goods_selection = "Leaving"
 ;
 ; */ <-- avoid gettext warnings
 
+[goods_wares]
+name  = _("Wares")
+flags = "Bidirectional"
+
+[goods_spice]
+name  = _("Spice")
+reqs  =
+    { "type", "name", "range"
+      "Extra", "Spice", "City"
+    }
+flags = "Depletes"
+
+[goods_gems]
+name  = _("Gems")
+reqs  =
+    { "type", "name", "range"
+      "Extra", "Gems", "City"
+    }
+flags = "Depletes"
+
+[goods_jewelry]
+name = _("Jewelry")
+reqs =
+    { "type", "name", "range"
+      "Good", "Gems", "City"
+    }
+flags = "Depletes"
+
+[goods_ore]
+name = _("Ore")
+reqs =
+    { "type", "name", "range"
+      "Extra", "Mine", "City"
+    }
+flags = "Depletes"
+
+[goods_metal]
+name = _("Metal")
+reqs =
+    { "type", "name", "range"
+      "Good", "Ore", "City"
+    }
+flags = "Depletes"
+
 [goods_good]
 name = _("Goods")
+reqs =
+    { "type", "name", "range", "present"
+      "Good", "Metal", "City", TRUE
+      "Tech", "Electronics", "Player", FALSE
+    }
+flags = "Depletes"
+
+[goods_equipment]
+name = _("Equipment")
+reqs =
+    { "type", "name", "range"
+      "Good", "Metal", "City"
+      "Tech", "Electronics", "Player"
+    }
+flags = "Depletes"
 
 [playercolors]
 background.r = 86

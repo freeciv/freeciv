@@ -68,3 +68,9 @@ Terrains for more information.
 
 Sea Units on Harbour:
 Sea Units on Harbour defend with 1/4 of their usual defense value.
+
+Goods:
+Trade routes can carry many kinds of goods. There is production chains
+like that city with Mine can trade Ore to a city that then can trade
+Metal to third city which can then trade Goods or Equipment to fourth
+city.
