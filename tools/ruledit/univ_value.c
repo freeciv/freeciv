@@ -324,15 +324,54 @@ void universal_kind_values(struct universal *univ,
     }
     break;
   case VUT_TERRAINALTER:
+    for (i = 0; i < TA_COUNT; i++) {
+      cb(terrain_alteration_name(i), univ->value.terrainalter == i, data);
+    }
+    break;
   case VUT_CITYTILE:
+    for (i = 0; i < CITYT_LAST; i++) {
+      cb(citytile_type_name(i), univ->value.citytile == i, data);
+    }
+    break;
   case VUT_ACHIEVEMENT:
+    achievements_active_iterate(pach) {
+      cb(achievement_rule_name(pach), univ->value.achievement == pach, data);
+    } achievements_active_iterate_end;
+    break;
   case VUT_DIPLREL:
+    for (i = 0; i < DS_LAST; i++) {
+      cb(diplstate_type_name(i), univ->value.diplrel == i, data);
+    }
+    for (; i < DRO_LAST; i++) {
+      cb(diplrel_other_name(i), univ->value.diplrel == i, data);
+    }
+    break;
   case VUT_UNITSTATE:
+    for (i = 0; i < USP_COUNT; i++) {
+      cb(ustate_prop_name(i), univ->value.unit_state == i, data);
+    }
+    break;
   case VUT_NATIONGROUP:
+    nation_groups_iterate(pgroup) {
+      cb(nation_group_rule_name(pgroup), univ->value.nationgroup == pgroup, data);
+    } nation_groups_iterate_end;
+    break;
   case VUT_TOPO:
+    for (i = 0; i < TOPO_FLAG_BITS; i++) {
+      cb(topo_flag_name(1 << i), univ->value.topo_property == 1 << i, data);
+    }
+    break;
   case VUT_IMPR_GENUS:
+    for (i = 0; i < IG_COUNT; i++) {
+      cb(impr_genus_id_name(i), univ->value.impr_genus == i, data);
+    }
+    break;
   case VUT_ACTION:
-    /* Not yet implemented */
+    action_iterate(act) {
+      struct action *pact = action_by_number(act);
+
+      cb(action_rule_name(pact), univ->value.action == pact, data);
+    } action_iterate_end;
     break;
   case VUT_MINSIZE:
   case VUT_MINYEAR:

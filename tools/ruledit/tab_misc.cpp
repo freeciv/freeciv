@@ -30,6 +30,7 @@
 #include "registry.h"
 
 // common
+#include "achievements.h"
 #include "game.h"
 #include "government.h"
 #include "specialist.h"
@@ -304,7 +305,12 @@ void tab_misc::refresh_stats()
 
   // Third column
   row = 0;
-  stats->item(row++, 7)->setText(QString::number(game.control.num_achievement_types));
+
+  count = 0;
+  achievements_active_iterate(pach) {
+    count++;
+  } achievements_active_iterate_end;
+  stats->item(row++, 7)->setText(QString::number(count));
 
   count = 0;
   base_count = 0;

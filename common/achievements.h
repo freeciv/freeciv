@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ struct achievement
 {
   int id;
   struct name_translation name;
+  bool disabled;
   enum achievement_type type;
   int value;
   bool unique;
@@ -69,6 +70,15 @@ bool achievement_claimed(const struct achievement *pach);
 #define achievements_iterate_end                             \
   }                                                          \
 }
+
+#define achievements_active_iterate(_p)                      \
+  achievements_iterate(_p) {                                 \
+    if (!_p->disabled) {
+
+#define achievements_active_iterate_end                      \
+    }                                                        \
+  } achievements_iterate_end;
+
 
 #ifdef __cplusplus
 }

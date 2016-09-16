@@ -324,6 +324,7 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE2NAME N_("ISO")
 #define SPECENUM_VALUE3 TF_HEX
 #define SPECENUM_VALUE3NAME N_("Hex")
+#define TOPO_FLAG_BITS  4
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
@@ -336,6 +337,7 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE2NAME "Improvement"
 #define SPECENUM_VALUE3 IG_SPECIAL
 #define SPECENUM_VALUE3NAME "Special"
+#define SPECENUM_COUNT  IG_COUNT
 #include "specenum_gen.h"
 
 /* Sometimes we don't know (or don't care) if some requirements for effect

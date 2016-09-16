@@ -95,6 +95,7 @@ struct resource_type {
 /* Can build roads and/or railroads */
 #define SPECENUM_VALUE2 TA_CAN_ROAD
 #define SPECENUM_VALUE2NAME N_("CanRoad")
+#define SPECENUM_COUNT  TA_COUNT
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
