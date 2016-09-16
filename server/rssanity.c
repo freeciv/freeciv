@@ -915,7 +915,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
       ok = FALSE;
     }
 
-    if (paction->min_distance > paction->max_distance) {
+    if (!action_distance_inside_max(paction, paction->min_distance)) {
       ruleset_error(LOG_ERROR,
                     "Action %s: min distance is %d but max distance is %d.",
                     action_get_rule_name(act),

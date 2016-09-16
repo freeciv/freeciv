@@ -309,6 +309,11 @@ bool action_distance_accepted(const struct action *action,
 #define action_id_distance_accepted(action_id, distance)                  \
   action_distance_accepted(action_by_number(action_id), distance)
 
+bool action_distance_inside_max(const struct action *action,
+                                const int distance);
+#define action_id_distance_inside_max(action_id, distance)                  \
+  action_distance_inside_max(action_by_number(action_id), distance)
+
 bool action_would_be_blocked_by(const struct action *blocked,
                                 const struct action *blocker);
 #define action_id_would_be_blocked_by(blocked_id, blocker_id)             \

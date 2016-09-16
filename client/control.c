@@ -1108,7 +1108,7 @@ void request_unit_goto(enum unit_orders last_order,
      * target that isn't at or next to the actor unit's tile.
      *
      * Full explanation in handle_unit_orders(). */
-    fc_assert_ret(action_by_number(action_id)->max_distance <= 1);
+    fc_assert_ret(!action_id_distance_inside_max(action_id, 2));
 
     unit_list_iterate(punits, punit) {
       if (!unit_can_do_action(punit, action_id)) {

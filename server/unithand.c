@@ -872,16 +872,16 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->kind = ANEK_TGT_IS_UNCLAIMED;
   } else if (action_id_is_valid(action_id) && punit
              && ((target_tile
-                  && real_map_distance(unit_tile(punit), target_tile)
-                      > action_by_number(action_id)->max_distance)
+                  && !action_id_distance_inside_max(action_id,
+                      real_map_distance(unit_tile(punit), target_tile)))
                  || (target_city
-                     && real_map_distance(unit_tile(punit),
-                                          city_tile(target_city))
-                        > action_by_number(action_id)->max_distance)
+                     && !action_id_distance_inside_max(action_id,
+                         real_map_distance(unit_tile(punit),
+                                           city_tile(target_city))))
                  || (target_unit
-                     && real_map_distance(unit_tile(punit),
-                                          unit_tile(target_unit))
-                        > action_by_number(action_id)->max_distance))) {
+                     && !action_id_distance_inside_max(action_id,
+                         real_map_distance(unit_tile(punit),
+                                           unit_tile(target_unit)))))) {
     explnat->kind = ANEK_DISTANCE_FAR;
     explnat->distance = action_by_number(action_id)->max_distance;
   } else if (action_id == ACTION_PARADROP && punit && target_tile
@@ -4462,7 +4462,7 @@ void handle_unit_orders(struct player *pplayer,
         return;
       }
 
-      if (action_by_number(packet->action[i])->max_distance > 1) {
+      if (action_id_distance_inside_max(packet->action[i], 2)) {
         /* Long range actions aren't supported in unit orders. Clients
          * should order them performed via the unit_do_action packet.
          *
@@ -4489,7 +4489,7 @@ void handle_unit_orders(struct player *pplayer,
         return;
       }
 
-      if (action_by_number(packet->action[i])->max_distance == 0
+      if (!action_id_distance_inside_max(packet->action[i], 1)
           && map_untrusted_dir_is_valid(packet->dir[i])) {
         /* Actor must be on the target tile. */
         log_error("handle_unit_orders() can't do %s to a neighbor tile. "

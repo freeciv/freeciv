@@ -2698,7 +2698,7 @@ void real_menus_init(void)
           continue;
         }
 
-        if (action_by_number(action_id)->max_distance > 1) {
+        if (action_id_distance_inside_max(action_id, 2)) {
           /* The order system doesn't support actions that can be done to a
            * target that isn't at or next to the actor unit's tile.
            *

@@ -470,6 +470,17 @@ bool action_id_is_rare_pop_up(int action_id)
 
 /**************************************************************************
   Returns TRUE iff the specified distance between actor and target is
+  sm,aller or equal to the max range accepted by the specified action.
+**************************************************************************/
+bool action_distance_inside_max(const struct action *action,
+                                const int distance)
+{
+  return (distance <= action->max_distance
+          || action->max_distance == ACTION_DISTANCE_UNLIMITED);
+}
+
+/**************************************************************************
+  Returns TRUE iff the specified distance between actor and target is
   within the range acceptable to the specified action.
 **************************************************************************/
 bool action_distance_accepted(const struct action *action,
@@ -478,8 +489,7 @@ bool action_distance_accepted(const struct action *action,
   fc_assert_ret_val(action, FALSE);
 
   return (distance >= action->min_distance
-          && (distance <= action->max_distance
-              || action->max_distance == ACTION_DISTANCE_UNLIMITED));
+          && action_distance_inside_max(action, distance));
 }
 
 /**************************************************************************
