@@ -2506,11 +2506,10 @@ void unit_select::create_pixmap()
     } else {
       p.drawPixmap(x, y, *tmp_pix);
     }
-
+    str = QString(move_points_text(punit->moves_left, false));
     if (utype_fuel(unit_type_get(punit))) {
-      str = QString(move_points_text((rate * f) + punit->moves_left, false));
-    } else {
-      str = QString(move_points_text(punit->moves_left, false));
+      str = str + "(" + QString(move_points_text((rate * f)
+            + punit->moves_left, false)) + ")";
     }
     /* TRANS: MP = Movement points */
     str = QString(_("MP:")) + str;
