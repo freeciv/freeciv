@@ -434,7 +434,7 @@ fc_sidebar::fc_sidebar()
   layout = new QVBoxLayout;
   layout->setContentsMargins(0, 0, 0, 0);
   setLayout(layout);
-  setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+  setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Ignored);
 }
 
 /***************************************************************************
@@ -483,13 +483,13 @@ void fc_sidebar::paint(QPainter *painter, QPaintEvent *event)
 **************************************************************************/
 void fc_sidebar::resize_me(int wdth, int hght)
 {
-  int w, h, non_std, non_std_count;;
+  int w, h, non_std, non_std_count;
   w = wdth / 10;
   h = hght;
   w = qMin(100, w);
 
-  if (qAbs(width() - w) > 2) {
-    setFixedWidth(w);
+  if (w == width() && h == height()) {
+    return;
   }
 
   if (sidebar_img) {
@@ -513,7 +513,7 @@ void fc_sidebar::resize_me(int wdth, int hght)
   }
 
   h = h - non_std;
-  h = h / (objects.count() - non_std_count) - 7;
+  h = h / (objects.count() - non_std_count) - 2;
   /* resize all standard sidewidgets */
   foreach (fc_sidewidget * sw,  objects) {
     if (sw->standard == SW_STD) {

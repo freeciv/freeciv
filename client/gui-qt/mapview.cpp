@@ -225,6 +225,7 @@ map_view::map_view() : QWidget()
   connect(timer, SIGNAL(timeout()), this, SLOT(timer_event()));
   timer->start(200);
   setMouseTracking(true);
+  setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
   font_options_listener::listen();
 }
@@ -293,33 +294,6 @@ void map_view::focusOutEvent(QFocusEvent *event)
 void map_view::leaveEvent(QEvent *event)
 {
   update_cursor(CURSOR_DEFAULT);
-}
-
-/**************************************************************************
-  Resize Event
-**************************************************************************/
-void map_view::resizeEvent(QResizeEvent *event)
-{
-  QSize size;
-  size = event->size();
-  if (C_S_RUNNING <= client_state()) {
-    map_canvas_resized(size.width(), size.height());
-    gui()->sidebar_wdg->resize_me(size.width(), size.height());
-    gui()->infotab->resize((size.width()
-                             * gui()->qt_settings.chat_width) / 100,
-                             (size.height()
-                             * gui()->qt_settings.chat_height) / 100);
-    gui()->infotab->move(0 , size.height() - gui()->infotab->height());
-    gui()->infotab->restore_chat();
-    gui()->minimapview_wdg->move(size.width() -
-                                 gui()->minimapview_wdg->width() - 10,
-                                 size.height() -
-                                 gui()->minimapview_wdg->height() - 10);
-    gui()->x_vote->move(width() / 2 - gui()->x_vote->width() / 2, 0);
-    gui()->update_sidebar_tooltips();
-    side_disable_endturn(get_turn_done_button_state());
-  }
-  event->setAccepted(true);
 }
 
 

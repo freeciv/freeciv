@@ -118,3 +118,4 @@ private:
 
 
 #endif /* FC__SIDEBAR_H */
+
