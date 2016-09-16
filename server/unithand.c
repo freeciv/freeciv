@@ -3086,10 +3086,15 @@ static bool unit_do_destroy_city(struct player *act_player,
 }
 
 /**************************************************************************
-This function assumes the attack is legal. The calling function should have
-already made all necessary checks.
+  Do a "regular" attack.
+
+  This function assumes the attack is legal. The calling function should
+  have already made all necessary checks.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 **************************************************************************/
-static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
+static bool do_attack(struct unit *punit, struct tile *def_tile)
 {
   char loser_link[MAX_LEN_LINK], winner_link[MAX_LEN_LINK];
   struct unit *ploser, *pwinner;
@@ -3097,11 +3102,16 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   int moves_used, def_moves_used; 
   int old_unit_vet, old_defender_vet, vet;
   int winner_id;
-  struct tile *def_tile = unit_tile(pdefender);
   struct player *pplayer = unit_owner(punit);
   bool adj;
   enum direction8 facing;
   int att_hp, def_hp;
+  struct unit *pdefender;
+
+  if (!(pdefender = get_defender(punit, def_tile))) {
+    /* Can't fight air... */
+    return FALSE;
+  }
   
   log_debug("Start attack: %s %s against %s %s.",
             nation_rule_name(nation_of_player(pplayer)),
@@ -3110,12 +3120,15 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
             unit_rule_name(pdefender));
 
   /* Sanity checks */
-  fc_assert_ret_msg(!pplayers_non_attack(pplayer, unit_owner(pdefender)),
-                    "Trying to attack a unit with which you have peace "
-                    "or cease-fire at (%d, %d).", TILE_XY(def_tile));
-  fc_assert_ret_msg(!pplayers_allied(pplayer, unit_owner(pdefender)),
-                    "Trying to attack a unit with which you have alliance "
-                    "at (%d, %d).", TILE_XY(def_tile));
+  fc_assert_ret_val_msg(!pplayers_non_attack(pplayer,
+                                             unit_owner(pdefender)),
+                        FALSE,
+                        "Trying to attack a unit with which you have peace "
+                        "or cease-fire at (%d, %d).", TILE_XY(def_tile));
+  fc_assert_ret_val_msg(!pplayers_allied(pplayer, unit_owner(pdefender)),
+                        FALSE,
+                        "Trying to attack a unit with which you have "
+                        "alliance at (%d, %d).", TILE_XY(def_tile));
 
   moves_used = unit_move_rate(punit) - punit->moves_left;
   def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
@@ -3232,10 +3245,10 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     if (unit_is_alive(winner_id)) {
       if (uclass_has_flag(unit_class_get(pwinner), UCF_MISSILE)) {
         wipe_unit(pwinner, ULR_MISSILE, NULL);
-        return;
+        return TRUE;
       }
     } else {
-      return;
+      return TRUE;
     }
   }
 
@@ -3269,29 +3282,8 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   if (game_unit_by_number(winner_id) != NULL) {
     send_unit_info(NULL, pwinner);
   }
-}
 
-/**************************************************************************
-  Do a "regular" attack.
-
-  This function assumes the attack is legal. The calling function should
-  have already made all necessary checks.
-
-  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
-  this returns TRUE, unit may have died during the action.
-**************************************************************************/
-static bool do_attack(struct unit *actor_unit, struct tile *target_tile)
-{
-  struct unit *victim;
-
-  victim = get_defender(actor_unit, target_tile);
-
-  if (victim) {
-    unit_attack_handling(actor_unit, victim);
-    return TRUE;
-  } else {
-    return FALSE;
-  }
+  return TRUE;
 }
 
 /**************************************************************************
