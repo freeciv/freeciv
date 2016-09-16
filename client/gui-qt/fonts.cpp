@@ -46,7 +46,7 @@ void font_options_listener::init_font_map()
     if (option_type(poption) == OT_FONT) {
       s = option_font_get(poption);
       font.fromString(s);
-      s = option_name(poption);
+      s = option_font_target(poption);
       font_map[s] = font;
     }
   } options_iterate_end;
@@ -93,9 +93,11 @@ QFont font_options_listener::get_font(client_font font)
 /***************************************************************************
   Sets the font with the given name. The configuration is *not* updated.
 ***************************************************************************/
-void font_options_listener::set_font(const QString &name,
-                                     const QFont &font)
+void font_options_listener::set_font(const char *name,
+                                     const char *font_info)
 {
+  QFont font;
+  font.fromString(font_info);
   font_map[name] = font;
   invoke(&font_options_listener::update_font, name, font);
 }
