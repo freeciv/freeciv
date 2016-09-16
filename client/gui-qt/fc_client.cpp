@@ -805,6 +805,27 @@ QString fc_icons::get_path(const QString &id)
 ****************************************************************************/
 void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
 {
+  QSize size;
+  size = event->size();
+  if (C_S_RUNNING <= client_state()) {
+    gui()->sidebar_wdg->resize_me(size.width(), size.height());
+    map_canvas_resized(size.width(), size.height());
+    size.setWidth(event->size().width() - gui()->sidebar_wdg->width());
+    gui()->infotab->resize((size.width()
+                             * gui()->qt_settings.chat_width) / 100,
+                             (size.height()
+                             * gui()->qt_settings.chat_height) / 100);
+    gui()->infotab->move(0 , size.height() - gui()->infotab->height());
+    gui()->infotab->restore_chat();
+    gui()->minimapview_wdg->move(event->size().width() -
+                                 gui()->minimapview_wdg->width() - 10,
+                                 size.height() -
+                                 gui()->minimapview_wdg->height() - 10);
+    gui()->x_vote->move(width() / 2 - gui()->x_vote->width() / 2, 0);
+    gui()->update_sidebar_tooltips();
+    side_disable_endturn(get_turn_done_button_state());
+    gui()->mapview_wdg->resize(event->size().width(),size.height());
+  }
   event->setAccepted(true);
 }
 
