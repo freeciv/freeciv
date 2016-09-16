@@ -1835,13 +1835,24 @@ void remove_city(struct city *pcity)
 }
 
 /**************************************************************************
-  Handle unit entering city. During peace may enter peacefully, during
-  war conquers city.
-  Transported unit cannot conquer city. If transported unit is seen here,
-  transport is conquering city. Movement of the transported units is just
-  handled before transport itself.
+  Handle unit conquering a city.
+    - Can't conquer a city when not at war. (Enters cities peacefully
+      during peace. At the moment this can happen to domestic, allied and
+      team mate cities)
+    - A unit can't conquer a city if it is owned by the animal barbarian.
+    - A unit can't conquer a city if its unit class is missing the
+      "CanOccupyCity" unit class flag.
+    - A unit can't conquer a city if its unit type has the "NonMil" unit
+      type flag.
+    - Transported unit cannot conquer city. (If transported unit is seen
+      here, transport is conquering city. Movement of the transported units
+      is just handled before transport itself.)
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 **************************************************************************/
-void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
+bool unit_conquer_city(struct unit *punit, struct city *pcity,
+                       bool passenger)
 {
   bool try_civil_war = FALSE;
   bool city_remains;
@@ -1854,7 +1865,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   if (!pplayers_at_war(pplayer, cplayer)
       || !unit_can_take_over(punit)
       || passenger) {
-    return;
+    return FALSE;
   }
 
   /* Okay, we're at war - invader captures/destroys city... */
@@ -1903,7 +1914,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
     if (try_civil_war) {
       (void) civil_war(cplayer);
     }
-    return;
+    return TRUE;
   }
 
   coins = cplayer->economic.gold;
@@ -1998,6 +2009,8 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
                               API_TYPE_PLAYER, cplayer,
                               API_TYPE_PLAYER, pplayer);
   }
+
+  return TRUE;
 }
 
 /**************************************************************************

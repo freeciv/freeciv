@@ -3264,7 +3264,7 @@ static bool unit_move_consequences(struct unit *punit,
   bool alive = TRUE;
 
   if (tocity) {
-    unit_enter_city(punit, tocity, passenger);
+    unit_conquer_city(punit, tocity, passenger);
 
     alive = unit_is_alive(saved_id);
     if (alive) {
