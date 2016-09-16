@@ -1001,6 +1001,7 @@ void update_unit_info_label(struct unit_list *punitlist)
       gui()->sw_cunit->set_tooltip(QString());
       return;
     }  else {
+      QString mp;
       struct unit *punit;
       struct canvas *unit_pixmap;
       struct canvas *tile_pixmap;
@@ -1035,11 +1036,17 @@ void update_unit_info_label(struct unit_list *punitlist)
                                        gui()->sw_cunit->height());
         qtg_canvas_free(unit_pixmap);
         gui()->sw_cunit->set_label(get_unit_info_label_text1(punitlist));
+        mp = QString(move_points_text(punit->moves_left, false));
+        if (utype_fuel(unit_type_get(punit))) {
+          mp = mp + QString("(") + QString(move_points_text((
+                        unit_type_get(punit)->move_rate * ((punit->fuel) - 1)
+                        + punit->moves_left), false)) + QString(")");
+        }
+        /* TRANS: MP = Movement points */
+        mp = QString(_("MP: ")) + mp;
         labels = QString(_("HP: %1/%2")).arg(QString::number(punit->hp),
                                QString::number(unit_type_get(punit)->hp))
-                + '\n'
-                + QString("MP: %1").arg(move_points_text(
-                  unit_list_get(punitlist, 0)->moves_left, FALSE));
+                + '\n' + mp;
         gui()->sw_cunit->set_custom_labels(labels);
         gui()->sw_cunit->update_final_pixmap();
         gui()->sw_cunit->set_tooltip(popup_info_text(punit->tile));
@@ -1047,6 +1054,7 @@ void update_unit_info_label(struct unit_list *punitlist)
     }
   }
 }
+
 
 /****************************************************************************
   Update the mouse cursor. Cursor type depends on what user is doing and
