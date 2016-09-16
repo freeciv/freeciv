@@ -33,21 +33,21 @@ class QWidget;
 ***************************************************************************/
 namespace fonts
 {
-  const char * const city_label       = "gui_qt_font_city_label";
-  const char * const default_font     = "gui_qt_font_default";
-  const char * const notify_label     = "gui_qt_font_notify_label";
-  const char * const spaceship_label  = "gui_qt_font_spaceship_label";
-  const char * const help_label       = "gui_qt_font_help_label";
-  const char * const help_link        = "gui_qt_font_help_link";
-  const char * const help_text        = "gui_qt_font_help_text";
-  const char * const help_title       = "gui_qt_font_help_title";
-  const char * const chatline         = "gui_qt_font_chatline";
-  const char * const beta_label       = "gui_qt_font_beta_label";
-  const char * const small            = "gui_qt_font_small";
-  const char * const comment_label    = "gui_qt_font_comment_label";
-  const char * const city_names       = "gui_qt_font_city_names";
-  const char * const city_productions = "gui_qt_font_city_productions";
-  const char * const reqtree_text     = "gui_qt_font_reqtree_text";
+  const char * const city_label       = "city_label";
+  const char * const default_font     = "default";
+  const char * const notify_label     = "notify_label";
+  const char * const spaceship_label  = "spaceship_label";
+  const char * const help_label       = "help_label";
+  const char * const help_link        = "help_link";
+  const char * const help_text        = "help_text";
+  const char * const help_title       = "help_title";
+  const char * const chatline         = "chatline";
+  const char * const beta_label       = "beta_label";
+  const char * const small            = "small";
+  const char * const comment_label    = "comment_label";
+  const char * const city_names       = "city_names";
+  const char * const city_productions = "city_productions";
+  const char * const reqtree_text     = "reqtree_text";
 }
 
 /***************************************************************************
@@ -60,7 +60,7 @@ class font_options_listener : public listener<font_options_listener>
   static void init_font_map();
 
 public:
-  static void set_font(const QString &name, const QFont &value);
+  static void set_font(const char *name, const char *font_info);
   static QFont get_font(client_font font);
 
   explicit font_options_listener();

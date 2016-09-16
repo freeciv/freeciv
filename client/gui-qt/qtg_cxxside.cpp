@@ -18,6 +18,9 @@
 // client
 #include "gui_interface.h"
 
+// gui-qt
+#include "fonts.h"
+
 #include "qtg_cxxside.h"
 
 /***********************************************************************
@@ -80,7 +83,7 @@ void setup_gui_funcs()
   funcs->set_unit_icon = qtg_set_unit_icon;
   funcs->set_unit_icons_more_arrow = qtg_set_unit_icons_more_arrow;
   funcs->real_focus_units_changed = qtg_real_focus_units_changed;
-  funcs->gui_update_font = qtg_gui_update_font;
+  funcs->gui_update_font = font_options_listener::set_font;
   funcs->set_city_names_font_sizes = qtg_set_city_names_font_sizes;
 
   funcs->editgui_refresh = qtg_editgui_refresh;

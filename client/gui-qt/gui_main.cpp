@@ -71,7 +71,6 @@ static QPixmap *unit_pixmap;
 
 void reset_unit_table(void);
 static void populate_unit_pixmap_table(void);
-static void apply_font(struct option *poption);
 static void apply_titlebar(struct option *poption);
 static void apply_sidebar(struct option *poption);
 
@@ -207,26 +206,6 @@ void qtg_options_extra_init()
   } else {                                                                  \
     log_error("Didn't find option %s!", #var);                              \
   }
-  option_var_set_callback(gui_qt_font_city_names,
-                          apply_font);
-  option_var_set_callback(gui_qt_font_default,
-                          apply_font);
-  option_var_set_callback(gui_qt_font_notify_label,
-                          apply_font);
-  option_var_set_callback(gui_qt_font_city_productions,
-                          apply_font);
-  option_var_set_callback(gui_qt_font_reqtree_text,
-                          apply_font);
-  option_var_set_callback(gui_qt_font_city_label,
-                          apply_font);
-  option_var_set_callback(gui_qt_font_help_label,
-                          apply_font);
-  option_var_set_callback(gui_qt_font_help_text,
-                          apply_font);
-  option_var_set_callback(gui_qt_font_help_title,
-                          apply_font);
-  option_var_set_callback(gui_qt_font_chatline,
-                          apply_font);
   option_var_set_callback(gui_qt_show_titlebar,
                           apply_titlebar);
     option_var_set_callback(gui_qt_sidebar_left,
@@ -335,20 +314,6 @@ void qtg_add_idle_callback(void (callback)(void *), void *data)
   cb->callback = callback;
   cb->data = data;
   gui()->mr_idler.add_callback(cb);
-}
-
-/****************************************************************************
-  Change the given font.
-****************************************************************************/
-static void apply_font(struct option *poption)
-{
-  QFont font;
-  QString s;
-
-  s = option_font_get(poption);
-  font.fromString(s);
-  s = option_name(poption);
-  font_options_listener::set_font(s, font);
 }
 
 /****************************************************************************

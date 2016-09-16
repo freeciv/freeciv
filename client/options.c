@@ -2872,7 +2872,7 @@ static struct client_option client_options[] = {
                      "in the city dialog, the Economy report or the Units "
                      "report."),
                   COC_FONT, GUI_QT,
-                  "Sans Serif,9,-1,5,50,0,0,0,0,0", NULL),
+                  "Sans Serif,9,-1,5,50,0,0,0,0,0", font_changed_callback),
   GEN_FONT_OPTION(gui_qt_font_comment_label, "comment_label",
                   N_("Comment Label"),
                   N_("This font is used to display comment labels, such as "
@@ -2884,19 +2884,19 @@ static struct client_option client_options[] = {
                   N_("This font is used to the display the city names "
                      "on the map."),
                   COC_FONT, GUI_QT,
-                  "Sans Serif,10,-1,5,75,0,0,0,0,0", NULL),
+                  "Sans Serif,10,-1,5,75,0,0,0,0,0", font_changed_callback),
   GEN_FONT_OPTION(gui_qt_font_city_productions, "city_productions",
                   N_("City Productions"),
                   N_("This font is used to the display the city production "
                      "names on the map."),
                   COC_FONT, GUI_QT,
-                  "Sans Serif,10,-1,5,50,1,0,0,0,0", NULL),
+                  "Sans Serif,10,-1,5,50,1,0,0,0,0", font_changed_callback),
   GEN_FONT_OPTION(gui_qt_font_reqtree_text, "reqtree_text",
                   N_("Requirement Tree"),
                   N_("This font is used to the display the requirement tree "
                      "in the Research report."),
                   COC_FONT, GUI_QT,
-                  "Sans Serif,10,-1,5,50,1,0,0,0,0", NULL),
+                  "Sans Serif,10,-1,5,50,1,0,0,0,0", font_changed_callback),
   GEN_BOOL_OPTION(gui_qt_show_preview, N_("Show savegame information"),
                   N_("If this option is set the client will show "
                       "information and map preview about current savegame "),
