@@ -650,7 +650,9 @@ void city_map::context_menu(QPoint point)
   int canvas_x, canvas_y, city_x, city_y;
   QAction *act;
   QAction con_clear(_("Clear"), this);
+  QAction con_irrig_tf(_("Irrigate"), this);
   QAction con_irrig(_("Irrigate"), this);
+  QAction con_mine_tf(_("Plant"), this);
   QAction con_mine(_("Mine"), this);
   QAction con_road(_("Road"), this);
   QAction con_trfrm(_("Transform"), this);
@@ -672,6 +674,7 @@ void city_map::context_menu(QPoint point)
                           canvas_x, canvas_y)) {
     return;
   }
+
   ptile = city_map_to_tile(mcity->tile, city_map_radius_sq_get(mcity),
                            city_x, city_y);
   task.city_id = mcity->id;
@@ -684,16 +687,18 @@ void city_map::context_menu(QPoint point)
   wid_act->setDefaultWidget(new QLabel(_("Autosettler activity:")));
   con_menu.addAction(wid_act);
 
-  if ((pterr->mining_result == pterr
-       && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0)
-      || (pterr->mining_result != pterr && pterr->mining_result != NULL
-          && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0)) {
+  if (pterr->mining_result != pterr && pterr->mining_result != NULL
+      && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
+    con_menu.addAction(&con_mine_tf);
+  } else if (pterr->mining_result == pterr
+             && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
     con_menu.addAction(&con_mine);
   }
-  if ((pterr->irrigation_result == pterr
-       && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0)
-      || (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
-          && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0)) {
+  if (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
+      && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
+    con_menu.addAction(&con_irrig_tf);
+  } else if (pterr->irrigation_result == pterr
+             && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
     con_menu.addAction(&con_irrig);
   }
   if (pterr->transform_result != pterr && pterr->transform_result != NULL
@@ -709,23 +714,38 @@ void city_map::context_menu(QPoint point)
 
   act = con_menu.exec(mapToGlobal(point));
   if (act) {
-    if (act == &con_mine) {
+    bool target = FALSE;
+
+    if (act == &con_road) {
+      task.activity = ACTIVITY_GEN_ROAD;
+      target = TRUE;
+    } else if (act == &con_mine) {
       task.activity = ACTIVITY_MINE;
-    }
-    if (act == &con_irrig) {
+      target = TRUE;
+    } else if (act == &con_mine_tf) {
+      task.activity = ACTIVITY_MINE;
+    } else if (act == &con_irrig) {
       task.activity = ACTIVITY_IRRIGATE;
-    }
-    if (act == &con_trfrm) {
+      target = TRUE;
+    } else if (act == &con_irrig_tf) {
+      task.activity = ACTIVITY_IRRIGATE;
+    } else if (act == &con_trfrm) {
       task.activity = ACTIVITY_TRANSFORM;
     }
-    task.tgt = -1;
     task.want = 100;
-    if (act == &con_road) {
-      enum extra_cause cause = activity_to_extra_cause(ACTIVITY_GEN_ROAD);
+    if (target) {
+      enum extra_cause cause = activity_to_extra_cause(task.activity);
       struct extra_type *tgt;
+
       tgt = next_extra_for_tile(ptile, cause, city_owner(mcity), NULL);
-      task.tgt = extra_index(tgt);
-      task.activity = ACTIVITY_GEN_ROAD;
+
+      if (tgt != NULL) {
+        task.tgt = extra_index(tgt);
+      } else {
+        task.tgt = -1;
+      }
+    } else {
+      task.tgt = -1;
     }
     task.tile_id = ptile->index;
     send_packet_worker_task(&client.conn, &task);
