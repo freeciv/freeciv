@@ -1739,7 +1739,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                        "%s.mining_time", path);
 
     save_terrain_ref(sfile, pterr->transform_result, pterr, path,
-                     "transorm_result");
+                     "transform_result");
     secfile_insert_int(sfile, pterr->transform_time,
                        "%s.transform_time", path);
 
