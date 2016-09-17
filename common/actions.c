@@ -59,6 +59,7 @@ static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
                                  bool hostile, bool requires_details,
                                  bool rare_pop_up,
+                                 bool unitwaittime_controlled,
                                  const int min_distance,
                                  const int max_distance);
 
@@ -96,70 +97,70 @@ void actions_init(void)
 
   /* Hard code the actions */
   actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
-                                          TRUE, FALSE, FALSE,
+                                          TRUE, FALSE, FALSE, TRUE,
                                           0, 1);
   actions[ACTION_SPY_SABOTAGE_UNIT] =
       action_new(ACTION_SPY_SABOTAGE_UNIT, ATK_UNIT,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_BRIBE_UNIT] =
       action_new(ACTION_SPY_BRIBE_UNIT, ATK_UNIT,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       action_new(ACTION_SPY_SABOTAGE_CITY, ATK_CITY,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
-                 TRUE, TRUE, FALSE,
+                 TRUE, TRUE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_INCITE_CITY] =
       action_new(ACTION_SPY_INCITE_CITY, ATK_CITY,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_ESTABLISH_EMBASSY] =
       action_new(ACTION_ESTABLISH_EMBASSY, ATK_CITY,
-                 FALSE, FALSE, FALSE,
+                 FALSE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_STEAL_TECH] =
       action_new(ACTION_SPY_STEAL_TECH, ATK_CITY,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
-                 TRUE, TRUE, FALSE,
+                 TRUE, TRUE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_STEAL_GOLD] =
       action_new(ACTION_SPY_STEAL_GOLD, ATK_CITY,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_TRADE_ROUTE] =
       action_new(ACTION_TRADE_ROUTE, ATK_CITY,
-                 FALSE, FALSE, FALSE,
+                 FALSE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_MARKETPLACE] =
       action_new(ACTION_MARKETPLACE, ATK_CITY,
-                 FALSE, FALSE, FALSE,
+                 FALSE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_HELP_WONDER] =
       action_new(ACTION_HELP_WONDER, ATK_CITY,
-                 FALSE, FALSE, FALSE,
+                 FALSE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_CAPTURE_UNITS] =
       action_new(ACTION_CAPTURE_UNITS, ATK_UNITS,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  /* A single domestic unit at the target tile will make the
                   * action illegal. It must therefore be performed from
                   * another tile. */
                  1, 1);
   actions[ACTION_FOUND_CITY] =
       action_new(ACTION_FOUND_CITY, ATK_TILE,
-                 FALSE, FALSE, TRUE,
+                 FALSE, FALSE, TRUE, TRUE,
                  /* Illegal to perform to a target on another tile.
                   * Reason: The Freeciv code assumes that the city founding
                   * unit is located at the tile were the new city is
@@ -167,17 +168,17 @@ void actions_init(void)
                  0, 0);
   actions[ACTION_JOIN_CITY] =
       action_new(ACTION_JOIN_CITY, ATK_CITY,
-                 FALSE, FALSE, TRUE,
+                 FALSE, FALSE, TRUE, TRUE,
                  0, 1);
   actions[ACTION_STEAL_MAPS] =
       action_new(ACTION_STEAL_MAPS, ATK_CITY,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_BOMBARD] =
       action_new(ACTION_BOMBARD,
                  /* FIXME: Target is actually Units + City */
                  ATK_UNITS,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  /* A single domestic unit at the target tile will make the
                   * action illegal. It must therefore be performed from
                   * another tile. */
@@ -186,54 +187,54 @@ void actions_init(void)
                  1);
   actions[ACTION_SPY_NUKE] =
       action_new(ACTION_SPY_NUKE, ATK_CITY,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_NUKE] =
       action_new(ACTION_NUKE,
                  /* FIXME: Target is actually Tile + Units + City */
                  ATK_TILE,
-                 TRUE, FALSE, TRUE,
+                 TRUE, FALSE, TRUE, TRUE,
                  0, 1);
   actions[ACTION_DESTROY_CITY] =
       action_new(ACTION_DESTROY_CITY, ATK_CITY,
-                 TRUE, FALSE, TRUE,
+                 TRUE, FALSE, TRUE, TRUE,
                  0, 1);
   actions[ACTION_EXPEL_UNIT] =
       action_new(ACTION_EXPEL_UNIT, ATK_UNIT,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_RECYCLE_UNIT] =
       action_new(ACTION_RECYCLE_UNIT, ATK_CITY,
-                 FALSE, FALSE, TRUE,
+                 FALSE, FALSE, TRUE, TRUE,
                  /* Illegal to perform to a target on another tile to
                   * keep the rules exactly as they were for now. */
                  0, 0);
   actions[ACTION_DISBAND_UNIT] =
       action_new(ACTION_DISBAND_UNIT, ATK_SELF,
-                 FALSE, FALSE, TRUE,
+                 FALSE, FALSE, TRUE, TRUE,
                  0, 0);
   actions[ACTION_HOME_CITY] =
       action_new(ACTION_HOME_CITY, ATK_CITY,
-                 FALSE, FALSE, TRUE,
+                 FALSE, FALSE, TRUE, TRUE,
                  /* Illegal to perform to a target on another tile to
                   * keep the rules exactly as they were for now. */
                  0, 0);
   actions[ACTION_UPGRADE_UNIT] =
       action_new(ACTION_UPGRADE_UNIT, ATK_CITY,
-                 FALSE, FALSE, TRUE,
+                 FALSE, FALSE, TRUE, TRUE,
                  /* Illegal to perform to a target on another tile to
                   * keep the rules exactly as they were for now. */
                  0, 0);
   actions[ACTION_PARADROP] =
       action_new(ACTION_PARADROP, ATK_TILE,
-                 FALSE, FALSE, TRUE,
+                 FALSE, FALSE, TRUE, TRUE,
                  1,
                  /* Still limited by each unit type's paratroopers_range
                   * field. */
                  ACTION_DISTANCE_MAX);
   actions[ACTION_AIRLIFT] =
       action_new(ACTION_AIRLIFT, ATK_CITY,
-                 FALSE, FALSE, TRUE,
+                 FALSE, FALSE, TRUE, TRUE,
                  1, ACTION_DISTANCE_UNLIMITED);
   actions[ACTION_ATTACK] =
       action_new(ACTION_ATTACK,
@@ -241,7 +242,7 @@ void actions_init(void)
                   * unreachable_protects setting, each unit at the target
                   * tile (Units) or any unit at the target tile. */
                  ATK_TILE,
-                 TRUE, FALSE, FALSE,
+                 TRUE, FALSE, FALSE, TRUE,
                  1, 1);
 
   /* Initialize the action enabler list */
@@ -328,6 +329,7 @@ static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
                                  bool hostile, bool requires_details,
                                  bool rare_pop_up,
+                                 bool unitwaittime_controlled,
                                  const int min_distance,
                                  const int max_distance)
 {
@@ -349,6 +351,8 @@ static struct action *action_new(enum gen_action id,
 
   action->min_distance = min_distance;
   action->max_distance = max_distance;
+
+  action->unitwaittime_controlled = unitwaittime_controlled;
 
   /* Loaded from the ruleset. Until generalized actions are ready it has to
    * be defined seperatly from other action data. */

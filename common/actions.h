@@ -172,6 +172,9 @@ struct action
    * disables this action. */
   bool quiet;
 
+  /* The unitwaittime setting blocks this action when done too soon. */
+  bool unitwaittime_controlled;
+
   /* Actions that blocks this action. The action will be illegal if any
    * bloking action is legal. */
   bv_actions blocked_by;

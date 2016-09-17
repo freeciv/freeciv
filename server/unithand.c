@@ -1788,6 +1788,7 @@ bool unit_perform_action(struct player *pplayer,
                          const enum gen_action action_type,
                          const enum action_requester requester)
 {
+  struct action *paction;
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
   struct tile *target_tile = index_to_tile(target_id);
   struct unit *punit = game_unit_by_number(target_id);
@@ -1800,6 +1801,8 @@ bool unit_perform_action(struct player *pplayer,
 
     return FALSE;
   }
+
+  paction = action_by_number(action_type);
 
   if (NULL == actor_unit) {
     /* Probably died or bribed. */
@@ -1815,7 +1818,8 @@ bool unit_perform_action(struct player *pplayer,
     return FALSE;
   }
 
-  if (!unit_can_do_action_now(actor_unit)) {
+  if (paction->unitwaittime_controlled
+      && !unit_can_do_action_now(actor_unit)) {
     /* Action not possible due to unitwaittime setting. */
     return FALSE;
   }
