@@ -116,43 +116,76 @@ struct drawn_sprite {
  * one layer.  The names are basically arbitrary and just correspond to
  * groups of elements in fill_sprite_array().  Callers of fill_sprite_array
  * must call it once for each layer. */
-enum mapview_layer {
-  LAYER_BACKGROUND,
-  LAYER_TERRAIN1,
-  LAYER_TERRAIN2,
-  LAYER_TERRAIN3, /* Adjust also TERRAIN_LAYER_COUNT if changing these */
-  LAYER_WATER,
-  LAYER_ROADS,
-  LAYER_SPECIAL1,
-  LAYER_GRID1,
-  LAYER_CITY1,
-  LAYER_SPECIAL2,
-  LAYER_FOG,
-  LAYER_UNIT,
-  LAYER_SPECIAL3,
-  LAYER_CITY2,
-  LAYER_GRID2,
-  LAYER_OVERLAYS,
-  LAYER_TILELABEL,
-  LAYER_CITYBAR,
-  LAYER_FOCUS_UNIT,
-  LAYER_GOTO,
-  LAYER_WORKERTASK,
-  LAYER_EDITOR,
-  LAYER_COUNT
-};
+#define SPECENUM_NAME mapview_layer
+#define SPECENUM_VALUE0 LAYER_BACKGROUND
+#define SPECENUM_VALUE0NAME "Background"
+/* Adjust also TERRAIN_LAYER_COUNT if changing these */
+#define SPECENUM_VALUE1 LAYER_TERRAIN1
+#define SPECENUM_VALUE1NAME "Terrain1"
+#define SPECENUM_VALUE2 LAYER_TERRAIN2
+#define SPECENUM_VALUE2NAME "Terrain2"
+#define SPECENUM_VALUE3 LAYER_TERRAIN3
+#define SPECENUM_VALUE3NAME "Terrain3"
+#define SPECENUM_VALUE4 LAYER_WATER
+#define SPECENUM_VALUE4NAME "Water"
+#define SPECENUM_VALUE5 LAYER_ROADS
+#define SPECENUM_VALUE5NAME "Roads"
+#define SPECENUM_VALUE6 LAYER_SPECIAL1
+#define SPECENUM_VALUE6NAME "Special1"
+#define SPECENUM_VALUE7 LAYER_GRID1
+#define SPECENUM_VALUE7NAME "Grid1"
+#define SPECENUM_VALUE8 LAYER_CITY1
+#define SPECENUM_VALUE8NAME "City1"
+#define SPECENUM_VALUE9 LAYER_SPECIAL2
+#define SPECENUM_VALUE9NAME "Special2"
+#define SPECENUM_VALUE10 LAYER_FOG
+#define SPECENUM_VALUE10NAME "Fog"
+#define SPECENUM_VALUE11 LAYER_UNIT
+#define SPECENUM_VALUE11NAME "Unit"
+#define SPECENUM_VALUE12 LAYER_SPECIAL3
+#define SPECENUM_VALUE12NAME "Special3"
+#define SPECENUM_VALUE13 LAYER_CITY2
+#define SPECENUM_VALUE13NAME "City2"
+#define SPECENUM_VALUE14 LAYER_GRID2
+#define SPECENUM_VALUE14NAME "Grid2"
+#define SPECENUM_VALUE15 LAYER_OVERLAYS
+#define SPECENUM_VALUE15NAME "Overlays"
+#define SPECENUM_VALUE16 LAYER_TILELABEL
+#define SPECENUM_VALUE16NAME "TileLabel"
+#define SPECENUM_VALUE17 LAYER_CITYBAR
+#define SPECENUM_VALUE17NAME "CityBar"
+#define SPECENUM_VALUE18 LAYER_FOCUS_UNIT
+#define SPECENUM_VALUE18NAME "FocusUnit"
+#define SPECENUM_VALUE19 LAYER_GOTO
+#define SPECENUM_VALUE19NAME "Goto"
+#define SPECENUM_VALUE20 LAYER_WORKERTASK
+#define SPECENUM_VALUE20NAME "WorkerTask"
+#define SPECENUM_VALUE21 LAYER_EDITOR
+#define SPECENUM_VALUE21NAME "Editor"
+#define SPECENUM_COUNT LAYER_COUNT
+#include "specenum_gen.h"
 
 #define TERRAIN_LAYER_COUNT 3
 
 #define mapview_layer_iterate(layer)			                    \
 {									    \
   enum mapview_layer layer;						    \
+  int layer_index;                                                          \
 									    \
-  for (layer = 0; layer < LAYER_COUNT; layer++) {			    \
+  for (layer_index = 0; layer_index < LAYER_COUNT; layer_index++) {         \
+    layer = tileset_get_layer(tileset, layer_index);                        \
 
 #define mapview_layer_iterate_end		                            \
   }									    \
 }
+
+/* Layer categories can be used to only render part of a tile. */
+enum layer_category
+{
+  LAYER_CATEGORY_CITY, /* Render cities */
+  LAYER_CATEGORY_TILE, /* Render terrain only */
+  LAYER_CATEGORY_UNIT  /* Render units only */
+};
 
 #define NUM_TILES_PROGRESS 8
 
@@ -211,6 +244,12 @@ void tileset_setup_city_tiles(struct tileset *t, int style);
 void tileset_player_init(struct tileset *t, struct player *pplayer);
 void tileset_background_init(struct tileset *t);
 void tileset_background_free(struct tileset *t);
+
+/* Layer order */
+
+enum mapview_layer tileset_get_layer(const struct tileset *t, int n);
+bool tileset_layer_in_category(enum mapview_layer layer,
+                               enum layer_category cat);
 
 /* Gfx support */
 

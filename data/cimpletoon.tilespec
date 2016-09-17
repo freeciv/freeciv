@@ -91,6 +91,39 @@ city_productions_font_size = 8
 ; valid direction for the tileset.
 unit_default_orientation = "s"
 
+; The map is rendered in "layers", just like any decent image editor
+; supports. The setting below allows to change the layer drawing order. The
+; first layer in the list will be drawn below the others; the second on top
+; of it, and so on. No layer can be omitted from the list, nor can new ones
+; be added.
+;layer_order =
+;  "Background", ; Background color (if enabled, the player color where there
+;                ; are units or cities). You probably want to leave this
+;                ; first.
+;  "Terrain1",   ; The three terrain layers. See sections [layerN] below.
+;  "Terrain2",
+;  "Terrain3",
+;  "Water",      ; All extras with "River" style.
+;  "Roads",      ; All extras with style "RoadAllSeparate",
+;                ; "RoadParityCombined" or "RoadAllCombined".
+;  "Special1",   ; 1st layer for extras with style "3Layers", "Single2" or
+;                ; "Single1".
+;  "Grid1",      ; Grid layer for isometric tilesets.
+;  "City1",      ; City and walls.
+;  "Special2",   ; 2nd layer for extras with "3Layers" and "Single2" styles.
+;  "Fog",        ; Fog of war (on tiles one knows but doesn't see).
+;  "Unit",       ; Units except the selected one(s).
+;  "Special3",   ; 3rd layer for extras with "3Layers" style, and base flags.
+;  "City2",      ; City size when the city bar is disabled.
+;  "Grid2",      ; Second grid layer (overhead tilesets only).
+;  "Overlays",   ; Tile output sprites.
+;  "TileLabel",  ; Tile labels ("Scorched spot").
+;  "CityBar",    ; The city bar with name, production, food, ...
+;  "FocusUnit",  ; The focused unit(s).
+;  "Goto",       ; Goto turn count and intermediate points, *not* goto lines.
+;  "WorkerTask", ; The unit task indicators ("G", "S", ...).
+;  "Editor"      ; Editor stuff (selected tile and start points).
+
 ; These are special because they get freed and reloaded
 ; as required:
 main_intro_file    = "misc/intro"

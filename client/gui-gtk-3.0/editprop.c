@@ -66,8 +66,7 @@ struct extviewer;
 static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
                                             const struct unit *punit,
                                             const struct city *pcity,
-                                            int *layers,
-                                            int num_layers);
+                                            enum layer_category category);
 static GdkPixbuf *create_tile_pixbuf(const struct tile *ptile);
 static GdkPixbuf *create_unit_pixbuf(const struct unit *punit);
 static GdkPixbuf *create_city_pixbuf(const struct city *pcity);
@@ -5006,20 +5005,7 @@ property_page_get_objtype(const struct property_page *pp)
 ****************************************************************************/
 static GdkPixbuf *create_tile_pixbuf(const struct tile *ptile)
 {
-  int layers[] = {
-    LAYER_BACKGROUND,
-    LAYER_TERRAIN1,
-    LAYER_TERRAIN2,
-    LAYER_TERRAIN3,
-    LAYER_WATER,
-    LAYER_ROADS,
-    LAYER_SPECIAL1,
-    LAYER_SPECIAL2,
-    LAYER_SPECIAL3
-  };
-  int num_layers = ARRAY_SIZE(layers);
-
-  return create_pixbuf_from_layers(ptile, NULL, NULL, layers, num_layers);
+  return create_pixbuf_from_layers(ptile, NULL, NULL, LAYER_CATEGORY_TILE);
 }
 
 /****************************************************************************
@@ -5031,14 +5017,7 @@ static GdkPixbuf *create_tile_pixbuf(const struct tile *ptile)
 ****************************************************************************/
 static GdkPixbuf *create_unit_pixbuf(const struct unit *punit)
 {
-  int layers[] = {
-    LAYER_UNIT,
-    LAYER_FOCUS_UNIT,
-  };
-  int num_layers = ARRAY_SIZE(layers);
-
-  return create_pixbuf_from_layers(NULL, punit, NULL,
-                                   layers, num_layers);
+  return create_pixbuf_from_layers(NULL, punit, NULL, LAYER_CATEGORY_UNIT);
 }
 
 /****************************************************************************
@@ -5050,28 +5029,13 @@ static GdkPixbuf *create_unit_pixbuf(const struct unit *punit)
 ****************************************************************************/
 static GdkPixbuf *create_city_pixbuf(const struct city *pcity)
 {
-  int layers[] = {
-    LAYER_BACKGROUND,
-    LAYER_TERRAIN1,
-    LAYER_TERRAIN2,
-    LAYER_TERRAIN3,
-    LAYER_WATER,
-    LAYER_ROADS,
-    LAYER_SPECIAL1,
-    LAYER_CITY1,
-    LAYER_SPECIAL2,
-    LAYER_CITY2,
-    LAYER_SPECIAL3
-  };
-  int num_layers = ARRAY_SIZE(layers);
-
   return create_pixbuf_from_layers(city_tile(pcity), NULL, pcity,
-                                   layers, num_layers);
+                                   LAYER_CATEGORY_CITY);
 }
 
 /****************************************************************************
   Create a pixbuf containing an image of the given tile, unit or city
-  restricted to the layers listed in 'layers'.
+  restricted to the layer category 'cat'.
 
   May return NULL on error or bad input.
   NB: You must call g_object_unref on the non-NULL return value when you
@@ -5080,11 +5044,10 @@ static GdkPixbuf *create_city_pixbuf(const struct city *pcity)
 static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
                                             const struct unit *punit,
                                             const struct city *pcity,
-                                            int *layers,
-                                            int num_layers)
+                                            enum layer_category category)
 {
   struct canvas canvas = FC_STATIC_CANVAS_INIT;
-  int h, i, fh, fw, canvas_x, canvas_y;
+  int h, fh, fw, canvas_x, canvas_y;
   GdkPixbuf *pixbuf;
   cairo_t *cr;
 
@@ -5104,11 +5067,13 @@ static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
 
   canvas_y += (fh - h);
 
-  for (i = 0; i < num_layers; i++) {
-    put_one_element(&canvas, 1.0, layers[i],
-                    ptile, NULL, NULL, punit, pcity,
-                    canvas_x, canvas_y, NULL, NULL);
-  }
+  mapview_layer_iterate(layer) {
+    if (tileset_layer_in_category(layer, category)) {
+      put_one_element(&canvas, 1.0, layer,
+                      ptile, NULL, NULL, punit, pcity,
+                      canvas_x, canvas_y, NULL, NULL);
+    }
+  } mapview_layer_iterate_end
   pixbuf = surface_get_pixbuf(canvas.surface, fw, fh);
   cairo_surface_destroy(canvas.surface);
 

@@ -464,6 +464,8 @@ struct tileset {
 
   char *for_ruleset;
 
+  enum mapview_layer layer_order[LAYER_COUNT];
+
   enum ts_type type;
   int hex_width, hex_height;
   int ts_topo_idx;
@@ -1698,6 +1700,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
   int i;
   size_t num_spec_files;
   const char **spec_filenames;
+  size_t num_layers;
+  const char **layer_order;
   size_t num_preferred_themes;
   struct section_list *sections = NULL;
   const char *file_capstr;
@@ -2016,6 +2020,56 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
   c = secfile_lookup_str(file, "tilespec.main_intro_file");
   t->main_intro_filename = tilespec_gfx_filename(c);
   log_debug("intro file %s", t->main_intro_filename);
+
+  /* Layer order */
+  num_layers = 0;
+  layer_order = secfile_lookup_str_vec(file, &num_layers,
+                                       "tilespec.layer_order");
+  if (layer_order != NULL) {
+    for (i = 0; i < num_layers; i++) {
+      int j;
+      enum mapview_layer layer = mapview_layer_by_name(layer_order[i],
+                                                       fc_strcasecmp);
+
+      /* Check for wrong layer names. */
+      if (!mapview_layer_is_valid(layer)) {
+        log_error("layer_order: Invalid layer \"%s\"", layer_order[i]);
+        goto ON_ERROR;
+      }
+      /* Check for duplicates. */
+      for (j = 0; j < i; j++) {
+        if (t->layer_order[j] == layer) {
+          log_error("layer_order: Duplicate layer \"%s\"", layer_order[i]);
+          goto ON_ERROR;
+        }
+      }
+      t->layer_order[i] = layer;
+    }
+
+    /* Now check that all layers are present. Doing it now allows for a more
+     * comprehensive error message. */
+    for (i = 0; i < LAYER_COUNT; i++) {
+      int j;
+      bool found = FALSE;
+
+      for (j = 0; j < num_layers; j++) {
+        if (i == t->layer_order[j]) {
+          found = TRUE;
+          break;
+        }
+      }
+      if (!found) {
+        log_error("layer_order: Missing layer \"%s\"",
+                  mapview_layer_name(i));
+        goto ON_ERROR;
+      }
+    }
+  } else {
+    /* There is no layer_order tag in the specfile -> use the default */
+    for (i = 0; i < LAYER_COUNT; i++) {
+      t->layer_order[i] = i;
+    }
+  }
 
   /* Terrain layer info. */
   for (i = 0; i < MAX_NUM_LAYERS; i++) {
@@ -6596,6 +6650,56 @@ int fill_basic_base_sprite_array(const struct tileset *t,
 #undef ADD_SPRITE_IF_NOT_NULL
 
   return sprs - saved_sprs;
+}
+
+/****************************************************************************
+  Gets the nth layer of the tileset.
+****************************************************************************/
+enum mapview_layer tileset_get_layer(const struct tileset *t, int n)
+{
+  fc_assert(n < LAYER_COUNT);
+  return t->layer_order[n];
+}
+
+/****************************************************************************
+  Gets the nth layer of the tileset.
+****************************************************************************/
+bool tileset_layer_in_category(enum mapview_layer layer,
+                               enum layer_category cat)
+{
+  switch (layer) {
+  case LAYER_BACKGROUND:
+  case LAYER_TERRAIN1:
+  case LAYER_TERRAIN2:
+  case LAYER_TERRAIN3:
+  case LAYER_WATER:
+  case LAYER_ROADS:
+  case LAYER_SPECIAL1:
+  case LAYER_SPECIAL2:
+  case LAYER_SPECIAL3:
+    return cat == LAYER_CATEGORY_CITY || cat == LAYER_CATEGORY_TILE;
+  case LAYER_CITY1:
+  case LAYER_CITY2:
+    return cat == LAYER_CATEGORY_CITY;
+  case LAYER_UNIT:
+  case LAYER_FOCUS_UNIT:
+    return cat == LAYER_CATEGORY_UNIT;
+  case LAYER_GRID1:
+  case LAYER_FOG:
+  case LAYER_GRID2:
+  case LAYER_OVERLAYS:
+  case LAYER_TILELABEL:
+  case LAYER_CITYBAR:
+  case LAYER_GOTO:
+  case LAYER_WORKERTASK:
+  case LAYER_EDITOR:
+    return FALSE;
+  case LAYER_COUNT:
+    break; /* and fail below */
+  }
+
+  fc_assert_msg(FALSE, "Unknown layer category: %d", cat);
+  return FALSE;
 }
 
 /****************************************************************************
