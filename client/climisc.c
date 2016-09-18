@@ -1266,8 +1266,8 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
     fc_assert(tgt_player);
 
     action_iterate(act) {
-      if (action_get_actor_kind(act) != AAK_UNIT
-          || action_get_target_kind(act) != ATK_CITY) {
+      if (action_id_get_actor_kind(act) != AAK_UNIT
+          || action_id_get_target_kind(act) != ATK_CITY) {
         /* Not relevant. */
         continue;
       }
@@ -1290,8 +1290,8 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
     fc_assert(tgt_player);
 
     action_iterate(act) {
-      if (action_get_actor_kind(act) != AAK_UNIT
-          || action_get_target_kind(act) != ATK_UNIT) {
+      if (action_id_get_actor_kind(act) != AAK_UNIT
+          || action_id_get_target_kind(act) != ATK_UNIT) {
         /* Not relevant. */
         continue;
       }

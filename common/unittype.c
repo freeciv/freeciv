@@ -275,7 +275,7 @@ static void unit_can_act_cache_set(struct unit_type *putype)
   action_enablers_iterate(enabler) {
     if (requirement_fulfilled_by_unit_type(putype,
                                            &(enabler->actor_reqs))
-        && action_get_actor_kind(enabler->action) == AAK_UNIT) {
+        && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
       log_debug("act_cache: %s can %s",
                 utype_rule_name(putype), gen_action_name(enabler->action));
       BV_SET(unit_can_act_cache[enabler->action], utype_index(putype));
@@ -377,7 +377,7 @@ static void unit_state_action_cache_set(struct unit_type *putype)
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
-          && action_get_actor_kind(enabler->action) == AAK_UNIT) {
+          && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
         /* Not required to be absent, so OK if present */
         req.present = FALSE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
@@ -448,7 +448,7 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
-          && action_get_actor_kind(enabler->action) == AAK_UNIT) {
+          && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
         req.present = TRUE;
         if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
           BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
@@ -615,7 +615,7 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
     return FALSE;
   }
 
-  if (action_get_actor_kind(action_id) != AAK_UNIT) {
+  if (action_id_get_actor_kind(action_id) != AAK_UNIT) {
     /* This action isn't performed by any unit at all so this unit type
      * can't do it. */
     return FALSE;

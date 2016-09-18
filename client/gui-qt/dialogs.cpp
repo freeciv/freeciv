@@ -1386,8 +1386,8 @@ void popup_action_selection(struct unit *actor_unit,
   qv2 = cd->target_id[ATK_CITY];
 
   action_iterate(act) {
-    if (action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_CITY) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_CITY) {
       action_entry(cd,
                    (enum gen_action)act,
                    act_probs,
@@ -1403,8 +1403,8 @@ void popup_action_selection(struct unit *actor_unit,
   qv2 = cd->target_id[ATK_UNIT];
 
   action_iterate(act) {
-    if (action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_UNIT) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_UNIT) {
       action_entry(cd,
                    (enum gen_action)act,
                    act_probs,
@@ -2244,7 +2244,7 @@ void action_selection_refresh(struct unit *actor_unit,
   action_iterate(act) {
     QString custom;
 
-    if (action_get_actor_kind(act) != AAK_UNIT) {
+    if (action_id_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
       continue;
     }
@@ -2258,7 +2258,7 @@ void action_selection_refresh(struct unit *actor_unit,
     }
 
     /* Put the target id in qv2. */
-    switch (action_get_target_kind(act)) {
+    switch (action_id_get_target_kind(act)) {
     case ATK_UNIT:
       if (target_unit != NULL) {
         qv2 = target_unit->id;
@@ -2282,7 +2282,7 @@ void action_selection_refresh(struct unit *actor_unit,
       }
       break;
     case ATK_COUNT:
-      fc_assert_msg(ATK_COUNT != action_get_target_kind(act),
+      fc_assert_msg(ATK_COUNT != action_id_get_target_kind(act),
                     "Bad target kind");
       continue;
     }

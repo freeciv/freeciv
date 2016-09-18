@@ -4319,7 +4319,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       continue;
     }
     
-    if (action_get_actor_kind(act) != AAK_UNIT) {
+    if (action_id_get_actor_kind(act) != AAK_UNIT) {
       continue;
     }
 
@@ -4341,7 +4341,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        /* Keep the style consistent with the help for the
                         * other actions. */
                        _(action_target_kind_name(
-                           action_get_target_kind(act))),
+                           action_id_get_target_kind(act))),
                        /* The custom information. */
                        utype_build_shield_cost(utype));
           break;
@@ -4354,7 +4354,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        _("* Can do the action \'%s\' to some %s.\n"),
                        action_get_ui_name(act),
                        _(action_target_kind_name(
-                           action_get_target_kind(act))));
+                           action_id_get_target_kind(act))));
           break;
         }
 
@@ -4373,7 +4373,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     /* Not relevant */
-    if (action_get_target_kind(act) != ATK_UNIT) {
+    if (action_id_get_target_kind(act) != ATK_UNIT) {
       continue;
     }
 
@@ -5718,7 +5718,8 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                    _("* Makes it impossible to do the action \'%s\'"
                      " to your %s.\n"),
                    action_get_ui_name(act),
-                   _(action_target_kind_name(action_get_target_kind(act))));
+                   _(action_target_kind_name(
+                       action_id_get_target_kind(act))));
     }
   } action_iterate_end;
 

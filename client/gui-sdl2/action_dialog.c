@@ -849,7 +849,7 @@ static void action_entry(const enum gen_action act,
   create_active_iconlabel(pBuf, pWindow->dst, pstr,
                           ui_name, af_map[act]);
 
-  switch(action_get_target_kind(act)) {
+  switch(action_id_get_target_kind(act)) {
   case ATK_CITY:
     pBuf->data.city = tgt_city;
     break;
@@ -995,8 +995,8 @@ void popup_action_selection(struct unit *actor_unit,
   /* Unit acting against a city */
 
   action_iterate(act) {
-    if (action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_CITY) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_CITY) {
       action_entry(act, act_probs,
                    action_custom_text(act, act_probs[act],
                                       actor_homecity, target_city),
@@ -1008,8 +1008,8 @@ void popup_action_selection(struct unit *actor_unit,
   /* Unit acting against another unit */
 
   action_iterate(act) {
-    if (action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_UNIT) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_UNIT) {
       action_entry(act, act_probs,
                    NULL,
                    actor_unit, NULL, target_unit,

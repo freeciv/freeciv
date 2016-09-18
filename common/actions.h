@@ -143,8 +143,12 @@ bool action_id_is_valid(const int action_id);
 
 struct action *action_by_number(int action_id);
 
-enum action_actor_kind action_get_actor_kind(int action_id);
-enum action_target_kind action_get_target_kind(int action_id);
+enum action_actor_kind action_get_actor_kind(struct action *paction);
+#define action_id_get_actor_kind(action_id)                               \
+  action_get_actor_kind(action_by_number(action_id))
+enum action_target_kind action_get_target_kind(struct action *paction);
+#define action_id_get_target_kind(action_id)                              \
+  action_get_target_kind(action_by_number(action_id))
 
 bool action_is_hostile(int action_id);
 
