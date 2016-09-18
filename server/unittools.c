@@ -3493,10 +3493,6 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 
     punit->action_decision_want = ACT_DEC_PASSIVE;
     punit->action_decision_tile = pdesttile;
-
-    /* Let the client know that this unit wants the player to decide
-     * what to do. */
-    send_unit_info(player_reply_dest(pplayer), punit);
   }
 
   /* Claim ownership of fortress? */
