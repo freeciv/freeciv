@@ -449,7 +449,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
                                           const struct city *target_city,
                                           const struct unit *target_unit)
 {
-  if (action_get_actor_kind(act) != AAK_UNIT) {
+  if (action_id_get_actor_kind(act) != AAK_UNIT) {
     /* No unit can ever do this action so it isn't relevant. */
     return NULL;
   }
@@ -528,7 +528,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     return NULL;
   }
 
-  switch (action_get_target_kind(act)) {
+  switch (action_id_get_target_kind(act)) {
   case ATK_CITY:
     if (target_city == NULL) {
       /* No target city. */
@@ -581,7 +581,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     break;
   case ATK_COUNT:
     /* Nothing to check. */
-    fc_assert(action_get_target_kind(act) != ATK_COUNT);
+    fc_assert(action_id_get_target_kind(act) != ATK_COUNT);
     return NULL;
   }
 
@@ -699,7 +699,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     }
   } else {
     /* Find the target player of this action. */
-    switch (action_get_target_kind(action_id)) {
+    switch (action_id_get_target_kind(action_id)) {
     case ATK_CITY:
       tgt_player = city_owner(target_city);
       break;
@@ -722,7 +722,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       tgt_player = unit_owner(punit);
       break;
     case ATK_COUNT:
-      fc_assert(action_get_target_kind(action_id) != ATK_COUNT);
+      fc_assert(action_id_get_target_kind(action_id) != ATK_COUNT);
       break;
     }
   }
@@ -1245,25 +1245,27 @@ void handle_unit_get_actions(struct connection *pc,
 
   /* Set the probability for the actions. */
   action_iterate(act) {
-    if (action_get_actor_kind(act) != AAK_UNIT) {
+    if (action_id_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
       probabilities[act] = ACTPROB_NA;
       continue;
     }
 
-    if (target_city && action_get_target_kind(act) == ATK_CITY) {
+    if (target_city && action_id_get_target_kind(act) == ATK_CITY) {
       probabilities[act] = action_prob_vs_city(actor_unit, act,
                                                target_city);
-    } else if (target_unit && action_get_target_kind(act) == ATK_UNIT) {
+    } else if (target_unit && action_id_get_target_kind(act) == ATK_UNIT) {
       probabilities[act] = action_prob_vs_unit(actor_unit, act,
                                                target_unit);
-    } else if (target_tile && action_get_target_kind(act) == ATK_UNITS) {
+    } else if (target_tile
+               && action_id_get_target_kind(act) == ATK_UNITS) {
       probabilities[act] = action_prob_vs_units(actor_unit, act,
                                                 target_tile);
-    } else if (target_tile && action_get_target_kind(act) == ATK_TILE) {
+    } else if (target_tile && action_id_get_target_kind(act) == ATK_TILE) {
       probabilities[act] = action_prob_vs_tile(actor_unit, act,
                                                target_tile);
-    } else if (is_same_tile && action_get_target_kind(act) == ATK_SELF) {
+    } else if (is_same_tile
+               && action_id_get_target_kind(act) == ATK_SELF) {
       /* Don't bother with self targeted actions unless the actor is asking
        * about what can be done to its own tile. */
       probabilities[act] = action_prob_self(actor_unit, act);
@@ -1280,7 +1282,7 @@ void handle_unit_get_actions(struct connection *pc,
        * done. */
       at_least_one_action = TRUE;
 
-      switch (action_get_target_kind(act)) {
+      switch (action_id_get_target_kind(act)) {
       case ATK_CITY:
         /* The city should be sent as a target since it is possible to act
          * against it. */
@@ -1303,7 +1305,7 @@ void handle_unit_get_actions(struct connection *pc,
         fc_assert(actor_unit != NULL);
         break;
       case ATK_COUNT:
-        fc_assert_msg(action_get_target_kind(act) != ATK_COUNT,
+        fc_assert_msg(action_id_get_target_kind(act) != ATK_COUNT,
                       "Invalid action target kind.");
         break;
       }
@@ -1455,7 +1457,7 @@ void illegal_action_msg(struct player *pplayer,
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
                   action_target_kind_translated_name(
-                    action_get_target_kind(stopped_action)));
+                    action_id_get_target_kind(stopped_action)));
     break;
   case ANEK_FOREIGN:
     notify_player(pplayer, unit_tile(actor),
@@ -1464,7 +1466,7 @@ void illegal_action_msg(struct player *pplayer,
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
                   action_target_kind_translated_name(
-                    action_get_target_kind(stopped_action)));
+                    action_id_get_target_kind(stopped_action)));
     break;
   case ANEK_LOW_MP:
     notify_player(pplayer, unit_tile(actor),
@@ -4572,7 +4574,7 @@ void handle_unit_orders(struct player *pplayer,
                           i, player_name(pplayer), packet->unit_id);
       }
 
-      switch (action_get_target_kind(packet->action[i])) {
+      switch (action_id_get_target_kind(packet->action[i])) {
       case ATK_CITY:
         /* Don't validate that the target tile really contains a city or
          * that the actor player's map think the target tile has one.
@@ -4592,7 +4594,8 @@ void handle_unit_orders(struct player *pplayer,
       case ATK_SELF:
         break;
       case ATK_COUNT:
-        fc_assert(action_get_target_kind(packet->action[i]) != ATK_COUNT);
+        fc_assert(action_id_get_target_kind(packet->action[i])
+                  != ATK_COUNT);
         break;
       }
 

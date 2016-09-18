@@ -1846,7 +1846,7 @@ static void do_disband_alternative(void *p)
   last_request_id_used = client.conn.client.last_request_id_used;
 
   /* Send a request to the server unless it is known to be pointless. */
-  switch (action_get_target_kind(act)) {
+  switch (action_id_get_target_kind(act)) {
   case ATK_CITY:
     if ((pcity = tile_city(unit_tile(punit)))
         && action_prob_possible(action_prob_vs_city(punit, act, pcity))) {
@@ -1876,7 +1876,7 @@ static void do_disband_alternative(void *p)
     }
     break;
   case ATK_COUNT:
-    fc_assert(action_get_target_kind(act) != ATK_COUNT);
+    fc_assert(action_id_get_target_kind(act) != ATK_COUNT);
     break;
   }
 

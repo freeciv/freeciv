@@ -197,7 +197,7 @@ static void notify_actor_caught(struct player *receiver,
   }
 
   /* Custom message based on action type. */
-  switch (action_get_target_kind(action_id)) {
+  switch (action_id_get_target_kind(action_id)) {
   case ATK_CITY:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
@@ -253,7 +253,7 @@ static void notify_victim_caught(struct player *receiver,
   }
 
   /* Custom message based on action type. */
-  switch (action_get_target_kind(action_id)) {
+  switch (action_id_get_target_kind(action_id)) {
   case ATK_CITY:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
@@ -378,7 +378,7 @@ static void notify_actor_success(struct player *receiver,
   }
 
   /* Custom message based on action type. */
-  switch (action_get_target_kind(action_id)) {
+  switch (action_id_get_target_kind(action_id)) {
   case ATK_CITY:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
@@ -431,7 +431,7 @@ static void notify_victim_success(struct player *receiver,
   }
 
   /* Custom message based on action type. */
-  switch (action_get_target_kind(action_id)) {
+  switch (action_id_get_target_kind(action_id)) {
   case ATK_CITY:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
@@ -556,8 +556,8 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
   }
 
   action_iterate(act) {
-    if (!(action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_CITY)) {
+    if (!(action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_CITY)) {
       /* Not a relevant action. */
       continue;
     }
@@ -620,8 +620,8 @@ static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target,
   }
 
   action_iterate(act) {
-    if (!(action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_UNIT)) {
+    if (!(action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_UNIT)) {
       /* Not a relevant action. */
       continue;
     }
@@ -688,8 +688,8 @@ struct tile *action_tgt_tile_units(struct unit *actor,
   }
 
   action_iterate(act) {
-    if (!(action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_UNITS)) {
+    if (!(action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_UNITS)) {
       /* Not a relevant action. */
       continue;
     }
@@ -732,8 +732,8 @@ struct tile *action_tgt_tile(struct unit *actor,
   }
 
   action_iterate(act) {
-    if (!(action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_TILE)) {
+    if (!(action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_TILE)) {
       /* Not a relevant action. */
       continue;
     }
@@ -822,7 +822,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
     if (act == ACTION_COUNT) {
       /* No more alternative actions. */
       break;
-    } else if (action_get_actor_kind(act) == AAK_UNIT) {
+    } else if (action_id_get_actor_kind(act) == AAK_UNIT) {
       /* This action can be done by units. */
 
 #define perform_action_to(act, actor, tgtid)                              \
@@ -832,7 +832,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
     return action_by_number(act);                                         \
   }
 
-      switch (action_get_target_kind(act)) {
+      switch (action_id_get_target_kind(act)) {
       case ATK_UNITS:
         if (tgt_units
             && is_action_enabled_unit_on_units(act, actor, tgt_units)) {
@@ -864,7 +864,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
         }
         break;
       case ATK_COUNT:
-        fc_assert(action_get_target_kind(act) != ATK_COUNT);
+        fc_assert(action_id_get_target_kind(act) != ATK_COUNT);
       }
 
       if (!unit_is_alive(actor_id)) {

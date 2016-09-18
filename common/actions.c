@@ -415,21 +415,21 @@ struct action *action_by_rule_name(const char *name)
 /**************************************************************************
   Get the actor kind of an action.
 **************************************************************************/
-enum action_actor_kind action_get_actor_kind(int action_id)
+enum action_actor_kind action_get_actor_kind(struct action *paction)
 {
-  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+  fc_assert_ret_val_msg(paction, AAK_COUNT, "Action doesn't exist.");
 
-  return actions[action_id]->actor_kind;
+  return paction->actor_kind;
 }
 
 /**************************************************************************
   Get the target kind of an action.
 **************************************************************************/
-enum action_target_kind action_get_target_kind(int action_id)
+enum action_target_kind action_get_target_kind(struct action *paction)
 {
-  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+  fc_assert_ret_val_msg(paction, ATK_COUNT, "Action doesn't exist.");
 
-  return actions[action_id]->target_kind;
+  return paction->target_kind;
 }
 
 /**************************************************************************
@@ -688,7 +688,7 @@ int action_get_role(int action_id)
 {
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
-  fc_assert_msg(AAK_UNIT == action_get_actor_kind(action_id),
+  fc_assert_msg(AAK_UNIT == action_id_get_actor_kind(action_id),
                 "Action %s isn't performed by a unit",
                 action_get_rule_name(action_id));
 
@@ -876,7 +876,7 @@ blocked_find_target_tile(const int action_id,
     return target_tile_arg;
   }
 
-  switch (action_get_target_kind(action_id)) {
+  switch (action_id_get_target_kind(action_id)) {
   case ATK_CITY:
     fc_assert_ret_val(target_city, NULL);
     return city_tile(target_city);
@@ -901,7 +901,7 @@ blocked_find_target_tile(const int action_id,
   }
 
   fc_assert_msg(FALSE, "Bad action target kind %d for action %d",
-                action_get_target_kind(action_id), action_id);
+                action_id_get_target_kind(action_id), action_id);
   return NULL;
 }
 
@@ -926,7 +926,7 @@ blocked_find_target_city(const int action_id,
     return target_city_arg;
   }
 
-  switch (action_get_target_kind(action_id)) {
+  switch (action_id_get_target_kind(action_id)) {
   case ATK_CITY:
     fc_assert_ret_val(target_city_arg, NULL);
     return target_city_arg;
@@ -954,7 +954,7 @@ blocked_find_target_city(const int action_id,
   }
 
   fc_assert_msg(FALSE, "Bad action target kind %d for action %d",
-                action_get_target_kind(action_id), action_id);
+                action_id_get_target_kind(action_id), action_id);
   return NULL;
 }
 
@@ -980,7 +980,7 @@ struct action *action_is_blocked_by(const int action_id,
                                  target_city_arg, target_unit);
 
   action_iterate(blocker_id) {
-    fc_assert_action(action_get_actor_kind(blocker_id) == AAK_UNIT,
+    fc_assert_action(action_id_get_actor_kind(blocker_id) == AAK_UNIT,
                      continue);
 
     if (!action_id_would_be_blocked_by(action_id, blocker_id)) {
@@ -988,7 +988,7 @@ struct action *action_is_blocked_by(const int action_id,
       continue;
     }
 
-    switch (action_get_target_kind(blocker_id)) {
+    switch (action_id_get_target_kind(blocker_id)) {
     case ATK_CITY:
       if (!target_city) {
         /* Can't be enabled. No target. */
@@ -1035,7 +1035,7 @@ struct action *action_is_blocked_by(const int action_id,
       }
       break;
     case ATK_COUNT:
-      fc_assert_action(action_get_target_kind(blocker_id) != ATK_COUNT,
+      fc_assert_action(action_id_get_target_kind(blocker_id) != ATK_COUNT,
                        continue);
       break;
     }
@@ -1279,16 +1279,16 @@ is_action_possible(const enum gen_action wanted_action,
   bool can_see_tgt_tile;
   enum fc_tristate out;
 
-  fc_assert_msg((action_get_target_kind(wanted_action) == ATK_CITY
+  fc_assert_msg((action_id_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
-                || (action_get_target_kind(wanted_action) == ATK_TILE
+                || (action_id_get_target_kind(wanted_action) == ATK_TILE
                     && target_tile != NULL)
-                || (action_get_target_kind(wanted_action) == ATK_UNIT
+                || (action_id_get_target_kind(wanted_action) == ATK_UNIT
                     && target_unit != NULL)
-                || (action_get_target_kind(wanted_action) == ATK_UNITS
+                || (action_id_get_target_kind(wanted_action) == ATK_UNITS
                     /* At this level each individual unit is tested. */
                     && target_unit != NULL)
-                || (action_get_target_kind(wanted_action) == ATK_SELF),
+                || (action_id_get_target_kind(wanted_action) == ATK_SELF),
                 "Missing target!");
 
   /* Only check requirement against the target unit if the actor can see it
@@ -1305,7 +1305,7 @@ is_action_possible(const enum gen_action wanted_action,
                       || plr_sees_tile(actor_player, target_tile));
 
   /* Info leak: The player knows where his unit is. */
-  if (!ignore_dist && action_get_target_kind(wanted_action) != ATK_SELF
+  if (!ignore_dist && action_id_get_target_kind(wanted_action) != ATK_SELF
       && !action_id_distance_accepted(wanted_action,
                                       real_map_distance(actor_tile,
                                                         target_tile))) {
@@ -1314,7 +1314,7 @@ is_action_possible(const enum gen_action wanted_action,
     return TRI_NO;
   }
 
-  if (action_get_target_kind(wanted_action) == ATK_UNIT) {
+  if (action_id_get_target_kind(wanted_action) == ATK_UNIT) {
     /* The Freeciv code for all actions that is controlled by action
      * enablers and targets a unit assumes that the acting
      * player can see the target unit. */
@@ -1826,18 +1826,19 @@ bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
     return FALSE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(wanted_action),
                         FALSE, "Action %s is performed by %s not %s",
                         gen_action_name(wanted_action),
                         action_actor_kind_name(
-                          action_get_actor_kind(wanted_action)),
+                          action_id_get_actor_kind(wanted_action)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(wanted_action),
+  fc_assert_ret_val_msg(ATK_CITY
+                        == action_id_get_target_kind(wanted_action),
                         FALSE, "Action %s is against %s not %s",
                         gen_action_name(wanted_action),
                         action_target_kind_name(
-                          action_get_target_kind(wanted_action)),
+                          action_id_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_CITY));
 
   if (!unit_can_do_action(actor_unit, wanted_action)) {
@@ -1876,18 +1877,19 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
     return FALSE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(wanted_action),
                         FALSE, "Action %s is performed by %s not %s",
                         gen_action_name(wanted_action),
                         action_actor_kind_name(
-                          action_get_actor_kind(wanted_action)),
+                          action_id_get_actor_kind(wanted_action)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_UNIT == action_get_target_kind(wanted_action),
+  fc_assert_ret_val_msg(ATK_UNIT
+                        == action_id_get_target_kind(wanted_action),
                         FALSE, "Action %s is against %s not %s",
                         gen_action_name(wanted_action),
                         action_target_kind_name(
-                          action_get_target_kind(wanted_action)),
+                          action_id_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_UNIT));
 
   if (!unit_can_do_action(actor_unit, wanted_action)) {
@@ -1928,18 +1930,19 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
     return FALSE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(wanted_action),
                         FALSE, "Action %s is performed by %s not %s",
                         gen_action_name(wanted_action),
                         action_actor_kind_name(
-                          action_get_actor_kind(wanted_action)),
+                          action_id_get_actor_kind(wanted_action)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_UNITS == action_get_target_kind(wanted_action),
+  fc_assert_ret_val_msg(ATK_UNITS
+                        == action_id_get_target_kind(wanted_action),
                         FALSE, "Action %s is against %s not %s",
                         gen_action_name(wanted_action),
                         action_target_kind_name(
-                          action_get_target_kind(wanted_action)),
+                          action_id_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_UNITS));
 
   if (!unit_can_do_action(actor_unit, wanted_action)) {
@@ -1986,18 +1989,19 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
     return FALSE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(wanted_action),
                         FALSE, "Action %s is performed by %s not %s",
                         gen_action_name(wanted_action),
                         action_actor_kind_name(
-                          action_get_actor_kind(wanted_action)),
+                          action_id_get_actor_kind(wanted_action)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_TILE == action_get_target_kind(wanted_action),
+  fc_assert_ret_val_msg(ATK_TILE
+                        == action_id_get_target_kind(wanted_action),
                         FALSE, "Action %s is against %s not %s",
                         gen_action_name(wanted_action),
                         action_target_kind_name(
-                          action_get_target_kind(wanted_action)),
+                          action_id_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_TILE));
 
   if (!unit_can_do_action(actor_unit, wanted_action)) {
@@ -2033,18 +2037,19 @@ bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
     return FALSE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(wanted_action),
                         FALSE, "Action %s is performed by %s not %s",
                         gen_action_name(wanted_action),
                         action_actor_kind_name(
-                          action_get_actor_kind(wanted_action)),
+                          action_id_get_actor_kind(wanted_action)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_SELF == action_get_target_kind(wanted_action),
+  fc_assert_ret_val_msg(ATK_SELF
+                        == action_id_get_target_kind(wanted_action),
                         FALSE, "Action %s is against %s not %s",
                         gen_action_name(wanted_action),
                         action_target_kind_name(
-                          action_get_target_kind(wanted_action)),
+                          action_id_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_SELF));
 
   if (!unit_can_do_action(actor_unit, wanted_action)) {
@@ -2544,20 +2549,20 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
-                          action_get_actor_kind(action_id)),
+                          action_id_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(action_id),
+  fc_assert_ret_val_msg(ATK_CITY == action_id_get_target_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
-                          action_get_target_kind(action_id)),
+                          action_id_get_target_kind(action_id)),
                         action_target_kind_name(ATK_CITY));
 
   if (!unit_can_do_action(actor_unit, action_id)) {
@@ -2592,20 +2597,20 @@ struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
-                          action_get_actor_kind(action_id)),
+                          action_id_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_UNIT == action_get_target_kind(action_id),
+  fc_assert_ret_val_msg(ATK_UNIT == action_id_get_target_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
-                          action_get_target_kind(action_id)),
+                          action_id_get_target_kind(action_id)),
                         action_target_kind_name(ATK_UNIT));
 
   if (!unit_can_do_action(actor_unit, action_id)) {
@@ -2639,20 +2644,20 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
-                          action_get_actor_kind(action_id)),
+                          action_id_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_UNITS == action_get_target_kind(action_id),
+  fc_assert_ret_val_msg(ATK_UNITS == action_id_get_target_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
-                          action_get_target_kind(action_id)),
+                          action_id_get_target_kind(action_id)),
                         action_target_kind_name(ATK_UNITS));
 
   if (!unit_can_do_action(actor_unit, action_id)) {
@@ -2730,20 +2735,20 @@ struct act_prob action_prob_vs_tile(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
-                          action_get_actor_kind(action_id)),
+                          action_id_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_TILE == action_get_target_kind(action_id),
+  fc_assert_ret_val_msg(ATK_TILE == action_id_get_target_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
-                          action_get_target_kind(action_id)),
+                          action_id_get_target_kind(action_id)),
                         action_target_kind_name(ATK_TILE));
 
   if (!unit_can_do_action(actor_unit, action_id)) {
@@ -2773,20 +2778,20 @@ struct act_prob action_prob_self(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
-                          action_get_actor_kind(action_id)),
+                          action_id_get_actor_kind(action_id)),
                         action_actor_kind_name(AAK_UNIT));
 
-  fc_assert_ret_val_msg(ATK_SELF == action_get_target_kind(action_id),
+  fc_assert_ret_val_msg(ATK_SELF == action_id_get_target_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
                         "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
-                          action_get_target_kind(action_id)),
+                          action_id_get_target_kind(action_id)),
                         action_target_kind_name(ATK_SELF));
 
   if (!unit_can_do_action(actor_unit, action_id)) {
@@ -2973,11 +2978,11 @@ bool is_action_possible_on_city(const enum gen_action action_id,
                                 const struct player *actor_player,
                                 const struct city* target_city)
 {
-  fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(action_id),
+  fc_assert_ret_val_msg(ATK_CITY == action_id_get_target_kind(action_id),
                         FALSE, "Action %s is against %s not cities",
                         gen_action_name(action_id),
                         action_target_kind_name(
-                          action_get_target_kind(action_id)));
+                          action_id_get_target_kind(action_id)));
 
   return is_target_possible(action_id, actor_player,
                             city_owner(target_city), target_city, NULL,

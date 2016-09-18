@@ -4569,8 +4569,8 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
        * found. The player wants it performed without questions. */
 
       /* Give the order. */
-      fc_assert(action_get_target_kind(auto_action) == ATK_TILE
-                || action_get_target_kind(auto_action) == ATK_UNITS);
+      fc_assert(action_id_get_target_kind(auto_action) == ATK_TILE
+                || action_id_get_target_kind(auto_action) == ATK_UNITS);
       request_do_action(auto_action,
                         packet->actor_unit_id, packet->target_tile_id,
                         0, "");

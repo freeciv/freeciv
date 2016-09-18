@@ -1542,8 +1542,8 @@ void popup_action_selection(struct unit *actor_unit,
   /* Unit acting against a city */
 
   action_iterate(act) {
-    if (action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_CITY) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_CITY) {
       action_entry(shl,
                    (enum gen_action)act,
                    act_probs,
@@ -1556,8 +1556,8 @@ void popup_action_selection(struct unit *actor_unit,
   /* Unit acting against another unit */
 
   action_iterate(act) {
-    if (action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_UNIT) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_UNIT) {
       action_entry(shl,
                    (enum gen_action)act,
                    act_probs,
@@ -1569,8 +1569,8 @@ void popup_action_selection(struct unit *actor_unit,
   /* Unit acting against all units at a tile */
 
   action_iterate(act) {
-    if (action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_UNITS) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_UNITS) {
       action_entry(shl,
                    (enum gen_action)act,
                    act_probs,
@@ -1582,8 +1582,8 @@ void popup_action_selection(struct unit *actor_unit,
   /* Unit acting against a tile */
 
   action_iterate(act) {
-    if (action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_TILE) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_TILE) {
       action_entry(shl,
                    (enum gen_action)act,
                    act_probs,
@@ -1595,8 +1595,8 @@ void popup_action_selection(struct unit *actor_unit,
   /* Unit acting against itself. */
 
   action_iterate(act) {
-    if (action_get_actor_kind(act) == AAK_UNIT
-        && action_get_target_kind(act) == ATK_SELF) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_SELF) {
       action_entry(shl,
                    (enum gen_action)act,
                    act_probs,
@@ -1734,7 +1734,7 @@ void action_selection_refresh(struct unit *actor_unit,
   action_iterate(act) {
     const gchar *custom;
 
-    if (action_get_actor_kind(act) != AAK_UNIT) {
+    if (action_id_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
       continue;
     }

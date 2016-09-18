@@ -4245,7 +4245,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       tgt_city = tile_city(dst_tile);
 
       if (tgt_city == NULL
-          && action_get_target_kind(order.action) == ATK_CITY) {
+          && action_id_get_target_kind(order.action) == ATK_CITY) {
         /* This action targets a city but no city target was found. */
 
         cancel_orders(punit, "  perform action vs city with no city");
@@ -4261,7 +4261,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       tgt_unit = action_tgt_unit(punit, dst_tile, TRUE);
 
       if (tgt_unit == NULL
-          && action_get_target_kind(order.action) == ATK_UNIT) {
+          && action_id_get_target_kind(order.action) == ATK_UNIT) {
         /* This action targets a unit but no target unit was found. */
 
         cancel_orders(punit, "  perform action vs unit with no unit");
@@ -4279,7 +4279,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       /* Assume impossible until told otherwise. */
       prob = ACTPROB_IMPOSSIBLE;
 
-      switch (action_get_target_kind(order.action)) {
+      switch (action_id_get_target_kind(order.action)) {
       case ATK_UNITS:
         prob = action_prob_vs_units(punit, order.action,
                                     dst_tile);

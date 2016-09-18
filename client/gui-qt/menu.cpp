@@ -822,12 +822,12 @@ void go_act_menu::create()
   /* Group goto and perform action menu items by target kind. */
   for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
     action_iterate(action_id) {
-      if (action_get_actor_kind(action_id) != AAK_UNIT) {
+      if (action_id_get_actor_kind(action_id) != AAK_UNIT) {
         /* This action isn't performed by a unit. */
         continue;
       }
 
-      if (action_get_target_kind(action_id) != tgt_kind_group) {
+      if (action_id_get_target_kind(action_id) != tgt_kind_group) {
         /* Wrong group. */
         continue;
       }

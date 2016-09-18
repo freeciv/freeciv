@@ -925,8 +925,8 @@ bool sanity_check_ruleset_data(bool ignore_retired)
 
     action_iterate(blocker) {
       if (BV_ISSET(paction->blocked_by, blocker)
-          && action_get_target_kind(blocker) == ATK_UNIT
-          && action_get_target_kind(act) != ATK_UNIT) {
+          && action_id_get_target_kind(blocker) == ATK_UNIT
+          && action_id_get_target_kind(act) != ATK_UNIT) {
         /* Can't find an individual unit target to evaluate the blocking
          * action against. (A tile may have more than one individual
          * unit) */
@@ -949,7 +949,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
         ok = FALSE;
       }
 
-      if (action_get_target_kind(enabler->action) == ATK_SELF) {
+      if (action_id_get_target_kind(enabler->action) == ATK_SELF) {
         /* Special test for self targeted actions. */
 
         if (requirement_vector_size(&(enabler->target_reqs)) > 0) {

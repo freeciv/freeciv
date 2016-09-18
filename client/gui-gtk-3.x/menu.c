@@ -2681,12 +2681,12 @@ void real_menus_init(void)
       action_iterate(action_id) {
         struct action *paction = action_by_number(action_id);
 
-        if (action_get_actor_kind(action_id) != AAK_UNIT) {
+        if (action_id_get_actor_kind(action_id) != AAK_UNIT) {
           /* This action isn't performed by a unit. */
           continue;
         }
 
-        if (action_get_target_kind(action_id) != tgt_kind_group) {
+        if (action_id_get_target_kind(action_id) != tgt_kind_group) {
           /* Wrong group. */
           continue;
         }

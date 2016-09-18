@@ -1969,7 +1969,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                    _("* Can do the action \'%s\'.\n"),
                    action_get_ui_name(act));
 
-      switch (action_get_target_kind(act)) {
+      switch (action_id_get_target_kind(act)) {
       case ATK_SELF:
         /* No target. */
         break;
@@ -1994,7 +1994,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      _("  * is done to %s%s.\n"),
                      target_adjective,
                      _(action_target_kind_name(
-                         action_get_target_kind(act))));
+                         action_id_get_target_kind(act))));
       }
 
       /* Custom action specific information. */
@@ -2095,9 +2095,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     /* Not relevant */
-    if (action_get_target_kind(act) != ATK_UNIT
-        && action_get_target_kind(act) != ATK_UNITS
-        && action_get_target_kind(act) != ATK_SELF) {
+    if (action_id_get_target_kind(act) != ATK_UNIT
+        && action_id_get_target_kind(act) != ATK_UNITS
+        && action_id_get_target_kind(act) != ATK_SELF) {
       continue;
     }
 
@@ -3481,7 +3481,8 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                    _("* Makes it impossible to do the action \'%s\'"
                      " to your %s.\n"),
                    action_get_ui_name(act),
-                   _(action_target_kind_name(action_get_target_kind(act))));
+                   _(action_target_kind_name(
+                       action_id_get_target_kind(act))));
     }
   } action_iterate_end;
 

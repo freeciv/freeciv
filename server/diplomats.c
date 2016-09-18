@@ -1798,7 +1798,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 	  notify_unit_experience(punit);
 	}
 
-        switch (action_get_target_kind(action_id)) {
+        switch (action_id_get_target_kind(action_id)) {
         case ATK_CITY:
           victim_link = city_link(pcity);
           break;
@@ -1812,7 +1812,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
           break;
         case ATK_SELF:
           /* How did a self targeted action end up here? */
-          fc_assert(action_get_target_kind(action_id) != ATK_SELF);
+          fc_assert(action_id_get_target_kind(action_id) != ATK_SELF);
         default:
           victim_link = NULL;
           break;

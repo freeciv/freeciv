@@ -1224,7 +1224,7 @@ static int action_target_neg_util(int action_id,
   case ACTION_PARADROP:
   case ACTION_ATTACK:
   case ACTION_COUNT:
-    fc_assert_msg(action_get_target_kind(action_id) == ATK_CITY,
+    fc_assert_msg(action_id_get_target_kind(action_id) == ATK_CITY,
                   "Action not aimed at cities");
   }
 
@@ -1643,7 +1643,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     int act_neg_util;
 
     /* Is the action relevant? */
-    if (action_get_target_kind(action_id) != ATK_CITY) {
+    if (action_id_get_target_kind(action_id) != ATK_CITY) {
       continue;
     }
 
