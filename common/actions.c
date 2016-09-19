@@ -215,7 +215,7 @@ void actions_init(void)
                  0, 0);
   actions[ACTION_HOME_CITY] =
       action_new(ACTION_HOME_CITY, ATK_CITY,
-                 FALSE, FALSE, TRUE, TRUE,
+                 FALSE, FALSE, TRUE, FALSE,
                  /* Illegal to perform to a target on another tile to
                   * keep the rules exactly as they were for now. */
                  0, 0);
