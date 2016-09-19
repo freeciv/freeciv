@@ -1,16 +1,15 @@
 [nation_raramuri]
 
-; /* TRANS: The fourth letter in "Raramuri" should be */
-; /* TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E1. */
-name=_("Raramuri")
-plural=_("?plural:Raramuris")
+name=_("Rarámuri")
+; pre-2.6 had plain ASCII names
+rule_name="Raramuri"
+plural=_("?plural:Rarámuris")
 groups= "American"
-legend=_("The Raramuri or Tarahumara live in the canyons of the Sierra\
+legend=_("The Rarámuri or Tarahumara live in the canyons of the Sierra\
  Madre Occidental in the north of Mexico. They are well known for their\
  endurance; their traditions include running long distances while\
  kicking wooden balls in races that last up to several days. In 1891 a\
- Raramuri uprising in Tomochi was brutally repressed by the Mexican\
+ Rarámuri uprising in Tomochi was brutally repressed by the Mexican\
  authorities.")
 
 leaders = {

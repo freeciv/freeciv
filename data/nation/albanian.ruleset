@@ -3,15 +3,12 @@
 name=_("Albanian")
 plural=_("?plural:Albanians")
 groups="Modern", "Medieval", "European"
-; /* TRANS: The fourth letter in "Enver" should be */
-; /* TRANS: U+00EB LATIN SMALL LETTER E WITH DIAERESIS if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00EB. */
 legend=_("Inhabitants of the Balkan peninsula, the ethnic origins of the\
  Albanians are uncertain, though it has been suggested they descend from\
  the Illyrians of Classical Antiquity. Albania changed hands several\
- times during its  history. It has been an independent state again since\
+ times during its history. It has been an independent state again since\
  1912. For much of the 20th century Albania was ruled by communist\
- dictator Enver Hoxha.")
+ dictator Envër Hoxha.")
 
 leaders = {
  "name",                        "sex"

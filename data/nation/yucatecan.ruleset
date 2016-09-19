@@ -3,14 +3,11 @@
 name=_("Yucatecan")
 plural=_("?plural:Yucatecans")
 groups="American"
-; /* TRANS: The sixth letter in "Yucatan" should be */
-; /* TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E1. */
-legend=_("Yucatan is a peninsula of Mexico, famous for its Maya heritage\
+legend=_("Yucatán is a peninsula of Mexico, famous for its Maya heritage\
  and its white beaches. Its name is often claimed to mean \"we don't\
  understand you\" in Yucatec Maya. On two occasions in the 19th century\
- Yucatan declared independence from Mexico. Currently it is divided into\
- three states: Yucatan, Campeche and Quintana Roo.")
+ Yucatán declared independence from Mexico. Currently it is divided into\
+ three states: Yucatán, Campeche and Quintana Roo.")
 
 leaders = {
  "name",                        "sex"

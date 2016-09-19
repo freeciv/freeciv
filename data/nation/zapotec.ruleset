@@ -3,14 +3,10 @@
 name=_("Zapotec")
 plural=_("?plural:Zapotecs")
 groups="Ancient", "Medieval", "American"
-; /* TRANS: The last letter in "Binniza", the fourth letter in */
-; /* TRANS: "Alban" and and the third letter in "Juarez" should be */
-; /* TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E1. */
-legend=_("The Zapotecs or Binniza live in the Mexican state of Oaxaca.\
+legend=_("The Zapotecs or Binnizá live in the Mexican state of Oaxaca.\
  They formed one of the oldest and most resilient Mesoamerican\
- civilizations. The most notable Zapotec center, Monte Alban, was built\
- on a razed mountain top. Benito Juarez, Mexico's first indigenous\
+ civilizations. The most notable Zapotec center, Monte Albán, was built\
+ on a razed mountain top. Benito Juárez, Mexico's first indigenous\
  president, was a Zapotec.")
 
 leaders = {

@@ -1,23 +1,19 @@
 [nation_nimiipuu]
 
-; /* TRANS: The fourth letter in "Nimiipuu" should be */
-; /* TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00ED. */
-name=_("Nimiipuu")
-plural=_("?plural:Nimiipuu")
+name=_("Nimíipuu")
+; pre-2.6 had plain ASCII names
+rule_name="Nimiipuu"
+plural=_("?plural:Nimíipuu")
 groups="American"
-; /* TRANS: The last letter in "Perce" should be */
-; /* TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9. */
-legend=_("The Nimiipuu, or the 'Real People', in their own language,\
- are better known as the 'Nez Perce'. This Native American nation\
+legend=_("The Nimíipuu, or the 'Real People', in their own language,\
+ are better known as the 'Nez Percé'. This Native American nation\
  covered parts of Washington, Oregon, Montana and Idaho and consisted\
  of more than 70 permanent villages in 1800. At this time the population\
  numbered about 6,000. After a defeat by the American cavalry on October 5,\
- 1877, the Nimiipuu were moved to reservations. The elected Nez Perce\
+ 1877, the Nimíipuu were moved to reservations. The elected Nez Percé\
  Tribal Executive Committee now governs tribal affairs.")
 
-; The Nez Perce was divided into several tribal groups, each with their
+; The Nez Percé was divided into several tribal groups, each with their
 ; own leaders.
 leaders = {
  "name",                        "sex"
@@ -81,7 +77,7 @@ civilwar_nations = "Salishan", "Sioux", "Nuu-chah-nulth"
 cities =
 ; Modern communities
  "Kamiah",    ; inhabited for centuries - means many rope litters
- "Lapwai",    ; seat of government of the Nez Perce reservation
+ "Lapwai",    ; seat of government of the Nez Percé reservation
  "Orofino",   ; largest city
  "Craigmont",
  "Culdesac",
@@ -92,7 +88,7 @@ cities =
  "Stites",
  "Winchester",
 
-; Communities and towns within the Nez Perce reservation
+; Communities and towns within the Nez Percé reservation
  "Myrtle",
  "Lenore",
  "Ahsahka",

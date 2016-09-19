@@ -3,25 +3,19 @@
 name=_("Central Lithuanian")
 plural=_("?plural:Central Lithuanians")
 groups="European"
-; /* TRANS: The second and seventh letter in "Wladyslaw" should be */
-; /* TRANS: U+0142 LATIN SMALL LETTER L WITH STROKE if available in */
-; /* TRANS: your charset. */
-; /* TRANS: The first letter in "Zeligowski" should be */
-; /* TRANS: U+017B LATIN CAPITAL LETTER Z WITH DOT ABOVE if available in */
-; /* TRANS: your charset. */
 legend=_("Lithuanian Poles are an ethnic minority in Lithuania, mainly in\
  the Aukshtota region. They are a remnant of the Polish-Lithuanian\
  Commonwealth - the Commonwealth of Two Nations, which was founded with\
  the Union of Lublin in 1569. This state united the Kingdom of Poland with\
  the Grand Duchy of Lithuania and was founded by the Lithuanian grand duke\
- Jogaila, who was baptized with the name Wladyslaw. The presence of the first\
+ Jogaila, who was baptized with the name Władysław. The presence of the first\
  Polish community in Lithuania dates back to duke Mindaugas of Lithuania.\
  The first Poles came to Lithuania as prisoners of war taken\
  during raids on the frontier lands (mainly to Mazovia). After uniting the\
  two countries there was a very strong Polonization of the Lithuanian\
  nobility. The Polish-speaking community in Lithuania survived the collapse\
  and partition of the Polish state, co-existing with Lithuanian-speaking\
- people. In 1920, the rebellious general Zeligowski announced the creation\
+ people. In 1920, the rebellious general Żeligowski announced the creation\
  of a Republic of Central Lithuania, which was then incorporated into\
  Poland. After World War II most of the Lithuanian Poles were displaced to\
  Poland's new western territories.")

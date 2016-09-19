@@ -3,21 +3,15 @@
 name=_("Salvadoran")
 plural=_("?plural:Salvadorans")
 groups="American", "Modern"
-; /* TRANS: The fifth letter in "Hernandez" should be */
-; /* TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 225. */
-; /* TRANS: The fifth letter in "Martinez" should be */
-; /* TRANS: U+00EC LATIN SMALL LETTER I WITH ACUTE if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 237. */
 legend=_("Originally inhabited by Pipil Indians, in the 16th century El\
  Salvador was conquered by the Spanish. It joined the Central American\
  federation upon independence and became a fully independent republic in\
  1840. Although formally El Salvador has been a democracy for most of its\
  independence, in reality the country's government is highly oligarchic, the\
  'fourteen families' having dominated the country's political and\
- economic life since independence. In the 1930s general Hernandez\
- Martinez established a dictatorship. A nonviolent revolution overthrew\
- Hernandez in 1944 but the country remained unstable and from 1979-1992\
+ economic life since independence. In the 1930s general Hernández\
+ Martínez established a dictatorship. A nonviolent revolution overthrew\
+ Hernández in 1944 but the country remained unstable and from 1979-1992\
  the country lived through another bloody civil war.")
 
 leaders = {

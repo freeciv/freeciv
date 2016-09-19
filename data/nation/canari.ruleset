@@ -1,17 +1,16 @@
 [nation_canari]
 
-; /* TRANS: The third letter in "Canari" should be */
-; /* TRANS: U+00F1 LATIN SMALL LETTER N WITH TILDE if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241. */
-name=_("Canari")
-plural=_("?plural:Canaris")
+name=_("Cañari")
+; pre-2.6 had plain ASCII names
+rule_name="Canari"
+plural=_("?plural:Cañaris")
 groups="Medieval", "American"
-legend=_("The Canaris were a Pre-Columbian civilization in what is now\
+legend=_("The Cañaris were a pre-Columbian civilization in what is now\
  Ecuador, whose existence can be traced from the 6th century onwards.\
  They were one of the few Andean cultures not to worship the sun. The\
- Canari language was probably related to the Mochica language of Peru,\
- but by the time of the Spanish conquest the Canaris had mostly switched\
- to Quechua. The Canaris formed a loose confederation with their main\
+ Cañari language was probably related to the Mochica language of Peru,\
+ but by the time of the Spanish conquest the Cañaris had mostly switched\
+ to Quechua. The Cañaris formed a loose confederation with their main\
  political center in Guapdondelig, currently the city of Cuenca, capital\
  of the province of Azuay. They were subjugated by the Incas in the late\
  15th century, though they put up a fierce resistance. They rebelled during\
