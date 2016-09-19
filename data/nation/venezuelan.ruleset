@@ -3,12 +3,9 @@
 name=_("Venezuelan")
 plural=_("?plural:Venezuelans")
 groups="American", "Modern"
-; /* TRANS: The fourth letter in "Simon" should be */
-; /* TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in */
-; /* TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243. */
 legend=_("Venezuela is the northernmost country in South America. Having\
  been a Spanish colony since the 16th century, the country gained\
- independence on July 5th 1811 under the leadership of El Libertador Simon\
+ independence on July 5th 1811 under the leadership of El Libertador Simón\
  Bolivar - The Liberator. Venezuela has one of the largest proven oil and\
  gas reserves of the world; during the oil boom of the 1970s it was the\
  wealthiest country of Latin America. The country is known for its varied\

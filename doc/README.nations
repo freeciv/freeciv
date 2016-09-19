@@ -196,7 +196,7 @@ The default name of the nation should be the name of the people,
 country, or empire in English adjective form. For example, the nation 
 of ancient Babylon is called "Babylonian" in Freeciv. The plural form 
 should be standard English as well. For example, plural for the Polish 
-nation is "Poles" in Freeciv. Use only English ascii for nation names.
+nation is "Poles" in Freeciv. UTF-8 is permitted in nation names.
 
 
 Conflicting nations
@@ -234,7 +234,7 @@ Legend
 
 A legend is required in a nation ruleset. The legend can be a 
 summarized history of the nation, or just a piece of trivia. 
-Only English ascii can be used in legends.
+UTF-8 is permitted in legends.
 
 
 Leaders
@@ -245,9 +245,6 @@ nation. Two living persons per nation are permitted - one of each sex.
 
 An ideal leader list should contain between five and ten names.
 
-Leaders should be written in native orthography, e.g.
-"Karl XII" instead of "Charles XII" for the Swedish king.
-
 Use the person's full name to avoid ambiguity.
 
 Monarchs should be marked with the appropriate succession
@@ -257,9 +254,13 @@ etc.)
 
 Freeciv support any Unicode character, but please keep to 
 Latin letters. When transcribing from a non-Latin writing system, 
-be consistent about the system of transcribation you are using.
+be consistent about the system of transcription you are using.
 Also, try to avoid unnecessarily technical and/or heavily accented
 systems of transcription.
+
+Subject to the above, leaders should be written in native
+orthography, e.g. "Karl XII" instead of "Charles XII" for the
+Swedish king.
 
 For consistency and readability, put only one leader per line. 
 Feel free to provide a hint of the leader's identity or a brief 
@@ -267,11 +268,11 @@ background in a comment beside any leader: This information might
 be used in-game at a later stage.
 
 Leader titles for each government type (including Despotism and
-Anarchy) may be specified in a separate tag. Only ASCII letters
-may be used in leader titles. If the male and female titles are
-identical in English, give the latter the ?female: qualifier. Use
-a unique title for each government. Ruler titles should be in English,
-though exceptions are made for non English titles as long as they are
+Anarchy) may be specified in a separate tag. UTF-8 is permitted in
+leader titles.  If the male and female titles are identical in
+English, give the latter the ?female: qualifier. Use a unique title
+for each government. Ruler titles should be in English, though
+exceptions are made for non English titles as long as they are
 understood outside of their own language regions and commonly used in
 non-academic contexts. Titles from the default ruleset may not be used.
 
@@ -291,7 +292,7 @@ Style
 A nation must specify a default style. With the supplied rulesets
 each national style has direct relation to equivalent city style.
 The available city styles depends on the tileset used.
-Practically every tileset have four city  styles: "European",
+Practically every tileset has four city styles: "European",
 "Classical" (Graeco-Roman style), "Asian" (Pagoda style) and
 "Tropical" (African or Polynesian style). In Amplio tileset,
 "Babylonian" and "Celtic" are also available. If the tileset used by
@@ -306,7 +307,7 @@ Cities
 As for the list of city names, you should make a clear decision about 
 the type of the nation you add. An _ancient_ or _medieval_ nation may
 list any city that it at some point controlled. However if your
-nation is listed as _modern_, it's city list must be restricted to
+nation is listed as _modern_, its city list must be restricted to
 cities within the country's current borders.
 
 The reason for this is, we don't want Freeciv to be used as a political 
@@ -346,7 +347,7 @@ entry is
 where the cityname is just the name for the city (note that it
 may not contain quotes or parenthesis), and each "label" matches
 (case-insensitive) a terrain type for the city (or "river"), with a
-preceeding ! to negate it. The terrain list is optional, of course,
+preceding ! to negate it. The terrain list is optional, of course,
 so the entry can just contain the cityname if desired. A city name
 labeled as matching a terrain type will match a particular map
 location if that map location is on or adjacent to a tile of the named

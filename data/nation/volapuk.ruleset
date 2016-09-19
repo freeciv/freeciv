@@ -1,17 +1,16 @@
 [nation_volapuk]
 
-; /* TRANS: The sixth letter in "Volapuk" should be */
-; /* TRANS: U+00FC LATIN SMALL LETTER U WITH DIAERESIS if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 252. */
-name=_("Volapukan")
-plural=_("?plural:Volapukans")
+name=_("Volapükan")
+; pre-2.6 had plain ASCII names
+rule_name="Volapukan"
+plural=_("?plural:Volapükans")
 groups="Imaginary"
-legend=_("Volapuk is an international auxiliary language constructed by\
+legend=_("Volapük is an international auxiliary language constructed by\
  the German priest Johann Martin Schleyer in 1879. It enjoyed a brief\
  popularity in the late 19th century. The language is often considered\
  unnecessarily complex when compared with alternatives like Esperanto,\
- which had almost completely displaced Volapuk by the turn of the\
- century. Today only a few dozen Volapuk speakers remain.")
+ which had almost completely displaced Volapük by the turn of the\
+ century. Today only a few dozen Volapük speakers remain.")
 
 leaders = {
  "name",                   "sex"
