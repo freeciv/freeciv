@@ -55,6 +55,11 @@ Updating from 2.5 to 2.6
   have had it previously enabled, as then your new version will be
   unable to load old savegames created with that compression type in
   use.
+* Ruleset README files have moved from doc/ into data/ directory
+  alongside ruleset data, so that they can be displayed inside the
+  game. You may want to symlink to these from /usr/share/doc/ or
+  equivalent so that users can continue to easily find the
+  documentation outside the game.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
