@@ -2031,10 +2031,7 @@ flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC", "Expellable",
                 "LightWeight"
 veteran_names =
 ; /* TRANS: diplomatic rank. */
-; /* TRANS: Unless translated, the last character in "attache" should be */
-; /* TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in your */
-; /* TRANS: charset. In ISO-8859-1 (ISO Latin 1) this is 233. */
-  _("?diplomatic_rank:attache"),
+  _("?diplomatic_rank:attaché"),
 ; /* TRANS: diplomatic rank */
   _("?diplomatic_rank:secretary"),
 ; /* TRANS: diplomatic rank */
