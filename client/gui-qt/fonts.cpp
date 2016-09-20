@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,10 +11,14 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#include "fonts.h"
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
 
 // client
 #include "options.h"
+
+#include "fonts.h"
 
 // Qt
 #include <QWidget>
@@ -102,12 +106,12 @@ void font_options_listener::set_font(const char *name,
 /***************************************************************************
   Constructor.
 ***************************************************************************/
-font_updater::font_updater(QWidget *widget, const QString &font_name) :
-  QObject(widget),
-  font_name(font_name),
-  widget(widget)
+font_updater::font_updater(QWidget *wdg, const QString &fname) :
+  QObject(wdg),
+  font_name(fname),
+  widget(wdg)
 {
-  widget->setFont(get_font(font_name));
+  wdg->setFont(get_font(fname));
 }
 
 /***************************************************************************
