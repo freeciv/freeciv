@@ -818,7 +818,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     QGroupBox *prod_box = new QGroupBox(this);
     QGridLayout *prod_layout = new QGridLayout;
     // City information widget texts about surpluses and so on
-    QWidget *info_widget = new QWidget(overview_tab);
+    QWidget *info_wdg = new QWidget(overview_tab);
 
     info_grid_layout = new QGridLayout(parent);
     info_list << _("Food:") << _("Prod:") << _("Trade:") << _("Gold:")
@@ -826,18 +826,18 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
               << _("Change in:") << _("Corruption:") << _("Waste:")
               << _("Culture:") << _("Pollution:") << _("Plague Risk:");
     info_nr = info_list.count();
-    new font_updater(info_widget, fonts::city_label);
+    new font_updater(info_wdg, fonts::city_label);
     info_grid_layout->setSpacing(0);
     for (iter = 0; iter < info_nr; iter++) {
-      ql = new QLabel(info_list[iter], info_widget);
+      ql = new QLabel(info_list[iter], info_wdg);
       info_grid_layout->addWidget(ql, iter, 0);
-      qlt[iter] = new QLabel(info_widget);
+      qlt[iter] = new QLabel(info_wdg);
       info_grid_layout->addWidget(qlt[iter], iter, 1);
     }
-    info_widget->setLayout(info_grid_layout);
-    info_widget->setMinimumHeight(2 * fm.height() + 24
-                                  + tileset_tile_height(tileset)
-                                  + tileset_unit_with_upkeep_height(tileset));
+    info_wdg->setLayout(info_grid_layout);
+    info_wdg->setMinimumHeight(2 * fm.height() + 24
+                               + tileset_tile_height(tileset)
+                               + tileset_unit_with_upkeep_height(tileset));
     production_combo = new progress_bar(parent);
     production_combo->setToolTip(_("Click to change current production"));
 
@@ -910,7 +910,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     9  [.INFO] [..SCROLL.2.........................]
     */
     overview_grid_layout->addWidget(prod_box, 1, 5, 4, 2);
-    overview_grid_layout->addWidget(info_widget, 6, 0, 4, 1);
+    overview_grid_layout->addWidget(info_wdg, 6, 0, 4, 1);
     overview_grid_layout->addWidget(citizens_label, 0, 0, 1, 6);
     overview_grid_layout->addWidget(map_box, 1, 0, 4, 5);
     overview_grid_layout->addWidget(lcity_name, 0, 6, 1, 1);

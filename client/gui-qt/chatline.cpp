@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -133,8 +133,8 @@ void chat_listener::send_chat_message(const QString &message)
    * If client send commands to take ai, set /away to disable AI
    */
   if (message.startsWith("/take ")) {
-      s = s.remove("/take ");
-      players_iterate(pplayer) {
+    s = s.remove("/take ");
+    players_iterate(pplayer) {
       splayer = QString(pplayer->name);
       splayer = "\"" + splayer + "\"";
 
@@ -735,9 +735,9 @@ void clear_output_window(void)
 /**************************************************************************
   Version message event constructor.
 **************************************************************************/
-version_message_event::version_message_event(const QString &message) :
+version_message_event::version_message_event(const QString &msg) :
   QEvent(QEvent::User),
-  message(message)
+  message(msg)
 {}
 
 /**************************************************************************
