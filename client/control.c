@@ -2039,7 +2039,8 @@ void request_unit_caravan_action(struct unit *punit,
 }
 
 /**************************************************************************
-  Send paradrop request to server.
+  Have the player select what tile to paradrop to. Once selected a
+  paradrop request will be sent to server.
 **************************************************************************/
 void request_unit_paradrop(struct unit_list *punits)
 {
