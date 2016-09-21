@@ -848,7 +848,7 @@ struct action *action_blocks_attack(const struct unit *actor_unit,
 
   if (is_action_enabled_unit_on_tile(ACTION_ATTACK,
                                      actor_unit, target_tile)) {
-    /* Regular attack is possible so can't occupy city. */
+    /* Regular attack is possible so can't do Conquer City. */
     return action_by_number(ACTION_ATTACK);
   }
 
