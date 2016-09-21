@@ -1868,7 +1868,8 @@ void request_unit_nuke(struct unit_list *punits)
 }
 
 /**************************************************************************
-  Send paradrop request to server.
+  Have the player select what tile to paradrop to. Once selected a
+  paradrop request will be sent to server.
 **************************************************************************/
 void request_unit_paradrop(struct unit_list *punits)
 {
