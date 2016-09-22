@@ -674,7 +674,8 @@ void real_science_report_dialog_update(void)
     percent = 100 *research->bulbs_researched / research->client.researching_cost;
     str = str + "\n (" + QString::number(percent) + "%)";
   }
-  if (research->researching == A_UNSET && research->tech_goal == A_UNSET) {
+  if (research->researching == A_UNSET && research->tech_goal == A_UNSET
+    && research->techs_researched < game.control.num_tech_types) {
     blk = true;
   }
  } else {
