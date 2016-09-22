@@ -146,7 +146,10 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
   LUASCRIPT_CHECK_ARG_NIL(L, dest, 3, Tile, FALSE);
 
   /* Teleport first so destination is revealed even if unit dies */
-  alive = unit_move(punit, dest, 0, NULL);
+  alive = unit_move(punit, dest, 0, NULL,
+                    /* The old call would result in occupation before the
+                     * checks below. */
+                    TRUE);
   if (alive) {
     struct player *owner = unit_owner(punit);
     struct city *pcity = tile_city(dest);
@@ -518,7 +521,10 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
   LUASCRIPT_CHECK_ARG(L, movecost >= 0, 4, "Negative move cost!", FALSE);
 
-  return unit_move(punit, ptile, movecost, NULL);
+  return unit_move(punit, ptile, movecost, NULL,
+                   /* Backwards compatibility for old scripts in rulesets
+                    * and (scenario) savegames. */
+                   TRUE);
 }
 
 /*****************************************************************************

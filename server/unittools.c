@@ -1153,7 +1153,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
     if (move_cost == -1) {
       move_cost = punit->moves_left;
     }
-    unit_move(punit, dst_tile, move_cost, NULL);
+    unit_move(punit, dst_tile, move_cost, NULL, FALSE);
 
     return TRUE;
   }
@@ -1211,7 +1211,7 @@ void bounce_unit(struct unit *punit, bool verbose)
                     _("Moved your %s."),
                     unit_link(punit));
     }
-    unit_move(punit, ptile, 0, NULL);
+    unit_move(punit, ptile, 0, NULL, FALSE);
     return;
   }
 
@@ -2266,7 +2266,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
           if (dsttile != NULL) {
             move_cost = map_move_cost_unit(vunit, dsttile);
-            unit_move(vunit, dsttile, move_cost, NULL);
+            unit_move(vunit, dsttile, move_cost, NULL, FALSE);
             num_escaped[player_index(vplayer)]++;
             escaped = TRUE;
             unitcount--;
@@ -2700,7 +2700,9 @@ bool do_airline(struct unit *punit, struct city *pdest_city)
                 _("%s transported successfully."),
                 unit_link(punit));
 
-  unit_move(punit, pdest_city->tile, punit->moves_left, NULL);
+  unit_move(punit, pdest_city->tile, punit->moves_left, NULL,
+            /* Can only airlift to allied and domestic cities */
+            FALSE);
 
   /* Update airlift fields. */
   if (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
@@ -2854,7 +2856,9 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 
   /* All ok */
   punit->paradropped = TRUE;
-  if (unit_move(punit, ptile, unit_type_get(punit)->paratroopers_mr_sub, NULL)) {
+  if (unit_move(punit, ptile, unit_type_get(punit)->paratroopers_mr_sub,
+                /* A paradrop can result in city occupation. */
+                NULL, TRUE)) {
     /* Ensure we finished on valid state. */
     fc_assert(can_unit_exist_at_tile(punit, unit_tile(punit))
               || unit_transported(punit));
@@ -3246,7 +3250,8 @@ FIXME: Sometimes it is not necessary to send cities because the goverment
 static bool unit_move_consequences(struct unit *punit,
                                    struct tile *src_tile,
                                    struct tile *dst_tile,
-                                   bool passenger)
+                                   bool passenger,
+                                   bool conquer_city_allowed)
 {
   struct city *fromcity = tile_city(src_tile);
   struct city *tocity = tile_city(dst_tile);
@@ -3263,7 +3268,7 @@ static bool unit_move_consequences(struct unit *punit,
   int saved_id = punit->id;
   bool alive = TRUE;
 
-  if (tocity) {
+  if (tocity && conquer_city_allowed) {
     if (!passenger) {
       /* The unit that does the move may conquer. */
       unit_conquer_city(punit, tocity);
@@ -3494,7 +3499,7 @@ static void unit_move_data_unref(struct unit_move_data *pdata)
   Returns TRUE iff unit still alive.
 *****************************************************************************/
 bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
-               struct unit *embark_to)
+               struct unit *embark_to, bool conquer_city_allowed)
 {
   struct player *pplayer;
   struct tile *psrctile;
@@ -3732,7 +3737,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
         && unit_owner(aunit) == pmove_data->powner
         && unit_tile(aunit) == pdesttile) {
       (void) unit_move_consequences(aunit, psrctile, pdesttile,
-                                    pdata != pmove_data);
+                                    pdata != pmove_data,
+                                    conquer_city_allowed);
     }
   } unit_move_data_list_iterate_end;
 

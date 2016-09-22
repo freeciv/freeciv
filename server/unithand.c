@@ -3560,7 +3560,10 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                                         embark_to)) {
     int move_cost = map_move_cost_unit(punit, pdesttile);
 
-    unit_move(punit, pdesttile, move_cost, embark_to);
+    unit_move(punit, pdesttile, move_cost, embark_to,
+              /* TODO: Port callers of this function and set to FALSE when
+               * Conquer City becomes action enabler controlled. */
+              taking_over_city);
 
     return TRUE;
   } else {
