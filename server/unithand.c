@@ -3446,7 +3446,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * is not the final destination. */
   if (!move_do_not_act
       && utype_may_act_at_all(unit_type_get(punit))) {
-    bool can_not_move = !unit_can_move_to_tile(punit, pdesttile, igzoc);
+    const bool can_not_move = !unit_can_move_to_tile(punit, pdesttile, igzoc);
     struct tile *ttile = action_tgt_tile(punit, pdesttile, can_not_move);
 
     /* Consider to pop up the action selection dialog if a potential city,
@@ -3480,7 +3480,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
         /* The move wasn't done because the unit wanted the player to
          * decide what to do. */
         return FALSE;
-      } else if (!unit_can_move_to_tile(punit, pdesttile, igzoc)) {
+      } else if (can_not_move) {
         /* No action can be done. No regular move can be done. Attack isn't
          * possible. Try to explain it to the player. */
         explain_why_no_action_enabled(punit, pdesttile, pcity,
