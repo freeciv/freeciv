@@ -439,6 +439,18 @@ void fc_client::clear_status_bar()
     status_bar_label->setText("");
   }
 }
+
+/***************************************************************************
+  Creates page LOADING, showing label with Loading text
+***************************************************************************/
+void fc_client::create_loading_page()
+{
+  pages_layout[PAGE_GAME + 1] = new QGridLayout;
+  QLabel *label = new QLabel(_("Loading ..."));
+  pages_layout[PAGE_GAME + 1]->addWidget(label, 0, 0, 1, 1,
+                                         Qt::AlignHCenter);
+}
+
 /***************************************************************************
   Creates buttons and layouts for load page.
 ***************************************************************************/
@@ -1037,7 +1049,7 @@ void fc_client::start_scenario()
     send_chat("/detach");
   }
   send_chat_printf("/load %s", current_file.toLocal8Bit().data());
-  switch_page(PAGE_START);
+  switch_page(PAGE_GAME + 1);
 }
 
 /**************************************************************************
@@ -1050,7 +1062,7 @@ void fc_client::start_from_save()
     send_chat("/detach");
   }
   send_chat_printf("/load %s", current_file.toLocal8Bit().data());
-  switch_page(PAGE_START);
+  switch_page(PAGE_GAME + 1);
 }
 
 /***************************************************************************
@@ -1080,6 +1092,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     return;
   }
   k = 0;
+
   switch (i) {
   case PAGE_NETWORK:
     index = indexes.at(0);

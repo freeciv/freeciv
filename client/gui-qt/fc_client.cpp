@@ -166,6 +166,9 @@ void fc_client::init()
   pages[PAGE_GAME] = new QWidget(central_wdg);
   init_mapcanvas_and_overview();
   create_game_page();
+  
+  pages[PAGE_GAME + 1] = new QWidget(central_wdg);
+  create_loading_page();
 
   pages_layout[PAGE_GAME]->setContentsMargins(0, 0, 0, 0);
 
@@ -175,6 +178,7 @@ void fc_client::init()
   pages[PAGE_SCENARIO]->setLayout(pages_layout[PAGE_SCENARIO]);
   pages[PAGE_START]->setLayout(pages_layout[PAGE_START]);
   pages[PAGE_GAME]->setLayout(pages_layout[PAGE_GAME]);
+  pages[PAGE_GAME + 1]->setLayout(pages_layout[PAGE_GAME + 1]);
 
   central_layout->addWidget(pages[PAGE_MAIN]);
   central_layout->addWidget(pages[PAGE_NETWORK]);
@@ -182,6 +186,7 @@ void fc_client::init()
   central_layout->addWidget(pages[PAGE_SCENARIO]);
   central_layout->addWidget(pages[PAGE_START]);
   central_layout->addWidget(pages[PAGE_GAME]);
+  central_layout->addWidget(pages[PAGE_GAME + 1]);
 
   central_wdg->setLayout(central_layout);
   setCentralWidget(central_wdg);
@@ -297,6 +302,7 @@ void fc_client::switch_page(int new_pg)
 {
   char buf[256];
   enum client_pages new_page;
+  int i_page;
 
   new_page = static_cast<client_pages>(new_pg);
 
@@ -317,7 +323,8 @@ void fc_client::switch_page(int new_pg)
 
   central_layout->setCurrentWidget(pages[new_pg]);
   page = new_page;
-  switch (page) {
+  i_page = new_page;
+  switch (i_page) {
   case PAGE_MAIN:
     break;
   case PAGE_START:
@@ -360,6 +367,8 @@ void fc_client::switch_page(int new_pg)
     connect_login_edit->setText(user_name);
     connect_password_edit->setDisabled(true);
     connect_confirm_password_edit->setDisabled(true);
+    break;
+  case (PAGE_GAME + 1):
     break;
   default:
     if (client.conn.used) {

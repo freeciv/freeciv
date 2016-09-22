@@ -152,12 +152,12 @@ class fc_client : public QMainWindow,
 {
   Q_OBJECT
   QWidget *main_wdg;
-  QWidget *pages[ (int) PAGE_GAME + 1];
+  QWidget *pages[ (int) PAGE_GAME + 2];
   QWidget *connect_lan;
   QWidget *connect_metaserver;
   QWidget *game_main_widget;
 
-  QGridLayout *pages_layout[PAGE_GAME + 1];
+  QGridLayout *pages_layout[PAGE_GAME + 2];
   QStackedLayout *central_layout;
   QGridLayout *game_layout;
 
@@ -306,6 +306,7 @@ private:
   void create_scenario_page();
   void create_start_page();
   void create_game_page();
+  void create_loading_page();
   bool chat_active_on_page(enum client_pages);
   void destroy_server_scans (void);
   void update_server_list(enum server_scan_type sstype,
