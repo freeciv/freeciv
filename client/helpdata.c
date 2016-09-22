@@ -1350,7 +1350,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 	    _("  * Can attack units on non-native tiles.\n"));
   }
   /* Must use flag to distinguish from UTYF_MARINES text. */
-  if (utype->attack_strength > 0
+  if (utype_can_do_action(utype, ACTION_ATTACK)
       && uclass_has_flag(pclass, UCF_ATT_FROM_NON_NATIVE)) {
     CATLSTR(buf, bufsz,
             _("  * Can launch attack from non-native tiles.\n"));
@@ -2133,7 +2133,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 #if 0
     /* Some units can never become veteran through combat in practice. */
     bool veteran_through_combat =
-      !((utype->attack_strength == 0
+      !((!utype_can_do_action(utype, ACTION_ATTACK)
          || uclass_has_flag(utype_class(utype), UCF_MISSILE))
         && utype->defense_strength == 0);
 #endif
@@ -2144,7 +2144,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, _("* May acquire veteran status.\n"));
     if (utype_veteran_has_power_bonus(utype)) {
       if ((!utype_can_do_action(utype, ACTION_NUKE)
-           && utype->attack_strength > 0)
+           && utype_can_do_action(utype, ACTION_ATTACK))
           || utype->defense_strength > 0) {
         CATLSTR(buf, bufsz,
                 _("  * Veterans have increased strength in combat.\n"));
