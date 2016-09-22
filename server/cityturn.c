@@ -1778,8 +1778,11 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     if (city_size_get(pcity) <= pop_cost) {
       notify_player(pplayer, city_tile(pcity), E_CITY_CANTBUILD, ftc_server,
-                    _("%s can't build %s yet."),
-                    city_link(pcity), utype_name_translation(utype));
+                    /* TRANS: city ... utype ... size ... pop_cost */
+                    _("%s can't build %s yet. "
+                      "(city size: %d, unit population cost: %d)"),
+                    city_link(pcity), utype_name_translation(utype),
+                    city_size_get(pcity), pop_cost);
       script_server_signal_emit("unit_cant_be_built", 3,
                                 API_TYPE_UNIT_TYPE, utype,
                                 API_TYPE_CITY, pcity,
