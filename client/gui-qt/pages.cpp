@@ -1818,7 +1818,7 @@ void fc_client::update_buttons()
     }
   } else {
     text = _("Start");
-    if (can_client_access_hack()) {
+    if (can_client_access_hack() && client.conn.observer == TRUE) {
       sensitive = true;
       players_iterate(plr) {
         if (is_human(plr)) {
@@ -1832,6 +1832,7 @@ void fc_client::update_buttons()
       sensitive = false;
     }
   }
+  start_button->setEnabled(sensitive);
   start_button->setText(text);
 
   /* Nation button */
