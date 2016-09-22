@@ -3264,7 +3264,14 @@ static bool unit_move_consequences(struct unit *punit,
   bool alive = TRUE;
 
   if (tocity) {
-    unit_conquer_city(punit, tocity, passenger);
+    if (!passenger) {
+      /* The unit that does the move may conquer. */
+      unit_conquer_city(punit, tocity);
+    }
+
+    /* Run for passengers too. A passenger may have been killed when its
+     * transport conquered a city. (unit_conquer_city() can cause Lua code
+     * to run) */
 
     alive = unit_is_alive(saved_id);
     if (alive) {

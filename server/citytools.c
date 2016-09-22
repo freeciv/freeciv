@@ -1844,15 +1844,13 @@ void remove_city(struct city *pcity)
       "CanOccupyCity" unit class flag.
     - A unit can't conquer a city if its unit type has the "NonMil" unit
       type flag.
-    - Transported unit cannot conquer city. (If transported unit is seen
-      here, transport is conquering city. Movement of the transported units
-      is just handled before transport itself.)
+    - Transported units trying to conquer a city should be unloaded before
+      this function is called.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
-bool unit_conquer_city(struct unit *punit, struct city *pcity,
-                       bool passenger)
+bool unit_conquer_city(struct unit *punit, struct city *pcity)
 {
   bool try_civil_war = FALSE;
   bool city_remains;
@@ -1863,10 +1861,14 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity,
   /* If not at war, may peacefully enter city. Or, if we cannot occupy
    * the city, this unit entering will not trigger the effects below. */
   if (!pplayers_at_war(pplayer, cplayer)
-      || !unit_can_take_over(punit)
-      || passenger) {
+      || !unit_can_take_over(punit)) {
     return FALSE;
   }
+
+  /* A transported unit trying to conquer a city should already have been
+   * unloaded. */
+  fc_assert_ret_val_msg(punit->transporter == NULL, FALSE,
+                        "Can't conquer city while transported.");
 
   /* Okay, we're at war - invader captures/destroys city... */
   
