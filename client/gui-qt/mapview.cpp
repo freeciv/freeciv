@@ -1258,6 +1258,7 @@ void info_label::info_update()
     struct player_research *research = player_research_get(client_player());
 
     if (research->researching == A_UNSET && research->tech_goal == A_UNSET
+        && research->techs_researched < game.control.num_tech_types
         && !timer_active) {
       res_timer->start(700);
       blink_state = true;
