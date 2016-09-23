@@ -2029,7 +2029,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: the %d is the population added. */
                      PL_("  * adds %d population.\n",
-                         "  * adds %d populatio).\n",
+                         "  * adds %d population.\n",
                          utype_pop_value(utype)),
                      utype_pop_value(utype));
         break;
