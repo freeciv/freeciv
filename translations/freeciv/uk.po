@@ -16598,7 +16598,7 @@ msgstr ""
 "представників, які керуватимуть ними. Оскільки обрані лідери мають зберігати "
 "свою популярність, щоб залишатися при владі, громадяни мають значний рівень "
 "свободи. За Республіки громадяни легко стають нещасними, але їх "
-"самозабезпеченість дозволяє високі об'єми торгівлі."
+"самозабезпеченість дає високі об'єми торгівлі."
 
 #: data/civ1/governments.ruleset:167 data/civ1/techs.ruleset:206
 #: data/civ2/governments.ruleset:193 data/civ2/techs.ruleset:223
@@ -16637,9 +16637,9 @@ msgid ""
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars."
 msgstr ""
-"За Демократії, громадяни правлять прямим голосуванням з усіх питань."
-"Демократія дає найвищий з можливих рівень торгівлі, але також і найбільший"
-"потенціал для нещастя. Нема корупції за Демократії, але громадяни легко"
+"За Демократії, громадяни правлять прямим голосуванням з усіх питань. "
+"Демократія дає найвищий з можливих рівень торгівлі, але також і найбільший "
+"потенціал для нещастя. Нема корупції за Демократії, але громадяни легко "
 "стають дуже засмученими протягом воєн."
 
 #: data/civ1/governments.ruleset:182 data/civ2/governments.ruleset:209
@@ -16649,8 +16649,8 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
-"Оскільки (щасливі) громадяни демократії дуже вірять в уряд, їх вірність"
-"неперевершена. Військові загони демократичних цивілізацій непідкупні, а"
+"Оскільки (щасливі) громадяни демократії дуже вірять в уряд, їх вірність "
+"неперевершена. Військові загони демократичних цивілізацій непідкупні, а "
 "ворожі Дипломати і Шпигуни не можуть підбурити до заколоту Демократичні міста."
 
 #: data/civ1/nations.ruleset:70 data/civ2/nations.ruleset:72
@@ -16787,7 +16787,7 @@ msgid ""
 "China governs the island of Taiwan."
 msgstr ""
 "Китай найстаріша велика цивілізація, що ще досі існує, з писемними згадками "
-"що йдуть в глибину віків, понад 3500 років. Вперше будучи об’єднаним династією "
+"що йдуть в глибину віків на понад 3500 років. Вперше був об’єднаним династією "
 "Цинь у 221 до РХ, Китай межував періоди єдностіі роздробленості, і якось "
 "був завойований зовнішніми народами. Сьогодні Китайска Народна Республіка, "
 "заснована комуністами в 1949 р, лежить на материку, тоді як колишній "
@@ -17043,8 +17043,8 @@ msgid ""
 "The cradle of Ancient Indian civilization lay in the Indus river valley in "
 "modern-day Pakistan."
 msgstr ""
-"Колиска древної індійської цивілізації лежить у долині ріки Інд, зараз у "
-"Пакистані."
+"Колиска древної індійської цивілізації лежить в долині ріки Інд, сучасного "
+"Пакистану."
 
 #: data/civ1/nations.ruleset:1116 data/civ2/nations.ruleset:1251
 #: data/nation/indian.ruleset:26 data/nation/khmer.ruleset:26
@@ -17100,9 +17100,9 @@ msgid ""
 "continent of Asia. They became notorious for their utter ruthlessness in "
 "warfare."
 msgstr ""
-"Протягом століть після їх об'єднання Чингіз Ханом, Монголи створили "
+"Протягом століть після об'єднання Чингіз Ханом, Монголи створили "
 "найбільшу імперію в історії людства, що охоплювала більшу частину Азії. Вони "
-"були стали відомими, через крайню безжальну жорстокість під час війни."
+"стали відомими, через крайню безжальну жорстокість під час війни."
 
 #: data/civ1/nations.ruleset:1211 data/civ2/nations.ruleset:1461
 #: data/nation/hunnic.ruleset:40 data/nation/mongol.ruleset:33
@@ -17143,7 +17143,7 @@ msgid ""
 "Rome was, in legend, founded by Romulus in 753 BC. At its height, Rome "
 "controlled nearly all of Europe, northern Africa and Mesopotamia."
 msgstr ""
-"Рим був, згідно із легендою, заснований у 753 до н.е. Ромулом. На вершині "
+"Рим був, згідно з легендою, заснований у 753 до н.е. Ромулом. На вершині "
 "могутності Рим контролював приблизно усю Європу, північну Африку та "
 "Месопотамію."
 
@@ -17835,7 +17835,7 @@ msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
 msgstr ""
-"Разом з доступністю для сільського господарства, Пагорби часто багаті "
+"Разом з доступністю для сільського господарства, Горби часто багаті "
 "ресурсами."
 
 #: data/civ1/terrain.ruleset:413
@@ -17929,14 +17929,14 @@ msgstr "Тундра"
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
-"Тундра це холодні регіони - які придатні для деякого сільського господарства "
+"Тундра - широкі холодні місцини - придатні для деякого сільського господарства "
 "та мабуть не більше."
 
 #: data/civ1/terrain.ruleset:645 data/civ2/terrain.ruleset:647
 #: data/classic/terrain.ruleset:816 data/experimental/terrain.ruleset:792
 #: data/civ2civ3/terrain.ruleset:830 data/multiplayer/terrain.ruleset:790
 msgid "?animals:Game"
-msgstr "Дичина"
+msgstr "?animals:Дичина"
 
 #: data/civ1/terrain.ruleset:653 data/civ2/terrain.ruleset:665
 #: data/classic/terrain.ruleset:834 data/experimental/terrain.ruleset:810
@@ -18000,6 +18000,8 @@ msgid ""
 "Roads allow your land units to move more quickly, and on some terrain, also "
 "provide a trade bonus."
 msgstr ""
+"Дороги дають прискорений рух наземним загонам, а на деяких місцевостях дають"
+"приріст до торгівлі."
 
 #: data/civ1/terrain.ruleset:895 data/civ2/terrain.ruleset:1012
 msgid ""
@@ -18007,6 +18009,8 @@ msgid ""
 "center tiles automatically get roads, and are an exception to this "
 "requirement."
 msgstr ""
+"Щоб збудувати дорогу на річці, треба знати Будівництво мостів. Центр міста"
+"автоматично отримує дорогу, але є вийнятки для цієї вимоги."
 
 #: data/civ1/terrain.ruleset:902 data/civ2/terrain.ruleset:1019
 #: data/classic/terrain.ruleset:1231 data/experimental/terrain.ruleset:1208
@@ -18016,13 +18020,13 @@ msgstr "Залізниця"
 
 #: data/civ1/terrain.ruleset:925 data/civ2/terrain.ruleset:1042
 #: data/classic/terrain.ruleset:1254 data/multiplayer/terrain.ruleset:1233
-#, fuzzy
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units expend no movement points when moving along a railroad; you "
 "may ride a railroad indefinitely. (As may your enemies!)"
 msgstr ""
-" - Загони не витрачають ходів при русі по залізниці. Ви можете їздити "
+"Як тільки здобули Технолоігію Заліниця, можна покращити дороги до залізниць."
+"Загони не витрачають ходів при русі по залізниці. Ви можете їздити "
 "залізницею скільки завгодно. (Втім, Ваші вороги теж можуть!)"
 
 #: data/civ1/terrain.ruleset:929
@@ -18031,6 +18035,8 @@ msgid ""
 "a tile. A tile whose road is upgraded to a railroad retains any trade bonus "
 "from the road as well."
 msgstr ""
+"Залізницятакож вполовину збільшує(округлення вниз) вдобуток ресурсів на полі. "
+"Клітинка де дорогу покращили до залізниці зберігає торговий бонус від дороги."
 
 #: data/civ1/terrain.ruleset:933 data/civ2/terrain.ruleset:1050
 #: data/classic/terrain.ruleset:1262 data/experimental/terrain.ruleset:1240
@@ -18039,6 +18045,8 @@ msgid ""
 "City center tiles with roads are automatically upgraded to railroads when "
 "you learn the Railroad technology."
 msgstr ""
+"Клітинки центрів міст з дорогами автоматично покращуються до залізниць коли"
+"ви вивчили технологію Залізниця."
 
 #: data/civ1/terrain.ruleset:939 data/civ2/terrain.ruleset:1056
 #: data/classic/terrain.ruleset:1268 data/experimental/terrain.ruleset:1282
@@ -18048,7 +18056,7 @@ msgstr "Ріка"
 
 #: data/civ1/terrain.ruleset:952
 msgid "Any land terrain type may have a River on it."
-msgstr ""
+msgstr "Будь яка місцевість-земля може мати річку."
 
 #: data/civ1/terrain.ruleset:954 data/civ2/terrain.ruleset:1075
 #: data/classic/terrain.ruleset:1295 data/multiplayer/terrain.ruleset:1266
@@ -18064,6 +18072,8 @@ msgid ""
 "Cities built on or next to rivers are at risk of flooding, which will cause "
 "a loss of population and stored food. City Walls eliminate this risk."
 msgstr ""
+"Міста засновані на чи впритул до річок під загрозою повені - може змити "
+"населення і запас іжі. Міські мури знімають такий ризик."
 
 #: data/civ1/units.ruleset:27 data/civ1/units.ruleset:1188
 #: data/civ2/units.ruleset:33 data/civ2/units.ruleset:1899
@@ -18126,16 +18136,17 @@ msgstr "Ракетний"
 #: data/classic/units.ruleset:380 data/experimental/units.ruleset:394
 #: data/civ2civ3/units.ruleset:403 data/multiplayer/units.ruleset:380
 msgid "Settlers"
-msgstr "Колоністи"
+msgstr "Поселенці"
 
 #: data/civ1/units.ruleset:291 data/civ2/units.ruleset:295
 msgid ""
 "Settlers are one of the key units in the game, as they are your main means "
 "of founding new cities, and can also improve terrain."
 msgstr ""
+"Поселенці один з ключових загонів у грі. Вони головні засновники міст і ще "
+"можуть покращувати місцевість."
 
 #: data/civ1/units.ruleset:294
-#, fuzzy
 msgid ""
 "Building an irrigation system on a suitable tile causes it to produce some "
 "extra food each turn. This requires a nearby source of water: an ocean or "
@@ -18144,23 +18155,22 @@ msgid ""
 "even if the water source is removed."
 msgstr ""
 "Відповідні типи територій можуть бути зрошені. Але це потребує наявності "
-"води: Океана або Річки, або вже зрошеної території, які мають бути "
-"розташовані поруч та не по діагоналі. Зрошення надае можливість виробляти "
-"додаткову їжу кожного ходу. На додаток, за наявності відповідної технології, "
-"Ви можете зрошувати вже зрошені території перетворюючи їх на більш "
-"продуктивні ферми."
+"води: Океана, Річки, або вже зрошеної території, вони мають бути "
+"розташовані впритул та не по діагоналі. Зрошення дозволяє виробляти "
+"додаткову їжу щоходу. На додаток, за наявності відповідної технології, "
+"Ви можете зрошувати вже зрошені території перетворюючи їх на ще "
+"продуктивніші ферми."
 
 #: data/civ1/units.ruleset:301 data/civ2/units.ruleset:307
 #: data/classic/units.ruleset:468 data/experimental/units.ruleset:487
 #: data/civ2civ3/units.ruleset:531 data/multiplayer/units.ruleset:469
-#, fuzzy
 msgid ""
 "Building a mine on suitable terrain increases the number of production "
 "points produced by that tile. However, it is not possible to have an "
 "irrigation system and a mine on the same tile."
 msgstr ""
-"На деяких типах територій можна збудувати шахти, що збільшує виробництво "
-"(щити) на цій клітинці. Втім, мати на одній клітинці і шахти, і зрошення - "
+"На деяких типах місцевості можна будувати шахти, це збільшить виробництво "
+"(щити) на цій клітинці. Проте, мати на одній клітинці і шахти і зрошення - "
 "неможливо."
 
 #: data/civ1/units.ruleset:305 data/civ2/units.ruleset:311
@@ -19750,11 +19760,11 @@ msgstr "Кардінал %s"
 
 #: data/civ2/nations.ruleset:1890 data/nation/viking.ruleset:5
 msgid "Viking"
-msgstr "Вікінгі"
+msgstr "Вікінги"
 
 #: data/civ2/nations.ruleset:1891 data/nation/viking.ruleset:6
 msgid "?plural:Vikings"
-msgstr "Вікінгі"
+msgstr "Вікінги"
 
 #: data/civ2/nations.ruleset:1893
 msgid ""
@@ -37619,133 +37629,126 @@ msgstr ""
 msgid ""
 "Can't take player while you have delegated control yourself. Use '/delegate "
 "cancel' to cancel your own delegation first."
-msgstr ""
-
+msgstr "Не можна взяти гравця поки ви передали управління. Скористайтесь "
+"'/delegate cancel', щоб спочатку відмінити власне делегування."
 #: server/stdinhand.c:5154
-#, fuzzy, c-format
+#, c-format
 msgid "You already control '%s'."
-msgstr "%s вже контролює %s."
+msgstr "Ви вже управляєте %s."
 
 #: server/stdinhand.c:5163
 #, fuzzy, c-format
 msgid "Control of player '%s' has not been delegated to you."
-msgstr "Консоль: '%s' встановлено у %s."
+msgstr "Вам не передавали керування гравцем '%s'."
 
 #: server/stdinhand.c:5172
-#, fuzzy, c-format
+#, c-format
 msgid "Another user already controls player '%s'."
-msgstr "%s вже контролює %s."
+msgstr "інший користувач вже керує гравцем '%s'."
 
 #: server/stdinhand.c:5188
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now controlling player '%s'."
-msgstr "Гравець %s не контролюється комп'ютером."
+msgstr "%s тепер керує гравця '%s'."
 
 #: server/stdinhand.c:5201
-#, fuzzy
 msgid "You are not currently controlling a delegated player."
-msgstr "Ви не приєднані до гравця."
+msgstr "Зараз ви не керуєте делегованим гравцем."
 
 #. TRANS: "<user> is now connected to <player>" where <player>
 #. * can also be "global observer" or "nothing"
 #: server/stdinhand.c:5220
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now connected as %s."
-msgstr "%s не на з`єднанні."
+msgstr "%s тепер з`єднався як %s."
 
 #: server/stdinhand.c:5241
-#, fuzzy, c-format
+#, c-format
 msgid "%s (observer)"
-msgstr " (спостерігач)"
+msgstr "%s (спостерігач)"
 
 #: server/stdinhand.c:5246
-#, fuzzy
 msgid "global observer"
 msgstr "Глобальний спостерігач"
 
 #. TRANS: in place of player name or "global observer"
 #: server/stdinhand.c:5249
 msgid "nothing"
-msgstr ""
+msgstr "нічого"
 
 #: server/stdinhand.c:5304
-#, fuzzy
 msgid "Ambiguous 'mapimg' command."
-msgstr "Неоднозначне ім'я опції."
+msgstr "Неоднозначна команда 'mapimg'."
 
 #: server/stdinhand.c:5330 server/stdinhand.c:5584
-#, fuzzy, c-format
+#, c-format
 msgid "The valid arguments are: %s."
-msgstr "Невірний аргумент %d."
+msgstr "Правильні аргументи: %s."
 
 #: server/stdinhand.c:5345
-#, fuzzy
 msgid "Missing argument for 'mapimg define'."
-msgstr "Відсутній аргумент для '%s'.\n"
+msgstr "Відсутній аргумент для 'mapimg define'."
 
 #: server/stdinhand.c:5351 server/stdinhand.c:5360
-#, fuzzy, c-format
+#, c-format
 msgid "Can't use definition: %s."
-msgstr "Визначення розміру карти"
+msgstr "Не можу взяти визначення: %s."
 
 #: server/stdinhand.c:5368
-#, fuzzy, c-format
+#, c-format
 msgid "Defined as map image definition %d: '%s'."
-msgstr "Невірне ім'я '%s'"
+msgstr "Визначено як властивість карти %d: '%s'."
 
 #: server/stdinhand.c:5378
-#, fuzzy
 msgid "Missing argument for 'mapimg delete'."
-msgstr "Відсутній аргумент для '%s'.\n"
+msgstr "Відсутній аргумент для 'mapimg delete'."
 
 #: server/stdinhand.c:5389
-#, fuzzy
 msgid "All map image definitions deleted."
-msgstr "Визначення розміру карти"
+msgstr "Всі визначення розміру карти стерті."
 
 #: server/stdinhand.c:5399
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't delete definition: %s."
-msgstr "Невірне ім'я '%s'"
+msgstr "Не зміг видалити визначення: %s."
 
 #: server/stdinhand.c:5402
-#, fuzzy, c-format
+#, c-format
 msgid "Map image definition %d deleted."
-msgstr "Визначення розміру карти"
+msgstr "Стер Визначення розміру карти %d"
 
 #: server/stdinhand.c:5407
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg delete': '%s'."
-msgstr "Відсутній аргумент для '%s'.\n"
+msgstr "Нездалий аргумент для 'mapimg delete': '%s'."
 
 #: server/stdinhand.c:5430
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't show definition: %s."
-msgstr "Невірне ім'я '%s'"
+msgstr "Не зміг показати визначення: %s"
 
 #: server/stdinhand.c:5435
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg show': '%s'."
-msgstr "Відсутній аргумент для '%s'.\n"
+msgstr "Нездалий аргумент для 'mapimg show': '%s'."
 
 #: server/stdinhand.c:5446
 msgid "Map color test images saved."
-msgstr ""
+msgstr "Тестові зображення кольорів мапи збережено."
 
 #: server/stdinhand.c:5452
-#, fuzzy
 msgid "Missing argument for 'mapimg create'."
-msgstr "Відсутній аргумент для '%s'.\n"
+msgstr "Відсутній аргумент для 'mapimg create'."
 
 #: server/stdinhand.c:5470 server/stdinhand.c:5487
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving map image %d: %s."
-msgstr "Завантажую файл скрипта '%s'."
+msgstr "Помилка зберігання карти %d: %s."
 
 #: server/stdinhand.c:5492
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg create': '%s'."
-msgstr "Відсутній аргумент для '%s'.\n"
+msgstr "Нездалий аргумент 'mapimg create': '%s'."
 
 #: server/stdinhand.c:5536
 msgid "Freeciv database script deactivated at compile time."
@@ -37798,7 +37801,7 @@ msgstr "Не можу почати гру: вона вже йде."
 #: server/stdinhand.c:5770
 #, c-format
 msgid "Cutting connection %s."
-msgstr "Видаляю з'єднання %s."
+msgstr "Обрубаю з'єднання %s."
 
 #: server/stdinhand.c:5771
 msgid "connection cut"
@@ -37820,7 +37823,6 @@ msgid "kicked"
 msgstr "викинули"
 
 #: server/stdinhand.c:5924
-#, fuzzy
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -37842,11 +37844,11 @@ msgid ""
 msgstr ""
 "Ласкаво просимо - це вступна допомога для сервера Freeciv.\n"
 "\n"
-"Дві важливі концепції сервера це Команди та Опції.\n"
-"Команди, як 'help', слугують для взаємодії з сервером.\n"
+"Два важливих серверних поняття  -  Команди та Опції.\n"
+"Команди, як-от 'help', служать для взаємодії з сервером.\n"
 "Деякі команди приймають один або більше аргументів, що розділені пробілом.\n"
-"У багатьох випадках команди та їх аргументи можуть бути скорочені.\n"
-"Опції це установки які контролюють сервер коли він працює.\n"
+"В багатьох випадках команди та їх аргументи можна скоротити.\n"
+"Опції це установки що скеровують роботу сервера.\n"
 "\n"
 "Аби дізнатися як отримати більше допомоги по Командах та Опціях,\n"
 "скористайтеся 'help help'.\n"
@@ -37872,7 +37874,7 @@ msgstr "Команда: %s"
 
 #: server/stdinhand.c:5972
 msgid "Synopsis: "
-msgstr "Синтаксис:"
+msgstr "Вживання:"
 
 #: server/stdinhand.c:5981
 #, c-format
@@ -37881,7 +37883,7 @@ msgstr "Рівень: %s"
 
 #: server/stdinhand.c:6005
 msgid "The following server commands are available:"
-msgstr "Доступні наступні команди сервера:"
+msgstr "Доступні такі команди сервера:"
 
 #: server/stdinhand.c:6066
 #, c-format
@@ -37896,26 +37898,25 @@ msgstr "Аргумент допомоги '%s' двозначний."
 #: server/stdinhand.c:6135
 #, c-format
 msgid "No match for help argument '%s'."
-msgstr "Немає співпадінь для аргумента допомоги '%s'."
+msgstr "Нема співпадінь для аргумента допомоги '%s'."
 
 #: server/stdinhand.c:6176
 msgid "List of connections to server:"
-msgstr "Список з'єднань сервера:"
+msgstr "Список з'єднань з сервером:"
 
 #: server/stdinhand.c:6180
 msgid "<no connections>"
-msgstr "<немає з'єднань>"
+msgstr "<нема з'єднань>"
 
 #: server/stdinhand.c:6201
-#, fuzzy
 msgid "List of all delegations:"
-msgstr "Список команд:"
+msgstr "Список всіх делегувань:"
 
 #. TRANS: last %s is either " (active)" or empty string
 #: server/stdinhand.c:6213
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
-msgstr ""
+msgstr "%s передає контроль над гравцем '%s' користувачу %s%s."
 
 #: server/stdinhand.c:6215
 msgid " (active)"
@@ -37923,7 +37924,7 @@ msgstr "активний"
 
 #: server/stdinhand.c:6221
 msgid "No delegations defined."
-msgstr ""
+msgstr "Жодних делегувань не визначено"
 
 #: server/stdinhand.c:6246
 msgid "Your ignore list:"
@@ -37935,12 +37936,12 @@ msgstr "Список гравців:"
 
 #: server/stdinhand.c:6266 server/stdinhand.c:6470
 msgid "<no players>"
-msgstr "<немає гравців>"
+msgstr "<нема гравців>"
 
 #: server/stdinhand.c:6296
-#, fuzzy, c-format
+#, c-format
 msgid ", user %s"
-msgstr "ім'я %s, "
+msgstr "користувач %s, "
 
 #: server/stdinhand.c:6300
 msgid ", ready"
@@ -37952,7 +37953,7 @@ msgstr ", не готове"
 
 #: server/stdinhand.c:6310
 msgid ", Dead"
-msgstr ", Помер"
+msgstr ", Мертвий"
 
 #: server/stdinhand.c:6324
 #, c-format
@@ -37965,7 +37966,7 @@ msgid ", difficulty level %s"
 msgstr ", рівень складності %s"
 
 #: server/stdinhand.c:6331
-#, fuzzy, c-format
+#, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] " %d з'єднання:"
@@ -37973,13 +37974,13 @@ msgstr[1] " %d з'єднання:"
 msgstr[2] " %d з'єднань:"
 
 #: server/stdinhand.c:6338
-#, fuzzy, c-format
+#, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s приєднався з %s (рівень доступу до команд %s), розмір буферу=%dКБ"
 
 #: server/stdinhand.c:6343
 msgid " (observer mode)"
-msgstr " (режим наглядача)"
+msgstr " (режим спостерігача)"
 
 #: server/stdinhand.c:6360
 msgid "List of scenarios available:"
@@ -37993,12 +37994,12 @@ msgstr "Перелік наборів націй доступниих для о�
 #. TRANS: nation set description; %d refers to number of playable
 #. * nations in set
 #: server/stdinhand.c:6395
-#, fuzzy, c-format
+#, c-format
 msgid " %-10s  %s (%d playable)"
 msgid_plural " %-10s  %s (%d playable)"
-msgstr[0] "%2d : '%s' : %d гравець"
-msgstr[1] "%2d : '%s' : %d гравці"
-msgstr[2] "%2d : '%s' : %d гравців"
+msgstr[0] "%-10s  %s (можна грати %d)"
+msgstr[1] "%-10s  %s (можна грати %d)"
+msgstr[2] "%-10s  %s (можна грати %d)"
 
 #: server/stdinhand.c:6418
 msgid "List of teams:"
@@ -38014,14 +38015,12 @@ msgstr[1] "%2d : '%s' : %d гравці :"
 msgstr[2] "%2d : '%s' : %d гравців :"
 
 #: server/stdinhand.c:6449
-#, fuzzy
 msgid "No map image definitions."
-msgstr "Визначення розміру карти"
+msgstr "Нема визначення розміру карти"
 
 #: server/stdinhand.c:6451
-#, fuzzy
 msgid "List of map image definitions:"
-msgstr "Визначення розміру карти"
+msgstr "Список розмірів і визначень карти"
 
 #: server/stdinhand.c:6456
 #, c-format
@@ -38033,14 +38032,14 @@ msgid "List of player colors:"
 msgstr "Список кольорів для гравців:"
 
 #: server/stdinhand.c:6473
-#, fuzzy, c-format
+#, c-format
 msgid "%s (user %s): [%s]"
-msgstr "%s (номер %d) від %s: %s."
+msgstr "%s (користувач %s): [%s]"
 
 #: server/stdinhand.c:6532
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
-msgstr "Поганий аргумент для 'list': '%s'. Спробуйте '%shelp list'."
+msgstr "Поганий аргумент списку: '%s'. Спробуйте '%shelp list'."
 
 #: server/techtools.c:133
 #, c-format
@@ -38127,12 +38126,12 @@ msgstr "%s отримав %s як наслідок вивчення %s."
 #: server/techtools.c:546
 #, c-format
 msgid "Insufficient science output. We lost Future Tech. %d."
-msgstr "Недостатній наукова віддача. Ми втратили Науку Майбутнього %d."
+msgstr "Недостатня наукова віддача. Ми втратили Науку Майбутнього %d."
 
 #: server/techtools.c:558
 #, c-format
 msgid "Insufficient science output. We lost %s."
-msgstr "Недостатній наукова віддача. Ми забули %s"
+msgstr "Недостатній виробіток науки. Ми забули %s"
 
 #: server/techtools.c:699
 #, c-format
@@ -38393,7 +38392,7 @@ msgstr "%s не є нападним загоном."
 
 #: server/unithand.c:1631
 msgid "You can't attack there since there's an unreachable unit."
-msgstr "Ви не модете напасти туди, бо там недосяжний загін"
+msgstr "Ви не можете напасти туди, бо там недосяжний загін"
 
 #: server/unithand.c:1635
 #, c-format
@@ -38403,7 +38402,7 @@ msgstr "%s не можуть нападати з %s."
 #: server/unithand.c:1641
 #, c-format
 msgid "%s can't attack to %s."
-msgstr "%s не можуть нападати на %s."
+msgstr "%s не може напасти на %s."
 
 #: server/unithand.c:1688
 msgid "A transported unit is not allied to all units or city on target tile."
@@ -38419,7 +38418,7 @@ msgstr "Ваші %s допомогли будувати %s у %s (залишил
 #: server/unithand.c:1738
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
-msgstr "Ваші %s допомогли будувати %s у %s (залишилося %d)."
+msgstr "Ваші %s допомогли будувати %s у %s (надлишок %d)."
 
 #: server/unithand.c:1796
 #, c-format
@@ -38439,16 +38438,16 @@ msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Вибачте, Ваш %s не може заснувати тут торговий шлях!"
 
 #: server/unithand.c:1849 server/unithand.c:1873
-#, fuzzy, c-format
+#, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
-msgstr[0] "      Місто %s вже має %d кращих торгових шляхів!"
-msgstr[1] "      Місто %s вже має %d кращих торгових шляхів!"
+msgstr[0] "      Місто %s вже має %d кращий торговий шлях!"
+msgstr[1] "      Місто %s вже має %d кращі торгових шляхи!"
 msgstr[2] "      Місто %s вже має %d кращих торгових шляхів!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
 #: server/unithand.c:1898
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
 "research."
@@ -38460,7 +38459,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Ваш %s з %s дістався до %s, прибуток склав %d гривень та досліджень."
 msgstr[2] ""
-"Ваш %s з %s прибув %s, бариші склали з %d гривень та досліджень."
+"Ваш %s з %s прибув у %s, бариші склали %d гривень та досліджень."
 
 #: server/unithand.c:1924
 #, c-format
@@ -38478,7 +38477,7 @@ msgid "%s was upgraded for free to %s."
 msgstr "%s задурно модернізували до %s."
 
 #: server/unittools.c:392
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s has run out of hit points because it was not supported by a city."
 msgstr ""
@@ -38501,7 +38500,7 @@ msgstr "Вашому %s не вистачило палива."
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
 #: server/unittools.c:748
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "Ваш %s набрався досвіду і здобув звання %s."
 
@@ -38681,7 +38680,7 @@ msgstr "Не можна парашутувати підрозділ, який п
 
 #: server/unittools.c:2771
 msgid "The destination location is not known."
-msgstr "Розміщення пункту призначення не відомо."
+msgstr "Розміщення пункту призначення невідоме."
 
 #: server/unittools.c:2779
 #, c-format
@@ -38939,8 +38938,8 @@ msgid ""
 "Freeciv must be compiled with the DEBUG flag to use advanced log levels "
 "based on files.\n"
 msgstr ""
-"Freeciv треба збирати з прапорцем DEBUG для використання рівня просунутої відладки"
-"заснованої на файлах.\n"
+"Freeciv треба збирати з прапорцем DEBUG для використання просунутих рівнів "
+"відладки заснованої на файлах.\n"
 
 #: utility/log.c:403
 #, c-format
@@ -39009,7 +39008,7 @@ msgstr "Змінна \"%s\" задана, але пуста; беру станд
 #: utility/shared.c:1115
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
-msgstr "Змінна \"%s\" задано пустою; беру стандартні директорії сценарію  \"%s\"."
+msgstr "Змінна \"%s\" задана пустою; беру стандартні директорії сценарію  \"%s\"."
 
 #. TRANS: "...: <externally translated error string>."
 #: utility/shared.c:1184
@@ -39020,7 +39019,7 @@ msgstr "Не можу прочитати каталог данних %s: %s."
 #: utility/shared.c:1598
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr "%s: Критична помилка: Ви намагаєтесь запустити мене суперкористувачем!\n"
+msgstr "%s: Критична помилка: Ви пробуєте запустити мене суперкористувачем!\n"
 
 #: utility/shared.c:1600
 msgid "Use a non-privileged account instead.\n"
