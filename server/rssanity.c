@@ -908,11 +908,11 @@ bool sanity_check_ruleset_data(bool ignore_retired)
       ok = FALSE;
     }
 
-    if (paction->min_distance > MAP_DISTANCE_MAX) {
+    if (paction->min_distance > ACTION_DISTANCE_LAST_NON_SIGNAL) {
       ruleset_error(LOG_ERROR, "Action %s: min distance (%d) larger than "
                                "any distance on a map can be (%d).",
                     action_get_rule_name(act), paction->min_distance,
-                    MAP_DISTANCE_MAX);
+                    ACTION_DISTANCE_LAST_NON_SIGNAL);
       ok = FALSE;
     }
 

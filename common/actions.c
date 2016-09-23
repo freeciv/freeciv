@@ -88,6 +88,10 @@ action_prob_not_relevant(const struct act_prob probability);
 static inline bool
 action_prob_not_impl(const struct act_prob probability);
 
+/* Make sure that an action distance can target the whole map. */
+FC_STATIC_ASSERT(MAP_DISTANCE_MAX <= ACTION_DISTANCE_LAST_NON_SIGNAL,
+                 action_range_can_not_cover_the_whole_map);
+
 /**************************************************************************
   Initialize the actions and the action enablers.
 **************************************************************************/

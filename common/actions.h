@@ -131,8 +131,16 @@ extern "C" {
 #define SPECENUM_COUNT ACT_REQ_COUNT
 #include "specenum_gen.h"
 
+/* The last action distance value that is interpreted as an actual
+ * distance rather than as a signal value.
+ *
+ * It is specified literally rather than referring to MAP_DISTANCE_MAX
+ * because Freeciv-web's MAP_DISTANCE_MAX differs from the regular Freeciv
+ * server's MAP_DISTANCE_MAX. A static assertion in actions.c makes sure
+ * that it can cover the whole map. */
+#define ACTION_DISTANCE_LAST_NON_SIGNAL 128016
 /* No action max distance to target limit. */
-#define ACTION_DISTANCE_UNLIMITED (MAP_DISTANCE_MAX + 1)
+#define ACTION_DISTANCE_UNLIMITED (ACTION_DISTANCE_LAST_NON_SIGNAL + 1)
 /* No action max distance can be bigger than this. */
 #define ACTION_DISTANCE_MAX ACTION_DISTANCE_UNLIMITED
 
