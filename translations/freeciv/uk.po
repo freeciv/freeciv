@@ -37454,30 +37454,28 @@ msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr "Коректні можливі аргументи: 'game', 'ruleset', 'script' або 'default'."
 
 #: server/stdinhand.c:4565
-#, fuzzy
 msgid "Reset all settings to the values at the game start."
-msgstr "Ця установка не може бути змінена коли гру вже стартовано."
+msgstr "Скинути всі налаштування до значень початку гри."
 
 #: server/stdinhand.c:4568
 msgid "No saved settings from the game start available."
-msgstr ""
+msgstr "Нема збережених настройок з початку гри."
 
 #: server/stdinhand.c:4572
 msgid "No game started..."
-msgstr "Гру не розпочато..."
+msgstr "Нема початих ігор..."
 
 #: server/stdinhand.c:4581
 msgid "Reset all settings to ruleset values."
-msgstr ""
+msgstr "Скинути всі настройки до значень з набору правил."
 
 #: server/stdinhand.c:4584
-#, fuzzy
 msgid "Failed to reset settings to ruleset values."
-msgstr "Повернути всі налаштування до типових значень."
+msgstr "Не зміг скинути налаштування до типових значень набору правил."
 
 #: server/stdinhand.c:4590
 msgid "Reset all settings and rereading the server start script."
-msgstr ""
+msgstr "Скидаю всі налаштування і перечитую скрипт запуску сервера."
 
 #: server/stdinhand.c:4608
 msgid "Reset all settings to default values."
@@ -37490,74 +37488,71 @@ msgstr "Налаштування переініціалізовано."
 #: server/stdinhand.c:4675
 #, c-format
 msgid "Fall back to old syntax '%slua <script command>'."
-msgstr ""
+msgstr "Відкочуююсь до старого синтаксису '%slua <script command>'."
 
 #: server/stdinhand.c:4685
-#, fuzzy, c-format
+#, c-format
 msgid "No lua command or lua script file. See '%shelp lua'."
-msgstr "Не можу прочитати файл скрипту '%s'."
+msgstr "Нема команди lua чи скрипта lua. Див. '%shelp lua'."
 
 #: server/stdinhand.c:4708
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv script '%s' disallowed for security reasons."
-msgstr "Ім'я \"%s\" заборонено із міркуваннь безпеки."
+msgstr "Freeciv-скрипт '%s' заборонений з міркувань безпеки."
 
 #: server/stdinhand.c:4722
-#, fuzzy, c-format
+#, c-format
 msgid "No Freeciv script found by the name '%s'."
-msgstr "Не знайдено командного скрипта з ім'ям \"%s\"."
+msgstr "Не знайдено скрипта Freeciv з назвою \"%s\"."
 
 #: server/stdinhand.c:4744
-#, fuzzy, c-format
+#, c-format
 msgid "Loading Freeciv script file '%s'."
-msgstr "Завантажую файл скрипта '%s'."
+msgstr "Завантажую файл скрипта Freeciv '%s'."
 
 #: server/stdinhand.c:4752
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read Freeciv script '%s'."
-msgstr "Не можу прочитати файл скрипту '%s'."
+msgstr "Не можу прочитати скрипт Freeciv '%s'."
 
 #: server/stdinhand.c:4801
 msgid "Game not started - cannot delegate yet."
-msgstr ""
+msgstr "Гра не почалась, ще не можна делегувати."
 
 #. TRANS: do not translate the command 'delegate'.
 #: server/stdinhand.c:4854
 #, c-format
 msgid "Valid arguments for 'delegate' are: %s."
-msgstr ""
+msgstr "Правильними аргументами для 'delegate' є: %s. "
 
 #: server/stdinhand.c:4874 server/stdinhand.c:4964
-#, fuzzy, c-format
+#, c-format
 msgid "Command level '%s' or greater needed to modify others' delegations."
-msgstr "Гравця не можна видалити після старту гри."
+msgstr "Рівень команд '%s' чи вищий потрібен для зміни делегувань інших."
 
 #: server/stdinhand.c:4883
 msgid "Please specify a player for whom delegation should be canceled."
-msgstr ""
+msgstr "Прошу, вкажіть гравця для скасування передачі."
 
 #: server/stdinhand.c:4894 server/stdinhand.c:4924
-#, fuzzy
 msgid "You can't switch players from the console."
-msgstr "Зараз Ви не можете взяти нового гравця."
+msgstr "Не можна переключати гравців з консолі."
 
 #: server/stdinhand.c:4913
 msgid "Please specify a player for whom the delegation should be shown."
-msgstr ""
+msgstr "Прошу вказати гравця для якого показати делегування."
 
 #: server/stdinhand.c:4938
-#, fuzzy
 msgid "Please specify a player to take control of."
-msgstr "Не вдалося завантажити %s"
+msgstr "Будь ласка вкажіть гравця для керування."
 
 #: server/stdinhand.c:4949
 msgid "Please specify a user to whom control is to be delegated."
-msgstr ""
+msgstr "Прошу, вкажіть гравця якому передати керування. "
 
 #: server/stdinhand.c:4973
-#, fuzzy
 msgid "You do not control a player."
-msgstr "Ви не приєднані до гравця."
+msgstr "Ви не керуєте гравцем."
 
 #: server/stdinhand.c:5009
 #, c-format
@@ -37565,11 +37560,13 @@ msgid ""
 "Can't delegate control of '%s' belonging to %s while they are controlling "
 "another player."
 msgstr ""
+"Не можу передати керування '%s', що належать %s, поки вони керують "
+"іншим гравцем."
 
 #: server/stdinhand.c:5015
 #, c-format
 msgid "Can't change delegation of '%s' while controlled by delegate %s."
-msgstr ""
+msgstr "Не можу змінити передачу '%s', поки управляється делегатом %s."
 
 #: server/stdinhand.c:5022
 msgid ""
@@ -37584,38 +37581,40 @@ msgid ""
 "%s already owns '%s', so cannot also be delegate. Use '%sdelegate cancel' to "
 "cancel an existing delegation."
 msgstr ""
+"%s вже володіє '%s', тому також не може бути делегатом. Скористайтесь"
+" '%sdelegate cancel' для відміни поточного делегування."
 
 #. TRANS: don't translate '/delegate cancel'
 #: server/stdinhand.c:5045
 msgid ""
 "You can't delegate control to yourself. Use '/delegate cancel' to cancel an "
 "existing delegation."
-msgstr ""
+msgstr "Ви не можете передати управління собі ж. Скористайтеся '/delegate cancel', "
+"щоб відмінити поточне делегування."
 
 #: server/stdinhand.c:5058 server/stdinhand.c:5075
-#, fuzzy, c-format
+#, c-format
 msgid "Control of player '%s' delegated to user %s."
-msgstr "Гравець %s приєднався до команди %s."
+msgstr "Управління гравцем '%s' передане користувачу %s."
 
 #: server/stdinhand.c:5071 server/stdinhand.c:5086
-#, fuzzy, c-format
+#, c-format
 msgid "No delegation defined for '%s'."
-msgstr "Немає з'єднання з ім'ям '%s'."
+msgstr "Не визначена передача для '%s'."
 
 #: server/stdinhand.c:5106 server/stdinhand.c:5182 server/stdinhand.c:5212
-#, fuzzy
 msgid "Unexpected failure."
-msgstr "Несподіваний кінець файла"
+msgstr "Несподіваний збій."
 
 #: server/stdinhand.c:5111
-#, fuzzy, c-format
+#, c-format
 msgid "Your delegated control of player '%s' was canceled."
-msgstr "%s не може рухатися так далеко від берега."
+msgstr "Ваша передача управління гравцем '%s' скасована."
 
 #: server/stdinhand.c:5116
-#, fuzzy, c-format
+#, c-format
 msgid "Delegation of '%s' canceled."
-msgstr "Святкування скасовані у %s."
+msgstr "Передачу  %s скасовано."
 
 #. TRANS: don't translate '/delegate restore'.
 #: server/stdinhand.c:5130
@@ -37631,13 +37630,14 @@ msgid ""
 "cancel' to cancel your own delegation first."
 msgstr "Не можна взяти гравця поки ви передали управління. Скористайтесь "
 "'/delegate cancel', щоб спочатку відмінити власне делегування."
+
 #: server/stdinhand.c:5154
 #, c-format
 msgid "You already control '%s'."
 msgstr "Ви вже управляєте %s."
 
 #: server/stdinhand.c:5163
-#, fuzzy, c-format
+#, c-format
 msgid "Control of player '%s' has not been delegated to you."
 msgstr "Вам не передавали керування гравцем '%s'."
 
