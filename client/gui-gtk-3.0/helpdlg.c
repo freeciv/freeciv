@@ -1125,11 +1125,11 @@ static void help_extras_of_act_for_terrain(struct terrain *pterr,
                                            enum unit_activity act,
                                            char *label)
 {
-  struct universal for_terr = { .kind = VUT_TERRAIN, .value = { .terrain = pterr }};
   enum extra_cause cause = activity_to_extra_cause(act);
 
   extra_type_by_cause_iterate(cause, pextra) {
-    if (pextra->buildable && universal_fulfills_requirement(FALSE, &(pextra->reqs), &for_terr)) {
+    if (pextra->buildable
+        && requirement_fulfilled_by_terrain(pterr, &(pextra->reqs))) {
       GtkWidget *w;
       GtkWidget *hbox;
       char buffer[1024];

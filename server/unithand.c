@@ -634,9 +634,6 @@ static bool does_terrain_block_action(const int action_id,
                                       bool is_target,
                                       struct terrain *pterrain)
 {
-  struct universal univ_terr
-      = {.kind = VUT_TERRAIN, .value = {.terrain = pterrain}};
-
   if (action_id == ACTION_ANY) {
     /* Any action is OK. */
     action_iterate(alt_act) {
@@ -655,10 +652,8 @@ static bool does_terrain_block_action(const int action_id,
 
   action_enabler_list_iterate(action_enablers_for_action(action_id),
                               enabler) {
-    if (universal_fulfills_requirement(FALSE,
-                                       (is_target ? &enabler->target_reqs
-                                                  : &enabler->actor_reqs),
-                                       &univ_terr)) {
+    if (requirement_fulfilled_by_terrain(pterrain,
+            (is_target ? &enabler->target_reqs : &enabler->actor_reqs))) {
       /* This terrain kind doesn't block this action enabler. */
       return FALSE;
     }

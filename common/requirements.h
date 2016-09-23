@@ -186,6 +186,10 @@ bool universal_fulfills_requirement(bool check_necessary,
   universal_fulfills_requirement(FALSE, (_rqs_),                           \
     &(struct universal){.kind = VUT_IMPROVEMENT,                           \
                         .value = {.building = (_imp_)}})
+#define requirement_fulfilled_by_terrain(_ter_, _rqs_)                 \
+  universal_fulfills_requirement(FALSE, (_rqs_),                       \
+    &(struct universal){.kind = VUT_TERRAIN,                           \
+                        .value = {.terrain = (_ter_)}})
 #define requirement_fulfilled_by_unit_class(_uc_, _rqs_)                   \
   universal_fulfills_requirement(FALSE, (_rqs_),                           \
       &(struct universal){.kind = VUT_UCLASS, .value = {.uclass = (_uc_)}})
