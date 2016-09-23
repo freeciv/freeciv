@@ -3617,6 +3617,29 @@ bool universal_fulfills_requirement(bool check_necessary,
 }
 
 /*************************************************************************
+  Find if a nation fulfills a requirement
+**************************************************************************/
+static enum item_found nation_found(const struct requirement *preq,
+                                    const struct universal *source)
+{
+  fc_assert(source->value.nation);
+
+  switch (preq->source.kind) {
+  case VUT_NATION:
+    return preq->source.value.nation == source->value.nation ? ITF_YES
+                                                             : ITF_NO;
+  case VUT_NATIONGROUP:
+    return nation_is_in_group(source->value.nation,
+                              preq->source.value.nationgroup) ? ITF_YES
+                                                              : ITF_NO;
+  default:
+    break;
+  }
+
+  return ITF_NOT_APPLICABLE;
+}
+
+/*************************************************************************
   Find if a government fulfills a requirement
 **************************************************************************/
 static enum item_found government_found(const struct requirement *preq,
@@ -3742,6 +3765,7 @@ static enum item_found terrain_type_found(const struct requirement *preq,
 void universal_found_functions_init(void)
 {
   universal_found_function[VUT_GOVERNMENT] = &government_found;
+  universal_found_function[VUT_NATION] = &nation_found;
   universal_found_function[VUT_IMPROVEMENT] = &improvement_found;
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;

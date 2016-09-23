@@ -179,6 +179,9 @@ bool universal_fulfills_requirement(bool check_necessary,
 #define requirement_fulfilled_by_government(_gov_, _rqs_)                  \
   universal_fulfills_requirement(FALSE, (_rqs_),                           \
       &(struct universal){.kind = VUT_GOVERNMENT, .value = {.govern = (_gov_)}})
+#define requirement_fulfilled_by_nation(_nat_, _rqs_)                      \
+  universal_fulfills_requirement(FALSE, (_rqs_),                           \
+      &(struct universal){.kind = VUT_NATION, .value = {.nation = (_nat_)}})
 #define requirement_fulfilled_by_improvement(_imp_, _rqs_)                 \
   universal_fulfills_requirement(FALSE, (_rqs_),                           \
     &(struct universal){.kind = VUT_IMPROVEMENT,                           \
