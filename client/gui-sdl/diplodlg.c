@@ -1483,13 +1483,14 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     bool shared;
     SDL_Rect area;
     int buttons = 0;
-    
+    bool can_toward_war;
+
     if (pSDip_Dlg) {
       return;
     }
-  
+
     pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-          
+      
     fc_snprintf(cBuf, sizeof(cBuf),  _("Foreign Minister"));
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
@@ -1525,8 +1526,10 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     area.w = MAX(area.w , pText->w);
     area.h += pText->h + adj_size(15);
 
-    if (can_client_issue_orders()
-        && pplayer_can_cancel_treaty(client_player(), pPlayer)) {
+    can_toward_war = can_client_issue_orders()
+      && pplayer_can_cancel_treaty(client_player(), pPlayer);
+
+    if (can_toward_war) {
       if (type == DS_ARMISTICE) {
         fc_snprintf(cBuf, sizeof(cBuf), _("Declare WAR"));
       } else {
@@ -1657,16 +1660,17 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       pBuf->size.h = button_h;
       pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(10);
       pBuf->size.x = pBuf->next->size.x;
-            
     }
-    
+
     /* cancel */
-    pBuf = pBuf->prev;
-    pBuf->size.w = button_w;
-    pBuf->size.h = button_h;
-    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(10);
-    pBuf->size.x = pBuf->next->size.x;
-  
+    if (can_toward_war) {
+      pBuf = pBuf->prev;
+      pBuf->size.w = button_w;
+      pBuf->size.h = button_h;
+      pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(10);
+      pBuf->size.x = pBuf->next->size.x;
+    }
+
     /* ================================================== */
     /* redraw */
     redraw_group(pSDip_Dlg->pBeginWidgetList, pWindow, 0);
