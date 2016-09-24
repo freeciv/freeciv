@@ -1080,6 +1080,12 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
       /* Reason: Can't bombard if it never fires. */
       return FALSE;
     }
+
+    if (actor_unittype->attack_strength <= 0) {
+      /* Reason: Can't bombard without attack strength. */
+      return FALSE;
+    }
+
     break;
 
   case ACTION_UPGRADE_UNIT:
