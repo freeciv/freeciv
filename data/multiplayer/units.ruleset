@@ -375,6 +375,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;   pop_cost = the number of population added to the target city
 ;  "Upgrade Unit"
 ;   obsolete_by = the unit type upgraded to.
+;  "Attack"
+;   attack = base attack strength
 ;
 ; ** Roles **
 ;
