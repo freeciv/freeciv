@@ -11,21 +11,8 @@ using MSYS2 from http://msys2.github.io
 
 - Msys1, not msys2, is still the official freeciv Windows Installer
   build method
-- With very specific configure options (see Problems) and msys2 package
-  selection freeciv can be built
 - Buildable clients are gtk3, gtk2, sdl2, and Qt
   - Official pre-made msys2 environment supports only gtk3-client build
-- Both server, gtk3-client, and gtk2-client launch ok, Qt client does not
-- Most Installers cannot be built
-- Buildable Installers:
-  - Ruledit
-- Both win32 and win64 builds work, but only when also the installer
-  package for whole msys2 system matches (despite installation always
-  having mingw32 and mingw64 portions, in addition to build-system
-  specific common part)
-  So if you have installed 32bit package, do not use mingw64_shell
-  at all. More surprisingly, if you have installed 64bit package,
-  do not use mingw32_shell in it at all.
 
 
  Setup
@@ -106,7 +93,7 @@ using MSYS2 from http://msys2.github.io
  - mingw-w64-i686-SDL2_ttf / mingw-w64-x86_64-SDL2_ttf
  - mingw-w64-i686-SDL2_gfx / mingw-w64-x86_64-SDL2_gfx
 
-2.2) Packaged needed for building installer package
+2.2) Packages needed for building installer package
  These are needed in addition to above ones used in the
  building step already.
 
@@ -116,8 +103,7 @@ using MSYS2 from http://msys2.github.io
  - mingw-w64-i686-nsis / mingw-w64-x86_64-nsis
 
 2.3) Packages TODO:
- - Mixer support
- - Clients other than gtk3 and gtk2
+
  - MagickWand support
 
 
@@ -204,11 +190,5 @@ somehow. Some options are:
 
  TODO
 ====================================
-
-- Qt program installers; qt-client and ruledit
-
-- sdl2-client installer
-
-- Both win32 and win64 packages built from a single build environment
 
 - Readline support
