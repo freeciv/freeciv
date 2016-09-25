@@ -318,7 +318,7 @@ static void popup_goto_airlift_dialog(void)
 
   pGotoDlg->pBeginWidgetList = pBuf;
 
-  create_vertical_scrollbar(pGotoDlg, 1, 16, TRUE, TRUE);
+  create_vertical_scrollbar(pGotoDlg, 1, adj_size(320) / adj_size(30), TRUE, TRUE);
   hide_scrollbar(pGotoDlg->pScroll);
 
   area.w = MAX(area.w, adj_size(300));
