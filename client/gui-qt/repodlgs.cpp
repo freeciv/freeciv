@@ -93,8 +93,6 @@ research_diagram::research_diagram(QWidget *parent): QWidget(parent)
   req = NULL;
   reset();
   setMouseTracking(true);
-
-  font_options_listener::listen();
 }
 
 /****************************************************************************
@@ -223,8 +221,7 @@ void research_diagram::create_tooltip_help()
 ****************************************************************************/
 void research_diagram::update_reqtree()
 {
-  destroy_reqtree(req);
-  req = create_reqtree(client_player(), true);
+  reset();
   draw_reqtree(req, pcanvas, 0, 0, 0, 0, width, height);
   create_tooltip_help();
   update();
@@ -245,17 +242,9 @@ void research_diagram::reset()
   get_reqtree_dimensions(req, &width, &height);
   pcanvas = qtg_canvas_create(width, height);
   pcanvas->map_pixmap.fill(Qt::transparent);
+  resize(width, height);
 }
 
-/****************************************************************************
-  Updates the canvas when the font changes
-****************************************************************************/
-void research_diagram::font_changed(const QString &name, const QFont &)
-{
-  if (name == fonts::reqtree_text) {
-    update_reqtree();
-  }
-}
 
 /****************************************************************************
   Mouse handler for research_diagram

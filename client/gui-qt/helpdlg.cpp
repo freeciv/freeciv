@@ -109,6 +109,16 @@ void popdown_help_dialog(void)
 }
 
 /**************************************************************************
+  Updates fonts
+**************************************************************************/
+void update_help_fonts()
+{
+  if (help_dlg) {
+    help_dlg->update_fonts();
+  }
+}
+
+/**************************************************************************
   Constructor for help dialog
 **************************************************************************/
 help_dialog::help_dialog(QWidget *parent) :
@@ -156,6 +166,14 @@ help_dialog::help_dialog(QWidget *parent) :
   if (first) {
     tree_wdg->setCurrentItem(first);
   }
+}
+
+/**************************************************************************
+  Update fonts for help_wdg
+**************************************************************************/
+void help_dialog::update_fonts()
+{
+  help_wdg->update_fonts();
 }
 
 /**************************************************************************
@@ -344,10 +362,10 @@ void help_widget::setup_ui()
   group_layout->addWidget(title_label);
 
   text_browser = new QTextBrowser(this);
-  new font_updater(text_browser, fonts::help_text);
   layout->addWidget(text_browser);
   main_widget = text_browser;
 
+  update_fonts();
   splitter_sizes << 200 << 400;
 }
 
@@ -409,6 +427,27 @@ void help_widget::do_layout()
   qobject_cast<QVBoxLayout *>(layout())->setStretchFactor(main_widget, 100);
 }
 
+/**************************************************************************
+  Updates fonts for manual
+**************************************************************************/
+void help_widget::update_fonts()
+{
+  QFont *help_font, *label_font, *title_font;
+  QLabel *label;
+
+  label_font = fc_font::instance()->get_font(fonts::help_label);
+  help_font = fc_font::instance()->get_font(fonts::help_text);
+  title_font = fc_font::instance()->get_font(fonts::help_title);
+  text_browser->setFont(*help_font);
+  title_label->setFont(*title_font);
+  foreach (label, label_list) {
+    label->setFont(*label_font);
+  }
+  foreach (label, title_list) {
+    label->setFont(*title_font);
+  }
+}
+
 /****************************************************************************
   Deletes the widgets created by do_complex_layout().
 ****************************************************************************/
@@ -430,6 +469,8 @@ void help_widget::undo_layout()
   info_panel = NULL;
   splitter = NULL;
   info_layout = NULL;
+  label_list.clear();
+  title_list.clear();
 }
 
 /****************************************************************************
@@ -468,9 +509,9 @@ void help_widget::add_info_pixmap(QPixmap *pm, bool shadow)
 void help_widget::add_info_label(const QString &text)
 {
   QLabel *label = new QLabel(text);
-  new font_updater(label, fonts::help_label);
   label->setWordWrap(true);
 
+  label_list << label;
   info_layout->addWidget(label);
 }
 
@@ -496,16 +537,15 @@ void help_widget::add_info_progress(const QString &text, int progress,
   layout->setVerticalSpacing(0);
 
   label = new QLabel(text, wdg);
-  new font_updater(label, fonts::help_label);
   layout->addWidget(label, 0, 0);
-
+  label_list << label;
   label = new QLabel(wdg);
-  new font_updater(label, fonts::help_label);
   if (value.isEmpty()) {
     label->setNum(progress);
   } else {
     label->setText(value);
   }
+  label_list << label;
   layout->addWidget(label, 0, 1, Qt::AlignRight);
 
   bar = new QProgressBar(wdg);
@@ -543,7 +583,6 @@ void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
       QLabel *tb;
       QString str;
       tb = new QLabel(this);
-      new font_updater(tb, fonts::help_label);
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
 
@@ -886,7 +925,6 @@ void help_widget::set_topic_tech(const help_item *topic,
             str = "<b>" + str + "</b> "
                + link_me(government_name_translation(pgov), HELP_GOVERNMENT);
             tb->setText(str.trimmed());
-            new font_updater(tb, fonts::help_label);
             connect(tb, SIGNAL(linkActivated(const QString)),
                     this, SLOT(anchor_clicked(const QString)));
             info_layout->addWidget(tb);
@@ -907,7 +945,6 @@ void help_widget::set_topic_tech(const help_item *topic,
             tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
             tb->setTextFormat(Qt::RichText);
             tb->setText(str.trimmed());
-            new font_updater(tb, fonts::help_label);
             connect(tb, SIGNAL(linkActivated(const QString)),
                     this, SLOT(anchor_clicked(const QString)));
             info_layout->addWidget(tb);
@@ -926,7 +963,6 @@ void help_widget::set_topic_tech(const help_item *topic,
             tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
             tb->setTextFormat(Qt::RichText);
             tb->setText(str.trimmed());
-            new font_updater(tb, fonts::help_label);
             connect(tb, SIGNAL(linkActivated(const QString)),
                     this, SLOT(anchor_clicked(const QString)));
             info_layout->addWidget(tb);
@@ -945,7 +981,6 @@ void help_widget::set_topic_tech(const help_item *topic,
         tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
         tb->setTextFormat(Qt::RichText);
         tb->setText(str.trimmed());
-            new font_updater(tb, fonts::help_label);
         connect(tb, SIGNAL(linkActivated(const QString)),
                 this, SLOT(anchor_clicked(const QString)));
         info_layout->addWidget(tb);
@@ -1028,12 +1063,12 @@ QLayout *help_widget::create_terrain_widget(const QString &title,
   layout->addWidget(label, 0, 0, 2, 1);
 
   label = new QLabel(title);
-  new font_updater(label, fonts::help_title);
   layout->addWidget(label, 0, 1, Qt::AlignBottom);
+  title_list << label;
 
   label = new QLabel(legend);
-  new font_updater(label, fonts::help_label);
   layout->addWidget(label, 1, 1, Qt::AlignTop);
+  label_list << label;
 
   if (!tooltip.isEmpty()) {
     label->setToolTip(tooltip);

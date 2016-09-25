@@ -147,8 +147,7 @@ public slots:
 
 
 class fc_client : public QMainWindow,
-                  private chat_listener,
-                  private font_options_listener
+                  private chat_listener
 {
   Q_OBJECT
   QWidget *main_wdg;

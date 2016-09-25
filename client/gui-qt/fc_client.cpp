@@ -33,6 +33,7 @@
 #include "game.h"
 
 // gui-qt
+#include "fonts.h"
 #include "fc_client.h"
 #include "gui_main.h"
 #include "optiondlg.h"
@@ -40,6 +41,7 @@
 #include "sprite.h"
 
 fc_icons* fc_icons::m_instance = 0;
+fc_font* fc_font::m_instance = 0;
 extern "C" {
   bool get_turn_done_button_state();
   void real_science_report_dialog_update(void);
@@ -114,7 +116,8 @@ fc_client::fc_client() : QMainWindow()
 ****************************************************************************/
 void fc_client::init()
 {
-  QApplication::setFont(get_font(fonts::default_font));
+  fc_font::instance()->init_fonts();
+  QApplication::setFont(*fc_font::instance()->get_font(fonts::default_font));
 
   QString path;
   central_wdg = new QWidget;
@@ -197,7 +200,6 @@ void fc_client::init()
 
   game_tab_widget->init();
   chat_listener::listen();
-  font_options_listener::listen();
 }
 
 /****************************************************************************

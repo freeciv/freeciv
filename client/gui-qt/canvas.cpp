@@ -24,6 +24,7 @@
 #include "sprite.h"
 #include "colors.h"
 
+static QFont *get_font(enum client_font font);
 /****************************************************************************
   Create a canvas of the given size.
 ****************************************************************************/
@@ -277,14 +278,14 @@ void qtg_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
   include the ascent and descent of the text.  Either of width or height
   may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
-void qtg_get_text_size (int *width, int *height,
+void qtg_get_text_size(int *width, int *height,
                         enum client_font font, const char *text)
 {
-  QFont afont;
+  QFont *afont;
   QFontMetrics *fm;
 
-  afont = font_options_listener::get_font(font);
-  fm = new QFontMetrics(afont);
+  afont = get_font(font);
+  fm = new QFontMetrics(*afont);
   if (width) {
     *width = fm->width(QString::fromUtf8(text));
   }
@@ -306,18 +307,46 @@ void qtg_canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 {
   QPainter p;
   QPen pen;
-  QFont afont;
+  QFont *afont;
   QColor color(pcolor->qcolor);
   QFontMetrics *fm;
 
-  afont = font_options_listener::get_font(font);
+  afont = get_font(font);
   pen.setColor(color);
-  fm = new QFontMetrics(afont);
+  fm = new QFontMetrics(*afont);
 
   p.begin(&pcanvas->map_pixmap);
   p.setPen(pen);
-  p.setFont(afont);
+  p.setFont(*afont);
   p.drawText(canvas_x, canvas_y + fm->ascent(), QString::fromUtf8(text));
   p.end();
   delete fm;
 }
+
+/****************************************************************************
+  Returns given font
+****************************************************************************/
+QFont *get_font(client_font font)
+{
+  QFont *qf;
+  switch (font) {
+  case FONT_CITY_NAME:
+    qf = fc_font::instance()->get_font(fonts::city_names);
+    break;
+  case FONT_CITY_PROD:
+    qf = fc_font::instance()->get_font(fonts::city_productions);
+    break;
+  case FONT_REQTREE_TEXT:
+    qf = fc_font::instance()->get_font(fonts::reqtree_text);
+    break;
+  case FONT_COUNT:
+    qf = NULL;
+    break;
+  default:
+    qf = NULL;
+    break;
+  }
+  return qf;
+}
+
+

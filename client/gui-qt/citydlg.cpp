@@ -761,6 +761,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
                                     QSizePolicy::Expanding);
   QSizePolicy size_fixed_policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   QStringList info_list;
+  QFont *small_font;
   QFont f = QApplication::font();
   QFontMetrics fm(f);
   int info_nr;
@@ -769,6 +770,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   QLabel *ql;
   QLabel *lab2;
   int h = 2 * fm.height() + 2;
+  small_font = fc_font::instance()->get_font(fonts::city_label);
   QString city_stl = "QPushButton{font-weight: bold italic; border: "
                      "0px;text-align: right;}"
                      "QPushButton:hover "
@@ -826,7 +828,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
               << _("Change in:") << _("Corruption:") << _("Waste:")
               << _("Culture:") << _("Pollution:") << _("Plague Risk:");
     info_nr = info_list.count();
-    new font_updater(info_wdg, fonts::city_label);
+    info_wdg->setFont(*small_font);
     info_grid_layout->setSpacing(0);
     for (iter = 0; iter < info_nr; iter++) {
       ql = new QLabel(info_list[iter], info_wdg);
@@ -1085,7 +1087,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
       lab_table[i] = new city_label(1 + i, this);
       gridl->addWidget(lab_table[i], i, 1, 1, 1);
       lab2 = new QLabel(this);
-      new font_updater(lab2, fonts::city_label);
+      lab2->setFont(*small_font);
       lab2->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
       lab2->setText(info_list.at(i));
       gridl->addWidget(lab2, i, 0, 1, 1);
@@ -1121,7 +1123,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     connect(qpush2, SIGNAL(pressed()), SLOT(save_cma()));
 
     cma_info_text = new QLabel;
-    new font_updater(cma_info_text, fonts::city_label);
+    cma_info_text->setFont(*small_font);
     cma_info_text->setAlignment(Qt::AlignCenter);
     cma_table = new QTableWidget;
     cma_table->setColumnCount(1);

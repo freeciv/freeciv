@@ -605,7 +605,7 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
   qheadline = QString(headline);
   qlines = QString(lines);
   qlist = qlines.split("\n");
-  small_font = get_font(fonts::notify_label);
+  small_font = *fc_font::instance()->get_font("gui_qt_font_notify_label");
   x = 0;
   y = 0;
   calc_size(x, y);
@@ -615,7 +615,28 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
   move(x, y);
   was_destroyed = false;
 
-  font_options_listener::listen();
+}
+
+/***************************************************************************
+  Starts new copy of notify dialog and closes current one
+***************************************************************************/
+void notify_dialog::restart()
+{
+  QString s, q;
+  int i;
+
+  for (i = 0; i < qlist.size(); ++i) {
+    s = qlist.at(i);
+    q = q + s;
+    if (i < qlist.size() - 1) {
+      q = q + QChar('\n');
+    }
+  }
+  popup_notify_dialog(qcaption.toLocal8Bit().data(),
+                      qheadline.toLocal8Bit().data(),
+                      q.toLocal8Bit().data());
+  close();
+  destroy();
 }
 
 /***************************************************************************
@@ -637,14 +658,6 @@ void notify_dialog::calc_size(int &x, int &y)
   x = x + 15;
 }
 
-/***************************************************************************
-  Change the fonts when needed
-***************************************************************************/
-void notify_dialog::update_font(const QString &name, const QFont &font)
-{
-  // FIXME Updating fonts isn't practical because the size of the widget
-  // will change -> its position too.
-}
 
 /***************************************************************************
   Paint Event for notify dialog
@@ -2119,6 +2132,21 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
 }
 
 /**************************************************************************
+  Restarts all notify dialogs
+**************************************************************************/
+void restart_notify_dialogs()
+{
+  QList<notify_dialog *> nd_list;
+  int i;
+
+  nd_list = gui()->mapview_wdg->findChildren<notify_dialog *>();
+  for (i = 0; i < nd_list.count(); i++) {
+    nd_list[i]->restart();
+    delete nd_list[i];
+  }
+}
+
+/**************************************************************************
   This function is called when the client disconnects or the game is
   over.  It should close all dialog windows for that game.
 **************************************************************************/
@@ -2397,7 +2425,7 @@ unit_select::unit_select(tile *ptile, QWidget *parent)
   show_line = 0;
   highligh_num = -1;
   ufont.setItalic(true);
-  info_font = get_font(fonts::notify_label);
+  info_font = *fc_font::instance()->get_font(fonts::notify_label);
   update_units();
   h_pix = NULL;
   create_pixmap();
@@ -2415,7 +2443,6 @@ unit_select::unit_select(tile *ptile, QWidget *parent)
   move(final_p.x(), final_p.y() - height());
   setFocus();
 
-  font_options_listener::listen();
 }
 /****************************************************************
   Destructor for unit select

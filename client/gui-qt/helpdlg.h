@@ -50,6 +50,7 @@ class help_dialog : public QDialog
   void make_tree();
 public:
   help_dialog(QWidget *parent = 0);
+  void update_fonts();
 
 public slots:
   void set_topic(const help_item *item);
@@ -63,6 +64,8 @@ class help_widget : public QWidget
   Q_OBJECT
   QFrame *box_wdg;
   QLabel *title_label;
+  QList<QLabel *> label_list;
+  QList<QLabel *> title_list;
 
   QWidget *main_widget;
   QTextBrowser *text_browser;
@@ -114,6 +117,7 @@ public:
   help_widget(QWidget *parent = 0);
   help_widget(const help_item *item, QWidget *parent = 0);
   ~help_widget();
+  void update_fonts();
 private:
   QString link_me(const char *str, help_page_type hpt);
 
@@ -126,5 +130,7 @@ public:
   struct terrain *terrain_max_values();
   struct unit_type *uclass_max_values(struct unit_class *uclass);
 };
+
+void update_help_fonts();
 
 #endif /* FC__HELPDLG_H */
