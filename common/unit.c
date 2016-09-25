@@ -161,22 +161,6 @@ enum unit_airlift_result
 }
 
 /****************************************************************************
-  Encapsulates whether a return from test_unit_can_airlift_to() should be
-  treated as a successful result.
-****************************************************************************/
-bool is_successful_airlift_result(enum unit_airlift_result result)
-{
-  switch (result) {
-  case AR_OK:
-  case AR_OK_SRC_UNKNOWN:
-  case AR_OK_DST_UNKNOWN:
-    return TRUE;
-  default:  /* everything else is failure */
-    return FALSE;
-  }
-}
-
-/****************************************************************************
   Determines if punit can be airlifted to dest_city now!  So punit needs
   to be in a city now.
   On the server this gives correct information; on the client it errs on the
@@ -186,11 +170,15 @@ bool is_successful_airlift_result(enum unit_airlift_result result)
 bool unit_can_airlift_to(const struct unit *punit,
                          const struct city *pdest_city)
 {
-  /* FIXME: really we want client_player(), not unit_owner(). */
-  struct player *restriction = is_server() ? NULL : unit_owner(punit);
   fc_assert_ret_val(pdest_city, FALSE);
-  return is_successful_airlift_result(
-      test_unit_can_airlift_to(restriction, punit, pdest_city));
+
+  if (is_server()) {
+    return is_action_enabled_unit_on_city(ACTION_AIRLIFT,
+                                          punit, pdest_city);
+  } else {
+    return action_prob_possible(action_prob_vs_city(punit, ACTION_AIRLIFT,
+                                                    pdest_city));
+  }
 }
 
 /****************************************************************************
