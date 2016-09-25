@@ -635,12 +635,15 @@ static struct player *need_war_player(const struct unit *actor,
 **************************************************************************/
 static bool does_terrain_block_action(const int action_id,
                                       bool is_target,
+                                      struct unit *actor_unit,
                                       struct terrain *pterrain)
 {
   if (action_id == ACTION_ANY) {
     /* Any action is OK. */
     action_iterate(alt_act) {
-      if (!does_terrain_block_action(alt_act, is_target, pterrain)) {
+      if (utype_can_do_action(unit_type_get(actor_unit), alt_act)
+          && !does_terrain_block_action(alt_act, is_target,
+                                        actor_unit, pterrain)) {
         /* Only one action has to be possible. */
         return FALSE;
       }
@@ -656,7 +659,9 @@ static bool does_terrain_block_action(const int action_id,
   action_enabler_list_iterate(action_enablers_for_action(action_id),
                               enabler) {
     if (requirement_fulfilled_by_terrain(pterrain,
-            (is_target ? &enabler->target_reqs : &enabler->actor_reqs))) {
+            (is_target ? &enabler->target_reqs : &enabler->actor_reqs))
+        && requirement_fulfilled_by_unit_type(unit_type_get(actor_unit),
+                                              &enabler->actor_reqs)) {
       /* This terrain kind doesn't block this action enabler. */
       return FALSE;
     }
@@ -817,7 +822,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->no_act_terrain = tile_terrain(unit_tile(punit));
   } else if (punit
              && does_terrain_block_action(action_id, FALSE,
-                 tile_terrain(unit_tile(punit)))) {
+                 punit, tile_terrain(unit_tile(punit)))) {
     /* No action enabler allows acting against this terrain kind. */
     explnat->kind = ANEK_BAD_TERRAIN_ACT;
     explnat->no_act_terrain = tile_terrain(unit_tile(punit));
@@ -829,7 +834,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->no_act_terrain = tile_terrain(target_tile);
   } else if (target_tile
              && does_terrain_block_action(action_id, TRUE,
-                                          tile_terrain(target_tile))) {
+                 punit, tile_terrain(target_tile))) {
     /* No action enabler allows acting against this terrain kind. */
     explnat->kind = ANEK_BAD_TERRAIN_TGT;
     explnat->no_act_terrain = tile_terrain(target_tile);
