@@ -67,7 +67,7 @@ void plr_item_delegate::paint(QPainter *painter, const QStyleOptionViewItem
   QRect rct;
   QPixmap pix(16, 16);
 
-  QStyleOptionViewItemV3 opt = QItemDelegate::setOptions(index, option);
+  QStyleOptionViewItem opt = QItemDelegate::setOptions(index, option);
   painter->save();
   switch (player_dlg_columns[index.column()].type) {
   case COL_FLAG:
