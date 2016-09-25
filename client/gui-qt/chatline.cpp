@@ -303,7 +303,6 @@ chatwdg::chatwdg(QWidget *parent)
   chat_line->installEventFilter(this);
   chat_output->setVisible(true);
   chat_output->setAcceptRichText(true);
-  new font_updater(chat_output, fonts::chatline);
   chat_output->setOpenLinks(false);
   chat_output->setReadOnly(true);
   connect(chat_output, SIGNAL(anchorClicked(const QUrl)),
@@ -337,6 +336,16 @@ void chatwdg::scroll_to_bottom()
                                  chat_output->verticalScrollBar()->maximum());
 }
 
+
+/***************************************************************************
+  Updates font for chatwdg
+***************************************************************************/
+void chatwdg::update_font()
+{
+  QFont *qf;
+  qf = fc_font::instance()->get_font(fonts::chatline);
+  chat_output->setFont(*qf);
+}
 
 /***************************************************************************
   User clicked clear links button

@@ -69,8 +69,7 @@ public:
 /****************************************************************************
   Custom widget representing research diagram in science_report
 ****************************************************************************/
-class research_diagram: public QWidget,
-                        private font_options_listener
+class research_diagram: public QWidget
 {
   Q_OBJECT
 
@@ -82,7 +81,6 @@ public:
   QSize size();
 
 private:
-  void font_changed(const QString &name, const QFont &font);
   void mousePressEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
   void paintEvent(QPaintEvent *event);

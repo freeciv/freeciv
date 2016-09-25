@@ -105,6 +105,7 @@ public:
   void update_widgets();
   int default_size(int lines);
   void scroll_to_bottom();
+  void update_font();
 private slots:
   void state_changed(int state);
   void rm_links();

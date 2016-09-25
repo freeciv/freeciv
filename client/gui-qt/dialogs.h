@@ -45,6 +45,7 @@ class QWidget;
 typedef void (*pfcn_void)(QVariant, QVariant);
 void update_nationset_combo();
 void popup_races_dialog(struct player *pplayer);
+void restart_notify_dialogs();
 
 /***************************************************************************
   Nonmodal message box for disbanding units
@@ -128,7 +129,7 @@ private:
  Widget around map view to display informations like demographics report,
  top 5 cities, traveler's report.
 ***************************************************************************/
-class notify_dialog:public fcwidget, private font_options_listener
+class notify_dialog:public fcwidget
 {
   Q_OBJECT
 public:
@@ -136,12 +137,12 @@ public:
                 const char *lines, QWidget *parent = 0);
   virtual void update_menu();
   ~notify_dialog();
+  void restart();
 protected:
   void mousePressEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
 private:
-  void update_font(const QString &name, const QFont &font);
   void paintEvent(QPaintEvent *paint_event);
   void calc_size(int &x, int&y);
   close_widget *cw;
@@ -159,7 +160,7 @@ private:
  TODO Add some simple scrollbars (just paint it during paint event,
  if 'more' is true->scroll visible and would depend on show_line
 ***************************************************************************/
-class unit_select: public fcwidget, private font_options_listener
+class unit_select: public fcwidget
 {
   Q_OBJECT
   QPixmap *pix;

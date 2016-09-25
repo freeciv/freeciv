@@ -115,7 +115,7 @@ private:
 /**************************************************************************
   QWidget used for displaying map
 **************************************************************************/
-class map_view : public QWidget, private font_options_listener
+class map_view : public QWidget
 {
   Q_OBJECT
   void shortcut_pressed(int key);
@@ -150,7 +150,7 @@ private:
 /**************************************************************************
   Information label about clicked tile
 **************************************************************************/
-class info_tile: public QLabel, private font_options_listener
+class info_tile: public QLabel
 {
   Q_OBJECT
   QFont info_font;

@@ -227,8 +227,6 @@ map_view::map_view() : QWidget()
   resize(0, 0);
   setMouseTracking(true);
   setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-
-  font_options_listener::listen();
 }
 
 /**************************************************************************
@@ -1316,7 +1314,7 @@ void mapview_thaw(void)
 info_tile::info_tile(struct tile *ptile, QWidget *parent): QLabel(parent)
 {
   setParent(parent);
-  info_font = get_font(fonts::comment_label);
+  info_font = *fc_font::instance()->get_font(fonts::comment_label);
   itile = ptile;
   calc_size();
 }

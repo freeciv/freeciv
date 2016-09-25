@@ -59,11 +59,15 @@
 #include "helpdlg.h"
 #include "qtg_cxxside.h"
 
+extern "C" {
+  void real_science_report_dialog_update();
+}
+extern void restart_notify_dialogs();
+
 
 static QApplication *qapp = nullptr;
 static fc_client *freeciv_qt;
 const char *client_string = "gui-qt";
-
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = false;
 
@@ -73,6 +77,10 @@ void reset_unit_table(void);
 static void populate_unit_pixmap_table(void);
 static void apply_titlebar(struct option *poption);
 static void apply_sidebar(struct option *poption);
+static void apply_font(struct option *poption);
+static void apply_city_font(struct option *poption);
+static void apply_help_font(struct option *poption);
+static void apply_notify_font(struct option *poption);
 
 /****************************************************************************
   Return fc_client instance
@@ -206,9 +214,29 @@ void qtg_options_extra_init()
   } else {                                                                  \
     log_error("Didn't find option %s!", #var);                              \
   }
+  option_var_set_callback(gui_qt_font_city_names,
+                          apply_font);
+  option_var_set_callback(gui_qt_font_city_productions,
+                          apply_font);
+  option_var_set_callback(gui_qt_font_reqtree_text,
+                          apply_font);
+  option_var_set_callback(gui_qt_font_default,
+                          apply_font);
+  option_var_set_callback(gui_qt_font_city_label,
+                          apply_city_font);
+  option_var_set_callback(gui_qt_font_help_label,
+                          apply_help_font);
+  option_var_set_callback(gui_qt_font_help_text,
+                          apply_help_font);
+  option_var_set_callback(gui_qt_font_help_title,
+                          apply_help_font);
+  option_var_set_callback(gui_qt_font_chatline,
+                          apply_font);
+  option_var_set_callback(gui_qt_font_notify_label,
+                          apply_notify_font);
   option_var_set_callback(gui_qt_show_titlebar,
                           apply_titlebar);
-    option_var_set_callback(gui_qt_sidebar_left,
+  option_var_set_callback(gui_qt_sidebar_left,
                           apply_sidebar);
 #undef option_var_set_callback
 }
@@ -354,6 +382,95 @@ void apply_sidebar(struct option *poption)
 }
 
 /****************************************************************************
+  Change the given font.
+****************************************************************************/
+static void apply_font(struct option *poption)
+{
+  QFont *f;
+  QFont *remove_old;
+  QString s;
+
+  if (gui()) {
+    f = new QFont;
+    s = option_font_get(poption);
+    f->fromString(s);
+    s = option_name(poption);
+    remove_old = fc_font::instance()->get_font(s);
+    delete remove_old;
+    fc_font::instance()->set_font(s, f);
+    update_city_descriptions();
+    gui()->infotab->chtwdg->update_font();
+    QApplication::setFont(*fc_font::instance()->get_font(fonts::default_font));
+    real_science_report_dialog_update();
+  }
+}
+
+/****************************************************************************
+  Applies help font
+****************************************************************************/
+static void apply_help_font(struct option *poption)
+{
+  QFont *f;
+  QFont *remove_old;
+  QString s;
+
+  if (gui()) {
+    f = new QFont;
+    s = option_font_get(poption);
+    f->fromString(s);
+    s = option_name(poption);
+    remove_old = fc_font::instance()->get_font(s);
+    delete remove_old;
+    fc_font::instance()->set_font(s, f);
+    update_help_fonts();
+  }
+}
+
+/****************************************************************************
+  Applies help font
+****************************************************************************/
+static void apply_notify_font(struct option *poption)
+{
+  QFont *f;
+  QFont *remove_old;
+  QString s;
+
+  if (gui()) {
+    f = new QFont;
+    s = option_font_get(poption);
+    f->fromString(s);
+    s = option_name(poption);
+    remove_old = fc_font::instance()->get_font(s);
+    delete remove_old;
+    fc_font::instance()->set_font(s, f);
+    restart_notify_dialogs();
+  }
+}
+
+
+/****************************************************************************
+  Changes city label font
+****************************************************************************/
+void apply_city_font(option *poption)
+{
+  QFont *f;
+  QFont *remove_old;
+  QString s;
+
+  if (gui() && qtg_get_current_client_page() == PAGE_GAME) {
+    f = new QFont;
+    s = option_font_get(poption);
+    f->fromString(s);
+    s = option_name(poption);
+    remove_old = fc_font::instance()->get_font(s);
+    delete remove_old;
+    fc_font::instance()->set_font(s, f);
+    qtg_popdown_all_city_dialogs();
+  }
+}
+
+
+/****************************************************************************
   Stub for editor function
 ****************************************************************************/
 void qtg_editgui_tileset_changed()
@@ -395,7 +512,16 @@ void qtg_editgui_notify_object_created(int tag, int id)
 ****************************************************************************/
 void qtg_gui_update_font(const char *font_name, const char *font_value)
 {
-  /* PORTME */
+  QFont *f;
+  QFont *remove_old;
+  QString fname;
+
+  fname = "gui_qt_font_" + QString(font_name);
+  f = new QFont;
+  f->fromString(font_value);
+  remove_old = fc_font::instance()->get_font(fname);
+  delete remove_old;
+  fc_font::instance()->set_font(fname, f);
 }
 
 /****************************************************************************

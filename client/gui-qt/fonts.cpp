@@ -23,107 +23,94 @@
 // Qt
 #include <QWidget>
 
-FC_CPP_DECLARE_LISTENER(font_options_listener)
-
-QMap<QString, QFont> font_options_listener::font_map =
-    QMap<QString, QFont>();
-
-/***************************************************************************
-  Constructor
-***************************************************************************/
-font_options_listener::font_options_listener()
+/****************************************************************************
+  Font provider constructor
+****************************************************************************/
+fc_font::fc_font()
 {
-  if (font_map.empty()) {
-    init_font_map();
+}
+
+/****************************************************************************
+  Returns instance of fc_font
+****************************************************************************/
+fc_font *fc_font::instance()
+{
+  if (!m_instance)
+    m_instance = new fc_font;
+  return m_instance;
+}
+
+/****************************************************************************
+  Deletes fc_icons instance
+****************************************************************************/
+void fc_font::drop()
+{
+  if (m_instance) {
+    m_instance->release_fonts();
+    delete m_instance;
+    m_instance = 0;
   }
 }
 
-/***************************************************************************
-  Initializes the font map
-***************************************************************************/
-void font_options_listener::init_font_map()
+
+/****************************************************************************
+  Returns desired font
+****************************************************************************/
+QFont *fc_font::get_font(QString name)
 {
-  QFont font;
+  /**
+   * example: get_font("gui_qt_font_city_label")
+   */
+
+  if (font_map.contains(name)) {
+    return font_map.value(name);
+  } else {
+    return nullptr;
+  }
+}
+
+/****************************************************************************
+  Initiazlizes fonts from client options
+****************************************************************************/
+void fc_font::init_fonts()
+{
+  QFont *f;
   QString s;
+
+  /**
+   * default font names are:
+   * gui_qt_font_city_label
+   * gui_qt_font_notify_label and so on.
+   * (full list is in options.c in client dir)
+   */
 
   options_iterate(client_optset, poption) {
     if (option_type(poption) == OT_FONT) {
+      f = new QFont;
       s = option_font_get(poption);
-      font.fromString(s);
-      s = option_font_target(poption);
-      font_map[s] = font;
+      f->fromString(s);
+      s = option_name(poption);
+      set_font(s, f);
     }
   } options_iterate_end;
 }
 
-/***************************************************************************
-  Called whenever a font changes. Default implementation does nothing.
-***************************************************************************/
-void font_options_listener::update_font(const QString &name,
-                                        const QFont &font)
-{}
-
-/***************************************************************************
-  Returns the font with the given name.
-***************************************************************************/
-QFont font_options_listener::get_font(const QString &name) const
+/****************************************************************************
+  Deletes all fonts
+****************************************************************************/
+void fc_font::release_fonts()
 {
-  return font_map[name];
-}
-
-/***************************************************************************
-  Returns the appropriate QFont for the given client_font
-***************************************************************************/
-QFont font_options_listener::get_font(client_font font)
-{
-  if (font_map.empty()) {
-    init_font_map();
-  }
-  switch (font) {
-  case FONT_CITY_NAME:
-    return font_map[fonts::city_names];
-  case FONT_CITY_PROD:
-    return font_map[fonts::city_productions];
-  case FONT_REQTREE_TEXT:
-    return font_map[fonts::reqtree_text];
-  case FONT_COUNT:
-    break;
-    // Will trigger a warning if not all cases are covered
-  }
-  // Reasonable default
-  return font_map[fonts::default_font];
-}
-
-/***************************************************************************
-  Sets the font with the given name. The configuration is *not* updated.
-***************************************************************************/
-void font_options_listener::set_font(const char *name,
-                                     const char *font_info)
-{
-  QFont font;
-  font.fromString(font_info);
-  font_map[name] = font;
-  invoke(&font_options_listener::update_font, name, font);
-}
-
-/***************************************************************************
-  Constructor.
-***************************************************************************/
-font_updater::font_updater(QWidget *wdg, const QString &fname) :
-  QObject(widget),
-  font_name(fname),
-  widget(wdg)
-{
-  wdg->setFont(get_font(fname));
-  font_options_listener::listen();
-}
-
-/***************************************************************************
-  Updates the widget's font.
-***************************************************************************/
-void font_updater::update_font(const QString &name, const QFont &font)
-{
-  if (name == font_name) {
-    widget->setFont(font);
+  foreach (QFont *f, font_map) {
+    delete f;
   }
 }
+
+
+/****************************************************************************
+  Adds new font or overwrite old one
+****************************************************************************/
+void fc_font::set_font(QString name, QFont * qf)
+{
+  font_map.insert(name,qf);
+}
+

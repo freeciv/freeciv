@@ -136,7 +136,6 @@ void fc_client::create_main_page(void)
 #if IS_BETA_VERSION
   QPalette warn_color;
   QLabel *beta_label = new QLabel(beta_message());
-  new font_updater(beta_label, fonts::beta_label);
 #endif /* IS_BETA_VERSION */
 
   pages_layout[PAGE_MAIN] = new QGridLayout;
