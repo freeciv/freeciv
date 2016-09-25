@@ -660,6 +660,14 @@ static struct command commands[] = {
       "delegation status."), NULL,
    CMD_ECHO_NONE, VCF_NONE, 0
   },
+  {"aicmd", ALLOW_ADMIN,
+   /* TRANS: translate text between <> only */
+   N_("aicmd <player> <command>"),
+   N_("Execute AI command"),
+   N_("Execute a command in the context of the AI for the given player"),
+   NULL,
+   CMD_ECHO_ADMINS, VCF_NONE, 0
+  },
   {"fcdb", ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("fcdb reload\n"

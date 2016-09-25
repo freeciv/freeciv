@@ -92,6 +92,7 @@ enum command_id {
   CMD_LUA,
   CMD_KICK,
   CMD_DELEGATE,
+  CMD_AICMD,
   CMD_FCDB,
   CMD_MAPIMG,
 

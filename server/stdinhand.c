@@ -148,6 +148,7 @@ static bool kick_command(struct connection *caller, char *name, bool check);
 static bool delegate_command(struct connection *caller, char *arg,
                              bool check);
 static const char *delegate_player_str(struct player *pplayer, bool observer);
+static bool aicmd_command(struct connection *caller, char *arg, bool check);
 static bool fcdb_command(struct connection *caller, char *arg, bool check);
 static const char *fcdb_accessor(int i);
 static char setting_status(struct connection *caller,
@@ -4365,6 +4366,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return kick_command(caller, arg, check);
   case CMD_DELEGATE:
     return delegate_command(caller, arg, check);
+  case CMD_AICMD:
+    return aicmd_command(caller, arg, check);
   case CMD_FCDB:
     return fcdb_command(caller, arg, check);
   case CMD_MAPIMG:
@@ -5502,6 +5505,71 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
 
   free_tokens(token, ntokens);
 
+  return ret;
+}
+
+/*****************************************************************************
+  Execute a command in the context of the AI of the player.
+*****************************************************************************/
+static bool aicmd_command(struct connection *caller, char *arg, bool check)
+{
+  enum m_pre_result match_result;
+  struct player *pplayer;
+  char *tokens[1], *cmd = NULL;
+  int ntokens;
+  bool ret = FALSE;
+
+  ntokens = get_tokens(arg, tokens, 1, TOKEN_DELIMITERS);
+
+  if (ntokens < 1) {
+    cmd_reply(CMD_AICMD, caller, C_FAIL,
+              _("No player given for aicmd."));
+    goto cleanup;
+  }
+
+  pplayer = player_by_name_prefix(tokens[0], &match_result);
+
+  if (NULL == pplayer) {
+    cmd_reply_no_such_player(CMD_AICMD, caller, tokens[0], match_result);
+    goto cleanup;
+  }
+
+  /* We have a player - extract the command. */
+  cmd = arg + strlen(tokens[0]);
+  cmd = skip_leading_spaces(cmd);
+
+  if (strlen(cmd) == 0) {
+    cmd_reply(CMD_AICMD, caller, C_FAIL,
+              _("No command for the AI console defined."));
+    goto cleanup;
+  }
+
+  if (check) {
+    ret = TRUE;
+    goto cleanup;
+  }
+
+  /* This check is needed to return a message if the function is not defined
+   * for the AI of the player. */
+  if (pplayer && pplayer->ai) {
+    if (pplayer->ai->funcs.player_console) {
+      cmd_reply(CMD_AICMD, caller, C_OK,
+                _("AI console for player %s. Command: '%s'."),
+                player_name(pplayer), cmd);
+      CALL_PLR_AI_FUNC(player_console, pplayer, pplayer, cmd);
+      ret = TRUE;
+    } else {
+      cmd_reply(CMD_AICMD, caller, C_FAIL,
+                _("No AI console defined for the AI '%s' of player %s."),
+                ai_name(pplayer->ai), player_name(pplayer));
+    }
+  } else {
+    cmd_reply(CMD_AICMD, caller, C_FAIL, _("No AI defined for player %s."),
+              player_name(pplayer));
+  }
+
+ cleanup:
+  free_tokens(tokens, ntokens);
   return ret;
 }
 

@@ -24,7 +24,7 @@ extern "C" {
  * structure below. When changing mandatory capability part, check that
  * there's enough reserved_xx pointers in the end of the structure for
  * taking to use without need to bump mandatory capability again. */
-#define FC_AI_MOD_CAPSTR "+Freeciv-3.0-ai-module-2016.Aug.05"
+#define FC_AI_MOD_CAPSTR "+Freeciv-3.0-ai-module-2016.Sep.23"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -89,6 +89,9 @@ struct ai_type
      * with each other player as parameter. */
     void (*player_load_relations)(struct player *pplayer, struct player *other,
                                   const struct section_file *file, int plrno);
+
+    /* AI console. */
+    void (*player_console)(struct player *pplayer, const char *cmd);
 
     /* Called for AI type that gains control of player. */
     void (*gained_control)(struct player *pplayer);
