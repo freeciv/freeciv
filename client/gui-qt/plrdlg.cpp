@@ -711,12 +711,11 @@ void plr_report::update_report(bool update_selection)
 
   /* Force updating selected player information */
   if (update_selection == true) {
-    if (qmi.isValid()){
+    qmi = plr_wdg->currentIndex();
+    if (qmi.isValid()) {
       plr_wdg->clearSelection();
       plr_wdg->setCurrentIndex(qmi);
     }
-    plr_wdg->clearSelection();
-    plr_wdg->setCurrentIndex(qmi);
   }
 
   plr_wdg->header()->resizeSections(QHeaderView::ResizeToContents);
