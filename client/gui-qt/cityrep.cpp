@@ -69,7 +69,7 @@ void city_item_delegate::paint(QPainter *painter,
                                const QStyleOptionViewItem &option,
                                const QModelIndex &index) const
 {
-  QStyleOptionViewItemV3 opt = QItemDelegate::setOptions(index, option);
+  QStyleOptionViewItem opt = QItemDelegate::setOptions(index, option);
   QString txt;
   QFont font;
   QPalette palette;

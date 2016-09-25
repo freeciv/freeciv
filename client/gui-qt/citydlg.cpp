@@ -2776,7 +2776,7 @@ void city_production_delegate::paint(QPainter *painter,
   bool is_flying = false;
   bool is_unit = true;
   QPixmap pix_dec(option.rect.width(), option.rect.height());
-  QStyleOptionViewItemV2 opt;
+  QStyleOptionViewItem opt;
   color col;
   QIcon icon = qapp->style()->standardIcon(QStyle::SP_DialogCancelButton);
   bool free_sprite = false;
