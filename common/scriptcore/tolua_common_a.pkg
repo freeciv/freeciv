@@ -13,9 +13,11 @@
 
 /*****************************************************************************
   ADVERTISEMENT: do not attempt to change the name of the API functions.
-  They *must* be compatible between the minor Freeciv versions within the
-  same major version. If you really like to change a function name, be sure
-  to keep also the old one running.
+  They may be in use in Lua scripts in savefiles, so once released, the
+  name and signature cannot change shape even in new major versions of
+  Freeciv, until the relevant save format version can no longer be loaded.
+  If you really like to change a function name, be sure to keep also the
+  old one running.
 *****************************************************************************/
 
 $#ifdef HAVE_CONFIG_H
