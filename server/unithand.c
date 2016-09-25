@@ -892,6 +892,11 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                  DRO_FOREIGN,
                                                  FALSE)) {
     explnat->kind = ANEK_DOMESTIC;
+  } else if (punit
+             && does_nation_block_action(action_id, FALSE,
+                                         punit, unit_owner(punit)->nation)) {
+    explnat->kind = ANEK_NATION_ACT;
+    explnat->no_act_nation = unit_owner(punit)->nation;
   } else if (tgt_player
              && does_nation_block_action(action_id, TRUE,
                                          punit, tgt_player->nation)) {
@@ -1133,6 +1138,13 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit cannot act against foreign targets."));
     break;
+  case ANEK_NATION_ACT:
+     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                   /* TRANS: Swedish ... Riflemen */
+                   _("%s %s cannot act."),
+                   nation_adjective_translation(explnat->no_act_nation),
+                   unit_name_translation(punit));
+     break;
   case ANEK_NATION_TGT:
      notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                    /* TRANS: ... Pirate ... */
@@ -1524,6 +1536,15 @@ void illegal_action_msg(struct player *pplayer,
                   action_get_ui_name(stopped_action),
                   action_target_kind_translated_name(
                     action_id_get_target_kind(stopped_action)));
+    break;
+  case ANEK_NATION_ACT:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  /* TRANS: Swedish ... Riflemen ... Expel Unit */
+                  _("%s %s can't do %s."),
+                  nation_adjective_translation(explnat->no_act_nation),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action));
     break;
   case ANEK_NATION_TGT:
     notify_player(pplayer, unit_tile(actor),

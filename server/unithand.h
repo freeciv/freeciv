@@ -45,6 +45,8 @@ enum ane_kind {
   ANEK_DOMESTIC,
   /* Explanation: can't be done to foreign targets. */
   ANEK_FOREIGN,
+  /* Explanation: this nation can't act. */
+  ANEK_NATION_ACT,
   /* Explanation: this nation can't be targeted. */
   ANEK_NATION_TGT,
   /* Explanation: not enough MP left. */
