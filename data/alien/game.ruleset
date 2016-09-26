@@ -223,7 +223,9 @@ poison_empties_food_stock = FALSE
 bombard_max_range = 1
 
 ; What each action should be called when showing them to the player.
-; The first %s should be before the mnemonic of the action.
+; The first %s should be before the mnemonic of the action. A Freeciv client
+; that supports mnemonics will replace it with the in-band signal that marks
+; the following character as a mnemonic in its graphical toolkit.
 ; The second %s marks where extra details should be inserted.
 
 ; /* TRANS: _Poison City (3% chance of success). */
