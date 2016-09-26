@@ -359,7 +359,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
 
   /* Format the info part of the action's UI name. */
   if (probtxt != NULL && custom != NULL) {
-    /* TRANS: action UI name's info part with custom info and probabilty.
+    /* TRANS: action UI name's info part with custom info and probability.
      * Hint: you can move the paren handling from this sting to the action
      * names if you need to add extra information (like a mnemonic letter
      * that doesn't appear in the action UI name) to it. In that case you
@@ -369,7 +369,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
      * surrounding parens. */
     astr_set(&chance, _(" (%s; %s)"), custom, probtxt);
   } else if (probtxt != NULL) {
-    /* TRANS: action UI name's info part with probabilty.
+    /* TRANS: action UI name's info part with probability.
      * Hint: you can move the paren handling from this sting to the action
      * names if you need to add extra information (like a mnemonic letter
      * that doesn't appear in the action UI name) to it. In that case you
