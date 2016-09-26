@@ -1736,6 +1736,19 @@ static void compat_load_dev(struct loaddata *loading)
 
   if (game_version < 2930000) {
     /* Since version number bump to 2.92.99 */
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+        continue;
+      }
+
+      if (secfile_entry_lookup(loading->file, "player%d.kind", plrno) == NULL) {
+	const char *kind = secfile_lookup_str_default(loading->file, "male", "player%d.sex", plrno);
+
+	secfile_insert_str(loading->file, kind, "player%d.kind", plrno);
+      }
+    } player_slots_iterate_end;
   }
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
 }
