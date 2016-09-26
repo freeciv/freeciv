@@ -84,6 +84,8 @@ enum ane_kind {
   ANEK_IS_NOT_TRANSPORTED,
   /* Explanation: must declare war first. */
   ANEK_NO_WAR,
+  /* Explanation: this nation can't be targeted. */
+  ANEK_NATION_TGT,
   /* Explanation: not enough MP left. */
   ANEK_LOW_MP,
   /* Explanation not detected. */
@@ -101,6 +103,9 @@ struct ane_expl {
 
     /* The player to advice declaring war on. */
     struct player *no_war_with;
+
+    /* The nation that can't be involved. */
+    struct nation_type *no_act_nation;
   };
 };
 
@@ -624,6 +629,49 @@ static bool does_terrain_block_action(const int action_id,
 }
 
 /**************************************************************************
+  Returns TRUE iff the specified nation blocks the specified action.
+
+  If the "action" is ACTION_ANY all actions are checked.
+**************************************************************************/
+static bool does_nation_block_action(const int action_id,
+                                     bool is_target,
+                                     struct unit *actor_unit,
+                                     struct nation_type *pnation)
+{
+  if (action_id == ACTION_ANY) {
+    /* Any action is OK. */
+    action_iterate(alt_act) {
+      if (utype_can_do_action(unit_type_get(actor_unit), alt_act)
+          && !does_nation_block_action(alt_act, is_target,
+                                       actor_unit, pnation)) {
+        /* Only one action has to be possible. */
+        return FALSE;
+      }
+    } action_iterate_end;
+
+    /* No action enabled. */
+    return TRUE;
+  }
+
+  /* ACTION_ANY is handled above. */
+  fc_assert_ret_val(action_id_is_valid(action_id), FALSE);
+
+  action_enabler_list_iterate(action_enablers_for_action(action_id),
+                              enabler) {
+    if (requirement_fulfilled_by_nation(pnation,
+                                       (is_target ? &enabler->target_reqs
+                                                  : &enabler->actor_reqs))
+        && requirement_fulfilled_by_unit_type(unit_type_get(actor_unit),
+                                              &enabler->actor_reqs)) {
+      /* This nation doesn't block this action enabler. */
+      return FALSE;
+    }
+  } action_enabler_list_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Returns an explaination why punit can't perform the specified action
   based on the current game state.
 **************************************************************************/
@@ -634,8 +682,33 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                            const struct unit *target_unit)
 {
   struct player *must_war_player;
+  struct player *tgt_player = NULL;
   struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
+
+  if (action_id == ACTION_ANY) {
+    /* Find the target player of some actions. */
+    if (target_city) {
+      /* Individual city targets have the highest priority. */
+      tgt_player = city_owner(target_city);
+    } else if (target_unit) {
+      /* Individual unit targets have the next priority. */
+      tgt_player = unit_owner(target_unit);
+    }
+  } else {
+    /* Find the target player of this action. */
+    switch (action_id_get_target_kind(action_id)) {
+    case ATK_CITY:
+      tgt_player = city_owner(target_city);
+      break;
+    case ATK_UNIT:
+      tgt_player = unit_owner(target_unit);
+      break;
+    case ATK_COUNT:
+      fc_assert(action_id_get_target_kind(action_id) != ATK_COUNT);
+      break;
+    }
+  }
 
   if ((!can_exist
        && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
@@ -672,6 +745,11 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                 target_unit))) {
     explnat->kind = ANEK_NO_WAR;
     explnat->no_war_with = must_war_player;
+  } else if (tgt_player
+             && does_nation_block_action(action_id, TRUE,
+                                         punit, tgt_player->nation)) {
+    explnat->kind = ANEK_NATION_TGT;
+    explnat->no_act_nation = tgt_player->nation;
   } else if (action_mp_full_makes_legal(punit, action_id)) {
     explnat->kind = ANEK_LOW_MP;
   } else {
@@ -721,6 +799,12 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("You must declare war on %s first.  Try using "
                     "the Nations report (F3)."),
                   player_name(explnat->no_war_with));
+    break;
+  case ANEK_NATION_TGT:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  /* TRANS: ... Pirate ... */
+                  _("This unit cannot act against %s targets."),
+                  nation_adjective_translation(explnat->no_act_nation));
     break;
   case ANEK_LOW_MP:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -947,6 +1031,17 @@ static void illegal_action(struct player *pplayer,
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action),
                   player_name(explnat->no_war_with));
+    break;
+  case ANEK_NATION_TGT:
+    notify_player(pplayer, unit_tile(actor),
+                  E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: Riflemen... Expel Unit... Pirate... Migrants */
+                  _("Your %s can't do %s to %s %s."),
+                  unit_name_translation(actor),
+                  action_get_ui_name(stopped_action),
+                  nation_adjective_translation(explnat->no_act_nation),
+                  action_target_kind_translated_name(
+                    action_id_get_target_kind(stopped_action)));
     break;
   case ANEK_LOW_MP:
     notify_player(pplayer, unit_tile(actor),
