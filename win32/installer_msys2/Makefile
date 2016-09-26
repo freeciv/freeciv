@@ -24,6 +24,8 @@ ifeq ($(MIN_WIN_VER),)
 MIN_WIN_VER=0x0600
 endif
 
+INSTSUB=usr/local
+
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
@@ -102,18 +104,18 @@ install-freeciv-common:
 	# make install
 	make -C build-$(WINARCH)-$(GUI) DESTDIR=`pwd`/install-$(WINARCH)-$(GUI) install
 	# reorder directory layout
-	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/bin/* install-$(WINARCH)-$(GUI)/
-	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/etc install-$(WINARCH)-$(GUI)/
-	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/share/freeciv install-$(WINARCH)-$(GUI)/data
+	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/bin/* install-$(WINARCH)-$(GUI)/
+	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/etc install-$(WINARCH)-$(GUI)/
+	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/share/freeciv install-$(WINARCH)-$(GUI)/data
 	mkdir -p install-$(WINARCH)-$(GUI)/share
-	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
-	mv install-$(WINARCH)-$(GUI)/$(ARCHDIR)/share/doc install-$(WINARCH)-$(GUI)/doc
+	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/share/locale install-$(WINARCH)-$(GUI)/share/
+	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/share/doc install-$(WINARCH)-$(GUI)/doc
 	mkdir -p install-$(WINARCH)-$(GUI)/debuginfo
 	cp build-$(WINARCH)-$(GUI)/gen_headers/fc_config.h install-$(WINARCH)-$(GUI)/debuginfo
 	mkdir -p install-$(WINARCH)-$(GUI)/doc/freeciv/installer
 	cp licenses/COPYING.installer install-$(WINARCH)-$(GUI)/doc/freeciv/installer/
 	# delete unneeded files
-	rm -r install-$(WINARCH)-$(GUI)/$(ARCHDIR)
+	rm -r install-$(WINARCH)-$(GUI)/$(INSTSUB)
 	# strip 'freeciv-manual' and 'freeciv-mp-<gui>' executables
 	strip install-$(WINARCH)-$(GUI)/freeciv-m*
 	# add start menu files
@@ -137,16 +139,16 @@ install-ruledit: install-ruledit-dir
 	# make install
 	make -C build-$(WINARCH)-ruledit DESTDIR=`pwd`/install-$(WINARCH)-ruledit/ install
 	# reorder directory layout
-	mv install-$(WINARCH)-ruledit/$(ARCHDIR)/bin/* install-$(WINARCH)-ruledit/
-	mv install-$(WINARCH)-ruledit/$(ARCHDIR)/share/freeciv install-$(WINARCH)-ruledit/data
-	mv install-$(WINARCH)-ruledit/$(ARCHDIR)/share/locale install-$(WINARCH)-ruledit/share/
-	mv install-$(WINARCH)-ruledit/$(ARCHDIR)/share/doc install-$(WINARCH)-ruledit/doc
+	mv install-$(WINARCH)-ruledit/$(INSTSUB)/bin/* install-$(WINARCH)-ruledit/
+	mv install-$(WINARCH)-ruledit/$(INSTSUB)/share/freeciv install-$(WINARCH)-ruledit/data
+	mv install-$(WINARCH)-ruledit/$(INSTSUB)/share/locale install-$(WINARCH)-ruledit/share/
+	mv install-$(WINARCH)-ruledit/$(INSTSUB)/share/doc install-$(WINARCH)-ruledit/doc
 	mkdir -p install-$(WINARCH)-ruledit/debuginfo
 	cp build-$(WINARCH)-ruledit/gen_headers/fc_config.h install-$(WINARCH)-ruledit/debuginfo
 	mkdir -p install-$(WINARCH)-ruledit/doc/freeciv/installer
 	cp licenses/COPYING.installer install-$(WINARCH)-ruledit/doc/freeciv/installer/
 	# delete unneeded files
-	rm -r install-$(WINARCH)-ruledit/$(ARCHDIR)
+	rm -r install-$(WINARCH)-ruledit/$(INSTSUB)
 	# strip 'freeciv-ruledit' executable
 	strip install-$(WINARCH)-ruledit/freeciv-ruledit.exe
 	# add start menu files

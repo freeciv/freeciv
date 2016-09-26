@@ -35,10 +35,10 @@ using MSYS2 from http://msys2.github.io
 1.2) Run it to install MSYS2 on build system
 
 1.3) Launch msys2_shell to update packages
-> update-core
-> pacman -Su
+> pacman -Syu
 
 2) Install following packages with 'pacman -Su'
+   As of 22-Sep-16, one has to use also '--force' option.
 
 2.1) Packages needed for building freeciv
  These packages are needed even if you don't plan to make installer,
@@ -112,19 +112,14 @@ using MSYS2 from http://msys2.github.io
 Premade msys2 environment is available for download from
 http://download.gna.org/freeciv/packages/windows/testing/cazfi/installer_msys2/envs/
 
-Current versions are
+Current version is
 
-win32:
-------
-msys2-freeciv-win32-160821.7z, based on
-https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20160205.exe
-Replace <arch> with 'i686' in package names below
+win64 host:
+-----------
+msys2-freeciv-win64-160922.7z, based on
+https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20160921.exe
 
-win64:
-------
-msys2-freeciv-win64-160821.7z, based on
-https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20160205.exe
-Replace <arch> with 'x86_64' in package names below
+Only win64 target is included - replace <arch> with 'x86_64' in package names below
 
 
 Following packages have been installed:
@@ -147,6 +142,10 @@ Following packages have been installed:
 - mingw-w64-<arch>-bzip2
 - mingw-w64-<arch>-readline
 - mingw-w64-<arch>-SDL2_mixer
+- mingw-w64-<arch>-SDL2_image
+- mingw-w64-<arch>-SDL2_ttf
+- mingw-w64-<arch>-SDL2_gfx
+- mingw-w64-<arch>-qt5
 
 
  Build
