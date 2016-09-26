@@ -1227,6 +1227,39 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
     }
     break;
 
+  case ACTION_AIRLIFT:
+    {
+      const struct city *psrc_city = tile_city(actor_tile);
+
+      if (psrc_city == NULL) {
+        /* No city to airlift from. */
+        return TRI_NO;
+      }
+
+      if (actor_player != city_owner(psrc_city)
+          && !(game.info.airlifting_style & AIRLIFTING_ALLIED_SRC
+               && pplayers_allied(actor_player, city_owner(psrc_city)))) {
+        /* Not allowed to airlift from this source. */
+        return TRI_NO;
+      }
+
+      if (!(omniscient || city_owner(psrc_city) == actor_player)) {
+        /* Can't check for airlifting capacity. */
+        return TRI_MAYBE;
+      }
+
+      if (0 >= psrc_city->airlift) {
+        /* The source cannot airlift for this turn (maybe already airlifted
+         * or no airport).
+         *
+         * Note that (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
+         * is not handled here because it always needs an airport to airlift.
+         * See also do_airline() in server/unittools.h. */
+        return TRI_NO;
+      }
+    }
+    break;
+
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_SPY_POISON:
@@ -1252,7 +1285,6 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
-  case ACTION_AIRLIFT:
     /* No hard unit type requirements. */
     break;
 
