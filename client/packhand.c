@@ -96,6 +96,9 @@
 #include "update_queue.h"
 #include "voteinfo.h"
 
+/* client/luascript */
+#include "script_client.h"
+
 #include "packhand.h"
 
 /* Define this macro to get additional debug output about the transport
@@ -2465,6 +2468,8 @@ void handle_research_info(const struct packet_research_info *packet)
         if (0 < get_num_units_in_focus()) {
           menus_update();
         }
+	script_client_signal_emit("new_tech", 0);
+
         /* If we got a new tech the tech tree news an update. */
         science_report_dialog_redraw();
       }
