@@ -69,6 +69,7 @@ static void unit_sel_unit_destroyed(GtkWidget *radio, gpointer userdata)
 ****************************************************************************/
 bool select_tgt_unit(struct unit *actor, struct tile *ptile,
                      struct unit_list *potential_tgt_units,
+                     struct unit *suggested_tgt_unit,
                      const gchar *dlg_title,
                      const gchar *actor_label,
                      const gchar *tgt_label,
@@ -145,6 +146,9 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
                      G_CALLBACK(unit_sel_unit_toggled), cbdata);
     g_signal_connect(radio, "destroy",
                      G_CALLBACK(unit_sel_unit_destroyed), cbdata);
+    if (ptgt == suggested_tgt_unit) {
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+    }
     gtk_grid_attach(GTK_GRID(box), radio, 0, tcount, 1, 1);
 
     tubuf = usdlg_get_unit_image(ptgt);

@@ -83,6 +83,7 @@ bool request_transport(struct unit *cargo, struct tile *ptile)
 {
   int tcount;
   struct unit_list *potential_transports = unit_list_new();
+  struct unit *best_transport = transporter_for_unit(cargo);
 
   unit_list_iterate(ptile->units, ptransport) {
     if (can_unit_transport(ptransport, cargo)
@@ -94,11 +95,13 @@ bool request_transport(struct unit *cargo, struct tile *ptile)
   tcount = unit_list_size(potential_transports);
 
   if (tcount == 0) {
+    fc_assert(best_transport == NULL);
     unit_list_destroy(potential_transports);
 
     return FALSE; /* Unit was not handled here. */
   } else if (tcount == 1) {
     /* There's exactly one potential transport - use it automatically */
+    fc_assert(unit_list_get(potential_transports, 0) == best_transport);
     request_unit_load(cargo, unit_list_get(potential_transports, 0), ptile);
 
     unit_list_destroy(potential_transports);
@@ -106,7 +109,7 @@ bool request_transport(struct unit *cargo, struct tile *ptile)
     return TRUE;
   }
 
-  return select_tgt_unit(cargo, ptile, potential_transports,
+  return select_tgt_unit(cargo, ptile, potential_transports, best_transport,
                          _("Transport selection"),
                          _("Looking for transport:"),
                          _("Transports available:"),
