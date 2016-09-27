@@ -992,7 +992,7 @@ static void act_sel_new_unit_tgt_callback(GtkWidget *w, gpointer data)
 
   if ((punit = game_unit_by_number(args->actor_unit_id))
       && (ptile = index_to_tile(args->target_tile_id))) {
-    select_tgt_unit(punit, ptile, ptile->units,
+    select_tgt_unit(punit, ptile, ptile->units, NULL,
                     _("Target unit selection"),
                     _("Looking for target unit:"),
                     _("Units at tile:"),

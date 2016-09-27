@@ -15,6 +15,7 @@
 
 bool select_tgt_unit(struct unit *actor, struct tile *ptile,
                      struct unit_list *potential_tgt_units,
+                     struct unit *suggested_tgt_unit,
                      const gchar *dlg_title,
                      const gchar *actor_label,
                      const gchar *tgt_label,
