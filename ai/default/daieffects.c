@@ -586,7 +586,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
       trait = ai_trait_get_value(TRAIT_TRADER, pplayer);
 
       trade_partners_iterate(pcity, tgt) {
-        trade += trade_between_cities(pcity, tgt);
+        trade += trade_base_between_cities(pcity, tgt);
       } trade_partners_iterate_end;
 
       v += trade * amount * trait / 100 / TRAIT_DEFAULT_VALUE;

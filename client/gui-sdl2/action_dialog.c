@@ -1211,7 +1211,7 @@ static const char *action_custom_text(const int action_id,
                 * the Establish Trade _Route action. */
                _("%d one time bonus + %d trade"),
                revenue,
-               trade_between_cities(actor_homecity, target_city));
+               trade_base_between_cities(actor_homecity, target_city));
       break;
     }
   case ACTION_MARKETPLACE:

@@ -108,7 +108,9 @@ trade_route_settings_by_type(enum trade_route_type type);
 bool can_cities_trade(const struct city *pc1, const struct city *pc2);
 bool can_establish_trade_route(const struct city *pc1, const struct city *pc2);
 bool have_cities_trade_route(const struct city *pc1, const struct city *pc2);
-int trade_between_cities(const struct city *pc1, const struct city *pc2);
+int trade_base_between_cities(const struct city *pc1, const struct city *pc2);
+int trade_from_route(const struct city *pc1, const struct trade_route *route,
+		     int base);
 int city_num_trade_routes(const struct city *pcity);
 int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                        const struct city *pc2,
@@ -169,6 +171,9 @@ struct goods_type
   bool disabled; /* Does not really exist - hole in goods array */
 
   struct requirement_vector reqs;
+
+  int from_pct;
+  int to_pct;
 
   bv_goods_flags flags;
 };

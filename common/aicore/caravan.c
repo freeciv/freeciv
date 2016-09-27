@@ -350,7 +350,7 @@ static double trade_benefit(const struct player *caravan_owner,
 
   if (!param->convert_trade) {
     bool countloser = param->account_for_broken_routes;
-    int newtrade = trade_between_cities(src, dest);
+    int newtrade = trade_base_between_cities(src, dest);
 
     return one_city_trade_benefit(src, caravan_owner, countloser, newtrade)
          + one_city_trade_benefit(dest, caravan_owner, countloser, newtrade);

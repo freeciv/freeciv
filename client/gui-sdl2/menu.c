@@ -1137,7 +1137,7 @@ void real_menus_update(void)
                       action_get_ui_name(ACTION_TRADE_ROUTE),
                       city_name_get(pHomecity),
                       revenue,
-                      trade_between_cities(pHomecity, pCity));
+                      trade_base_between_cities(pHomecity, pCity));
         } else {
           revenue = (revenue + 2) / 3;
           fc_snprintf(cBuf, sizeof(cBuf),

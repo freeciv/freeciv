@@ -2794,8 +2794,11 @@ inline void set_city_production(struct city *pcity)
     } 
 
     if (can_trade) {
-      proute->value =
-        trade_between_cities(pcity, game_city_by_number(proute->partner));
+      int value;
+
+      value =
+        trade_base_between_cities(pcity, game_city_by_number(proute->partner));
+      proute->value = trade_from_route(pcity, proute, value);
       pcity->prod[O_TRADE] += proute->value
         * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100;
     } else {

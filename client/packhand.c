@@ -3941,6 +3941,8 @@ void handle_ruleset_goods(const struct packet_ruleset_goods *p)
   }
   fc_assert(pgood->reqs.size == p->reqs_count);
 
+  pgood->from_pct = p->from_pct;
+  pgood->to_pct = p->to_pct;
   pgood->flags = p->flags;
 }
 

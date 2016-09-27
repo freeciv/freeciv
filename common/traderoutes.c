@@ -295,7 +295,7 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
   }
     
   if (city_num_trade_routes(pc1) >= maxpc1) {
-    trade = trade_between_cities(pc1, pc2);
+    trade = trade_base_between_cities(pc1, pc2);
     /* can we replace trade route? */
     if (city_trade_removable(pc1, NULL) >= trade) {
       return FALSE;
@@ -304,7 +304,7 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
   
   if (city_num_trade_routes(pc2) >= maxpc2) {
     if (trade == -1) {
-      trade = trade_between_cities(pc1, pc2);
+      trade = trade_base_between_cities(pc1, pc2);
     }
     /* can we replace trade route? */
     if (city_trade_removable(pc2, NULL) >= trade) {
@@ -319,7 +319,7 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
   Return the trade that exists between these cities, assuming they have a
   trade route.
 **************************************************************************/
-int trade_between_cities(const struct city *pc1, const struct city *pc2)
+int trade_base_between_cities(const struct city *pc1, const struct city *pc2)
 {
   int bonus = 0;
 
@@ -342,7 +342,20 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
 }
 
 /**************************************************************************
- Return number of trade route city has
+  Get trade income specific to route's good.
+**************************************************************************/
+int trade_from_route(const struct city *pc1, const struct trade_route *route,
+		     int base)
+{
+  if (route->dir == RDIR_TO) {
+    return base * route->goods->to_pct / 100;
+  }
+
+  return base * route->goods->from_pct / 100;
+}
+
+/**************************************************************************
+  Return number of trade route city has
 **************************************************************************/
 int city_num_trade_routes(const struct city *pcity)
 {

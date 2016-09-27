@@ -3831,7 +3831,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   }
 
   if (can_establish && (home_overbooked >= 0 || dest_overbooked >= 0)) {
-    int trade = trade_between_cities(pcity_homecity, pcity_dest);
+    int trade = trade_base_between_cities(pcity_homecity, pcity_dest);
 
     /* See if there's a trade route we can cancel at the home city. */
     if (home_overbooked >= 0) {

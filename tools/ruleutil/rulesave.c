@@ -1245,6 +1245,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
     save_name_translation(sfile, &(pgood->name), path);
 
     save_reqs_vector(sfile, &(pgood->reqs), path, "reqs");
+
+    save_default_int(sfile, pgood->from_pct, 100, path, "from_pct");
+    save_default_int(sfile, pgood->to_pct, 100, path, "to_pct");
+
   } goods_active_type_iterate_end;
 
   locks = FALSE;

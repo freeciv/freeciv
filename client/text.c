@@ -316,7 +316,7 @@ const char *popup_info_text(struct tile *ptile)
 	/* TRANS: "Trade from Warsaw: 5" */
 	astr_add_line(&str, _("Trade from %s: %d"),
                       city_name_get(hcity),
-                      trade_between_cities(hcity, pcity));
+                      trade_base_between_cities(hcity, pcity));
       }
     } unit_list_iterate_end;
   }

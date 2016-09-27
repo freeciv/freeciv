@@ -6591,6 +6591,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         }
         requirement_vector_copy(&pgood->reqs, reqs);
 
+        pgood->from_pct = secfile_lookup_int_default(file, 100,
+                                                     "%s.from_pct", sec_name);
+        pgood->to_pct = secfile_lookup_int_default(file, 100,
+                                                   "%s.to_pct", sec_name);
+
         slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
         BV_CLR_ALL(pgood->flags);
         for (j = 0; j < nval; j++) {
@@ -7259,6 +7264,8 @@ static void send_ruleset_goods(struct conn_list *dest)
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
 
+    packet.from_pct = g->from_pct;
+    packet.to_pct = g->to_pct;
     packet.flags = g->flags;
 
     lsend_packet_ruleset_goods(dest, &packet);
