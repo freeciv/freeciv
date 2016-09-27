@@ -35872,7 +35872,7 @@ msgstr "Вам не дозволено змінювати опцію '%s'."
 #: server/settings.c:2625
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
-msgstr ""
+msgstr "Установка '%s' зафіксована набором правил."
 
 #: server/settings.c:2639
 #, c-format
@@ -35882,7 +35882,7 @@ msgstr "Опцію '%s' не можна змінити коли карту вж�
 #: server/settings.c:2656
 #, c-format
 msgid "The setting '%s' can't be modified after the game has started."
-msgstr "Опцію '%s' не можна змінити коли гру вже запущено."
+msgstr "Опцію '%s' не можна змінити коли гра почалась."
 
 #: server/settings.c:2668
 msgid "Internal error."
@@ -35898,19 +35898,18 @@ msgid "Missing value."
 msgstr "Відсутнє значення"
 
 #: server/settings.c:2772
-#, fuzzy, c-format
+#, c-format
 msgid "No match for \"%s\"."
-msgstr "Ви проголосували за \"%s\""
+msgstr "Нема співпадіння для \"%s\""
 
 #: server/settings.c:2810
 #, fuzzy
 msgid "This setting is not a boolean."
-msgstr "Сторінка поточних установок"
+msgstr "Ця установка не є логічним."
 
 #: server/settings.c:2931
-#, fuzzy
 msgid "This setting is not an integer."
-msgstr "Сторінка поточних установок"
+msgstr "Ця установка не є цілим числом."
 
 #: server/settings.c:2937
 #, c-format
@@ -35918,9 +35917,8 @@ msgid "Value out of range: %d (min: %d; max: %d)."
 msgstr "Значення поза діапазоном: %d (мін: %d; макс: %d)."
 
 #: server/settings.c:2992
-#, fuzzy
 msgid "This setting is not a string."
-msgstr "Сторінка поточних установок"
+msgstr "Ця установка не стрічка."
 
 #: server/settings.c:2998
 #, c-format
@@ -35930,7 +35928,7 @@ msgstr "Рядок надто довгий (максимальна довжин�
 #: server/settings.c:3076
 #, fuzzy
 msgid "This setting is not an enumerator."
-msgstr "Сторінка поточних установок"
+msgstr "Ця установка не є перечисленням."
 
 #. TRANS: only emphasizing a string.
 #: server/settings.c:3245
@@ -35940,9 +35938,8 @@ msgstr "\"%s\""
 
 #. TRANS: Bitwise setting has no bits set.
 #: server/settings.c:3254
-#, fuzzy
 msgid "empty value"
-msgstr "Ракета"
+msgstr "пусте значення"
 
 #: server/settings.c:3306
 #, fuzzy
@@ -35951,20 +35948,20 @@ msgstr "Сторінка поточних установок"
 
 #: server/settings.c:3567 server/settings.c:3587 server/settings.c:3607
 #: server/settings.c:3631 server/settings.c:3655
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset: '%s' has been set to %s."
-msgstr "Опція: %s встановлена у \"%s\"."
+msgstr "Набірправил: %s встановлена в \"%s\"."
 
 #: server/settings.c:3672
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
-msgstr "Опція: %s встановлена у \"%s\"."
+msgstr "Звідправил: %s заблокована набором правил."
 
 #: server/settings.c:3931 server/settings.c:3956 server/settings.c:3978
 #: server/settings.c:4005 server/settings.c:4032
-#, fuzzy, c-format
+#, c-format
 msgid "Savegame: '%s' has been set to %s."
-msgstr "Опція: %s встановлена у \"%s\"."
+msgstr "Збережигру: %s встановлена в \"%s\"."
 
 #: server/settings.h:39
 msgid "Geological"
@@ -35996,7 +35993,7 @@ msgstr "Мережеві"
 
 #: server/settings.h:59
 msgid "?ssetlevel:None"
-msgstr ""
+msgstr "?ssetlevel:Нема"
 
 #: server/settings.h:63
 msgid "Vital"
@@ -36024,19 +36021,19 @@ msgstr "Вам потрібна столиця для запуску зорел�
 
 #: server/spacerace.c:179
 msgid "Your spaceship is already launched!"
-msgstr "Ваш зореліт запущено!"
+msgstr "Ваш зореліт вже запущено!"
 
 #: server/spacerace.c:185
 msgid "Your spaceship can't be launched yet!"
 msgstr "Ваш зореліт поки що не можна запустити!"
 
 #: server/spacerace.c:194
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have launched a spaceship!  It is estimated to arrive at Alpha "
 "Centauri in %s."
 msgstr ""
-"%s запустили космічний корабель! За підрахунками він досягне Альфа Центавра "
+"%s запустили космічний корабель! За підрахунками він досягне Альфи Центавра "
 "у %s."
 
 #: server/spacerace.c:222
@@ -36057,7 +36054,7 @@ msgstr "Ця деталь космічного корабля не може бу
 
 #: server/spacerace.c:274 server/spacerace.c:302
 msgid "You don't have any unplaced Space Components!"
-msgstr "Ви не маєте нерозміщених компонентів космічного корабля!"
+msgstr "Ви не маєте жодних нерозміщених компонентів космічного корабля!"
 
 #: server/spacerace.c:282
 msgid "Your spaceship already has the maximum number of Fuel Components!"
@@ -36065,11 +36062,11 @@ msgstr "Ваш зореліт уже має максимальну кількі�
 
 #: server/spacerace.c:311
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
-msgstr "Ваш зореліт уже має максимальну кількість двигунів!"
+msgstr "Ваш зореліт вже має максимальну кількість двигунів!"
 
 #: server/spacerace.c:332 server/spacerace.c:361 server/spacerace.c:390
 msgid "You don't have any unplaced Space Modules!"
-msgstr "У Вас немає нерозміщених космічних модулей!"
+msgstr "У Вас нема нерозміщених космічних модулів!"
 
 #: server/spacerace.c:340
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
@@ -36098,7 +36095,7 @@ msgstr ", %s"
 #: server/srv_main.c:340 server/srv_main.c:459
 #, c-format
 msgid "?winners:the %s"
-msgstr "%s"
+msgstr "?winners:%s"
 
 #. TRANS: There can be several winners listed
 #: server/srv_main.c:350
@@ -36107,9 +36104,8 @@ msgid "Scenario victory to %s."
 msgstr "У сценарії перемогли %s."
 
 #: server/srv_main.c:379 server/stdinhand.c:4442
-#, fuzzy
 msgid "Game is over."
-msgstr "Гру завершено"
+msgstr "Гра скінчилась."
 
 #: server/srv_main.c:413 server/srv_main.c:549
 #, c-format
@@ -36125,12 +36121,11 @@ msgstr "Союзна перемога %s."
 #: server/srv_main.c:498 server/srv_main.c:558
 #, c-format
 msgid "Game ended in victory for %s."
-msgstr "Гру закінчено перемогою %s."
+msgstr "Гра скінчилась перемогою %s."
 
 #: server/srv_main.c:509
-#, fuzzy
 msgid "Game ended as the turn limit was exceeded."
-msgstr "Гру закінчено внічию по досягненні ліміту ходів."
+msgstr "Гра скінчилась через перевищення ліміту ходів."
 
 #: server/srv_main.c:520
 #, c-format
@@ -36140,7 +36135,7 @@ msgstr "Зореліт %s досягнув Альфи Центавра."
 #: server/srv_main.c:675 server/srv_main.c:686
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
-msgstr "Ваш %s  було розпущено згідно з мирною угодою із %s."
+msgstr "Ваш %s  було розпущено згідно з мирною угодою з %s."
 
 #: server/srv_main.c:734
 #, c-format
@@ -36155,7 +36150,7 @@ msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "Замирення з %s завершено. Тепер Ви у стані війни з %s."
 
 #: server/srv_main.c:778
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
 "your alliance with both."
@@ -36165,37 +36160,37 @@ msgstr ""
 
 #: server/srv_main.c:1100
 msgid "Automatically placed spaceship parts that were still not placed."
-msgstr ""
+msgstr "Авторозміщувані частини космольота, що не були розміщені."
 
 #: server/srv_main.c:1328 server/srv_main.c:1331
 #, c-format
 msgid "Unsupported compression type %d."
-msgstr "Непідтримуваний тип компресії %d."
+msgstr "Непідтримуваний тип стиснення %d."
 
 #: server/srv_main.c:1361
 #, c-format
 msgid "Failed saving game as %s"
-msgstr "Помилка збереження гри у %s"
+msgstr "Помилка збереження гри в %s"
 
 #: server/srv_main.c:1364
 #, c-format
 msgid "Game saved as %s"
-msgstr "Гру збережено у %s"
+msgstr "Гру збережено в %s"
 
 #: server/srv_main.c:1420
 msgid "The game is already running."
-msgstr "Гра вже запущена."
+msgstr "Гра вже йде."
 
 #: server/srv_main.c:1428
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
-"%s встратив керування cmdlevel на початку гри.  Відтепер використовуйте "
+"%s втратив керування cmdlevel на початку гри.  Відтепер використовуйте "
 "голосування."
 
 #: server/srv_main.c:1435
 msgid "Starting game."
-msgstr "Стартую гру."
+msgstr "Починаємо гру."
 
 #: server/srv_main.c:1535
 #, c-format
@@ -36212,17 +36207,17 @@ msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
 msgstr ""
-"Ваш клієнт застарий. Щоб використовувати цей сервер, оновіть, будь ласка, "
-"ваш клієнт до Freeciv 2.2 чи новіше."
+"Ваш клієнт застарий. Щоб використовувати цей сервер, будь ласка, оновіть "
+"ваш клієнт щонайменше до Freeciv 2.2."
 
 #: server/srv_main.c:1693
 msgid "You are not allowed to edit."
 msgstr "Вам не дозволено редагувати."
 
 #: server/srv_main.c:1899
-#, fuzzy, c-format
+#, c-format
 msgid "%s nation is not available for user selection."
-msgstr "Нація %s не доступна у цьому сценарії."
+msgstr "Нація %s не доступна для вибору користувача."
 
 #: server/srv_main.c:1905
 #, c-format
@@ -36232,25 +36227,26 @@ msgstr "Нація %s вже використовується."
 #: server/srv_main.c:1921
 #, c-format
 msgid "%s is the %s ruler %s."
-msgstr "%s є лідером нації %s - %s."
+msgstr "%s є правителем %s - %s."
 
 #: server/srv_main.c:1991
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
-msgstr "Очікуємо початку гри: %d з %d гравців готові розпочати."
+msgstr "Чекаємо початку гри: %d з %d гравців готові починати."
 
 #: server/srv_main.c:2017
 msgid "requested more than 'maxplayers' setting"
-msgstr ""
+msgstr "запитано більше ніж установка 'maxplayers'"
 
 #: server/srv_main.c:2024
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
+"нестача гральних націй в наборі народів (див установку 'nationset')"
 
 #: server/srv_main.c:2027
 msgid "not enough playable nations"
-msgstr ""
+msgstr "недостатньо граних народів"
 
 #: server/srv_main.c:2370 server/srv_main.c:2374
 #, c-format
@@ -36272,20 +36268,19 @@ msgstr "Відправляю інфо на метасервер <%s>."
 
 #: server/srv_main.c:2611
 msgid "Not starting without explicitly requested metaserver connection."
-msgstr ""
+msgstr "Не починаю без явно запитаного з’єднання з метасервером."
 
 #: server/srv_main.c:2634
 msgid "The game is over..."
-msgstr "Гру закінчено..."
+msgstr "Кінець гри..."
 
 #: server/srv_main.c:2743
 msgid "Failed to create suitable map, retrying with another mapseed"
-msgstr ""
+msgstr "Невдача при створенні придатної карту, пробую з іншим посівом"
 
 #: server/srv_main.c:2776
-#, fuzzy
 msgid "Cannot create suitable map with given settings."
-msgstr "Не можу створити підрозділ %s у цій місцевості."
+msgstr "Не можу створити придатну карту з такими установками."
 
 #: server/srv_main.c:2799 server/srv_main.c:2803
 #, c-format
@@ -36299,7 +36294,7 @@ msgstr "Тепер приймаємо нові з'єднання на порту
 
 #: server/stdinhand.c:182
 msgid "Can't use an empty name."
-msgstr "Не можно використовувати пусте ім'я."
+msgstr "Не можна використовувати пусте ім'я."
 
 #: server/stdinhand.c:185
 #, c-format
@@ -36308,7 +36303,7 @@ msgstr "Ім'я перевищило максимум у %d символів."
 
 #: server/stdinhand.c:190
 msgid "That name is not allowed."
-msgstr "Таке ім'я не дозволено."
+msgstr "Таке ім'я не дозволене."
 
 #. TRANS: ambiguous command
 #: server/stdinhand.c:323
@@ -36376,27 +36371,26 @@ msgstr "З'єднання метасервера закрито."
 
 #: server/stdinhand.c:541
 msgid "Metaserver connection is already open."
-msgstr "З'єднання метасервера вже відкрито."
+msgstr "З'єднання метасервера вже відкрите."
 
 #: server/stdinhand.c:552
 msgid "Metaserver connection is already closed."
 msgstr "З'єднання метасервера вже закрито."
 
 #: server/stdinhand.c:557
-#, fuzzy
 msgid "Argument must be 'u', 'up', 'd', 'down', 'p', 'persistent', or '?'."
-msgstr "Аргумент повинен бути 'u', 'up', 'd', 'down', або '?'."
+msgstr "Аргумент має бути 'u', 'up', 'd', 'down', 'p', 'persistent', або '?'."
 
 #: server/stdinhand.c:578
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver patches string set to '%s'."
-msgstr "Інформаційну строку метасервера встановлено у '%s'."
+msgstr "Стрічку патчів метасервера встановлено в '%s'"
 
 #: server/stdinhand.c:581
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
-"Строку патчей метасерверу встановлено до '%s', не звітуємо метасерверу."
+"Строку патчів метасервера встановлено в '%s', не повідомляю метасерверу."
 
 #: server/stdinhand.c:602
 #, c-format
@@ -36407,7 +36401,7 @@ msgstr "Рядок повідомлення метасервера встано�
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
-"Строку повідомленнь метасерверу встановлено до '%s', не звітуємо метасерверу."
+"Строку повідомленнь метасервера встановлено в '%s', не звітую метасерверу."
 
 #: server/stdinhand.c:626
 #, c-format
@@ -36426,7 +36420,7 @@ msgstr "На цьому сервері Ви не можете вручну зб�
 #: server/stdinhand.c:790
 #, c-format
 msgid "%s is now under AI control."
-msgstr "%s тепер контролюється комп'ютером."
+msgstr "%s тепер під контролем комп'ютера."
 
 #: server/stdinhand.c:798
 #, c-format
@@ -36435,27 +36429,25 @@ msgstr "%s тепер контролюється людиною."
 
 #: server/stdinhand.c:851
 msgid "Wrong number of arguments to create command."
-msgstr ""
+msgstr "Невірне число аргументів для створення команди."
 
 #: server/stdinhand.c:909
-#, fuzzy
 msgid "A living user already exists by that name."
 msgstr "Користувач з таким ім'ям вже існує."
 
 #: server/stdinhand.c:917
-#, fuzzy
 msgid "A living player already exists by that name."
-msgstr "Гравець з таким ім'ям вже існує."
+msgstr "Живий гравець з таким ім'ям вже існує."
 
 #: server/stdinhand.c:924
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create player, requested nation %s not in current nation set."
-msgstr "Не можу створити підрозділ %s у цій місцевості."
+msgstr "Не можу створити гравця, запитаний народ %s не в поточному наборі націй."
 
 #: server/stdinhand.c:932
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create players, nation %s conflicts with %s."
-msgstr "Не можу створити підрозділ %s у цій місцевості."
+msgstr "Не можу створити гравців, народ %s несумісний з %s."
 
 #: server/stdinhand.c:943
 msgid "Can't create players, no nations available."
@@ -36492,24 +36484,24 @@ msgstr "Користувач з таким іменем вже існує."
 
 #: server/stdinhand.c:1076
 msgid "Can't add more players, server is full."
-msgstr "Не можна додати нових гравців - сервер заповнено."
+msgstr "Не можу додати нових гравців - сервер повний."
 
 #: server/stdinhand.c:1083
-#, fuzzy
 msgid ""
 "Can't add more players, not enough playable nations in current nation set "
 "(see 'nationset' setting)."
-msgstr "Не можу створити підрозділ %s у цій місцевості."
+msgstr ""
+"Не можу додати більше гравців - не вистачає народів в наборі націй."
+"(Див. установку 'nationset')."
 
 #: server/stdinhand.c:1087
-#, fuzzy
 msgid "Can't add more players, not enough playable nations."
-msgstr "Не можна додати більше гравців - не вистачає націй."
+msgstr "Не можу додати більше гравців - не вистачає націй."
 
 #: server/stdinhand.c:1098
-#, fuzzy, c-format
+#, c-format
 msgid "There is no AI type %s."
-msgstr "Немає вільного місця для гравця %s."
+msgstr "Не існує ШІ типу %s."
 
 #. TRANS: <name> replacing <name> ...
 #: server/stdinhand.c:1115
@@ -36518,16 +36510,17 @@ msgid "%s replacing %s as an AI-controlled player."
 msgstr "%s замінює %s як комп'ютерний гравець."
 
 #: server/stdinhand.c:1131
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as an AI-controlled player (%s)."
-msgstr "%s додано як комп'ютерного гравця."
+msgstr "%s додано як комп'ютерного гравця (%s)."
 
 #: server/stdinhand.c:1174
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Command level '%s' or greater needed to remove a player once the game has "
 "started."
-msgstr "Гравця не можна видалити після старту гри."
+msgstr "Командний рівень '%s' чи вищий необхідний для видалення гравця "
+"після початку гри."
 
 #: server/stdinhand.c:1186
 #, c-format
@@ -36542,7 +36535,7 @@ msgstr "Ім'я \"%s\" заборонено з міркуваннь безпек
 #: server/stdinhand.c:1264
 #, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr "Не знайдено командного скрипта з ім'ям \"%s\"."
+msgstr "Не знайдено командного скрипта з іменем \"%s\"."
 
 #: server/stdinhand.c:1272
 #, c-format
@@ -36628,7 +36621,7 @@ msgstr "Рівень доступу до команд встановлено у 
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr ""
-"Рівень доступу до команд встановлено у '%s' для першого хто забере його."
+"Рівень доступу до команд встановлено в '%s' для першого хто забере його."
 
 #: server/stdinhand.c:1603
 msgid "The 'first' command makes no sense from the server command line."
@@ -36637,7 +36630,7 @@ msgstr "Команда 'first' не має сенсу з командного р
 #: server/stdinhand.c:1607
 #, c-format
 msgid "You already have command access level '%s' or better."
-msgstr "Ви вже маєте рівень доступу до команд '%s' або краще."
+msgstr "Ви вже маєте рівень доступу до команд '%s' або кращий."
 
 #: server/stdinhand.c:1612
 msgid "Someone else is already game organizer."
@@ -36666,7 +36659,7 @@ msgstr ""
 #: server/stdinhand.c:1683
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
-msgstr "Дінамічний таймаут встановлено у %d %d %d %d"
+msgstr "Дінамічний таймаут встановлено в %d %d %d %d"
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:1761
@@ -36703,7 +36696,7 @@ msgstr "Значення:"
 
 #: server/stdinhand.c:1842
 msgid "Explanations are available for the following server options:"
-msgstr "Роз'яснення доступні для наступних опцій сервера:"
+msgstr "Роз'яснення доступні для таких опцій сервера:"
 
 #: server/stdinhand.c:1887
 msgid "No explanation for that yet."
@@ -36726,17 +36719,17 @@ msgstr "Connectmsg обрізано до %u байт."
 #: server/stdinhand.c:1995 server/stdinhand.c:2032 server/stdinhand.c:2050
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr "Гравець '%s' тепер має рівень комп'ютерного гравця '%s'."
+msgstr "Гравець '%s' тепер має рівень ШІ '%s'."
 
 #: server/stdinhand.c:2037
 #, c-format
 msgid "%s is not controlled by the AI."
-msgstr "Гравець %s не контролюється комп'ютером."
+msgstr "Гравець %s не керується комп'ютером."
 
 #: server/stdinhand.c:2057
 #, c-format
 msgid "Default AI skill level set to '%s'."
-msgstr "Рівень комп'ютерних гравців по замовчуванню встановлено у '%s'."
+msgstr "Типовий Рівень комп'ютерних гравців встановлено в '%s'."
 
 #: server/stdinhand.c:2074
 msgid "This command is client only."
@@ -36759,7 +36752,7 @@ msgstr "%s повернувся до гри."
 #: server/stdinhand.c:2155
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
-msgstr "Вибачте, у Вас не має доступу для перегляду опції '%s'."
+msgstr "Вибачте, у Вас нема доступу для перегляду опції '%s'."
 
 #: server/stdinhand.c:2164
 #, c-format
@@ -36789,7 +36782,7 @@ msgstr "Ситуативні опції"
 
 #: server/stdinhand.c:2213
 msgid "Rarely used options"
-msgstr "Рідко потрібні опції"
+msgstr "Рідковживані опції"
 
 #: server/stdinhand.c:2216
 msgid "Options locked by the ruleset"
@@ -36797,22 +36790,19 @@ msgstr "Опції заблоковані набором правил"
 
 #: server/stdinhand.c:2228
 msgid "In the column '##' the status of the option is shown:"
-msgstr ""
+msgstr "В колонці '##' показується статус опції:"
 
 #: server/stdinhand.c:2229
-#, fuzzy
 msgid " - a '!' means the option is locked by the ruleset."
-msgstr "= вказує, що опція містить значення по замовчуванню"
+msgstr "'!' вказує, що опція незмінна (замкнена набором правил)."
 
 #: server/stdinhand.c:2230
-#, fuzzy
 msgid " - a '+' means you may change the option."
 msgstr "+ вказує, що Ви можете змінити опцію"
 
 #: server/stdinhand.c:2231
-#, fuzzy
 msgid " - a '=' means the option is on its default value."
-msgstr "= вказує, що опція містить значення по замовчуванню"
+msgstr "= вказує, що опція містить типове значення."
 
 #: server/stdinhand.c:2233
 #, c-format
@@ -36828,18 +36818,18 @@ msgid "A help text for each option is available via 'help <option>'."
 msgstr "Допомогу по кожній опції можна отримати за допомогою 'help <опція>'."
 
 #: server/stdinhand.c:2281
-#, fuzzy
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values.\n"
 "Try 'show locked' to show settings locked by the ruleset."
 msgstr ""
-"Спробуйте 'show situational' або 'show rare' для додаткової інформації.\n"
-"Спробуйте 'show changed', щоб відобразити змінені значення."
+"Спробуйте 'show situational' або 'show rare' для показу додаткових опцій.\n"
+"Спробуйте 'show changed', щоб відобразити змінені значення.\n"
+"Спробуйте 'show locked' для показу опцій незмінних за набором правил."
 
 #: server/stdinhand.c:2371
 msgid "Cannot change teams once game has begun."
-msgstr "Не можна змінити команду після старту гри."
+msgstr "Не можна змінити команду після початку гри."
 
 #: server/stdinhand.c:2381 server/stdinhand.c:2517 server/stdinhand.c:2708
 #: server/stdinhand.c:2733 server/stdinhand.c:2774 server/stdinhand.c:2805
@@ -36865,7 +36855,7 @@ msgstr "Не можна бути в команді з дикуном."
 #: server/stdinhand.c:2415
 #, c-format
 msgid "Player %s set to team %s."
-msgstr "Гравець %s приєднався до команди %s."
+msgstr "Гравця %s призначили в команду %s."
 
 #. TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
 #. * part of a sentence.
@@ -36908,7 +36898,6 @@ msgid "The argument \"%s\" is ambiguous."
 msgstr "Аргумент \"%s\" неоднозначний."
 
 #: server/stdinhand.c:2529
-#, fuzzy
 msgid "There are no votes running."
 msgstr "Немає активних голосувань."
 
@@ -36960,19 +36949,17 @@ msgid "Missing argument <vote number> or the string \"all\"."
 msgstr "Відсутній аргумент <номер голосу> або ж слово \"all\"."
 
 #: server/stdinhand.c:2611
-#, fuzzy
 msgid "You don't have any vote going on."
-msgstr "У вас немає активних голосувань."
+msgstr "У Вас нема активних голосувань."
 
 #: server/stdinhand.c:2618
-#, fuzzy
 msgid "There isn't any vote going on."
 msgstr "Зараз голосувань не відбувається."
 
 #. TRANS: "votes" as a process
 #: server/stdinhand.c:2624
 msgid "All votes have been removed."
-msgstr "Усі голосування було скасовано."
+msgstr "Всі голосування було скасовано."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2643
@@ -37014,12 +37001,12 @@ msgstr "%s дипломатія у стані відладки"
 #: server/stdinhand.c:2744
 #, c-format
 msgid "%s tech no longer debugged"
-msgstr "%s технологія більше не у стані відладки"
+msgstr "технологія %s більше не у стані відладки"
 
 #: server/stdinhand.c:2748
 #, c-format
 msgid "%s tech debugged"
-msgstr "%s технологія у стані відладки"
+msgstr "технологія %s у стані відладки"
 
 #: server/stdinhand.c:2762 server/stdinhand.c:2765
 #, c-format
@@ -37041,20 +37028,20 @@ msgstr "За такими координатами нема міста."
 #: server/stdinhand.c:2793
 #, c-format
 msgid "%s no longer debugged"
-msgstr "%s більше не у стані відладки"
+msgstr "%s більше не в стані відладки"
 
 #: server/stdinhand.c:2820 server/stdinhand.c:2861
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s no longer debugged."
-msgstr "%s %s атаковано атомною бомбою."
+msgstr "%s %s більше не відлагоджується."
 
 #: server/stdinhand.c:2835
 msgid "Ferry system is no longer in debug mode."
-msgstr "Система перевізу більше не у стані відладки."
+msgstr "Система переправи більше не в стані відладки."
 
 #: server/stdinhand.c:2839
 msgid "Ferry system in debug mode."
-msgstr "Система перевізу у стані відладки."
+msgstr "Система переправи у стані відладки."
 
 #: server/stdinhand.c:2852
 msgid "Value 2 must be integer."
@@ -37074,7 +37061,7 @@ msgstr "Опцію '%s' не розпізнано."
 #: server/stdinhand.c:2918
 #, c-format
 msgid "Use the '%srulesetdir' command to change the ruleset directory."
-msgstr ""
+msgstr "Скористайтесь командою '%srulesetdir' для зміни каталогу набору правил."
 
 #: server/stdinhand.c:2960
 #, c-format
@@ -37103,9 +37090,12 @@ msgid ""
 msgid_plural ""
 "You cannot take a new player because the maximum of %d players has already "
 "been reached (maxplayers setting)."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Ви не можете взяти нового гравця, бо досягнуто максимуму в %d гравця"
+" (настройка maxplayers)."
+msgstr[1] "Ви не можете взяти нового гравця, бо досягнуто максимуму в %d гравців"
+" (установка maxplayers )."
+msgstr[2] "Ви не можете взяти нового гравця, бо досягнуто максимуму в %d гравців"
+" (установка maxplayers)."
 
 #: server/stdinhand.c:3118
 msgid "You cannot take a new player because there are no free player slots."
@@ -37125,7 +37115,7 @@ msgstr "На жаль, у цій грі не можна спостерігати
 
 #: server/stdinhand.c:3146
 msgid "Sorry, one can't take dead players in this game."
-msgstr "На жаль, у цій грі не можна брати мертвих гравців."
+msgstr "На жаль, в цій грі не можна брати мертвих гравців."
 
 #: server/stdinhand.c:3156
 msgid "Sorry, one can't observe AI players in this game."
@@ -37137,11 +37127,11 @@ msgstr "На жаль, у цій грі не можна брати комп'ют
 
 #: server/stdinhand.c:3169
 msgid "Sorry, one can't observe human players in this game."
-msgstr "Вибачте, ніхто не може спостерігати за гравцями-людинами у цій грі."
+msgstr "Вибачте, ніхто не може спостерігати за гравцями-людьми в цій грі."
 
 #: server/stdinhand.c:3173
 msgid "Sorry, one can't take human players in this game."
-msgstr "Вибачте, ніхто не може отримати керування гравцями-людинами у цій грі."
+msgstr "Вибачте, ніхто не може отримати керування гравцями-людьми в цій грі."
 
 #: server/stdinhand.c:3183
 msgid "Sorry, one can't observe in this game."
@@ -37156,6 +37146,7 @@ msgid "Sorry, one can't take players already connected in this game."
 msgstr "На жаль, вже приєднаних до гри гравців брати на можна."
 
 #: server/stdinhand.c:3232 server/stdinhand.c:3380
+#, fuzzy
 msgid "Only the player name form is allowed."
 msgstr "Дозволена лише форма імені гравця."
 
@@ -37185,19 +37176,18 @@ msgid "%s now observes"
 msgstr "%s тепер спостерігає"
 
 #: server/stdinhand.c:3401
-#, fuzzy
 msgid "You cannot issue \"/take -\" when the game has already started."
-msgstr "Ви не можете перемкнути гравця з 'take' коли гру вже стартовано."
+msgstr "Не можна перемкнути гравця шляхом 'take' коли гра вже почалась."
 
 #: server/stdinhand.c:3425
 #, c-format
 msgid "A delegation is active for player '%s'. /take not possible."
-msgstr ""
+msgstr "Для гравця '%s' діє делегування. /take неможливий."
 
 #: server/stdinhand.c:3440
 #, c-format
 msgid "%s already controls %s."
-msgstr "%s вже контролює %s."
+msgstr "%s вже керує %s."
 
 #: server/stdinhand.c:3454
 #, c-format
@@ -37212,12 +37202,12 @@ msgstr "Перепризначено націю %s із консолі серв�
 #: server/stdinhand.c:3474
 #, c-format
 msgid "Reassigned nation to %s by %s."
-msgstr ""
+msgstr "Перепризначив народ %s  %s."
 
 #: server/stdinhand.c:3513
 #, c-format
 msgid "%s now controls %s (%s, %s)."
-msgstr "%s тепер контролює %s (%s, %s)."
+msgstr "%s тепер керує %s (%s, %s)."
 
 #: server/stdinhand.c:3520 server/stdinhand.c:6321
 msgid "Human"
@@ -37225,11 +37215,11 @@ msgstr "Людина"
 
 #: server/stdinhand.c:3522
 msgid "Alive"
-msgstr "Живі"
+msgstr "Живий"
 
 #: server/stdinhand.c:3523
 msgid "Dead"
-msgstr "Мертві"
+msgstr "Мертвий"
 
 #: server/stdinhand.c:3526
 #, c-format
@@ -37262,22 +37252,24 @@ msgstr "Не можу завантажити гру поки запущено і
 #: server/stdinhand.c:3714
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
-msgstr "Не можу знайти файл збереженої гри з ім'ям \"%s\"."
+msgstr "Не можу знайти файл збереженої гри з назвою \"%s\"."
 
 #: server/stdinhand.c:3727
 #, c-format
 msgid "Could not load savefile: %s"
-msgstr "Не можу завантажити гру: %s"
+msgstr "Не можу завантажити файл гри: %s"
 
 #: server/stdinhand.c:3829
 msgid ""
 "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
 "current ruleset."
 msgstr ""
+"Треба дати назву набору правил. Скористайтесь \"/show ruleset\", щоб побачити"
+" який набір є поточним."
 
 #: server/stdinhand.c:3835
 msgid "This setting can't be modified after the game has started."
-msgstr "Ця установка не може бути змінена коли гру вже стартовано."
+msgstr "Ця установка не може бути змінена коли гра вже почалась."
 
 #: server/stdinhand.c:3841
 #, c-format
@@ -37295,9 +37287,9 @@ msgid "Ruleset directory set to \"%s\""
 msgstr "Каталог правил встановлено у \"%s\""
 
 #: server/stdinhand.c:3893
-#, fuzzy, c-format
+#, c-format
 msgid "Failed loading rulesets from directory \"%s\", using \"%s\""
-msgstr "Поточний каталог правил \"%s\""
+msgstr "Збій завантаження набір правил з каталогу \"%s\", беру \"%s\""
 
 #: server/stdinhand.c:3913 server/stdinhand.c:3949 server/stdinhand.c:6237
 msgid "That would be rather silly, since you are not a player."
@@ -37311,7 +37303,7 @@ msgstr "%s. Спробуйте /help ignore"
 #: server/stdinhand.c:3932
 #, c-format
 msgid "Added pattern %s as entry %d to your ignore list."
-msgstr ""
+msgstr "Додав шаблон %s як елемент %d до списку ігнорування."
 
 #: server/stdinhand.c:3958 server/stdinhand.c:6242
 msgid "Your ignore list is empty."
@@ -37324,7 +37316,7 @@ msgstr "Відсутній діапазон. Спробуйте /help unignore."
 #: server/stdinhand.c:3974 server/stdinhand.c:3982 server/stdinhand.c:3988
 #, c-format
 msgid "\"%s\" is not a valid range. Try /help unignore."
-msgstr ""
+msgstr "\"%s\" не є чинним діапазоном. Спробуйте /help unignore."
 
 #: server/stdinhand.c:3997
 #, c-format
@@ -37339,36 +37331,36 @@ msgstr "Невірний діапазон : %d to %d."
 #: server/stdinhand.c:4014
 #, c-format
 msgid "Removed pattern %s (entry %d) from your ignore list."
-msgstr ""
+msgstr "Вилучив шаблон %s (значення %d) зі списку ігнорування."
 
 #: server/stdinhand.c:4044
 msgid "Two arguments needed. See '/help playercolor'."
-msgstr ""
+msgstr "Потрябно два аргументи. Дивись '/help playercolor'."
 
 #: server/stdinhand.c:4059
 msgid ""
 "Can only set player color prior to game start if 'plrcolormode' is PLR_SET."
 msgstr ""
+"Вистаити колір гравця можна тільки до початку гри якщо 'plrcolormode' є PLR_SET."
 
 #: server/stdinhand.c:4070
-#, fuzzy
 msgid "Can only unset player color before game starts."
-msgstr "Не можно змінювати ставки до старту гри."
+msgstr "Знімати колір гравця можна лише до початку гри."
 
 #: server/stdinhand.c:4076
 msgid "Invalid player color definition. See '/help playercolor'."
-msgstr ""
+msgstr "Непраильне визначення кольоругравця. Див: '/help playercolor'."
 
 #. TRANS: "... [c0ffee] for Caesar ... to Hammurabi."
 #: server/stdinhand.c:4087
 #, c-format
 msgid "Warning: new color [%s] for %s is identical to %s."
-msgstr ""
+msgstr "Попередження: новий колір [%s] для %s такий же як %s."
 
 #: server/stdinhand.c:4100
-#, fuzzy, c-format
+#, c-format
 msgid "Color of player %s set to [%s]."
-msgstr "Гравець %s приєднався до команди %s."
+msgstr "колір гравця %s встановлено [%s]."
 
 #: server/stdinhand.c:4117
 msgid "Goodbye."
@@ -37412,7 +37404,7 @@ msgstr "%s (номер %d) від %s: %s."
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr ""
-"Ваше нове голосування (\"%s\") було нелегальним, чи не було розпізнане."
+"Ваше нове голосування (\"%s\") було нечинним, чи не було розпізнане."
 
 #: server/stdinhand.c:4307
 msgid "(server prompt)"
@@ -37432,9 +37424,8 @@ msgid "You cannot surrender now."
 msgstr "Зараз Ви не можете здатися."
 
 #: server/stdinhand.c:4478
-#, fuzzy
 msgid "You have already conceded the game."
-msgstr "Ви вже купили цього ходу."
+msgstr "Ви вже визнали поразку в грі."
 
 #: server/stdinhand.c:4487
 #, c-format
