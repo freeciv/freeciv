@@ -3935,6 +3935,8 @@ void handle_ruleset_goods(const struct packet_ruleset_goods *p)
     requirement_vector_append(&pgood->reqs, p->reqs[i]);
   }
   fc_assert(pgood->reqs.size == p->reqs_count);
+
+  pgood->flags = p->flags;
 }
 
 /**************************************************************************
