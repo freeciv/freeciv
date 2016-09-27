@@ -3495,7 +3495,7 @@ static bool load_ruleset_terrain(struct section_file *file,
         struct road_type *top = NULL;
 
         if (textra != NULL) {
-          top = extra_road_get(pextra);
+          top = extra_road_get(textra);
         }
 
         if (top == NULL) {
