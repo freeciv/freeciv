@@ -189,7 +189,6 @@ void qtg_ui_main(int argc, char *argv[])
 
     freeciv_qt = new fc_client();
     freeciv_qt->main(qapp);
-    start_quitting();
   }
 }
 
@@ -560,6 +559,7 @@ void popup_quit_dialog()
     return;
     break;
   case QMessageBox::Ok:
+    start_quitting();
     if (client.conn.used) {
       disconnect_from_server();
     }
