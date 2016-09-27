@@ -40,9 +40,9 @@ gtk3x-installer:
 	make GUI=gtk3x FCMP=gtk3x EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3x
 
 # These are what can be built in current official environment version
-buildable-win32: gtk3-installer gtk3x-installer
+buildable-win32: gtk3-installer gtk3x-installer sdl2-installer
 
-buildable-win64: gtk3-installer gtk3x-installer
+buildable-win64: gtk3-installer gtk3x-installer sdl2-installer
 
 # See comments on 'snapshot' target why this wrapping is needed
 buildable: buildable-$(WINARCH)
