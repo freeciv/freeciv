@@ -807,10 +807,12 @@ bool sanity_check_ruleset_data(void)
 
       if (road_index(proad) != road_index(iroad)
           && !BV_ISSET(iroad->integrates, road_index(proad))) {
+        /* We don't support non-symmetric integrator relationships yet. */
         ruleset_error(LOG_ERROR,
-                      "Road %s integrates with non integrating road %s!",
-                      extra_name_translation(pextra),
-                      extra_name_translation(iextra));
+                      "Road '%s' integrates with '%s' but not vice versa!",
+                      extra_rule_name(pextra),
+                      extra_rule_name(iextra));
+        ok = FALSE;
       }
     } extra_type_list_iterate_end;
   } extra_type_by_cause_iterate_end;
