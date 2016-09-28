@@ -264,12 +264,23 @@ static bool are_road_reqs_fulfilled(const struct road_type *proad,
     bool beginning = TRUE;
 
     extra_type_list_iterate(proad->integrators, iroad) {
-      adjc_iterate(ptile, adjc_tile) {
-        if (tile_has_extra(adjc_tile, iroad)) {
-          beginning = FALSE;
-          break;
-        }
-      } adjc_iterate_end;
+      /* FIXME: mixing cardinal and non-cardinal roads as integrators is
+       * probably not a good idea. */
+      if (is_cardinal_only_road(iroad)) {
+        cardinal_adjc_iterate(ptile, adjc_tile) {
+          if (tile_has_extra(adjc_tile, iroad)) {
+            beginning = FALSE;
+            break;
+          }
+        } cardinal_adjc_iterate_end;
+      } else {
+        adjc_iterate(ptile, adjc_tile) {
+          if (tile_has_extra(adjc_tile, iroad)) {
+            beginning = FALSE;
+            break;
+          }
+        } adjc_iterate_end;
+      }
 
       if (!beginning) {
         break;
