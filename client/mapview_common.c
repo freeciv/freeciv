@@ -250,8 +250,8 @@ static void gui_to_map_pos(const struct tileset *t,
 
     fc_assert(tileset_is_isometric(t));
 
-    x = gui_x / W;
-    y = gui_y / H;
+    x = DIVIDE((int)gui_x, (int)W);
+    y = DIVIDE((int)gui_y, (int)H);
     dx = gui_x - x * W;
     dy = gui_y - y * H;
     fc_assert(dx >= 0 && dx < W);
