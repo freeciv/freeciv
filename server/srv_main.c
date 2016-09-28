@@ -1541,6 +1541,7 @@ void start_game(void)
       conn_set_access(pconn, ALLOW_BASIC, FALSE);
     }
   } conn_list_iterate_end;
+  set_running_game_access_level();
 
   con_puts(C_OK, _("Starting game."));
 
