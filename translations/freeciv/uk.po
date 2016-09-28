@@ -35748,10 +35748,12 @@ msgid ""
 "How many turns elapse between automatic game saves. This setting only has an "
 "effect when the 'autosaves' setting includes \"New turn\"."
 msgstr ""
+"Скільки ходів проходить між автоматичними збереженнями гри. Ця опція діє лише "
+"коли 'autosaves' включає \"Новий Хід\"."
 
 #: server/settings.c:2415
 msgid "Which savegames are generated automatically"
-msgstr ""
+msgstr "Які автозбереження відбуватимуться"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -35768,29 +35770,34 @@ msgid ""
 "- \"Server interrupted\" (INTERRUPT): Save when server quits due to "
 "interrupt."
 msgstr ""
+"Ця установка визначає які типи автозбереження відбуватимуться:\n"
+"- \"Новий Хід\" (TURN): Зберігати на початку ходу, раз на 'saveturns' ходів.\n"
+"- \"Кінець Гри\" (GAMEOVER): Заключне збереження коли гра скігчилась.\n"
+"- \"Нема з’єднань від гравців\" (QUITIDLE): Зберегти перед рестартом сервера "
+"через брак гравців.\n"
+"- \"Сервер перерваний\" (INTERRUPT): Зберегти коли сервер завершується "
+"перериванням."
 
 #: server/settings.c:2433
 msgid "Savegame compression level"
-msgstr "Рівень компресії збережених ігр"
+msgstr "Рівень стиснення збережених ігор"
 
 #. TRANS: 'compresstype' setting name should not be translated.
 #: server/settings.c:2435
-#, fuzzy
 msgid ""
 "If non-zero, saved games will be compressed depending on the 'compresstype' "
 "setting. Larger values will give better compression but take longer."
 msgstr ""
-"Якщо не нуль то збережені ігри будуть стиснуті з використанням zlib (формат "
-"gzip) або bzip2. Більші значення дають кращу компресію, але вона довше "
-"виконується."
+"Якщо не нуль, то збережені ігри будуть стиснуті залежно від 'compresstype' ."
+"Більші значення дають кращу компресію, але вона довше виконується."
 
 #: server/settings.c:2443
 msgid "Savegame compression algorithm"
-msgstr "Алгорітм компресії збережених ігр"
+msgstr "Алгоритм стиснення збережених ігор"
 
 #: server/settings.c:2444
 msgid "Compression library to use for savegames."
-msgstr "Бібліотека для компресії збережених ігор."
+msgstr "Бібліотека стиснення збережених ігор."
 
 #: server/settings.c:2449
 msgid "Definition of the save file name"
@@ -35814,31 +35821,41 @@ msgid ""
 "overwrite old ones. If none of the formats is used '-T%04T-Y%05Y-%R' is "
 "appended to the value of 'savename'."
 msgstr ""
+"Такі додаткові формати дозволені у стрічці:\n"
+"  %R = <причина>\n"
+"  %S = <суфікс>\n"
+"  %T = <хід-номер>\n"
+"  %Y = <ігровий-рік>\n"
+"\n"
+"Приклад: 'freeciv-T%04T-Y%+05Y-%R' => 'freeciv-T0100-Y00001-manual'\n"
+"\n"
+"Старайтеся вжити хоча б одне з %T чи %Y, інакше новіші збереження перезапишуть"
+" старі. Якщо жоден з форматів не взято '-T%04T-Y%05Y-%R' додається до значення"
+" 'savename'."
 
 #: server/settings.c:2472
 msgid "Whether to log player statistics"
-msgstr "Куди зберігати журнал із статистикою гравця"
+msgstr "Чи журналювати статистику гравців"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
 #: server/settings.c:2475
-#, fuzzy
 msgid ""
 "If this is turned on, player statistics are appended to the file defined by "
 "the option 'scorefile' every turn. These statistics can be used to create "
 "power graphs after the game."
 msgstr ""
-"Якщо 1, статистика гравця додається до файлу 'civscore.log' кожного ходу. Ця "
-"статистика може бути використана для створення графіків після гри."
+"Якщо увімкнута, статистика гравця додається до файлу визначеного 'scorefile' "
+"кожного ходу. Статистикою можна скористатись для створення графіків після гри."
 
 #: server/settings.c:2482
 msgid "Name for the score log file"
-msgstr ""
+msgstr "Назва для файлу з журналом рахунку."
 
 #. TRANS: Don't translate the string in single quotes.
 #: server/settings.c:2484
 msgid "The default name for the score log file is 'freeciv-score.log'."
-msgstr ""
+msgstr "Типова назва для файлу з журналом рахунку 'freeciv-score.log'."
 
 #: server/settings.c:2490
 msgid "Maximum number of connections to the server per host"
@@ -35851,10 +35868,13 @@ msgid ""
 "0 means that there is no limit, at least up to the maximum number of "
 "connections supported by the server."
 msgstr ""
+"Нові з’єднання від даного хоста будуть відхилені, якщо число з’єднань від "
+"цього самого хоста більше чи дорівнює цьому значенню. 0 значить, що межі "
+"немає, принаймні до максимального числа допустимих з’єднань на сервері."
 
 #: server/settings.c:2501
 msgid "Time before a kicked user can reconnect"
-msgstr ""
+msgstr "Час через скільки викинутий користувач може знову приєднатись"
 
 #. TRANS: the string in double quotes is a server command name and
 #. * should not be translated
@@ -35863,6 +35883,8 @@ msgid ""
 "Gives the time in seconds before a user kicked using the \"kick\" command "
 "may reconnect. Changing this setting will affect users kicked in the past."
 msgstr ""
+"Дає час в секундах до того як користувач викинутий командою \"kick\" зможе "
+"переприєднатись. Зміна опції вплине на користувачів викинутих в минулому."
 
 #: server/settings.c:2617
 #, c-format
