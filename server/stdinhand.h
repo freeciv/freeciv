@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ bool load_command(struct connection *caller,
 bool start_command(struct connection *caller, bool check, bool notify);
 
 void toggle_ai_player_direct(struct connection *caller,
-			     struct player *pplayer);
+                             struct player *pplayer);
 
 /* for sernet.c in initing a new connection */
 enum cmdlevel access_level_for_next_connection(void);
@@ -61,6 +61,8 @@ enum cmdlevel access_level_for_next_connection(void);
 void notify_if_first_access_level_is_available(void);
 
 bool conn_is_kicked(struct connection *pconn, int *time_remaining);
+
+void set_running_game_access_level(void);
 
 #ifdef FREECIV_HAVE_LIBREADLINE
 char **freeciv_completion(const char *text, int start, int end);

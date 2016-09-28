@@ -1538,6 +1538,17 @@ static bool firstlevel_command(struct connection *caller, bool check)
   return TRUE;
 }
 
+/**************************************************************************
+  Adjust default command level on game start.
+**************************************************************************/
+void set_running_game_access_level(void)
+{
+  if (default_access_level > ALLOW_BASIC) {
+    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                _("Default cmdlevel lowered to 'basic' on game start."));
+    default_access_level = ALLOW_BASIC;
+  }
+}
 
 /**************************************************************************
   Returns possible parameters for the commands that take server options
