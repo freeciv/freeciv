@@ -2700,7 +2700,7 @@ static void unit_load_callback(GtkWidget *w, gpointer data)
     player_unit_by_number(client_player(), (size_t)data);
 
   if (NULL != punit) {
-    request_unit_load(punit, NULL, unit_tile(punit));
+    request_transport(punit, unit_tile(punit));
   }
 }
 
