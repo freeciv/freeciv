@@ -1925,6 +1925,11 @@ void handle_nation_select_req(struct connection *pc, int player_no,
 
     pplayer->is_male = is_male;
     pplayer->city_style = city_style;
+  } else if (name[0] == '\0') {
+    char message[1024];
+
+    server_player_set_name_full(pc, pplayer, NULL, ANON_PLAYER_NAME,
+                                message, sizeof(message));
   }
 
   (void) player_set_nation(pplayer, new_nation);
