@@ -35176,9 +35176,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:1981
-#, fuzzy
 msgid "Airlifting style"
-msgstr "Авіатранспорт"
+msgstr "Стиль авіапереміщення"
 
 #. TRANS: The strings between double quotes are also
 #. * translated separately (they must match!). The strings
@@ -35197,43 +35196,48 @@ msgid ""
 "airlifting to a city doesn't reduce the airlifted counter, and doesn't need "
 "any."
 msgstr ""
+"Ця установка впливає на авіапереміщення між містами. "
+"Може бути набором таких значень:\n"
+"- \"Дозволяє перемістити загони із союзних міст\" (FROM_ALLIES).\n"
+"- \"Дозволяє перемістити загони до союзних міст\" (TO_ALLIES).\n"
+"- \"Нескінчені загони з міста-відправника\" (SRC_UNLIMITED): Зауважте, що "
+"авіапереміщення з міста не зменшує лічильник переміщених, але все одно потребує "
+"хоча б 1.\n"
+"- \"Нескінчені загони в місто-призначення\" (DEST_UNLIMITED): Зауважте, що "
+"авіапереміщення до міста не зменшує лічильник переміщених, і не потребує його."
 
 #: server/settings.c:2003
-#, fuzzy
 msgid "Base chance for diplomats and spies to succeed"
-msgstr "Базовий шанс для дипломатів та шпигунів на вдачу."
+msgstr "Базовий шанс успіху для дипломатів та шпигунів."
 
 #: server/settings.c:2004
-#, fuzzy
 msgid ""
 "The base chance of a spy returning from a successful mission and the base "
 "chance of success for diplomats and spies."
 msgstr ""
-"Вірогідність повернення шпигуна з вдалого завдання та базовова вірогідність "
-"успіху для дипломатів та шпигунів."
+"Імовірність повернення шпигуна з вдалого завдання та базовий шанс успіху "
+"для дипломатів та шпигунів."
 
 #: server/settings.c:2011
 msgid "Whether to allow space race"
-msgstr "Чи дозволено заселення космосу"
+msgstr "Чи дозволити заселення космосу"
 
 #: server/settings.c:2012
-#, fuzzy
 msgid "If this option is enabled, players can build spaceships."
 msgstr ""
-"Якщо цю опцію встановлено в 1, гравці можуть збудувати космічний корабель."
+"Якщо включена, гравці можуть будувати зорельоти."
 
 #: server/settings.c:2017
 msgid "Should the game end if the spaceship arrives?"
 msgstr "Чи слід грі закінчитися по прибуттю зорельота?"
 
 #: server/settings.c:2018
-#, fuzzy
 msgid ""
 "If this option is turned on, the game will end with the arrival of a "
 "spaceship at Alpha Centauri."
 msgstr ""
-"Якщо цю опцію встановлено в 1, гра завершиться по прибутті космічного "
-"корабля на Альфу Центавра."
+"Якщо ця опцію включена, гра завершиться по прибутті космічного "
+"корабля до Альфи Центавра."
 
 #: server/settings.c:2024
 msgid "Minimum number of cities for civil war"
@@ -35245,26 +35249,24 @@ msgid ""
 "player's capital is captured. If this option is set to the maximum value, "
 "civil wars are turned off altogether."
 msgstr ""
-"Громадянська війна розпочнеться, якщо гравець має принаймі таку кількість "
-"міст, а його столицю буде захоплено. Якщо цю опцію встановлено у максимальне "
-"значення, громадянські війни не відбуватимуться."
+"Громадянська війна почнеться, якщо гравець має принаймні стільки міст "
+"міст і його столицю захопили. Якщо цю опцію встановлено у максимальне "
+"значення, громадянські війни вимкнуті назовсім."
 
 #: server/settings.c:2034
 msgid "Restrict the use of the infrastructure for enemy units"
-msgstr ""
+msgstr "Заборонити використання інфраструктури ворогам"
 
 #: server/settings.c:2035
-#, fuzzy
 msgid ""
 "If this option is enabled, the use of roads and rails will be restricted for "
 "enemy units."
 msgstr ""
-"Якщо цю опцію активовано, диалогі звітів будуть на окремих вкладках, а не у "
-"вспливаючих діалогах."
+"Увімкнута забороняє використання доріг та зілізниць ворожими загонами."
 
 #: server/settings.c:2041
 msgid "Does unreachable unit protect reachable ones"
-msgstr ""
+msgstr "Чи недосяжні захищають досяжних"
 
 #: server/settings.c:2042
 msgid ""
@@ -35272,10 +35274,13 @@ msgid ""
 "can be attacked. If disabled, any tile with reachable units can be attacked. "
 "If enabled, tiles with an unreachable unit in them cannot be attacked."
 msgstr ""
+"Опція визначає чи можна нападати на поля з одночасно досяжними і недосяжними "
+"загонами. Коли опція вимкнута  - нападати можна на будь-яку клітинку з "
+"досяжними загонами. Включена - поля з недосяжними загонами атакувати не можна."
 
 #: server/settings.c:2050
 msgid "Turns until player contact is lost"
-msgstr "Ходи до контакту гравця втрачені"
+msgstr "Ходів до втрати контакту з гравцем"
 
 #: server/settings.c:2051
 msgid ""
@@ -35283,17 +35288,16 @@ msgid ""
 "last met, even when they do not have an embassy. If set to zero, then "
 "players cannot meet unless they have an embassy."
 msgstr ""
-"Гравці можуть вести дипломатичні перемовини таку кількість ходів після "
-"останнього контакту їх підрозділів, навіть якщо у них немає посольства. Якщо "
-"встановлено в нуль, гравці не зможуть вести перемовини, поки не матимуть "
-"посольства."
+"Гравці можуть зустічатись для дипломатичних переговорів таку кількість "
+"ходів після останньої зустрічі їх підрозділів, навіть коли в них немає "
+"посольств. Якщо встановлено в нуль, то гравці не можуть зустрічатись, поки "
+"не матимуть посольства."
 
 #: server/settings.c:2061
 msgid "Rebuild palace whenever capital is conquered"
-msgstr "Перебудовувати палац, якщо столицю захоплено"
+msgstr "Перебудувати палац, якщо столиця завойована"
 
 #: server/settings.c:2062
-#, fuzzy
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly chosen city. This is "
@@ -35301,15 +35305,14 @@ msgid ""
 "ignored. (In some rulesets, buildings other than the palace are affected by "
 "this setting.)"
 msgstr ""
-"Якщо встановлено у 1 то при захопленні столиці палац автоматично та "
-"безкоштовно будується у іншому випадково обраному місті. Це суттєво, бо в "
-"цьому випадку вимоги до технологічного розвитку для будівництва палацу "
-"ігноруються."
+"Якщо встановлена, то при захопленні столиці палац автоматично та безкоштовно "
+"відбудовується в іншому випадково вибраному місті. Це суттєво, бо в цьому "
+"разі вимоги до технологічного розвитку для будівництва палацу ігноруються. "
+"(В деяких наборах правил, інші будівлі підпадають під дію цеї опції.)"
 
 #: server/settings.c:2072
-#, fuzzy
 msgid "Give caught units a homecity"
-msgstr "* Ніколи не має рідного міста.\n"
+msgstr "Дати пійманим загонам домівку."
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
@@ -35318,10 +35321,12 @@ msgid ""
 "If unset, caught units will have no homecity and will be subject to the "
 "'killunhomed' option."
 msgstr ""
+"Якщо вимкнена, піймані загони не матимуть домівки і підпадають під дію "
+"установки 'killunhomed'."
 
 #: server/settings.c:2082
 msgid "Whether allied players can win together"
-msgstr ""
+msgstr "Чи союзники можуть виграти разом"
 
 #: server/settings.c:2083
 msgid ""
@@ -35330,6 +35335,9 @@ msgid ""
 "not part of this alliance, then the game will end in an immediate shared "
 "victory for the allied players."
 msgstr ""
+"Коли ця установка включена: якщо досягнуто точку в грі, коли всі гравці, що "
+"можуть виграти є союзниками, і хоча б один повержений гравець не є частиною "
+"цього союзу - гра скінчиться негайною спільною перемогою союзних гравців."
 
 #: server/settings.c:2092
 msgid "Whether to use natural city names"
@@ -35340,8 +35348,8 @@ msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
 msgstr ""
-"Якщо активовано, назва міста по замовчуванню буде буде визначатися "
-"відповідно до прилеглих земель."
+"Якщо включена, назва міста за замовчанням буде визначатися відповідно до "
+"прилеглих земель."
 
 #: server/settings.c:2099
 msgid "Whether to enable citizen migration"
@@ -35364,6 +35372,18 @@ msgid ""
 "  'mgr_worldchance'  - Chance for inter-nation migration.\n"
 "  'mgr_nationchance' - Chance for intra-nation migration."
 msgstr ""
+"Це головна установка, що керує чи в грі відбуватиметься міграція громадян. "
+"Якщо включена - громадяни зможуть автоматично переїжджати з менш привабливих "
+"міст до більш бажаних. \"Привабливість\" довільного міста обчислюється "
+"з багатьох чинників. Загалом перевага буде віддана великим містам з більшими "
+"доходами та кращими будівлями. Городяни ніколи не переселяться зі столиці, чи "
+"спричинять втрату Чуда шляхом розпуску міста. Ось декілька інших установок, "
+"що впливають на поведінку міграції:\n"
+"  'mgr_turninterval' - Наскільки часто громадяни пробують мігрувати.\n"
+"  'mgr_foodneeded'   - Чи перевіряється їжа у місті-призначенні.\n"
+"  'mgr_distance'     - Наскільки далеко городяни пересяляться.\n"
+"  'mgr_worldchance'  - Шанс міждержавної міграції.\n"
+"  'mgr_nationchance' - Шанс внутрідержавного переселення."
 
 #: server/settings.c:2120
 msgid "Number of turns between migrations from a city"
@@ -35379,6 +35399,11 @@ msgid ""
 "city. Migration will never occur the same turn that a city is built. This "
 "setting has no effect unless migration is enabled by the 'migration' setting."
 msgstr ""
+"Ця установка визначає кількість ходів між перевіркою міграції в даному місті."
+"Проміжок обчислюється від ходу заснування міста. Так, наприклад, якщо опція "
+"дорівнює 5, городяни шукатимуть підходяще призначення кожні  п’ять ходів від "
+"заснування даного міста. Міграції не відбуваються в хід заснування."
+"Опція не чинна поки міграція не включена установкою 'migration'."
 
 #: server/settings.c:2135
 msgid "Whether migration is limited by food"
@@ -35391,6 +35416,8 @@ msgid ""
 "not have enough food to support them. This setting has no effect unless "
 "migration is enabled by the 'migration' setting."
 msgstr ""
+"Як включена - городяни не мігруватимуть до міст де нема достатньо їжі на їх "
+"утримання. Опція не чинна поки міграція не включена установкою 'migration'."
 
 #: server/settings.c:2145
 msgid "Maximum distance citizens may migrate"
@@ -35405,10 +35432,15 @@ msgid ""
 "If the distance is lower or equal, migration is possible. This setting has "
 "no effect unless migration is activated by the 'migration' setting."
 msgstr ""
+"Ця установка визначає наскільки далеко громадяни дивитимуться шукаючи гідне "
+"місто призначення для міграції. Це значення додається до поточного радіусу "
+"міста і порівнюється віддаллю між двома городами. Якщо відстань менша чи "
+"дорівнює - переселення можливе. Ця установка не діє поки міграція не включена "
+"установкою 'migration'."
 
 #: server/settings.c:2159
 msgid "Percent probability for migration within the same nation"
-msgstr "Відсоткова ймовірність міграції в межах однієї нації"
+msgstr "Відсоткова ймовірність міграції в межах одного народу"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:2161
@@ -35419,10 +35451,14 @@ msgid ""
 "destination. This setting has no effect unless migration is activated by the "
 "'migration' setting."
 msgstr ""
+"Установка визначає наскільки можливе переселення між містами у володіннях "
+"одного гравця. Нуль показує, що міграції не буде ніколи, 100 значить що "
+"городяни завжди мігруватимуть, якщо знайдуть гідне призначення. Ця опція "
+"не діє, якщо переселення не включене опцією 'migration'."
 
 #: server/settings.c:2172
 msgid "Percent probability for migration between foreign cities"
-msgstr "Відсоткова ймовірність міграції між іноземними містами."
+msgstr "Відсоткова імовірність міграції між іноземними містами."
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:2174
@@ -35433,15 +35469,18 @@ msgid ""
 "This setting has no effect if migration is not enabled by the 'migration' "
 "setting."
 msgstr ""
+"Установка визначає наскільки можливе переселення між містами у володіннях "
+"різних гравців. Нуль показує, що міграції не буде ніколи, 100 значить що "
+"городяни завжди мігруватимуть, якщо знайдуть гідне призначення. Ця опція "
+"не діє, якщо переселення не включене опцією 'migration'."
 
 #: server/settings.c:2192
 msgid "Players that users are allowed to take"
-msgstr "Гравці, вільні для вибору користувачами"
+msgstr "Гравці, яких дозволено взяти користувачам"
 
 #. TRANS: the strings in double quotes are server command names
 #. * and should not be translated.
 #: server/settings.c:2195
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player).\n"
@@ -35470,27 +35509,28 @@ msgid ""
 "connections;\n"
 "     4 = No controller allowed, observers allowed"
 msgstr ""
-"Це повинна бути строка символів, кожен з яких повинен встановлювати "
-"відповідний тип або стан цивілізації, або 'гравця'. Клієнти зможуть "
-"під`єднуватися лише до тих гравців які відповідають одному з вказаних "
-"символів. Це впливає лише на майбутні з'єднання тож вже встановлені "
-"з'єднання не зачіпає. Символи та їх пояснення наступні:\n"
-"    N   = Нові гравці (лише перед грою)\n"
-"    H,h = Гравцs люди (існуючи)\n"
-"    A,a = Комп'ютерні гравці\n"
-"    d   = Померлі гравці\n"
-"    b   = Гравці дикуни\n"
-"Лише першій опис з кінця якій співпадає з гравцем використовується Так 'd' "
-"не включає дикунів, 'a' не включає померлих гравців, і так далі. Великі "
-"літери застосовуються ще до старта гри, маленьки після.\n"
-"Кожна літера з наведених може мати після себе один із спеціальних символів "
-"аби дозволити або заборонити багато з'єднань або наглядачів:\n"
-"   * = Багато контролюючих з'єднань дозволено;\n"
-"   + = Одне контролююче та багато наглядацьких з'єднань дозволено;\n"
-"   = = Багато наглядачів, немає контролюючих;\n"
-"   - = Один наглядач, без контролюючих;\n"
-"   (нічого) = Лише один контролюючий.\n"
-"Багато з'єднань та наглядачі наразі ЕКСПЕРЕМЕНТАЛЬНІ."
+"Це має бути рядок символів, кожен з яких визначає тип або стан цивілізації "
+"(’гравця').\n"
+"Клієнтам дозволено взяти або споглядати тих гравців що відповідають одній з "
+"вказаних літер. Це впливає лише на майбутні використання команд \"take\" "
+"чи \"observe\". Незворотнє в часі. Символи та їх пояснення такі:\n"
+"    o,O = Глобальні споглядачі\n"
+"    b   = Гравці-дикуни\n"
+"    d   = мертві гравці\n"
+"    a,A = Гравці-ШІ\n"
+"    h,H = Гравці-люди\n"
+"Перший опис в цьому списку, що співпадає з гравцем і стає чинним. Так 'd' не "
+"включає мертвих варварів, 'a' не включає мертвих гравців ШІ, і таке ін. Великі"
+" літери діють до початку гри, малі після.\n"
+"Кожен вищенаведений символ може мати після себе такі цифри для дозволу чи "
+"заборони поведінки з’єднань:\n"
+"(нема) = Контроль дозволений, споглядачі дозволені, можна заміняти з’єднання. "
+"(Заміна з’єднань значить, що можна взяти гравця, навіть якщо інший користувач "
+"керує ним)\n"
+"     1 = Контроль дозволений, споглядачі дозволені, не можна заміняти з’єднання;\n"
+"     2 = Контроль дозволений, жодних споглядачів, можна заміняти з’єднання;\n"
+"     3 = Контроль дозволений, жодних споглядачів, не можна заміняти з’єднання;\n"
+"     4 = Жодних контролів, споглядачі дозволені"
 
 #: server/settings.c:2230
 msgid "Whether AI-status toggles with connection"
