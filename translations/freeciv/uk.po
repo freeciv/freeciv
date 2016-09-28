@@ -33874,11 +33874,11 @@ msgstr "Люті орди"
 
 #: server/settings.c:393
 msgid "Reveal map at game start"
-msgstr ""
+msgstr "Відкрити карту на початку гри"
 
 #: server/settings.c:394
 msgid "Unfog map for dead players"
-msgstr ""
+msgstr "Розтуманити мапу для мертвих гравців"
 
 #: server/settings.c:406
 #, fuzzy
@@ -35494,16 +35494,15 @@ msgstr ""
 
 #: server/settings.c:2230
 msgid "Whether AI-status toggles with connection"
-msgstr "Чи комп'ютерні гравці залежать від з'єднань."
+msgstr "Чи перемикається ШІ із з’єднанням."
 
 #: server/settings.c:2231
-#, fuzzy
 msgid ""
 "If enabled, AI status is turned off when a player connects, and on when a "
 "player disconnects."
 msgstr ""
-"Якщо встановлено у 1, комп'ютер передає керування якщо гравець "
-"під'єднується, та забирає його на себе при від'єднанні."
+"Якщо включена, ШІ вимикається коли гравець під'єднується, і вмикається при "
+"від'єднанні гравця."
 
 #: server/settings.c:2237
 msgid "Turn the game ends"
@@ -35511,11 +35510,11 @@ msgstr "Хід кінця гри"
 
 #: server/settings.c:2238
 msgid "The game will end at the end of the given turn."
-msgstr "Гра закінчиться у кінці вказаного ходу."
+msgstr "Гра закінчиться в кінці вказаного ходу."
 
 #: server/settings.c:2244
 msgid "Reveal the map"
-msgstr ""
+msgstr "Відкрити карту"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -35530,17 +35529,21 @@ msgid ""
 "for dead players\" (DEAD) is set, dead players can see the entire map, if "
 "they are alone in their team."
 msgstr ""
+"Якщо \"Відкрити карту на початку гри\"(START) встановлена, початковий стан "
+"всеї карти стане відомим всім гравцям від початку гри, проте вона все ще "
+"може бути затуманена (залежно від установки 'fogofwar'). Коли \"Розтуманити "
+"мапу для мертвих гравців\" (DEAD) включена, мертві можуть бачити всю карту,"
+"Якщо вони одні в своїй команді."
 
 #: server/settings.c:2261
 msgid "Maximum seconds per turn"
-msgstr "Кількість секунд на хід"
+msgstr "Максимум секунд на хід"
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
 #: server/settings.c:2266
-#, fuzzy
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
@@ -35550,15 +35553,16 @@ msgid ""
 "timer. The first turn is treated as a special case and is controlled by the "
 "'first_timeout' setting."
 msgstr ""
-"Якщо всі гравці не натиснуть 'Завершено хід' до закінчення цього часу, то "
-"хід завершиться автоматично. 0 встановлює відсутність таймауту. У "
-"ВІДЛАДОЧНИХ серверах, встановлення у -1 встановлює тестовий режим автогри. "
-"Використовуйте опцію разом з 'timeoutincrease' аби мати дінамічний таймаут."
+"Якщо всі гравці не натиснуть 'Кінець Ходу' до закінчення цього часу, то "
+"хід завершиться автоматично. Нуль значить нема затримки. У серверах зібраних "
+"з відладкою, таймаут -1 ввиставляє тестовий режим автогри. Лише з’єднання з "
+"рівнем доступу hack можуть виставляти затримку меншу за 30 секунд."
+"Використовуйте опцію разом з 'timeoutincrease' щоб мати дінамічний таймер."
+"Перший хід рахується як спецвипадок і визначається настройкою 'first_timeout'."
 
 #: server/settings.c:2280
-#, fuzzy
 msgid "First turn timeout"
-msgstr "таймаут пінга"
+msgstr "Затримка першого ходу"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * should not be translated.
@@ -35569,22 +35573,26 @@ msgid ""
 "If set to -1, the special treatment of T0 will be disabled.\n"
 "See also 'timeout'."
 msgstr ""
+"Якщо більше 0, T0 триватиме 'first_timeout' секунд.\n"
+"Якщо 0, T0 не матиме затримки.\n"
+"Якщо вситавлено в -1, спеціальна оцінка T0 буде вимкнена.\n"
+"Дивись також 'timeout'."
 
 #: server/settings.c:2292
 msgid "Timeout at least n seconds when enemy moved"
-msgstr "Затримка що найменьш n секунд, коли супротивник закінчив хід"
+msgstr "Затримка щонайменш n секунд, коли противник закінчив хід"
 
 #: server/settings.c:2293
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
 "timeout is increased to this value."
 msgstr ""
-"Щоразу як підрозділ рухається у полі зору ворожого гравця, залишок часу "
+"Щоразу як підрозділ рухається в полі зору ворожого гравця, залишок часу "
 "збільшується на цю величину."
 
 #: server/settings.c:2299
 msgid "Minimum time between unit actions over turn change"
-msgstr ""
+msgstr "Мінімальний час між діями загону при зміні ходу"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
@@ -35597,26 +35605,27 @@ msgid ""
 "for at least 15 seconds. This value is limited to a maximum value of 2/3 "
 "'timeout'."
 msgstr ""
+"Установка дає мінімальний час в секундах між рухом загону і іншими значущими "
+"діями (як-от побудова міст), після того як настає зміна ходу. Наприклад, "
+"якщо опція виставлена в 20, і загін рухається 5 секунд до зміни ходу, він не "
+"зможе рухатись наступного ходу, щонайменше 15 секунд. Це значення обмежене - "
+"максимум  2/3 таймауту."
 
 #: server/settings.c:2317
-#, fuzzy
 msgid "Control of simultaneous player/team phases"
-msgstr "Контроль одночасних фаз гравця/команди."
+msgstr "Контроль одночасності фаз гравця/команди."
 
 #: server/settings.c:2318
-#, fuzzy
 msgid ""
 "This setting controls whether players may make moves at the same time during "
 "a turn. Change in setting takes effect next turn."
 msgstr ""
-"Це налаштування контролює, чи можуть гравці здійснювати ходи одночасно.\n"
-"  0 = Усі гравці ходять одночасно.\n"
-"  1 = Усі гравці ходять по черзі.\n"
-"  2 = Лише гравці з однієї команди ходять одночасно."
+"Це налаштування визначає, чи можуть гравці ходити одночасно. Зміна настройки "
+"Стає чинною наступного ходу."
 
 #: server/settings.c:2325
 msgid "Seconds to let a client's network connection block"
-msgstr "Затримка у секундах блокування мережевого з'єднання клієнта."
+msgstr "Секунди відведені для блокування мережного з'єднання клієнта."
 
 #: server/settings.c:2326
 msgid ""
@@ -35624,38 +35633,34 @@ msgid ""
 "the connection is closed. Zero means there is no timeout (although "
 "connections will be automatically disconnected eventually)."
 msgstr ""
-"Якщо мережеве з'єднання заблоковано довше ніж цей час, воно закривається. "
+"Якщо мережне з'єднання блокується довше ніж цей час, воно закривається. "
 "Нуль означає відсутність таймаутів (хоча врешті може відбутися автоматичне "
 "роз'єднання)."
 
 #: server/settings.c:2335
-#, fuzzy
 msgid "Max seconds for network buffers to drain"
-msgstr "Затримка очикування звільнення буферів TCP"
+msgstr "Найбільше секунд для виснаження мережних буферів"
 
 #: server/settings.c:2336
-#, fuzzy
 msgid ""
 "The server will wait for up to the value of this parameter in seconds, for "
 "all client connection network buffers to unblock. Zero means the server will "
 "not wait at all."
 msgstr ""
 "Сервер Freeciv буде чекати встановлену кількість секунд поки розблокуються "
-"буфери TCP усіх клієнтських з'єднань. Нуль спричиняє відсутність очикування "
-"сервером. "
+"мережні буфери всіх клієнтських з'єднань. Нуль значить сервер взагалі не буде"
+" чекати."
 
 #: server/settings.c:2344
 msgid "Seconds between PINGs"
-msgstr "Затримка у секундах між ПІНГами"
+msgstr "Затримка в секундах між ПІНГами"
 
 #: server/settings.c:2345
-#, fuzzy
 msgid ""
 "The server will poll the clients with a PING request each time this period "
 "elapses."
 msgstr ""
-"Сервер перевіряє клієнтів ПІНГ запитами кожного разу коли заданий час "
-"вичерпується."
+"Сервер опитає клієнтів запитами PING щоразу як збігає даний час."
 
 #: server/settings.c:2352
 msgid "Time to cut a client"
@@ -35665,35 +35670,33 @@ msgstr "Час аби відрізати клієнта"
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr ""
-"Якщо клієнт не відповість на PING протягом цього часу, його буде відключено."
+"Якщо клієнт не відповість на PING протягом цього часу, його відключать."
 
 #: server/settings.c:2359
 msgid "Turn-blocking game play mode"
-msgstr "Блокування гри по ходах"
+msgstr "Режим гри блокуючих ходів"
 
 #: server/settings.c:2360
-#, fuzzy
 msgid ""
 "If this is turned on, the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
 msgstr ""
-"Якщо встановлено в 1 - ігровий хід не завершується доти, доки усі гравці, "
-"включно з відключеними, не закінчать свій хід."
+"Якщо включена - новий ігровий хід не наступає доти, доки всі гравці, "
+"включно з від’єднаними, не закінчать свій хід."
 
 #: server/settings.c:2367
 msgid "Fixed-length turns play mode"
-msgstr "Гра ходами фіксованої довжини"
+msgstr "Режим Гри ходами фіксованої довжини"
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
 #: server/settings.c:2370
-#, fuzzy
 msgid ""
 "If this is turned on the game turn will not advance until the timeout has "
 "expired, even after all players have clicked on \"Turn Done\"."
 msgstr ""
-"Якщо встановлено в 1, ігровий хід не буде завершено, доки не вичерпається "
-"час затримки, навіть якщо всі гравці натиснуть \"Хід завершено\"."
+"Якщо включене, ігровий хід не завершиться, поки не вичерпається "
+"час затримки, навіть якщо всі гравці натиснули \"Кінець Ходу\"."
 
 #: server/settings.c:2377
 msgid "What is in the Demographics report"
@@ -35702,7 +35705,6 @@ msgstr "Що включати у демографічний звіт"
 #. TRANS: The strings between double quotes should be
 #. * translated.
 #: server/settings.c:2380
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
 "of a line of information in the Demographics report.\n"
@@ -35723,18 +35725,23 @@ msgid ""
 "    b = display \"best nation\" column\n"
 "The order of characters is not significant, but their capitalization is."
 msgstr ""
-"Повина бути строка символів, кожен з яких визначає додання інформаційної "
-"строки у Демографічний звіт.\n"
+"Це має бути рядок символів, кожен з яких визначає включення інформаційної "
+"стрічки в Демографічному звіті.\n"
 "Символи та їх зміст:\n"
-"    N = включати Населення            P = включати Виробництво\n"
-"    A = включати Землі                E = включати Економіку\n"
-"    S = включати Заселені Землі       M = включати Військовий Комплекс\n"
-"    R = включати Швидкість Досліджень O = включати Забруднення\n"
-"    L = включати Літературу\n"
-"Додатково, наступні символи керують тим чи включати деяки стовбці у звіт:\n"
-"    q = включати стовбець 'кількість'    r = включати стовбець 'позиція'\n"
-"    b = включати стовбець 'краща нація'\n"
-"(Порядок слідування символів значення не має, на відміну від регістра.)"
+"	N = включати Населення\n"
+"	P = включати Виробництво\n"
+"	A = включати Землі\n"
+"	E = включати Економіку\n"
+"	S = включати Заселені Землі\n"
+"	M = включати Військовий Комплекс\n"
+"	R = включати Швидкість Досліджень\n"
+"	O = включати Забруднення\n"
+"	L = включати Літературу\n"
+"На додачу, такі символи керують чи показувати деяки стовбці в звіті:\n"
+"	q = включати стовбець 'кількість'\n"
+"	r = включати стовпчик 'місце'\n"
+"	b = включати стовпчик 'найкраща нація'\n"
+"(Послідовність символів значення не має, на відміну від регістра.)"
 
 #: server/settings.c:2404
 msgid "Turns per auto-save"
