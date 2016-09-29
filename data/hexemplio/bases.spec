@@ -57,7 +57,7 @@ tiles = { "row", "column", "tag"
 ;[El]
  1,  4, "base.buoy_mg"
 ;[VC]
- 0,  5, "base.ruins_mg"
+ 0,  5, "extra.ruins_mg"
 ;[HH]
 ; 1,  5, "cd.occupied"
 ; 1,  5, "cd.city"
