@@ -3080,7 +3080,10 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
       } else {
         waste_level += waste_by_dist * min_dist;
         if (waste_by_rel_dist > 0) {
-          waste_level += waste_by_rel_dist * min_dist / MAX(wld.map.xsize, wld.map.ysize);
+	  /* Multiply by 50 as an "standard size" for which EFT_OUTPUT_WASTE_BY_DISTANCE
+	   * and EFT_OUTPUT_WASTE_BY_REL_DISTANCE would give same result. */
+          waste_level += waste_by_rel_dist * 50 * min_dist
+	    / MAX(wld.map.xsize, wld.map.ysize);
         }
       }
     }
