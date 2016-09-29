@@ -1239,6 +1239,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
   sect_idx = 0;
   goods_active_type_iterate(pgood) {
     char path[512];
+    const char *flag_names[GF_COUNT];
+    int flagi;
 
     fc_snprintf(path, sizeof(path), "goods_%d", sect_idx++);
 
@@ -1249,6 +1251,17 @@ static bool save_game_ruleset(const char *filename, const char *name)
     save_default_int(sfile, pgood->from_pct, 100, path, "from_pct");
     save_default_int(sfile, pgood->to_pct, 100, path, "to_pct");
 
+    set_count = 0;
+    for (flagi = 0; flagi < GF_COUNT; flagi++) {
+      if (goods_has_flag(pgood, flagi)) {
+        flag_names[set_count++] = goods_flag_id_name(flagi);
+      }
+    }
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, flag_names, set_count,
+                             "%s.flags", path);
+    }
   } goods_active_type_iterate_end;
 
   locks = FALSE;
