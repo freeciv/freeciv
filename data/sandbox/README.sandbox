@@ -73,4 +73,4 @@ Goods:
 Trade routes can carry many kinds of goods. There is production chains
 like that city with Mine can trade Ore to a city that then can trade
 Metal to third city which can then trade Goods or Equipment to fourth
-city.
+city. Goods later in chains trade for higher value.

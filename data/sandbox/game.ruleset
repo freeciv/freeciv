@@ -1057,6 +1057,8 @@ reqs  =
     { "type", "name", "range"
       "Extra", "Spice", "City"
     }
+from_pct = 135
+to_pct   = 100
 flags = "Depletes"
 
 [goods_gems]
@@ -1065,6 +1067,8 @@ reqs  =
     { "type", "name", "range"
       "Extra", "Gems", "City"
     }
+from_pct = 135
+to_pct   = 100
 flags = "Depletes"
 
 [goods_jewelry]
@@ -1073,6 +1077,8 @@ reqs =
     { "type", "name", "range"
       "Good", "Gems", "City"
     }
+from_pct = 250
+to_pct   = 150
 flags = "Depletes"
 
 [goods_ore]
@@ -1089,6 +1095,8 @@ reqs =
     { "type", "name", "range"
       "Good", "Ore", "City"
     }
+from_pct = 135
+to_pct   = 100
 flags = "Depletes"
 
 [goods_good]
@@ -1098,6 +1106,8 @@ reqs =
       "Good", "Metal", "City", TRUE
       "Tech", "Electronics", "Player", FALSE
     }
+from_pct = 150
+to_pct   = 135
 flags = "Depletes"
 
 [goods_equipment]
@@ -1107,6 +1117,8 @@ reqs =
       "Good", "Metal", "City"
       "Tech", "Electronics", "Player"
     }
+from_pct = 200
+to_pct   = 150
 flags = "Depletes"
 
 [playercolors]
