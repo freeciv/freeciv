@@ -31706,7 +31706,7 @@ msgstr ""
 
 #: server/commands.c:660
 msgid "Create image files of the world/player map."
-msgstr ""
+msgstr "Створити файли картинки карти світу/гравця."
 
 #: server/commands.c:667
 msgid "Switch server output between 'RFC-style' and normal style."
@@ -31714,22 +31714,22 @@ msgstr "Перемикає вивід сервера між 'RFC-стилем' �
 
 #: server/commands.c:673
 msgid "Simply returns the id of the server."
-msgstr "Повертає ІД сервера."
+msgstr "Вертає ІД сервера."
 
 #: server/connecthand.c:139
 #, c-format
 msgid "%s Welcome"
-msgstr "%s Ласкаво просимо"
+msgstr "Ласкаво просимо %s"
 
 #: server/connecthand.c:164
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
-msgstr "Раді бачити Вас на сервері %s, що запущений на %s, порт %d."
+msgstr "Раді бачити Вас на Сервері %s, запущеному на %s, порт %d."
 
 #: server/connecthand.c:168
 #, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr "Раді бачити Вас на сервері %s, що запущений на порту %d."
+msgstr "Раді бачити Вас на Сервері %s, на порту %d."
 
 #: server/connecthand.c:176 server/connecthand.c:272
 #, c-format
@@ -31739,26 +31739,26 @@ msgstr "%s приєднався з %s."
 #: server/connecthand.c:196
 #, c-format
 msgid "Your delegate %s was controlling your player '%s'; now detached."
-msgstr ""
+msgstr "Ваш делегат %s керував вашого гравця '%s';тепер від’єднаний. "
 
 #: server/connecthand.c:200
 #, c-format
 msgid "%s reconnected, ending your delegated control of player '%s'."
-msgstr ""
+msgstr "%s переприєднався, закінчуючи передане управління гравцем '%s'."
 
 #: server/connecthand.c:209
 #, c-format
 msgid "Couldn't get control of '%s' from delegation to %s."
-msgstr ""
+msgstr "Не зміг управляти '%s' від делегування до %s."
 
 #: server/connecthand.c:231
 msgid "Couldn't attach your connection to new player."
 msgstr "Неможу додати Ваше з'єднання до нового гравця."
 
 #: server/connecthand.c:249
-#, fuzzy, c-format
+#, c-format
 msgid "You are logged in as '%s' connected to no player."
-msgstr "Неможу додати Ваше з'єднання до нового гравця."
+msgstr "Ви зайшли як '%s' не під'єднані дожодного гравця."
 
 #: server/connecthand.c:253
 #, c-format
@@ -31773,11 +31773,11 @@ msgstr "%s приєднався з %s (гравець %s)."
 #: server/connecthand.c:289
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
-msgstr "Гру заблоковано ходом: очикуємо коли %s закінчить хід..."
+msgstr "Гра з блокуванням ходів: чекаємо коли %s закінчить хід..."
 
 #: server/connecthand.c:298
 msgid " *** Server is in edit mode. *** "
-msgstr " *** Сервер у режимі редагування. *** "
+msgstr " *** Сервер у режимі правок. *** "
 
 #: server/connecthand.c:325
 #, c-format
@@ -31815,7 +31815,7 @@ msgid ""
 "The server is missing a capability that the client needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
-"Сервер не є сумісний з клієнтом.\n"
+"Серверу бракує можливостей потрібних для клієнта.\n"
 "Сервер версії: %d.%d.%d%s Кліент версії: %d.%d.%d%s. Встановлення нової "
 "версії має допомогти!"
 
@@ -31836,9 +31836,9 @@ msgid ""
 msgstr ""
 
 #: server/connecthand.c:402
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Connection kicked (%d seconds remaining)."
-msgstr "%s відкинуто: Підключення перевищило ліміт часу, очікуючи пароль."
+msgstr "%s відкинуто: з’єднання копнули (лишилось %d секунд)."
 
 #: server/connecthand.c:411
 #, c-format
@@ -31870,7 +31870,7 @@ msgstr "Ок. Встановлено стандартний стиль."
 
 #: server/console.c:263
 msgid "For introductory help, type 'help'."
-msgstr "Для початкової допомоги введіть 'help'."
+msgstr "Для вступної допомоги введіть 'help'."
 
 #: server/diplhand.c:220
 #, c-format
@@ -31903,21 +31903,21 @@ msgid "You cannot form an alliance because you are at war with an ally of %s."
 msgstr "Ви не можете укласти альянс, тому що воюєте з союзником %s."
 
 #: server/diplhand.c:279
-#, fuzzy, c-format
+#, c-format
 msgid "You cannot form an alliance because %s is at war with an ally of yours."
-msgstr "Ви не можете укласти альянс, тому що воюєте з союзником %s."
+msgstr "Ви не можете створити союз, тому що %s воює з вашим союзником."
 
 #: server/diplhand.c:290
 msgid "You don't have enough gold, you can't accept treaty."
-msgstr "Ви не маєте достатньо грошей, тож не можете підписати угоду."
+msgstr "У вас недостатньо золота, тож не можете підписати угоду."
 
 #: server/diplhand.c:322 server/diplhand.c:327
 #, c-format
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
-msgstr[0] "Угода містить %d пункт, що було узгоджено."
-msgstr[1] "Угода містить %d пункти, що було узгоджено."
-msgstr[2] "Угода містить %d пунктів, що було узгоджено."
+msgstr[0] "Угода містить %d узгоджений пункт."
+msgstr[1] "Угода містить %d узгоджені пункти."
+msgstr[2] "Угода містить %d узгоджених пунктів."
 
 #: server/diplhand.c:343 server/diplhand.c:347
 #, c-format
@@ -31932,12 +31932,12 @@ msgstr "%s не контролює %s! Угода недійсна!"
 #: server/diplhand.c:397 server/diplhand.c:401
 #, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr "%s не має достатньо грошей! Угода недійсна!"
+msgstr "%s не має достатньо золота! Угода недійсна!"
 
 #: server/diplhand.c:431
 #, c-format
 msgid "You gave an embassy to %s."
-msgstr "Ви відкрили посольство у %s."
+msgstr "Ви надали посольство %s."
 
 #: server/diplhand.c:434
 #, c-format
@@ -31947,11 +31947,11 @@ msgstr "%s дозволив Вам відкрити посольство!"
 #: server/diplhand.c:450
 #, c-format
 msgid "You are taught the knowledge of %s."
-msgstr "Ви отримали знання про %s."
+msgstr "Вас навчили знанню про %s."
 
 #. TRANS: Tech from another player
 #: server/diplhand.c:456
-#, fuzzy, c-format
+#, c-format
 msgid "?fromplr:The %s have acquired %s from the %s."
 msgstr "%s здобув %s від %s."
 
@@ -31999,14 +31999,17 @@ msgid ""
 msgid_plural ""
 "You agree on an armistice with the %s. In %d turns, it will become a peace "
 "treaty. Move your units out of %s territory."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Ви погодились на Перемир’я з %s. Через %d хід, це стане Мирною Угодою."
+"Виведіть війська з земель %s."
+msgstr[1] "Ви погодились на Перемир’я з %s. Через %d ходи, це стане Мирною Угодою."
+"Виведіть війська з земель %s."
+msgstr[2] "Ви погодились на Перемир’я з %s. Через %d ходів, це стане Мирною Угодою."
+"Виведіть війська з земель %s."
 
 #: server/diplhand.c:597 server/diplhand.c:600
 #, c-format
 msgid "You agree on an alliance with %s."
-msgstr "Ви досягли альянсу з %s."
+msgstr "Ви погодились на союз з %s."
 
 #: server/diplhand.c:610
 #, c-format
@@ -32016,51 +32019,51 @@ msgstr "Ви передали спільне бачення %s."
 #: server/diplhand.c:613
 #, c-format
 msgid "%s gives you shared vision."
-msgstr "%s надав Вам спільне бачення."
+msgstr "%s дав Вам спільне бачення."
 
 #: server/diplhand.c:756
 #, c-format
 msgid "%s canceled the meeting!"
-msgstr "%s завершив зустріч!"
+msgstr "%s скасував зустріч!"
 
 #: server/diplhand.c:763
 #, c-format
 msgid "Meeting with %s canceled."
-msgstr "Зустріч з %s завершено."
+msgstr "Зустріч з %s скасована."
 
 #: server/diplhand.c:805
 msgid "Your diplomatic envoy was decapitated!"
-msgstr "Вашого дипломатичного посланника було обезголовлено!"
+msgstr "Вашому дипломатичному посланцю відрубали голову!"
 
 #: server/diplomats.c:112
 #, c-format
 msgid "Your %s could not poison the water supply in %s."
-msgstr "Ваш %s не зміг отруїти воду у місті %s."
+msgstr "Ваш %s не зміг отруїти воду в місті %s."
 
 #: server/diplomats.c:127
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
-msgstr "Ваш %s отруїв воду у місті %s."
+msgstr "Ваш %s отруїв воду в місті %s."
 
 #: server/diplomats.c:132
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
-msgstr "%s підозрюється у отруєнні води у місті %s."
+msgstr "%s підозрюється в отруєнні води у місті %s."
 
 #: server/diplomats.c:281
 #, c-format
 msgid "Your %s was executed in %s by primitive %s."
-msgstr "Вашого %s стратили у %s нерозвинені %s."
+msgstr "Вашого %s стратили в %s нерозвинені %s."
 
 #: server/diplomats.c:296
 #, c-format
 msgid "You have established an embassy in %s."
-msgstr "Ви відкрили посольство у %s."
+msgstr "Ви відкрили посольство в %s."
 
 #: server/diplomats.c:300
 #, c-format
 msgid "The %s have established an embassy in %s."
-msgstr "%s відкрив посольство у %s."
+msgstr "%s відкрив посольство в %s."
 
 #: server/diplomats.c:362
 #, c-format
@@ -32108,7 +32111,7 @@ msgstr "Ваш %s вдало перекупив %s."
 #: server/diplomats.c:505
 #, c-format
 msgid "Your %s was bribed by the %s."
-msgstr "Вашого %s перекуплено на бік ворога %s."
+msgstr "Вашого %s перекупили на бік ворога %s."
 
 #: server/diplomats.c:637
 #, c-format
@@ -32116,8 +32119,8 @@ msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
 msgstr ""
-"%s мав підозри, що Ви знову намагаєтесь вкрасти технологію. Вашого %s було "
-"захоплено та страчено."
+"%s мав підозри, що Ви знову спробуєте вкрасти технологію. Вашого %s "
+"захопили і стратили."
 
 #: server/diplomats.c:644
 #, c-format
@@ -32141,7 +32144,7 @@ msgstr "Ви не можете здійснити переворот у цьом
 #: server/diplomats.c:741
 #, c-format
 msgid "You don't have enough gold to subvert %s."
-msgstr "Гра у Вас не вистачає коштів аби повернути на свій бік %s."
+msgstr "У Вас не стає золота щоб повернути на свій бік %s."
 
 #: server/diplomats.c:758
 #, c-format
@@ -32167,7 +32170,7 @@ msgstr "Заколот у %s, підозра падає на %s."
 #: server/diplomats.c:873
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
-msgstr "Ваш підрозділ %s затримано на спробі саботувати виробництво!"
+msgstr "Ваш підрозділ %s затримали на спробі саботувати виробництво!"
 
 #: server/diplomats.c:878
 #, c-format
@@ -32177,7 +32180,7 @@ msgstr "Ви затримали направлений %s підрозділ %s 
 #: server/diplomats.c:913
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
-msgstr "Ваш %s не зміг найти що саботувати у %s."
+msgstr "Ваш %s не зміг знайти що саботувати у %s."
 
 #: server/diplomats.c:966
 #, c-format
@@ -32192,7 +32195,7 @@ msgstr "Ваш %s не зміг найти %s щоб саботувати у %s.
 #: server/diplomats.c:1002
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
-msgstr "Ваш підрозділ %s вдало саботував виробництво %s у %s."
+msgstr "Ваш підрозділ %s вдало знищив виробництво %s у %s."
 
 #: server/diplomats.c:1009
 #, c-format
@@ -32202,14 +32205,13 @@ msgstr "Виробництво %s у %s саботовано, підозра п�
 #: server/diplomats.c:1032
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
-msgstr "Ваш підрозділ %s затримано на спробі саботувати виробництво!"
+msgstr "Ваш підрозділ %s затримано на спробі саботажу!"
 
 #: server/diplomats.c:1036
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr ""
-"Ви затримали направлений %s підрозділ %s при спробі саботувати виробництво "
-"%s у %s!"
+"Ви затримали направлений %s підрозділ %s при спробі саботажу %s у %s!"
 
 #: server/diplomats.c:1050
 #, c-format
@@ -32225,7 +32227,7 @@ msgstr "%s знищив %s у %s."
 #: server/diplomats.c:1201
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
-msgstr "Ворожий %s знищено вашим %s."
+msgstr "Ворожий %s знищений вашим %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
 #: server/diplomats.c:1208
@@ -32263,12 +32265,12 @@ msgstr "%s %s боронився проти %s, але загинув."
 #: server/diplomats.c:1264
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
-msgstr "Ваш %s було знищено %s, що оборонявся."
+msgstr "Ваш %s загинув від рук оборонця %s."
 
 #: server/diplomats.c:1270
 #, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
-msgstr " %s %s знищено при спробі шпигування у %s."
+msgstr "Знищили %s %s при спробі шпигування у %s."
 
 #: server/diplomats.c:1275
 #, c-format
@@ -32283,7 +32285,7 @@ msgstr "Ваш %s знищив %s %s при спробі шпигування у
 #: server/diplomats.c:1288
 #, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
-msgstr "Знищено %s %s при спробі диверсії наших підрозділів."
+msgstr "Знищили %s %s при спробі диверсії наших підрозділів."
 
 #: server/diplomats.c:1293
 #, c-format
@@ -32305,12 +32307,12 @@ msgstr "Ваш %s вдало виконав завдання та поверну
 #: server/diplomats.c:1382
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
-msgstr "Ваш %s був захоплений після виконання свого завдання у %s."
+msgstr "Вашого %s був захопили після виконання завдання в %s."
 
 #: server/diplomats.c:1388
 #, c-format
 msgid "Your %s was captured after completing the mission."
-msgstr "Ваш %s був захоплений після вдалого виконання свого завдання."
+msgstr "Вашого %s захопили після вдалого виконання свого завдання."
 
 #: server/diplomats.c:1413
 #, c-format
@@ -32320,17 +32322,17 @@ msgstr "Ви призвели до інциденту, намагаючись п
 #: server/diplomats.c:1418
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
-msgstr "%s призвів до інциденту при купівлі вашого %s."
+msgstr "%s призвів до інциденту при підкупі вашого %s."
 
 #: server/diplomats.c:1424
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
-msgstr "Ви спричинили аварію, намагаючись викрасти технології у %s."
+msgstr "Ви спричинили прикрий інцидент, намагаючись вкрасти технології у %s."
 
 #: server/diplomats.c:1428
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
-msgstr "%s спричинив аварію, намагаючись викрасти у Вас технології."
+msgstr "%s спричинив прикрий інцидент, пробуючи викрасти у Вас технології."
 
 #: server/diplomats.c:1434
 #, c-format
@@ -32356,7 +32358,7 @@ msgstr " *** Режим редагування скасовано %s. *** "
 #: server/edithand.c:528 server/edithand.c:563 server/edithand.c:598
 #, c-format
 msgid "Cannot edit the tile because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "Не можу правити клітику, бо %d не є допустимою координатою на цій карті! "
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:441
@@ -32364,6 +32366,7 @@ msgstr ""
 msgid ""
 "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
 msgstr ""
+"Не можу змінити місцевість на клітинці %s -  %d не є допустимим ІД місцевості."
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:503
@@ -32372,13 +32375,16 @@ msgid ""
 "Cannot modify specials for the tile %s because %d is not a valid terrain "
 "special id."
 msgstr ""
+"Не можу змінити спеціальні на клітинці %s, бо %d не є допустимим ІД "
+"спецресурсу місцевості."
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:538
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot modify road for the tile %s because %d is not a valid road type id."
-msgstr "Не можна редагувати бачення для клітинки (%d, %d), бо вона поза мапою!"
+msgstr ""
+"Не можу змінитидорогу для клітини %s, бо %d не є допустимим типом дороги!"
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:573
@@ -32386,45 +32392,47 @@ msgstr "Не можна редагувати бачення для клітин�
 msgid ""
 "Cannot modify base for the tile %s because %d is not a valid base type id."
 msgstr ""
+"Не можна змінити базу для клітинки %s бо %d не є допустимим ІД типу бази."
 
 #: server/edithand.c:665
 #, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "Не можу створити загони, бо %d не є допустимою для цієї карти координатою!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:674
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
-msgstr "Не можу створити підрозділ %s у цій місцевості."
+msgstr "Не можу створити загін на %s, бо ІД даного типу загонів %d неправильне."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
 #: server/edithand.c:684
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
-msgstr "Не можу створити підрозділ %s у цій місцевості."
+msgstr "Не можу створити підрозділ типу %s на %s, бо ІД гравця даного "
+"власника %d неправильне."
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
 #: server/edithand.c:697
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
-msgstr "Не можу створити підрозділ на ворожий території."
+msgstr "Не можу створити підрозділ типу %s на ворожий території %s."
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
 #: server/edithand.c:707
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
-msgstr "Не можу створити підрозділ %s у цій місцевості."
+msgstr "Не можу створити підрозділ %s на місцевості при %s."
 
 #: server/edithand.c:750
 #, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "Не можу видалити загони бо %d не є допустимою координатою для цієї карти!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:759
@@ -32432,6 +32440,7 @@ msgstr ""
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
 msgstr ""
+"Не можу видалити загін на %s, тому, що ІД типу загону %d недопустимий."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
@@ -32441,6 +32450,8 @@ msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr ""
+"Не можу видалити загін типу %s на %s, тому, що ІД гравця даного власника %d "
+"неправильне."
 
 #: server/edithand.c:801 server/edithand.c:824
 #, c-format
@@ -32450,12 +32461,12 @@ msgstr "Немає такого підрозділу (ID %d)."
 #: server/edithand.c:866
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
-msgstr "Невірний рівень ветерана %d у підрозділу %d (%s)."
+msgstr "Невірний рівень ветерана %d у підрозділа %d (%s)."
 
 #: server/edithand.c:897
 #, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "Не можу створити місто бо %d є недопустимою координатою на цій карті!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:906
@@ -32463,6 +32474,7 @@ msgstr ""
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
 msgstr ""
+"Не можу створити місто на %s - для даного власника ІД гравця %d недопустиме"
 
 #. TRANS: ..." at <tile-coordinates>."
 #: server/edithand.c:918
@@ -32483,7 +32495,7 @@ msgstr "Не можу змінити назву міста: %s"
 #: server/edithand.c:990
 #, c-format
 msgid "Invalid city size %d for city %s."
-msgstr "Невірний розмір %d для міста %s."
+msgstr "Неправильний розмір %d в міста %s."
 
 #: server/edithand.c:1007
 #, c-format
@@ -32495,12 +32507,15 @@ msgstr "Місто не може мати %s!"
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
+"Недопустимий запас їжі %d для міста %s (дозволений діапазон від %d до %d)."
 
 #: server/edithand.c:1070
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
+"Недопустима кількість назбираних щитів %d для міста %s "
+"(дозволений діапазон від %d до %d)."
 
 #: server/edithand.c:1117
 #, c-format
@@ -32530,7 +32545,7 @@ msgstr "Не вдалося створити гравця."
 #: server/edithand.c:1180
 #, c-format
 msgid "No such player (ID %d)."
-msgstr "Немає такого гравця (ID %d)."
+msgstr "Нема такого гравця (ID %d)."
 
 #: server/edithand.c:1209
 #, c-format
@@ -32538,11 +32553,10 @@ msgid "Cannot edit player with invalid player ID %d."
 msgstr "Не можна редагувати гравця з невірним ID %d."
 
 #: server/edithand.c:1226
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr ""
-"Не можна змінити ім'я гравця (%d) з '%s' на '%s': інший гравець (%d) уже має "
-"таке ім'я."
+"Не можна змінити ім'я гравця (%d) з '%s' на '%s': %s."
 
 #: server/edithand.c:1237
 #, c-format
@@ -32550,6 +32564,7 @@ msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
+"Не можна змінити націю гравця %d (%s), бо ІД %d даного народу недопустимий."
 
 #: server/edithand.c:1243
 #, c-format
@@ -32561,22 +32576,22 @@ msgstr ""
 "призначена гравцю %d (%s)."
 
 #: server/edithand.c:1252
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is not in the current nation set."
 msgstr ""
-"Не можна змінити націю гравця %d (%s) на націю %d (%s), бо та нація вже "
-"призначена гравцю %d (%s)."
+"Не можна змінити націю гравця %d (%s) на націю %d (%s), бо та нація не є "
+"належить до поточного набору."
 
 #: server/edithand.c:1261
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is unsuitable for this player."
 msgstr ""
-"Не можна змінити націю гравця %d (%s) на націю %d (%s), бо та нація вже "
-"призначена гравцю %d (%s)."
+"Не можна змінити націю гравця %d (%s) на націю %d (%s), бо ця нація не "
+"годиться для цього гравця."
 
 #: server/edithand.c:1302
 #, c-format
@@ -32584,11 +32599,12 @@ msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
 "allowed range."
 msgstr ""
+"Не можу задати золото гравцю %d (%s), бо величина %d за допустимими межами."
 
 #: server/edithand.c:1361
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
-msgstr ""
+msgstr "Не можу правити видимість, бо %d  - координата поза цією картою"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:1370
@@ -32596,6 +32612,7 @@ msgstr ""
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
+"Не можу правити видимість для клітини на %s бо даний ІД гравця %d недопустиме."
 
 #: server/edithand.c:1439
 #, c-format
@@ -32603,14 +32620,13 @@ msgid "No such city (ID %d)."
 msgstr "Немає такого міста (ID %d)."
 
 #: server/edithand.c:1465
-#, fuzzy
 msgid "Cannot toggle fog-of-war when it is already disabled."
-msgstr "Не можу стартувати гру: її вже запущено."
+msgstr "Неможливо перемкнути туман війни, коли він вже виключений."
 
 #: server/edithand.c:1473
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
-msgstr "Не можливо перемикнути гравця дикуна."
+msgstr "Неможливо перемкнути туман війни для недопустимого ІД гравця %d."
 
 #: server/edithand.c:1501 server/edithand.c:1540
 #, c-format
@@ -32618,43 +32634,46 @@ msgid "Invalid tile index %d for start position."
 msgstr "Невірний індекс клітинки %d для початкового положення."
 
 #: server/edithand.c:1548
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
 "position there."
 msgstr ""
-"Не можна встановити початкове розташування у (%d, %d), бо це поза мапою!"
+"Не можна встановити початкове розташування у (%d, %d), бо там нема "
+"початкових позицій."
 
 #: server/edithand.c:1580
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
-msgstr ""
+msgstr "Не можу задати неправильний рік %d. Допустимий діапазон від %d до %d."
 
 #: server/edithand.c:1628
 msgid "No permissions to remotely save scenario."
-msgstr "Немає прав для віддаленого збереження сценарію."
+msgstr "Нема прав для віддаленого збереження сценарію."
 
 #: server/edithand.c:1635
 msgid "Scenario information not set. Cannot save scenario."
 msgstr "Інформацію про сценарій не встановлено. Не можу зберегти сценарій."
 
 #: server/fcdb.c:128
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot load fcdb config file '%s':\n"
 "%s"
-msgstr "Не знайдено аудіо файл %s"
+msgstr ""
+"Не зміг завантажити конфіг файл fcdb '%s':\n"
+"%s"
 
 #: server/gamehand.c:191
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
 msgstr ""
-"Морськи підрозділи на початку гри ще не підтримуються. Ніхто не отримує %s."
+"Морські підрозділи на початку гри ще не підтримуються. Ніхто не отримує %s."
 
 #: server/gamehand.c:409
-#, fuzzy, c-format
+#, c-format
 msgid "Didn't find optimal solution for team placement in %d iterations."
-msgstr "Не знайдено шляху до цілі!"
+msgstr "Не знайшов оптимального розвязку для розміщення команд за %d ітерацій."
 
 #: server/gamehand.c:826
 #, c-format
@@ -32662,7 +32681,6 @@ msgid "No units placed for %s!"
 msgstr "Нема підрозділів, розміщених у %s!"
 
 #: server/gamehand.c:938
-#, fuzzy
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr "Таймаут ходу перевищує максимум, виправляю на максимум."
 
@@ -32672,7 +32690,7 @@ msgstr "Таймаут ходу менше нуля, виправляю на н�
 
 #: server/generator/mapgen.c:1552
 msgid "The server couldn't allocate starting positions."
-msgstr ""
+msgstr "Сервер не зміг приначити місця появи."
 
 #: server/generator/mapgen.c:2192
 msgid "High landmass - this may take a few seconds."
@@ -32680,7 +32698,7 @@ msgstr "Багато землі - це займе декілька секунд.
 
 #: server/generator/mapgen.c:2472
 msgid "Generator 3 didn't place all big islands."
-msgstr "Генератор 3 не може розташувати усі великі острови."
+msgstr "Генератор 3 не може розташувати всі великі острови."
 
 #: server/generator/mapgen.c:2501
 #, c-format
@@ -32690,12 +32708,12 @@ msgstr "Генератор 3 залишив нерозміщеними %li зе�
 #: server/generator/mapgen_topology.c:245
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (%d requested)."
-msgstr ""
+msgstr "Створюю мапу розміром %d x %d = %d клітин (попросили %d)."
 
 #: server/generator/mapgen_topology.c:301
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (map size: %d)."
-msgstr ""
+msgstr "Створюю мапу розміром %d x %d = %d клітин (розмір карти: %d)."
 
 #: server/generator/mapgen_topology.c:313
 #, c-format
@@ -32703,6 +32721,8 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "small. Setting map size to the minimal size %d."
 msgstr ""
+"Обчислений розмір карти для %d клітин (суші) на гравця і %d гравці(в) "
+"замалий. Встановлюю розмір карти мінімальним -  %d."
 
 #: server/generator/mapgen_topology.c:320
 #, c-format
@@ -32710,6 +32730,8 @@ msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
 "large. Setting map size to the maximal size %d."
 msgstr ""
+"Обчислений розмір карти для %d клітин (суші) на гравця для %d гравці(в) "
+"завеликий. Встановлюю розмір карти максимальним -  %d."
 
 #: server/generator/mapgen_topology.c:326
 #, c-format
@@ -32717,6 +32739,7 @@ msgid ""
 "Setting map size to %d (approx. %d (land) tiles for each of the %d "
 "player(s))."
 msgstr ""
+"Виставляю розмір мапи %d (приблизно %d клітин (суші) на кожного з %d гравців)."
 
 #: server/generator/startpos.c:479
 msgid ""
@@ -32759,7 +32782,7 @@ msgstr "Ви не можете надсилати повідомлення %s; �
 #: server/handchat.c:232
 #, c-format
 msgid "%s to allies: %s"
-msgstr "%s альянс: %s"
+msgstr "%s союзникам: %s"
 
 #: server/handchat.c:264
 #, c-format
@@ -32783,7 +32806,7 @@ msgstr "Немає з`єднання з ім`ям %s."
 #: server/handchat.c:453
 #, c-format
 msgid "There is no player nor connection by the name %s."
-msgstr "Немає з`єднання або гравця з ім`ям %s."
+msgstr "Немає з`єднання або гравця з іменем %s."
 
 #: server/maphand.c:102
 msgid "Global warming has occurred!"
@@ -32794,7 +32817,7 @@ msgid ""
 "Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
 msgstr ""
-"Узбережжя було затоплено та велика кількість степу перетворилася на пустелю."
+"Узбережжя затопило в широкі степові простори перетворилися в пустелі."
 
 #: server/maphand.c:115
 msgid "Nuclear winter has occurred!"
@@ -32802,85 +32825,76 @@ msgstr "Настала ядерна зима!"
 
 #: server/maphand.c:117
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr ""
-"Волога місцевість пересохла та велика кількість степу перетворилася на "
-"тундру."
+msgstr "Вологі землі пересохли і великі простори степу перетворились в тундру."
 
 #: server/maphand.c:293
-#, fuzzy
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new road "
 "building technology is announced."
 msgstr ""
-"Населення отримало нову надію коли було проголошено що Ваші вчені дослідили "
-"та відкрили будівництво залізниць.\n"
-"      Працівники зібралися та побудували в усіх містах залізницю."
+"Країна отримала нову надію коли оголосили винайдення нової технології "
+"будівництва доріг."
 
 #: server/maphand.c:300
-#, fuzzy
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "road building technology."
 msgstr ""
-"Населення з радістю дізналося, що Ваші вчені дослідили та відкрили "
-"будівництво залізниць.\n"
-"      Працівники зібралися та побудували в усіх містах залізницю."
+"Населення з радістю дізналося, що Ваші вчені нарешті взнали нову технологію "
+"будівництва доріг."
 
 #: server/maphand.c:307
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "roads."
 msgstr ""
+"Робітники самовільно зібралися і поліпшили всі міста кращими дорогами"
 
 #: server/maphand.c:311 server/maphand.c:417
 #, c-format
 msgid "Workers spontaneously gather and upgrade all possible cities with %s."
-msgstr ""
+msgstr "Робітники самовільно зібралися і покращили всі міста %s."
 
 #: server/maphand.c:398
-#, fuzzy
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new base "
 "building technology is announced."
 msgstr ""
-"Населення отримало нову надію коли було проголошено що Ваші вчені дослідили "
-"та відкрили будівництво залізниць.\n"
-"      Працівники зібралися та побудували в усіх містах залізницю."
+"Нова надія запалала в серцях всієї країни, коли оголосили винайдення нової "
+"технології будівництва баз."
 
 #: server/maphand.c:405
-#, fuzzy
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "base building technology."
 msgstr ""
-"Населення з радістю дізналося, що Ваші вчені дослідили та відкрили "
-"будівництво залізниць.\n"
-"      Працівники зібралися та побудували в усіх містах залізницю."
+"Народ з радістю дізнався, що Ваші вчені нарешті дослідили та відкрили секрет"
+"будівництва нових баз."
 
 #: server/maphand.c:413
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "bases."
 msgstr ""
+"Робітники на радощах збираються і покращують всі міста кращими базами"
 
 #: server/maphand.c:1743
 #, c-format
 msgid "Moved your %s due to changing terrain."
-msgstr "Переміщено Ваш %s внаслідок змін території."
+msgstr "Переміщено Ваш %s внаслідок зміни місцевості."
 
 #: server/maphand.c:1760
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
-msgstr "Розпущено Ваш %s внаслідок змін території."
+msgstr "Розпустили Ваш %s внаслідок зміни місцевості."
 
 #: server/meta.c:203
 msgid "Not reporting to the metaserver in this game."
-msgstr "Не звітуємо метасерверу у цій грі."
+msgstr "Не звітуємо метасерверу в цій грі."
 
 #: server/meta.c:208
-#, fuzzy
 msgid "Metaserver connection currently failing."
-msgstr "З'єднання метасервера вже відкрито."
+msgstr "З'єднання метасервера зараз збоїть."
 
 #: server/plrhand.c:144
 #, c-format
@@ -32889,7 +32903,7 @@ msgstr "%s більше не існують!"
 
 #: server/plrhand.c:262
 msgid "Cannot change rates before game start."
-msgstr "Не можно змінювати ставки до старту гри."
+msgstr "Не можна змінювати ставки до старту гри."
 
 #: server/plrhand.c:286
 #, c-format
@@ -32920,17 +32934,17 @@ msgid ""
 msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s влаштували переворот! буде %d хід анархії! Уряд-мета %s."
+msgstr[1] "%s влаштували переворот! буде %d ходи анархії! Уряд-мета %s."
+msgstr[2] "%s влаштували переворот! буде %d ходів анархії! Уряд-мета %s."
 
 #: server/plrhand.c:427
 msgid "Revolution: returning to anarchy."
-msgstr "Революція: повертаємось до анархії."
+msgstr "Революція: вертаємось в анархію."
 
 #: server/plrhand.c:483
 msgid "You should choose a new government from the government menu."
-msgstr "Ви маєте обрати новий уряд із меню уряда."
+msgstr "Ви маєте обрати новий уряд з меню уряду."
 
 #: server/plrhand.c:508
 msgid "Tax rate exceeded the max rate; adjusted."
@@ -32947,7 +32961,7 @@ msgstr "Ставка розкоші перебільшує максимальн�
 #: server/plrhand.c:618
 #, c-format
 msgid "%s no longer gives us shared vision!"
-msgstr "%s припиняє брати участь у спільному баченні!"
+msgstr "%s більше не дає нам спільного зору!"
 
 #: server/plrhand.c:629
 #, c-format
