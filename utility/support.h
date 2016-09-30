@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -174,6 +174,10 @@ char fc_toupper(char c);
 char fc_tolower(char c);
 
 const char *fc_basename(const char *path);
+
+void make_escapes(const char *str, char *buf, size_t buf_len);
+void remove_escapes(const char *str, bool full_escapes,
+                    char *buf, size_t buf_len);
 
 int fc_at_quick_exit(void (*func)(void));
 
