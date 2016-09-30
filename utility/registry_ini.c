@@ -51,7 +51,7 @@
   can, but they have no particular significance.  There can be
   optional whitespace before and/or after the equals sign.
   You can put a newline after (but not before) the equals sign.
-  
+
   Backslash is an escape character in strings (double-quoted strings
   only, not names); recognised escapes are \n, \\, and \".
   (Any other \<char> is just treated as <char>.)
@@ -221,39 +221,6 @@ struct entry {
 
 static struct entry *section_entry_filereference_new(struct section *psection,
                                                      const char *name, const char *value);
-
-/****************************************************************************
-  Copies a string and convert the following characters:
-  - '\n' to "\\n".
-  - '\\' to "\\\\".
-  - '\"' to "\\\"".
-  See also remove_escapes().
-****************************************************************************/
-static void make_escapes(const char *str, char *buf, size_t buf_len)
-{
-  char *dest = buf;
-  /* Sometimes we insert 2 characters at once ('\n' -> "\\n"), so keep
-   * place for '\0' and an extra character. */
-  const char *const max = buf + buf_len - 2;
-
-  while (*str != '\0' && dest < max) {
-    switch (*str) {
-    case '\n':
-      *dest++ = '\\';
-      *dest++ = 'n';
-      str++;
-      break;
-    case '\\':
-    case '\"':
-      *dest++ = '\\';
-      /* Fallthrough. */
-    default:
-      *dest++ = *str++;
-      break;
-    }
-  }
-  *dest = 0;
-}
 
 /***************************************************************************
   Simplification of fileinfoname().

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -127,39 +127,6 @@ void secfile_allow_digital_boolean(struct section_file *secfile,
   fc_assert_ret(NULL != secfile);
   secfile->allow_digital_boolean = allow_digital_boolean;
 }
-
-/****************************************************************************
-  Copies a string. Backslash followed by a genuine newline always
-  removes the newline.
-  If full_escapes is TRUE:
-    - '\n' -> newline translation.
-    - Other '\c' sequences (any character 'c') are just passed
-      through with the '\' removed (eg, includes '\\', '\"').
-  See also make_escapes().
-****************************************************************************/
-static void remove_escapes(const char *str, bool full_escapes,
-                           char *buf, size_t buf_len)
-{
-  char *dest = buf;
-  const char *const max = buf + buf_len - 1;
-
-  while (*str != '\0' && dest < max) {
-    if (*str == '\\' && *(str + 1) == '\n') {
-      /* Escape followed by newline. Skip both */
-      str += 2;
-    } else if (full_escapes && *str == '\\') {
-      str++;
-      if (*str == 'n') {
-        *dest++ = '\n';
-        str++;
-      }
-    } else {
-      *dest++ = *str++;
-    }
-  }
-  *dest = '\0';
-}
-
 
 /**************************************************************************
   Add entry to section from token.
