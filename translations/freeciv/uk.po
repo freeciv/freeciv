@@ -21595,10 +21595,9 @@ msgid "Under Anarchy, technology cannot be lost due to lack of upkeep."
 msgstr ""
 
 #: data/experimental/techs.ruleset:777
-#, fuzzy
 msgid ""
 "Allows Settlers, Workers and Engineers to upgrade railroads with maglev."
-msgstr "Дозволяє Поселенцям, Робітникам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям, Робітникам та Інженерам покращувати залізниці до маглев."
 
 #: data/experimental/terrain.ruleset:1196
 msgid ""
@@ -21725,15 +21724,14 @@ msgid ""
 msgstr ""
 
 #: data/experimental/units.ruleset:1500 data/civ2civ3/units.ruleset:1649
-#, fuzzy
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, and unlike later boats can travel on "
 "rivers, but it may not enter deep ocean tiles."
 msgstr ""
 "Трирема - це перший корабельний підрозділ. Він може діяти як транспортний "
-"корабель, а також має зародкові можливості нападу, але не може рухатися по "
-"глибокому океану."
+"корабель, а також має зародкові можливості нападу, на відміну від пізніших "
+"кораблів може рухатись річками, але не може заходити в глибокий океан."
 
 #: data/experimental/units.ruleset:2231
 msgid ""
@@ -21743,13 +21741,12 @@ msgstr ""
 
 #: data/civ2civ3/buildings.ruleset:103 data/civ2civ3/buildings.ruleset:137
 #: data/civ2civ3/buildings.ruleset:172
-#, fuzzy
 msgid ""
 "Allows a city to grow larger than size 8. (A Sewer System is required for a "
 "city to grow larger than size 16.)"
 msgstr ""
-"Дозволяє місту зростати у розмірі понад 8. Щоб місто змогло вирости у "
-"розмірі понад 12, потрібна Каналізація."
+"Дозволяє місту вирости понад розмір 8. (Щоб місто змогло вирости у "
+"більшим 16-го розіміру, потрібна Каналізація.)"
 
 #: data/civ2civ3/buildings.ruleset:108 data/civ2civ3/buildings.ruleset:142
 #: data/civ2civ3/buildings.ruleset:177
@@ -21775,9 +21772,8 @@ msgid ""
 msgstr ""
 
 #: data/civ2civ3/buildings.ruleset:123
-#, fuzzy
 msgid "Aqueduct, Lake"
-msgstr "Водогін"
+msgstr "Водогін, Озеро"
 
 #: data/civ2civ3/buildings.ruleset:151
 msgid ""
@@ -21786,9 +21782,8 @@ msgid ""
 msgstr ""
 
 #: data/civ2civ3/buildings.ruleset:157
-#, fuzzy
 msgid "Aqueduct, River"
-msgstr "Водогін"
+msgstr "Водогін, Ріка"
 
 #: data/civ2civ3/buildings.ruleset:186
 msgid ""
@@ -31446,14 +31441,14 @@ msgstr "Негайно завершити гру внічию."
 
 #: server/commands.c:524
 msgid "Concede the game."
-msgstr "Програти гру."
+msgstr "Здатись."
 
 #: server/commands.c:525
 msgid ""
 "This tells everyone else that you concede the game, and if all but one "
 "player (or one team) have conceded the game in this way then the game ends."
 msgstr ""
-"Це повідомляє усіх інших, що Ви визнали поразку у грі, та, якщо усі крім "
+"Це повідомляє всім іншим, що Ви визнали поразку в грі, та, якщо всі крім "
 "одного гравця (або однієї команди) визнали поразку, гра завершиться."
 
 #. TRANS: translate text between <> only
@@ -31502,21 +31497,18 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:554
-#, fuzzy
 msgid ""
 "scensave\n"
 "scensave <file-name>"
 msgstr ""
-"save\n"
-"save <файл>"
+"scensave\n"
+"scensave <файл>"
 
 #: server/commands.c:556
-#, fuzzy
 msgid "Save game to file as scenario."
-msgstr "Зберегти гру у файл."
+msgstr "Зберегти гру в файл як сценарій."
 
 #: server/commands.c:557
-#, fuzzy
 msgid ""
 "Save the current game to file <file-name> as scenario. If no file-name "
 "argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\". To "
@@ -31525,9 +31517,10 @@ msgid ""
 "    '--file <filename>' or '-f <filename>'\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
-"Зберегти поточну гру у файл <файл>. Якщо не надано імені файлу, зберігає у "
-"файл \"<префікс автозбереження><рік>m.sav[.gz]\". Аби завантажити збережену "
-"гру, стартуйте сервер з аргументом командного рядка:\n"
+"Зберегти поточну гру у файл <файл> як сценарій. Якщо не надано імені файлу, "
+"зберігає в файл \"<префікс автозбереження><рік>m.sav[.gz]\". Аби "
+"перезавантажити збережену гру створену 'scensave', стартуйте сервер з "
+"аргументом командного рядка:\n"
 "    '--file <файл>' або '-f <файл>'\n"
 "потім виконайте команду 'start', коли усі гравці під'єднаються."
 
@@ -31582,6 +31575,11 @@ msgid ""
 "  script   - using default values and rereading the start script\n"
 "  default  - using default values\n"
 msgstr ""
+"скинути всі настройки, якщо можливо. Підтримуються такі рівні :\n"
+"  game     - взявши значення визначені на початку гри\n"
+"  ruleset  - взявши значення визначені в наборі правил\n"
+"  script   - взявши типові значення і перечитавши стартовий скрипт\n"
+"  default  - взявши типові значення\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:601
@@ -31590,13 +31588,15 @@ msgid ""
 "lua file <script file>\n"
 "lua <script line> (deprecated)"
 msgstr ""
+"lua cmd <скрипт рядок>\n"
+"lua file <скрипт файл>\n"
+"lua <скрипт рядок> (застаріло)"
 
 #: server/commands.c:604
-#, fuzzy
 msgid ""
 "Evaluate a line of Freeciv script or a Freeciv script file in the current "
 "game."
-msgstr "Вирахувати рядок скрипта freeciv у поточній грі."
+msgstr "Вирахувати рядок скрипта чи файла Freeciv у поточній грі."
 
 #. TRANS: translate text between <>
 #: server/commands.c:610
@@ -31626,10 +31626,15 @@ msgid ""
 "delegate restore\n"
 "delegate show <player-name>"
 msgstr ""
+"delegate to <ім’я_користувача> [player-name]\n"
+"delegate cancel [player-name]\n"
+"delegate take <ім’я-гравця>\n"
+"delegate restore\n"
+"delegate show <ім’я-гравця>"
 
 #: server/commands.c:624
 msgid "Delegate control to another user."
-msgstr ""
+msgstr "Передати управління іншому користувачу."
 
 #: server/commands.c:625
 msgid ""
@@ -31648,6 +31653,20 @@ msgid ""
 "The [player-name] argument can only be used by connections with cmdlevel "
 "'admin' or above to force the corresponding change of the delegation status."
 msgstr ""
+"Делегування дозволяє користувачу призначити іншого користувача, який "
+"тимчасово візьме управління гравцем, поки він відійшов.\n"
+"'delegate to <ім’якористувача>': дозволяє <ім’якористувача> 'delegate take' "
+"вашого гравця.\n"
+"'delegate cancel': номінований користувач більше не може взяти вашого гравця.\n"
+"'delegate take <ім’я-гравця>': взяти керування гравцем якого делегували вам. "
+"(Веде себе як 'take', за вийнятком не присилування заборон 'allowtake'.)\n"
+"'delegate restore': звільнити (забрати) керування делегованим гравцем "
+"(протилежне до 'delegate take') і відновлює попередній вид, якщо був. "
+"(Стається автоматично, якщо власник гравця переприєднався.)\n"
+"'delegate show': показати кому делеговано управліннявашим гравцем, якщо взагалі "
+"кому-небудь.\n"
+"Аргумнт [player-name] можуть використати лише зєднання з командним рівнем "
+"'admin' або вищими, щоб примусово здійснити відповідну зміну статусу делегування."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:645
@@ -31655,10 +31674,12 @@ msgid ""
 "fcdb reload\n"
 "fcdb lua <script>"
 msgstr ""
+"fcdb reload\n"
+"fcdb lua <скрипт>"
 
 #: server/commands.c:647
 msgid "Manage the authentication database."
-msgstr ""
+msgstr "Управляти базою даних аутентифікації."
 
 #: server/commands.c:648
 msgid ""
@@ -31666,6 +31687,9 @@ msgid ""
 "change, while the argument 'lua' evaluates a line of Lua script in the "
 "context of the Lua instance for the database."
 msgstr ""
+"Аргумент 'reload' змушує скрипт бази даних перчитатись після змін, поки "
+"аргумент 'lua' обчислює рядок скрипта Lua в контексті екземпляра Lua для "
+"бази даних."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:655
@@ -31807,6 +31831,7 @@ msgstr "Відкинуто %s: Невірне ім'я [%s]."
 msgid ""
 "You have been kicked from this server and cannot reconnect for %d seconds."
 msgstr ""
+"Вас викинули з сервера і не можна переприєнатися ще %d секунд."
 
 #: server/connecthand.c:402
 #, c-format
@@ -32056,9 +32081,9 @@ msgstr "Вашого %s саботовано намаганнями %s!"
 
 #. TRANS: You already have a Leader.
 #: server/diplomats.c:446
-#, fuzzy, c-format
+#, c-format
 msgid "You already have a %s."
-msgstr "Ви вже маєте місто назване %s."
+msgstr "Ви вже маєте %s."
 
 #: server/diplomats.c:458
 msgid "You can't bribe a unit from this nation."
