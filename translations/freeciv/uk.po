@@ -779,11 +779,11 @@ msgstr "Святкування"
 
 #: client/cityrepdata.c:108
 msgid "?city_state:Disorder"
-msgstr "?стан_міста:Заворушення"
+msgstr "Заворушення"
 
 #: client/cityrepdata.c:109
 msgid "?city_state:Peace"
-msgstr "?стан_міста:Спокій"
+msgstr "Спокій"
 
 #: client/cityrepdata.c:522
 msgid "(worklist)"
@@ -791,7 +791,7 @@ msgstr "(план будівництва)"
 
 #: client/cityrepdata.c:639
 msgid "?city:Name"
-msgstr "?місто:Назва"
+msgstr "Назва"
 
 #: client/cityrepdata.c:639 client/gui-sdl/cityrep.c:196
 msgid "City Name"
@@ -835,7 +835,7 @@ msgstr "Стисло *=Святкування, X=Заворушення"
 
 #: client/cityrepdata.c:650
 msgid "?Happy workers:H"
-msgstr "?Щасливі робітники:Щ"
+msgstr "Щ"
 
 #: client/cityrepdata.c:650
 msgid "Workers: Happy"
@@ -843,7 +843,7 @@ msgstr "Робітники: Щасливі"
 
 #: client/cityrepdata.c:652
 msgid "?Content workers:C"
-msgstr "?Задоволені робітники:Д"
+msgstr "Д"
 
 #: client/cityrepdata.c:652
 msgid "Workers: Content"
@@ -851,7 +851,7 @@ msgstr "Працівники: Задоволені"
 
 #: client/cityrepdata.c:654
 msgid "?Unhappy workers:U"
-msgstr "?Нещасні робітники:Н"
+msgstr "Н"
 
 #: client/cityrepdata.c:654
 msgid "Workers: Unhappy"
@@ -859,7 +859,7 @@ msgstr "Працівники: Нещасні"
 
 #: client/cityrepdata.c:656
 msgid "?Angry workers:A"
-msgstr "?Злі робітники:З"
+msgstr "З"
 
 #: client/cityrepdata.c:656
 msgid "Workers: Angry"
@@ -870,9 +870,8 @@ msgid "?city:Workers"
 msgstr "Робітники"
 
 #: client/cityrepdata.c:659
-#, fuzzy
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr "?щасливі/задоволені/нещасні/злі:Щ/Й/Н/З"
+msgstr "Щ/Й/Н/З"
 
 #: client/cityrepdata.c:660
 msgid "Workers: Happy, Content, Unhappy, Angry"
@@ -11933,7 +11932,6 @@ msgid "Overview fog of war"
 msgstr "Туман війни на огляді"
 
 #: client/options.c:2127
-#, fuzzy
 msgid "Enabling this will show fog of war on the overview."
 msgstr "Включена, покаже туман війни на огляді"
 
@@ -12703,12 +12701,12 @@ msgstr[2] "Територія %s (%s) (%d ходів ненапад)"
 #. TRANS: "Territory of <username> (<nation + team>)
 #. * (<number> turn armistice)"
 #: client/text.c:206
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of %s (%s) (%d turn armistice)"
 msgid_plural "Territory of %s (%s) (%d turn armistice)"
-msgstr[0] "Територія %s (%s) (%d хід ненапад)"
-msgstr[1] "Територія %s (%s) (%d ходи ненапад)"
-msgstr[2] "Територія %s (%s) (%d ходів ненапад)"
+msgstr[0] "Землі %s (%s) (%d хід перемир’я)"
+msgstr[1] "Землі %s (%s) (%d ходи перемир’я)"
+msgstr[2] "Землі %s (%s) (%d ходів перемир’я)"
 
 #. TRANS: "Territory of <username>
 #. * (<nation + team> | <diplomatic state>)"
@@ -14787,7 +14785,7 @@ msgstr "%s земля"
 
 #. TRANS: Terrain flag
 #: common/requirements.c:2034
-#, fuzzy, c-format
+#, c-format
 msgid "?terrflag:\"%s\" terrain"
 msgstr "%s земля"
 
@@ -15629,7 +15627,6 @@ msgstr "Палац"
 
 #: data/civ1/buildings.ruleset:458 data/classic/buildings.ruleset:587
 #: data/experimental/buildings.ruleset:636
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government. Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -15637,7 +15634,7 @@ msgid ""
 "your capital itself is half of what it would otherwise be (as if it had a "
 "Courthouse)."
 msgstr ""
-"Робіть місто столицею та центром Вашого уряду. Корупція в інших містах "
+"Робить місто столицею та центром Вашого уряду. Корупція в інших містах "
 "залежить від того, як далеко від столиці вони знаходяться, за вийнятком "
 "форм правління Демократії та Комунізму. Крім цього корупція в столиці -"
 "половина від того, що могло бт бути (ніби там є Суд)."
@@ -15984,7 +15981,7 @@ msgstr ""
 #: data/civ2civ3/buildings.ruleset:1366
 #: data/multiplayer/buildings.ruleset:1182
 msgid "Great Wall"
-msgstr "Велика стіна"
+msgstr "Велика Стіна"
 
 #: data/civ1/buildings.ruleset:817 data/civ2/buildings.ruleset:1144
 #: data/classic/buildings.ruleset:1221
@@ -16239,13 +16236,13 @@ msgstr "Кожен податківець додає до вашої скарб�
 #: data/classic/cities.ruleset:126 data/experimental/cities.ruleset:128
 #: data/civ2civ3/cities.ruleset:129 data/multiplayer/cities.ruleset:125
 msgid "?citystyle:European"
-msgstr "Європейські"
+msgstr "Європейськіий"
 
 #: data/civ1/cities.ruleset:136 data/civ2/cities.ruleset:136
 #: data/classic/cities.ruleset:135 data/experimental/cities.ruleset:137
 #: data/civ2civ3/cities.ruleset:138 data/multiplayer/cities.ruleset:134
 msgid "?citystyle:Classical"
-msgstr "Класичні"
+msgstr "Класичний"
 
 #: data/civ1/cities.ruleset:145 data/civ2/cities.ruleset:145
 #: data/classic/cities.ruleset:144 data/experimental/cities.ruleset:146
@@ -16257,35 +16254,35 @@ msgstr "Тропічні"
 #: data/classic/cities.ruleset:153 data/experimental/cities.ruleset:155
 #: data/civ2civ3/cities.ruleset:156 data/multiplayer/cities.ruleset:152
 msgid "?citystyle:Asian"
-msgstr "Азіатські"
+msgstr "Азіатський"
 
 #: data/civ1/cities.ruleset:163 data/civ2/cities.ruleset:163
 #: data/classic/cities.ruleset:162 data/experimental/cities.ruleset:164
 #: data/civ2civ3/cities.ruleset:165 data/multiplayer/cities.ruleset:161
 msgid "?citystyle:Babylonian"
-msgstr "Вавілонські"
+msgstr "Вавілонський"
 
 #: data/civ1/cities.ruleset:172 data/civ2/cities.ruleset:172
 #: data/classic/cities.ruleset:171 data/experimental/cities.ruleset:173
 #: data/civ2civ3/cities.ruleset:174 data/multiplayer/cities.ruleset:170
 msgid "?citystyle:Celtic"
-msgstr "Кельтські"
+msgstr "Кельтський"
 
 #: data/civ1/cities.ruleset:181 data/civ2/cities.ruleset:181
 msgid "?citystyle:Renaissance"
-msgstr "Ренесансні"
+msgstr "Ренесансний"
 
 #: data/civ1/cities.ruleset:192 data/civ2/cities.ruleset:192
 #: data/classic/cities.ruleset:180 data/experimental/cities.ruleset:182
 #: data/civ2civ3/cities.ruleset:183 data/multiplayer/cities.ruleset:179
 msgid "?citystyle:Industrial"
-msgstr "Індустріальні"
+msgstr "Індустріальний"
 
 #: data/civ1/cities.ruleset:203 data/civ2/cities.ruleset:203
 #: data/classic/cities.ruleset:202 data/experimental/cities.ruleset:204
 #: data/civ2civ3/cities.ruleset:205 data/multiplayer/cities.ruleset:201
 msgid "?citystyle:Modern"
-msgstr "Модерні"
+msgstr "Сучасні"
 
 #: data/civ1/cities.ruleset:214 data/civ2/cities.ruleset:214
 #: data/classic/cities.ruleset:213 data/experimental/cities.ruleset:215
@@ -16318,7 +16315,7 @@ msgstr ""
 #: data/civ1/game.ruleset:215 data/classic/game.ruleset:245
 #: data/experimental/game.ruleset:249 data/civ2civ3/game.ruleset:251
 msgid "Earthquake"
-msgstr ""
+msgstr "Землетрус"
 
 #: data/civ1/game.ruleset:233 data/classic/game.ruleset:255
 #: data/experimental/game.ruleset:254 data/civ2civ3/game.ruleset:269
@@ -16712,7 +16709,6 @@ msgstr "Ацтеки"
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 233.
 #: data/civ1/nations.ruleset:194 data/civ2/nations.ruleset:198
 #: data/nation/aztec.ruleset:11
-#, fuzzy
 msgid ""
 "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
 "control of the Toltec-derived civilizations of Central Mexico during the "
@@ -16822,7 +16818,7 @@ msgstr "Голова %s"
 #: data/civ1/nations.ruleset:495 data/civ2/nations.ruleset:621
 #: data/nation/egyptian.ruleset:5
 msgid "Egyptian"
-msgstr "Єгиптянин"
+msgstr "Єгиптяни"
 
 #: data/civ1/nations.ruleset:496 data/civ2/nations.ruleset:622
 #: data/nation/egyptian.ruleset:6
@@ -16953,7 +16949,7 @@ msgstr "Прем'єр %s"
 #: data/civ1/nations.ruleset:803 data/civ2/nations.ruleset:934
 #: data/nation/german.ruleset:5
 msgid "German"
-msgstr "Німець"
+msgstr "Німці"
 
 #: data/civ1/nations.ruleset:804 data/civ2/nations.ruleset:935
 #: data/nation/german.ruleset:6
@@ -17004,7 +17000,7 @@ msgstr "Перша Секретар %s"
 #: data/civ1/nations.ruleset:955 data/civ2/nations.ruleset:1088
 #: data/nation/greek.ruleset:5
 msgid "Greek"
-msgstr "Грек"
+msgstr "Греки"
 
 #: data/civ1/nations.ruleset:956 data/civ2/nations.ruleset:1089
 #: data/nation/greek.ruleset:6
@@ -17085,7 +17081,7 @@ msgstr "Махатма %s"
 #: data/civ1/nations.ruleset:1196 data/civ2/nations.ruleset:1445
 #: data/nation/mongol.ruleset:5
 msgid "Mongol"
-msgstr "Монгол"
+msgstr "Монголи"
 
 #: data/civ1/nations.ruleset:1197 data/civ2/nations.ruleset:1446
 #: data/nation/mongol.ruleset:6
@@ -17131,7 +17127,7 @@ msgstr "?female:%s Каган"
 #: data/civ1/nations.ruleset:1259 data/civ2/nations.ruleset:1581
 #: data/nation/roman.ruleset:5
 msgid "Roman"
-msgstr "Римлянин"
+msgstr "Римляни"
 
 #: data/civ1/nations.ruleset:1260 data/civ2/nations.ruleset:1582
 #: data/nation/roman.ruleset:6
@@ -17327,7 +17323,7 @@ msgid ""
 "Since the dawn of civilization, barbarians have been a threat to cultured "
 "peoples everywhere."
 msgstr ""
-"Через занепад цивілізації, дикуни скрізь загрожують культурним народам."
+"З самого зародження цивілізації, дикуни скрізь загрожують культурним народам."
 
 #: data/civ1/nations.ruleset:1505 data/civ2/nations.ruleset:2072
 #: data/nation/pirate.ruleset:5
@@ -17400,13 +17396,13 @@ msgstr "Дозволяє будувати дороги на ріках."
 #: data/classic/techs.ruleset:139 data/experimental/techs.ruleset:148
 #: data/civ2civ3/techs.ruleset:149 data/multiplayer/techs.ruleset:139
 msgid "Bronze Working"
-msgstr "Обробка бронзи"
+msgstr "Обробка Бронзи"
 
 #: data/civ1/techs.ruleset:125 data/civ2/techs.ruleset:133
 #: data/classic/techs.ruleset:147 data/experimental/techs.ruleset:156
 #: data/civ2civ3/techs.ruleset:158 data/multiplayer/techs.ruleset:147
 msgid "Ceremonial Burial"
-msgstr "Церемонія спалення"
+msgstr "Урочисте Спалення"
 
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:141
 #: data/classic/techs.ruleset:155 data/experimental/techs.ruleset:164
@@ -17424,13 +17420,13 @@ msgstr "Лицарство"
 #: data/classic/techs.ruleset:171 data/experimental/techs.ruleset:182
 #: data/civ2civ3/techs.ruleset:185 data/multiplayer/techs.ruleset:171
 msgid "Code of Laws"
-msgstr "Кодекс законів"
+msgstr "Звід Законів"
 
 #: data/civ1/techs.ruleset:157 data/civ2/techs.ruleset:173
 #: data/classic/techs.ruleset:187 data/experimental/techs.ruleset:200
 #: data/civ2civ3/techs.ruleset:203 data/multiplayer/techs.ruleset:187
 msgid "Combustion"
-msgstr "Двигун внутрішнього згоряння"
+msgstr "Внутрішнє згоряння"
 
 #: data/civ1/techs.ruleset:173 data/civ2/techs.ruleset:190
 #: data/classic/techs.ruleset:204 data/experimental/techs.ruleset:219
@@ -17452,7 +17448,7 @@ msgstr "Конструювання"
 
 #: data/civ1/techs.ruleset:195
 msgid "Allows Settlers to build fortresses."
-msgstr "Дозволяє Колоністам будувати укріплення."
+msgstr "Дозволяє Поселенцям будувати укріплення."
 
 #: data/civ1/techs.ruleset:198 data/civ2/techs.ruleset:215
 #: data/classic/techs.ruleset:229 data/experimental/techs.ruleset:247
@@ -17494,7 +17490,7 @@ msgstr "Феодалізм"
 #: data/classic/techs.ruleset:310 data/experimental/techs.ruleset:338
 #: data/civ2civ3/techs.ruleset:346 data/multiplayer/techs.ruleset:312
 msgid "Flight"
-msgstr "Літаки"
+msgstr "Політ"
 
 #: data/civ1/techs.ruleset:260 data/civ1/techs.ruleset:474
 #: data/civ2/techs.ruleset:302 data/civ2/techs.ruleset:598
@@ -17543,7 +17539,7 @@ msgstr "Винахідництво"
 #: data/classic/techs.ruleset:376 data/experimental/techs.ruleset:411
 #: data/civ2civ3/techs.ruleset:419 data/multiplayer/techs.ruleset:385
 msgid "Iron Working"
-msgstr "Обробка заліза"
+msgstr "Обробка Заліза"
 
 #: data/civ1/techs.ruleset:319 data/civ2/techs.ruleset:377
 #: data/classic/techs.ruleset:384 data/experimental/techs.ruleset:420
@@ -17555,7 +17551,7 @@ msgstr "Профспілка"
 #: data/classic/techs.ruleset:408 data/experimental/techs.ruleset:447
 #: data/civ2civ3/techs.ruleset:455 data/multiplayer/techs.ruleset:417
 msgid "Literacy"
-msgstr "Грамотність"
+msgstr "Література"
 
 #: data/civ1/techs.ruleset:335 data/civ2/techs.ruleset:417
 #: data/classic/techs.ruleset:424 data/experimental/techs.ruleset:465
@@ -17741,7 +17737,7 @@ msgstr "Колесо"
 #: data/classic/techs.ruleset:749 data/experimental/techs.ruleset:828
 #: data/civ2civ3/techs.ruleset:850 data/multiplayer/techs.ruleset:754
 msgid "Theory of Gravity"
-msgstr "Теорія гравітації"
+msgstr "Теорія Гравітації"
 
 #: data/civ1/techs.ruleset:599 data/civ2/techs.ruleset:772
 #: data/classic/techs.ruleset:781 data/experimental/techs.ruleset:863
@@ -17826,7 +17822,7 @@ msgstr "Степи дають вийняткові можливості для �
 #: data/classic/terrain.ruleset:520 data/experimental/terrain.ruleset:508
 #: data/civ2civ3/terrain.ruleset:524 data/multiplayer/terrain.ruleset:506
 msgid "Hills"
-msgstr "Пагорби"
+msgstr "Горби"
 
 #: data/civ1/terrain.ruleset:410 data/civ2/terrain.ruleset:407
 #: data/classic/terrain.ruleset:557 data/experimental/terrain.ruleset:543
@@ -18821,27 +18817,21 @@ msgid ""
 "full turn without moving are completely restored."
 msgstr ""
 "Дозволяє будувати ветеранами повітряні підрозділи (та гелікоптери). Також, "
-"пошкоджені повітряні підрозділи (та гелікоптери), що залишаються у місті на "
-"один повний хід, повністю ремонтуються."
+"пошкоджені повітряні підрозділи (знову ж включно з вертольотами), що "
+"залишаються у місті на один повний хід, повністю ремонтуються."
 
 #: data/civ2/buildings.ruleset:46 data/classic/buildings.ruleset:79
 #: data/experimental/buildings.ruleset:81 data/civ2civ3/buildings.ruleset:79
 #: data/multiplayer/buildings.ruleset:78
-#, fuzzy
 msgid ""
 "Two cities with Airports can airlift one unit per turn.  Airlifting "
 "instantly transports the unit from one city to another and will use all of "
 "the unit's movement points.  A unit must have some movement points left to "
 "be airlifted."
 msgstr ""
-"Дозволяє місту готувати авіазагони ветерани. Також, поранені авіаційні "
-"загони, що залишаться у місті на один повний хід без руху повністю "
-"відновлюються.\n"
-"\n"
-"Два міста з Летовищами можуть транспортувати між собою один загін за хід. Це "
-"авіатранспортування з одного міста до іншого використовує усі рухи "
-"підрозділу за один хід. Підрозділ має мати можливість рухатись аби бути так "
-"транспортованим."
+"Два міста з Летовищами можуть транспортувати між собою один загін за хід."
+"Авіаперенос з одного міста до іншого використовує всі рухи підрозділу за один "
+"хід. Підрозділ має мати можливість рухатись аби бути транспортованим."
 
 #: data/civ2/buildings.ruleset:68 data/classic/buildings.ruleset:101
 #: data/multiplayer/buildings.ruleset:125
@@ -18849,8 +18839,8 @@ msgid ""
 "Allows a city to grow larger than size 8.  A Sewer System is also required "
 "for a city to grow larger than size 12."
 msgstr ""
-"Дозволяє місту зростати у розмірі понад 8. Щоб місто змогло вирости у "
-"розмірі понад 12, потрібна Каналізація."
+"Дозволяє місту рости понад розмір 8. Каналізація потрібна, щоб місто змогло "
+"вирости в понад розмір 12."
 
 #: data/civ2/buildings.ruleset:111 data/civ2/buildings.ruleset:135
 #: data/civ2/buildings.ruleset:159 data/classic/buildings.ruleset:147
@@ -18939,18 +18929,18 @@ msgid ""
 "of the city 4 times bigger. (These effects are redundant in your capital "
 "city.)"
 msgstr ""
+"Зменшує хабарництво і втрати в місті на 50%. Також збільшує вартість "
+"революції у місті в 4 рази. (ефекти надлишкові в столиці)"
 
 #: data/civ2/buildings.ruleset:278 data/classic/buildings.ruleset:318
 #: data/experimental/buildings.ruleset:323
 #: data/multiplayer/buildings.ruleset:319
-#, fuzzy
 msgid ""
 "Under a Democracy, a Courthouse also makes 1 unhappy citizen content (unless "
 "that citizen is unhappy about military activity)."
 msgstr ""
-"Зменшує корупцію в місті на 50%. За Демократії Суд також нейтралізує 1 "
-"незадоволеного (якщо це не через військові дії). Також збільшує вартість "
-"революції у місті в 4 рази."
+"За Демократії Суд також робить 1 нещасного задоволеним "
+"(якщо це не через військові дії)"
 
 #: data/civ2/buildings.ruleset:329 data/classic/buildings.ruleset:369
 #: data/experimental/buildings.ruleset:374 data/civ2civ3/buildings.ruleset:464
@@ -19011,7 +19001,6 @@ msgstr ""
 "прибережним, аби побудувати цю будівлю."
 
 #: data/civ2/buildings.ruleset:536 data/multiplayer/buildings.ruleset:574
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government. Corruption and "
 "waste in other cities is related to how far away from the capital they are, "
@@ -19019,10 +19008,10 @@ msgid ""
 "corruption and waste in your capital itself is half of what it would "
 "otherwise be (as if it had a Courthouse)."
 msgstr ""
-"Робіть місто столицею та центром Вашого уряду. Корупція в інших містах "
-"залежить від того, як далеко від столиці вони знаходяться, за виключенням "
-"форм правління Демократії та Комунізму. Вартість збурення революції у місті "
-"також залежить від відстані до столиці (за усіх форм правління)."
+"Робіть місто столицею та центром Вашого уряду. Корупція і втрати в інших "
+"містах залежать від того, як далеко від столиці вони знаходяться, за вийнятком"
+" форм правління Демократії та Комунізму. На додачу хабарництво і втрати в "
+"самій столиці вполовину менші ніж були б (ніби вона має Суд)."
 
 #: data/civ2/buildings.ruleset:543 data/classic/buildings.ruleset:593
 #: data/experimental/buildings.ruleset:642 data/civ2civ3/buildings.ruleset:707
@@ -19043,7 +19032,6 @@ msgstr "Відділ міліції"
 
 #: data/civ2/buildings.ruleset:575 data/classic/buildings.ruleset:630
 #: data/experimental/buildings.ruleset:679
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 2 under Democracy and 1 under Republic -- in other words, it "
@@ -19135,22 +19123,20 @@ msgstr ""
 #: data/experimental/buildings.ruleset:858 data/civ2civ3/buildings.ruleset:924
 #: data/multiplayer/buildings.ruleset:789
 msgid "Solar Plant"
-msgstr "Соняшна станція"
+msgstr "Сонячна станція"
 
 #: data/civ2/buildings.ruleset:760
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city. It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
 "Factory and a Solar Plant together give a 100% production bonus, and a "
 "Factory, Mfg. Plant and Solar Plant together give a 150% production bonus."
 msgstr ""
-"Нейтралізує забруднення, що виникає внаслідок виробництва у місті. Також "
-"збільшує виробництво на Фабриках та Заводах у місті: Фабрика та Соняшна "
-"станція разом дають приріст виробництва 100%, Фабрика, Завод та Соняшна "
-"станція разом дають 150% прирісту виробництва.\n"
-"\n"
-"Місто може мати лише одну Тепло, Гідро, Атомну чи Соняшну станцію."
+"Нейтралізує забруднення спричинене виробництвом в місті. Також "
+"збільшує виробництво на Фабриках та Заводах у місті: Фабрика та Сонячна "
+"станція разом дають приріст виробництва 100%, Фабрика, Завод та Сонячна "
+"станція разом дають 150% прирісту виробництва."
 
 #: data/civ2/buildings.ruleset:853 data/classic/buildings.ruleset:925
 #: data/experimental/buildings.ruleset:974
@@ -19390,7 +19376,6 @@ msgstr "Ваші загони відновлюють два додаткові �
 
 #: data/civ2/buildings.ruleset:1540 data/classic/buildings.ruleset:1625
 #: data/experimental/buildings.ruleset:1679
-#, fuzzy
 msgid ""
 "Counts as a Police Station in every city. (That is, for each city, it "
 "reduces the unhappiness caused by aggressively deployed military units owned "
@@ -19398,7 +19383,7 @@ msgid ""
 "neutralizes the unhappiness caused by a single military unit per city. This "
 "wonder has no effect under other governments.)"
 msgstr ""
-"Діє як Відділ Міліції у кожному місті. (Це, для кожного міста, зменшує "
+"Діє як Відділ Поліції в кожному місті. (Це, для кожного міста, зменшує "
 "кількість нещасних з причини виведених з міста військових підрозділів на 2 "
 "за Демократії та на 1 за Республіки -- іншими словами, нейтралізує "
 "нещасливість, спричинену одним військовим підрозділом на місто. Не діє за "
@@ -19508,15 +19493,15 @@ msgstr ""
 
 #: data/civ2/nations.ruleset:97 data/nation/american.ruleset:50
 #: data/nation/dutch.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "Reverend %s"
-msgstr "Президент"
+msgstr "Преподобний %s"
 
 #: data/civ2/nations.ruleset:97 data/nation/american.ruleset:50
 #: data/nation/dutch.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Reverend %s"
-msgstr "?female:Преподобна"
+msgstr "Преподобна %s"
 
 #: data/civ2/nations.ruleset:356 data/nation/carthaginian.ruleset:5
 msgid "Carthaginian"
@@ -19538,12 +19523,11 @@ msgstr ""
 
 #: data/civ2/nations.ruleset:388 data/nation/celtic.ruleset:5
 msgid "Celtic"
-msgstr ""
+msgstr "Кельти"
 
 #: data/civ2/nations.ruleset:389 data/nation/celtic.ruleset:6
-#, fuzzy
 msgid "?plural:Celts"
-msgstr "Ґели"
+msgstr "Кельти"
 
 #: data/civ2/nations.ruleset:391 data/nation/celtic.ruleset:8
 msgid ""
@@ -19554,16 +19538,22 @@ msgid ""
 "civilized peoples of Europe and Asia Minor. The Celts colonized much of "
 "Europe and had a large influence on the development of European civilization."
 msgstr ""
+"Кельти були Індо-Європейським етно-лінгвістичним комплексом у Західній Європі,"
+" імовірно походять з місцевості між верхніми Рейном та Дунаєм, з культури "
+"полів погребальних урн і західної групи Гальштаттської культури. "
+"Кельти були відомі як жорстокі і дикі воїни, що залякували древні "
+"цивілізовані народи Європи та Малої Азії. Кельти заселили велику частину "
+"Європи і сильно вплинули на розвиток Європейської цивілізації."
 
 #: data/civ2/nations.ruleset:407 data/nation/celtic.ruleset:38
-#, fuzzy, c-format
+#, c-format
 msgid "Great Warrior %s"
-msgstr "Великий Фараон %s"
+msgstr "Великий Войовник %s"
 
 #: data/civ2/nations.ruleset:407 data/nation/celtic.ruleset:38
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Warrior %s"
-msgstr "Велика Фараон %s"
+msgstr "Велика Войовниця %s"
 
 #: data/civ2/nations.ruleset:408 data/nation/celtic.ruleset:39
 #: data/nation/khmer.ruleset:28
@@ -19578,14 +19568,14 @@ msgid "Sister %s"
 msgstr "Сестра %s"
 
 #: data/civ2/nations.ruleset:411 data/nation/celtic.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "High Druid %s"
-msgstr "Друїд %s"
+msgstr "Вищий Друїд %s"
 
 #: data/civ2/nations.ruleset:411 data/nation/celtic.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Druid %s"
-msgstr "Друідка %s"
+msgstr "Вища Друідка %s"
 
 #: data/civ2/nations.ruleset:716 data/nation/english.ruleset:30
 #, c-format
@@ -19726,7 +19716,6 @@ msgid "?plural:Spanish"
 msgstr "Іспанці"
 
 #: data/civ2/nations.ruleset:1820 data/nation/spanish.ruleset:8
-#, fuzzy
 msgid ""
 "The modern Spanish nation was formed when the rulers of the kingdoms of "
 "Castile and Aragon led the recapture of the Iberian peninsula from the "
@@ -19735,7 +19724,8 @@ msgid ""
 msgstr ""
 "Сучасні Іспанці сформувалися, коли володарі королівств Кастилія та Арагон "
 "відвоювали Іберійський півострів у Мусульман. Реконкісту було закінчено у "
-"1492 н.е., того ж року, коли й плавання Колумба."
+"1492 н.е., того ж року, коли й плавання Колумба. Тоді Іспанія почала будувати "
+"імперію над якою ніколи не сідало сонце."
 
 #: data/civ2/nations.ruleset:1834 data/nation/spanish.ruleset:42
 #, c-format
@@ -19751,12 +19741,12 @@ msgstr "Кауділья %s"
 #: data/nation/spanish.ruleset:43
 #, c-format
 msgid "Cardinal %s"
-msgstr "Кардінал %s"
+msgstr "Кардинал %s"
 
 #: data/civ2/nations.ruleset:1835
 #, c-format
 msgid "?female:Cardinal %s"
-msgstr "Кардінал %s"
+msgstr "Кардинал %s"
 
 #: data/civ2/nations.ruleset:1890 data/nation/viking.ruleset:5
 msgid "Viking"
@@ -19773,7 +19763,7 @@ msgid ""
 "and a short-lived kingdom in Sicily."
 msgstr ""
 "Вікінги грабували узбережжя Європи та торгували там між 800 н.е. та 1100 н."
-"е. Врешті, нападники-вікінги  стали правителями Нормандії, Русі та "
+"е. Врешті, нападники-вікінги  стали правителями Нормандії, Росії та "
 "недовговічного королівства на Сицилії."
 
 #: data/civ2/nations.ruleset:1905
@@ -19784,7 +19774,7 @@ msgstr "%s Ярл"
 #: data/civ2/nations.ruleset:1905
 #, c-format
 msgid "?female:%s Jarl"
-msgstr "%s Ярлиця"
+msgstr "%s Ярл"
 
 #: data/civ2/techs.ruleset:76 data/classic/techs.ruleset:90
 #: data/experimental/techs.ruleset:93 data/civ2civ3/techs.ruleset:93
@@ -19806,7 +19796,7 @@ msgstr "Зменшує ефективність Соборів."
 
 #: data/civ2/techs.ruleset:212
 msgid "Allows Settlers and Engineers to build fortresses."
-msgstr "Дозволяє Колоністам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям та Інженерам будувати укріплення."
 
 #: data/civ2/techs.ruleset:231 data/classic/techs.ruleset:245
 #: data/experimental/techs.ruleset:265 data/civ2civ3/techs.ruleset:270
@@ -19902,12 +19892,11 @@ msgstr "Радіо"
 
 #: data/civ2/techs.ruleset:587
 msgid "Allows Settlers and Engineers to build airbases."
-msgstr "Дозволяє Колоністам та Інженерам будувати авіабази."
+msgstr "Дозволяє Поселенцям та Інженерам будувати авіабази."
 
 #: data/civ2/techs.ruleset:596
-#, fuzzy
 msgid "Allows Settlers and Engineers to upgrade roads to railroads."
-msgstr "Дозволяє Колоністам та Інженерам будувати авіабази."
+msgstr "Дозволяє Поселенцям та Інженерам покарщувати дороги до залізниць."
 
 #: data/civ2/techs.ruleset:619 data/classic/techs.ruleset:627
 #: data/experimental/techs.ruleset:689 data/civ2civ3/techs.ruleset:709
@@ -20082,35 +20071,31 @@ msgstr ""
 
 #: data/civ2/terrain.ruleset:1070 data/classic/terrain.ruleset:1290
 #: data/multiplayer/terrain.ruleset:1261
-#, fuzzy
 msgid ""
 "Any land terrain type may have a River on it.  A River adds 1 trade to the "
 "resources produced by that tile.  It also increases a tile's defense factor "
 "by 50%.  Finally, land units may move along a River (but not diagonally) for "
 "fast travel."
 msgstr ""
-"Будь яка територія суходолу може містити Річку. Річка додає 1 торгівлю до "
+"Будь яка поле суходолу може містити Річку. Річка додає 1 торгівлю до "
 "ресурсів, що виробляються на цій території. Крім того, захисний фактор "
-"підвищується на 50%. Врешті, наземні підрозділи можуть рухатися вздовж річки "
-"(але не по діагоналі); рух вздовж річки коштує лише 1/3 звичайного руху."
+"підвищується на 50%. Врешті, наземні загони рухаються вздовж річки "
+"(але не по діагоналі) швидше."
 
 #: data/civ2/units.ruleset:26 data/classic/units.ruleset:31
 #: data/experimental/units.ruleset:34 data/civ2civ3/units.ruleset:31
 #: data/multiplayer/units.ruleset:31
-#, fuzzy
 msgid "AirAttacker"
-msgstr "Атака:"
+msgstr "ПовітрянийНападник"
 
 #: data/civ2/units.ruleset:26 data/classic/units.ruleset:31
 #: data/experimental/units.ruleset:34 data/civ2civ3/units.ruleset:31
 #: data/multiplayer/units.ruleset:31
-#, fuzzy
 msgid "Very bad at attacking AEGIS."
-msgstr "* Дуже поганий для атак на підрозділи ракетних крейсерів.\n"
+msgstr "Дуже поганий для атак на підрозділи ракетних крейсерів."
 
 #: data/civ2/units.ruleset:27 data/classic/units.ruleset:32
 #: data/experimental/units.ruleset:35 data/multiplayer/units.ruleset:32
-#, fuzzy
 msgid "Horse"
 msgstr "Коні"
 
@@ -20141,7 +20126,6 @@ msgid "?unitclass:Helicopter"
 msgstr "Гелікоптерний"
 
 #: data/civ2/units.ruleset:298
-#, fuzzy
 msgid ""
 "Building an irrigation system on a suitable tile causes it to produce some "
 "extra food each turn. This requires a nearby source of water: an ocean or "
@@ -20151,12 +20135,12 @@ msgid ""
 "systems can be upgraded to Farmland by irrigating them a second time; this "
 "provides more food to a city if it has a Supermarket."
 msgstr ""
-"Відповідні типи територій можуть бути зрошені. Але це потребує наявності "
-"води: Океана або Річки, або вже зрошеної території, які мають бути "
-"розташовані поруч та не по діагоналі. Зрошення надае можливість виробляти "
-"додаткову їжу кожного ходу. На додаток, за наявності відповідної технології, "
-"Ви можете зрошувати вже зрошені території перетворюючи їх на більш "
-"продуктивні ферми."
+"Будівництво систем зрошення на підходящих землях виробляється додакова їжа "
+"щоходу. Це вимагає джерела води по сусідству: клітини з океаном або річкою, "
+"або іншого зрошеного поля, мусять ділити ребро (не просто кут) з цільовою "
+"клітинкою. Раз зрошенна, земля лишається такою, навіть якщо забрати джерело "
+"води. Коли відоме Заморожування, системи зрошення можна модернізувати до Ферм "
+" оросивши їх повторно; це дає ще більше їжі місту, якщо воно має Супермаркет."
 
 #: data/civ2/units.ruleset:320
 msgid ""
@@ -20164,6 +20148,9 @@ msgid ""
 "if its supporting city runs out of food. Settlers require twice as much food "
 "per turn under Republic, Democracy, Communism, or Fundamentalism."
 msgstr ""
+"Утримання Поселенців іде їжею і виробництвом, І Поселенець може загинути "
+"якщо місто, що  його утримує не має їжі. Поселенці потребують вдвічі більше "
+"їжі на хід за Республіки, Демократії, Комунізму чи Фундаменталізму."
 
 #: data/civ2/units.ruleset:328 data/classic/units.ruleset:487
 #: data/experimental/units.ruleset:506 data/civ2civ3/units.ruleset:550
@@ -20179,9 +20166,9 @@ msgid ""
 "capabilities of Settlers; see the Terrain Alterations section for more "
 "details."
 msgstr ""
-"Інженери подібні до Колоністів, але вони вдвічі швидше працюють та "
+"Інженери подібні до Поселенців, але вони вдвічі швидше працюють та "
 "рухаються. Інженери також можуть виконувати великі трансформації територій "
-"(наприклад, перетворити Тундру на Пустелю) на що Колоністи не здатні; див. "
+"(наприклад, перетворити Тундру на Пустелю) на що Поселенці не здатні; див. "
 "розділ Перетворення територій для додаткової інформації."
 
 #: data/civ2/units.ruleset:360
@@ -20190,7 +20177,7 @@ msgid ""
 "the same resources as ordinary Settlers."
 msgstr ""
 "Порада 1: За можливості, модернізуйте Колоністів до Інженерів, бо Інженери "
-"потребують стільки ж ресурсів, як і звичайні Колоністи."
+"потребують стільки ж ресурсів, як і звичайні Поселенці."
 
 #: data/civ2/units.ruleset:363
 msgid ""
@@ -21145,7 +21132,7 @@ msgstr ""
 #: data/classic/techs.ruleset:226 data/experimental/techs.ruleset:244
 #: data/multiplayer/techs.ruleset:226
 msgid "Allows Settlers, Workers and Engineers to build fortresses."
-msgstr "Дозволяє Колоністам, Робітникам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям, Робітникам та Інженерам будувати укріплення."
 
 #: data/classic/techs.ruleset:373 data/experimental/techs.ruleset:408
 #: data/civ2civ3/techs.ruleset:108 data/multiplayer/techs.ruleset:382
@@ -21166,7 +21153,7 @@ msgstr "Дозволяє Робітникам та Інженерам будув
 #: data/multiplayer/techs.ruleset:612
 #, fuzzy
 msgid "Allows Settlers, Workers and Engineers to upgrade roads to railroads."
-msgstr "Дозволяє Колоністам, Робітникам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям, Робітникам та Інженерам будувати укріплення."
 
 #: data/classic/terrain.ruleset:183 data/experimental/terrain.ruleset:185
 #: data/civ2civ3/terrain.ruleset:183 data/multiplayer/terrain.ruleset:183
@@ -21296,15 +21283,11 @@ msgstr "Робітники"
 
 #: data/classic/units.ruleset:457 data/experimental/units.ruleset:476
 #: data/civ2civ3/units.ruleset:518 data/multiplayer/units.ruleset:458
-#, fuzzy
 msgid "Workers have the ability to improve terrain tiles."
-msgstr ""
-"Колоністи, Робітники та Інженери здатні змінювати території декількома "
-"способами."
+msgstr "Робітники здатні покращувати місцевість."
 
 #: data/classic/units.ruleset:459 data/experimental/units.ruleset:478
 #: data/multiplayer/units.ruleset:460
-#, fuzzy
 msgid ""
 "Building an irrigation system on a suitable tile causes it to produce some "
 "extra food each turn. This requires a nearby source of water: an ocean, "
@@ -21314,12 +21297,12 @@ msgid ""
 "irrigation systems can be upgraded to Farmland by irrigating them a second "
 "time; this provides more food to a city if it has a Supermarket."
 msgstr ""
-"Відповідні типи територій можуть бути зрошені. Але це потребує наявності "
-"води: Океана або Річки, або вже зрошеної території, які мають бути "
-"розташовані поруч та не по діагоналі. Зрошення надае можливість виробляти "
-"додаткову їжу кожного ходу. На додаток, за наявності відповідної технології, "
-"Ви можете зрошувати вже зрошені території перетворюючи їх на більш "
-"продуктивні ферми."
+"Будівництво систем зрошення на підходящих землях виробляється додакова їжа "
+"щоходу. Це вимагає джерела води по сусідству: океаном, озеро або річку, "
+"або іншого зрошеного поля, мусять ділити ребро (не просто кут) з цільовою "
+"клітинкою. Раз зрошенна, земля лишається такою, навіть якщо забрати джерело "
+"води. Коли відоме Заморожування, системи зрошення можна модернізувати до Ферм "
+" оросивши їх повторно; це дає ще більше їжі місту, якщо воно має Супермаркет."
 
 #: data/classic/units.ruleset:478 data/experimental/units.ruleset:497
 msgid ""
@@ -21329,7 +21312,6 @@ msgstr ""
 
 #: data/classic/units.ruleset:519 data/experimental/units.ruleset:543
 #: data/multiplayer/units.ruleset:519
-#, fuzzy
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast. Engineers may also perform major terrain transformations which are "
@@ -21338,11 +21320,12 @@ msgid ""
 "an ocean-going vessel, on a tile surrounded by sufficient existing land). "
 "See the Terrain Alterations section for more details."
 msgstr ""
-"Інженери подібні до Колоністів, але вони удвічі швидше працюють та "
-"рухаються. Інженери також можуть виконувати великі трансформації територій "
-"(наприклад, змінити Тундру на Пустелю) на що не вистачає можливостей "
-"Колоністів та робітників; див. розділ Перетворення територій для додаткової "
-"інформації."
+"Інженери подібні до Робітників, але вони вдвічі швидше працюють та "
+"рухаються. Інженери також можуть виконувати великі перетворення місцевості "
+"поза можливостями Поселенців та Робітників, наприклад, змінити Тундру на "
+"Пустелю, чи навіть Океан на Болото, за деяких умов (коли на борту океанського "
+"судна, на клітині достатньо оточеній  сушею). Див. розділ Перетворення "
+"місцевості для додаткової інформації."
 
 #: data/classic/units.ruleset:527 data/experimental/units.ruleset:551
 #: data/multiplayer/units.ruleset:527
@@ -21403,30 +21386,26 @@ msgstr ""
 #. TRANS: charset. In ISO-8859-1 (ISO Latin 1) this is 233.
 #: data/classic/units.ruleset:1978 data/experimental/units.ruleset:2004
 #: data/civ2civ3/units.ruleset:2165 data/multiplayer/units.ruleset:2076
-#, fuzzy
 msgid "?diplomatic_rank:attache"
-msgstr "Мир"
+msgstr "аташе"
 
 #. TRANS: diplomatic rank
 #: data/classic/units.ruleset:1980 data/experimental/units.ruleset:2006
 #: data/civ2civ3/units.ruleset:2167 data/multiplayer/units.ruleset:2078
-#, fuzzy
 msgid "?diplomatic_rank:secretary"
-msgstr "Мир"
+msgstr "секретар"
 
 #. TRANS: diplomatic rank
 #: data/classic/units.ruleset:1982 data/experimental/units.ruleset:2008
 #: data/civ2civ3/units.ruleset:2169 data/multiplayer/units.ruleset:2080
-#, fuzzy
 msgid "?diplomatic_rank:envoy"
-msgstr "Команда"
+msgstr "уповноважений"
 
 #. TRANS: diplomatic rank
 #: data/classic/units.ruleset:1984 data/experimental/units.ruleset:2010
 #: data/civ2civ3/units.ruleset:2171 data/multiplayer/units.ruleset:2082
-#, fuzzy
 msgid "?diplomatic_rank:ambassador"
-msgstr "Війна"
+msgstr "посол"
 
 #: data/classic/units.ruleset:2007 data/experimental/units.ruleset:2033
 #: data/civ2civ3/units.ruleset:2196 data/multiplayer/units.ruleset:2105
@@ -21447,42 +21426,41 @@ msgid ""
 "Diplomats built under a Communist government will start at the first veteran "
 "level (secretary)."
 msgstr ""
-"Усі ваші нові морські підрозділи, збудовані у містах на тому ж континенті, "
-"будуть ветеранами першого рівня."
+"Дипломати збудовані за Комунстичного уряду, почнуть з першим ветеранським "
+"рівнем (секретар)."
 
 #. TRANS: Spy veteran level
 #: data/classic/units.ruleset:2085 data/experimental/units.ruleset:2111
 #: data/civ2civ3/units.ruleset:2276 data/multiplayer/units.ruleset:2183
 msgid "?spy_level:informant"
-msgstr ""
+msgstr "інформатор"
 
 #. TRANS: Spy veteran level
 #: data/classic/units.ruleset:2087 data/experimental/units.ruleset:2113
 #: data/civ2civ3/units.ruleset:2278 data/multiplayer/units.ruleset:2185
 msgid "?spy_level:handler"
-msgstr ""
+msgstr "виконавець"
 
 #. TRANS: Spy veteran level
 #: data/classic/units.ruleset:2089 data/experimental/units.ruleset:2115
 #: data/civ2civ3/units.ruleset:2280 data/multiplayer/units.ruleset:2187
 msgid "?spy_level:agent"
-msgstr ""
+msgstr "агент"
 
 #. TRANS: Spy veteran level
 #: data/classic/units.ruleset:2091 data/experimental/units.ruleset:2117
 #: data/civ2civ3/units.ruleset:2282 data/multiplayer/units.ruleset:2189
 msgid "?spy_level:spymaster"
-msgstr ""
+msgstr "майстер-шпик"
 
 #: data/classic/units.ruleset:2121 data/experimental/units.ruleset:2147
 #: data/multiplayer/units.ruleset:2219
-#, fuzzy
 msgid ""
 "Spies built under a Communist government will start at the first veteran "
 "level (handler)."
 msgstr ""
-"Усі ваші нові морські підрозділи, збудовані у містах на тому ж континенті, "
-"будуть ветеранами першого рівня."
+"Шпигуни збудовані за Комунстичного уряду, почнуть з першим ветеранським "
+"рівнем (виконавець)."
 
 #: data/classic/units.ruleset:2156 data/experimental/units.ruleset:2182
 msgid ""
@@ -21531,27 +21509,23 @@ msgstr ""
 "розташування ворожих загонів на широких просторах."
 
 #: data/experimental/buildings.ruleset:103
-#, fuzzy
 msgid ""
 "Allows a city to grow larger than size 8 and reduces the chance of plague "
 "within the city. After Industrialization is researched this effect of the "
 "Aqueduct is reduced."
 msgstr ""
 "Дозволяє місту зростати у розмірі понад 8 та зменшує ризик пошесті в місті. "
-"Для збільшення розміру понад 12 потрібна Каналізація."
+"Після Індустріалізації цей ефект Водогону зменшується."
 
 #: data/experimental/buildings.ruleset:107
-#, fuzzy
 msgid "A Sewer System is required for a city to grow larger than size 12."
-msgstr ""
-"(Будівництво %s вимагає також аби місто було розміром більше ніж %d.)  "
+msgstr "Каналізація потрібна місту аби вирости більшим ніж розмір 12 "
 
 #: data/experimental/buildings.ruleset:396
 msgid "Hospital"
 msgstr "Лікарня"
 
 #: data/experimental/buildings.ruleset:410
-#, fuzzy
 msgid ""
 "A Hospital is used to treat the ill, and sometimes for medical research. A "
 "city with a Hospital is less likely to suffer from plagues."
@@ -21624,7 +21598,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Allows Settlers, Workers and Engineers to upgrade railroads with maglev."
-msgstr "Дозволяє Колоністам, Робітникам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям, Робітникам та Інженерам будувати укріплення."
 
 #: data/experimental/terrain.ruleset:1196
 msgid ""
@@ -22762,9 +22736,8 @@ msgid "Enables movement of nuclear units."
 msgstr ""
 
 #: data/civ2civ3/techs.ruleset:246
-#, fuzzy
 msgid "Allows Settlers, Migrants, Workers and Engineers to build fortresses."
-msgstr "Дозволяє Колоністам, Робітникам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям, Робітникам та Інженерам будувати укріплення."
 
 #: data/civ2civ3/techs.ruleset:285
 #, fuzzy
@@ -22794,7 +22767,7 @@ msgstr ""
 msgid ""
 "Allows Settlers, Migrants, Workers and Engineers to upgrade roads to "
 "railroads."
-msgstr "Дозволяє Колоністам, Робітникам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям, Робітникам та Інженерам будувати укріплення."
 
 #: data/civ2civ3/techs.ruleset:681
 #, fuzzy
@@ -23320,7 +23293,7 @@ msgstr ""
 #: data/civ2civ3/units.ruleset:2347
 #, fuzzy
 msgid "Caravans can only travel on roads, railroads, rivers or ships."
-msgstr "Дозволяє Колоністам будувати укріплення."
+msgstr "Дозволяє Поселенцям будувати укріплення."
 
 #: data/civ2civ3/units.ruleset:2349
 msgid ""
@@ -24395,7 +24368,7 @@ msgstr ""
 "територій та їх трансформації не можуть бути повернені через руйнування. "
 "Наприклад, якщо Ви зробили зрошення на лісовій клітинці та змінили її на, "
 "рівнину, руйнування не змінить її назад до лісу - аби зробити це, Ви повинні "
-"змінити клітину знову Колоністами або Інженерами."
+"змінити клітину знову Поселенцями або Інженерами."
 
 #: data/helpdata.txt:395
 #, fuzzy
@@ -24411,13 +24384,13 @@ msgid ""
 "can be wasted, and groups of terrain improving units are often vulnerable to "
 "enemy attacks."
 msgstr ""
-"Колоністи це один з головних загонів у грі. Іх можна використовувати для "
+"Поселенці це один з головних загонів у грі. Іх можна використовувати для "
 "заснування нових міст, зрошення земель, будівлі шляхів, залізниць, "
 "укріплень, авіабаз та шахт, видалення забруднень та атомних катастроф. "
-"Утримання для Колоністів це їжа та виробництво, так Колоністи можуть "
+"Утримання для Колоністів це їжа та виробництво, так Поселенці можуть "
 "загинути якщо у місті що їх утримує закончується їжа.\n"
 "\n"
-"Колоністи та Інженери можуть працювати разом аби зменшити час що потрібен "
+"Поселенці та Інженери можуть працювати разом аби зменшити час що потрібен "
 "для довгих проектів. Якщо два або більше Колоніста та/або Інженера разом "
 "працюють на одним завданням на одній клітинці, їх праця складається разом "
 "кожного ходу доки завдання не виконано. Будьте уважні та не залучайте "
@@ -34868,7 +34841,7 @@ msgstr ""
 "Коли втрачаєте технологію через від’ємний дослідний баланс (глянь "
 "'techlossforgiveness'), такий відсоток від наукової вартості вертається на "
 "дослідницький баланс (може не вистачити для того, щоб зробити його додатнім).\n"
-"Спеціальне значення value -1 значить що дослідний баланс завжди відновлюється "
+"Спеціальне значення -1 значить що дослідний баланс завжди відновлюється "
 "до нуля, незалежно від попередніх недостач."
 
 #: server/settings.c:1668
@@ -35928,7 +35901,7 @@ msgid ""
 msgstr ""
 "Ця установка визначає які типи автозбереження відбуватимуться:\n"
 "- \"Новий Хід\" (TURN): Зберігати на початку ходу, раз на 'saveturns' ходів.\n"
-"- \"Кінець Гри\" (GAMEOVER): Заключне збереження коли гра скігчилась.\n"
+"- \"Кінець Гри\" (GAMEOVER): Заключне збереження коли гра скінчилась.\n"
 "- \"Нема з’єднань від гравців\" (QUITIDLE): Зберегти перед рестартом сервера "
 "через брак гравців.\n"
 "- \"Сервер перерваний\" (INTERRUPT): Зберегти коли сервер завершується "
@@ -43347,10 +43320,10 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "можливостей Колоністів.\n"
 #~ "\n"
 #~ "Порада 1: Модернізуйте Колоністів на Інженерів коли це можливо, тому що "
-#~ "Інженери вимагають стількі ж ресурсів як і Колоністи.\n"
+#~ "Інженери вимагають стількі ж ресурсів як і Поселенці.\n"
 #~ "\n"
 #~ "Порада 2: Якщо Ви будуєте Майстерню Леонардо, відкрийте Підривне діло до "
-#~ "того як Майстерня стане застарілою. Таким чином, Ваші Колоністи будуть "
+#~ "того як Майстерня стане застарілою. Таким чином, Ваші Поселенці будуть "
 #~ "модернізовані безкоштовно."
 
 #, fuzzy
@@ -43446,7 +43419,7 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "\n"
 #~ "Подібно до забруднення та глобального потепління, ризик ядерної зими "
 #~ "зростає з радіаційним зараженням. Якщо настане ядерна зима, землі цілого "
-#~ "світу перетворюватимуться на пустелі, тундру та льодовики. Колоністи, "
+#~ "світу перетворюватимуться на пустелі, тундру та льодовики. Поселенці, "
 #~ "Робітники або Інженери можуть ліквідовувати радіаційне зараження.\n"
 #~ "\n"
 #~ "Порада 1: Вибух у океані не викликає забруднень, тож це є найбільш "
@@ -43514,10 +43487,10 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "інформації.\n"
 #~ "\n"
 #~ "Порада 1: Модернізуйте Колоністів до Інженерів коли це можливо, тому що "
-#~ "Інженери вимагають стільки ж ресурсів, як звичайні Колоністи.\n"
+#~ "Інженери вимагають стільки ж ресурсів, як звичайні Поселенці.\n"
 #~ "\n"
 #~ "Порада 2: Якщо Ви збудуєте Майстерню Леонардо, дослідіть Вибухівку до "
-#~ "того, як Майстерня стане застарілою. В такому випадку Ваші Колоністи "
+#~ "того, як Майстерня стане застарілою. В такому випадку Ваші Поселенці "
 #~ "будуть безкоштовно модернізовані."
 
 #~ msgid ""
@@ -43564,7 +43537,7 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "\n"
 #~ "Подібно до забруднення та глобального потепління, ризик ядерної зими "
 #~ "зростає з радіаційним зараженням. Якщо настане ядерна зима, землі цілого "
-#~ "світу перетворюватимуться на пустелі, тундру та льодовики. Колоністи та "
+#~ "світу перетворюватимуться на пустелі, тундру та льодовики. Поселенці та "
 #~ "Інженери можуть ліквідовувати радіаційне зараження.\n"
 #~ "\n"
 #~ "Порада 1: Вибух у океані не викликає забруднень, тож це є найбільш "
@@ -43616,7 +43589,7 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "\n"
 #~ "Подібно до забруднення та глобального потепління, ризик ядерної зими "
 #~ "зростає з радіаційним зараженням. Якщо настане ядерна зима, землі цілого "
-#~ "світу перетворюватимуться на пустелі, тундру та льодовики. Колоністи "
+#~ "світу перетворюватимуться на пустелі, тундру та льодовики. Поселенці "
 #~ "можуть ліквідовувати радіаційне зараження.\n"
 #~ "\n"
 #~ "Порада 1: Вибух у океані не викликає забруднень, тож це є найбільш "
@@ -45349,13 +45322,13 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "wasted, and a group of Settlers and/or Engineers is highly vulnerable to "
 #~ "enemy attacks."
 #~ msgstr ""
-#~ "Колоністи це один з головних загонів у грі. Іх можна використовувати для "
+#~ "Поселенці це один з головних загонів у грі. Іх можна використовувати для "
 #~ "заснування нових міст, зрошення земель, будівлі шляхів, залізниць, "
 #~ "укріплень, авіабаз та шахт, видалення забруднень та атомних катастроф. "
-#~ "Утримання для Колоністів це їжа та виробництво, так Колоністи можуть "
+#~ "Утримання для Колоністів це їжа та виробництво, так Поселенці можуть "
 #~ "загинути якщо у місті що їх утримує закончується їжа.\n"
 #~ "\n"
-#~ "Колоністи та Інженери можуть працювати разом аби зменшити час що потрібен "
+#~ "Поселенці та Інженери можуть працювати разом аби зменшити час що потрібен "
 #~ "для довгих проектів. Якщо два або більше Колоніста та/або Інженера разом "
 #~ "працюють на одним завданням на одній клітинці, їх праця складається разом "
 #~ "кожного ходу доки завдання не виконано. Будьте уважні та не залучайте "
@@ -45453,13 +45426,13 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "wasted, and a group of Settlers and/or Engineers is highly vulnerable to "
 #~ "enemy attacks."
 #~ msgstr ""
-#~ "Колоністи це один з головних загонів у грі. Іх можна використовувати для "
+#~ "Поселенці це один з головних загонів у грі. Іх можна використовувати для "
 #~ "заснування нових міст, зрошення земель, будівлі шляхів, залізниць, "
 #~ "укріплень, авіабаз та шахт, видалення забруднень та атомних катастроф. "
-#~ "Утримання для Колоністів це їжа та виробництво, так Колоністи можуть "
+#~ "Утримання для Колоністів це їжа та виробництво, так Поселенці можуть "
 #~ "загинути якщо у місті що їх утримує закончується їжа.\n"
 #~ "\n"
-#~ "Колоністи та Інженери можуть працювати разом аби зменшити час що потрібен "
+#~ "Поселенці та Інженери можуть працювати разом аби зменшити час що потрібен "
 #~ "для довгих проектів. Якщо два або більше Колоніста та/або Інженера разом "
 #~ "працюють на одним завданням на одній клітинці, їх праця складається разом "
 #~ "кожного ходу доки завдання не виконано. Будьте уважні та не залучайте "
@@ -45482,13 +45455,13 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "task, though; excess effort can be wasted, and a group of Settlers is "
 #~ "highly vulnerable to enemy attacks."
 #~ msgstr ""
-#~ "Колоністи це один з головних загонів у грі. Іх можна використати для "
+#~ "Поселенці це один з головних загонів у грі. Іх можна використати для "
 #~ "заснування нових міст, зрошення земель, будівлі шляхів, залізниць, "
 #~ "укріплень, авіабаз та шахт, видалення забруднень та атомних катастроф. "
-#~ "Утримання для Колоністів це їжа та виробництво, так Колоністи можуть "
+#~ "Утримання для Колоністів це їжа та виробництво, так Поселенці можуть "
 #~ "загинути якщо у місті що їх утримує закончується їжа.\n"
 #~ "\n"
-#~ "Колоністи та Інженери можуть працювати разом аби зменшити час що потрібен "
+#~ "Поселенці та Інженери можуть працювати разом аби зменшити час що потрібен "
 #~ "для довгих проектів. Якщо два або більше Колоніста та/або Інженера разом "
 #~ "працюють на одним завданням на одній клітинці, їх праця складається разом "
 #~ "кожного ходу доки завдання не виконано. Будьте уважні та не залучайте "
@@ -46732,7 +46705,7 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "вимагають 1 виробництво на кожен.) Фанатічним підрозділам не потрібне "
 #~ "утримання.\n"
 #~ "\n"
-#~ "Колоністи споживають 2 одиниці їжі за хід при Комунизмі.\n"
+#~ "Поселенці споживають 2 одиниці їжі за хід при Комунизмі.\n"
 #~ "\n"
 #~ "Якщо місто за Фундаменталізму святкує, воно отримує бонус у одиницю "
 #~ "торгівлі на кожну клітинку, що вже дає хоча б одиницю торгівлі. Дивись "
@@ -47890,7 +47863,7 @@ msgstr "помилка %d (зібрано без strerror)"
 #~ "Анархія призводить до меншої корупції ніж при Деспотизмі, але спричиняє "
 #~ "більше нещастя.\n"
 #~ "\n"
-#~ "Колоністи споживають одиницю їжі на хід за Анархії. Клітини які звичайно "
+#~ "Поселенці споживають одиницю їжі на хід за Анархії. Клітини які звичайно "
 #~ "дають більше ніж дві одиниці їжі, виробництва або торгівлі, зазнають "
 #~ "штрафу у 1 (тобто зрошені луки що звичайно дають 3 їжі за Анархії будуть "
 #~ "давати лише 2 їжі). (Цей штраф нейтралізується якщо місто святкує; дивись "
@@ -49971,4 +49944,6 @@ msgstr "помилка %d (зібрано без strerror)"
 
 #~ msgid "Prezydent"
 #~ msgstr "Президент"
+#~"Вартість збурення революції у місті "
+#~"також залежить від відстані до столиці (за усіх форм правління)."
 #~#: server/settings.c:1449
