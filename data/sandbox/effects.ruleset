@@ -518,8 +518,9 @@ reqs    =
 type    = "Output_Waste_By_Distance"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "present"
+      "OutputType", "Trade", "Local", TRUE
+      "Gov", "Republic", "Player", FALSE
     }
 
 ; 1 + 1 => -2% each tile without advanced tech / govs
@@ -531,6 +532,14 @@ reqs    =
       "OutputType", "Trade", "Local", TRUE
       "Tech", "The Corporation", "Player", FALSE
       "Gov", "Communism", "Player", FALSE
+    }
+
+[effect_corruption_distance_republic]
+type    = "Output_Waste_By_Rel_Distance"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
     }
 
 ; Total = 0 for Communism

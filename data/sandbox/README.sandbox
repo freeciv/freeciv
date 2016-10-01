@@ -74,3 +74,9 @@ Trade routes can carry many kinds of goods. There is production chains
 like that city with Mine can trade Ore to a city that then can trade
 Metal to third city which can then trade Goods or Equipment to fourth
 city. Goods later in chains trade for higher value.
+
+Corruption and World Size:
+Under Republic government, the speed corruption increases as one goes
+further from the capital is relative to the size of the world. At
+the maximum distance corruption is the same regardless of the size of
+the world.
