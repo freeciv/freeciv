@@ -698,6 +698,7 @@ void help_widget::set_topic(const help_item *topic)
     case HELP_UNIT:
       set_topic_unit(topic, title);
       break;
+    case HELP_GOODS:
     case HELP_LAST: // Just to avoid warning
       break;
   }
