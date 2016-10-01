@@ -1333,8 +1333,30 @@ static void help_update_extra(const struct help_item *pitem, char *title)
 /**************************************************************************
   This is currently just a text page, with special text:
 **************************************************************************/
+static void help_update_goods(const struct help_item *pitem,
+                              char *title)
+{
+  char buf[8192];
+  struct goods_type *pgood = goods_by_translated_name(title);
+
+  create_help_page(HELP_GOODS);
+
+  if (!pgood) {
+    strcat(buf, pitem->text);
+  } else {
+    helptext_goods(buf, sizeof(buf), client.conn.playing, pitem->text,
+                   pgood);
+  }
+  create_help_page(HELP_GOODS);
+  gtk_text_buffer_set_text(help_text, buf, -1);
+  gtk_widget_show(help_text_sw);
+}
+
+/**************************************************************************
+  This is currently just a text page, with special text:
+**************************************************************************/
 static void help_update_specialist(const struct help_item *pitem,
-				   char *title)
+                                   char *title)
 {
   char buf[8192];
   struct specialist *pspec = specialist_by_translated_name(title);
@@ -1421,6 +1443,9 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_EXTRA:
     help_update_extra(pitem, top);
+    break;
+  case HELP_GOODS:
+    help_update_goods(pitem, top);
     break;
   case HELP_SPECIALIST:
     help_update_specialist(pitem, top);

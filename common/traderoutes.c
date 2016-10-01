@@ -516,6 +516,21 @@ struct goods_type *goods_by_rule_name(const char *name)
   return NULL;
 }
 
+/**************************************************************************
+  Returns goods type matching the translated name, or NULL if there is no
+  goods type with that name.
+**************************************************************************/
+struct goods_type *goods_by_translated_name(const char *name)
+{
+  goods_type_iterate(pgood) {
+    if (0 == strcmp(goods_name_translation(pgood), name)) {
+      return pgood;
+    }
+  } goods_type_iterate_end;
+
+  return NULL;
+}
+
 /****************************************************************************
   Check if goods has given flag
 ****************************************************************************/

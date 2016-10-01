@@ -61,7 +61,7 @@
 /* This must be in same order as enum in helpdlg_g.h */
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
-  "Techs", "Terrain", "Extras", "Specialists", "Governments",
+  "Techs", "Terrain", "Extras", "Goods", "Specialists", "Governments",
   "Ruleset", "Tileset", "Nations", "Multipliers", NULL
 };
 
@@ -682,9 +682,20 @@ void boot_help_texts(void)
               FC_FREE(cats);
             }
             break;
+          case HELP_GOODS:
+            goods_type_iterate(pgood) {
+              pitem = new_help_item(current_type);
+              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                          goods_name_translation(pgood));
+              pitem->topic = fc_strdup(name);
+              pitem->text = fc_strdup("");
+              help_list_append(category_nodes, pitem);
+            } goods_type_iterate_end;
+            break;
           case HELP_SPECIALIST:
             specialist_type_iterate(sp) {
               struct specialist *pspec = specialist_by_number(sp);
+
               pitem = new_help_item(current_type);
               fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                           specialist_plural_translation(pspec));
@@ -2792,6 +2803,46 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, "\n\n");
     CATLSTR(buf, bufsz, user_text);
   }
+}
+
+/****************************************************************************
+  Append misc dynamic text for goods.
+  Assumes effects are described in the help text.
+
+  pplayer may be NULL.
+****************************************************************************/
+void helptext_goods(char *buf, size_t bufsz, struct player *pplayer,
+                    const char *user_text, struct goods_type *pgood)
+{
+  bool reqs = FALSE;
+
+  fc_assert_ret(NULL != buf && 0 < bufsz);
+  buf[0] = '\0';
+
+  /* 
+  if (NULL != pgood->helptext) {
+    strvec_iterate(pgood->helptext, text) {
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
+    } strvec_iterate_end;
+  }
+  */
+
+  cat_snprintf(buf, bufsz, _("Sending city enjoys %d%% income from the route.\n"),
+               pgood->from_pct);
+  cat_snprintf(buf, bufsz, _("Receiving city enjoys %d%% income from the route.\n\n"),
+               pgood->to_pct);
+
+  /* Requirements for this good. */
+  requirement_vector_iterate(&pgood->reqs, preq) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+      reqs = TRUE;
+    }
+  } requirement_vector_iterate_end;
+  if (reqs) {
+    fc_strlcat(buf, "\n", bufsz);
+  }
+
+  CATLSTR(buf, bufsz, user_text);
 }
 
 /****************************************************************************

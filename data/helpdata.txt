@@ -12,7 +12,7 @@
 ; 'generate' = means replace this node with generated list of game
 ;	       elements; current categories are: 
 ;	          "Units", "Improvements", "Wonders", "Techs", 
-;		  "Terrain", "Extras", "Specialists",
+;		  "Terrain", "Extras", "Goods", "Specialists",
 ;                 "Governments", "Ruleset", "Tileset", "Nations"
 ;              As for 'name', the number of spaces before the category
 ;              name indicates nesting level for display.
@@ -639,6 +639,16 @@ along trade routes. See the section on Plague for more details.\
 To view the current trade routes of a city, click and hold over the \
 Trade: line in the Overview tab in the city view.\
 ")
+
+[help_goods]
+; /* TRANS: Preserve the leading space: it controls nesting */
+name = _(" Goods")
+text = _("\
+Goods are carried via trade routes.\
+")
+
+[help_gen_goods]
+generate = "  Goods"
 
 [help_cities]
 name = _("Cities")
