@@ -1109,6 +1109,11 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+; /* xgettext:no-c-format */
+helptext       = _("\
+There is more than avarage amount of various resources,\
+ but nothing exciting.\
+")
 
 [extra_alien_mine]
 name           = _("Alien Mine")
@@ -1122,6 +1127,11 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Mine run by superior alien technology ready to operate.\
+ We have no idea who built it nor where they went.\
+")
 
 [extra_huge_plant]
 name           = _("Huge Plant")
@@ -1135,6 +1145,11 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Entire forest seems to be of the single fast-growing organism with\
+ huge central blooming.\
+")
 
 [extra_thermal_vent]
 name           = _("Thermal Vent")
@@ -1148,6 +1163,11 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Where the heat from inside the planet escapes, mineral rich\
+ hills form.\
+")
 
 [extra_fish]
 name           = _("Fish")
@@ -1161,6 +1181,11 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Weird alien fish might look like something escaped from nighmares,\
+ but are in fact very tasty.\
+")
 
 [extra_glowing_rocks]
 name           = _("Glowing Rocks")
@@ -1174,6 +1199,10 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Rocks in the area have unusually bright glow.\
+")
 
 
 ; /* <-- avoid gettext warnings
