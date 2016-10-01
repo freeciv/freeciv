@@ -1,6 +1,6 @@
 AC_DEFUN([FC_GPROF], [
 AC_ARG_ENABLE([gprof],
-  AS_HELP_STRING([--enable-gprof], [turn on profiling [[default=no]]]),
+  AS_HELP_STRING([--enable-gprof], [turn on profiling [default=no]]),
 [case "${enableval}" in
   yes) enable_gprof=yes ;;
   no)  enable_gprof=no ;;
