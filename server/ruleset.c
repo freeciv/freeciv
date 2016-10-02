@@ -6615,6 +6615,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           }
         }
         free(slist);
+
+        pgood->helptext = lookup_strvec(file, sec_name, "helptext");
       } goods_type_iterate_end;
     }
   }
@@ -7267,6 +7269,8 @@ static void send_ruleset_goods(struct conn_list *dest)
     packet.from_pct = g->from_pct;
     packet.to_pct = g->to_pct;
     packet.flags = g->flags;
+
+    PACKET_STRVEC_COMPUTE(packet.helptext, g->helptext);
 
     lsend_packet_ruleset_goods(dest, &packet);
   } goods_type_iterate_end;

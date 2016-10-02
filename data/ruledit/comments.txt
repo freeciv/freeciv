@@ -982,6 +982,8 @@ goods = "\
 ;   - \"Depletes\"          = Trade route gets cancelled when the source city cannot provide\n\
 ;                           goods any more. Bidirectional routes gets cancelled if either\n\
 ;                           one of the involved cities cannot provide goods.\n\
+; helptext                = Optional help text string; should escape all raw\n\
+;                           newlines so that xgettext parsing works\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "

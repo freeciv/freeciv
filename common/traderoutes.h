@@ -176,6 +176,8 @@ struct goods_type
   int to_pct;
 
   bv_goods_flags flags;
+
+  struct strvec *helptext;
 };
 
 void goods_init(void);

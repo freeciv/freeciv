@@ -1701,6 +1701,7 @@ PACKET_RULESET_GOODS = 248; sc, lsend
   UINT16 from_pct;
   UINT16 to_pct;
   BV_GOODS_FLAGS flags;
+  STRVEC helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_DISASTER = 224; sc, lsend

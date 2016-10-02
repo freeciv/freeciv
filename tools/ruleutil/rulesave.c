@@ -1262,6 +1262,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
       secfile_insert_str_vec(sfile, flag_names, set_count,
                              "%s.flags", path);
     }
+
+    save_strvec(sfile, pgood->helptext, path, "helptext");
   } goods_active_type_iterate_end;
 
   locks = FALSE;

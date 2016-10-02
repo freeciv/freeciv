@@ -429,6 +429,7 @@ void goods_init(void)
 
     requirement_vector_init(&(goods[i].reqs));
     goods[i].disabled = FALSE;
+    goods[i].helptext = NULL;
   }
 }
 
@@ -441,6 +442,11 @@ void goods_free(void)
 
   for (i = 0; i < MAX_GOODS_TYPES; i++) {
     requirement_vector_free(&(goods[i].reqs));
+
+    if (NULL != goods[i].helptext) {
+      strvec_destroy(goods[i].helptext);
+      goods[i].helptext = NULL;
+    }
   }
 }
 

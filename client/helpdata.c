@@ -2819,13 +2819,11 @@ void helptext_goods(char *buf, size_t bufsz, struct player *pplayer,
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
-  /* 
   if (NULL != pgood->helptext) {
     strvec_iterate(pgood->helptext, text) {
       cat_snprintf(buf, bufsz, "%s\n\n", _(text));
     } strvec_iterate_end;
   }
-  */
 
   cat_snprintf(buf, bufsz, _("Sending city enjoys %d%% income from the route.\n"),
                pgood->from_pct);

@@ -838,6 +838,8 @@ goods_selection = "Arrival"
 ;   - "Depletes"          = Trade route gets cancelled when the source city cannot provide
 ;                           goods any more. Bidirectional routes gets cancelled if either
 ;                           one of the involved cities cannot provide goods.
+; helptext                = Optional help text string; should escape all raw
+;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
 

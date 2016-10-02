@@ -3944,6 +3944,8 @@ void handle_ruleset_goods(const struct packet_ruleset_goods *p)
   pgood->from_pct = p->from_pct;
   pgood->to_pct = p->to_pct;
   pgood->flags = p->flags;
+
+  PACKET_STRVEC_EXTRACT(pgood->helptext, p->helptext);
 }
 
 /**************************************************************************
