@@ -2561,6 +2561,8 @@ static bool unit_do_recycle(struct player *pplayer,
                             struct unit *punit,
                             struct city *pcity)
 {
+  int shields;
+
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(punit, FALSE);
@@ -2568,19 +2570,14 @@ static bool unit_do_recycle(struct player *pplayer,
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(pcity, FALSE);
 
+  shields = unit_disband_shields(punit);
+
   /* Add the shields from recycling the unit to the city's current
    * production. */
-  pcity->shield_stock += unit_disband_shields(punit);
+  pcity->shield_stock += shields;
 
-  if (unit_can_do_action(punit, ACTION_HELP_WONDER)) {
-    /* Count this just like a caravan that was added to a wonder.
-     * However don't actually give the city the extra shields. Switching
-     * to a wonder later in the turn will give the extra shields back. */
-    pcity->caravan_shields += unit_build_shield_cost(punit);
-  } else {
-    /* If we change production later at this turn. No penalty is added. */
-    pcity->disbanded_shields += unit_disband_shields(punit);
-  }
+  /* If we change production later at this turn. No penalty is added. */
+  pcity->disbanded_shields += shields;
 
   notify_player(pplayer, city_tile(pcity), E_CARAVAN_ACTION, ftc_server,
                 /* TRANS: ... Ironclad ... New York */
