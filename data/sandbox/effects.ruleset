@@ -1623,7 +1623,7 @@ reqs    =
 
 [effect_lux_federation]
 type    = "Output_Add_Tile"
-value   = 1
+value   = 3
 reqs    =
     { "type", "name", "range"
       "Gov", "Federation", "Player"
@@ -1930,6 +1930,14 @@ reqs    =
       "Building", "Cathedral", "City"
     }
 
+[effect_cathedral_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Cathedral", "City"
+    }
+
 [effect_cathedral_1]
 type    = "Make_Content"
 value   = 1
@@ -2043,6 +2051,14 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "Tech", "Electricity", "Player"
+      "Building", "Colosseum", "City"
+    }
+
+[effect_colosseum_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
       "Building", "Colosseum", "City"
     }
 
@@ -2182,10 +2198,9 @@ type    = "Output_Add_Tile"
 value   = 1
 reqs    =
     { "type", "name", "range", "present"
-      "TerrainClass", "Oceanic", "Local", TRUE
+      "TerrainFlag", "Sea", "Local", TRUE
       "Building", "Harbour", "City", TRUE
       "OutputType", "Food", "Local", TRUE
-      "Terrain", "Lake", "Local", FALSE
     }
 
 [effect_hydro_plant]
@@ -2251,6 +2266,14 @@ reqs    =
     { "type", "name", "range"
       "Building", "Library", "City"
       "OutputType", "Science", "Local"
+    }
+
+[effect_library_culture]
+type    = "History"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Library", "City"
     }
 
 [effect_marketplace]
@@ -2351,20 +2374,20 @@ type    = "Output_Add_Tile"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Terrain", "Ocean", "Local"
+      "TerrainClass", "Oceanic", "Local"
       "Building", "Offshore Platform", "City"
       "OutputType", "Shield", "Local"
     }
 
 [effect_offshore_platform_1]
 type    = "Output_Add_Tile"
-value   = 1
+value   = -1
 reqs    =
-    { "type", "name", "range"
-      "Terrain", "Deep Ocean", "Local"
-      "Building", "Offshore Platform", "City"
-      "Extra", "Oil Well", "Local"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "present"
+      "Terrain", "Deep Ocean", "Local", TRUE
+      "Building", "Offshore Platform", "City", TRUE
+      "Extra", "Oil Platform", "Local", FALSE
+      "OutputType", "Shield", "Local", TRUE
     }
 
 [effect_offshore_platform_2]
@@ -2435,6 +2458,83 @@ reqs    =
       "Gov", "Monarchy", "Player"
       "Building", "Palace", "City"
       "OutputType", "Gold", "Local"
+    }
+
+[effect_palace_culture]
+type    = "History"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
+
+[effect_ecclesiastical_palace]
+type    = "Output_Waste_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "OutputType", "Trade", "Local", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_1]
+type    = "Output_Waste_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "OutputType", "Shield", "local", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_2]
+type    = "Spy_Resistant"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_gov_center]
+type    = "Gov_Center"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_despotism]
+type    = "Output_Bonus"
+value   = 75
+reqs    =
+    { "type", "name", "range", "present"
+      "Gov", "Despotism", "Player", TRUE
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "OutputType", "Gold", "Local", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_monarchy]
+type    = "Output_Bonus"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Gov", "Monarchy", "Player", TRUE
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "OutputType", "Gold", "Local", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_culture]
+type    = "History"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "Building", "Palace", "City", FALSE
     }
 
 [effect_police_station]
@@ -2552,6 +2652,14 @@ reqs    =
     { "type", "name", "range"
       "Building", "Research Lab", "City"
       "OutputType", "Science", "Local"
+    }
+
+[effect_research_lab_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Research Lab", "City"
     }
 
 [effect_sam_battery]
@@ -2863,42 +2971,6 @@ reqs    =
       "Building", "Super Highways", "City"
     }
 
-[effect_mine]
-type    = "Mining_Pct"
-value   = 100
-reqs    =
-    { "type", "name", "range"
-      "Extra", "Mine", "Local"
-    }
-
-[effect_oil_well]
-type    = "Mining_Pct"
-value   = 100
-reqs    =
-    { "type", "name", "range"
-      "Extra", "Oil Well", "Local"
-    }
-
-[effect_irrigation]
-type    = "Irrigation_Pct"
-value   = 100
-reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Irrigation", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
-
-[effect_irrigation_2]
-type    = "Irrigation_Pct"
-value	= 100
-reqs	=
-    { "type", "name", "range", "present"
-      "CityTile", "Center", "Local", TRUE
-      "TerrainAlter", "CanIrrigate", "Local", TRUE
-      "Extra", "Mine", "Local", FALSE
-      "Extra", "Oil Well", "Local", FALSE
-    }
-
 [effect_supermarket]
 type    = "Output_Per_Tile"
 value   = 50
@@ -2943,6 +3015,14 @@ reqs    =
       "Gov", "Communism", "Player", FALSE
     }
 
+[effect_temple_culture]
+type    = "History"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Temple", "City"
+    }
+
 [effect_university]
 type    = "Output_Bonus"
 value   = 50
@@ -2950,6 +3030,14 @@ reqs    =
     { "type", "name", "range"
       "Building", "University", "City"
       "OutputType", "Science", "Local"
+    }
+
+[effect_university_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "University", "City"
     }
 
 [effect_apollo_program]
@@ -2966,6 +3054,14 @@ value   = 1
 reqs    =
     { "type", "name", "range", "survives"
       "Building", "Apollo Program", "World", TRUE
+    }
+
+[effect_apollo_program_culture]
+type    = "History"
+value	= 6
+reqs	=
+    { "type", "name", "range"
+      "Building", "Apollo Program", "City"
     }
 
 [effect_asmiths_trading_co]
@@ -2989,6 +3085,14 @@ reqs    =
       "OutputType", "Gold", "Local"
     }
 
+[effect_asmiths_trading_co_culture]
+type    = "History"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Building", "A.Smith's Trading Co.", "City"
+    }
+
 [effect_colossus]
 type    = "Output_Inc_Tile"
 value   = 1
@@ -2998,6 +3102,14 @@ reqs    =
       "OutputType", "Trade", "Local"
     }
 
+[effect_colossus_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Colossus", "City"
+    }
+
 [effect_copernicus_observatory]
 type    = "Output_Add_Tile"
 value   = 1
@@ -3005,6 +3117,14 @@ reqs    =
     { "type", "name", "range"
       "Building", "Copernicus' Observatory", "City"
       "OutputType", "Science", "Local"
+    }
+
+[effect_copernicus_observatory_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Copernicus' Observatory", "City"
     }
 
 [effect_cure_for_cancer]
@@ -3023,6 +3143,14 @@ value   = 10
 reqs    =
     { "type", "name", "range"
       "Building", "Cure For Cancer", "Player"
+    }
+
+[effect_cure_for_cancer_culture]
+type    = "History"
+value	= 6
+reqs	=
+    { "type", "name", "range"
+      "Building", "Cure For Cancer", "City"
     }
 
 [effect_darwins_voyage]
@@ -3046,6 +3174,14 @@ reqs    =
       "OutputType", "Science", "Local"
     }
 
+[effect_darwins_voyage_culture]
+type    = "History"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Building", "Darwin's Voyage", "City"
+    }
+
 [effect_eiffel_tower]
 type    = "Gain_AI_Love"
 value   = 10
@@ -3061,6 +3197,14 @@ value   = -25
 reqs    =
     { "type", "name", "range"
       "Building", "Eiffel Tower", "Player"
+    }
+
+[effect_eiffel_tower_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Eiffel Tower", "City"
     }
 
 [effect_great_library]
@@ -3091,6 +3235,14 @@ reqs    =
       "Building", "Great Library", "Player"
     }
 
+[effect_great_library_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Great Library", "City"
+    }
+
 ; Every Land unit
 [effect_great_wall]
 type    = "Defend_Bonus"
@@ -3118,6 +3270,14 @@ reqs    =
       "Building", "Great Wall", "Player"
     }
 
+[effect_great_wall_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Great Wall", "City"
+    }
+
 [effect_hanging_gardens]
 type    = "Make_Content"
 value   = 1
@@ -3134,6 +3294,14 @@ reqs    =
       "Building", "Hanging Gardens", "City"
       "CityTile", "Center", "Local"
       "OutputType", "Luxury", "Local"
+    }
+
+[effect_hanging_gardens_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Hanging Gardens", "City"
     }
 
 ; Hoover Dam behaves like a (self-enhanced) Hydro Plant in its own city
@@ -3174,6 +3342,14 @@ reqs    =
       "Building", "Hoover Dam", "City"
     }
 
+[effect_hoover_dam_culture]
+type    = "History"
+value	= 6
+reqs	=
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "City"
+    }
+
 [effect_isaac_newtons_college]
 type    = "Output_Bonus"
 value   = 50
@@ -3202,6 +3378,14 @@ reqs    =
       "Building", "Isaac Newton's College", "Player"
     }
 
+[effect_isaac_newtons_college_culture]
+type    = "History"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Building", "Isaac Newton's College", "City"
+    }
+
 [effect_js_bachs_cathedral]
 type    = "Output_Add_Tile"
 value   = 2
@@ -3210,6 +3394,14 @@ reqs    =
       "Building", "J.S. Bach's Cathedral", "Player"
       "CityTile", "Center", "Local"
       "OutputType", "Luxury", "Local"
+    }
+
+[effect_js_bachs_cathedral_culture]
+type    = "History"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Building", "J.S. Bach's Cathedral", "City"
     }
 
 [effect_king_richards_crusade]
@@ -3229,12 +3421,28 @@ reqs    =
       "OutputType", "Gold", "Local"
     }
 
+[effect_king_richards_crusade_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "King Richard's Crusade", "City"
+    }
+
 [effect_leonardos_workshop]
 type    = "Upgrade_Unit"
 value   = 1
 reqs    =
     { "type", "name", "range"
       "Building", "Leonardo's Workshop", "Player"
+    }
+
+[effect_leonardos_workshop_culture]
+type    = "History"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Building", "Leonardo's Workshop", "City"
     }
 
 [effect_lighthouse_move]
@@ -3296,6 +3504,14 @@ reqs    =
       "Building", "Port Facility", "City", FALSE
     }
 
+[effect_lighthouse_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Lighthouse", "City"
+    }
+
 [effect_magellans_expedition_move]
 type    = "Move_Bonus"
 value   = 1
@@ -3316,12 +3532,28 @@ reqs    =
       "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
+[effect_magellans_expedition_culture]
+type    = "History"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Building", "Magellan's Expedition", "City"
+    }
+
 [effect_manhattan_project]
 type    = "Enable_Nuke"
 value   = 1
 reqs    =
     { "type", "name", "range", "survives"
       "Building", "Manhattan Project", "World", TRUE
+    }
+
+[effect_manhattan_project_culture]
+type    = "History"
+value	= 6
+reqs	=
+    { "type", "name", "range"
+      "Building", "Manhattan Project", "City"
     }
 
 [effect_marco_polos_embassy]
@@ -3332,6 +3564,14 @@ reqs    =
       "Building", "Marco Polo's Embassy", "Player"
     }
 
+[effect_marco_polos_embassy_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Marco Polo's Embassy", "City"
+    }
+
 [effect_michelangelos_chapel]
 type    = "Make_Content"
 value   = 3
@@ -3339,6 +3579,14 @@ reqs    =
     { "type", "name", "range"
       "Building", "Cathedral", "City"
       "Building", "Michelangelo's Chapel", "Player"
+    }
+
+[effect_michelangelos_chapel_culture]
+type    = "History"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Building", "Michelangelo's Chapel", "City"
     }
 
 [effect_mausoleum_of_mausolos]
@@ -3359,6 +3607,14 @@ reqs    =
       "Building", "Mausoleum of Mausolos", "Player"
     }
 
+[effect_mausoleum_of_mausolos_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Mausoleum of Mausolos", "City"
+    }
+
 ; Note that this doesn't cancel a whole unit's unhappiness in Democracy
 [effect_statue_of_zeus]
 type    = "Make_Content_Mil"
@@ -3377,6 +3633,14 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
+[effect_statue_of_zeus_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Statue of Zeus", "City"
+    }
+
 [effect_temple_of_artemis]
 type    = "Make_Content"
 value   = 2
@@ -3386,6 +3650,14 @@ reqs    =
       "Building", "Temple of Artemis", "Player"
     }
 
+[effect_temple_of_artemis_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Temple of Artemis", "City"
+    }
+
 [effect_pyramids]
 type    = "Output_Inc_Tile"
 value   = 1
@@ -3393,6 +3665,14 @@ reqs    =
     { "type", "name", "range"
       "Building", "Pyramids", "City"
       "OutputType", "Shield", "Local"
+    }
+
+[effect_pyramids_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Pyramids", "City"
     }
 
 [effect_internet]
@@ -3419,6 +3699,14 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "Building", "Internet", "Player"
+    }
+
+[effect_internet_culture]
+type    = "History"
+value	= 6
+reqs	=
+    { "type", "name", "range"
+      "Building", "Internet", "City"
     }
 
 [effect_shakespeares_theatre]
@@ -3452,6 +3740,14 @@ reqs    =
       "OutputType", "Luxury", "Local"
     }
 
+[effect_shakespeares_theatre_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Shakespeare's Theatre", "City"
+    }
+
 ; No_Anarchy includes no_senate effect
 [effect_statue_of_liberty]
 type    = "No_Anarchy"
@@ -3467,6 +3763,14 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "Building", "Statue of Liberty", "Player"
+    }
+
+[effect_statue_of_liberty_culture]
+type    = "History"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Building", "Statue of Liberty", "City"
     }
 
 [effect_sun_tzus_war_academy]
@@ -3489,6 +3793,14 @@ reqs    =
       "UnitClass", "Big Land", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
+    }
+
+[effect_sun_tzus_war_academy_culture]
+type    = "History"
+value	= 3
+reqs	=
+    { "type", "name", "range"
+      "Building", "Sun Tzu's War Academy", "City"
     }
 
 [effect_united_nations]
@@ -3523,6 +3835,14 @@ reqs    =
       "Building", "Apollo Program", "World", FALSE, TRUE
     }
 
+[effect_united_nations_culture]
+type    = "History"
+value	= 6
+reqs	=
+    { "type", "name", "range"
+      "Building", "United Nations", "City"
+    }
+
 [effect_womens_suffrage]
 type    = "Make_Content_Mil"
 value   = 1
@@ -3531,6 +3851,13 @@ reqs    =
       "Building", "Women's Suffrage", "Player"
     }
 
+[effect_womens_suffrage_culture]
+type    = "History"
+value	= 6
+reqs	=
+    { "type", "name", "range"
+      "Building", "Women's Suffrage", "City"
+    }
 ;pow(2, value/1000) -> Base = 50% 
 [effect_base_trade_revenue_reduce]
 type    = "Trade_Revenue_Bonus"
@@ -3601,26 +3928,6 @@ value   = -1
 reqs    =
     { "type", "name", "range"
       "MinYear", "1900", "World"
-    }
-
-[effect_river_food_desert]
-type    = "Output_Inc_Tile"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Terrain", "Desert", "Local", TRUE
-      "Extra", "River", "Local", TRUE
-      "OutputType", "Food", "Local", TRUE
-      "Resource", "Oasis", "Local", FALSE
-    }
-
-[effect_city_shield]
-type    = "Output_Add_Tile"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
-      "OutputType", "Shield", "Local"
     }
 
 ; No base pop pollution; buildings will increase it
@@ -3697,6 +4004,63 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "MinSize", "17", "City"
+    }
+
+[effect_city_shield]
+type    = "Output_Add_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "CityTile", "Center", "Local"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_river_food_desert]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Terrain", "Desert", "Local", TRUE
+      "Extra", "River", "Local", TRUE
+      "OutputType", "Food", "Local", TRUE
+      "Resource", "Oasis", "Local", FALSE
+    }
+
+[effect_oil_well]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Oil Well", "Local"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_mine]
+type    = "Mining_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Mine", "Local"
+    }
+
+[effect_irrigation]
+type    = "Irrigation_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range", "present"
+      "Extra", "Irrigation", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
+    }
+
+[effect_irrigation_2]
+type    = "Irrigation_Pct"
+value	= 100
+reqs	=
+    { "type", "name", "range", "present"
+      "CityTile", "Center", "Local", TRUE
+      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "Extra", "Mine", "Local", FALSE
+      "Extra", "Oil Well", "Local", FALSE
     }
 
 ; "Sea" nreq is for Transports, which are only supposed to clean pollution

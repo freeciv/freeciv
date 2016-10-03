@@ -186,7 +186,7 @@ slow_invasions = TRUE
 ; 2/3 move points will have attack power 2/3 of normal.
 ; If this is set to FALSE units will attack with full strength even if they
 ; have only fractional moves left.
-tired_attack = FALSE
+tired_attack = TRUE
 
 [actions]
 ; If force_trade_route is set to TRUE it is illegal for an actor unit to
@@ -356,6 +356,7 @@ target_reqs  =
       "Gov", "Federation", "Player", FALSE
       "Gov", "Democracy", "Player", FALSE
       "Building", "Palace", "City", FALSE
+      "Building", "Ecclesiastical Palace", "City", FALSE
       "Building", "Mausoleum of Mausolos", "Player", FALSE
     }
 
@@ -495,7 +496,7 @@ free_tech_method = "Cheapest"
 
 [culture]
 ; Minimum culture points for cultural domination victory
-victory_min_points = 1000
+victory_min_points = 10000
 
 ; How big lead relative to second best player is needed for victory
 victory_lead_pct   = 200
@@ -615,7 +616,77 @@ effects        = "ReducePopulation", "Fallout"
 ;
 ; */ <-- avoid gettext warnings
 
-; No achievements yet in sandbox ruleset
+[achievement_spaceship]
+name           = _("Spaceship Launch")
+type           = "Spaceship"
+unique         = FALSE
+culture        = 10000
+first_msg      = _("You're the first one to launch spaceship towards Alpha Centauri!");
+cons_msg       = _("You have launched spaceship towards Alpha Centauri!")
+
+[achievement_map_known]
+name           = _("Entire Map Known")
+type           = "Map_Known"
+unique         = FALSE
+value          = 100
+culture        = 1000
+first_msg      = _("You're the first one to have entire world mapped!")
+cons_msg       = _("You have entire world mapped!")
+
+[achievement_another_island]
+name           = _("Land Ahoy")
+type           = "Land_Ahoy"
+unique         = FALSE
+value          = 2
+culture        = 100
+first_msg      = _("As the first people in history, your people see foreign continent!")
+cons_msg       = _("You see foreign island!")
+
+[achievement_literate]
+name           = _("Literate")
+type           = "Literate"
+unique         = FALSE
+value          = 100
+culture        = 100
+; /* xgettext:no-c-format */
+first_msg      = _("You're the first one to achieve 100% of literacy!")
+; /* xgettext:no-c-format */
+cons_msg       = _("You have achieved 100% of literacy!")
+
+[achievement_multicultural]
+name           = _("Multicultural")
+type           = "Multicultural"
+unique         = FALSE
+value          = 2
+culture        = 100
+first_msg      = _("You're the first nation with citizens of 2 different nationalities!")
+cons_msg       = _("In your nation there are citizens of 2 different nationalities!")
+
+[achievement_metropolis]
+name           = _("Metropolis")
+type           = "Metropolis"
+unique         = FALSE
+value          = 20
+culture        = 100
+first_msg      = _("Your city is the first one to reach population 20!")
+cons_msg       = _("Your city has reached population 20!")
+
+[achievement_cultured_city]
+name           = _("Cultured City")
+type           = "Cultured_City"
+unique         = FALSE
+value          = 1000
+culture        = 100
+first_msg      = _("Your city is the first one to achieve 1000 culture points!")
+cons_msg       = _("Your city has achieved 1000 culture points!")
+
+[achievement_cultured_nation]
+name           = _("Cultured Nation")
+type           = "Cultured_Nation"
+unique         = FALSE
+value          = 10000
+first_msg      = _("Your nation is the first one to achieve 10000 culture points!")
+cons_msg       = _("Your nation has achieved 10000 culture points!")
 
 ;
 ; Trade settings
@@ -646,8 +717,8 @@ settings =
     "INIC",       200,   "Cancel",     "Both"
     "Ally",       100,   "Cancel",     "Both"
     "AllyIC",     200,   "Cancel",     "Both"
-    "Enemy",      100,   "Cancel",     "Both"
-    "EnemyIC",    200,   "Cancel",     "Both"
+    "Enemy",      0,     "Cancel",     "None"
+    "EnemyIC",    0,     "Cancel",     "None"
     "Team",       100,   "Cancel",     "Both"
     "TeamIC",     200,   "Cancel",     "Both"
   }
@@ -725,10 +796,8 @@ set =
       "startunits", "cwx"
       "citymindist", 3
       "techlevel", 1
-      "sciencebox", 100
       "borders", "ENABLED"
       "foggedborders", "ENABLED"
-      "happyborders", "DISABLED"
       "restrictinfra", "ENABLED"
       "unreachableprotects", "DISABLED"
       "onsetbarbs", 120

@@ -545,6 +545,11 @@ req2     = "Electronics"
 flags    = ""
 graphic     = "a.miniaturization"
 graphic_alt = "-"
+helptext = _("\
+Allows Settlers, Migrants, Workers, Engineers and Transports to build \
+oil platforms on deep ocean, required to get the bonus from \
+Offshore Platforms.\
+")
 cost     = 480
 
 [advance_mobile_warfare]
@@ -706,6 +711,10 @@ req2     = "Industrialization"
 flags    = ""
 graphic     = "a.refining"
 graphic_alt = "-"
+helptext = _("\
+Allows Settlers, Migrants, Workers and Engineers to upgrade \
+mines to oil wells on desert and glacier.\
+")
 cost     = 400
 
 [advance_refrigeration]
@@ -715,11 +724,11 @@ req2     = "Electricity"
 flags    = ""
 graphic     = "a.refrigeration"
 graphic_alt = "-"
-cost     = 350
 helptext = _("\
 Allows Settlers, Migrants, Workers and Engineers to upgrade \
 irrigation systems to farmland.\
 ")
+cost     = 350
 
 [advance_robotics]
 name     = _("Robotics")

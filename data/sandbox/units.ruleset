@@ -136,7 +136,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "KillCitizen", "Airliftable"
+                "TerrainDefense", "Airliftable"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -160,7 +160,7 @@ name          = _("?unitclass:Merchant")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
-                "TerrainDefense", "TerrainSpeed", "Airliftable"
+                "ZOC", "TerrainDefense", "TerrainSpeed", "Airliftable"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
@@ -368,7 +368,8 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
-;   paratroopers_range = the maximal range the unit can be paradropped to
+;   paratroopers_range  = the maximal range the unit can be paradropped to.
+;                         Max range is 65534.
 ;   paratroopers_mr_req = the move rate which is required at least for
 ;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
@@ -586,7 +587,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
 flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "Airbase", "Transform"
-veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
+veteran_names = _("beginner"), _("seasoned"), _("senior"), _("expert")
 veteran_raise_chance      = 50, 33, 20, 0
 veteran_work_raise_chance = 3, 2, 1, 0
 veteran_power_fact        = 100, 150, 175, 200
@@ -1015,7 +1016,6 @@ immediately ready to act there. (Beware dropping into unseen territory, \
 as Paratroopers landing on a tile occupied by enemy units are easy \
 targets!)\
 ")
-
 paratroopers_range = 10
 paratroopers_mr_req = 1
 paratroopers_mr_sub = 0
@@ -2056,7 +2056,7 @@ The Transport cannot attack on its own but\
  may defend itself when under attack.\
 "), _("\
 Transports can also clean pollution and fallout on water tiles, and \
-with knowledge of Miniaturization, may build Oil Wells on deep ocean \
+with knowledge of Miniaturization, may build Oil Platforms on deep ocean \
 tiles (for use by Offshore Platforms).\
 ")
 ; FIXME: also cleans pollution/fallout in coastal cities (and faster
@@ -2374,7 +2374,7 @@ Caravans can only travel on roads, railroads, rivers or ships.\
  (Caravans cannot take advantage of maglevs, but may travel on\
  the railroads that accompany them.)\
 "), _("\
-A Caravan sent to a foreign city (even one owned by an enemy) can\
+A Caravan sent to a foreign city (one not owned by an enemy) can\
  establish a trade route. The route's ongoing revenue is doubled\
  if the two cities involved are on different continents. Each city\
  can support a maximum of two trade routes.\
