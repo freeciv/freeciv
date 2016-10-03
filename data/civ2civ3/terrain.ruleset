@@ -23,6 +23,7 @@ options="+Freeciv-2.6-ruleset"
 flags =
   { "name", "helptxt"
     _("Oil"), _("Mine can be upgraded to Oil Well.")
+    _("Sea"), _("Allows cities to build Harbors.")
     _("NoPollution"), _("No Pollution nor Fallout appear here.")
   }
 
@@ -306,7 +307,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "Glacier"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
-flags                = "NoCities", "UnsafeCoast", "NoZoc", "NoFortify"
+flags                = "NoCities", "UnsafeCoast", "NoZoc", "NoFortify", "Sea"
 property_ocean_depth = 32
 color.r              = 0
 color.g              = 46
@@ -350,7 +351,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "NoCities", "NoPollution", "UnsafeCoast", "NoZoc", "NoFortify"
+flags                = "NoCities", "NoPollution", "UnsafeCoast", "NoZoc", "NoFortify", "Sea"
 property_ocean_depth = 87
 color.r              = 0
 color.g              = 33
