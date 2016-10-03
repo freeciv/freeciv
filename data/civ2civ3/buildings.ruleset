@@ -504,7 +504,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Seafaring", "Player"
-      "TerrainClass", "Oceanic", "Adjacent"
+      "TerrainFlag", "Sea", "Adjacent"
     }
 graphic	= "b.harbour"
 graphic_alt	= "-"
@@ -518,7 +518,8 @@ sound		= "b_harbour"
 sound_alt	= "b_generic"
 helptext	= _("\
 Gives one extra food resource on all Ocean or Deep Ocean tiles (but \
-not Lakes). The city needs to be coastal to build this improvement.\
+not Lakes). The city needs to be coastal (next to one of these tiles) \
+to build this improvement.\
 ")
 
 [building_hydro_plant]
@@ -729,9 +730,9 @@ sabotage	= 100
 sound		= "b_offshore_platform"
 sound_alt	= "b_generic"
 helptext	= _("\
-Every Ocean tile worked by the city yields one extra shield resource, \
+Every Ocean or Lake tile worked by the city yields one extra shield resource, \
 as well as any Deep Ocean tile containing an oil platform. The city needs \
-to be coastal to build this improvement.\
+to be next to a water tile to build this improvement.\
 "), _("\
 Offshore Platforms also increase the pollution caused by the population \
 of the city.\

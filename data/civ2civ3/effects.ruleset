@@ -2207,10 +2207,9 @@ type    = "Output_Add_Tile"
 value   = 1
 reqs    =
     { "type", "name", "range", "present"
-      "TerrainClass", "Oceanic", "Local", TRUE
+      "TerrainFlag", "Sea", "Local", TRUE
       "Building", "Harbour", "City", TRUE
       "OutputType", "Food", "Local", TRUE
-      "Terrain", "Lake", "Local", FALSE
     }
 
 [effect_hydro_plant]
