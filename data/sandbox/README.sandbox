@@ -28,9 +28,16 @@ be introduced in freeciv-3.0.
 Sea Units in port:
 Sea Units in cities defend with 1/4 of their usual defense value.
 
+Explorers establishing embassies:
+Explorers can establish embassies once Writing is known. The Explorer
+unit is used up by this.
+
 Establish Embassy from sea:
 Units can establish embassies directly from boats without
 disembarking.
+
+Units can be bribed/sabotaged if not along on their tile:
+Being part of a unit stack won't protect against spy actions.
 
 Merchant movement restrictions:
 Caravans and Freight can only moves on roads and rivers (as in older
@@ -41,3 +48,7 @@ Caravans and Freight get one-time bonuses when establishing trade
 routes, and can get revenue even when a trade route exists
 ('Enter Marketplace'), as in older versions of civ2civ3; however,
 this latter action really requires a Marketplace building in the city.
+
+Custom policy "Personal Freedom":
+You can trade off a science bonus against extra unhappiness from your
+aggressive military units.

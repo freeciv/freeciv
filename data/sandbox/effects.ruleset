@@ -840,6 +840,23 @@ reqs    =
       "Gov", "Democracy", "Player"
     }
 
+[effect_personal_freedom_unit_unhappiness]
+type    = "Unhappy_Factor"
+value   = 1
+multiplier = "Personal Freedom"
+reqs   =
+    { "type", "name", "range"
+    }
+
+[effect_personal_freedom_science_bonus]
+type    = "Output_Bonus_2"
+value   = 10
+multiplier = "Personal Freedom"
+reqs   =
+    { "type", "name", "range"
+      "OutputType", "Science", "Local"
+    }
+
 ; Govs with 1 free unit
 [effect_upkeep_free_mil_1]
 type    = "Make_Content_Mil"

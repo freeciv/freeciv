@@ -292,6 +292,19 @@ target_reqs  =
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
+[actionenabler_explorer_establish_embassy]
+action       = "Establish Embassy"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitType", "Explorer", "Local"
+      "Tech", "Writing", "Player"
+      "MinMoveFrags", "1", "Local"
+    }
+target_reqs  =
+    { "type",   "name", "range", "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
 [actionenabler_investigate_city]
 action       = "Investigate City"
 actor_reqs    =
@@ -376,7 +389,6 @@ target_reqs    =
       "CityTile", "Center", "Local", FALSE
       "Gov", "Republic", "Player", FALSE
       "Gov", "Democracy", "Player", FALSE
-      "MaxUnitsOnTile", "1", "Local", TRUE
     }
 
 [actionenabler_sabotage_unit]
@@ -392,7 +404,6 @@ target_reqs    =
     { "type",   "name", "range", "present"
       "CityTile", "Center", "Local", FALSE
       "MinHitPoints", "2", "Local", TRUE
-      "MaxUnitsOnTile", "1", "Local", TRUE
     }
 
 [actionenabler_traderoute]
