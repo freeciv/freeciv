@@ -111,7 +111,7 @@ contains the generated files.
 The Freeciv client comes in the following forms:
 * Gtk+ 2.0 widget library ("Gtk+ 2.0").
 * Gtk+ 3.0 widget library ("Gtk+ 3.0").
-* Gtk+ 3.0 widget library, latest versions ("Gtk+ 3.x")
+* Gtk+ 3.0 widget library, current versions ("Gtk+ 3.x")
 * SDL2
 * Qt
 
@@ -275,12 +275,12 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    The "Glib" utility library provides non-graphical functions used by the
    "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
 
-   Freeciv requires a version of "Glib" greater or equal to 2.36
+   Freeciv requires a version of "Glib" greater or equal to 2.46
 
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/glib/2.46/glib-2.46.2.tar.xz
+     http://ftp.gnome.org/pub/gnome/sources/glib/2.48/glib-2.48.2.tar.xz
 
  - The "Atk" accessibility library.
 
@@ -315,12 +315,12 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
        Provides an abstraction layer over X-Windows/LinuxFB/Win32 to implement
        basic drawing functions, windows, clipping, etc.
 
-   Freeciv requires a version of "Gtk+" greater or equal to 3.14.0.
+   Freeciv requires a version of "Gtk+" greater or equal to 3.18.0.
 
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/gtk+/3.18/gtk+-3.18.6.tar.xz
+     http://ftp.gnome.org/pub/gnome/sources/gtk+/3.20/gtk+-3.20.9.tar.xz
 
    "Gtk+" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
 
