@@ -3007,6 +3007,23 @@ bool action_blocked_by_situation_act(struct action *action,
 }
 
 /**************************************************************************
+  Returns TRUE if the specified action never can be performed when the
+  situation requirement is fulfilled for the target.
+**************************************************************************/
+bool action_blocked_by_situation_tgt(struct action *action,
+                                     const struct requirement *situation)
+{
+  action_enabler_list_iterate(action_enablers_for_action(action->id),
+                              enabler) {
+    if (!does_req_contradicts_reqs(situation, &enabler->target_reqs)) {
+      return FALSE;
+    }
+  } action_enabler_list_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Returns TRUE if the wanted action can be done to the target.
 **************************************************************************/
 static bool is_target_possible(const enum gen_action wanted_action,
