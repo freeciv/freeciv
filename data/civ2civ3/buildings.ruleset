@@ -1686,7 +1686,7 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Map Making", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainFlag", "Sea", "Adjacent"
     }
 graphic	= "b.lighthouse"
 graphic_alt	= "-"
@@ -1711,7 +1711,7 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Magnetism", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainFlag", "Sea", "Adjacent"
     }
 graphic	= "b.magellans_expedition"
 graphic_alt	= "-"

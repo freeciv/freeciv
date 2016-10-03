@@ -24,7 +24,7 @@ format_version=10
 flags =
   { "name", "helptxt"
     _("Oil"), _("Mine can be upgraded to Oil Well.")
-    _("Sea"), _("Allows cities to build Harbors.")
+    _("Sea"), _("Allows cities to build Harbors and coastal wonders.")
     _("NoPollution"), _("No Pollution nor Fallout appear here.")
   }
 
