@@ -5,8 +5,9 @@ Sandbox Ruleset
 History
 -------
 
-Sandbox ruleset started out as a copy of civ2civ3 ruleset, that is
-the freeciv's default ruleset starting from freeciv version 3.0.
+Sandbox ruleset started out as a copy of civ2civ3 ruleset as it stood
+in Freeciv 2.6 (civ2civ3 is Freeciv's default ruleset starting from
+version 3.0).
 The former ruleset for testing unusual features of the freeciv engine
 was called 'Experimental' and based on classic ruleset that was
 the default ruleset earlier. As the default ruleset changed, we felt
@@ -66,8 +67,8 @@ Hermit's places are spontaneously, during game, appearing bonus extras
 that can grant techs to units exploring them. See its Help entry under
 Terrains for more information.
 
-Sea Units on Harbour:
-Sea Units on Harbour defend with 1/4 of their usual defense value.
+Sea Units in port:
+Sea Units in cities defend with 1/4 of their usual defense value.
 
 Goods:
 Trade routes can carry many kinds of goods. There is production chains
@@ -80,3 +81,17 @@ Under Republic government, the speed corruption increases as one goes
 further from the capital is relative to the size of the world. At
 the maximum distance corruption is the same regardless of the size of
 the world.
+
+Establish Embassy from sea:
+Units can establish embassies directly from boats without
+disembarking.
+
+Merchant movement restrictions:
+Caravans and Freight can only moves on roads and rivers (as in older
+versions of civ2civ3).
+
+One-time trade bonuses:
+Caravans and Freight get one-time bonuses when establishing trade
+routes, and can get revenue even when a trade route exists
+('Enter Marketplace'), as in older versions of civ2civ3; however,
+this latter action really requires a Marketplace building in the city.

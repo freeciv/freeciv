@@ -77,7 +77,7 @@ upkeep		= 3
 sabotage	= 100
 sound		= "b_airport"
 sound_alt	= "b_generic"
-helptext	=  _("\
+helptext	= _("\
 Allows a city to produce veteran air units (including helicopters). \
  Also, damaged air units (again, including helicopters) which stay in\
  town for one full turn without moving are completely restored.\
@@ -507,7 +507,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Seafaring", "Player"
-      "TerrainClass", "Oceanic", "Adjacent"
+      "TerrainFlag", "Sea", "Adjacent"
     }
 graphic	= "b.harbour"
 graphic_alt	= "-"
@@ -521,7 +521,8 @@ sound		= "b_harbour"
 sound_alt	= "b_generic"
 helptext	= _("\
 Gives one extra food resource on all Ocean or Deep Ocean tiles (but \
-not Lakes). The city needs to be coastal to build this improvement.\
+not Lakes). The city needs to be coastal (next to one of these tiles) \
+to build this improvement.\
 ")
 
 [building_hydro_plant]
@@ -732,9 +733,9 @@ sabotage	= 100
 sound		= "b_offshore_platform"
 sound_alt	= "b_generic"
 helptext	= _("\
-Every Ocean tile worked by the city yields one extra shield resource, \
-as well as any Deep Ocean tile containing an oil well. The city needs \
-to be coastal to build this improvement.\
+Every Ocean or Lake tile worked by the city yields one extra shield resource, \
+as well as any Deep Ocean tile containing an oil platform. The city needs \
+to be next to a water tile to build this improvement.\
 "), _("\
 Offshore Platforms also increase the pollution caused by the population \
 of the city.\
@@ -744,10 +745,6 @@ of the city.\
 name		= _("Palace")
 genus		= "SmallWonder"
 flags		= "SaveSmallWonder"
-reqs	=
-    { "type", "name", "range"
-      "Tech", "Masonry", "Player"
-    }
 graphic	= "b.palace"
 graphic_alt	= "-"
 obsolete_by	=
@@ -780,6 +777,43 @@ results in losing whatever spaceship you might have.\
 If the capital is in a dangerous location, or a more central capital\
  would give a better corruption distribution, you can move your palace\
  by rebuilding it in another city.\
+"),
+; /* xgettext:no-c-format */
+_("\
+Under Despotism the city containing the palace gains a +75% \
+gold bonus, and under Monarchy a +50% gold bonus.\
+")
+
+[building_ecclesiastical_palace]
+name		= _("Ecclesiastical Palace")
+genus		= "SmallWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Theology", "Player"
+    }
+graphic	= "b.ecclesiastical_palace"
+graphic_alt	= "b.palace"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 140
+upkeep		= 0
+sabotage	= 0
+sound		= "b_palace"
+sound_alt	= "b_generic"
+helptext	= _("\
+Makes a city the ecclesiastical capital, that acts as a second center \
+of government.\
+"), _("\
+Waste in other cities (corruption, production waste, and food waste) \
+is related to how far away from the nearest capital they are. On top of \
+this, corruption and production waste in the capital itself is half \
+of what it would otherwise be (and a Courthouse will eliminate it \
+entirely).\
+"), _("\
+The city where this palace is located cannot be incited to revolt, \
+and enjoys a bonus when enemy agents try to evade your own agents \
+stationed in the city, or sabotage your buildings.\
 "),
 ; /* xgettext:no-c-format */
 _("\
@@ -1655,7 +1689,7 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Map Making", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainFlag", "Sea", "Adjacent"
     }
 graphic	= "b.lighthouse"
 graphic_alt	= "-"
@@ -1680,7 +1714,7 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Magnetism", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainFlag", "Sea", "Adjacent"
     }
 graphic	= "b.magellans_expedition"
 graphic_alt	= "-"

@@ -23,7 +23,8 @@ format_version=10
 ; helptxt       = displayed in the help for terrains with this flag (optional)
 flags =
   { "name", "helptxt"
-    _("Oil"), _("Has Oil Well instead of Mine.")
+    _("Oil"), _("Mine can be upgraded to Oil Well.")
+    _("Sea"), _("Allows cities to build Harbors and coastal wonders.")
     _("NoPollution"), _("No Pollution nor Fallout appear here.")
     _("DifficultLanding"), _("Only veterans can paradrop here.")
   }
@@ -320,7 +321,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "Glacier"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
-flags                = "NoCities", "UnsafeCoast", "NoZoc", "NoFortify"
+flags                = "NoCities", "UnsafeCoast", "NoZoc", "NoFortify", "Sea"
 property_ocean_depth = 32
 color.r              = 0
 color.g              = 46
@@ -364,7 +365,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "NoCities", "NoPollution", "UnsafeCoast", "NoZoc", "Oil", "NoFortify"
+flags                = "NoCities", "NoPollution", "UnsafeCoast", "NoZoc", "NoFortify", "Sea"
 property_ocean_depth = 87
 color.r              = 0
 color.g              = 33
@@ -676,7 +677,7 @@ irrigation_result    = "no"
 irrigation_food_incr = 0
 irrigation_time      = 0
 mining_result        = "yes"
-mining_shield_incr   = 1
+mining_shield_incr   = 2
 mining_time          = 10
 transform_result     = "Hills"
 transform_time       = 36
@@ -830,8 +831,8 @@ warmer_wetter_result = "Swamp"
 warmer_drier_result  = "Swamp"
 cooler_wetter_result = "Glacier"
 cooler_drier_result  = "Desert"
+flags                = "NoBarbs", "CanHaveRiver"
 native_to            = "Land", "Small Land", "Big Land", "Air", "Missile", "Helicopter"
-flags                = "NoBarbs", "CanHaveRiver", "Oil"
 property_cold        = 50
 color.r              = 188
 color.g              = 188
@@ -1139,12 +1140,13 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
-      "TerrainFlag", "Oil", "Local", FALSE
+      "TerrainClass", "Oceanic", "Local", FALSE
       "UnitClass", "Sea", "Local", FALSE
     }
 build_time     = 0
 removal_time   = 0
 conflicts      = "Irrigation", "Farmland"
+hidden_by      = "Oil Well"
 
 [extra_oil_well]
 name           = _("Oil Well")
@@ -1159,12 +1161,34 @@ act_gfx_alt2   = "unit.plant"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range"
-      "TerrainFlag", "Oil", "Local"
+    { "type", "name", "range", "present"
+      "Tech", "Refining", "Player", TRUE
+      "TerrainFlag", "Oil", "Local", TRUE
+      "Extra", "Mine", "Local", TRUE
+      "UnitClass", "Sea", "Local", FALSE
     }
 build_time     = 0
 removal_time   = 0
 conflicts      = "Irrigation", "Farmland"
+
+[extra_oil_platform]
+name           = _("Oil Platform")
+category       = "Infra"
+causes         = "Mine"
+rmcauses       = "Pillage"
+graphic        = "tx.oil_rig"
+graphic_alt    = "tx.mine"
+activity_gfx   = "unit.oil_rig"
+act_gfx_alt    = "unit.mine"
+act_gfx_alt2   = "unit.plant"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Oceanic", "Local"
+    }
+build_time     = 0
+removal_time   = 0
 
 [extra_pollution]
 name           = _("Pollution")
@@ -2007,7 +2031,7 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
-flags          = "RequiresBridge"
+flags          = "RequiresBridge", "JumpFrom", "JumpTo"
 
 [road_railroad]
 extra          = "Railroad"
@@ -2038,4 +2062,4 @@ move_cost      = 2
 move_mode      = "Cardinal"
 trade_incr_const = 1
 compat_special = "River"
-flags          = "River", "PreventsOtherRoads"
+flags          = "River", "PreventsOtherRoads", "JumpFrom", "JumpTo"
