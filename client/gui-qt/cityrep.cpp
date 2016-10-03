@@ -358,6 +358,7 @@ city_widget::city_widget(city_report *ctr): QTreeView()
   setItemsExpandable(false);
   setAutoScroll(true);
   setProperty("uniformRowHeights", "true");
+  setAlternatingRowColors(true);
   header()->setContextMenuPolicy(Qt::CustomContextMenu);
   header()->setMinimumSectionSize(10);
   setContextMenuPolicy(Qt::CustomContextMenu);

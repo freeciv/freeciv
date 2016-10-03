@@ -33,11 +33,6 @@
 info_tab::info_tab(QWidget *parent)
 {
   setParent(parent);
-  setStyleSheet("QPushButton {background-color: transparent;}"
-    "QPushButton {color: #038713;}"
-    "QPushButton:enabled {color: #038713;}"
-    "QPushButton:hover {background-color: blue;}"
-    "QPushButton {border: noborder;}");
 
   layout = new QGridLayout;
   msgwdg = new messagewdg(this);
@@ -189,20 +184,7 @@ messagewdg::messagewdg(QWidget *parent): QWidget(parent)
 {
   QPalette palette;
   layout = new QGridLayout;
-  setStyle(QStyleFactory::create("fusion"));
-  setStyleSheet("QScrollBar:vertical "
-                "{border: 1px solid #90A4FF; background: transparent;}"
-                "QScrollBar::sub-line:vertical {width: 0px;height: 0px}"
-                "QScrollBar::sub-page:vertical {width: 0px;height: 0px}"
-                "QScrollBar::add-line:vertical {width: 0px;height: 0px}"
-                "QScrollBar::add-page:vertical {width: 0px;height: 0px}"
-                "QScrollBar::handle:vertical {background: #90A4FF;"
-                "min-height: 20px}"
-                "QTableWidget {background-color: transparent;}"
-                "QTableWidget::item:hover {color: #3399FF; background-color: "
-                "rgba(55, 55, 54, 225); border-radius: 9px;}"
-                "QTableCornerButton::section "
-                "{background-color: transparent;}");
+
   mesg_table = new QTableWidget;
   mesg_table->setColumnCount(1);
   mesg_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -212,6 +194,7 @@ messagewdg::messagewdg(QWidget *parent): QWidget(parent)
   mesg_table->horizontalHeader()->setVisible(false);
   mesg_table->setShowGrid(false);
   layout->addWidget(mesg_table, 0, 2, 1, 1);
+  layout->setContentsMargins(0, 0, 3, 3);
   setLayout(layout);
 
   /* dont highlight show current cell - set the same colors*/

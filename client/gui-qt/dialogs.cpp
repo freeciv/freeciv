@@ -1015,6 +1015,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
 {
   QLabel *l = new QLabel(text);
 
+  setProperty("themed_choice", true);
   signal_mapper = new QSignalMapper(this);
   layout = new QVBoxLayout(this);
   run_on_close = run_on_close_in;

@@ -605,6 +605,7 @@ void fc_client::create_start_page()
   start_players_tree = new QTreeWidget;
   pr_options = new pregame_options();
   chat_line = new chat_input;
+  chat_line->setProperty("doomchat", true);
   output_window = new QTextEdit;
   output_window->setReadOnly(false);
 
@@ -1843,8 +1844,7 @@ void fc_client::update_buttons()
 void fc_client::start_page_menu(QPoint pos)
 {
   QAction *action;
-  QMenu menu(start_players_tree);
-  QMenu submenu_AI(start_players_tree), submenu_team(start_players_tree);
+  QMenu *menu, *submenu_AI, *submenu_team;
   QPoint global_pos = start_players_tree->mapToGlobal(pos);
   QString me, splayer, str, sp;
   bool need_empty_team;
@@ -1857,6 +1857,9 @@ void fc_client::start_page_menu(QPoint pos)
   me = client.conn.username;
   QTreeWidgetItem *item = start_players_tree->itemAt(pos);
 
+  menu = new QMenu(this);
+  submenu_AI = new QMenu(this);
+  submenu_team = new QMenu(this);
   if (!item) {
     return;
   }
@@ -1888,7 +1891,7 @@ void fc_client::start_page_menu(QPoint pos)
         connect(action, SIGNAL(triggered()), player_menu_mapper,
                 SLOT(map()));
         player_menu_mapper->setMapping(action, str);
-        menu.addAction(action);
+        menu->addAction(action);
 
         if (ALLOW_CTRL <= client.conn.access_level) {
           str = QString(_("Remove player"));
@@ -1897,7 +1900,7 @@ void fc_client::start_page_menu(QPoint pos)
           connect(action, SIGNAL(triggered()), player_menu_mapper,
                   SLOT(map()));
           player_menu_mapper->setMapping(action, str);
-          menu.addAction(action);
+          menu->addAction(action);
         }
         str = QString(_("Take this player"));
         action = new QAction(str, start_players_tree);
@@ -1905,7 +1908,7 @@ void fc_client::start_page_menu(QPoint pos)
         connect(action, SIGNAL(triggered()), player_menu_mapper,
                 SLOT(map()));
         player_menu_mapper->setMapping(action, str);
-        menu.addAction(action);
+        menu->addAction(action);
       }
 
       if (can_conn_edit_players_nation(&client.conn, pplayer)) {
@@ -1915,7 +1918,7 @@ void fc_client::start_page_menu(QPoint pos)
         connect(action, SIGNAL(triggered()), player_menu_mapper,
                 SLOT(map()));
         player_menu_mapper->setMapping(action, str);
-        menu.addAction(action);
+        menu->addAction(action);
       }
 
       if (pplayer->ai_controlled) {
@@ -1924,8 +1927,8 @@ void fc_client::start_page_menu(QPoint pos)
          */
         if (ALLOW_CTRL <= client.conn.access_level
             && NULL != pplayer && pplayer->ai_controlled) {
-          submenu_AI.setTitle(_("Set difficulty"));
-          menu.addMenu(&submenu_AI);
+          submenu_AI->setTitle(_("Set difficulty"));
+          menu->addMenu(submenu_AI);
 
           for (level = 0; level < AI_LEVEL_COUNT; level++) {
             if (is_settable_ai_level(static_cast < ai_level > (level))) {
@@ -1936,7 +1939,7 @@ void fc_client::start_page_menu(QPoint pos)
               connect(action, SIGNAL(triggered()), player_menu_mapper,
                       SLOT(map()));
               player_menu_mapper->setMapping(action, str);
-              submenu_AI.addAction(action);
+              submenu_AI->addAction(action);
             }
           }
         }
@@ -1946,9 +1949,9 @@ void fc_client::start_page_menu(QPoint pos)
       * Put to Team X submenu
       */
       if (pplayer && game.info.is_new_game) {
-        menu.addMenu(&submenu_team);
-        submenu_team.setTitle(_("Put on team"));
-        menu.addMenu(&submenu_team);
+        menu->addMenu(submenu_team);
+        submenu_team->setTitle(_("Put on team"));
+        menu->addMenu(submenu_team);
         count = pplayer->team ?
             player_list_size(team_members(pplayer->team)) : 0;
         need_empty_team = (count != 1);
@@ -1966,7 +1969,7 @@ void fc_client::start_page_menu(QPoint pos)
           connect(action, SIGNAL(triggered()),
                   player_menu_mapper, SLOT(map()));
           player_menu_mapper->setMapping(action, str);
-          submenu_team.addAction(action);
+          submenu_team->addAction(action);
         } team_slots_iterate_end;
       }
 
@@ -1977,11 +1980,11 @@ void fc_client::start_page_menu(QPoint pos)
         connect(action, SIGNAL(triggered()), player_menu_mapper,
                 SLOT(map()));
         player_menu_mapper->setMapping(action, str);
-        menu.addAction(action);
+        menu->addAction(action);
       }
       connect(player_menu_mapper, SIGNAL(mapped(const QString &)),
               this, SLOT(send_fake_chat_message(const QString &)));
-      menu.exec(global_pos);
+      menu->popup(global_pos);
       return;
     }
   } players_iterate_end;

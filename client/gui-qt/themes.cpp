@@ -16,6 +16,7 @@
 
 // Qt
 #include <QApplication>
+#include <QDir>
 #include <QStyleFactory>
 
 /* utility */
@@ -30,17 +31,60 @@
 /* client/include */
 #include "themes_g.h"
 
+static QString stylestring;
+static QString real_data_dir;
 extern QApplication *qapp;
+extern QString current_theme;
+extern QApplication *current_app();
+static QString def_app_style;
 
 /*****************************************************************************
   Loads a qt theme directory/theme_name
 *****************************************************************************/
 void qtg_gui_load_theme(const char *directory, const char *theme_name)
 {
-  if (QString(theme_name) == QString("Default")) {
+  QString name;
+  QString res_name;
+  QString path;
+  QDir dir;
+  QFile f;
+  QString lnb = "LittleFinger";
+
+  if (def_app_style.isEmpty()) {
+    def_app_style = QApplication::style()->objectName();
+  }
+
+  if (real_data_dir.isEmpty()) {
+    real_data_dir = QString(directory);
+  }
+
+  path = real_data_dir
+         + QDir::separator() + theme_name + QDir::separator();
+  name = dir.absolutePath() + QDir::separator() + real_data_dir;
+  name = path + "resource.qss";
+  f.setFileName(name);
+
+  if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (QString(theme_name) != QString("NightStalker")) {
+      qtg_gui_clear_theme();
+    }
     return;
   }
-  qapp->setStyle(QStyleFactory::create(theme_name));
+
+  QTextStream in(&f);
+  stylestring = in.readAll();
+  stylestring.replace(lnb, real_data_dir
+                      + QDir::separator() + theme_name
+                      + QDir::separator());
+
+  if (QString(theme_name) == QString("System")) {
+    QApplication::setStyle(QStyleFactory::create(def_app_style));
+  } else {
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+  }
+
+  current_app()->setStyleSheet(stylestring);
+  current_theme = theme_name;
 }
 
 /*****************************************************************************
@@ -48,7 +92,11 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void qtg_gui_clear_theme()
 {
-  qapp->setStyle(QStyleFactory::create("Fusion"));
+  QString name;
+
+  name = fileinfoname(get_data_dirs(), "themes/gui-qt/");
+  qtg_gui_load_theme(name.toLocal8Bit().data(),
+                     "NightStalker");
 }
 
 /*****************************************************************************
@@ -59,10 +107,11 @@ void qtg_gui_clear_theme()
 *****************************************************************************/
 char **qtg_get_gui_specific_themes_directories(int *count)
 {
-  const char **array = new const char *[1];
   *count = 1;
-  array[0] = "qt";
-  return const_cast<char**>(array);
+  char **array;
+  array = new char *[*count];
+  array[0] = const_cast<char*>(fileinfoname(get_data_dirs(),""));
+  return array;
 }
 
 /*****************************************************************************
@@ -72,23 +121,39 @@ char **qtg_get_gui_specific_themes_directories(int *count)
 *****************************************************************************/
 char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
 {
-  QStringList sl;
+  QStringList sl, theme_list;
   char **array;
   char *data;
   QByteArray qba;;
   QString str;
+  QString name;
+  QDir dir;
+  QFile f;
+  
+  name = fileinfoname(get_data_dirs(),
+                      QString("themes/gui-qt/").toLocal8Bit().data());
+  
+  dir.setPath(name);
+  sl << dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+  name = name;
 
-  sl.append("Default");
-  sl = sl + QStyleFactory::keys();
-  array = new char *[sl.count()];
-  *count = sl.count();
+  foreach(str, sl) {
+    f.setFileName(name + str + QDir::separator() + "resource.qss");
+    if (f.exists() == false) {
+      continue;
+    }
+    theme_list << str;
+  }
+  
+  array = new char *[theme_list.count()];
+  *count = theme_list.count();
 
   for (int i = 0; i < *count; i++) {
-    qba = sl[i].toLocal8Bit();
-    data = new char[sl[i].toLocal8Bit().count() + 1];
-    strcpy(data, sl[i].toLocal8Bit().data());
+    qba = theme_list[i].toLocal8Bit();
+    data = new char[theme_list[i].toLocal8Bit().count() + 1];
+    strcpy(data, theme_list[i].toLocal8Bit().data());
     array[i] = data;
   }
-
+  
   return array;
 }

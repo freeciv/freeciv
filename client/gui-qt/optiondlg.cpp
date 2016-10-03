@@ -474,21 +474,21 @@ void option_dialog::set_color(struct option *poption, struct ft_color color)
   QColor col;
   QWidget *w;
   QPushButton *but;
+  QString s1 = "QPushButton { background-color: ";
+  QString s2 = ";}";
 
   w = reinterpret_cast<QPushButton *>(option_get_gui_data(poption));
   but = w->findChild<QPushButton *>("text_color");
   if (NULL != but && NULL != color.foreground 
       && '\0' != color.foreground[0]) {
     col.setNamedColor(color.foreground);
-    pal.setColor(QPalette::Button, col);
-    but->setPalette(pal);
+    but->setStyleSheet(s1 + col.name() + s2);
   }
-  but = w->findChild < QPushButton * >("text_background");
-  if (NULL != but && NULL != color.background 
+  but = w->findChild<QPushButton *>("text_background");
+  if (NULL != but && NULL != color.background
       && '\0' != color.background[0]) {
     col.setNamedColor(color.background);
-    pal2.setColor(QPalette::Button, col);
-    but->setPalette(pal2);
+    but->setStyleSheet(s1 + col.name() + s2);
   }
 }
 
@@ -625,7 +625,9 @@ void option_dialog::add_option(struct option *poption)
 
   if (!categories.contains(category_name)) {
     twidget = new QWidget();
+    twidget->setProperty("doomed", true);
     scroll = new QScrollArea();
+    scroll->setProperty("doomed", true);
     scroll->setWidgetResizable(true);
     twidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     twidget_layout = new QVBoxLayout();

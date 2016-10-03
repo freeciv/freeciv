@@ -442,6 +442,7 @@ void fc_shortcuts_dialog::init()
     desc = fc_shortcuts::sc()->get_desc(id);
     add_option(sc);
   }
+  widget->setProperty("doomed", true);
   widget->setLayout(scroll_layout);
   scroll->setWidget(widget);
   main_layout->addWidget(scroll);

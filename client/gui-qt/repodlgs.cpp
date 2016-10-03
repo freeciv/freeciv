@@ -20,7 +20,6 @@
 #include <QComboBox>
 #include <QHeaderView>
 #include <QMessageBox>
-#include <QProgressBar>
 #include <QScrollArea>
 #include <QTableWidget>
 #include <QToolTip>
@@ -37,7 +36,9 @@
 #include "text.h"
 
 // gui-qt
+#include "citydlg.h"
 #include "cityrep.h"
+
 #include "qtg_cxxside.h"
 #include "sidebar.h"
 
@@ -47,7 +48,6 @@ extern QString split_text(QString text, bool cut);
 extern QString cut_helptext(QString text);
 extern QString get_tooltip_improvement(impr_type *building);
 extern QString get_tooltip_unit(struct unit_type *unit);
-
 
 /****************************************************************************
   From reqtree.c used to get tooltips
@@ -381,7 +381,7 @@ science_report::science_report(): QWidget()
 
   goal_combo = new QComboBox();
   info_label = new QLabel();
-  progress = new QProgressBar();
+  progress = new progress_bar(this);
   progress_label = new QLabel();
   researching_combo = new QComboBox();
   sci_layout = new QGridLayout();
@@ -697,8 +697,8 @@ void real_science_report_dialog_update(void)
 **************************************************************************/
 units_report::units_report(): QWidget()
 {
-  QLabel *empty1, *empty2;
   int len;
+  QStringList slist;
 
   QGridLayout *units_layout= new QGridLayout;
   units_widget = new QTableWidget;
@@ -707,9 +707,7 @@ units_report::units_report(): QWidget()
                           _("Find Nearest"));
   upgrade_button = new QPushButton(style()->standardIcon(
                           QStyle::SP_FileDialogToParent),_("Upgrade"));
-  empty1 = new QLabel;
-  empty2 = new QLabel;
-  QStringList slist;
+
   slist << _("Unit Type") << Q_("?Upgradable unit [short]:U") << _("In-Prog") 
         << _("Active") << _("Shield") << _("Food") << _("Gold");
   units_widget->setColumnCount(slist.count());
@@ -725,11 +723,9 @@ units_report::units_report(): QWidget()
   find_button->setEnabled(false);
   upgrade_button->setText(_("Upgrade"));
   upgrade_button->setEnabled(false);
-  units_layout->addWidget(empty1, 0, 0, 1, 1);
   units_layout->addWidget(units_widget, 0, 1, 1, 2);
   units_layout->addWidget(find_button, 1, 2, 1, 1, Qt::AlignRight);
   units_layout->addWidget(upgrade_button, 1, 1, 1, 1);
-  units_layout->addWidget(empty2, 0, 3, 1, 1);
   units_layout->setColumnStretch(0, 1);
   units_layout->setColumnStretch(1, 10);
   units_layout->setColumnStretch(3, 1);

@@ -182,11 +182,11 @@ void qtg_ui_main(int argc, char *argv[])
     qpm = get_icon_sprite(tileset, ICON_FREECIV)->pm;
     app_icon = ::QIcon(*qpm);
     qapp->setWindowIcon(app_icon);
-    qapp->setStyle(QStyleFactory::create(gui_options.gui_qt_default_theme_name));
     if (!gui_options.gui_qt_migrated_from_2_5) {
       migrate_options_from_2_5();
     }
-
+    qtg_gui_load_theme(fileinfoname(get_data_dirs(), "themes/gui-qt"),
+                       gui_options.gui_qt_default_theme_name);
     freeciv_qt = new fc_client();
     freeciv_qt->main(qapp);
   }

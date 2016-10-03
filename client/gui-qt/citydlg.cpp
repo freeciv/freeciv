@@ -63,6 +63,177 @@ extern QString split_text(QString text, bool cut);
 extern QString cut_helptext(QString text);
 
 /****************************************************************************
+  Custom progressbar constructor
+****************************************************************************/
+progress_bar::progress_bar(QWidget *parent): QProgressBar(parent)
+{
+  m_timer.start();
+  m_progressBarAnimateTimer = startTimer(50);
+  create_region();
+  sfont = new QFont;
+}
+
+/****************************************************************************
+  Custom progressbar resize event
+****************************************************************************/
+void progress_bar::resizeEvent(QResizeEvent* event)
+{
+  create_region();
+}
+
+/****************************************************************************
+  Timer event used to animate progress 
+****************************************************************************/
+void progress_bar::timerEvent(QTimerEvent *event)
+{
+  m_animate_step = m_timer.elapsed() / (50);
+
+  if ((0 == m_animate_step % 2 &&
+       value() != minimum() &&
+       value() < maximum()) || (0 == minimum() && 0 == maximum())) {
+    update();
+  }
+}
+
+/****************************************************************************
+  Paint event for custom progress bar
+****************************************************************************/
+void progress_bar::paintEvent(QPaintEvent *event)
+{
+  QPainter p;
+  QString str;
+  QLinearGradient g, gx;
+  QColor c;
+  QRect r, rx, r2;
+  int f_size;
+  int point_size = sfont->pointSize();
+  int pixel_size = sfont->pixelSize();
+
+  if (point_size < 0) {
+    f_size = pixel_size;
+  } else {
+    f_size = point_size;
+  }
+
+  rx.setX(0);
+  rx.setY(0);
+  rx.setWidth(width());
+  rx.setHeight(height());
+  p.begin(this);
+  p.drawLine(rx.topLeft(), rx.topRight());
+  p.drawLine(rx.bottomLeft(), rx.bottomRight());
+
+  r = QRect(0, 0, width()*value() / maximum(), height());
+  gx = QLinearGradient(0 , 0, 0, height());
+  c = QColor(palette().color(QPalette::Highlight));
+  gx.setColorAt(0, c);
+  gx.setColorAt(0.5, QColor(40, 40, 40));
+  gx.setColorAt(1, c);
+  p.fillRect(r, QBrush(gx));
+  p.setClipRegion(reg.translated(m_animate_step % 32, 0));
+
+  g = QLinearGradient(0 , 0, width(), height());
+  c.setAlphaF(0.1);
+  g.setColorAt(0, c);
+  c.setAlphaF(0.9);
+  g.setColorAt(1, c);
+  p.fillRect(r, QBrush(g));
+
+  p.setClipping(false);
+  r2 = QRect(width()*value() / maximum(), 0, width(), height());
+  c = palette().color(QPalette::Window);
+  p.fillRect(r2, c);
+
+  /* draw text */
+  c = palette().color(QPalette::Text);
+  p.setPen(c);
+  sfont->setCapitalization(QFont::AllUppercase);
+  sfont->setBold(true);
+  p.setFont(*sfont);
+
+  if (text().contains('\n')) {
+    QString s1, s2;
+    int i, j;
+
+    i = text().indexOf('\n');
+    s1 = text().left(i);
+    s2 = text().right(text().count() - i);
+
+    if (2 * f_size >= 2 * height() / 3) {
+      if (point_size < 0) {
+        sfont->setPixelSize(height() / 4);
+      } else  {
+        sfont->setPointSize(height() / 4);
+      }
+    }
+
+    j = height() - 2 * f_size;
+    p.setCompositionMode(QPainter::CompositionMode_ColorDodge);
+    QFontMetrics fm(*sfont);
+
+    if (fm.width(s1) > rx.width()) {
+      s1 = fm.elidedText(s1, Qt::ElideRight, rx.width());
+    }
+
+    i = rx.width() - fm.width(s1);
+    i = qMax(0, i);
+    p.drawText(i / 2, j / 3 + f_size, s1);
+
+    if (fm.width(s2) > rx.width()) {
+      s2 = fm.elidedText(s2, Qt::ElideRight, rx.width());
+    }
+
+    i = rx.width() - fm.width(s2);
+    i = qMax(0, i);
+
+    p.drawText(i / 2, height() - j / 3, s2);
+  } else {
+    QString s;
+    int i, j;
+    s = text();
+    j = height() - f_size;
+    p.setCompositionMode(QPainter::CompositionMode_ColorDodge);
+    QFontMetrics fm(*sfont);
+
+    if (fm.width(s) > rx.width()) {
+      s = fm.elidedText(s, Qt::ElideRight, rx.width());
+    }
+
+    i = rx.width() - fm.width(s);
+    i = qMax(0, i);
+    p.drawText(i / 2, j / 2 + f_size, s);
+  }
+
+  p.end();
+}
+
+/****************************************************************************
+  Creates region with diagonal lines
+****************************************************************************/
+void progress_bar::create_region()
+{
+  int offset;
+  QRect   r(-50, 0, width() + 50, height());
+  int chunk_width = 16;
+  int size = width()  + 50;
+  reg = QRegion();
+
+  for (offset = 0; offset < (size * 2); offset += (chunk_width * 2)) {
+    QPolygon a;
+
+    a.setPoints(4, r.x(), r.y() + offset,
+                r.x() + r.width(), (r.y() + offset) - size,
+                r.x() + r.width(),
+                (r.y() + offset + chunk_width) - size,
+                r.x(), r.y() + offset + chunk_width);
+
+
+    reg += QRegion(a);
+  }
+
+}
+
+/****************************************************************************
   Draws X on pixmap pointing its useless
 ****************************************************************************/
 static void pixmap_put_x(QPixmap *pix)
@@ -417,7 +588,7 @@ void unit_item::sentry_unit()
 /****************************************************************************
   Class representing list of units ( unit_item 's)
 ****************************************************************************/
-unit_info::unit_info(QWidget *parent, bool supp) : QWidget()
+unit_info::unit_info(QWidget *parent, bool supp) : QFrame(parent)
 {
   setParent(parent);
   layout = new QHBoxLayout(this);
@@ -775,9 +946,6 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
                      "0px;text-align: right;}"
                      "QPushButton:hover "
                      "{background-color: rgb(225, 225, 225)}";
-  QString cityb_style = "QPushButton{border: 0px;}"
-                        "QPushButton:hover "
-                        "{background-color: rgb(225, 225, 225)}";
 
   setParent(parent);
   setMouseTracking(true);
@@ -849,7 +1017,6 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     connect(lcity_name, SIGNAL(clicked()), SLOT(city_rename()));
     connect(buy_button, SIGNAL(clicked()), SLOT(buy()));
     item_button = new QPushButton();
-    item_button->setStyleSheet(cityb_style);
     item_button->setToolTip(_("Click left button to change current "
                               "production"));
     connect(item_button, SIGNAL(clicked()), SLOT(show_targets()));
@@ -954,7 +1121,6 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
     item_button_p->setToolTip(_("Click left button to change "
                                 "current production"));
-    item_button_p->setStyleSheet(cityb_style);
     label_p->setAlignment(Qt::AlignLeft);
     label_p->setText(_("Show future targets"));
     label_up->setAlignment(Qt::AlignLeft);
