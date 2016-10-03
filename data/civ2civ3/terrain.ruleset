@@ -1762,7 +1762,7 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
-flags          = "RequiresBridge", "JumpFrom", "JumpTo"
+flags          = "RequiresBridge"
 
 [road_railroad]
 extra          = "Railroad"
@@ -1793,4 +1793,4 @@ move_cost      = 2
 move_mode      = "Cardinal"
 trade_incr_const = 1
 compat_special = "River"
-flags          = "River", "PreventsOtherRoads", "JumpFrom", "JumpTo"
+flags          = "River", "PreventsOtherRoads"
