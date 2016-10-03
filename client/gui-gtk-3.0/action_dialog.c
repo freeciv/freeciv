@@ -988,11 +988,13 @@ static void act_sel_new_unit_tgt_callback(GtkWidget *w, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   struct unit *punit;
+  struct unit *tunit;
   struct tile *ptile;
 
   if ((punit = game_unit_by_number(args->actor_unit_id))
-      && (ptile = index_to_tile(args->target_tile_id))) {
-    select_tgt_unit(punit, ptile, ptile->units, NULL,
+      && (ptile = index_to_tile(args->target_tile_id))
+      && (tunit = game_unit_by_number(args->target_unit_id))) {
+    select_tgt_unit(punit, ptile, ptile->units, tunit,
                     _("Target unit selection"),
                     _("Looking for target unit:"),
                     _("Units at tile:"),
