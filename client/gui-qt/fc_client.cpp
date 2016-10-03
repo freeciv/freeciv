@@ -23,6 +23,7 @@
 #include <QScrollBar>
 #include <QStackedLayout>
 #include <QStatusBar>
+#include <QStyleFactory>
 #include <QTabBar>
 #include <QTextEdit>
 
@@ -47,6 +48,8 @@ extern "C" {
   void real_science_report_dialog_update(void);
 }
 extern void write_shortcuts();
+
+QString current_theme;
 
 /****************************************************************************
   Constructor
@@ -196,6 +199,7 @@ void fc_client::init()
 
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
+  resize(pages[PAGE_MAIN]->minimumSizeHint());
   setVisible(true);
 
   game_tab_widget->init();
@@ -209,6 +213,7 @@ fc_client::~fc_client()
 {
   status_bar_queue.clear();
 }
+
 
 /****************************************************************************
   Main part of gui-qt
@@ -783,9 +788,18 @@ void fc_icons::drop()
 ****************************************************************************/
 QIcon fc_icons::get_icon(const QString &id)
 {
-  QIcon icon = QIcon(fileinfoname(get_data_dirs(),
+  QIcon icon;
+  /* Try custom icon from theme */
+  icon.addFile(fileinfoname(get_data_dirs(),
+                            QString("themes/gui-qt/" + current_theme
+                                    + QDir::separator()
+                                    + id + ".png").toLocal8Bit().data()));
+  /* Try icon from icons dir */
+  if (icon.isNull()) {
+  icon.addFile(fileinfoname(get_data_dirs(),
                             QString("themes/gui-qt/icons/"
                                     + id + ".png").toLocal8Bit().data()));
+  }
   return QIcon(icon);
 }
 
@@ -795,9 +809,17 @@ QIcon fc_icons::get_icon(const QString &id)
 QPixmap* fc_icons::get_pixmap(const QString &id)
 {
   QPixmap *pm;
+  bool status;
   pm = new QPixmap;
+  status = pm->load(fileinfoname(get_data_dirs(),
+                                 QString("themes/gui-qt/" + current_theme
+                                 + QDir::separator()
+                                 + id + ".png").toLocal8Bit().data()));
+
+  if (status == false) {
   pm->load(fileinfoname(get_data_dirs(), QString("themes/gui-qt/icons/"
-                              + id + ".png").toLocal8Bit().data()));
+                        + id + ".png").toLocal8Bit().data()));
+  }
   return pm;
 }
 

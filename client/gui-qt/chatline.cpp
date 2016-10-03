@@ -265,21 +265,6 @@ bool chat_input::event(QEvent *event)
 chatwdg::chatwdg(QWidget *parent)
 {
   QGridLayout *gl;
-  setStyle(QStyleFactory::create("fusion"));
-  setStyleSheet("QTextEdit {background-color: transparent;}"
-    "QTextEdit {color: #cdcead;}"
-    "QTextEdit {background-attachment: fixed;}"
-    "QScrollBar:vertical { border: 1px solid #90A4FF; "
-    "background: transparent;}"
-    "QScrollBar::sub-line:vertical {width: 0px;height: 0px}"
-    "QScrollBar::sub-page:vertical {width: 0px;height: 0px}"
-    "QScrollBar::add-line:vertical {width: 0px;height: 0px}"
-    "QScrollBar::add-page:vertical {width: 0px;height: 0px}"
-    "QScrollBar::handle:vertical {background: #90A4FF; min-height: 20px}"
-    "QLineEdit {background-color: transparent;}"
-    "QLineEdit {color: #cdcead;}"
-    "QLineEdit {border: 1px solid gray;}"
-    "QCheckBox {color: #5d4e4d;}");
 
   setParent(parent);
   cb = new QCheckBox("");
@@ -291,13 +276,12 @@ chatwdg::chatwdg(QWidget *parent)
   remove_links = new QPushButton("");
   remove_links->setIcon(style()->standardPixmap(QStyle::SP_DialogCancelButton));
   remove_links->setToolTip(_("Clear links"));
-  remove_links->setStyleSheet("QPushButton {color: #5d4e4d;}");
   gl->setVerticalSpacing(0);
   gl->addWidget(chat_output,0 , 0, 1 ,3);
   gl->addWidget(chat_line,1, 0);
   gl->addWidget(cb,1,1);
   gl->addWidget(remove_links,1,2);
-  gl->setContentsMargins(0, 0, 0, 0);
+  gl->setContentsMargins(0, 0, 6, 0);
   setLayout(gl);
   chat_output->setReadOnly(true);
   chat_line->installEventFilter(this);

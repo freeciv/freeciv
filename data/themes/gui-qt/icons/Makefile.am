@@ -5,10 +5,13 @@ pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-qt/icons
 
 pkgdata_DATA =          	\
 	ai.png			\
+	building.png		\
 	cities.png		\
+	cunits.png		\
 	economy.png		\
 	endturn.png		\
 	flag.png     		\
+	future.png		\
 	go-down.png  		\
 	go-up.png        	\
 	help-donate.png  	\
@@ -19,6 +22,7 @@ pkgdata_DATA =          	\
 	preferences-other.png	\
 	research.png		\
 	units.png		\
+	wonder.png		\
 	view.png
 
 EXTRA_DIST = $(pkgdata_DATA)

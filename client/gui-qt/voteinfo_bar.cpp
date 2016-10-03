@@ -179,12 +179,6 @@ xvote::xvote(QWidget *parent) : pregamevote(parent)
 {
   QPalette palette;
   setParent(parent);
-  setStyleSheet("QPushButton {background-color: transparent;}"
-                "QPushButton {color: #038713;}"
-                "QPushButton:enabled {color: #038713;}"
-                "QPushButton:hover {background-color: blue;}"
-                "QPushButton {min-width: 80px;}"
-                "QPushButton {border: noborder;}");
   palette.setColor(QPalette::WindowText, QColor(0, 255, 255));
   label_text->setPalette(palette);
   label_vote_text->setPalette(palette);

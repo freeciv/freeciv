@@ -67,19 +67,31 @@ protected:
 
 
 /****************************************************************************
-  Subclassed QProgressBar to receive clicked signal
+  Custom progressbar with animated progress and right click event
 ****************************************************************************/
 class progress_bar: public QProgressBar
 {
   Q_OBJECT
+  QElapsedTimer m_timer;
+  int m_progressBarAnimateTimer;
 signals:
   void clicked();
 
 public:
-  progress_bar(QWidget *parent): QProgressBar(parent) {}
+  progress_bar(QWidget *parent);
   void mousePressEvent(QMouseEvent *event) {
     emit clicked();
   }
+  
+protected:
+  void paintEvent(QPaintEvent *event);
+  void timerEvent(QTimerEvent *event);
+  void resizeEvent(QResizeEvent *event);
+private:
+  void create_region();
+  int m_animate_step;
+  QRegion reg;
+  QFont *sfont;
 };
 
 /****************************************************************************
@@ -134,7 +146,7 @@ protected:
 /****************************************************************************
   Shows list of units ( as labels - unit_info )
 ****************************************************************************/
-class unit_info: public QWidget
+class unit_info: public QFrame
 {
 
   Q_OBJECT

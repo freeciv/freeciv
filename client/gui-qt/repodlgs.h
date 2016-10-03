@@ -32,13 +32,13 @@ extern "C" {
 #include <QObject>
 #include <QWidget>
 
+class progress_bar;
 class QComboBox;
 class QGridLayout;
 class QGroupBox;
 class QHBoxLayout;
 class QItemSelection;
 class QLabel;
-class QProgressBar;
 class QPushButton;
 class QScrollArea;
 class QTableWidget;
@@ -104,7 +104,7 @@ class science_report: public QWidget
   QComboBox *goal_combo;
   QComboBox *researching_combo;
   QGridLayout *sci_layout;
-  QProgressBar *progress;
+  progress_bar *progress;
   QLabel *info_label;
   QLabel *progress_label;
   QList<qlist_item> *curr_list;
