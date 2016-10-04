@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,11 +51,15 @@ struct section_file *secfile_load(const char *filename,
                                   bool allow_duplicates)
 {
 #ifdef FREECIV_HAVE_XML_REGISTRY
-  xmlDoc *sec_doc;
+  struct stat buf;
 
-  sec_doc = xmlReadFile(filename, NULL, XML_PARSE_NOERROR);
-  if (sec_doc != NULL) {
-    return xmlfile_load(sec_doc, filename);
+  if (fc_stat(filename, &buf) == 0) {
+    xmlDoc *sec_doc;
+
+    sec_doc = xmlReadFile(filename, NULL, XML_PARSE_NOERROR);
+    if (sec_doc != NULL) {
+      return xmlfile_load(sec_doc, filename);
+    }
   }
 #endif /* FREECIV_HAVE_XML_REGISTRY */
 
