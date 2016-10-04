@@ -2637,6 +2637,10 @@ static bool save_units_ruleset(const char *filename, const char *name)
         secfile_insert_int(sfile, put->bombard_rate,
                            "%s.bombard_rate", path);
       }
+      if (put->city_slots != 0) {
+        secfile_insert_int(sfile, put->city_slots,
+                           "%s.city_slots", path);
+      }
       if (put->city_size != 1) {
         secfile_insert_int(sfile, put->city_size,
                            "%s.city_size", path);

@@ -520,6 +520,8 @@ struct unit_type {
   /* Values for founding cities */
   int city_size;
 
+  int city_slots;
+
   struct unit_class *uclass;
 
   bv_unit_classes cargo;

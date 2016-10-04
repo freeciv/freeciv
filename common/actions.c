@@ -1658,6 +1658,14 @@ is_action_possible(const enum gen_action wanted_action,
       return TRI_NO;
     }
 
+    {
+      int slots = unit_type_get(actor_unit)->city_slots;
+
+      if (slots > 0 && city_unit_slots_available(target_city) < slots) {
+        return TRI_NO;
+      }
+    }
+
     break;
 
   case ACTION_UPGRADE_UNIT:

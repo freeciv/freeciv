@@ -2063,10 +2063,12 @@ static bool load_ruleset_units(struct section_file *file,
           0, "%s.paratroopers_mr_req", sec_name);
       u->paratroopers_mr_sub = SINGLE_MOVE * secfile_lookup_int_default(file,
           0, "%s.paratroopers_mr_sub", sec_name);
-      u->bombard_rate = secfile_lookup_int_default(file,
-          0, "%s.bombard_rate", sec_name);
-      u->city_size = secfile_lookup_int_default(file,
-          1, "%s.city_size", sec_name);
+      u->bombard_rate = secfile_lookup_int_default(file, 0,
+                                                   "%s.bombard_rate", sec_name);
+      u->city_slots = secfile_lookup_int_default(file, 0,
+                                                 "%s.city_slots", sec_name);
+      u->city_size = secfile_lookup_int_default(file, 1,
+                                                "%s.city_size", sec_name);
     } unit_type_iterate_end;
   }
 
@@ -6757,6 +6759,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.paratroopers_mr_sub = u->paratroopers_mr_sub;
     packet.bombard_rate = u->bombard_rate;
     packet.city_size = u->city_size;
+    packet.city_slots = u->city_slots;
     packet.cargo = u->cargo;
     packet.targets = u->targets;
     packet.embarks = u->embarks;

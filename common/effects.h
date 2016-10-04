@@ -289,6 +289,8 @@ extern "C" {
 #define SPECENUM_VALUE113NAME "Output_Waste_By_Rel_Distance"
 #define SPECENUM_VALUE114 EFT_SABOTEUR_RESISTANT
 #define SPECENUM_VALUE114NAME "Building_Saboteur_Resistant"
+#define SPECENUM_VALUE115 EFT_UNIT_SLOTS
+#define SPECENUM_VALUE115NAME "Unit_Slots"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

@@ -803,7 +803,7 @@ int city_production_turns_to_build(const struct city *pcity,
   it is obsolete.
 **************************************************************************/
 bool can_city_build_improvement_direct(const struct city *pcity,
-				       struct impr_type *pimprove)
+                                       struct impr_type *pimprove)
 {
   if (!can_player_build_improvement_direct(city_owner(pcity), pimprove)) {
     return FALSE;
@@ -815,7 +815,7 @@ bool can_city_build_improvement_direct(const struct city *pcity,
 
   return are_reqs_active(city_owner(pcity), NULL, pcity, NULL,
                          pcity->tile, NULL, NULL, NULL, NULL, NULL,
-			 &(pimprove->reqs), RPT_CERTAIN);
+                         &(pimprove->reqs), RPT_CERTAIN);
 }
 
 /**************************************************************************
@@ -823,7 +823,7 @@ bool can_city_build_improvement_direct(const struct city *pcity,
   the building is obsolete.
 **************************************************************************/
 bool can_city_build_improvement_now(const struct city *pcity,
-				    struct impr_type *pimprove)
+                                    struct impr_type *pimprove)
 {  
   if (!can_city_build_improvement_direct(pcity, pimprove)) {
     return FALSE;
@@ -831,6 +831,7 @@ bool can_city_build_improvement_now(const struct city *pcity,
   if (improvement_obsolete(city_owner(pcity), pimprove, pcity)) {
     return FALSE;
   }
+
   return TRUE;
 }
 
@@ -839,7 +840,7 @@ bool can_city_build_improvement_now(const struct city *pcity,
   returns FALSE if improvement can never possibly be built in this city.
 **************************************************************************/
 bool can_city_build_improvement_later(const struct city *pcity,
-				      struct impr_type *pimprove)
+                                      struct impr_type *pimprove)
 {
   /* Can the _player_ ever build this improvement? */
   if (!can_player_build_improvement_later(city_owner(pcity), pimprove)) {
@@ -856,6 +857,7 @@ bool can_city_build_improvement_later(const struct city *pcity,
       return FALSE;
     }
   } requirement_vector_iterate_end;
+
   return TRUE;
 }
 
@@ -864,7 +866,7 @@ bool can_city_build_improvement_later(const struct city *pcity,
   is obsolete.
 **************************************************************************/
 bool can_city_build_unit_direct(const struct city *pcity,
-				const struct unit_type *punittype)
+                                const struct unit_type *punittype)
 {
   if (!can_player_build_unit_direct(city_owner(pcity), punittype)) {
     return FALSE;
@@ -872,7 +874,7 @@ bool can_city_build_unit_direct(const struct city *pcity,
 
   /* Check to see if the unit has a building requirement. */
   if (punittype->need_improvement
-   && !city_has_building(pcity, punittype->need_improvement)) {
+      && !city_has_building(pcity, punittype->need_improvement)) {
     return FALSE;
   }
 
@@ -881,6 +883,12 @@ bool can_city_build_unit_direct(const struct city *pcity,
       && !is_native_near_tile(utype_class(punittype), pcity->tile)) {
     return FALSE;
   }
+
+  if (punittype->city_slots > 0
+      && city_unit_slots_available(pcity) < punittype->city_slots) {
+    return FALSE;
+  }
+
   return TRUE;
 }
 
@@ -896,7 +904,7 @@ bool can_city_build_unit_now(const struct city *pcity,
   }
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(city_owner(pcity), punittype)) {
-	return FALSE;
+      return FALSE;
     }
   }
   return TRUE;
@@ -978,10 +986,26 @@ bool can_city_build_later(const struct city *pcity,
 }
 
 /****************************************************************************
+  Return number of free unit slots in a city.
+****************************************************************************/
+int city_unit_slots_available(const struct city *pcity)
+{
+  int max = get_city_bonus(pcity, EFT_UNIT_SLOTS);
+  int current;
+
+  current = 0;
+  unit_list_iterate(pcity->units_supported, punit) {
+    current += unit_type_get(punit)->city_slots;
+  } unit_list_iterate_end;
+
+  return max - current;
+}
+
+/****************************************************************************
   Returns TRUE iff the given city can use this kind of specialist.
 ****************************************************************************/
 bool city_can_use_specialist(const struct city *pcity,
-			     Specialist_type_id type)
+                             Specialist_type_id type)
 {
   return are_reqs_active(city_owner(pcity), NULL, pcity, NULL,
                          NULL, NULL, NULL, NULL, NULL, NULL,

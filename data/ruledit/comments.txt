@@ -334,6 +334,7 @@ utypes = "\
 ;                 refuel point\n\
 ; uk_*          = upkeep costs, these are used as base values in the game\n\
 ; cargo         = Unit classes this unit can transport\n\
+; city_slots    = How many of homecity\'s unit maintenance slots unit takes\n\
 ; city_size     = Initial size of the cities built by \'Found City\' type units\n\
 ;                 (but \'Join City\' uses pop_cost)\n\
 ; targets       = list of unit classes this unit can attack against even\n\

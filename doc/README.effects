@@ -279,6 +279,12 @@ Size_Adj
 Size_Unlimit
     Make the size of a city unlimited.
 
+Unit_Slots
+    Number of unit slots city can have units in. New units cannot be built,
+    nor can homecity be changed so that maintained units would use more slots
+    than this. Single unit does not necessarily use single slot - that's defined
+    separately for each unit type.
+
 SS_Structural, SS_Component and SS_Module
     A part of a spaceship; this is a "Local" ranged effect. It (for now) 
 applies to improvements which cannot be built unless "Enable_Space" is felt. 

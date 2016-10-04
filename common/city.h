@@ -569,6 +569,7 @@ bool can_city_build_later(const struct city *pcity,
 bool can_city_build_now(const struct city *pcity,
                         const struct universal *target);
 
+int city_unit_slots_available(const struct city *pcity);
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type);
 bool city_has_building(const struct city *pcity,

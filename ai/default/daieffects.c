@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -347,6 +347,9 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     if (!ai->explore.land_done || !ai->explore.sea_done) {
       v += 10;
     }
+    break;
+  case EFT_UNIT_SLOTS:
+    v += 8 * c;
     break;
   case EFT_SIZE_UNLIMIT:
     /* Note we look up the SIZE_UNLIMIT again right below.  This could

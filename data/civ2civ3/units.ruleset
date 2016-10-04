@@ -263,6 +263,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
 ;                 refuel point
 ; uk_*          = upkeep costs, these are used as base values in the game
 ; cargo         = Unit classes this unit can transport
+; city_slots    = How many of homecity's unit maintenance slots unit takes
 ; city_size     = Initial size of the cities built by 'Found City' type units
 ;                 (but 'Join City' uses pop_cost)
 ; targets       = list of unit classes this unit can attack against even

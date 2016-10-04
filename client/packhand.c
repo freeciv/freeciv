@@ -3287,6 +3287,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->paratroopers_mr_sub = p->paratroopers_mr_sub;
   u->bombard_rate       = p->bombard_rate;
   u->city_size          = p->city_size;
+  u->city_slots         = p->city_slots;
   u->cargo              = p->cargo;
   u->targets            = p->targets;
   u->embarks            = p->embarks;

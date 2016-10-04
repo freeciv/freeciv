@@ -1338,6 +1338,7 @@ PACKET_RULESET_UNIT = 140; sc, lsend
 
   UINT8 bombard_rate;
   UINT8 city_size;
+  UINT8 city_slots;
 
   BV_UNIT_CLASSES cargo;
   BV_UNIT_CLASSES targets;
