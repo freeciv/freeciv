@@ -29470,24 +29470,24 @@ msgid "Cannot find setup function from ai module %s (%s)"
 msgstr "Не знайдено аудіо файл %s"
 
 #: server/aiiface.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Setup of ai module %s failed."
-msgstr "Спроба збудувати диво для %s закінчилася невдало."
+msgstr "Установка модуля ШІ %s не вдалась."
 
 #: server/aiiface.c:164 server/aiiface.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to setup \"%s\" AI module"
-msgstr "Не вдалося завантажити %s"
+msgstr "Збій установки модуля ШІ \"%s\""
 
 #: server/aiiface.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to setup default AI module \"%s\", cannot continue."
-msgstr "Не вдалося завантажити %s"
+msgstr "Збій установки типового модуля ШІ \"%s\", не можу продовжити."
 
 #: server/auth.c:88
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
-msgstr "Застереження: ім'я гостя '%s' вже обрано, змінюю ім'я на '%s'."
+msgstr "Попередження: ім'я гостя '%s' вже взято, змінюю на '%s'."
 
 #: server/auth.c:94
 msgid "Guests are not allowed on this server. Sorry."
@@ -29496,7 +29496,7 @@ msgstr "Гостей на цьому сервері не приймають. З�
 #: server/auth.c:96
 #, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr "%s відкинуто: Гостей не допускається."
+msgstr "%s відкинуто: Гості не допускаються."
 
 #: server/auth.c:115
 #, c-format
@@ -29504,7 +29504,7 @@ msgid ""
 "There was an error reading the user database, logging in as guest connection "
 "'%s'."
 msgstr ""
-"Сталася помилка доступу до бази даних користувачів, встановлено гістьове "
+"Сталася помилка доступу до бази даних користувачів, встановлено гостьове "
 "з'єднання '%s'."
 
 #: server/auth.c:120
@@ -29512,13 +29512,13 @@ msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
 msgstr ""
-"Сталася помилка доступу до бази даних користувачів та гістьовий доступ "
+"Сталася помилка доступу до бази даних користувачів, і гостьовий доступ "
 "заборонено. Вибачте."
 
 #: server/auth.c:123
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
-msgstr " %s відкинуто.  Помилка бази даних та гості не дозволяються."
+msgstr " %s відкинуто.  Помилка бази даних та і гості не допускаються."
 
 #: server/auth.c:130
 #, c-format
@@ -29527,9 +29527,8 @@ msgstr "Введіть пароль для %s:"
 
 #. TRANS: Try not to make the translation much longer than the original.
 #: server/auth.c:140
-#, fuzzy
 msgid "First time login. Set a new password and confirm it."
-msgstr "Введіть новий пароль (та запам'ятайте його)"
+msgstr "Введіть новий пароль і підтвердіть його"
 
 #: server/auth.c:145
 msgid "This server allows only preregistered users. Sorry."
@@ -29549,7 +29548,7 @@ msgstr "Вибачте, забагато помилкових спроб..."
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
-" %s відкинуто. Забагато невірних намаганнь ввести пароль для нового "
+" %s відкинуто. Забагато неправильних підтверджень пароля для нового "
 "користувача."
 
 #: server/auth.c:194
@@ -29557,35 +29556,35 @@ msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
 msgstr ""
-"Застереження: виникла помилка під час запису до бази даних. Продовжую, проте "
-"ваша статистика не буде зберігатися."
+"Попередження: виникла помилка під час запису до бази даних. Продовжую, проте "
+"ваша статистика не збережеться."
 
 #: server/auth.c:235
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr "%s відкинуто: Надто багато невірних введень пароля."
+msgstr "%s відкинуто: Забагато спроб з неправильним паролем."
 
 #: server/auth.c:237 server/auth.c:257
 msgid "auth failed"
-msgstr "аутентифікація не вдалась"
+msgstr "збій аутентифікації"
 
 #: server/auth.c:244
 msgid "Your password is incorrect. Try again."
-msgstr "Ваш пароль невірний. Спробуйте ще раз."
+msgstr "Ваш пароль неправильний. Спробуйте ще раз."
 
 #: server/auth.c:254
 msgid "Sorry, your connection timed out..."
-msgstr "На жаль, час очікування з'єднання вичерпано..."
+msgstr "На жаль, час чекання з'єднання вичерпано..."
 
 #: server/auth.c:255
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr "%s відкинуто: Підключення перевищило ліміт часу, очікуючи пароль."
+msgstr "%s відкинуто: таймаут підключення чекаючи пароля."
 
 #: server/auth.c:342
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
-msgstr "Ваш пароль занадто короткий, мінімальна длина %d. спрообуйте ще раз."
+msgstr "Ваш пароль закороткий, мінімальна довжина %d. Спробуйте ще раз."
 
 #: server/auth.c:348
 #, c-format
@@ -29593,27 +29592,27 @@ msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
 "minimum %d [printable] characters long. Try again."
 msgstr ""
-"Пароль має містити найменьше %d прописних літер, %d цифр та бути не коротше "
-"за %d [печатних] символів. Спробуйте ще раз."
+"Пароль має містити хоча б %d великих букв, %d цифр та бути не коротшим "
+"за %d [друкованих] символів. Спробуйте ще раз."
 
 #: server/barbarian.c:171
 #, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
-msgstr "%s обрали лідером %s. Настали небезпечні часи."
+msgstr "%s обрали ватажка іменем %s. Настали небезпечні часи."
 
 #: server/barbarian.c:632
 #, c-format
 msgid "Native unrest near %s led by %s."
-msgstr "Місцеві заворушення біля %s під проводом %s."
+msgstr "Місцеві повстали біля %s під проводом %s."
 
 #: server/barbarian.c:637
 #, c-format
 msgid "Sea raiders seen near %s!"
-msgstr "Пірати біля %s!"
+msgstr "Морські розбійники біля %s!"
 
 #: server/cityhand.c:264
 msgid "You have already sold something here this turn."
-msgstr "Ви вже продали щось з міста цього ходу."
+msgstr "Ви вже щось тут продали цього ходу."
 
 #: server/cityhand.c:275
 #, c-format
@@ -29625,7 +29624,7 @@ msgstr[2] "Ви продали %s у %s за %d гривень."
 
 #: server/cityhand.c:317
 msgid "Cannot buy in city created this turn."
-msgstr "Не можу купувати у місті заснованому на цьому ході."
+msgstr "Не можу купувати в місті заснованому цього ходу."
 
 #: server/cityhand.c:323
 msgid "You have already bought this turn."
@@ -29634,11 +29633,11 @@ msgstr "Ви вже купили цього ходу."
 #: server/cityhand.c:329
 #, c-format
 msgid "You don't buy %s!"
-msgstr "Ви не купили %s!"
+msgstr "Не купуйте %s!"
 
 #: server/cityhand.c:336
 msgid "Can't buy units when city is in disorder."
-msgstr "Неможливо купувати коли у місті заворушення."
+msgstr "Не можна купувати загони коли в місті заворушення."
 
 #. TRANS: This whole string is only ever used when included in one
 #. * other string (search for this string to find it).
@@ -29662,13 +29661,13 @@ msgstr[2] "%s Ви маєте лише %d гривень."
 
 #. TRANS: bought an unit.
 #: server/cityhand.c:377
-#, fuzzy, c-format
+#, c-format
 msgid "?unit:You bought %s in %s."
 msgstr "Ви придбали %s у %s."
 
 #. TRANS: bought an improvement .
 #: server/cityhand.c:383
-#, fuzzy, c-format
+#, c-format
 msgid "?improvement:You bought %s in %s."
 msgstr "Ви придбали %s у %s."
 
@@ -29690,20 +29689,20 @@ msgstr "Місто з назвою %s вже існує."
 #, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
 msgstr ""
-"Ви не можете використовувати %s як ім`я міста. Воно зарезервоване за %s."
+"Ви не можете взяти %s як ім`я міста. Воно зарезервоване за %s."
 
 #: server/citytools.c:418
 #, c-format
 msgid ""
 "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
 msgstr ""
-"%s не придатна назва . Тільки назви в ASCII або з файлів націй можуть бути "
+"Недопустима назва - %s . Тільки назви в ASCII або з файлів націй можуть бути "
 "використані для міст."
 
 #: server/citytools.c:538
 #, c-format
 msgid "City no. %d"
-msgstr "Місто N %d"
+msgstr "Місто № %d"
 
 #: server/citytools.c:545
 msgid "A poorly-named city"
@@ -29718,7 +29717,7 @@ msgstr "Змінено домівку для %s на %s."
 #: server/citytools.c:628
 #, c-format
 msgid "The %s already have a %s. Can't transfer yours."
-msgstr ""
+msgstr "%s вже має %s. Не можу перепраити Ваш."
 
 #: server/citytools.c:647
 #, c-format
@@ -29753,26 +29752,24 @@ msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Ви вже маєте місто %s. Назву міста змінено на %s."
 
 #: server/citytools.c:1246
-#, fuzzy, c-format
+#, c-format
 msgid "The people in %s are stunned by your technological insight!"
-msgstr ""
-"Городяни у %s вражені Вашим технологічним рівнем!\n"
-"Працівники зібралися та збудували у місті залізницю."
+msgstr "Люди у %s вражені Вашим технологічним рівнем!"
 
 #: server/citytools.c:1252 server/citytools.c:1265
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s with %s."
-msgstr ""
+msgstr "Робітники самовільно зібрались і модернізували %s %s."
 
 #: server/citytools.c:1257
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s roads."
-msgstr ""
+msgstr "Робітники самовільно зібрались і модернізували %s доріг."
 
 #: server/citytools.c:1270
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s bases."
-msgstr ""
+msgstr "Робітники самовільно зібрались і модернізували бази %s."
 
 #: server/citytools.c:1586
 #, c-format
@@ -29789,13 +29786,13 @@ msgstr ""
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
-msgstr "Коли %s було розпущено, ваш %s не зміг вибратися та був втрачений."
+msgstr "Коли %s розпустили, ваш %s не зміг вибратися та був втрачений."
 
 #: server/citytools.c:1718
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
-msgstr "Коли %s було розпущено, ваш %s не зміг вибратися та був втрачений."
+msgstr "Коли %s було розпущено, ваш %s попав у пастку і був втрачений."
 
 #: server/citytools.c:1903
 #, c-format
@@ -29860,9 +29857,9 @@ msgid "%s liberated %s."
 msgstr "%s визволив %s."
 
 #: server/citytools.c:2550
-#, fuzzy, c-format
+#, c-format
 msgid "Trade between %s and %s lost along with city."
-msgstr "Торговий шлях між %s і %s скасовано."
+msgstr "Торг між %s і %s втрачений разом з містом."
 
 #: server/citytools.c:2555
 #, c-format
@@ -29873,18 +29870,18 @@ msgstr "Торговий шлях між %s і %s скасовано."
 #: server/citytools.c:2563
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
-msgstr ""
+msgstr "Торгівля між %s містом %s і %s втрачена, разом з їх містом."
 
 #: server/citytools.c:2571
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
-msgstr "На жаль, %s скасував торговий шлях із %s до Вашого міста %s."
+msgstr "На жаль, %s скасував торговий шлях з %s до Вашого міста %s."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
 #: server/citytools.c:2577
-#, fuzzy, c-format
+#, c-format
 msgid "We canceled the trade route from %s to %s city %s."
-msgstr "На жаль, %s скасував торговий шлях із %s до Вашого міста %s."
+msgstr "Ми скасували торговий шлях з %s  до %s міста %s."
 
 #: server/citytools.c:2823
 msgid " from the worklist"
@@ -29897,28 +29894,28 @@ msgid "%s is building %s%s."
 msgstr "%s будує %s%s."
 
 #: server/citytools.c:3004
-#, fuzzy, c-format
+#, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
-msgstr[0] "Ви продали %s у %s (тепер блоковано) за %d гривень."
-msgstr[1] "Ви продали %s у %s (тепер блоковано) за %d гривень."
-msgstr[2] "Ви продали %s у %s (тепер блоковано) за %d гривень."
+msgstr[0] "Ви продали %s у %s (тепер блоковано землею) за %d гривню."
+msgstr[1] "Ви продали %s у %s (тепер блоковано землею) за %d гривні."
+msgstr[2] "Ви продали %s у %s (тепер блоковано землею) за %d гривень."
 
 #: server/citytools.c:3138
-#, fuzzy, c-format
+#, c-format
 msgid "The size of the city map of %s is %s."
-msgstr "%s з %s"
+msgstr "Розмір міської карти %s став %s"
 
 #: server/citytools.c:3140
 msgid "increased"
-msgstr "зросли"
+msgstr "збільшилось"
 
 #: server/citytools.c:3141
 msgid "reduced"
 msgstr "зменшилось"
 
 #: server/cityturn.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "%s is selling %s (obsolete) for %d."
 msgid_plural "%s is selling %s (obsolete) for %d."
 msgstr[0] "%s продає %s (застаріле) за %d."
@@ -29928,14 +29925,14 @@ msgstr[2] "%s продає %s (застаріле) за %d."
 #: server/cityturn.c:426
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
-msgstr "Примітка: Диво %s у %s буде закінчено наступного ходу."
+msgstr "Примітка: Чудо %s у %s закінчать наступного ходу."
 
 #: server/cityturn.c:461
 #, c-format
 msgid ""
 "Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr ""
-"Пропоную зменшити ріст міста у %s аби використовувати %s (будується) більш "
+"Пропоную зменшити ріст у %s аби використовувати %s (будується) більш "
 "ефективно."
 
 #: server/cityturn.c:476
@@ -29946,7 +29943,7 @@ msgstr "%s незабаром зросте до розміру %i."
 #: server/cityturn.c:488
 #, c-format
 msgid "Warning: Famine feared in %s."
-msgstr "Увага: У %s очикують голодомор."
+msgstr "Увага: загроза голоду у %s."
 
 #: server/cityturn.c:609
 #, c-format
@@ -29961,7 +29958,7 @@ msgstr "%s потребує %s (вже будується), щоб збільш�
 #: server/cityturn.c:812
 #, c-format
 msgid "%s needs an improvement to grow beyond size %d."
-msgstr "%s потребує будівлі, щоб збільшити розмір понад %d."
+msgstr "%s потребує будівлі, щоб вирости понад розмір %d."
 
 #: server/cityturn.c:873
 #, c-format
@@ -29971,17 +29968,17 @@ msgstr "%s зростає до розміру %d."
 #: server/cityturn.c:927
 #, c-format
 msgid "A recent plague outbreak prevents growth in %s."
-msgstr ""
+msgstr "Недавній спалах чуми, запобігає росту %s"
 
 #: server/cityturn.c:949
 #, c-format
 msgid "Famine feared in %s, %s lost!"
-msgstr "Голодомор у %s, втрачено %s!"
+msgstr "Голод у %s, втрачено %s!"
 
 #: server/cityturn.c:963
 #, c-format
 msgid "Famine causes population loss in %s."
-msgstr "Голодомор спричинив до зменшення населення у %s."
+msgstr "Голод спричинив до зменшення населення у %s."
 
 #: server/cityturn.c:968
 #, c-format
@@ -29999,7 +29996,7 @@ msgstr ""
 #: server/cityturn.c:1047 server/cityturn.c:1087
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
-msgstr "%s не може будувати %s з плану будівництва. Видаляємо..."
+msgstr "%s не може будувати %s з плану будівництва. Видаляю..."
 
 #: server/cityturn.c:1068 server/cityturn.c:1372 server/cityturn.c:1483
 #: server/cityturn.c:1529
@@ -30017,13 +30014,13 @@ msgstr ""
 "Відкладаємо..."
 
 #: server/cityturn.c:1133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet "
 "available.  Postponing..."
 msgstr ""
-"%s не може будувати %s з плану будівництва; технологія не відкрита. "
-"Відкладаємо..."
+"%s не може будувати %s з плану будівництва; технологія з флагом \"%s\" ще не "
+"доступна. Відкладаємо..."
 
 #: server/cityturn.c:1147
 #, c-format
@@ -30041,29 +30038,27 @@ msgstr ""
 "%s не може будувати %s з плану будівництва; потрібен уряд %s. Відкладаємо..."
 
 #: server/cityturn.c:1174
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?special:%s can't build %s from the worklist; %s is required.  Postponing..."
 msgstr ""
-"%s не може будувати %s з плану будівництва; потрібна територія %s. "
-"Відкладаємо..."
+"%s не може будувати %s з плану будівництва; потрібно %s. Відкладаємо..."
 
 #: server/cityturn.c:1187
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is required.  "
 "Postponing..."
 msgstr ""
-"%s не може будувати %s з плану будівництва; потрібна територія %s. "
+"%s не може будувати %s з плану будівництва; потрібна місцевість %s. "
 "Відкладаємо..."
 
 #: server/cityturn.c:1200
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?resource:%s can't build %s from the worklist; %s is required.  Postponing..."
 msgstr ""
-"%s не може будувати %s з плану будівництва; потрібна територія %s. "
-"Відкладаємо..."
+"%s не може будувати %s з плану будівництва; потрібно %s. Відкладаю..."
 
 #: server/cityturn.c:1215
 #, c-format
@@ -30075,7 +30070,7 @@ msgstr ""
 
 #. TRANS: Latter %s is citizen nationality
 #: server/cityturn.c:1229
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only city with %s may build this.  "
 "Postponing..."
@@ -30098,45 +30093,43 @@ msgid ""
 "Postponing..."
 msgstr ""
 "%s не може будувати %s з плану будівництва; тільки ШІ рівня %s може "
-"збудувати це. Відкладаємо..."
+"будувати це. Відкладаю..."
 
 #: server/cityturn.c:1271
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?terrainclass:%s can't build %s from the worklist; %s terrain is required.  "
 "Postponing..."
 msgstr ""
-"%s не може будувати %s з плану будівництва; потрібна територія %s. "
-"Відкладаємо..."
+"%s не може будувати %s з плану будівництва; потрібна місцевість %s. "
+"Відкладаю..."
 
 #: server/cityturn.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is required.  "
 "Postponing..."
 msgstr ""
-"%s не може будувати %s з плану будівництва; потрібен класс місцевості %s. "
-"Відкладаємо..."
+"%s не може будувати %s з плану будівництва; потрібна місцевость з "
+"флагом \"%s\". Відкладаю..."
 
 #: server/cityturn.c:1299
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?road:%s can't build %s from the worklist; %s is required.  Postponing..."
 msgstr ""
-"%s не може будувати %s з плану будівництва; потрібна територія %s. "
-"Відкладаємо..."
+"%s не може будувати %s з плану будівництва; потрібна %s. Відкладаю..."
 
 #. TRANS: last %s is a date
 #: server/cityturn.c:1326
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s.  Postponing..."
 msgstr ""
-"%s не може будувати %s з плану будівництва; технологія не відкрита. "
-"Відкладаємо..."
+"%s не може будувати %s з плану будівництва; достпне з %s. Відкладаю..."
 
 #: server/cityturn.c:1364
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; reason unknown!  Postponing..."
 msgstr ""
 "%s не може будувати %s з плану будівництва; причина невідома! Відкладаємо..."
@@ -30150,7 +30143,7 @@ msgstr "Тепер план будівництва у %s порожній."
 #: server/cityturn.c:1551
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
-msgstr "%s не може утримувати %s, підрозділ розпущено."
+msgstr "%s не може утримувати %s, підрозділ розпустили."
 
 #: server/cityturn.c:1572
 #, c-format
@@ -30160,7 +30153,7 @@ msgstr "Громадяни в %s гинуть через їхню неспром
 #: server/cityturn.c:1617 server/cityturn.c:1756
 #, c-format
 msgid "%s is building %s, which is no longer available."
-msgstr "%s будує %s, що наразі є недоступне."
+msgstr "%s будує %s, що наразі є недоступним."
 
 #: server/cityturn.c:1656
 #, c-format
@@ -30173,29 +30166,29 @@ msgid "%s has finished building %s."
 msgstr "%s збудував %s."
 
 #: server/cityturn.c:1684
-#, fuzzy, c-format
+#, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
-msgstr[0] "%s прискорює дослідження, ви негайно отримуєте 2 відкриття."
-msgstr[1] "%s прискорює дослідження, ви негайно отримуєте 2 відкриття."
-msgstr[2] "%s прискорює дослідження, ви негайно отримуєте 2 відкриття."
+msgstr[0] "%s прискорює дослідження, ви негайно отримуєте %d відкриття."
+msgstr[1] "%s прискорює дослідження, ви негайно отримуєте %d відкриття."
+msgstr[2] "%s прискорює дослідження, ви негайно отримуєте %d відкриттів."
 
 #. TRANS: Tech from building (Darwin's Voyage)
 #: server/cityturn.c:1694
-#, fuzzy, c-format
+#, c-format
 msgid "?frombldg:Acquired %s from %s."
-msgstr "%s здобули %s від %s."
+msgstr "Отримали %s від %s."
 
 #. TRANS: Tech from building (Darwin's Voyage)
 #: server/cityturn.c:1698
-#, fuzzy, c-format
+#, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "%s здобули %s від %s."
 
 #: server/cityturn.c:1705
 #, c-format
 msgid "The %s have started building a spaceship!"
-msgstr "%s розпочали будувати зореліт!"
+msgstr "%s почали будувати зореліт!"
 
 #: server/cityturn.c:1783
 #, c-format
@@ -30211,7 +30204,7 @@ msgstr "%s збудував %s."
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
 #: server/cityturn.c:1831
-#, fuzzy, c-format
+#, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s коштує %d населення. %s зменшується до розміру %d."
@@ -30272,7 +30265,7 @@ msgstr "Вашу %s скинуто, країна у хаосі."
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
-"%s не може поки що збудувати %s, та ми не можемо розпустити Ваше єдине місто."
+"%s не може поки що збудувати %s, і ми не можемо розпустити наше єдине місто."
 
 #. TRANS: "<city> is disbanded into Settler."
 #: server/cityturn.c:2568
@@ -30312,8 +30305,7 @@ msgstr ""
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
-"Емігранти з %s не можуть переселитися до %s, бо там для зростання потрібна "
-"певна будівля!"
+"Емігранти з %s не можуть піти до %s, бо там для росту потрібна будівля!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
 #: server/cityturn.c:2799
@@ -30321,8 +30313,7 @@ msgstr ""
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
-"Емігранти з %s не можуть переселитися до %s (%s), бо там для зростання "
-"потрібна певна будівля!"
+"Емігранти з %s не можуть піти до %s (%s), бо там для росту потрібна будівля!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
 #: server/cityturn.c:2804
@@ -30330,8 +30321,8 @@ msgstr ""
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
-"Емігранти з %s (%s) не можуть переселитися до %s, бо там для зростання "
-"потрібна певна будівля!"
+"Емігранти з %s (%s) не можуть переселитися до %s, бо там для росту потрібна "
+"певна будівля!"
 
 #: server/cityturn.c:2846
 #, c-format
@@ -30358,9 +30349,9 @@ msgstr "Емігранти з %s (%s) переселилися до %s у пош
 
 #. TRANS: Disasters such as Earthquake
 #: server/cityturn.c:2975
-#, fuzzy, c-format
+#, c-format
 msgid "%s was hit by %s."
-msgstr "%s атаковано атомною бомбою %s."
+msgstr "%2$s поразив %1$s."
 
 #: server/cityturn.c:2988
 #, fuzzy, c-format
@@ -30369,32 +30360,32 @@ msgstr "Забруднення біля %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
 #: server/cityturn.c:3000
-#, fuzzy, c-format
+#, c-format
 msgid "%s causes population loss in %s."
-msgstr "Голодомор спричинив до зменшення населення у %s."
+msgstr "%s спричинив втрату населення у %s."
 
 #. TRANS: second %s is the name of a city improvement
 #: server/cityturn.c:3022
-#, fuzzy, c-format
+#, c-format
 msgid "%s destroys %s in %s."
 msgstr "%s знищив %s у %s."
 
 #. TRANS: %s is a city name
 #: server/cityturn.c:3035
-#, fuzzy, c-format
+#, c-format
 msgid "All stored food destroyed in %s."
-msgstr "Ваш підрозділ %s знищив %s у %s."
+msgstr "Весь запас іжі знищений у %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
 #: server/cityturn.c:3049
-#, fuzzy, c-format
+#, c-format
 msgid "Production of %s in %s destroyed."
-msgstr "Виробництво %s модернізовано на %s у %s."
+msgstr "Виробництво %s у %s знищене."
 
 #: server/cityturn.c:3217
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
-msgstr "Громадяни %s думають емігрувати до %s у пошуках кращої долі."
+msgstr "Городяни %s думають емігрувати до %s у пошуках кращої долі."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
 #: server/cityturn.c:3239
@@ -30404,14 +30395,12 @@ msgid ""
 msgstr "Громадяни %s думають емігрувати до %s (%s) у пошуках кращої долі."
 
 #: server/civserver.c:102
-#, fuzzy
 msgid "Setting timeout to 0. Autogame will stop."
-msgstr "Встановлюю затримку 0. Автогра закінчиться.\n"
+msgstr "Встановлюю затримку 0. Автогра скінчиться."
 
 #: server/civserver.c:106
-#, fuzzy
 msgid "You must interrupt Freeciv twice within one second to make it exit."
-msgstr "Ви маєте перевати Freeciv двічі за одну секунду, щоб він зупинився.\n"
+msgstr "Ви маєте перевати Freeciv двічі за одну секунду, щоб він зупинився."
 
 #: server/civserver.c:166
 #, c-format
@@ -30436,8 +30425,7 @@ msgstr "Не вдалося ігнорувати SIGPIPE: %s\n"
 #: server/civserver.c:239
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
-msgstr ""
-"Увага: опція %s застаріла. Використовуйте -m для запуску метасервера.\n"
+msgstr "Увага: опція %s застаріла. Використовуйте -m для запуску метасервера.\n"
 
 #: server/civserver.c:309
 #, c-format
@@ -30445,9 +30433,9 @@ msgid "Illegal value \"%s\" for --Announce"
 msgstr "Недопустиме значення \"%s\" для --Announce"
 
 #: server/civserver.c:315
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load AI module \"%s\"\n"
-msgstr "Не вдалося завантажити %s"
+msgstr "Не вдалося завантажити модуль ШІ \"%s\"\n"
 
 #: server/civserver.c:321
 #, c-format
@@ -30471,28 +30459,20 @@ msgid "Database FILE"
 msgstr ""
 
 #: server/civserver.c:349
-#, fuzzy
 msgid "Enable database connection with configuration from FILE."
-msgstr ""
-"  -a  --auth ФАЙЛ\tДозволити аутентифікацію сервера конфігурацією з ФАЙЛа.\n"
+msgstr "Дозволити з’єднання з базою даних конфігураційним файлом ФАЙЛ."
 
 #: server/civserver.c:352
 msgid "Enable server authentication (requires --Database)."
-msgstr ""
+msgstr "Включити аутентифікацію на сервері (вимагає --Database)"
 
 #: server/civserver.c:354
-#, fuzzy
 msgid "Allow guests to login if auth is enabled."
-msgstr ""
-"  -G  --Guests\t\tДозволити гістям підключатися, якщо аутентифікацію "
-"включено.\n"
+msgstr "Дозволити гістям підключатися, якщо аутентифікація включена."
 
 #: server/civserver.c:356
-#, fuzzy
 msgid "Allow new users to login if auth is enabled."
-msgstr ""
-"  -N  --Newusers\tДозволяє новим користувачам підключатися, якщо увімкнено "
-"аутентифікацію.\n"
+msgstr "Дає новим користувачам заходити, якщо аутентифікація включена."
 
 #. TRANS: "bind" is exactly what user must type, do not translate.
 #: server/civserver.c:360
@@ -30500,14 +30480,12 @@ msgid "bind ADDR"
 msgstr ""
 
 #: server/civserver.c:361
-#, fuzzy
 msgid "Listen for clients on ADDR"
-msgstr "  -b  --bind АДРЕСА\tСлухати клієнтів на АДРЕСА\n"
+msgstr "Слухати клієнтів на АДРЕСІ"
 
 #: server/civserver.c:363
-#, fuzzy
 msgid "Connect to metaserver from this address"
-msgstr "Не звітуємо метасерверу у цій грі."
+msgstr "Зєднатись з метасервером з цієї адреси"
 
 #. TRANS: "identity" is exactly what user must type, do not translate.
 #: server/civserver.c:390
@@ -30515,35 +30493,29 @@ msgid "identity ADDR"
 msgstr ""
 
 #: server/civserver.c:391
-#, fuzzy
 msgid "Be known as ADDR at metaserver or LAN client"
-msgstr "  -M, --Metaserver АДРЕСА\tВстановити АДРЕСА як адресу метасервера\n"
+msgstr "Повідомитись як ADDR метасерверу чи клієнту ЛОМ"
 
 #: server/civserver.c:397
-#, fuzzy
 msgid "Notify metaserver and send server's info"
-msgstr ""
-"  -m, --meta\t\tПовідомити метасервер та відправити інформацію сервера\n"
+msgstr "Повідомити метасервер та відправити інформацію сервера"
 
 #. TRANS: "Metaserver" is exactly what user must type, do not translate.
 #: server/civserver.c:400
-#, fuzzy
 msgid "Metaserver ADDR"
-msgstr "Метасервери"
+msgstr ""
 
 #: server/civserver.c:401
-#, fuzzy
 msgid "Set ADDR as metaserver address"
-msgstr "metaserver <адреса>"
+msgstr "задати ADDR як адресу метасервера"
 
 #: server/civserver.c:403
 msgid "Keep updating game information on metaserver even after failure"
-msgstr ""
+msgstr "Продовжувати поновлення інформації на метасервері, навіть після збою"
 
 #: server/civserver.c:408
-#, fuzzy
 msgid "Listen for clients on port PORT"
-msgstr "  -p, --port ПОРТ\tОчикувати на з'єднання на порту ПОРТ\n"
+msgstr "Слухати клієнтів на порту ПОРТ"
 
 #. TRANS: "quitidle" is exactly what user must type, do not translate.
 #: server/civserver.c:411
@@ -30551,15 +30523,12 @@ msgid "quitidle TIME"
 msgstr ""
 
 #: server/civserver.c:412
-#, fuzzy
 msgid "Quit if no players for TIME seconds"
-msgstr "  -q, --quitidle ЧАС\tЗакінчити якщо не буде гравців за ЧАС секунд\n"
+msgstr "Вийти якщо не буде гравців за ЧАС секунд"
 
 #: server/civserver.c:414
-#, fuzzy
 msgid "When a game ends, exit instead of restarting"
-msgstr ""
-"  -e, --exit-on-end\tКоли гра закінчується, виходити замість перезапуску\n"
+msgstr "Коли гра скінчиться, вийти замість перезапуску"
 
 #. TRANS: "saves" is exactly what user must type, do not translate.
 #: server/civserver.c:417
@@ -30567,36 +30536,30 @@ msgid "saves DIR"
 msgstr ""
 
 #: server/civserver.c:418
-#, fuzzy
 msgid "Save games to directory DIR"
-msgstr "  -s, --saves ТЕКА\tЗберігає гру у теку ТЕКА\n"
+msgstr "Зберігає ігри в теку DIR"
 
 #. TRANS: "scenarios" is exactly what user must type, do not translate.
 #: server/civserver.c:421
-#, fuzzy
 msgid "scenarios DIR"
-msgstr "Сценарій"
+msgstr ""
 
 #: server/civserver.c:422
-#, fuzzy
 msgid "Save scenarios to directory DIR"
-msgstr "  -s, --saves ТЕКА\tЗберігає гру у теку ТЕКА\n"
+msgstr "Зберігає сценарій в теку ТЕКА"
 
 #. TRANS: "Serverid" is exactly what user must type, do not translate.
 #: server/civserver.c:425
-#, fuzzy
 msgid "Serverid ID"
-msgstr "ID сервера: %s"
+msgstr "ID сервера"
 
 #: server/civserver.c:426
-#, fuzzy
 msgid "Sets the server id to ID"
-msgstr "  -s, --server АДРЕСА\tПриєднатися до сервера на АДРЕСА\n"
+msgstr "Задає ІД серверарівним ID"
 
 #: server/civserver.c:430
-#, fuzzy
 msgid "Read startup script FILE"
-msgstr "  -r, --read ФАЙЛ\tЧитати ФАЙЛ стартового скрипта\n"
+msgstr "Читати ФАЙЛ стартового скрипта"
 
 #. TRANS: "Ranklog" is exactly what user must type, do not translate.
 #: server/civserver.c:433
@@ -30604,9 +30567,8 @@ msgid "Ranklog FILE"
 msgstr ""
 
 #: server/civserver.c:434
-#, fuzzy
 msgid "Use FILE as ranking logfile"
-msgstr "  -R, --Ranklog ФАЙЛ\tВикористовувати ФАЙЛ як впорядкований журнал\n"
+msgstr "Використовувати ФАЙЛ як впорядкований журнал"
 
 #. TRANS: "LoadAI" is exactly what user must type, do not translate.
 #: server/civserver.c:438
@@ -30615,18 +30577,17 @@ msgstr ""
 
 #: server/civserver.c:439
 msgid "Load ai module MODULE. Can appear multiple times"
-msgstr ""
+msgstr "Завантажити модуль ШІ MODULE. Можна давати багато разів"
 
 #: server/civserver.c:455
 msgid "Requested authentication with --auth, but no --Database given\n"
-msgstr ""
+msgstr "Запитав аутентифікацію  --auth, але жодних --Database не дано\n"
 
 #: server/commands.c:53
 msgid "Start the game, or restart after loading a savegame."
-msgstr "Стартувати гру або рестартувати після завантаження збереженої гри."
+msgstr "Почати гру або перезапустити після завантаження збереженої гри."
 
 #: server/commands.c:54
-#, fuzzy
 msgid ""
 "This command starts the game. When starting a new game, it should be used "
 "after all human players have connected, and AI players have been created (if "
@@ -30636,13 +30597,13 @@ msgid ""
 "savegame for the game to recommence. Once the game is running this command "
 "is no longer available, since it would have no effect."
 msgstr ""
-"Ця команда стартує гру. Якщо стартується нова гра, команду потрібно "
+"Ця команда починає гру. Якщо начинається нова гра, команду потрібно "
 "використовувати після того як усі гравці-люди з'єдналися, та створені "
-"комп'ютерні гравці (якщо потрібно), та усі необхідні зміни у початкових "
+"комп'ютерні гравці (якщо потрібно), та всі необхідні зміни у початкових "
 "опціях сервера зроблено. Після 'start', кожен гравець-людина має змогу "
-"обрати свою націю, після цього гра розпочинається. Ця команда також "
-"необхідна після завантаження збереженої гри для продовження. Після старту "
-"гри ця команда є недоступною, бо ж зрозуміло що тепер вона не має сенсу."
+"вибрати собі народ, після цього гра почнеться. Ця команда також "
+"необхідна після завантаження збереженої гри для продовження. Після початку "
+"гри команда стає недоступною, бо ж зрозуміло що тепер вона не має сенсу."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:68
@@ -30661,10 +30622,9 @@ msgstr ""
 
 #: server/commands.c:73
 msgid "Show help about server commands and server options."
-msgstr "Показати допомогу по командам та опціям сервера."
+msgstr "Показати допомогу по командах та опціях сервера."
 
 #: server/commands.c:74
-#, fuzzy
 msgid ""
 "With no arguments gives some introductory help. With argument \"commands\" "
 "or \"options\" gives respectively a list of all commands or all options. "
@@ -30674,17 +30634,16 @@ msgid ""
 "abbreviated where unambiguous."
 msgstr ""
 "Без аргументів подає деяку вступну допомогу. З аргументом 'commands' або "
-"'options' дає послідовно список всіх команд або опцій. Інакше аргумент "
+"'options' дає відповідно список всіх команд або опцій. Інакше аргумент "
 "береться як ім'я команди або опції, та наводиться допомога для цієї команди "
-"або опції. Для опцій допомога включає поточне значення та значення по "
-"замовчуванню. Аргумент може бути скороченням якщо воно однозначне."
+"або опції. Для опцій допомога включає поточне та типове значення. "
+"Аргумент може бути скороченням якщо воно однозначне."
 
 #: server/commands.c:97
 msgid "Show a list of various things."
 msgstr "Показати список різних речей."
 
 #: server/commands.c:98
-#, fuzzy
 msgid ""
 "Show a list of:\n"
 " - the player colors,\n"
@@ -30699,9 +30658,18 @@ msgid ""
 " - the running votes.\n"
 "The argument may be abbreviated, and defaults to 'players' if absent."
 msgstr ""
-"Показує список гравців або з'єднань з сервером. Аргумент може бути "
-"скороченням, та при відсутності приймається значення по замовчуванню "
-"'players'."
+"Показує список:\n"
+" - кольорів гравців,\n"
+" - з'єднань з сервером,\n"
+" - всі делегування гравців,\n"
+" - Ваш список ігнорування,\n"
+" - список визначених зображень карти,\n"
+" - гравців у грі,\n"
+" - доступних сценаріїв,\n"
+" - наборів націй в цьому наборі правил,\n"
+" - гравців і їх команди або\n"
+" - поточні голосування.\n"
+"Аргумент може бути скороченням, за відсутності типове значення 'players'."
 
 #: server/commands.c:116
 msgid "Quit the game and shutdown the server."
@@ -30717,16 +30685,15 @@ msgid "Cut a client's connection to server."
 msgstr "Розірвати з'єднання клієнта до сервера."
 
 #: server/commands.c:123
-#, fuzzy
 msgid ""
 "Cut specified client's connection to the server, removing that client from "
 "the game. If the game has not yet started that client's player is removed "
 "from the game, otherwise there is no effect on the player. Note that this "
 "command now takes connection names, not player names."
 msgstr ""
-"Розірвати вказане з'єднання, видаливши клієнта з гри. Якщо гру не стартовано "
-"гравець клієнта видаляється, інакше команда на гравця не впливає. Примітка: "
-"майте на увазі що тепер ця команда потребує ім'я з'єднання, а не ім'я гравця."
+"Розірвати вказане з'єднання, видаливши клієнта з гри. Якщо гра ще не почалась,"
+" гравець клієнта видаляється, інакше впливу на гравця нема. Зауважте що тепер "
+"ця команда бере ім'я з'єднання, а не гравця."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:132
@@ -30739,17 +30706,16 @@ msgstr ""
 
 #: server/commands.c:134
 msgid "Explain server options."
-msgstr "Розяснює опції сервера"
+msgstr "Роз’яснює опції сервера"
 
 #: server/commands.c:135
-#, fuzzy
 msgid ""
 "The 'explain' command gives a subset of the functionality of 'help', and is "
 "included for backward compatibility. With no arguments it gives a list of "
 "options (like 'help options'), and with an argument it gives help for a "
 "particular option (like 'help <option-name>')."
 msgstr ""
-"Команда 'explain' має деяку функціональність команди 'help', та існує лише "
+"Команда 'explain' має деяку функціональність команди 'help', та включена лише "
 "для зворотньої сумісності. Без аргументів видає список опцій (як 'help "
 "options'), а з аргументом надає допомогу по цій конкретній опції (як 'help "
 "<опція>')."
@@ -30793,6 +30759,12 @@ msgid ""
 "\"locked\" all settings locked by the ruleset will be listed. With \"ruleset"
 "\", it will show the current ruleset directory name."
 msgstr ""
+"Без аргументів показує життєві опції сервера (або доступні коли дається "
+"клієнтами). З аргументом-іменем опції показує названу, або опції з таким"
+" префіксом. З \"all\"показує всі опції. З \"vital\", \"situational\" чи "
+"\"rare\", набір опцій відповідного рівня. З \"changed\", показує тільки опції,"
+" що були змінені, з \"locked\" перечислить всі установки заблоковані набором "
+"правил. З \"ruleset\", покаже назву теки поточного набору правил."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:167
@@ -30806,7 +30778,7 @@ msgstr "Відіслати повідомлення всім гравцям."
 #: server/commands.c:169
 msgid ""
 "For each connected client, pops up a window showing the message entered."
-msgstr "Для кожного під'єднаного гравця демонструє віконце з повідомленням."
+msgstr "Для кожного під'єднаного гравця виринає віконце з повідомленням."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:175
@@ -30846,6 +30818,13 @@ msgid ""
 "of the voters who have not abstained vote for it, or fail immediately if at "
 "least half of the voters who have not abstained vote against it."
 msgstr ""
+"Гравець з базовим рівнем доступу,що задає команду рівня управління починає "
+"нове голосування за команду. \"yes\", або  \"no\", чи \"abstain\" після "
+"команди /vote, і вибірково номер голування дає ваш голос. Якщо ви не додасте "
+"номер голосування, Ваш голос піде на останнє голосування. Можна брати участь "
+"лише в одному голосуванні за раз.Голосування відбудеться миттєво, якщо хоча "
+"б половина не утрималась і була за, або провалиться якщо хоч половина тих, "
+"що не утримались були проти."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:200
@@ -30859,18 +30838,25 @@ msgid ""
 "debug timing\n"
 "debug info"
 msgstr ""
+"debug diplomacy <гравець>\n"
+"debug ferries\n"
+"debug tech <гравець>\n"
+"debug city <x> <y>\n"
+"debug units <x> <y>\n"
+"debug unit <id>\n"
+"debug timing\n"
+"debug info"
 
 #: server/commands.c:208
 msgid "Turn on or off AI debugging of given entity."
-msgstr "Вімкніть або вимкніть відладку ШІ для цього запису."
+msgstr "УВімкнути або вимкнути відладку ШІ для цієї сутності."
 
 #: server/commands.c:209
-#, fuzzy
 msgid ""
 "Print AI debug information about given entity and turn continuous debugging "
 "output for this entity on or off."
 msgstr ""
-"Вивести відладочну інформацію для ШІ про заданий запис та включити чи "
+"Вивести відладочну інформацію для ШІ про дану сутність та включити чи "
 "виключити безперервний відладочний вивід для цього запису."
 
 #. TRANS: translate text between <> only
@@ -30891,6 +30877,10 @@ msgid ""
 "instance, '/set topology wrapx|iso'. For these options, use syntax like '/"
 "set topology \"\"' to set no values."
 msgstr ""
+"Задати опції сервера. Синтакс і допустимі значення залежать від опції; Див "
+"допомогу по кожній опції. Деякі установки \"побітові\", в цьому разі це вибір "
+"з набору значень; розділяйте їх |, наприклад '/set topology wrapx|iso'. "
+"Для таких синтакс  - '/set topology \"\"' щоб не задавати ніяких значень."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:228
@@ -30899,7 +30889,7 @@ msgstr "team <гравець> <команда>"
 
 #: server/commands.c:229
 msgid "Change a player's team affiliation."
-msgstr "Змінити членство гравця у команді."
+msgstr "Змінити приналежність гравця до команди."
 
 #: server/commands.c:230
 msgid ""
@@ -30909,10 +30899,10 @@ msgid ""
 "only member). This command changes which team a player is a member of. Use "
 "\"\" if names contain whitespace."
 msgstr ""
-"Команда - це група гравців, що починають як союзники, зі спільним баченням і "
+"Команда - це група гравців, що починають союзниками, зі спільним баченням і "
 "посольствами, та разом борються за досягнення командної перемоги за "
-"усередненими індивідуальними очками. Кожен з гравців завжди є членом команди "
-"(інколи єдиним). Ця команда змінює команду, до якої належить гравець. "
+"усередненими індивідуальними очками. Кожен гравець завжди в команді-гурті "
+"(інколи єдиним). Ця команда змінює команду-гурт, до якої належить гравець. "
 "Використовуйте \"\" , якщо імена містять пробіли."
 
 #. TRANS: translate text between <> only
@@ -30921,15 +30911,13 @@ msgid "rulesetdir <directory>"
 msgstr "rulesetdir <тека>"
 
 #: server/commands.c:241
-#, fuzzy
 msgid "Choose new ruleset directory or modpack."
-msgstr "Поточний каталог правил \"%s\""
+msgstr "Виберіть поточний каталог набору правил або модпакунку."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:247
-#, fuzzy
 msgid "metamessage <meta-line>"
-msgstr "metapatch <мета-рядок>"
+msgstr "metamessage <мета-рядок>"
 
 #: server/commands.c:248
 msgid "Set metaserver info line."
@@ -30942,24 +30930,25 @@ msgid ""
 "metamessage will be used instead of automatically generated messages, if it "
 "is available."
 msgstr ""
+"Задати коритувацькмй інфорядок метасервера. Якщо параметр пропустити, "
+"попередні задані метаповідомлення будуть видалені. Найчастіше задані "
+"користувачем метаповідомлення використовуються замість автозгенерованих "
+"повідомлень, якщо доступні."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:257
-#, fuzzy
 msgid "metapatches <meta-line>"
 msgstr "metapatches <мета-рядок>"
 
 #: server/commands.c:258
-#, fuzzy
 msgid "Set metaserver patches line."
-msgstr "Встановити інфо стрічку метасервера."
+msgstr "Задати рядок латок метасервера."
 
 #: server/commands.c:266
 msgid "Control metaserver connection."
-msgstr "Управління з'єднаннями метасервера."
+msgstr "Управляти з'єднаннями метасервера."
 
 #: server/commands.c:267
-#, fuzzy
 msgid ""
 "'metaconnection ?' reports on the status of the connection to metaserver. "
 "'metaconnection down' or 'metac d' brings the metaserver connection down. "
@@ -30970,6 +30959,8 @@ msgstr ""
 "'metaconnection ?' показує стан з'єднань з метасервером.\n"
 "'metaconnection down' або 'metac d' закриває з'єднання з метасервером.\n"
 "'metaconnection up' або 'metac u' підіймає з'єднання з метасервером."
+"'metaconnection persistent' чи 'metac p' як 'up', але продовжує спроби і "
+"після збою."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:276
@@ -30987,7 +30978,7 @@ msgstr "aitoggle <гравець>"
 
 #: server/commands.c:283
 msgid "Toggle AI status of player."
-msgstr "Встановити статус комп'ютерного для гравця."
+msgstr "Переключити статус ШІ гравця."
 
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:288
@@ -30996,11 +30987,10 @@ msgstr "take [з'єднання] <гравець>"
 
 #: server/commands.c:289
 msgid "Take over a player's place in the game."
-msgstr "Перехоплено місце гравця %s у грі."
+msgstr "Перехопити місце гравця %s в грі."
 
 #. TRANS: Don't translate text between ''
 #: server/commands.c:291
-#, fuzzy
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to take over a player. If you're not one of these, only the "
@@ -31009,9 +30999,11 @@ msgid ""
 "assigned to the connection. The 'allowtake' option controls which players "
 "may be taken and in what circumstances."
 msgstr ""
-"Лише консоль та з'єднання з рівнем cmdlevel 'hack' можуть дозволяти іншім "
-"з'єднанням перехоплювати гравців. Якщо Ви не один з них, лише аргумент "
-"<гравець> дозволений"
+"Тільки консоль та з'єднання з рівнем команд 'hack' можуть змусити інші "
+"з'єднання взяти гравця. Якщо Ви не один з них, лише аргумент <гравець> "
+"дозволений. Якщо замість імені гравця '-', чи з’єднання ще не керує гравцем, "
+"то такий створюється і призначається з’єднанню. Опція 'allowtake' керує яких "
+"гравців можна взяти і за яких обставин."
 
 #. TRANS: translate text between [] only
 #: server/commands.c:302
@@ -31024,7 +31016,6 @@ msgstr "Спостерігати за гравцем чи грою в цілом
 
 #. TRANS: Don't translate text between ''
 #: server/commands.c:305
-#, fuzzy
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to observe a player. If you're not one of these, only the "
@@ -31033,9 +31024,11 @@ msgid ""
 "global observer. The 'allowtake' option controls which players may be "
 "observed and in what circumstances."
 msgstr ""
-"Лише консоль та з'єднання з рівнем cmdlevel 'hack' можуть дозволяти іншім "
-"з'єднанням перехоплювати гравців. Якщо Ви не один з них, лише аргумент "
-"<гравець> дозволений"
+"Тільки консоль та з'єднання з рівнем команд 'hack' можуть змусити інші "
+"з'єднання споглядати гравця. Якщо Ви не один з них, лише аргумент "
+"<гравець> дозволений. Якщо консоль не дає імені гравця чи з’єднання не "
+"використовує аргументів, то воно прилипає до глобального оглядача. Опція "
+"'allowtake' керує яких гравців можна споглядати і за яких обставин."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:315
@@ -31056,9 +31049,8 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:323
-#, fuzzy
 msgid "create <player-name> [ai type]"
-msgstr "create <гравець>"
+msgstr "create <ім’я-гравця>"
 
 #: server/commands.c:324
 msgid "Create an AI player with a given name."
@@ -31076,17 +31068,23 @@ msgid ""
 "player can be reused (removing all record of that player from the running "
 "game)."
 msgstr ""
+"Команда 'create' створить нового гравця з заданим іменем.\n"
+"Параметром 'ai type' можна скористатись для вибору модуля ШІ для створеного "
+"гравця. Це потребує щоб Freeciv була зібра з підтримкою завантажувальних "
+"модулів ШІ та щоб був загружений відповідний модуль.\n"
+"Якщо гра вже почалась новий гравець не буде мати ні міст ні загонів, також, "
+"коли нема доступного слоту для гравця, можна повторно задіяти слот мертвого. "
+"(Це витре всі записи про нього з поточної гри)."
 
 #: server/commands.c:341
 msgid "Set yourself in away mode. The AI will watch your back."
 msgstr ""
-"Встановити собі режим відсутності. Комп'ютерний гравець буде очикувати на "
-"Ваше повернення."
+"Встановити собі режим відсутності. ШІ вас підстрахує. "
 
 #: server/commands.c:342
 msgid "The AI will govern your nation but do minimal changes."
 msgstr ""
-"Комп'ютерний гравець буде головувати Вашою нацією але робити мінімальні "
+"Комп'ютерний гравець буде правити Вашою нацією але робити мінімальні "
 "зміни."
 
 #. TRANS: translate text between <> only
@@ -31100,10 +31098,9 @@ msgstr ""
 
 #: server/commands.c:349
 msgid "Set one or all AI players to 'novice'."
-msgstr "Встановити рівень одного або усіх комп'ютерних гравців у початковий."
+msgstr "Задати рівень одного чи всіх гравців ШІ як початковий."
 
 #: server/commands.c:350
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
 "default level for any new AI players to 'novice'. With an argument, sets the "
@@ -31124,17 +31121,16 @@ msgstr ""
 
 #: server/commands.c:359
 msgid "Set one or all AI players to 'easy'."
-msgstr "Встановити рівень одного або усіх комп'ютерних гравців у легкий."
+msgstr "Встановити рівень одного або всіх комп'ютерних гравців у легкий."
 
 #: server/commands.c:360
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'. With an argument, sets the "
 "skill level for that player only."
 msgstr ""
-"Без аргументів встановлює рівень усіх комп'ютерних гравців у легкий, також "
-"легким буде рівень по замовчуванню усіх нових комп'ютерних гравців. За "
+"Без аргументів встановлює рівень усіх комп'ютерних гравців у 'легкий', також "
+"'легким' буде рівень по замовчуванню усіх нових комп'ютерних гравців. За "
 "наявності агрумента встановлює рівень лише цього гравця."
 
 #. TRANS: translate text between <> only
@@ -31148,17 +31144,16 @@ msgstr ""
 
 #: server/commands.c:369
 msgid "Set one or all AI players to 'normal'."
-msgstr "Встановити рівень одного або усіх комп'ютерних гравців у нормальний."
+msgstr "Встановити рівень одного або усіх комп'ютерних гравців у 'нормальний'."
 
 #: server/commands.c:370
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'. With an argument, sets the "
 "skill level for that player only."
 msgstr ""
-"Без аргументів встановлює рівень усіх комп'ютерних гравців у нормальний, "
-"також нормальним буде рівень по замовчуванню усіх нових комп'ютерних "
+"Без аргументів встановлює рівень усіх комп'ютерних гравців у 'нормальний', "
+"також 'нормальним' буде рівень по замовчуванню усіх нових комп'ютерних "
 "гравців. За наявності агрумента встановлює рівень лише цього гравця."
 
 #. TRANS: translate text between <> only
@@ -31172,17 +31167,16 @@ msgstr ""
 
 #: server/commands.c:379
 msgid "Set one or all AI players to 'hard'."
-msgstr "Встановити рівень одного або усіх комп'ютерних гравців у важкий."
+msgstr "Встановити рівень одного або всіх комп'ютерних гравців у важкий."
 
 #: server/commands.c:380
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'. With an argument, sets the "
 "skill level for that player only."
 msgstr ""
 "Без аргументів встановлює рівень усіх комп'ютерних гравців у важкий, також "
-"важким буде рівень по замовчуванню усіх нових комп'ютерних гравців. За "
+"важким буде рівень за замовчанням усіх нових гравців ШІ. За "
 "наявності агрумента встановлює рівень лише цього гравця."
 
 #. TRANS: translate text between <> only
@@ -31196,18 +31190,17 @@ msgstr ""
 
 #: server/commands.c:389
 msgid "Set one or all AI players to 'cheating'."
-msgstr "Встановити рівень одного або усіх комп'ютерних гравців у 'шахрай'."
+msgstr "Встановити рівень одного або всіх гравців ШІ у 'шахрай'."
 
 #: server/commands.c:390
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'cheating', and sets "
 "the default level for any new AI players to 'cheating'. With an argument, "
 "sets the skill level for that player only."
 msgstr ""
-"Без аргументів встановлює рівень усіх ШІ-гравців у 'шахраювати', також "
-"'шахраювати' буде рівень по замовчуванню усіх нових ШІ-гравців. За наявності "
-"агрумента встановлює рівень лише для цього гравця."
+"Без аргументів встановлює рівень усіх ШІ-гравців у 'шахрай', також "
+"'шахрай' буде типовий рівень всіх нових ШІ-гравців. За наявності "
+"агрумента встановлює рівень лише для того гравця."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:397
@@ -31220,11 +31213,9 @@ msgstr ""
 
 #: server/commands.c:399
 msgid "Set one or all AI players to 'experimental'."
-msgstr ""
-"Встановити рівень одного або усіх комп'ютерних гравців у експерементальний."
+msgstr "Встановити рівень одного або всіх гравців ШІ в експерементальний."
 
 #: server/commands.c:400
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill 'experimental', and sets the "
 "default level for any new AI players to this. With an argument, sets the "
@@ -31250,14 +31241,13 @@ msgstr ""
 "cmdlevel <>\n"
 "cmdlevel <рівень> new\n"
 "cmdlevel <рівень> first\n"
-"cmdlevel <рівень> <ім'я>"
+"cmdlevel <рівень> <ім'я-з’єднання>"
 
 #: server/commands.c:414
 msgid "Query or set command access level access."
 msgstr "Виводить або встановлює рівень доступу до команд."
 
 #: server/commands.c:415
-#, fuzzy
 msgid ""
 "The command access level controls which server commands are available to "
 "users via the client chatline. The available levels are:\n"
@@ -31279,11 +31269,13 @@ msgid ""
 "untrusted person could reconnect with the same name. Note that this command "
 "now takes connection names, not player names."
 msgstr ""
-"Рівень доступу до команд визначає доступні для користувачів через строку "
+"Рівень доступу до команд визначає доступні для користувачів через рядок "
 "чату клієнта команди сервера. Доступні рівні наведені нижче:\n"
 "    none  -  ніяких команд\n"
 "    info  -  лише інформаційні команди\n"
+"    basic -  команди доступні гравцям у грі\n"
 "    ctrl  -  команди що впливають на гру та користувачів\n"
+"    admin -  команди що впливають на роботу сервера\n"
 "    hack  -  *усі* команди - небезпечно!\n"
 "Без аргументів - команда виводить поточний рівень доступу до команд.\n"
 "З одним аргументом, рівень встановлюється для усіх існуючих з'єднань,\n"
@@ -31292,7 +31284,7 @@ msgstr ""
 "Якщо встановлено 'first come', встановлюється рівень 'first come';\n"
 "він застосовується для першого під'єднаного клієнта, або якщо вже є "
 "з'єднання,\n"
-"то до першого хто застосує команду 'firstlevel'.\n"
+"то до першого хто застосує команду 'first'.\n"
 "Якщо ім'я з'єднання зазначено - рівень встановлюється лише для цього "
 "з'єднання.\n"
 "Рівень доступу до команд не зберігається якщо клієнт від'єднується, бо ж "
@@ -31309,12 +31301,10 @@ msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <ходи> <хід_приріст> <значення> <значення_рази>"
 
 #: server/commands.c:448
-#, fuzzy
 msgid "See \"/help timeoutincrease\"."
 msgstr "Дивись 'help timeoutincrease'."
 
 #: server/commands.c:449
-#, fuzzy
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>. Use this command in concert with "
@@ -31322,7 +31312,7 @@ msgid ""
 msgstr ""
 "Кожні <ходи> ходів, додавати <значення> до таймауту, потім додати "
 "<хід_приріст> до <ходи> та множити <значення> на <значення_рази>.  "
-"Використовуйте цю команду разом з опцією 'timeout'. По замовчуванню 0 0 0 1"
+"Використовуйте цю команду разом з опцією 'timeout'. По замовчанню 0 0 0 1"
 
 #. TRANS: translate text between <> only; "vote" is as a process
 #: server/commands.c:456
@@ -31337,9 +31327,8 @@ msgstr ""
 
 #. TRANS: "vote" as a process
 #: server/commands.c:460
-#, fuzzy
 msgid "Cancel a running vote."
-msgstr "Скасувати голосування, що перебігає.\n"
+msgstr "Скасувати голосування, що перебігає."
 
 #. TRANS: "vote" as a process
 #: server/commands.c:462
@@ -31348,6 +31337,9 @@ msgid ""
 "access level, you can cancel any vote by vote number, or all votes with the "
 "'all' argument."
 msgstr ""
+"Без аргументів команда прибере ваше голосування. Якщо ви маєте доступ адміна "
+"можете скасувати будь-яке голосування по його номеру чи всі одразу додавши "
+"аргумент 'all'."
 
 #. TRANS: translate text between <> and [] only
 #: server/commands.c:469
@@ -31359,7 +31351,6 @@ msgid "Block all messages from users matching the pattern."
 msgstr "Блокувати всі повідомлення від користувачів згідно шаблону."
 
 #: server/commands.c:471
-#, fuzzy
 msgid ""
 "The given pattern will be added to your ignore list; you will not receive "
 "any messages from users matching this pattern. The type may be either \"user"
@@ -31383,12 +31374,10 @@ msgid "unignore <range>"
 msgstr "unignore <діапазон>"
 
 #: server/commands.c:483
-#, fuzzy
 msgid "Remove ignore list entries."
-msgstr "Видалити цю предустановку?"
+msgstr "Видалити зі списку ігнорування."
 
 #: server/commands.c:484
-#, fuzzy
 msgid ""
 "The ignore list entries in the given range will be removed; you will be able "
 "to receive messages from the respective users. The range argument may be a "
@@ -31400,7 +31389,7 @@ msgstr ""
 "Список пунктів списку ігнорування у заданому діапазоні буде видалено; ви "
 "зможете отримувати повідомлення від відповідних користувачів. Аргумент "
 "діапазону може бути одним числом або парою чисел, розділених рискою '-'. "
-"Якщо перше число пропущено, вважається, що воно 1, а якщо останнє пропущено, "
+"Якщо перше число пропущене, вважається, що воно 1, а якщо останнє пропущене, "
 "то вважається, що це останній номер у списку. Для доступу до свого поточного "
 "списку ігнорування введіть \"/list ignore\"."
 
@@ -31410,11 +31399,12 @@ msgid ""
 "playercolor <player-name> <color>\n"
 "playercolor <player-name> reset"
 msgstr ""
+"playercolor <ім’я-гравця> <колір>\n"
+"playercolor <ім’я-гравця> reset"
 
 #: server/commands.c:497
-#, fuzzy
 msgid "Define the color of a player."
-msgstr "Від'єднати від гравця."
+msgstr "Визначити колір гравця."
 
 #: server/commands.c:498
 msgid ""
@@ -31434,6 +31424,19 @@ msgid ""
 "changes the player color in any mode; 'reset' cannot be used.\n"
 "To list the player colors, use 'list colors'."
 msgstr ""
+"Ця команда задає колір вказаного гравця, перезаписуючи призначений установкою "
+"'plrcolormode'.\n"
+"Колір означується числом шістнадцяткової системи (hex), комбінація Червоного, "
+"Зеленого, і синього компонент (RGB), повністю як в HTML. Для кожного "
+"компонента, найменше (найтемніше) значення 0 (в hex: 00), найбільше значення "
+"255 (в hex: FF). Означення кольору просто три шітнадцяткових значення записані"
+" підряд (RRGGBB). До прикладу, така команда задасть Цезареві чистий червоний:\n"
+"  playercolor Caesar ff0000\n"
+"До початку гри командою можна скористатись лише якщо установка 'plrcolormode' "
+"дорівнює 'PLR_SET'; колір гравця можна зняти, давши команду 'reset'.\n"
+"Як гра почалась і кольори призначили ця команда змінить колір гравця в "
+"будь-якому режимі; 'reset' використати не можна.\n"
+"Для перечислення кольорів скористайтесь 'list colors'."
 
 #: server/commands.c:518
 msgid "End the game immediately in a draw."
@@ -31615,7 +31618,7 @@ msgid ""
 msgstr ""
 "З'єднання з сервером, вказане аргументом 'користувач', буде розірвано, і "
 "йому буде заборонено перез'єднуватись. Час, протягом якого користувач не "
-"зможе під'єднатися, визначаться налаштуванням 'kicktime'."
+"зможе під'єднатися, визначається налаштуванням 'kicktime'."
 
 #. TRANS: translate only text between [] and <>
 #: server/commands.c:619
@@ -31665,7 +31668,7 @@ msgstr ""
 "(Стається автоматично, якщо власник гравця переприєднався.)\n"
 "'delegate show': показати кому делеговано управліннявашим гравцем, якщо взагалі "
 "кому-небудь.\n"
-"Аргумнт [player-name] можуть використати лише зєднання з командним рівнем "
+"Аргумент [player-name] можуть використати лише з’єднання з командним рівнем "
 "'admin' або вищими, щоб примусово здійснити відповідну зміну статусу делегування."
 
 #. TRANS: translate text between <> only
@@ -31687,7 +31690,7 @@ msgid ""
 "change, while the argument 'lua' evaluates a line of Lua script in the "
 "context of the Lua instance for the database."
 msgstr ""
-"Аргумент 'reload' змушує скрипт бази даних перчитатись після змін, поки "
+"Аргумент 'reload' змушує скрипт бази даних перечитатись після змін, поки "
 "аргумент 'lua' обчислює рядок скрипта Lua в контексті екземпляра Lua для "
 "бази даних."
 
