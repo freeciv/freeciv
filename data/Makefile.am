@@ -25,7 +25,7 @@ CLIENT_FILES += \
 endif
 if CLIENT_GUI_GTK_3_X
 CLIENT_FILES += \
-	gtk3x_menus.xml
+	gtk3.22_menus.xml
 endif
 else
 CLIENT_FILES =
@@ -59,7 +59,7 @@ EXTRA_DIST = \
 	freeciv.rc-2.0	\
 	gtk2_menus.xml	\
 	gtk3_menus.xml	\
-	gtk3x_menus.xml	\
+	gtk3.22_menus.xml	\
 	amplio2.tilespec \
 	cimpletoon.tilespec \
 	hex2t.tilespec	\
