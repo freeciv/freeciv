@@ -29164,41 +29164,36 @@ msgstr "Не можу знайти Ваш домашній каталог"
 
 #: tools/download.c:95
 msgid "Downloading modpack control file."
-msgstr ""
+msgstr "Скачую контрольний файл modpack"
 
 #: tools/download.c:101
-#, fuzzy
 msgid "Failed to get and parse modpack control file"
-msgstr "Помилка створення нового комп'ютерного гравця: %s."
+msgstr "Не зміг взяти і пропарсити контрольний файл modpack"
 
 #: tools/download.c:107
-#, fuzzy
 msgid "Modpack control file has no capability string"
-msgstr "Строка сумісності клієнта: %s"
+msgstr "Контролний файл modpack не має рядка сумісності"
 
 #: tools/download.c:117
-#, fuzzy
 msgid "Modpack control file is incompatible"
-msgstr "файл спеціфікацій звуку несумісний:"
+msgstr "Контрольний файлі modpack несумісний"
 
 #: tools/download.c:122
-#, fuzzy
 msgid "Modpack name not defined in control file"
-msgstr "файл спеціфікацій звуку несумісний:"
+msgstr "Назва Modpack не визначена в контрольному файлі"
 
 #: tools/download.c:126
-#, fuzzy
 msgid "Modpack version not defined in control file"
-msgstr "файл спеціфікацій звуку несумісний:"
+msgstr "Версія modpack не визначена в контрольному файлі"
 
 #: tools/download.c:132
 msgid "Illegal modpack type"
-msgstr ""
+msgstr "Недопустимий тип modpack"
 
 #: tools/download.c:182
 #, c-format
 msgid "Illegal path for %s"
-msgstr ""
+msgstr "Недопустимий шлях для %s"
 
 #: tools/download.c:200
 msgid "Cannot create required directories"
@@ -29216,32 +29211,30 @@ msgstr "Не вдалося завантажити %s"
 
 #: tools/download.c:233
 msgid "Some parts of the modpack failed to install."
-msgstr ""
+msgstr "Збій установки деяких частин modpack’а"
 
 #: tools/download.c:259
 msgid "Cannot fetch and parse modpack list"
-msgstr ""
+msgstr "Не можу забрати і пропарсити список modpack’ів"
 
 #: tools/download.c:265
-#, fuzzy
 msgid "Modpack list has no capability string"
-msgstr "Строка сумісності клієнта: %s"
+msgstr "Список modpack не має рядка сумісності"
 
 #: tools/download.c:275
-#, fuzzy
 msgid "Modpack list is incompatible"
-msgstr "файл спеціфікацій звуку несумісний:"
+msgstr "Список modpack несумісний"
 
 #: tools/modinst.c:74 tools/modinst.c:88
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create control directory \"%s\""
-msgstr "Не вдалося створити нового гравця %s."
+msgstr "Збій створення контрольної теки \"%s\""
 
 #. TRANS: ... Ubermod ... Ruleset, not Scenario
 #: tools/modinst.c:127
 #, c-format
 msgid "Earlier installation of %s found, but it seems to be %s, not %s"
-msgstr ""
+msgstr "Знайшов попередню установку %s, здається це %s, не %s"
 
 #: tools/modinst.h:39
 msgid "Modpack"
@@ -29256,76 +29249,75 @@ msgstr "?"
 #. TRANS: License of modpack is not known
 #: tools/mpcli.c:74 tools/mpgui_gtk2.c:388 tools/mpgui_gtk3.c:388
 #: tools/mpgui_qt.cpp:386
-#, fuzzy
 msgid "?license:Unknown"
-msgstr "Невідомий"
+msgstr "Невідома"
 
 #: tools/mpcli.c:79 tools/mpgui_gtk2.c:235 tools/mpgui_gtk2.c:393
 #: tools/mpgui_gtk3.c:234 tools/mpgui_gtk3.c:393 tools/mpgui_qt.cpp:344
 #: tools/mpgui_qt.cpp:391
 msgid "Not installed"
-msgstr ""
+msgstr "Не встановлено"
 
 #: tools/mpcli.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "Name=\"%s\""
-msgstr "Назва"
+msgstr "Назва=\"%s\""
 
 #: tools/mpcli.c:84
-#, fuzzy, c-format
+#, c-format
 msgid "Version=\"%s\""
-msgstr "Версія"
+msgstr "Версія=\"%s\""
 
 #: tools/mpcli.c:85
 #, c-format
 msgid "Installed=\"%s\""
-msgstr ""
+msgstr "Установлено=\"%s\""
 
 #: tools/mpcli.c:86
 #, c-format
 msgid "Type=\"%s\" / \"%s\""
-msgstr ""
+msgstr "Тип=\"%s\" / \"%s\""
 
 #: tools/mpcli.c:87
 #, c-format
 msgid "License=\"%s\""
-msgstr ""
+msgstr "Ліцензія=\"%s\""
 
 #: tools/mpcli.c:88
-#, fuzzy, c-format
+#, c-format
 msgid "URL=\"%s\""
-msgstr "\"%s\""
+msgstr ""
 
 #: tools/mpcli.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "Comment=\"%s\""
-msgstr "Коментарі"
+msgstr "Коментар=\"%s\""
 
 #: tools/mpcli.c:112
 msgid ""
 "This modpack installer does not support any specific options\n"
 "\n"
 msgstr ""
+"Цей установщик modpack не підтримує жодних опцій\n"
+"\n"
 
 #: tools/mpcli.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '--' '%s'"
-msgstr "Невідома опція '%s'."
+msgstr "Невідома опція '--' '%s'."
 
 #: tools/mpcli.c:130
-#, fuzzy
 msgid "Freeciv modpack installer (command line version)"
-msgstr "Оберіть технологію для крадіжки"
+msgstr "Установщик modpackів для Freeciv (версія для комндного рядка)"
 
 #: tools/mpcli.c:153
-#, fuzzy
 msgid "Modpack installed successfully"
-msgstr "%s вдало транспортовано."
+msgstr "Установка modpack’а вдалась."
 
 #: tools/mpcli.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Modpack install failed: %s"
-msgstr "Завантажую файл скрипту: %s"
+msgstr "Збій установки modpack: %s"
 
 #. TRANS: "List" is exactly what user must type, do not translate.
 #: tools/mpcmdline.c:64
@@ -29334,7 +29326,7 @@ msgstr ""
 
 #: tools/mpcmdline.c:65
 msgid "Load modpack list from given URL"
-msgstr ""
+msgstr "Завантажити список modpackів з даного URL"
 
 #. TRANS: "prefix" is exactly what user must type, do not translate.
 #: tools/mpcmdline.c:68
@@ -29343,7 +29335,7 @@ msgstr ""
 
 #: tools/mpcmdline.c:69
 msgid "Install modpacks to given directory hierarchy"
-msgstr ""
+msgstr "Встановити modpack’и в цю ієрархію каталогів"
 
 #. TRANS: "install" is exactly what user must type, do not translate.
 #: tools/mpcmdline.c:72
@@ -29352,18 +29344,19 @@ msgstr ""
 
 #: tools/mpcmdline.c:73
 msgid "Automatically install modpack from a given URL"
-msgstr ""
+msgstr "Автоматично встановити modpackз даного URL"
 
 #: tools/mpgui_gtk2.c:106 tools/mpgui_gtk3.c:106 tools/mpgui_qt.cpp:478
-#, fuzzy
 msgid ""
 "Modpack installation in progress.\n"
 "Are you sure you want to quit?"
-msgstr "Ви впевнені, що хочете вийти?"
+msgstr ""
+"Іде установка Modpack’а .\n"
+"Ви впевнені, що хочете вийти?"
 
 #: tools/mpgui_gtk2.c:291 tools/mpgui_gtk3.c:289 tools/mpgui_qt.cpp:309
 msgid "Another download already active"
-msgstr ""
+msgstr "Інше завантаження вже йде"
 
 #: tools/mpgui_gtk2.c:304 tools/mpgui_gtk3.c:302
 msgid "Failed to start downloader"
@@ -29378,20 +29371,20 @@ msgstr ""
 
 #: tools/mpgui_gtk2.c:475 tools/mpgui_gtk3.c:478 tools/mpgui_qt.cpp:218
 msgid "Installed"
-msgstr ""
+msgstr "Встановлено"
 
 #: tools/mpgui_gtk2.c:480 tools/mpgui_gtk3.c:483 tools/mpgui_qt.cpp:218
 msgid "?modpack:Type"
-msgstr ""
+msgstr "Тип"
 
 #: tools/mpgui_gtk2.c:486 tools/mpgui_gtk3.c:489 tools/mpgui_qt.cpp:219
 msgid "Subtype"
-msgstr ""
+msgstr "Підтип"
 
 #. TRANS: noun
 #: tools/mpgui_gtk2.c:493 tools/mpgui_gtk3.c:496 tools/mpgui_qt.cpp:219
 msgid "License"
-msgstr ""
+msgstr "Ліцензія"
 
 #: tools/mpgui_gtk2.c:498 tools/mpgui_gtk3.c:501 tools/mpgui_qt.cpp:220
 msgid "URL"
@@ -29399,16 +29392,15 @@ msgstr ""
 
 #: tools/mpgui_gtk2.c:504 tools/mpgui_gtk3.c:507 tools/mpgui_qt.cpp:187
 msgid "Install modpack"
-msgstr ""
+msgstr "Встановити modpack"
 
 #: tools/mpgui_gtk2.c:510 tools/mpgui_gtk3.c:515 tools/mpgui_qt.cpp:184
 msgid "Modpack URL"
 msgstr ""
 
 #: tools/mpgui_gtk2.c:527 tools/mpgui_gtk3.c:532 tools/mpgui_qt.cpp:259
-#, fuzzy
 msgid "Select modpack to install"
-msgstr "Оберіть технологію для крадіжки"
+msgstr "Оберіть modpack для установки"
 
 #: tools/mpgui_gtk2.c:577 tools/mpgui_gtk3.c:583
 msgid ""
@@ -29416,16 +29408,17 @@ msgid ""
 "after '--'. See the Gtk documentation.\n"
 "\n"
 msgstr ""
+"Цей установщик modpack приймає стандартні командні опції Gtk\n"
+"після '--'. Дивись документацію Gtk.\n"
+"\n"
 
 #: tools/mpgui_gtk2.c:600
-#, fuzzy
 msgid "Freeciv modpack installer (gtk2)"
-msgstr "Оберіть технологію для крадіжки"
+msgstr "Установщик modpack для Freeciv (gtk2)"
 
 #: tools/mpgui_gtk3.c:606
-#, fuzzy
 msgid "Freeciv modpack installer (gtk3)"
-msgstr "Оберіть технологію для крадіжки"
+msgstr "Установщик modpack для Freeciv (gtk3)"
 
 #: tools/mpgui_qt.cpp:97
 msgid ""
@@ -29433,41 +29426,43 @@ msgid ""
 "after '--'. See the Qt documentation.\n"
 "\n"
 msgstr ""
+"Цей установщик modpack приймає стандартні командні опції Qt\n"
+"після '--'. Дивись документацію Qt.\n"
+"\n"
 
 #: tools/mpgui_qt.cpp:121
-#, fuzzy
 msgid "Freeciv modpack installer (Qt)"
-msgstr "Оберіть технологію для крадіжки"
+msgstr "Установщик modpack для Freeciv (Qt)"
 
 #: server/aiiface.c:83
 #, c-format
 msgid "Cannot open AI module %s (%s)"
-msgstr ""
+msgstr "Не можу відкрити модуль ШІ %s (%s)"
 
 #: server/aiiface.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find capstr function from ai module %s (%s)"
-msgstr "Не знайдено аудіо файл %s"
+msgstr "Не знайшов capstr функцію з модуля ШІ %s (%s)"
 
 #: server/aiiface.c:97
 #, c-format
 msgid "Incompatible ai module %s:"
-msgstr ""
+msgstr "Несуміний модуль ШІ %s:"
 
 #: server/aiiface.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "  Module options:    %s"
-msgstr "опції файлу: %s"
+msgstr " Опції модуля: %s"
 
 #: server/aiiface.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "  Supported options: %s"
-msgstr "підтримувані опції: %s"
+msgstr " Підтримувані опції: %s"
 
 #: server/aiiface.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find setup function from ai module %s (%s)"
-msgstr "Не знайдено аудіо файл %s"
+msgstr "Не знайшов функцію установки з модуля ШІ %s (%s)"
 
 #: server/aiiface.c:114
 #, c-format
@@ -29792,7 +29787,7 @@ msgstr "Коли %s розпустили, ваш %s не зміг вибрати
 #, c-format
 msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
-msgstr "Коли %s було розпущено, ваш %s попав у пастку і був втрачений."
+msgstr "Коли %s було розпущено, ваш %s у %s попав у пастку і був втрачений."
 
 #: server/citytools.c:1903
 #, c-format
@@ -30354,9 +30349,9 @@ msgid "%s was hit by %s."
 msgstr "%2$s поразив %1$s."
 
 #: server/cityturn.c:2988
-#, fuzzy, c-format
+#, c-format
 msgid "Fallout near %s."
-msgstr "Забруднення біля %s."
+msgstr "Ядерні опади біля %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
 #: server/cityturn.c:3000
