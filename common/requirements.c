@@ -956,9 +956,9 @@ bool are_requirements_contradictions(const struct requirement *req1,
        * be present when the number required to be present is smaller than
        * the number required to not be present. */
       if (req1->present) {
-        return req1->source.value.minmoves > req2->source.value.minmoves;
+        return req1->source.value.minmoves >= req2->source.value.minmoves;
       } else {
-        return req1->source.value.minmoves < req2->source.value.minmoves;
+        return req1->source.value.minmoves <= req2->source.value.minmoves;
       }
     }
     break;
