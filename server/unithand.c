@@ -1216,6 +1216,19 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("%s can't do anything to an unknown target tile."),
                   unit_name_translation(punit));
     break;
+  case ANEK_TRIREME_MOVE:
+    notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
+                  _("%s cannot move that far from the coast line."),
+                  unit_link(punit));
+    break;
+  case ANEK_DISEMBARK_ACT:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("%s cannot disembark outside of a city or a native base "
+                    "for %s."),
+                  unit_link(punit),
+                  utype_name_translation(
+                      unit_type_get(unit_transport_get(punit))));
+    break;
   case ANEK_TGT_UNREACHABLE:
     notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
                   _("%s can't do anything since there is an unreachable "
@@ -1661,6 +1674,19 @@ void illegal_action_msg(struct player *pplayer,
                   _("%s can't do %s to an unknown tile."),
                   unit_name_translation(actor),
                   action_get_ui_name(stopped_action));
+    break;
+  case ANEK_TRIREME_MOVE:
+    notify_player(pplayer, target_tile, event, ftc_server,
+                  _("%s cannot move that far from the coast line."),
+                  unit_link(actor));
+    break;
+  case ANEK_DISEMBARK_ACT:
+    notify_player(pplayer, unit_tile(actor), event, ftc_server,
+                  _("%s cannot disembark outside of a city or a native base "
+                    "for %s."),
+                  unit_link(actor),
+                  utype_name_translation(
+                      unit_type_get(unit_transport_get(actor))));
     break;
   case ANEK_TGT_UNREACHABLE:
     notify_player(pplayer, target_tile,

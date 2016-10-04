@@ -63,6 +63,11 @@ enum ane_kind {
   ANEK_DISTANCE_NEAR,
   /* Explanation: can't be done because target is too far away. */
   ANEK_DISTANCE_FAR,
+  /* Explanation: can't be done to targets that far from the coast line. */
+  ANEK_TRIREME_MOVE,
+  /* Explanation: can't be done because the actor can't exit its
+   * transport. */
+  ANEK_DISEMBARK_ACT,
   /* Explanation: actor can't reach unit at target. */
   ANEK_TGT_UNREACHABLE,
   /* Explanation: the action is disabled in this scenario. */
