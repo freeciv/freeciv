@@ -301,6 +301,13 @@ void universal_value_from_str(struct universal *source, const char *value)
   case VUT_MINYEAR:
     source->value.minyear = atoi(value);
     return;
+  case VUT_MINCALFRAG:
+    /* Rule names are 0-based numbers, not pretty names from ruleset */
+    source->value.mincalfrag = atoi(value);
+    if (source->value.mincalfrag >= 0) {
+      /* More range checking done later, in sanity_check_req_individual() */
+      return;
+    }
   case VUT_TOPO:
     source->value.topo_property = topo_flag_by_name(value, fc_strcasecmp);
     if (topo_flag_is_valid(source->value.topo_property)) {
@@ -496,6 +503,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_MINYEAR:
     source.value.minyear = value;
     return source;
+  case VUT_MINCALFRAG:
+    source.value.mincalfrag = value;
+    return source;
   case VUT_TOPO:
     source.value.topo_property = value;
     return source;
@@ -610,6 +620,8 @@ int universal_number(const struct universal *source)
     return source->value.extraflag;
   case VUT_MINYEAR:
     return source->value.minyear;
+  case VUT_MINCALFRAG:
+    return source->value.mincalfrag;
   case VUT_TOPO:
     return source->value.topo_property;
   case VUT_TERRAINALTER:
@@ -718,6 +730,7 @@ struct requirement req_from_str(const char *type, const char *range,
         req.range = REQ_RANGE_PLAYER;
         break;
       case VUT_MINYEAR:
+      case VUT_MINCALFRAG:
       case VUT_TOPO:
       case VUT_MINTECHS:
         req.range = REQ_RANGE_WORLD;
@@ -810,6 +823,7 @@ struct requirement req_from_str(const char *type, const char *range,
                  && req.range != REQ_RANGE_ADJACENT);
       break;
     case VUT_MINYEAR:
+    case VUT_MINCALFRAG:
     case VUT_TOPO:
       invalid = (req.range != REQ_RANGE_WORLD);
       break;
@@ -870,6 +884,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_AI_LEVEL:
     case VUT_TERRAINCLASS:
     case VUT_MINYEAR:
+    case VUT_MINCALFRAG:
     case VUT_TOPO:
     case VUT_TERRAINALTER:
     case VUT_CITYTILE:
@@ -2942,6 +2957,9 @@ bool is_req_active(const struct player *target_player,
   case VUT_MINYEAR:
     eval = BOOL_TO_TRISTATE(game.info.year >= req->source.value.minyear);
     break;
+  case VUT_MINCALFRAG:
+    eval = BOOL_TO_TRISTATE(game.info.fragment_count >= req->source.value.mincalfrag);
+    break;
   case VUT_TOPO:
     eval = BOOL_TO_TRISTATE(current_topo_has_flag(req->source.value.topo_property));
     break;
@@ -3068,6 +3086,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_AGE:
   case VUT_ROADFLAG:
   case VUT_EXTRAFLAG:
+  case VUT_MINCALFRAG:  /* cyclically available */
     return FALSE;
   case VUT_TERRAIN:
   case VUT_EXTRA:
@@ -3195,6 +3214,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.extraflag == psource2->value.extraflag;
   case VUT_MINYEAR:
     return psource1->value.minyear == psource2->value.minyear;
+  case VUT_MINCALFRAG:
+    return psource1->value.mincalfrag == psource2->value.mincalfrag;
   case VUT_TOPO:
     return psource1->value.topo_property == psource2->value.topo_property;
   case VUT_TERRAINALTER:
@@ -3224,6 +3245,11 @@ const char *universal_rule_name(const struct universal *psource)
     return citytile_type_name(psource->value.citytile);
   case VUT_MINYEAR:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minyear);
+
+    return buffer;
+  case VUT_MINCALFRAG:
+    /* Rule name is 0-based number, not pretty name from ruleset */
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.mincalfrag);
 
     return buffer;
   case VUT_TOPO:
@@ -3544,6 +3570,12 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_MINYEAR:
     cat_snprintf(buf, bufsz, _("After %s"),
                  textyear(psource->value.minyear));
+    return buf;
+  case VUT_MINCALFRAG:
+    /* TRANS: here >= means 'greater than or equal'.
+     * %s identifies a calendar fragment (may be bare number). */
+    cat_snprintf(buf, bufsz, _(">=%s"),
+                 textcalfrag(psource->value.mincalfrag));
     return buf;
   case VUT_TOPO:
     cat_snprintf(buf, bufsz, _("%s map"),

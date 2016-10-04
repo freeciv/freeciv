@@ -377,6 +377,7 @@ typedef union {
   int minsize;
   int minculture;
   int minyear;
+  int mincalfrag;
   Output_type_id outputtype;
   int terrainclass;			/* enum terrain_class */
   int terrainalter;                     /* enum terrain_alteration */
@@ -491,6 +492,8 @@ typedef union {
 #define SPECENUM_VALUE39NAME "MinTechs"
 #define SPECENUM_VALUE40 VUT_EXTRAFLAG
 #define SPECENUM_VALUE40NAME "ExtraFlag"
+#define SPECENUM_VALUE41 VUT_MINCALFRAG
+#define SPECENUM_VALUE41NAME "MinCalFrag"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

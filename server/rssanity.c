@@ -108,6 +108,20 @@ static bool sanity_check_req_individual(struct requirement *preq,
       }
     }
     break;
+  case VUT_MINCALFRAG:
+    /* Currently [calendar] is loaded after some requirements are
+     * parsed, so we can't do this in universal_value_from_str(). */
+    if (game.calendar.calendar_fragments < 1) {
+      log_error("%s: MinCalFrag requirement used in ruleset without "
+                "calendar fragments", list_for);
+      return FALSE;
+    } else if (preq->source.value.mincalfrag >= game.calendar.calendar_fragments) {
+      log_error("%s: MinCalFrag requirement %d out of range (max %d in "
+                "this ruleset)", list_for, preq->source.value.mincalfrag,
+                game.calendar.calendar_fragments-1);
+      return FALSE;
+    }
+    break;
   default:
     /* No other universals have checks that can't be done at ruleset
      * load time. See req_from_str(). */
@@ -180,6 +194,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_MINVETERAN: /* Breaks nothing, but has no sense either */
      case VUT_MINHP: /* Breaks nothing, but has no sense either */
      case VUT_MINYEAR:
+     case VUT_MINCALFRAG:
      case VUT_AI_LEVEL:
      case VUT_TERRAINALTER: /* Local range only */
      case VUT_CITYTILE:

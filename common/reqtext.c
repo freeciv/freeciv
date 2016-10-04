@@ -2277,6 +2277,25 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     return TRUE;
 
+  case VUT_MINCALFRAG:
+    if (preq->range != REQ_RANGE_WORLD) {
+      break;
+    }
+    if (preq->present) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is a representation of a calendar fragment,
+                    * from the ruleset. May be a bare number. */
+                   _("Requires the game to have reached %s."),
+                   textcalfrag(preq->source.value.mincalfrag));
+    } else {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is a representation of a calendar fragment,
+                    * from the ruleset. May be a bare number. */
+                   _("Requires that the game has not yet reached %s."),
+                   textcalfrag(preq->source.value.mincalfrag));
+    }
+    return TRUE;
+
   case VUT_TOPO:
     if (preq->range != REQ_RANGE_WORLD) {
       break;

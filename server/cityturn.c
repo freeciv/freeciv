@@ -1889,6 +1889,40 @@ static bool worklist_change_build_target(struct player *pplayer,
                 success = FALSE;
               }
               break;
+            case VUT_MINCALFRAG:
+              /* Unlike VUT_MINYEAR, a requirement in either direction is
+               * likely to be fulfilled sooner or later. */
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              /* TRANS: last %s is a calendar fragment from
+                               * the ruleset; may be a bare number */
+                              _("%s can't build %s from the worklist; "
+                                "only available from %s. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              textcalfrag(preq->source.value.mincalfrag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_mincalfrag");
+              } else {
+                fc_assert_action(preq->source.value.mincalfrag > 0, break);
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              /* TRANS: last %s is a calendar fragment from
+                               * the ruleset; may be a bare number */
+                              _("%s can't build %s from the worklist; "
+                                "not available after %s. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              textcalfrag(preq->source.value.mincalfrag-1));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_mincalfrag");
+              }
+              break;
             case VUT_TOPO:
               if (preq->present) {
                 notify_player(pplayer, city_tile(pcity),

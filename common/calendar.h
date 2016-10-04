@@ -20,6 +20,7 @@ extern "C" {
 int game_next_year(int);
 void game_advance_year(void);
 
+const char *textcalfrag(int frag);
 const char *textyear(int year);
 const char *calendar_text(void);
 

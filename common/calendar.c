@@ -95,6 +95,25 @@ void game_advance_year(void)
 
 /****************************************************************************
   Produce a statically allocated textual representation of the given
+  calendar fragment.
+****************************************************************************/
+const char *textcalfrag(int frag)
+{
+  static char buf[MAX_LEN_NAME];
+
+  fc_assert_ret_val(game.calendar.calendar_fragments > 0, "");
+  if (game.calendar.calendar_fragment_name[frag][0] != '\0') {
+    fc_snprintf(buf, sizeof(buf), "%s",
+                _(game.calendar.calendar_fragment_name[frag]));
+  } else {
+    /* Human readable fragment count starts from 1, not 0 */
+    fc_snprintf(buf, sizeof(buf), "%d", frag + 1);
+  }
+  return buf;
+}
+
+/****************************************************************************
+  Produce a statically allocated textual representation of the given
   year.
 ****************************************************************************/
 const char *textyear(int year)
@@ -123,15 +142,8 @@ const char *calendar_text(void)
   if (game.calendar.calendar_fragments) {
     static char buffer[128];
 
-    if (game.calendar.calendar_fragment_name[game.info.fragment_count][0] != '\0') {
-      fc_snprintf(buffer, sizeof(buffer), "%s/%s", textyear(game.info.year),
-                  _(game.calendar.calendar_fragment_name[game.info.fragment_count]));
-    } else {
-      /* Human readable fragment count starts from 1, not 0 */
-      fc_snprintf(buffer, sizeof(buffer), "%s/%d", textyear(game.info.year),
-                  game.info.fragment_count + 1);
-    }
-
+    fc_snprintf(buffer, sizeof(buffer), "%s/%s", textyear(game.info.year),
+                textcalfrag(game.info.fragment_count));
     return buffer;
   } else {
     return textyear(game.info.year);

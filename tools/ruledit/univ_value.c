@@ -101,6 +101,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_MINYEAR:
     src->value.minyear = 0;
     return TRUE;
+  case VUT_MINCALFRAG:
+    src->value.mincalfrag = 0;
+    return TRUE;
   case VUT_TERRAINALTER:
     src->value.terrainalter = TA_CAN_IRRIGATE;
     return TRUE;
@@ -375,6 +378,7 @@ void universal_kind_values(struct universal *univ,
     break;
   case VUT_MINSIZE:
   case VUT_MINYEAR:
+  case VUT_MINCALFRAG:
   case VUT_MAXTILEUNITS:
   case VUT_MINCULTURE:
   case VUT_MINMOVES:
