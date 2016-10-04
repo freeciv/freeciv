@@ -657,25 +657,138 @@ struct requirement req_from_str(const char *type, const char *range,
 				const char *value)
 {
   struct requirement req;
-  bool invalid = TRUE;
+  bool invalid;
   const char *error = NULL;
 
   req.source = universal_by_rule_name(type, value);
 
-  /* Scan the range string to find the range.  If no range is given a
-   * default fallback is used rather than giving an error. */
-  req.range = req_range_by_name(range, fc_strcasecmp);
-  if (!req_range_is_valid(req.range)) {
+  invalid = !universals_n_is_valid(req.source.kind);
+  if (invalid) {
+    error = "bad type or name";
+  } else {
+    /* Scan the range string to find the range.  If no range is given a
+     * default fallback is used rather than giving an error. */
+    req.range = req_range_by_name(range, fc_strcasecmp);
+    if (!req_range_is_valid(req.range)) {
+      switch (req.source.kind) {
+      case VUT_NONE:
+      case VUT_COUNT:
+        break;
+      case VUT_IMPROVEMENT:
+      case VUT_IMPR_GENUS:
+      case VUT_EXTRA:
+      case VUT_GOOD:
+      case VUT_TERRAIN:
+      case VUT_TERRFLAG:
+      case VUT_UTYPE:
+      case VUT_UTFLAG:
+      case VUT_UCLASS:
+      case VUT_UCFLAG:
+      case VUT_MINVETERAN:
+      case VUT_UNITSTATE:
+      case VUT_MINMOVES:
+      case VUT_MINHP:
+      case VUT_AGE:
+      case VUT_ACTION:
+      case VUT_OTYPE:
+      case VUT_SPECIALIST:
+      case VUT_TERRAINCLASS:
+      case VUT_BASEFLAG:
+      case VUT_ROADFLAG:
+      case VUT_EXTRAFLAG:
+      case VUT_TERRAINALTER:
+      case VUT_CITYTILE:
+      case VUT_MAXTILEUNITS:
+        req.range = REQ_RANGE_LOCAL;
+        break;
+      case VUT_MINSIZE:
+      case VUT_MINCULTURE:
+      case VUT_NATIONALITY:
+        req.range = REQ_RANGE_CITY;
+        break;
+      case VUT_GOVERNMENT:
+      case VUT_ACHIEVEMENT:
+      case VUT_STYLE:
+      case VUT_ADVANCE:
+      case VUT_TECHFLAG:
+      case VUT_NATION:
+      case VUT_NATIONGROUP:
+      case VUT_DIPLREL:
+      case VUT_AI_LEVEL:
+        req.range = REQ_RANGE_PLAYER;
+        break;
+      case VUT_MINYEAR:
+      case VUT_TOPO:
+      case VUT_MINTECHS:
+        req.range = REQ_RANGE_WORLD;
+        break;
+      }
+    }
+
+    req.survives = survives;
+    req.present = present;
+    req.quiet = quiet;
+
+    /* These checks match what combinations are supported inside
+     * is_req_active(). However, it's only possible to do basic checks,
+     * not anything that might depend on the rest of the ruleset which
+     * might not have been loaded yet. */
     switch (req.source.kind) {
-    case VUT_NONE:
-    case VUT_COUNT:
-      break;
-    case VUT_IMPROVEMENT:
-    case VUT_IMPR_GENUS:
-    case VUT_EXTRA:
-    case VUT_GOOD:
     case VUT_TERRAIN:
+    case VUT_EXTRA:
+    case VUT_TERRAINCLASS:
     case VUT_TERRFLAG:
+    case VUT_BASEFLAG:
+    case VUT_ROADFLAG:
+    case VUT_EXTRAFLAG:
+      invalid = (req.range != REQ_RANGE_LOCAL
+                 && req.range != REQ_RANGE_CADJACENT
+                 && req.range != REQ_RANGE_ADJACENT
+                 && req.range != REQ_RANGE_CITY
+                 && req.range != REQ_RANGE_TRADEROUTE);
+      break;
+    case VUT_ADVANCE:
+    case VUT_TECHFLAG:
+    case VUT_ACHIEVEMENT:
+    case VUT_MINTECHS:
+      invalid = (req.range < REQ_RANGE_PLAYER);
+      break;
+    case VUT_GOVERNMENT:
+    case VUT_AI_LEVEL:
+    case VUT_STYLE:
+      invalid = (req.range != REQ_RANGE_PLAYER);
+      break;
+    case VUT_MINSIZE:
+    case VUT_NATIONALITY:
+    case VUT_GOOD:
+      invalid = (req.range != REQ_RANGE_CITY
+                 && req.range != REQ_RANGE_TRADEROUTE);
+      break;
+    case VUT_MINCULTURE:
+      invalid = (req.range != REQ_RANGE_CITY
+                 && req.range != REQ_RANGE_TRADEROUTE
+                 && req.range != REQ_RANGE_PLAYER
+                 && req.range != REQ_RANGE_TEAM
+                 && req.range != REQ_RANGE_ALLIANCE
+                 && req.range != REQ_RANGE_WORLD);
+      break;
+    case VUT_DIPLREL:
+      invalid = (req.range != REQ_RANGE_LOCAL
+                 && req.range != REQ_RANGE_PLAYER
+                 && req.range != REQ_RANGE_TEAM
+                 && req.range != REQ_RANGE_ALLIANCE
+                 && req.range != REQ_RANGE_WORLD)
+                /* Non local foreign makes no sense. */
+                || (req.source.value.diplrel == DRO_FOREIGN
+                    && req.range != REQ_RANGE_LOCAL);
+      break;
+    case VUT_NATION:
+    case VUT_NATIONGROUP:
+      invalid = (req.range != REQ_RANGE_PLAYER
+                 && req.range != REQ_RANGE_TEAM
+                 && req.range != REQ_RANGE_ALLIANCE
+                 && req.range != REQ_RANGE_WORLD);
+      break;
     case VUT_UTYPE:
     case VUT_UTFLAG:
     case VUT_UCLASS:
@@ -684,156 +797,49 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_UNITSTATE:
     case VUT_MINMOVES:
     case VUT_MINHP:
-    case VUT_AGE:
     case VUT_ACTION:
     case VUT_OTYPE:
     case VUT_SPECIALIST:
-    case VUT_TERRAINCLASS:
-    case VUT_BASEFLAG:
-    case VUT_ROADFLAG:
-    case VUT_EXTRAFLAG:
-    case VUT_TERRAINALTER:
+    case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
+      invalid = (req.range != REQ_RANGE_LOCAL);
+      break;
     case VUT_CITYTILE:
     case VUT_MAXTILEUNITS:
-      req.range = REQ_RANGE_LOCAL;
-      break;
-    case VUT_MINSIZE:
-    case VUT_MINCULTURE:
-    case VUT_NATIONALITY:
-      req.range = REQ_RANGE_CITY;
-      break;
-    case VUT_GOVERNMENT:
-    case VUT_ACHIEVEMENT:
-    case VUT_STYLE:
-    case VUT_ADVANCE:
-    case VUT_TECHFLAG:
-    case VUT_NATION:
-    case VUT_NATIONGROUP:
-    case VUT_DIPLREL:
-    case VUT_AI_LEVEL:
-      req.range = REQ_RANGE_PLAYER;
+      invalid = (req.range != REQ_RANGE_LOCAL
+                 && req.range != REQ_RANGE_CADJACENT
+                 && req.range != REQ_RANGE_ADJACENT);
       break;
     case VUT_MINYEAR:
     case VUT_TOPO:
-    case VUT_MINTECHS:
-      req.range = REQ_RANGE_WORLD;
+      invalid = (req.range != REQ_RANGE_WORLD);
       break;
+    case VUT_AGE:
+      /* FIXME: could support TRADEROUTE, TEAM, etc */
+      invalid = (req.range != REQ_RANGE_LOCAL
+                 && req.range != REQ_RANGE_CITY
+                 && req.range != REQ_RANGE_PLAYER);
+      break;
+    case VUT_IMPR_GENUS:
+      /* TODO: Support other ranges too. */
+      invalid = req.range != REQ_RANGE_LOCAL;
+      break;
+    case VUT_IMPROVEMENT:
+      /* Valid ranges depend on the building genus (wonder/improvement),
+       * which might not have been loaded from the ruleset yet.
+       * So we allow anything here, and do a proper check once ruleset
+       * loading is complete, in sanity_check_req_individual(). */
+    case VUT_NONE:
+      invalid = FALSE;
+      break;
+    case VUT_COUNT:
+      break;
+    }
+    if (invalid) {
+      error = "bad range";
     }
   }
 
-  req.survives = survives;
-  req.present = present;
-  req.quiet = quiet;
-
-  /* These checks match what combinations are supported inside
-   * is_req_active(). However, it's only possible to do basic checks,
-   * not anything that might depend on the rest of the ruleset which
-   * might not have been loaded yet. */
-  switch (req.source.kind) {
-  case VUT_TERRAIN:
-  case VUT_EXTRA:
-  case VUT_TERRAINCLASS:
-  case VUT_TERRFLAG:
-  case VUT_BASEFLAG:
-  case VUT_ROADFLAG:
-  case VUT_EXTRAFLAG:
-    invalid = (req.range != REQ_RANGE_LOCAL
-               && req.range != REQ_RANGE_CADJACENT
-	       && req.range != REQ_RANGE_ADJACENT
-               && req.range != REQ_RANGE_CITY
-               && req.range != REQ_RANGE_TRADEROUTE);
-    break;
-  case VUT_ADVANCE:
-  case VUT_TECHFLAG:
-  case VUT_ACHIEVEMENT:
-  case VUT_MINTECHS:
-    invalid = (req.range < REQ_RANGE_PLAYER);
-    break;
-  case VUT_GOVERNMENT:
-  case VUT_AI_LEVEL:
-  case VUT_STYLE:
-    invalid = (req.range != REQ_RANGE_PLAYER);
-    break;
-  case VUT_MINSIZE:
-  case VUT_NATIONALITY:
-  case VUT_GOOD:
-    invalid = (req.range != REQ_RANGE_CITY
-               && req.range != REQ_RANGE_TRADEROUTE);
-    break;
-  case VUT_MINCULTURE:
-    invalid = (req.range != REQ_RANGE_CITY
-               && req.range != REQ_RANGE_TRADEROUTE
-               && req.range != REQ_RANGE_PLAYER
-               && req.range != REQ_RANGE_TEAM
-               && req.range != REQ_RANGE_ALLIANCE
-               && req.range != REQ_RANGE_WORLD);
-    break;
-  case VUT_DIPLREL:
-    invalid = (req.range != REQ_RANGE_LOCAL
-               && req.range != REQ_RANGE_PLAYER
-               && req.range != REQ_RANGE_TEAM
-               && req.range != REQ_RANGE_ALLIANCE
-               && req.range != REQ_RANGE_WORLD)
-              /* Non local foreign makes no sense. */
-              || (req.source.value.diplrel == DRO_FOREIGN
-                  && req.range != REQ_RANGE_LOCAL);
-    break;
-  case VUT_NATION:
-  case VUT_NATIONGROUP:
-    invalid = (req.range != REQ_RANGE_PLAYER
-               && req.range != REQ_RANGE_TEAM
-               && req.range != REQ_RANGE_ALLIANCE
-               && req.range != REQ_RANGE_WORLD);
-    break;
-  case VUT_UTYPE:
-  case VUT_UTFLAG:
-  case VUT_UCLASS:
-  case VUT_UCFLAG:
-  case VUT_MINVETERAN:
-  case VUT_UNITSTATE:
-  case VUT_MINMOVES:
-  case VUT_MINHP:
-  case VUT_ACTION:
-  case VUT_OTYPE:
-  case VUT_SPECIALIST:
-  case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
-    invalid = (req.range != REQ_RANGE_LOCAL);
-    break;
-  case VUT_CITYTILE:
-  case VUT_MAXTILEUNITS:
-    invalid = (req.range != REQ_RANGE_LOCAL
-               && req.range != REQ_RANGE_CADJACENT
-               && req.range != REQ_RANGE_ADJACENT);
-    break;
-  case VUT_MINYEAR:
-  case VUT_TOPO:
-    invalid = (req.range != REQ_RANGE_WORLD);
-    break;
-  case VUT_AGE:
-    /* FIXME: could support TRADEROUTE, TEAM, etc */
-    invalid = (req.range != REQ_RANGE_LOCAL
-               && req.range != REQ_RANGE_CITY
-               && req.range != REQ_RANGE_PLAYER);
-    break;
-  case VUT_IMPR_GENUS:
-    /* TODO: Support other ranges too. */
-    invalid = req.range != REQ_RANGE_LOCAL;
-    break;
-  case VUT_IMPROVEMENT:
-    /* Valid ranges depend on the building genus (wonder/improvement),
-     * which might not have been loaded from the ruleset yet.
-     * So we allow anything here, and do a proper check once ruleset
-     * loading is complete, in sanity_check_req_individual(). */
-  case VUT_NONE:
-    invalid = FALSE;
-    break;
-  case VUT_COUNT:
-    break;
-  }
-
-  if (invalid) {
-    error = "bad range";
-  } else {
+  if (!invalid) {
     /* Check 'survives'. */
     switch (req.source.kind) {
     case VUT_IMPROVEMENT:
