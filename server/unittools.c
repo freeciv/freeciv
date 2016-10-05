@@ -2757,6 +2757,7 @@ void do_explore(struct unit *punit)
 **************************************************************************/
 bool do_paradrop(struct unit *punit, struct tile *ptile)
 {
+  struct city *pcity;
   struct player *pplayer = unit_owner(punit);
 
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
@@ -2857,8 +2858,10 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   /* All ok */
   punit->paradropped = TRUE;
   if (unit_move(punit, ptile, unit_type_get(punit)->paratroopers_mr_sub,
+                NULL,
                 /* A paradrop can result in city occupation. */
-                NULL, TRUE)) {
+                ((pcity = tile_city(ptile)) && unit_can_take_over(punit)
+                 && pplayers_at_war(pplayer, city_owner(pcity))))) {
     /* Ensure we finished on valid state. */
     fc_assert(can_unit_exist_at_tile(punit, unit_tile(punit))
               || unit_transported(punit));
