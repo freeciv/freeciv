@@ -5802,6 +5802,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     /* section: actions */
     if (ok) {
       const char *text;
+      int force_capture_units, force_bombard, force_explode_nuclear;
 
       if (secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_TRADE_ROUTE,
                                       "actions.force_trade_route")) {
@@ -5813,11 +5814,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
       /* Forbid bombarding, exploading nuclear or attacking when it is
        * legal to capture units. */
-      game.info.force_capture_units
+      force_capture_units
         = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_CAPTURE_UNITS,
                                       "actions.force_capture_units");
 
-      if (game.info.force_capture_units) {
+      if (force_capture_units) {
         BV_SET(action_by_number(ACTION_BOMBARD)->blocked_by,
                ACTION_CAPTURE_UNITS);
         BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
@@ -5830,11 +5831,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
       /* Forbid exploding nuclear or attacking when it is legal to
        * bombard. */
-      game.info.force_bombard
+      force_bombard
         = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_BOMBARD,
                                       "actions.force_bombard");
 
-      if (game.info.force_bombard) {
+      if (force_bombard) {
         BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
                ACTION_BOMBARD);
         BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
@@ -5844,12 +5845,12 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       }
 
       /* Forbid attacking when it is legal to do explode nuclear. */
-      game.info.force_explode_nuclear
+      force_explode_nuclear
         = secfile_lookup_bool_default(file,
                                       RS_DEFAULT_FORCE_EXPLODE_NUCLEAR,
                                       "actions.force_explode_nuclear");
 
-      if (game.info.force_explode_nuclear) {
+      if (force_explode_nuclear) {
         BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
                ACTION_NUKE);
         BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,

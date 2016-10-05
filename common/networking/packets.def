@@ -553,11 +553,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 first_timeout;
   BOOL tired_attack;
   UINT16 trademindist;
-  /* TODO: the force_* fields can be removed once regular attacks are
-   * action enabler controlled. */
-  BOOL force_capture_units;
-  BOOL force_bombard;
-  BOOL force_explode_nuclear;
   BOOL trading_city;
   BOOL trading_gold;
   BOOL trading_tech;

@@ -746,6 +746,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   int i;
   enum gen_action quiet_actions[ACTION_COUNT];
   bool locks;
+  int force_capture_units, force_bombard, force_explode_nuclear;
 
   if (sfile == NULL) {
     return FALSE;
@@ -925,14 +926,24 @@ static bool save_game_ruleset(const char *filename, const char *name)
                                                   ACTION_TRADE_ROUTE),
                     RS_DEFAULT_FORCE_TRADE_ROUTE,
                     "actions.force_trade_route", NULL);
-  /* Sets the forced action in many actions' blocked_by */
-  save_default_bool(sfile, game.info.force_capture_units,
+
+  /* The ruleset options force_capture_units, force_bombard and
+   * force_explode_nuclear sets their respective action to block many other
+   * actions' blocked_by. Checking one is therefore enough. */
+  force_capture_units =
+      BV_ISSET(action_by_number(ACTION_ATTACK)->blocked_by,
+               ACTION_CAPTURE_UNITS);
+  save_default_bool(sfile, force_capture_units,
                     RS_DEFAULT_FORCE_CAPTURE_UNITS,
                     "actions.force_capture_units", NULL);
-  save_default_bool(sfile, game.info.force_bombard,
+  force_bombard =
+      BV_ISSET(action_by_number(ACTION_ATTACK)->blocked_by, ACTION_BOMBARD);
+  save_default_bool(sfile, force_bombard,
                     RS_DEFAULT_FORCE_BOMBARD,
                     "actions.force_bombard", NULL);
-  save_default_bool(sfile, game.info.force_explode_nuclear,
+  force_explode_nuclear =
+      BV_ISSET(action_by_number(ACTION_ATTACK)->blocked_by, ACTION_NUKE);
+  save_default_bool(sfile, force_explode_nuclear,
                     RS_DEFAULT_FORCE_EXPLODE_NUCLEAR,
                     "actions.force_explode_nuclear", NULL);
 
