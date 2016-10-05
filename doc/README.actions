@@ -284,6 +284,33 @@ Actions done by a unit against a city
  * the target city is domestic or, if airliftingstyle permits it, allied
  * the target city has Airlift
 
+"Conquer City" - Conquer the target city.
+ * UI name can be set using ui_name_conquer_city
+ * if force_capture_units is true "Capture Units" must be impossible
+ * if force_bombard is true "Bombard" must be impossible
+ * if force_explode_nuclear is true "Explode Nuclear" must be impossible
+ * "Attack" must be impossible
+ * the actor unit must be on a tile next to the target.
+ * the actor player can't be an animal barbarian.
+ * the actor must be on a tile where it can exist outside a transport,
+   have the "Marines" unit type flag or have the "AttFromNonNative" unit
+   class flag.
+ * the actor unit must, if transported, be able to disembark from its
+   transport.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target city is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the tile
+   of the target city.
+ * the actor unit has the "CanOccupyCity" unit class flag (!)
+ * the actor can't have the "NonMil" unit type flag (!)
+ * the actor unit has at least one move fragment left (!)
+ * the actor's relationship to the target is War (!)
+ * actor unit must be able to exist outside of a transport at the target's
+   tile.
+ * the target must be foreign (!)
+ * the target city contains 0 units (!)
+
 Actions done by a unit against another unit
 ===========================================
 "Sabotage Unit" - Halve the target unit's hit points.

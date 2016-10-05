@@ -210,6 +210,9 @@ bool unit_has_type_role(const struct unit *punit, enum unit_role_id role)
 ****************************************************************************/
 bool unit_can_take_over(const struct unit *punit)
 {
+  /* TODO: Should unit state dependent action enablers be considered?
+   * Some callers aren't yet ready for changeable unit state (like current
+   * location) playing a role. */
   return unit_owner(punit)->ai_common.barbarian_type != ANIMAL_BARBARIAN
     && utype_can_take_over(unit_type_get(punit));
 }
@@ -219,8 +222,7 @@ bool unit_can_take_over(const struct unit *punit)
 ****************************************************************************/
 bool utype_can_take_over(const struct unit_type *punittype)
 {
-  return (uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY_CITY)
-          && !utype_has_flag(punittype, UTYF_CIVILIAN));
+  return utype_can_do_action(punittype, ACTION_CONQUER_CITY);
 }
 
 /****************************************************************************

@@ -107,6 +107,8 @@ extern "C" {
 #define SPECENUM_VALUE28NAME "Airlift Unit"
 #define SPECENUM_VALUE29 ACTION_ATTACK
 #define SPECENUM_VALUE29NAME "Attack"
+#define SPECENUM_VALUE30 ACTION_CONQUER_CITY
+#define SPECENUM_VALUE30NAME "Conquer City"
 #define SPECENUM_BITVECTOR bv_actions
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */
@@ -355,8 +357,6 @@ struct action_enabler *
 action_enabler_copy(const struct action_enabler *original);
 void action_enabler_add(struct action_enabler *enabler);
 
-struct action *action_blocks_attack(const struct unit *actor_unit,
-                                    const struct tile *target_tile);
 struct action *action_is_blocked_by(const int action_id,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile,

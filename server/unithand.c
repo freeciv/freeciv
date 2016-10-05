@@ -134,6 +134,9 @@ static bool do_unit_upgrade(struct player *pplayer,
                             struct unit *punit, struct city *pcity,
                             enum action_requester ordered_by);
 static bool do_attack(struct unit *actor_unit, struct tile *target_tile);
+static bool do_unit_conquer_city(struct player *act_player,
+                                 struct unit *act_unit,
+                                 struct city *tgt_city);
 
 /**************************************************************************
  Upgrade all units of a given type.
@@ -490,6 +493,19 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       }
     }
     break;
+
+  case ACTION_CONQUER_CITY:
+    {
+      struct unit *tunit;
+
+      if (target_tile
+          && (tunit = is_non_attack_unit_tile(target_tile,
+                                              unit_owner(actor)))) {
+        return unit_owner(tunit);
+      }
+    }
+    break;
+
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_SPY_POISON:
@@ -794,6 +810,11 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   case ACTION_ATTACK:
     action_custom = unit_attack_units_at_tile_result(punit, target_tile);
     break;
+  case ACTION_CONQUER_CITY:
+    action_custom = unit_move_to_tile_test(punit, punit->activity,
+                                           unit_tile(punit), target_tile,
+                                           FALSE, NULL, TRUE);
+    break;
   default:
     action_custom = 0;
     break;
@@ -1014,6 +1035,20 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && target_tile
              && !map_is_known(target_tile, unit_owner(punit))) {
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
+  } else if (action_id == ACTION_CONQUER_CITY
+             && action_custom != MR_OK) {
+    switch (action_custom) {
+    case MR_CANNOT_DISEMBARK:
+      explnat->kind = ANEK_DISEMBARK_ACT;
+      break;
+    case MR_TRIREME:
+      explnat->kind = ANEK_TRIREME_MOVE;
+      break;
+    default:
+      fc_assert(action_custom != MR_OK);
+      explnat->kind = ANEK_UNKNOWN;
+      break;
+    }
   } else if ((game.scenario.prevent_new_cities
               && utype_can_do_action(unit_type_get(punit), ACTION_FOUND_CITY))
              && (action_id == ACTION_FOUND_CITY
@@ -2394,6 +2429,20 @@ bool unit_perform_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_CONQUER_CITY:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        return do_unit_conquer_city(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity), NULL, pcity, NULL,
+                       requester);
+      }
+    }
+    break;
   case ACTION_AIRLIFT:
     if (pcity) {
       if (is_action_enabled_unit_on_city(action_type,
@@ -3450,10 +3499,15 @@ static bool do_attack(struct unit *punit, struct tile *def_tile)
 
     punit->moves_left = full_moves;
     /* Post attack occupy move. */
-    if (unit_move_handling(punit, def_tile, FALSE, TRUE, NULL)) {
+    if (((pcity = tile_city(def_tile))
+         && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY,
+                                           punit, pcity)
+         && unit_perform_action(unit_owner(punit), punit->id, pcity->id,
+                                0, "", ACTION_CONQUER_CITY, ACT_REQ_RULES))
+        || (unit_move_handling(punit, def_tile, FALSE, TRUE, NULL))) {
       punit->moves_left = old_moves - (full_moves - punit->moves_left);
       if (punit->moves_left < 0) {
-	punit->moves_left = 0;
+        punit->moves_left = 0;
       }
     } else {
       punit->moves_left = old_moves;
@@ -3469,53 +3523,50 @@ static bool do_attack(struct unit *punit, struct tile *def_tile)
 }
 
 /**************************************************************************
+  Have the unit conquer a city.
+
+  This function assumes the attack is legal. The calling function should
+  have already made all necessary checks.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_unit_conquer_city(struct player *act_player,
+                                 struct unit *act_unit,
+                                 struct city *tgt_city)
+{
+  struct tile *tgt_tile = city_tile(tgt_city);
+  int move_cost = map_move_cost_unit(act_unit, tgt_tile);
+  int tgt_city_id = tgt_city->id;
+
+  /* Sanity check */
+  fc_assert_ret_val(tgt_tile, FALSE);
+
+  unit_move(act_unit, tgt_tile, move_cost, NULL, TRUE);
+
+  /* The city may have been destroyed during the conquest. */
+  return (!city_exist(tgt_city_id)
+          || city_owner(tgt_city) == act_player);
+}
+
+/**************************************************************************
   see also aiunit could_unit_move_to_tile()
 **************************************************************************/
 static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 					      struct tile *dest_tile,
 					      bool igzoc,
-                                              struct unit *embark_to)
+                                              struct unit *embark_to,
+                                              bool enter_enemy_city)
 {
   struct tile *src_tile = unit_tile(punit);
   enum unit_move_result reason =
       unit_move_to_tile_test(punit, punit->activity,
-                             src_tile, dest_tile, igzoc, embark_to);
+                             src_tile, dest_tile, igzoc, embark_to,
+                             enter_enemy_city);
 
   switch (reason) {
   case MR_OK:
     return TRUE;
-
-  case MR_BAD_TYPE_FOR_CITY_TAKE_OVER:
-    notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
-                  _("This type of troops cannot take over a city."));
-    break;
-
-  case MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_NON_NATIVE:
-    {
-      const char *types[utype_count()];
-      int i = 0;
-
-      unit_type_iterate(utype) {
-        if (can_attack_from_non_native(utype)
-            && utype_can_take_over(utype)) {
-          types[i++] = utype_name_translation(utype);
-        }
-      } unit_type_iterate_end;
-
-      if (0 < i) {
-        struct astring astr = ASTRING_INIT;
-
-        notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
-                      /* TRANS: %s is a list of units separated by "or". */
-                      _("Only %s can conquer from a non-native tile."),
-                      astr_build_or_list(&astr, types, i));
-        astr_free(&astr);
-      } else {
-        notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
-                      _("Cannot conquer from a non-native tile."));
-      }
-    }
-    break;
 
   case MR_NO_WAR:
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
@@ -3591,7 +3642,6 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(pdesttile);
-  bool taking_over_city = FALSE;
 
   /*** Phase 1: Basic checks ***/
 
@@ -3622,7 +3672,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * is not the final destination. */
   if (!move_do_not_act
       && utype_may_act_at_all(unit_type_get(punit))) {
-    const bool can_not_move = !unit_can_move_to_tile(punit, pdesttile, igzoc);
+    const bool can_not_move = !unit_can_move_to_tile(punit, pdesttile,
+                                                     igzoc, FALSE);
     struct tile *ttile = action_tgt_tile(punit, pdesttile, can_not_move);
 
     /* Consider to pop up the action selection dialog if a potential city,
@@ -3669,51 +3720,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     }
   }
 
-  /*** Phase 3: Is it attack? ***/
-
-  if (is_non_allied_city_tile(pdesttile, pplayer)) {
-    struct unit *victim = NULL;
-    struct action *blocker;
-
-    if ((blocker = action_blocks_attack(punit, pdesttile))) {
-      /* Blocked by of the attacks that now are action enabler
-       * controlled. */
-      notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                    /* TRANS: ... Capture Units ... */
-                    _("Regular attack not allowed when %s is legal."),
-                    action_get_ui_name(blocker->id));
-      return FALSE;
-    }
-
-    if (embark_to != NULL) {
-      /* Can't both attack and embark. */
-      return FALSE;
-    }
-
-    /* We can attack ONLY in enemy cities */
-    if ((pcity && !pplayers_at_war(city_owner(pcity), pplayer))
-        || (victim = is_non_attack_unit_tile(pdesttile, pplayer))) {
-      notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                    _("You must declare war on %s first.  Try using "
-                      "the Nations report (F3)."),
-                    victim == NULL
-                    ? player_name(city_owner(pcity))
-                    : player_name(unit_owner(victim)));
-      return FALSE;
-    }
-
-    /* The attack is legal wrt the alliances */
-
-    if (!is_non_allied_unit_tile(pdesttile, pplayer)) {
-      fc_assert_ret_val(is_enemy_city_tile(pdesttile, pplayer) != NULL,
-                        TRUE);
-
-      taking_over_city = TRUE;
-      /* Taking over a city is considered a move, so fall through */
-    }
-  }
-
-  /*** Phase 4: OK now move the unit ***/
+  /*** Phase 3: OK now move the unit ***/
 
   /* We cannot move a transport into a tile that holds
    * units or cities not allied with all of our cargo. */
@@ -3721,9 +3728,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     unit_list_iterate(unit_tile(punit)->units, pcargo) {
       if (unit_contained_in(pcargo, punit)
           && (is_non_allied_unit_tile(pdesttile, unit_owner(pcargo))
-              || (!taking_over_city
-                  && is_non_allied_city_tile(pdesttile,
-                                             unit_owner(pcargo))))) {
+              || is_non_allied_city_tile(pdesttile,
+                                         unit_owner(pcargo)))) {
          notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                        _("A transported unit is not allied to all "
                          "units or city on target tile."));
@@ -3733,13 +3739,11 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   }
 
   if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc,
-                                        embark_to)) {
+                                        embark_to, FALSE)) {
     int move_cost = map_move_cost_unit(punit, pdesttile);
 
     unit_move(punit, pdesttile, move_cost, embark_to,
-              /* TODO: Port callers of this function and set to FALSE when
-               * Conquer City becomes action enabler controlled. */
-              taking_over_city);
+              FALSE);
 
     return TRUE;
   } else {
@@ -4409,7 +4413,8 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
   ctile = unit_tile(pcargo);
 
   if (!same_pos(ctile, ttile)) {
-    if (pcargo->moves_left <= 0 || !unit_can_move_to_tile(pcargo, ttile, FALSE)) {
+    if (pcargo->moves_left <= 0
+        || !unit_can_move_to_tile(pcargo, ttile, FALSE, FALSE)) {
       return;
     }
 
@@ -4733,6 +4738,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_HOME_CITY:
       case ACTION_UPGRADE_UNIT:
       case ACTION_ATTACK:
+      case ACTION_CONQUER_CITY:
         /* No validation required. */
         break;
       case ACTION_PARADROP:

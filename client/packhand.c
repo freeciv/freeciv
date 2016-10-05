@@ -4485,6 +4485,7 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
       case ACTION_BOMBARD:
       case ACTION_NUKE:
       case ACTION_ATTACK:
+      case ACTION_CONQUER_CITY:
         /* An attack. */
         if (attack_action == ACTION_COUNT) {
           /* No previous attack action found. */

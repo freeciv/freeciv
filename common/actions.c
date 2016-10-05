@@ -248,6 +248,10 @@ void actions_init(void)
                  ATK_TILE,
                  TRUE, FALSE, FALSE, TRUE,
                  1, 1);
+  actions[ACTION_CONQUER_CITY] =
+      action_new(ACTION_CONQUER_CITY, ATK_CITY,
+                 TRUE, FALSE, FALSE, TRUE,
+                 1, 1);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -835,53 +839,6 @@ tgt_city_local_utype(const struct city *target_city)
 }
 
 /**************************************************************************
-  Returns the action that blocks regular attacks or NULL if they aren't
-  blocked.
-
-  An action that can block regular attacks blocks them when the action is
-  forced and possible.
-
-  TODO: Make city invasion action enabler controlled and delete this
-  function.
-**************************************************************************/
-struct action *action_blocks_attack(const struct unit *actor_unit,
-                                    const struct tile *target_tile)
-{
-  if (game.info.force_capture_units
-       && is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
-                                          actor_unit, target_tile)) {
-    /* Capture unit is possible.
-     * The ruleset forbids regular attacks when it is. */
-    return action_by_number(ACTION_CAPTURE_UNITS);
-  }
-
-  if (game.info.force_bombard
-       && is_action_enabled_unit_on_units(ACTION_BOMBARD,
-                                          actor_unit, target_tile)) {
-    /* Bomard units is possible.
-     * The ruleset forbids regular attacks when it is. */
-    return action_by_number(ACTION_BOMBARD);
-  }
-
-  if (game.info.force_explode_nuclear
-      && is_action_enabled_unit_on_tile(ACTION_NUKE,
-                                        actor_unit, target_tile)) {
-    /* Explode nuclear is possible.
-     * The ruleset forbids regular attacks when it is. */
-    return action_by_number(ACTION_NUKE);
-  }
-
-  if (is_action_enabled_unit_on_tile(ACTION_ATTACK,
-                                     actor_unit, target_tile)) {
-    /* Regular attack is possible so can't do Conquer City. */
-    return action_by_number(ACTION_ATTACK);
-  }
-
-  /* Nothing is blocking a regular attack. */
-  return NULL;
-}
-
-/**************************************************************************
   Returns the target tile for actions that may block the specified action.
   This is needed because some actions can be blocked by an action with a
   different target kind. The target tile could therefore be missing.
@@ -1149,6 +1106,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_HOME_CITY:
   case ACTION_PARADROP:
   case ACTION_AIRLIFT:
+  case ACTION_CONQUER_CITY:
     /* No hard unit type requirements. */
     break;
 
@@ -1218,8 +1176,27 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
 
     break;
 
+  case ACTION_CONQUER_CITY:
+    /* Reason: the "animal can't conquer a city" rule. */
+    /* Info leak: The player knows what he is. */
+    if (actor_player->ai_common.barbarian_type == ANIMAL_BARBARIAN) {
+      return TRI_NO;
+    }
+
+    /* Reason: Keep the old marines rules. (Note: different from
+     * ACTION_ATTACK) */
+    /* Info leak: The player knows if his unit is at a native tile. */
+    if (!can_exist_at_tile(actor_unittype, actor_tile)
+        && !can_attack_from_non_native(actor_unittype)) {
+      /* Don't use is_native_tile() because any unit in an
+       * adjacent city may conquer, regardless of flags. */
+      return TRI_NO;
+    }
+    break;
+
   case ACTION_ATTACK:
-    /* Reason: Keep the old marines rules. */
+    /* Reason: Keep the old marines rules. (Note: different from
+     * ACTION_CONQUER_CITY) */
     /* Info leak: The player knows if his unit is at a native tile. */
     if (!is_native_tile(actor_unittype, actor_tile)
         && !can_attack_from_non_native(actor_unittype)) {
@@ -1738,6 +1715,14 @@ is_action_possible(const enum gen_action wanted_action,
     if (!can_unit_attack_tile(actor_unit, target_tile)) {
       return TRI_NO;
     }
+    break;
+
+  case ACTION_CONQUER_CITY:
+    /* Reason: "Conquer City" involves moving into the city. */
+    if (!unit_can_move_to_tile(actor_unit, target_tile, FALSE, TRUE)) {
+      return TRI_NO;
+    }
+
     break;
 
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -2581,6 +2566,10 @@ action_prob(const enum gen_action wanted_action,
         known = TRI_MAYBE;
       }
     }
+    break;
+  case ACTION_CONQUER_CITY:
+    /* No battle is fought first. */
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
     fc_assert(FALSE);

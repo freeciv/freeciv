@@ -1034,6 +1034,27 @@ static int airlift_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Conquer City"
+*****************************************************************/
+static int conquer_city_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])
+        && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
+      request_do_action(ACTION_CONQUER_CITY,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0, "");
+    }
+
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/****************************************************************
   Close diplomat dialog.
 *****************************************************************/
 static int diplomat_close_callback(struct widget *pWidget)
@@ -1087,6 +1108,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_RECYCLE_UNIT] = unit_recycle_callback,
   [ACTION_HOME_CITY] = home_city_callback,
   [ACTION_AIRLIFT] = airlift_callback,
+  [ACTION_CONQUER_CITY] = conquer_city_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,
@@ -1373,7 +1395,7 @@ void popup_action_selection(struct unit *actor_unit,
   } action_iterate_end;
 
   /* ---------- */
-  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
+  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE, FALSE)) {
     create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("Keep moving"),
                             act_sel_keep_moving_callback);

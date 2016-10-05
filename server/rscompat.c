@@ -734,6 +734,40 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     action_enabler_add(enabler);
 
+    /* City occupation is now action enabler controlled. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_CONQUER_CITY;
+
+    /* The actor unit must have the unit class flag CanOccupyCity. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitClassFlag", "Local", FALSE,
+                                           TRUE, TRUE, "CanOccupyCity"));
+
+    /* The actor unit can't have the unit type flag NonMil. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                              FALSE, FALSE, TRUE,
+                                              UTYF_CIVILIAN));
+
+    /* Must be at war with the target city. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                              FALSE, TRUE, TRUE, DS_WAR));
+
+    /* The actor unit must have moves left. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("MinMoveFrags", "Local", FALSE,
+                                           TRUE, TRUE, "1"));
+
+    /* The target city must be empty. */
+    requirement_vector_append(&enabler->target_reqs,
+                              req_from_str("MaxUnitsOnTile", "Local", FALSE,
+                                           TRUE, TRUE, "0"));
+
+    action_enabler_add(enabler);
+
     /* Update action enablers. */
     action_enablers_iterate(ae) {
       /* The rule that Help Wonder only can help wonders now lives in the

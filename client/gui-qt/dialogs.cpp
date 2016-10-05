@@ -94,6 +94,7 @@ static void disband_unit(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
 static void airlift(QVariant data1, QVariant data2);
+static void conquer_city(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
@@ -145,6 +146,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_RECYCLE_UNIT] = unit_recycle;
   action_function[ACTION_HOME_CITY] = unit_home_city;
   action_function[ACTION_AIRLIFT] = airlift;
+  action_function[ACTION_CONQUER_CITY] = conquer_city;
 
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
@@ -1307,6 +1309,21 @@ static void airlift(QVariant data1, QVariant data2)
 }
 
 /***************************************************************************
+  Action "Conquer City" for choice dialog
+***************************************************************************/
+static void conquer_city(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int tgt_city_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != game_city_by_number(tgt_city_id)) {
+    request_do_action(ACTION_CONQUER_CITY,
+                      actor_id, tgt_city_id, 0, "");
+  }
+}
+
+/***************************************************************************
   Delay selection of what action to take.
 ***************************************************************************/
 static void act_sel_wait(QVariant data1, QVariant data2)
@@ -1575,7 +1592,7 @@ void popup_action_selection(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
+  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE, FALSE)) {
     qv2 = target_tile->index;
 
     func = act_sel_keep_moving;

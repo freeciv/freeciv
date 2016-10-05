@@ -519,11 +519,13 @@ bool zoc_ok_move(const struct unit *punit, const struct tile *dst_tile)
 ****************************************************************************/
 bool unit_can_move_to_tile(const struct unit *punit,
                            const struct tile *dst_tile,
-                           bool igzoc)
+                           bool igzoc,
+                           bool enter_enemy_city)
 {
   return (MR_OK == unit_move_to_tile_test(punit,
                                           punit->activity, unit_tile(punit),
-                                          dst_tile, igzoc, NULL));
+                                          dst_tile, igzoc, NULL,
+                                          enter_enemy_city));
 }
 
 /**************************************************************************
@@ -538,22 +540,23 @@ bool unit_can_move_to_tile(const struct unit *punit,
     4) Animals cannot move out from home terrains
     5) Unit can move to a tile where it can't survive on its own if there
        is free transport capacity.
-    6) Some units cannot take over a city.
-    7) Only units permitted to attack from non-native tiles may do so.
-    8) There are no peaceful but un-allied units on the target tile.
-    9) There is not a peaceful but un-allied city on the target tile.
-   10) There is no non-allied unit blocking (zoc) [or igzoc is true].
-   11) Triremes cannot move out of sight from land.
-   12) It is not the territory of a player we are at peace with.
-   13) The unit is unable to disembark from current transporter.
-   14) The unit is making a non-native move (e.g. lack of road)
+    6) There are no peaceful but un-allied units on the target tile.
+    7) There is not a un-allied city on the target tile when
+       enter_enemy_city is false. When enter_enemy_city is true a non
+       peaceful city is also accepted.
+    8) There is no non-allied unit blocking (zoc) [or igzoc is true].
+    9) Triremes cannot move out of sight from land.
+   10) It is not the territory of a player we are at peace with.
+   11) The unit is unable to disembark from current transporter.
+   12) The unit is making a non-native move (e.g. lack of road)
 **************************************************************************/
 enum unit_move_result
 unit_move_to_tile_test(const struct unit *punit,
                        enum unit_activity activity,
                        const struct tile *src_tile,
                        const struct tile *dst_tile, bool igzoc,
-                       struct unit *embark_to)
+                       struct unit *embark_to,
+                       bool enter_enemy_city)
 {
   bool zoc;
   struct city *pcity;
@@ -596,26 +599,7 @@ unit_move_to_tile_test(const struct unit *punit,
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
-  pcity = is_enemy_city_tile(dst_tile, puowner);
-  if (NULL != pcity) {
-    /* 6) */
-    if (!unit_can_take_over(punit)) {
-      return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
-    } else {
-      /* No point checking for being able to take over from non-native
-       * for units that can't take over a city anyway. */
-
-      /* 7) */
-      if (!can_exist_at_tile(punittype, src_tile)
-          && !can_attack_from_non_native(punittype)) {
-        /* Don't use is_native_tile() because any unit in an
-         * adjacent city may conquer, regardless of flags. */
-        return MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_NON_NATIVE;
-      }
-    }
-  }
-
-  /* 8) */
+  /* 6) */
   if (is_non_attack_unit_tile(dst_tile, puowner)) {
     /* You can't move into a non-allied tile.
      *
@@ -624,15 +608,25 @@ unit_move_to_tile_test(const struct unit *punit,
     return MR_NO_WAR;
   }
 
-  /* 9) */
-  pcity = tile_city(dst_tile);
-  if (pcity && pplayers_non_attack(city_owner(pcity), puowner)) {
-    /* You can't move into an empty city of a civilization you're at
-     * peace with - you must first either declare war or make alliance. */
-    return MR_NO_WAR;
+  /* 7) */
+  if ((pcity = tile_city(dst_tile))) {
+    if (enter_enemy_city) {
+      if (pplayers_non_attack(city_owner(pcity), puowner)) {
+        /* You can't move into an empty city of a civilization you're at
+         * peace with - you must first either declare war or make an
+         * alliance. */
+        return MR_NO_WAR;
+      }
+    } else {
+      if (!pplayers_allied(city_owner(pcity), puowner)) {
+        /* You can't move into an empty city of a civilization you're not
+         * allied to. Assume that the player tried to attack. */
+        return MR_NO_WAR;
+      }
+    }
   }
 
-  /* 10) */
+  /* 8) */
   zoc = igzoc
     || can_step_taken_wrt_to_zoc(punittype, puowner, src_tile, dst_tile);
   if (!zoc) {
@@ -640,24 +634,24 @@ unit_move_to_tile_test(const struct unit *punit,
     return MR_ZOC;
   }
 
-  /* 11) */
+  /* 9) */
   if (utype_has_flag(punittype, UTYF_COAST_STRICT) && !is_safe_ocean(dst_tile)) {
     return MR_TRIREME;
   }
 
-  /* 12) */
+  /* 10) */
   if (!utype_has_flag(punittype, UTYF_CIVILIAN)
       && !player_can_invade_tile(puowner, dst_tile)) {
     return MR_PEACE;
   }
 
-  /* 13) */
+  /* 11) */
   if (unit_transported(punit)
      && !can_unit_unload(punit, unit_transport_get(punit))) {
     return MR_CANNOT_DISEMBARK;
   }
 
-  /* 14) */
+  /* 12) */
   if (!(is_native_move(utype_class(punittype), src_tile, dst_tile)
         /* Allow non-native moves into cities or boarding transport. */
         || pcity

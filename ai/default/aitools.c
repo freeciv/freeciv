@@ -837,6 +837,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
   struct unit *bodyguard = aiguard_guard_of(ait, punit);
   int sanity = punit->id;
   bool alive;
+  struct city *tcity;
 
   CHECK_UNIT(punit);
   fc_assert_ret_val(is_ai(unit_owner(punit)), TRUE);
@@ -866,8 +867,14 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose regular attack. */
     handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                           0, "", ACTION_ATTACK);
+  } else if ((tcity = tile_city(ptile))
+             && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY,
+                                               punit, tcity)) {
+    /* Choose "Conquer City". */
+    handle_unit_do_action(unit_owner(punit), punit->id, tcity->id,
+                          0, "", ACTION_CONQUER_CITY);
   } else {
-    /* Conquer City or other move. */
+    /* Other move. */
     (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
   }
   alive = (game_unit_by_number(sanity) != NULL);

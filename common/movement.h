@@ -30,8 +30,6 @@ enum unit_move_result {
   MR_OK,
   MR_DEATH,
   MR_PAUSE,
-  MR_BAD_TYPE_FOR_CITY_TAKE_OVER,
-  MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_NON_NATIVE,
   MR_NO_WAR,    /* Can't move here without declaring war. */
   MR_PEACE,     /* Can't move here because of a peace treaty. */
   MR_ZOC,
@@ -97,14 +95,16 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
 bool zoc_ok_move(const struct unit *punit, const struct tile *ptile);
 bool unit_can_move_to_tile(const struct unit *punit,
                            const struct tile *ptile,
-                           bool igzoc);
+                           bool igzoc,
+                           bool enter_enemy_city);
 enum unit_move_result
 unit_move_to_tile_test(const struct unit *punit,
                        enum unit_activity activity,
                        const struct tile *src_tile,
                        const struct tile *dst_tile,
                        bool igzoc,
-                       struct unit *embark_to);
+                       struct unit *embark_to,
+                       bool enter_enemy_city);
 bool can_unit_transport(const struct unit *transporter, const struct unit *transported);
 bool can_unit_type_transport(const struct unit_type *transporter,
                              const struct unit_class *transported);

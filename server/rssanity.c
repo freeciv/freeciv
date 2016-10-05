@@ -1020,7 +1020,8 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           || act == ACTION_SPY_TARGETED_STEAL_TECH
           || act == ACTION_SPY_INCITE_CITY
           || act == ACTION_SPY_BRIBE_UNIT
-          || act == ACTION_CAPTURE_UNITS) {
+          || act == ACTION_CAPTURE_UNITS
+          || act == ACTION_CONQUER_CITY) {
         /* Why this is a hard requirement: There is currently no point in
          * allowing the listed actions against domestic targets.
          * (Possible counter argument: crazy hack involving the Lua
@@ -1099,7 +1100,8 @@ bool sanity_check_ruleset_data(bool ignore_retired)
         }
       }
 
-      if (act == ACTION_ATTACK) {
+      if (act == ACTION_ATTACK
+          || act == ACTION_CONQUER_CITY) {
         /* Why this is a hard requirement: Preserve semantics of NonMil
          * flag. Need to replace other uses in game engine before this can
          * be demoted to a regular unit flag. */
@@ -1112,6 +1114,89 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require that "
                         "the actor doesn't have the NonMil utype flag.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+
+      if (act == ACTION_CONQUER_CITY) {
+        /* Why this is a hard requirement: Preserve semantics of
+         * CanOccupyCity unit class flag. */
+
+        struct requirement contradiction
+            = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                              FALSE, FALSE, TRUE, UCF_CAN_OCCUPY_CITY);
+
+        if (!action_id_blocked_by_situation_act(act, &contradiction)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require that "
+                        "the actor has the CanOccupyCity uclass flag.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+
+      if (act == ACTION_CONQUER_CITY) {
+        /* Why this is a hard requirement: Consistency with ACTION_ATTACK.
+         * Assumed by other locations in the Freeciv code. Examples:
+         * unit_move_to_tile_test() and unit_conquer_city(). */
+
+        struct requirement contradiction
+            = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                              FALSE, FALSE, TRUE, DS_WAR);
+
+        if (!action_id_blocked_by_situation_act(act, &contradiction)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require that "
+                        "the actor is at war with the target.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+
+      if (act == ACTION_CONQUER_CITY) {
+        /* Why this is a hard requirement: a unit must move into a city to
+         * conquer it. */
+
+        struct requirement contradiction
+            = req_from_values(VUT_MINMOVES, REQ_RANGE_LOCAL,
+                              FALSE, FALSE, TRUE, 1);
+
+        if (!action_id_blocked_by_situation_act(act, &contradiction)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require that "
+                        "the actor has a movement point left.",
+                        action_get_rule_name(act));
+          ok = FALSE;
+        }
+      }
+
+      if (act == ACTION_CONQUER_CITY) {
+        /* Why this is a hard requirement: this eliminates the need to
+         * check if units transported by the actor unit can exist at the
+         * same tile as all the units in the occupied city.
+         *
+         * This makes an implicit rule explicit:
+         * 1. A unit must move into a city to conquer it.
+         * 2. It can't move into the city if the tile contains a non allied
+         *    unit (see unit_move_to_tile_test()).
+         * 3. A city could, at the time this rule was made explicit, only
+         *    contain units allied to its owner.
+         * 3. A player could, at the time this rule was made explicit, not
+         *    be allied to a player that is at war with another ally.
+         * 4. A player could, at the time this rule was made explicit, only
+         *    conquer a city belonging to someone he was at war with.
+         * Conclusion: the conquered city had to be empty.
+         */
+
+        struct requirement contradiction
+            = req_from_values(VUT_MAXTILEUNITS, REQ_RANGE_LOCAL,
+                              FALSE, FALSE, TRUE, 0);
+
+        if (!action_id_blocked_by_situation_tgt(act, &contradiction)) {
+          ruleset_error(LOG_ERROR,
+                        "All action enablers for %s must require that "
+                        "the target city is empty.",
                         action_get_rule_name(act));
           ok = FALSE;
         }
