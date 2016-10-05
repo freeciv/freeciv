@@ -775,9 +775,40 @@ static void explain_why_no_action_enabled(struct unit *punit,
 
   switch (explnat->kind) {
   case ANEK_BAD_TERRAIN_ACT:
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("Unit cannot act from %s."),
-                  terrain_name_translation(explnat->no_act_terrain));
+    {
+      const char *types[utype_count()];
+      int i = 0;
+
+      if (!utype_can_do_act_when_ustate(unit_type_get(punit),
+                                        ACTION_ANY, USP_LIVABLE_TILE,
+                                        FALSE)
+          && !can_unit_exist_at_tile(punit, unit_tile(punit))) {
+        unit_type_iterate(utype) {
+          if (utype_can_do_act_when_ustate(utype, ACTION_ANY,
+                                           USP_LIVABLE_TILE, FALSE)) {
+            types[i++] = utype_name_translation(utype);
+          }
+        } unit_type_iterate_end;
+      }
+
+      if (0 < i) {
+        struct astring astr = ASTRING_INIT;
+
+        notify_player(pplayer, unit_tile(punit),
+                      E_BAD_COMMAND, ftc_server,
+                      _("Your %s cannot act from %s. "
+                        "Only %s can act from a non livable tile."),
+                      unit_name_translation(punit),
+                      terrain_name_translation(explnat->no_act_terrain),
+                      astr_build_or_list(&astr, types, i));
+
+        astr_free(&astr);
+      } else {
+        notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                      _("Unit cannot act from %s."),
+                      terrain_name_translation(explnat->no_act_terrain));
+      }
+    }
     break;
   case ANEK_BAD_TERRAIN_TGT:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -994,12 +1025,45 @@ static void illegal_action(struct player *pplayer,
                                target_tile, target_city, target_unit);
   switch (explnat->kind) {
   case ANEK_BAD_TERRAIN_ACT:
-    notify_player(pplayer, unit_tile(actor),
-                  E_UNIT_ILLEGAL_ACTION, ftc_server,
-                  _("Your %s can't do %s from %s."),
-                  unit_name_translation(actor),
-                  action_get_ui_name(stopped_action),
-                  terrain_name_translation(explnat->no_act_terrain));
+    {
+      const char *types[utype_count()];
+      int i = 0;
+
+      if (!utype_can_do_act_when_ustate(unit_type_get(actor),
+                                        stopped_action, USP_LIVABLE_TILE,
+                                        FALSE)
+          && !can_unit_exist_at_tile(actor, unit_tile(actor))) {
+        unit_type_iterate(utype) {
+          if (utype_can_do_act_when_ustate(utype, stopped_action,
+                                           USP_LIVABLE_TILE, FALSE)) {
+            types[i++] = utype_name_translation(utype);
+          }
+        } unit_type_iterate_end;
+      }
+
+      if (0 < i) {
+        struct astring astr = ASTRING_INIT;
+
+        notify_player(pplayer, unit_tile(actor),
+                      E_UNIT_ILLEGAL_ACTION, ftc_server,
+                      _("Your %s can't do %s from %s. "
+                        "Only %s can do %s from a non livable tile."),
+                      unit_name_translation(actor),
+                      action_get_ui_name(stopped_action),
+                      terrain_name_translation(explnat->no_act_terrain),
+                      action_get_ui_name(stopped_action),
+                      astr_build_or_list(&astr, types, i));
+
+        astr_free(&astr);
+      } else {
+        notify_player(pplayer, unit_tile(actor),
+                      E_UNIT_ILLEGAL_ACTION, ftc_server,
+                      _("Your %s can't do %s from %s."),
+                      unit_name_translation(actor),
+                      action_get_ui_name(stopped_action),
+                      terrain_name_translation(explnat->no_act_terrain));
+      }
+    }
     break;
   case ANEK_BAD_TERRAIN_TGT:
     notify_player(pplayer, unit_tile(actor),
