@@ -267,11 +267,6 @@ uclasses = "\
 ;                       still work that tile\n\
 ; \"AttackNonNative\"   = Unit can attack units on non-native tiles. Unit type\n\
 ;                       flag \"Only_Native_Attack\" can override this\n\
-; \"AttFromNonNative\"  = Unit can launch attack from non-native tile (against\n\
-;                       native one)\n\
-;                       This applies for both attacking from transport or\n\
-;                       cities. If only some unit types of the class should\n\
-;                       get this property, use type flag \"Marines\"\n\
 ; \"KillCitizen\"       = Upon successful attack against a city, unit kills one\n\
 ;                       citizen. The effect \"Unit_No_Lose_Pop\" and the server\n\
 ;                       setting \'killcitizen\' can disable this.\n\
@@ -401,7 +396,6 @@ utypes = "\
 ;                 less\n\
 ; \"OneAttack\"	= can only make a single attack, regardless of movement points\n\
 ; \"FieldUnit\"	= cause unhappiness even when not being aggressive\n\
-; \"Marines\"	= can attack from non-native tile (from transport or city)\n\
 ; \"BeachLander\" = won\'t lose all its movement when moving from non-native\n\
 ;                 terrain to native terrain even if slow_invasions is on.\n\
 ; \"Partial_Invis\" = visible only to adjancent units; does not hide transported\n\

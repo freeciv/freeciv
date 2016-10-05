@@ -85,21 +85,18 @@ struct ai_type;
 /* Can attack against units on non-native tiles */
 #define SPECENUM_VALUE12 UCF_ATTACK_NON_NATIVE
 #define SPECENUM_VALUE12NAME N_("?uclassflag:AttackNonNative")
-/* Can launch attack from non-native tile (to native tile) */
-#define SPECENUM_VALUE13 UCF_ATT_FROM_NON_NATIVE
-#define SPECENUM_VALUE13NAME N_("?uclassflag:AttFromNonNative")
 /* Kills citizens upon successful attack against a city */
-#define SPECENUM_VALUE14 UCF_KILLCITIZEN
-#define SPECENUM_VALUE14NAME N_("?uclassflag:KillCitizen")
+#define SPECENUM_VALUE13 UCF_KILLCITIZEN
+#define SPECENUM_VALUE13NAME N_("?uclassflag:KillCitizen")
 
-#define SPECENUM_VALUE15 UCF_USER_FLAG_1
-#define SPECENUM_VALUE16 UCF_USER_FLAG_2
-#define SPECENUM_VALUE17 UCF_USER_FLAG_3
-#define SPECENUM_VALUE18 UCF_USER_FLAG_4
-#define SPECENUM_VALUE19 UCF_USER_FLAG_5
-#define SPECENUM_VALUE20 UCF_USER_FLAG_6
-#define SPECENUM_VALUE21 UCF_USER_FLAG_7
-#define SPECENUM_VALUE22 UCF_USER_FLAG_8
+#define SPECENUM_VALUE14 UCF_USER_FLAG_1
+#define SPECENUM_VALUE15 UCF_USER_FLAG_2
+#define SPECENUM_VALUE16 UCF_USER_FLAG_3
+#define SPECENUM_VALUE17 UCF_USER_FLAG_4
+#define SPECENUM_VALUE18 UCF_USER_FLAG_5
+#define SPECENUM_VALUE19 UCF_USER_FLAG_6
+#define SPECENUM_VALUE20 UCF_USER_FLAG_7
+#define SPECENUM_VALUE21 UCF_USER_FLAG_8
 
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
@@ -187,8 +184,8 @@ struct unit_class {
 #define SPECENUM_VALUE5NAME N_("?unitflag:OneAttack")
 #define SPECENUM_VALUE6 UTYF_FIELDUNIT
 #define SPECENUM_VALUE6NAME N_("?unitflag:FieldUnit")
-#define SPECENUM_VALUE7 UTYF_MARINES
-#define SPECENUM_VALUE7NAME N_("?unitflag:Marines")
+#define SPECENUM_VALUE7 UTYF_RESERVED_1
+#define SPECENUM_VALUE7NAME "Reserved1"
 /* Invisible except when adjacent (Submarine) */
 #define SPECENUM_VALUE8 UTYF_PARTIAL_INVIS
 #define SPECENUM_VALUE8NAME N_("?unitflag:Partial_Invis")

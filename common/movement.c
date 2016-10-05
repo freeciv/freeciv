@@ -173,8 +173,10 @@ bool can_attack_non_native(const struct unit_type *utype)
 ****************************************************************************/
 bool can_attack_from_non_native(const struct unit_type *utype)
 {
-  return uclass_has_flag(utype_class(utype), UCF_ATT_FROM_NON_NATIVE)
-         || utype_has_flag(utype, UTYF_MARINES);
+  return (utype_can_do_act_when_ustate(utype, ACTION_ATTACK,
+                                       USP_NATIVE_TILE, FALSE)
+          || utype_can_do_act_when_ustate(utype, ACTION_CONQUER_CITY,
+                                          USP_LIVABLE_TILE, FALSE));
 }
 
 /****************************************************************************

@@ -184,7 +184,8 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("Nuclear"), N_("This unit's attack causes a nuclear explosion!") },
       { N_("Infra"), N_("Can build infrastructure.") },
       { N_("Paratroopers"),
-          N_("Can be paradropped from a friendly city or suitable base.") }
+          N_("Can be paradropped from a friendly city or suitable base.") },
+      { N_("Marines"), N_("Can launch attack from non-native tiles.") },
     };
 
     /* Some unit class flags moved to the ruleset between 2.6 and 3.0.
@@ -196,6 +197,7 @@ bool rscompat_names(struct rscompat_info *info)
       const char *helptxt;
     } new_class_flags_30[] = {
       { N_("Airliftable"), N_("Can be airlifted from a suitable city.") },
+      { N_("AttFromNonNative"), N_("Can launch attack from non-native tiles.") },
     };
 
     int first_free;
@@ -717,6 +719,8 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     /* Regular attack is now action enabler controlled. */
 
+    /* Regular attack from native tile */
+
     enabler = action_enabler_new();
 
     enabler->action = ACTION_ATTACK;
@@ -732,9 +736,66 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("MinMoveFrags", "Local", FALSE,
                                            TRUE, TRUE, "1"));
 
+    /* The actor unit must be on a native tile. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UNITSTATE,
+                                              REQ_RANGE_LOCAL,
+                                              FALSE, TRUE, TRUE,
+                                              USP_NATIVE_TILE));
+
+    action_enabler_add(enabler);
+
+    /* Regular attack as Marines. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_ATTACK;
+
+    /* The actor unit can't have the unit type flag NonMil. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                              FALSE, FALSE, TRUE,
+                                              UTYF_CIVILIAN));
+
+    /* The actor unit must have moves left. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("MinMoveFrags", "Local", FALSE,
+                                           TRUE, TRUE, "1"));
+
+    /* The actor unit must have the unit type flag Marines. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local", FALSE,
+                                           TRUE, TRUE, "Marines"));
+
+    action_enabler_add(enabler);
+
+    /* Regular attack as AttFromNonNative. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_ATTACK;
+
+    /* The actor unit can't have the unit type flag NonMil. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                              FALSE, FALSE, TRUE,
+                                              UTYF_CIVILIAN));
+
+    /* The actor unit must have moves left. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("MinMoveFrags", "Local", FALSE,
+                                           TRUE, TRUE, "1"));
+
+    /* The actor unit must have the unit class flag AttFromNonNative. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitClassFlag", "Local", FALSE,
+                                           TRUE, TRUE, "AttFromNonNative"));
+
     action_enabler_add(enabler);
 
     /* City occupation is now action enabler controlled. */
+
+    /* City occupation from livable tile. */
 
     enabler = action_enabler_new();
 
@@ -765,6 +826,91 @@ void rscompat_postprocess(struct rscompat_info *info)
     requirement_vector_append(&enabler->target_reqs,
                               req_from_str("MaxUnitsOnTile", "Local", FALSE,
                                            TRUE, TRUE, "0"));
+
+    /* The actor unit must be on a livable tile. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UNITSTATE,
+                                              REQ_RANGE_LOCAL,
+                                              FALSE, TRUE, TRUE,
+                                              USP_LIVABLE_TILE));
+
+    action_enabler_add(enabler);
+
+    /* City occupation as Marines. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_CONQUER_CITY;
+
+    /* The actor unit must have the unit class flag CanOccupyCity. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitClassFlag", "Local", FALSE,
+                                           TRUE, TRUE, "CanOccupyCity"));
+
+    /* The actor unit can't have the unit type flag NonMil. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                              FALSE, FALSE, TRUE,
+                                              UTYF_CIVILIAN));
+
+    /* Must be at war with the target city. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                              FALSE, TRUE, TRUE, DS_WAR));
+
+    /* The actor unit must have moves left. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("MinMoveFrags", "Local", FALSE,
+                                           TRUE, TRUE, "1"));
+
+    /* The target city must be empty. */
+    requirement_vector_append(&enabler->target_reqs,
+                              req_from_str("MaxUnitsOnTile", "Local", FALSE,
+                                           TRUE, TRUE, "0"));
+
+    /* The actor unit must have the unit type flag Marines. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local", FALSE,
+                                           TRUE, TRUE, "Marines"));
+
+    action_enabler_add(enabler);
+
+    /* City occupation as AttFromNonNative. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_CONQUER_CITY;
+
+    /* The actor unit must have the unit class flag CanOccupyCity. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitClassFlag", "Local", FALSE,
+                                           TRUE, TRUE, "CanOccupyCity"));
+
+    /* The actor unit can't have the unit type flag NonMil. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                              FALSE, FALSE, TRUE,
+                                              UTYF_CIVILIAN));
+
+    /* Must be at war with the target city. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                              FALSE, TRUE, TRUE, DS_WAR));
+
+    /* The actor unit must have moves left. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("MinMoveFrags", "Local", FALSE,
+                                           TRUE, TRUE, "1"));
+
+    /* The target city must be empty. */
+    requirement_vector_append(&enabler->target_reqs,
+                              req_from_str("MaxUnitsOnTile", "Local", FALSE,
+                                           TRUE, TRUE, "0"));
+
+    /* The actor unit must have the unit class flag AttFromNonNative. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitClassFlag", "Local", FALSE,
+                                           TRUE, TRUE, "AttFromNonNative"));
 
     action_enabler_add(enabler);
 

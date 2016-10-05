@@ -1360,12 +1360,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("  * Can attack units on non-native tiles.\n"));
   }
-  /* Must use flag to distinguish from UTYF_MARINES text. */
-  if (utype_can_do_action(utype, ACTION_ATTACK)
-      && uclass_has_flag(pclass, UCF_ATT_FROM_NON_NATIVE)) {
-    CATLSTR(buf, bufsz,
-            _("  * Can launch attack from non-native tiles.\n"));
-  }
   for (flagid = UCF_USER_FLAG_1; flagid <= UCF_LAST_USER_FLAG; flagid++) {
     if (uclass_has_flag(pclass, flagid)) {
       const char *helptxt = unit_class_flag_helptxt(flagid);
@@ -1825,11 +1819,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK)) {
     CATLSTR(buf, bufsz,
             _("* Can only attack units on native tiles.\n"));
-  }
-  /* Must use flag to distinguish from UCF_ATT_FROM_NON_NATIVE text. */
-  if (utype_has_flag(utype, UTYF_MARINES)) {
-    CATLSTR(buf, bufsz,
-            _("* Can launch attack from non-native tiles.\n"));
   }
   if (game.info.slow_invasions
       && utype_has_flag(utype, UTYF_BEACH_LANDER)) {

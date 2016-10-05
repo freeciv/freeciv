@@ -1183,25 +1183,6 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
       return TRI_NO;
     }
 
-    /* Reason: Keep the old marines rules. (Note: different from
-     * ACTION_ATTACK) */
-    /* Info leak: The player knows if his unit is at a native tile. */
-    if (!can_exist_at_tile(actor_unittype, actor_tile)
-        && !can_attack_from_non_native(actor_unittype)) {
-      /* Don't use is_native_tile() because any unit in an
-       * adjacent city may conquer, regardless of flags. */
-      return TRI_NO;
-    }
-    break;
-
-  case ACTION_ATTACK:
-    /* Reason: Keep the old marines rules. (Note: different from
-     * ACTION_CONQUER_CITY) */
-    /* Info leak: The player knows if his unit is at a native tile. */
-    if (!is_native_tile(actor_unittype, actor_tile)
-        && !can_attack_from_non_native(actor_unittype)) {
-      return TRI_NO;
-    }
     break;
 
   case ACTION_AIRLIFT:
@@ -1262,6 +1243,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
+  case ACTION_ATTACK:
     /* No hard unit type requirements. */
     break;
 

@@ -530,15 +530,34 @@ actor_reqs    =
       "UnitFlag", "Nuclear", "Local", TRUE
     }
 
-[actionenabler_attack]
+[actionenabler_attack_native]
 action = "Attack"
 actor_reqs    =
-    { "type",         "name",   "range", "present"
-      "UnitFlag",     "NonMil", "Local", FALSE
-      "MinMoveFrags", "1",      "Local", TRUE
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "MinMoveFrags", "1",            "Local", TRUE
+      "UnitState",    "OnNativeTile", "Local", TRUE
     }
 
-[actionenabler_conquer_city]
+[actionenabler_attack_marines]
+action = "Attack"
+actor_reqs    =
+    { "type",         "name",    "range", "present"
+      "UnitFlag",     "NonMil",  "Local", FALSE
+      "MinMoveFrags", "1",       "Local", TRUE
+      "UnitFlag",     "Marines", "Local", TRUE
+    }
+
+[actionenabler_attack_att_from_non_native]
+action = "Attack"
+actor_reqs    =
+    { "type",          "name",             "range", "present"
+      "UnitFlag",      "NonMil",           "Local", FALSE
+      "MinMoveFrags",  "1",                "Local", TRUE
+      "UnitClassFlag", "AttFromNonNative", "Local", TRUE
+    }
+
+[actionenabler_conquer_city_native]
 action = "Conquer City"
 actor_reqs    =
     { "type",           "name",          "range", "present"
@@ -546,6 +565,37 @@ actor_reqs    =
       "UnitFlag",       "NonMil",        "Local", FALSE
       "DiplRel",        "War",           "Local", TRUE
       "MinMoveFrags",   "1",             "Local", TRUE
+      "UnitState",      "OnLivableTile", "Local", TRUE
+    }
+target_reqs    =
+    { "type",           "name",          "range", "present"
+      "MaxUnitsOnTile", "0",             "Local", TRUE
+    }
+
+[actionenabler_conquer_city_marines]
+action = "Conquer City"
+actor_reqs    =
+    { "type",           "name",          "range", "present"
+      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
+      "UnitFlag",       "NonMil",        "Local", FALSE
+      "DiplRel",        "War",           "Local", TRUE
+      "MinMoveFrags",   "1",             "Local", TRUE
+      "UnitFlag",       "Marines",       "Local", TRUE
+    }
+target_reqs    =
+    { "type",           "name",          "range", "present"
+      "MaxUnitsOnTile", "0",             "Local", TRUE
+    }
+
+[actionenabler_conquer_city_att_from_non_native]
+action = "Conquer City"
+actor_reqs    =
+    { "type",           "name",             "range", "present"
+      "UnitClassFlag",  "CanOccupyCity",    "Local", TRUE
+      "UnitFlag",       "NonMil",           "Local", FALSE
+      "DiplRel",        "War",              "Local", TRUE
+      "MinMoveFrags",   "1",                "Local", TRUE
+      "UnitClassFlag",  "AttFromNonNative", "Local", TRUE
     }
 target_reqs    =
     { "type",           "name",          "range", "present"

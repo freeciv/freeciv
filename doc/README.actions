@@ -292,9 +292,6 @@ Actions done by a unit against a city
  * "Attack" must be impossible
  * the actor unit must be on a tile next to the target.
  * the actor player can't be an animal barbarian.
- * the actor must be on a tile where it can exist outside a transport,
-   have the "Marines" unit type flag or have the "AttFromNonNative" unit
-   class flag.
  * the actor unit must, if transported, be able to disembark from its
    transport.
  * the actor unit doesn't have the "CoastStrict" unit type flag or the
@@ -385,8 +382,6 @@ Actions done by a unit against a tile
  * the actor must be on the tile next to the target.
  * the actor's attack must be above 0
  * the actor can't have the "NonMil" unit type flag (!)
- * the actor must be on a native tile, have the "Marines" unit type flag or
-   have the "AttFromNonNative" unit class flag.
  * the actor must be native to the target tile unless it has the
    "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
    type flag.

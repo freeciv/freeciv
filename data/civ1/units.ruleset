@@ -27,6 +27,7 @@ flags =
     _("AddToCity")
     _("Nuclear")
     _("Infra"), _("Can build infrastructure.")
+    _("Marines"), _("Can launch attack from non-native tiles.")
   }
 
 ; Names for custom unit class flags. There can be up to 8 of these.
@@ -38,6 +39,7 @@ flags =
 class_flags =
   { "name", "helptxt"
     _("Airliftable"), _("Can be airlifted from a suitable city.")
+    _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
   }
 
 [veteran_system]
@@ -114,11 +116,6 @@ veteran_move_bonus = 0, 0
 ;                       still work that tile
 ; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type
 ;                       flag "Only_Native_Attack" can override this
-; "AttFromNonNative"  = Unit can launch attack from non-native tile (against
-;                       native one)
-;                       This applies for both attacking from transport or
-;                       cities. If only some unit types of the class should
-;                       get this property, use type flag "Marines"
 ; "KillCitizen"       = Upon successful attack against a city, unit kills one
 ;                       citizen. The effect "Unit_No_Lose_Pop" and the server
 ;                       setting 'killcitizen' can disable this.
