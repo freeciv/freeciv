@@ -1858,12 +1858,14 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer = city_owner(pcity);
 
-  /* If not at war, may peacefully enter city. Or, if we cannot occupy
-   * the city, this unit entering will not trigger the effects below. */
-  if (!pplayers_at_war(pplayer, cplayer)
-      || !unit_can_take_over(punit)) {
-    return FALSE;
-  }
+  /* If not at war, may peacefully enter city. */
+  fc_assert_ret_val_msg(pplayers_at_war(pplayer, cplayer), FALSE,
+                        "Can't conquer city during peace.");
+
+  /* If we cannot occupy the city, this unit entering will not trigger the
+   * effects below. */
+  fc_assert_ret_val_msg(unit_can_take_over(punit), FALSE,
+                        "Bad unit for city occupation.");
 
   /* A transported unit trying to conquer a city should already have been
    * unloaded. */
