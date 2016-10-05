@@ -52,10 +52,10 @@ enum production_class_type {
 #define SPECENUM_VALUE0NAME "Disband"
 /* If new citizens are science specialists */
 #define SPECENUM_VALUE1 CITYO_SCIENCE_SPECIALISTS
-#define SPECENUM_VALUE1NAME "New_Einstein"
+#define SPECENUM_VALUE1NAME "Sci_Specialists"
 /* If new citizens are gold specialists */
 #define SPECENUM_VALUE2 CITYO_GOLD_SPECIALISTS
-#define SPECENUM_VALUE2NAME "New_Taxman"
+#define SPECENUM_VALUE2NAME "Tax_Specialists"
 #define SPECENUM_COUNT CITYO_LAST
 #define SPECENUM_BITVECTOR bv_city_options
 #include "specenum_gen.h"
