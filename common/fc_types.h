@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -489,6 +489,8 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE6NAME "sdl2"
 #define SPECENUM_VALUE7 GUI_WEB
 #define SPECENUM_VALUE7NAME "web"
+#define SPECENUM_VALUE8 GUI_GTK3_22
+#define SPECENUM_VALUE8NAME "gtk3.22"
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
