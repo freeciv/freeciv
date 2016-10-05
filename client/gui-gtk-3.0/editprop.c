@@ -387,6 +387,7 @@ enum object_property_flags {
 struct objprop {
   int id;
   const char *name;
+  const char *tooltip;
   enum object_property_flags flags;
   enum value_types valtype;
   int column_id;
@@ -398,11 +399,13 @@ struct objprop {
 
 static struct objprop *objprop_new(int id,
                                    const char *name,
+                                   const char *tooltip,
                                    enum object_property_flags flags,
                                    enum value_types valtype,
                                    struct property_page *parent);
 static int objprop_get_id(const struct objprop *op);
 static const char *objprop_get_name(const struct objprop *op);
+static const char *objprop_get_tooltip(const struct objprop *op);
 static enum value_types objprop_get_valtype(const struct objprop *op);
 static struct property_page *
 objprop_get_property_page(const struct objprop *op);
@@ -2813,6 +2816,17 @@ static const char *objprop_get_name(const struct objprop *op)
 }
 
 /****************************************************************************
+  Return a description (translated) of the property.
+****************************************************************************/
+static const char *objprop_get_tooltip(const struct objprop *op)
+{
+  if (!op) {
+    return NULL;
+  }
+  return op->tooltip;
+}
+
+/****************************************************************************
   Create and return a cell renderer corresponding to this object property,
   suitable to be used with a tree view. May return NULL if this object
   property cannot exist in a list store.
@@ -2915,8 +2929,7 @@ static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
 ****************************************************************************/
 static void objprop_setup_widget(struct objprop *op)
 {
-  GtkWidget *w = NULL;
-  GtkWidget *hbox, *hbox2, *label, *image, *entry, *spin, *button;
+  GtkWidget *ebox, *hbox, *hbox2, *label, *image, *entry, *spin, *button;
   struct extviewer *ev = NULL;
   enum object_property_ids propid;
 
@@ -2928,10 +2941,13 @@ static void objprop_setup_widget(struct objprop *op)
     return;
   }
 
+  ebox = gtk_event_box_new();
+  op->widget = ebox;
+
   hbox = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-  w = hbox;
-  op->widget = w;
+
+  gtk_container_add(GTK_CONTAINER(ebox), hbox);
 
   label = gtk_label_new(objprop_get_name(op));
   gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -3430,6 +3446,7 @@ static struct property_page *objprop_get_property_page(const struct objprop *op)
 ****************************************************************************/
 static struct objprop *objprop_new(int id,
                                    const char *name,
+                                   const char *tooltip,
                                    enum object_property_flags flags,
                                    enum value_types valtype,
                                    struct property_page *parent)
@@ -3439,6 +3456,7 @@ static struct objprop *objprop_new(int id,
   op = fc_calloc(1, sizeof(*op));
   op->id = id;
   op->name = name;
+  op->tooltip = tooltip;
   op->flags = flags;
   op->valtype = valtype;
   op->column_id = -1;
@@ -4371,169 +4389,188 @@ static void extviewer_textbuf_changed(GtkTextBuffer *textbuf,
 ****************************************************************************/
 static void property_page_setup_objprops(struct property_page *pp)
 {
-#define ADDPROP(ARG_id, ARG_name, ARG_flags, ARG_valtype) do {\
-  struct objprop *MY_op = objprop_new(ARG_id, ARG_name,\
-                                      ARG_flags, ARG_valtype, pp);\
-  objprop_hash_insert(pp->objprop_table, MY_op->id, MY_op);\
+#define ADDPROP(ARG_id, ARG_name, ARG_tooltip, ARG_flags, ARG_valtype) do { \
+  struct objprop *MY_op = objprop_new(ARG_id, ARG_name, ARG_tooltip, \
+                                      ARG_flags, ARG_valtype, pp); \
+  objprop_hash_insert(pp->objprop_table, MY_op->id, MY_op); \
 } while (FALSE)
 
   switch (property_page_get_objtype(pp)) {
   case OBJTYPE_TILE:
-    ADDPROP(OPID_TILE_IMAGE, _("Image"),
+    ADDPROP(OPID_TILE_IMAGE, _("Image"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_PIXBUF);
-    ADDPROP(OPID_TILE_TERRAIN, _("Terrain"),
+    ADDPROP(OPID_TILE_TERRAIN, _("Terrain"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
-    ADDPROP(OPID_TILE_RESOURCE, _("Resource"),
+    ADDPROP(OPID_TILE_RESOURCE, _("Resource"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
-    ADDPROP(OPID_TILE_INDEX, _("Index"),
+    ADDPROP(OPID_TILE_INDEX, _("Index"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_TILE_X, Q_("?coordinate:X"),
+    ADDPROP(OPID_TILE_X, Q_("?coordinate:X"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_TILE_Y, Q_("?coordinate:Y"),
+    ADDPROP(OPID_TILE_Y, Q_("?coordinate:Y"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
     /* TRANS: The coordinate X in native coordinates.
      * The freeciv coordinate system is described in doc/HACKING. */
-    ADDPROP(OPID_TILE_NAT_X, _("NAT X"),
+    ADDPROP(OPID_TILE_NAT_X, _("NAT X"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
     /* TRANS: The coordinate Y in native coordinates.
      * The freeciv coordinate system is described in doc/HACKING. */
-    ADDPROP(OPID_TILE_NAT_Y, _("NAT Y"),
+    ADDPROP(OPID_TILE_NAT_Y, _("NAT Y"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_TILE_CONTINENT, _("Continent"),
+    ADDPROP(OPID_TILE_CONTINENT, _("Continent"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_TILE_XY, Q_("?coordinates:X,Y"),
+    ADDPROP(OPID_TILE_XY, Q_("?coordinates:X,Y"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
-    ADDPROP(OPID_TILE_SPECIALS, _("Specials"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_SPECIAL);
-    ADDPROP(OPID_TILE_ROADS, _("Roads"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_ROADS);
-    ADDPROP(OPID_TILE_BASES, _("Bases"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_BASES);
+    ADDPROP(OPID_TILE_SPECIALS, _("Specials"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_BV_SPECIAL);
+    ADDPROP(OPID_TILE_ROADS, _("Roads"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_BV_ROADS);
+    ADDPROP(OPID_TILE_BASES, _("Bases"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_BV_BASES);
 #ifdef FREECIV_DEBUG
-    ADDPROP(OPID_TILE_ADDRESS, _("Address"),
+    ADDPROP(OPID_TILE_ADDRESS, _("Address"), NULL,
             OPF_HAS_WIDGET, VALTYPE_STRING);
 #endif /* FREECIV_DEBUG */
 #if 0
     /* Disabled entirely for now as server is not sending other
      * players' vision information anyway. */
-    ADDPROP(OPID_TILE_VISION, _("Vision"),
+    ADDPROP(OPID_TILE_VISION, _("Vision"), NULL,
             OPF_HAS_WIDGET, VALTYPE_TILE_VISION_DATA);
 #endif
     /* TRANS: Tile property "Label" label in editor */
-    ADDPROP(OPID_TILE_LABEL, Q_("?property:Label"),
+    ADDPROP(OPID_TILE_LABEL, Q_("?property:Label"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
     return;
 
   case OBJTYPE_STARTPOS:
-    ADDPROP(OPID_STARTPOS_IMAGE, _("Image"),
+    ADDPROP(OPID_STARTPOS_IMAGE, _("Image"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_PIXBUF);
-    ADDPROP(OPID_STARTPOS_XY, Q_("?coordinates:X,Y"),
+    ADDPROP(OPID_STARTPOS_XY, Q_("?coordinates:X,Y"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
-    ADDPROP(OPID_STARTPOS_EXCLUDE, _("Exclude Nations"),
+    ADDPROP(OPID_STARTPOS_EXCLUDE, _("Exclude Nations"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    ADDPROP(OPID_STARTPOS_NATIONS, _("Nations"),
+    ADDPROP(OPID_STARTPOS_NATIONS, _("Nations"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
             VALTYPE_NATION_HASH);
     return;
 
   case OBJTYPE_UNIT:
-    ADDPROP(OPID_UNIT_IMAGE, _("Image"),
+    ADDPROP(OPID_UNIT_IMAGE, _("Image"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_PIXBUF);
 #ifdef FREECIV_DEBUG
-    ADDPROP(OPID_UNIT_ADDRESS, _("Address"),
+    ADDPROP(OPID_UNIT_ADDRESS, _("Address"), NULL,
             OPF_HAS_WIDGET, VALTYPE_STRING);
 #endif /* FREECIV_DEBUG */
-    ADDPROP(OPID_UNIT_TYPE, _("Type"),
+    ADDPROP(OPID_UNIT_TYPE, _("Type"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
-    ADDPROP(OPID_UNIT_ID, _("ID"),
+    ADDPROP(OPID_UNIT_ID, _("ID"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_UNIT_XY, Q_("?coordinates:X,Y"),
+    ADDPROP(OPID_UNIT_XY, Q_("?coordinates:X,Y"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
-    ADDPROP(OPID_UNIT_MOVES_LEFT, _("Moves Left"),
+    ADDPROP(OPID_UNIT_MOVES_LEFT, _("Moves Left"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    ADDPROP(OPID_UNIT_FUEL, _("Fuel"),
+    ADDPROP(OPID_UNIT_FUEL, _("Fuel"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    ADDPROP(OPID_UNIT_MOVED, _("Moved"),
+    ADDPROP(OPID_UNIT_MOVED, _("Moved"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    ADDPROP(OPID_UNIT_DONE_MOVING, _("Done Moving"),
+    ADDPROP(OPID_UNIT_DONE_MOVING, _("Done Moving"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     /* TRANS: HP = Hit Points of a unit. */
-    ADDPROP(OPID_UNIT_HP, _("HP"),
+    ADDPROP(OPID_UNIT_HP, _("HP"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    ADDPROP(OPID_UNIT_VETERAN, _("Veteran"),
+    ADDPROP(OPID_UNIT_VETERAN, _("Veteran"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     return;
 
   case OBJTYPE_CITY:
-    ADDPROP(OPID_CITY_IMAGE, _("Image"),
+    ADDPROP(OPID_CITY_IMAGE, _("Image"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_PIXBUF);
-    ADDPROP(OPID_CITY_NAME, _("Name"),
+    ADDPROP(OPID_CITY_NAME, _("Name"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
 #ifdef FREECIV_DEBUG
-    ADDPROP(OPID_CITY_ADDRESS, _("Address"),
+    ADDPROP(OPID_CITY_ADDRESS, _("Address"), NULL,
             OPF_HAS_WIDGET, VALTYPE_STRING);
 #endif /* FREECIV_DEBUG */
-    ADDPROP(OPID_CITY_ID, _("ID"),
+    ADDPROP(OPID_CITY_ID, _("ID"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_CITY_XY, Q_("?coordinates:X,Y"),
+    ADDPROP(OPID_CITY_XY, Q_("?coordinates:X,Y"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
-    ADDPROP(OPID_CITY_SIZE, _("Size"),
+    ADDPROP(OPID_CITY_SIZE, _("Size"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    ADDPROP(OPID_CITY_HISTORY, _("History"),
+    ADDPROP(OPID_CITY_HISTORY, _("History"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    ADDPROP(OPID_CITY_BUILDINGS, _("Buildings"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BUILT_ARRAY);
-    ADDPROP(OPID_CITY_FOOD_STOCK, _("Food Stock"),
+    ADDPROP(OPID_CITY_BUILDINGS, _("Buildings"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_BUILT_ARRAY);
+    ADDPROP(OPID_CITY_FOOD_STOCK, _("Food Stock"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    ADDPROP(OPID_CITY_SHIELD_STOCK, _("Shield Stock"),
+    ADDPROP(OPID_CITY_SHIELD_STOCK, _("Shield Stock"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     return;
 
   case OBJTYPE_PLAYER:
-    ADDPROP(OPID_PLAYER_NAME, _("Name"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
+    ADDPROP(OPID_PLAYER_NAME, _("Name"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_STRING);
 #ifdef FREECIV_DEBUG
-    ADDPROP(OPID_PLAYER_ADDRESS, _("Address"),
+    ADDPROP(OPID_PLAYER_ADDRESS, _("Address"), NULL,
             OPF_HAS_WIDGET, VALTYPE_STRING);
 #endif /* FREECIV_DEBUG */
-    ADDPROP(OPID_PLAYER_NATION, _("Nation"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_NATION);
-    ADDPROP(OPID_PLAYER_GOV, _("Government"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_GOV);
-    ADDPROP(OPID_PLAYER_AGE, _("Age"),
+    ADDPROP(OPID_PLAYER_NATION, _("Nation"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_NATION);
+    ADDPROP(OPID_PLAYER_GOV, _("Government"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_GOV);
+    ADDPROP(OPID_PLAYER_AGE, _("Age"), NULL,
             OPF_HAS_WIDGET, VALTYPE_INT);
-    ADDPROP(OPID_PLAYER_INVENTIONS, _("Inventions"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INVENTIONS_ARRAY);
-    ADDPROP(OPID_PLAYER_SCIENCE, _("Science"),
+    ADDPROP(OPID_PLAYER_INVENTIONS, _("Inventions"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_INVENTIONS_ARRAY);
+    ADDPROP(OPID_PLAYER_SCIENCE, _("Science"), NULL,
             OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    ADDPROP(OPID_PLAYER_GOLD, _("Gold"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
+    ADDPROP(OPID_PLAYER_GOLD, _("Gold"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_INT);
     return;
 
   case OBJTYPE_GAME:
-    ADDPROP(OPID_GAME_YEAR, _("Year"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    ADDPROP(OPID_GAME_SCENARIO, _("Scenario"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    ADDPROP(OPID_GAME_SCENARIO_NAME, _("Scenario Name"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
-    ADDPROP(OPID_GAME_SCENARIO_AUTHORS, _("Scenario Authors"),
+    ADDPROP(OPID_GAME_YEAR, _("Year"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_INT);
+    ADDPROP(OPID_GAME_SCENARIO, _("Scenario"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_BOOL);
+    ADDPROP(OPID_GAME_SCENARIO_NAME, _("Scenario Name"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
             VALTYPE_STRING);
-    ADDPROP(OPID_GAME_SCENARIO_DESC, _("Scenario Description"),
+    ADDPROP(OPID_GAME_SCENARIO_AUTHORS,
+            _("Scenario Authors"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
             VALTYPE_STRING);
-    ADDPROP(OPID_GAME_SCENARIO_RANDSTATE, _("Save Random Number State"),
+    ADDPROP(OPID_GAME_SCENARIO_DESC,
+            _("Scenario Description"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_STRING);
+    ADDPROP(OPID_GAME_SCENARIO_RANDSTATE,
+            _("Save Random Number State"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    ADDPROP(OPID_GAME_SCENARIO_PLAYERS, _("Save Players"), OPF_IN_LISTVIEW
-            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    ADDPROP(OPID_GAME_STARTPOS_NATIONS, _("Nation Start Positions"),
+    ADDPROP(OPID_GAME_SCENARIO_PLAYERS,
+            _("Save Players"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    ADDPROP(OPID_GAME_PREVENT_CITIES, _("Prevent New Cities"),
+    ADDPROP(OPID_GAME_STARTPOS_NATIONS,
+            _("Nation Start Positions"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    ADDPROP(OPID_GAME_LAKE_FLOODING, _("Saltwater Flooding Lakes"),
+    ADDPROP(OPID_GAME_PREVENT_CITIES,
+            _("Prevent New Cities"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    ADDPROP(OPID_GAME_RULESET_LOCKED, _("Lock to current Ruleset"),
+    ADDPROP(OPID_GAME_LAKE_FLOODING,
+            _("Saltwater Flooding Lakes"), NULL,
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
+    ADDPROP(OPID_GAME_RULESET_LOCKED,
+            _("Lock to current Ruleset"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     return;
 
@@ -4686,7 +4723,7 @@ property_page_new(enum editor_object_type objtype,
   int num_columns = 0;
   GType *gtype_array;
   int col_id = 1;
-  const char *attr_type_str, *name;
+  const char *attr_type_str, *name, *tooltip;
   gchar *title;
 
   if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
@@ -4923,6 +4960,10 @@ property_page_new(enum editor_object_type objtype,
       continue;
     }
     gtk_container_add(GTK_CONTAINER(vbox2), w);
+    tooltip = objprop_get_tooltip(op);
+    if (NULL != tooltip) {
+      gtk_widget_set_tooltip_text(w, tooltip);
+    }
   } property_page_objprop_iterate_end;
 
   hbox2 = gtk_grid_new();
