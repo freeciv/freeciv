@@ -140,6 +140,7 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer, Tile *ptile,
 bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
 {
   bool alive;
+  struct city *pcity;
 
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
@@ -149,10 +150,12 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
   alive = unit_move(punit, dest, 0, NULL,
                     /* The old call would result in occupation before the
                      * checks below. */
-                    TRUE);
+                    ((pcity = tile_city(dest))
+                     && unit_can_take_over(punit)
+                     && pplayers_at_war(unit_owner(punit),
+                                        city_owner(pcity))));
   if (alive) {
     struct player *owner = unit_owner(punit);
-    struct city *pcity = tile_city(dest);
 
     if (!can_unit_exist_at_tile(punit, dest)) {
       wipe_unit(punit, ULR_NONNATIVE_TERR, NULL);
@@ -516,6 +519,8 @@ void api_edit_player_victory(lua_State *L, Player *pplayer)
 bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
                         int movecost)
 {
+  struct city *pcity;
+
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, punit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
@@ -524,7 +529,10 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
   return unit_move(punit, ptile, movecost, NULL,
                    /* Backwards compatibility for old scripts in rulesets
                     * and (scenario) savegames. */
-                   TRUE);
+                   ((pcity = tile_city(ptile))
+                    && unit_can_take_over(punit)
+                    && pplayers_at_war(unit_owner(punit),
+                                       city_owner(pcity))));
 }
 
 /*****************************************************************************
