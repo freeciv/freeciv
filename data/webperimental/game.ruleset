@@ -61,6 +61,8 @@ the earth. If your Leader dies you lose he game.)\n\
 - Killing an enemy Leader gives you a few of his cities, some of his gold \
 and some of his knowledge. Not all his cities will follow you. Some will \
 rather turn barbarian.\n\
+- The Leader can heal light weight units belonging to you or to your \
+allies.\n\
 - Labels the year using AD/BC.\n\
 - All units can be airlifted:\n\
   - Light weight units can be airlifted once Flight is known.\n\
@@ -660,6 +662,24 @@ actor_reqs    =
       "UnitFlag", "AddToCity", "Local", TRUE
       "DiplRel", "Is foreign", "Local", FALSE
       "MinMoveFrags", "1", "Local", TRUE
+    }
+
+[actionenabler_heal]
+action = "Heal Unit"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "GameLoss",      "Local", TRUE
+      "DiplRel",      "War",           "Local", FALSE
+      "DiplRel",      "Cease-fire",    "Local", FALSE
+      "DiplRel",      "Armistice",     "Local", FALSE
+      "DiplRel",      "Peace",         "Local", FALSE
+      "DiplRel",      "Never met",     "Local", FALSE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+    }
+target_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "LightWeight",   "Local", TRUE
     }
 
 [actionenabler_border_police]
