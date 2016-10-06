@@ -26799,8 +26799,8 @@ msgid ""
 "specifying what to build in the turns to come."
 msgstr ""
 "Редактор Плану Будівництва використовується для зміни плану для кожного "
-"міста (з діалогу міста) та глобального плану. Використовуючи редактор Ви "
-"можете створити список, якій визначає що та у якій послідовності будувати."
+"міста (з діалогу міста) та глобального плану. Використовуючи редактор "
+"можна створити список, який визначає, що, та в якій послідовності будувати."
 
 #: data/helpdata.txt:1936
 msgid ""
@@ -26809,8 +26809,8 @@ msgid ""
 "selected item. Pressing Help with no item selected will display this page."
 msgstr ""
 "Аби додати позицію до плану будівництва, двічі клікніть на обраній позіції у "
-"списку доступних позицій. Також Ви можете натиснути кнопку Допомога аби "
-"отримати допомогу по обраній позиції. Натиснення Допомога без обраної "
+"списку доступних позицій. Також Ви можете натиснути кнопку Допомога, щоб "
+"отримати допомогу по вибраній позиції. Натикання Допомоги без обраної "
 "позиції відобразить цей екран."
 
 #: data/helpdata.txt:1940
@@ -26819,8 +26819,8 @@ msgid ""
 "Use the buttons below the worklist to move items up and/or down in the list."
 msgstr ""
 "Аби видалити позицію з плану будівництва - двічі клікніть на ній. "
-"Використовуйте кнопки внизу плану будівництва аби пересунути позицію вище/"
-"нижче по списку."
+"Використовуйте кнопки внизу плану будівництва щоб пересунути позицію вгору/"
+"вниз по списку."
 
 #: data/helpdata.txt:1943
 msgid ""
@@ -26831,17 +26831,17 @@ msgid ""
 "selected item from the worklist."
 msgstr ""
 "Скорочення клавіатури: Home фокусує план будівництва, End фокусує список "
-"доступних будівель, стрілки Up/Down обирають наступну/попередню позицію у "
-"списку, PageUp/Down аби пересовувати позиції вище/нижче у плані будівництва, "
-"Insert вставляє позицію з списку доступного в план будівництва та Delete "
-"видаляє обрану позицію з плану будівництва."
+"доступних будівель, стрілки Up/Down обирають наступну/попередню позицію в "
+"списку, PageUp/Down аби пересувати позиції вгору/вниз в плані будівництва, "
+"Insert вставляє позицію зі списку доступного в план будівництва, Delete "
+"вилучає обрану позицію з плану будівництва."
 
 #: data/helpdata.txt:1949
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
 msgstr ""
-"Якщо Ви бажаєте купити підрозділ що є першим у списку, Ви можете зробити це "
+"Якщо хочете купити підрозділ перший в списку, це можна зробити "
 "у вікні міста."
 
 #: data/helpdata.txt:1956
@@ -26853,7 +26853,7 @@ msgid ""
 "First, check whether a localization is already in progress for your language:"
 msgstr ""
 "Freeciv підтримує декілька мов. Дивись розділ 'Native Language Support' у "
-"файлі README для інструкцій по використанню однієї з цих мов.\n"
+"файлі README для інструкцій з використання однієї з цих мов.\n"
 "\n"
 "Спочатку перевірте, чи локалізація для Вашої мови вже існує:"
 
@@ -26877,6 +26877,10 @@ msgid ""
 "(including source) freely, but see the the full license text below for full "
 "details."
 msgstr ""
+"Freeciv випускається під GNU General Public License (версії 2 або на ваш "
+"вибір пізнішої версії).  Коротко - Ви можете вільно копіювати цю програму "
+"(включаючи початковий код), але погляньте на повний текст ліцензії, щоб знати "
+"всі деталі."
 
 #. TRANS: followed by a URL
 #: data/helpdata.txt:2295
@@ -26884,24 +26888,24 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
-"Якщо Ви знайдете помилку, надішліть звіт про неї.  Найкраще це робити "
+"Якщо Ви знайдете помилку, надішліть звіт про неї. Найкраще це зробити "
 "відвідавши Систему Обліку Помилок Freeciv, на:"
 
 #: data/helpdata.txt:2300
-#, fuzzy
 msgid ""
 "Please quote the above version information. For more information about "
 "submitting bug reports see the file BUGS in the Freeciv distribution."
 msgstr ""
-"Для додаткової інформації про звітування помилок - дивіться файл BUGS у "
-"дистрибуції Freeciv. Для загальної додаткової інформації, відвідайте сайт  "
-"Freeciv, на:"
+"Будь ласка процитуйте вищенаведені відомості версії. Для додаткової "
+"інформації про звітування помилок - дивіться файл BUGS у дистрибутиві Freeciv."
 
 #: data/helpdata.txt:2304
 msgid ""
 "To contact the developers about anything else, please email one of the "
 "project's mailing lists:"
 msgstr ""
+"Щоб зв’язатися з розробниками про щось інше, будь ласка напишіть на один зі"
+"списків розсилки нашого проекту:"
 
 #: data/helpdata.txt:2307
 msgid ""
@@ -26910,6 +26914,10 @@ msgid ""
 "    freeciv-maintainers@gna.org - private project administration\n"
 "                                  list (for security issues, etc)"
 msgstr ""
+"    freeciv-dev@gna.org         - публічний список розсилки\n"
+"                                  для розробників (архіви публічні)\n"
+"    freeciv-maintainers@gna.org - приватний список дміністраторів проекту\n"
+"                                  (для проьлем безпеки тощо)"
 
 #: data/helpdata.txt:2312
 msgid ""
@@ -26917,7 +26925,7 @@ msgid ""
 "    (they are no longer involved, please don't mail them!)"
 msgstr ""
 "  Перші автори:\n"
-"    (вони вже не займаються грою, тож не пишіть їм!)"
+"    (вони вже не займаються грою, будь ласка не пишіть їм!)"
 
 #: data/helpdata.txt:2319
 msgid "  Present administrators: "
@@ -26925,7 +26933,7 @@ msgstr "  Поточні адміністратори: "
 
 #: data/helpdata.txt:2326
 msgid "For more information in general, visit the Freeciv website, at:"
-msgstr ""
+msgstr "Для загальної додаткової інформації відвідайте сайт Freeciv:"
 
 #: data/multiplayer/buildings.ruleset:618
 msgid ""
