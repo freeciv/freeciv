@@ -4739,17 +4739,9 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_UPGRADE_UNIT:
       case ACTION_ATTACK:
       case ACTION_CONQUER_CITY:
-        /* No validation required. */
-        break;
       case ACTION_PARADROP:
       case ACTION_AIRLIFT:
-        /* Can't specify target tile in the current order packet format.
-         * Should have been caught above. */
-        log_error("Action %s isn't supported in orders. "
-                  "It was sent in order number %d from %s to "
-                  "unit number %d.",
-                  action_get_ui_name(packet->action[i]), i,
-                  player_name(pplayer), packet->unit_id);
+        /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */
       case ACTION_COUNT:
@@ -4759,30 +4751,15 @@ void handle_unit_orders(struct player *pplayer,
                           i, player_name(pplayer), packet->unit_id);
       }
 
-      switch (action_id_get_target_kind(packet->action[i])) {
-      case ATK_CITY:
-        /* Don't validate that the target tile really contains a city or
-         * that the actor player's map think the target tile has one.
-         * The player may target a city from its player map that isn't
-         * there any more and a city that he think is there even if his
-         * player map doesn't have it.
-         *
-         * With that said: The client should probably at least have an
-         * option to only aim city targeted actions at cities. */
-        break;
-      case ATK_UNIT:
-        break;
-      case ATK_UNITS:
-        break;
-      case ATK_TILE:
-        break;
-      case ATK_SELF:
-        break;
-      case ATK_COUNT:
-        fc_assert(action_id_get_target_kind(packet->action[i])
-                  != ATK_COUNT);
-        break;
-      }
+      /* Don't validate that the target tile really contains a target or
+       * that the actor player's map think the target tile has one.
+       * The player may target a something from his player map that isn't
+       * there any more, a target he thinks is there even if his player map
+       * doesn't have it or even a target he assumes will be there when the
+       * unit reaches the target tile.
+       *
+       * With that said: The client should probably at least have an
+       * option to only aim city targeted actions at cities. */
 
       break;
     case ORDER_FULL_MP:
