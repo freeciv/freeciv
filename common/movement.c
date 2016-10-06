@@ -542,8 +542,8 @@ bool unit_can_move_to_tile(const struct unit *punit,
     4) Animals cannot move out from home terrains
     5) Unit can move to a tile where it can't survive on its own if there
        is free transport capacity.
-    6) There are no peaceful but un-allied units on the target tile.
-    7) There is not a un-allied city on the target tile when
+    6) There are no peaceful but non allied units on the target tile.
+    7) There is not a non allied city on the target tile when
        enter_enemy_city is false. When enter_enemy_city is true a non
        peaceful city is also accepted.
     8) There is no non-allied unit blocking (zoc) [or igzoc is true].
