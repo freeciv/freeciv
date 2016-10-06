@@ -18265,7 +18265,7 @@ msgstr "Стрільці"
 msgid ""
 "Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
-"Стрільці - це піхота періоду Світової Війни, дуже добра у якості захисника "
+"Стрільці - це піхота періоду Світової Війни, дуже добра в якості захисника "
 "міст."
 
 #: data/civ1/units.ruleset:482 data/civ2/units.ruleset:777
@@ -18280,7 +18280,7 @@ msgid ""
 "land unit, but is only available near the end of the technology tree."
 msgstr ""
 "Мотострільці; цей підрозділ має найбільший захист з усіх наземних "
-"підрозділів, але вони доступні лише наприкінці технологічного розвитку."
+"підрозділів, доступні лише наприкінці технологічного розвитку."
 
 #: data/civ1/units.ruleset:515 data/civ2/units.ruleset:1003
 #: data/classic/units.ruleset:1071 data/experimental/units.ruleset:1096
@@ -18335,6 +18335,8 @@ msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
 "damage than any mounted unit."
 msgstr ""
+"Танки - моторизовані воєнні візочки, що швидші, сильніші і можуть витримати "
+"більше пошкоджень за будь-який верховий загін"
 
 #: data/civ1/units.ruleset:645 data/civ2/units.ruleset:1067
 #: data/classic/units.ruleset:1135 data/experimental/units.ruleset:1160
@@ -18435,7 +18437,7 @@ msgstr ""
 
 #: data/civ1/units.ruleset:845
 msgid "Sail"
-msgstr "Парусник"
+msgstr "Вітрильник"
 
 #: data/civ1/units.ruleset:872
 msgid ""
@@ -18446,7 +18448,7 @@ msgstr "Вітрильник замінює Трирему; він значно 
 #: data/classic/units.ruleset:1549 data/experimental/units.ruleset:1575
 #: data/civ2civ3/units.ruleset:1724 data/multiplayer/units.ruleset:1647
 msgid "Frigate"
-msgstr "Фрігат"
+msgstr "Фрегат"
 
 #: data/civ1/units.ruleset:905 data/civ2/units.ruleset:1508
 #: data/classic/units.ruleset:1576 data/experimental/units.ruleset:1602
@@ -18484,7 +18486,7 @@ msgstr "Крейсер"
 #: data/classic/units.ruleset:1676 data/experimental/units.ruleset:1702
 #: data/civ2civ3/units.ruleset:1853 data/multiplayer/units.ruleset:1774
 msgid "The Cruiser is a strong offensive boat unit."
-msgstr "Крейсер - це сильний атакувальний корабельний підрозділ."
+msgstr "Крейсер - це сильний нападний корабельний підрозділ."
 
 #: data/civ1/units.ruleset:976 data/civ2/units.ruleset:1650
 #: data/classic/units.ruleset:1718 data/experimental/units.ruleset:1744
@@ -18538,8 +18540,8 @@ msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
-"Порада: Конвоюйте Авіаносець деякою кількістю швидких кораблів да Лінкором, "
-"бо ж втрата повність навантаженого Авіаносця дуже болісна та дорга."
+"Порада: Конвоюйте Авіаносець кількома швидшими кораблями і Лінкором, "
+"бо втрата повністю спорядженого Авіаносця ДУЖЕ болісна та дорога."
 
 #: data/civ1/units.ruleset:1077 data/civ2/units.ruleset:1753
 #: data/classic/units.ruleset:1821 data/experimental/units.ruleset:1847
@@ -18568,6 +18570,8 @@ msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player."
 msgstr ""
+"Ви можете Будувати Ядерні загони, коли маєте відповідне знання і Чудо"
+"Поект Манхетен збудовано ким-небудь."
 
 #: data/civ1/units.ruleset:1139 data/civ2/units.ruleset:1850
 #: data/classic/units.ruleset:1924 data/experimental/units.ruleset:1950
