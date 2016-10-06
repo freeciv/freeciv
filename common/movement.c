@@ -540,8 +540,8 @@ bool unit_can_move_to_tile(const struct unit *punit,
        is free transport capacity.
     6) Some units cannot take over a city.
     7) Only units permitted to attack from non-native tiles may do so.
-    8) There are no peaceful but un-allied units on the target tile.
-    9) There is not a peaceful but un-allied city on the target tile.
+    8) There are no peaceful but non allied units on the target tile.
+    9) There is not a peaceful but non allied city on the target tile.
    10) There is no non-allied unit blocking (zoc) [or igzoc is true].
    11) Triremes cannot move out of sight from land.
    12) It is not the territory of a player we are at peace with.
