@@ -444,6 +444,59 @@ static bool do_expel_unit(struct player *pplayer,
 }
 
 /**************************************************************************
+  Restore some of the target unit's hit points.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_heal_unit(struct player *act_player,
+                         struct unit *act_unit,
+                         struct unit *tgt_unit)
+{
+  int healing_limit;
+  int tgt_hp_max;
+  struct player *tgt_player;
+  struct tile *tgt_tile;
+
+  /* Sanity checks: got all the needed input. */
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
+  fc_assert_ret_val(tgt_unit, FALSE);
+
+  /* The target unit can't have more HP than this. */
+  tgt_hp_max = unit_type_get(tgt_unit)->hp;
+
+  /* Sanity check: target isn't at full health and can therefore can be
+   * healed. */
+  fc_assert_ret_val(tgt_unit->hp < tgt_hp_max, FALSE);
+
+  /* Fetch the target unit's owner. */
+  tgt_player = unit_owner(tgt_unit);
+  fc_assert_ret_val(tgt_player, FALSE);
+
+  /* Fetch the target unit's tile. */
+  tgt_tile = unit_tile(tgt_unit);
+  fc_assert_ret_val(tgt_tile, FALSE);
+
+  /* The max amount of HP that can be added. */
+  healing_limit = tgt_hp_max / 4;
+
+  /* Heal the target unit. */
+  tgt_unit->hp = MIN(tgt_unit->hp + healing_limit, tgt_hp_max);
+  send_unit_info(NULL, tgt_unit);
+
+  /* Healing a unit spends the actor's movement. */
+  act_unit->moves_left = 0;
+  send_unit_info(NULL, act_unit);
+
+  /* This may have diplomatic consequences. */
+  action_consequence_success(ACTION_HEAL_UNIT, act_player, tgt_player,
+                             tgt_tile, unit_link(tgt_unit));
+
+  return TRUE;
+}
+
+/**************************************************************************
   Returns the first player that may enable the specified action if war is
   declared.
 
@@ -533,6 +586,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
   case ACTION_AIRLIFT:
+  case ACTION_HEAL_UNIT:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -2133,6 +2187,20 @@ bool unit_perform_action(struct player *pplayer,
         ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
 
         return do_expel_unit(pplayer, actor_unit, punit);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       unit_owner(punit), NULL, NULL, punit,
+                       requester);
+      }
+    }
+    break;
+  case ACTION_HEAL_UNIT:
+    if (punit) {
+      if (is_action_enabled_unit_on_unit(action_type,
+                                         actor_unit, punit)) {
+        ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
+
+        return do_heal_unit(pplayer, actor_unit, punit);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        unit_owner(punit), NULL, NULL, punit,
@@ -4741,6 +4809,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_CONQUER_CITY:
       case ACTION_PARADROP:
       case ACTION_AIRLIFT:
+      case ACTION_HEAL_UNIT:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

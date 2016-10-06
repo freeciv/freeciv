@@ -1224,6 +1224,7 @@ static int action_target_neg_util(int action_id,
   case ACTION_NUKE:
   case ACTION_PARADROP:
   case ACTION_ATTACK:
+  case ACTION_HEAL_UNIT:
   case ACTION_COUNT:
     fc_assert_msg(action_id_get_target_kind(action_id) == ATK_CITY,
                   "Action not aimed at cities");

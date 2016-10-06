@@ -252,6 +252,10 @@ void actions_init(void)
       action_new(ACTION_CONQUER_CITY, ATK_CITY,
                  TRUE, FALSE, FALSE, TRUE,
                  1, 1);
+  actions[ACTION_HEAL_UNIT] =
+      action_new(ACTION_HEAL_UNIT, ATK_UNIT,
+                 FALSE, FALSE, FALSE, TRUE,
+                 0, 1);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -1107,6 +1111,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_PARADROP:
   case ACTION_AIRLIFT:
   case ACTION_CONQUER_CITY:
+  case ACTION_HEAL_UNIT:
     /* No hard unit type requirements. */
     break;
 
@@ -1244,6 +1249,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_ATTACK:
+  case ACTION_HEAL_UNIT:
     /* No hard unit type requirements. */
     break;
 
@@ -1705,6 +1711,14 @@ is_action_possible(const enum gen_action wanted_action,
       return TRI_NO;
     }
 
+    break;
+
+  case ACTION_HEAL_UNIT:
+    /* Reason: It is not the healthy who need a doctor, but the sick. */
+    /* Info leak: the actor can see the target's HP. */
+    if (!(target_unit->hp < target_unittype->hp)) {
+      return TRI_NO;
+    }
     break;
 
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -2550,6 +2564,10 @@ action_prob(const enum gen_action wanted_action,
     }
     break;
   case ACTION_CONQUER_CITY:
+    /* No battle is fought first. */
+    chance = ACTPROB_CERTAIN;
+    break;
+  case ACTION_HEAL_UNIT:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;

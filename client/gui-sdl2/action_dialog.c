@@ -836,6 +836,23 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Heal Unit"
+*****************************************************************/
+static int heal_unit_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.unit->id;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_HEAL_UNIT,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/****************************************************************
   User clicked "Capture Units"
 *****************************************************************/
 static int capture_units_callback(struct widget *pWidget)
@@ -1113,6 +1130,7 @@ static const act_func af_map[ACTION_COUNT] = {
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,
   [ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit_callback,
+  [ACTION_HEAL_UNIT] = heal_unit_callback,
   [ACTION_EXPEL_UNIT] = expel_unit_callback,
 
   /* Unit acting against all units at a tile. */

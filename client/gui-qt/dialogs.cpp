@@ -95,6 +95,7 @@ static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
 static void airlift(QVariant data1, QVariant data2);
 static void conquer_city(QVariant data1, QVariant data2);
+static void heal_unit(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
@@ -151,6 +152,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
   action_function[ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit;
+  action_function[ACTION_HEAL_UNIT] = heal_unit;
 
   /* Unit acting against all units at a tile. */
   action_function[ACTION_CAPTURE_UNITS] = capture_units;
@@ -1740,6 +1742,17 @@ static void spy_sabotage_unit(QVariant data1, QVariant data2)
 
   request_do_action(ACTION_SPY_SABOTAGE_UNIT, diplomat_id,
                     diplomat_target_id, 0, "");
+}
+
+/***************************************************************************
+  Action "Heal Unit" for choice dialog
+***************************************************************************/
+static void heal_unit(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_HEAL_UNIT, actor_id, target_id, 0, "");
 }
 
 /**************************************************************************

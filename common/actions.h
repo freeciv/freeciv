@@ -109,6 +109,8 @@ extern "C" {
 #define SPECENUM_VALUE29NAME "Attack"
 #define SPECENUM_VALUE30 ACTION_CONQUER_CITY
 #define SPECENUM_VALUE30NAME "Conquer City"
+#define SPECENUM_VALUE31 ACTION_HEAL_UNIT
+#define SPECENUM_VALUE31NAME "Heal Unit"
 #define SPECENUM_BITVECTOR bv_actions
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */
