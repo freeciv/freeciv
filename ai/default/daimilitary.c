@@ -555,9 +555,8 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
       if (!utai->carries_occupiers
           && !utype_acts_hostile(utype)
           && (utype_has_flag(utype, UTYF_CIVILIAN)
-              || (0 >= utype->attack_strength
-                  && !uclass_has_flag(utype_class(utype),
-                                      UCF_CAN_OCCUPY_CITY)))) {
+              || (!utype_can_do_action(utype, ACTION_ATTACK)
+                  && !utype_can_take_over(utype)))) {
         /* Harmless unit. */
         continue;
       }
