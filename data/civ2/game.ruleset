@@ -952,4 +952,5 @@ set =
       ; Ruleset has no trait ranges, so player choosing EVEN would have
       ; no effect anyway
       "traitdistribution", "FIXED", TRUE
+      "plrcolormode", "NATION_ORDER", FALSE
     }
