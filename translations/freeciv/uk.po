@@ -16675,7 +16675,7 @@ msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783 AD."
 msgstr ""
-"Офіційна назва: Сполучені Штати Америки. Незалежність від Великої Британії "
+"Офіційна назва: Сполучені Штати Америки. Незалежні від Великої Британії "
 "після революції у 1776-1783 н.е."
 
 #: data/civ1/nations.ruleset:93 data/civ1/nations.ruleset:206
@@ -16716,9 +16716,9 @@ msgid ""
 "by the Spanish under Cortes in 1521."
 msgstr ""
 "Ацтеки, це група народів, що  розмовляли мовою Нахуатль з пустелі Сонора,"
-"що захопили контроль над цивілізацією Толтеків у Центральній Мексиці протягом"
-"15 століття, і відновили практику жертвоприношення людей. Їх захопили Іспанці "
-"під головуванням Кортеза у 1521."
+"що захопили керівництво над цивілізацією Тольтеків Центральної Мексики протягом"
+"15 століття, і відновили практику жертвоприношення людей. Їх завоювали Іспанці"
+" під проводом Кортеcа у 1521."
 
 #: data/civ1/nations.ruleset:287 data/civ2/nations.ruleset:292
 #: data/nation/babylonian.ruleset:5
@@ -18195,6 +18195,9 @@ msgid ""
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
 "require twice as much food per turn."
 msgstr ""
+"Утримання Поселенців іде їжею і виробництвом, і Поселенець може загинути "
+"якщо місто, що  його утримує не має їжі. Поселенці потребують вдвічі більше "
+"їжі на хід за Республіки, Демократії."
 
 #: data/civ1/units.ruleset:321
 msgid "Militia"
@@ -20148,7 +20151,7 @@ msgid ""
 "if its supporting city runs out of food. Settlers require twice as much food "
 "per turn under Republic, Democracy, Communism, or Fundamentalism."
 msgstr ""
-"Утримання Поселенців іде їжею і виробництвом, І Поселенець може загинути "
+"Утримання Поселенців іде їжею і виробництвом, і Поселенець може загинути "
 "якщо місто, що  його утримує не має їжі. Поселенці потребують вдвічі більше "
 "їжі на хід за Республіки, Демократії, Комунізму чи Фундаменталізму."
 
@@ -21571,12 +21574,14 @@ msgid "The work of the priests also reduces the effect of plague in the city."
 msgstr ""
 
 #: data/experimental/buildings.ruleset:1189
-#, fuzzy
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity). It "
 "further reduces the possibility for an illness in the city."
-msgstr "Це диво нейтралізує одного нещасного в усіх містах."
+msgstr ""
+"Це неймовірне технологічне досягнення робить одного нещасного задоволеним в "
+"усіх Ваших містах (включно з нещасними внаслідок військових дій). Також "
+"зменшує ризик хвороб в місті."
 
 #: data/experimental/game.ruleset:21
 msgid "Experimental ruleset"
@@ -22202,7 +22207,12 @@ msgid ""
 "of plague in the city (by 10% of the base chance); together with an "
 "Aqueduct, a Sewer System, and knowledge of Medicine, it entirely eliminates "
 "the risk of plague."
-msgstr "Це диво нейтралізує одного нещасного в усіх містах."
+msgstr ""
+"Це неймовірне технологічне досягнення робить одного задоволеного щасливим в "
+"усіх Ваших містах (2 додаткових розкошів на місто). (включно з нещасними "
+"внаслідок військових дій). Також зменшує ризик хвороб в місті (на 10% від "
+"базового шансу); разом з Водогоном, Каналізацією і знанням Медицини, воно "
+"повністю знімає ризик пошесті."
 
 #: data/civ2civ3/buildings.ruleset:1310
 #, fuzzy
@@ -26918,16 +26928,15 @@ msgid "For more information in general, visit the Freeciv website, at:"
 msgstr ""
 
 #: data/multiplayer/buildings.ruleset:618
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 4 under Democracy and 2 under Republic -- in other words, it "
 "neutralizes the unhappiness caused by two military units. This improvement "
 "has no effect under other governments."
 msgstr ""
-"Зменшує кількість нещасних з причини відсутності військових підрозділів у "
-"місті на 2 при Демократії та на 1 при Республіці -- іншими словами, "
-"нейтралізує нещасливість, спричинену одним військовим підрозділом. За інших "
+"Зменшує нещасність від агресивно розміщених власних військових загонів "
+"міста на 4 при Демократії та на 2 при Республіці -- іншими словами, "
+"нейтралізує нещасність, спричинену двома військовими підрозділами. За інших "
 "форм правління не діє."
 
 #: data/multiplayer/buildings.ruleset:840
@@ -26936,7 +26945,7 @@ msgstr ""
 msgid ""
 "Before you can build any spaceship parts, you must build the Apollo Program."
 msgstr ""
-"Щоб розпочати виробництво частин зорельота, потрібно спершу збудувати "
+"Щоб почати виробництво частин зорельота, треба спершу збудувати "
 "Програму Аполлон."
 
 #: data/multiplayer/buildings.ruleset:965
@@ -26954,17 +26963,18 @@ msgid ""
 "Allows you to start building spaceship parts in cities with factories "
 "(assuming you have researched the necessary technologies)."
 msgstr ""
+"Дозволяє почати будівництво частин зорельота фабриками"
+"(припускаючи, що ви винайшли потрібні технології)."
 
 #: data/multiplayer/buildings.ruleset:1051
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities on the same continent."
 msgstr ""
-"Міські будівлі, що зазвичай потребують 1 гривню на утримання, "
-"утримуватимуться безкоштовно, в усіх Ваших містах на тому ж континенті."
+"Міські будівлі, що утримуються за 1 звільняються від плати за утримання, "
+"у всіх Ваших містах на тому ж континенті."
 
 #: data/multiplayer/buildings.ruleset:1111
-#, fuzzy
 msgid ""
 "This stunning technological achievement makes two content citizens happy in "
 "all cities of all players who have researched Genetic Engineering. In the "
@@ -26972,22 +26982,25 @@ msgid ""
 "this effect in a city, the wonder applies to unhappy citizens (including "
 "those unhappy about military activity), making each content then happy."
 msgstr ""
-"Робить одного нейтрального городянина щасливим у кожному місті. Також робить "
-"щасливими ще двох нейтральних городян у місті, де їх збудовано (загалом 3). "
-"Якщо раптом немає нейтральних городян для дії Висячих Садів, диво впливає на "
-"нещасних (включно з нещасними внаслідок військових дій)."
+"Це неймовірне технологічне досягнення робить двох задоволених щасливими у "
+"всіх містах для всіх гравців, які винайшли Генетичну Модифікацію. У "
+"малоймовірному випадку, коли недостатньо задоволених громадян для отримання "
+"цього блага, чудо діє на нещасних городян (включно з нещасними внаслідок "
+"військових дій), роблячи тоді кожного задоволеного щасливим."
 
 #: data/multiplayer/buildings.ruleset:1135
 msgid ""
 "Gives two immediate technology advances the first time it is built by each "
 "player."
 msgstr ""
+"Дає два миттєвих вивчення технологій, коли вперше збудовано кожним гравцем."
 
 #: data/multiplayer/buildings.ruleset:1156
 #, no-c-format
 msgid ""
 "Each city on the same continent may support one unit free of shield upkeep."
 msgstr ""
+"кодне місто звільняється від утримання щитами одного загону."
 
 #: data/multiplayer/buildings.ruleset:1177
 #, no-c-format
@@ -26996,27 +27009,26 @@ msgstr "Зменшує корупцію на 50% у всіх містах на �
 
 #: data/multiplayer/buildings.ruleset:1196
 msgid "Works as a City Wall in all your cities on the same continent."
-msgstr "Працює як Міська стіна у всіх Ваших містах на тому ж континенті."
+msgstr "Працює як Стіни Міста у всіх Ваших містах на тому ж континенті."
 
 #: data/multiplayer/buildings.ruleset:1215
-#, fuzzy
 msgid ""
 "Makes two content citizens happy in every city on the same continent. In the "
 "unlikely event where there are no content citizens to get the effect of "
 "Hanging Gardens, the wonder applies to unhappy citizens (including those "
 "unhappy about military activity), making each content then happy."
 msgstr ""
-"Робить у кожному місті одного нейтрального городянина  щасливим. Якщо раптом "
-"у місті немає нейтральних городян, Висячі Сади натомість впливають на "
+"Робить у кожному місті одного задоволеного городянина  щасливим. Якщо раптом "
+"у місті нема задоволенихгородян, Висячі Сади натомість впливають на "
 "нещасних (включно з нещасними внаслідок військових дій), роблячи їх "
-"нейтральними."
+"довольними."
 
 #: data/multiplayer/buildings.ruleset:1239
 msgid ""
 "Works as if you had a Hydro Plant in every city on the same continent. (This "
 "reduces pollution and increases the effects of Factories and Mfg. Plants.)"
 msgstr ""
-"Працює так, ніби Ви маєте Гідростанцію у кожному місті на тому ж континенті."
+"Працює так, ніби в Вас є Гідростанція в кожному місті на тому ж континенті."
 "(Зменшує забруднення та підвищує ефективність Фабрик та Заводів.)"
 
 #: data/multiplayer/buildings.ruleset:1261
@@ -27025,7 +27037,7 @@ msgid ""
 "Boosts science production by 100% in every city on the same continent that "
 "has a University."
 msgstr ""
-"Підвищує розвиток науки на 100% у кожному Вашому місті з Університетом на "
+"Підвищує розвиток науки на 100% в кожному місті з Університетом на "
 "тому ж континенті."
 
 #: data/multiplayer/buildings.ruleset:1281
@@ -27041,15 +27053,14 @@ msgid "Upgrades two obsolete units per game turn."
 msgstr "Модернізує два застарілих підрозділи за хід."
 
 #: data/multiplayer/buildings.ruleset:1361
-#, fuzzy
 msgid ""
 "All your new sea units built in cities on the same continent start with an "
 "additional veteran level (this is cumulative with any Port Facility in a "
 "city; with both, units are created as Hardened)."
 msgstr ""
-"Усі Ваші нові сухопутні підрозділи стають ветеранами першого рівня. "
-"Вірогідність того, що сухопутний підрозділ стане ветераном наступного рівня "
-"після битви, збільшується на половину."
+"Всі Ваші нові морські загони на тому ж континенті отримують додатковий "
+"ветеранський рівень (накопичувально, з Портом в місті загони будуть "
+"створені як Загартовані)."
 
 #: data/multiplayer/buildings.ruleset:1401
 #, no-c-format
@@ -27057,7 +27068,6 @@ msgid "Increases trade output by 40% in all cities on the same continent."
 msgstr "Збільшує торгівлю на 40% у всіх містах на тому ж континенті."
 
 #: data/multiplayer/buildings.ruleset:1421
-#, fuzzy
 msgid ""
 "Counts as having a Cathedral in each of your cities on the same continent. "
 "This makes 3 unhappy citizens content in each city; however, it does not "
@@ -27066,7 +27076,7 @@ msgid ""
 "content. The discovery of Communism lessens the effect of a Cathedral, "
 "reducing by one the number of unhappy citizens made content."
 msgstr ""
-"Працює як Собор у кожному місті. Таким чином, нейтралізує 3 нещасних у "
+"Працює як Собор в кожному місті. Таким чином, нейтралізує 3 нещасних в "
 "кожному місті; втім, не впливає на городян, нещасних внаслідок військових "
 "дій. Відкриття Теології збільшує ефективність Соборів, втішаючи ще одного "
 "нещасного. Відкриття Комунізму зменшує на одиницю ефективність Соборів."
@@ -27077,7 +27087,7 @@ msgid ""
 "the same continent. Does not affect citizens made unhappy by military "
 "activity."
 msgstr ""
-"Нейтралізує 2 нещасних у кожному місті з Церквою не тому ж континенті. Не "
+"Нейтралізує 2 нещасних в кожному місті з Храмом на тому ж континенті. Не "
 "впливає на городян, нещасних внаслідок військових дій."
 
 #: data/multiplayer/buildings.ruleset:1468
@@ -27085,7 +27095,7 @@ msgstr ""
 msgid ""
 "The city where this wonder is built will experience rapture growth when "
 "celebrating."
-msgstr ""
+msgstr "Місто, де це чудо збудують буде рости від зАхвату коли святкує."
 
 #: data/multiplayer/buildings.ruleset:1474
 msgid "The Internet"
@@ -27097,19 +27107,18 @@ msgid ""
 "Boosts science production in each city on the same continent with a Research "
 "Lab by 100%."
 msgstr ""
-"Збільшує розвиток науки в усіх містах на тому ж континенті із Дослідною "
-"Лабораторією на 100%."
+"Збільшує розвиток науки у всіх містах з Дослідною "
+"Лабораторією на тому ж континенті  на 100%."
 
 #: data/multiplayer/buildings.ruleset:1551
-#, fuzzy
 msgid ""
 "All your new military land units produced in cities on the same continent "
 "start with an additional veteran level (this is cumulative with any Barracks "
 "building in a city; with both, units are created as Hardened)."
 msgstr ""
-"Усі Ваші нові сухопутні підрозділи стають ветеранами першого рівня. "
-"Вірогідність того, що сухопутний підрозділ стане ветераном наступного рівня "
-"після битви, збільшується на половину."
+"Всі Ваші нові сухопутні загони збудовані в містах на тому ж континенті "
+"отримують додатковий ветеранський рівень (накопичувально, з Казармами "
+"в місті загони будуть створені як Загартовані)."
 
 #: data/multiplayer/buildings.ruleset:1572
 msgid ""
@@ -27117,9 +27126,10 @@ msgid ""
 "circumstances. If any player's city is in revolt for more than two turns, "
 "that player's government falls."
 msgstr ""
+"Створює світовий сенат, що може запобігти оголошенню воєн за деяких обставин "
+"Якщо в якогось гравця місто бунтує більше двох ходів уряд того гравця падає."
 
 #: data/multiplayer/buildings.ruleset:1593
-#, fuzzy
 msgid ""
 "Counts as a Police Station in every city on the same continent. (That is, "
 "for each city, it reduces the unhappiness caused by aggressively deployed "
@@ -27127,16 +27137,15 @@ msgid ""
 "-- in other words, it neutralizes the unhappiness caused by two military "
 "units per city. This wonder has no effect under other governments.)"
 msgstr ""
-"Діє як Відділ Міліції у кожному місті на тому ж континенті. (Це, для кожного "
-"міста, зменшує кількість нещасних з причини виведених з міста військових "
-"підрозділів на 4 за Демократії та на 2 за Республіки -- іншими словами, "
-"нейтралізує нещасливість, спричинену двома військовими підрозділами на "
+"Діє як Відділ Міліції в кожному місті на тому ж континенті. (Саме так, Для "
+"кожного міста, зменшує кількість нещасних з причини виведених з міста "
+"військових загонів на 4 за Демократії, на 2 за Республіки - іншими словами, "
+"нейтралізує нещасність, спричинену двома військовими підрозділами на "
 "місто. Не діє за інших форм правління.)"
 
 #: data/multiplayer/game.ruleset:18
-#, fuzzy
 msgid "Multiplayer ruleset"
-msgstr "Типовий набір правил"
+msgstr "Багатокористувацький набір правил"
 
 #: data/multiplayer/game.ruleset:21
 msgid ""
@@ -27146,6 +27155,11 @@ msgid ""
 "only cities on the same continent. A full description of the differences can "
 "be found in README.ruleset_multiplayer."
 msgstr ""
+"Ви граєте Freeciv за правилами створеними для багатокористувацької гри."
+"Найбільша різниця від класичного набору правил в тому, що торгові шляхи "
+"недоступні, і більшість чудес може збудувати по разу кожен гравець, і вплив "
+"є тільки на міста на одному континенті. Повний опис відмінностей можна знайти"
+"в README.ruleset_multiplayer."
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #. TRANS: With this and other color team names, uniqueness is more
@@ -27167,9 +27181,8 @@ msgstr "Сині"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:333
-#, fuzzy
 msgid "?team name:Purple"
-msgstr "Лазурові"
+msgstr "Пурпурні"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:335
@@ -27179,13 +27192,12 @@ msgstr "Помаранчеві"
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:337
 msgid "?team name:Magenta"
-msgstr "Багряні"
+msgstr "Фуксинові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:339
-#, fuzzy
 msgid "?team name:Cornflower"
-msgstr "Жовті"
+msgstr "Волошкові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:341
@@ -27194,9 +27206,8 @@ msgstr "Смарагдові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:343
-#, fuzzy
 msgid "?team name:Salmon"
-msgstr "Блакитні"
+msgstr "Оранжево-рожеві"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:345
@@ -27205,9 +27216,8 @@ msgstr "Зелені"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:347
-#, fuzzy
 msgid "?team name:Burgundy"
-msgstr "Сині"
+msgstr "Бордові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:349
@@ -27222,7 +27232,7 @@ msgstr "Срібні"
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:353
 msgid "?team name:Heliotrope"
-msgstr "Бузкові"
+msgstr "Ясно-лілові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:355
@@ -27232,13 +27242,12 @@ msgstr "Фуксія"
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:357
 msgid "?team name:Azure"
-msgstr "Лазурові"
+msgstr "Лазурні"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:359
-#, fuzzy
 msgid "?team name:Gold"
-msgstr "Червоні"
+msgstr "Золоті"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:361
@@ -27247,63 +27256,53 @@ msgstr "Хакі"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:363
-#, fuzzy
 msgid "?team name:Butter"
-msgstr "Сині"
+msgstr "Масляні"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:365
-#, fuzzy
 msgid "?team name:Mint"
-msgstr "Рожеві"
+msgstr "М’ятні"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:367
-#, fuzzy
 msgid "?team name:Lime"
-msgstr "Білі"
+msgstr "Вапняні"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:369
-#, fuzzy
 msgid "?team name:Peach"
-msgstr "Червоні"
+msgstr "Персикові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:371
-#, fuzzy
 msgid "?team name:Vermilion"
-msgstr "Фіолетові"
+msgstr "червоногарячі"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:373
-#, fuzzy
 msgid "?team name:Puce"
-msgstr "Айвові"
+msgstr "Червонясто-коричневі"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:375
-#, fuzzy
 msgid "?team name:Mustard"
-msgstr "Нефритові"
+msgstr "Гірчичні"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:377
-#, fuzzy
 msgid "?team name:Aubergine"
-msgstr "Лазурові"
+msgstr "Баклажанові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:379
-#, fuzzy
 msgid "?team name:Brown"
-msgstr "Зелені"
+msgstr "Коричневі"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:381
-#, fuzzy
 msgid "?team name:Pumpkin"
-msgstr "Рожеві"
+msgstr "Гарбузові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:383
@@ -27312,9 +27311,8 @@ msgstr "Бірюзові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:385
-#, fuzzy
 msgid "?team name:Crimson"
-msgstr "Блакитні"
+msgstr "Малинові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:387
@@ -27323,37 +27321,36 @@ msgstr "Лавандові"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:389
-#, fuzzy
 msgid "?team name:Cream"
-msgstr "Блакитні"
+msgstr "Кремові"
 
 #: data/multiplayer/script.lua:49
-#, fuzzy, c-format
+#, c-format
 msgid "%s boosts research; you gain the immediate advances %s and %s."
-msgstr "%s прискорює дослідження, ви негайно отримуєте 2 відкриття."
+msgstr "%s прискорює дослідження, ви негайно отримуєте відкриття %s і %s."
 
 #: data/multiplayer/script.lua:57
-#, fuzzy, c-format
+#, c-format
 msgid "The %s gain %s and %s from %s."
-msgstr "%s здобув %s та %s з %s."
+msgstr "%s здобув %s та %s від %s."
 
 #: data/multiplayer/script.lua:119
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Great philosophers from all the world join your civilization: you get the "
 "immediate advance %s."
 msgstr ""
 "Видатні філософи з усього світу приєднуються до Вашої цивілізації: Ви "
-"отримуєте нове знання."
+"отримуєте нове знання - %s."
 
 #: data/multiplayer/script.lua:125
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Great philosophers from all the world join the %s: they get %s as an "
 "immediate advance."
 msgstr ""
-"Видатні філософи з усього світу приєднуються до Вашої цивілізації: Ви "
-"отримуєте нове знання."
+"Великі філософи з усього світу приєднуються до %s: отримують %s "
+"миттєве нове знання."
 
 #: data/multiplayer/techs.ruleset:259
 msgid "Improves the effect of Amphitheaters."
@@ -27368,6 +27365,7 @@ msgid ""
 "When you research this technology, you also get one other immediate "
 "technology advance."
 msgstr ""
+"Коли ви знаходите цю технологію, ви одразу ж миттєво отримуєте ще одну."
 
 #: data/multiplayer/techs.ruleset:798
 msgid "Theory of Evolution"
@@ -27377,10 +27375,11 @@ msgstr "Теорія еволюції"
 msgid ""
 "This technology is only acquired the first time you build Darwin's Voyage."
 msgstr ""
+"Ця технологія з’являється лише якщо ви збудували Подорож Дарвіна. "
 
 #: data/multiplayer/terrain.ruleset:1074
 msgid "Buoys cannot be built in the multiplayer ruleset."
-msgstr ""
+msgstr "Буйки не можна будувати в многогравецькому габорі правил."
 
 #: data/multiplayer/units.ruleset:418
 msgid ""
@@ -27389,10 +27388,13 @@ msgid ""
 "require twice as much food per turn, and in Fundamentalist societies, three "
 "times as much."
 msgstr ""
+"Утримання Поселенців іде їжею і виробництвом, і Поселенець може загинути "
+"якщо місто, що  його утримує не має їжі. Поселенці потребують вдвічі більше "
+"їжі на хід за Республіки, Демократії, а за Фундаменталізму втричі."
 
 #: data/multiplayer/units.ruleset:479
 msgid "Workers can build airbases, which Settlers cannot."
-msgstr ""
+msgstr "Робітники можуть будувати авіабази, поселенці такого не вміють."
 
 #: data/multiplayer/units.ruleset:1467
 msgid ""
@@ -27418,7 +27420,7 @@ msgid ""
 "Every Caravan that is used to build a wonder will add 30 shields towards the "
 "production of the wonder."
 msgstr ""
-"Кожен караван, що використовується для будівництва дива, додає 30 щитів до "
+"Кожен караван, що використовується для будівництва Чуда, додає 30 щитів до "
 "його виробництва."
 
 #: data/multiplayer/units.ruleset:2290
@@ -27426,7 +27428,7 @@ msgid ""
 "The Freight unit replaces the Caravan, and moves at twice the speed. Each "
 "Freight used to build a wonder will add 50 shields."
 msgstr ""
-"Далекобійник замінює собою караван, та рухається удвічі швидше. Кожен "
+"Далекобійник замінює собою караван, та рухається вдвічі швидше. Кожен "
 "Далекобійник, залучений до будівництва Дива, додає 50 щитів."
 
 #: data/nation/american.ruleset:8
@@ -27439,10 +27441,16 @@ msgid ""
 "had become a world superpower; its cultural, economic and political "
 "influence on the rest of the world is enormous."
 msgstr ""
+"Сполучені Штати Америки здобули незалежність від Великої Британії після "
+"революції у 1776-1783 рр н.е. Конституцію проголосили в 1789 р, що зробило "
+"країну, однією з перших представницьких республік. Сполучені Штати тоді почали"
+" розширювати свою територію, спочатку на Північноамериканському континеті, а "
+"тоді і за морем. У 20-му столітті країна стала супердержавою; культурний, "
+"економічний та політичний вплив на решту світу надзвичайно сильний."
 
 #: data/nation/apache.ruleset:5
 msgid "Apache"
-msgstr "Апачів"
+msgstr "Апачі"
 
 #: data/nation/apache.ruleset:6
 msgid "?plural:Apaches"
@@ -27456,6 +27464,11 @@ msgid ""
 "the Far North around 1000 CE. The Apache are known as fierce warriors. In "
 "the 19th century it took the United States half a century to subdue them."
 msgstr ""
+"Апачі група індіанських племен, що гворять Атабаскською мовою, мешкають "
+"в Арізоні, Нью-Мексико та Оклахомі. Групи Апачів включають Західних, Чірікагуа"
+" Мескалеро, Джікарилів, Ліпанів і Рівнинних Апачів. Вони прийшли з Далекої "
+"Півночі біля 1000 н.е. Апачі знані люті воїни. В 19 столітті Сполучені Штати "
+"витратили півсторіччя щоб підкорити їх."
 
 #: data/nation/apache.ruleset:27
 #, c-format
@@ -27476,7 +27489,6 @@ msgid "?plural:Arabs"
 msgstr "Араби"
 
 #: data/nation/arab.ruleset:8
-#, fuzzy
 msgid "The Arab/Islamic civilization of 622 to 1495 CE."
 msgstr "Арабська/Ісламська цивілізація 622 н.е - 1495 н.е."
 
@@ -27488,17 +27500,17 @@ msgstr "Шейх %s"
 #: data/nation/arab.ruleset:23
 #, c-format
 msgid "Shaykha %s"
-msgstr "Шейхиня %s"
+msgstr "Шайха %s"
 
 #: data/nation/arab.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Vizier %s"
-msgstr "Кайзер %s"
+msgstr "Візир %s"
 
 #: data/nation/arab.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Vizier %s"
-msgstr "Товариш"
+msgstr "Візир %s"
 
 #: data/nation/arab.ruleset:25 data/nation/songhai.ruleset:26
 #: data/nation/turk.ruleset:32
@@ -27510,7 +27522,7 @@ msgstr "Халіф %s"
 #: data/nation/turk.ruleset:32
 #, c-format
 msgid "Calipha %s"
-msgstr "Халіфка %s"
+msgstr "Халіфа %s"
 
 #: data/nation/austrian.ruleset:5
 msgid "Austrian"
@@ -27535,16 +27547,28 @@ msgid ""
 "Germany in the Anschluss in 1938. This lasted until the end of World War II "
 "in 1945, after which Austria was occupied by the Allies."
 msgstr ""
+"Корені Австрії сягають в давні часи Римської імперії, коли Кельтське"
+" королівство завоювали римляни. близько 15 р до н.е., пізніше стало Норікумом "
+"римською провінцією, в середині 1 століття н.е. землі, що включають більшу "
+"частину сучасної Автрії. В 788 н.е франкський король Карл Великий завоював ці "
+"землі і запровадив християнство. Під місцевою династією Габсбургів, Австрія "
+"стала однією з наймогутніших сил Європи. У 1867, Автсрійську Імперію "
+"реформували в Австро-Угорщину. Австро-Угорська імперія розвалилась в 1918 році"
+" після кінця Першої Світової Війни. Після проголошення першої Автрійської "
+"Республіки у 1919, Австрію приєднали до Нацистської Німеччини аншлюсом в 1938."
+"Це тривало до кінця Другої Світової Війни в 1945, після чого Автрію окупували "
+"Союзники. Пізніше Союзники поїхали собі додому, і зараз Австрія незалежна і "
+"процвітаюча держава."
 
 #: data/nation/austrian.ruleset:49
-#, fuzzy, c-format
+#, c-format
 msgid "Archduke %s"
 msgstr "Великий герцог %s"
 
 #: data/nation/austrian.ruleset:49
-#, fuzzy, c-format
+#, c-format
 msgid "Archduchess %s"
-msgstr "Герцогиня %s"
+msgstr "Велика Герцогиня %s"
 
 #: data/nation/austrian.ruleset:50 data/nation/german.ruleset:36
 #, c-format
@@ -27564,14 +27588,13 @@ msgid "Mother Superior %s"
 msgstr "Верховна Мати %s"
 
 #: data/nation/babylonian.ruleset:8
-#, fuzzy
 msgid ""
 "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries "
 "BCE under a succession of peoples including Amorites, Kassites, Assyrians, "
 "and Chaldeans."
 msgstr ""
-"Вавілон це домінуюче місто у Мясопотамії з 18 по 7 сторіччя до н.е. під "
-"об'єднанням націй що включали Аморітів, Хассітів, Асірійців та Халдеїв."
+"Вавілон - головне місто у Месопотамії з 18 по 7 сторіччя до н.е."
+"Послідовні народи спадкоємці - Аморити, Хассити, Асірійці та Халдеї."
 
 #: data/nation/brazilian.ruleset:5
 msgid "Brazilian"
@@ -27588,25 +27611,25 @@ msgid ""
 "first established as an empire under the exiled Portuguese royal family. The "
 "empire lasted until the establishment of a republican government in 1889."
 msgstr ""
-"Бразилія була заснована як колонія Португалії, але у 1822 стала незалежною, "
+"Бразилія була заснована як колонія Португалії, але в 1822 стала незалежною, "
 "внаслідок окупації Португалії наполеонівською Францією. Спочатку державним "
 "устроєм була імперія під владою вигнаної португальської королівської родини, "
 "і так тривало аж до встановлення республіканської форми правління у 1889."
 
 #: data/nation/brazilian.ruleset:31 data/nation/chinese.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Chairwoman %s"
-msgstr "Голова"
+msgstr "Голова %s"
 
 #: data/nation/brazilian.ruleset:32
 #, c-format
 msgid "Director-President %s"
-msgstr "Директор Президент %s"
+msgstr "Директор-Президент %s"
 
 #: data/nation/brazilian.ruleset:32
 #, c-format
 msgid "?female:Director-President %s"
-msgstr "Директор Президент %s"
+msgstr "Директор-Президент %s"
 
 #: data/nation/byzantium.ruleset:5
 msgid "Byzantine"
@@ -27625,43 +27648,47 @@ msgid ""
 "I, the Byzantines controlled nearly all of the Middle East, northern Africa, "
 "Italy, and parts of Spain."
 msgstr ""
+"В часи занепаду давнього Риму, Імператор Константин переніс столицю імперії "
+"до Візантіума і створив нову імперію більш відому як Східна Римська Імперія "
+"або Візантійська імперія. Вона простояла до 1453 коли столиця впала під "
+"ударами Оттоманів. В часи Юстинінан І Візантійці керували майже всім Близьким "
+"Сходом, північною Африкою, Італією та частинами Іспанії."
 
 #: data/nation/carthaginian.ruleset:10
-#, fuzzy
 msgid ""
 "The Carthaginians, descendants of Phoenician traders, ran a naval empire in "
 "the Mediterranean from the 5th to 2nd centuries BCE. Carthage was destroyed "
 "by Rome in 146 BCE."
 msgstr ""
-"Карфагеняни, наступники Фінікійських торговців, мали морську імперію у "
-"Середземномор'ї між 5 та 2 сторіччями до н.е. Карфаген було зруйновано Римом "
-"у 146 до н.е."
+"Карфагеняни, наступники Фінікійських торговців, мали морську імперію в "
+"Середземномор'ї з 5-го до 2 сторіччями до н.е. "
+"Карфаген був зруйнований Римом у 146 до н.е."
 
 #: data/nation/carthaginian.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Judge %s"
-msgstr "Дож %s"
+msgstr "суддя %s"
 
 #: data/nation/carthaginian.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Judge %s"
-msgstr "Дуче %s"
+msgstr "Суддя %s"
 
 #: data/nation/cherokee.ruleset:5
 msgid "Cherokee"
-msgstr "Чірокі"
+msgstr "Черокі"
 
 #: data/nation/cherokee.ruleset:6
 msgid "?plural:Cherokees"
-msgstr "Чірокі"
+msgstr "Черокі"
 
 #: data/nation/cherokee.ruleset:8
 msgid ""
 "The Cherokee nation is the largest Native American nation in North America "
 "today."
 msgstr ""
-"Нація чірокі є найбільшою нацією американських індіанців у Північній Америці "
-"на сьогодняшний день."
+"Нація Черокі є найбільшим народом американських індіанців у Північній Америці "
+"на сьогодні."
 
 #: data/nation/chinese.ruleset:8
 msgid ""
@@ -27673,38 +27700,43 @@ msgid ""
 "the mainland, while the former Nationalist government of the Republic of "
 "China governs the island of Taiwan."
 msgstr ""
+"Китай найстаріша велика цивілізація, що ще досі існує, з писемними згадками "
+"що йдуть в глибину віків на понад 3500 років. Вперше був об’єднаним династією "
+"Цинь у 221 до РХ, Китай межував періоди єдностіі роздробленості, і якось "
+"був завойований зовнішніми народами. Сьогодні Китайска Народна Республіка, "
+"заснована комуністами в 1949 р, лежить на материку, тоді як колишній "
+"Націоналістичний уряд Республіки Китай керує островом Тайвань."
 
 #: data/nation/danish.ruleset:5
 msgid "Danish"
-msgstr "Датчани"
+msgstr "Данці"
 
 #: data/nation/danish.ruleset:6
 msgid "?plural:Danes"
-msgstr "Датчани"
+msgstr "Данці"
 
 #. TRANS: The third letter in "Blatand" should be
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xE5.
 #: data/nation/danish.ruleset:11
-#, fuzzy
 msgid ""
 "The founding of the Danish kingdom is generally assigned to the reign of "
 "Harald Blatand, who unified what is now Denmark between 958 CE and 988 CE."
 msgstr ""
-"Заснування Датського королівства в цілому справа рук Геральда Синьозубого, "
-"що об'єднав те, що є зараз Данією між 958 та 988 роками."
+"Заснування Датського королівства в цілому справа рук Гаральда Синьозубого, "
+"він об'єднав те, що зараз є Данією між 958 та 988 роками."
 
 #: data/nation/danish.ruleset:37 data/nation/swedish.ruleset:34
 #: data/nation/viking.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Earl %s"
-msgstr "Кардінал %s"
+msgstr "Ярл %s"
 
 #: data/nation/danish.ruleset:37 data/nation/swedish.ruleset:34
 #: data/nation/viking.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Earl %s"
-msgstr "Бані"
+msgstr "Ярл %s"
 
 #: data/nation/dutch.ruleset:5
 msgid "Dutch"
@@ -27739,24 +27771,24 @@ msgid "Princess %s"
 msgstr "Принцеса %s"
 
 #: data/nation/dutch.ruleset:41
-#, fuzzy, c-format
+#, c-format
 msgid "Stadtholder %s"
-msgstr "Стелс бомбардувальник"
+msgstr "Самодержець %s"
 
 #: data/nation/dutch.ruleset:41
-#, fuzzy, c-format
+#, c-format
 msgid "Stadtholdress %s"
-msgstr "Диктатор"
+msgstr "Самодержка %s"
 
 #: data/nation/english.ruleset:27 data/nation/russian.ruleset:48
 #: data/nation/spanish.ruleset:41
-#, fuzzy, c-format
+#, c-format
 msgid "Pretender %s"
 msgstr "Пресвітер %s"
 
 #: data/nation/english.ruleset:27 data/nation/russian.ruleset:48
 #: data/nation/spanish.ruleset:41
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Pretender %s"
 msgstr "Пресвітерка %s"
 
@@ -27793,7 +27825,7 @@ msgid ""
 "Ethiopia is the oldest nation in Africa and the only one to remain "
 "independent during European colonialism."
 msgstr ""
-"Ефіопія є найстарішою нацією у Африці та єдиною, що залишилася незалежною "
+"Ефіопія є найстарішою нацією Африки та єдиною, що залишилася незалежною "
 "під час Європейського колоніалізму."
 
 #: data/nation/french.ruleset:8
@@ -27805,33 +27837,39 @@ msgid ""
 "part of the Frankish empire during the High Middle Ages. France - and indeed "
 "the world - was shaken on its foundations by the French Revolution of 1789."
 msgstr ""
+"Франція довго була головною силою в Європі. Французькі завойовники такі "
+"як Наполеон чи Король Карл Великий об’єднали великі частини Європи під "
+"Французьким прапором. Ця країна також збудувала другу за розміром колоніальну "
+"імперію. Французьке королівство вперше постало після того як виросло з "
+"західної частини Франкської імперії протягом Високого Середньовіччя. Франція- "
+"і справді ввесь світ потрясла до основ Французька Революція 1789 року."
 
 #: data/nation/french.ruleset:41
-#, fuzzy, c-format
+#, c-format
 msgid "Citizen %s"
-msgstr "Громадяни"
+msgstr "Громадянин %s"
 
 #: data/nation/french.ruleset:41
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Citizen %s"
-msgstr "Вождь"
+msgstr "Громадянка %s"
 
 #: data/nation/french.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "Premiere %s"
 msgstr "Прем'єр %s"
 
 #: data/nation/greek.ruleset:25 data/nation/mayan.ruleset:28
 #: data/nation/zulu.ruleset:39
-#, fuzzy, c-format
+#, c-format
 msgid "Elder %s"
-msgstr "Виборщик"
+msgstr "Старійшина %s"
 
 #: data/nation/greek.ruleset:25 data/nation/mayan.ruleset:28
 #: data/nation/zulu.ruleset:39
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Elder %s"
-msgstr "Товариш"
+msgstr "Старійшина %s"
 
 #: data/nation/hittite.ruleset:5
 msgid "Hittite"
@@ -27842,7 +27880,6 @@ msgid "?plural:Hittites"
 msgstr "Хетти"
 
 #: data/nation/hittite.ruleset:8
-#, fuzzy
 msgid ""
 "The Hittite kingdom lasted from about 1680 BCE to about 1180 BCE. They were "
 "the first civilization to discover iron working. At its height, they "
@@ -27855,14 +27892,12 @@ msgstr ""
 "до Вавилону."
 
 #: data/nation/hunnic.ruleset:5
-#, fuzzy
 msgid "Hunnic"
-msgstr "Запущено"
+msgstr "Гуни"
 
 #: data/nation/hunnic.ruleset:6
-#, fuzzy
 msgid "?plural:Huns"
-msgstr "Кенійці"
+msgstr "Гуни"
 
 #: data/nation/hunnic.ruleset:8
 msgid ""
@@ -27876,6 +27911,14 @@ msgid ""
 "link has still not been unequivocally proven. Hunnic ethnic relations and "
 "language are likewise controversial."
 msgstr ""
+"Європейські Гуни- древня конфедерація племен, вперше з’явились в 4му столітті."
+"Гуни населяли Євразійські степи і відомі як прекрасні лучники-вершники. У "
+"п’ятому столітті н.е. вони створили могутню військову імперію під головуванням"
+" Атілли, відомого своїми кампаніями проти Римської Імперії. Атілла вмер 453 "
+"року і його імперія розвалилась роком по тому. Походження гунів, все ще "
+"предмет дискусій; їх довго ототожнювали з Хунну з китайських джерел, але такі "
+"відсилки все ще недостатньо доведені. Етнічна приналежність і мова гуннів "
+"досі предмет суперечок."
 
 #: data/nation/inca.ruleset:5
 msgid "Inca"
@@ -27901,16 +27944,29 @@ msgid ""
 "Wayna Qhapaq, who had died from disease - likely smallpox - that was "
 "sweeping through the land."
 msgstr ""
+"Інки - американський народ з північних Анд, що завоював імперію, яка "
+"простяглася вздовж західного узбережжя Південної Америки від сучасного "
+"південного Чилі майже до Еквадору. Їм не пощастило зробити це за кілька "
+"десятиліть до прибуття Іспанських конкістадорів, що прибули в цю частину "
+"світу в 1530х н.е. За короткий проміжок часу Інки змогли збудувати понад 15 "
+"тисяч кілометрів доріг по своїх землях. Їх держава була найбільшою в Америках "
+"до іспанського завоювання і керувалась складною ієрархічною та прагматичною "
+"адміністративною системою. Їх погибель лежала, мабуть, як і в багатьох "
+"королівств в кризі спадкоємництва. Коли іспанці прибули, Інки як раз були "
+"посеред такої кризи - війни між Атауальпою і Уашкаром. Вони були синами "
+"останнього правителя Уайна Капака, що помер від хвороби, напевно віспи - що "
+"тоді поширилась в їх землях."
+
 
 #: data/nation/inca.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Inka %s"
-msgstr "Ханква"
+msgstr "Інка %s"
 
 #: data/nation/inca.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Qoya %s"
-msgstr " у %s"
+msgstr "Квоя %s"
 
 #: data/nation/inca.ruleset:36
 #, c-format
@@ -27918,9 +27974,9 @@ msgid "Sapa Inka %s"
 msgstr "Великий Інка %s"
 
 #: data/nation/inca.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "Sapa Qoya %s"
-msgstr "Великий Інка %s"
+msgstr "Велика Квоя %s"
 
 #: data/nation/indian.ruleset:8
 msgid ""
@@ -27929,6 +27985,9 @@ msgid ""
 "inhabitants it is the world's second most populous country as well as the "
 "world's largest democracy."
 msgstr ""
+"Республіку Індія створили в 1950 році, після ненасильницького руху за "
+"незалежність, який вів Махатма Ґанді. З більш ніж мільярдом мешканців це друга"
+" за населенням країна у світі, і найбільша демократія."
 
 #: data/nation/indonesian.ruleset:5
 msgid "Indonesian"
@@ -27945,7 +28004,7 @@ msgid ""
 "one of the most populous in the world."
 msgstr ""
 "Індонезія - це велика країна в Малайському архіпелазі, уряд якої знаходиться "
-"на острові Ява. Населення країни є одним з найбільших у світі, і його "
+"на острові Ява. Населення країни є одним з найбільших у світі, і "
 "більшість становлять мусульмани."
 
 #: data/nation/indonesian.ruleset:21 data/nation/turk.ruleset:31
@@ -27985,10 +28044,10 @@ msgid ""
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
 msgstr ""
-"Конфедерація Ірокезів - також відома як Хауденосауні,  'люди довгого "
-"будинку' на їх власній мові - це північноамериканська група націй зі "
+"Конфедерація Ірокезів - також відома як Гауденосауні,  'люди довгого "
+"будинку' на їх власній мові - це північноамериканська група народів зі "
 "спільною мовою та культурою. Вона знаходилася на території сучасного штату "
-"Нью-Йорк та складалася з п'яти націй: Могавки, Онейда, Онондага, Кайюга і "
+"Нью-Йорк та складалася з п'яти народів: Могавки, Онейда, Онондага, Кайюга і "
 "Сенека. У конфедерації була конституція та грошова система, що робило її "
 "найрозвиненішою державою Північної Америки до приходу Європейців."
 
@@ -28001,16 +28060,15 @@ msgid "?plural:Italians"
 msgstr "Італійці"
 
 #: data/nation/italian.ruleset:8
-#, fuzzy
 msgid ""
 "The Italian nation was unified in 1870 CE after decades of campaigning by "
 "indigenous nationalists. It was a monarchy under the House of Savoy until "
 "1922, then a fascist state until 1945 after which democracy was restored by "
 "the World War II victors."
 msgstr ""
-"Італійська нація об'єдналась у 1870 році після десятиріч компаній місцевих "
+"Італійська нація об'єдналась у 1870 році після десятиріч кампаній місцевих "
 "націоналістів. Вона була монархією під владою Савойської династії до 1922, "
-"потім фашистською країною до 1945, відтак демократію там було відновлено "
+"потім фашистською країною до 1945, відтак демократія там була відновлена "
 "переможцями Другої Світової Війни."
 
 #: data/nation/italian.ruleset:43
@@ -28019,17 +28077,16 @@ msgid "Duce %s"
 msgstr "Дуче %s"
 
 #: data/nation/italian.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "Ducezza %s"
-msgstr "Дуче %s"
+msgstr "Дучецца %s"
 
 #: data/nation/japanese.ruleset:8
-#, fuzzy
 msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BCE by the ancestral Emperor Jimmu."
 msgstr ""
-"Згідно із традиційною японською міфологією, Японію було засновано у 7-му "
+"Згідно традиційної японської міфології, Японію засновали у 7-му "
 "сторіччі до н.е. древнім імператором Джімму."
 
 #: data/nation/khmer.ruleset:5
@@ -28047,6 +28104,10 @@ msgid ""
 "Khmers were great builders who erected innumerable stone temples to Hindu "
 "deities. The Khmers today are the majority ethnicity of Cambodia."
 msgstr ""
+"Імперію кхмерів заснували 802 року н.е. Вона панувала над південно-східною "
+"Азією впродовж середніх віків. Будучи під сильним впливом Індійської культури "
+"Кхмери були великими будівничими і звели безчисленні кам’яні храми Індуським "
+"божествам. Нині Кхмери головний етнос Камбоджі."
 
 #: data/nation/korean.ruleset:5
 msgid "Korean"
