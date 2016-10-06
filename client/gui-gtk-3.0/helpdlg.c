@@ -753,6 +753,37 @@ static void set_help_tile_from_sprite(struct sprite *spr)
 }
 
 /**************************************************************************
+  Set sprite to show for current terrain.
+**************************************************************************/
+static void set_help_tile_from_terrain(struct terrain *pterr)
+{
+  struct canvas canvas = FC_STATIC_CANVAS_INIT;
+  cairo_t *cr;
+  int i;
+
+  canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
+                                              tileset_tile_width(tileset),
+                                              tileset_tile_height(tileset));
+
+  cr = cairo_create(canvas.surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+
+  for (i = 0; i < 3; i++) {
+    struct drawn_sprite sprs[80];
+    int count = fill_basic_terrain_layer_sprite_array(tileset, sprs,
+                                                      i, pterr);
+
+    put_drawn_sprites(&canvas, 1.0, 0, 0, count, sprs, FALSE);
+  }
+
+  gtk_image_set_from_surface(GTK_IMAGE(help_tile), canvas.surface);
+  gtk_widget_show(help_tile);
+  cairo_surface_destroy(canvas.surface);
+}
+
+/**************************************************************************
   Display updated help about improvement
 **************************************************************************/
 static void help_update_improvement(const struct help_item *pitem,
@@ -1166,10 +1197,13 @@ static void help_update_terrain(const struct help_item *pitem,
   if (pterrain) {
     struct universal for_terr = { .kind = VUT_TERRAIN, .value = { .terrain = pterrain }};
 
+    set_help_tile_from_terrain(pterrain);
+
     {
       /* 25 => "1.25"; 50 => "1.5"; 100 => "2.0" */
       int defbonus = pterrain->defense_bonus + 100;
       int frac = defbonus % 100;
+
       if ((frac % 10) == 0) {
         frac /= 10;
       }
