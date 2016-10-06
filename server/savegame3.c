@@ -5460,7 +5460,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                unitstr, j);
 
         if (order->order == ORDER_PERFORM_ACTION) {
-          switch (order->action) {
+          switch ((enum gen_action)order->action) {
           case ACTION_SPY_TARGETED_SABOTAGE_CITY:
             /* Sabotage target is production (-1) or a building. */
             if (!(order_tgt - 1 == -1
@@ -5506,6 +5506,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_NUKE:
           case ACTION_DESTROY_CITY:
           case ACTION_EXPEL_UNIT:
+          case ACTION_RECYCLE_UNIT:
+          case ACTION_DISBAND_UNIT:
+          case ACTION_HOME_CITY:
+          case ACTION_UPGRADE_UNIT:
+          case ACTION_PARADROP:
+          case ACTION_AIRLIFT:
+          case ACTION_ATTACK:
+          case ACTION_CONQUER_CITY:
+          case ACTION_HEAL_UNIT:
           case ACTION_COUNT:
             /* Target in order unsupported. */
 
