@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -111,6 +111,7 @@ struct client_options
   bool first_boot; /* There was no earlier options saved.
                     * This affects some migrations, but not all. */
   char default_tileset_name[512]; /* pre-2.6 had just this one tileset name */
+  bool gui_gtk3_22_migrated_from_gtk3;
   bool gui_gtk3_migrated_from_gtk2;
   bool gui_sdl2_migrated_from_sdl;
   bool gui_gtk2_migrated_from_2_5;
@@ -269,6 +270,42 @@ struct client_options
   char gui_gtk3_font_city_names[512];
   char gui_gtk3_font_city_productions[512];
   char gui_gtk3_font_reqtree_text[512];
+
+/* gui-gtk-3.22 client specific options. */
+#define FC_GTK3_22_DEFAULT_THEME_NAME "Freeciv"
+  char gui_gtk3_22_default_theme_name[512];
+  bool gui_gtk3_22_fullscreen;
+  bool gui_gtk3_22_map_scrollbars;
+  bool gui_gtk3_22_dialogs_on_top;
+  bool gui_gtk3_22_show_task_icons;
+  bool gui_gtk3_22_enable_tabs;
+  bool gui_gtk3_22_show_chat_message_time;
+  bool gui_gtk3_22_new_messages_go_to_top;
+  bool gui_gtk3_22_show_message_window_buttons;
+  bool gui_gtk3_22_metaserver_tab_first;
+  bool gui_gtk3_22_allied_chat_only;
+  int gui_gtk3_22_message_chat_location; /* enum GUI_GTK_MSGCHAT_* */
+  bool gui_gtk3_22_small_display_layout;
+  bool gui_gtk3_22_mouse_over_map_focus;
+  bool gui_gtk3_22_chatline_autocompletion;
+  int gui_gtk3_22_citydlg_xsize;
+  int gui_gtk3_22_citydlg_ysize;
+  int gui_gtk3_22_popup_tech_help;
+  int gui_gtk3_22_governor_range_min;
+  int gui_gtk3_22_governor_range_max;
+  char gui_gtk3_22_font_city_label[512];
+  char gui_gtk3_22_font_notify_label[512];
+  char gui_gtk3_22_font_spaceship_label[512];
+  char gui_gtk3_22_font_help_label[512];
+  char gui_gtk3_22_font_help_link[512];
+  char gui_gtk3_22_font_help_text[512];
+  char gui_gtk3_22_font_chatline[512];
+  char gui_gtk3_22_font_beta_label[512];
+  char gui_gtk3_22_font_small[512];
+  char gui_gtk3_22_font_comment_label[512];
+  char gui_gtk3_22_font_city_names[512];
+  char gui_gtk3_22_font_city_productions[512];
+  char gui_gtk3_22_font_reqtree_text[512];
 
 /* gui-sdl client specific options. */
 #define FC_SDL_DEFAULT_THEME_NAME "human"
@@ -501,6 +538,23 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 #define GUI_GTK3_GOV_RANGE_MAX_DEFAULT  20
 #define GUI_GTK3_GOV_RANGE_MAX_MIN      0
 #define GUI_GTK3_GOV_RANGE_MAX_MAX      100
+
+/* gui-gtk3.22: [xy]size of the city dialog */
+#define GUI_GTK3_22_CITYDLG_DEFAULT_XSIZE  770
+#define GUI_GTK3_22_CITYDLG_MIN_XSIZE      256
+#define GUI_GTK3_22_CITYDLG_MAX_XSIZE      4096
+
+#define GUI_GTK3_22_CITYDLG_DEFAULT_YSIZE  512
+#define GUI_GTK3_22_CITYDLG_MIN_YSIZE      128
+#define GUI_GTK3_22_CITYDLG_MAX_YSIZE      4096
+
+#define GUI_GTK3_22_GOV_RANGE_MIN_DEFAULT  -20
+#define GUI_GTK3_22_GOV_RANGE_MIN_MIN      -100
+#define GUI_GTK3_22_GOV_RANGE_MIN_MAX      0
+
+#define GUI_GTK3_22_GOV_RANGE_MAX_DEFAULT  20
+#define GUI_GTK3_22_GOV_RANGE_MAX_MIN      0
+#define GUI_GTK3_22_GOV_RANGE_MAX_MAX      100
 
 #define GUI_DEFAULT_MAPIMG_FILENAME     "freeciv"
 
