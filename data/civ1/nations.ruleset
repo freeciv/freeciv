@@ -127,6 +127,10 @@ flag="usa"
 flag_alt="-"
 style = "Celtic"
 
+color.r = 115
+color.g = 255
+color.b = 255
+
 init_techs=""
 init_buildings=""
 init_units=""
@@ -237,6 +241,10 @@ flag="aztec"
 flag_alt="-"
 style = "Tropical"
 
+color.r = 230
+color.g = 230
+color.b = 74
+
 init_techs=""
 init_buildings=""
 init_units=""
@@ -334,6 +342,10 @@ flag="babylon"
 flag_alt="-"
 style = "Babylonian"
 
+color.r = 115
+color.g = 255
+color.b = 67
+
 init_techs=""
 init_buildings=""
 init_units=""
@@ -400,6 +412,10 @@ ruler_titles = {
 flag="han"
 flag_alt="-"
 style = "Asian"
+
+color.r = 90
+color.g = 230
+color.b = 230
 
 init_techs=""
 init_buildings=""
@@ -541,6 +557,10 @@ flag="egypt_ancient"
 flag_alt="-"
 style = "Babylonian"
 
+color.r = 255
+color.g = 255
+color.b = 99
+
 init_techs=""
 init_buildings=""
 init_units=""
@@ -617,6 +637,10 @@ ruler_titles = {
 flag="england"
 flag_alt="-"
 style = "European"
+
+color.r = 230
+color.g = 138
+color.b = 10
 
 init_techs=""
 init_buildings=""
@@ -727,6 +751,10 @@ ruler_titles = {
 flag="france_old"
 flag_alt="-"
 style = "Celtic"
+
+color.r = 90
+color.g = 42
+color.b = 230
 
 init_techs=""
 init_buildings=""
@@ -850,6 +878,10 @@ ruler_titles = {
 flag         = "hre"
 flag_alt     = "-"
 style        = "European"
+
+color.r = 115
+color.g = 67
+color.b = 255
 
 init_techs = ""
 init_buildings=""
@@ -998,6 +1030,10 @@ ruler_titles = {
 flag="greece_ancient"
 flag_alt="-"
 style = "Classical"
+
+color.r = 255
+color.g = 163
+color.b = 35
 
 init_techs=""
 init_buildings=""
@@ -1149,6 +1185,10 @@ flag="india"
 flag_alt="-"
 style = "Asian"
 
+color.r = 255
+color.g = 51
+color.b = 255
+
 init_techs=""
 init_buildings=""
 init_units=""
@@ -1243,6 +1283,10 @@ flag="mongolia"
 flag_alt="-"
 style = "Asian"
 
+color.r = 230
+color.g = 26
+color.b = 230
+
 init_techs=""
 init_buildings=""
 init_units=""
@@ -1307,6 +1351,10 @@ flag="rome"
 flag_alt="-"
 style = "Classical"
 
+color.r = 255
+color.g = 255
+color.b = 255
+
 init_techs=""
 init_buildings=""
 init_units=""
@@ -1362,6 +1410,10 @@ ruler_titles = {
 flag="kiev"
 flag_alt = "-"
 style = "European"
+
+color.r = 230
+color.g = 230
+color.b = 230
 
 init_techs=""
 init_buildings=""
@@ -1450,6 +1502,10 @@ flag="zulu"
 flag_alt="-"
 style = "Tropical"
 
+color.r = 90
+color.g = 230
+color.b = 42
+
 init_techs=""
 init_buildings=""
 init_units=""
@@ -1515,6 +1571,10 @@ flag="barbarian"
 flag_alt = "-"
 style = "European"
 
+color.r = 255
+color.g = 67
+color.b = 67
+
 init_techs=""
 init_buildings=""
 init_units=""
@@ -1550,6 +1610,10 @@ leaders = {
 flag="pirate"
 flag_alt = "-"
 style = "European"
+
+color.r = 255
+color.g = 67
+color.b = 67
 
 init_techs=""
 init_buildings=""
