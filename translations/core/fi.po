@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2016-09-13 10:48+0300\n"
-"PO-Revision-Date: 2016-09-13 12:26+0300\n"
-"Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
+"PO-Revision-Date: 2016-10-07 14:25+0300\n"
+"Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -3324,7 +3324,7 @@ msgstr ""
 #: client/gui-gtk-2.0/editgui.c:239 client/gui-gtk-3.0/editgui.c:239
 #: client/gui-gtk-3.x/editgui.c:239
 msgid "Global Observer"
-msgstr "Maailmanlaajuinen tarkkailija"
+msgstr "Koko pelin tarkkailija"
 
 #: client/gui-gtk-2.0/editgui.c:581 client/gui-gtk-3.0/editgui.c:585
 #: client/gui-gtk-3.x/editgui.c:585
@@ -3333,7 +3333,7 @@ msgid ""
 "different players, or even as a global observer."
 msgstr ""
 "Muuta pelaajanäkökulmaa. Käytä tätä muokataksesi maailmaa eri pelaajien "
-"näkökannalta tai maailmanlaajuisena tarkkailijana."
+"näkökannalta tai koko pelin tarkkailijana."
 
 #: client/gui-gtk-2.0/editgui.c:593 client/gui-gtk-3.0/editgui.c:597
 #: client/gui-gtk-3.x/editgui.c:597
@@ -6469,7 +6469,7 @@ msgstr "Muokkaa"
 
 #: client/gui-gtk-3.0/gui_main.c:282 client/gui-gtk-3.x/gui_main.c:282
 msgid "Other gui-specific options are:\n"
-msgstr "Muut tälle käyttöliittymällä ainutlaatuiset optiot ovat:\n"
+msgstr "Muut tälle käyttöliittymälle ainutlaatuiset optiot ovat:\n"
 
 #: client/gui-gtk-3.0/gui_main.c:285
 msgid "-g, --gtk-warnings\tAllow Gtk+ to print warnings to console\n"
@@ -7969,16 +7969,12 @@ msgid "Confirm Password"
 msgstr "Vahvista salasana:"
 
 #: client/gui-qt/pages.cpp:400
-#, fuzzy
-#| msgid "Internet _Metaserver"
 msgid "Internet servers:"
-msgstr "Internet-metapalvelin"
+msgstr "Internet-palvelimet:"
 
 #: client/gui-qt/pages.cpp:403
-#, fuzzy
-#| msgid "Global observers"
 msgid "Local servers:"
-msgstr "Yleiset tarkkailijat"
+msgstr "Paikalliset palvelimet:"
 
 #: client/gui-qt/pages.cpp:458
 #, fuzzy
@@ -7991,10 +7987,8 @@ msgid "Date"
 msgstr "Talletuspäivä"
 
 #: client/gui-qt/pages.cpp:495 client/gui-qt/pages.cpp:558
-#, fuzzy
-#| msgid "_Browse..."
 msgid "Browse..."
-msgstr "_Selaa..."
+msgstr "Selaa..."
 
 #: client/gui-qt/pages.cpp:572
 msgid "Load Scenario"
@@ -8106,8 +8100,6 @@ msgid "Disband Results"
 msgstr "Käytöstäpoistamistulokset"
 
 #: client/gui-qt/shortcuts.cpp:61
-#, fuzzy
-#| msgid "Show Mini Map"
 msgid "Show minimap"
 msgstr "Näytä minikartta"
 
@@ -13947,7 +13939,7 @@ msgstr "Tarkkailija – %s"
 #: client/text.c:1632
 #, c-format
 msgid "Buildings: %s."
-msgstr "Rakennukset: %s"
+msgstr "Rakennukset: %s."
 
 #: client/text.c:1635
 msgid "Buildings: None."
@@ -13955,7 +13947,7 @@ msgstr "Rakennukset: Ei mitään."
 
 #: client/text.c:1655
 msgid "Nationality: "
-msgstr "Kansallisuus:"
+msgstr "Kansallisuus: "
 
 #: client/text.c:1668
 #, c-format
@@ -13970,12 +13962,12 @@ msgstr "Ei yhtään. "
 
 #: client/text.c:1677
 msgid "Disabled."
-msgstr "Ei käytössä"
+msgstr "Ei käytössä."
 
 #: client/text.c:1698
 #, c-format
 msgid "Wonders: %s."
-msgstr "Ihmeet: %s"
+msgstr "Ihmeet: %s."
 
 #: client/text.c:1701
 msgid "Wonders: None."
@@ -31303,7 +31295,7 @@ msgstr ""
 "tyhjenee. Koska ruokavaraston koko kasvaa väestön myötä, jokainen uusi "
 "asukas on edellistä kalliimpi ja niinpä tämä kasvutapa onkin merkittävä vain "
 "pienissä kaupungeissa. (Vaihtoehtoinen tapa kaupunkien kasvuun on \"hurmio"
-"\", jota kuvataan kohdassa Onnellisuus.) "
+"\", jota kuvataan kohdassa Onnellisuus.)"
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:494
@@ -32057,7 +32049,7 @@ msgstr ""
 "kaupungit) tai tukikohtaan korkeintaan kolmen ruudun päässä ystävällisestä "
 "kaupungista. Joitakin yksiköitä (\"taisteluyksiköitä\") pidetään kuitenkin "
 "luonnostaan hyökkäyksellisinä ja ne aiheuttavat tyytymättömyyttä "
-"asemapaikastaan huolimatta. "
+"asemapaikastaan huolimatta."
 
 #: data/helpdata.txt:853
 msgid ""
@@ -33968,17 +33960,14 @@ msgstr ""
 "on Freecivin mukana tulevassa ohjetiedostossa 'README.governor'."
 
 #: data/helpdata.txt:1811
-#, fuzzy
-#| msgid ""
-#| "The client has a primitive chat interface.  The lines you type are sent "
-#| "to all players, except:"
 msgid ""
 "The client has a primitive chat interface. The lines you type are sent to "
 "all players, or only to your allies if the client is configured for that, "
 "except:"
 msgstr ""
-"Ohjelmassa on yksinkertainen keskustelukanava. Rivit, jotka kirjoitat, "
-"lähetetään kaikille pelaajille, paitsi:"
+"Ohjelmassa on yksinkertainen keskustelukanava. Kirjoittamasi rivit "
+"lähetetään kaikille pelaajille, tai vain liittolaisillesi jos asiakasohjelma "
+"on siten asetettu, paitsi:"
 
 #: data/helpdata.txt:1815
 msgid ""
@@ -33989,11 +33978,6 @@ msgstr ""
 "suoritetaan, mikäli sinulla on riittävän korkea komentotaso."
 
 #: data/helpdata.txt:1818
-#, fuzzy
-#| msgid ""
-#| "  - Messages starting with 'John:' are private messages to 'John'. Names "
-#| "can be abbreviated. The server looks for players named 'John' and if that "
-#| "fails tries to match a username beginning with 'John' (like 'Johnathan')."
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated, or surrounded with double-quotes if they have spaces. The "
@@ -34001,16 +33985,12 @@ msgid ""
 "username beginning with 'John' (like 'Johnathan')."
 msgstr ""
 " – 'Erkki:'-alkuiset viestit ovat yksityisviestejä 'Erkille'. Nimet voi "
-"lyhentää. Palvelin etsii Erkki-nimisiä pelaajia mutta jos heitä ei löydy, se "
-"yrittää löytää vastineen Erkki-alkuisista käyttäjänimistä (kuten esimerkiksi "
+"lyhentää. Ne voi myös ympäröidä lainausmerkeillä jos niissä on välilyöntejä. "
+"Palvelin etsii Erkki-nimisiä pelaajia mutta jos heitä ei löydy, se yrittää "
+"löytää vastineen Erkki-alkuisista käyttäjänimistä (kuten esimerkiksi "
 "'Erkkinen')."
 
 #: data/helpdata.txt:1823
-#, fuzzy
-#| msgid ""
-#| "  - Messages starting with 'John::' are private messages as above, but "
-#| "will match only users (not players) named 'John'.  'Johnathan' will still "
-#| "match."
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'. A user name 'Johnathan' will "
@@ -34018,23 +33998,23 @@ msgid ""
 msgstr ""
 " – Rivit, jotka alkavat esim. 'Erkki::' ovat yksityisiä viestejä kuten yllä, "
 "mutta täsmäävät vain käyttäjiin (ei pelaajiin), joiden nimi on 'Erkki'. "
-"Nimiä voi yhä lyhentää, esim. 'Erkki-Jooseppi' täsmää."
+"Nimiä voi yhä lyhentää, esim. käyttäjä 'Erkki-Jooseppi' täsmää."
 
 #: data/helpdata.txt:1827
-#, fuzzy
-#| msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgid ""
 "  - Messages starting with ':' will be sent to everyone (even if your client "
 "is configured to send only to allies by default)."
-msgstr " – '.'-alkuiset viestit lähetetään vain kaikille liittolaisillesi."
+msgstr ""
+" – ':'-alkuiset viestit lähetetään kaikille (jopa silloin kun asiakasohjelma "
+"on asetettu lähettämään oletuksena vain liittolaisillesi)."
 
 #: data/helpdata.txt:1830
-#, fuzzy
-#| msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgid ""
 "  - Messages starting with '.' will be sent only to all your allies (or, if "
 "you're a global observer, only to other global observers)."
-msgstr " – '.'-alkuiset viestit lähetetään vain kaikille liittolaisillesi."
+msgstr ""
+" – '.'-alkuiset viestit lähetetään vain kaikille liittolaisillesi (tai jos "
+"olet koko pelin tarkkailija, vain toisille koko pelin tarkkailijoille)."
 
 #: data/helpdata.txt:1833
 msgid ""
@@ -36936,7 +36916,7 @@ msgstr "Lukittu käytetyissä säännöissä."
 #: tools/civmanual.c:271
 #, c-format
 msgid "Can only be used in server console."
-msgstr "Voidaan käyttää vain suoraan palvelimella. "
+msgstr "Voidaan käyttää vain suoraan palvelimella."
 
 #: tools/civmanual.c:279 server/stdinhand.c:1715
 msgid "Minimum:"
@@ -39003,10 +38983,6 @@ msgid "Set TYPE as server type in metaserver"
 msgstr "Aseta TYYPPI palvelimen tyypiksi metapalvelimella"
 
 #: server/civserver.c:412
-#, fuzzy
-#| msgid ""
-#| "Keep updating game information on metaserver even if has failed in the "
-#| "past"
 msgid "Keep updating game information on metaserver even after failure"
 msgstr ""
 "Jatka päivitysten lähettämistä metapalvelimelle vaikka se olisikin "
@@ -39550,8 +39526,8 @@ msgstr ""
 "Vain konsoli- ja 'hack'-komentotason yhteyksiltä voi pakottaa toisen "
 "yhteyden tarkkailemaan pelaajaa, muutoin ainoastaan parametri [pelaajan "
 "nimi] on sallittu. Jos pelaajan nimeä ei anneta, annettu yhteys yhdistetään "
-"globaaliin tarkkailijaan. Parametrilla 'allowtake' voidaan hallita, mitä "
-"pelaajia voidaan tarkkailla ja millä ehdoilla."
+"\"globaaliin\" koko pelin tarkkailijaan. Parametrilla 'allowtake' voidaan "
+"hallita, mitä pelaajia voidaan tarkkailla ja millä ehdoilla."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:315
@@ -43100,7 +43076,7 @@ msgid ""
 msgstr ""
 "Määrittelee kartan leveyden.\n"
 "Asetus otetaan käyttöön asettamalla \"Kartan koon määrittely\" ('mapsize') "
-"arvoon \"Leveys ja korkeus\" (XYSIZE). "
+"arvoon \"Leveys ja korkeus\" (XYSIZE)."
 
 #: server/settings.c:1377
 msgid "Map height in tiles"
@@ -43119,7 +43095,7 @@ msgid ""
 msgstr ""
 "Määrittelee kartan korkeuden.\n"
 "Asetus otetaan käyttöön asettamalla \"Kartan koon määrittely\" ('mapsize') "
-"arvoon \"Leveys ja korkeus\" (XYSIZE). "
+"arvoon \"Leveys ja korkeus\" (XYSIZE)."
 
 #: server/settings.c:1392
 msgid "Map topology index"
@@ -44754,7 +44730,7 @@ msgstr ""
 "Asetus ei vaikuta takautuvasti, se pätee vain sen muuttamisen jälkeen "
 "annettuihin 'take'- ja 'observe'-komentoihin. Merkit ja niiden merkitykset "
 "ovat:\n"
-"    o,O = yleinen tarkkailija\n"
+"    o,O = koko pelin tarkkailija\n"
 "    b   = barbaaripelaajat\n"
 "    d   = kuolleet pelaajat\n"
 "    a,A = tekoälypelaajat\n"
@@ -47123,7 +47099,7 @@ msgstr "%s (tarkkailija)"
 
 #: server/stdinhand.c:5249
 msgid "global observer"
-msgstr "maailmanlaajuinen tarkkailija"
+msgstr "koko pelin tarkkailija"
 
 #: server/stdinhand.c:5307
 msgid "Ambiguous 'mapimg' command."
@@ -47603,7 +47579,7 @@ msgstr ""
 #: server/techtools.c:829 server/techtools.c:842
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
-msgstr "%s ei voi rakentaa hanketta %s. Vaadittu teknologia on menetetty. "
+msgstr "%s ei voi rakentaa hanketta %s. Vaadittu teknologia on menetetty."
 
 #: server/techtools.c:979
 #, c-format
@@ -48276,12 +48252,12 @@ msgid "%s was upgraded for free to %s."
 msgstr "%s on ajanmukaistettu kustannuksetta yksiköksi %s."
 
 #: server/unittools.c:422
-#, fuzzy, c-format
-#| msgid ""
-#| "Sorry, your %s cannot establish a trade route because it has no home city."
+#, c-format
 msgid ""
 "Your %s has run out of hit points because it was not supported by a city."
-msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia."
+msgstr ""
+"Yksikkösi %s voimapisteet loppuivat, koska sillä ei ollut ylläpitävää "
+"kaupunkia."
 
 #: server/unittools.c:427
 #, c-format
