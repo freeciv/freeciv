@@ -758,11 +758,6 @@ static char order2char(enum unit_orders order)
     return 'x';
   case ORDER_PERFORM_ACTION:
     return 'p';
-  case ORDER_OLD_HOMECITY:
-  case ORDER_OLD_DISBAND:
-  case ORDER_OLD_BUILD_CITY:
-  case ORDER_OLD_BUILD_WONDER:
-  case ORDER_OLD_TRADE_ROUTE:
   case ORDER_LAST:
     break;
   }
@@ -5783,11 +5778,6 @@ static void sg_save_player_units(struct savedata *saving,
           }
           break;
         case ORDER_FULL_MP:
-        case ORDER_OLD_HOMECITY:
-        case ORDER_OLD_DISBAND:
-        case ORDER_OLD_BUILD_CITY:
-        case ORDER_OLD_BUILD_WONDER:
-        case ORDER_OLD_TRADE_ROUTE:
         case ORDER_LAST:
           break;
         }

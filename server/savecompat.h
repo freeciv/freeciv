@@ -172,7 +172,12 @@ struct extra_type *resource_by_identifier(const char identifier);
 enum ai_level ai_level_convert(int old_level);
 enum barbarian_type barb_type_convert(int old_type);
 
-int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
+#define ORDER_OLD_BUILD_CITY (-1)
+#define ORDER_OLD_DISBAND (-2)
+#define ORDER_OLD_BUILD_WONDER (-3)
+#define ORDER_OLD_TRADE_ROUTE (-4)
+#define ORDER_OLD_HOMECITY (-5)
+int sg_order_to_action(int order, struct unit *act_unit,
                        struct tile *tgt_tile);
 
 #endif /* FC__SAVECOMPAT_H */

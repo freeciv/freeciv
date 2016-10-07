@@ -4049,11 +4049,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
       break;
     case ORDER_ACTIVITY:
-    case ORDER_OLD_HOMECITY:
-    case ORDER_OLD_DISBAND:
-    case ORDER_OLD_BUILD_CITY:
-    case ORDER_OLD_BUILD_WONDER:
-    case ORDER_OLD_TRADE_ROUTE:
     case ORDER_LAST:
       /* Those actions don't require moves left. */
       break;
@@ -4382,11 +4377,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
 
       break;
-    case ORDER_OLD_HOMECITY:
-    case ORDER_OLD_DISBAND:
-    case ORDER_OLD_BUILD_CITY:
-    case ORDER_OLD_BUILD_WONDER:
-    case ORDER_OLD_TRADE_ROUTE:
     case ORDER_LAST:
       cancel_orders(punit, "  client sent invalid order!");
       notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,

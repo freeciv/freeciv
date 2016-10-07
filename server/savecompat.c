@@ -1820,7 +1820,7 @@ enum barbarian_type barb_type_convert(int old_type)
   Should never be called from savegame3 after the 3.0 development version
   internal save game compatibility is removed.
 **************************************************************************/
-int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
+int sg_order_to_action(int order, struct unit *act_unit,
                        struct tile *tgt_tile)
 {
   switch (order) {
@@ -1852,13 +1852,6 @@ int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
     return ACTION_RECYCLE_UNIT;
   case ORDER_OLD_HOMECITY:
     return ACTION_HOME_CITY;
-  case ORDER_MOVE:
-  case ORDER_ACTION_MOVE:
-  case ORDER_FULL_MP:
-  case ORDER_ACTIVITY:
-  case ORDER_PERFORM_ACTION:
-  case ORDER_LAST:
-    break;
   }
 
   /* The order hasn't been replaced by an action. */
