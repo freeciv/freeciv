@@ -2019,6 +2019,10 @@ void fc_client::update_sidebar_tooltips()
   struct improvement_entry building_entries[B_LAST];
   struct unit_entry unit_entries[U_LAST];
 
+  if (current_page() != PAGE_GAME) {
+    return;
+  }
+
   if (NULL != client.conn.playing) {
     max = get_player_bonus(client.conn.playing, EFT_MAX_RATES);
   } else {
