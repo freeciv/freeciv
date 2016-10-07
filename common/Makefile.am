@@ -97,6 +97,7 @@ libfreeciv_la_SOURCES = \
 		spaceship.h	\
 		specialist.c	\
 		specialist.h	\
+		srvdefs.h	\
 		style.c		\
 		style.h		\
 		team.c		\
