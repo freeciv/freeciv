@@ -152,11 +152,11 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
   action_function[ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit;
+  action_function[ACTION_EXPEL_UNIT] = expel_unit;
   action_function[ACTION_HEAL_UNIT] = heal_unit;
 
   /* Unit acting against all units at a tile. */
   action_function[ACTION_CAPTURE_UNITS] = capture_units;
-  action_function[ACTION_EXPEL_UNIT] = expel_unit;
   action_function[ACTION_BOMBARD] = bombard;
 
   /* Unit acting against a tile. */
