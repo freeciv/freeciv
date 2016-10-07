@@ -140,13 +140,14 @@ bool audio_select_plugin(const char *const name)
 **************************************************************************/
 void audio_init(void)
 {
-  audio_none_init();
-  fc_assert(num_plugins_used == 1);
-  selected_plugin = 0;
-
 #ifdef AUDIO_SDL
   audio_sdl_init();
 #endif
+
+  /* Initialize dummy plugin last, as lowest priority plugin. This
+   * affects which plugin gets selected as default in new installations. */
+  audio_none_init();
+  selected_plugin = 0;
 }
 
 /**************************************************************************
