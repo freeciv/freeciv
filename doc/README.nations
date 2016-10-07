@@ -14,6 +14,36 @@ http://www.freeciv.org/wiki/Nations
 
 
 ----------------------------------------------------------------------
+Local Nation files:
+-------------------
+
+Starting from freeciv-2.6, to most supplied rulesets nations can be
+added locally without need to modify freeciv distribution files.
+This section discuss the way there local override files work. Later
+sections assume that nation is being added to main freeciv distribution,
+even if only to locally modified copy.
+
+Freeciv search data files from several directories in priority order.
+Local nations overrides mechanism uses this to include files from
+user data directory, ~/.freeciv/<freeciv version>/override/,
+e.g., ~/.freeciv/2.6/override/
+Freeciv distribution has empty versions of those files in a lower priority
+directory. Once user adds the file, it gets used instead of the empty
+one.
+
+~/.freeciv/<version>/override/nation.ruleset
+  Ruleset sections for nations that user wants to add. This can of course
+  use *include directives so that individual nations are in separate files.
+  See below sections for the format of the nation rulesets.
+
+~/.freeciv/<version>/override/flags.spec
+~/.freeciv/<version>/override/shields.spec
+~/.freeciv/<version>/override/flags-large.spec
+~/.freeciv/<version>/override/shields-large.spec
+  Spec files for flag graphics to add. See below sections for the format
+  of spec files and graphics files.
+
+
 How to add a Nation:
 --------------------
 
@@ -36,12 +66,12 @@ data/default/nations.ruleset
   This lists all nation files. Add your nation
   (data/nation/<nationname>.ruleset) to this list.
 
-data/flags/* 
+data/flags/*
 
   This is the flags directory. You will have to add a flag-file
   (see below) for your nation to work (see below).
 
-data/scenario/* 
+data/scenario/*
 
   You can add starting position for your nation on a scenario map.
 
@@ -49,16 +79,16 @@ Before a nation can be included in the main distribution, the following
 files will also have to be edited. Unless you know what you're doing you
 shouldn't need to worry about this.
 
-data/nation/Makefile.am 
+data/nation/Makefile.am
 
   Another list of nation files - add your nation (<nationname>.ruleset)
   to this list.
 
-data/flags/Makefile.am 
+data/flags/Makefile.am
 
   Another list of flag files - add your flag to this list.
 
-translations/nations/POTFILES.in 
+translations/nations/POTFILES.in
 
   Here is yet another list of nations files; again add your nation
   (data/nation/<nationname>.ruleset) to it.
