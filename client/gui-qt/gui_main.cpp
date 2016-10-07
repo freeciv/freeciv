@@ -63,7 +63,7 @@ extern "C" {
   void real_science_report_dialog_update();
 }
 extern void restart_notify_dialogs();
-
+extern void city_font_update();
 
 static QApplication *qapp = nullptr;
 static fc_client *freeciv_qt;
@@ -464,7 +464,7 @@ void apply_city_font(option *poption)
     remove_old = fc_font::instance()->get_font(s);
     delete remove_old;
     fc_font::instance()->set_font(s, f);
-    qtg_popdown_all_city_dialogs();
+    city_font_update();
   }
 }
 

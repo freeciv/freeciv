@@ -589,6 +589,18 @@ void fc_client::read_settings()
   } else {
     qt_settings.chat_height = 33;
   }
+  if (s.contains("City-dialog")) {
+    qt_settings.city_geometry = s.value("City-dialog").toByteArray();
+  }
+  if (s.contains("splitter1")) {
+    qt_settings.city_splitter1 = s.value("splitter1").toByteArray();
+  }
+  if (s.contains("splitter2")) {
+    qt_settings.city_splitter2 = s.value("splitter2").toByteArray();
+  }
+  if (s.contains("splitter3")) {
+    qt_settings.city_splitter3 = s.value("splitter3").toByteArray();
+  }
   qt_settings.player_repo_sort_col = -1;
   qt_settings.city_repo_sort_col = -1;
 
@@ -603,6 +615,10 @@ void fc_client::write_settings()
               "freeciv-qt-client");
   s.setValue("Chat-xsize", qt_settings.chat_width);
   s.setValue("Chat-ysize", qt_settings.chat_height);
+  s.setValue("City-dialog", qt_settings.city_geometry);
+  s.setValue("splitter1", qt_settings.city_splitter1);
+  s.setValue("splitter2", qt_settings.city_splitter2);
+  s.setValue("splitter3", qt_settings.city_splitter3);
   write_shortcuts();
 }
 

@@ -20,19 +20,19 @@
 // Qt
 #include <QItemDelegate>
 
+class city_dialog;
 class QComboBox;
 class QDialog;
 class QGridLayout;
 class QLabel;
+class QProgressBar;
 class QPushButton;
-class QTabWidget;
+class QSplitter;
 class QTableView;
 class QTableWidget;
-class QProgressBar;
+class QTabWidget;
 class QVariant;
 class QVBoxLayout;
-class city_dialog;
-class QChecBox;
 
 #define NUM_INFO_FIELDS 13
 
@@ -73,7 +73,6 @@ class progress_bar: public QProgressBar
 {
   Q_OBJECT
   QElapsedTimer m_timer;
-  int m_progressBarAnimateTimer;
 signals:
   void clicked();
 
@@ -152,7 +151,7 @@ class unit_info: public QFrame
   Q_OBJECT
 
 public:
-  unit_info(QWidget *parent, bool supp);
+  unit_info(bool supp);
   ~unit_info();
   void add_item(unit_item *item);
   void init_layout();
@@ -165,6 +164,47 @@ private:
   bool supports;
 };
 
+
+/****************************************************************************
+  Single item on unit_info in city dialog representing one unit
+****************************************************************************/
+class impr_item: public QLabel
+{
+  Q_OBJECT
+
+public:
+  impr_item(QWidget *parent ,struct impr_type *building, struct city *pcity);
+  ~impr_item();
+  void init_pix();
+
+private:
+  struct impr_type *impr;
+  struct canvas *impr_pixmap;
+  struct city *pcity;
+
+protected:
+  void mouseDoubleClickEvent(QMouseEvent *event);
+  void leaveEvent(QEvent *event);
+  void enterEvent(QEvent *event);
+};
+
+
+/****************************************************************************
+  Shows list of improvemrnts
+****************************************************************************/
+class impr_info: public QFrame
+{
+  Q_OBJECT
+public:
+  impr_info(QWidget *parent);
+  ~impr_info();
+  void add_item(impr_item *item);
+  void init_layout();
+  void update_buildings();
+  void clear_layout();
+  QHBoxLayout *layout;
+  QList<impr_item *> impr_list;
+};
 
 /****************************************************************************
   Class used for showing tiles and workers view in city dialog
@@ -249,7 +289,7 @@ class city_production_model : public QAbstractListModel
   Q_OBJECT
 
 public:
-  city_production_model(struct city *pcity, bool f, bool su,
+  city_production_model(struct city *pcity, bool f, bool su, bool sw, bool sb,
                         QObject *parent = 0);
   ~city_production_model();
   inline int rowCount(const QModelIndex &index = QModelIndex()) const {
@@ -272,6 +312,8 @@ private:
   struct city *mcity;
   bool future_t;
   bool show_units;
+  bool show_buildings;
+  bool show_wonders;
 };
 
 /****************************************************************************
@@ -286,7 +328,8 @@ class production_widget: public QTableView
 
 public:
   production_widget(QWidget *parent, struct city *pcity, bool future,
-                    int when, int curr, bool show_units, bool buy = false);
+                    int when, int curr, bool show_units, bool buy = false,
+                    bool show_wonders = true, bool show_buildings = true);
   ~production_widget();
 
 public slots:
@@ -334,46 +377,43 @@ class city_dialog: public QDialog
 
   Q_OBJECT
 
-  QWidget *widget;
-  QGridLayout *main_grid_layout;
-  QGridLayout *overview_grid_layout;
-  QGridLayout *production_grid_layout;
-  QGridLayout *happiness_grid_layout;
-  QGridLayout *cma_grid_layout;
+  bool happines_shown;
+  QHBoxLayout *single_page_layout;
+  QHBoxLayout *happiness_layout;
+  QSplitter *prod_unit_splitter;
+  QSplitter *central_left_splitter;
+  QSplitter *central_splitter;
+  QHBoxLayout *leftbot_layout;
+  QWidget *prod_happ_widget;
+  QWidget *top_widget;
+  QVBoxLayout *left_layout;
   city_map *view;
-  city_map *info_view;
   city_label *citizens_label;
   city_label *lab_table[6];
   QGridLayout *info_grid_layout;
   QGroupBox *info_labels_group;
+  QGroupBox *happiness_group;
+  QWidget *happiness_widget;
   QWidget *info_widget;
   QLabel *qlt[NUM_INFO_FIELDS];
   QLabel *cma_info_text;
   QLabel *cma_result;
   QLabel *cma_result_pix;
-  QLabel *supp_units;
-  QLabel *curr_units;
-  progress_bar *production_combo;
-  QTableWidget *production_table;
+  QGroupBox *supp_units;
+  QGroupBox *curr_units;
+  QGroupBox *curr_impr;
   progress_bar *production_combo_p;
   QTableWidget *p_table_p;
   QTableWidget *nationality_table;
   QTableWidget *cma_table;
-  QPushButton *buy_button_p;
   QCheckBox *cma_celeb_checkbox;
-  QCheckBox *future_targets_p;
-  QCheckBox *show_units_p;
-  QCheckBox *disband_at_one;
+  QCheckBox *future_targets;
+  QCheckBox *show_units;
+  QCheckBox *show_buildings;
+  QCheckBox *show_wonders;
   QRadioButton *r1, *r2, *r3, *r4;
-  QTabWidget *tab_widget;
-  QWidget *overview_tab;
-  QWidget *production_tab;
-  QWidget *happiness_tab;
-  QWidget *governor_tab;
   QPushButton *button;
   QPushButton *buy_button;
-  QPushButton *item_button;
-  QPushButton *item_button_p;
   QPushButton *cma_enable_but;
   QPushButton *next_city_but;
   QPushButton *prev_city_but;
@@ -385,8 +425,8 @@ class city_dialog: public QDialog
   QPixmap *citizen_pixmap;
   unit_info *current_units;
   unit_info *supported_units;
+  impr_info *city_buildings;
   QPushButton *lcity_name;
-  QPushButton *pcity_name;
   int selected_row_p;
   QSlider *slider_tab[2 * O_LAST + 2];
 
@@ -396,6 +436,7 @@ public:
   void setup_ui(struct city *qcity);
   void refresh();
   struct city *pcity;
+  int scroll_height;
 
 private:
   int current_building;
@@ -406,7 +447,6 @@ private:
   void update_citizens();
   void update_improvements();
   void update_units();
-  void update_settings();
   void update_nation_table();
   void update_cma_tab();
   void update_disabled();
@@ -419,8 +459,8 @@ private slots:
   void production_changed(int index);
   void show_targets();
   void show_targets_worklist();
+  void show_happiness();
   void buy();
-  void dbl_click(QTableWidgetItem *item);
   void dbl_click_p(QTableWidgetItem *item);
   void delete_prod();
   void item_selected(const QItemSelection &sl, const QItemSelection &ds);
@@ -439,10 +479,16 @@ private slots:
   void cma_changed();
   void cma_selected(const QItemSelection &sl, const QItemSelection &ds);
   void cma_double_clicked(int row, int column);
+  void cma_context_menu(const QPoint &p);
   void save_cma();
   void city_rename();
+protected:
+  void showEvent(QShowEvent *event);
+  void hideEvent(QHideEvent *event);
+  void closeEvent(QCloseEvent *event);
 };
 
 void destroy_city_dialog();
+void city_font_update();
 
 #endif                          /* FC__CITYDLG_H */

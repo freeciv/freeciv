@@ -605,8 +605,8 @@ QProgressBar {
 }
 
 
-unit_item {
-    border: 1px solid #c3b48e;
+unit_item, impr_item {
+  selection-background-color: #c3b48e;
 }
 
 chatwdg QScrollBar:vertical {
