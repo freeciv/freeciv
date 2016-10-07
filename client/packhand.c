@@ -4521,7 +4521,7 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
       case ACTION_PARADROP:
       case ACTION_AIRLIFT:
       case ACTION_HEAL_UNIT:
-        /* An intersting non attack action has been found. */
+        /* An interesting non attack action has been found. */
         return ACTION_COUNT;
         break;
       case ACTION_COUNT:
