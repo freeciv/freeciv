@@ -48,6 +48,7 @@
 #include "player.h"
 #include "research.h"
 #include "rgbcolor.h"
+#include "srvdefs.h"
 #include "unitlist.h"
 #include "version.h"
 
@@ -83,8 +84,6 @@
 #include "handicaps.h"
 
 #include "stdinhand.h"
-
-#define TOKEN_DELIMITERS " \t\n,"
 
 #define OPTION_NAME_SPACE 25
 
