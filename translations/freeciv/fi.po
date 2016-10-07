@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-30 12:09+0100\n"
-"PO-Revision-Date: 2016-07-28 19:43+0300\n"
+"PO-Revision-Date: 2016-10-07 14:05+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -5796,14 +5796,14 @@ msgstr "Alue"
 
 #: client/gui-gtk-3.0/gui_main.c:282
 msgid "Other gui-specific options are:\n"
-msgstr "Muut tälle käyttöliittymällä ainutlaatuiset optiot ovat:\n"
+msgstr "Muut tälle käyttöliittymälle ainutlaatuiset optiot ovat:\n"
 
 #: client/gui-gtk-3.0/gui_main.c:285
 msgid ""
 "-g, --gtk-warnings\tAllow Gtk+ to print warnings to console\n"
 "\n"
 msgstr ""
-"-g --gtk-warnings\tAnna Gtk+:n huolehtia varoitustensa tulostamisesta\n"
+"-g, --gtk-warnings\tAnna Gtk+:n huolehtia varoitustensa tulostamisesta\n"
 "\n"
 
 #: client/gui-gtk-3.0/gui_main.c:1650
@@ -13443,7 +13443,7 @@ msgstr "Tarkkailija – %s"
 #: client/text.c:1735
 #, c-format
 msgid "Buildings: %s."
-msgstr "Rakennukset: %s"
+msgstr "Rakennukset: %s."
 
 #: client/text.c:1738
 msgid "Buildings: None."
@@ -13451,7 +13451,7 @@ msgstr "Rakennukset: Ei mitään."
 
 #: client/text.c:1758
 msgid "Nationality: "
-msgstr "Kansallisuus:"
+msgstr "Kansallisuus: "
 
 #: client/text.c:1771
 #, c-format
@@ -13462,16 +13462,16 @@ msgstr[1] "%d vihollisen kansalaista"
 
 #: client/text.c:1777
 msgid "None."
-msgstr "Ei yhtään. "
+msgstr "Ei yhtään."
 
 #: client/text.c:1780
 msgid "Disabled."
-msgstr "Ei käytössä"
+msgstr "Ei käytössä."
 
 #: client/text.c:1801
 #, c-format
 msgid "Wonders: %s."
-msgstr "Ihmeet: %s"
+msgstr "Ihmeet: %s."
 
 #: client/text.c:1804
 msgid "Wonders: None."
@@ -25431,7 +25431,7 @@ msgstr ""
 "tyhjenee. Koska ruokavaraston koko kasvaa väestön myötä, jokainen uusi "
 "asukas on edellistä kalliimpi ja niinpä tämä kasvutapa onkin merkittävä vain "
 "pienissä kaupungeissa. (Vaihtoehtoinen tapa kaupunkien kasvuun on \"hurmio"
-"\", jota kuvataan kohdassa Onnellisuus.) "
+"\", jota kuvataan kohdassa Onnellisuus.)"
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:498
@@ -26183,7 +26183,7 @@ msgstr ""
 "kaupungit) tai tukikohtaan korkeintaan kolmen ruudun päässä ystävällisestä "
 "kaupungista. Joitakin yksiköitä (\"taisteluyksiköitä\") pidetään kuitenkin "
 "luonnostaan hyökkäyksellisinä ja ne aiheuttavat tyytymättömyyttä "
-"asemapaikastaan huolimatta. "
+"asemapaikastaan huolimatta."
 
 #: data/helpdata.txt:856
 msgid ""
@@ -30843,7 +30843,7 @@ msgstr "Lukittu käytetyissä säännöissä."
 #: tools/civmanual.c:216
 #, c-format
 msgid "Can only be used in server console."
-msgstr "Voidaan käyttää vain suoraan palvelimella. "
+msgstr "Voidaan käyttää vain suoraan palvelimella."
 
 #: tools/civmanual.c:224 server/stdinhand.c:1790
 msgid "Minimum:"
@@ -35645,7 +35645,7 @@ msgstr "Käynnistetään pian uudelleen pelaajapulan vuoksi"
 
 #: server/sernet.c:618
 msgid "ping timeout"
-msgstr "asiakasohjelma verkkovaste liian pitkä"
+msgstr "asiakasohjelman verkkovaste liian pitkä"
 
 #: server/sernet.c:860
 msgid "client disconnected"
@@ -36160,7 +36160,7 @@ msgid ""
 msgstr ""
 "Määrittelee kartan leveyden.\n"
 "Asetus otetaan käyttöön asettamalla \"Kartan koon määrittely\" ('mapsize') "
-"arvoon \"Leveys ja korkeus\" (XYSIZE). "
+"arvoon \"Leveys ja korkeus\" (XYSIZE)."
 
 #: server/settings.c:1175
 msgid "Map height in tiles"
@@ -36179,7 +36179,7 @@ msgid ""
 msgstr ""
 "Määrittelee kartan korkeuden.\n"
 "Asetus otetaan käyttöön asettamalla \"Kartan koon määrittely\" ('mapsize') "
-"arvoon \"Leveys ja korkeus\" (XYSIZE). "
+"arvoon \"Leveys ja korkeus\" (XYSIZE)."
 
 #: server/settings.c:1190
 msgid "Map topology index"
@@ -40418,7 +40418,7 @@ msgstr ""
 #: server/techtools.c:741 server/techtools.c:754
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
-msgstr "%s ei voi rakentaa hanketta %s. Vaadittu teknologia on menetetty. "
+msgstr "%s ei voi rakentaa hanketta %s. Vaadittu teknologia on menetetty."
 
 #: server/techtools.c:923
 #, c-format
