@@ -36,6 +36,25 @@ QMainWindow {
   border: 1px solid gray;
 }
 
+*[themed_groupbox="true"] {
+  color: yellow;
+  background-color: #4f596a;
+  border: none;
+  border-radius: none;
+  margin-top: 2ex;
+}
+
+*[themed_groupbox="true"]::title {
+  subcontrol-origin: margin;
+  subcontrol-position: top center; /* position at the top center */
+  padding: 0 0px;
+}
+
+*[city_scroll="true"] {
+  border: none;
+  border-radius: none;
+}
+
 QPushButton {
   color: #FFFFFF;
   background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #474747, stop: 1 #323232);
@@ -156,7 +175,7 @@ QSlider::sub-page:horizontal {
 
 
 QSplitter::handle {
-  background: #353b47;
+  background: transparent;
 }
 
 QSplitter::handle:vertical {
@@ -232,7 +251,9 @@ QLineEdit:disabled, QComboBox:disabled, QSpinBox:disabled {
 	background: #696969;
 }
 
-
+unit_item, impr_item {
+  selection-background-color: #3399FF;
+}
 
 QProgressBar {
   color: white;
@@ -276,7 +297,7 @@ QRadioButton::indicator:checked:pressed {
 QDialog {
   color: #3399FF;
   background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #485261, stop: 1 #444d5b);
-  border: 2px solid #3399FF;
+  border: 3px solid #3399FF;
 }
 
 QTabWidget::pane {
