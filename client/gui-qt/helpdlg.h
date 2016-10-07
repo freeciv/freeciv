@@ -112,6 +112,7 @@ class help_widget : public QWidget
   void set_topic_specialist(const help_item *item, const char *title);
   void set_topic_government(const help_item *item, const char *title);
   void set_topic_nation(const help_item *item, const char *title);
+  void set_topic_goods(const help_item *item, const char *title);
 
 public:
   help_widget(QWidget *parent = 0);

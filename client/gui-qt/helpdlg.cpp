@@ -676,6 +676,9 @@ void help_widget::set_topic(const help_item *topic)
     case HELP_EXTRA:
       set_topic_extra(topic, title);
       break;
+    case HELP_GOODS:
+      set_topic_goods(topic, title);
+      break;
     case HELP_GOVERNMENT:
       set_topic_government(topic, title);
       break;
@@ -698,7 +701,6 @@ void help_widget::set_topic(const help_item *topic)
     case HELP_UNIT:
       set_topic_unit(topic, title);
       break;
-    case HELP_GOODS:
     case HELP_LAST: // Just to avoid warning
       break;
   }
@@ -1276,6 +1278,23 @@ void help_widget::set_topic_nation(const help_item *topic,
   struct nation_type *pnation = nation_by_translated_plural(title);
   if (pnation) {
     helptext_nation(buffer, sizeof(buffer), pnation, topic->text);
+    text_browser->setText(buffer);
+  } else {
+    set_topic_other(topic, title);
+  }
+}
+
+/**************************************************************************
+  Creates goods help page.
+**************************************************************************/
+void help_widget::set_topic_goods(const help_item* topic,
+                                  const char* title)
+{
+  char buffer[MAX_HELP_TEXT_SIZE];
+  struct goods_type *pgood = goods_by_translated_name(title);
+  if (pgood) {
+    helptext_goods(buffer, sizeof(buffer), client.conn.playing,
+                   topic->text, pgood);
     text_browser->setText(buffer);
   } else {
     set_topic_other(topic, title);
