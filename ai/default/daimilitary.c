@@ -1032,7 +1032,7 @@ static void process_attacker_want(struct ai_type *ait,
         
       } else {
         if (acity
-            && uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY_CITY)
+            && utype_can_take_over(punittype)
             && acity_data->invasion.attack > 0
             && acity_data->invasion.occupy == 0) {
           desire = acity_data->worth * 10;
