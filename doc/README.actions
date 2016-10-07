@@ -260,6 +260,8 @@ Actions done by a unit against a city
  * actor must be on the same tile as the target
  * actor must not have the "NoHome" unit type flag. (!)
  * can't set existing home city as new home city
+ * target city has enough unused unit maintenance slots to support the actor
+   unit. (No problem if the actor unit spends 0 city slots)
 
 "Upgrade Unit" - Upgrade the actor unit using the target's facilities.
  * UI name can be set using ui_upgrade_unit.
