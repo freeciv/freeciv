@@ -836,7 +836,7 @@ bool sanity_check_ruleset_data(void)
                                    "Action Enabler Target Reqs")) {
         ruleset_error(LOG_ERROR,
                       "Action enabler for %s has conflicting or invalid "
-                      "requirements!", action_get_rule_name(act));
+                      "requirements!", action_id_rule_name(act));
         ok = FALSE;
       }
 
@@ -851,7 +851,7 @@ bool sanity_check_ruleset_data(void)
                         "requirement %s in target_reqs! Please read the "
                         "section \"Requirement vector rules\" in "
                         "doc/README.actions",
-                        action_get_rule_name(act),
+                        action_id_rule_name(act),
                         req_to_fstring(preq));
           ok = FALSE;
         }

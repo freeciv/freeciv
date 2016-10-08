@@ -588,7 +588,7 @@ const char *api_methods_action_rule_name(lua_State *L, Action *pact)
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_SELF(L, pact, NULL);
 
-  return action_get_rule_name(pact->id);
+  return action_id_rule_name(pact->id);
 }
 
 /*****************************************************************************
