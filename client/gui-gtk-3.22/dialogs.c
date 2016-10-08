@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1517,8 +1517,8 @@ void show_tech_gained_dialog(Tech_type_id tech)
   const struct advance *padvance = valid_advance_by_number(tech);
 
   if (NULL != padvance
-      && (gui_options.gui_gtk3_popup_tech_help == GUI_POPUP_TECH_HELP_ENABLED
-          || (gui_options.gui_gtk3_popup_tech_help == GUI_POPUP_TECH_HELP_RULESET
+      && (GUI_GTK_OPTION(popup_tech_help) == GUI_POPUP_TECH_HELP_ENABLED
+          || (GUI_GTK_OPTION(popup_tech_help) == GUI_POPUP_TECH_HELP_RULESET
               && game.control.popup_tech_help))) {
     popup_help_dialog_typed(advance_name_translation(padvance), HELP_TECH);
   }

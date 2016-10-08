@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -71,16 +71,16 @@ void gui_clear_theme(void)
   bool theme_loaded;
 
   /* try to load user defined theme */
-  theme_loaded = load_theme(gui_options.gui_gtk3_default_theme_name);
+  theme_loaded = load_theme(GUI_GTK_OPTION(default_theme_name));
 
   /* no user defined theme loaded -> try to load Freeciv default theme */
   if (!theme_loaded) {
-    theme_loaded = load_theme(FC_GTK3_DEFAULT_THEME_NAME);
+    theme_loaded = load_theme(GUI_GTK_DEFAULT_THEME_NAME);
     if (theme_loaded) {
-      sz_strlcpy(gui_options.gui_gtk3_default_theme_name, FC_GTK3_DEFAULT_THEME_NAME);
+      sz_strlcpy(GUI_GTK_OPTION(default_theme_name), GUI_GTK_DEFAULT_THEME_NAME);
     }
   }
-    
+
   /* still no theme loaded -> load system default theme */
   if (!theme_loaded) {
     gtk_style_context_add_provider_for_screen(

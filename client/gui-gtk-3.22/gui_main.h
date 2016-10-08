@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,7 +15,12 @@
 
 #include <gtk/gtk.h>
 
+/* client */
 #include "gui_main_g.h"
+
+#define GUI_GTK_OPTION(optname) gui_options.gui_gtk3_##optname
+#define GUI_GTK_OPTION_STR(optname) "gui_gtk3_" #optname
+#define GUI_GTK_DEFAULT_THEME_NAME FC_GTK3_DEFAULT_THEME_NAME
 
 /* network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -145,7 +145,7 @@ static void inputline_return(GtkEntry *w, gpointer data)
   
   if (*theinput) {
     if (client_state() == C_S_RUNNING
-        && gui_options.gui_gtk3_allied_chat_only
+        && GUI_GTK_OPTION(allied_chat_only)
         && is_plain_public_message(theinput)) {
       char buf[MAX_LEN_MSG];
 
@@ -399,7 +399,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
       return TRUE;
 
     case GDK_KEY_Tab:
-      if (gui_options.gui_gtk3_chatline_autocompletion) {
+      if (GUI_GTK_OPTION(chatline_autocompletion)) {
         return chatline_autocomplete(GTK_EDITABLE(w));
       }
 
@@ -895,7 +895,7 @@ void real_output_window_append(const char *astring,
   gtk_text_buffer_insert(buf, &iter, "\n", -1);
   mark = gtk_text_buffer_create_mark(buf, NULL, &iter, TRUE);
 
-  if (gui_options.gui_gtk3_show_chat_message_time) {
+  if (GUI_GTK_OPTION(show_chat_message_time)) {
     char timebuf[64];
     time_t now;
     struct tm *now_tm;

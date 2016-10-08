@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -408,7 +408,7 @@ void update_rect_at_mouse_pos(void)
 **************************************************************************/
 gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
-  if (gui_options.gui_gtk3_mouse_over_map_focus
+  if (GUI_GTK_OPTION(mouse_over_map_focus)
       && !gtk_widget_has_focus(map_canvas)) {
     gtk_widget_grab_focus(map_canvas);
   }

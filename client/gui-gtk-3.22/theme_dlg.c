@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include "dialogs_g.h"
 #include "options.h"
 
+/* gui-gtk-3.22 */
 #include "gui_main.h"
 
 static bool load_theme = FALSE;
@@ -46,10 +47,10 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
 {
   GtkWidget *dialog, *label;
   char buf[1024];
-  char *current_name = gui_options.gui_gtk3_default_theme_name;
+  char *current_name = GUI_GTK_OPTION(default_theme_name);
 
   if (current_name == NULL) {
-    /* gui_gtk3_default_theme_name is not yet set.
+    /* gui option default_theme_name is not yet set.
      * This can happen when we load tileset requested at command line and
      * user has not saved theme information to .freeciv-client-rc.A.B. */
     current_name = FC_GTK3_DEFAULT_THEME_NAME;
