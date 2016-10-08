@@ -360,6 +360,7 @@ enum object_property_ids {
   OPID_PLAYER_ADDRESS,
 #endif /* FREECIV_DEBUG */
   OPID_PLAYER_INVENTIONS,
+  OPID_PLAYER_SCENARIO_RESERVED,
   OPID_PLAYER_SCIENCE,
   OPID_PLAYER_GOLD,
 
@@ -1786,6 +1787,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         } advance_index_iterate_end;
         pv->must_free = TRUE;
         break;
+      case OPID_PLAYER_SCENARIO_RESERVED:
+        pv->data.v_bool = player_has_flag(pplayer, PLRF_SCENARIO_RESERVED);
+        break;
       case OPID_PLAYER_SCIENCE:
         presearch = research_get(pplayer);
         pv->data.v_int = presearch->bulbs_researched;
@@ -2549,6 +2553,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
           packet->inventions[tech] = pv->data.v_inventions[tech];
         } advance_index_iterate_end;
         return;
+      case OPID_PLAYER_SCENARIO_RESERVED:
+        packet->scenario_reserved = pv->data.v_bool;
+        return;
       case OPID_PLAYER_SCIENCE:
         packet->bulbs_researched = pv->data.v_int;
         return;
@@ -3048,6 +3055,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_GAME_PREVENT_CITIES:
   case OPID_GAME_LAKE_FLOODING:
   case OPID_GAME_RULESET_LOCKED:
+  case OPID_PLAYER_SCENARIO_RESERVED:
     button = gtk_check_button_new();
     g_signal_connect(button, "toggled",
         G_CALLBACK(objprop_widget_toggle_button_changed), op);
@@ -3263,6 +3271,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_GAME_PREVENT_CITIES:
   case OPID_GAME_LAKE_FLOODING:
   case OPID_GAME_RULESET_LOCKED:
+  case OPID_PLAYER_SCENARIO_RESERVED:
     button = objprop_get_child_widget(op, "checkbutton");
     disable_gobject_callback(G_OBJECT(button),
         G_CALLBACK(objprop_widget_toggle_button_changed));
@@ -4464,6 +4473,8 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_HAS_WIDGET, VALTYPE_INT);
     ADDPROP(OPID_PLAYER_INVENTIONS, _("Inventions"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INVENTIONS_ARRAY);
+    ADDPROP(OPID_PLAYER_SCENARIO_RESERVED, _("Reserved"),
+            OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     ADDPROP(OPID_PLAYER_SCIENCE, _("Science"),
             OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     ADDPROP(OPID_PLAYER_GOLD, _("Gold"), OPF_IN_LISTVIEW

@@ -2174,6 +2174,7 @@ PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
   BOOL inventions[A_LAST+1]; diff
 
   BOOL ai;
+  BOOL scenario_reserved;
 end
 
 PACKET_EDIT_PLAYER_VISION = 217; cs, handle-per-conn, dsend

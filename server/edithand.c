@@ -1078,6 +1078,18 @@ void handle_edit_player(struct connection *pc,
     changed = TRUE;
   }
 
+  if (packet->scenario_reserved) {
+    if (!player_has_flag(pplayer, PLRF_SCENARIO_RESERVED)) {
+      changed = TRUE;
+      BV_SET(pplayer->flags, PLRF_SCENARIO_RESERVED);
+    }
+  } else {
+    if (player_has_flag(pplayer, PLRF_SCENARIO_RESERVED)) {
+      changed = TRUE;
+      BV_CLR(pplayer->flags, PLRF_SCENARIO_RESERVED);
+    }
+  }
+
   /* TODO: Handle more property edits. */
 
   if (update_research) {
