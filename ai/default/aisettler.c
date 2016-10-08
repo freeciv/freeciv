@@ -1186,8 +1186,8 @@ void dai_auto_settler_cont(struct ai_type *ait, struct player *pplayer,
 **************************************************************************/
 void dai_auto_settler_reset(struct ai_type *ait, struct player *pplayer)
 {
-  bool close;
-  struct ai_plr *ai = dai_plr_data_get(ait, pplayer, &close);
+  bool caller_closes;
+  struct ai_plr *ai = dai_plr_data_get(ait, pplayer, &caller_closes);
 
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler != NULL);
@@ -1207,7 +1207,7 @@ void dai_auto_settler_reset(struct ai_type *ait, struct player *pplayer)
 
   tile_data_cache_hash_clear(ai->settler->tdc_hash);
 
-  if (close) {
+  if (caller_closes) {
     dai_data_phase_finished(ait, pplayer);
   }
 }
