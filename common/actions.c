@@ -466,7 +466,7 @@ struct action_enabler *action_enabler_new(void)
 }
 
 /**************************************************************************
-  Add an action enabler.
+  Add an action enabler to the current ruleset.
 **************************************************************************/
 void action_enabler_add(struct action_enabler *enabler)
 {
