@@ -361,6 +361,7 @@ struct action_enabler *action_enabler_new(void);
 struct action_enabler *
 action_enabler_copy(const struct action_enabler *original);
 void action_enabler_add(struct action_enabler *enabler);
+bool action_enabler_remove(struct action_enabler *enabler);
 
 struct action *action_is_blocked_by(const int action_id,
                                     const struct unit *actor_unit,

@@ -774,6 +774,18 @@ void action_enabler_add(struct action_enabler *enabler)
 }
 
 /**************************************************************************
+  Remove an action enabler from the current ruleset.
+
+  Returns TRUE on success.
+**************************************************************************/
+bool action_enabler_remove(struct action_enabler *enabler)
+{
+  return action_enabler_list_remove(
+        action_enablers_for_action(enabler->action),
+        enabler);
+}
+
+/**************************************************************************
   Get all enablers for an action.
 **************************************************************************/
 struct action_enabler_list *
