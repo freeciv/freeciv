@@ -188,7 +188,8 @@ GtkTreeMenu.menu {
 }
 
 #Freeciv #city_info_label {
-  font: Monospace 8;
+  font-family: Monospace;
+  font-size:   8px;
 }
 
 #Freeciv #help_label {
