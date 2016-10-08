@@ -316,7 +316,6 @@ enum action_target_kind action_get_target_kind(struct action *paction);
   action_get_target_kind(action_by_number(action_id))
 
 int action_number(const struct action *action);
-const char *action_rule_name(const struct action *action);
 
 const char *action_name_translation(const struct action *action);
 
@@ -344,7 +343,8 @@ bool action_would_be_blocked_by(const struct action *blocked,
 
 int action_get_role(int action_id);
 
-const char *action_get_rule_name(int action_id);
+const char *action_rule_name(const struct action *action);
+const char *action_id_rule_name(int action_id);
 const char *action_get_ui_name(int action_id);
 const char *action_get_ui_name_mnemonic(int action_id,
                                         const char* mnemonic);

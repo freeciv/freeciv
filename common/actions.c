@@ -534,7 +534,7 @@ int action_number(const struct action *action)
 const char *action_rule_name(const struct action *action)
 {
   /* Rule name is still hard coded. */
-  return action_get_rule_name(action->id);
+  return action_id_rule_name(action->id);
 }
 
 /**************************************************************************
@@ -550,7 +550,7 @@ const char *action_name_translation(const struct action *action)
 /**************************************************************************
   Get the rule name of the action.
 **************************************************************************/
-const char *action_get_rule_name(int action_id)
+const char *action_id_rule_name(int action_id)
 {
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
@@ -723,7 +723,7 @@ int action_get_role(int action_id)
 
   fc_assert_msg(AAK_UNIT == action_id_get_actor_kind(action_id),
                 "Action %s isn't performed by a unit",
-                action_get_rule_name(action_id));
+                action_id_rule_name(action_id));
 
   return action_id + L_LAST;
 }

@@ -4744,7 +4744,7 @@ void handle_unit_orders(struct player *pplayer,
         /* Actor must be on the target tile. */
         log_error("handle_unit_orders() can't do %s to a neighbor tile. "
                   "Sent in order number %d from %s to unit number %d.",
-                  action_get_rule_name(packet->action[i]), i,
+                  action_id_rule_name(packet->action[i]), i,
                   player_name(pplayer), packet->unit_id);
 
         return;
@@ -4760,7 +4760,7 @@ void handle_unit_orders(struct player *pplayer,
 
           log_error("handle_unit_orders() can't do %s without a target. "
                     "Sent in order number %d from %s to unit number %d.",
-                    action_get_rule_name(packet->action[i]), i,
+                    action_id_rule_name(packet->action[i]), i,
                     player_name(pplayer), packet->unit_id);
 
           return;
@@ -4774,7 +4774,7 @@ void handle_unit_orders(struct player *pplayer,
 
           log_error("handle_unit_orders() can't do %s without a target. "
                     "Sent in order number %d from %s to unit number %d.",
-                    action_get_rule_name(packet->action[i]), i,
+                    action_id_rule_name(packet->action[i]), i,
                     player_name(pplayer), packet->unit_id);
 
           return;

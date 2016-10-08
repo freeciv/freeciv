@@ -921,14 +921,14 @@ bool sanity_check_ruleset_data(bool ignore_retired)
 
     if (paction->min_distance < 0) {
       ruleset_error(LOG_ERROR, "Action %s: negative min distance (%d).",
-                    action_get_rule_name(act), paction->min_distance);
+                    action_id_rule_name(act), paction->min_distance);
       ok = FALSE;
     }
 
     if (paction->min_distance > ACTION_DISTANCE_LAST_NON_SIGNAL) {
       ruleset_error(LOG_ERROR, "Action %s: min distance (%d) larger than "
                                "any distance on a map can be (%d).",
-                    action_get_rule_name(act), paction->min_distance,
+                    action_id_rule_name(act), paction->min_distance,
                     ACTION_DISTANCE_LAST_NON_SIGNAL);
       ok = FALSE;
     }
@@ -936,14 +936,14 @@ bool sanity_check_ruleset_data(bool ignore_retired)
     if (paction->max_distance > ACTION_DISTANCE_MAX) {
       ruleset_error(LOG_ERROR, "Action %s: max distance is %d. "
                     "A map can't be that big.",
-                    action_get_rule_name(act), paction->max_distance);
+                    action_id_rule_name(act), paction->max_distance);
       ok = FALSE;
     }
 
     if (!action_distance_inside_max(paction, paction->min_distance)) {
       ruleset_error(LOG_ERROR,
                     "Action %s: min distance is %d but max distance is %d.",
-                    action_get_rule_name(act),
+                    action_id_rule_name(act),
                     paction->min_distance, paction->max_distance);
       ok = FALSE;
     }
@@ -957,8 +957,8 @@ bool sanity_check_ruleset_data(bool ignore_retired)
          * unit) */
         ruleset_error(LOG_ERROR,
                       "The action %s can't block %s.",
-                      action_get_rule_name(blocker),
-                      action_get_rule_name(act));
+                      action_id_rule_name(blocker),
+                      action_id_rule_name(act));
         ok = FALSE;
       }
     } action_iterate_end;
@@ -970,7 +970,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
                                    "Action Enabler Target Reqs")) {
         ruleset_error(LOG_ERROR,
                       "Action enabler for %s has conflicting or invalid "
-                      "requirements!", action_get_rule_name(act));
+                      "requirements!", action_id_rule_name(act));
         ok = FALSE;
       }
 
@@ -983,8 +983,8 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "An action enabler for %s has a target "
                         "requirement vector. %s doesn't have a target.",
-                        action_get_rule_name(act),
-                        action_get_rule_name(act));
+                        action_id_rule_name(act),
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1000,7 +1000,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
                         "requirement %s in target_reqs! Please read the "
                         "section \"Requirement vector rules\" in "
                         "doc/README.actions",
-                        action_get_rule_name(act),
+                        action_id_rule_name(act),
                         req_to_fstring(preq));
           ok = FALSE;
         }
@@ -1037,7 +1037,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require a "
                         "foreign target.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1060,7 +1060,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require a "
                         "target the actor is at war with.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1077,7 +1077,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require a "
                         "domestic target.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1095,7 +1095,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require that "
                         "the actor doesn't have the NoHome utype flag.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1114,7 +1114,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require that "
                         "the actor doesn't have the NonMil utype flag.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1131,7 +1131,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require that "
                         "the actor has the CanOccupyCity uclass flag.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1149,7 +1149,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require that "
                         "the actor is at war with the target.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1166,7 +1166,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require that "
                         "the actor has a movement point left.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1197,7 +1197,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require that "
                         "the target city is empty.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1217,7 +1217,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
           ruleset_error(LOG_ERROR,
                         "All action enablers for %s must require that "
                         "the actor isn't transporting another unit.",
-                        action_get_rule_name(act));
+                        action_id_rule_name(act));
           ok = FALSE;
         }
       }
@@ -1392,8 +1392,8 @@ bool autoadjust_ruleset_data(void)
 
       if (!action_id_would_be_blocked_by(blocked, blocker)) {
         log_verbose("Autoblocking %s with %s",
-                    action_get_rule_name(blocked),
-                    action_get_rule_name(blocker));
+                    action_id_rule_name(blocked),
+                    action_id_rule_name(blocker));
         BV_SET(action_by_number(blocked)->blocked_by, blocker);
       }
     }
