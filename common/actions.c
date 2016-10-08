@@ -740,6 +740,10 @@ struct action_enabler *action_enabler_new(void)
   requirement_vector_init(&enabler->actor_reqs);
   requirement_vector_init(&enabler->target_reqs);
 
+  /* Make sure that action doesn't end up as a random value that happens to
+   * be a valid action id. */
+  enabler->action = ACTION_NONE;
+
   return enabler;
 }
 

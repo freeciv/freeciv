@@ -120,6 +120,9 @@ extern "C" {
 /* Used in searches to signal that any action at all is OK. */
 #define ACTION_ANY ACTION_COUNT
 
+/* Used to signal the absence of any actions. */
+#define ACTION_NONE ACTION_COUNT
+
 /* Who ordered the action to be performed? */
 #define SPECENUM_NAME action_requester
 /* The player ordered it directly. */
