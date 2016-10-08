@@ -30,7 +30,7 @@ desktopfile_DATA += \
 appdatafile_DATA += \
 	freeciv-gtk3.appdata.xml
 endif
-if CLIENT_GUI_GTK_3_X
+if CLIENT_GUI_GTK_3_22
 GUI_SUBDIRS += gui-gtk-3.22
 endif
 if CLIENT_GUI_QT
@@ -218,7 +218,7 @@ freeciv_gtk3_LDADD = \
  $(gui_gtk3_libs)
 endif
 
-if CLIENT_GUI_GTK_3_X
+if CLIENT_GUI_GTK_3_22
 bin_PROGRAMS += freeciv-gtk3x
 noinst_LTLIBRARIES += libfcgui-gtk3x.la
 libfcgui_gtk3x_la_SOURCES = $(freeciv_client_src)

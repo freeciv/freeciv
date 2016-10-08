@@ -23,7 +23,7 @@ if CLIENT_GUI_GTK_3_0
 CLIENT_FILES += \
 	gtk3_menus.xml
 endif
-if CLIENT_GUI_GTK_3_X
+if CLIENT_GUI_GTK_3_22
 CLIENT_FILES += \
 	gtk3.22_menus.xml
 endif
