@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "log.h"
 #include "mem.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.22 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 

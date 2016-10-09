@@ -50,7 +50,7 @@
 #include "text.h"
 #include "zoom.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.22 */
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "editgui.h"
 #include "graphics.h"

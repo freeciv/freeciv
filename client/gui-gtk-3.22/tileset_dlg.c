@@ -27,7 +27,7 @@
 /* client */
 #include "tilespec.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.22 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 

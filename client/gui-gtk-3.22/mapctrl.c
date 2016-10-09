@@ -42,7 +42,7 @@
 /* client/agents */
 #include "cma_core.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.22 */
 #include "chatline.h"
 #include "citydlg.h"
 #include "colors.h"

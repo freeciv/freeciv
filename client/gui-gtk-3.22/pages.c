@@ -44,7 +44,7 @@
 #include "servers.h"
 #include "update_queue.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.22 */
 #include "chatline.h"
 #include "connectdlg.h"
 #include "dialogs.h"
@@ -181,19 +181,19 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
       rev_ver = fc_git_revision();
 
       if (rev_ver == NULL) {
-        /* TRANS: "version 2.6.0, gui-gtk-3.0 client" */
+        /* TRANS: "version 2.6.0, gui-gtk-3.22 client" */
         fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, %s client"),
                     word_version(), VERSION_STRING, client_string);
       } else {
         /* TRANS: "version 2.6.0
          *         commit: [modified] <git commit id>
-         *         gui-gtk-3.0 client" */
+         *         gui-gtk-3.22 client" */
         fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s\ncommit: %s\n%s client"),
                     word_version(), VERSION_STRING, rev_ver, client_string);
         left = TRUE;
       }
     } else {
-      /* TRANS: "version 2.6.0 (r25000), gui-gtk-3.0 client" */
+      /* TRANS: "version 2.6.0 (r25000), gui-gtk-3.22 client" */
       fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s (%s), %s client"),
                   word_version(), VERSION_STRING, rev_ver, client_string);
     }

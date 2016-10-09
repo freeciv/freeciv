@@ -41,7 +41,7 @@
 
 #include <gtk/gtk.h>
 
-/* gui-gtk-3.0 */
+/* gui-gtk-3.22 */
 #include "gui_main.h"
 #include "sprite.h"
 

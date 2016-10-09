@@ -51,7 +51,7 @@
 #include "text.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.22 */
 #include "chatline.h"
 #include "choice_dialog.h"
 #include "citydlg.h"

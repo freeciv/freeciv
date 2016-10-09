@@ -40,7 +40,7 @@
 #include "options.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.22 */
 #include "canvas.h"
 #include "citydlg.h"
 #include "graphics.h"

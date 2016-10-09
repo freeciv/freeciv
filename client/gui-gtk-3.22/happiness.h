@@ -15,7 +15,7 @@
 
 #include <gtk/gtk.h>
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.22 */
 #include "citydlg.h"
 
 void happiness_dialog_init(void);

@@ -43,7 +43,7 @@
 #include "mapview_common.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-3.22 */
 #include "canvas.h"
 #include "editgui.h"
 #include "editprop.h"
