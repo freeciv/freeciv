@@ -1701,20 +1701,6 @@ static void migrate_options_from_gtk2(void)
 }
 
 /**************************************************************************
-  Migrate gtk3 client specific options from freeciv-2.5 options
-**************************************************************************/
-static void migrate_options_from_2_5(void)
-{
-  if (!gui_options.first_boot) {
-    log_normal(_("Migrating gtk3-client options from freeciv-2.5 options."));
-
-    GUI_GTK_OPTION(fullscreen) = gui_options.migrate_fullscreen;
-
-    GUI_GTK_OPTION(migrated_from_2_5) = TRUE;
-  }
-}
-
-/**************************************************************************
   Called from client_main(), is what it's named.
 **************************************************************************/
 void ui_main(int argc, char **argv)
@@ -1746,9 +1732,6 @@ void ui_main(int argc, char **argv)
 
   if (!GUI_GTK_OPTION(migrated_from_gtk2)) {
     migrate_options_from_gtk2();
-  }
-  if (!GUI_GTK_OPTION(migrated_from_2_5)) {
-    migrate_options_from_2_5();
   }
 
   if (GUI_GTK_OPTION(fullscreen)) {
