@@ -65,8 +65,23 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   label = new QLabel(QString::fromUtf8(R__("Type")));
   label->setParent(this);
   enabler_layout->addWidget(label, 0, 0);
-  type = new QLabel();
-  enabler_layout->addWidget(type, 0, 2);
+
+  type_button = new QToolButton();
+  type_menu = new QMenu();
+
+  action_iterate(act) {
+    type_menu->addAction(action_id_rule_name(act));
+  } action_iterate_end;
+
+  connect(type_menu, SIGNAL(triggered(QAction *)),
+          this, SLOT(edit_type(QAction *)));
+
+  type_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  type_button->setPopupMode(QToolButton::MenuButtonPopup);
+
+  type_button->setMenu(type_menu);
+
+  enabler_layout->addWidget(type_button, 0, 2);
 
   reqs_button = new QPushButton(QString::fromUtf8(R__("Actor Requirements")), this);
   connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_actor_reqs()));
@@ -129,9 +144,9 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
   if (selected != nullptr) {
     QString dispn = QString::fromUtf8(action_rule_name(enabler_get_action(enabler)));
 
-    type->setText(dispn);
+    type_button->setText(dispn);
   } else {
-    type->setText("None");
+    type_button->setText("None");
   }
 }
 
@@ -200,6 +215,26 @@ void tab_enabler::add_now()
 
   update_enabler_info(new_enabler);
   refresh();
+}
+
+/**************************************************************************
+  User selected action to enable
+**************************************************************************/
+void tab_enabler::edit_type(QAction *action)
+{
+  struct action *paction;
+
+  paction = action_by_rule_name(action->text().toUtf8().data());
+
+  if (selected != nullptr && paction != nullptr) {
+    /* Must remove and add back because enablers are stored by action. */
+    action_enabler_remove(selected);
+    selected->action = paction->id;
+    action_enabler_add(selected);
+
+    update_enabler_info(selected);
+    refresh();
+  }
 }
 
 /**************************************************************************

@@ -24,7 +24,9 @@
 class QLabel;
 class QLineEdit;
 class QListWidget;
+class QMenu;
 class QRadioButton;
+class QToolButton;
 
 class ruledit_gui;
 
@@ -41,7 +43,8 @@ class tab_enabler : public QWidget
     void update_enabler_info(struct action_enabler *enabler);
     bool initialize_new_enabler(struct action_enabler *enabler);
 
-    QLabel *type;
+    QToolButton *type_button;
+    QMenu *type_menu;
     QListWidget *enabler_list;
 
     struct action_enabler *selected;
@@ -50,6 +53,7 @@ class tab_enabler : public QWidget
     void select_enabler();
     void add_now();
     void delete_now();
+    void edit_type(QAction *action);
     void edit_target_reqs();
     void edit_actor_reqs();
 };
