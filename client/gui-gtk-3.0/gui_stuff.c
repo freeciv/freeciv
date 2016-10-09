@@ -1011,8 +1011,33 @@ void gui_update_font(const char *font_name, const char *font_value)
 {
   char *str;
   GtkCssProvider *provider;
+  PangoFontDescription *desc;
+  int size;
+  const char *fam;
 
-  str = g_strdup_printf("#Freeciv #%s { font: %s;}", font_name, font_value);
+  desc = pango_font_description_from_string(font_value);
+
+  if (desc == NULL) {
+    return;
+  }
+
+  fam = pango_font_description_get_family(desc);
+
+  if (fam == NULL) {
+    return;
+  }
+
+  size = pango_font_description_get_size(desc);
+
+  if (size != 0) {
+    str = g_strdup_printf("#Freeciv #%s { font-family: %s; font-size: %dpt;}",
+                          font_name, fam, size / PANGO_SCALE);
+  } else {
+    str = g_strdup_printf("#Freeciv #%s { font-family: %s; }",
+                          font_name, fam);
+  }
+
+  pango_font_description_free(desc);
 
   provider = gtk_css_provider_new();
   gtk_css_provider_load_from_data(GTK_CSS_PROVIDER(provider),
