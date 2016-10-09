@@ -33,7 +33,8 @@ MOC_FILES = \
 	meta_sidebar.cpp	\
 	meta_shortcuts.cpp	\
 	meta_voteinfo_bar.cpp	\
-	meta_gotodlg.cpp
+	meta_gotodlg.cpp	\
+	meta_hudwidget.cpp
 
 libgui_qt_la_SOURCES = \
 	canvas.cpp	\
@@ -66,6 +67,8 @@ libgui_qt_la_SOURCES = \
 	gui_main.h	\
 	helpdlg.cpp	\
 	helpdlg.h	\
+	hudwidget.cpp	\
+	hudwidget.h	\
 	inteldlg.cpp	\
 	inteldlg.h	\
 	listener.h	\

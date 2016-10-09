@@ -46,6 +46,7 @@
 #include "dialogs.h"
 #include "gotodlg.h"
 #include "gui_main.h"
+#include "hudwidget.h"
 #include "mapctrl.h"
 #include "messagedlg.h"
 #include "plrdlg.h"
@@ -2872,15 +2873,13 @@ void mr_menu::save_game_as()
 ***************************************************************************/
 void mr_menu::back_to_menu()
 {
-  QMessageBox ask(gui()->central_wdg);
+  hud_message_box ask(gui()->central_wdg);
   int ret;
 
   if (is_server_running()) {
-    ask.setText(_("Leaving a local game will end it!"));
+    ask.set_text_title(_("Leaving a local game will end it!"), "Leave game");
     ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
     ask.setDefaultButton(QMessageBox::Cancel);
-    ask.setIcon(QMessageBox::Warning);
-    ask.setWindowTitle("Leave game");
     ret = ask.exec();
 
     switch (ret) {

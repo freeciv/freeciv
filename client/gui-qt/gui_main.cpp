@@ -55,6 +55,7 @@
 // gui-qt
 #include "fc_client.h"
 #include "fonts.h"
+#include "hudwidget.h"
 #include "gui_main.h"
 #include "helpdlg.h"
 #include "qtg_cxxside.h"
@@ -544,14 +545,12 @@ void reset_unit_table(void)
 **************************************************************************/
 void popup_quit_dialog()
 {
-  QMessageBox ask(gui()->central_wdg);
+  hud_message_box ask(gui()->central_wdg);
   int ret;
 
-  ask.setText(_("Are you sure you want to quit?"));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
-  ask.setIcon(QMessageBox::Warning);
-  ask.setWindowTitle(_("Quit?"));
+  ask.set_text_title(_("Are you sure you want to quit?"),  _("Quit?"));
   ret = ask.exec();
 
   switch (ret) {

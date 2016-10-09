@@ -29,6 +29,7 @@ extern "C" {
 
 // gui-qt
 #include "fonts.h"
+#include "hudwidget.h"
 #include "mapview.h"
 
 class QComboBox;
@@ -50,7 +51,7 @@ void restart_notify_dialogs();
 /***************************************************************************
   Nonmodal message box for disbanding units
 ***************************************************************************/
-class disband_box : public QMessageBox
+class disband_box : public hud_message_box
 {
   Q_OBJECT
   struct unit_list *cpunits;

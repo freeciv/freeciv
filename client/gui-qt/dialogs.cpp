@@ -45,6 +45,7 @@
 
 // gui-qt
 #include "dialogs.h"
+#include "hudwidget.h"
 #include "qtg_cxxside.h"
 #include "sprite.h"
 
@@ -943,15 +944,14 @@ void races_toggles_set_sensitive(void)
 **************************************************************************/
 void popup_revolution_dialog(struct government *government)
 {
-  QMessageBox ask(gui()->central_wdg);
+  hud_message_box ask(gui()->central_wdg);
   int ret;
 
   if (0 > client.conn.playing->revolution_finishes) {
-    ask.setText(_("You say you wanna revolution?"));
     ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
     ask.setDefaultButton(QMessageBox::Cancel);
-    ask.setIcon(QMessageBox::Warning);
-    ask.setWindowTitle(_("Revolution!"));
+    ask.set_text_title(_("You say you wanna revolution?"), 
+                       _("Revolution!"));
     ret = ask.exec();
 
     switch (ret) {
@@ -1815,23 +1815,22 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
               client_player()->economic.gold);
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
-    QMessageBox incite_impossible;
+    hud_message_box incite_impossible(gui()->central_wdg);
 
     fc_snprintf(buf2, ARRAY_SIZE(buf2),
                 _("You can't incite a revolt in %s."), city_name_get(tcity));
-    incite_impossible.setText(QString(buf2));
+    incite_impossible.set_text_title(QString(buf2), "!");
+    incite_impossible.setStandardButtons(QMessageBox::Ok);
     incite_impossible.exec();
   } else if (cost <= client_player()->economic.gold) {
-    QMessageBox ask(gui()->central_wdg);
+    hud_message_box ask(gui()->central_wdg);
 
     fc_snprintf(buf2, ARRAY_SIZE(buf2),
                 PL_("Incite a revolt for %d gold?\n%s",
                     "Incite a revolt for %d gold?\n%s", cost), cost, buf);
-    ask.setText(QString(buf2));
     ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
     ask.setDefaultButton(QMessageBox::Cancel);
-    ask.setIcon(QMessageBox::Question);
-    ask.setWindowTitle(_("Incite a Revolt!"));
+    ask.set_text_title(QString(buf2), _("Incite a Revolt!"));
     ret = ask.exec();
     switch (ret) {
     case QMessageBox::Cancel:
@@ -1842,13 +1841,14 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
       break;
     }
   } else {
-    QMessageBox too_much;
+    hud_message_box too_much(gui()->central_wdg);
 
     fc_snprintf(buf2, ARRAY_SIZE(buf2),
                 PL_("Inciting a revolt costs %d gold.\n%s",
                     "Inciting a revolt costs %d gold.\n%s", cost), cost,
                 buf);
-    too_much.setText(QString(buf2));
+    too_much.set_text_title(QString(buf2), "!");
+    too_much.setStandardButtons(QMessageBox::Ok);
     too_much.exec();
   }
 
@@ -1861,7 +1861,7 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
 **************************************************************************/
 void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
 {
-  QMessageBox ask(gui()->central_wdg);
+  hud_message_box ask(gui()->central_wdg);
   int ret;
   QString str;
   char buf[1024];
@@ -1877,15 +1877,13 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
                                         client_player()->economic.gold),
               client_player()->economic.gold);
 
-  ask.setWindowTitle(QString(_("Bribe Enemy Unit")));
   if (cost <= client_player()->economic.gold) {
     fc_snprintf(buf2, ARRAY_SIZE(buf2), PL_("Bribe unit for %d gold?\n%s",
                                             "Bribe unit for %d gold?\n%s",
                                             cost), cost, buf);
-    ask.setText(QString(buf2));
+    ask.set_text_title(QString(buf2), QString(_("Bribe Enemy Unit")));
     ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
     ask.setDefaultButton(QMessageBox::Cancel);
-    ask.setIcon(QMessageBox::Question);
     ret = ask.exec();
     switch (ret) {
     case QMessageBox::Cancel:
@@ -1901,8 +1899,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
     fc_snprintf(buf2, ARRAY_SIZE(buf2),
                 PL_("Bribing the unit costs %d gold.\n%s",
                     "Bribing the unit costs %d gold.\n%s", cost), cost, buf);
-    ask.setText(buf2);
-    ask.setWindowTitle(_("Traitors Demand Too Much!"));
+    ask.set_text_title(QString(buf2), _("Traitors Demand Too Much!"));
     ask.exec();
   }
 
@@ -2042,7 +2039,7 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   Disband Message box contructor
 ***************************************************************************/
 disband_box::disband_box(struct unit_list *punits,
-                         QWidget *parent) : QMessageBox(parent)
+                         QWidget *parent) : hud_message_box(parent)
 {
   QString str;
   QPushButton *pb;
@@ -2057,12 +2054,10 @@ disband_box::disband_box(struct unit_list *punits,
   str = QString(PL_("Are you sure you want to disband that %1 unit?",
                   "Are you sure you want to disband those %1 units?",
                   unit_list_size(punits))).arg(unit_list_size(punits));
-  setText(str);
   pb = addButton(_("Yes"), QMessageBox::AcceptRole);
   addButton(_("No"), QMessageBox::RejectRole);
   setDefaultButton(QMessageBox::Cancel);
-  setIcon(QMessageBox::Question);
-  setWindowTitle(_("Disband units"));
+  set_text_title(str, _("Disband units"));
   connect(pb, SIGNAL(clicked()), this, SLOT(disband_clicked()));
 }
 
@@ -2381,23 +2376,22 @@ void show_tileset_error(const char *msg)
 void popup_upgrade_dialog(struct unit_list *punits)
 {
   char buf[512];
-  QMessageBox ask(gui()->central_wdg);
+  hud_message_box ask(gui()->central_wdg);
   int ret;
+  QString title;
 
   if (!punits || unit_list_size(punits) == 0) {
     return;
   }
   if (!get_units_upgrade_info(buf, sizeof(buf), punits)) {
-    ask.setWindowTitle(_("Upgrade Unit!"));
+    title = _("Upgrade Unit!");
     ask.setStandardButtons(QMessageBox::Ok);
-    ask.setIcon(QMessageBox::Information);
   } else {
-    ask.setWindowTitle(_("Upgrade Obsolete Units"));
+    title = _("Upgrade Obsolete Units");
     ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-    ask.setIcon(QMessageBox::Question);
     ask.setDefaultButton(QMessageBox::Cancel);
   }
-  ask.setText(QString(buf));
+  ask.set_text_title(QString(buf), title);
   ret = ask.exec();
 
   switch (ret) {
