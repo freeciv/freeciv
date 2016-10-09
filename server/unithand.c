@@ -2010,7 +2010,7 @@ void handle_unit_action_query(struct connection *pc,
     if (pcity) {
       if (is_action_enabled_unit_on_city(action_type,
                                          pactor, pcity)) {
-        spy_send_sabotage_list(pc, pactor, pcity);
+        spy_send_sabotage_list(pc, pactor, pcity, action_type);
       } else {
         illegal_action(pplayer, pactor, action_type, city_owner(pcity),
                        NULL, pcity, NULL, ACT_REQ_PLAYER);
@@ -2158,7 +2158,7 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, punit)) {
         ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
 
-        return diplomat_bribe(pplayer, actor_unit, punit);
+        return diplomat_bribe(pplayer, actor_unit, punit, action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        unit_owner(punit), NULL, NULL, punit,
@@ -2172,7 +2172,7 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, punit)) {
         ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
 
-        return spy_sabotage_unit(pplayer, actor_unit, punit);
+        return spy_sabotage_unit(pplayer, actor_unit, punit, action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        unit_owner(punit), NULL, NULL, punit,
@@ -2257,7 +2257,7 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        return spy_poison(pplayer, actor_unit, pcity);
+        return spy_poison(pplayer, actor_unit, pcity, action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -2271,7 +2271,8 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        return diplomat_investigate(pplayer, actor_unit, pcity);
+        return diplomat_investigate(pplayer, actor_unit, pcity,
+                                    action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -2285,7 +2286,7 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        return diplomat_embassy(pplayer, actor_unit, pcity);
+        return diplomat_embassy(pplayer, actor_unit, pcity, action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -2299,7 +2300,7 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        return diplomat_incite(pplayer, actor_unit, pcity);
+        return diplomat_incite(pplayer, actor_unit, pcity, action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -2345,7 +2346,7 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        return spy_steal_gold(pplayer, actor_unit, pcity);
+        return spy_steal_gold(pplayer, actor_unit, pcity, action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -2359,7 +2360,7 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        return spy_steal_some_maps(pplayer, actor_unit, pcity);
+        return spy_steal_some_maps(pplayer, actor_unit, pcity, action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -2418,7 +2419,7 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        return spy_nuke_city(pplayer, actor_unit, pcity);
+        return spy_nuke_city(pplayer, actor_unit, pcity, action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,

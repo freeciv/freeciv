@@ -16,31 +16,36 @@
 #include "fc_types.h"
 
 bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
-			  struct city *pcity);
+                      struct city *pcity, const enum gen_action action_id);
 bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
-			  struct city *pcity);
+                          struct city *pcity,
+                          const enum gen_action action_id);
 void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
-			    struct city *pcity);
+                            struct city *pcity,
+                            const enum gen_action action_id);
 bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
-		struct city *pcity);
+                struct city *pcity, const enum gen_action action_id);
 bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
-		       struct unit *pvictim);
+                       struct unit *pvictim,
+                       const enum gen_action action_id);
 bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
-		    struct unit *pvictim);
+                    struct unit *pvictim, const enum gen_action action_id);
 bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                        struct city  *pcity, int technology,
                        const enum gen_action action_id);
 bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
-		     struct city *pcity);
+                     struct city *pcity, const enum gen_action action_id);
 bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                        struct city *pcity, Impr_type_id improvement,
                        const enum gen_action action_id);
 bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
-		    struct city *tgt_city);
+                    struct city *tgt_city,
+                    const enum gen_action action_id);
 bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
-                         struct city *tgt_city);
+                         struct city *tgt_city,
+                         const enum gen_action action_id);
 bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
-                   struct city *tgt_city);
+                   struct city *tgt_city, const enum gen_action action_id);
 
 int count_diplomats_on_tile(struct tile *ptile);
 

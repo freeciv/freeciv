@@ -91,7 +91,7 @@ static void diplomat_escape_full(struct player *pplayer,
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
-		struct city *pcity)
+                struct city *pcity, const enum gen_action action_id)
 {
   struct player *cplayer;
   struct tile *ctile;
@@ -112,7 +112,7 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   log_debug("poison: unit: %d", pdiplomat->id);
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
-  if (!diplomat_infiltrate_tile(pplayer, cplayer, ACTION_SPY_POISON,
+  if (!diplomat_infiltrate_tile(pplayer, cplayer, action_id,
                                 pdiplomat, NULL, ctile)) {
     return FALSE;
   }
@@ -152,7 +152,7 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(ACTION_SPY_POISON, pplayer, cplayer,
+  action_consequence_success(action_id, pplayer, cplayer,
                              ctile, clink);
 
   /* Now lets see if the spy survives. */
@@ -173,7 +173,8 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
-			  struct city *pcity)
+                          struct city *pcity,
+                          const enum gen_action action_id)
 {
   struct player *cplayer;
   struct packet_unit_short_info unit_packet;
@@ -240,7 +241,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(ACTION_SPY_INVESTIGATE_CITY, pplayer, cplayer,
+  action_consequence_success(action_id, pplayer, cplayer,
                              city_tile(pcity), city_link(pcity));
 
   /* Spies always survive. Diplomats never do. */
@@ -261,7 +262,8 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   Only send back to the originating connection, if there is one. (?)
 ****************************************************************************/
 void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
-			    struct city *pcity)
+                            struct city *pcity,
+                            const enum gen_action action_id)
 {
   struct packet_city_sabotage_list packet;
 
@@ -293,7 +295,7 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
-		      struct city *pcity)
+                      struct city *pcity, const enum gen_action action_id)
 {
   struct player *cplayer;
 
@@ -336,7 +338,7 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(ACTION_ESTABLISH_EMBASSY, pplayer, cplayer,
+  action_consequence_success(action_id, pplayer, cplayer,
                              city_tile(pcity), city_link(pcity));
 
   /* Spies always survive. Diplomats never do. */
@@ -360,7 +362,8 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
-		       struct unit *pvictim)
+                       struct unit *pvictim,
+                       const enum gen_action action_id)
 {
   char victim_link[MAX_LEN_LINK];
   struct player *uplayer;
@@ -382,7 +385,7 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   /* Diplomatic battle against any diplomatic defender except the intended
    * victim of the sabotage. */
   if (!diplomat_infiltrate_tile(pplayer, uplayer,
-                                ACTION_SPY_SABOTAGE_UNIT,
+                                action_id,
                                 pdiplomat, pvictim,
                                 unit_tile(pvictim))) {
     return FALSE;
@@ -428,7 +431,7 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(ACTION_SPY_SABOTAGE_UNIT, pplayer, uplayer,
+  action_consequence_success(action_id, pplayer, uplayer,
                              unit_tile(pvictim), victim_link);
 
   /* Now lets see if the spy survives. */
@@ -450,7 +453,7 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
-		    struct unit *pvictim)
+                    struct unit *pvictim, const enum gen_action action_id)
 {
   char victim_link[MAX_LEN_LINK];
   struct player *uplayer;
@@ -509,7 +512,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Diplomatic battle against any diplomatic defender except the one that
    * will get the bribe. */
   if (!diplomat_infiltrate_tile(pplayer, uplayer,
-                                ACTION_SPY_BRIBE_UNIT,
+                                action_id,
                                 pdiplomat, pvictim,
                                 pvictim->tile)) {
     return FALSE;
@@ -551,7 +554,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   pplayer->economic.gold -= bribe_cost;
 
   /* This may cause a diplomatic incident */
-  action_consequence_success(ACTION_SPY_BRIBE_UNIT, pplayer, uplayer,
+  action_consequence_success(action_id, pplayer, uplayer,
                              victim_tile, victim_link);
 
   if (!unit_is_alive(diplomat_id)) {
@@ -783,7 +786,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
-		     struct city *pcity)
+                     struct city *pcity, const enum gen_action action_id)
 {
   struct player *cplayer;
   struct tile *ctile;
@@ -824,7 +827,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
   if (!diplomat_infiltrate_tile(pplayer, cplayer,
-                                ACTION_SPY_INCITE_CITY,
+                                action_id,
                                 pdiplomat, NULL,
                                 pcity->tile)) {
     return FALSE;
@@ -834,7 +837,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   if (diplomat_was_caught(pplayer, pdiplomat, pcity, cplayer,
-                          action_by_number(ACTION_SPY_INCITE_CITY))) {
+                          action_by_number(action_id))) {
     notify_player(pplayer, ctile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
                     " of inciting a revolt!"),
@@ -847,7 +850,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                   clink);
 
     /* This may cause a diplomatic incident */
-    action_consequence_caught(ACTION_SPY_INCITE_CITY, pplayer,
+    action_consequence_caught(action_id, pplayer,
                               cplayer, ctile, clink);
 
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
@@ -882,7 +885,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   steal_a_tech(pplayer, cplayer, A_UNSET);
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(ACTION_SPY_INCITE_CITY,
+  action_consequence_success(action_id,
                              pplayer, cplayer, ctile, clink);
 
   /* Transfer city and units supported by this city (that
@@ -1193,7 +1196,7 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
-                    struct city *tgt_city)
+                    struct city *tgt_city, const enum gen_action action_id)
 {
   struct player *tgt_player;
   struct tile *tgt_tile;
@@ -1234,7 +1237,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* Battle all units capable of diplomatic defence. */
   if (!diplomat_infiltrate_tile(act_player, tgt_player,
-                                ACTION_SPY_STEAL_GOLD,
+                                action_id,
                                 act_unit, NULL, tgt_tile)) {
     return FALSE;
   }
@@ -1243,7 +1246,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* The thief may get caught while trying to steal the gold. */
   if (diplomat_was_caught(act_player, act_unit, tgt_city, tgt_player,
-                          action_by_number(ACTION_SPY_STEAL_GOLD))) {
+                          action_by_number(action_id))) {
     notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught attempting to steal gold!"),
                   unit_tile_link(act_unit));
@@ -1256,7 +1259,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                   tgt_city_link);
 
     /* This may cause a diplomatic incident */
-    action_consequence_caught(ACTION_SPY_STEAL_GOLD, act_player,
+    action_consequence_caught(action_id, act_player,
                               tgt_player, tgt_tile, tgt_city_link);
 
     /* Execute the caught thief. */
@@ -1305,7 +1308,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                 gold_take, tgt_city_link);
 
   /* This may cause a diplomatic incident. */
-  action_consequence_success(ACTION_SPY_STEAL_GOLD, act_player,
+  action_consequence_success(action_id, act_player,
                              tgt_player, tgt_tile, tgt_city_link);
 
   /* Try to escape. */
@@ -1329,7 +1332,8 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
-                         struct city *tgt_city)
+                         struct city *tgt_city,
+                         const enum gen_action action_id)
 {
   struct player *tgt_player;
   struct tile *tgt_tile;
@@ -1362,7 +1366,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 
   /* Battle all units capable of diplomatic defence. */
   if (!diplomat_infiltrate_tile(act_player, tgt_player,
-                                ACTION_STEAL_MAPS,
+                                action_id,
                                 act_unit, NULL, tgt_tile)) {
     return FALSE;
   }
@@ -1371,7 +1375,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 
   /* Try to steal the map. */
   if (diplomat_was_caught(act_player, act_unit, tgt_city, tgt_player,
-                          action_by_number(ACTION_STEAL_MAPS))) {
+                          action_by_number(action_id))) {
     notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in an attempt of"
                     " stealing parts of the %s world map!"),
@@ -1386,7 +1390,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                   tgt_city_link);
 
     /* This may cause a diplomatic incident. */
-    action_consequence_caught(ACTION_STEAL_MAPS, act_player,
+    action_consequence_caught(action_id, act_player,
                               tgt_player, tgt_tile, tgt_city_link);
 
     /* Execute the caught thief. */
@@ -1413,7 +1417,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                 tgt_city_link);
 
   /* This may cause a diplomatic incident. */
-  action_consequence_success(ACTION_STEAL_MAPS, act_player,
+  action_consequence_success(action_id, act_player,
                              tgt_player, tgt_tile, tgt_city_link);
 
   /* Try to escape. */
@@ -1433,7 +1437,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
-                   struct city *tgt_city)
+                   struct city *tgt_city, const enum gen_action action_id)
 {
   struct player *tgt_player;
   struct tile *tgt_tile;
@@ -1460,7 +1464,7 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
 
   /* Battle all units capable of diplomatic defense. */
   if (!diplomat_infiltrate_tile(act_player, tgt_player,
-                                ACTION_SPY_NUKE,
+                                action_id,
                                 act_unit, NULL, tgt_tile)) {
     return FALSE;
   }
@@ -1469,7 +1473,7 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
 
   /* Try to hide the nuke. */
   if (diplomat_was_caught(act_player, act_unit, tgt_city, tgt_player,
-                          action_by_number(ACTION_SPY_NUKE))) {
+                          action_by_number(action_id))) {
     notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in an attempt of"
                     " hiding a nuke in %s!"),
@@ -1483,7 +1487,7 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
                   tgt_city_link);
 
     /* This may cause a diplomatic incident. */
-    action_consequence_caught(ACTION_SPY_NUKE, act_player,
+    action_consequence_caught(action_id, act_player,
                               tgt_player, tgt_tile, tgt_city_link);
 
     /* Execute the caught terrorist. */
@@ -1517,7 +1521,7 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
   do_nuclear_explosion(act_player, tgt_tile);
 
   /* This may cause a diplomatic incident. */
-  action_consequence_success(ACTION_SPY_NUKE, act_player,
+  action_consequence_success(action_id, act_player,
                              tgt_player, tgt_tile, tgt_city_link);
 
   return TRUE;
