@@ -197,6 +197,9 @@ void tab_enabler::add_now()
   new_enabler->action = ACTION_MARKETPLACE;
 
   action_enabler_add(new_enabler);
+
+  update_enabler_info(new_enabler);
+  refresh();
 }
 
 /**************************************************************************
