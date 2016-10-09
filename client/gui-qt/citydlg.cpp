@@ -553,7 +553,7 @@ unit_item::~unit_item()
 ****************************************************************************/
 void unit_item::contextMenuEvent(QContextMenuEvent *event)
 {
-  QMenu *menu = new QMenu(this);
+  QMenu *menu = new QMenu(gui()->central_wdg);
 
   if (!can_client_issue_orders()) {
     return;
