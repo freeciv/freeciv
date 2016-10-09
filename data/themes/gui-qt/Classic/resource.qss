@@ -664,3 +664,22 @@ chatwdg QPushButton {
 chatwdg QCheckBox {
   background: transparent;
 }
+
+hud_message_box {
+  background-color: transparent;
+  color: black;
+  selection-background-color: rgba(231, 214, 176, 220);
+  alternate-background-color: rgba(131, 114, 76 ,220);
+  border: 2px solid black;
+}
+
+hud_message_box QPushButton {
+  color: black;
+  background: rgb(231, 214, 176);
+  border-top: 3px solid #c3b48e;
+  border-bottom: 3px solid #c3b48e;
+  border-right: 3px solid #c3b48e;
+  border-left: 3px solid #c3b48e;
+  border-radius: 8px;
+  padding: 2px;
+}

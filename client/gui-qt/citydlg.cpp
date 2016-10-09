@@ -51,6 +51,7 @@
 //gui-qt
 #include "citydlg.h"
 #include "colors.h"
+#include "hudwidget.h"
 
 //agents
 #include "cma_fec.h"
@@ -451,7 +452,7 @@ void impr_info::update_buildings()
 ****************************************************************************/
 void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
 {
-  QMessageBox ask(gui()->central_wdg);
+  hud_message_box ask(city_dlg);
   QString s;
   QVariant qvar;
   char buf[256];
@@ -475,10 +476,8 @@ void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
                 city_improvement_name_translation(pcity, impr), price);
 
     s = QString(buf);
-    ask.setText(s);
+    ask.set_text_title(s, (_("Sell improvement?")));
     ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-    ask.setDefaultButton(QMessageBox::Cancel);
-    ask.setWindowTitle(_("Sell improvement?"));
     ret = ask.exec();
 
     switch (ret) {
@@ -2113,7 +2112,7 @@ void city_dialog::update_cma_tab()
 void city_dialog::cma_remove()
 {
   int i;
-  QMessageBox ask(gui()->central_wdg);
+  hud_message_box ask(city_dlg);
   int ret;
 
   i = cma_table->currentRow();
@@ -2122,10 +2121,9 @@ void city_dialog::cma_remove()
     return;
   }
 
-  ask.setText(_("Remove this preset?"));
+  ask.set_text_title(_("Remove this preset?"), cmafec_preset_get_descr(i));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
-  ask.setWindowTitle(cmafec_preset_get_descr(i));
   ret = ask.exec();
 
   switch (ret) {
@@ -2871,30 +2869,26 @@ void city_dialog::update_building()
 ****************************************************************************/
 void city_dialog::buy()
 {
-  char buf[1024];
+  char buf[1024], buf2[1024];
   int ret;
   const char *name = city_production_name_translation(pcity);
   int value = city_production_buy_gold_cost(pcity);
-  const QString title = _("Buy ?");
-  QMessageBox ask(gui()->central_wdg);
+  hud_message_box ask(city_dlg);
 
   if (!can_client_issue_orders()) {
     return;
   }
 
-  fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
+  fc_snprintf(buf2, ARRAY_SIZE(buf2), PL_("Treasury contains %d gold.",
                                         "Treasury contains %d gold.",
                                         client_player()->economic.gold),
               client_player()->economic.gold);
-  ask.setInformativeText(buf);
   fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Buy %s for %d gold?",
                                         "Buy %s for %d gold?", value),
               name, value);
-  ask.setText(buf);
+  ask.set_text_title(QString(buf), QString(buf2));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
-  ask.setIcon(QMessageBox::Question);
-  ask.setWindowTitle(title);
   ret = ask.exec();
 
   switch (ret) {

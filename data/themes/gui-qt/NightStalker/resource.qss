@@ -612,3 +612,11 @@ xvote QPushButton:hover {
   background-color: blue;
 }
 
+hud_message_box {
+  background-color: transparent;
+  color: white;
+  selection-background-color: rgba(50, 150, 250,220);
+  alternate-background-color: rgba(0, 0, 60,220);
+  border: 2px solid #3399FF;
+}
+

@@ -18,10 +18,10 @@
 // Qt
 #include <QApplication>
 #include <QHeaderView>
-#include <QMessageBox>
 
 // gui-qt
 #include "cityrep.h"
+#include "hudwidget.h"
 #include "qtg_cxxside.h"
 
 static bool can_city_sell_universal(const struct city *pcity,
@@ -457,7 +457,7 @@ void city_widget::display_list_menu(const QPoint &)
   QMenu *some_menu;
   QMenu *tmp2_menu;
   QMenu *tmp_menu;
-  QMessageBox ask(this);
+  hud_message_box ask(gui()->central_wdg);
   QVariant qvar, qvar2;
   bool sell_ask;
   bool need_clear = true;
@@ -651,11 +651,9 @@ void city_widget::display_list_menu(const QPoint &)
                         _("Are you sure you want to sell those %s?"),
                         imprname);
             sell_ask = false;
-            ask.setText(buf);
             ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
             ask.setDefaultButton(QMessageBox::Cancel);
-            ask.setIcon(QMessageBox::Question);
-            ask.setWindowTitle(" ");
+            ask.set_text_title(buf, _("Sell?"));
             sell_ret = ask.exec();
           }
           if (sell_ret == QMessageBox::Ok) {

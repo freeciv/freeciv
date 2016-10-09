@@ -38,7 +38,7 @@
 // gui-qt
 #include "citydlg.h"
 #include "cityrep.h"
-
+#include "hudwidget.h"
 #include "qtg_cxxside.h"
 #include "sidebar.h"
 
@@ -993,7 +993,7 @@ void units_report::upgrade_units()
   struct unit_type *upgrade;
   utype = utype_by_number(uid);
   int price;
-  QMessageBox ask(this);
+  hud_message_box ask(gui()->central_wdg);
   QString s1, s2;
   int ret;
   char buf[1024];
@@ -1013,10 +1013,9 @@ void units_report::upgrade_units()
               utype_name_translation(utype),
               utype_name_translation(upgrade), price, buf);
   s2 = QString(buf2);
-  ask.setText(s2);
+  ask.set_text_title(s2, _("Upgrade Obsolete Units"));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
-  ask.setWindowTitle(_("Upgrade Obsolete Units"));
   ret = ask.exec();
 
   switch (ret) {
@@ -1310,7 +1309,7 @@ void eco_report::disband_units()
 
   char buf[1024];
   QString s;
-  QMessageBox ask(this);
+  hud_message_box ask(gui()->central_wdg);
   int ret;
   struct unit_type *putype;
 
@@ -1322,10 +1321,9 @@ void eco_report::disband_units()
               utype_name_translation(putype), counter);
 
   s = QString(buf);
-  ask.setText(s);
+  ask.set_text_title(s, _("Disband Units"));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
-  ask.setWindowTitle(_("Disband Units"));
   ret = ask.exec();
   switch (ret) {
   case QMessageBox::Cancel:
@@ -1335,9 +1333,8 @@ void eco_report::disband_units()
     break;
   }
   s = QString(buf);
-  ask.setText(s);
+  ask.set_text_title(s, _("Disband Results"));
   ask.setStandardButtons(QMessageBox::Ok);
-  ask.setWindowTitle(_("Disband Results"));
   ask.exec();
 }
 
@@ -1349,7 +1346,7 @@ void eco_report::sell_buildings()
   struct universal selected;
   char buf[1024];
   QString s;
-  QMessageBox ask(this);
+  hud_message_box ask(gui()->central_wdg);
   int ret;
   struct impr_type *pimprove;
 
@@ -1362,10 +1359,9 @@ void eco_report::sell_buildings()
               improvement_name_translation(pimprove), counter);
 
   s = QString(buf);
-  ask.setText(s);
+  ask.set_text_title(s, _("Sell Improvements"));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
-  ask.setWindowTitle(_("Sell Improvements"));
   ret = ask.exec();
   switch (ret) {
   case QMessageBox::Cancel:
@@ -1375,9 +1371,8 @@ void eco_report::sell_buildings()
     break;
   }
   s = QString(buf);
-  ask.setText(s);
+  ask.set_text_title(s, _("Sell-Off: Results"));
   ask.setStandardButtons(QMessageBox::Ok);
-  ask.setWindowTitle(_("Sell-Off: Results"));
   ask.exec();
 }
 
@@ -1389,7 +1384,7 @@ void eco_report::sell_redundant()
   struct universal selected;
   char buf[1024];
   QString s;
-  QMessageBox ask(this);
+  hud_message_box ask(gui()->central_wdg);
   int ret;
   struct impr_type *pimprove;
 
@@ -1402,10 +1397,9 @@ void eco_report::sell_redundant()
               improvement_name_translation(pimprove), counter);
 
   s = QString(buf);
-  ask.setText(s);
+  ask.set_text_title(s, _("Sell Improvements"));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
-  ask.setWindowTitle(_("Sell Improvements"));
   ret = ask.exec();
   switch (ret) {
   case QMessageBox::Cancel:
@@ -1415,9 +1409,8 @@ void eco_report::sell_redundant()
     break;
   }
   s = QString(buf);
-  ask.setText(s);
+  ask.set_text_title(s, _("Sell-Off: Results"));
   ask.setStandardButtons(QMessageBox::Ok);
-  ask.setWindowTitle(_("Sell-Off: Results"));
   ask.exec();
 }
 
