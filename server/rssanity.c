@@ -1382,6 +1382,12 @@ bool autoadjust_ruleset_data(void)
        * semantics. */
       { ACTION_DISBAND_UNIT, ACTION_HELP_WONDER },
       { ACTION_DISBAND_UNIT, ACTION_RECYCLE_UNIT },
+
+      /* Hard code that the ability to perform a regular attack blocks city
+       * conquest. Is redundant as long as the requirement that the target
+       * tile has no units remains hard coded. Kept "just in case" that
+       * changes. */
+      { ACTION_CONQUER_CITY, ACTION_ATTACK },
     };
 
     int i;

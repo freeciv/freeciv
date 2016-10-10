@@ -5857,9 +5857,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                ACTION_NUKE);
       }
 
-      BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
-             ACTION_ATTACK);
-
       /* If the poison city action should empty the granary. */
       /* TODO: empty granary and reduce population should become separate
        * action effect flags when actions are generalized. */
