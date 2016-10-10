@@ -1396,7 +1396,7 @@ static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
    * action order. */
   fc_assert_ret_msg(!action_requires_details(action->id),
                     "Underspecified target for %s.",
-                    action_get_ui_name(action->id));
+                    action_id_name_translation(action->id));
 
   request_unit_goto(ORDER_PERFORM_ACTION, action->id, EXTRA_NONE);
 }
@@ -2366,7 +2366,7 @@ void real_menus_update(void)
 
   if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
     menus_rename("BUILD_CITY",
-                 action_get_ui_name(ACTION_HELP_WONDER));
+                 action_id_name_translation(ACTION_HELP_WONDER));
   } else {
     bool city_on_tile = FALSE;
 
@@ -2382,17 +2382,17 @@ void real_menus_update(void)
     if (city_on_tile && units_can_do_action(punits, ACTION_JOIN_CITY,
                                             TRUE)) {
       menus_rename("BUILD_CITY",
-                   action_get_ui_name(ACTION_JOIN_CITY));
+                   action_id_name_translation(ACTION_JOIN_CITY));
     } else {
       /* refresh default order */
       menus_rename("BUILD_CITY",
-                   action_get_ui_name(ACTION_FOUND_CITY));
+                   action_id_name_translation(ACTION_FOUND_CITY));
     }
   }
 
   if (units_can_do_action(punits, ACTION_TRADE_ROUTE, TRUE)) {
     menus_rename("BUILD_ROAD",
-                 action_get_ui_name(ACTION_TRADE_ROUTE));
+                 action_id_name_translation(ACTION_TRADE_ROUTE));
   } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
     char road_item[500];
     struct extra_type *pextra = NULL;
@@ -2539,13 +2539,16 @@ void real_menus_update(void)
   menus_rename("TRANSFORM_TERRAIN", transtext);
 
   if (units_can_do_action(punits, ACTION_PARADROP, TRUE)) {
-    menus_rename("CLEAN_POLLUTION", action_get_ui_name(ACTION_PARADROP));
+    menus_rename("CLEAN_POLLUTION",
+                 action_id_name_translation(ACTION_PARADROP));
   } else {
     menus_rename("CLEAN_POLLUTION", _("Clean Pollution"));
   }
 
-  menus_rename("EXPLODE_NUKE", action_get_ui_name(ACTION_NUKE));
-  menus_rename("UNIT_HOMECITY", action_get_ui_name(ACTION_HOME_CITY));
+  menus_rename("EXPLODE_NUKE",
+               action_id_name_translation(ACTION_NUKE));
+  menus_rename("UNIT_HOMECITY",
+               action_id_name_translation(ACTION_HOME_CITY));
 }
 
 /**************************************************************************
@@ -2723,7 +2726,8 @@ void real_menus_init(void)
 
         /* Create and add the menu item. It will be hidden or shown based on
          * unit type.  */
-        item = gtk_menu_item_new_with_label(action_get_ui_name(action_id));
+        item = gtk_menu_item_new_with_label(
+              action_id_name_translation(action_id));
         g_object_set_data(G_OBJECT(item), "end_action", paction);
         g_signal_connect(item, "activate",
                          G_CALLBACK(unit_goto_and_callback), paction);

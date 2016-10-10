@@ -499,7 +499,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       if (punit->homecity != pCityDlg->pCity->id) {
         /* Make new Homecity */
         pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-                                             action_get_ui_name(ACTION_HOME_CITY), adj_font(12), 0);
+            action_id_name_translation(ACTION_HOME_CITY), adj_font(12), 0);
         i++;
         area.w = MAX(area.w, pBuf->size.w);
         hh = MAX(hh, pBuf->size.h);

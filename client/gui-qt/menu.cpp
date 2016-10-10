@@ -836,7 +836,7 @@ void go_act_menu::create()
 
       /* Create and add the menu item. It will be hidden or shown based on
        * unit type.  */
-      item = addAction(action_get_ui_name(action_id));
+      item = addAction(action_id_name_translation(action_id));
       items.insert(item, action_id);
       connect(item, SIGNAL(triggered()),
               go_act_mapper, SLOT(map()));
@@ -897,7 +897,7 @@ void go_act_menu::start_go_act(int action_id)
    * action order. */
   fc_assert_ret_msg(!action_requires_details(action_id),
                     "Underspecified target for %s.",
-                    action_get_ui_name(action_id));
+                    action_id_name_translation(action_id));
 
   request_unit_goto(ORDER_PERFORM_ACTION, action_id, EXTRA_NONE);
 }
@@ -1373,7 +1373,7 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(TRANSPORTER, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unload_all()));
   menu->addSeparator();
-  act = menu->addAction(action_get_ui_name(ACTION_HOME_CITY));
+  act = menu->addAction(action_id_name_translation(ACTION_HOME_CITY));
   menu_list.insertMulti(HOMECITY, act);
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_SETHOME))));
@@ -1417,14 +1417,14 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_DO))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_action()));
-  act = menu->addAction(action_get_ui_name(ACTION_NUKE));
+  act = menu->addAction(action_id_name_translation(ACTION_NUKE));
   menu_list.insertMulti(NUKE, act);
   act->setShortcut(QKeySequence(tr("shift+n")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_nuke()));
 
   /* Work Menu */
   menu = this->addMenu(_("Work"));
-  act = menu->addAction(action_get_ui_name(ACTION_FOUND_CITY));
+  act = menu->addAction(action_id_name_translation(ACTION_FOUND_CITY));
   act->setShortcut(QKeySequence(tr("b")));
   menu_list.insertMulti(BUILD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
@@ -1479,11 +1479,11 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(FALLOUT, act);
   act->setShortcut(QKeySequence(tr("n")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_clean_fallout()));
-  act = menu->addAction(action_get_ui_name(ACTION_HELP_WONDER));
+  act = menu->addAction(action_id_name_translation(ACTION_HELP_WONDER));
   act->setShortcut(QKeySequence(tr("b")));
   menu_list.insertMulti(BUILD_WONDER, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
-  act = menu->addAction(action_get_ui_name(ACTION_TRADE_ROUTE));
+  act = menu->addAction(action_id_name_translation(ACTION_TRADE_ROUTE));
   act->setShortcut(QKeySequence(tr("r")));
   menu_list.insertMulti(ORDER_TRADEROUTE, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_road()));
@@ -1983,9 +1983,9 @@ void mr_menu::menus_sensitive()
         }
         if (city_on_tile
             && units_can_do_action(punits, ACTION_JOIN_CITY, true)) {
-          i.value()->setText(action_get_ui_name(ACTION_JOIN_CITY));
+          i.value()->setText(action_id_name_translation(ACTION_JOIN_CITY));
         } else {
-          i.value()->setText(action_get_ui_name(ACTION_FOUND_CITY));
+          i.value()->setText(action_id_name_translation(ACTION_FOUND_CITY));
         }
         break;
 
@@ -2025,7 +2025,7 @@ void mr_menu::menus_sensitive()
           i.value()->setEnabled(true);
         }
         if (units_can_do_action(punits, ACTION_PARADROP, true)) {
-          i.value()->setText(action_get_ui_name(ACTION_PARADROP));
+          i.value()->setText(action_id_name_translation(ACTION_PARADROP));
         } else {
           i.value()->setText(_("Clean Pollution"));
         }
@@ -2133,14 +2133,14 @@ void mr_menu::menus_sensitive()
         break;
 
       case BUILD_WONDER:
-        i.value()->setText(action_get_ui_name(ACTION_HELP_WONDER));
+        i.value()->setText(action_id_name_translation(ACTION_HELP_WONDER));
         if (can_units_do(punits, unit_can_help_build_wonder_here)) {
           i.value()->setEnabled(true);
         }
         break;
 
       case ORDER_TRADEROUTE:
-        i.value()->setText(action_get_ui_name(ACTION_TRADE_ROUTE));
+        i.value()->setText(action_id_name_translation(ACTION_TRADE_ROUTE));
         if (can_units_do(punits, unit_can_est_trade_route_here)) {
           i.value()->setEnabled(true);
         }
@@ -2153,7 +2153,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case NUKE:
-        i.value()->setText(action_get_ui_name(ACTION_NUKE));
+        i.value()->setText(action_id_name_translation(ACTION_NUKE));
         if (units_can_do_action(punits, ACTION_NUKE, TRUE)) {
           i.value()->setEnabled(true);
         }

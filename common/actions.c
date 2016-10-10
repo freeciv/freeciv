@@ -543,8 +543,8 @@ const char *action_rule_name(const struct action *action)
 **************************************************************************/
 const char *action_name_translation(const struct action *action)
 {
-  /* Use action_get_ui_name() to format the UI name. */
-  return action_get_ui_name(action->id);
+  /* Use action_id_name_translation() to format the UI name. */
+  return action_id_name_translation(action->id);
 }
 
 /**************************************************************************
@@ -561,7 +561,7 @@ const char *action_id_rule_name(int action_id)
   Get the action name used when displaying the action in the UI. Nothing
   is added to the UI name.
 **************************************************************************/
-const char *action_get_ui_name(int action_id)
+const char *action_id_name_translation(int action_id)
 {
   return action_prepare_ui_name(action_id, "", ACTPROB_NA, NULL);
 }

@@ -1967,7 +1967,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz,
                    /* TRANS: %s is the action's ruleset defined ui name */
                    _("* Can do the action \'%s\'.\n"),
-                   action_get_ui_name(act));
+                   action_id_name_translation(act));
 
       switch (action_id_get_target_kind(act)) {
       case ATK_SELF:
@@ -2067,7 +2067,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
           fc_snprintf(quoted, MAX_LEN_NAME,
                       /* TRANS: %s is an action that can block another. */
-                      _("\'%s\'"), action_get_ui_name(blocker));
+                      _("\'%s\'"), action_id_name_translation(blocker));
           blockers[i] = quoted;
 
           i++;
@@ -2120,7 +2120,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz,
                    _("* Doing the action \'%s\' to this unit"
                      " is impossible.\n"),
-                   action_get_ui_name(act));
+                   action_id_name_translation(act));
     }
   } action_iterate_end;
   if (!has_vet_levels) {
@@ -3518,7 +3518,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz,
                    _("* Makes it impossible to do the action \'%s\'"
                      " to your %s.\n"),
-                   action_get_ui_name(act),
+                   action_id_name_translation(act),
                    _(action_target_kind_name(
                        action_id_get_target_kind(act))));
     }

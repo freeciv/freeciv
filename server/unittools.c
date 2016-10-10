@@ -4243,7 +4243,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("%s could not do %s. No target tile."),
                       unit_link(punit),
-                      action_get_ui_name(order.action));
+                      action_id_name_translation(order.action));
 
         return TRUE;
       }
@@ -4259,7 +4259,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("%s could not do %s. No target city."),
                       unit_link(punit),
-                      action_get_ui_name(order.action));
+                      action_id_name_translation(order.action));
 
         return TRUE;
       }
@@ -4275,7 +4275,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("%s could not do %s. No target unit."),
                       unit_link(punit),
-                      action_get_ui_name(order.action));
+                      action_id_name_translation(order.action));
 
         return TRUE;
       }
@@ -4331,7 +4331,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("%s could not do %s to %s."),
                       unit_link(punit),
-                      action_get_ui_name(order.action),
+                      action_id_name_translation(order.action),
                       tile_link(dst_tile));
 
         /* Try to explain what rule made it illegal. */
@@ -4370,7 +4370,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
                       _("Orders for %s aborted because "
                         "doing %s to %s failed."),
                       unit_link(punit),
-                      action_get_ui_name(order.action),
+                      action_id_name_translation(order.action),
                       tile_link(dst_tile));
 
         return TRUE;

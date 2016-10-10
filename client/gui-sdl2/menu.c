@@ -427,7 +427,7 @@ void create_units_order_widgets(void)
 
   /* Explode Nuclear */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)",
-              action_get_ui_name(ACTION_NUKE), "Shift+N");
+              action_id_name_translation(ACTION_NUKE), "Shift+N");
   pBuf = create_themeicon(current_theme->ONuke_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -682,7 +682,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Find Homecity */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", action_get_ui_name(ACTION_HOME_CITY), "H");
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)",
+              action_id_name_translation(ACTION_HOME_CITY), "H");
   pBuf = create_themeicon(current_theme->OHomeCity_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -732,7 +733,7 @@ void create_units_order_widgets(void)
 
   /* Paradrop */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)",
-              action_get_ui_name(ACTION_PARADROP), "P");
+              action_id_name_translation(ACTION_PARADROP), "P");
   pBuf = create_themeicon(current_theme->OParaDrop_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -834,7 +835,7 @@ void create_units_order_widgets(void)
 
   /* Establish Trade route */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
-              action_get_ui_name(ACTION_TRADE_ROUTE), "R");
+              action_id_name_translation(ACTION_TRADE_ROUTE), "R");
   pBuf = create_themeicon(current_theme->OTrade_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -876,7 +877,7 @@ void create_units_order_widgets(void)
 
   /* Help Build Wonder */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)",
-              action_get_ui_name(ACTION_HELP_WONDER), "B");
+              action_id_name_translation(ACTION_HELP_WONDER), "B");
   pBuf = create_themeicon(current_theme->OWonder_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -889,9 +890,9 @@ void create_units_order_widgets(void)
 
   /* Add to City / Build New City */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
-              action_get_ui_name(ACTION_JOIN_CITY), "B");
+              action_id_name_translation(ACTION_JOIN_CITY), "B");
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
-              action_get_ui_name(ACTION_FOUND_CITY), "B");
+              action_id_name_translation(ACTION_FOUND_CITY), "B");
 
   pBuf = create_themeicon(current_theme->OBuildCity_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
@@ -1082,10 +1083,10 @@ void real_menus_update(void)
       if (unit_can_add_or_build_city(pUnit)) {
 	if (pCity) {
           fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)",
-                      action_get_ui_name(ACTION_JOIN_CITY), "B");
+                      action_id_name_translation(ACTION_JOIN_CITY), "B");
         } else {
           fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)",
-                      action_get_ui_name(ACTION_FOUND_CITY), "B");
+                      action_id_name_translation(ACTION_FOUND_CITY), "B");
 	}
         copy_chars_to_utf8_str(pOrder_Build_AddTo_City_Button->info_label,
                                cBuf);
@@ -1134,7 +1135,7 @@ void real_menus_update(void)
         if (can_establish_trade_route(pHomecity, pCity)) {
           fc_snprintf(cBuf, sizeof(cBuf),
                       _("%s With %s ( %d one time bonus + %d trade ) (R)"),
-                      action_get_ui_name(ACTION_TRADE_ROUTE),
+                      action_id_name_translation(ACTION_TRADE_ROUTE),
                       city_name_get(pHomecity),
                       revenue,
                       trade_base_between_cities(pHomecity, pCity));
@@ -1142,7 +1143,7 @@ void real_menus_update(void)
           revenue = (revenue + 2) / 3;
           fc_snprintf(cBuf, sizeof(cBuf),
                       _("%s Of %s ( %d one time bonus ) (R)"),
-                      action_get_ui_name(ACTION_MARKETPLACE),
+                      action_id_name_translation(ACTION_MARKETPLACE),
                       city_name_get(pHomecity),
                       revenue);
         }
