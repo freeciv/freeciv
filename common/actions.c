@@ -786,7 +786,7 @@ bool action_enabler_remove(struct action_enabler *enabler)
 }
 
 /**************************************************************************
-  Get all enablers for an action.
+  Get all enablers for an action in the current ruleset.
 **************************************************************************/
 struct action_enabler_list *
 action_enablers_for_action(enum gen_action action)
