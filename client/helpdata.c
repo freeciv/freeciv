@@ -4337,7 +4337,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        _("* Can do the action \'%s\' to some %s"
                          " (adds %d production).\n"),
                        /* The action may have a ruleset defined ui name. */
-                       action_get_ui_name(act),
+                       action_id_name_translation(act),
                        /* Keep the style consistent with the help for the
                         * other actions. */
                        _(action_target_kind_name(
@@ -4352,7 +4352,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                         * defined ui name and the next %s is the name of
                         * its target kind. */
                        _("* Can do the action \'%s\' to some %s.\n"),
-                       action_get_ui_name(act),
+                       action_id_name_translation(act),
                        _(action_target_kind_name(
                            action_id_get_target_kind(act))));
           break;
@@ -4396,7 +4396,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz,
                    _("* Doing the action \'%s\' to this unit"
                      " is impossible.\n"),
-                   action_get_ui_name(act));
+                   action_id_name_translation(act));
     }
   } action_iterate_end;
   if (!has_vet_levels) {
@@ -5717,7 +5717,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz,
                    _("* Makes it impossible to do the action \'%s\'"
                      " to your %s.\n"),
-                   action_get_ui_name(act),
+                   action_id_name_translation(act),
                    _(action_target_kind_name(
                        action_id_get_target_kind(act))));
     }

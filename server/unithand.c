@@ -1049,9 +1049,9 @@ static void illegal_action(struct player *pplayer,
                       _("Your %s can't do %s from %s. "
                         "Only %s can do %s from a non livable tile."),
                       unit_name_translation(actor),
-                      action_get_ui_name(stopped_action),
+                      action_id_name_translation(stopped_action),
                       terrain_name_translation(explnat->no_act_terrain),
-                      action_get_ui_name(stopped_action),
+                      action_id_name_translation(stopped_action),
                       astr_build_or_list(&astr, types, i));
 
         astr_free(&astr);
@@ -1060,7 +1060,7 @@ static void illegal_action(struct player *pplayer,
                       E_UNIT_ILLEGAL_ACTION, ftc_server,
                       _("Your %s can't do %s from %s."),
                       unit_name_translation(actor),
-                      action_get_ui_name(stopped_action),
+                      action_id_name_translation(stopped_action),
                       terrain_name_translation(explnat->no_act_terrain));
       }
     }
@@ -1070,7 +1070,7 @@ static void illegal_action(struct player *pplayer,
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   _("Your %s can't do %s to %s."),
                   unit_name_translation(actor),
-                  action_get_ui_name(stopped_action),
+                  action_id_name_translation(stopped_action),
                   terrain_name_translation(explnat->no_act_terrain));
     break;
   case ANEK_IS_TRANSPORTED:
@@ -1078,14 +1078,14 @@ static void illegal_action(struct player *pplayer,
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   _("Your %s can't do %s while being transported."),
                   unit_name_translation(actor),
-                  action_get_ui_name(stopped_action));
+                  action_id_name_translation(stopped_action));
     break;
   case ANEK_IS_NOT_TRANSPORTED:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   _("Your %s can't do %s while not being transported."),
                   unit_name_translation(actor),
-                  action_get_ui_name(stopped_action));
+                  action_id_name_translation(stopped_action));
     break;
   case ANEK_NO_WAR:
     notify_player(pplayer, unit_tile(actor),
@@ -1093,7 +1093,7 @@ static void illegal_action(struct player *pplayer,
                   _("Your %s can't do %s while you"
                     " aren't at war with %s."),
                   unit_name_translation(actor),
-                  action_get_ui_name(stopped_action),
+                  action_id_name_translation(stopped_action),
                   player_name(explnat->no_war_with));
     break;
   case ANEK_NATION_TGT:
@@ -1102,7 +1102,7 @@ static void illegal_action(struct player *pplayer,
                   /* TRANS: Riflemen... Expel Unit... Pirate... Migrants */
                   _("Your %s can't do %s to %s %s."),
                   unit_name_translation(actor),
-                  action_get_ui_name(stopped_action),
+                  action_id_name_translation(stopped_action),
                   nation_adjective_translation(explnat->no_act_nation),
                   action_target_kind_translated_name(
                     action_id_get_target_kind(stopped_action)));
@@ -1112,14 +1112,14 @@ static void illegal_action(struct player *pplayer,
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   _("Your %s has too few moves left to %s."),
                   unit_name_translation(actor),
-                  action_get_ui_name(stopped_action));
+                  action_id_name_translation(stopped_action));
     break;
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   _("Your %s was unable to %s."),
                   unit_name_translation(actor),
-                  action_get_ui_name(stopped_action));
+                  action_id_name_translation(stopped_action));
     break;
   }
 

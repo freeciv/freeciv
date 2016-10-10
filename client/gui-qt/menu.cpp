@@ -1296,11 +1296,11 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(FALLOUT, act);
   act->setShortcut(QKeySequence(tr("n")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_clean_fallout()));
-  act = menu->addAction(action_get_ui_name(ACTION_HELP_WONDER));
+  act = menu->addAction(action_id_name_translation(ACTION_HELP_WONDER));
   act->setShortcut(QKeySequence(tr("b")));
   menu_list.insertMulti(BUILD_WONDER, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
-  act = menu->addAction(action_get_ui_name(ACTION_TRADE_ROUTE));
+  act = menu->addAction(action_id_name_translation(ACTION_TRADE_ROUTE));
   act->setShortcut(QKeySequence(tr("r")));
   menu_list.insertMulti(ORDER_TRADEROUTE, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_road()));
@@ -1946,14 +1946,14 @@ void mr_menu::menus_sensitive()
         break;
 
       case BUILD_WONDER:
-        i.value()->setText(action_get_ui_name(ACTION_HELP_WONDER));
+        i.value()->setText(action_id_name_translation(ACTION_HELP_WONDER));
         if (can_units_do(punits, unit_can_help_build_wonder_here)) {
           i.value()->setEnabled(true);
         }
         break;
 
       case ORDER_TRADEROUTE:
-        i.value()->setText(action_get_ui_name(ACTION_TRADE_ROUTE));
+        i.value()->setText(action_id_name_translation(ACTION_TRADE_ROUTE));
         if (can_units_do(punits, unit_can_est_trade_route_here)) {
           i.value()->setEnabled(true);
         }

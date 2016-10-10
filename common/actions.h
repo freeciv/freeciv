@@ -158,7 +158,7 @@ bool action_is_hostile(int action_id);
 int action_get_role(int action_id);
 
 const char *action_id_rule_name(int action_id);
-const char *action_get_ui_name(int action_id);
+const char *action_id_name_translation(int action_id);
 const char *action_get_ui_name_mnemonic(int action_id,
                                         const char* mnemonic);
 const char *action_prepare_ui_name(int action_id, const char* mnemonic,
