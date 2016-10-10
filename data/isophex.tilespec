@@ -37,8 +37,6 @@ fog_style      = "Auto"
 
 ; Was darkness style "IsoRect" (single-sprite)
 darkness_style = "CardinalSingle"
-; Which terrain layer darkness is drawn top of (0-2)
-darkness_layer = 0
  
 ; offset the flags by this amount when drawing units
 unit_flag_offset_x = 17
@@ -100,6 +98,7 @@ city_productions_font_size = 10
 ;                ; are units or cities). You probably want to leave this
 ;                ; first.
 ;  "Terrain1",   ; The three terrain layers. See sections [layerN] below.
+;  "Darkness",   ; Darkness (unseen tiles)
 ;  "Terrain2",
 ;  "Terrain3",
 ;  "Water",      ; All extras with "River" style.
