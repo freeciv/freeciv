@@ -455,6 +455,13 @@ utypes = "\
 ;                 type flag.\n\
 ;\n\
 ; Following actions require extra fields:\n\
+;  \"Attack\"\n\
+;   attack = base attack strength\n\
+;  \"Bombard\"\n\
+;   attack       = base attack strength\n\
+;   bombard_rate = the number of shots fired at enemy units when attacking\n\
+;  \"Join City\"\n\
+;   pop_cost = the number of population added to the target city\n\
 ;  \"Paradrop Unit\"\n\
 ;   paratroopers_range  = the maximal range the unit can be paradropped to.\n\
 ;                         Max range is 65534.\n\
@@ -462,15 +469,8 @@ utypes = "\
 ;                         paradropping (whole movement points)\n\
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping\n\
 ;                         (whole movement points)\n\
-;  \"Bombard\"\n\
-;   attack       = base attack strength\n\
-;   bombard_rate = the number of shots fired at enemy units when attacking\n\
-;  \"Join City\"\n\
-;   pop_cost = the number of population added to the target city\n\
 ;  \"Upgrade Unit\"\n\
 ;   obsolete_by = the unit type upgraded to.\n\
-;  \"Attack\"\n\
-;   attack = base attack strength\n\
 ;\n\
 ; ** Roles **\n\
 ;\n\

@@ -374,6 +374,13 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                 type flag.
 ;
 ; Following actions require extra fields:
+;  "Attack"
+;   attack = base attack strength
+;  "Bombard"
+;   attack       = base attack strength
+;   bombard_rate = the number of shots fired at enemy units when attacking
+;  "Join City"
+;   pop_cost = the number of population added to the target city
 ;  "Paradrop Unit"
 ;   paratroopers_range  = the maximal range the unit can be paradropped to.
 ;                         Max range is 65534.
@@ -381,15 +388,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;                         (whole movement points)
-;  "Bombard"
-;   attack       = base attack strength
-;   bombard_rate = the number of shots fired at enemy units when attacking
-;  "Join City"
-;   pop_cost = the number of population added to the target city
 ;  "Upgrade Unit"
 ;   obsolete_by = the unit type upgraded to.
-;  "Attack"
-;   attack = base attack strength
 ;
 ; ** Roles **
 ;
