@@ -105,7 +105,7 @@
 
 #include "gui_main.h"
 
-const char *client_string = "gui-gtk-3.0";
+const char *client_string = "gui-gtk-3.22";
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
@@ -1649,20 +1649,19 @@ int main(int argc, char **argv)
 }
 
 /**************************************************************************
-  Migrate gtk3 client specific options from gtk2 client options.
+  Migrate gtk3.22 client specific options from gtk3 client options.
 **************************************************************************/
-static void migrate_options_from_gtk2(void)
+static void migrate_options_from_gtk3(void)
 {
-  log_normal(_("Migrating options from gtk2 to gtk3 client"));
+  log_normal(_("Migrating options from gtk3 to gtk3.22 client"));
 
-#define MIGRATE_OPTION(opt) GUI_GTK_OPTION(opt) = gui_options.gui_gtk2_##opt;
+#define MIGRATE_OPTION(opt) GUI_GTK_OPTION(opt) = gui_options.gui_gtk3_##opt;
 #define MIGRATE_STR_OPTION(opt) \
-  strncpy(GUI_GTK_OPTION(opt), gui_options.gui_gtk2_##opt,      \
+  strncpy(GUI_GTK_OPTION(opt), gui_options.gui_gtk3_##opt,      \
           sizeof(GUI_GTK_OPTION(opt)));
 
   /* Default theme name is never migrated */
-  /* Fullscreen not migrated as gtk3-client differs from gtk2-client in a way that
-   * user is likely to want default even if gtk2-client setting differs. */
+  MIGRATE_OPTION(fullscreen);
   MIGRATE_OPTION(map_scrollbars);
   MIGRATE_OPTION(dialogs_on_top);
   MIGRATE_OPTION(show_task_icons);
@@ -1697,7 +1696,7 @@ static void migrate_options_from_gtk2(void)
 #undef MIGRATE_OPTION
 #undef MIGRATE_STR_OPTION
 
-  GUI_GTK_OPTION(migrated_from_gtk2) = TRUE;
+  GUI_GTK_OPTION(migrated_from_gtk3) = TRUE;
 }
 
 /**************************************************************************
@@ -1730,8 +1729,8 @@ void ui_main(int argc, char **argv)
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = gtk_widget_get_window(toplevel);
 
-  if (!GUI_GTK_OPTION(migrated_from_gtk2)) {
-    migrate_options_from_gtk2();
+  if (!GUI_GTK_OPTION(migrated_from_gtk3)) {
+    migrate_options_from_gtk3();
   }
 
   if (GUI_GTK_OPTION(fullscreen)) {
@@ -1857,7 +1856,7 @@ void ui_exit(void)
 **************************************************************************/
 enum gui_type get_gui_type(void)
 {
-  return GUI_GTK3;
+  return GUI_GTK3_22;
 }
 
 /**************************************************************************
