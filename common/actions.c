@@ -795,6 +795,216 @@ action_enablers_for_action(enum gen_action action)
 }
 
 /**************************************************************************
+  Returns an error message text if the action enabler is missing at least
+  one of its action's obligatory hard requirement. Returns NULL if all
+  obligatory hard requirements are there.
+
+  An action may force its enablers to include one or more of its hard
+  requirements. (See the section "Actions and their hard requirements" of
+  doc/README.actions)
+
+  This doesn't include those of the action's hard requirements that can't
+  be expressed as a requirement vector or hard requirements that the
+  action doesn't force enablers to include.
+**************************************************************************/
+const char *
+action_enabler_obligatory_reqs_missing(struct action_enabler *enabler)
+{
+  enum gen_action act;
+
+  /* Sanity check: a non existing action enabler is missing but it doesn't
+   * miss any obligatory hard requirements. */
+  fc_assert_ret_val(enabler, NULL);
+
+  /* Sanity check: a non existing action doesn't have any obligatory hard
+   * requirements. */
+  fc_assert_ret_val(action_id_is_valid(enabler->action), NULL);
+
+  act = enabler->action;
+
+  if (act == ACTION_ESTABLISH_EMBASSY
+      || act == ACTION_SPY_INVESTIGATE_CITY
+      || act == ACTION_SPY_STEAL_GOLD
+      || act == ACTION_STEAL_MAPS
+      || act == ACTION_SPY_STEAL_TECH
+      || act == ACTION_SPY_TARGETED_STEAL_TECH
+      || act == ACTION_SPY_INCITE_CITY
+      || act == ACTION_SPY_BRIBE_UNIT
+      || act == ACTION_CAPTURE_UNITS
+      || act == ACTION_CONQUER_CITY) {
+    /* Why this is a hard requirement: There is currently no point in
+     * allowing the listed actions against domestic targets.
+     * (Possible counter argument: crazy hack involving the Lua
+     * callback action_started_callback() to use an action to do
+     * something else. */
+    /* TODO: Unhardcode as a part of false flag operation support. */
+
+    struct requirement domestic_tgt
+        = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                          FALSE, FALSE, TRUE, DRO_FOREIGN);
+
+    if (!does_req_contradicts_reqs(&domestic_tgt, &enabler->actor_reqs)) {
+      return "All action enablers for %s must require a foreign target.";
+    }
+  }
+
+  if (act == ACTION_BOMBARD) {
+    /* Why this is a hard requirement: there is a hard requirement that
+     * the actor player is at war with the owner of any city on the
+     * target tile. It can't move to the ruleset as long as Bombard is
+     * targeted at unit stacks only. Having the same requirement
+     * against each unit in the stack as against any city at the tile
+     * ensures compatibility with any future solution that allows the
+     * requirement against any city on the target tile to move to the
+     * ruleset. */
+
+    struct requirement domestic_tgt
+        = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                          FALSE, FALSE, TRUE, DS_WAR);
+
+    if (!does_req_contradicts_reqs(&domestic_tgt, &enabler->actor_reqs)) {
+      return "All action enablers for %s must require a "
+             "target the actor is at war with.";
+    }
+  }
+
+  if (act == ACTION_UPGRADE_UNIT) {
+    /* Why this is a hard requirement: Keep the old rules. Need to work
+     * out corner cases. */
+
+    struct requirement foreign_tgt
+        = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                          FALSE, TRUE, TRUE, DRO_FOREIGN);
+
+    if (!does_req_contradicts_reqs(&foreign_tgt, &enabler->actor_reqs)) {
+      return "All action enablers for %s must require a "
+             "domestic target.";
+    }
+  }
+
+  if (act == ACTION_HOME_CITY) {
+    /* Why this is a hard requirement: Preserve semantics of NoHome
+     * flag. Need to replace other uses in game engine before this can
+     * be demoted to a regular unit flag. */
+
+    struct requirement nohome_flag
+        = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                          FALSE, TRUE, TRUE, UTYF_NOHOME);
+
+    if (!does_req_contradicts_reqs(&nohome_flag, &enabler->actor_reqs)) {
+      return "All action enablers for %s must require that "
+             "the actor doesn't have the NoHome utype flag.";
+    }
+  }
+
+  if (act == ACTION_ATTACK
+      || act == ACTION_CONQUER_CITY) {
+    /* Why this is a hard requirement: Preserve semantics of NonMil
+     * flag. Need to replace other uses in game engine before this can
+     * be demoted to a regular unit flag. */
+
+    struct requirement nonmil_flag
+        = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                          FALSE, TRUE, TRUE, UTYF_CIVILIAN);
+
+    if (!does_req_contradicts_reqs(&nonmil_flag, &enabler->actor_reqs)) {
+      return "All action enablers for %s must require that "
+             "the actor doesn't have the NonMil utype flag.";
+    }
+  }
+
+  if (act == ACTION_CONQUER_CITY) {
+    /* Why this is a hard requirement: Preserve semantics of
+     * CanOccupyCity unit class flag. */
+
+    struct requirement contradiction
+        = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                          FALSE, FALSE, TRUE, UCF_CAN_OCCUPY_CITY);
+
+    if (!does_req_contradicts_reqs(&contradiction, &enabler->actor_reqs)) {
+      return "All action enablers for %s must require that "
+             "the actor has the CanOccupyCity uclass flag.";
+    }
+  }
+
+  if (act == ACTION_CONQUER_CITY) {
+    /* Why this is a hard requirement: Consistency with ACTION_ATTACK.
+     * Assumed by other locations in the Freeciv code. Examples:
+     * unit_move_to_tile_test() and unit_conquer_city(). */
+
+    struct requirement contradiction
+        = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                          FALSE, FALSE, TRUE, DS_WAR);
+
+    if (!does_req_contradicts_reqs(&contradiction, &enabler->actor_reqs)) {
+      return "All action enablers for %s must require that "
+             "the actor is at war with the target.";
+    }
+  }
+
+  if (act == ACTION_CONQUER_CITY) {
+    /* Why this is a hard requirement: a unit must move into a city to
+     * conquer it. */
+
+    struct requirement contradiction
+        = req_from_values(VUT_MINMOVES, REQ_RANGE_LOCAL,
+                          FALSE, FALSE, TRUE, 1);
+
+    if (!does_req_contradicts_reqs(&contradiction, &enabler->actor_reqs)) {
+      return "All action enablers for %s must require that "
+             "the actor has a movement point left.";
+    }
+  }
+
+  if (act == ACTION_CONQUER_CITY) {
+    /* Why this is a hard requirement: this eliminates the need to
+     * check if units transported by the actor unit can exist at the
+     * same tile as all the units in the occupied city.
+     *
+     * This makes an implicit rule explicit:
+     * 1. A unit must move into a city to conquer it.
+     * 2. It can't move into the city if the tile contains a non allied
+     *    unit (see unit_move_to_tile_test()).
+     * 3. A city could, at the time this rule was made explicit, only
+     *    contain units allied to its owner.
+     * 3. A player could, at the time this rule was made explicit, not
+     *    be allied to a player that is at war with another ally.
+     * 4. A player could, at the time this rule was made explicit, only
+     *    conquer a city belonging to someone he was at war with.
+     * Conclusion: the conquered city had to be empty.
+     */
+
+    struct requirement contradiction
+        = req_from_values(VUT_MAXTILEUNITS, REQ_RANGE_LOCAL,
+                          FALSE, FALSE, TRUE, 0);
+
+    if (!does_req_contradicts_reqs(&contradiction, &enabler->target_reqs)) {
+      return "All action enablers for %s must require that "
+             "the target city is empty.";
+    }
+  }
+
+  if (act == ACTION_PARADROP
+      || act == ACTION_AIRLIFT) {
+    /* Why this is a hard requirement: Assumed in the code. Corner case
+     * where diplomacy prevents a transported unit to go to the target
+     * tile. The paradrop code doesn't check if transported units can
+     * coexist with the target tile city and units. */
+
+    struct requirement transporting
+        = req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                          FALSE, TRUE, TRUE, USP_TRANSPORTING);
+
+    if (!does_req_contradicts_reqs(&transporting, &enabler->actor_reqs)) {
+      return "All action enablers for %s must require that "
+             "the actor isn't transporting another unit.";
+    }
+  }
+
+  return NULL;
+}
+
+/**************************************************************************
   Returns TRUE iff the specified player knows (has seen) the specified
   tile.
 **************************************************************************/
