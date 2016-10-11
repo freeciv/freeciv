@@ -470,6 +470,11 @@ struct action_enabler *action_enabler_new(void)
 **************************************************************************/
 void action_enabler_add(struct action_enabler *enabler)
 {
+  /* Sanity check: a non existing action enabler can't be added. */
+  fc_assert_ret(enabler);
+  /* Sanity check: a non existing action doesn't have enablers. */
+  fc_assert_ret(action_id_is_valid(enabler->action));
+
   action_enabler_list_append(
         action_enablers_for_action(enabler->action),
         enabler);
@@ -482,6 +487,11 @@ void action_enabler_add(struct action_enabler *enabler)
 **************************************************************************/
 bool action_enabler_remove(struct action_enabler *enabler)
 {
+  /* Sanity check: a non existing action enabler can't be removed. */
+  fc_assert_ret_val(enabler, FALSE);
+  /* Sanity check: a non existing action doesn't have enablers. */
+  fc_assert_ret_val(action_id_is_valid(enabler->action), FALSE);
+
   return action_enabler_list_remove(
         action_enablers_for_action(enabler->action),
         enabler);
@@ -493,6 +503,9 @@ bool action_enabler_remove(struct action_enabler *enabler)
 struct action_enabler_list *
 action_enablers_for_action(enum gen_action action)
 {
+  /* Sanity check: a non existing action doesn't have enablers. */
+  fc_assert_ret_val(action_id_is_valid(action), NULL);
+
   return action_enablers_by_action[action];
 }
 
