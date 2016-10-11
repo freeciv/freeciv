@@ -3067,8 +3067,12 @@ static bool unit_survive_autoattack(struct unit *punit)
       if (penemy->moves_left > 0
           && ds == DS_WAR
           && is_suitable_autoattack_unit(penemy)
-          && (unit_attack_unit_at_tile_result(penemy, punit, unit_tile(punit)) 
-              == ATT_OK)) {
+          && (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
+                                              penemy, unit_tile(punit))
+              || is_action_enabled_unit_on_units(ACTION_BOMBARD,
+                                                 penemy, unit_tile(punit))
+              || is_action_enabled_unit_on_tile(ACTION_ATTACK, penemy,
+                                                unit_tile(punit)))) {
         unit_list_prepend(autoattack, penemy);
       }
     } unit_list_iterate_end;
