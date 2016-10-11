@@ -3,7 +3,7 @@
 # FC_GTK3X_CLIENT
 # Test for GTK+-3.0 libraries needed for gui-gtk-3.x
 
-AC_DEFUN([FC_GTK3X_CLIENT],
+AC_DEFUN([FC_GTK3_22_CLIENT],
 [
   # Add check "x$client" = "xauto"  when this becomes supported client
   if test "x$gui_gtk3x" = "xyes" ||

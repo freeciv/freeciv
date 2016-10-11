@@ -978,8 +978,8 @@ if test "x$client" != "xno"; then
   dnl SDL2-specific overrides
   FC_SDL2_CLIENT
 
-  dnl Gtk-3.x-specific overrides
-  FC_GTK3X_CLIENT
+  dnl Gtk-3.22-specific overrides
+  FC_GTK3_22_CLIENT
 
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
