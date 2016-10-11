@@ -45,6 +45,8 @@ bool strvec_set(struct strvec *psv, size_t svindex, const char *string);
 bool strvec_remove(struct strvec *psv, size_t svindex);
 
 size_t strvec_size(const struct strvec *psv);
+bool are_strvecs_equal(const struct strvec *stv1,
+                       const struct strvec *stv2);
 const char *const *strvec_data(const struct strvec *psv);
 bool strvec_index_valid(const struct strvec *psv, size_t svindex);
 const char *strvec_get(const struct strvec *psv, size_t svindex);

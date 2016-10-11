@@ -346,6 +346,27 @@ size_t strvec_size(const struct strvec *psv)
 }
 
 /**************************************************************************
+  Returns TRUE if stv1 and stv2 are equal.
+**************************************************************************/
+bool are_strvecs_equal(const struct strvec *stv1,
+                       const struct strvec *stv2)
+{
+  int i;
+
+  if (strvec_size(stv1) != strvec_size(stv2)) {
+    return FALSE;
+  }
+
+  for (i = 0; i < strvec_size(stv1); i++) {
+    if (0 != strcmp(stv1->vec[i], stv2->vec[i])) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Returns the datas of the vector.
 **************************************************************************/
 const char *const *strvec_data(const struct strvec *psv)
