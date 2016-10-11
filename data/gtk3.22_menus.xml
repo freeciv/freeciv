@@ -260,13 +260,6 @@
               <object class="GtkMenuItem" id="UNIT_GOTO" />
             </child>
             <child>
-              <object class="GtkMenuItem" id="MENU_GOTO_AND" >
-                <child type="submenu">
-                  <object class="GtkMenu" id="<MENU>/GOTO_AND" />
-                </child>
-              </object>
-            </child>
-            <child>
               <object class="GtkMenuItem" id="UNIT_GOTO_CITY" />
             </child>
             <child>
@@ -330,9 +323,6 @@
             </child>
             <child>
               <object class="GtkMenuItem" id="GO_BUILD_CITY" />
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="GO_JOIN_CITY" />
             </child>
             <child>
               <object class="GtkMenuItem" id="AUTO_SETTLER" />
