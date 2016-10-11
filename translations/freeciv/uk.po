@@ -1,13 +1,13 @@
 # Freeciv ukrainian translation 
-# Copyright (C)2003 Roman Festchook
+# Copyright (C)2016 Svaitoslav Golda, Roman Festchook
 # This file is distributed under the same license as the freeciv package.
-# Roman Festchook <roma@polesye.net>, 2003.
+# Roman Festchook <swiatos@gamil.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-30 13:20+0100\n"
-"PO-Revision-Date: 2011-10-06 17:27+0300\n"
+"PO-Revision-Date: 2016-10-06 17:27+0300\n"
 "Last-Translator: Sviatoslav Golda<swiatos@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -21548,7 +21548,7 @@ msgid ""
 "Spies built under a Communist government will start at the first veteran "
 "level (handler)."
 msgstr ""
-"Шпигуни збудовані за Комунстичного уряду, почнуть з першим ветеранським "
+"Шпигуни збудовані за Комунsстичного уряду, почнуть з першим ветеранським "
 "рівнем (виконавець)."
 
 #: data/classic/units.ruleset:2156 data/experimental/units.ruleset:2182
@@ -21562,10 +21562,10 @@ msgid ""
 "own one city, trade in each city is doubled, but you only get the benefit "
 "from one end of the route."
 msgstr ""
-"Каравани вміють встановлючати торгові шляхи як з вашими містами, так і "
-"іноземними (навіть з ворогами) подорожуючи до них. Бариші від поточного шляху "
-"подвояться, якщо міста-учаники на різних континентах, і ще вдвічі зростуть, "
-"коли належать різним цивілізаціям. Остання умова значить що чистий прибуток "
+"Каравани вміють встановлювати торгові шляхи як з вашими містами, так і з "
+"іноземними, (навіть з ворогами) подорожуючи до них. Бариші від поточного шляху "
+"подвояться, якщо міста-учасники на різних континентах, і ще вдвічі зростуть, "
+"коли належать різним цивілізаціям. Остання умова значить, що чистий прибуток "
 "Вашої цивілізації з торгового шляху такий же, незважаючи на те чи є ви "
 "власником обох міст, чи одного; якщо ви володієте одним - торгівля в обох "
 "містах подвоюється, але ви отримуєте прибуток лише з одного кінця торгового "
@@ -21577,6 +21577,9 @@ msgid ""
 "technologies Magnetism and The Corporation each increase this limit by one; "
 "knowing both allows cities to support four trade routes each."
 msgstr ""
+"Спочатку міста можуть підтримувати не більше двох торгових шляхів. Знання "
+"Магнетизму та Корпорацій, кожне збільшують обмеження на одиницю; знаючи "
+"обидві технології, дає містам можливість мати чотири торгових шляхи."
 
 #: data/classic/units.ruleset:2242 data/experimental/units.ruleset:2269
 #: data/civ2civ3/units.ruleset:2428 data/multiplayer/units.ruleset:2328
@@ -21587,7 +21590,7 @@ msgstr "Ватажок"
 #: data/civ2civ3/units.ruleset:2461 data/multiplayer/units.ruleset:2361
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
-"Це Ви. Якщо Ви втратите цей підрозділ, Ви програєте гру. Отож не робіть "
+"Це Ви. Якщо втратите цей підрозділ, Ви програєте гру. Тож не втрачайте."
 "цього."
 
 #: data/classic/units.ruleset:2322 data/experimental/units.ruleset:2349
@@ -21602,8 +21605,9 @@ msgid ""
 "advanced radar that can determine the location of enemy units over a wide "
 "area."
 msgstr ""
-"Літак спостереження - це літак з потужним радаром що може виявити "
-"розташування ворожих загонів на широких просторах."
+"Літак спостереження (повітряна система нагляду і попередження) - це літак з "
+"потужним радаром що може визначити розташування ворожих загонів на широких "
+"просторах."
 
 #: data/experimental/buildings.ruleset:103
 msgid ""
@@ -21611,12 +21615,12 @@ msgid ""
 "within the city. After Industrialization is researched this effect of the "
 "Aqueduct is reduced."
 msgstr ""
-"Дозволяє місту зростати у розмірі понад 8 та зменшує ризик пошесті в місті. "
+"Дозволяє місту ростати понад 8 розмір, та зменшує ризик пошесті в місті. "
 "Після Індустріалізації цей ефект Водогону зменшується."
 
 #: data/experimental/buildings.ruleset:107
 msgid "A Sewer System is required for a city to grow larger than size 12."
-msgstr "Каналізація потрібна місту аби вирости більшим ніж розмір 12 "
+msgstr "Каналізація потрібна місту аби вирости більшим ніж 12-й розмір."
 
 #: data/experimental/buildings.ruleset:396
 msgid "Hospital"
@@ -21642,7 +21646,7 @@ msgid ""
 "A Genetic Laboratory allows the genetic optimization of plants and animals. "
 "The food output is increased by 25% if the city size exceeds 20."
 msgstr ""
-"У Генетичній Лабораторії досліджуються медикаменти. Ймовірність пошесті у "
+"У Генетичній Лабораторії досліджуються медикаменти. Імовірність пошесті в "
 "місті зменшується.\n"
 "Генетична Лабораторія дозволяє генне модифікування рослин і тварин. "
 "Виробництво їжі зростає на 20%, якщо розмір міста перевищує 20."
@@ -21653,6 +21657,8 @@ msgid ""
 "If a metropolis (city size > 30) has a Mass Transit and a Super Highway the "
 "city radius is further increased."
 msgstr ""
+"Якщо метрополія (місто розміром > 30) має Громадський Транспорт і Супер Шосе, "
+"радіус міста ще більше виросте."
 
 #: data/experimental/buildings.ruleset:850
 msgid ""
@@ -21660,12 +21666,12 @@ msgid ""
 "for a city to grow larger than size 8. The Sewer System further reduces the "
 "chance of a plague."
 msgstr ""
-"Дозволяє місту зростати у розмірі понад 12. Спершу потрібен Водогін для "
-"росту міста понад 8. Надалі, каналізація зменшує ризик пошесті."
+"Дозволяє місту рости в розмірах понад 12. Спершу потрібен Водогін для "
+"росту міста понад 8. Каналізація додатково зменшує ризик пошесті."
 
 #: data/experimental/buildings.ruleset:1065
 msgid "The work of the priests also reduces the effect of plague in the city."
-msgstr ""
+msgstr "Робота священника також зменшує ризикпошесті в місті."
 
 #: data/experimental/buildings.ruleset:1189
 msgid ""
@@ -21688,10 +21694,14 @@ msgid ""
 "playability. A description of the differences from the classic ruleset can "
 "be found in README.ruleset_experimental."
 msgstr ""
+"Ви граєте експериментальним набором правил. Це випробовує новинки і "
+"незвичайності доступні у Freeciv без потреби в строгому балансування чи "
+"гральності. Опис відмінностей від класичного набору правил можна знайти в "
+"README.ruleset_experimental."
 
 #: data/experimental/governments.ruleset:77
 msgid "Under Anarchy, technology cannot be lost due to lack of upkeep."
-msgstr ""
+msgstr "За Анархії, не можна втратити технологію через нестачу утримання."
 
 #: data/experimental/techs.ruleset:777
 msgid ""
@@ -21705,26 +21715,32 @@ msgid ""
 "terrain such as Mountains and Forest. On some terrain, roads also provide a "
 "trade bonus."
 msgstr ""
+"Дороги прискорюють рух ваших підрозділів, і дозволяють Великим Наземним "
+"загонам, до прикладу Катапультам і Дальнобійникам мандрувати непрохідною "
+"місцевістю - Лісом чи Горами. На деяких місцевостях дороги дають торгові "
+"бонуси."
 
 #: data/experimental/terrain.ruleset:1232 data/civ2civ3/terrain.ruleset:1286
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units travel considerably faster along railroads than along roads."
 msgstr ""
+"Після того як винайшли Залізницю, можна покращувати дороги до залізниць. "
+"Загони ходять значно швидше по залізіницях ніж по дорогах."
 
 #: data/experimental/terrain.ruleset:1246
 msgid "Maglev"
-msgstr ""
+msgstr "Маглев"
 
 #: data/experimental/terrain.ruleset:1268
-#, fuzzy
 msgid ""
 "With sufficient technology, you may build magnetic levitation systems along "
 "your railroad routes. Land units expend no movement points when riding a "
 "maglev; you may ride indefinitely. (As may your enemies!)"
 msgstr ""
-" - Загони не витрачають ходів при русі по залізниці. Ви можете їздити "
-"залізницею скільки завгодно. (Втім, Ваші вороги теж можуть!)"
+"Маючи достатньо технологій, можна будувати системи магнітної левітації вздовж"
+"залізниць. Сухопутні загони не витрачають ходів при русі по маглеву. Ви "
+"можете їздити ним скільки завгодно. (Втім, Ваші вороги теж так можуть!)"
 
 #: data/experimental/terrain.ruleset:1272
 msgid ""
@@ -21738,9 +21754,10 @@ msgid ""
 "City center tiles with railroads are automatically upgraded to maglev when "
 "you learn about Superconductors."
 msgstr ""
+"Поля центру міст з залізницями автоматично покращуютья до маглев, коли Ви "
+"вивчаєте Надпровідники"
 
 #: data/experimental/terrain.ruleset:1296
-#, fuzzy
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
 "resources produced by that tile. It also increases a tile's defense factor "
@@ -21748,8 +21765,7 @@ msgid ""
 msgstr ""
 "Будь яка територія суходолу може містити Річку. Річка додає 1 торгівлю до "
 "ресурсів, що виробляються на цій території. Крім того, захисний фактор "
-"підвищується на 50%. Врешті, наземні підрозділи можуть рухатися вздовж річки "
-"(але не по діагоналі); рух вздовж річки коштує лише 1/3 звичайного руху."
+"підвищується на 50%."
 
 #: data/experimental/terrain.ruleset:1300
 msgid ""
@@ -21758,6 +21774,9 @@ msgid ""
 "through otherwise difficult terrain. Triremes may also travel up rivers "
 "(although later boats cannot)."
 msgstr ""
+"Врешті, наземні підрозділи можуть рухатися вздовж річки швидше (але не по "
+"діагоналі); Великі наземні загони рухаються здовж неї через інакше непрохідні "
+"землі. Триреми, також можуть рухтися вздовж рік (проте пізніші човни вже ні). "
 
 #: data/experimental/terrain.ruleset:1305
 #, fuzzy
@@ -21765,8 +21784,8 @@ msgid ""
 "Roads, railroads, and maglev can only be built on River tiles if your "
 "civilization has learned Bridge Building technology."
 msgstr ""
-"Шляхи та Залізниці можна будувати на річках лише за умови відкриття вашою "
-"цивілізацією технології Мостобудування."
+"Дороги , залізниці і маглеви можна будувати на річках лише за умови "
+"відкриття вашою цивілізацією технології Мостобудування."
 
 #. TRANS: "Big Land" is a unit class, like Land or Sea. Big Land units
 #. TRANS: cannot move into rough terrain. Unit class names are used
@@ -21779,20 +21798,19 @@ msgstr "Великий наземний"
 #. TRANS: Worker veteran level
 #: data/experimental/units.ruleset:466 data/experimental/units.ruleset:533
 msgid "?worker_level:apprentice"
-msgstr ""
+msgstr "підмайстер"
 
 #. TRANS: Worker veteran level
 #: data/experimental/units.ruleset:468 data/experimental/units.ruleset:535
 msgid "?worker_level:journeyman"
-msgstr ""
+msgstr "мандрівник"
 
 #. TRANS: Worker veteran level
 #: data/experimental/units.ruleset:470 data/experimental/units.ruleset:537
 msgid "?worker_level:master"
-msgstr ""
+msgstr "майстер"
 
 #: data/experimental/units.ruleset:788 data/civ2civ3/units.ruleset:886
-#, fuzzy
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city -- "
 "they automatically assume defensive positions in the surrounding countryside "
@@ -21802,16 +21820,13 @@ msgid ""
 " - You must know about Communism and Gunpowder.\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
-"Кількість партизан залишаеться необмеженою коли ворог захоплює Ваше місто, "
-"лише за наступних умов:\n"
-"\n"
-" - Партизанська війна повинна бути відомою хоча б одному гравцю.\n"
-"\n"
-" - Ви повинні бути гравцем якій збудував місто.\n"
-"\n"
+"Коли ворог захоплює Ваше місто - кілька загонів партизанів надається "
+"безоплатно, вони автоматично займають захисні позиції в навколишній сільській "
+"місцевості. Але лише за наступних умов:\n"
+" - Партизанську війну має знати хоча б однин гравець.\n"
+" - Ви повинні бути гравцем котрий заснував це місто.\n"
 " - Ви повинні знати про Комунізм та Порох.\n"
-"\n"
-" - У Вас повинна бути форма правління Демократія або Комунізм."
+" - Маєте правити Демократією чи Комунізмом."
 
 #: data/experimental/units.ruleset:920
 msgid ""
@@ -21954,6 +21969,9 @@ msgid ""
 "doubled by this improvement; for cities larger than size 8, it is increased "
 "by two-thirds."
 msgstr ""
+"Дає +100% додачу до сили захисту внутрішнім оборонцям міста, проти нападів "
+"ворожих кораблів. Для менших міст сила захисту подвоюється, цею будівлею, "
+"для міст більших за 8, збільшуєтьсч на дві третіх."
 
 #: data/civ2civ3/buildings.ruleset:362 data/multiplayer/buildings.ruleset:89
 msgid "Amphitheater"
@@ -21965,32 +21983,34 @@ msgid ""
 "waste). In your capital, corruption and production waste is eliminated. A "
 "Granary together with a Courthouse in a city will eliminate food waste."
 msgstr ""
+"вполовинює всі типи втрат в місті (корупція, виробничі втрати і втрати їжі). "
+"У столиці, хабарництво і виробничі втрати знешкоджуються. Амбар вкупі з Судом "
+"в місті забирають втрати їжі."
 
 #: data/civ2civ3/buildings.ruleset:403
-#, fuzzy
 msgid ""
 "Also makes one unhappy citizen content (unless that citizen is unhappy about "
 "military activity), and makes the revolt cost of the city 4 times bigger."
 msgstr ""
-"Зменшує корупцію в місті на 50%. За Демократії Суд також нейтралізує 1 "
-"незадоволеного (якщо це не через військові дії). Також збільшує вартість "
-"революції у місті в 4 рази."
+"Також задовльняє одного незадоволеного (якщо це не через військові дії). "
+"Також збільшує вартість повстання у місті в 4 рази."
 
 #: data/civ2civ3/buildings.ruleset:425
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the shield production in a city by 25%, or 50% with an electrical "
 "plant of any kind in the same city."
 msgstr ""
-"Підвищує виробництво у місті на 50%. Також суттєво збільшує забруднення."
+"Підвищує виробництво в місті на 25%, або 50% з електростанцією будь-якого "
+"виду в тому ж місті."
 
 #: data/civ2civ3/buildings.ruleset:428
-#, fuzzy
 msgid ""
 "This increase in production may contribute significantly to pollution; a "
 "Factory also increases the pollution caused by the population of the city."
 msgstr ""
-"Підвищує виробництво у місті на 50%. Також суттєво збільшує забруднення."
+"Це збільшення виробництватакож робить суттєвий вплив на забруднення. Також "
+"Фабрика збільшує забіруднення від населення міста."
 
 #: data/civ2civ3/buildings.ruleset:449
 msgid ""
@@ -21999,31 +22019,38 @@ msgid ""
 "is extended to cities of size 4 and above. (10 food points is half what a "
 "small city needs to grow, but more points are needed for later growth steps.)"
 msgstr ""
+"Коли мале місто росте чи зменшується, 10 одиничок іжі зберігаються, це помагає"
+" містам рости швидше і легше переносити голод. З Амбаром це поширюється на "
+"міста 4-го розміру і більше. (10 од іжі - половина потрібного містечку для "
+"росту, але значно більше потрібно на пізніших кроках зростання.)"
 
 #: data/civ2civ3/buildings.ruleset:455
 msgid ""
 "A Granary also halves the food wasted in cities far from your capital. "
 "Together with a Courthouse it eliminates food waste."
 msgstr ""
+"Також Амбар вполовинює втрати їжі в містах далеко від столиці. Разом з "
+"Судом викорінює втрати іжі."
 
 #: data/civ2civ3/buildings.ruleset:458
 msgid ""
 "TIP: to maximise the speed with which a city grows, you should build a "
 "Granary before it grows larger than size 4."
 msgstr ""
+"Підказка: для максимізації швидкості росту міста, треба будувати Амбар до "
+"того як виросте більшим за 4-й розмір."
 
 #: data/civ2civ3/buildings.ruleset:480
-#, fuzzy
 msgid ""
 "Gives one extra food resource on all Ocean or Deep Ocean tiles (but not "
 "Lakes). The city needs to be coastal to build this improvement."
 msgstr ""
-"Збільшує на 1 кількість їжі на всіх Океанських територіях. Місто має бути "
-"прибережним, аби побудувати цю будівлю."
+"Збільшує на 1 кількість їжі на всіх Океанських клітинках (але не на Озерах). "
+"Місто має бути прибережним, аби побудувати цю будівлю."
 
 #: data/civ2civ3/buildings.ruleset:503 data/civ2civ3/buildings.ruleset:636
 #: data/civ2civ3/buildings.ruleset:791 data/civ2civ3/buildings.ruleset:940
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Any kind of electrical plant increases the shield production effects of any "
 "Factory or Mfg. Plant in its city by 25% each. Thus, an electrical plant in "
@@ -22032,12 +22059,11 @@ msgid ""
 "Factory, and Mfg. Plant together give a 100% production bonus. The extra "
 "production may lead to the city generating more pollution."
 msgstr ""
-"Збільшує виробництво на Фабриках та Заводах у місті: Фабрика та Теплостанція "
-"разом дають приріст виробництва 75%, Фабрика, Завод та Теплостанція разом "
-"дають 150% прирісту виробництва. Додаткове виробництво може призвести до "
-"того що місто буде виробляти більше забруднення.\n"
-"\n"
-"Місто може мати лише одну Тепло, Гідро, Атомну чи Соняшну станцію."
+"Будь-яка електростанція збільшує ефекти виробництва Фабрики чи Заводу на 25%. "
+"Так електростанція з Фабрикою чи Заводом дадуть 50% додачу до виробництва "
+"порівняно з їх відсутністю; електростанція фабрика і завод разом дадуть 100% "
+"приріст. Додаткове виробництво може призвести до того що місто вироблятиме "
+"більше забруднення."
 
 #: data/civ2civ3/buildings.ruleset:514
 #, no-c-format
@@ -22048,31 +22074,36 @@ msgid ""
 "Hoover Dam. (A Hydro Plant's effect is the same as that of a Nuclear Plant; "
 "with the Hoover Dam, its effect is increased to that of a Solar Plant.)"
 msgstr ""
+"Проте гідростанція, ще й зменшує забруднення від виробництва(щитів) до 50% "
+"від норми, або до 25% разом з Переробним Комбінатом; забруднення скоротиться "
+"ще для гравця, який володіє Дамбою Гувера. (ефекти гідростанції такі ж як і в "
+" атомної станції; з Дамбою Гувера стануть як в Сонячної Станції)."
 
 #: data/civ2civ3/buildings.ruleset:542
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the science output in a city by 50%, or by 100% once the Great "
 "Library has been built by any player."
-msgstr "Підвищує розвиток науки у місті на 100%."
+msgstr "Підвищує розвиток науки в місті на 50%, або на 100% коли хтось збудує "
+"Велику Бібліотеку."
 
 #: data/civ2civ3/buildings.ruleset:582
-#, fuzzy
 msgid ""
 "Reduces the pollution generated by the population in a city; this building "
 "counteracts the additional pollution associated with any two other buildings."
 msgstr ""
-"Нейтралізує забруднення що виникає завдяки населенню. Населення зазвичай не "
-"впливає, якщо забруднення виникає у місті."
+"Скорочує забруднення вироблене населенням міста. Ця будівля знешкоджує "
+"додаткове забруднення пов’язане з двома іншими будівлями."
 
 #: data/civ2civ3/buildings.ruleset:605
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the shield production in a city by an additional 25%, or 50% with "
 "an electrical plant of any kind in the same city; this effect is cumulative "
 "with that of a Factory."
 msgstr ""
-"Підвищує виробництво у місті на 50%. Також суттєво збільшує забруднення."
+"Підвищує виробництво в місті на додаткових 25%, або на 50% з електростанцією "
+"будь-якого виду в тому ж місті; цей ефект сукупний з таким же від Фабрики."
 
 #: data/civ2civ3/buildings.ruleset:609
 msgid ""
@@ -22080,6 +22111,8 @@ msgid ""
 "produce up to two units each turn (but only single units of types which cost "
 "population)."
 msgstr ""
+"З достатнім рівнем виробництва (щитів), міста з Заводом можеть випускати до "
+"двох загонів на хід (але лише один для типу загонів, що коштують населення)."
 
 #: data/civ2civ3/buildings.ruleset:613
 #, fuzzy
@@ -22088,7 +22121,8 @@ msgid ""
 "pollution; a Manufacturing Plant also increases the pollution caused by the "
 "population of the city."
 msgstr ""
-"Підвищує виробництво у місті на 50%. Також суттєво збільшує забруднення."
+"Це збільшення виробництва також суттєво збільшує забруднення, до того ж Завод "
+"підвищує забруднення спричинене населенням міста."
 
 #: data/civ2civ3/buildings.ruleset:647
 #, no-c-format
@@ -22097,23 +22131,24 @@ msgid ""
 "production to 50% of its normal value, or 25% in combination with a "
 "Recycling Center. (Its effect is the same as that of a Hydro Plant.)"
 msgstr ""
+"Проте, Атомна Станція (АЕС) зменшує забруднення від виробництва до 50% від "
+"нормального значення,або до 25% сукупно з Переробним Комбінатом . (ЇЇ дія "
+"така ж як і в ГЕС."
 
 #: data/civ2civ3/buildings.ruleset:675
-#, fuzzy
 msgid ""
 "Every Ocean tile worked by the city yields one extra shield resource, as "
 "well as any Deep Ocean tile containing a Buoy. The city needs to be coastal "
 "to build this improvement."
 msgstr ""
-"Збільшує на 1 виробництво з усіх океанських територій у місті. Аби "
-"побудувати Офшорну платформу місту потрібно бути прибережним."
+"Збільшує на 1 виробництво з усіх океанських клітин оброблюваних містом, також "
+"з Глибокого Океану, що має Буй. Місто має бути прибережним, щоб збудувати це."
 
 #: data/civ2civ3/buildings.ruleset:679
-#, fuzzy
 msgid ""
 "Offshore Platforms also increase the pollution caused by the population of "
 "the city."
-msgstr "* Збільшує забруднення, спричинене населенням.\n"
+msgstr "Прибережні платформи збільшують забруднення спричинене населенням."
 
 #: data/civ2civ3/buildings.ruleset:700
 #, fuzzy
@@ -22124,18 +22159,18 @@ msgid ""
 "production waste in your capital itself is half of what it would otherwise "
 "be (and a Courthouse will eliminate it entirely)."
 msgstr ""
-"Робіть місто столицею та центром Вашого уряду. Корупція в інших містах "
-"залежить від того, як далеко від столиці вони знаходяться, за виключенням "
-"форм правління Демократії та Комунізму. Вартість збурення революції у місті "
-"також залежить від відстані до столиці (за усіх форм правління)."
+"Робить місто столицею та центром Вашого уряду. Втрати (корупція, втрати "
+"виробництва, втрати іжі) в інших містах залежать від того, як далеко від "
+"столиці вони знаходяться. Поверх цього корупція і втрати виробництва у, "
+" власне, столиці половина від тих, що могли б бути. (Суд прибере їх повністю)."
 
 #: data/civ2civ3/buildings.ruleset:724
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Under Despotism the city containing the palace gains a +75% gold bonus, and "
 "under Monarchy a +50% gold bonus."
 msgstr ""
-"За Деспотизму місто з палацом набуває +75% бонус до виробництва, а за "
+"За Деспотизму місто з палацом набуває +75% додачі до золота, а за "
 "Монархії +50%."
 
 #: data/civ2civ3/buildings.ruleset:744
@@ -26783,13 +26818,13 @@ msgstr ""
 "союзникам."
 
 #: data/helpdata.txt:1833
-#, fuzzy
 msgid ""
 "  - Messages starting with '.' will be sent only to all your allies (or, if "
 "you're a global observer, only to other global observers)."
 msgstr ""
-"  - Повідомлення, які починаються із '.' будуть надіслану тільки вашим "
-"союзникам."
+"  - Повідомлення, що починаються на '.' будуть надіслані тільки вашим "
+"союзникам, (якщо ви глобальний спостерігач то лише іншим глобальним "
+"оглядачам)."
 
 #: data/helpdata.txt:1836
 msgid ""
@@ -26912,6 +26947,9 @@ msgid ""
 "sentence, like '[i][c fg=\"blue\"]this [b]is [s]funny[c bg=\"green\"] [u]to[/"
 "i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr ""
+"Звичайно різні екрановані послідовності можна суміщати в том ж реченні, отак: "
+"'[i][c fg=\"blue\"]це [b]таки [s]весело[c bg=\"green\"] [u]так[/"
+"i] тестувати[/b] цю[/s] [/c]нову[/u] штуку[/c]'."
 
 #: data/helpdata.txt:1932
 msgid ""
