@@ -19,7 +19,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QHeaderView>
-#include <QInputDialog>
 #include <QMessageBox>
 #include <QRadioButton>
 #include <QScrollArea>
@@ -1872,15 +1871,12 @@ void city_dialog::closeEvent(QCloseEvent *event)
 ****************************************************************************/
 void city_dialog::city_rename()
 {
-  bool ok;
-  QString text = QInputDialog::getText(this,
-                                       _("Rename City"),
-                                       _("What should we rename the city to?"),
-                                       QLineEdit::Normal,
-                                       city_name_get(pcity), &ok);
+  hud_input_box ask(gui()->central_wdg);
 
-  if (ok && !text.isEmpty()) {
-    ::city_rename(pcity, text.toLocal8Bit().data());
+  ask.set_text_title_definput(_("What should we rename the city to?"),
+                              _("Rename City"), city_name_get(pcity));
+  if (ask.exec() == QDialog::Accepted) {
+    ::city_rename(pcity, ask.input_edit.text().toLocal8Bit().data());
   }
 }
 
@@ -1890,26 +1886,28 @@ void city_dialog::city_rename()
 void city_dialog::save_cma()
 {
   struct cm_parameter param;
-  bool ok;
-  QString text = QInputDialog::getText(this,
-                                       _("Name new preset"),
-                                       _("What should we name the preset?"),
-                                       QLineEdit::Normal,
-                                       _("new preset"), &ok);
+  QString text;
+  hud_input_box ask(gui()->central_wdg);
 
-  if (ok && !text.isEmpty()) {
-    param.allow_disorder = false;
-    param.allow_specialists = true;
-    param.require_happy = cma_celeb_checkbox->isChecked();
-    param.happy_factor = slider_tab[2 * O_LAST + 1]->value();
+  ask.set_text_title_definput(_("What should we name the preset?"),
+                              _("Name new preset"),
+                              _("new preset"));
+  if (ask.exec() == QDialog::Accepted) {
+    text = ask.input_edit.text().toLocal8Bit().data();
+    if (!text.isEmpty()) {
+      param.allow_disorder = false;
+      param.allow_specialists = true;
+      param.require_happy = cma_celeb_checkbox->isChecked();
+      param.happy_factor = slider_tab[2 * O_LAST + 1]->value();
 
-    for (int i = O_FOOD; i < O_LAST; i++) {
-      param.minimal_surplus[i] = slider_tab[2 * i]->value();
-      param.factor[i] = slider_tab[2 * i + 1]->value();
+      for (int i = O_FOOD; i < O_LAST; i++) {
+        param.minimal_surplus[i] = slider_tab[2 * i]->value();
+        param.factor[i] = slider_tab[2 * i + 1]->value();
+      }
+
+      cmafec_preset_add(text.toLocal8Bit().data(), &param);
+      update_cma_tab();
     }
-
-    cmafec_preset_add(text.toLocal8Bit().data(), &param);
-    update_cma_tab();
   }
 }
 
@@ -3140,17 +3138,19 @@ void city_dialog::save_worklist()
 {
   struct worklist queue;
   struct global_worklist *gw;
-  bool ok;
-  QString text = QInputDialog::getText(this,
-                                       _("Save current worklist"),
-                                       _("What should we name new worklist?"),
-                                       QLineEdit::Normal,
-                                       _("New worklist"), &ok);
+  QString text;
+  hud_input_box ask(gui()->central_wdg);
 
-  if (ok && !text.isEmpty()) {
-    gw = global_worklist_new(text.toLocal8Bit().data());
-    city_get_queue(pcity, &queue);
-    global_worklist_set(gw, &queue);
+  ask.set_text_title_definput(_("What should we name new worklist?"),
+                              _("Save current worklist"),
+                              _("New worklist"));
+  if (ask.exec() == QDialog::Accepted) {
+    text = ask.input_edit.text().toLocal8Bit().data();
+    if (!text.isEmpty()) {
+      gw = global_worklist_new(text.toLocal8Bit().data());
+      city_get_queue(pcity, &queue);
+      global_worklist_set(gw, &queue);
+    }
   }
 }
 

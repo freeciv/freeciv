@@ -613,3 +613,11 @@ hud_message_box {
   alternate-background-color: rgba(220, 220, 220,220);
   border: 2px solid black;
 }
+
+hud_input_box {
+  background-color: transparent;
+  color: black;
+  selection-background-color: rgba(0, 140, 0,220);
+  alternate-background-color: rgba(220, 220, 220,220);
+  border: 2px solid black;
+}

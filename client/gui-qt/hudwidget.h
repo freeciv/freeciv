@@ -15,8 +15,10 @@
 #define FC__HUDWIDGET_H
 
 // Qt
+#include <QDialog>
 #include <QMessageBox>
 #include <QElapsedTimer>
+#include <QLineEdit>
 
 class QIcon;
 
@@ -31,8 +33,36 @@ class hud_message_box: public QMessageBox
 public:
   hud_message_box(QWidget *parent);
   void set_text_title(QString s1, QString s2);
-  void update_size();
-  
+
+protected:
+  void paintEvent(QPaintEvent *event);
+  void timerEvent(QTimerEvent *event);
+private:
+  int m_animate_step;
+  QString text;
+  QString title;
+  QFontMetrics *fm_text;
+  QFontMetrics *fm_title;
+  QFont f_text;
+  QString cs1, cs2;
+  QFont f_title;
+  int top;
+  int mult;
+};
+
+/****************************************************************************
+  Custom message box with animated background
+****************************************************************************/
+class hud_input_box: public QDialog
+{
+  Q_OBJECT
+  QElapsedTimer m_timer;
+
+public:
+  hud_input_box(QWidget *parent);
+  void set_text_title_definput(QString s1, QString s2, QString def_input);
+  QLineEdit input_edit;
+
 protected:
   void paintEvent(QPaintEvent *event);
   void timerEvent(QTimerEvent *event);
