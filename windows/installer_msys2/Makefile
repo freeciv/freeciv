@@ -33,8 +33,9 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 # Make rules
 #
 
-# by default build all installers
-all: gtk3-installer gtk2-installer sdl2-installer qt-installer ruledit-installer
+# by default build all installers that are buildable with current msys2 environment
+# gtk2-installer and qt-installers are not built.
+all: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer
 
 gtk3x-installer:
 	make GUI=gtk3x FCMP=gtk3x EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3x
