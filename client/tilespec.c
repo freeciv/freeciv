@@ -980,7 +980,7 @@ static bool is_cardinal_tileset_dir(const struct tileset *t,
     return is_valid_tileset_dir(t, dir);
   } else {
     return (dir == DIR8_NORTH || dir == DIR8_EAST
-	    || dir == DIR8_SOUTH || dir == DIR8_WEST);
+            || dir == DIR8_SOUTH || dir == DIR8_WEST);
   }
 }
 
@@ -992,14 +992,15 @@ static int ts_topology_index(int actual_topology)
 {
   int idx;
 
-  if (actual_topology & TF_ISO) {
+  if ((actual_topology & TF_HEX)
+      && (actual_topology & TF_ISO)) {
+    idx = TS_TOPO_ISOHEX;
+  } else if (actual_topology & TF_ISO) {
     idx = TS_TOPO_ISO;
+  } else if (actual_topology & TF_HEX) {
+    idx = TS_TOPO_HEX;
   } else {
-    idx = 0;
-  }
-
-  if (actual_topology & TF_HEX) {
-    idx |= TS_TOPO_HEX;
+    idx = TS_TOPO_OVERHEAD;
   }
 
   return idx;
@@ -1200,18 +1201,22 @@ void tileset_free(struct tileset *t)
   Call this function with the (guessed) name of the tileset, when
   starting the client.
 ***********************************************************************/
-void tilespec_try_read(const char *tileset_name, bool verbose)
+void tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
+                       bool global_default)
 {
-  if (!(tileset = tileset_read_toplevel(tileset_name, verbose, -1))) {
+  if (tileset_name == NULL
+      || !(tileset = tileset_read_toplevel(tileset_name, verbose, topo_id))) {
     struct strvec *list = fileinfolist(get_data_dirs(), TILESPEC_SUFFIX);
 
     strvec_iterate(list, file) {
-      struct tileset *t = tileset_read_toplevel(file, FALSE, -1);
+      struct tileset *t = tileset_read_toplevel(file, FALSE, topo_id);
 
       if (t) {
         if (!tileset) {
           tileset = t;
-        } else if (t->priority > tileset->priority) {
+        } else if (t->priority > tileset->priority
+                   || (topo_id >= 0
+                       && tileset_topo_index(tileset) != tileset_topo_index(t))) {
           tileset_free(tileset);
           tileset = t;
         } else {
@@ -1228,7 +1233,10 @@ void tilespec_try_read(const char *tileset_name, bool verbose)
     log_verbose("Trying tileset \"%s\".", tileset->name);
   }
   option_set_default_ts(tileset);
-  sz_strlcpy(gui_options.default_tileset_name, tileset_basename(tileset));
+
+  if (global_default) {
+    sz_strlcpy(gui_options.default_tileset_name, tileset_basename(tileset));
+  }
 }
 
 /**********************************************************************
