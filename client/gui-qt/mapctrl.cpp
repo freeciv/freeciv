@@ -20,7 +20,6 @@
 
 // Qt
 #include <QApplication>
-#include <QInputDialog>
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QMouseEvent>
@@ -51,18 +50,15 @@ extern void side_disable_endturn(bool do_restore);
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 {
-  bool ok;
-  QString text = QInputDialog::getText(gui()->central_wdg,
-                                       _("Build New City"),
-                                       _("What should we call our new city?"),
-                                       QLineEdit::Normal,
-                                       QString::fromUtf8(suggestname), &ok);
+  hud_input_box ask(gui()->central_wdg);
   int index = tile_index(unit_tile(punit));
-
-  if (!ok) {
-    cancel_city(index_to_tile(index));
+  ask.set_text_title_definput(_("What should we call our new city?"),
+                              _("Build New City"), QString(suggestname));
+  if (ask.exec() == QDialog::Accepted) {
+    finish_city(index_to_tile(index),
+                ask.input_edit.text().toLocal8Bit().data());
   } else {
-    finish_city(index_to_tile(index), text.toLocal8Bit().data());
+    cancel_city(index_to_tile(index));
   }
 
   return;
