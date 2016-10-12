@@ -365,6 +365,7 @@ bool action_enabler_remove(struct action_enabler *enabler);
 
 const char *
 action_enabler_obligatory_reqs_missing(struct action_enabler *enabler);
+void action_enabler_obligatory_reqs_add(struct action_enabler *enabler);
 
 struct action *action_is_blocked_by(const int action_id,
                                     const struct unit *actor_unit,

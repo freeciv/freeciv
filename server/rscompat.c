@@ -935,23 +935,9 @@ void rscompat_postprocess(struct rscompat_info *info)
 
       }
 
-      if (ae->action == ACTION_ESTABLISH_EMBASSY
-          || ae->action == ACTION_SPY_INVESTIGATE_CITY
-          || ae->action == ACTION_SPY_STEAL_GOLD
-          || ae->action == ACTION_SPY_STEAL_TECH
-          || ae->action == ACTION_SPY_TARGETED_STEAL_TECH
-          || ae->action == ACTION_SPY_INCITE_CITY
-          || ae->action == ACTION_SPY_BRIBE_UNIT) {
-        /* The rule that the target must be foreign used to be implicit. It
-         * must now be explicitly stated in the ruleset. */
-
-        struct requirement req
-            = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
-                              FALSE, TRUE, TRUE, DRO_FOREIGN);
-
-        if (!is_req_in_vec(&req, &ae->actor_reqs)) {
-          requirement_vector_append(&ae->actor_reqs, req);
-        }
+      if (action_enabler_obligatory_reqs_missing(ae)) {
+        /* Add previously implicit obligatory hard requirement(s). */
+        action_enabler_obligatory_reqs_add(ae);
       }
     } action_enablers_iterate_end;
   }

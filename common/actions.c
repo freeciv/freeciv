@@ -1062,6 +1062,51 @@ action_enabler_obligatory_reqs_missing(struct action_enabler *enabler)
 }
 
 /**************************************************************************
+  Inserts any missing obligatory hard requirements in the action enabler
+  based on its action.
+
+  See action_enabler_obligatory_reqs_missing()
+**************************************************************************/
+void action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
+{
+  /* Sanity check: a non existing action enabler is missing but it doesn't
+   * miss any obligatory hard requirements. */
+  fc_assert_ret(enabler);
+
+  /* Sanity check: a non existing action doesn't have any obligatory hard
+   * requirements. */
+  fc_assert_ret(action_id_is_valid(enabler->action));
+
+  obligatory_req_vector_iterate(&obligatory_hard_reqs[enabler->action],
+                                obreq) {
+    struct requirement_vector *ae_vec;
+
+    /* Select action enabler requirement vector. */
+    ae_vec = (obreq->is_target ? &enabler->target_reqs :
+                                 &enabler->actor_reqs);
+
+    if (!does_req_contradicts_reqs(&obreq->contradiction, ae_vec)) {
+      struct requirement missing;
+
+      /* Change the requirement from what should conflict to what is
+       * wanted. */
+      missing.present = !obreq->contradiction.present;
+      missing.source = obreq->contradiction.source;
+      missing.range = obreq->contradiction.range;
+      missing.survives = obreq->contradiction.survives;
+      missing.quiet = obreq->contradiction.quiet;
+
+      /* Insert the missing requirement. */
+      requirement_vector_append(ae_vec, missing);
+    }
+  } obligatory_req_vector_iterate_end;
+
+  /* Sanity check: obligatory requirement insertion should have fixed the
+   * action enabler. */
+  fc_assert(action_enabler_obligatory_reqs_missing(enabler) == NULL);
+}
+
+/**************************************************************************
   Returns TRUE iff the specified player knows (has seen) the specified
   tile.
 **************************************************************************/
