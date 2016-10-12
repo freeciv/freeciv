@@ -1062,7 +1062,7 @@ GtkWidget *create_worklist(void)
 {
   GtkWidget *editor, *table, *sw, *bbox;
   GtkWidget *src_view, *dst_view, *label, *button;
-  GtkWidget *menubar, *item, *menu, *image;
+  GtkWidget *menubar, *item, *menu;
   GtkWidget *table2, *arrow, *check;
   GtkSizeGroup *group;
   GtkListStore *src_store, *dst_store;
@@ -1223,9 +1223,7 @@ GtkWidget *create_worklist(void)
 
   menu = gtk_menu_new();
 
-  image = gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_MENU);
-  item = gtk_image_menu_item_new_with_mnemonic(_("_Add Global Worklist"));
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+  item = gtk_menu_item_new_with_mnemonic(_("_Add Global Worklist"));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   g_signal_connect(menu, "show",

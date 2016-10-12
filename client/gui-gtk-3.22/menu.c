@@ -2530,25 +2530,11 @@ void real_menus_init(void)
 
     governments_iterate(g) {
       if (g != game.government_during_revolution) {
-        struct sprite *gsprite;
-
         /* TRANS: %s is a government name */
         fc_snprintf(buf, sizeof(buf), _("%s..."),
                     government_name_translation(g));
-        item = gtk_image_menu_item_new_with_label(buf);
+        item = gtk_menu_item_new_with_label(buf);
         g_object_set_data(G_OBJECT(item), "government", g);
-
-        if ((gsprite = get_government_sprite(tileset, g))) {
-          GtkWidget *image;
-          GdkPixbuf *pb = sprite_get_pixbuf(gsprite);
-
-          image = gtk_image_new_from_pixbuf(pb);
-          g_object_unref(pb);
-          gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-          gtk_image_menu_item_set_always_show_image(GTK_IMAGE_MENU_ITEM(item), TRUE);
-          gtk_widget_show(image);
-        }
-
         g_signal_connect(item, "activate",
                          G_CALLBACK(government_callback), g);
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
