@@ -6278,3 +6278,49 @@ void option_set_default_ts(struct tileset *t)
   opt->str_vtable->set(opt, tileset_basename(t));
   option_gui_update(opt);
 }
+
+/****************************************************************************
+  Does topology-specific tileset option lack value?
+****************************************************************************/
+static bool is_ts_option_unset(const char *optname)
+{
+  struct option *opt;
+  const char *val;
+
+  opt = optset_option_by_name(client_optset, optname);
+
+  if (opt == NULL) {
+    return TRUE;
+  }
+
+  val = opt->str_vtable->get(opt);
+
+  if (val == NULL || val[0] == '\0') {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Fill default tilesets for topology-specific settings.
+****************************************************************************/
+void fill_topo_ts_default(void)
+{
+  if (is_ts_option_unset("default_tileset_overhead_name")) {
+    log_debug("Setting tileset for overhead topology.");
+    tilespec_try_read(NULL, FALSE, 0, FALSE);
+  }
+  if (is_ts_option_unset("default_tileset_iso_name")) {
+    log_debug("Setting tileset for iso topology.");
+    tilespec_try_read(NULL, FALSE, TF_ISO, FALSE);
+  }
+  if (is_ts_option_unset("default_tileset_hex_name")) {
+    log_debug("Setting tileset for hex topology.");
+    tilespec_try_read(NULL, FALSE, TF_HEX, FALSE);
+  }
+  if (is_ts_option_unset("default_tileset_isohex_name")) {
+    log_debug("Setting tileset for isohex topology.");
+    tilespec_try_read(NULL, FALSE, TF_ISO | TF_HEX, FALSE);
+  }
+}

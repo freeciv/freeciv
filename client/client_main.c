@@ -662,10 +662,12 @@ int client_main(int argc, char *argv[])
   helpdata_init();
   boot_help_texts();
 
+  fill_topo_ts_default();
+
   if (forced_tileset_name[0] != '\0') {
-    tilespec_try_read(forced_tileset_name, TRUE);
+    tilespec_try_read(forced_tileset_name, TRUE, -1, TRUE);
   } else {
-    tilespec_try_read(gui_options.default_tileset_name, FALSE);
+    tilespec_try_read(gui_options.default_tileset_name, FALSE, -1, TRUE);
   }
 
   audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
