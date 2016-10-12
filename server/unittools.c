@@ -3122,21 +3122,21 @@ static bool unit_survive_autoattack(struct unit *punit)
       if (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
                                           penemy, unit_tile(punit))) {
         /* Choose capture. */
-        handle_unit_do_action(unit_owner(penemy),
-                              penemy->id, tile_index(unit_tile(punit)),
-                              0, "", ACTION_CAPTURE_UNITS);
+        unit_perform_action(unit_owner(penemy),
+                            penemy->id, tile_index(unit_tile(punit)),
+                            0, "", ACTION_CAPTURE_UNITS, ACT_REQ_RULES);
       } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
                                                  penemy, unit_tile(punit))) {
         /* Choose bombard. */
-        handle_unit_do_action(unit_owner(penemy),
-                              penemy->id, tile_index(unit_tile(punit)),
-                              0, "", ACTION_BOMBARD);
+        unit_perform_action(unit_owner(penemy),
+                            penemy->id, tile_index(unit_tile(punit)),
+                            0, "", ACTION_BOMBARD, ACT_REQ_RULES);
       } else if (is_action_enabled_unit_on_tile(ACTION_ATTACK,
                                                 penemy, unit_tile(punit))) {
         /* Choose regular attack. */
-        handle_unit_do_action(unit_owner(penemy),
-                              penemy->id, tile_index(unit_tile(punit)),
-                              0, "", ACTION_ATTACK);
+        unit_perform_action(unit_owner(penemy),
+                            penemy->id, tile_index(unit_tile(punit)),
+                            0, "", ACTION_ATTACK, ACT_REQ_RULES);
       }
     } else {
 #ifdef REALLY_DEBUG_THIS
