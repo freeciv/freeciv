@@ -94,7 +94,8 @@ enum manuals {
 #define SECTION_END "</h3>"
 #define IMAGE_BEGIN "<img src=\""
 #define IMAGE_END ".png\">"
-#define SEPARATOR " "
+#define ITEM_BEGIN "<div class='item'>\n"
+#define ITEM_END "</div>\n"
 #define TAIL "</body></html>"
 #else  /* MANUAL_USE_HTML */
 #define FILE_EXT "mediawiki"
@@ -105,7 +106,8 @@ enum manuals {
 #define SECTION_END "==="
 #define IMAGE_BEGIN "[[Image:"
 #define IMAGE_END ".png]]"
-#define SEPARATOR "----\n\n"
+#define ITEM_BEGIN "----\n\n"
+#define ITEM_END "\n"
 #define TAIL " "
 #endif /* MANUAL_USE_HTML */
 
@@ -244,7 +246,7 @@ static bool manual_command(void)
         char buf[256];
         const char *sethelp;
 
-        fprintf(doc, SEPARATOR);
+        fprintf(doc, ITEM_BEGIN);
         fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, setting_name(pset),
                 _(setting_short_help(pset)), SECTION_END);
         sethelp = _(setting_extra_help(pset, TRUE));
@@ -316,6 +318,8 @@ static bool manual_command(void)
           fprintf(doc, _("<p class=\"changed\">Value set to %s</p>\n\n"),
                   setting_value_name(pset, TRUE, buf, sizeof(buf)));
         }
+
+        fprintf(doc, ITEM_END);
       } settings_iterate_end;
       break;
 
@@ -325,7 +329,7 @@ static bool manual_command(void)
       for (i = 0; i < CMD_NUM; i++) {
         const struct command *cmd = command_by_number(i);
 
-        fprintf(doc, SEPARATOR);
+        fprintf(doc, ITEM_BEGIN);
         fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_BEGIN, command_name(cmd),
                 command_short_help(cmd), SECTION_END);
         if (command_synopsis(cmd)) {
@@ -352,6 +356,8 @@ static bool manual_command(void)
             FC_FREE(help);
           }
         }
+
+        fprintf(doc, ITEM_END);
       }
       break;
 
@@ -546,6 +552,8 @@ static bool manual_command(void)
               TITLE_BEGIN, VERSION_STRING, TITLE_END);
       unit_type_iterate(putype) {
         char buf[64000];
+
+        fprintf(doc, ITEM_BEGIN);
         fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN,
                 utype_name_translation(putype), SECTION_END);
         fprintf(doc,
@@ -569,7 +577,7 @@ static bool manual_command(void)
                 putype->hp);
         helptext_unit(buf, sizeof(buf), NULL, "", putype);
         fprintf(doc, "%s", buf);
-        fprintf(doc, SEPARATOR);
+        fprintf(doc, ITEM_END);
       } unit_type_iterate_end;
       break;
 
