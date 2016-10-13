@@ -1,12 +1,12 @@
-# Try to configure the GTK+-3.x client (gui-gtk-3.x)
+# Try to configure the GTK+-3.22 client (gui-gtk-3.22)
 
 # FC_GTK3X_CLIENT
-# Test for GTK+-3.0 libraries needed for gui-gtk-3.x
+# Test for GTK+-3.0 libraries needed for gui-gtk-3.22
 
 AC_DEFUN([FC_GTK3_22_CLIENT],
 [
   # Add check "x$client" = "xauto"  when this becomes supported client
-  if test "x$gui_gtk3x" = "xyes" ||
+  if test "x$gui_gtk3_22" = "xyes" ||
      test "x$client" = "xall" ; then
     PKG_CHECK_MODULES([GTK3X], [gtk+-3.0 >= 3.18.0],
       [
@@ -25,7 +25,7 @@ AC_DEFUN([FC_GTK3_22_CLIENT],
         fi
       ],
       [
-        FC_NO_CLIENT([gtk3x], [GTK+-3.0 libraries not found])
+        FC_NO_CLIENT([gtk3.22], [GTK+-3.0 libraries not found])
       ])
   fi
 ])
