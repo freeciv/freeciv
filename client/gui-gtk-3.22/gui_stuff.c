@@ -575,9 +575,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gint w, h;
       gchar *buf;
 
-      gtk_icon_size_lookup_for_settings(
-        gtk_settings_get_for_screen(gtk_widget_get_screen(vbox)),
-        GTK_ICON_SIZE_MENU, &w, &h);
+      gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &w, &h);
 
       hbox = gtk_grid_new();
 
