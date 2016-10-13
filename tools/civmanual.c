@@ -90,7 +90,7 @@ enum manuals {
                "content=\"text/html; charset=UTF-8\"/></head><body>\n\n"
 #define TITLE_BEGIN "<h1>"
 #define TITLE_END "</h1>"
-#define SECTION_BEGIN "<h3>"
+#define SECTION_BEGIN "<h3 class='section'>"
 #define SECTION_END "</h3>"
 #define IMAGE_BEGIN "<img src=\""
 #define IMAGE_END ".png\">"
