@@ -865,9 +865,14 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     action_custom = unit_attack_units_at_tile_result(punit, target_tile);
     break;
   case ACTION_CONQUER_CITY:
-    action_custom = unit_move_to_tile_test(punit, punit->activity,
-                                           unit_tile(punit), target_tile,
-                                           FALSE, NULL, TRUE);
+    if (target_city) {
+      action_custom = unit_move_to_tile_test(punit, punit->activity,
+                                             unit_tile(punit),
+                                             city_tile(target_city),
+                                             FALSE, NULL, TRUE);
+    } else {
+      action_custom = MR_OK;
+    }
     break;
   default:
     action_custom = 0;
