@@ -240,8 +240,9 @@ static bool manual_command(void)
 
     switch (manuals) {
     case MANUAL_SETTINGS:
-      fprintf(doc, _("%sFreeciv %s server options%s\n\n"), TITLE_BEGIN,
-              VERSION_STRING, TITLE_END);
+      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+      fprintf(doc, _("%sFreeciv %s server options (%s)%s\n\n"), TITLE_BEGIN,
+              VERSION_STRING, game.control.name, TITLE_END);
       settings_iterate(SSET_ALL, pset) {
         char buf[256];
         const char *sethelp;
@@ -324,6 +325,7 @@ static bool manual_command(void)
       break;
 
     case MANUAL_COMMANDS:
+      /* TRANS: markup ... Freeciv version ... markup */
       fprintf(doc, _("%sFreeciv %s server commands%s\n\n"), TITLE_BEGIN,
               VERSION_STRING, TITLE_END);
       for (i = 0; i < CMD_NUM; i++) {
@@ -362,8 +364,9 @@ static bool manual_command(void)
       break;
 
     case MANUAL_TERRAIN:
-      fprintf(doc, _("%sFreeciv %s terrain help%s\n\n"), TITLE_BEGIN,
-              VERSION_STRING, TITLE_END);
+      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+      fprintf(doc, _("%sFreeciv %s terrain help (%s)%s\n\n"), TITLE_BEGIN,
+              VERSION_STRING, game.control.name, TITLE_END);
       fprintf(doc, "<table><tr bgcolor=#9bc3d1><th colspan=2>%s</th>", _("Terrain"));
       fprintf(doc, "<th>F/P/T</th><th>%s</th>", _("Resources"));
       fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
@@ -475,11 +478,13 @@ static bool manual_command(void)
     case MANUAL_BUILDINGS:
     case MANUAL_WONDERS:
       if (manuals == MANUAL_BUILDINGS) {
-        fprintf(doc, _("%sFreeciv %s buildings help%s\n\n"), TITLE_BEGIN,
-                VERSION_STRING, TITLE_END);
+        /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+        fprintf(doc, _("%sFreeciv %s buildings help (%s)%s\n\n"), TITLE_BEGIN,
+                VERSION_STRING, game.control.name, TITLE_END);
       } else {
-        fprintf(doc, _("%sFreeciv %s wonders help%s\n\n"), TITLE_BEGIN,
-                VERSION_STRING, TITLE_END);
+        /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+        fprintf(doc, _("%sFreeciv %s wonders help (%s)%s\n\n"), TITLE_BEGIN,
+                VERSION_STRING, game.control.name, TITLE_END);
       }
 
       fprintf(doc, "<table>\n<tr bgcolor=#9bc3d1><th colspan=2>%s</th>"
@@ -535,8 +540,9 @@ static bool manual_command(void)
 
     case MANUAL_GOVS:
       /* FIXME: this doesn't resemble the wiki manual at all. */
-      fprintf(doc, _("%sFreeciv %s governments help%s\n\n"), TITLE_BEGIN,
-              VERSION_STRING, TITLE_END);
+      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+      fprintf(doc, _("%sFreeciv %s governments help (%s)%s\n\n"), TITLE_BEGIN,
+              VERSION_STRING, game.control.name, TITLE_END);
       governments_iterate(pgov) {
         char buf[64000];
         fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN,
@@ -548,8 +554,9 @@ static bool manual_command(void)
 
     case MANUAL_UNITS:
       /* FIXME: this doesn't resemble the wiki manual at all. */
-      fprintf(doc, _("%sFreeciv %s unit types help%s\n\n"),
-              TITLE_BEGIN, VERSION_STRING, TITLE_END);
+      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+      fprintf(doc, _("%sFreeciv %s unit types help (%s)%s\n\n"),
+              TITLE_BEGIN, VERSION_STRING, game.control.name, TITLE_END);
       unit_type_iterate(putype) {
         char buf[64000];
 
