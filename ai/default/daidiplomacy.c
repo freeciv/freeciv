@@ -923,6 +923,9 @@ void dai_diplomacy_first_contact(struct ai_type *ait, struct player *pplayer,
 {
   bool wants_ceasefire = FALSE;
 
+  /* Randomize initial love */
+  pplayer->ai_common.love[player_index(aplayer)] += 2 - fc_rand(5);
+
   if (pplayer->ai_controlled
       && player_diplstate_get(pplayer, aplayer)->type == DS_WAR
       && could_meet_with_player(pplayer, aplayer)) {
