@@ -3165,7 +3165,7 @@ static struct client_option client_options[] = {
                       "information and map preview about current savegame "),
                   COC_GRAPHICS, GUI_QT, TRUE, NULL),
   GEN_BOOL_OPTION(gui_qt_sidebar_left, N_("Sidebar position"),
-                  N_("If this option is set sidebarwill be on left, "
+                  N_("If this option is set sidebar will be on left, "
                       "otherwise it will on right side of map"),
                   COC_INTERFACE, GUI_QT, TRUE, NULL),
   GEN_STR_OPTION(gui_qt_wakeup_text,
