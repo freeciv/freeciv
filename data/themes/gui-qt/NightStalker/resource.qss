@@ -572,6 +572,13 @@ help_widget QScrollArea {
   color: white;
 }
 
+units_select {
+  background-color: rgba(0, 0, 0, 135);
+  color: white;
+  selection-color: rgba(25, 25, 95, 135);
+  border: 2px solid #0000AA;
+}
+
 chatwdg QTextBrowser
 {
   background-color: transparent;

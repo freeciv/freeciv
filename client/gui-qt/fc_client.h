@@ -246,7 +246,7 @@ public:
   messagewdg *msgwdg;
   info_tab *infotab;
   pregamevote *pre_vote;
-  unit_select *unit_sel;
+  units_select *unit_sel;
   xvote *x_vote;
   goto_dialog *gtd;
   QCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];

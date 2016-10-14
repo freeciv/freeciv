@@ -448,6 +448,13 @@ science_report QScrollArea {
   background-image:url(LittleFingersun.jpg);
 }
 
+units_select {
+  background-color: rgba(0, 0, 0,175);
+  color: #dcffcf;
+  selection-color: rgba(0, 100, 0, 140);
+  border: 1px solid black;
+}
+
 science_report QScrollArea QWidget {
   background-image:url(LittleFingersun.jpg);
 }
