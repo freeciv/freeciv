@@ -288,7 +288,7 @@ void line_edit::keyReleaseEvent(QKeyEvent *event)
 /**************************************************************************
   Popups line edit for setting shortcut
 **************************************************************************/
-void fc_shortcut_popup::exec(fc_shortcut *s)
+void fc_shortcut_popup::run(fc_shortcut *s)
 {
   QPoint p(50, 20);
   edit.setReadOnly(true);
@@ -519,7 +519,7 @@ void fc_shortcuts_dialog::edit_shortcut()
   fc_sc_button *pb;
   pb = qobject_cast<fc_sc_button *>(sender());
   fc_shortcut_popup *sb = new fc_shortcut_popup(pb);
-  sb->exec(pb->sc);
+  sb->run(pb->sc);
 }
 
 /**************************************************************************

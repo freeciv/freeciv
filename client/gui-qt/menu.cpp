@@ -174,7 +174,7 @@ void trade_generator::add_all_cities()
 void trade_generator::clear_trade_planing()
 {
   struct city *pcity;
-  struct trade_city *tc;
+  trade_city *tc;
   foreach(pcity, virtual_cities) {
     destroy_city_virtual(pcity);
   }
