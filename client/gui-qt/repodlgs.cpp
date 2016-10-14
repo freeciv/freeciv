@@ -1334,6 +1334,8 @@ void eco_report::disband_units()
   case QMessageBox::Ok:
     disband_all_units(putype, false, buf, sizeof(buf));
     break;
+  default:
+    return;
   }
   s = QString(buf);
   ask.set_text_title(s, _("Disband Results"));
@@ -1372,6 +1374,8 @@ void eco_report::sell_buildings()
   case QMessageBox::Ok:
     sell_all_improvements(pimprove, false, buf, sizeof(buf));
     break;
+  default:
+    return;
   }
   s = QString(buf);
   ask.set_text_title(s, _("Sell-Off: Results"));
@@ -1410,6 +1414,8 @@ void eco_report::sell_redundant()
   case QMessageBox::Ok:
     sell_all_improvements(pimprove, true, buf, sizeof(buf));
     break;
+  default:
+    return;
   }
   s = QString(buf);
   ask.set_text_title(s, _("Sell-Off: Results"));
