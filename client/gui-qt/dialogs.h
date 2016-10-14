@@ -161,7 +161,7 @@ private:
  TODO Add some simple scrollbars (just paint it during paint event,
  if 'more' is true->scroll visible and would depend on show_line
 ***************************************************************************/
-class unit_select: public fcwidget
+class units_select: public fcwidget
 {
   Q_OBJECT
   QPixmap *pix;
@@ -174,8 +174,8 @@ class unit_select: public fcwidget
   int row_count;
   close_widget *cw;
 public:
-  unit_select(struct tile *ptile, QWidget *parent);
-  ~unit_select();
+  units_select(struct tile *ptile, QWidget *parent);
+  ~units_select();
   void update_menu();
   void update_units();
   void create_pixmap();

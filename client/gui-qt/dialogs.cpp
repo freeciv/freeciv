@@ -2402,9 +2402,9 @@ void popup_upgrade_dialog(struct unit_list *punits)
 }
 
 /****************************************************************
-  Contructor for unit_select
+  Contructor for units_select
 *****************************************************************/
-unit_select::unit_select(tile *ptile, QWidget *parent)
+units_select::units_select(tile *ptile, QWidget *parent)
 {
   QPoint p, final_p;
 
@@ -2436,7 +2436,7 @@ unit_select::unit_select(tile *ptile, QWidget *parent)
 /****************************************************************
   Destructor for unit select
 *****************************************************************/
-unit_select::~unit_select()
+units_select::~units_select()
 {
     delete h_pix;
     delete pix;
@@ -2446,7 +2446,7 @@ unit_select::~unit_select()
 /****************************************************************
   Create pixmap of whole widget except borders (pix)
 *****************************************************************/
-void unit_select::create_pixmap()
+void units_select::create_pixmap()
 {
   struct unit *punit;
   QPixmap *tmp_pix;
@@ -2471,10 +2471,11 @@ void unit_select::create_pixmap()
   item_size.setWidth(tileset_full_tile_width(tileset));
   item_size.setHeight(tileset_tile_height(tileset) * 3 / 2);
   more = false;
-  if (h_pix == NULL) {
-    h_pix = new QPixmap(item_size.width(), item_size.height());
-    h_pix->fill(QColor(100, 100, 100, 140));
+  if (h_pix != nullptr) {
+    delete h_pix;
   }
+  h_pix = new QPixmap(item_size.width(), item_size.height());
+  h_pix->fill(palette().color(QPalette::HighlightedText));
   if (unit_list.size() < 5) {
     row_count = 1;
     pix = new QPixmap((unit_list.size()) * item_size.width(),
@@ -2502,7 +2503,7 @@ void unit_select::create_pixmap()
   p.begin(pix);
   ufont.setPixelSize(a);
   p.setFont(ufont);
-  pen.setColor(QColor(232, 255, 0));
+  pen.setColor(palette().color(QPalette::Text));
   p.setPen(pen);
 
   while (!pix_list.isEmpty()) {
@@ -2542,9 +2543,9 @@ void unit_select::create_pixmap()
 }
 
 /****************************************************************
-  Event for mouse moving around unit_select
+  Event for mouse moving around units_select
 *****************************************************************/
-void unit_select::mouseMoveEvent(QMouseEvent *event)
+void units_select::mouseMoveEvent(QMouseEvent *event)
 {
   int a, b;
   int old_h;
@@ -2568,11 +2569,11 @@ void unit_select::mouseMoveEvent(QMouseEvent *event)
 }
 
 /****************************************************************
-  Mouse pressed event for unit_select.
+  Mouse pressed event for units_select.
   Left Button - chooses units
   Right Button - closes widget
 *****************************************************************/
-void unit_select::mousePressEvent(QMouseEvent *event)
+void units_select::mousePressEvent(QMouseEvent *event)
 {
   struct unit *punit;
   if (event->button() == Qt::RightButton) {
@@ -2596,7 +2597,7 @@ void unit_select::mousePressEvent(QMouseEvent *event)
 /****************************************************************
   Redirected paint event
 *****************************************************************/
-void unit_select::paint(QPainter *painter, QPaintEvent *event)
+void units_select::paint(QPainter *painter, QPaintEvent *event)
 {
   QFontMetrics fm(info_font);
   int h, i;
@@ -2634,11 +2635,9 @@ void unit_select::paint(QPainter *painter, QPaintEvent *event)
     }
   }
   h = fm.height();
-  painter->setBrush(QColor(0, 0, 0, 135));
-  painter->drawRect(0, 0, width(), height());
   if (pix != NULL) {
     painter->drawPixmap(10, h + 3, *pix);
-    pen.setColor(QColor(232, 255, 0));
+    pen.setColor(palette().color(QPalette::Text));
     painter->setPen(pen);
     painter->setFont(info_font);
     painter->drawText(10, h, str);
@@ -2656,7 +2655,7 @@ void unit_select::paint(QPainter *painter, QPaintEvent *event)
 /****************************************************************
   Paint event, redirects to paint(...)
 *****************************************************************/
-void unit_select::paintEvent(QPaintEvent *event)
+void units_select::paintEvent(QPaintEvent *event)
 {
   QPainter painter;
 
@@ -2669,7 +2668,7 @@ void unit_select::paintEvent(QPaintEvent *event)
   Function from abstract fcwidget to update menu, its not needed
   cause widget is easy closable via right mouse click
 *****************************************************************/
-void unit_select::update_menu()
+void units_select::update_menu()
 {
   was_destroyed = true;
   close();
@@ -2679,7 +2678,7 @@ void unit_select::update_menu()
 /****************************************************************
   Updates unit list on tile
 *****************************************************************/
-void unit_select::update_units()
+void units_select::update_units()
 {
   int i = 1;
   struct unit_list *punit_list;
@@ -2707,18 +2706,18 @@ void unit_select::update_units()
 }
 
 /****************************************************************
-  Close event for unit_select, restores focus to map
+  Close event for units_select, restores focus to map
 *****************************************************************/
-void unit_select::closeEvent(QCloseEvent* event)
+void units_select::closeEvent(QCloseEvent* event)
 {
   gui()->mapview_wdg->setFocus();
   QWidget::closeEvent(event);
 }
 
 /****************************************************************
-  Mouse wheel event for unit_select
+  Mouse wheel event for units_select
 *****************************************************************/
-void unit_select::wheelEvent(QWheelEvent *event)
+void units_select::wheelEvent(QWheelEvent *event)
 {
   int nr;
 
@@ -2740,9 +2739,9 @@ void unit_select::wheelEvent(QWheelEvent *event)
 }
 
 /****************************************************************
-  Keyboard handler for unit_select
+  Keyboard handler for units_select
 *****************************************************************/
-void unit_select::keyPressEvent(QKeyEvent *event)
+void units_select::keyPressEvent(QKeyEvent *event)
 {
   if (event->key() == Qt::Key_Escape) {
     was_destroyed = true;
@@ -2755,7 +2754,7 @@ void unit_select::keyPressEvent(QKeyEvent *event)
 /***************************************************************************
   Change the fonts when needed
 ***************************************************************************/
-void unit_select::update_font(const QString& name, const QFont& font)
+void units_select::update_font(const QString& name, const QFont& font)
 {
   // FIXME Updating fonts isn't practical because the size of the widget
   // will change -> its position too.

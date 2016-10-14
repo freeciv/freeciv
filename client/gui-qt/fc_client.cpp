@@ -630,10 +630,10 @@ void fc_client::toggle_unit_sel_widget(struct tile *ptile)
   if (unit_sel != NULL) {
     unit_sel->close();
     delete unit_sel;
-    unit_sel = new unit_select(ptile, gui()->mapview_wdg);
+    unit_sel = new units_select(ptile, gui()->mapview_wdg);
     unit_sel->show();
   } else {
-    unit_sel = new unit_select(ptile, gui()->mapview_wdg);
+    unit_sel = new units_select(ptile, gui()->mapview_wdg);
     unit_sel->show();
   }
 }
