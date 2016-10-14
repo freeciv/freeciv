@@ -222,6 +222,7 @@ map_view::map_view() : QWidget()
 {
   cursor = -1;
   QTimer *timer = new QTimer(this);
+  setAttribute(Qt::WA_OpaquePaintEvent, true);
   connect(timer, SIGNAL(timeout()), this, SLOT(timer_event()));
   timer->start(200);
   resize(0, 0);
@@ -497,6 +498,7 @@ void close_widget::notify_parent()
 minimap_view::minimap_view(QWidget *parent) : fcwidget()
 {
   setParent(parent);
+  setAttribute(Qt::WA_OpaquePaintEvent, true);
   w_ratio = 0.0;
   h_ratio = 0.0;
   // Dark magic: This call is required for the widget to work.
