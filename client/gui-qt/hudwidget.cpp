@@ -33,7 +33,8 @@
 hud_message_box::hud_message_box(QWidget *parent): QMessageBox(parent)
 {
   int size;
-  setWindowFlags(Qt::Popup | Qt::WindowStaysOnTopHint);
+  setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Dialog
+                | Qt::FramelessWindowHint);
   f_text = *fc_font::instance()->get_font(fonts::default_font);
   f_title = *fc_font::instance()->get_font(fonts::default_font);
 
@@ -76,6 +77,7 @@ void hud_message_box::set_text_title(QString s1, QString s2)
   QSpacerItem *spacer;
   QGridLayout *layout;
   int w, w2, h;
+  QPoint p;
 
   if (s1.contains('\n')) {
     int i;
@@ -101,11 +103,14 @@ void hud_message_box::set_text_title(QString s1, QString s2)
 
   text = s1;
   title = s2;
-  move((parentWidget()->width() - w) / 2,
-       (parentWidget()->height() - h) / 2);
+
+  p = QPoint((parentWidget()->width() - w) / 2,
+             (parentWidget()->height() - h) / 2);
+  p = parentWidget()->mapToGlobal(p);
+  move(p);
   show();
   m_timer.start();
-  startTimer(20);
+  startTimer(45);
 }
 
 /****************************************************************************
