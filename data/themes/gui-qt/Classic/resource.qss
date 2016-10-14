@@ -604,6 +604,11 @@ QProgressBar {
   selection-background-color: #c3b48e;
 }
 
+notify_dialog {
+  color: #ffecba;
+  border: 1px solid #ffecba;
+  background-color: rgba(0, 0, 0,175);
+}
 
 unit_item, impr_item {
   selection-background-color: #c3b48e;

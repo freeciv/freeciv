@@ -595,10 +595,10 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
   int x, y;
   QString qlines;
 
+  setAttribute(Qt::WA_DeleteOnClose);
   setCursor(Qt::ArrowCursor);
   setParent(parent);
   setFrameStyle(QFrame::Box);
-  setWindowOpacity(0.5);
   cw = new close_widget(this);
   cw->put_to_corner();
 
@@ -672,9 +672,7 @@ void notify_dialog::paintEvent(QPaintEvent * paint_event)
   int i;
 
   pen.setWidth(1);
-  pen.setColor(QColor(232, 255, 0));
-  painter.setBrush(QColor(0, 0, 0, 175));
-  painter.drawRect(0, 0, width(), height());
+  pen.setColor(palette().color(QPalette::Text));
   painter.setFont(small_font);
   painter.setPen(pen);
   painter.drawText(10, fm.height() + 3, qcaption);
@@ -682,10 +680,6 @@ void notify_dialog::paintEvent(QPaintEvent * paint_event)
   for (i = 0; i < qlist.count(); i++) {
     painter.drawText(10, 3 + (fm.height() + 3) * (i + 3), qlist[i]);
   }
-  painter.drawLine(0,0,width(),0);
-  painter.drawLine(0,height()-1,width(),height()-1);
-  painter.drawLine(0,0,0,height());
-  painter.drawLine(width()-1,0,width()-1,height());
   cw->put_to_corner();
 }
 
