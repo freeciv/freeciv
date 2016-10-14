@@ -19,8 +19,7 @@
 #include <QLineEdit>
 
 class QVBoxLayout;
-class fc_shortcut;
-class fc_shortcut;
+struct fc_shortcut;
 class QDialogButtonBox;
 class QSignalMapper;
 
@@ -118,7 +117,7 @@ class fc_shortcut_popup : public QDialog
 {
 public:
   fc_shortcut_popup(QWidget *parent);
-  void exec(fc_shortcut *s);
+  void run(fc_shortcut *s);
   fc_shortcut *sc;
 protected:
  void closeEvent(QCloseEvent*);
