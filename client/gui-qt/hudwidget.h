@@ -37,6 +37,7 @@ public:
 protected:
   void paintEvent(QPaintEvent *event);
   void timerEvent(QTimerEvent *event);
+  void keyPressEvent(QKeyEvent *event);
 private:
   int m_animate_step;
   QString text;

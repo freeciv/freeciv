@@ -56,6 +56,19 @@ hud_message_box::hud_message_box(QWidget *parent): QMessageBox(parent)
 }
 
 /****************************************************************************
+  Key press event for hud message box
+****************************************************************************/
+void hud_message_box::keyPressEvent(QKeyEvent *event)
+{
+  if (event->key() == Qt::Key_Escape) {
+    close();
+    destroy();
+    event->accept();
+  }
+  QWidget::keyPressEvent(event);
+}
+
+/****************************************************************************
   Sets text and title and shows message box
 ****************************************************************************/
 void hud_message_box::set_text_title(QString s1, QString s2)
