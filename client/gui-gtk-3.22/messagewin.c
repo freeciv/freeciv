@@ -376,7 +376,8 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
   g_signal_connect(selection, "changed",
                    G_CALLBACK(meswin_dialog_selection_callback), pdialog);
 
-  gui_dialog_add_button(pdialog->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(pdialog->shell, "window-close", _("Close"),
+                        GTK_RESPONSE_CLOSE);
 
   if (GUI_GTK_OPTION(show_message_window_buttons)) {
     cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_ZOOM_IN,

@@ -338,7 +338,7 @@ GtkWidget *create_main_page(void)
   gtk_grid_attach(GTK_GRID(table), button, 1, 1, 1, 1);
   g_signal_connect(button, "clicked", open_settings, NULL);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_QUIT);
+  button = icon_label_button_new("application-exit", _("Exit"));
   gtk_size_group_add_widget(size, button);
   g_object_unref(size);
   gtk_grid_attach(GTK_GRID(table), button, 1, 2, 1, 1);
@@ -2685,8 +2685,8 @@ GtkWidget *create_start_page(void)
                        NULL);
   gtk_grid_attach(GTK_GRID(table), label, 0, 2, 1, 1);
 
-  button = gtk_stockbutton_new(GTK_STOCK_PREFERENCES,
-      _("_More Game Options..."));
+  button = icon_label_button_new("preferences-system",
+                                 _("_More Game Options..."));
   g_object_set(button, "margin", 8, NULL);
   gtk_widget_set_halign(button, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(button, GTK_ALIGN_CENTER);
@@ -2774,18 +2774,18 @@ GtkWidget *create_start_page(void)
   inputline_toolkit_view_append_button(toolkit_view, button);
   g_signal_connect(button, "clicked", G_CALLBACK(main_callback), NULL);
 
-  nation_button = gtk_stockbutton_new(GTK_STOCK_PROPERTIES,
-                                      _("Pick _Nation"));
+  nation_button = icon_label_button_new("document-properties",
+                                        _("Pick _Nation"));
   inputline_toolkit_view_append_button(toolkit_view, nation_button);
   g_signal_connect(nation_button, "clicked",
                    G_CALLBACK(nation_button_callback), NULL);
 
-  observe_button = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Observe"));
+  observe_button = icon_label_button_new("zoom-in", _("_Observe"));
   inputline_toolkit_view_append_button(toolkit_view, observe_button);
   g_signal_connect(observe_button, "clicked",
                    G_CALLBACK(observe_button_callback), NULL);
 
-  ready_button = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Ready"));
+  ready_button = icon_label_button_new("system-run", _("_Ready"));
   inputline_toolkit_view_append_button(toolkit_view, ready_button);
   g_signal_connect(ready_button, "clicked",
                    G_CALLBACK(ready_button_callback), NULL);

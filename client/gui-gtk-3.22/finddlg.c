@@ -72,10 +72,10 @@ void popup_find_dialog(void)
     gui_dialog_set_title(find_dialog_shell, _("Find City"));
     gui_dialog_set_default_size(find_dialog_shell, -1, 240);
 
-    gui_dialog_add_button(find_dialog_shell,
-	GTK_STOCK_FIND, GTK_RESPONSE_ACCEPT);
-    gui_dialog_add_button(find_dialog_shell,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+    gui_dialog_add_button(find_dialog_shell, "edit-find", _("Find"),
+                          GTK_RESPONSE_ACCEPT);
+    gui_dialog_add_button(find_dialog_shell, NULL, _("Cancel"),
+                          GTK_RESPONSE_CANCEL);
 
     gui_dialog_set_default_response(find_dialog_shell, GTK_RESPONSE_ACCEPT);
 

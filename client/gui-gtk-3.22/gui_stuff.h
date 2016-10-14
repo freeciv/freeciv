@@ -19,6 +19,8 @@
 #include "shared.h"
 
 GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text);
+GtkWidget *icon_label_button_new(const gchar *icon_name,
+                                 const gchar *label_text);
 void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text);
 void gtk_expose_now(GtkWidget *w);
 void set_relative_window_position(GtkWindow *ref, GtkWindow *w, int px, int py);
@@ -102,7 +104,8 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
                     gpointer user_data, bool check_top);
 void gui_dialog_set_default_response(struct gui_dialog *dlg, int response);
 GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
-    const char *text, int response);
+                                 const char *icon_name,
+                                 const char *text, int response);
 GtkWidget *gui_dialog_add_stockbutton(struct gui_dialog *dlg,
     const char *stock, const char *text, int response);
 GtkWidget *gui_dialog_add_widget(struct gui_dialog *dlg,

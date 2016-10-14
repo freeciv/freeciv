@@ -215,7 +215,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   struct cma_dialog *pdialog;
   struct cm_parameter param;
   GtkWidget *frame, *page, *hbox, *label, *table;
-  GtkWidget *vbox, *sw, *hscale, *button, *image;
+  GtkWidget *vbox, *sw, *hscale, *button;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkWidget *view;
@@ -295,15 +295,13 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
-  button = gtk_button_new_with_mnemonic(_("Ne_w"));
-  image = gtk_image_new_from_stock(GTK_STOCK_NEW, GTK_ICON_SIZE_BUTTON);
-  gtk_button_set_image(GTK_BUTTON(button), image);
+  button = icon_label_button_new("document-new", _("Ne_w"));
   gtk_container_add(GTK_CONTAINER(hbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(cma_add_preset_callback), pdialog);
   pdialog->add_preset_command = button;
 
-  pdialog->del_preset_command = gtk_button_new_from_stock(GTK_STOCK_DELETE);
+  pdialog->del_preset_command = icon_label_button_new("edit-delete", _("Delete"));
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->del_preset_command);
   g_signal_connect(pdialog->del_preset_command, "clicked",
                    G_CALLBACK(cma_del_preset_callback), pdialog);
@@ -425,7 +423,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_HELP);
+  button = icon_label_button_new("help-browser", _("Help"));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(help_callback), NULL);
   gtk_container_add(GTK_CONTAINER(hbox), button);

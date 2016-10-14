@@ -84,6 +84,25 @@ GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
 }
 
 /**************************************************************************
+  Create new icon button with label
+**************************************************************************/
+GtkWidget *icon_label_button_new(const gchar *icon_name,
+                                 const gchar *label_text)
+{
+  GtkWidget *button;
+  GtkWidget *image;
+
+  button = gtk_button_new_with_mnemonic(label_text);
+
+  if (icon_name != NULL) {
+    image = gtk_image_new_from_icon_name(icon_name, GTK_ICON_SIZE_BUTTON);
+    gtk_button_set_image(GTK_BUTTON(button), image);
+  }
+
+  return button;
+}
+
+/**************************************************************************
   Changes the label (with mnemonic) on an existing stockbutton.  See
   gtk_stockbutton_new.
 **************************************************************************/
@@ -704,11 +723,12 @@ GtkWidget *gui_dialog_add_stockbutton(struct gui_dialog *dlg,
   Adds a button to a dialog.
 **************************************************************************/
 GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
-				 const char *text, int response)
+                                 const char *icon_name,
+                                 const char *text, int response)
 {
   GtkWidget *button;
 
-  button = gtk_button_new_from_stock(text);
+  button = icon_label_button_new(icon_name, text);
   gtk_widget_set_can_default(button, TRUE);
   gui_dialog_pack_button(dlg, button, response);
 
