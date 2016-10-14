@@ -430,6 +430,7 @@ void fc_sidewidget::update_final_pixmap()
 ***************************************************************************/
 fc_sidebar::fc_sidebar()
 {
+  setAttribute(Qt::WA_OpaquePaintEvent, true);
   sidebar_img = nullptr;
   layout = new QVBoxLayout;
   layout->setContentsMargins(0, 0, 0, 0);
