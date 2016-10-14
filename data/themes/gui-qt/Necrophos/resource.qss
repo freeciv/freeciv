@@ -621,3 +621,14 @@ hud_input_box {
   alternate-background-color: rgba(220, 220, 220,220);
   border: 2px solid black;
 }
+
+
+fc_sidewidget {
+  color: white;
+  /* Box around current widget */
+  selection-background-color: rgb(34, 150, 4);
+  /* Hover effect */
+  alternate-background-color: rgba(125, 25, 125, 125);
+  /* blink */
+  selection-color: rgba(85, 25, 25, 185);
+}

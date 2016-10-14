@@ -386,7 +386,7 @@ void fc_sidewidget::update_final_pixmap()
     p.drawText(0, height() - 6 , desc);
   }
 
-  p.setPen(QColor(255, 255, 255));
+  p.setPen(palette().color(QPalette::Text));
 
   if (custom_label.isEmpty() == false) {
     sfont->setItalic(false);
@@ -396,14 +396,14 @@ void fc_sidewidget::update_final_pixmap()
   }
 
   if (current) {
-    p.setPen(QColor(34, 150, 4));
+    p.setPen(palette().color(QPalette::Highlight));
     p.drawRect(0 , 0, width() - 1 , height() - 1);
   }
 
   if (hover && !disabled) {
     p.setCompositionMode(QPainter::CompositionMode_ColorDodge);
-    p.setPen(QColor(0, 225, 0));
-    p.setBrush(QColor(125, 25, 25, 125));
+    p.setPen(palette().color(QPalette::Highlight));
+    p.setBrush(palette().color(QPalette::AlternateBase));
     p.drawRect(0 , 0, width() - 1 , height() - 1);
   }
 
@@ -417,7 +417,7 @@ void fc_sidewidget::update_final_pixmap()
   if (blink) {
     p.setCompositionMode(QPainter::CompositionMode_ColorDodge);
     p.setPen(QColor(0, 0, 0));
-    p.setBrush(QColor(85, 25, 25, 185));
+    p.setBrush(palette().color(QPalette::HighlightedText));
     p.drawRect(0 , 0, width(), height());
   }
 

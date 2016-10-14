@@ -665,6 +665,7 @@ chatwdg QCheckBox {
   background: transparent;
 }
 
+
 hud_message_box, hud_input_box {
   background-color: transparent;
   color: black;
@@ -693,4 +694,11 @@ hud_input_box QPushButton {
   border-left: 3px solid #c3b48e;
   border-radius: 8px;
   padding: 2px;
+}
+
+fc_sidewidget {
+  color: white;
+  selection-background-color: rgb(34, 150, 4);
+  alternate-background-color: rgba(125, 25, 125, 125);
+  selection-color: rgba(85, 25, 25, 185);
 }
