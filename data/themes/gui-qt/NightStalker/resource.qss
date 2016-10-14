@@ -620,6 +620,7 @@ hud_message_box {
   border: 2px solid #3399FF;
 }
 
+
 hud_input_box {
   background-color: transparent;
   color: white;
@@ -631,4 +632,16 @@ hud_input_box {
 hud_message_box QLineEdit {
   text: white;
   background: #2704b2;
+}
+
+
+
+fc_sidewidget {
+  color: white;
+  /* Box around current widget */
+  selection-background-color: rgb(100, 30, 30);
+  /* Hover effect */
+  alternate-background-color: rgba(75, 0, 75, 125);
+  /* blink */
+  selection-color: rgba(85, 25, 25, 185);
 }
