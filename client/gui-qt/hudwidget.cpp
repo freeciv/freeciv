@@ -129,7 +129,6 @@ void hud_message_box::paintEvent(QPaintEvent *event)
   QColor c2;
   int step;
 
-
   step = m_animate_step % 300;
   if (step > 150) {
     step = step - 150;
@@ -143,6 +142,8 @@ void hud_message_box::paintEvent(QPaintEvent *event)
 
   c1 = QColor(palette().color(QPalette::Highlight));
   c2 = QColor(palette().color(QPalette::AlternateBase));
+  step = qMax(0, step);
+  step = qMin(255, step);
   c1.setAlpha(step);
   c2.setAlpha(step);
 
