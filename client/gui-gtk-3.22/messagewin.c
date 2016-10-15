@@ -380,13 +380,13 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
                         GTK_RESPONSE_CLOSE);
 
   if (GUI_GTK_OPTION(show_message_window_buttons)) {
-    cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_ZOOM_IN,
-                                     _("I_nspect City"),
-                                     MESWIN_RES_POPUP_CITY);
+    cmd = gui_dialog_add_button(pdialog->shell, "zoom-in",
+                                _("I_nspect City"),
+                                MESWIN_RES_POPUP_CITY);
     gtk_widget_set_sensitive(cmd, FALSE);
 
-    cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_JUMP_TO,
-                                     _("Goto _Location"), MESWIN_RES_GOTO);
+    cmd = gui_dialog_add_button(pdialog->shell, "go-jump",
+                                _("Goto _Location"), MESWIN_RES_GOTO);
     gtk_widget_set_sensitive(cmd, FALSE);
   }
 

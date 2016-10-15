@@ -208,18 +208,17 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
   gtk_widget_show(label);
   
-  goto_command = gtk_stockbutton_new(GTK_STOCK_JUMP_TO,
-	_("Goto _Location"));
+  goto_command = GTK_WIDGET(gtk_tool_button_new(gtk_image_new_from_icon_name("go-jump", 0),
+                                                _("Goto _Location")));
   gtk_dialog_add_action_widget(GTK_DIALOG(shell), goto_command, 1);
   gtk_widget_show(goto_command);
 
-  popcity_command = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN,
-	_("I_nspect City"));
+  popcity_command = GTK_WIDGET(gtk_tool_button_new(gtk_image_new_from_icon_name("zoom-in", 0),
+                                                   _("I_nspect City")));
   gtk_dialog_add_action_widget(GTK_DIALOG(shell), popcity_command, 2);
   gtk_widget_show(popcity_command);
 
-  gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_CLOSE,
-			GTK_RESPONSE_CLOSE);
+  gtk_dialog_add_button(GTK_DIALOG(shell), _("Close"), GTK_RESPONSE_CLOSE);
 
   if (!ptile) {
     gtk_widget_set_sensitive(goto_command, FALSE);
@@ -257,8 +256,7 @@ void popup_connect_msg(const char *headline, const char *message)
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
   gtk_widget_show(label);
 
-  gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_CLOSE,
-			GTK_RESPONSE_CLOSE);
+  gtk_dialog_add_button(GTK_DIALOG(shell), _("Close"),GTK_RESPONSE_CLOSE);
 
   g_signal_connect(shell, "response", G_CALLBACK(notify_connect_msg_response),
                    NULL);
@@ -368,7 +366,7 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
                         FALSE, NULL);
     }
 
-    choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0, FALSE, NULL);
+    choice_dialog_add(shl, _("Cancel"), 0, 0, FALSE, NULL);
 
     choice_dialog_end(shl);
 
@@ -866,15 +864,15 @@ static void create_races_dialog(struct player *pplayer)
   }
 
   shell = gtk_dialog_new_with_buttons(title,
-				      NULL,
-				      0,
-				      GTK_STOCK_CANCEL,
-				      GTK_RESPONSE_CANCEL,
-				      _("_Random Nation"),
-				      GTK_RESPONSE_NO, /* arbitrary */
-				      GTK_STOCK_OK,
-				      GTK_RESPONSE_ACCEPT,
-				      NULL);
+                                      NULL,
+                                      0,
+                                      _("Cancel"),
+                                      GTK_RESPONSE_CANCEL,
+                                      _("_Random Nation"),
+                                      GTK_RESPONSE_NO, /* arbitrary */
+                                      _("Ok"),
+                                      GTK_RESPONSE_ACCEPT,
+                                      NULL);
   races_shell = shell;
   races_player = pplayer;
   setup_dialog(shell, toplevel);

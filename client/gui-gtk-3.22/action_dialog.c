@@ -496,13 +496,10 @@ static void create_advances_list(struct player *pplayer,
   struct unit *actor_unit = game_unit_by_number(args->actor_unit_id);
 
   spy_tech_shell = gtk_dialog_new_with_buttons(_("Steal Technology"),
-    NULL,
-    0,
-    GTK_STOCK_CANCEL,
-    GTK_RESPONSE_CANCEL,
-    _("_Steal"),
-    GTK_RESPONSE_ACCEPT,
-    NULL);
+                                               NULL, 0,
+                                               _("Cancel"), GTK_RESPONSE_CANCEL,
+                                               _("_Steal"), GTK_RESPONSE_ACCEPT,
+                                               NULL);
   setup_dialog(spy_tech_shell, toplevel);
   gtk_window_set_position(GTK_WINDOW(spy_tech_shell), GTK_WIN_POS_MOUSE);
 
@@ -681,13 +678,10 @@ static void create_improvements_list(struct player *pplayer,
   struct unit *actor_unit = game_unit_by_number(args->actor_unit_id);
   
   spy_sabotage_shell = gtk_dialog_new_with_buttons(_("Sabotage Improvements"),
-    NULL,
-    0,
-    GTK_STOCK_CANCEL,
-    GTK_RESPONSE_CANCEL,
-    _("_Sabotage"), 
-    GTK_RESPONSE_ACCEPT,
-    NULL);
+                                                   NULL, 0,
+                                                   _("Cancel"), GTK_RESPONSE_CANCEL,
+                                                   _("_Sabotage"), GTK_RESPONSE_ACCEPT,
+                                                   NULL);
   setup_dialog(spy_sabotage_shell, toplevel);
   gtk_window_set_position(GTK_WINDOW(spy_sabotage_shell), GTK_WIN_POS_MOUSE);
 
@@ -1331,7 +1325,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   action_button_map[BUTTON_CANCEL] =
       choice_dialog_get_number_of_buttons(shl);
-  choice_dialog_add(shl, GTK_STOCK_CANCEL,
+  choice_dialog_add(shl, _("Cancel"),
                     (GCallback)act_sel_cancel_callback, data,
                     FALSE, NULL);
 

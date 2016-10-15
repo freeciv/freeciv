@@ -217,24 +217,24 @@ static GtkWidget *create_worklists_report(void)
   GtkCellRenderer *rend;
 
   shell = gtk_dialog_new_with_buttons(_("Edit worklists"),
-				      NULL,
-				      0,
-				      GTK_STOCK_NEW,
-				      WORKLISTS_NEW,
-				      GTK_STOCK_DELETE,
-				      WORKLISTS_DELETE,
-				      GTK_STOCK_PROPERTIES,
-				      WORKLISTS_PROPERTIES,
-				      GTK_STOCK_CLOSE,
-				      WORKLISTS_CLOSE,
-				      NULL);
+                                      NULL,
+                                      0,
+                                      _("New"),
+                                      WORKLISTS_NEW,
+                                      _("Delete"),
+                                      WORKLISTS_DELETE,
+                                      _("Properties"),
+                                      WORKLISTS_PROPERTIES,
+                                      _("Close"),
+                                      WORKLISTS_CLOSE,
+                                      NULL);
   setup_dialog(shell, toplevel);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
-  
+
   g_signal_connect(shell, "response",
-		   G_CALLBACK(worklists_response), NULL);
+                   G_CALLBACK(worklists_response), NULL);
   g_signal_connect(shell, "destroy",
-		   G_CALLBACK(worklists_destroy_callback), NULL);
+                   G_CALLBACK(worklists_destroy_callback), NULL);
 
   vbox = gtk_grid_new();
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
@@ -401,14 +401,14 @@ static void popup_worklist(struct global_worklist *pgwl)
     shell = gtk_dialog_new_with_buttons(global_worklist_name(pgwl),
                                         GTK_WINDOW(worklists_shell),
                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                        GTK_STOCK_CLOSE,
+                                        _("Close"),
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
     gtk_window_set_role(GTK_WINDOW(shell), "worklist");
     gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
     g_signal_connect(shell, "response", G_CALLBACK(worklist_response), NULL);
     gtk_window_set_default_size(GTK_WINDOW(shell), 500, 400);
-  
+
     editor = create_worklist();
     reset_global_worklist(editor, pgwl);
     insert_worklist(global_worklist_id(pgwl), editor);
@@ -1231,7 +1231,7 @@ GtkWidget *create_worklist(void)
   ptr->add_cmd = item;
   gtk_widget_set_sensitive(ptr->add_cmd, FALSE);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_HELP);
+  button = icon_label_button_new("help-browser", _("Help"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
 		   G_CALLBACK(help_callback), ptr);

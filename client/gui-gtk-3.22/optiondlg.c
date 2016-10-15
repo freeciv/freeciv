@@ -325,9 +325,9 @@ static void option_color_select_callback(GtkButton *button, gpointer data)
 
   dialog = gtk_dialog_new_with_buttons(_("Select a color"), NULL,
                                        GTK_DIALOG_MODAL,
-                                       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                       GTK_STOCK_CLEAR, GTK_RESPONSE_REJECT,
-                                       GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+                                       _("Cancel"), GTK_RESPONSE_CANCEL,
+                                       _("Clear"), GTK_RESPONSE_REJECT,
+                                       _("OK"), GTK_RESPONSE_OK, NULL);
   setup_dialog(dialog, toplevel);
   g_signal_connect(dialog, "response",
                    G_CALLBACK(color_selector_response_callback), button);
@@ -357,12 +357,12 @@ option_dialog_new(const char *name, const struct option_set *poptset)
   pdialog = fc_malloc(sizeof(*pdialog));
   pdialog->poptset = poptset;
   pdialog->shell = gtk_dialog_new_with_buttons(name, NULL, 0,
-                       GTK_STOCK_CANCEL, RESPONSE_CANCEL,
-                       GTK_STOCK_SAVE, RESPONSE_SAVE,
-                       GTK_STOCK_REFRESH, RESPONSE_REFRESH,
-                       _("Reset"), RESPONSE_RESET,
-                       GTK_STOCK_APPLY, RESPONSE_APPLY,
-                       GTK_STOCK_OK, RESPONSE_OK, NULL);
+                                               _("Cancel"), RESPONSE_CANCEL,
+                                               _("Save"), RESPONSE_SAVE,
+                                               _("Refresh"), RESPONSE_REFRESH,
+                                               _("Reset"), RESPONSE_RESET,
+                                               _("Apply"), RESPONSE_APPLY,
+                                               _("OK"), RESPONSE_OK, NULL);
   pdialog->notebook = gtk_notebook_new();
   pdialog->vboxes = fc_calloc(CATEGORY_NUM, sizeof(*pdialog->vboxes));
   pdialog->box_children = fc_calloc(CATEGORY_NUM,

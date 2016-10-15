@@ -69,21 +69,6 @@ void set_relative_window_position(GtkWindow *ref, GtkWindow *w, int px, int py)
 }
 
 /**************************************************************************
-  Create new stock button
-**************************************************************************/
-GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
-{
-  GtkWidget *button;
-  GtkWidget *image;
-  
-  button = gtk_button_new_with_mnemonic(label_text);
-  image = gtk_image_new_from_stock(stock, GTK_ICON_SIZE_BUTTON);
-  gtk_button_set_image(GTK_BUTTON(button), image);
-
-  return button;
-}
-
-/**************************************************************************
   Create new icon button with label
 **************************************************************************/
 GtkWidget *icon_label_button_new(const gchar *icon_name,
@@ -616,7 +601,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_widget_set_tooltip_text(button, buf);
       g_free(buf);
 
-      image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+      image = gtk_image_new_from_icon_name("window-close", GTK_ICON_SIZE_MENU);
       gtk_widget_set_margin_left(image, 0);
       gtk_widget_set_margin_right(image, 0);
       gtk_widget_set_margin_top(image, 0);
@@ -681,7 +666,7 @@ static void action_widget_activated(GtkWidget *button, GtkWidget *vbox)
   Places a button into a dialog, taking care of setting up signals, etc.
 **************************************************************************/
 static void gui_dialog_pack_button(struct gui_dialog *dlg, GtkWidget *button,
-				   int response)
+                                   int response)
 {
   gint signal_id;
 
@@ -701,22 +686,6 @@ static void gui_dialog_pack_button(struct gui_dialog *dlg, GtkWidget *button,
   gtk_container_add(GTK_CONTAINER(dlg->action_area), button);
   gtk_size_group_add_widget(gui_action, button);
   gtk_size_group_add_widget(dlg->gui_button, button);
-}
-
-/**************************************************************************
-  Adds a button to a dialog, allowing the choice of a special stock item.
-**************************************************************************/
-GtkWidget *gui_dialog_add_stockbutton(struct gui_dialog *dlg,
-				      const char *stock,
-				      const char *text, int response)
-{
-  GtkWidget *button;
-
-  button = gtk_stockbutton_new(stock, text);
-  gtk_widget_set_can_default(button, TRUE);
-  gui_dialog_pack_button(dlg, button, response);
-
-  return button;
 }
 
 /**************************************************************************

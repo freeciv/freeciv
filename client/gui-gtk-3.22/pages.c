@@ -451,9 +451,10 @@ static void save_dialog_file_chooser_popup(const char *title,
 
   /* Create the chooser */
   filechoose = gtk_file_chooser_dialog_new(title, GTK_WINDOW(toplevel), action,
-      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-      action == GTK_FILE_CHOOSER_ACTION_SAVE ? GTK_STOCK_SAVE : GTK_STOCK_OPEN,
-      GTK_RESPONSE_OK, NULL);
+                                           _("Cancel"), GTK_RESPONSE_CANCEL,
+                                           (action == GTK_FILE_CHOOSER_ACTION_SAVE) ?
+                                           _("Save") : _("Open"),
+                                           GTK_RESPONSE_OK, NULL);
   setup_dialog(filechoose, toplevel);
   gtk_window_set_position(GTK_WINDOW(filechoose), GTK_WIN_POS_MOUSE);
 
@@ -579,9 +580,9 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   /* Shell. */
   shell = gtk_dialog_new_with_buttons(title, NULL, 0,
                                       _("_Browse..."), SD_RES_BROWSE,
-                                      GTK_STOCK_DELETE, SD_RES_DELETE,
-                                      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                      GTK_STOCK_SAVE, SD_RES_SAVE,
+                                      _("Delete"), SD_RES_DELETE,
+                                      _("Cancel"), GTK_RESPONSE_CANCEL,
+                                      _("Save"), SD_RES_SAVE,
                                       NULL);
   g_object_set_data_full(G_OBJECT(shell), "save_dialog", pdialog,
                          (GDestroyNotify) free);
@@ -1411,16 +1412,16 @@ GtkWidget *create_network_page(void)
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_container_add(GTK_CONTAINER(sbox), bbox);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
+  button = gtk_button_new_from_icon_name("view-refresh", GTK_ICON_SIZE_BUTTON);
   gtk_container_add(GTK_CONTAINER(bbox), button);
   gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
   g_signal_connect(button, "clicked",
       G_CALLBACK(update_network_lists), NULL);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+  button = gtk_button_new_with_label(_("Cancel"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
-      G_CALLBACK(main_callback), NULL);
+                   G_CALLBACK(main_callback), NULL);
 
   button = gtk_button_new_with_mnemonic(_("C_onnect"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
@@ -2770,7 +2771,7 @@ GtkWidget *create_start_page(void)
   toolkit_view = inputline_toolkit_view_new();
   gtk_container_add(GTK_CONTAINER(box), toolkit_view);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+  button = gtk_button_new_with_label(_("Cancel"));
   inputline_toolkit_view_append_button(toolkit_view, button);
   g_signal_connect(button, "clicked", G_CALLBACK(main_callback), NULL);
 
@@ -2925,21 +2926,20 @@ GtkWidget *create_load_page(void)
   gtk_container_add(GTK_CONTAINER(bbox), button);
   gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
   g_signal_connect(button, "clicked",
-      G_CALLBACK(load_browse_callback), NULL);
+                   G_CALLBACK(load_browse_callback), NULL);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+  button = gtk_button_new_with_label(_("Cancel"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
-      G_CALLBACK(main_callback), NULL);
+                   G_CALLBACK(main_callback), NULL);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_OK);
+  button = gtk_button_new_with_label(_("OK"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
-      G_CALLBACK(load_callback), NULL);
+                   G_CALLBACK(load_callback), NULL);
 
   return box;
 }
-
 
 /**************************************************************************
   Updates the info for the currently selected scenario.
@@ -3262,19 +3262,18 @@ GtkWidget *create_scenario_page(void)
   g_signal_connect(button, "clicked",
       G_CALLBACK(scenario_browse_callback), NULL);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+  button = gtk_button_new_with_label(_("Cancel"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
-      G_CALLBACK(main_callback), NULL);
+                   G_CALLBACK(main_callback), NULL);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_OK);
+  button = gtk_button_new_with_label(_("OK"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
-      G_CALLBACK(scenario_callback), NULL);
+                   G_CALLBACK(scenario_callback), NULL);
 
   return vbox;
 }
-
 
 /**************************************************************************
   Returns current client page

@@ -278,7 +278,7 @@ static struct unit_select_dialog *usdlg_create(void)
 
   /* Buttons. */
   close_cmd = gtk_dialog_add_button(GTK_DIALOG(pdialog->shell),
-                                    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+                                    _("Close"), GTK_RESPONSE_CLOSE);
   gtk_dialog_set_default_response(GTK_DIALOG(pdialog->shell),
                                   GTK_RESPONSE_CLOSE);
   g_signal_connect(close_cmd, "clicked",

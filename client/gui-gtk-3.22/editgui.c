@@ -1050,10 +1050,10 @@ create_tool_value_selector(struct editbar *eb,
   tvs->editbar_parent = eb;
 
   tvs->dialog = gtk_dialog_new_with_buttons(_("Select Tool Value"),
-      GTK_WINDOW(toplevel), GTK_DIALOG_MODAL,
-      GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-      GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-      NULL);
+                                            GTK_WINDOW(toplevel), GTK_DIALOG_MODAL,
+                                            _("OK"), GTK_RESPONSE_ACCEPT,
+                                            _("Cancel"), GTK_RESPONSE_REJECT,
+                                            NULL);
   vbox = gtk_dialog_get_content_area(GTK_DIALOG(tvs->dialog));
 
   store = gtk_list_store_new(TVS_NUM_COLS,

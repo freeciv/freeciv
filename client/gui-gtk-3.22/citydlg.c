@@ -21,7 +21,6 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-
 /* utility */
 #include "bitvector.h"
 #include "fcintl.h"
@@ -190,7 +189,8 @@ struct city_dialog {
   GtkWidget *rename_shell, *rename_input;
 
   GtkWidget *show_units_command;
-  GtkWidget *prev_command, *next_command;
+  GtkWidget *prev_command;
+  GtkWidget *next_command;
 
   Impr_type_id sell_id;
 
@@ -955,9 +955,9 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
-    pdialog->overview.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
-                                                        _("_Buy"));
-    gtk_container_add(GTK_CONTAINER(hbox), pdialog->overview.buy_command);
+    pdialog->overview.buy_command
+      = icon_label_button_new("system-run", _("_Buy"));
+    gtk_container_add(GTK_CONTAINER(hbox), GTK_WIDGET(pdialog->overview.buy_command));
     g_signal_connect(pdialog->overview.buy_command, "clicked",
                      G_CALLBACK(buy_callback), pdialog);
 
@@ -1147,9 +1147,9 @@ static void create_production_header(struct city_dialog *pdialog, GtkContainer *
   g_signal_connect(bar, "drag_data_received",
                    G_CALLBACK(target_drag_data_received), pdialog);
 
-  pdialog->production.buy_command = gtk_stockbutton_new(GTK_STOCK_EXECUTE,
-                                                        _("_Buy"));
-  gtk_container_add(GTK_CONTAINER(hbox), pdialog->production.buy_command);
+  pdialog->production.buy_command
+    = icon_label_button_new("system-run", _("_Buy"));
+  gtk_container_add(GTK_CONTAINER(hbox), GTK_WIDGET(pdialog->production.buy_command));
 
   g_signal_connect(pdialog->production.buy_command, "clicked",
                    G_CALLBACK(buy_callback), pdialog);
@@ -1598,23 +1598,21 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   g_signal_connect(GTK_DIALOG(pdialog->shell), "response",
                    G_CALLBACK(citydlg_response_callback), pdialog);
 
-  pdialog->prev_command = gtk_stockbutton_new(GTK_STOCK_GO_BACK,
-                                              _("_Prev city"));
+  pdialog->prev_command = gtk_button_new_from_icon_name("go-previous", 0);
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
-                               pdialog->prev_command, 1);
+                               GTK_WIDGET(pdialog->prev_command), 1);
 
-  pdialog->next_command = gtk_stockbutton_new(GTK_STOCK_GO_FORWARD,
-                                              _("_Next city"));
+  pdialog->next_command = gtk_button_new_from_icon_name("go-next", 0);
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
-                               pdialog->next_command, 2);
+                               GTK_WIDGET(pdialog->next_command), 2);
   
   if (city_owner(pcity) != client.conn.playing) {
-    gtk_widget_set_sensitive(pdialog->prev_command, FALSE);
-    gtk_widget_set_sensitive(pdialog->next_command, FALSE);
+    gtk_widget_set_sensitive(GTK_WIDGET(pdialog->prev_command), FALSE);
+    gtk_widget_set_sensitive(GTK_WIDGET(pdialog->next_command), FALSE);
   }
 
   close_command = gtk_dialog_add_button(GTK_DIALOG(pdialog->shell),
-					GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+                                        _("Close"), GTK_RESPONSE_CLOSE);
 
   gtk_dialog_set_default_response(GTK_DIALOG(pdialog->shell),
 	GTK_RESPONSE_CLOSE);
@@ -1876,10 +1874,10 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   int cost = city_production_build_shield_cost(pcity);
 
   if (pdialog->overview.buy_command != NULL) {
-    gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
+    gtk_widget_set_sensitive(GTK_WIDGET(pdialog->overview.buy_command), sensitive);
   }
   if (pdialog->production.buy_command != NULL) {
-    gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
+    gtk_widget_set_sensitive(GTK_WIDGET(pdialog->production.buy_command), sensitive);
   }
 
   /* Make sure build slots info is up to date */
@@ -2264,14 +2262,14 @@ static void city_dialog_update_prev_next(void)
 
   if (count == city_number) {	/* all are open, shouldn't prev/next */
     dialog_list_iterate(dialog_list, pdialog) {
-      gtk_widget_set_sensitive(pdialog->prev_command, FALSE);
-      gtk_widget_set_sensitive(pdialog->next_command, FALSE);
+      gtk_widget_set_sensitive(GTK_WIDGET(pdialog->prev_command), FALSE);
+      gtk_widget_set_sensitive(GTK_WIDGET(pdialog->next_command), FALSE);
     } dialog_list_iterate_end;
   } else {
     dialog_list_iterate(dialog_list, pdialog) {
       if (city_owner(pdialog->pcity) == client.conn.playing) {
-	gtk_widget_set_sensitive(pdialog->prev_command, TRUE);
-	gtk_widget_set_sensitive(pdialog->next_command, TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(pdialog->prev_command), TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(pdialog->next_command), TRUE);
       }
     } dialog_list_iterate_end;
   }
@@ -2901,7 +2899,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
                         GINT_TO_POINTER(ACTIVITY_TRANSFORM), FALSE, NULL);
     }
 
-    choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0, FALSE, NULL);
+    choice_dialog_add(shl, _("Cancel"), 0, 0, FALSE, NULL);
     choice_dialog_end(shl);
 
     g_signal_connect(shl, "destroy", G_CALLBACK(workertask_dlg_destroy),
@@ -3329,14 +3327,14 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   }
 
   /* dir = 1 will advance to the city, dir = -1 will get previous */
-  if (w == pdialog->next_command) {
+  if (w == GTK_WIDGET(pdialog->next_command)) {
     dir = 1;
-  } else if (w == pdialog->prev_command) {
+  } else if (w == GTK_WIDGET(pdialog->prev_command)) {
     dir = -1;
   } else {
     /* Always fails. */
-    fc_assert_ret(w == pdialog->next_command
-                  || w == pdialog->prev_command);
+    fc_assert_ret(w == GTK_WIDGET(pdialog->next_command)
+                  || w == GTK_WIDGET(pdialog->prev_command));
     dir = 1;
   }
 

@@ -4835,7 +4835,7 @@ property_page_new(enum editor_object_type objtype,
     gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
     button = gtk_button_new();
-    image = gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
+    image = gtk_image_new_from_icon_name("list-add", GTK_ICON_SIZE_BUTTON);
     gtk_button_set_image(GTK_BUTTON(button), image);
     gtk_button_set_label(GTK_BUTTON(button), _("Create"));
     gtk_size_group_add_widget(sizegroup, button);
@@ -4851,8 +4851,8 @@ property_page_new(enum editor_object_type objtype,
     gtk_container_add(GTK_CONTAINER(hbox), button);
 
     button = gtk_button_new();
-    image = gtk_image_new_from_stock(GTK_STOCK_REMOVE,
-                                     GTK_ICON_SIZE_BUTTON);
+    image = gtk_image_new_from_icon_name("list-remove",
+                                         GTK_ICON_SIZE_BUTTON);
     gtk_button_set_image(GTK_BUTTON(button), image);
     gtk_button_set_label(GTK_BUTTON(button), _("Destroy"));
     gtk_size_group_add_widget(sizegroup, button);
@@ -4905,7 +4905,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_container_set_border_width(GTK_CONTAINER(hbox2), 4);
   gtk_container_add(GTK_CONTAINER(vbox2), hbox2);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
+  button = gtk_button_new_with_label(_("Close"));
   gtk_size_group_add_widget(sizegroup, button);
   g_signal_connect_swapped(button, "clicked",
       G_CALLBACK(gtk_widget_hide_on_delete), pe->widget);
@@ -4976,7 +4976,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_grid_set_column_spacing(GTK_GRID(hbox2), 4);
   gtk_container_add(GTK_CONTAINER(vbox), hbox2);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
+  button = gtk_button_new_with_label(_("Refresh"));
   gtk_size_group_add_widget(sizegroup, button);
   gtk_widget_set_tooltip_text(button,
       _("Pressing this button will reset all modified properties of "
@@ -4986,7 +4986,7 @@ property_page_new(enum editor_object_type objtype,
                    G_CALLBACK(property_page_refresh_button_clicked), pp);
   gtk_container_add(GTK_CONTAINER(hbox2), button);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_APPLY);
+  button = gtk_button_new_with_label(_("Apply"));
   gtk_size_group_add_widget(sizegroup, button);
   gtk_widget_set_tooltip_text(button,
       _("Pressing this button will send all modified properties of "

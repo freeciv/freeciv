@@ -313,10 +313,10 @@ static void luaconsole_load_file_popup(void)
 
   /* Create the selector */
   filesel = gtk_file_chooser_dialog_new("Load Lua file", GTK_WINDOW(toplevel),
-                GTK_FILE_CHOOSER_ACTION_OPEN,
-                GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                GTK_STOCK_OPEN, GTK_RESPONSE_OK,
-                NULL);
+                                        GTK_FILE_CHOOSER_ACTION_OPEN,
+                                        _("Cancel"), GTK_RESPONSE_CANCEL,
+                                        _("Open"), GTK_RESPONSE_OK,
+                                        NULL);
   setup_dialog(filesel, toplevel);
   gtk_window_set_position(GTK_WINDOW(filesel), GTK_WIN_POS_MOUSE);
 

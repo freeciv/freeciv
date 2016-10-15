@@ -314,16 +314,16 @@ static GtkWidget *create_multiplier_dialog(void)
     shell = gtk_dialog_new_with_buttons(_("Change policies"),
                                         NULL,
                                         0,
-                                        GTK_STOCK_CANCEL,
+                                        _("Cancel"),
                                         GTK_RESPONSE_CANCEL,
-                                        GTK_STOCK_OK,
+                                        _("OK"),
                                         GTK_RESPONSE_OK,
                                         NULL);
   } else {
     shell = gtk_dialog_new_with_buttons(_("Policies"),
                                         NULL,
                                         0,
-                                        GTK_STOCK_CLOSE,
+                                        _("Close"),
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
   }
@@ -402,15 +402,15 @@ static GtkWidget *create_rates_dialog(void)
   if (!can_client_issue_orders()) {
     return NULL;
   }
-  
+
   shell = gtk_dialog_new_with_buttons(_("Select tax, luxury and science rates"),
-  	NULL,
-	0,
-	GTK_STOCK_CANCEL,
-	GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OK,
-	GTK_RESPONSE_OK,
-	NULL);
+                                      NULL,
+                                      0,
+                                      _("Cancel"),
+                                      GTK_RESPONSE_CANCEL,
+                                      _("OK"),
+                                      GTK_RESPONSE_OK,
+                                      NULL);
   setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);

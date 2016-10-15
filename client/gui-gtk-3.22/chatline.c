@@ -1133,9 +1133,9 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
               (const char *) g_object_get_data(G_OBJECT(button),
                                                "color_info"));
   dialog = gtk_dialog_new_with_buttons(buf, NULL, GTK_DIALOG_MODAL,
-                                       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                       GTK_STOCK_CLEAR, GTK_RESPONSE_REJECT,
-                                       GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+                                       _("Cancel"), GTK_RESPONSE_CANCEL,
+                                       _("Clear"), GTK_RESPONSE_REJECT,
+                                       _("OK"), GTK_RESPONSE_OK, NULL);
   setup_dialog(dialog, toplevel);
   g_object_set_data(G_OBJECT(dialog), "button", button);
   g_signal_connect(dialog, "response", G_CALLBACK(color_selected), data);
@@ -1337,7 +1337,9 @@ void chatline_init(void)
   toolkit.toolbar = toolbar;
 
   /* Bold button. */
-  item = gtk_tool_button_new_from_stock(GTK_STOCK_BOLD);
+  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-bold", 0),
+                             _("Bold"));
+
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_BOLD));
@@ -1345,7 +1347,8 @@ void chatline_init(void)
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Bold (Ctrl-B)"));
 
   /* Italic button. */
-  item = gtk_tool_button_new_from_stock(GTK_STOCK_ITALIC);
+  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-italic", 0),
+                             _("Italic"));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_ITALIC));
@@ -1353,7 +1356,8 @@ void chatline_init(void)
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Italic (Ctrl-I)"));
 
   /* Strike button. */
-  item = gtk_tool_button_new_from_stock(GTK_STOCK_STRIKETHROUGH);
+  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-strikethrough", 0),
+                             _("Strikethrough"));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_STRIKE));
@@ -1361,7 +1365,8 @@ void chatline_init(void)
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Strikethrough (Ctrl-S)"));
 
   /* Underline button. */
-  item = gtk_tool_button_new_from_stock(GTK_STOCK_UNDERLINE);
+  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-underline", 0),
+                             _("Underline"));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_UNDERLINE));
@@ -1369,7 +1374,7 @@ void chatline_init(void)
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Underline (Ctrl-U)"));
 
   /* Color button. */
-  item = gtk_tool_button_new_from_stock(GTK_STOCK_SELECT_COLOR);
+  item = gtk_tool_button_new(NULL, _("Color"));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_COLOR));
@@ -1416,7 +1421,7 @@ void chatline_init(void)
                      gtk_separator_tool_item_new(), -1);
 
   /* Return button. */
-  item = gtk_tool_button_new_from_stock(GTK_STOCK_OK);
+  item = gtk_tool_button_new(NULL, _("OK"));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_signal_connect_swapped(item, "clicked",
                            G_CALLBACK(inputline_return), entry);
@@ -1434,8 +1439,7 @@ void chatline_init(void)
   g_object_set(button, "margin", 2, NULL);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   gtk_button_set_image(GTK_BUTTON(button),
-                       gtk_image_new_from_stock(GTK_STOCK_EDIT,
-                                                GTK_ICON_SIZE_MENU));
+                       gtk_image_new_from_icon_name("gtk-edit", 0));
   g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), &toolkit);
   gtk_widget_set_tooltip_text(GTK_WIDGET(button), _("Chat tools"));
   toolkit.toggle_button = button;

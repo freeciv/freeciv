@@ -1682,8 +1682,8 @@ static void units_report_init(struct units_report *preport)
                                  URD_RES_UPGRADE);
   gtk_widget_set_sensitive(button, FALSE);
 
-  button = gui_dialog_add_stockbutton(preport->shell, GTK_STOCK_FIND,
-                                      _("Find _Nearest"), URD_RES_NEAREST);
+  button = gui_dialog_add_button(preport->shell, "edit-find",
+                                 _("Find _Nearest"), URD_RES_NEAREST);
   gtk_widget_set_sensitive(button, FALSE);
 
   gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);

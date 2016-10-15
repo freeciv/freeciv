@@ -487,19 +487,12 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
       G_CALLBACK(cma_active_callback), pdialog);
 
   if (controlled) {
-    GtkWidget *image = gtk_image_new_from_stock(
-        GTK_STOCK_YES, GTK_ICON_SIZE_DND);
-    gtk_button_set_image(GTK_BUTTON(pdialog->active_command), image);
     gtk_button_set_label(GTK_BUTTON(pdialog->active_command),
                          _("Governor Enabl_ed"));
   } else {
-    GtkWidget *image = gtk_image_new_from_stock(
-        GTK_STOCK_NO, GTK_ICON_SIZE_DND);
-    gtk_button_set_image(GTK_BUTTON(pdialog->active_command), image);
     gtk_button_set_label(GTK_BUTTON(pdialog->active_command),
                          _("Governor Disabl_ed"));
   }
-  gtk_button_set_always_show_image(GTK_BUTTON(pdialog->active_command), TRUE);
 
   if (pdialog->result_label != NULL) {
     gtk_widget_set_sensitive(pdialog->result_label, controlled);

@@ -171,18 +171,17 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   GtkWidget *shell, *notebook, *label, *sw, *view, *table;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
-
   int i;
- 
+
   pdialog = fc_malloc(sizeof(*pdialog));
   pdialog->pplayer = p;
- 
+
   shell = gtk_dialog_new_with_buttons(NULL,
-      NULL,
-      0,
-      GTK_STOCK_CLOSE,
-      GTK_RESPONSE_CLOSE,
-      NULL);
+                                      NULL,
+                                      0,
+                                      _("Close"),
+                                      GTK_RESPONSE_CLOSE,
+                                      NULL);
   pdialog->shell = shell;
   gtk_window_set_default_size(GTK_WINDOW(shell), 350, 350);
   setup_dialog(shell, toplevel);
