@@ -1014,6 +1014,8 @@ void gui_update_font(const char *font_name, const char *font_value)
   PangoFontDescription *desc;
   int size;
   const char *fam;
+  const char *style;
+  const char *weight;
 
   desc = pango_font_description_from_string(font_value);
 
@@ -1027,14 +1029,26 @@ void gui_update_font(const char *font_name, const char *font_value)
     return;
   }
 
+  if (pango_font_description_get_style(desc) == PANGO_STYLE_ITALIC) {
+    style = "\n font-style: italic;";
+  } else {
+    style = "";
+  }
+
+  if (pango_font_description_get_weight(desc) >= 700) {
+    weight = "\n font-style: bold;";
+  } else {
+    weight = "";
+  }
+
   size = pango_font_description_get_size(desc);
 
   if (size != 0) {
-    str = g_strdup_printf("#Freeciv #%s { font-family: %s; font-size: %dpt;}",
-                          font_name, fam, size / PANGO_SCALE);
+    str = g_strdup_printf("#Freeciv #%s { font-family: %s; font-size: %dpx;%s%s}",
+                          font_name, fam, size / PANGO_SCALE, style, weight);
   } else {
-    str = g_strdup_printf("#Freeciv #%s { font-family: %s; }",
-                          font_name, fam);
+    str = g_strdup_printf("#Freeciv #%s { font-family: %s;%s%s}",
+                          font_name, fam, style, weight);
   }
 
   pango_font_description_free(desc);
