@@ -33,6 +33,7 @@
       void foo_vector_copy(struct foo_vector *to, 
                 const struct foo_vector *from);
       void foo_vector_free(struct foo_vector *tthis);
+      void foo_vector_append(struct foo_vector *tthis, foo_t pfoo);
 
    Note this is not protected against multiple inclusions; this is
    so that you can have multiple different specvectors.  For each
