@@ -15374,7 +15374,7 @@ msgstr "Банк"
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
-msgstr "Разом с Ринком, Банк збільшує розкіш та збір податків у місті на 100%."
+msgstr "Разом з Ринком, Банк збільшує розкіш та збір податків у місті на 100%."
 
 #: data/civ1/buildings.ruleset:87 data/civ1/buildings.ruleset:114
 #: data/civ1/buildings.ruleset:141
@@ -15497,9 +15497,9 @@ msgid ""
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
 msgstr ""
-"Завдяки Амбару, кількість збереженної їжі буде встановлено в половину при"
-"рості міста або голоді. Це допомагає місту швидше рости та легше переносити"
-"голод."
+"Завдяки Амбару, кількість збереженної їжі буде встановлено в половину при "
+"рості міста або голоді. Це допомагає місту швидше рости та легше "
+"переносити голод."
 
 #: data/civ1/buildings.ruleset:285
 msgid ""
@@ -16033,7 +16033,7 @@ msgstr ""
 #: data/civ2civ3/buildings.ruleset:1435
 #: data/multiplayer/buildings.ruleset:1246
 msgid "Isaac Newton's College"
-msgstr "Коледж Ісака Ньютона"
+msgstr "Коледж Ісаака Ньютона"
 
 #: data/civ1/buildings.ruleset:883 data/civ2/buildings.ruleset:1210
 #: data/classic/buildings.ruleset:1116
@@ -18605,7 +18605,7 @@ msgid ""
 "TIP 1:  Nuking the ocean will not generate fallout, and is a most effective "
 "(but expensive!!) way of getting rid of enemy ships."
 msgstr ""
-"Підказка 1: Атомна атака на океан, не призведе до радіаціїних викидів, і є "
+"Підказка 1: Атомна атака на океан, не призведе до радіаційних викидів, і є "
 "найдієвішим (але дорогим!) способом позбутися ворожих кораблів."
 
 #: data/civ1/units.ruleset:1153
@@ -20627,11 +20627,12 @@ msgstr "Ракетний крейсер"
 #: data/civ2/units.ruleset:1643 data/classic/units.ruleset:1711
 #: data/experimental/units.ruleset:1737 data/civ2civ3/units.ruleset:1888
 #: data/multiplayer/units.ruleset:1809
-#, fuzzy
 msgid ""
 "The AEGIS Cruiser is equipped with an advanced defensive missile system, "
 "giving it quintuple defense against all (non-nuclear) air attacks."
-msgstr "Ракетний крейсер озброєно потужною захисною ракетною системою."
+msgstr ""
+"Ракетний крейсер озброєно потужною захисною ракетною системою. Що в п’ять "
+"разів збільшує захист проти всіх неядерних повітряних атак."
 
 #: data/civ2/units.ruleset:1786 data/classic/units.ruleset:1854
 #: data/experimental/units.ruleset:1880 data/civ2civ3/units.ruleset:2039
@@ -20656,8 +20657,8 @@ msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
 msgstr ""
-"Порада: Поважна кількість ракет може забезпечити відсутність ворожіх "
-"кораблів навколо вашого контіненту."
+"Порада: принагідна кількість ракет може забезпечити відсутність ворожих "
+"кораблів навколо вашого коштовного континенту."
 
 #: data/civ2/units.ruleset:1855
 msgid ""
@@ -20666,6 +20667,10 @@ msgid ""
 "changes into desert, tundra, and ice. Settlers and Engineers can clean up "
 "nuclear fallout."
 msgstr ""
+"Подібно до забруднення та глобального потепління, ризик ядерної зими "
+"зростає з радіаційним зараженням. Якщо настане ядерна зима, землі цілого "
+"світу перетворюватимуться на пустелі, тундру та льодовики. Поселенці та "
+"Інженери можуть ліквідовувати радіаційне зараження."
 
 #: data/civ2/units.ruleset:1864
 msgid ""
@@ -20675,6 +20680,11 @@ msgid ""
 "and have them ready to fix the fallout on the same turn it occurs!  This "
 "minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
+"Підказка 2: може статись ситуація, що ви вторглися в ворожу країну великими "
+"силами, але ворожі міста занадто сильні. Перед тим як застосувати Ядерну "
+"зброю, зберіть гурт Поселенців і/або Інженерів коло міста і "
+"будьте готові зчистити радіацію, того ж ходу, коли вона випала! Це мінімізує "
+"шанси ядерної зими. Еко-дружні атомні бомби!"
 
 #: data/civ2/units.ruleset:1969 data/classic/units.ruleset:2058
 #: data/experimental/units.ruleset:2084 data/civ2civ3/units.ruleset:2249
@@ -20728,10 +20738,12 @@ msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
 msgstr ""
+"Шпик, що переживе більш агресивні дії (саботаж, крадіжка, підбурення "
+"повстання, отруєння) втікає до безпеки найближчого дружнього міста."
 
 #: data/civ2/units.ruleset:2024
 msgid "Spies built under a Communist government will be built as veteran."
-msgstr ""
+msgstr "Шпигуни збудовані за Комунsстичного уряду, почнуть ветеранами."
 
 #: data/civ2/units.ruleset:2078 data/classic/units.ruleset:2179
 #: data/experimental/units.ruleset:2205 data/civ2civ3/units.ruleset:2365
@@ -20820,9 +20832,8 @@ msgid "The loss of %s has inspired partisans!"
 msgstr "Втрата %s надихнула партизанів!"
 
 #: data/default/nationlist.ruleset:23
-#, fuzzy
 msgid "?nationset:Core"
-msgstr "Нейтральні"
+msgstr "Основні"
 
 #. TRANS: Description of 'Core' nation set in default rulesets.
 #. ; If you have translated all of the nations in the extended set, not
@@ -20833,11 +20844,11 @@ msgid ""
 "A small set of playable nations that should be fully localized into "
 "languages other than English."
 msgstr ""
+"Малий набір народів для гри; мав би бути повністю перекладеним з англійської."
 
 #: data/default/nationlist.ruleset:34
-#, fuzzy
 msgid "?nationset:Extended"
-msgstr "Нейтральні"
+msgstr "Розширений"
 
 #. TRANS: Description of the 'Extended' nation set in default rulesets,
 #. ; which contains all nations that come with Freeciv.
@@ -20851,6 +20862,9 @@ msgid ""
 "variety, but not all of these may have been localized into languages other "
 "than English."
 msgstr ""
+"Повний набір гральних націй; дозволяє проводити більші ігри з більшим "
+"різномаїттям, але всіх їх треба повністю локалізувати (можуть бути не "
+"перекладені і не адаптовані, крім англійської)."
 
 #: data/default/nationlist.ruleset:60
 msgid "?nationgroup:Medieval"
@@ -20870,7 +20884,7 @@ msgstr "Американські"
 
 #: data/default/nationlist.ruleset:75
 msgid "?nationgroup:Asian"
-msgstr "?nationgroup:Азійські"
+msgstr "?nationgroup:Азіатські"
 
 #: data/default/nationlist.ruleset:78
 msgid "?nationgroup:European"
@@ -20878,7 +20892,7 @@ msgstr "Європейські"
 
 #: data/default/nationlist.ruleset:81
 msgid "?nationgroup:Oceanian"
-msgstr "?nationgroup:Океаньські"
+msgstr "?nationgroup:Океанські"
 
 #: data/default/nationlist.ruleset:84
 msgid "?nationgroup:Imaginary"
@@ -20891,7 +20905,7 @@ msgid ""
 "after the discovery of Electricity.)  However, it does not affect citizens "
 "made unhappy by military activity."
 msgstr ""
-"Розважає городян, нейтралізуючи 3 нещасних городян. (4 після відкриття "
+"Розважає городян, роблячи 3 нещасних городян задоволеними. (4 після відкриття "
 "Електрики.) Втім, не впливає на городян, нещасних внаслідок військових дій."
 
 #: data/classic/buildings.ruleset:314 data/experimental/buildings.ruleset:319
@@ -20900,10 +20914,12 @@ msgid ""
 "Reduces the corruption in a city by 50%, and makes the revolt cost of the "
 "city 4 times bigger. (These effects are redundant in your capital city.)"
 msgstr ""
+"Зменшує корупцію в місті на 50%, і робить кошт повстання в 4 рази вищим. "
+"(Ефекти надмірні для столиці)."
 
 #: data/classic/buildings.ruleset:408 data/experimental/buildings.ruleset:433
 #: data/multiplayer/buildings.ruleset:406
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city, and also reduces the amount of pollution generated by that "
@@ -20914,12 +20930,12 @@ msgid ""
 "150% production bonus with pollution only 50% of the equivalent combination "
 "with a Power Plant."
 msgstr ""
-"Збільшує виробництво на Фабриках та Заводах у місті: Фабрика та Теплостанція "
-"разом дають приріст виробництва 75%, Фабрика, Завод та Теплостанція разом "
-"дають 150% прирісту виробництва. Додаткове виробництво може призвести до "
-"того що місто буде виробляти більше забруднення.\n"
-"\n"
-"Місто може мати лише одну Тепло, Гідро, Атомну чи Соняшну станцію."
+"Збільшує дію Фабрик та Заводів на виробництво в місті, і також зменшує "
+"кількість забруднення від цьоговиробництва. Гідроелектростанція сукупно з "
+"одним  - з Фабрикою або з Заводом разом дають приріст виробництва на 75%, "
+"відносно чистого виробництва без них, даючи лише 75% забруднення, що дає "
+"Теплостанція; Фабрика, Завод та ГЕС разом дають 150% приросту виробництва, і "
+"забруднення на рівні 50% до еквівалетної сукупності з Теплостанцією."
 
 #: data/classic/buildings.ruleset:418 data/classic/buildings.ruleset:540
 #: data/classic/buildings.ruleset:687 data/classic/buildings.ruleset:835
@@ -20936,6 +20952,8 @@ msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
+"В кожному місті може бути лише одна електростанція - Гідро, Тепло, Атомна чи "
+"Сонячна."
 
 #: data/classic/buildings.ruleset:442 data/experimental/buildings.ruleset:491
 #: data/multiplayer/buildings.ruleset:437
@@ -20945,7 +20963,7 @@ msgstr "Підвищує розвиток науки у місті на 100%."
 
 #: data/classic/buildings.ruleset:527 data/experimental/buildings.ruleset:579
 #: data/multiplayer/buildings.ruleset:522
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city, and also reduces the amount of pollution generated by that "
@@ -20956,18 +20974,20 @@ msgid ""
 "150% production bonus with pollution only 50% of the equivalent combination "
 "with a Power Plant."
 msgstr ""
-"Збільшує виробництво на Фабриках та Заводах у місті: Фабрика та Теплостанція "
-"разом дають приріст виробництва 75%, Фабрика, Завод та Теплостанція разом "
-"дають 150% прирісту виробництва. Додаткове виробництво може призвести до "
-"того що місто буде виробляти більше забруднення.\n"
-"\n"
-"Місто може мати лише одну Тепло, Гідро, Атомну чи Соняшну станцію."
+"Збільшує дію Фабрик та Заводів на виробництво в місті, і також зменшує "
+"кількість забруднення від цьоговиробництва. Атомна Електростанція сукупно з "
+"одним  - з Фабрикою або з Заводом разом дають приріст виробництва на 75%, "
+"відносно чистого виробництва без них, даючи лише 75% забруднення, що дає "
+"Теплостанція; Фабрика, Завод та АЕС разом дають 150% приросту виробництва, і "
+"забруднення на рівні 50% до еквівалетної сукупності з Теплостанцією."
 
 #: data/classic/buildings.ruleset:537 data/civ2civ3/buildings.ruleset:651
 msgid ""
 "A Nuclear Plant has a small risk of suffering a nuclear accident, which can "
 "lead to fallout and reduce the city's population."
 msgstr ""
+"Завжди є малий ризик ядерної катастрофи на Атомній станції- це може призвести "
+"до випадіння радіоактивних опадів і зменшення населення міста."
 
 #: data/classic/buildings.ruleset:610 data/experimental/buildings.ruleset:659
 #: data/multiplayer/buildings.ruleset:598
@@ -20981,7 +21001,7 @@ msgstr ""
 
 #: data/classic/buildings.ruleset:679 data/experimental/buildings.ruleset:728
 #: data/multiplayer/buildings.ruleset:664
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city.  A Power Plant in combination with either a Factory or Mfg. Plant "
@@ -20991,11 +21011,10 @@ msgid ""
 "pollution."
 msgstr ""
 "Збільшує виробництво на Фабриках та Заводах у місті: Фабрика та Теплостанція "
-"разом дають приріст виробництва 75%, Фабрика, Завод та Теплостанція разом "
-"дають 150% прирісту виробництва. Додаткове виробництво може призвести до "
-"того що місто буде виробляти більше забруднення.\n"
-"\n"
-"Місто може мати лише одну Тепло, Гідро, Атомну чи Соняшну станцію."
+"разом дають приріст виробництва на 75% від рівня без жодної з будівель, "
+"Фабрика, Завод та Теплостанція разом дають 150% приросту виробництва. "
+"Додаткове виробництво може призвести до того що місто буде виробляти "
+"більше забруднення."
 
 #: data/classic/buildings.ruleset:733 data/experimental/buildings.ruleset:782
 #: data/multiplayer/buildings.ruleset:715
@@ -21011,7 +21030,7 @@ msgstr ""
 
 #: data/classic/buildings.ruleset:825 data/experimental/buildings.ruleset:874
 #: data/multiplayer/buildings.ruleset:805
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city, and also greatly reduces the amount of pollution generated by that "
@@ -21022,12 +21041,12 @@ msgid ""
 "150% production bonus, and eliminates all pollution generated by production "
 "in that city."
 msgstr ""
-"Збільшує виробництво на Фабриках та Заводах у місті: Фабрика та Теплостанція "
-"разом дають приріст виробництва 75%, Фабрика, Завод та Теплостанція разом "
-"дають 150% прирісту виробництва. Додаткове виробництво може призвести до "
-"того що місто буде виробляти більше забруднення.\n"
-"\n"
-"Місто може мати лише одну Тепло, Гідро, Атомну чи Соняшну станцію."
+"Збільшує дію Фабрик та Заводів на виробництво в місті, і також зменшує "
+"кількість забруднення від цьоговиробництва. Атомна Електростанція сукупно з "
+"одним  - з Фабрикою або з Заводом разом дають приріст виробництва на 75%, "
+"відносно чистого виробництва без них, даючи лише 75% забруднення, що дає "
+"Теплостанція; Фабрика, Завод та АЕС разом дають 150% приросту виробництва, і "
+"повністю знімає забруднення від виробництва."
 
 #: data/classic/buildings.ruleset:1008
 #: data/experimental/buildings.ruleset:1060
@@ -21113,23 +21132,23 @@ msgstr ""
 
 #: data/classic/buildings.ruleset:1515
 #: data/experimental/buildings.ruleset:1569
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Збільшує розвиток науки в усіх містах з Дослідною Лабораторією на 100%."
 
 #: data/classic/buildings.ruleset:1576
 #: data/experimental/buildings.ruleset:1630
-#, fuzzy
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
 "are created as Hardened). The chance of a land unit getting the next veteran "
 "level after a battle increases by half."
 msgstr ""
-"Усі Ваші нові сухопутні підрозділи стають ветеранами першого рівня. "
-"Вірогідність того, що сухопутний підрозділ стане ветераном наступного рівня "
-"після битви, збільшується на половину."
+"Усі Ваші нові сухопутні підрозділи починають з додатковим рівнем ветерана "
+"(діє разом з Бараками; з обома загони починають Загартованими). Шанс, що "
+"сухопутний підрозділ після битви стане ветераном наступного рівня, "
+"збільшується на половину."
 
 #: data/classic/buildings.ruleset:1638
 #: data/experimental/buildings.ruleset:1692
@@ -21166,57 +21185,51 @@ msgstr "Кожен податківець додає до скарбниці т�
 #: data/classic/cities.ruleset:191 data/experimental/cities.ruleset:193
 #: data/civ2civ3/cities.ruleset:194 data/multiplayer/cities.ruleset:190
 msgid "?citystyle:ElectricAge"
-msgstr "Віку Електрики"
+msgstr "Вік Електрики"
 
 #: data/classic/game.ruleset:18
-#, fuzzy
 msgid "Classic ruleset"
-msgstr "Набір правил Civ1"
+msgstr "Класичний Набір правил"
 
 #: data/classic/game.ruleset:21
-#, fuzzy
 msgid "You are playing with classic Freeciv rules for single player games."
-msgstr "Ви граєте Freeciv за типовими правилами."
+msgstr "Ви граєте Freeciv з класиними правилами для одного гравця."
 
 #. TRANS: year label (Common Era)
 #: data/classic/game.ruleset:222 data/experimental/game.ruleset:226
 #: data/civ2civ3/game.ruleset:228 data/multiplayer/game.ruleset:226
 msgid "CE"
-msgstr ""
+msgstr "н.е."
 
 #. TRANS: year label (Before Common Era)
 #: data/classic/game.ruleset:224 data/experimental/game.ruleset:228
 #: data/civ2civ3/game.ruleset:230 data/multiplayer/game.ruleset:228
-#, fuzzy
 msgid "BCE"
-msgstr "до Р. Х."
+msgstr "до н.е."
 
 #: data/classic/game.ruleset:250
 msgid "Pestilence"
-msgstr ""
+msgstr "Пошесть"
 
 #: data/classic/game.ruleset:260 data/civ2civ3/game.ruleset:278
-#, fuzzy
 msgid "Nuclear Accident"
-msgstr "Ядерна зима"
+msgstr "Атомна аварія"
 
 #: data/classic/script.lua:75 data/civ2civ3/script.lua:75
-#, fuzzy
 msgid "Highest Peak"
-msgstr "Верховний жрець %s"
+msgstr "Найвища вершина"
 
 #: data/classic/script.lua:80 data/civ2civ3/script.lua:80
-#, fuzzy
 msgid "Deep Trench"
-msgstr "Глибокий океан"
+msgstr "Глибока впадина"
 
 #: data/classic/script.lua:85 data/civ2civ3/script.lua:85
 msgid "Scorched Spot"
-msgstr ""
+msgstr "Попелище"
 
 #: data/classic/script.lua:90 data/civ2civ3/script.lua:90
 msgid "Frozen Lake"
-msgstr ""
+msgstr "Замерзле озеро"
 
 #: data/classic/techs.ruleset:226 data/experimental/techs.ruleset:244
 #: data/multiplayer/techs.ruleset:226
@@ -21229,9 +21242,8 @@ msgid "Increases units' vision when in fortresses."
 msgstr "Покращує зір підрозділів в укріпленнях."
 
 #: data/classic/techs.ruleset:430 data/classic/techs.ruleset:721
-#, fuzzy
 msgid "Allows establishing one more trade route from each city."
-msgstr "Спроба встановити торговий шлях для %s зазнала невдачі."
+msgstr "Дозволяє встановлювати ще один торговий шлях від кожного міста."
 
 #: data/classic/techs.ruleset:595 data/experimental/techs.ruleset:654
 #: data/civ2civ3/techs.ruleset:668 data/multiplayer/techs.ruleset:603
@@ -21240,19 +21252,18 @@ msgstr "Дозволяє Робітникам та Інженерам будув
 
 #: data/classic/techs.ruleset:604 data/experimental/techs.ruleset:664
 #: data/multiplayer/techs.ruleset:612
-#, fuzzy
 msgid "Allows Settlers, Workers and Engineers to upgrade roads to railroads."
-msgstr "Дозволяє Поселенцям, Робітникам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям, Робітникам, Інженерам модернізувати дороги до залізниць."
 
 #: data/classic/terrain.ruleset:183 data/experimental/terrain.ruleset:185
 #: data/civ2civ3/terrain.ruleset:183 data/multiplayer/terrain.ruleset:183
 msgid "Inaccessible"
-msgstr ""
+msgstr "Непрохідна."
 
 #: data/classic/terrain.ruleset:216 data/experimental/terrain.ruleset:218
 #: data/civ2civ3/terrain.ruleset:216 data/multiplayer/terrain.ruleset:216
 msgid "No unit can enter this terrain, nor can any city work its tiles."
-msgstr ""
+msgstr "Жоден загін не може зайти на цю місцевість, і міста не можуть обробити."
 
 #: data/classic/terrain.ruleset:221 data/experimental/terrain.ruleset:223
 #: data/civ2civ3/terrain.ruleset:221 data/multiplayer/terrain.ruleset:221
@@ -21266,14 +21277,12 @@ msgstr "Озера - це великі скупчення прісної вод�
 
 #: data/classic/terrain.ruleset:298 data/experimental/terrain.ruleset:296
 #: data/civ2civ3/terrain.ruleset:298 data/multiplayer/terrain.ruleset:294
-#, fuzzy
 msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
 "of food and other resources."
 msgstr ""
 "Мілководдя знаходиться, переважно, біля узбережжя, і часто є багатим "
-"джерелом харчів та інших ресурсів. Їх можна перетинати морськими "
-"підрозділами, в тому числі Триремами."
+"джерелом харчів та інших ресурсів."
 
 #: data/classic/terrain.ruleset:304 data/experimental/terrain.ruleset:302
 #: data/civ2civ3/terrain.ruleset:304 data/multiplayer/terrain.ruleset:300
@@ -21291,16 +21300,16 @@ msgstr ""
 
 #: data/classic/terrain.ruleset:1049 data/experimental/terrain.ruleset:1025
 #: data/multiplayer/terrain.ruleset:1023
-#, fuzzy
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
 "of its hit points. With Invention, fortresses gain watchtowers from which "
 "land units can see further afield."
 msgstr ""
-"Фортеці покращують захист сухопутних військ. Крім того, сухопутний "
-"підрозділ, що залишається у фортеці протягом ходу і не рухається, відновлює "
-"четвертину здоров'я."
+"Фортеці покращують захист сухопутних військ. Крім того, сухопутний підрозділ, "
+"що залишається у фортеці протягом ходу і не рухається, відновлює четвертину "
+"здоров'я. З Винахідництвом, твердині набувають сторожових веж, з яких зір "
+"сухопутних військ гострішає - вони бачать дальше."
 
 #: data/classic/terrain.ruleset:1079 data/experimental/terrain.ruleset:1055
 #: data/civ2civ3/terrain.ruleset:1101 data/multiplayer/terrain.ruleset:1057
@@ -21333,6 +21342,9 @@ msgid ""
 "center tiles automatically get roads (unless they are on a river tile and "
 "you do not yet know Bridge Building)."
 msgstr ""
+"Будівництво дороги на річці потребує знання мостобудування. Центри міст "
+"автоматично отримують дороги (хіба вони на річках,а Ви ще не знаєте "
+"Будівництва Мостів)."
 
 #: data/classic/units.ruleset:38 data/experimental/units.ruleset:41
 #: data/civ2civ3/units.ruleset:37 data/civ2civ3/units.ruleset:575
@@ -21358,12 +21370,14 @@ msgid ""
 "Settlers are one of the key units in the game, as they are your main means "
 "of founding new cities."
 msgstr ""
+"Поселенці один з ключових загонів у грі. Вони головні засновники міст."
 
 #: data/classic/units.ruleset:415 data/experimental/units.ruleset:429
 #: data/civ2civ3/units.ruleset:438 data/multiplayer/units.ruleset:415
 msgid ""
 "Settlers can also perform some of the same terrain alterations as Workers."
 msgstr ""
+"Поселенці також можуть покращувати місцевість, як Робітники."
 
 #: data/classic/units.ruleset:425 data/experimental/units.ruleset:439
 #: data/civ2civ3/units.ruleset:486 data/multiplayer/units.ruleset:426
@@ -21398,6 +21412,8 @@ msgid ""
 "Workers can build airbases and buoys, which Settlers cannot. Workers must be "
 "on board a ship to build buoys."
 msgstr ""
+"Робітники можуть будвати авіабази і буйки, а Поселенці ні. Робітники мають "
+"бути на борту корабля, щоб збудувати буї."
 
 #: data/classic/units.ruleset:519 data/experimental/units.ruleset:543
 #: data/multiplayer/units.ruleset:519
@@ -21458,6 +21474,10 @@ msgid ""
 "changes into desert, tundra, and ice. Settlers, Workers, and Engineers can "
 "clean up nuclear fallout."
 msgstr ""
+"Подібно до забруднення та глобального потепління, ризик ядерної зими "
+"зростає з радіаційним зараженням. Якщо настане ядерна зима, землі цілого "
+"світу перетворюватимуться на пустелі, тундру та льодовики. Поселенці, "
+"Робітники або Інженери можуть зчищати радіаційне зараження."
 
 #: data/classic/units.ruleset:1938 data/experimental/units.ruleset:1964
 #: data/multiplayer/units.ruleset:2036
@@ -21468,6 +21488,11 @@ msgid ""
 "the city and have them ready to fix the fallout on the same turn it occurs!  "
 "This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
+"Підказка 2: може статись ситуація, що ви вторглися в ворожу країну великими "
+"силами, але ворожі міста занадто сильні. Перед тим як застосувати Ядерну "
+"зброю, зберіть гурт Поселенців, Робітників і/або Інженерів коло міста і "
+"будьте готові зчистити радіацію, того ж ходу, коли вона випала! Це мінімізує "
+"шанси ядерної зими. Еко-дружні атомні бомби!"
 
 #. TRANS: diplomatic rank.
 #. TRANS: Unless translated, the last character in "attache" should be
@@ -21510,7 +21535,6 @@ msgstr ""
 
 #: data/classic/units.ruleset:2052 data/experimental/units.ruleset:2078
 #: data/multiplayer/units.ruleset:2150
-#, fuzzy
 msgid ""
 "Diplomats built under a Communist government will start at the first veteran "
 "level (secretary)."
@@ -21779,7 +21803,6 @@ msgstr ""
 "землі. Триреми, також можуть рухтися вздовж рік (проте пізніші човни вже ні). "
 
 #: data/experimental/terrain.ruleset:1305
-#, fuzzy
 msgid ""
 "Roads, railroads, and maglev can only be built on River tiles if your "
 "civilization has learned Bridge Building technology."
@@ -22111,18 +22134,17 @@ msgid ""
 "produce up to two units each turn (but only single units of types which cost "
 "population)."
 msgstr ""
-"З достатнім рівнем виробництва (щитів), міста з Заводом можеть випускати до "
+"З достатнім рівнем виробництва (щитів), міста з Заводом можуть випускати до "
 "двох загонів на хід (але лише один для типу загонів, що коштують населення)."
 
 #: data/civ2civ3/buildings.ruleset:613
-#, fuzzy
 msgid ""
 "This increase in shield production may contribute significantly to "
 "pollution; a Manufacturing Plant also increases the pollution caused by the "
 "population of the city."
 msgstr ""
-"Це збільшення виробництва також суттєво збільшує забруднення, до того ж Завод "
-"підвищує забруднення спричинене населенням міста."
+"Це збільшення виробництва буває також суттєво збільшує забруднення, до того ж "
+"Завод підвищує забруднення спричинене населенням міста."
 
 #: data/civ2civ3/buildings.ruleset:647
 #, no-c-format
@@ -22151,7 +22173,6 @@ msgid ""
 msgstr "Прибережні платформи збільшують забруднення спричинене населенням."
 
 #: data/civ2civ3/buildings.ruleset:700
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government. Waste in other "
 "cities (corruption, production waste, and food waste) is often related to "
@@ -22162,7 +22183,7 @@ msgstr ""
 "Робить місто столицею та центром Вашого уряду. Втрати (корупція, втрати "
 "виробництва, втрати іжі) в інших містах залежать від того, як далеко від "
 "столиці вони знаходяться. Поверх цього корупція і втрати виробництва у, "
-" власне, столиці половина від тих, що могли б бути. (Суд прибере їх повністю)."
+"власне, столиці - половина від тих, що могли б бути (Суд прибере їх повністю)."
 
 #: data/civ2civ3/buildings.ruleset:724
 #, no-c-format
@@ -22170,7 +22191,7 @@ msgid ""
 "Under Despotism the city containing the palace gains a +75% gold bonus, and "
 "under Monarchy a +50% gold bonus."
 msgstr ""
-"За Деспотизму місто з палацом набуває +75% додачі до золота, а за "
+"За Деспотизму місто з палацом набуває +75% премії до золота, а за "
 "Монархії +50%."
 
 #: data/civ2civ3/buildings.ruleset:744
@@ -22179,24 +22200,29 @@ msgid ""
 "its city. It also makes up to 2 more unhappy citizens content provided they "
 "are not unhappy about aggression."
 msgstr ""
+"Поліцейський Відділок знешкоджує нещастя спричинене одним військовим загоном "
+"в його місті. Також робить 2 нещасних задоволеними, за умови, що вони нещасні "
+"не через агресію."
 
 #: data/civ2civ3/buildings.ruleset:821
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "shield production in a city by 50%, or by an additional 25% in cities with "
 "another building which reduces pollution (Nuclear Plant, Hydro Plant, or "
 "Solar Plant)."
 msgstr ""
-"Будівництво переробного комбінату зменшує забруднення від виробництва у "
-"місті на 66%."
+"Будівництво переробного комбінату зменшує забруднення від виробництва в "
+"місті на 50%, або на додаткових 25% в містах з іншою будівлею, що зменшує "
+"забруднення (АЕС,ГЕС чи сонячна електростанція)."
 
 #: data/civ2civ3/buildings.ruleset:845
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the science output in a city by an additional 50%, or by 100% once "
 "the Internet wonder has been built by any player."
-msgstr "Підвищує розвиток науки у місті на 100%."
+msgstr "Підвищує розвиток науки у місті на додаткових 50%, чи на 100%, коли "
+"чудо Інтернет збудує хоч один гравець."
 
 #: data/civ2civ3/buildings.ruleset:850
 #, no-c-format
@@ -22205,15 +22231,17 @@ msgid ""
 "all present in the same city, increasing to 300% once the Great Library, "
 "Isaac Newton's College, and the Internet have all been built."
 msgstr ""
+"Повна премія буде 150%, якщо Бібліотека, Університет і Дослідна Лабораторія "
+"вже всі є в місті, збільшуючись до 300%, коли Велика Бібліотека, Коледж "
+"Ісаака Нютона та Інтернет вже всі збудовані."
 
 #: data/civ2civ3/buildings.ruleset:872
-#, fuzzy
 msgid ""
 "Doubles the intrinsic defense strength of units within a city when defending "
 "against aircraft (including helicopters)."
 msgstr ""
-"Подвоює захист усіх підрозділів у місті від атак повітряних військ (окрім "
-"гелікоптерів та ракет)."
+"Подвоює захист усіх підрозділів у місті від атак повітряних військ (включно з "
+"вертольотами)."
 
 #: data/civ2civ3/buildings.ruleset:892
 msgid ""
@@ -22225,19 +22253,21 @@ msgid ""
 "conventional missiles."
 msgstr ""
 "Захищає місто і його околиці (на відстань до 2 клітин) від нападу ворожих "
-"Атомних бомб. Не належний вам або союзникам ядерний загін , який: а)атакує місто "
-"з СОІ захистом, б) чи підрозділ біля міста, в)або просто підривається, в межах дії"
-"СОІЗ - просто збивають і його ефекти не діють. "
+"Атомних загонів. Не належний вам або союзникам ядерний загін , який: "
+"а)атакує місто з СОІ захистом, "
+"б) чи підрозділ біля міста, "
+"в)або просто підривається, -"
+"в межах дії СОІ захисту - просто збивають і його ефекти не діють. "
 "Крім того подвоює захист загонів в місті проти неядерних ракет."
 
 #: data/civ2civ3/buildings.ruleset:918
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Together with an Aqueduct, allows a city to grow larger than size 16, and "
 "further reduces the chance of a plague (by 30% of the base chance)."
 msgstr ""
-"Дозволяє місту зростати у розмірі понад 12. Спершу потрібен Водогін для "
-"росту міста понад 8. Надалі, каналізація зменшує ризик пошесті."
+"Разом з водогоном дозволяє місту зростати розмірами понад 16, і ще сильніше "
+"зменшує ризик пошесті."
 
 #: data/civ2civ3/buildings.ruleset:951
 #, no-c-format
@@ -22246,6 +22276,9 @@ msgid ""
 "production to 25% of its normal value, or eliminates it entirely in "
 "combination with a Recycling Center."
 msgstr ""
+"Поте Сонячна Електростанція зменшує забруднення зв’язане з виробництвом до 25%"
+"його нормальної величини, або ж, знешкоджує його повністю, працюючи в поєднанні "
+"з Переробним Комбінатом."
 
 #: data/civ2civ3/buildings.ruleset:1070
 #, no-c-format
@@ -22255,15 +22288,17 @@ msgid ""
 "Exchange together in a city yield a total bonus of 150%; adding Super "
 "Highways yields a total of 200%."
 msgstr ""
+"Збільшує віддачу містом податків і розкошу на додаткових 50%, або 100%, якщо "
+"Супершосе теж є в місті. Ринок, Банк і Біржа всі разом видають загальний "
+"бонус у 150%, додача ще і Супершосе разом дасть 200%."
 
 #: data/civ2civ3/buildings.ruleset:1092
-#, fuzzy
 msgid ""
 "Each tile around the city with roads, and without farmlands, that is already "
 "generating some trade, produces one extra trade resource."
 msgstr ""
-"Кожна клітинка навколо міста з цим Дивом, що вже отримує деякий прибуток від "
-"торгівлі, отримуватиме його на одиницю більше."
+"Кожна клітинка навколо міста з дорогами і без ферм, що вже дає трохи торгівлі,"
+" даватиме її на одиницю більше."
 
 #: data/civ2civ3/buildings.ruleset:1097
 #, no-c-format
@@ -22271,16 +22306,15 @@ msgid ""
 "Also doubles the effect of any Stock Exchange in the city (increasing luxury "
 "and tax output by an additional 50%)."
 msgstr ""
+"Подвоює дію Біржі в місті (збільшуючи вихід розкошів і податків на додаткових 50%)."
 
 #: data/civ2civ3/buildings.ruleset:1100
-#, fuzzy
 msgid ""
 "Super Highways also increase the pollution caused by the population of the "
 "city."
-msgstr "* Збільшує забруднення, спричинене населенням.\n"
+msgstr "СуперШосе також збільшує забруднення, спричинене населенням."
 
 #: data/civ2civ3/buildings.ruleset:1142
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content. The Mysticism advance doubles this effect "
 "(except under a Communist government). With both Mysticism and the Temple of "
@@ -22288,15 +22322,17 @@ msgid ""
 "citizens made unhappy by aggression."
 msgstr ""
 "Нейтралізує одного нещасного у місті. Знання Містицизму подвоює цей ефект. "
-"Разом з Містицизмом та Оракулом, 4 нещасних нейтралізуються. Не впливає на "
-"нещасних внаслідок військових дій."
+"(крім комінстичного уряду). Разом з Містицизмом і Храмом Артеміди, 4 нещасних "
+"задовольняються (за Комунізму три). Не впливає на нещасних внаслідок "
+"військових дій."
 
 #: data/civ2civ3/buildings.ruleset:1166
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the science output in a city by an additional 50%, or by 100% once "
 "Isaac Newton's College has been built by any player."
-msgstr "Підвищує розвиток науки у місті на 100%."
+msgstr "Підвищує розвиток науки у місті на 50, або на 100%, коли Коледж Ісаака "
+"Ньютона збудований хоч яким гравцем."
 
 #: data/civ2civ3/buildings.ruleset:1171
 #, no-c-format
@@ -22305,9 +22341,11 @@ msgid ""
 "in the same city, increasing to 200% once the Great Library and Isaac "
 "Newton's College have both been built."
 msgstr ""
+"Повна премія буде 100%, якщо Бібліотека і Університет вже є в місті, "
+"збільшуючись до 200%, коли Велика Бібліотека, Коледж Ісаака Нютона вже обидва "
+"збудовані."
 
 #: data/civ2civ3/buildings.ruleset:1192
-#, fuzzy
 msgid ""
 "The entire map becomes permanently visible to the player who owns it -- the "
 "player always has up-to-date knowledge of all terrain and cities (but not "
@@ -22316,7 +22354,7 @@ msgid ""
 msgstr ""
 "Уся мапа стає постійно видимою гравцю, який цим володіє -- гравець завжди "
 "має поточні дані про всі землі та міста (але не підрозділи), незважаючи на "
-"мару війни. Дозволяє всім гравцям розпочати будівництво частин зорельота "
+"туман війни. Дозволяє всім гравцям почати будівництво частин зорельота "
 "(якщо вони знають необхідні технології)."
 
 #: data/civ2civ3/buildings.ruleset:1198
@@ -22326,34 +22364,38 @@ msgid ""
 "and AI players will no longer be friendly towards the owner of the United "
 "Nations or the Eiffel Tower."
 msgstr ""
+"Завершення Програми Аполо, також дозволяє силі з ядерною зброєю проголошувати "
+"війну без провокації, незалежно від існування Об’єднаних Націй чи "
+"Ейфелевої Вежі."
 
 #: data/civ2civ3/buildings.ruleset:1221
-#, fuzzy
 msgid ""
 "In every city with a Stock Exchange, city improvements which would normally "
 "have an upkeep of 1 become free of upkeep. (Communist governments inherently "
 "give this benefit, so there is no bonus under Communism.)"
 msgstr ""
-"Міські будівлі, що зазвичай потребують 1 гривню на утримання, "
-"утримуватимуться безкоштовно, в усіх Ваших містах на тому ж континенті."
+"В кожному місті з Біржею, міські будівлі, що зазвичай потребують 1 гривню на "
+"утримання, утримуватимуться безкоштовно, у всіх Ваших містах на тому ж "
+"континенті. (Комуністичні уряди за своєю суттю дають це благо, тому бонуса "
+"за комунізму нема)."
 
 #: data/civ2civ3/buildings.ruleset:1226
 msgid ""
 "Upon completion of this wonder, tax collector specialists' gold output "
 "increases to 3 permanently for every nation."
 msgstr ""
+"По закінченню цього чуда, видача збирачів податків стає 3, для всіх націй."
 
 #: data/civ2civ3/buildings.ruleset:1266
-#, fuzzy
 msgid ""
 "Each tile worked by the city where this wonder is built produces one extra "
 "research point."
 msgstr ""
-"Кожна клітинка навколо міста з цим Дивом, що вже отримує деякий прибуток від "
-"торгівлі, отримуватиме його на одиницю більше."
+"Кожна оброблена клітинка навколо міста з цим Дивом видає додаткову "
+"одиничку досліджень."
 
 #: data/civ2civ3/buildings.ruleset:1287
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "This stunning technological achievement makes one content citizen happy in "
 "each of your cities (2 extra luxury per city). It further reduces the risk "
@@ -22361,27 +22403,28 @@ msgid ""
 "Aqueduct, a Sewer System, and knowledge of Medicine, it entirely eliminates "
 "the risk of plague."
 msgstr ""
-"Це неймовірне технологічне досягнення робить одного задоволеного щасливим в "
-"усіх Ваших містах (2 додаткових розкошів на місто). (включно з нещасними "
-"внаслідок військових дій). Також зменшує ризик хвороб в місті (на 10% від "
-"базового шансу); разом з Водогоном, Каналізацією і знанням Медицини, воно "
-"повністю знімає ризик пошесті."
+"Це неймовірне технологічне досягнення робить одного задоволеного щасливим у "
+"всіх Ваших містах (2 додаткових розкошів на місто).Також зменшує ризик хвороб "
+"в місті (на 10% від базового шансу); разом з Водогоном, Каналізацією і "
+"знанням Медицини, воно повністю знімає ризик пошесті."
 
 #: data/civ2civ3/buildings.ruleset:1310
-#, fuzzy
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. All your cities "
 "generate 1 extra science bulb."
 msgstr ""
 "Подорож Чарлза Дарвіна спричинила відкриття походження видів, що будо "
-"великим здобутком у науці. Надає два позачергових відкриття."
+"надихнуло велику впевненість в науку. Всі ваші міста генерують додаткову "
+"бульку науки."
 
 #: data/civ2civ3/buildings.ruleset:1314
 msgid ""
 "Upon completion of this wonder, scientist specialists' research output "
 "increases to 3 permanently for every nation."
 msgstr ""
+"Після завершення цього Чуда, видача дослідження спеціаліста-науковця виростає "
+"до 3 назавжди, для всіх націй."
 
 #: data/civ2civ3/buildings.ruleset:1334
 msgid ""
@@ -22390,43 +22433,48 @@ msgid ""
 "pollution caused by the population; it counteracts the pollution associated "
 "with a single building in each of your cities."
 msgstr ""
+"Народи ШІ стають більш дружніми і всепрощальними до власника цього чуда (поки "
+"не збудують Програму Аполо). Також зменшує забруднення спричинене населенням; "
+"протидіє забрудненню пов’язаному з однією будівлею у кожному з ваших міст."
 
 #: data/civ2civ3/buildings.ruleset:1357
 msgid ""
 "Gives an immediate technology advance to the player that builds it, and "
 "thereafter 4 extra research points every turn to its city."
 msgstr ""
+"Дає негайне відкриття гравцеві,що це збудує, і по тому 4 додаткових очки "
+"досліджень для свого міста кожного ходу."
 
 #: data/civ2civ3/buildings.ruleset:1360
 msgid ""
 "Completion of this wonder permanently doubles the effect of Libraries for "
 "every player."
 msgstr ""
+"Завершення цього дива назавжди подвоює ефект Бібліотеки для кожного гравця."
 
 #: data/civ2civ3/buildings.ruleset:1381
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the defense of all your cities by adding a +50% bonus to its "
 "units' intrinsic defense strength against land units (this is cumulative "
 "with any City Walls), and preventing the loss of population which occurs "
 "when a defending unit is defeated by a land unit."
 msgstr ""
-"Стіни міста допомагають захищати місто. Вони потроюють захисну силу "
-"підрозділів у місті проти сухопутних та гелікоптерних підрозділів. Вони "
-"неефективні проти повітряних і морських підрозділів та Гаубиць. Міські стіни "
-"також запобігають втратам мирного населення, що трапляються при знищенні "
+"Збільшує захист всіх ваших міст додаючи +50% бонус до сили захисту внутрішніх "
+"загонів проти сухопутних військ (поєднується з міськими стінами),також "
+"запобігають втратам мирного населення, що трапляються при знищенні "
 "захисних підрозділів сухопутними військами."
 
 #: data/civ2civ3/buildings.ruleset:1403
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content in every city of the player that owns it "
 "(not including citizens unhappy about aggression). This wonder also makes "
 "two content citizens happy in the city where it is located (4 extra luxury "
 "points)."
 msgstr ""
-"Нейтралізує двох нещасних у кожному місті на тому ж континенті (включно з "
-"нещасними внаслідок військових дій)."
+"Робить одного нещасного задоволеним в кожному місті гравця,який цим володіє "
+"(не включаючи нещасних внаслідок військових дій). Це чудо також робить двох "
+"задоволених щасливими в місті де побудоване (4 додаткових розкошів)."
 
 #: data/civ2civ3/buildings.ruleset:1428
 #, no-c-format
@@ -22435,27 +22483,33 @@ msgid ""
 "from shield production by a further 25% in all cities with Hydro Plants, "
 "making them equivalent to Solar Plants."
 msgstr ""
+"Діє як ГЕС в місті де збудоване, і зменшує забруднення від виробництва ще на "
+"25% у всіх містах з Гідростанціями, роблячи їх еквівалентами Сонячних станцій."
 
 #: data/civ2civ3/buildings.ruleset:1450
 msgid ""
 "Gives an immediate technology advance to the player that builds it, and "
 "thereafter 6 extra research points every turn to its city."
 msgstr ""
+"Дає негайне відкриття гравцеві, що йогозбудував і крім того 6 додаткових "
+"одиниць досліджень щоходу своєму місту."
 
 #: data/civ2civ3/buildings.ruleset:1453
 msgid ""
 "Completion of this wonder permanently doubles the effect of Universities for "
 "every player."
 msgstr ""
+"Завершення цього чуда назавжди подвоює дію Університетів для всіх гравців."
 
 #: data/civ2civ3/buildings.ruleset:1473
 msgid ""
 "Makes one content citizen happy in every city of the player that owns it (2 "
 "extra luxury points per city)."
 msgstr ""
+"Робить одного задоволеного городянина щасливим в кожному місті гравця-"
+"власника (2 додаткових розкоші на місто)."
 
 #: data/civ2civ3/buildings.ruleset:1493
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 1 -- in other words, it neutralizes the unhappiness caused by "
@@ -22463,68 +22517,68 @@ msgid ""
 "two citizens unhappy). Under governments where unit upkeep is paid in gold, "
 "it gives two free gold per city towards upkeep every turn."
 msgstr ""
-"Зменшує кількість нещасних з причини відсутності військових підрозділів у "
-"місті на 2 при Демократії та на 1 при Республіці -- іншими словами, "
-"нейтралізує нещасливість, спричинену одним військовим підрозділом. За інших "
-"форм правління не діє."
+"Зменшує кількість нещасних з причини агресивного розміщення військових "
+"підрозділів міста на 1 -- іншими словами, нейтралізує нещасність, спричинену "
+"одним військовим підрозділом( крім Демократії, коли один загін робить двох "
+"громадян нещасними). За урядів де утримання загону платиться золотом, дає "
+"дві гривні золота на місто на утримання військ щоходу."
 
 #: data/civ2civ3/buildings.ruleset:1537
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point (except Triremes while "
 "moving on rivers). Makes all your new sea units veterans (for all your "
 "cities)."
 msgstr ""
-"Надає усім Вашим морським підрозділам 1 додатковий рух. Робить усі нові "
-"морські підрозділи ветеранами (в усіх Ваших містах)."
+"Надає усім Вашим морським підрозділам 1 додатковий рух (крім Трирем, коли "
+"вони рухаються річками). Робить усі нові морські загони ветеранами (у всіх "
+"Ваших містах)."
 
 #: data/civ2civ3/buildings.ruleset:1559
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. The chance of a sea "
 "unit getting the next veteran level after a battle increases by half."
 msgstr ""
-"Усі Ваші нові сухопутні підрозділи стають ветеранами першого рівня. "
-"Вірогідність того, що сухопутний підрозділ стане ветераном наступного рівня "
-"після битви, збільшується на половину."
+"Надає усім Вашим морським підрозділам 1 додатковий рух. Шанс того, що "
+"морський підрозділ стане ветераном наступного рівня після бою, збільшується "
+"на половину."
 
 #: data/civ2civ3/buildings.ruleset:1600
 msgid ""
 "TIP: if you're behind in research, this can help you catch up, by reducing "
 "the cost of technologies that other players already know."
 msgstr ""
+"Підказка: якщо ви позаду в дослідженнях, це може врятувати вас, зменшуючи"
+"вартість технологій, котрі вже відомі іншим гравцям."
 
 #: data/civ2civ3/buildings.ruleset:1621
-#, fuzzy
 msgid ""
 "Doubles the base effect of Cathedrals. This makes 3 additional unhappy "
 "citizens content in each city with a Cathedral; however, it does not affect "
 "citizens made unhappy by aggression."
 msgstr ""
-"Розважає громадян міста, нейтралізуючи 3 нещасних городян.  Втім, не впливає "
-"на городян, нещасних внаслідок військових дій."
+"Подвоює дію Собірів. Робить 3 додаткових нещасних городян задоволеними в "
+"кожному місті з Собором.  Втім, не впливає на городян, нещасних внаслідок "
+"військових дій."
 
 #: data/civ2civ3/buildings.ruleset:1628
 msgid "Mausoleum of Mausolos"
-msgstr ""
+msgstr "Мавзолей Мавзолоса"
 
 #: data/civ2civ3/buildings.ruleset:1642
-#, fuzzy
 msgid ""
 "With this wonder, City Walls and Courthouses each make one unhappy citizen "
 "content in their city, unless that citizen is unhappy about aggression. "
 "Also, none of the owner's cities can be incited to revolt."
 msgstr ""
-"Нейтралізує двох нещасних у кожному Вашому місті на континенті, де збудовано "
-"це Диво (включно з городянами, нещасними через військові дії)."
+"З цим дивом, міські Мруи і Суди кожне роблять одного нещасного задоволеним у "
+"свому місті, хіба городяни нещасні через військові дії."
+"Також жодне з міст власника неможна підбурити до бунту."
 
 #: data/civ2civ3/buildings.ruleset:1649
-#, fuzzy
 msgid "Statue of Zeus"
-msgstr "Статуя Свободи"
+msgstr "Статуя Зевса"
 
 #: data/civ2civ3/buildings.ruleset:1663
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 1 -- in other words, it neutralizes the unhappiness caused by "
@@ -22532,25 +22586,23 @@ msgid ""
 "two citizens unhappy). Each city also avoids one shield of upkeep for units."
 msgstr ""
 "Зменшує кількість нещасних з причини відсутності військових підрозділів у "
-"місті на 2 при Демократії та на 1 при Республіці -- іншими словами, "
-"нейтралізує нещасливість, спричинену одним військовим підрозділом. За інших "
-"форм правління не діє."
+"місті на 1 -- іншими словами, нейтралізує нещасність, спричинену одним "
+"військовим загоном (крім Демократії де один загін робить двох громадян "
+"нещасним ). Кожне місто також уникає плати одного щита за утримання загонів."
 
 #: data/civ2civ3/buildings.ruleset:1672
 msgid "Temple of Artemis"
-msgstr ""
+msgstr "Храм Артеміди"
 
 #: data/civ2civ3/buildings.ruleset:1687
-#, fuzzy
 msgid ""
 "Makes 2 additional unhappy citizens content in every city with a Temple. "
 "Does not affect citizens made unhappy by aggression."
 msgstr ""
-"Нейтралізує додатково 2 нещасних у кожному місті з Церквою. Не впливає на "
+"Нейтралізує додатково 2 нещасних у кожному місті з Храмом. Не впливає на "
 "городян, нещасних внаслідок військових дій."
 
 #: data/civ2civ3/buildings.ruleset:1707
-#, fuzzy
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some shield output produces one extra shield resource. Under "
@@ -22558,11 +22610,12 @@ msgid ""
 "tiles with output greater than 2 (for all kinds of output), as if all your "
 "cities were always celebrating."
 msgstr ""
-"Кожна клітинка навколо міста з цим Дивом, що вже отримує деякий прибуток від "
-"торгівлі, отримуватиме його на одиницю більше."
+"Кожна клітинка навколо міста з цим Дивом, що вже виробляє щити дасть один"
+"додатковий ресурс(щит). За Деспотизму і Родового ладу, підраміди знімають "
+"штрафи оброблюваних клітин з видачею більшою за 2 (для всіх форм виробітку), "
+"ніби всі ваші міста постійно святкуюють."
 
 #: data/civ2civ3/buildings.ruleset:1716
-#, fuzzy
 msgid "Internet"
 msgstr "Інтернет"
 
@@ -22572,30 +22625,32 @@ msgid ""
 "thereafter all cities on the map are continuously visible to its owner "
 "despite fog-of-war."
 msgstr ""
+"Дає миттєве технологічне відкриття гравцеві, який його збудував, а також "
+"всі міста на карті постійно видимі власнику, незважаючи на туман війни."
 
 #: data/civ2civ3/buildings.ruleset:1735
 msgid ""
 "Completion of this wonder permanently doubles the effect of Research Labs "
 "for every player."
 msgstr ""
+"Завершення цього чуда назавжди подвоює дію Дослідних Лабораторій для всіх "
+"гравців."
 
 #: data/civ2civ3/buildings.ruleset:1756
-#, fuzzy
 msgid ""
 "Gives 1 additional luxury to every city, and 6 luxuries to the city where it "
 "is located."
-msgstr ""
-"Нейтралізує двох нещасних у кожному місті (включно з нещасними внаслідок "
-"військових дій)."
+msgstr "Дає 1 додатвову розкіш кожному місту і 6 розкошів місту де знаходиться."
 
 #: data/civ2civ3/buildings.ruleset:1759
 msgid ""
 "Upon completion of this wonder, entertainer specialists' luxury output "
 "increases to 3 permanently for every nation."
 msgstr ""
+"Після закінчення цього дива, виробіток розкошів спеціалістом-артистом зростає "
+"до 3 назавжди для всіх націй."
 
 #: data/civ2civ3/buildings.ruleset:1779
-#, fuzzy
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -22603,19 +22658,19 @@ msgid ""
 "senate instituted by a Democracy or Federation government or by the United "
 "Nations."
 msgstr ""
-"Дозволяє Вам обирати будь яку форму керування, включаючи ті що не досліджені "
-"Вашою цивілізацією, та без перехідного періоду Анархії."
+"Дозволяє Вам обирати будь яку форму правління, включаючи ті, що ще не "
+"досліджені Вашою цивілізацією, і без перехідного періоду Анархії. Також дає "
+"неспровоковане проголошення війни незалежно від сенату, за Демократії чи "
+"Федеративного уряду, чи навіть Об’єднаних націй."
 
 #: data/civ2civ3/buildings.ruleset:1802
-#, fuzzy
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
 "are created as Hardened)."
 msgstr ""
-"Усі Ваші нові сухопутні підрозділи стають ветеранами першого рівня. "
-"Вірогідність того, що сухопутний підрозділ стане ветераном наступного рівня "
-"після битви, збільшується на половину."
+"Усі Ваші нові сухопутні підрозділи починають з додатковим рівнем ветерана "
+"(діє разом з Бараками; з обома загони починають Загартованими)."
 
 #: data/civ2civ3/buildings.ruleset:1823
 msgid ""
@@ -22625,57 +22680,62 @@ msgid ""
 "inclined to be friendly and forgiving toward the owner of this wonder. These "
 "effects last until the Apollo Program is completed."
 msgstr ""
+"Створює світовий сенат, що може запобігти неспровокованому оголошенню війни "
+"будь-якою потенційно-ядерною державою (саме так, будь-яка нація, що знає "
+"Ядерний Розпад, після того як збудували Проект Манхетен). Гравці-ШІ більш "
+"схильні до дружби і пробачення власнику цього дива. Це діє поки Програма "
+"Аполлон буде завершена."
 
 #: data/civ2civ3/buildings.ruleset:1830
-#, fuzzy
 msgid ""
 "Also, if any player's city is in disorder for more than two turns in a row, "
 "that player's government falls (even for governments other than Republic and "
 "Democracy)."
 msgstr ""
-"* Уряд буде скинуто та встановиться анархія, якщо безлад у будь-якому місті "
-"триватиме довше ніж два ходи підряд.\n"
+"Також, якщо в місті будь-якого гравця заворушення тривають більше двох ходів "
+"підряд уряд гравця буде скинутий (навіть для урядів не-Республік і "
+"не-Демократій)."
 
 #: data/civ2civ3/buildings.ruleset:1851
-#, fuzzy
 msgid ""
 "Neutralizes the unhappiness caused by one aggressively deployed military "
 "unit per city. Under Democracy, it additionally halves the unhappiness "
 "caused by military units (reducing it to the same level as a Republic)."
 msgstr ""
 "Зменшує кількість нещасних з причини відсутності військових підрозділів у "
-"місті на 2 при Демократії та на 1 при Республіці -- іншими словами, "
-"нейтралізує нещасливість, спричинену одним військовим підрозділом. За інших "
-"форм правління не діє."
+"місті на 1. При Демократії додатково вполовинює нещасність спричинену "
+"військовими підрозділами (зменшуючи її до такого ж рівня як в Республіки)."
 
 #: data/civ2civ3/cities.ruleset:54
-#, fuzzy
 msgid ""
 "Each entertainer produces two luxury points for their city per turn, "
 "increasing to three once any player has built Shakespeare's Theater. See the "
 "section on Happiness for the effects of luxury points."
 msgstr ""
-"Кожен артист виробляє для свого міста два пункти розкоші за хід. Щоб "
-"дізнатися про ефекти пунктів розкоші, див. розділ Щастя."
+"Кожен артист виробляє для свого міста два пункти розкоші за хід, збільшуючи "
+"до трьох, після того як хтось збудує Театр Шекспіра. Щоб дізнатися про ефекти "
+"пунктів розкоші, див. розділ Щастя."
 
 #: data/civ2civ3/cities.ruleset:68
-#, fuzzy
 msgid ""
 "Each scientist adds two points to your empire's research output per turn, "
 "increasing to three once any player has built Darwin's Voyage."
-msgstr "Кожен науковець додає до досліджень імперії два пункти за хід."
+msgstr ""
+"Кожен науковець додає до досліджень імперії два пункти за хід, "
+"росте до трьох, як тільки хтось збудує подорож Дарвіна."
 
 #: data/civ2civ3/cities.ruleset:82
-#, fuzzy
 msgid ""
 "Each tax collector produces two extra gold for your treasury per turn, "
 "increasing to three once any player has built A.Smith's Trading Co."
-msgstr "Кожен податківець додає до вашої скарбниці дві гривні за хід."
+msgstr ""
+"Кожен податківець додає до вашої скарбниці дві гривні за хід, "
+"збільшуючи до трьох, коли будь-який гравець збудує Торгову Компанію "
+"Адама Сміта."
 
 #: data/civ2civ3/game.ruleset:18
-#, fuzzy
 msgid "Civ2Civ3 ruleset"
-msgstr "Набір правил Civ2"
+msgstr "Набір правил Civ2Civ3"
 
 #: data/civ2civ3/game.ruleset:21
 msgid ""
@@ -22689,6 +22749,15 @@ msgid ""
 "Detailed description of the differences from the classic ruleset can be "
 "found in README.ruleset_civ2civ3."
 msgstr ""
+"Ви граєте Freeciv за правилами civ2civ3:\n"
+"\n"
+"Гра більше схожа на civ3, зберігаючи бойову систему від civ2.\n"
+"\n"
+"Пристосована для одного гравця, з ШІ менш войовничим на початку, проте набагато "
+"сильнішим наприкінці.\n"
+"\n"
+"Докладний опис відмінностей від класичного набору правил можна побачити в "
+"README.ruleset_civ2civ3."
 
 #: data/civ2civ3/governments.ruleset:74
 #, no-c-format
@@ -22704,25 +22773,36 @@ msgid ""
 "* Base production waste is 30%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* Будівлі і технології не потребують утримання.\n"
+"* Кожне місто може утримувати до 2 загонів задурно; наступні загони коштують "
+"1 щит за хід.\n"
+"* Військові підрозділи не спричиняють нещасності, навіть коли розміщені "
+"агресивно.\n"
+"* Ви не впливаєте на рівень податків. половина торгівлі просто втрачається "
+"вашою економікою, а все решта іде на розкіш. Звичайна корупція росте з "
+"віддаллю від столиці (наполовину швидкості зі знанням Корпорацій).\n"
+"* Базові втрати виробництва 30%. Ростуть з відстанню від столиці "
+"( вполовину зі знанням Торгівлі)."
 
 #: data/civ2civ3/governments.ruleset:90
 msgid "Tribal"
-msgstr ""
+msgstr "Родово-Племінний"
 
 #: data/civ2civ3/governments.ruleset:98
-#, fuzzy
 msgid ""
 "Under a Tribal government, you are part ruler of your people. Your control "
 "over your citizens is maintained largely by spiritual counsel."
 msgstr ""
-"За Деспотизму, ви - абсолютний володар свого народу. Ваш контроль над "
-"громадянами значною мірою спирається на військове положення."
+"За Родово-Племміного ладу, ви - частковий керівник свого народу. Ваш контроль над "
+"громадянами значною мірою здійснюється духовною мудрістю."
 
 #: data/civ2civ3/governments.ruleset:101
 msgid ""
 "Compared to Despotism, a Tribal economy is more shield-oriented. Its bonuses "
 "to veterancy and strong martial law can be an advantage in wartime."
 msgstr ""
+"Порівняно з деспотизмом родово-племінна кеономіка більш виробничо-напрвлена."
+"Сприяє ветеранству і сильниму військовому стану, що може бути перевагою на війні."
 
 #: data/civ2civ3/governments.ruleset:107
 #, no-c-format
@@ -22739,10 +22819,20 @@ msgid ""
 "* There is no base level of production waste, but an increasing amount with "
 "distance from the capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* Збільшує на половину шанси сухопутних загонів отримати наступний "
+"ветеранський рівеньпісля бою.\n"
+"* Кожне місто утримує 2 загони безкоштовно; наступні загони коштують 1 щит "
+"за хід.\n"
+"* На відміну від пізніших урядів, загони не спричиняють нещастя, навіть коли "
+"у войовничому положенні.\n"
+"* Базова корупція 30% (найвище серед усіх урядів). Це росте з віддалю від "
+"столиці ( вполовину швидкості знаючи Корпорації).\n"
+"* Нема базового рівня втрат виробництва, але росте з відстанню до столиці "
+"(половина швидкості знаючи Торгівлю)."
 
 #: data/civ2civ3/governments.ruleset:135
 msgid "Compared to Tribalism, a Despotic economy is more trade-oriented."
-msgstr ""
+msgstr "Поріняно з родово-племінною, економіка деспотії більш торгово-направлена."
 
 #: data/civ2civ3/governments.ruleset:139
 #, no-c-format
@@ -22757,10 +22847,19 @@ msgid ""
 "* Base production waste is 10%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* Столиця отримує +75% боніс до виробництва золота.\n"
+"* Кожне місто може підтримувати 2 загони безкоштовно; наступні кожен коштують "
+"1 золота за хід.\n"
+"* На відміну від інших урядів війська не спричиняють нещасності навіть будучи "
+"розміщеними агресивно.\n"
+"* Базова корупція 20%. Росте з віддаллю від столиці."
+"(Вполовину повільніше зі знанням Корпорацій).\n"
+"* Базові втрати виробництва 10%. Ростуть з відстанню від столиці. "
+"(вполовину менше знаючи Торгівлю )."
 
 #: data/civ2civ3/governments.ruleset:167
 msgid "Monarchy gives low unit upkeep costs."
-msgstr ""
+msgstr "Монархія дає низький кошт утримання загонів."
 
 #: data/civ2civ3/governments.ruleset:171
 #, no-c-format
@@ -22777,12 +22876,24 @@ msgid ""
 "* Base production waste is 20%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* Столиця отримує +75% бонус до виробництва золота.\n"
+"* Святкуючи міста виробляють один додатковий пункт торгівлі, на кожному полі, "
+"що вже дає торгівлю. (Міста менші за 3 не святкують.)\n"
+"* Кожне місто може утримати 3 загони безкоштовно (максимально можливих); "
+"наступні загони кожен коштують 1 золота за хід.\n"
+"* Кожне місто витримує до 3 -х агресивно розміщених підрозділи; кожен "
+"наступний загін робить одного городянина нещасним.\n"
+"* Базова корупція 10%. Росте з віддаллю від столиці."
+"(Вполовину повільніше зі знанням Корпорацій).\n"
+"* Базові втрати виробництва 20%. Ростуть з відстанню від столиці. "
+"(вполовину менше знаючи Торгівлю)."
 
 #: data/civ2civ3/governments.ruleset:203
 msgid ""
 "Communism is a good government for maximizing shield production, and for "
 "large empires."
 msgstr ""
+"Комунізм добрий устрій для максимізації виробництва, і для великих імперій."
 
 #: data/civ2civ3/governments.ruleset:208
 #, no-c-format
@@ -22796,12 +22907,23 @@ msgid ""
 "* Base corruption is 30%, but is not affected by distance to the capital.\n"
 "* There is no production waste."
 msgstr ""
+"* Міські будівлі, що зазвичай коштують 1 золота на утримання  - звільняються "
+" від цього.\n"
+"* Кожне місто може утримати 3 загони безкоштовно (максимально можливих); "
+"наступні загони кожен коштують 1 щит за хід.\n"
+"* Кожне місто витримує до 3 -х агресивно розміщених підрозділи; кожен "
+"наступний загін робить одного городянина нещасним.\n"
+"* Базова корупція 30%. Не росте з віддаллю від столиці."
+"(Вполовину повільніше зі знанням Корпорацій).\n"
+"* Нема втрат виробництва."
 
 #: data/civ2civ3/governments.ruleset:245
 msgid ""
 "Fundamentalism is a good government for maximizing gold, and its Fanatics "
 "are useful in wartime, but it has a heavy penalty to technological progress."
 msgstr ""
+"Фундаменталізм добрий устрій для максимізації золота, а його Фанатики стануть "
+"у пригоді під час війни; але він має значні штрафи на технологічний розвиток."
 
 #: data/civ2civ3/governments.ruleset:251
 #, no-c-format
@@ -22816,11 +22938,19 @@ msgid ""
 "* Base production waste is 15%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* Розвиток науки - половина від наукового виробництва за інших урядів.\n"
+"* Кожне місто може утримати 2 загони безкоштовно (максимально можливих); "
+"наступні загони кожен коштують 2 золота за хід (крім Фанатиків).\n"
+"* Кожне місто витримує до 2 -х агресивно розміщених підрозділи; кожен "
+"наступний загін робить одного городянина нещасним.\n"
+"* Базова корупція 15%. Росте з віддаллю від столиці."
+"(Вполовину повільніше зі знанням Корпорацій).\n"
+"* Базові втрати виробництва 15%. Ростуть з відстанню від столиці. "
+"(вполовину менше знаючи Торгівлю)."
 
 #: data/civ2civ3/governments.ruleset:266
-#, fuzzy
 msgid "Federation"
-msgstr "Заморожування"
+msgstr "Федерація"
 
 #: data/civ2civ3/governments.ruleset:276
 msgid ""
@@ -22894,27 +23024,27 @@ msgstr ""
 
 #: data/civ2civ3/techs.ruleset:80
 msgid "Enables movement of nuclear units."
-msgstr ""
+msgstr "Дозволяє рух атомних загонів."
 
 #: data/civ2civ3/techs.ruleset:246
 msgid "Allows Settlers, Migrants, Workers and Engineers to build fortresses."
-msgstr "Дозволяє Поселенцям, Робітникам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям, Переселенцям, Робітникам та Інженерам будувати укріплення."
 
 #: data/civ2civ3/techs.ruleset:285
-#, fuzzy
 msgid ""
 "Allows irrigation without an adjacent water source, improves the effect of "
 "Amphitheaters, and increases city vision radius."
-msgstr "Збільшує ефективність Цирків."
+msgstr ""
+"Дохволяє орошення без прилеглого джерела води, покращує дію Амфітеатрів, і "
+"збільшує радіус видимості міст."
 
 #: data/civ2civ3/techs.ruleset:361
 msgid "Makes it possible for Engineers to transform terrains."
-msgstr ""
+msgstr "Уможливлює перетворення місцевості для Інженерів"
 
 #: data/civ2civ3/techs.ruleset:415
-#, fuzzy
 msgid "Halves the upgrade cost of your units."
-msgstr "Модернізація підрозділів можлива лише у Ваших містах."
+msgstr "Вполовинює вартість модернізації підрозділів."
 
 #: data/civ2civ3/techs.ruleset:525
 #, no-c-format
@@ -22924,16 +23054,15 @@ msgid ""
 msgstr ""
 
 #: data/civ2civ3/techs.ruleset:678
-#, fuzzy
 msgid ""
 "Allows Settlers, Migrants, Workers and Engineers to upgrade roads to "
 "railroads."
-msgstr "Дозволяє Поселенцям, Робітникам та Інженерам будувати укріплення."
+msgstr "Дозволяє Поселенцям, Робітникам та Інженерам модернізовувати дороги "
+"залізниць."
 
 #: data/civ2civ3/techs.ruleset:681
-#, fuzzy
 msgid "Halves one-time revenue from new trade routes."
-msgstr "Зменшує разову виручку від нових торгових шляхів."
+msgstr "Зменшує наполовину разову виручку від нових торгових шляхів."
 
 #: data/civ2civ3/techs.ruleset:683
 msgid ""
@@ -22943,18 +23072,19 @@ msgstr ""
 
 #: data/civ2civ3/techs.ruleset:733
 msgid "Doubles movement of nuclear units."
-msgstr ""
+msgstr "Подвоює рухи ядерних загонів."
 
 #: data/civ2civ3/techs.ruleset:815
 msgid ""
 "Halves the corruption of trade related to distance from the capital (or "
 "eliminates it for Federation governments)."
 msgstr ""
+"Вполовинює корупцію в торгівлі, залежну від віддалі до столиці (або взагалі "
+"знімає її при Федеративному устрої)."
 
 #: data/civ2civ3/techs.ruleset:865
-#, fuzzy
 msgid "Halves the waste of production related to distance from the capital."
-msgstr "* втрати %s будуть зростати з віддаленням від столиці.\n"
+msgstr "Вполовинює втрати виробництва з віддаленням від столиці."
 
 #: data/civ2civ3/terrain.ruleset:430
 msgid ""
@@ -22968,15 +23098,17 @@ msgid ""
 "Cities built in hills are at risk of earthquakes, which can interrupt a "
 "city's current project."
 msgstr ""
+"Міста на горбах в зоні ризику від землетрусів, що можуть перервати їх поточне "
+"будівництво."
 
 #: data/civ2civ3/terrain.ruleset:608
-#, fuzzy
 msgid ""
 "Jungles are densely overgrown, making agriculture somewhat problematic. Big "
 "Land units may not move into jungle without a road."
 msgstr ""
-"Джунглі заполонена рослинами місцевість непридатна для сільського "
-"господарства."
+"Джунглі  - заполонена рослинами місцевість, дещо непридатна для сільського "
+"господарства. Великі наземні загони не можуть заїхати в джунглі без дороги."
+
 
 #: data/civ2civ3/terrain.ruleset:654
 msgid ""
@@ -22987,43 +23119,45 @@ msgid ""
 msgstr ""
 
 #: data/civ2civ3/terrain.ruleset:744
-#, fuzzy
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic. Big Land units may not move in swamps without a road."
 msgstr ""
-"Болота перенасищені водою, що робить їх непридатними для сільського "
-"господарства."
+"Болота перенасичені водою, що робить їх непридатними для сільського "
+"господарства. Великі сухопутні загони не можуть заходитина болота без дороги."
 
 #: data/civ2civ3/terrain.ruleset:1065
-#, fuzzy
 msgid ""
 "Units in a fortress receive double defense against land units and boats. Any "
 "kind of land unit remaining in a fortress for a whole turn without moving "
 "recovers a quarter of its hit points. With Astronomy, fortresses gain "
 "watchtowers from which units can see further afield."
 msgstr ""
-"Фортеці покращують захист сухопутних військ. Крім того, сухопутний "
-"підрозділ, що залишається у фортеці протягом ходу і не рухається, відновлює "
-"четвертину здоров'я."
+"Загони у фортеці мають подвоєний захист проти сухопутних військ і човнів. "
+"Крім того, сухопутний підрозділ, що залишається у фортеці протягом ходу і не "
+"рухається, відновлює четвертину здоров'я. З Астрономією фортеці отримують "
+"сторожові вежі, з яких загони краще озирають навколишні далі."
 
 #: data/civ2civ3/terrain.ruleset:1092
-#, fuzzy
 msgid ""
 "Airbases allow your air units to land and refuel. Units in an airbase "
 "receive double defense against enemy air units. An air unit remaining in an "
 "airbase for a whole turn without moving recovers a quarter of its hit "
 "points. Air units in an airbase may be attacked by land units."
 msgstr ""
-"Фортеці покращують захист сухопутних військ. Крім того, сухопутний "
-"підрозділ, що залишається у фортеці протягом ходу і не рухається, відновлює "
-"четвертину здоров'я."
+"Авіабази дозволяють вашим повітряним загониам приземлятись і заправлятись. "
+"Повітряні підрозділи на авіабазах отримують подвоєний захист від ворожих "
+"авіазагонів. Крім того, авіапідрозділ, що залишається на авіабазі протягом "
+"ходу і не рухається, відновлює четвертину здоров'я."
+"На повітряні підрозділи на авіабазах можуть нападати сухопутні загони."
 
 #: data/civ2civ3/terrain.ruleset:1119
 msgid ""
 "As well as granting vision, a buoy in deep ocean yields a shield resource to "
 "cities with an Offshore Platform."
 msgstr ""
+"Разом наданням видимості, буй в глибокому океані дає ресурс(щит) місту з "
+"Платформою на Шельфі (Прибережна Платформа)."
 
 #: data/civ2civ3/terrain.ruleset:1247
 msgid ""
@@ -23032,22 +23166,25 @@ msgid ""
 "terrain (Mountains, Jungle, and Swamp), and Merchant units (Caravans and "
 "Freight) can only travel on roads, railroads, rivers or ships."
 msgstr ""
+"Дороги прискорюють рух ваших підрозділів, і дозволяють Великим Наземним "
+"загонам, до прикладу Колісницям і Катапультам мандрувати непрохідною "
+"місцевістю - Лісом, Горами чи Болотом, і торговим загонам (Каравани і "
+"Дальнобійники) можуть ходити лише по дорогах, залізницях, річках чи човнах."
 
 #: data/civ2civ3/terrain.ruleset:1253
 msgid "On some terrains, roads also provide a trade bonus."
-msgstr ""
+msgstr "На деяких місцевостях дороги дають надбавку до торгівлі."
 
 #: data/civ2civ3/terrain.ruleset:1315
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
 "resources produced by that tile. It also increases a tile's defense factor "
 "by 25%."
 msgstr ""
-"Будь яка територія суходолу може містити Річку. Річка додає 1 торгівлю до "
-"ресурсів, що виробляються на цій території. Крім того, захисний фактор "
-"підвищується на 50%. Врешті, наземні підрозділи можуть рухатися вздовж річки "
-"(але не по діагоналі); рух вздовж річки коштує лише 1/3 звичайного руху."
+"Будь яке поле суходолу може містити Річку. Річка додає 1 торгівлю до "
+"ресурсів, що виробляються на цій місцевості. Крім того, захисний фактор "
+"підвищується на 25%."
 
 #: data/civ2civ3/terrain.ruleset:1319
 msgid ""
@@ -23058,36 +23195,36 @@ msgid ""
 msgstr ""
 
 #: data/civ2civ3/terrain.ruleset:1324
-#, fuzzy
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology. Fortresses and Airbases cannot be "
 "built on River tiles."
 msgstr ""
 "Шляхи та Залізниці можна будувати на річках лише за умови відкриття вашою "
-"цивілізацією технології Мостобудування."
+"цивілізацією технології Мостобудування. Фортеці та аеродроми не можна "
+"збудувати на полях з річкою."
 
 #: data/civ2civ3/terrain.ruleset:1328
 msgid ""
 "Cities built on or next to rivers incur a small risk of flooding, which will "
 "destroy stored food."
 msgstr ""
+"Міста збудовані впритул до річки піддаються мелунькому ризику підтоплення, "
+"яку знищить запаси їжі."
 
 #: data/civ2civ3/units.ruleset:32
 msgid "Attack value halved when attacking Destroyer."
-msgstr ""
+msgstr "Значення нападу вполовинюється, коли атакує Есмінця."
 
 #. TRANS: Unit class: used adjectivally
 #: data/civ2civ3/units.ruleset:142
-#, fuzzy
 msgid "?unitclass:Small Land"
-msgstr "Сухопутний"
+msgstr "Малий Сухопутний"
 
 #. TRANS: Unit class: used adjectivally
 #: data/civ2civ3/units.ruleset:158
-#, fuzzy
 msgid "?unitclass:Merchant"
-msgstr "Морський"
+msgstr "Торговий"
 
 #: data/civ2civ3/units.ruleset:441
 msgid ""
@@ -23096,9 +23233,8 @@ msgid ""
 msgstr ""
 
 #: data/civ2civ3/units.ruleset:447
-#, fuzzy
 msgid "Migrants"
-msgstr "Міграція"
+msgstr "Емігранти"
 
 #: data/civ2civ3/units.ruleset:479
 msgid ""
@@ -23141,6 +23277,8 @@ msgid ""
 "Workers can build airbases and buoys, which Settlers and Migrants cannot. "
 "Workers must be on board a ship to build buoys."
 msgstr ""
+"Робітники можуть будвати авіабази і буйки, а Поселенці і Переселенці ні. "
+"Робітники мають бути на борту корабля, щоб збудувати буї."
 
 #: data/civ2civ3/units.ruleset:581
 msgid ""
@@ -23148,9 +23286,11 @@ msgid ""
 "fast, and may gain experience from work enabling them to work up to four "
 "times faster than Workers."
 msgstr ""
+"Інженери подібні до Робітників, але вони вдвічі швидше працюють та "
+"рухаються, і можуть набути досвіду що дозволить їм працювати аж до чотирьох "
+"разів швидше за Робітників."
 
 #: data/civ2civ3/units.ruleset:585
-#, fuzzy
 msgid ""
 "With knowledge of Fusion Power, Engineers may also perform more radical "
 "terrain transformations than Workers, Settlers, or Migrants, with the "
@@ -23159,47 +23299,45 @@ msgid ""
 "vessel, on a tile surrounded by sufficient existing land). See the Terrain "
 "Alterations section for more details."
 msgstr ""
-"Інженери подібні до Колоністів, але вони удвічі швидше працюють та "
-"рухаються. Інженери також можуть виконувати великі трансформації територій "
-"(наприклад, змінити Тундру на Пустелю) на що не вистачає можливостей "
-"Колоністів та робітників; див. розділ Перетворення територій для додаткової "
-"інформації."
+"Зі знанням Атомного розпаду Інженери також зможуть виконувати більш значні"
+"перетворення місцевості наказом \"перетворити\", на що не вистачає "
+"можливостей в Поселенців, Мігранітв та Робітників. Наприклад, змінити Тундру "
+"на Рівнини, або навіть Океан в Болото, з адеяких обставин (на борту "
+"океанського судна, на клітині оточеній достатньою кількістю суші). "
+"Див. розділ Перетворення територій для додаткової інформації."
 
 #: data/civ2civ3/units.ruleset:685
-#, fuzzy
 msgid "Archers fight with bows and arrows and have a good offensive value."
-msgstr ""
-"Лучники воюють луками та стрілами; у них хороший рівень атаки та пристойний "
-"захист."
+msgstr "Лучники воюють луками та стрілами; у них хороший рівень атаки."
 
 #: data/civ2civ3/units.ruleset:749
 msgid ""
 "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
 "defender."
 msgstr ""
-"Пікінери, озброєні довгими піками, замінюють Фалангу у якості першочергового "
+"Пікінери, озброєні довгими піками, замінюють Фалангу в якості першочергового "
 "захисника міст."
 
 #: data/civ2civ3/units.ruleset:928
-#, fuzzy
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "upkeep nor causing military unhappiness.  Instead, each unit reduces the "
 "population by 1."
 msgstr ""
-"Фундаменталістські нації можуть утримувати Фанатичні загони не сплачуючи за "
-"їх утримання виробництвом."
+"Фундаменталістські нації можуть утримувати Фанатичні загони безоплатно і без "
+"спричинення військового нещастя. натомість кожен загін зменшує населення на 1."
 
 #: data/civ2civ3/units.ruleset:1035
-#, fuzzy
 msgid ""
 "The Mechanized Infantry has the strongest inherent defensive strength of any "
 "land unit, and is very fast on roads and easy terrain, but it is hindered "
 "rather than helped by rough terrain (it cannot move into mountains, swamps, "
 "or jungles), and it is only available near the end of the technology tree."
 msgstr ""
-"Мотострільці мають найбільший захист з усіх наземних підрозділів, але вони "
-"доступні лише наприкінці технологічного розвитку."
+"Мотостпіхота має найбільший захист зі всіх наземних підрозділів, і дуже "
+"швидка на дорогах і відкритій місцевості, але їй складно на грубій місцевості "
+"(не може заїхати на гори, болота чи джунглі) і доступна лише наприкінці "
+"технологічного розвитку."
 
 #: data/civ2civ3/units.ruleset:1103
 msgid ""
@@ -23209,16 +23347,18 @@ msgid ""
 "in rough terrain (mountains, swamps, and jungles) without roads, and they "
 "cannot be transported by sea using early ships (Triremes and Caravels)."
 msgstr ""
+"Колісниці - це бойові візки на кінній тязі, сильніші за вершників, але їх "
+"швидкість має ціну: їх дорожче будувати, не мають переваг захисту на "
+"місцевості, не можуть зайти в важкодоступні регіони (гори, болота, джунглі) "
+"без доріг, і їх не можуть перевозити ранні кораблі (Триреми і Каравели)."
 
 #: data/civ2civ3/units.ruleset:1139
-#, fuzzy
 msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops."
 msgstr ""
-"Слони - це великі тварини, видресирувані для військових дій, що часто "
-"використовуються як потужні війська для нападу. Втім, вони погано "
-"захищаються від більшості інших підрозділів."
+"Слони - це велетенські тварини, натаскані для військових дій, часто "
+"використовуються як потужні війська для нападу. "
 
 #: data/civ2civ3/units.ruleset:1297
 msgid ""
@@ -23227,6 +23367,11 @@ msgid ""
 "terrain (they cannot move into mountains, swamps, or jungles without roads), "
 "and unable to use less rough terrain to improve their defense."
 msgstr ""
+"Танки - моторизовані воєнні візки, швидші, сильніші і витримають більше "
+"пошкоджень за будь-який комонний загін. Проте, вони менш пристосовувані до "
+"дуже важкопрохідних місцевостей (не можуть заїхати на гори, болота, чи "
+"джунглі, без доріг), і не здатні скористатись рівнішими землями для "
+"покращення свого захисту."
 
 #: data/civ2civ3/units.ruleset:1336
 msgid ""
@@ -23234,9 +23379,11 @@ msgid ""
 "require roads to move in rough terrain (mountains, swamps, and jungles), are "
 "difficult to defend, and are too big for early ships (Triremes and Caravels)."
 msgstr ""
+"Хоч і потужні, Катапульти громіздкі і дивні; вимагають доріг для руху по "
+"нерівній місцевості (гори, болота, джунглі), їх важко захищати, і вони "
+"завеликі для ранніх кораблів (Трирем і Каравел)."
 
 #: data/civ2civ3/units.ruleset:1370
-#, fuzzy
 msgid ""
 "Cannons are large firearms that can fire heavy projectiles over long "
 "distances. As with the catapults they replace, they are very strong "
@@ -23244,21 +23391,21 @@ msgid ""
 "effective, and have limited mobility."
 msgstr ""
 "Гармати - це велика вогнепальна зброя, здатна стріляти важкими снарядами на "
-"велику відстань. Вони дуже сильні в нападі, але настільки ж слабкі в "
-"захисті, тож для ефективності їм потрібен супровід."
+"велику відстань. Як і Катапульти,яких вони заміняють, вони дуже сильні в "
+"нападі, але настільки ж слабкі в захисті, тож для ефективності їм потрібен "
+"супровід, і вони помало рухаються."
 
 #: data/civ2civ3/units.ruleset:1404
-#, fuzzy
 msgid ""
 "The artillery is an upgraded cannon. As with its predecessors, it is a very "
 "strong attacker but equally weak defender and will need an escort to be "
 "effective, and has limited mobility."
 msgstr ""
-"Артилерія - це покращена гармата. Вона дуже сильна в нападі, але настільки ж "
-"слабка у захисті, тож потребує супроводу для ефективності."
+"Артилерія - це покращена гармата. Як і попередники, вона дуже сильна в "
+"нападі, але настільки ж слабка у захисті, тож потребує супроводу для "
+"ефективності і має обмежену рухливість."
 
 #: data/civ2civ3/units.ruleset:1437
-#, fuzzy
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities. However, they still have the limited mobility of "
@@ -23266,19 +23413,23 @@ msgid ""
 msgstr ""
 "Гаубиці - це модернізована артилерія, з покращеними атакою та захистом. "
 "Призначені переважно для навісної стрільби із закритих вогневих позицій, "
-"поза прямою видимістю цілі."
+"поза прямою видимістю цілі. Як і попередники, вона має обмежену рухливість."
 
 #: data/civ2civ3/units.ruleset:1507
 msgid ""
 "A Bomber's attack against units on land is a bombard attack; against units "
 "on water it has a regular attack."
 msgstr ""
+"Атака Бомбардувальника проти загонів на суші має тип бомбардування; проти "
+"підрозділів на воді звичайний напад."
 
 #: data/civ2civ3/units.ruleset:1541
 msgid ""
 "A Helicopter's attack against units on land is a bombard attack; against "
 "units on water it has a regular attack."
 msgstr ""
+"Атака Вертольота проти загонів на суші має тип бомбардування; проти "
+"підрозділів на воді звичайний напад."
 
 #: data/civ2civ3/units.ruleset:1544
 msgid ""
@@ -23287,65 +23438,61 @@ msgid ""
 "(Paratroopers, Alpine Troops, Marines, Partisans, and Fanatics) can embark "
 "or disembark at any time."
 msgstr ""
+"Вертольоти також можуть перевезти один загін піхоти; поки більшість військ "
+"мусять загружатисьі вигружатись в місті чи на авіабазі, загони, що "
+"спеціалізуються на мобільності (Десантники, Альпійські Стрільці, "
+"Морська Піхота і Фанатики) можуть висаджуватись і сідати будь-якої миті."
 
 #: data/civ2civ3/units.ruleset:1549
-#, fuzzy
 msgid ""
 "Care must be exercised, because Helicopters lose a small amount of health "
 "for every turn not spent in a city or airbase or on a Carrier."
 msgstr ""
-"Гелікоптер - це дуже потужний підрозділ, бо він може і літати, і захоплювати "
-"міста. Але з ним слід бути уважним, бо Гелікоптер втрачає невелику кількість "
-"здоров'я кожного ходу, який завершено поза містом, аеродромом чи Авіаносцем, "
-"крім того, їх можуть атакувати наземні підрозділи."
+"Слід бути уважним, бо Гелікоптер втрачає невелику кількість здоров'я кожного "
+"ходу, який завершено поза містом, аеродромом чи Авіаносцем."
 
 #: data/civ2civ3/units.ruleset:1684
-#, fuzzy
 msgid "The Caravel is a sailing ship that can enter any ocean tile."
-msgstr "Каравела замінює Трирему і може рухатися по всьому океану."
+msgstr "Каравела - вітрильник, що може рухатися по всьому океану."
 
 #: data/civ2civ3/units.ruleset:1717
-#, fuzzy
 msgid ""
 "The Galleon is a pure transport ship, the first which can transport large "
 "wheeled units. It cannot attack other ships, though it may still defend "
 "itself when attacked."
 msgstr ""
-"Галеон - це чисто транспортний корабель, що не може нападати на інші "
-"кораблі, але здатний захищатися, коли його атакують."
+"Галеон - це чисто транспортний корабель, перший з тих що можуть перевозити "
+"великі колісні загони. Не може нападати на інші кораблі, але, все-таки, "
+"здатний захиститися від нападу."
 
 #: data/civ2civ3/units.ruleset:1750
-#, fuzzy
 msgid ""
 "The Frigate is a specialized ship with a strong offensive value, and can "
 "attack units on land, but it cannot transport units."
-msgstr "Крейсер - це сильний атакувальний корабельний підрозділ."
+msgstr "Фрегат - спеціалізований корабель з сильним нападом, і може нападати "
+"на загони на суші, але не може перевозити підрозділи."
 
 #: data/civ2civ3/units.ruleset:1782
-#, fuzzy
 msgid "The Ironclad is an armored ship, more sturdy than the Frigate."
-msgstr ""
-"Броненосець - це броньований корабель, значно міцніший ніж Фрегат, але без "
-"транспортувальної здатності."
+msgstr "Броненосець - це броньований корабель, значно міцніший ніж Фрегат."
 
 #: data/civ2civ3/units.ruleset:1818
-#, fuzzy
 msgid ""
 "An improved Ironclad, with better move rate and vision. Anti-submarine "
 "weapons double its defense against Submarines."
-msgstr "Покращений Броненосець, швидший та з ширшим оглядом."
+msgstr "Покращений Броненосець, швидший та з ширшим оглядом. Глибинна зброя "
+"подвоює захист від Підводних Човнів."
 
 #: data/civ2civ3/units.ruleset:1821
-#, fuzzy
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports and Submarines."
-msgstr "Порада: Швидкий корабель для охоти та знищення ворожіх Транспортів"
+msgstr ""
+"Порада: Швидкий корабель для полювання на ворожі Транспорти і Підводні Човни."
 
 #: data/civ2civ3/units.ruleset:2032
-#, fuzzy
 msgid "Transports can also clean pollution and fallout on water tiles."
-msgstr "* Може очищати місцевість від забруднення.\n"
+msgstr "Транспорти ще можуть очищати водні поля від забруднення."
 
 #: data/civ2civ3/units.ruleset:2106
 msgid ""
@@ -23367,6 +23514,11 @@ msgid ""
 "changes into desert, tundra, and ice. Settlers, Migrants, Workers, and "
 "Engineers and (for fallout on water) Transports can clean up nuclear fallout."
 msgstr ""
+"Подібно до забруднення та глобального потепління, ризик ядерної зими "
+"зростає з радіаційним зараженням. Якщо настане ядерна зима, землі цілого "
+"світу перетворюватимуться на пустелі, тундру та льодовики. Поселенці, "
+"Мігранти, Робітники або Інженери і (для зараження на воді) Транспорти "
+"можуть зчищати радіаційне зараження."
 
 #: data/civ2civ3/units.ruleset:2125
 msgid ""
@@ -23376,6 +23528,11 @@ msgid ""
 "them ready to fix the fallout on the same turn it occurs! This minimizes the "
 "chance of nuclear winter. Eco-friendly nukes!"
 msgstr ""
+"Підказка : може статись ситуація, що ви вторглися в ворожу країну великими "
+"силами, але ворожі міста занадто сильні. Перед тим як застосувати Ядерну "
+"зброю, зберіть гурт чистильних загонів навколо міста і будьте готові зчистити "
+"радіацію, того ж ходу, коли вона випала! Це мінімізує шанси ядерної зими. "
+"Еко-дружні атомні бомби!"
 
 #: data/civ2civ3/units.ruleset:2183
 msgid ""
@@ -24312,7 +24469,7 @@ msgid ""
 msgstr ""
 " 8. Дослідження світу.\n"
 "\n"
-"    Після укріплення Ваших міст загонами, будуйте Трієми у містах на березі "
+"    Після укріплення Ваших міст загонами, будуйте Триреми у містах на березі "
 "моря. Використовуйте Трієми для створення мапи світу, пошуку опонентів та "
 "нових земель. Якщо Ви на острові, приділяйте менше уваги військовим справам "
 "та більше колонізації. Якщо Ви розташовані поблизу ворога, то є гарна ідея "
@@ -24320,7 +24477,6 @@ msgstr ""
 "використовуйте дипломатів. "
 
 #: data/helpdata.txt:261
-#, fuzzy
 msgid ""
 " 9. Things to keep in mind.\n"
 "\n"
@@ -24336,14 +24492,13 @@ msgstr ""
 "\n"
 "  - Яке наступне знання Ви потребуєте.\n"
 "\n"
-"  - На якіх значеннях встановленні податки, розкіш та розвиток науки.\n"
+"  - На які значення встановленні податки, розкіш та розвиток науки.\n"
 "\n"
 "  - Угоди дуже часто розриваються, тож не зневажайте захист...\n"
 "\n"
 "  - Деякі дива стають застарілими при відкритті нових знань."
 
 #: data/helpdata.txt:272
-#, fuzzy
 msgid ""
 " 10. Making your own strategy for the game.\n"
 "\n"
@@ -24355,14 +24510,12 @@ msgid ""
 msgstr ""
 " 10. Створення власної стратегії для гри.\n"
 "\n"
-"    Ці базові засади дозволять Вам грати у гру досить добре, особливо на "
-"початку гри. Але для покращання рівня гри, потрібно вивчати різноманітні "
-"підрозділи та знання, та ПРАКТИКУВАТИСЬ, ПРАКТИКУВАТИСЬ, ПРАКТИКУВАТИСЬ! "
+"    Ці базові засади дозволять Вам грати  досить добре, особливо на початку. "
+"Але для покращення рівня гри, потрібно вивчити різноманітні підрозділи "
+"і знання, та ПРАКТИКУВАТИСЬ, ПРАКТИКУВАТИСЬ, ПРАКТИКУВАТИСЬ! "
 "Freeciv має багато особливостей, тож якщо Ви ніколи раніше не грали у "
-"подібні ігри, спробуйте дізнатися більше на веб сайті Freeciv за адресою "
-"http://www.freeciv.org/\n"
-"Ви знайдете багато порад як грати та подробиць як спілкуватися з іншими "
-"гравцями."
+"подібні ігри, спробуйте дізнатися більше на веб сайті Freeciv за адресою: "
+
 
 #: data/helpdata.txt:283
 msgid ""
@@ -24380,6 +24533,10 @@ msgid ""
 "each have different strengths and drawbacks; see the sections on each "
 "terrain type for details."
 msgstr ""
+"Місцевість служить трьом цілям: є театром дій для воєнних дій загонів проти "
+"циілізацій-суперників, ландшафтом яким мандрують ваші загони, і середовищем "
+"з якого міста збирають ресурси. Різні типи місцевості, мають свої переваги і "
+"недоліки; див. розділ допомоги для докладніших знань про кожен тип місцевості."
 
 #: data/helpdata.txt:296
 msgid ""
@@ -24387,6 +24544,9 @@ msgid ""
 "defense strength is multiplied by the defense factor (\"bonus\") of the "
 "terrain beneath it. See the help section on Combat for further details."
 msgstr ""
+"Місцевість впливає на бій дуже просто: коли атакують наземний загін, його "
+"захист множиться на захисний фактор (бонус) місцевості під ним. Див допомогу "
+"про Бій для подальших деталей."
 
 #: data/helpdata.txt:301
 msgid ""
@@ -24394,6 +24554,9 @@ msgid ""
 "expend one movement point to move one tile, but moving onto rough terrain "
 "such as Mountains can cost land units more."
 msgstr ""
+"Місцевість ускладнює рух сухопутних загонів - морські та повітряні завжди "
+"витрачають рівно одне очко руху за одну клітинку, але рух через нерівну "
+"місцину, Гори наприклад, коштує сухопутним загонам більше."
 
 #: data/helpdata.txt:305
 msgid ""
@@ -24409,12 +24572,11 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:316
-#, fuzzy
 msgid ""
 "The net benefit of a tile for your city depends on your government type as "
 "well as city improvements and wonders."
 msgstr ""
-"Прибуток від площ навколо міста залежить від форми Вашого правління, а також "
+"Прибуток з полів навколо міста залежить від форми Вашого правління, а також "
 "будівель у місті та Див."
 
 #: data/helpdata.txt:319
@@ -24574,7 +24736,7 @@ msgid ""
 "technology, a military unit (occasionally a settler; and sometimes a unit "
 "that the player cannot yet create), or even a new city."
 msgstr ""
-"Хутори (чи то пак \"хатинки\") - це примітивні спільноти, розсіяні по світу "
+"Хутори (чи то пак \"хатки\") - це примітивні спільноти, розсіяні по світу "
 "на початку гри. Будь-які наземні підрозділи можуть навідатися на хутір - "
 "тоді він зникне і спричинить випадкову реакцію. Якщо хутір виявиться "
 "ворожим, на його місці можуть з’явитися варвари, або ж підрозділ просто буде "
@@ -26306,7 +26468,6 @@ msgstr ""
 "опція сервера spacerace вимкнена.)"
 
 #: data/helpdata.txt:1526
-#, fuzzy
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu. To see spaceships of other "
@@ -26314,17 +26475,16 @@ msgid ""
 msgstr ""
 "Коли Ви розпочнете будувати зореліт, то можете бачити це з командою "
 "'Зореліт' у меню Звітів. Аби бачити зорельоти інших гравців, оберіть гравця "
-"у діалозі Гравці та клацніть на 'Зореліт'."
+"в Звіті Націй та клацніть на 'Зореліт'."
 
 #: data/helpdata.txt:1531
-#, fuzzy
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey. This reduces the score bonus from the "
 "spaceship, but it still counts as a win."
 msgstr ""
 "Якщо можливість успіху менша за 100%, частина людей можуть не пережити "
-"переліт. Це зменшує бонус на рахунок від зорельоту, але все одно рахується "
+"переліт. Це зменшує бонус рахунку від зорельоту, але все одно рахується "
 "як перемога."
 
 #: data/helpdata.txt:1535
@@ -26332,11 +26492,10 @@ msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
 msgstr ""
-"Якщо столицю цивілізації захоплено, запущений зореліт буде втрачено, тож "
+"Якщо столицю цивілізації захопили, запущений зореліт буде втрачений, тож "
 "добре охороняйте свою столицю!"
 
 #: data/helpdata.txt:1538
-#, fuzzy
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive earlier. "
@@ -26371,7 +26530,6 @@ msgstr ""
 "метасерверу,"
 
 #: data/helpdata.txt:1572
-#, fuzzy
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check whether your WWW "
@@ -26381,11 +26539,8 @@ msgstr ""
 "Клієнт також може отримати цей список: скористайтеся кнопкою Метасервер у "
 "діалозі з'єднання. Якщо він ніколи не показує ніяких результатів, перевірте "
 "чи ваш веб-броузер використовує HTTP проксі; аби встановити клієнту Freeciv "
-"той же проксі, встановіть змінну оточення $http_proxy у\n"
-"\n"
-"  http://проксіхост:проксіпорт/\n"
-"\n"
-"перед стартом клієнта."
+"той же проксі, встановіть змінну оточення $http_proxy у "
+"http://проксіхост:проксіпорт/ перед стартом клієнта."
 
 #: data/helpdata.txt:1580
 msgid ""
@@ -26643,7 +26798,6 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1735
-#, fuzzy
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -26668,22 +26822,22 @@ msgid ""
 msgstr ""
 "Діалоги та звіти:\n"
 "====================\n"
-"     F1: огляд карти\n"
-"     F2: звіт по підрозділах\n"
-"     F3: звіт по націях\n"
-"     F4: звіт по містах\n"
-"     F5: звіт по економіці\n"
-"     F6: звіт по дослідженням\n"
-"     F7: Дива Світу\n"
-"     F8: п'ять кращих міст\n"
-"     F9: діалог повідомлень\n"
-"    F11: демографія\n"
-"    F12: зореліт\n"
+"     F1: показати Вид Карти\n"
+"     F2: відкрити Звіт Підрозділів\n"
+"     F3: відкрити Звіт Націй\n"
+"     F4: відкрити Звіт Міст\n"
+"     F5: відкрити Звіт Економіки\n"
+"     F6: відкрити Звіт Досліджень\n"
+"     F7: відкрити Чудеса Світу\n"
+"     F8: відкрити П'ять Найкращих Міст\n"
+"     F9: відкрити Діалог повідомлень\n"
+"    F11: відкрити Демографію\n"
+"    F12: відкрити Зореліт\n"
 "\n"
 "        Ctrl-F: діалог пошуку міста\n"
 "        Ctrl-L: діалог списків робіт\n"
 "        Ctrl-T: діалог рівню податків/розкоші/науки\n"
-"  Shift-Ctrl-R: діалог революції\n"
+"  Shift-Ctrl-R: відкрити діалог революції\n"
 "\n"
 "Shift-Return: Закінчити хід"
 
@@ -26767,14 +26921,13 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1814
-#, fuzzy
 msgid ""
 "The client has a primitive chat interface. The lines you type are sent to "
 "all players, or only to your allies if the client is configured for that, "
 "except:"
 msgstr ""
-"Клієнт має простий чат інтерфейс. Усе що ви надрукуєте відсилається усім "
-"гравцям, за виключенням:"
+"Клієнт має простий чат інтерфейс. Усе що ви надрукуєте відсилається всім "
+"гравцям, або лише союзникам, якщо клієнт налаштований для цього, за вийнятком:"
 
 #: data/helpdata.txt:1818
 msgid ""
@@ -26785,7 +26938,6 @@ msgstr ""
 "та виконуються, якщо Ви маєте достатній рівень доступу."
 
 #: data/helpdata.txt:1821
-#, fuzzy
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated, or surrounded with double-quotes if they have spaces. The "
@@ -26793,29 +26945,27 @@ msgid ""
 "username beginning with 'John' (like 'Johnathan')."
 msgstr ""
 " - Повідомлення, що починаються з 'John:' приватні повідомлення для  'John'. "
-"Можна використовувати абревіатури імен. Сервер шукає гравців на ім'я "
-"'John',  а якщо не знаходить, то намагається знайти ім'я користувача, що "
-"починається з 'John' (як 'Johnathan')."
+"Можна використовувати абревіатури імен, або охоплювати імена лапками, коли в "
+"них є пробіли. Сервер шукає гравців з ім'ям 'John',  а якщо не знаходить, то "
+"намагається знайти ім'я користувача, що починається з 'John' ( 'Johnathan')."
 
 #: data/helpdata.txt:1826
-#, fuzzy
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'. A user name 'Johnathan' will "
 "still be matched."
 msgstr ""
-" - Повідомлення, що розпочинаються з 'foo::' є приватними повідомленнями, "
-"але для користувачів (не гравців), імена яких починаються з 'foo'; "
-"наприклад, 'fool' або 'foobar' отримає таке повідомлення."
+" - Повідомлення, що починаються з 'Іван::' є приватними повідомленнями, "
+"але тільнки для користувачів (не гравців), імена яких починаються з 'Іван'; "
+"наприклад 'Іванка' теж отримає таке повідомлення."
 
 #: data/helpdata.txt:1830
-#, fuzzy
 msgid ""
 "  - Messages starting with ':' will be sent to everyone (even if your client "
 "is configured to send only to allies by default)."
 msgstr ""
-"  - Повідомлення, які починаються із '.' будуть надіслану тільки вашим "
-"союзникам."
+"  - Повідомлення, які починаються ':' будуть надіслані всім (навіть, якщо "
+"клієнт настроєний відправляти за замовчанням тільки союзникам."
 
 #: data/helpdata.txt:1833
 msgid ""
