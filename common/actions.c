@@ -654,6 +654,16 @@ enum action_target_kind action_get_target_kind(struct action *paction)
 }
 
 /**************************************************************************
+  Returns TRUE iff performing the specified action has the specified
+  result.
+**************************************************************************/
+bool action_has_result(struct action *paction, enum gen_action result)
+{
+  /* The action result is currently used as the action id. */
+  return paction->id == result;
+}
+
+/**************************************************************************
   Returns TRUE iff the specified action is hostile.
 **************************************************************************/
 bool action_is_hostile(int action_id)
