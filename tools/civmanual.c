@@ -90,8 +90,8 @@ enum manuals {
                "content=\"text/html; charset=UTF-8\"/></head><body>\n\n"
 #define TITLE_BEGIN "<h1>"
 #define TITLE_END "</h1>"
-#define SECTION_BEGIN "<h3 class='section'>"
-#define SECTION_END "</h3>"
+#define SECTION_TITLE_BEGIN "<h3 class='section'>"
+#define SECTION_TITLE_END "</h3>"
 #define IMAGE_BEGIN "<img src=\""
 #define IMAGE_END ".png\">"
 #define ITEM_BEGIN "<div class='item' id='%s%d'>\n"
@@ -102,8 +102,8 @@ enum manuals {
 #define HEADER " "
 #define TITLE_BEGIN "="
 #define TITLE_END "="
-#define SECTION_BEGIN "==="
-#define SECTION_END "==="
+#define SECTION_TITLE_BEGIN "==="
+#define SECTION_TITLE_END "==="
 #define IMAGE_BEGIN "[[Image:"
 #define IMAGE_END ".png]]"
 #define ITEM_BEGIN "----\n<!-- %s %d -->\n"
@@ -248,8 +248,9 @@ static bool manual_command(void)
         const char *sethelp;
 
         fprintf(doc, ITEM_BEGIN, "setting", setting_number(pset));
-        fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, setting_name(pset),
-                _(setting_short_help(pset)), SECTION_END);
+        fprintf(doc, "%s%s - %s%s\n\n", SECTION_TITLE_BEGIN,
+                setting_name(pset), _(setting_short_help(pset)),
+                SECTION_TITLE_END);
         sethelp = _(setting_extra_help(pset, TRUE));
         if (strlen(sethelp) > 0) {
           char *help = fc_strdup(sethelp);
@@ -332,8 +333,9 @@ static bool manual_command(void)
         const struct command *cmd = command_by_number(i);
 
         fprintf(doc, ITEM_BEGIN, "cmd", i);
-        fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_BEGIN, command_name(cmd),
-                command_short_help(cmd), SECTION_END);
+        fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_TITLE_BEGIN,
+                command_name(cmd), command_short_help(cmd),
+                SECTION_TITLE_END);
         if (command_synopsis(cmd)) {
           char *cmdstr = fc_strdup(command_synopsis(cmd));
           size_t cmdstr_len = strlen(cmdstr) + 1;
@@ -545,8 +547,8 @@ static bool manual_command(void)
               VERSION_STRING, game.control.name, TITLE_END);
       governments_iterate(pgov) {
         char buf[64000];
-        fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN,
-                government_name_translation(pgov), SECTION_END);
+        fprintf(doc, "%s%s%s\n\n", SECTION_TITLE_BEGIN,
+                government_name_translation(pgov), SECTION_TITLE_END);
         helptext_government(buf, sizeof(buf), NULL, NULL, pgov);
         fprintf(doc, "%s\n\n", buf);
       } governments_iterate_end;
@@ -561,8 +563,8 @@ static bool manual_command(void)
         char buf[64000];
 
         fprintf(doc, ITEM_BEGIN, "utype", putype->item_number);
-        fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN,
-                utype_name_translation(putype), SECTION_END);
+        fprintf(doc, "%s%s%s\n\n", SECTION_TITLE_BEGIN,
+                utype_name_translation(putype), SECTION_TITLE_END);
         fprintf(doc,
                 PL_("Cost: %d shield\n",
                     "Cost: %d shields\n",
