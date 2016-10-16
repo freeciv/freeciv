@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2016-10-15 21:32+0300\n"
-"PO-Revision-Date: 2016-10-16 11:10+0300\n"
+"PO-Revision-Date: 2016-10-16 11:23+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -7414,7 +7414,7 @@ msgstr "Liitä joukkueeseen"
 
 #: client/gui-qt/pages.cpp:2031
 msgid "Tax: %1% Science: %2% Luxury: %3%\n"
-msgstr "Raha: %1% Tiede: %2% Luksis: %3%\n"
+msgstr "Raha: %1% Tiede: %2% Luksus: %3%\n"
 
 #: client/gui-qt/pages.cpp:2036 client/gui-qt/ratesdlg.cpp:67
 msgid "%1 - max rate: %2%"
