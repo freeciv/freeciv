@@ -547,10 +547,12 @@ static bool manual_command(void)
               VERSION_STRING, game.control.name, TITLE_END);
       governments_iterate(pgov) {
         char buf[64000];
+        fprintf(doc, ITEM_BEGIN, "gov", pgov->item_number);
         fprintf(doc, "%s%s%s\n\n", SECTION_TITLE_BEGIN,
                 government_name_translation(pgov), SECTION_TITLE_END);
         helptext_government(buf, sizeof(buf), NULL, NULL, pgov);
         fprintf(doc, "%s\n\n", buf);
+        fprintf(doc, ITEM_END);
       } governments_iterate_end;
       break;
 
