@@ -628,7 +628,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     return FALSE;
   }
 
-  if (action_id == ACTION_SPY_STEAL_TECH) {
+  if (action_id_has_result(action_id, ACTION_SPY_STEAL_TECH)) {
     /* Can't choose target. Will steal a random tech. */
     technology = A_UNSET;
   }
@@ -637,7 +637,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
    * "At Spy's Discretion" (A_UNSET) or a future tech (A_FUTURE). */
   if (technology == A_NONE
       || (technology != A_FUTURE
-          && !(technology == A_UNSET && action_id == ACTION_SPY_STEAL_TECH)
+          && !(technology == A_UNSET
+               && action_id_has_result(action_id, ACTION_SPY_STEAL_TECH))
           && !valid_advance_by_number(technology))) {
     return FALSE;
   }
@@ -695,7 +696,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   } else {
     /* Determine difficulty. */
     count = 1;
-    if (action_id == ACTION_SPY_TARGETED_STEAL_TECH) {
+    if (action_id_has_result(action_id, ACTION_SPY_TARGETED_STEAL_TECH)) {
       /* Targeted steal tech is more difficult. */
       count++;
     }
@@ -995,7 +996,7 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   log_debug("sabotage: count of improvements: %d", count);
 
   /* Determine the target (-1 is production). */
-  if (action_id == ACTION_SPY_SABOTAGE_CITY) {
+  if (action_id_has_result(action_id, ACTION_SPY_SABOTAGE_CITY)) {
     /*
      * Pick random:
      * 50/50 chance to pick production or some improvement.
