@@ -1792,8 +1792,9 @@ AC_CONFIG_FILES([Makefile
 	  doc/sv/Makefile
           bootstrap/Makefile
           lua/Makefile
-	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
+          client/freeciv.desktop:bootstrap/freeciv.desktop.in
           client/freeciv-gtk2.desktop:bootstrap/freeciv-gtk2.desktop.in
+          client/freeciv-gtk3.22.desktop:bootstrap/freeciv-gtk3.22.desktop.in
           client/freeciv-sdl2.desktop:bootstrap/freeciv-sdl2.desktop.in
           client/freeciv-qt.desktop:bootstrap/freeciv-qt.desktop.in
 	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in
@@ -1803,6 +1804,7 @@ AC_CONFIG_FILES([Makefile
 	  tools/ruledit/freeciv-ruledit.desktop:bootstrap/freeciv-ruledit.desktop.in
           client/freeciv-gtk2.appdata.xml:bootstrap/freeciv-gtk2.appdata.xml.in
           client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
+          client/freeciv-gtk3.22.appdata.xml:bootstrap/freeciv-gtk3.22.appdata.xml.in
           client/freeciv-sdl2.appdata.xml:bootstrap/freeciv-sdl2.appdata.xml.in
           client/freeciv-qt.appdata.xml:bootstrap/freeciv-qt.appdata.xml.in
           server/freeciv-server.appdata.xml:bootstrap/freeciv-server.appdata.xml.in

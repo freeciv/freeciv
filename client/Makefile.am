@@ -32,6 +32,10 @@ appdatafile_DATA += \
 endif
 if CLIENT_GUI_GTK_3_22
 GUI_SUBDIRS += gui-gtk-3.22
+desktopfile_DATA += \
+	freeciv-gtk3.22.desktop
+appdatafile_DATA += \
+	freeciv-gtk3.22.appdata.xml
 endif
 if CLIENT_GUI_GTK_3X
 GUI_SUBDIRS += gui-gtk-3.22
