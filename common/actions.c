@@ -154,13 +154,148 @@ static void oblig_hard_req_register(struct requirement contradiction,
 }
 
 /**************************************************************************
-  Initialize the actions and the action enablers.
+  Hard code the obligatory hard requirements. They are sorted by
+  requirement to make it easy to read, modify and explain them.
 **************************************************************************/
-void actions_init(void)
+static void hard_code_oblig_hard_reqs(void)
 {
-  int i, j;
+  /* Why this is a hard requirement: There is currently no point in
+   * allowing the listed actions against domestic targets.
+   * (Possible counter argument: crazy hack involving the Lua
+   * callback action_started_callback() to use an action to do
+   * something else. */
+  /* TODO: Unhardcode as a part of false flag operation support. */
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE, DRO_FOREIGN),
+                          FALSE,
+                          "All action enablers for %s must require a "
+                          "foreign target.",
+                          ACTION_ESTABLISH_EMBASSY,
+                          ACTION_SPY_INVESTIGATE_CITY,
+                          ACTION_SPY_STEAL_GOLD,
+                          ACTION_STEAL_MAPS,
+                          ACTION_SPY_STEAL_TECH,
+                          ACTION_SPY_TARGETED_STEAL_TECH,
+                          ACTION_SPY_INCITE_CITY,
+                          ACTION_SPY_BRIBE_UNIT,
+                          ACTION_CAPTURE_UNITS,
+                          ACTION_CONQUER_CITY,
+                          ACTION_NONE);
 
-  /* Hard code the actions */
+  /* Why this is a hard requirement: there is a hard requirement that
+   * the actor player is at war with the owner of any city on the
+   * target tile. It can't move to the ruleset as long as Bombard is
+   * targeted at unit stacks only. Having the same requirement
+   * against each unit in the stack as against any city at the tile
+   * ensures compatibility with any future solution that allows the
+   * requirement against any city on the target tile to move to the
+   * ruleset. */
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE, DS_WAR),
+                          FALSE,
+                          "All action enablers for %s must require a "
+                          "target the actor is at war with.",
+                          ACTION_BOMBARD, ACTION_NONE);
+
+  /* Why this is a hard requirement: Keep the old rules. Need to work
+   * out corner cases. */
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE, DRO_FOREIGN),
+                          FALSE,
+                          "All action enablers for %s must require a "
+                          "domestic target.",
+                          ACTION_UPGRADE_UNIT, ACTION_NONE);
+
+  /* Why this is a hard requirement: Preserve semantics of NoHome
+   * flag. Need to replace other uses in game engine before this can
+   * be demoted to a regular unit flag. */
+  oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE, UTYF_NOHOME),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor doesn't have the NoHome utype flag.",
+                          ACTION_HOME_CITY, ACTION_NONE);
+
+  /* Why this is a hard requirement: Preserve semantics of NonMil
+   * flag. Need to replace other uses in game engine before this can
+   * be demoted to a regular unit flag. */
+  oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE, UTYF_CIVILIAN),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor doesn't have the NonMil utype flag.",
+                          ACTION_ATTACK, ACTION_CONQUER_CITY, ACTION_NONE);
+
+  /* Why this is a hard requirement: Preserve semantics of
+   * CanOccupyCity unit class flag. */
+  oblig_hard_req_register(req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE,
+                                          UCF_CAN_OCCUPY_CITY),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor has the CanOccupyCity uclass flag.",
+                          ACTION_CONQUER_CITY, ACTION_NONE);
+
+  /* Why this is a hard requirement: Consistency with ACTION_ATTACK.
+   * Assumed by other locations in the Freeciv code. Examples:
+   * unit_move_to_tile_test() and unit_conquer_city(). */
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE, DS_WAR),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor is at war with the target.",
+                          ACTION_CONQUER_CITY, ACTION_NONE);
+
+  /* Why this is a hard requirement: a unit must move into a city to
+   * conquer it. */
+  oblig_hard_req_register(req_from_values(VUT_MINMOVES, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE, 1),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor has a movement point left.",
+                          ACTION_CONQUER_CITY, ACTION_NONE);
+
+  /* Why this is a hard requirement: this eliminates the need to
+   * check if units transported by the actor unit can exist at the
+   * same tile as all the units in the occupied city.
+   *
+   * This makes an implicit rule explicit:
+   * 1. A unit must move into a city to conquer it.
+   * 2. It can't move into the city if the tile contains a non allied
+   *    unit (see unit_move_to_tile_test()).
+   * 3. A city could, at the time this rule was made explicit, only
+   *    contain units allied to its owner.
+   * 3. A player could, at the time this rule was made explicit, not
+   *    be allied to a player that is at war with another ally.
+   * 4. A player could, at the time this rule was made explicit, only
+   *    conquer a city belonging to someone he was at war with.
+   * Conclusion: the conquered city had to be empty.
+   */
+  oblig_hard_req_register(req_from_values(VUT_MAXTILEUNITS, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE, 0),
+                          TRUE,
+                          "All action enablers for %s must require that "
+                          "the target city is empty.",
+                          ACTION_CONQUER_CITY, ACTION_NONE);
+
+  /* Why this is a hard requirement: Assumed in the code. Corner case
+   * where diplomacy prevents a transported unit to go to the target
+   * tile. The paradrop code doesn't check if transported units can
+   * coexist with the target tile city and units. */
+  oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE,
+                                          USP_TRANSPORTING),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor isn't transporting another unit.",
+                          ACTION_PARADROP, ACTION_AIRLIFT, ACTION_NONE);
+}
+
+/**************************************************************************
+  Hard code the actions.
+**************************************************************************/
+static void hard_code_actions(void)
+{
   actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
                                           TRUE, FALSE, FALSE, TRUE,
                                           0, 1);
@@ -317,6 +452,17 @@ void actions_init(void)
       action_new(ACTION_HEAL_UNIT, ATK_UNIT,
                  FALSE, FALSE, FALSE, TRUE,
                  0, 1);
+}
+
+/**************************************************************************
+  Initialize the actions and the action enablers.
+**************************************************************************/
+void actions_init(void)
+{
+  int i, j;
+
+  /* Hard code the actions */
+  hard_code_actions();
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -334,137 +480,7 @@ void actions_init(void)
 
   /* Obligatory hard requirements are sorted by requirement in the source
    * code. This makes it easy to read, modify and explain it. */
-
-  /* Why this is a hard requirement: There is currently no point in
-   * allowing the listed actions against domestic targets.
-   * (Possible counter argument: crazy hack involving the Lua
-   * callback action_started_callback() to use an action to do
-   * something else. */
-  /* TODO: Unhardcode as a part of false flag operation support. */
-  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
-                                          FALSE, FALSE, TRUE, DRO_FOREIGN),
-                          FALSE,
-                          "All action enablers for %s must require a "
-                          "foreign target.",
-                          ACTION_ESTABLISH_EMBASSY,
-                          ACTION_SPY_INVESTIGATE_CITY,
-                          ACTION_SPY_STEAL_GOLD,
-                          ACTION_STEAL_MAPS,
-                          ACTION_SPY_STEAL_TECH,
-                          ACTION_SPY_TARGETED_STEAL_TECH,
-                          ACTION_SPY_INCITE_CITY,
-                          ACTION_SPY_BRIBE_UNIT,
-                          ACTION_CAPTURE_UNITS,
-                          ACTION_CONQUER_CITY,
-                          ACTION_NONE);
-
-  /* Why this is a hard requirement: there is a hard requirement that
-   * the actor player is at war with the owner of any city on the
-   * target tile. It can't move to the ruleset as long as Bombard is
-   * targeted at unit stacks only. Having the same requirement
-   * against each unit in the stack as against any city at the tile
-   * ensures compatibility with any future solution that allows the
-   * requirement against any city on the target tile to move to the
-   * ruleset. */
-  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
-                                          FALSE, FALSE, TRUE, DS_WAR),
-                          FALSE,
-                          "All action enablers for %s must require a "
-                          "target the actor is at war with.",
-                          ACTION_BOMBARD, ACTION_NONE);
-
-  /* Why this is a hard requirement: Keep the old rules. Need to work
-   * out corner cases. */
-  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
-                                          FALSE, TRUE, TRUE, DRO_FOREIGN),
-                          FALSE,
-                          "All action enablers for %s must require a "
-                          "domestic target.",
-                          ACTION_UPGRADE_UNIT, ACTION_NONE);
-
-  /* Why this is a hard requirement: Preserve semantics of NoHome
-   * flag. Need to replace other uses in game engine before this can
-   * be demoted to a regular unit flag. */
-  oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
-                                          FALSE, TRUE, TRUE, UTYF_NOHOME),
-                          FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor doesn't have the NoHome utype flag.",
-                          ACTION_HOME_CITY, ACTION_NONE);
-
-  /* Why this is a hard requirement: Preserve semantics of NonMil
-   * flag. Need to replace other uses in game engine before this can
-   * be demoted to a regular unit flag. */
-  oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
-                                          FALSE, TRUE, TRUE, UTYF_CIVILIAN),
-                          FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor doesn't have the NonMil utype flag.",
-                          ACTION_ATTACK, ACTION_CONQUER_CITY, ACTION_NONE);
-
-  /* Why this is a hard requirement: Preserve semantics of
-   * CanOccupyCity unit class flag. */
-  oblig_hard_req_register(req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
-                                          FALSE, FALSE, TRUE,
-                                          UCF_CAN_OCCUPY_CITY),
-                          FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor has the CanOccupyCity uclass flag.",
-                          ACTION_CONQUER_CITY, ACTION_NONE);
-
-  /* Why this is a hard requirement: Consistency with ACTION_ATTACK.
-   * Assumed by other locations in the Freeciv code. Examples:
-   * unit_move_to_tile_test() and unit_conquer_city(). */
-  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
-                                          FALSE, FALSE, TRUE, DS_WAR),
-                          FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor is at war with the target.",
-                          ACTION_CONQUER_CITY, ACTION_NONE);
-
-  /* Why this is a hard requirement: a unit must move into a city to
-   * conquer it. */
-  oblig_hard_req_register(req_from_values(VUT_MINMOVES, REQ_RANGE_LOCAL,
-                                          FALSE, FALSE, TRUE, 1),
-                          FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor has a movement point left.",
-                          ACTION_CONQUER_CITY, ACTION_NONE);
-
-  /* Why this is a hard requirement: this eliminates the need to
-   * check if units transported by the actor unit can exist at the
-   * same tile as all the units in the occupied city.
-   *
-   * This makes an implicit rule explicit:
-   * 1. A unit must move into a city to conquer it.
-   * 2. It can't move into the city if the tile contains a non allied
-   *    unit (see unit_move_to_tile_test()).
-   * 3. A city could, at the time this rule was made explicit, only
-   *    contain units allied to its owner.
-   * 3. A player could, at the time this rule was made explicit, not
-   *    be allied to a player that is at war with another ally.
-   * 4. A player could, at the time this rule was made explicit, only
-   *    conquer a city belonging to someone he was at war with.
-   * Conclusion: the conquered city had to be empty.
-   */
-  oblig_hard_req_register(req_from_values(VUT_MAXTILEUNITS, REQ_RANGE_LOCAL,
-                                          FALSE, FALSE, TRUE, 0),
-                          TRUE,
-                          "All action enablers for %s must require that "
-                          "the target city is empty.",
-                          ACTION_CONQUER_CITY, ACTION_NONE);
-
-  /* Why this is a hard requirement: Assumed in the code. Corner case
-   * where diplomacy prevents a transported unit to go to the target
-   * tile. The paradrop code doesn't check if transported units can
-   * coexist with the target tile city and units. */
-  oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
-                                          FALSE, TRUE, TRUE,
-                                          USP_TRANSPORTING),
-                          FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor isn't transporting another unit.",
-                          ACTION_PARADROP, ACTION_AIRLIFT, ACTION_NONE);
+  hard_code_oblig_hard_reqs();
 
   /* Initialize the action auto performers. */
   for (i = 0; i < MAX_NUM_ACTION_AUTO_PERFORMERS; i++) {
