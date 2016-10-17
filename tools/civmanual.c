@@ -96,6 +96,8 @@ enum manuals {
 #define IMAGE_END ".png\">"
 #define ITEM_BEGIN "<div class='item' id='%s%d'>\n"
 #define ITEM_END "</div>\n"
+#define SUBITEM_BEGIN "<pre class='%s'>"
+#define SUBITEM_END "</pre>\n"
 #define TAIL "</body></html>"
 #else  /* MANUAL_USE_HTML */
 #define FILE_EXT "mediawiki"
@@ -108,6 +110,8 @@ enum manuals {
 #define IMAGE_END ".png]]"
 #define ITEM_BEGIN "----\n<!-- %s %d -->\n"
 #define ITEM_END "\n"
+#define SUBITEM_BEGIN "<!-- %s -->\n"
+#define SUBITEM_END "\n"
 #define TAIL " "
 #endif /* MANUAL_USE_HTML */
 
@@ -568,27 +572,45 @@ static bool manual_command(void)
         fprintf(doc, ITEM_BEGIN, "utype", putype->item_number);
         fprintf(doc, "%s%s%s\n\n", SECTION_TITLE_BEGIN,
                 utype_name_translation(putype), SECTION_TITLE_END);
+        fprintf(doc, SUBITEM_BEGIN, "cost");
         fprintf(doc,
-                PL_("Cost: %d shield\n",
-                    "Cost: %d shields\n",
+                PL_("Cost: %d shield",
+                    "Cost: %d shields",
                     utype_build_shield_cost(putype)),
                 utype_build_shield_cost(putype));
-        fprintf(doc, _("Upkeep: %s\n"),
+        fprintf(doc, SUBITEM_END);
+        fprintf(doc, SUBITEM_BEGIN, "upkeep");
+        fprintf(doc, _("Upkeep: %s"),
                 helptext_unit_upkeep_str(putype));
-        fprintf(doc, _("Moves: %s\n"),
+        fprintf(doc, SUBITEM_END);
+        fprintf(doc, SUBITEM_BEGIN, "moves");
+        fprintf(doc, _("Moves: %s"),
                 move_points_text(putype->move_rate, TRUE));
-        fprintf(doc, _("Vision: %d\n"),
+        fprintf(doc, SUBITEM_END);
+        fprintf(doc, SUBITEM_BEGIN, "vision");
+        fprintf(doc, _("Vision: %d"),
                 (int)sqrt((double)putype->vision_radius_sq));
-        fprintf(doc, _("Attack: %d\n"),
+        fprintf(doc, SUBITEM_END);
+        fprintf(doc, SUBITEM_BEGIN, "attack");
+        fprintf(doc, _("Attack: %d"),
                 putype->attack_strength);
-        fprintf(doc, _("Defense: %d\n"),
+        fprintf(doc, SUBITEM_END);
+        fprintf(doc, SUBITEM_BEGIN, "defense");
+        fprintf(doc, _("Defense: %d"),
                 putype->defense_strength);
-        fprintf(doc, _("Firepower: %d\n"),
+        fprintf(doc, SUBITEM_END);
+        fprintf(doc, SUBITEM_BEGIN, "firepower");
+        fprintf(doc, _("Firepower: %d"),
                 putype->firepower);
-        fprintf(doc, _("Hitpoints: %d\n"),
+        fprintf(doc, SUBITEM_END);
+        fprintf(doc, SUBITEM_BEGIN, "hitpoints");
+        fprintf(doc, _("Hitpoints: %d"),
                 putype->hp);
+        fprintf(doc, SUBITEM_END);
+        fprintf(doc, SUBITEM_BEGIN, "helptext");
         helptext_unit(buf, sizeof(buf), NULL, "", putype);
         fprintf(doc, "%s", buf);
+        fprintf(doc, SUBITEM_END);
         fprintf(doc, ITEM_END);
       } unit_type_iterate_end;
       break;
