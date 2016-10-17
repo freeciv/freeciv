@@ -275,11 +275,11 @@ static bool manual_command(void)
           fprintf(doc, _("Can only be used in server console."));
         }
 
-        fprintf(doc, "</p>\n\n");
+        fprintf(doc, "</p>\n");
         setting_default_name(pset, TRUE, buf, sizeof(buf));
         switch (setting_type(pset)) {
         case SSET_INT:
-          fprintf(doc, "<p class=\"bounds\">%s %d, %s %s, %s %d</p>\n\n",
+          fprintf(doc, "\n<p class=\"bounds\">%s %d, %s %s, %s %d</p>\n",
                   _("Minimum:"), setting_int_min(pset),
                   _("Default:"), buf,
                   _("Maximum:"), setting_int_max(pset));
@@ -288,10 +288,10 @@ static bool manual_command(void)
           {
             const char *value;
 
-            fprintf(doc, "<p class=\"bounds\">%s</p>\n",
+            fprintf(doc, "\n<p class=\"bounds\">%s</p>",
                     _("Possible values:"));
             for (i = 0; (value = setting_enum_val(pset, i, FALSE)); i++) {
-              fprintf(doc, "<p class=\"bounds\"><li/> %s: \"%s\"</p>\n",
+              fprintf(doc, "\n<p class=\"bounds\"><li/> %s: \"%s\"</p>",
                       value, setting_enum_val(pset, i, TRUE));
             }
           }
@@ -300,10 +300,10 @@ static bool manual_command(void)
           {
             const char *value;
 
-            fprintf(doc, "<p class=\"bounds\">%s</p>\n",
+            fprintf(doc, "\n<p class=\"bounds\">%s</p>",
                     _("Possible values (option can take any number of these):"));
             for (i = 0; (value = setting_bitwise_bit(pset, i, FALSE)); i++) {
-              fprintf(doc, "<p class=\"bounds\"><li/> %s: \"%s\"</p>\n",
+              fprintf(doc, "\n<p class=\"bounds\"><li/> %s: \"%s\"</p>",
                       value, setting_bitwise_bit(pset, i, TRUE));
             }
           }
@@ -313,11 +313,11 @@ static bool manual_command(void)
           break;
         }
         if (SSET_INT != setting_type(pset)) {
-          fprintf(doc, "<p class=\"bounds\">%s %s</p>\n\n",
+          fprintf(doc, "\n<p class=\"bounds\">%s %s</p>\n",
                   _("Default:"), buf);
         }
         if (setting_non_default(pset)) {
-          fprintf(doc, _("<p class=\"changed\">Value set to %s</p>\n\n"),
+          fprintf(doc, _("\n<p class=\"changed\">Value set to %s</p>\n"),
                   setting_value_name(pset, TRUE, buf, sizeof(buf)));
         }
 
@@ -346,7 +346,7 @@ static bool manual_command(void)
           fprintf(doc, "<pre>%s</pre></td></tr></table>", cmdstr);
           FC_FREE(cmdstr);
         }
-        fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
+        fprintf(doc, _("<p class=\"level\">Level: %s</p>\n"),
                 cmdlevel_name(command_level(cmd)));
         {
           char *help = command_extra_help(cmd);
@@ -355,8 +355,9 @@ static bool manual_command(void)
 
             fc_break_lines(help, LINE_BREAK);
             help = html_special_chars(help, &help_len);
+            fprintf(doc, "\n");
             fprintf(doc, _("<p>Description:</p>\n\n"));
-            fprintf(doc, "<pre>%s</pre>\n\n", help);
+            fprintf(doc, "<pre>%s</pre>\n", help);
             FC_FREE(help);
           }
         }
