@@ -308,7 +308,7 @@ ui_airlift_unit = _("%sAirlift to City%s")
 ui_name_attack = _("%sAttack%s")
 
 ; /* TRANS: _Conquer City (100% chance of success). */
-ui_conquer_city = _("%Conquer City%s")
+ui_name_conquer_city = _("%sConquer City%s")
 
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
