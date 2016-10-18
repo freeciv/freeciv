@@ -20,6 +20,7 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <QMenu>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QToolButton>
@@ -227,11 +228,42 @@ void tab_enabler::edit_type(QAction *action)
   paction = action_by_rule_name(action->text().toUtf8().data());
 
   if (selected != nullptr && paction != nullptr) {
+    /* Store the old action so it can be changed back. */
+    const enum gen_action old_action = selected->action;
+
+    /* Handle the new action's hard obligatory requirements. */
+    selected->action = paction->id;
+    if (action_enabler_obligatory_reqs_missing(selected)) {
+      /* At least one hard obligatory requirement is missing. */
+
+      QMessageBox *box = new QMessageBox();
+
+      box->setWindowTitle(_("Obligatory hard requirements"));
+
+      box->setText(
+            QString(_("Changing action to %1 will modify enabler "
+                      "requirements. Continue?"))
+                   .arg(action_name_translation(paction)));
+      box->setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+      box->exec();
+
+      if (box->result() == QMessageBox::Yes) {
+        /* Add obligatory requirements. */
+        action_enabler_obligatory_reqs_add(selected);
+      } else {
+        /* The user don't want to add the requirements. Cancel. */
+        selected->action = old_action;
+        return;
+      }
+    }
+
     /* Must remove and add back because enablers are stored by action. */
+    selected->action = old_action;
     action_enabler_remove(selected);
     selected->action = paction->id;
     action_enabler_add(selected);
 
+    /* Show the changes. */
     update_enabler_info(selected);
     refresh();
   }
