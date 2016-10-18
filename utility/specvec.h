@@ -34,6 +34,7 @@
                 const struct foo_vector *from);
       void foo_vector_free(struct foo_vector *tthis);
       void foo_vector_append(struct foo_vector *tthis, foo_t pfoo);
+      void foo_vector_remove(struct foo_vector *tthis, int svindex);
 
    Note this is not protected against multiple inclusions; this is
    so that you can have multiple different specvectors.  For each
@@ -129,6 +130,32 @@ static inline void SPECVEC_FOO(_vector_append) (SPECVEC_VECTOR *tthis,
 {
   SPECVEC_FOO(_vector_reserve) (tthis, tthis->size + 1);
   tthis->p[tthis->size - 1] = pfoo;
+}
+
+/**************************************************************************
+  Remove element number svindex from the vector.
+**************************************************************************/
+static inline void SPECVEC_FOO(_vector_remove) (SPECVEC_VECTOR *tthis,
+                                                const int svindex)
+{
+  size_t i;
+
+  /* Be consistent with SPECVEC_FOO_vector_get(): Allow negative element
+   * number. */
+  const size_t rmpos = (svindex < 0 ?
+                          SPECVEC_FOO(_vector_size)(tthis) - svindex :
+                          (size_t)svindex);
+
+  fc_assert_ret(0 <= rmpos
+                && rmpos < SPECVEC_FOO(_vector_size)(tthis));
+
+  for (i = rmpos; (i + 1) < SPECVEC_FOO(_vector_size)(tthis); i++) {
+    /* Relocate the elements following the deleted element. */
+    tthis->p[i] = tthis->p[i + 1];
+  }
+
+  SPECVEC_FOO(_vector_reserve)(tthis,
+                               SPECVEC_FOO(_vector_size)(tthis) - 1);
 }
 
 
