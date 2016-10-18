@@ -288,6 +288,9 @@ ui_name_sabotage_unit = _("%sSabotage Enemy Unit%s")
 ; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
 ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
 
+; /* TRANS: _Use Court Physician (3% chance of success). */
+ui_name_heal_unit = _("%sUse Court Physician%s")
+
 ; /* TRANS: _Sabotage City (3% chance of success). */
 ui_name_sabotage_city = _("%sSabotage City%s")
 
