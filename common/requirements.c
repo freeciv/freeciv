@@ -1111,6 +1111,44 @@ bool does_req_contradicts_reqs(const struct requirement *req,
   return FALSE;
 }
 
+/* No self contradictions in the requirement vector. */
+#define NO_CONTRADICTIONS (-1)
+
+/**************************************************************************
+  Returns the first requirement in a requirement vector that contradicts
+  with other requirements in the same requirement vector.
+**************************************************************************/
+static int first_contradiction(const struct requirement_vector *vec)
+{
+  int i;
+
+  for (i = 0; i < requirement_vector_size(vec); i++) {
+    struct requirement *preq = requirement_vector_get(vec, i);
+
+    if (does_req_contradicts_reqs(preq, vec)) {
+      return i;
+    }
+  }
+
+  return NO_CONTRADICTIONS;
+}
+
+/**************************************************************************
+  Clean up self contradictions from a requirement vector.
+
+  When two requirements conflicts the earliest requirement is removed.
+  This allows requirement adjustment code to append the new requirement(s)
+  and leave the contradiction clean up to this function.
+**************************************************************************/
+void requirement_vector_contradiction_clean(struct requirement_vector *vec)
+{
+  int conflict;
+
+  while (NO_CONTRADICTIONS != (conflict = first_contradiction(vec))) {
+    requirement_vector_remove(vec, conflict);
+  }
+}
+
 /****************************************************************************
   Returns TRUE if players are in the same requirements range.
 ****************************************************************************/
