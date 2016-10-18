@@ -37,7 +37,6 @@ namespace fonts
   const char * const help_title       = "gui_qt_font_help_title";
   const char * const chatline         = "gui_qt_font_chatline";
   const char * const beta_label       = "gui_qt_font_beta_label";
-  const char * const small            = "gui_qt_font_small";
   const char * const comment_label    = "gui_qt_font_comment_label";
   const char * const city_names       = "gui_qt_font_city_names";
   const char * const city_productions = "gui_qt_font_city_productions";
