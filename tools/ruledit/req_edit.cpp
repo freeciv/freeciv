@@ -349,17 +349,14 @@ void req_edit::add_now()
 void req_edit::delete_now()
 {
   if (selected != nullptr) {
-    int end = requirement_vector_size(req_vector) - 1;
-    struct requirement *last = requirement_vector_get(req_vector, end);
+    size_t i;
 
-    requirement_vector_iterate(req_vector, new_req) {
-      if (new_req == selected) {
-        *new_req = *last;
+    for (i = 0; i < requirement_vector_size(req_vector); i++) {
+      if (requirement_vector_get(req_vector, i) == selected) {
+        requirement_vector_remove(req_vector, i);
         break;
       }
-    } requirement_vector_iterate_end;
-
-    requirement_vector_reserve(req_vector, end);
+    }
 
     selected = nullptr;
 
