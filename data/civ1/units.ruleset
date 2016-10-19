@@ -27,7 +27,6 @@ flags =
     _("AddToCity")
     _("Nuclear")
     _("Infra"), _("Can build infrastructure.")
-    _("Marines"), _("Can launch attack from non-native tiles.")
   }
 
 ; Names for custom unit class flags. There can be up to 8 of these.
