@@ -255,6 +255,11 @@ GtkWidget *create_main_page(void)
   get_sprite_dimensions(intro_in, &width, &height);
   sh = screen_height();
 
+  if (sh <= 0) {
+    /* Assume some minimum height */
+    sh = 600;
+  }
+
   space_needed = 250;
 #if IS_BETA_VERSION
   /* Beta notice takes extra space */
