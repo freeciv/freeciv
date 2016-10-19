@@ -3083,6 +3083,13 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
+  if (!action_id_distance_accepted(action_id,
+                                   real_map_distance(unit_tile(actor_unit),
+                                                     target_tile))) {
+    /* No point in continuing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   /* Do the player know if there are units at the tile? Must be done here
    * since an empthy unseen tile will result in false. */
   if (!can_player_see_hypotetic_units_at(unit_owner(actor_unit),
