@@ -361,7 +361,7 @@ ui_name_conquer_city = _("%sConquer City%s")
 ; disables the following actions.
 ;
 ; Can make the help text less redundant when you document it your self.
-;quiet_actions = "Targeted Sabotage City", "Targeted Steal Tech"
+quiet_actions = "Heal Unit"
 
 ; /* <-- avoid gettext warnings
 ;

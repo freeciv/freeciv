@@ -2336,6 +2336,14 @@ helptext      = _("\
 This is you. If you lose this unit, you lose the game. So don't.\
 "), _("\
 Won't unleash barbarians from huts.\
+"), _("\
+The Leader unit includes a court physician.\
+ The Leader unit can therefore be used to heal it self or other\
+ light weight land units.\
+ Healing restores up to 25% of the target unit's hit points.\
+ All the Leader's remaining movement points are spent.\
+ The unit being healed must be allied or domestic.\
+ It must be located at or adjacent to the Leader's tile.\
 ")
 
 [unit_barbarian_leader]
