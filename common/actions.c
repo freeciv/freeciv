@@ -1127,6 +1127,10 @@ void action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
     }
   } obligatory_req_vector_iterate_end;
 
+  /* Remove anything that conflicts with the newly added reqs. */
+  requirement_vector_contradiction_clean(&enabler->actor_reqs);
+  requirement_vector_contradiction_clean(&enabler->target_reqs);
+
   /* Sanity check: obligatory requirement insertion should have fixed the
    * action enabler. */
   fc_assert(action_enabler_obligatory_reqs_missing(enabler) == NULL);
