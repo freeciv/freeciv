@@ -1030,7 +1030,7 @@ fi
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
-  AS_HELP_STRING([--enable-fcmp=no/yes/gtk2/gtk3/gtk3.22/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
+  AS_HELP_STRING([--enable-fcmp=no/yes/gtk2/gtk3/gtk3x/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
 [fc_mp=${enableval}],
 [fc_mp=auto])
 
@@ -1063,8 +1063,8 @@ for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
          test "x$mp" = "xgtk30"  ||
          test "x$mp" = "xgtk-3.0" ; then
       req_fcmp_gtk3=yes
-    elif test "x$mp" = "xgtk3.22" ; then
-      req_fcmp_gtk3_22=yes
+    elif test "x$mp" = "xgtk3x" ; then
+      req_fcmp_gtk3x=yes
     elif test "x$mp" = "xqt" ; then
       req_fcmp_qt=yes
     elif test "x$mp" = "xcli" ; then
@@ -1103,16 +1103,16 @@ if test "x$req_fcmp_gtk3" = "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
   AC_MSG_ERROR([Cannot build gtk3-version of freeciv-modpack as requested])
 fi
 
-if test "x$req_fcmp_gtk3_22" = "xyes" ||
+if test "x$req_fcmp_gtk3x" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
-  PKG_CHECK_MODULES([GTK3X_MP], [gtk+-3.0 >= 3.18.0],
+  PKG_CHECK_MODULES([GTK3X_MP], [gtk+-4.0 >= 3.89.0],
 [
-  GTK3X_MP_CFLAGS="$GTK3X_MP_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_18"
+  GTK3X_MP_CFLAGS="$GTK3X_MP_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_90"
   GTK3X_MP_CFLAGS="$GTK3X_MP_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_46"
   PKG_CHECK_MODULES([GTHREAD_GTK3X], [gthread-2.0],
 [
-  fcmp_gtk3_22=yes
-  fcmp_list="$fcmp_list gtk3.22"
+  fcmp_gtk3x=yes
+  fcmp_list="$fcmp_list gtk3x"
   mp_gtk3x_cflags="$GTK3X_MP_CFLAGS $GHTREAD_GTK3X_CFLAGS"
   mp_gtk3x_libs="$GTK3X_MP_LIBS $GTHREAD_GTK3X_LIBS"
   if test "x$MINGW32" = "xyes"; then
@@ -1127,8 +1127,8 @@ if test "x$req_fcmp_gtk3_22" = "xyes" ||
 ], [])], [])
 fi
 
-if test "x$req_fcmp_gtk3_22" = "xyes" && test "x$fcmp_gtk3_22" != "xyes" ; then
-  AC_MSG_ERROR([Cannot build gtk3.22-version of freeciv-modpack as requested])
+if test "x$req_fcmp_gtk3x" = "xyes" && test "x$fcmp_gtk3x" != "xyes" ; then
+  AC_MSG_ERROR([Cannot build gtk3x-version of freeciv-modpack as requested])
 fi
 
 if test "x$req_fcmp_gtk2" = "xyes" ||
@@ -1193,7 +1193,7 @@ if test "x$modinst" != "xfound" &&
    test "x$modinst" != "xno" &&
    test "x$modinst" != "xcli" &&
    test "x$fcmp_gtk3" != "xyes" &&
-   test "x$fcmp_gtk3_22" != "xyes" &&
+   test "x$fcmp_gtk3x" != "xyes" &&
    test "x$fcmp_gtk2" != "xyes" &&
    test "x$fcmp_qt" != "xyes" ;then
   AC_MSG_ERROR([Cannot build modpack installer with any gui])
@@ -1212,7 +1212,7 @@ fi
 
 AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
 AM_CONDITIONAL([MODINST_GTK3], [test "x$fcmp_gtk3" = "xyes"])
-AM_CONDITIONAL([MODINST_GTK3X], [test "x$fcmp_gtk3_22" = "xyes"])
+AM_CONDITIONAL([MODINST_GTK3X], [test "x$fcmp_gtk3x" = "xyes"])
 AM_CONDITIONAL([MODINST_GTK2], [test "x$fcmp_gtk2" = "xyes"])
 AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 AM_CONDITIONAL([MODINST_CLI], [test "x$fcmp_cli" = "xyes"])
