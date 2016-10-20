@@ -37,6 +37,16 @@ QMainWindow {
   border: 2px solid black;
 }
 
+close_widget 
+{
+  background: #006633;
+}
+
+resize_widget
+{
+  background: #006633;
+}
+
 QPushButton {
   color: black;
   background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #fefefe ,stop: 1 #eaeaea);

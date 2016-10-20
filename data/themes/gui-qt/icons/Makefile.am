@@ -7,6 +7,7 @@ pkgdata_DATA =          	\
 	ai.png			\
 	building.png		\
 	cities.png		\
+	close.png		\
 	cunits.png		\
 	economy.png		\
 	endturn.png		\
@@ -21,6 +22,7 @@ pkgdata_DATA =          	\
 	meeting-observer.png	\
 	preferences-other.png	\
 	research.png		\
+	resize.png		\
 	units.png		\
 	wonder.png		\
 	view.png

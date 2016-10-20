@@ -26,6 +26,16 @@ QMainWindow {
   border: 2px solid #c3b48e;
 }
 
+close_widget 
+{
+  background: #ddca97;
+}
+
+resize_widget
+{
+  background: #ddca97;
+}
+
 QPushButton {
   color: black;
   border-image: url(LittleFingerbutton-default.png) 3 3 3 3;
