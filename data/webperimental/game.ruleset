@@ -30,7 +30,10 @@ name = _("Webperimental")
 
 ; Description of the ruleset
 summary = _("\
-This ruleset has experimental rules that works with the web-client.\n\
+This ruleset has experimental rules that works with the web-client.\
+ It was based on the classic ruleset (via the deprecated fcweb ruleset).\
+ It is more like classic than non web Freeciv's experimental ruleset.\n\
+\n\
 Differences compared to the classic ruleset are:\n\
 - Diplomat available from Alphabet\n\
 - AI players are created with random trait values\n\
