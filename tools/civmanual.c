@@ -758,8 +758,6 @@ int main(int argc, char **argv)
     retval = EXIT_FAILURE;
   }
 
-  FC_FREE(ruleset);
-
   con_log_close();
   registry_module_close();
   free_libfreeciv();
