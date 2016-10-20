@@ -1485,7 +1485,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   work_but_layout->addWidget(work_rem_but);
   but_menu_worklist = new QPushButton;
   production_combo_p = new progress_bar(parent);
-  production_combo_p->setToolTip(_("Click to change worklist production"));
+  production_combo_p->setToolTip(_("Click to change current production"));
   p_table_p = new QTableWidget;
 
   r1 = new QRadioButton(_("Change"));
