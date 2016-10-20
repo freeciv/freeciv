@@ -1247,7 +1247,8 @@ void mr_menu::setup_menus()
           SLOT(slot_select_same_everywhere()));
   menu->addSeparator();
   act = menu->addAction(_("Wait"));
-  act->setShortcut(QKeySequence(tr("w")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_WAIT))));
   menu_list.insertMulti(STANDARD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_wait()));
   act = menu->addAction(_("Done"));
@@ -1321,7 +1322,8 @@ void mr_menu::setup_menus()
   /* Unit Menu */
   menu = this->addMenu(_("Unit"));
   act = menu->addAction(_("Go to Tile"));
-  act->setShortcut(QKeySequence(tr("g")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_GOTO))));
   menu_list.insertMulti(STANDARD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_goto()));
 
@@ -1351,7 +1353,8 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(slot_patrol()));
   menu->addSeparator();
   act = menu->addAction(_("Sentry"));
-  act->setShortcut(QKeySequence(tr("s")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_SENTRY))));
   menu_list.insertMulti(SENTRY, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_sentry()));
   act = menu->addAction(_("Unsentry All On Tile"));
@@ -1361,11 +1364,13 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unsentry()));
   menu->addSeparator();
   act = menu->addAction(_("Load"));
-  act->setShortcut(QKeySequence(tr("l")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_LOAD))));
   menu_list.insertMulti(LOAD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_load()));
   act = menu->addAction(_("Unload"));
-  act->setShortcut(QKeySequence(tr("u")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_UNLOAD))));
   menu_list.insertMulti(UNLOAD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unload()));
   act = menu->addAction(_("Unload All From Transporter"));
@@ -1396,7 +1401,8 @@ void mr_menu::setup_menus()
   menu = this->addMenu(_("Combat"));
   act = menu->addAction(_("Fortify Unit"));
   menu_list.insertMulti(FORTIFY, act);
-  act->setShortcut(QKeySequence(tr("f")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_FORTIFY))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_fortify()));
   act = menu->addAction(Q_(terrain_control.gui_type_base0));
   menu_list.insertMulti(FORTRESS, act);
@@ -1419,13 +1425,15 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(slot_action()));
   act = menu->addAction(action_id_name_translation(ACTION_NUKE));
   menu_list.insertMulti(NUKE, act);
-  act->setShortcut(QKeySequence(tr("shift+n")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_NUKE))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_nuke()));
 
   /* Work Menu */
   menu = this->addMenu(_("Work"));
   act = menu->addAction(action_id_name_translation(ACTION_FOUND_CITY));
-  act->setShortcut(QKeySequence(tr("b")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_BUILDCITY))));
   menu_list.insertMulti(BUILD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
   act = menu->addAction(_("Go And Build City"));
@@ -1443,14 +1451,17 @@ void mr_menu::setup_menus()
   menu->addSeparator();
   act = menu->addAction(_("Build Road"));
   menu_list.insertMulti(ROAD, act);
-  act->setShortcut(QKeySequence(tr("r")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_BUILDROAD))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_road()));
   act = menu->addAction(_("Build Irrigation"));
-  act->setShortcut(QKeySequence(tr("i")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_BUILDIRRIGATION))));
   menu_list.insertMulti(IRRIGATION, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_irrigation()));
   act = menu->addAction(_("Build Mine"));
-  act->setShortcut(QKeySequence(tr("m")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_BUILDMINE))));
   menu_list.insertMulti(MINE, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_mine()));
   menu->addSeparator();
@@ -1469,7 +1480,8 @@ void mr_menu::setup_menus()
   menu->addSeparator();
   act = menu->addAction(_("Transform Terrain"));
   menu_list.insertMulti(TRANSFORM, act);
-  act->setShortcut(QKeySequence(tr("o")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_TRANSFORM))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_transform()));
   act = menu->addAction(_("Clean Pollution"));
   menu_list.insertMulti(POLLUTION, act);
@@ -1705,6 +1717,60 @@ void mr_menu::set_tile_for_order(tile *ptile)
   for (int i=0; i < units_list.nr_units; i++) {
     units_list.unit_list.at(units_list.unit_list.count() - i -1)->ptile = ptile;
   }
+}
+
+/****************************************************************************
+  Finds QAction bounded to given shortcut and triggers it
+****************************************************************************/
+void mr_menu::execute_shortcut(int sid)
+{
+  QList<QMenu*> menu_list;
+  QMenu *m;
+  QAction* a;
+  QKeySequence seq;
+  fc_shortcut *fcs;
+
+  if (sid == SC_GOTO) {
+    slot_unit_goto();
+    return;
+  }
+  fcs = fc_shortcuts::sc()->get_shortcut(static_cast<shortcut_id>(sid));
+  seq = QKeySequence(shortcut_to_string(fcs));
+
+  menu_list = findChildren<QMenu*>();
+    foreach (m, menu_list) {
+        foreach (a, m->actions()) {
+          if (a->shortcut() == seq) {
+            a->activate(QAction::Trigger);
+          }
+        }
+    }
+}
+
+/****************************************************************************
+  Returns string bounded to given shortcut
+****************************************************************************/
+QString mr_menu::shortcut_2_menustring(int sid)
+{
+  QList<QMenu *> menu_list;
+  QMenu *m;
+  QAction *a;
+  QKeySequence seq;
+  fc_shortcut *fcs;
+
+  fcs = fc_shortcuts::sc()->get_shortcut(static_cast<shortcut_id>(sid));
+  seq = QKeySequence(shortcut_to_string(fcs));
+
+  menu_list = findChildren<QMenu *>();
+  foreach (m, menu_list) {
+    foreach (a, m->actions()) {
+      if (a->shortcut() == seq) {
+        return (a->text() + " ("
+                + a->shortcut().toString(QKeySequence::NativeText) + ")");
+      }
+    }
+  }
+  return QString();
 }
 
 /****************************************************************************

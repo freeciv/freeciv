@@ -107,6 +107,7 @@ fc_client::fc_client() : QMainWindow()
   gtd = NULL;
   update_info_timer = nullptr;
   game_layout = nullptr;
+  unitinfo_wdg = nullptr;
   for (int i = 0; i <= PAGE_GAME; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;
@@ -589,6 +590,16 @@ void fc_client::read_settings()
   } else {
     qt_settings.chat_height = 33;
   }
+  if (s.contains("unit_x")) {
+    qt_settings.unit_info_pos_x = s.value("unit_x").toInt();
+  } else {
+    qt_settings.unit_info_pos_x = 330;
+  }
+  if (s.contains("unit_y")) {
+    qt_settings.unit_info_pos_y = s.value("unit_y").toInt();
+  } else {
+    qt_settings.unit_info_pos_y = 0;
+  }
   if (s.contains("City-dialog")) {
     qt_settings.city_geometry = s.value("City-dialog").toByteArray();
   }
@@ -619,6 +630,8 @@ void fc_client::write_settings()
   s.setValue("splitter1", qt_settings.city_splitter1);
   s.setValue("splitter2", qt_settings.city_splitter2);
   s.setValue("splitter3", qt_settings.city_splitter3);
+  s.setValue("unit_x", qt_settings.unit_info_pos_x);
+  s.setValue("unit_y", qt_settings.unit_info_pos_y);
   write_shortcuts();
 }
 
@@ -874,6 +887,7 @@ void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
     gui()->update_sidebar_tooltips();
     side_disable_endturn(get_turn_done_button_state());
     gui()->mapview_wdg->resize(event->size().width(),size.height());
+    update_unit_info_label(nullptr);
   }
   event->setAccepted(true);
 }

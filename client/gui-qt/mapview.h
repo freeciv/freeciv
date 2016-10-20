@@ -142,6 +142,24 @@ private:
   QPoint point;
 };
 
+
+/**************************************************************************
+  Widget allowing moving other widgets
+**************************************************************************/
+class move_widget : public QLabel
+{
+  Q_OBJECT
+public:
+  move_widget(QWidget* parent);
+  void put_to_corner();
+
+protected:
+  void mouseMoveEvent(QMouseEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+private:
+  QPoint point;
+};
+
 /**************************************************************************
   Abstract class for widgets wanting to do custom action
   when closing widgets is called (eg. update menu)

@@ -690,7 +690,8 @@ void fc_client::create_game_page()
   sw_indicators = new fc_sidewidget(nullptr, nullptr, "", side_show_map,
                                     SW_INDICATORS);
   sw_indicators->set_right_click(side_indicators_menu);
-  sw_cunit = new fc_sidewidget(nullptr, nullptr, "UNI",
+  sw_cunit = new fc_sidewidget(fc_icons::instance()->get_pixmap("units"),
+                               _("Units"), "UNI",
                                units_report_dialog_popup);
   sw_cities = new fc_sidewidget(fc_icons::instance()->get_pixmap("cities"),
                                 _("Cities"), "CTS",
@@ -723,6 +724,7 @@ void fc_client::create_game_page()
 
   minimapview_wdg = new minimap_view(mapview_wdg);
   minimapview_wdg->show();
+  unitinfo_wdg = new hud_units(mapview_wdg);
   infotab = new info_tab(mapview_wdg);
   infotab->show();
   x_vote = new xvote(mapview_wdg);
