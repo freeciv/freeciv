@@ -43,47 +43,6 @@ extern "C" {
 class QPixmap;
 
 class minimap_view;
-/* pixmap of resize button */
-const char *const resize_button[] = {
- "13 13 3 1",
- "  c none",
- ". c #f8ff81",
- "x c #000000",
- "xxxxxxxxxxxx ",
- "x..........x ",
- "x.xxx......x ",
- "x.xx.......x ",
- "x.x.x......x ",
- "x....x.....x ",
- "x.....x....x ",
- "x.....x....x ",
- "x......x.x.x ",
- "x.......xx.x ",
- "x......xxx.x ",
- "x..........x ",
- "xxxxxxxxxxxx "
-};
-
-/* pixmap of close button */
-const char *const close_button[] = {
- "13 13 3 1",
- "  c none",
- ". c #f8ff81",
- "x c #000000",
- "xxxxxxxxxxxx ",
- "x..........x ",
- "x.x......x.x ",
- "x..x....x..x ",
- "x...x..x...x ",
- "x....xx....x ",
- "x....xx....x ",
- "x...x..x...x ",
- "x..x....x..x ",
- "x.x......x.x ",
- "x..........x ",
- "xxxxxxxxxxxx ",
- "             "
-};
 
 bool is_point_in_area(int x, int y, int px, int py, int pxe, int pye);
 void draw_calculated_trade_routes(QPainter *painter);

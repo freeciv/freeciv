@@ -411,7 +411,7 @@ resize_widget::resize_widget(QWidget *parent) : QLabel()
 {
   setParent(parent);
   setCursor(Qt::SizeFDiagCursor);
-  setPixmap(QPixmap(resize_button));
+  setPixmap(*fc_icons::instance()->get_pixmap("resize"));
 }
 
 /****************************************************************************
@@ -458,7 +458,7 @@ close_widget::close_widget(QWidget *parent) : QLabel()
 {
   setParent(parent);
   setCursor(Qt::ArrowCursor);
-  setPixmap(QPixmap(close_button));
+  setPixmap(*fc_icons::instance()->get_pixmap("close"));
 }
 
 /****************************************************************************
