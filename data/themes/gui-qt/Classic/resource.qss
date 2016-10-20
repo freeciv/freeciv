@@ -729,3 +729,16 @@ fc_sidewidget {
   alternate-background-color: rgba(125, 25, 125, 125);
   selection-color: rgba(85, 25, 25, 185);
 }
+
+hud_action {
+  selection-background-color:  rgba(221, 204, 161, 220);
+  color: rgb(5,5,185);
+}
+
+hud_units {
+  background: rgb(40, 10, 30, 200);
+}
+
+hud_units QLabel {
+  color: white;
+}

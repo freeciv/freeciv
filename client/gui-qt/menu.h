@@ -289,6 +289,8 @@ public:
   void menus_sensitive();
   void update_airlift_menu();
   void set_tile_for_order(struct tile *ptile);
+  void execute_shortcut(int sid);
+  QString shortcut_2_menustring(int sid);
   QAction *minimap_status;
   QAction *chat_status;
   QAction *messages_status;

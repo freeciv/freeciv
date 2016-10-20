@@ -405,6 +405,42 @@ void map_view::find_place(int pos_x, int pos_y, int &w, int &h, int wdth,
 
 
 /****************************************************************************
+  Constructor for move widget
+****************************************************************************/
+move_widget::move_widget(QWidget *parent) : QLabel()
+{
+  setParent(parent);
+  setCursor(Qt::SizeAllCursor);
+  setPixmap(*fc_icons::instance()->get_pixmap("move"));
+  setFixedSize(16, 16);
+}
+
+/****************************************************************************
+  Puts move widget to left top corner
+****************************************************************************/
+void move_widget::put_to_corner()
+{
+  move(0, 0);
+}
+
+/****************************************************************************
+  Mouse handler for move widget (moves parent widget)
+****************************************************************************/
+void move_widget::mouseMoveEvent(QMouseEvent *event)
+{
+  parentWidget()->move(event->globalPos() - point);
+}
+
+/****************************************************************************
+  Sets moving point for move widget;
+****************************************************************************/
+void move_widget::mousePressEvent(QMouseEvent* event)
+{
+  point = event->globalPos() - parentWidget()->geometry().topLeft();
+  update();
+}
+
+/****************************************************************************
   Constructor for resize widget
 ****************************************************************************/
 resize_widget::resize_widget(QWidget *parent) : QLabel()
@@ -959,71 +995,9 @@ void fc_client::update_info_label(void)
 ****************************************************************************/
 void update_unit_info_label(struct unit_list *punitlist)
 {
-  QPixmap *pix;
-  QString labels;
-
-  if (punitlist != nullptr) {
-    if (unit_list_size(punitlist) == 0 || C_S_OVER == client_state()) {
-      gui()->sw_cunit->set_custom_labels(_(" "));
-      gui()->sw_cunit->set_pixmap(fc_icons::instance()->get_pixmap("units"));
-      gui()->sw_cunit->resize_pixmap(gui()->sw_cunit->width(),
-                                     gui()->sw_cunit->height());
-      gui()->sw_cunit->set_label(_("Units"));
-      gui()->sw_cunit->update_final_pixmap();
-      gui()->sw_cunit->set_tooltip(QString());
-      return;
-    }  else {
-      QString mp;
-      struct unit *punit;
-      struct canvas *unit_pixmap;
-      struct canvas *tile_pixmap;
-      QRect dest(0, 0, tileset_full_tile_width(tileset),
-                 tileset_tile_height(tileset) * 3 / 2);
-      QRect dest2(0, tileset_tile_height(tileset) / 2,
-                  tileset_full_tile_width(tileset),
-                  tileset_tile_height(tileset));
-      QRect src(tileset_full_tile_width(tileset) / 2, 0,
-                tileset_tile_height(tileset), tileset_tile_height(tileset) * 2 / 3);
-      QPainter p;
-      pix = new QPixmap(tileset_full_tile_width(tileset),
-                        tileset_tile_height(tileset) * 3 / 2);
-      pix->fill(Qt::transparent);
-      punit = unit_list_get(punitlist, 0);
-      if (punit) {
-        unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                        tileset_tile_height(tileset) * 3 / 2);
-        unit_pixmap->map_pixmap.fill(Qt::transparent);
-        put_unit(punit, unit_pixmap, 1.0, 0, 0);
-        tile_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                        tileset_tile_height(tileset) * 2);
-        tile_pixmap->map_pixmap.fill(Qt::transparent);
-        put_terrain(punit->tile, tile_pixmap, 1.0, 0, 0);
-        p.begin(pix);
-        p.drawPixmap(src, *(&tile_pixmap->map_pixmap), dest);
-        p.setRenderHint(QPainter::SmoothPixmapTransform);
-        p.drawPixmap(dest2, *(&unit_pixmap->map_pixmap), dest);
-        p.end();
-        gui()->sw_cunit->set_pixmap(pix);
-        gui()->sw_cunit->resize_pixmap(gui()->sw_cunit->width(),
-                                       gui()->sw_cunit->height());
-        qtg_canvas_free(unit_pixmap);
-        gui()->sw_cunit->set_label(get_unit_info_label_text1(punitlist));
-        mp = QString(move_points_text(punit->moves_left, false));
-        if (utype_fuel(unit_type_get(punit))) {
-          mp = mp + QString("(") + QString(move_points_text((
-                        unit_type_get(punit)->move_rate * ((punit->fuel) - 1)
-                        + punit->moves_left), false)) + QString(")");
-        }
-        /* TRANS: MP = Movement points */
-        mp = QString(_("MP: ")) + mp;
-        labels = QString(_("HP: %1/%2")).arg(QString::number(punit->hp),
-                               QString::number(unit_type_get(punit)->hp))
-                + '\n' + mp;
-        gui()->sw_cunit->set_custom_labels(labels);
-        gui()->sw_cunit->update_final_pixmap();
-        gui()->sw_cunit->set_tooltip(popup_info_text(punit->tile));
-      }
-    }
+  if (gui()->unitinfo_wdg != nullptr && C_S_RUNNING == client_state()) {
+    gui()->menu_bar->menus_sensitive();
+    gui()->unitinfo_wdg->update_actions(punitlist);
   }
 }
 

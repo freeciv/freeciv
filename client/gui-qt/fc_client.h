@@ -132,6 +132,8 @@ struct fc_settings
   QByteArray city_splitter1;
   QByteArray city_splitter2;
   QByteArray city_splitter3;
+  int unit_info_pos_x;
+  int unit_info_pos_y;
 };
 
 /****************************************************************************
@@ -254,6 +256,7 @@ public:
   fc_settings qt_settings;
   trade_generator trade_gen;
   qfc_rally_list rallies;
+  hud_units *unitinfo_wdg;
   fc_sidewidget *sw_cunit;
   fc_sidewidget *sw_science;
   fc_sidewidget *sw_endturn;

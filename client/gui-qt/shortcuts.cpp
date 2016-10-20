@@ -50,7 +50,7 @@ enum {
   RESPONSE_SAVE
 };
 
-static int num_shortcuts = 30;
+static int num_shortcuts = 42;
 fc_shortcut default_shortcuts[] = {
   {SC_SCROLL_MAP, 0, Qt::RightButton, Qt::NoModifier, "Scroll map" },
   {SC_CENTER_VIEW, Qt::Key_C, Qt::AllButtons, Qt::NoModifier,
@@ -110,6 +110,30 @@ fc_shortcut default_shortcuts[] = {
     _("Upgrade") },
   {SC_SETHOME, Qt::Key_H, Qt::AllButtons, Qt::NoModifier,
     _("Set Home City") },
+  {SC_BUILDMINE, Qt::Key_M, Qt::AllButtons, Qt::NoModifier,
+    _("Build Mine") },
+  {SC_BUILDIRRIGATION, Qt::Key_I, Qt::AllButtons, Qt::NoModifier,
+    _("Build Irrigation") },
+  {SC_BUILDROAD, Qt::Key_R, Qt::AllButtons, Qt::NoModifier,
+    _("Build Road") },
+  {SC_BUILDCITY, Qt::Key_B, Qt::AllButtons, Qt::NoModifier,
+    _("Build City") },
+  {SC_SENTRY, Qt::Key_S, Qt::AllButtons, Qt::NoModifier,
+    _("Sentry") },
+  {SC_FORTIFY, Qt::Key_F, Qt::AllButtons, Qt::NoModifier,
+    _("Fortify") },
+  {SC_GOTO, Qt::Key_G, Qt::AllButtons, Qt::NoModifier,
+    _("Go to Tile") },
+  {SC_WAIT, Qt::Key_W, Qt::AllButtons, Qt::NoModifier,
+    _("Wait") },
+  {SC_TRANSFORM, Qt::Key_O, Qt::AllButtons, Qt::NoModifier,
+    _("Transform") },
+  {SC_NUKE, Qt::Key_N, Qt::AllButtons, Qt::ShiftModifier,
+    _("Explode Nuclear") },
+  {SC_LOAD, Qt::Key_L, Qt::AllButtons, Qt::NoModifier,
+    _("Load") },
+  {SC_UNLOAD, Qt::Key_U, Qt::AllButtons, Qt::NoModifier,
+    _("Unload") },
 };
 
 
