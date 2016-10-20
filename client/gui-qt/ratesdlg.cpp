@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -296,12 +296,13 @@ multipler_rates_dialog::multipler_rates_dialog (QWidget *parent,
 
   cancel_button = new QPushButton;
   ok_button = new QPushButton;
-  setWindowTitle(_("Change governments modifiers"));
+  setWindowTitle(_("Change policies"));
   main_layout = new QVBoxLayout;
 
   multipliers_iterate(pmul) {
     QHBoxLayout *hb = new QHBoxLayout;
     int val = player_multiplier_target_value(pplayer, pmul);
+
     group_box = new QGroupBox(multiplier_name_translation(pmul));
     slider = new QSlider(Qt::Horizontal, this);
     slider->setMinimum(mult_to_scale(pmul, pmul->start));
