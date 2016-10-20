@@ -209,6 +209,11 @@ QMenu::item:selected {
   background-color: #29aa22;
 }
 
+minimap_view
+{
+  selection-background-color: #006633;
+}
+
 QComboBox QAbstractItemView {
   color: black;
   background: #fefefe;

@@ -207,6 +207,11 @@ QMenu::item:selected {
   border-radius: 3px;
 }
 
+minimap_view
+{
+  selection-background-color: #ddca97;
+}
+
 QComboBox:editable {
   background-color: #ddca97;
 }

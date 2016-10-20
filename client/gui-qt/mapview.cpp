@@ -774,8 +774,7 @@ void minimap_view::paint(QPainter * painter, QPaintEvent * event)
     painter->drawPixmap(0, iy, *pix, x, 0, ix, y);
     painter->drawPixmap(0, 0, *pix, x, y, ix, iy);
   }
-  painter->setPen(QColor(Qt::yellow));
-  painter->setRenderHint(QPainter::Antialiasing);
+  painter->setPen(QColor(palette().color(QPalette::Highlight)));
   painter->drawRect(0, 0, width() - 1, height() - 1);
   draw_viewport(painter);
   rw->put_to_corner();
