@@ -230,6 +230,11 @@ QMenu::item:selected {
   border-radius: 9px;
 }
 
+minimap_view
+{
+  selection-background-color: #1155BB;
+}
+
 QComboBox QAbstractItemView {
   color: #3399FF;
   background: #111111;
