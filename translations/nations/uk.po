@@ -1472,7 +1472,7 @@ msgstr "Ассірійці"
 msgid ""
 "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
 msgstr ""
-"Асирія була імперією у північній Месопотамії, названой за ії столицею Ашур."
+"Асирія була імперією у північній Месопотамії, названою за ії столицею Ашур."
 
 #: data/nation/asturian.ruleset:3
 msgid "Asturian"
