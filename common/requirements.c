@@ -1013,7 +1013,7 @@ static bool impr_contra_genus(const struct requirement *impr_req,
   }
 
   /* No special knowledge. */
-  return are_requirements_opposites(impr_req, genus_req);
+  return FALSE;
 }
 
 /**************************************************************************
@@ -1026,6 +1026,11 @@ static bool impr_contra_genus(const struct requirement *impr_req,
 bool are_requirements_contradictions(const struct requirement *req1,
                                      const struct requirement *req2)
 {
+  if (are_requirements_opposites(req1, req2)) {
+    /* The exact opposite. */
+    return TRUE;
+  }
+
   switch (req1->source.kind) {
   case VUT_IMPROVEMENT:
     if (req2->source.kind == VUT_IMPR_GENUS) {
@@ -1033,7 +1038,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
     }
 
     /* No special knowledge. */
-    return are_requirements_opposites(req1, req2);
+    return FALSE;
     break;
   case VUT_IMPR_GENUS:
     if (req2->source.kind == VUT_IMPROVEMENT) {
@@ -1041,7 +1046,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
     }
 
     /* No special knowledge. */
-    return are_requirements_opposites(req1, req2);
+    return FALSE;
     break;
   case VUT_DIPLREL:
     if (req2->source.kind != VUT_DIPLREL) {
@@ -1084,9 +1089,9 @@ bool are_requirements_contradictions(const struct requirement *req1,
     }
     break;
   default:
-    /* No special knowledge exists. All that can be done is to detect if
-     * the requirements are opposite to each other. */
-    return are_requirements_opposites(req1, req2);
+    /* No special knowledge exists. The requirements aren't the exact
+     * opposite of each other per the initial check. */
+    return FALSE;
     break;
   }
 }
