@@ -166,7 +166,7 @@ install-ruledit: install-ruledit-dir
 
 SOUND_DLLS := \
 	SDL2.dll \
-	SDL2_mixer.dll \
+	libSDL2_mixer-2-0-0.dll \
 	libFLAC-8.dll \
 	libfluidsynth-1.dll \
 	libmad-0.dll \
@@ -190,8 +190,8 @@ COMMON_DLLS := \
 	libcurl-4.dll \
 	libgmp-10.dll \
 	libgnutls-30.dll \
-	libhogweed-4-2.dll \
-	libnettle-6-2.dll \
+	libhogweed-4.dll \
+	libnettle-6.dll \
 	libp11-kit-0.dll \
 	libtasn1-6.dll \
 	libatk-1.0-0.dll \
@@ -317,8 +317,8 @@ RULEDIT_DLLS := \
 	libcurl-4.dll \
 	libgmp-10.dll \
 	libgnutls-30.dll \
-	libhogweed-4-2.dll \
-	libnettle-6-2.dll \
+	libhogweed-4.dll \
+	libnettle-6.dll \
 	libp11-kit-0.dll \
 	libtasn1-6.dll \
 	libatk-1.0-0.dll \

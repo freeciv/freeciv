@@ -39,7 +39,7 @@ using MSYS2 from http://msys2.github.io
 > pacman -Syu
 
 2) Install following packages with 'pacman -Su'
-   As of 22-Sep-16, one has to use also '--force' option.
+   As of 18-Oct-16, one has to use also '--force' option.
 
 2.1) Packages needed for building freeciv
  These packages are needed even if you don't plan to make installer,
@@ -118,7 +118,7 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-160922.7z, based on
+msys2-freeciv-win64-161018.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20160921.exe
 
 Only win64 target is included - replace <arch> with 'x86_64' in package names below
@@ -135,6 +135,7 @@ Following packages have been installed:
 - libtool
 - autoconf
 - python
+- gdb
 - mingw-w64-<arch>-gcc
 - mingw-w64-<arch>-icu
 - mingw-w64-<arch>-curl
