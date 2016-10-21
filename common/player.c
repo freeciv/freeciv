@@ -1469,7 +1469,7 @@ const char *diplrel_name_translation(int value)
 
 /* The number of mutually exclusive requirement sets that
  * diplrel_mess_gen() creates for the DiplRel requirement type. */
-#define DIPLREL_MESS_SIZE (1 + (DRO_LAST * (5 + 4 + 3 + 2 + 1)))
+#define DIPLREL_MESS_SIZE (3 + (DRO_LAST * (5 + 4 + 3 + 2 + 1)))
 
 /**************************************************************************
   Generate and return an array of mutually exclusive requirement sets for
@@ -1524,6 +1524,30 @@ static bv_diplrel_all_reqs *diplrel_mess_gen(void)
   /* It is not possible to have a diplstate to your self. */
   BV_SET(mess[mess_pos],
          requirement_diplrel_ereq(DRO_FOREIGN, REQ_RANGE_LOCAL, FALSE));
+
+  mess_pos++;
+
+  /* Having a real embassy excludes not having an embassy. */
+  BV_CLR_ALL(mess[mess_pos]);
+
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DRO_HAS_REAL_EMBASSY, REQ_RANGE_LOCAL,
+                                  TRUE));
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DRO_HAS_EMBASSY, REQ_RANGE_LOCAL,
+                                  FALSE));
+
+  mess_pos++;
+
+  /* Hosting a real embassy excludes not hosting an embassy. */
+  BV_CLR_ALL(mess[mess_pos]);
+
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DRO_HOSTS_REAL_EMBASSY, REQ_RANGE_LOCAL,
+                                  TRUE));
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DRO_HOSTS_EMBASSY, REQ_RANGE_LOCAL,
+                                  FALSE));
 
   mess_pos++;
 
