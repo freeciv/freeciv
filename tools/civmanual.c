@@ -555,8 +555,10 @@ static bool manual_command(void)
         fprintf(doc, ITEM_BEGIN, "gov", pgov->item_number);
         fprintf(doc, "%s%s%s\n\n", SECTION_TITLE_BEGIN,
                 government_name_translation(pgov), SECTION_TITLE_END);
+        fprintf(doc, SUBITEM_BEGIN, "helptext");
         helptext_government(buf, sizeof(buf), NULL, NULL, pgov);
         fprintf(doc, "%s\n\n", buf);
+        fprintf(doc, SUBITEM_END);
         fprintf(doc, ITEM_END);
       } governments_iterate_end;
       break;
