@@ -110,9 +110,9 @@ char **get_gui_specific_themes_directories(int *count)
 
   /* Freeciv-specific GTK3 themes directories */
   strvec_iterate(data_dirs, dir_name) {
-    char buf[strlen(dir_name) + strlen("/themes/gui-gtk-3.0") + 1];
+    char buf[strlen(dir_name) + strlen("/themes/gui-gtk-3.22") + 1];
 
-    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-3.0", dir_name);
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-3.22", dir_name);
 
     directories[(*count)++] = fc_strdup(buf);
   } strvec_iterate_end;
