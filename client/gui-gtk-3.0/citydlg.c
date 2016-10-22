@@ -313,11 +313,17 @@ static void init_citydlg_dimensions(void)
 *****************************************************************/
 static void initialize_city_dialogs(void)
 {
+  int height;
+
   fc_assert_ret(!city_dialogs_have_been_initialised);
 
   dialog_list = dialog_list_new();
   init_citydlg_dimensions();
-  if (screen_height() <= TINYSCREEN_MAX_HEIGHT) {
+  height = screen_height();
+
+  /* Use default layout when height cannot be determined
+   * (when height == 0) */
+  if (height > 0 && height <= TINYSCREEN_MAX_HEIGHT) {
     low_citydlg = TRUE;
   } else {
     low_citydlg = FALSE;
