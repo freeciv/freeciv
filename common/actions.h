@@ -448,12 +448,12 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
 /* Reasoning about actions */
 bool action_immune_government(struct government *gov, int act);
 
-bool action_blocked_by_situation_act(struct action *action,
+bool action_blocked_by_situation_act(const struct action *paction,
                                      const struct requirement *situation);
 #define action_id_blocked_by_situation_act(action_id, situation)          \
   action_blocked_by_situation_act(action_by_number(action_id), situation)
 
-bool action_blocked_by_situation_tgt(struct action *action,
+bool action_blocked_by_situation_tgt(const struct action *paction,
                                      const struct requirement *situation);
 #define action_id_blocked_by_situation_tgt(action_id, situation)          \
   action_blocked_by_situation_tgt(action_by_number(action_id), situation)

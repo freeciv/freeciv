@@ -3356,10 +3356,10 @@ bool action_immune_government(struct government *gov, int act)
   Returns TRUE if the specified action never can be performed when the
   situation requirement is fulfilled for the actor.
 **************************************************************************/
-bool action_blocked_by_situation_act(struct action *action,
+bool action_blocked_by_situation_act(const struct action *paction,
                                      const struct requirement *situation)
 {
-  action_enabler_list_iterate(action_enablers_for_action(action->id),
+  action_enabler_list_iterate(action_enablers_for_action(paction->id),
                               enabler) {
     if (!does_req_contradicts_reqs(situation, &enabler->actor_reqs)) {
       return FALSE;
@@ -3373,10 +3373,10 @@ bool action_blocked_by_situation_act(struct action *action,
   Returns TRUE if the specified action never can be performed when the
   situation requirement is fulfilled for the target.
 **************************************************************************/
-bool action_blocked_by_situation_tgt(struct action *action,
+bool action_blocked_by_situation_tgt(const struct action *paction,
                                      const struct requirement *situation)
 {
-  action_enabler_list_iterate(action_enablers_for_action(action->id),
+  action_enabler_list_iterate(action_enablers_for_action(paction->id),
                               enabler) {
     if (!does_req_contradicts_reqs(situation, &enabler->target_reqs)) {
       return FALSE;
