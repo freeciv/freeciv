@@ -11,7 +11,7 @@ dist_noinst_DATA = \
 		installer_msys2/create-freeciv-gtk-qt-nsi.sh	\
 		installer_msys2/create-freeciv-gtk2-nsi.sh	\
 		installer_msys2/create-freeciv-gtk3-nsi.sh	\
-		installer_msys2/create-freeciv-gtk3x-nsi.sh	\
+		installer_msys2/create-freeciv-gtk3.22-nsi.sh	\
 		installer_msys2/create-freeciv-qt-nsi.sh	\
 		installer_msys2/create-freeciv-sdl2-nsi.sh	\
 		installer_msys2/create-freeciv-ruledit-nsi.sh	\

@@ -38,7 +38,7 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 all: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer
 
 gtk3x-installer:
-	make GUI=gtk3x FCMP=gtk3x EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3x
+	make GUI=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3x
 
 # These are what can be built in current official environment version
 buildable-win32: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer
@@ -127,7 +127,7 @@ install-freeciv-common:
 	# add start menu files
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(GUI).cmd Freeciv.url install-$(WINARCH)-$(GUI)/
 
-install-freeciv-gtk3x: install-freeciv-common
+install-freeciv-gtk3.22: install-freeciv-common
 
 install-freeciv-gtk3: install-freeciv-common
 
@@ -250,7 +250,7 @@ install-env-default-fcmp: install-env-common
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
-install-env-gtk3x: install-env-default-fcmp
+install-env-gtk3.22: install-env-default-fcmp
 
 install-env-gtk3: install-env-default-fcmp
 
@@ -414,7 +414,7 @@ clean-installer-ruledit:
 
 clean:
 	make GUI=gtk3 clean-build-common clean-install-common clean-installer-common
-	make GUI=gtk3x clean-build-common clean-install-common clean-installer-common
+	make GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
 	make GUI=gtk2 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt clean-build-common clean-install-common clean-installer-common
