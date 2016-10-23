@@ -7,6 +7,9 @@ pkgdata_DATA =          	\
 	ai.png			\
 	building.png		\
 	buildroad.png		\
+	cclose.png		\
+	cmax.png		\
+	cmin.png		\
 	chopchop.png		\
 	cities.png		\
 	city-close.png		\
