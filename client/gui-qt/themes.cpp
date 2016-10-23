@@ -84,8 +84,11 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
     QApplication::setStyle(QStyleFactory::create("Fusion"));
   }
 
-  current_app()->setStyleSheet(stylestring);
   current_theme = theme_name;
+  current_app()->setStyleSheet(stylestring);
+  if (gui()) {
+    gui()->reload_sidebar_icons();
+  }
   pal.setBrush(QPalette::Link, QColor(92,170,229));
   pal.setBrush(QPalette::LinkVisited, QColor(54,150,229));
   QApplication::setPalette(pal);

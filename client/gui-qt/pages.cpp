@@ -2005,7 +2005,21 @@ void fc_client::slot_pick_nation()
   popup_races_dialog(client_player());
 }
 
-
+/***************************************************************************
+  Reloads sidebar icons (useful on theme change)
+***************************************************************************/
+void fc_client::reload_sidebar_icons()
+{
+  sw_map->set_pixmap(fc_icons::instance()->get_pixmap("view"));
+  sw_cunit->set_pixmap(fc_icons::instance()->get_pixmap("units"));
+  sw_cities->set_pixmap(fc_icons::instance()->get_pixmap("cities"));
+  sw_diplo->set_pixmap(fc_icons::instance()->get_pixmap("nations"));
+  sw_science->set_pixmap(fc_icons::instance()->get_pixmap("research"));
+  sw_economy->set_pixmap(fc_icons::instance()->get_pixmap("economy"));
+  sw_endturn->set_pixmap(fc_icons::instance()->get_pixmap("endturn"));
+  sidebar_wdg->resize_me(game_tab_widget->width(),
+                         game_tab_widget->height(), true);
+}
 /***************************************************************************
   Updates sidebar tooltips
 ***************************************************************************/

@@ -482,14 +482,14 @@ void fc_sidebar::paint(QPainter *painter, QPaintEvent *event)
   Resize sidebar to take 100 pixels or 10% of given width, and all
   widgets inside sidebar
 **************************************************************************/
-void fc_sidebar::resize_me(int wdth, int hght)
+void fc_sidebar::resize_me(int wdth, int hght, bool force)
 {
   int w, h, non_std, non_std_count;
   w = wdth / 10;
   h = hght;
   w = qMin(100, w);
 
-  if (w == width() && h == height()) {
+  if (force == false && w == width() && h == height()) {
     return;
   }
 
