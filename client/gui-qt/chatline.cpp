@@ -273,6 +273,7 @@ chatwdg::chatwdg(QWidget *parent)
   gl = new QGridLayout;
   chat_line = new chat_input;
   chat_output = new QTextBrowser;
+  chat_output->setFont(*fc_font::instance()->get_font(fonts::chatline));
   remove_links = new QPushButton("");
   remove_links->setIcon(style()->standardPixmap(QStyle::SP_DialogCancelButton));
   remove_links->setToolTip(_("Clear links"));

@@ -60,4 +60,7 @@ public:
   void release_fonts();
 };
 
+void configure_fonts();
+QString configure_font(QString font_name, QStringList sl, int size, bool bold = false);
+
 #endif // FC__FONTS_H

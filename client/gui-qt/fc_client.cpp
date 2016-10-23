@@ -121,6 +121,7 @@ fc_client::fc_client() : QMainWindow()
 void fc_client::init()
 {
   fc_font::instance()->init_fonts();
+  read_settings();
   QApplication::setFont(*fc_font::instance()->get_font(fonts::default_font));
   QString path;
   central_wdg = new QWidget;
@@ -168,7 +169,6 @@ void fc_client::init()
   if (path.isEmpty() == false) {
     QSettings::setPath(QSettings::NativeFormat, QSettings::UserScope, path);
   }
-  read_settings();
   pages[PAGE_GAME] = new QWidget(central_wdg);
   init_mapcanvas_and_overview();
   create_game_page();
@@ -204,6 +204,7 @@ void fc_client::init()
 
   game_tab_widget->init();
   chat_listener::listen();
+
 }
 
 /****************************************************************************
@@ -580,6 +581,9 @@ void fc_client::read_settings()
 {
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
               "freeciv-qt-client");
+  if (s.contains("Fonts-set") == false) {
+    configure_fonts();
+  }
   if (s.contains("Chat-xsize")) {
     qt_settings.chat_width = s.value("Chat-xsize").toInt();
   } else {
@@ -624,6 +628,7 @@ void fc_client::write_settings()
 {
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
               "freeciv-qt-client");
+  s.setValue("Fonts-set", true);
   s.setValue("Chat-xsize", qt_settings.chat_width);
   s.setValue("Chat-ysize", qt_settings.chat_height);
   s.setValue("City-dialog", qt_settings.city_geometry);
