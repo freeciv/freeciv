@@ -1335,17 +1335,11 @@ void info_tile::calc_size()
 **************************************************************************/
 void info_tile::paint(QPainter *painter, QPaintEvent *event)
 {
-  QPen pen;
   QFontMetrics fm(info_font);
   int pos, h;
 
   h = fm.height();
   pos = h;
-  pen.setWidth(1);
-  pen.setColor(QColor(232, 255, 0));
-  painter->setBrush(QColor(0, 0, 0, 205));
-  painter->drawRect(0, 0, width(), height());
-  painter->setPen(pen);
   painter->setFont(info_font);
   for (int i = 0; i < str_list.count(); i++) {
     painter->drawText(5, pos, str_list.at(i));

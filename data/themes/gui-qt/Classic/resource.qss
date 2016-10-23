@@ -636,6 +636,12 @@ QProgressBar {
   selection-background-color: #c3b48e;
 }
 
+info_tile {
+color: #ffecba;
+  border: 1px solid black;
+  background-color: rgba(0, 0, 0,195);
+}
+
 notify_dialog {
   color: #ffecba;
   border: 1px solid #ffecba;
