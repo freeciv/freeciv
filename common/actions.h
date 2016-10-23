@@ -146,10 +146,11 @@ bool action_id_is_valid(const int action_id);
 
 struct action *action_by_number(int action_id);
 
-enum action_actor_kind action_get_actor_kind(struct action *paction);
+enum action_actor_kind action_get_actor_kind(const struct action *paction);
 #define action_id_get_actor_kind(action_id)                               \
   action_get_actor_kind(action_by_number(action_id))
-enum action_target_kind action_get_target_kind(struct action *paction);
+enum action_target_kind action_get_target_kind(
+    const struct action *paction);
 #define action_id_get_target_kind(action_id)                              \
   action_get_target_kind(action_by_number(action_id))
 
