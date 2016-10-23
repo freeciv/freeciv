@@ -269,6 +269,7 @@ public:
   void write_settings();
   bool is_closing();
   void update_sidebar_tooltips();
+  void reload_sidebar_icons();
 
 private slots:
   void send_fake_chat_message(const QString &message);
