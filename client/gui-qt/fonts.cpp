@@ -21,7 +21,11 @@
 #include "fonts.h"
 
 // Qt
+#include <QApplication>
+#include <QFontDatabase>
+#include <QGuiApplication>
 #include <QWidget>
+#include <QScreen>
 
 /****************************************************************************
   Font provider constructor
@@ -114,3 +118,118 @@ void fc_font::set_font(QString name, QFont * qf)
   font_map.insert(name,qf);
 }
 
+/****************************************************************************
+  Tries to choose good fonts for freeciv-qt 
+****************************************************************************/
+void configure_fonts()
+{
+  int max, smaller, default_size;
+  QStringList sl;
+  QString font_name;
+  const QList<QScreen *> screens = QGuiApplication::screens();
+  const QScreen *screen = screens.at(0);
+  qreal logical_dpi = screen->logicalDotsPerInchX();
+  qreal physical_dpi = screen->physicalDotsPerInchX();
+  qreal scale = (physical_dpi / logical_dpi)
+                / screen->devicePixelRatio();
+
+  max = qRound(physical_dpi * scale / 6);
+  smaller = qRound(physical_dpi * scale / 8);
+  default_size = qRound(physical_dpi * scale / 7);
+
+  /* default and help label*/
+  sl << "Segoe UI" << "Cousine" << "Liberation Sans" << "Droid Sans" 
+     << "Ubuntu" << "Noto Sans" << "DejaVu Sans" << "Luxi Sans"
+     << "Lucida Sans" << "Trebuchet MS" << "Times New Roman";
+  font_name = configure_font(fonts::default_font, sl, max);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_default,
+               font_name.toLocal8Bit().data(), 512);
+  }
+  font_name = configure_font(fonts::help_label, sl, max);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_help_label,
+               font_name.toLocal8Bit().data(), 512);
+  }
+  font_name = configure_font(fonts::city_names, sl, smaller, true);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_city_names,
+               font_name.toLocal8Bit().data(), 512);
+  }
+  sl.clear();
+
+  /* notify */
+  sl  <<  "Cousine" << "Liberation Mono" << "Source Code Pro"
+      << "Source Code Pro [ADBO]"
+      << "Noto Mono" << "Ubuntu Mono" << "Courier New";
+  font_name = configure_font(fonts::notify_label, sl, default_size);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_notify_label,
+               font_name.toLocal8Bit().data(), 512);
+  }
+
+  /* the same font for city label but smaller */
+  font_name = configure_font(fonts::city_label, sl, smaller);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_city_label,
+               font_name.toLocal8Bit().data(), 512);
+  }
+  /* standard for chat */
+  font_name = configure_font(fonts::chatline, sl, default_size);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_chatline,
+               font_name.toLocal8Bit().data(), 512);
+  }
+
+  /* help title */
+  sl.clear();
+  sl  <<  "Segoe Print" << "Papyrus" << "Vladimir Script"
+      << "Comic Sans MS" << "Droid Sans" << "Noto Sans";
+  font_name = configure_font(fonts::help_title, sl, max, true);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_help_title,
+               font_name.toLocal8Bit().data(), 512);
+  }
+  /* City production */
+  sl.clear();
+  sl  << "Arimo" << "Play" <<  "Tinos" << "Ubuntu" << "Times New Roman"
+      << "Droid Sans" << "Noto Sans";
+  font_name = configure_font(fonts::city_productions, sl, default_size,
+                             true);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_city_productions,
+               font_name.toLocal8Bit().data(), 512);
+  }
+  /* Reqtree */
+  sl.clear();
+  sl  << "Papyrus" << "Segoe Script" << "Comic Sans MS"
+      << "Droid Sans" << "Noto Sans" << "Ubuntu";
+  font_name = configure_font(fonts::reqtree_text, sl, max, true);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_reqtree_text,
+               font_name.toLocal8Bit().data(), 512);
+  }
+}
+
+/****************************************************************************
+  Returns long font name, sets given for for use
+****************************************************************************/
+QString configure_font(QString font_name, QStringList sl, int size,
+                       bool bold)
+{
+  QFontDatabase database;
+  QString str;
+  QFont *f;
+
+  foreach (str, sl)  {
+    if (database.families().contains(str)) {
+      f = new QFont(str, size);
+      if (bold) {
+        f->setBold(true);
+      }
+      fc_font::instance()->set_font(font_name, f);
+      return f->toString().toLocal8Bit().data();
+    }
+  }
+  return QString();
+}
