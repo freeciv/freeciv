@@ -652,7 +652,7 @@ struct action *action_by_rule_name(const char *name)
 /**************************************************************************
   Get the actor kind of an action.
 **************************************************************************/
-enum action_actor_kind action_get_actor_kind(struct action *paction)
+enum action_actor_kind action_get_actor_kind(const struct action *paction)
 {
   fc_assert_ret_val_msg(paction, AAK_COUNT, "Action doesn't exist.");
 
@@ -662,7 +662,8 @@ enum action_actor_kind action_get_actor_kind(struct action *paction)
 /**************************************************************************
   Get the target kind of an action.
 **************************************************************************/
-enum action_target_kind action_get_target_kind(struct action *paction)
+enum action_target_kind action_get_target_kind(
+    const struct action *paction)
 {
   fc_assert_ret_val_msg(paction, ATK_COUNT, "Action doesn't exist.");
 
