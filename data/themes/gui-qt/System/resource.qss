@@ -25,7 +25,7 @@ chatwdg QLineEdit
   color: rgb( 240, 240, 240);
 }
 
-notify_dialog {
+info_tile, notify_dialog {
   color: #e8ff00;
   border: 1px solid #e8ff00;
   background-color: rgba(0, 0, 0,175);

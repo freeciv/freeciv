@@ -450,6 +450,12 @@ info_tab {
   border: 1px solid #006633;
 }
 
+info_tile {
+  color: #dcffcf;
+  border: 1px solid #77AA77;
+  background-color: rgba(0, 0, 0,195);
+}
+
 notify_dialog {
   color: #dcffcf;
   border: 1px solid #dcffcf;

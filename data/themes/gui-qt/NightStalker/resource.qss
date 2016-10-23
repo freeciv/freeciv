@@ -317,6 +317,11 @@ unit_item, impr_item {
   selection-background-color: #3399FF;
 }
 
+info_tile {
+  color: white;
+  background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 rgba(0, 0, 125,195) stop:1 rgba(25, 25, 95, 225));
+  border: 2px solid #0000AA;
+}
 
 notify_dialog {
   color: white;
