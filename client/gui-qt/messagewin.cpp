@@ -41,7 +41,7 @@ info_tab::info_tab(QWidget *parent)
   layout->addWidget(chtwdg, 1, 0);
   layout->setHorizontalSpacing(0);
   layout->setVerticalSpacing(0);
-  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setContentsMargins(0, 3, 3, 0);
   layout->setSpacing(0);
   layout->setVerticalSpacing(0);
   setLayout(layout);
@@ -50,16 +50,6 @@ info_tab::info_tab(QWidget *parent)
   resx = false;
   resy = false;
   setMouseTracking(true);
-}
-
-
-/***************************************************************************
-  Paints semi-transparent background
-***************************************************************************/
-void info_tab::paint(QPainter *painter, QPaintEvent *event)
-{
-  painter->setBrush(QColor(0, 0, 0, 175));
-  painter->drawRect(0, 0, width(), height());
 }
 
 /***************************************************************************
@@ -84,17 +74,6 @@ void info_tab::maximize_chat()
   chtwdg->scroll_to_bottom();
 }
 
-/***************************************************************************
-  Paint event for info_tab
-***************************************************************************/
-void info_tab::paintEvent(QPaintEvent *event)
-{
-  QPainter painter;
-
-  painter.begin(this);
-  paint(&painter, event);
-  painter.end();
-}
 
 /***************************************************************************
   Checks if info_tab can be moved

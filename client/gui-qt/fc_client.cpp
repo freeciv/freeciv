@@ -122,7 +122,6 @@ void fc_client::init()
 {
   fc_font::instance()->init_fonts();
   QApplication::setFont(*fc_font::instance()->get_font(fonts::default_font));
-
   QString path;
   central_wdg = new QWidget;
   central_layout = new QStackedLayout;
@@ -269,7 +268,8 @@ void fc_client::chat_message_received(const QString &message,
                                       const struct text_tag_list *tags)
 {
   QTextCursor cursor;
-  QString str = apply_tags(message, tags, false);
+  QColor col = output_window->palette().color(QPalette::Text);
+  QString str = apply_tags(message, tags, col);
 
   if (output_window != NULL) {
     output_window->append(str);

@@ -1415,19 +1415,23 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
   /* prev/next and close buttons */
   button = new QPushButton;
-  button->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
+  button->setIcon(fc_icons::instance()->get_icon("city-close"));
+  button->setIconSize(QSize(56, 56));
   connect(button, SIGNAL(clicked()), SLOT(hide()));
 
   next_city_but = new QPushButton();
-  next_city_but->setIcon(style()->standardIcon(QStyle::SP_ArrowRight));
+  next_city_but->setIcon(fc_icons::instance()->get_icon("city-right"));
+  next_city_but->setIconSize(QSize(56, 56));
   connect(next_city_but, SIGNAL(clicked()), SLOT(next_city()));
 
   prev_city_but = new QPushButton();
   connect(prev_city_but, SIGNAL(clicked()), SLOT(prev_city()));
-  prev_city_but->setIcon(style()->standardIcon(QStyle::SP_ArrowLeft));
+  prev_city_but->setIcon(fc_icons::instance()->get_icon("city-left"));
+  prev_city_but->setIconSize(QSize(56, 56));
 
   button2 = new QPushButton();
-  button2->setIcon(style()->standardIcon(QStyle::SP_ToolBarVerticalExtensionButton));
+  button2->setIcon(fc_icons::instance()->get_icon("city-switch"));
+  button2->setIconSize(QSize(56, 28));
   connect(button2, SIGNAL(clicked()), SLOT(show_happiness()));
 
   button->setFixedSize(64, 64);

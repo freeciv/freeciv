@@ -538,8 +538,18 @@ QTreeWidget::item:selected {
   background: #c3b48e;
 }
 
+QFontListView {
+  color: black;
+  background-color: #e7ddba;
+}
+
 fc_game_tab_widget {
    background-image:url(LittleFingerpattern-game.jpg);
+}
+
+info_tab {
+  background-color: rgba(30,20,10,175);
+  border: 1px solid #685f47;
 }
 
 help_widget QTextBrowser
@@ -600,8 +610,8 @@ messagewdg QTableWidget
 }
 
 messagewdg QTableWidget::item:hover {
-  color: #c3b48e;
-  background-color: rgba(55, 55, 54, 225);
+  color: black;
+  background-color: rgba(180, 160, 120, 225);
   border-radius: 9px;
 }
 
@@ -686,12 +696,20 @@ messagewdg QScrollBar::sub-line:vertical {
 
 chatwdg QPushButton {
   background: transparent;
+  border: none;
 }
 
 chatwdg QCheckBox {
   background: transparent;
 }
 
+chatwdg QCheckBox::indicator:checked {
+  image: url(LittleFingercheckbox-checked-pressed.png);
+}
+
+chatwdg QCheckBox::indicator:checked:hover {
+  image: url(LittleFingercheckbox-checked-pressed.png);
+}
 
 hud_message_box, hud_input_box {
   background-color: transparent;

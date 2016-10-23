@@ -2,14 +2,11 @@
  * And the darkness feeds me"
  * NightStalker theme for
  * freeciv-qt by mir3x
- * 
- * Galaxy images credit:
- * Courtesy NASA/JPL-Caltech
- * by NuSTAR Telescope  */
+ */
 
 
 QMainWindow {
-  background-image:url(LittleFingerpattern.jpg);
+  border-image:url(LittleFingerpattern.jpg);
 }
 
 *[doomed="true"] {
@@ -38,7 +35,7 @@ QMainWindow {
 
 *[themed_groupbox="true"] {
   color: yellow;
-  background-color: #4f596a;
+  background-color: #414a57;
   border: none;
   border-radius: none;
   margin-top: 2ex;
@@ -82,6 +79,56 @@ QPushButton:hover {
 QPushButton:disabled {
   background: #696969;
   border: 2px solid #164471;
+}
+
+QDialogButtonBox {
+  button-layout: 3;
+}
+
+hud_input_box QDialogButtonBox QPushButton {
+  color: #FFFFFF;
+  background: #323843;
+  border: 2px solid #47515f;
+  border-radius: 0px;
+  padding: 0px;
+  min-width: 160px;
+}
+
+hud_input_box QDialogButtonBox QPushButton:disabled {
+  background: #696969;
+  border: none;
+}
+
+hud_input_box QDialogButtonBox QPushButton:hover {
+  color: white;
+  background: #414a57;
+  border: 2px solid #3399FF;
+}
+
+
+
+hud_message_box QDialogButtonBox QPushButton {
+  color: #FFFFFF;
+  background: #323843;
+  border: 2px solid #47515f;
+  border-radius: 0px;
+  padding: 0px;
+  min-width: 160px;
+}
+
+hud_message_box QDialogButtonBox QPushButton:disabled {
+  background: #696969;
+  border: none;
+}
+
+hud_message_box QDialogButtonBox QPushButton:hover {
+  color: white;
+  background: #414a57;
+  border: 2px solid #3399FF;
+}
+
+hud_message_box QDialogButtonBox QPushButton:default {
+  padding: 2px;
 }
 
 QLabel {
@@ -478,11 +525,56 @@ QComboBox:hover {
 }
 
 city_dialog QScrollArea QFrame {
-  background: #4f596a;
+  background: #414a57;
 }
 
 city_dialog QScrollArea {
-  background: #4f596a;
+  background: #414a57;
+}
+
+city_dialog QPushButton {
+  color: #FFFFFF;
+  background: #414a57;
+  border: 2px solid #47515f;
+  border-radius: 0px;
+  padding: 0px;
+}
+
+city_dialog QPushButton:disabled {
+  background: #696969;
+  border: none;
+}
+
+city_dialog QPushButton:hover {
+  color: white;
+  background: #414a57;
+  border: 2px solid #3399FF;
+}
+
+city_dialog QGroupBox {
+  color: yellow;
+  background-color: #414a57;
+  border: 1px solid #4f5a6a;
+  border-radius: 5px;
+  margin-top: 2ex;
+}
+
+city_dialog QTableWidget {
+  background-color: #414a57;
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+  border-right: none;
+  border-radius: 1px;
+  padding: 2 3px;
+  color: white;
+  selection-color: yellow;
+  selection-background-color:  #3399FF;
+}
+
+info_tab {
+  border: 1px solid #1d5994;
+  background-color: rgba(0,0,75,185);
 }
 
 science_report QScrollArea {
@@ -493,9 +585,19 @@ science_report QScrollArea QWidget {
   background-image:url(LittleFingersun.jpg);
 }
 
+QTextEdit#scenarios_view {
+  color: white;
+  background-color: #3d4552
+}
+
 QTextEdit {
-  background-color: #c2c2c2;
-  color: darkblue;
+  background-color: #232323;
+  color: #54ff54;
+}
+
+QFontListView {
+  color: white;
+  background-color: #3d4552;
 }
 
 QScrollBar:vertical {
@@ -621,8 +723,8 @@ messagewdg QTableWidget
 }
 
 messagewdg QTableWidget::item:hover {
-  color: black;
-  background-color: rgba(55, 150, 255);
+  color: white;
+  background-color: rgba(35, 110, 215);
   border-radius: 9px;
 }
 
@@ -687,3 +789,4 @@ hud_units {
 hud_units QLabel {
   color: white;
 }
+

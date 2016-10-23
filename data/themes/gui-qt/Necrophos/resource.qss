@@ -445,6 +445,11 @@ QComboBox:hover {
   color: #47a963;
 }
 
+info_tab {
+  background-color: rgba(0,0,0,175);
+  border: 1px solid #006633;
+}
+
 notify_dialog {
   color: #dcffcf;
   border: 1px solid #dcffcf;

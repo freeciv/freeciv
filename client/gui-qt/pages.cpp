@@ -538,6 +538,7 @@ void fc_client::create_scenario_page()
 
   scenarios_load = new QTableWidget;
   scenarios_view = new QTextEdit;
+  scenarios_view->setObjectName("scenarios_view");
   scenarios_text = new QLabel;
   scenarios_text->setTextFormat(Qt::RichText);
   scenarios_text->setWordWrap(true);
@@ -598,6 +599,8 @@ void fc_client::create_start_page()
   QGridLayout *down_layout;
   QWidget *up_widget;
   QWidget *down_widget;
+  QFont f;
+
   QStringList player_widget_list;
   pages_layout[PAGE_START] = new QGridLayout;
   up_layout = new QGridLayout;
@@ -608,12 +611,13 @@ void fc_client::create_start_page()
   chat_line->setProperty("doomchat", true);
   output_window = new QTextEdit;
   output_window->setReadOnly(false);
+  f.setBold(true);
+  output_window->setFont(f);
 
   pr_options->init();
   player_widget_list << _("Name") << _("Ready") << Q_("?player:Leader")
                      << _("Flag") << _("Border") << _("Nation") << _("Team")
                      << _("Host");
-
 
   start_players_tree->setColumnCount(player_widget_list.count());
   start_players_tree->setHeaderLabels(player_widget_list);
