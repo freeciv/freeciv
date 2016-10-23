@@ -88,11 +88,9 @@ void progress_bar::resizeEvent(QResizeEvent *event)
 ****************************************************************************/
 void progress_bar::timerEvent(QTimerEvent *event)
 {
-  m_animate_step = m_timer.elapsed() / (50);
-
-  if ((0 == m_animate_step % 2 &&
-       value() != minimum() &&
-       value() < maximum()) || (0 == minimum() && 0 == maximum())) {
+  if ((value() != minimum() && value() < maximum())
+      || (0 == minimum() && 0 == maximum())) {
+    m_animate_step = m_timer.elapsed() / 50;
     update();
   }
 }
