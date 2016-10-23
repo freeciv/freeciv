@@ -728,18 +728,26 @@ fc_corner::fc_corner(QMainWindow *qmw): QWidget()
 {
   QHBoxLayout *hb;
   QPushButton *qpb;
+  int h;
+  QFont *f = fc_font::instance()->get_font(fonts::default_font);
+
+  if (f->pointSize() > 0) {
+    h = f->pointSize();
+  } else {
+    h = f->pixelSize();
+  }
   mw = qmw;
   hb = new QHBoxLayout();
-  qpb = new QPushButton(style()->standardIcon(
-                                 QStyle::SP_TitleBarMinButton), "");
+  qpb = new QPushButton(fc_icons::instance()->get_icon("cmin"), "");
+  qpb->setFixedSize(h, h);
   connect(qpb, SIGNAL(clicked()), SLOT(minimize()));
   hb->addWidget(qpb);
-  qpb = new QPushButton(style()->standardIcon(
-                                 QStyle::SP_TitleBarMaxButton), "");
+  qpb = new QPushButton(fc_icons::instance()->get_icon("cmax"), "");
+  qpb->setFixedSize(h, h);
   connect(qpb, SIGNAL(clicked()), SLOT(maximize()));
   hb->addWidget(qpb);
-  qpb = new QPushButton(style()->standardIcon(
-                                 QStyle::SP_TitleBarCloseButton), "");
+  qpb = new QPushButton(fc_icons::instance()->get_icon("cclose"), "");
+  qpb->setFixedSize(h, h);
   connect(qpb, SIGNAL(clicked()), SLOT(close_fc()));
   hb->addWidget(qpb);
   setLayout(hb);
