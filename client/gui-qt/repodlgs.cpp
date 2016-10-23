@@ -1532,7 +1532,7 @@ void science_report_dialog_popup(bool raise)
     sci_rep = reinterpret_cast<science_report*>(w);
     if (gui()->game_tab_widget->currentIndex() == i) {
       sci_rep->redraw();
-    } else {
+    } else if (raise) {
       gui()->game_tab_widget->setCurrentWidget(sci_rep);
     }
   }
