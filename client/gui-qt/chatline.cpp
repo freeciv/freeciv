@@ -396,7 +396,8 @@ void chatwdg::anchor_clicked(const QUrl &link)
 void chatwdg::chat_message_received(const QString& message,
                                     const struct text_tag_list *tags)
 {
-  append(apply_tags(message, tags, true));
+  QColor col = chat_output->palette().color(QPalette::Text);
+  append(apply_tags(message, tags, col));
 }
 
 /***************************************************************************
@@ -508,7 +509,7 @@ void chatwdg::make_link(struct tile *ptile)
   Applies tags to text
 ***************************************************************************/
 QString apply_tags(QString str, const struct text_tag_list *tags,
-                   bool colors_change)
+                   QColor bg_color)
 {
   int start, stop, last_i;
   QString str_col;
@@ -553,15 +554,13 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
     case TTT_COLOR:
       if (text_tag_color_foreground(ptag)) {
         color = text_tag_color_foreground(ptag);
-        if (colors_change) {
           if (color == "#00008B") {
-            color = "#E8FF00";
+            color = bg_color.name();
           } else {
             qc.setNamedColor(color);
             qc = qc.lighter(200);
             color = qc.name();
           }
-        }
           str_col = QString("<span style=color:%1>").arg(color);
           mm.insert(stop, "</span>");
           mm.insert(start, str_col);

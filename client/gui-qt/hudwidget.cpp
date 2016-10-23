@@ -270,12 +270,12 @@ void hud_input_box::set_text_title_definput(QString s1, QString s2,
              (parentWidget()->height() - h) / 2);
   p = parentWidget()->mapToGlobal(p);
   move(p);
-  update();
-  show();
   input_edit.activateWindow();
   input_edit.setFocus();
   m_timer.start();
   startTimer(41);
+  show();
+  update();
 }
 
 /****************************************************************************
@@ -300,6 +300,7 @@ void hud_input_box::paintEvent(QPaintEvent *event)
   QColor c2;
   QColor c3;
   int step;
+  float fstep;
 
 
   step = m_animate_step % 300;
@@ -307,12 +308,12 @@ void hud_input_box::paintEvent(QPaintEvent *event)
     step = step - 150;
     step = 150 - step;
   }
-  step = step + 100;
+  step = step + 10;
   rx = QRect(2 , 2, width() - 4 , top);
   ry = QRect(2 , top, width() - 4, height() - top - 4);
 
   c1 = QColor(palette().color(QPalette::Highlight));
-  c2 = QColor(palette().color(QPalette::AlternateBase));
+  c2 = QColor(Qt::transparent);
   c3 = QColor(palette().color(QPalette::Highlight)).lighter(145);
   step = qMax(0, step);
   step = qMin(255, step);
@@ -320,10 +321,11 @@ void hud_input_box::paintEvent(QPaintEvent *event)
   c2.setAlpha(step);
   c3.setAlpha(step);
 
+  fstep = static_cast<float>(step) / 400;
   g = QLinearGradient(0 , 0, width(), height());
-  g.setColorAt(0, c1);
-  g.setColorAt(static_cast<float>(step) / 400, c3);
-  g.setColorAt(1, c1);
+  g.setColorAt(0, c2);
+  g.setColorAt(fstep, c3);
+  g.setColorAt(1, c2);
 
   p.begin(this);
   p.fillRect(rx, QColor(palette().color(QPalette::Highlight)));
@@ -570,6 +572,7 @@ void hud_action::paintEvent(QPaintEvent *event)
   rz = QRect(0, 0, width() - 1, height() - 3);
   p.begin(this);
   p.setCompositionMode(QPainter::CompositionMode_Source);
+  p.setRenderHint(QPainter::SmoothPixmapTransform);
   p.drawPixmap(rx, *action_pixmap, ry);
   p.setPen(QColor(palette().color(QPalette::Text)));
   p.drawRect(rz);

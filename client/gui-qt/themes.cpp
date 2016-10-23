@@ -49,6 +49,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
   QDir dir;
   QFile f;
   QString lnb = "LittleFinger";
+  QPalette pal;
 
   if (def_app_style.isEmpty()) {
     def_app_style = QApplication::style()->objectName();
@@ -85,6 +86,9 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
 
   current_app()->setStyleSheet(stylestring);
   current_theme = theme_name;
+  pal.setBrush(QPalette::Link, QColor(92,170,229));
+  pal.setBrush(QPalette::LinkVisited, QColor(54,150,229));
+  QApplication::setPalette(pal);
 }
 
 /*****************************************************************************

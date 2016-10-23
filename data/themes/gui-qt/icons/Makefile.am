@@ -9,6 +9,10 @@ pkgdata_DATA =          	\
 	buildroad.png		\
 	chopchop.png		\
 	cities.png		\
+	city-close.png		\
+	city-left.png		\
+	city-right.png		\
+	city-switch.png		\
 	close.png		\
 	cunits.png		\
 	done.png		\

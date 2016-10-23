@@ -80,8 +80,6 @@ private:
   bool resx;
   bool resy;
 protected:
-  void paint(QPainter *painter, QPaintEvent *event);
-  void paintEvent(QPaintEvent *event);
   void mousePressEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
