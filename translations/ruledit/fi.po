@@ -1,13 +1,6 @@
-# Finnish translation
-# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014
-# Sini Ruohomaa <sini.ruohomaa@iki.fi>,
-# Markus Linnakangas <markus.linnakangas@luukku.com>,
+# Finnish translation of freeciv-ruledit
+# Copyright (C) 2016
 # Marko Lindqvist <cazfi74@gmail.com>,
-# Pekka Pessi <nospam@pessi.fi>,
-# Juhana Uuttu <juhana.uuttu@gmail.com>,
-# Jarkko Siekkinen <jarkko.siekkinen@evl.fi>,
-# Juhani Heino <juhani.heino@vtt.fi>,
-# Timo Jyrinki <timo.jyrinki@iki.fi> & helpers.
 # This translation is covered by the GNU General Public License Version 2.
 #
 # NOTE: Ruledit strings are independent from pre-2.6 versions, no need to merge
@@ -24,10 +17,10 @@
 # Then upload the resulting  fi.po.newtrunk to trunk.
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2016-06-26 20:54+0300\n"
-"PO-Revision-Date: 2016-06-26 21:12+0300\n"
+"POT-Creation-Date: 2016-09-23 07:03+0300\n"
+"PO-Revision-Date: 2016-10-24 00:04+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -36,7 +29,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:47
+#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:131
 msgid "Close"
 msgstr "Sulje"
 
@@ -53,41 +46,37 @@ msgstr "%s poistetaan"
 msgid "Needed by %s"
 msgstr "%s tarvitsee"
 
-#: tools/ruledit/ruledit.cpp:111
+#: tools/ruledit/ruledit.cpp:108
 msgid "Failed to load comments.txt"
 msgstr "Kommenttitiedoston comments.txt lataaminen epäonnistui."
 
-#: tools/ruledit/ruledit.cpp:147
+#: tools/ruledit/ruledit.cpp:142
 msgid "Print a summary of the options"
 msgstr "Näytä yhteenveto valitsimista"
 
-#: tools/ruledit/ruledit.cpp:149
+#: tools/ruledit/ruledit.cpp:144
 msgid "Print the version number"
 msgstr "Näytä versionumero"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:152
+#: tools/ruledit/ruledit.cpp:147
 msgid "ruleset RULESET"
 msgstr "ruleset SÄÄNTÖKOKOELMA"
 
-#: tools/ruledit/ruledit.cpp:153
+#: tools/ruledit/ruledit.cpp:148
 msgid "Ruleset to use as the starting point."
 msgstr "Lähtökohtana käytettävä sääntökokoelma."
 
-#: tools/ruledit/ruledit.cpp:166
+#: tools/ruledit/ruledit.cpp:161
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Voi yhtä sääntökokoelmaa voidaan muokata samanaikaisesti.\n"
 
-#: tools/ruledit/ruledit.cpp:173
+#: tools/ruledit/ruledit.cpp:168
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:63
-msgid "Freeciv Ruleset Editor"
-msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
-
-#: tools/ruledit/ruledit_qt.cpp:132
+#: tools/ruledit/ruledit_qt.cpp:121
 #, c-format
 msgid ""
 "%s%s\n"
@@ -96,83 +85,95 @@ msgstr ""
 "%s%s\n"
 "revisiotunniste: %s"
 
-#: tools/ruledit/ruledit_qt.cpp:147
+#: tools/ruledit/ruledit_qt.cpp:136
 msgid "Give ruleset to use as starting point."
 msgstr "Anna sääntökokoelma lähtökohdaksi."
 
-#: tools/ruledit/ruledit_qt.cpp:159
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Start editing"
 msgstr "Aloita muokkaus"
 
-#: tools/ruledit/ruledit_qt.cpp:169
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
 msgstr "Sekalaiset"
 
-#: tools/ruledit/ruledit_qt.cpp:171
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Tech"
 msgstr "Teknologiat"
 
-#: tools/ruledit/ruledit_qt.cpp:173
+#: tools/ruledit/ruledit_qt.cpp:162
 msgid "Buildings"
 msgstr "Rakennukset"
 
-#: tools/ruledit/ruledit_qt.cpp:175
+#: tools/ruledit/ruledit_qt.cpp:164
 msgid "Units"
 msgstr "Yksiköt"
 
-#: tools/ruledit/ruledit_qt.cpp:177
+#: tools/ruledit/ruledit_qt.cpp:166
 msgid "Goods"
 msgstr "Artikkelit"
 
-#: tools/ruledit/ruledit_qt.cpp:179
+#: tools/ruledit/ruledit_qt.cpp:168
+msgid "Governments"
+msgstr "Hallitusmuodot"
+
+#: tools/ruledit/ruledit_qt.cpp:170
+msgid "Enablers"
+msgstr "Mahdollistimet"
+
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Nations"
 msgstr "Kansat"
 
-#: tools/ruledit/ruledit_qt.cpp:188
+#: tools/ruledit/ruledit_qt.cpp:181
 msgid "Welcome to freeciv-ruledit"
 msgstr "Tervetuloa käyttämään freeciv-ruleditiä"
 
-#: tools/ruledit/ruledit_qt.cpp:206
+#: tools/ruledit/ruledit_qt.cpp:199
 msgid "Ruleset loaded"
 msgstr "Sääntökokoelma ladattu"
 
-#: tools/ruledit/ruledit_qt.cpp:223
+#: tools/ruledit/ruledit_qt.cpp:218
 msgid "Ruleset loading failed!"
 msgstr "Sääntökokoelman lataaminen epäonnistui!"
 
-#: tools/ruledit/ruledit_qt.cpp:285
+#: tools/ruledit/ruledit_qt.cpp:268
+msgid "Freeciv Ruleset Editor"
+msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
+
+#: tools/ruledit/ruledit_qt.cpp:284
 msgid "Are you sure you want to quit?"
 msgstr "Oletko varma että haluat sulkea ohjelman?"
 
-#: tools/ruledit/ruledit_qt.cpp:289
+#: tools/ruledit/ruledit_qt.cpp:288
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 
-#: tools/ruledit/tab_building.cpp:63 tools/ruledit/tab_good.cpp:65
+#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_good.cpp:65
 #: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_unit.cpp:65
 msgid "Rule Name"
 msgstr "Sääntönimi"
 
-#: tools/ruledit/tab_building.cpp:71 tools/ruledit/tab_good.cpp:73
+#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_good.cpp:73
 #: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_unit.cpp:73
 msgid "Name"
 msgstr "Nimi"
 
-#: tools/ruledit/tab_building.cpp:82
+#: tools/ruledit/tab_building.cpp:84 tools/ruledit/tab_good.cpp:84
+msgid "Requirements"
+msgstr "Vaadittavat"
+
+#: tools/ruledit/tab_building.cpp:89
 msgid "Add Building"
 msgstr "Lisää rakennus"
 
-#: tools/ruledit/tab_building.cpp:87
+#: tools/ruledit/tab_building.cpp:94
 msgid "Remove this Building"
 msgstr "Poista tämä rakennus"
 
-#: tools/ruledit/tab_building.cpp:164
+#: tools/ruledit/tab_building.cpp:171
 msgid "Building with that rule name already exist!"
 msgstr "Rakennus samalla sääntönimellä on jo olemassa!"
-
-#: tools/ruledit/tab_good.cpp:84
-msgid "Requirements"
-msgstr "Vaadittavat"
 
 #: tools/ruledit/tab_good.cpp:89
 msgid "Add Good"
@@ -182,99 +183,103 @@ msgstr "Lisää artikkeli"
 msgid "Remove this Good"
 msgstr "Poista tämä artikkeli"
 
-#: tools/ruledit/tab_good.cpp:171
+#: tools/ruledit/tab_good.cpp:172
 msgid "Good with that rule name already exist!"
 msgstr "Artikkeli samalla sääntönimellä on jo olemassa!"
 
-#: tools/ruledit/tab_misc.cpp:64
+#: tools/ruledit/tab_misc.cpp:67
 msgid "Ruleset name"
 msgstr "Sääntökokoelman nimi"
 
-#: tools/ruledit/tab_misc.cpp:69
+#: tools/ruledit/tab_misc.cpp:72
 msgid "Ruleset version"
 msgstr "Sääntökokoelman versio"
 
-#: tools/ruledit/tab_misc.cpp:74
+#: tools/ruledit/tab_misc.cpp:77
 msgid "Save to directory"
 msgstr "Tallenna hakemistoon"
 
-#: tools/ruledit/tab_misc.cpp:81
+#: tools/ruledit/tab_misc.cpp:84
 msgid "Version suffix to directory name"
 msgstr "Versionumero hakemistonimen loppuun"
 
-#: tools/ruledit/tab_misc.cpp:86
+#: tools/ruledit/tab_misc.cpp:89
 msgid "Save now"
 msgstr "Tallenna nyt"
 
-#: tools/ruledit/tab_misc.cpp:93
+#: tools/ruledit/tab_misc.cpp:96
 msgid "?stat:Terrains"
 msgstr "Maastotyyppejä"
 
-#: tools/ruledit/tab_misc.cpp:97
+#: tools/ruledit/tab_misc.cpp:100
 msgid "?stat:Resources"
 msgstr "Luonnonvaroja"
 
-#: tools/ruledit/tab_misc.cpp:101
+#: tools/ruledit/tab_misc.cpp:104
+msgid "?stat:Tech Classes"
+msgstr "Yksikköluokat"
+
+#: tools/ruledit/tab_misc.cpp:108
 msgid "?stat:Techs"
 msgstr "Teknologioita"
 
-#: tools/ruledit/tab_misc.cpp:105
+#: tools/ruledit/tab_misc.cpp:112
 msgid "?stat:Unit Classes"
 msgstr "Yksikköluokkia"
 
-#: tools/ruledit/tab_misc.cpp:109
+#: tools/ruledit/tab_misc.cpp:116
 msgid "?stat:Unit Types"
 msgstr "Yksikkötyyppejä"
 
-#: tools/ruledit/tab_misc.cpp:113
+#: tools/ruledit/tab_misc.cpp:120
 msgid "?stat:Buildings"
 msgstr "Rakennuksia"
 
-#: tools/ruledit/tab_misc.cpp:117
+#: tools/ruledit/tab_misc.cpp:124
 msgid "?stat:Nations"
 msgstr "Kansoja"
 
-#: tools/ruledit/tab_misc.cpp:121
+#: tools/ruledit/tab_misc.cpp:128
 msgid "?stat:Styles"
 msgstr "Tyylejä"
 
-#: tools/ruledit/tab_misc.cpp:125
+#: tools/ruledit/tab_misc.cpp:132
 msgid "?stat:Specialists"
 msgstr "Erikoisosaajia"
 
-#: tools/ruledit/tab_misc.cpp:129
+#: tools/ruledit/tab_misc.cpp:136
 msgid "?stat:Governments"
 msgstr "Hallitusmuotoja"
 
-#: tools/ruledit/tab_misc.cpp:133
+#: tools/ruledit/tab_misc.cpp:140
 msgid "?stat:Disasters"
 msgstr "Onnettomuuksia"
 
-#: tools/ruledit/tab_misc.cpp:137
+#: tools/ruledit/tab_misc.cpp:144
 msgid "?stat:Achievements"
 msgstr "Saavutuksia"
 
-#: tools/ruledit/tab_misc.cpp:141
+#: tools/ruledit/tab_misc.cpp:148
 msgid "?stat:Extras"
 msgstr "Ekstroja"
 
-#: tools/ruledit/tab_misc.cpp:145
+#: tools/ruledit/tab_misc.cpp:152
 msgid "?stat:Bases"
 msgstr "Tukikohtia"
 
-#: tools/ruledit/tab_misc.cpp:149
+#: tools/ruledit/tab_misc.cpp:156
 msgid "?stat:Roads"
 msgstr "Kulkuväyliä"
 
-#: tools/ruledit/tab_misc.cpp:153
+#: tools/ruledit/tab_misc.cpp:160
 msgid "?stat:Goods"
 msgstr "Artikkeleita"
 
-#: tools/ruledit/tab_misc.cpp:161
+#: tools/ruledit/tab_misc.cpp:168
 msgid "Refresh Stats"
 msgstr "Päivitä tilastot"
 
-#: tools/ruledit/tab_misc.cpp:224
+#: tools/ruledit/tab_misc.cpp:231
 msgid "Ruleset saved"
 msgstr "Sääntökokoelma tallennettu"
 
@@ -329,6 +334,26 @@ msgstr "Poista tämä yksikkö"
 #: tools/ruledit/tab_unit.cpp:170
 msgid "Unit type with that rule name already exist!"
 msgstr "Yksikkötyyppi samalla sääntönimellä on jo olemassa!"
+
+#: tools/ruledit/req_edit.cpp:62
+msgid "Type:"
+msgstr "Tyyppi:"
+
+#: tools/ruledit/req_edit.cpp:80
+msgid "Value:"
+msgstr "Arvo:"
+
+#: tools/ruledit/req_edit.cpp:96
+msgid "Range:"
+msgstr "Etäisyys:"
+
+#: tools/ruledit/req_edit.cpp:121
+msgid "Add Requirement"
+msgstr "Lisää vaatimus"
+
+#: tools/ruledit/req_edit.cpp:126
+msgid "Delete Requirement"
+msgstr "Poista vaatimus"
 
 #: tools/ruledit/validity.c:65
 msgid "Effect"
